@@ -127,7 +127,7 @@ brew-and-stew.html      Pitch 04 on the Campgrounds: a woodland tea room in a ca
 your-room.html        The storefront with nothing in it: empty on purpose, terms written down
 now-playing.html      A poster column beside the Pebble Board. What every room puts on first, read off the rooms
 brass-tacks-board.html The Brass Tacks Board, beside the Pebble Board: posts meant to persist, by our moderators, with their usernames on them. Markdown read on the server into nodes; a feed at /brass-tacks.xml (brass.js)
-sandbox.html          The Sandbox, Norah's room: a laptop left open in the sand at dusk. Its suggestion box is the CB's (suggest.js, markdown.js), and its steps for building the street are CONTRIBUTING.md's, both filled in by tools/make-sandbox.py
+sandbox.html          The Sandbox, a room built with Claude by somebody in our community: a laptop left open in the sand at dusk. Its suggestion box is the CB's (suggest.js, markdown.js), and its steps for building the street are CONTRIBUTING.md's, both filled in by tools/make-sandbox.py
 plural-mural.html     An end wall that repaints itself, because the street is Danny's. By itself at MAX only; propose one in words
 cavendish-coworking.html Henry Cavendish's house: a shut, unlocked door onto each of our calls, each opening a room of its own
 cavendish-events.html Behind the Events door: a lighthouse's watch room, our events as its light list, and a call anybody can knock on
@@ -313,7 +313,7 @@ python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, 
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
 python3 tools/make-brass.py        # The Brass Tacks Board: refuses innerHTML in brass.js, a post by anybody but a moderator, an edit by anybody but the author, a picture with no description or yes, and a board with no feed
-python3 tools/make-sandbox.py      # The Sandbox's suggestion box and steps for contributors, in the spaces Norah's room left, and CONTRIBUTING.md from the same steps; refuses innerHTML in suggest.js or markdown.js, an answer without a reply, a take-down outside canTakeOff, a colour not hers, and a space gone missing
+python3 tools/make-sandbox.py      # The Sandbox's suggestion box and steps for contributors, in the spaces the room left, and CONTRIBUTING.md from the same steps; refuses innerHTML in suggest.js or markdown.js, an answer without a reply, a take-down outside canTakeOff, a colour not hers, and a space gone missing
 tools/setup.sh                     # A contributor's first step: checks Git, Python, Node, Chrome and the rest, installs the CB's one library, runs its tests; installs nothing else
 python3 tools/make-rescue.py       # Both shelters and the Pets tray: refuses a shelter or forever list that knows who, a rare animal, a look with no drawing, pets under a raw handle, and a tray without Forget me
 python3 tools/make-stair.py        # Count Me In: refuses a stair that names who sent it back, a lift smaller than the stair or one that sends a number, and a script that stores anything

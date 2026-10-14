@@ -2575,7 +2575,7 @@ ${items}
 
 /* ── The suggestion box ───────────────────────────────────────────────────
 
-   Norah's room, The Sandbox. Ryan's brief, 2026-10-13: in its suggestion box,
+   The Sandbox. Ryan's brief, 2026-10-13: in its suggestion box,
    anybody signed on to the CB can post a suggestion, a feature request or a bug
    report, and a moderator marks it done or not doing, with a reply. It is the
    Brass Tacks Board turned round: anybody reads it, anybody signed on writes on

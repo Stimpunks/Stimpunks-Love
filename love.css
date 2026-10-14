@@ -1270,7 +1270,7 @@
 @font-face { font-family: 'Catamaran'; src: url('fonts/catamaran-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Catamaran'; src: url('fonts/catamaran-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
-/* The Sandbox, Norah's room. SPECKLED LIKE SAND. Rubik Dirt, by NaN and Luke
+/* The Sandbox. SPECKLED LIKE SAND. Rubik Dirt, by NaN and Luke
    Prowse, sets the sign on the suggestion box and nothing else, because a
    speckled face is only legible large; Fredoka and IBM Plex Mono, already here,
    carry everything else. Read off its own record; see fonts/_sources.json. */
@@ -3492,7 +3492,7 @@
 
 
   /* import:sandbox:root:begin */
-  /* Norah's room, The Sandbox -- brought in by tools/import-room.py.
+  /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
      re-import. Measured in data/rooms/sandbox.json. */
   --sb-dusk: #241c17;
@@ -22560,7 +22560,8 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 
 /* import:sandbox:section:begin */
 /* §112 ── ROOM: The Sandbox (a shopfront on the street) ───────────────────────
-   NORAH'S ROOM, AND NOT OURS TO REDESIGN. Built with
+   SOMEBODY'S OWN ROOM, AND NOT OURS TO REDESIGN; THEY ARE NAMED IN ITS CREDITS ONLY,
+   AT THEIR ASK, SO DO NOT NAME THEM HERE OR ANYWHERE ELSE. Built with
    Claude, an AI model made by Anthropic and brought onto the street by tools/import-room.py from the
    artifact they sent. Everything between the import markers is theirs and is
    replaced whole when they send a new version: change the artifact and import
@@ -22791,16 +22792,17 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 @keyframes sb-cool-deep { from { fill: var(--sb-emberdeep); } to { fill: var(--sb-sanddeep); } }
 /* import:sandbox:section:end */
 /* street:sandbox:board:begin */
-/* §112, THE STREET'S PART OF NORAH'S ROOM: the board in her suggestion box and
+/* §112, THE STREET'S PART OF THE SANDBOX: the board in its suggestion box and
    the steps for building the street, which tools/make-sandbox.py writes into the
-   two spaces her artifact left (data-street). Ours, not hers, and outside her
-   import markers so a re-import leaves it alone. IT WEARS THE ROOM'S OWN INK AND
-   NOTHING ELSE: every colour is one of her --sb- colours, and make-sandbox.py
-   refuses any other. Inside the box, the buttons are her bucket shape turned
-   round, dusk on sand, because her sand buttons would vanish on her sand box; a
-   moderator's answer is a little window off her laptop, title bar and all; and
-   every command is her screen. Classes are sbs-, so a name of hers can never
-   meet one of ours. Nothing here moves at any setting. */
+   two spaces its artifact left (data-street). Ours, not its maker's, and outside
+   the import markers so a re-import leaves it alone. IT WEARS THE ROOM'S OWN INK
+   AND NOTHING ELSE: every colour is one of the room's --sb- colours, and
+   make-sandbox.py refuses any other. Inside the box, the buttons are the room's
+   bucket shape turned round, dusk on sand, because its sand buttons would vanish
+   on its sand box; a moderator's answer is a little window off its laptop, title
+   bar and all; and every command is its screen. Classes are sbs-, so a name of
+   the room's can never meet one of ours. Nothing here moves at any setting. Its
+   maker is named in its credits only, at their ask: do not name them here. */
 .room-sandbox .sbs-list-h { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.35rem; line-height: 1.2; margin: 1.6rem 0 .6rem; }
 .room-sandbox .sbs-signed, .room-sandbox .sbs-signon { font-weight: 500; }
 .room-sandbox .sbs-board .sbs-said:empty { margin: 0; }
@@ -22823,7 +22825,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   display: inline-block; margin-left: .35em; padding: 0 .3em; border: 1.5px solid currentColor; border-radius: .2rem;
   font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing: .05em; vertical-align: .1em;
 }
-/* Norah's .sb-box p (0,2,1) sets every paragraph in her box; these are ours, so
+/* The room's own .sb-box p (0,2,1) sets every paragraph in its box; these are ours, so
    they carry .sbs-board to out-rank it rather than an !important. */
 .room-sandbox .sbs-board :is(.sbs-item__body, .sbs-answer__body) > :last-child { margin-bottom: 0; }
 .room-sandbox .sbs-board li > p { margin: 0 0 .3rem; }
@@ -22860,7 +22862,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .room-sandbox .sbs-choice input { width: 1.15rem; height: 1.15rem; accent-color: var(--sb-dusk); margin: 0; }
 .room-sandbox .sbs-preview { margin-top: .5rem; padding: .75rem 1rem; border: 2px dashed var(--sb-sanddeep); border-radius: .4rem; }
 .room-sandbox .sbs-board .sbs-preview__label { font-size: .9rem; font-weight: 600; }
-/* The steps stand on the dusk itself, with Norah's own links and headings. */
+/* The steps stand on the dusk itself, with the room's own links and headings. */
 .room-sandbox .sbs-steps { padding-left: 1.6rem; margin: 1.5rem 0 0; max-width: 40rem; }
 .room-sandbox .sbs-step { margin-bottom: 1.8rem; }
 .room-sandbox .sbs-step::marker { font-weight: 600; }

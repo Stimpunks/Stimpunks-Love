@@ -1,5 +1,5 @@
 /* =============================================================================
-   The suggestion box in The Sandbox, Norah's room. Ryan's brief, 2026-10-13:
+   The suggestion box in The Sandbox. Ryan's brief, 2026-10-13:
    anybody signed on to the CB drops in a suggestion, a feature request or a bug
    report; anybody reads the box; a moderator answers each one, done or not
    doing, with a reply. See netlify/cb/lib.mjs, the suggestion box.

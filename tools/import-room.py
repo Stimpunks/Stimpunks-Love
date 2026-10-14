@@ -68,9 +68,16 @@ WHAT IT DOES NOT DO, ON PURPOSE, AND WHAT STOPS THE ROOM UNTIL SOMEBODY DOES:
     one and told us to bring it in without the space, which contradicted the
     prompt; Ryan's call, 2026-09-29.)
 
+A NAME CAN BE KEPT TO THE CREDITS. An optional line, "Named: in the credits
+only", and the person is named in the room's own credits and in the liner notes
+and nowhere else this writes: not in love.css's comments, the page's comment,
+the script's header or the walking order's. The Sandbox's maker asked for it,
+2026-10-13. A wish like that is not undone by a new version that leaves the line
+out: the last import's choice stands until a line says otherwise.
+
 SPACES THE STREET FILLS. An element with data-street="a-name" is a space for
 something of the street's, the way data-photo is a space for a photograph: the
-suggestion box's board in Norah's Sandbox was the first. The person decides
+suggestion box's board in The Sandbox was the first. The person decides
 where it goes and what it says without scripts (whatever they put in it is its
 fallback), and the street's own tool, named in STREET_SPACES, writes what goes
 in it between <!-- street:a-name:begin --> markers on every run of
@@ -121,7 +128,9 @@ def load(name):
 # ── The comment ──────────────────────────────────────────────────────────────
 
 KEYS = ["name", "link", "pronouns", "say it", "slug", "prefix", "light", "typefaces",
-        "media", "photographs", "words", "built with", "could not do"]
+        "media", "photographs", "words", "built with", "could not do", "named"]
+# Lines the comment may leave out. "named" is "everywhere" or "in the credits only".
+OPTIONAL = {"named"}
 LISTS = {"typefaces", "media", "photographs"}
 NONE = re.compile(r"^(?:none|n/?a|-)\.?$", re.I)
 NOTE = re.compile(r"<!--\s*FOR THE STREET\b(.*?)-->", re.S)
@@ -207,7 +216,7 @@ def read_notes(src, problems):
         else:
             problems.append(f"FOR THE STREET: cannot read this line: {line!r}")
     for k in KEYS:
-        if k not in notes:
+        if k not in notes and k not in OPTIONAL:
             problems.append(f"FOR THE STREET: no {k.capitalize()!r} line. Write 'none' if there is nothing.")
     for k in KEYS:
         if k not in LISTS and k in notes and NONE.match(notes[k] or "none"):
@@ -215,6 +224,15 @@ def read_notes(src, problems):
     for k in ("name", "slug", "prefix", "light", "words", "built with"):
         if k in notes and not notes[k]:
             problems.append(f"FOR THE STREET: {k.capitalize()!r} cannot be none.")
+    named = (notes.get("named") or "").strip().lower()
+    if not named:
+        notes["named"] = None             # unsaid: the last import's choice, or everywhere
+    elif "credit" in named:
+        notes["named"] = "credits"
+    elif named.rstrip(".") == "everywhere":
+        notes["named"] = "everywhere"
+    else:
+        problems.append(f"FOR THE STREET: Named {notes['named']!r} is not 'everywhere' or 'in the credits only'.")
     if notes.get("slug") and not SLUG.match(notes["slug"]):
         problems.append(f"FOR THE STREET: slug {notes['slug']!r} is not lowercase letters and numbers "
                         "with single hyphens.")
@@ -800,6 +818,10 @@ def main():
             refuse([f"{page_name} is already on the street and was not brought in by this tool. "
                     "Pick another slug."], "the slug is taken.")
         prior = json.loads(data_path.read_text())
+        if notes["named"] is None and prior.get("named") == "credits":
+            notes["named"] = "credits"
+            warnings.append("FOR THE STREET says nothing about where they are named, and the last version "
+                            "asked for the credits only, so that stands. Add 'Named: everywhere' to change it.")
         if prior.get("prefix") != prefix:
             problems.append(f"This room was imported before with prefix {prior.get('prefix')!r} and now says "
                             f"{prefix!r}. Keep the prefix, so the street's names for it stay put.")
@@ -816,6 +838,10 @@ def main():
                         "two or three letters, and have the AI change every class and colour name to match.")
     if re.search(rf"\.door--{re.escape(slug)}(?![\w-])", love_others):
         problems.append(f"The front page already has a door called door--{slug}. Pick another slug.")
+
+    notes["named"] = notes["named"] or "everywhere"
+    # Who this names outside the credits: the person, or nobody if they asked.
+    maker = notes["name"] if notes["named"] == "everywhere" else None
 
     tree = Tree(src)
     nodes = list(tree.root.walk())
@@ -942,7 +968,7 @@ def main():
                         problems.append(f"<{n.tag} class=\"{tok}\">: every class starts with {prefix}-.")
             # id="main" on <main> itself is the street's own id in the street's own
             # place: the skip link points at it, and this writes it there anyway.
-            # Norah's Sandbox arrived that way and this refused it. Anywhere else,
+            # The Sandbox arrived that way and this refused it. Anywhere else,
             # a reserved id is refused.
             if lk == "id" and v in RESERVED_IDS and not (n is main_el and v == "main"):
                 problems.append(f"id=\"{v}\" belongs to the street's own furniture on every page. Rename it.")
@@ -1171,7 +1197,7 @@ def main():
             f'<a class="skip" href="#main">Skip to {H.escape(title)}</a>',
             "",
             "<!-- Brought onto the street by tools/import-room.py from the artifact "
-            f"{H.escape(notes['name'])} sent. Everything between the import markers is theirs and is replaced "
+            f"{H.escape(maker) if maker else 'its maker'} sent. Everything between the import markers is theirs and is replaced "
             "whole when they send a new version: change the artifact and import it again, never the lines "
             "between. The quest markers, the sign-off and everything in <head> are the street's. -->",
             main_open,
@@ -1206,7 +1232,8 @@ def main():
     # love.css as it would be, with this room in it.
     def root_block():
         lines = [f"  /* import:{slug}:root:begin */",
-                 f"  /* {notes['name']}'s room, {title} -- brought in by tools/import-room.py.",
+                 (f"  /* {maker}'s room, {title} -- brought in by tools/import-room.py." if maker else
+                  f"  /* {title}, somebody's own room -- brought in by tools/import-room.py."),
                  "     Their colours exactly as their artifact declared them, replaced whole on",
                  "     re-import. Measured in data/rooms/" + slug + ".json. */"]
         lines += [f"  {k}: {v};" for k, v in css.root.items()]
@@ -1217,10 +1244,13 @@ def main():
         head = f"/* §{number} ── ROOM: {title} (a shopfront on the street) "
         head += "─" * max(3, 80 - len(head))
         say = f" ({notes['pronouns']})" if notes.get("pronouns") else ""
+        whose = (f"   {maker.upper()}'S ROOM{say}, AND NOT OURS TO REDESIGN. Built with" if maker else
+                 "   SOMEBODY'S OWN ROOM, AND NOT OURS TO REDESIGN; THEY ARE NAMED IN ITS CREDITS ONLY,\n"
+                 "   AT THEIR ASK, SO DO NOT NAME THEM HERE OR ANYWHERE ELSE. Built with")
         return "\n".join([
             f"/* import:{slug}:section:begin */",
             head,
-            f"   {notes['name'].upper()}'S ROOM{say}, AND NOT OURS TO REDESIGN. Built with",
+            whose,
             f"   {notes['built with']} and brought onto the street by tools/import-room.py from the",
             "   artifact they sent. Everything between the import markers is theirs and is",
             "   replaced whole when they send a new version: change the artifact and import",
@@ -1465,7 +1495,7 @@ def main():
         "name": notes["name"], "link": notes["link"], "pronouns": notes["pronouns"], "say_it": notes["say it"],
         "prefix": prefix, "light": notes["light"], "typefaces": notes["typefaces"],
         "photographs": None, "words": notes["words"], "built_with": notes["built with"],
-        "could_not_do": notes["could not do"],
+        "could_not_do": notes["could not do"], "named": notes["named"],
         "street_spaces": list(street_found),
         "imported": TODAY, "artifact": args.artifact.name,
         "artifact_sha256": hashlib.sha256(src.encode()).hexdigest(),
@@ -1531,8 +1561,9 @@ def main():
     js_path = ROOT / f"{slug}.js"
     if js:
         js_path.write_text(
-            f"/* {notes['name']}'s room, {title}: its script, brought onto the street by\n"
-            "   tools/import-room.py from the artifact they sent. Replaced whole when they send a\n"
+            (f"/* {maker}'s room, {title}: its script, brought onto the street by\n" if maker else
+             f"/* {title}: its script, brought onto the street by\n")
+            + "   tools/import-room.py from the artifact they sent. Replaced whole when they send a\n"
             "   new version, so change the artifact and import it again rather than editing here. */\n"
             + js + "\n")
     elif js_path.exists():
@@ -1566,7 +1597,8 @@ def main():
         anchor = '         "your-room.html",\n'
         if sm.count(anchor) != 1:
             raise SystemExit("REFUSING: cannot find your-room.html in make-sitemap.py's order.")
-        SITEMAP.write_text(sm.replace(anchor, f'         "{page_name}",  # {notes["name"]}\'s, brought in by '
+        whose = f"{maker}'s, brought in" if maker else "brought in"
+        SITEMAP.write_text(sm.replace(anchor, f'         "{page_name}",  # {whose} by '
                                               f"tools/import-room.py\n" + anchor))
 
     who = H.escape(notes["name"])

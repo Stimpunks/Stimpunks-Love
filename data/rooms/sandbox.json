@@ -19,13 +19,14 @@
   "words": "The idea of the room, who it is for, and its intent (curiosity, feedback, no deadlines, no fear of breaking anything, no outcome needed, meeting in the middle, spoons) are Norah's own words; Claude reworded them into the opening and \"Come on in\" as drafts for Norah to change. Claude drafted the \"Two sandboxes\" paragraph, the castle instructions, the suggestion box words and the credits. The quoted sentence is from Wikipedia.",
   "built_with": "Claude, an AI model made by Anthropic",
   "could_not_do": null,
+  "named": "credits",
   "street_spaces": [
     "suggestions",
     "contribute"
   ],
   "imported": "2026-10-13",
   "artifact": "the-sandbox.html",
-  "artifact_sha256": "40c1f6c22e39eecbe841d9ec10553c42f070d484c38c82949fa1086796788167",
+  "artifact_sha256": "7a6ec9181884fecee3e71c69e111cec8bd07f0322685c2603535c104f6f4844e",
   "clothes": {
     "ground": "--sb-dusk",
     "text": "--sb-sandlit",
@@ -84,7 +85,7 @@
       "ground": "#241c17",
       "large": false,
       "ratio": 12.97,
-      "where": "p “Norah thought up this sandbox, and everyone ”"
+      "where": "p “Everyone is welcome in this sandbox.”"
     },
     {
       "ink": "#0b4889",

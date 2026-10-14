@@ -1956,12 +1956,13 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--wbb .wbb-kept {{ font-size: 21px; text-align: left; }}
 .og--wbb .og-lede {{ font-family: 'Literata', serif; font-size: 28px; line-height: 1.4; }}
 .og--wbb .wbb-window {{ flex: 0 0 440px; margin: 0 !important; max-width: none; }}
-/* sandbox — NORAH'S ROOM, imported from her own artifact, and the card is ours.
-   It carries her laptop's title bar and prompt line, her dune and her
-   sandcastle, lifted out of the page rather than redrawn and built into her own
-   lid and screen with her own classes, so the card cannot disagree with the
-   room: the screen is the only light, glowing out over sand at dusk, and the
-   description sits on it where her welcome does. Her faces, at card size. */
+/* sandbox — SOMEBODY'S OWN ROOM, imported from their artifact, and the card is
+   ours. It carries the room's laptop title bar and prompt line, its dune and its
+   sandcastle, lifted out of the page rather than redrawn and built into the
+   room's own lid and screen with its own classes, so the card cannot disagree
+   with the room: the screen is the only light, glowing out over sand at dusk,
+   and the description sits on it where the welcome does. The room's faces, at
+   card size. Its maker is named in its credits only, at their ask. */
 .og--sb {{ flex-direction: row; align-items: center; gap: 36px; padding: 40px 56px; }}
 .og--sb .sb-laptop {{ flex: 0 0 660px; margin: 0 !important; max-width: none; }}
 .og--sb .sb-lid {{ padding: 14px; }}
@@ -5442,8 +5443,8 @@ def main():
                             .replace('id="wbb-pane"', 'id="og-wbb-pane"').replace('url(#wbb-pane)', 'url(#og-wbb-pane)'))
     lifted["wbb_kept"] = re.sub(r"</?a\b[^>]*>", "", wk.group(1)).strip()
     lifted["wbb_kept_plain"] = html.unescape(re.sub(r"<[^>]+>", "", wk.group(1))).strip().lower()
-    # NORAH'S CARD CARRIES HER LAPTOP'S TITLE BAR AND PROMPT, HER DUNE AND HER
-    # SANDCASTLE, lifted out of the page she built rather than redrawn. The castle
+    # THE SANDBOX'S CARD CARRIES ITS LAPTOP'S TITLE BAR AND PROMPT, ITS DUNE AND
+    # ITS SANDCASTLE, lifted out of the page rather than redrawn. The castle
     # loses its name and its ids, because on a card it is a picture, not a thing
     # with a label somebody can press.
     sb_src = (ROOT / "sandbox.html").read_text()

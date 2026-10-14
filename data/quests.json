@@ -3547,12 +3547,12 @@
    "room": "The Sandbox",
    "rank": 1,
    "title": "Your own copy",
-   "posted": "Norah has opened a sandbox at dusk, lit by a laptop left in the sand, where nothing you break stays broken. Read past the suggestion box to the steps for building the street yourself, and find out what your own copy of the street is called.",
+   "posted": "A sandbox has opened at dusk, lit by a laptop left in the sand, where nothing you break stays broken. Read past the suggestion box to the steps for building the street yourself, and find out what your own copy of the street is called.",
    "target": "a plastic picnic fork, left in the sand",
    "takes": "a few minutes of reading",
    "code": "SANDPIE",
    "hints": [
-    "Walk into The Sandbox from the street: Norah's sandbox at dusk, lit by a laptop.",
+    "Walk into The Sandbox from the street: a sandbox at dusk, lit by a laptop.",
     "Read past the suggestion box, to the steps for building the street with us.",
     "The fork is on the floor of the room, before the sign-off."
    ],

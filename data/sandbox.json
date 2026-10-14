@@ -1,8 +1,8 @@
 {
-  "_what": "What the street puts in the two spaces Norah left in The Sandbox (data-street=\"suggestions\" and data-street=\"contribute\"), and the whole of CONTRIBUTING.md, which is written from the same steps so the page and the repository cannot tell anybody two different ways in. tools/make-sandbox.py builds all three from this file and holds their promises. Do not hand-edit between the street:suggestions or street:contribute markers in sandbox.html, or anywhere in CONTRIBUTING.md.",
-  "_brief": "Ryan, 2026-10-13, with Norah's room: in its suggestion box, anybody with CB access can post suggestions, feature requests and bug reports, and moderators mark them done or denied with feedback, like the Brass Tacks Board; and the page bootstraps contributors into cloning the repository, hooking up Claude and installing the tools' dependencies, so they can develop, test and send pull requests.",
+  "_what": "What the street puts in the two spaces The Sandbox's artifact left (data-street=\"suggestions\" and data-street=\"contribute\"), and the whole of CONTRIBUTING.md, which is written from the same steps so the page and the repository cannot tell anybody two different ways in. tools/make-sandbox.py builds all three from this file and holds their promises. Do not hand-edit between the street:suggestions or street:contribute markers in sandbox.html, or anywhere in CONTRIBUTING.md.",
+  "_brief": "Ryan, 2026-10-13, with The Sandbox: in its suggestion box, anybody with CB access can post suggestions, feature requests and bug reports, and moderators mark them done or denied with feedback, like the Brass Tacks Board; and the page bootstraps contributors into cloning the repository, hooking up Claude and installing the tools' dependencies, so they can develop, test and send pull requests.",
   "_markup": "Every string is plain words with three marks and nothing else: **bold**, `code`, and [words](where). Where is https://..., #an-id on the room, site:a-page.html#id on the street, or repo:a/file for a file in the repository, which the page links on GitHub and CONTRIBUTING.md links beside itself. A paragraph is a string; a list is {\"list\": [strings]}. The tool refuses any other markup, a site: page or anchor that is not there, and a repo: file that does not exist.",
-  "_words": "Ours, not Norah's: the box round the board and everything else in the room are hers. The board is the Brass Tacks Board's rules turned round, and says the same things privacy.html#suggestions says.",
+  "_words": "Ours, not the room's maker's: the box round the board and everything else in the room are theirs, and they are named in the room's credits only, at their ask, so nothing in this file names them. The board is the Brass Tacks Board's rules turned round, and says the same things privacy.html#suggestions says.",
   "page": "sandbox.html",
   "repo": "https://github.com/Stimpunks/Stimpunks-Love",
   "board": {
@@ -99,7 +99,7 @@
           "git switch -c a-short-name-for-your-change"
         ],
         "after": [
-          "Then ask Claude for what you want, in your own words. Small is good. **Every room is its own world, on purpose**, and a change that makes two rooms look more alike is probably the wrong change: CLAUDE.md says why, at length. Some things are somebody’s to decide, like Helen’s Faery Yurt or Norah’s sand here. If Claude says a change is somebody else’s call, ask in your pull request rather than making it."
+          "Then ask Claude for what you want, in your own words. Small is good. **Every room is its own world, on purpose**, and a change that makes two rooms look more alike is probably the wrong change: CLAUDE.md says why, at length. Some things are somebody’s to decide, like Helen’s Faery Yurt, or the sand in this very room. If Claude says a change is somebody else’s call, ask in your pull request rather than making it."
         ]
       },
       {
@@ -164,6 +164,6 @@
         "Then open `http://localhost:8888`. `--offline` keeps Netlify’s tool to your own computer, and in the Claude desktop app the same server is `cb-local` in `.claude/launch.json`. Sign on at the Community Center with any handle and the first password, or as YourHandle with the second, to be a moderator. Everything the CB keeps is kept in `.netlify/` on your computer, and nothing reaches the street’s own CB. Calls need keys from 8x8, so the radio shows no call button, and that is fine."
       ]
     },
-    "fine": "The board in the suggestion box and these steps are the street’s, written by Stimpunks with Claude and filled in by `tools/make-sandbox.py`. Everything else in this room is Norah’s."
+    "fine": "The board in the suggestion box and these steps are the street’s, written by Stimpunks with Claude and filled in by `tools/make-sandbox.py`. Everything else in this room is its maker’s, as the credits say."
   }
 }

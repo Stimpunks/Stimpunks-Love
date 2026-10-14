@@ -45,7 +45,7 @@ first. So:
   5. **A new changelog entry goes at the top, with its own id**, even when the other person already
      wrote one that day. A feed reader never shows an edited entry again.
 
-**ANYBODY ELSE WORKS THROUGH A FORK AND A PULL REQUEST.** Ryan's call, 2026-10-13, with Norah's
+**ANYBODY ELSE WORKS THROUGH A FORK AND A PULL REQUEST.** Ryan's call, 2026-10-13, with The
 Sandbox, whose steps (and `CONTRIBUTING.md`, written from the same data by `tools/make-sandbox.py`)
 say how: fork, `tools/setup.sh`, Claude, a branch, `tools/check-all.sh`, `gh pr create`. **If the
 git user is neither Ryan nor Helen, you are working for a contributor**: never push to
@@ -4428,19 +4428,27 @@ the street's rules and writes nothing without `--go`. Four things are not obviou
 A room made with an AI is credited as one, in the room and in the liner notes, because
 `design.html` says that is how we treat our own.
 
-**A ROOM CAN LEAVE A SPACE FOR SOMETHING OF THE STREET'S, AND THE SANDBOX LEFT TWO.** Norah's room
-(§112, 2026-10-13) holds `data-street="suggestions"` inside her suggestion box and
+**THE SANDBOX'S MAKER IS NAMED IN ITS CREDITS AND NOWHERE ELSE, AT THEIR ASK** (relayed by Ryan,
+2026-10-13). The room's own credits and its liner-notes entry name them; nothing else does, and
+nothing else may: not a changelog entry, a job, a page of ours, a doc, a code comment or a commit
+message. Their artifact says `Named: in the credits only`, which `import-room.py` honours in
+everything it writes and remembers across re-imports. **The friendly edit is calling it
+their room by name**, because every other imported room here is called its maker's: write "The
+Sandbox", "the room" or "its maker" instead. The first commit of the room named them, before they asked; it is history now.
+
+**A ROOM CAN LEAVE A SPACE FOR SOMETHING OF THE STREET'S, AND THE SANDBOX LEFT TWO.** The Sandbox
+(§112, 2026-10-13) holds `data-street="suggestions"` inside its suggestion box and
 `data-street="contribute"` after it: the import's spaces for things of the street's, the way
-`data-photo` is a space for a photograph. Whatever she put in one is its fallback; the street's tool,
+`data-photo` is a space for a photograph. Whatever the maker put in one is its fallback; the street's tool,
 named in `STREET_SPACES` in `import-room.py`, writes between `<!-- street:<name>:begin -->` markers
 on every run of `check-all.sh`, and a re-import carries that over and loads the space's scripts.
 `tools/make-sandbox.py` fills both from `data/sandbox.json` and writes `CONTRIBUTING.md` from the
 same steps, so the page and the repository cannot tell anybody two different ways in. Its CSS is a
-`/* street:sandbox:board */` block straight after her section, **in her `--sb-` colours and nothing
-else** (the tool refuses any other), with `sbs-` classes so no name of hers can meet one of ours.
-**A space her next version leaves out stops the build**, rather than the box being put somewhere she
-did not choose; the copy of her artifact with the spaces in it is the one to import, and she has to
-keep them. The same import fixed a false positive: `id="main"` on `<main>` itself, which the tool
+`/* street:sandbox:board */` block straight after the room's section, **in its `--sb-` colours and
+nothing else** (the tool refuses any other), with `sbs-` classes so no name of the room's can meet one
+of ours. **A space the next version leaves out stops the build**, rather than the box being put
+somewhere its maker did not choose; the copy of the artifact with the spaces in it is the one to
+import, and they have to keep them. The same import fixed a false positive: `id="main"` on `<main>` itself, which the tool
 writes there anyway, is no longer refused.
 
 **THE SUGGESTION BOX IS THE BRASS TACKS BOARD TURNED ROUND.** Ryan, 2026-10-13: anybody reads it,

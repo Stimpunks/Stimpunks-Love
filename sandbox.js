@@ -1,4 +1,4 @@
-/* Norah's room, The Sandbox: its script, brought onto the street by
+/* The Sandbox: its script, brought onto the street by
    tools/import-room.py from the artifact they sent. Replaced whole when they send a
    new version, so change the artifact and import it again rather than editing here. */
 (function () {

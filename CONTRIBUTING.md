@@ -67,7 +67,7 @@ Then open `http://localhost:8919` in your browser. There is no build step: every
 git switch -c a-short-name-for-your-change
 ```
 
-Then ask Claude for what you want, in your own words. Small is good. **Every room is its own world, on purpose**, and a change that makes two rooms look more alike is probably the wrong change: CLAUDE.md says why, at length. Some things are somebody’s to decide, like Helen’s Faery Yurt or Norah’s sand here. If Claude says a change is somebody else’s call, ask in your pull request rather than making it.
+Then ask Claude for what you want, in your own words. Small is good. **Every room is its own world, on purpose**, and a change that makes two rooms look more alike is probably the wrong change: CLAUDE.md says why, at length. Some things are somebody’s to decide, like Helen’s Faery Yurt, or the sand in this very room. If Claude says a change is somebody else’s call, ask in your pull request rather than making it.
 
 ## 7. Check everything
 
@@ -123,4 +123,4 @@ npx -y netlify-cli dev --offline --port 8888
 
 Then open `http://localhost:8888`. `--offline` keeps Netlify’s tool to your own computer, and in the Claude desktop app the same server is `cb-local` in `.claude/launch.json`. Sign on at the Community Center with any handle and the first password, or as YourHandle with the second, to be a moderator. Everything the CB keeps is kept in `.netlify/` on your computer, and nothing reaches the street’s own CB. Calls need keys from 8x8, so the radio shows no call button, and that is fine.
 
-The board in the suggestion box and these steps are the street’s, written by Stimpunks with Claude and filled in by `tools/make-sandbox.py`. Everything else in this room is Norah’s.
+The board in the suggestion box and these steps are the street’s, written by Stimpunks with Claude and filled in by `tools/make-sandbox.py`. Everything else in this room is its maker’s, as the credits say.

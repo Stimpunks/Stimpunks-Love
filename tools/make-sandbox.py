@@ -4,21 +4,22 @@ the suggestion box to what it says.
 
     python3 tools/make-sandbox.py
 
-WHAT IT IS FOR. The Sandbox is Norah's room, brought in by tools/import-room.py
-and not ours to redesign. Ryan's brief, 2026-10-13, put two things of the
+WHAT IT IS FOR. The Sandbox is somebody's own room, brought in by
+tools/import-room.py and not ours to redesign, and its maker is named in its
+credits only, at their ask: nothing this writes names them. Ryan's brief, 2026-10-13, put two things of the
 street's into it: a suggestion box that works, where anybody signed on to the CB
 drops in a suggestion, a feature request or a bug report and a moderator answers
 it, and the steps for getting the street's code onto your own computer with
-Claude and sending a change back. Norah's artifact holds a space for each
+Claude and sending a change back. The room's artifact holds a space for each
 (data-street="suggestions", data-street="contribute"); this writes what goes in
 them, between street:<name> markers, out of data/sandbox.json, and writes
 CONTRIBUTING.md from the very same steps, so the page and the repository can
 never tell anybody two different ways in.
 
 IT REFUSES, RATHER THAN WRITING SOMETHING THAT WOULD BE UNTRUE:
-  · a space missing from the page. Norah's next version might leave one out, and
-    then the box and the steps are nowhere; the fix is a word with Norah, or a
-    decision about where they go instead, never this tool guessing.
+  · a space missing from the page. The room's next version might leave one out,
+    and then the box and the steps are nowhere; the fix is a word with its maker,
+    or a decision about where they go instead, never this tool guessing.
   · markup in the words beyond **bold**, `code` and [links], a site: page or
     anchor that does not exist, a repo: file that does not exist, and a tools/
     command naming a script that is not there.
@@ -241,7 +242,7 @@ def board_block():
 
 
 def cmd_html(lines, indent):
-    """What to type, on Norah's screen. Focusable, because a long line scrolls
+    """What to type, on the room's screen. Focusable, because a long line scrolls
     sideways and a keyboard has to be able to scroll it; unnamed, because a
     <pre> takes no name, and its words are its name."""
     pad = " " * indent
@@ -373,8 +374,8 @@ for name, block in (("suggestions", board_block()), ("contribute", contribute_bl
     i, j = page.find(a), page.find(b)
     if i < 0 or j < i:
         print(f"REFUSING: {data['page']} has no space for the street's {name} (data-street=\"{name}\", "
-              "with its markers). Norah's room decides where it goes: if her new version left it out, talk "
-              "to her, rather than putting it somewhere she did not.")
+              "with its markers). The room's maker decides where it goes: if their new version left it out, "
+              "talk to them, rather than putting it somewhere they did not.")
         sys.exit(1)
     page = page[:i + len(a)] + "\n" + block + "\n" + page[j:]
 
