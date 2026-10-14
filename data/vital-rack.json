@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-13T11:18Z",
+ "set": "2026-10-14T11:19Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-13T11:18:42Z"
+     "2026-10-14T11:19:12Z"
     ]
    ]
   }
@@ -269,16 +269,6 @@
    "state": "screen",
    "runs": 1394,
    "channel": "Rainbow Plant Life"
-  },
-  {
-   "id": "DzPgVLWWGy4",
-   "source": "nard-dog-cooks",
-   "form": "long",
-   "title": "The HIGH FIBER breakfast picky eaters will ACTUALLY eat",
-   "published": "2026-09-13T13:03:45Z",
-   "state": "screen",
-   "runs": 635,
-   "channel": "Andrew Bernard | The Nard Dog Cooks"
   },
   {
    "id": "nuPQ9TbHTRY",
@@ -361,16 +351,6 @@
    "channel": "Sarah's Vegan Kitchen"
   },
   {
-   "id": "02vKuQ3oIjo",
-   "source": "sarahs-vegan-kitchen",
-   "form": "short",
-   "title": "The best pumpkin bread you'll make this fall 🎃",
-   "published": "2026-09-13T18:11:04Z",
-   "state": "screen",
-   "runs": 62,
-   "channel": "Sarah's Vegan Kitchen"
-  },
-  {
    "id": "RTeP7pDxm-c",
    "source": "sarahs-vegan-kitchen",
    "form": "short",
@@ -428,6 +408,16 @@
    "published": "2026-10-12T21:35:09Z",
    "state": "screen",
    "runs": 12,
+   "channel": "Sarah's Vegan Kitchen"
+  },
+  {
+   "id": "ovaRqp_x_44",
+   "source": "sarahs-vegan-kitchen",
+   "form": "short",
+   "title": "Tofu for the garlic lovers 🧄❤️‍🔥",
+   "published": "2026-10-13T23:16:52Z",
+   "state": "screen",
+   "runs": 62,
    "channel": "Sarah's Vegan Kitchen"
   },
   {
@@ -546,6 +536,16 @@
    "form": "short",
    "title": "The Secret to Creamy Dairy-Free Tomato Soup #veganrecipes #shorts",
    "published": "2026-10-10T15:00:08Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "Ahmad Noori"
+  },
+  {
+   "id": "aXFMjguhK0U",
+   "source": "ahmad-noori",
+   "form": "short",
+   "title": "Why You Should Make These Loaded Potato Cakes #vegan #easycooking #shorts",
+   "published": "2026-10-13T15:00:25Z",
    "state": "screen",
    "runs": 24,
    "channel": "Ahmad Noori"
@@ -671,6 +671,15 @@
    "channel": "PB with J"
   },
   {
+   "id": "fl2S8e852SU",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "I Tried High Carb Hannah’s Most Recommended Recipes",
+   "published": "2026-10-09T15:13:22Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
    "id": "d93bMKLiL_4",
    "source": "pb-with-j",
    "form": "long",
@@ -678,16 +687,6 @@
    "published": "2026-10-10T14:00:06Z",
    "state": "screen",
    "runs": 968,
-   "channel": "PB with J"
-  },
-  {
-   "id": "TyemlgHiE78",
-   "source": "pb-with-j",
-   "form": "short",
-   "title": "FREEZE Watermelon for a MESSY, CREAMY Dessert Hack! #shorts",
-   "published": "2026-09-13T13:15:20Z",
-   "state": "screen",
-   "runs": 50,
    "channel": "PB with J"
   },
   {
