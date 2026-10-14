@@ -68,31 +68,95 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-13T11:24Z",
+ "set": "2026-10-14T11:25Z",
  "latest": [
   {
-   "id": "JQ3BUBi3Ass",
-   "title": "35°C in October! 🌡️ Why Green Buildings & Sustainable High-Rise Design Are Essential | BIM + AI",
+   "id": "nGD1xa5RePI",
+   "title": "Assessing Data Center Integration in Indian Residential Renewable Energy Community",
+   "channel": "EnergyInformatics.Academy",
+   "published": "2026-10-14T09:55:38Z",
+   "runs": 621,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "1dA4_7Pmx8s",
+   "title": "Green Buildings & Smart Landscaping AI + BIM for Builders, Developers & Homeowners | The Nirgudwar’s",
    "channel": "The Nirgudwar's",
-   "published": "2026-10-13T10:34:49Z",
-   "runs": 96,
+   "published": "2026-10-14T05:39:48Z",
+   "runs": 95,
    "search": "green-building"
   },
   {
+   "id": "t16zPwBvpMc",
+   "title": "Farish Street Green grand opening offers cool green spaces while tracking area heating",
+   "channel": "WLBT 3 On Your Side",
+   "published": "2026-10-14T03:24:46Z",
+   "runs": 120,
+   "search": "green-spaces"
+  },
+  {
+   "id": "jvwb9mzUu8o",
+   "title": "USGBC and NOMA Partner on Green Building Career Access",
+   "channel": "Environment+Energy Leader",
+   "published": "2026-10-13T18:30:55Z",
+   "runs": 227,
+   "search": "green-building"
+  },
+  {
+   "id": "yiANmZT3NYI",
+   "title": "MARTIAN BIOSPHERE AND URBAN FOREST MANAGEMENT COMPLEX",
+   "channel": "Space Manual",
+   "published": "2026-10-13T17:06:09Z",
+   "runs": 644,
+   "search": "urban-forests"
+  },
+  {
+   "id": "l92zS8ZCnTo",
+   "title": "West Broadway Neighborhood Association Working w/ Portside Renewables!",
+   "channel": "Portside Renewables",
+   "published": "2026-10-13T15:10:37Z",
+   "runs": 130,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "I5pS0cbINjA",
+   "title": "Hispanic Heritage Month: Dance, Tejano Flavors & Houston's Urban Farm",
+   "channel": "Chattin’ With Chelsea",
+   "published": "2026-10-13T14:12:23Z",
+   "runs": 1319,
+   "search": "urban-farms"
+  },
+  {
+   "id": "Bh-FhFC_4L0",
+   "title": "Earth Check: Restoring Green Spaces & Protecting Public Land at Githurai People's Park",
+   "channel": "KUTV Kenya",
+   "published": "2026-10-13T14:03:14Z",
+   "runs": 1790,
+   "search": "green-spaces"
+  },
+  {
+   "id": "8VV4yObpguw",
+   "title": "Inside The Home That Started Green Building Supply",
+   "channel": "Green Building Supply",
+   "published": "2026-10-13T13:37:11Z",
+   "runs": 615,
+   "search": "green-building"
+  },
+  {
+   "id": "dwrJP_nzBO0",
+   "title": "Green Space Advisory Commission 10/12/2026",
+   "channel": "City of Webster Groves",
+   "published": "2026-10-13T12:00:16Z",
+   "runs": 3453,
+   "search": "green-spaces"
+  },
+  {
    "id": "YDItzOx-NDo",
-   "title": "Circular Economy | SOLARPUNK cities®",
+   "title": "Why We Need a Circular Economy | SOLARPUNK cities®",
    "channel": "SOLARPUNK cities",
    "published": "2026-10-13T09:38:50Z",
    "runs": 426,
    "search": "solarpunk"
-  },
-  {
-   "id": "tCwzT24JD1E",
-   "title": "Sustainable Materials and Green Buildings Week 12 | NPTEL ANSWERS 2026 #nptel2026 #myswayam #nptel",
-   "channel": "MY SWAYAM",
-   "published": "2026-10-13T06:42:05Z",
-   "runs": 203,
-   "search": "green-building"
   },
   {
    "id": "nYfGDdXY0D4",
@@ -128,19 +192,19 @@
   },
   {
    "id": "SmCtdkdR0WA",
-   "title": "Solarpunk: The Future of Living Is Already Here Ft. Spencer R. Scott",
+   "title": "Solarpunk: A Different World Is Possible Ft. Spencer R. Scott",
    "channel": "Isaias Hernandez",
    "published": "2026-10-12T15:00:07Z",
    "runs": 2711,
    "search": "solarpunk"
   },
   {
-   "id": "xHH2GZRoZdc",
-   "title": "Triangular Park at Lahore Smart City | Green Spaces for Everyday Living",
-   "channel": "Lahore Smart City",
-   "published": "2026-10-12T11:00:52Z",
-   "runs": 15,
-   "search": "green-spaces"
+   "id": "fCJsvb6rn28",
+   "title": "Teresa Mannino and Fra Mauro for the Danisinni \"Urban Forest\"",
+   "channel": "VEDI PALERMO",
+   "published": "2026-10-12T10:00:10Z",
+   "runs": 78,
+   "search": "urban-forests"
   },
   {
    "id": "csZz44jAHXQ",
@@ -148,38 +212,6 @@
    "channel": "Urban Forestry Network",
    "published": "2026-10-12T06:08:50Z",
    "runs": 2092,
-   "search": "urban-forests"
-  },
-  {
-   "id": "r1mtTkqwU0s",
-   "title": "Central Florida's Developing Urban Agriculture",
-   "channel": "Ben Booc",
-   "published": "2026-10-11T16:53:57Z",
-   "runs": 249,
-   "search": "urban-farms"
-  },
-  {
-   "id": "k6bSH3bixLQ",
-   "title": "Green Building | Day 03 | UKPSC-JE & AE Exam 2026-27🔥🎯#ukpscae#ukpscje",
-   "channel": "FUTURE SECURE INSTITUTE FOR JE & AE",
-   "published": "2026-10-11T02:24:07Z",
-   "runs": 6135,
-   "search": "green-building"
-  },
-  {
-   "id": "0lYAlCx3SAE",
-   "title": "From wasteland to urban forest: The Siidcul Haridwar Transformation",
-   "channel": "Give Me Trees Trust",
-   "published": "2026-10-10T10:30:03Z",
-   "runs": 439,
-   "search": "urban-forests"
-  },
-  {
-   "id": "FdtO4vyY52M",
-   "title": "Whittier Urban Forest Management Plan | District 4 Workshop | September 17, 2026",
-   "channel": "City of Whittier",
-   "published": "2026-10-10T00:07:36Z",
-   "runs": 4982,
    "search": "urban-forests"
   },
   {
@@ -191,57 +223,16 @@
    "search": "edibles"
   },
   {
-   "id": "qztzZPTUWx0",
-   "title": "State awards Springfield $425K to expand urban green spaces",
-   "channel": "WWLP-22News",
-   "published": "2026-10-09T22:21:22Z",
-   "runs": 43,
-   "search": "green-spaces"
-  },
-  {
-   "id": "Xib7ARmTVmQ",
-   "title": "Renewable Energy Opportunities: Josh Moenning, New Power Nebraska",
-   "channel": "Nebraska Chapter Sierra Club",
-   "published": "2026-10-09T19:16:10Z",
-   "runs": 305,
-   "search": "renewable-energy"
-  },
-  {
    "id": "MZAlucJH-vA",
    "title": "Syracuse Riparian Food Forest",
    "channel": "cornellsmallfarms",
    "published": "2026-10-09T17:40:15Z",
    "runs": 1594,
    "search": "edibles"
-  },
-  {
-   "id": "VyMRdbfvhas",
-   "title": "From Victims to Victors: Stories of Future Renewable Energy Engineer (FREE) Students",
-   "channel": "People of Asia for Climate Solutions",
-   "published": "2026-10-09T09:09:34Z",
-   "runs": 1224,
-   "search": "renewable-energy"
-  },
-  {
-   "id": "yRCw0gNY2po",
-   "title": "Legazpi Active Park Walking Tour | Makati City's Vibrant Green Space",
-   "channel": "Paradise Found!",
-   "published": "2026-10-09T04:00:31Z",
-   "runs": 182,
-   "search": "green-spaces"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "yXYsZvh1J9k",
-   "search": "green-spaces",
-   "title": "Rooted in Hilltop: Community Green Space, Urban Agriculture, and Tree Equity in Tacoma",
-   "channel": "WSU Ravenholt Urban Forest Health Lab",
-   "published": "2026-10-06T18:57:00Z",
-   "runs": 1461,
-   "state": "screen"
-  },
   {
    "id": "XCwBBf_XNj4",
    "search": "green-spaces",
@@ -270,6 +261,15 @@
    "state": "screen"
   },
   {
+   "id": "ZV2xMQuA7lA",
+   "search": "green-spaces",
+   "title": "Aerial coastal city marinas with multiple piers and beachfront road with green spaces",
+   "channel": "Tolik",
+   "published": "2026-10-09T22:58:40Z",
+   "runs": 30,
+   "state": "screen"
+  },
+  {
    "id": "xHH2GZRoZdc",
    "search": "green-spaces",
    "title": "Triangular Park at Lahore Smart City | Green Spaces for Everyday Living",
@@ -279,12 +279,30 @@
    "state": "screen"
   },
   {
-   "id": "zg-IXMx6Uk0",
-   "search": "green-building",
-   "title": "Why you should pick the Green Building",
-   "channel": "Sidney McGrath",
-   "published": "2026-10-07T11:05:24Z",
-   "runs": 131,
+   "id": "dwrJP_nzBO0",
+   "search": "green-spaces",
+   "title": "Green Space Advisory Commission 10/12/2026",
+   "channel": "City of Webster Groves",
+   "published": "2026-10-13T12:00:16Z",
+   "runs": 3453,
+   "state": "screen"
+  },
+  {
+   "id": "Bh-FhFC_4L0",
+   "search": "green-spaces",
+   "title": "Earth Check: Restoring Green Spaces & Protecting Public Land at Githurai People's Park",
+   "channel": "KUTV Kenya",
+   "published": "2026-10-13T14:03:14Z",
+   "runs": 1790,
+   "state": "screen"
+  },
+  {
+   "id": "t16zPwBvpMc",
+   "search": "green-spaces",
+   "title": "Farish Street Green grand opening offers cool green spaces while tracking area heating",
+   "channel": "WLBT 3 On Your Side",
+   "published": "2026-10-14T03:24:46Z",
+   "runs": 120,
    "state": "screen"
   },
   {
@@ -369,30 +387,30 @@
    "state": "screen"
   },
   {
-   "id": "uhukm95y3aE",
-   "search": "urban-forests",
-   "title": "Connecting Canopies Official Trailer | Connecticut Urban Forestry Stories",
-   "channel": "The Nature Conservancy in Connecticut",
-   "published": "2026-10-06T15:52:01Z",
-   "runs": 48,
+   "id": "8VV4yObpguw",
+   "search": "green-building",
+   "title": "Inside The Home That Started Green Building Supply",
+   "channel": "Green Building Supply",
+   "published": "2026-10-13T13:37:11Z",
+   "runs": 615,
    "state": "screen"
   },
   {
-   "id": "tGZ-k4fEtRs",
-   "search": "urban-forests",
-   "title": "Green Spaces, Mental Health & Community Well-Being: Exploring The Need for Urban Forestry in Kent",
-   "channel": "WSU Ravenholt Urban Forest Health Lab",
-   "published": "2026-10-06T18:38:12Z",
-   "runs": 677,
+   "id": "jvwb9mzUu8o",
+   "search": "green-building",
+   "title": "USGBC and NOMA Partner on Green Building Career Access",
+   "channel": "Environment+Energy Leader",
+   "published": "2026-10-13T18:30:55Z",
+   "runs": 227,
    "state": "screen"
   },
   {
-   "id": "dQa0-bmiW8Q",
-   "search": "urban-forests",
-   "title": "Analyst Chandu Srinivas About 18 Urban Forests Launched in AP! | Deputy CM Pawan Kalyan | Nagababu",
-   "channel": "SumanTV Digital News",
-   "published": "2026-10-07T09:11:46Z",
-   "runs": 359,
+   "id": "1dA4_7Pmx8s",
+   "search": "green-building",
+   "title": "Green Buildings & Smart Landscaping AI + BIM for Builders, Developers & Homeowners | The Nirgudwar’s",
+   "channel": "The Nirgudwar's",
+   "published": "2026-10-14T05:39:48Z",
+   "runs": 95,
    "state": "screen"
   },
   {
@@ -459,6 +477,15 @@
    "state": "screen"
   },
   {
+   "id": "pQ0oEArZFdU",
+   "search": "urban-forests",
+   "title": "New London Trees: Growing Community Through Urban Forestry | Connecting Canopies",
+   "channel": "The Nature Conservancy in Connecticut",
+   "published": "2026-10-10T22:15:09Z",
+   "runs": 220,
+   "state": "screen"
+  },
+  {
    "id": "csZz44jAHXQ",
    "search": "urban-forests",
    "title": "Voices from the Forest / Episode 1 / Naomi Zürcher: Who owns the urban forest?",
@@ -468,30 +495,21 @@
    "state": "screen"
   },
   {
-   "id": "lLDJBgYM2cU",
-   "search": "urban-farms",
-   "title": "Dance, Tejano Flavors & Houston's Urban Farm: Culture, Community + Fun",
-   "channel": "FOX 26 Houston",
-   "published": "2026-10-06T21:53:31Z",
-   "runs": 4313,
+   "id": "fCJsvb6rn28",
+   "search": "urban-forests",
+   "title": "Teresa Mannino and Fra Mauro for the Danisinni \"Urban Forest\"",
+   "channel": "VEDI PALERMO",
+   "published": "2026-10-12T10:00:10Z",
+   "runs": 78,
    "state": "screen"
   },
   {
-   "id": "lnGQmU0H8cE",
-   "search": "urban-farms",
-   "title": "Dance, Tejano Flavors & Houston's Urban Farm: Culture, Community + Fun",
-   "channel": "Chattin’ With Chelsea",
-   "published": "2026-10-07T09:47:57Z",
-   "runs": 4312,
-   "state": "screen"
-  },
-  {
-   "id": "9jvPJPV6zJQ",
-   "search": "urban-farms",
-   "title": "Dance, Tejano Flavors & Houston's Urban Farm: Culture, Community + Fun",
-   "channel": "FOX Soul",
-   "published": "2026-10-07T09:53:57Z",
-   "runs": 4312,
+   "id": "yiANmZT3NYI",
+   "search": "urban-forests",
+   "title": "MARTIAN BIOSPHERE AND URBAN FOREST MANAGEMENT COMPLEX",
+   "channel": "Space Manual",
+   "published": "2026-10-13T17:06:09Z",
+   "runs": 644,
    "state": "screen"
   },
   {
@@ -540,6 +558,15 @@
    "state": "screen"
   },
   {
+   "id": "rmk_MldJV1M",
+   "search": "urban-farms",
+   "title": "Urban Farming Deltares Campus Delft, The Netherlands 2023- 2027",
+   "channel": "ClimateScan #ClimateAdaptation",
+   "published": "2026-10-10T10:00:18Z",
+   "runs": 206,
+   "state": "screen"
+  },
+  {
    "id": "r1mtTkqwU0s",
    "search": "urban-farms",
    "title": "Central Florida's Developing Urban Agriculture",
@@ -567,12 +594,12 @@
    "state": "screen"
   },
   {
-   "id": "6ACfeVhM394",
-   "search": "edibles",
-   "title": "Vancouver Urban Food Forest Foundation (VUFFF)",
-   "channel": "Boxing Beaver Media",
-   "published": "2026-10-06T20:35:31Z",
-   "runs": 404,
+   "id": "I5pS0cbINjA",
+   "search": "urban-farms",
+   "title": "Hispanic Heritage Month: Dance, Tejano Flavors & Houston's Urban Farm",
+   "channel": "Chattin’ With Chelsea",
+   "published": "2026-10-13T14:12:23Z",
+   "runs": 1319,
    "state": "screen"
   },
   {
@@ -612,68 +639,13 @@
    "state": "screen"
   },
   {
-   "id": "3DVOIirz7bM",
+   "id": "gRt-yz2pmm8",
    "search": "solarpunk",
-   "title": "\"SolarPunk\" live on floating islands Ep #6",
-   "state": "door",
-   "why": "age-gated"
-  },
-  {
-   "id": "5dKlTpnHMII",
-   "search": "solarpunk",
-   "title": "Solarpunk Ambient LIVESTREAM",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
-   "id": "Zjg-ZiYsd3M",
-   "search": "solarpunk",
-   "title": "MAJOR Updates In This COZY Crafting Survival — Solarpunk [01]",
-   "channel": "FloppySword",
-   "published": "2026-10-06T16:26:12Z",
-   "runs": 3812,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "tXTFmvs8yJw",
-   "search": "solarpunk",
-   "title": "I 100%'d Solarpunk! | Ep. 8",
-   "channel": "Checkers13",
-   "published": "2026-10-06T19:00:14Z",
-   "runs": 950,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "KHSdSUq9DDY",
-   "search": "solarpunk",
-   "title": "I Love This Game | Solarpunk",
-   "channel": "Tristen Topia",
-   "published": "2026-10-06T22:50:02Z",
-   "runs": 1918,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "xlh1307cMGM",
-   "search": "solarpunk",
-   "title": "Solarpunk",
-   "channel": "Spire Z77",
-   "published": "2026-10-07T06:44:48Z",
-   "runs": 4625,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "gyoGhN0DQog",
-   "search": "solarpunk",
-   "title": "Master Bedroom | Part 63 | Solarpunk",
-   "channel": "True Blue",
-   "published": "2026-10-07T10:32:16Z",
-   "runs": 3881,
-   "state": "left",
-   "why": "filed under Gaming"
+   "title": "Solarpunk - Out Now Trailer",
+   "channel": "Xylen Prime",
+   "published": "2026-10-07T12:46:33Z",
+   "runs": 98,
+   "state": "screen"
   },
   {
    "id": "f-Vn34rUXwk",
@@ -854,7 +826,7 @@
   {
    "id": "SmCtdkdR0WA",
    "search": "solarpunk",
-   "title": "Solarpunk: The Future of Living Is Already Here Ft. Spencer R. Scott",
+   "title": "Solarpunk: A Different World Is Possible Ft. Spencer R. Scott",
    "channel": "Isaias Hernandez",
    "published": "2026-10-12T15:00:07Z",
    "runs": 2711,
@@ -901,38 +873,61 @@
   {
    "id": "YDItzOx-NDo",
    "search": "solarpunk",
-   "title": "Circular Economy | SOLARPUNK cities®",
+   "title": "Why We Need a Circular Economy | SOLARPUNK cities®",
    "channel": "SOLARPUNK cities",
    "published": "2026-10-13T09:38:50Z",
    "runs": 426,
    "state": "screen"
   },
   {
-   "id": "dk9CmFUYJgw",
-   "search": "renewable-energy",
-   "title": "NH Solar Shares: PAREI's Community Solar Program",
-   "channel": "New Hampshire Electric Cooperative",
-   "published": "2026-10-06T13:53:35Z",
-   "runs": 84,
-   "state": "screen"
+   "id": "iAfHNdYWFeA",
+   "search": "solarpunk",
+   "title": "Unlimited power! Well... almost. | Ep 13, Solarpunk",
+   "channel": "Hock1216",
+   "published": "2026-10-13T16:00:38Z",
+   "runs": 2479,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
-   "id": "6kcPQL8rF0A",
-   "search": "renewable-energy",
-   "title": "Austin Energy - Community Solar Redesign Stakeholder Meeting III - September 30, 2026",
-   "channel": "Austin Energy",
-   "published": "2026-10-06T18:11:17Z",
-   "runs": 4347,
-   "state": "screen"
+   "id": "hxzNf_lyRS8",
+   "search": "solarpunk",
+   "title": "[CHILL STREAM] Solar Panel Time!!!  - Solarpunk Playthrough (Part 3)",
+   "channel": "The Quiet Part",
+   "published": "2026-10-13T22:39:12Z",
+   "runs": 10206,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
-   "id": "zr_sxrROynM",
-   "search": "renewable-energy",
-   "title": "Renewables Passed Coal. Coal Kept Growing.",
-   "channel": "The Buildout",
-   "published": "2026-10-06T20:08:09Z",
-   "runs": 331,
-   "state": "screen"
+   "id": "I8zfzh_bqsM",
+   "search": "solarpunk",
+   "title": "SolarPunk Part 3 Finding Copper On Floating Island",
+   "channel": "vSuperDuke",
+   "published": "2026-10-14T03:54:06Z",
+   "runs": 1452,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "mYhzTKNzPFQ",
+   "search": "solarpunk",
+   "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 27",
+   "channel": "[PT]HUN7ER",
+   "published": "2026-10-14T08:00:08Z",
+   "runs": 903,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "d91bMu7cZ6E",
+   "search": "solarpunk",
+   "title": "One Lounge of Many | Part 66 | Solarpunk",
+   "channel": "True Blue",
+   "published": "2026-10-14T11:24:33Z",
+   "runs": 3547,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "pF8d7LU-EyU",
@@ -970,6 +965,15 @@
    "runs": 510,
    "state": "left",
    "why": "filed under Gaming"
+  },
+  {
+   "id": "yKhd-suN-Sg",
+   "search": "renewable-energy",
+   "title": "Cambridgeshire County Council: why councils should partner with community energy",
+   "channel": "Community Energy England",
+   "published": "2026-10-08T16:05:43Z",
+   "runs": 228,
+   "state": "screen"
   },
   {
    "id": "UAdPYXSP3gg",
@@ -1023,6 +1027,33 @@
    "channel": "Nebraska Chapter Sierra Club",
    "published": "2026-10-09T19:16:10Z",
    "runs": 305,
+   "state": "screen"
+  },
+  {
+   "id": "q_T6p4YF4i8",
+   "search": "renewable-energy",
+   "title": "Sixth Fund, First Harvest: Community Solar Proves It Can Repeat Itself",
+   "channel": "Community Solar News",
+   "published": "2026-10-13T10:40:10Z",
+   "runs": 539,
+   "state": "screen"
+  },
+  {
+   "id": "l92zS8ZCnTo",
+   "search": "renewable-energy",
+   "title": "West Broadway Neighborhood Association Working w/ Portside Renewables!",
+   "channel": "Portside Renewables",
+   "published": "2026-10-13T15:10:37Z",
+   "runs": 130,
+   "state": "screen"
+  },
+  {
+   "id": "nGD1xa5RePI",
+   "search": "renewable-energy",
+   "title": "Assessing Data Center Integration in Indian Residential Renewable Energy Community",
+   "channel": "EnergyInformatics.Academy",
+   "published": "2026-10-14T09:55:38Z",
+   "runs": 621,
    "state": "screen"
   }
  ]
