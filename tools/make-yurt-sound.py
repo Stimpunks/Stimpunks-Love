@@ -3,7 +3,7 @@
 
 The Regulation Nook is six tiles of Helen's, and the ones with a sound behind
 them are buttons: press "the smell of vanilla cupcakes" and somebody says
-Mmmm, press "a standing supply of coffee" and somebody says Ahhhh. Easter eggs,
+Mmmm, press "a standing supply of coffee and tea" and somebody says Ahhhh. Easter eggs,
 which is exactly why they get a tool instead of being typed into the page and
 forgotten.
 

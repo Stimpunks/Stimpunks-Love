@@ -6340,7 +6340,9 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
    under the dial, in the notebook's button clothes, candle when pressed. The
    layers they make are fixed over the window, aria-hidden, and let the pointer
    through; yurt-garden.js moves them, not CSS, so they keep going at Gentle for
-   somebody who pressed, and nothing in them flashes. They do not print. */
+   somebody who pressed, and nothing in them flashes. The garden is measured
+   round every word and picture on the page and grows only where none is. They
+   do not print. */
 .yurt-magic { margin: 18px auto 0; max-width: 560px; text-align: center; }
 .yurt-magic__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .yurt-magic__btn {
@@ -6352,11 +6354,13 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 .yurt-magic__btn[aria-pressed="true"] { color: var(--candle); border-color: var(--candle); }
 .yurt-magic__btn:focus-visible { outline: 3px solid var(--candle); outline-offset: 2px; }
 .yurt-magic__note { margin: 10px 0 0; font-size: 15px; color: var(--tallow-2); }
-.yurt-garden, .yurt-faeries { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
-.yurt-garden { z-index: 30; }
-.yurt-faeries { z-index: 31; }
+.yurt-faeries { position: fixed; inset: 0; z-index: 31; pointer-events: none; overflow: hidden; }
+/* The garden is on the page, not over the window, so it scrolls with the words
+   it grows round and never slides over one. */
+.yurt-garden { position: absolute; left: 0; top: 0; z-index: 30; pointer-events: none; overflow: hidden; }
 .yurt-garden svg { display: block; }
 .yurt-faery { position: absolute; left: 0; top: 0; overflow: visible; }
+.yurt-faery__star { position: absolute; left: 0; top: 0; overflow: visible; }
 @media print { .yurt-garden, .yurt-faeries, .yurt-magic { display: none !important; } }
 
 /* Where to find me, and the treeline the yurt is pitched behind. */
