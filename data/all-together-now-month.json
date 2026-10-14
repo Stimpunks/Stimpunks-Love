@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-13T11:27Z",
+ "set": "2026-10-14T11:28Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-13T11:27:16Z"
+     "2026-10-14T11:28:39Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-13T11:27:16Z"
+     "2026-10-14T11:28:39Z"
     ]
    ]
   }
@@ -85,16 +85,6 @@
    "published": "2026-10-11T14:52:48Z",
    "state": "screen",
    "runs": 180,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "2OMY-Qmb6Wg",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "A word from @hayyyfarms about corporate farms",
-   "published": "2026-09-13T18:07:40Z",
-   "state": "screen",
-   "runs": 133,
    "channel": "Farming While Beige"
   },
   {
@@ -405,6 +395,26 @@
    "published": "2026-10-13T11:16:59Z",
    "state": "screen",
    "runs": 13,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "CfBYmC9fza0",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Laughed out loud in a coffee shop at this one 😂",
+   "published": "2026-10-13T15:04:16Z",
+   "state": "screen",
+   "runs": 62,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "5KeYtxItp6Y",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "We got doggy meatballs coming out our eyeballs. Come get them!",
+   "published": "2026-10-13T22:09:56Z",
+   "state": "screen",
+   "runs": 79,
    "channel": "Farming While Beige"
   }
  ]
