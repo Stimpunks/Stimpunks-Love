@@ -343,19 +343,22 @@
       "label": "A room of your own",
       "room": "Your Room",
       "page": "your-room.html",
-      "anchor": "how-to-ask",
-      "takes": "An idea for the empty storefront with the keys in the door.",
+      "anchor": "how-to-submit",
+      "takes": "An idea for the empty storefront with the keys in the door, or a room you built for it with your own AI.",
       "asks": [
         "One paragraph is plenty: what it is for, who walks into it, and what it looks like when they do.",
+        "Built with your AI from the prompt on that page? Send a share link, or the file, with the note your AI put at the top.",
         "No form, no application, and no portfolio.",
         "A room here does not expire, and it comes down if you say so once."
       ],
       "holds": [
-        "How to ask",
-        "There is no form and no application"
+        "How to submit your room",
+        "There is no form and no application",
+        "A share link from your AI is easiest",
+        "FOR THE STREET"
       ],
       "route": "contact",
-      "more": "How to ask for Your Room"
+      "more": "How to submit your room, and what happens next"
     },
     {
       "id": "box",

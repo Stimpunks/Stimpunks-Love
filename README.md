@@ -309,6 +309,7 @@ python3 tools/make-the-honesty-box.py # The Honesty Box's stand and board; refus
 python3 tools/make-wide-spread-chaos.py # Wide-Spread Chaos's garden in the wind, mix, gifts and rack; refuses a noxious weed in the mix, a Latin name, a claim of nativeness, a café food the mix lacks, and a tally
 python3 tools/pull-nature-month.py sanctuary|farm # (network) the area's two month racks, off the channels' own feeds; run by the morning timers
 python3 tools/make-brew-and-stew.py # Brew and Stew's cabin, table, board, arrangements and looking-glass; refuses anything not vegan, a tea with caffeine, a remedy, anything foraged, a flame, a price, and a held video with no reason
+python3 tools/make-your-room.py    # Your Room's questions under Build it with us, read out of its own prompt; refuses a question left in the first person, or no prompt to read
 python3 tools/make-community.py    # The Community Center's service board; refuses a slot whose room has stopped saying what it repeats
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-bodymind.py     # the Bodymind Booth, and the avatar lists in avatar.js and lib.mjs; refuses a starting body, an aid sold as clothing, or a camera
