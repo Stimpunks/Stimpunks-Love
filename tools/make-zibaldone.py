@@ -114,6 +114,7 @@ IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
 import datetime
 import html
+import math
 import json
 import re
 import sys
@@ -224,6 +225,18 @@ def paste(x, y, w, h, r=0):
     """A strip of gummed paper under a pasted thing. Ornament, carries no text."""
     return (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{TAPE}" '
             f'opacity=".85" transform="rotate({r} {x + w / 2} {y + h / 2})"/>')
+
+
+def spiral(cx, cy, r, shrink, ink):
+    """A curl that tightens inward, starting at its right-hand edge and turning up
+    and over, the way a fern's tip is rolled before it opens."""
+    pts = []
+    for i in range(31):
+        t = i * 0.25
+        k = r - t * shrink
+        pts.append(f"{cx + k * math.cos(t):.1f} {cy - k * math.sin(t):.1f}")
+    return (f'<path d="M{" L".join(pts)}" fill="none" stroke="{ink}" stroke-width="2.2" '
+            f'stroke-linecap="round" stroke-linejoin="round"/>')
 
 
 DRAW = {
@@ -346,6 +359,18 @@ DRAW = {
             for x, y, op in ((60, 24, .55), (55, 31, .6), (65, 31, .6), (50, 39, .6), (60, 38, .65),
                              (70, 40, .6), (47, 48, .55), (57, 47, .65), (67, 48, .6), (74, 52, .5),
                              (52, 57, .55), (62, 57, .6), (70, 61, .5), (58, 66, .5), (90, 106, .4)))
+    ),
+    # Beauvoir -- a fern frond pressed while it was still uncurling: the tip a
+    # tight spiral, the rest of it already open into leaflets down the stem.
+    "fiddlehead": (
+        paste(30, 92, 16, 7, -10) +
+        spiral(66, 38, 17, 2.1, OAK) +
+        f'<path d="M83 38 C84 60 72 80 52 104" fill="none" stroke="{OAK}" stroke-width="2.2" stroke-linecap="round"/>'
+        + "".join(f'<path d="M{x} {y} q{-9 - i} {-3} {-15 - i * 2} {-9 + i}" fill="none" stroke="{PENCIL}" '
+                  f'stroke-width="1.6" stroke-linecap="round"/>'
+                  f'<path d="M{x} {y} q{7 + i} {-1} {12 + i} {4 + i}" fill="none" stroke="{PENCIL}" '
+                  f'stroke-width="1.6" stroke-linecap="round"/>'
+                  for i, (x, y) in enumerate(((81, 54), (77, 68), (70, 81), (62, 92))))
     ),
 }
 

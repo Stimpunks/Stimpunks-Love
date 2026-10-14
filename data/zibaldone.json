@@ -222,19 +222,31 @@
    "ink": "oak",
    "draw": "lilac",
    "draw_says": "A sprig of lilac pressed flat, its small four-petalled flowers gone papery, and one fallen loose beside it."
-  }
- ],
-
- "waiting": [
+  },
   {
    "slug": "beauvoir-becomes",
    "quote": "One is not born, but rather becomes, a woman.",
    "who": "Simone de Beauvoir",
-   "work": "The Second Sex",
+   "who_died": 1986,
+   "translator": "H. M. Parshley",
+   "work": "The Second Sex, Part IV, The Formative Years, chapter I, Childhood",
+   "where": "H. M. Parshley's English, published by Jonathan Cape in London",
+   "url": "https://openlibrary.org/books/OL18754656M",
+   "basis": "credited",
+   "read_by": "Ryan Boren",
+   "at": "page 273",
    "brought": "Betsy",
-   "sent": "2026-10-14",
-   "needs": "In copyright twice: Beauvoir died in 1986, and this is an English translation, which needs its translator named on the card the way Casaubon is. As sent it reads like H. M. Parshley's of 1953; the 2009 translation by Constance Borde and Sheila Malovany-Chevallier is said to put it differently. Read it in one of them and say which."
-  },
+   "for": "for when somebody is telling you what you were always going to be",
+   "checked": "Read in the book by Ryan Boren on 2026-10-14, on page 273, where it is the first sentence of the chapter, and it came in exactly as printed. In copyright, and quoted as one sentence with Beauvoir and her translator both named. The title page gives no year, so the link is Open Library's record of Cape's 1953 London printing; whether this copy is that one or a later one was not read.",
+   "hand": "It opens the chapter called Childhood, and the rest of the page is about how alike girls and boys are, in body and in mind, up to the age of twelve.",
+   "face": "lora",
+   "ink": "iron",
+   "draw": "fiddlehead",
+   "draw_says": "A fern frond pressed while it was still uncurling, the tip a tight spiral and the rest of it already open."
+  }
+ ],
+
+ "waiting": [
   {
    "slug": "plath-brag",
    "quote": "I took a deep breath and listened to the old brag of my heart: I am, I am, I am.",
