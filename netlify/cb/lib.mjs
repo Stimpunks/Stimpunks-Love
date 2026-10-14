@@ -1456,6 +1456,94 @@ export async function shownJobs(handle, s = store()) {
   return { handle: acct.handle, jobs: (await readJobs(petKey(handle), s)) || [] };
 }
 
+/* ── Patches for the battle jacket ──────────────────────────────────────────
+
+   Ryan's brief, 2026-10-14: collect patches for your battle jacket, kept and
+   shown in your Profile, and sent as stickers on the CB. Some lie about the
+   street and some are on a counter in a shop; patches.js draws them all.
+
+   THEY ARE THE FOURTH THING THE STREET KEEPS UNDER A PERSON, after pets,
+   avatars and jobs, and only when somebody presses a button that says it
+   takes one. The record is filed under the same scrambled form of the folded
+   handle (`petKey`), so a handle is not an account here either.
+
+   IT HOLDS WHICH PATCHES, SORTED, AND NOTHING ABOUT WHEN, the jobs' rule and
+   for their reason; the jacket sews them on in the order the street lists
+   them. Every id is checked against PATCH_IDS, which tools/make-patches.py
+   writes out of data/patches.json. NOTHING COUNTS WHO HAS A PATCH: there is no
+   list of a patch's takers, only each person's own record. Switching it off is
+   Forget me or deleting the username; SHOWING THEM needs a claimed username,
+   the pets' rule and for their reason. A sticker of a patch is only ever one
+   of the sender's own, found here, carrying nothing but which patch. */
+/* patch:ids:begin */
+export const PATCH_IDS = ["stimpunks-world", "pink-pony-peep", "interdependence", "kindness-is-punk", "plant-powered", "intermittently-social-lone-wolf", "synapse-of-the-soil"];
+/* patch:ids:end */
+const patchesBlob = (k) => `patches/${k}`;
+const patchesShownBlob = (k) => `patchshown/${k}`;
+
+export function patchId(v) { return typeof v === 'string' && PATCH_IDS.includes(v) ? v : null; }
+
+export async function readPatches(pk, s = store()) {
+  const d = await s.get(patchesBlob(pk), { type: 'json' });
+  return ((d && Array.isArray(d.patches)) ? d.patches : []).filter((id) => PATCH_IDS.includes(id)).sort();
+}
+
+/* Take one patch. { taken: true, patches } the first time, { taken: false,
+   patches } when it is on the jacket already. */
+export async function takePatch(pk, id, s = store()) {
+  const key = patchesBlob(pk);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const had = (cur.exists && cur.data && Array.isArray(cur.data.patches)) ? cur.data.patches : [];
+    if (had.includes(id)) return { taken: false, patches: had.filter((x) => PATCH_IDS.includes(x)).sort() };
+    const next = [...had, id].filter((x) => PATCH_IDS.includes(x)).sort();
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { patches: next }, opts);
+    if (res.modified) return { taken: true, patches: next };
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Forget me, and deleting the username: the switch that shows them first,
+   then the record. */
+export async function forgetPatches(pk, s = store()) {
+  await s.delete(patchesShownBlob(pk));
+  await s.delete(patchesBlob(pk));
+  return true;
+}
+
+export async function setPatchesShown(handle, on, s = store(), now = Date.now()) {
+  const k = patchesShownBlob(petKey(handle));
+  if (!on) { await s.delete(k); return false; }
+  const cur = await versioned(s, k);
+  if (!cur.exists) await s.setJSON(k, { since: now }, { onlyIfNew: true });
+  return true;
+}
+
+export async function patchesShown(handle, s = store()) {
+  if (!(await readAccount(handle, s))) return false;
+  const d = await s.get(patchesShownBlob(petKey(handle)), { type: 'json' });
+  return !!(d && typeof d.since === 'number');
+}
+
+/* Somebody's battle jacket, as a person on the CB is shown it: { handle,
+   patches } when it is shown, and null otherwise, whatever the reason. */
+export async function shownPatches(handle, s = store()) {
+  if (!(await patchesShown(handle, s))) return null;
+  const acct = await readAccount(handle, s);
+  return { handle: acct.handle, patches: await readPatches(petKey(handle), s) };
+}
+
+/* A sticker of one of your own patches, or null if it is not on your jacket. */
+export async function patchSticker(handle, id, s = store()) {
+  if (!patchId(id)) return null;
+  return (await readPatches(petKey(handle), s)).includes(id) ? { patch: id } : null;
+}
+export function shapePatchSticker(st) {
+  return st && patchId(st.patch) ? { patch: st.patch } : null;
+}
+
 /* ── The Slake ───────────────────────────────────────────────────────────── */
 
 /* Every place on the Slake, named HERE and nowhere else on the server side.
@@ -2555,13 +2643,14 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars and its jobs. The username is free again. */
+/* Delete an account, its pets, its avatars, its jobs and its patches. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
   await forgetPets(petKey(handle), s);
   await forgetAvatars(petKey(handle), s);
   await forgetJobs(petKey(handle), s);
+  await forgetPatches(petKey(handle), s);
   await s.delete(acctBlob(handle));
   return { deleted: true };
 }
@@ -3237,6 +3326,8 @@ export function shape(messages) {
     if (st) out.sticker = st;
     const av = m.avatar && shapeAvatarSticker(m.avatar);
     if (av) out.avatar = av;
+    const pt = m.patch && shapePatchSticker(m.patch);
+    if (pt) out.patch = pt;
     const rx = shapeReactions(m.reactions);
     if (rx) out.reactions = rx;
     return out;

@@ -1307,6 +1307,14 @@
   --cb-case: #121315;  --cb-bar: #24272B;  --cb-steel: #D8DCE1;  --cb-steel-2: #A3AAB3;
   --cb-lcd: #1B1305;   --cb-amber: #FFB83F; --cb-amber-2: #D9A042;
 
+  /* The battle jacket (patches.js), in the radio's Profile and in somebody's
+     profile. NOT A ROOM'S PALETTE: a person's own jacket, drawn wherever their
+     Profile is opened, so it keeps its own clothes the radio's way -- denim, a
+     darker seam, and gold stitching. None of it carries a word; each is in
+     check-contrast.py's ORNAMENT with its measurement. Every patch sewn on it
+     is in its own room's inks, which is what makes it a battle jacket. */
+  --bj-denim: #3A5B85; --bj-seam: #1E3250; --bj-stitch: #E3B354;
+
   /* The fractal window (fractal.js, fractal.css). NOT A ROOM'S PALETTE either:
      furniture that appears in any room somebody switches it on in, so it keeps
      its own clothes, the dial's and the radio's precedent -- a graphite frame, a
@@ -3799,6 +3807,24 @@ div.facade--audio { border: 0; background: none; }
    the shell for the facade--audio reason. Layout only, the same as that. */
 .facade--square { aspect-ratio: 1; padding: 0; }
 div.facade--square { border: 0; background: none; }
+
+/* A PATCH FOR THE BATTLE JACKET, lying in a room or on a counter in a shop
+   (patches.js, tools/make-patches.py). Furniture, for the job marker's reason,
+   and like it LAYOUT AND NOTHING ELSE: the patch brings its own room's inks in
+   its drawing, and its words and button borrow whatever the room is already
+   painted, `currentColor` on the room's own ground, so a patch cannot be
+   illegible anywhere the room's body copy is legible. Every patch is its own
+   size, and is shown at it; a phone shrinks a wide one to the column. */
+.patch { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 30px 0; max-width: 680px; }
+.patch__art { display: block; flex: 0 1 auto; max-width: 100%; height: auto; }
+.patch__words { flex: 1 1 240px; min-width: 0; }
+.patch__words p { margin: 0 0 8px; }
+.patch__words p:last-child { margin-bottom: 0; }
+.patch__said:empty { display: none; }
+.patch__take {
+  font: inherit; font-weight: 700; color: inherit; background: transparent; cursor: pointer;
+  border: 2px solid currentColor; border-radius: 0; padding: 8px 16px; min-height: 44px;
+}
 
 /* THE JOB MARKER. Furniture rather than a room, for the facade's reason: every
    room on the street wears one, so it belongs to §1–§4 where a name is allowed

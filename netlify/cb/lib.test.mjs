@@ -37,6 +37,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
   setAvatarsShown, avatarsShown, shownAvatars,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
+  PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
@@ -1838,4 +1839,71 @@ test('jobs are shown only on a claimed username that says so, and go with it', (
   await deleteAccount('Ada', s);
   assert.equal(await readJobs(pk, s), null, 'a deleted username kept its jobs');
   assert.equal(await s.get(`jobshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
+}));
+
+/* ── Patches for the battle jacket ───────────────────────────────────────────
+   Which patches and nothing about when; only patches on the street; each
+   taken once; shown only on a claimed username that says so; a sticker only
+   of your own; and gone with Forget me's half and with the username. */
+test('a jacket can only hold patches that are on the street', () => {
+  assert.ok(PATCH_IDS.length >= 2, 'make-patches.py has not written the patches into lib.mjs');
+  assert.equal(patchId(PATCH_IDS[0]), PATCH_IDS[0]);
+  assert.equal(patchId('no-such-patch'), null);
+  assert.equal(patchId('__proto__'), null);
+  assert.equal(patchId(['x']), null);
+});
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`patches taken all at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const ids = Array.from({ length: 15 }, (_, i) => PATCH_IDS[i % PATCH_IDS.length]);
+    const told = await Promise.allSettled(ids.map((id) => takePatch('pkP', id, s)));
+    const on = new Set(await readPatches('pkP', s));
+    told.forEach((r, i) => {
+      if (r.status === 'fulfilled') assert.ok(on.has(ids[i]), `${ids[i]} was told it was taken and is not on the jacket`);
+      else assert.equal(r.reason.message, 'busy');
+    });
+    if (etagOnRead) {
+      assert.equal(on.size, PATCH_IDS.length);
+      assert.equal(told.filter((r) => r.value && r.value.taken).length, PATCH_IDS.length, 'a patch was taken twice');
+    }
+  });
+}
+
+test('a jacket keeps which patches, sorted, and nothing about when', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [a, b] = PATCH_IDS;
+  assert.deepEqual((await takePatch('pkQ', b, s)).taken, true);
+  assert.deepEqual((await takePatch('pkQ', a, s)).patches, [a, b].sort());
+  assert.equal((await takePatch('pkQ', a, s)).taken, false, 'the same patch taken twice');
+  const raw = await s.get('patches/pkQ', { type: 'json' });
+  assert.deepEqual(Object.keys(raw), ['patches'], 'the record holds something besides which patches');
+  await forgetPatches('pkQ', s);
+  assert.deepEqual(await readPatches('pkQ', s), []);
+});
+
+test('a jacket is shown only on a claimed username that says so, and a sticker is only your own patch', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  await takePatch(pk, PATCH_IDS[0], s);
+  assert.deepEqual(await patchSticker('Ada', PATCH_IDS[0], s), { patch: PATCH_IDS[0] });
+  assert.equal(await patchSticker('Ada', PATCH_IDS[1], s), null, 'a sticker of a patch not on the jacket');
+  assert.equal(await patchSticker('Bex', PATCH_IDS[0], s), null, 'a sticker of somebody else\'s patch');
+  assert.deepEqual(shapePatchSticker({ patch: PATCH_IDS[0], extra: 'x' }), { patch: PATCH_IDS[0] });
+  assert.equal(shapePatchSticker({ patch: 'nope' }), null);
+  await setPatchesShown('Ada', true, s, 1);
+  assert.equal(await shownPatches('Ada', s), null, 'an unclaimed handle showed its jacket');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  assert.deepEqual(await shownPatches('ada', s), { handle: 'Ada', patches: [PATCH_IDS[0]] });
+  await setPatchesShown('Ada', false, s);
+  assert.equal(await shownPatches('Ada', s), null, 'shown with the switch off');
+  await setPatchesShown('Ada', true, s, 2);
+  await forgetPatches(pk, s);
+  assert.equal(await patchesShown('Ada', s), false, 'Forget me left the switch on');
+  await takePatch(pk, PATCH_IDS[1], s);
+  await setPatchesShown('Ada', true, s, 3);
+  await deleteAccount('Ada', s);
+  assert.deepEqual(await readPatches(pk, s), [], 'a deleted username kept its patches');
+  assert.equal(await s.get(`patchshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
 }));

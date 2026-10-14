@@ -1,0 +1,464 @@
+{
+ "_": "The patches for the battle jacket in a person's Profile on the CB. Ryan's brief, 2026-10-14. Written into patches.js, the rooms and lib.mjs by tools/make-patches.py; see its docstring for what it refuses.",
+ "_draw": "Every patch is drawn from `draw` and nothing else: [\"path\", d, fill, stroke, width] and [\"text\", x, y, size, face, fill, words, length], in millimetres inside a w by h patch. A colour is a custom property love.css declares in :root, or a hex. Each patch is drawn in its own room's inks and faces, as a souvenir of that room, and on the jacket they are all together, which is what a battle jacket is. `length` is the text's textLength, so the words fit the patch whatever font the browser ends up with.",
+ "_how": "`scattered` is lying somewhere in its room and is picked up; `shop` is on a counter or a table in a shop and is taken. Neither has a price: nothing on this street is for sale but what is in the honesty box.",
+ "patches": [
+  {
+   "id": "stimpunks-world",
+   "name": "Stimpunks.World",
+   "page": "index.html",
+   "room": "The Street",
+   "how": "scattered",
+   "spot": "Lying on the pavement by the lift head, where somebody dropped it.",
+   "says": "The street’s own name, for anybody who has walked down it.",
+   "w": 240,
+   "h": 64,
+   "ground": "--ink",
+   "alt": "A wide banner patch with notched ends: a hot pink edge, and Stimpunks.World stitched in cream capitals on near-black.",
+   "draw": [
+    [
+     "path",
+     "M0 0 H240 L226 32 L240 64 H0 L14 32 Z",
+     "--hot",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M8 5 H230 L218 32 L230 59 H8 L20 32 Z",
+     "--ink",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M26 13 H214 M26 51 H214",
+     null,
+     "--ink-3",
+     1.6
+    ],
+    [
+     "text",
+     120,
+     42,
+     25,
+     "Bungee",
+     "--cream",
+     "STIMPUNKS.WORLD",
+     176
+    ]
+   ]
+  },
+  {
+   "id": "pink-pony-peep",
+   "name": "Pink Pony Peep",
+   "page": "pink-pony-club.html",
+   "room": "Pink Pony Club",
+   "how": "scattered",
+   "spot": "Dropped on the dancefloor, under the mirrorball.",
+   "says": "For anybody who came in off the street to dance, or to stand at the edge of it.",
+   "w": 100,
+   "h": 100,
+   "ground": "--hot",
+   "alt": "A round patch with a cream edge: a small cream mirrorball on hot pink, and Pink Pony Peep stitched under it in a dark, fat script.",
+   "draw": [
+    [
+     "path",
+     "M0 50 A50 50 0 1 0 100 50 A50 50 0 1 0 0 50 Z",
+     "--cream",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M5 50 A45 45 0 1 0 95 50 A45 45 0 1 0 5 50 Z",
+     "--hot",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M50 10 V19",
+     null,
+     "#2b0a1c",
+     1.4
+    ],
+    [
+     "path",
+     "M39 30 A11 11 0 1 0 61 30 A11 11 0 1 0 39 30 Z",
+     "--cream",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M39 30 H61 M50 19 V41 M42 23 Q50 27 58 23 M42 37 Q50 33 58 37",
+     null,
+     "#2b0a1c",
+     1.2
+    ],
+    [
+     "text",
+     50,
+     64,
+     15,
+     "Shrikhand",
+     "#2b0a1c",
+     "Pink Pony",
+     70
+    ],
+    [
+     "text",
+     50,
+     84,
+     18,
+     "Shrikhand",
+     "#2b0a1c",
+     "Peep",
+     46
+    ]
+   ]
+  },
+  {
+   "id": "interdependence",
+   "name": "Interdependence",
+   "page": "town-hall.html",
+   "room": "Town Hall",
+   "how": "scattered",
+   "spot": "Left on a seat in the open middle of the hall.",
+   "says": "Interdependent and here, the street’s own line: we need each other, and nobody here is ashamed of it.",
+   "w": 116,
+   "h": 100,
+   "ground": "--th-wall",
+   "alt": "A six-sided patch with a pale gold edge: three linked rings in pale blue on warm grey, and Interdependence across it in tall, thin capitals.",
+   "draw": [
+    [
+     "path",
+     "M29 0 H87 L116 50 L87 100 H29 L0 50 Z",
+     "--th-link",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M32 5 H84 L110 50 L84 95 H32 L6 50 Z",
+     "--th-wall",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M39 26 A10 10 0 1 0 59 26 A10 10 0 1 0 39 26 Z",
+     null,
+     "--th-sky",
+     3.2
+    ],
+    [
+     "path",
+     "M57 26 A10 10 0 1 0 77 26 A10 10 0 1 0 57 26 Z",
+     null,
+     "--th-sky",
+     3.2
+    ],
+    [
+     "path",
+     "M48 41 A10 10 0 1 0 68 41 A10 10 0 1 0 48 41 Z",
+     null,
+     "--th-sky",
+     3.2
+    ],
+    [
+     "text",
+     58,
+     67,
+     12,
+     "Forum",
+     "--th-text",
+     "INTERDEPENDENCE",
+     82
+    ],
+    [
+     "path",
+     "M34 77 H82",
+     null,
+     "--th-link",
+     1.4
+    ]
+   ]
+  },
+  {
+   "id": "kindness-is-punk",
+   "name": "Kindness Is Punk",
+   "page": "club-chronic.html",
+   "room": "Club Chronic",
+   "how": "shop",
+   "spot": "In a box on the distro table by the door, free to take.",
+   "says": "From our Rules of Punk: in a world that values neuronormativity, kindness is punk.",
+   "link": [
+    "Rules of Punk",
+    "https://stimpunks.org/philosophy/rules-of-punk/"
+   ],
+   "w": 104,
+   "h": 84,
+   "ground": "--cc-dark",
+   "alt": "A black patch with its corners cut off and a bone white edge: a brass safety pin across the top, and Kindness Is Punk in tall, narrow white capitals.",
+   "draw": [
+    [
+     "path",
+     "M10 0 H94 L104 10 V74 L94 84 H10 L0 74 V10 Z",
+     "--cc-bone",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M12 5 H92 L99 12 V72 L92 79 H12 L5 72 V12 Z",
+     "--cc-dark",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M16 18 A4 4 0 1 0 24 18 A4 4 0 1 0 16 18 Z",
+     null,
+     "--cc-brass",
+     2.2
+    ],
+    [
+     "path",
+     "M24 16 H80 M24 20.5 H74 M80 16 Q85 18.25 80 20.5",
+     null,
+     "--cc-brass",
+     2.2
+    ],
+    [
+     "text",
+     52,
+     49,
+     22,
+     "Anton",
+     "--cc-bone",
+     "KINDNESS",
+     76
+    ],
+    [
+     "text",
+     52,
+     70,
+     17,
+     "Anton",
+     "--cc-bone",
+     "IS PUNK",
+     58
+    ]
+   ]
+  },
+  {
+   "id": "plant-powered",
+   "name": "Plant-Powered",
+   "page": "vital-plant-living.html",
+   "room": "Vital Plant Living",
+   "how": "shop",
+   "spot": "In a jar on the counter, free to take.",
+   "says": "Plant-powered as in made of plants: what a bowl in here is, never what it does for you.",
+   "w": 124,
+   "h": 80,
+   "ground": "--vpl-leaf",
+   "alt": "An oval patch with a turmeric edge: a sprout with two leaves on deep green, and Plant-Powered stitched under it in round, fat cream letters.",
+   "draw": [
+    [
+     "path",
+     "M0 40 A62 40 0 1 0 124 40 A62 40 0 1 0 0 40 Z",
+     "--vpl-wall",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M5 40 A57 35 0 1 0 119 40 A57 35 0 1 0 5 40 Z",
+     "--vpl-leaf",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M62 36 V19",
+     null,
+     "--vpl-f-sprout",
+     2.6
+    ],
+    [
+     "path",
+     "M62 25 C56 25 52 21 51 15 C57 15 61 18 62 25 Z",
+     "--vpl-f-sprout",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M62 22 C68 22 73 18 74 12 C67 12 63 15 62 22 Z",
+     "--vpl-f-sprout",
+     null,
+     0
+    ],
+    [
+     "text",
+     62,
+     56,
+     13,
+     "Bagel Fat One",
+     "--vpl-panel",
+     "PLANT-POWERED",
+     92
+    ]
+   ]
+  },
+  {
+   "id": "intermittently-social-lone-wolf",
+   "name": "Intermittently Social Lone Wolf",
+   "page": "cavendish-cave.html",
+   "room": "The Cave",
+   "how": "scattered",
+   "spot": "Left on the floor of the cave, by the foot of the ice wall.",
+   "says": "Lone wolfing is Betsy Selvam’s word for being alone well rather than being left out. This one is for the times in between.",
+   "link": [
+    "Betsy Selvam’s word",
+    "https://stimpunks.org/2023/06/18/lone-wolfing-the-joys-of-autistic-solitude/"
+   ],
+   "w": 100,
+   "h": 124,
+   "ground": "--cv-deep",
+   "alt": "A shield-shaped patch with an icy white edge: a crescent moon and a wolf’s head in pale blue on deep blue, and Intermittently Social Lone Wolf on three lines under them.",
+   "draw": [
+    [
+     "path",
+     "M0 0 H100 V64 C100 96 76 114 50 124 C24 114 0 96 0 64 Z",
+     "--cv-crack",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M5 5 H95 V63 C95 92 73 108 50 118 C27 108 5 92 5 63 Z",
+     "--cv-deep",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M76 12 A7 7 0 1 0 76 26 A5.4 5.4 0 1 1 76 12 Z",
+     "--cv-dim",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M50 60 L39 47 L34 28 L43 37 L50 34 L57 37 L66 28 L61 47 Z",
+     "--cv-glow",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M43 44 L47.5 45.5 L44 47.5 Z M57 44 L52.5 45.5 L56 47.5 Z",
+     "--cv-deep",
+     null,
+     0
+    ],
+    [
+     "text",
+     50,
+     77,
+     8.5,
+     "Encode Sans Expanded",
+     "--cv-text",
+     "INTERMITTENTLY",
+     78
+    ],
+    [
+     "text",
+     50,
+     89,
+     9.5,
+     "Encode Sans Expanded",
+     "--cv-text",
+     "SOCIAL",
+     44
+    ],
+    [
+     "text",
+     50,
+     102,
+     10,
+     "Encode Sans Expanded",
+     "--cv-text",
+     "LONE WOLF",
+     54
+    ]
+   ]
+  },
+  {
+   "id": "synapse-of-the-soil",
+   "name": "Synapse of the Soil",
+   "page": "mycelium-munchies.html",
+   "room": "Mycelium Munchies",
+   "how": "shop",
+   "spot": "In a dish at the end of the pass, free to take.",
+   "says": "A figure of speech for the threads that join the soil up. The farm makes no claim that fungi think.",
+   "w": 104,
+   "h": 104,
+   "ground": "--myc-dark",
+   "alt": "A round patch with a gold edge: pale branching threads meeting at gold knots on near-black, and Synapse of the Soil in soft, heavy cream letters.",
+   "draw": [
+    [
+     "path",
+     "M0 52 A52 52 0 1 0 104 52 A52 52 0 1 0 0 52 Z",
+     "--myc-gold",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M5 52 A47 47 0 1 0 99 52 A47 47 0 1 0 5 52 Z",
+     "--myc-dark",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M52 40 L36 26 L27 28 M36 26 L34 15 M52 40 L67 24 L77 22 M67 24 L65 13 M52 40 L52 20 M52 40 L30 43 L19 39 M52 40 L74 43 L85 39",
+     null,
+     "--myc-cream",
+     1.6
+    ],
+    [
+     "path",
+     "M49.6 40 A2.4 2.4 0 1 0 54.4 40 A2.4 2.4 0 1 0 49.6 40 Z M34 26 A2 2 0 1 0 38 26 A2 2 0 1 0 34 26 Z M65 24 A2 2 0 1 0 69 24 A2 2 0 1 0 65 24 Z",
+     "--myc-gold",
+     null,
+     0
+    ],
+    [
+     "text",
+     52,
+     67,
+     15,
+     "Caprasimo",
+     "--myc-cream",
+     "SYNAPSE",
+     62
+    ],
+    [
+     "text",
+     52,
+     83,
+     11,
+     "Caprasimo",
+     "--myc-cream",
+     "OF THE SOIL",
+     60
+    ]
+   ]
+  }
+ ]
+}

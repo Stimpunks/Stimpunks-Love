@@ -3623,6 +3623,9 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#3a5b85": "battle jacket: --bj-denim, the jacket's denim, 2.67 on the radio's case and 2.64 on its readout. A picture in a role=img whose words are the patches sewn on it; it carries no word, and every patch on it is lettered in its own room's inks, held to 4.5 by make-patches.py.",
+    "#1e3250": "battle jacket: --bj-seam, the jacket's outline, 1.85 on the denim. It carries no word.",
+    "#e3b354": "battle jacket: --bj-stitch, the dashed gold stitching across the yoke and the hem, 3.60 on the denim. It carries no word.",
     "#6f8f3e": "chaosgarden: --wsc-ground, the ground, 1.85 on the sky. In the garden in the wind, which is aria-hidden and in words beside it; it carries no word.",
     "#557a2e": "chaosgarden: --wsc-grass, the grass, 2.49 on the sky. In the garden in the wind, which is aria-hidden and in words beside it; it carries no word.",
     "#3e6b2c": "chaosgarden: --wsc-stem, a stem, 3.13 on the sky. In the garden in the wind, which is aria-hidden and in words beside it; it carries no word.",

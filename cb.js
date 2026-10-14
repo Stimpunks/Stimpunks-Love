@@ -1128,12 +1128,26 @@
     this.jobsWhere = el('p', 'cb-pets__where');
     pets.appendChild(this.jobsWhere);
 
+    /* YOUR BATTLE JACKET (Ryan, 2026-10-14): the patches picked up around the
+       street, sewn onto one denim jacket by patches.js, loaded on the first.
+       Read when the tray opens, never polled. */
+    pets.appendChild(el('p', 'cb-pets__h', 'Your battle jacket'));
+    this.patchState = el('p', 'cb-quiet', '');
+    pets.appendChild(this.patchState);
+    this.patchBox = el('div', 'cb-jacket');
+    this.patchBox.hidden = true;
+    pets.appendChild(this.patchBox);
+    this.patchShow = el('div', 'cb-pets__show');
+    pets.appendChild(this.patchShow);
+    this.patchWhere = el('p', 'cb-pets__where');
+    pets.appendChild(this.patchWhere);
+
     var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
     forgetBtn.type = 'button';
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets, the jobs kept from the Adventurer\u2019s Guild, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -1147,6 +1161,7 @@
     yes.addEventListener('click', function () { me.forgetMe(); });
     window.addEventListener('love-pets', function () { if (!pets.hidden) me.loadPets(); });
     window.addEventListener('love-avatars', function () { if (!pets.hidden) me.loadAvatars(); });
+    window.addEventListener('love-patches', function () { if (!pets.hidden) me.loadPatches(); });
 
     var norms = el('p', 'cb-norms');
     var a = el('a', null, 'House norms at the Community Center');
@@ -1616,6 +1631,7 @@
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
       if (m.avatar) li.appendChild(avatarSticker(m.avatar));
+      if (m.patch) li.appendChild(patchSticker(m.patch));
       /* REACTIONS: who pressed what, by handle and never how many. Not read out
          as they change: the log is a live region, and a reaction landing is
          not a message, so this line is its own region with politeness off. */
@@ -2024,6 +2040,30 @@
         badgesNow();
       }, function () { jSaid.textContent = 'Their jobs could not be fetched just now.'; badgesNow(); });
     });
+    /* THEIR BATTLE JACKET (Ryan, 2026-10-14), only if they have chosen to show
+       it, which needs a claimed username. */
+    box.appendChild(el('p', 'cb-peek__sub', 'Battle jacket'));
+    var pSaid = el('p', 'cb-quiet', 'Looking\u2026');
+    box.appendChild(pSaid);
+    var pBox = el('div', 'cb-jacket');
+    pBox.hidden = true;
+    box.appendChild(pBox);
+    withPatches(function () {
+      call('/cb/patches/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+        if (peekN !== me.peekN) return;
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200 || !r.body) { pSaid.textContent = 'Their jacket could not be fetched just now.'; return; }
+        if (!r.body.shown) {
+          pSaid.textContent = mineJ
+            ? 'You have not made your battle jacket public. Profile, on this radio, is where you switch that on.'
+            : handle + ' has not made their battle jacket public.';
+          return;
+        }
+        pSaid.hidden = true;
+        pBox.hidden = false;
+        jacketInto(pBox, r.body.patches || [], mineJ ? 'yours' : r.body.handle + '\u2019s');
+      }, function () { pSaid.textContent = 'Their jacket could not be fetched just now.'; });
+    });
     var close = el('button', 'cb-btn cb-peek__close', 'Close');
     close.type = 'button';
     close.addEventListener('click', function () { me.unpeek(); });
@@ -2185,11 +2225,38 @@
         if (!box.querySelector('.cb-stickers__pick')) { var first = ul.querySelector('button'); if (first) first.focus(); }
       }, function () { said.textContent = 'Your pets could not be fetched just now.'; });
     });
+    /* YOUR PATCHES (Ryan, 2026-10-14): each one on your battle jacket, a
+       button that sends a sticker of it, drawn by patches.js. */
+    var pSaid = el('p', 'cb-quiet', 'Fetching your patches\u2026');
+    pSaid.setAttribute('role', 'status');
+    box.appendChild(pSaid);
+    withPatches(function () {
+      call('/cb/patches', null, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200 || !Array.isArray(r.body.patches)) { pSaid.textContent = 'Your patches could not be fetched just now.'; return; }
+        var mine = window.lovePatches.list.filter(function (p) { return r.body.patches.indexOf(p.id) >= 0; });
+        if (!mine.length) { pSaid.textContent = 'No patches on your battle jacket. They lie about the street, and some are on a counter in a shop.'; return; }
+        pSaid.textContent = 'Press a patch to send a sticker of it.';
+        var ul = el('ul', 'cb-stickers__list');
+        mine.forEach(function (p) {
+          var li = el('li');
+          var b = el('button', 'cb-stickers__pick');
+          b.type = 'button';
+          var art = window.lovePatches.draw(p.id, { cls: 'cb-stickers__art cb-sticker__patch' });
+          if (art) b.appendChild(art);
+          b.appendChild(el('span', null, 'Send ' + p.name));
+          b.addEventListener('click', function () { me.sendSticker(p.id, 'patch'); });
+          li.appendChild(b);
+          ul.appendChild(li);
+        });
+        pSaid.after(ul);
+      }, function () { pSaid.textContent = 'Your patches could not be fetched just now.'; });
+    });
   };
 
   Radio.prototype.sendSticker = function (id, kind) {
     var me = this, room = this.tunedRoom(), b = {};
-    b[kind === 'avatar' ? 'avatar' : 'sticker'] = id;
+    b[kind === 'avatar' ? 'avatar' : kind === 'patch' ? 'patch' : 'sticker'] = id;
     if (room) b.room = room;
     this.tell('Sending the sticker\u2026');
     call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
@@ -2450,6 +2517,35 @@
     box.appendChild(det);
   }
 
+  /* patches.js, loaded on the first patch the radio has to draw. A room with a
+     patch lying in it has loaded it already, under the same mark. */
+  function withPatches(then) {
+    if (window.lovePatches) { then(); return; }
+    var s = document.querySelector('script[data-cb-patches]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/patches.js';
+      s.setAttribute('data-cb-patches', '');
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.lovePatches) then(); });
+  }
+
+  /* "A, B and C", for the patches sewn on, in the street's own order. */
+  function patchNames(ids) {
+    var n = window.lovePatches.list.filter(function (p) { return ids.indexOf(p.id) >= 0; }).map(function (p) { return p.name; });
+    return n.length < 2 ? n.join('') : n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1];
+  }
+
+  /* A battle jacket into a box: the drawing, whose label names what is sewn
+     on, and the same words under it for everybody. */
+  function jacketInto(box, ids, whose) {
+    box.textContent = '';
+    var art = window.lovePatches.jacket(ids, { cls: 'cb-jacket__art' });
+    if (art) box.appendChild(art);
+    box.appendChild(el('p', 'cb-jacket__on', ids.length ? 'Sewn on: ' + patchNames(ids) + '.' : 'Nothing is sewn on ' + whose + ' yet.'));
+  }
+
   /* avatar.js, loaded on the first avatar the radio has to draw. */
   function withAvatar(then) {
     if (window.loveAvatar) { then(); return; }
@@ -2473,6 +2569,20 @@
     if (about) { wrap.setAttribute('role', 'img'); wrap.setAttribute('aria-label', (whose ? whose + ': ' : '') + about); }
     else wrap.setAttribute('aria-hidden', 'true');
     return wrap;
+  }
+
+  /* A PATCH STICKER on a message: the patch, drawn by patches.js, and its name
+     under it for everybody. */
+  function patchSticker(st) {
+    var fig = el('figure', 'cb-sticker cb-sticker--patch');
+    var cap = el('figcaption', null, 'A patch');
+    fig.appendChild(cap);
+    withPatches(function () {
+      cap.textContent = 'A patch: ' + (window.lovePatches.name(st.patch) || 'one from the street');
+      var art = window.lovePatches.draw(st.patch, { cls: 'cb-sticker__art cb-sticker__patch' });
+      if (art) fig.insertBefore(art, fig.firstChild);
+    });
+    return fig;
   }
 
   /* An AVATAR STICKER on a message: the drawing and, under it for everybody,
@@ -2645,7 +2755,7 @@
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) { this.loadAccount(); this.loadAvatars(); this.loadPets(); this.loadJobs(); }
+    if (open) { this.loadAccount(); this.loadAvatars(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
   };
 
@@ -2921,6 +3031,75 @@
   };
 
 
+  /* ── Your battle jacket ────────────────────────────────────────────────── */
+  Radio.prototype.loadPatches = function () {
+    var me = this;
+    me.patchState.hidden = false;
+    me.patchState.textContent = 'Looking for your jacket\u2026';
+    withPatches(function () {
+      call('/cb/patches', null, me.state.pass).then(function (r) {
+        if (r.status === 200 && r.body && Array.isArray(r.body.patches)) { me.drawPatches(r.body); return; }
+        me.patchState.textContent = r.status === 401
+          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          : 'Your jacket could not be fetched just now.';
+      }, function () { me.patchState.textContent = 'Your jacket could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.drawPatches = function (b, focus) {
+    var me = this, box = this.patchBox, show = this.patchShow;
+    show.textContent = '';
+    this.patchState.hidden = true;
+    if (!window.lovePatches) { withPatches(function () { me.drawPatches(b, focus); }); return; }
+    var ids = b.patches || [];
+    box.hidden = false;
+    jacketInto(box, ids, 'it');
+    /* Where every patch is, so finding one is a walk and never a test of
+       eyesight: the guild's hints, for a jacket. Each says whether it is on
+       yours. */
+    var det = el('details', 'cb-jobs');
+    det.appendChild(el('summary', null, 'Where the patches are'));
+    var ul = el('ul', 'cb-jobs__list');
+    window.lovePatches.list.forEach(function (p) {
+      var li = el('li');
+      var a = el('a', null, p.name);
+      a.href = '/' + p.page + '#patch-' + p.id;
+      li.appendChild(a);
+      li.appendChild(el('span', 'cb-jobs__room', ' \u00b7 ' + p.room + '. ' + p.spot + (ids.indexOf(p.id) >= 0 ? ' On your jacket.' : '')));
+      ul.appendChild(li);
+    });
+    det.appendChild(ul);
+    box.appendChild(det);
+    var claimed = !!b.claimed;
+    if (!claimed) {
+      show.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can let people on the CB see your battle jacket in your profile.'));
+    } else {
+      var on = !!b.shown;
+      var t = el('button', 'cb-btn cb-pets-show', 'Show my battle jacket on the CB: ' + (on ? 'on' : 'off'));
+      t.type = 'button';
+      t.setAttribute('aria-pressed', String(on));
+      show.appendChild(t);
+      show.appendChild(el('p', 'cb-quiet', on
+        ? 'Anybody signed on to the CB who opens your profile, from your handle on the channel or your name on Who\u2019s online, sees your jacket and what is sewn on it.'
+        : 'Off: your profile says you have not made your jacket public. Switch it on to show it there.'));
+      var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+      show.appendChild(said);
+      if (focus) t.focus();
+      t.addEventListener('click', function () {
+        t.disabled = true;
+        call('/cb/patches', { body: { show: !on } }, me.state.pass).then(function (r) {
+          t.disabled = false;
+          if (r.status === 200 && typeof r.body.shown === 'boolean') { me.drawPatches({ patches: ids, claimed: true, shown: r.body.shown }, true); return; }
+          said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+        }, function () { t.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+      });
+    }
+    this.patchWhere.textContent = (claimed
+      ? 'Your patches are kept under your username, scrambled: which patches, and nothing about when. '
+      : 'Your patches are kept under the handle ' + this.state.handle + ', scrambled: which patches, and nothing about when. A handle is not an account: anybody who signs on with it has this jacket too, until you claim it above. ') +
+      'Nothing counts who else has one. Sticker, on the radio, sends one to the channel, and Forget me takes them all off.';
+  };
+
   /* ── Your jobs ─────────────────────────────────────────────────────────── */
   Radio.prototype.loadJobs = function () {
     var me = this;
@@ -3003,7 +3182,7 @@
     me.petsState.textContent = 'Forgetting\u2026';
     call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.drawPatches({ patches: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
       me.petsState.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
     }, function () {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;

@@ -1208,7 +1208,21 @@
     });
   }
 
-  function go() { dial(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); }
+  /* ── A patch for the battle jacket ───────────────────────────────────────
+     A room with a patch lying in it loads patches.js, which gives the patch
+     its button for anybody signed on to the CB; the patch itself is already in
+     the markup, so nothing is drawn here and nothing is sent until that button
+     is pressed. The radio loads the same file on the first patch it draws, and
+     the data-cb-patches mark keeps the two from loading it twice. */
+  function patches() {
+    if (!document.querySelector('.patch[data-patch]') || document.querySelector('script[data-cb-patches]')) return;
+    var s = document.createElement('script');
+    s.src = '/patches.js';
+    s.setAttribute('data-cb-patches', '');
+    document.head.appendChild(s);
+  }
+
+  function go() { dial(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); patches(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

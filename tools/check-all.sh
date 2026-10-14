@@ -41,7 +41,7 @@ STEPS=(
   make-jukebox make-liner-notes make-chappell make-readings make-polaroids
   make-toys make-chairy make-yells make-soundboard make-yurt-sound make-yurt-yarn
   make-pebbles make-latibulum make-jungle make-den make-hermitage make-club make-mopery
-  make-sweetgrass make-oracle make-doomscroll make-pebble-board make-guild
+  make-sweetgrass make-oracle make-doomscroll make-pebble-board make-guild make-patches
   make-arrivals make-garden make-zibaldone make-rabbit-hole make-checkpoint
   make-dead-tired make-laughingstock make-picture-house make-samefood
   make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-sandbox make-community make-dressup make-bodymind make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass

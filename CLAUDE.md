@@ -1327,6 +1327,24 @@ pets in a Profile: the board learns it as yes or no from its one `/cb/jobs` read
 shows it only when their pets are shown, because a profile's badges come only from what it already shows. **The
 shelters' own pages never mention a badge**; `make-rescue.py` refuses the word there.
 
+**PATCHES FOR THE BATTLE JACKET ARE EACH THEIR ROOM'S, AND ONE FUNCTION DRAWS THEM ALL.** Ryan's brief,
+2026-10-14: patches scattered about the street and on counters in shops, sewn on a battle jacket kept and shown
+in Profile, and sent as stickers. `data/patches.json` says what each is made of (paths and lines of text, in
+millimetres, in its own room's inks by name and lettered in its room's face); `tools/make-patches.py` writes that
+into `patches.js` and then **runs `patches.js` under Node to write each room's patch**, so a patch in its room,
+on the jacket and on a sticker is one string from one function. Never hand-edit between `patch:<id>` markers or
+`patches:data` / `patch:ids`. **A new patch is an entry in the data, a pair of `patch:<id>` markers in its room**
+(outside that room's own generated markers), and a run. The tool holds lettering to 4.5 against its patch,
+refuses a colour or a face `love.css` does not declare, words that run off the patch, two patches alike, and a
+price, count or rarity: **a patch in a shop says it is free to take**, because nothing here is for sale but the
+honesty box, and a collection that tells you how much of it you are missing is a tally. **`love.js` loads
+`patches.js` on a page with a patch**, so no room's own script list changes. **The jacket is the fourth thing kept
+under a person** (`patches/<pet key>`, which patches, sorted, nothing about when; nothing lists a patch's takers),
+taken only by a patch's own button, signed on; Forget me and deleting the username take every patch off, and
+**Show my battle jacket on the CB** is claimed only. The jacket sews them on in the street's order, and if they
+will not fit, every patch shrinks by the same amount. **The friendly edits are a count ("4 of 7 patches"), a
+limited patch, and a patch for sale**; each is refused, and the first is the Mission's progress bar.
+
 **THE JOBS ARE THE THIRD THING KEPT UNDER A PERSON, AND ONLY ONCE SOMEBODY SWITCHES IT ON.** Keep my jobs in my
 Profile, on the board, ships hidden, shows only on a page with a pass in `love-cb`, and starts off; `quest.js`
 reads `love-cb` and never writes it, and sends to `/cb/jobs` and nowhere else, which `make-guild.py` reads the

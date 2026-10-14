@@ -444,6 +444,14 @@ ol.cb-md-list { list-style: decimal; }
 .cb-jobs__list { margin: 4px 0 0; padding-left: 18px; line-height: 1.45; }
 .cb-jobs__list li { margin: 0 0 3px; overflow-wrap: anywhere; }
 .cb-jobs__room { font-size: 13px; }
+/* THE BATTLE JACKET, in your Profile and in somebody's profile, drawn by
+   patches.js in its own denim with every patch in its own room's inks, so
+   nothing of the radio's is set on it; its words are the radio's own. */
+.cb-jacket { margin: 0 0 8px; }
+.cb-jacket__art { display: block; width: min(100%, 260px); height: auto; }
+.cb-jacket__on { margin: 6px 0 8px; font-size: 14px; line-height: 1.45; }
+/* A patch as a sticker is its own size, up to a sticker's width. */
+.cb-sticker__patch { width: auto; max-width: 140px; height: auto; max-height: 120px; }
 .cb-forget-sure { margin: 8px 0 0; }
 .cb-forget-sure p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
 .cb-forget-sure .cb-btn { margin: 0 8px 6px 0; }
