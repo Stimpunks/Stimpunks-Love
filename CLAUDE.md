@@ -4581,6 +4581,17 @@ is a hole. **A voice identifies a person as surely as a face does** — a name a
 are required, and the site says whose voice it is out loud on the press rather than only filing
 it in the liner notes.
 
+`make-yurt-yarn.py` draws the Faery Yurt's phonograph and builds the rack under it from
+`data/yurt-yarn.json`, Helen's ask on 2026-10-13. **A song that dies on somebody else's playlist is
+replaced on the rack, never on the playlist**: AURORA's copy on Helen's answered UNPLAYABLE, so the
+card plays the visualiser on AURORA's own channel and the entry carries `replaced` (the old id, the
+day, what was measured, and the sentence the card says out loud), because the whole yarn still
+reaches the dead copy until Helen swaps it on YouTube. When she has, read the playlist again and take
+`replaced` off. **The phonograph is drawn only in colours her room already had**, and its record is
+the one thing in it that turns, at MAX and nowhere else: the tool refuses a §14 rule turning it under
+any other selector, because the dial's line in her room says MAX turns the record and nothing else
+moves. The shine on the record does not turn; light does not go round with a record.
+
 `make-chairy.py` builds what Chairy says from `data/chairy.json`, where **every saying carries the page
 it came from**, read out of the Knowledge System mirror's own frontmatter rather than typed. Two of the
 28 are **not ours and say so when Chairy speaks them**: "Nothing About Us Without Us" is a motto of the

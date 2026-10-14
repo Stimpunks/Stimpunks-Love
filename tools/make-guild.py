@@ -900,7 +900,7 @@ creds = [
     'Where a question asks for a name it is a name one of our own pages already credits.</p>',
     '    <p><b>The candle stub on the Faery Yurt&rsquo;s windowsill is ours, not Helen '
     'Edgar&rsquo;s.</b> That room is her design and this repository does not redecorate it; '
-    'the only other design change we have made to it is the one colour noted above. On '
+    'the only other design change we have made to it unasked is the one colour noted above. On '
     '2026-09-23 Helen gave a standing yes to maintenance that changes nothing you can see, '
     'and the first of it is the width and height on her two photographs, so the page no '
     'longer jumps while they load; anything that changes how her room looks is still hers '

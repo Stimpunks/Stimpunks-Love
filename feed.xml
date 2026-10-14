@@ -23,31 +23,38 @@
       <description>Helen Edgar rewrote the welcome in her yurt, bringing in her own words from More Realms: the way in by the fairy lights from the treeline, the door flap that is always open, and a realm that is not a place of conclusions or answers but of threads, glimmers and soft, weird spaces. The yurt now says Stimpunks.World where it said Stimpunks Love.</description>
     </item>
     <item>
+      <title>A phonograph in the Faery Yurt, and every song on Helen’s yarn on a rack</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-13-yurt-phonograph</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-yurt-phonograph</guid>
+      <pubDate>Tue, 13 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Faery Yurt has a phonograph, at Helen Edgar’s ask: a brass horn with pressed petals, a carved case, turned columns and a crank, drawn after a photograph she sent and only in colours her room already had. It takes the place of the little record beside her soundtrack, and like that record it turns at MAX GLITTER and nowhere else. Every song on her yarn is on a rack under it, also her ask. Each one says how long it runs before you press it, and plays where it hangs or goes up on the phonograph in place of the whole yarn; taking it off puts the yarn back without starting it. AURORA’s Echo of My Shadow plays again, on the rack. The copy on the playlist stopped playing, YouTube saying only that the video is unavailable, so its card plays the visualiser on AURORA’s own channel, the same song at the same length, and says so. The playlist is Helen’s, and the whole yarn reaches the old copy until she swaps it.</description>
+    </item>
+    <item>
       <title>The Sandbox, its suggestion box, and building the street with us</title>
       <link>https://stimpunks.world/changelog.html#2026-10-13-the-sandbox</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-the-sandbox</guid>
-      <pubDate>Tue, 13 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 13 Oct 2026 11:59:00 GMT</pubDate>
       <description>The Sandbox is open, a shopfront on the street: a room thought up by somebody in our community and built with Claude, an AI made by Anthropic, and brought onto the street from the page they made. A laptop left open in the sand at dusk, its screen the only light in the playground: come in curious, try things, break things and tell us what you notice, with no deadlines and nothing to lose. There is a sandcastle you can build and burn down, and the ball bounces. Its credit is in the liner notes, with the other rooms people built, and Rubik Dirt, by NaN and Luke Prowse, is a new face on the street, for the sign on its box. Its suggestion box works. Anybody signed on to the CB can drop in a suggestion, a feature request or a bug report, about the room or anywhere on the street, with their handle on it. Anybody can read what is in the box, and our moderators answer each one, done or not doing, always with a reply and their own username on it. It stays until whoever dropped it in or a moderator takes it down, and nothing in it is counted, ranked or voted on. Privacy says what the box keeps, and the community service board has a slot for it. And you can build the street with us. Under the box are the steps: make your own copy of the code, check your computer with tools/setup.sh, hook up Claude, see the street on your own computer, make a change, check everything, and send it back as a pull request. The same steps are CONTRIBUTING.md in the repository, written from the same place so the two cannot disagree. We made two small changes to the room’s page, so the street has somewhere to put its box and its steps: a space round its own link to us, which is still there with scripts off, and a space after its box. Everything else in the room is its maker’s, as they made it.</description>
     </item>
     <item>
       <title>A call that follows you: Pop out</title>
       <link>https://stimpunks.world/changelog.html#2026-10-13-pop-out</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-pop-out</guid>
-      <pubDate>Tue, 13 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 13 Oct 2026 11:58:00 GMT</pubDate>
       <description>Pop out, on a call’s window, moves the call into a browser window of its own, which stays open while you go from room to room in the window you came from. It works for the World call and for any room’s call, signed on to the CB. You join again in the new window, because a call cannot be carried from one window to another without starting over. The radio knows where the call is on every page: the call’s own button stays pressed, Show the call window brings the window to the front, and pressing the call’s button again hangs up and closes it. There is still one call at a time. The CB guide has it, and Privacy says what the window sends and keeps, which is nothing new.</description>
     </item>
     <item>
       <title>The World call</title>
       <link>https://stimpunks.world/changelog.html#2026-10-13-world-call</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-world-call</guid>
-      <pubDate>Tue, 13 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Tue, 13 Oct 2026 11:57:00 GMT</pubDate>
       <description>A call for the whole street: Join World call, under Who’s around on the radio, opens one call that is no room’s, from any page, for anybody signed on to the CB. It opens in the same window as a room’s call, and you are in one call at a time. The CB guide has it. Like every call, it hangs up when you leave the page, and going to another room is leaving the page, because every room is a page of its own. The radio says so when it opens. Who’s online names it in Calls going now while somebody is in it, and nobody is shown who is in it before they join. Privacy says so.</description>
     </item>
     <item>
       <title>The CB in parts, where you are, and calls on Who’s online</title>
       <link>https://stimpunks.world/changelog.html#2026-10-13-cb-parts</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-13-cb-parts</guid>
-      <pubDate>Tue, 13 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Tue, 13 Oct 2026 11:56:00 GMT</pubDate>
       <description>The radio is in parts now, each under a heading: Where you are, Who’s around, Channel, Watching together and Your radio, with room and a groove in the case between them. This came out of people trying the CB: it had grown one button at a time into one long column, and it was hard to tell where one part ended. The headings are real ones, so a screen reader can move between them. Small is unchanged. The CB guide has the parts in order. The radio says which room you are in, at the top, in its largest words, because some people could not tell where they were. Tuned to World, you hear the whole street, and the radio now says where you are standing as well as what you are hearing. A name on Who’s online opens that person’s profile, the same as pressing their handle on the channel: their handle, its mark, and their pets if they show them. Who’s online lists the calls going now: every room whose call has somebody in it, with a link there. It names the room and nothing else, not who or how many. Who is in a call is still shown only in its room, to people seen there. Privacy says so, and a room the base keeps or one that keeps to itself is not named. Join this room’s call is under Where you are now, and Add my spot, Host this film and Screen a video are under Watching together, which is only there while one of them is.</description>
     </item>
     <item>

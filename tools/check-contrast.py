@@ -1205,6 +1205,16 @@ PAIRS = [
     (TALLOW3, CANVAS_2, False, "yurt: the sound marker on that button, hover"),
     (TALLOW3, CANVAS,  False, "yurt: the sound marker at Gentle, where it is always shown"),
     (EMBER2,  CANVAS_2, False, "yurt: the sound marker while it is playing"),
+    # The yarn's rack, 2026-10-13: soft cards on the canvas, and buttons that
+    # are the deck's button in miniature, on the tent ground. No new colour.
+    (TALLOW,  CANVAS,  False, "yurt: a rack card's song title and artist"),
+    (TALLOW2, CANVAS,  False, "yurt: a rack card's line about the song, and its note"),
+    (TALLOW3, CANVAS,  False, "yurt: a rack card's runtime and channel"),
+    (TALLOW,  TENT,    False, "yurt: a rack card's two buttons, and the way back"),
+    (CANDLE,  TENT,    False, "yurt: those buttons on hover, and a card's PRESS PLAY"),
+    (TALLOW,  HEARTH,  False, "yurt: the rack's summary"),
+    (TALLOW2, HEARTH,  False, "yurt: the line under the phonograph naming what is on it"),
+    (TALLOW3, HEARTH,  False, "yurt: the day the rack was read"),
 
     # The twelve book spines are six 90deg gradients, so each one is TWO grounds
     # and the lighter end is the one that decides. Helen's fourth spine ran to

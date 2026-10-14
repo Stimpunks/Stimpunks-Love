@@ -265,6 +265,7 @@ python3 tools/make-chairy.py       # what Chairy says, from data/chairy.json
 python3 tools/make-yells.py        # the yell button's recordings, from data/yells.json
 python3 tools/make-soundboard.py   # the Playhouse's sound board, from data/soundboard.json
 python3 tools/make-yurt-sound.py   # the yurt's sounds: their tiles, and their credits
+python3 tools/make-yurt-yarn.py    # the yurt's phonograph, its yarn, the rack of songs, and their credits
 python3 tools/make-latibulum.py    # the burrow's wireless and television, and their credits
 python3 tools/make-jungle.py       # the Jungle Room's viewing galleries, and their credits
 python3 tools/make-den.py          # The Den's listening bench, and its credits
