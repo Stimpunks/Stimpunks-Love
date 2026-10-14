@@ -372,6 +372,18 @@ DRAW = {
                   f'stroke-width="1.6" stroke-linecap="round"/>'
                   for i, (x, y) in enumerate(((81, 54), (77, 68), (70, 81), (62, 92))))
     ),
+    # Plath -- a snowdrop pressed flat, its white head still bowed on the stalk.
+    "snowdrop": (
+        paste(40, 98, 16, 7, 6) +
+        f'<path d="M50 104 C52 76 58 46 70 30 C76 24 82 26 84 34" fill="none" stroke="{OAK}" '
+        f'stroke-width="2" stroke-linecap="round"/>'
+        f'<path d="M50 104 C44 82 44 62 50 44" fill="none" stroke="{PENCIL}" stroke-width="1.6" opacity=".7"/>'
+        f'<path d="M50 104 C58 86 62 72 62 58" fill="none" stroke="{PENCIL}" stroke-width="1.6" opacity=".7"/>'
+        + "".join(f'<path d="M84 36 C{84 + dx} 42 {84 + dx * 1.4} 54 {84 + dx * 0.6} 62 '
+                  f'C{84 + dx * 0.2} 58 84 46 84 36 Z" fill="{TAPE}" stroke="{PENCIL}" stroke-width="1.3"/>'
+                  for dx in (-9, 9, 0)) +
+        f'<path d="M81 58 L84 64 L87 58" fill="none" stroke="{OAK}" stroke-width="1.2" opacity=".7"/>'
+    ),
 }
 
 # ── The slip's fields ────────────────────────────────────────────────────────
@@ -620,7 +632,8 @@ def cite_html(q):
 
 
 def quote_html(s):
-    """Verse keeps its lines. A newline in the data is a line break in the poem, and
+    """Verse keeps its lines and prose keeps its paragraphs. A newline in the data is a
+    line break in the poem or a paragraph break in the prose, and
     each line is its own block so a line too long for the leaf turns over INDENTED,
     the way a poem is printed. A plain <br> wrapped the turnover flush left, where it
     read as a line Whitman never wrote."""

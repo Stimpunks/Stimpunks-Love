@@ -243,19 +243,30 @@
    "ink": "iron",
    "draw": "fiddlehead",
    "draw_says": "A fern frond pressed while it was still uncurling, the tip a tight spiral and the rest of it already open."
+  },
+  {
+   "slug": "plath-brag",
+   "quote": "I took a deep breath and listened to the old brag of my heart.\nI am, I am, I am.",
+   "who": "Sylvia Plath",
+   "who_died": 1963,
+   "work": "The Bell Jar, chapter 20",
+   "where": "Faber and Faber's 1966 edition, from its third printing of 1971, as reissued in the Public Domain Core Collection",
+   "url": "https://openlibrary.org/books/OL6012563M",
+   "basis": "credited",
+   "read_by": "Ryan Boren",
+   "at": "page 214 of the reissue",
+   "brought": "Betsy",
+   "for": "for when you have come through something and need to hear that you are still here",
+   "checked": "Read in the book by Ryan Boren on 2026-10-14, on page 214 of the Public Domain Core Collection's reissue, which says it was made from Faber and Faber's 1971 third printing of the 1966 edition, by way of Faded Page; the page number is the reissue's, not Faber's, and the chapter was read off the reissue's own page for chapter 20. It was sent in with a colon after heart. The printing ends the sentence there and sets I am, I am, I am as a paragraph of its own, so the leaf carries both, on two lines. The reissue is public domain in Canada, where it was made, and its own guide says it may not be elsewhere; Plath died in 1963 and is in copyright under this room's seventy years, so the line is quoted short and cited, and the link is Open Library's record of the Faber edition rather than the reissue.",
+   "hand": "It comes at a funeral, and the three words after it get a paragraph to themselves, which is how loud they are.",
+   "face": "lora",
+   "ink": "violet",
+   "draw": "snowdrop",
+   "draw_says": "A snowdrop pressed flat, its white head still bowed on the stalk."
   }
  ],
 
  "waiting": [
-  {
-   "slug": "plath-brag",
-   "quote": "I took a deep breath and listened to the old brag of my heart: I am, I am, I am.",
-   "who": "Sylvia Plath",
-   "work": "The Bell Jar",
-   "brought": "Betsy",
-   "sent": "2026-10-14",
-   "needs": "Plath died in 1963, so this is in copyright under the room's seventy years. It was sent with a colon after heart and is often quoted with a full stop there; the punctuation is whatever the page says."
-  },
   {
    "slug": "davies-wounded",
    "quote": "We are all of us the walking wounded.",
