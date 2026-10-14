@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-13T11:21Z",
+ "set": "2026-10-14T11:22Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -251,6 +251,16 @@
    "channel": "AI LABS"
   },
   {
+   "id": "au2TI8sdq8E",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Google Just Fixed AI Design By Releasing This",
+   "published": "2026-10-13T15:00:32Z",
+   "state": "screen",
+   "runs": 827,
+   "channel": "AI LABS"
+  },
+  {
    "id": "S2VJU5DQqlU",
    "source": "matt-wolfe",
    "form": "long",
@@ -308,6 +318,16 @@
    "published": "2026-10-09T15:00:01Z",
    "state": "screen",
    "runs": 2127,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "eBszYxzE2dk",
+   "source": "matt-wolfe",
+   "form": "long",
+   "title": "Google Just Caught Up (Gemini-4 Argon)",
+   "published": "2026-10-13T16:47:07Z",
+   "state": "screen",
+   "runs": 1240,
    "channel": "Matt Wolfe"
   },
   {
@@ -398,6 +418,16 @@
    "published": "2026-10-08T15:13:52Z",
    "state": "screen",
    "runs": 57,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "b0jA6fkGsk8",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "How To Stop Being An \"AI Meat Proxy\"",
+   "published": "2026-10-13T15:10:54Z",
+   "state": "screen",
+   "runs": 61,
    "channel": "Matt Wolfe"
   },
   {
@@ -571,6 +601,16 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
+   "id": "pTh4IJ-Mi3Y",
+   "source": "nate-b-jones",
+   "form": "long",
+   "title": "OpenAI's AI Wrote 700 Math Papers. Engineers Still Won't Trust AI With Their Code.",
+   "published": "2026-10-13T14:00:20Z",
+   "state": "screen",
+   "runs": 1235,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
    "id": "wXAif5oyzio",
    "source": "nate-b-jones",
    "form": "short",
@@ -728,6 +768,16 @@
    "published": "2026-10-10T03:00:24Z",
    "state": "screen",
    "runs": 16,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
+  },
+  {
+   "id": "7RjEosTjhE0",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "What do AI math and anesthesia have in common...? #AI #OpenAI #math #TerenceTao #science",
+   "published": "2026-10-14T03:00:18Z",
+   "state": "screen",
+   "runs": 106,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -1211,6 +1261,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "3MMbWDF4xYI",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Gemini 4 Argon Is Here (Fully Tested)",
+   "published": "2026-10-13T16:00:18Z",
+   "state": "screen",
+   "runs": 645,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "kCUZqM8-Z-4",
    "source": "austin-marchese",
    "form": "long",
@@ -1641,6 +1701,16 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "rL5tw6h78zo",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tested the Viral Reverse Engineer Anything Skill. What You Need to Know.",
+   "published": "2026-10-13T17:34:41Z",
+   "state": "screen",
+   "runs": 898,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "TIYCa6hOx1Q",
    "source": "nate-herk",
    "form": "short",
@@ -1748,6 +1818,26 @@
    "published": "2026-10-13T02:43:49Z",
    "state": "screen",
    "runs": 91,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "hxJDcw540IE",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "The Viral \"Reverse Engineer Anything\" Repo Explained Clearly",
+   "published": "2026-10-13T17:39:04Z",
+   "state": "screen",
+   "runs": 79,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "CklLenf9fNc",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Why the Reverse Engineer Anything Repo Gained 100k Stars in a Day",
+   "published": "2026-10-14T01:29:00Z",
+   "state": "screen",
+   "runs": 66,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1908,6 +1998,16 @@
    "published": "2026-10-08T23:43:24Z",
    "state": "screen",
    "runs": 1095,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "o8LjTSvza0E",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "This Viral Open Source Repo Lets Claude Clone ANYTHING",
+   "published": "2026-10-14T06:04:43Z",
+   "state": "screen",
+   "runs": 550,
    "channel": "Chase AI"
   },
   {
@@ -2106,13 +2206,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2120,13 +2220,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2134,13 +2234,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2148,13 +2248,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2162,13 +2262,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2176,13 +2276,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2190,13 +2290,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2204,13 +2304,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2218,13 +2318,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2232,13 +2332,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2246,13 +2346,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   },
@@ -2260,13 +2360,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-13T11:21:19Z"
+     "2026-10-14T11:22:06Z"
     ]
    ]
   }
