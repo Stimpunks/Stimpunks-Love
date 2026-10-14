@@ -1762,8 +1762,14 @@ The Doomscroll dropped a poem over exactly this. That Dickinson line is in the *
 1891, edited by Todd and Higginson, not the first, and the only thing that found that out was
 reading the title page above the poem instead of remembering. **The Thoreau is the other proof:**
 the version everybody quotes has somebody marching to a beat and he wrote neither word. Public
-domain lines were grepped out of the transcription each card names; contemporary ones were read off
-our own published pages, which is the only footing they stand on.
+domain lines were grepped out of the transcription each card names. **A line still in copyright comes
+in one of two ways, and the tool refuses it without one**: read off one of our own published pages
+(`read_on`), or read in the book itself by a person the card names, at a page it gives (`read_by`,
+`at`). The second is Ryan's call of 2026-10-14, reversing "our own pages only" when Betsy sent in
+lines still in copyright and none was on a page of ours. **Lines sent in and not yet read wait in
+`waiting`, which is never printed**, each with what reading it has to settle; Claude cannot read an
+in-copyright book from here, so those wait for a person. A line sent in names who sent it
+(`brought`), with their say-so.
 
 **AND A TRANSLATION HAS TO CLEAR THE PUBLIC DOMAIN TOO, which this repository had not met before.**
 `make-doomscroll.py`'s test is the author dead more than seventy years, everywhere rather than in one

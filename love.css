@@ -10483,6 +10483,9 @@ html[data-intensity="gentle"] .zb-leaf { transform: none; }
 .zb-leaf__quote {
   margin: 0; font-size: 22px; line-height: 1.42; color: var(--zb-nib, var(--zb-oak));
 }
+/* A line of verse that will not fit the leaf turns over indented, as a poem is
+   printed, so the turnover is never mistaken for a line of the poem. */
+.zb-leaf__line { display: block; padding-left: 1.2em; text-indent: -1.2em; }
 /* The inks. An ink is a colour somebody sat down with, so the leaf sets one
    custom property and everything written on it takes it from there rather
    than each rule naming a colour -- which is how a component grows a second

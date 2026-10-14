@@ -52,6 +52,19 @@ WHAT IT REFUSES, and why each one is here:
     copyrightable work of its own, so a Roman emperor in a 1998 English is a
     1998 book. It is why the Meditations here is Casaubon's 1634.
 
+  · A LINE STILL IN COPYRIGHT THAT NOBODY READ. It was read off one of our own
+    published pages (`read_on`), or a person read it in the book itself, in the
+    printing `where` names, and gave the page (`read_by`, `at`), and the card
+    says who. The second way in is Ryan's call of 2026-10-14, when Betsy sent
+    in lines still in copyright and none of them was on a page of ours; before
+    that a contemporary line could only ever be one we had already published.
+    A quotation site is not a book, and nobody reads a line off one and calls
+    it read.
+
+  · A LINE ON THE WAITING LIST THAT IS ALSO A LEAF. `waiting` holds what was
+    sent in and not yet read in the book, and is never printed. When a line is
+    read it moves onto the page and comes off the list, in the same edit.
+
   · A QUOTATION SET IN THE HAND. The room varies the face per entry, which is
     what was asked for, but the hand writes margins and labels and never a
     quotation. A passage in a handwriting face is an access failure wearing
@@ -305,6 +318,35 @@ DRAW = {
                   f'fill="none" stroke="{IRON}" stroke-width="2.4" opacity="{0.3 - i * 0.07:.2f}" '
                   f'transform="rotate(-5 64 64)"/>' for i in range(3))
     ),
+    # Alcott -- a paper boat folded out of a scrap of print and pressed flat, so
+    # the sail lies down on the hull and the folds are only creases now.
+    "boat": (
+        paste(84, 24, 16, 7, 18) +
+        f'<path d="M40 74 L60 28 L80 74 Z" fill="{TAPE}" opacity=".55"/>'
+        f'<path d="M40 74 L60 28 L80 74 Z" fill="none" stroke="{PENCIL}" stroke-width="1.6"/>'
+        + "".join(f'<path d="M{60 - (y - 28) * 0.43 + 3:.1f} {y} L{60 + (y - 28) * 0.43 - 3:.1f} {y}" '
+                  f'fill="none" stroke="{IRON}" stroke-width="1.6" opacity=".3"/>' for y in (50, 58, 66)) +
+        f'<path d="M20 74 L100 74 L86 94 L34 94 Z" fill="{TAPE}" opacity=".75"/>'
+        f'<path d="M20 74 L100 74 L86 94 L34 94 Z" fill="none" stroke="{RUBRIC}" stroke-width="1.8"/>'
+        + "".join(f'<path d="M{30 + i * 3} {80 + i * 7} L{90 - i * 3} {80 + i * 7}" fill="none" '
+                  f'stroke="{IRON}" stroke-width="1.6" opacity=".3"/>' for i in range(2)) +
+        f'<path d="M60 28 L60 94" fill="none" stroke="{PENCIL}" stroke-width="1" '
+        f'opacity=".55" stroke-dasharray="3 3"/>'
+    ),
+    # Whitman again -- a sprig of lilac pressed flat, one flower fallen loose.
+    # Not grass: the other Whitman leaf already has the grass.
+    "lilac": (
+        f'<path d="M60 24 C60 50 62 80 56 104" fill="none" stroke="{OAK}" stroke-width="2" stroke-linecap="round"/>'
+        f'<path d="M59 88 C70 78 88 82 92 92 C80 98 66 98 59 88 Z" fill="{PENCIL}" opacity=".3"/>'
+        f'<path d="M59 88 C70 78 88 82 92 92 C80 98 66 98 59 88 Z" fill="none" stroke="{OAK}" stroke-width="1.4"/>'
+        + "".join(
+            "".join(f'<circle cx="{x + dx}" cy="{y + dy}" r="2.6" fill="{ANILINE}" opacity="{op}"/>'
+                    for dx, dy in ((2.4, 0), (-2.4, 0), (0, 2.4), (0, -2.4))) +
+            f'<circle cx="{x}" cy="{y}" r="1" fill="{PENCIL}"/>'
+            for x, y, op in ((60, 24, .55), (55, 31, .6), (65, 31, .6), (50, 39, .6), (60, 38, .65),
+                             (70, 40, .6), (47, 48, .55), (57, 47, .65), (67, 48, .6), (74, 52, .5),
+                             (52, 57, .55), (62, 57, .6), (70, 61, .5), (58, 66, .5), (90, 106, .4)))
+    ),
 }
 
 # ── The slip's fields ────────────────────────────────────────────────────────
@@ -421,6 +463,27 @@ for q in entries:
     if basis != "ours" and not q.get("url"):
         die(f"{at} is not ours and has no url, so a reader cannot go and check it.")
 
+    # Still in copyright: read off a page of ours, or read in the book by somebody
+    # the card names, at a page it gives. Nothing else counts as read.
+    if basis == "credited":
+        on, by, page = q.get("read_on", ""), str(q.get("read_by", "")).strip(), str(q.get("at", "")).strip()
+        if on:
+            if not any(h in on for h in OURS):
+                die(f"{at} says it was read on {on!r}, which is not one of our sites.\n"
+                    "read_on is for a line one of our own published pages already carries. A line\n"
+                    "read anywhere else was read in the book or it was not read: read_by and at.")
+        elif not (by and re.search(r"\d", page)):
+            die(f"{at} is still in copyright and nothing says who read it, or where.\n"
+                "It comes in off one of our own pages (read_on), or a person reads it in the book\n"
+                "itself, in the printing `where` names, and gives the page (read_by, at). A line\n"
+                "copied off a quotation site is a line nobody read.")
+    elif q.get("read_on") or q.get("read_by"):
+        die(f"{at} is {basis} and carries read_on or read_by, which only mean anything for a line\n"
+            "still in copyright. Take them off or change the basis.")
+
+    if "brought" in q and not str(q["brought"]).strip():
+        die(f"{at} has an empty `brought`. Name who sent it, with their say-so, or leave the key out.")
+
     # The legibility floor.
     if q["face"] == HAND:
         die(f"{at} sets its quotation in the hand.\n"
@@ -477,6 +540,26 @@ for key, blob in data.items():
     if key.startswith("_"):
         ranking_leak(blob, f"data/zibaldone.json {key}")
 
+# ── The waiting list ─────────────────────────────────────────────────────────
+# Lines sent in that nobody has read in the book yet. Never printed: an unchecked
+# quotation on the page among checked ones is the thing this room exists to stop.
+# Each says what reading it has to settle, so the next person to pick one up does
+# not start from nothing.
+waiting = data.get("waiting", [])
+for w in waiting:
+    slug = w.get("slug") or die("a waiting line has no slug.")
+    at = f"waiting line {slug!r}"
+    for field in ("quote", "who", "work", "brought", "sent", "needs"):
+        if not str(w.get(field, "")).strip():
+            die(f"{at} has no {field!r}. A waiting line keeps what was sent, who sent it, when,\n"
+                "and what reading it in the book has to settle.")
+    if not re.fullmatch(r"20\d\d-\d\d-\d\d", w["sent"]):
+        die(f"{at} was sent on {w['sent']!r}, which is not a date.")
+    if slug in seen_slug:
+        die(f"{at} is on the page as a leaf as well. When a line is read in the book it moves onto\n"
+            "the page and comes off the waiting list in the same edit.")
+    seen_slug.add(slug)
+
 
 # ── Write ────────────────────────────────────────────────────────────────────
 def swap(page, marker, block, indent=""):
@@ -499,10 +582,27 @@ def cite_html(q):
         bits.append(f'translated by {e(q["translator"])}')
     bits.append(f'<i>{e(q["work"])}</i>')
     line = ", ".join(bits) + "."
-    where = f' Read in {e(q["where"])}.'
+    printing = e(q["where"])
     if q.get("url"):
-        where = (f' Read in <a href="{e(q["url"])}">{e(q["where"])}</a>.')
+        printing = f'<a href="{e(q["url"])}">{printing}</a>'
+    if q.get("read_by"):
+        where = f' Read by {e(q["read_by"])} in {printing}, {e(q["at"])}.'
+    else:
+        where = f' Read in {printing}.'
+    if q.get("brought"):
+        where += f' Sent in by {e(q["brought"])}.'
     return line + where
+
+
+def quote_html(s):
+    """Verse keeps its lines. A newline in the data is a line break in the poem, and
+    each line is its own block so a line too long for the leaf turns over INDENTED,
+    the way a poem is printed. A plain <br> wrapped the turnover flush left, where it
+    read as a line Whitman never wrote."""
+    lines = s.split("\n")
+    if len(lines) == 1:
+        return e(s)
+    return "\n".join(f'<span class="zb-leaf__line">{e(line)}</span>' for line in lines)
 
 
 def leaf_html(q, i):
@@ -514,7 +614,7 @@ def leaf_html(q, i):
         f'      <div class="zb-leaf__pressed" aria-hidden="true">',
         f'        <svg viewBox="0 0 120 120" fill="none">{DRAW[q["draw"]]}</svg>',
         f'      </div>',
-        f'      <blockquote class="zb-leaf__quote">{e(q["quote"])}</blockquote>',
+        f'      <blockquote class="zb-leaf__quote">{quote_html(q["quote"])}</blockquote>',
         f'      <p class="zb-leaf__cite">{cite_html(q)}</p>',
         f'      <p class="zb-leaf__for"><span class="zb-leaf__tag">Copied out</span> {e(q["for"])}</p>',
         f'      <p class="zb-leaf__hand">{e(q["hand"])}</p>',
@@ -564,6 +664,26 @@ swap(PAGE, "zibaldone:limit",
      f'&rsquo;s book one reasonable-looking entry at a time. Where the line is not enough, the '
      f'book is linked.</p>', "    ")
 
+def and_list(items):
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+
+
+# THE NAMES ARE READ OFF THE ENTRIES. This list was typed by hand once, and a
+# leaf added after it would have been a writer the credits never mentioned.
+writers = []
+for q in entries:
+    if q["basis"] == "ours":
+        continue
+    name = f'<b>{e(q["who"])}</b>'
+    if q.get("translator"):
+        name += f' by way of <b>{e(q["translator"])}</b>&rsquo;s English'
+    if name not in writers:
+        writers.append(name)
+senders = []
+for q in entries:
+    if q.get("brought") and f'<b>{e(q["brought"])}</b>' not in senders:
+        senders.append(f'<b>{e(q["brought"])}</b>')
+
 creds = [
     # THE HEADER AND THE INTRO ABOVE THESE MARKERS ARE HAND-WRITTEN AND SAY WHERE
     # THE ROOM CAME FROM, so this must not say it again. The first draft did --
@@ -581,11 +701,12 @@ creds = [
     'The public domain lines were read out of the transcriptions named on each card rather than '
     'recalled &mdash; which is how the Dickinson turned out to be in the <i>second</i> series and '
     'not the first, and how the Thoreau kept the sentence he actually wrote instead of the one '
-    'everybody quotes. The contemporary lines were read off our own published pages. <b>Karen '
-    'Barad</b>, <b>Helen Edgar</b>, <b>Montaigne</b>, <b>Whitman</b>, <b>Dickinson</b>, '
-    '<b>Thoreau</b> and <b>Marcus Aurelius</b> by way of <b>Meric Casaubon</b>&rsquo;s 1634 '
-    'English &mdash; because a translation is a copyrightable work of its own and has to be out '
-    'of copyright too.</p>',
+    'everybody quotes. A line still in copyright was read off one of our own published pages, or '
+    'read in the book itself by the person its card names, who gives the page. '
+    f'{and_list(writers)}. A translation is a copyrightable work of its own, so it has to be out of '
+    'copyright too, and its translator is named on the card.'
+    + (f' Lines people sent in say who sent them: {and_list(senders)}.' if senders else '')
+    + '</p>',
     '    <p><b>The room quotes lightly and refuses songs.</b> The word limit is a number in the '
     'generator and the page prints it; a quote bank is the shape of thing that becomes a book one '
     'entry at a time. No song lyrics at all, refused by the tool rather than by care, because '

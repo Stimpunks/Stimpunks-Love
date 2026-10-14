@@ -11,7 +11,13 @@
 
  "_seneca": "OUR OWN GLOSSARY ENTRY FOR THE COMMONPLACE BOOK QUOTES SENECA ON LEARNING SAYINGS SO WELL THAT WORDS BECOME WORKS, AND THAT LINE IS NOT IN THIS ROOM. The wording there is a modern translation the entry does not name, and the public domain translation of the Letters -- Richard Mott Gummere's, for the Loeb -- does not read that way, so the line as we have published it is somebody's copyright and we cannot say whose. Recorded here rather than quietly fixed or quietly used, because a gap somebody has already checked is worth more than a gap somebody will check again. The glossary entry is linked from the room regardless; it is where this room came from.",
 
- "_checked": "EVERY ENTRY CARRIES HOW IT WAS VERIFIED AND WHEN, AND THE ROOM PRINTS IT. make-sweetgrass.py's rule: do not let an unchecked quotation sit among checked ones looking identical. The five public domain lines were grepped out of the transcribed text named in `where` on 2026-09-22 -- not remembered, not recalled from a quotation site, which is where misquotations come from and is how the Thoreau below is usually got wrong. The four contemporary lines were read off our own published pages, which is the only reason they are quotable here at all.",
+ "_checked": "EVERY ENTRY CARRIES HOW IT WAS VERIFIED AND WHEN, AND THE ROOM PRINTS IT. make-sweetgrass.py's rule: do not let an unchecked quotation sit among checked ones looking identical. The public domain lines were grepped out of the transcribed text named in `where`, on the date each one gives -- not remembered, not recalled from a quotation site, which is where misquotations come from and is how the Thoreau below is usually got wrong.",
+
+ "_read": "A LINE STILL IN COPYRIGHT IS IN HERE FOR ONE OF TWO REASONS, AND make-zibaldone.py REFUSES IT WITHOUT ONE. Either it was read off one of our own published pages (`read_on`, which must be one of our sites), or a person read it in the book itself, in the printing `where` names, and gave the page (`read_by` and `at`), and the card prints who and where. Until 2026-10-14 the first was the only way in. Ryan's call that day widened it, when Betsy sent in eight lines still in copyright and not one of them was on any page of ours: a room that only took contemporary lines we had already published could never take one from anybody who sent it. What did not widen is the checking. Nobody reads a line off a quotation site and calls it read.",
+
+ "_brought": "A LINE SOMEBODY SENT IN SAYS WHO SENT IT, on its citation, under `brought`, and only with their say-so. Betsy's are named on Ryan's word, 2026-10-14. The slip does not ask for a name, because it only makes a message; whoever sends it is asked whether they want theirs on the leaf.",
+
+ "_waiting": "`waiting` IS LINES SENT IN THAT NOBODY HAS READ IN THE BOOK YET, AND THE TOOL NEVER PRINTS THEM. They are kept as sent, with what reading them has to settle, so the next person to pick one up does not start from nothing -- the Seneca note's reason. When one is read, it becomes an entry with `read_by` and `at`, and comes off this list; the tool refuses a slug that is in both. What is written under `needs` is what to look for, not what was found, and nothing in it is a claim the room makes.",
 
  "_printings": "`where` NAMES A PRINTING AND NOT JUST A TITLE, because these texts differ between printings and a quotation nobody can trace is the one thing a room built on sourcing cannot carry -- the reason The Darkling Thrush is not on The Doomscroll. The Dickinson is the clearest case: it is in the SECOND series, 1891, not the first, and that printing was edited by Todd and Higginson against the manuscripts. Checking rather than remembering is what caught it.",
 
@@ -123,6 +129,7 @@
    "where": "Kvinder, Kon & Forskning nr. 1-2 (2012), 25-53",
    "url": "https://stimpunks.world/hear-queer-here.html",
    "basis": "credited",
+   "read_on": "https://stimpunks.world/hear-queer-here.html",
    "for": "for when cause and effect have stopped behaving and everyone is asking you why",
    "checked": "Read off our own Hear Queer Here, which carries it with the full citation, on 2026-09-22. In copyright and quoted as one sentence with the citation attached, which is the only footing this room stands on for anything still owned.",
    "hand": "A whole room on this street is built on this one line. It is still one line, and it still gets its citation.",
@@ -139,6 +146,7 @@
    "where": "More Realms",
    "url": "https://morerealms.com/we-are-made-of-relations-quantum-physics-and-what-it-means-to-be-autistic/",
    "basis": "credited",
+   "read_on": "https://stimpunks.world/hear-queer-here.html",
    "for": "for when somebody has just described you as a list of deficits",
    "checked": "Read off our own Hear Queer Here, which carries it with the link to her article, on 2026-09-22.",
    "hand": "Helen's, and credited to her by name rather than folded into our we. She is a colleague, not a corpus.",
@@ -178,6 +186,117 @@
    "ink": "iron",
    "draw": "ticket",
    "draw_says": "A used ticket stub pasted at an angle, the printing on it worn away to nothing."
+  },
+  {
+   "slug": "alcott-storms",
+   "quote": "I'm not afraid of storms, for I'm learning how to sail my ship.",
+   "who": "Louisa May Alcott",
+   "who_died": 1888,
+   "work": "Little Women, chapter XLIV, My Lord and Lady",
+   "where": "the Little, Brown and Company printing with Frank T. Merrill's illustrations, its title page carrying the copyrights of 1880 and 1896, as transcribed in Project Gutenberg ebook 37106",
+   "url": "https://www.gutenberg.org/ebooks/37106",
+   "basis": "public-domain",
+   "brought": "Betsy",
+   "for": "for when you are still learning to do the thing you are already doing",
+   "checked": "Grepped out of the Gutenberg transcription on 2026-10-14 and read in its paragraph, with the chapter taken from the heading above it. It was sent in with I am both times; the printing has I'm, and the room carries what is printed. Gutenberg's other Little Women, ebook 514, names no printing and disagrees with this one three lines above the sentence, which is why the card names this one.",
+   "hand": "Amy says it, newly married, in the same breath as offering to go home and find her husband's bootjack. Brave lines are mostly said in passing.",
+   "face": "newsreader",
+   "ink": "rubric",
+   "draw": "boat",
+   "draw_says": "A paper boat folded out of a scrap of printed paper, pressed flat between the leaves so its folds show as creases."
+  },
+  {
+   "slug": "whitman-enough",
+   "quote": "I exist as I am, that is enough,\nIf no other in the world be aware I sit content,\nAnd if each and all be aware I sit content.",
+   "who": "Walt Whitman",
+   "who_died": 1892,
+   "work": "Song of Myself, section 20, in Leaves of Grass",
+   "where": "the 1891-92 printing of Leaves of Grass, as transcribed in Project Gutenberg ebook 1322",
+   "url": "https://www.gutenberg.org/ebooks/1322",
+   "basis": "public-domain",
+   "brought": "Betsy",
+   "for": "for when nobody has noticed, and you are deciding whether that matters",
+   "checked": "Grepped out of the Gutenberg transcription on 2026-10-14, with the section number taken from the heading above it. It was sent in as its first line, ending in a full stop. Whitman ends that line in a comma and keeps going for two more, so the room carries the whole sentence, in its three lines.",
+   "hand": "The line everybody keeps is the first one. The other two say it holds whether nobody notices or everybody does.",
+   "face": "newsreader",
+   "ink": "oak",
+   "draw": "lilac",
+   "draw_says": "A sprig of lilac pressed flat, its small four-petalled flowers gone papery, and one fallen loose beside it."
+  }
+ ],
+
+ "waiting": [
+  {
+   "slug": "beauvoir-becomes",
+   "quote": "One is not born, but rather becomes, a woman.",
+   "who": "Simone de Beauvoir",
+   "work": "The Second Sex",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "In copyright twice: Beauvoir died in 1986, and this is an English translation, which needs its translator named on the card the way Casaubon is. As sent it reads like H. M. Parshley's of 1953; the 2009 translation by Constance Borde and Sheila Malovany-Chevallier is said to put it differently. Read it in one of them and say which."
+  },
+  {
+   "slug": "plath-brag",
+   "quote": "I took a deep breath and listened to the old brag of my heart: I am, I am, I am.",
+   "who": "Sylvia Plath",
+   "work": "The Bell Jar",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "Plath died in 1963, so this is in copyright under the room's seventy years. It was sent with a colon after heart and is often quoted with a full stop there; the punctuation is whatever the page says."
+  },
+  {
+   "slug": "davies-wounded",
+   "quote": "We are all of us the walking wounded.",
+   "who": "Robertson Davies",
+   "work": "The Manticore",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "Not found. A search on 2026-10-14 turned up nothing placing this sentence in The Manticore, and it may be elsewhere in Davies or not his. It needs finding in the book before anything else."
+  },
+  {
+   "slug": "rilke-power",
+   "quote": "I feel it now: there's a power in me to grasp and give shape to my world.",
+   "who": "Rainer Maria Rilke",
+   "work": "Rilke's Book of Hours",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "Rilke died in 1926 and his German is public domain, but this English is Anita Barrows and Joanna Macy's, in Rilke's Book of Hours: Love Poems to God (1996), which is in copyright and has to name them as translators. Read which poem it is, part and number, off the page."
+  },
+  {
+   "slug": "dove-road-map",
+   "quote": "Language is the road map of a culture. It tells you where its people come from and where they are going.",
+   "who": "Rita Dove",
+   "work": "The Poet's World",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "Probably not Rita Dove's. The sentence is widely credited to Rita Mae Brown, in Starting from Scratch: A Different Kind of Writers' Manual (1988), and a search on 2026-10-14 found nobody crediting it to Dove. Look in both books before it goes in under either name; the wording also varies between the places it is quoted."
+  },
+  {
+   "slug": "tolkien-wander",
+   "quote": "Not all those who wander are lost.",
+   "who": "J. R. R. Tolkien",
+   "work": "The Fellowship of the Ring",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "Tolkien died in 1973. It is a line of verse, from the poem about Aragorn that turns up in Book I, chapter 10, Strider; read the line and the punctuation after it off a named edition."
+  },
+  {
+   "slug": "russell-paradise",
+   "quote": "Do not feel envious of the happiness of those who live in a fool's paradise, for only a fool will think that it is happiness.",
+   "who": "Bertrand Russell",
+   "work": "The Autobiography of Bertrand Russell",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "Russell died in 1970. This is said to be the last of his Liberal Decalogue, printed in the third volume of the Autobiography (1969) after first appearing in a magazine in 1951. Read it in the Autobiography and give the volume and page."
+  },
+  {
+   "slug": "winterson-teeth",
+   "quote": "It has teeth, art, and a way of cutting through to the soft parts untried.",
+   "who": "Jeanette Winterson",
+   "work": "Art Objects: Essays on Ecstasy and Effrontery",
+   "brought": "Betsy",
+   "sent": "2026-10-14",
+   "needs": "Winterson is living. It was sent in as Jeannette and Effrontory; the book is Art Objects: Essays on Ecstasy and Effrontery (1995). The wording could not be found from here, so read it off the page, along with which essay it is in."
   }
  ]
 }
