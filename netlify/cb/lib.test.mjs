@@ -35,6 +35,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
+  setAvatarsShown, avatarsShown, shownAvatars,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
@@ -1742,3 +1743,35 @@ test('an avatar sticker is only ever your own avatar, and carries nothing but th
   assert.ok(shapeAvatarSticker(st));
   assert.equal(shapeAvatarSticker({ look: { base: 'doll' }, name: 'x' }), null);
 });
+
+test('a profile shows the avatar worn, first, and the rest only when a claimed username says so', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  const a = (await keepAvatar(pk, { look: lookOf({ top: ['tee', 'solid', 'black'] }), name: 'Saloon', about: 'in a hat' }, s, 1)).kept;
+  const b = (await keepAvatar(pk, { look: { base: 'stand', wear: {} }, name: 'Bare', about: 'the stand' }, s, 2)).kept;
+  await wearAvatar(pk, a.id, s);
+  // Unclaimed: nothing, the same answer as nobody at all, even with the switch somehow on.
+  await setAvatarsShown('Ada', true, s, 3);
+  assert.equal(await shownAvatars('Ada', s), null, 'an unclaimed handle showed its avatars');
+  assert.equal(await shownAvatars('Nobody', s), null);
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  await setAvatarsShown('Ada', false, s);
+  let got = await shownAvatars('ada', s);
+  assert.equal(got.handle, 'Ada');
+  assert.deepEqual(got.wearing, { look: a.look, about: 'in a hat' });
+  assert.equal(got.shown, false);
+  assert.equal(got.avatars, undefined, 'the rest were shown with the switch off');
+  await setAvatarsShown('Ada', true, s, 10);
+  assert.equal(await avatarsShown('Ada', s), true);
+  got = await shownAvatars('Ada', s);
+  assert.deepEqual(got.avatars.map((x) => [x.name, x.worn]), [['Saloon', true], ['Bare', false]], 'the worn one is not first');
+  assert.equal(got.avatars[0].id, undefined, 'a profile carries an id');
+  assert.equal(got.avatars[0].t, undefined, 'a profile carries a date');
+  await forgetAvatars(pk, s);
+  assert.equal(await avatarsShown('Ada', s), false, 'Forget me left the switch on');
+  got = await shownAvatars('Ada', s);
+  assert.equal(got.wearing, null);
+  await setAvatarsShown('Ada', true, s, 11);
+  await deleteAccount('Ada', s);
+  assert.equal(await shownAvatars('Ada', s), null, 'a deleted username still has a profile');
+}));

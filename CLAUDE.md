@@ -3898,6 +3898,13 @@ puts the Den's rails on it, and the Den still draws no body of its own.
     `avatars-worn`, so Who's online reads one blob rather than one per person; `withAvatars()` shows it beside
     a claimed name only, with the mark from the pass, and taking it off, deleting it, Forget me and deleting the
     username take it out of that blob *first*. `lib.test.mjs` races fifteen keeps and was broken on purpose.
+  · **A PROFILE SHOWS THE WORN AVATAR, AND THE REST ONLY ON THE OWNER'S SAY.** Pressing a name on Who's
+    online or a handle on the channel opens the peek, which shows the worn avatar first and large
+    (`/cb/avatars/of`, `shownAvatars()`), and every avatar in it opens in the radio's one lightbox
+    (`avatarBox`, sharing `lboxMake` with pictures). The others need **Show my avatars on the CB**
+    (`avshown/<pet key>`, claimed only, the pets' switch). **The friendly edit is to show them all**, because
+    a profile looks bare with one; that publishes avatars people kept for themselves. The answer never says
+    whether somebody has avatars they have not shown.
   · **EVERY AVATAR CARRIES ITS OWN GROUND**: a bodymind the booth's curtain (`--bmb-curtain`), the stand the
     Den's wall (`--dd-wall`), the way an animal is drawn on the ground it was found on. In the Den the bodymind
     is framed in the Den's ink, a picture hung on the wall rather than the wall changing colour.

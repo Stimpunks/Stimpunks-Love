@@ -1272,11 +1272,61 @@ export async function wearAvatar(pk, id, s = store()) {
   return next;
 }
 
-/* FORGET ME, and deleting the username: off the CB first, then the record. */
+/* FORGET ME, and deleting the username: off the CB first, then the record,
+   then the switch that showed the rest. */
 export async function forgetAvatars(pk, s = store()) {
   await showWorn(pk, null, s);
   await s.delete(avatarsBlob(pk));
+  await s.delete(avShownBlob(pk));
   return true;
+}
+
+/* SOMEBODY'S AVATARS, IN THEIR PROFILE. Ryan, 2026-10-14: pressing a name on
+   Who's online, or a handle on the channel, opens that person's profile, and
+   it shows the avatar they wear, large and first. The one worn is already
+   public to anybody signed on, beside their name; the others are shown only
+   when the person switches on Show my avatars on the CB, and only on a claimed
+   username, the pets' rule and for the pets' reason: an unclaimed handle is
+   anybody's who signs on with it. The switch is one blob, avshown/<pet key>,
+   holding when it was switched on, deleted by switching it off, by Forget Me
+   and by deleting the username. The answer for a handle that is not claimed is
+   the same whether it is unclaimed or nobody at all. A name and what was
+   written about an avatar are shown with the rest only when the rest are; the
+   worn one carries what was written about it, as it does on Who's online. */
+const avShownBlob = (k) => `avshown/${k}`;
+
+export async function setAvatarsShown(handle, on, s = store(), now = Date.now()) {
+  const k = avShownBlob(petKey(handle));
+  if (!on) { await s.delete(k); return false; }
+  const cur = await versioned(s, k);
+  if (!cur.exists) await s.setJSON(k, { since: now }, { onlyIfNew: true });
+  return true;
+}
+
+export async function avatarsShown(handle, s = store()) {
+  if (!(await readAccount(handle, s))) return false;
+  const d = await s.get(avShownBlob(petKey(handle)), { type: 'json' });
+  return !!(d && typeof d.since === 'number');
+}
+
+/* { handle, wearing, shown, avatars? } for a claimed username, or null. */
+export async function shownAvatars(handle, s = store()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return null;
+  const pk = petKey(handle);
+  const { avatars, wearing } = await readAvatars(pk, s);
+  const w = wearing ? avatars.find((a) => a.id === wearing) : null;
+  const look = w && cleanLook(w.look);
+  const shown = await avatarsShown(handle, s);
+  const out = { handle: acct.handle, wearing: look ? { look, about: w.about || '' } : null, shown };
+  if (shown) {
+    // Worn first, then the rest, newest first: no ids, no dates.
+    out.avatars = avatars.slice().reverse()
+      .sort((a, b) => Number(b.id === wearing) - Number(a.id === wearing))
+      .map((a) => ({ look: cleanLook(a.look), name: a.name || '', about: a.about || '', worn: a.id === wearing }))
+      .filter((a) => a.look);
+  }
+  return out;
 }
 
 /* Who's online, with the avatar each claimed person wears. Nothing is added

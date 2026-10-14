@@ -1090,6 +1090,9 @@
     this.avList = el('ul', 'cb-avatars__list');
     this.avList.hidden = true;
     pets.appendChild(this.avList);
+    // Whether people on the CB see the rest in your profile, too.
+    this.avShow = el('div', 'cb-pets__show');
+    pets.appendChild(this.avShow);
     this.avWhere = el('p', 'cb-pets__where');
     pets.appendChild(this.avWhere);
 
@@ -1708,9 +1711,62 @@
   Radio.prototype.lightbox = function (m, from) {
     var me = this, url = this.pics && this.pics[m.img];
     if (!url) return;
+    var d = this.lboxMake();
+    this.lboxImg.hidden = false;
+    this.lboxArt.hidden = true;
+    this.lboxArt.textContent = '';
+    this.lboxDl.hidden = false;
+    var said = m.alt || (m.handle + ' sent a picture, with no description.');
+    d.setAttribute('aria-label', m.handle + '’s picture');
+    this.lboxImg.src = url;
+    this.lboxImg.alt = said;
+    this.lboxCap.textContent = m.alt ? m.alt : '';
+    this.lboxCap.hidden = !m.alt;
+    if (m.alt) this.lboxCap.setAttribute('aria-hidden', 'true');
+    this.lboxDl.href = url;
+    this.lboxDl.download = pictureName(m);
+    this.lboxShow(from, m.img);
+  };
+
+  /* AN AVATAR IN THE LIGHTBOX, as large as the window allows, drawn fresh by
+     avatar.js on its own ground. It is a drawing and not a file, so there is
+     nothing to download; its name and what its owner wrote are the caption,
+     which is what a screen reader hears, and the drawing itself is silent. */
+  Radio.prototype.avatarBox = function (a, from, whose) {
+    var d = this.lboxMake();
+    this.lboxImg.hidden = true;
+    this.lboxImg.removeAttribute('src');
+    this.lboxDl.hidden = true;
+    this.lboxArt.textContent = '';
+    var art = window.loveAvatar && window.loveAvatar.draw(a.look, { ground: true, cls: 'cb-lightbox-svg' });
+    if (art) this.lboxArt.appendChild(art);
+    this.lboxArt.hidden = false;
+    d.setAttribute('aria-label', whose + '’s avatar');
+    var words = (a.worn ? 'Wearing on the CB. ' : '') + (a.name ? a.name + (a.about ? ': ' : '.') : '') + (a.about || (a.name ? '' : 'Nothing is written about it.'));
+    this.lboxCap.textContent = words;
+    this.lboxCap.hidden = false;
+    this.lboxCap.removeAttribute('aria-hidden');
+    this.lboxShow(from, null);
+  };
+
+  Radio.prototype.lboxShow = function (from, id) {
     var d = this.lbox;
+    this.lboxFrom = from;
+    this.lboxId = id;
+    // The dialog gives the keyboard back to whatever had it when it opened,
+    // and Safari does not focus a button on a click, so the picture takes it
+    // first: closing always comes back to the picture.
+    if (from && from.focus) from.focus({ preventScroll: true });
+    if (!d.open) d.showModal();
+    this.lboxShut.focus();
+  };
+
+  Radio.prototype.lboxMake = function () {
+    var me = this, d = this.lbox;
     if (!d) {
       d = this.lbox = el('dialog', 'cb-lightbox');
+      var art = this.lboxArt = el('div', 'cb-lightbox-art');
+      art.hidden = true;
       var big = this.lboxImg = el('img', 'cb-lightbox-img');
       var cap = this.lboxCap = el('p', 'cb-lightbox-cap');
       var bar = el('div', 'cb-lightbox-bar');
@@ -1726,28 +1782,13 @@
       });
       bar.appendChild(dl);
       bar.appendChild(shut);
+      d.appendChild(art);
       d.appendChild(big);
       d.appendChild(cap);
       d.appendChild(bar);
       this.host.shadowRoot.appendChild(d);
     }
-    var said = m.alt || (m.handle + ' sent a picture, with no description.');
-    d.setAttribute('aria-label', m.handle + '’s picture');
-    this.lboxImg.src = url;
-    this.lboxImg.alt = said;
-    this.lboxCap.textContent = m.alt ? m.alt : '';
-    this.lboxCap.hidden = !m.alt;
-    if (m.alt) this.lboxCap.setAttribute('aria-hidden', 'true');
-    this.lboxDl.href = url;
-    this.lboxDl.download = pictureName(m);
-    this.lboxFrom = from;
-    this.lboxId = m.img;
-    // The dialog gives the keyboard back to whatever had it when it opened,
-    // and Safari does not focus a button on a click, so the picture takes it
-    // first: closing always comes back to the picture.
-    if (from && from.focus) from.focus({ preventScroll: true });
-    if (!d.open) d.showModal();
-    this.lboxShut.focus();
+    return d;
   };
 
   /* The room list, fetched from this site once, and only while the radio is
@@ -1895,6 +1936,24 @@
     if (mark && mark.base) h.appendChild(el('span', 'cb-tag', 'BASE'));
     else if (mark && mark.claimed) h.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     box.appendChild(h);
+    /* THEIR AVATARS FIRST (Ryan, 2026-10-14): the one they wear, large, then
+       the rest if they have made them public, each a button that opens it in
+       the lightbox. */
+    var peekN = this.peekN = (this.peekN || 0) + 1;
+    box.appendChild(el('p', 'cb-peek__sub', 'Avatars'));
+    var avSaid = el('p', 'cb-quiet', 'Looking\u2026');
+    box.appendChild(avSaid);
+    var avBox = el('div', 'cb-peek__avatars');
+    avBox.hidden = true;
+    box.appendChild(avBox);
+    withAvatar(function () {
+      call('/cb/avatars/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+        if (peekN !== me.peekN) return;
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200 || !r.body) { avSaid.textContent = 'Their avatars could not be fetched just now.'; return; }
+        me.peekAvatars(r.body, handle, avSaid, avBox);
+      }, function () { avSaid.textContent = 'Their avatars could not be fetched just now.'; });
+    });
     box.appendChild(el('p', 'cb-peek__sub', 'Pets'));
     var said = el('p', 'cb-quiet', 'Looking\u2026');
     box.appendChild(said);
@@ -1931,6 +1990,46 @@
         });
       }, function () { said.textContent = 'Their pets could not be fetched just now.'; });
     });
+  };
+
+  /* The avatars in somebody's profile: the one they wear first and largest,
+     then the rest, newest first, if they have made them public. What their
+     owner wrote is said once, in the button's name, and shown under it for
+     eyes. Nobody is told whether somebody has avatars they have not shown. */
+  Radio.prototype.peekAvatars = function (b, handle, said, box) {
+    var me = this;
+    var whose = b.handle || handle;
+    var mine = String(handle).toLowerCase() === String(this.state.handle || '').toLowerCase();
+    var list = b.shown && Array.isArray(b.avatars) ? b.avatars
+      : (b.wearing ? [{ look: b.wearing.look, about: b.wearing.about, name: '', worn: true }] : []);
+    box.textContent = '';
+    if (!list.length) {
+      said.textContent = mine
+        ? 'You are not wearing an avatar on the CB. Profile, on this radio, is where you wear one.'
+        : whose + ' is not wearing an avatar on the CB.';
+      return;
+    }
+    said.hidden = true;
+    box.hidden = false;
+    list.forEach(function (a, i) {
+      var fig = el('figure', 'cb-peek__av' + (i === 0 ? ' cb-peek__av--first' : ''));
+      var open = el('button', 'cb-peek__open');
+      open.type = 'button';
+      var what = a.worn ? 'the avatar ' + (mine ? 'you wear' : whose + ' wears') : (a.name || 'an avatar of ' + (mine ? 'yours' : whose + '\u2019s'));
+      open.setAttribute('aria-label', 'Open ' + what + ' larger' + (a.about ? '. ' + a.about : ''));
+      var art = window.loveAvatar.draw(a.look, { ground: true, cls: 'cb-peek__art' });
+      if (art) open.appendChild(art);
+      open.addEventListener('click', function () { me.avatarBox(a, open, whose); });
+      fig.appendChild(open);
+      var cap = el('figcaption', 'cb-peek__cap');
+      cap.setAttribute('aria-hidden', 'true');
+      if (a.worn) cap.appendChild(el('span', 'cb-avatar__worn', 'Wearing on the CB'));
+      if (a.name) cap.appendChild(el('span', 'cb-peek__name', a.name));
+      if (a.about) cap.appendChild(el('span', 'cb-peek__about', a.about));
+      if (cap.childNodes.length) fig.appendChild(cap);
+      box.appendChild(fig);
+    });
+    if (mine && !b.shown) box.appendChild(el('p', 'cb-quiet cb-peek__note', 'Only the one you wear is shown here. Show my avatars on the CB, in Profile, shows the rest.'));
   };
 
   Radio.prototype.unpeek = function () {
@@ -2254,8 +2353,9 @@
     var den = el('a', null, 'Dopamine Dress-Up Den'); den.href = '/dopamine-dress-up-den.html';
     w.appendChild(den);
     w.appendChild(document.createTextNode(claimed
-      ? ', and keep it here. They are kept under your username, scrambled, and only your password reaches them. The one you wear is shown beside your name on Who\u2019s online, to anybody signed on to the CB.'
+      ? ', and keep it here. They are kept under your username, scrambled, and only your password reaches them. The one you wear is shown beside your name on Who\u2019s online, and large in your profile, to anybody signed on to the CB.'
       : ', and keep it here. They are kept under the handle ' + this.state.handle + ', scrambled. A handle is not an account: anybody who signs on with it sees them too. Claim your username above to wear one on the CB, beside your name on Who\u2019s online.'));
+    this.avatarShow(b, told && told.show);
     if (!b.avatars.length) {
       ul.hidden = true;
       this.avState.hidden = false;
@@ -2342,6 +2442,30 @@
       if (told.focus) told.focus.focus();
       else if (told.said) { this.avState.hidden = false; this.avState.textContent = told.said; }
     }
+  };
+
+  /* SHOWING THE REST OF YOUR AVATARS in your profile, off until you switch it
+     on, and only on a claimed username, the pets' rule. The one you wear is
+     shown there either way. */
+  Radio.prototype.avatarShow = function (b, focus) {
+    var me = this, box = this.avShow;
+    box.textContent = '';
+    if (!b.claimed || !b.avatars.length) return;
+    var on = !!b.shown;
+    var t = el('button', 'cb-btn cb-pets-show', 'Show my avatars on the CB: ' + (on ? 'on' : 'off'));
+    t.type = 'button';
+    t.setAttribute('aria-pressed', String(on));
+    box.appendChild(t);
+    box.appendChild(el('p', 'cb-quiet', on
+      ? 'Anybody signed on to the CB who opens your profile, from your handle on the channel or your name on Who\u2019s online, sees all your avatars, the one you wear first, with their names and what you wrote.'
+      : 'Off: your profile shows only the one you wear. Switch it on to show the rest there, with their names and what you wrote.'));
+    var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+    box.appendChild(said);
+    if (focus) t.focus();
+    t.addEventListener('click', function () {
+      t.disabled = true;
+      me.avatarSend({ show: !on }, said, { show: true }).then(function () { t.disabled = false; });
+    });
   };
 
   Radio.prototype.setPets = function (open) {

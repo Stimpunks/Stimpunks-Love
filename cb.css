@@ -297,6 +297,21 @@ ol.cb-md-list { list-style: decimal; }
    looking is the quiet amber, a pair check-contrast.py holds on the case. */
 .cb-peek--case { border-top-color: var(--cb-steel-2); }
 .cb-peek .cb-pets__list { margin: 0 0 8px; }
+/* SOMEBODY'S AVATARS, in their profile: the one they wear first and large
+   enough to see its details, the rest smaller beside it. Each is a button that
+   opens it in the lightbox; the drawing is on its own ground, so nothing of the
+   radio's is set on it, and the button's ring is the radio's own. */
+.cb-peek__avatars { display: grid; grid-template-columns: repeat(auto-fill, 92px); align-items: start; gap: 10px; margin: 0 0 10px; }
+.cb-peek__av { margin: 0; display: grid; gap: 4px; min-width: 0; }
+.cb-peek__av--first { grid-column: 1 / -1; width: min(100%, 220px); }
+.cb-peek__open { display: block; width: 100%; padding: 0; line-height: 0; cursor: zoom-in; background: none; border: 2px solid var(--cb-steel-2); border-radius: 6px; overflow: hidden; }
+.cb-peek__open:hover { border-color: var(--cb-amber); }
+.cb-peek__art { display: block; width: 100%; height: auto; }
+.cb-peek__cap { display: grid; gap: 2px; font-size: 13px; line-height: 1.4; }
+.cb-peek__cap span { overflow-wrap: anywhere; }
+.cb-peek__name { font-weight: 700; }
+.cb-peek__av--first .cb-peek__cap { font-size: 14px; }
+.cb-peek__note { grid-column: 1 / -1; margin: 0; font-size: 13px; }
 .cb-stickers { margin: 8px 0 0; }
 .cb-stickers p { margin: 0 0 6px; font-size: 14px; line-height: 1.45; }
 .cb-stickers__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -324,6 +339,9 @@ ol.cb-md-list { list-style: decimal; }
 }
 .cb-lightbox::backdrop { background: rgba(0, 0, 0, .82); }
 .cb-lightbox :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+/* An avatar in the lightbox: the drawing as tall as the window allows. */
+.cb-lightbox-art { line-height: 0; }
+.cb-lightbox-svg { display: block; height: calc(94vh - 140px); max-height: 900px; width: auto; max-width: 100%; margin: 0 auto; border-radius: 4px; }
 .cb-lightbox-img { display: block; max-width: 100%; max-height: calc(94vh - 120px); width: auto; height: auto; margin: 0 auto; background: var(--cb-lcd); }
 .cb-lightbox-cap { margin: 8px 0 0; color: var(--cb-amber-2); overflow-wrap: anywhere; }
 .cb-lightbox-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin: 10px 0 0; }
