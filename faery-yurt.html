@@ -656,18 +656,32 @@
     <div class="yurt-gallery yurt-gallery--nook" aria-labelledby="yurt-nature-h" role="group">
       <h3 id="yurt-nature-h">Nature Notes</h3>
       <p class="section-intro">Flowers in my hair, boots by the stream, conkers on moss, mushrooms in the leaf litter and a tree turning gold.</p>
-      <div class="yurt-gallery__grid">
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-flowers.webp" width="872" height="998" alt="Seen from behind, a woman with long reddish brown hair wears white, yellow and blue wildflowers woven into her ponytail." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-boots.webp" width="826" height="1120" alt="A pair of burgundy lace-up boots with satin ribbon laces stands on a rock at the edge of a clear, rippling stream." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-tree.webp" width="818" height="1038" alt="Looking up through a tree full of golden yellow autumn leaves against a pale sky." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-conkers.webp" width="928" height="986" alt="Three shiny conkers, one large and two small, rest on bright green moss." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-mushrooms-1.webp" width="1118" height="802" alt="Two pale lilac mushrooms with brown centres grow side by side in dark soil among fallen leaves." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-mushrooms-2.webp" width="1030" height="852" alt="A small pale lilac mushroom stands in the leaf litter beside a crumpled brown one." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-mushrooms-3.webp" width="848" height="814" alt="A purple mushroom grows in dark soil under green leaves, with tiny brown mushrooms around it." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-mushrooms-4.webp" width="1156" height="812" alt="A small lilac mushroom with a cone-shaped cap stands among fallen autumn leaves." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-mushrooms-5.webp" width="1142" height="828" alt="A tiny white mushroom peeks up through a carpet of bright green moss." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-mushrooms-6.webp" width="1120" height="836" alt="Small cream-coloured mushrooms cluster on mossy bark." loading="lazy"></figure>
-        <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-nature-mushrooms-7.webp" width="1240" height="906" alt="Orange-brown mushrooms grow among small green leaves and seed heads on the ground." loading="lazy"></figure>
+      <!-- Nature Notes as a notebook, Helen's ask, 2026-10-14: one photograph to a
+           page, each shown whole. The pages are a scroll-snap strip, so they
+           swipe with no script; yurt-notebook.js adds the buttons and a sweep
+           across the page as it turns, on the press only, and none at Gentle. -->
+      <div class="yurt-notebook" data-notebook>
+        <div class="yurt-notebook__cover">
+          <ul class="yurt-notebook__pages" tabindex="0" aria-label="Nature Notes, a notebook of Helen&rsquo;s photographs" data-notebook-pages>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-flowers.webp" width="872" height="998" alt="Seen from behind, a woman with long reddish brown hair wears white, yellow and blue wildflowers woven into her ponytail." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-boots.webp" width="826" height="1120" alt="A pair of burgundy lace-up boots with satin ribbon laces stands on a rock at the edge of a clear, rippling stream." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-tree.webp" width="818" height="1038" alt="Looking up through a tree full of golden yellow autumn leaves against a pale sky." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-conkers.webp" width="928" height="986" alt="Three shiny conkers, one large and two small, rest on bright green moss." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-1.webp" width="1118" height="802" alt="Two pale lilac mushrooms with brown centres grow side by side in dark soil among fallen leaves." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-2.webp" width="1030" height="852" alt="A small pale lilac mushroom stands in the leaf litter beside a crumpled brown one." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-3.webp" width="848" height="814" alt="A purple mushroom grows in dark soil under green leaves, with tiny brown mushrooms around it." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-4.webp" width="1156" height="812" alt="A small lilac mushroom with a cone-shaped cap stands among fallen autumn leaves." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-5.webp" width="1142" height="828" alt="A tiny white mushroom peeks up through a carpet of bright green moss." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-6.webp" width="1120" height="836" alt="Small cream-coloured mushrooms cluster on mossy bark." loading="lazy"></li>
+          <li class="yurt-notebook__page"><img class="photo" src="photos/yurt-nature-mushrooms-7.webp" width="1240" height="906" alt="Orange-brown mushrooms grow among small green leaves and seed heads on the ground." loading="lazy"></li>
+          </ul>
+          <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>
+        </div>
+        <div class="yurt-notebook__controls" data-notebook-controls hidden>
+          <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>
+          <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>
+        </div>
+        <p class="sr" role="status" aria-live="polite" data-notebook-says></p>
       </div>
       <p class="yurt-gallery__note">All photographs by Helen Edgar. The mushrooms are here for how they look, and nothing on this page says what kind they are.</p>
     </div>
@@ -676,37 +690,75 @@
   <section>
     <h2>Who Else Lives Here</h2>
     <p class="section-intro">The library is a shared arrangement. Currently in residence:</p>
+    <!-- Helen&rsquo;s own photographs of them, 2026-10-14, every one hers and recorded in
+         data/polaroids.json. Each card opens to its animal&rsquo;s photographs, at her ask;
+         a &lt;details&gt;, so it opens with no script, and nothing loads until it does. -->
     <div class="residents">
-      <div class="resident">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 4 4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-2-5-4 3h-6L6 4Z" fill="#E0904A"/><circle cx="9.5" cy="13" r="1" fill="#241A16"/><circle cx="14.5" cy="13" r="1" fill="#241A16"/><path d="M11 16h2" stroke="#241A16" stroke-width="1.2" stroke-linecap="round"/></svg>
-        <h3>the cats</h3><p class="yurt-resident-names">Harry, Zara, Ziggy and Tiggy</p><p>a small clowder, all convinced the shelves belong to them</p>
-      </div>
-      <div class="resident">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="15" rx="7" ry="5" fill="#8A6088"/><circle cx="7" cy="9" r="3.6" fill="#8A6088"/><path d="M4.5 6.5 6 9M9.5 6 8.5 9" stroke="#8A6088" stroke-width="1.6" stroke-linecap="round"/><circle cx="6" cy="9" r=".8" fill="#241A16"/></svg>
-        <h3>the dog</h3><p class="yurt-resident-names">Benji</p><p>has strong opinions about the doorbell</p>
-      </div>
-      <div class="resident">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="14" rx="6" ry="5" fill="#E9C874"/><circle cx="8" cy="9.5" r="1.8" fill="#E9C874"/><circle cx="16" cy="9.5" r="1.8" fill="#E9C874"/><circle cx="9.6" cy="14" r=".7" fill="#241A16"/><circle cx="14.4" cy="14" r=".7" fill="#241A16"/></svg>
-        <h3>the hamster</h3><p class="yurt-resident-names">Gibbles</p><p>runs the night shift and answers to nobody</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Helen's own photographs, 2026-10-14: the cats together here, and her
-       nature photographs in the regulation nook. Every one is hers, recorded in data/polaroids.json, and shown at
-       its own shape: nothing here crops or filters a photograph. -->
-  <section class="yurt-gallery" aria-labelledby="yurt-cats-h">
-    <h2 id="yurt-cats-h">Cats Coven</h2>
-    <p class="section-intro">Harry, Zara, Ziggy and Tiggy, at home on the cat tree, out in the catio, and asleep wherever is softest.</p>
-    <div class="yurt-gallery__grid">
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-1.webp" width="824" height="1018" alt="A black-and-white cat sits on the top platform of a grey cat tree while a tabby cat peers out from the level below." loading="lazy"></figure>
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-2.webp" width="950" height="1068" alt="In a sunny cat run hung with bunting and paper flowers, a tabby cat eats from a purple bowl and a black-and-white cat eats from a plate on a wooden ledge." loading="lazy"></figure>
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-3.webp" width="1192" height="1090" alt="A tabby cat sleeps on its back on a teal blanket, paws curled and soft belly fur showing." loading="lazy"></figure>
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-4.webp" width="1156" height="690" alt="Two black cats explore the wooden ledges and curved rope bridge of a cat run, with a garden lawn beyond the mesh." loading="lazy"></figure>
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-5.webp" width="968" height="1066" alt="Three cats in a cat run laid with artificial grass: a black cat lies beside a blue play tunnel, a tabby eats nearby, and a black-and-white cat walks past a wicker chair." loading="lazy"></figure>
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-6.webp" width="1154" height="772" alt="Two black cats on a grey cat tree in front of a wall of ivy, one sleek and standing on a high platform, one fluffy and sitting low." loading="lazy"></figure>
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-7.webp" width="1088" height="836" alt="A fluffy black cat with amber eyes lies on purple crocheted and fleecy blankets." loading="lazy"></figure>
-      <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-8.webp" width="828" height="1002" alt="A black-and-white cat hugs a soft toy on a fluffy blanket in purple light." loading="lazy"></figure>
+      <details class="resident">
+        <summary class="resident__open">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 4 4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-2-5-4 3h-6L6 4Z" fill="#E0904A"/><circle cx="9.5" cy="13" r="1" fill="#241A16"/><circle cx="14.5" cy="13" r="1" fill="#241A16"/><path d="M11 16h2" stroke="#241A16" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <h3>the cats</h3><p class="yurt-resident-names">Harry, Zara, Ziggy and Tiggy</p><p>a small clowder, all convinced the shelves belong to them</p>
+          <span class="resident__hint"><span class="is-shut">open to see the photographs</span><span class="is-open">close the photographs</span></span>
+        </summary>
+        <div class="resident__photos" aria-labelledby="yurt-cats-h">
+          <h4 id="yurt-cats-h">Cats Coven</h4>
+          <p class="resident__intro">Harry, Zara, Ziggy and Tiggy, at home on the cat tree, out in the catio, and asleep wherever is softest.</p>
+          <div class="yurt-gallery__grid">
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-1.webp" width="824" height="1018" alt="A black-and-white cat sits on the top platform of a grey cat tree while a tabby cat peers out from the level below." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-2.webp" width="950" height="1068" alt="In a sunny cat run hung with bunting and paper flowers, a tabby cat eats from a purple bowl and a black-and-white cat eats from a plate on a wooden ledge." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-3.webp" width="1192" height="1090" alt="A tabby cat sleeps on its back on a teal blanket, paws curled and soft belly fur showing." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-4.webp" width="1156" height="690" alt="Two black cats explore the wooden ledges and curved rope bridge of a cat run, with a garden lawn beyond the mesh." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-5.webp" width="968" height="1066" alt="Three cats in a cat run laid with artificial grass: a black cat lies beside a blue play tunnel, a tabby eats nearby, and a black-and-white cat walks past a wicker chair." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-6.webp" width="1154" height="772" alt="Two black cats on a grey cat tree in front of a wall of ivy, one sleek and standing on a high platform, one fluffy and sitting low." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-7.webp" width="1088" height="836" alt="A fluffy black cat with amber eyes lies on purple crocheted and fleecy blankets." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-cats-8.webp" width="828" height="1002" alt="A black-and-white cat hugs a soft toy on a fluffy blanket in purple light." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-07.webp" width="675" height="1200" alt="A tabby kitten curls up on a wooden ledge, biting a pink feather toy." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-23.webp" width="675" height="1200" alt="A tabby cat curls up on rumpled bedding beneath a wall hung with a flower wreath." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-43.webp" width="1200" height="900" alt="A black-and-white cat rests on a brown blanket, looking at the camera." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-45.webp" width="900" height="1200" alt="A black cat sits in a dim room under a wreath of flowers." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-47.webp" width="1200" height="675" alt="A tabby cat lies on the carpet in front of cushions and a bookcase." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-49.webp" width="675" height="1200" alt="A fluffy black cat sits behind a tray of small toys and coloured sand." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-60.webp" width="900" height="1200" alt="A fluffy black cat sits on the arm of a sofa in a living room with a fireplace." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-62.webp" width="1200" height="675" alt="A black cat lies on a crocheted blanket, looking at the camera." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-63.webp" width="900" height="1200" alt="A black cat sits on a cat tree draped with a leopard-print blanket, in purple light under a wall of ivy." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-64.webp" width="900" height="1200" alt="A tabby cat sits on a windowsill in purple light." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-69.webp" width="900" height="1200" alt="A black-and-white cat steps across blankets on a bed in purple light." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-73.webp" width="900" height="1200" alt="A fluffy black cat with amber eyes sits on a bed beside a pale green wall." loading="lazy"></figure>
+          </div>
+        </div>
+      </details>
+      <details class="resident">
+        <summary class="resident__open">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="15" rx="7" ry="5" fill="#8A6088"/><circle cx="7" cy="9" r="3.6" fill="#8A6088"/><path d="M4.5 6.5 6 9M9.5 6 8.5 9" stroke="#8A6088" stroke-width="1.6" stroke-linecap="round"/><circle cx="6" cy="9" r=".8" fill="#241A16"/></svg>
+          <h3>the dog</h3><p class="yurt-resident-names">Benji</p><p>has strong opinions about the doorbell</p>
+          <span class="resident__hint"><span class="is-shut">open to see the photographs</span><span class="is-open">close the photographs</span></span>
+        </summary>
+        <div class="resident__photos" aria-labelledby="yurt-dog-h">
+          <h4 id="yurt-dog-h">Dog&rsquo;s Den</h4>
+          <p class="resident__intro">Benji, asleep on the cushions, by the fire, and out in the woods.</p>
+          <div class="yurt-gallery__grid">
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-06.webp" width="1200" height="675" alt="Benji, a shaggy cream dog, sleeps with his head on a patterned cushion." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-20.webp" width="675" height="1200" alt="Benji, a fluffy cream dog on a lead, sits on the grass beside a gravel path." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-30.webp" width="900" height="1200" alt="Benji, a shaggy cream dog, rests his chin in front of a glowing fireplace." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-41.webp" width="900" height="1200" alt="Benji, a fluffy cream dog, sits among ivy in the woods with his tongue out." loading="lazy"></figure>
+          </div>
+        </div>
+      </details>
+      <details class="resident">
+        <summary class="resident__open">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="14" rx="6" ry="5" fill="#E9C874"/><circle cx="8" cy="9.5" r="1.8" fill="#E9C874"/><circle cx="16" cy="9.5" r="1.8" fill="#E9C874"/><circle cx="9.6" cy="14" r=".7" fill="#241A16"/><circle cx="14.4" cy="14" r=".7" fill="#241A16"/></svg>
+          <h3>the hamster</h3><p class="yurt-resident-names">Gibbles</p><p>runs the night shift and answers to nobody</p>
+          <span class="resident__hint"><span class="is-shut">open to see the photographs</span><span class="is-open">close the photographs</span></span>
+        </summary>
+        <div class="resident__photos" aria-labelledby="yurt-hamster-h">
+          <h4 id="yurt-hamster-h">Hamster Haven</h4>
+          <p class="resident__intro">Gibbles, on the night shift in his bowl and in the shavings.</p>
+          <div class="yurt-gallery__grid">
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-13.webp" width="900" height="1200" alt="Gibbles, a golden hamster with a white stripe, snuffles through shavings scattered with dried flowers." loading="lazy"></figure>
+            <figure class="yurt-gallery__item"><img class="photo" src="photos/yurt-glimmer-22.webp" width="900" height="1200" alt="Gibbles, a golden hamster, peeks over the rim of a pink bowl in his cage." loading="lazy"></figure>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -815,5 +867,6 @@
 <script src="pebbles.js" defer></script>
 <script src="quest.js" defer></script>
 <script src="glimmer.js" defer></script>
+<script src="yurt-notebook.js" defer></script>
 </body>
 </html>
