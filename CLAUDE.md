@@ -1316,6 +1316,17 @@ rather than saying every one of something. **No badge sends anybody to a room fo
 draws it from `guild-jobs.json` with `createElementNS`, never from markup. **The job markers never mention
 badges**: they stand in every room, including the ones whose own tools refuse the word.
 
+**TWO BADGES ARE THE SHELTERS', AND ONE OF THEM CAN NEVER BE PUBLIC.** Ryan, later on 2026-10-14: Rescue
+Ranger for rescuing any animal, Pet Parent for adopting one (`from: rescues` and `from: pets`). Neither adds a
+record. **Nothing on the street knows who rescued an animal**, which the shelters promise, so Rescue Ranger is
+worked out from `love-rescues` in the rescuer's own browser (`rescuedHere()` in `quest.js` and in `cb.js`, read,
+never written, never sent, refused by `make-guild.py` otherwise) and is shown on the board and in their own
+Profile and nowhere else. **The friendly edit is to put it on the public profile**, which needs the server to
+keep who rescued what: a reversal of a privacy promise and Ryan's call, not a badge's. Pet Parent comes from the
+pets in a Profile: the board learns it as yes or no from its one `/cb/jobs` read, and somebody else's profile
+shows it only when their pets are shown, because a profile's badges come only from what it already shows. **The
+shelters' own pages never mention a badge**; `make-rescue.py` refuses the word there.
+
 **THE JOBS ARE THE THIRD THING KEPT UNDER A PERSON, AND ONLY ONCE SOMEBODY SWITCHES IT ON.** Keep my jobs in my
 Profile, on the board, ships hidden, shows only on a page with a pass in `love-cb`, and starts off; `quest.js`
 reads `love-cb` and never writes it, and sends to `/cb/jobs` and nowhere else, which `make-guild.py` reads the

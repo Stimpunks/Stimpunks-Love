@@ -640,7 +640,7 @@ DRAW = {
 
 
 # ── Badges ───────────────────────────────────────────────────────────────────
-# A BADGE IS A SET OF JOBS THAT GO TOGETHER. Ryan's call, 2026-10-14, after
+# A BADGE IS A SET OF THINGS DONE THAT GO TOGETHER, AND MOSTLY THEY ARE JOBS. Ryan's call, 2026-10-14, after
 # people asked for badges like Scouting America's merit badges, Open Badges and
 # video game achievements, and he did not want to gamify or credentialise too
 # much. It reverses one word of this file: `badges?` and `achievements?` used
@@ -688,6 +688,32 @@ BADGE_NOUNS = (r"(?:scores?|scored|points?|xp\b|gamerscore|leaderboards?|streaks
 BADGE_WORD = re.compile(rf"\b{BADGE_NOUNS}\b", re.I)
 BADGE_OK = re.compile(rf"\b{NEGATION}\b[^.]{{0,48}}?\b{BADGE_NOUNS}\b", re.I)
 
+# TWO BADGES ARE NOT JOBS (Ryan, later on 2026-10-14): Rescue Ranger, for
+# rescuing any animal, and Pet Parent, for adopting one. Each is worked out
+# from something that already exists and adds no record of its own:
+#
+#   · `rescues` is love-rescues, in the rescuer's own browser. NOTHING ON THE
+#     STREET KNOWS WHO RESCUED AN ANIMAL -- the shelters promise it and
+#     make-rescue.py holds it -- so this badge is shown on the board and in the
+#     rescuer's own Profile and NOWHERE ELSE. The friendly edit is to put it on
+#     the public profile, which needs the server to keep who rescued what: a
+#     reversal of a privacy promise, and Ryan's call, not a badge's.
+#   · `pets` is the pets in a Profile. The board learns it from the one /cb/jobs
+#     read it already makes while signed on, as yes or no; somebody else's
+#     profile shows it only when their pets are shown.
+#
+# Neither lists jobs, and the shelters' own pages never mention a badge.
+FROM = {
+    "rescues": ('Rescue any animal at <a href="rescue-a-cat.html">Rescue A Cat</a>, '
+                '<a href="rescue-a-dog.html">Rescue A Dog</a> or <a href="rescue-small-animals.html">Rescue Small '
+                'Animals</a>. Nothing on the street knows who rescued which animal, so only your own browser knows '
+                'you did: this badge is shown here and in your own Profile on the CB, and nowhere else.'),
+    "pets": ('Adopt any animal from <a href="rescue-a-cat.html">Rescue A Cat</a>, <a href="rescue-a-dog.html">Rescue '
+             'A Dog</a> or <a href="rescue-small-animals.html">Rescue Small Animals</a>, signed on to the CB. It is '
+             'worked out from the pets in your Profile, so this board can only tell while you are signed on, and '
+             'other people see it only if you show your pets.'),
+}
+
 # One drawing per badge, in a 32-unit square, made of PATHS AND NOTHING ELSE:
 # ("s", d) is stroked and ("f", d) is filled, in whatever colour it is drawn in.
 # Paths only so the radio can draw the same badge from guild-jobs.json with
@@ -727,6 +753,12 @@ BADGE_DRAW = {
     "pull-up-a-chair": [("s", "M10 3 V29 M10 17 H23 V29 M10 17 H23")],
     # A joystick on its base.
     "free-play": [("s", "M6 22 H26 V28 H6 Z M16 22 V12"), ("f", "M12 9 A4 4 0 1 0 20 9 A4 4 0 1 0 12 9 Z")],
+    # A carrier with its handle and its barred door.
+    "rescue-ranger": [("s", "M4 11 H28 V27 H4 Z M11 11 V6 H21 V11"), ("s", "M10 15 V23 M14 15 V23 M18 15 V23 M22 15 V23")],
+    # A house with a heart in it.
+    "pet-parent": [("s", "M4 15 L16 5 L28 15 M8 12 V28 H24 V12"),
+                   ("f", "M16 25 C12 22 10 20 10 17.5 C10 15.5 11.5 14 13.3 14 C14.6 14 15.5 14.8 16 15.7 "
+                         "C16.5 14.8 17.4 14 18.7 14 C20.5 14 22 15.5 22 17.5 C22 20 20 22 16 25 Z")],
 }
 PATH_D = re.compile(r"[MmLlHhVvCcSsQqTtAaZz0-9 .,\-]+")
 
@@ -873,6 +905,10 @@ for b in badges:
     if b.get("needs") not in ("all", "any"):
         problems.append(f"{where}: needs {b.get('needs')!r}, which is neither all nor any.")
     jobs = b.get("jobs", [])
+    if b.get("from", "jobs") not in ("jobs", *FROM):
+        problems.append(f"{where}: from {b.get('from')!r}, which is not jobs, {' or '.join(FROM)}.")
+    elif b.get("from", "jobs") != "jobs" and (jobs or b.get("needs") != "any"):
+        problems.append(f"{where}: a badge from {b['from']} is any one of them, and lists no jobs.")
     if len(set(jobs)) != len(jobs):
         problems.append(f"{where}: a job listed twice.")
     for j in jobs:
@@ -884,7 +920,7 @@ for b in badges:
                 "street is owed rather than earned, and a badge is earned, so no badge sends anybody there.")
     if b.get("needs") == "all" and len(jobs) < 2:
         problems.append(f"{where}: a badge for every one of fewer than two jobs is a job, not a badge.")
-    key = (b.get("needs"), tuple(sorted(jobs)))
+    key = (b.get("from", "jobs"), b.get("needs"), tuple(sorted(jobs)))
     if key in seen_set:
         problems.append(f"{where}: the same jobs as {seen_set[key]!r}.")
     seen_set[key] = bid
@@ -919,6 +955,8 @@ for bid in set(BADGE_DRAW) - seen_badge:
 # the same: somebody who had the badge would stop having it, which is a badge
 # expiring, and nothing on this board expires.
 def asks_more(old, new):
+    if old.get("from", "jobs") != new.get("from", "jobs"):
+        return True                       # asks for something else altogether
     o, n = set(old.get("jobs", [])), set(new.get("jobs", []))
     if old.get("needs") == "all":
         return new.get("needs") == "all" and bool(n - o)
@@ -1102,15 +1140,18 @@ def badge(b):
     common, and the jobs. quest.js stamps it and marks the done ones; with
     scripts off it is a list of jobs that go together, which is all it is."""
     jobs = b.get("jobs", [])
+    src = b.get("from", "jobs")
     out = [
         f'      <li class="badge" id="badge-{b["id"]}" data-badge="{b["id"]}" data-needs="{b["needs"]}" '
-        f'data-jobs="{" ".join(jobs)}">',
+        f'data-jobs="{" ".join(jobs)}"' + (f' data-from="{src}"' if src != "jobs" else "") + '>',
         f'        {badge_svg(b["id"])}',
         f'        <div class="badge__words">',
         f'          <h3 class="badge__name">{e(b["name"])}</h3>',
         f'          <p class="badge__for">{e(b["for"])}</p>',
     ]
-    if not jobs:
+    if src != "jobs":
+        out.append(f'          <p class="badge__how">{FROM[src]}</p>')
+    elif not jobs:
         out.append(f'          <p class="badge__any">Any job on the board.</p>')
     else:
         out += [
@@ -1146,6 +1187,7 @@ GUILD_JSON.write_text(json.dumps({
     "_": "Written by tools/make-guild.py out of data/quests.json, for the CB's Profile. Do not edit.",
     "jobs": [{"id": q["id"], "title": q["title"], "room": q["room"]} for q in quests],
     "badges": [{"id": b["id"], "name": b["name"], "for": b["for"], "needs": b["needs"], "jobs": b.get("jobs", []),
+                "from": b.get("from", "jobs"),
                 "draw": [list(p) for p in BADGE_DRAW[b["id"]]]} for b in badges],
 }, ensure_ascii=False, indent=1) + "\n")
 
@@ -1172,12 +1214,27 @@ qjs = re.sub(r"/\*.*?\*/", " ", (ROOT / "quest.js").read_text(), flags=re.S)
 qjs = re.sub(r"(?m)^\s*//.*$", " ", qjs)
 for m in re.finditer(r"localStorage\.(setItem|getItem|removeItem)\(\s*([^,)]+)", qjs):
     kind, arg = m.group(1), m.group(2).strip()
-    if arg not in ("KEY", "KEY + '-probe'", "PASS_KEY"):
-        problems.append(f"quest.js {kind}s {arg}. It keeps love-quests and reads love-cb, and nothing else.")
-    if arg == "PASS_KEY" and kind != "getItem":
-        problems.append("quest.js writes love-cb. That is the radio's, and the board only reads it.")
-if "var PASS_KEY = 'love-cb';" not in qjs or "var KEY = 'love-quests';" not in qjs:
-    problems.append("quest.js no longer names love-quests and love-cb as the two things it touches.")
+    if arg not in ("KEY", "KEY + '-probe'", "PASS_KEY", "RESCUES_KEY"):
+        problems.append(f"quest.js {kind}s {arg}. It keeps love-quests and reads love-cb and love-rescues, "
+                        "and nothing else.")
+    if arg in ("PASS_KEY", "RESCUES_KEY") and kind != "getItem":
+        problems.append(f"quest.js writes {arg}. That is the radio's or the shelters', and the board only reads it.")
+if "var PASS_KEY = 'love-cb';" not in qjs or "var KEY = 'love-quests';" not in qjs \
+        or "var RESCUES_KEY = 'love-rescues';" not in qjs:
+    problems.append("quest.js no longer names love-quests, love-cb and love-rescues as the things it touches.")
+rd = re.search(r"function rescuedHere\(\) \{.*?\n  \}", qjs, re.S)
+if qjs.count("RESCUES_KEY") != 2 or not rd or "RESCUES_KEY" not in rd.group(0) \
+        or "return Array.isArray(v) && v.length > 0;" not in rd.group(0):
+    problems.append("quest.js reads love-rescues somewhere other than rescuedHere(), or turns it into more than "
+                    "yes or no. Nothing on the street knows who rescued, and the board does not start.")
+# The radio reads love-rescues for your own Profile's Rescue Ranger and never
+# writes it, and nothing about it goes into a request.
+cbjs = re.sub(r"/\*.*?\*/", " ", (ROOT / "cb.js").read_text(), flags=re.S)
+for m in re.finditer(r"localStorage\.(\w+)\(\s*'love-rescues'", cbjs):
+    if m.group(1) != "getItem":
+        problems.append("cb.js writes love-rescues. That is the shelters', and the radio only reads it.")
+if "love-rescues" in cbjs and cbjs.count("'love-rescues'") != 1:
+    problems.append("cb.js reads love-rescues in more than one place. One function reads it, for your own Profile.")
 if re.search(r"sessionStorage|indexedDB|document\.cookie|sendBeacon|WebSocket|EventSource|XMLHttpRequest", qjs):
     problems.append("quest.js keeps or sends something some other way.")
 if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", qjs):

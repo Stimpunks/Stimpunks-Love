@@ -9811,6 +9811,7 @@ html[data-intensity="max"] .guild-spark { animation: gu-rise 2.1s ease-out forwa
 .room-guild .badge__name { font-family: 'Rye', var(--sans); font-weight: 400; font-size: 19px; line-height: 1.16; margin: 0; padding: 0; border: 0; }
 .badge__for { margin: 7px 0 0; font-size: 14.5px; line-height: 1.55; }
 .badge__any { margin: 8px 0 0; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--gu-ink-2); }
+.badge__how { margin: 8px 0 0; font-size: 14px; line-height: 1.55; color: var(--gu-ink-2); }
 .badge__jobs > summary {
   cursor: pointer; min-height: 44px; display: flex; align-items: center;
   font-size: 12.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gu-file);

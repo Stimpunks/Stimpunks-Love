@@ -86,12 +86,22 @@ def main():
         bad.append("adventurers-guild.html has no badges between its guild:badges markers.")
     for block in blocks:
         m = re.match(r'<li class="badge" id="badge-([^"]+)" data-badge="\1" data-needs="(all|any)" '
-                     r'data-jobs="([^"]*)">', block)
+                     r'data-jobs="([^"]*)"(?: data-from="(rescues|pets)")?>', block)
         if not m:
             bad.append("a badge on the board does not say its id, what it needs and which jobs, the way "
                        "make-guild.py writes it.")
             continue
-        bid, needs, ids = m.group(1), m.group(2), m.group(3).split()
+        bid, needs, ids, src = m.group(1), m.group(2), m.group(3).split(), m.group(4)
+        # A badge from the shelters lists no jobs and sends you to the shelters,
+        # every one of which has to be there to send you to.
+        if src:
+            if ids or needs != "any":
+                bad.append(f"badge {bid!r} comes from the shelters and lists jobs as well.")
+            for page in re.findall(r'<a href="(rescue-[a-z-]+\.html)">', block):
+                if not (ROOT / page).exists():
+                    bad.append(f"badge {bid!r} sends people to {page}, which is not on disk.")
+            if not re.search(r'<a href="rescue-[a-z-]+\.html">', block):
+                bad.append(f"badge {bid!r} comes from the shelters and does not say where they are.")
         for j in ids:
             if j not in posted:
                 bad.append(f"badge {bid!r} asks for {j!r}, which is not posted on the board.")

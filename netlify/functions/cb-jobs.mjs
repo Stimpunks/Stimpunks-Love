@@ -6,8 +6,10 @@
    shown; POST { show: true | false } shows them to people on the CB, or not,
    and only a claimed username can. Nothing about when is sent or kept, and a
    handle is not an account: whoever signs on with an unclaimed one has these
-   jobs too, and Profile says so. */
-import { readPass, petKey, readJobs, keepJobs, forgetJobs, questIds, setJobsShown, jobsShown, json, body, sameSite } from '../cb/lib.mjs';
+   jobs too, and Profile says so. The GET also says, yes or no, whether the
+   Profile has a pet, which is all the board needs for Pet Parent; it never
+   says which pets or how many. */
+import { readPass, petKey, readPets, readJobs, keepJobs, forgetJobs, questIds, setJobsShown, jobsShown, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
@@ -35,7 +37,8 @@ export default async (req) => {
       return json(200, { keeping: true, jobs, shown: claimed && await jobsShown(who.handle), claimed }, NOINDEX);
     }
     const jobs = await readJobs(pk);
-    return json(200, { keeping: !!jobs, jobs: jobs || [], shown: claimed && !!jobs && await jobsShown(who.handle), claimed }, NOINDEX);
+    const adopted = (await readPets(pk)).length > 0;
+    return json(200, { keeping: !!jobs, jobs: jobs || [], shown: claimed && !!jobs && await jobsShown(who.handle), claimed, adopted }, NOINDEX);
   } catch (e) {
     return json(503, { error: 'That did not work just now. Try again in a moment.' });
   }

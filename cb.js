@@ -1113,7 +1113,10 @@
        once its board's Keep my jobs in my Profile is on, and the badges they
        make, worked out here from the jobs and kept nowhere. Read when the tray
        opens, never polled. */
-    pets.appendChild(el('p', 'cb-pets__h', 'Your jobs'));
+    pets.appendChild(el('p', 'cb-pets__h', 'Your badges and jobs'));
+    this.badgeBox = el('div', 'cb-jobs-box');
+    this.badgeBox.hidden = true;
+    pets.appendChild(this.badgeBox);
     this.jobsState = el('p', 'cb-quiet', '');
     pets.appendChild(this.jobsState);
     this.jobsBox = el('div', 'cb-jobs-box');
@@ -1980,29 +1983,46 @@
     /* THEIR JOBS AND BADGES (Ryan, 2026-10-14), only if they have chosen to
        show them, which needs a claimed username. The badges are worked out
        here from the jobs; nobody keeps a badge, and nothing counts them. */
-    box.appendChild(el('p', 'cb-peek__sub', 'Jobs and badges'));
+    box.appendChild(el('p', 'cb-peek__sub', 'Badges and jobs'));
+    var bBox = el('div', 'cb-jobs-box');
+    bBox.hidden = true;
+    box.appendChild(bBox);
     var jSaid = el('p', 'cb-quiet', 'Looking\u2026');
     box.appendChild(jSaid);
     var jBox = el('div', 'cb-jobs-box');
     jBox.hidden = true;
     box.appendChild(jBox);
     var mineJ = String(handle).toLowerCase() === String(this.state.handle || '').toLowerCase();
+    /* THEIR BADGES are worked out from what the profile shows and nothing
+       else: their jobs if they show them, and Pet Parent if they show their
+       pets. Never Rescue Ranger, because nothing on the street knows who
+       rescued, so nothing here could. Drawn once both have answered. */
+    var shownJobs = [], shownPets = false, guildNow = null, waiting = 2;
+    function badgesNow() {
+      if (--waiting > 0 || peekN !== me.peekN || !guildNow) return;
+      var bs = badgesFor(guildNow, shownJobs, { pets: shownPets, rescues: false });
+      badgesInto(bBox, bs);
+      bBox.hidden = !bs.length;
+    }
     withGuild(function (guild) {
+      guildNow = guild;
       call('/cb/jobs/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
         if (peekN !== me.peekN) return;
         if (r.status === 401) return me.lost();
-        if (r.status !== 200 || !r.body || !guild) { jSaid.textContent = 'Their jobs could not be fetched just now.'; return; }
-        if (!r.body.shown) {
+        if (r.status !== 200 || !r.body || !guild) jSaid.textContent = 'Their jobs could not be fetched just now.';
+        else if (!r.body.shown) {
           jSaid.textContent = mineJ
             ? 'You have not made your jobs public. Profile, on this radio, is where you switch that on.'
             : handle + ' has not made their jobs public.';
-          return;
+        } else if (!r.body.jobs.length) jSaid.textContent = r.body.handle + ' has no jobs kept.';
+        else {
+          shownJobs = r.body.jobs;
+          jSaid.hidden = true;
+          jBox.hidden = false;
+          jobsInto(jBox, guild, r.body.jobs, mineJ ? 'The jobs you have handed in' : 'The jobs ' + r.body.handle + ' has handed in');
         }
-        if (!r.body.jobs.length) { jSaid.textContent = r.body.handle + ' has no jobs kept.'; return; }
-        jSaid.hidden = true;
-        jBox.hidden = false;
-        jobsInto(jBox, guild, r.body.jobs, mineJ ? 'The jobs you have handed in' : 'The jobs ' + r.body.handle + ' has handed in');
-      }, function () { jSaid.textContent = 'Their jobs could not be fetched just now.'; });
+        badgesNow();
+      }, function () { jSaid.textContent = 'Their jobs could not be fetched just now.'; badgesNow(); });
     });
     var close = el('button', 'cb-btn cb-peek__close', 'Close');
     close.type = 'button';
@@ -2013,6 +2033,8 @@
     withAnimals(function () {
       call('/cb/pets/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
         if (r.status === 401) return me.lost();
+        shownPets = !!(r.status === 200 && r.body.shown && r.body.pets && r.body.pets.length);
+        badgesNow();
         if (r.status !== 200) { said.textContent = 'Their pets could not be fetched just now.'; return; }
         if (!r.body.shown) {
           said.textContent = handle === me.state.handle
@@ -2032,7 +2054,7 @@
           li.appendChild(words);
           list.appendChild(li);
         });
-      }, function () { said.textContent = 'Their pets could not be fetched just now.'; });
+      }, function () { said.textContent = 'Their pets could not be fetched just now.'; badgesNow(); });
     });
   };
 
@@ -2362,11 +2384,15 @@
     return svg;
   }
 
-  /* Which badges a list of jobs makes, asked of the jobs every time, in the
-     order the board posts them. Never counted. */
-  function badgesFor(guild, done) {
+  /* Which badges somebody has, asked every time, in the order the board posts
+     them, and never counted: the jobs make most of them, `has.pets` makes Pet
+     Parent and `has.rescues` makes Rescue Ranger. */
+  function badgesFor(guild, done, has) {
+    has = has || {};
     var all = guild.jobs.map(function (j) { return j.id; });
     return guild.badges.filter(function (b) {
+      if (b.from === 'rescues') return !!has.rescues;
+      if (b.from === 'pets') return !!has.pets;
       var want = b.jobs || [];
       if (b.needs === 'any') {
         return (want.length ? want : all).some(function (id) { return done.indexOf(id) >= 0; });
@@ -2375,12 +2401,19 @@
     });
   }
 
-  /* Somebody's badges and jobs, in Profile or in a profile: the badges drawn
-     and named with what their jobs have in common, then the jobs themselves,
-     folded, each a link to its place on the board. */
-  function jobsInto(box, guild, done, whose) {
+  /* WHETHER THIS BROWSER HAS RESCUED ANYBODY, for Rescue Ranger in your own
+     Profile and nowhere else. The shelters keep the animals you rescued under
+     love-rescues, in your browser, and nothing on the street knows who rescued
+     which animal, so this is read, never written and never sent, and somebody
+     else's profile never shows the badge. */
+  function rescuedHere() {
+    try { var v = JSON.parse(localStorage.getItem('love-rescues') || '[]'); return Array.isArray(v) && v.length > 0; }
+    catch (e) { return false; }
+  }
+
+  /* Badges, drawn and named with what they are for. */
+  function badgesInto(box, bs) {
     box.textContent = '';
-    var bs = badgesFor(guild, done);
     if (bs.length) {
       var ul = el('ul', 'cb-badges');
       bs.forEach(function (b) {
@@ -2396,6 +2429,11 @@
       });
       box.appendChild(ul);
     }
+  }
+
+  /* Somebody's jobs, folded, each a link to its place on the board. */
+  function jobsInto(box, guild, done, whose) {
+    box.textContent = '';
     var det = el('details', 'cb-jobs');
     det.appendChild(el('summary', null, whose));
     var list = el('ul', 'cb-jobs__list');
@@ -2903,6 +2941,15 @@
     box.textContent = ''; show.textContent = ''; w.textContent = '';
     box.hidden = true;
     this.jobsState.hidden = false;
+    // Your badges first: from the jobs kept here, your pets, and the animals
+    // this browser rescued, which only you are ever shown.
+    var rescued = rescuedHere();
+    var bs = guild ? badgesFor(guild, b.keeping ? b.jobs : [], { pets: !!b.adopted, rescues: rescued }) : [];
+    badgesInto(this.badgeBox, bs);
+    this.badgeBox.hidden = !bs.length;
+    if (bs.some(function (x) { return x.from === 'rescues'; })) {
+      this.badgeBox.appendChild(el('p', 'cb-quiet', 'Rescue Ranger is worked out from the animals this browser rescued. Nothing on the street knows who rescued which animal, so only you see it, here and on the Guild\u2019s board.'));
+    }
     if (!b.keeping) {
       this.jobsState.textContent = 'Your Profile is not keeping your jobs. The ';
       var g = el('a', null, 'Adventurer\u2019s Guild'); g.href = '/adventurers-guild.html';
@@ -2939,7 +2986,7 @@
         t.disabled = true;
         call('/cb/jobs', { body: { show: !on } }, me.state.pass).then(function (r) {
           t.disabled = false;
-          if (r.status === 200 && typeof r.body.shown === 'boolean') { me.drawJobs({ keeping: true, jobs: b.jobs, claimed: true, shown: r.body.shown }, guild, true); return; }
+          if (r.status === 200 && typeof r.body.shown === 'boolean') { me.drawJobs({ keeping: true, jobs: b.jobs, claimed: true, shown: r.body.shown, adopted: b.adopted }, guild, true); return; }
           said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
         }, function () { t.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
       });

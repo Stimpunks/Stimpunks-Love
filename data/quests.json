@@ -3772,7 +3772,7 @@
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none.",
- "_badges": "A BADGE IS A SET OF JOBS THAT GO TOGETHER, AND NOTHING ELSE. Ryan's call, 2026-10-14, after people asked for badges like Scouting America's merit badges, Open Badges and video game achievements; he did not want to gamify or credentialise too much, and this reverses the part of _no_score that refused a badge on this board. So a badge is WORKED OUT from the jobs somebody has handed in, every time, and kept nowhere of its own. It is never counted, never ranked, never rare and never secret; it certifies nothing, because every code is printed in its room and every question gives its answer away; and it cannot be lost except by forgetting the jobs. `needs` is `all` (every job listed) or `any` (any one of them, and with no jobs listed, any job on the board). A BADGE'S LIST NEVER GROWS ONCE IT IS POSTED, because a badge somebody already has would stop being theirs, which is a badge expiring: make-guild.py compares the list against the committed file and refuses a job added to a posted badge, so a new room in an area goes into a new badge or into none. A `for` names its rooms rather than saying every one of something, for the same reason. NO BADGE SENDS ANYBODY TO A ROOM FOR RESTING IN, because rest on this street is owed rather than earned and a badge is earned; make-guild.py names those rooms. Every badge has its own drawing in make-guild.py, made of paths only, so the radio's Profile can draw it from guild-jobs.json without any markup.",
+ "_badges": "A BADGE IS A SET OF THINGS DONE THAT GO TOGETHER: JOBS, MOSTLY. Ryan's call, 2026-10-14, after people asked for badges like Scouting America's merit badges, Open Badges and video game achievements; he did not want to gamify or credentialise too much, and this reverses the part of _no_score that refused a badge on this board. So a badge is WORKED OUT from the jobs somebody has handed in, every time, and kept nowhere of its own. It is never counted, never ranked, never rare and never secret; it certifies nothing, because every code is printed in its room and every question gives its answer away; and it cannot be lost except by forgetting the jobs. `needs` is `all` (every job listed) or `any` (any one of them, and with no jobs listed, any job on the board). A BADGE'S LIST NEVER GROWS ONCE IT IS POSTED, because a badge somebody already has would stop being theirs, which is a badge expiring: make-guild.py compares the list against the committed file and refuses a job added to a posted badge, so a new room in an area goes into a new badge or into none. A `for` names its rooms rather than saying every one of something, for the same reason. NO BADGE SENDS ANYBODY TO A ROOM FOR RESTING IN, because rest on this street is owed rather than earned and a badge is earned; make-guild.py names those rooms. Every badge has its own drawing in make-guild.py, made of paths only, so the radio's Profile can draw it from guild-jobs.json without any markup. TWO BADGES ARE NOT JOBS, Ryan's call later the same day: `from: rescues` (Rescue Ranger, rescuing any animal) and `from: pets` (Pet Parent, adopting one). Each is worked out from what already exists and adds no record. NOTHING ON THE STREET KNOWS WHO RESCUED AN ANIMAL, which the shelters promise, so Rescue Ranger is worked out from love-rescues in the rescuer's own browser and is shown on the board and in their own Profile and nowhere else; making it public would need the server to record rescuers. Pet Parent is worked out from the pets in a Profile, and somebody else sees it only when those pets are shown. The shelters' own pages never mention a badge: make-rescue.py refuses the word there.",
  "badges": [
   {
    "id": "one-is-plenty",
@@ -3959,6 +3959,22 @@
     "pebbling-stone"
    ],
    "for": "The toys: the Playhouse, and the Arcade and the cabinets in it."
+  },
+  {
+   "id": "rescue-ranger",
+   "name": "Rescue Ranger",
+   "from": "rescues",
+   "needs": "any",
+   "jobs": [],
+   "for": "Bringing an animal into one of the shelters, with a name or without one."
+  },
+  {
+   "id": "pet-parent",
+   "name": "Pet Parent",
+   "from": "pets",
+   "needs": "any",
+   "jobs": [],
+   "for": "Adopting an animal from one of the shelters, so that they live in your Profile on the CB."
   }
  ]
 }

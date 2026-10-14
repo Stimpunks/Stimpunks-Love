@@ -564,6 +564,7 @@
    "for": "Handing in any job at all. The house rules say one is a perfectly good number of jobs to do, and this badge is them saying it again.",
    "needs": "any",
    "jobs": [],
+   "from": "jobs",
    "draw": [
     [
      "f",
@@ -582,6 +583,7 @@
     "mycelium-block",
     "glow-star"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -605,6 +607,7 @@
     "hermitage-sunflower",
     "bns-spoon"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -632,6 +635,7 @@
     "nothing-for-sale-torch",
     "rave-earplug"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -658,6 +662,7 @@
     "wsc-seed",
     "hbx-coin"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -682,6 +687,7 @@
     "md-fuse",
     "es-note"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -707,6 +713,7 @@
     "cf-marshmallow",
     "cv-icicle"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -729,6 +736,7 @@
     "ook-peel",
     "mopery-card"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -748,6 +756,7 @@
     "pkp-mouse",
     "run-ball"
    ],
+   "from": "jobs",
    "draw": [
     [
      "f",
@@ -782,6 +791,7 @@
     "grn-leaf",
     "pil-tape"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -808,6 +818,7 @@
     "now-playing-brush",
     "onb-washi"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -831,6 +842,7 @@
     "den-spindle",
     "live-room-tape"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -858,6 +870,7 @@
     "aqp-mat",
     "pkp-mouse"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -877,6 +890,7 @@
     "otter-clam",
     "pebbling-stone"
    ],
+   "from": "jobs",
    "draw": [
     [
      "s",
@@ -885,6 +899,42 @@
     [
      "f",
      "M12 9 A4 4 0 1 0 20 9 A4 4 0 1 0 12 9 Z"
+    ]
+   ]
+  },
+  {
+   "id": "rescue-ranger",
+   "name": "Rescue Ranger",
+   "for": "Bringing an animal into one of the shelters, with a name or without one.",
+   "needs": "any",
+   "jobs": [],
+   "from": "rescues",
+   "draw": [
+    [
+     "s",
+     "M4 11 H28 V27 H4 Z M11 11 V6 H21 V11"
+    ],
+    [
+     "s",
+     "M10 15 V23 M14 15 V23 M18 15 V23 M22 15 V23"
+    ]
+   ]
+  },
+  {
+   "id": "pet-parent",
+   "name": "Pet Parent",
+   "for": "Adopting an animal from one of the shelters, so that they live in your Profile on the CB.",
+   "needs": "any",
+   "jobs": [],
+   "from": "pets",
+   "draw": [
+    [
+     "s",
+     "M4 15 L16 5 L28 15 M8 12 V28 H24 V12"
+    ],
+    [
+     "f",
+     "M16 25 C12 22 10 20 10 17.5 C10 15.5 11.5 14 13.3 14 C14.6 14 15.5 14.8 16 15.7 C16.5 14.8 17.4 14 18.7 14 C20.5 14 22 15.5 22 17.5 C22 20 20 22 16 25 Z"
     ]
    ]
   }

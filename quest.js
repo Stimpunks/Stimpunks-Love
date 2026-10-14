@@ -16,7 +16,8 @@
    THE BOARD'S BOOKKEEPING IS THREE THINGS NOW (Ryan's brief, 2026-10-14), and
    none of them is a number. The filter shows done jobs, not-done jobs or every
    job, and never says how many. A badge is worked out from the stamps every
-   time and kept nowhere. And signed on to the CB, Keep my jobs in my Profile
+   time and kept nowhere; two are worked out from the shelters instead, from
+   the animals this browser rescued and from whether your Profile has a pet. And signed on to the CB, Keep my jobs in my Profile
    keeps them there as well, once it is switched on and never before.
 
    AND THE DIAL GOVERNS THE FANFARE, NEVER THE WORDS. Handing in a code says the
@@ -170,6 +171,16 @@
      and never writes it. tools/make-guild.py reads this file for all of that. */
   var PASS_KEY = 'love-cb';
   var JOBS = '/cb/jobs';
+  var RESCUES_KEY = 'love-rescues';
+
+  /* WHETHER THIS BROWSER HAS RESCUED ANYBODY, for Rescue Ranger. The shelters
+     keep the animals you rescued under love-rescues, in your browser, and
+     nothing anywhere else knows who rescued which animal. Read, never
+     written, turned into yes or no here, and never sent. */
+  function rescuedHere() {
+    try { var v = JSON.parse(localStorage.getItem(RESCUES_KEY) || '[]'); return Array.isArray(v) && v.length > 0; }
+    catch (e) { return false; }
+  }
 
   function pass() {
     try { var v = JSON.parse(localStorage.getItem(PASS_KEY) || 'null'); return v && v.pass ? v : null; }
@@ -211,6 +222,8 @@
        keeping them, what the Profile holds: the same jobs on any device. */
     var local = done();
     var profile = null;          // the Profile's jobs while it keeps them, or null
+    var rescued = rescuedHere(); // Rescue Ranger: this browser has rescued somebody
+    var adopted = false;         // Pet Parent: the Profile has a pet, which only a signed-on page can ask
     function isDone(id) {
       return local.indexOf(id) >= 0 || (!!profile && profile.indexOf(id) >= 0);
     }
@@ -245,6 +258,8 @@
        but the jobs. Its own list marks the done ones with the board's word, and
        nothing here says how many are left. */
     function hasBadge(b) {
+      if (b.dataset.from === 'rescues') return rescued;
+      if (b.dataset.from === 'pets') return adopted;
       var want = (b.dataset.jobs || '').split(' ').filter(Boolean);
       if (b.dataset.needs === 'any') {
         if (!want.length) {
@@ -400,6 +415,7 @@
     function fromAnswer(b) {
       profile = b && b.keeping && Array.isArray(b.jobs) ? b.jobs.slice() : null;
       if (b && typeof b.claimed === 'boolean') claimed = b.claimed;
+      if (b && typeof b.adopted === 'boolean') adopted = b.adopted;
       drawCb();
       redraw();
     }
