@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-14T11:28Z",
+ "set": "2026-10-15T11:58Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-14T11:28:39Z"
+     "2026-10-15T11:58:55Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-14T11:28:39Z"
+     "2026-10-15T11:58:55Z"
     ]
    ]
   }
@@ -85,26 +85,6 @@
    "published": "2026-10-11T14:52:48Z",
    "state": "screen",
    "runs": 180,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "8u0J4LJGvQw",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "The link we’ve established between money and morality needs to be severed with a guillotine",
-   "published": "2026-09-14T12:21:46Z",
-   "state": "screen",
-   "runs": 80,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "ypsh1QcioC8",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Bro how much more free crap do they need? 😂",
-   "published": "2026-09-14T23:56:11Z",
-   "state": "screen",
-   "runs": 84,
    "channel": "Farming While Beige"
   },
   {
@@ -415,6 +395,36 @@
    "published": "2026-10-13T22:09:56Z",
    "state": "screen",
    "runs": 79,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "E4nF-vAJglo",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Why I don’t raise bison",
+   "published": "2026-10-14T16:48:11Z",
+   "state": "screen",
+   "runs": 88,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "O5nGUrSwIlg",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "I’d still vote for him unless blk folk united to deny the vote to send a message to dudes like this",
+   "published": "2026-10-14T19:16:11Z",
+   "state": "screen",
+   "runs": 69,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ip3ng4DfLrE",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Naw.",
+   "published": "2026-10-15T00:52:06Z",
+   "state": "screen",
+   "runs": 178,
    "channel": "Farming While Beige"
   }
  ]
