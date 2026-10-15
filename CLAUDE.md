@@ -4164,7 +4164,8 @@ refill`) and redrawn by `make-live-room.py --month`, which refuses a month chann
 the desk. **The indoors rule is the desk's**: nothing on a watch page says where a video was played, so the
 month says out loud that nobody has checked, and **its strips carry no tape, because tape means a person
 patched it in.** The friendly edits are tape on the month, which claims a choice nobody made, and keeping
-only KEXP's "Full Performance" uploads, which is a title gate and Ryan's call (DECISIONS.md). **The puller
+only KEXP's "Full Performance" uploads: **Ryan's call, 2026-10-15, is every upload, songs and shorts
+included**, so do not add a title gate to shorten KEXP's month. **The puller
 reads a channel's list page past its first hundred when the morning's feed does not join on to what an
 earlier morning covered**, because KEXP puts up more in three days than a feed carries. **And by
 2026-10-15 YouTube served a channel's upload lists (UULF, UUSH) with their rows as `lockupViewModel` and
