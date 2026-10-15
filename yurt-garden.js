@@ -312,22 +312,117 @@
       '<circle cx="-2.8" cy="-12.2" r=".95" fill="' + b1 + '"/><circle cx="-1" cy="-13.1" r="1" fill="' + b2 + '"/>' +
       '<circle cx="1" cy="-13.1" r="1" fill="' + b3 + '"/><circle cx="2.8" cy="-12.2" r=".95" fill="' + b1 + '"/>';
   }
+  /* WHERE A FAERY MAY BE: never over a word or a picture (Helen's ask). The
+     faeries live on the page, not on the window, so the words never slide under
+     them as it scrolls. The page is cut into small squares, and every square
+     knows how far it is from the nearest word; a faery only goes where there is
+     room for all of it, and flies from one open space to another along squares
+     that have room too, so it goes round the words and never across them. */
+  var CELL = 16;
+  function faeryRoom() {
+    var doc = document.documentElement;
+    var W = doc.clientWidth, H = Math.max(doc.scrollHeight, document.body.scrollHeight);
+    var cols = Math.ceil(W / CELL), rows = Math.ceil(H / CELL), n = cols * rows;
+    var far = new Int16Array(n).fill(-1), q = new Int32Array(n), head = 0, tail = 0;
+    obstacles().forEach(function (o) {
+      var c0 = Math.max(0, Math.floor(o.l / CELL)), c1 = Math.min(cols - 1, Math.floor(o.r / CELL));
+      var r0 = Math.max(0, Math.floor(o.t / CELL)), r1 = Math.min(rows - 1, Math.floor(o.b / CELL));
+      for (var r = r0; r <= r1; r++) for (var c = c0; c <= c1; c++) {
+        var k = r * cols + c;
+        if (far[k] < 0) { far[k] = 0; q[tail++] = k; }
+      }
+    });
+    // The page's own edges count as walls too.
+    for (var r = 0; r < rows; r++) for (var c = 0; c < cols; c++) {
+      if (r && c && r < rows - 1 && c < cols - 1) continue;
+      var e = r * cols + c;
+      if (far[e] < 0) { far[e] = 0; q[tail++] = e; }
+    }
+    while (head < tail) {
+      var k = q[head++], kr = Math.floor(k / cols), kc = k % cols;
+      for (var dr = -1; dr <= 1; dr++) for (var dc = -1; dc <= 1; dc++) {
+        var nr = kr + dr, nc = kc + dc;
+        if (nr < 0 || nc < 0 || nr >= rows || nc >= cols) continue;
+        var m = nr * cols + nc;
+        if (far[m] < 0) { far[m] = far[k] + 1; q[tail++] = m; }
+      }
+    }
+    return { cols: cols, rows: rows, far: far, width: W, height: H };
+  }
+  function roomFor(f) { return Math.ceil((f.size / 2 + 14) / CELL); }
+  function cellOf(x, y) {
+    var R = faeries.room;
+    var c = Math.max(0, Math.min(R.cols - 1, Math.floor(x / CELL))), r = Math.max(0, Math.min(R.rows - 1, Math.floor(y / CELL)));
+    return r * R.cols + c;
+  }
+  // From where it is, every square it can reach with room to spare; then one of
+  // those in or near the window, and the way there.
+  function nextFlight(f) {
+    var R = faeries.room, need = roomFor(f), start = cellOf(f.x, f.y);
+    var from = new Int32Array(R.cols * R.rows).fill(-2), q = [], seen = [];
+    if (R.far[start] < need) {
+      // Where it is has no room now (the page moved): go to the nearest square that has.
+      var best = -1, bd = Infinity;
+      for (var k = 0; k < R.far.length; k++) if (R.far[k] >= need) {
+        var dx = k % R.cols - start % R.cols, dy = Math.floor(k / R.cols) - Math.floor(start / R.cols), d = dx * dx + dy * dy;
+        if (d < bd) { bd = d; best = k; }
+      }
+      if (best < 0) { f.path = []; f.hide = true; return; }
+      f.x = (best % R.cols + .5) * CELL; f.y = (Math.floor(best / R.cols) + .5) * CELL; start = best;
+    }
+    f.hide = false;
+    from[start] = -1; q.push(start);
+    var top = window.scrollY, bottom = top + window.innerHeight;
+    for (var h = 0; h < q.length; h++) {
+      var k2 = q[h], r = Math.floor(k2 / R.cols), c = k2 % R.cols, y = (r + .5) * CELL;
+      if (y > top + 20 && y < bottom - 20) seen.push(k2);
+      [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (d) {
+        var nr = r + d[0], nc = c + d[1];
+        if (nr < 0 || nc < 0 || nr >= R.rows || nc >= R.cols) return;
+        var m = nr * R.cols + nc;
+        if (from[m] === -2 && R.far[m] >= need) { from[m] = k2; q.push(m); }
+      });
+    }
+    var pool = seen.length ? seen : q, goal = pool[Math.floor(Math.random() * pool.length)], path = [];
+    for (var at = goal; at >= 0 && at !== start; at = from[at]) path.push([(at % R.cols + .5) * CELL, (Math.floor(at / R.cols) + .5) * CELL]);
+    f.path = path.reverse();
+    f.rest = 1 + Math.random() * 3;
+  }
   function buildFaeries() {
     var box = layer('yurt-faeries');
-    var many = window.innerWidth < 600 ? 5 : 7, list = [];
+    // Three sizes, Helen's ask: little ones, ones three times that, and the
+    // biggest four times that.
+    var sizes = window.innerWidth < 600 ? [1, 1, 3, 4] : [1, 1, 1, 3, 3, 4, 4], list = [];
     var tints = TINTS.slice().sort(function () { return Math.random() - .5; });
-    for (var i = 0; i < many; i++) {
-      var size = Math.round(24 + Math.random() * 18);
+    for (var i = 0; i < sizes.length; i++) {
+      var size = Math.round(sizes[i] * (30 + Math.random() * 6));
       var svg = el('svg', { class: 'yurt-faery', width: Math.round(size * .83), height: size, viewBox: '-20 -24 40 48' }, box);
       svg.innerHTML = faeryDrawing(i, tints[i % tints.length]);
       list.push({ el: svg, size: size, tint: tints[i % tints.length], wings: svg.querySelector('.yurt-faery__wings'),
         glow: svg.querySelector('.yurt-faery__glow'), heart: svg.querySelector('stop'), trail: 0,
-        bx: .15 + Math.random() * .7, by: .15 + Math.random() * .7,
-        ax: .12 + Math.random() * .22, ay: .08 + Math.random() * .2,
-        px: 70 + Math.random() * 60, py: 55 + Math.random() * 50, petal: Math.random(),
+        x: 0, y: 0, path: [], rest: 0, speed: 26 + Math.random() * 22, petal: Math.random(),
         fx: Math.random() * 6.28, fy: Math.random() * 6.28, wing: .45 + Math.random() * .3 });
     }
     faeries = { box: box, list: list, t: 0, stars: [], petals: [], bright: null };
+    placeFaeries();
+  }
+  // Every faery starts somewhere open in the window, or as near it as there is.
+  function placeFaeries() {
+    var R = faeries.room = faeryRoom();
+    faeries.box.style.width = R.width + 'px'; faeries.box.style.height = R.height + 'px';
+    var top = window.scrollY, bottom = top + window.innerHeight;
+    faeries.list.forEach(function (f) {
+      var need = roomFor(f), spots = [], near = [];
+      for (var k = 0; k < R.far.length; k++) if (R.far[k] >= need) {
+        var y = (Math.floor(k / R.cols) + .5) * CELL;
+        (y > top && y < bottom ? spots : near).push(k);
+      }
+      var pool = spots.length ? spots : near;
+      if (!pool.length) { f.hide = true; f.path = []; return; }
+      var k2 = pool[Math.floor(Math.random() * pool.length)];
+      f.x = (k2 % R.cols + .5) * CELL; f.y = (Math.floor(k2 / R.cols) + .5) * CELL;
+      f.path = []; f.rest = Math.random() * 2; f.hide = false;
+    });
   }
   /* AT MAX GLITTER THE FAERIES ARE MUCH BRIGHTER AND LEAVE A TRAIL OF STARS,
      Helen's ask. Each star is a small four-pointed sparkle that drifts down a
@@ -358,7 +453,7 @@
     });
     faeries.stars = faeries.stars.filter(function (s) {
       s.age += dt;
-      if (s.age >= 1.5) { s.el.remove(); return false; }
+      if (s.age >= 1.5 || overWords(s.x, s.y + 4)) { s.el.remove(); return false; }
       s.y += dt * 9;
       s.el.style.left = s.x.toFixed(1) + 'px';
       s.el.style.top = s.y.toFixed(1) + 'px';
@@ -371,6 +466,7 @@
   var PETAL = 'M0 -3 C2 -2 2 1.5 0 3 C-2 1.5 -2 -2 0 -3 Z';
   function petals(dt) {
     faeries.list.forEach(function (f) {
+      if (f.hide) return;
       f.petal += dt;
       if (f.petal < .7) return;
       f.petal = Math.random() * .3;
@@ -381,7 +477,7 @@
     });
     faeries.petals = faeries.petals.filter(function (s) {
       s.age += dt;
-      if (s.age >= 3) { s.el.remove(); return false; }
+      if (s.age >= 3 || overWords(s.x, s.y + 4)) { s.el.remove(); return false; }
       s.y += dt * 14;
       s.el.style.left = (s.x + 6 * Math.sin(s.age * 1.6 + s.sway)).toFixed(1) + 'px';
       s.el.style.top = s.y.toFixed(1) + 'px';
@@ -389,26 +485,33 @@
       return true;
     });
   }
-  function drawFaeries() {
-    var W = window.innerWidth, H = window.innerHeight, t = faeries.t;
+  function drawFaeries(dt) {
+    var t = faeries.t;
     faeries.list.forEach(function (f) {
-      var half = f.size / 2;
-      var x = (f.bx + f.ax * Math.sin(6.283 * t / f.px + f.fx)) * W + 5 * Math.sin(t * .5 + f.fy);
-      var y = (f.by + f.ay * Math.sin(6.283 * t / f.py + f.fy)) * H + 9 * Math.sin(t * .8 + f.fx);
-      var left = Math.max(0, Math.min(W - f.size, x - half)), top = Math.max(0, Math.min(H - f.size, y - half));
-      f.x = left + half; f.y = top + half;
-      f.el.style.left = left.toFixed(1) + 'px';
-      f.el.style.top = top.toFixed(1) + 'px';
+      if (!f.hide && dt) {
+        if (f.path.length) {
+          var w = f.path[0], dx = w[0] - f.x, dy = w[1] - f.y, d = Math.sqrt(dx * dx + dy * dy), step = f.speed * dt;
+          if (d <= step) { f.x = w[0]; f.y = w[1]; f.path.shift(); }
+          else { f.x += dx / d * step; f.y += dy / d * step; }
+        } else if ((f.rest -= dt) <= 0) nextFlight(f);
+      }
+      f.el.style.display = f.hide ? 'none' : '';
+      // A little bob as it hovers, well inside the room it was given.
+      var bx = 4 * Math.sin(t * .7 + f.fx), by = 6 * Math.sin(t * .9 + f.fy);
+      f.el.style.left = (f.x + bx - f.size * .415).toFixed(1) + 'px';
+      f.el.style.top = (f.y + by - f.size / 2).toFixed(1) + 'px';
       f.wings.setAttribute('transform', 'scale(' + (0.7 + 0.3 * Math.abs(Math.sin(t * 6.283 * f.wing))).toFixed(3) + ' 1)');
     });
   }
+  // A petal or a star that drifts onto a word is gone at once.
+  function overWords(x, y) { var R = faeries.room; return R.far[cellOf(x, y)] < 1; }
 
   /* ── One loop for both, which stops when neither is on or the tab is hidden ── */
   function tick(now) {
     var dt = last ? Math.min(.1, (now - last) / 1000) : 0;
     last = now;
     if (garden && grown < GROW) { grown += dt; drawGarden(); }
-    if (faeries) { faeries.t += dt; drawFaeries(); petals(dt); trail(dt); }
+    if (faeries) { faeries.t += dt; drawFaeries(dt); petals(dt); trail(dt); }
     frame = (faeries || (garden && grown < GROW)) ? requestAnimationFrame(tick) : 0;
     if (!frame) last = 0;
   }
@@ -420,7 +523,7 @@
       btnF.setAttribute('aria-pressed', 'false');
       say('The faeries have gone.');
     } else {
-      buildFaeries(); drawFaeries(); run();
+      buildFaeries(); drawFaeries(0); run();
       btnF.setAttribute('aria-pressed', 'true');
       say('Faeries are drifting across the page. Press again to say goodbye.');
     }
@@ -442,9 +545,14 @@
   function reshape() {
     clearTimeout(reshaped);
     reshaped = setTimeout(function () {
+      var doc = document.documentElement, W = doc.clientWidth, H = Math.max(doc.scrollHeight, document.body.scrollHeight);
+      if (faeries && (W !== faeries.room.width || H !== faeries.room.height)) {
+        faeries.room = faeryRoom();
+        faeries.box.style.width = W + 'px'; faeries.box.style.height = H + 'px';
+        faeries.list.forEach(function (f) { f.path = []; f.rest = 0; });
+      }
       if (!garden) return;
-      var doc = document.documentElement;
-      if (doc.clientWidth === garden.width && Math.max(doc.scrollHeight, document.body.scrollHeight) === garden.height) return;
+      if (W === garden.width && H === garden.height) return;
       buildGarden(); run();
     }, 400);
   }

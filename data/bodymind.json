@@ -188,6 +188,7 @@
         ["darkbrown", "Dark brown"],
         ["brown", "Brown"],
         ["auburn", "Auburn"],
+        ["red", "Bright red"],
         ["ginger", "Ginger"],
         ["blonde", "Blonde"],
         ["grey", "Grey"],
@@ -196,7 +197,8 @@
         ["blue", "Blue"],
         ["green", "Green"],
         ["purple", "Purple"],
-        ["teal", "Teal"]
+        ["teal", "Teal"],
+        ["rainbow", "Rainbow"]
       ]
     },
     {
@@ -305,8 +307,11 @@
     "hair": {
       "black": "#1B1714", "darkbrown": "#3B2518", "brown": "#6B4428", "auburn": "#8C3A1E",
       "ginger": "#C9622A", "blonde": "#E2C27A", "grey": "#9A9A9C", "white": "#EDEBE6",
-      "pink": "#F06BA8", "blue": "#3C6BE0", "green": "#3FA35A", "purple": "#8A4FD0", "teal": "#1E9A94"
+      "pink": "#F06BA8", "blue": "#3C6BE0", "green": "#3FA35A", "purple": "#8A4FD0", "teal": "#1E9A94",
+      "red": "#D7261E",
+      "rainbow": "#C9529A"
     },
+    "hair_rainbow": ["#E0352B", "#F08A24", "#F2C631", "#3FA35A", "#3C6BE0", "#8A4FD0"],
     "aid": "#7F8A94",
     "aid_dark": "#2E3338",
     "white_cane": "#F4F4F2",

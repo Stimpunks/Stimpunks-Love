@@ -448,7 +448,10 @@ def choices(d):
                 if g["key"] == "skin":
                     swatch = f'<span class="bmb-swatch" style="--sw:{colours["skin"][k]}" aria-hidden="true"></span>'
                 elif g["key"] == "hairColour":
-                    swatch = f'<span class="bmb-swatch" style="--sw:{colours["hair"][k]}" aria-hidden="true"></span>'
+                    # Rainbow hair is stripes, not one colour, and its swatch is too.
+                    sw = (f'linear-gradient({", ".join(colours["hair_rainbow"])})' if k == "rainbow"
+                          else colours["hair"][k])
+                    swatch = f'<span class="bmb-swatch" style="--sw:{sw}" aria-hidden="true"></span>'
                 elif g["key"] == "layer":
                     swatch = f'<span class="bmb-swatch" style="--sw:var(--dd-f-{k})" aria-hidden="true"></span>'
                 feet = ' data-standing' if k in standing.get(g["key"], []) else ""

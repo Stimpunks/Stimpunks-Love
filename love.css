@@ -6354,7 +6354,7 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 .yurt-magic__btn[aria-pressed="true"] { color: var(--candle); border-color: var(--candle); }
 .yurt-magic__btn:focus-visible { outline: 3px solid var(--candle); outline-offset: 2px; }
 .yurt-magic__note { margin: 10px 0 0; font-size: 15px; color: var(--tallow-2); }
-.yurt-faeries { position: fixed; inset: 0; z-index: 31; pointer-events: none; overflow: hidden; }
+.yurt-faeries { position: absolute; left: 0; top: 0; z-index: 31; pointer-events: none; overflow: hidden; }
 /* The garden is on the page, not over the window, so it scrolls with the words
    it grows round and never slides over one. */
 .yurt-garden { position: absolute; left: 0; top: 0; z-index: 30; pointer-events: none; overflow: hidden; }
