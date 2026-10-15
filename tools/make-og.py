@@ -1586,6 +1586,13 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--yurt .og-head {{ display: flex; align-items: center; gap: 34px; }}
 .og--yurt .crown {{ flex: 0 0 auto; width: 176px; margin: 0; }}
 .og--yurt h1 {{ font-size: 104px; margin: 0 !important; }}
+.og--reading {{ width: 100%; padding: 36px 60px 40px; gap: 18px; }}
+.og--reading .og-head {{ display: flex; align-items: center; gap: 40px; }}
+.og--reading .rdr-scene {{ flex: 0 0 auto; width: 460px; margin: 0; }}
+.og--reading .og-words {{ display: flex; flex-direction: column; gap: 14px; }}
+.og--reading .rdr-eyebrow {{ margin: 0; }}
+.og--reading h1 {{ font-size: 84px; margin: 0 !important; }}
+.og--reading .og-lede {{ font-size: 27px; }}
 .og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
   letter-spacing: 0; font-size: 30px; }}
@@ -2568,6 +2575,27 @@ def card_yurt(p):
         f"fanning down from it \u2014 beside \u201c{p['h1text']}\u201d in large cream "
         f"italic serif capitals. Under that: {p['desc_plain']} Along the bottom, "
         f"handwritten: a pitch in the campgrounds, stimpunks.world.",
+    )
+
+
+def card_reading(p):
+    return (
+        "",
+        f'<div class="rdr og og--reading" data-fit="card">'
+        f'<div class="og-head">{p["scene"]}<div class="og-words">'
+        f'<p class="rdr-eyebrow">behind the faery yurt &middot; through the bookcase door</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div></div>'
+        f'<p class="og-foot" data-fit="footer">every spine is a door &middot; stimpunks.world</p>'
+        f'</div>',
+        f"A claret card. On the left, a drawing of a firelit room: a pointed stone "
+        f"fireplace with logs burning, two candles on its mantel, a velvet sofa to "
+        f"one side and two leather armchairs to the other, a rug between them, and "
+        f"a candle in a brass sconce on each wall. Beside it, small cream capitals "
+        f"reading behind the faery yurt, through the bookcase door, then "
+        f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
+        f"{p['desc_plain']} Along the bottom: every spine is a door, stimpunks.world.",
     )
 
 
@@ -5153,6 +5181,7 @@ CARDS = {
     "looming":      card_looming,
     "garden":       card_garden,
     "room-yurt":    card_yurt,
+    "room-reading": card_reading,
     "hermitage":    card_herm,
     "club":         card_club,
     "room-latibulum": card_latibulum,
@@ -5254,6 +5283,7 @@ def main():
         ("stream",   "campgrounds.html",  r'(<div class="stream".*?</div>)'),
         ("hedge",    "the-garden.html",   r'(<div class="gd-hedge".*?</svg>\s*</div>)'),
         ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
+        ("scene",    "faery-reading-room.html", r'(<svg class="rdr-scene".*?</svg>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),

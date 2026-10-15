@@ -7,7 +7,8 @@ a gallery you click into, inside a golden frame. The room is hers, so the ask
 is the licence; this tool adds the street's plumbing round it.
 
 ONE DATA FILE, ONE TOOL, THREE SURFACES: the wall in faery-yurt.html, the Art
-shelf in her bookcases, and the credits in liner-notes.html. The pictures hang
+shelf in her bookcases (in faery-reading-room.html since 2026-10-15, when the
+bookcases outgrew the yurt), and the credits in liner-notes.html. The pictures hang
 small on the wall; each one is a link to the scan itself, which is what it
 opens with scripts off, and yurt-art.js turns that press into the painting's
 own <dialog> inside a gilt frame, with Escape and a click on the dark to close.
@@ -53,6 +54,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/yurt-gallery.json"
 ROOM = ROOT / "faery-yurt.html"
+SHELF = ROOT / "faery-reading-room.html"   # the bookcases moved here on 2026-10-15
 NOTES = ROOT / "liner-notes.html"
 
 ENTITY = re.compile(r"&(?:[a-zA-Z][a-zA-Z0-9]{1,31}|#\d{1,6}|#x[0-9a-fA-F]{1,6});")
@@ -213,7 +215,7 @@ spines = []
 for i, a in enumerate(sorted(artists, key=lambda a: a["name"].split()[-1].lower())):
     spines.append(f'          <li class="spine c{i % 6 + 1}"><a class="spine__link" href="{attr(a["wikipedia"])}">'
                   f'{esc(a["name"])}</a></li>')
-swap(ROOM, "yurt-gallery:shelf", "\n".join(spines).lstrip(), "          ")
+swap(SHELF, "yurt-gallery:shelf", "\n".join(spines).lstrip(), "          ")
 
 # ── The credits ───────────────────────────────────────────────────────────────
 rows = []
@@ -226,5 +228,5 @@ for p in paintings:
 swap(NOTES, "yurt-gallery-credits", "\n".join(rows).lstrip(), "      ")
 swap(NOTES, "yurt-gallery-read", f'Every record was read on {esc(d["_read"])}.', "")
 
-print(f"faery yurt: {len(paintings)} paintings on the wall, {len(artists)} artists on the Art shelf, "
-      f"in {ROOM.name}; {len(rows)} credit rows in {NOTES.name}")
+print(f"faery yurt: {len(paintings)} paintings on the wall in {ROOM.name}, {len(artists)} artists on the Art "
+      f"shelf in {SHELF.name}; {len(rows)} credit rows in {NOTES.name}")

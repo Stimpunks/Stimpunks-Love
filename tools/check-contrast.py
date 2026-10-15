@@ -811,6 +811,12 @@ LSP_VOID, LSP_BONE, LSP_DIM, LSP_STRING = "#1C0640", "#EFE8F8", "#C3B6DD", "#F4D
 # Oook (§57). Every word on the Librarian's rust.
 OOK_COAT, OOK_CREAM, OOK_DIM, OOK_BANANA = "#4B1B07", "#FCEBD3", "#F1CBA6", "#F7D54C"
 
+# THE READING ROOM (love.css §114), Helen's, behind the yurt: claret walls lit
+# from the floor by a fire, which lives in the scene drawing and never under a
+# word, so every ink is measured on the flat wall and on the panel.
+RDR_WALL, RDR_PANEL, RDR_INK, RDR_INK2 = "#22101A", "#30171F", "#F3E5D8", "#CDB4AC"
+RDR_FLAME, RDR_FLAME2, RDR_BRASS = "#F2994F", "#FFC76E", "#D6B06A"
+
 PAIRS = [
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
@@ -1237,6 +1243,17 @@ PAIRS = [
     (TALLOW, "#375968", False, "yurt: spine c5, light end"),
     (TALLOW, "#4A2F4F", False, "yurt: spine c6, dark end"),
     (TALLOW, "#653D6B", False, "yurt: spine c6, light end"),
+    # THE READING ROOM (love.css §114). The spines above moved in here with
+    # their pairs; these are the room's own.
+    (RDR_INK,    RDR_WALL,  False, "reading room: body copy, headings and the spine note on the claret wall"),
+    (RDR_INK,    RDR_PANEL, False, "reading room: the two switches' lettering on their panel"),
+    (RDR_INK2,   RDR_WALL,  False, "reading room: the eyebrow, tagline, intro and shelf note on the wall"),
+    (RDR_INK2,   RDR_PANEL, False, "reading room: dimmer copy on the panel"),
+    (RDR_FLAME,  RDR_WALL,  False, "reading room: every link on the wall"),
+    (RDR_FLAME,  RDR_PANEL, False, "reading room: a link on the panel"),
+    (RDR_FLAME2, RDR_WALL,  False, "reading room: a link on hover, and a pressed switch's lettering"),
+    (RDR_FLAME2, RDR_PANEL, False, "reading room: a pressed switch's lettering on its panel"),
+    (RDR_BRASS,  RDR_WALL,  True,  "reading room: the sconces and the rug's border, drawn on the wall"),
     # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat
@@ -3628,6 +3645,12 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#30171f": "reading room: --rdr-panel, the switches' panel and the hearth's stone surround, 1.10 on the wall. A ground, and every ink on it is measured above.",
+    "#6a2a3e": "reading room: --rdr-velvet, the sofa and the rug in the scene drawing, 1.74 on the wall. It carries no word; the drawing is described in its aria-label.",
+    "#7a4530": "reading room: --rdr-leather, the two armchairs, 2.35 on the wall. It carries no word.",
+    "#3e2318": "reading room: --rdr-timber, the bookcases' frames and planks and the mantel, 1.26 on the wall. It carries no word; the spines on the planks carry their own measured pairs.",
+    "#15100f": "reading room: --rdr-stone, the floor and the inside of the hearth, 1.04 on the wall. It carries no word.",
+    "#b8481e": "reading room: --rdr-ember, the outer flame and the fire's glow, 3.44 on the wall and 3.58 on the stone. It carries no word.",
     "#3a5b85": "battle jacket: --bj-denim, the jacket's denim, 2.67 on the radio's case and 2.64 on its readout. A picture in a role=img whose words are the patches sewn on it; it carries no word, and every patch on it is lettered in its own room's inks, held to 4.5 by make-patches.py.",
     "#1e3250": "battle jacket: --bj-seam, the jacket's outline, 1.85 on the denim. It carries no word.",
     "#e3b354": "battle jacket: --bj-stitch, the dashed gold stitching across the yoke and the hem, 3.60 on the denim. It carries no word.",

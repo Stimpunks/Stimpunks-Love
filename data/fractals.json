@@ -1830,6 +1830,24 @@
         "--bmb-chrome",
         "--bmb-pleat"
       ]
+    },
+    "faery-reading-room.html": {
+      "kind": "orbit",
+      "trap": "ring",
+      "radius": 0.8,
+      "c": [
+        -0.8,
+        0.156
+      ],
+      "orbit": 0.018,
+      "ground": "--rdr-wall",
+      "inks": [
+        "--rdr-stone",
+        "--rdr-velvet",
+        "--rdr-ember",
+        "--rdr-flame",
+        "--rdr-flame-2"
+      ]
     }
   }
 }

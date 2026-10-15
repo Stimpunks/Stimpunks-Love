@@ -132,6 +132,11 @@
    "room": "The Faery Yurt"
   },
   {
+   "id": "reading-bookmark",
+   "title": "A bookmark left in a borrowed book",
+   "room": "The Reading Room"
+  },
+  {
    "id": "meadow-firefly",
    "title": "The book this room lends",
    "room": "Swaying Sweetgrass"

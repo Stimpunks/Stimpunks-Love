@@ -512,6 +512,12 @@
    "about": "Helen's candlelit yurt in the campgrounds, pitched at the edge of the woods. Old books, fairy lights, a regulation nook, three animals with opinions, and a window that opens onto somewhere else entirely."
   },
   {
+   "tag": "faery-reading-room",
+   "name": "The Reading Room",
+   "path": "/faery-reading-room.html",
+   "about": "Through the bookcase door in Helen's Faery Yurt: her reading room. Every book she keeps on shelves of its own, a fire in a gothic hearth, a sofa, two chairs, candles that stand still, and faeries and a garden if you ask for them."
+  },
+  {
    "tag": "swaying-sweetgrass",
    "name": "Swaying Sweetgrass",
    "path": "/swaying-sweetgrass.html",

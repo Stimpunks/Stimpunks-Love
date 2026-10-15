@@ -10,6 +10,11 @@ ONE DATA FILE, ONE TOOL, TWO SURFACES -- the contract make-yells.py set. The
 yarn is Helen's own playlist, Faery Yurt's Yarn, put on whole; the rack is every
 song on it, one press each; the credits go to liner-notes.html.
 
+THE RACK IS A SHELF OF RECORDS (Helen's ask, 2026-10-15): each song is a sleeve
+in one of her six spine colours with the disc peeking out, standing on its own
+plank, and the press under it puts it on the phonograph. The sleeve and the disc
+are §14's clothes; the behaviour is unchanged.
+
 THE RACK IS rack.js's PATTERN AND THE SCREEN IS THE PHONOGRAPH. Every song plays
 where it hangs, or goes up on the phonograph in place of the whole yarn, and
 taking it off puts the yarn's own plate back without playing it. The behaviour
@@ -362,15 +367,18 @@ swap(ROOM, "yurt-yarn:deck",
 
 # ── The rack ─────────────────────────────────────────────────────────────────
 cards = []
-for t in tracks:
+for i, t in enumerate(tracks):
     who, title, rt = t["artist"], t["title"], t["runtime"]
     extra = f'\n          <p class="yurt-track__what">{what(t["what"])}</p>' if t.get("what") else ""
     if t.get("replaced"):
         extra += f'\n          <p class="yurt-track__note">{esc(t["replaced"]["says"])}</p>'
     cards.append(
         f'        <li class="yurt-track" data-rack-card>\n'
-        f'          <h3 class="yurt-track__title">{esc(title)}</h3>\n'
-        f'          <p class="yurt-track__who">{esc(who)}</p>{extra}\n'
+        f'          <span class="yurt-disc" aria-hidden="true"></span>\n'
+        f'          <div class="yurt-sleeve yurt-sleeve--{i % 6 + 1}">\n'
+        f'            <h3 class="yurt-track__title">{esc(title)}</h3>\n'
+        f'            <p class="yurt-track__who">{esc(who)}</p>\n'
+        f'          </div>{extra}\n'
         f'          <button type="button" class="facade" data-embed-id="{attr(t["id"])}" '
         f'data-embed-title="{attr(who)} &mdash; {attr(title)}">\n'
         f'            Play it here &mdash; {esc(rt)}\n'
@@ -386,7 +394,7 @@ for t in tracks:
         f'        </li>')
 
 swap(ROOM, "yurt-yarn:rack",
-     f'<p class="section-intro yurt-rack__intro">Or pick one. Every song says how long it runs before '
+     f'<p class="section-intro yurt-rack__intro">Or pick a record off the shelf. Every song says how long it runs before '
      f'you press it, and nothing plays until you do. Each one plays where it hangs, or goes on '
      f'{SCREEN} in place of the whole yarn, and taking it off puts the yarn back without '
      f'starting it.</p>\n'

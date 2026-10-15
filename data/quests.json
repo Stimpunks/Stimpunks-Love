@@ -734,6 +734,23 @@
    "learned": "That room is Helen Edgar's design and not ours to redesign — the palette, the typefaces, the drawings and every line of its copy came from a mockup she sent. This repo has changed exactly one colour of hers, because her smallest grey failed WCAG on every ground it sat on, and that change is written up in four places. The candle stub is ours, added with Ryan's say-so, and written up in the liner notes for the same reason."
   },
   {
+   "id": "reading-bookmark",
+   "page": "faery-reading-room.html",
+   "room": "The Reading Room",
+   "title": "A bookmark left in a borrowed book",
+   "posted": "Somebody left a ribbon bookmark in one of the books in the Reading Room, through the bookcase door in the Faery Yurt. Find it, read the page it marks if you like, and leave the book where it was.",
+   "rank": 3,
+   "takes": "three minutes, and a sit-down by the fire",
+   "target": "a ribbon bookmark left in a borrowed book",
+   "code": "BOOKMARK",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds, and into the yurt at pitch 01.",
+    "The bookshelf in the yurt is a door now. Go through it.",
+    "At the very bottom of the Reading Room, below the last bookcase."
+   ],
+   "learned": "The Reading Room is Helen Edgar's, behind her yurt, and holds every book she keeps: the bookcases outgrew the yurt on 2026-10-15 and got a room of their own, with a fire, a sofa, two chairs and candles that stand still. Every spine is a door to its author's page. Nothing in there counts how much you have read."
+  },
+  {
    "id": "meadow-firefly",
    "page": "swaying-sweetgrass.html",
    "room": "Swaying Sweetgrass",

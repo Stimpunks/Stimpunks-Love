@@ -4,7 +4,7 @@
 ONE DATA FILE, ONE TOOL. Every sheet is printed into broadsheet-broadside.html
 between the bb-sheets markers: its number and name, the moment somebody reaches
 for it, a print button that ships hidden, and side A over side B. love.css's §60
-dresses it and §115 prints it, one side to a page, on whysheet.press's page.
+dresses it and §116 prints it, one side to a page, on whysheet.press's page.
 
 THE FORM IS NOT OURS. It is the Stimpunks broadsides' (stimpunks.org/library/
 broadsides/, and whysheet.press, which prints them), and theirs is Alfie Kohn's
@@ -27,7 +27,7 @@ down on stimpunks.org's print notes, arriving as checks rather than as advice:
   - TWO INKS THAT DO NOT CLEAR AA ON WHITE, TWO THAT ARE THE SAME, OR A PAIR
     ANOTHER SHEET ALREADY HAS. Each sheet has its own pair of spot inks, and the
     pair is the point: hues run out long before pairs do, and the pair is what
-    tells two sheets apart face down in a stack. §115 lets these inks survive the
+    tells two sheets apart face down in a stack. §116 lets these inks survive the
     street's print reset, which is exactly why they are measured here.
 
   - A SHEET WITH NO MOMENT. Every Stimpunks broadside names the moment somebody
