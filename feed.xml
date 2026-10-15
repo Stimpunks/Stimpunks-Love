@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Wed, 14 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 15 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Live Room gets the glass, and the studios’ own month under the desk</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-15-live-room-glass-and-month</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-15-live-room-glass-and-month</guid>
+      <pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Live Room’s desk is a rack now. Every strip still plays where it hangs, and a second button puts it up on the glass over the desk instead, saying how long it runs before you press it. Taking it off puts the glass back as it was and plays nothing, and each studio’s desk folds away. Under the desk, the last month off each studio’s own channel: Austin City Limits, KEXP and KCRW, their videos and their shorts, newest first, refilled every morning. Nobody chose these or watched them first, so there is no tape on them. Nobody has checked where each was played either: the rule that a session was played indoors is still the desk’s, and the room says so beside the month. KEXP puts up each session whole and then every song from it on its own, more in three days than YouTube’s feed for a channel carries. So the new puller reads a channel’s own list page, past its first hundred, whenever the feed does not reach back to what an earlier morning covered, rather than printing a gap for a month while the mornings fill it in. It met YouTube’s new shape for an upload list’s rows the same night, and reads both.</description>
+    </item>
     <item>
       <title>Plath in the Zibaldone, as she printed it</title>
       <link>https://stimpunks.world/changelog.html#2026-10-14-zibaldone-plath</link>

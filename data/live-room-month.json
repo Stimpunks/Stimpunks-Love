@@ -1,0 +1,1831 @@
+{
+ "_source": "The month under the Live Room's desk: the latest month off each studio's own channel, Ryan's brief of 2026-10-15, in the desk's order. The studios are the ones on the desk, each read off its own channel and never off a channel that collects its recordings. Each channel id was read off the channel's own page (its canonical link and its externalId, which agreed) on 2026-10-15. Filled by tools/pull-live-month.py on the morning timer (tools/daily-live.sh): the latest month of each channel's videos and shorts. Do not hand-edit the log.",
+ "_log": "A video is an id, the studio's channel it came from, whether it is long-form or a short, its title as written, when it was published, its state (screen, door, pending or gone), why if it is a door, how long it runs, and its channel's name as YouTube gives it. Nothing else: no description, no thumbnail, no count of any kind, and not where it was played, because nothing on a watch page says and nobody here has looked. The desk is where that is checked.",
+ "sources": [
+  {
+   "slug": "acl",
+   "name": "Austin City Limits",
+   "url": "https://www.youtube.com/@AustinCityLimitsTV",
+   "channel_id": "UCLrFzxcwT97ROXn3JAiDIqQ"
+  },
+  {
+   "slug": "kexp",
+   "name": "KEXP",
+   "url": "https://www.youtube.com/@kexp",
+   "channel_id": "UC3I2GFN_F8WudD_2jUZbojA"
+  },
+  {
+   "slug": "kcrw",
+   "name": "KCRW",
+   "url": "https://www.youtube.com/@kcrw",
+   "channel_id": "UC54U5gpKkaa_BpXRVNip2Dw"
+  }
+ ],
+ "log": [
+  {
+   "id": "m4auG_SQ69c",
+   "source": "acl",
+   "form": "long",
+   "title": "Billy Strings - Backstage | Austin City Limits TV",
+   "published": "2026-09-17T17:00:37Z",
+   "state": "screen",
+   "runs": 1543,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "lM_Gt3PAa7U",
+   "source": "acl",
+   "form": "long",
+   "title": "Billy Strings - Malfunction Junction | Live on Austin City Limits TV",
+   "published": "2026-09-17T17:03:35Z",
+   "state": "screen",
+   "runs": 340,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "hbQMuETLjH0",
+   "source": "acl",
+   "form": "long",
+   "title": "Cassandra Wilson - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-09-18T14:17:00Z",
+   "state": "screen",
+   "runs": 3401,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "sO-SVEKqT5I",
+   "source": "acl",
+   "form": "long",
+   "title": "Billy Strings - Seven Weeks In County | Live on Austin City Limits TV",
+   "published": "2026-09-18T15:30:33Z",
+   "state": "screen",
+   "runs": 359,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "RKHy7cKAXDg",
+   "source": "acl",
+   "form": "long",
+   "title": "Billy Strings - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-09-20T02:00:07Z",
+   "state": "screen",
+   "runs": 3117,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "2m-gxaGH3w0",
+   "source": "acl",
+   "form": "long",
+   "title": "FINNEAS - For Cryin' Out Loud! | Live on Austin City Limits TV",
+   "published": "2026-09-22T17:02:56Z",
+   "state": "screen",
+   "runs": 236,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "mltGNjzLEqc",
+   "source": "acl",
+   "form": "long",
+   "title": "Arlo Parks - Softly | Live on Austin City Limits TV",
+   "published": "2026-09-22T17:33:05Z",
+   "state": "screen",
+   "runs": 240,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "JHPIBNTOvpw",
+   "source": "acl",
+   "form": "long",
+   "title": "ACLTV 📺 | Season 52",
+   "published": "2026-09-23T15:59:59Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "jNbvTrNeTFg",
+   "source": "acl",
+   "form": "long",
+   "title": "Black Pumas - Ice Cream (Pay Phone) | Live on Austin City Limits TV",
+   "published": "2026-09-24T02:21:03Z",
+   "state": "screen",
+   "runs": 230,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "TCdXRmJBW4U",
+   "source": "acl",
+   "form": "long",
+   "title": "Miguel - El Pleito / Candles in the Sun (medley) | Live on Austin City Limits TV",
+   "published": "2026-09-26T13:33:51Z",
+   "state": "screen",
+   "runs": 370,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "TOdEYScuA4E",
+   "source": "acl",
+   "form": "long",
+   "title": "Miguel - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-09-27T02:00:10Z",
+   "state": "screen",
+   "runs": 3202,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "viIhdPUSXlU",
+   "source": "acl",
+   "form": "long",
+   "title": "SIENNA SPIRO - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-10-04T02:00:10Z",
+   "state": "screen",
+   "runs": 3202,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "MGtFVEz2JUU",
+   "source": "acl",
+   "form": "long",
+   "title": "Maggie Rose - Used To It | Live on Austin City Limits TV",
+   "published": "2026-10-08T17:00:08Z",
+   "state": "screen",
+   "runs": 313,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "LCLxvYAmUcE",
+   "source": "acl",
+   "form": "long",
+   "title": "Olivia Rodrigo - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-10-10T01:00:09Z",
+   "state": "screen",
+   "runs": 3200,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "RV_Xs3NbPiY",
+   "source": "acl",
+   "form": "long",
+   "title": "The Red Clay Strays - Demons In Your Choir | Live on Austin City Limits TV",
+   "published": "2026-10-14T13:54:06Z",
+   "state": "screen",
+   "runs": 254,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "lUI4_uzZTa8",
+   "source": "acl",
+   "form": "short",
+   "title": "Billy Strings \"mixed my record from my couch\"",
+   "published": "2026-09-17T20:00:40Z",
+   "state": "screen",
+   "runs": 39,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "_UDYwt3NgmY",
+   "source": "acl",
+   "form": "short",
+   "title": "Billy Strings \"Skateboarding is cooler than pickleball\"",
+   "published": "2026-09-20T02:20:25Z",
+   "state": "screen",
+   "runs": 41,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "ZSA_w66O4wk",
+   "source": "acl",
+   "form": "short",
+   "title": "Season 52 Sneak Peek | ACLTV 📺",
+   "published": "2026-09-24T03:08:31Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "B6Ny9svnm5M",
+   "source": "acl",
+   "form": "short",
+   "title": "Miguel - Sure Thing | Sneak Peek",
+   "published": "2026-09-25T16:58:39Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "_MgA7NGwQ1s",
+   "source": "acl",
+   "form": "short",
+   "title": "Miguel talks about El Pleito \"personal & special\"",
+   "published": "2026-09-26T20:15:41Z",
+   "state": "screen",
+   "runs": 68,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "Mwje7s0vhuo",
+   "source": "acl",
+   "form": "short",
+   "title": "VMA - Best New Artist SIENNA SPIRO Debuts on ACLTV",
+   "published": "2026-10-02T17:19:31Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "SzcrTe23nBQ",
+   "source": "acl",
+   "form": "short",
+   "title": "SIENNA SPIRO'S - ACLTV Debut 📺",
+   "published": "2026-10-04T02:05:23Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "NCmjUowXx1Y",
+   "source": "acl",
+   "form": "short",
+   "title": "Jesse Welles on ACLTV | LIVE STREAM",
+   "published": "2026-10-07T19:07:30Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "2bO9tIv8Cbc",
+   "source": "acl",
+   "form": "short",
+   "title": "Watch Olivia Rodrigo on ACLTV",
+   "published": "2026-10-08T17:17:27Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "ObY9y8aItnw",
+   "source": "acl",
+   "form": "short",
+   "title": "Lola Young on ACLTV | LIVE STREAM",
+   "published": "2026-10-08T19:32:23Z",
+   "state": "screen",
+   "runs": 20,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "l7jmNGKSlTo",
+   "source": "acl",
+   "form": "short",
+   "title": "Watch BLEACHERS on ACL TV | LIVE STREAM",
+   "published": "2026-10-09T22:17:29Z",
+   "state": "screen",
+   "runs": 30,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "Lo1kulvDnzw",
+   "source": "acl",
+   "form": "short",
+   "title": "Olivia Rodrigo talks about being green, moving on up, ACL TV & Austin PBS",
+   "published": "2026-10-10T01:30:24Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "FV4SXCKhvRE",
+   "source": "acl",
+   "form": "short",
+   "title": "ACL TV Season 52 is a wrap!",
+   "published": "2026-10-13T20:50:37Z",
+   "state": "screen",
+   "runs": 111,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "HMhel-SP17A",
+   "source": "kexp",
+   "form": "long",
+   "title": "Marisa Anderson - Taqsim for Guitar (Live on KEXP)",
+   "published": "2026-09-15T11:00:07Z",
+   "state": "screen",
+   "runs": 281,
+   "channel": "KEXP"
+  },
+  {
+   "id": "066u7V40nXk",
+   "source": "kexp",
+   "form": "long",
+   "title": "Marisa Anderson - Quodlibet (Live on KEXP)",
+   "published": "2026-09-15T11:00:13Z",
+   "state": "screen",
+   "runs": 129,
+   "channel": "KEXP"
+  },
+  {
+   "id": "hLeBhJPpOoQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Marisa Anderson - Sarvi Simin (Live on KEXP)",
+   "published": "2026-09-15T11:00:37Z",
+   "state": "screen",
+   "runs": 247,
+   "channel": "KEXP"
+  },
+  {
+   "id": "g0bpOmko63o",
+   "source": "kexp",
+   "form": "long",
+   "title": "Marisa Anderson - Hamd (Live on KEXP)",
+   "published": "2026-09-15T11:00:40Z",
+   "state": "screen",
+   "runs": 324,
+   "channel": "KEXP"
+  },
+  {
+   "id": "rix14jBM03I",
+   "source": "kexp",
+   "form": "long",
+   "title": "Marisa Anderson - Full Performance (Live on KEXP)",
+   "published": "2026-09-15T15:00:30Z",
+   "state": "screen",
+   "runs": 1763,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Y1d9FKo7vsA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Witch Ripper - The Spiral Eye (Live on KEXP)",
+   "published": "2026-09-16T11:00:14Z",
+   "state": "screen",
+   "runs": 493,
+   "channel": "KEXP"
+  },
+  {
+   "id": "qkVvm31Iizo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Witch Ripper - The Portal / Echoes And Dust (Live on KEXP)",
+   "published": "2026-09-16T11:00:23Z",
+   "state": "screen",
+   "runs": 722,
+   "channel": "KEXP"
+  },
+  {
+   "id": "yA7N4fXL7pw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Witch Ripper - The Clock Queen (Live on KEXP)",
+   "published": "2026-09-16T11:00:26Z",
+   "state": "screen",
+   "runs": 507,
+   "channel": "KEXP"
+  },
+  {
+   "id": "kIMCg1_NFt4",
+   "source": "kexp",
+   "form": "long",
+   "title": "Witch Ripper - Full Performance (Live on KEXP)",
+   "published": "2026-09-16T15:00:29Z",
+   "state": "screen",
+   "runs": 2114,
+   "channel": "KEXP"
+  },
+  {
+   "id": "cZX5e4X6vnE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Blue - HANDS! (Live on KEXP)",
+   "published": "2026-09-17T11:00:21Z",
+   "state": "screen",
+   "runs": 320,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Gaur2hJl3tY",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Blue - This Is The Sound Of What Was (Live on KEXP)",
+   "published": "2026-09-17T11:00:23Z",
+   "state": "screen",
+   "runs": 282,
+   "channel": "KEXP"
+  },
+  {
+   "id": "LEVeLqgHmjs",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Blue - Patience (Live on KEXP)",
+   "published": "2026-09-17T11:00:23Z",
+   "state": "screen",
+   "runs": 246,
+   "channel": "KEXP"
+  },
+  {
+   "id": "UWynhdpgd0Q",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Blue - This Is (Your) Heaven (Live on KEXP)",
+   "published": "2026-09-17T11:00:34Z",
+   "state": "screen",
+   "runs": 353,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Y4X1PdBMUqM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Russian Blue - Full Performance (Live on KEXP)",
+   "published": "2026-09-17T15:00:12Z",
+   "state": "screen",
+   "runs": 1734,
+   "channel": "KEXP"
+  },
+  {
+   "id": "H3sbMg_HsIU",
+   "source": "kexp",
+   "form": "long",
+   "title": "Prewn - Easy (Live on KEXP)",
+   "published": "2026-09-18T11:00:01Z",
+   "state": "screen",
+   "runs": 287,
+   "channel": "KEXP"
+  },
+  {
+   "id": "5Qo_oaxlgmc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Prewn - Commotion (Live on KEXP)",
+   "published": "2026-09-18T11:00:28Z",
+   "state": "screen",
+   "runs": 156,
+   "channel": "KEXP"
+  },
+  {
+   "id": "4uvbs69muPA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Prewn - Ticks (Live on KEXP)",
+   "published": "2026-09-18T11:00:29Z",
+   "state": "screen",
+   "runs": 247,
+   "channel": "KEXP"
+  },
+  {
+   "id": "J2Ng1GIYWcs",
+   "source": "kexp",
+   "form": "long",
+   "title": "Prewn - System (Live on KEXP)",
+   "published": "2026-09-18T11:00:37Z",
+   "state": "screen",
+   "runs": 256,
+   "channel": "KEXP"
+  },
+  {
+   "id": "ocu0gNv_jnc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Prewn - But I Want More (Live on KEXP)",
+   "published": "2026-09-18T13:00:14Z",
+   "state": "screen",
+   "runs": 349,
+   "channel": "KEXP"
+  },
+  {
+   "id": "EC-OPiYXagw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Prewn - Full Performance (Live on KEXP)",
+   "published": "2026-09-18T15:00:37Z",
+   "state": "screen",
+   "runs": 1818,
+   "channel": "KEXP"
+  },
+  {
+   "id": "76jnoO_pEEI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Austin TV - La ilusión del tacto (Live on KEXP)",
+   "published": "2026-09-21T11:00:01Z",
+   "state": "screen",
+   "runs": 355,
+   "channel": "KEXP"
+  },
+  {
+   "id": "-MmVQhSxOkc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Austin TV - MA (Live on KEXP)",
+   "published": "2026-09-21T11:00:03Z",
+   "state": "screen",
+   "runs": 363,
+   "channel": "KEXP"
+  },
+  {
+   "id": "diiAlThkrsg",
+   "source": "kexp",
+   "form": "long",
+   "title": "Austin TV - Como un demonio en una nube (Live on KEXP)",
+   "published": "2026-09-21T11:00:21Z",
+   "state": "screen",
+   "runs": 289,
+   "channel": "KEXP"
+  },
+  {
+   "id": "7Uj7Y_lvMlU",
+   "source": "kexp",
+   "form": "long",
+   "title": "Austin TV - 171 (∅ ⊆ A) (Live on KEXP)",
+   "published": "2026-09-21T11:00:38Z",
+   "state": "screen",
+   "runs": 163,
+   "channel": "KEXP"
+  },
+  {
+   "id": "AIq0Q87k9pM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Austin TV - Full Performance (Live on KEXP)",
+   "published": "2026-09-21T15:00:11Z",
+   "state": "screen",
+   "runs": 2001,
+   "channel": "KEXP"
+  },
+  {
+   "id": "XWIf9eonTeg",
+   "source": "kexp",
+   "form": "long",
+   "title": "WU LYF - Wave (Live on KEXP)",
+   "published": "2026-09-22T11:00:00Z",
+   "state": "screen",
+   "runs": 468,
+   "channel": "KEXP"
+  },
+  {
+   "id": "2aHgnsDamdE",
+   "source": "kexp",
+   "form": "long",
+   "title": "WU LYF - Cave Song (Live on KEXP)",
+   "published": "2026-09-22T11:00:03Z",
+   "state": "screen",
+   "runs": 217,
+   "channel": "KEXP"
+  },
+  {
+   "id": "z1LBdRFwQc0",
+   "source": "kexp",
+   "form": "long",
+   "title": "WU LYF - At The End Of The Day (It Is What It Is) (Live on KEXP)",
+   "published": "2026-09-22T11:00:13Z",
+   "state": "screen",
+   "runs": 363,
+   "channel": "KEXP"
+  },
+  {
+   "id": "LBWH13KxgHk",
+   "source": "kexp",
+   "form": "long",
+   "title": "WU LYF - Love Your Fate (Live on KEXP)",
+   "published": "2026-09-22T11:00:26Z",
+   "state": "screen",
+   "runs": 309,
+   "channel": "KEXP"
+  },
+  {
+   "id": "0upOI9f37hc",
+   "source": "kexp",
+   "form": "long",
+   "title": "WU LYF - Full Performance (Live on KEXP)",
+   "published": "2026-09-22T15:00:06Z",
+   "state": "screen",
+   "runs": 2102,
+   "channel": "KEXP"
+  },
+  {
+   "id": "YT0E3zzDx0Q",
+   "source": "kexp",
+   "form": "long",
+   "title": "Ak'chamel - The Forbidden Melody / Scalped Sands (Live on KEXP)",
+   "published": "2026-09-23T11:00:20Z",
+   "state": "screen",
+   "runs": 421,
+   "channel": "KEXP"
+  },
+  {
+   "id": "hQ9D8GIC1Is",
+   "source": "kexp",
+   "form": "long",
+   "title": "Ak'chamel - The Boar (Live on KEXP)",
+   "published": "2026-09-23T11:00:27Z",
+   "state": "screen",
+   "runs": 331,
+   "channel": "KEXP"
+  },
+  {
+   "id": "OpRUP-1pTzE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Ak'chamel - HASH (Live on KEXP)",
+   "published": "2026-09-23T11:00:36Z",
+   "state": "screen",
+   "runs": 347,
+   "channel": "KEXP"
+  },
+  {
+   "id": "XoVQiWB20ZM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Ak'chamel - Neon Jellyfish Inherits The Plastic Throne (Live on KEXP)",
+   "published": "2026-09-23T11:00:37Z",
+   "state": "screen",
+   "runs": 608,
+   "channel": "KEXP"
+  },
+  {
+   "id": "SOLp13uAEIY",
+   "source": "kexp",
+   "form": "long",
+   "title": "Ak'chamel - Full Performance (Live on KEXP)",
+   "published": "2026-09-23T15:00:36Z",
+   "state": "screen",
+   "runs": 1807,
+   "channel": "KEXP"
+  },
+  {
+   "id": "hu312slxDRg",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sigh - The Soul Grave (Live on KEXP)",
+   "published": "2026-09-24T11:00:05Z",
+   "state": "screen",
+   "runs": 252,
+   "channel": "KEXP"
+  },
+  {
+   "id": "C9RRyekyslo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sigh - The Transfiguration Fear (Live on KEXP)",
+   "published": "2026-09-24T11:00:18Z",
+   "state": "screen",
+   "runs": 253,
+   "channel": "KEXP"
+  },
+  {
+   "id": "J8RjseG0hcs",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sigh - Kuroi Kage (Live on KEXP)",
+   "published": "2026-09-24T11:00:24Z",
+   "state": "screen",
+   "runs": 473,
+   "channel": "KEXP"
+  },
+  {
+   "id": "pNbzrT9SDJs",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sigh - Satsui (Live on KEXP)",
+   "published": "2026-09-24T11:00:31Z",
+   "state": "screen",
+   "runs": 280,
+   "channel": "KEXP"
+  },
+  {
+   "id": "0Zc9piQukgM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Sigh - Full Performance (Live on KEXP)",
+   "published": "2026-09-24T15:00:13Z",
+   "state": "screen",
+   "runs": 1463,
+   "channel": "KEXP"
+  },
+  {
+   "id": "f47BT5TCX_M",
+   "source": "kexp",
+   "form": "long",
+   "title": "Widowspeak - The Hook (Live on KEXP)",
+   "published": "2026-09-25T11:00:13Z",
+   "state": "screen",
+   "runs": 272,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Run68PtdQWY",
+   "source": "kexp",
+   "form": "long",
+   "title": "Widowspeak - No Driver (Live on KEXP)",
+   "published": "2026-09-25T11:00:18Z",
+   "state": "screen",
+   "runs": 222,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Uicblr3VVVA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Widowspeak - Roses (Live on KEXP)",
+   "published": "2026-09-25T11:00:21Z",
+   "state": "screen",
+   "runs": 185,
+   "channel": "KEXP"
+  },
+  {
+   "id": "W8kF9B9t1Jw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Widowspeak - If You Change (Live on KEXP)",
+   "published": "2026-09-25T11:00:30Z",
+   "state": "screen",
+   "runs": 272,
+   "channel": "KEXP"
+  },
+  {
+   "id": "NIQgcVwMfog",
+   "source": "kexp",
+   "form": "long",
+   "title": "Widowspeak - Full Performance (Live on KEXP)",
+   "published": "2026-09-25T15:00:32Z",
+   "state": "screen",
+   "runs": 1496,
+   "channel": "KEXP"
+  },
+  {
+   "id": "DTfCWB3kNzQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "La Texana - Siempre me cuesta regresar (Live on KEXP)",
+   "published": "2026-09-28T11:00:04Z",
+   "state": "screen",
+   "runs": 248,
+   "channel": "KEXP"
+  },
+  {
+   "id": "BSFiP4WVvSg",
+   "source": "kexp",
+   "form": "long",
+   "title": "La Texana - Terco (Live on KEXP)",
+   "published": "2026-09-28T11:00:09Z",
+   "state": "screen",
+   "runs": 146,
+   "channel": "KEXP"
+  },
+  {
+   "id": "kY-O25lYy3M",
+   "source": "kexp",
+   "form": "long",
+   "title": "La Texana - Resiste (Live on KEXP)",
+   "published": "2026-09-28T11:00:09Z",
+   "state": "screen",
+   "runs": 225,
+   "channel": "KEXP"
+  },
+  {
+   "id": "0vdv_F4HqEM",
+   "source": "kexp",
+   "form": "long",
+   "title": "La Texana - La Parca (Live on KEXP)",
+   "published": "2026-09-28T11:00:16Z",
+   "state": "screen",
+   "runs": 186,
+   "channel": "KEXP"
+  },
+  {
+   "id": "evrkmV524ZU",
+   "source": "kexp",
+   "form": "long",
+   "title": "La Texana - Un día como hoy (Live on KEXP)",
+   "published": "2026-09-28T13:00:28Z",
+   "state": "screen",
+   "runs": 214,
+   "channel": "KEXP"
+  },
+  {
+   "id": "lUiwaAszDkw",
+   "source": "kexp",
+   "form": "long",
+   "title": "La Texana - Full Performance (Live on KEXP)",
+   "published": "2026-09-28T15:00:33Z",
+   "state": "screen",
+   "runs": 1478,
+   "channel": "KEXP"
+  },
+  {
+   "id": "tP9-aTlqzpc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Lástima - The Shallow Drowned Lose Less Than We (Live on KEXP)",
+   "published": "2026-09-29T11:00:13Z",
+   "state": "screen",
+   "runs": 329,
+   "channel": "KEXP"
+  },
+  {
+   "id": "wfTVLAzk9qo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Lástima - Espantapájaros & Sin Sol (Live on KEXP)",
+   "published": "2026-09-29T11:00:24Z",
+   "state": "screen",
+   "runs": 469,
+   "channel": "KEXP"
+  },
+  {
+   "id": "zSekqduzDHM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Lástima - Al Cerro Ancón (Live on KEXP)",
+   "published": "2026-09-29T11:00:27Z",
+   "state": "screen",
+   "runs": 421,
+   "channel": "KEXP"
+  },
+  {
+   "id": "18Lh27FGQng",
+   "source": "kexp",
+   "form": "long",
+   "title": "Lástima - Redux (Live on KEXP)",
+   "published": "2026-09-29T11:00:39Z",
+   "state": "screen",
+   "runs": 427,
+   "channel": "KEXP"
+  },
+  {
+   "id": "-wstDCtbPgw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Lástima - Full Performance (Live on KEXP)",
+   "published": "2026-09-29T15:00:29Z",
+   "state": "screen",
+   "runs": 2107,
+   "channel": "KEXP"
+  },
+  {
+   "id": "uyYroYUE5OI",
+   "source": "kexp",
+   "form": "long",
+   "title": "zzzahara - On Fye (Live on KEXP)",
+   "published": "2026-09-30T11:00:09Z",
+   "state": "screen",
+   "runs": 150,
+   "channel": "KEXP"
+  },
+  {
+   "id": "hWFCS0SecII",
+   "source": "kexp",
+   "form": "long",
+   "title": "zzzahara - Chinese Tobacco (Live on KEXP)",
+   "published": "2026-09-30T11:00:17Z",
+   "state": "screen",
+   "runs": 251,
+   "channel": "KEXP"
+  },
+  {
+   "id": "nCM37pRztpc",
+   "source": "kexp",
+   "form": "long",
+   "title": "zzzahara - Speed Racer (Live on KEXP)",
+   "published": "2026-09-30T11:00:17Z",
+   "state": "screen",
+   "runs": 201,
+   "channel": "KEXP"
+  },
+  {
+   "id": "t6ifZ1vo_bM",
+   "source": "kexp",
+   "form": "long",
+   "title": "zzzahara - Tesla (Live on KEXP)",
+   "published": "2026-09-30T11:00:17Z",
+   "state": "screen",
+   "runs": 252,
+   "channel": "KEXP"
+  },
+  {
+   "id": "MjVjGIer-Io",
+   "source": "kexp",
+   "form": "long",
+   "title": "zzzahara - Full Performance (Live on KEXP)",
+   "published": "2026-09-30T15:00:12Z",
+   "state": "screen",
+   "runs": 1202,
+   "channel": "KEXP"
+  },
+  {
+   "id": "aBr7iaS_Y64",
+   "source": "kexp",
+   "form": "long",
+   "title": "Interpol - Wings On Fire (Live on KEXP)",
+   "published": "2026-10-02T11:00:08Z",
+   "state": "screen",
+   "runs": 251,
+   "channel": "KEXP"
+  },
+  {
+   "id": "75ibbeLh5t0",
+   "source": "kexp",
+   "form": "long",
+   "title": "Interpol - Rest My Chemistry (Live on KEXP)",
+   "published": "2026-10-02T11:00:15Z",
+   "state": "screen",
+   "runs": 285,
+   "channel": "KEXP"
+  },
+  {
+   "id": "vCyKw06g7Y0",
+   "source": "kexp",
+   "form": "long",
+   "title": "Interpol - See Out Loud (Live on KEXP)",
+   "published": "2026-10-02T11:00:26Z",
+   "state": "screen",
+   "runs": 287,
+   "channel": "KEXP"
+  },
+  {
+   "id": "ebG4-E4MCuM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Interpol - Full Performance (Live on KEXP)",
+   "published": "2026-10-02T15:00:28Z",
+   "state": "screen",
+   "runs": 1551,
+   "channel": "KEXP"
+  },
+  {
+   "id": "oFxaH-mKRgg",
+   "source": "kexp",
+   "form": "long",
+   "title": "Helado Tropical - Tocando (Live on KEXP)",
+   "published": "2026-10-05T11:00:06Z",
+   "state": "screen",
+   "runs": 155,
+   "channel": "KEXP"
+  },
+  {
+   "id": "SXz2Jtm3ZvQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Helado Tropical - Soledad (Live on KEXP)",
+   "published": "2026-10-05T11:00:13Z",
+   "state": "screen",
+   "runs": 291,
+   "channel": "KEXP"
+  },
+  {
+   "id": "lUbzwb80sd8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Helado Tropical - Fluye (Live on KEXP)",
+   "published": "2026-10-05T11:00:27Z",
+   "state": "screen",
+   "runs": 250,
+   "channel": "KEXP"
+  },
+  {
+   "id": "R4Af5fwS4AE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Helado Tropical - Déjate Caer (Live on KEXP)",
+   "published": "2026-10-05T11:00:36Z",
+   "state": "screen",
+   "runs": 239,
+   "channel": "KEXP"
+  },
+  {
+   "id": "zEP4B8SgwtU",
+   "source": "kexp",
+   "form": "long",
+   "title": "Helado Tropical - Sensación (Live on KEXP)",
+   "published": "2026-10-05T13:00:01Z",
+   "state": "screen",
+   "runs": 279,
+   "channel": "KEXP"
+  },
+  {
+   "id": "L_Qdwihyl3k",
+   "source": "kexp",
+   "form": "long",
+   "title": "Helado Tropical - Full Performance (Live on KEXP)",
+   "published": "2026-10-05T15:00:35Z",
+   "state": "screen",
+   "runs": 1750,
+   "channel": "KEXP"
+  },
+  {
+   "id": "qbl3INp3QPY",
+   "source": "kexp",
+   "form": "long",
+   "title": "PISS - blocking a scene you can't remember (Live on KEXP)",
+   "published": "2026-10-06T11:00:06Z",
+   "state": "screen",
+   "runs": 294,
+   "channel": "KEXP"
+  },
+  {
+   "id": "-HUgpkueZTw",
+   "source": "kexp",
+   "form": "long",
+   "title": "PISS - Rote Zora. “Resistance is Possible.” Emma, no. 6, June 1984, pp. 39-41. (Live on KEXP)",
+   "published": "2026-10-06T11:00:19Z",
+   "state": "screen",
+   "runs": 216,
+   "channel": "KEXP"
+  },
+  {
+   "id": "evwQIbJZc94",
+   "source": "kexp",
+   "form": "long",
+   "title": "PISS -  i wanted to be a singer (Live on KEXP)",
+   "published": "2026-10-06T11:00:28Z",
+   "state": "screen",
+   "runs": 217,
+   "channel": "KEXP"
+  },
+  {
+   "id": "PmpGBzi60CU",
+   "source": "kexp",
+   "form": "long",
+   "title": "PISS - time loop / horse craze / act opposite (Live on KEXP)",
+   "published": "2026-10-06T11:00:32Z",
+   "state": "screen",
+   "runs": 374,
+   "channel": "KEXP"
+  },
+  {
+   "id": "k6yivXI0JIs",
+   "source": "kexp",
+   "form": "long",
+   "title": "PISS - i keep trying to change the ending (Live on KEXP)",
+   "published": "2026-10-06T13:00:14Z",
+   "state": "screen",
+   "runs": 338,
+   "channel": "KEXP"
+  },
+  {
+   "id": "pk1VmJkS3KA",
+   "source": "kexp",
+   "form": "long",
+   "title": "PISS - Full Performance (Live on KEXP)",
+   "published": "2026-10-06T17:01:13Z",
+   "state": "screen",
+   "runs": 2010,
+   "channel": "KEXP"
+  },
+  {
+   "id": "AiL56Wcvb0Q",
+   "source": "kexp",
+   "form": "long",
+   "title": "Earth Tongue - Silver Eye (Live on KEXP)",
+   "published": "2026-10-07T11:00:24Z",
+   "state": "screen",
+   "runs": 265,
+   "channel": "KEXP"
+  },
+  {
+   "id": "wAbJa2ejCTY",
+   "source": "kexp",
+   "form": "long",
+   "title": "Earth Tongue - Flashlight (Live on KEXP)",
+   "published": "2026-10-07T11:00:27Z",
+   "state": "screen",
+   "runs": 260,
+   "channel": "KEXP"
+  },
+  {
+   "id": "HnKRwWpH9qM",
+   "source": "kexp",
+   "form": "long",
+   "title": "Earth Tongue - Demon Cam (Live on KEXP)",
+   "published": "2026-10-07T11:00:29Z",
+   "state": "screen",
+   "runs": 178,
+   "channel": "KEXP"
+  },
+  {
+   "id": "XULjCpNxjQI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Earth Tongue - Dungeon Vision (Live on KEXP)",
+   "published": "2026-10-07T11:00:35Z",
+   "state": "screen",
+   "runs": 238,
+   "channel": "KEXP"
+  },
+  {
+   "id": "ePnja51ooGY",
+   "source": "kexp",
+   "form": "long",
+   "title": "Earth Tongue - Dimly Lit Cadaver (Live on KEXP)",
+   "published": "2026-10-07T13:00:12Z",
+   "state": "screen",
+   "runs": 226,
+   "channel": "KEXP"
+  },
+  {
+   "id": "wH_gtwYl5rI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Earth Tongue - Pentagram On The Moon (Live on KEXP)",
+   "published": "2026-10-07T13:00:34Z",
+   "state": "screen",
+   "runs": 229,
+   "channel": "KEXP"
+  },
+  {
+   "id": "9EG3pzaTYG0",
+   "source": "kexp",
+   "form": "long",
+   "title": "Earth Tongue - Full Performance (Live on KEXP)",
+   "published": "2026-10-07T15:00:39Z",
+   "state": "screen",
+   "runs": 1777,
+   "channel": "KEXP"
+  },
+  {
+   "id": "c7YxUT1xJqo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Dutch Interior - Beekeeping (Live on KEXP)",
+   "published": "2026-10-08T11:00:00Z",
+   "state": "screen",
+   "runs": 266,
+   "channel": "KEXP"
+  },
+  {
+   "id": "bD5xvK2Y4E8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Dutch Interior - Canada (Live on KEXP)",
+   "published": "2026-10-08T11:00:03Z",
+   "state": "screen",
+   "runs": 360,
+   "channel": "KEXP"
+  },
+  {
+   "id": "iHMQJjgq1JI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Dutch Interior - Ground Scores (Live on KEXP)",
+   "published": "2026-10-08T11:00:07Z",
+   "state": "screen",
+   "runs": 176,
+   "channel": "KEXP"
+  },
+  {
+   "id": "w3ZYQEonmnQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Dutch Interior - Fourth Street (Live on KEXP)",
+   "published": "2026-10-08T11:00:09Z",
+   "state": "screen",
+   "runs": 252,
+   "channel": "KEXP"
+  },
+  {
+   "id": "FzAUF3qoclI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Dutch Interior - Full Performance (Live on KEXP)",
+   "published": "2026-10-08T15:00:29Z",
+   "state": "screen",
+   "runs": 1493,
+   "channel": "KEXP"
+  },
+  {
+   "id": "CKMjDELEU0E",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Womack Sisters - If You Want Me (Live on KEXP)",
+   "published": "2026-10-09T11:00:01Z",
+   "state": "screen",
+   "runs": 214,
+   "channel": "KEXP"
+  },
+  {
+   "id": "3yGNGEzGK44",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Womack Sisters - You Went Away Too Long (Live on KEXP)",
+   "published": "2026-10-09T11:00:08Z",
+   "state": "screen",
+   "runs": 215,
+   "channel": "KEXP"
+  },
+  {
+   "id": "xLIgAAG0_yI",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Womack Sisters - Didn’t Mean Much (Live on KEXP)",
+   "published": "2026-10-09T11:00:23Z",
+   "state": "screen",
+   "runs": 237,
+   "channel": "KEXP"
+  },
+  {
+   "id": "fRPiGcb6Z3U",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Womack Sisters - Chauffeur (Live on KEXP)",
+   "published": "2026-10-09T11:00:25Z",
+   "state": "screen",
+   "runs": 305,
+   "channel": "KEXP"
+  },
+  {
+   "id": "AQqQbsFLDd8",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Womack Sisters - If I Let You (Live on KEXP)",
+   "published": "2026-10-09T13:00:18Z",
+   "state": "screen",
+   "runs": 257,
+   "channel": "KEXP"
+  },
+  {
+   "id": "04dsB6w-DBI",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Womack Sisters - Full Performance (Live on KEXP)",
+   "published": "2026-10-09T15:00:05Z",
+   "state": "screen",
+   "runs": 1760,
+   "channel": "KEXP"
+  },
+  {
+   "id": "-hF-wyqfqis",
+   "source": "kexp",
+   "form": "long",
+   "title": "Interpol - My Desire (Live on KEXP)",
+   "published": "2026-10-12T03:07:21Z",
+   "state": "screen",
+   "runs": 307,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Sa3CeY-sSFo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Diavol Strâin - 11 Ecos (Live on KEXP)",
+   "published": "2026-10-12T11:00:07Z",
+   "state": "screen",
+   "runs": 269,
+   "channel": "KEXP"
+  },
+  {
+   "id": "MJndAmIyyoc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Diavol Strâin - Solve Et Coagula (Live on KEXP)",
+   "published": "2026-10-12T11:00:14Z",
+   "state": "screen",
+   "runs": 271,
+   "channel": "KEXP"
+  },
+  {
+   "id": "yih0jyU23eA",
+   "source": "kexp",
+   "form": "long",
+   "title": "Diavol Strâin - Terminal Del Silencio (Live on KEXP)",
+   "published": "2026-10-12T11:00:21Z",
+   "state": "screen",
+   "runs": 328,
+   "channel": "KEXP"
+  },
+  {
+   "id": "-IZ8xtStKRo",
+   "source": "kexp",
+   "form": "long",
+   "title": "Diavol Strâin - Un Camino A La Muerte (Live on KEXP)",
+   "published": "2026-10-12T11:00:33Z",
+   "state": "screen",
+   "runs": 229,
+   "channel": "KEXP"
+  },
+  {
+   "id": "gyQkq7Mm0YI",
+   "source": "kexp",
+   "form": "long",
+   "title": "Diavol Strâin - Full Performance (Live on KEXP)",
+   "published": "2026-10-12T15:00:15Z",
+   "state": "screen",
+   "runs": 2083,
+   "channel": "KEXP"
+  },
+  {
+   "id": "7GYtO7Z_XqQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Altın Gün - Bir Nazar Eyledim (Live on KEXP)",
+   "published": "2026-10-13T11:00:07Z",
+   "state": "screen",
+   "runs": 321,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Sj6QzsqVsCQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "Altın Gün - Zülüf Dökülmüs Yüze (Live on KEXP)",
+   "published": "2026-10-13T11:00:11Z",
+   "state": "screen",
+   "runs": 218,
+   "channel": "KEXP"
+  },
+  {
+   "id": "hEH4RJzlGZw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Altın Gün - Neredesin Sen (Live on KEXP)",
+   "published": "2026-10-13T11:00:15Z",
+   "state": "screen",
+   "runs": 281,
+   "channel": "KEXP"
+  },
+  {
+   "id": "AnlOB3kieq4",
+   "source": "kexp",
+   "form": "long",
+   "title": "Altın Gün - Gönül Dağı (Live on KEXP)",
+   "published": "2026-10-13T11:00:31Z",
+   "state": "screen",
+   "runs": 237,
+   "channel": "KEXP"
+  },
+  {
+   "id": "B0uBUBs7-6c",
+   "source": "kexp",
+   "form": "long",
+   "title": "Altın Gün - Full Performance (Live on KEXP)",
+   "published": "2026-10-13T15:00:28Z",
+   "state": "screen",
+   "runs": 1397,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Fk4Esm-I7OY",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Sword - Maiden, Mother, Crone (Live on KEXP)",
+   "published": "2026-10-14T11:00:03Z",
+   "state": "screen",
+   "runs": 252,
+   "channel": "KEXP"
+  },
+  {
+   "id": "gDFAnwZhVeY",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Sword - Necron 99 (Live on KEXP)",
+   "published": "2026-10-14T11:00:09Z",
+   "state": "screen",
+   "runs": 274,
+   "channel": "KEXP"
+  },
+  {
+   "id": "oA_Vo28IXW8",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Sword - Tears Like Diamonds (Live on KEXP)",
+   "published": "2026-10-14T11:00:10Z",
+   "state": "screen",
+   "runs": 233,
+   "channel": "KEXP"
+  },
+  {
+   "id": "otzPM661cis",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Sword - Freya (Live on KEXP)",
+   "published": "2026-10-14T11:00:36Z",
+   "state": "screen",
+   "runs": 297,
+   "channel": "KEXP"
+  },
+  {
+   "id": "-z_HOleoXpw",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Sword - Tres Brujas (Live on KEXP)",
+   "published": "2026-10-14T13:00:14Z",
+   "state": "screen",
+   "runs": 252,
+   "channel": "KEXP"
+  },
+  {
+   "id": "EMbctaZKtj8",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Sword - Full Performance (Live on KEXP)",
+   "published": "2026-10-14T15:00:26Z",
+   "state": "screen",
+   "runs": 1745,
+   "channel": "KEXP"
+  },
+  {
+   "id": "ZZ8rd2U29so",
+   "source": "kexp",
+   "form": "short",
+   "title": "Marisa Anderson performs \"Quodlibet\" & more Live on KEXP",
+   "published": "2026-09-15T17:02:35Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "KEXP"
+  },
+  {
+   "id": "oAKvcs7VWwQ",
+   "source": "kexp",
+   "form": "short",
+   "title": "Witch Ripper performs \"The Clock Queen\" & more Live on KEXP",
+   "published": "2026-09-16T17:56:14Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "5aGQC41VFPk",
+   "source": "kexp",
+   "form": "short",
+   "title": "Russian Blue performs \"HANDS!\" & more Live on KEXP",
+   "published": "2026-09-17T17:05:51Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "p_FRmLhFTmQ",
+   "source": "kexp",
+   "form": "short",
+   "title": "Prewn performs \"Ticks\" & more Live on KEXP",
+   "published": "2026-09-18T17:05:16Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "_tGMeFjl0HM",
+   "source": "kexp",
+   "form": "short",
+   "title": "Austin TV performs \"MA\" & more Live on KEXP",
+   "published": "2026-09-21T17:04:54Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "KEXP"
+  },
+  {
+   "id": "jn_-SM5Yo8Q",
+   "source": "kexp",
+   "form": "short",
+   "title": "WU LYF performs \"Love Your Fate\" & more Live on KEXP",
+   "published": "2026-09-22T17:32:08Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "p5aVJ-pcNWY",
+   "source": "kexp",
+   "form": "short",
+   "title": "Ak’chamel, The Giver of Illness performs \"HASH\" & more Live on KEXP",
+   "published": "2026-09-23T19:27:21Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "7-ZLnjdGGWs",
+   "source": "kexp",
+   "form": "short",
+   "title": "Sigh performs \"The Transfiguration Fear\" & more Live on KEXP",
+   "published": "2026-09-24T17:09:02Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "1aYIpygmUiM",
+   "source": "kexp",
+   "form": "short",
+   "title": "Widowspeak performs \"If You Change\" & more Live on KEXP",
+   "published": "2026-09-25T17:04:57Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "KEXP"
+  },
+  {
+   "id": "EgAh3tgk-Wk",
+   "source": "kexp",
+   "form": "short",
+   "title": "La Texana performs \"Un día como hoy\" & more Live on KEXP",
+   "published": "2026-09-28T17:05:40Z",
+   "state": "screen",
+   "runs": 54,
+   "channel": "KEXP"
+  },
+  {
+   "id": "5luZYsQIoAA",
+   "source": "kexp",
+   "form": "short",
+   "title": "zzzahara performs \"On Fye\" & more Live on KEXP",
+   "published": "2026-09-30T17:06:18Z",
+   "state": "screen",
+   "runs": 55,
+   "channel": "KEXP"
+  },
+  {
+   "id": "GQkCxHXuPQc",
+   "source": "kexp",
+   "form": "short",
+   "title": "Interpol performs \"See Out Loud\" & more Live on KEXP",
+   "published": "2026-10-02T18:31:59Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "KEXP"
+  },
+  {
+   "id": "p0xEdSGVYQk",
+   "source": "kexp",
+   "form": "short",
+   "title": "Helado Tropical performs \"Tocando\" & more Live on KEXP",
+   "published": "2026-10-05T17:07:41Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "1y-28rLFgZY",
+   "source": "kexp",
+   "form": "short",
+   "title": "PISS performs  \"time loop at hot slit\" & more Live on KEXP",
+   "published": "2026-10-06T17:16:57Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "3wnx37piL-k",
+   "source": "kexp",
+   "form": "short",
+   "title": "Earth Tongue performs \"Dimly Lit Cadaver\" & more Live on KEXP",
+   "published": "2026-10-07T17:06:25Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "96PwraUpN-g",
+   "source": "kexp",
+   "form": "short",
+   "title": "Dutch Interior performs \"Fourth Street\" & more Live on KEXP",
+   "published": "2026-10-08T17:08:17Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "H0D3KQPmgVI",
+   "source": "kexp",
+   "form": "short",
+   "title": "The Womack Sisters performs \"If I Let You\" & more Live on KEXP",
+   "published": "2026-10-09T17:22:23Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "7eRphwN7PxI",
+   "source": "kexp",
+   "form": "short",
+   "title": "Diavol Strâin perform \"Un Camino A La Muerte\" & more Live on KEXP",
+   "published": "2026-10-12T17:07:57Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "KEXP"
+  },
+  {
+   "id": "pu1sD5myB0Q",
+   "source": "kexp",
+   "form": "short",
+   "title": "Altin Gün performs \"Neredesin Sen\" & more Live on KEXP",
+   "published": "2026-10-13T17:05:51Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "W4XmhK9ymhg",
+   "source": "kexp",
+   "form": "short",
+   "title": "The Sword performs \"Tres Brujas\" & more Live on KEXP",
+   "published": "2026-10-14T17:05:33Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
+   "id": "gWsmlXOFgvs",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Alabama Shakes' Must-Listen Albums",
+   "published": "2026-09-15T14:00:38Z",
+   "state": "screen",
+   "runs": 233,
+   "channel": "KCRW"
+  },
+  {
+   "id": "uolG8tOyQ-k",
+   "source": "kcrw",
+   "form": "long",
+   "title": "This Is Lorelei (Nate Amos) Explains His Career Using an iPod",
+   "published": "2026-09-16T17:00:16Z",
+   "state": "screen",
+   "runs": 386,
+   "channel": "KCRW"
+  },
+  {
+   "id": "NzPCpOI0Ws8",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Alexis Taylor's (Hot Chip) Must-Listen Albums",
+   "published": "2026-09-22T14:00:03Z",
+   "state": "screen",
+   "runs": 569,
+   "channel": "KCRW"
+  },
+  {
+   "id": "EDsAcTOuUYI",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Coco & Clair Clair Explain Their Career Using an iPod",
+   "published": "2026-09-25T16:48:18Z",
+   "state": "screen",
+   "runs": 359,
+   "channel": "KCRW"
+  },
+  {
+   "id": "lIUUbzSM-Ns",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Ambient Music for Deep Focus | 10 Hours",
+   "published": "2026-09-28T15:00:37Z",
+   "state": "screen",
+   "runs": 35881,
+   "channel": "KCRW"
+  },
+  {
+   "id": "0nJEJlsYc8c",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Jackson Walker Lewis' (Fcukers) Must-Listen Albums",
+   "published": "2026-09-29T14:00:14Z",
+   "state": "screen",
+   "runs": 127,
+   "channel": "KCRW"
+  },
+  {
+   "id": "Af59sJxRJwE",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Croz Boyce: Live on KCRW",
+   "published": "2026-09-30T14:00:15Z",
+   "state": "screen",
+   "runs": 1739,
+   "channel": "KCRW"
+  },
+  {
+   "id": "Y1kDvjSz-H4",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Rostam's (Vampire Weekend) Must-Listen Albums",
+   "published": "2026-10-06T14:00:05Z",
+   "state": "screen",
+   "runs": 179,
+   "channel": "KCRW"
+  },
+  {
+   "id": "dgEwpVUBqXU",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Sébastien Tellier: Live on KCRW",
+   "published": "2026-10-07T14:00:19Z",
+   "state": "screen",
+   "runs": 3287,
+   "channel": "KCRW"
+  },
+  {
+   "id": "TRNXBfToBzk",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Busta Rhymes' Must-Listen Albums",
+   "published": "2026-10-13T14:00:20Z",
+   "state": "screen",
+   "runs": 338,
+   "channel": "KCRW"
+  },
+  {
+   "id": "vipreP8qwwQ",
+   "source": "kcrw",
+   "form": "long",
+   "title": "STRFKR Explain Their Career Using an iPod",
+   "published": "2026-10-14T17:45:22Z",
+   "state": "screen",
+   "runs": 441,
+   "channel": "KCRW"
+  },
+  {
+   "id": "CT6hJlGqvxI",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Alabama Shakes' Must Listen Albums",
+   "published": "2026-09-17T16:00:12Z",
+   "state": "screen",
+   "runs": 125,
+   "channel": "KCRW"
+  },
+  {
+   "id": "EjVgGkE9JDg",
+   "source": "kcrw",
+   "form": "short",
+   "title": "The Avalanches DJ set at The Silverlake Lounge",
+   "published": "2026-09-18T18:27:20Z",
+   "state": "screen",
+   "runs": 20,
+   "channel": "KCRW"
+  },
+  {
+   "id": "Xxjux4MoFmM",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Liz Phair & Corin Tucker's Must Listen CDs",
+   "published": "2026-09-19T15:00:02Z",
+   "state": "screen",
+   "runs": 165,
+   "channel": "KCRW"
+  },
+  {
+   "id": "zdj_fXOs1UY",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Alexis Taylor's (Hot Chip) Must-Listen Albums",
+   "published": "2026-09-23T14:00:14Z",
+   "state": "screen",
+   "runs": 133,
+   "channel": "KCRW"
+  },
+  {
+   "id": "C5LQJwB4oCQ",
+   "source": "kcrw",
+   "form": "short",
+   "title": "Jackson Walker Lewis' (Fcukers) Must Listen Albums",
+   "published": "2026-09-29T16:00:35Z",
+   "state": "screen",
+   "runs": 75,
+   "channel": "KCRW"
+  }
+ ],
+ "covered": {
+  "acl": {
+   "long": [
+    [
+     "2026-09-15T05:09:03Z",
+     "2026-10-15T05:09:03Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-15T05:09:03Z",
+     "2026-10-15T05:09:03Z"
+    ]
+   ]
+  },
+  "kexp": {
+   "long": [
+    [
+     "2026-09-15T05:09:03Z",
+     "2026-10-15T05:09:03Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-15T05:09:03Z",
+     "2026-10-15T05:09:03Z"
+    ]
+   ]
+  },
+  "kcrw": {
+   "long": [
+    [
+     "2026-09-15T05:09:03Z",
+     "2026-10-15T05:09:03Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-15T05:09:03Z",
+     "2026-10-15T05:09:03Z"
+    ]
+   ]
+  }
+ },
+ "set": "2026-10-15T05:09Z"
+}

@@ -766,7 +766,7 @@ CW_CARD, CW_INK, CW_INK2, CW_LINK = "#F7F1E1", "#2A2119", "#5B4D3E", "#2F5A36"
 # goes to the window frame's dark under the pointer.
 LVR_ROOM, LVR_FACE, LVR_TEXT, LVR_DIM = "#1A2330", "#2A3647", "#ECE7DA", "#B4BEC9"
 LVR_LINK, LVR_CAP, LVR_TAPE, LVR_MARKER = "#FF9C8F", "#7E8C9B", "#EEE2C0", "#1C1B22"
-LVR_WELL = "#10161F"
+LVR_WELL, LVR_GLASS = "#10161F", "#D6E4EC"
 
 # The Doom Scoop (love.css §61). An ice cream parlour after closing, lit only by
 # the dipping cabinet. Every word of ours is on the dark shop; the cabinet's own
@@ -2372,6 +2372,11 @@ PAIRS = [
     (LVR_TAPE,   LVR_FACE, False, "live room: the focus ring inside a strip"),
     (LVR_CAP,    LVR_FACE, True,  "live room: a strip's outline against its own faceplate"),
     (LVR_CAP,    LVR_ROOM, True,  "live room: a strip's outline and a play plate's edge against the room"),
+    (LVR_MARKER, LVR_GLASS, False, "live room: the glass over the desk saying what it is while nothing is "
+                                   "on it, the live room lit and empty"),
+    (LVR_LINK,   LVR_FACE, False, "live room: the way out to YouTube on a strip in the month under the desk "
+                                  "that cannot play in here"),
+    (LVR_CAP,    LVR_WELL, True,  "live room: the glass's frame against the window's dark inside it"),
 
     # ── The Doom Scoop (§61) ─────────────────────────────────────────────────
     (DS_FROST,    DS_SHOP, False, "doom scoop: every word of ours in the shop -- the lede, the rules, the "
@@ -3880,8 +3885,6 @@ ORNAMENT = {
     "#d8d2c4": "broadside: the hairline round a sheet and under a column's head, 1.51 on the "
                "paper. It separates nothing a reader needs: the sheet is white on a black "
                "hull (17.91) and every word on it is measured above.",
-    "#d6e4ec": "live room: the live room seen through the glass, lit for the cameras, 12.18 on "
-               "the control room. It carries no word.",
     "#b9cad4": "live room: the acoustic panels on the live room's walls, 1.30 on the lit room "
                "behind them. They are shading inside a drawing and carry no word.",
     "#6e8292": "live room: the microphone, the stool and the amp standing in the live room, 3.07 "

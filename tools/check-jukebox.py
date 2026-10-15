@@ -240,6 +240,11 @@ LISTS = [
     # that collect recordings rather than the show's own, which is the shape
     # this tool is really for.
     ("the live room", "data/live-room.json", "live-room.html"),
+    # The month under the Live Room's desk: the latest month off each studio's
+    # own channel, refilled every morning by tools/pull-live-month.py, which
+    # asks each new video's watch page once. Nobody chose these video by video,
+    # the log's shape under the same key.
+    ("the live room's month", "data/live-room-month.json", "live-room.html"),
     # The Doom Scoop. THE ONE LIST HERE THAT NOBODY CHOSE VIDEO BY VIDEO: a timer
     # fills it every morning from the sources' own feeds, and tools/pull-doom-
     # scoop.py asks each new video's watch page once, the morning it arrives.

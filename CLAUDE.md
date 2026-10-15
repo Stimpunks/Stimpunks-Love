@@ -4155,6 +4155,24 @@ about the desk (the oldest, the longest), because it goes false the day another 
 says so beside the runtime, because a runtime is only honest if you know what it is the runtime of.
 **A studio with no sessions is refused**: a studio is named on the page in words until somebody sends a session from it.
 
+**THE DESK IS A RACK UNDER THE GLASS, AND UNDER THE DESK IS THE STUDIOS' OWN MONTH, WHICH NOBODY CHOSE.**
+Ryan, 2026-10-15. Every strip can go up on the glass (`rack.js`), each studio's desk is a `<details>` that
+ships open, and the glass has nothing of its own on it, so it ships hidden. Under the desk,
+`data/live-room-month.json`: the last month off each studio's own channel, videos and shorts, filled by
+`tools/pull-live-month.py` on the morning timer (`tools/daily-live.sh`, the tenth script, `daily live room
+refill`) and redrawn by `make-live-room.py --month`, which refuses a month channel that is not a studio on
+the desk. **The indoors rule is the desk's**: nothing on a watch page says where a video was played, so the
+month says out loud that nobody has checked, and **its strips carry no tape, because tape means a person
+patched it in.** The friendly edits are tape on the month, which claims a choice nobody made, and keeping
+only KEXP's "Full Performance" uploads, which is a title gate and Ryan's call (DECISIONS.md). **The puller
+reads a channel's list page past its first hundred when the morning's feed does not join on to what an
+earlier morning covered**, because KEXP puts up more in three days than a feed carries. **And by
+2026-10-15 YouTube served a channel's upload lists (UULF, UUSH) with their rows as `lockupViewModel` and
+`shortsLockupViewModel` and their continuation as `continuationItemViewModel`**, while a PL playlist still
+came as `playlistVideoRenderer` the same night (`pull-club.py --check` read it). A walk that knows only the
+old shape reads nothing and calls the list empty, which is a short list and not an error anywhere, so
+`row_id()` takes all three and a full first page with no token found is read as a list that stopped short.
+
 **THE BROADSHEET BROADSIDE (§60) IS A PRESS WITH NO PRESS IN IT, AND THAT IS WHAT HOLDS IT OFF THE
 FOUNDRY.** Ryan's brief, 2026-09-25: a broadsheet press printing broadsides like whysheet.press,
 *Manifestos and Mementos Served Across Your Bow*, with an introduction to this street first. A
