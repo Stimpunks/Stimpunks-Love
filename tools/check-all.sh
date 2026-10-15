@@ -39,7 +39,7 @@ STEPS=(
   make-webp
   # The rooms, each from its own data file.
   make-jukebox make-liner-notes make-chappell make-readings make-polaroids
-  make-toys make-chairy make-yells make-soundboard make-yurt-sound make-yurt-yarn
+  make-toys make-chairy make-yells make-soundboard make-yurt-sound make-yurt-yarn make-yurt-gallery
   make-pebbles make-latibulum make-jungle make-den make-hermitage make-club make-mopery
   make-sweetgrass make-oracle make-doomscroll make-pebble-board make-guild make-patches
   make-arrivals make-garden make-zibaldone make-rabbit-hole make-checkpoint

@@ -1,0 +1,155 @@
+{
+  "_what": "The Faery Yurt's art gallery: paintings Helen picked, each out of copyright everywhere and scanned by a museum or a gallery, hung small on her wall and opened into a gilt frame. Read by tools/make-yurt-gallery.py, which refuses a painter dead seventy years or less, a scan whose Commons page carries no public domain template, a file not on disk or still carrying EXIF, and a picture with no sentence saying what it shows.",
+  "_read": "2026-10-15",
+  "_how": "Painter, title and year were read off each file's own record on Wikimedia Commons (the Artist, ObjectName and DateTimeOriginal fields) on the day above, never from memory; the one date Commons leaves blank, Hope's, is the Walker Art Gallery's own dating, read off its page. The file is Commons' own copy, resized to 1400 pixels across at most and re-saved with its colour profile and no other metadata. The `shows` sentences are ours, written from looking at each picture, and are the alt text.",
+  "paintings": [
+    {
+      "slug": "dicksee-la-belle-dame",
+      "file": "gallery/dicksee-la-belle-dame.jpg",
+      "painter": "Frank Dicksee",
+      "died": 1928,
+      "title": "La Belle Dame sans Merci",
+      "year": "1901",
+      "holder": "Bristol Museum & Art Gallery",
+      "commons": "https://commons.wikimedia.org/wiki/File:Frank_Bernard_Dicksee_(1853-1928)_-_La_belle_dame_sans_merci_-_K328_-_Bristol_City_Museum_%5E_Art_Gallery.jpg",
+      "template": "PD-Art|PD-old-auto-expired",
+      "shows": "A woman in a pink gown and a crown of flowers leans down from a dark horse towards a knight in plate armour, who looks up at her with his helmet in one hand and his other arm flung out, on a hillside of wild roses at dusk."
+    },
+    {
+      "slug": "waterhouse-ophelia",
+      "file": "gallery/waterhouse-ophelia.jpg",
+      "painter": "John William Waterhouse",
+      "died": 1917,
+      "title": "Ophelia",
+      "year": "1894",
+      "holder": null,
+      "commons": "https://commons.wikimedia.org/wiki/File:John_William_Waterhouse_-_Ophelia_(1894).jpg",
+      "template": "PD-Art|PD-old-auto-1923",
+      "shows": "A young woman with long red hair and a white dress sits on the trunk of a willow at the edge of a pond covered in lily pads, both hands raised to a red flower in her hair, with daisies in her lap and wild roses at her feet."
+    },
+    {
+      "slug": "waterhouse-windflowers",
+      "file": "gallery/waterhouse-windflowers.jpg",
+      "painter": "John William Waterhouse",
+      "died": 1917,
+      "title": "Windflowers",
+      "year": "1903",
+      "holder": null,
+      "commons": "https://commons.wikimedia.org/wiki/File:Windswept_by_John_William_Waterhouse.jpg",
+      "template": "PD-Art|PD-old-auto-expired",
+      "shows": "A young woman in a white dress with mauve sleeves walks through a meadow of anemones, one hand holding back her dark hair as the wind pulls at it and at her skirt, a bunch of purple flowers gathered in the other."
+    },
+    {
+      "slug": "rossetti-dantes-dream",
+      "file": "gallery/rossetti-dantes-dream.jpg",
+      "painter": "Dante Gabriel Rossetti",
+      "died": 1882,
+      "title": "Dante's Dream at the Time of the Death of Beatrice",
+      "year": "1871",
+      "holder": "Walker Art Gallery, Liverpool",
+      "commons": "https://commons.wikimedia.org/wiki/File:Dante_Gabriel_Rossetti_-_Dante%27s_Dream_at_the_Time_of_the_Death_of_Beatrice_(1871).jpg",
+      "template": "PD-Art|PD-old-auto-1923",
+      "shows": "In a dim room strewn with red poppies, a figure in red bends to kiss a woman lying in white, while two women in green hold a canopy over her and a man in a dark hood is led in from the left by the hand."
+    },
+    {
+      "slug": "watts-hope",
+      "file": "gallery/watts-hope.jpg",
+      "painter": "George Frederic Watts",
+      "died": 1904,
+      "title": "Hope",
+      "year": "about 1877–1886",
+      "holder": "Walker Art Gallery, Liverpool",
+      "commons": "https://commons.wikimedia.org/wiki/File:George_Frederic_Watts_(1817-1904)_-_Hope_-_WAG_2105_-_Walker_Art_Gallery.jpg",
+      "template": "PD-Art|PD-old-auto-expired",
+      "shows": "A blindfolded figure in pale draperies sits hunched on top of a globe, head bowed close to a lyre with every string but one broken, against a cloudy blue haze."
+    },
+    {
+      "slug": "hughes-midsummer-eve",
+      "file": "gallery/hughes-midsummer-eve.jpg",
+      "painter": "Edward Robert Hughes",
+      "died": 1914,
+      "title": "Midsummer Eve",
+      "year": "1908",
+      "holder": null,
+      "commons": "https://commons.wikimedia.org/wiki/File:Midsummer_Eve_-_Edward_Robert_Hughes_(1908).jpg",
+      "template": "PD-Art|PD-old-auto-1923",
+      "shows": "A young woman in a gold dress and a wreath of leaves stoops forward in a dark wood, hands clasped at her knees, looking down at a crowd of tiny winged figures who carry glowing lanterns through the grass round her bare feet."
+    },
+    {
+      "slug": "waterhouse-lady-of-shalott",
+      "file": "gallery/waterhouse-lady-of-shalott.jpg",
+      "painter": "John William Waterhouse",
+      "died": 1917,
+      "title": "The Lady of Shalott",
+      "year": "1888",
+      "holder": "Tate, London",
+      "commons": "https://commons.wikimedia.org/wiki/File:John_William_Waterhouse_-_The_Lady_of_Shalott_-_Google_Art_Project.jpg",
+      "template": "PD-Art|PD-old-auto-expired",
+      "shows": "A woman with long red hair and a white dress sits in a small boat among reeds on a dark river, one hand on its mooring chain, a tapestry trailing over the side and three candles at the prow, with trees and a far hillside behind."
+    },
+    {
+      "slug": "millais-ophelia",
+      "file": "gallery/millais-ophelia.jpg",
+      "painter": "John Everett Millais",
+      "died": 1896,
+      "title": "Ophelia",
+      "year": "about 1851",
+      "holder": "Tate, London",
+      "commons": "https://commons.wikimedia.org/wiki/File:John_Everett_Millais_-_Ophelia_-_Google_Art_Project.jpg",
+      "template": "PD-Art|PD-old-100-1923",
+      "shows": "A young woman floats on her back in a stream, her hands open at the surface, her embroidered dress spreading in the water among scattered flowers, under a bank thick with willow, nettles and wild roses."
+    },
+    {
+      "slug": "rossetti-blue-silk-dress",
+      "file": "gallery/rossetti-blue-silk-dress.jpg",
+      "painter": "Dante Gabriel Rossetti",
+      "died": 1882,
+      "title": "Jane Morris (The Blue Silk Dress)",
+      "year": "1868",
+      "holder": "Kelmscott Manor",
+      "commons": "https://commons.wikimedia.org/wiki/File:Dante_Gabriel_Rossetti_-_Jane_Morris_(The_Blue_Silk_Dress).jpg",
+      "template": "PD-Art|PD-old-auto-1923",
+      "shows": "A dark-haired woman in a blue silk dress rests her chin on her folded hands at a table, looking away to the left, with white roses in a glass vase and an open book beside her against a red curtain."
+    },
+    {
+      "slug": "malevich-black-square",
+      "file": "gallery/malevich-black-square.jpg",
+      "painter": "Kazimir Malevich",
+      "died": 1935,
+      "title": "Black Square",
+      "year": "1915",
+      "holder": "Tretyakov Gallery, Moscow",
+      "commons": "https://commons.wikimedia.org/wiki/File:Kazimir_Malevich,_1915,_Black_Suprematic_Square,_oil_on_linen_canvas,_79.5_x_79.5_cm,_Tretyakov_Gallery,_Moscow.jpg",
+      "template": "PD-Art|PD-Russia-expired",
+      "shows": "A black square painted on a white ground, the black paint cracked all over into a web of fine pale lines."
+    },
+    {
+      "slug": "malevich-white-on-white",
+      "file": "gallery/malevich-white-on-white.jpg",
+      "painter": "Kazimir Malevich",
+      "died": 1935,
+      "title": "Suprematist Composition: White on White",
+      "year": "1918",
+      "holder": "The Museum of Modern Art, New York",
+      "commons": "https://commons.wikimedia.org/wiki/File:Kazimir_Malevich_-_%27Suprematist_Composition-_White_on_White%27,_oil_on_canvas,_1918,_Museum_of_Modern_Art.jpg",
+      "template": "PD-Art|PD-old-auto-expired",
+      "shows": "A tilted square in a cool off-white, painted on a slightly warmer off-white ground, so the one shape is only just there."
+    }
+  ],
+  "shelf": {
+    "_what": "Artists whose work is still their own, so nothing of theirs hangs here: each is a spine on the Art shelf in the bookcases, linking to Wikipedia. Checked to answer 200 without a redirect on 2026-10-15.",
+    "artists": [
+      {"name": "Dan Flavin", "wikipedia": "https://en.wikipedia.org/wiki/Dan_Flavin"},
+      {"name": "Lucio Fontana", "wikipedia": "https://en.wikipedia.org/wiki/Lucio_Fontana"},
+      {"name": "Andy Goldsworthy", "wikipedia": "https://en.wikipedia.org/wiki/Andy_Goldsworthy"},
+      {"name": "Barbara Hepworth", "wikipedia": "https://en.wikipedia.org/wiki/Barbara_Hepworth"},
+      {"name": "Donald Judd", "wikipedia": "https://en.wikipedia.org/wiki/Donald_Judd"},
+      {"name": "Imi Knoebel", "wikipedia": "https://en.wikipedia.org/wiki/Imi_Knoebel"},
+      {"name": "Kazimir Malevich", "wikipedia": "https://en.wikipedia.org/wiki/Kazimir_Malevich"},
+      {"name": "François Morellet", "wikipedia": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Morellet"},
+      {"name": "Jackson Pollock", "wikipedia": "https://en.wikipedia.org/wiki/Jackson_Pollock"},
+      {"name": "Ad Reinhardt", "wikipedia": "https://en.wikipedia.org/wiki/Ad_Reinhardt"},
+      {"name": "Mark Rothko", "wikipedia": "https://en.wikipedia.org/wiki/Mark_Rothko"}
+    ]
+  }
+}
