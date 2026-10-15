@@ -68,14 +68,38 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-14T11:25Z",
+ "set": "2026-10-15T11:55Z",
  "latest": [
   {
-   "id": "nGD1xa5RePI",
-   "title": "Assessing Data Center Integration in Indian Residential Renewable Energy Community",
-   "channel": "EnergyInformatics.Academy",
-   "published": "2026-10-14T09:55:38Z",
-   "runs": 621,
+   "id": "r-a-FXO3qH8",
+   "title": "Bullu & Robo Save the Rainbow City | A Solarpunk &  Hopepunk Animation",
+   "channel": "Bullu and Robo",
+   "published": "2026-10-14T22:41:34Z",
+   "runs": 86,
+   "search": "solarpunk"
+  },
+  {
+   "id": "qhFv7-aLmUM",
+   "title": "Growing the Urban Forest (2026 Tree Keeper training, part 3)",
+   "channel": "Durham County EMGV Training",
+   "published": "2026-10-14T18:15:27Z",
+   "runs": 3304,
+   "search": "urban-forests"
+  },
+  {
+   "id": "HTNDaeVvhjw",
+   "title": "Hope Hub SCIO - Renewable Energy Showcase",
+   "channel": "Lanarkshire Climate Action Hub",
+   "published": "2026-10-14T14:00:37Z",
+   "runs": 150,
+   "search": "renewable-energy"
+  },
+  {
+   "id": "WsMVM43aX98",
+   "title": "Colorado now generates the bulk of its energy from renewable sources. Here’s how we got here",
+   "channel": "KUNC",
+   "published": "2026-10-14T11:30:32Z",
+   "runs": 524,
    "search": "renewable-energy"
   },
   {
@@ -109,14 +133,6 @@
    "published": "2026-10-13T17:06:09Z",
    "runs": 644,
    "search": "urban-forests"
-  },
-  {
-   "id": "l92zS8ZCnTo",
-   "title": "West Broadway Neighborhood Association Working w/ Portside Renewables!",
-   "channel": "Portside Renewables",
-   "published": "2026-10-13T15:10:37Z",
-   "runs": 130,
-   "search": "renewable-energy"
   },
   {
    "id": "I5pS0cbINjA",
@@ -183,20 +199,20 @@
    "search": "urban-farms"
   },
   {
+   "id": "BRfZMoNQI5E",
+   "title": "How to Grow a Food Forest in Pots — Even in a Tiny Space!",
+   "channel": "Plantspace Collective",
+   "published": "2026-10-12T17:00:36Z",
+   "runs": 935,
+   "search": "edibles"
+  },
+  {
    "id": "6g3tDkxNfeU",
    "title": "This Food Forest Grows Food YEAR-ROUND in South Florida! 🌱",
    "channel": "Nature Refuge",
    "published": "2026-10-12T15:03:52Z",
    "runs": 820,
    "search": "edibles"
-  },
-  {
-   "id": "SmCtdkdR0WA",
-   "title": "Solarpunk: A Different World Is Possible Ft. Spencer R. Scott",
-   "channel": "Isaias Hernandez",
-   "published": "2026-10-12T15:00:07Z",
-   "runs": 2711,
-   "search": "solarpunk"
   },
   {
    "id": "fCJsvb6rn28",
@@ -207,41 +223,16 @@
    "search": "urban-forests"
   },
   {
-   "id": "csZz44jAHXQ",
-   "title": "Voices from the Forest / Episode 1 / Naomi Zürcher: Who owns the urban forest?",
-   "channel": "Urban Forestry Network",
-   "published": "2026-10-12T06:08:50Z",
-   "runs": 2092,
-   "search": "urban-forests"
-  },
-  {
    "id": "BPRfFl8VJSw",
    "title": "Can You Grow Mangoes in San Diego? Earle's Food Forest Tour",
    "channel": "Tropicali Food Forest",
    "published": "2026-10-09T23:00:35Z",
    "runs": 2793,
    "search": "edibles"
-  },
-  {
-   "id": "MZAlucJH-vA",
-   "title": "Syracuse Riparian Food Forest",
-   "channel": "cornellsmallfarms",
-   "published": "2026-10-09T17:40:15Z",
-   "runs": 1594,
-   "search": "edibles"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "XCwBBf_XNj4",
-   "search": "green-spaces",
-   "title": "Grit meets Greenspace I Alphabet City",
-   "channel": "EXPLORE Walking Tours",
-   "published": "2026-10-08T01:00:32Z",
-   "runs": 1594,
-   "state": "screen"
-  },
   {
    "id": "yRCw0gNY2po",
    "search": "green-spaces",
@@ -267,6 +258,33 @@
    "channel": "Tolik",
    "published": "2026-10-09T22:58:40Z",
    "runs": 30,
+   "state": "screen"
+  },
+  {
+   "id": "QMpkMGDxZlI",
+   "search": "green-spaces",
+   "title": "Green Spaces",
+   "channel": "Angel Fuentes-Hernandez",
+   "published": "2026-10-10T00:16:45Z",
+   "runs": 402,
+   "state": "screen"
+  },
+  {
+   "id": "IyRflR08TAk",
+   "search": "green-spaces",
+   "title": "Paryavaran: Data-Driven Geospatial Dashboard for Urban Greenspace Planning",
+   "channel": "Muskan Gupta",
+   "published": "2026-10-10T22:25:00Z",
+   "runs": 180,
+   "state": "screen"
+  },
+  {
+   "id": "yPR7yolBXtg",
+   "search": "green-spaces",
+   "title": "Assessment of Urban Green Spaces and heat mitigation in Lahore #plasticfreepunjab #Climatewarriors",
+   "channel": "The Green world🌳",
+   "published": "2026-10-11T06:53:23Z",
+   "runs": 128,
    "state": "screen"
   },
   {
@@ -303,24 +321,6 @@
    "channel": "WLBT 3 On Your Side",
    "published": "2026-10-14T03:24:46Z",
    "runs": 120,
-   "state": "screen"
-  },
-  {
-   "id": "1lxhTIvMMGo",
-   "search": "green-building",
-   "title": "SGBA World Green Building Week Webinar",
-   "channel": "Dr. Mohammed Al Surf د. محمد الصرف",
-   "published": "2026-10-07T15:39:49Z",
-   "runs": 5552,
-   "state": "screen"
-  },
-  {
-   "id": "RMC1MHMHLf4",
-   "search": "green-building",
-   "title": "GREEN BUILDING 350",
-   "channel": "Zariah unknown",
-   "published": "2026-10-07T15:46:20Z",
-   "runs": 165,
    "state": "screen"
   },
   {
@@ -369,6 +369,15 @@
    "state": "screen"
   },
   {
+   "id": "34-i13Zvwgs",
+   "search": "green-building",
+   "title": "Smart green building @SMARTCO_BUILDTECH #smartbuild #sustainablebuilding #greenbuilding #smart",
+   "channel": "SMARTCO BUILD TECH",
+   "published": "2026-10-12T15:04:57Z",
+   "runs": 10,
+   "state": "screen"
+  },
+  {
    "id": "tCwzT24JD1E",
    "search": "green-building",
    "title": "Sustainable Materials and Green Buildings Week 12 | NPTEL ANSWERS 2026 #nptel2026 #myswayam #nptel",
@@ -411,15 +420,6 @@
    "channel": "The Nirgudwar's",
    "published": "2026-10-14T05:39:48Z",
    "runs": 95,
-   "state": "screen"
-  },
-  {
-   "id": "Os-W2LUzRXw",
-   "search": "urban-forests",
-   "title": "Morning Birds in the City Urban Forest Ambience  No Talking, No Music",
-   "channel": "CityFlow ASMR",
-   "published": "2026-10-07T14:52:19Z",
-   "runs": 4308,
    "state": "screen"
   },
   {
@@ -477,6 +477,16 @@
    "state": "screen"
   },
   {
+   "id": "SkfAJImovZ8",
+   "search": "urban-forests",
+   "title": "Urban Forest Moves Above Tonight",
+   "channel": "KIRANA INDRAWATI - Topic",
+   "published": "2026-10-10T17:02:32Z",
+   "runs": 181,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
    "id": "pQ0oEArZFdU",
    "search": "urban-forests",
    "title": "New London Trees: Growing Community Through Urban Forestry | Connecting Canopies",
@@ -513,12 +523,12 @@
    "state": "screen"
   },
   {
-   "id": "wwLZYGz-7SY",
-   "search": "urban-farms",
-   "title": "Cool Urban Farming in a Tiny Space!",
-   "channel": "Tiny Farm Kenya",
-   "published": "2026-10-07T19:02:06Z",
-   "runs": 280,
+   "id": "qhFv7-aLmUM",
+   "search": "urban-forests",
+   "title": "Growing the Urban Forest (2026 Tree Keeper training, part 3)",
+   "channel": "Durham County EMGV Training",
+   "published": "2026-10-14T18:15:27Z",
+   "runs": 3304,
    "state": "screen"
   },
   {
@@ -603,15 +613,6 @@
    "state": "screen"
   },
   {
-   "id": "x5wa62q2szo",
-   "search": "edibles",
-   "title": "How to Grow a Food Forest in Pots | Small Space Gardening",
-   "channel": "Small Urban Greens Homestead",
-   "published": "2026-10-07T16:00:17Z",
-   "runs": 1475,
-   "state": "screen"
-  },
-  {
    "id": "MZAlucJH-vA",
    "search": "edibles",
    "title": "Syracuse Riparian Food Forest",
@@ -639,73 +640,20 @@
    "state": "screen"
   },
   {
-   "id": "gRt-yz2pmm8",
-   "search": "solarpunk",
-   "title": "Solarpunk - Out Now Trailer",
-   "channel": "Xylen Prime",
-   "published": "2026-10-07T12:46:33Z",
-   "runs": 98,
+   "id": "BRfZMoNQI5E",
+   "search": "edibles",
+   "title": "How to Grow a Food Forest in Pots — Even in a Tiny Space!",
+   "channel": "Plantspace Collective",
+   "published": "2026-10-12T17:00:36Z",
+   "runs": 935,
    "state": "screen"
   },
   {
-   "id": "f-Vn34rUXwk",
+   "id": "v5WrvVzYQf8",
    "search": "solarpunk",
-   "title": "Solarpunk | More Ores, More Power, Unlocking New Recipes | PT. 17 LIVE",
-   "channel": "Gamer's Deluxe__YT",
-   "published": "2026-10-07T14:30:32Z",
-   "runs": 5199,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "6lnwNJBoOOM",
-   "search": "solarpunk",
-   "title": "SolarPunk with Syko & Rain #15",
-   "channel": "SykoYoda & RainInWA",
-   "published": "2026-10-07T19:00:25Z",
-   "runs": 1424,
-   "state": "left",
-   "why": "filed under Music"
-  },
-  {
-   "id": "WLbG9zuw_ko",
-   "search": "solarpunk",
-   "title": "Two Braincells and a Drone | Solarpunk",
-   "channel": "Brain Cells",
-   "published": "2026-10-08T01:53:55Z",
-   "runs": 3864,
-   "state": "door",
-   "why": "no embedding"
-  },
-  {
-   "id": "lHI0Kr-dF3U",
-   "search": "solarpunk",
-   "title": "FINALLY I BUILD AN AUTOMATED DIAMOND FARM IN SOLARPUNK | #25",
-   "channel": "Gamer Sayax",
-   "published": "2026-10-08T04:30:06Z",
-   "runs": 728,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "-P1FpPxVa_Y",
-   "search": "solarpunk",
-   "title": "【Solarpunk】Steampunk Survivalling!",
-   "channel": "LeeandLieVODS",
-   "published": "2026-10-08T11:00:12Z",
-   "runs": 11347,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "2K8WehD2JWc",
-   "search": "solarpunk",
-   "title": "Solarpunk - Update - Fresh Start (1)",
-   "channel": "Prle",
-   "published": "2026-10-08T11:13:12Z",
-   "runs": 3625,
-   "state": "left",
-   "why": "filed under Gaming"
+   "title": "Solarpunk Ambient LIVESTREAM",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "gHMbDHl_mu0",
@@ -767,12 +715,40 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "lxppHfsCJeQ",
+   "search": "solarpunk",
+   "title": "Espoir | Solarpunk Art | Ai Video",
+   "channel": "HYFEN MEDIA",
+   "published": "2026-10-10T07:19:24Z",
+   "runs": 60,
+   "state": "screen"
+  },
+  {
    "id": "3SA2vGvucXg",
    "search": "solarpunk",
    "title": "Writing tabletop adventure with Canvastry - Solarpunk Session 1",
    "channel": "Yan",
    "published": "2026-10-10T16:00:22Z",
    "runs": 426,
+   "state": "screen"
+  },
+  {
+   "id": "53k5Y4ySWB4",
+   "search": "solarpunk",
+   "title": "Solarpunk Winter Isle Lodge",
+   "channel": "Beef Whimzyshire",
+   "published": "2026-10-10T20:49:43Z",
+   "runs": 93,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "SxSQu57zGm4",
+   "search": "solarpunk",
+   "title": "The Future We Chose: Aetheris The Hidden Solar -Punk City.",
+   "channel": "Malam",
+   "published": "2026-10-11T06:33:10Z",
+   "runs": 10,
    "state": "screen"
   },
   {
@@ -930,36 +906,28 @@
    "why": "filed under Gaming"
   },
   {
-   "id": "pF8d7LU-EyU",
-   "search": "renewable-energy",
-   "title": "New England Renewable Energy Zone Environmental Impact Statement opens soon",
-   "channel": "EnergyCo",
-   "published": "2026-10-08T03:26:47Z",
-   "runs": 67,
+   "id": "r-a-FXO3qH8",
+   "search": "solarpunk",
+   "title": "Bullu & Robo Save the Rainbow City | A Solarpunk &  Hopepunk Animation",
+   "channel": "Bullu and Robo",
+   "published": "2026-10-14T22:41:34Z",
+   "runs": 86,
    "state": "screen"
   },
   {
-   "id": "QfoCLBiIwzQ",
-   "search": "renewable-energy",
-   "title": "Community solar on council assets: a new toolkit",
-   "channel": "csebristol",
-   "published": "2026-10-08T08:26:42Z",
-   "runs": 4613,
-   "state": "screen"
-  },
-  {
-   "id": "NXmFrC796fQ",
-   "search": "renewable-energy",
-   "title": "PowerLink | Smart Renewable Energy Microgrid | STEM Summer Camp 2026",
-   "channel": "The Visiola Foundation",
-   "published": "2026-10-08T09:27:34Z",
-   "runs": 235,
-   "state": "screen"
+   "id": "iQ6diDdLlN0",
+   "search": "solarpunk",
+   "title": "Crosstown | 10 Minutes of Solarpunk Lo-Fi",
+   "channel": "SunLit Commons Radio [Solar Punk LoFi]",
+   "published": "2026-10-14T23:56:23Z",
+   "runs": 600,
+   "state": "left",
+   "why": "filed under Music"
   },
   {
    "id": "tpRRxb6b-Tg",
    "search": "renewable-energy",
-   "title": "Why Satisfactory Doesn't Have Renewable Energy",
+   "title": "Does Renewable Energy Belong in Satisfactory?",
    "channel": "Satisfactory News",
    "published": "2026-10-08T16:00:08Z",
    "runs": 510,
@@ -973,6 +941,15 @@
    "channel": "Community Energy England",
    "published": "2026-10-08T16:05:43Z",
    "runs": 228,
+   "state": "screen"
+  },
+  {
+   "id": "Sxc0nuo4Qug",
+   "search": "renewable-energy",
+   "title": "The Guide to Community Solar on Council Assets: toolkit introduction",
+   "channel": "Community Energy England",
+   "published": "2026-10-08T16:19:25Z",
+   "runs": 95,
    "state": "screen"
   },
   {
@@ -1030,6 +1007,15 @@
    "state": "screen"
   },
   {
+   "id": "4f4zIrfNZoo",
+   "search": "renewable-energy",
+   "title": "S01 E43 - Renewable Energy Transition with Dean Yarrall - Oct 10 2026",
+   "channel": "Two Palagi in a Pisinisi Pod",
+   "published": "2026-10-12T21:33:26Z",
+   "runs": 2892,
+   "state": "screen"
+  },
+  {
    "id": "q_T6p4YF4i8",
    "search": "renewable-energy",
    "title": "Sixth Fund, First Harvest: Community Solar Proves It Can Repeat Itself",
@@ -1054,6 +1040,24 @@
    "channel": "EnergyInformatics.Academy",
    "published": "2026-10-14T09:55:38Z",
    "runs": 621,
+   "state": "screen"
+  },
+  {
+   "id": "WsMVM43aX98",
+   "search": "renewable-energy",
+   "title": "Colorado now generates the bulk of its energy from renewable sources. Here’s how we got here",
+   "channel": "KUNC",
+   "published": "2026-10-14T11:30:32Z",
+   "runs": 524,
+   "state": "screen"
+  },
+  {
+   "id": "HTNDaeVvhjw",
+   "search": "renewable-energy",
+   "title": "Hope Hub SCIO - Renewable Energy Showcase",
+   "channel": "Lanarkshire Climate Action Hub",
+   "published": "2026-10-14T14:00:37Z",
+   "runs": 150,
    "state": "screen"
   }
  ]
