@@ -6360,7 +6360,7 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 .yurt-garden { position: absolute; left: 0; top: 0; z-index: 30; pointer-events: none; overflow: hidden; }
 .yurt-garden svg { display: block; }
 .yurt-faery { position: absolute; left: 0; top: 0; overflow: visible; }
-.yurt-faery__star { position: absolute; left: 0; top: 0; overflow: visible; }
+.yurt-faery__star, .yurt-faery__petal { position: absolute; left: 0; top: 0; overflow: visible; }
 @media print { .yurt-garden, .yurt-faeries, .yurt-magic { display: none !important; } }
 
 /* Where to find me, and the treeline the yurt is pitched behind. */

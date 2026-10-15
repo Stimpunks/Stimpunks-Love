@@ -40,10 +40,21 @@
       "photographer": "Helen Edgar",
       "photographer_agreed": true,
       "consent_on": "2026-09-20",
+      "note": "Sent by Helen for both places at once — Enid's wall and her own room, the Faery Yurt, where it is the portrait beside the welcome. The description, the caption and the naming are hers. Not resized, not cropped, and NOT FILTERED: her mockup put a sepia wash over this photograph and polaroids.html promises in as many words that we will not filter anybody, so the wash is the one other thing about her room this site did not carry over. The wooden frame around it is matting and stays."
+    },
+    {
+      "id": "helen-forest",
+      "alt": "A white woman with reddish brown hair and brown eyeglasses smiles at the camera with a woodland scene at her back and the sun shining from behind.",
+      "caption": "Helen in the woods.",
+      "subject": "Helen Edgar",
+      "photographer": "Helen Edgar",
+      "photographer_agreed": true,
+      "consent_on": "2026-10-15",
+      "on_wall": false,
       "elsewhere": [
         "faery-yurt.html"
       ],
-      "note": "Sent by Helen for both places at once — Enid's wall and her own room, the Faery Yurt, where it is the portrait beside the welcome. The description, the caption and the naming are hers. Not resized, not cropped, and NOT FILTERED: her mockup put a sepia wash over this photograph and polaroids.html promises in as many words that we will not filter anybody, so the wash is the one other thing about her room this site did not carry over. The wooden frame around it is matting and stays."
+      "note": "Sent by Helen Edgar, 2026-10-15, to replace the portrait beside the welcome in her own room, the Faery Yurt; she is in it, took it, and asked for it there. The description is her earlier one for the portrait it replaces, which still fits it; hers to change. The earlier portrait stays on Enid's wall. Not cropped, not filtered; re-saved with no metadata."
     },
     {
       "id": "ryan-pride-banner",

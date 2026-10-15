@@ -17,8 +17,9 @@
    about two minutes more it goes on slowly, adding more ivy and leaves, more
    flowers and more mushrooms. If the page changes shape
    it is drawn again round the new shape, from the same seed, so it is the same
-   garden. THE FAERIES drift across the window, every one a different size and
-   a different muted colour, with their wings going, and at MAX GLITTER much
+   garden. THE FAERIES are small woodland faeries that float slowly across the
+   window, no two dressed alike, with their wings going and petals falling
+   behind them, and at MAX GLITTER much
    brighter, leaving a trail of stars that fade; nothing flashes. Both
    are aria-hidden decoration that the pointer passes through. It stores nothing
    and sends nothing: next time both are off. */
@@ -274,33 +275,59 @@
     });
   }
 
-  /* ── The faeries: every one a different size and a different muted colour ── */
+  /* ── The faeries: small woodland faeries, Helen's ask, 2026-10-15 ──
+     Each is a tiny figure of our own drawing: a flower crown, long hair, a mossy
+     cloak to the ground, a posy held in front, gauzy wings, and some with little
+     curled horns. No two are dressed alike. They float slowly and drop petals
+     that drift down and fade; at MAX GLITTER they glow brighter and leave stars. */
   var TINTS = ['#C9A0A0', '#A3B59A', '#A99BC2', '#93A7B8', '#CDB98A', '#B897A8', '#B7A48E'];
+  var SKINS = ['#F1D3C2', '#E5B99E', '#C68E6E', '#A2694E', '#7A4E3A'];
+  var HAIRS = ['#8A3B2E', '#A3503A', '#5B2A26', '#3A2A26', '#D9B26A', '#B86A7A', '#E8DCC4'];
+  var CLOAKS = [['#5A7848', '#7E9A64'], ['#4F6638', '#6D8A56'], ['#8A6A7A', '#B897A8'], ['#6E6290', '#A99BC2'], ['#8A5A3C', '#B7804F'], ['#46664F', '#7FA08A']];
+  var BLOOMS = ['#C9564F', '#E28AA8', '#F2E6D4', '#E8C547', '#D9B8C4'];
+  function pick2(a) { return a[Math.floor(Math.random() * a.length)]; }
   function faeryDrawing(i, tint) {
+    var skin = pick2(SKINS), hair = pick2(HAIRS), cloak = pick2(CLOAKS), horns = Math.random() < .5;
+    var b1 = pick2(BLOOMS), b2 = pick2(BLOOMS), b3 = pick2(BLOOMS);
     return '<defs><radialGradient id="yf-glow-' + i + '"><stop offset="0" stop-color="' + tint + '" stop-opacity=".5"/>' +
       '<stop offset="1" stop-color="' + tint + '" stop-opacity="0"/></radialGradient></defs>' +
-      '<circle class="yurt-faery__glow" r="15" fill="url(#yf-glow-' + i + ')"/>' +
-      '<g class="yurt-faery__wings" fill="' + tint + '" fill-opacity=".55" stroke="#F2E6D4" stroke-opacity=".45" stroke-width=".6">' +
-      '<ellipse cx="-6" cy="-4" rx="6" ry="3.6" transform="rotate(-30 -6 -4)"/><ellipse cx="6" cy="-4" rx="6" ry="3.6" transform="rotate(30 6 -4)"/>' +
-      '<ellipse cx="-4.5" cy="3" rx="4" ry="2.4" transform="rotate(25 -4.5 3)"/><ellipse cx="4.5" cy="3" rx="4" ry="2.4" transform="rotate(-25 4.5 3)"/></g>' +
-      '<ellipse cy="2" rx="1.8" ry="4" fill="' + tint + '"/><circle cy="-4" r="2" fill="#F2E6D4"/>';
+      '<circle class="yurt-faery__glow" cy="-2" r="17" fill="url(#yf-glow-' + i + ')"/>' +
+      // wings, behind everything
+      '<g class="yurt-faery__wings" fill="' + tint + '" fill-opacity=".45" stroke="#F2E6D4" stroke-opacity=".55" stroke-width=".5">' +
+      '<path d="M-1 -6 C-9 -18 -17 -14 -14 -7 C-12 -3 -6 -3 -1 -4 Z"/><path d="M1 -6 C9 -18 17 -14 14 -7 C12 -3 6 -3 1 -4 Z"/>' +
+      '<path d="M-1 -3 C-8 -2 -12 4 -8 6 C-5 7 -2 2 -1 -1 Z"/><path d="M1 -3 C8 -2 12 4 8 6 C5 7 2 2 1 -1 Z"/></g>' +
+      // long hair falling behind the cloak
+      '<path d="M-3.4 -11 C-7.5 -5 -8.5 3 -7 12 C-5.8 10 -5 12.6 -3.6 10.5 L3.6 10.5 C5 12.6 5.8 10 7 12 C8.5 3 7.5 -5 3.4 -11 Z" fill="' + hair + '"/>' +
+      // mossy cloak to the ground, with a ragged hem
+      '<path d="M-2.6 -6 C-5 0 -7 8 -7.5 15 L-5.5 13.6 L-4 15.6 L-2 14 L0 16 L2 14 L4 15.6 L5.5 13.6 L7.5 15 C7 8 5 0 2.6 -6 Z" fill="' + cloak[0] + '"/>' +
+      '<path d="M-2 -5 C-3.5 1 -4 8 -3.5 14 L-2 14 L0 16 L1 13 C1 7 1 0 2 -5 Z" fill="' + cloak[1] + '" opacity=".6"/>' +
+      // the posy held in front
+      '<path d="M0 0 L0 5" stroke="#4F6638" stroke-width=".7"/>' +
+      '<circle cx="-1.2" cy="-.4" r="1.3" fill="' + b1 + '"/><circle cx="1.2" cy="-.6" r="1.3" fill="' + b2 + '"/><circle cx="0" cy="-1.8" r="1.2" fill="' + b3 + '"/>' +
+      // face and fringe
+      '<circle cy="-10" r="3.1" fill="' + skin + '"/>' +
+      '<path d="M-3.4 -10.4 C-3.2 -14 3.2 -14 3.4 -10.4 C2 -12 -1 -12.2 -3.4 -10.4 Z" fill="' + hair + '"/>' +
+      (horns ? '<path d="M-2 -12.6 C-4 -16 -6.5 -15 -5.2 -13.2 M2 -12.6 C4 -16 6.5 -15 5.2 -13.2" fill="none" stroke="#B7804F" stroke-width=".9" stroke-linecap="round"/>' : '') +
+      // flower crown
+      '<circle cx="-2.8" cy="-12.2" r=".95" fill="' + b1 + '"/><circle cx="-1" cy="-13.1" r="1" fill="' + b2 + '"/>' +
+      '<circle cx="1" cy="-13.1" r="1" fill="' + b3 + '"/><circle cx="2.8" cy="-12.2" r=".95" fill="' + b1 + '"/>';
   }
   function buildFaeries() {
     var box = layer('yurt-faeries');
     var many = window.innerWidth < 600 ? 5 : 7, list = [];
     var tints = TINTS.slice().sort(function () { return Math.random() - .5; });
     for (var i = 0; i < many; i++) {
-      var size = Math.round(26 + Math.random() * 42);
-      var svg = el('svg', { class: 'yurt-faery', width: size, height: size, viewBox: '-20 -20 40 40' }, box);
+      var size = Math.round(24 + Math.random() * 18);
+      var svg = el('svg', { class: 'yurt-faery', width: Math.round(size * .83), height: size, viewBox: '-20 -24 40 48' }, box);
       svg.innerHTML = faeryDrawing(i, tints[i % tints.length]);
       list.push({ el: svg, size: size, tint: tints[i % tints.length], wings: svg.querySelector('.yurt-faery__wings'),
         glow: svg.querySelector('.yurt-faery__glow'), heart: svg.querySelector('stop'), trail: 0,
         bx: .15 + Math.random() * .7, by: .15 + Math.random() * .7,
         ax: .12 + Math.random() * .22, ay: .08 + Math.random() * .2,
-        px: 40 + Math.random() * 50, py: 30 + Math.random() * 45,
-        fx: Math.random() * 6.28, fy: Math.random() * 6.28, wing: .8 + Math.random() * .5 });
+        px: 70 + Math.random() * 60, py: 55 + Math.random() * 50, petal: Math.random(),
+        fx: Math.random() * 6.28, fy: Math.random() * 6.28, wing: .45 + Math.random() * .3 });
     }
-    faeries = { box: box, list: list, t: 0, stars: [], bright: null };
+    faeries = { box: box, list: list, t: 0, stars: [], petals: [], bright: null };
   }
   /* AT MAX GLITTER THE FAERIES ARE MUCH BRIGHTER AND LEAVE A TRAIL OF STARS,
      Helen's ask. Each star is a small four-pointed sparkle that drifts down a
@@ -312,7 +339,7 @@
   function brighten(on) {
     faeries.bright = on;
     faeries.list.forEach(function (f) {
-      f.glow.setAttribute('r', on ? '19' : '15');
+      f.glow.setAttribute('r', on ? '20' : '17');
       f.heart.setAttribute('stop-opacity', on ? '.95' : '.5');
       f.heart.setAttribute('stop-color', on ? '#F2E6D4' : f.tint);
     });
@@ -339,12 +366,35 @@
       return true;
     });
   }
+  /* Every faery lets fall a petal now and then, which drifts down, sways a
+     little and fades over three seconds. They never blink, so nothing flashes. */
+  var PETAL = 'M0 -3 C2 -2 2 1.5 0 3 C-2 1.5 -2 -2 0 -3 Z';
+  function petals(dt) {
+    faeries.list.forEach(function (f) {
+      f.petal += dt;
+      if (f.petal < .7) return;
+      f.petal = Math.random() * .3;
+      var size = 5 + Math.random() * 4;
+      var svg = el('svg', { class: 'yurt-faery__petal', width: size, height: size, viewBox: '-4 -4 8 8' }, faeries.box);
+      el('path', { d: PETAL, fill: pick2(BLOOMS) }, svg);
+      faeries.petals.push({ el: svg, x: f.x - size / 2, y: f.y + f.size * .2, age: 0, sway: Math.random() * 6.28 });
+    });
+    faeries.petals = faeries.petals.filter(function (s) {
+      s.age += dt;
+      if (s.age >= 3) { s.el.remove(); return false; }
+      s.y += dt * 14;
+      s.el.style.left = (s.x + 6 * Math.sin(s.age * 1.6 + s.sway)).toFixed(1) + 'px';
+      s.el.style.top = s.y.toFixed(1) + 'px';
+      s.el.style.opacity = (1 - s.age / 3).toFixed(3);
+      return true;
+    });
+  }
   function drawFaeries() {
     var W = window.innerWidth, H = window.innerHeight, t = faeries.t;
     faeries.list.forEach(function (f) {
       var half = f.size / 2;
-      var x = (f.bx + f.ax * Math.sin(6.283 * t / f.px + f.fx)) * W;
-      var y = (f.by + f.ay * Math.sin(6.283 * t / f.py + f.fy)) * H + 6 * Math.sin(t * 1.3 + f.fx);
+      var x = (f.bx + f.ax * Math.sin(6.283 * t / f.px + f.fx)) * W + 5 * Math.sin(t * .5 + f.fy);
+      var y = (f.by + f.ay * Math.sin(6.283 * t / f.py + f.fy)) * H + 9 * Math.sin(t * .8 + f.fx);
       var left = Math.max(0, Math.min(W - f.size, x - half)), top = Math.max(0, Math.min(H - f.size, y - half));
       f.x = left + half; f.y = top + half;
       f.el.style.left = left.toFixed(1) + 'px';
@@ -358,7 +408,7 @@
     var dt = last ? Math.min(.1, (now - last) / 1000) : 0;
     last = now;
     if (garden && grown < GROW) { grown += dt; drawGarden(); }
-    if (faeries) { faeries.t += dt; drawFaeries(); trail(dt); }
+    if (faeries) { faeries.t += dt; drawFaeries(); petals(dt); trail(dt); }
     frame = (faeries || (garden && grown < GROW)) ? requestAnimationFrame(tick) : 0;
     if (!frame) last = 0;
   }
