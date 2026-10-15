@@ -6040,9 +6040,10 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .spine.c5 { background-image: linear-gradient(90deg, #29414A, #375968); min-height: 186px; }
 .spine.c6 { background-image: linear-gradient(90deg, #4A2F4F, #653D6B); min-height: 204px; }
 .shelf__note { margin: 24px 0 0; text-align: center; font-size: 15px; font-style: italic; color: var(--tallow-3); }
-/* A spine on the Art shelf is a door to the artist's Wikipedia page: the
+/* A spine is a door to its author's Wikipedia page (the Art shelf first,
+   2026-10-15, then every case the same day, both at Helen's ask): the
    lettering keeps the spine's cream and only the underline says link, because
-   a spine is lettered in one ink. */
+   a spine is lettered in one ink. A spine with no page to open stays plain. */
 .yurt-case__books .spine__link { color: inherit; text-decoration: underline; text-decoration-color: rgba(242,230,212,.5); text-underline-offset: 4px; }
 .yurt-case__books .spine__link:hover { text-decoration-color: var(--candle); }
 .yurt-case__books .spine__link:focus-visible { outline: 3px solid var(--candle); outline-offset: 3px; }
