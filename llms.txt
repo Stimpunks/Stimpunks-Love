@@ -121,6 +121,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - [Stay Frosty — Stimpunks.World](https://stimpunks.world/stay-frosty.html): Level B5 of Arlesglad Caverns, the bottom: a quiet place to chill, literally, at the one temperature that never moves. Nothing to press, nothing moves, nothing makes a sound, and nothing in here is for anything.
 - [Stay Breezy — Stimpunks.World](https://stimpunks.world/stay-breezy.html): Behind Stay Frosty at the bottom of Arlesglad Caverns: a hall full of fans, for anybody who loves moving air and the noise it makes. Switch on as many as you like, or take a room of your own with its own ceiling fan and a table to perch one on.
 - [Liner Notes — Stimpunks.World](https://stimpunks.world/liner-notes.html): Who made this noise. Every song, typeface, quotation and borrowed name on this street, credited to the person it belongs to.
+- [What’s this all about? — Stimpunks.World](https://stimpunks.world/about.html): What Stimpunks.World is, for anybody who has been shown it and does not get it yet: a website built as a street, where every door opens on a room that is its own world, the loudness is yours to hold, and nobody has to earn the right to walk in. With a thirty-second film, written out in words underneath.
 - [What the street is for — Stimpunks.World](https://stimpunks.world/mission.html): The mission of Stimpunks.World: belonging before anything else, no two rooms alike, loudness the visitor holds, nothing from anybody else until you press, contrast that is measured, rest that is owed, nobody counted, faces and voices that stay their owners', and credits and corrections in the open. Each aim names the page that keeps it and the failure that would show we had stopped.
 - [How this site is made — Stimpunks.World](https://stimpunks.world/design.html): How Stimpunks.World is made: no design system on purpose, a small shared base, a dial for loudness, contrast that is measured, nothing that plays until you press it, loud credits, and who builds it, including how we use AI.
 - [Architecture — Stimpunks.World](https://stimpunks.world/architecture.html): How Stimpunks.World runs: static files on Netlify, deployed by a push to main; a workshop of generators and checkers; the CB as the only code on a server; the morning timers; and every outside service and when it is reached.
@@ -134,6 +135,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - The typefaces keep their own licences (Apache License 2.0 or SIL Open Font License 1.1), family by family, as https://stimpunks.world/foundry.html records them; the songs keep their own copyright.
 - Nothing musical is hosted here. The jukebox is press-to-play facades that link out.
 - Full credits: https://stimpunks.world/liner-notes.html
+- What this is all about, for newcomers: https://stimpunks.world/about.html
 - What the street is for (the mission): https://stimpunks.world/mission.html
 - The manifesto, Ribald Songing, as a printable broadside: https://stimpunks.world/broadsheet-broadside.html#no-2
 - How the site is made, and how we use AI: https://stimpunks.world/design.html

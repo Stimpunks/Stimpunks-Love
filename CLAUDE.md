@@ -3453,6 +3453,21 @@ reading a gradient cannot know which stop is under which link. The road is a `::
 the buildings stand on plain board, which is what they actually stand on. **No transform anywhere in
 §49**: the top and side of every building are clipped rectangles, not skews.
 
+**THE ABOUT PAGE'S FILM IS A CLAUDE MOTION FILM, AND THE MP4 IS AN EXPORT OF IT, NOT ITS SOURCE.**
+Ryan, 2026-10-15, for people shown the street who say they do not get it. `about.html` is paperwork
+(`room-plain`, first of the credits in the sitemap, pinned on the map, no job marker), linked under the
+front page's tagline and from the sign-off. The film's source is a Motion artifact on claude.ai
+(https://claude.ai/artifact/FEuuhNaKmQxWmU4qSM5C6L, private to whoever it is shared with): each scene
+is code in that artifact's store, the doors are `window.UI.DOORS` in its `shared.js`, lifted from §5's
+door rules, and the names are set from this repo's own font files, uploaded there as assets. **A
+change is made there and exported again**, then `video/about.mp4` is re-encoded from the export with
+no audio and no metadata, and `video/about-poster.webp` re-cut from it. **The list under the video is
+the film in words and changes with it**, the liner notes' entry names every face in it, and
+`design.html#ai` says the film is code too. It is silent because nothing musical is hosted here: do
+not add Motion's score. It is a `<video controls preload="none">`, which `make-now-playing.py` now
+counts as a player, and `data/now-playing.json` leaves the page off the bill with its reason. **It shows
+some doors and counts none**, and must not.
+
 **THE CB IS THE ONLY SERVER-SIDE CODE ON THIS SITE, AND IT GOT IN ON NARROW TERMS.** A chat
 channel patterned after citizens band radio (Ryan's brief, 2026-09-24): five Netlify Functions in
 `netlify/functions/` sharing `netlify/cb/lib.mjs`, one JSON blob in Netlify Blobs holding the latest

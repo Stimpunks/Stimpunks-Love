@@ -108,6 +108,9 @@ CREDITS = ROOT / "liner-notes.html"
 #                    AI included. It is a disclosure, read for the privacy
 #                    page's reason, and a job sending somebody through it would
 #                    make an account owed to every visitor into a quest.
+#   about.html       is where somebody who has been shown the street and does
+#                    not get it yet is sent. A job through it would turn the
+#                    answer to "what is this?" into the first errand.
 #   mission.html     says what the street is for, and names the page keeping
 #                    each aim so a reader can hold us to it. It is read for
 #                    design.html's reason: a job through it would make the page
@@ -124,7 +127,7 @@ CREDITS = ROOT / "liner-notes.html"
 #                    marker in it would be a job in a room nobody can walk to.
 from windows import WINDOWS
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
-          "mission.html", "architecture.html", "cb-guide.html"} | WINDOWS
+          "mission.html", "architecture.html", "cb-guide.html", "about.html"} | WINDOWS
 
 # A ROOM YOU HAVE TO KNOW THE ADDRESS OF CARRIES NO MARKER, AND IS REFUSED ONE.
 # Ryan's call, 2026-10-07 (tools/unlisted.py). The board prints every job beside

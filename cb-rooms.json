@@ -680,6 +680,12 @@
    "about": "Who made this noise. Every song, typeface, quotation and borrowed name on this street, credited to the person it belongs to."
   },
   {
+   "tag": "about",
+   "name": "What’s this all about?",
+   "path": "/about.html",
+   "about": "What Stimpunks.World is, for anybody who has been shown it and does not get it yet: a website built as a street, where every door opens on a room that is its own world, the loudness is yours to hold, and nobody has to earn the right to walk in. With a thirty-second film, written out in words underneath."
+  },
+  {
    "tag": "mission",
    "name": "What the street is for",
    "path": "/mission.html",

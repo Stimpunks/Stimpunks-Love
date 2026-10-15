@@ -70,16 +70,19 @@ PAGE = ROOT / "now-playing.html"
 HERE = PAGE.name
 BEGIN, END = "<!-- np-bill:begin -->", "<!-- np-bill:end -->"
 
-# The three shapes of a thing you press to play on this street. A facade is the
+# The shapes of a thing you press to play on this street. A facade is the
 # street's press-to-play button (love-embed.js); a set's running order is a list
 # item carrying its runtime (the Hermitage's television, Looming Rocks' desk, the
-# Mopery's screen); a headset is Dance, Punks'. A new shape of player is a new
-# alternative here, and until it is added this will not see that room at all --
-# which is why the venue check below also runs the other way.
+# Mopery's screen); a headset is Dance, Punks'; a <video> with its own controls is
+# a film of ours, served from this site (the About page's, 2026-10-15). A new
+# shape of player is a new alternative here, and until it is added this will not
+# see that room at all -- which is why the venue check below also runs the other
+# way.
 PLAYABLE = re.compile(
     r'<button\b[^>]*\bclass="[^"]*\bfacade\b[^"]*"[^>]*>'
     r'|<li\b[^>]*\bdata-runs="[^"]*"[^>]*>'
-    r'|<button\b[^>]*\bclass="dp-tune"[^>]*>', re.S)
+    r'|<button\b[^>]*\bclass="dp-tune"[^>]*>'
+    r'|<video\b[^>]*\bcontrols\b[^>]*>', re.S)
 
 # A runtime as the rooms print them: 3:27, 1:14:00, 13 min, 3 hr 23 min, 10 seconds.
 RUNS = re.compile(r"\b(\d{1,2}:\d{2}(?::\d{2})?|\d+ hr(?: \d+ min)?|\d+ min|\d+ seconds?)\b")

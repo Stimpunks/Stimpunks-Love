@@ -3984,6 +3984,13 @@ div.facade--square { border: 0; background: none; }
 .masthead__who b { color: #fff; }
 .masthead__who a { color: var(--yellow); text-underline-offset: 3px; }
 
+/* NEW HERE? For anybody shown the street who says they do not get it (Ryan,
+   2026-10-15): one line under the tagline, where the eye goes after the name,
+   pointing at about.html. The dial's Bungee and the street's own yellow on the
+   night ground, a pair check-contrast.py already holds for .masthead__who. */
+.masthead__about { margin: 24px 0 0; font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: .5px; line-height: 1.3; }
+.masthead__about a { color: var(--yellow); text-underline-offset: 4px; }
+
 .wordmark   { font-family: 'Bungee', var(--sans); font-size: clamp(46px, 8.5vw, 92px); line-height: .92; color: #fff; text-shadow: 4px 0 0 var(--pink), 8px 0 0 var(--cyan); letter-spacing: -1px; margin: 0; }
 .wordmark b { font-family: 'Shrikhand', var(--sans); font-weight: 400; color: var(--pink); text-shadow: none; display: block; font-size: .78em; margin-top: -.06em; }
 
