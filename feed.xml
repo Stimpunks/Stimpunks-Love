@@ -9,24 +9,31 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Thu, 15 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The guest bar’s teleporter goes where you pick again</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-15-guest-teleporter-goes</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-15-guest-teleporter-goes</guid>
+      <pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Picking a room in the teleporter on the guest bar did nothing, whether you clicked it or pressed Enter, ever since the bar learned to sign you on. The Sign on button and the teleporter’s way of going somewhere had the same name in guest.js, and the button won. It has a name of its own now, and both work. The radio’s teleporter, for anybody signed on, was never affected.</description>
+    </item>
+    <item>
       <title>The yurt’s faeries come in three sizes and never fly over the words</title>
       <link>https://stimpunks.world/changelog.html#2026-10-15-yurt-faeries-keep-off-words</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-15-yurt-faeries-keep-off-words</guid>
-      <pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 15 Oct 2026 11:59:00 GMT</pubDate>
       <description>Three sizes of faery, at Helen’s ask: little ones, ones three times as big, and the biggest four times as big. No faery ever flies over a word or a picture, at her ask. They live on the page now rather than on the window, so the words never slide under them as you scroll; each one only goes where there is room for all of it, and flies round the words from one open space to the next, so the big ones keep to the margins and the little ones slip through the gaps between the sections. A petal or a star that drifts onto a word is gone at once.</description>
     </item>
     <item>
       <title>Bright red and rainbow hair at the Bodymind Booth</title>
       <link>https://stimpunks.world/changelog.html#2026-10-15-bodymind-red-rainbow-hair</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-15-bodymind-red-rainbow-hair</guid>
-      <pubDate>Thu, 15 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Thu, 15 Oct 2026 11:58:00 GMT</pubDate>
       <description>Two new hair colours, at Helen’s ask: bright red, and rainbow, which runs red, orange, yellow, green, blue and violet from the roots down, on every hairstyle, long or short. A bodymind wearing either walks into the Dopamine Dress-Up Den with it, and keeps it as a CB avatar.</description>
     </item>
     <item>
       <title>Woodland faeries in the yurt, and a new portrait by the door</title>
       <link>https://stimpunks.world/changelog.html#2026-10-15-yurt-woodland-faeries</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-15-yurt-woodland-faeries</guid>
-      <pubDate>Thu, 15 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Thu, 15 Oct 2026 11:57:00 GMT</pubDate>
       <description>The faeries are small woodland faeries now, at Helen’s ask: each a tiny figure with a flower crown, long hair, a mossy cloak to the ground, a posy held in front and gauzy wings, and some with little curled horns. Their skin, hair and cloaks vary so no two are dressed alike. They are drawn here, not taken from anybody’s artwork. They float more slowly, and each lets fall petals that drift down, sway and fade over three seconds; nothing blinks. At MAX GLITTER they still glow brighter and leave stars. A new portrait of Helen beside the welcome, sent by her today: Helen in a sunlit wood. Her description of the old one still fits it, so it carries those words until she changes them. The earlier photograph stays on Enid’s wall. Not cropped, not filtered, and re-saved with no metadata.</description>
     </item>
     <item>
@@ -40,7 +47,7 @@
       <title>The Live Room gets the glass, and the studios’ own month under the desk</title>
       <link>https://stimpunks.world/changelog.html#2026-10-15-live-room-glass-and-month</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-15-live-room-glass-and-month</guid>
-      <pubDate>Thu, 15 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Thu, 15 Oct 2026 11:56:00 GMT</pubDate>
       <description>The Live Room’s desk is a rack now. Every strip still plays where it hangs, and a second button puts it up on the glass over the desk instead, saying how long it runs before you press it. Taking it off puts the glass back as it was and plays nothing, and each studio’s desk folds away. Under the desk, the last month off each studio’s own channel: Austin City Limits, KEXP and KCRW, their videos and their shorts, newest first, refilled every morning. Nobody chose these or watched them first, so there is no tape on them. Nobody has checked where each was played either: the rule that a session was played indoors is still the desk’s, and the room says so beside the month. KEXP puts up each session whole and then every song from it on its own, more in three days than YouTube’s feed for a channel carries. So the new puller reads a channel’s own list page, past its first hundred, whenever the feed does not reach back to what an earlier morning covered, rather than printing a gap for a month while the mornings fill it in. It met YouTube’s new shape for an upload list’s rows the same night, and reads both.</description>
     </item>
     <item>

@@ -207,10 +207,10 @@
     password.type = 'password';
     password.required = true;
     password.autocomplete = 'current-password';
-    var go = el('button', 'cb-btn', 'Sign on');
-    go.type = 'submit';
+    var send = el('button', 'cb-btn', 'Sign on');
+    send.type = 'submit';
     var row = el('div', 'cb-row cb-send-row');
-    row.appendChild(go);
+    row.appendChild(send);
     var said = el('p', 'cb-said');
     said.setAttribute('role', 'status');
     form.appendChild(hl); form.appendChild(handle);
@@ -227,7 +227,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       said.textContent = 'Checking\u2026';
-      go.disabled = true;
+      send.disabled = true;
       fetch('/cb/signon', {
         method: 'POST', credentials: 'omit', cache: 'no-store',
         headers: { 'accept': 'application/json', 'content-type': 'application/json' },
@@ -235,7 +235,7 @@
       }).then(function (r) {
         return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
       }).then(function (r) {
-        go.disabled = false;
+        send.disabled = false;
         if (r.status === 200 && r.body.pass) {
           password.value = '';
           try {
@@ -252,7 +252,7 @@
           ? 'The CB is not running on this server. It only answers on stimpunks.world itself.'
           : 'That did not work. Try again.';
       }).catch(function () {
-        go.disabled = false;
+        send.disabled = false;
         said.textContent = 'No signal: the CB could not be reached.';
       });
     });
