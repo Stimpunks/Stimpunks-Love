@@ -6002,7 +6002,9 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
    side, and alphabetical by surname inside each. Cases in a row stand as tall
    as the tallest, so a short case shows empty planks waiting for more. Every
    row is the same height, so the planks are one repeating gradient that lands
-   in the row gaps rather than an element per shelf. The six spine
+   in the row gaps rather than an element per shelf. A row is 276px because a
+   spine grows to fit its words and the longest name on the shelves wants it;
+   a spine taller than a row would poke through the plank above it. The six spine
    colours are grounds for the cream lettering and every one of them is in
    check-contrast.py — Helen's fourth was the other thing the checker caught.
    The heights are minimums, so a long name lengthens its own spine. */
@@ -6020,9 +6022,9 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 }
 .yurt-case__books {
   flex: 1; list-style: none; margin: 0 -10px; padding: 0 10px;
-  display: grid; align-content: start; grid-template-columns: repeat(5, 36px); grid-auto-rows: 236px;
+  display: grid; align-content: start; grid-template-columns: repeat(5, 36px); grid-auto-rows: 276px;
   gap: 14px 4px; align-items: end;
-  background: repeating-linear-gradient(180deg, transparent 0 236px, var(--timber) 236px 250px);
+  background: repeating-linear-gradient(180deg, transparent 0 276px, var(--timber) 276px 290px);
 }
 .yurt-case__books .spine { line-height: 1.4; padding: 12px 4px; }
 .spine {
