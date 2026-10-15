@@ -2221,8 +2221,12 @@
           li.appendChild(b);
           ul.appendChild(li);
         });
-        box.appendChild(ul);
-        if (!box.querySelector('.cb-stickers__pick')) { var first = ul.querySelector('button'); if (first) first.focus(); }
+        // Under its own line, never at the end of the box: the patches below
+        // were put there while this was still being fetched. And the keyboard
+        // goes to the first pet only when no avatar above took it.
+        var noneYet = !(avSaid.nextElementSibling && avSaid.nextElementSibling.tagName === 'UL');
+        said.after(ul);
+        if (noneYet) { var first = ul.querySelector('button'); if (first) first.focus(); }
       }, function () { said.textContent = 'Your pets could not be fetched just now.'; });
     });
     /* YOUR PATCHES (Ryan, 2026-10-14): each one on your battle jacket, a
