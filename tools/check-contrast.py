@@ -1254,6 +1254,13 @@ PAIRS = [
     (RDR_FLAME2, RDR_WALL,  False, "reading room: a link on hover, and a pressed switch's lettering"),
     (RDR_FLAME2, RDR_PANEL, False, "reading room: a pressed switch's lettering on its panel"),
     (RDR_BRASS,  RDR_WALL,  True,  "reading room: the sconces and the rug's border, drawn on the wall"),
+    # THE MUSIC ROOM (love.css §115), Helen's, one door along from the Reading
+    # Room and dressed in its colours at her ask (2026-10-16), so every pair above
+    # is this room's too: ink and dimmer ink on the wall and the panel, the links,
+    # the pressed switch, and the brass drawings. The record sleeves are the
+    # yurt's cream on the six spine colours, held with the bookcases above. The
+    # moth on the guild's board is RDR_BRASS on the wall, 7.53.
+    (RDR_BRASS,  RDR_WALL,  False, "music room: the moth on the guild's board, lying on the claret"),
     # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat

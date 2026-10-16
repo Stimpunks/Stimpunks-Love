@@ -5995,7 +5995,10 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
   display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px;
 }
 /* THE RECORD CASE, Helen's asks, 2026-10-15 and -16: her soundtrack as a
-   music library rather than a list of blocks. An arched case in the same
+   music library rather than a list of blocks. (Since 2026-10-16 the Music
+   Room, §115, holds a second copy of the phonograph and this case, in its
+   own class names, written by the same tool from the same data.)
+   An arched case in the same
    design as her bookcases (which live in the Reading Room now and are §114's,
    so this is drawn again here in her timber rather than wearing their class),
    with every song on the yarn an LP sleeve standing on a plank, square, in one
@@ -6079,6 +6082,7 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .yurt-door__words { display: flex; flex-direction: column; gap: 6px; }
 .yurt-door__go { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 24px; line-height: 1.2; text-decoration: underline; text-decoration-color: rgba(224,144,74,.45); text-underline-offset: 4px; }
 .yurt-door__say { font-size: 16px; color: var(--tallow-2); }
+.room-yurt .yurt-door--music { margin-top: 26px; }
 @media (max-width: 480px) { .room-yurt .yurt-door { flex-direction: column; text-align: center; } }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
@@ -16391,7 +16395,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §116
+   class on it is `bb-`, its sizes are in points and millimetres, and §117
    prints it and nothing else. */
 
 .room-broadside {
@@ -16452,7 +16456,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §116 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §117 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -23844,7 +23848,180 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .yurt-case__books .spine__link:hover { text-decoration-color: var(--rdr-flame-2); }
 .yurt-case__books .spine__link:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
 
-/* §115 ── Small screens ───────────────────────────────────────────────────────
+/* §115 ── SUBROOM: The Music Room (behind the Faery Yurt) ──────────────────
+   HELEN'S, LIKE THE YURT AND THE READING ROOM, and asked for on 2026-10-16
+   "for those who just want to listen and not scroll": the phonograph, the whole
+   yarn and the record case, in a room of their own with nothing else in it,
+   through the door by the phonograph. THE YURT KEEPS ITS PHONOGRAPH. The
+   Reading Room's books MOVED out of the yurt; the music is in both rooms,
+   written into each by tools/make-yurt-yarn.py from the one data file, so the
+   two cannot say different things, and this section dresses the second copy
+   in its own class names (mus-), because a class is global and the yurt's
+   names are §14's.
+
+   IT IS THE READING ROOM'S HOUSE, ONE DOOR ALONG, AT HER ASK ("same as the
+   reading room, more gothic dark academia"), so it wears §114's declared
+   colours (--rdr-*) rather than declaring a second claret, and her two faces.
+   Every ink here sits on §114's grounds, the wall and the panel, in pairs
+   check-contrast.py already holds; the sleeves' cream on the six spine
+   colours is held from the bookcases. What keeps it off the Reading Room is
+   the LIGHT: there the fire lights the room from the floor at one side; here
+   there is no fire, the window is open on the night, and the only light is
+   candles, so the glow is thin and the room is darkest at the ceiling and at
+   the window. The scene drawing carries the night; the page ground is flat.
+
+   THE MOPERY IS STILL THE COLLISION, for the Reading Room's reason, and the
+   answers are the same: candles in sconces and candelabra, never along the
+   shelves; a clean serif, not Fell's; claret, never stone. If the claret ever
+   cools to grey, this has become the Mopery with a gramophone.
+
+   NOTHING MOVES AT ANY SETTING BUT THE RECORD AT MAX, which the dial's own line
+   in the room says, and make-yurt-yarn.py refuses a rule here that turns the
+   disc under any other selector. The candles stand still (Club Chronic's
+   rule), and the faeries and the garden move only when pressed. */
+
+.room-music { background: var(--rdr-wall); color: var(--rdr-ink); font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; line-height: 1.7; }
+.room-music a { color: var(--rdr-flame); text-decoration-color: rgba(242,153,79,.45); text-underline-offset: 3px; }
+.room-music a:hover { color: var(--rdr-flame-2); }
+.room-music .backlink { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: .06em; color: var(--rdr-ink-2); }
+.mus { width: min(780px, 100% - 40px); margin-inline: auto; padding: 0 0 70px; }
+.room-music h1, .room-music h2, .room-music h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  color: var(--rdr-ink); text-wrap: balance; letter-spacing: .01em;
+}
+.room-music h1 { font-size: clamp(42px, 7vw, 67px); font-style: italic; margin: 0 0 14px; }
+.room-music h2 { font-size: 30px; font-style: italic; margin: 0 0 6px; }
+.room-music section { padding: 30px 0; }
+.mus-top { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+.mus-top__note { margin: 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+.mus-head { text-align: center; padding: 30px 0 10px; }
+.mus-scene { display: block; width: min(100%, 560px); height: auto; margin: 0 auto 26px; border-radius: 8px; box-shadow: 0 18px 40px -22px rgba(0,0,0,.8), inset 0 0 0 1px rgba(214,176,106,.18); }
+.mus-eyebrow { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 0 16px; }
+.mus-tagline { font-size: 19.5px; font-style: italic; color: var(--rdr-ink-2); max-width: 46ch; margin: 0 auto 18px; }
+.mus-lede { max-width: 62ch; margin: 0 auto; text-align: left; }
+.room-music .mus-intro { color: var(--rdr-ink-2); max-width: 64ch; margin: 22px 0 14px; }
+.mus-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
+
+/* The two switches, the yurt's, in this room's clothes. */
+.mus-magic { margin: 18px auto 0; max-width: 560px; text-align: center; }
+.mus-magic__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.mus-magic__btn {
+  min-height: 44px; padding: 8px 18px; cursor: pointer;
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.35); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 18px;
+}
+.mus-magic__btn:hover { border-color: var(--rdr-flame-2); }
+.mus-magic__btn[aria-pressed="true"] { color: var(--rdr-flame-2); border-color: var(--rdr-flame-2); }
+.mus-magic__btn:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 2px; }
+.mus-magic__note { margin: 10px 0 0; font-size: 15px; color: var(--rdr-ink-2); }
+
+/* A chandelier over the scene, candles in brass sconces along the wall over
+   the phonograph with a raven at each end of the row: the Reading Room's
+   gothic, one door along. Every one is a drawing that carries no word, and
+   nothing flickers. */
+.mus-chandelier { display: block; width: min(100%, 380px); height: auto; margin: 0 auto -6px; }
+.mus-sconces { display: flex; justify-content: space-around; align-items: flex-end; margin: 6px 0 10px; }
+.mus-sconces svg { width: 28px; height: 44px; }
+.mus-sconces .mus-perch { width: 44px; height: 30px; }
+
+/* The phonograph, on its panel: the yurt's drawing (make-yurt-yarn.py), in
+   this room's class names. The record is a circle in a group squashed to the
+   turntable's angle, and it turns about that group's own origin, the spindle,
+   at MAX and nowhere else. The shine on it does not turn. */
+.mus-record { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; background: var(--rdr-panel); border: 1px solid rgba(214,176,106,.18); border-radius: 6px; padding: 22px; }
+.mus-record > div:last-child { flex: 1 1 240px; }
+.mus-record p:last-child { margin: 0; color: var(--rdr-ink-2); }
+.mus-phono { flex: 0 0 auto; width: 210px; margin: -6px 0 -10px; }
+.mus-phono svg { display: block; width: 100%; height: auto; }
+.mus-phono__disc { transform-box: view-box; transform-origin: 0 0; }
+html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infinite; }
+@keyframes mus-spin { to { transform: rotate(360deg); } }
+@media (max-width: 560px) { .mus-phono { margin-inline: auto; } }
+
+/* The deck: the whole yarn on the phonograph, the press-to-play button in this
+   room's clothes, styled from the container as well as the button because
+   love-embed.js swaps the button for a bare div on the press. */
+.room-music .mus-deck { margin: 18px 0 0; }
+.room-music .mus-deck .facade {
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.3; padding: 20px 22px;
+}
+.room-music .mus-deck button.facade:hover { border-color: var(--rdr-flame-2); }
+.room-music .mus-deck .facade__play { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 16px; letter-spacing: .12em; color: var(--rdr-flame-2); inset: auto auto 18px 22px; }
+.room-music .mus-deck__credit { margin: 14px 0 0; font-size: 16px; color: var(--rdr-ink-2); }
+.room-music .mus-deck__now { margin: 12px 0 0; font-size: 16px; font-style: italic; color: var(--rdr-ink-2); }
+.room-music .mus-deck__back { margin: 10px 0 0; }
+.room-music .mus-back {
+  display: block; width: 100%; cursor: pointer; text-align: left;
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.3; padding: 10px 14px;
+}
+.room-music .mus-back:hover { border-color: var(--rdr-flame-2); color: var(--rdr-flame-2); }
+.room-music .mus-rack__sum {
+  cursor: pointer; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
+  font-size: 21px; color: var(--rdr-ink); padding: 4px 0;
+}
+.room-music .mus-rack__sum::marker { color: var(--rdr-ink-2); }
+
+/* THE RECORD CASE: the yurt's (§14), in this room's timber, under an arch
+   drawn up to a point like the Reading Room's bookcases. Every song on the
+   yarn is an LP sleeve standing on its own length of plank, in one of her six
+   spine colours with the disc peeking out of its top. THE SLEEVE IS THE
+   BUTTON, and it says how long the record runs before the press; the line
+   under it is the card's own facade, kept because the CB's watch-together
+   finds a song by it. Nothing on the shelf moves. */
+.mus-lp-case {
+  box-sizing: border-box; width: min(100%, 640px); margin: 14px auto 0; padding: 0 12px;
+  background: rgba(0,0,0,.34); border: 10px solid var(--rdr-timber); border-bottom-width: 14px;
+  border-radius: 320px 320px 4px 4px / 250px 250px 4px 4px;
+  box-shadow: inset 0 0 28px rgba(0,0,0,.6), 0 12px 20px -12px rgba(0,0,0,.8), inset 0 0 0 1px rgba(214,176,106,.14);
+}
+.mus-lp {
+  list-style: none; margin: 0 -12px; padding: 62px 12px 0;
+  display: grid; grid-template-columns: repeat(auto-fill, 132px); justify-content: center;
+  grid-auto-rows: minmax(216px, auto); gap: 18px 14px; align-items: end;
+}
+.mus-lp__slot { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-inline: -7px; padding: 0 7px 10px; border-bottom: 14px solid var(--rdr-timber); box-shadow: 0 16px 0 -10px rgba(0,0,0,.45); }
+.mus-lp__slot p { margin: 0; }
+.room-music .mus-lp__sleeve {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
+  width: 132px; aspect-ratio: 1; box-sizing: border-box; padding: 10px 10px 9px; cursor: pointer; text-align: left;
+  border: 0; border-radius: 2px; color: var(--tallow); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  box-shadow: inset 3px 0 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(0,0,0,.35), 0 10px 20px -12px rgba(0,0,0,.8);
+}
+.room-music .mus-lp__sleeve:hover { box-shadow: inset 3px 0 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(0,0,0,.35), 0 0 0 2px var(--rdr-flame-2), 0 10px 20px -12px rgba(0,0,0,.8); }
+.room-music .mus-lp__sleeve:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+.room-music .mus-lp__sleeve--1 { background-color: #6E2F2B; background-image: linear-gradient(135deg, #6E2F2B, #8A3D34); }
+.room-music .mus-lp__sleeve--2 { background-color: #38491F; background-image: linear-gradient(135deg, #38491F, #4A5F2A); }
+.room-music .mus-lp__sleeve--3 { background-color: #5A3D63; background-image: linear-gradient(135deg, #5A3D63, #75507F); }
+.room-music .mus-lp__sleeve--4 { background-color: #7A5324; background-image: linear-gradient(135deg, #7A5324, #8A5F26); }
+.room-music .mus-lp__sleeve--5 { background-color: #29414A; background-image: linear-gradient(135deg, #29414A, #375968); }
+.room-music .mus-lp__sleeve--6 { background-color: #4A2F4F; background-image: linear-gradient(135deg, #4A2F4F, #653D6B); }
+.mus-lp__disc {
+  position: absolute; z-index: -1; top: -16px; left: 12px; width: 108px; aspect-ratio: 1; border-radius: 50%;
+  background:
+    radial-gradient(circle, #8A3D34 0 16%, #1B1310 17% 19%, transparent 19.5%),
+    repeating-radial-gradient(circle, #1B1310 0 3px, #3A2A20 3px 4px);
+  box-shadow: 0 4px 10px -4px rgba(0,0,0,.8), inset 0 0 0 1px rgba(242,230,212,.1);
+}
+.mus-lp__title { font-size: 15px; font-style: italic; line-height: 1.15; }
+.mus-lp__who { font-size: 13px; line-height: 1.2; }
+.mus-lp__what { font-size: 12px; font-style: italic; line-height: 1.2; }
+.mus-lp__go { margin-top: 4px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.2; }
+.mus-lp__note { margin-top: 4px; font-size: 11.5px; font-style: italic; line-height: 1.25; font-weight: 400; font-family: 'Crimson Pro', Georgia, serif; }
+.mus-lp__under { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 64px; }
+.room-music .mus-lp__slot button.facade {
+  width: auto; aspect-ratio: auto; padding: 0; border: 0; border-radius: 0; background: transparent;
+  color: var(--rdr-ink-2); font-family: 'Crimson Pro', Georgia, serif; font-size: 12px; text-align: center; white-space: nowrap;
+  text-decoration: underline; text-decoration-color: rgba(205,180,172,.5); text-underline-offset: 3px;
+}
+.room-music .mus-lp__slot button.facade:hover { background: transparent; color: var(--rdr-flame-2); }
+.room-music .mus-lp__slot button.facade .facade__play { display: none; }
+.room-music .mus-lp__slot div.facade { width: 132px; }
+.room-music .mus-lp__credit { font-size: 11px; color: var(--rdr-ink-2); text-align: center; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.room-music .mus-rack__from { margin: 14px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+
+/* §116 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -23948,7 +24125,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §115 says every
+   shipped with no rule here at all — which on a street whose §116 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -24072,7 +24249,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §116 ── Print ───────────────────────────────────────────────────────────────
+/* §117 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

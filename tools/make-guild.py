@@ -632,6 +632,10 @@ DRAW = {
     "camp-peg": """<path d="M12 4 L12 24 L16 28 L20 24 L20 4" fill="none" stroke="var(--bone)" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 7 L24 7" stroke="var(--bone)" stroke-width="2.4" stroke-linecap="round"/>""",
     # A ribbon bookmark trailing out of a shut book, in the room's brass on its
     # claret wall: 8.88, over the body threshold a marker is held to.
+    # A moth asleep on the phonograph's horn in the Music Room: two wings and a
+    # body in --rdr-brass, 7.53 on the claret, over the body threshold a marker is
+    # held to, with the feelers in the same brass. It sleeps still.
+    "music-moth": """<path d="M16 9 C12 3 4 5 3 12 C2 18 9 21 15 17 Z" fill="var(--rdr-brass)"/><path d="M16 9 C20 3 28 5 29 12 C30 18 23 21 17 17 Z" fill="var(--rdr-brass)"/><path d="M15 17 C10 19 7 25 10 28 C13 29 15 24 16 20 Z M17 17 C22 19 25 25 22 28 C19 29 17 24 16 20 Z" fill="var(--rdr-brass)" opacity=".75"/><rect x="14.6" y="8" width="2.8" height="16" rx="1.4" fill="var(--rdr-brass)"/><path d="M15 8 Q12 3 9 2 M17 8 Q20 3 23 2" fill="none" stroke="var(--rdr-brass)" stroke-width="1.2" stroke-linecap="round"/>""",
     "reading-bookmark": """<path d="M8 6 H24 V26 H8 Z" fill="none" stroke="var(--rdr-brass)" stroke-width="2.2" stroke-linejoin="round"/><path d="M8 6 V26 M12 6 V26" stroke="var(--rdr-brass)" stroke-width="1.4"/><path d="M17 4 V21 L20 18 L23 21 V4 Z" fill="var(--rdr-brass)"/>""",
     "yurt-tallow": """<path d="M11 16 H21 V26 H11 Z" fill="none" stroke="var(--tallow-2)" stroke-width="2.2"/><path d="M16 16 L16 12" stroke="var(--tallow-2)" stroke-width="1.8"/><path d="M16 5 q4 4 0 7 q-4 -3 0 -7 Z" fill="var(--tallow-2)"/>""",
     "meadow-firefly": """<ellipse cx="16" cy="18" rx="4.5" ry="6" fill="none" stroke="var(--glow)" stroke-width="2"/><circle cx="16" cy="22" r="2.6" fill="var(--glow)"/><path d="M12 12 L7 7 M20 12 L25 7" stroke="var(--glow)" stroke-width="1.8" stroke-linecap="round"/>""",

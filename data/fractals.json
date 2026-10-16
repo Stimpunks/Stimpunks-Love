@@ -1843,6 +1843,23 @@
         "--bmb-pleat"
       ]
     },
+    "faery-music-room.html": {
+      "kind": "orbit",
+      "trap": "point",
+      "radius": 0.6,
+      "c": [
+        -0.4,
+        0.6
+      ],
+      "orbit": 0.016,
+      "ground": "--rdr-wall",
+      "inks": [
+        "--rdr-timber",
+        "--rdr-brass",
+        "--rdr-flame-2",
+        "--rdr-velvet"
+      ]
+    },
     "faery-reading-room.html": {
       "kind": "orbit",
       "trap": "ring",

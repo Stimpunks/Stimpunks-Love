@@ -751,6 +751,23 @@
    "learned": "The Reading Room is Helen Edgar's, behind her yurt, and holds every book she keeps: the bookcases outgrew the yurt on 2026-10-15 and got a room of their own, with a fire, a sofa, two chairs and candles that stand still. Every spine is a door to its author's page. Nothing in there counts how much you have read."
   },
   {
+   "id": "music-moth",
+   "page": "faery-music-room.html",
+   "room": "The Music Room",
+   "title": "A moth asleep on the horn",
+   "posted": "A moth has gone to sleep on the brass horn of the phonograph in the Music Room, through the door by the phonograph in the Faery Yurt. Find it, leave it be, and put a record on quietly if you like.",
+   "rank": 3,
+   "takes": "two minutes, and a record if you want one",
+   "target": "a moth asleep on the phonograph's horn",
+   "code": "MOTH",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds, and into the yurt at pitch 01.",
+    "The phonograph in the yurt has a door beside it. Go through it.",
+    "At the very bottom of the Music Room, below the record case."
+   ],
+   "learned": "The Music Room is Helen Edgar's, behind her yurt, for anybody who only wants to listen: the same phonograph and the same records as the yurt, written into both rooms by one tool from one data file, in a room with nothing else to scroll past. Nothing in there counts what you played."
+  },
+  {
    "id": "meadow-firefly",
    "page": "swaying-sweetgrass.html",
    "room": "Swaying Sweetgrass",

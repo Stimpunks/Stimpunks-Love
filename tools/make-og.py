@@ -1593,6 +1593,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--reading .rdr-eyebrow {{ margin: 0; }}
 .og--reading h1 {{ font-size: 84px; margin: 0 !important; }}
 .og--reading .og-lede {{ font-size: 27px; }}
+/* the music room — the reading room's card one door along: the night window
+   scene lifted off the page, the eyebrow, the name and the lede beside it, in
+   §114's inks on its claret. The foot says what the room is for. */
+.og--music {{ width: 100%; padding: 36px 60px 40px; gap: 18px; }}
+.og--music .og-head {{ display: flex; align-items: center; gap: 40px; }}
+.og--music .mus-scene {{ flex: 0 0 auto; width: 460px; margin: 0; }}
+.og--music .og-words {{ display: flex; flex-direction: column; gap: 14px; }}
+.og--music .mus-eyebrow {{ margin: 0; }}
+.og--music h1 {{ font-size: 84px; margin: 0 !important; }}
+.og--music .og-lede {{ font-size: 27px; }}
 .og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
   letter-spacing: 0; font-size: 30px; }}
@@ -2597,6 +2607,29 @@ def card_reading(p):
         f"reading behind the faery yurt, through the bookcase door, then "
         f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
         f"{p['desc_plain']} Along the bottom: every spine is a door, stimpunks.world.",
+    )
+
+
+def card_music(p):
+    return (
+        "",
+        f'<div class="mus og og--music" data-fit="card">'
+        f'<div class="og-head">{p["mscene"]}<div class="og-words">'
+        f'<p class="mus-eyebrow">behind the faery yurt &middot; through the door by the phonograph</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div></div>'
+        f'<p class="og-foot" data-fit="footer">just the music, nothing to scroll past &middot; stimpunks.world</p>'
+        f'</div>',
+        f"A claret card. On the left, a drawing of a candlelit room at night: a tall "
+        f"pointed window with a crescent moon and a bare branch behind its glass, a "
+        f"raven on its sill, a brass candelabra either side of it, a cello leaning on "
+        f"one wall and a harp on the other, a rug between them, a candle in a brass "
+        f"sconce on each wall and a cobweb in the top corner. Beside it, small cream "
+        f"capitals reading behind the faery yurt, through the door by the phonograph, then "
+        f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
+        f"{p['desc_plain']} Along the bottom: just the music, nothing to scroll past, "
+        f"stimpunks.world.",
     )
 
 
@@ -5183,6 +5216,7 @@ CARDS = {
     "garden":       card_garden,
     "room-yurt":    card_yurt,
     "room-reading": card_reading,
+    "room-music":   card_music,
     "hermitage":    card_herm,
     "club":         card_club,
     "room-latibulum": card_latibulum,
@@ -5285,6 +5319,7 @@ def main():
         ("hedge",    "the-garden.html",   r'(<div class="gd-hedge".*?</svg>\s*</div>)'),
         ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
         ("scene",    "faery-reading-room.html", r'(<svg class="rdr-scene".*?</svg>)'),
+        ("mscene",   "faery-music-room.html", r'(<svg class="mus-scene".*?</svg>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),

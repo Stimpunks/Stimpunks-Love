@@ -137,6 +137,11 @@
    "room": "The Reading Room"
   },
   {
+   "id": "music-moth",
+   "title": "A moth asleep on the horn",
+   "room": "The Music Room"
+  },
+  {
    "id": "meadow-firefly",
    "title": "The book this room lends",
    "room": "Swaying Sweetgrass"

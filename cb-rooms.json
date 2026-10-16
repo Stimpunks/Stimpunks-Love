@@ -518,6 +518,12 @@
    "about": "Through the bookcase door in Helen's Faery Yurt: her reading room. Every book she keeps on shelves of its own, a fire in a gothic hearth, a sofa, two chairs, candles that stand still, and faeries and a garden if you ask for them."
   },
   {
+   "tag": "faery-music-room",
+   "name": "The Music Room",
+   "path": "/faery-music-room.html",
+   "about": "Through the door by the phonograph in Helen's Faery Yurt: her music room, for anybody who only wants to listen. The phonograph with her whole playlist on it, every song on the yarn as a record in an arched case, candles that stand still, and faeries and a garden if you ask for them."
+  },
+  {
    "tag": "swaying-sweetgrass",
    "name": "Swaying Sweetgrass",
    "path": "/swaying-sweetgrass.html",

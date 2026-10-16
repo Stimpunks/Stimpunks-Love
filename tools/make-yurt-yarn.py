@@ -83,6 +83,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/yurt-yarn.json"
 ROOM = ROOT / "faery-yurt.html"
+MUSIC = ROOT / "faery-music-room.html"
+# THE MUSIC ROOM IS A SECOND SURFACE FOR THE SAME YARN (Helen's ask, 2026-10-16:
+# "for those who just want to listen and not scroll"). The phonograph, the deck
+# and the record case are written into both rooms from this one data file, so
+# the two cannot drift; the Music Room wears them in its own classes (mus-),
+# because a class is global and §14's names are the yurt's (check-classes.py),
+# and its section of love.css dresses them in the Reading Room's colours.
+SURFACES = ((ROOM, "yurt", 14), (MUSIC, "mus", 115))
 NOTES = ROOT / "liner-notes.html"
 CSS = ROOT / "love.css"
 
@@ -175,6 +183,19 @@ def swap(path, marker, block, indent=""):
     if not pat.search(src):
         raise SystemExit(f"REFUSING: no <!-- {marker}:begin --> / :end pair in {path.name}.")
     path.write_text(pat.sub(lambda m: m.group(1) + "\n" + indent + block + m.group(2), src, count=1))
+
+
+def dressed(block, prefix):
+    """The same markup in the other room's class names: yurt- becomes mus-, and the
+    yurt's shared `section-intro` becomes the room's own intro class."""
+    if prefix == "yurt":
+        return block
+    return block.replace("yurt-", f"{prefix}-").replace("section-intro ", f"{prefix}-intro ")
+
+
+def write_both(marker, block, indent=""):
+    for page, prefix, _ in SURFACES:
+        swap(page, marker, dressed(block, prefix), indent)
 
 
 # ── The phonograph ────────────────────────────────────────────────────────────
@@ -346,7 +367,7 @@ def phonograph():
     return out
 
 
-swap(ROOM, "yurt-yarn:phonograph",
+write_both("yurt-yarn:phonograph",
      '<div class="yurt-phono" aria-hidden="true">\n' +
      "\n".join(("        " if line.startswith(("<svg", "</svg")) else "          ") + line
                for line in phonograph()) +
@@ -354,7 +375,7 @@ swap(ROOM, "yurt-yarn:phonograph",
 
 # ── The whole yarn, on the phonograph ────────────────────────────────────────
 yarn_src = f'https://www.youtube-nocookie.com/embed/videoseries?list={pl["list"]}&autoplay=1'
-swap(ROOM, "yurt-yarn:deck",
+write_both("yurt-yarn:deck",
      f'<div class="yurt-deck">\n'
      f'      <div class="yurt-deck__glass" data-rack-screen="yarn" '
      f'data-rack-off="The whole yarn is off until you put it back.">\n'
@@ -400,7 +421,7 @@ for i, t in enumerate(tracks):
         f'          </div>\n'
         f'        </li>')
 
-swap(ROOM, "yurt-yarn:rack",
+write_both("yurt-yarn:rack",
      f'<p class="section-intro yurt-rack__intro">Or take a record off the shelf: press its sleeve and it goes on '
      f'{SCREEN} in place of the whole yarn and plays. Every sleeve says how long the record runs before '
      f'you press it, nothing plays until you do, and taking it off puts the yarn back without '
@@ -422,29 +443,34 @@ credit_rows = [
 swap(NOTES, "yurt-yarn-credits", "\n".join(credit_rows).lstrip(), "      ")
 
 # ── What the room promises about the record ──────────────────────────────────
-page = ROOM.read_text()
-if page.count(f'class="{DISC}"') != 1:
-    problems.append(f"{ROOM.name}: the record ({DISC}) should be on the page exactly once.")
-if "turns the record" not in page:
-    problems.append(f"{ROOM.name}: the dial's line no longer says MAX turns the record. If that "
-                    "changed on purpose, change this check with it; if not, put it back.")
 css = CSS.read_text()
-s14 = css[css.find("/* §14 "):css.find("/* §15 ")]
-for m in re.finditer(r"([^{}]*)\{([^{}]*)\}", s14):
-    sel, body = m.group(1), m.group(2)
-    if DISC in sel and re.search(r"\banimation\b", body):
-        for part in sel.split(","):
-            if DISC in part and 'html[data-intensity="max"]' not in part:
-                problems.append(f"love.css §14: the record turns under {part.strip()!r}. It turns at MAX "
-                                "and nowhere else; the dial's line in the room says so.")
-if not re.search(r'html\[data-intensity="max"\][^{]*' + re.escape(DISC) + r'[^{]*\{[^}]*animation', s14):
-    problems.append("love.css §14: nothing turns the record at MAX, and the dial says MAX does.")
+for page_path, prefix, sec in SURFACES:
+    disc = DISC.replace("yurt-", f"{prefix}-")
+    page = page_path.read_text()
+    if page.count(f'class="{disc}"') != 1:
+        problems.append(f"{page_path.name}: the record ({disc}) should be on the page exactly once.")
+    if "turns the record" not in page:
+        problems.append(f"{page_path.name}: the dial's line no longer says MAX turns the record. If that "
+                        "changed on purpose, change this check with it; if not, put it back.")
+    part_css = css[css.find(f"/* §{sec} "):css.find(f"/* §{sec + 1} ")]
+    if not part_css:
+        problems.append(f"love.css: no §{sec} section to hold {page_path.name}'s record.")
+    for m in re.finditer(r"([^{}]*)\{([^{}]*)\}", part_css):
+        sel, body = m.group(1), m.group(2)
+        if disc in sel and re.search(r"\banimation\b", body):
+            for part in sel.split(","):
+                if disc in part and 'html[data-intensity="max"]' not in part:
+                    problems.append(f"love.css §{sec}: the record turns under {part.strip()!r}. It turns at MAX "
+                                    "and nowhere else; the dial's line in the room says so.")
+    if not re.search(r'html\[data-intensity="max"\][^{]*' + re.escape(disc) + r'[^{]*\{[^}]*animation', part_css):
+        problems.append(f"love.css §{sec}: nothing turns the record at MAX, and the dial says MAX does.")
 if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
 
 replaced = [t for t in tracks if t.get("replaced")]
 print(f"faery yurt: the phonograph drawn, {len(tracks)} songs on the rack under it, and the whole "
-      f"yarn on the phonograph, in {ROOM.name}; {len(credit_rows)} credit rows in {NOTES.name}")
+      f"yarn on the phonograph, in {ROOM.name} and again in {MUSIC.name}; "
+      f"{len(credit_rows)} credit rows in {NOTES.name}")
 if replaced:
     print("  playing another upload than the playlist's, until Helen swaps it on the yarn: " +
           "; ".join(f'{t["artist"]}, {t["title"]} (the yarn has {t["replaced"]["was"]})' for t in replaced))

@@ -127,6 +127,16 @@
    "then": "<details class=\"yurt-rack\""
   },
   {
+   "page": "faery-music-room.html",
+   "what": "Helen’s music room, through the door by the phonograph in her yurt, for anybody who only wants to listen: the same phonograph and the same yarn, with nothing else to scroll past.",
+   "holds": [
+    "Faery Yurt&rsquo;s Yarn",
+    "runs until you stop it",
+    "Every song on the yarn"
+   ],
+   "then": "<details class=\"mus-rack\""
+  },
+  {
    "page": "swaying-sweetgrass.html",
    "what": "A meadow left alone, with a real fire burning in the pit in the clearing and Robin Wall Kimmerer in her own voice round it.",
    "holds": [
