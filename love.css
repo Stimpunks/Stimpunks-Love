@@ -6540,6 +6540,11 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
    basket and bowl stay their own. */
 .room-yurt .pebbles__art { margin: 14px auto 0; max-width: 600px; line-height: 0; }
 .room-yurt .pebbles__art svg { display: block; width: 100%; height: auto; }
+/* The stove takes a log when pressed (yurt-stove.js, Helen's ask, 2026-10-16); the button is
+   the yurt's own and what it says sits beside it in the room's ink. */
+.room-yurt .yurt-stove__do { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: center; margin: 14px 0 6px; text-align: center; }
+.room-yurt .yurt-stove__says { flex: 1 1 100%; font-style: italic; }
+.room-yurt .yurt-stove__says:empty { display: none; }
 .room-yurt .yurt-logs {
   margin: 4px auto 8px; max-width: 640px; padding: 0; list-style: none;
   display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
