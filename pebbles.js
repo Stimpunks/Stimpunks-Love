@@ -25,6 +25,8 @@
   var state = document.getElementById('pebbles-state');
   if (!bowl || !left || !state) return;
   var room = bowl.getAttribute('data-room');
+  // What the room calls it: a bowl, or the Faery Yurt's hollow stump.
+  var V = bowl.getAttribute('data-vessel') || 'bowl';
   var said = document.getElementById('pebbles-said');
 
   function pass() {
@@ -49,7 +51,7 @@
   function why(r, otherwise) {
     if (r && r.body && typeof r.body.error === 'string' && r.body.error) return r.body.error;
     if (r && (r.status === 404 || r.status === 405)) {
-      return 'The bowl is not kept on this server. It only answers on stimpunks.world itself.';
+      return 'The ' + V + ' is not kept on this server. It only answers on stimpunks.world itself.';
     }
     return otherwise;
   }
@@ -77,7 +79,7 @@
     if (!pebbles.length) {
       left.hidden = true;
       state.hidden = false;
-      state.textContent = 'Nothing in the bowl this week.';
+      state.textContent = 'Nothing in the ' + V + ' this week.';
       return;
     }
     state.hidden = true;
@@ -104,13 +106,13 @@
       if (base) {
         var lift = el('button', 'pebbles__lift', 'Lift this one out');
         lift.type = 'button';
-        lift.setAttribute('aria-label', 'Lift ' + p.handle + '’s pebble out of the bowl');
+        lift.setAttribute('aria-label', 'Lift ' + p.handle + '’s pebble out of the ' + V);
         lift.addEventListener('click', function () {
           lift.disabled = true;
           call('/cb/pebbles/lift', { room: room, remove: p.id }, me.pass).then(function (r) {
             if (r.status === 200 && r.body.pebbles) { draw(r.body.pebbles); say('Lifted out.'); }
             else { lift.disabled = false; say(why(r, 'That did not work. Try again in a moment.')); }
-          }, function () { lift.disabled = false; say('The bowl could not be reached just now.'); });
+          }, function () { lift.disabled = false; say('The ' + V + ' could not be reached just now.'); });
         });
         li.appendChild(lift);
       }
@@ -120,11 +122,11 @@
 
   function read() {
     state.hidden = false;
-    state.textContent = 'Looking in the bowl…';
+    state.textContent = 'Looking in the ' + V + '…';
     call('/cb/pebbles?room=' + encodeURIComponent(room)).then(function (r) {
       if (r.status === 200 && r.body.pebbles) draw(r.body.pebbles);
-      else { left.hidden = true; state.textContent = why(r, 'The bowl could not be read just now.'); }
-    }, function () { left.hidden = true; state.textContent = 'The bowl could not be read just now.'; });
+      else { left.hidden = true; state.textContent = why(r, 'The ' + V + ' could not be read just now.'); }
+    }, function () { left.hidden = true; state.textContent = 'The ' + V + ' could not be read just now.'; });
   }
   read();
 
@@ -151,12 +153,12 @@
         text.value = '';
         link.value = '';
         draw(r.body.pebbles);
-        say('It is in the bowl, on top, for seven days.');
+        say('It is in the ' + V + ', on top, for seven days.');
       } else if (r.status === 401) {
         say('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
       } else {
         say(why(r, 'That did not go in. Try again in a moment.'));
       }
-    }, function () { go.disabled = false; say('The bowl could not be reached just now. Nothing was left.'); });
+    }, function () { go.disabled = false; say('The ' + V + ' could not be reached just now. Nothing was left.'); });
   });
 }());

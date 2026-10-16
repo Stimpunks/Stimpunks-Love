@@ -4175,6 +4175,9 @@ ORNAMENT = {
     "#1e3a31": "now playing: the column's painted iron where it turns away from the windows, "
                "1.48 on the night. It shows only as the bands either side of the sheet and "
                "the cap on top, and carries nothing.",
+    "#d9483e": "faery yurt: the toadstools round Helen's stove and hollow stump, her ask of "
+               "2026-10-16, 3.99 on the canvas and spotted in --tallow. Drawing only; it "
+               "carries no word.",
     "#fff1dc": "fantasy fancy dress: the light at the back of the shop, 16.20 on the dark, "
                "seen only through the sheers in the drawing, and it carries no word: nothing in "
                "this room stands in the light.",

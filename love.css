@@ -1346,6 +1346,10 @@
   --timber: #3A2A20;  --tallow: #F2E6D4;  --tallow-2: #C2AC91;  --tallow-3: #A4907B;
   --ember: #E0904A;   --ember-2: #F2B673;  --ivy: #6D8A56;  --ivy-2: #38491F;
   --candle: #E9C874;
+  /* --toadstool, Helen's ask of 2026-10-16: the red of the fly agarics round her
+     stove and her hollow stump, spotted in --tallow. Drawing only, 3.99 on the
+     canvas; it carries no word. */
+  --toadstool: #D9483E;
 
   /* The Reading Room (§114), Helen's, behind the yurt. Claret walls lit from
      the floor by a fire: cream and a dimmer cream for the words, a flame for
@@ -6515,78 +6519,47 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
 .room-yurt .pebbles__go:hover, .room-yurt .pebbles__lift:hover { background: var(--candle); border-color: var(--candle); }
 .room-yurt .pebbles__said { color: var(--tallow); }
 
-/* HELEN'S PICNIC HAMPER, her asks, 2026-09-26 and 2026-10-14: a traditional
-   English picnic basket, open. Pale woven willow, a twisted rim, the inside
-   lined with green gingham in her ivy, the lid propped open behind with the
-   same lining and a leather strap across it, and two leather straps with brass
-   buckles down the front. The pebbles sit in the lining. All of it is ornament
-   and carries no word; every word is on a pebble, and a pebble is her nook's
-   canvas with her tallows on it, pairs already measured. The link is the
-   pebble's title and is stretched over the stone with ::after, so the name a
-   screen reader hears is still the title and the target is the size of the
-   stone. Nothing is rotated and nothing moves at any setting: a hover and a
-   focus light the stone's edge in candle and that is all. The class is the
-   yurt's; the Hermitage's basket stays its own list. */
-.room-yurt .yurt-wicker {
-  position: relative; margin: 110px auto 8px; max-width: 640px; box-sizing: border-box;
-  display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 14px;
-  padding: 26px 22px 112px;
-  background-color: #F2E6D4;
-  background-image:
-    linear-gradient(90deg, rgba(109,138,86,.42) 50%, transparent 50%),
-    linear-gradient(180deg, rgba(109,138,86,.42) 50%, transparent 50%);
-  background-size: 26px 26px;
-  border: 14px solid #B88E55;
-  border-image: repeating-linear-gradient(45deg, #D4AE72 0 6px, #A87C45 6px 9px, #C9A267 9px 14px) 14;
-  border-radius: 6px;
-  box-shadow: inset 0 8px 14px -6px rgba(58,42,32,.45), 0 24px 36px -18px rgba(0,0,0,.75);
+/* HELEN'S WOOD STOVE, LOG BASKET AND HOLLOW STUMP, her ask, 2026-10-16,
+   in place of the picnic hamper of 2026-10-14. A yurt is heated by a small
+   wood stove with its flue up through the crown, and the log basket sits
+   beside it: that is the basket to take from. The bowl to leave a pebble in
+   is a hollow tree stump with a faery door in its side, a post box. Both
+   drawings are tools/make-pebbles.py's, out of data/pebbles.json, drawn only
+   in her declared colours; they are ornament and carry no word. The stove's
+   window glows the candle's own gold, so nothing in her room changes colour,
+   and there is no flame anywhere that moves at any setting. The pebbles sit
+   under each drawing as her nook's canvas with her tallows on it, pairs
+   already measured. The link is the pebble's title, stretched over the stone
+   with ::after, so the name a screen reader hears is still the title and the
+   target is the size of the stone; a hover and a focus light the stone's edge
+   in candle and that is all. The classes are the yurt's; the Hermitage's
+   basket and bowl stay their own. */
+.room-yurt .pebbles__art { margin: 14px auto 0; max-width: 600px; line-height: 0; }
+.room-yurt .pebbles__art svg { display: block; width: 100%; height: auto; }
+.room-yurt .yurt-logs {
+  margin: 4px auto 8px; max-width: 640px; padding: 0; list-style: none;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 14px;
 }
-/* The lid, propped open behind the rim, showing its lining and a strap. */
-.room-yurt .yurt-wicker::before {
-  content: ""; position: absolute; z-index: 0; left: -14px; right: -14px; top: -104px; height: 90px;
-  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
-  background:
-    linear-gradient(#5A3826, #5A3826) 50% 58% / 64% 12px no-repeat,
-    linear-gradient(#C9A267, #C9A267) 22% 58% / 14px 18px no-repeat,
-    linear-gradient(#C9A267, #C9A267) 78% 58% / 14px 18px no-repeat,
-    repeating-linear-gradient(45deg, #D4AE72 0 6px, #A87C45 6px 9px, #C9A267 9px 14px) top / 100% 12px no-repeat,
-    linear-gradient(#A87C45, #A87C45) bottom / 100% 8px no-repeat,
-    linear-gradient(90deg, rgba(109,138,86,.42) 50%, transparent 50%) 0 0 / 26px 22px,
-    linear-gradient(180deg, rgba(109,138,86,.42) 50%, transparent 50%) 0 0 / 26px 22px,
-    #E8D9BF;
-}
-/* The front of the hamper: willow stakes with the weavers passing over and
-   under them, and two leather straps with brass buckles. */
-.room-yurt .yurt-wicker::after {
-  content: ""; position: absolute; z-index: 0; left: 0; right: 0; bottom: 0; height: 88px;
-  background:
-    linear-gradient(#3A2418, #3A2418) 22% 34% / 12px 10px no-repeat,
-    linear-gradient(#3A2418, #3A2418) 78% 34% / 12px 10px no-repeat,
-    linear-gradient(#C9A267, #C9A267) 22% 32% / 30px 24px no-repeat,
-    linear-gradient(#C9A267, #C9A267) 78% 32% / 30px 24px no-repeat,
-    linear-gradient(90deg, #4A2E1F, #5A3826 50%, #4A2E1F) 22% 0 / 20px 100% no-repeat,
-    linear-gradient(90deg, #4A2E1F, #5A3826 50%, #4A2E1F) 78% 0 / 20px 100% no-repeat,
-    repeating-linear-gradient(90deg, rgba(90,56,30,.42) 0 3px, transparent 3px 20px),
-    repeating-linear-gradient(180deg, #D4AE72 0 5px, #B88E55 5px 7px, #C9A267 7px 11px, #A87C45 11px 12px);
-  box-shadow: inset 0 3px 0 #A87C45, inset 0 6px 8px -4px rgba(0,0,0,.35);
-}
-.room-yurt .yurt-wicker .pebbles__stone {
-  position: relative; z-index: 1; flex: 1 1 280px; max-width: 470px;
+.room-yurt .yurt-logs .pebbles__stone {
+  position: relative; flex: 1 1 280px; max-width: 470px;
   padding: 30px 40px 32px; background: var(--canvas);
   border: 1px solid rgba(233,200,116,.28);
   border-radius: 44% 56% 42% 58% / 34% 30% 38% 32%;
   box-shadow: inset 0 6px 14px rgba(242,230,212,.07), inset 0 -10px 18px rgba(0,0,0,.45), 0 8px 12px -6px rgba(0,0,0,.6);
   text-align: center;
 }
-.room-yurt .yurt-wicker .pebbles__stone a { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.3; }
-.room-yurt .yurt-wicker .pebbles__stone a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
-.room-yurt .yurt-wicker .pebbles__stone:hover,
-.room-yurt .yurt-wicker .pebbles__stone:focus-within { border-color: var(--candle); }
+.room-yurt .yurt-logs .pebbles__stone a { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.3; }
+.room-yurt .yurt-logs .pebbles__stone a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.room-yurt .yurt-logs .pebbles__stone:hover,
+.room-yurt .yurt-logs .pebbles__stone:focus-within { border-color: var(--candle); }
+/* What is left in the hollow stump: the pebbles lie inside its ring. */
+.room-yurt .yurt-stump {
+  margin: 0 auto 8px; max-width: 640px; padding: 14px 18px;
+  border: 3px solid var(--timber); border-radius: 22px;
+  box-shadow: inset 0 0 0 2px var(--tallow-3), inset 0 10px 18px -8px rgba(0,0,0,.6);
+}
 @media (max-width: 560px) {
-  .room-yurt .yurt-wicker { margin-top: 84px; padding: 18px 12px 92px; border-width: 10px; }
-  .room-yurt .yurt-wicker::before { left: -10px; right: -10px; top: -80px; height: 70px; }
-  .room-yurt .yurt-wicker::after { height: 72px; }
-  .room-yurt .yurt-wicker .pebbles__stone { padding: 16px 18px 18px; border-radius: 28px 34px 30px 36px / 32px 28px 36px 30px; }
+  .room-yurt .yurt-logs .pebbles__stone { padding: 16px 18px 18px; border-radius: 28px 34px 30px 36px / 32px 28px 36px 30px; }
 }
 
 /* §15 ── ROOM: The Arcade ────────────────────────────────────────────────────

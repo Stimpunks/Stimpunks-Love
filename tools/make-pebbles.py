@@ -36,7 +36,9 @@ WHAT IT REFUSES:
 
   - A LOOK THAT IS NOT THE ROOM'S OWN. A room may give its basket a drawing
     of its own ("look" in the data file, a class dressed in that room's
-    section); the Faery Yurt's is a wicker basket, Helen's ask, 2026-09-26. The
+    section); the Faery Yurt's was a wicker basket, Helen's ask, 2026-09-26, and
+    is a log basket by a wood stove now, with a hollow stump for the bowl (her
+    ask, 2026-10-16; "take_art", "leave_art", "vessel" and the rest). The
     class is the room's, so check-classes.py holds it to one section like any
     other name, and a basket with no look is the plain list.
 
@@ -71,18 +73,26 @@ def esc(s):
 
 def bowl(room, r):
     host = esc(r["host"])
+    # A ROOM MAY NAME ITS OWN BASKET AND BOWL, and draw them: the Faery Yurt's
+    # are a log basket by a wood stove and a hollow tree stump, Helen's ask,
+    # 2026-10-16. The words travel to pebbles.js on data-vessel, so the script
+    # says what the room calls it.
+    basket, vessel = r.get("basket_noun", "basket"), r.get("vessel", "bowl")
+    take, leave = r.get("take", "The basket"), r.get("leave", "The bowl")
     out = [
         f'  <section class="pebbles{(" " + r["wrap"]) if r.get("wrap") else ""}" id="pebbles" '
-        f'data-room="{room}" aria-labelledby="pebbles-h">',
+        f'data-room="{room}"' + (f' data-vessel="{esc(vessel)}"' if vessel != "bowl" else "") + ' aria-labelledby="pebbles-h">',
         '    <h2 id="pebbles-h">Pebbles by the door</h2>',
         '    <p class="pebbles__intro">Penguins bring each other pebbles, and so do we: '
         'a small thing somebody found and thought somebody else would like, given on nobody&rsquo;s '
-        f'clock. There is a basket here of things {host} has put out for anybody to take, and a bowl '
+        f'clock. There is a {basket} here of things {host} has put out for anybody to take, and a {vessel} '
         f'for leaving one of your own. {r["idea"]}; what pebbling is, and whose word it is, is in '
         '<a href="https://stimpunks.org/glossary/penguin-pebbling/">our glossary</a> and in '
         '<a href="penguin-pebbling.html">the Arcade&rsquo;s pebbling cabinet</a>.</p>',
-        '    <h3 id="pebbles-take-h">The basket: take one</h3>',
+        f'    <h3 id="pebbles-take-h">{take}: take one</h3>',
     ]
+    if r.get("take_art"):
+        out.append(f'    <div class="pebbles__art">{r["take_art"]}</div>')
     if r["basket"]:
         look = (" " + r["look"]) if r.get("look") else ""
         out.append(f'    <ul class="pebbles__basket{look}" aria-labelledby="pebbles-take-h">')
@@ -95,13 +105,15 @@ def bowl(room, r):
     else:
         out.append(f'    <p class="pebbles__empty">The basket is empty until {host} fills it.</p>')
     out += [
-        '    <h3 id="pebbles-leave-h">The bowl: leave one</h3>',
-        '    <p class="pebbles__state" id="pebbles-state">The bowl needs scripts to read it.</p>',
-        '    <ol class="pebbles__left" id="pebbles-left" aria-labelledby="pebbles-leave-h" hidden></ol>',
+        f'    <h3 id="pebbles-leave-h">{leave}: leave one</h3>',
+    ] + ([f'    <div class="pebbles__art">{r["leave_art"]}</div>'] if r.get("leave_art") else []) + [
+        f'    <p class="pebbles__state" id="pebbles-state">The {vessel} needs scripts to read it.</p>',
+        '    <ol class="pebbles__left' + ((" " + r["leave_look"]) if r.get("leave_look") else "") +
+        '" id="pebbles-left" aria-labelledby="pebbles-leave-h" hidden></ol>',
         '    <div class="pebbles__write" id="pebbles-write" hidden>',
         '      <form class="pebbles__form" id="pebbles-form">',
         '        <p class="pebbles__public" id="pebbles-public"><strong>Anybody who comes to this door '
-        'can see what is in the bowl</strong>, signed on to the CB or not, for seven days.</p>',
+        f'can see what is in the {vessel}</strong>, signed on to the CB or not, for seven days.</p>',
         '        <label class="pebbles__lab" for="pebbles-text">A pebble, left as <b id="pebbles-as"></b>: '
         'what it is, in your words</label>',
         '        <textarea class="pebbles__text" id="pebbles-text" rows="2" maxlength="200" '
@@ -118,10 +130,10 @@ def bowl(room, r):
         'the community password: <a href="community-center.html">sign on at the Community Center</a>, '
         'then come back. Taking one takes nothing.</p>',
         '    <ul class="pebbles__rules">',
-        '      <li><strong>Anybody can see the bowl, and only people signed on to the CB can leave a '
-        'pebble in it.</strong> A handle is whatever somebody typed, so a name in the bowl is not '
+        f'      <li><strong>Anybody can see the {vessel}, and only people signed on to the CB can leave a '
+        f'pebble in it.</strong> A handle is whatever somebody typed, so a name in the {vessel} is not '
         'proof of who left it.</li>',
-        '      <li><strong>A pebble goes seven days after it is left</strong>, and a full bowl lets its '
+        f'      <li><strong>A pebble goes seven days after it is left</strong>, and a full {vessel} lets its '
         'oldest go to make room. The base station can lift one out sooner, and so can we if you ask: '
         '<a href="privacy.html#the-pebble-bowls">what the bowls keep</a>.</li>',
         '      <li><strong>A link shows its whole address</strong>, so what you read is where it goes.</li>',
@@ -166,6 +178,10 @@ def main():
                        "every room it is in, in that room's own words.")
         if '<script src="pebbles.js" defer></script>' not in page.read_text():
             bad.append(f"{room}: {page.name} does not load pebbles.js, so its bowl could never be read.")
+        for k in ("take_art", "leave_art"):
+            art = r.get(k)
+            if art and (not art.startswith("<svg") or 'aria-hidden="true"' not in art.split(">")[0] or re.search(r"<(?:text|title|desc)\b", art)):
+                bad.append(f"{room}: {k} must be one aria-hidden <svg> that carries no word.")
         for i, item in enumerate(r.get("basket") or []):
             for k in ("title", "href", "why"):
                 if not item.get(k):
