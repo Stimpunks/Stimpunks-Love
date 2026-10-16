@@ -23892,6 +23892,34 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .yurt-case__books .spine__link:hover { text-decoration-color: var(--rdr-flame-2); }
 .yurt-case__books .spine__link:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
 
+/* The card catalogue (2026-10-16, Helen's ask to list the titles behind some
+   spines). A drawer for each case, in the panel's claret with a timber lip,
+   and an author's card that pulls out to show their titles. The spines stay
+   one author each, as she designed them; the titles live here. Only colours
+   already measured in check-contrast.py for this room: ink and ink-2 on the
+   panel, and the flame for a title that is a door to its Wikipedia page.
+   Nothing moves: a card opens because somebody pressed it. */
+.rdr-cat { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; align-items: start; }
+.rdr-cat__drawer {
+  background: var(--rdr-panel); border: 1px solid rgba(214,176,106,.35); border-top: 8px solid var(--rdr-timber);
+  border-radius: 4px;
+  box-shadow: inset 0 0 18px rgba(0,0,0,.35), 0 12px 20px -14px rgba(0,0,0,.8);
+}
+/* The room pads every section 30px top and bottom; a drawer is a section, so it says its own. */
+.room-reading .rdr-cat__drawer { padding: 14px 18px 12px; }
+.room-reading .rdr-cat__label { margin: 0 0 6px; font-size: 21px; font-style: italic; line-height: 1.2; color: var(--rdr-ink); }
+.rdr-cat__card { border-top: 1px solid rgba(214,176,106,.22); }
+.rdr-cat__card > summary {
+  cursor: pointer; padding: 9px 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  font-size: 17px; letter-spacing: .02em; color: var(--rdr-ink);
+}
+.rdr-cat__card > summary:hover { color: var(--rdr-flame-2); }
+.rdr-cat__card > summary:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 2px; }
+.rdr-cat__titles { margin: 0 0 12px; padding: 0 0 0 20px; font-size: 16px; line-height: 1.5; color: var(--rdr-ink-2); }
+.rdr-cat__titles li { margin: 0 0 4px; }
+.rdr-cat__titles cite { font-style: italic; }
+.rdr-cat__with { font-size: 14px; }
+
 /* §115 ── SUBROOM: The Music Room (behind the Faery Yurt) ──────────────────
    HELEN'S, LIKE THE YURT AND THE READING ROOM, and asked for on 2026-10-16
    "for those who just want to listen and not scroll": the phonograph, the whole
