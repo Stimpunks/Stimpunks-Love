@@ -74,6 +74,13 @@
        the street uses: the strip layout's times run into each other at the
        width of a record sleeve. */
     'https://embed.tidal.com/',
+    /* The Faery Yurt's moon spoon windowledge, Helen Edgar's ask, 2026-10-16:
+       Vi Hart's video Moon Spoon, which is hers and on her own Vimeo, played
+       through Helen's window. SEVENTH ORIGIN. player.vimeo.com is the embed
+       host and vimeo.com is the page a person browses; the frame was pressed
+       and played from the dev server on 2026-10-16 before this line went in,
+       and dnt=1 on the address asks the player not to track the session. */
+    'https://player.vimeo.com/',
     /* A room's call, through 8x8's Jitsi as a Service. FIFTH ORIGIN, AND THE
        FIRST ONE HANDED THE CAMERA AND THE MICROPHONE. Ryan, 2026-09-28. It
        is still only framed after a press, and only from the CB, with a token

@@ -4178,6 +4178,12 @@ ORNAMENT = {
     "#d9483e": "faery yurt: the toadstools round Helen's stove and hollow stump, her ask of "
                "2026-10-16, 3.99 on the canvas and spotted in --tallow. Drawing only; it "
                "carries no word.",
+    "#4e3482": "faery yurt: Helen's moon stone on her windowledge, her ask of 2026-10-16, "
+               "1.73 on the canvas, so the stone is outlined in --moonstone-2 (5.00 on the "
+               "canvas) and glittered in --candle and --tallow. Drawing only; it carries no word.",
+    "#9a7cd0": "faery yurt: the moon stone's outline and the purple flowers pressed into "
+               "Helen's moon spoon, 2026-10-16, 5.00 on the canvas and 4.03 on the sill's "
+               "timber. Drawing only; it carries no word.",
     "#fff1dc": "fantasy fancy dress: the light at the back of the shop, 16.20 on the dark, "
                "seen only through the sheers in the drawing, and it carries no word: nothing in "
                "this room stands in the light.",

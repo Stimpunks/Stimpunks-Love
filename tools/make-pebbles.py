@@ -38,7 +38,7 @@ WHAT IT REFUSES:
     of its own ("look" in the data file, a class dressed in that room's
     section); the Faery Yurt's was a wicker basket, Helen's ask, 2026-09-26, and
     is a log basket by a wood stove now, with a hollow stump for the bowl (her
-    ask, 2026-10-16; "take_art", "leave_art", "vessel" and the rest). The
+    ask, 2026-10-16; "take_art", "leave_art", "vessel", "take_line" and the rest). The
     class is the room's, so check-classes.py holds it to one section like any
     other name, and a basket with no look is the plain list.
 
@@ -89,7 +89,7 @@ def bowl(room, r):
         f'for leaving one of your own. {r["idea"]}; what pebbling is, and whose word it is, is in '
         '<a href="https://stimpunks.org/glossary/penguin-pebbling/">our glossary</a> and in '
         '<a href="penguin-pebbling.html">the Arcade&rsquo;s pebbling cabinet</a>.</p>',
-        f'    <h3 id="pebbles-take-h">{take}: take one</h3>',
+        f'    <h3 id="pebbles-take-h">{take}: {r.get("take_line", "take one")}</h3>',
     ]
     if r.get("take_art"):
         out.append(f'    <div class="pebbles__art">{r["take_art"]}</div>')

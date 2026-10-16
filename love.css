@@ -1350,6 +1350,10 @@
      stove and her hollow stump, spotted in --tallow. Drawing only, 3.99 on the
      canvas; it carries no word. */
   --toadstool: #D9483E;
+  /* --moonstone and --moonstone-2, Helen's ask of 2026-10-16: her glittery
+     purple moon stone on the windowledge, and the purple of the flowers pressed
+     into her moon spoon. Drawing only; they carry no word. */
+  --moonstone: #4E3482;  --moonstone-2: #9A7CD0;
 
   /* The Reading Room (§114), Helen's, behind the yurt. Claret walls lit from
      the floor by a fire: cream and a dimmer cream for the words, a flame for
@@ -6557,6 +6561,50 @@ html[data-intensity="gentle"] .yurt-notebook__sweep.is-turning { animation: none
   margin: 0 auto 8px; max-width: 640px; padding: 14px 18px;
   border: 3px solid var(--timber); border-radius: 22px;
   box-shadow: inset 0 0 0 2px var(--tallow-3), inset 0 10px 18px -8px rgba(0,0,0,.6);
+}
+/* THE MOON SPOON WINDOWLEDGE, Helen's ask, 2026-10-16: a window beside the
+   stove and the stump, with Vi Hart's Moon Spoon to play through it, and her
+   moon stone and moon spoon drawn on the sill in her own colours (the stone's
+   purple is the one new one, beside --toadstool in :root). The window is the
+   portrait's wooden frame, arched; before the press its glass is the hearth's
+   dark with a candle-gold moon, and the words sit on the plain dark, away from
+   the moon. After the press the frame is cut round the player by the glass's
+   own corners. Helen's photographs lie on the sill below as photographs: a
+   mat round each and nothing done to them. */
+.room-yurt .yurt-ledge__window {
+  max-width: 600px; margin: 18px auto 0; padding: 12px;
+  background-image: linear-gradient(160deg, #4A372B, #2A1E17);
+  border-radius: 64px 64px 6px 6px;
+  box-shadow: 0 10px 24px -12px rgba(0,0,0,.55), inset 0 0 0 1px rgba(233,200,116,.15);
+}
+.room-yurt .yurt-ledge__window .facade { border-radius: 54px 54px 3px 3px; overflow: hidden; border: 1px solid rgba(233,200,116,.28); }
+.room-yurt .yurt-ledge__window button.facade {
+  background: radial-gradient(circle at 78% 34%, var(--candle) 0 24px, rgba(233,200,116,.18) 25px 44px, transparent 45px), var(--hearth);
+  color: var(--tallow); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.3;
+  padding: 44px 46% 20px 30px;
+}
+.room-yurt .yurt-ledge__window button.facade:hover { border-color: var(--candle); }
+.room-yurt .yurt-ledge__window .facade__play { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 16px; letter-spacing: .12em; color: var(--candle); inset: auto auto 20px 30px; }
+.room-yurt .yurt-ledge__window .facade iframe { border-radius: 0; }
+.room-yurt .yurt-ledge__sill { max-width: 640px; margin: -4px auto 0; line-height: 0; }
+.room-yurt .yurt-ledge__sill svg { display: block; width: 100%; height: auto; }
+.room-yurt .yurt-ledge__credit { max-width: 600px; margin: 10px auto 0; font-size: 16px; color: var(--tallow-2); }
+.room-yurt .yurt-ledge__photos {
+  list-style: none; padding: 0; margin: 22px auto 0; max-width: 680px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; align-items: start;
+}
+.room-yurt .yurt-ledge__photos figure { margin: 0; }
+.room-yurt .yurt-ledge__photos img {
+  display: block; width: 100%; height: auto; padding: 6px; border-radius: 4px;
+  background-image: linear-gradient(160deg, #4A372B, #2A1E17);
+  box-shadow: 0 10px 20px -12px rgba(0,0,0,.6);
+}
+.room-yurt .yurt-ledge__photos figcaption { margin-top: 8px; font-size: 15px; line-height: 1.4; color: var(--tallow-2); }
+@media (max-width: 560px) {
+  .room-yurt .yurt-ledge__window { border-radius: 40px 40px 6px 6px; padding: 8px; }
+  .room-yurt .yurt-ledge__window .facade { border-radius: 32px 32px 3px 3px; }
+  .room-yurt .yurt-ledge__window button.facade { font-size: 18px; padding: 26px 40% 16px 20px; }
+  .room-yurt .yurt-ledge__window .facade__play { inset: auto auto 14px 20px; }
 }
 @media (max-width: 560px) {
   .room-yurt .yurt-logs .pebbles__stone { padding: 16px 18px 18px; border-radius: 28px 34px 30px 36px / 32px 28px 36px 30px; }
