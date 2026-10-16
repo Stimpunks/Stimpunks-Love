@@ -1843,6 +1843,23 @@
         "--bmb-pleat"
       ]
     },
+    "fantasy-fancy-dress.html": {
+      "kind": "phoenix",
+      "c": [
+        0.5667,
+        0.0
+      ],
+      "p": -0.42,
+      "orbit": 0.014,
+      "spin": 0.15,
+      "ground": "--ffd-ground",
+      "inks": [
+        "--ffd-rose",
+        "--ffd-mint",
+        "--ffd-gold",
+        "--ffd-lilac"
+      ]
+    },
     "faery-music-room.html": {
       "kind": "orbit",
       "trap": "point",

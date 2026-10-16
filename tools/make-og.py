@@ -1029,6 +1029,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--booth .og-booth {{ flex: 0 0 360px; margin: 0 !important; line-height: 0; }}
 .og--booth .og-booth svg {{ display: block; width: 360px; height: auto; max-width: none; }}
 
+/* fantasy fancy dress — THE BACK OF THE SHOP OVER THE SIGN. The sheers and the
+   rail of stock are the page's own drawing, across the top; every word sits
+   under them on the dark, where the room sets every word. */
+.og--fancy {{ width: 100%; padding: 0 0 30px; gap: 0; justify-content: flex-start; }}
+.og--fancy .og-veils {{ margin: 0 !important; line-height: 0; height: 320px; overflow: hidden; border-bottom: 2px solid var(--ffd-edge); }}
+.og--fancy .og-veils svg {{ display: block; width: 1200px; height: 320px; max-width: none; }}
+.og--fancy .og-words {{ margin: 0 !important; padding: 22px 60px 0; }}
+.og--fancy .ffd-over {{ font-size: 17px; margin: 0 !important; }}
+.og--fancy h1 {{ font-size: 76px; line-height: 1; margin: 6px 0 0 !important; }}
+.og--fancy .ffd-sub {{ font-size: 25px; margin: 12px 0 0 !important; }}
+.og--fancy .og-lede {{ font-family: 'Kumbh Sans', sans-serif; color: var(--ffd-ink-2); font-size: 19px; line-height: 1.4; margin: 12px 0 0 !important; max-width: 1060px; }}
+
 /* the community center — THE LETTERBOARD AND THE RADIO ON THE BLUE WALL.
    The wall and its bars of sun come from the room's own body rule, so the card
    is lit through the same blind as the hall. The letterboard is the page's own
@@ -3947,6 +3959,33 @@ def card_booth(p):
     )
 
 
+def card_fancy(p):
+    # THE BACK OF THE SHOP AND THE SIGN ARE LIFTED FROM THE PAGE: the sheers,
+    # the rail of stock dark against the light, and the words under them on
+    # the dark, where the room sets every word.
+    over = re.search(r'<p class="ffd-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="ffd-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: fantasy-fancy-dress.html has lost the line over its name or the\n"
+            "line under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--fancy" data-fit="card">'
+        f'<div class="og-veils">{p["veils"]}</div>'
+        f'<div class="og-words"><p class="ffd-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="ffd-sub">{sub.group(1).strip()}</p><p class="og-lede">{p["desc"]}</p></div>'
+        f'</div>',
+        f"A dark violet card. Across the top, lengths of sheer fabric hang from the ceiling in rose, "
+        f"mint, gold and lilac, overlapping, lit from behind by a pale glow, and in front of them a rail "
+        f"of stock on hangers, dark against the light: a pair of butterfly wings, a suit with round ears "
+        f"on its hood, a curling tail, a strand of beads and a pair of great faery wings. Under it, small "
+        f"capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in a heavy, "
+        f"high-contrast serif, then {plain(sub.group(1))} Then: {p['desc_plain']}",
+    )
+
+
 def card_library(p):
     # THE HEADER AND THE DRAWING ARE LIFTED WHOLE, so the card cannot show a
     # reading room the page has not got, or a lintel with different words on it.
@@ -5203,6 +5242,7 @@ CARDS = {
     "room-oook":    card_oook,
     "dressup":      card_dressup,
     "bodymind-booth": card_booth,
+    "fancy-dress": card_fancy,
     "collections":  card_collection,
     "mapping":      card_map,
     "dead-tired":   card_dead_tired,
@@ -5334,6 +5374,7 @@ def main():
         ("radio",    "community-center.html", r'(<svg class="ctr-desk__radio".*?</svg>)'),
         ("stand",    "dopamine-dress-up-den.html", r'(<svg class="dd-stand".*?</svg>)'),
         ("booth",    "bodymind-booth.html", r'(<svg class="bmb-booth".*?</svg>)'),
+        ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
         ("house",    "lightbulb-picture-house.html", r'(<svg class="lph-auditorium".*?</svg>)'),

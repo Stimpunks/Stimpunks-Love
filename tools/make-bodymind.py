@@ -85,6 +85,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/bodymind.json"
 DRESS = ROOT / "data/dressup.json"
+FANCY = ROOT / "data/fancy-dress.json"
 PAGE = ROOT / "bodymind-booth.html"
 DEN = ROOT / "dopamine-dress-up-den.html"
 NOTES = ROOT / "liner-notes.html"
@@ -175,6 +176,14 @@ def standalone(markup, slot, colours):
     return out
 
 
+def fancy():
+    """Fantasy Fancy Dress's rails, the shop behind the Den: slots only a
+    bodymind can wear (wings, ears, tails, paws, jewellery, dress-up suits),
+    so they have no cut on the valet stand and both checkers refuse them on
+    it. tools/make-fancy-dress.py checks their words; this only lists them."""
+    return json.loads(FANCY.read_text())["slots"]
+
+
 def lists(d, dd, mod):
     """Everything avatar.js needs to know, as one object."""
     ink, panel, wood = css_hex("dd-ink"), css_hex("dd-panel"), css_hex("dd-wood")
@@ -192,6 +201,12 @@ def lists(d, dd, mod):
     names = {g["key"]: g["a"] for s in dd["slots"] for g in s["garments"]}
     names.update({x["key"]: x["a"] for x in dd["extras"]})
     slot_of = {g: s for s, gs in garments.items() for g in gs}
+    body_only = []
+    for s in fancy():
+        slots.append(s["key"])
+        body_only.append(s["key"])
+        garments[s["key"]] = [g["key"] for g in s["garments"]]
+        names.update({g["key"]: g["a"] for g in s["garments"]})
     cuts = {k: standalone(mod.CUTS[k](), slot_of[k], (ink, panel, wood)) for k in slot_of}
     prints = {}
     for k, (w, h, draw) in mod.PRINTS.items():
@@ -209,6 +224,7 @@ def lists(d, dd, mod):
         "ground": {"stand": stand_ground, "bodymind": booth_ground},
         "slots": slots,
         "garments": garments,
+        "bodyOnly": body_only,
         "names": names,
         "prints": prints,
         "printA": {p["key"]: p["a"] for p in dd["prints"]},
@@ -231,8 +247,11 @@ def keys_for_server(d, dd):
     garments = {s["key"]: [g["key"] for g in s["garments"]] for s in dd["slots"]}
     for x in dd["extras"]:
         garments[x["key"]] = [x["key"]]
+    for s in fancy():
+        garments[s["key"]] = [g["key"] for g in s["garments"]]
     return {
         "garments": garments,
+        "bodyOnly": [s["key"] for s in fancy()],
         "prints": [p["key"] for p in dd["prints"]],
         "colourways": [c["key"] for c in dd["colourways"]],
         "body": {g["key"]: [o[0] for o in g["options"]] for g in d["groups"]},
@@ -254,6 +273,7 @@ def write_block(path, begin, end, block):
 def check(d, dd):
     seen_groups = set()
     garment_keys = {g["key"] for s in dd["slots"] for g in s["garments"]} | {x["key"] for x in dd["extras"]}
+    garment_keys |= {g["key"] for s in fancy() for g in s["garments"]}
     parts = {k for k, _ in d["parts"]}
     for grp in d["groups"]:
         where = f"group {grp.get('key')!r}"

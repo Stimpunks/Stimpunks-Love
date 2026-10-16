@@ -742,6 +742,8 @@ DD_WALL, DD_PANEL, DD_INK = "#D2C6EC", "#F7F3FD", "#1E1030"
 DD_INK2, DD_LINK = "#47306A", "#7C0F50"
 BMB_CURTAIN, BMB_PLEAT, BMB_CHROME, BMB_LAMP = "#E98A45", "#CF6E2E", "#F5F2EC", "#FFF4D6"
 BMB_INK, BMB_INK2, BMB_LINK, BMB_LINK_ON = "#22160E", "#5B4032", "#8A2A00", "#3D1500"
+FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
+FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 
 # Now Playing (love.css §53). One sheet screenprinted in two inks and pasted
 # round a column on the pavement. Every word on the sheet is --np-both, which is
@@ -3323,6 +3325,21 @@ PAIRS = [
                                       "the job marker's strip, outlined in the ink"),
     (BMB_CHROME,  BMB_INK,     False, "bodymind booth: every dark button's words"),
     (BMB_CHROME,  BMB_INK2,    False, "bodymind booth: a dark button under the pointer"),
+    # FANTASY FANCY DRESS: every word stands on the dark in front of the sheers
+    # or on a plate a little lighter, never in the light; the gold sheer names
+    # each rail and rings the focus, and a gold or rose button carries the dark.
+    (FFD_INK,     FFD_GROUND,  False, "fantasy fancy dress: the name, the line under it, the lede, every heading, the house rules"),
+    (FFD_INK,     FFD_PANEL,   False, "fantasy fancy dress: every piece's name on its rail, the readout, a quiet button's words"),
+    (FFD_INK2,    FFD_GROUND,  False, "fantasy fancy dress: the trail, the line over the name, the credits' fine print"),
+    (FFD_INK2,    FFD_PANEL,   False, "fantasy fancy dress: how each piece feels and goes on, who came through, the fine print in the mirror"),
+    (FFD_LINK,    FFD_GROUND,  False, "fantasy fancy dress: every link on the dark, and the backlink"),
+    (FFD_LINK,    FFD_PANEL,   False, "fantasy fancy dress: a link in the mirror"),
+    (FFD_GOLD,    FFD_PANEL,   False, "fantasy fancy dress: each rail's name, and the focus ring on a plate"),
+    (FFD_GOLD,    FFD_GROUND,  False, "fantasy fancy dress: the focus ring on the dark"),
+    (FFD_GROUND,  FFD_GOLD,    False, "fantasy fancy dress: a gold button's words"),
+    (FFD_GROUND,  FFD_ROSE,    False, "fantasy fancy dress: the way back to the Dress-Up Den's words"),
+    (FFD_GROUND,  FFD_INK,     False, "fantasy fancy dress: a button under the pointer"),
+    (FFD_EDGE,    FFD_PANEL,   False, "fantasy fancy dress: the rim of a quiet button and of a print or colours list, on a plate (a control.s edge, held to the body threshold anyway)"),
 
     # ── The Community Center (§51) ───────────────────────────────────────────
     (CTR_INK,   CTR_SHADE,  False, "community: the lede, every paragraph, the house norms and the "
@@ -4158,6 +4175,17 @@ ORNAMENT = {
     "#1e3a31": "now playing: the column's painted iron where it turns away from the windows, "
                "1.48 on the night. It shows only as the bands either side of the sheet and "
                "the cap on top, and carries nothing.",
+    "#fff1dc": "fantasy fancy dress: the light at the back of the shop, 16.20 on the dark, "
+               "seen only through the sheers in the drawing, and it carries no word: nothing in "
+               "this room stands in the light.",
+    "#9fe3c6": "fantasy fancy dress: the mint sheer, 12.26 on the dark, drawn at a third of "
+               "its strength over the light, and the rim of the stock on the rail. It carries "
+               "no word.",
+    "#bba6f7": "fantasy fancy dress: the lilac sheer, 8.51 on the dark, drawn at a third of "
+               "its strength, and the rim of the beads on the rail. It carries no word.",
+    "#0c0a19": "fantasy fancy dress: the stock on the rail, dark against the light at 1.09 on "
+               "the dark and carried by its rim of sheer colour, and the frame round the "
+               "bodymind. It carries no word.",
     "#b5591f": "bodymind booth: the floor under the booth in its drawing, 1.85 on the curtain. "
                "It carries no word and is the only thing in the drawing with no ink outline, "
                "because it is a shadow.",

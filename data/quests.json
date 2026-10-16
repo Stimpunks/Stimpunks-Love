@@ -2582,6 +2582,46 @@
    }
   },
   {
+   "id": "fancy-wing",
+   "page": "fantasy-fancy-dress.html",
+   "room": "Fantasy Fancy Dress",
+   "title": "A wing come loose",
+   "posted": "One faery wing has come loose from its pair and is lying on the floor of Fantasy Fancy Dress, through the curtain at the back of the Dopamine Dress-Up Den. Go and find out what the wings in there do so that whoever wears them can sit back in a chair.",
+   "rank": 2,
+   "takes": "a minute or two, and as long as you like trying things on",
+   "target": "one faery wing come loose from its pair, on the floor",
+   "code": "GOSSAMER",
+   "learned": "Everything in Fantasy Fancy Dress needs somebody to wear it, so it goes on a bodymind, never on the Dress-Up Den's stand, and it is drawn on that bodymind as it is, on its feet or sitting down.",
+   "hints": [
+    "It is not on the street. It is behind one of the rooms that is.",
+    "Go into the Dopamine Dress-Up Den and through the curtain at the back.",
+    "On the floor at the foot of the shop, under whose this is."
+   ],
+   "ask": {
+    "question": "In Fantasy Fancy Dress, what do the wings do so you can sit back in a chair?",
+    "accept": [
+     "fold flat",
+     "they fold flat",
+     "fold",
+     "they fold",
+     "fold up",
+     "they fold up",
+     "fold down",
+     "fold flat for sitting",
+     "lie flat",
+     "go flat",
+     "flat"
+    ],
+    "answer": "They fold flat",
+    "why": "Everything in that shop is drawn on your bodymind as it is, on its feet or sitting down, so wings fold flat for sitting back in a chair and a tail lies to one side.",
+    "hints": [
+     "It is in the third of the house rules.",
+     "The great faery wings say it too, under how they go on.",
+     "Flat."
+    ]
+   }
+  },
+  {
    "id": "now-playing-brush",
    "page": "now-playing.html",
    "room": "Now Playing",

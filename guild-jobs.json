@@ -392,6 +392,11 @@
    "room": "The Bodymind Booth"
   },
   {
+   "id": "fancy-wing",
+   "title": "A wing come loose",
+   "room": "Fantasy Fancy Dress"
+  },
+  {
    "id": "now-playing-brush",
    "title": "Nobody is bigger than anybody",
    "room": "Now Playing"

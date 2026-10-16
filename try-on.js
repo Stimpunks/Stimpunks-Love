@@ -41,6 +41,8 @@
 
   var AVATARS = '/cb/avatars';
   var body = null;          // the bodymind brought in, if any
+  var extra = {};           // what it has on from Fantasy Fancy Dress, which the rails here do not hang
+  var door = document.getElementById('dd-fancy-door');
   var onBody = false;       // whether it is wearing the clothes
   var editing = null, was = { name: '', about: '' };
 
@@ -72,8 +74,27 @@
     return (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. ' + nothing;
   }
 
+  /* FANTASY FANCY DRESS, through the back, dresses only a bodymind: wings,
+     ears, tails, paws, jewellery and suits. The rails here do not hang them,
+     so whatever of theirs a bodymind came in wearing is carried here and put
+     back on it with everything from the rails, and never on the stand. */
+  var BODY_ONLY = A.data.bodyOnly || [];
+  function fancy(wear) {
+    var out = {};
+    Object.keys(wear || {}).forEach(function (k) { if (BODY_ONLY.indexOf(k) !== -1) out[k] = wear[k]; });
+    return out;
+  }
   function look() {
-    return onBody && body ? { base: 'bodymind', body: body, wear: D.wear() } : { base: 'stand', wear: D.wear() };
+    if (!(onBody && body)) return { base: 'stand', wear: D.wear() };
+    var wear = D.wear();
+    Object.keys(extra).forEach(function (k) { wear[k] = extra[k]; });
+    return { base: 'bodymind', body: body, wear: wear };
+  }
+  /* The door through the back takes the bodymind with it, in the address. */
+  function doorTo() {
+    if (!door) return;
+    var lk = onBody && body ? A.clean(look()) : null;
+    door.href = 'fantasy-fancy-dress.html' + (lk ? '#look=' + A.code(lk) : '');
   }
 
   /* Draw whoever is wearing it, and say it in the readout's own words. */
@@ -93,6 +114,7 @@
     }
     standBtn.setAttribute('aria-pressed', String(!onBody));
     bodyBtn.setAttribute('aria-pressed', String(onBody));
+    doorTo();
   }
 
   function wearIt(b, sayIt) {
@@ -139,6 +161,7 @@
         try { when = new Date(x.t).toLocaleDateString(undefined, { day: 'numeric', month: 'long' }); } catch (e) {}
         b.textContent = x.name ? 'Put it on ' + x.name : x.about ? 'Put it on: ' + x.about : 'Put it on the one you kept on ' + when;
         b.addEventListener('click', function () {
+          extra = fancy(x.look.wear);
           wearIt(x.look.body, 'It is on ' + (x.name || 'your bodymind') + '.');
           // Keep the changes changes that one; Keep it as a new one is beside it.
           editMode(x.id, x.name, x.about);
@@ -235,7 +258,7 @@
         if (a) editMode(a.id, a.name, a.about);
       });
     }
-    if (brought.base === 'bodymind') wearIt(brought.body, '');
+    if (brought.base === 'bodymind') { extra = fancy(brought.wear); wearIt(brought.body, ''); }
     else show();
   } else {
     show();

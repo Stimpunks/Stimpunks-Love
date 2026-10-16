@@ -52,13 +52,19 @@ test('every garment on the rails is drawn on a body in every pose, and on the st
   for (const [slot, garments] of Object.entries(D.garments)) {
     for (const g of garments) {
       assert.ok(A._bodyWear.includes(g), `${g} is on the Den's rails and avatar.js cannot put it on a body`);
-      assert.ok(D.stand.cuts[g], `${g} has no cut on the stand`);
+      // Fantasy Fancy Dress's pieces need a body: no cut, and refused on the stand.
+      const bodyOnly = (D.bodyOnly || []).includes(slot);
+      if (bodyOnly) {
+        const onStand = { base: 'stand', wear: { [slot]: [g, 'solid', 'black'] } };
+        assert.equal(A.clean(onStand), null, `${g} is let onto the stand by avatar.js`);
+        assert.equal(cleanLook(onStand), null, `${g} is let onto the stand by the server`);
+      } else assert.ok(D.stand.cuts[g], `${g} has no cut on the stand`);
       for (const pose of POSES) {
         const without = norm(drawn(look({ pose })));
         const withIt = norm(drawn(look({ pose }, { [slot]: [g, 'solid', 'black'] })));
         assert.notEqual(withIt, without, `${g} changes nothing ${pose}`);
       }
-      drawn({ base: 'stand', wear: { [slot]: [g, 'stripes', 'rainbow'] } });
+      if (!bodyOnly) drawn({ base: 'stand', wear: { [slot]: [g, 'stripes', 'rainbow'] } });
     }
   }
 });

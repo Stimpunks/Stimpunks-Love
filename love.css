@@ -2384,6 +2384,21 @@
   --bmb-ink:     #22160E;  --bmb-ink-2:  #5B4032;  --bmb-link:    #8A2A00;
   --bmb-link-on: #3D1500;
 
+  /* Fantasy Fancy Dress (§116). THE BACK OF A FANCY DRESS SHOP, LIT ONLY
+     THROUGH LENGTHS OF SHEER STUFF hung from the ceiling, from a light at the
+     far end. --ffd-ground is the dark in front of them, where every word
+     stands; --ffd-panel the rails' plates and the mirror's frame, a little
+     lighter; --ffd-ink every word, --ffd-ink-2 the fine print and --ffd-link
+     a link. --ffd-glow is the light at the back, and --ffd-rose, --ffd-mint,
+     --ffd-gold and --ffd-lilac the four sheers it comes through: they carry
+     no word except the gold of a rail's name, measured on the panel.
+     --ffd-hush is the stock on the rail, dark against the light, and
+     --ffd-edge every edge; both carry no word, measured in ORNAMENT. */
+  --ffd-ground: #17132B;  --ffd-panel: #241D3F;  --ffd-hush:  #0C0A19;
+  --ffd-ink:    #FBF2F8;  --ffd-ink-2: #D9CDEB;  --ffd-link:  #FFC6E0;
+  --ffd-glow:   #FFF1DC;  --ffd-edge:  #9384D2;
+  --ffd-rose:   #F29CC4;  --ffd-mint:  #9FE3C6;  --ffd-gold:  #F2CF72;  --ffd-lilac: #BBA6F7;
+
   /* Now Playing (§53). ONE SHEET SCREENPRINTED IN TWO INKS, PASTED ROUND A
      COLUMN ON THE PAVEMENT. --np-stock is the paper and --np-night the street
      around the column. --np-red and --np-cobalt are the two screens, and they
@@ -15256,6 +15271,9 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 }
 .dressup .dd-tag { margin: 14px 0 0; font-size: 21px; line-height: 1.35; }
 .dressup .dd-lede { margin: 24px 0 0; max-width: 800px; font-size: 18px; }
+/* The door through the curtain at the back, to Fantasy Fancy Dress: a line
+   on the wall in the Den's own ink, like the lede above it. */
+.dressup .dd-fancy { margin: 14px 0 0; max-width: 800px; font-size: 17px; }
 
 .dressup h2 { margin: 0 0 12px; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600; font-size: 32px; line-height: 1.1; color: var(--dd-ink); }
 .dressup h3 { margin: 0 0 8px; font-family: 'DynaPuff', system-ui, sans-serif; font-weight: 600; font-size: 22px; line-height: 1.15; color: var(--dd-ink); }
@@ -16395,7 +16413,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §117
+   class on it is `bb-`, its sizes are in points and millimetres, and §118
    prints it and nothing else. */
 
 .room-broadside {
@@ -16456,7 +16474,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §117 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §118 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -24021,7 +24039,134 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .room-music .mus-lp__credit { font-size: 11px; color: var(--rdr-ink-2); text-align: center; font-variant-numeric: tabular-nums; line-height: 1.3; }
 .room-music .mus-rack__from { margin: 14px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
 
-/* §116 ── Small screens ───────────────────────────────────────────────────────
+/* §116 ── SUBROOM: Fantasy Fancy Dress (through the curtain behind the Dopamine Dress-Up Den)
+   THE BACK OF A FANCY DRESS SHOP, LIT ONLY FROM BEHIND, THROUGH SHEER STUFF.
+   Lengths of tulle and chiffon hang from the ceiling in rose, mint, gold and
+   lilac, overlapping, and the only light in the room is at the far end,
+   coming through them. Where two sheers cross the colour deepens; nothing has
+   an edge; and everything in front of them -- the rail of stock, the mirror's
+   frame, you -- is dark against the light. Every word stands on that dark.
+   Helen Edgar's ask, 2026-10-15, and her name on the sign. That is what holds
+   it off the others:
+     · THE DOPAMINE DRESS-UP DEN is through the curtain and the obvious
+       collapse: both hang things to put on. That room is white daylight with
+       a crystal's rainbows on a pale lavender wall, the clothes on a valet
+       stand and pattern the subject. This is no daylight at all, the light
+       comes THROUGH the room's stuff rather than falling on it, and the room
+       itself wears no pattern: the prints are only ever on a bodymind.
+     · SWAYING SWEETGRASS is the other room lit by light coming through
+       something, and it is a low sun through grass blades outdoors, gold and
+       green, with no colour of its own in the light. Here the light IS the
+       colour, four of them, indoors, hung.
+     · THE FAERY YURT is the street's other fae room, and Helen's: candlelit
+       brown, warm, fairy lights strung across the top. There is no flame, no
+       brown and no fairy light in here. If anything in §116 ever goes warm
+       brown, or a string of lights appears, it has become the yurt with a
+       dressing-up box.
+     · NOW PLAYING overprints two inks into a third, on paper, flat. These
+       sheers cross softly, in light, with no edge, and there is no paper.
+     · THE LIGHTBULB PICTURE HOUSE and THE BODYMIND BOOTH are the other rooms
+       about a lit thing you look at: bare bulbs in sconces, and two white
+       strips a hand's width away. Nothing in here is a bulb or a strip.
+   NOTHING MOVES AT ANY SETTING. A pick changes the drawing at once. The
+   sheers are drawn and hang still; the friendly edit is to let them sway at
+   MAX, and that is a breeze nobody asked for in a room with no window. */
+
+.fancy-dress { background-color: var(--ffd-ground); color: var(--ffd-ink); font-family: 'Kumbh Sans', var(--sans), sans-serif; font-synthesis: none; }
+.fancy-dress :where(i, em, cite) { font-style: normal; }
+.fancy-dress em { font-weight: 700; }
+.fancy-dress a { color: var(--ffd-link); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.fancy-dress a:hover { color: var(--ffd-ink); }
+/* THE RING IS THE SHEER GOLD, on the dark and on a panel alike. */
+.fancy-dress :focus-visible { outline-color: var(--ffd-gold); }
+.fancy-dress :where(p, li) { font-size: 17px; line-height: 1.6; }
+.fancy-dress strong, .fancy-dress b { font-weight: 700; }
+.fancy-dress .backlink { font-family: 'Kumbh Sans', var(--sans), sans-serif; font-size: 15px; letter-spacing: 0; color: var(--ffd-link); }
+
+.ffd-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.fancy-dress .ffd-trail { margin: 0; font-size: 14px; color: var(--ffd-ink-2); }
+
+/* THE BACK OF THE SHOP: the drawing, full width, with the sign under it on
+   the dark, so no word stands in the light. */
+.ffd-back { margin: 22px 0 0; border-radius: 18px; overflow: hidden; border: 2px solid var(--ffd-edge); line-height: 0; }
+.ffd-veils { display: block; width: 100%; height: auto; min-height: 150px; }
+.ffd-head { margin: 26px 0 0; }
+.fancy-dress .ffd-over { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ffd-ink-2); }
+.fancy-dress h1 {
+  margin: 4px 0 0; font-family: 'Abril Fatface', serif; font-weight: 400;
+  font-size: clamp(44px, 8.4vw, 86px); line-height: 1.02; letter-spacing: .01em; color: var(--ffd-ink);
+}
+.fancy-dress .ffd-sub { margin: 14px 0 0; font-size: 21px; line-height: 1.4; }
+.fancy-dress .ffd-lede { max-width: 820px; margin: 22px 0 0; font-size: 18px; }
+.fancy-dress h2 { font-family: 'Abril Fatface', serif; font-weight: 400; font-size: clamp(30px, 4.4vw, 44px); line-height: 1.1; letter-spacing: .01em; margin: 44px 0 14px; color: var(--ffd-ink); }
+
+/* THE FITTING: the mirror on one side, the rails on the other. The bodymind
+   carries its own ground, the booth's curtain, and hangs here in a frame of
+   this room's dark, like a picture on the wall. */
+.ffd-fit { display: grid; grid-template-columns: minmax(240px, 4fr) 7fr; gap: 28px; align-items: start; }
+.ffd-mirror-wrap { display: contents; }
+.ffd-mirror { position: sticky; top: 14px; padding: 16px; background: var(--ffd-panel); border: 2px solid var(--ffd-edge); border-radius: 18px 18px 14px 14px; }
+.ffd-body { border: 3px solid var(--ffd-hush); border-radius: 12px; overflow: hidden; line-height: 0; background: var(--ffd-hush); }
+.ffd-bodymind { display: block; width: 100%; height: auto; }
+.fancy-dress .ffd-who { margin: 14px 0 0; font-size: 15px; color: var(--ffd-ink-2); }
+.fancy-dress .ffd-readout { margin: 10px 0 0; font-size: 16px; }
+.ffd-do { margin: 14px 0 0; }
+.ffd-do__row { display: flex; flex-wrap: wrap; gap: 8px; }
+.ffd-go {
+  display: inline-block; padding: 9px 16px; font: 700 15px/1.2 'Kumbh Sans', var(--sans), sans-serif;
+  color: var(--ffd-ground); background: var(--ffd-gold); border: 2px solid var(--ffd-gold); border-radius: 999px; cursor: pointer;
+}
+.ffd-go--quiet { color: var(--ffd-ink); background: transparent; border-color: var(--ffd-edge); }
+.ffd-go:hover { background: var(--ffd-ink); border-color: var(--ffd-ink); color: var(--ffd-ground); }
+.fancy-dress a.ffd-go--door { color: var(--ffd-ground); background: var(--ffd-rose); border-color: var(--ffd-rose); text-decoration: none; }
+.fancy-dress a.ffd-go--door:hover { background: var(--ffd-ink); border-color: var(--ffd-ink); }
+.fancy-dress .ffd-backto { margin: 12px 0 0; }
+.fancy-dress .ffd-fine { margin: 10px 0 0; font-size: 14px; color: var(--ffd-ink-2); }
+.fancy-dress .ffd-said { margin: 8px 0 0; font-size: 15px; min-height: 1.2em; }
+
+/* THE RAILS: one plate to a rail, the name in the gold sheer. */
+.fancy-dress .ffd-rails__h { margin: 0 0 12px; font-family: 'Abril Fatface', serif; font-weight: 400; font-size: 28px; color: var(--ffd-ink); }
+.ffd-rail { margin: 0 0 16px; padding: 12px 16px 14px; background: var(--ffd-panel); border: 2px solid var(--ffd-edge); border-radius: 14px; min-width: 0; }
+.fancy-dress .ffd-rail__name { padding: 0 6px; font-family: 'Abril Fatface', serif; font-size: 21px; color: var(--ffd-gold); }
+.ffd-hangers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px 14px; }
+.ffd-hangers li { margin: 0; }
+.ffd-hanger { display: flex; gap: 10px; align-items: flex-start; padding: 6px 4px; cursor: pointer; }
+.ffd-hanger input { margin: 5px 0 0; accent-color: var(--ffd-gold); flex: 0 0 auto; }
+.ffd-hanger__words { display: flex; flex-direction: column; }
+.fancy-dress .ffd-hanger__name { font-weight: 700; font-size: 16px; }
+.fancy-dress .ffd-hanger__feel, .fancy-dress .ffd-hanger__on { font-size: 14px; line-height: 1.45; color: var(--ffd-ink-2); }
+.fancy-dress .ffd-pick { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 10px 0 0; font-size: 15px; }
+.ffd-pick__one { display: inline-flex; gap: 8px; align-items: center; }
+.ffd-pick__sel { font: 15px 'Kumbh Sans', var(--sans), sans-serif; color: var(--ffd-ink); background: var(--ffd-ground); border: 2px solid var(--ffd-edge); border-radius: 8px; padding: 4px 8px; }
+
+.ffd-part { max-width: 860px; }
+.ffd-rules { margin: 0; padding-left: 1.4em; }
+.ffd-rules li { margin: 0 0 10px; }
+.fancy-dress .ffd-further { font-size: 15px; color: var(--ffd-ink-2); }
+
+/* The job marker and the dial stand on the room's dark like everything else. */
+.fancy-dress .quest__panel { background: var(--ffd-panel); color: var(--ffd-ink); border-color: var(--ffd-edge); }
+
+/* ON A PHONE the mirror sticks at the top of the rails, the Dress-Up Den's
+   rule: a pick that changes a drawing three screens away is an answer nobody
+   sees. Last in the section, so it wins over the rules above it. */
+@media (max-width: 760px) {
+  .ffd-fit { grid-template-columns: 1fr; gap: 18px; }
+  .ffd-mirror { top: 0; z-index: 2; padding: 10px; display: grid; grid-template-columns: 120px 1fr; gap: 10px; align-items: start; }
+  .ffd-mirror > * { grid-column: 2; }
+  .ffd-body { grid-column: 1; grid-row: 1 / span 4; }
+  .fancy-dress .ffd-who { display: none; }
+  .fancy-dress .ffd-readout { margin: 0; font-size: 14px; }
+  .fancy-dress .ffd-fine { display: none; }
+  .fancy-dress .ffd-readout { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .ffd-do { margin: 8px 0 0; }
+  .ffd-do__row { gap: 6px; }
+  .ffd-go { padding: 6px 11px; font-size: 13px; }
+  .fancy-dress .ffd-backto { margin: 6px 0 0; }
+  .fancy-dress .ffd-said { margin: 4px 0 0; min-height: 0; font-size: 13px; }
+}
+
+/* §117 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -24125,7 +24270,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §116 says every
+   shipped with no rule here at all — which on a street whose §117 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -24249,7 +24394,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §117 ── Print ───────────────────────────────────────────────────────────────
+/* §118 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

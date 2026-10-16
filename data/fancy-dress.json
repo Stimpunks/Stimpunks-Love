@@ -1,0 +1,140 @@
+{
+  "_what": "Fantasy Fancy Dress, the shop behind the Dopamine Dress-Up Den, Helen Edgar's ask, 2026-10-15: faery wings in different sizes and colours, jewellery, beads and rings, onesies, tiger, bear, dragon and unicorn dress-up suits, and animal ears, tails and paws. Everything here is worn by a bodymind drawn at the Bodymind Booth (Helen's answer: your bodymind), so none of it hangs on the Den's valet stand; avatar.js draws every piece from the body it is on, and tools/make-fancy-dress.py builds the shop's rails from this file.",
+  "_words": "Every piece says how it feels and how it goes on and comes off, the Den's rule, and the tool reads make-dressup.py's sweeps over every word here. Our voice never says costume: it is a dress-up suit, an outfit or fancy dress.",
+  "_start": "start is what a rail's selects open on when that piece is picked: a print and a colourway out of the Den's own lists, a first suggestion and nothing more. Everything comes in every print and every colourway.",
+  "sign": "Fantasy Fancy Dress",
+  "slots": [
+    {
+      "key": "wings",
+      "name": "Faery wings",
+      "garments": [
+        {"key": "dragonfly-wings", "name": "Dragonfly wings", "a": "dragonfly wings", "start": ["solid", "denim-sky"],
+         "feel": "Four narrow wings, light as anything, and small enough not to catch on a doorway.",
+         "on": "Two soft loops over the shoulders. Nothing goes round the chest."},
+        {"key": "butterfly-wings", "name": "Butterfly wings", "a": "butterfly wings", "start": ["dots", "violet-gold"],
+         "feel": "Gauzy and a little stiff at the edges, so they hold their shape.",
+         "on": "Two soft loops over the shoulders, and off the same way."},
+        {"key": "moth-wings", "name": "Moth wings", "a": "moth wings", "start": ["moons", "midnight-gold"],
+         "feel": "Big, soft and velvety, with a scalloped edge you can run a finger along.",
+         "on": "Loops over the shoulders, wide enough to shrug off."},
+        {"key": "great-wings", "name": "Great faery wings", "a": "great faery wings", "start": ["solid", "mint-coral"],
+         "feel": "The biggest: four long panels from above your head to below your hips, sheer and floaty.",
+         "on": "Loops over the shoulders. They fold flat to sit back in a chair."}
+      ]
+    },
+    {
+      "key": "ears",
+      "name": "Animal ears",
+      "garments": [
+        {"key": "cat-ears", "name": "Cat ears", "a": "cat ears", "start": ["solid", "black"],
+         "feel": "Two small pointed felt ears on a soft covered band.",
+         "on": "The band slips on over your hair and off again; nothing pinches behind the ears."},
+        {"key": "fox-ears", "name": "Fox ears", "a": "fox ears", "start": ["solid", "moss-rust"],
+         "feel": "Tall pointed ears with fluffy insides.",
+         "on": "On a soft covered band that slips on and off."},
+        {"key": "bunny-ears", "name": "Bunny ears", "a": "bunny ears", "start": ["solid", "pink-lime"],
+         "feel": "Long floppy ears that bend wherever you push them.",
+         "on": "On a soft covered band that slips on and off."},
+        {"key": "bear-ears", "name": "Bear ears", "a": "bear ears", "start": ["solid", "moss-rust"],
+         "feel": "Two round fuzzy ears, soft as a teddy's.",
+         "on": "On a soft covered band that slips on and off."},
+        {"key": "mouse-ears", "name": "Mouse ears", "a": "mouse ears", "start": ["solid", "black-silver"],
+         "feel": "Two big round ears, light and a little bit silly.",
+         "on": "On a soft covered band that slips on and off."}
+      ]
+    },
+    {
+      "key": "tail",
+      "name": "Tails",
+      "garments": [
+        {"key": "cat-tail", "name": "Cat tail", "a": "a cat tail", "start": ["solid", "black"],
+         "feel": "Long and soft, with a bend in the wire so it curls up at the end.",
+         "on": "Clips on at the back of a waistband and unclips."},
+        {"key": "fox-tail", "name": "Fox tail", "a": "a fox tail", "start": ["solid", "moss-rust"],
+         "feel": "Bushy and fluffy, with a pale tip.",
+         "on": "Clips on at the back of a waistband and unclips."},
+        {"key": "bunny-tail", "name": "Bunny tail", "a": "a bunny tail", "start": ["solid", "pink-lime"],
+         "feel": "A round fluffy pompom you can squeeze.",
+         "on": "Clips on at the back of a waistband and unclips."},
+        {"key": "bear-tail", "name": "Bear tail", "a": "a bear tail", "start": ["solid", "moss-rust"],
+         "feel": "A short fuzzy stub, hardly there at all.",
+         "on": "Clips on at the back of a waistband and unclips."},
+        {"key": "dragon-tail", "name": "Dragon tail", "a": "a dragon tail", "start": ["solid", "mint-coral"],
+         "feel": "Long, stuffed and squashy, with soft spikes down the top, and it trails on the floor.",
+         "on": "Clips on at the back of a waistband and unclips. Sitting down, it lies to one side."},
+        {"key": "unicorn-tail", "name": "Unicorn tail", "a": "a unicorn tail", "start": ["solid", "rainbow"],
+         "feel": "Long silky strands that swish when you move.",
+         "on": "Clips on at the back of a waistband and unclips."}
+      ]
+    },
+    {
+      "key": "paws",
+      "name": "Paws",
+      "garments": [
+        {"key": "cat-paws", "name": "Cat paws", "a": "cat paws", "start": ["solid", "black"],
+         "feel": "Fluffy mitts with soft pads underneath.",
+         "on": "They slide on and off, and the fingers are free underneath."},
+        {"key": "bear-paws", "name": "Bear paws", "a": "bear paws", "start": ["solid", "moss-rust"],
+         "feel": "Big furry mitts with felt claws that are not sharp at all.",
+         "on": "They slide on and off, and the fingers are free underneath."},
+        {"key": "dragon-claws", "name": "Dragon claws", "a": "dragon claws", "start": ["solid", "mint-coral"],
+         "feel": "Scaly-printed soft gloves with stuffed felt claws.",
+         "on": "They slide on and off, and the fingers are free underneath."}
+      ]
+    },
+    {
+      "key": "neck",
+      "name": "Necklaces and beads",
+      "garments": [
+        {"key": "bead-necklace", "name": "Bead necklace", "a": "a bead necklace", "start": ["solid", "rainbow"],
+         "feel": "Small smooth beads that click a little when you move.",
+         "on": "Goes over your head. No clasp to find."},
+        {"key": "chunky-beads", "name": "Chunky beads", "a": "chunky beads", "start": ["solid", "tomato-turquoise"],
+         "feel": "Big wooden beads, heavy enough to fiddle with.",
+         "on": "Goes over your head. No clasp to find."},
+        {"key": "pendant", "name": "Pendant", "a": "a pendant", "start": ["solid", "violet-gold"],
+         "feel": "A fine chain and one smooth stone that warms up as you wear it.",
+         "on": "A big clasp at the front, easy to open."},
+        {"key": "choker", "name": "Velvet choker", "a": "a velvet choker", "start": ["solid", "plum-black"],
+         "feel": "A soft velvet band, as loose as you like.",
+         "on": "Fastens with a hook and loop at the back, and comes off with one pull."}
+      ]
+    },
+    {
+      "key": "wrists",
+      "name": "Rings and bracelets",
+      "garments": [
+        {"key": "rings", "name": "Rings", "a": "rings", "start": ["solid", "midnight-gold"],
+         "feel": "Smooth bands with nothing to catch, on whichever fingers you like.",
+         "on": "Slide on and off. They open a little, so none of them is tight."},
+        {"key": "bead-bracelets", "name": "Bead bracelets", "a": "bead bracelets", "start": ["solid", "rainbow"],
+         "feel": "A stack of stretchy beads to roll round your wrist.",
+         "on": "Stretch over your hand."},
+        {"key": "bangles", "name": "Bangles", "a": "bangles", "start": ["solid", "violet-gold"],
+         "feel": "Smooth hoops that slide and clink together.",
+         "on": "Slip over your hand."}
+      ]
+    },
+    {
+      "key": "suit",
+      "name": "Onesies and dress-up suits",
+      "garments": [
+        {"key": "onesie", "name": "Onesie", "a": "a onesie", "start": ["moons", "denim-sky"],
+         "feel": "Brushed fleece all over, roomy, with a hood and soft cuffs.",
+         "on": "A zip from the neck to the knee, with a big pull you can find without looking."},
+        {"key": "tiger-suit", "name": "Tiger suit", "a": "a tiger suit", "start": ["solid", "marigold-teal"],
+         "feel": "Soft fleece with stripes, round ears on the hood, and room to curl up.",
+         "on": "A zip from the neck to the knee, with a big pull."},
+        {"key": "bear-suit", "name": "Bear suit", "a": "a bear suit", "start": ["solid", "moss-rust"],
+         "feel": "Thick and cuddly, with a pale belly and round ears on the hood.",
+         "on": "A zip from the neck to the knee, with a big pull."},
+        {"key": "dragon-suit", "name": "Dragon suit", "a": "a dragon suit", "start": ["solid", "mint-coral"],
+         "feel": "Soft fleece with a scaly belly and floppy spikes over the hood.",
+         "on": "A zip from the neck to the knee, with a big pull."},
+        {"key": "unicorn-suit", "name": "Unicorn suit", "a": "a unicorn suit", "start": ["solid", "pink-lime"],
+         "feel": "Soft fleece, a stuffed gold horn on the hood and a mane down one side.",
+         "on": "A zip from the neck to the knee, with a big pull."}
+      ]
+    }
+  ]
+}

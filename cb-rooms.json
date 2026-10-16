@@ -260,6 +260,12 @@
    "about": "A boutique on the street for dopamine dressing, Helen Edgar's idea. Put an outfit together on a valet stand out of rails of Thai fisherman pants, haori, button-downs, beanies, cardigans, flowing dresses, capes, sequins and a feather boa, in any print and any colours. Nothing has to go with anything, nothing comes in a size, and black is a colour too."
   },
   {
+   "tag": "fantasy-fancy-dress",
+   "name": "Fantasy Fancy Dress",
+   "path": "/fantasy-fancy-dress.html",
+   "about": "Through the curtain at the back of the Dopamine Dress-Up Den: a fancy dress shop for your bodymind. Faery wings in every size and colour, animal ears, tails and paws, bead necklaces, rings and bracelets, onesies and tiger, bear, dragon and unicorn dress-up suits, each saying how it feels and how it comes off. Bring your bodymind through from the Den, or meet somebody drawn at random, and take it back to the Den to keep."
+  },
+  {
    "tag": "bodymind-booth",
    "name": "The Bodymind Booth",
    "path": "/bodymind-booth.html",
