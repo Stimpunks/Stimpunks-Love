@@ -163,6 +163,15 @@
    "channel": "Austin City Limits"
   },
   {
+   "id": "cZsjf48RMkQ",
+   "source": "acl",
+   "form": "long",
+   "title": "Ari Lennox - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-10-12T22:07:02Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
    "id": "RV_Xs3NbPiY",
    "source": "acl",
    "form": "long",
@@ -303,44 +312,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "rix14jBM03I",
-   "source": "kexp",
-   "form": "long",
-   "title": "Marisa Anderson - Full Performance (Live on KEXP)",
-   "published": "2026-09-15T15:00:30Z",
+   "id": "FkXtCPkLWhg",
+   "source": "acl",
+   "form": "short",
+   "title": "Ari Lennox | 10/17 - Episode DROP | Live on Austin City Limits TV",
+   "published": "2026-10-15T23:43:30Z",
    "state": "screen",
-   "runs": 1763,
-   "channel": "KEXP"
-  },
-  {
-   "id": "Y1d9FKo7vsA",
-   "source": "kexp",
-   "form": "long",
-   "title": "Witch Ripper - The Spiral Eye (Live on KEXP)",
-   "published": "2026-09-16T11:00:14Z",
-   "state": "screen",
-   "runs": 493,
-   "channel": "KEXP"
-  },
-  {
-   "id": "qkVvm31Iizo",
-   "source": "kexp",
-   "form": "long",
-   "title": "Witch Ripper - The Portal / Echoes And Dust (Live on KEXP)",
-   "published": "2026-09-16T11:00:23Z",
-   "state": "screen",
-   "runs": 722,
-   "channel": "KEXP"
-  },
-  {
-   "id": "yA7N4fXL7pw",
-   "source": "kexp",
-   "form": "long",
-   "title": "Witch Ripper - The Clock Queen (Live on KEXP)",
-   "published": "2026-09-16T11:00:26Z",
-   "state": "screen",
-   "runs": 507,
-   "channel": "KEXP"
+   "runs": 30,
+   "channel": "Austin City Limits"
   },
   {
    "id": "kIMCg1_NFt4",
@@ -1423,13 +1402,53 @@
    "channel": "KEXP"
   },
   {
-   "id": "ZZ8rd2U29so",
+   "id": "iZyoW4rghz4",
    "source": "kexp",
-   "form": "short",
-   "title": "Marisa Anderson performs \"Quodlibet\" & more Live on KEXP",
-   "published": "2026-09-15T17:02:35Z",
+   "form": "long",
+   "title": "Death Cab For Cutie - Full Performance (Live on KEXP)",
+   "published": "2026-10-15T15:00:25Z",
    "state": "screen",
-   "runs": 59,
+   "runs": 1669,
+   "channel": "KEXP"
+  },
+  {
+   "id": "kA5geLAEiEE",
+   "source": "kexp",
+   "form": "long",
+   "title": "Gillian Welch & David Rawlings - Brown-Eyed Women (Live on KEXP)",
+   "published": "2026-10-16T11:00:05Z",
+   "state": "screen",
+   "runs": 378,
+   "channel": "KEXP"
+  },
+  {
+   "id": "8hhePYzg_Kw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Gillian Welch & David Rawlings - Dire Wolf (Live on KEXP)",
+   "published": "2026-10-16T11:00:10Z",
+   "state": "screen",
+   "runs": 245,
+   "channel": "KEXP"
+  },
+  {
+   "id": "on_0aKuEOZc",
+   "source": "kexp",
+   "form": "long",
+   "title": "Gillian Welch & David Rawlings - Bird Song (Live on KEXP)",
+   "published": "2026-10-16T11:00:22Z",
+   "state": "screen",
+   "runs": 550,
+   "channel": "KEXP"
+  },
+  {
+   "id": "3piOlLMRy30",
+   "source": "kexp",
+   "form": "long",
+   "title": "Gillian Welch & David Rawlings - Bertha (Live on KEXP)",
+   "published": "2026-10-16T11:00:38Z",
+   "state": "screen",
+   "runs": 396,
    "channel": "KEXP"
   },
   {
@@ -1623,14 +1642,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "gWsmlXOFgvs",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Alabama Shakes' Must-Listen Albums",
-   "published": "2026-09-15T14:00:38Z",
+   "id": "HjmG4QY_TKo",
+   "source": "kexp",
+   "form": "short",
+   "title": "Death Cab for Cutie performs \"Stone Over Water\" & more Live on KEXP",
+   "published": "2026-10-15T17:04:08Z",
    "state": "screen",
-   "runs": 233,
-   "channel": "KCRW"
+   "runs": 60,
+   "channel": "KEXP"
   },
   {
    "id": "uolG8tOyQ-k",
@@ -1666,7 +1685,7 @@
    "id": "lIUUbzSM-Ns",
    "source": "kcrw",
    "form": "long",
-   "title": "Ambient Music for Deep Focus | 10 Hours",
+   "title": "Atmospheric Ambient Music | 10 Hours",
    "published": "2026-09-28T15:00:37Z",
    "state": "screen",
    "runs": 35881,
@@ -1733,6 +1752,16 @@
    "channel": "KCRW"
   },
   {
+   "id": "-qsgc5rmBqE",
+   "source": "kcrw",
+   "form": "long",
+   "title": "Ambient Mix for Relaxing | 10 Hours",
+   "published": "2026-10-15T15:00:26Z",
+   "state": "screen",
+   "runs": 36297,
+   "channel": "KCRW"
+  },
+  {
    "id": "CT6hJlGqvxI",
    "source": "kcrw",
    "form": "short",
@@ -1788,13 +1817,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-15T11:59:44Z"
+     "2026-10-16T11:29:05Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-15T11:59:44Z"
+     "2026-10-16T11:29:05Z"
     ]
    ]
   },
@@ -1802,13 +1831,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-15T11:59:44Z"
+     "2026-10-16T11:29:05Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-15T11:59:44Z"
+     "2026-10-16T11:29:05Z"
     ]
    ]
   },
@@ -1816,16 +1845,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-15T11:59:44Z"
+     "2026-10-16T11:29:05Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-15T11:59:44Z"
+     "2026-10-16T11:29:05Z"
     ]
    ]
   }
  },
- "set": "2026-10-15T11:59Z"
+ "set": "2026-10-16T11:29Z"
 }
