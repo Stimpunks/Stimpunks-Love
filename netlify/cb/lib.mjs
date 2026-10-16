@@ -1478,7 +1478,7 @@ export async function shownJobs(handle, s = store()) {
    the pets' rule and for their reason. A sticker of a patch is only ever one
    of the sender's own, found here, carrying nothing but which patch. */
 /* patch:ids:begin */
-export const PATCH_IDS = ["stimpunks-world", "pink-pony-peep", "interdependence", "kindness-is-punk", "plant-powered", "intermittently-social-lone-wolf", "synapse-of-the-soil"];
+export const PATCH_IDS = ["stimpunks-world", "pink-pony-peep", "wand-and-rabbit", "interdependence", "kindness-is-punk", "plant-powered", "intermittently-social-lone-wolf", "synapse-of-the-soil"];
 /* patch:ids:end */
 const patchesBlob = (k) => `patches/${k}`;
 const patchesShownBlob = (k) => `patchshown/${k}`;
@@ -1544,6 +1544,20 @@ export async function patchSticker(handle, id, s = store()) {
 }
 export function shapePatchSticker(st) {
   return st && patchId(st.patch) ? { patch: st.patch } : null;
+}
+
+/* A sticker of your whole battle jacket (Ryan, 2026-10-16): which patches are
+   sewn on it as it is sent, read here and never described by the request. It
+   is a copy that lives and dies with its message, the pets' rule: taking a
+   patch later does not change a jacket already sent, and nothing in it points
+   back at the record. A jacket with nothing sewn on is no sticker. */
+export async function jacketSticker(handle, s = store()) {
+  const patches = await readPatches(petKey(handle), s);
+  return patches.length ? { patches } : null;
+}
+export function shapeJacketSticker(st) {
+  const patches = (st && Array.isArray(st.patches)) ? [...new Set(st.patches.filter((id) => patchId(id)))].sort() : [];
+  return patches.length ? { patches } : null;
 }
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */
@@ -3330,6 +3344,8 @@ export function shape(messages) {
     if (av) out.avatar = av;
     const pt = m.patch && shapePatchSticker(m.patch);
     if (pt) out.patch = pt;
+    const jk = m.jacket && shapeJacketSticker(m.jacket);
+    if (jk) out.jacket = jk;
     const rx = shapeReactions(m.reactions);
     if (rx) out.reactions = rx;
     return out;

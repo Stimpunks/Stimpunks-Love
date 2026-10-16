@@ -2,10 +2,11 @@
    World's or a room's; the eleventh pushes the oldest off, and takes its
    picture with it. A message may be words, a picture sent first to
    /cb/image, or both; or a sticker of one of the sender's own pets, own
-   avatars or own patches, with words or without. */
+   avatars or own patches, or of the sender's own battle jacket, with words
+   or without. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, patchSticker } from '../cb/lib.mjs';
+  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, patchSticker, jacketSticker } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -47,8 +48,15 @@ export default async (req) => {
     patch = await patchSticker(who.handle, b.patch);
     if (!patch) return json(400, { error: 'That patch is not on your battle jacket.' });
   }
+  // A jacket sticker is this handle's own battle jacket, as it is now.
+  let jacket = null;
+  if (b.jacket != null) {
+    if (img || sticker || avatar || patch) return json(400, { error: 'A message is one picture or one sticker, not two.' });
+    jacket = await jacketSticker(who.handle);
+    if (!jacket) return json(400, { error: 'Nothing is sewn on your battle jacket yet.' });
+  }
   const text = b.text == null || b.text === '' ? '' : cleanMessage(b.text);
-  if (text === null || (!text && !img && !sticker && !avatar && !patch)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture, or a sticker.` });
+  if (text === null || (!text && !img && !sticker && !avatar && !patch && !jacket)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture, or a sticker.` });
   // CLAIMED is read off the pass, like BASE, and never off the request: a
   // message says it came from a claimed username only because readPass found
   // that username's own account behind the pass that sent it.
@@ -57,6 +65,7 @@ export default async (req) => {
   if (sticker) msg.sticker = sticker;
   if (avatar) msg.avatar = avatar;
   if (patch) msg.patch = patch;
+  if (jacket) msg.jacket = jacket;
   try {
     let seen = [];
     const messages = await updateTuned(room, (list) => {

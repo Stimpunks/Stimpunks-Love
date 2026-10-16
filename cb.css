@@ -452,6 +452,18 @@ ol.cb-md-list { list-style: decimal; }
 .cb-jacket__on { margin: 6px 0 8px; font-size: 14px; line-height: 1.45; }
 /* A patch as a sticker is its own size, up to a sticker's width. */
 .cb-sticker__patch { width: auto; max-width: 140px; height: auto; max-height: 120px; }
+/* A whole jacket as a sticker is a little larger, so its patches can be told
+   apart. */
+.cb-sticker__jacket { width: 160px; }
+/* DOWNLOADS, in your own Profile. Each answer is under its own button, where
+   the hand is. The patches on your jacket are listed small, each beside its
+   name and its Download, drawn in their own rooms' inks like the jacket. */
+.cb-save__said { margin: 4px 0 0; }
+.cb-saves { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 8px; }
+.cb-saves__one { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 4px 10px; align-items: center; }
+.cb-saves__art { display: block; justify-self: center; width: auto; height: auto; max-width: 64px; max-height: 56px; }
+.cb-saves__name { font-weight: 700; overflow-wrap: anywhere; }
+.cb-saves__one .cb-save__said { grid-column: 1 / -1; margin: 0; }
 .cb-forget-sure { margin: 8px 0 0; }
 .cb-forget-sure p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
 .cb-forget-sure .cb-btn { margin: 0 8px 6px 0; }

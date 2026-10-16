@@ -1344,6 +1344,13 @@ taken only by a patch's own button, signed on; Forget me and deleting the userna
 **Show my battle jacket on the CB** is claimed only. The jacket sews them on in the street's order, and if they
 will not fit, every patch shrinks by the same amount. **The friendly edits are a count ("4 of 7 patches"), a
 limited patch, and a patch for sale**; each is refused, and the first is the Mission's progress bar.
+**The whole jacket is a sticker too** (Ryan, 2026-10-16): `jacketSticker` in `lib.mjs` copies which patches
+are sewn on when it is sent, so a sent jacket never changes, and it is refused with nothing sewn on.
+**Download in Profile is `saveDrawing` in `cb.js`**, for avatars, pets, badges, patches and the jacket: it
+copies the drawing on screen with every computed colour written in and its typefaces put inside it as
+`data:` URLs, then draws it to a PNG, falling back to the SVG where a browser will not. Measured under the
+real headers: `font-src 'self'` does not reach a face inside an SVG drawn as an image, so **do not add
+`data:` to `font-src`** for it, and do not send a drawing to a server to be rendered.
 
 **THE JOBS ARE THE THIRD THING KEPT UNDER A PERSON, AND ONLY ONCE SOMEBODY SWITCHES IT ON.** Keep my jobs in my
 Profile, on the board, ships hidden, shows only on a page with a pass in `love-cb`, and starts off; `quest.js`

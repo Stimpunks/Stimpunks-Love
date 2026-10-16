@@ -120,6 +120,142 @@
    ]
   },
   {
+   "id": "wand-and-rabbit",
+   "name": "Wand & Rabbit",
+   "page": "the-chappell.html",
+   "room": "The Chappell",
+   "how": "scattered",
+   "spot": "Dropped at the foot of the Magician’s Cut’s arch.",
+   "says": "For the Magician’s Cut, in the arcade: a wand and a rabbit, and no need to say what either one is for.",
+   "w": 96,
+   "h": 128,
+   "ground": "--nave",
+   "alt": "A patch shaped like a pointed arch with a gold edge: a pale rabbit’s head with its ears up, a gold wand with a sparkle at its tip on deep indigo, and Wand & Rabbit in gold neon capitals.",
+   "draw": [
+    [
+     "path",
+     "M0 128 V58 C0 28 22 8 48 0 C74 8 96 28 96 58 V128 Z",
+     "--leaf",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M5 123 V59 C5 32 25 14 48 6 C71 14 91 32 91 59 V123 Z",
+     "--nave",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M36 49 C31 41 30 30 33 23 C38 27 41 38 41 47 Z M45 47 C45 38 48 28 53 23 C56 30 54 41 49 49 Z",
+     "#EFE4FF",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M36.5 45.5 C34.2 39.5 33.6 33 34.6 28.5 C37 31.5 38.4 38 38.8 44.5 Z M47.2 44.5 C47.6 38 49 31.5 51.4 28.5 C52.4 33 51.8 39.5 49.5 45.5 Z",
+     "--ruby",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M31 57 A11 9.5 0 1 0 53 57 A11 9.5 0 1 0 31 57 Z",
+     "#EFE4FF",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M36 55 A1.6 1.6 0 1 0 39.2 55 A1.6 1.6 0 1 0 36 55 Z M44.8 55 A1.6 1.6 0 1 0 48 55 A1.6 1.6 0 1 0 44.8 55 Z",
+     "--nave",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M40.4 59.4 H43.6 L42 61.4 Z",
+     "--ruby",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M18 69 H78",
+     null,
+     "--leaf",
+     1.4
+    ],
+    [
+     "path",
+     "M58 66 L71 40",
+     null,
+     "--leaf",
+     3.4
+    ],
+    [
+     "path",
+     "M69.5 43 L71 40 M58 66 L59.5 63",
+     null,
+     "#EFE4FF",
+     3.6
+    ],
+    [
+     "path",
+     "M75 26.5 L76.5 31.5 L81.5 33 L76.5 34.5 L75 39.5 L73.5 34.5 L68.5 33 L73.5 31.5 Z",
+     "--leaf",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M63 21 L63.8 23.7 L66.5 24.5 L63.8 25.3 L63 28 L62.2 25.3 L59.5 24.5 L62.2 23.7 Z",
+     "#EFE4FF",
+     null,
+     0
+    ],
+    [
+     "path",
+     "M22 40.5 L24.5 44 L22 47.5 L19.5 44 Z",
+     "--leaf",
+     null,
+     0
+    ],
+    [
+     "text",
+     39,
+     93,
+     15,
+     "Monoton",
+     "--leaf",
+     "WAND",
+     57
+    ],
+    [
+     "text",
+     78,
+     93,
+     15,
+     "Monoton",
+     "--leaf",
+     "&",
+     14
+    ],
+    [
+     "text",
+     48,
+     113,
+     15,
+     "Monoton",
+     "--leaf",
+     "RABBIT",
+     70
+    ]
+   ]
+  },
+  {
    "id": "interdependence",
    "name": "Interdependence",
    "page": "town-hall.html",

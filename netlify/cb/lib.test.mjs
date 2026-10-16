@@ -37,7 +37,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
   setAvatarsShown, avatarsShown, shownAvatars,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
-  PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker,
+  PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
@@ -1892,6 +1892,16 @@ test('a jacket is shown only on a claimed username that says so, and a sticker i
   assert.equal(await patchSticker('Bex', PATCH_IDS[0], s), null, 'a sticker of somebody else\'s patch');
   assert.deepEqual(shapePatchSticker({ patch: PATCH_IDS[0], extra: 'x' }), { patch: PATCH_IDS[0] });
   assert.equal(shapePatchSticker({ patch: 'nope' }), null);
+  assert.equal(await jacketSticker('Bex', s), null, 'a sticker of a jacket with nothing sewn on');
+  assert.deepEqual(await jacketSticker('Ada', s), { patches: [PATCH_IDS[0]] });
+  await takePatch(petKey('Cy'), PATCH_IDS[0], s);
+  const sent = await jacketSticker('Cy', s);
+  await takePatch(petKey('Cy'), PATCH_IDS[1], s);
+  assert.deepEqual(sent, { patches: [PATCH_IDS[0]] }, 'a jacket already sent changed when a patch was taken');
+  assert.deepEqual(shapeJacketSticker({ patches: [PATCH_IDS[1], 'nope', PATCH_IDS[0], PATCH_IDS[1]], who: 'Ada' }),
+    { patches: [PATCH_IDS[0], PATCH_IDS[1]].sort() });
+  assert.equal(shapeJacketSticker({ patches: ['nope'] }), null);
+  assert.equal(shapeJacketSticker({ patches: 'x' }), null);
   await setPatchesShown('Ada', true, s, 1);
   assert.equal(await shownPatches('Ada', s), null, 'an unclaimed handle showed its jacket');
   await claimAccount('Ada', 'a long enough phrase', s, 9, null);

@@ -1632,6 +1632,7 @@
       if (m.sticker) li.appendChild(sticker(m.sticker));
       if (m.avatar) li.appendChild(avatarSticker(m.avatar));
       if (m.patch) li.appendChild(patchSticker(m.patch));
+      if (m.jacket) li.appendChild(jacketSticker(m.jacket));
       /* REACTIONS: who pressed what, by handle and never how many. Not read out
          as they change: the log is a live region, and a reaction landing is
          not a message, so this line is its own region with politeness off. */
@@ -2240,8 +2241,24 @@
         if (r.status !== 200 || !Array.isArray(r.body.patches)) { pSaid.textContent = 'Your patches could not be fetched just now.'; return; }
         var mine = window.lovePatches.list.filter(function (p) { return r.body.patches.indexOf(p.id) >= 0; });
         if (!mine.length) { pSaid.textContent = 'No patches on your battle jacket. They lie about the street, and some are on a counter in a shop.'; return; }
-        pSaid.textContent = 'Press a patch to send a sticker of it.';
+        pSaid.textContent = 'Press your battle jacket, or one patch off it, to send a sticker of it.';
         var ul = el('ul', 'cb-stickers__list');
+        /* YOUR WHOLE JACKET FIRST (Ryan, 2026-10-16): the server reads what is
+           sewn on it when it goes, so the sticker is the jacket as it is now. */
+        var jli = el('li');
+        var jb = el('button', 'cb-stickers__pick');
+        jb.type = 'button';
+        var jart = window.lovePatches.jacket(mine.map(function (p) { return p.id; }), { cls: 'cb-stickers__art' });
+        if (jart) {
+          jart.removeAttribute('role');
+          jart.removeAttribute('aria-label');
+          jart.setAttribute('aria-hidden', 'true');
+          jb.appendChild(jart);
+        }
+        jb.appendChild(el('span', null, 'Send your battle jacket'));
+        jb.addEventListener('click', function () { me.sendSticker(null, 'jacket'); });
+        jli.appendChild(jb);
+        ul.appendChild(jli);
         mine.forEach(function (p) {
           var li = el('li');
           var b = el('button', 'cb-stickers__pick');
@@ -2260,7 +2277,8 @@
 
   Radio.prototype.sendSticker = function (id, kind) {
     var me = this, room = this.tunedRoom(), b = {};
-    b[kind === 'avatar' ? 'avatar' : kind === 'patch' ? 'patch' : 'sticker'] = id;
+    if (kind === 'jacket') b.jacket = true;
+    else b[kind === 'avatar' ? 'avatar' : kind === 'patch' ? 'patch' : 'sticker'] = id;
     if (room) b.room = room;
     this.tell('Sending the sticker\u2026');
     call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
@@ -2482,8 +2500,10 @@
     catch (e) { return false; }
   }
 
-  /* Badges, drawn and named with what they are for. */
-  function badgesInto(box, bs) {
+  /* Badges, drawn and named with what they are for, and in your own Profile
+     (`save`) each with a Download, on the radio's own ground, because a badge
+     is drawn in the radio's ink. */
+  function badgesInto(box, bs, save) {
     box.textContent = '';
     if (bs.length) {
       var ul = el('ul', 'cb-badges');
@@ -2495,6 +2515,12 @@
         a.href = '/adventurers-guild.html#badge-' + b.id;
         words.appendChild(a);
         words.appendChild(el('p', 'cb-badge__for', b['for']));
+        if (save) {
+          var said = el('p', 'cb-quiet cb-save__said', ''); said.setAttribute('role', 'status');
+          words.appendChild(saveButton('the ' + b.name + ' badge', function () { return li.querySelector('.cb-badge__art'); },
+            'badge-' + fileName(b.id), function (live) { return { ground: groundOf(live), pad: 4, long: 512 }; }, said));
+          words.appendChild(said);
+        }
         li.appendChild(words);
         ul.appendChild(li);
       });
@@ -2550,6 +2576,190 @@
     box.appendChild(el('p', 'cb-jacket__on', ids.length ? 'Sewn on: ' + patchNames(ids) + '.' : 'Nothing is sewn on ' + whose + ' yet.'));
   }
 
+  /* SAVING A DRAWING AS A PICTURE (Ryan, 2026-10-16): an avatar, a pet, a
+     badge, a patch or the battle jacket, out of your own Profile. The file is
+     made here, from the drawing already on the screen: a copy of it with every
+     colour the page gave it written in, and every typeface on it put inside
+     it, so it looks the same anywhere. That copy is drawn onto a canvas and the
+     PNG handed to the browser's own download. Nothing is sent, and the only
+     thing fetched is a typeface, from this street. A browser that will not
+     make a PNG of a drawing gets the drawing itself, as an SVG. */
+  var KEEP = ['fill', 'fill-opacity', 'fill-rule', 'stroke', 'stroke-width', 'stroke-opacity', 'stroke-linecap',
+    'stroke-linejoin', 'stroke-dasharray', 'stroke-dashoffset', 'opacity', 'stop-color', 'stop-opacity',
+    'font-family', 'font-size', 'font-weight', 'font-style', 'letter-spacing', 'paint-order'];
+  var faceData = {};
+
+  function fileName(s) {
+    return String(s || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+  }
+
+  function unquote(s) { return String(s || '').trim().replace(/^["']|["']$/g, ''); }
+
+  /* Whether an @font-face's weight, one number or a range, covers `w`. */
+  function weighs(spec, w) {
+    var n = String(spec || '400').replace('normal', '400').replace('bold', '700').split(/\s+/).map(Number);
+    return n.length > 1 ? (w >= n[0] && w <= n[1]) : n[0] === w;
+  }
+
+  /* Every typeface the drawing's words are set in, as @font-face rules with
+     the file inside them, read off this street's own stylesheets. */
+  function facesIn(want) {
+    var rules = [];
+    for (var i = 0; i < document.styleSheets.length; i++) {
+      var list = null;
+      try { list = document.styleSheets[i].cssRules; } catch (e) {}
+      for (var j = 0; list && j < list.length; j++) if (list[j].type === 5) rules.push(list[j]);
+    }
+    var jobs = [];
+    Object.keys(want).forEach(function (k) {
+      var w = want[k];
+      var fam = rules.filter(function (r) {
+        return unquote(r.style.getPropertyValue('font-family')).toLowerCase() === w.family.toLowerCase() &&
+          (r.style.getPropertyValue('font-style') || 'normal') === w.style;
+      });
+      var hit = fam.filter(function (r) { return weighs(r.style.getPropertyValue('font-weight'), w.weight); });
+      (hit.length ? hit : fam.slice(0, 1)).forEach(function (r) {
+        var m = /url\(\s*(['"]?)([^'")]+)\1\s*\)/.exec(r.style.getPropertyValue('src'));
+        if (!m) return;
+        var u = new URL(m[2], (r.parentStyleSheet && r.parentStyleSheet.href) || location.href);
+        if (u.origin !== location.origin) return;
+        var type = /\.woff2$/.test(u.pathname) ? 'font/woff2' : /\.woff$/.test(u.pathname) ? 'font/woff' : 'font/ttf';
+        var got = faceData[u.href] = faceData[u.href] || fetch(u.href, { credentials: 'omit' }).then(function (res) {
+          if (!res.ok) throw new Error('no face');
+          return res.arrayBuffer();
+        }).then(function (buf) {
+          var bytes = new Uint8Array(buf), s = '';
+          for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+          return 'data:' + type + ';base64,' + btoa(s);
+        });
+        var range = r.style.getPropertyValue('unicode-range');
+        jobs.push(got.then(function (data) {
+          return '@font-face{font-family:"' + unquote(r.style.getPropertyValue('font-family')) + '";src:url(' + data +
+            ');font-weight:' + (r.style.getPropertyValue('font-weight') || '400') + ';font-style:' + w.style +
+            (range ? ';unicode-range:' + range : '') + '}';
+        }, function () { return ''; }));
+      });
+    });
+    return Promise.all(jobs).then(function (css) { return css.join(''); });
+  }
+
+  /* The drawing on its own: every colour it was given written in, its words'
+     typefaces inside it, `ground` behind it if it needs one, `pad` round it. */
+  function standalone(live, opts) {
+    var copy = live.cloneNode(true);
+    var from = [live].concat([].slice.call(live.querySelectorAll('*')));
+    var to = [copy].concat([].slice.call(copy.querySelectorAll('*')));
+    var want = {};
+    for (var i = 0; i < from.length; i++) {
+      var cs = getComputedStyle(from[i]), st = [];
+      KEEP.forEach(function (k) {
+        var v = cs.getPropertyValue(k);
+        // A paint server is in the drawing, never at the page's address.
+        if (v) st.push(k + ':' + v.replace(/url\(\s*"?[^"#)]*#([^")]+)"?\s*\)/g, 'url(#$1)'));
+      });
+      if (cs.display === 'none') st.push('display:none');
+      if (cs.visibility === 'hidden') st.push('visibility:hidden');
+      to[i].setAttribute('style', st.join(';'));
+      if (/^(text|tspan|textPath)$/.test(from[i].localName)) {
+        var fam = unquote(cs.fontFamily.split(',')[0]);
+        want[fam + '|' + cs.fontWeight + '|' + cs.fontStyle] = { family: fam, weight: +cs.fontWeight || 400, style: cs.fontStyle || 'normal' };
+      }
+    }
+    var vb = (live.getAttribute('viewBox') || '').split(/[\s,]+/).map(Number);
+    if (vb.length !== 4 || vb.some(isNaN)) { var bb = live.getBoundingClientRect(); vb = [0, 0, bb.width || 100, bb.height || 100]; }
+    var pad = opts.pad || 0;
+    vb = [vb[0] - pad, vb[1] - pad, vb[2] + pad * 2, vb[3] + pad * 2];
+    var k = (opts.long || 1200) / Math.max(vb[2], vb[3]);
+    var w = Math.round(vb[2] * k), h = Math.round(vb[3] * k);
+    copy.setAttribute('viewBox', vb.join(' '));
+    copy.setAttribute('width', w);
+    copy.setAttribute('height', h);
+    copy.removeAttribute('class');
+    if (opts.ground) {
+      var r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('x', vb[0]); r.setAttribute('y', vb[1]);
+      r.setAttribute('width', vb[2]); r.setAttribute('height', vb[3]);
+      r.setAttribute('fill', opts.ground);
+      copy.insertBefore(r, copy.firstChild);
+    }
+    return facesIn(want).then(function (css) {
+      if (css) {
+        var style = document.createElementNS(SVGNS, 'style');
+        style.textContent = css;
+        copy.insertBefore(style, copy.firstChild);
+      }
+      return { svg: new XMLSerializer().serializeToString(copy), w: w, h: h };
+    });
+  }
+
+  function pngOf(d) {
+    return new Promise(function (ok, no) {
+      var url = URL.createObjectURL(new Blob([d.svg], { type: 'image/svg+xml' }));
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var cv = document.createElement('canvas');
+          cv.width = d.w; cv.height = d.h;
+          cv.getContext('2d').drawImage(img, 0, 0, d.w, d.h);
+          cv.toBlob(function (b) { URL.revokeObjectURL(url); if (b) ok(b); else no(new Error('no png')); }, 'image/png');
+        } catch (e) { URL.revokeObjectURL(url); no(e); }
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); no(new Error('no image')); };
+      img.src = url;
+    });
+  }
+
+  function handOver(blob, name) {
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+    return name;
+  }
+
+  function saveDrawing(live, name, opts) {
+    return standalone(live, opts || {}).then(function (d) {
+      return pngOf(d).then(function (b) { return handOver(b, name + '.png'); },
+        function () { return handOver(new Blob([d.svg], { type: 'image/svg+xml' }), name + '.svg'); });
+    });
+  }
+
+  /* The colour behind a drawing on the radio, for one drawn in the radio's
+     own ink, like a badge, which needs a ground to be seen on. */
+  function groundOf(node) {
+    for (var n = node; n; n = n.parentElement || (n.getRootNode && n.getRootNode().host)) {
+      var c = getComputedStyle(n).backgroundColor;
+      if (c && !/^(transparent|rgba\([^)]*,\s*0\))$/.test(c)) return c;
+    }
+    return '#ffffff';
+  }
+
+  /* A Download button for one drawing, answered on `said`, where the hand is.
+     `art` is the drawing, or a function that finds it when pressed. */
+  function saveButton(what, art, name, opts, said) {
+    var b = el('button', 'cb-btn cb-save', 'Download');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Download a picture of ' + what);
+    b.addEventListener('click', function () {
+      var live = typeof art === 'function' ? art() : art;
+      if (!live) return;
+      b.disabled = true;
+      said.textContent = 'Drawing the picture\u2026';
+      saveDrawing(live, name || 'drawing', typeof opts === 'function' ? opts(live) : opts).then(function (file) {
+        b.disabled = false;
+        said.textContent = 'Saved as ' + file + ', wherever your browser puts downloads. It went nowhere else.';
+      }, function () {
+        b.disabled = false;
+        said.textContent = 'That picture could not be made just now.';
+      });
+    });
+    return b;
+  }
+
   /* avatar.js, loaded on the first avatar the radio has to draw. */
   function withAvatar(then) {
     if (window.loveAvatar) { then(); return; }
@@ -2585,6 +2795,27 @@
       cap.textContent = 'A patch: ' + (window.lovePatches.name(st.patch) || 'one from the street');
       var art = window.lovePatches.draw(st.patch, { cls: 'cb-sticker__art cb-sticker__patch' });
       if (art) fig.insertBefore(art, fig.firstChild);
+    });
+    return fig;
+  }
+
+  /* A BATTLE JACKET STICKER on a message (Ryan, 2026-10-16): the jacket as it
+     was when it was sent, drawn by patches.js, and what is sewn on it under it
+     for everybody. The caption speaks for it, so the drawing is silent. */
+  function jacketSticker(st) {
+    var fig = el('figure', 'cb-sticker cb-sticker--jacket');
+    var cap = el('figcaption', null, 'A battle jacket');
+    fig.appendChild(cap);
+    withPatches(function () {
+      var ids = (st.patches || []).filter(function (id) { return window.lovePatches.name(id); });
+      cap.textContent = 'A battle jacket' + (ids.length ? ', with ' + patchNames(ids) + ' sewn on' : '');
+      var art = window.lovePatches.jacket(ids, { cls: 'cb-sticker__art cb-sticker__jacket' });
+      if (art) {
+        art.removeAttribute('role');
+        art.removeAttribute('aria-label');
+        art.setAttribute('aria-hidden', 'true');
+        fig.insertBefore(art, fig.firstChild);
+      }
     });
     return fig;
   }
@@ -2685,6 +2916,8 @@
         change.href = '/bodymind-booth.html#avatar=' + encodeURIComponent(a.id) + '&look=' + code;
         row.appendChild(change);
       }
+      row.appendChild(saveButton(a.name || 'this avatar', function () { return li.querySelector('.cb-avatar__art svg'); },
+        'avatar' + (a.name ? '-' + fileName(a.name) : ''), null, said));
       var del = el('button', 'cb-btn', 'Delete it');
       del.type = 'button';
       row.appendChild(del);
@@ -2994,7 +3227,14 @@
          the one they came in under. */
       var rn = el('button', 'cb-btn cb-pet__rename', a.name ? 'Rename ' + a.name : 'Name them');
       rn.type = 'button';
-      words.appendChild(rn);
+      var noun = (a.words && a.words.noun) || (a.kind === 'dog' ? 'dog' : 'cat');
+      var petSaid = el('p', 'cb-quiet cb-save__said', ''); petSaid.setAttribute('role', 'status');
+      var petRow = el('div', 'cb-acct__row');
+      petRow.appendChild(rn);
+      petRow.appendChild(saveButton(a.name || 'your ' + noun, function () { return li.querySelector('.cb-pet__art'); },
+        'pet-' + (fileName(a.name) || fileName(noun)), null, petSaid));
+      words.appendChild(petRow);
+      words.appendChild(petSaid);
       var form = el('div', 'cb-acct__form'); form.hidden = true;
       words.appendChild(form);
       rn.addEventListener('click', function () {
@@ -3058,6 +3298,31 @@
     var ids = b.patches || [];
     box.hidden = false;
     jacketInto(box, ids, 'it');
+    /* The jacket as a picture, and every patch on it one at a time. */
+    var jSaid = el('p', 'cb-quiet cb-save__said', ''); jSaid.setAttribute('role', 'status');
+    var jRow = el('div', 'cb-acct__row');
+    jRow.appendChild(saveButton('your battle jacket', function () { return box.querySelector('.cb-jacket__art'); },
+      'battle-jacket', null, jSaid));
+    box.appendChild(jRow);
+    box.appendChild(jSaid);
+    if (ids.length) {
+      var pd = el('details', 'cb-jobs');
+      pd.appendChild(el('summary', null, 'Your patches, one at a time'));
+      var pl = el('ul', 'cb-saves');
+      window.lovePatches.list.forEach(function (p) {
+        if (ids.indexOf(p.id) < 0) return;
+        var li = el('li', 'cb-saves__one');
+        var art = window.lovePatches.draw(p.id, { cls: 'cb-saves__art' });
+        if (art) li.appendChild(art);
+        li.appendChild(el('span', 'cb-saves__name', p.name));
+        var said = el('p', 'cb-quiet cb-save__said', ''); said.setAttribute('role', 'status');
+        li.appendChild(saveButton(p.name, art, 'patch-' + p.id, null, said));
+        li.appendChild(said);
+        pl.appendChild(li);
+      });
+      pd.appendChild(pl);
+      box.appendChild(pd);
+    }
     /* Where every patch is, so finding one is a walk and never a test of
        eyesight: the guild's hints, for a jacket. Each says whether it is on
        yours. */
@@ -3101,7 +3366,7 @@
     this.patchWhere.textContent = (claimed
       ? 'Your patches are kept under your username, scrambled: which patches, and nothing about when. '
       : 'Your patches are kept under the handle ' + this.state.handle + ', scrambled: which patches, and nothing about when. A handle is not an account: anybody who signs on with it has this jacket too, until you claim it above. ') +
-      'Nothing counts who else has one. Sticker, on the radio, sends one to the channel, and Forget me takes them all off.';
+      'Nothing counts who else has one. Sticker, on the radio, sends one to the channel, or the whole jacket, and Forget me takes them all off.';
   };
 
   /* ── Your jobs ─────────────────────────────────────────────────────────── */
@@ -3128,7 +3393,7 @@
     // this browser rescued, which only you are ever shown.
     var rescued = rescuedHere();
     var bs = guild ? badgesFor(guild, b.keeping ? b.jobs : [], { pets: !!b.adopted, rescues: rescued }) : [];
-    badgesInto(this.badgeBox, bs);
+    badgesInto(this.badgeBox, bs, true);
     this.badgeBox.hidden = !bs.length;
     if (bs.some(function (x) { return x.from === 'rescues'; })) {
       this.badgeBox.appendChild(el('p', 'cb-quiet', 'Rescue Ranger is worked out from the animals this browser rescued. Nothing on the street knows who rescued which animal, so only you see it, here and on the Guild\u2019s board.'));
