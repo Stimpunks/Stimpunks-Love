@@ -35,3 +35,12 @@ rooms/inbox/
 # Written by Netlify's own tool when it runs the CB on your computer
 # (CONTRIBUTING.md, Running the CB yourself). Nothing here uses Deno.
 deno.lock
+
+# iCloud Drive's conflict copies. On a Mac whose Documents folder is synced to
+# iCloud, a file rewritten while the sync is reading it comes back beside the
+# original as "name 2.png", identical bytes, and tools/check-all.sh rewrites the
+# share cards and the render probes on every run. 42 of them went in with the
+# Reading Room on 2026-10-15 before anybody looked, and were taken out the next
+# day. Nothing of ours is named with a space and a digit.
+* [0-9]
+* [0-9].*
