@@ -10,7 +10,8 @@
    page, the foot of it, the empty margins either side, and along the green
    sprigs and the gaps between the sections: tangled ivy, small
    flowers in many colours, red and brown toadstools in the ivy, and mushrooms
-   coming up out of the bottom. Before it
+   coming up out of the bottom; more of each since 2026-10-16, Helen's ask, so
+   the open ground all round the words fills in. Before it
    draws it measures every paragraph, heading, link, button, label and picture,
    and a vine that reaches one stops there; a leaf or a flower that would touch
    one is left off. Most of it has grown in about twenty seconds, and then for
@@ -145,12 +146,12 @@
         var p = stem.getPointAtLength(d), q = stem.getPointAtLength(Math.min(len, d + 1));
         var turn = Math.atan2(q.y - p.y, q.x - p.x) * 57.3 + (k % 2 ? 90 : -90);
         var r = rnd();
-        if (r < .06) {
+        if (r < .09) {
           var ms = rand(8, 12);
           if (blocked(obs, p.x, p.y - ms, ms * 1.3)) continue;
           var t = toadstool(g, p.x, p.y, ms, pick(IVY_CAPS), 0);
           bits.push({ el: t.el, at: d / len, x: p.x, y: p.y, turn: 0, size: 1 });
-        } else if (r < .06 + (bloom || .15)) {
+        } else if (r < .09 + (bloom || .26)) {
           if (blocked(obs, p.x, p.y, 7)) continue;
           bits.push({ el: flower(g, p.x, p.y, rand(3.2, 5.2), pick(PETALS)), at: d / len, x: p.x, y: p.y, turn: 0, size: 1 });
         } else {
@@ -194,7 +195,7 @@
     [1, -1].forEach(function (down) {
       var edge = down > 0 ? 0 : H;
       // The tangle along the top and the foot: in the first twenty seconds.
-      for (var i = 0; i < 3; i++) add(vine(svg, obs, across(W, H, down, band), i * 1.2 + rand(0, .8), rand(10, 14)));
+      for (var i = 0; i < 4; i++) add(vine(svg, obs, across(W, H, down, band), i * 1.2 + rand(0, .8), rand(10, 14)));
       var drops = Math.max(4, Math.round(W / 130));
       for (var j = 0; j < drops; j++) {
         var x = (j + rand(.2, .8)) * W / drops;
@@ -202,17 +203,17 @@
       }
       // Then, for two minutes, more of it, slowly: more ivy through the tangle,
       // more strands, and more flowers on them than on the first.
-      for (var t = 0; t < 3; t++) add(vine(svg, obs, across(W, H, down, band), rand(QUICK, GROW - 45), rand(25, 40), .3));
+      for (var t = 0; t < 4; t++) add(vine(svg, obs, across(W, H, down, band), rand(QUICK, GROW - 45), rand(25, 40), .42));
       for (var u = 0; u < drops; u++) {
         var lx = (u + rand(.1, .9)) * W / drops;
-        add(vine(svg, obs, strand(lx, edge + down * rand(4, band), down, rand(30, 120), 4, W - 4), rand(QUICK, GROW - 25), rand(12, 20), .3));
+        add(vine(svg, obs, strand(lx, edge + down * rand(4, band), down, rand(30, 120), 4, W - 4), rand(QUICK, GROW - 25), rand(12, 20), .42));
       }
       // Down the margins: quickly at first, then on and on, very slowly.
       [[4, gutL - 4], [W - gutR + 4, W - 4]].forEach(function (side) {
         if (side[1] - side[0] < 8) side = down > 0 ? [4, 18] : [W - 18, W - 4];
         var mid = (side[0] + side[1]) / 2;
         add(vine(svg, obs, strand(mid, edge, down, Math.min(H, view * 1.2), side[0], side[1]), rand(0, 3), rand(14, 17)));
-        add(vine(svg, obs, strand(mid + rand(-6, 6), edge, down, H, side[0], side[1]), rand(QUICK - 2, QUICK + 8), rand(100, 108), .22));
+        add(vine(svg, obs, strand(mid + rand(-6, 6), edge, down, H, side[0], side[1]), rand(QUICK - 2, QUICK + 8), rand(100, 108), .34));
       });
     });
     // Along every green sprig, and across every gap between the sections, under
@@ -235,10 +236,10 @@
     });
     lines.forEach(function (ln) {
       add(vine(svg, obs, wave(ln[0], ln[1], ln[2], ln[3]), rand(3, 11), rand(6, 9), .2));
-      add(vine(svg, obs, wave(ln[0], ln[1], ln[2] + rand(-3, 3), ln[3]), rand(QUICK, GROW - 30), rand(15, 25), .3));
+      add(vine(svg, obs, wave(ln[0], ln[1], ln[2] + rand(-3, 3), ln[3]), rand(QUICK, GROW - 30), rand(15, 25), .42));
     });
     // Mushrooms out of the foot of the page, and more later, slowly.
-    var caps = ['#C9564F', '#C9564F', '#E0904A', '#8A5A3C', '#E8DCC4'], spots = Math.max(5, Math.round(W / 90));
+    var caps = ['#C9564F', '#C9564F', '#E0904A', '#8A5A3C', '#E8DCC4', '#B79AC8', '#D99E8D'], spots = Math.max(6, Math.round(W / 64));
     for (var k = 0; k < spots; k++) {
       var cx = (k + rand(.1, .9)) * W / spots;
       [[rand(9, 24), rand(4, 15)], [rand(7, 13), rand(QUICK + 5, GROW - 6)], [rand(6, 11), rand(QUICK + 5, GROW - 6)]].forEach(function (m, n) {
@@ -521,7 +522,7 @@
     if (faeries) {
       faeries.box.remove(); faeries = null;
       btnF.setAttribute('aria-pressed', 'false');
-      say('The faeries have gone.');
+      say('The Faeries have gone.');
     } else {
       buildFaeries(); drawFaeries(0); run();
       btnF.setAttribute('aria-pressed', 'true');
