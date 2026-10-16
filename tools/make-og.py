@@ -2590,9 +2590,10 @@ def card_reading(p):
         f'<p class="og-foot" data-fit="footer">every spine is a door &middot; stimpunks.world</p>'
         f'</div>',
         f"A claret card. On the left, a drawing of a firelit room: a pointed stone "
-        f"fireplace with logs burning, two candles on its mantel, a velvet sofa to "
-        f"one side and two leather armchairs to the other, a rug between them, and "
-        f"a candle in a brass sconce on each wall. Beside it, small cream capitals "
+        f"fireplace with logs burning, two candles and a raven on its mantel, a brass "
+        f"candelabra either side of it, a velvet sofa to one side and two leather "
+        f"armchairs to the other, a rug between them, and a candle in a brass sconce "
+        f"on each wall. Beside it, small cream capitals "
         f"reading behind the faery yurt, through the bookcase door, then "
         f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
         f"{p['desc_plain']} Along the bottom: every spine is a door, stimpunks.world.",

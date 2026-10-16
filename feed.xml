@@ -7,7 +7,7 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Thu, 15 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 16 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
       <title>The About page answers the questions people ask</title>
       <link>https://stimpunks.world/changelog.html#2026-10-15-about-questions</link>
@@ -21,6 +21,13 @@
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-15-about-page</guid>
       <pubDate>Thu, 15 Oct 2026 11:59:00 GMT</pubDate>
       <description>The street has an About page, for anybody who has been shown it and says they do not get it: what it is, what to do here, why a street, and a thirty-second film. The front page links it under the tagline, and so does the line at the foot of every page. The film was written as code by Claude in Claude Motion and exported to video. Its doors are the front page’s own, in their rooms’ own colours and lettered in their rooms’ own typefaces, from this site’s font files. It is silent, it plays only when you press play, and everything it shows is written out underneath it. It is the first film this site serves itself rather than from somebody else’s channel. How it’s made says so, and the liner notes credit every face in it.</description>
+    </item>
+    <item>
+      <title>The yurt’s soundtrack is a record case</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-16-yurt-record-case</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-16-yurt-record-case</guid>
+      <pubDate>Fri, 16 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A music library instead of a list of blocks, at Helen’s ask: the yarn’s rack is an arched case in the same design as her bookcases, with every song an LP sleeve standing on a plank, in one of her six spine colours with the disc peeking out. The sleeve is the press: it takes the record out, puts it on the phonograph and plays it, and says how long the record runs before you press. A small line under each sleeve still plays the song where it stands. The Reading Room goes gothic romance, at Helen’s ask: a brass chandelier over the scene, a candelabra either side of the hearth, seven candles in sconces along the wall above the bookcases, and ravens, one on the mantel looking at the fire, one at each end of the sconces and three perched on the arches. Every one is a drawing, and not one flame flickers. The Reading Room’s shelf note reads, in her words, that more are arriving as she remembers what she has read and loved and lent.</description>
     </item>
     <item>
       <title>The yurt’s bookcases move into a Reading Room of their own</title>

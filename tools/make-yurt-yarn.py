@@ -10,10 +10,16 @@ ONE DATA FILE, ONE TOOL, TWO SURFACES -- the contract make-yells.py set. The
 yarn is Helen's own playlist, Faery Yurt's Yarn, put on whole; the rack is every
 song on it, one press each; the credits go to liner-notes.html.
 
-THE RACK IS A SHELF OF RECORDS (Helen's ask, 2026-10-15): each song is a sleeve
-in one of her six spine colours with the disc peeking out, standing on its own
-plank, and the press under it puts it on the phonograph. The sleeve and the disc
-are §14's clothes; the behaviour is unchanged.
+THE RACK IS A RECORD CASE (Helen's asks, 2026-10-15 and -16): an arched case in
+the same design as her bookcases, with every song an LP sleeve standing on a
+plank, in one of her six spine colours with the disc peeking out of the top.
+THE SLEEVE IS THE PRESS: it is the card's data-rack-to button, so pressing it
+takes the record out, puts it on the phonograph and plays it, and it says how
+long the record runs before the press. A small "play it here instead" line
+under each sleeve is still the card's own facade, because the CB's
+watch-together finds a song by that button; it is dressed as a line, not a
+plate. The case, the sleeves and the disc are §14's clothes; the behaviour is
+rack.js's, unchanged.
 
 THE RACK IS rack.js's PATTERN AND THE SCREEN IS THE PHONOGRAPH. Every song plays
 where it hangs, or goes up on the phonograph in place of the whole yarn, and
@@ -158,7 +164,7 @@ def attr(s):
     return html.escape(s, quote=True)
 
 
-def what(s):
+def what_(s):
     # *words* is italic, for a title inside a line ("from *Schitt's Creek*").
     return re.sub(r"\*([^*]+)\*", r"<i>\1</i>", esc(s))
 
@@ -369,38 +375,41 @@ swap(ROOM, "yurt-yarn:deck",
 cards = []
 for i, t in enumerate(tracks):
     who, title, rt = t["artist"], t["title"], t["runtime"]
-    extra = f'\n          <p class="yurt-track__what">{what(t["what"])}</p>' if t.get("what") else ""
-    if t.get("replaced"):
-        extra += f'\n          <p class="yurt-track__note">{esc(t["replaced"]["says"])}</p>'
+    what = f'\n            <span class="yurt-lp__what">{what_(t["what"])}</span>' if t.get("what") else ""
+    note = f'\n            <span class="yurt-lp__note">{esc(t["replaced"]["says"])}</span>' if t.get("replaced") else ""
     cards.append(
-        f'        <li class="yurt-track" data-rack-card>\n'
-        f'          <span class="yurt-disc" aria-hidden="true"></span>\n'
-        f'          <div class="yurt-sleeve yurt-sleeve--{i % 6 + 1}">\n'
-        f'            <h3 class="yurt-track__title">{esc(title)}</h3>\n'
-        f'            <p class="yurt-track__who">{esc(who)}</p>\n'
-        f'          </div>{extra}\n'
-        f'          <button type="button" class="facade" data-embed-id="{attr(t["id"])}" '
-        f'data-embed-title="{attr(who)} &mdash; {attr(title)}">\n'
-        f'            Play it here &mdash; {esc(rt)}\n'
-        f'            <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-        f'          </button>\n'
-        f'          <button type="button" class="yurt-track__up" hidden data-rack-to="yarn" '
+        f'        <li class="yurt-lp__slot" data-rack-card>\n'
+        f'          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--{i % 6 + 1}" hidden data-rack-to="yarn" '
         f'data-rack-name="{SCREEN}" '
         f'data-rack-src="https://www.youtube-nocookie.com/embed/{attr(t["id"])}?autoplay=1&amp;rel=0" '
         f'data-rack-title="{attr(who)} &mdash; {attr(title)}, on {SCREEN}" '
         f'data-rack-film="{attr(who)}, {attr(title)}" '
-        f'data-rack-runtime="{attr(rt)}">Put it on {SCREEN} &mdash; {esc(rt)}</button>\n'
-        f'          <p class="yurt-track__credit">{esc(rt)} &middot; on YouTube, via {esc(t["channel"])}</p>\n'
+        f'data-rack-runtime="{attr(rt)}">\n'
+        f'            <span class="yurt-lp__disc" aria-hidden="true"></span>\n'
+        f'            <span class="yurt-lp__title">{esc(title)}</span>\n'
+        f'            <span class="yurt-lp__who">{esc(who)}</span>{what}{note}\n'
+        f'            <span class="yurt-lp__go">Put it on {SCREEN} &middot; {esc(rt)}</span>\n'
+        f'          </button>\n'
+        f'          <div class="yurt-lp__under">\n'
+        f'          <button type="button" class="facade" data-embed-id="{attr(t["id"])}" '
+        f'data-embed-title="{attr(who)} &mdash; {attr(title)}">\n'
+        f'            Play here instead &mdash; {esc(rt)}\n'
+        f'            <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+        f'          </button>\n'
+        f'          <p class="yurt-lp__credit">{esc(rt)} &middot; on YouTube, via {esc(t["channel"])}</p>\n'
+        f'          </div>\n'
         f'        </li>')
 
 swap(ROOM, "yurt-yarn:rack",
-     f'<p class="section-intro yurt-rack__intro">Or pick a record off the shelf. Every song says how long it runs before '
-     f'you press it, and nothing plays until you do. Each one plays where it hangs, or goes on '
-     f'{SCREEN} in place of the whole yarn, and taking it off puts the yarn back without '
+     f'<p class="section-intro yurt-rack__intro">Or take a record off the shelf: press its sleeve and it goes on '
+     f'{SCREEN} in place of the whole yarn and plays. Every sleeve says how long the record runs before '
+     f'you press it, nothing plays until you do, and taking it off puts the yarn back without '
      f'starting it.</p>\n'
      '    <details class="yurt-rack" open>\n'
-     '      <summary class="yurt-rack__sum">Every song on the yarn</summary>\n'
-     '      <ol class="yurt-rack__cards">\n' + "\n".join(cards) + '\n      </ol>\n'
+     '      <summary class="yurt-rack__sum">Every song on the yarn, as records on a shelf</summary>\n'
+     '      <div class="yurt-lp-case">\n'
+     '      <ol class="yurt-lp">\n' + "\n".join(cards) + '\n      </ol>\n'
+     '      </div>\n'
      f'      <p class="yurt-rack__from">Read off the yarn on {esc(d["_checked"])}, in its own order. '
      f'A song I add plays on the whole yarn straight away, and turns up here the next time somebody '
      f'reads the playlist again.</p>\n'
