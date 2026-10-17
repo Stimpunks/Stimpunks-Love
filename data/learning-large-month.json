@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-16T11:22Z",
+ "set": "2026-10-17T11:54Z",
  "log": [
   {
    "id": "4Hvkv_I8QDE",
@@ -129,16 +129,6 @@
    "state": "screen",
    "runs": 45,
    "channel": "Tina Huang"
-  },
-  {
-   "id": "p565AqELA8M",
-   "source": "ai-labs",
-   "form": "long",
-   "title": "Claude Code + GPT 6 Astra Just Killed AI Video Editing",
-   "published": "2026-09-16T16:12:24Z",
-   "state": "screen",
-   "runs": 679,
-   "channel": "AI LABS"
   },
   {
    "id": "Ow_z94c3wKk",
@@ -251,16 +241,6 @@
    "channel": "AI LABS"
   },
   {
-   "id": "S2VJU5DQqlU",
-   "source": "matt-wolfe",
-   "form": "long",
-   "title": "He Built The Ultimate Spy Tool (Free and Open-Source)",
-   "published": "2026-09-16T20:57:15Z",
-   "state": "screen",
-   "runs": 1308,
-   "channel": "Matt Wolfe"
-  },
-  {
    "id": "Kof2VcHTjrk",
    "source": "matt-wolfe",
    "form": "long",
@@ -321,13 +301,13 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "nF45_dhsmWY",
+   "id": "KGcuuhqmPhI",
    "source": "matt-wolfe",
-   "form": "short",
-   "title": "Minecraft + ChatGPT (Holy Crap!)",
-   "published": "2026-09-16T14:32:01Z",
+   "form": "long",
+   "title": "AI News: 6 New Models & A Nano Banana Killer",
+   "published": "2026-10-16T16:20:28Z",
    "state": "screen",
-   "runs": 44,
+   "runs": 1867,
    "channel": "Matt Wolfe"
   },
   {
@@ -414,7 +394,7 @@
    "id": "WXWFmwfo1JA",
    "source": "matt-wolfe",
    "form": "short",
-   "title": "This Tesla Actualy Flies (NOT AI)",
+   "title": "This Tesla Actually Flies (NOT AI)",
    "published": "2026-10-16T04:30:35Z",
    "state": "screen",
    "runs": 46,
@@ -591,16 +571,6 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "0TzNu627VzY",
-   "source": "nate-b-jones",
-   "form": "short",
-   "title": "What is Omarchy?  #OS #AI #agents",
-   "published": "2026-09-17T03:00:30Z",
-   "state": "screen",
-   "runs": 34,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
-  },
-  {
    "id": "jopulPr2upk",
    "source": "nate-b-jones",
    "form": "short",
@@ -761,14 +731,14 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "aSGHPm7pu_Q",
-   "source": "less-bitter",
-   "form": "long",
-   "title": "Okay what am I missing",
-   "published": "2026-09-16T19:22:39Z",
+   "id": "Ypmd2M5-sMU",
+   "source": "nate-b-jones",
+   "form": "short",
+   "title": "I asked AI how smart I am. You should too #AI #ChatGPT #Claude #prompts #selfimprovement",
+   "published": "2026-10-17T03:00:27Z",
    "state": "screen",
-   "runs": 535,
-   "channel": "Less Bitter"
+   "runs": 63,
+   "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
    "id": "5Owg7p-61lY",
@@ -1071,16 +1041,6 @@
    "channel": "Theo - t3․gg"
   },
   {
-   "id": "kXfHQbyMjkc",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "7 Mind Blowing Use Cases for Grok Bot",
-   "published": "2026-09-16T13:00:00Z",
-   "state": "screen",
-   "runs": 1070,
-   "channel": "Paul J Lipsky"
-  },
-  {
    "id": "SsHZaH2ml_U",
    "source": "paul-j-lipsky",
    "form": "long",
@@ -1241,6 +1201,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "rimJ8l1Wf2g",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "AI News: Argon Is Insane and Muse Wonder May Be Benchmaxxed",
+   "published": "2026-10-16T13:00:21Z",
+   "state": "screen",
+   "runs": 1687,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "g6tmqwTULk8",
    "source": "austin-marchese",
    "form": "long",
@@ -1309,16 +1279,6 @@
    "state": "screen",
    "runs": 890,
    "channel": "Austin Marchese"
-  },
-  {
-   "id": "O8pzzIP1RyM",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "Astra Built Me an Entire Product Launch (UGC, Ads, and Website)",
-   "published": "2026-09-16T20:37:56Z",
-   "state": "screen",
-   "runs": 783,
-   "channel": "Riley Brown"
   },
   {
    "id": "o1CogAtWdBk",
@@ -1434,10 +1394,20 @@
    "id": "fDE5R4fSq2w",
    "source": "riley-brown",
    "form": "long",
-   "title": "Claude Code Makes Regular Claude Feel Dumb",
+   "title": "Why You Should Use Claude Code (For Everything)",
    "published": "2026-10-15T18:24:45Z",
    "state": "screen",
    "runs": 1654,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "1d7P3ewd9AA",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "Gemini 4 and Muse Wonder Dropped… But Fable 5.5 Is TERRIFYING",
+   "published": "2026-10-16T17:30:21Z",
+   "state": "screen",
+   "runs": 1572,
    "channel": "Riley Brown"
   },
   {
@@ -1691,6 +1661,16 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "Z8lf5oWKfj0",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Matt Pocock: The Most Valuable Skill to Learn in the Age of AI",
+   "published": "2026-10-16T19:52:20Z",
+   "state": "screen",
+   "runs": 2690,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "TIYCa6hOx1Q",
    "source": "nate-herk",
    "form": "short",
@@ -1851,14 +1831,34 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
-   "id": "VqlRRn3cZx8",
-   "source": "chase-ai",
-   "form": "long",
-   "title": "Higgsfield Just Killed Higgsfield",
-   "published": "2026-09-17T05:00:29Z",
+   "id": "gNMN-7D9130",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Claude Opus 5.5 is my video editor",
+   "published": "2026-10-16T13:21:43Z",
    "state": "screen",
-   "runs": 413,
-   "channel": "Chase AI"
+   "runs": 44,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "8kH03pGq4V0",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Why I let my Grok Bot doomscroll on TikTok",
+   "published": "2026-10-16T20:34:31Z",
+   "state": "screen",
+   "runs": 52,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "NmN6jn6IiMA",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Clay's AI Agent Builds Your Outbound From One Prompt",
+   "published": "2026-10-17T11:45:06Z",
+   "state": "screen",
+   "runs": 59,
+   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "2Gu21Y4hgd8",
@@ -2001,6 +2001,16 @@
    "channel": "Chase AI"
   },
   {
+   "id": "mKjxGy6vCnY",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Claude Code’s Secret Upgrade Is an Orchestration Beast",
+   "published": "2026-10-16T22:28:23Z",
+   "state": "screen",
+   "runs": 1129,
+   "channel": "Chase AI"
+  },
+  {
    "id": "wugozhTLlKM",
    "source": "chase-ai",
    "form": "short",
@@ -2078,6 +2088,26 @@
    "published": "2026-10-14T17:15:11Z",
    "state": "screen",
    "runs": 39,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "sZ1Z6XfkELo",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "This Secret Claude Feature Turns It Into An Orchestration BEAST",
+   "published": "2026-10-17T01:45:05Z",
+   "state": "screen",
+   "runs": 74,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "iLYXboxulcg",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "This Prompt From Claude's Lead Engineer Is Brilliant",
+   "published": "2026-10-17T06:00:35Z",
+   "state": "screen",
+   "runs": 73,
    "channel": "Chase AI"
   },
   {
@@ -2186,13 +2216,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2200,13 +2230,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2214,13 +2244,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2228,13 +2258,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2242,13 +2272,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2256,13 +2286,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2270,13 +2300,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2284,13 +2314,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2298,13 +2328,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2312,13 +2342,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2326,13 +2356,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   },
@@ -2340,13 +2370,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-16T11:22:16Z"
+     "2026-10-17T11:54:33Z"
     ]
    ]
   }
