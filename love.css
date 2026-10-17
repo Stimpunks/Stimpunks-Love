@@ -24281,9 +24281,12 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
    leaves too, overhead at noon and green; here the sun is low in the west, so
    everything is lit on one side, and the leaves have turned.
 
-   NOTHING MOVES, at any setting, and nothing falls: the leaves in the air in
-   the drawing are where they are. The one thing that runs is the song, after a
-   press, and it says before the press that it goes round until you stop it.
+   NOTHING MOVES UNTIL SOMEBODY PRESSES, at any setting. Let the leaves fall,
+   under the drawing (bough.js, Helen's ask), lets them drift down from the
+   crown and stops them again, and runs at Gentle too, because a control the
+   visitor holds is the Arcade's rule; the dial never starts it. The song runs
+   after a press as well, and says before the press that it goes round until
+   you stop it.
    Merienda sets the name and the headings and nothing at reading size;
    Overlock carries every word that is read. */
 .bough { background-color: var(--bgh-sky); color: var(--bgh-bark); font-family: 'Overlock', var(--sans), sans-serif; font-synthesis: none; }
@@ -24338,6 +24341,17 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .bgh-player .facade__play { font-family: 'Overlock', var(--sans), sans-serif; font-size: 15px; letter-spacing: .12em; color: var(--bgh-gold); inset: auto auto 18px 22px; }
 .bgh-player .facade iframe { border-radius: 0; }
 .bough .bgh-credit { margin: 12px 0 0; font-size: 16px; color: var(--bgh-bark-2); }
+
+/* LET THE LEAVES FALL: a plank of a button under the drawing, and a line
+   beside it saying what it did. */
+.bgh-fall { max-width: 760px; margin: 14px auto 0; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.bgh-fall__btn {
+  cursor: pointer; font: 700 17px/1.2 'Overlock', var(--sans), sans-serif; color: var(--bgh-bark);
+  background: var(--bgh-plank); border: 2px solid var(--bgh-bark); border-radius: 6px; padding: 9px 16px;
+  box-shadow: 0 3px 0 var(--bgh-gold);
+}
+.bgh-fall__btn:hover { color: var(--bgh-crimson); border-color: var(--bgh-crimson); }
+.bough .bgh-fall__said { font-size: 16px; color: var(--bgh-bark-2); }
 
 /* The job marker lies on the sky, and opens onto a plank. */
 .bough .quest__panel { background: var(--bgh-plank); color: var(--bgh-bark); border-color: var(--bgh-bark); }
