@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-16T11:19Z",
+ "set": "2026-10-17T11:40Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-16T11:19:19Z"
+     "2026-10-17T11:40:38Z"
     ]
    ]
   }
@@ -351,16 +351,6 @@
    "channel": "Sarah's Vegan Kitchen"
   },
   {
-   "id": "RTeP7pDxm-c",
-   "source": "sarahs-vegan-kitchen",
-   "form": "short",
-   "title": "The easiest meal you can make in 15 minutes 🍜",
-   "published": "2026-09-16T21:24:59Z",
-   "state": "screen",
-   "runs": 35,
-   "channel": "Sarah's Vegan Kitchen"
-  },
-  {
    "id": "bSg2O4v36_4",
    "source": "sarahs-vegan-kitchen",
    "form": "short",
@@ -419,16 +409,6 @@
    "state": "screen",
    "runs": 62,
    "channel": "Sarah's Vegan Kitchen"
-  },
-  {
-   "id": "EzE0ECa6Mkw",
-   "source": "ahmad-noori",
-   "form": "short",
-   "title": "Butternut Squash Soup 🎃 🥣",
-   "published": "2026-09-16T18:53:43Z",
-   "state": "screen",
-   "runs": 27,
-   "channel": "Ahmad Noori"
   },
   {
    "id": "8GE1i-104n8",
@@ -601,16 +581,6 @@
    "channel": "VeganProteins"
   },
   {
-   "id": "eVn6obFGMjI",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "I Remade the Viral Loaded Potato Oil-Free & Plant-Based - Did my Family Like It?",
-   "published": "2026-09-16T14:00:06Z",
-   "state": "screen",
-   "runs": 951,
-   "channel": "PB with J"
-  },
-  {
    "id": "7oJ9_Vfsacs",
    "source": "pb-with-j",
    "form": "long",
@@ -679,6 +649,15 @@
    "state": "screen",
    "runs": 968,
    "channel": "PB with J"
+  },
+  {
+   "id": "v5wPYsygd5A",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "Can Low-FODMAP Food Still Taste Good?",
+   "published": "2026-10-13T17:37:36Z",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "fl2S8e852SU",
@@ -958,6 +937,16 @@
    "published": "2026-10-15T17:19:57Z",
    "state": "screen",
    "runs": 20,
+   "channel": "Carleigh Bodrug"
+  },
+  {
+   "id": "Fgg4wgVfNkA",
+   "source": "carleigh-bodrug",
+   "form": "short",
+   "title": "Tuscan beans #recipe",
+   "published": "2026-10-16T20:28:32Z",
+   "state": "screen",
+   "runs": 25,
    "channel": "Carleigh Bodrug"
   },
   {
