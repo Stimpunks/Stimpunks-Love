@@ -423,6 +423,340 @@
     }
   };
 
+  /* ── THE WINAMP SKINS (Ryan, 2026-10-17) ─────────────────────────────────
+     After twelve skins in the Winamp Skin Museum. Each band is drawn here from
+     shapes anybody could draw, in the skin's spirit and its theme's inks: no
+     bitmap of a skin's is used, no character from a game is drawn, and no mark
+     of a company's. Who made each skin is in call.js's SCHEMES. */
+
+  // Pixel art: a picture given as rows of '#' and '.', drawn as one rect per run.
+  function pixels(parent, x, y, u, rows, o) {
+    var g = group(parent, {}, o);
+    rows.forEach(function (row, j) {
+      var i = 0;
+      while (i < row.length) {
+        if (row.charAt(i) !== '#') { i++; continue; }
+        var k = i;
+        while (k < row.length && row.charAt(k) === '#') k++;
+        add(g, 'rect', { x: f(x + i * u), y: f(y + j * u), width: f((k - i) * u + 0.2), height: f(u + 0.2) }, { fill: o.fill });
+        i = k;
+      }
+    });
+    return g;
+  }
+  function txt(parent, x, y, str, size, o) {
+    var e = add(parent, 'text', { x: f(x), y: f(y), 'font-size': f(size), 'font-family': "'Courier Prime', ui-monospace, monospace", 'font-weight': '700' }, o);
+    e.textContent = str;
+    return e;
+  }
+  var HEART = ['.##.##.', '#######', '#######', '.#####.', '..###..', '...#...'];
+  var COIN = ['.##.', '#..#', '#..#', '#..#', '.##.'];
+
+  /* ZELDA AMP: a row of hearts, hedges and stone, in its forest green and gold. */
+  T.zelda = {
+    band: function (c, r) {
+      var s = c.s, u = at(1.6 * s, 1), x = 6, i = 0;
+      if (c.kind === 'top') {
+        for (; i < 6; i++, x += 8 * u + 2) pixels(c.svg, x, (c.h - 6 * u) / 2, u, HEART, { fill: '--cb-zelda-heart', cls: 'art-glow', d: i * 0.5, t: 5 });
+        x += 8;
+      }
+      while (x < c.w - 10) {
+        var pick = r();
+        if (pick < 0.25) {
+          pixels(c.svg, x, (c.h - 6 * u) / 2, u, HEART, { fill: '--cb-zelda-heart', cls: 'art-glow', d: r() * 4, t: 5 });
+          x += 8 * u + 6;
+        } else if (pick < 0.75) {
+          var w = (16 + r() * 14) * at(s, 0.6), base = c.h * 0.78, hg = group(c.svg, {}, { cls: 'art-sway', d: r() * 4, t: 7 });
+          add(hg, 'rect', { x: f(x), y: f(base - c.h * 0.42), width: f(w), height: f(c.h * 0.42), rx: f(c.h * 0.18) }, { fill: '--cb-zelda-leaf' });
+          for (var b = 0; b < 3; b++) add(hg, 'circle', { cx: f(x + w * (0.22 + b * 0.28)), cy: f(base - c.h * 0.36), r: f(c.h * 0.16) }, { fill: '--cb-zelda-hedge' });
+          x += w + 6;
+        } else {
+          var sz = at(9 * s, 5);
+          add(c.svg, 'rect', { x: f(x), y: f(c.h / 2 - sz / 2), width: f(sz), height: f(sz) }, { fill: '--cb-zelda-stone', stroke: '--cb-case', sw: 1 });
+          add(c.svg, 'path', { d: 'M' + f(x + sz * 0.25) + ' ' + f(c.h / 2 - sz * 0.15) + 'l' + f(sz * 0.5) + ' 0' }, { stroke: '--cb-zelda-leaf', sw: 1 });
+          x += sz + 6;
+        }
+      }
+    }
+  };
+
+  /* MICROCHIP: a circuit board, gold traces with signals going along them,
+     chips with their pins, resistors and LEDs. */
+  T.microchip = {
+    band: function (c, r) {
+      var s = c.s, x, lanes = [0.22, 0.5, 0.8];
+      lanes.forEach(function (fy, i) {
+        var y = c.h * fy, d = 'M-4 ' + f(y), px = -4;
+        for (x = 20 + r() * 40; x < c.w + 20; x += 40 + r() * 60) {
+          var ny = c.h * lanes[(i + (r() < 0.5 ? 1 : 2)) % 3];
+          d += 'L' + f(x) + ' ' + f(y) + 'L' + f(x + Math.abs(ny - y)) + ' ' + f(ny);
+          y = ny; px = x;
+        }
+        d += 'L' + f(c.w + 4) + ' ' + f(y);
+        add(c.svg, 'path', { d: d }, { stroke: '--cb-microchip-trace', sw: at(1.4 * s, 0.9) });
+      });
+      for (x = 14 + r() * 30; x < c.w - 40; x += 70 + r() * 70) {
+        var pick = r(), h = c.h * 0.5, y0 = c.h / 2 - h / 2;
+        if (pick < 0.5) {
+          var w = (22 + r() * 22) * at(s, 0.6);
+          for (var p = 3; p < w - 2; p += 4 * at(s, 0.6)) {
+            add(c.svg, 'rect', { x: f(x + p), y: f(y0 - 2 * s), width: f(1.6 * at(s, 0.6)), height: f(h + 4 * s) }, { fill: '--cb-microchip-pin' });
+          }
+          add(c.svg, 'rect', { x: f(x), y: f(y0), width: f(w), height: f(h), rx: 1 }, { fill: '--cb-microchip-chip' });
+          add(c.svg, 'circle', { cx: f(x + 3 * s), cy: f(y0 + 3 * s), r: f(at(s, 0.6)) }, { fill: '--cb-microchip-pin' });
+        } else if (pick < 0.8) {
+          var rw = 14 * at(s, 0.6), ry = c.h / 2;
+          add(c.svg, 'path', { d: 'M' + f(x - 5) + ' ' + f(ry) + 'L' + f(x + rw + 5) + ' ' + f(ry) }, { stroke: '--cb-microchip-pin', sw: 1 });
+          add(c.svg, 'rect', { x: f(x), y: f(ry - 3 * s), width: f(rw), height: f(6 * s), rx: f(3 * s) }, { fill: '--cb-microchip-resistor' });
+          ['--cb-microchip-led', '--cb-microchip-chip', '--cb-microchip-trace'].forEach(function (k, i) {
+            add(c.svg, 'rect', { x: f(x + rw * (0.25 + i * 0.2)), y: f(ry - 3 * s), width: f(1.6 * at(s, 0.6)), height: f(6 * s) }, { fill: k });
+          });
+        } else {
+          add(c.svg, 'circle', { cx: f(x), cy: f(c.h / 2), r: f(at(2.6 * s, 1.6)) }, { fill: '--cb-microchip-led', cls: 'art-glow', d: r() * 4, t: 4 });
+        }
+      }
+      for (x = 30; x < c.w; x += 90 + r() * 60) {
+        add(c.svg, 'circle', { cx: f(x), cy: f(c.h * lanes[Math.floor(r() * 3)]), r: f(at(1.3 * s, 0.9)) }, { fill: '--cb-amber-2', cls: 'art-flow', d: r() * 5, t: 4, run: 40 });
+      }
+    }
+  };
+
+  /* ASCII-AMP: rows of typed characters in its five inks. They are marks, not
+     words, and they twinkle. */
+  var ASCII = ['-=-=-=-', '<-->', ':: [] ::', '/\\/\\', '*', '#', '. o .', '+--+', '~', '||', '>>', '_-_', '(_)'];
+  T.ascii = {
+    band: function (c, r) {
+      var size = at(13 * c.s, 9), inks = ['--cb-steel', '--cb-steel-2', '--cb-amber', '--cb-amber-2', '--cb-ascii-magenta'], x = 4;
+      while (x < c.w - 8) {
+        var str = ASCII[Math.floor(r() * ASCII.length)];
+        txt(c.svg, x, c.h / 2 + size * 0.34, str, size, { fill: inks[Math.floor(r() * inks.length)], cls: r() < 0.45 ? 'art-twinkle' : '', d: r() * 4, t: 3 + r() * 3 });
+        x += str.length * size * 0.62 + size * 0.6;
+      }
+    }
+  };
+
+  /* SUPER MARIO LAND AMP: pyramids in the desert under its lavender sky, a row
+     of bricks, pipes, and clouds going over. */
+  T.sml = {
+    band: function (c, r) {
+      var s = c.s, x;
+      add(c.svg, 'rect', { x: 0, y: 0, width: c.w, height: c.h }, { fill: '--cb-sml-sky' });
+      for (x = 10 + r() * 30; x < c.w; x += 60 + r() * 70) {
+        var ph = c.h * (0.5 + r() * 0.35), pw = ph * 1.6;
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + c.h + 'L' + f(x + pw / 2) + ' ' + f(c.h - ph) + 'L' + f(x + pw) + ' ' + c.h + 'Z' }, { fill: '--cb-bar' });
+        add(c.svg, 'path', { d: 'M' + f(x + pw / 2) + ' ' + f(c.h - ph) + 'L' + f(x + pw) + ' ' + c.h + 'L' + f(x + pw * 0.62) + ' ' + c.h + 'Z' }, { fill: '--cb-sml-pyramid' });
+      }
+      for (x = 40 + r() * 40; x < c.w - 20; x += 90 + r() * 80) {
+        if (r() < 0.5) {
+          var bs = at(7 * s, 4), n = 2 + Math.floor(r() * 3), by = c.h * 0.22;
+          for (var b = 0; b < n; b++) {
+            add(c.svg, 'rect', { x: f(x + b * bs), y: f(by), width: f(bs), height: f(bs) }, { fill: '--cb-sml-brick', stroke: '--cb-steel-2', sw: 0.8 });
+          }
+        } else {
+          var pw2 = at(9 * s, 6), pt = c.h * 0.45;
+          add(c.svg, 'rect', { x: f(x + 1.5), y: f(pt + 3 * s), width: f(pw2 - 3), height: f(c.h - pt - 3 * s) }, { fill: '--cb-sml-pipe' });
+          add(c.svg, 'rect', { x: f(x), y: f(pt), width: f(pw2), height: f(4 * s) }, { fill: '--cb-sml-pipe', stroke: '--cb-steel-2', sw: 0.6 });
+        }
+      }
+      for (x = r() * 60; x < c.w; x += 110 + r() * 90) {
+        var cl = group(c.svg, {}, { cls: 'art-flow', d: r() * 6, t: 16 + r() * 8, run: 50 });
+        [0, 1, 2].forEach(function (k) { add(cl, 'circle', { cx: f(x + k * 5 * s), cy: f(c.h * 0.22 - (k === 1 ? 2 * s : 0)), r: f(at(4 * s, 2.4)) }, { fill: '--cb-lcd' }); });
+      }
+    }
+  };
+
+  /* DIG DUG AMP: the layers of earth, a tunnel dug through them with something
+     going along it, and rocks that rock. */
+  T.digdug = {
+    band: function (c, r) {
+      var s = c.s, layers = ['--cb-digdug-yellow', '--cb-digdug-orange', '--cb-digdug-red', '--cb-digdug-deep'], x;
+      var top = c.kind === 'top' ? c.h * 0.16 : 0, lh = (c.h - top) / 4;
+      if (top) add(c.svg, 'rect', { x: 0, y: 0, width: c.w, height: f(top) }, { fill: '--cb-digdug-sky' });
+      layers.forEach(function (k, i) { add(c.svg, 'rect', { x: 0, y: f(top + i * lh), width: c.w, height: f(lh + 0.5) }, { fill: k }); });
+      for (x = 3; x < c.w; x += 5 + r() * 7) add(c.svg, 'rect', { x: f(x), y: f(top + r() * (c.h - top)), width: 1.4, height: 1.4 }, { fill: '--cb-digdug-deep' });
+      var ty = top + lh * (1.5 + Math.floor(r() * 2)), tun = 'M-4 ' + f(ty), cx = -4;
+      for (x = 30 + r() * 30; x < c.w; x += 50 + r() * 60) {
+        var ny = top + lh * (0.5 + Math.floor(r() * 4));
+        tun += 'L' + f(x) + ' ' + f(ty) + 'L' + f(x) + ' ' + f(ny);
+        ty = ny;
+      }
+      tun += 'L' + f(c.w + 4) + ' ' + f(ty);
+      add(c.svg, 'path', { d: tun }, { stroke: '--cb-lcd', sw: at(lh * 0.9, 3) });
+      add(c.svg, 'circle', { cx: 20, cy: f(top + lh * 1.5), r: f(at(lh * 0.32, 1.2)) }, { fill: '--cb-steel', cls: 'art-flow', t: 6, run: 60 });
+      for (x = 50 + r() * 40; x < c.w - 10; x += 80 + r() * 90) {
+        add(c.svg, 'ellipse', { cx: f(x), cy: f(top + lh * (0.5 + Math.floor(r() * 4))), rx: f(at(5 * s, 3)), ry: f(at(4 * s, 2.4)) },
+          { fill: '--cb-digdug-rock', stroke: '--cb-case', sw: 0.8, cls: 'art-sway', d: r() * 3, t: 2.6 });
+      }
+    }
+  };
+
+  /* DEVIANTAMP: rails, sliders, round buttons and one lit lamp, in its
+     grey-greens, the way sites looked in 2001. It stands still. */
+  T.deviant = {
+    band: function (c, r) {
+      var s = c.s, y1 = c.h * 0.36, y2 = c.h * 0.66, x;
+      [y1, y2].forEach(function (y) {
+        add(c.svg, 'path', { d: 'M4 ' + f(y) + 'L' + (c.w - 4) + ' ' + f(y) }, { stroke: '--cb-deviant-rail', sw: at(2 * s, 1) });
+        add(c.svg, 'path', { d: 'M4 ' + f(y + 1.2) + 'L' + (c.w - 4) + ' ' + f(y + 1.2) }, { stroke: '--cb-lcd', sw: 0.6 });
+      });
+      for (x = 20 + r() * 30; x < c.w - 20; x += 50 + r() * 70) {
+        var pick = r(), y = r() < 0.5 ? y1 : y2;
+        if (pick < 0.5) add(c.svg, 'rect', { x: f(x), y: f(y - 3.5 * s), width: f(at(12 * s, 7)), height: f(7 * s), rx: f(2 * s) }, { fill: '--cb-lcd', stroke: '--cb-steel-2', sw: 0.8 });
+        else add(c.svg, 'circle', { cx: f(x), cy: f(c.h / 2), r: f(at(5 * s, 3)) }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 0.8 });
+      }
+      add(c.svg, 'circle', { cx: f(c.w - 14), cy: f(c.h / 2), r: f(at(2.6 * s, 1.6)) }, { fill: '--cb-deviant-green' });
+    }
+  };
+
+  /* HP 49G: a row of its keys, the shifted, red and white ones among the dark,
+     and a little screen with its cursor waiting. */
+  T.hp49g = {
+    band: function (c, r) {
+      var s = c.s, x = 6, kh = c.h * 0.56, ky = (c.h - kh) / 2;
+      var inks = ['--cb-hp49g-dark', '--cb-hp49g-dark', '--cb-hp49g-white', '--cb-hp49g-blue', '--cb-hp49g-red'];
+      if (c.kind === 'top') {
+        var sw = 70;
+        add(c.svg, 'rect', { x: f(x), y: f(c.h * 0.12), width: sw, height: f(c.h * 0.76), rx: 3 }, { fill: '--cb-lcd', stroke: '--cb-hp49g-dark', sw: 2 });
+        for (var l = 0; l < 3; l++) add(c.svg, 'path', { d: 'M' + (x + 6) + ' ' + f(c.h * (0.3 + l * 0.18)) + 'l' + f(30 + r() * 26) + ' 0' }, { stroke: '--cb-amber-2', sw: 1.4 });
+        add(c.svg, 'rect', { x: x + sw - 12, y: f(c.h * 0.62), width: 5, height: 7 }, { fill: '--cb-amber', cls: 'art-glow', t: 3 });
+        x += sw + 8;
+      }
+      while (x < c.w - 10) {
+        var kw = (14 + r() * 10) * at(s, 0.6);
+        add(c.svg, 'rect', { x: f(x), y: f(ky), width: f(kw), height: f(kh), rx: f(at(3 * s, 1.5)) }, { fill: inks[Math.floor(r() * inks.length)], stroke: '--cb-hp49g-dark', sw: 0.8 });
+        x += kw + 4 * at(s, 0.6);
+      }
+    }
+  };
+
+  /* WINAMP MARIO: its blue sky, bricks, coins that glint, green hills and
+     clouds going over. */
+  T.mario = {
+    band: function (c, r) {
+      var s = c.s, x;
+      for (x = r() * 40; x < c.w; x += 90 + r() * 90) {
+        var hr = c.h * (0.5 + r() * 0.3);
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + c.h + 'Q' + f(x + hr) + ' ' + f(c.h - hr * 1.4) + ' ' + f(x + hr * 2) + ' ' + c.h + 'Z' }, { fill: '--cb-mario-hill', stroke: '--cb-steel', sw: 0.8 });
+        add(c.svg, 'path', { d: 'M' + f(x + hr * 0.6) + ' ' + f(c.h - hr * 0.3) + 'q' + f(hr * 0.3) + ' ' + f(-hr * 0.4) + ' ' + f(hr * 0.6) + ' 0' }, { stroke: '--cb-mario-bush', sw: at(1.4 * s, 1) });
+      }
+      for (x = 30 + r() * 40; x < c.w - 20; x += 70 + r() * 70) {
+        if (r() < 0.55) {
+          var bs = at(7 * s, 4), n = 2 + Math.floor(r() * 3), by = c.h * 0.2;
+          for (var b = 0; b < n; b++) {
+            add(c.svg, 'rect', { x: f(x + b * bs), y: f(by), width: f(bs), height: f(bs) }, { fill: '--cb-mario-brick', stroke: '--cb-steel', sw: 0.8 });
+            add(c.svg, 'path', { d: 'M' + f(x + b * bs) + ' ' + f(by + bs / 2) + 'l' + f(bs) + ' 0M' + f(x + b * bs + bs / 2) + ' ' + f(by) + 'l0 ' + f(bs / 2) }, { stroke: '--cb-steel', sw: 0.6 });
+          }
+        } else {
+          pixels(c.svg, x, c.h * 0.22, at(1.4 * s, 1), COIN, { fill: '--cb-mario-coin', cls: 'art-twinkle', d: r() * 3, t: 2.8 });
+        }
+      }
+      for (x = r() * 60; x < c.w; x += 120 + r() * 90) {
+        var cl = group(c.svg, {}, { cls: 'art-flow', d: r() * 6, t: 18 + r() * 8, run: 50 });
+        [0, 1, 2].forEach(function (k) { add(cl, 'circle', { cx: f(x + k * 5 * s), cy: f(c.h * 0.32 - (k === 1 ? 2 * s : 0)), r: f(at(4 * s, 2.4)) }, { fill: '--cb-lcd', stroke: '--cb-steel', sw: 0.6 }); });
+      }
+    }
+  };
+
+  /* THE CUBE: green cubes, stacked one or two high on grey slabs, rising into
+     place. Drawn for the radio; nothing of Kuki's skin is copied. */
+  T.cube = {
+    band: function (c, r) {
+      var s = c.s, a = at(6 * s, 3.4), x, i = 0;
+      add(c.svg, 'rect', { x: 0, y: f(c.h - 3 * s), width: c.w, height: f(3 * s) }, { fill: '--cb-cube-metal' });
+      function cube(cx, by, d) {
+        var g = group(c.svg, {}, { cls: 'art-rise', d: d, t: 1.4 }), h = a * 0.58;
+        add(g, 'path', { d: 'M' + f(cx) + ' ' + f(by - a - h) + 'l' + f(a) + ' ' + f(-h / 2) + 'l' + f(a) + ' ' + f(h / 2) + 'l' + f(-a) + ' ' + f(h / 2) + 'Z' }, { fill: '--cb-cube-top' });
+        add(g, 'path', { d: 'M' + f(cx) + ' ' + f(by - a - h) + 'l' + f(a) + ' ' + f(h / 2) + 'l0 ' + f(a) + 'l' + f(-a) + ' ' + f(-h / 2) + 'Z' }, { fill: '--cb-cube-side' });
+        add(g, 'path', { d: 'M' + f(cx + a) + ' ' + f(by - a - h / 2) + 'l' + f(a) + ' ' + f(-h / 2) + 'l0 ' + f(a) + 'l' + f(-a) + ' ' + f(h / 2) + 'Z' }, { fill: '--cb-cube-shade' });
+      }
+      for (x = 4; x < c.w - 2 * a; x += 2 * a + 1, i++) {
+        var by = c.h - 3 * s;
+        if (r() < 0.75) cube(x, by, (i % 30) * 0.12);
+        if (c.h >= 24 && r() < 0.3) cube(x, by - a, (i % 30) * 0.12 + 0.6);
+      }
+    }
+  };
+
+  /* PIP-BOY 3000: green on black, a gauge whose needle drifts, bars like a
+     level meter, and the lines of a phosphor screen, which never flicker. */
+  T.pipboy = {
+    band: function (c, r) {
+      var s = c.s, x;
+      for (var y = 2; y < c.h; y += 3) add(c.svg, 'path', { d: 'M0 ' + y + 'L' + c.w + ' ' + y }, { stroke: '--cb-pipboy-dim', sw: 0.5 });
+      for (x = 16 + r() * 30; x < c.w - 16; x += 70 + r() * 60) {
+        if (r() < 0.45) {
+          var gr = at(c.h * 0.4, 5), gy = c.h * 0.85;
+          add(c.svg, 'path', { d: 'M' + f(x - gr) + ' ' + f(gy) + 'A' + f(gr) + ' ' + f(gr) + ' 0 0 1 ' + f(x + gr) + ' ' + f(gy) }, { stroke: '--cb-pipboy-dim', sw: at(1.4 * s, 1) });
+          for (var t = 0; t <= 6; t++) {
+            var ang = Math.PI * (1 - t / 6), cx = Math.cos(ang), sy = Math.sin(ang);
+            add(c.svg, 'path', { d: 'M' + f(x + cx * gr * 0.8) + ' ' + f(gy - sy * gr * 0.8) + 'L' + f(x + cx * gr) + ' ' + f(gy - sy * gr) }, { stroke: '--cb-steel-2', sw: 0.8 });
+          }
+          var nd = group(c.svg, {}, { cls: 'art-sway', d: r() * 3, t: 6 });
+          add(nd, 'path', { d: 'M' + f(x) + ' ' + f(gy) + 'L' + f(x + gr * 0.3) + ' ' + f(gy - gr * 0.85) }, { stroke: '--cb-pipboy-glow', sw: at(1.4 * s, 1) });
+        } else {
+          for (var b = 0; b < 6; b++) {
+            var bh = c.h * (0.25 + r() * 0.6);
+            add(c.svg, 'rect', { x: f(x + b * 5 * at(s, 0.6)), y: f(c.h - 2 - bh), width: f(3.6 * at(s, 0.6)), height: f(bh) }, { fill: '--cb-steel-2' });
+          }
+        }
+      }
+      add(c.svg, 'circle', { cx: f(c.w - 10), cy: f(c.h / 2), r: f(at(2.4 * s, 1.5)) }, { fill: '--cb-pipboy-glow', cls: 'art-glow', t: 4 });
+    }
+  };
+
+  /* GAME BOY: a little screen in its four greens, the cross pad, the A and B
+     buttons, the speaker's slanted grille, and the power lamp. */
+  T.gameboy = {
+    band: function (c, r) {
+      var s = c.s, x = 8, step = 0;
+      while (x < c.w - 30) {
+        var kind = step % 4;
+        if (kind === 0) {
+          var sw = at(34 * s, 22), sh = c.h * 0.7, sy = (c.h - sh) / 2;
+          add(c.svg, 'rect', { x: f(x), y: f(sy), width: f(sw), height: f(sh), rx: 2 }, { fill: '--cb-gameboy-screen', stroke: '--cb-gameboy-dark', sw: 1 });
+          for (var p = 0; p < 6; p++) add(c.svg, 'rect', { x: f(x + 3 + r() * (sw - 8)), y: f(sy + 2 + r() * (sh - 5)), width: f(at(2 * s, 1.4)), height: f(at(2 * s, 1.4)) }, { fill: '--cb-gameboy-dark' });
+          x += sw + 10;
+        } else if (kind === 1) {
+          var d = at(5 * s, 3), cy = c.h / 2;
+          add(c.svg, 'path', { d: 'M' + f(x + d) + ' ' + f(cy - 1.5 * d) + 'h' + f(d) + 'v' + f(d) + 'h' + f(d) + 'v' + f(d) + 'h' + f(-d) + 'v' + f(d) + 'h' + f(-d) + 'v' + f(-d) + 'h' + f(-d) + 'v' + f(-d) + 'h' + f(d) + 'Z' }, { fill: '--cb-gameboy-pad' });
+          x += 3 * d + 10;
+        } else if (kind === 2) {
+          var br = at(4 * s, 2.4);
+          add(c.svg, 'circle', { cx: f(x + br), cy: f(c.h / 2 + br * 0.6), r: f(br) }, { fill: '--cb-gameboy-berry' });
+          add(c.svg, 'circle', { cx: f(x + br * 3.4), cy: f(c.h / 2 - br * 0.6), r: f(br) }, { fill: '--cb-gameboy-berry' });
+          x += br * 4.4 + 12;
+        } else {
+          for (var g = 0; g < 6; g++) add(c.svg, 'path', { d: 'M' + f(x + g * 4) + ' ' + f(c.h * 0.78) + 'l' + f(c.h * 0.3) + ' ' + f(-c.h * 0.56) }, { stroke: '--cb-steel-2', sw: at(1.6 * s, 1.1), });
+          x += 24 + c.h * 0.3 + 12;
+        }
+        step++;
+      }
+      add(c.svg, 'circle', { cx: f(c.w - 12), cy: f(c.h / 2), r: f(at(2.2 * s, 1.4)) }, { fill: '--cb-gameboy-led', cls: 'art-glow', t: 4 });
+    }
+  };
+
+  /* TI-82: a graph drawing itself across its screen, and along the foot a row
+     of its keys on the calculator's dark body. */
+  T.ti82 = {
+    band: function (c, r) {
+      var s = c.s, mid = c.h / 2, x, d = '';
+      add(c.svg, 'path', { d: 'M0 ' + f(mid) + 'L' + c.w + ' ' + f(mid) }, { stroke: '--cb-amber-2', sw: 0.6 });
+      for (x = 20; x < c.w; x += 40) add(c.svg, 'path', { d: 'M' + x + ' ' + f(mid - 2) + 'l0 4' }, { stroke: '--cb-amber-2', sw: 0.6 });
+      var per = 26 + r() * 20;
+      for (x = 0; x <= c.w; x += 3) d += (d ? 'L' : 'M') + f(x) + ' ' + f(mid - c.h * 0.32 * Math.sin(x / per) * Math.cos(x / (per * 3.1)));
+      add(c.svg, 'path', { d: d, pathLength: 1 }, { stroke: '--cb-amber', sw: at(1.6 * s, 1), cls: 'art-grow', t: growFor(c) });
+    },
+    foot: function (c, r) {
+      var x = 4;
+      add(c.svg, 'rect', { x: 0, y: 0, width: c.w, height: c.h }, { fill: '--cb-ti82-body' });
+      while (x < c.w - 10) {
+        var kw = 16 + r() * 8, pick = r();
+        add(c.svg, 'rect', { x: f(x), y: 8, width: f(kw), height: 14, rx: 3 }, { fill: pick < 0.15 ? '--cb-ti82-blue' : pick < 0.4 ? '--cb-ti82-grey' : '--cb-ti82-key', stroke: '--cb-case', sw: 0.6 });
+        x += kw + 5;
+      }
+    }
+  };
+
   // Every strip has its own seed, so the two sides and every divider differ.
   var SEED = { top: 1966, foot: 2026, left: 1987, right: 1701, divider: 1588 };
   function one(theme, box, kind, n) {

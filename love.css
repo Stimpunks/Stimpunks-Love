@@ -1378,6 +1378,47 @@
   --cb-cyborg-tube: #9FD3E0; --cb-cyborg-oxygen: #3FA34D; --cb-cyborg-port: #8E6BBF; --cb-cyborg-clamp: #3A7BD5; --cb-cyborg-metal: #8C969C;
   --cb-unicorn-pink: #FF8FB1; --cb-unicorn-peach: #FFC48C; --cb-unicorn-lemon: #FFF08C; --cb-unicorn-mint: #9CF2B5; --cb-unicorn-sky: #8FD6FF; --cb-unicorn-lilac: #C9A7FF;
   --cb-wabi-stain: #C9B38B; --cb-wabi-gold: #B8902F; --cb-wabi-moss: #7C8560;
+  /* THE WINAMP SKINS (Ryan, 2026-10-17): themes after twelve skins in the
+     Winamp Skin Museum, each the same seven parts and its drawing's inks.
+     Inspired by and never copied from: no bitmap of a skin's is used, and every
+     drawing is ours. Who made each skin is said where it is chosen, in call.js,
+     and in the CB guide and the liner notes. */
+  --cb-zelda-case: #1F3A24; --cb-zelda-bar: #2B4D2F; --cb-zelda-steel: #F4EFD6; --cb-zelda-steel-2: #B9D2A8;
+  --cb-zelda-lcd: #17153D; --cb-zelda-amber: #F2C94C; --cb-zelda-amber-2: #B9B4F0;
+  --cb-zelda-heart: #E04848; --cb-zelda-hedge: #4E8F3A; --cb-zelda-leaf: #2E6B2A; --cb-zelda-stone: #7C8B6E;
+  --cb-microchip-case: #123F1E; --cb-microchip-bar: #0D2E16; --cb-microchip-steel: #F0F2E6; --cb-microchip-steel-2: #A9C9A4;
+  --cb-microchip-lcd: #0A140D; --cb-microchip-amber: #E8C35A; --cb-microchip-amber-2: #7EE07E;
+  --cb-microchip-trace: #C9A23E; --cb-microchip-chip: #15181A; --cb-microchip-pin: #B8BCC0; --cb-microchip-resistor: #D8C69A; --cb-microchip-led: #FF5A4E;
+  --cb-ascii-case: #000000; --cb-ascii-bar: #111111; --cb-ascii-steel: #FFFFFF; --cb-ascii-steel-2: #45D6D6;
+  --cb-ascii-lcd: #000000; --cb-ascii-amber: #F4E04D; --cb-ascii-amber-2: #6FE36F;
+  --cb-ascii-magenta: #D070F0;
+  --cb-sml-case: #F4E4A6; --cb-sml-bar: #E7CF7E; --cb-sml-steel: #3A1E08; --cb-sml-steel-2: #6B4A1E;
+  --cb-sml-lcd: #E4ECFF; --cb-sml-amber: #1F2F8F; --cb-sml-amber-2: #7A2E12;
+  --cb-sml-sky: #8FA8F8; --cb-sml-brick: #D8682A; --cb-sml-pipe: #3C9A3C; --cb-sml-pyramid: #C9A04A;
+  --cb-digdug-case: #3A140A; --cb-digdug-bar: #4E1C0E; --cb-digdug-steel: #FFE9C2; --cb-digdug-steel-2: #F2B266;
+  --cb-digdug-lcd: #000000; --cb-digdug-amber: #FFD23F; --cb-digdug-amber-2: #FF9A3C;
+  --cb-digdug-yellow: #F8B800; --cb-digdug-orange: #E87800; --cb-digdug-red: #C83000; --cb-digdug-deep: #8A2008; --cb-digdug-rock: #8C5A3C; --cb-digdug-sky: #2038C8;
+  --cb-deviant-case: #C9D1C5; --cb-deviant-bar: #BCC5B8; --cb-deviant-steel: #1E241E; --cb-deviant-steel-2: #46524A;
+  --cb-deviant-lcd: #E2E8DE; --cb-deviant-amber: #174A28; --cb-deviant-amber-2: #46524A;
+  --cb-deviant-green: #4A9F5E; --cb-deviant-rail: #7C8A7E;
+  --cb-hp49g-case: #A4AECA; --cb-hp49g-bar: #919CBC; --cb-hp49g-steel: #0E1220; --cb-hp49g-steel-2: #1F2840;
+  --cb-hp49g-lcd: #B4BA9F; --cb-hp49g-amber: #10140C; --cb-hp49g-amber-2: #2C3A24;
+  --cb-hp49g-blue: #5A54C8; --cb-hp49g-red: #E05A5A; --cb-hp49g-white: #E8ECF4; --cb-hp49g-dark: #3A4258;
+  --cb-mario-case: #5C94FC; --cb-mario-bar: #78A6FC; --cb-mario-steel: #000000; --cb-mario-steel-2: #0C1E52;
+  --cb-mario-lcd: #FCFCFC; --cb-mario-amber: #3A0A00; --cb-mario-amber-2: #102A6A;
+  --cb-mario-brick: #C84C0C; --cb-mario-coin: #FCB800; --cb-mario-hill: #00A800; --cb-mario-bush: #80D010;
+  --cb-cube-case: #2E3133; --cb-cube-bar: #3B3F42; --cb-cube-steel: #E9EDE6; --cb-cube-steel-2: #A9B3A2;
+  --cb-cube-lcd: #1A1C1D; --cb-cube-amber: #9BD84A; --cb-cube-amber-2: #C2D9A8;
+  --cb-cube-top: #8DC63F; --cb-cube-side: #5E9C2A; --cb-cube-shade: #3D6B1C; --cb-cube-metal: #8E9396;
+  --cb-pipboy-case: #0B1A0E; --cb-pipboy-bar: #102614; --cb-pipboy-steel: #8CFF8C; --cb-pipboy-steel-2: #4FC75A;
+  --cb-pipboy-lcd: #050F07; --cb-pipboy-amber: #A6FF9E; --cb-pipboy-amber-2: #63D86A;
+  --cb-pipboy-dim: #2E6B34; --cb-pipboy-glow: #5CFF6A;
+  --cb-gameboy-case: #C9C7C1; --cb-gameboy-bar: #B5B3AD; --cb-gameboy-steel: #1E1E30; --cb-gameboy-steel-2: #3E3C62;
+  --cb-gameboy-lcd: #9BBC0F; --cb-gameboy-amber: #0F380F; --cb-gameboy-amber-2: #1F4A1F;
+  --cb-gameboy-screen: #8BAC0F; --cb-gameboy-dark: #306230; --cb-gameboy-berry: #A0285A; --cb-gameboy-pad: #2A2A2A; --cb-gameboy-led: #E03030;
+  --cb-ti82-case: #B9BE9F; --cb-ti82-bar: #A9AE8E; --cb-ti82-steel: #14160E; --cb-ti82-steel-2: #2E3224;
+  --cb-ti82-lcd: #C9CDB0; --cb-ti82-amber: #1A1C12; --cb-ti82-amber-2: #3A3F2C;
+  --cb-ti82-body: #3A3634; --cb-ti82-key: #5A5654; --cb-ti82-blue: #3C5A9A; --cb-ti82-grey: #8E8A84;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
      profile. NOT A ROOM'S PALETTE: a person's own jacket, drawn wherever their

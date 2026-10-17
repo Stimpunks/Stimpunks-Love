@@ -1094,7 +1094,7 @@
     /* In three groups, each under its own heading: the everyday ones, the
        radio faceplates, and the worlds, which Ryan asked for on 2026-10-17 and
        which have nothing to do with radios. */
-    [['every', 'Everyday'], ['radio', 'Radio faceplates'], ['world', 'Worlds, with drawings']].forEach(function (g) {
+    [['every', 'Everyday'], ['radio', 'Radio faceplates'], ['world', 'Worlds, with drawings'], ['skin', 'Winamp skins']].forEach(function (g) {
       scp.appendChild(el('h3', 'cb-h3', g[1]));
       rows[g[0]] = el('div', 'cb-scheme-row');
       scp.appendChild(rows[g[0]]);

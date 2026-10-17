@@ -170,7 +170,23 @@
     ['greeble', 'Greeble', 'world', 'the greebles, small parts glued onto models, that made the spaceships of Star Wars look built. Star Wars is a trade mark of Lucasfilm', 'moves'],
     ['cyborg', 'Crip Cyborg', 'world', 'disabled people who live with their tech: a CPAP hose, an oxygen line, oxygen on a rack, a PEG tube and its port, and a prosthetic leg', 'moves'],
     ['unicorn', 'Unicorn Poop', 'world', 'as much rainbow as will fit, and gradients for no reason', 'moves'],
-    ['wabi', 'Wabi-sabi', 'world', 'what is stained, weathered and mended: a tea ring, a brush stroke, and a crack mended in gold. Nothing in it moves', 'still']
+    ['wabi', 'Wabi-sabi', 'world', 'what is stained, weathered and mended: a tea ring, a brush stroke, and a crack mended in gold. Nothing in it moves', 'still'],
+    /* THE WINAMP SKINS (Ryan, 2026-10-17): after twelve skins in the Winamp
+       Skin Museum, each credited to whoever its readme says made it, or saying
+       that it names nobody. Every drawing is ours and copies no bitmap of a
+       skin's, and nothing from the games and machines the skins were after. */
+    ['zelda', 'Zelda Amp', 'skin', 'Zelda Amp III, LuigiHann\u2019s Winamp skin. The Legend of Zelda is a trade mark of Nintendo, and the drawing is ours: hearts, hedges and stone, and nobody from the game', 'moves'],
+    ['microchip', 'Microchip', 'skin', 'Microchip 2, Vad3K\u2019s Winamp skin, something between a computer\u2019s circuit board and a calculator\u2019s', 'moves'],
+    ['ascii', 'ASCII-Amp', 'skin', 'ASCII-Amp 2.0, Pabo Wakataeo\u2019s Winamp skin made of typed characters', 'moves'],
+    ['sml', 'Super Mario Land Amp', 'skin', 'Super Mario Land Amp, ronz\u2019s Winamp skin of 2000. Super Mario Land is a trade mark of Nintendo, and the drawing is ours: bricks, pipes and pyramids, and nobody from the game', 'moves'],
+    ['digdug', 'Dig Dug Amp', 'skin', 'Dig Dug Amp, a Winamp skin of 2001 whose readme names its maker only by an email address, so we name the skin. Dig Dug is a trade mark of Bandai Namco Entertainment, and the drawing is ours: the layers of earth and the tunnels, and nobody from the game', 'moves'],
+    ['deviant', 'deviantAMP', 'skin', 'deviantAMP, sasso\u2019s first Winamp skin, of 2001, after deviantART\u2019s pages of the time. deviantART is a trade mark of DeviantArt', 'still'],
+    ['hp49g', 'HP 49G', 'skin', 'hpcalc_hp49g, Arne Olav Storflor\u2019s Winamp skin of his own HP 49G calculator. HP is a trade mark of HP Inc.', 'moves'],
+    ['mario', 'Winamp Mario', 'skin', 'winamp_mario, a Winamp skin with no readme and no maker named in it. Super Mario Bros. is a trade mark of Nintendo, and the drawing is ours: sky, bricks, coins and clouds, and nobody from the game', 'moves'],
+    ['cube', 'The Cube', 'skin', 'the Cube v2, Kuki\u2019s Winamp skin of green cubes. Kuki asked that nothing of it be republished, and nothing is: these cubes are drawn for the radio', 'moves'],
+    ['pipboy', 'Pip-Boy 3000', 'skin', 'Fallout Pip-Boy 3000 Green, the Winamp skin by shadesmaclean (Neko-Sen\u2019nin) of Spooky Door Productions. Fallout and Pip-Boy are trade marks of Bethesda Softworks, and the drawing is ours', 'moves'],
+    ['gameboy', 'Game Boy', 'skin', 'gameboy, a Winamp skin with no readme and no maker named in it, and the handheld\u2019s four greens. Game Boy is a trade mark of Nintendo', 'moves'],
+    ['ti82', 'TI-82', 'skin', 'TI-82 v1.1, the Winamp skin by bLy (Erik Waldner) of 2000. TI-82 is a trade mark of Texas Instruments', 'moves']
   ];
   function known(k) { return SCHEMES.some(function (x) { return x[0] === k && k !== 'auto'; }); }
   /* A THEME'S DRAWING MOVES at MAX GLITTER by itself, and at any other setting

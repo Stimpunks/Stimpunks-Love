@@ -66,9 +66,63 @@
   --cb-display: 'Sour Gummy'; --cb-display-scale: 1.3; --cb-display-track: 0; --cb-display-case: none; }
 :host([data-scheme="wabi"]) { --cb-case: var(--cb-wabi-case); --cb-bar: var(--cb-wabi-bar); --cb-steel: var(--cb-wabi-steel); --cb-steel-2: var(--cb-wabi-steel-2); --cb-lcd: var(--cb-wabi-lcd); --cb-amber: var(--cb-wabi-amber); --cb-amber-2: var(--cb-wabi-amber-2);
   --cb-display: 'Caveat'; --cb-display-scale: 1.6; --cb-display-track: 0; --cb-display-case: none; }
+/* THE WINAMP SKINS (Ryan, 2026-10-17): the same seven parts, a face for the
+   radio's name and headings, and a shape after each skin's; the drawings are
+   cb-themes.js's. */
+:host([data-scheme="zelda"]) { --cb-case: var(--cb-zelda-case); --cb-bar: var(--cb-zelda-bar); --cb-steel: var(--cb-zelda-steel); --cb-steel-2: var(--cb-zelda-steel-2); --cb-lcd: var(--cb-zelda-lcd); --cb-amber: var(--cb-zelda-amber); --cb-amber-2: var(--cb-zelda-amber-2);
+  --cb-display: 'Cinzel'; --cb-display-scale: 1.1; --cb-display-track: .1em; --cb-display-case: uppercase; }
+:host([data-scheme="microchip"]) { --cb-case: var(--cb-microchip-case); --cb-bar: var(--cb-microchip-bar); --cb-steel: var(--cb-microchip-steel); --cb-steel-2: var(--cb-microchip-steel-2); --cb-lcd: var(--cb-microchip-lcd); --cb-amber: var(--cb-microchip-amber); --cb-amber-2: var(--cb-microchip-amber-2);
+  --cb-display: 'B612'; --cb-display-scale: 1; --cb-display-track: .1em; --cb-display-case: uppercase; }
+:host([data-scheme="ascii"]) { --cb-case: var(--cb-ascii-case); --cb-bar: var(--cb-ascii-bar); --cb-steel: var(--cb-ascii-steel); --cb-steel-2: var(--cb-ascii-steel-2); --cb-lcd: var(--cb-ascii-lcd); --cb-amber: var(--cb-ascii-amber); --cb-amber-2: var(--cb-ascii-amber-2);
+  --cb-display: 'Courier Prime'; --cb-display-scale: 1.1; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="sml"]) { --cb-case: var(--cb-sml-case); --cb-bar: var(--cb-sml-bar); --cb-steel: var(--cb-sml-steel); --cb-steel-2: var(--cb-sml-steel-2); --cb-lcd: var(--cb-sml-lcd); --cb-amber: var(--cb-sml-amber); --cb-amber-2: var(--cb-sml-amber-2);
+  --cb-display: 'Press Start 2P'; --cb-display-scale: .8; --cb-display-track: .04em; --cb-display-case: uppercase; }
+:host([data-scheme="digdug"]) { --cb-case: var(--cb-digdug-case); --cb-bar: var(--cb-digdug-bar); --cb-steel: var(--cb-digdug-steel); --cb-steel-2: var(--cb-digdug-steel-2); --cb-lcd: var(--cb-digdug-lcd); --cb-amber: var(--cb-digdug-amber); --cb-amber-2: var(--cb-digdug-amber-2);
+  --cb-display: 'Titan One'; --cb-display-scale: 1.2; --cb-display-track: .04em; --cb-display-case: uppercase; }
+:host([data-scheme="deviant"]) { --cb-case: var(--cb-deviant-case); --cb-bar: var(--cb-deviant-bar); --cb-steel: var(--cb-deviant-steel); --cb-steel-2: var(--cb-deviant-steel-2); --cb-lcd: var(--cb-deviant-lcd); --cb-amber: var(--cb-deviant-amber); --cb-amber-2: var(--cb-deviant-amber-2);
+  --cb-display: 'Exo 2'; --cb-display-scale: 1.1; --cb-display-track: .14em; --cb-display-case: lowercase; }
+:host([data-scheme="hp49g"]) { --cb-case: var(--cb-hp49g-case); --cb-bar: var(--cb-hp49g-bar); --cb-steel: var(--cb-hp49g-steel); --cb-steel-2: var(--cb-hp49g-steel-2); --cb-lcd: var(--cb-hp49g-lcd); --cb-amber: var(--cb-hp49g-amber); --cb-amber-2: var(--cb-hp49g-amber-2);
+  --cb-display: 'Michroma'; --cb-display-scale: .9; --cb-display-track: .08em; --cb-display-case: uppercase; }
+:host([data-scheme="mario"]) { --cb-case: var(--cb-mario-case); --cb-bar: var(--cb-mario-bar); --cb-steel: var(--cb-mario-steel); --cb-steel-2: var(--cb-mario-steel-2); --cb-lcd: var(--cb-mario-lcd); --cb-amber: var(--cb-mario-amber); --cb-amber-2: var(--cb-mario-amber-2);
+  --cb-display: 'Lilita One'; --cb-display-scale: 1.25; --cb-display-track: .04em; --cb-display-case: uppercase; }
+:host([data-scheme="cube"]) { --cb-case: var(--cb-cube-case); --cb-bar: var(--cb-cube-bar); --cb-steel: var(--cb-cube-steel); --cb-steel-2: var(--cb-cube-steel-2); --cb-lcd: var(--cb-cube-lcd); --cb-amber: var(--cb-cube-amber); --cb-amber-2: var(--cb-cube-amber-2);
+  --cb-display: 'Unbounded'; --cb-display-scale: 1; --cb-display-track: .06em; --cb-display-case: uppercase; }
+:host([data-scheme="pipboy"]) { --cb-case: var(--cb-pipboy-case); --cb-bar: var(--cb-pipboy-bar); --cb-steel: var(--cb-pipboy-steel); --cb-steel-2: var(--cb-pipboy-steel-2); --cb-lcd: var(--cb-pipboy-lcd); --cb-amber: var(--cb-pipboy-amber); --cb-amber-2: var(--cb-pipboy-amber-2);
+  --cb-display: 'VT323'; --cb-display-scale: 1.5; --cb-display-track: .08em; --cb-display-case: uppercase; }
+:host([data-scheme="gameboy"]) { --cb-case: var(--cb-gameboy-case); --cb-bar: var(--cb-gameboy-bar); --cb-steel: var(--cb-gameboy-steel); --cb-steel-2: var(--cb-gameboy-steel-2); --cb-lcd: var(--cb-gameboy-lcd); --cb-amber: var(--cb-gameboy-amber); --cb-amber-2: var(--cb-gameboy-amber-2);
+  --cb-display: 'Doto'; --cb-display-scale: 1.3; --cb-display-track: .06em; --cb-display-case: uppercase; }
+:host([data-scheme="ti82"]) { --cb-case: var(--cb-ti82-case); --cb-bar: var(--cb-ti82-bar); --cb-steel: var(--cb-ti82-steel); --cb-steel-2: var(--cb-ti82-steel-2); --cb-lcd: var(--cb-ti82-lcd); --cb-amber: var(--cb-ti82-amber); --cb-amber-2: var(--cb-ti82-amber-2);
+  --cb-display: 'Chakra Petch'; --cb-display-scale: 1.1; --cb-display-track: .06em; --cb-display-case: uppercase; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
-   of the readout's black edge: High contrast's, and LCARS'. */
-:host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd { border-color: var(--cb-steel-2); }
+   of the readout's black edge: High contrast's, LCARS' and ASCII-Amp's. */
+:host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd { border-color: var(--cb-steel-2); }
+/* The skins' shapes. The four games are hard-cornered and thick-edged, like
+   pixels; ASCII-Amp is drawn in dashes; the calculators have keys; the Game
+   Boy keeps the one corner its case has rounded. */
+:host([data-scheme="zelda"]) .cb-radio, :host([data-scheme="sml"]) .cb-radio,
+:host([data-scheme="digdug"]) .cb-radio, :host([data-scheme="mario"]) .cb-radio { border-radius: 0; border-width: 4px; }
+:host([data-scheme="zelda"]) .cb-btn, :host([data-scheme="sml"]) .cb-btn,
+:host([data-scheme="digdug"]) .cb-btn, :host([data-scheme="mario"]) .cb-btn,
+:host([data-scheme="zelda"]) .cb-tp, :host([data-scheme="sml"]) .cb-tp,
+:host([data-scheme="digdug"]) .cb-tp, :host([data-scheme="mario"]) .cb-tp { border-radius: 0; border-width: 3px; }
+:host([data-scheme="zelda"]) .cb-lcd { border: 3px solid var(--cb-amber); border-radius: 0; }
+:host([data-scheme="ascii"]) .cb-radio, :host([data-scheme="ascii"]) .cb-btn, :host([data-scheme="ascii"]) .cb-tp { border-style: dashed; border-radius: 0; }
+:host([data-scheme="ascii"]) .cb-sec + .cb-sec { border-top: 2px dashed var(--cb-steel-2); }
+:host([data-scheme="microchip"]) .cb-radio { border-radius: 4px; border-color: var(--cb-amber); }
+:host([data-scheme="microchip"]) .cb-btn { border-radius: 2px; }
+:host([data-scheme="microchip"]) .cb-sec + .cb-sec { border-top: 2px solid var(--cb-microchip-trace); }
+:host([data-scheme="deviant"]) .cb-radio { border-radius: 4px; border-width: 1px; }
+:host([data-scheme="deviant"]) .cb-btn { border-radius: 3px; border-width: 1px; }
+:host([data-scheme="hp49g"]) .cb-radio, :host([data-scheme="ti82"]) .cb-radio { border-radius: 18px 18px 26px 26px; border-width: 3px; }
+:host([data-scheme="hp49g"]) .cb-btn, :host([data-scheme="ti82"]) .cb-btn { border-radius: 8px 8px 12px 12px; box-shadow: inset 0 -3px 0 var(--cb-bar); }
+:host([data-scheme="hp49g"]) .cb-lcd, :host([data-scheme="ti82"]) .cb-lcd { border-width: 4px; border-radius: 6px; }
+:host([data-scheme="gameboy"]) .cb-radio { border-radius: 8px 8px 34px 8px; }
+:host([data-scheme="gameboy"]) .cb-lcd { border: 6px solid var(--cb-gameboy-pad); border-radius: 6px; }
+:host([data-scheme="gameboy"]) .cb-btn { border-radius: 999px; }
+:host([data-scheme="pipboy"]) .cb-radio { border-radius: 14px; border-width: 4px; border-color: var(--cb-pipboy-dim); }
+:host([data-scheme="pipboy"]) .cb-lcd { border-color: var(--cb-steel-2); }
+:host([data-scheme="cube"]) .cb-radio { border-radius: 2px; border-color: var(--cb-cube-side); }
+:host([data-scheme="cube"]) .cb-btn { border-radius: 2px; }
 
 /* EACH WORLD'S SHAPE. The colours above are what is measured; these are the
    corners, edges and borders that make each one itself, and none of them puts
@@ -236,7 +290,10 @@
 .cb-bar { flex-wrap: wrap; }
 .cb-bar .cb-btn, .cb-tp { white-space: nowrap; }
 .cb-bar .cb-btn { padding-left: 8px; padding-right: 8px; }
-.cb-brand { font-family: var(--cb-display, 'Bungee'), system-ui, sans-serif; font-size: calc(15px * var(--cb-display-scale, 1)); letter-spacing: var(--cb-display-track, .08em); text-transform: var(--cb-display-case, none); }
+/* The name on the bar takes the theme's face but never grows past 1.1 of its
+   size, because the bar is full: in Dig Dug Amp's chunky face at its heading
+   scale, Fold away wrapped onto a second line. */
+.cb-brand { font-family: var(--cb-display, 'Bungee'), system-ui, sans-serif; font-size: calc(15px * min(var(--cb-display-scale, 1), 1.1)); letter-spacing: var(--cb-display-track, .08em); text-transform: var(--cb-display-case, none); }
 /* The teleporter sits where the channel number did, dressed as the same piece
    of readout, and is a real 44px button. */
 .cb-tp {

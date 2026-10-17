@@ -3558,7 +3558,11 @@ itself, or after Let my theme move (`love-cb`'s `motion`), the candles' rule; `c
 lands**: a receive lamp is an alert with the sound off. **A side is drawn once, longer than the radio can be, and never because the radio grew**: a message arriving
 must not start a drawing again. The Mover keeps the radio that much further from the window's edge
 (`mover.margin`, measured off the sides), and below 460px the sides are left off. The friendly edits are a
-drawing behind the words (it goes in a trim, a side or a divider's groove) and a theme that flashes. **It never claims what it has not
+drawing behind the words (it goes in a trim, a side or a divider's groove) and a theme that flashes. **The Winamp skins** (Ryan, 2026-10-17) are a fourth group, each
+credited in `call.js` to whoever its own readme in the Winamp Skin Museum names, or saying it names nobody
+(an email address is not published); **no skin's bitmap and no game's character or mark is drawn**, and Kuki's
+readme asks that nothing of the Cube be republished. The radio's name never draws past 1.1 of its size in a
+theme's face, because the bar is full. **It never claims what it has not
 heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It
 also never counts: no people on the channel, no unread number.
