@@ -172,6 +172,15 @@
    "why": "live, or not out yet"
   },
   {
+   "id": "uRizbw49v7c",
+   "source": "acl",
+   "form": "long",
+   "title": "The Red Clay Strays - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-10-13T12:55:47Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
    "id": "RV_Xs3NbPiY",
    "source": "acl",
    "form": "long",
@@ -320,56 +329,6 @@
    "state": "screen",
    "runs": 30,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "kIMCg1_NFt4",
-   "source": "kexp",
-   "form": "long",
-   "title": "Witch Ripper - Full Performance (Live on KEXP)",
-   "published": "2026-09-16T15:00:29Z",
-   "state": "screen",
-   "runs": 2114,
-   "channel": "KEXP"
-  },
-  {
-   "id": "cZX5e4X6vnE",
-   "source": "kexp",
-   "form": "long",
-   "title": "Russian Blue - HANDS! (Live on KEXP)",
-   "published": "2026-09-17T11:00:21Z",
-   "state": "screen",
-   "runs": 320,
-   "channel": "KEXP"
-  },
-  {
-   "id": "Gaur2hJl3tY",
-   "source": "kexp",
-   "form": "long",
-   "title": "Russian Blue - This Is The Sound Of What Was (Live on KEXP)",
-   "published": "2026-09-17T11:00:23Z",
-   "state": "screen",
-   "runs": 282,
-   "channel": "KEXP"
-  },
-  {
-   "id": "LEVeLqgHmjs",
-   "source": "kexp",
-   "form": "long",
-   "title": "Russian Blue - Patience (Live on KEXP)",
-   "published": "2026-09-17T11:00:23Z",
-   "state": "screen",
-   "runs": 246,
-   "channel": "KEXP"
-  },
-  {
-   "id": "UWynhdpgd0Q",
-   "source": "kexp",
-   "form": "long",
-   "title": "Russian Blue - This Is (Your) Heaven (Live on KEXP)",
-   "published": "2026-09-17T11:00:34Z",
-   "state": "screen",
-   "runs": 353,
-   "channel": "KEXP"
   },
   {
    "id": "Y4X1PdBMUqM",
@@ -1452,13 +1411,13 @@
    "channel": "KEXP"
   },
   {
-   "id": "oAKvcs7VWwQ",
+   "id": "5imxCXRKHb4",
    "source": "kexp",
-   "form": "short",
-   "title": "Witch Ripper performs \"The Clock Queen\" & more Live on KEXP",
-   "published": "2026-09-16T17:56:14Z",
+   "form": "long",
+   "title": "Gillian Welch & David Rawlings - Full Performance (Live on KEXP)",
+   "published": "2026-10-16T15:00:33Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 2070,
    "channel": "KEXP"
   },
   {
@@ -1652,14 +1611,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "uolG8tOyQ-k",
-   "source": "kcrw",
-   "form": "long",
-   "title": "This Is Lorelei (Nate Amos) Explains His Career Using an iPod",
-   "published": "2026-09-16T17:00:16Z",
+   "id": "llZ9S_qy0PA",
+   "source": "kexp",
+   "form": "short",
+   "title": "Gillian Welch & David Rawlings perform \"Brown-Eyed Women\" and more Live on KEXP",
+   "published": "2026-10-16T17:05:18Z",
    "state": "screen",
-   "runs": 386,
-   "channel": "KCRW"
+   "runs": 60,
+   "channel": "KEXP"
   },
   {
    "id": "NzPCpOI0Ws8",
@@ -1817,13 +1776,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-16T11:29:05Z"
+     "2026-10-17T12:01:32Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-16T11:29:05Z"
+     "2026-10-17T12:01:32Z"
     ]
    ]
   },
@@ -1831,13 +1790,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-16T11:29:05Z"
+     "2026-10-17T12:01:32Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-16T11:29:05Z"
+     "2026-10-17T12:01:32Z"
     ]
    ]
   },
@@ -1845,16 +1804,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-16T11:29:05Z"
+     "2026-10-17T12:01:32Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-16T11:29:05Z"
+     "2026-10-17T12:01:32Z"
     ]
    ]
   }
  },
- "set": "2026-10-16T11:29Z"
+ "set": "2026-10-17T12:01Z"
 }
