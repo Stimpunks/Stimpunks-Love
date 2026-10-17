@@ -2302,6 +2302,7 @@
     ['\u{1F436}', 'dog'], ['\u{1F431}', 'cat'], ['\u{1F9A6}', 'otter'], ['\u{1F308}', 'rainbow'],
     ['\u{1F984}', 'unicorn'], ['\u{1F918}', 'sign of the horns'], ['\u{1F994}', 'hedgehog'],
     ['\u{1F917}', 'hugging face'], ['\u{1FAC2}', 'people hugging'], ['\u{1F622}', 'crying face'],
+    ['\u{1F4AF}', 'hundred points'],
   ];
   /* How to reach the system's own emoji picker, which a page cannot open: it
      types into the box under the quick row like any other keyboard. */

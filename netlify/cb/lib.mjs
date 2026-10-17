@@ -3272,7 +3272,8 @@ export function canTakeOff(who, m) {
    one "Be seen here" keeps, and a number beside a heart is exactly the
    friendly edit it refuses. shape() sends the handles and no count; the radio
    draws the handles. The set is the quick row, each with a name for the
-   button's label; Ryan added our community's usual ten the same evening.
+   button's label; Ryan added our community's usual ten the same evening,
+   and the hundred points on 2026-10-17.
 
    ANY OTHER EMOJI IS ALLOWED, AND ONLY AN EMOJI. A page cannot open the
    system's emoji picker, so the radio has a box the picker can type into, and
@@ -3287,6 +3288,7 @@ export const REACTIONS = [
   ['\u{1F436}', 'dog'], ['\u{1F431}', 'cat'], ['\u{1F9A6}', 'otter'], ['\u{1F308}', 'rainbow'],
   ['\u{1F984}', 'unicorn'], ['\u{1F918}', 'sign of the horns'], ['\u{1F994}', 'hedgehog'],
   ['\u{1F917}', 'hugging face'], ['\u{1FAC2}', 'people hugging'], ['\u{1F622}', 'crying face'],
+  ['\u{1F4AF}', 'hundred points'],
 ];
 export const REACT_KINDS = 24;
 const EMOJI_PARTS = /^[\p{Extended_Pictographic}\p{Emoji_Modifier}\p{Regional_Indicator}\u200D\uFE0F\u20E3#*0-9\u{E0020}-\u{E007F}]+$/u;
