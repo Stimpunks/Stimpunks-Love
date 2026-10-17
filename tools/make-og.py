@@ -1341,6 +1341,20 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--brewstew .og-lede {{ font-family: 'Livvic', sans-serif; color: var(--bns-text); font-size: 25px;
   line-height: 1.35; margin: 0; }}
 
+/* the bough house — THE TREE HOUSE beside the name, lifted off the page whole:
+   the trunk up through the floor and out of the roof, the limbs round the
+   walls, the autumn crown, the rope ladder and Ben on the platform, standing
+   on the sky with no frame, the way the room has it. */
+.og--bough {{ flex-direction: row; align-items: center; gap: 30px; padding: 30px 46px; }}
+.og--bough .og-words {{ flex: 0 0 470px; }}
+.og--bough .og-house {{ flex: 0 0 600px; line-height: 0; }}
+.og--bough .og-house svg {{ display: block; width: 100%; height: auto; }}
+.og--bough .bgh-over {{ font-size: 17px; margin: 0 0 8px !important; }}
+.og--bough h1 {{ font-size: 76px; line-height: 1.04; margin: 0 0 16px !important; }}
+.og--bough .og-lede {{ font-family: 'Overlock', sans-serif; color: var(--bgh-bark); font-size: 25px;
+  line-height: 1.38; margin: 0 0 16px; }}
+.og--bough .og-foot {{ font-family: 'Overlock', sans-serif; color: var(--bgh-bark-2); font-size: 18px; margin: 0; }}
+
 /* a quiet pint — THE PUB under the name, lifted off the page whole: the room
    from a seat at the south end, the windows at the top of the street wall,
    the mirrors and the patches of light they pass on, the carved columns, the
@@ -4749,6 +4763,34 @@ def card_brewstew(p):
     )
 
 
+def card_bough(p):
+    # THE TREE HOUSE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a
+    # house the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="bgh-house__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="bgh-over">(.*?)</p>', p["src"], re.S)
+    trail = re.search(r'<p class="bgh-trail">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and trail and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the-bough-house.html has lost the drawing of the tree house or\n"
+            "its header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--bough" data-fit="card">'
+        f'<div class="og-words"><p class="bgh-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">{trail.group(1)} &middot; stimpunks.world</p></div>'
+        f'<div class="og-house">{draw.group(1)}</div>'
+        f'</div>',
+        f"A pale autumn card. On the right, a tree house up in a grove: a trunk rising through the middle of "
+        f"a little house of silvered planks with a rust-red roof, two limbs curling round its walls, a gold "
+        f"window and a dark door, a rope ladder hanging down to fallen leaves, and a tiny black dog on the "
+        f"platform, under a crown of gold, rust, crimson and green leaves. On the left, small capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large brush lettering, then: "
+        f"{p['desc_plain']} Below it: {plain(trail.group(1))}, stimpunks.world.",
+    )
+
+
 def card_wooddoor(p):
     # THE DOOR AND THE NAME ARE LIFTED WHOLE, so the card cannot show a door the
     # page does not, and the lede is the page's og:description.
@@ -5212,6 +5254,7 @@ CARDS = {
     "cookin":       card_cookin,
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
+    "bough":        card_bough,
     "natures":      card_natures,
     "sanctuary":    card_sanctuary,
     "solarfarm":    card_solarfarm,

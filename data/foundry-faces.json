@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-14",
+ "_checked": "2026-10-17",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -2572,6 +2572,29 @@
     }
    ]
   },
+  "merienda": {
+   "family": "Merienda",
+   "category": "Handwriting",
+   "designer": "Eduardo Tunni",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/merienda",
+   "copyright": "Copyright 2017 The Merienda Project Authors (https://github.com/etunni/merienda)",
+   "repository": "https://github.com/etunni/merienda",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "merienda-400.woff2",
+     "sha": "07c73da1ba829a17"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "merienda-400.woff2",
+     "sha": "07c73da1ba829a17"
+    }
+   ]
+  },
   "merriweather": {
    "family": "Merriweather",
    "category": "Serif",
@@ -2896,6 +2919,35 @@
      "style": "normal",
      "file": "outfit-400.woff2",
      "sha": "92684e4acde79ef0"
+    }
+   ]
+  },
+  "overlock": {
+   "family": "Overlock",
+   "category": "Display",
+   "designer": "Dario Manuel Muhafara",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/overlock",
+   "copyright": "Copyright (c) 2011, Dario Manuel Muhafara (http://www.tipo.net.ar), with Reserved Font Name \"Overlock\".",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "overlock-400.woff2",
+     "sha": "b58823de25a07708"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "overlock-700.woff2",
+     "sha": "dd54ab049d21fbac"
+    },
+    {
+     "weight": "400",
+     "style": "italic",
+     "file": "overlock-400-italic.woff2",
+     "sha": "988fef84e859fee3"
     }
    ]
   },

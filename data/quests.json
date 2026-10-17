@@ -872,6 +872,42 @@
    }
   },
   {
+   "id": "bgh-acorn",
+   "page": "the-bough-house.html",
+   "room": "The Bough House",
+   "title": "What is the tree house built round?",
+   "posted": "There is a tree house up in a grove on the Campgrounds, next door to the Faery Yurt. Climb up, and come back with what the house was built round.",
+   "rank": 3,
+   "takes": "two minutes, and a song if you want one",
+   "target": "an acorn, dropped on the platform",
+   "code": "BOUGHS",
+   "learned": "The tree was there first, and the house was built round it: the trunk comes up through the floor and out through the roof, and two of its limbs curl round the walls and hold the house up.",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds first.",
+    "Pitch 05 on the board, next to the Faery Yurt.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "What is the Bough House built round?",
+    "accept": [
+     "tree",
+     "the tree",
+     "a tree",
+     "its tree",
+     "trunk",
+     "the trunk",
+     "a trunk"
+    ],
+    "answer": "The tree",
+    "why": "The tree: it was there first, so the trunk comes up through the floor and out of the roof, and two of its limbs curl round the walls.",
+    "hints": [
+     "It is in the first paragraph under the drawing.",
+     "Look at what comes up through the floor.",
+     "It was there before the house was."
+    ]
+   }
+  },
+  {
    "id": "ncx-stile",
    "page": "natures-contribution.html",
    "room": "Nature’s Contribution",

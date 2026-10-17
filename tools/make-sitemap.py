@@ -96,7 +96,9 @@ ORDER = ["index.html",
          # behind a fence with a gate into each, in the order they stand --
          # the Run, the Truck Stop between it and the Green, then the Pile.
          "the-run.html", "truckin-food-court.html", "the-green.html", "the-pile.html",
-         "campgrounds.html", "faery-yurt.html", "faery-reading-room.html", "faery-music-room.html", "swaying-sweetgrass.html",
+         "campgrounds.html", "faery-yurt.html", "faery-reading-room.html", "faery-music-room.html",
+         # Pitch 05, Jess's tree house, stands next to the Faery Yurt.
+         "the-bough-house.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
          "brew-and-stew.html",
          # Past the campgrounds and through its wood, the land the street

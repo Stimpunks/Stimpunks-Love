@@ -998,6 +998,19 @@ they are taken.** An open plot gets no drawing at all: what is pitched is what y
 here. Nothing in any of them moves at any setting, the yurt's own twinkling lights included —
 this is the field's picture of the tent and not the tent.
 
+**EVERY HOME ON THE CAMPGROUNDS NAMES ITS NEIGHBOURS, AND THE BOARD IS THE LIST.** Helen Edgar's ask,
+2026-10-17, with Jess's Bough House at pitch 05 (§117): `tools/make-neighbours.py` reads the campgrounds' board and
+writes, between `neighbours` markers in every pitch whose sign names a person rather than Stimpunks, a line linking
+every other such home by its name and whose it is. A new person's pitch on the board is a new name on every
+neighbour's line on the next run of `check-all.sh`; the tool refuses a home without the markers and markers on a page
+that is not one. **Do not keep the list by hand**, which is how somebody gets left off. It is a convention, so it is a
+plain paragraph in the room's own ink. **Between pitches 01, 05 and 03 is a pond** (`li.glade`, not a pitch, so the
+map, the card and this tool do not read it): swing seats, a pet playground and pebble paths to all three doors, every
+pitch staying where it stands, Helen's call. The Hermitage stays furthest from the street; moving it onto the bank is
+Ryan's call. **The Bough House is the only room up off the ground**: dark words on silvered planks against an autumn
+sky, so it is not one more brown warm room beside the yurt, and its sign's light on the board is the fifth, the last
+sun still on the top of the tree.
+
 **AND A PITCH CAN BE TAKEN WITH NOTHING BEHIND IT.** `.pitch--raising` is a solid post, a sign, a
 drawing and no link. A campground has that state and a website usually pretends it does not; the
 alternative was publishing a room before it was a room. The drawing of Helen's yurt is **ours and
@@ -4223,18 +4236,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §118 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §119 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§118 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§119 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §118 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §119 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

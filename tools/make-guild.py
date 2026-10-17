@@ -477,6 +477,10 @@ DRAW = {
     # floor line are --bns-text, 13.23, both over the body threshold a marker is
     # held to.
     "bns-spoon": """<path d="M3 29 H29" stroke="var(--bns-text)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="9" cy="22" rx="5.5" ry="3.6" fill="var(--bns-glow)" stroke="var(--bns-text)" stroke-width="1.2"/><path d="M13.6 20.6 L28 15" stroke="var(--bns-glow)" stroke-width="2.6" stroke-linecap="round"/>""",
+    # The Bough House's acorn, dropped on the platform: its nut is --bgh-rust,
+    # 5.54 on the autumn sky it lies against, and its cap, its stalk and the
+    # floor line are --bgh-bark, 11.91.
+    "bgh-acorn": """<path d="M3 29 H29" stroke="var(--bgh-bark)" stroke-width="1.6" stroke-linecap="round"/><path d="M10.5 18 Q10.5 27.5 16 27.5 Q21.5 27.5 21.5 18 Z" fill="var(--bgh-rust)" stroke="var(--bgh-bark)" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 18.4 Q9 12 16 12 Q23 12 23 18.4 Z" fill="var(--bgh-bark)"/><path d="M16 12 Q16.5 9 18.5 7.5" stroke="var(--bgh-bark)" stroke-width="1.6" fill="none" stroke-linecap="round"/>""",
     # The Run's blue ball, chewed, by the porch steps: its body is --run-link,
     # the Run's own blue, 5.15 on the grass, because the brighter ball blue is
     # 3.17 there and a marker is held to the body threshold; its outline and

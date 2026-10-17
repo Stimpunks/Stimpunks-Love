@@ -1579,6 +1579,19 @@
         "--bns-stone"
       ]
     },
+    "the-bough-house.html": {
+      "kind": "ifs",
+      "figure": "tree",
+      "sway": 0.07,
+      "ground": "--bgh-sky",
+      "inks": [
+        "--bgh-trunk",
+        "--bgh-rust",
+        "--bgh-gold",
+        "--bgh-crimson",
+        "--bgh-amber"
+      ]
+    },
     "the-run.html": {
       "kind": "julia",
       "c": [

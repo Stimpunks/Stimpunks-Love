@@ -137,6 +137,15 @@
    "then": "<details class=\"mus-rack\""
   },
   {
+   "page": "the-bough-house.html",
+   "what": "Jess’s tree house at pitch 05, up in an autumn grove, where one song plays on repeat.",
+   "holds": [
+    "One song, on repeat",
+    "until you stop it"
+   ],
+   "after": "<h2 id=\"bgh-song-h\">"
+  },
+  {
    "page": "swaying-sweetgrass.html",
    "what": "A meadow left alone, with a real fire burning in the pit in the clearing and Robin Wall Kimmerer in her own voice round it.",
    "holds": [

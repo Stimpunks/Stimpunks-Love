@@ -2959,5 +2959,49 @@
    "src": "https://fonts.gstatic.com/s/hostgrotesk/v5/co3BmWBnlCJ3U42vbbfdwMjZpFjmw07Arg.woff2",
    "note": "The bold of the 400 above, out of the same variable file."
   }
+ ],
+ "merienda": [
+  {
+   "file": "merienda-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 52056,
+   "src": "https://fonts.gstatic.com/s/merienda/v22/gNMHW3x8Qoy5_mf8uWMFMIqY_svh.woff2",
+   "note": "The Bough House (§117), Jess's tree house at pitch 05: its name and every heading, and nothing at reading size. Eduardo Tunni's lively brush script, the hand a name gets painted on a plank in. It ships as a variable font, so Google serves the same file for 400 and 700; it is downloaded once and declared twice against the weight axis, Radio Canada's call."
+  },
+  {
+   "file": "merienda-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 52056,
+   "src": "https://fonts.gstatic.com/s/merienda/v22/gNMHW3x8Qoy5_mf8uWMFMIqY_svh.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  }
+ ],
+ "overlock": [
+  {
+   "file": "overlock-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 11296,
+   "src": "https://fonts.gstatic.com/s/overlock/v19/Z9XVDmdMWRiN1_T9Z7TZ6OymlLGD.woff2",
+   "note": "The Bough House (§117), every word that is read. Dario Manuel Muhafara's rounded sans, soft at every corner like a branch worn smooth by hands. Static files: a regular, a bold and an italic."
+  },
+  {
+   "file": "overlock-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 11792,
+   "src": "https://fonts.gstatic.com/s/overlock/v19/Z9XSDmdMWRiN1_T9Z7xizfmLtryp9iLS.woff2",
+   "note": "The bold of the 400 above, for names and the words that carry the weight of a line."
+  },
+  {
+   "file": "overlock-400-italic.woff2",
+   "weight": "400",
+   "style": "italic",
+   "bytes": 11892,
+   "src": "https://fonts.gstatic.com/s/overlock/v19/Z9XTDmdMWRiN1_T9Z7Tc2O6sk5OB_Co.woff2",
+   "note": "The italic of the 400 above, for the song's title."
+  }
  ]
 }

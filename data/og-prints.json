@@ -60,8 +60,8 @@
   "png": "bae2b8c741dfdc0f044014f03f3175d29e7e6e3f6c68f09c0b3b07d6e6c08bee"
  },
  "campgrounds": {
-  "made_from": "50dac9338b91992b6f0f3f506f397dfd2ae63d03f1956aa8084ba5fd816b643a",
-  "png": "89ffb2861ae9581ebb57f335526821d58b32804866794ad88c137588cea2df21"
+  "made_from": "32efc3649399d061034c3dece6fa409b4f455cd0f44aeeaa1efd8b63d664ddef",
+  "png": "b7d52d42e571828ad8cb3dfe38b211caf321e3ce96dcd0d6ff91583add32092f"
  },
  "cavendish-campfire": {
   "made_from": "687ed457dfc529ad5de32376e3f62cd39519e396c8ca916453693be810f57c44",
@@ -374,6 +374,10 @@
  "swaying-sweetgrass": {
   "made_from": "40ca245de6346095c66cb864cfea1c5432f63b52fc8faa271e88f2c98d1a8845",
   "png": "667cc9ce36568cd76058ce185899ed69840af13ccb6dcdff08c80ff73aeebf7e"
+ },
+ "the-bough-house": {
+  "made_from": "304b67cf83e372416fb4f3519ecd828d1eaae49b90785fe34a54b99c4596eea8",
+  "png": "72477e44bef2a6630947095af269d4a5d48571b92652a26dadc5661b8715bad2"
  },
  "the-chappell": {
   "made_from": "b47f5c31cf6c4c6f50184baadeb54c136d28cee00b34e8365b7902a8a4781332",

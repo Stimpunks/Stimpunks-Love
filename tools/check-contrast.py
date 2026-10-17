@@ -72,6 +72,7 @@ TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
 # hermitage's flower heads; SCREEN is its one lit window, which is a laptop and
 # not a flame -- the structural opposite of the yurt's candle next to it.
 SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
+LINGER = "#F08A5D"   # the last sun on the top of the Bough House's tree, on its sign
 # The Solarpunk Hermitage (love.css §19), and THE FIRST ROOM ON THIS STREET
 # WHOSE TYPE IS DARK ON LIGHT ALL THE WAY DOWN. Which inverts the usual job of
 # this file: everywhere else the risk is an ink too dim against a dark ground,
@@ -744,6 +745,10 @@ BMB_CURTAIN, BMB_PLEAT, BMB_CHROME, BMB_LAMP = "#E98A45", "#CF6E2E", "#F5F2EC", 
 BMB_INK, BMB_INK2, BMB_LINK, BMB_LINK_ON = "#22160E", "#5B4032", "#8A2A00", "#3D1500"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
+# The Bough House (§117): Jess's tree house at pitch 05, dark words on the
+# autumn sky and on silvered planks.
+BGH_SKY, BGH_PLANK, BGH_BARK, BGH_BARK2 = "#F3E4CC", "#E2DCD0", "#33241B", "#5B4535"
+BGH_RUST, BGH_CRIMSON, BGH_GOLD, BGH_TRUNK = "#9C3A16", "#8A1F33", "#D9952B", "#4A3527"
 
 # Now Playing (love.css §53). One sheet screenprinted in two inks and pasted
 # round a column on the pavement. Every word on the sheet is --np-both, which is
@@ -1017,6 +1022,9 @@ PAIRS = [
     (SPRUCE, SUNFLOWER, False, "campgrounds: the dark disc inside each sunflower"),
     (SCREEN, DUSK,  False, "campgrounds: the hermitage's one lit window, which is a screen"),
     (SPRUCE, SCREEN, False, "campgrounds: the window's glazing bars, dark on that screen"),
+    (LINGER, DUSK,   False, "campgrounds: the last sun on the top of the tree and the ridge of the roof, on the Bough House's sign"),
+    (LINGER, SPRUCE, False, "campgrounds: the same, against the crown's own mass"),
+    (LINGER, BARK,   False, "campgrounds: the same where it runs along the roof"),
 
     # THE SOLARPUNK HERMITAGE (love.css §19). Outside first: daylight, where the
     # failure mode is a pale ink rather than a dim one.
@@ -3337,6 +3345,18 @@ PAIRS = [
     (FFD_GOLD,    FFD_PANEL,   False, "fantasy fancy dress: each rail's name, and the focus ring on a plate"),
     (FFD_GOLD,    FFD_GROUND,  False, "fantasy fancy dress: the focus ring on the dark"),
     (FFD_GROUND,  FFD_GOLD,    False, "fantasy fancy dress: a gold button's words"),
+    (BGH_BARK,    BGH_SKY,     False, "bough house: the name, the line under it, the lede, every heading on the sky"),
+    (BGH_BARK,    BGH_PLANK,   False, "bough house: every word on a plank -- whose it is, Ben, the song, the pebble path, the credits"),
+    (BGH_BARK2,   BGH_SKY,     False, "bough house: the trail and the line over the name"),
+    (BGH_BARK2,   BGH_PLANK,   False, "bough house: the song's credit and the fine print on a plank"),
+    (BGH_RUST,    BGH_SKY,     False, "bough house: the backlink, and a link on the sky"),
+    (BGH_RUST,    BGH_PLANK,   False, "bough house: every link on a plank, GROVE's among them"),
+    (BGH_CRIMSON, BGH_SKY,     False, "bough house: a link under the pointer, and the focus ring, on the sky"),
+    (BGH_CRIMSON, BGH_PLANK,   False, "bough house: the same on a plank"),
+    (BGH_PLANK,   BGH_BARK,    False, "bough house: the record's words, on its bark-dark plate"),
+    (BGH_GOLD,    BGH_BARK,    False, "bough house: PRESS PLAY on the record's plate"),
+    (BGH_PLANK,   BGH_TRUNK,   False, "bough house: the record's words under the pointer"),
+    (BGH_GOLD,    BGH_TRUNK,   False, "bough house: PRESS PLAY under the pointer"),
     (FFD_GROUND,  FFD_ROSE,    False, "fantasy fancy dress: the way back to the Dress-Up Den's words"),
     (FFD_GROUND,  FFD_INK,     False, "fantasy fancy dress: a button under the pointer"),
     (FFD_EDGE,    FFD_PANEL,   False, "fantasy fancy dress: the rim of a quiet button and of a print or colours list, on a plate (a control.s edge, held to the body threshold anyway)"),
@@ -4184,6 +4204,16 @@ ORNAMENT = {
     "#9a7cd0": "faery yurt: the moon stone's outline and the purple flowers pressed into "
                "Helen's moon spoon, 2026-10-16, 5.00 on the canvas and 4.03 on the sill's "
                "timber. Drawing only; it carries no word.",
+    "#d3cbbd": "bough house: the grain along every plank, the lower edge of a card and the far "
+               "trunks of the grove, 1.30 on the planks and 1.40 on the sky; it carries no word.",
+    "#d9952b": "bough house: the gold leaves, the low sun on the trunk's west side, the window "
+               "and the lit edge under every card, 2.03 on the sky; it carries no word there, "
+               "and where it does, PRESS PLAY on the record's plate, it is held as a pair above.",
+    "#c2631b": "bough house: the amber leaves and the shingle lines on the roof, 3.29 on the sky; "
+               "it carries no word.",
+    "#5e6b2e": "bough house: the last green leaves, 4.64 on the sky; it carries no word.",
+    "#1c1917": "bough house: Ben, a tiny black dog, 13.97 on the sky, edged in the planks' own "
+               "colour so he is not lost against the bark; he carries no word.",
     "#fff1dc": "fantasy fancy dress: the light at the back of the shop, 16.20 on the dark, "
                "seen only through the sheers in the drawing, and it carries no word: nothing in "
                "this room stands in the light.",
