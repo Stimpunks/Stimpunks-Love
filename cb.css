@@ -165,16 +165,42 @@
 }
 .cb-msg { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 8px; row-gap: 2px; }
 .cb-msg > .cb-head { grid-column: 1; grid-row: 1; }
-.cb-msg > .cb-text { grid-column: 1 / -1; grid-row: 2; }
-/* Copy, React and Take off (the base's on every message, everybody's on their
-   own) sit at the end of the name-and-time line rather than on a row of their
-   own under every message, which doubled the log's height. Still real
-   targets: 32px tall, over WCAG's 24. */
+.cb-msg > .cb-text { grid-column: 1 / -1; grid-row: 3; }
+/* React and More sit at the end of the name-and-time line rather than on a
+   row of their own under every message, which doubled the log's height. They
+   are two icons in one small amber-edged strip, the log's own amber on the
+   readout, so no pair is new: a smiley with a plus for React and three dots
+   for More (a proposal Ryan brought, 2026-10-17, because Copy, React and Take
+   off in words on every message was a lot to look at). Still real targets:
+   32px square, over WCAG's 24, with the radio's own focus ring. */
 .cb-msg > .cb-acts {
   grid-column: 2; grid-row: 1; align-self: center;
-  display: flex; gap: 6px;
+  display: flex; gap: 2px; padding: 1px;
+  background: var(--cb-lcd); border: 1px solid var(--cb-amber-2); border-radius: 6px;
 }
-.cb-acts > .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
+.cb-acts > .cb-ico {
+  min-height: 32px; min-width: 32px; padding: 0; display: inline-grid; place-items: center;
+  color: var(--cb-amber); background: var(--cb-lcd); border: 1px solid transparent; border-radius: 4px;
+}
+.cb-acts > .cb-ico:hover, .cb-acts > .cb-ico[aria-expanded="true"] { border-color: var(--cb-amber); }
+.cb-ico__art { width: 20px; height: 20px; display: block; }
+/* SHOWN WHERE THE HAND IS: the strip is there while the pointer is on its
+   message, while the keyboard is anywhere in the message, while its reactions
+   or More are open, and always where nothing can point, since a phone has no
+   pointer to bring it out. Hidden means see-through and nothing else: still in
+   the tab order, still named, still the same size, so nothing on the line
+   moves when it comes and goes. No fade, because nothing on the radio moves. */
+.cb-msg > .cb-acts { opacity: 0; }
+.cb-msg:hover > .cb-acts, .cb-msg:focus-within > .cb-acts,
+.cb-msg > .cb-acts:has([aria-expanded="true"]) { opacity: 1; }
+@media (hover: none), (pointer: coarse) { .cb-msg > .cb-acts { opacity: 1; } }
+/* MORE: Copy and Take off in a row straight under the line, at its right-hand
+   end, under the dots that opened it. */
+.cb-msg > .cb-more-menu {
+  grid-column: 1 / -1; grid-row: 2; justify-self: end;
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 4px;
+}
+.cb-more-menu > .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
 .cb-copy { color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2); }
 .cb-head { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
 .cb-handle { font-weight: 700; }
@@ -269,8 +295,8 @@ ol.cb-md-list { list-style: decimal; }
 /* REACTIONS: in the log's own amber on the readout, so nothing new is
    measured. Yours is filled, BASE's pair the other way round, and pressed
    shows in aria-pressed as well as the fill. No number anywhere. */
-.cb-msg > .cb-rx { grid-column: 1 / -1; grid-row: 4; display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
-.cb-msg > .cb-rx-pick { grid-column: 1 / -1; grid-row: 5; display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+.cb-msg > .cb-rx { grid-column: 1 / -1; grid-row: 5; display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
+.cb-msg > .cb-rx-pick { grid-column: 1 / -1; grid-row: 6; display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
 .cb-rx__one, .cb-rx__pick {
   font: inherit; font-size: 13px; line-height: 1.3; color: var(--cb-amber); background: var(--cb-lcd);
   border: 1px solid var(--cb-amber-2); border-radius: 999px; padding: 2px 9px; min-height: 28px; cursor: pointer;
@@ -283,7 +309,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-rx__olab { flex: 1 1 100%; font-size: 13px; }
 .cb-rx-pick .cb-rx__in { width: 6em; flex: none; font-size: 18px; padding: 3px 8px; }
 .cb-rx__go { font-size: 13px; }
-.cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; }
+.cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 4; margin: 4px 0 0; }
 /* A STICKER: the pet on its own room's ground, drawn by animals.js, with its
    words under it in the log's amber, so nothing new is measured here. */
 .cb-sticker__art { display: block; width: 120px; height: auto; border-radius: 4px; }
@@ -323,7 +349,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-stickers__art { display: block; width: 80px; height: auto; }
 .cb-pets__show { margin: 10px 0 0; }
 .cb-pets__show p { margin: 6px 0 0; font-size: 13px; line-height: 1.45; }
-.cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 3; margin: 4px 0 0; min-width: 0; max-width: 100%; }
+.cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 4; margin: 4px 0 0; min-width: 0; max-width: 100%; }
 .cb-picture-img { display: block; width: auto; max-width: 100%; max-height: 180px; height: auto; border: 1px solid var(--cb-amber-2); border-radius: 3px; background: var(--cb-lcd); }
 .cb-picture-open { display: block; max-width: 100%; padding: 0; margin: 0; border: 0; background: none; cursor: zoom-in; border-radius: 3px; }
 .cb-picture-under { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin: 4px 0 0; font-size: 13px; }
@@ -491,7 +517,7 @@ ol.cb-md-list { list-style: decimal; }
    back over whatever it was made small to get out of the way of. No heading
    and no part but the channel's readout. */
 .cb-radio--small .cb-sec:not(.cb-sec--channel), .cb-radio--small .cb-h, .cb-radio--small .cb-band,
-.cb-radio--small .cb-tx, .cb-radio--small .cb-acts { display: none; }
+.cb-radio--small .cb-tx, .cb-radio--small .cb-acts, .cb-radio--small .cb-more-menu { display: none; }
 .cb-radio--small .cb-sec--channel { padding-top: 0; border-top: 0; }
 .cb-radio--small .cb-set { padding: 8px; }
 .cb-radio--small .cb-lcd { padding: 6px 9px; }

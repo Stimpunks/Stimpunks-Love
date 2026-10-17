@@ -1643,26 +1643,18 @@
       added++;
       /* Drawn on the message's own name-and-time line by cb.css, but kept
          AFTER the words in the markup: the log is a live region, and a new
-         message is announced in markup order, so "Copy" or "Take off" first
-         would be read in front of every message. */
+         message is announced in markup order, so "React" or "More" first
+         would be read in front of every message. Two icons, a smiley for React
+         and three dots for More, which holds Copy and Take off (a proposal
+         Ryan brought, 2026-10-17: a row of words on every message was a lot to
+         look at). cb.css shows them while a message is pointed at or has the
+         keyboard in it, and always where nothing can point. */
       var acts = el('div', 'cb-acts');
-      if (m.text) acts.appendChild(this.copyBtn(m));
       acts.appendChild(this.reactBtn(m, li));
-      /* TAKE OFF is on every message for the base, and on your own for
-         everybody (Ryan, 2026-10-08). Which are yours is canTakeOff's rule in
-         lib.mjs, asked again by the server: this only decides where the button
-         is drawn. */
-      var yours = this.mine(m);
-      if (this.state.base || yours) {
-        var off = el('button', 'cb-btn cb-take', 'Take off');
-        off.type = 'button';
-        off.setAttribute('aria-label', yours
-          ? 'Take your message at ' + clock(m.t) + ' off the air'
-          : 'Take ' + m.handle + '’s message at ' + clock(m.t) + ' off the air');
-        (function (id, own) { off.addEventListener('click', function () { me.moderate({ remove: id }, own); }); })(m.id, yours);
-        acts.appendChild(off);
-      }
-      if (acts.children.length) li.appendChild(acts);
+      var more = this.moreFor(m, li);
+      if (more) acts.appendChild(more.btn);
+      li.appendChild(acts);
+      if (more) li.appendChild(more.box);
       this.log.appendChild(li);
       if (news && !(mine && m.handle === this.state.handle)) this.speak(li);
     }
@@ -1671,6 +1663,82 @@
     this.log.hidden = messages.length === 0;
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
   };
+
+  /* MORE, the three dots: Copy and Take off, folded under the message's line.
+     A disclosure and not an ARIA menu: a row of two ordinary buttons straight
+     under the line, ready from the start and hidden, so opening it adds
+     nothing to the log's live region, and the keyboard reaches them with Tab
+     like everything else on the radio. Escape folds it and puts the keyboard
+     back on the dots. A message with nothing in it to copy and nothing of
+     yours to take off has no dots at all. */
+  Radio.prototype.moreFor = function (m, li) {
+    var me = this, items = [];
+    if (m.text) items.push(this.copyBtn(m));
+    /* TAKE OFF is on every message for the base, and on your own for
+       everybody (Ryan, 2026-10-08). Which are yours is canTakeOff's rule in
+       lib.mjs, asked again by the server: this only decides where the button
+       is drawn. */
+    var yours = this.mine(m);
+    if (this.state.base || yours) {
+      var off = el('button', 'cb-btn cb-take', 'Take off');
+      off.type = 'button';
+      off.setAttribute('aria-label', yours
+        ? 'Take your message at ' + clock(m.t) + ' off the air'
+        : 'Take ' + m.handle + '\u2019s message at ' + clock(m.t) + ' off the air');
+      off.addEventListener('click', function () { me.moderate({ remove: m.id }, yours); });
+      items.push(off);
+    }
+    if (!items.length) return null;
+    var box = el('div', 'cb-more-menu');
+    box.id = 'cb-more-' + m.id;
+    box.hidden = true;
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-label', 'More for ' + m.handle + '\u2019s message');
+    box.setAttribute('aria-live', 'off');
+    items.forEach(function (x) { box.appendChild(x); });
+    var b = el('button', 'cb-btn cb-ico cb-more');
+    b.type = 'button';
+    b.appendChild(msgIcon('more'));
+    b.setAttribute('aria-expanded', 'false');
+    b.setAttribute('aria-controls', box.id);
+    b.setAttribute('aria-label', 'More for ' + m.handle + '\u2019s message at ' + clock(m.t) + ': ' +
+      (m.text ? 'Copy' : '') + (m.text && off ? ' and ' : '') + (off ? 'Take off' : ''));
+    function shut(back) {
+      box.hidden = true;
+      b.setAttribute('aria-expanded', 'false');
+      if (back) b.focus();
+    }
+    b.addEventListener('click', function () {
+      if (!box.hidden) { shut(); return; }
+      shutPick(li);
+      box.hidden = false;
+      b.setAttribute('aria-expanded', 'true');
+      box.querySelector('button').focus();
+    });
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); shut(true); }
+    });
+    b.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !box.hidden) { e.preventDefault(); shut(); }
+    });
+    return { btn: b, box: box };
+  };
+
+  /* One thing open under a message at a time: the reactions or More. */
+  function shutPick(li) {
+    var pick = li.querySelector(':scope > .cb-rx-pick');
+    if (!pick) return;
+    pick.remove();
+    var rb = li.querySelector(':scope > .cb-acts > .cb-react');
+    if (rb) rb.setAttribute('aria-expanded', 'false');
+  }
+  function shutMore(li) {
+    var box = li.querySelector(':scope > .cb-more-menu');
+    if (!box || box.hidden) return;
+    box.hidden = true;
+    var mb = li.querySelector(':scope > .cb-acts > .cb-more');
+    if (mb) mb.setAttribute('aria-expanded', 'false');
+  }
 
   /* COPY, on every message with words in it: the words as they were typed,
      Markdown and all, onto your own clipboard. The answer is on the button and
@@ -2356,13 +2424,15 @@
   /* React, on the message's own line: opens the set under the message. */
   Radio.prototype.reactBtn = function (m, li) {
     var me = this;
-    var b = el('button', 'cb-btn cb-react', 'React');
+    var b = el('button', 'cb-btn cb-ico cb-react');
     b.type = 'button';
+    b.appendChild(msgIcon('react'));
     b.setAttribute('aria-expanded', 'false');
     b.setAttribute('aria-label', 'React to ' + m.handle + '\u2019s message at ' + clock(m.t));
     b.addEventListener('click', function () {
       var open = li.querySelector(':scope > .cb-rx-pick');
       if (open) { open.remove(); b.setAttribute('aria-expanded', 'false'); return; }
+      shutMore(li);
       var pick = el('div', 'cb-rx-pick');
       pick.setAttribute('role', 'group');
       pick.setAttribute('aria-label', 'Reactions');
@@ -2447,6 +2517,34 @@
       }, function () { guildWait = null; return null; });
     }
     guildWait.then(function (g) { then(g); });
+  }
+
+  /* A MESSAGE'S TWO ICONS, drawn in currentColor so each takes its button's
+     amber: React is a face with a plus by it, Discord's mark for adding a
+     reaction, and More is three dots in a row. aria-hidden, because each
+     button carries its name in words. */
+  function msgIcon(kind) {
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', 'cb-ico__art');
+    function add(tag, at) {
+      var e = document.createElementNS(SVGNS, tag);
+      for (var k in at) e.setAttribute(k, at[k]);
+      svg.appendChild(e);
+    }
+    if (kind === 'react') {
+      var line = { fill: 'none', stroke: 'currentColor', 'stroke-width': '1.8', 'stroke-linecap': 'round' };
+      add('circle', Object.assign({ cx: '9', cy: '11', r: '6.5' }, line));
+      add('circle', { cx: '6.6', cy: '9.4', r: '1.1', fill: 'currentColor' });
+      add('circle', { cx: '11.4', cy: '9.4', r: '1.1', fill: 'currentColor' });
+      add('path', Object.assign({ d: 'M5.9 12.5a3.5 3.5 0 0 0 6.2 0' }, line));
+      add('path', Object.assign({ d: 'M16.5 1.2v5M14 3.7h5' }, line));
+    } else {
+      [4, 10, 16].forEach(function (x) { add('circle', { cx: String(x), cy: '10', r: '1.9', fill: 'currentColor' }); });
+    }
+    return svg;
   }
 
   /* A badge's drawing, built path by path from the list: never from markup,
