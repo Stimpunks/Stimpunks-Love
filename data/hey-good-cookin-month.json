@@ -146,16 +146,6 @@
  ],
  "log": [
   {
-   "id": "iX-ygvKYdbs",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "Everything You Need To Know About Tofu | America's Test Kitchen",
-   "published": "2026-09-16T15:59:48Z",
-   "state": "screen",
-   "runs": 230,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "01Y-LiyqPXc",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -293,6 +283,16 @@
    "published": "2026-10-14T12:59:58Z",
    "state": "screen",
    "runs": 698,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "GdgtZhXOWxU",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "The Ultimate Guide to Japanese Rice | America's Test Kitchen",
+   "published": "2026-10-16T15:59:46Z",
+   "state": "screen",
+   "runs": 243,
    "channel": "America's Test Kitchen"
   },
   {
@@ -616,16 +616,6 @@
    "channel": "Binging with Babish"
   },
   {
-   "id": "NBs_XXkaeC8",
-   "source": "epicurious",
-   "form": "long",
-   "title": "Pro Chefs Blind Taste Test Every Frozen Fried Rice | The Taste Panel | Epicurious",
-   "published": "2026-09-16T16:00:06Z",
-   "state": "screen",
-   "runs": 1560,
-   "channel": "Epicurious"
-  },
-  {
    "id": "OiILm2pXmqc",
    "source": "epicurious",
    "form": "long",
@@ -786,16 +776,6 @@
    "channel": "Epicurious"
   },
   {
-   "id": "1vejw0bWwac",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "We Put 8 Vegetarian Sandwiches Head-to-Head | The Veggie | NYT Cooking",
-   "published": "2026-09-16T16:00:19Z",
-   "state": "screen",
-   "runs": 1509,
-   "channel": "NYT Cooking"
-  },
-  {
    "id": "8Q1DKd_2X1U",
    "source": "nyt-cooking",
    "form": "long",
@@ -889,7 +869,7 @@
    "id": "UQKh9o53AL0",
    "source": "nyt-cooking",
    "form": "long",
-   "title": "Turn Cauliflower Into a Delicious, Cheesy Pasta | Hetty Lui McKinnon | NYT Cooking",
+   "title": "The Secret to This Cheesy, Silky Pasta Is Cauliflower | Hetty Lui McKinnon | NYT Cooking",
    "published": "2026-10-08T18:00:07Z",
    "state": "screen",
    "runs": 500,
@@ -1044,16 +1024,6 @@
    "state": "screen",
    "runs": 123,
    "channel": "Iron Chef Dad"
-  },
-  {
-   "id": "qcWPVd_2Irs",
-   "source": "andy-cooks",
-   "form": "long",
-   "title": "What It Takes to Feed an NFL Team",
-   "published": "2026-09-17T07:00:29Z",
-   "state": "screen",
-   "runs": 1485,
-   "channel": "Andy Cooks"
   },
   {
    "id": "m2zB9QBki1k",
@@ -1276,6 +1246,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "6zP-vODViTs",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Less fat = better pancakes 🥞",
+   "published": "2026-10-17T10:00:18Z",
+   "state": "screen",
+   "runs": 46,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "wwYBvBvoiI8",
    "source": "back-of-house",
    "form": "long",
@@ -1343,6 +1323,16 @@
    "published": "2026-10-11T17:00:10Z",
    "state": "screen",
    "runs": 759,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "KIWBR2i7Y5I",
+   "source": "the-pasta-queen",
+   "form": "long",
+   "title": "Do Americans Really Know Italy? Let’s Find Out",
+   "published": "2026-10-16T19:00:08Z",
+   "state": "screen",
+   "runs": 688,
    "channel": "The Pasta Queen"
   },
   {
@@ -1856,6 +1846,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "kkMoZ77vf1U",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Regulars Keep Coming Back for This 62-Year-Old Chef’s Baked Curry in Japan",
+   "published": "2026-10-16T22:00:39Z",
+   "state": "screen",
+   "runs": 1286,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "gvVAwc7xozg",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -1884,16 +1884,6 @@
    "state": "screen",
    "runs": 51,
    "channel": "JapaneseCooking101"
-  },
-  {
-   "id": "3L0Pgh4Io3Q",
-   "source": "japanese-kitchen-tour",
-   "form": "long",
-   "title": "A Day in the Life of Japan's Tiny Beachside Burger Shop ─ Run by a Former Ramen Master and His Wife",
-   "published": "2026-09-17T09:09:43Z",
-   "state": "screen",
-   "runs": 1238,
-   "channel": "Japanese Kitchen Tour"
   },
   {
    "id": "_kETpB5Mzco",
@@ -1973,16 +1963,6 @@
    "published": "2026-10-16T09:49:43Z",
    "state": "screen",
    "runs": 1708,
-   "channel": "Japanese Food Craftsman"
-  },
-  {
-   "id": "jBHOdk4YoZQ",
-   "source": "japanese-food-craftsman",
-   "form": "short",
-   "title": "創業65年、廃業寸前を27歳が救う！",
-   "published": "2026-09-17T09:00:27Z",
-   "state": "screen",
-   "runs": 42,
    "channel": "Japanese Food Craftsman"
   },
   {
@@ -2226,6 +2206,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "x9ug61Jn7CQ",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "Why Pineapple Buns Don't Contain Pineapple",
+   "published": "2026-10-16T16:00:08Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "J-lEHpqcOO8",
    "source": "insider-food",
    "form": "long",
@@ -2234,16 +2224,6 @@
    "state": "screen",
    "runs": 885,
    "channel": "Insider Food"
-  },
-  {
-   "id": "x4ecsmjZo-w",
-   "source": "fallow",
-   "form": "long",
-   "title": "Probably the Best Chicken Dish in the World",
-   "published": "2026-09-16T17:00:12Z",
-   "state": "screen",
-   "runs": 975,
-   "channel": "Fallow"
   },
   {
    "id": "nNO50oMLYHk",
@@ -2456,6 +2436,16 @@
    "channel": "Fallow"
   },
   {
+   "id": "uUWde0_hCsU",
+   "source": "fallow",
+   "form": "short",
+   "title": "We Made the Ultimate Roast Chicken",
+   "published": "2026-10-16T22:07:21Z",
+   "state": "screen",
+   "runs": 122,
+   "channel": "Fallow"
+  },
+  {
    "id": "PgFjH1Qf12w",
    "source": "guga",
    "form": "long",
@@ -2496,6 +2486,16 @@
    "channel": "Guga"
   },
   {
+   "id": "yVAptV1Oncs",
+   "source": "guga",
+   "form": "long",
+   "title": "I Found a CHEAT CODE for Expensive Restaurants!",
+   "published": "2026-10-16T15:15:04Z",
+   "state": "screen",
+   "runs": 1076,
+   "channel": "Guga"
+  },
+  {
    "id": "I3W9x3V1qNQ",
    "source": "guga",
    "form": "short",
@@ -2523,16 +2523,6 @@
    "published": "2026-10-11T14:00:39Z",
    "state": "screen",
    "runs": 1108,
-   "channel": "mrnigelng"
-  },
-  {
-   "id": "SIeIUpdqfqE",
-   "source": "mrnigelng",
-   "form": "short",
-   "title": "book tour announcement with unimpressed baby",
-   "published": "2026-09-17T00:18:59Z",
-   "state": "screen",
-   "runs": 40,
    "channel": "mrnigelng"
   },
   {
@@ -2574,16 +2564,6 @@
    "state": "screen",
    "runs": 145,
    "channel": "mrnigelng"
-  },
-  {
-   "id": "fqI2FOun0RI",
-   "source": "eater",
-   "form": "long",
-   "title": "The McDonald's-Inspired Breakfast Sandwich That Took Over Philly — Most-Ordered",
-   "published": "2026-09-16T14:00:02Z",
-   "state": "screen",
-   "runs": 834,
-   "channel": "Eater"
   },
   {
    "id": "QzOmSGgUOiM",
@@ -2871,13 +2851,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2885,13 +2865,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2899,13 +2879,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2913,13 +2893,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2927,13 +2907,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2941,13 +2921,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2955,13 +2935,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2969,13 +2949,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2983,13 +2963,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -2997,13 +2977,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3011,13 +2991,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3025,13 +3005,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3039,13 +3019,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3053,13 +3033,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3067,13 +3047,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3081,13 +3061,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3095,13 +3075,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3109,13 +3089,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3123,13 +3103,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3137,13 +3117,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3151,13 +3131,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3165,13 +3145,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   },
@@ -3179,16 +3159,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-16T11:23:34Z"
+     "2026-10-17T11:55:59Z"
     ]
    ]
   }
  },
- "set": "2026-10-16T11:23Z"
+ "set": "2026-10-17T11:55Z"
 }
