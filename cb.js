@@ -671,6 +671,14 @@
     fold.setAttribute('aria-controls', 'cb-set');
     bar.appendChild(fold);
     box.appendChild(bar);
+    /* THE TRIMS: a band under the bar and one at the foot, where a theme with a
+       drawing draws it (cb-themes.js). Empty and hidden for every other theme,
+       aria-hidden always, and drawn again whenever their width changes, which
+       is also when the radio unfolds or comes back from Small. See drawArt. */
+    var trimTop = this.trimTop = el('div', 'cb-trim cb-trim--top');
+    var trimFoot = this.trimFoot = el('div', 'cb-trim cb-trim--foot');
+    [trimTop, trimFoot].forEach(function (t) { t.hidden = true; t.setAttribute('aria-hidden', 'true'); });
+    box.appendChild(trimTop);
 
     var tpp = this.tpPanel = el('div', 'cb-tp-panel');
     tpp.id = 'cb-tp-panel';
@@ -1050,7 +1058,7 @@
        the radio is no busier than it was; every choice shows a swatch of
        itself, and pressing one puts it on at once. call.js decides what each
        means and puts it on the hosts; see setScheme. */
-    var schemeBtn = this.schemeBtn = el('button', 'cb-btn cb-scheme-btn', 'Colours');
+    var schemeBtn = this.schemeBtn = el('button', 'cb-btn cb-scheme-btn', 'Themes');
     schemeBtn.type = 'button';
     schemeBtn.setAttribute('aria-expanded', 'false');
     schemeBtn.setAttribute('aria-controls', 'cb-scheme-panel');
@@ -1069,9 +1077,17 @@
     scp.id = 'cb-scheme-panel';
     scp.hidden = true;
     scp.setAttribute('role', 'group');
-    scp.setAttribute('aria-label', 'Colours for your radio');
+    scp.setAttribute('aria-label', 'Themes for your radio');
     this.schemeChoices = {};
-    var lc = window.loveCall;
+    var lc = window.loveCall, rows = {};
+    /* In three groups, each under its own heading: the everyday ones, the
+       radio faceplates, and the worlds, which Ryan asked for on 2026-10-17 and
+       which have nothing to do with radios. */
+    [['every', 'Everyday'], ['radio', 'Radio faceplates'], ['world', 'Worlds, with drawings']].forEach(function (g) {
+      scp.appendChild(el('h3', 'cb-h3', g[1]));
+      rows[g[0]] = el('div', 'cb-scheme-row');
+      scp.appendChild(rows[g[0]]);
+    });
     ((lc && lc.schemes) || []).forEach(function (x) {
       var b = el('button', 'cb-btn cb-scheme-choice');
       b.type = 'button';
@@ -1081,9 +1097,17 @@
       b.appendChild(sw);
       b.appendChild(el('span', 'cb-scheme-name', x[1]));
       b.addEventListener('click', function () { me.setScheme(x[0]); });
-      me.schemeChoices[x[0]] = { button: b, swatch: sw, name: x[1] };
-      scp.appendChild(b);
+      me.schemeChoices[x[0]] = { button: b, swatch: sw, name: x[1], about: x[3] || '', art: !!x[4], moves: x[4] === 'moves' };
+      (rows[x[2]] || rows.every).appendChild(b);
     });
+    /* LET MY THEME MOVE: a theme's drawing moves at MAX GLITTER by itself, and
+       at any other setting once this is on, which is the asking (the candles'
+       rule). Remembered in love-cb as motion. */
+    var mv = this.motionBtn = el('button', 'cb-btn cb-motion');
+    mv.type = 'button';
+    mv.addEventListener('click', function () { me.setMotion(!me.state.motion); });
+    scp.appendChild(mv);
+    scp.appendChild(el('p', 'cb-hint', 'A theme with a drawing moves by itself at MAX GLITTER and stands still at the other settings unless you let it move. Nothing in any of them flashes, and nothing moves when a message arrives.'));
     scp.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') { e.preventDefault(); me.setSchemePanel(false); me.schemeBtn.focus(); }
     });
@@ -1223,6 +1247,8 @@
     yourSec.appendChild(norms);
 
     box.appendChild(set);
+    box.appendChild(trimFoot);
+    if (window.ResizeObserver) new ResizeObserver(function () { me.drawArt(); }).observe(trimTop);
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
     size.addEventListener('click', function () { me.setSizePanel(me.sizePanel.hidden); });
@@ -1304,7 +1330,7 @@
     sheet.rel = 'stylesheet';
     sheet.href = '/cb.css';
     host.style.visibility = 'hidden';
-    function shown() { host.style.visibility = ''; me.place(); }
+    function shown() { host.style.visibility = ''; me.place(); me.drawArt(); }
     sheet.addEventListener('load', shown);
     sheet.addEventListener('error', shown);
     root.appendChild(sheet);
@@ -1542,12 +1568,67 @@
     if (!quiet) save(this.state);
     lc.redress(choice);
     this.schemeShown();
+    this.drawArt();
     if (!quiet) {
-      var now = lc.schemeFor(choice), c = this.schemeChoices;
+      var now = lc.schemeFor(choice), c = this.schemeChoices, x = c[choice];
       this.tell(choice === 'auto'
         ? 'Your radio matches your device now, which means ' + c[now].name + '. It changes when your device does.'
-        : 'Your radio is in ' + c[choice].name + ' now, and the call window with it. It stays that way on every page.');
+        : 'Your radio is in ' + x.name + ' now, and the call window with it' + (x.about ? ', after ' + x.about : '') + '.' +
+          (x.moves && this.motionOff() ? ' Its drawing moves at MAX GLITTER, or when you let it move.' : ''));
     }
+  };
+
+  // Whether a theme's drawing stands still here: not at MAX GLITTER, and not let move.
+  Radio.prototype.motionOff = function () {
+    return !this.state.motion && document.documentElement.getAttribute('data-intensity') !== 'max';
+  };
+
+  Radio.prototype.setMotion = function (on, quiet) {
+    this.state.motion = !!on;
+    if (!quiet) save(this.state);
+    if (window.loveCall && window.loveCall.redress) window.loveCall.redress();
+    this.schemeShown();
+    if (!quiet) this.tell(on
+      ? 'Your theme\u2019s drawing moves now, at every setting of the dial. Nothing in it flashes.'
+      : 'Your theme\u2019s drawing stands still now, except at MAX GLITTER.');
+  };
+
+  /* THE DRAWING, for a theme that has one: cb-themes.js is fetched the first
+     time one is on, and draws into the two trims at the width they have now.
+     A trim with no width, folded or Small, waits: the ResizeObserver on it
+     calls this again when it shows. Every other theme empties and hides them. */
+  var artWait = null;
+  function withArt(then) {
+    if (window.loveCbArt) { then(); return; }
+    if (!artWait) {
+      artWait = [];
+      var s = document.createElement('script');
+      s.src = '/cb-themes.js';
+      s.addEventListener('load', function () { var w = artWait; artWait = null; w.forEach(function (f) { f(); }); });
+      document.head.appendChild(s);
+    }
+    artWait.push(then);
+  }
+  Radio.prototype.drawArt = function () {
+    var me = this, lc = window.loveCall, top = this.trimTop, foot = this.trimFoot;
+    if (!top || !lc || !lc.schemeFor) return;
+    var look = lc.schemeFor(this.state.scheme), c = this.schemeChoices;
+    if (!c || !c[look] || !c[look].art) {
+      top.hidden = foot.hidden = true;
+      top.textContent = foot.textContent = '';
+      this.artKey = null;
+      return;
+    }
+    withArt(function () {
+      top.hidden = false;
+      var w = top.clientWidth, key = look + '|' + w;
+      if (!w || key === me.artKey) return;
+      me.artKey = key;
+      foot.hidden = false;
+      var used = window.loveCbArt.draw(look, top, foot);
+      top.hidden = !used.top;
+      foot.hidden = !used.foot;
+    });
   };
 
   // Which choice is pressed, and each swatch drawn in the colours it stands for.
@@ -1563,6 +1644,10 @@
       c[k].button.setAttribute('aria-pressed', String(k === mine));
     });
     if (c.auto) c.auto.button.lastChild.textContent = 'Match my device (' + c[lc.schemeFor('auto')].name + ')';
+    if (this.motionBtn) {
+      this.motionBtn.setAttribute('aria-pressed', String(!!this.state.motion));
+      this.motionBtn.textContent = 'Let my theme move: ' + (this.state.motion ? 'on' : 'off');
+    }
   };
 
   Radio.prototype.setSchemePanel = function (open) {

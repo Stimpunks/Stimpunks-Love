@@ -146,11 +146,40 @@
      Daylight where it is set light, and Amber otherwise, followed as the
      device changes. guest.js keeps a copy of schemeFor('auto') for the guest
      bar, which never loads this file: change both. */
+  /* Each is [key, name, group, what it is after, its drawing: 'moves' for one
+     that moves at MAX GLITTER or when let, 'still' for one that never does].
+     The worlds are Ryan's list of 2026-10-17, for "a really personal and fun
+     experience": each says what it is after, so the credit is on the radio's
+     own line when it is chosen, and cb-themes.js draws the ones with a
+     drawing into the radio's trim. */
   var SCHEMES = [
-    ['auto', 'Match my device'], ['amber', 'Amber'], ['day', 'Daylight'], ['high', 'High contrast'],
-    ['green', 'Green screen'], ['red', 'Red readout'], ['teal', 'Teal glow']
+    ['auto', 'Match my device', 'every'], ['amber', 'Amber', 'every'], ['day', 'Daylight', 'every'],
+    ['high', 'High contrast', 'every'],
+    ['soldark', 'Solarized dark', 'every', 'Ethan Schoonover\u2019s Solarized palette, with a darker bar so every word clears 4.5 to 1', 'still'],
+    ['sollight', 'Solarized light', 'every', 'Ethan Schoonover\u2019s Solarized palette, its accents darkened for words so they clear 4.5 to 1', 'still'],
+    ['green', 'Green screen', 'radio'], ['red', 'Red readout', 'radio'], ['teal', 'Teal glow', 'radio'],
+    ['biophilic', 'Biophilic', 'world', 'queering.earth\u2019s paper, moss and rust, with ivy and mushrooms growing after Helen Edgar\u2019s garden in the Faery Yurt', 'moves'],
+    ['starstuff', 'Star Stuff', 'world', 'starstuff.earth, our sister site, and its night', 'moves'],
+    ['lcars', 'LCARS', 'world', 'the computer screens of Star Trek: The Next Generation, designed by Michael Okuda. Star Trek is a trade mark of CBS Studios', 'moves'],
+    ['glitter', 'Max Glitter', 'world', 'the street\u2019s own colours, every one at once, with sparkles', 'moves'],
+    ['solarpunk', 'Solarpunk', 'world', 'art nouveau\u2019s vines grown round sunflowers and a solar panel', 'moves'],
+    ['biomech', 'Biomechanical', 'world', 'H. R. Giger\u2019s biomechanics: bone and tube grown together, drawn here and copied from nothing of his', 'moves'],
+    ['greeble', 'Greeble', 'world', 'the greebles, small parts glued onto models, that made the spaceships of Star Wars look built. Star Wars is a trade mark of Lucasfilm', 'moves'],
+    ['cyborg', 'Crip Cyborg', 'world', 'disabled people who live with their tech: a CPAP hose, an oxygen line, oxygen on a rack, a PEG tube and its port, and a prosthetic leg', 'moves'],
+    ['unicorn', 'Unicorn Poop', 'world', 'as much rainbow as will fit, and gradients for no reason', 'moves'],
+    ['wabi', 'Wabi-sabi', 'world', 'what is stained, weathered and mended: a tea ring, a brush stroke, and a crack mended in gold. Nothing in it moves', 'still']
   ];
   function known(k) { return SCHEMES.some(function (x) { return x[0] === k && k !== 'auto'; }); }
+  /* A THEME'S DRAWING MOVES at MAX GLITTER by itself, and at any other setting
+     once somebody has pressed Let my theme move, the candles' rule behind the
+     door marked E: the dial decides what moves unasked, and a press is an
+     ask. It is data-motion on the host, which cb.css reads, and it follows the
+     dial as it turns. Nothing on the radio moves when a message lands. */
+  function dial() { return document.documentElement.getAttribute('data-intensity') || 'regular'; }
+  function letMove() {
+    try { var v = JSON.parse(localStorage.getItem('love-cb') || 'null'); return !!(v && v.motion); }
+    catch (e) { return false; }
+  }
   function media(q) { try { return window.matchMedia(q).matches; } catch (e) { return false; } }
   function schemeFor(choice) {
     if (known(choice)) return choice;
@@ -165,6 +194,7 @@
     host.cbScheme = choice || 'auto';
     if (dressed.indexOf(host) < 0) dressed.push(host);
     host.setAttribute('data-scheme', schemeFor(host.cbScheme));
+    host.setAttribute('data-motion', dial() === 'max' || letMove() ? 'on' : 'off');
   }
   function redress(choice) {
     dressed = dressed.filter(function (h) { return h.isConnected; });
@@ -173,6 +203,10 @@
   ['(prefers-contrast: more)', '(prefers-color-scheme: light)'].forEach(function (q) {
     try { window.matchMedia(q).addEventListener('change', function () { redress(); }); } catch (e) { /* an old browser keeps the scheme it opened with */ }
   });
+  try {
+    new MutationObserver(function () { redress(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-intensity'] });
+  } catch (e) { /* the drawing keeps the motion it opened with */ }
 
   /* how.whole: this is the call's own window, so the call fills it, and
      there is nothing to move or size (the window itself is moved and sized).

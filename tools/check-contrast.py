@@ -109,6 +109,30 @@ CB_SCHEMES = {
                           lcd="#160404", amber="#FF7468", amber2="#E8877D"),
     "Teal glow":     dict(case="#0E1A24", bar="#1C2A36", steel="#DCE6EE", steel2="#A2B3C2",
                           lcd="#03100F", amber="#4FF0D2", amber2="#3FC7AE"),
+    "Solarized dark": dict(case="#002B36", bar="#001F27", steel="#EEE8D5", steel2="#93A1A1",
+                          lcd="#00212B", amber="#B58900", amber2="#2AA198"),
+    "Solarized light":dict(case="#FDF6E3", bar="#EEE8D5", steel="#073642", steel2="#586E75",
+                          lcd="#FFFBEF", amber="#8A5A00", amber2="#1F6E66"),
+    "Biophilic":      dict(case="#F5EFE2", bar="#ECE1CD", steel="#241F1A", steel2="#37502F",
+                          lcd="#FBF7ED", amber="#8A3520", amber2="#3C5A33"),
+    "Star Stuff":     dict(case="#0F0F1C", bar="#17172B", steel="#F4F2FB", steel2="#B8AED0",
+                          lcd="#0A0A14", amber="#A78BFA", amber2="#C4B5D4"),
+    "LCARS":          dict(case="#000000", bar="#000000", steel="#FFCC99", steel2="#CC99CC",
+                          lcd="#000000", amber="#FF9900", amber2="#9999FF"),
+    "Max Glitter":    dict(case="#15121F", bar="#241D33", steel="#FFF3E6", steel2="#C8BFE0",
+                          lcd="#0E0520", amber="#FF5CB0", amber2="#3DE0FF"),
+    "Solarpunk":      dict(case="#F7F1DA", bar="#E8DEB5", steel="#1F2E1A", steel2="#46582B",
+                          lcd="#FFFBEA", amber="#7A4E00", amber2="#2F5D2A"),
+    "Biomechanical":  dict(case="#0E100F", bar="#1A1E1C", steel="#CDD5CC", steel2="#909C92",
+                          lcd="#070908", amber="#B7CDBE", amber2="#8FA394"),
+    "Greeble":        dict(case="#A3A9AE", bar="#959CA2", steel="#0E1012", steel2="#24292D",
+                          lcd="#C9CDD1", amber="#5A0E0E", amber2="#2E3439"),
+    "Crip Cyborg":    dict(case="#0F232A", bar="#18333C", steel="#E8F3F2", steel2="#A9C5C4",
+                          lcd="#06151A", amber="#7CF0C8", amber2="#F2C14E"),
+    "Unicorn Poop":   dict(case="#FFF5FB", bar="#FBE2F1", steel="#3A1747", steel2="#6A3D7A",
+                          lcd="#FFFFFF", amber="#8E1B6E", amber2="#5B3D8F"),
+    "Wabi-sabi":      dict(case="#E9E2D3", bar="#D9CEB7", steel="#2B2622", steel2="#5A5047",
+                          lcd="#F3EEE3", amber="#7A3A1A", amber2="#5A5047"),
 }
 CB_HIGH = "High contrast"
 # What each part carries, as the amber set's pairs below say it.
@@ -4739,6 +4763,64 @@ ORNAMENT = {
                "street and its type carries all of it -- bone at 14.7, moss at 7.3. The "
                "post is structure you feel rather than read.",
 }
+
+# THE CB THEMES' DRAWINGS (2026-10-17). Each ink below is only ever a drawing in
+# the radio's trim, under its bar or at its foot, aria-hidden and carrying no
+# word, so it is ornament; its measurement on its own theme's case is worked
+# out here rather than typed, so a changed case cannot leave a stale number.
+# Max Glitter's drawings are the street's own palette, measured above.
+CB_ORNAMENT = [
+    ("Solarized dark", "#B58900", "the yellow in Solarized's stripe of accents (and its readout ink)"),
+    ("Solarized dark", "#CB4B16", "the orange in Solarized's stripe"),
+    ("Solarized dark", "#DC322F", "the red in Solarized's stripe"),
+    ("Solarized dark", "#D33682", "the magenta in Solarized's stripe"),
+    ("Solarized dark", "#6C71C4", "the violet in Solarized's stripe"),
+    ("Solarized dark", "#268BD2", "the blue in Solarized's stripe"),
+    ("Solarized dark", "#2AA198", "the cyan in Solarized's stripe (and its quiet ink)"),
+    ("Solarized dark", "#859900", "the green in Solarized's stripe"),
+    ("Biophilic", "#9CAA86", "the lichen under the mushrooms and on the paler ivy leaves"),
+    ("Biophilic", "#4E8C7A", "verdigris ivy leaves"),
+    ("Biophilic", "#C9922E", "a marigold mushroom cap"),
+    ("Biophilic", "#C4553C", "a coral mushroom cap, the yurt's toadstool after queering.earth's coral"),
+    ("Star Stuff", "#FBBF24", "a gold star and the planet's ring"),
+    ("Star Stuff", "#F472B6", "a pink star"),
+    ("Star Stuff", "#22D3EE", "a cyan star"),
+    ("Star Stuff", "#4ADE80", "a green star"),
+    ("LCARS", "#FF9966", "a peach segment of the bar under the bar, and the elbow's second band"),
+    ("LCARS", "#CC6666", "a red segment"),
+    ("LCARS", "#FFCC66", "a gold segment"),
+    ("Solarpunk", "#E3B23C", "the sunflowers' petals"),
+    ("Solarpunk", "#5E8C3A", "the vine's leaves"),
+    ("Solarpunk", "#3E8E8A", "the water along the foot"),
+    ("Solarpunk", "#B8662E", "the sunflowers' faces and the copper of the vine"),
+    ("Solarpunk", "#2E4F78", "the solar panel"),
+    ("Biomechanical", "#2F3631", "the ribs' shadow side; held low on purpose, the dark between the bones"),
+    ("Biomechanical", "#5B665D", "the vertebrae"),
+    ("Biomechanical", "#9BA79C", "the wet sheen along the bone"),
+    ("Greeble", "#7F868C", "a raised plate"),
+    ("Greeble", "#4A5056", "the shadow under a plate, a vent's slot and a pipe"),
+    ("Greeble", "#D7DBDE", "a plate's lit edge"),
+    ("Greeble", "#E0B32E", "the hazard stripe"),
+    ("Greeble", "#C8382E", "a red lamp"),
+    ("Greeble", "#3FA34D", "a green lamp, and Crip Cyborg's oxygen cylinders"),
+    ("Crip Cyborg", "#9FD3E0", "clear tubing: the CPAP hose, the oxygen line and the PEG tube"),
+    ("Crip Cyborg", "#8E6BBF", "a port"),
+    ("Crip Cyborg", "#3A7BD5", "a tube's clamp"),
+    ("Crip Cyborg", "#8C969C", "the rack, a cylinder's valve and a prosthetic leg's pylon"),
+    ("Unicorn Poop", "#FF8FB1", "pink in every gradient"),
+    ("Unicorn Poop", "#FFC48C", "peach in every gradient"),
+    ("Unicorn Poop", "#FFF08C", "lemon in every gradient, nearly the case: the rainbow's palest band"),
+    ("Unicorn Poop", "#9CF2B5", "mint in every gradient"),
+    ("Unicorn Poop", "#8FD6FF", "sky in every gradient"),
+    ("Unicorn Poop", "#C9A7FF", "lilac in every gradient"),
+    ("Wabi-sabi", "#C9B38B", "the tea stain, held low on purpose"),
+    ("Wabi-sabi", "#B8902F", "the gold in the mended crack"),
+    ("Wabi-sabi", "#7C8560", "the moss"),
+]
+for _theme, _hex, _what in CB_ORNAMENT:
+    ORNAMENT.setdefault(_hex.lower(), f"cb, {_theme}: {_what}, "
+                        f"{ratio(_hex, CB_SCHEMES[_theme]['case']):.2f} on its case. A drawing in "
+                        "the radio's trim, aria-hidden, and it carries no word.")
 
 # MEASURED MEANS "IN A PAIR", not "appears somewhere in this file". The first
 # version scanned the whole source, which meant the ORNAMENT list below counted

@@ -12,9 +12,12 @@
    furniture that is the same object wherever it turns up. It does not take a
    room's colours, and no room may dress it.
 
-   NOTHING IN IT MOVES AT ANY SETTING. No blinking receive lamp, no pulse when a
-   message lands, no transition: "no alerts" is a promise on privacy.html, and a
-   lamp that lights up when somebody talks is an alert with the sound off.
+   NOTHING IN IT MOVES WHEN A MESSAGE LANDS. No blinking receive lamp, no pulse,
+   no transition: "no alerts" is a promise on privacy.html, and a lamp that
+   lights up when somebody talks is an alert with the sound off. The one thing
+   that moves is a theme's drawing, in its trim, which has nothing to do with
+   the channel, and only at MAX GLITTER or after Let my theme move (Ryan,
+   2026-10-17, asking for animated themes; see THE DRAWINGS MOVE below).
    ============================================================================= */
 :host { all: initial; }
 [hidden] { display: none !important; }
@@ -34,9 +37,117 @@
 :host([data-scheme="green"]) { --cb-case: var(--cb-green-case); --cb-bar: var(--cb-green-bar); --cb-steel: var(--cb-green-steel); --cb-steel-2: var(--cb-green-steel-2); --cb-lcd: var(--cb-green-lcd); --cb-amber: var(--cb-green-amber); --cb-amber-2: var(--cb-green-amber-2); }
 :host([data-scheme="red"]) { --cb-case: var(--cb-red-case); --cb-bar: var(--cb-red-bar); --cb-steel: var(--cb-red-steel); --cb-steel-2: var(--cb-red-steel-2); --cb-lcd: var(--cb-red-lcd); --cb-amber: var(--cb-red-amber); --cb-amber-2: var(--cb-red-amber-2); }
 :host([data-scheme="teal"]) { --cb-case: var(--cb-teal-case); --cb-bar: var(--cb-teal-bar); --cb-steel: var(--cb-teal-steel); --cb-steel-2: var(--cb-teal-steel-2); --cb-lcd: var(--cb-teal-lcd); --cb-amber: var(--cb-teal-amber); --cb-amber-2: var(--cb-teal-amber-2); }
-/* High contrast's readout is the case's black, so its edge is drawn in the
-   case's rim instead of the readout's own black edge. */
-:host([data-scheme="high"]) .cb-lcd { border-color: var(--cb-steel-2); }
+/* THE WORLDS AND SOLARIZED (Ryan, 2026-10-17). The same seven parts again, and
+   a display face of their own for the radio's name and the headings over its
+   parts, and nowhere else: every sentence stays in Atkinson Hyperlegible,
+   because a face picked for a mood is for labels, the Zibaldone's Kalam rule.
+   --cb-display-scale evens out how big each face draws at the same size. */
+:host([data-scheme="soldark"]) { --cb-case: var(--cb-soldark-case); --cb-bar: var(--cb-soldark-bar); --cb-steel: var(--cb-soldark-steel); --cb-steel-2: var(--cb-soldark-steel-2); --cb-lcd: var(--cb-soldark-lcd); --cb-amber: var(--cb-soldark-amber); --cb-amber-2: var(--cb-soldark-amber-2);
+  --cb-display: 'JetBrains Mono'; --cb-display-scale: 1.05; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="sollight"]) { --cb-case: var(--cb-sollight-case); --cb-bar: var(--cb-sollight-bar); --cb-steel: var(--cb-sollight-steel); --cb-steel-2: var(--cb-sollight-steel-2); --cb-lcd: var(--cb-sollight-lcd); --cb-amber: var(--cb-sollight-amber); --cb-amber-2: var(--cb-sollight-amber-2);
+  --cb-display: 'JetBrains Mono'; --cb-display-scale: 1.05; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="biophilic"]) { --cb-case: var(--cb-biophilic-case); --cb-bar: var(--cb-biophilic-bar); --cb-steel: var(--cb-biophilic-steel); --cb-steel-2: var(--cb-biophilic-steel-2); --cb-lcd: var(--cb-biophilic-lcd); --cb-amber: var(--cb-biophilic-amber); --cb-amber-2: var(--cb-biophilic-amber-2);
+  --cb-display: 'Fraunces'; --cb-display-scale: 1.3; --cb-display-track: 0; --cb-display-case: none; }
+:host([data-scheme="starstuff"]) { --cb-case: var(--cb-starstuff-case); --cb-bar: var(--cb-starstuff-bar); --cb-steel: var(--cb-starstuff-steel); --cb-steel-2: var(--cb-starstuff-steel-2); --cb-lcd: var(--cb-starstuff-lcd); --cb-amber: var(--cb-starstuff-amber); --cb-amber-2: var(--cb-starstuff-amber-2);
+  --cb-display: 'Space Mono'; --cb-display-scale: 1.05; --cb-display-track: .08em; --cb-display-case: uppercase; }
+:host([data-scheme="lcars"]) { --cb-case: var(--cb-lcars-case); --cb-bar: var(--cb-lcars-bar); --cb-steel: var(--cb-lcars-steel); --cb-steel-2: var(--cb-lcars-steel-2); --cb-lcd: var(--cb-lcars-lcd); --cb-amber: var(--cb-lcars-amber); --cb-amber-2: var(--cb-lcars-amber-2);
+  --cb-display: 'Anton'; --cb-display-scale: 1.35; --cb-display-track: .06em; --cb-display-case: uppercase; }
+:host([data-scheme="glitter"]) { --cb-case: var(--cb-glitter-case); --cb-bar: var(--cb-glitter-bar); --cb-steel: var(--cb-glitter-steel); --cb-steel-2: var(--cb-glitter-steel-2); --cb-lcd: var(--cb-glitter-lcd); --cb-amber: var(--cb-glitter-amber); --cb-amber-2: var(--cb-glitter-amber-2);
+  --cb-display: 'Shrikhand'; --cb-display-scale: 1.3; --cb-display-track: 0; --cb-display-case: none; }
+:host([data-scheme="solarpunk"]) { --cb-case: var(--cb-solarpunk-case); --cb-bar: var(--cb-solarpunk-bar); --cb-steel: var(--cb-solarpunk-steel); --cb-steel-2: var(--cb-solarpunk-steel-2); --cb-lcd: var(--cb-solarpunk-lcd); --cb-amber: var(--cb-solarpunk-amber); --cb-amber-2: var(--cb-solarpunk-amber-2);
+  --cb-display: 'Macondo'; --cb-display-scale: 1.35; --cb-display-track: 0; --cb-display-case: none; }
+:host([data-scheme="biomech"]) { --cb-case: var(--cb-biomech-case); --cb-bar: var(--cb-biomech-bar); --cb-steel: var(--cb-biomech-steel); --cb-steel-2: var(--cb-biomech-steel-2); --cb-lcd: var(--cb-biomech-lcd); --cb-amber: var(--cb-biomech-amber); --cb-amber-2: var(--cb-biomech-amber-2);
+  --cb-display: 'Syncopate'; --cb-display-scale: 1; --cb-display-track: .12em; --cb-display-case: uppercase; }
+:host([data-scheme="greeble"]) { --cb-case: var(--cb-greeble-case); --cb-bar: var(--cb-greeble-bar); --cb-steel: var(--cb-greeble-steel); --cb-steel-2: var(--cb-greeble-steel-2); --cb-lcd: var(--cb-greeble-lcd); --cb-amber: var(--cb-greeble-amber); --cb-amber-2: var(--cb-greeble-amber-2);
+  --cb-display: 'Oxanium'; --cb-display-scale: 1.2; --cb-display-track: .1em; --cb-display-case: uppercase; }
+:host([data-scheme="cyborg"]) { --cb-case: var(--cb-cyborg-case); --cb-bar: var(--cb-cyborg-bar); --cb-steel: var(--cb-cyborg-steel); --cb-steel-2: var(--cb-cyborg-steel-2); --cb-lcd: var(--cb-cyborg-lcd); --cb-amber: var(--cb-cyborg-amber); --cb-amber-2: var(--cb-cyborg-amber-2);
+  --cb-display: 'Martian Mono'; --cb-display-scale: 1; --cb-display-track: .06em; --cb-display-case: uppercase; }
+:host([data-scheme="unicorn"]) { --cb-case: var(--cb-unicorn-case); --cb-bar: var(--cb-unicorn-bar); --cb-steel: var(--cb-unicorn-steel); --cb-steel-2: var(--cb-unicorn-steel-2); --cb-lcd: var(--cb-unicorn-lcd); --cb-amber: var(--cb-unicorn-amber); --cb-amber-2: var(--cb-unicorn-amber-2);
+  --cb-display: 'Sour Gummy'; --cb-display-scale: 1.3; --cb-display-track: 0; --cb-display-case: none; }
+:host([data-scheme="wabi"]) { --cb-case: var(--cb-wabi-case); --cb-bar: var(--cb-wabi-bar); --cb-steel: var(--cb-wabi-steel); --cb-steel-2: var(--cb-wabi-steel-2); --cb-lcd: var(--cb-wabi-lcd); --cb-amber: var(--cb-wabi-amber); --cb-amber-2: var(--cb-wabi-amber-2);
+  --cb-display: 'Caveat'; --cb-display-scale: 1.6; --cb-display-track: 0; --cb-display-case: none; }
+/* A readout the case's own black has its edge drawn in the case's rim instead
+   of the readout's black edge: High contrast's, and LCARS'. */
+:host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd { border-color: var(--cb-steel-2); }
+
+/* EACH WORLD'S SHAPE. The colours above are what is measured; these are the
+   corners, edges and borders that make each one itself, and none of them puts
+   a word on a ground that is not one of its seven. */
+/* LCARS: the elbow down the left, pills for buttons, the readout boxed. */
+:host([data-scheme="lcars"]) .cb-radio { border-width: 0 0 0 16px; border-color: var(--cb-amber); border-radius: 30px 10px 10px 30px; }
+:host([data-scheme="lcars"]) .cb-bar { border-bottom: 6px solid var(--cb-lcars-peach); border-radius: 0 8px 0 0; }
+:host([data-scheme="lcars"]) .cb-btn, :host([data-scheme="lcars"]) .cb-tp { border-radius: 999px; }
+:host([data-scheme="lcars"]) .cb-sec + .cb-sec { border-top: 4px solid var(--cb-lcars-peach); }
+/* Max Glitter and Unicorn Poop: a border made of every colour, which only
+   moves when the drawing does. The case under it stays its one flat colour. */
+:host([data-scheme="glitter"]) .cb-radio, :host([data-scheme="unicorn"]) .cb-radio {
+  border: 3px solid transparent; background-origin: border-box; background-size: 100% 100%, 300% 100%;
+}
+:host([data-scheme="glitter"]) .cb-radio {
+  background-image: linear-gradient(var(--cb-case), var(--cb-case)), linear-gradient(90deg, var(--pink), var(--orange), var(--yellow), var(--green), var(--cyan), var(--violet), var(--pink), var(--orange), var(--yellow));
+  background-clip: padding-box, border-box;
+}
+:host([data-scheme="unicorn"]) .cb-radio {
+  background-image: linear-gradient(var(--cb-case), var(--cb-case)), linear-gradient(90deg, var(--cb-unicorn-pink), var(--cb-unicorn-peach), var(--cb-unicorn-lemon), var(--cb-unicorn-mint), var(--cb-unicorn-sky), var(--cb-unicorn-lilac), var(--cb-unicorn-pink), var(--cb-unicorn-peach), var(--cb-unicorn-lemon));
+  background-clip: padding-box, border-box; border-radius: 18px;
+}
+:host([data-scheme="unicorn"]) .cb-sec + .cb-sec { border-top: 3px solid; border-image: linear-gradient(90deg, var(--cb-unicorn-pink), var(--cb-unicorn-lemon), var(--cb-unicorn-mint), var(--cb-unicorn-sky), var(--cb-unicorn-lilac)) 1; }
+:host([data-scheme="unicorn"]) .cb-btn { border-radius: 14px; }
+:host([data-scheme="glitter"]) .cb-sec + .cb-sec { border-top: 2px dashed var(--cb-amber-2); }
+/* Wabi-sabi: nothing square, and no two corners alike. */
+:host([data-scheme="wabi"]) .cb-radio { border-radius: 17px 7px 20px 10px / 10px 18px 8px 15px; }
+:host([data-scheme="wabi"]) .cb-btn { border-radius: 9px 4px 11px 5px / 5px 10px 4px 8px; }
+:host([data-scheme="wabi"]) .cb-lcd { border-color: var(--cb-steel-2); border-radius: 8px 3px 10px 4px; }
+/* Greeble: machined. Square, and every button a bevelled plate. */
+:host([data-scheme="greeble"]) .cb-radio { border-radius: 3px; border-color: var(--cb-greeble-shadow); }
+:host([data-scheme="greeble"]) .cb-btn { border-radius: 2px; box-shadow: inset 0 2px 0 var(--cb-greeble-light), inset 0 -2px 0 var(--cb-greeble-plate); }
+:host([data-scheme="greeble"]) .cb-bar { box-shadow: inset 0 -3px 0 var(--cb-greeble-shadow); }
+/* Biomechanical, Biophilic, Crip Cyborg and Star Stuff: grown, soft or round. */
+:host([data-scheme="biomech"]) .cb-radio { border-radius: 26px 26px 18px 18px; }
+:host([data-scheme="biomech"]) .cb-btn { border-radius: 14px; }
+:host([data-scheme="biophilic"]) .cb-radio { border-radius: 18px; }
+:host([data-scheme="biophilic"]) .cb-btn { border-radius: 16px; }
+:host([data-scheme="cyborg"]) .cb-radio, :host([data-scheme="starstuff"]) .cb-radio { border-radius: 16px; }
+:host([data-scheme="cyborg"]) .cb-btn { border-radius: 10px; }
+/* Solarpunk: an arch over the top, art nouveau's doorway. */
+:host([data-scheme="solarpunk"]) .cb-radio { border-radius: 26px 26px 8px 8px; }
+:host([data-scheme="solarpunk"]) .cb-bar { border-radius: 24px 24px 0 0; }
+:host([data-scheme="solarpunk"]) .cb-btn { border-radius: 999px; }
+
+/* THE TRIM: a band under the bar and one at the foot, each one drawing that
+   cb-themes.js makes for the world that is on, aria-hidden and empty of words.
+   Not at Small, which is for getting out of the way, nor folded. */
+.cb-trim { flex: none; display: block; height: 30px; overflow: hidden; pointer-events: none; }
+.cb-trim svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.cb-radio--small .cb-trim, .cb-radio--folded .cb-trim { display: none; }
+.cb-trim--foot { border-radius: 0 0 8px 8px; }
+
+/* THE DRAWINGS MOVE ONLY WHERE data-motion IS ON: at MAX GLITTER, or after Let
+   my theme move. Otherwise every drawing stands as it is when it has finished
+   growing. Nothing flashes: the quickest thing here takes most of two seconds
+   to brighten and as long again to dim, over a few pixels at a time. Every
+   one is a transform, an opacity or a line drawing itself, set going by its
+   own --d and --t. */
+:host([data-motion="on"]) .art-grow { stroke-dasharray: 1; animation: cb-art-grow var(--t, 7s) ease-out var(--d, 0s) both; }
+:host([data-motion="on"]) .art-pop { transform-box: fill-box; transform-origin: center; animation: cb-art-pop var(--t, 1.4s) ease-out var(--d, 0s) both; }
+:host([data-motion="on"]) .art-rise { transform-box: fill-box; transform-origin: 50% 100%; animation: cb-art-rise var(--t, 2.5s) ease-out var(--d, 0s) both; }
+:host([data-motion="on"]) .art-twinkle { animation: cb-art-twinkle var(--t, 4s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .art-sway { transform-box: fill-box; transform-origin: 50% 100%; animation: cb-art-sway var(--t, 6s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .art-turn { transform-box: fill-box; transform-origin: center; animation: cb-art-sway var(--t, 9s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .art-breathe { transform-box: fill-box; transform-origin: center; animation: cb-art-breathe var(--t, 5s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .art-glow { animation: cb-art-glow var(--t, 4s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .art-flow { animation: cb-art-flow var(--t, 6s) linear var(--d, 0s) infinite; }
+:host([data-motion="on"][data-scheme="glitter"]) .cb-radio,
+:host([data-motion="on"][data-scheme="unicorn"]) .cb-radio { animation: cb-art-shine 14s linear infinite; }
+@keyframes cb-art-grow { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes cb-art-pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes cb-art-rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes cb-art-twinkle { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@keyframes cb-art-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes cb-art-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.09); } }
+@keyframes cb-art-glow { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+@keyframes cb-art-flow { from { transform: translateX(0); } to { transform: translateX(var(--run, 60px)); } }
+@keyframes cb-art-shine { from { background-position: 0 0, 0 0; } to { background-position: 0 0, 150% 0; } }
 .sr {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -93,7 +204,7 @@
 .cb-bar { flex-wrap: wrap; }
 .cb-bar .cb-btn, .cb-tp { white-space: nowrap; }
 .cb-bar .cb-btn { padding-left: 8px; padding-right: 8px; }
-.cb-brand { font-family: 'Bungee', system-ui, sans-serif; font-size: 15px; letter-spacing: .08em; }
+.cb-brand { font-family: var(--cb-display, 'Bungee'), system-ui, sans-serif; font-size: calc(15px * var(--cb-display-scale, 1)); letter-spacing: var(--cb-display-track, .08em); text-transform: var(--cb-display-case, none); }
 /* The teleporter sits where the channel number did, dressed as the same piece
    of readout, and is a real 44px button. */
 .cb-tp {
@@ -114,7 +225,12 @@
    saying Aa, in that scheme's own colours, which cb.js reads off love.css §2 into
    --sw-*; Aa is that scheme's readout pair, so it is measured with the scheme.
    The swatch is aria-hidden: the name beside it says which scheme it is. */
-.cb-scheme-panel { display: flex; flex-wrap: wrap; gap: 8px; }
+.cb-scheme-panel { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+.cb-scheme-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.cb-scheme-panel > .cb-motion { justify-self: start; }
+.cb-motion[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+/* Unicorn Poop's trims are gradients as well as drawings, for no reason. */
+:host([data-scheme="unicorn"]) .cb-trim { background: linear-gradient(90deg, var(--cb-unicorn-pink), var(--cb-unicorn-peach), var(--cb-unicorn-lemon), var(--cb-unicorn-mint), var(--cb-unicorn-sky), var(--cb-unicorn-lilac)); }
 .cb-scheme-choice { display: inline-flex; align-items: center; gap: 8px; text-align: left; }
 .cb-scheme-choice[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-swatch {
@@ -160,7 +276,10 @@
 .cb-sec { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; }
 .cb-sec + .cb-sec { padding-top: 14px; border-top: 2px solid var(--cb-bar); }
 .cb-radio h2, .cb-radio h3 { margin: 0; }
-.cb-h { font: 400 12px/1.2 'Bungee', system-ui, sans-serif; letter-spacing: .1em; color: var(--cb-steel-2); }
+.cb-h {
+  font: 400 calc(12px * var(--cb-display-scale, 1))/1.2 var(--cb-display, 'Bungee'), system-ui, sans-serif;
+  letter-spacing: var(--cb-display-track, .1em); text-transform: var(--cb-display-case, none); color: var(--cb-steel-2);
+}
 .cb-h3 { margin-top: 4px; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .02em; color: var(--cb-steel); }
 .cb-sec > .cb-btn { justify-self: start; }
 /* WHERE YOU ARE: the room's name, the largest words on the radio, in the
@@ -224,7 +343,8 @@
    or More are open, and always where nothing can point, since a phone has no
    pointer to bring it out. Hidden means see-through and nothing else: still in
    the tab order, still named, still the same size, so nothing on the line
-   moves when it comes and goes. No fade, because nothing on the radio moves. */
+   moves when it comes and goes. No fade: nothing on the radio moves but a
+   theme's drawing, in its trim. */
 .cb-msg > .cb-acts { opacity: 0; }
 .cb-msg:hover > .cb-acts, .cb-msg:focus-within > .cb-acts,
 .cb-msg > .cb-acts:has([aria-expanded="true"]) { opacity: 1; }

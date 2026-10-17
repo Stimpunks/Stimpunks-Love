@@ -3546,8 +3546,16 @@ the call window's and (by a copy in `guest.js`) the guest bar's host; `cb.css` l
 `--cb-<scheme>-<part>` over the seven `--cb-*` there. **A new scheme is seven colours in §2, a block in
 `cb.css`, an entry in `SCHEMES` and in `check-contrast.py`'s `CB_SCHEMES`**, which holds every pair the
 amber set makes and High contrast at 7:1. The friendly edit is a scheme that takes the room's colours;
-no room dresses the radio. And **nothing on it moves or lights up at
-any setting**: a receive lamp is an alert with the sound off. **It never claims what it has not
+no room dresses the radio. **The worlds are Ryan's list of 2026-10-17** ("a really personal and fun
+experience, with lots of theme options"), each with a drawing under the bar and at the foot from
+`cb-themes.js`, loaded only when one is on, every ink a token held as ornament in `check-contrast.py`
+(`CB_ORNAMENT`), and each its own shape and display face for the radio's name and headings only;
+**every sentence stays in Atkinson Hyperlegible**. **A theme's drawing is the one thing on the radio
+that moves**, reversing "nothing on it moves at any setting" for the trims only: at MAX GLITTER by
+itself, or after Let my theme move (`love-cb`'s `motion`), the candles' rule; `call.js` writes it as
+`data-motion` on the host and follows the dial. **Nothing on it moves or lights up when a message
+lands**: a receive lamp is an alert with the sound off. The friendly edits are a drawing behind the
+words (it goes in the trim) and a theme that flashes. **It never claims what it has not
 heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It
 also never counts: no people on the channel, no unread number.

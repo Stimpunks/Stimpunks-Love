@@ -1334,6 +1334,50 @@
   --cb-red-lcd: #160404;    --cb-red-amber: #FF7468; --cb-red-amber-2: #E8877D;
   --cb-teal-case: #0E1A24;  --cb-teal-bar: #1C2A36;  --cb-teal-steel: #DCE6EE;  --cb-teal-steel-2: #A2B3C2;
   --cb-teal-lcd: #03100F;   --cb-teal-amber: #4FF0D2; --cb-teal-amber-2: #3FC7AE;
+  /* THE THEMES THAT ARE NOT RADIOS (Ryan, 2026-10-17: "a really personal and
+     fun experience, with lots of theme options"). The same seven parts again,
+     and some of them a drawing in the radio's trim as well, coloured by the
+     --cb-<theme>-<thing> under each; those carry no word and are held as
+     ornament in check-contrast.py, measured on their own case. SOLARIZED is
+     Ethan Schoonover's palette with two changes, written here because they are
+     changes to somebody's design: dark's bar is a shade under base03, because
+     yellow on base02 is 4.05, and light's inks are yellow and cyan darkened,
+     because Solarized's accents are mid-tones that fall under 4.5 as words on
+     base3. The eight accents themselves are in the stripe, as Solarized has them. */
+  --cb-soldark-case: #002B36; --cb-soldark-bar: #001F27; --cb-soldark-steel: #EEE8D5; --cb-soldark-steel-2: #93A1A1;
+  --cb-soldark-lcd: #00212B; --cb-soldark-amber: #B58900; --cb-soldark-amber-2: #2AA198;
+  --cb-sollight-case: #FDF6E3; --cb-sollight-bar: #EEE8D5; --cb-sollight-steel: #073642; --cb-sollight-steel-2: #586E75;
+  --cb-sollight-lcd: #FFFBEF; --cb-sollight-amber: #8A5A00; --cb-sollight-amber-2: #1F6E66;
+  --cb-biophilic-case: #F5EFE2; --cb-biophilic-bar: #ECE1CD; --cb-biophilic-steel: #241F1A; --cb-biophilic-steel-2: #37502F;
+  --cb-biophilic-lcd: #FBF7ED; --cb-biophilic-amber: #8A3520; --cb-biophilic-amber-2: #3C5A33;
+  --cb-starstuff-case: #0F0F1C; --cb-starstuff-bar: #17172B; --cb-starstuff-steel: #F4F2FB; --cb-starstuff-steel-2: #B8AED0;
+  --cb-starstuff-lcd: #0A0A14; --cb-starstuff-amber: #A78BFA; --cb-starstuff-amber-2: #C4B5D4;
+  --cb-lcars-case: #000000; --cb-lcars-bar: #000000; --cb-lcars-steel: #FFCC99; --cb-lcars-steel-2: #CC99CC;
+  --cb-lcars-lcd: #000000; --cb-lcars-amber: #FF9900; --cb-lcars-amber-2: #9999FF;
+  --cb-glitter-case: #15121F; --cb-glitter-bar: #241D33; --cb-glitter-steel: #FFF3E6; --cb-glitter-steel-2: #C8BFE0;
+  --cb-glitter-lcd: #0E0520; --cb-glitter-amber: #FF5CB0; --cb-glitter-amber-2: #3DE0FF;
+  --cb-solarpunk-case: #F7F1DA; --cb-solarpunk-bar: #E8DEB5; --cb-solarpunk-steel: #1F2E1A; --cb-solarpunk-steel-2: #46582B;
+  --cb-solarpunk-lcd: #FFFBEA; --cb-solarpunk-amber: #7A4E00; --cb-solarpunk-amber-2: #2F5D2A;
+  --cb-biomech-case: #0E100F; --cb-biomech-bar: #1A1E1C; --cb-biomech-steel: #CDD5CC; --cb-biomech-steel-2: #909C92;
+  --cb-biomech-lcd: #070908; --cb-biomech-amber: #B7CDBE; --cb-biomech-amber-2: #8FA394;
+  --cb-greeble-case: #A3A9AE; --cb-greeble-bar: #959CA2; --cb-greeble-steel: #0E1012; --cb-greeble-steel-2: #24292D;
+  --cb-greeble-lcd: #C9CDD1; --cb-greeble-amber: #5A0E0E; --cb-greeble-amber-2: #2E3439;
+  --cb-cyborg-case: #0F232A; --cb-cyborg-bar: #18333C; --cb-cyborg-steel: #E8F3F2; --cb-cyborg-steel-2: #A9C5C4;
+  --cb-cyborg-lcd: #06151A; --cb-cyborg-amber: #7CF0C8; --cb-cyborg-amber-2: #F2C14E;
+  --cb-unicorn-case: #FFF5FB; --cb-unicorn-bar: #FBE2F1; --cb-unicorn-steel: #3A1747; --cb-unicorn-steel-2: #6A3D7A;
+  --cb-unicorn-lcd: #FFFFFF; --cb-unicorn-amber: #8E1B6E; --cb-unicorn-amber-2: #5B3D8F;
+  --cb-wabi-case: #E9E2D3; --cb-wabi-bar: #D9CEB7; --cb-wabi-steel: #2B2622; --cb-wabi-steel-2: #5A5047;
+  --cb-wabi-lcd: #F3EEE3; --cb-wabi-amber: #7A3A1A; --cb-wabi-amber-2: #5A5047;
+  --cb-sol-yellow: #B58900; --cb-sol-orange: #CB4B16; --cb-sol-red: #DC322F; --cb-sol-magenta: #D33682; --cb-sol-violet: #6C71C4; --cb-sol-blue: #268BD2; --cb-sol-cyan: #2AA198; --cb-sol-green: #859900;
+  --cb-biophilic-lichen: #9CAA86; --cb-biophilic-verdigris: #4E8C7A; --cb-biophilic-marigold: #C9922E; --cb-biophilic-coral: #C4553C;
+  --cb-starstuff-gold: #FBBF24; --cb-starstuff-pink: #F472B6; --cb-starstuff-cyan: #22D3EE; --cb-starstuff-green: #4ADE80;
+  --cb-lcars-peach: #FF9966; --cb-lcars-red: #CC6666; --cb-lcars-gold: #FFCC66;
+  --cb-solarpunk-sunflower: #E3B23C; --cb-solarpunk-leaf: #5E8C3A; --cb-solarpunk-water: #3E8E8A; --cb-solarpunk-copper: #B8662E; --cb-solarpunk-panel: #2E4F78;
+  --cb-biomech-rib: #2F3631; --cb-biomech-bone: #5B665D; --cb-biomech-sheen: #9BA79C;
+  --cb-greeble-plate: #7F868C; --cb-greeble-shadow: #4A5056; --cb-greeble-light: #D7DBDE; --cb-greeble-stripe: #E0B32E; --cb-greeble-lamp: #C8382E; --cb-greeble-go: #3FA34D;
+  --cb-cyborg-tube: #9FD3E0; --cb-cyborg-oxygen: #3FA34D; --cb-cyborg-port: #8E6BBF; --cb-cyborg-clamp: #3A7BD5; --cb-cyborg-metal: #8C969C;
+  --cb-unicorn-pink: #FF8FB1; --cb-unicorn-peach: #FFC48C; --cb-unicorn-lemon: #FFF08C; --cb-unicorn-mint: #9CF2B5; --cb-unicorn-sky: #8FD6FF; --cb-unicorn-lilac: #C9A7FF;
+  --cb-wabi-stain: #C9B38B; --cb-wabi-gold: #B8902F; --cb-wabi-moss: #7C8560;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
      profile. NOT A ROOM'S PALETTE: a person's own jacket, drawn wherever their
