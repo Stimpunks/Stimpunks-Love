@@ -1044,6 +1044,17 @@
        thing the street keeps under a person, and Forget Me for them. Every
        destructive press asks once more. The tray is read when it is opened and
        never polled. */
+    /* COLOURS. Ryan, 2026-10-17, from a request: the radio in another colour
+       scheme, which is the visitor's to choose like Size and is remembered
+       with it, and the call window wears the same. A tray under this row, so
+       the radio is no busier than it was; every choice shows a swatch of
+       itself, and pressing one puts it on at once. call.js decides what each
+       means and puts it on the hosts; see setScheme. */
+    var schemeBtn = this.schemeBtn = el('button', 'cb-btn cb-scheme-btn', 'Colours');
+    schemeBtn.type = 'button';
+    schemeBtn.setAttribute('aria-expanded', 'false');
+    schemeBtn.setAttribute('aria-controls', 'cb-scheme-panel');
+    tools.appendChild(schemeBtn);
     var petsBtn = this.petsBtn = el('button', 'cb-btn cb-pets-btn', 'Profile');
     petsBtn.type = 'button';
     petsBtn.setAttribute('aria-expanded', 'false');
@@ -1054,6 +1065,29 @@
     off.addEventListener('click', function () { signOff(); });
     tools.appendChild(off);
     yourSec.appendChild(tools);
+    var scp = this.schemePanel = el('div', 'cb-scheme-panel');
+    scp.id = 'cb-scheme-panel';
+    scp.hidden = true;
+    scp.setAttribute('role', 'group');
+    scp.setAttribute('aria-label', 'Colours for your radio');
+    this.schemeChoices = {};
+    var lc = window.loveCall;
+    ((lc && lc.schemes) || []).forEach(function (x) {
+      var b = el('button', 'cb-btn cb-scheme-choice');
+      b.type = 'button';
+      var sw = el('span', 'cb-swatch');
+      sw.setAttribute('aria-hidden', 'true');
+      sw.appendChild(el('span', 'cb-swatch__lcd', 'Aa'));
+      b.appendChild(sw);
+      b.appendChild(el('span', 'cb-scheme-name', x[1]));
+      b.addEventListener('click', function () { me.setScheme(x[0]); });
+      me.schemeChoices[x[0]] = { button: b, swatch: sw, name: x[1] };
+      scp.appendChild(b);
+    });
+    scp.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); me.setSchemePanel(false); me.schemeBtn.focus(); }
+    });
+    yourSec.appendChild(scp);
 
     var scr = this.screenPanel = el('form', 'cb-screen');
     scr.id = 'cb-screen';
@@ -1192,6 +1226,7 @@
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
     size.addEventListener('click', function () { me.setSizePanel(me.sizePanel.hidden); });
+    schemeBtn.addEventListener('click', function () { me.setSchemePanel(me.schemePanel.hidden); });
     tp.addEventListener('click', function () { me.setTeleport(tpp.hidden); });
     find.addEventListener('input', function () { me.tpRender(); });
     find.addEventListener('keydown', function (e) { me.tpKey(e); });
@@ -1263,6 +1298,7 @@
        properties declared on :root inherit across the boundary, which is what
        keeps them in check-contrast.py's reach. */
     var host = this.host = el('div', 'cb-host');
+    if (window.loveCall && window.loveCall.dress) window.loveCall.dress(host, state.scheme);
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
@@ -1494,6 +1530,50 @@
     if (!quiet) save(this.state);
     this.place();
     if (!small) this.log.scrollTop = this.log.scrollHeight;
+  };
+
+  /* A SCHEME, chosen: remembered in love-cb like Size, put on this radio and
+     on the call window at once by call.js, and said on the radio's own line,
+     which is where the eye is. Match my device says what it has matched. */
+  Radio.prototype.setScheme = function (choice, quiet) {
+    var lc = window.loveCall;
+    if (!lc || !lc.redress) return;
+    this.state.scheme = choice;
+    if (!quiet) save(this.state);
+    lc.redress(choice);
+    this.schemeShown();
+    if (!quiet) {
+      var now = lc.schemeFor(choice), c = this.schemeChoices;
+      this.tell(choice === 'auto'
+        ? 'Your radio matches your device now, which means ' + c[now].name + '. It changes when your device does.'
+        : 'Your radio is in ' + c[choice].name + ' now, and the call window with it. It stays that way on every page.');
+    }
+  };
+
+  // Which choice is pressed, and each swatch drawn in the colours it stands for.
+  Radio.prototype.schemeShown = function () {
+    var lc = window.loveCall, mine = this.state.scheme || 'auto', c = this.schemeChoices;
+    if (!lc || !c) return;
+    var root = getComputedStyle(document.documentElement);
+    Object.keys(c).forEach(function (k) {
+      var look = lc.schemeFor(k), pre = look === 'amber' ? '--cb-' : '--cb-' + look + '-';
+      ['case', 'lcd', 'amber', 'steel-2'].forEach(function (part) {
+        c[k].swatch.style.setProperty('--sw-' + part, root.getPropertyValue(pre + part).trim());
+      });
+      c[k].button.setAttribute('aria-pressed', String(k === mine));
+    });
+    if (c.auto) c.auto.button.lastChild.textContent = 'Match my device (' + c[lc.schemeFor('auto')].name + ')';
+  };
+
+  Radio.prototype.setSchemePanel = function (open) {
+    this.schemePanel.hidden = !open;
+    this.schemeBtn.setAttribute('aria-expanded', String(!!open));
+    if (open) {
+      this.schemeShown();
+      var on = this.schemePanel.querySelector('[aria-pressed="true"]') || this.schemePanel.querySelector('button');
+      if (on) on.focus();
+    }
+    this.place();
   };
 
   Radio.prototype.setSizePanel = function (open) {

@@ -137,6 +137,43 @@
     catch (e) { return null; }
   }
 
+  /* COLOUR SCHEMES (Ryan, 2026-10-17, from a request). The radio, the call
+     window and the guest bar wear one, on their shadow root's host as
+     data-scheme, which cb.css lays over the radio's seven colours. This is the
+     one place that decides which: what somebody chose under Your radio, kept
+     in love-cb as scheme, or, for Match my device (auto, and what nobody has
+     chosen means), High contrast where the device asks for more contrast,
+     Daylight where it is set light, and Amber otherwise, followed as the
+     device changes. guest.js keeps a copy of schemeFor('auto') for the guest
+     bar, which never loads this file: change both. */
+  var SCHEMES = [
+    ['auto', 'Match my device'], ['amber', 'Amber'], ['day', 'Daylight'], ['high', 'High contrast'],
+    ['green', 'Green screen'], ['red', 'Red readout'], ['teal', 'Teal glow']
+  ];
+  function known(k) { return SCHEMES.some(function (x) { return x[0] === k && k !== 'auto'; }); }
+  function media(q) { try { return window.matchMedia(q).matches; } catch (e) { return false; } }
+  function schemeFor(choice) {
+    if (known(choice)) return choice;
+    return media('(prefers-contrast: more)') ? 'high' : media('(prefers-color-scheme: light)') ? 'day' : 'amber';
+  }
+  function chosen() {
+    try { var v = JSON.parse(localStorage.getItem('love-cb') || 'null'); return (v && v.scheme) || 'auto'; }
+    catch (e) { return 'auto'; }
+  }
+  var dressed = [];
+  function dress(host, choice) {
+    host.cbScheme = choice || 'auto';
+    if (dressed.indexOf(host) < 0) dressed.push(host);
+    host.setAttribute('data-scheme', schemeFor(host.cbScheme));
+  }
+  function redress(choice) {
+    dressed = dressed.filter(function (h) { return h.isConnected; });
+    dressed.forEach(function (h) { dress(h, choice == null ? h.cbScheme : choice); });
+  }
+  ['(prefers-contrast: more)', '(prefers-color-scheme: light)'].forEach(function (q) {
+    try { window.matchMedia(q).addEventListener('change', function () { redress(); }); } catch (e) { /* an old browser keeps the scheme it opened with */ }
+  });
+
   /* how.whole: this is the call's own window, so the call fills it, and
      there is nothing to move or size (the window itself is moved and sized).
      how.pop: Pop out, offered to somebody signed on, which answers false if
@@ -145,6 +182,7 @@
     how = how || {};
     var whole = !!how.whole;
     var host = el('div', 'cb-call-host');
+    dress(host, chosen());
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';
@@ -392,5 +430,6 @@
   function openRoom() { return current ? current.room : null; }
 
   window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine,
-    away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway };
+    away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway,
+    schemes: SCHEMES, schemeFor: schemeFor, dress: dress, redress: redress };
 })();

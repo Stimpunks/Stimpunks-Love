@@ -1317,6 +1317,23 @@
      is where check-contrast.py can hold every one of them to a pair. */
   --cb-case: #121315;  --cb-bar: #24272B;  --cb-steel: #D8DCE1;  --cb-steel-2: #A3AAB3;
   --cb-lcd: #1B1305;   --cb-amber: #FFB83F; --cb-amber-2: #D9A042;
+  /* ITS OTHER COLOUR SCHEMES (Ryan, 2026-10-17, from a request): the same
+     seven parts in other clothes, which somebody picks for their own radio
+     under Your radio, so the radio still keeps its own clothes in every room
+     and no room dresses it; the visitor does. Each is named after the amber
+     set's parts, so --cb-day-amber is whatever Daylight's readout ink is.
+     cb.css puts one on the radio's host as the seven --cb-* above. Every pair
+     each one makes is held by check-contrast.py, High contrast at 7:1. */
+  --cb-day-case: #F1EFEA;   --cb-day-bar: #DCD8CF;   --cb-day-steel: #1E2328;   --cb-day-steel-2: #505A64;
+  --cb-day-lcd: #FFF9EC;    --cb-day-amber: #5C3B00; --cb-day-amber-2: #7A5414;
+  --cb-high-case: #000000;  --cb-high-bar: #262626;  --cb-high-steel: #FFFFFF;  --cb-high-steel-2: #E0E0E0;
+  --cb-high-lcd: #000000;   --cb-high-amber: #FFE500; --cb-high-amber-2: #FFF4A0;
+  --cb-green-case: #C6CBD0; --cb-green-bar: #A9B1B8; --cb-green-steel: #13171B; --cb-green-steel-2: #343C44;
+  --cb-green-lcd: #B9D3A1;  --cb-green-amber: #0D2A0D; --cb-green-amber-2: #25451F;
+  --cb-red-case: #26292D;   --cb-red-bar: #2E3136;   --cb-red-steel: #E6E8EB;   --cb-red-steel-2: #B3BAC2;
+  --cb-red-lcd: #160404;    --cb-red-amber: #FF7468; --cb-red-amber-2: #E8877D;
+  --cb-teal-case: #0E1A24;  --cb-teal-bar: #1C2A36;  --cb-teal-steel: #DCE6EE;  --cb-teal-steel-2: #A2B3C2;
+  --cb-teal-lcd: #03100F;   --cb-teal-amber: #4FF0D2; --cb-teal-amber-2: #3FC7AE;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
      profile. NOT A ROOM'S PALETTE: a person's own jacket, drawn wherever their

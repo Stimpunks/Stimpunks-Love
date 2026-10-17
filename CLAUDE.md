@@ -3538,7 +3538,15 @@ styles `.room-x a`, `.room-x p` and buttons at (0,2,0), and a panel appended to 
 meets all of them at once, in rooms nobody is thinking about when they change the radio. Inside the
 shadow root only `cb.css` applies. **The colours are still §2's `--cb-*`**, because custom properties
 on `:root` inherit across the boundary, which keeps them in `check-contrast.py`'s coverage check. It
-keeps its own clothes in every room, the dial's precedent, and **nothing on it moves or lights up at
+keeps its own clothes in every room, the dial's precedent. **Its colour schemes are the visitor's, not a
+room's** (Ryan, 2026-10-17, from a request): Colours under Your radio picks one, kept in `love-cb` as
+`scheme`, and the default, Match my device, is High contrast, Daylight or Amber from the device's own
+settings. `call.js`'s `schemeFor` is the one place that decides and puts `data-scheme` on the radio's,
+the call window's and (by a copy in `guest.js`) the guest bar's host; `cb.css` lays
+`--cb-<scheme>-<part>` over the seven `--cb-*` there. **A new scheme is seven colours in §2, a block in
+`cb.css`, an entry in `SCHEMES` and in `check-contrast.py`'s `CB_SCHEMES`**, which holds every pair the
+amber set makes and High contrast at 7:1. The friendly edit is a scheme that takes the room's colours;
+no room dresses the radio. And **nothing on it moves or lights up at
 any setting**: a receive lamp is an alert with the sound off. **It never claims what it has not
 heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It

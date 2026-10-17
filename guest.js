@@ -104,8 +104,20 @@
     }
     return begins.concat(inside, about);
   }
+  /* ITS COLOURS FOLLOW THE DEVICE, the radio's Match my device: High contrast
+     where the device asks for more contrast, Daylight where it is set light,
+     Amber otherwise. Nobody here has a radio to choose one in yet. A copy of
+     schemeFor('auto') in call.js, which the guest bar never loads: change both. */
+  function media(q) { try { return window.matchMedia(q).matches; } catch (e) { return false; } }
+  function dress(host) {
+    host.setAttribute('data-scheme', media('(prefers-contrast: more)') ? 'high' : media('(prefers-color-scheme: light)') ? 'day' : 'amber');
+  }
   function build() {
     var host = el('div', 'cb-host');
+    dress(host);
+    ['(prefers-contrast: more)', '(prefers-color-scheme: light)'].forEach(function (q) {
+      try { window.matchMedia(q).addEventListener('change', function () { dress(host); }); } catch (e) { /* keeps what it opened with */ }
+    });
     var root = host.attachShadow({ mode: 'open' });
     var sheet = document.createElement('link');
     sheet.rel = 'stylesheet';

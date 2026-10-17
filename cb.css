@@ -18,6 +18,25 @@
    ============================================================================= */
 :host { all: initial; }
 [hidden] { display: none !important; }
+/* COLOUR SCHEMES (Ryan, 2026-10-17, from a request). The radio, its call window
+   and the guest bar each live in a shadow root whose host carries data-scheme,
+   set by call.js out of what somebody chose under Your radio (or out of the
+   device's own settings, for Match my device, and always for the guest bar).
+   A scheme is the same seven parts in other clothes, love.css §2's
+   --cb-<scheme>-<part>, laid over the seven --cb-* here on the host, so
+   everything inside follows: the set, the lightbox, the peek, the call. Amber
+   is the default and needs no block. Each scheme's pairs are in
+   check-contrast.py, High contrast's at 7:1. A new scheme is a block here,
+   seven colours in love.css, an entry in check-contrast.py's CB_SCHEMES and in
+   call.js's SCHEMES; and nothing else on the radio may name a colour. */
+:host([data-scheme="day"]) { --cb-case: var(--cb-day-case); --cb-bar: var(--cb-day-bar); --cb-steel: var(--cb-day-steel); --cb-steel-2: var(--cb-day-steel-2); --cb-lcd: var(--cb-day-lcd); --cb-amber: var(--cb-day-amber); --cb-amber-2: var(--cb-day-amber-2); }
+:host([data-scheme="high"]) { --cb-case: var(--cb-high-case); --cb-bar: var(--cb-high-bar); --cb-steel: var(--cb-high-steel); --cb-steel-2: var(--cb-high-steel-2); --cb-lcd: var(--cb-high-lcd); --cb-amber: var(--cb-high-amber); --cb-amber-2: var(--cb-high-amber-2); }
+:host([data-scheme="green"]) { --cb-case: var(--cb-green-case); --cb-bar: var(--cb-green-bar); --cb-steel: var(--cb-green-steel); --cb-steel-2: var(--cb-green-steel-2); --cb-lcd: var(--cb-green-lcd); --cb-amber: var(--cb-green-amber); --cb-amber-2: var(--cb-green-amber-2); }
+:host([data-scheme="red"]) { --cb-case: var(--cb-red-case); --cb-bar: var(--cb-red-bar); --cb-steel: var(--cb-red-steel); --cb-steel-2: var(--cb-red-steel-2); --cb-lcd: var(--cb-red-lcd); --cb-amber: var(--cb-red-amber); --cb-amber-2: var(--cb-red-amber-2); }
+:host([data-scheme="teal"]) { --cb-case: var(--cb-teal-case); --cb-bar: var(--cb-teal-bar); --cb-steel: var(--cb-teal-steel); --cb-steel-2: var(--cb-teal-steel-2); --cb-lcd: var(--cb-teal-lcd); --cb-amber: var(--cb-teal-amber); --cb-amber-2: var(--cb-teal-amber-2); }
+/* High contrast's readout is the case's black, so its edge is drawn in the
+   case's rim instead of the readout's own black edge. */
+:host([data-scheme="high"]) .cb-lcd { border-color: var(--cb-steel-2); }
 .sr {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
@@ -90,6 +109,22 @@
    Follow button's pair and so a pair check-contrast.py already measures. */
 .cb-size-panel { padding: 10px 12px 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-size-choice[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+/* COLOURS: the schemes under Your radio's row, the one you are on filled, Size's
+   pair. Each carries a swatch of itself, a little case round a little readout
+   saying Aa, in that scheme's own colours, which cb.js reads off love.css §2 into
+   --sw-*; Aa is that scheme's readout pair, so it is measured with the scheme.
+   The swatch is aria-hidden: the name beside it says which scheme it is. */
+.cb-scheme-panel { display: flex; flex-wrap: wrap; gap: 8px; }
+.cb-scheme-choice { display: inline-flex; align-items: center; gap: 8px; text-align: left; }
+.cb-scheme-choice[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+.cb-swatch {
+  flex: none; display: inline-grid; place-items: center; width: 40px; height: 28px; padding: 3px;
+  background: var(--sw-case); border: 2px solid var(--sw-steel-2); border-radius: 5px;
+}
+.cb-swatch__lcd {
+  display: grid; place-items: center; width: 100%; height: 100%; border-radius: 2px;
+  background: var(--sw-lcd); color: var(--sw-amber); font: 700 12px/1 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
 /* LARGE: wider and taller, for long messages and pictures. Never wider than
    the window, like every size. */
 .cb-radio--large { width: min(640px, calc(100vw - 16px)); }

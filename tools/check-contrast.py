@@ -94,6 +94,34 @@ CTR_STEEL, CTR_WELL, CTR_PLATE, CTR_FORM = "#52667A", "#28323E", "#E3E8EC", "#FB
 # note beside --cb-case in love.css §2.
 CB_CASE, CB_BAR, CB_STEEL, CB_STEEL2 = "#121315", "#24272B", "#D8DCE1", "#A3AAB3"
 CB_LCD, CB_AMBER, CB_AMBER2 = "#1B1305", "#FFB83F", "#D9A042"
+# ITS OTHER COLOUR SCHEMES (2026-10-17), the same seven parts in other clothes,
+# each chosen by somebody for their own radio. Every one makes every pair the
+# amber set makes, below, so a scheme cannot be added with a part unmeasured;
+# High contrast is held to 7:1 as well as to the bar every pair is held to.
+CB_SCHEMES = {
+    "Daylight":      dict(case="#F1EFEA", bar="#DCD8CF", steel="#1E2328", steel2="#505A64",
+                          lcd="#FFF9EC", amber="#5C3B00", amber2="#7A5414"),
+    "High contrast": dict(case="#000000", bar="#262626", steel="#FFFFFF", steel2="#E0E0E0",
+                          lcd="#000000", amber="#FFE500", amber2="#FFF4A0"),
+    "Green screen":  dict(case="#C6CBD0", bar="#A9B1B8", steel="#13171B", steel2="#343C44",
+                          lcd="#B9D3A1", amber="#0D2A0D", amber2="#25451F"),
+    "Red readout":   dict(case="#26292D", bar="#2E3136", steel="#E6E8EB", steel2="#B3BAC2",
+                          lcd="#160404", amber="#FF7468", amber2="#E8877D"),
+    "Teal glow":     dict(case="#0E1A24", bar="#1C2A36", steel="#DCE6EE", steel2="#A2B3C2",
+                          lcd="#03100F", amber="#4FF0D2", amber2="#3FC7AE"),
+}
+CB_HIGH = "High contrast"
+# What each part carries, as the amber set's pairs below say it.
+CB_ROLES = [
+    ("steel",  "case",  "every word on the case and every button's words"),
+    ("steel",  "bar",   "the name on the bar and its buttons' words"),
+    ("amber",  "lcd",   "every message, handle and link on the readout, BASE and a pressed button the other way round"),
+    ("amber2", "lcd",   "the time on each message and the quiet lines on the readout"),
+    ("amber",  "case",  "the links and the focus ring on the case"),
+    ("amber",  "bar",   "the focus ring on the bar's buttons"),
+    ("steel2", "case",  "every button's border, the case's rim and each part's heading"),
+    ("amber2", "case",  "the quiet lines on the case"),
+]
 # The fractal window, furniture again: its own frame in every room it is switched
 # on in. Read the note beside --fx-case in love.css §2. The picture inside it
 # carries no words and is the room's own colours, limited so it cannot flash.
@@ -3431,6 +3459,8 @@ PAIRS = [
     (CB_AMBER2, CB_CASE,  False, "cb: the quiet lines on the case -- a profile opened from Who's "
                                  "online while it is still looking, and the pets tray's own; "
                                  "the tray had used it since it opened with no pair held"),
+    *[(sc[fg], sc[bg], False, f"cb, {name}: {what}")
+      for name, sc in CB_SCHEMES.items() for fg, bg, what in CB_ROLES],
 
 
 
@@ -3480,6 +3510,15 @@ for fg, bg, large, where in PAIRS:
     if r < need:
         fails.append((r, need, fg, bg, where))
         print(f"FAIL  {r:5.2f} (need {need}) {tag}  {fg} on {bg}  — {where}")
+
+# HIGH CONTRAST PROMISES MORE THAN THE BAR: every pair at 7:1, WCAG's
+# enhanced level, because that is what somebody choosing it is asking for.
+for fg, bg, what in CB_ROLES:
+    sc = CB_SCHEMES[CB_HIGH]
+    r = ratio(sc[fg], sc[bg])
+    if r < 7:
+        fails.append((r, 7, sc[fg], sc[bg], f"cb, {CB_HIGH}: {what}"))
+        print(f"FAIL  {r:5.2f} (need 7) body   {sc[fg]} on {sc[bg]}  — cb, {CB_HIGH}: {what}")
 
 print(f"\n{len(PAIRS)} pairs checked, {len(fails)} failing.")
 
