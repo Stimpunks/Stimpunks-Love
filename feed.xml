@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Fri, 16 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Every entry on this page stands on its own again</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-17-changelog-lists-closed</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-changelog-lists-closed</guid>
+      <pubDate>Sat, 17 Oct 2026 12:00:00 GMT</pubDate>
+      <description>One entry here left its list open: the 2026-10-14 entry for the Faery Yurt’s welcome. Every entry below it, 252 of them, was nested inside that one list, and anything that reads the page’s structure saw one long entry. The Knowledge System’s copy of this page lost most of its entries that way. The list is closed now. The tool that builds the feed now refuses an entry whose lists do not close, and names it, so the next one is stopped before it is published rather than found three days after.</description>
+    </item>
     <item>
       <title>Wand &amp; Rabbit, the jacket as a sticker, and downloads from Profile</title>
       <link>https://stimpunks.world/changelog.html#2026-10-16-wand-and-rabbit-jacket-downloads</link>

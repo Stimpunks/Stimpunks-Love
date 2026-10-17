@@ -100,6 +100,20 @@ def main():
         title = date_m.group(2).strip()
 
         end = heads[i + 1].start() if i + 1 < len(heads) else len(body)
+        # AN ENTRY'S LISTS MUST CLOSE INSIDE IT. The feed reads the text between
+        # headings and never notices, but the page does: on 2026-10-14 one entry
+        # left its <ul> open, every <h2> after it landed inside that list, and the
+        # Knowledge System's mirror of this page lost most of its entries
+        # that way. Nothing here refused it, so it was found three days later.
+        for tag in ("ul", "ol"):
+            opened = len(re.findall(rf"<{tag}[\s>]", body[m.end():end]))
+            closed = body[m.end():end].count(f"</{tag}>")
+            if opened != closed:
+                raise SystemExit(
+                    f"REFUSING: the changelog entry {ident!r} opens {opened} <{tag}> "
+                    f"and closes {closed}.\n"
+                    "Every heading after an unclosed list is nested inside it on the page."
+                )
         summary = text_of(body[m.end():end])
         if not summary:
             raise SystemExit(f"REFUSING: the entry {title!r} has no body to describe.")
