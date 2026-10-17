@@ -678,7 +678,11 @@ by title prefix. **So do Follow, Catch up and a pressed @time now, through one `
 2026-09-29, after people pressed Follow, missed the sentence and hunted a rack of lookalike titles):
 it opens the rack, sets the start, scrolls the button into view, puts the keyboard on it and marks it
 (`data-cb-ready`, a `currentColor` ring in §4 only where the browser shows no `:focus-visible`), and
-if the radio covers it, makes the radio Small for now and lifts the film clear. **A host's beacon
+if the radio covers it, makes the radio Small for now and lifts the film clear. **On a rack card
+whose screen button is shown, the keyboard goes on that button instead** (`screenButtonFor`; Ryan,
+2026-10-17: Enter played the film small in its card, and people then put it on the screen too and
+had it playing twice), with the start still on the card's play button, where `rack.js` reads it,
+and `rack.js` now plays a card's film in one place at a time. **A host's beacon
 carries the video's id** (`where().id`, `cleanVideo` in `lib.mjs`), which finds the button exactly;
 a stamp in a message still matches by title. The radio's answer line sits under the readout now,
 not under the message box. Our facades name the film and then its channel. It sets `data-embed-start`,

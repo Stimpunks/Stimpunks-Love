@@ -30,7 +30,17 @@
    A SPOT FROM THE CB REACHES THE SCREEN TOO. Arriving by a spot's room link,
    cb.js marks the card's own play button with where to start
    (data-embed-start), and this reads it off the same card, so the film starts
-   there on the screen as well.
+   there on the screen as well. And cb.js puts the keyboard on the card's
+   screen button, not its play button, so Enter puts it up on the screen
+   (Ryan, 2026-10-17: Enter played it small in the card, and people then put
+   it on the screen as well).
+
+   ONE FILM PLAYS IN ONE PLACE. A card's film going up on the screen puts that
+   card's own player back to its plate, as the page shipped it, and pressing a
+   card's own play while its film is on the screen puts the screen back, the
+   way its button does but leaving the keyboard where it was. Without this the
+   same film played twice, in the card and on the screen, out of step. Only the
+   same card's film: another card playing in place is somebody's choice.
 
    The parts, all found by attribute:
      [data-rack-screen=ID]  the element holding a screen's plate
@@ -63,6 +73,13 @@
    first in the page, because a room's main screen is the one at its top. */
 (function () {
   var screens = {}, order = [];
+  // Each card's own plate as the page shipped it, to put back when its film
+  // goes up on the screen.
+  var plates = new WeakMap();
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rack-card]'), function (card) {
+    var own = card.querySelector('button.facade');
+    if (own) plates.set(card, own.outerHTML);
+  });
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-rack-screen]'), function (glass) {
     var id = glass.getAttribute('data-rack-screen');
@@ -96,6 +113,7 @@
   function put(id, node, said) {
     var s = screens[id];
     if (!s || !node) return null;
+    s.card = null;
     s.glass.innerHTML = '';
     s.glass.appendChild(node);
     s.glass.removeAttribute('data-rack-shape');
@@ -127,7 +145,18 @@
       (start ? ', from ' + clock(start) : '') + '.');
     var shape = btn.getAttribute('data-rack-shape');
     if (shape) s.glass.setAttribute('data-rack-shape', shape);
+    if (card) { stopInCard(card); s.card = card; }
     if (s.now) s.now.focus();
+  }
+
+  // The card's own player, if it is playing in place, goes back to its plate.
+  function stopInCard(card) {
+    var html = plates.get(card), frame = card.querySelector('.facade iframe');
+    var shell = frame && frame.closest('.facade');
+    if (!html || !shell) return;
+    var t = document.createElement('template');
+    t.innerHTML = html;
+    shell.replaceWith(t.content.firstElementChild);
   }
 
   // The page's first screen and what it calls itself, as its cards name it.
@@ -142,13 +171,26 @@
   function putBack(btn) {
     var s = screens[btn.getAttribute('data-rack-back')];
     if (!s) return;
+    clear(s);
+    var plate = s.glass.querySelector('button') || (s.glass.hasAttribute('tabindex') ? s.glass : null);
+    if (plate) plate.focus();
+  }
+  function clear(s) {
+    s.card = null;
     s.glass.innerHTML = s.plate;
     s.glass.removeAttribute('data-rack-shape');
     if (s.now) { s.now.hidden = true; s.now.textContent = ''; }
     if (s.back) s.back.parentNode.hidden = true;
-    var plate = s.glass.querySelector('button') || (s.glass.hasAttribute('tabindex') ? s.glass : null);
-    if (plate) plate.focus();
   }
+
+  /* A card's own play, pressed while that card's film is on the screen: the
+     screen goes back first. In the capture phase, so the card is still round
+     the button when love-embed.js swaps it for its player. */
+  document.addEventListener('click', function (e) {
+    var own = e.target.closest('button.facade'), card = own && own.closest('[data-rack-card]');
+    if (!card) return;
+    Object.keys(screens).forEach(function (id) { if (screens[id].card === card) clear(screens[id]); });
+  }, true);
 
   document.addEventListener('click', function (e) {
     var to = e.target.closest('[data-rack-to]');

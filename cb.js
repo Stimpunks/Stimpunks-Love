@@ -3963,7 +3963,7 @@
     if (!w || (film && !sameFilm(film, w.film))) {
       var got = film && readyFilm(film, video, secs, beacon);
       if (got) {
-        this.tell(called + ' is ready at ' + at + ': its play button has the keyboard. Press it, or Enter, and it starts there.' + readyNote(got));
+        this.tell(called + ' is ready at ' + at + ': ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
         return;
       }
       this.tell(!w
@@ -3993,7 +3993,7 @@
     }
     var got = readyFilm(film, video, null, beacon);
     this.tell(got
-      ? called + ' is ready: its play button has the keyboard. Press it, or Enter, and it plays live.' + readyNote(got)
+      ? called + ' is ready: ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it plays live' + playsOn(got) + '.' + readyNote(got)
       : called + ' has no play button of its own on this page, so it could not be got ready. It may be in a playlist here.');
   };
 
@@ -4519,7 +4519,7 @@
       if (!f.waiting) {
         var ready = readyFilm(b.film, b.video, this.placeOf(b), b);
         this.tell(ready
-          ? 'Following ' + b.handle + ': \u201c' + b.film + '\u201d is ready, and its play button has the keyboard. Press it, or Enter, and it keeps pace from there.' + readyNote(ready)
+          ? 'Following ' + b.handle + ': \u201c' + b.film + '\u201d is ready, and ' + pressOf(ready) + ' has the keyboard. Press it, or Enter, and it keeps pace from there' + playsOn(ready) + '.' + readyNote(ready)
           : 'Following ' + b.handle + ': press play on \u201c' + b.film + '\u201d and it will keep pace from there. It has no play button of its own on this page, so it may be in a playlist here.');
       }
       f.waiting = true;
@@ -4962,6 +4962,19 @@
     return btn;
   }
 
+  /* ON A RACK, ENTER PUTS IT ON THE SCREEN. Ryan, 2026-10-17: Follow said
+     press Enter, and Enter played the film in its card, small, under the
+     screen, so people pressed the card's screen button as well and had it
+     playing twice. A card whose screen this page has gets the keyboard on its
+     screen button instead, the one rack.js shows, and the start still goes on
+     the card's own play button, which is where rack.js reads it. Anything not
+     on a rack, or a card whose screen button is not shown, is as it was. */
+  function screenButtonFor(hit) {
+    var card = hit.closest('[data-rack-card]');
+    var to = card && window.loveRack && card.querySelector('button[data-rack-to]');
+    return to && !to.hidden && to.offsetParent ? to : null;
+  }
+
   function readyFilm(film, video, secs, beacon) {
     var hit = filmButton(film, video), put = null;
     if (!hit && beacon && (put = plateFor(beacon))) hit = put.button;
@@ -4971,15 +4984,24 @@
     if (secs != null) hit.dataset.embedStart = String(Math.max(0, Math.floor(secs)));
     else delete hit.dataset.embedStart;
     for (var d = hit.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
+    var to = put ? null : screenButtonFor(hit), press = to || hit;
     // Seen as well as focused: the page goes to it (at once, the dial's rule
     // against smooth scrolling), and it wears a ring even after a mouse press,
     // which is the case a browser's own focus ring leaves out.
-    hit.scrollIntoView({ block: 'center' });
-    hit.setAttribute('data-cb-ready', '');
-    hit.addEventListener('blur', function off() { hit.removeAttribute('data-cb-ready'); hit.removeEventListener('blur', off); });
-    try { hit.focus({ preventScroll: true, focusVisible: true }); } catch (e) { hit.focus(); }
-    return { button: hit, shrank: clearOf(hit), put: put };
+    press.scrollIntoView({ block: 'center' });
+    press.setAttribute('data-cb-ready', '');
+    press.addEventListener('blur', function off() { press.removeAttribute('data-cb-ready'); press.removeEventListener('blur', off); });
+    try { press.focus({ preventScroll: true, focusVisible: true }); } catch (e) { press.focus(); }
+    return { button: press, shrank: clearOf(press), put: put, screen: to ? to.getAttribute('data-rack-name') || 'the screen' : null };
   }
+
+  /* What the radio says has the keyboard, and where it plays: the card's
+     screen button and the screen, or the film's own play button. */
+  function pressOf(got) {
+    return got && got.screen ? 'the button that puts it up on ' + got.screen : 'its play button';
+  }
+  function playsOn(got) { return got && got.screen ? ', on ' + got.screen : ''; }
+  function upFirst(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
   /* A film under the radio has been got ready out of sight, which is the
      fault this exists to fix, so the radio goes Small for now and says so.
@@ -5024,7 +5046,7 @@
     var got = readyFilm(film, host && host.video, secs, host);
     if (secs == null) {
       radio.tell(got
-        ? 'You came for ' + called + ', live. Its play button has the keyboard: press it, or Enter, and it plays live.' + readyNote(got)
+        ? 'You came for ' + called + ', live. ' + upFirst(pressOf(got)) + ' has the keyboard: press it, or Enter, and it plays live' + playsOn(got) + '.' + readyNote(got)
         : called + ' has no play button of its own on this page, so it could not be got ready. It may be in a playlist here.');
       return;
     }
@@ -5033,7 +5055,7 @@
       radio.tell(called + ' has no play button of its own on this page, so it could not be set to start at ' + at + '. Press play on it, then press @' + at + ' on the channel.');
       return;
     }
-    radio.tell('You came for ' + at + ' in ' + called + '. Its play button has the keyboard: press it, or Enter, and it starts there.' + readyNote(got));
+    radio.tell('You came for ' + at + ' in ' + called + '. ' + upFirst(pressOf(got)) + ' has the keyboard: press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
   }
 
   function start() {
