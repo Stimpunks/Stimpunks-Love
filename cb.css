@@ -121,6 +121,38 @@
 .cb-trim svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .cb-radio--small .cb-trim, .cb-radio--folded .cb-trim { display: none; }
 .cb-trim--foot { border-radius: 0 0 8px 8px; }
+/* THE SIDES, outside the box (Ryan, 2026-10-17): a strip down each side, just
+   clear of the border, from under the bar to above the foot. Drawn once, longer
+   than the radio can be, and shown as far as the radio is tall, so the radio
+   growing when a message arrives draws nothing again. The radio keeps its
+   distance from the window's edges for them (the Mover's margin, in call.js),
+   and on a window too narrow to leave that room they are not shown at all. */
+.cb-side {
+  position: absolute; top: 40px; bottom: 40px; width: 20px;
+  overflow: hidden; pointer-events: none;
+  /* ON A RAIL OF THE THEME'S OWN CASE, because the drawing's inks are measured
+     on that case and not on whatever room is behind the radio: on the Den's
+     dark brown, Wabi-sabi's ink stroke was there and could not be seen. */
+  background: var(--cb-case); border: 1px solid var(--cb-steel-2); border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
+}
+.cb-side svg { display: block; }
+.cb-side--left { left: -26px; }
+.cb-side--right { right: -26px; }
+/* LCARS' elbow is a sixteen-pixel border down the left, and the side goes outside it. */
+:host([data-scheme="lcars"]) .cb-side--left { left: -42px; }
+.cb-radio--small .cb-side, .cb-radio--folded .cb-side { display: none; }
+@media (max-width: 459px) { .cb-side { display: none; } }
+/* THE DIVIDERS: a strip of the same drawing along the groove between two parts,
+   centred on it, in the room the parts already leave round it, so it never
+   stands behind a word. A part needs to be positioned for it to sit on. */
+.cb-sec { position: relative; }
+.cb-divider {
+  position: absolute; left: 0; right: 0; top: -10px; height: 16px;
+  overflow: hidden; pointer-events: none;
+}
+.cb-divider svg { display: block; width: 100%; height: 100%; }
+.cb-radio--small .cb-divider, .cb-radio--folded .cb-divider { display: none; }
 
 /* THE DRAWINGS MOVE ONLY WHERE data-motion IS ON: at MAX GLITTER, or after Let
    my theme move. Otherwise every drawing stands as it is when it has finished

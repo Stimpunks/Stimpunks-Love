@@ -98,9 +98,12 @@
 
   Mover.prototype.place = function () {
     var s = this.pos, b = this.box;
-    var maxX = Math.max(EDGE, window.innerWidth - b.offsetWidth - EDGE);
+    // A margin is room kept beside the box for what hangs off its sides: a
+    // radio theme's side drawings, which the radio says it has.
+    var side = EDGE + (this.margin ? this.margin() : 0);
+    var maxX = Math.max(side, window.innerWidth - b.offsetWidth - side);
     var maxY = Math.max(EDGE, window.innerHeight - b.offsetHeight - EDGE);
-    var x = Math.min(Math.max(EDGE, s.x == null ? HOME : s.x), maxX);
+    var x = Math.min(Math.max(side, s.x == null ? HOME : s.x), maxX);
     var y = Math.min(Math.max(EDGE, s.y == null ? HOME : s.y), maxY);
     b.style[this.side] = x + 'px';
     b.style.bottom = y + 'px';

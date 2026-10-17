@@ -677,7 +677,9 @@
        is also when the radio unfolds or comes back from Small. See drawArt. */
     var trimTop = this.trimTop = el('div', 'cb-trim cb-trim--top');
     var trimFoot = this.trimFoot = el('div', 'cb-trim cb-trim--foot');
-    [trimTop, trimFoot].forEach(function (t) { t.hidden = true; t.setAttribute('aria-hidden', 'true'); });
+    var sideL = this.sideL = el('div', 'cb-side cb-side--left');
+    var sideR = this.sideR = el('div', 'cb-side cb-side--right');
+    [trimTop, trimFoot, sideL, sideR].forEach(function (t) { t.hidden = true; t.setAttribute('aria-hidden', 'true'); });
     box.appendChild(trimTop);
 
     var tpp = this.tpPanel = el('div', 'cb-tp-panel');
@@ -742,8 +744,17 @@
        space and a groove in the case between them. The headings are real ones,
        so a screen reader can move between the parts, and they are lettered on
        the case in the radio's own clothes. Small shows none of them. */
+    var dividers = this.dividers = [];
     function part(cls, title) {
       var sec = el('div', 'cb-sec ' + cls);
+      // The groove above every part after the first carries a theme's drawing too.
+      if (set.children.length) {
+        var dv = el('div', 'cb-divider');
+        dv.hidden = true;
+        dv.setAttribute('aria-hidden', 'true');
+        sec.appendChild(dv);
+        dividers.push(dv);
+      }
       sec.appendChild(el('h2', 'cb-h', title));
       set.appendChild(sec);
       return sec;
@@ -1248,6 +1259,8 @@
 
     box.appendChild(set);
     box.appendChild(trimFoot);
+    box.appendChild(sideL);
+    box.appendChild(sideR);
     if (window.ResizeObserver) new ResizeObserver(function () { me.drawArt(); }).observe(trimTop);
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
@@ -1305,9 +1318,15 @@
     this.mover = new window.loveCall.Mover(box, bar, move, state, 'right', 'cb-radio--held', function () { save(me.state); }, function () {
       me.tell('Drag the bar to move the radio, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.');
     });
+    // A theme's sides hang outside the box, so the radio keeps that much further in.
+    this.mover.margin = function () {
+      if (!me.sidesShown()) return 0;
+      var b = box.getBoundingClientRect();
+      return Math.ceil(Math.max(b.left - me.sideL.getBoundingClientRect().left, me.sideR.getBoundingClientRect().right - b.right)) + 4;
+    };
 
     document.addEventListener('visibilitychange', function () { me.tune(); });
-    window.addEventListener('resize', function () { me.place(); });
+    window.addEventListener('resize', function () { me.drawArt(); me.place(); });
     /* It grows as messages and hosts arrive, and place() is what keeps its top
        on the screen, so it is placed again whenever its own size changes, not
        only when the window's does. place() sets right and bottom and never the
@@ -1613,22 +1632,38 @@
     var me = this, lc = window.loveCall, top = this.trimTop, foot = this.trimFoot;
     if (!top || !lc || !lc.schemeFor) return;
     var look = lc.schemeFor(this.state.scheme), c = this.schemeChoices;
+    var all = [top, foot, this.sideL, this.sideR].concat(this.dividers);
     if (!c || !c[look] || !c[look].art) {
-      top.hidden = foot.hidden = true;
-      top.textContent = foot.textContent = '';
-      this.artKey = null;
+      all.forEach(function (t) { t.hidden = true; t.textContent = ''; });
+      this.artKey = this.sideKey = null;
+      this.place();
       return;
     }
     withArt(function () {
-      top.hidden = false;
+      all.forEach(function (t) { t.hidden = false; });
+      /* The trims and dividers are drawn for their width, which only Size,
+         folding or a theme changes. The sides are drawn once for the window's
+         height and never because the radio grew: a message arriving must not
+         start a drawing again. */
       var w = top.clientWidth, key = look + '|' + w;
-      if (!w || key === me.artKey) return;
-      me.artKey = key;
-      foot.hidden = false;
-      var used = window.loveCbArt.draw(look, top, foot);
-      top.hidden = !used.top;
-      foot.hidden = !used.foot;
+      if (w && key !== me.artKey) {
+        me.artKey = key;
+        var used = window.loveCbArt.draw(look, { top: top, foot: foot, dividers: me.dividers });
+        top.hidden = !used.top;
+        foot.hidden = !used.foot;
+      }
+      var side = look + '|' + window.loveCbArt.sideLength();
+      if (side !== me.sideKey) {
+        me.sideKey = side;
+        window.loveCbArt.draw(look, { left: me.sideL, right: me.sideR });
+      }
+      me.place();
     });
+  };
+
+  // Whether the sides are showing, which is whether the radio keeps room for them.
+  Radio.prototype.sidesShown = function () {
+    return !!(this.sideL && !this.sideL.hidden && this.sideL.offsetWidth);
   };
 
   // Which choice is pressed, and each swatch drawn in the colours it stands for.
@@ -4849,7 +4884,7 @@
 
   // Stored as a distance from the bottom-right corner, because that is where
   // it docks and where it goes back to.
-  Radio.prototype.place = function () { return this.mover.place(); };
+  Radio.prototype.place = function () { return this.mover ? this.mover.place() : null; };
 
   /* call.js holds the Mover the radio moves with and a room's call window, so
      it is loaded before the radio is built. A public room's page may already

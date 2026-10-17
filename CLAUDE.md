@@ -3547,15 +3547,18 @@ the call window's and (by a copy in `guest.js`) the guest bar's host; `cb.css` l
 `cb.css`, an entry in `SCHEMES` and in `check-contrast.py`'s `CB_SCHEMES`**, which holds every pair the
 amber set makes and High contrast at 7:1. The friendly edit is a scheme that takes the room's colours;
 no room dresses the radio. **The worlds are Ryan's list of 2026-10-17** ("a really personal and fun
-experience, with lots of theme options"), each with a drawing under the bar and at the foot from
-`cb-themes.js`, loaded only when one is on, every ink a token held as ornament in `check-contrast.py`
+experience, with lots of theme options"), each with a drawing under the bar, at the foot, along every divider
+between parts and down both sides outside the box (on a rail of the theme's case, because its inks are
+measured on that case and not on the room behind), from `cb-themes.js`, loaded only when one is on, every ink a token held as ornament in `check-contrast.py`
 (`CB_ORNAMENT`), and each its own shape and display face for the radio's name and headings only;
 **every sentence stays in Atkinson Hyperlegible**. **A theme's drawing is the one thing on the radio
 that moves**, reversing "nothing on it moves at any setting" for the trims only: at MAX GLITTER by
 itself, or after Let my theme move (`love-cb`'s `motion`), the candles' rule; `call.js` writes it as
 `data-motion` on the host and follows the dial. **Nothing on it moves or lights up when a message
-lands**: a receive lamp is an alert with the sound off. The friendly edits are a drawing behind the
-words (it goes in the trim) and a theme that flashes. **It never claims what it has not
+lands**: a receive lamp is an alert with the sound off. **A side is drawn once, longer than the radio can be, and never because the radio grew**: a message arriving
+must not start a drawing again. The Mover keeps the radio that much further from the window's edge
+(`mover.margin`, measured off the sides), and below 460px the sides are left off. The friendly edits are a
+drawing behind the words (it goes in a trim, a side or a divider's groove) and a theme that flashes. **It never claims what it has not
 heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It
 also never counts: no people on the channel, no unread number.
