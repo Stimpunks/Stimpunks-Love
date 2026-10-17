@@ -953,7 +953,22 @@ test('a beacon\'s base mark comes from the pass, and its length is checked', asy
   const den = all.find((b) => b.room === 'the-den'), lph = all.find((b) => b.room === 'lightbulb-picture-house');
   assert.deepEqual([den.base, den.video, den.length], [false, 'dQw4w9WgXcQ', 212.4]);
   assert.deepEqual([lph.base, lph.video, lph.length], [true, null, null]);
-  for (const b of all) assert.deepEqual(Object.keys(b).sort(), ['at', 'base', 'film', 'handle', 'length', 'playing', 'room', 't', 'video']);
+  for (const b of all) assert.deepEqual(Object.keys(b).sort(), ['at', 'base', 'film', 'handle', 'length', 'live', 'playing', 'room', 't', 'video']);
+  assert.deepEqual(all.map((b) => b.live), [false, false], 'a beacon is not live unless it says so');
+});
+
+/* A live video has no place and no length: whatever a radio sends for either,
+   its beacon says live, at 0, with no length. And live is only ever true. */
+test('a live beacon keeps no place and no length', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await hostBeacon(ada, 'the-jungle-room', 'A live cam', 812.5, true, s, Date.now(), 'dQw4w9WgXcQ', 4000, true);
+  await hostBeacon(bex, 'the-den', 'A film', 30, true, s, Date.now(), null, null, 'yes');
+  const all = shapeBeacons(await readBeacons(s));
+  const cam = all.find((b) => b.room === 'the-jungle-room'), den = all.find((b) => b.room === 'the-den');
+  assert.deepEqual([cam.live, cam.at, cam.length, cam.video, cam.playing], [true, 0, null, 'dQw4w9WgXcQ', true]);
+  assert.deepEqual([den.live, den.at], [false, 30], 'only true makes a beacon live');
+  const again = await hostBeacon(ada, 'the-jungle-room', 'A film now', 12, false, s);
+  assert.equal(again.beacons.find((b) => b.room === 'the-jungle-room').live, false, 'a host who moves off a live video is not live any more');
 });
 
 test('only the host or the base stops a beacon', async () => {

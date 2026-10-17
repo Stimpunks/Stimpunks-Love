@@ -661,8 +661,12 @@ player answers postMessage from the page: `listening` gets its time, state, titl
 `isLive` back, and `seekTo` moves it. **That is the IFrame Player API's own protocol spoken
 from our side, so `www.youtube.com/iframe_api` is never loaded and `script-src` does not move.**
 Measured before it was built, in a frame on the dev server. `loveEmbed.where()` and `seek()`
-use the film that is playing, or else the one that played last. They skip live cameras, and
-they **never press play**: a jump moves your place, and whether it plays stays yours. Nothing
+use the film that is playing, or else the one that played last. `seek()` skips live videos,
+and so does `where()` unless asked `where({ live: true })`, which only Add my spot and Host this
+film ask (Ryan, 2026-10-17, reversing "they skip live cameras" so a screening of a live video can
+be announced): **a live spot is `@live in “the video” at #the-room`, a live beacon says `live`
+with no place or length, Catch up beside it gets the play button ready, and there is no Follow**,
+because nothing in a live video can be kept in step. They **never press play**: a jump moves your place, and whether it plays stays yours. Nothing
 moves anybody's film but their own press. **Add my spot writes `@34:12 in “the film” at
 #the-room`, and a stamp that names a room or a film moves nothing anywhere else.** A bare stamp
 dropped from one room used to move whatever was playing in another. Ryan found that by trying it

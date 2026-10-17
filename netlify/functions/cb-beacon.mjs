@@ -14,9 +14,11 @@ export default async (req) => {
     // The answer is heard as if tuned to the room hosted in, so a host in a room
     // that keeps to itself sees that room's beacons and nobody else's quiet ones.
     if (b.off) return json(200, { beacons: shapeBeacons(await stopBeacon(who, room), who, room), now: Date.now() });
-    const film = cleanFilm(b.film), at = cleanAt(b.at);
-    if (!film || at === null) return json(400, { error: 'A beacon needs the film and a place in it.' });
-    const r = await hostBeacon(who, room, film, at, !!b.playing, undefined, undefined, b.video, b.length);
+    // A live video has no place in it, so its beacon says live instead.
+    const live = b.live === true;
+    const film = cleanFilm(b.film), at = live ? 0 : cleanAt(b.at);
+    if (!film || at === null) return json(400, { error: 'A beacon needs the film and a place in it, or that it is live.' });
+    const r = await hostBeacon(who, room, film, at, !!b.playing, undefined, undefined, b.video, b.length, live);
     if (r.closed) return json(403, { error: 'Hosting in this room is for the moderators it is for.' });
     if (r.held) return json(409, { error: `${r.held} is already hosting this room. Ask them, or the base, if you want to take over.` });
     return json(200, { beacons: shapeBeacons(r.beacons, who, room), now: Date.now() });

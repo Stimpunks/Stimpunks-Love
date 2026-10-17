@@ -158,14 +158,17 @@
   window.addEventListener('message', hear);
 
   /* The film this page's jump means: the one playing now, or else the one
-     that played last, and never one nobody has started or a live camera,
-     where a time means nothing. */
-  function active() {
+     that played last, and never one nobody has started. A live video is left
+     out unless the caller asks for it: a time means nothing in one, so seek,
+     play and pause never touch it, and only where({ live: true }) sees it,
+     for the CB's Add my spot and Host this film, which say it is live instead
+     of giving a place (Ryan, 2026-10-17). */
+  function active(live) {
     players = players.filter(function (p) { return p.el.isConnected; });
     var best = null;
     for (var i = 0; i < players.length; i++) {
       var p = players[i];
-      if (!p.started || p.live) continue;
+      if (!p.started || (p.live && !live)) continue;
       var playing = p.state === 1, was = best && best.state === 1;
       if (!best || (playing && !was) || (playing === was && p.lastPlayed >= best.lastPlayed)) best = p;
     }
@@ -180,11 +183,15 @@
     return m && !/[?&]list=/.test(p.el.src) ? m[1] : null;
   }
 
-  function where() {
-    var p = active();
+  function where(opts) {
+    var p = active(!!(opts && opts.live));
+    if (!p) return null;
     // Buffering counts as playing: it is on its way, and a host's beacon
     // flickering to paused on every buffer would be noise on everybody's radio.
-    return p ? { time: p.time, duration: p.duration || null, film: name(p), id: idOf(p), playing: p.state === 1 || p.state === 3 } : null;
+    // A live video has no place and no length to give.
+    return p.live
+      ? { time: null, duration: null, film: name(p), id: idOf(p), playing: p.state === 1 || p.state === 3, live: true }
+      : { time: p.time, duration: p.duration || null, film: name(p), id: idOf(p), playing: p.state === 1 || p.state === 3, live: false };
   }
 
   function seek(seconds) {

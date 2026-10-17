@@ -64,7 +64,9 @@
        on YOUR page there, without pressing play. Add my spot writes your own
        place, film and room into the box and sends nothing. A stamp that
        names a film or a room moves nothing anywhere else. See stamps and
-       jump.
+       jump. A LIVE VIDEO HAS NO PLACE, so its spot is @live and its beacon
+       says live; pressing either gets its play button ready, and it has no
+       Follow. See goLive.
      · SMALL IS STILL ON. Folded is off and sends nothing; small is the bar and
        the newest message and nothing else, listening as it does full size, so
        somebody can watch a film in a room and still see the channel. See
@@ -421,12 +423,12 @@
       var spot = tagAt[off + m.index];
       // A room named by a spot carries the spot, in the fragment, which no
       // browser sends to any server. See arrive.
-      a.href = room.path + (spot ? '#spot=' + spot.secs + '&film=' + encodeURIComponent(spot.film) : '');
+      a.href = room.path + (spot ? '#spot=' + (spot.secs == null ? 'live' : spot.secs) + '&film=' + encodeURIComponent(spot.film) : '');
       var hash = el('span', null, '#');
       hash.setAttribute('aria-hidden', 'true');
       a.appendChild(hash);
       a.appendChild(document.createTextNode(room.name));
-      if (spot) a.appendChild(el('span', 'sr', ', ready at ' + place(spot.secs)));
+      if (spot) a.appendChild(el('span', 'sr', spot.secs == null ? ', ready to play live' : ', ready at ' + place(spot.secs)));
       parent.appendChild(a);
       at = m.index + m[0].length;
     }
@@ -442,8 +444,13 @@
      this site that talks to a player. It moves your place and never presses
      play: whether it plays is still yours, and nobody else's press moves
      anything of yours. The @ is what makes it a place rather than a time of
-     day: "back at 7:30" stays words. */
-  var STAMP = /@(?:(\d{1,2}):([0-5]\d)|(\d{1,3})):([0-5]\d)(?![\d:])/g;
+     day: "back at 7:30" stays words.
+     @LIVE IS A LIVE VIDEO'S SPOT (Ryan, 2026-10-17): a live video has no place
+     to move to, so Add my spot writes @live in “the video” at #the-room, and
+     pressing it gets that video's own play button ready and presses nothing.
+     It is a button only when it names a video, so "@live" in passing stays
+     words. */
+  var STAMP = /@(?:(?:(\d{1,2}):([0-5]\d)|(\d{1,3})):([0-5]\d)(?![\d:])|([Ll][Ii][Vv][Ee])(?![A-Za-z0-9_]))/g;
 
   /* WHICH FILM, AND WHICH ROOM. Ryan, 2026-09-28: a bare @34:12 dropped from
      one room moved whatever happened to be playing in another. So Add my spot
@@ -471,12 +478,15 @@
     while ((m = STAMP.exec(text))) {
       if (!isStamp(text, m.index)) continue;
       var end = m.index + m[0].length, n = text.slice(end).match(NAMED);
+      if (m[5] && !n) continue;
       stampAt[m.index] = n ? { film: n[1], room: n[2] ? n[2].toLowerCase() : '' } : { film: '', room: '' };
       if (n && n[2]) tagAt[end + n[0].lastIndexOf('#')] = { secs: secsOf(m), film: n[1] };
     }
   }
 
+  // null for @live, which has no place.
   function secsOf(m) {
+    if (m[5]) return null;
     return m[1] != null ? (+m[1]) * 3600 + (+m[2]) * 60 + (+m[4]) : (+m[3]) * 60 + (+m[4]);
   }
 
@@ -488,13 +498,17 @@
       if (!isStamp(text, m.index)) continue;
       var secs = secsOf(m);
       var what = stampAt[off + m.index] || { film: '', room: '' };
+      if (secs == null && !what.film) continue;
       if (m.index > at) parent.appendChild(document.createTextNode(text.slice(at, m.index)));
       var b = el('button', 'cb-jump', m[0]);
       b.type = 'button';
-      b.dataset.at = String(secs);
+      if (secs == null) b.dataset.live = '1';
+      else b.dataset.at = String(secs);
       if (what.film) b.dataset.film = what.film;
       if (what.room) b.dataset.room = what.room;
-      b.setAttribute('aria-label', 'Jump to ' + place(secs) + (what.film ? ' in ' + what.film : ''));
+      b.setAttribute('aria-label', secs == null
+        ? 'Get ' + what.film + ' ready to play live'
+        : 'Jump to ' + place(secs) + (what.film ? ' in ' + what.film : ''));
       parent.appendChild(b);
       at = m.index + m[0].length;
     }
@@ -1211,7 +1225,7 @@
     this.following = null;
     log.addEventListener('click', function (e) {
       var b = e.target.closest('.cb-jump');
-      if (b) me.jump(+b.dataset.at, b.dataset.film || '', b.dataset.room || '');
+      if (b) me.jump(b.dataset.live ? null : +b.dataset.at, b.dataset.film || '', b.dataset.room || '');
     });
     speak.addEventListener('click', function () { me.setSpeak(!me.state.speak); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.transmit(); });
@@ -1539,7 +1553,9 @@
       });
       return;
     }
-    var w = window.loveEmbed && window.loveEmbed.where ? window.loveEmbed.where() : null;
+    // A live video counts here: Add my spot and Host this film both have a
+    // live way of saying where you are.
+    var w = window.loveEmbed && window.loveEmbed.where ? window.loveEmbed.where({ live: true }) : null;
     this.spotBtn.hidden = !w;
     this.hostBtn.hidden = !w && !this.hosting;
     this.screenBtn.hidden = !(this.state.base && firstScreen());
@@ -3936,12 +3952,14 @@
      nothing and said nothing would look broken (the Playhouse's lesson). */
   Radio.prototype.jump = function (secs, film, room, video, beacon) {
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
-    var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
+    var live = secs == null;
+    var at = live ? '' : place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
     if (room && hereTag() !== room) {
       var there = byTag[room] ? byTag[room].name : '#' + room;
-      this.tell(at + ' is in ' + called + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
+      this.tell((live ? called + ' is on live' : at + ' is in ' + called) + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
       return;
     }
+    if (live) { this.goLive(film, video, beacon); return; }
     if (!w || (film && !sameFilm(film, w.film))) {
       var got = film && readyFilm(film, video, secs, beacon);
       if (got) {
@@ -3959,6 +3977,24 @@
     } else {
       this.tell('Moved \u201c' + r.film + '\u201d to ' + at + '. It plays or stays paused, as it was.');
     }
+  };
+
+  /* A LIVE SPOT, or Catch up beside a live host: a live video has no place to
+     move to, so this gets its own play button ready, or says it is on here
+     already. It presses nothing. */
+  Radio.prototype.goLive = function (film, video, beacon) {
+    var e = window.loveEmbed, w = e && e.where ? e.where({ live: true }) : null;
+    var called = film ? '\u201c' + film + '\u201d' : 'the live video';
+    if (w && w.live && (!film || sameFilm(film, w.film))) {
+      this.tell(w.playing
+        ? called + ' is already playing here. It is live, so there is no place in it to move to.'
+        : called + ' is on here, paused. It is live, so there is no place in it to move to; press play on it to go on.');
+      return;
+    }
+    var got = readyFilm(film, video, null, beacon);
+    this.tell(got
+      ? called + ' is ready: its play button has the keyboard. Press it, or Enter, and it plays live.' + readyNote(got)
+      : called + ' has no play button of its own on this page, so it could not be got ready. It may be in a playlist here.');
   };
 
   // A title cut short to fit a message ends in an ellipsis and matches by its start.
@@ -3983,12 +4019,13 @@
     return null;
   }
 
-  /* Writes "@34:12 in “the film” at #the-room" where the caret is,
+  /* Writes "@34:12 in “the film” at #the-room" where the caret is, or
+     "@live in “the video” at #the-room" for a live video,
      cutting the title short with an ellipsis if the whole message would
      otherwise run past what the box takes. A page that is not on the street's
      list, like the 404, gets no #tag. */
   Radio.prototype.addSpot = function () {
-    var w = window.loveEmbed && window.loveEmbed.where && window.loveEmbed.where();
+    var w = window.loveEmbed && window.loveEmbed.where && window.loveEmbed.where({ live: true });
     if (!w) { this.spotBtn.hidden = true; this.filmShown(); this.tell('No film has been started on this page.'); return; }
     var v = this.say.value;
     var c = this.say.selectionStart == null ? v.length : this.say.selectionStart;
@@ -3996,7 +4033,7 @@
     var here = hereRoom();
     var lead = (before && !/\s$/.test(before)) ? ' ' : '';
     var trail = (!after || !/^\s/.test(after)) ? ' ' : '';
-    var head = '@' + place(w.time) + ' in \u201c', tail = '\u201d' + (here && !here.quiet ? ' at #' + here.tag : '');
+    var head = (w.live ? '@live' : '@' + place(w.time)) + ' in \u201c', tail = '\u201d' + (here && !here.quiet ? ' at #' + here.tag : '');
     var film = w.film.replace(/[\u201c\u201d]/g, '"').replace(/\s+/g, ' ').trim();
     var space = this.say.maxLength - before.length - after.length - lead.length - trail.length - head.length - tail.length;
     if (space < 8) { this.tell('Your message is too full for your spot. Make some room and try again.'); return; }
@@ -4007,7 +4044,9 @@
     c = before.length + put.length;
     this.say.focus();
     this.say.setSelectionRange(c, c);
-    this.tell('Your spot in \u201c' + film + '\u201d is in your message. Nothing goes out until you transmit.');
+    this.tell(w.live
+      ? 'Your spot in \u201c' + film + '\u201d is in your message, as @live: a live video has no place in it. Nothing goes out until you transmit.'
+      : 'Your spot in \u201c' + film + '\u201d is in your message. Nothing goes out until you transmit.');
   };
 
   /* WORLD OR THIS ROOM. Ryan, 2026-09-28: the radio can tune to the World
@@ -4331,7 +4370,7 @@
     if (!sc.shell.isConnected) { this.screened = null; return; }
     if (sc.named || !w || w.id !== sc.id || !w.film || !sc.now) return;
     sc.named = true;
-    var line = 'Now showing on ' + sc.name + ': \u201c' + w.film + '\u201d' + (w.duration ? ', ' + place(w.duration) : '') +
+    var line = 'Now showing on ' + sc.name + ': \u201c' + w.film + '\u201d' + (w.live ? ', live' : w.duration ? ', ' + place(w.duration) : '') +
       ', put up from the CB by ' + this.state.handle + (sc.start ? ', from ' + place(sc.start) : '') + '.';
     sc.now.textContent = sc.now.textContent.replace(sc.line, line);
     sc.line = line;
@@ -4347,7 +4386,7 @@
      pauses, jumps or changes, or half a minute has passed. One host per room;
      the server says who has it. */
   Radio.prototype.setHosting = function (on, why2) {
-    var e = window.loveEmbed, w = e && e.where ? e.where() : null;
+    var e = window.loveEmbed, w = e && e.where ? e.where({ live: true }) : null;
     if (!on) {
       var was = this.hosting;
       this.hosting = null;
@@ -4359,8 +4398,10 @@
     if (rooms && rooms.length && !hereRoom()) { this.tell('This page is not a room on the street, so it cannot be hosted.'); return; }
     this.hosting = { room: hereTag(), sent: null, busy: false };
     this.hostShown();
-    if (offList()) this.tell('You are hosting \u201c' + w.film + '\u201d in this room only. Radios tuned to this room\u2019s channel can see where you are in it, and nobody outside this room is told. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
-    else this.tell('You are hosting \u201c' + w.film + '\u201d. Everybody on the channel can see where you are in it, and in which room. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
+    // A live video has no place in it to show, so what is shown is that it is live.
+    var what = '\u201c' + w.film + '\u201d' + (w.live ? ', live' : ''), seen = w.live ? 'that you are watching it live' : 'where you are in it';
+    if (offList()) this.tell('You are hosting ' + what + ' in this room only. Radios tuned to this room\u2019s channel can see ' + seen + ', and nobody outside this room is told. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
+    else this.tell('You are hosting ' + what + '. Everybody on the channel can see ' + seen + ', and in which room. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
     this.hostTick(w);
   };
 
@@ -4382,11 +4423,19 @@
     if (!h || h.busy) return;
     if (!w) { this.setHosting(false, 'Your film is off, so you have stopped hosting.'); return; }
     var now = Date.now(), last = h.sent;
-    var guess = last ? last.at + (last.playing ? (now - last.when) / 1000 : 0) : 0;
-    if (last && last.film === w.film && last.playing === w.playing && last.length === !!w.duration &&
-        Math.abs(w.time - guess) < 3 && now - last.when < BEAT) return;
     var film = Array.from(w.film);
     film = film.length > FILM_MAX ? film.slice(0, FILM_MAX - 1).join('') + '\u2026' : w.film;
+    /* A live video: no place and no length, so the beacon goes when it starts,
+       plays or pauses, or changes, and every BEAT besides. */
+    if (w.live) {
+      if (last && last.live && last.film === w.film && last.playing === w.playing && now - last.when < BEAT) return;
+      this.sendBeacon({ room: h.room, film: film, video: w.id || null, live: true, playing: !!w.playing },
+                      { film: w.film, live: true, playing: !!w.playing, when: now });
+      return;
+    }
+    var guess = last && !last.live ? last.at + (last.playing ? (now - last.when) / 1000 : 0) : 0;
+    if (last && !last.live && last.film === w.film && last.playing === w.playing && last.length === !!w.duration &&
+        Math.abs(w.time - guess) < 3 && now - last.when < BEAT) return;
     this.sendBeacon({ room: h.room, film: film, video: w.id || null, length: w.duration || null, at: Math.max(0, w.time), playing: !!w.playing },
                     { film: w.film, at: w.time, playing: !!w.playing, length: !!w.duration, when: now });
   };
@@ -4446,6 +4495,7 @@
     }
     var b = this.beaconIn(room);
     if (!b) { this.tell('That host has stopped.'); return; }
+    if (b.live) { this.tell(b.handle + ' is hosting a live video, so there is nothing to keep in step with. Catch up gets it ready to play.'); return; }
     this.following = { room: room, fresh: true, hostWas: null, sent: 0, waiting: false };
     this.tell('Following ' + b.handle + ': your film keeps pace with theirs, at your own volume. Pause, or press Follow again, to go your own way.');
     this.followTick();
@@ -4462,6 +4512,8 @@
     if (!f) return;
     var b = this.beaconIn(f.room);
     if (!b || f.room !== hereTag()) { this.setFollow(false, null, 'The host has stopped, so you have stopped following.'); return; }
+    // FOLLOW IS NEVER FOR A LIVE VIDEO: there is no place in it to keep in step.
+    if (b.live) { this.setFollow(false, null, b.handle + ' is hosting a live video now, so there is nothing to keep in step with, and you have stopped following. Catch up gets it ready to play.'); return; }
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     if (!w || !sameFilm(b.film, w.film)) {
       if (!f.waiting) {
@@ -4517,7 +4569,7 @@
       return (order[a.room] || 0) - (order[b.room] || 0);
     });
     var keys = list.map(function (b) {
-      return [b.room, b.room === tag ? (b.handle === me.state.handle ? 'mine' : 'here') : 'there', b.handle, b.base, b.film].join('|');
+      return [b.room, b.room === tag ? (b.handle === me.state.handle ? 'mine' : 'here') : 'there', b.handle, b.base, b.film, b.live ? 'live' : ''].join('|');
     });
     var kids = ul.children, same = kids.length === keys.length;
     for (i = 0; same && i < kids.length; i++) same = kids[i].dataset.key === keys[i];
@@ -4526,12 +4578,14 @@
       for (i = 0; i < list.length; i++) ul.appendChild(this.beaconRow(list[i], keys[i]));
     }
     for (i = 0; i < list.length; i++) {
-      var b = list[i], li = ul.children[i], at = place(this.placeOf(b));
-      li.querySelector('.cb-beacon-at').textContent = at + (b.playing ? ', playing' : ', paused');
+      var b = list[i], li = ul.children[i];
+      li.querySelector('.cb-beacon-at').textContent = b.live
+        ? 'live' + (b.playing ? '' : ', paused')
+        : place(this.placeOf(b)) + (b.playing ? ', playing' : ', paused');
       var fo = li.querySelector('.cb-follow');
       if (fo) fo.setAttribute('aria-pressed', String(!!(this.following && this.following.room === b.room)));
       var a = li.querySelector('a.cb-room');
-      if (a) a.href = byTag[b.room].path + '#spot=' + Math.floor(this.placeOf(b)) + '&film=' + encodeURIComponent(b.film);
+      if (a) a.href = byTag[b.room].path + '#spot=' + (b.live ? 'live' : Math.floor(this.placeOf(b))) + '&film=' + encodeURIComponent(b.film);
     }
     ul.hidden = list.length === 0;
   };
@@ -4565,8 +4619,12 @@
       var c = el('button', 'cb-btn cb-catch', 'Catch up');
       c.type = 'button';
       c.dataset.room = b.room;
-      c.setAttribute('aria-label', 'Catch up with ' + b.handle + ' in ' + b.film);
+      c.setAttribute('aria-label', b.live
+        ? 'Catch up with ' + b.handle + ': get ' + b.film + ' ready to play live'
+        : 'Catch up with ' + b.handle + ' in ' + b.film);
       li.appendChild(c);
+      // No Follow beside a live video: there is no place in it to keep in step.
+      if (b.live) return li;
       var fo = el('button', 'cb-btn cb-catch cb-follow', 'Follow');
       fo.type = 'button';
       fo.dataset.room = b.room;
@@ -4581,7 +4639,7 @@
   Radio.prototype.catchUp = function (room) {
     for (var i = 0; i < this.beacons.length; i++) {
       var b = this.beacons[i];
-      if (b.room === room) { this.jump(Math.floor(this.placeOf(b)), b.film, b.room, b.video, b); return; }
+      if (b.room === room) { this.jump(b.live ? null : Math.floor(this.placeOf(b)), b.film, b.room, b.video, b); return; }
     }
     this.tell('That host has stopped.');
   };
@@ -4883,11 +4941,11 @@
   function plateFor(b) {
     var glass = firstScreen();
     if (!glass || !b || !b.base || !/^[A-Za-z0-9_-]{11}$/.test(b.video || '')) return null;
-    var button = glass.ready({ id: b.video, film: b.film, length: b.length, by: b.handle });
+    var button = glass.ready({ id: b.video, film: b.film, length: b.length, live: !!b.live, by: b.handle });
     return button ? { button: button, name: glass.name, back: glass.back } : null;
   }
 
-  // spec is what firstScreen's ready() is handed: { id, film, length, by }.
+  // spec is what firstScreen's ready() is handed: { id, film, length, live, by }.
   function rackPlate(f, spec) {
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -4895,7 +4953,7 @@
     btn.dataset.embedId = spec.id;
     btn.dataset.embedTitle = spec.film;
     btn.appendChild(document.createTextNode('\u201c' + spec.film + '\u201d \u2014 ' +
-      (spec.length ? 'runs ' + place(spec.length) : 'how long it runs was not said') + ', hosted on the CB by ' + spec.by));
+      (spec.live ? 'live, so it runs until you close it' : spec.length ? 'runs ' + place(spec.length) : 'how long it runs was not said') + ', hosted on the CB by ' + spec.by));
     var go = document.createElement('span');
     go.className = 'facade__play';
     go.textContent = '\u25B6 PRESS PLAY';
@@ -4911,6 +4969,7 @@
     var old = document.querySelectorAll('[data-cb-ready]');
     for (var o = 0; o < old.length; o++) old[o].removeAttribute('data-cb-ready');
     if (secs != null) hit.dataset.embedStart = String(Math.max(0, Math.floor(secs)));
+    else delete hit.dataset.embedStart;
     for (var d = hit.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
     // Seen as well as focused: the page goes to it (at once, the dial's rule
     // against smooth scrolling), and it wears a ring even after a mouse press,
@@ -4948,9 +5007,9 @@
   }
 
   function arrive() {
-    var m = location.hash.match(/^#spot=(\d{1,6})(?:&film=([^&]*))?$/);
+    var m = location.hash.match(/^#spot=(\d{1,6}|live)(?:&film=([^&]*))?$/);
     if (!m || !radio) return;
-    var secs = +m[1], film = '';
+    var secs = m[1] === 'live' ? null : +m[1], film = '';
     try { film = decodeURIComponent(m[2] || ''); } catch (e) { return; }
     /* Arriving from a host's row in another room: a moderator's pasted video
        has no button here until that host's beacon has been heard, which is
@@ -4961,8 +5020,15 @@
 
   function landed(secs, film) {
     var b = radio.beaconIn(hereTag()), host = b && film && sameFilm(film, b.film) ? b : null;
-    var at = place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
+    var called = film ? '\u201c' + film + '\u201d' : 'the film';
     var got = readyFilm(film, host && host.video, secs, host);
+    if (secs == null) {
+      radio.tell(got
+        ? 'You came for ' + called + ', live. Its play button has the keyboard: press it, or Enter, and it plays live.' + readyNote(got)
+        : called + ' has no play button of its own on this page, so it could not be got ready. It may be in a playlist here.');
+      return;
+    }
+    var at = place(secs);
     if (!got) {
       radio.tell(called + ' has no play button of its own on this page, so it could not be set to start at ' + at + '. Press play on it, then press @' + at + ' on the channel.');
       return;

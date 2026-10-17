@@ -337,7 +337,7 @@
     delete playBtn.dataset.embedStart;
     on = false;
     cb = { id: spec.id, title: spec.film, cb: 'hosted by ' + spec.by + ' on the CB',
-           label: (spec.length ? 'Runs ' + runsOf(spec.length) : 'How long it runs was not said') + ' · it may flash, like every film here' };
+           label: (spec.live ? 'Live, until you stop it' : spec.length ? 'Runs ' + runsOf(spec.length) : 'How long it runs was not said') + ' · it may flash, like every film here' };
     showPanel(cb);
     mark(); label();
     return playBtn;

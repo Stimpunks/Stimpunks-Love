@@ -9,45 +9,52 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sat, 17 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Watching a live video together on the CB</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-17-cb-live-watching-together</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-cb-live-watching-together</guid>
+      <pubDate>Sat, 17 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Add my spot and Host this film now come up for a live video too, at Ryan’s ask, so the channel can be told when one is being screened. Until now Watching together left live videos out, because a time means nothing in one. A live video’s spot is @live: Add my spot writes @live in “the video” at #the-room, and pressing @live gets that video’s play button ready on your page, or says it is already playing. It presses nothing, and the room’s link in the message gets it ready when you arrive. Hosting one says it is live instead of giving a place. Beside the host, Catch up gets the video’s play button ready, and there is no Follow, because there is nothing in a live video to keep in step. A moderator’s live video put up from Screen a video says on everybody else’s screen that it runs until you stop it. The CB guide and the privacy page say so. Changed: love-embed.js, cb.js, netlify/cb/lib.mjs and its tests, cb-beacon.mjs, and the sets in hermitage.js, looming.js and rave.js.</description>
+    </item>
+    <item>
       <title>Quieter messages on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-17-cb-quieter-messages</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-cb-quieter-messages</guid>
-      <pubDate>Sat, 17 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sat, 17 Oct 2026 11:59:00 GMT</pubDate>
       <description>The words Copy, React and Take off are off every message on the CB, from a proposal Ryan brought: a row of buttons on every message was a lot to look at. At the end of each message’s line there are two small icons now, a smiley for React and three dots for More, which opens Copy and Take off under the line. They show while your pointer is on the message or the keyboard is in it, and always on a phone or tablet, which has nothing to point with. Out of sight they are still in their place, so Tab reaches them, a screen reader names them, and nothing on the line moves when they come and go. The CB guide says so. Changed: cb.js, cb.css.</description>
     </item>
     <item>
       <title>The hundred points in the CB’s quick reactions</title>
       <link>https://stimpunks.world/changelog.html#2026-10-17-cb-hundred-points</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-cb-hundred-points</guid>
-      <pubDate>Sat, 17 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sat, 17 Oct 2026 11:58:00 GMT</pubDate>
       <description>💯 is in the quick row that React opens on the CB, after the crying face. Ryan’s ask. It shows who pressed it, like every reaction, and never how many. Changed: netlify/cb/lib.mjs, cb.js and the CB guide.</description>
     </item>
     <item>
       <title>The leaves fall in the Bough House, when you ask</title>
       <link>https://stimpunks.world/changelog.html#2026-10-17-bough-house-leaves-fall</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-bough-house-leaves-fall</guid>
-      <pubDate>Sat, 17 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sat, 17 Oct 2026 11:57:00 GMT</pubDate>
       <description>A button under the Bough House’s drawing lets the autumn leaves fall, at Helen’s ask: they let go of the crown, drift down swinging and turning, and land among the others at the foot of the ladder. The same button stops them, and stopping clears the air at once. Nothing falls until somebody presses, at any setting, and the dial never starts it.</description>
     </item>
     <item>
       <title>A hammock and a platform swing by the pond</title>
       <link>https://stimpunks.world/changelog.html#2026-10-17-pond-hammock-and-platform-swing</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-pond-hammock-and-platform-swing</guid>
-      <pubDate>Sat, 17 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Sat, 17 Oct 2026 11:56:00 GMT</pubDate>
       <description>By the pond between the pitches, at Helen’s ask: a hammock strung between two posts, and one of the swing seats is now a platform swing, wide and railed at each end, that a wheelchair can roll straight onto.</description>
     </item>
     <item>
       <title>The Bough House, Jess’s tree house at pitch 05, and the pond between it and the Faery Yurt</title>
       <link>https://stimpunks.world/changelog.html#2026-10-17-the-bough-house</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-the-bough-house</guid>
-      <pubDate>Sat, 17 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Sat, 17 Oct 2026 11:55:00 GMT</pubDate>
       <description>A new pitch on the campgrounds, next to the Faery Yurt: the Bough House, Jess’s, from her brief as Helen passed it on. A tree house up in an autumn grove, built round the tree, so the trunk comes up through the floor and out of the roof and two of its limbs curl round the walls. It is the only room on the street up off the ground: dark words on silvered planks against the sky, the leaves gold, rust and crimson, and nothing in it moves. Ben, a tiny black dog, lives there too, and one song plays on repeat: Alison Krauss &amp; Union Station’s Let Me Touch You For Awhile, written by Robert Lee Castleman, 3:23 and round again until you stop it. Nothing plays until you press. Jess founded and runs GROVE, mentoring, interest groups and BEING ME for Autistic young people, by Autistic adults, and the room links to it. Between the pitches, and belonging to none of them: a pond with swing seats on its bank and a playground for pets, at Helen’s ask, drawn on the campgrounds’ board in the field’s own inks, with pebble paths from it to the yurt’s door, the tree house’s ladder and on across the field to the Solarpunk Hermitage. Every pitch stays where it is. Every home on the campgrounds now names its neighbours: the Faery Yurt, the Bough House and the Solarpunk Hermitage each carry a line linking the others, by name and by whose they are. A new tool writes it from the campgrounds’ board, so when somebody new pitches a home, every neighbour’s line takes them in the next time the street is checked, and nobody keeps the list by hand. It is a street convention, so it wears each room’s own ink. On the board, the tree house’s sign is the fifth light: the last sun, still on the top of the tree after it has left the field. A job marker (an acorn), a share card, a fractal, the map and Now Playing, and Merienda and Overlock, typefaces new to the street. Small screens and print move along to §118 and §119 of the stylesheet.</description>
     </item>
     <item>
       <title>Every entry on this page stands on its own again</title>
       <link>https://stimpunks.world/changelog.html#2026-10-17-changelog-lists-closed</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-17-changelog-lists-closed</guid>
-      <pubDate>Sat, 17 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Sat, 17 Oct 2026 11:54:00 GMT</pubDate>
       <description>One entry here left its list open: the 2026-10-14 entry for the Faery Yurt’s welcome. Every entry below it, 252 of them, was nested inside that one list, and anything that reads the page’s structure saw one long entry. The Knowledge System’s copy of this page lost most of its entries that way. The list is closed now. The tool that builds the feed now refuses an entry whose lists do not close, and names it, so the next one is stopped before it is published rather than found three days after.</description>
     </item>
     <item>

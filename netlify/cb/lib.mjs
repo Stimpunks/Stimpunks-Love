@@ -2246,15 +2246,22 @@ export function cleanVideo(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{
    that has to put the film's play button up for somebody (a moderator's video
    pasted into the radio has no button of its own on anybody else's page) can
    say how long before the press, like every play button on the street. */
-export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now(), video = null, length = null) {
+/* A LIVE VIDEO IS HOSTED TOO (Ryan, 2026-10-17, so people can be told when
+   one is being screened). It has no place and no length, so its beacon says
+   live instead: at is 0 and length null whatever the radio sent, and a radio
+   offers Catch up to get its play button ready, never Follow, because there
+   is nothing in a live video to keep in step with. */
+export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now(), video = null, length = null, live = false) {
   if (!roomAllows(who, room)) return { closed: true };
+  live = live === true;
   let held = null;
   const beacons = await updateBeacons((list) => {
     held = null;
     const there = list.find((b) => b.room === room);
     if (there && there.handle !== who.handle && who.role !== 'base') { held = there.handle; return null; }
     return list.filter((b) => b.room !== room)
-      .concat({ room, handle: who.handle, base: who.role === 'base', film, video: cleanVideo(video), length: cleanAt(length) || null, at, playing: !!playing, t: now });
+      .concat({ room, handle: who.handle, base: who.role === 'base', film, video: cleanVideo(video),
+        length: live ? null : cleanAt(length) || null, at: live ? 0 : at, live, playing: !!playing, t: now });
   }, s, now);
   return held ? { held } : { beacons };
 }
@@ -2282,7 +2289,7 @@ export async function sweepBeacons(s = store(), now = Date.now()) {
    (QUIET_ROOMS) is heard only by a radio tuned to that room's channel, which is
    `tuned`: the room a listen names, or the room a host is hosting. */
 export function shapeBeacons(list, who = null, tuned = null) {
-  return list.filter((b) => (!who || roomAllows(who, b.room)) && (!quietRoom(b.room) || b.room === tuned)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, video: b.video || null, length: b.length || null, at: b.at, playing: !!b.playing, t: b.t }));
+  return list.filter((b) => (!who || roomAllows(who, b.room)) && (!quietRoom(b.room) || b.room === tuned)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, video: b.video || null, length: b.length || null, at: b.at, live: !!b.live, playing: !!b.playing, t: b.t }));
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */

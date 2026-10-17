@@ -155,7 +155,7 @@
       door.hidden = false;
       door.href = 'https://www.youtube.com/watch?v=' + ch.id;
     } else {
-      runsEl.textContent = ch.runs ? 'Runs ' + ch.runs : 'How long it runs was not said';
+      runsEl.textContent = ch.runs ? 'Runs ' + ch.runs : ch.live ? 'Live: it runs until you stop it' : 'How long it runs was not said';
       playBtn.hidden = false;
       door.hidden = true;
     }
@@ -272,8 +272,9 @@
       at = i;
       showPanel(channels[i]);
     } else {
-      var r = spec.length ? runsOf(spec.length) : {};
-      cb = { id: spec.id, title: spec.film, runs: r.runs, spoken: r.spoken, how: 'screen', cb: 'hosted by ' + spec.by + ' on the CB' };
+      // A host's live video has no runtime to give, so it says so instead.
+      var r = spec.live ? { spoken: 'live, until you stop it' } : spec.length ? runsOf(spec.length) : {};
+      cb = { id: spec.id, title: spec.film, runs: r.runs, spoken: r.spoken, live: !!spec.live, how: 'screen', cb: 'hosted by ' + spec.by + ' on the CB' };
       showPanel(cb);
     }
     mark();
