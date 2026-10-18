@@ -81,7 +81,14 @@
   "_what": "David's own photographs. Every one needs its record in data/polaroids.json (on_wall false, elsewhere naming this page, David as photographer and his yes, nobody in it or everybody in it recorded) and its file in photos/, stripped of every byte of metadata, which tools/make-polaroids.py enforces for every photograph on the street. Each id here is a polaroids.json id, and the tool refuses one with no record or no file. Until a photograph is here with its record, the wall holds its frames and says so.",
   "where": "Lake Geneva, Switzerland",
   "when": "July 2026",
-  "ids": []
+  "ids": [
+   "david-geneva-rocks-and-ferry",
+   "david-geneva-buoys",
+   "david-geneva-shore",
+   "david-geneva-snow-peaks",
+   "david-geneva-ferry",
+   "david-geneva-step"
+  ]
  },
  "congress": {
   "short": "ISPS",

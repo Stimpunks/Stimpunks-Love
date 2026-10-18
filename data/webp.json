@@ -752,6 +752,48 @@
       "ssim": 0.982,
       "bytes_before": 309678,
       "bytes_after": 210698
+    },
+    "photos/david-geneva-buoys.webp": {
+      "from": "photos/david-geneva-buoys.jpg",
+      "quality": 85,
+      "ssim": 0.9831,
+      "bytes_before": 224811,
+      "bytes_after": 111936
+    },
+    "photos/david-geneva-ferry.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 326618 bytes against 334517, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9875,
+      "sha256": "4b44180bc71b276a0530d63db5df2ea06029fbefaa37db8bf5df5bd5ef6e1db1",
+      "bytes": 334517
+    },
+    "photos/david-geneva-rocks-and-ferry.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 410208 bytes against 401209, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9882,
+      "sha256": "ca112f0b1073392dbe9e9463e344de3481d37eb1dec2eb1db2148ef18dde1af9",
+      "bytes": 401209
+    },
+    "photos/david-geneva-shore.webp": {
+      "from": "photos/david-geneva-shore.jpg",
+      "quality": 85,
+      "ssim": 0.9809,
+      "bytes_before": 342428,
+      "bytes_after": 262732
+    },
+    "photos/david-geneva-snow-peaks.webp": {
+      "from": "photos/david-geneva-snow-peaks.jpg",
+      "quality": 80,
+      "ssim": 0.9818,
+      "bytes_before": 222238,
+      "bytes_after": 89832
+    },
+    "photos/david-geneva-step.webp": {
+      "from": "photos/david-geneva-step.jpg",
+      "quality": 85,
+      "ssim": 0.9819,
+      "bytes_before": 387623,
+      "bytes_after": 316256
     }
   }
 }
