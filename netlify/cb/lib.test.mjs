@@ -2047,3 +2047,202 @@ for (const etagOnRead of [true, false]) {
     if (etagOnRead) assert.equal(worked.length, 15);
   });
 }
+
+/* ── The forums ──────────────────────────────────────────────────────────── */
+import { FORUM_CATEGORIES, forumCat, forumAllows, forumNav, forumHome, forumLatest, forumCategory, forumTopic, readTopic,
+  readForumIndex, searchForum, cbTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
+  reactPost, moderateTopic, sweepForum, goesAt, publicAddress, previewFor, metaOf, playerInfo, loneLinks, authorMark } from './lib.mjs';
+
+const fw = (handle, since, roles = null) => ({ role: roles ? 'base' : 'mobile', handle, since, account: true,
+  roles: new Set(roles ? ['moderator', ...roles] : []) });
+const ADA = fw('Ada', 100), ADA_AGAIN = fw('Ada', 900), BO = fw('Bo', 200);
+const FMOD = fw('Ryan', 300, []), FBOARD = fw('Bea', 400, ['board']), FADMIN = fw('Al', 500, ['administrator']);
+const NO_NET = async () => { throw new Error('the network was asked'); };
+const DAYS = (n) => n * 24 * 60 * 60 * 1000;
+const T0 = Date.UTC(2026, 9, 18, 12);
+
+test('only a claimed username reads or writes the forums, and a staff category is sent to nobody else', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const typed = { role: 'mobile', handle: 'Cy', roles: new Set() };
+  const sharedBase = { role: 'base', handle: 'Ryan', roles: new Set(['moderator']) };
+  assert.deepEqual(forumNav(typed), [], 'an unclaimed handle was shown categories');
+  assert.deepEqual(forumNav(sharedBase), [], 'a moderator on the shared password was shown categories');
+  assert.match((await startTopic(typed, { cat: 'help-desk', title: 'Hi', body: 'x' }, s, T0, NO_NET)).error, /claimed usernames/);
+  const staff = FORUM_CATEGORIES.filter((c) => c.see).map((c) => c.slug);
+  assert.ok(staff.length, 'there are no staff categories to test');
+  for (const slug of staff) assert.ok(!forumNav(ADA).some((c) => c.slug === slug), `${slug} was sent to a claimed username with no role`);
+  assert.ok(forumNav(FBOARD).some((c) => c.slug === 'board') && !forumNav(FBOARD).some((c) => c.slug === 'directors'));
+  assert.ok(staff.every((slug) => forumNav(FADMIN).some((c) => c.slug === slug)), 'an administrator could not see a staff category');
+  assert.equal((await startTopic(ADA, { cat: 'board', title: 'Hi', body: 'x' }, s, T0, NO_NET)).error, 'There is no such category.');
+  assert.match((await startTopic(ADA, { cat: 'announcements', title: 'Hi', body: 'x' }, s, T0, NO_NET)).error, /Only moderators start/);
+  const made = (await startTopic(FMOD, { cat: 'announcements', title: 'Hello', body: 'Welcome.' }, s, T0, NO_NET)).topic;
+  assert.ok(made, 'a moderator could not start an announcement');
+  assert.ok(await replyTopic(ADA, made.id, { body: 'Thank you.' }, s, T0 + 1, NO_NET).then((r) => r.post), 'anybody could not reply to an announcement');
+  const secret = (await startTopic(FBOARD, { cat: 'board', title: 'Budget', body: 'Numbers.' }, s, T0, NO_NET)).topic;
+  assert.equal(await forumTopic(ADA, secret.id, s, T0), null, 'a board topic was read by somebody not on the board');
+  assert.equal((await forumLatest(ADA, null, s, T0)).topics.some((x) => x.id === secret.id), false);
+  assert.equal((await searchForum(ADA, 'budget', s, T0)).length, 0, 'a search found a topic in a category the reader cannot see');
+  assert.equal((await replyTopic(ADA, secret.id, { body: 'Peek' }, s, T0, NO_NET)).error, 'That topic has gone, or is not one you can read.');
+});
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen replies to one topic at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const t = (await startTopic(ADA, { cat: 'help-desk', title: 'Busy', body: 'Start.' }, s, T0, NO_NET)).topic;
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => replyTopic(fw(`R${i}`, i + 1), t.id, { body: `reply ${i}` }, s, T0 + i, NO_NET)));
+    const worked = told.map((r, i) => (r.status === 'fulfilled' && r.value.post ? `reply ${i}` : null)).filter(Boolean);
+    const kept = new Set((await readTopic(t.id, s)).posts.map((p) => p.body));
+    assert.deepEqual(worked.filter((b) => !kept.has(b)), [], 'a reply that was told it went up is not in the topic');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+    const sum = (await readForumIndex('help-desk', s)).find((x) => x.id === t.id);
+    assert.equal(sum.last, Math.max(...(await readTopic(t.id, s)).posts.map((p) => p.t)), 'the list does not have the latest post\'s time');
+  });
+}
+
+test('a topic goes at its keep after its last post, a pin keeps it, and the sweep takes everything in it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal(goesAt(Date.UTC(2026, 0, 31), '1 week'), Date.UTC(2026, 1, 7));
+  assert.equal(goesAt(Date.UTC(2026, 9, 18), '3 months'), Date.UTC(2027, 0, 18));
+  assert.equal(goesAt(T0, 'never'), null);
+  const t = (await startTopic(ADA, { cat: 'watering-hole', title: 'Week', body: 'Hi.' }, s, T0, NO_NET)).topic;
+  assert.ok(await forumTopic(BO, t.id, s, T0 + DAYS(6)));
+  assert.equal(await forumTopic(BO, t.id, s, T0 + DAYS(8)), null, 'a week-long topic outlived its week');
+  assert.match((await replyTopic(BO, t.id, { body: 'late' }, s, T0 + DAYS(8), NO_NET)).error, /gone/);
+  await replyTopic(BO, t.id, { body: 'still here' }, s, T0 + DAYS(6), NO_NET);
+  assert.ok(await forumTopic(BO, t.id, s, T0 + DAYS(12)), 'a reply did not start the clock again');
+  await moderateTopic(FMOD, t.id, { pin: true }, s, T0 + DAYS(12));
+  assert.ok(await forumTopic(BO, t.id, s, T0 + DAYS(200)), 'a pinned topic went');
+  assert.equal((await forumTopic(BO, t.id, s, T0 + DAYS(200))).goes, null);
+  await moderateTopic(FMOD, t.id, { pin: false }, s, T0 + DAYS(200));
+  assert.ok(await forumTopic(BO, t.id, s, T0 + DAYS(205)), 'unpinning did not start the clock again');
+  await sweepForum(s, T0 + DAYS(206));
+  assert.ok(await readTopic(t.id, s), 'the sweep took a topic before its date');
+  await sweepForum(s, T0 + DAYS(300));
+  assert.equal(await readTopic(t.id, s), null, 'the sweep left a topic past its date');
+  assert.deepEqual(await readForumIndex('watering-hole', s), [], 'the sweep left its summary on the list');
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('forum/t/')), []);
+});
+
+test('the sweep puts back a topic whose list lost it, and drops a summary whose topic has gone', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(ADA, { cat: 'nature', title: 'Moss', body: 'Green.' }, s, T0, NO_NET)).topic;
+  const t2 = (await startTopic(ADA, { cat: 'nature', title: 'Lichen', body: 'Grey.' }, s, T0, NO_NET)).topic;
+  await s.setJSON('forum/c/nature', { topics: (await readForumIndex('nature', s)).filter((x) => x.id !== t.id) }, { onlyIfMatch: (await s.getWithMetadata('forum/c/nature')).etag });
+  await s.delete('forum/t/' + t2.id);
+  await sweepForum(s, T0 + DAYS(1));
+  const ids = (await readForumIndex('nature', s)).map((x) => x.id);
+  assert.deepEqual(ids, [t.id], 'the list is not what is in the store');
+});
+
+test('only a post\'s author edits it, and a name claimed again after it was deleted is somebody else', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(ADA, { cat: 'infodumps', title: 'Moths', body: 'Moths are great.' }, s, T0, NO_NET)).topic;
+  const pid = t.posts[0].id;
+  assert.ok((await editPost(ADA, t.id, pid, { body: 'Moths are wonderful.', title: 'Moths!' }, s, T0 + 5, NO_NET)).topic);
+  const after = await forumTopic(BO, t.id, s, T0 + 6);
+  assert.equal(after.title, 'Moths!');
+  assert.equal(after.posts[0].edited, T0 + 5);
+  assert.equal(after.last, T0, 'an edit moved the topic\'s clock');
+  assert.match((await editPost(ADA_AGAIN, t.id, pid, { body: 'Mine now' }, s, T0 + 7, NO_NET)).error, /Only whoever wrote/);
+  assert.match((await removePost(ADA_AGAIN, t.id, pid, s, T0 + 7)).error, /Only whoever wrote/);
+  assert.match((await editPost(FMOD, t.id, pid, { body: 'Edited by a mod' }, s, T0 + 7, NO_NET)).error, /Only whoever wrote/);
+  assert.equal((await forumTopic(ADA_AGAIN, t.id, s, T0 + 7)).posts[0].edit, false);
+  const raw = JSON.stringify(await forumTopic(ADA, t.id, s, T0 + 7));
+  assert.ok(!raw.includes(authorMark(ADA)), 'an author\'s mark was sent');
+  await replyTopic(BO, t.id, { body: 'Agreed.' }, s, T0 + 8, NO_NET);
+  assert.match((await removeTopic(ADA, t.id, s, T0 + 9)).error, /Only a moderator can take down a topic other people have posted in/);
+  assert.ok((await removePost(ADA, t.id, pid, s, T0 + 9)).topic, 'an author could not take down their own post');
+  const left = await forumTopic(BO, t.id, s, T0 + 10);
+  assert.equal(left.posts.length, 1);
+  assert.equal(left.title, 'Moths!', 'the topic lost its title with its first post');
+  assert.ok((await removeTopic(FMOD, t.id, s, T0 + 11)).gone);
+  assert.equal(await readTopic(t.id, s), null);
+  const mine = (await startTopic(BO, { cat: 'infodumps', title: 'Owls', body: 'Hoo.' }, s, T0, NO_NET)).topic;
+  assert.ok((await removeTopic(BO, mine.id, s, T0 + 1)).gone, 'a starter alone in their topic could not take it down');
+});
+
+test('messages are copied off the channel exactly as sent, and only their sender or a moderator takes one out', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await updateChannel((l) => [...l,
+    { id: 'm1', handle: 'Ada', text: 'Shall we keep this?', t: now - 3000, claimed: true },
+    { id: 'm2', handle: 'Cy', text: 'Yes **please**', t: now - 2000 },
+    { id: 'm3', handle: 'Ryan', text: 'Fine by me', t: now - 1000, base: true },
+    { id: 'm4', handle: 'Bo', t: now - 500, img: '00000000-0000-4000-8000-000000000000' }], s);
+  const r = await cbTranscript(BO, { room: null, ids: ['m1', 'm2', 'm4', 'nope'] }, s);
+  assert.deepEqual(r.cb.messages.map((m) => [m.id, m.handle, m.text, !!m.claimed, !!m.base]),
+    [['m1', 'Ada', 'Shall we keep this?', true, false], ['m2', 'Cy', 'Yes **please**', false, false]]);
+  assert.equal(r.short, true, 'a ticked message that is not copied went unsaid');
+  assert.match((await cbTranscript(BO, { room: null, ids: ['nope'] }, s)).error, /None of those messages/);
+  const made = (await startTopic(BO, { cat: 'watering-hole', title: 'Keep', from: { room: null, ids: ['m1', 'm2', 'm3'] } }, s, T0, NO_NET)).topic;
+  const pid = made.posts[0].id;
+  assert.equal(made.posts[0].body, '', 'a topic from the CB needs no words of the copier\'s own');
+  assert.match((await uncopyMessage(BO, made.id, pid, 'm1', s, T0)).error, /Only whoever sent/);
+  assert.match((await uncopyMessage(ADA_AGAIN, made.id, pid, 'm3', s, T0)).error, /Only whoever sent/);
+  assert.ok((await uncopyMessage(ADA, made.id, pid, 'm1', s, T0)).topic, 'the sender could not take their message out');
+  assert.ok((await uncopyMessage(FMOD, made.id, pid, 'm2', s, T0)).topic);
+  const shown = await forumTopic(BO, made.id, s, T0);
+  assert.deepEqual(shown.posts[0].cb.messages.map((m) => m.id), ['m3']);
+  assert.equal(shown.posts[0].cb.messages[0].takeOut, false, 'somebody else was offered Take out');
+  await uncopyMessage(FMOD, made.id, pid, 'm3', s, T0);
+  assert.ok((await forumTopic(BO, made.id, s, T0)) === null, 'a topic with nothing left in it stayed');
+  await updateRoomTalk('the-secret-cabin', (l) => [...l, { id: 'q1', handle: 'Al', text: 'hush', t: now }], s);
+  assert.match((await cbTranscript(FADMIN, { room: 'the-secret-cabin', ids: ['q1'] }, s)).error, /keeps to itself/);
+  await updateRoomTalk('town-hall-board', (l) => [...l, { id: 'b1', handle: 'Bea', text: 'board talk', t: now, base: true }], s);
+  assert.match((await cbTranscript(ADA, { room: 'town-hall-board', ids: ['b1'] }, s)).error, /not a channel you can hear/);
+  assert.match((await startTopic(FBOARD, { cat: 'events', title: 'Leak', from: { room: 'town-hall-board', ids: ['b1'] } }, s, T0, NO_NET)).error, /only go into a category/);
+  const kept = (await startTopic(FBOARD, { cat: 'board', title: 'Minutes', from: { room: 'town-hall-board', ids: ['b1'] } }, s, T0, NO_NET)).topic;
+  assert.ok(kept, 'board talk could not go into the board\'s own category');
+  assert.match((await moderateTopic(FADMIN, kept.id, { move: 'events' }, s, T0)).error, /private room/);
+  await updateRoomTalk('town-hall-moderators', (l) => [...l, { id: 'd1', handle: 'Ryan', text: 'mods', t: now, base: true }], s);
+  assert.ok((await startTopic(FBOARD, { cat: 'board', title: 'From mods', from: { room: 'town-hall-moderators', ids: ['d1'] } }, s, T0, NO_NET)).topic,
+    'what every moderator can hear could not go where only some of them read');
+});
+
+test('reactions name who and never say how many, and moderators pin, close and move', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(ADA, { cat: 'nature', title: 'Frogs', body: 'Ribbit.' }, s, T0, NO_NET)).topic;
+  const pid = t.posts[0].id;
+  await reactPost(BO, t.id, pid, '❤️', s, T0);
+  await reactPost(ADA, t.id, pid, '❤️', s, T0);
+  const rx = (await forumTopic(BO, t.id, s, T0)).posts[0].reactions;
+  assert.deepEqual(rx, [{ emoji: '❤️', name: 'heart', who: ['Ada', 'Bo'] }]);
+  assert.match((await reactPost(BO, t.id, pid, 'nice', s, T0)).error, /not a reaction/);
+  assert.match((await moderateTopic(BO, t.id, { close: true }, s, T0)).error, /Only a moderator/);
+  await moderateTopic(FMOD, t.id, { close: true }, s, T0);
+  assert.match((await replyTopic(BO, t.id, { body: 'hi' }, s, T0, NO_NET)).error, /closed/);
+  assert.ok((await replyTopic(FMOD, t.id, { body: 'closing note' }, s, T0, NO_NET)).post, 'a moderator could not reply to a closed topic');
+  await moderateTopic(FMOD, t.id, { move: 'science-and-making' }, s, T0);
+  assert.deepEqual((await readForumIndex('nature', s)).map((x) => x.id), []);
+  assert.deepEqual((await readForumIndex('science-and-making', s)).map((x) => x.id), [t.id]);
+  assert.equal((await forumCategory(BO, 'science-and-making', null, s, T0)).topics[0].closed, true);
+  assert.equal((await searchForum(BO, 'ribbit', s, T0))[0].id, t.id, 'a search did not find a word in a post');
+  assert.equal(JSON.stringify(await forumHome(BO, s, T0)).match(/"(?:views|count|total|unread)"/), null);
+});
+
+test('a preview is fetched only from a public address, and a room on the street is never fetched', async () => {
+  for (const ip of ['127.0.0.1', '10.1.2.3', '172.16.0.1', '192.168.1.1', '169.254.169.254', '100.64.0.1', '0.0.0.0', '224.0.0.1',
+    '::1', '::', 'fe80::1', 'fd00::1', '::ffff:127.0.0.1', '::ffff:10.0.0.1', '64:ff9b::a00:1', '2002:a00:1::', 'ff02::1', '2001:db8::1', 'localhost', 'not an ip']) {
+    assert.equal(publicAddress(ip), false, `${ip} passed as public`);
+  }
+  for (const ip of ['1.1.1.1', '93.184.216.34', '2606:4700:4700::1111', '::ffff:1.1.1.1']) assert.equal(publicAddress(ip), true, `${ip} refused`);
+  assert.deepEqual(await previewFor('https://stimpunks.world/the-den.html', NO_NET), { src: 'https://stimpunks.world/the-den.html', href: 'https://stimpunks.world/the-den.html', kind: 'street', path: '/the-den.html' });
+  const page = await previewFor('https://example.org/a', async (u) => ({ status: 200, type: 'text/html', url: u,
+    text: '<html><head><title>Plain &amp; title</title><meta property="og:title" content="The &ldquo;real&rdquo; title"><meta name="description" content="About it."><meta content="Example" property="og:site_name"></head>' }));
+  assert.deepEqual([page.kind, page.title, page.about, page.site], ['page', 'The “real” title', 'About it.', 'Example']);
+  const pr = { playabilityStatus: { status: 'OK', playableInEmbed: true }, videoDetails: { title: 'Owls {at} night', author: 'Birds', lengthSeconds: '754', isLive: false } };
+  const vid = await previewFor('https://youtu.be/dQw4w9WgXcQ', async (u) => ({ status: 200, type: 'text/html', url: u,
+    text: `<script>var ytInitialPlayerResponse = ${JSON.stringify(pr)};var x = {"a":1};</script>` }));
+  assert.deepEqual([vid.kind, vid.id, vid.title, vid.channel, vid.length, vid.embed], ['video', 'dQw4w9WgXcQ', 'Owls {at} night', 'Birds', 754, true]);
+  const door = await previewFor('https://www.youtube.com/watch?v=dQw4w9WgXcQ', async (u) => (u.includes('oembed')
+    ? { status: 200, type: 'application/json', url: u, text: '{"title":"Walled","author_name":"Somebody"}' }
+    : { status: 200, type: 'text/html', url: u, text: '<p>Sign in to confirm you are not a bot</p>' }));
+  assert.deepEqual([door.title, door.length, door.embed], ['Walled', null, false], 'a video nobody could measure was offered as a player');
+  assert.deepEqual(loneLinks('Look:\n\nhttps://a.example/x\n\nand https://b.example/y inline\n\n> https://c.example/z'), ['https://a.example/x']);
+  const t = await startTopic(ADA, { cat: 'nature', title: 'Links', body: 'https://stimpunks.world/the-den.html' }, memoryStore({ etagOnRead: true }), T0, NO_NET);
+  assert.equal(t.topic.posts[0].links[0].kind, 'street');
+  assert.equal(metaOf('<title>a</title>').title, 'a');
+  assert.equal(playerInfo('nothing here'), null);
+});

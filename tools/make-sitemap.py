@@ -144,6 +144,10 @@ ORDER = ["index.html",
          # How to use the CB, part by part, beside what it keeps. A manual
          # rather than a room, so it stands with the paperwork too.
          "cb-guide.html",
+         # The CB's forums, for what needs longer than the channel's day. The
+         # radio's, as its guide is, and in the reader's own CB theme rather
+         # than a world of its own, so it stands beside the guide.
+         "forum.html",
          "changelog.html"]
 
 def field(src, pat):
@@ -320,6 +324,7 @@ lines += [
     "- How the site is made, and how we use AI: https://stimpunks.world/design.html",
     "- How the site runs, its code and its hosting: https://stimpunks.world/architecture.html",
     "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
+    "- The CB's forums, for claimed usernames on the CB (nothing in them is public): https://stimpunks.world/forum.html",
     "",
     "## For agents",
     "",

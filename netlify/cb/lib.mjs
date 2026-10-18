@@ -10,7 +10,8 @@
      · TEN MESSAGES AT MOST, AND NONE OF THEM PAST MIDNIGHT IN COLORADO. The whole
        channel is one JSON blob holding the day it belongs to and the latest ten
        messages. A read that finds yesterday's day returns nothing, and the hourly
-       sweep deletes it. Nothing is archived, copied or backed up.
+       sweep deletes it. Nothing is archived or backed up, and the only copy is
+       one somebody makes of a few messages into a forum topic (below).
      · NO IP ADDRESS IS EVER STORED. Netlify's own rate limiter, declared in each
        function's config, is what stops somebody guessing the password; it counts
        addresses itself and never hands them to this code. Do not "improve" the
@@ -96,6 +97,14 @@
        everybody. A claimed username
        signs on with its own password and the community password stops
        working for it. See the accounts section below.
+     · THE FORUMS KEEP TOPICS FOR MONTHS, FOR CLAIMED USERNAMES ONLY. Ryan's
+       calls, 2026-10-18: topics in categories after our Discord's channels,
+       each gone a week, three or six months after its last post or kept for
+       good, as its category says; read and written only by a claimed
+       username; a few categories kept to CB roles; messages copied in from
+       the CB by the server, never typed in by anybody, and taken back out by
+       whoever sent them. Nothing about who reads is kept. See the forums
+       section below.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
@@ -103,6 +112,10 @@
    ============================================================================= */
 import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID, randomBytes, scryptSync } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
+import { request as httpRequest } from 'node:http';
+import { request as httpsRequest } from 'node:https';
+import { lookup as dnsLookup } from 'node:dns';
+import { isIP } from 'node:net';
 
 export const KEEP = 10;             // messages on the channel at once
 export const HANDLE_MAX = 24;       // characters
@@ -2636,8 +2649,11 @@ export async function readPass(req, mods = readMods(), s = store()) {
     if (kind === 'base' ? !on : on) return null;
     const acct = await readAccount(handle, s);
     if (!acct || acct.v !== v) return null;
-    if (kind === 'base') return { role: 'base', handle: on.handle, roles: on.roles, account: true };
-    return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true };
+    // since: when the username was claimed, which the forums fold into the
+    // mark on every post (authorMark), so that a name claimed again after its
+    // owner deleted it is a different author. It is never sent anywhere.
+    if (kind === 'base') return { role: 'base', handle: on.handle, roles: on.roles, account: true, since: acct.since };
+    return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since };
   }
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
   if (!m) return null;
@@ -3397,6 +3413,920 @@ export async function removeSuggestion(who, id, s = store()) {
     return list.filter((x) => x.id !== id);
   }, s);
   return gone ? { removed: true } : { error: why };
+}
+
+/* ── The forums ───────────────────────────────────────────────────────────
+
+   Ryan's brief, 2026-10-18: a bulletin board after Discourse, for discussions
+   that need to last longer than the CB's day, in categories after the channels
+   of our Stoat and Discord, so that the CB and the forums together can let us
+   leave both. Ryan's calls the same day: a topic stays three months after its
+   last post unless its category says a week, six months or never; only a
+   claimed username can read them; categories can be kept to CB roles for staff
+   areas; anybody's messages on a channel can be copied into a topic, under the
+   house norm of asking everybody first, and each sender can take their own
+   back out; and a link on a line of its own is previewed by this server
+   reading the page once, when the post is made.
+
+   ONE BLOB PER TOPIC (`forum/t/<id>`), holding its title, its category and
+   every post, and ONE INDEX PER CATEGORY (`forum/c/<slug>`), a list of
+   summaries the topic lists are drawn from. Both are written with the boards'
+   conditional write. The index is a cache of the topics: the hourly sweep puts
+   back a summary whose write was lost and drops one whose topic has gone, so a
+   stop between the two writes loses nothing.
+
+   ONLY A CLAIMED USERNAME, AND NOTHING ABOUT WHO READS. Every function here
+   refuses a pass that is not a claimed username's (forumReader). Nothing is
+   kept about reading: no views, no read positions, no unread counts, nobody
+   counted. A category somebody's roles do not reach is never sent to them.
+
+   A TOPIC GOES AT ITS CATEGORY'S KEEP AFTER ITS LAST POST, worked out every
+   time it is read (topicLive), so a topic is gone at its date whether or not
+   the sweep has got to it, the channel's midnight rule with months in it. A
+   pinned topic is kept while it is pinned, and its clock starts again when it
+   is unpinned.
+
+   EVERY POST CARRIES A MARK OF THE CLAIMED USERNAME THAT WROTE IT (authorMark:
+   a hash of the folded name and when it was claimed), never sent to anybody.
+   It is how only its author edits or takes a post down: a name deleted and
+   claimed again by somebody else is a different mark. The handle on the post
+   is shown; the mark is not.
+
+   A LINK ON A LINE OF ITS OWN IS PREVIEWED, ONCE, WHEN THE POST IS MADE OR
+   EDITED, by safeGet: http or https only, to a public address only (the
+   address is checked as it is looked up, every redirect again), a few seconds
+   and a few hundred kilobytes at most, and no picture. A page keeps its title,
+   description and site name; a YouTube video its title, channel, length and
+   whether it may be framed, so it is a press-to-play facade with its runtime
+   like every other on the street, or a door; a room on the street keeps only
+   its address, and the page draws its name from cb-rooms.json. Nothing is
+   fetched when somebody reads a post.
+
+   MESSAGES COPIED FROM THE CB ARE COPIED HERE, FROM THE CHANNEL ITSELF
+   (cbTranscript), so the handles, marks, times and words are exactly as sent
+   and nobody can quote somebody else into saying anything. Words only. Whoever
+   sent a copied message can take it out under canTakeOff, the channel's own
+   rule, and a moderator can. Nothing is copied out of a quiet room, and out of
+   a private room only into a category no wider than it.
+
+   NOTHING ANYBODY TYPES IS LOGGED, here as everywhere in this file. */
+export const FORUM_TITLE_MAX = 120;
+export const FORUM_BODY_MAX = 20000;
+export const FORUM_POSTS_MAX = 400;     // posts in one topic; past it, start a new one
+export const FORUM_TOPICS_MAX = 2000;   // topics in one category; a full one refuses, it never pushes the oldest out
+export const FORUM_PREVIEWS = 5;        // links previewed in one post
+export const FORUM_LATEST = 60;         // topics on one page of a list
+export const FORUM_SEARCH_MAX = 400;    // topics one search reads, newest first
+export const FORUM_KEEPS = ['1 week', '3 months', '6 months', 'never'];
+const FORUM_CAT = 'forum/c/';
+const FORUM_TOPIC = 'forum/t/';
+const DAY = 24 * 60 * 60 * 1000;
+
+/* forum:categories:begin -- written by tools/make-forum.py from data/forum.json. Do not hand-edit. */
+export const FORUM_DEFAULT_KEEP = "3 months";
+export const FORUM_CATEGORIES = [
+  {"slug": "announcements", "name": "Announcements", "about": "News from the people who run Stimpunks. Only moderators start a topic here; anybody can reply.", "group": "Information", "keep": "6 months", "see": null, "start": ["moderator"]},
+  {"slug": "introductions", "name": "Introductions", "about": "Say hello, if you like, and say as much or as little as you want to. Reading along is a fine way to belong too.", "group": "Information", "keep": "6 months", "see": null, "start": null},
+  {"slug": "help-desk", "name": "Help desk", "about": "When something on the street, the CB or the forums does not work, or you cannot find your way.", "group": "Information", "keep": "3 months", "see": null, "start": null},
+  {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time. The CB for the things that need longer than a day, but not much longer.", "group": "Community", "keep": "1 week", "see": null, "start": null},
+  {"slug": "events", "name": "Events", "about": "What is coming up, and what happened: our calls, campfires, watch-togethers and anything else worth turning up for.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "mutual-aid", "name": "Mutual aid", "about": "To give help and to get it. Nobody owes anybody here.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "show-your-work", "name": "Show your work", "about": "What you are making, writing, learning or fixing, finished or not.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "work-opportunities", "name": "Work opportunities", "about": "Jobs, gigs, calls for contributors and paid chances to do the work.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "infodumps", "name": "Infodumps", "about": "Tell us everything about the thing you love. Long is welcome.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
+  {"slug": "reading-watching-listening", "name": "Reading, watching, listening, playing", "about": "Books, films, shows, music, podcasts and games: what you are into and what you would pass along.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
+  {"slug": "education", "name": "Education", "about": "Learning, schooling, unschooling and the places in between, and what they do to the people in them.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
+  {"slug": "science-and-making", "name": "Science and making", "about": "Experiments, tinkering, crafts, code and anything built with your hands or your head.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
+  {"slug": "nature", "name": "Nature", "about": "Plants, animals, weather, places outdoors, and the ground you are standing on.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
+  {"slug": "artificial-intelligence", "name": "Artificial Intelligence", "about": "Learning, making and knowledge gardening with generative AI, and the arguments about it.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
+  {"slug": "operations", "name": "Operations", "about": "The work of running Stimpunks, out in the open, with room for anybody who wants to watch and learn.", "group": "Teams", "keep": "3 months", "see": null, "start": null},
+  {"slug": "editorial", "name": "Editorial", "about": "What we publish and how: drafts, edits, ideas for pages and the glossary.", "group": "Teams", "keep": "3 months", "see": null, "start": null},
+  {"slug": "moderators", "name": "Moderators", "about": "For our moderators: anything about keeping the street and the CB a good place to be.", "group": "Staff", "keep": "6 months", "see": ["moderator"], "start": null},
+  {"slug": "directors", "name": "Directors", "about": "For our directors, as the Directors' room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["director"], "start": null},
+  {"slug": "board", "name": "Board", "about": "For the board, and the directors who join its meetings, as the Board room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["board", "director"], "start": null},
+];
+/* forum:categories:end */
+
+const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on the radio, then come back.';
+const GONE = 'That topic has gone, or is not one you can read.';
+
+export function forumCat(slug) { return FORUM_CATEGORIES.find((c) => c.slug === slug) || null; }
+export function topicId(v) { return typeof v === 'string' && /^t[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+export function postId(v) { return typeof v === 'string' && /^p[A-Za-z0-9_-]{11}$/.test(v) ? v : null; }
+function newTopicId() { return 't' + randomBytes(9).toString('base64url'); }
+function newPostId() { return 'p' + randomBytes(8).toString('base64url'); }
+
+/* A claimed username, and nothing else, reads and writes here. */
+export function forumReader(who) { return !!(who && who.account && typeof who.since === 'number'); }
+
+/* Whose a post is: the folded name and the moment it was claimed. Never sent. */
+export function authorMark(who) {
+  return createHash('sha256').update(`forum-author|${foldHandle(who.handle)}|${who.since}`).digest('base64url');
+}
+
+/* Who a category is for. `what` is 'see' or 'start'; starting needs seeing.
+   roomAllows' rules exactly: null is everybody here, roles are CB_MODS's, an
+   administrator goes everywhere a category does not call strict. */
+export function forumAllows(who, cat, what = 'see') {
+  if (!cat || !forumReader(who)) return false;
+  if (what !== 'see' && !forumAllows(who, cat, 'see')) return false;
+  const roles = cat[what];
+  if (!roles) return true;
+  if (who.role !== 'base' || !who.roles) return false;
+  if (!cat.strict && who.roles.has('administrator')) return true;
+  return roles.some((r) => who.roles.has(r));
+}
+
+export function keepOf(cat) { return (cat && FORUM_KEEPS.includes(cat.keep) && cat.keep) || FORUM_DEFAULT_KEEP; }
+
+/* When a topic goes, from the time its clock last started. */
+export function goesAt(from, keep) {
+  if (keep === 'never') return null;
+  if (keep === '1 week') return from + 7 * DAY;
+  const m = /^(\d+) months$/.exec(keep);
+  const d = new Date(from);
+  d.setUTCMonth(d.getUTCMonth() + Number(m ? m[1] : 3));
+  return d.getTime();
+}
+function clockOf(sum) { return Math.max(sum.last || 0, sum.unpinned || 0); }
+export function topicGoes(sum, cat) { return sum.pinned ? null : goesAt(clockOf(sum), keepOf(cat)); }
+export function topicLive(sum, cat, now = Date.now()) { const g = topicGoes(sum, cat); return g === null || g > now; }
+
+export function cleanForumTitle(v) { const t = tidy(v); return t && [...t].length <= FORUM_TITLE_MAX ? t : null; }
+export function cleanForumBody(v) {
+  const t = cleanBrassBody(v);
+  return t && [...t].length <= FORUM_BODY_MAX ? t : null;
+}
+
+/* ── Storing ── */
+
+const topicKey = (id) => FORUM_TOPIC + id;
+const catKey = (slug) => FORUM_CAT + slug;
+
+export async function readTopic(id, s = store()) {
+  if (!topicId(id)) return null;
+  const d = await s.get(topicKey(id), { type: 'json' });
+  return d && d.id === id && Array.isArray(d.posts) ? d : null;
+}
+export async function readForumIndex(slug, s = store()) {
+  const d = await s.get(catKey(slug), { type: 'json' });
+  return d && Array.isArray(d.topics) ? d.topics : [];
+}
+function updateForumIndex(slug, change, s) { return updateList(catKey(slug), 'topics', change, s); }
+
+/* A whole document changed with the conditional write. `change` gets it (or
+   null when there is none) and answers the next one, null to leave it, or
+   false to delete it. Answers what is there afterwards. */
+async function updateDoc(key, change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const next = change(cur.exists ? cur.data : null);
+    if (next === null) return cur.exists ? cur.data : null;
+    if (next === false) { if (cur.exists) await s.delete(key); return null; }
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, next, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* A summary carries its topic's version, v, which every write moves on, so a
+   list never takes an older summary over a newer one when two writes to the
+   same topic reach it in the other order. */
+function summaryOf(t) {
+  const sum = { id: t.id, v: t.v || 0, title: t.title, handle: t.handle, t: t.t, last: t.last, lastBy: t.lastBy };
+  if (t.base) sum.base = true;
+  if (t.lastBase) sum.lastBase = true;
+  if (t.pinned) sum.pinned = true;
+  if (t.closed) sum.closed = true;
+  if (t.unpinned) sum.unpinned = t.unpinned;
+  return sum;
+}
+
+/* The topic's summary in its category's list, replacing the one there. */
+async function indexTopic(t, s) {
+  const sum = summaryOf(t);
+  await updateForumIndex(t.cat, (list) => {
+    const k = list.findIndex((x) => x.id === sum.id);
+    if (k < 0) return [sum, ...list];
+    if ((list[k].v || 0) >= sum.v) return null;
+    const copy = list.slice(); copy[k] = sum; return copy;
+  }, s);
+}
+async function unindexTopic(slug, id, s) {
+  await updateForumIndex(slug, (list) => (list.some((x) => x.id === id) ? list.filter((x) => x.id !== id) : null), s);
+}
+
+/* ── What a reader is sent ── */
+
+export function forumCatsFor(who) { return FORUM_CATEGORIES.filter((c) => forumAllows(who, c)); }
+function shapeForumCat(c, who) {
+  const out = { slug: c.slug, name: c.name, about: c.about, group: c.group, keep: keepOf(c), start: forumAllows(who, c, 'start') };
+  if (c.see) out.staff = true;
+  return out;
+}
+export function forumNav(who) { return forumCatsFor(who).map((c) => shapeForumCat(c, who)); }
+
+function shapeSummary(sum, cat) {
+  const out = { id: sum.id, cat: cat.slug, title: sum.title, handle: sum.handle, base: !!sum.base, t: sum.t,
+    last: sum.last, lastBy: sum.lastBy, lastBase: !!sum.lastBase, goes: topicGoes(sum, cat) };
+  if (sum.pinned) out.pinned = true;
+  if (sum.closed) out.closed = true;
+  return out;
+}
+const byLast = (a, b) => b.last - a.last;
+
+/* The front of the forums: every category the reader may see, each with its
+   three latest topics. */
+export async function forumHome(who, s = store(), now = Date.now()) {
+  const cats = forumCatsFor(who);
+  const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
+  return cats.map((c, i) => ({ ...shapeForumCat(c, who),
+    latest: lists[i].filter((x) => topicLive(x, c, now)).sort(byLast).slice(0, 3).map((x) => shapeSummary(x, c)) }));
+}
+
+/* Every category the reader may see, its topics together, the latest post
+   first. `before` pages back: topics last posted to before that time. */
+export async function forumLatest(who, before = null, s = store(), now = Date.now()) {
+  const cats = forumCatsFor(who);
+  const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
+  let all = [];
+  cats.forEach((c, i) => { all = all.concat(lists[i].filter((x) => topicLive(x, c, now)).map((x) => shapeSummary(x, c))); });
+  all.sort(byLast);
+  if (typeof before === 'number') all = all.filter((x) => x.last < before);
+  return { topics: all.slice(0, FORUM_LATEST), more: all.length > FORUM_LATEST };
+}
+
+/* One category's topics: pinned ones first, then the latest post first. */
+export async function forumCategory(who, slug, before = null, s = store(), now = Date.now()) {
+  const cat = forumCat(slug);
+  if (!forumAllows(who, cat)) return null;
+  const live = (await readForumIndex(slug, s)).filter((x) => topicLive(x, cat, now)).map((x) => shapeSummary(x, cat));
+  const pinned = before == null ? live.filter((x) => x.pinned).sort(byLast) : [];
+  let rest = live.filter((x) => !x.pinned).sort(byLast);
+  if (typeof before === 'number') rest = rest.filter((x) => x.last < before);
+  return { cat: shapeForumCat(cat, who), topics: pinned.concat(rest.slice(0, FORUM_LATEST)), more: rest.length > FORUM_LATEST };
+}
+
+/* A preview stands where its link stood: a paragraph that is one address and
+   nothing else, as Discourse does it. */
+function loneLink(b) {
+  if (!b || b.t !== 'p' || !b.c || b.c.length !== 1) return null;
+  const a = b.c[0];
+  if (a.t !== 'a' || !a.c || a.c.length !== 1 || a.c[0].t !== 'text') return null;
+  return /^https?:\/\/\S+$/i.test(a.c[0].v) && brassHref(a.c[0].v) === a.href ? a.c[0].v : null;
+}
+export function loneLinks(body) {
+  const out = [];
+  for (const b of parseBrass(body)) {
+    const src = loneLink(b);
+    if (src && !out.includes(src)) out.push(src);
+    if (out.length >= FORUM_PREVIEWS) break;
+  }
+  return out;
+}
+function shapePreview(l) {
+  const out = { t: 'preview', kind: l.kind, href: l.href };
+  if (l.kind === 'street') out.path = l.path;
+  if (l.kind === 'page') { out.title = l.title; out.about = l.about || null; out.site = l.site || null; out.host = l.host || null; }
+  if (l.kind === 'video') {
+    out.id = l.id; out.title = l.title; out.channel = l.channel || null;
+    out.length = typeof l.length === 'number' ? l.length : null; out.live = !!l.live; out.embed = !!l.embed;
+  }
+  return out;
+}
+function withPreviews(blocks, links) {
+  if (!links || !links.length) return blocks;
+  return blocks.map((b) => {
+    const src = loneLink(b);
+    const l = src && links.find((x) => x.src === src);
+    return l ? shapePreview(l) : b;
+  });
+}
+
+function shapeCopied(cb, who) {
+  return { room: cb.room || null, day: cb.day,
+    messages: cb.messages.map((m) => ({ id: m.id, handle: m.handle, base: !!m.base, claimed: !!m.claimed && !m.base, t: m.t,
+      blocks: parseBrass(m.text), takeOut: canTakeOff(who, m) })) };
+}
+
+function shapePost(p, who, mark) {
+  const out = { id: p.id, handle: p.handle, base: !!p.base, t: p.t, body: p.body || '',
+    blocks: withPreviews(parseBrass(p.body || ''), p.links), edit: p.by === mark, takeDown: p.by === mark || who.role === 'base' };
+  if (typeof p.edited === 'number') out.edited = p.edited;
+  if (p.reply) out.reply = p.reply;
+  const rx = shapeReactions(p.reactions);
+  if (rx) out.reactions = rx;
+  if (p.cb && p.cb.messages && p.cb.messages.length) out.cb = shapeCopied(p.cb, who);
+  return out;
+}
+
+function topicAlone(t, mark) { return t.posts.every((p) => p.by === mark); }
+
+export function shapeTopic(t, cat, who) {
+  const mark = authorMark(who), mod = who.role === 'base';
+  const out = { id: t.id, cat: shapeForumCat(cat, who), title: t.title, handle: t.handle, base: !!t.base, t: t.t, last: t.last,
+    goes: topicGoes(summaryOf(t), cat), retitle: t.by === mark, mod,
+    takeDown: mod || (t.by === mark && topicAlone(t, mark)),
+    reply: !t.closed || mod, full: t.posts.length >= FORUM_POSTS_MAX,
+    posts: t.posts.map((p) => shapePost(p, who, mark)) };
+  if (t.pinned) out.pinned = true;
+  if (t.closed) out.closed = true;
+  return out;
+}
+
+export async function forumTopic(who, id, s = store(), now = Date.now()) {
+  const t = await readTopic(id, s);
+  if (!t) return null;
+  const cat = forumCat(t.cat);
+  if (!forumAllows(who, cat) || !topicLive(summaryOf(t), cat, now)) return null;
+  return shapeTopic(t, cat, who);
+}
+
+/* Searching the titles, the posts and the copied messages of the topics the
+   reader may see, newest first. Words are matched folded, all of them. */
+export async function searchForum(who, q, s = store(), now = Date.now()) {
+  const words = foldHandle(q).split(' ').filter(Boolean).slice(0, 8);
+  if (!words.length || String(q).length > 200) return [];
+  const cats = forumCatsFor(who);
+  const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
+  let sums = [];
+  cats.forEach((c, i) => { sums = sums.concat(lists[i].filter((x) => topicLive(x, c, now)).map((x) => ({ x, c }))); });
+  sums.sort((a, b) => b.x.last - a.x.last);
+  sums = sums.slice(0, FORUM_SEARCH_MAX);
+  const topics = await Promise.all(sums.map(({ x }) => readTopic(x.id, s)));
+  const out = [];
+  topics.forEach((t, i) => {
+    if (!t || out.length >= 30) return;
+    const texts = [{ post: null, handle: t.handle, text: t.title }];
+    t.posts.forEach((p) => {
+      if (p.body) texts.push({ post: p.id, handle: p.handle, text: p.body });
+      if (p.cb) p.cb.messages.forEach((m) => texts.push({ post: p.id, handle: m.handle, text: m.text }));
+    });
+    const hay = foldHandle(texts.map((x) => x.text).join(' '));
+    if (!words.every((w) => hay.includes(w))) return;
+    const hit = texts.find((x) => x.post && foldHandle(x.text).includes(words[0])) || null;
+    const r = shapeSummary(sums[i].x, sums[i].c);
+    if (hit) {
+      const plain = tidy(hit.text);
+      const at = Math.max(0, foldHandle(plain).indexOf(words[0]) - 60);
+      r.match = { post: hit.post, handle: hit.handle, words: (at ? '…' : '') + [...plain].slice(at, at + 180).join('') + (plain.length > at + 180 ? '…' : '') };
+    }
+    out.push(r);
+  });
+  return out;
+}
+
+/* ── Copying from the CB ── */
+
+/* Whether everybody a category is for can already hear a private room, so
+   nothing copied out of the room reaches anybody it was not for. */
+function narrowerThan(cat, room) {
+  if (!cat.see || !cat.see.length) return false;
+  if (STRICT_ROOMS.includes(room) && !cat.strict) return false;
+  const roomRoles = MOD_ROOMS[room];
+  if (roomRoles.includes('moderator')) return true;     // every role on the list is a moderator's
+  return cat.see.every((r) => roomRoles.includes(r));
+}
+
+/* The messages `from.ids` on the channel `from.room` (World when it names
+   none), read off the channel now. Words only: a picture or a sticker stays
+   behind, and a message that is only one is skipped. */
+export async function cbTranscript(who, from, s = store(), cat = null) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const room = from && from.room ? roomTag(from.room) : null;
+  if (from && from.room && !room) return { error: 'That is not a channel on the street.' };
+  if (room && quietRoom(room)) return { error: 'Nothing said in a room that keeps to itself can be copied out of it.' };
+  if (room && !roomAllows(who, room)) return { error: 'That is not a channel you can hear.' };
+  if (room && modRoom(room) && cat && !narrowerThan(cat, room)) {
+    return { error: 'What is said in that room can only go into a category that nobody but the people that room is for can read.' };
+  }
+  const ids = from && Array.isArray(from.ids) ? from.ids.filter((x) => typeof x === 'string' && x.length <= 64).slice(0, KEEP) : [];
+  if (!ids.length) return { error: 'Tick at least one message to take to the forums.' };
+  const { messages } = await readTuned(room, s);
+  const picked = messages.filter((m) => ids.includes(m.id) && m.text);
+  if (!picked.length) return { error: 'None of those messages is on the channel any more, or none of them has words in it.' };
+  return { cb: { room, day: today(), messages: picked.map((m) => {
+    const c = { id: m.id, handle: m.handle, t: m.t, text: m.text };
+    if (m.base) c.base = true; else if (m.claimed) c.claimed = true;
+    return c;
+  }) }, short: picked.length < ids.length };
+}
+export function shapeTranscript(cb, who) { return shapeCopied(cb, who); }
+
+/* ── Writing ── */
+
+function makePost(who, body, links, now) {
+  const p = { id: newPostId(), handle: who.handle, by: authorMark(who), t: now, body };
+  if (who.role === 'base') p.base = true;
+  if (links && links.length) p.links = links;
+  return p;
+}
+
+/* The previews for a post's lone links, reusing any the post already had. */
+async function previewsOf(body, had = [], get = safeGet) {
+  const srcs = body ? loneLinks(body) : [];
+  const out = await Promise.all(srcs.map((src) => {
+    const old = had.find((l) => l.src === src);
+    return old ? old : previewFor(src, get).catch(() => null);
+  }));
+  return out.filter(Boolean);
+}
+
+export async function startTopic(who, f, s = store(), now = Date.now(), get = safeGet) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const cat = forumCat(f && f.cat);
+  if (!forumAllows(who, cat)) return { error: 'There is no such category.' };
+  if (!forumAllows(who, cat, 'start')) return { error: `Only moderators start topics in ${cat.name}. You can reply to any of them.` };
+  const title = cleanForumTitle(f.title);
+  if (!title) return { error: `Give the topic a title, up to ${FORUM_TITLE_MAX} characters.` };
+  let cb = null;
+  if (f.from) {
+    const r = await cbTranscript(who, f.from, s, cat);
+    if (r.error) return r;
+    cb = r.cb;
+  }
+  const body = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body);
+  if (body === null) return { error: `A post is up to ${FORUM_BODY_MAX} characters.` };
+  if (!body && !cb) return { error: 'Say something to start the topic with.' };
+  if ((await readForumIndex(cat.slug, s)).length >= FORUM_TOPICS_MAX) {
+    return { error: `${cat.name} is full. A moderator has to take some topics down before another fits.` };
+  }
+  const post = makePost(who, body, await previewsOf(body, [], get), now);
+  if (cb) post.cb = cb;
+  const topic = { id: newTopicId(), v: 1, cat: cat.slug, title, handle: who.handle, by: authorMark(who), t: now, last: now, lastBy: who.handle, posts: [post] };
+  if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
+  let clash = false;
+  await updateDoc(topicKey(topic.id), (cur) => { clash = !!cur; return cur ? null : topic; }, s);
+  if (clash) return { error: 'That did not work. Try again.' };
+  await indexTopic(topic, s);
+  return { topic };
+}
+
+/* The topic `id`, changed by `change(t, cat)`, which answers the next topic,
+   null with a reason in why, or false to delete it. Refuses a topic the
+   writer cannot see, or that has gone. */
+async function changeTopic(who, id, now, s, change) {
+  let why = null, gone = false, cat0 = null;
+  const next = await updateDoc(topicKey(id), (t) => {
+    why = null; gone = false;
+    if (!t) { why = GONE; return null; }
+    const cat = forumCat(t.cat);
+    cat0 = t.cat;
+    if (!forumAllows(who, cat) || !topicLive(summaryOf(t), cat, now)) { why = GONE; return null; }
+    const r = change(structuredClone(t), cat);
+    if (r && r.why) { why = r.why; return null; }
+    if (r === false) gone = true;
+    else if (r) r.v = (t.v || 0) + 1;
+    return r;
+  }, s);
+  if (why) return { error: why };
+  if (gone) { await unindexTopic(cat0, id, s); return { gone: true }; }
+  if (next && next.cat !== cat0) await unindexTopic(cat0, id, s);
+  if (next) await indexTopic(next, s);
+  return { topic: next };
+}
+
+/* The latest post's time and author, after posts have gone. */
+function settle(t) {
+  if (!t.posts.length) return false;
+  const lastPost = t.posts.reduce((a, p) => (p.t >= a.t ? p : a));
+  t.last = Math.max(lastPost.t, t.t);
+  t.lastBy = lastPost.handle;
+  if (lastPost.base) t.lastBase = true; else delete t.lastBase;
+  return t;
+}
+
+export async function replyTopic(who, id, f, s = store(), now = Date.now(), get = safeGet) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const body = cleanForumBody(f && f.body);
+  if (!body) return { error: `A reply is between one and ${FORUM_BODY_MAX} characters.` };
+  const links = await previewsOf(body, [], get);
+  const to = postId(f.reply);
+  let made = null;
+  const r = await changeTopic(who, id, now, s, (t) => {
+    if (t.closed && who.role !== 'base') return { why: 'This topic is closed, so nobody can reply to it.' };
+    if (t.posts.length >= FORUM_POSTS_MAX) return { why: 'This topic is full. Start a new one, and link back to this one if it helps.' };
+    made = makePost(who, body, links, now);
+    if (to && t.posts.some((p) => p.id === to)) made.reply = to;
+    t.posts.push(made);
+    // Never backwards: two replies in the same moment land in either order.
+    if (now >= t.last) { t.last = now; t.lastBy = who.handle; }
+    if (t.lastBy === who.handle && now >= t.last) { if (who.role === 'base') t.lastBase = true; else delete t.lastBase; }
+    return t;
+  });
+  return r.error ? r : { post: made, topic: r.topic };
+}
+
+/* The author editing their post, and its title if it opens the topic they
+   started. An edit does not move the topic's clock. */
+export async function editPost(who, id, pid, f, s = store(), now = Date.now(), get = safeGet) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const raw = f && f.body;
+  const body = raw == null || String(raw).trim() === '' ? '' : cleanForumBody(raw);
+  if (body === null) return { error: `A post is up to ${FORUM_BODY_MAX} characters.` };
+  const title = f && f.title != null ? cleanForumTitle(f.title) : undefined;
+  if (title === null) return { error: `A title is between one and ${FORUM_TITLE_MAX} characters.` };
+  const pre = await readTopic(id, s);
+  const had = pre ? ((pre.posts.find((p) => p.id === pid) || {}).links || []) : [];
+  const links = await previewsOf(body, had, get);
+  const mark = authorMark(who);
+  return changeTopic(who, id, now, s, (t) => {
+    const k = t.posts.findIndex((p) => p.id === pid);
+    if (k < 0) return { why: 'That post has been taken down.' };
+    const p = t.posts[k];
+    if (p.by !== mark) return { why: 'Only whoever wrote a post can edit it.' };
+    if (!body && !(p.cb && p.cb.messages.length)) return { why: 'A post needs some words. To take it down, use Take down instead.' };
+    p.body = body;
+    p.edited = now;
+    if (links.length) p.links = links; else delete p.links;
+    if (title !== undefined) {
+      if (k !== 0 || t.by !== mark) return { why: 'Only whoever started a topic can change its title.' };
+      t.title = title;
+    }
+    return t;
+  });
+}
+
+/* A post taken down by its author or a moderator. The topic stays while
+   anything is left in it, and goes when nothing is. */
+export async function removePost(who, id, pid, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const mark = authorMark(who);
+  return changeTopic(who, id, now, s, (t) => {
+    const p = t.posts.find((x) => x.id === pid);
+    if (!p) return { why: 'That post has already been taken down.' };
+    if (p.by !== mark && who.role !== 'base') return { why: 'Only whoever wrote a post, or a moderator, can take it down.' };
+    t.posts = t.posts.filter((x) => x.id !== pid);
+    return settle(t);
+  });
+}
+
+/* A copied message taken back out by whoever sent it, or a moderator. */
+export async function uncopyMessage(who, id, pid, mid, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  return changeTopic(who, id, now, s, (t) => {
+    const p = t.posts.find((x) => x.id === pid);
+    const m = p && p.cb && p.cb.messages.find((x) => x.id === mid);
+    if (!m) return { why: 'That message has already been taken out.' };
+    if (!canTakeOff(who, m)) return { why: 'Only whoever sent a message, or a moderator, can take it out.' };
+    p.cb.messages = p.cb.messages.filter((x) => x.id !== mid);
+    if (!p.cb.messages.length) delete p.cb;
+    if (!p.body && !p.cb) t.posts = t.posts.filter((x) => x.id !== pid);
+    return settle(t);
+  });
+}
+
+export async function reactPost(who, id, pid, emoji, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  if (!reactionOf(emoji)) return { error: 'That is not a reaction the forums can show.' };
+  return changeTopic(who, id, now, s, (t) => {
+    const next = toggleReaction(t.posts, pid, emoji, who.handle);
+    if (!next) return { why: 'That post has been taken down, or has as many different reactions as it can hold.' };
+    t.posts = next;
+    return t;
+  });
+}
+
+/* The topic's starter taking it down while nobody else has posted in it, or
+   any moderator, any time. Everything in it goes. */
+export async function removeTopic(who, id, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const mark = authorMark(who);
+  return changeTopic(who, id, now, s, (t) => {
+    if (who.role === 'base' || (t.by === mark && topicAlone(t, mark))) return false;
+    return { why: 'Only a moderator can take down a topic other people have posted in. You can take down your own posts.' };
+  });
+}
+
+/* A moderator pinning or unpinning, closing or opening, or moving a topic to
+   another category. A topic holding messages copied out of a private room
+   moves only where everybody could already hear that room. */
+export async function moderateTopic(who, id, f, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  if (who.role !== 'base') return { error: 'Only a moderator can do that.' };
+  return changeTopic(who, id, now, s, (t) => {
+    if (typeof f.pin === 'boolean') {
+      if (f.pin) { t.pinned = true; delete t.unpinned; }
+      else if (t.pinned) { delete t.pinned; t.unpinned = now; }
+    }
+    if (typeof f.close === 'boolean') { if (f.close) t.closed = true; else delete t.closed; }
+    if (f.move != null) {
+      const to = forumCat(f.move);
+      if (!forumAllows(who, to)) return { why: 'There is no such category.' };
+      for (const p of t.posts) {
+        const room = p.cb && p.cb.room;
+        if (room && modRoom(room) && !narrowerThan(to, room)) {
+          return { why: `This topic holds messages from a private room, and ${to.name} can be read by people that room is not for.` };
+        }
+      }
+      t.cat = to.slug;
+    }
+    return t;
+  });
+}
+
+/* ── The sweep, hourly ──
+
+   Every topic past its date goes, with everything in it. A summary whose
+   topic has gone comes off its list, and a topic with no summary (its list's
+   write was lost) is put back on its list, or goes if it is past its date. A
+   topic whose category is no longer in data/forum.json is shown to nobody and
+   goes at the default keep. */
+export async function sweepForum(s = store(), now = Date.now()) {
+  const listed = await s.list({ prefix: FORUM_TOPIC });
+  const there = new Set((listed.blobs || []).map((b) => b.key.slice(FORUM_TOPIC.length)));
+  const indexed = new Set();
+  for (const c of FORUM_CATEGORIES) {
+    const list = await readForumIndex(c.slug, s);
+    const drop = new Set();
+    for (const x of list) {
+      indexed.add(x.id);
+      if (!there.has(x.id)) { drop.add(x.id); continue; }
+      if (topicLive(x, c, now)) continue;
+      // Past its date on the list: read the topic itself, which a reply may
+      // have moved since, and delete it only if it is past its date too.
+      const t = await readTopic(x.id, s);
+      if (t && t.cat === c.slug && topicLive(summaryOf(t), c, now)) { await indexTopic(t, s); continue; }
+      if (t && t.cat !== c.slug) { drop.add(x.id); continue; }
+      await s.delete(topicKey(x.id));
+      drop.add(x.id);
+    }
+    if (drop.size) await updateForumIndex(c.slug, (l) => (l.some((x) => drop.has(x.id)) ? l.filter((x) => !drop.has(x.id)) : null), s);
+  }
+  for (const id of there) {
+    if (indexed.has(id)) continue;
+    const t = await readTopic(id, s);
+    if (!t) continue;
+    const c = forumCat(t.cat);
+    if (topicLive(summaryOf(t), c, now)) { if (c) await indexTopic(t, s); }
+    else await s.delete(topicKey(id));
+  }
+}
+
+/* ── Previews: reading a page once, safely ── */
+
+/* Whether an address is one on the open internet, and not this machine, a
+   private network, or anything else a server must never be talked into
+   asking: loopback, private, shared, link-local, multicast, documentation
+   and benchmarking ranges, and the IPv6 forms that carry an IPv4 address. */
+export function publicAddress(ip) {
+  const v = isIP(ip);
+  if (v === 4) return publicV4(ip);
+  if (v === 6) return publicV6(ip);
+  return false;
+}
+function publicV4(ip) {
+  const [a, b, c] = ip.split('.').map(Number);
+  if (a === 0 || a === 10 || a === 127 || a >= 224) return false;
+  if (a === 100 && b >= 64 && b <= 127) return false;
+  if (a === 169 && b === 254) return false;
+  if (a === 172 && b >= 16 && b <= 31) return false;
+  if (a === 192 && b === 168) return false;
+  if (a === 192 && b === 0 && (c === 0 || c === 2)) return false;
+  if (a === 198 && (b === 18 || b === 19)) return false;
+  if (a === 198 && b === 51 && c === 100) return false;
+  if (a === 203 && b === 0 && c === 113) return false;
+  return true;
+}
+function groups6(ip) {
+  let s = String(ip).toLowerCase().replace(/^\[|\]$/g, '').split('%')[0];
+  let tail = [];
+  const dotted = /^(.*:)(\d+\.\d+\.\d+\.\d+)$/.exec(s);
+  if (dotted) {
+    if (isIP(dotted[2]) !== 4) return null;
+    const q = dotted[2].split('.').map(Number);
+    tail = [(q[0] << 8) | q[1], (q[2] << 8) | q[3]];
+    s = dotted[1].endsWith('::') ? dotted[1] : dotted[1].slice(0, -1);
+  }
+  const halves = s.split('::');
+  if (halves.length > 2) return null;
+  const part = (h) => (h ? h.split(':').map((x) => (/^[0-9a-f]{1,4}$/.test(x) ? parseInt(x, 16) : NaN)) : []);
+  const head = part(halves[0]), back = halves.length === 2 ? part(halves[1]) : [];
+  const fill = 8 - tail.length - head.length - back.length;
+  if (halves.length === 1 ? fill !== 0 : fill < 0) return null;
+  const g = head.concat(new Array(halves.length === 2 ? fill : 0).fill(0), back, tail);
+  return g.length === 8 && g.every((x) => Number.isInteger(x) && x >= 0 && x <= 0xffff) ? g : null;
+}
+function publicV6(ip) {
+  const g = groups6(ip);
+  if (!g) return false;
+  const v4 = (hi, lo) => publicV4([hi >> 8, hi & 255, lo >> 8, lo & 255].join('.'));
+  if (g.slice(0, 7).every((x) => x === 0)) return false;                       // :: and ::1
+  if (g.slice(0, 5).every((x) => x === 0) && g[5] === 0xffff) return v4(g[6], g[7]);   // ::ffff:a.b.c.d
+  if (g.slice(0, 6).every((x) => x === 0)) return false;                       // ::a.b.c.d, long gone
+  if (g[0] === 0x64 && g[1] === 0xff9b && g.slice(2, 6).every((x) => x === 0)) return v4(g[6], g[7]);
+  if (g[0] === 0x2002) return v4(g[1], g[2]);                                  // 6to4
+  if ((g[0] & 0xfe00) === 0xfc00) return false;                                // unique local
+  if ((g[0] & 0xffc0) === 0xfe80) return false;                                // link-local
+  if ((g[0] & 0xff00) === 0xff00) return false;                                // multicast
+  if (g[0] === 0x2001 && (g[1] === 0x0db8 || g[1] === 0)) return false;        // documentation, Teredo
+  if (g[0] === 0x0100 && g.slice(1, 4).every((x) => x === 0)) return false;    // discard
+  return true;
+}
+
+/* The address is checked as it is looked up, so a name that points at a
+   private address, or is changed to point at one between a check and the
+   request, is refused at the moment the connection is made. */
+function safeLookup(hostname, options, callback) {
+  if (typeof options === 'function') { callback = options; options = {}; }
+  dnsLookup(hostname, { all: true, verbatim: true }, (err, addrs) => {
+    if (err) return callback(err);
+    if (!addrs || !addrs.length || addrs.some((a) => !publicAddress(a.address))) {
+      return callback(Object.assign(new Error('not a public address'), { code: 'ENOTFOUND' }));
+    }
+    if (options && options.all) return callback(null, addrs);
+    return callback(null, addrs[0].address, addrs[0].family);
+  });
+}
+
+const PREVIEW_AGENT = 'stimpunks.world link preview (+https://stimpunks.world/privacy.html#forums)';
+
+/* GET an address, for a preview: http or https on the usual ports, a public
+   address, three redirects, five seconds and `max` bytes at most, and only the
+   content types asked for. Answers { status, type, text, url }. */
+export function safeGet(url, o = {}, hops = 0) {
+  const max = o.max || 600000, types = o.types || ['text/html', 'application/xhtml+xml'];
+  // One deadline for the address and every redirect after it.
+  const deadline = o.deadline || Date.now() + 5000;
+  const left = deadline - Date.now();
+  if (left <= 0) return Promise.reject(new Error('timeout'));
+  return new Promise((resolve, reject) => {
+    let u;
+    try { u = new URL(url); } catch (e) { reject(new Error('refused')); return; }
+    const host = u.hostname.replace(/^\[|\]$/g, '').toLowerCase();
+    if (!/^https?:$/.test(u.protocol) || u.username || u.password || (u.port && !['80', '443'].includes(u.port))
+      || !host || /(^|\.)(localhost|local|internal|localdomain|lan|home|corp|intranet|test|invalid|example)$/.test(host)
+      || (isIP(host) && !publicAddress(host))) { reject(new Error('refused')); return; }
+    const req = (u.protocol === 'https:' ? httpsRequest : httpRequest)(u, {
+      method: 'GET', lookup: safeLookup, agent: false, timeout: Math.min(4000, left),
+      headers: { 'user-agent': PREVIEW_AGENT, accept: types.join(', '), 'accept-language': 'en', 'accept-encoding': 'identity' },
+    }, (res) => {
+      const code = res.statusCode || 0;
+      if (code >= 300 && code < 400 && res.headers.location) {
+        res.resume();
+        clearTimeout(hard);
+        if (hops >= 3) { reject(new Error('too many redirects')); return; }
+        let next;
+        try { next = new URL(res.headers.location, u).href; } catch (e) { reject(new Error('refused')); return; }
+        safeGet(next, { ...o, deadline }, hops + 1).then(resolve, reject);
+        return;
+      }
+      const ctype = String(res.headers['content-type'] || '');
+      const type = ctype.split(';')[0].trim().toLowerCase();
+      if (code !== 200 || !types.includes(type)) { res.resume(); clearTimeout(hard); resolve({ status: code, type, text: '', url: u.href }); return; }
+      const cs = (/charset=["']?([\w-]+)/i.exec(ctype) || [])[1] || 'utf-8';
+      const chunks = [];
+      let size = 0, done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        clearTimeout(hard);
+        let text;
+        try { text = new TextDecoder(cs, { fatal: false }).decode(Buffer.concat(chunks)); }
+        catch (e) { text = Buffer.concat(chunks).toString('utf8'); }
+        resolve({ status: code, type, text, url: u.href });
+      };
+      res.on('data', (c) => {
+        if (done) return;
+        const room = max - size;
+        size += c.length;
+        if (c.length >= room) { chunks.push(c.subarray(0, Math.max(0, room))); res.destroy(); finish(); }
+        else chunks.push(c);
+      });
+      res.on('end', finish);
+      res.on('error', finish);
+    });
+    const hard = setTimeout(() => req.destroy(new Error('timeout')), left);
+    req.on('timeout', () => req.destroy(new Error('timeout')));
+    req.on('error', (e) => { clearTimeout(hard); reject(e); });
+    req.end();
+  });
+}
+
+const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“',
+  mdash: '—', ndash: '–', hellip: '…', middot: '·', copy: '©', reg: '®', trade: '™', bull: '•', laquo: '«', raquo: '»' };
+function unentity(s) {
+  return String(s || '').replace(/&(#x[0-9a-f]{1,6}|#\d{1,7}|[a-z]{2,8});/gi, (m, e) => {
+    if (e[0] === '#') {
+      const n = e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+      return n > 0 && n <= 0x10ffff && !(n >= 0xd800 && n <= 0xdfff) ? String.fromCodePoint(n) : '';
+    }
+    return Object.prototype.hasOwnProperty.call(ENTITIES, e.toLowerCase()) ? ENTITIES[e.toLowerCase()] : m;
+  });
+}
+function clip(s, n) {
+  const t = tidy(unentity(String(s || '').replace(/<[^>]*>/g, ' ')));
+  if (!t) return '';
+  const cs = [...t];
+  return cs.length <= n ? t : cs.slice(0, n - 1).join('').replace(/\s+\S*$/, '') + '…';
+}
+
+/* A page's title, description and site name, from its head. */
+export function metaOf(html) {
+  const head = String(html || '').slice(0, 400000);
+  const metas = [];
+  for (const m of head.matchAll(/<meta\b([^>]*)>/gi)) {
+    const at = {};
+    for (const a of m[1].matchAll(/([a-zA-Z_:][-\w:.]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/g)) {
+      at[a[1].toLowerCase()] = a[2] != null ? a[2] : a[3] != null ? a[3] : a[4];
+    }
+    metas.push(at);
+  }
+  const pick = (...names) => {
+    for (const n of names) {
+      const m = metas.find((a) => String(a.property || a.name || '').toLowerCase() === n && a.content);
+      if (m) return m.content;
+    }
+    return '';
+  };
+  const titleTag = (/<title[^>]*>([\s\S]*?)<\/title>/i.exec(head) || [])[1] || '';
+  return {
+    title: clip(pick('og:title', 'twitter:title') || titleTag, 200),
+    about: clip(pick('og:description', 'twitter:description', 'description'), 300),
+    site: clip(pick('og:site_name', 'application-name'), 80),
+  };
+}
+
+/* The object a page assigns to `name`, cut out of its HTML. */
+function jsonAfter(html, name) {
+  const at = html.indexOf(name);
+  if (at < 0) return null;
+  const start = html.indexOf('{', at);
+  if (start < 0) return null;
+  let depth = 0, inStr = false, esc = false;
+  for (let i = start; i < html.length && i < start + 2000000; i++) {
+    const c = html[i];
+    if (inStr) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') inStr = false; continue; }
+    if (c === '"') inStr = true;
+    else if (c === '{') depth++;
+    else if (c === '}') { depth--; if (depth === 0) { try { return JSON.parse(html.slice(start, i + 1)); } catch (e) { return null; } } }
+  }
+  return null;
+}
+
+/* What a YouTube watch page says about its video: the same playabilityStatus
+   check-jukebox.py reads, because oEmbed answers for a dead video too. */
+export function playerInfo(html) {
+  const pr = jsonAfter(String(html || ''), 'ytInitialPlayerResponse');
+  if (!pr) return null;
+  const ps = pr.playabilityStatus || {}, vd = pr.videoDetails || {};
+  const n = parseInt(vd.lengthSeconds, 10);
+  return { status: ps.status || null, embed: ps.playableInEmbed === true, title: vd.title || '', channel: vd.author || '',
+    length: n > 0 ? n : null, live: !!vd.isLive };
+}
+
+export function youtubeId(u) {
+  const h = u.hostname.toLowerCase();
+  let id = null;
+  if (h === 'youtu.be') id = u.pathname.slice(1).split('/')[0];
+  else if (/(^|\.)youtube(-nocookie)?\.com$/.test(h)) {
+    if (u.pathname === '/watch') id = u.searchParams.get('v');
+    else { const m = /^\/(?:shorts|live|embed|v)\/([^/?#]+)/.exec(u.pathname); id = m && m[1]; }
+  }
+  return cleanVideo(id);
+}
+
+/* The preview for one lone link, or null to leave it a plain link. */
+export async function previewFor(src, get = safeGet) {
+  const href = brassHref(src);
+  if (!href) return null;
+  let u;
+  try { u = new URL(href); } catch (e) { return null; }
+  if (!/^https?:$/.test(u.protocol)) return null;
+  const host = u.hostname.toLowerCase();
+  if (host === 'stimpunks.world' || host === 'www.stimpunks.world') {
+    return /^\/(?:[a-z0-9-]+(?:\.html)?)?$/.test(u.pathname) ? { src, href, kind: 'street', path: u.pathname } : null;
+  }
+  const id = youtubeId(u);
+  if (id) {
+    const watch = 'https://www.youtube.com/watch?v=' + id;
+    let info = null;
+    try {
+      const r = await get(watch, { max: 1500000, types: ['text/html'] });
+      if (r && r.status === 200) info = playerInfo(r.text);
+    } catch (e) { info = null; }
+    if (info && info.status === 'ERROR') return null;         // gone: a plain link says less that is wrong
+    if (!info || !info.title) {
+      // A watch page that did not say (a sign-in wall, a consent page): YouTube's
+      // oEmbed for the title and channel, and no length, so it is a door.
+      try {
+        const r = await get('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent(watch), { max: 20000, types: ['application/json'] });
+        if (r && r.status === 200) { const j = JSON.parse(r.text); info = { status: null, embed: false, title: j.title || '', channel: j.author_name || '', length: null, live: false }; }
+      } catch (e) { /* no preview */ }
+    }
+    if (!info || !clip(info.title, 200)) return null;
+    return { src, href, kind: 'video', id, title: clip(info.title, 200), channel: clip(info.channel, 100) || null,
+      length: info.length, live: info.live, embed: info.status === 'OK' && info.embed };
+  }
+  const r = await get(href, { max: 600000, types: ['text/html', 'application/xhtml+xml'] });
+  if (!r || r.status !== 200) return null;
+  const m = metaOf(r.text);
+  if (!m.title) return null;
+  let to = null;
+  try { to = new URL(r.url).host; } catch (e) { to = null; }
+  return { src, href, kind: 'page', title: m.title, about: m.about || null, site: m.site || null, host: to };
 }
 
 /* ── What people type ──────────────────────────────────────────────────── */

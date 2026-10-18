@@ -1,0 +1,172 @@
+/* =============================================================================
+   The forums, inside their own shadow root beside cb.css (forum.js).
+
+   THE CB'S CLOTHES AND NONE OF ITS OWN. Every colour here is one of the radio's
+   seven, var(--cb-*), which cb.css lays over with whichever theme the reader
+   has on, so the forums wear every theme the radio does and bring no pair
+   check-contrast.py has not already measured for it:
+     · words on the case in --cb-steel, headings in --cb-steel-2, quiet lines
+       in --cb-amber-2, links and the focus ring in --cb-amber;
+     · the bar in --cb-bar with --cb-steel words on it;
+     · messages copied off the CB on the readout, --cb-lcd, in --cb-amber with
+       their times in --cb-amber-2, so they look like what they were;
+     · every field the radio's own .cb-say, amber on the readout.
+   tools/make-forum.py refuses a literal colour in this file. The headings over
+   the forums' parts take the theme's display face, as the radio's do, and no
+   sentence ever does: every word that is read stays in Atkinson Hyperlegible.
+
+   NOTHING HERE MOVES. A theme's drawing in the trims is cb.css's, and moves
+   only where cb.css lets it. No transition, no animation, no transform.
+   ============================================================================= */
+:host { display: block; }
+.fm, .fm *, .fm *::before, .fm *::after { box-sizing: border-box; }
+.fm {
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  font: 16px/1.55 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left; overflow-wrap: anywhere;
+}
+.fm :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.fm a { color: var(--cb-amber); }
+.fm p { margin: 0; }
+.fm h2, .fm h3, .fm h4 { margin: 0; }
+
+/* THE BAR: the radio's, across the top. Its links are buttons in look only. */
+.fm-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px 8px 0 0; cursor: default; user-select: auto; touch-action: auto; }
+.fm-name { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--cb-steel); margin-right: auto; }
+.fm-nav { display: flex; flex-wrap: wrap; gap: 6px; }
+.fm-navlink { display: inline-flex; align-items: center; text-decoration: none; }
+.fm .fm-navlink { color: var(--cb-steel); }
+.fm-navlink[aria-current="page"] { border-color: var(--cb-amber); }
+.fm-find { display: flex; gap: 6px; flex: 1 1 260px; max-width: 420px; }
+.fm-q { flex: 1 1 auto; }
+.fm-trim { margin: 0; }
+
+/* THE PAGE: categories down the side, the view beside them; one column on a phone. */
+.fm-main { display: grid; grid-template-columns: minmax(180px, 230px) minmax(0, 1fr); gap: 24px; padding: 18px 18px 8px; }
+@media (max-width: 759px) { .fm-main { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px 12px 6px; } }
+.fm-side__box { position: sticky; top: 12px; }
+.fm-side__sum { cursor: pointer; font-weight: 700; padding: 4px 0; }
+.fm-side__group { margin: 12px 0 4px; }
+.fm-side__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: 15px; }
+.fm-side__list a { display: block; padding: 6px 4px; text-decoration: none; border-left: 3px solid transparent; padding-left: 8px; }
+.fm-side__list a:hover { text-decoration: underline; }
+.fm-side__list a[aria-current="page"] { border-left-color: var(--cb-amber); font-weight: 700; }
+
+.fm-view { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; }
+.fm-view > h2 {
+  font: 400 calc(26px * var(--cb-display-scale, 1))/1.2 var(--cb-display, 'Atkinson Hyperlegible'), 'Atkinson Hyperlegible', system-ui, sans-serif;
+  letter-spacing: var(--cb-display-track, 0); text-transform: var(--cb-display-case, none); color: var(--cb-steel);
+}
+.fm-view > h2.fm-topic__title { font: 700 26px/1.25 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: 0; text-transform: none; }
+.fm-lede { font-size: 17px; }
+.cb-h.fm-group, .cb-h.fm-reply-h { font-size: calc(14px * var(--cb-display-scale, 1)); margin-top: 10px; }
+.fm .cb-tag { margin-left: 8px; }
+
+/* THE CATEGORIES, each a section of the case, edged like the radio's parts. */
+.fm-cats { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.fm-cat { display: grid; gap: 6px; align-content: start; padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.fm-cat__name { font-size: 18px; }
+.fm-cat__latest { list-style: none; margin: 4px 0 0; padding: 8px 0 0; border-top: 2px solid var(--cb-bar); display: grid; gap: 4px; font-size: 15px; }
+.fm-cat__when { color: var(--cb-amber-2); font-size: 13px; }
+
+/* A LIST OF TOPICS: a title, its marks, and whose they are and when. */
+.fm-rows { list-style: none; margin: 0; padding: 0; display: grid; }
+.fm-row { padding: 10px 0; border-top: 2px solid var(--cb-bar); display: grid; gap: 2px; }
+.fm-row:last-child { border-bottom: 2px solid var(--cb-bar); }
+.fm-row__title { font-weight: 700; font-size: 17px; }
+.fm-row__meta { font-size: 14px; color: var(--cb-amber-2); }
+.fm-row__meta a { color: var(--cb-amber); }
+.fm-row__match { font-size: 14px; }
+.fm-start { display: inline-flex; align-items: center; text-decoration: none; }
+.fm .fm-start { color: var(--cb-steel); }
+
+/* A TOPIC: posts one under the other, each a section of the case. */
+.fm-topic__meta { font-size: 15px; }
+.fm-topic__tools, .fm-post__tools, .fm-compose__row, .fm-rx, .fm-rx__pick { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fm-post { display: grid; gap: 8px; padding: 14px 0; border-top: 2px solid var(--cb-bar); }
+.fm-post:focus { outline: none; }
+.fm-post:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 4px; }
+.fm-post__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.fm-post__head .cb-tag { margin-left: 0; }
+.fm-post__when, .fm-post__edited { font-size: 14px; }
+.fm-post__edited { color: var(--cb-amber-2); }
+.fm-post__reply { font-size: 14px; color: var(--cb-amber-2); }
+.fm-who {
+  font: 700 16px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-steel);
+  background: none; border: 0; padding: 2px 0; cursor: pointer;
+  text-decoration: underline dotted; text-underline-offset: 3px; min-height: 32px;
+}
+.fm .cb-btn.fm-small { min-height: 36px; padding: 4px 10px; }
+.fm-sure { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; padding: 8px 10px; border: 2px solid var(--cb-amber); border-radius: 6px; }
+.fm-sure > p { flex: 1 1 100%; }
+
+/* THE WORDS of a post, as markdown.js builds them. Weight, slope and rules do
+   the work, never a colour. */
+.fm-body { display: grid; gap: 10px; min-width: 0; }
+.fm-body > * { margin: 0; }
+.fm-body h4, .fm-body h5, .fm-body h6 { font-size: 17px; }
+.fm-body ul, .fm-body ol { margin: 0; padding-left: 1.4em; }
+.fm-body li + li { margin-top: 4px; }
+.fm-body blockquote { margin: 0; padding: 2px 0 2px 12px; border-left: 3px solid var(--cb-steel-2); display: grid; gap: 8px; }
+.fm-body blockquote > * { margin: 0; }
+.fm-body code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .92em; padding: 0 3px; border: 1px solid var(--cb-steel-2); border-radius: 3px; }
+.fm-body pre { margin: 0; padding: 8px 10px; overflow-x: auto; border: 1px solid var(--cb-steel-2); border-radius: 4px; }
+.fm-body pre code { border: 0; padding: 0; }
+.fm-body hr { border: 0; border-top: 2px solid var(--cb-steel-2); width: 100%; }
+.fm-table { overflow-x: auto; }
+.fm-table table { border-collapse: collapse; }
+.fm-table th, .fm-table td { padding: 4px 10px; border: 1px solid var(--cb-steel-2); text-align: left; }
+.fm-host { color: var(--cb-amber-2); font-size: .88em; white-space: nowrap; }
+
+/* A PREVIEW: a card on the case, edged in the case's second steel. */
+.fm-card { display: grid; gap: 4px; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-left-width: 6px; border-radius: 6px; max-width: 640px; text-decoration: none; }
+a.fm-card:hover { border-color: var(--cb-amber); }
+.fm-card__site { font-size: 13px; color: var(--cb-amber-2); letter-spacing: .02em; }
+.fm-card__title { font-weight: 700; font-size: 17px; }
+a.fm-card .fm-card__title { color: var(--cb-amber); text-decoration: underline; }
+.fm-card__about { color: var(--cb-steel); font-size: 15px; }
+.fm-card__host { font-size: 13px; color: var(--cb-amber-2); }
+.fm-play { justify-self: start; text-align: left; max-width: 100%; }
+.fm-screen { position: relative; width: 100%; aspect-ratio: 16 / 9; border: 2px solid var(--cb-steel-2); border-radius: 6px; overflow: hidden; }
+.fm-screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.fm-door { font-weight: 700; }
+
+/* MESSAGES COPIED OFF THE CB, on the radio's own readout. */
+.fm-cb { display: grid; gap: 8px; border-radius: 6px; }
+.fm .fm-cb a { color: var(--cb-amber); }
+.fm-cb__from { font-size: 13px; color: var(--cb-amber-2); letter-spacing: .02em; }
+.fm-cb__log { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fm-cb__msg { display: grid; gap: 4px; color: var(--cb-amber); }
+.fm-cb__head { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+.fm-cb__head .cb-tag { margin-left: 0; }
+.fm-cb__time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
+.fm-cb__words blockquote, .fm-cb__words pre, .fm-cb__words code, .fm-cb__words hr { border-color: var(--cb-amber-2); }
+.fm-cb .cb-btn { justify-self: start; color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2); }
+.fm-from { display: grid; gap: 8px; }
+
+/* REACTIONS: who pressed what, by name, never a number. Yours has the amber
+   edge every pressed button on the radio has. */
+.fm-rx__btn { display: inline-flex; align-items: center; gap: 6px; }
+.fm-rx__emoji { font-size: 18px; line-height: 1; }
+.fm-rx__who { font-weight: 400; font-size: 13px; }
+.fm-rx__pick { width: 100%; padding: 8px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
+.fm-rx__any { width: 9em; flex: none; }
+
+/* WRITING: the radio's own fields. */
+.fm-compose { display: grid; gap: 6px; padding: 12px 0 4px; border-top: 2px solid var(--cb-bar); }
+.fm-field { width: 100%; }
+.fm-text { display: block; width: 100%; min-height: 9em; resize: vertical; font-size: 16px; line-height: 1.5; }
+.fm-hint { font-size: 13px; }
+.fm-preview { padding: 10px 12px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; }
+.fm-answer, .fm-replying { font-size: 15px; color: var(--cb-steel); }
+.fm-replying { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fm-go { font-size: 14px; }
+
+/* THE FOOT: what the forums say back, and your own settings for them. */
+.fm-said { padding: 0 18px; font-size: 15px; min-height: 1.5em; }
+.fm-opts { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; padding: 12px 18px 16px; margin-top: 8px; border-top: 2px solid var(--cb-bar); }
+.fm-opt { display: grid; gap: 2px; }
+.fm-scheme { max-width: 100%; }
+.fm-opts__why { flex: 1 1 100%; font-size: 13px; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

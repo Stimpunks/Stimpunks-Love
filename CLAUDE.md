@@ -4728,6 +4728,30 @@ is open, and a screenshot upload**, and each needs a decision of Ryan's written 
 `privacy.html#suggestions` first. **A security problem is not for the box**, which says so and points
 at SECURITY.md.
 
+**THE FORUMS ARE THE CB'S, FOR WHAT NEEDS LONGER THAN A DAY, AND ONLY A CLAIMED USERNAME READS THEM.** Ryan's
+brief, 2026-10-18, after Discourse, so the CB and the forums together can let us leave Discord and Stoat. `forum.html`
+is paperwork beside the CB guide (pinned on the map, no job marker), and the forums are drawn by `forum.js` in a shadow
+root with `cb.css` and `forum.css`, so they **wear the reader's own radio theme, or one chosen for the forums alone**
+(`love-forum`): `forum.css` uses the CB's seven colours and nothing else, so no pair is new. The server is the forums
+section of `netlify/cb/lib.mjs` and `/cb/forum`: one blob per topic, one index per category (a cache the hourly sweep
+repairs), every write conditional, and a version on each topic so an older summary never overwrites a newer one.
+**Categories are `data/forum.json`**, written between `forum:categories` markers in `lib.mjs` by `tools/make-forum.py`
+(never hand-edit them): each has a keep (`1 week`, `3 months`, `6 months`, `never`, counted from the last post, Ryan's
+call, worked out on every read so changing it changes every topic in it), `see` and `start` as CB_MODS roles, and
+`strict` for the Executive Session rule. **A category somebody cannot see is never sent to them**, and `forumReader`
+refuses everything but a claimed username first. **Every post carries `by`, a hash of the folded name and when it was
+claimed (`since`, which `readPass` now returns), and it never leaves the server**: it is how a name deleted and claimed
+again by somebody else cannot edit the old owner's posts. **A link on a line of its own is previewed by `safeGet`, once,
+when the post is made**: public addresses only (checked in `safeLookup` as the connection is made, every redirect
+again), five seconds, no pictures, and never on reading; a YouTube video keeps its length and is a press-to-play button
+built by `loveEmbed.frame`, or a door. **Take to the forums on the radio only ticks**: the ids go in the address after
+a `#`, and `cbTranscript` copies the messages off the channel itself, so nobody can quote somebody into saying
+anything; each sender takes theirs back out under `canTakeOff`; never out of a quiet room, and out of a private room
+only into a category no wider than it. Ryan's call: anybody's messages, under the house norm of asking first. **The
+friendly edits are a reply count, a view count, unread numbers, notifications and @mentions that ping, a fetched
+preview image, and the radio sending the messages' words itself**; each is refused by `make-forum.py` or by the
+privacy page, and notifications are the CB's own refusal. `DECISIONS.md` has what is still open.
+
 ## What this site is FOR, so you know what you are protecting
 
 Ryan's brief, 2026-09-19: *"All of our sites are so careful. Careful color palettes, careful

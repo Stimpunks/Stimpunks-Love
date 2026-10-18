@@ -734,6 +734,12 @@
    "about": "The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, the teleporter, watching films together, calls, Profile, avatars, pets, jobs and patches, and what it keeps."
   },
   {
+   "tag": "forum",
+   "name": "The forums",
+   "path": "/forum.html",
+   "about": "The CB’s forums: topics in categories for conversations that need longer than a day, after Discourse, for claimed usernames on the CB. Introductions, events, announcements, mutual aid, infodumps, education, nature, AI, our teams, and areas for staff. Markdown, link previews, reactions, and chats copied in from the CB."
+  },
+  {
    "tag": "changelog",
    "name": "Changelog",
    "path": "/changelog.html",

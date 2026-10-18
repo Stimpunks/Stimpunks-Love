@@ -613,6 +613,8 @@
      itself says whether this radio is on as one. It only decides the mark on
      your own "On the channel as" line; the mark on a message is the server's. */
   function claimedPass(pass) { return /^cb2\.acct\./.test(pass || ''); }
+  // A pass the forums take: any claimed username's, a moderator's own included.
+  function forumPass(pass) { return /^cb2\./.test(pass || ''); }
 
   function clock(t) {
     var d = new Date(t);
@@ -790,6 +792,16 @@
     band.appendChild(bw);
     band.appendChild(br);
     chanSec.appendChild(band);
+    /* THE FORUMS (Ryan, 2026-10-18): for what needs longer than the channel's
+       day, for claimed usernames. A link, and Take to the forums under a
+       message's More; the radio never sends anything to them itself. */
+    var forumLine = el('p', 'cb-quiet cb-forum-line');
+    forumLine.appendChild(document.createTextNode('For what needs longer than a day: '));
+    var forumLink = el('a', null, 'the forums');
+    forumLink.href = '/forum.html';
+    forumLine.appendChild(forumLink);
+    forumLine.appendChild(document.createTextNode(forumPass(state.pass) ? '.' : ', for claimed usernames.'));
+    chanSec.appendChild(forumLine);
     /* WHO'S ONLINE, under Who's around. Ryan, 2026-10-07: "Folks are
        wanting to know who's around and are having a hard time connecting right
        now." Everybody seen in a room, with the rooms they are in, for anybody
@@ -893,6 +905,7 @@
     this.beacons = [];
     this.skew = 0;
     chanSec.appendChild(lcd);
+    this.lcdBox = lcd;
 
     /* THE RADIO'S ANSWER, directly under the readout, where the log, the hosts'
        Catch up and Follow and every @time are: an answer somebody has to scroll
@@ -1800,6 +1813,8 @@
      arrives, because that is the live region's job and not the scroll bar's. */
   Radio.prototype.show = function (messages, mine) {
     var me = this, want = {}, i, added = 0;
+    // What is on the channel now, for Take to the forums to offer.
+    this.onAir = messages;
     var log = this.log;
     var atEnd = log.hidden || log.scrollHeight - log.scrollTop - log.clientHeight < 24;
     // The first hearing is what was already said; only what comes after is news.
@@ -1895,6 +1910,10 @@
   Radio.prototype.moreFor = function (m, li) {
     var me = this, items = [];
     if (m.text) items.push(this.copyBtn(m));
+    /* TAKE TO THE FORUMS, for a claimed username, on a message with words in
+       it, anywhere but a room that keeps to itself (the server refuses that
+       too). It only ticks; the server copies the messages off the channel. */
+    if (m.text && forumPass(this.state.pass) && !(offList() && this.tunedRoom())) items.push(this.forumBtn(m));
     /* TAKE OFF is on every message for the base, and on your own for
        everybody (Ryan, 2026-10-08). Which are yours is canTakeOff's rule in
        lib.mjs, asked again by the server: this only decides where the button
@@ -1923,7 +1942,7 @@
     b.setAttribute('aria-expanded', 'false');
     b.setAttribute('aria-controls', box.id);
     b.setAttribute('aria-label', 'More for ' + m.handle + '\u2019s message at ' + clock(m.t) + ': ' +
-      (m.text ? 'Copy' : '') + (m.text && off ? ' and ' : '') + (off ? 'Take off' : ''));
+      items.map(function (x) { return x.textContent; }).join(', '));
     function shut(back) {
       box.hidden = true;
       b.setAttribute('aria-expanded', 'false');
@@ -1960,6 +1979,67 @@
     var mb = li.querySelector(':scope > .cb-acts > .cb-more');
     if (mb) mb.setAttribute('aria-expanded', 'false');
   }
+
+  /* TAKE TO THE FORUMS: a box under the readout listing what is on the channel
+     now, this message ticked, to start a forum topic with. Starting it opens
+     the forums with the ticked messages' ids in the address, after a #, which
+     never reaches a server; the forums ask ours to copy them off the channel
+     when the topic is posted, so nobody can type words into anybody else's
+     mouth. The radio itself sends nothing for it. */
+  Radio.prototype.forumBtn = function (m) {
+    var me = this, b = el('button', 'cb-btn cb-forum', 'Take to the forums');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Take ' + m.handle + '\u2019s message at ' + clock(m.t) + ', and others, to a new forum topic');
+    b.addEventListener('click', function () { me.pickForForum(m.id); });
+    return b;
+  };
+  Radio.prototype.pickForForum = function (first) {
+    var me = this;
+    if (this.forumPick) this.forumPick.remove();
+    var box = this.forumPick = el('div', 'cb-forum-pick');
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-labelledby', 'cb-forum-pick-h');
+    var h = el('p', 'cb-h3', 'Take to the forums');
+    h.id = 'cb-forum-pick-h';
+    box.appendChild(h);
+    box.appendChild(el('p', 'cb-quiet', 'Tick the messages to start a forum topic with. They go in exactly as they were sent, handles and times and all, and whoever sent one can take it out again. Pictures and stickers stay behind. Ask everybody in the conversation first, as you would before a screenshot.'));
+    var list = el('ul', 'cb-forum-pick__list');
+    (this.onAir || []).forEach(function (m) {
+      if (!m.text) return;
+      var li = el('li');
+      var lab = el('label', 'cb-forum-pick__row');
+      var tick = el('input');
+      tick.type = 'checkbox';
+      tick.value = m.id;
+      tick.checked = m.id === first;
+      var words = m.text.replace(/\s+/g, ' ');
+      lab.appendChild(tick);
+      lab.appendChild(document.createTextNode(' ' + m.handle + ', ' + clock(m.t) + ': ' + (words.length > 70 ? words.slice(0, 69) + '\u2026' : words)));
+      li.appendChild(lab);
+      list.appendChild(li);
+    });
+    box.appendChild(list);
+    var row = el('div', 'cb-band');
+    var go = el('button', 'cb-btn', 'Start a topic with these');
+    go.type = 'button';
+    var no = el('button', 'cb-btn', 'Cancel');
+    no.type = 'button';
+    go.addEventListener('click', function () {
+      var ids = Array.prototype.map.call(list.querySelectorAll('input:checked'), function (x) { return x.value; });
+      if (!ids.length) { me.tell('Tick at least one message first.'); return; }
+      box.remove();
+      me.forumPick = null;
+      location.href = '/forum.html#/new?from=' + encodeURIComponent(me.tunedRoom() || 'world') + '&ids=' + encodeURIComponent(ids.join(','));
+    });
+    no.addEventListener('click', function () { box.remove(); me.forumPick = null; me.tell(''); });
+    box.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); no.click(); } });
+    row.appendChild(go);
+    row.appendChild(no);
+    box.appendChild(row);
+    this.lcdBox.parentNode.insertBefore(box, this.lcdBox.nextSibling);
+    var on = list.querySelector('input:checked') || list.querySelector('input');
+    if (on) on.focus();
+  };
 
   /* COPY, on every message with words in it: the words as they were typed,
      Markdown and all, onto your own clipboard. The answer is on the button and
@@ -5366,6 +5446,9 @@
     // load this file for anybody else, and the server refuses them anyway).
     if (!mayHere(s)) return;
     radio = new Radio(s);
+    /* The forums open a person's profile the way a handle on the channel does:
+       their names are buttons, and this is what those buttons press. */
+    window.loveRadioPeek = function (handle, from, mark) { if (radio) radio.peek(handle, from, mark || null); };
     /* A spot in the address is read once the radio exists. On most pages
        call.js has to load first, and arrive() used to run from start() while
        the radio was still null, so a spot's room link did nothing there. */

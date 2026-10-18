@@ -1182,3 +1182,11 @@ body.cb-callwin a { color: var(--cb-amber); }
 body.cb-callwin :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 
 @media print { .cb-radio, .cb-call { display: none; } }
+
+/* TAKE TO THE FORUMS: the box under the readout, on the case in its own words'
+   steel, the pair every line on the case already uses. */
+.cb-forum-line { font-size: 13px; }
+.cb-forum-pick { display: grid; gap: 8px; padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
+.cb-forum-pick__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 14em; overflow-y: auto; font-size: 14px; }
+.cb-forum-pick__row { display: flex; gap: 8px; align-items: flex-start; overflow-wrap: anywhere; cursor: pointer; }
+.cb-forum-pick__row input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--cb-amber); }
