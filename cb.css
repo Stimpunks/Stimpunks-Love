@@ -344,7 +344,7 @@
   display: flex; flex-direction: column;
 }
 .cb-bar { flex: none; }
-.cb-tp-panel, .cb-size-panel { flex: none; }
+.cb-tp-panel { flex: none; }
 .cb-set { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 /* EVERY ROW KEEPS ITS OWN HEIGHT, and the set scrolls instead. Once the radio
    was capped at the window's height the set had a height shorter than what is
@@ -374,6 +374,9 @@
 .cb-bar { flex-wrap: wrap; }
 .cb-bar .cb-btn, .cb-tp { white-space: nowrap; }
 .cb-bar .cb-btn { padding-left: 8px; padding-right: 8px; }
+/* On a 360px phone the widest names (Zelda's, Dig Dug's) were ten pixels over,
+   so the spaces close up a little there and the row stays one row. */
+@media (max-width: 419px) { .cb-bar { gap: 6px; padding-left: 8px; } .cb-name { gap: 6px; } }
 /* The name on the bar takes the theme's face but never grows past 1.1 of its
    size, because the bar is full: in Dig Dug Amp's chunky face at its heading
    scale, Fold away wrapped onto a second line. */
@@ -389,11 +392,7 @@
 .cb-tp:hover, .cb-tp[aria-expanded="true"] { border-color: var(--cb-amber); }
 .cb-tp-panel { padding: 10px 12px 0; display: grid; gap: 6px; }
 .cb-tp-panel .cb-lab { margin: 0; }
-/* SIZE: three buttons under the bar, the one you are on filled, which is the
-   Follow button's pair and so a pair check-contrast.py already measures. */
-.cb-size-panel { padding: 10px 12px 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.cb-size-choice[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
-/* COLOURS: the schemes under Your radio's row, the one you are on filled, Size's
+/* COLOURS: the schemes under Your radio's row, the one you are on filled, Follow's
    pair. Each carries a swatch of itself, a little case round a little readout
    saying Aa, in that scheme's own colours, which cb.js reads off love.css §2 into
    --sw-*; Aa is that scheme's readout pair, so it is measured with the scheme.
@@ -431,6 +430,18 @@
 .cb-btn:hover { border-color: var(--cb-steel); }
 .cb-btn[aria-pressed="true"] { border-color: var(--cb-amber); }
 .cb-move { cursor: move; }
+/* THE BAR'S ICON BUTTONS (Ryan, 2026-10-17): the grip for Move, and minus and
+   plus for the size, side by side in their own group. Each is 44 pixels tall,
+   like every button on the bar, and narrower than a word, so the bar holds
+   them in the room Move and Size took. The one with nowhere to go is quieter
+   and still a button: a disabled control is exempt from contrast, and this one
+   keeps the keyboard and says it is at the end. */
+.cb-bar .cb-icon-btn { min-width: 32px; padding: 0 4px; display: inline-grid; place-items: center; }
+.cb-icon-btn__art { width: 18px; height: 18px; display: block; }
+.cb-sizer { display: inline-flex; gap: 3px; }
+.cb-sizer[hidden] { display: none; }
+.cb-icon-btn[aria-disabled="true"] { opacity: .45; cursor: default; }
+.cb-icon-btn[aria-disabled="true"]:hover { border-color: var(--cb-steel-2); }
 
 .cb-set { padding: 10px 12px 12px; display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
 /* The same cap as the log's, one level up: the radio's body is a grid too, and

@@ -3628,17 +3628,19 @@ what it names out of the emphasis pass, because an underscore in a path or an as
 title would otherwise break the link or the jump. **A message now has `li` inside it**, and the
 pass that drops messages gone from the channel read those as messages and emptied every list; it
 asks for `:scope > li`. Anything else walking the log must ask the same way. Copy writes the words
-as typed and sends nothing. Size (Small, Normal, Large) is one button on the bar, because the bar
-is full.
+as typed and sends nothing. Size is − and + on the bar (Ryan, 2026-10-17: a panel to reach Small
+was a step too much), stepping Small, Normal, Large, and Move is a six-dot grip; both are icons,
+because the bar is full.
 
 **THE TELEPORTER IS WHERE "CH 19" WAS, AND IT SENDS NOTHING.** Ryan, 2026-09-26: the channel number
 was decoration, so the bar's readout became a button that opens a filterable list of every room on
 the street, out of the same `/cb-rooms.json` as the #tags, and goes there. Going is ordinary
 navigation: nothing reaches the channel and nobody learns where you went. It hides while folded,
-like Size, because folded sends nothing and the list is a fetch. **The bar is full**: at 360px it
-fits CB, Teleport, Move, Size and Fold away with twelve pixels to spare after the buttons' side
-padding was trimmed. A sixth thing on it wraps the row, which the bar allows on a phone and should
-not need anywhere else.
+like − and +, because folded sends nothing and the list is a fetch. **The bar is full**: CB,
+Teleport, the grip, − and + and Fold away fit on one row in every theme (2026-10-17), with six
+pixels to spare in the tightest at desktop width and none at 360px, where the bar's spaces close
+up, because the grip and − and + are 32px icons and a theme's name is set no larger than 1.1 times. A theme with a wider face, or another thing on the bar, wraps the row,
+which the bar allows on a phone and should not need anywhere else: measure every theme.
 
 **IT SEARCHES NAMES AND DESCRIPTIONS, AND NOBODY KEEPS A KEYWORD LIST.** Helen Edgar's asks,
 2026-10-01: "fire" finds The Campfire (inside a word of a name), and a keyword finds the rooms it

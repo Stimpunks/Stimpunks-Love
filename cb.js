@@ -653,18 +653,36 @@
     name.appendChild(tp);
     bar.appendChild(name);
 
-    var move = this.moveBtn = el('button', 'cb-btn cb-move', 'Move');
+    /* MOVE IS A GRIP AND THE SIZE IS MINUS AND PLUS (Ryan, 2026-10-17: Size then
+       Small was a step too many). The grip is the same button the Mover drags by
+       and listens to, named Move for a screen reader, so dragging it, or
+       pressing it and then the arrow keys, moves the radio as Move did. Minus
+       and plus step through Small, Normal and Large, each named for the size it
+       goes to; at either end the one with nowhere to go stays where it is,
+       focusable, and says so, so the keyboard is never dropped off the bar. */
+    var move = this.moveBtn = el('button', 'cb-btn cb-icon-btn cb-move');
     move.type = 'button';
     move.id = 'cb-move';
-    var moveHow = el('span', 'sr', 'Arrow keys move the radio. Home puts it back in the corner.');
+    move.setAttribute('aria-label', 'Move');
+    move.appendChild(barIcon('grip'));
+    var moveHow = el('span', 'sr', 'Drag to move the radio, or press and use the arrow keys. Home puts it back in the corner.');
     moveHow.id = 'cb-move-how';
     move.setAttribute('aria-describedby', 'cb-move-how');
     bar.appendChild(move);
     bar.appendChild(moveHow);
 
-    var size = this.sizeBtn = el('button', 'cb-btn cb-size');
-    size.type = 'button';
-    bar.appendChild(size);
+    var sizer = this.sizer = el('span', 'cb-sizer');
+    sizer.setAttribute('role', 'group');
+    sizer.setAttribute('aria-label', 'Radio size');
+    var smaller = this.smallerBtn = el('button', 'cb-btn cb-icon-btn cb-smaller');
+    smaller.type = 'button';
+    smaller.appendChild(barIcon('minus'));
+    var larger = this.largerBtn = el('button', 'cb-btn cb-icon-btn cb-larger');
+    larger.type = 'button';
+    larger.appendChild(barIcon('plus'));
+    sizer.appendChild(smaller);
+    sizer.appendChild(larger);
+    bar.appendChild(sizer);
 
     var fold = this.foldBtn = el('button', 'cb-btn cb-fold');
     fold.type = 'button';
@@ -709,28 +727,6 @@
     tpp.appendChild(tlist);
     tpp.appendChild(this.tpNone);
     box.appendChild(tpp);
-
-    /* THE SIZE, three of them, Ryan's ask, 2026-09-29: Small is the bar and the
-       newest message and still listens, Normal is the radio as it was, and
-       Large is wide and tall, for long messages and pictures. One button on the
-       bar opens them, because the bar is full and a fourth button wraps it. */
-    var szp = this.sizePanel = el('div', 'cb-size-panel');
-    szp.id = 'cb-size-panel';
-    szp.hidden = true;
-    szp.setAttribute('role', 'group');
-    szp.setAttribute('aria-label', 'Radio size');
-    this.sizeChoices = {};
-    ['small', 'normal', 'large'].forEach(function (k) {
-      var b = el('button', 'cb-btn cb-size-choice', k.charAt(0).toUpperCase() + k.slice(1));
-      b.type = 'button';
-      b.addEventListener('click', function () { me.setSize(k); me.setSizePanel(false); me.sizeBtn.focus(); });
-      me.sizeChoices[k] = b;
-      szp.appendChild(b);
-    });
-    szp.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { e.preventDefault(); me.setSizePanel(false); me.sizeBtn.focus(); }
-    });
-    box.appendChild(szp);
 
     // Everything below the bar is the set, and folding it switches it off.
     var set = this.set = el('div', 'cb-set cb-set--parts');
@@ -1064,7 +1060,7 @@
        destructive press asks once more. The tray is read when it is opened and
        never polled. */
     /* COLOURS. Ryan, 2026-10-17, from a request: the radio in another colour
-       scheme, which is the visitor's to choose like Size and is remembered
+       scheme, which is the visitor's to choose like the size and is remembered
        with it, and the call window wears the same. A tray under this row, so
        the radio is no busier than it was; every choice shows a swatch of
        itself, and pressing one puts it on at once. call.js decides what each
@@ -1264,7 +1260,11 @@
     if (window.ResizeObserver) new ResizeObserver(function () { me.drawArt(); }).observe(trimTop);
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
-    size.addEventListener('click', function () { me.setSizePanel(me.sizePanel.hidden); });
+    /* THE SIZE, three of them, Ryan's ask, 2026-09-29: Small is the bar and the
+       newest message and still listens, Normal is the radio as it was, and
+       Large is wide and tall, for long messages and pictures. */
+    smaller.addEventListener('click', function () { me.stepSize(-1); });
+    larger.addEventListener('click', function () { me.stepSize(1); });
     schemeBtn.addEventListener('click', function () { me.setSchemePanel(me.schemePanel.hidden); });
     tp.addEventListener('click', function () { me.setTeleport(tpp.hidden); });
     find.addEventListener('input', function () { me.tpRender(); });
@@ -1568,16 +1568,14 @@
     this.state.small = small;   // kept, so a radio saved before sizes still opens small
     this.box.classList.toggle('cb-radio--small', small);
     this.box.classList.toggle('cb-radio--large', size === 'large');
-    this.sizeBtn.textContent = 'Size';
-    this.sizeBtn.setAttribute('aria-label', 'Size: ' + size + (small ? ', showing only the newest message' : ''));
-    for (var k in this.sizeChoices) this.sizeChoices[k].setAttribute('aria-pressed', String(k === size));
+    this.sizeShown();
     if (small) { this.close(); this.tell(''); }
     if (!quiet) save(this.state);
     this.place();
     if (!small) this.log.scrollTop = this.log.scrollHeight;
   };
 
-  /* A SCHEME, chosen: remembered in love-cb like Size, put on this radio and
+  /* A SCHEME, chosen: remembered in love-cb like the size, put on this radio and
      on the call window at once by call.js, and said on the radio's own line,
      which is where the eye is. Match my device says what it has matched. */
   Radio.prototype.setScheme = function (choice, quiet) {
@@ -1696,20 +1694,29 @@
     this.place();
   };
 
-  Radio.prototype.setSizePanel = function (open) {
-    this.sizePanel.hidden = !open;
-    this.sizeBtn.setAttribute('aria-expanded', String(open));
-    this.sizeBtn.setAttribute('aria-controls', 'cb-size-panel');
-    if (open && this.sizeChoices[this.state.size || 'normal']) this.sizeChoices[this.state.size || 'normal'].focus();
-    this.place();
+  /* Minus and plus: one size down or up, and at either end the button with
+     nowhere to go says so on the radio's line rather than doing nothing. */
+  var SIZES = ['small', 'normal', 'large'];
+  var SIZE_SAYS = { small: 'Small, the bar and the newest message', normal: 'Normal', large: 'Large, wider and taller' };
+  Radio.prototype.stepSize = function (by) {
+    var i = SIZES.indexOf(this.state.size || 'normal'), j = Math.max(0, Math.min(2, i + by));
+    if (j === i) { this.tell(by < 0 ? 'The radio is as small as it goes.' : 'The radio is as large as it goes.'); return; }
+    this.tell('');
+    this.setSize(SIZES[j]);
+  };
+  Radio.prototype.sizeShown = function () {
+    var i = SIZES.indexOf(this.state.size || 'normal');
+    this.smallerBtn.setAttribute('aria-label', i > 0 ? 'Smaller: ' + SIZE_SAYS[SIZES[i - 1]] : 'Smaller: already Small');
+    this.largerBtn.setAttribute('aria-label', i < 2 ? 'Larger: ' + SIZE_SAYS[SIZES[i + 1]] : 'Larger: already Large');
+    this.smallerBtn.setAttribute('aria-disabled', String(i === 0));
+    this.largerBtn.setAttribute('aria-disabled', String(i === 2));
   };
 
   Radio.prototype.setFolded = function (folded, quiet) {
     this.state.folded = folded;
     this.box.classList.toggle('cb-radio--folded', folded);
     this.set.hidden = folded;
-    this.sizeBtn.hidden = folded;
-    if (folded) this.setSizePanel(false);
+    this.sizer.hidden = folded;
     this.tpBtn.hidden = folded;
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
     if (folded && !this.petsPanel.hidden) this.setPets(false);
@@ -2733,6 +2740,27 @@
       }, function () { guildWait = null; return null; });
     }
     guildWait.then(function (g) { then(g); });
+  }
+
+  /* THE BAR'S ICONS: a grip of six dots for Move, and minus and plus for the
+     size, in currentColor, aria-hidden, because each button carries its name. */
+  function barIcon(kind) {
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', 'cb-icon-btn__art');
+    function add(tag, at) {
+      var e = document.createElementNS(SVGNS, tag);
+      for (var k in at) e.setAttribute(k, at[k]);
+      svg.appendChild(e);
+    }
+    if (kind === 'grip') {
+      [6, 10, 14].forEach(function (y) { [7, 13].forEach(function (x) { add('circle', { cx: String(x), cy: String(y), r: '1.7', fill: 'currentColor' }); }); });
+    } else {
+      add('path', { d: kind === 'plus' ? 'M4 10H16M10 4V16' : 'M4 10H16', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.6', 'stroke-linecap': 'round' });
+    }
+    return svg;
   }
 
   /* A MESSAGE'S TWO ICONS, drawn in currentColor so each takes its button's
@@ -4558,7 +4586,7 @@
     var shrank = clearOf(shell);
     this.tell('It is up on ' + glass.name + ' and playing on your page' + (v.start ? ' from ' + place(v.start) : '') +
       '. Once it plays, Host this film lets everybody in this room follow; their screens get its play button, waiting for their press.' +
-      (shrank ? ' The radio went small so you can see it; Size puts it back.' : ''));
+      (shrank ? ' The radio went small so you can see it; + puts it back.' : ''));
     (now || shell).focus({ preventScroll: true });
   };
 
@@ -5205,7 +5233,7 @@
 
   /* A film under the radio has been got ready out of sight, which is the
      fault this exists to fix, so the radio goes Small for now and says so.
-     Small still listens; Size puts it back, and nothing is saved. */
+     Small still listens; + puts it back, and nothing is saved. */
   function clearOf(node) {
     var shrank = false;
     if (radio && radio.state.size !== 'small' && !radio.state.folded) {
@@ -5225,7 +5253,7 @@
   function readyNote(got) {
     if (!got) return '';
     return (got.put ? ' It went up on ' + got.put.name + ', in place of what was there; ' + got.put.back + '.' : '') +
-      (got.shrank ? ' The radio went small so you can see it; Size puts it back.' : '');
+      (got.shrank ? ' The radio went small so you can see it; + puts it back.' : '');
   }
 
   function arrive() {
