@@ -197,6 +197,8 @@ CB_SCHEMES = {
                           lcd="#FFF4E0", amber="#8A2800", amber2="#005800"),
     "Shadow of Mordor": dict(case="#121011", bar="#0B0A0A", steel="#E8E2DC", steel2="#A8A09A",
                           lcd="#080707", amber="#FF8A3A", amber2="#9FD0F0"),
+    "Black Leather Lagoon": dict(case="#07090A", bar="#12161A", steel="#E6E2D2", steel2="#A7AFA0",
+                          lcd="#0B0E10", amber="#8CC63F", amber2="#E4564A"),
 }
 CB_HIGH = "High contrast"
 # What each part carries, as the amber set's pairs below say it.
@@ -5013,6 +5015,7 @@ CB_ORNAMENT = [
     ("Shadow of Mordor", "#CFE8FF", "pale wraith-light"),
     ("Shadow of Mordor", "#C9A54A", "a rune medallion's gold ring and mark"),
     ("Shadow of Mordor", "#6FA8D8", "a rune medallion in wraith-blue"),
+    ("Black Leather Lagoon", "#B6342F", "a cattail, the Lagoon's blood red"),
 ]
 for _theme, _hex, _what in CB_ORNAMENT:
     ORNAMENT.setdefault(_hex.lower(), f"cb, {_theme}: {_what}, "

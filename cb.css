@@ -137,6 +137,8 @@
   --cb-display: 'Gravitas One'; --cb-display-scale: .95; --cb-display-track: .04em; --cb-display-case: uppercase; }
 :host([data-scheme="loz"]) { --cb-case: var(--cb-loz-case); --cb-bar: var(--cb-loz-bar); --cb-steel: var(--cb-loz-steel); --cb-steel-2: var(--cb-loz-steel-2); --cb-lcd: var(--cb-loz-lcd); --cb-amber: var(--cb-loz-amber); --cb-amber-2: var(--cb-loz-amber-2);
   --cb-display: 'Amarante'; --cb-display-scale: 1.2; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="lagoon"]) { --cb-case: var(--cb-lagoon-case); --cb-bar: var(--cb-lagoon-bar); --cb-steel: var(--cb-lagoon-steel); --cb-steel-2: var(--cb-lagoon-steel-2); --cb-lcd: var(--cb-lagoon-lcd); --cb-amber: var(--cb-lagoon-amber); --cb-amber-2: var(--cb-lagoon-amber-2);
+  --cb-display: 'Creepster'; --cb-display-scale: 1.05; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="mordor"]) { --cb-case: var(--cb-mordor-case); --cb-bar: var(--cb-mordor-bar); --cb-steel: var(--cb-mordor-steel); --cb-steel-2: var(--cb-mordor-steel-2); --cb-lcd: var(--cb-mordor-lcd); --cb-amber: var(--cb-mordor-amber); --cb-amber-2: var(--cb-mordor-amber-2);
   --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
@@ -155,6 +157,7 @@
 :host([data-scheme="portal"]) .cb-btn { border-radius: 999px; }
 :host([data-scheme="gta"]) .cb-radio { border-radius: 0; border-color: var(--cb-amber); }
 :host([data-scheme="mordor"]) .cb-radio { border-color: var(--cb-amber); border-radius: 8px; }
+:host([data-scheme="lagoon"]) .cb-radio { border-color: var(--cb-amber); border-radius: 4px; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
    of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
 :host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,

@@ -171,6 +171,7 @@
     ['cyborg', 'Crip Cyborg', 'world', 'disabled people who live with their tech: a CPAP hose, an oxygen line, oxygen on a rack, a PEG tube and its port, and a prosthetic leg', 'moves'],
     ['unicorn', 'Unicorn Poop', 'world', 'as much rainbow as will fit, and gradients for no reason', 'moves'],
     ['wabi', 'Wabi-sabi', 'world', 'what is stained, weathered and mended: a tea ring, a brush stroke, and a crack mended in gold. Nothing in it moves', 'still'],
+    ['lagoon', 'Black Leather Lagoon', 'world', 'the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy: a drive-in screen glowing over black water, reeds and bats, in the Lagoon\u2019s own colours, with nobody real drawn and nothing of the band\u2019s used. It pairs with the profile effect of the same name', 'moves'],
     /* THE WINAMP SKINS (Ryan, 2026-10-17): after skins in the Winamp
        Skin Museum, each credited to whoever its readme says made it, or saying
        that it names nobody. Every drawing is ours and copies no bitmap of a

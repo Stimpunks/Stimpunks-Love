@@ -97,7 +97,7 @@
     ['mushrooms', 'Mushrooms'], ['leaves', 'Autumn leaves'], ['hearts', 'Hearts'], ['gears', 'Gears'],
     ['bubbles', 'Bubbles'], ['snow', 'Snowflakes'], ['flames', 'Flames'], ['moons', 'Moons'],
     ['notes', 'Music notes'], ['paws', 'Paw prints'], ['halo', 'Halo'], ['circuit', 'Circuit'],
-    ['butterflies', 'Butterflies'], ['crystals', 'Crystals']
+    ['butterflies', 'Butterflies'], ['crystals', 'Crystals'], ['lanterns', 'Jack-o’-lanterns']
   ];
   /* profile:decorations:end */
 
@@ -112,7 +112,7 @@
   var FRAMES = [
     ['briar', 'Briar'], ['ivy', 'Ivy'], ['brass', 'Brass and rivets'], ['lights', 'Fairy lights'],
     ['stitches', 'Stitched patch'], ['film', 'Film strip'], ['circuit', 'Circuit board'], ['crystals', 'Crystals'],
-    ['garland', 'Flower garland'], ['starry', 'Starry night']
+    ['garland', 'Flower garland'], ['starry', 'Starry night'], ['gate', 'Graveyard gate']
   ];
   /* profile:frames:end */
   /* profile:effects:begin */
@@ -416,6 +416,53 @@
     });
   };
 
+  /* JACK-O'-LANTERNS (2026-10-18), to pair with the Black Leather Lagoon: a
+     pumpkin vine round the avatar with lanterns on it, their carved faces dark
+     holes with a light in them, and two bats over the top. In the card's own
+     inks, like every decoration: in the Lagoon's theme the pumpkins are its
+     poster red and the light inside them its acid green. */
+  function lantern(g, x, y, k, i) {
+    var q = at(g, x, y), w = 9 * k, h = 7.6 * k;
+    q.appendChild(svgEl('path', { d: 'M' + f(-1 * k) + ' ' + f(-h * .9) + 'Q' + f(-.4 * k) + ' ' + f(-h * 1.3) + ' ' + f(1.6 * k) + ' ' + f(-h * 1.38) }, { stroke: '--cb-steel-2', sw: f(1.8 * k) }));
+    [[-w * .5, w * .58], [w * .5, w * .58], [0, w * .62]].forEach(function (b) {
+      q.appendChild(svgEl('ellipse', { cx: f(b[0]), cy: 0, rx: f(b[1]), ry: f(h) }, { fill: '--cb-amber-2', stroke: '--cb-case', sw: .9 }));
+    });
+    var face = svgEl('g', {}, { cls: 'art-glow', d: i * .6, t: 5 });
+    face.style.removeProperty('fill');
+    [[-1, 1], [1, 1]].forEach(function (e) {
+      var ex = e[0] * 3.6 * k, ey = -2.2 * k;
+      face.appendChild(svgEl('path', { d: 'M' + f(ex - 1.8 * k) + ' ' + f(ey + 1.3 * k) + 'L' + f(ex) + ' ' + f(ey - 1.6 * k) + 'L' + f(ex + 1.8 * k) + ' ' + f(ey + 1.3 * k) + 'Z' }, { fill: '--cb-amber', stroke: '--cb-case', sw: .7 }));
+    });
+    face.appendChild(svgEl('path', { d: 'M' + f(-5.4 * k) + ' ' + f(1.4 * k) + 'Q0 ' + f(6.6 * k) + ' ' + f(5.4 * k) + ' ' + f(1.4 * k) + 'L' + f(3.4 * k) + ' ' + f(3 * k) + 'L' + f(2 * k) + ' ' + f(1.8 * k) + 'L' + f(.4 * k) + ' ' + f(3.4 * k) + 'L' + f(-1.2 * k) + ' ' + f(1.9 * k) + 'L' + f(-2.8 * k) + ' ' + f(3.2 * k) + 'Z' }, { fill: '--cb-amber', stroke: '--cb-case', sw: .7 }));
+    q.appendChild(face);
+  }
+  D.lanterns = function (g) {
+    var d = '', i;
+    for (i = 0; i <= 54; i++) { var a = 90 + i * 3.4, rr = 58 + 2.6 * Math.sin(i * 1.1), p = polar(rr, a); d += (i ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1]); }
+    g.appendChild(svgEl('path', { d: d, pathLength: 1 }, { stroke: '--cb-steel-2', sw: 1.8, cls: 'art-grow', t: 5 }));
+    [[112, 66], [160, 72], [205, 70], [250, 64]].forEach(function (cl, j) {
+      var p = polar(cl[1], cl[0]), q = at(g, p[0], p[1], cl[0] + 90);
+      q.appendChild(svgEl('path', { d: 'M0 0c3 -2 6 0 4 3c-2 2 -5 0 -3 -2' }, { stroke: '--cb-steel-2', sw: 1.1, cls: 'art-sway', d: j * .5, t: 6 }));
+    });
+    [[132, 1.05], [180, 1.3], [228, 1.05]].forEach(function (pl, j) {
+      var p = polar(57, pl[0]);
+      lantern(g, p[0], p[1], pl[1], j);
+    });
+    [[148, 59, 70], [212, 59, 290]].forEach(function (lf, j) {
+      var p = polar(lf[1], lf[0]);
+      at(g, p[0], p[1], lf[2]).appendChild(svgEl('path', { d: leaf(6, 4.4) }, { fill: '--cb-steel-2', cls: 'art-sway', d: j * .7, t: 6 }));
+    });
+    [[-34, 63, 1], [30, 60, .8]].forEach(function (bt, j) {
+      var p = polar(bt[1], bt[0]), q = at(g, p[0], p[1], bt[0] * .4);
+      var w = svgEl('g', { transform: 'scale(' + f(bt[2]) + ')' }, { cls: 'art-breathe', d: j * .8, t: 3 });
+      w.style.removeProperty('fill');
+      w.appendChild(svgEl('path', { d: 'M0 -1C-3 -4 -6 -5 -11 -3C-9 -1 -9 1 -10 3C-7 2 -4 3 0 2C4 3 7 2 10 3C9 1 9 -1 11 -3C6 -5 3 -4 0 -1Z' }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: .9 }));
+      w.appendChild(svgEl('circle', { cx: -1, cy: -.5, r: .7 }, { fill: '--cb-amber' }));
+      w.appendChild(svgEl('circle', { cx: 1, cy: -.5, r: .7 }, { fill: '--cb-amber' }));
+      q.appendChild(w);
+    });
+  };
+
   function decoration(key) {
     if (!D[key]) return null;
     var s = document.createElementNS(NS, 'svg');
@@ -639,6 +686,45 @@
     }
   };
 
+  /* GRAVEYARD GATE (2026-10-18), to pair with the Black Leather Lagoon:
+     wrought-iron railings with spear tips all the way round, a cobweb in every
+     corner, and a spider letting itself down on a thread from each, bobbing
+     where the radio's drawings move. In the card's own inks. */
+  F.gate = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: 'M0 7H' + L + 'M0 15H' + L }, { stroke: '--cb-steel-2', sw: 1.6 }));
+      for (var x = 4, i = 0; x < L; x += 8, i++) {
+        g.appendChild(svgEl('path', { d: 'M' + x + ' 17V4' }, { stroke: '--cb-steel-2', sw: 1.4 }));
+        g.appendChild(svgEl('path', { d: 'M' + (x - 2) + ' 4.6L' + x + ' 0.6L' + (x + 2) + ' 4.6L' + x + ' 3.6Z' }, { fill: i % 3 ? '--cb-steel-2' : '--cb-steel' }));
+        if (i % 4 === 2) g.appendChild(svgEl('path', { d: 'M' + (x - 4) + ' 11C' + (x - 4) + ' 8.4 ' + (x - 1.4) + ' 8.4 ' + x + ' 11C' + (x + 1.4) + ' 13.6 ' + (x + 4) + ' 13.6 ' + (x + 4) + ' 11' }, { stroke: '--cb-steel-2', sw: .9 }));
+      }
+    },
+    corner: function (g, which) {
+      // the web: threads out from the corner, and its spiral across them
+      var web = '', k, j;
+      for (k = 0; k <= 4; k++) { var a = k * 22.5 * Math.PI / 180; web += 'M1 1L' + f(1 + 34 * Math.cos(a)) + ' ' + f(1 + 34 * Math.sin(a)); }
+      for (j = 1; j <= 4; j++) {
+        var rr = j * 7.4;
+        for (k = 0; k < 4; k++) {
+          var a0 = k * 22.5 * Math.PI / 180, a1 = (k + 1) * 22.5 * Math.PI / 180;
+          web += (k ? '' : 'M' + f(1 + rr * Math.cos(a0)) + ' ' + f(1 + rr * Math.sin(a0))) + 'Q' + f(1 + rr * .82 * Math.cos((a0 + a1) / 2)) + ' ' + f(1 + rr * .82 * Math.sin((a0 + a1) / 2)) + ' ' + f(1 + rr * Math.cos(a1)) + ' ' + f(1 + rr * Math.sin(a1));
+        }
+      }
+      g.appendChild(svgEl('path', { d: web }, { stroke: '--cb-steel', sw: .55 }));
+      // a spider lets itself down from the top corners; at the foot it would hang upside down
+      if (which === 'bl' || which === 'br') return;
+      var hang = svgEl('g', {}, { cls: 'fx-bob' });
+      hang.style.removeProperty('fill');
+      hang.style.setProperty('--b', '4s');
+      hang.appendChild(svgEl('path', { d: 'M20 16V27' }, { stroke: '--cb-steel', sw: .5 }));
+      hang.appendChild(svgEl('path', { d: 'M17 28L13.6 26M17 29.6L13 30M17.4 31L14 33.6M23 28L26.4 26M23 29.6L27 30M22.6 31L26 33.6' }, { stroke: '--cb-steel-2', sw: .8 }));
+      hang.appendChild(svgEl('ellipse', { cx: 20, cy: 30.4, rx: 3.4, ry: 4 }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: .8 }));
+      hang.appendChild(svgEl('circle', { cx: 18.8, cy: 28.4, r: .6 }, { fill: '--cb-amber' }));
+      hang.appendChild(svgEl('circle', { cx: 21.2, cy: 28.4, r: .6 }, { fill: '--cb-amber' }));
+      g.appendChild(hang);
+    }
+  };
+
   function stripLength() {
     var s = window.screen || {};
     return Math.max(1400, (s.width || 0) + 200, (s.height || 0) + 200);
@@ -661,7 +747,7 @@
       var s = plainSvg(K, K, 'pf-frame__corner pf-frame__' + cn[0]);
       var g = group(s, 'matrix(' + cn[1].split(' ').join(',') + ')' + up);
       g.appendChild(svgEl('path', { d: 'M0 0H36V18H18V36H0Z' }, { fill: '--cb-case' }));
-      fr.corner(g);
+      fr.corner(g, cn[0]);
       box.appendChild(s);
     });
     return box;

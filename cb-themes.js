@@ -1220,6 +1220,57 @@
     }
   };
 
+  /* BLACK LEATHER LAGOON (2026-10-18), after the street's room and The Cramps,
+     to pair with the profile effect of the same name: black water with the
+     screen's acid light lying along its edge, reeds with cattails, bats, and now
+     and then a drive-in screen standing in the water on its legs, its glow
+     breathing slowly. Like the room, nothing in it flickers, and nobody real is
+     drawn: their world, not them. */
+  function lagBat(x, y, k) {
+    return 'M' + f(x) + ' ' + f(y - 1 * k) +
+      'C' + f(x - 3 * k) + ' ' + f(y - 4 * k) + ' ' + f(x - 6 * k) + ' ' + f(y - 5 * k) + ' ' + f(x - 11 * k) + ' ' + f(y - 3 * k) +
+      'C' + f(x - 9 * k) + ' ' + f(y - 1 * k) + ' ' + f(x - 9 * k) + ' ' + f(y + 1 * k) + ' ' + f(x - 10 * k) + ' ' + f(y + 3 * k) +
+      'C' + f(x - 7 * k) + ' ' + f(y + 2 * k) + ' ' + f(x - 4 * k) + ' ' + f(y + 3 * k) + ' ' + f(x) + ' ' + f(y + 2 * k) +
+      'C' + f(x + 4 * k) + ' ' + f(y + 3 * k) + ' ' + f(x + 7 * k) + ' ' + f(y + 2 * k) + ' ' + f(x + 10 * k) + ' ' + f(y + 3 * k) +
+      'C' + f(x + 9 * k) + ' ' + f(y + 1 * k) + ' ' + f(x + 9 * k) + ' ' + f(y - 1 * k) + ' ' + f(x + 11 * k) + ' ' + f(y - 3 * k) +
+      'C' + f(x + 6 * k) + ' ' + f(y - 5 * k) + ' ' + f(x + 3 * k) + ' ' + f(y - 4 * k) + ' ' + f(x) + ' ' + f(y - 1 * k) + 'Z';
+  }
+  T.lagoon = {
+    band: function (c, r) {
+      var s = c.s, x, wl = c.h * 0.74;
+      // now and then a drive-in screen, glowing, out in the water
+      if (c.kind !== 'divider') {
+        for (x = 50 + r() * 70; x < c.w - 30; x += 240 + r() * 220) {
+          var sw = Math.max(c.h * 1.15, 14), sh = c.h * 0.4, sy = c.h * 0.1;
+          var glow = group(c.svg, {}, { cls: 'art-glow', d: r() * 4, t: 9 });
+          add(glow, 'rect', { x: f(x - sw / 2 - 7 * s), y: f(Math.max(0, sy - 5 * s)), width: f(sw + 14 * s), height: f(sh + 10 * s), rx: f(6 * s), 'fill-opacity': '.07' }, { fill: '--cb-amber' });
+          add(glow, 'rect', { x: f(x - sw / 2 - 3 * s), y: f(Math.max(0, sy - 2.4 * s)), width: f(sw + 6 * s), height: f(sh + 4.8 * s), rx: f(3 * s), 'fill-opacity': '.1' }, { fill: '--cb-amber' });
+          add(c.svg, 'rect', { x: f(x - sw * 0.36), y: f(sy + sh), width: f(at(1.4 * s, 1)), height: f(wl - sy - sh), 'fill-opacity': '.6' }, { fill: '--cb-steel' });
+          add(c.svg, 'rect', { x: f(x + sw * 0.36 - at(1.4 * s, 1)), y: f(sy + sh), width: f(at(1.4 * s, 1)), height: f(wl - sy - sh), 'fill-opacity': '.6' }, { fill: '--cb-steel' });
+          add(c.svg, 'rect', { x: f(x - sw / 2), y: f(sy), width: f(sw), height: f(sh), rx: f(0.6 * s) }, { fill: '--cb-steel', stroke: '--cb-steel-2', sw: at(0.5 * s, 0.4) });
+          add(c.svg, 'rect', { x: f(x - sw * 0.42), y: f(wl + (c.h - wl) * 0.2), width: f(sw * 0.84), height: f(at((c.h - wl) * 0.35, 0.8)), rx: f(1 * s), 'fill-opacity': '.2' }, { fill: '--cb-steel' });
+        }
+      }
+      // the water's edge, catching the screen's light, and ripples on the black
+      add(c.svg, 'path', { d: wave(c.w, wl, 0.6 * s, 16, 0) }, { stroke: '--cb-amber', sw: at(0.9 * s, 0.7) });
+      for (x = r() * 20; x < c.w; x += (12 + r() * 20) * at(s, 0.6)) {
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(wl + (c.h - wl) * (0.3 + r() * 0.6)) + 'h' + f((4 + r() * 6) * at(s, 0.6)) }, { stroke: '--cb-steel-2', sw: at(0.6 * s, 0.5) });
+      }
+      // reeds, each with its cattail, swaying a little
+      for (x = r() * 14; x < c.w; x += (16 + r() * 34) * at(s, 0.6)) {
+        var top = c.h * (0.18 + r() * 0.3), lean = (r() - 0.5) * 4 * s;
+        var reed = group(c.svg, {}, { cls: 'art-sway', d: r() * 4, t: 5 + r() * 2 });
+        add(reed, 'path', { d: 'M' + f(x) + ' ' + f(c.h) + 'Q' + f(x + lean * 0.3) + ' ' + f((c.h + top) / 2) + ' ' + f(x + lean) + ' ' + f(top) }, { stroke: '--cb-steel-2', sw: at(0.9 * s, 0.7) });
+        add(reed, 'rect', { x: f(x + lean - at(1.2 * s, 0.9)), y: f(top), width: f(at(2.4 * s, 1.8)), height: f(c.h * 0.16), rx: f(at(1.2 * s, 0.9)) }, { fill: '--cb-lagoon-blood' });
+      }
+      // bats, against the dark above the water
+      for (x = 30 + r() * 80; x < c.w; x += 120 + r() * 140) {
+        var bat = group(c.svg, {}, { cls: 'art-breathe', d: r() * 3, t: 3 + r() });
+        add(bat, 'path', { d: lagBat(x, c.h * (0.16 + r() * 0.16), at(0.55 * s, 0.4)) }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: at(0.5 * s, 0.4) });
+      }
+    }
+  };
+
   /* SHADOW OF MORDOR: rune medallions after the game's runes, as Ryan asked,
      each a gold ring with a mark glowing in it, a few in wraith-blue, over a
      seam of lava; and along the foot black mountains over lava with ash

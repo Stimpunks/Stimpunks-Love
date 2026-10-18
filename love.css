@@ -1495,6 +1495,13 @@
   --cb-loz-tree: #00A800; --cb-loz-rock: #C84C0C; --cb-loz-water: #3CBCFC; --cb-loz-trunk: #7A4A1C;
   --cb-mordor-case: #121011; --cb-mordor-bar: #0B0A0A; --cb-mordor-steel: #E8E2DC; --cb-mordor-steel-2: #A8A09A;
   --cb-mordor-lcd: #080707; --cb-mordor-amber: #FF8A3A; --cb-mordor-amber-2: #9FD0F0;
+  /* BLACK LEATHER LAGOON (2026-10-18), to pair with the profile effect: the
+     Lagoon room's own colours, black water, the lobby card, the screen's bone,
+     the fine print, the acid green and the poster red, and its blood red for
+     the cattails, which carries no word. */
+  --cb-lagoon-case: #07090A; --cb-lagoon-bar: #12161A; --cb-lagoon-steel: #E6E2D2; --cb-lagoon-steel-2: #A7AFA0;
+  --cb-lagoon-lcd: #0B0E10; --cb-lagoon-amber: #8CC63F; --cb-lagoon-amber-2: #E4564A;
+  --cb-lagoon-blood: #B6342F;
   --cb-mordor-lava: #FF5A1E; --cb-mordor-glow: #FFB040; --cb-mordor-rock: #2A2626; --cb-mordor-ash: #6A625E; --cb-mordor-wraith: #CFE8FF; --cb-mordor-rune: #C9A54A; --cb-mordor-blue: #6FA8D8;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
