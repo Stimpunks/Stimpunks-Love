@@ -1412,6 +1412,22 @@ find, reset, delete and clearCard, and refuses `clearProfile` writing anything: 
 cleared whose card and when**, which would be a record of moderation kept against a person that the privacy page does
 not mention.
 
+**A PROFILE CAN HAVE A FRAME AND AN EFFECT, AFTER DISCORD'S, AND THE EFFECT'S PASS IS THE ONE DRAWING THAT CROSSES
+WORDS.** Ryan, 2026-10-18. Both are chosen from `profile.js`'s own lists (FRAMES, EFFECTS, written into `PROFILE_KEYS`
+by `make-profile.py`, each refused without its drawing), and `loveProfile.surround()` puts them on a `.pf-stage` round
+the profile's sheet or the editor's card, wearing the card's theme, so both are drawn only in that theme's seven inks. A
+**frame** is a band of the theme's case round all four sides, outside the profile, each side drawn once longer than a
+profile can be (the radio's sides' rule) and a corner covering the cut. An **effect** has a **still part** along the
+edges and in the banner, where no sentence is, and a **pass** that crosses the whole profile from time to time, **words
+included: Ryan's call, reversing the radio's refusal of a drawing over the words, for profiles only** (the radio itself
+still keeps every drawing to its trims, sides and dividers). What holds is the dial: **the pass is drawn only under
+`:host([data-motion="on"])`**, MAX GLITTER or Let my theme move, and `make-profile.py` refuses `.pf-fx__pass` shown, or
+an effect moving, anywhere else, **so a profile standing still never has a drawing sitting on a word.** The friendly
+edit is to show the pass still at Regular "so the effect is not bare"; that is a butterfly parked on somebody's bio.
+Each pass fades in and out over about a second, travels in its own container units (`cqw`, `cqh`), so a profile that
+grows draws nothing again, and nothing in it flashes. The contrast checkers cannot hold a word with something crossing
+it, and Ryan chose it knowing that.
+
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
 identical at all three, because a fanfare is decoration and **Gentle takes away the wobble, never
@@ -3586,7 +3602,8 @@ itself, or after Let my theme move (`love-cb`'s `motion`), the candles' rule; `c
 lands**: a receive lamp is an alert with the sound off. **A side is drawn once, longer than the radio can be, and never because the radio grew**: a message arriving
 must not start a drawing again. The Mover keeps the radio that much further from the window's edge
 (`mover.margin`, measured off the sides), and below 460px the sides are left off. The friendly edits are a
-drawing behind the words (it goes in a trim, a side or a divider's groove) and a theme that flashes. **The Winamp skins** (Ryan, 2026-10-17) are a fourth group, each
+drawing behind the words (it goes in a trim, a side or a divider's groove; a profile's effect is the one exception,
+Ryan's call, and only while drawings move) and a theme that flashes. **The Winamp skins** (Ryan, 2026-10-17) are a fourth group, each
 credited in `call.js` to whoever its own readme in the Winamp Skin Museum names, or saying it names nobody
 (an email address is not published); **no skin's bitmap and no game's character or mark is drawn**, and Kuki's
 readme asks that nothing of the Cube be republished. **The GeoCities pages** (the same day) are a fifth group, after

@@ -1,8 +1,9 @@
 /* Your profile, for the CB's Profile (Ryan, 2026-10-17). GET with a pass gives
    it, with whether your username is claimed and the lists it chooses from.
    POST with a pass:
-     { profile: { theme, banner, decoration, face, plate, pronouns, bio,
-                  links, room, why } }   keeps it, every part checked by
+     { profile: { theme, banner, decoration, frame, effect, face, plate,
+                  pronouns, bio, links, room, why } }
+                                         keeps it, every part checked by
                                          cleanProfile(); one with nothing in
                                          it is cleared instead
      { clear: true }                     clears it, off Who's online first

@@ -2372,7 +2372,10 @@
       sheet.appendChild(left);
       sheet.appendChild(right);
       sheet.appendChild(close);
-      d.appendChild(sheet);
+      // The stage holds the sheet, and their frame and effect once they come.
+      var stage = el('div', 'pf-stage');
+      stage.appendChild(sheet);
+      d.appendChild(stage);
       if (!d.open) d.showModal();
       close.focus();
       var mineP = String(handle).toLowerCase() === String(me.state.handle || '').toLowerCase();
@@ -2387,7 +2390,7 @@
         var p = rs[0].status === 200 && rs[0].body ? rs[0].body.profile : null;
         var av = rs[1].status === 200 && rs[1].body ? rs[1].body : null;
         var whose = (rs[0].body && rs[0].body.handle) || handle;
-        if (p && p.theme) window.loveProfile.dress(sheet, p.theme);
+        window.loveProfile.surround(stage, p);
         left.textContent = '';
         var card = window.loveProfile.card(p || {}, {
           handle: whose, mark: mark, mine: mineP, wearing: av && av.wearing, nameId: 'pf-name',
@@ -2571,7 +2574,7 @@
         return;
       }
       if (!r.body.claimed) {
-        box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can fill in a profile card: a theme and a banner, a decoration round the avatar you wear, a face for your name, a nameplate on Who’s online, your pronouns, a few words about yourself, links to your other places and your favourite room. Whatever you fill in is shown to anybody signed on to the CB.'));
+        box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can fill in a profile card: a theme and a banner, a decoration round the avatar you wear, a frame round your profile and an effect over it, a face for your name, a nameplate on Who’s online, your pronouns, a few words about yourself, links to your other places and your favourite room. Whatever you fill in is shown to anybody signed on to the CB.'));
         return;
       }
       box.appendChild(el('p', null, r.body.profile
@@ -2684,6 +2687,11 @@
     form.appendChild(el('h3', 'pf-edit__sub', 'Avatar decoration'));
     var fDeco = pfField(form, 'Decoration', 'pf-deco', pfSelect(LP.DECORATIONS.filter(function (x) { return keys.decorations.indexOf(x[0]) >= 0; }), 'None'),
       wearing ? 'Drawn round the avatar you wear, in your card’s colours.' : 'Drawn round the avatar you wear, in your card’s colours. You are not wearing one: Your avatars, in Profile, is where you wear one.');
+    form.appendChild(el('h3', 'pf-edit__sub', 'Frame and effect'));
+    var fFrame = pfField(form, 'Frame', 'pf-frame', pfSelect(LP.FRAMES.filter(function (x) { return (keys.frames || []).indexOf(x[0]) >= 0; }), 'None'),
+      'A band of your card’s theme round all four sides of your profile, outside it. It moves where the radio’s drawings do.');
+    var fEffect = pfField(form, 'Effect', 'pf-effect', pfSelect(LP.EFFECTS.filter(function (x) { return (keys.effects || []).indexOf(x[0]) >= 0; }), 'None'),
+      'Drawn over your profile in your card’s colours. Part of it stays along the edges and in the banner; the rest crosses the whole profile, words and all, from time to time, only for people whose radio is at MAX GLITTER or set to Let my theme move. For everybody else it stays at the edges, still.');
     form.appendChild(el('h3', 'pf-edit__sub', 'Name style'));
     var fFace = pfField(form, 'Face for your name', 'pf-face', pfSelect(LP.FACES.filter(function (x) { return keys.faces.indexOf(x[0]) >= 0; }).map(function (x, i) {
       return [i ? x[0] : '', i ? x[0] : 'Plain (' + x[0] + ')'];
@@ -2712,6 +2720,7 @@
     var fWhy = pfField(form, 'Why it is your favourite', 'pf-why', why, 'Up to ' + lim.why + ' characters.');
 
     fTheme.value = p0.theme || ''; fBanner.value = p0.banner || ''; fDeco.value = p0.decoration || '';
+    fFrame.value = p0.frame || ''; fEffect.value = p0.effect || '';
     fFace.value = p0.face || ''; fPlate.value = p0.plate || ''; fPron.value = p0.pronouns || '';
     fBio.value = p0.bio || ''; fRoom.value = p0.room || ''; fWhy.value = p0.why || '';
     (p0.links || []).forEach(function (l, j) { if (linkIns[j]) linkIns[j].value = l; });
@@ -2755,7 +2764,7 @@
 
     function current() {
       return {
-        theme: fTheme.value, banner: fBanner.value, decoration: fDeco.value, face: fFace.value, plate: fPlate.value,
+        theme: fTheme.value, banner: fBanner.value, decoration: fDeco.value, frame: fFrame.value, effect: fEffect.value, face: fFace.value, plate: fPlate.value,
         pronouns: fPron.value.trim(), bio: fBio.value, room: fRoom.value, why: fRoom.value ? fWhy.value.trim() : '',
         links: linkIns.map(function (x) { return x.value.trim(); }).filter(Boolean),
       };
@@ -2771,6 +2780,7 @@
       card.pfName.removeAttribute('tabindex');
       cardAt.appendChild(card);
       LP.drawCard(card, p);
+      LP.surround(cardAt, p);
       sample.textContent = '';
       if (wearing) sample.appendChild(avatarArt(wearing.look, '', 'cb-online-face', 'bust'));
       sample.appendChild(el('b', null, me.state.handle));

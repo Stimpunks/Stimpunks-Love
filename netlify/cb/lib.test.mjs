@@ -1937,7 +1937,8 @@ test('a jacket is shown only on a claimed username that says so, and a sticker i
 /* ── Profiles ─────────────────────────────────────────────────────────── */
 
 const fullProfile = (over = {}) => ({
-  theme: 'lcars', banner: PROFILE_KEYS.banners[0], decoration: PROFILE_KEYS.decorations[0], face: PROFILE_KEYS.faces[1],
+  theme: 'lcars', banner: PROFILE_KEYS.banners[0], decoration: PROFILE_KEYS.decorations[0],
+  frame: PROFILE_KEYS.frames[0], effect: PROFILE_KEYS.effects[0], face: PROFILE_KEYS.faces[1],
   plate: PROFILE_KEYS.banners[1], pronouns: 'they/them', bio: 'Line one.\n\nLine two.', links: ['https://example.org/me'],
   room: 'the-den', why: 'the carpet', ...over,
 });
@@ -1945,7 +1946,13 @@ const fullProfile = (over = {}) => ({
 test('a profile holds only choices from the lists and words within their limits', () => {
   const ok = cleanProfile(fullProfile());
   assert.ok(ok.profile, ok.error);
-  assert.deepEqual(Object.keys(ok.profile).sort(), ['banner', 'bio', 'decoration', 'face', 'links', 'plate', 'pronouns', 'room', 'theme', 'why'].sort());
+  assert.deepEqual(Object.keys(ok.profile).sort(), ['banner', 'bio', 'decoration', 'effect', 'face', 'frame', 'links', 'plate', 'pronouns', 'room', 'theme', 'why'].sort());
+  assert.ok(PROFILE_KEYS.frames.length && PROFILE_KEYS.effects.length, 'make-profile.py wrote no frames or no effects');
+  assert.ok(cleanProfile(fullProfile({ frame: 'barbed-wire' })).error, 'a frame with no drawing');
+  assert.ok(cleanProfile(fullProfile({ effect: 'strobe' })).error, 'an effect with no drawing');
+  assert.ok(cleanProfile(fullProfile({ frame: PROFILE_KEYS.effects[0] })).error, 'an effect taken as a frame');
+  assert.ok(cleanProfile({ frame: PROFILE_KEYS.frames[0] }).profile.frame, 'a card with only a frame');
+  assert.equal(cleanProfile(fullProfile({ frame: '', effect: null })).profile.frame, '');
   assert.ok(cleanProfile(fullProfile({ theme: 'nope' })).error, 'a theme the radio has not got');
   assert.ok(cleanProfile(fullProfile({ theme: 'auto' })).error, 'Match my device is a rule, not a theme');
   assert.ok(cleanProfile(fullProfile({ banner: 'amber' })).error, 'a banner with no drawing');

@@ -801,6 +801,53 @@ ol.cb-md-list { list-style: decimal; }
 /* The nameplate, under a name on Who's online. */
 .pf-plate { display: block; height: 20px; margin: 6px 0 0; overflow: hidden; border-radius: 3px; background: var(--cb-case); }
 
+/* A FRAME AND AN EFFECT (Ryan, 2026-10-18, after Discord's). The stage holds
+   the profile, or the card in the editor, and wears the card's theme: a frame
+   is a band of that theme's case round all four sides, outside the profile,
+   with its drawing on it in the theme's inks, the radio's own sides' rule. An
+   effect is a layer over the profile: its still part along the edges and in
+   the banner, at every setting, and its pass, which crosses the whole
+   profile, words included (Ryan's call), and is not shown at all unless the
+   radio's drawings move. Nothing in either takes a press. */
+.pf-stage { position: relative; box-sizing: border-box; }
+.pf-stage--framed { padding: 24px; border-radius: 20px; background: var(--cb-case); }
+.pf-stage--framed > .pf-sheet { max-height: calc(94vh - 48px); }
+.pf-frame { position: absolute; inset: 0; pointer-events: none; }
+.pf-frame__side { position: absolute; overflow: hidden; }
+.pf-frame__side svg { display: block; }
+.pf-frame__top { top: 0; left: 0; right: 0; height: 24px; }
+.pf-frame__bottom { bottom: 0; left: 0; right: 0; height: 24px; }
+.pf-frame__left { top: 0; bottom: 0; left: 0; width: 24px; }
+.pf-frame__right { top: 0; bottom: 0; right: 0; width: 24px; }
+.pf-frame__corner { position: absolute; z-index: 2; overflow: visible; }
+.pf-frame__tl { top: 0; left: 0; }
+.pf-frame__tr { top: 0; right: 0; }
+.pf-frame__bl { bottom: 0; left: 0; }
+.pf-frame__br { bottom: 0; right: 0; }
+.pf-fx { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.pf-stage--framed > .pf-fx { inset: 24px; }
+.pf-fx__edge { position: absolute; transform: translate(-50%, -50%); }
+.pf-fx__pass { display: none; position: absolute; inset: 0; overflow: hidden; border-radius: 12px; container-type: size; }
+.pf-fx__one { position: absolute; display: block; line-height: 0; opacity: 0; }
+.fx-bob { display: block; }
+/* THE PASS EXISTS ONLY WHERE THE DRAWINGS MOVE. tools/make-profile.py
+   refuses .pf-fx__pass shown anywhere else, because a pass standing still is
+   a drawing left sitting on somebody's words. Each one crosses in the first
+   two fifths of its turn, fading in and out over about a second, then waits:
+   a few go at once and then it is quiet. Every distance is in the pass's own
+   container units, so a profile that grows draws nothing again. */
+:host([data-motion="on"]) .pf-fx__pass { display: block; }
+:host([data-motion="on"]) .pf-fx__one { animation: cb-fx-pass var(--t, 26s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-bob { animation: cb-fx-bob var(--b, 3s) ease-in-out infinite; }
+:host([data-motion="on"]) .fx-flap { transform-box: fill-box; transform-origin: center; animation: cb-fx-flap 1s ease-in-out infinite; }
+@keyframes cb-fx-pass {
+  0% { transform: translate(0, 0); opacity: 0; }
+  4%, 36% { opacity: .85; }
+  40%, 100% { transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); opacity: 0; }
+}
+@keyframes cb-fx-bob { 0%, 100% { transform: translateY(-4px); } 50% { transform: translateY(4px); } }
+@keyframes cb-fx-flap { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.45); } }
+
 @media (max-width: 720px) {
   .pf-dialog { width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; }
   .pf-sheet, .pf-sheet--edit { grid-template-columns: minmax(0, 1fr); align-content: start; height: 100%; max-height: 100dvh; border-radius: 0; }
@@ -822,6 +869,9 @@ ol.cb-md-list { list-style: decimal; }
   .pf-preview .pf-face, .pf-preview .pf-deco { width: 100px; height: 100px; }
   .pf-preview .pf-avatar { left: 16px; top: 16px; width: 68px; height: 68px; border-width: 3px; }
   .pf-preview__online { padding: 4px 8px; }
+  .pf-dialog > .pf-stage { height: 100%; }
+  .pf-dialog > .pf-stage--framed { border-radius: 0; }
+  .pf-stage--framed > .pf-sheet { max-height: none; }
 }
 .cb-radio--small .cb-picture-img { max-height: 90px; }
 .cb-pic-ready { display: grid; gap: 6px; margin: 8px 0 0; }

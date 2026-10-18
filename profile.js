@@ -2,8 +2,8 @@
    like Discord's). cb.js loads this, with cb-themes.js and avatar.js, the
    first time somebody opens a profile or edits their own, and draws with it:
    the card a profile is, its banner, the decoration round the avatar it wears,
-   its name in the face chosen for it, and the nameplate under a name on Who's
-   online. It fetches nothing, keeps nothing and sends nothing: cb.js asks the
+   its name in the face chosen for it, the nameplate under a name on Who's
+   online, and the frame round a profile and the effect over it. It fetches nothing, keeps nothing and sends nothing: cb.js asks the
    street and hands this what came back.
 
    WHAT A PROFILE IS MADE OF IS SOMEBODY'S CHOICES FROM THESE LISTS AND THEIR
@@ -20,7 +20,9 @@
    is in Atkinson Hyperlegible; the chosen face sets the name and nothing else.
    A drawing moves only where the radio's drawings do (data-motion on the host:
    MAX GLITTER, or after Let my theme move), with cb.css's own motion classes,
-   and nothing flashes. There is no date on a card, and nothing on it counts. */
+   and nothing flashes. AN EFFECT'S PASS IS THE ONE DRAWING THAT CROSSES WORDS,
+   Ryan's call, 2026-10-18, and it is drawn only where drawings move. There is
+   no date on a card, and nothing on it counts. */
 (function () {
   'use strict';
   var NS = 'http://www.w3.org/2000/svg';
@@ -98,6 +100,28 @@
     ['butterflies', 'Butterflies'], ['crystals', 'Crystals']
   ];
   /* profile:decorations:end */
+
+  /* THE FRAMES AND THE EFFECTS: [key, name] (Ryan, 2026-10-18, after
+     Discord's). A frame is a band of the card's theme round all four sides of
+     a profile, outside it; an effect paints over the profile, partly still,
+     along its edges and in its banner, and partly a pass that crosses the whole
+     profile from time to time, words included, Ryan's call. Each has its own
+     drawing in F or E below, and make-profile.py refuses one without, or two
+     with the same name. */
+  /* profile:frames:begin */
+  var FRAMES = [
+    ['briar', 'Briar'], ['ivy', 'Ivy'], ['brass', 'Brass and rivets'], ['lights', 'Fairy lights'],
+    ['stitches', 'Stitched patch'], ['film', 'Film strip'], ['circuit', 'Circuit board'], ['crystals', 'Crystals'],
+    ['garland', 'Flower garland'], ['starry', 'Starry night']
+  ];
+  /* profile:frames:end */
+  /* profile:effects:begin */
+  var EFFECTS = [
+    ['butterflies', 'Butterflies'], ['fireflies', 'Fireflies'], ['petals', 'Falling petals'], ['leaves', 'Falling leaves'],
+    ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
+    ['notes', 'Music notes'], ['hearts', 'Hearts']
+  ];
+  /* profile:effects:end */
 
   function f(n) { return (Math.round(n * 10) / 10).toString(); }
   function el(tag, cls, text) {
@@ -405,6 +429,427 @@
     return '';
   }
 
+  /* ── The frames: a band BAND wide round all four sides ───────────────────
+
+     Each side is drawn as the top is, along x with its outer edge at y 0, and
+     turned to face outward, ONCE AND LONGER THAN A PROFILE CAN BE, the radio's
+     sides' rule, so nothing is drawn again because the profile grew: a side is
+     cut off where the profile ends, and the corner covers the cut. A corner is
+     drawn in a square twice the band, its outer corner at 0 0, on a patch of
+     the band's own ground where two sides meet. Every drawing is made in a
+     band UNIT across and scaled to BAND. */
+  var UNIT = 18, BAND = 24, K = BAND * 2, SCALE = BAND / UNIT;
+  function rnd(i) { var x = Math.sin(i * 12.9898 + 4.1) * 43758.5453; return x - Math.floor(x); }
+  function group(parent, transform) {
+    var g = svgEl('g', transform ? { transform: transform } : {});
+    g.style.removeProperty('fill');
+    parent.appendChild(g);
+    return g;
+  }
+  function plainSvg(w, h, cls) {
+    var s = document.createElementNS(NS, 'svg');
+    s.setAttribute('width', String(w));
+    s.setAttribute('height', String(h));
+    s.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    s.setAttribute('aria-hidden', 'true');
+    s.setAttribute('focusable', 'false');
+    if (cls) s.setAttribute('class', cls);
+    return s;
+  }
+  function wave(L, y, amp, len, shift) {
+    var d = '', x;
+    for (x = 0; x <= L; x += 4) d += (x ? 'L' : 'M') + f(x) + ' ' + f(y + amp * Math.sin(x / len + (shift || 0)));
+    return d;
+  }
+  function blossom(g, x, y, r, centreCls, i) {
+    var q = at(g, x, y);
+    around(5, function (b) { q.appendChild(svgEl('circle', { cx: f(r * 1.15 * Math.sin(b * Math.PI / 180)), cy: f(-r * 1.15 * Math.cos(b * Math.PI / 180)), r: f(r) }, { fill: '--cb-amber' })); });
+    q.appendChild(svgEl('circle', { r: f(r * .65) }, { fill: '--cb-amber-2', cls: centreCls || '', d: (i || 0) * .45, t: 4 }));
+    return q;
+  }
+
+  var F = {};
+  F.briar = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: wave(L, 9, 4, 22) }, { stroke: '--cb-steel-2', sw: 2.6 }));
+      g.appendChild(svgEl('path', { d: wave(L, 9, -4, 22, .8) }, { stroke: '--cb-steel', sw: 1.6 }));
+      for (var x = 7, i = 0; x < L; x += 13, i++) {
+        var y = 9 + 4 * Math.sin(x / 22), up = i % 2 ? 1 : -1;
+        g.appendChild(svgEl('path', { d: 'M' + f(x - 2.2) + ' ' + f(y) + 'L' + f(x + 2.2) + ' ' + f(y) + 'L' + f(x + 3.4) + ' ' + f(y + up * 5.4) + 'Z' }, { fill: '--cb-steel-2' }));
+      }
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('path', { d: 'M3 30C1 14 12 3 30 3M8 33C5 18 17 7 33 8M12 21C14 11 26 12 22 19C19 24 12 19 17 14' }, { stroke: '--cb-steel-2', sw: 2.6 }));
+      [[5, 18, -1], [18, 5, 1], [10, 27, -1], [27, 10, 1]].forEach(function (s) {
+        g.appendChild(svgEl('path', { d: 'M' + s[0] + ' ' + s[1] + 'l' + (s[2] * 5) + ' ' + (-s[2] * 2) + 'l' + (-s[2] * 1) + ' ' + (s[2] * 4) + 'Z' }, { fill: '--cb-steel-2' }));
+      });
+      at(g, 29, 29).appendChild(svgEl('path', { d: sparkle(4) }, { fill: '--cb-amber', cls: 'art-twinkle', t: 4 }));
+    }
+  };
+  F.ivy = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: wave(L, 10, 3, 28) }, { stroke: '--cb-steel-2', sw: 1.8 }));
+      for (var x = 8, i = 0; x < L; x += 16, i++) {
+        var y = 10 + 3 * Math.sin(x / 28), q = at(g, x, y + (i % 2 ? 2 : -2), i % 2 ? 140 : 40);
+        var l = svgEl('g', {}, { cls: 'art-sway', d: i * .4, t: 6 });
+        l.style.removeProperty('fill');
+        l.appendChild(svgEl('path', { d: leaf(5.2, 3.6) }, { fill: i % 3 ? '--cb-amber-2' : '--cb-steel-2' }));
+        l.appendChild(svgEl('path', { d: 'M0 -4L0 4.5' }, { stroke: '--cb-case', sw: .8 }));
+        q.appendChild(l);
+      }
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('path', { d: 'M2 34C2 16 16 2 34 2M16 16C10 22 6 14 12 10C18 6 22 14 16 16' }, { stroke: '--cb-steel-2', sw: 1.8 }));
+      [[8, 20, 20], [20, 8, 70], [24, 24, 45]].forEach(function (s, i) {
+        at(g, s[0], s[1], s[2]).appendChild(svgEl('path', { d: leaf(6.4, 4.4) }, { fill: i % 2 ? '--cb-steel-2' : '--cb-amber-2', cls: 'art-sway', d: i * .5, t: 6 }));
+      });
+    }
+  };
+  F.brass = {
+    side: function (g, L) {
+      g.appendChild(svgEl('rect', { x: 0, y: 3, width: L, height: 12 }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 1.2 }));
+      g.appendChild(svgEl('path', { d: 'M0 1H' + L }, { stroke: '--cb-steel-2', sw: 1.4 }));
+      g.appendChild(svgEl('path', { d: 'M0 16.8H' + L }, { stroke: '--cb-amber', sw: 1.2 }));
+      for (var x = 12; x < L; x += 24) {
+        g.appendChild(svgEl('circle', { cx: x, cy: 9, r: 2.6 }, { fill: '--cb-amber-2' }));
+        g.appendChild(svgEl('circle', { cx: x - .8, cy: 8.2, r: .9 }, { fill: '--cb-steel' }));
+      }
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('rect', { x: 1, y: 1, width: 24, height: 24, rx: 3 }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 1.2 }));
+      var w = at(g, 13, 13);
+      var turn = svgEl('g', {}, { cls: 'art-turn', t: 9 });
+      turn.style.removeProperty('fill');
+      turn.appendChild(svgEl('path', { d: gear(11, 8) }, { fill: '--cb-steel-2' }));
+      turn.appendChild(svgEl('circle', { r: 4.2 }, { fill: '--cb-amber' }));
+      turn.appendChild(svgEl('circle', { r: 1.6 }, { fill: '--cb-bar' }));
+      w.appendChild(turn);
+    }
+  };
+  F.lights = {
+    side: function (g, L) {
+      for (var x = 0, i = 0; x < L; x += 36, i += 2) {
+        g.appendChild(svgEl('path', { d: 'M' + x + ' 3Q' + (x + 18) + ' 13 ' + (x + 36) + ' 3' }, { stroke: '--cb-steel-2', sw: 1.2 }));
+        [[x + 9, 6.75], [x + 27, 6.75]].forEach(function (b, j) {
+          g.appendChild(svgEl('rect', { x: f(b[0] - 1.3), y: f(b[1]), width: 2.6, height: 2.2 }, { fill: '--cb-steel' }));
+          g.appendChild(svgEl('ellipse', { cx: f(b[0]), cy: f(b[1] + 5.6), rx: 2.6, ry: 3.4 }, { fill: (i + j) % 2 ? '--cb-amber-2' : '--cb-amber', cls: 'art-twinkle', d: (i + j) * .37 % 4, t: 3.6 }));
+        });
+      }
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('circle', { cx: 9, cy: 9, r: 4 }, { stroke: '--cb-steel-2', sw: 1.6 }));
+      g.appendChild(svgEl('path', { d: 'M12 12Q20 22 30 26' }, { stroke: '--cb-steel-2', sw: 1.2 }));
+      g.appendChild(svgEl('ellipse', { cx: 20, cy: 24, rx: 2.8, ry: 3.6 }, { fill: '--cb-amber', cls: 'art-twinkle', d: 1.1, t: 3.6 }));
+    }
+  };
+  F.stitches = {
+    side: function (g, L) {
+      g.appendChild(svgEl('rect', { x: 0, y: 1, width: L, height: 16 }, { fill: '--cb-bar' }));
+      var twill = '';
+      for (var x = 0; x < L; x += 3) twill += 'M' + x + ' 1.5L' + (x + 2.5) + ' 5.5';
+      g.appendChild(svgEl('path', { d: twill }, { stroke: '--cb-steel-2', sw: 1 }));
+      var st = svgEl('path', { d: 'M0 11.5H' + L }, { stroke: '--cb-amber', sw: 1.6 });
+      st.style.setProperty('stroke-dasharray', '5 3');
+      g.appendChild(st);
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('path', { d: 'M1 26V12Q1 1 12 1H26V18H18V26Z' }, { fill: '--cb-bar' }));
+      g.appendChild(svgEl('path', { d: 'M8 8L16 16M16 8L8 16' }, { stroke: '--cb-amber', sw: 1.8 }));
+    }
+  };
+  F.film = {
+    side: function (g, L) {
+      g.appendChild(svgEl('rect', { x: 0, y: 1, width: L, height: 16 }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 1 }));
+      for (var x = 3; x < L; x += 10) g.appendChild(svgEl('rect', { x: x, y: 5.5, width: 4.4, height: 7, rx: 1 }, { fill: '--cb-case' }));
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('circle', { cx: 14, cy: 14, r: 12 }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 1.4 }));
+      var reel = at(g, 14, 14);
+      var turn = svgEl('g', {}, { cls: 'art-turn', t: 9 });
+      turn.style.removeProperty('fill');
+      around(5, function (a) { turn.appendChild(svgEl('circle', { cx: f(6.4 * Math.sin(a * Math.PI / 180)), cy: f(-6.4 * Math.cos(a * Math.PI / 180)), r: 2.6 }, { fill: '--cb-case' })); });
+      turn.appendChild(svgEl('circle', { r: 1.8 }, { fill: '--cb-amber' }));
+      reel.appendChild(turn);
+    }
+  };
+  F.circuit = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: 'M0 5H' + L }, { stroke: '--cb-steel-2', sw: 1.2 }));
+      g.appendChild(svgEl('path', { d: 'M0 13H' + L }, { stroke: '--cb-amber-2', sw: 1.2 }));
+      for (var x = 6, i = 0; x < L; x += 22, i++) {
+        if (i % 2) g.appendChild(svgEl('path', { d: 'M' + x + ' 5L' + (x + 6) + ' 13' }, { stroke: '--cb-steel-2', sw: 1.2 }));
+        g.appendChild(svgEl('circle', { cx: x, cy: 5, r: 2 }, { fill: '--cb-amber', cls: i % 3 ? '' : 'art-glow', d: i * .4 % 4, t: 4 }));
+        g.appendChild(svgEl('circle', { cx: x + 11, cy: 13, r: 2 }, { fill: '--cb-amber-2' }));
+      }
+    },
+    corner: function (g) {
+      g.appendChild(svgEl('path', { d: 'M10 4V1M16 4V1M22 4V1M4 10H1M4 16H1M4 22H1' }, { stroke: '--cb-steel-2', sw: 1.4 }));
+      g.appendChild(svgEl('rect', { x: 4, y: 4, width: 22, height: 22, rx: 2 }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 1.4 }));
+      g.appendChild(svgEl('circle', { cx: 15, cy: 15, r: 3 }, { fill: '--cb-amber', cls: 'art-glow', t: 4 }));
+    }
+  };
+  F.crystals = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: 'M0 16.5H' + L }, { stroke: '--cb-steel-2', sw: 1.4 }));
+      for (var x = 4, i = 0; x < L; x += 9, i++) {
+        var h = 7 + 5 * Math.abs(Math.sin(i * 1.3)), w = 2.6;
+        g.appendChild(svgEl('path', { d: 'M' + f(x - w) + ' 16L' + f(x - w) + ' ' + f(16 - h * .6) + 'L' + f(x) + ' ' + f(16 - h) + 'L' + f(x + w) + ' ' + f(16 - h * .6) + 'L' + f(x + w) + ' 16Z' }, { fill: i % 2 ? '--cb-amber-2' : '--cb-steel-2' }));
+        g.appendChild(svgEl('path', { d: 'M' + f(x) + ' ' + f(16 - h) + 'L' + f(x) + ' 16' }, { stroke: '--cb-steel', sw: .7 }));
+      }
+    },
+    corner: function (g) {
+      [[-65, 18, '--cb-steel-2'], [-45, 22, '--cb-amber-2'], [-25, 18, '--cb-steel-2']].forEach(function (s) {
+        var q = at(g, 20, 20, s[0]);
+        q.appendChild(svgEl('path', { d: 'M-3.6 0L-3.6 ' + f(-s[1] * .65) + 'L0 ' + f(-s[1]) + 'L3.6 ' + f(-s[1] * .65) + 'L3.6 0Z' }, { fill: s[2] }));
+        q.appendChild(svgEl('path', { d: 'M0 ' + f(-s[1]) + 'L0 0' }, { stroke: '--cb-steel', sw: .8 }));
+      });
+      at(g, 30, 30).appendChild(svgEl('path', { d: sparkle(3.6) }, { fill: '--cb-amber', cls: 'art-twinkle', t: 4 }));
+    }
+  };
+  F.garland = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: wave(L, 9, 2.4, 20) }, { stroke: '--cb-steel-2', sw: 1.4 }));
+      for (var x = 12, i = 0; x < L; x += 30, i++) {
+        blossom(g, x, 9, 2.9, i % 3 ? '' : 'art-twinkle', i);
+        [-60, 60].forEach(function (r) { at(g, x + 15, 9, r).appendChild(svgEl('path', { d: leaf(4.6, 2.6) }, { fill: '--cb-steel-2' })); });
+      }
+    },
+    corner: function (g) {
+      [[26, 6, 140], [6, 26, 230]].forEach(function (s) { at(g, s[0], s[1], s[2]).appendChild(svgEl('path', { d: leaf(5.4, 3) }, { fill: '--cb-steel-2' })); });
+      blossom(g, 14, 14, 4.6, 'art-twinkle', 0);
+    }
+  };
+  F.starry = {
+    side: function (g, L) {
+      for (var x = 2, i = 0; x < L; x += 6, i++) {
+        g.appendChild(svgEl('circle', { cx: f(x + rnd(i) * 3), cy: f(3 + rnd(i + 99) * 12), r: f(.6 + rnd(i + 7) * .8) }, { fill: i % 3 ? '--cb-steel-2' : '--cb-steel' }));
+      }
+      for (var sx = 17, j = 0; sx < L; sx += 34, j++) {
+        at(g, sx, 9).appendChild(svgEl('path', { d: star5(3.6) }, { fill: '--cb-amber', cls: 'art-twinkle', d: j * .55 % 4, t: 4 }));
+      }
+    },
+    corner: function (g) {
+      at(g, 14, 14, -30).appendChild(svgEl('path', { d: crescent(8) }, { fill: '--cb-amber-2' }));
+      at(g, 28, 8).appendChild(svgEl('path', { d: star5(3) }, { fill: '--cb-amber', cls: 'art-twinkle', t: 4 }));
+    }
+  };
+
+  function stripLength() {
+    var s = window.screen || {};
+    return Math.max(1400, (s.width || 0) + 200, (s.height || 0) + 200);
+  }
+  function frame(key) {
+    var fr = F[key];
+    if (!fr) return null;
+    var box = el('div', 'pf-frame');
+    box.setAttribute('aria-hidden', 'true');
+    var L = stripLength(), up = ' scale(' + f(SCALE) + ')';
+    [['top', L, BAND, '1 0 0 1 0 0'], ['bottom', L, BAND, '1 0 0 -1 0 ' + BAND],
+      ['left', BAND, L, '0 1 1 0 0 0'], ['right', BAND, L, '0 1 -1 0 ' + BAND + ' 0']].forEach(function (sd) {
+      var side = el('div', 'pf-frame__side pf-frame__' + sd[0]);
+      var s = plainSvg(sd[1], sd[2]);
+      fr.side(group(s, 'matrix(' + sd[3].split(' ').join(',') + ')' + up), L / SCALE);
+      side.appendChild(s);
+      box.appendChild(side);
+    });
+    [['tl', '1 0 0 1 0 0'], ['tr', '-1 0 0 1 ' + K + ' 0'], ['bl', '1 0 0 -1 0 ' + K], ['br', '-1 0 0 -1 ' + K + ' ' + K]].forEach(function (cn) {
+      var s = plainSvg(K, K, 'pf-frame__corner pf-frame__' + cn[0]);
+      var g = group(s, 'matrix(' + cn[1].split(' ').join(',') + ')' + up);
+      g.appendChild(svgEl('path', { d: 'M0 0H36V18H18V36H0Z' }, { fill: '--cb-case' }));
+      fr.corner(g);
+      box.appendChild(s);
+    });
+    return box;
+  }
+  function frameName(key) {
+    for (var i = 0; i < FRAMES.length; i++) if (FRAMES[i][0] === key) return FRAMES[i][1];
+    return '';
+  }
+
+  /* ── The effects ───────────────────────────────────────────────────────
+
+     Every effect is in two parts. ITS STILL PART sits along the profile's
+     edges and in its banner, where no sentence is, and is there at every
+     setting; its drawings twinkle and sway only where the radio's do. ITS PASS
+     crosses the whole profile from time to time, a few at once and then
+     quiet, over the words as well, Ryan's call: and it is drawn at all only
+     where the radio's drawings move (cb.css shows .pf-fx__pass under
+     data-motion and nowhere else), so a profile that stands still never has
+     anything sitting on a word. A pass fades in and out over about a second
+     and nothing in it flashes. Its distances are in the pass's own container
+     units, so a profile that grows or shrinks draws nothing again. */
+  var M = {};
+  M.butterfly = function (g, moving) {
+    var w = svgEl('g', {}, { cls: moving ? 'fx-flap' : 'art-breathe', t: 3.5 });
+    w.style.removeProperty('fill');
+    w.appendChild(svgEl('ellipse', { cx: -4.6, cy: -2.6, rx: 4.8, ry: 3.8 }, { fill: '--cb-amber' }));
+    w.appendChild(svgEl('ellipse', { cx: 4.6, cy: -2.6, rx: 4.8, ry: 3.8 }, { fill: '--cb-amber' }));
+    w.appendChild(svgEl('ellipse', { cx: -3.6, cy: 3.2, rx: 3.2, ry: 2.8 }, { fill: '--cb-amber-2' }));
+    w.appendChild(svgEl('ellipse', { cx: 3.6, cy: 3.2, rx: 3.2, ry: 2.8 }, { fill: '--cb-amber-2' }));
+    g.appendChild(w);
+    g.appendChild(svgEl('path', { d: 'M0 -6.5L0 6M0 -6.5L-2.4 -9.6M0 -6.5L2.4 -9.6' }, { stroke: '--cb-steel', sw: 1.4 }));
+  };
+  M.glow = function (g) {
+    g.appendChild(svgEl('circle', { r: 7, 'fill-opacity': '.22' }, { fill: '--cb-amber' }));
+    g.appendChild(svgEl('circle', { r: 2.6 }, { fill: '--cb-amber-2', cls: 'art-glow', t: 3 }));
+  };
+  M.petal = function (g) {
+    var q = at(g, 0, 0, 35);
+    q.appendChild(svgEl('path', { d: leaf(8, 4.6) }, { fill: '--cb-amber-2', cls: 'art-sway', t: 4 }));
+    q.appendChild(svgEl('path', { d: leaf(4, 2) }, { fill: '--cb-amber' }));
+  };
+  M.blossom = function (g) { blossom(g, 0, 0, 3.6, 'art-twinkle', 0); };
+  M.leaf = function (g) {
+    var l = svgEl('g', {}, { cls: 'art-sway', t: 5 });
+    l.style.removeProperty('fill');
+    l.appendChild(svgEl('path', { d: leaf(9, 5.6) }, { fill: '--cb-amber' }));
+    l.appendChild(svgEl('path', { d: 'M0 -8L0 9' }, { stroke: '--cb-case', sw: 1 }));
+    g.appendChild(l);
+  };
+  M.flake = function (g) {
+    var r = 8, d = '';
+    around(6, function (b) {
+      var x = r * Math.sin(b * Math.PI / 180), y = -r * Math.cos(b * Math.PI / 180);
+      d += 'M0 0L' + f(x) + ' ' + f(y);
+      var bx = x * .6, by = y * .6, k = (b + 90) * Math.PI / 180, s = r * .3;
+      d += 'M' + f(bx - s * Math.sin(k) * .7) + ' ' + f(by + s * Math.cos(k) * .7) + 'L' + f(bx) + ' ' + f(by) + 'L' + f(bx + s * Math.sin(k) * .7) + ' ' + f(by - s * Math.cos(k) * .7);
+    });
+    g.appendChild(svgEl('path', { d: d }, { stroke: '--cb-steel', sw: 1.4, cls: 'art-twinkle', t: 5 }));
+  };
+  M.bubble = function (g) {
+    g.appendChild(svgEl('circle', { r: 8 }, { stroke: '--cb-steel', sw: 1.4 }));
+    g.appendChild(svgEl('path', { d: 'M-4.4 -.8A4.8 4.8 0 0 1 -.8 -4.4' }, { stroke: '--cb-amber', sw: 1.4, cls: 'art-twinkle', t: 5 }));
+  };
+  M.sparkle = function (g) {
+    g.appendChild(svgEl('path', { d: sparkle(9) }, { fill: '--cb-amber', cls: 'art-twinkle', t: 3.5 }));
+    at(g, 7, -7).appendChild(svgEl('path', { d: sparkle(3.4) }, { fill: '--cb-steel', cls: 'art-twinkle', d: 1.2, t: 3.5 }));
+  };
+  M.star = function (g) { g.appendChild(svgEl('path', { d: star5(8) }, { fill: '--cb-amber-2', cls: 'art-twinkle', t: 4 })); };
+  M.shooting = function (g) {
+    g.appendChild(svgEl('path', { d: 'M-2 -1L-26 -12' }, { stroke: '--cb-amber-2', sw: 1.6 }));
+    g.appendChild(svgEl('path', { d: 'M-2 1L-18 -4' }, { stroke: '--cb-steel-2', sw: 1.2 }));
+    g.appendChild(svgEl('path', { d: star5(5.4) }, { fill: '--cb-amber' }));
+  };
+  M.note = function (g) {
+    g.appendChild(svgEl('ellipse', { cx: -2.6, cy: 5.6, rx: 4, ry: 3, transform: 'rotate(-20 -2.6 5.6)' }, { fill: '--cb-amber' }));
+    g.appendChild(svgEl('path', { d: 'M1.2 4.6L1.2 -9Q6.6 -6 6.6 -1.6' }, { stroke: '--cb-amber', sw: 2 }));
+  };
+  M.heart = function (g) {
+    g.appendChild(svgEl('path', { d: heart(8) }, { fill: '--cb-amber-2', cls: 'art-breathe', t: 4 }));
+    g.appendChild(svgEl('path', { d: heart(3.6) }, { fill: '--cb-amber' }));
+  };
+  function motif(name, size, moving, turn) {
+    var s = document.createElementNS(NS, 'svg'), px = f(size * 1.5);
+    s.setAttribute('viewBox', '-12 -12 24 24');
+    s.setAttribute('width', px);
+    s.setAttribute('height', px);
+    s.setAttribute('aria-hidden', 'true');
+    s.setAttribute('focusable', 'false');
+    s.style.overflow = 'visible';
+    M[name](group(s, turn ? 'rotate(' + turn + ')' : ''), !!moving);
+    return s;
+  }
+
+  /* An effect: edge, its still part as [motif, where, along, size, turn],
+     where being a corner (tl, tr, bl, br) or a side (top, bottom, left,
+     right) and along how far along that side; pass, as { motif, from, n,
+     size, t, drift }, from being the side it comes in at (or diag, from the
+     top left), n how many cross in one go, t seconds from one go to the next. */
+  var E = {};
+  E.butterflies = { edge: [['blossom', 'tl', 0, 30], ['butterfly', 'top', .2, 20, -15], ['butterfly', 'left', .55, 18, 20], ['blossom', 'bl', 0, 24], ['butterfly', 'br', 0, 20, -30], ['blossom', 'right', .7, 18]],
+    pass: { motif: 'butterfly', from: 'left', n: 4, size: 22, t: 28, drift: 14 } };
+  E.fireflies = { edge: [['glow', 'top', .12, 16], ['glow', 'top', .3, 12], ['glow', 'left', .4, 14], ['glow', 'left', .8, 12], ['glow', 'bottom', .25, 14], ['glow', 'bottom', .6, 12], ['glow', 'right', .55, 14]],
+    pass: { motif: 'glow', from: 'bottom', n: 9, size: 16, t: 24, drift: 12 } };
+  E.petals = { edge: [['blossom', 'tl', 0, 28], ['petal', 'top', .18, 14, 40], ['blossom', 'bl', 0, 24], ['petal', 'left', .5, 14, -20], ['blossom', 'br', 0, 24], ['petal', 'bottom', .45, 12, 70]],
+    pass: { motif: 'petal', from: 'top', n: 8, size: 16, t: 26, drift: 14 } };
+  E.leaves = { edge: [['leaf', 'tl', 0, 24, -30], ['leaf', 'top', .25, 16, 60], ['leaf', 'left', .6, 16, 10], ['leaf', 'bl', 0, 22, 120], ['leaf', 'br', 0, 22, 200]],
+    pass: { motif: 'leaf', from: 'top', n: 7, size: 18, t: 26, drift: 16 } };
+  E.snow = { edge: [['flake', 'tl', 0, 22], ['flake', 'top', .2, 12], ['flake', 'top', .33, 10], ['flake', 'left', .5, 12], ['flake', 'bottom', .3, 12], ['flake', 'br', 0, 18]],
+    pass: { motif: 'flake', from: 'top', n: 12, size: 13, t: 22, drift: 8 } };
+  E.bubbles = { edge: [['bubble', 'bl', 0, 24], ['bubble', 'bottom', .2, 14], ['bubble', 'bottom', .5, 10], ['bubble', 'left', .75, 12], ['bubble', 'br', 0, 20], ['bubble', 'right', .8, 12]],
+    pass: { motif: 'bubble', from: 'bottom', n: 8, size: 18, t: 24, drift: 10 } };
+  E.sparkles = { edge: [['sparkle', 'tl', 0, 22], ['sparkle', 'top', .15, 12], ['sparkle', 'top', .3, 16], ['sparkle', 'left', .45, 14], ['sparkle', 'bl', 0, 18], ['sparkle', 'bottom', .55, 12], ['sparkle', 'br', 0, 20]],
+    pass: { motif: 'sparkle', from: 'diag', n: 6, size: 16, t: 24, drift: 0 } };
+  E.shooting = { edge: [['star', 'tl', 0, 20], ['star', 'top', .2, 12], ['star', 'top', .34, 9], ['star', 'left', .35, 10], ['star', 'bottom', .4, 10], ['star', 'br', 0, 14]],
+    pass: { motif: 'shooting', from: 'diag', n: 2, size: 26, t: 30, drift: 0 } };
+  E.notes = { edge: [['note', 'tl', 0, 22], ['note', 'left', .4, 16, -10], ['note', 'bl', 0, 20, 10], ['note', 'bottom', .5, 14], ['note', 'br', 0, 20, -10]],
+    pass: { motif: 'note', from: 'left', n: 5, size: 18, t: 26, drift: 12 } };
+  E.hearts = { edge: [['heart', 'tl', 0, 22, -15], ['heart', 'top', .24, 12, 10], ['heart', 'left', .6, 14], ['heart', 'bl', 0, 20, 15], ['heart', 'br', 0, 20, -15], ['heart', 'bottom', .4, 12]],
+    pass: { motif: 'heart', from: 'bottom', n: 7, size: 16, t: 26, drift: 12 } };
+
+  var EDGE_AT = {
+    tl: function () { return [0, 0]; }, tr: function () { return [100, 0]; },
+    bl: function () { return [0, 100]; }, br: function () { return [100, 100]; },
+    top: function (a) { return [a * 100, 0]; }, bottom: function (a) { return [a * 100, 100]; },
+    left: function (a) { return [0, a * 100]; }, right: function (a) { return [100, a * 100]; }
+  };
+  function passOne(p, i) {
+    var one = el('span', 'pf-fx__one');
+    var across = 6 + 88 * (i + .5 + (rnd(i + 7) - .5) * .6) / p.n;
+    var drift = (rnd(i + 3) - .5) * 2 * (p.drift || 0), start, px, py;
+    if (p.from === 'left') { start = [-8, across]; px = 116; py = drift; }
+    else if (p.from === 'top') { start = [across, -8]; px = drift; py = 116; }
+    else if (p.from === 'bottom') { start = [across, 104]; px = drift; py = -116; }
+    else { start = [-8, across * .6 - 10]; px = 116; py = 70; }
+    one.style.left = f(start[0]) + '%';
+    one.style.top = f(start[1]) + '%';
+    one.style.setProperty('--px', f(px));
+    one.style.setProperty('--py', f(py));
+    one.style.setProperty('--t', p.t + 's');
+    one.style.setProperty('--d', f(i * p.t * .5 / p.n) + 's');
+    var bob = el('span', 'fx-bob');
+    bob.style.setProperty('--b', f(2.6 + rnd(i) * 1.6) + 's');
+    bob.appendChild(motif(p.motif, p.size, true));
+    one.appendChild(bob);
+    return one;
+  }
+  function effect(key) {
+    var e = E[key];
+    if (!e) return null;
+    var box = el('div', 'pf-fx');
+    box.setAttribute('aria-hidden', 'true');
+    var pass = el('div', 'pf-fx__pass');
+    for (var i = 0; i < e.pass.n; i++) pass.appendChild(passOne(e.pass, i));
+    box.appendChild(pass);
+    e.edge.forEach(function (sp) {
+      var s = motif(sp[0], sp[3], false, sp[4]);
+      s.setAttribute('class', 'pf-fx__edge');
+      var pos = EDGE_AT[sp[1]](sp[2]);
+      s.style.left = f(pos[0]) + '%';
+      s.style.top = f(pos[1]) + '%';
+      box.appendChild(s);
+    });
+    return box;
+  }
+  function effectName(key) {
+    for (var i = 0; i < EFFECTS.length; i++) if (EFFECTS[i][0] === key) return EFFECTS[i][1];
+    return '';
+  }
+
+  /* A FRAME AND AN EFFECT ROUND A PROFILE, or round the card in the editor:
+     stage holds one thing, the profile's sheet or the card, and wears the
+     card's theme, so the band and everything drawn on it are in that theme's
+     seven inks and no frame or effect brings a colour nobody measured. With no
+     theme chosen, it wears the radio's own, as the card does. Drawing again
+     replaces what was there. */
+  function surround(stage, p) {
+    p = p || {};
+    stage.classList.add('pf-stage');
+    [].slice.call(stage.children).forEach(function (k) {
+      if (k.classList.contains('pf-frame') || k.classList.contains('pf-fx')) stage.removeChild(k);
+    });
+    if (p.theme) dress(stage, p.theme);
+    else {
+      PARTS.forEach(function (x) { stage.style.removeProperty('--cb-' + x); });
+      stage.removeAttribute('data-pf-theme');
+    }
+    var fr = p.frame && frame(p.frame);
+    stage.classList.toggle('pf-stage--framed', !!fr);
+    if (fr) stage.insertBefore(fr, stage.firstChild);
+    var fx = p.effect && effect(p.effect);
+    if (fx) stage.appendChild(fx);
+  }
+
   /* THE CARD. p is the profile as the street holds it, o the rest: handle,
      mark ({ base, claimed }), wearing (the avatar worn, or null), and what
      cb.js lends it: md(box, text) for the bio, links(parent, text) for an
@@ -478,7 +923,8 @@
   function drawCard(c, p) { drawing(c.pfBanner, p && p.banner); c.classList.toggle('pf-card--banner', !c.pfBanner.hidden); }
 
   window.loveProfile = {
-    FACES: FACES, DECORATIONS: DECORATIONS, dress: dress, nameStyle: nameStyle, faceOf: faceOf,
-    drawing: drawing, decoration: decoration, decorationName: decorationName, card: card, drawCard: drawCard
+    FACES: FACES, DECORATIONS: DECORATIONS, FRAMES: FRAMES, EFFECTS: EFFECTS, dress: dress, nameStyle: nameStyle, faceOf: faceOf,
+    drawing: drawing, decoration: decoration, decorationName: decorationName, frameName: frameName, effectName: effectName,
+    card: card, drawCard: drawCard, surround: surround
   };
 })();

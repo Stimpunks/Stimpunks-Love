@@ -1566,7 +1566,9 @@ export function shapeJacketSticker(st) {
    Ryan, 2026-10-17, after requests for profiles more like Discord's: a theme
    and a banner, a decoration round the avatar you wear, your name in a face of
    your choosing, a nameplate under your name on Who's online, your pronouns, a
-   bio, links to your other places, and your favourite room on the street.
+   bio, links to your other places, and your favourite room on the street. And
+   2026-10-18, Discord's two more: a frame round the profile and an effect
+   over it, each chosen from profile.js's own list like a decoration.
    Ryan's calls the same day: all of those, NO DATE (nothing says when anybody
    claimed their username or joined, which a profile beside a name would turn
    into who has been here longest), and WHATEVER IS FILLED IN IS SHOWN, to
@@ -1591,7 +1593,7 @@ export function shapeJacketSticker(st) {
    delete the profile, and a moderator can clear one card from the desk without
    deleting the username (clearProfile, Ryan's call, 2026-10-18). */
 /* profile:keys:begin */
-export const PROFILE_KEYS = {"themes":["amber","day","high","soldark","sollight","green","red","teal","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"banners":["soldark","sollight","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"decorations":["wreath","vines","stars","sparkles","mushrooms","leaves","hearts","gears","bubbles","snow","flames","moons","notes","paws","halo","circuit","butterflies","crystals"],"faces":["Atkinson Hyperlegible","Abril Fatface","Amarante","Anton","B612","Bagel Fat One","Bowlby One SC","Bungee","Bungee Shade","Caveat","Chakra Petch","Cherry Bomb One","Cinzel","Courier Prime","Della Respira","Doto","DynaPuff","Eczar","Exo 2","Forum","Fraunces","Fredoka","Gloria Hallelujah","Gravitas One","Inter","JetBrains Mono","Libre Franklin","Lilita One","Limelight","Macondo","Marcellus SC","Martian Mono","Michroma","Monoton","Oxanium","Permanent Marker","Playfair Display","Press Start 2P","Righteous","Rubik Dirt","Rye","Sansita","Shrikhand","Sour Gummy","Space Mono","Syncopate","Titan One","Unbounded","VT323","Yanone Kaffeesatz","Yellowtail"]};
+export const PROFILE_KEYS = {"themes":["amber","day","high","soldark","sollight","green","red","teal","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"banners":["soldark","sollight","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"decorations":["wreath","vines","stars","sparkles","mushrooms","leaves","hearts","gears","bubbles","snow","flames","moons","notes","paws","halo","circuit","butterflies","crystals"],"frames":["briar","ivy","brass","lights","stitches","film","circuit","crystals","garland","starry"],"effects":["butterflies","fireflies","petals","leaves","snow","bubbles","sparkles","shooting","notes","hearts"],"faces":["Atkinson Hyperlegible","Abril Fatface","Amarante","Anton","B612","Bagel Fat One","Bowlby One SC","Bungee","Bungee Shade","Caveat","Chakra Petch","Cherry Bomb One","Cinzel","Courier Prime","Della Respira","Doto","DynaPuff","Eczar","Exo 2","Forum","Fraunces","Fredoka","Gloria Hallelujah","Gravitas One","Inter","JetBrains Mono","Libre Franklin","Lilita One","Limelight","Macondo","Marcellus SC","Martian Mono","Michroma","Monoton","Oxanium","Permanent Marker","Playfair Display","Press Start 2P","Righteous","Rubik Dirt","Rye","Sansita","Shrikhand","Sour Gummy","Space Mono","Syncopate","Titan One","Unbounded","VT323","Yanone Kaffeesatz","Yellowtail"]};
 /* profile:keys:end */
 export const PRONOUNS_MAX = 40;
 export const BIO_MAX = 500;
@@ -1638,7 +1640,7 @@ export function cleanProfile(p) {
   const K = PROFILE_KEYS;
   const out = {};
   const pick = [['theme', K.themes, 'theme'], ['banner', K.banners, 'banner'], ['decoration', K.decorations, 'decoration'],
-    ['face', K.faces, 'name face'], ['plate', K.banners, 'nameplate']];
+    ['frame', K.frames, 'frame'], ['effect', K.effects, 'effect'], ['face', K.faces, 'name face'], ['plate', K.banners, 'nameplate']];
   for (const [k, list, said] of pick) {
     const v = inList(list, p[k]);
     if (v === null) return { error: `The street does not know that ${said}.` };

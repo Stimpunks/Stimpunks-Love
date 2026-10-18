@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 18 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Frames and effects for profiles on the CB</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-18-cb-frames-effects</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-frames-effects</guid>
+      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A profile card can have a frame and an effect now, after Discord’s. A frame is a band of your card’s theme round all four sides of your profile, outside it: briar, ivy, brass and rivets, fairy lights, a stitched patch, a film strip, a circuit board, crystals, a flower garland or a starry night. An effect is drawn over your profile: butterflies, fireflies, falling petals or leaves, snow, bubbles, sparkles, shooting stars, music notes or hearts. Part of it stays along the edges and in the banner, and the rest crosses the whole profile from time to time. Both are in Edit my profile card, and both are drawn only in your card’s own colours. An effect’s pass crosses the words, Ryan’s call, which is the one place the radio lets a drawing do that. So it is drawn only where the radio’s drawings move, at MAX GLITTER or after Let my theme move: a profile standing still has nothing on its words, and nothing in an effect flashes. The CB guide and privacy say so. Changed: profile.js, cb.js, cb.css, netlify/cb/lib.mjs, tools/make-profile.py, cb-guide.html, community-center.html, privacy.html.</description>
+    </item>
+    <item>
       <title>A moderator can clear one profile card</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-desk-clears-a-card</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-desk-clears-a-card</guid>
-      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:59:00 GMT</pubDate>
       <description>The moderators’ desk can clear somebody’s profile card without deleting their username. Until now a card that broke our covenant could only go with the whole username, its password, pets, avatars, jobs and patches. Looking a username up at the desk now says whether it has a card, and Clear their profile card, which asks once more, takes the card and its nameplate on Who’s online exactly as Clear my card does. Everything else stays, and they can fill in a new one. Ryan’s call. Nothing is kept about it: not who cleared a card, not when, not what it said, and the accounts checker refuses one that would. The desk still leaves a moderator’s username alone, card included. Privacy, the CB guide and the Moderators’ room say so. Changed: desk.js, netlify/cb/lib.mjs, netlify/functions/cb-account-admin.mjs, tools/make-accounts.py, privacy.html, cb-guide.html, town-hall-moderators.html.</description>
     </item>
     <item>
       <title>Profile cards on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-profiles</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-profiles</guid>
-      <pubDate>Sun, 18 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:58:00 GMT</pubDate>
       <description>Pressing a handle opens a whole profile now, over the page, after requests for profiles more like Discord’s. On the left is the person’s card; on the right, where Discord has Board, Activity and Wishlist, are tabs for their Avatars, Pets, Badges and jobs and Battle jacket, each shown as they have chosen. A name on Who’s online opens the same profile. The CB guide says how it works. A claimed username can fill in its card, at Edit my profile card in Profile, with the card drawn beside the choices as they change: a theme from the radio’s own, a banner from their drawings, a decoration round the avatar you wear (flowers, ivy, stars, gears, flames, moons and more, drawn in the card’s own colours), a face for your name from the street’s typefaces, a nameplate under your name on Who’s online, your pronouns, a few words about you, up to five links elsewhere, each shown with its site after it, and your favourite room on the street, with a line on why. Ryan’s calls: whatever you fill in is shown to anybody signed on to the CB, as the avatar you wear is, with no switch; and no card says when anybody joined, because a date beside a name invites ranking who has been here longest. Every colour on a card is a pair the contrast checker already holds for every theme, and every drawing on it moves only where the radio’s do. Clear my card, Forget me and deleting the username delete it. Privacy has the whole of what is kept. Changed: cb.js, cb.css, love.css, netlify/cb/lib.mjs, privacy.html, cb-guide.html, community-center.html; new: profile.js, tools/make-profile.py, two functions.</description>
     </item>
     <item>

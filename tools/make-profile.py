@@ -5,7 +5,8 @@ anything on them the radio could not draw.
 Ryan, 2026-10-17, after requests for profiles more like Discord's: a theme and
 a banner, a decoration round the avatar you wear, your name in a face of your
 choosing, a nameplate on Who's online, your pronouns, a bio, links elsewhere and
-a favourite room. profile.js draws them; the server keeps them, and checks every
+a favourite room; and 2026-10-18, a frame round a profile and an effect over
+it, after Discord's. profile.js draws them; the server keeps them, and checks every
 choice against PROFILE_KEYS, which this writes between the profile:keys markers
 out of the files that draw them:
 
@@ -13,7 +14,7 @@ out of the files that draw them:
     not a theme;
   · the banners and nameplates are cb-themes.js's drawings, each drawn on its
     own theme's case;
-  · the decorations and the faces are profile.js's.
+  · the decorations, the frames, the effects and the faces are profile.js's.
 
 So a theme added to the radio is a theme for a profile on the next run, and a
 choice the radio cannot draw is never one the server keeps.
@@ -26,9 +27,16 @@ WHAT IT REFUSES, and why each one is here:
     repaint left behind). Amber's seven are --cb-amber-<part>, which name the
     radio's own as :root has them, because on the radio's host the bare names
     are the viewer's own theme.
-  · A DRAWING THAT IS NOT A THEME, a decoration with no drawing, two decorations
-    or two faces with one name, and a face love.css does not declare: a browser
-    answers a face it has not got with another and says nothing.
+  · A DRAWING THAT IS NOT A THEME, a decoration, frame or effect with no
+    drawing, two of any of them or two faces with one name, and a face love.css
+    does not declare: a browser answers a face it has not got with another and
+    says nothing.
+  · AN EFFECT'S PASS SHOWN WHERE THE DRAWINGS DO NOT MOVE. Ryan's call,
+    2026-10-18: the pass crosses a profile's words, which is the one drawing on
+    the radio that does. It is drawn only under :host([data-motion="on"]), at
+    MAX GLITTER or after Let my theme move, so a profile standing still never
+    has a butterfly sitting on somebody's bio. cb.css's .pf-fx__pass is
+    display: none, and only that one rule may show it.
   · A DATE OR A COUNT IN profile.js, or a time kept in the profile's part of
     lib.mjs. Ryan's call: no profile says when anybody claimed or joined, because
     a date beside a name invites ranking who has been here longest.
@@ -107,6 +115,8 @@ def main():
     src = PROFILE.read_text()
     faces_src = between(src, "/* profile:faces:begin */", "/* profile:faces:end */", "profile.js")
     decos_src = between(src, "/* profile:decorations:begin */", "/* profile:decorations:end */", "profile.js")
+    frames_src = between(src, "/* profile:frames:begin */", "/* profile:frames:end */", "profile.js")
+    effects_src = between(src, "/* profile:effects:begin */", "/* profile:effects:end */", "profile.js")
     faces = re.findall(r"\['([^']+)', [0-9.]+, [0-9.]+, '(?:none|uppercase|lowercase)', [0-9]{3}\]", faces_src)
     if len(faces) != len(re.findall(r"\[", faces_src)) - 1:
         refuse("profile.js's FACES has an entry this tool cannot read: each is ['Face', scale, tracking, 'case', weight].")
@@ -127,6 +137,36 @@ def main():
     for k in re.findall(r"^\s*D\.([a-z]+) = function", src, flags=re.M):
         if k not in keys_d:
             refuse(f"profile.js draws a decoration {k!r} that DECORATIONS does not offer.")
+    listed = {}
+    for what, block, letter in (("FRAMES", frames_src, "F"), ("EFFECTS", effects_src, "E")):
+        pairs = re.findall(r"\['([a-z]+)', '([^']+)'\]", block)
+        ks = [k for k, _ in pairs]
+        ns = [n for _, n in pairs]
+        if not ks or len(ks) != len(re.findall(r"\[", block)) - 1:
+            refuse(f"profile.js's {what} is empty or has an entry this tool cannot read: each is ['key', 'Name'].")
+        if len(ks) != len(set(ks)) or len(ns) != len(set(ns)):
+            refuse(f"profile.js's {what} has a key or a name twice.")
+        drawn = re.findall(rf"^\s*{letter}\.([a-z]+) = \{{", src, flags=re.M)
+        for k in ks:
+            if k not in drawn:
+                refuse(f"{what[:-1].lower()} {k!r} has no drawing ({letter}.{k}) in profile.js.")
+        for k in drawn:
+            if k not in ks:
+                refuse(f"profile.js draws {letter}.{k}, which {what} does not offer.")
+        listed[what] = ks
+    cbcss = re.sub(r"/\*.*?\*/", "", (ROOT / "cb.css").read_text(), flags=re.S)
+    rules = re.findall(r"([^{}]*\.pf-fx__pass[^{}]*)\{([^}]*)\}", cbcss)
+    shown = [sel.strip() for sel, body in rules
+             if any(v != "none" for v in re.findall(r"display\s*:\s*([a-z-]+)", body))]
+    base = [body for sel, body in rules if sel.strip() == ".pf-fx__pass"]
+    if not base or not re.search(r"display\s*:\s*none", base[0]):
+        refuse("cb.css's .pf-fx__pass is not display: none. An effect's pass crosses words, so it is drawn only where the radio's drawings move.")
+    if shown != [':host([data-motion="on"]) .pf-fx__pass']:
+        refuse(f"cb.css shows an effect's pass at {shown or 'no selector'}; the only rule that shows it is "
+               ':host([data-motion="on"]) .pf-fx__pass, so a profile standing still has nothing on its words.')
+    for sel, body in re.findall(r"([^{}]*\.pf-fx__(?:one|pass)[^{}]*)\{([^}]*)\}", cbcss):
+        if "animation" in body and 'data-motion="on"' not in sel:
+            refuse(f"cb.css moves an effect at {sel.strip()!r}, outside data-motion.")
 
     code = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
     code = re.sub(r"(?m)^\s*//.*$", "", code)
@@ -150,10 +190,11 @@ def main():
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)
-    data = {"themes": keys, "banners": banners, "decorations": keys_d, "faces": faces}
+    data = {"themes": keys, "banners": banners, "decorations": keys_d, "frames": listed.get("FRAMES", []),
+            "effects": listed.get("EFFECTS", []), "faces": faces}
     write_block(LIB, "/* profile:keys:begin */", "/* profile:keys:end */",
                 "export const PROFILE_KEYS = " + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";")
-    print("profiles: the themes, drawings, decorations and faces written into lib.mjs")
+    print("profiles: the themes, drawings, decorations, frames, effects and faces written into lib.mjs")
 
 
 if __name__ == "__main__":
