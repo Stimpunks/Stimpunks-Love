@@ -6313,6 +6313,9 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .yurt-songbook__time { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; white-space: nowrap; }
 .yurt-songbook__time::before { content: "\00b7\00a0"; }
 .room-yurt .yurt-songbook__from { max-width: 420px; margin: 14px auto 0; font-size: 15px; font-style: italic; color: var(--tallow-3); }
+/* The Reading Room's book stands on the Bookshelf above the door through to
+   it (2026-10-18), and the door keeps its distance from the book's note. */
+.room-yurt .yurt-songbook__from + .yurt-door { margin-top: 26px; }
 /* The way back, a button in the room's clothes: the gallery's plate wears it
    (the deck did too, until the deck went through to the Music Room). */
 .room-yurt .yurt-back {

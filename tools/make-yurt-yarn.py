@@ -557,63 +557,83 @@ for room, R in ROOMS.items():
 # script it is open and swipes), ruled pages, a song to a line. Each line links
 # to that record in the Music Room; nothing here plays, and the tool checks the
 # yurt's page for that below.
-books = []
+# A BOOK PER PLAYLIST, ITS NAME ON THE COVER (Helen, 2026-10-18: "with title of
+# playlist as another book"), bound like Nature Notes. The Music Room's books
+# stand under the yurt's gramophone; the Reading Room's stand on the yurt's
+# Bookshelf, by the door through to it (Helen, the same evening: "a book for
+# the main yurt page listing what is inside reading room same as we did for
+# music room"). Every line goes to its record in its own room.
 pages = []  # every page in every book, for the count the tool prints
-runs = [(pl, [t for t in tracks if t.get("on") == pl["list"]]) for pl in in_room(BOOKED)]
-for pl, mine in runs:
-  pages_here = []
-  for n in range(0, len(mine), PER_PAGE):
-    chunk = mine[n:n + PER_PAGE]
-    lines = []
-    for t in chunk:
-        what = f' <span class="yurt-songbook__what">{what_(t["what"])}</span>' if t.get("what") else ""
-        lines.append(
-            f'            <li class="yurt-songbook__song"><a class="yurt-songbook__link" '
-            f'href="faery-music-room.html#mus-lp-{attr(t["id"])}">'
-            f'<span class="yurt-songbook__who">{esc(t["artist"])}</span> '
-            f'<span class="yurt-songbook__title">{esc(t["title"])}</span></a>{what} '
-            f'<span class="yurt-songbook__time">{esc(t["runtime"])}</span></li>')
-    no = len(pages_here) + 1
-    say = (f'Page {no}: from {chunk[0]["artist"]}, {chunk[0]["title"]}, '
-           f'to {chunk[-1]["artist"]}, {chunk[-1]["title"]}.' if len(chunk) > 1 else
-           f'Page {no}: {chunk[0]["artist"]}, {chunk[0]["title"]}.')
-    pages_here.append(
-        f'        <li class="yurt-notebook__page" data-notebook-say="{attr(say)}">\n'
-        f'          <p class="yurt-songbook__head">{esc(pl["title"])}</p>\n'
-        f'          <ul class="yurt-songbook__list">\n' + "\n".join(lines) + '\n          </ul>\n'
-        f'          <span class="yurt-notebook__no" aria-hidden="true">No. {no}</span>\n'
-        f'        </li>')
-  pages.extend(pages_here)
-  # A BOOK PER PLAYLIST, ITS NAME ON THE COVER (Helen, 2026-10-18: "with title of
-  # playlist as another book"), bound like Nature Notes.
-  books.append(
-     f'<div class="yurt-notebook yurt-songbook" data-notebook>\n'
-     f'      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>\n'
-     f'        <span class="yurt-notebook__title">{esc(pl["title"])}</span>\n'
-     f'        <span class="yurt-notebook__open">Open the book</span>\n'
-     f'      </button>\n'
-     f'      <div class="yurt-notebook__cover" data-notebook-book>\n'
-     f'        <ul class="yurt-notebook__pages" tabindex="0" aria-label="{attr(pl["title"])}: every song on it, '
-     f'in its own order; each line goes to that record in the Music Room" data-notebook-pages>\n'
-     + "\n".join(pages_here) + '\n'
-     f'        </ul>\n'
-     f'        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>\n'
-     f'      </div>\n'
-     f'      <div class="yurt-notebook__controls" data-notebook-controls hidden>\n'
-     f'        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>\n'
-     f'        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>\n'
-     f'        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>\n'
-     f'      </div>\n'
-     f'      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>\n'
-     f'    </div>')
+books = {room: [] for room in ROOMS}
+
+
+def book_for(pl, room):
+    R = ROOMS[room]
+    mine = [t for t in tracks if t.get("on") == pl["list"]]
+    pages_here = []
+    for n in range(0, len(mine), PER_PAGE):
+        chunk = mine[n:n + PER_PAGE]
+        lines = []
+        for t in chunk:
+            what = f' <span class="yurt-songbook__what">{what_(t["what"])}</span>' if t.get("what") else ""
+            lines.append(
+                f'            <li class="yurt-songbook__song"><a class="yurt-songbook__link" '
+                f'href="{R["page"].name}#{R["prefix"]}-lp-{attr(t["id"])}">'
+                f'<span class="yurt-songbook__who">{esc(t["artist"])}</span> '
+                f'<span class="yurt-songbook__title">{esc(t["title"])}</span></a>{what} '
+                f'<span class="yurt-songbook__time">{esc(t["runtime"])}</span></li>')
+        no = len(pages_here) + 1
+        say = (f'Page {no}: from {chunk[0]["artist"]}, {chunk[0]["title"]}, '
+               f'to {chunk[-1]["artist"]}, {chunk[-1]["title"]}.' if len(chunk) > 1 else
+               f'Page {no}: {chunk[0]["artist"]}, {chunk[0]["title"]}.')
+        pages_here.append(
+            f'        <li class="yurt-notebook__page" data-notebook-say="{attr(say)}">\n'
+            f'          <p class="yurt-songbook__head">{esc(pl["title"])}</p>\n'
+            f'          <ul class="yurt-songbook__list">\n' + "\n".join(lines) + '\n          </ul>\n'
+            f'          <span class="yurt-notebook__no" aria-hidden="true">No. {no}</span>\n'
+            f'        </li>')
+    pages.extend(pages_here)
+    return (
+        f'<div class="yurt-notebook yurt-songbook" data-notebook>\n'
+        f'      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>\n'
+        f'        <span class="yurt-notebook__title">{esc(pl["title"])}</span>\n'
+        f'        <span class="yurt-notebook__open">Open the book</span>\n'
+        f'      </button>\n'
+        f'      <div class="yurt-notebook__cover" data-notebook-book>\n'
+        f'        <ul class="yurt-notebook__pages" tabindex="0" aria-label="{attr(pl["title"])}: every song on it, '
+        f'in its own order; each line goes to that record in {R["where"]}" data-notebook-pages>\n'
+        + "\n".join(pages_here) + '\n'
+        f'        </ul>\n'
+        f'        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>\n'
+        f'      </div>\n'
+        f'      <div class="yurt-notebook__controls" data-notebook-controls hidden>\n'
+        f'        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>\n'
+        f'        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>\n'
+        f'        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>\n'
+        f'      </div>\n'
+        f'      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>\n'
+        f'    </div>')
+
+
+for room in ROOMS:
+    for pl in in_room(room):
+        books[room].append(book_for(pl, room))
 
 swap(ROOM, "yurt-yarn:book",
-     "\n    ".join(books) + '\n'
+     "\n    ".join(books[BOOKED]) + '\n'
      f'    <p class="yurt-songbook__from">Every song on {names(in_room(BOOKED))}, my own playlists on YouTube, read off them on '
      f'{esc(d["_checked"])}, each in its own order, a book each. Press a line and it takes you to that record in the '
      f'<a href="faery-music-room.html">Music Room</a>, which is where the music plays, whole or one '
      f'record at a time. A song I add plays there straight away, and turns up in this book the next '
      f'time somebody reads the playlist again.</p>', "    ")
+
+swap(ROOM, "yurt-yarn:readbook",
+     "\n    ".join(books["reading"]) + '\n'
+     f'    <p class="yurt-songbook__from">What is on the gramophone through there: every record on '
+     f'{names(in_room("reading"))}, my own playlist on YouTube, read off it on {esc(d["_checked"])} in its own '
+     f'order. Press a line and it takes you to that record on the shelf in the '
+     f'<a href="faery-reading-room.html#gramophone">Reading Room</a>, which is where it plays, whole or one '
+     f'record at a time.</p>', "    ")
 
 titles = {pl["list"]: pl["title"] for pl in pls}
 credit_rows = [
@@ -670,7 +690,7 @@ replaced = [t for t in tracks if t.get("replaced")]
 print(f"faery yurt: the phonograph drawn in {ROOM.name}, {MUSIC.name} and {READING.name}; "
       + "; ".join(f"{len(in_room(r))} playlist(s) whole and {sum(1 for t in tracks if any(t.get('on') == pl['list'] for pl in in_room(r)))} "
                   f"records in the case in {R['page'].name}" for r, R in ROOMS.items())
-      + f"; {len(books)} songbooks over {len(pages)} pages in {ROOM.name}; {len(credit_rows)} credit rows in {NOTES.name}")
+      + f"; {sum(len(b) for b in books.values())} songbooks over {len(pages)} pages in {ROOM.name}; {len(credit_rows)} credit rows in {NOTES.name}")
 doors = [t for t in tracks if t.get("door")]
 if doors:
     print("  doors, not screens (their channels refuse the frame): " +
