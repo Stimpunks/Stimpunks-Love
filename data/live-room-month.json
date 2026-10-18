@@ -23,26 +23,6 @@
  ],
  "log": [
   {
-   "id": "m4auG_SQ69c",
-   "source": "acl",
-   "form": "long",
-   "title": "Billy Strings - Backstage | Austin City Limits TV",
-   "published": "2026-09-17T17:00:37Z",
-   "state": "screen",
-   "runs": 1543,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "lM_Gt3PAa7U",
-   "source": "acl",
-   "form": "long",
-   "title": "Billy Strings - Malfunction Junction | Live on Austin City Limits TV",
-   "published": "2026-09-17T17:03:35Z",
-   "state": "screen",
-   "runs": 340,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "hbQMuETLjH0",
    "source": "acl",
    "form": "long",
@@ -163,15 +143,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "cZsjf48RMkQ",
-   "source": "acl",
-   "form": "long",
-   "title": "Ari Lennox - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-10-12T22:07:02Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "uRizbw49v7c",
    "source": "acl",
    "form": "long",
@@ -191,13 +162,13 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "lUI4_uzZTa8",
+   "id": "cZsjf48RMkQ",
    "source": "acl",
-   "form": "short",
-   "title": "Billy Strings \"mixed my record from my couch\"",
-   "published": "2026-09-17T20:00:40Z",
+   "form": "long",
+   "title": "Ari Lennox - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-10-18T01:00:09Z",
    "state": "screen",
-   "runs": 39,
+   "runs": 3202,
    "channel": "Austin City Limits"
   },
   {
@@ -331,54 +302,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "Y4X1PdBMUqM",
-   "source": "kexp",
-   "form": "long",
-   "title": "Russian Blue - Full Performance (Live on KEXP)",
-   "published": "2026-09-17T15:00:12Z",
+   "id": "MHLGcNt91pU",
+   "source": "acl",
+   "form": "short",
+   "title": "Ari Lennox - Under The Moon clip | Live From Austin City Limits TV",
+   "published": "2026-10-18T01:03:35Z",
    "state": "screen",
-   "runs": 1734,
-   "channel": "KEXP"
-  },
-  {
-   "id": "H3sbMg_HsIU",
-   "source": "kexp",
-   "form": "long",
-   "title": "Prewn - Easy (Live on KEXP)",
-   "published": "2026-09-18T11:00:01Z",
-   "state": "screen",
-   "runs": 287,
-   "channel": "KEXP"
-  },
-  {
-   "id": "5Qo_oaxlgmc",
-   "source": "kexp",
-   "form": "long",
-   "title": "Prewn - Commotion (Live on KEXP)",
-   "published": "2026-09-18T11:00:28Z",
-   "state": "screen",
-   "runs": 156,
-   "channel": "KEXP"
-  },
-  {
-   "id": "4uvbs69muPA",
-   "source": "kexp",
-   "form": "long",
-   "title": "Prewn - Ticks (Live on KEXP)",
-   "published": "2026-09-18T11:00:29Z",
-   "state": "screen",
-   "runs": 247,
-   "channel": "KEXP"
-  },
-  {
-   "id": "J2Ng1GIYWcs",
-   "source": "kexp",
-   "form": "long",
-   "title": "Prewn - System (Live on KEXP)",
-   "published": "2026-09-18T11:00:37Z",
-   "state": "screen",
-   "runs": 256,
-   "channel": "KEXP"
+   "runs": 54,
+   "channel": "Austin City Limits"
   },
   {
    "id": "ocu0gNv_jnc",
@@ -1421,16 +1352,6 @@
    "channel": "KEXP"
   },
   {
-   "id": "5aGQC41VFPk",
-   "source": "kexp",
-   "form": "short",
-   "title": "Russian Blue performs \"HANDS!\" & more Live on KEXP",
-   "published": "2026-09-17T17:05:51Z",
-   "state": "screen",
-   "runs": 60,
-   "channel": "KEXP"
-  },
-  {
    "id": "p_FRmLhFTmQ",
    "source": "kexp",
    "form": "short",
@@ -1721,16 +1642,6 @@
    "channel": "KCRW"
   },
   {
-   "id": "CT6hJlGqvxI",
-   "source": "kcrw",
-   "form": "short",
-   "title": "Alabama Shakes' Must Listen Albums",
-   "published": "2026-09-17T16:00:12Z",
-   "state": "screen",
-   "runs": 125,
-   "channel": "KCRW"
-  },
-  {
    "id": "EjVgGkE9JDg",
    "source": "kcrw",
    "form": "short",
@@ -1776,13 +1687,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-17T12:01:32Z"
+     "2026-10-18T11:29:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-17T12:01:32Z"
+     "2026-10-18T11:29:09Z"
     ]
    ]
   },
@@ -1790,13 +1701,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-17T12:01:32Z"
+     "2026-10-18T11:29:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-17T12:01:32Z"
+     "2026-10-18T11:29:09Z"
     ]
    ]
   },
@@ -1804,16 +1715,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-17T12:01:32Z"
+     "2026-10-18T11:29:09Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-17T12:01:32Z"
+     "2026-10-18T11:29:09Z"
     ]
    ]
   }
  },
- "set": "2026-10-17T12:01Z"
+ "set": "2026-10-18T11:29Z"
 }
