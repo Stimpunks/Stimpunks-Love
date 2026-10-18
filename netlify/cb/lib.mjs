@@ -7,11 +7,15 @@
    it keeps. Every promise on that page is enforced here or in the functions
    beside it, so read that page before changing anything in this directory.
 
-     · TEN MESSAGES AT MOST, AND NONE OF THEM PAST MIDNIGHT IN COLORADO. The whole
-       channel is one JSON blob holding the day it belongs to and the latest ten
-       messages. A read that finds yesterday's day returns nothing, and the hourly
-       sweep deletes it. Nothing is archived or backed up, and the only copy is
-       one somebody makes of a few messages into a forum topic (below).
+     · FIFTY MESSAGES AT MOST, EACH GONE 48 HOURS AFTER IT WAS SENT. Ryan,
+       2026-10-18: "Since we have people in timezones all over the world" --
+       until then it was ten messages and gone at midnight in Colorado, which
+       was the middle of somebody's afternoon, and people asleep through a
+       conversation never saw it. The whole channel is one JSON blob holding the
+       latest fifty messages. A read leaves out every message past its 48 hours,
+       and the hourly sweep takes them out of the blob, and deletes a blob with
+       none left. Nothing is archived or backed up, and the only copy is one
+       somebody makes of a few messages into a forum topic (below).
      · NO IP ADDRESS IS EVER STORED. Netlify's own rate limiter, declared in each
        function's config, is what stops somebody guessing the password; it counts
        addresses itself and never hands them to this code. Do not "improve" the
@@ -51,14 +55,14 @@
        rules. So presence is one tiny blob per visit, keyed so that a single
        listing says who is where, and it is shown to nobody thirty seconds after
        its last check and deleted by the next sweep at the latest; a place's talk
-       is the channel's own blob shape, ten messages and gone at midnight. There
+       is the channel's own blob shape, fifty messages, each gone after 48 hours. There
        is no list of everybody out there and no count of them, anywhere, and the
        places a visit has been are replaced rather than added to.
      · EVERY ROOM HAS A CHANNEL OF ITS OWN, BESIDE THE WORLD ONE. Ryan,
        2026-09-28: the radio tunes to World, the channel it always had, or to
        the room it is in, and a room's channel is the World channel's shape
-       exactly, ten messages and gone at midnight in Colorado, in a blob of
-       its own. Tuned to a room, the radio has to say which room it wants,
+       exactly, fifty messages, each gone 48 hours after it was sent, in a blob
+       of its own. Tuned to a room, the radio has to say which room it wants,
        every time it listens; tuned to World it says nothing about where it
        is. That difference is written on privacy.html, and it is why World is
        where a radio starts.
@@ -118,7 +122,8 @@ import { request as httpsRequest } from 'node:https';
 import { lookup as dnsLookup } from 'node:dns';
 import { isIP } from 'node:net';
 
-export const KEEP = 10;             // messages on the channel at once
+export const KEEP = 50;             // messages on a channel at once (Ryan, 2026-10-18; ten until then)
+export const LIFE = 48 * 60 * 60 * 1000;   // how long a message stays on its channel (the same day)
 export const HANDLE_MAX = 24;       // characters
 export const TEXT_MAX = 280;        // characters of a line on the Slake, the chalkboard or a bowl
 export const MESSAGE_MAX = 2000;    // characters of a message on the CB's channels (Ryan, 2026-09-29)
@@ -144,8 +149,9 @@ export const PEBBLE_LINK_MAX = 300;               // characters of an address
 const pebbleKey = (room) => `pebbles-${room}`;
 const WEEK = CHALK_DAYS * 24 * 60 * 60 * 1000;
 
-/* Which day is it, in Colorado. "Cleared daily" has to mean a midnight somebody
-   can name, and privacy.html names this one. */
+/* Which day is it, in Colorado: the street's clock. The channel was cleared at
+   this midnight until 2026-10-18 (LIFE_FROM, below), and a forum topic still
+   says which day its copy of the channel was made. */
 export function today(now = new Date()) {
   return new Intl.DateTimeFormat('en-CA', {
     timeZone: ZONE, year: 'numeric', month: '2-digit', day: '2-digit',
@@ -158,9 +164,9 @@ export function store() {
   return getStore({ name: 'cb', consistency: 'strong' });
 }
 
-/* The channel as it stands today. Yesterday's is not returned, whether or not
-   the sweep has reached it yet. */
-export function readChannel(s = store()) { return readLog(KEY, s); }
+/* The channel as it stands: no message past its 48 hours, whether or not the
+   sweep has reached it yet. */
+export function readChannel(s = store(), now = Date.now()) { return readLog(KEY, s, now); }
 
 /* The channel AND the version it was read at, which a write needs.
 
@@ -191,23 +197,40 @@ async function versioned(s, key = KEY) {
    them in silence. Conditional writes make the second one read again. */
 export function updateChannel(change, s = store()) { return updateLog(KEY, change, s); }
 
-/* A day's worth of messages in one blob, ten at most: the channel, and each
-   place on the Slake. Written once so a place cannot drift from the channel's
-   rules about how long a message stays or how a write that loses a race tries
-   again. */
-async function readLog(key, s) {
+/* A MESSAGE IS ON ITS CHANNEL FOR 48 HOURS FROM WHEN IT WAS SENT, worked out
+   on every read and every write, so it is gone at 48 hours whether or not the
+   hourly sweep has got to it: the chalkboard's rule, in hours rather than days.
+
+   EVERYTHING SENT BEFORE LIFE_FROM KEEPS THE PROMISE IT WAS SENT UNDER: gone
+   at midnight in Colorado. LIFE_FROM is that midnight, the first after Ryan's
+   call, so nothing anybody said before the change is kept a minute longer for
+   it. Every message this applies to is gone by then, so the test can come out
+   any time after 2026-10-19 without changing what anybody sees. */
+const LIFE_FROM = Date.UTC(2026, 9, 19, 6, 0);   // 2026-10-19 00:00 in Colorado
+export function onAir(m, now = Date.now()) {
+  if (!m || typeof m.t !== 'number') return false;
+  if (m.t < LIFE_FROM) return today(new Date(m.t)) === today(new Date(now));
+  return now - m.t < LIFE;
+}
+function stored(data) { return data && Array.isArray(data.messages) ? data.messages : []; }
+
+/* The latest messages in one blob, fifty at most: the channel, each room's,
+   and each place on the Slake. Written once so a place cannot drift from the
+   channel's rules about how long a message stays or how a write that loses a
+   race tries again. */
+async function readLog(key, s, now = Date.now()) {
   const data = await s.get(key, { type: 'json' });
-  if (!data || data.day !== today()) return { day: today(), messages: [] };
-  return { day: data.day, messages: data.messages || [] };
+  return { messages: stored(data).filter((m) => onAir(m, now)) };
 }
 
 async function updateLog(key, change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
     const cur = await versioned(s, key);
-    const live = cur.exists && cur.data && cur.data.day === today() ? cur.data.messages || [] : [];
+    const now = Date.now();
+    const live = cur.exists ? stored(cur.data).filter((m) => onAir(m, now)) : [];
     const next = change(live.slice());
     if (next === null) return live;
-    const body = { day: today(), messages: next.slice(-KEEP) };
+    const body = { messages: next.slice(-KEEP) };
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
     const res = await s.setJSON(key, body, opts);
     if (res.modified) return body.messages;
@@ -218,22 +241,32 @@ async function updateLog(key, change, s) {
   throw new Error('busy');
 }
 
-export async function sweep() {
-  const s = store();
-  const got = await s.getWithMetadata(KEY, { type: 'json' });
-  if (got && (!got.data || got.data.day !== today())) {
-    await s.delete(KEY);
-    return true;
+/* Hourly: take every message past its 48 hours out of one log, with the same
+   conditional write a message goes out with, and delete the log once nothing
+   in it is left. */
+async function sweepLog(key, s, now = Date.now()) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    if (!cur.exists) return false;
+    const all = stored(cur.data);
+    const live = all.filter((m) => onAir(m, now));
+    if (!live.length) { await s.delete(key); return true; }
+    if (live.length === all.length) return false;
+    const res = await s.setJSON(key, { messages: live }, { onlyIfMatch: cur.etag });
+    if (res.modified) return true;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
-  return false;
+  throw new Error('busy');
 }
+
+export function sweep(s = store(), now = Date.now()) { return sweepLog(KEY, s, now); }
 
 /* ── The chalkboard ──────────────────────────────────────────────────── */
 
 /* A note is on the board for seven days from the moment it was chalked. The
    check is made on every read, so a note is gone at seven days whether or not
-   the hourly sweep has reached it -- the channel's midnight rule, with a week
-   in it instead of a day. */
+   the hourly sweep has reached it -- the channel's own rule, with a week
+   in it instead of 48 hours. */
 function fresh(n, now = Date.now()) { return n && typeof n.t === 'number' && now - n.t < WEEK; }
 
 /* A board of notes that each last a week, kept in one blob: the chalkboard,
@@ -1021,8 +1054,8 @@ export const shapeCat = shapeAnimal;
    made them public.
 
    A STICKER IS A COPY OF WHAT A PET LOOKS LIKE AND IS CALLED, taken when it is
-   sent, and it is part of its message: it goes when the message goes, at
-   midnight at the latest. It is only ever one of the sender's own pets, found
+   sent, and it is part of its message: it goes when the message goes, 48
+   hours after it was sent at the latest. It is only ever one of the sender's own pets, found
    by the server under the sender's pet key, never described by the request.
    It carries the kind, the coat, the markings and the name, which is all a
    sticker needs to be drawn, and nothing that points back at the pet record
@@ -2034,17 +2067,14 @@ export async function seenAt(place, visit, s = store(), now = Date.now()) {
 export function readTalk(place, s = store()) { return readLog(talkKey(place), s); }
 export function updateTalk(place, change, s = store()) { return updateLog(talkKey(place), change, s); }
 
-/* Hourly, with the channel's sweep: every stale presence record, and every
-   place's talk from a day that is over in Colorado. */
+/* Hourly, with the channel's sweep: every stale presence record, and
+   everything said at a place more than 48 hours ago. */
 export async function sweepSlake(s = store(), now = Date.now()) {
   let any = false;
   for (const r of await everyHere(s)) {
     if (now - r.t >= MUD_FRESH) { await s.delete(r.key); any = true; }
   }
-  for (const place of MUD_PLACES) {
-    const data = await s.get(talkKey(place), { type: 'json' });
-    if (data && data.day !== today()) { await s.delete(talkKey(place)); any = true; }
-  }
+  for (const place of MUD_PLACES) any = (await sweepLog(talkKey(place), s, now)) || any;
   return any;
 }
 
@@ -2295,8 +2325,8 @@ export async function callsOn(who, s = store(), now = Date.now()) {
    For anybody signed on, by whoSeen's rules: who chose Be seen here, by name,
    a room the asker may not enter left out, and a room that keeps to itself
    never in it. Whether a room's call has somebody in it, and never who
-   (callsOn's rule). And the time of the latest message on each room's channel
-   today, never its words: the one thing this shows that was not shown before,
+   (callsOn's rule). And the time of the latest message on each room's channel,
+   which is never more than 48 hours ago, and never its words: the one thing this shows that was not shown before,
    and privacy.html#world says so. The World channel's latest is the World
    room's, because its channel is World. */
 export async function worldIndex(who, s = store(), now = Date.now()) {
@@ -2354,7 +2384,7 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    never go onto the street, so none of the street's rules for published
    photographs apply to them. What does apply is the channel's own promise:
    a picture is deleted the moment its message leaves, whether it was pushed off
-   by an eleventh, taken off by the base, or swept at midnight, and one that was
+   by a newer one, taken off, or swept at its 48 hours, and one that was
    uploaded and never sent is swept within the hour.
 
    IT IS REDRAWN IN THE SENDER'S BROWSER BEFORE IT IS SENT, which drops
@@ -2424,12 +2454,12 @@ export function droppedImages(before, after) {
 }
 
 /* Hourly: every picture no live message holds, once it is past the hour an
-   upload is given to be sent. A read never returns yesterday's channel, so
-   yesterday's pictures are held by nothing and go on the next sweep. */
+   upload is given to be sent. A read never returns a message past its 48
+   hours, so its picture is held by nothing and goes on the next sweep. */
 export async function sweepImages(s = store(), now = Date.now()) {
   const held = new Set();
   const keys = [KEY, ...((await s.list({ prefix: ROOM_TALK })).blobs || []).map((b) => b.key)];
-  for (const key of keys) for (const m of (await readLog(key, s)).messages) if (m.img) held.add(m.img);
+  for (const key of keys) for (const m of (await readLog(key, s, now)).messages) if (m.img) held.add(m.img);
   let any = false;
   for (const b of (await s.list({ prefix: IMG })).blobs || []) {
     const id = b.key.slice(IMG.length);
@@ -2449,7 +2479,8 @@ const ROOM_TALK = 'room-talk-';
 
 /* A room is named by its tag, the filename the street's own list uses. The
    server only checks its shape: a tag that is no room is a channel nobody's
-   radio can tune to, and it is gone at midnight like every other. */
+   radio can tune to, and what is said on it goes after 48 hours like every
+   other. */
 export function roomTag(r) {
   return typeof r === 'string' && r.length <= 80 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r) ? r : null;
 }
@@ -2468,7 +2499,7 @@ export function roomTag(r) {
 export const QUIET_ROOMS = ['the-secret-cabin', 'lydtyss'];
 export function quietRoom(tag) { return QUIET_ROOMS.includes(tag) ? tag : null; }
 
-export function readRoomTalk(room, s = store()) { return readLog(ROOM_TALK + room, s); }
+export function readRoomTalk(room, s = store(), now = Date.now()) { return readLog(ROOM_TALK + room, s, now); }
 export function updateRoomTalk(room, change, s = store()) { return updateLog(ROOM_TALK + room, change, s); }
 
 /* THE TOWN HALL'S PRIVATE ROOMS ARE THE BASE'S, AND THIS IS THE ONE LIST.
@@ -2519,14 +2550,11 @@ export function roomAllows(who, tag) {
 export function readTuned(room, s = store()) { return room && room !== WORLD_CALL ? readRoomTalk(room, s) : readChannel(s); }
 export function updateTuned(room, change, s = store()) { return room && room !== WORLD_CALL ? updateRoomTalk(room, change, s) : updateChannel(change, s); }
 
-/* Hourly, with the World channel's sweep: every room's channel whose day is
-   over in Colorado. */
-export async function sweepRoomTalk(s = store()) {
+/* Hourly, with the World channel's sweep: everything said on a room's channel
+   more than 48 hours ago, and the room's blob once nothing is left in it. */
+export async function sweepRoomTalk(s = store(), now = Date.now()) {
   let any = false;
-  for (const b of (await s.list({ prefix: ROOM_TALK })).blobs || []) {
-    const data = await s.get(b.key, { type: 'json' });
-    if (!data || data.day !== today()) { await s.delete(b.key); any = true; }
-  }
+  for (const b of (await s.list({ prefix: ROOM_TALK })).blobs || []) any = (await sweepLog(b.key, s, now)) || any;
   return any;
 }
 
@@ -3654,7 +3682,7 @@ export async function removeSuggestion(who, id, s = store()) {
 /* ── The forums ───────────────────────────────────────────────────────────
 
    Ryan's brief, 2026-10-18: a bulletin board after Discourse, for discussions
-   that need to last longer than the CB's day, in categories after the channels
+   that need to last longer than the CB's two days, in categories after the channels
    of our Stoat and Discord, so that the CB and the forums together can let us
    leave both. Ryan's calls the same day: a topic stays three months after its
    last post unless its category says a week, six months or never; only a
@@ -3678,7 +3706,7 @@ export async function removeSuggestion(who, id, s = store()) {
 
    A TOPIC GOES AT ITS CATEGORY'S KEEP AFTER ITS LAST POST, worked out every
    time it is read (topicLive), so a topic is gone at its date whether or not
-   the sweep has got to it, the channel's midnight rule with months in it. A
+   the sweep has got to it, the channel's own rule with months in it. A
    pinned topic is kept while it is pinned, and its clock starts again when it
    is unpinned.
 
@@ -3724,7 +3752,7 @@ export const FORUM_CATEGORIES = [
   {"slug": "announcements", "name": "Announcements", "about": "News from the people who run Stimpunks. Only moderators start a topic here; anybody can reply.", "group": "Information", "keep": "6 months", "see": null, "start": ["moderator"]},
   {"slug": "introductions", "name": "Introductions", "about": "Say hello, if you like, and say as much or as little as you want to. Reading along is a fine way to belong too.", "group": "Information", "keep": "6 months", "see": null, "start": null},
   {"slug": "help-desk", "name": "Help desk", "about": "When something on the street, the CB or the forums does not work, or you cannot find your way.", "group": "Information", "keep": "3 months", "see": null, "start": null},
-  {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time. The CB for the things that need longer than a day, but not much longer.", "group": "Community", "keep": "1 week", "see": null, "start": null},
+  {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time. The CB for the things that need longer than two days, but not much longer.", "group": "Community", "keep": "1 week", "see": null, "start": null},
   {"slug": "coping", "name": "Coping", "about": "For the hard days, and for getting through them together. Say what is going on and be met where you are; nobody has to fix anything, and nobody has to answer. What is said here stays here.", "group": "Community", "keep": "1 week", "see": null, "start": null},
   {"slug": "events", "name": "Events", "about": "What is coming up, and what happened: our calls, campfires, watch-togethers and anything else worth turning up for.", "group": "Community", "keep": "3 months", "see": null, "start": null},
   {"slug": "mutual-aid", "name": "Mutual aid", "about": "To give help and to get it. Nobody owes anybody here.", "group": "Community", "keep": "3 months", "see": null, "start": null},
@@ -4955,8 +4983,9 @@ export function canTakeOff(who, m) {
 
    Ryan's brief, 2026-09-30: reactions on CB messages. A reaction is one of a
    fixed set, pressed on a message, and pressed again to take it back. It is
-   part of its message: it goes when the message goes, at midnight at the
-   latest, and taking a message off the air takes its reactions with it.
+   part of its message: it goes when the message goes, 48 hours after it was
+   sent at the latest, and taking a message off the air takes its reactions
+   with it.
 
    NOBODY IS COUNTED. A reaction shows WHO reacted, by handle, in alphabetical
    order, and never how many: that is the street's no-headcount rule, the same

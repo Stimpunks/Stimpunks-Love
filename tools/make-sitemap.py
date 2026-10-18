@@ -151,7 +151,7 @@ ORDER = ["index.html",
          # How to use the CB, part by part, beside what it keeps. A manual
          # rather than a room, so it stands with the paperwork too.
          "cb-guide.html",
-         # The CB's forums, for what needs longer than the channel's day. The
+         # The CB's forums, for what needs longer than the channel's two days. The
          # radio's, as its guide is, and in the reader's own CB theme rather
          # than a world of its own, so it stands beside the guide.
          "forum.html",

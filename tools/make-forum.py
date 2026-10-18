@@ -3,7 +3,7 @@
 and privacy.html say.
 
 Ryan's brief and calls, 2026-10-18: a forum after Discourse for discussions
-that need to last longer than the CB's day, readable only by claimed usernames,
+that need to last longer than the CB's two days, readable only by claimed usernames,
 a keep per category (a week, three months, six months or never, counted from
 the last post), categories kept to CB roles for staff areas, messages copied
 in from the CB, and links previewed by our server reading the page once.

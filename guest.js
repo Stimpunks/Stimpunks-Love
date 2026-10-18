@@ -182,7 +182,7 @@
        street that already says more. */
     var set = el('div', 'cb-set cb-guest-set');
     set.id = 'cb-guest-set';
-    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call, watch a film together, and, with a claimed username, write in the forums. The channel keeps nothing past midnight; the forums are for what needs longer.');
+    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call, watch a film together, and, with a claimed username, write in the forums. The channel keeps nothing past 48 hours; the forums are for what needs longer.');
     var p2 = el('p');
     p2.appendChild(document.createTextNode('It takes a username of your choosing and the starter password, which you are given when you join our community: '));
     p2.appendChild(link('/community-center.html#getting-started', 'Getting started'));

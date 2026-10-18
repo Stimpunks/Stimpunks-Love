@@ -4,7 +4,7 @@
    THE LIST IS THE PAGE'S OWN, written by tools/make-world.py, so it reads with
    no script and for anybody. This adds, for somebody signed on to the CB, who is
    in each room, whether its call has somebody in it, and when it was last busy
-   today, out of /cb/world, which answers by Who's online's rules; and it shows,
+   in the last 48 hours, out of /cb/world, which answers by Who's online's rules; and it shows,
    filters and orders the list in the reader's own browser.
 
    NOTHING HERE PUTS A NUMBER BESIDE ANYTHING. Most active is the order the
@@ -52,6 +52,17 @@
     try { return new Date(t).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }); }
     catch (e) { return ''; }
   }
+  /* A channel keeps 48 hours (Ryan, 2026-10-18), so a room's last busy time
+     can be yesterday or the day before, said in the reader's own day. */
+  function lastBusy(t) {
+    var d = new Date(t), now = new Date();
+    var start = function (x) { return new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime(); };
+    var n = Math.round((start(now) - start(d)) / 86400000);
+    if (n <= 0) return clock(t) + ' today';
+    if (n === 1) return clock(t) + ' yesterday';
+    try { return clock(t) + ' on ' + d.toLocaleDateString(undefined, { weekday: 'long' }); }
+    catch (e) { return clock(t); }
+  }
 
   var live = null, busiest = [], heard = true, asOf = null, timer = null;
 
@@ -87,7 +98,7 @@
       box.appendChild(here);
     }
     if (r.call) box.appendChild(el('span', 'www-call', 'Call going'));
-    if (!on && r.last) box.appendChild(el('span', 'www-when', 'last busy at ' + clock(r.last) + ' today'));
+    if (!on && r.last) box.appendChild(el('span', 'www-when', 'last busy at ' + lastBusy(r.last)));
   }
 
   /* ── Showing and ordering ────────────────────────────────────────────── */

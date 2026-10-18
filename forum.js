@@ -1,5 +1,5 @@
 /* =============================================================================
-   The forums, the CB's place for conversations that need longer than a day.
+   The forums, the CB's place for conversations that need longer than two days.
    Ryan's brief, 2026-10-18, after Discourse. See netlify/cb/lib.mjs, the
    forums, and privacy.html#forums for what they keep.
 
@@ -300,10 +300,6 @@
     try { return new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); }
     catch (e) { return ''; }
   }
-  function dayString(d) {
-    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d || '');
-    return m ? dayOf(Date.UTC(+m[1], +m[2] - 1, +m[3], 12)) : '';
-  }
   function keepWords(keep) {
     if (keep === 'never') return 'Topics here are kept for good.';
     if (keep === '1 week') return 'A topic here goes a week after its last post.';
@@ -504,7 +500,13 @@
     var wrap = el('div', 'cb-lcd fm-cb');
     var room = c.room ? roomByTag(c.room) : null;
     var from = c.room ? (room ? '#' + room.name : 'a room on the street') : 'World';
-    wrap.appendChild(el('p', 'fm-cb__from', 'Copied from the CB: ' + from + (c.day ? ', ' + dayString(c.day) : '')));
+    /* A channel keeps 48 hours since 2026-10-18, so what was copied can span
+       two days or three: the heading names the day only when there is one,
+       and otherwise every message says its own. */
+    var days = {};
+    c.messages.forEach(function (m) { days[dayOf(m.t)] = true; });
+    var oneDay = Object.keys(days).length === 1 ? Object.keys(days)[0] : '';
+    wrap.appendChild(el('p', 'fm-cb__from', 'Copied from the CB: ' + from + (oneDay ? ', ' + oneDay : '')));
     var ul = el('ul', 'fm-cb__log');
     c.messages.forEach(function (m) {
       var li = el('li', 'fm-cb__msg');
@@ -513,7 +515,7 @@
       if (m.base) head.appendChild(tag('BASE'));
       else if (m.claimed) head.appendChild(tag('CLAIMED', true));
       var tm = el('span', 'fm-cb__time');
-      try { tm.textContent = new Date(m.t).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }); } catch (e) {}
+      try { tm.textContent = oneDay ? new Date(m.t).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : when(m.t); } catch (e) {}
       head.appendChild(tm);
       li.appendChild(head);
       var words = el('div', 'fm-body fm-cb__words');
@@ -881,7 +883,7 @@
       view.textContent = '';
       var h = heading(2, 'Categories');
       view.appendChild(h);
-      view.appendChild(el('p', 'fm-lede', 'Topics in categories, for conversations that need longer than a day. Everything here is for claimed usernames on the CB, and nothing about who reads anything is kept.'));
+      view.appendChild(el('p', 'fm-lede', 'Topics in categories, for conversations that need longer than two days. Everything here is for claimed usernames on the CB, and nothing about who reads anything is kept.'));
       var groups = [];
       r.body.home.forEach(function (c) { if (groups.indexOf(c.group) < 0) groups.push(c.group); });
       groups.forEach(function (g) {

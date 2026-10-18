@@ -1,6 +1,6 @@
 /* The CB: keying up. One message onto the channel the radio is tuned to, the
-   World's or a room's; the eleventh pushes the oldest off, and takes its
-   picture with it. A message may be words, a picture sent first to
+   World's or a room's; the fifty-first pushes the oldest off, and takes
+   its picture with it. A message may be words, a picture sent first to
    /cb/image, or both; or a sticker of one of the sender's own pets, own
    avatars, own chimeras or own patches, or of the sender's own battle jacket, with words
    or without. And it tells the devices that asked to hear it (Ryan,

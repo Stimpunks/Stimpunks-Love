@@ -616,9 +616,26 @@
   // A pass the forums take: any claimed username's, a moderator's own included.
   function forumPass(pass) { return /^cb2\./.test(pass || ''); }
 
+  /* A MESSAGE CAN BE TWO DAYS OLD (Ryan, 2026-10-18: 48 hours on the channel,
+     for the people asleep while it was said), so a time that is not today says
+     which day, in the reader's own day: yesterday, or the day's name before
+     that. clock() is what the log shows; sentAt() is the same for a label, read
+     after "message". */
+  var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  function hhmm(d) { return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+  function dayAgo(t) {
+    var d = new Date(t), now = new Date();
+    var start = function (x) { return new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime(); };
+    var n = Math.round((start(now) - start(d)) / 86400000);
+    return n <= 0 ? '' : n === 1 ? 'yesterday' : DAYS[d.getDay()];
+  }
   function clock(t) {
-    var d = new Date(t);
-    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    var day = dayAgo(t), hm = hhmm(new Date(t));
+    return day === 'yesterday' ? 'yesterday ' + hm : day ? day.slice(0, 3) + ' ' + hm : hm;
+  }
+  function sentAt(t) {
+    var day = dayAgo(t), hm = hhmm(new Date(t));
+    return (day === 'yesterday' ? 'from yesterday at ' : day ? 'from ' + day + ' at ' : 'at ') + hm;
   }
 
   /* ── The radio ─────────────────────────────────────────────────────────── */
@@ -796,7 +813,7 @@
        day, for claimed usernames. A link, and Take to the forums under a
        message's More; the radio never sends anything to them itself. */
     var forumLine = el('p', 'cb-quiet cb-forum-line');
-    forumLine.appendChild(document.createTextNode('For what needs longer than a day: '));
+    forumLine.appendChild(document.createTextNode('For what needs longer than two days: '));
     var forumLink = el('a', null, 'the forums');
     forumLink.href = '/forum.html';
     forumLine.appendChild(forumLink);
@@ -1431,7 +1448,7 @@
          first one changed, because a screen reader user with both on would
          hear everything twice, and one with only this on has chosen that.
        · ONLY WHAT ARRIVES AFTER THE SWITCH, and never your own transmission.
-         The ten already on the channel when you tune in are not read at you.
+         What is already on the channel when you tune in is not read at you.
        · ONLY WHILE THE RADIO IS ON. Folding it away, signing off, or turning
          the switch off stops a voice mid-word, because folded is off. Small is
          still on, so small still speaks.
@@ -2069,8 +2086,8 @@
     var news = this.heard;
     this.heard = true;
     for (i = 0; i < messages.length; i++) want[messages[i].id] = true;
-    // Gone from the channel: pushed off by an eleventh, taken off by the base,
-    // or midnight.
+    // Gone from the channel: pushed off by a newer one, taken off, or past its
+    // 48 hours.
     // The log's own children only: a message's Markdown list has li in it too.
     var lis = this.log.querySelectorAll(':scope > li');
     for (i = 0; i < lis.length; i++) {
@@ -2172,8 +2189,8 @@
       var off = el('button', 'cb-btn cb-take', 'Take off');
       off.type = 'button';
       off.setAttribute('aria-label', yours
-        ? 'Take your message at ' + clock(m.t) + ' off the air'
-        : 'Take ' + m.handle + '\u2019s message at ' + clock(m.t) + ' off the air');
+        ? 'Take your message ' + sentAt(m.t) + ' off the air'
+        : 'Take ' + m.handle + '\u2019s message ' + sentAt(m.t) + ' off the air');
       off.addEventListener('click', function () { me.moderate({ remove: m.id }, yours); });
       items.push(off);
     }
@@ -2190,7 +2207,7 @@
     b.appendChild(msgIcon('more'));
     b.setAttribute('aria-expanded', 'false');
     b.setAttribute('aria-controls', box.id);
-    b.setAttribute('aria-label', 'More for ' + m.handle + '\u2019s message at ' + clock(m.t) + ': ' +
+    b.setAttribute('aria-label', 'More for ' + m.handle + '\u2019s message ' + sentAt(m.t) + ': ' +
       items.map(function (x) { return x.textContent; }).join(', '));
     function shut(back) {
       box.hidden = true;
@@ -2238,7 +2255,7 @@
   Radio.prototype.forumBtn = function (m) {
     var me = this, b = el('button', 'cb-btn cb-forum', 'Take to the forums');
     b.type = 'button';
-    b.setAttribute('aria-label', 'Take ' + m.handle + '\u2019s message at ' + clock(m.t) + ', and others, to a new forum topic');
+    b.setAttribute('aria-label', 'Take ' + m.handle + '\u2019s message ' + sentAt(m.t) + ', and others, to a new forum topic');
     b.addEventListener('click', function () { me.pickForForum(m.id); });
     return b;
   };
@@ -2296,7 +2313,7 @@
   Radio.prototype.copyBtn = function (m) {
     var me = this, b = el('button', 'cb-btn cb-copy', 'Copy');
     b.type = 'button';
-    b.setAttribute('aria-label', 'Copy ' + m.handle + '’s message at ' + clock(m.t));
+    b.setAttribute('aria-label', 'Copy ' + m.handle + '’s message ' + sentAt(m.t));
     b.addEventListener('click', function () {
       var done = function () {
         b.textContent = 'Copied';
@@ -3498,7 +3515,7 @@
     b.type = 'button';
     b.appendChild(msgIcon('react'));
     b.setAttribute('aria-expanded', 'false');
-    b.setAttribute('aria-label', 'React to ' + m.handle + '\u2019s message at ' + clock(m.t));
+    b.setAttribute('aria-label', 'React to ' + m.handle + '\u2019s message ' + sentAt(m.t));
     b.addEventListener('click', function () {
       var open = li.querySelector(':scope > .cb-rx-pick');
       if (open) { open.remove(); b.setAttribute('aria-expanded', 'false'); return; }
@@ -5370,7 +5387,7 @@
     this.roomBtn.textContent = 'This room';
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
     this.bandNow.textContent = room ? 'Tuned to ' + name : worldHere() ? 'Tuned to World, which is this room\u2019s own channel' : 'Tuned to World';
-    this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', latest ten messages');
+    this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', the last 48 hours');
     this.hereShown();
     this.presenceShown();
   };
@@ -5510,7 +5527,7 @@
   };
 
   Radio.prototype.quietText = function () {
-    return this.tunedRoom() ? 'Nobody has said anything in this room today.' : 'Nobody has said anything today.';
+    return this.tunedRoom() ? 'Nobody has said anything in this room in the last 48 hours.' : 'Nobody has said anything in the last 48 hours.';
   };
 
   /* A ROOM'S CALL. Ryan, 2026-09-28: voice and video through 8x8's Jitsi as a

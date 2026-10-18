@@ -755,7 +755,7 @@
    "tag": "forum",
    "name": "The forums",
    "path": "/forum.html",
-   "about": "The CB’s forums: topics in categories for conversations that need longer than a day, after Discourse, for claimed usernames on the CB. Introductions, events, announcements, mutual aid, infodumps, education, nature, AI, our teams, and areas for staff. Markdown, link previews, reactions, and chats copied in from the CB."
+   "about": "The CB’s forums: topics in categories for conversations that need longer than two days, after Discourse, for claimed usernames on the CB. Introductions, events, announcements, mutual aid, infodumps, education, nature, AI, our teams, and areas for staff. Markdown, link previews, reactions, and chats copied in from the CB."
   },
   {
    "tag": "changelog",

@@ -16,7 +16,7 @@ export default async (req) => {
   if (asked !== null && !room) return json(400, { error: 'That is not a room on the street.' });
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.', roles: rolesOf(who) });
   const [ch, beacons] = await Promise.all([readTuned(room), readBeacons()]);
-  return json(200, { day: ch.day, room: room || null, messages: shape(ch.messages), beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), roles: rolesOf(who) });
+  return json(200, { room: room || null, messages: shape(ch.messages), beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), roles: rolesOf(who) });
 };
 
 export const config = {

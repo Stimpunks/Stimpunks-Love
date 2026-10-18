@@ -1,5 +1,5 @@
 /* The Slake: the base station taking something said in a place off the air
-   before midnight. Only a pass issued for the moderators' password. */
+   before its 48 hours are up. Only a pass issued for the moderators' password. */
 import { readPass, mudPlace, updateTalk, shape, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {

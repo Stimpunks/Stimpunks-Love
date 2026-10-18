@@ -15,7 +15,7 @@ export default async (req) => {
   if (!place || !visit) return json(400, { error: 'That is not a place on the Slake.' });
   const others = await beHere(who, place, visit);
   const talk = await readTalk(place);
-  return json(200, { place, others, day: talk.day, messages: shape(talk.messages) });
+  return json(200, { place, others, messages: shape(talk.messages) });
 };
 
 export const config = {

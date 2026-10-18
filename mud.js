@@ -539,12 +539,12 @@
     var messages = b.messages || [];
     if (metAt !== place) {
       // ARRIVING somewhere: who else is seen here, and what has been said here
-      // today, once. After that only what changes.
+      // in the last 48 hours, once. After that only what changes.
       metAt = place;
       heard = {};
       if (names.length) { say('Also here: ' + names.join(', ') + '.'); }
       var earlier = messages.filter(function (m) { return !heard[m.id]; });
-      if (earlier.length) { say('Said here earlier today:'); }
+      if (earlier.length) { say('Said here earlier:'); }
       earlier.forEach(function (m) { heard[m.id] = true; say(line(m)); });
     } else {
       names.forEach(function (n) { if (others.indexOf(n) < 0) { say(n + ' is here.'); } });

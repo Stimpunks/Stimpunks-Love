@@ -23,7 +23,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   climb, readStair, cleanStep, putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
   updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
-  MUD_PLACES, MUD_FRESH, KEEP, today,
+  MUD_PLACES, MUD_FRESH, KEEP, LIFE, onAir, sweep,
   hostBeacon, stopBeacon, readBeacons, sweepBeacons, beaconRoom, cleanAt, BEACON_FRESH,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
@@ -171,7 +171,7 @@ for (const etagOnRead of [true, false]) {
 for (const etagOnRead of [true, false]) {
   test(`fifteen people reacting to one message at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: none told it worked is missing`, async () => {
     const s = memoryStore({ etagOnRead });
-    await updateChannel((list) => [...list, { id: 'm1', handle: 'Ada', text: 'hello', t: 1 }], s);
+    await updateChannel((list) => [...list, { id: 'm1', handle: 'Ada', text: 'hello', t: Date.now() }], s);
     const heart = REACTIONS[0][0];
     const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) =>
       updateChannel((list) => toggleReaction(list, 'm1', heart, `p${i}`), s)));
@@ -798,13 +798,16 @@ test('the tree keeps a number and a time, and nothing about who watered it', asy
 for (const etagOnRead of [true, false]) {
   const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
   const log = (read) => async (st) => (await read(st)).messages;
-  // TEN AT ONCE FOR A LOG, not fifteen: a channel keeps ten, so an eleventh
-  // pushing the first off is the rule working, not a lost write. Its first run
-  // raced fifteen and reported the five it had pushed off as missing.
+  // NEVER MORE AT ONCE THAN A LOG KEEPS: while a channel kept ten, an
+  // eleventh pushing the first off was the rule working, not a lost write, and
+  // the first run here raced fifteen and reported the five it had pushed off as
+  // missing. A channel keeps fifty since 2026-10-18, so it races fifteen, like
+  // the boards.
+  const AT_ONCE = Math.min(15, KEEP);
 
   test(`the radio's channel, fifteen at once, ${how}`, async () => {
     const s = memoryStore({ etagOnRead });
-    const { missing, failed } = await fifteen(updateChannel, log(readChannel), s, KEEP);
+    const { missing, failed } = await fifteen(updateChannel, log(readChannel), s, AT_ONCE);
     assert.deepEqual(missing, [], 'a message that was told it went out is not on the channel');
     for (const f of failed) assert.equal(f.reason.message, 'busy');
   });
@@ -813,10 +816,10 @@ for (const etagOnRead of [true, false]) {
     const s = memoryStore({ etagOnRead });
     const place = MUD_PLACES[0];
     const { worked, missing, failed } = await fifteen(
-      (change, st) => updateTalk(place, change, st), log((st) => readTalk(place, st)), s, KEEP);
+      (change, st) => updateTalk(place, change, st), log((st) => readTalk(place, st)), s, AT_ONCE);
     assert.deepEqual(missing, [], 'something that was told it was said is not in the place');
     for (const f of failed) assert.equal(f.reason.message, 'busy');
-    if (etagOnRead) assert.equal(worked.length, KEEP);
+    if (etagOnRead) assert.equal(worked.length, AT_ONCE);
   });
 }
 
@@ -875,7 +878,7 @@ test('leaving is immediate, and only somebody seen in a place can speak there', 
   assert.deepEqual(await beHere(bex, 'hide', V('b'), s, now + 2), []);
 });
 
-test('the sweep takes stale presence and yesterday\'s talk, and leaves today\'s', async () => {
+test('the sweep takes stale presence and talk past its 48 hours, and leaves the rest', async () => {
   const s = memoryStore({ etagOnRead: true });
   const now = Date.now();
   await beHere(ada, 'hide', V('a'), s, now - MUD_FRESH - 1);
@@ -885,7 +888,6 @@ test('the sweep takes stale presence and yesterday\'s talk, and leaves today\'s'
   assert.equal(s.keys().filter((k) => k.startsWith('mud-here/')).length, 0);
   assert.ok(!s.keys().includes('mud-talk-creek'));
   assert.deepEqual((await readTalk('hide', s)).messages.map((m) => m.id), ['today']);
-  assert.equal((await readTalk('hide', s)).day, today());
 });
 
 test('the bowls are separate, and neither is the chalkboard', async () => {
@@ -1009,10 +1011,10 @@ test('a beacon names a room by its tag and a place by seconds, and nothing else'
 
 for (const etagOnRead of [true, false]) {
   const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
-  test(`a room's channel, ten at once, ${how}`, async () => {
+  test(`a room's channel, fifteen at once, ${how}`, async () => {
     const s = memoryStore({ etagOnRead });
     const { missing, failed } = await fifteen(
-      (change, st) => updateRoomTalk('the-den', change, st), async (st) => (await readRoomTalk('the-den', st)).messages, s, KEEP);
+      (change, st) => updateRoomTalk('the-den', change, st), async (st) => (await readRoomTalk('the-den', st)).messages, s, Math.min(15, KEEP));
     assert.deepEqual(missing, [], 'a message that was told it went out is not on the room\'s channel');
     for (const f of failed) assert.equal(f.reason.message, 'busy');
   });
@@ -1030,14 +1032,58 @@ test('a room hears only its own channel, and World hears neither room', async ()
   assert.deepEqual(await ids('faery-yurt'), ['yurt']);
 });
 
-test('a room channel from yesterday is not heard and is swept; today\'s stays', async () => {
+test('a room channel with nothing left on air is not heard and is swept; one with something stays', async () => {
   const s = memoryStore({ etagOnRead: true });
   await s.setJSON('room-talk-the-den', { day: '2000-01-01', messages: [{ id: 'old', t: 1 }] }, { onlyIfNew: true });
   await updateRoomTalk('faery-yurt', (list) => { list.push({ id: 'new', t: Date.now() }); return list; }, s);
-  assert.deepEqual((await readRoomTalk('the-den', s)).messages, [], 'yesterday is not returned before the sweep');
+  assert.deepEqual((await readRoomTalk('the-den', s)).messages, [], 'a message past its time is not returned before the sweep');
   assert.equal(await sweepRoomTalk(s), true);
   assert.deepEqual(s.keys().filter((k) => k.startsWith('room-talk-')), ['room-talk-faery-yurt']);
   assert.equal(roomTag('../channel'), null);
+});
+
+/* ── How long a message stays ── */
+
+// 2026-10-19 00:00 in Colorado: what was sent before it keeps the promise it
+// was sent under, gone at that midnight; what was sent after it stays 48 hours.
+const CHANGE = Date.UTC(2026, 9, 19, 6, 0);
+
+test('a message stays 48 hours from when it was sent, and one sent before the change goes at its midnight', () => {
+  const after = CHANGE + 3 * 60 * 60 * 1000;
+  assert.equal(onAir({ t: after }, after + LIFE - 1), true, 'a message is on air until its 48 hours are up');
+  assert.equal(onAir({ t: after }, after + LIFE), false, 'and not a moment after');
+  assert.equal(onAir({ t: after }, after + 30 * 60 * 60 * 1000), true, 'midnight in Colorado no longer clears it');
+  const evening = CHANGE - 60 * 60 * 1000;   // 23:00 on 2026-10-18, in Colorado
+  assert.equal(onAir({ t: evening }, CHANGE - 1), true, 'sent before the change, it is there until midnight');
+  assert.equal(onAir({ t: evening }, CHANGE), false, 'and gone at midnight, as it was promised when it was sent');
+  assert.equal(onAir({ id: 'no-time' }, after), false, 'a message with no time is on nobody\'s channel');
+});
+
+test('a channel keeps fifty, and the fifty-first pushes the oldest off', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal(KEEP, 50);
+  assert.equal(LIFE, 48 * 60 * 60 * 1000);
+  for (let i = 0; i <= KEEP; i++) await updateChannel((l) => [...l, { id: `m${i}`, t: Date.now() }], s);
+  const ids = (await readChannel(s)).messages.map((m) => m.id);
+  assert.equal(ids.length, KEEP);
+  assert.equal(ids[0], 'm1', 'the oldest went');
+  assert.equal(ids[ids.length - 1], `m${KEEP}`);
+});
+
+test('the sweep takes what is past its 48 hours out of a channel and keeps the rest', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = CHANGE + 5 * 24 * 60 * 60 * 1000;
+  const hour = 60 * 60 * 1000;
+  await s.setJSON('channel', { messages: [{ id: 'old', t: now - LIFE - hour }, { id: 'night', t: now - 30 * hour }, { id: 'new', t: now - hour }] }, { onlyIfNew: true });
+  assert.deepEqual((await readChannel(s, now)).messages.map((m) => m.id), ['night', 'new'], 'what is past its time is not heard before the sweep');
+  assert.equal(await sweep(s, now), true);
+  assert.deepEqual((await s.get('channel')).messages.map((m) => m.id), ['night', 'new'], 'the sweep took it out of the blob');
+  assert.equal(await sweep(s, now), false, 'and has nothing more to do');
+  assert.equal(await sweep(s, now + LIFE), true);
+  assert.ok(!s.keys().includes('channel'), 'a channel with nothing left on air is deleted');
+  await s.setJSON('room-talk-the-den', { messages: [{ id: 'old', t: now - LIFE }, { id: 'new', t: now - hour }] }, { onlyIfNew: true });
+  assert.equal(await sweepRoomTalk(s, now), true);
+  assert.deepEqual((await readRoomTalk('the-den', s, now)).messages.map((m) => m.id), ['new'], 'a room\'s channel keeps the same 48 hours');
 });
 
 /* ── Calls ── */
@@ -1458,7 +1504,7 @@ test('a picture goes when its message goes, and an unsent one within the hour', 
   const unsentNew = (await putImage(ada, null, jpeg(), s, now)).id;
   const unsentOld = (await putImage(ada, null, jpeg(), s, now - 2 * 60 * 60 * 1000)).id;
   const before = [{ id: 'a', img: pushed }, { id: 'b', img: held }, { id: 'c' }];
-  assert.deepEqual(droppedImages(before, before.slice(1)), [pushed], 'the eleventh pushes the oldest off, picture and all');
+  assert.deepEqual(droppedImages(before, before.slice(1)), [pushed], 'a message pushed off takes its picture with it');
   await updateTuned(null, (list) => { list.push({ id: 'b', handle: 'Ada', text: '', t: now, img: held }); return list; }, s);
   await sweepImages(s, now);
   const left = s.keys().filter((k) => k.startsWith('img/')).map((k) => k.slice(4)).sort();

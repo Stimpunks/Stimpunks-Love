@@ -3295,7 +3295,7 @@
    "takes": "about as long as it takes your eyes to get used to the dark",
    "target": "a wisp of hay caught in a strip of daylight on the dust, under a crack in the boards",
    "code": "FLOORBOARD",
-   "learned": "Sticker, beside Picture on the radio, sends a drawing of one of your own pets, with their name, to the channel you are tuned to. The server finds the pet among your own, so a sticker is only ever yours, and it goes at midnight with the rest of the channel.",
+   "learned": "Sticker, beside Picture on the radio, sends a drawing of one of your own pets, with their name, to the channel you are tuned to. The server finds the pet among your own, so a sticker is only ever yours, and it goes with its message, 48 hours after it was sent.",
    "hints": [
     "On the street itself, in the row of shopfronts: the dark one with daylight showing through the boards of its awning.",
     "In the rules about how rescuing and adopting work, where it says you can show them off.",

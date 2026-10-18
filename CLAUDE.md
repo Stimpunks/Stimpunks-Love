@@ -732,12 +732,12 @@ where `call.js` had to load first, and a spot's room link did nothing there.
 
 **EVERY ROOM HAS A CHANNEL, AND ONLY THAT ONE TELLS US WHERE ANYBODY IS.** Ryan, 2026-09-28: the
 radio tunes to World (the `channel` blob, as it always was) or to this room (`room-talk-<tag>`, the
-same day log as each place on the Slake). `readTuned` / `updateTuned` in `lib.mjs` pick the blob,
+same log as each place on the Slake). `readTuned` / `updateTuned` in `lib.mjs` pick the blob,
 and listen, transmit and moderate each take an optional room. World sends no room at all, and it is
 where a radio starts. **A room listen waits for `cb-rooms.json`**, because the 404 answers every
 address, and its first build sent `?room=no-such-room` before the list said it was no room. The
-server only checks a tag's shape, so a tag that is no room is a channel nobody can reach, swept at
-midnight. The choice is remembered in `love-cb` as `band`. A room with a promise about sending
+server only checks a tag's shape, so a tag that is no room is a channel nobody can reach, swept once
+its 48 hours are up. The choice is remembered in `love-cb` as `band`. A room with a promise about sending
 nothing already sets `data-cb="off"`, so no new opt-out is needed.
 
 **A ROOM'S CALL IS 8x8's JITSI AS A SERVICE, AND THE CB IS THE ONLY WAY IN.** Ryan, 2026-09-28:
@@ -2865,13 +2865,13 @@ on the CB built the same day. What was settled and what is open is in `DECISIONS
     who is where with no reads and no shared blob to race on; its write is the one unconditional write
     the test store allows. Moving REPLACES the record, so where somebody has been is never a trail.
     **Others are never on the map**, the answer has no count in it, names come alphabetically, and the
-    tide stays each player's own. Each place's talk is the channel's own `updateLog`, ten and gone at
-    midnight. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
+    tide stays each player's own. Each place's talk is the channel's own `updateLog`, fifty and each gone
+    after 48 hours. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
     the map**: each is the list of who is out there that the room refuses. The street's radio has a
     Who's online now (Ryan, 2026-10-07); the Slake does not, and nobody on it appears there. `mud.js` may read `love-cb`
     and never write it, and send to `/cb/mud/` through one `call()`; the tool reads the file for
-    exactly that. **The concurrency test races TEN for a log, not fifteen**: a channel keeps ten, and
-    its first run reported the five it had pushed off as lost writes.
+    exactly that. **The concurrency test never races more than a log keeps**: while a channel kept ten,
+    its first run raced fifteen and reported the five it had pushed off as lost writes.
   · **`classList.toggle(name, undefined)` FLIPS THE CLASS**, it does not clear it. The map's first render
     drew every way between places for a visitor who had seen one, because an `&&` chain came out
     `undefined`. It is `!!(...)` now. Any toggle whose force can be undefined has this bug.
@@ -3608,7 +3608,7 @@ some doors and counts none**, and must not.
 **THE CB IS THE ONLY SERVER-SIDE CODE ON THIS SITE, AND IT GOT IN ON NARROW TERMS.** A chat
 channel patterned after citizens band radio (Ryan's brief, 2026-09-24): five Netlify Functions in
 `netlify/functions/` sharing `netlify/cb/lib.mjs`, one JSON blob in Netlify Blobs holding the latest
-ten messages, deleted at midnight Colorado time. **`privacy.html` was rewritten before a line of it
+fifty messages, each deleted 48 hours after it was sent. **`privacy.html` was rewritten before a line of it
 was built**, and every sentence there is enforced in `lib.mjs`: no IP address stored (Netlify's own
 `rateLimit` in each function's config counts addresses and never hands them over, so do not "improve"
 it by keeping a list), **nothing a person types is ever logged** — no `console.log` of a handle,
@@ -3617,6 +3617,20 @@ password, so **rotating is changing `CB_PASSWORD` and redeploying** and there is
 anywhere. `connect-src` is `'self'` and must not go further: a realtime service elsewhere would be a
 third party every signed-on visitor talked to on every page. Both passwords live in Netlify's
 environment, never in the repo.
+
+**FIFTY MESSAGES, EACH FOR 48 HOURS FROM WHEN IT WAS SENT, AND NO MIDNIGHT ANY MORE.** Ryan,
+2026-10-18: "Since we have people in timezones all over the world", reversing ten messages gone at
+midnight in Colorado, which cleared the channel in the middle of somebody's afternoon. `KEEP` and
+`LIFE` in `lib.mjs`, and `onAir()` decides on every read and every write, so a message is gone at
+48 hours whether or not the sweep has run; the sweep (`sweepLog`, still in `cb-midnight.mjs`, whose
+name is older than the rule) rewrites a log with the same conditional write a message goes out
+with, and deletes it only once nothing in it is left. World, every room's channel and every place
+on the Slake share it, as they always shared the day. **Everything sent before `LIFE_FROM`
+(2026-10-19 00:00 in Colorado) went at that midnight**, the promise it was sent under; the test for
+it can come out any time after that date. **The radio's times say the day** (`dayAgo`, `clock`,
+`sentAt` in `cb.js`) because a message can be two days old, in the reader's own day, and so do the
+World room's last busy time and a forum copy that spans days. The friendly edit is a midnight
+"so the channel starts the day clean", which is the timezone problem again.
 
 **NOBODY WHO HAS NOT SIGNED ON EVER DOWNLOADS `cb.js`, AND THEY GET `guest.js` INSTEAD.** Ryan,
 2026-09-30: a guest CB for everybody not signed on, to bring people into the community and remind a
@@ -3727,7 +3741,7 @@ the message, folded, with no record of who sent what kept for it. **A CLAIMED me
 claimed pass and a BASE message only for the base**, so a deleted username signed on as again with the
 community password cannot reach back to the morning. Clear stays the base's, and the function asks
 `roomAllows` now, which it never did. `Radio.prototype.mine` in `cb.js` copies the rule only to draw the
-button; change both. Nothing marks where a message was, as with the base's: it goes as if midnight came.
+button; change both. Nothing marks where a message was, as with the base's: it goes as if its 48 hours were up.
 
 **A MESSAGE IS 2,000 CHARACTERS AND BASIC MARKDOWN, DRAWN AS ELEMENTS AND NEVER AS HTML.** Ryan,
 2026-09-29. `MESSAGE_MAX` and `cleanMessage` in `lib.mjs` keep a message's lines (the Slake, the
@@ -4071,7 +4085,7 @@ so), sign on, claim your username, then quests. **The claiming steps name the ra
 (Profile, A password of your own, The same again, Claim), so a change to those labels in `cb.js` is a
 change to that list. **Other pages send people to `community-center.html#getting-started`**, never to a
 meeting hall: the guest bar, the CB guide, the Sandbox's box and the Fishbowl's call panel. The channel is
-still for what forgets at midnight and the forums for what needs longer. stoat.chat stays out of
+still for what forgets in 48 hours and the forums for what needs longer. stoat.chat stays out of
 `ORIGINS`: it sends `X-Frame-Options: SAMEORIGIN`.
 
 **THE COMMUNITY SERVICE BOARD IS A ROOM FULL OF SENTENCES ABOUT OTHER ROOMS, SO EVERY ONE IS HELD.**
@@ -4868,7 +4882,7 @@ is open, and a screenshot upload**, and each needs a decision of Ryan's written 
 `privacy.html#suggestions` first. **A security problem is not for the box**, which says so and points
 at SECURITY.md.
 
-**THE FORUMS ARE THE CB'S, FOR WHAT NEEDS LONGER THAN A DAY, AND ONLY A CLAIMED USERNAME READS THEM.** Ryan's
+**THE FORUMS ARE THE CB'S, FOR WHAT NEEDS LONGER THAN TWO DAYS, AND ONLY A CLAIMED USERNAME READS THEM.** Ryan's
 brief, 2026-10-18, after Discourse, so the CB and the forums together are where our community is, for everything. `forum.html`
 is paperwork beside the CB guide (pinned on the map, no job marker), and the forums are drawn by `forum.js` in a shadow
 root with `cb.css` and `forum.css`, so they **wear the reader's own radio theme, or one chosen for the forums alone**

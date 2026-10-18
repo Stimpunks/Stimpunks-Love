@@ -1,4 +1,4 @@
-/* The CB: taking something off the air before midnight. Anybody signed on can
+/* The CB: taking something off the air before its 48 hours are up. Anybody signed on can
    take off a message of their own, and the base station any message, on the
    channel the radio is tuned to; canTakeOff in ../cb/lib.mjs decides whose a
    message is. Clearing the whole channel is the base station's alone. */
