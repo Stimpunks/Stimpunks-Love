@@ -2594,8 +2594,17 @@
     if (!d) {
       d = this.pfDialog = el('dialog', 'pf-dialog');
       d.setAttribute('aria-labelledby', 'pf-name');
-      d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+      /* EVERY WAY OUT ASKS FIRST (Ryan, 2026-10-18): a press outside, Escape
+         and Cancel all go through pfGuard, which the editor sets while it has
+         changes nobody has saved, and which asks before they are thrown away.
+         A profile someone is only looking at has no guard and just closes. */
+      d.addEventListener('click', function (e) { if (e.target === d && !(me.pfGuard && me.pfGuard())) d.close(); });
+      d.addEventListener('cancel', function (e) { if (me.pfGuard && me.pfGuard()) e.preventDefault(); });
       d.addEventListener('close', function () {
+        // A dialog's close event comes a moment after it closes, so a profile
+        // or the editor opened in that moment is already in it: leave it be.
+        if (d.open) return;
+        me.pfGuard = null;
         d.textContent = '';
         var from = me.peekFrom, at = me.peekAt;
         me.peekFrom = null;
@@ -2603,14 +2612,18 @@
         me.peekN = (me.peekN || 0) + 1;
         // Who's online may have been redrawn while it was open: the same
         // name's new button takes the keyboard back.
+        // So may Profile's buttons, which a save draws again.
         if (from && !from.isConnected && at) {
           var again = me.onlineList.querySelectorAll('.cb-handle');
           for (var i = 0; i < again.length; i++) if (again[i].dataset.at === at) from = again[i];
+          var mine = me.pfBox && me.pfBox.querySelector('[data-at="' + CSS.escape(at) + '"]');
+          if (mine) from = mine;
         }
         if (from && from.isConnected) from.focus();
       });
       this.host.shadowRoot.appendChild(d);
     }
+    this.pfGuard = null;
     d.textContent = '';
     return d;
   };
@@ -2901,6 +2914,7 @@
       var row = el('p', 'cb-acct__row');
       var edit = el('button', 'cb-btn', 'Edit my profile card');
       edit.type = 'button';
+      edit.dataset.at = 'pf-edit';
       edit.setAttribute('aria-haspopup', 'dialog');
       edit.addEventListener('click', function () { me.pfEdit(edit); });
       var see = el('button', 'cb-btn', 'See my card as others do');
@@ -2920,7 +2934,8 @@
      left, in your radio's own clothes, and the card drawn beside them in the
      theme you are choosing, again after every change, with your nameplate as
      Who's online would show it. Nothing is kept until Save my card; Cancel,
-     Escape or a press outside leaves the card as it was. */
+     Escape or a press outside leaves the card as it was, and asks first when
+     anything has changed since it was opened or last saved (pfGuard). */
   var PF_GROUPS = [['every', 'Everyday'], ['radio', 'Radio faceplates'], ['world', 'Worlds'], ['skin', 'Winamp skins'], ['geo', 'GeoCities pages'], ['game', 'Ryan’s favourite games']];
   function pfField(form, label, id, input, hint) {
     var wrap = el('div', 'pf-field');
@@ -2959,7 +2974,7 @@
   Radio.prototype.pfEdit = function (from) {
     var me = this;
     this.peekFrom = from;
-    this.peekAt = null;
+    this.peekAt = 'pf-edit';
     var peekN = this.peekN = (this.peekN || 0) + 1;
     this.loadRooms();
     withProfile(function () {
@@ -3063,6 +3078,19 @@
     var keep = el('button', 'cb-btn', 'Keep it'); keep.type = 'button';
     sure.appendChild(yes); sure.appendChild(keep);
     form.appendChild(sure);
+    // Leaving with changes nobody has saved: asked, never decided for you.
+    var leave = el('div', 'cb-acct__row pf-leave');
+    leave.hidden = true;
+    leave.setAttribute('role', 'group');
+    var leaveSaid = el('p', null, 'Your card has changes you have not saved.');
+    leaveSaid.id = 'pf-leave-said';
+    leave.setAttribute('aria-labelledby', 'pf-leave-said');
+    var leaveSave = el('button', 'cb-btn', 'Save and close'); leaveSave.type = 'button';
+    var leaveGo = el('button', 'cb-btn', 'Close without saving'); leaveGo.type = 'button';
+    var leaveStay = el('button', 'cb-btn', 'Keep editing'); leaveStay.type = 'button';
+    leave.appendChild(leaveSaid);
+    leave.appendChild(leaveSave); leave.appendChild(leaveGo); leave.appendChild(leaveStay);
+    form.appendChild(leave);
     var said = el('p', 'cb-said');
     said.setAttribute('role', 'status');
     form.appendChild(said);
@@ -3091,6 +3119,18 @@
         links: linkIns.map(function (x) { return x.value.trim(); }).filter(Boolean),
       };
     }
+    // What the card was when it was opened or last saved: anything else is a
+    // change nobody has saved.
+    var saved = JSON.stringify(current());
+    function dirty() { return JSON.stringify(current()) !== saved; }
+    me.pfGuard = function () {
+      if (!dirty()) return false;
+      leave.hidden = false;
+      sure.hidden = true; clear.hidden = false;
+      leave.scrollIntoView({ block: 'nearest' });
+      leaveSave.focus();
+      return true;
+    };
     var drawn = '', timer = null;
     function redraw() {
       timer = null;
@@ -3125,7 +3165,10 @@
     function soon() { if (!timer) timer = setTimeout(redraw, 120); }
     form.addEventListener('input', soon);
     form.addEventListener('change', soon);
-    cancel.addEventListener('click', function () { d.close(); });
+    cancel.addEventListener('click', function () { if (!me.pfGuard()) d.close(); });
+    leaveGo.addEventListener('click', function () { saved = JSON.stringify(current()); d.close(); });
+    leaveStay.addEventListener('click', function () { leave.hidden = true; h.focus(); });
+    leaveSave.addEventListener('click', function () { saveCard(function () { d.close(); }); });
     clear.addEventListener('click', function () { sure.hidden = false; clear.hidden = true; keep.focus(); });
     keep.addEventListener('click', function () { sure.hidden = true; clear.hidden = false; clear.focus(); });
     yes.addEventListener('click', function () {
@@ -3134,28 +3177,35 @@
         yes.disabled = false;
         if (r.status === 401) { d.close(); return me.lost(); }
         if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
-        [fTheme, fBanner, fDeco, fFace, fPlate, fPron, fBio, fRoom, fWhy].concat(linkIns).forEach(function (x) { x.value = ''; });
-        sure.hidden = true; clear.hidden = false;
+        [fTheme, fBanner, fDeco, fFrame, fEffect, fFace, fPlate, fPron, fBio, fRoom, fWhy].concat(linkIns).forEach(function (x) { x.value = ''; });
+        sure.hidden = true; clear.hidden = false; leave.hidden = true;
+        saved = JSON.stringify(current());
         redraw();
         said.textContent = 'Cleared. Your card has nothing on it, and your nameplate is off Who’s online.';
         clear.focus();
         me.loadProfileCard();
       }, function () { yes.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
     });
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      save.disabled = true;
+    // Save, and then, if asked, close: a save that does not go through keeps
+    // the editor open with the changes still in it, and says why.
+    function saveCard(then) {
+      var sending = current(), was = JSON.stringify(sending);
+      save.disabled = true; leaveSave.disabled = true;
       said.textContent = 'Saving…';
-      call('/cb/profile', { body: { profile: current() } }, me.state.pass).then(function (r) {
-        save.disabled = false;
-        if (r.status === 401) { d.close(); return me.lost(); }
+      call('/cb/profile', { body: { profile: sending } }, me.state.pass).then(function (r) {
+        save.disabled = false; leaveSave.disabled = false;
+        if (r.status === 401) { saved = JSON.stringify(current()); d.close(); return me.lost(); }
         if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
+        saved = was;
+        leave.hidden = true;
         said.textContent = r.body.profile
           ? 'Saved. Anybody signed on to the CB sees it when they press your name.'
           : 'Saved, with nothing on it, so your card is empty.';
         me.loadProfileCard();
-      }, function () { save.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
-    });
+        if (then) then();
+      }, function () { save.disabled = false; leaveSave.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+    }
+    form.addEventListener('submit', function (e) { e.preventDefault(); saveCard(null); });
     if (!d.open) d.showModal();
     h.focus();
     redraw();
