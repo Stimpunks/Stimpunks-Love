@@ -3790,6 +3790,32 @@ get nothing" and the whole of the cost control. **The browser pane in this app r
 the pane is not showing**, so a radio that seems to have stopped listening in a test may be obeying
 that rule. Do not add a second timer anywhere else in the file.
 
+**NOTIFICATIONS REVERSED "NO ALERTS", AND THE RADIO STILL LISTENS ONLY WHILE IT IS OPEN.** Ryan, 2026-10-18, after
+requests "especially for staff": Web Push, so a device is told with the site closed; four things that can notify (an
+@ mention, a message in a room the device follows, a call starting in a room it follows or the World call, and every
+message on World), each off until switched on; anybody signed on; and the message's first `PUSH_WORDS` characters, which
+each device can switch off. **"Open is on and closed is off" is still the radio's rule**: notifications come from the
+server when a message is sent (`notifyMessage` from `cb-transmit`, `notifyCall` from `cb-call-events` when a call
+goes from nobody to somebody), never from a radio listening in the background. **One record per device in one blob**
+(`push-devices`, the worn avatar's arrangement, raced fifteen at once in `lib.test.mjs`): the push address and its keys,
+the handle, the pass's kind and **a hash of the pass, never the pass**. Before a device is told anything, the pass its
+handle would have now is made again (`issuePass`, `issueAccountPass`), checked against the hash and read by `readPass()`,
+so a changed password, a claim, a reset, a deletion or somebody off the moderators' list stops their notifications with
+nothing to remember, and `roomAllows()` decides every private room. **Encryption and VAPID are `node:crypto`, no
+dependency**, and `encryptPush` matches RFC 8291's worked example byte for byte in the tests; the key is `CB_PUSH_KEY`
+in Netlify (a raw P-256 private key, base64url), and without it nothing offers notifications. **The server posts only
+to `PUSH_HOSTS`**, anchored patterns for Google's, Mozilla's, Apple's and Microsoft's push services, so a request cannot
+choose where it posts. **A call's notification never says who joined**: who is in a call is shown only in its room
+(`privacy.html#calls`), and widening that is still Ryan's call. **A quiet room tells only its followers**, so a mention
+there tells nobody, because a notification is the room announced outside. Nobody is told about their own message.
+`cb-sw.js` is the street's one service worker: it shows a notification and opens its room, and `tools/check-push.py`
+refuses a fetch listener, a cache, storage or imported code in it, and any script but `cb.js` asking the browser for
+notifications. Signing off, Switch off on this device, Forget me and deleting the username delete a device's record. **The
+friendly edits are an unread count, a badge on the radio or the tab, and the radio listening in a background tab "to
+notify sooner"**: the first two are the counts the street refuses, the third breaks the radio's own rule. On an iPhone a
+site can only notify once it is on the Home Screen; the manifest's `display` is `minimal-ui`, and whether iOS needs
+`standalone` is worth checking before anybody says it works there.
+
 **`onlyIfMatch: undefined` IS NOT A CONDITIONAL WRITE, IT IS AN UNCONDITIONAL ONE.** Netlify's local
 Blobs emulator sends no etag on a read, so the first draft's compare-and-swap quietly wrote without a
 version, and fifteen people transmitting at once came out as three messages, every one told it had

@@ -1079,6 +1079,16 @@
     petsBtn.setAttribute('aria-expanded', 'false');
     petsBtn.setAttribute('aria-controls', 'cb-pets');
     tools.appendChild(petsBtn);
+    /* NOTIFICATIONS (Ryan, 2026-10-18, after requests, "especially for
+       staff"): a tray under this row, like Themes and Profile, where a device
+       is switched on to be told about mentions, rooms it follows, calls
+       starting and everything on World. Nothing is asked of the browser, and
+       nothing is registered or sent, until a button in it is pressed. */
+    var notifyBtn = this.notifyBtn = el('button', 'cb-btn cb-notify-btn', 'Notifications');
+    notifyBtn.type = 'button';
+    notifyBtn.setAttribute('aria-expanded', 'false');
+    notifyBtn.setAttribute('aria-controls', 'cb-notify');
+    tools.appendChild(notifyBtn);
     var off = el('button', 'cb-btn cb-off', 'Sign off');
     off.type = 'button';
     off.addEventListener('click', function () { signOff(); });
@@ -1237,7 +1247,7 @@
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -1245,6 +1255,16 @@
     sure.appendChild(yes); sure.appendChild(no);
     pets.appendChild(sure);
     yourSec.appendChild(pets);
+    var ntf = this.notifyPanel = el('div', 'cb-notify');
+    ntf.id = 'cb-notify';
+    ntf.hidden = true;
+    ntf.setAttribute('role', 'group');
+    ntf.setAttribute('aria-label', 'Notifications');
+    ntf.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); me.setNotify(false); me.notifyBtn.focus(); }
+    });
+    yourSec.appendChild(ntf);
+    notifyBtn.addEventListener('click', function () { me.setNotify(ntf.hidden); });
     petsBtn.addEventListener('click', function () { me.setPets(pets.hidden); });
     forgetBtn.addEventListener('click', function () { sure.hidden = false; forgetBtn.hidden = true; no.focus(); });
     no.addEventListener('click', function () { sure.hidden = true; forgetBtn.hidden = false; forgetBtn.focus(); });
@@ -1692,6 +1712,214 @@
       this.motionBtn.setAttribute('aria-pressed', String(!!this.state.motion));
       this.motionBtn.textContent = 'Let my theme move: ' + (this.state.motion ? 'on' : 'off');
     }
+  };
+
+  /* ── Notifications (Ryan, 2026-10-18) ──────────────────────────────────
+     A device's side lives in the browser: the service worker, /cb-sw.js, and
+     its push subscription, which only exist once Notify me on this device has
+     been pressed, and are taken away by Switch off on this device and by
+     signing off. What the device asked for is kept on the street, beside its
+     push address (/cb/push), and nothing it is sent is kept anywhere. */
+  var NOTIFY_SW = '/cb-sw.js';
+  var NOTIFY_KINDS = [
+    ['mentions', 'When somebody @mentions me'],
+    ['world', 'Every message on World'],
+    ['calls', 'Calls starting in rooms I follow, and the World call'],
+    ['words', 'Show the words of a message'],
+  ];
+  function pushable() { return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
+  function ourReg() {
+    if (!pushable()) return Promise.resolve(null);
+    return navigator.serviceWorker.getRegistration('/').then(function (r) {
+      var w = r && (r.active || r.waiting || r.installing);
+      return w && /\/cb-sw\.js$/.test(w.scriptURL) ? r : null;
+    }).catch(function () { return null; });
+  }
+  function subOf(sub) { var j = sub.toJSON(); return { endpoint: j.endpoint, keys: j.keys }; }
+  function keyBytes(k) {
+    var b = atob(String(k).replace(/-/g, '+').replace(/_/g, '/')), a = new Uint8Array(b.length);
+    for (var i = 0; i < b.length; i++) a[i] = b.charCodeAt(i);
+    return a;
+  }
+  /* This device's notifications off: on the street first, with the pass it
+     was switched on with, then the subscription and the worker themselves. */
+  function dropThisDevice(pass) {
+    return ourReg().then(function (reg) {
+      if (!reg) return null;
+      return reg.pushManager.getSubscription().then(function (sub) {
+        var told = sub && pass ? call('/cb/push', { body: { drop: sub.endpoint } }, pass).catch(function () {}) : Promise.resolve();
+        return told.then(function () { return sub ? sub.unsubscribe() : null; }).then(function () { return reg.unregister(); });
+      });
+    }).catch(function () { return null; });
+  }
+
+  Radio.prototype.setNotify = function (open) {
+    this.notifyPanel.hidden = !open;
+    this.notifyBtn.setAttribute('aria-expanded', String(!!open));
+    if (open) this.notifyLoad();
+    this.place();
+  };
+
+  Radio.prototype.notifyLoad = function () {
+    var me = this, box = this.notifyPanel;
+    box.textContent = '';
+    box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
+    var said = el('p', 'cb-quiet', 'Looking…');
+    box.appendChild(said);
+    if (!pushable()) {
+      said.textContent = 'This browser cannot show notifications from a website. On an iPhone or iPad, add stimpunks.world to your Home Screen (Share, then Add to Home Screen) and open it from there.';
+      return;
+    }
+    this.loadRooms();
+    Promise.all([call('/cb/push', { body: { key: true } }, me.state.pass), ourReg()]).then(function (rs) {
+      if (rs[0].status === 401) return me.lost();
+      var key = rs[0].status === 200 && rs[0].body ? rs[0].body.key : null;
+      if (!key) { said.textContent = 'Notifications are not set up on the street yet.'; return; }
+      me.pushKey = key;
+      var reg = rs[1];
+      (reg ? reg.pushManager.getSubscription() : Promise.resolve(null)).then(function (sub) {
+        if (!sub) { me.notifyDraw(null, null); return; }
+        call('/cb/push', { body: { read: sub.endpoint } }, me.state.pass).then(function (r) {
+          me.notifyDraw(sub, r.status === 200 && r.body ? r.body.want : null);
+        }, function () { me.notifyDraw(sub, null); });
+      });
+    }, function () { said.textContent = 'The street could not be reached just now.'; });
+  };
+
+  Radio.prototype.notifyDraw = function (sub, want, told, focusKey) {
+    var me = this, box = this.notifyPanel;
+    var on = !!(sub && want);
+    if (want) this.notifyWant = want;
+    var w = this.notifyWant = this.notifyWant || { mentions: false, world: false, calls: false, words: true, rooms: [] };
+    box.textContent = '';
+    box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
+    box.appendChild(el('p', null, on
+      ? 'On for this device, as ' + me.state.handle + '. It is told about what is switched on below, even with stimpunks.world closed.'
+      : 'Off on this device. Choose what you want to be told about, then press Notify me on this device. Your browser will ask whether stimpunks.world may show notifications.'));
+    if (window.Notification && Notification.permission === 'denied') {
+      box.appendChild(el('p', 'cb-quiet', 'Notifications are blocked for stimpunks.world in this browser’s settings. Allow them there, then come back here.'));
+    }
+    var said = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    function apply(next, key) {
+      if (!on) { me.notifyWant = next; me.notifyDraw(null, null, '', key); return; }
+      call('/cb/push', { body: { device: subOf(sub), want: next } }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status === 200 && r.body.want) { me.notifyDraw(sub, r.body.want, 'Changed.', key); return; }
+        said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
+      }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+    }
+    var row = el('div', 'cb-notify__kinds');
+    NOTIFY_KINDS.forEach(function (k) {
+      var b = el('button', 'cb-btn cb-notify__kind', k[1] + ': ' + (w[k[0]] ? 'on' : 'off'));
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(!!w[k[0]]));
+      b.addEventListener('click', function () { var n = Object.assign({}, w); n[k[0]] = !w[k[0]]; apply(n, k[0]); });
+      row.appendChild(b);
+      if (focusKey === k[0]) setTimeout(function () { b.focus(); }, 0);
+    });
+    box.appendChild(row);
+    // Rooms you follow: this one, if this page is one, and every one you follow.
+    box.appendChild(el('p', 'cb-pets__h', 'Rooms you follow'));
+    var room = hereRoom();
+    if (room) {
+      var follows = w.rooms.indexOf(room.tag) >= 0;
+      var fb = el('button', 'cb-btn', 'Follow ' + room.name + ': ' + (follows ? 'on' : 'off'));
+      fb.type = 'button';
+      fb.setAttribute('aria-pressed', String(follows));
+      fb.addEventListener('click', function () {
+        var n = Object.assign({}, w, { rooms: follows ? w.rooms.filter(function (t) { return t !== room.tag; }) : w.rooms.concat([room.tag]) });
+        apply(n, 'follow');
+      });
+      box.appendChild(fb);
+      if (focusKey === 'follow') setTimeout(function () { fb.focus(); }, 0);
+    }
+    if (w.rooms.length) {
+      var ul = el('ul', 'cb-notify__rooms');
+      w.rooms.forEach(function (t) {
+        var li = el('li');
+        var r = byTag[t] || (room && room.tag === t ? room : null);
+        li.appendChild(document.createTextNode(r ? r.name : '#' + t));
+        var x = el('button', 'cb-btn cb-notify__unfollow', 'Stop following');
+        x.type = 'button';
+        x.setAttribute('aria-label', 'Stop following ' + (r ? r.name : t));
+        x.addEventListener('click', function () { apply(Object.assign({}, w, { rooms: w.rooms.filter(function (y) { return y !== t; }) }), 'follow'); });
+        li.appendChild(document.createTextNode(' '));
+        li.appendChild(x);
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    } else {
+      box.appendChild(el('p', 'cb-quiet', room ? 'None yet. Following a room tells you about every message on its channel.' : 'None yet. In a room, this tray can follow it: every message on its channel.'));
+    }
+    var acts = el('div', 'cb-acct__row');
+    if (!on) {
+      var go = el('button', 'cb-btn', 'Notify me on this device');
+      go.type = 'button';
+      go.addEventListener('click', function () { me.notifyOn(go, said); });
+      acts.appendChild(go);
+      if (focusKey === 'go') setTimeout(function () { go.focus(); }, 0);
+    } else {
+      var test = el('button', 'cb-btn', 'Send me a test');
+      test.type = 'button';
+      test.addEventListener('click', function () {
+        said.textContent = 'Sending…';
+        call('/cb/push', { body: { test: subOf(sub) } }, me.state.pass).then(function (r) {
+          said.textContent = r.status === 200 && r.body.sent ? 'Sent. It should arrive in a moment.' : (r.body && r.body.error) || 'The push service did not take it just now.';
+        }, function () { said.textContent = 'The street could not be reached just now.'; });
+      });
+      var stop = el('button', 'cb-btn', 'Switch off on this device');
+      stop.type = 'button';
+      stop.addEventListener('click', function () {
+        stop.disabled = true;
+        dropThisDevice(me.state.pass).then(function () { me.notifyDraw(null, null, 'Off. This device is not told about anything now, and the street has forgotten it.', 'go'); });
+      });
+      acts.appendChild(test);
+      acts.appendChild(stop);
+    }
+    box.appendChild(acts);
+    said.textContent = told || '';
+    box.appendChild(said);
+    var more = el('p', 'cb-hint');
+    more.appendChild(document.createTextNode('What is kept, and what your browser’s push service sees: '));
+    var pa = el('a', null, 'Privacy');
+    pa.href = '/privacy.html#notifications';
+    more.appendChild(pa);
+    more.appendChild(document.createTextNode('.'));
+    box.appendChild(more);
+  };
+
+  // Notify me on this device: the browser's question first, inside the press.
+  Radio.prototype.notifyOn = function (btn, said) {
+    var me = this;
+    btn.disabled = true;
+    said.textContent = 'Asking your browser…';
+    Promise.resolve(Notification.requestPermission()).then(function (p) {
+      if (p !== 'granted') {
+        btn.disabled = false;
+        said.textContent = 'Notifications were not allowed, so nothing was switched on. Your browser’s settings for stimpunks.world can allow them.';
+        return null;
+      }
+      return navigator.serviceWorker.register(NOTIFY_SW, { scope: '/' })
+        .then(function () { return navigator.serviceWorker.ready; })
+        .then(function (reg) {
+          return reg.pushManager.getSubscription().then(function (s) {
+            return s || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: keyBytes(me.pushKey) });
+          });
+        })
+        .then(function (sub) {
+          return call('/cb/push', { body: { device: subOf(sub), want: me.notifyWant } }, me.state.pass).then(function (r) {
+            btn.disabled = false;
+            if (r.status === 401) return me.lost();
+            if (r.status === 200 && r.body.want) { me.notifyDraw(sub, r.body.want, 'On. Send me a test shows how one looks here.'); return null; }
+            said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing was switched on.';
+            return sub.unsubscribe();
+          });
+        });
+    }).catch(function () {
+      btn.disabled = false;
+      said.textContent = 'This browser would not switch notifications on just now. Nothing was kept.';
+    });
   };
 
   Radio.prototype.setSchemePanel = function (open) {
@@ -5486,6 +5714,10 @@
   }
 
   function signOff() {
+    // Notifications on this device stop with the sign-off: told to the street
+    // with the pass, which is about to go, then taken off the device.
+    var was = load();
+    if (was && was.pass) dropThisDevice(was.pass);
     forget();
     if (radio) { clearTimeout(radio.timer); radio.hush(); radio.host.remove(); radio = null; }
     counter();

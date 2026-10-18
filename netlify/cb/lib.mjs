@@ -110,7 +110,8 @@
        redeploying signs everybody off at once, and there is no list of passes
        anywhere to go stale or leak.
    ============================================================================= */
-import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID, randomBytes, scryptSync } from 'node:crypto';
+import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID, randomBytes, scryptSync,
+  createECDH, createCipheriv, hkdfSync, sign as cryptoSign } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import { request as httpRequest } from 'node:http';
 import { request as httpsRequest } from 'node:https';
@@ -2062,7 +2063,8 @@ export async function callEvent(ev, s = store(), now = Date.now()) {
       for (const r of here) if (r.pid === pid) await s.delete(r.key);
       const mod = d.moderator === true || d.moderator === 'true';
       await s.set(`${IN_CALL}${tag}/${pid}.${at}.${mod ? 'm' : 'p'}.${b64(callName(d.name))}`, '');
-      return 'joined';
+      // Nobody else was in it: the call has started, which notifyCall tells.
+      return here.some((r) => r.pid !== pid) ? 'joined' : 'started';
     }
     case 'PARTICIPANT_LEFT': {
       const pid = pidOf(d);
@@ -2961,6 +2963,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetJobs(petKey(handle), s);
   await forgetPatches(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
+  await dropDevicesOf(handle, s);
   await s.delete(acctBlob(handle));
   return { deleted: true };
 }
@@ -4425,6 +4428,312 @@ export function cleanMessage(s) {
     .replace(/\n{3,}/g, '\n\n')
     .replace(/^\n+|\n+$/g, '');
   return t.trim() && [...t].length <= MESSAGE_MAX ? t : null;
+}
+
+/* ── Notifications ───────────────────────────────────────────────────────
+
+   Ryan, 2026-10-18, after several requests and "especially for staff", as
+   more chat and operations move onto the street. IT REVERSES "NO ALERTS",
+   which the Community Center, the CB guide and the privacy page all said,
+   and "closed is off" for notifications only: the radio itself still listens
+   only while it is open and in front of you. Ryan's calls the same day: Web
+   Push, so a notification reaches a device with the site closed; four things
+   that can notify (an @ mention, a message in a room you follow, a call
+   starting in a room you follow or the World call, and everything on World),
+   each off until switched on, for anybody signed on; and the message's words
+   in it, which each device can turn off.
+
+   WHAT IS KEPT is one record per device that switched them on, all in one
+   blob (DEVICES), so a message reads one blob to find who to tell: the
+   device's push address and the two keys its browser made for it; the handle
+   it was switched on as, which kind of pass, and a hash of the pass; and what
+   it asked for. NOTHING ABOUT WHAT WAS SENT TO IT IS KEPT, and nothing is
+   logged. The address belongs to the browser's own push service (Google's,
+   Mozilla's, Apple's or Microsoft's), which carries every notification
+   encrypted to the device's keys (RFC 8291), so it cannot read the words,
+   though it sees when; an address anywhere else is refused, so this server
+   never posts to a place a request chose.
+
+   A DEVICE IS ONLY TOLD WHAT ITS PASS COULD HEAR. The pass is not kept, only
+   its hash. Before anything is sent, the pass that device's handle would have
+   now is made again, checked against the hash and read by readPass() like any
+   other, so a changed password, a claim, a reset, a deletion or somebody taken
+   off the moderators' list stops their notifications with nothing to
+   remember, and roomAllows() decides every private room, as it does for
+   listening. A room that keeps to itself tells only the devices that follow
+   it, which needed its address: a mention there tells nobody else, because a
+   notification is the room announced outside. Nobody is told about their own
+   message. A push service that says a device has gone (404 or 410) has its
+   record deleted, and Stop notifications, signing off on that device, Forget
+   me and deleting the username delete it too.
+
+   WHO IS IN A CALL IS NOT IN A CALL'S NOTIFICATION, only that one has started
+   in that room: who is in a call is shown only to radios seen in its room
+   (privacy.html#calls), and a notification would widen that. */
+export const PUSH_HOSTS = [/^fcm\.googleapis\.com$/, /^updates\.push\.services\.mozilla\.com$/,
+  /^(?:[a-z0-9-]+\.)*push\.apple\.com$/, /^[a-z0-9-]+\.notify\.windows\.com$/];
+export const PUSH_DEVICES_MAX = 4000;     // devices on the whole street
+export const PUSH_PER_HANDLE = 12;        // devices one handle can have notified
+export const PUSH_ROOMS_MAX = 60;         // rooms one device can follow
+export const PUSH_WORDS = 180;            // characters of a message in a notification
+export const CALL_QUIET = 10 * 60 * 1000; // a room's call tells nobody twice in this long
+const DEVICES = 'push-devices';
+const CALL_TOLD = 'push-calls';
+
+const unb64 = (v) => Buffer.from(String(v || ''), 'base64url');
+export function pushDeviceId(endpoint) {
+  return createHash('sha256').update(`stimpunks-push\0${endpoint}`).digest('base64url').slice(0, 27);
+}
+
+/* A subscription as the browser made it, checked, or null. */
+export function cleanSubscription(sub) {
+  if (!sub || typeof sub !== 'object') return null;
+  const endpoint = typeof sub.endpoint === 'string' ? sub.endpoint : '';
+  if (!endpoint || endpoint.length > 1000) return null;
+  let u;
+  try { u = new URL(endpoint); } catch (e) { return null; }
+  if (u.protocol !== 'https:' || u.username || u.password || u.port || !PUSH_HOSTS.some((re) => re.test(u.hostname))) return null;
+  const keys = sub.keys && typeof sub.keys === 'object' ? sub.keys : {};
+  const p256dh = unb64(keys.p256dh), auth = unb64(keys.auth);
+  if (p256dh.length !== 65 || p256dh[0] !== 4 || auth.length !== 16) return null;
+  return { endpoint, p256dh: b64(p256dh), auth: b64(auth) };
+}
+
+/* What a device asked for: four switches, all off until switched on, the
+   words, on unless switched off, and the rooms it follows. null if it follows
+   too many. */
+export function cleanWant(w) {
+  w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
+  const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
+  if (rooms.length > PUSH_ROOMS_MAX) return null;
+  return { mentions: w.mentions === true, world: w.world === true, calls: w.calls === true, words: w.words !== false, rooms };
+}
+
+/* A pass's parts, which are kept, and its hash; never the pass. */
+function passParts(pass) {
+  let m = /^cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.[A-Za-z0-9_-]+$/.exec(String(pass || ''));
+  if (m) return { gen: 2, kind: m[1], handle: unb64(m[2]).toString('utf8'), v: Number(m[3]) };
+  m = /^cb1\.(mobile|base)\.([A-Za-z0-9_-]+)\.[A-Za-z0-9_-]+$/.exec(String(pass || ''));
+  if (m) return { gen: 1, kind: m[1], handle: unb64(m[2]).toString('utf8') };
+  return null;
+}
+const passHash = (pass) => createHash('sha256').update(`stimpunks-push-pass\0${pass}`).digest('base64url');
+function passAgain(p) {
+  if (!p || typeof p !== 'object' || typeof p.handle !== 'string') return null;
+  try {
+    if (p.gen === 2) return issueAccountPass(p.handle, p.v, p.kind === 'base' ? 'base' : 'mobile');
+    if (p.gen === 1 && (p.kind === 'mobile' || p.kind === 'base')) return issuePass(p.kind, p.handle);
+  } catch (e) { /* no password set: nobody's pass is good */ }
+  return null;
+}
+/* Who a device is now, by the street's own rules, or null if its pass is gone. */
+async function deviceWho(d, s, mods) {
+  const again = passAgain(d && d.pass);
+  if (!again || passHash(again) !== d.hash) return null;
+  return readPass({ headers: { get: (k) => (String(k).toLowerCase() === 'authorization' ? `Bearer ${again}` : null) } }, mods, s);
+}
+
+async function updateMap(key, field, change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const map = { ...((cur.exists && cur.data && cur.data[field]) || {}) };
+    if (change(map) === false) return map;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { [field]: map }, opts);
+    if (res.modified) return map;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+export async function readDevices(s = store()) {
+  const d = await s.get(DEVICES, { type: 'json' });
+  return d && d.devices && typeof d.devices === 'object' ? d.devices : {};
+}
+
+/* Switch a device's notifications on, or change what it asked for. The pass is
+   the one that asked; the device is filed as that handle from now on. */
+export async function keepDevice(sub, pass, want, s = store()) {
+  const c = cleanSubscription(sub);
+  if (!c) return { error: 'address' };
+  const w = cleanWant(want);
+  if (!w) return { error: 'rooms' };
+  const parts = passParts(pass);
+  if (!parts) return { error: 'pass' };
+  const id = pushDeviceId(c.endpoint);
+  const rec = { sub: c, pass: parts, hash: passHash(pass), fold: foldHandle(parts.handle), want: w };
+  let error = null;
+  await updateMap(DEVICES, 'devices', (devs) => {
+    if (!own(devs, id)) {
+      if (Object.keys(devs).filter((k) => devs[k].fold === rec.fold).length >= PUSH_PER_HANDLE) { error = 'many'; return false; }
+      if (Object.keys(devs).length >= PUSH_DEVICES_MAX) { error = 'full'; return false; }
+    }
+    devs[id] = rec;
+    return true;
+  }, s);
+  return error ? { error } : { id, want: w };
+}
+
+/* What a device asked for, by its address, if it is this handle's. */
+export async function readDevice(endpoint, handle, s = store()) {
+  const d = (await readDevices(s))[pushDeviceId(String(endpoint || ''))];
+  return d && d.fold === foldHandle(handle) ? d.want : null;
+}
+
+export async function dropDevice(endpoint, s = store()) {
+  const id = pushDeviceId(String(endpoint || ''));
+  await updateMap(DEVICES, 'devices', (devs) => { if (!own(devs, id)) return false; delete devs[id]; return true; }, s);
+  return true;
+}
+
+/* Forget me, and deleting the username: every device switched on as it. */
+export async function dropDevicesOf(handle, s = store()) {
+  const fold = foldHandle(handle);
+  await updateMap(DEVICES, 'devices', (devs) => {
+    const ids = Object.keys(devs).filter((k) => devs[k].fold === fold);
+    for (const k of ids) delete devs[k];
+    return ids.length > 0;
+  }, s);
+  return true;
+}
+
+/* Whether a message names this handle with an @, the way somebody would. */
+export function mentions(text, handle) {
+  const h = String(handle || '').normalize('NFKC').trim();
+  if (!h || !text) return false;
+  const esc = h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+  return new RegExp(`(^|[^\\p{L}\\p{N}_@])@${esc}(?![\\p{L}\\p{N}_]|:\\d)`, 'iu').test(String(text).normalize('NFKC'));
+}
+
+/* ── Sending: RFC 8291's encryption and RFC 8292's VAPID, with node:crypto ── */
+
+function pushKey(raw = process.env.CB_PUSH_KEY) {
+  const d = unb64(raw);
+  if (d.length !== 32) return null;
+  try {
+    const e = createECDH('prime256v1');
+    e.setPrivateKey(d);
+    const pub = e.getPublicKey();
+    const key = createPrivateKey({ key: { kty: 'EC', crv: 'P-256', d: b64(d), x: b64(pub.subarray(1, 33)), y: b64(pub.subarray(33)) }, format: 'jwk' });
+    return { key, pub: b64(pub) };
+  } catch (e) { return null; }
+}
+/* The street's public key, which a browser needs to subscribe, or null when
+   notifications are not set up: then nothing offers them. */
+export function pushPublicKey() { const k = pushKey(); return k ? k.pub : null; }
+export const pushReady = () => !!pushKey();
+
+/* A notification's body, encrypted to the device's own keys. salt and the
+   sender's key can be given, for RFC 8291's worked example in the tests. */
+export function encryptPush(payload, sub, { asPrivate, salt } = {}) {
+  const ua = unb64(sub.p256dh), authSecret = unb64(sub.auth);
+  const ecdh = createECDH('prime256v1');
+  if (asPrivate) ecdh.setPrivateKey(asPrivate); else ecdh.generateKeys();
+  const asPublic = ecdh.getPublicKey();
+  const shared = ecdh.computeSecret(ua);
+  const ikm = Buffer.from(hkdfSync('sha256', shared, authSecret, Buffer.concat([Buffer.from('WebPush: info\0'), ua, asPublic]), 32));
+  const sl = salt || randomBytes(16);
+  const cek = Buffer.from(hkdfSync('sha256', ikm, sl, Buffer.from('Content-Encoding: aes128gcm\0'), 16));
+  const nonce = Buffer.from(hkdfSync('sha256', ikm, sl, Buffer.from('Content-Encoding: nonce\0'), 12));
+  const c = createCipheriv('aes-128-gcm', cek, nonce);
+  const sealed = Buffer.concat([c.update(Buffer.concat([Buffer.from(payload), Buffer.from([2])])), c.final(), c.getAuthTag()]);
+  const head = Buffer.alloc(21);
+  sl.copy(head, 0);
+  head.writeUInt32BE(4096, 16);
+  head[20] = asPublic.length;
+  return Buffer.concat([head, asPublic, sealed]);
+}
+
+export function vapidAuth(endpoint, k, now = Date.now()) {
+  const head = b64(JSON.stringify({ typ: 'JWT', alg: 'ES256' }));
+  const claims = b64(JSON.stringify({ aud: new URL(endpoint).origin, exp: Math.floor(now / 1000) + 3600, sub: 'https://stimpunks.world/privacy.html#notifications' }));
+  const sig = cryptoSign('sha256', Buffer.from(`${head}.${claims}`), { key: k.key, dsaEncoding: 'ieee-p1363' });
+  return `vapid t=${head}.${claims}.${b64(sig)}, k=${k.pub}`;
+}
+
+/* One notification to one device: the push service's answer, or 0 when it
+   could not be reached. Never logged. */
+export async function sendPush(sub, payload, { ttl = 3600, urgency = 'normal', topic = null } = {}, k = pushKey()) {
+  if (!k) return 0;
+  const headers = { 'content-encoding': 'aes128gcm', 'content-type': 'application/octet-stream', ttl: String(ttl), urgency,
+    authorization: vapidAuth(sub.endpoint, k) };
+  if (topic) headers.topic = topic;
+  try {
+    const r = await fetch(sub.endpoint, { method: 'POST', headers, body: encryptPush(JSON.stringify(payload), sub),
+      redirect: 'error', signal: AbortSignal.timeout(8000) });
+    return r.status;
+  } catch (e) { return 0; }
+}
+
+async function deliver(sends, gone, s, send) {
+  const answers = await Promise.allSettled(sends.map((x) => send(x.d.sub, x.payload, x.opts)));
+  answers.forEach((a, i) => { if (a.status === 'fulfilled' && (a.value === 404 || a.value === 410)) gone.push(sends[i].id); });
+  if (gone.length) {
+    await updateMap(DEVICES, 'devices', (devs) => {
+      let any = false;
+      for (const id of gone) if (own(devs, id)) { delete devs[id]; any = true; }
+      return any;
+    }, s);
+  }
+  return sends.map((x) => ({ id: x.id, payload: x.payload }));
+}
+const topicFor = (k) => createHash('sha256').update(`stimpunks-topic\0${k}`).digest('base64url').slice(0, 32);
+
+/* A message has been sent on a channel: tell every device that asked to hear
+   it, once each, and none that may not. What a notification carries is what
+   the service worker needs to say it: who, where, why, and the words if the
+   device wants them. The worker puts a room's name to its tag. */
+export async function notifyMessage(msg, room, s = store(), mods = readMods(), send = sendPush) {
+  if (send === sendPush && !pushReady()) return [];
+  const devs = await readDevices(s);
+  const from = foldHandle(msg.handle), quiet = !!(room && quietRoom(room));
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold === from) continue;
+    const w = d.want || {};
+    const followed = room ? (w.rooms || []).includes(room) : !!w.world;
+    const named = !!w.mentions && !quiet && mentions(msg.text, d.pass && d.pass.handle);
+    if (!followed && !named) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!roomAllows(who, room)) continue;
+    let text = '';
+    if (w.words !== false) {
+      text = String(msg.text || '').replace(/\s+/g, ' ').trim();
+      if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
+    }
+    const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.patch || msg.jacket) ? 'sticker' : '';
+    const payload = { kind: 'message', why: named ? 'mention' : 'channel', handle: msg.handle, room: room || '', text, what, id: msg.id };
+    sends.push({ id, d, payload, opts: named ? { urgency: 'high' } : { topic: topicFor(room || 'world') } });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* Somebody has joined a call nobody was in: tell the devices that follow its
+   room, or every device that asked about calls for the World call, once in
+   CALL_QUIET at most. Never who joined. */
+export async function notifyCall(tag, s = store(), mods = readMods(), send = sendPush, now = Date.now()) {
+  if (send === sendPush && !pushReady()) return [];
+  let fresh = false;
+  await updateMap(CALL_TOLD, 'told', (told) => {
+    for (const k of Object.keys(told)) if (now - told[k] > CALL_QUIET) delete told[k];
+    if (own(told, tag)) return false;
+    told[tag] = now;
+    fresh = true;
+    return true;
+  }, s);
+  if (!fresh) return [];
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    const w = (d && d.want) || {};
+    if (!w.calls || !(tag === WORLD_CALL || (w.rooms || []).includes(tag))) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (tag !== WORLD_CALL && !roomAllows(who, tag)) continue;
+    sends.push({ id, d, payload: { kind: 'call', room: tag }, opts: { ttl: 900, topic: topicFor(`call ${tag}`) } });
+  }
+  return deliver(sends, gone, s, send);
 }
 
 /* ── Answers ───────────────────────────────────────────────────────────── */

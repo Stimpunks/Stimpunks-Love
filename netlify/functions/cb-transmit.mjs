@@ -3,12 +3,14 @@
    picture with it. A message may be words, a picture sent first to
    /cb/image, or both; or a sticker of one of the sender's own pets, own
    avatars or own patches, or of the sender's own battle jacket, with words
-   or without. */
+   or without. And it tells the devices that asked to hear it (Ryan,
+   2026-10-18, notifyMessage in lib.mjs), after the message is on the
+   channel, so a slow push service never holds the radio up. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, patchSticker, jacketSticker } from '../cb/lib.mjs';
+  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, patchSticker, jacketSticker, notifyMessage } from '../cb/lib.mjs';
 
-export default async (req) => {
+export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
@@ -74,6 +76,8 @@ export default async (req) => {
       return list;
     });
     await dropImages(droppedImages(seen, messages));
+    const told = notifyMessage(msg, room).catch(() => []);
+    if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
     return json(200, { messages: shape(messages) });
   } catch (e) {
     return json(503, { error: 'The channel is busy. Try again in a moment.' });

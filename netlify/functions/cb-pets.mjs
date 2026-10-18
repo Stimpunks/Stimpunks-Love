@@ -4,10 +4,10 @@
    or not, and only a claimed username can; POST { forget: true } with a pass
    is FORGET ME: it deletes everything the street
    keeps under that handle, which is the pets, the avatars, the jobs kept
-   from the Adventurer's Guild, the battle jacket's patches and the profile, and the animals
+   from the Adventurer's Guild, the battle jacket's patches, the profile and every device's notifications, and the animals
    stay on the forever list, which never knew who adopted them. A handle is not
    an account, so whoever signs on with it has these pets; the tray says so. */
-import { ANIMAL_ID, readPass, readPets, forgetPets, forgetAvatars, forgetJobs, forgetPatches, forgetProfile, renamePet, setShown, isShown, petKey, shapeAnimal, cleanAnimalName, ANIMAL_NAME_MAX, json, body, sameSite } from '../cb/lib.mjs';
+import { ANIMAL_ID, readPass, readPets, forgetPets, forgetAvatars, forgetJobs, forgetPatches, forgetProfile, dropDevicesOf, renamePet, setShown, isShown, petKey, shapeAnimal, cleanAnimalName, ANIMAL_NAME_MAX, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This tray only answers stimpunks.world.' });
@@ -34,7 +34,7 @@ export default async (req) => {
       } catch (e) { return json(503, { error: 'That did not work just now. Try again in a moment; pressing it again finishes it.' }); }
     }
     if (b.forget !== true) return json(400, { error: 'Forget what?' });
-    try { await forgetPets(pk); await forgetAvatars(pk); await forgetJobs(pk); await forgetPatches(pk); await forgetProfile(pk); return json(200, { forgotten: true, pets: [] }); }
+    try { await forgetPets(pk); await forgetAvatars(pk); await forgetJobs(pk); await forgetPatches(pk); await forgetProfile(pk); await dropDevicesOf(who.handle); return json(200, { forgotten: true, pets: [] }); }
     catch (e) { return json(503, { error: 'That did not work just now. Nothing was forgotten; try again in a moment.' }); }
   }
   const pets = (await readPets(pk)).map(shapeAnimal);

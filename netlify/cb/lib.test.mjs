@@ -40,7 +40,9 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS } from './lib.mjs';
-import { generateKeyPairSync, createVerify } from 'node:crypto';
+import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey } from 'node:crypto';
+import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
+  mentions, notifyMessage, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -2294,3 +2296,213 @@ test('the World room\'s channel is the World channel, never a second one', async
   assert.deepEqual((await readTuned('world', s)).messages.map((m) => m.id), ['x']);
   assert.equal(s.keys().some((k) => k.startsWith('room-talk-world')), false);
 });
+
+/* ── Notifications ─────────────────────────────────────────────────────── */
+
+test('a notification is encrypted exactly as RFC 8291\'s worked example says', () => {
+  const u = (x) => Buffer.from(x, 'base64url');
+  const sub = { p256dh: 'BCVxsr7N_eNgVRqvHtD0zTZsEc6-VV-JvLexhqUzORcxaOzi6-AYWXvTBHm4bjyPjs7Vd8pZGH6SRpkNtoIAiw4', auth: 'BTBZMqHH6r4Tts7J_aSIgg' };
+  const out = encryptPush('When I grow up, I want to be a watermelon', sub,
+    { asPrivate: u('yfWPiYE-n46HLnH0KqZOF1fJJU3MYrct3AELtAQ-oRw'), salt: u('DGv6ra1nlYgDCS1FRnbzlw') });
+  assert.equal(out.toString('base64url'), 'DGv6ra1nlYgDCS1FRnbzlwAAEABBBP4z9KsN6nGRTbVYI_c7VJSPQTBtkgcy27mlmlMoZIIgDll6e3vCYLocInmYWAmS6TlzAC8wEqKK6PBru3jl7A_yl95bQpu6cVPTpK4Mqgkf1CXztLVBSt2Ks3oZwbuwXPXLWyouBWLVWGNWQexSgSxsj_Qulcy4a-fN');
+});
+
+test('the VAPID header is ES256, signed by the street\'s key, for the push service it goes to, for an hour', () => {
+  const was = process.env.CB_PUSH_KEY;
+  const e = createECDH('prime256v1'); e.generateKeys();
+  process.env.CB_PUSH_KEY = e.getPrivateKey().toString('base64url');
+  try {
+    const pub = pushPublicKey();
+    assert.equal(pub, e.getPublicKey().toString('base64url'));
+    const now = Date.UTC(2026, 9, 18);
+    const k = { key: null, pub };
+    const auth = (() => {
+      // the key the function makes for itself, through the module
+      const h = vapidAuth('https://fcm.googleapis.com/fcm/send/abc', { key: createPrivKey(e), pub }, now);
+      return h;
+    })();
+    const m = /^vapid t=([^.]+)\.([^.]+)\.([^,]+), k=(.+)$/.exec(auth);
+    assert.ok(m, auth);
+    assert.equal(m[4], pub);
+    const claims = JSON.parse(Buffer.from(m[2], 'base64url'));
+    assert.equal(claims.aud, 'https://fcm.googleapis.com');
+    assert.equal(claims.exp, now / 1000 + 3600);
+    assert.match(claims.sub, /^https:\/\/stimpunks\.world\//);
+    const raw = e.getPublicKey();
+    const jwk = { kty: 'EC', crv: 'P-256', x: raw.subarray(1, 33).toString('base64url'), y: raw.subarray(33).toString('base64url') };
+    assert.ok(cryptoVerify('sha256', Buffer.from(`${m[1]}.${m[2]}`), { key: createPublicKey({ key: jwk, format: 'jwk' }), dsaEncoding: 'ieee-p1363' }, Buffer.from(m[3], 'base64url')));
+    void k;
+  } finally { if (was === undefined) delete process.env.CB_PUSH_KEY; else process.env.CB_PUSH_KEY = was; }
+  process.env.CB_PUSH_KEY = 'too-short';
+  try { assert.equal(pushPublicKey(), null, 'a bad key switched notifications on'); } finally { if (was === undefined) delete process.env.CB_PUSH_KEY; else process.env.CB_PUSH_KEY = was; }
+});
+function createPrivKey(e) {
+  const pub = e.getPublicKey();
+  return createPrivateKeyJwk({ kty: 'EC', crv: 'P-256', d: e.getPrivateKey().toString('base64url'), x: pub.subarray(1, 33).toString('base64url'), y: pub.subarray(33).toString('base64url') });
+}
+import { createPrivateKey as createPrivateKeyRaw } from 'node:crypto';
+function createPrivateKeyJwk(jwk) { return createPrivateKeyRaw({ key: jwk, format: 'jwk' }); }
+
+let devN = 0;
+function aDevice(host = 'fcm.googleapis.com') {
+  const e = createECDH('prime256v1'); e.generateKeys();
+  return { endpoint: `https://${host}/fcm/send/dev${++devN}`, keys: { p256dh: e.getPublicKey().toString('base64url'), auth: rnd(16).toString('base64url') } };
+}
+
+test('only a real push service\'s address, with keys the right size, is kept', () => {
+  assert.ok(cleanSubscription(aDevice()));
+  assert.ok(cleanSubscription(aDevice('web.push.apple.com')));
+  assert.ok(cleanSubscription(aDevice('updates.push.services.mozilla.com')));
+  assert.ok(cleanSubscription(aDevice('wns2-par02p.notify.windows.com')));
+  for (const host of ['example.org', 'fcm.googleapis.com.evil.example', 'stimpunks.world', 'push.apple.com.example']) {
+    assert.equal(cleanSubscription(aDevice(host)), null, `${host} was taken as a push service`);
+  }
+  const d = aDevice();
+  assert.equal(cleanSubscription({ ...d, endpoint: d.endpoint.replace('https:', 'http:') }), null);
+  assert.equal(cleanSubscription({ ...d, endpoint: d.endpoint.replace('.com/', '.com:8443/') }), null, 'a port');
+  assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, auth: rnd(8).toString('base64url') } }), null);
+  assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(65).toString('base64url') } }), null, 'a key that is not a point');
+  assert.deepEqual(cleanWant({}), { mentions: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
+  assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
+  assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
+});
+
+test('an @ mention is the handle with an @ before it and nothing joined on after', () => {
+  assert.ok(mentions('hi @Bex!', 'Bex'));
+  assert.ok(mentions('@bex', 'Bex'));
+  assert.ok(mentions('thanks @Ryan Boren, see you', 'Ryan Boren'));
+  assert.ok(!mentions('hi @Bexley', 'Bex'));
+  assert.ok(!mentions('me@bex.example', 'Bex'), 'an email address');
+  assert.ok(!mentions('hi Bex', 'Bex'));
+  assert.ok(!mentions('see @34:12', '34'), 'a stamp is not a handle');
+});
+
+test('a message tells the devices that asked, as their pass now allows, and nobody about their own', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const bex = issuePass('mobile', 'Bex'), cy = issuePass('mobile', 'Cy'), ada = issuePass('mobile', 'Ada');
+  const bexDev = aDevice(), cyDev = aDevice(), adaDev = aDevice();
+  await keepDevice(bexDev, bex, { mentions: true }, s);
+  await keepDevice(cyDev, cy, { world: true, words: false, rooms: ['the-den', 'town-hall-moderators'] }, s);
+  await keepDevice(adaDev, ada, { world: true, mentions: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const msg = (handle, text, extra = {}) => ({ id: `m${sent.length}${handle}`, handle, text, t: 1, ...extra });
+
+  await notifyMessage(msg('Ada', 'hello @bex, the call is at 3'), null, s, readMods(''), send);
+  const to = (d) => sent.filter((x) => x.to === d.endpoint);
+  assert.equal(to(adaDev).length, 0, 'Ada was told about her own message');
+  assert.equal(to(bexDev)[0].payload.why, 'mention');
+  assert.equal(to(bexDev)[0].payload.text, 'hello @bex, the call is at 3');
+  assert.equal(to(cyDev)[0].payload.why, 'channel');
+  assert.equal(to(cyDev)[0].payload.text, '', 'the words went to a device that turned them off');
+  assert.deepEqual(Object.keys(to(cyDev)[0].payload).sort(), ['handle', 'id', 'kind', 'room', 'text', 'what', 'why']);
+
+  sent.length = 0;
+  await notifyMessage(msg('Ada', 'quiet in here @bex'), 'town-hall-moderators', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'a private room told somebody who cannot hear it');
+  await notifyMessage(msg('Ada', 'in the den @bex'), 'the-den', s, readMods(''), send);
+  assert.deepEqual(sent.map((x) => [x.to, x.payload.why]).sort(), [[bexDev.endpoint, 'mention'], [cyDev.endpoint, 'channel']].sort());
+
+  // A changed community password signs everybody off, notifications included.
+  sent.length = 0;
+  process.env.CB_PASSWORD = 'a-new-community-password';
+  await notifyMessage(msg('Dee', 'hello @bex'), null, s, readMods(''), send);
+  assert.equal(sent.length, 0, 'a device was told after its password changed');
+  assert.deepEqual(Object.keys(await readDevices(s)), [], 'devices whose pass has gone are still kept');
+}));
+
+test('a room that keeps to itself tells only the devices that follow it, never a mention elsewhere', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const room = QUIET_ROOMS[0];
+  // Locked as well as quiet, so the people in it are administrators here.
+  const mods = readMods('{"Bex":["administrator"],"Cy":["administrator"],"Ada":["administrator"]}');
+  const bexDev = aDevice(), cyDev = aDevice();
+  await keepDevice(bexDev, issuePass('base', 'Bex'), { mentions: true }, s);
+  await keepDevice(cyDev, issuePass('base', 'Cy'), { rooms: [room] }, s);
+  const sent = [];
+  await notifyMessage({ id: 'q', handle: 'Ada', text: 'hush @bex', t: 1 }, room, s, mods, async (sub) => { sent.push(sub.endpoint); return 201; });
+  assert.deepEqual(sent, [cyDev.endpoint], 'a room that keeps to itself was announced to somebody who does not follow it');
+}));
+
+test('a claimed username\'s devices stop at a password change, and go with the username', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const acct = await readAccount('Ada', s);
+  const dev = aDevice();
+  await keepDevice(dev, issueAccountPass('Ada', acct.v), { world: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push(payload); return 201; };
+  await notifyMessage({ id: 'x', handle: 'Bex', text: 'hi', t: 1 }, null, s, readMods(''), send);
+  assert.equal(sent.length, 1);
+  assert.deepEqual(await readDevice(dev.endpoint, 'ada', s), cleanWant({ world: true }));
+  assert.equal(await readDevice(dev.endpoint, 'Bex', s), null, 'somebody else read a device');
+  await changePassword('Ada', 'a long enough phrase', 'another long phrase', s);
+  await notifyMessage({ id: 'y', handle: 'Bex', text: 'hi', t: 1 }, null, s, readMods(''), send);
+  assert.equal(sent.length, 1, 'a device was told after its username\'s password changed');
+  const dev2 = aDevice();
+  await keepDevice(dev2, issueAccountPass('Ada', (await readAccount('Ada', s)).v), { world: true }, s);
+  await deleteAccount('Ada', s);
+  assert.deepEqual(Object.keys(await readDevices(s)), [], 'a deleted username left a device');
+  const dev3 = aDevice();
+  await keepDevice(dev3, issuePass('mobile', 'Cy'), { world: true }, s);
+  await dropDevicesOf('cy', s);
+  assert.deepEqual(Object.keys(await readDevices(s)), [], 'Forget me left a device');
+  await keepDevice(dev3, issuePass('mobile', 'Cy'), { world: true }, s);
+  await dropDevice(dev3.endpoint, s);
+  assert.deepEqual(Object.keys(await readDevices(s)), []);
+}));
+
+test('a device the push service says has gone is forgotten, and a handle has only so many', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const a = aDevice(), b = aDevice();
+  await keepDevice(a, issuePass('mobile', 'Bex'), { world: true }, s);
+  await keepDevice(b, issuePass('mobile', 'Cy'), { world: true }, s);
+  await notifyMessage({ id: 'x', handle: 'Ada', text: 'hi', t: 1 }, null, s, readMods(''), async (sub) => (sub.endpoint === a.endpoint ? 410 : 201));
+  assert.deepEqual(Object.keys(await readDevices(s)), [pushDeviceId(b.endpoint)]);
+  for (let i = 0; i < PUSH_PER_HANDLE - 1; i++) assert.ok((await keepDevice(aDevice(), issuePass('mobile', 'Cy'), {}, s)).id);
+  assert.equal((await keepDevice(aDevice(), issuePass('mobile', 'Cy'), {}, s)).error, 'many');
+  assert.ok((await keepDevice(b, issuePass('mobile', 'Cy'), { calls: true }, s)).id, 'changing a device already kept was refused');
+  assert.equal((await keepDevice(aDevice('example.org'), issuePass('mobile', 'Dee'), {}, s)).error, 'address');
+  assert.equal((await keepDevice(aDevice(), 'not a pass', {}, s)).error, 'pass');
+}));
+
+test('a call that starts tells who follows its room, never who joined, and not twice in a while', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.UTC(2026, 9, 18, 15);
+  const evt = (type, name, pid, t, room = 'the-den') => ({ eventType: type, fqn: `${JAAS_APP}/stimpunks-${room}`, timestamp: t, data: { name, participantId: pid } });
+  assert.equal(await callEvent(evt('PARTICIPANT_JOINED', 'Sam', 'p1', now), s, now), 'started');
+  assert.equal(await callEvent(evt('PARTICIPANT_JOINED', 'Ada', 'p2', now + 1), s, now), 'joined');
+  const den = aDevice(), all = aDevice(), off = aDevice();
+  await keepDevice(den, issuePass('mobile', 'Bex'), { calls: true, rooms: ['the-den'] }, s);
+  await keepDevice(all, issuePass('mobile', 'Cy'), { calls: true }, s);
+  await keepDevice(off, issuePass('mobile', 'Dee'), { rooms: ['the-den'] }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push([sub.endpoint, payload]); return 201; };
+  await notifyCall('the-den', s, readMods(''), send, now);
+  assert.deepEqual(sent, [[den.endpoint, { kind: 'call', room: 'the-den' }]], 'a call told the wrong devices, or said who');
+  await notifyCall('the-den', s, readMods(''), send, now + CALL_QUIET - 1);
+  assert.equal(sent.length, 1, 'the same call told them twice');
+  await notifyCall('the-den', s, readMods(''), send, now + CALL_QUIET + 1);
+  assert.equal(sent.length, 2);
+  sent.length = 0;
+  await notifyCall(WORLD_CALL, s, readMods(''), send, now);
+  assert.deepEqual(sent.map((x) => x[0]).sort(), [den.endpoint, all.endpoint].sort());
+  sent.length = 0;
+  await keepDevice(off, issuePass('mobile', 'Dee'), { calls: true, rooms: ['town-hall-moderators'] }, s);
+  await notifyCall('town-hall-moderators', s, readMods(''), send, now);
+  assert.equal(sent.length, 0, 'a private room\'s call told somebody who may not go in');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen devices switched on at once, ${how}`, () => withPasswords(async () => {
+    const s = memoryStore({ etagOnRead });
+    const subs = Array.from({ length: 15 }, () => aDevice());
+    const told = await Promise.allSettled(subs.map((d, i) => keepDevice(d, issuePass('mobile', `P${i}`), { world: true }, s)));
+    const kept = await readDevices(s);
+    const worked = subs.filter((_, i) => told[i].status === 'fulfilled' && told[i].value.id);
+    assert.deepEqual(worked.filter((d) => !kept[pushDeviceId(d.endpoint)]), [], 'a device told it was switched on is not kept');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  }));
+}
