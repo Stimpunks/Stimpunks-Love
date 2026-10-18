@@ -24778,9 +24778,28 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .efw-gallery__photo, .efw-photo { margin: 0; border: 8px solid var(--efw-log-2); background: var(--efw-log-2); }
 .efw-gallery__photo img, .efw-photo img { display: block; width: 100%; height: auto; }
 .efw-gallery__photo figcaption, .efw-photo figcaption { padding: 8px 4px 2px; font-size: 15px; color: var(--efw-text); }
+/* A photograph of a spring like ours, beside the spring's words, in the same frame. */
+.efw-springs { margin: 16px 0 0; }
+.efw-photo--spring { max-width: 560px; }
+.summit .efw-photo--spring figcaption a { color: var(--efw-link-2); }
 .efw-gallery__close { margin: 16px 0 0; }
 .summit .efw-gallery :focus-visible { outline-color: var(--efw-link); }
 .efw-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 14px 0 0; }
+
+/* THE CABLE CAR on the left-hand edge: a wire the height of the window and
+   the car hanging on it, a link back down to the campsite, moved by the
+   script only once sent (a translate, never a rotation, and never a rule
+   here). On a narrow screen it is not drawn; the link at the top is the way
+   down. It stays out of the words' way: the page's own gutter is wider. */
+.efw-cable { position: fixed; left: 8px; top: 0; bottom: 0; width: 56px; pointer-events: none; z-index: 5; }
+.efw-cable::before { content: ""; position: absolute; left: 27px; top: 0; bottom: 0; width: 2px; background: var(--efw-dim); opacity: .45; }
+.efw-cable__car { position: absolute; left: 0; top: 12vh; width: 56px; display: block; line-height: 0; pointer-events: auto; border-radius: 8px; }
+.efw-cable__car svg { display: block; width: 56px; height: 72px; }
+.efw-cable__car:hover .efw-cable__body, .efw-cable__car:focus-visible .efw-cable__body { fill: var(--efw-link); }
+@media (max-width: 900px) { .efw-cable { display: none; } }
+/* Where the car is drawn, the room's gutter widens so the wire and the car
+   stand clear of the first letters of every line. */
+@media (min-width: 901px) { .summit main.wrap { padding-left: 88px; box-sizing: border-box; } }
 
 /* The job marker lies on the night, and opens onto a panel. */
 .summit .quest__panel { background: var(--efw-panel); color: var(--efw-text); border-color: var(--efw-dim); }

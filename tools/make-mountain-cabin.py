@@ -236,6 +236,17 @@ def check_data(d):
     for f in ("short", "name", "theme", "city", "dates", "url", "read"):
         if not str(cg.get(f, "")).strip():
             refuse(f"congress: no {f}; the wall says where the photographs were taken and where that was read.")
+    for i, sp in enumerate((d.get("springs") or {}).get("photos") or []):
+        where = f"spring photograph {i + 1} ({sp.get('id')})"
+        for f in ("id", "by", "by_url", "url", "licence", "chosen", "alt", "caption"):
+            if not str(sp.get(f, "")).strip():
+                refuse(f"{where}: no {f}; somebody else's photograph is named, linked and licensed or it is not here.")
+        if not any((ROOT / "springs" / f"{sp.get('id')}{x}").exists() for x in PHOTO_SUFFIXES):
+            refuse(f"{where}: no file in springs/.")
+        if "utm_" in sp.get("url", "") + sp.get("by_url", ""):
+            refuse(f"{where}: a tracking parameter in a credit link; the credit is the name and the page, not the referral.")
+        if sp.get("by", "").strip() not in sp.get("caption", ""):
+            refuse(f"{where}: the caption does not name the photographer.")
     dv = d.get("david") or {}
     for f in ("name", "role", "site", "read"):
         if not str(dv.get(f, "")).strip():
@@ -344,6 +355,24 @@ def gallery_block(d):
     return "\n".join(out)
 
 
+def springs_block(d):
+    """Somebody else's photographs of hot springs like the cabin's, each in a
+    frame of the logs with its credit under it."""
+    sps = (d.get("springs") or {}).get("photos") or []
+    if not sps:
+        return "    <!-- no photographs of other springs -->"
+    out = ['    <div class="efw-springs">']
+    for sp in sps:
+        file = next(f"{sp['id']}{x}" for x in PHOTO_SUFFIXES if (ROOT / "springs" / f"{sp['id']}{x}").exists())
+        w, h = imgsize.size(ROOT / "springs" / file)
+        out += ['      <figure class="efw-photo efw-photo--spring">',
+                f'        <img src="springs/{file}" alt="{attr(sp["alt"])}" width="{w}" height="{h}" loading="lazy" decoding="async">',
+                f'        <figcaption>{esc(sp["caption"])} <a href="{attr(sp["url"])}">The photograph</a>, by <a href="{attr(sp["by_url"])}">{esc(sp["by"])}</a>, under the {esc(sp["licence"])}.</figcaption>',
+                '      </figure>']
+    out.append('    </div>')
+    return "\n".join(out)
+
+
 # ── The credits ──────────────────────────────────────────────────────────────
 
 def liner_sources(d):
@@ -357,11 +386,14 @@ def liner_sources(d):
         ("Who David is and what he makes",
          f'<a href="{attr(dv["site"])}">{esc(dv["site"].replace("https://", ""))}</a>, his own page, read {esc(dv["read"])}, which '
          f'lists what he makes and names him {esc(dv["role"])}. That he works with Helen Edgar and Ryan Boren and knows Jess '
-         f'and others in the Stimpunks community is Helen&rsquo;s own line, passed on with the brief, and so is the name he is '
-         f'credited by here'),
+         f'and others in the Stimpunks community is Helen&rsquo;s own line, passed on with the brief, and so are the name and '
+         f'the pronouns ({esc(dv.get("pronouns", ""))}) he is credited by here'),
         ("The howl", 'Made in the browser with its own oscillators by <code>mountain-man.js</code> when the button is '
                      'pressed: three voices, one after another, about five seconds. No recording of any wolf, nothing fetched, '
                      'nothing hosted'),
+        *[("A photograph of a hot spring like the cabin's",
+           f'<a href="{attr(sp["url"])}">{esc(sp["alt"][:60].rsplit(" ", 1)[0])}&hellip;</a> by <a href="{attr(sp["by_url"])}">{esc(sp["by"])}</a> on Unsplash, under the {esc(sp["licence"])}, chosen by Helen Edgar {esc(sp["chosen"])}; nobody in it; not of the cabin\'s own spring, which is drawn; the file stripped of its metadata')
+          for sp in (d.get("springs") or {}).get("photos") or []],
         ("The rainbow sweets", 'Skittles, David&rsquo;s favourite, which the room names once; Skittles is a trade mark of '
                                'Mars Wrigley, which is not affiliated with Stimpunks'),
         ("The playlist on the big screen",
@@ -460,6 +492,7 @@ def main():
     swap(PAGE, "mtn:screen", screen_block(d), "    ")
     swap(PAGE, "mtn:wall", wall_block(d), "    ")
     swap(PAGE, "mtn:gallery", gallery_block(d), "    ")
+    swap(PAGE, "mtn:springs", springs_block(d), "    ")
     swap(NOTES, "cabin-sources", liner_sources(d), "      ")
     check_page()
     section_css()

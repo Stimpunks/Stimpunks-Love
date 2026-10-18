@@ -54,7 +54,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LOG = ROOT / "data" / "webp.json"
-DIRS = ["raven", "oracle", "alice", "pebbles", "photos", "collection"]
+DIRS = ["raven", "oracle", "alice", "pebbles", "photos", "collection", "springs"]
 FIDELITY = 0.98        # SSIM against the source, on luminance
 MIN_SAVING = 0.10      # a swap has to earn its place
 QUALITIES = [75, 80, 85, 90, 94]

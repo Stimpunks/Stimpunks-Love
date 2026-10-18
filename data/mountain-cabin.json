@@ -100,10 +100,26 @@
   "read": "2026-10-18"
  },
  "david": {
-  "name": "David",
+  "name": "David Gray-Hammond",
   "role": "CEO of NeuroHub Community",
   "site": "https://david.neurohubcommunity.org",
   "read": "2026-10-18",
-  "_name": "Credited as David, the name Helen gave; whether his surname or a handle is wanted is his and Helen's to say."
+  "_name": "Credited as David Gray-Hammond, he/they, as Helen Edgar passed on 2026-10-18.",
+  "pronouns": "he/they"
+ },
+ "springs": {
+  "_what": "Photographs of hot springs like the cabin's, beside the spring's words: not ours, not David's, and not of the cabin's own spring, which is drawn. Each is somebody's photograph on Unsplash under the Unsplash License, credited and linked by name and by picture, chosen by Helen Edgar on 2026-10-18, with nobody in it: a photograph with a person in it goes through data/polaroids.json or not at all. The file is saved through Pillow with every byte of metadata stripped; tools/make-webp.py measures it like every JPEG here.",
+  "photos": [
+   {
+    "id": "sasso-hot-spring",
+    "by": "Fabio Sasso",
+    "by_url": "https://unsplash.com/@abduzeedo",
+    "url": "https://unsplash.com/photos/serene-geothermal-hot-spring-next-to-a-wide-river-LA1mY-JawV0",
+    "licence": "Unsplash License",
+    "chosen": "2026-10-18",
+    "alt": "A clear turquoise hot spring pool held in a rim of pale mineral rock, steam drifting off it, beside a wide shallow river with grass banks and a dark pine-covered hill under a cloudy sky.",
+    "caption": "A hot spring beside a river, something like the one outside the door. Photograph by Fabio Sasso, on Unsplash."
+   }
+  ]
  }
 }

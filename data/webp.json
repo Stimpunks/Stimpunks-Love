@@ -794,6 +794,13 @@
       "ssim": 0.9819,
       "bytes_before": 387623,
       "bytes_after": 316256
+    },
+    "springs/sasso-hot-spring.webp": {
+      "from": "springs/sasso-hot-spring.jpg",
+      "quality": 85,
+      "ssim": 0.9807,
+      "bytes_before": 321748,
+      "bytes_after": 227598
     }
   }
 }

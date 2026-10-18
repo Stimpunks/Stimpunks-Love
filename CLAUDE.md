@@ -1067,7 +1067,7 @@ holds together, and no scent is ever said to do anything. **The howl is arithmet
 three oscillator voices under `MAX_GAIN`, which the tool refuses above 0.2, no recording and nothing fetched.
 **The photographs go up only with their records** in `data/polaroids.json` (on_wall false, `elsewhere` naming the
 page), and until then the window says it is waiting for David's pictures; the tool refuses an id with no record or
-no file, and never fills the window from anywhere else. **He is credited as David**, the name Helen gave, and the
+no file, and never fills the window from anywhere else. **He is credited as David Gray-Hammond, he/they**, as Helen passed on, and the
 rainbow sweets are named once as Skittles with Mars Wrigley's mark in the liner notes. **The spring is water and
 the tool refuses the cure** (Stay Frosty's rule, warm); **the wolves are the mountain's and the tool refuses a
 threat**, and nobody counts, feeds or names them. On the board its light is the sixth, FAR: one lit window so high

@@ -40,6 +40,26 @@
 
 <main id="main" class="wrap" style="padding-bottom:54px;">
 
+  <!-- THE CABLE CAR, on its wire down the left-hand edge of the page: still
+       until Send the cable car is pressed, then up and down the wire until it
+       is stopped, and still at Gentle. Pressing the car takes you back down to
+       the campsite. On a narrow screen it is not drawn, and the link at the
+       top is the way down. mountain-man.js moves it. -->
+  <div class="efw-cable" data-efw-cable>
+    <a class="efw-cable__car" href="campgrounds.html" data-efw-car>
+      <svg viewBox="0 0 56 72" aria-hidden="true" focusable="false">
+        <path d="M28 0 V14" stroke="var(--efw-dim)" stroke-width="2"/>
+        <path d="M22 12 H34 L30 20 H26 Z" fill="var(--efw-iron-2)"/>
+        <rect class="efw-cable__body" x="6" y="20" width="44" height="40" rx="6" fill="var(--efw-iron)"/>
+        <rect x="11" y="26" width="34" height="18" rx="3" fill="var(--efw-ice)"/>
+        <path d="M28 26 V44" stroke="var(--efw-iron)" stroke-width="2"/>
+        <rect x="6" y="48" width="44" height="4" fill="var(--efw-led-1)"/>
+        <path d="M10 60 H46 L42 68 H14 Z" fill="var(--efw-iron-2)"/>
+      </svg>
+      <span class="sr">Take the cable car back down to the campsite</span>
+    </a>
+  </div>
+
   <div class="efw-topline">
     <a class="backlink" href="campgrounds.html">&larr; back down to the campgrounds</a>
     <p class="efw-trail">the summit &middot; by cable car from the field &middot; off the main campsite</p>
@@ -201,7 +221,7 @@
 
   <section class="efw-part" aria-labelledby="efw-whose-h">
     <h2 id="efw-whose-h">Whose this is</h2>
-    <p><strong>This is David&rsquo;s.</strong> He works with Helen Edgar and Ryan Boren, and he knows Jess, whose <a href="the-bough-house.html">Bough House</a> is down on the field, and others in the Stimpunks community: those are Helen&rsquo;s words for him, passed on with the brief. Everything he makes is on one page of his own, which was read for this room: his books, his podcasts (<i>Autistic Identity With NeuroHub</i>, <i>The Mycelial Mind</i>, and <i>A Multitude of Drops</i>, a series on philosophies of Autistic identity), PhiliaSense, his one-to-one and professional services, the online communities NeuroHub Community runs, and <i>The Wider Existence</i>, the newsletter he writes with Helen.</p>
+    <p><strong>This is David Gray-Hammond&rsquo;s</strong> (he/they). He works with Helen Edgar and Ryan Boren, and he knows Jess, whose <a href="the-bough-house.html">Bough House</a> is down on the field, and others in the Stimpunks community: those are Helen&rsquo;s words for him, passed on with the brief, and so are his name and his pronouns. Everything he makes is on one page of his own, which was read for this room: his books, his podcasts (<i>Autistic Identity With NeuroHub</i>, <i>The Mycelial Mind</i>, and <i>A Multitude of Drops</i>, a series on philosophies of Autistic identity), PhiliaSense, his one-to-one and professional services, the online communities NeuroHub Community runs, and <i>The Wider Existence</i>, the newsletter he writes with Helen.</p>
     <p class="efw-go"><a href="https://david.neurohubcommunity.org">Everything David makes, at david.neurohubcommunity.org</a></p>
   </section>
 
@@ -217,6 +237,14 @@
     <h2 id="efw-spring-h">The hot spring, and what runs on it</h2>
     <p>Outside the door the snow stops at a ring of stones and the ground is water: <strong>a hot spring</strong>, steaming in the cold, with a shelf of rock along one side to sit on and a step beside it at seat height, so a wheelchair transfers straight onto the shelf and back. The mountain is warm inside, and <strong>the cabin runs on that</strong>: the spring&rsquo;s water goes through pipes under the floor before it reaches the pool, and a small geothermal plant in the hut behind the cabin makes the electricity for the lights, the screen and the speakers out of the same heat. No wire comes up the mountain. The stove is for the look of a fire and the warmth of sitting in front of one, and the coffee. <a href="solarpunk-hermitage.html">Ryan&rsquo;s Solarpunk Hermitage</a> down on the field runs on the sun; this runs on the ground.</p>
     <p>The spring is water, hot. Nothing here says what it does for a body, because that is the sentence every hot spring on the internet is sold with, and it is not one this street makes.</p>
+<!-- mtn:springs:begin -->
+    <div class="efw-springs">
+      <figure class="efw-photo efw-photo--spring">
+        <img src="springs/sasso-hot-spring.webp" alt="A clear turquoise hot spring pool held in a rim of pale mineral rock, steam drifting off it, beside a wide shallow river with grass banks and a dark pine-covered hill under a cloudy sky." width="1600" height="1066" loading="lazy" decoding="async">
+        <figcaption>A hot spring beside a river, something like the one outside the door. Photograph by Fabio Sasso, on Unsplash. <a href="https://unsplash.com/photos/serene-geothermal-hot-spring-next-to-a-wide-river-LA1mY-JawV0">The photograph</a>, by <a href="https://unsplash.com/@abduzeedo">Fabio Sasso</a>, under the Unsplash License.</figcaption>
+      </figure>
+    </div>
+    <!-- mtn:springs:end -->
   </section>
 
   <section class="efw-part" aria-labelledby="efw-wolves-h">
@@ -359,7 +387,7 @@
 
   <section class="efw-part" aria-labelledby="efw-car-h">
     <h2 id="efw-car-h">The cable car, and the way down</h2>
-    <p><strong>The way up is a cable car</strong>, from a bottom station by the pond on the field to a top station on the snow beside the cabin. The car is level with the platform at both ends, so a wheelchair rolls straight on and straight off, there is a seat along each side and a window the whole way round, and it goes when somebody presses the button and not before. It is how Ryan, Helen and Jess come up to visit, and how David goes down to them. For anybody who would rather walk, a track goes up from the same place in long zigzags with a bench at every turn, so the walk is slow rather than steep. From the top station the whole campsite is laid out below: the pond with its swing seats, the roofs of the pitches, the stream along the edge of the field, and past the treeline the glow of the street.</p>
+    <p><strong>The way up is a cable car</strong>, from a bottom station by the pond on the field to a top station on the snow beside the cabin. It hangs on its wire down the left-hand edge of this page: Send the cable car, in the row under the drawing, sets it running up and down the wire and stops it again, and pressing the car itself takes you back down to the campsite. It is still until you send it, and at Gentle it stays still. The car is level with the platform at both ends, so a wheelchair rolls straight on and straight off, there is a seat along each side and a window the whole way round, and it goes when somebody presses the button and not before. It is how Ryan, Helen and Jess come up to visit, and how David goes down to them. For anybody who would rather walk, a track goes up from the same place in long zigzags with a bench at every turn, so the walk is slow rather than steep. From the top station the whole campsite is laid out below: the pond with its swing seats, the roofs of the pitches, the stream along the edge of the field, and past the treeline the glow of the street.</p>
     <!-- neighbours:begin -->
   <p class="neighbours"><strong>The neighbours on the campgrounds</strong>, from <a href="campgrounds.html#between">the pond</a>, down a pebble path or up the cable car: Helen Edgar&rsquo;s <a href="faery-yurt.html">Faery Yurt</a> at pitch 01, Jess&rsquo;s <a href="the-bough-house.html">Bough House</a> at pitch 05 and Ryan Boren&rsquo;s <a href="solarpunk-hermitage.html">Solarpunk Hermitage</a> at pitch 03. Go and visit.</p>
   <!-- neighbours:end -->
@@ -367,7 +395,7 @@
 
   <section class="efw-part" aria-labelledby="efw-credits-h">
     <h2 id="efw-credits-h">Whose words these are</h2>
-    <p>The brief is David&rsquo;s, passed on by Helen Edgar on 2026-10-18: a log cabin on a mountain with a lake through the windows, the windows opening onto his photographs; a fire; a lounge of high-back sofas, armchairs and a corner sofa; warm and cosy meets smart-home modern, with LED strips that change colour, a big screen and speakers; his own playlist on the screen; an oil diffuser; one switch for all of it; one wolf inside and the pack outside under a full moon, with a button to hear them; coffee on the stove and lots of cups; crisps, lots of sweets and Skittles; bean bags in bright colours and bright cushions everywhere; lights in rainbow colours, and different scents for the diffuser, lavender, chamomile, tea tree, orange blossom, chocolate, marshmallow and cupcakes; and, passed on the same morning, eco-friendly like Ryan&rsquo;s hermitage, on geothermal energy, a thermal hot spring outside, a cable car up so that Ryan, Helen and Jess can visit, and wolves outside. The name is his, as Helen gave it. The drawing and the words here were written for this room; the rainbow sweets in the bowl are Skittles, his favourite, and the name is Mars Wrigley&rsquo;s mark. What David makes was read off his own page on 2026-10-18; the playlist&rsquo;s title and channel, and every video&rsquo;s title, channel and length, were read off their own pages on YouTube the same day; the congress&rsquo;s name, theme, city and dates were read off isps.org the same day. Set in Staatliches, by Brian LaRossa and Erica Carras, and Assistant, by Ben Nathan with Adobe Systems, both under the SIL Open Font License, read off their own records. Every source is in <a href="liner-notes.html#the-mountain-cabin">the liner notes</a>.</p>
+    <p>The brief is David&rsquo;s, passed on by Helen Edgar on 2026-10-18: a log cabin on a mountain with a lake through the windows, the windows opening onto his photographs; a fire; a lounge of high-back sofas, armchairs and a corner sofa; warm and cosy meets smart-home modern, with LED strips that change colour, a big screen and speakers; his own playlist on the screen; an oil diffuser; one switch for all of it; one wolf inside and the pack outside under a full moon, with a button to hear them; coffee on the stove and lots of cups; crisps, lots of sweets and Skittles; bean bags in bright colours and bright cushions everywhere; lights in rainbow colours, and different scents for the diffuser, lavender, chamomile, tea tree, orange blossom, chocolate, marshmallow and cupcakes; and, passed on the same morning, eco-friendly like Ryan&rsquo;s hermitage, on geothermal energy, a thermal hot spring outside, a cable car up so that Ryan, Helen and Jess can visit, and wolves outside. The room&rsquo;s name is his, as Helen gave it, and he is credited as David Gray-Hammond, he/they, as she passed on. The drawing and the words here were written for this room; the rainbow sweets in the bowl are Skittles, his favourite, and the name is Mars Wrigley&rsquo;s mark. What David makes was read off his own page on 2026-10-18; the playlist&rsquo;s title and channel, and every video&rsquo;s title, channel and length, were read off their own pages on YouTube the same day; the congress&rsquo;s name, theme, city and dates were read off isps.org the same day. Set in Staatliches, by Brian LaRossa and Erica Carras, and Assistant, by Ben Nathan with Adobe Systems, both under the SIL Open Font License, read off their own records. Every source is in <a href="liner-notes.html#the-mountain-cabin">the liner notes</a>.</p>
   </section>
 
   <!-- quest:mtn-carabiner:begin -->

@@ -209,10 +209,38 @@
     }, 5400);
   }
 
+  /* ── The cable car ────────────────────────────────────────────────────── */
+  var cable = document.querySelector('[data-efw-cable]');
+  var car = document.querySelector('[data-efw-car]');
+  var riding = false, carRaf = 0, carT0 = 0, carY = 0, carDir = 1, carLast = 0;
+  function carStill() { if (car) car.style.transform = ''; carY = 0; carDir = 1; }
+  function carFrame(now) {
+    if (!riding) return;
+    if (level() === 'gentle') { carStill(); carRaf = requestAnimationFrame(carFrame); return; }
+    var dt = carLast ? Math.min(0.1, (now - carLast) / 1000) : 0;
+    carLast = now;
+    var top = car.offsetTop, room = Math.max(0, window.innerHeight - top - car.offsetHeight - 16);
+    carY += carDir * 28 * dt;                 // a slow glide: about half a minute down a tall window
+    if (carY >= room) { carY = room; carDir = -1; }
+    if (carY <= 0) { carY = 0; carDir = 1; }
+    car.style.transform = 'translateY(' + carY.toFixed(1) + 'px)';
+    carRaf = requestAnimationFrame(carFrame);
+  }
+  function setRiding(state) {
+    riding = state;
+    cancelAnimationFrame(carRaf);
+    if (riding) { carLast = 0; carRaf = requestAnimationFrame(carFrame); }
+    else carStill();
+  }
+
   /* ── The window ───────────────────────────────────────────────────────── */
   function openWindow() {
     if (!gallery || typeof gallery.showModal !== 'function') return;
     gallery.showModal();
+    // The keyboard lands on the window's own heading, at the top of the
+    // photographs, and not on the Close button at the foot of them.
+    var h = gallery.querySelector('.efw-gallery__h');
+    if (h) { h.setAttribute('tabindex', '-1'); h.focus(); }
   }
   function closeWindow() { if (gallery && gallery.open) gallery.close(); }
 
@@ -224,6 +252,23 @@
     scent = (scent + 1) % SCENTS.length;
     say(on ? 'The diffuser has ' + SCENTS[scent] + ' in it now.' : 'The diffuser has ' + SCENTS[scent] + ' in it now, and is off until you switch everything on.');
   });
+  var cableBtn = null;
+  if (cable && car) {
+    cableBtn = button(row, 'Send the cable car');
+    cableBtn.addEventListener('click', function () {
+      if (getComputedStyle(cable).display === 'none') {
+        say('On a screen this narrow the cable car is not drawn; the link at the top of the page is the way back down to the campsite.');
+        return;
+      }
+      setRiding(!riding);
+      cableBtn.textContent = riding ? 'Stop the cable car' : 'Send the cable car';
+      say(riding
+        ? (level() === 'gentle'
+            ? 'The cable car is sent, and at Gentle it waits on the wire at the left-hand edge of the page; press it to ride back down to the campsite.'
+            : 'The cable car is running up and down the wire at the left-hand edge of the page; press it to ride back down to the campsite.')
+        : 'The cable car has stopped on the wire.');
+    });
+  }
   var driftBtn = button(row, 'Let the lights drift');
   driftBtn.hidden = level() !== 'max';
   new MutationObserver(function () {
@@ -260,7 +305,11 @@
   var closeBtn = document.querySelector('[data-efw-close-window]');
   if (closeBtn) closeBtn.addEventListener('click', closeWindow);
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) { cancelAnimationFrame(raf); cancelAnimationFrame(driftRaf); }
-    else { if (lit && on) light(); if (drifting) { driftStart = performance.now(); driftRaf = requestAnimationFrame(drift); } }
+    if (document.hidden) { cancelAnimationFrame(raf); cancelAnimationFrame(driftRaf); cancelAnimationFrame(carRaf); }
+    else {
+      if (lit && on) light();
+      if (drifting) { driftStart = performance.now(); driftRaf = requestAnimationFrame(drift); }
+      if (riding) { carLast = 0; carRaf = requestAnimationFrame(carFrame); }
+    }
   });
 })();
