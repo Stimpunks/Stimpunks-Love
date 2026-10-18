@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-17T12:00Z",
+ "set": "2026-10-18T11:28Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-17T12:00:56Z"
+     "2026-10-18T11:28:31Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-17T12:00:56Z"
+     "2026-10-18T11:28:31Z"
     ]
    ]
   }
@@ -95,26 +95,6 @@
    "published": "2026-10-15T16:01:33Z",
    "state": "screen",
    "runs": 316,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "GUlnk409ffo",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Why plant-based meat is failing. Everyone go follow @hydroxide",
-   "published": "2026-09-17T13:09:02Z",
-   "state": "screen",
-   "runs": 179,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "cB-A3ni1_hI",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "The ethics of vegan leather and the way @OffbeatBelts just suddenly stopped talking 😂",
-   "published": "2026-09-18T11:19:56Z",
-   "state": "screen",
-   "runs": 179,
    "channel": "Farming While Beige"
   },
   {
@@ -425,6 +405,16 @@
    "published": "2026-10-16T19:36:46Z",
    "state": "screen",
    "runs": 136,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "kf5Ah71KvrQ",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Part 2: she’s back and I’m not happy about it",
+   "published": "2026-10-17T13:06:33Z",
+   "state": "screen",
+   "runs": 110,
    "channel": "Farming While Beige"
   }
  ]
