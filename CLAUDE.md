@@ -3564,7 +3564,13 @@ credited in `call.js` to whoever its own readme in the Winamp Skin Museum names,
 readme asks that nothing of the Cube be republished. **The GeoCities pages** (the same day) are a fifth group, after
 homepages in Restorativland's GeoCities archive: each credited as the page names its maker and otherwise by
 title and address, never an email or anything about anybody's life, and nothing on them used or anybody on
-them drawn, the child whose drawings fill mansnhomepage above all. The radio's name never draws past 1.1 of its size in a
+them drawn, the child whose drawings fill mansnhomepage above all. **Ryan's favourite games** (the same day) are a
+sixth group: each a game's palette and the shapes of its world, with **no character, logo, emblem or symbol of
+any game drawn** (no Triforce, no Aperture logo, no wolf medallion, no Eye), its studio and its trade mark's owner
+named. Skyrim's snow falls with `art-fall`, a translate down, the one new motion. Shadow of Mordor's
+**rune medallions** are after the game's runes (Ryan's ask) and every mark is assembled in `rune()` from a
+stave, branches, a crescent, prongs and dots, so none is the game's and none a Tengwar or Cirth letter;
+down a side each medallion is turned back upright about its own centre. The radio's name never draws past 1.1 of its size in a
 theme's face, because the bar is full. **It never claims what it has not
 heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It

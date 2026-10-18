@@ -1378,7 +1378,7 @@
   --cb-cyborg-tube: #9FD3E0; --cb-cyborg-oxygen: #3FA34D; --cb-cyborg-port: #8E6BBF; --cb-cyborg-clamp: #3A7BD5; --cb-cyborg-metal: #8C969C;
   --cb-unicorn-pink: #FF8FB1; --cb-unicorn-peach: #FFC48C; --cb-unicorn-lemon: #FFF08C; --cb-unicorn-mint: #9CF2B5; --cb-unicorn-sky: #8FD6FF; --cb-unicorn-lilac: #C9A7FF;
   --cb-wabi-stain: #C9B38B; --cb-wabi-gold: #B8902F; --cb-wabi-moss: #7C8560;
-  /* THE WINAMP SKINS (Ryan, 2026-10-17): themes after twelve skins in the
+  /* THE WINAMP SKINS (Ryan, 2026-10-17): themes after skins in the
      Winamp Skin Museum, each the same seven parts and its drawing's inks.
      Inspired by and never copied from: no bitmap of a skin's is used, and every
      drawing is ours. Who made each skin is said where it is chosen, in call.js,
@@ -1419,7 +1419,7 @@
   --cb-ti82-case: #B9BE9F; --cb-ti82-bar: #A9AE8E; --cb-ti82-steel: #14160E; --cb-ti82-steel-2: #2E3224;
   --cb-ti82-lcd: #C9CDB0; --cb-ti82-amber: #1A1C12; --cb-ti82-amber-2: #3A3F2C;
   --cb-ti82-body: #3A3634; --cb-ti82-key: #5A5654; --cb-ti82-blue: #3C5A9A; --cb-ti82-grey: #8E8A84;
-  /* THE GEOCITIES PAGES (Ryan, 2026-10-17): themes after eight pages in
+  /* THE GEOCITIES PAGES (Ryan, 2026-10-17): themes after pages in
      Restorativland's GeoCities archive, each the same seven parts and its
      drawing's inks. Their colours were looked at and nothing on them is used:
      no picture, no clip art, no photograph, no word. Who made each page is said
@@ -1448,6 +1448,47 @@
   --cb-sarah-case: #1414B8; --cb-sarah-bar: #0E0E8A; --cb-sarah-steel: #FFFFA8; --cb-sarah-steel-2: #9EF0FF;
   --cb-sarah-lcd: #08085A; --cb-sarah-amber: #FFFF00; --cb-sarah-amber-2: #7FFFFF;
   --cb-sarah-pink: #FF66CC; --cb-sarah-orange: #FF9933; --cb-sarah-green: #66FF66; --cb-sarah-violet: #B48CFF; --cb-sarah-dot: #C8D2FF;
+  /* RYAN'S FAVOURITE GAMES (2026-10-17): themes after the games, each the
+     same seven parts and its drawing's inks. Every drawing is ours, in the
+     game's palette and its world's shapes, and draws no character, logo,
+     emblem or symbol of any game's. Whose each game is is said in call.js
+     and in the CB guide and liner notes. */
+  --cb-crashers-case: #FFF4D6; --cb-crashers-bar: #F7E3B0; --cb-crashers-steel: #1A1410; --cb-crashers-steel-2: #4A3A28;
+  --cb-crashers-lcd: #FFFFFF; --cb-crashers-amber: #B0201C; --cb-crashers-amber-2: #1F4FB0;
+  --cb-crashers-red: #E03A3A; --cb-crashers-blue: #3A6FE0; --cb-crashers-green: #3FB24A; --cb-crashers-orange: #F28A1E; --cb-crashers-stone: #B9B2A6; --cb-crashers-grass: #5CC24A;
+  --cb-inquisition-case: #15191A; --cb-inquisition-bar: #0E1213; --cb-inquisition-steel: #EDE6D6; --cb-inquisition-steel-2: #B8A984;
+  --cb-inquisition-lcd: #0A0D0E; --cb-inquisition-amber: #D8B25A; --cb-inquisition-amber-2: #5CE6B0;
+  --cb-inquisition-rift: #3EE0A0; --cb-inquisition-riftglow: #A6FFD8; --cb-inquisition-stone: #3A4040;
+  --cb-metroid-case: #050512; --cb-metroid-bar: #0D0D24; --cb-metroid-steel: #FCFCFC; --cb-metroid-steel-2: #9CB0FF;
+  --cb-metroid-lcd: #000000; --cb-metroid-amber: #FCB850; --cb-metroid-amber-2: #3CBCFC;
+  --cb-metroid-rock: #0058F8; --cb-metroid-teal: #00A8A8; --cb-metroid-pink: #F878F8; --cb-metroid-lava: #D82800;
+  --cb-megaman-case: #0B1E4A; --cb-megaman-bar: #08163A; --cb-megaman-steel: #FCFCFC; --cb-megaman-steel-2: #A4E4FC;
+  --cb-megaman-lcd: #02081C; --cb-megaman-amber: #3CBCFC; --cb-megaman-amber-2: #F8D878;
+  --cb-megaman-blue: #0070EC; --cb-megaman-metal: #BCBCBC; --cb-megaman-meter: #FCE4A0; --cb-megaman-green: #00A800;
+  --cb-fable-case: #1C140C; --cb-fable-bar: #140E08; --cb-fable-steel: #F2E6CC; --cb-fable-steel-2: #C9B48A;
+  --cb-fable-lcd: #0F0A05; --cb-fable-amber: #F5C84A; --cb-fable-amber-2: #D9A15A;
+  --cb-fable-trail: #FFD86A; --cb-fable-iron: #4A4440; --cb-fable-cobble: #6E5E4C; --cb-fable-glow: #FFF0B0;
+  --cb-skyrim-case: #1B1D20; --cb-skyrim-bar: #121416; --cb-skyrim-steel: #EAEAE4; --cb-skyrim-steel-2: #A9A69C;
+  --cb-skyrim-lcd: #0D0F11; --cb-skyrim-amber: #C9DCE8; --cb-skyrim-amber-2: #B8B2A2;
+  --cb-skyrim-snow: #F2F6F8; --cb-skyrim-peak: #5A6068; --cb-skyrim-knot: #8E8A80; --cb-skyrim-aurora: #6EE0B8;
+  --cb-doom-case: #1A0905; --cb-doom-bar: #120503; --cb-doom-steel: #F2E2C8; --cb-doom-steel-2: #C8A07A;
+  --cb-doom-lcd: #0D0402; --cb-doom-amber: #FF7A2A; --cb-doom-amber-2: #9BDC4A;
+  --cb-doom-fire: #FF5A1A; --cb-doom-flame: #FFC03A; --cb-doom-metal: #6A5E56; --cb-doom-rivet: #A89A8E; --cb-doom-slime: #6EC21E;
+  --cb-portal-case: #EEF1F3; --cb-portal-bar: #DDE2E6; --cb-portal-steel: #16191C; --cb-portal-steel-2: #4C5560;
+  --cb-portal-lcd: #FFFFFF; --cb-portal-amber: #0A55C0; --cb-portal-amber-2: #A04600;
+  --cb-portal-blue: #2D8CFF; --cb-portal-orange: #FF8A1A; --cb-portal-panel: #C9D0D6; --cb-portal-seam: #9AA4AE;
+  --cb-witcher-case: #16181A; --cb-witcher-bar: #0F1012; --cb-witcher-steel: #E6E2DA; --cb-witcher-steel-2: #A8A49C;
+  --cb-witcher-lcd: #0B0C0D; --cb-witcher-amber: #D2D6DC; --cb-witcher-amber-2: #E87060;
+  --cb-witcher-pine: #1F2A22; --cb-witcher-moon: #E8E4D8; --cb-witcher-mist: #4A5054; --cb-witcher-blood: #9A1E18;
+  --cb-gta-case: #1A1030; --cb-gta-bar: #120A24; --cb-gta-steel: #FFF2E8; --cb-gta-steel-2: #F2A8C8;
+  --cb-gta-lcd: #0C0618; --cb-gta-amber: #FFB04A; --cb-gta-amber-2: #7FE0C8;
+  --cb-gta-sun1: #FFC04A; --cb-gta-sun2: #FF7A4A; --cb-gta-sun3: #E84A8A; --cb-gta-sun4: #8A3AB0; --cb-gta-palm: #07040F; --cb-gta-city: #2A1A44;
+  --cb-loz-case: #FCD8A8; --cb-loz-bar: #F0C890; --cb-loz-steel: #2A1408; --cb-loz-steel-2: #6A3A10;
+  --cb-loz-lcd: #FFF4E0; --cb-loz-amber: #8A2800; --cb-loz-amber-2: #005800;
+  --cb-loz-tree: #00A800; --cb-loz-rock: #C84C0C; --cb-loz-water: #3CBCFC; --cb-loz-trunk: #7A4A1C;
+  --cb-mordor-case: #121011; --cb-mordor-bar: #0B0A0A; --cb-mordor-steel: #E8E2DC; --cb-mordor-steel-2: #A8A09A;
+  --cb-mordor-lcd: #080707; --cb-mordor-amber: #FF8A3A; --cb-mordor-amber-2: #9FD0F0;
+  --cb-mordor-lava: #FF5A1E; --cb-mordor-glow: #FFB040; --cb-mordor-rock: #2A2626; --cb-mordor-ash: #6A625E; --cb-mordor-wraith: #CFE8FF; --cb-mordor-rune: #C9A54A; --cb-mordor-blue: #6FA8D8;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
      profile. NOT A ROOM'S PALETTE: a person's own jacket, drawn wherever their

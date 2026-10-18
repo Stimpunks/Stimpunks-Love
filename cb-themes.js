@@ -424,7 +424,7 @@
   };
 
   /* ── THE WINAMP SKINS (Ryan, 2026-10-17) ─────────────────────────────────
-     After twelve skins in the Winamp Skin Museum. Each band is drawn here from
+     After skins in the Winamp Skin Museum. Each band is drawn here from
      shapes anybody could draw, in the skin's spirit and its theme's inks: no
      bitmap of a skin's is used, no character from a game is drawn, and no mark
      of a company's. Who made each skin is in call.js's SCHEMES. */
@@ -758,7 +758,7 @@
   };
 
   /* ── THE GEOCITIES PAGES (Ryan, 2026-10-17) ──────────────────────────────
-     After eight pages in Restorativland's GeoCities archive. Each band is drawn
+     After pages in Restorativland's GeoCities archive. Each band is drawn
      here in the page's spirit and its theme's inks: no picture, clip art or
      photograph from any of them is used, and nobody on them is drawn. */
 
@@ -984,6 +984,300 @@
       for (x = 8 + r() * 10; x < c.w - 6; x += (c.kind === 'left' || c.kind === 'right' ? 16 : 34 + r() * 30), i++) {
         add(c.svg, 'path', { d: star5(x, c.h / 2 + (r() - 0.5) * c.h * 0.2, at(c.h * 0.38, 4)) },
           { fill: inks[i % inks.length], stroke: '--cb-steel', sw: 0.5, cls: 'art-twinkle', d: r() * 4, t: 4 + r() * 2 });
+      }
+    }
+  };
+
+  /* ── RYAN'S FAVOURITE GAMES (2026-10-17) ─────────────────────────────────
+     Each band is the game's palette and the shapes of its world, drawn here:
+     no character, logo, emblem or symbol of any game's is drawn. */
+
+  /* CASTLE CRASHERS: cartoon castles on a grassy hill, every edge in a thick
+     black outline, and pennants flying. */
+  T.crashers = {
+    band: function (c, r) {
+      var s = c.s, x, inks = ['--cb-crashers-red', '--cb-crashers-blue', '--cb-crashers-green', '--cb-crashers-orange'], ow = at(1.6 * s, 1);
+      add(c.svg, 'path', { d: wave(c.w, c.h * 0.86, 1.6 * s, 34, 0) + 'L' + (c.w + 10) + ' ' + (c.h + 2) + 'L-10 ' + (c.h + 2) + 'Z' }, { fill: '--cb-crashers-grass', stroke: '--cb-steel', sw: ow });
+      for (x = 16 + r() * 30; x < c.w - 16; x += 80 + r() * 70) {
+        var tw = at(10 * s, 6), th = c.h * (0.45 + r() * 0.2), ty = c.h * 0.86 - th, ink = inks[Math.floor(r() * 4)];
+        add(c.svg, 'rect', { x: f(x), y: f(ty), width: f(tw), height: f(th) }, { fill: '--cb-crashers-stone', stroke: '--cb-steel', sw: ow });
+        add(c.svg, 'path', { d: 'M' + f(x - 2 * s) + ' ' + f(ty) + 'L' + f(x + tw / 2) + ' ' + f(ty - th * 0.45) + 'L' + f(x + tw + 2 * s) + ' ' + f(ty) + 'Z' }, { fill: ink, stroke: '--cb-steel', sw: ow });
+        add(c.svg, 'rect', { x: f(x + tw * 0.35), y: f(ty + th * 0.35), width: f(tw * 0.3), height: f(th * 0.35), rx: f(tw * 0.15) }, { fill: '--cb-steel' });
+        var py = ty - th * 0.45, pf = group(c.svg, {}, { cls: 'art-sway', d: r() * 3, t: 3.5 });
+        add(pf, 'path', { d: 'M' + f(x + tw / 2) + ' ' + f(py) + 'l0 ' + f(-6 * s) }, { stroke: '--cb-steel', sw: at(s, 0.8) });
+        add(pf, 'path', { d: 'M' + f(x + tw / 2) + ' ' + f(py - 6 * s) + 'l' + f(7 * s) + ' ' + f(2 * s) + 'l' + f(-7 * s) + ' ' + f(2 * s) + 'Z' }, { fill: inks[Math.floor(r() * 4)], stroke: '--cb-steel', sw: at(0.8 * s, 0.6) });
+      }
+    }
+  };
+
+  /* DRAGON AGE: INQUISITION: gold filigree, and green rifts torn in the air,
+     glowing slowly. */
+  T.inquisition = {
+    band: function (c, r) {
+      var s = c.s, mid = c.h / 2, x, d = 'M-4 ' + f(mid);
+      for (x = 0; x < c.w + 20; x += 20) d += 'C' + f(x + 5) + ' ' + f(mid - 6 * s) + ' ' + f(x + 15) + ' ' + f(mid + 6 * s) + ' ' + f(x + 20) + ' ' + f(mid);
+      add(c.svg, 'path', { d: d }, { stroke: '--cb-amber', sw: at(s, 0.7) });
+      for (x = 10; x < c.w; x += 20) add(c.svg, 'circle', { cx: f(x), cy: f(mid), r: f(at(1.2 * s, 0.8)) }, { fill: '--cb-amber' });
+      for (x = 40 + r() * 50; x < c.w - 10; x += 90 + r() * 80) {
+        var h = c.h * 0.86, top = (c.h - h) / 2, rw = at(6 * s, 3.5), pts = [];
+        for (var k = 0; k <= 6; k++) pts.push([x + (k % 2 ? rw : -rw) * (0.3 + r() * 0.7) * Math.sin(Math.PI * k / 6), top + h * k / 6]);
+        var tear = 'M' + pts.map(function (p) { return f(p[0]) + ' ' + f(p[1]); }).join('L') + 'Z';
+        add(c.svg, 'path', { d: tear }, { fill: '--cb-inquisition-rift', cls: 'art-glow', d: r() * 3, t: 4.5 });
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(top + h * 0.15) + 'L' + f(x + rw * 0.2) + ' ' + f(mid) + 'L' + f(x - rw * 0.1) + ' ' + f(top + h * 0.85) }, { stroke: '--cb-inquisition-riftglow', sw: at(s, 0.8) });
+      }
+    }
+  };
+
+  /* METROID: blue cavern rock, round doors, energy squares and a seam of lava. */
+  T.metroid = {
+    band: function (c, r) {
+      var s = c.s, b = at(7 * s, 6), x, y;
+      for (x = 0; x < c.w; x += b) {
+        for (y = c.h - b; y > c.h * 0.3; y -= b) {
+          if (r() < 0.25 && y < c.h - b) continue;
+          add(c.svg, 'rect', { x: f(x), y: f(y), width: f(b - 0.6), height: f(b - 0.6), rx: f(b * 0.3) }, { fill: r() < 0.7 ? '--cb-metroid-rock' : '--cb-metroid-teal' });
+          add(c.svg, 'circle', { cx: f(x + b * 0.35), cy: f(y + b * 0.35), r: f(b * 0.12) }, { fill: '--cb-case' });
+        }
+      }
+      add(c.svg, 'rect', { x: 0, y: f(c.h - 1.6 * s), width: c.w, height: f(1.6 * s) }, { fill: '--cb-metroid-lava', cls: 'art-glow', t: 5 });
+      for (x = 40 + r() * 40; x < c.w - 10; x += 110 + r() * 80) {
+        add(c.svg, 'ellipse', { cx: f(x), cy: f(c.h * 0.5), rx: f(at(3 * s, 2)), ry: f(c.h * 0.36) }, { fill: '--cb-amber-2', stroke: '--cb-steel', sw: at(s, 0.8) });
+      }
+      for (x = 20 + r() * 30; x < c.w; x += 60 + r() * 60) {
+        add(c.svg, 'rect', { x: f(x), y: f(c.h * 0.15), width: f(at(3 * s, 2)), height: f(at(3 * s, 2)) }, { fill: '--cb-metroid-pink', cls: 'art-twinkle', d: r() * 3, t: 3 });
+      }
+    }
+  };
+
+  /* MEGA MAN: riveted panels, ladders, pipes, and an energy meter filling in
+     turn. */
+  T.megaman = {
+    band: function (c, r) {
+      var s = c.s, x = 4, kind = 0;
+      if (c.kind === 'top' || c.kind === 'left' || c.kind === 'right') {
+        for (var m = 0; m < 14; m++) add(c.svg, 'rect', { x: f(x + m * 4 * at(s, 0.6)), y: f(c.h * 0.25), width: f(2.6 * at(s, 0.6)), height: f(c.h * 0.5) }, { fill: '--cb-megaman-meter', cls: 'art-glow', d: m * 0.2, t: 3 });
+        x += 14 * 4 * at(s, 0.6) + 10;
+      }
+      while (x < c.w - 10) {
+        var w;
+        if (kind % 3 === 0) {
+          w = (26 + r() * 30) * at(s, 0.6);
+          add(c.svg, 'rect', { x: f(x), y: f(c.h * 0.15), width: f(w), height: f(c.h * 0.7) }, { fill: '--cb-megaman-blue', stroke: '--cb-megaman-metal', sw: at(s, 0.8) });
+          [[0.12, 0.25], [0.88, 0.25], [0.12, 0.75], [0.88, 0.75]].forEach(function (p) {
+            add(c.svg, 'circle', { cx: f(x + w * p[0]), cy: f(c.h * (0.15 + 0.7 * p[1])), r: f(at(s, 0.8)) }, { fill: '--cb-megaman-metal' });
+          });
+        } else if (kind % 3 === 1) {
+          w = at(9 * s, 6);
+          add(c.svg, 'path', { d: 'M' + f(x) + ' 0L' + f(x) + ' ' + c.h + 'M' + f(x + w) + ' 0L' + f(x + w) + ' ' + c.h }, { stroke: '--cb-megaman-metal', sw: at(1.4 * s, 1) });
+          for (var g = 3; g < c.h; g += 5 * at(s, 0.6)) add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(g) + 'L' + f(x + w) + ' ' + f(g) }, { stroke: '--cb-megaman-metal', sw: at(s, 0.8) });
+        } else {
+          w = (30 + r() * 30) * at(s, 0.6);
+          add(c.svg, 'rect', { x: f(x), y: f(c.h * 0.38), width: f(w), height: f(c.h * 0.24), rx: f(c.h * 0.12) }, { fill: '--cb-megaman-green' });
+          add(c.svg, 'rect', { x: f(x + w * 0.4), y: f(c.h * 0.32), width: f(4 * s), height: f(c.h * 0.36) }, { fill: '--cb-megaman-metal' });
+        }
+        x += w + 8; kind++;
+      }
+    }
+  };
+
+  /* FABLE III: a golden trail glowing its way over cobbles, beside ironwork. */
+  T.fable = {
+    band: function (c, r) {
+      var s = c.s, x;
+      for (x = 0; x < c.w; x += (9 + r() * 6) * at(s, 0.6)) {
+        add(c.svg, 'rect', { x: f(x), y: f(c.h * 0.74), width: f((7 + r() * 4) * at(s, 0.6)), height: f(c.h * 0.2), rx: f(c.h * 0.08) }, { fill: '--cb-fable-cobble' });
+      }
+      for (x = 30 + r() * 30; x < c.w - 20; x += 120 + r() * 80) {
+        var iw = 30 * at(s, 0.6);
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(c.h * 0.7) + 'L' + f(x) + ' ' + f(c.h * 0.15) + 'M' + f(x + iw) + ' ' + f(c.h * 0.7) + 'L' + f(x + iw) + ' ' + f(c.h * 0.15) +
+          'M' + f(x) + ' ' + f(c.h * 0.25) + 'q' + f(iw / 2) + ' ' + f(-c.h * 0.2) + ' ' + f(iw) + ' 0M' + f(x + iw / 2) + ' ' + f(c.h * 0.7) + 'L' + f(x + iw / 2) + ' ' + f(c.h * 0.22) }, { stroke: '--cb-fable-iron', sw: at(1.4 * s, 1) });
+      }
+      var ty = c.h * 0.5;
+      for (x = 2; x < c.w; x += 4 * at(s, 0.7)) {
+        var y = ty + Math.sin(x / 26) * c.h * 0.16;
+        add(c.svg, 'circle', { cx: f(x), cy: f(y), r: f(at(1.1 * s, 0.7)) }, { fill: r() < 0.15 ? '--cb-fable-glow' : '--cb-fable-trail', cls: 'art-twinkle', d: (x / c.w) * 4, t: 2.6 });
+      }
+    }
+  };
+
+  /* SKYRIM: snowy peaks, an aurora over them, knotwork along the dividers,
+     and snow falling. */
+  T.skyrim = {
+    band: function (c, r) {
+      var s = c.s, x;
+      if (c.kind === 'divider') {
+        for (x = 4; x < c.w - 6; x += 9 * at(s, 0.6)) add(c.svg, 'circle', { cx: f(x), cy: f(c.h / 2), r: f(5 * at(s, 0.6)) }, { stroke: '--cb-skyrim-knot', sw: at(s, 0.8) });
+        return;
+      }
+      add(c.svg, 'path', { d: wave(c.w, c.h * 0.22, c.h * 0.08, 30, 0) }, { stroke: '--cb-skyrim-aurora', sw: at(3 * s, 1.6), cls: 'art-glow', t: 7 });
+      var d = 'M-4 ' + c.h, sx = -4;
+      while (sx < c.w + 10) {
+        var pw = (24 + r() * 30) * at(s, 0.6), ph = c.h * (0.35 + r() * 0.4);
+        add(c.svg, 'path', { d: 'M' + f(sx) + ' ' + c.h + 'L' + f(sx + pw / 2) + ' ' + f(c.h - ph) + 'L' + f(sx + pw) + ' ' + c.h + 'Z' }, { fill: '--cb-skyrim-peak' });
+        add(c.svg, 'path', { d: 'M' + f(sx + pw * 0.34) + ' ' + f(c.h - ph * 0.68) + 'L' + f(sx + pw / 2) + ' ' + f(c.h - ph) + 'L' + f(sx + pw * 0.66) + ' ' + f(c.h - ph * 0.68) + 'L' + f(sx + pw * 0.56) + ' ' + f(c.h - ph * 0.6) + 'L' + f(sx + pw * 0.46) + ' ' + f(c.h - ph * 0.72) + 'Z' }, { fill: '--cb-skyrim-snow' });
+        sx += pw * 0.7;
+      }
+      for (x = r() * 10; x < c.w; x += 10 + r() * 14) {
+        add(c.svg, 'circle', { cx: f(x), cy: f(r() * c.h * 0.4), r: f(at(0.8 * s, 0.6)) }, { fill: '--cb-skyrim-snow', cls: 'art-fall', d: r() * 6, t: 6 + r() * 4, run: Math.round(c.h * 0.7) });
+      }
+    }
+  };
+
+  /* DOOM: riveted metal plate, toxic slime, and fire that glows and never
+     flickers. */
+  T.doom = {
+    band: function (c, r) {
+      var s = c.s, x;
+      add(c.svg, 'rect', { x: 0, y: f(c.h * 0.12), width: c.w, height: f(c.h * 0.5) }, { fill: '--cb-doom-metal' });
+      for (x = 0; x < c.w; x += 40 * at(s, 0.6)) {
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(c.h * 0.12) + 'l0 ' + f(c.h * 0.5) }, { stroke: '--cb-case', sw: 1 });
+        add(c.svg, 'circle', { cx: f(x + 5 * s), cy: f(c.h * 0.22), r: f(at(s, 0.7)) }, { fill: '--cb-doom-rivet' });
+        add(c.svg, 'circle', { cx: f(x + 5 * s), cy: f(c.h * 0.52), r: f(at(s, 0.7)) }, { fill: '--cb-doom-rivet' });
+      }
+      add(c.svg, 'path', { d: wave(c.w, c.h * 0.84, 1.4 * s, 12, 0) + 'L' + (c.w + 10) + ' ' + (c.h + 2) + 'L-10 ' + (c.h + 2) + 'Z' }, { fill: '--cb-doom-slime', cls: 'art-glow', t: 6 });
+      for (x = 30 + r() * 40; x < c.w - 10; x += 70 + r() * 70) {
+        var fh = c.h * (0.5 + r() * 0.3), fw = at(5 * s, 3), fy = c.h * 0.84, fl = group(c.svg, {}, { cls: 'art-glow', d: r() * 3, t: 3 });
+        add(fl, 'path', { d: 'M' + f(x - fw) + ' ' + f(fy) + 'Q' + f(x - fw) + ' ' + f(fy - fh * 0.5) + ' ' + f(x) + ' ' + f(fy - fh) + 'Q' + f(x + fw) + ' ' + f(fy - fh * 0.5) + ' ' + f(x + fw) + ' ' + f(fy) + 'Z' }, { fill: '--cb-doom-fire' });
+        add(fl, 'path', { d: 'M' + f(x - fw * 0.4) + ' ' + f(fy) + 'Q' + f(x - fw * 0.4) + ' ' + f(fy - fh * 0.3) + ' ' + f(x) + ' ' + f(fy - fh * 0.55) + 'Q' + f(x + fw * 0.4) + ' ' + f(fy - fh * 0.3) + ' ' + f(x + fw * 0.4) + ' ' + f(fy) + 'Z' }, { fill: '--cb-doom-flame' });
+      }
+    }
+  };
+
+  /* PORTAL: white test-chamber panels, and a blue portal and an orange one
+     glowing in them. */
+  T.portal = {
+    band: function (c, r) {
+      var s = c.s, pw = at(22 * s, 12), x, i = 0;
+      for (x = 0; x < c.w; x += pw) add(c.svg, 'rect', { x: f(x + 0.6), y: f(c.h * 0.08), width: f(pw - 1.2), height: f(c.h * 0.84) }, { fill: '--cb-portal-panel', stroke: '--cb-portal-seam', sw: 0.8 });
+      for (x = 30 + r() * 40; x < c.w - 10; x += 90 + r() * 80, i++) {
+        var k = i % 2 ? '--cb-portal-orange' : '--cb-portal-blue';
+        add(c.svg, 'ellipse', { cx: f(x), cy: f(c.h / 2), rx: f(at(5 * s, 3)), ry: f(c.h * 0.38) }, { fill: '--cb-lcd', stroke: k, sw: at(2.4 * s, 1.4), cls: 'art-glow', d: r() * 3, t: 4 });
+      }
+    }
+  };
+
+  /* THE WITCHER 3: dark pines against the night, a moon, and mist drifting. */
+  T.witcher = {
+    band: function (c, r) {
+      var s = c.s, x;
+      if (c.kind === 'top') add(c.svg, 'circle', { cx: f(c.w - 30), cy: f(c.h * 0.32), r: f(c.h * 0.2) }, { fill: r() < 0.2 ? '--cb-witcher-blood' : '--cb-witcher-moon' });
+      for (x = -4; x < c.w + 4; x += (7 + r() * 9) * at(s, 0.6)) {
+        var th = c.h * (0.45 + r() * 0.5), tw = th * 0.42, base = c.h;
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(base - th) + 'L' + f(x + tw / 2) + ' ' + f(base - th * 0.55) + 'L' + f(x + tw * 0.3) + ' ' + f(base - th * 0.55) + 'L' + f(x + tw * 0.62) + ' ' + f(base - th * 0.12) + 'L' + f(x - tw * 0.62) + ' ' + f(base - th * 0.12) + 'L' + f(x - tw * 0.3) + ' ' + f(base - th * 0.55) + 'L' + f(x - tw / 2) + ' ' + f(base - th * 0.55) + 'Z' },
+          { fill: '--cb-witcher-pine', stroke: '--cb-steel-2', sw: 0.5 });
+      }
+      for (x = r() * 60; x < c.w; x += 120 + r() * 80) {
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(c.h * 0.7) + 'q' + f(20 * s) + ' ' + f(-4 * s) + ' ' + f(40 * s) + ' 0q' + f(20 * s) + ' ' + f(4 * s) + ' ' + f(40 * s) + ' 0' },
+          { stroke: '--cb-witcher-mist', sw: at(2.4 * s, 1.4), cls: 'art-flow', d: r() * 6, t: 14, run: 40 });
+      }
+    }
+  };
+
+  /* GRAND THEFT AUTO V: a sunset in four bands, the sun going down into it, a
+     city skyline, and palm trees swaying. */
+  T.gta = {
+    band: function (c, r) {
+      var s = c.s, x, bands = ['--cb-gta-sun4', '--cb-gta-sun3', '--cb-gta-sun2', '--cb-gta-sun1'];
+      bands.forEach(function (k, i) { add(c.svg, 'rect', { x: 0, y: f(c.h * i / 4), width: c.w, height: f(c.h / 4 + 0.5) }, { fill: k }); });
+      if (c.kind !== 'divider') add(c.svg, 'circle', { cx: f(c.w * 0.62), cy: f(c.h * 0.86), r: f(c.h * 0.3) }, { fill: '--cb-gta-sun1' });
+      for (x = 0; x < c.w; x += (6 + r() * 10) * at(s, 0.6)) {
+        var bh = c.h * (0.15 + r() * 0.35);
+        add(c.svg, 'rect', { x: f(x), y: f(c.h - bh), width: f((5 + r() * 7) * at(s, 0.6)), height: f(bh) }, { fill: '--cb-gta-city' });
+      }
+      for (x = 20 + r() * 30; x < c.w - 10; x += 60 + r() * 60) {
+        var p = group(c.svg, {}, { cls: 'art-sway', d: r() * 3, t: 5 + r() * 2 }), top = c.h * 0.18;
+        add(p, 'path', { d: 'M' + f(x) + ' ' + c.h + 'Q' + f(x + 3 * s) + ' ' + f(c.h * 0.6) + ' ' + f(x + 2 * s) + ' ' + f(top) }, { stroke: '--cb-gta-palm', sw: at(1.6 * s, 1) });
+        [-1, 1].forEach(function (dir) {
+          add(p, 'path', { d: 'M' + f(x + 2 * s) + ' ' + f(top) + 'q' + f(dir * 6 * s) + ' ' + f(-3 * s) + ' ' + f(dir * 10 * s) + ' ' + f(3 * s) + 'M' + f(x + 2 * s) + ' ' + f(top) + 'q' + f(dir * 4 * s) + ' ' + f(-6 * s) + ' ' + f(dir * 6 * s) + ' ' + f(-3 * s) }, { stroke: '--cb-gta-palm', sw: at(1.4 * s, 1) });
+        });
+      }
+    }
+  };
+
+  /* THE LEGEND OF ZELDA: the overworld, round trees, rocks and a stretch of
+     water glinting. */
+  T.loz = {
+    band: function (c, r) {
+      var s = c.s, x = 4, kind;
+      while (x < c.w - 8) {
+        kind = r();
+        var w;
+        if (kind < 0.5) {
+          w = at(12 * s, 7);
+          add(c.svg, 'rect', { x: f(x + w * 0.4), y: f(c.h * 0.62), width: f(w * 0.2), height: f(c.h * 0.26) }, { fill: '--cb-loz-trunk' });
+          add(c.svg, 'circle', { cx: f(x + w / 2), cy: f(c.h * 0.44), r: f(w * 0.48) }, { fill: '--cb-loz-tree' });
+          add(c.svg, 'circle', { cx: f(x + w * 0.35), cy: f(c.h * 0.36), r: f(w * 0.12) }, { fill: '--cb-case' });
+        } else if (kind < 0.8) {
+          w = at(10 * s, 6);
+          add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(c.h * 0.88) + 'L' + f(x + w * 0.15) + ' ' + f(c.h * 0.45) + 'L' + f(x + w * 0.6) + ' ' + f(c.h * 0.35) + 'L' + f(x + w) + ' ' + f(c.h * 0.6) + 'L' + f(x + w) + ' ' + f(c.h * 0.88) + 'Z' }, { fill: '--cb-loz-rock' });
+        } else {
+          w = (24 + r() * 26) * at(s, 0.6);
+          add(c.svg, 'rect', { x: f(x), y: f(c.h * 0.55), width: f(w), height: f(c.h * 0.33) }, { fill: '--cb-loz-water' });
+          add(c.svg, 'path', { d: 'M' + f(x + w * 0.2) + ' ' + f(c.h * 0.68) + 'l' + f(w * 0.2) + ' 0M' + f(x + w * 0.55) + ' ' + f(c.h * 0.78) + 'l' + f(w * 0.2) + ' 0' }, { stroke: '--cb-lcd', sw: at(s, 0.8), cls: 'art-glow', d: r() * 3, t: 3.5 });
+        }
+        x += w + 5;
+      }
+    }
+  };
+
+  /* SHADOW OF MORDOR: rune medallions after the game's runes, as Ryan asked,
+     each a gold ring with a mark glowing in it, a few in wraith-blue, over a
+     seam of lava; and along the foot black mountains over lava with ash
+     drifting. Every mark is made up here out of a stave, branches, a crescent,
+     prongs and dots, mirrored, so none is a rune of the game's and none is a
+     letter of Tolkien's. */
+  function rune(parent, cx, cy, R, ink, r, d, kind) {
+    /* Down a side the band is turned to run vertically, which would turn every
+       mark on its side: each medallion is turned back about its own centre. */
+    var turn = kind === 'left' ? 'matrix(0 1 1 0 0 0)' : kind === 'right' ? 'matrix(0 -1 1 0 0 0)' : '';
+    var holder = turn ? group(parent, { transform: 'translate(' + f(cx) + ' ' + f(cy) + ') ' + turn + ' translate(' + f(-cx) + ' ' + f(-cy) + ')' }) : parent;
+    var g = group(holder, {}, { cls: 'art-glow', d: d, t: 4.5 + r() * 2 }), w = at(R * 0.13, 0.8), o = { stroke: ink, sw: w };
+    add(g, 'circle', { cx: f(cx), cy: f(cy), r: f(R) }, { stroke: ink, sw: w * 0.9 });
+    var top = cy - R * 0.62, bot = cy + R * 0.62, parts = 0;
+    if (r() < 0.75) { add(g, 'path', { d: 'M' + f(cx) + ' ' + f(top) + 'L' + f(cx) + ' ' + f(bot) }, o); parts++; }
+    if (r() < 0.6) {
+      var by = cy + (r() - 0.5) * R * 0.6, bw = R * (0.35 + r() * 0.2), up = r() < 0.5 ? -1 : 1;
+      add(g, 'path', { d: 'M' + f(cx - bw) + ' ' + f(by + up * bw * 0.8) + 'L' + f(cx) + ' ' + f(by) + 'L' + f(cx + bw) + ' ' + f(by + up * bw * 0.8) }, o); parts++;
+    }
+    if (r() < 0.45) {
+      var cr = R * (0.32 + r() * 0.12), cyy = cy + (r() < 0.5 ? -1 : 1) * R * 0.18, flip = r() < 0.5 ? 0 : 1;
+      add(g, 'path', { d: 'M' + f(cx - cr) + ' ' + f(cyy) + 'A' + f(cr) + ' ' + f(cr) + ' 0 0 ' + flip + ' ' + f(cx + cr) + ' ' + f(cyy) }, o); parts++;
+    }
+    if (r() < 0.35) {
+      var pw = R * 0.32;
+      add(g, 'path', { d: 'M' + f(cx - pw) + ' ' + f(top + R * 0.12) + 'L' + f(cx - pw) + ' ' + f(top + R * 0.4) + 'M' + f(cx + pw) + ' ' + f(top + R * 0.12) + 'L' + f(cx + pw) + ' ' + f(top + R * 0.4) +
+        'M' + f(cx - pw) + ' ' + f(top + R * 0.4) + 'L' + f(cx + pw) + ' ' + f(top + R * 0.4) }, o); parts++;
+    }
+    if (r() < 0.4 || !parts) {
+      var dx = R * (0.3 + r() * 0.2), dy = cy + (r() - 0.3) * R * 0.5;
+      add(g, 'circle', { cx: f(cx - dx), cy: f(dy), r: f(w * 0.9) }, { fill: ink });
+      add(g, 'circle', { cx: f(cx + dx), cy: f(dy), r: f(w * 0.9) }, { fill: ink });
+    }
+  }
+  T.mordor = {
+    band: function (c, r) {
+      var s = c.s, R = c.h * 0.34, x, i = 0;
+      add(c.svg, 'path', { d: 'M0 ' + f(c.h - 1) + 'L' + c.w + ' ' + f(c.h - 1) }, { stroke: '--cb-mordor-lava', sw: at(1.4 * s, 1), cls: 'art-glow', t: 5 });
+      for (x = R + 6; x < c.w - R; x += R * 2.6 + 4, i++) {
+        var pick = r(), ink = pick < 0.16 ? '--cb-mordor-blue' : pick < 0.24 ? '--cb-mordor-wraith' : '--cb-mordor-rune';
+        rune(c.svg, x, c.h / 2 - 0.5, R, ink, r, (i % 16) * 0.35, c.kind);
+      }
+      for (x = r() * 30; x < c.w; x += 40 + r() * 40) {
+        add(c.svg, 'circle', { cx: f(x), cy: f(r() * c.h * 0.8), r: f(at(0.7 * s, 0.5)) }, { fill: '--cb-mordor-ash', cls: 'art-flow', d: r() * 6, t: 10 + r() * 5, run: 30 });
+      }
+    },
+    foot: function (c, r) {
+      var s = c.s, x;
+      add(c.svg, 'rect', { x: 0, y: f(c.h * 0.86), width: c.w, height: f(c.h * 0.14) }, { fill: '--cb-mordor-lava', cls: 'art-glow', t: 5 });
+      var d = 'M-4 ' + f(c.h * 0.88);
+      for (x = 0; x < c.w + 10; x += (6 + r() * 8) * at(s, 0.6)) d += 'L' + f(x) + ' ' + f(c.h * (0.2 + r() * 0.5));
+      d += 'L' + (c.w + 10) + ' ' + f(c.h * 0.88) + 'Z';
+      add(c.svg, 'path', { d: d }, { fill: '--cb-mordor-rock', stroke: '--cb-mordor-glow', sw: at(0.8 * s, 0.6) });
+      for (x = r() * 20; x < c.w; x += 14 + r() * 20) {
+        add(c.svg, 'circle', { cx: f(x), cy: f(r() * c.h * 0.8), r: f(at(0.8 * s, 0.6)) }, { fill: '--cb-mordor-ash', cls: 'art-flow', d: r() * 6, t: 9 + r() * 5, run: 30 });
+      }
+      for (x = 40 + r() * 40; x < c.w; x += 100 + r() * 80) {
+        add(c.svg, 'path', { d: sparkle(x, c.h * 0.3, at(2.4 * s, 1.6)) }, { fill: '--cb-mordor-wraith', cls: 'art-twinkle', d: r() * 4, t: 4 });
       }
     }
   };

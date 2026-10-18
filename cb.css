@@ -112,6 +112,49 @@
   --cb-display: 'Libre Franklin'; --cb-display-scale: 1.1; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="sarah"]) { --cb-case: var(--cb-sarah-case); --cb-bar: var(--cb-sarah-bar); --cb-steel: var(--cb-sarah-steel); --cb-steel-2: var(--cb-sarah-steel-2); --cb-lcd: var(--cb-sarah-lcd); --cb-amber: var(--cb-sarah-amber); --cb-amber-2: var(--cb-sarah-amber-2);
   --cb-display: 'Playfair Display'; --cb-display-scale: 1.15; --cb-display-track: .06em; --cb-display-case: uppercase; }
+/* RYAN'S FAVOURITE GAMES (2026-10-17): the same seven parts, a face for the
+   name and headings, and a shape after each game; the drawings are
+   cb-themes.js's, and draw nothing of any game's own. */
+:host([data-scheme="crashers"]) { --cb-case: var(--cb-crashers-case); --cb-bar: var(--cb-crashers-bar); --cb-steel: var(--cb-crashers-steel); --cb-steel-2: var(--cb-crashers-steel-2); --cb-lcd: var(--cb-crashers-lcd); --cb-amber: var(--cb-crashers-amber); --cb-amber-2: var(--cb-crashers-amber-2);
+  --cb-display: 'Bagel Fat One'; --cb-display-scale: 1.2; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="inquisition"]) { --cb-case: var(--cb-inquisition-case); --cb-bar: var(--cb-inquisition-bar); --cb-steel: var(--cb-inquisition-steel); --cb-steel-2: var(--cb-inquisition-steel-2); --cb-lcd: var(--cb-inquisition-lcd); --cb-amber: var(--cb-inquisition-amber); --cb-amber-2: var(--cb-inquisition-amber-2);
+  --cb-display: 'Marcellus SC'; --cb-display-scale: 1.1; --cb-display-track: .08em; --cb-display-case: none; }
+:host([data-scheme="metroid"]) { --cb-case: var(--cb-metroid-case); --cb-bar: var(--cb-metroid-bar); --cb-steel: var(--cb-metroid-steel); --cb-steel-2: var(--cb-metroid-steel-2); --cb-lcd: var(--cb-metroid-lcd); --cb-amber: var(--cb-metroid-amber); --cb-amber-2: var(--cb-metroid-amber-2);
+  --cb-display: 'Press Start 2P'; --cb-display-scale: .8; --cb-display-track: .04em; --cb-display-case: uppercase; }
+:host([data-scheme="megaman"]) { --cb-case: var(--cb-megaman-case); --cb-bar: var(--cb-megaman-bar); --cb-steel: var(--cb-megaman-steel); --cb-steel-2: var(--cb-megaman-steel-2); --cb-lcd: var(--cb-megaman-lcd); --cb-amber: var(--cb-megaman-amber); --cb-amber-2: var(--cb-megaman-amber-2);
+  --cb-display: 'Righteous'; --cb-display-scale: 1.15; --cb-display-track: .06em; --cb-display-case: uppercase; }
+:host([data-scheme="fable"]) { --cb-case: var(--cb-fable-case); --cb-bar: var(--cb-fable-bar); --cb-steel: var(--cb-fable-steel); --cb-steel-2: var(--cb-fable-steel-2); --cb-lcd: var(--cb-fable-lcd); --cb-amber: var(--cb-fable-amber); --cb-amber-2: var(--cb-fable-amber-2);
+  --cb-display: 'Della Respira'; --cb-display-scale: 1.2; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="skyrim"]) { --cb-case: var(--cb-skyrim-case); --cb-bar: var(--cb-skyrim-bar); --cb-steel: var(--cb-skyrim-steel); --cb-steel-2: var(--cb-skyrim-steel-2); --cb-lcd: var(--cb-skyrim-lcd); --cb-amber: var(--cb-skyrim-amber); --cb-amber-2: var(--cb-skyrim-amber-2);
+  --cb-display: 'Forum'; --cb-display-scale: 1.25; --cb-display-track: .1em; --cb-display-case: uppercase; }
+:host([data-scheme="doom"]) { --cb-case: var(--cb-doom-case); --cb-bar: var(--cb-doom-bar); --cb-steel: var(--cb-doom-steel); --cb-steel-2: var(--cb-doom-steel-2); --cb-lcd: var(--cb-doom-lcd); --cb-amber: var(--cb-doom-amber); --cb-amber-2: var(--cb-doom-amber-2);
+  --cb-display: 'Rubik Dirt'; --cb-display-scale: 1.2; --cb-display-track: .06em; --cb-display-case: uppercase; }
+:host([data-scheme="portal"]) { --cb-case: var(--cb-portal-case); --cb-bar: var(--cb-portal-bar); --cb-steel: var(--cb-portal-steel); --cb-steel-2: var(--cb-portal-steel-2); --cb-lcd: var(--cb-portal-lcd); --cb-amber: var(--cb-portal-amber); --cb-amber-2: var(--cb-portal-amber-2);
+  --cb-display: 'Inter'; --cb-display-scale: 1.05; --cb-display-track: .12em; --cb-display-case: uppercase; }
+:host([data-scheme="witcher"]) { --cb-case: var(--cb-witcher-case); --cb-bar: var(--cb-witcher-bar); --cb-steel: var(--cb-witcher-steel); --cb-steel-2: var(--cb-witcher-steel-2); --cb-lcd: var(--cb-witcher-lcd); --cb-amber: var(--cb-witcher-amber); --cb-amber-2: var(--cb-witcher-amber-2);
+  --cb-display: 'Cinzel'; --cb-display-scale: 1.1; --cb-display-track: .08em; --cb-display-case: uppercase; }
+:host([data-scheme="gta"]) { --cb-case: var(--cb-gta-case); --cb-bar: var(--cb-gta-bar); --cb-steel: var(--cb-gta-steel); --cb-steel-2: var(--cb-gta-steel-2); --cb-lcd: var(--cb-gta-lcd); --cb-amber: var(--cb-gta-amber); --cb-amber-2: var(--cb-gta-amber-2);
+  --cb-display: 'Gravitas One'; --cb-display-scale: .95; --cb-display-track: .04em; --cb-display-case: uppercase; }
+:host([data-scheme="loz"]) { --cb-case: var(--cb-loz-case); --cb-bar: var(--cb-loz-bar); --cb-steel: var(--cb-loz-steel); --cb-steel-2: var(--cb-loz-steel-2); --cb-lcd: var(--cb-loz-lcd); --cb-amber: var(--cb-loz-amber); --cb-amber-2: var(--cb-loz-amber-2);
+  --cb-display: 'Amarante'; --cb-display-scale: 1.2; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="mordor"]) { --cb-case: var(--cb-mordor-case); --cb-bar: var(--cb-mordor-bar); --cb-steel: var(--cb-mordor-steel); --cb-steel-2: var(--cb-mordor-steel-2); --cb-lcd: var(--cb-mordor-lcd); --cb-amber: var(--cb-mordor-amber); --cb-amber-2: var(--cb-mordor-amber-2);
+  --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
+:host([data-scheme="crashers"]) .cb-btn { border: 3px solid var(--cb-steel); border-radius: 12px; }
+:host([data-scheme="inquisition"]) .cb-radio { border-color: var(--cb-amber); border-radius: 6px; }
+:host([data-scheme="inquisition"]) .cb-sec + .cb-sec { border-top: 1px solid var(--cb-amber); }
+:host([data-scheme="metroid"]) .cb-radio, :host([data-scheme="megaman"]) .cb-radio,
+:host([data-scheme="doom"]) .cb-radio, :host([data-scheme="loz"]) .cb-radio { border-radius: 0; border-width: 4px; }
+:host([data-scheme="metroid"]) .cb-btn, :host([data-scheme="megaman"]) .cb-btn,
+:host([data-scheme="doom"]) .cb-btn, :host([data-scheme="loz"]) .cb-btn { border-radius: 0; }
+:host([data-scheme="metroid"]) .cb-radio { border-color: var(--cb-amber-2); }
+:host([data-scheme="doom"]) .cb-radio { border-color: var(--cb-doom-metal); }
+:host([data-scheme="fable"]) .cb-radio { border-color: var(--cb-amber-2); border-radius: 12px 12px 4px 4px; }
+:host([data-scheme="skyrim"]) .cb-radio, :host([data-scheme="witcher"]) .cb-radio { border-radius: 4px; }
+:host([data-scheme="portal"]) .cb-radio { border-radius: 20px; }
+:host([data-scheme="portal"]) .cb-btn { border-radius: 999px; }
+:host([data-scheme="gta"]) .cb-radio { border-radius: 0; border-color: var(--cb-amber); }
+:host([data-scheme="mordor"]) .cb-radio { border-color: var(--cb-amber); border-radius: 8px; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
    of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
 :host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,
@@ -135,7 +178,7 @@
 :host([data-scheme="greenroom"]) .cb-sec + .cb-sec { border-top: 3px double var(--cb-greenroom-olive); }
 :host([data-scheme="sarah"]) .cb-radio { border-radius: 10px; border-color: var(--cb-amber); }
 :host([data-scheme="sarah"]) .cb-btn { border-radius: 8px; }
-/* The skins' shapes. The four games are hard-cornered and thick-edged, like
+/* The skins' shapes. The games are hard-cornered and thick-edged, like
    pixels; ASCII-Amp is drawn in dashes; the calculators have keys; the Game
    Boy keeps the one corner its case has rounded. */
 :host([data-scheme="zelda"]) .cb-radio, :host([data-scheme="sml"]) .cb-radio,
@@ -262,6 +305,7 @@
 :host([data-motion="on"]) .art-breathe { transform-box: fill-box; transform-origin: center; animation: cb-art-breathe var(--t, 5s) ease-in-out var(--d, 0s) infinite; }
 :host([data-motion="on"]) .art-glow { animation: cb-art-glow var(--t, 4s) ease-in-out var(--d, 0s) infinite; }
 :host([data-motion="on"]) .art-flow { animation: cb-art-flow var(--t, 6s) linear var(--d, 0s) infinite; }
+:host([data-motion="on"]) .art-fall { animation: cb-art-fall var(--t, 7s) linear var(--d, 0s) infinite; }
 :host([data-motion="on"][data-scheme="glitter"]) .cb-radio,
 :host([data-motion="on"][data-scheme="unicorn"]) .cb-radio { animation: cb-art-shine 14s linear infinite; }
 @keyframes cb-art-grow { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
@@ -272,6 +316,7 @@
 @keyframes cb-art-breathe { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.09); } }
 @keyframes cb-art-glow { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
 @keyframes cb-art-flow { from { transform: translateX(0); } to { transform: translateX(var(--run, 60px)); } }
+@keyframes cb-art-fall { from { transform: translateY(0); } to { transform: translateY(var(--run, 24px)); } }
 @keyframes cb-art-shine { from { background-position: 0 0, 0 0; } to { background-position: 0 0, 150% 0; } }
 .sr {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

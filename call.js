@@ -171,7 +171,7 @@
     ['cyborg', 'Crip Cyborg', 'world', 'disabled people who live with their tech: a CPAP hose, an oxygen line, oxygen on a rack, a PEG tube and its port, and a prosthetic leg', 'moves'],
     ['unicorn', 'Unicorn Poop', 'world', 'as much rainbow as will fit, and gradients for no reason', 'moves'],
     ['wabi', 'Wabi-sabi', 'world', 'what is stained, weathered and mended: a tea ring, a brush stroke, and a crack mended in gold. Nothing in it moves', 'still'],
-    /* THE WINAMP SKINS (Ryan, 2026-10-17): after twelve skins in the Winamp
+    /* THE WINAMP SKINS (Ryan, 2026-10-17): after skins in the Winamp
        Skin Museum, each credited to whoever its readme says made it, or saying
        that it names nobody. Every drawing is ours and copies no bitmap of a
        skin's, and nothing from the games and machines the skins were after. */
@@ -187,7 +187,7 @@
     ['pipboy', 'Pip-Boy 3000', 'skin', 'Fallout Pip-Boy 3000 Green, the Winamp skin by shadesmaclean (Neko-Sen\u2019nin) of Spooky Door Productions. Fallout and Pip-Boy are trade marks of Bethesda Softworks, and the drawing is ours', 'moves'],
     ['gameboy', 'Game Boy', 'skin', 'gameboy, a Winamp skin with no readme and no maker named in it, and the handheld\u2019s four greens. Game Boy is a trade mark of Nintendo', 'moves'],
     ['ti82', 'TI-82', 'skin', 'TI-82 v1.1, the Winamp skin by bLy (Erik Waldner) of 2000. TI-82 is a trade mark of Texas Instruments', 'moves'],
-    /* THE GEOCITIES PAGES (Ryan, 2026-10-17): after eight pages in
+    /* THE GEOCITIES PAGES (Ryan, 2026-10-17): after pages in
        Restorativland's GeoCities archive. Each is credited as the page names
        its maker, and by its own title and address where it names nobody; no
        email address, surname a page did not give, or detail about anybody's
@@ -199,7 +199,22 @@
     ['w', 'Double U for W', 'geo', 'Dat\u2019s double U for W!!! at GeoCities\u2019 Area51/Atlantis/7472: chalk scribbles on navy, drawn for the radio', 'moves'],
     ['termites', 'Beatnik Termites', 'geo', 'the Beatnik Termites\u2019 Unofficial Home Page at GeoCities\u2019 Area51/Orion/8820, designed by Benjamin T. Marotta: red on yellow, and chain links. The band is not drawn', 'moves'],
     ['greenroom', 'The Green Room', 'geo', 'The Green Room, Aaron Ortiz\u2019s page at GeoCities\u2019 Athens/Aegean/1213, made in 1995 and kept as it was: its greens and its olive columns', 'still'],
-    ['sarah', 'Sarah\u2019s Room', 'geo', 'Sarah\u2019s Room, Sarah\u2019s home page at GeoCities\u2019 EnchantedForest/6203: a starry blue sky and a column of rainbow stars', 'moves']
+    ['sarah', 'Sarah\u2019s Room', 'geo', 'Sarah\u2019s Room, Sarah\u2019s home page at GeoCities\u2019 EnchantedForest/6203: a starry blue sky and a column of rainbow stars', 'moves'],
+    /* RYAN'S FAVOURITE GAMES (2026-10-17): each says whose game it is and whose
+       trade mark, and every drawing is ours, with no character, logo, emblem or
+       symbol of any game's in it. */
+    ['crashers', 'Castle Crashers', 'game', 'Castle Crashers, The Behemoth\u2019s game of 2008. Castle Crashers is a trade mark of The Behemoth, and the drawing is ours: cartoon castles and pennants in thick black outlines, and nobody from the game', 'moves'],
+    ['inquisition', 'Dragon Age: Inquisition', 'game', 'Dragon Age: Inquisition, BioWare\u2019s game of 2014. Dragon Age is a trade mark of Electronic Arts, and the drawing is ours: green rifts torn in the air and gold filigree, and no emblem of the game\u2019s', 'moves'],
+    ['metroid', 'Metroid', 'game', 'Metroid, Nintendo\u2019s game of 1987. Metroid is a trade mark of Nintendo, and the drawing is ours: blue cavern rock, round doors and energy squares, and nobody from the game', 'moves'],
+    ['megaman', 'Mega Man', 'game', 'Mega Man, Capcom\u2019s game of 1987. Mega Man is a trade mark of Capcom, and the drawing is ours: an energy meter, ladders, pipes and riveted panels, and nobody from the game', 'moves'],
+    ['fable', 'Fable III', 'game', 'Fable III, Lionhead Studios\u2019 game of 2010. Fable is a trade mark of Microsoft, and the drawing is ours: a glowing golden trail over cobbles and ironwork', 'moves'],
+    ['skyrim', 'Skyrim', 'game', 'The Elder Scrolls V: Skyrim, Bethesda Game Studios\u2019 game of 2011. The Elder Scrolls and Skyrim are trade marks of Bethesda Softworks, and the drawing is ours: snowy peaks, falling snow, knotwork and an aurora, and no emblem of the game\u2019s', 'moves'],
+    ['doom', 'Doom', 'game', 'Doom, id Software\u2019s game. Doom is a trade mark of id Software, and the drawing is ours: riveted metal, slime, and fire that glows and never flickers, and nobody and no symbol from the game', 'moves'],
+    ['portal', 'Portal', 'game', 'Portal, Valve\u2019s game of 2007. Portal is a trade mark of Valve, and the drawing is ours: white test-chamber panels, a blue portal and an orange one, and no logo of the game\u2019s', 'moves'],
+    ['witcher', 'The Witcher 3', 'game', 'The Witcher 3: Wild Hunt, CD Projekt Red\u2019s game of 2015. The Witcher is a trade mark of CD PROJEKT, and the drawing is ours: dark pines, a moon and drifting mist, and no sign or medallion of the game\u2019s', 'moves'],
+    ['gta', 'Grand Theft Auto V', 'game', 'Grand Theft Auto V, Rockstar North\u2019s game of 2013. Grand Theft Auto is a trade mark of Take-Two Interactive, and the drawing is ours: a sunset, palm trees and a city skyline', 'moves'],
+    ['loz', 'The Legend of Zelda', 'game', 'The Legend of Zelda, Nintendo\u2019s game. The Legend of Zelda is a trade mark of Nintendo, and the drawing is ours: the overworld\u2019s trees, rocks and water, and nobody and no symbol from the game', 'moves'],
+    ['mordor', 'Shadow of Mordor', 'game', 'Middle-earth: Shadow of Mordor, Monolith Productions\u2019 game of 2014 for Warner Bros. Middle-earth is J. R. R. Tolkien\u2019s, and the drawing is ours: rune medallions after the game\u2019s runes, gold rings with marks glowing in them, made up here and copying no rune of the game\u2019s and no letter of Tolkien\u2019s, and black mountains over lava with ash drifting', 'moves']
   ];
   function known(k) { return SCHEMES.some(function (x) { return x[0] === k && k !== 'auto'; }); }
   /* A THEME'S DRAWING MOVES at MAX GLITTER by itself, and at any other setting
