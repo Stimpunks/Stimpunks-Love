@@ -874,6 +874,48 @@ ol.cb-md-list { list-style: decimal; }
 @keyframes cb-fx-ripple { 0%, 100% { transform: translateX(-3px); } 50% { transform: translateX(3px); } }
 @keyframes cb-fx-ring { 0% { transform: scale(.7); opacity: .7; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
 @keyframes cb-fx-batflap { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.4); } }
+/* THE LAGOON'S BIG MOMENT: when the profile opens, then once a minute, the
+   serpent rears up across the whole profile out of black water, with mist
+   and a flurry of bats, and sinks back, about nine seconds of every sixty.
+   Every part runs on the same sixty-second clock, started together when the
+   profile is drawn, and every fade takes a second or more. Like the pass it
+   is not drawn at all unless the radio's drawings move. */
+.pf-fx__moment { display: none; position: absolute; inset: 0; overflow: hidden; border-radius: 12px; container-type: size; }
+:host([data-motion="on"]) .pf-fx__moment { display: block; }
+.pf-fx__beast { position: absolute; right: 0; bottom: 0; display: block; height: 80%; width: auto; aspect-ratio: 300 / 360; max-width: 100%; overflow: visible; }
+.pf-fx__mist { position: absolute; left: -10%; bottom: -8%; display: block; width: 120%; height: 70%; filter: blur(16px); opacity: 0; }
+.pf-fx__mist--far { bottom: 4%; height: 60%; filter: blur(22px); }
+.pf-fx__burst { position: absolute; left: 64%; top: 30%; display: block; line-height: 0; opacity: 0; }
+.fx-mo-coil, .fx-mo-coil2, .fx-mo-rear, .fx-mo-tongue, .fx-mo-ring, .fx-mo-ring2 { transform-box: fill-box; }
+.fx-mo-tongue { transform-origin: 100% 0; }
+.fx-mo-ring, .fx-mo-ring2 { transform-origin: center; }
+:host([data-motion="on"]) .fx-mo-tide { animation: cb-mo-tide 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-coil { animation: cb-mo-coil 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-coil2 { animation: cb-mo-coil2 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-rear { animation: cb-mo-rear 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-peer { animation: cb-mo-peer 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-tongue { animation: cb-mo-tongue 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-ring { animation: cb-mo-ring 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-ring2 { animation: cb-mo-ring2 60s ease-out infinite both; }
+:host([data-motion="on"]) .pf-fx__mist { animation: cb-mo-mist 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__mist--far { animation-name: cb-mo-mist2; }
+:host([data-motion="on"]) .pf-fx__burst { animation: cb-mo-burst 60s linear var(--d, 0s) infinite both; }
+@keyframes cb-mo-tide { 0% { opacity: 0; } 2%, 13% { opacity: 1; } 15.5%, 100% { opacity: 0; } }
+@keyframes cb-mo-coil { 0%, 1.5% { transform: translateY(115%); } 4.5%, 11.5% { transform: translateY(0); } 14.5%, 100% { transform: translateY(115%); } }
+@keyframes cb-mo-coil2 { 0%, 2.2% { transform: translateY(115%); } 5.2%, 11% { transform: translateY(0); } 14%, 100% { transform: translateY(115%); } }
+@keyframes cb-mo-rear { 0%, 3% { transform: translateY(115%); } 7%, 11.2% { transform: translateY(0); } 14.8%, 100% { transform: translateY(115%); } }
+@keyframes cb-mo-peer { 0%, 7.2% { transform: translateX(0); } 8.2% { transform: translateX(-4px); } 9.6% { transform: translateX(4px); } 10.6%, 100% { transform: translateX(0); } }
+@keyframes cb-mo-tongue { 0%, 8.4% { transform: scaleX(0); } 8.9% { transform: scaleX(1); } 9.6%, 100% { transform: scaleX(0); } }
+@keyframes cb-mo-ring { 0%, 3% { transform: scale(.6); opacity: 0; } 4% { transform: scale(.7); opacity: .8; } 10%, 100% { transform: scale(1.7); opacity: 0; } }
+@keyframes cb-mo-ring2 { 0%, 5.5% { transform: scale(.6); opacity: 0; } 6.8% { transform: scale(.7); opacity: .8; } 12%, 100% { transform: scale(1.7); opacity: 0; } }
+@keyframes cb-mo-mist { 0% { opacity: 0; transform: translateY(30%); } 3.5% { opacity: 1; transform: translateY(8%); } 10% { opacity: .85; transform: translateY(-30%); } 14.5%, 100% { opacity: 0; transform: translateY(-50%); } }
+@keyframes cb-mo-mist2 { 0%, 1% { opacity: 0; transform: translateY(20%); } 5% { opacity: .9; transform: translateY(0); } 11% { opacity: .7; transform: translateY(-24%); } 15%, 100% { opacity: 0; transform: translateY(-40%); } }
+@keyframes cb-mo-burst {
+  0%, 7% { opacity: 0; transform: translate(0, 0); }
+  7.6% { opacity: .95; }
+  12.8% { opacity: .9; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
+  13.8%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
+}
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

@@ -2779,7 +2779,10 @@
       var p = current(), k = JSON.stringify(p);
       if (k === drawn) return;
       drawn = k;
-      cardAt.textContent = '';
+      // Only the card is drawn again: the frame and effect round it stay as they
+      // are unless they changed, so typing a bio does not start an effect over.
+      var was = cardAt.querySelector(':scope > .pf-card');
+      if (was) cardAt.removeChild(was);
       var card = LP.card(p, { handle: me.state.handle, mark: me.myMark(), mine: true, wearing: wearing, nameId: 'pf-preview-name', md: md, links: pfLink, room: pfRoom });
       card.pfName.removeAttribute('tabindex');
       cardAt.appendChild(card);

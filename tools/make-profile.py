@@ -45,7 +45,10 @@ WHAT IT REFUSES, and why each one is here:
     the radio that does. It is drawn only under :host([data-motion="on"]), at
     MAX GLITTER or after Let my theme move, so a profile standing still never
     has a butterfly sitting on somebody's bio. cb.css's .pf-fx__pass is
-    display: none, and only that one rule may show it.
+    display: none, and only that one rule may show it. THE LAGOON'S BIG
+    MOMENT is held the same way (Ryan, 2026-10-18: the serpent rears up across
+    the whole profile when it opens, then once a minute), and nothing an
+    effect does may move outside data-motion.
   · A DATE OR A COUNT IN profile.js, or a time kept in the profile's part of
     lib.mjs. Ryan's call: no profile says when anybody claimed or joined, because
     a date beside a name invites ranking who has been here longest.
@@ -190,18 +193,26 @@ def main():
             if need not in words:
                 refuse(f"the Black Leather Lagoon's credit does not say {need!r}: their world, not them, and the credit says whose.")
     cbcss = re.sub(r"/\*.*?\*/", "", (ROOT / "cb.css").read_text(), flags=re.S)
-    rules = re.findall(r"([^{}]*\.pf-fx__pass[^{}]*)\{([^}]*)\}", cbcss)
-    shown = [sel.strip() for sel, body in rules
-             if any(v != "none" for v in re.findall(r"display\s*:\s*([a-z-]+)", body))]
-    base = [body for sel, body in rules if sel.strip() == ".pf-fx__pass"]
-    if not base or not re.search(r"display\s*:\s*none", base[0]):
-        refuse("cb.css's .pf-fx__pass is not display: none. An effect's pass crosses words, so it is drawn only where the radio's drawings move.")
-    if shown != [':host([data-motion="on"]) .pf-fx__pass']:
-        refuse(f"cb.css shows an effect's pass at {shown or 'no selector'}; the only rule that shows it is "
-               ':host([data-motion="on"]) .pf-fx__pass, so a profile standing still has nothing on its words.')
-    for sel, body in re.findall(r"([^{}]*\.pf-fx__(?:one|pass)[^{}]*)\{([^}]*)\}", cbcss):
-        if "animation" in body and 'data-motion="on"' not in sel:
+    # The pass and the Lagoon's big moment cross words, so each is display: none
+    # and only its data-motion rule shows it; and nothing an effect does moves
+    # outside data-motion.
+    for part, what in ((".pf-fx__pass", "an effect's pass"), (".pf-fx__moment", "the Lagoon's big moment")):
+        rules = re.findall(r"([^{}]*" + re.escape(part) + r"(?![\w-])[^{}]*)\{([^}]*)\}", cbcss)
+        shown = [sel.strip() for sel, body in rules
+                 if any(v != "none" for v in re.findall(r"display\s*:\s*([a-z-]+)", body))]
+        base = [body for sel, body in rules if sel.strip() == part]
+        if not base or not re.search(r"display\s*:\s*none", base[0]):
+            refuse(f"cb.css's {part} is not display: none. {what[0].upper() + what[1:]} crosses words, so it is drawn only where the radio's drawings move.")
+        if shown != [f':host([data-motion="on"]) {part}']:
+            refuse(f"cb.css shows {what} at {shown or 'no selector'}; the only rule that shows it is "
+                   f':host([data-motion="on"]) {part}, so a profile standing still has nothing on its words.')
+    for sel, body in re.findall(r"([^{}]*)\{([^{}]*)\}", cbcss):
+        moves = re.search(r"animation(?:-name)?\s*:[^;]*\bcb-(?:fx|mo)-", body) or (
+            "animation" in body and re.search(r"\.(?:pf-fx__|fx-)", sel))
+        if moves and 'data-motion="on"' not in sel:
             refuse(f"cb.css moves an effect at {sel.strip()!r}, outside data-motion.")
+    if "lagoonMoment()" not in lag_src or "pf-fx__moment" not in lag_src:
+        refuse("the Black Leather Lagoon has lost its big moment, which Ryan asked to play across the profile when it opens.")
 
     code = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
     code = re.sub(r"(?m)^\s*//.*$", "", code)

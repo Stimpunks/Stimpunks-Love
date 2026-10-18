@@ -1041,12 +1041,163 @@
     box.appendChild(s);
     return box;
   }
+  /* THE BIG MOMENT (Ryan, 2026-10-18: "I want it to also play across the full
+     profile when it first loads like on Discord"). When the profile opens, and
+     then once a minute while it is open, mist climbs off black water across
+     the foot of the profile, the serpent's coils break the surface, its head
+     rears up across the whole profile and looks about, its tongue flicks, a
+     flurry of bats bursts out past it, and it all sinks back: about nine
+     seconds of every sixty. Like the pass it crosses words, so it is drawn at
+     all only where the radio's drawings move, and every part of it fades over
+     a second or more, so nothing flashes. Every part runs on one sixty-second
+     clock from cb.css, started together when the profile is drawn.
+
+     It is drawn in a box of 300 by 360 anchored at the profile's bottom right,
+     its water line at 277; the water reaches left past the box to the
+     profile's other edge, and everything below the line is clipped, so the
+     serpent comes up out of the water at any size. Lit from the upper left,
+     where the screen is in the banner: a rim of its light on that side and
+     dark on the other. */
+  function lagoonMoment() {
+    var n = ++lagN, box = el('div', 'pf-fx__moment');
+    var s = plainSvg(300, 360, 'pf-fx__beast');
+    s.removeAttribute('width');
+    s.removeAttribute('height');
+    s.setAttribute('preserveAspectRatio', 'xMaxYMax meet');
+    var defs = lagDefs(s);
+    var clip = document.createElementNS(NS, 'clipPath');
+    clip.setAttribute('id', 'pf-lag-under-' + n);
+    var cr = document.createElementNS(NS, 'rect');
+    cr.setAttribute('x', '-3000'); cr.setAttribute('y', '-2000'); cr.setAttribute('width', '3400'); cr.setAttribute('height', '2277');
+    clip.appendChild(cr);
+    defs.appendChild(clip);
+    var g = group(s);
+    // the water, across the whole foot of the profile
+    var tide = svgEl('g', {}, { cls: 'fx-mo-tide' });
+    tide.style.removeProperty('fill');
+    tide.appendChild(lag('rect', { x: -3000, y: 277, width: 3400, height: 400, 'fill-opacity': '.94' }, { fill: '--lag-water' }));
+    tide.appendChild(lag('path', { d: 'M-3000 277.6H400' }, { stroke: '--lag-screen', sw: 1.2, cls: '' }));
+    for (var i = 0; i < 18; i++) {
+      var rx = 300 - i * 52 - rnd(i + 3) * 30, ry = 290 + rnd(i + 13) * 50;
+      tide.appendChild(lag('path', { d: 'M' + f(rx) + ' ' + f(ry) + 'h' + f(14 + rnd(i) * 16) }, { stroke: '--lag-card', sw: 1.6, cls: 'fx-ripple', d: i * .4 % 6, t: 6 }));
+    }
+    g.appendChild(tide);
+    var under = group(g);
+    under.setAttribute('clip-path', 'url(#pf-lag-under-' + n + ')');
+    // a coil of the body: a tube arching up out of the water and back down
+    function bigCoil(cx, w, h, T, cls) {
+      var c = svgEl('g', {}, { cls: cls });
+      c.style.removeProperty('fill');
+      var l = cx - w / 2, r = cx + w / 2, up = 277 - h * 1.33, half = T / 2;
+      c.appendChild(lag('path', { d: 'M' + f(l - half) + ' 300C' + f(l - half) + ' ' + f(up - T * .66) + ' ' + f(r + half) + ' ' + f(up - T * .66) + ' ' + f(r + half) + ' 300' +
+        'L' + f(r - half) + ' 300C' + f(r - half) + ' ' + f(up + T * .66) + ' ' + f(l + half) + ' ' + f(up + T * .66) + ' ' + f(l + half) + ' 300Z' }, { fill: '--lag-acid', stroke: '--lag-card', sw: 1.6 }));
+      // dark on the inside and the far side, the screen's light on the near rim
+      c.appendChild(lag('path', { d: 'M' + f(r - half + 2) + ' 296C' + f(r - half + 2) + ' ' + f(up + T * .5) + ' ' + f(l + half + 4) + ' ' + f(up + T * .5) + ' ' + f(l + half + 2) + ' 296' }, { stroke: '--lag-card', sw: 5 }));
+      var rim = lag('path', { d: 'M' + f(l - half + 2.4) + ' 300C' + f(l - half + 2.4) + ' ' + f(up - T * .66 + 2.4) + ' ' + f(r + half - 2.4) + ' ' + f(up - T * .66 + 2.4) + ' ' + f(r + half - 2.4) + ' 300', pathLength: 1 }, { stroke: '--lag-screen', sw: 1.6 });
+      rim.style.setProperty('stroke-dasharray', '.46 1');
+      c.appendChild(rim);
+      // scales, and a row of round bumps along the back
+      for (var k = 0; k < 7; k++) {
+        var tt = .14 + k * .12, x = Math.pow(1 - tt, 3) * l + 3 * Math.pow(1 - tt, 2) * tt * l + 3 * (1 - tt) * tt * tt * r + Math.pow(tt, 3) * r;
+        var y = Math.pow(1 - tt, 3) * 300 + 3 * Math.pow(1 - tt, 2) * tt * up + 3 * (1 - tt) * tt * tt * up + Math.pow(tt, 3) * 300;
+        c.appendChild(lag('path', { d: 'M' + f(x - 3) + ' ' + f(y - 1) + 'q3 3 6 0M' + f(x - 1) + ' ' + f(y + 5) + 'q3 3 6 0' }, { stroke: '--lag-card', sw: 1 }));
+        c.appendChild(lag('circle', { cx: f(x), cy: f(y - half - 1), r: 2.6 }, { fill: '--lag-acid', stroke: '--lag-card', sw: 1 }));
+      }
+      under.appendChild(c);
+    }
+    bigCoil(64, 58, 46, 22, 'fx-mo-coil');
+    bigCoil(140, 50, 38, 20, 'fx-mo-coil2');
+    // the neck and the head, rearing up and looking about
+    var rear = svgEl('g', {}, { cls: 'fx-mo-rear' });
+    rear.style.removeProperty('fill');
+    rear.appendChild(lag('path', { d: 'M206 300C226 202 212 130 176 104L202 76C254 110 274 198 250 300Z' }, { fill: '--lag-acid', stroke: '--lag-card', sw: 1.8 }));
+    rear.appendChild(lag('path', { d: 'M212 300C232 206 220 136 188 110L194 102C228 130 242 204 226 300Z', 'fill-opacity': '.6' }, { fill: '--lag-dim' }));
+    for (var b = 0; b < 9; b++) {
+      var by = 290 - b * 21, bx = 216 + Math.sin(b * .5) * 6 - b * 2.2;
+      rear.appendChild(lag('path', { d: 'M' + f(bx - 6) + ' ' + f(by) + 'q8 -4 14 1' }, { stroke: '--lag-card', sw: 1.1 }));
+    }
+    rear.appendChild(lag('path', { d: 'M244 296C266 200 248 118 204 82' }, { stroke: '--lag-card', sw: 6, cls: '' }));
+    rear.appendChild(lag('path', { d: 'M208 296C228 204 214 134 180 106' }, { stroke: '--lag-screen', sw: 1.6 }));
+    for (var d2 = 0; d2 < 6; d2++) {
+      rear.appendChild(lag('circle', { cx: f(252 - d2 * 3 + Math.sin(d2) * 4), cy: f(270 - d2 * 34), r: 3.4 }, { fill: '--lag-acid', stroke: '--lag-card', sw: 1 }));
+    }
+    var head = svgEl('g', {}, {});
+    head.style.removeProperty('fill');
+    head.appendChild(lag('path', { d: 'M206 86C200 60 168 46 140 54C114 61 98 76 100 92C102 106 124 114 152 112C180 110 202 104 210 92Z' }, { fill: '--lag-acid', stroke: '--lag-card', sw: 1.8 }));
+    head.appendChild(lag('path', { d: 'M210 92C202 104 180 110 156 112C176 104 196 96 204 84Z', 'fill-opacity': '.6' }, { fill: '--lag-card' }));
+    head.appendChild(lag('path', { d: 'M104 80C112 64 132 56 152 54' }, { stroke: '--lag-screen', sw: 1.8 }));
+    head.appendChild(lag('path', { d: 'M104 94C122 102 146 103 170 98' }, { stroke: '--lag-card', sw: 2 }));
+    [[116, 96], [132, 99.5], [150, 100]].forEach(function (fg) {
+      head.appendChild(lag('path', { d: 'M' + (fg[0] - 3) + ' ' + fg[1] + 'L' + fg[0] + ' ' + (fg[1] + 9) + 'L' + (fg[0] + 3) + ' ' + fg[1] + 'Z' }, { fill: '--lag-screen', stroke: '--lag-card', sw: .8 }));
+    });
+    head.appendChild(lag('ellipse', { cx: 108, cy: 78, rx: 2.6, ry: 1.8 }, { fill: '--lag-card' }));
+    [[150, 72, 4], [162, 84, 3], [176, 76, 3.6], [188, 90, 2.6]].forEach(function (sp) { head.appendChild(lag('circle', { cx: sp[0], cy: sp[1], r: sp[2] }, { fill: '--lag-card' })); });
+    var tongue = svgEl('g', {}, { cls: 'fx-mo-tongue' });
+    tongue.style.removeProperty('fill');
+    tongue.appendChild(lag('path', { d: 'M104 94L84 98L76 92M84 98L77 103' }, { stroke: '--lag-poster', sw: 2.4 }));
+    head.appendChild(tongue);
+    // eyes on stalks, looking about
+    [[156, 56, 146, 18], [184, 58, 192, 22]].forEach(function (st) {
+      head.appendChild(lag('path', { d: 'M' + st[0] + ' ' + st[1] + 'Q' + (st[0] + (st[2] - st[0]) * .2) + ' ' + (st[3] + 18) + ' ' + st[2] + ' ' + (st[3] + 9) }, { stroke: '--lag-acid', sw: 5 }));
+      head.appendChild(lag('path', { d: 'M' + (st[0] - 2) + ' ' + (st[1] - 1) + 'Q' + (st[0] + (st[2] - st[0]) * .2 - 2) + ' ' + (st[3] + 18) + ' ' + (st[2] - 2) + ' ' + (st[3] + 10) }, { stroke: '--lag-screen', sw: .9 }));
+      head.appendChild(lag('circle', { cx: st[2], cy: st[3], r: 11.5 }, { fill: '--lag-screen', stroke: '--lag-card', sw: 1.6 }));
+      head.appendChild(lag('path', { d: 'M' + (st[2] - 8) + ' ' + (st[3] + 5) + 'q4 3 9 2' }, { stroke: '--lag-poster', sw: .8 }));
+      var peer = svgEl('g', {}, { cls: 'fx-mo-peer' });
+      peer.style.removeProperty('fill');
+      peer.appendChild(lag('circle', { cx: st[2] - 1.5, cy: st[3] + 1, r: 5.4 }, { fill: '--lag-water' }));
+      peer.appendChild(lag('circle', { cx: st[2] - 3.2, cy: st[3] - 1.2, r: 1.8 }, { fill: '--lag-screen' }));
+      head.appendChild(peer);
+    });
+    // pondweed draped over the head
+    var weed = svgEl('g', {}, { cls: 'art-sway', t: 5 });
+    weed.style.removeProperty('fill');
+    weed.appendChild(lag('path', { d: 'M168 52C160 62 166 78 158 92M176 54C178 66 172 76 176 88M196 64C204 74 200 86 206 96' }, { stroke: '--lag-dim', sw: 1.6 }));
+    [[161, 70, -30], [163, 86, 20], [175, 72, 10], [202, 82, -20], [204, 94, 30]].forEach(function (w) {
+      at(weed, w[0], w[1], w[2]).appendChild(lag('path', { d: leaf(4, 2.2) }, { fill: '--lag-dim' }));
+    });
+    head.appendChild(weed);
+    [[124, 108, 0], [146, 111, 1.1], [168, 109, 2]].forEach(function (dr) {
+      head.appendChild(lag('ellipse', { cx: dr[0], cy: dr[1], rx: 1.6, ry: 2.6, 'fill-opacity': '.75' }, { fill: '--lag-screen', cls: 'art-fall', d: dr[2], t: 2.6, run: 60 }));
+    });
+    rear.appendChild(head);
+    under.appendChild(rear);
+    // rings spreading on the water where it broke the surface
+    [[64, 40, 'fx-mo-ring'], [140, 34, 'fx-mo-ring'], [228, 30, 'fx-mo-ring2']].forEach(function (rg) {
+      g.appendChild(lag('ellipse', { cx: rg[0], cy: 278, rx: rg[1], ry: 6 }, { stroke: '--lag-dim', sw: 1.6, cls: rg[2] }));
+    });
+    box.appendChild(s);
+    // mist off the water, climbing over the profile
+    [['pf-fx__mist', '--lag-acid', .22], ['pf-fx__mist pf-fx__mist--far', '--lag-dim', .26]].forEach(function (m, j) {
+      var ms = plainSvg(100, 60, m[0]);
+      ms.removeAttribute('width');
+      ms.removeAttribute('height');
+      ms.setAttribute('preserveAspectRatio', 'none');
+      for (var k = 0; k < 7; k++) {
+        ms.appendChild(lag('ellipse', { cx: f(6 + k * 15 + rnd(k + j * 9) * 6), cy: f(38 + rnd(k + 4 + j) * 14), rx: f(12 + rnd(k + 2) * 8), ry: f(8 + rnd(k + 6) * 6), 'fill-opacity': String(m[2]) }, { fill: m[1] }));
+      }
+      box.appendChild(ms);
+    });
+    // a flurry of bats bursting out past it
+    for (var k2 = 0; k2 < 9; k2++) {
+      var bat = el('span', 'pf-fx__burst');
+      bat.style.setProperty('--px', f(-12 - rnd(k2 + 41) * 62));
+      bat.style.setProperty('--py', f(-6 - rnd(k2 + 57) * 34 + (k2 % 3 === 0 ? 20 : 0)));
+      bat.style.setProperty('--d', f(k2 * .07) + 's');
+      var bob = el('span', 'fx-bob');
+      bob.style.setProperty('--b', f(2 + rnd(k2) * 1.2) + 's');
+      bob.appendChild(motif('bat', 16 + rnd(k2 + 5) * 12, true));
+      bat.appendChild(bob);
+      box.appendChild(bat);
+    }
+    return box;
+  }
   E.lagoon = {
     scene: function (box) {
       box.appendChild(lagoonScene());
       box.appendChild(lagoonVine(false));
       box.appendChild(lagoonVine(true));
       box.appendChild(lagoonLeopard());
+      box.appendChild(lagoonMoment());
     },
     edge: [['hotrod', 'br', 0, 34, 0, [-30, -11]]],
     pass: { motif: 'bat', from: 'right', n: 6, size: 24, t: 24, drift: 14 }
@@ -1114,6 +1265,11 @@
   function surround(stage, p) {
     p = p || {};
     stage.classList.add('pf-stage');
+    // The same frame and effect in the same theme are left alone, so an effect
+    // that is playing is not started again by a change to something else.
+    var sig = [p.theme || '', p.frame || '', p.effect || ''].join('|');
+    if (stage.pfSig === sig) return;
+    stage.pfSig = sig;
     [].slice.call(stage.children).forEach(function (k) {
       if (k.classList.contains('pf-frame') || k.classList.contains('pf-fx')) stage.removeChild(k);
     });
