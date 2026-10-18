@@ -39,8 +39,10 @@ export default async (req) => {
     if (b.test !== undefined) {
       const sub = cleanSubscription(b.test);
       if (!sub || !(await readDevice(sub.endpoint, who.handle))) return json(404, { error: 'Notifications are not on for this device.' });
+      // The push service's answer goes back as a number, so a test that
+      // fails says where: 0 is no answer at all.
       const status = await sendPush(sub, { kind: 'test' }, { ttl: 300 });
-      return json(200, { sent: status >= 200 && status < 300 }, NOINDEX);
+      return json(200, { sent: status >= 200 && status < 300, status }, NOINDEX);
     }
   } catch (e) {
     return json(503, { error: 'That did not work just now. Nothing changed; try again in a moment.' });

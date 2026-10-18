@@ -1865,7 +1865,11 @@
       test.addEventListener('click', function () {
         said.textContent = 'Sending…';
         call('/cb/push', { body: { test: subOf(sub) } }, me.state.pass).then(function (r) {
-          said.textContent = r.status === 200 && r.body.sent ? 'Sent. It should arrive in a moment.' : (r.body && r.body.error) || 'The push service did not take it just now.';
+          if (r.status === 200 && r.body.sent) {
+            said.textContent = 'Sent, and your browser\u2019s push service took it. It should appear in a moment. If it does not, the computer may be keeping it back: on a Mac, System Settings, Notifications, then your browser, needs Allow notifications on, and Focus or Do Not Disturb hides them.';
+          } else if (r.status === 200) {
+            said.textContent = 'Your browser\u2019s push service did not take it (it answered ' + (r.body.status || 'nothing') + '). Switch off on this device, then Notify me on this device again.';
+          } else said.textContent = (r.body && r.body.error) || 'The street could not send it just now.';
         }, function () { said.textContent = 'The street could not be reached just now.'; });
       });
       var stop = el('button', 'cb-btn', 'Switch off on this device');
