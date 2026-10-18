@@ -247,12 +247,32 @@ def check_data(d):
             refuse(f"{where}: a tracking parameter in a credit link; the credit is the name and the page, not the referral.")
         if sp.get("by", "").strip() not in sp.get("caption", ""):
             refuse(f"{where}: the caption does not name the photographer.")
+    hr = d.get("howl_recording") or {}
+    if hr:
+        for f in ("file", "page", "src", "runtime", "by", "licence", "where", "read"):
+            if not str(hr.get(f, "")).strip():
+                refuse(f"howl recording: no {f}; a recording is named, linked, licensed and timed or it is not here.")
+        if not RUNTIME.match(str(hr.get("runtime", ""))):
+            refuse("howl recording: the runtime is not m:ss. Every press-to-play control says how long before the press.")
+        origins = re.findall(r"'(https://[^']+)'", re.search(r"AUDIO_ORIGINS\s*=\s*\[(.*?)\]", (ROOT / "love-embed.js").read_text(), re.S).group(1))
+        if not any(hr.get("src", "").startswith(o) for o in origins):
+            refuse("howl recording: its address is not on an origin love-embed.js plays audio from (AUDIO_ORIGINS), so the button would press and play nothing.")
+        if "public domain" not in hr.get("licence", "").lower() and "cc" not in hr.get("licence", "").lower():
+            refuse("howl recording: the licence does not read as public domain or Creative Commons.")
     dv = d.get("david") or {}
     for f in ("name", "role", "site", "read"):
         if not str(dv.get(f, "")).strip():
             refuse(f"david: no {f}.")
     if not dv.get("site", "").startswith("https://"):
         refuse("david: the site is not an https address.")
+    if dv.get("portrait"):
+        rec = records.get(dv["portrait"])
+        if not rec:
+            refuse(f"david: the portrait {dv['portrait']!r} has no record in data/polaroids.json.")
+        elif rec.get("on_wall", True) or PAGE.name not in (rec.get("elsewhere") or []) or rec.get("subject") != dv["name"]:
+            refuse(f"david: the portrait's record does not hang it on {PAGE.name} with {dv['name']} as its subject.")
+        elif not any((ROOT / "photos" / f"{dv['portrait']}{s}").exists() for s in PHOTO_SUFFIXES):
+            refuse("david: the portrait has a record and no file in photos/.")
 
 
 def borrowed(d):
@@ -359,6 +379,36 @@ def gallery_block(d):
     return "\n".join(out)
 
 
+def howl_record_block(d):
+    """A real recording of wolves, played from Commons by its own address."""
+    hr = d.get("howl_recording") or {}
+    if not hr:
+        return "    <!-- no recording -->"
+    return "\n".join([
+        '    <div class="efw-record">',
+        f'      <button type="button" class="facade facade--audio efw-record__play" data-audio-src="{attr(hr["src"])}" data-embed-title="Wolves howling, a recording on Wikimedia Commons">',
+        f'        Hear real wolves &mdash; a recording, {esc(hr["runtime"])}',
+        '        <span class="facade__play">&#9654; PRESS PLAY</span>',
+        '      </button>',
+        f'      <p class="efw-record__credit"><a href="{attr(hr["page"])}">{esc(hr["file"].replace("File:", ""))}</a> on Wikimedia Commons, {esc(hr["licence"])}; recorded by {esc(hr["by"])}. {esc(hr["where"])} It plays from Commons when you press, and nothing is fetched before.</p>',
+        '    </div>'])
+
+
+def portrait_block(d):
+    """David's own photograph, framed in Whose this is, from its record."""
+    dv = d["david"]
+    if not dv.get("portrait"):
+        return "    <!-- no portrait yet -->"
+    rec = {p["id"]: p for p in json.loads(POLAROIDS.read_text()).get("photos", []) if isinstance(p, dict) and "id" in p}[dv["portrait"]]
+    file = next(f"{dv['portrait']}{x}" for x in PHOTO_SUFFIXES if (ROOT / "photos" / f"{dv['portrait']}{x}").exists())
+    w, h = imgsize.size(ROOT / "photos" / file)
+    return "\n".join([
+        '    <figure class="efw-photo efw-photo--portrait">',
+        f'      <img class="photo" src="photos/{file}" alt="{attr(rec["alt"])}" width="{w}" height="{h}" loading="lazy" decoding="async">',
+        f'      <figcaption>{esc(rec.get("caption") or dv["name"])}</figcaption>',
+        '    </figure>'])
+
+
 def springs_block(d, key="springs"):
     """Somebody else's photographs beside a section's words, each in a frame of
     the logs with its credit under it, the caption saying what is in it."""
@@ -399,6 +449,10 @@ def liner_sources(d):
            f'<a href="{attr(sp["url"])}">{esc(sp["alt"][:60].rsplit(" ", 1)[0])}&hellip;</a> by <a href="{attr(sp["by_url"])}">{esc(sp["by"])}</a> on Unsplash, under the {esc(sp["licence"])}, chosen by Helen Edgar {esc(sp["chosen"])}; '
            + (esc(sp["people"]) if sp.get("people") else "nobody in it") + '; not of the cabin\'s own, which is drawn; the file stripped of its metadata')
           for sp in borrowed(d)],
+        *([("The real wolves you can hear",
+             f'<a href="{attr(d["howl_recording"]["page"])}">{esc(d["howl_recording"]["file"])}</a> on Wikimedia Commons, {esc(d["howl_recording"]["licence"])}, '
+             f'recorded by {esc(d["howl_recording"]["by"])}; {esc(d["howl_recording"]["runtime"])}, measured off the file on {esc(d["howl_recording"]["read"])}; '
+             f'played from Commons by its own address and not hosted here')] if d.get("howl_recording") else []),
         ("The rainbow sweets", 'Skittles, David&rsquo;s favourite, which the room names once; Skittles is a trade mark of '
                                'Mars Wrigley, which is not affiliated with Stimpunks'),
         ("The playlist on the big screen",
@@ -497,6 +551,8 @@ def main():
     swap(PAGE, "mtn:screen", screen_block(d), "    ")
     swap(PAGE, "mtn:wall", wall_block(d), "    ")
     swap(PAGE, "mtn:gallery", gallery_block(d), "    ")
+    swap(PAGE, "mtn:portrait", portrait_block(d), "    ")
+    swap(PAGE, "mtn:howl-record", howl_record_block(d), "    ")
     swap(PAGE, "mtn:springs", springs_block(d), "    ")
     swap(PAGE, "mtn:wolves-photos", springs_block(d, "wolves_photos"), "    ")
     swap(NOTES, "cabin-sources", liner_sources(d), "      ")

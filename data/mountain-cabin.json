@@ -105,7 +105,9 @@
   "site": "https://david.neurohubcommunity.org",
   "read": "2026-10-18",
   "_name": "Credited as David Gray-Hammond, he/they, as Helen Edgar passed on 2026-10-18.",
-  "pronouns": "he/they"
+  "pronouns": "he/they",
+  "portrait": "david-gray-hammond",
+  "_portrait": "A polaroids.json id: his photograph, framed in Whose this is, with its record there (subject, consent as relayed, description ours and his to change)."
  },
  "springs": {
   "_what": "Photographs of hot springs like the cabin's, beside the spring's words: not ours, not David's, and not of the cabin's own spring, which is drawn. Each is somebody's photograph on Unsplash under the Unsplash License, credited and linked by name and by picture, chosen by Helen Edgar on 2026-10-18, Where somebody is in one, far off and a stranger to this street, the room says so in the caption and the record says so here: Helen's call, 2026-10-18, to use Jeremy Mowery's anyway, credited and said. The file lives in borrowed/, the place for photographs that are somebody else's, saved through Pillow with every byte of metadata stripped; tools/make-webp.py measures it like every JPEG here.",
@@ -157,5 +159,17 @@
     "caption": "Two huskies, by the photograph’s own title: dogs and not wolves, though they look the part, which is why they are here. Photograph by Shavr IK, on Unsplash."
    }
   ]
+ },
+ "howl_recording": {
+  "_what": "A real recording of wolves howling, Helen's ask, 2026-10-18, beside the synthesised howl and never instead of it. Played from Wikimedia Commons by its own address through love-embed.js's audio builder, like the pub's piano rolls: nothing hosted here, nothing fetched until the press, and the button says how long before it. Its licence is on its own file page and is read there, never remembered.",
+  "file": "File:Wolf howls.ogg",
+  "page": "https://commons.wikimedia.org/wiki/File:Wolf_howls.ogg",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/transcoded/8/87/Wolf_howls.ogg/Wolf_howls.ogg.mp3",
+  "runtime": "0:28",
+  "seconds_measured": 28.32,
+  "by": "a U.S. Fish and Wildlife Service employee, in the course of their official duties; the file page names nobody",
+  "licence": "Public domain (PD-USGov-FWS: a work of the U.S. federal government)",
+  "where": "The file page does not say where the wolves were, in the wild or not, or how it was recorded, so the room does not say either.",
+  "read": "2026-10-18"
  }
 }

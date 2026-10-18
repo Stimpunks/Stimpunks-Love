@@ -24741,6 +24741,21 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .summit .efw-go { font-weight: 700; }
 .summit .efw-fine, .summit .efw-row__by, .summit .efw-from, .summit .efw-screen__credit, .summit .efw-wall__where, .summit .efw-wall__wait, .summit .efw-gallery__wait { font-size: 16px; color: var(--efw-dim); }
 
+/* THE CUSHIONS WEAR THE STRIPS' COLOUR, Helen's ask: every cushion takes
+   --efw-led, so Next colour and the drift change them with the lights, and
+   they change the way the lights do, never faster. The bean bags keep their
+   own bright colours. */
+.efw-cushions rect { fill: var(--efw-led); }
+
+/* A RECORDING OF REAL WOLVES, played from Commons: the pressed player keeps
+   the plate's frame and takes no 16:9, which §4's .facade--audio sees to. */
+.efw-record { margin: 14px 0 0; max-width: 560px; }
+.efw-record .facade { border: 4px solid var(--efw-iron); border-radius: 4px; overflow: hidden; }
+.efw-record button.facade { background: var(--efw-screen); color: var(--efw-text); font: 700 16px/1.3 'Assistant', var(--sans), sans-serif; padding: 14px 14px 36px; }
+.efw-record button.facade:hover { background: var(--efw-iron); }
+.efw-record .facade__play { font-size: 13px; letter-spacing: .12em; color: var(--efw-link); inset: auto auto 10px 14px; }
+.summit .efw-record__credit { margin: 8px 0 0; font-size: 15px; color: var(--efw-dim); }
+
 /* THE BIG SCREEN: a black plate in a frame of the stove's iron. The pressed
    player keeps the frame, styled from the container, because the button's
    classes do not survive the press. The switch hides the whole plate. */
@@ -24781,6 +24796,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 /* A photograph of a spring like ours, beside the spring's words, in the same frame. */
 .efw-springs { margin: 16px 0 0; }
 .efw-photo--spring { max-width: 560px; }
+.efw-photo--portrait { max-width: 420px; margin-top: 16px; }
 .summit .efw-photo--spring figcaption a { color: var(--efw-link-2); }
 .efw-gallery__close { margin: 16px 0 0; }
 .summit .efw-gallery :focus-visible { outline-color: var(--efw-link); }

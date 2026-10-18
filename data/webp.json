@@ -829,6 +829,13 @@
       "ssim": 0.9818,
       "sha256": "9173839a27e446858b8e19f398425232537c94c1960b7a5d5c01e20301f50bcb",
       "bytes": 245826
+    },
+    "photos/david-gray-hammond.webp": {
+      "from": "photos/david-gray-hammond.jpg",
+      "quality": 90,
+      "ssim": 0.9869,
+      "bytes_before": 357111,
+      "bytes_after": 285550
     }
   }
 }
