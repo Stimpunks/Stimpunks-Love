@@ -154,7 +154,7 @@
         <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
       </div>
       <p class="dial__note" aria-live="polite"></p>
-      <p class="dial__fine">Starts wherever your device says. In here nothing moves at any setting unless you ask it to, below; the candles stand still.</p>
+      <p class="dial__fine">Starts wherever your device says. In here MAX turns the record on the gramophone; nothing else moves at any setting unless you ask it to, below, and the candles stand still.</p>
     </div>
     <!-- Join the Faeries and Grow a garden, Helen's ask, 2026-10-15, in here as
          well as in the yurt: yurt-garden.js finds the box by its data attribute
@@ -447,6 +447,469 @@
       </section>
     </div>
     <p class="shelf__note">More arriving as I remember what I&rsquo;ve read and loved and lent.</p>
+  </section>
+
+  <section aria-labelledby="gramophone">
+    <h2 id="gramophone">The Gramophone</h2>
+    <!-- The gramophone, Helen's ask, 2026-10-18: her Library Music playlist, to
+         switch on and off, and a shelf of records off it to choose from. The
+         drawing, the deck and the shelf are written by tools/make-yurt-yarn.py
+         from data/yurt-yarn.json, the same tool and file as the yurt's songbooks
+         and the Music Room's cases; edit those, not this. -->
+    <div class="rdr-record">
+      <!-- yurt-yarn:phonograph:begin -->
+      <div class="rdr-phono" aria-hidden="true">
+        <svg viewBox="0 0 240 262" fill="none" aria-hidden="true" focusable="false">
+          <ellipse cx="120" cy="252" rx="104" ry="7" fill="#0C0908" opacity=".55"/>
+          <path d="M130.3 12.6 Q166 70 162 102 L155 111 Q128 118 71.5 110.8 Z" fill="#7A5324"/>
+          <path d="M144.8 33.3 Q157.4 67.6 158 106" stroke="#4A372B" stroke-width="1" opacity=".7"/>
+          <path d="M141.7 60.4 Q155.9 81.2 158 106" stroke="#4A372B" stroke-width="1" opacity=".7"/>
+          <path d="M122 86.8 Q146 94.4 158 106" stroke="#4A372B" stroke-width="1" opacity=".7"/>
+          <path d="M91.1 105.6 Q130.6 103.8 158 106" stroke="#4A372B" stroke-width="1" opacity=".7"/>
+          <path d="M130.3 12.6 Q166 70 162 102" stroke="#E9C874" stroke-width="1.4" opacity=".55"/>
+          <path d="M122 59.5 L144.8 33.3 Q151.4 45.4 141.7 60.4 Z" fill="#F2B673"/>
+          <path d="M122 59.5 L144.8 33.3 Q151.4 45.4 141.7 60.4 Z" fill="#7A5324" opacity="0.92"/>
+          <path d="M132.6 53.6 L142.7 48 M136.6 51.4 Q137.7 48.5 140.5 47.3 M138.5 50.3 Q139 52.5 141.4 50.7" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.25"/>
+          <circle cx="144.1" cy="47.2" r="1.3" fill="#7A5324" opacity="0.25"/>
+          <path d="M122 59.5 L144.8 33.3" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L141.7 60.4 Q138.5 75.6 122 86.8 Z" fill="#E9C874"/>
+          <path d="M122 59.5 L141.7 60.4 Q138.5 75.6 122 86.8 Z" fill="#7A5324" opacity="0.92"/>
+          <path d="M127.3 66.1 L132.3 72.4 M129.3 68.6 Q131.4 66.8 132.6 68.9 M130.2 69.7 Q128.6 72.9 130.2 73.9" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.28"/>
+          <circle cx="133" cy="73.3" r="1.3" fill="#7A5324" opacity="0.28"/>
+          <path d="M122 59.5 L141.7 60.4" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L122 86.8 Q110 101.1 91.1 105.6 Z" fill="#F2B673"/>
+          <path d="M122 59.5 L122 86.8 Q110 101.1 91.1 105.6 Z" fill="#7A5324" opacity="0.76"/>
+          <path d="M115.5 76.6 L109.3 93 M113 83.1 Q115.2 82.9 113 87.7 M111.9 86.1 Q108.1 89.5 107.3 92.9" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.35"/>
+          <circle cx="108.4" cy="95.3" r="1.3" fill="#7A5324" opacity="0.35"/>
+          <path d="M122 59.5 L122 86.8" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L91.1 105.6 Q73.4 115.1 57.2 111.6 Z" fill="#E9C874"/>
+          <path d="M122 59.5 L91.1 105.6 Q73.4 115.1 57.2 111.6 Z" fill="#7A5324" opacity="0.71"/>
+          <path d="M100.4 82.4 L79.7 104.3 M92.2 91 Q93.3 92.4 87.1 98.7 M88.4 95.1 Q83.1 97.6 78.9 102.7" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.44"/>
+          <circle cx="76.8" cy="107.3" r="1.3" fill="#7A5324" opacity="0.44"/>
+          <path d="M122 59.5 L91.1 105.6" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L57.2 111.6 Q38.6 113.7 29.4 103.2 Z" fill="#F2B673"/>
+          <path d="M122 59.5 L57.2 111.6 Q38.6 113.7 29.4 103.2 Z" fill="#7A5324" opacity="0.38"/>
+          <path d="M86 81.8 L51.6 103.2 M72.4 90.3 Q71.7 92.9 61.7 98.8 M66 94.2 Q60.1 95.3 52.6 100.5" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.53"/>
+          <circle cx="46.8" cy="106.2" r="1.3" fill="#7A5324" opacity="0.53"/>
+          <path d="M122 59.5 L57.2 111.6" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L29.4 103.2 Q14.9 97.5 15.2 82.7 Z" fill="#E9C874"/>
+          <path d="M122 59.5 L29.4 103.2 Q14.9 97.5 15.2 82.7 Z" fill="#7A5324" opacity="0.40"/>
+          <path d="M76.2 75.1 L32.5 90 M58.9 81 Q56.2 84.2 43.8 88.1 M50.8 83.8 Q45.4 83.1 35.4 87" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.58"/>
+          <circle cx="26.3" cy="92.1" r="1.3" fill="#7A5324" opacity="0.58"/>
+          <path d="M122 59.5 L29.4 103.2" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L15.2 82.7 Q8.6 70.6 18.3 55.6 Z" fill="#F2B673"/>
+          <path d="M122 59.5 L15.2 82.7 Q8.6 70.6 18.3 55.6 Z" fill="#7A5324" opacity="0.23"/>
+          <path d="M73.6 64 L27.4 68.4 M55.4 65.7 Q50.9 68.5 38 69.4 M46.8 66.6 Q42.9 64.2 32 65.8" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.60"/>
+          <circle cx="20.9" cy="69" r="1.3" fill="#7A5324" opacity="0.60"/>
+          <path d="M122 59.5 L15.2 82.7" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L18.3 55.6 Q21.5 40.4 38 29.2 Z" fill="#E9C874"/>
+          <path d="M122 59.5 L18.3 55.6 Q21.5 40.4 38 29.2 Z" fill="#7A5324" opacity="0.43"/>
+          <path d="M78.9 51.5 L37.8 44 M62.7 48.5 Q57.2 50.2 45.9 47.7 M55 47.1 Q53.2 43.8 43.3 42.5" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.57"/>
+          <circle cx="32" cy="42.9" r="1.3" fill="#7A5324" opacity="0.57"/>
+          <path d="M122 59.5 L18.3 55.6" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L38 29.2 Q50 14.9 68.9 10.4 Z" fill="#F2B673"/>
+          <path d="M122 59.5 L38 29.2 Q50 14.9 68.9 10.4 Z" fill="#7A5324" opacity="0.44"/>
+          <path d="M90.7 41 L60.8 23.4 M78.9 34 Q73.4 34.1 65.5 28.9 M73.3 30.8 Q73.7 27.3 66.2 23.5" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.50"/>
+          <circle cx="56.7" cy="20.9" r="1.3" fill="#7A5324" opacity="0.50"/>
+          <path d="M122 59.5 L38 29.2" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L68.9 10.4 Q86.6 0.9 102.8 4.4 Z" fill="#E9C874"/>
+          <path d="M122 59.5 L68.9 10.4 Q86.6 0.9 102.8 4.4 Z" fill="#7A5324" opacity="0.77"/>
+          <path d="M105.8 35.2 L90.4 12.1 M99.7 26.1 Q95.2 24.6 91.4 18 M96.8 21.8 Q98.8 19.1 94.6 13.8" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.41"/>
+          <circle cx="88.2" cy="8.9" r="1.3" fill="#7A5324" opacity="0.41"/>
+          <path d="M122 59.5 L68.9 10.4" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L102.8 4.4 Q121.4 2.3 130.6 12.8 Z" fill="#F2B673"/>
+          <path d="M122 59.5 L102.8 4.4 Q121.4 2.3 130.6 12.8 Z" fill="#7A5324" opacity="0.82"/>
+          <path d="M120.2 35.8 L118.5 13.2 M119.5 26.9 Q116.8 24.1 116.8 17.9 M119.2 22.6 Q121.8 21.5 120.9 16" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.32"/>
+          <circle cx="118.2" cy="10" r="1.3" fill="#7A5324" opacity="0.32"/>
+          <path d="M122 59.5 L102.8 4.4" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <path d="M122 59.5 L130.6 12.8 Q145.1 18.5 144.8 33.3 Z" fill="#E9C874"/>
+          <path d="M122 59.5 L130.6 12.8 Q145.1 18.5 144.8 33.3 Z" fill="#7A5324" opacity="0.92"/>
+          <path d="M130 42.5 L137.6 26.3 M133 36.1 Q132.4 32.8 134.7 28.6 M134.4 33.1 Q136.5 33.7 138 29.5" stroke="#7A5324" stroke-width=".9" stroke-linecap="round" opacity="0.27"/>
+          <circle cx="138.7" cy="24" r="1.3" fill="#7A5324" opacity="0.27"/>
+          <path d="M122 59.5 L130.6 12.8" stroke="#7A5324" stroke-width=".8" opacity=".6"/>
+          <defs><radialGradient id="rdr-phono-deep" gradientUnits="userSpaceOnUse" cx="122" cy="59.5" r="62"><stop offset="0" stop-color="#150F0E" stop-opacity=".95"/><stop offset=".35" stop-color="#2A1E17" stop-opacity=".55"/><stop offset="1" stop-color="#2A1E17" stop-opacity="0"/></radialGradient></defs>
+          <path d="M141.8 25.1 L143.8 29.7 L145.1 34.7 L145.7 39.8 L145.6 45.2 L144.8 50.7 L143.2 56.3 L141 61.9 L138.1 67.5 L134.6 73 L130.4 78.3 L125.7 83.4 L120.5 88.2 L114.9 92.6 L108.9 96.7 L102.5 100.4 L96 103.6 L89.2 106.3 L82.3 108.5 L75.4 110.1 L68.6 111.1 L61.9 111.6 L55.4 111.5 L49.1 110.8 L43.2 109.5 L37.7 107.7 L32.7 105.3 L28.2 102.4 L24.2 99 L20.9 95.1 L18.2 90.9 L16.2 86.3 L14.9 81.3 L14.3 76.2 L14.4 70.8 L15.2 65.3 L16.8 59.7 L19 54.1 L21.9 48.5 L25.4 43 L29.6 37.7 L34.3 32.6 L39.5 27.8 L45.1 23.4 L51.1 19.3 L57.5 15.6 L64 12.4 L70.8 9.7 L77.7 7.5 L84.6 5.9 L91.4 4.9 L98.1 4.4 L104.6 4.5 L110.9 5.2 L116.8 6.5 L122.3 8.3 L127.3 10.7 L131.8 13.6 L135.8 17 L139.1 20.9 Z" fill="url(#rdr-phono-deep)"/>
+          <path d="M144.8 33.3 Q151.4 45.4 141.7 60.4 Q138.5 75.6 122 86.8 Q110 101.1 91.1 105.6 Q73.4 115.1 57.2 111.6 Q38.6 113.7 29.4 103.2 Q14.9 97.5 15.2 82.7 Q8.6 70.6 18.3 55.6 Q21.5 40.4 38 29.2 Q50 14.9 68.9 10.4 Q86.6 0.9 102.8 4.4 Q121.4 2.3 130.6 12.8 Q145.1 18.5 144.8 33.3 Z" stroke="#4A372B" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M144.8 33.3 Q151.4 45.4 141.7 60.4 Q138.5 75.6 122 86.8 Q110 101.1 91.1 105.6 Q73.4 115.1 57.2 111.6 Q38.6 113.7 29.4 103.2 Q14.9 97.5 15.2 82.7 Q8.6 70.6 18.3 55.6 Q21.5 40.4 38 29.2 Q50 14.9 68.9 10.4 Q86.6 0.9 102.8 4.4 Q121.4 2.3 130.6 12.8 Q145.1 18.5 144.8 33.3 Z" stroke="#F2E6D4" stroke-width=".7" stroke-linejoin="round" opacity=".45"/>
+          <ellipse cx="122" cy="59.5" rx="4.2" ry="3.2" fill="#2A1E17" transform="rotate(-28 122 59.5)"/>
+          <path d="M158 106 Q170 104 173 116" stroke="#7A5324" stroke-width="8" stroke-linecap="round"/>
+          <path d="M158 103.5 Q169 101 175.5 113" stroke="#E9C874" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>
+          <rect x="169" y="116" width="8" height="30" fill="#7A5324"/>
+          <path d="M171 117 V145" stroke="#E9C874" stroke-width="1.2" opacity=".55"/>
+          <rect x="166.5" y="142" width="13" height="5" rx="1.5" fill="#4A372B"/>
+          <circle cx="173" cy="117" r="6.5" fill="#8A5F26" stroke="#4A372B" stroke-width="1"/>
+          <circle cx="171" cy="115" r="2" fill="#E9C874" opacity=".7"/>
+          <path d="M50 176 H190 L178 134 H62 Z" fill="#2A1E17"/>
+          <path d="M62 134 H178" stroke="#4A372B" stroke-width="1"/>
+          <ellipse cx="120" cy="158" rx="57" ry="20.5" fill="#150F0E"/>
+          <ellipse cx="120" cy="156" rx="57" ry="20.5" fill="#3A2A20"/>
+          <g transform="translate(120 155.5) scale(1 .36)">
+          <g class="rdr-phono__disc">
+          <circle r="53" fill="#0C0908"/>
+          <circle r="49" stroke="#2C1F19" stroke-width=".8" vector-effect="non-scaling-stroke"/>
+          <circle r="45" stroke="#2C1F19" stroke-width=".8" vector-effect="non-scaling-stroke"/>
+          <circle r="41" stroke="#2C1F19" stroke-width=".8" vector-effect="non-scaling-stroke"/>
+          <circle r="37" stroke="#2C1F19" stroke-width=".8" vector-effect="non-scaling-stroke"/>
+          <circle r="33" stroke="#2C1F19" stroke-width=".8" vector-effect="non-scaling-stroke"/>
+          <circle r="29" stroke="#2C1F19" stroke-width=".8" vector-effect="non-scaling-stroke"/>
+          <circle r="25" stroke="#2C1F19" stroke-width=".8" vector-effect="non-scaling-stroke"/>
+          <circle r="18" fill="#8A3D34"/>
+          <circle r="18" stroke="#E9C874" stroke-width=".6" vector-effect="non-scaling-stroke" opacity=".7"/>
+          <circle r="12.5" stroke="#E9C874" stroke-width=".5" vector-effect="non-scaling-stroke" opacity=".5"/>
+          <path d="M-3 -14 A8 8 0 1 0 -3 -2 A6 6 0 1 1 -3 -14 Z" fill="#E9C874"/>
+          <path d="M8 6 l1.3 2.8 3 .4 -2.2 2 .6 3 -2.7 -1.5 -2.7 1.5 .6 -3 -2.2 -2 3 -.4 Z" fill="#E9C874"/>
+          </g>
+          <path d="M-46 -20 A50 50 0 0 1 -14 -47" stroke="#F2E6D4" stroke-width="1.6" vector-effect="non-scaling-stroke" opacity=".22" stroke-linecap="round"/>
+          <path d="M30 40 A50 50 0 0 0 46 22" stroke="#F2E6D4" stroke-width="1.2" vector-effect="non-scaling-stroke" opacity=".14" stroke-linecap="round"/>
+          <circle r="2.4" fill="#E9C874"/>
+          </g>
+          <rect x="44" y="172" width="152" height="7" rx="1.5" fill="#3A2A20"/>
+          <path d="M45 172.6 H195" stroke="#F2B673" stroke-width=".8" opacity=".35"/>
+          <rect x="52" y="179" width="136" height="54" fill="#8A5F26"/>
+          <rect x="52" y="206" width="136" height="27" fill="#7A5324"/>
+          <rect x="64" y="186" width="112" height="40" rx="3" stroke="#4A372B" stroke-width="1.6"/>
+          <rect x="66.5" y="188.5" width="107" height="35" rx="2" stroke="#F2B673" stroke-width=".6" opacity=".3"/>
+          <path d="M102 206 C94 196 84 198 84 205 C84 211 92 212 93 206 M84 205 C80 214 72 215 70 208 M102 206 C96 216 88 220 80 219" stroke="#4A372B" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="76" cy="196" r="1.6" fill="#4A372B"/>
+          <circle cx="76" cy="217" r="1.6" fill="#4A372B"/>
+          <path d="M138 206 C146 196 156 198 156 205 C156 211 148 212 147 206 M156 205 C160 214 168 215 170 208 M138 206 C144 216 152 220 160 219" stroke="#4A372B" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="164" cy="196" r="1.6" fill="#4A372B"/>
+          <circle cx="164" cy="217" r="1.6" fill="#4A372B"/>
+          <ellipse cx="120" cy="206" rx="16" ry="10.5" fill="#8A3D34" stroke="#E9C874" stroke-width="1.4"/>
+          <ellipse cx="120" cy="206" rx="11.5" ry="6.5" stroke="#E9C874" stroke-width=".7" opacity=".6"/>
+          <path d="M113 204.5 H127 M115 208 H125" stroke="#E9C874" stroke-width="1" opacity=".8"/>
+          <rect x="45" y="179" width="14" height="5" fill="#150F0E"/>
+          <rect x="49" y="184" width="6" height="44" fill="#1B1310"/>
+          <ellipse cx="52" cy="189" rx="5" ry="2.6" fill="#150F0E"/>
+          <ellipse cx="52" cy="206" rx="5.5" ry="2.6" fill="#150F0E"/>
+          <ellipse cx="52" cy="223" rx="5" ry="2.6" fill="#150F0E"/>
+          <path d="M50.5 185 V227" stroke="#A4907B" stroke-width=".8" opacity=".35"/>
+          <rect x="45" y="228" width="14" height="5" fill="#150F0E"/>
+          <rect x="181" y="179" width="14" height="5" fill="#150F0E"/>
+          <rect x="185" y="184" width="6" height="44" fill="#1B1310"/>
+          <ellipse cx="188" cy="189" rx="5" ry="2.6" fill="#150F0E"/>
+          <ellipse cx="188" cy="206" rx="5.5" ry="2.6" fill="#150F0E"/>
+          <ellipse cx="188" cy="223" rx="5" ry="2.6" fill="#150F0E"/>
+          <path d="M186.5 185 V227" stroke="#A4907B" stroke-width=".8" opacity=".35"/>
+          <rect x="181" y="228" width="14" height="5" fill="#150F0E"/>
+          <path d="M195 203 H206 L210 217" stroke="#7A5324" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <ellipse cx="211" cy="222" rx="3.4" ry="5" fill="#2A1E17" stroke="#E9C874" stroke-width=".8"/>
+          <path d="M38 233 H202 L206 241 H34 Z" fill="#1B1310"/>
+          <path d="M38 233.6 H202" stroke="#A4907B" stroke-width=".7" opacity=".3"/>
+          <path d="M30 241 H210 L214 250 H26 Z" fill="#150F0E"/>
+          <path d="M30 241.6 H210" stroke="#A4907B" stroke-width=".7" opacity=".25"/>
+          <path d="M173 123 Q148 124 113 139" stroke="#7A5324" stroke-width="5.5" stroke-linecap="round"/>
+          <path d="M172 121 Q148 122 113 136.5" stroke="#E9C874" stroke-width="1.1" stroke-linecap="round" opacity=".6"/>
+          <path d="M106.5 149 L108.5 155" stroke="#F2E6D4" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="105" cy="140" r="10" fill="#7A5324" stroke="#E9C874" stroke-width="1.2"/>
+          <circle cx="105" cy="140" r="6" fill="#2A1E17"/>
+          <circle cx="105" cy="140" r="3.6" stroke="#E9C874" stroke-width=".6" opacity=".5"/>
+        </svg>
+      </div>
+      <!-- yurt-yarn:phonograph:end -->
+      <div>
+        <p>Something to read to. My library playlist is on the gramophone: switch it on and it runs from the top until you switch it off, or take one record off the shelf below and put that on instead. Nothing plays before you press.</p>
+      </div>
+    </div>
+    <!-- yurt-yarn:deck:begin -->
+    <div class="rdr-deck">
+      <div class="rdr-deck__glass" data-rack-screen="yarn" data-rack-switch data-rack-off="The gramophone is off until you switch it on again.">
+        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLLBxNBh2rMKw&amp;autoplay=1" data-embed-title="Library Music, Helen’s playlist, on YouTube">
+          Switch on Library Music &mdash; runs until you stop it
+          <span class="facade__play">&#9654; PRESS PLAY</span>
+        </button>
+      </div>
+      <p class="rdr-deck__now" data-rack-now="yarn" tabindex="-1" hidden></p>
+      <p class="rdr-deck__back" hidden><button type="button" class="rdr-back" data-rack-back="yarn">Switch the gramophone off</button></p>
+    </div>
+    <p class="rdr-deck__credit"><a href="https://www.youtube.com/playlist?list=PLLBxNBh2rMKw">Library Music</a>, on YouTube, from my own channel.</p>
+    <!-- yurt-yarn:deck:end -->
+    <!-- yurt-yarn:rack:begin -->
+    <p class="rdr-intro rdr-rack__intro">Or take a record off the shelf: press its sleeve and it goes on the gramophone in place of the whole playlist and plays. Every sleeve says how long the record runs before you press it, nothing plays until you do, and taking it off puts the playlist back without starting it.</p>
+    <details class="rdr-rack" open>
+      <summary class="rdr-rack__sum">Every song on Library Music, as records on a shelf</summary>
+      <div class="rdr-lp-case">
+      <ol class="rdr-lp">
+        <li class="rdr-lp__slot" id="rdr-lp-Nj0dbnkk_D4" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--1" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/Nj0dbnkk_D4?autoplay=1&amp;rel=0" data-rack-title="Franz Gordon &mdash; The French Library, on the gramophone" data-rack-film="Franz Gordon, The French Library" data-rack-runtime="3:00">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">The French Library</span>
+            <span class="rdr-lp__who">Franz Gordon</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 3:00</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="Nj0dbnkk_D4" data-embed-title="Franz Gordon &mdash; The French Library">
+            Play here instead &mdash; 3:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">3:00 &middot; on YouTube, via Overtone Classical</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-rBA9Gqpk_Po" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--2" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/rBA9Gqpk_Po?autoplay=1&amp;rel=0" data-rack-title="Toshifumi Hinata &mdash; Reflections, on the gramophone" data-rack-film="Toshifumi Hinata, Reflections" data-rack-runtime="2:35">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Reflections</span>
+            <span class="rdr-lp__who">Toshifumi Hinata</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 2:35</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="rBA9Gqpk_Po" data-embed-title="Toshifumi Hinata &mdash; Reflections">
+            Play here instead &mdash; 2:35
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">2:35 &middot; on YouTube, via ALFA MUSIC YouTube Channel</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-k2B_-LKov7I" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--3" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/k2B_-LKov7I?autoplay=1&amp;rel=0" data-rack-title="Johannes Bornlöf &mdash; Nocturnal Waltz, on the gramophone" data-rack-film="Johannes Bornlöf, Nocturnal Waltz" data-rack-runtime="2:09">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Nocturnal Waltz</span>
+            <span class="rdr-lp__who">Johannes Bornlöf</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 2:09</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="k2B_-LKov7I" data-embed-title="Johannes Bornlöf &mdash; Nocturnal Waltz">
+            Play here instead &mdash; 2:09
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">2:09 &middot; on YouTube, via Johannes Bornlöf</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-tALjlw38jas" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--4" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/tALjlw38jas?autoplay=1&amp;rel=0" data-rack-title="Lama House &mdash; By the Border, on the gramophone" data-rack-film="Lama House, By the Border" data-rack-runtime="2:39">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">By the Border</span>
+            <span class="rdr-lp__who">Lama House</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 2:39</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="tALjlw38jas" data-embed-title="Lama House &mdash; By the Border">
+            Play here instead &mdash; 2:39
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">2:39 &middot; on YouTube, via Overtone Classical</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-Jr6Nq9r758c" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--5" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/Jr6Nq9r758c?autoplay=1&amp;rel=0" data-rack-title="your movie soundtrack &mdash; Where Is My Mind, on the gramophone" data-rack-film="your movie soundtrack, Where Is My Mind" data-rack-runtime="2:36">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Where Is My Mind</span>
+            <span class="rdr-lp__who">your movie soundtrack</span>
+            <span class="rdr-lp__what">a piano version</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 2:36</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="Jr6Nq9r758c" data-embed-title="your movie soundtrack &mdash; Where Is My Mind">
+            Play here instead &mdash; 2:36
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">2:36 &middot; on YouTube, via your movie soundtrack</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-qH666vIR9_8" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--6" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/qH666vIR9_8?autoplay=1&amp;rel=0" data-rack-title="Franz Gordon &mdash; Airy Fairy Heart, on the gramophone" data-rack-film="Franz Gordon, Airy Fairy Heart" data-rack-runtime="3:30">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Airy Fairy Heart</span>
+            <span class="rdr-lp__who">Franz Gordon</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 3:30</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="qH666vIR9_8" data-embed-title="Franz Gordon &mdash; Airy Fairy Heart">
+            Play here instead &mdash; 3:30
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">3:30 &middot; on YouTube, via Overtone Classical</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-gBKh6GTVfvA" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--1" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/gBKh6GTVfvA?autoplay=1&amp;rel=0" data-rack-title="Dunja Musarova &mdash; Ephemeralist, on the gramophone" data-rack-film="Dunja Musarova, Ephemeralist" data-rack-runtime="2:28">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Ephemeralist</span>
+            <span class="rdr-lp__who">Dunja Musarova</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 2:28</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="gBKh6GTVfvA" data-embed-title="Dunja Musarova &mdash; Ephemeralist">
+            Play here instead &mdash; 2:28
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">2:28 &middot; on YouTube, via Dunja Musarova</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-sR2W2scFS4Y" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--2" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/sR2W2scFS4Y?autoplay=1&amp;rel=0" data-rack-title="Ludovico Einaudi &mdash; Nuvole Bianche, on the gramophone" data-rack-film="Ludovico Einaudi, Nuvole Bianche" data-rack-runtime="6:02">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Nuvole Bianche</span>
+            <span class="rdr-lp__who">Ludovico Einaudi</span>
+            <span class="rdr-lp__what">the visualiser</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 6:02</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="sR2W2scFS4Y" data-embed-title="Ludovico Einaudi &mdash; Nuvole Bianche">
+            Play here instead &mdash; 6:02
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">6:02 &middot; on YouTube, via Ludovico Einaudi</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-VfCxaNbJ0q4" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--3" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/VfCxaNbJ0q4?autoplay=1&amp;rel=0" data-rack-title="Lucas King &mdash; Ghost Lullaby, on the gramophone" data-rack-film="Lucas King, Ghost Lullaby" data-rack-runtime="3:44">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Ghost Lullaby</span>
+            <span class="rdr-lp__who">Lucas King</span>
+            <span class="rdr-lp__what">piano</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 3:44</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="VfCxaNbJ0q4" data-embed-title="Lucas King &mdash; Ghost Lullaby">
+            Play here instead &mdash; 3:44
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">3:44 &middot; on YouTube, via Lucas King</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-9E6b3swbnWg" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--4" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/9E6b3swbnWg?autoplay=1&amp;rel=0" data-rack-title="Chopin &mdash; Nocturne Op. 9 No. 2, on the gramophone" data-rack-film="Chopin, Nocturne Op. 9 No. 2" data-rack-runtime="4:29">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Nocturne Op. 9 No. 2</span>
+            <span class="rdr-lp__who">Chopin</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 4:29</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="9E6b3swbnWg" data-embed-title="Chopin &mdash; Nocturne Op. 9 No. 2">
+            Play here instead &mdash; 4:29
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">4:29 &middot; on YouTube, via andrea romano</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-p29JUpsOSTE" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--5" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/p29JUpsOSTE?autoplay=1&amp;rel=0" data-rack-title="Chopin &mdash; Nocturne in E flat major, Op. 9 No. 2, on the gramophone" data-rack-film="Chopin, Nocturne in E flat major, Op. 9 No. 2" data-rack-runtime="4:56">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Nocturne in E flat major, Op. 9 No. 2</span>
+            <span class="rdr-lp__who">Chopin</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 4:56</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="p29JUpsOSTE" data-embed-title="Chopin &mdash; Nocturne in E flat major, Op. 9 No. 2">
+            Play here instead &mdash; 4:56
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">4:56 &middot; on YouTube, via Rousseau</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-MI6dnWbo5Dk" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--6" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/MI6dnWbo5Dk?autoplay=1&amp;rel=0" data-rack-title="Yonder Dale &mdash; Eternal Slumber, on the gramophone" data-rack-film="Yonder Dale, Eternal Slumber" data-rack-runtime="2:36">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Eternal Slumber</span>
+            <span class="rdr-lp__who">Yonder Dale</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 2:36</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="MI6dnWbo5Dk" data-embed-title="Yonder Dale &mdash; Eternal Slumber">
+            Play here instead &mdash; 2:36
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">2:36 &middot; on YouTube, via Yonder Dale</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-EJwwWPrwwo4" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--1" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/EJwwWPrwwo4?autoplay=1&amp;rel=0" data-rack-title="Ludovico Einaudi &amp; Daniel Hope &mdash; Experience, on the gramophone" data-rack-film="Ludovico Einaudi &amp; Daniel Hope, Experience" data-rack-runtime="5:13">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Experience</span>
+            <span class="rdr-lp__who">Ludovico Einaudi &amp; Daniel Hope</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 5:13</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="EJwwWPrwwo4" data-embed-title="Ludovico Einaudi &amp; Daniel Hope &mdash; Experience">
+            Play here instead &mdash; 5:13
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">5:13 &middot; on YouTube, via Transzcendence Realm</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-NvryolGa19A" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--2" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/NvryolGa19A?autoplay=1&amp;rel=0" data-rack-title="Yann Tiersen &mdash; Comptine d’un autre été : l’après-midi, on the gramophone" data-rack-film="Yann Tiersen, Comptine d’un autre été : l’après-midi" data-rack-runtime="2:26">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Comptine d’un autre été : l’après-midi</span>
+            <span class="rdr-lp__who">Yann Tiersen</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 2:26</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="NvryolGa19A" data-embed-title="Yann Tiersen &mdash; Comptine d’un autre été : l’après-midi">
+            Play here instead &mdash; 2:26
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">2:26 &middot; on YouTube, via Iain Hemstock</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-eoUDchU0NUQ" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--3" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/eoUDchU0NUQ?autoplay=1&amp;rel=0" data-rack-title="Ludovico Einaudi &mdash; Burning, on the gramophone" data-rack-film="Ludovico Einaudi, Burning" data-rack-runtime="5:00">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Burning</span>
+            <span class="rdr-lp__who">Ludovico Einaudi</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 5:00</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="eoUDchU0NUQ" data-embed-title="Ludovico Einaudi &mdash; Burning">
+            Play here instead &mdash; 5:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">5:00 &middot; on YouTube, via Ludovico Einaudi</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-toOShA7omUk" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--4" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/toOShA7omUk?autoplay=1&amp;rel=0" data-rack-title="Michael Nyman &mdash; The Heart Asks Pleasure First / The Promise, on the gramophone" data-rack-film="Michael Nyman, The Heart Asks Pleasure First / The Promise" data-rack-runtime="3:12">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">The Heart Asks Pleasure First / The Promise</span>
+            <span class="rdr-lp__who">Michael Nyman</span>
+            <span class="rdr-lp__what">the edit</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 3:12</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="toOShA7omUk" data-embed-title="Michael Nyman &mdash; The Heart Asks Pleasure First / The Promise">
+            Play here instead &mdash; 3:12
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">3:12 &middot; on YouTube, via Michael Nyman</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-HRrQckINCJ0" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--5" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/HRrQckINCJ0?autoplay=1&amp;rel=0" data-rack-title="Michael Nyman &mdash; The Promise, on the gramophone" data-rack-film="Michael Nyman, The Promise" data-rack-runtime="4:16">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">The Promise</span>
+            <span class="rdr-lp__who">Michael Nyman</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 4:16</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="HRrQckINCJ0" data-embed-title="Michael Nyman &mdash; The Promise">
+            Play here instead &mdash; 4:16
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">4:16 &middot; on YouTube, via Michael Nyman</p>
+          </div>
+        </li>
+        <li class="rdr-lp__slot" id="rdr-lp-MgS-Lq_pUGk" data-rack-card>
+          <button type="button" class="rdr-lp__sleeve rdr-lp__sleeve--6" hidden data-rack-to="yarn" data-rack-name="the gramophone" data-rack-src="https://www.youtube-nocookie.com/embed/MgS-Lq_pUGk?autoplay=1&amp;rel=0" data-rack-title="Ludovico Einaudi &mdash; Luminous, on the gramophone" data-rack-film="Ludovico Einaudi, Luminous" data-rack-runtime="4:44">
+            <span class="rdr-lp__disc" aria-hidden="true"></span>
+            <span class="rdr-lp__title">Luminous</span>
+            <span class="rdr-lp__who">Ludovico Einaudi</span>
+            <span class="rdr-lp__what">the visualiser</span>
+            <span class="rdr-lp__go">Put it on the gramophone &middot; 4:44</span>
+          </button>
+          <div class="rdr-lp__under">
+          <button type="button" class="facade" data-embed-id="MgS-Lq_pUGk" data-embed-title="Ludovico Einaudi &mdash; Luminous">
+            Play here instead &mdash; 4:44
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <p class="rdr-lp__credit">4:44 &middot; on YouTube, via Ludovico Einaudi</p>
+          </div>
+        </li>
+      </ol>
+      </div>
+    </details>
+    <p class="rdr-rack__from">Read off the playlist on 2026-10-18, in its own order. A song I add plays on the whole playlist straight away, and turns up on the shelf the next time somebody reads the playlist again.</p>
+    <!-- yurt-yarn:rack:end -->
   </section>
 
   <section aria-labelledby="catalogue">
@@ -743,6 +1206,7 @@
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="rack.js" defer></script>
 <script src="quest.js" defer></script>
 <script src="yurt-garden.js" defer></script>
 </body>

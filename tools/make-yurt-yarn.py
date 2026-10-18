@@ -1,5 +1,20 @@
 #!/usr/bin/env python3
-"""Build the Faery Yurt's phonograph, its yarn on the phonograph, and the rack of songs under it.
+"""Build the Faery Yurt's phonograph and songbook, and the Music Room's phonograph, yarn and record case.
+
+THE YARN PLAYS IN THE MUSIC ROOM AND NOWHERE ELSE, since 2026-10-18, Helen's ask
+at the keyboard: the playlist re-read "so it runs as one", the songs "so they
+look like a book case for people to click on and play in the music room page",
+and in the yurt itself "just a gramophone with a book listing all tracks for
+people to look through - it will only play in the music room though". That
+reverses her own arrangement of 2026-10-13 (below), which put the whole yarn
+and the rack in the yurt; DECISIONS.md says so. So now: the PHONOGRAPH is drawn
+into both rooms; the DECK (the whole yarn, one press, runs until you stop it)
+and the RECORD CASE are written into the Music Room only; and the yurt gets a
+SONGBOOK under its phonograph, bound like Nature Notes, a song to a line with
+its runtime, each line a link to that record in the Music Room. This tool
+refuses the yarn or a record on the yurt's page, and a line in the book with no
+record behind it. The yurt's record still turns at MAX, because the dial's line
+in there still says so.
 
 HELEN ASKED FOR ALL OF THIS, on 2026-10-13, through Ryan: the rack for her
 playlist, and a phonograph drawn after a photograph of a reproduction gramophone
@@ -84,13 +99,34 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/yurt-yarn.json"
 ROOM = ROOT / "faery-yurt.html"
 MUSIC = ROOT / "faery-music-room.html"
-# THE MUSIC ROOM IS A SECOND SURFACE FOR THE SAME YARN (Helen's ask, 2026-10-16:
-# "for those who just want to listen and not scroll"). The phonograph, the deck
-# and the record case are written into both rooms from this one data file, so
-# the two cannot drift; the Music Room wears them in its own classes (mus-),
+# THE PHONOGRAPH STANDS IN BOTH ROOMS (the Music Room since Helen's ask of
+# 2026-10-16, "for those who just want to listen and not scroll"), drawn into
+# each from this one tool; the Music Room wears it in its own classes (mus-),
 # because a class is global and §14's names are the yurt's (check-classes.py),
-# and its section of love.css dresses them in the Reading Room's colours.
-SURFACES = ((ROOM, "yurt", 14), (MUSIC, "mus", 115))
+# and its section of love.css dresses it in the Reading Room's colours. THE
+# MUSIC IS THE MUSIC ROOM'S ALONE since 2026-10-18: the deck and the record
+# case go there and the songbook goes in the yurt, both from the one data file,
+# so the book and the case cannot name different songs.
+READING = ROOT / "faery-reading-room.html"
+# THE READING ROOM HAS A GRAMOPHONE OF ITS OWN since 2026-10-18 (Helen's third
+# ask that day: "a gramophone to switch on and off and a shelf of records to
+# choose from"), with its own playlist, Library Music, in its own classes
+# (rdr-, §114), and nothing of it in the yurt's songbooks, which are the Music
+# Room's catalogue. Each playlist names its room; the deck, the case and the
+# way back are written into that room, and into no other.
+SURFACES = ((ROOM, "yurt", 14), (MUSIC, "mus", 115), (READING, "rdr", 114))
+ROOMS = {
+    "music": {"page": MUSIC, "prefix": "mus", "screen": "the phonograph",
+              "off": "The playlists are off until you put one back.",
+              "back": "Take it off and put the playlists back",
+              "where": "the Music Room"},
+    "reading": {"page": READING, "prefix": "rdr", "screen": "the gramophone",
+                "off": "The gramophone is off until you switch it on again.",
+                "back": "Switch the gramophone off",
+                "where": "the Reading Room"},
+}
+BOOKED = "music"  # the room whose playlists the yurt's songbooks list
+PER_PAGE = 7  # songs to a page of a songbook
 NOTES = ROOT / "liner-notes.html"
 CSS = ROOT / "love.css"
 
@@ -104,7 +140,12 @@ SCREEN = "the phonograph"
 DISC = "yurt-phono__disc"
 
 d = json.loads(DATA.read_text())
-pl = d.get("playlist") or {}
+# TWO PLAYLISTS SINCE 2026-10-18 (Helen's second ask that day, "also add this to
+# the music room"): each is put on whole from the deck, has a record case of
+# its own, and a run of pages of its own in the songbook, and every track says
+# which it is on. They are never mixed into one shelf: the order on a shelf is
+# the playlist's own.
+pls = d.get("playlists") or []
 tracks = d.get("tracks") or []
 problems = []
 
@@ -124,15 +165,29 @@ def no_entity(v, where):
 no_entity(d, "data")
 if not DATE.match(str(d.get("_checked", ""))):
     problems.append("_checked: the day the playlist was read, as YYYY-MM-DD. The room prints it.")
-if not LIST.match(str(pl.get("list", ""))):
-    problems.append("playlist.list: not a YouTube playlist id.")
-if not pl.get("title"):
-    problems.append("playlist.title: the playlist's own name.")
-if "runtime" in pl:
-    problems.append("playlist: carries a runtime. Helen keeps adding to it, and a total here would "
-                    "be wrong the day she did.")
+if not pls:
+    problems.append("playlists: none.")
+for i, pl in enumerate(pls):
+    if not LIST.match(str(pl.get("list", ""))):
+        problems.append(f"playlists[{i}].list: not a YouTube playlist id.")
+    if not pl.get("title"):
+        problems.append(f"playlists[{i}].title: the playlist's own name.")
+    if "runtime" in pl:
+        problems.append(f"playlists[{i}]: carries a runtime. Helen keeps adding to it, and a total here "
+                        "would be wrong the day she did.")
+    if pl.get("room") not in ROOMS:
+        problems.append(f"playlists[{i}].room: must name the room it plays in, one of {sorted(ROOMS)}.")
+lists = [pl.get("list") for pl in pls]
+if len(set(lists)) != len(lists):
+    problems.append("playlists: one is listed twice.")
 if not tracks:
     problems.append("tracks: none. A rack with nothing on it is a heading over nothing.")
+if not any(pl.get("room") == BOOKED for pl in pls):
+    problems.append(f"playlists: none plays in {BOOKED!r}, so the yurt would have no songbook.")
+for pl in pls:
+    if not any(t.get("on") == pl.get("list") for t in tracks):
+        problems.append(f"playlists: nothing is on {pl.get('title')!r}; a case with no records is a "
+                        "heading over nothing.")
 
 seen = set()
 for i, t in enumerate(tracks):
@@ -143,6 +198,13 @@ for i, t in enumerate(tracks):
     elif t["id"] in seen:
         problems.append(f"{where}: {t['id']} is on the rack twice.")
     seen.add(t.get("id"))
+    if t.get("on") not in lists:
+        problems.append(f"{where}: `on` does not name one of the playlists.")
+    if t.get("door") and t.get("state") != "link":
+        problems.append(f"{where}: a door (an upload its channel will not let other sites frame) must "
+                        "also say state: link, which is how check-jukebox.py knows not to expect the frame.")
+    if t.get("state") == "link" and not t.get("door"):
+        problems.append(f"{where}: state is link with no `door` saying what was measured and when.")
     if not RUNTIME.match(str(t.get("runtime", ""))):
         problems.append(f"{where}: no runtime. Every press-to-play control on this street says how "
                         "long before the press.")
@@ -196,6 +258,14 @@ def dressed(block, prefix):
 def write_both(marker, block, indent=""):
     for page, prefix, _ in SURFACES:
         swap(page, marker, dressed(block, prefix), indent)
+
+
+def write_room(room, marker, block, indent=""):
+    swap(ROOMS[room]["page"], marker, dressed(block, ROOMS[room]["prefix"]), indent)
+
+
+def in_room(room):
+    return [pl for pl in pls if pl.get("room") == room]
 
 
 # ── The phonograph ────────────────────────────────────────────────────────────
@@ -373,33 +443,65 @@ write_both("yurt-yarn:phonograph",
                for line in phonograph()) +
      '\n      </div>', "      ")
 
-# ── The whole yarn, on the phonograph ────────────────────────────────────────
-yarn_src = f'https://www.youtube-nocookie.com/embed/videoseries?list={pl["list"]}&autoplay=1'
-write_both("yurt-yarn:deck",
-     f'<div class="yurt-deck">\n'
-     f'      <div class="yurt-deck__glass" data-rack-screen="yarn" '
-     f'data-rack-off="The whole yarn is off until you put it back.">\n'
-     f'        <button type="button" class="facade" data-embed-src="{attr(yarn_src)}" '
-     f'data-embed-title="{attr(pl["title"])}, Helen’s playlist, on YouTube">\n'
-     f'          Put on {esc(pl["title"])} &mdash; runs until you stop it\n'
-     f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
-     f'        </button>\n'
-     f'      </div>\n'
-     f'      <p class="yurt-deck__now" data-rack-now="yarn" tabindex="-1" hidden></p>\n'
-     f'      <p class="yurt-deck__back" hidden><button type="button" class="yurt-back" '
-     f'data-rack-back="yarn">Take it off and put the whole yarn back</button></p>\n'
-     f'    </div>\n'
-     f'    <p class="yurt-deck__credit"><a href="https://www.youtube.com/playlist?list='
-     f'{attr(pl["list"])}">{esc(pl["title"])}</a>, on YouTube, from my own channel.</p>', "    ")
+# ── The whole yarn, on the Music Room's phonograph ───────────────────────────
+# One plate per playlist, in one glass: rack.js keeps the glass's whole markup as
+# the plate it puts back, so a record going up covers both and the way back
+# restores both, without playing either.
+def names(lists, sep=" and "):
+    return sep.join(f'<a href="https://www.youtube.com/playlist?list={attr(pl["list"])}">{esc(pl["title"])}</a>' for pl in lists)
 
-# ── The rack ─────────────────────────────────────────────────────────────────
-cards = []
-for i, t in enumerate(tracks):
+
+for room, R in ROOMS.items():
+    plates = []
+    for pl in in_room(room):
+        src = f'https://www.youtube-nocookie.com/embed/videoseries?list={pl["list"]}&autoplay=1'
+        plates.append(
+            f'        <button type="button" class="facade" data-embed-src="{attr(src)}" '
+            f'data-embed-title="{attr(pl["title"])}, Helen’s playlist, on YouTube">\n'
+            f'          {"Switch on" if room == "reading" else "Put on"} {esc(pl["title"])} &mdash; runs until you stop it\n'
+            f'          <span class="facade__play">&#9654; PRESS PLAY</span>\n'
+            f'        </button>')
+    # data-rack-switch: rack.js shows the way back once the glass's own plate is
+    # pressed, so the one button is also the off switch (Helen, 2026-10-18).
+    write_room(room, "yurt-yarn:deck",
+         f'<div class="yurt-deck">\n'
+         f'      <div class="yurt-deck__glass" data-rack-screen="yarn" data-rack-switch '
+         f'data-rack-off="{attr(R["off"])}">\n'
+         + "\n".join(plates) + '\n'
+         f'      </div>\n'
+         f'      <p class="yurt-deck__now" data-rack-now="yarn" tabindex="-1" hidden></p>\n'
+         f'      <p class="yurt-deck__back" hidden><button type="button" class="yurt-back" '
+         f'data-rack-back="yarn">{esc(R["back"])}</button></p>\n'
+         f'    </div>\n'
+         f'    <p class="yurt-deck__credit">{names(in_room(room))}, on YouTube, from my own channel.</p>', "    ")
+
+# ── The record case, in the Music Room ───────────────────────────────────────
+# Every slot carries an id, yurt-lp-<video id> (mus-lp-… once dressed), which is
+# what a line in the yurt's songbook links to.
+def card(i, t, SCREEN):
     who, title, rt = t["artist"], t["title"], t["runtime"]
     what = f'\n            <span class="yurt-lp__what">{what_(t["what"])}</span>' if t.get("what") else ""
     note = f'\n            <span class="yurt-lp__note">{esc(t["replaced"]["says"])}</span>' if t.get("replaced") else ""
-    cards.append(
-        f'        <li class="yurt-lp__slot" data-rack-card>\n'
+    if t.get("door"):
+        # A DOOR, NOT A SCREEN: its channel has embedding off, so a frame would
+        # show YouTube's refusal where the record should be. The sleeve is a link
+        # to the watch page, dressed dashed, and says so; nothing here presses.
+        return (
+            f'        <li class="yurt-lp__slot yurt-lp__slot--door" id="yurt-lp-{attr(t["id"])}">\n'
+            f'          <a class="yurt-lp__sleeve yurt-lp__sleeve--{i % 6 + 1} yurt-lp__sleeve--door" '
+            f'href="https://www.youtube.com/watch?v={attr(t["id"])}" rel="noopener">\n'
+            f'            <span class="yurt-lp__disc" aria-hidden="true"></span>\n'
+            f'            <span class="yurt-lp__title">{esc(title)}</span>\n'
+            f'            <span class="yurt-lp__who">{esc(who)}</span>{what}\n'
+            f'            <span class="yurt-lp__note">This one will not play in a frame here; the sleeve opens it on YouTube.</span>\n'
+            f'            <span class="yurt-lp__go">Opens on YouTube &middot; {esc(rt)}</span>\n'
+            f'          </a>\n'
+            f'          <div class="yurt-lp__under">\n'
+            f'          <p class="yurt-lp__credit">{esc(rt)} &middot; on YouTube, via {esc(t["channel"])}</p>\n'
+            f'          </div>\n'
+            f'        </li>')
+    return (
+        f'        <li class="yurt-lp__slot" id="yurt-lp-{attr(t["id"])}" data-rack-card>\n'
         f'          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--{i % 6 + 1}" hidden data-rack-to="yarn" '
         f'data-rack-name="{SCREEN}" '
         f'data-rack-src="https://www.youtube-nocookie.com/embed/{attr(t["id"])}?autoplay=1&amp;rel=0" '
@@ -421,24 +523,102 @@ for i, t in enumerate(tracks):
         f'          </div>\n'
         f'        </li>')
 
-write_both("yurt-yarn:rack",
-     f'<p class="section-intro yurt-rack__intro">Or take a record off the shelf: press its sleeve and it goes on '
-     f'{SCREEN} in place of the whole yarn and plays. Every sleeve says how long the record runs before '
-     f'you press it, nothing plays until you do, and taking it off puts the yarn back without '
-     f'starting it.</p>\n'
-     '    <details class="yurt-rack" open>\n'
-     '      <summary class="yurt-rack__sum">Every song on the yarn, as records on a shelf</summary>\n'
-     '      <div class="yurt-lp-case">\n'
-     '      <ol class="yurt-lp">\n' + "\n".join(cards) + '\n      </ol>\n'
-     '      </div>\n'
-     f'      <p class="yurt-rack__from">Read off the yarn on {esc(d["_checked"])}, in its own order. '
-     f'A song I add plays on the whole yarn straight away, and turns up here the next time somebody '
-     f'reads the playlist again.</p>\n'
-     '    </details>', "    ")
 
+for room, R in ROOMS.items():
+    SCREEN = R["screen"]
+    mine_lists = in_room(room)
+    cases = []
+    for pl in mine_lists:
+        mine = [t for t in tracks if t.get("on") == pl["list"]]
+        cards = [card(i, t, SCREEN) for i, t in enumerate(mine)]
+        cases.append(
+            '    <details class="yurt-rack" open>\n'
+            f'      <summary class="yurt-rack__sum">Every song on {esc(pl["title"])}, as records on a shelf</summary>\n'
+            '      <div class="yurt-lp-case">\n'
+            '      <ol class="yurt-lp">\n' + "\n".join(cards) + '\n      </ol>\n'
+            '      </div>\n'
+            '    </details>')
+    many = len(mine_lists) > 1
+    doors_here = any(t.get("door") for pl in mine_lists for t in tracks if t.get("on") == pl["list"])
+    write_room(room, "yurt-yarn:rack",
+         f'<p class="section-intro yurt-rack__intro">Or take a record off {"a" if many else "the"} shelf: press its sleeve and it goes on '
+         f'{SCREEN} in place of the whole playlist and plays. Every sleeve says how long the record runs before '
+         f'you press it, nothing plays until you do, and taking it off puts the '
+         f'{"playlists back without starting either" if many else "playlist back without starting it"}.'
+         + (' A sleeve that opens on YouTube instead says so: its channel will not let other sites frame it.' if doors_here else '')
+         + '</p>\n'
+         + "\n".join(cases) + '\n'
+         f'    <p class="yurt-rack__from">Read off {"the playlists" if many else "the playlist"} on {esc(d["_checked"])}, '
+         f'{"each shelf in its playlist’s" if many else "in its"} own order. A song I add plays on the whole playlist straight away, '
+         f'and turns up on {"its" if many else "the"} shelf the next time somebody reads the playlist again.</p>', "    ")
+
+# ── The songbook, in the yurt ────────────────────────────────────────────────
+# Nature Notes' binding (yurt-notebook.js shuts it and turns its pages; with no
+# script it is open and swipes), ruled pages, a song to a line. Each line links
+# to that record in the Music Room; nothing here plays, and the tool checks the
+# yurt's page for that below.
+books = []
+pages = []  # every page in every book, for the count the tool prints
+runs = [(pl, [t for t in tracks if t.get("on") == pl["list"]]) for pl in in_room(BOOKED)]
+for pl, mine in runs:
+  pages_here = []
+  for n in range(0, len(mine), PER_PAGE):
+    chunk = mine[n:n + PER_PAGE]
+    lines = []
+    for t in chunk:
+        what = f' <span class="yurt-songbook__what">{what_(t["what"])}</span>' if t.get("what") else ""
+        lines.append(
+            f'            <li class="yurt-songbook__song"><a class="yurt-songbook__link" '
+            f'href="faery-music-room.html#mus-lp-{attr(t["id"])}">'
+            f'<span class="yurt-songbook__who">{esc(t["artist"])}</span> '
+            f'<span class="yurt-songbook__title">{esc(t["title"])}</span></a>{what} '
+            f'<span class="yurt-songbook__time">{esc(t["runtime"])}</span></li>')
+    no = len(pages_here) + 1
+    say = (f'Page {no}: from {chunk[0]["artist"]}, {chunk[0]["title"]}, '
+           f'to {chunk[-1]["artist"]}, {chunk[-1]["title"]}.' if len(chunk) > 1 else
+           f'Page {no}: {chunk[0]["artist"]}, {chunk[0]["title"]}.')
+    pages_here.append(
+        f'        <li class="yurt-notebook__page" data-notebook-say="{attr(say)}">\n'
+        f'          <p class="yurt-songbook__head">{esc(pl["title"])}</p>\n'
+        f'          <ul class="yurt-songbook__list">\n' + "\n".join(lines) + '\n          </ul>\n'
+        f'          <span class="yurt-notebook__no" aria-hidden="true">No. {no}</span>\n'
+        f'        </li>')
+  pages.extend(pages_here)
+  # A BOOK PER PLAYLIST, ITS NAME ON THE COVER (Helen, 2026-10-18: "with title of
+  # playlist as another book"), bound like Nature Notes.
+  books.append(
+     f'<div class="yurt-notebook yurt-songbook" data-notebook>\n'
+     f'      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>\n'
+     f'        <span class="yurt-notebook__title">{esc(pl["title"])}</span>\n'
+     f'        <span class="yurt-notebook__open">Open the book</span>\n'
+     f'      </button>\n'
+     f'      <div class="yurt-notebook__cover" data-notebook-book>\n'
+     f'        <ul class="yurt-notebook__pages" tabindex="0" aria-label="{attr(pl["title"])}: every song on it, '
+     f'in its own order; each line goes to that record in the Music Room" data-notebook-pages>\n'
+     + "\n".join(pages_here) + '\n'
+     f'        </ul>\n'
+     f'        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>\n'
+     f'      </div>\n'
+     f'      <div class="yurt-notebook__controls" data-notebook-controls hidden>\n'
+     f'        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>\n'
+     f'        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>\n'
+     f'        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>\n'
+     f'      </div>\n'
+     f'      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>\n'
+     f'    </div>')
+
+swap(ROOM, "yurt-yarn:book",
+     "\n    ".join(books) + '\n'
+     f'    <p class="yurt-songbook__from">Every song on {names(in_room(BOOKED))}, my own playlists on YouTube, read off them on '
+     f'{esc(d["_checked"])}, each in its own order, a book each. Press a line and it takes you to that record in the '
+     f'<a href="faery-music-room.html">Music Room</a>, which is where the music plays, whole or one '
+     f'record at a time. A song I add plays there straight away, and turns up in this book the next '
+     f'time somebody reads the playlist again.</p>', "    ")
+
+titles = {pl["list"]: pl["title"] for pl in pls}
 credit_rows = [
     f'      <tr><td>{esc(t["title"])}</td><td><strong>{esc(t["artist"])}</strong></td>'
-    f'<td>{esc(t["channel"])}</td><td>{esc(t["runtime"])}</td></tr>'
+    f'<td>{esc(t["channel"])}</td><td>{esc(t["runtime"])}</td><td>{esc(titles[t["on"]])}</td></tr>'
     for t in tracks]
 swap(NOTES, "yurt-yarn-credits", "\n".join(credit_rows).lstrip(), "      ")
 
@@ -464,13 +644,37 @@ for page_path, prefix, sec in SURFACES:
                                     "and nowhere else; the dial's line in the room says so.")
     if not re.search(r'html\[data-intensity="max"\][^{]*' + re.escape(disc) + r'[^{]*\{[^}]*animation', part_css):
         problems.append(f"love.css §{sec}: nothing turns the record at MAX, and the dial says MAX does.")
+# ── Nothing on the yurt's page plays the yarn, and every line in the book has
+# a record behind it (Helen, 2026-10-18: "it will only play in the music room").
+room = ROOM.read_text()
+if "videoseries?list=" in room or "data-rack-card" in room or 'data-embed-id="' in room:
+    problems.append(f"{ROOM.name}: the yarn or a record is on the yurt's page. Since 2026-10-18 the music "
+                    "plays in the Music Room and nowhere else; the yurt has the songbook.")
+room_of = {pl["list"]: pl["room"] for pl in pls}
+written = {rm: R["page"].read_text() for rm, R in ROOMS.items()}
+for t in tracks:
+    rm = room_of[t["on"]]
+    if f'id="{ROOMS[rm]["prefix"]}-lp-{t["id"]}"' not in written[rm]:
+        problems.append(f"{ROOMS[rm]['page'].name}: no record with id {ROOMS[rm]['prefix']}-lp-{t['id']} "
+                        f"({t['artist']}, {t['title']}); the shelf did not take it, so a songbook's line "
+                        "would go nowhere.")
+for rm, R in ROOMS.items():
+    if 'src="rack.js"' not in R["page"].read_text():
+        problems.append(f"{R['page'].name}: the record case needs rack.js on the page, or no sleeve goes on {R['screen']}.")
+if "data-notebook" not in room or 'src="yurt-notebook.js"' not in room:
+    problems.append(f"{ROOM.name}: the songbook needs yurt-notebook.js on the page to shut and turn it.")
 if problems:
     raise SystemExit("REFUSING:\n  " + "\n  ".join(problems))
 
 replaced = [t for t in tracks if t.get("replaced")]
-print(f"faery yurt: the phonograph drawn, {len(tracks)} songs on the rack under it, and the whole "
-      f"yarn on the phonograph, in {ROOM.name} and again in {MUSIC.name}; "
-      f"{len(credit_rows)} credit rows in {NOTES.name}")
+print(f"faery yurt: the phonograph drawn in {ROOM.name}, {MUSIC.name} and {READING.name}; "
+      + "; ".join(f"{len(in_room(r))} playlist(s) whole and {sum(1 for t in tracks if any(t.get('on') == pl['list'] for pl in in_room(r)))} "
+                  f"records in the case in {R['page'].name}" for r, R in ROOMS.items())
+      + f"; {len(books)} songbooks over {len(pages)} pages in {ROOM.name}; {len(credit_rows)} credit rows in {NOTES.name}")
+doors = [t for t in tracks if t.get("door")]
+if doors:
+    print("  doors, not screens (their channels refuse the frame): " +
+          "; ".join(f'{t["artist"]}, {t["title"]}' for t in doors))
 if replaced:
     print("  playing another upload than the playlist's, until Helen swaps it on the yarn: " +
           "; ".join(f'{t["artist"]}, {t["title"]} (the yarn has {t["replaced"]["was"]})' for t in replaced))

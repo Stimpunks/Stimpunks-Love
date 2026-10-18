@@ -118,21 +118,29 @@
   },
   {
    "page": "faery-yurt.html",
-   "what": "Helen’s candlelit yurt at the edge of the woods, where the phonograph plays her own playlist, Faery Yurt’s Yarn, put on whole or a song at a time.",
+   "what": "Helen’s candlelit yurt at the edge of the woods: Vi Hart’s Moon Spoon through the window by the pebbling pot, and under the phonograph a songbook of her yarn, which plays next door in the Music Room.",
    "holds": [
-    "Faery Yurt&rsquo;s Yarn",
+    "Moon Spoon Pebbling Pot",
+    "songbook"
+   ]
+  },
+  {
+   "page": "faery-reading-room.html",
+   "what": "Helen’s Reading Room, through the door by the bookshelf in her yurt: a gramophone among the bookcases with her library playlist on it, to switch on and off, and a shelf of records off it to take out one at a time.",
+   "holds": [
+    "Library Music",
     "runs until you stop it",
-    "Every song on the yarn"
+    "Every song on"
    ],
-   "then": "<details class=\"yurt-rack\""
+   "then": "<details class=\"rdr-rack\""
   },
   {
    "page": "faery-music-room.html",
-   "what": "Helen’s music room, through the door by the phonograph in her yurt, for anybody who only wants to listen: the same phonograph and the same yarn, with nothing else to scroll past.",
+   "what": "Helen’s music room, through the door by the phonograph in her yurt, and the one place her playlists play: whole on the phonograph, or a record at a time off their shelves, with nothing else to scroll past.",
    "holds": [
     "Faery Yurt&rsquo;s Yarn",
     "runs until you stop it",
-    "Every song on the yarn"
+    "Every song on"
    ],
    "then": "<details class=\"mus-rack\""
   },

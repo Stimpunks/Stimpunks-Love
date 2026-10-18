@@ -6265,10 +6265,12 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 
 /* The record. Until 2026-09-26 Helen's soundtrack was "coming soon" and the
    room said so out loud instead of hiding an empty shelf; then it was her own
-   playlist, on the deck below. On 2026-10-13, at her ask, the little record
+   playlist, on a deck below. On 2026-10-13, at her ask, the little record
    became a phonograph after a photograph she sent, drawn by
    tools/make-yurt-yarn.py in colours the room already had, and its record
-   turns at MAX as the little one always did. The record is a circle in a group
+   turns at MAX as the little one always did. Since 2026-10-18, at her ask, the
+   playlist plays in the Music Room (§115) and nowhere else; the phonograph
+   stays, with the songbook below under it. The record is a circle in a group
    squashed to the turntable's angle, and it turns about that group's own
    origin, which is the spindle: view-box and 0 0 are what put the pivot there,
    measured at four angles before it went in. The shine on it does not turn. */
@@ -6280,116 +6282,45 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .record p:last-child { margin: 0; color: var(--tallow-2); }
 @media (max-width: 560px) { .yurt-phono { margin-inline: auto; } }
 
-/* THE DECK, 2026-09-26, when Helen's playlist arrived and the record stopped
-   being a promise. The press-to-play button in her own clothes: tent ground,
-   tallow words, candle on the play mark. Styled from the container as well as
-   the button, because love-embed.js swaps the button for a bare div on the
-   press and anything worn by the button goes with it.
-
-   THE RACK, 2026-10-13, Helen's ask: the tracklist that was set like the back
-   of a sleeve is a rack now, rack.js's pattern, and the deck is its screen,
-   which the cards call the phonograph. Every card is one of the room's soft
-   cards (the nook's: canvas, a hairline of candlelight), and the two buttons
-   on it and the way back are the deck's button in miniature, so nothing here
-   brings a colour the room did not have. */
-.room-yurt .yurt-deck { margin: 18px 0 0; }
-.room-yurt .yurt-deck .facade {
-  background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
-  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.3; padding: 20px 22px;
+/* THE SONGBOOK, Helen's ask, 2026-10-18: the music went through to the Music
+   Room ("it will only play in the music room"), taking the deck and the
+   record case with it (§115 has them), and what stays under the phonograph in
+   here is a book listing every song on the yarn, for looking through. It is
+   bound like Nature Notes below (the field book's classes, on purpose: one
+   binding for both of her books), with ruled pages of her tallow and a song to
+   a line in timber ink, the artist upright and the song in italic, the runtime
+   at the end of the line. Each line is a link to that record in the Music
+   Room, where the pressing happens; nothing on this page plays. Timber on
+   tallow is the field book's pair (11.13), and the links are timber too, told
+   by their underline, because her ember on the page's cream is not a pair. The
+   book's only motion is the field book's own: the sweep and the opening, on the
+   press, and none at Gentle. */
+.yurt-songbook { margin-top: 18px; }
+.yurt-songbook .yurt-notebook__pages { aspect-ratio: auto; min-height: 300px; }
+.yurt-songbook .yurt-notebook__page { grid-template-rows: auto minmax(0, 1fr); gap: 8px; padding: 18px 18px 30px 28px; }
+.yurt-songbook__head {
+  margin: 0; padding: 0 0 6px; text-align: center;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600; font-size: 17px; line-height: 24px; color: var(--timber);
+  border-bottom: 1px solid rgba(58,42,32,.35);
 }
-.room-yurt .yurt-deck button.facade:hover { background: var(--canvas); border-color: var(--candle); }
-.room-yurt .yurt-deck .facade__play { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 16px; letter-spacing: .12em; color: var(--candle); inset: auto auto 18px 22px; }
-.room-yurt .yurt-deck__credit { margin: 14px 0 0; font-size: 16px; color: var(--tallow-2); }
-.room-yurt .yurt-deck__now { margin: 12px 0 0; font-size: 16px; font-style: italic; color: var(--tallow-2); }
-.room-yurt .yurt-deck__back { margin: 10px 0 0; }
+.yurt-songbook__list { margin: 0; padding: 0; list-style: none; }
+.yurt-songbook__song { margin: 0; padding: 0; font-size: 15px; line-height: 30px; color: var(--timber); font-variant-numeric: tabular-nums; }
+.room-yurt .yurt-songbook__link { color: var(--timber); text-decoration: underline; text-decoration-color: rgba(58,42,32,.4); text-underline-offset: 3px; }
+.room-yurt .yurt-songbook__link:hover { color: var(--timber); text-decoration-color: var(--timber); text-decoration-thickness: 2px; }
+.room-yurt .yurt-songbook__link:focus-visible { outline: 3px solid var(--timber); outline-offset: 2px; }
+.yurt-songbook__title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-weight: 600; font-size: 17px; }
+.yurt-songbook__what { font-size: 13px; font-style: italic; }
+.yurt-songbook__time { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; white-space: nowrap; }
+.yurt-songbook__time::before { content: "\00b7\00a0"; }
+.room-yurt .yurt-songbook__from { max-width: 420px; margin: 14px auto 0; font-size: 15px; font-style: italic; color: var(--tallow-3); }
+/* The way back, a button in the room's clothes: the gallery's plate wears it
+   (the deck did too, until the deck went through to the Music Room). */
 .room-yurt .yurt-back {
   display: block; width: 100%; cursor: pointer; text-align: left;
   background: var(--tent); color: var(--tallow); border: 1px solid rgba(233,200,116,.28); border-radius: 6px;
   font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.3; padding: 10px 14px;
 }
 .room-yurt .yurt-back:hover { border-color: var(--candle); color: var(--candle); }
-.room-yurt .yurt-rack__intro { margin: 22px 0 14px; }
-.room-yurt .yurt-rack__sum {
-  cursor: pointer; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
-  font-size: 21px; color: var(--tallow); padding: 4px 0;
-}
-.room-yurt .yurt-rack__sum::marker { color: var(--tallow-3); }
-.room-yurt .yurt-rack__cards {
-  list-style: none; margin: 12px 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px;
-}
-/* THE RECORD CASE, Helen's asks, 2026-10-15 and -16: her soundtrack as a
-   music library rather than a list of blocks. (Since 2026-10-16 the Music
-   Room, §115, holds a second copy of the phonograph and this case, in its
-   own class names, written by the same tool from the same data.)
-   An arched case in the same
-   design as her bookcases (which live in the Reading Room now and are §114's,
-   so this is drawn again here in her timber rather than wearing their class),
-   with every song on the yarn an LP sleeve standing on a plank, square, in one
-   of her six spine colours, the disc peeking out of its top. THE SLEEVE IS THE
-   BUTTON: pressing it takes the record out and puts it on the phonograph, and
-   the sleeve says how long the record runs before the press. The lettering on
-   a sleeve is her cream on the spine colour's dark end, a pair
-   check-contrast.py already holds; the disc is a drawing and carries no word.
-   Under each sleeve, a small line is the card's own facade, kept because the
-   CB's watch-together finds a song by it, and dressed as a line rather than a
-   plate. Nothing on the shelf moves; the record that turns is on the
-   phonograph. */
-.yurt-lp-case {
-  box-sizing: border-box; width: min(100%, 640px); margin: 14px auto 0; padding: 0 12px;
-  background: rgba(0,0,0,.32); border: 10px solid var(--timber); border-bottom-width: 14px;
-  border-radius: 300px 300px 4px 4px / 190px 190px 4px 4px;
-  box-shadow: inset 0 0 24px rgba(0,0,0,.5), 0 10px 18px -12px rgba(0,0,0,.7);
-}
-.yurt-lp {
-  list-style: none; margin: 0 -12px; padding: 52px 12px 0;
-  display: grid; grid-template-columns: repeat(auto-fill, 132px); justify-content: center;
-  grid-auto-rows: minmax(216px, auto); gap: 18px 14px; align-items: end;
-}
-/* Each record stands on its own length of plank, run out half a gap each side
-   so the planks meet across a row: a row can be as tall as its tallest record
-   (one carries a note about a replaced upload) without the planks drifting. */
-.yurt-lp__slot { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-inline: -7px; padding: 0 7px 10px; border-bottom: 14px solid var(--timber); box-shadow: 0 16px 0 -10px rgba(0,0,0,.45); }
-.yurt-lp__slot p { margin: 0; }
-.room-yurt .yurt-lp__sleeve {
-  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
-  width: 132px; aspect-ratio: 1; box-sizing: border-box; padding: 10px 10px 9px; cursor: pointer; text-align: left;
-  border: 0; border-radius: 2px; color: var(--tallow); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
-  box-shadow: inset 3px 0 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(0,0,0,.35), 0 10px 20px -12px rgba(0,0,0,.8);
-}
-.room-yurt .yurt-lp__sleeve:hover { box-shadow: inset 3px 0 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(0,0,0,.35), 0 0 0 2px var(--candle), 0 10px 20px -12px rgba(0,0,0,.8); }
-.room-yurt .yurt-lp__sleeve:focus-visible { outline: 3px solid var(--candle); outline-offset: 3px; }
-.room-yurt .yurt-lp__sleeve--1 { background-color: #6E2F2B; background-image: linear-gradient(135deg, #6E2F2B, #8A3D34); }
-.room-yurt .yurt-lp__sleeve--2 { background-color: #38491F; background-image: linear-gradient(135deg, #38491F, #4A5F2A); }
-.room-yurt .yurt-lp__sleeve--3 { background-color: #5A3D63; background-image: linear-gradient(135deg, #5A3D63, #75507F); }
-.room-yurt .yurt-lp__sleeve--4 { background-color: #7A5324; background-image: linear-gradient(135deg, #7A5324, #8A5F26); }
-.room-yurt .yurt-lp__sleeve--5 { background-color: #29414A; background-image: linear-gradient(135deg, #29414A, #375968); }
-.room-yurt .yurt-lp__sleeve--6 { background-color: #4A2F4F; background-image: linear-gradient(135deg, #4A2F4F, #653D6B); }
-.yurt-lp__disc {
-  position: absolute; z-index: -1; top: -16px; left: 12px; width: 108px; aspect-ratio: 1; border-radius: 50%;
-  background:
-    radial-gradient(circle, #8A3D34 0 16%, #1B1310 17% 19%, transparent 19.5%),
-    repeating-radial-gradient(circle, #1B1310 0 3px, #3A2A20 3px 4px);
-  box-shadow: 0 4px 10px -4px rgba(0,0,0,.8), inset 0 0 0 1px rgba(242,230,212,.1);
-}
-.yurt-lp__title { font-size: 15px; font-style: italic; line-height: 1.15; }
-.yurt-lp__who { font-size: 13px; line-height: 1.2; }
-.yurt-lp__what { font-size: 12px; font-style: italic; line-height: 1.2; }
-.yurt-lp__go { margin-top: 4px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.2; }
-.yurt-lp__note { margin-top: 4px; font-size: 11.5px; font-style: italic; line-height: 1.25; font-weight: 400; font-family: 'Crimson Pro', Georgia, serif; }
-/* What sits under every record is the same height, so every record in a row
-   stands level on its plank whatever its credit runs to. */
-.yurt-lp__under { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 64px; }
-.room-yurt .yurt-lp__slot button.facade {
-  width: auto; aspect-ratio: auto; padding: 0; border: 0; border-radius: 0; background: transparent;
-  color: var(--tallow-2); font-family: 'Crimson Pro', Georgia, serif; font-size: 12px; text-align: center; white-space: nowrap;
-  text-decoration: underline; text-decoration-color: rgba(194,172,145,.5); text-underline-offset: 3px;
-}
-.room-yurt .yurt-lp__slot button.facade:hover { background: transparent; color: var(--candle); }
-.room-yurt .yurt-lp__slot button.facade .facade__play { display: none; }
-.room-yurt .yurt-lp__slot div.facade { width: 132px; }
-.room-yurt .yurt-lp__credit { font-size: 11px; color: var(--tallow-3); text-align: center; font-variant-numeric: tabular-nums; line-height: 1.3; }
-.room-yurt .yurt-rack__from { margin: 14px 0 0; font-size: 15px; font-style: italic; color: var(--tallow-3); }
 
 /* The door to the Reading Room, where the bookcases went on 2026-10-15: a
    bookcase-shaped arch in the yurt's own timber, with the room's claret
@@ -24238,6 +24169,109 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .rdr-cat__titles cite { font-style: italic; }
 .rdr-cat__with { font-size: 14px; }
 
+
+/* THE GRAMOPHONE, Helen's ask, 2026-10-18: her Library Music playlist in here,
+   on the same phonograph the yurt and the Music Room have (make-yurt-yarn.py
+   draws it into all three), with a switch: the whole playlist's plate switches
+   it on, and the way back under it switches it off and puts the plate back
+   (rack.js's data-rack-switch). Under it, a shelf of records to choose from,
+   the Music Room's case: that room is this room's house one door along, at
+   her ask, so the case here is the same case in this room's class names,
+   because a class is global and mus- is §115's. Every pair is one §115
+   already holds on this wall and panel; the sleeves' cream on the six spine
+   colours is held with the bookcases. The record turns at MAX and nowhere
+   else, and the dial's line in here says so. */
+.rdr-record { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; background: var(--rdr-panel); border: 1px solid rgba(214,176,106,.18); border-radius: 6px; padding: 22px; }
+.rdr-record > div:last-child { flex: 1 1 240px; }
+.rdr-record p:last-child { margin: 0; color: var(--rdr-ink-2); }
+.rdr-phono { flex: 0 0 auto; width: 210px; margin: -6px 0 -10px; }
+.rdr-phono svg { display: block; width: 100%; height: auto; }
+.rdr-phono__disc { transform-box: view-box; transform-origin: 0 0; }
+html[data-intensity="max"] .rdr-phono__disc { animation: rdr-spin 6s linear infinite; }
+@keyframes rdr-spin { to { transform: rotate(360deg); } }
+@media (max-width: 560px) { .rdr-phono { margin-inline: auto; } }
+
+.room-reading .rdr-deck { margin: 18px 0 0; }
+
+.room-reading .rdr-deck__glass { display: flex; flex-direction: column; gap: 10px; }
+
+.room-reading .rdr-deck__glass button.facade { aspect-ratio: auto; min-height: 112px; padding-bottom: 52px; }
+.room-reading .rdr-deck .facade {
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.3; padding: 20px 22px;
+}
+.room-reading .rdr-deck button.facade:hover { border-color: var(--rdr-flame-2); }
+.room-reading .rdr-deck .facade__play { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 16px; letter-spacing: .12em; color: var(--rdr-flame-2); inset: auto auto 18px 22px; }
+.room-reading .rdr-deck__credit { margin: 14px 0 0; font-size: 16px; color: var(--rdr-ink-2); }
+.room-reading .rdr-deck__now { margin: 12px 0 0; font-size: 16px; font-style: italic; color: var(--rdr-ink-2); }
+.room-reading .rdr-deck__back { margin: 10px 0 0; }
+.room-reading .rdr-back {
+  display: block; width: 100%; cursor: pointer; text-align: left;
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.3; padding: 10px 14px;
+}
+.room-reading .rdr-back:hover { border-color: var(--rdr-flame-2); color: var(--rdr-flame-2); }
+.room-reading .rdr-rack__sum {
+  cursor: pointer; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
+  font-size: 21px; color: var(--rdr-ink); padding: 4px 0;
+}
+.room-reading .rdr-rack__sum::marker { color: var(--rdr-ink-2); }
+
+.rdr-lp-case {
+  box-sizing: border-box; width: min(100%, 640px); margin: 14px auto 0; padding: 0 12px;
+  background: rgba(0,0,0,.34); border: 10px solid var(--rdr-timber); border-bottom-width: 14px;
+  border-radius: 320px 320px 4px 4px / 250px 250px 4px 4px;
+  box-shadow: inset 0 0 28px rgba(0,0,0,.6), 0 12px 20px -12px rgba(0,0,0,.8), inset 0 0 0 1px rgba(214,176,106,.14);
+}
+.rdr-lp {
+  list-style: none; margin: 0 -12px; padding: 62px 12px 0;
+  display: grid; grid-template-columns: repeat(auto-fill, 132px); justify-content: center;
+  grid-auto-rows: minmax(216px, auto); gap: 18px 14px; align-items: end;
+}
+.rdr-lp__slot { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-inline: -7px; padding: 0 7px 10px; border-bottom: 14px solid var(--rdr-timber); box-shadow: 0 16px 0 -10px rgba(0,0,0,.45); }
+.rdr-lp__slot p { margin: 0; }
+.room-reading .rdr-lp__sleeve {
+  position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 2px;
+  width: 132px; aspect-ratio: 1; box-sizing: border-box; padding: 10px 10px 9px; cursor: pointer; text-align: left;
+  border: 0; border-radius: 2px; color: var(--tallow); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  box-shadow: inset 3px 0 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(0,0,0,.35), 0 10px 20px -12px rgba(0,0,0,.8);
+}
+.room-reading .rdr-lp__sleeve:hover { box-shadow: inset 3px 0 0 rgba(255,255,255,.08), inset 0 0 0 1px rgba(0,0,0,.35), 0 0 0 2px var(--rdr-flame-2), 0 10px 20px -12px rgba(0,0,0,.8); }
+.room-reading .rdr-lp__sleeve:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+.room-reading .rdr-lp__sleeve--1 { background-color: #6E2F2B; background-image: linear-gradient(135deg, #6E2F2B, #8A3D34); }
+.room-reading .rdr-lp__sleeve--2 { background-color: #38491F; background-image: linear-gradient(135deg, #38491F, #4A5F2A); }
+.room-reading .rdr-lp__sleeve--3 { background-color: #5A3D63; background-image: linear-gradient(135deg, #5A3D63, #75507F); }
+.room-reading .rdr-lp__sleeve--4 { background-color: #7A5324; background-image: linear-gradient(135deg, #7A5324, #8A5F26); }
+.room-reading .rdr-lp__sleeve--5 { background-color: #29414A; background-image: linear-gradient(135deg, #29414A, #375968); }
+.room-reading .rdr-lp__sleeve--6 { background-color: #4A2F4F; background-image: linear-gradient(135deg, #4A2F4F, #653D6B); }
+.rdr-lp__disc {
+  position: absolute; z-index: -1; top: -16px; left: 12px; width: 108px; aspect-ratio: 1; border-radius: 50%;
+  background:
+    radial-gradient(circle, #8A3D34 0 16%, #1B1310 17% 19%, transparent 19.5%),
+    repeating-radial-gradient(circle, #1B1310 0 3px, #3A2A20 3px 4px);
+  box-shadow: 0 4px 10px -4px rgba(0,0,0,.8), inset 0 0 0 1px rgba(242,230,212,.1);
+}
+.rdr-lp__title { font-size: 15px; font-style: italic; line-height: 1.15; }
+.rdr-lp__who { font-size: 13px; line-height: 1.2; }
+.rdr-lp__what { font-size: 12px; font-style: italic; line-height: 1.2; }
+.rdr-lp__go { margin-top: 4px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.2; }
+.rdr-lp__note { margin-top: 4px; font-size: 11.5px; font-style: italic; line-height: 1.25; font-weight: 400; font-family: 'Crimson Pro', Georgia, serif; }
+.rdr-lp__under { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 64px; }
+.room-reading .rdr-lp__slot button.facade {
+  width: auto; aspect-ratio: auto; padding: 0; border: 0; border-radius: 0; background: transparent;
+  color: var(--rdr-ink-2); font-family: 'Crimson Pro', Georgia, serif; font-size: 12px; text-align: center; white-space: nowrap;
+  text-decoration: underline; text-decoration-color: rgba(205,180,172,.5); text-underline-offset: 3px;
+}
+.room-reading .rdr-lp__slot button.facade:hover { background: transparent; color: var(--rdr-flame-2); }
+.room-reading .rdr-lp__slot button.facade .facade__play { display: none; }
+.room-reading .rdr-lp__slot div.facade { width: 132px; }
+.room-reading .rdr-lp__credit { font-size: 11px; color: var(--rdr-ink-2); text-align: center; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.room-reading .rdr-rack__from { margin: 14px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+
+.room-reading a.rdr-lp__sleeve--door { text-decoration: none; outline: 2px dashed rgba(242,230,212,.55); outline-offset: -7px; }
+.room-reading a.rdr-lp__sleeve--door:hover { outline-color: var(--rdr-flame-2); }
+.room-reading a.rdr-lp__sleeve--door:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+
 /* §115 ── SUBROOM: The Music Room (behind the Faery Yurt) ──────────────────
    HELEN'S, LIKE THE YURT AND THE READING ROOM, and asked for on 2026-10-16
    "for those who just want to listen and not scroll": the phonograph, the whole
@@ -24332,6 +24366,14 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
    room's clothes, styled from the container as well as the button because
    love-embed.js swaps the button for a bare div on the press. */
 .room-music .mus-deck { margin: 18px 0 0; }
+/* Two playlists since 2026-10-18 (Helen's ask), one plate each in the one glass:
+   rack.js keeps the glass's whole markup as the plate it puts back, so a record
+   going up covers both and the way back restores both. */
+.room-music .mus-deck__glass { display: flex; flex-direction: column; gap: 10px; }
+/* Each plate is a bar rather than a 16:9 screen, because two screens stacked is
+   most of a page before a record; the frame a press builds (div.facade) keeps
+   §4's 16:9, because only the button opts out. */
+.room-music .mus-deck__glass button.facade { aspect-ratio: auto; min-height: 112px; padding-bottom: 52px; }
 .room-music .mus-deck .facade {
   background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.28); border-radius: 6px;
   font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 21px; line-height: 1.3; padding: 20px 22px;
@@ -24410,6 +24452,14 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .room-music .mus-lp__slot div.facade { width: 132px; }
 .room-music .mus-lp__credit { font-size: 11px; color: var(--rdr-ink-2); text-align: center; font-variant-numeric: tabular-nums; line-height: 1.3; }
 .room-music .mus-rack__from { margin: 14px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+/* A DOOR ON THE SHELF (2026-10-18): a record whose channel has embedding off is
+   a link to its watch page, in the same sleeve, dashed where every pressable
+   sleeve is solid, and it says on its face that it opens on YouTube. The
+   street's rule for a cam that cannot be framed, on a record shelf. */
+.room-music a.mus-lp__sleeve--door { text-decoration: none; outline: 2px dashed rgba(242,230,212,.55); outline-offset: -7px; }
+.room-music a.mus-lp__sleeve--door:hover { outline-color: var(--rdr-flame-2); }
+.room-music a.mus-lp__sleeve--door:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+
 
 /* §116 ── SUBROOM: Fantasy Fancy Dress (through the curtain behind the Dopamine Dress-Up Den)
    THE BACK OF A FANCY DRESS SHOP, LIT ONLY FROM BEHIND, THROUGH SHEER STUFF.

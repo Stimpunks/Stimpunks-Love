@@ -52,6 +52,12 @@
      [data-rack-card]       a card, round its own plate and its second button
    A screen may carry data-rack-off, a sentence saying what the screen has
    given up while a card's film is on it.
+   A screen may carry data-rack-switch (the Faery Yurt's rooms, 2026-10-18,
+   Helen's "gramophone to switch on and off"): once its OWN plate has been
+   pressed and love-embed.js has built the player, the way back is shown, so
+   the same button that takes a record off switches the whole thing off and
+   puts the plates back. Opt-in by attribute, so no other room's screen grows
+   a button it did not ask for.
 
    A SCREEN MAY HAVE NOTHING OF ITS OWN ON IT (The Doom Scoop, 2026-09-29: a
    morning is not a list anybody can put on whole). Such a screen ships hidden,
@@ -188,6 +194,16 @@
      the button when love-embed.js swaps it for its player. */
   document.addEventListener('click', function (e) {
     var own = e.target.closest('button.facade'), card = own && own.closest('[data-rack-card]');
+    // A screen's own plate, on a screen that asked for a switch: read in the
+    // capture phase, while the button is still in the glass (love-embed.js
+    // swaps it for the player on the same click), and once the player is in,
+    // show the way back, which is the off switch.
+    var glass = own && !card && own.closest('[data-rack-screen][data-rack-switch]');
+    if (glass) {
+      var s = screens[glass.getAttribute('data-rack-screen')];
+      if (s && s.back) setTimeout(function () { if (s.glass.querySelector('iframe')) s.back.parentNode.hidden = false; }, 0);
+      return;
+    }
     if (!card) return;
     Object.keys(screens).forEach(function (id) { if (screens[id].card === card) clear(screens[id]); });
   }, true);

@@ -267,228 +267,181 @@
       </div>
       <!-- yurt-yarn:phonograph:end -->
       <div>
-        <p>The sound of this room is a yarn of songs I keep coming back to, spun into one playlist. Press play and it runs from the top until you stop it; nothing plays before you press.</p>
+        <p>The sound of this room is a yarn of songs I keep coming back to, spun into two playlists. They play in the Music Room, through the door below, from the top until you stop them or one record at a time; in here the songbook under the phonograph lists every song on them, for looking through. Nothing plays before you press, and nothing plays on this page.</p>
       </div>
     </div>
-    <!-- Helen's own playlist, Faery Yurt's Yarn, on her AutisticRealms channel,
-         on the phonograph, with every song on it on a rack underneath: Helen's
-         ask, 2026-10-13. The phonograph, the deck and the rack are written by
-         tools/make-yurt-yarn.py from data/yurt-yarn.json; edit those, not this. -->
-    <!-- yurt-yarn:deck:begin -->
-    <div class="yurt-deck">
-      <div class="yurt-deck__glass" data-rack-screen="yarn" data-rack-off="The whole yarn is off until you put it back.">
-        <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?list=PLcqUkWhAK86w&amp;autoplay=1" data-embed-title="Faery Yurt’s Yarn, Helen’s playlist, on YouTube">
-          Put on Faery Yurt’s Yarn &mdash; runs until you stop it
-          <span class="facade__play">&#9654; PRESS PLAY</span>
-        </button>
+    <!-- The songbook, Helen's ask, 2026-10-18: the music plays in the Music Room
+         and nowhere else, and what stays under the phonograph here is a book
+         listing every song on her yarn, each line a link to that record next
+         door. Written by tools/make-yurt-yarn.py from data/yurt-yarn.json, like
+         the phonograph above it; edit those, not this. -->
+    <!-- yurt-yarn:book:begin -->
+    <div class="yurt-notebook yurt-songbook" data-notebook>
+      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>
+        <span class="yurt-notebook__title">Faery Yurt’s Yarn</span>
+        <span class="yurt-notebook__open">Open the book</span>
+      </button>
+      <div class="yurt-notebook__cover" data-notebook-book>
+        <ul class="yurt-notebook__pages" tabindex="0" aria-label="Faery Yurt’s Yarn: every song on it, in its own order; each line goes to that record in the Music Room" data-notebook-pages>
+        <li class="yurt-notebook__page" data-notebook-say="Page 1: from Pink Floyd, The Dark Side of the Moon, to The Orb, Little Fluffy Clouds.">
+          <p class="yurt-songbook__head">Faery Yurt’s Yarn</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-k9ynZnEBtvw"><span class="yurt-songbook__who">Pink Floyd</span> <span class="yurt-songbook__title">The Dark Side of the Moon</span></a> <span class="yurt-songbook__what">the 50th anniversary remaster, the whole album</span> <span class="yurt-songbook__time">42:56</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-tNIiXeSPPWU"><span class="yurt-songbook__who">Ezra Furman</span> <span class="yurt-songbook__title">Goodbye Small Head</span></a> <span class="yurt-songbook__what">the whole album</span> <span class="yurt-songbook__time">42:27</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-3i_Y9F4X1fs"><span class="yurt-songbook__who">Khruangbin &amp; Leon Bridges</span> <span class="yurt-songbook__title">Texas Moon</span></a> <span class="yurt-songbook__what">the whole EP</span> <span class="yurt-songbook__time">22:40</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-rWMHS5IwuZQ"><span class="yurt-songbook__who">Andrew Sa</span> <span class="yurt-songbook__title">Under You</span></a> <span class="yurt-songbook__what">live at WFUV</span> <span class="yurt-songbook__time">3:29</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-MsRUnInJ4CQ"><span class="yurt-songbook__who">Noah Reid</span> <span class="yurt-songbook__title">Simply the Best</span></a> <span class="yurt-songbook__what">the <i>Schitt’s Creek</i> single</span> <span class="yurt-songbook__time">2:44</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-WJfF4GQ6X5g"><span class="yurt-songbook__who">Chaparelle</span> <span class="yurt-songbook__title">Dance With Somebody</span></a> <span class="yurt-songbook__time">3:33</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-2Ng9Pf_p7Fw"><span class="yurt-songbook__who">The Orb</span> <span class="yurt-songbook__title">Little Fluffy Clouds</span></a> <span class="yurt-songbook__time">4:01</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 1</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 2: from AURORA, Running With The Wolves, to Kate Bush, Hounds of Love.">
+          <p class="yurt-songbook__head">Faery Yurt’s Yarn</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-06ht9MyJLT4"><span class="yurt-songbook__who">AURORA</span> <span class="yurt-songbook__title">Running With The Wolves</span></a> <span class="yurt-songbook__time">3:38</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-2p4JaeJR1dM"><span class="yurt-songbook__who">AURORA</span> <span class="yurt-songbook__title">The Silent Twins</span></a> <span class="yurt-songbook__what">the lyric video</span> <span class="yurt-songbook__time">4:38</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-7TF91Zk8L5w"><span class="yurt-songbook__who">AURORA</span> <span class="yurt-songbook__title">The Conflict Of The Mind</span></a> <span class="yurt-songbook__time">4:13</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-d_HlPboLRL8"><span class="yurt-songbook__who">AURORA</span> <span class="yurt-songbook__title">Runaway</span></a> <span class="yurt-songbook__time">4:10</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-efKvphRDXUg"><span class="yurt-songbook__who">AURORA</span> <span class="yurt-songbook__title">The Weight of Missing</span></a> <span class="yurt-songbook__what">the visualiser</span> <span class="yurt-songbook__time">6:48</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-adHhJUTZ9Kw"><span class="yurt-songbook__who">AURORA</span> <span class="yurt-songbook__title">Dreams</span></a> <span class="yurt-songbook__what">with Nicole Zignago, the visualiser</span> <span class="yurt-songbook__time">4:26</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-vVpUkXB4Ng8"><span class="yurt-songbook__who">Kate Bush</span> <span class="yurt-songbook__title">Hounds of Love</span></a> <span class="yurt-songbook__what">the whole album, a reissue remaster</span> <span class="yurt-songbook__time">1:13:15</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 2</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 3: from Tracy Chapman, Greatest Hits Full Album, to Enigma, Best Collection 2026.">
+          <p class="yurt-songbook__head">Faery Yurt’s Yarn</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-XmENI69srBo"><span class="yurt-songbook__who">Tracy Chapman</span> <span class="yurt-songbook__title">Greatest Hits Full Album</span></a> <span class="yurt-songbook__what">a collection put together by the channel, under its own title</span> <span class="yurt-songbook__time">1:14:36</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-sX99e5QEAEg"><span class="yurt-songbook__who">David Bowie</span> <span class="yurt-songbook__title">The Rise and Fall of Ziggy Stardust and the Spiders from Mars</span></a> <span class="yurt-songbook__what">the whole album</span> <span class="yurt-songbook__time">38:37</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-WDU1uqDQpeQ"><span class="yurt-songbook__who">David Bowie</span> <span class="yurt-songbook__title">Space Oddity</span></a> <span class="yurt-songbook__what">the whole album</span> <span class="yurt-songbook__time">45:59</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-0Yek6aantlM"><span class="yurt-songbook__who">David Bowie</span> <span class="yurt-songbook__title">Heroes</span></a> <span class="yurt-songbook__what">the whole album, 1977</span> <span class="yurt-songbook__time">40:40</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-TIbJO74ym2A"><span class="yurt-songbook__who">Guillemots</span> <span class="yurt-songbook__title">Through the Windowpane</span></a> <span class="yurt-songbook__time">3:38</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-84Tq-eAJIk4"><span class="yurt-songbook__who">Pink Floyd</span> <span class="yurt-songbook__title">Wish You Were Here</span></a> <span class="yurt-songbook__what">from <i>Pulse</i>, restored and re-edited</span> <span class="yurt-songbook__time">6:09</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-bCXBtxXUJwo"><span class="yurt-songbook__who">Enigma</span> <span class="yurt-songbook__title">Best Collection 2026</span></a> <span class="yurt-songbook__what">nearly seven hours put together by the channel, under its own title</span> <span class="yurt-songbook__time">6:52:03</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 3</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 4: from Portishead, Portishead, to Paramore, Decode.">
+          <p class="yurt-songbook__head">Faery Yurt’s Yarn</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-DsBJ3Vwgg3Q"><span class="yurt-songbook__who">Portishead</span> <span class="yurt-songbook__title">Portishead</span></a> <span class="yurt-songbook__time">0:15</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-FBXGd81YNzc"><span class="yurt-songbook__who">Portishead</span> <span class="yurt-songbook__title">Portishead</span></a> <span class="yurt-songbook__what">the whole album</span> <span class="yurt-songbook__time">52:22</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-8B-i1vsA6jw"><span class="yurt-songbook__who">Portishead</span> <span class="yurt-songbook__title">Sour Times</span></a> <span class="yurt-songbook__time">4:14</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-qj3QPx089g4"><span class="yurt-songbook__who">Portishead</span> <span class="yurt-songbook__title">Roads</span></a> <span class="yurt-songbook__what">live from the Roseland Ballroom, New York</span> <span class="yurt-songbook__time">5:12</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-4qQyUi4zfDs"><span class="yurt-songbook__who">Portishead</span> <span class="yurt-songbook__title">Glory Box</span></a> <span class="yurt-songbook__time">3:32</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-H86JZTaEnHM"><span class="yurt-songbook__who">Lana Del Rey</span> <span class="yurt-songbook__title">Top Songs Collection</span></a> <span class="yurt-songbook__what">a collection put together by the channel, under its own title</span> <span class="yurt-songbook__time">23:19</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-RvnkAtWcKYg"><span class="yurt-songbook__who">Paramore</span> <span class="yurt-songbook__title">Decode</span></a> <span class="yurt-songbook__time">4:14</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 4</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 5: from Paramore, Last Hope, to The Killers, Somebody Told Me.">
+          <p class="yurt-songbook__head">Faery Yurt’s Yarn</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-yBatuRGZAmA"><span class="yurt-songbook__who">Paramore</span> <span class="yurt-songbook__title">Last Hope</span></a> <span class="yurt-songbook__time">5:10</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-UwbvrnXJ9ZQ"><span class="yurt-songbook__who">Nirvana</span> <span class="yurt-songbook__title">Greatest Hits Songs Collection</span></a> <span class="yurt-songbook__what">a collection put together by the channel, under its own title</span> <span class="yurt-songbook__time">1:05:30</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-Ty__RLk7WYI"><span class="yurt-songbook__who">Billie Eilish</span> <span class="yurt-songbook__title">a collection of her songs</span></a> <span class="yurt-songbook__what">put together by the channel, which gave it a sentence for a title rather than a name</span> <span class="yurt-songbook__time">25:10</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-plMevc9s8So"><span class="yurt-songbook__who">Billie Eilish</span> <span class="yurt-songbook__title">when the party’s over</span></a> <span class="yurt-songbook__what">live in Toronto, 2024</span> <span class="yurt-songbook__time">5:32</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-3YxaaGgTQYM"><span class="yurt-songbook__who">Evanescence</span> <span class="yurt-songbook__title">Bring Me To Life</span></a> <span class="yurt-songbook__what">with Paul McCoy</span> <span class="yurt-songbook__time">4:14</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-CdhqVtpR2ts"><span class="yurt-songbook__who">Evanescence</span> <span class="yurt-songbook__title">Going Under</span></a> <span class="yurt-songbook__time">3:38</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-Y5fBdpreJiU"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">Somebody Told Me</span></a> <span class="yurt-songbook__time">3:22</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 5</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 6: from The Killers, Human, to The Killers, Smile Like You Mean It.">
+          <p class="yurt-songbook__head">Faery Yurt’s Yarn</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-RIZdjT1472Y"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">Human</span></a> <span class="yurt-songbook__time">4:19</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-zc8hbSM1zVo"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">Read My Mind</span></a> <span class="yurt-songbook__time">4:13</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-sZTpLvsYYHw"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">All These Things That I’ve Done</span></a> <span class="yurt-songbook__time">4:41</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-TMbyWSGYUgc"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">Runaways</span></a> <span class="yurt-songbook__time">4:04</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-IdWZgTvf4t0"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">When You Were Young</span></a> <span class="yurt-songbook__what">live from the Royal Albert Hall</span> <span class="yurt-songbook__time">4:49</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-xSUoqHrqXFA"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">Mr. Brightside</span></a> <span class="yurt-songbook__what">live from the Royal Albert Hall, 2009</span> <span class="yurt-songbook__time">6:13</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-ZAErD8xzjCM"><span class="yurt-songbook__who">The Killers</span> <span class="yurt-songbook__title">Smile Like You Mean It</span></a> <span class="yurt-songbook__time">3:56</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 6</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 7: from Leonard Cohen, Greatest Hits Full Album, to Red Hot Chili Peppers, Californication.">
+          <p class="yurt-songbook__head">Faery Yurt’s Yarn</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-NPLwAD60xP8"><span class="yurt-songbook__who">Leonard Cohen</span> <span class="yurt-songbook__title">Greatest Hits Full Album</span></a> <span class="yurt-songbook__what">a collection put together by the channel, under its own title</span> <span class="yurt-songbook__time">1:52:21</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-RF0HhrwIwp0"><span class="yurt-songbook__who">Kings of Leon</span> <span class="yurt-songbook__title">Sex on Fire</span></a> <span class="yurt-songbook__time">3:27</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-gnhXHvRoUd0"><span class="yurt-songbook__who">Kings of Leon</span> <span class="yurt-songbook__title">Use Somebody</span></a> <span class="yurt-songbook__time">3:51</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-Bb7YN5wQztk"><span class="yurt-songbook__who">Kings of Leon</span> <span class="yurt-songbook__title">My Whole World</span></a> <span class="yurt-songbook__time">4:21</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-8agEo6zxeHY"><span class="yurt-songbook__who">Kings of Leon</span> <span class="yurt-songbook__title">Closer</span></a> <span class="yurt-songbook__time">4:00</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-lVkp0vPZxfU"><span class="yurt-songbook__who">R.E.M.</span> <span class="yurt-songbook__title">Automatic for the People</span></a> <span class="yurt-songbook__what">the whole album</span> <span class="yurt-songbook__time">48:52</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-RXWIitU8V0A"><span class="yurt-songbook__who">Red Hot Chili Peppers</span> <span class="yurt-songbook__title">Californication</span></a> <span class="yurt-songbook__what">the whole album</span> <span class="yurt-songbook__time">55:19</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 7</span>
+        </li>
+        </ul>
+        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>
       </div>
-      <p class="yurt-deck__now" data-rack-now="yarn" tabindex="-1" hidden></p>
-      <p class="yurt-deck__back" hidden><button type="button" class="yurt-back" data-rack-back="yarn">Take it off and put the whole yarn back</button></p>
+      <div class="yurt-notebook__controls" data-notebook-controls hidden>
+        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>
+        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>
+        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>
+      </div>
+      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>
     </div>
-    <p class="yurt-deck__credit"><a href="https://www.youtube.com/playlist?list=PLcqUkWhAK86w">Faery Yurt’s Yarn</a>, on YouTube, from my own channel.</p>
-    <!-- yurt-yarn:deck:end -->
-    <!-- yurt-yarn:rack:begin -->
-    <p class="section-intro yurt-rack__intro">Or take a record off the shelf: press its sleeve and it goes on the phonograph in place of the whole yarn and plays. Every sleeve says how long the record runs before you press it, nothing plays until you do, and taking it off puts the yarn back without starting it.</p>
-    <details class="yurt-rack" open>
-      <summary class="yurt-rack__sum">Every song on the yarn, as records on a shelf</summary>
-      <div class="yurt-lp-case">
-      <ol class="yurt-lp">
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--1" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/k9ynZnEBtvw?autoplay=1&amp;rel=0" data-rack-title="Pink Floyd &mdash; The Dark Side of the Moon, on the phonograph" data-rack-film="Pink Floyd, The Dark Side of the Moon" data-rack-runtime="42:56">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">The Dark Side of the Moon</span>
-            <span class="yurt-lp__who">Pink Floyd</span>
-            <span class="yurt-lp__what">the 50th anniversary remaster, the whole album</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 42:56</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="k9ynZnEBtvw" data-embed-title="Pink Floyd &mdash; The Dark Side of the Moon">
-            Play here instead &mdash; 42:56
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">42:56 &middot; on YouTube, via Pink Floyd</p>
-          </div>
+    <div class="yurt-notebook yurt-songbook" data-notebook>
+      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>
+        <span class="yurt-notebook__title">Strange things will happen</span>
+        <span class="yurt-notebook__open">Open the book</span>
+      </button>
+      <div class="yurt-notebook__cover" data-notebook-book>
+        <ul class="yurt-notebook__pages" tabindex="0" aria-label="Strange things will happen: every song on it, in its own order; each line goes to that record in the Music Room" data-notebook-pages>
+        <li class="yurt-notebook__page" data-notebook-say="Page 1: from The Radio Dept., Strange Things Will Happen, to Gary Jules, Mad World.">
+          <p class="yurt-songbook__head">Strange things will happen</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-UpzrxsFCpVA"><span class="yurt-songbook__who">The Radio Dept.</span> <span class="yurt-songbook__title">Strange Things Will Happen</span></a> <span class="yurt-songbook__time">4:28</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-h6AmlQ53UoU"><span class="yurt-songbook__who">Sylvia Plath &amp; Joy Division</span> <span class="yurt-songbook__title">The Applicant</span></a> <span class="yurt-songbook__time">2:17</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-GQ4DeDIh5c0"><span class="yurt-songbook__who">Kate Bush</span> <span class="yurt-songbook__title">Cloudbusting</span></a> <span class="yurt-songbook__time">5:09</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-OJ62RzJkYUo"><span class="yurt-songbook__who">Pixies</span> <span class="yurt-songbook__title">Where Is My Mind?</span></a> <span class="yurt-songbook__what">the lyric video</span> <span class="yurt-songbook__time">3:50</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-wp43OdtAAkM"><span class="yurt-songbook__who">Kate Bush</span> <span class="yurt-songbook__title">Running Up That Hill</span></a> <span class="yurt-songbook__time">4:56</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-aGSKrC7dGcY"><span class="yurt-songbook__who">Depeche Mode</span> <span class="yurt-songbook__title">Enjoy the Silence</span></a> <span class="yurt-songbook__time">4:40</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-etSbOs3aUqI"><span class="yurt-songbook__who">Gary Jules</span> <span class="yurt-songbook__title">Mad World</span></a> <span class="yurt-songbook__time">3:10</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 1</span>
         </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--2" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/5TLG3gU--qw?autoplay=1&amp;rel=0" data-rack-title="AURORA &mdash; Echo of My Shadow, on the phonograph" data-rack-film="AURORA, Echo of My Shadow" data-rack-runtime="4:05">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Echo of My Shadow</span>
-            <span class="yurt-lp__who">AURORA</span>
-            <span class="yurt-lp__note">The copy on the yarn itself no longer plays, and the whole yarn says so when it gets there. This one is AURORA’s own.</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 4:05</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="5TLG3gU--qw" data-embed-title="AURORA &mdash; Echo of My Shadow">
-            Play here instead &mdash; 4:05
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">4:05 &middot; on YouTube, via AURORA</p>
-          </div>
+        <li class="yurt-notebook__page" data-notebook-say="Page 2: from The Radio Dept., Never Follow Suit, to FKA twigs, cellophane.">
+          <p class="yurt-songbook__head">Strange things will happen</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-A92-bzGREOU"><span class="yurt-songbook__who">The Radio Dept.</span> <span class="yurt-songbook__title">Never Follow Suit</span></a> <span class="yurt-songbook__what">the promo video</span> <span class="yurt-songbook__time">4:13</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-Yam5uK6e-bQ"><span class="yurt-songbook__who">The Cranberries</span> <span class="yurt-songbook__title">Dreams</span></a> <span class="yurt-songbook__time">4:13</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-VJ6m8T77btU"><span class="yurt-songbook__who">Massive Attack</span> <span class="yurt-songbook__title">Inertia Creeps</span></a> <span class="yurt-songbook__what">live in Montreal, 1998</span> <span class="yurt-songbook__time">6:04</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-xF4RhDWs2DA"><span class="yurt-songbook__who">Portishead</span> <span class="yurt-songbook__title">Wandering Star</span></a> <span class="yurt-songbook__time">4:16</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-HZgiAgYXneE"><span class="yurt-songbook__who">Billie Eilish</span> <span class="yurt-songbook__title">Six Feet Under</span></a> <span class="yurt-songbook__what">a lyric video</span> <span class="yurt-songbook__time">3:08</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-yAKX51r7erw"><span class="yurt-songbook__who">Portishead</span> <span class="yurt-songbook__title">Glory Box</span></a> <span class="yurt-songbook__what">remastered</span> <span class="yurt-songbook__time">5:07</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-bNqXhfUfwgc"><span class="yurt-songbook__who">FKA twigs</span> <span class="yurt-songbook__title">cellophane</span></a> <span class="yurt-songbook__what">live at the Wallace Collection</span> <span class="yurt-songbook__time">3:57</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 2</span>
         </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--3" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/GxWgRnnWfcc?autoplay=1&amp;rel=0" data-rack-title="Portishead &mdash; Mysterons, on the phonograph" data-rack-film="Portishead, Mysterons" data-rack-runtime="5:04">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Mysterons</span>
-            <span class="yurt-lp__who">Portishead</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 5:04</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="GxWgRnnWfcc" data-embed-title="Portishead &mdash; Mysterons">
-            Play here instead &mdash; 5:04
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">5:04 &middot; on YouTube, via Harry</p>
-          </div>
+        <li class="yurt-notebook__page" data-notebook-say="Page 3: Cocteau Twins &amp; Harold Budd, Sea Swallow Me.">
+          <p class="yurt-songbook__head">Strange things will happen</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-music-room.html#mus-lp-Sf9jk6qk6TI"><span class="yurt-songbook__who">Cocteau Twins &amp; Harold Budd</span> <span class="yurt-songbook__title">Sea Swallow Me</span></a> <span class="yurt-songbook__time">3:17</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 3</span>
         </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--4" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/D1Fw6CbGAX4?autoplay=1&amp;rel=0" data-rack-title="Kate Bush &mdash; Running Up That Hill (A Deal with God), on the phonograph" data-rack-film="Kate Bush, Running Up That Hill (A Deal with God)" data-rack-runtime="4:59">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Running Up That Hill (A Deal with God)</span>
-            <span class="yurt-lp__who">Kate Bush</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 4:59</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="D1Fw6CbGAX4" data-embed-title="Kate Bush &mdash; Running Up That Hill (A Deal with God)">
-            Play here instead &mdash; 4:59
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">4:59 &middot; on YouTube, via Kate Bush</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--5" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/WsQUpeeKJGM?autoplay=1&amp;rel=0" data-rack-title="Guillemots &mdash; Through the Windowpane, on the phonograph" data-rack-film="Guillemots, Through the Windowpane" data-rack-runtime="3:39">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Through the Windowpane</span>
-            <span class="yurt-lp__who">Guillemots</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 3:39</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="WsQUpeeKJGM" data-embed-title="Guillemots &mdash; Through the Windowpane">
-            Play here instead &mdash; 3:39
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">3:39 &middot; on YouTube, via Guillemots</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--6" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/Q2wneBVssPc?autoplay=1&amp;rel=0" data-rack-title="Tracy Chapman &mdash; Talkin’ ’bout a Revolution, on the phonograph" data-rack-film="Tracy Chapman, Talkin’ ’bout a Revolution" data-rack-runtime="2:40">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Talkin’ ’bout a Revolution</span>
-            <span class="yurt-lp__who">Tracy Chapman</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 2:40</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="Q2wneBVssPc" data-embed-title="Tracy Chapman &mdash; Talkin’ ’bout a Revolution">
-            Play here instead &mdash; 2:40
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">2:40 &middot; on YouTube, via MrsMusic04</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--1" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/tNIiXeSPPWU?autoplay=1&amp;rel=0" data-rack-title="Ezra Furman &mdash; Goodbye Small Head, on the phonograph" data-rack-film="Ezra Furman, Goodbye Small Head" data-rack-runtime="42:27">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Goodbye Small Head</span>
-            <span class="yurt-lp__who">Ezra Furman</span>
-            <span class="yurt-lp__what">the whole album</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 42:27</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="tNIiXeSPPWU" data-embed-title="Ezra Furman &mdash; Goodbye Small Head">
-            Play here instead &mdash; 42:27
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">42:27 &middot; on YouTube, via Radiorock TheOriginal</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--2" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/3i_Y9F4X1fs?autoplay=1&amp;rel=0" data-rack-title="Khruangbin &amp; Leon Bridges &mdash; Texas Moon, on the phonograph" data-rack-film="Khruangbin &amp; Leon Bridges, Texas Moon" data-rack-runtime="22:40">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Texas Moon</span>
-            <span class="yurt-lp__who">Khruangbin &amp; Leon Bridges</span>
-            <span class="yurt-lp__what">the whole EP</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 22:40</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="3i_Y9F4X1fs" data-embed-title="Khruangbin &amp; Leon Bridges &mdash; Texas Moon">
-            Play here instead &mdash; 22:40
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">22:40 &middot; on YouTube, via Natural Selection</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--3" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/rWMHS5IwuZQ?autoplay=1&amp;rel=0" data-rack-title="Andrew Sa &mdash; Under You, on the phonograph" data-rack-film="Andrew Sa, Under You" data-rack-runtime="3:29">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Under You</span>
-            <span class="yurt-lp__who">Andrew Sa</span>
-            <span class="yurt-lp__what">live at WFUV</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 3:29</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="rWMHS5IwuZQ" data-embed-title="Andrew Sa &mdash; Under You">
-            Play here instead &mdash; 3:29
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">3:29 &middot; on YouTube, via WFUV Public Radio</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--4" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/MsRUnInJ4CQ?autoplay=1&amp;rel=0" data-rack-title="Noah Reid &mdash; Simply the Best, on the phonograph" data-rack-film="Noah Reid, Simply the Best" data-rack-runtime="2:44">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Simply the Best</span>
-            <span class="yurt-lp__who">Noah Reid</span>
-            <span class="yurt-lp__what">from <i>Schitt’s Creek</i></span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 2:44</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="MsRUnInJ4CQ" data-embed-title="Noah Reid &mdash; Simply the Best">
-            Play here instead &mdash; 2:44
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">2:44 &middot; on YouTube, via Elizabeth Mitchell</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--5" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/WJfF4GQ6X5g?autoplay=1&amp;rel=0" data-rack-title="Chaparelle &mdash; Dance With Somebody, on the phonograph" data-rack-film="Chaparelle, Dance With Somebody" data-rack-runtime="3:33">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Dance With Somebody</span>
-            <span class="yurt-lp__who">Chaparelle</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 3:33</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="WJfF4GQ6X5g" data-embed-title="Chaparelle &mdash; Dance With Somebody">
-            Play here instead &mdash; 3:33
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">3:33 &middot; on YouTube, via Chaparelle</p>
-          </div>
-        </li>
-        <li class="yurt-lp__slot" data-rack-card>
-          <button type="button" class="yurt-lp__sleeve yurt-lp__sleeve--6" hidden data-rack-to="yarn" data-rack-name="the phonograph" data-rack-src="https://www.youtube-nocookie.com/embed/2Ng9Pf_p7Fw?autoplay=1&amp;rel=0" data-rack-title="The Orb &mdash; Little Fluffy Clouds, on the phonograph" data-rack-film="The Orb, Little Fluffy Clouds" data-rack-runtime="4:01">
-            <span class="yurt-lp__disc" aria-hidden="true"></span>
-            <span class="yurt-lp__title">Little Fluffy Clouds</span>
-            <span class="yurt-lp__who">The Orb</span>
-            <span class="yurt-lp__go">Put it on the phonograph &middot; 4:01</span>
-          </button>
-          <div class="yurt-lp__under">
-          <button type="button" class="facade" data-embed-id="2Ng9Pf_p7Fw" data-embed-title="The Orb &mdash; Little Fluffy Clouds">
-            Play here instead &mdash; 4:01
-            <span class="facade__play">&#9654; PRESS PLAY</span>
-          </button>
-          <p class="yurt-lp__credit">4:01 &middot; on YouTube, via Not and Now Available on Youtube!</p>
-          </div>
-        </li>
-      </ol>
+        </ul>
+        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>
       </div>
-      <p class="yurt-rack__from">Read off the yarn on 2026-10-13, in its own order. A song I add plays on the whole yarn straight away, and turns up here the next time somebody reads the playlist again.</p>
-    </details>
-    <!-- yurt-yarn:rack:end -->
-    <!-- The door to the Music Room, Helen's ask, 2026-10-16: the same phonograph
-         and the same records, in a room with nothing else to scroll past. -->
+      <div class="yurt-notebook__controls" data-notebook-controls hidden>
+        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>
+        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>
+        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>
+      </div>
+      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>
+    </div>
+    <p class="yurt-songbook__from">Every song on <a href="https://www.youtube.com/playlist?list=PLcqUkWhAK86w">Faery Yurt’s Yarn</a> and <a href="https://www.youtube.com/playlist?list=PLE5U-hsMzpzU">Strange things will happen</a>, my own playlists on YouTube, read off them on 2026-10-18, each in its own order, a book each. Press a line and it takes you to that record in the <a href="faery-music-room.html">Music Room</a>, which is where the music plays, whole or one record at a time. A song I add plays there straight away, and turns up in this book the next time somebody reads the playlist again.</p>
+    <!-- yurt-yarn:book:end -->
+    <!-- The door to the Music Room, Helen's ask, 2026-10-16, and since 2026-10-18
+         the one place the yarn plays: the phonograph with the whole yarn on it,
+         the record case, and nothing else to scroll past. -->
     <a class="yurt-door yurt-door--music" href="faery-music-room.html">
       <span class="yurt-door__arch" aria-hidden="true"></span>
-      <span class="yurt-door__words"><span class="yurt-door__go">Through to the Music Room &rarr;</span><span class="yurt-door__say">Just the music, with nothing to scroll past: the phonograph, the records, and a chair in the dark.</span></span>
+      <span class="yurt-door__words"><span class="yurt-door__go">Through to the Music Room &rarr;</span><span class="yurt-door__say">The music plays through here, and only here: the phonograph with the whole yarn on it, every song as a record to take out, and a chair in the dark.</span></span>
     </a>
   </section>
 
