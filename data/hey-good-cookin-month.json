@@ -296,6 +296,16 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "jG-GcoNuKoE",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "Can You Make Perfect S'Mores Bars without a Campfire? | Will it Cookie?",
+   "published": "2026-10-17T16:00:05Z",
+   "state": "screen",
+   "runs": 616,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "f1SaUGStJ4Y",
    "source": "americas-test-kitchen",
    "form": "short",
@@ -566,6 +576,16 @@
    "channel": "America's Test Kitchen"
   },
   {
+   "id": "qyj3dp38ca0",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "For True S'Mores Flavor, Hershey's Chocolate Reigns Supreme",
+   "published": "2026-10-17T17:00:00Z",
+   "state": "screen",
+   "runs": 41,
+   "channel": "America's Test Kitchen"
+  },
+  {
    "id": "FyXkTO0G21c",
    "source": "alton-brown",
    "form": "long",
@@ -616,16 +636,6 @@
    "channel": "Binging with Babish"
   },
   {
-   "id": "OiILm2pXmqc",
-   "source": "epicurious",
-   "form": "long",
-   "title": "Why We Stopped Frying Meatballs and Use the Oven | Epicurious 101",
-   "published": "2026-09-17T16:00:09Z",
-   "state": "screen",
-   "runs": 482,
-   "channel": "Epicurious"
-  },
-  {
    "id": "7Picq_8d8CA",
    "source": "epicurious",
    "form": "long",
@@ -663,16 +673,6 @@
    "published": "2026-10-14T16:00:11Z",
    "state": "screen",
    "runs": 1543,
-   "channel": "Epicurious"
-  },
-  {
-   "id": "pSIsVH8xDyQ",
-   "source": "epicurious",
-   "form": "short",
-   "title": "Why You Should Butter Your Sandwich Bread",
-   "published": "2026-09-17T15:59:03Z",
-   "state": "screen",
-   "runs": 33,
    "channel": "Epicurious"
   },
   {
@@ -896,13 +896,13 @@
    "channel": "NYT Cooking"
   },
   {
-   "id": "auc7IBwCzMo",
+   "id": "AE3zF9Bxtgo",
    "source": "nyt-cooking",
-   "form": "short",
-   "title": "The Quest to Find the Ultimate Veggie Sandwich #sandwich #smackdown #vegetarian #cookbook",
-   "published": "2026-09-17T15:09:17Z",
+   "form": "long",
+   "title": "How to Turn Store-Bought Croissants Into French Toast for a Crowd | Adrianna Adarme | NYT Cooking",
+   "published": "2026-10-17T14:00:31Z",
    "state": "screen",
-   "runs": 45,
+   "runs": 306,
    "channel": "NYT Cooking"
   },
   {
@@ -1063,16 +1063,6 @@
    "published": "2026-10-15T06:00:21Z",
    "state": "screen",
    "runs": 1658,
-   "channel": "Andy Cooks"
-  },
-  {
-   "id": "YHibpMz7OUY",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "I spent 5 days with last year's Super Bowl winners the Seattle Seahawks full video now live.",
-   "published": "2026-09-17T13:54:26Z",
-   "state": "screen",
-   "runs": 19,
    "channel": "Andy Cooks"
   },
   {
@@ -1256,6 +1246,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "-uU8vbXlAVo",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Should we be poaching of roast chicken in beef fat first?",
+   "published": "2026-10-18T09:50:00Z",
+   "state": "screen",
+   "runs": 89,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "wwYBvBvoiI8",
    "source": "back-of-house",
    "form": "long",
@@ -1296,6 +1296,16 @@
    "channel": "Back of House"
   },
   {
+   "id": "AFIzmed8iO4",
+   "source": "back-of-house",
+   "form": "long",
+   "title": "Better Than A Smash Burger?",
+   "published": "2026-10-18T06:00:31Z",
+   "state": "screen",
+   "runs": 725,
+   "channel": "Back of House"
+  },
+  {
    "id": "CVx9sjFtrM8",
    "source": "the-pasta-queen",
    "form": "long",
@@ -1333,16 +1343,6 @@
    "published": "2026-10-16T19:00:08Z",
    "state": "screen",
    "runs": 688,
-   "channel": "The Pasta Queen"
-  },
-  {
-   "id": "iRJYMegfCfE",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "Just Gorgeous Fumé CAESAR SALAD",
-   "published": "2026-09-17T17:34:28Z",
-   "state": "screen",
-   "runs": 77,
    "channel": "The Pasta Queen"
   },
   {
@@ -1856,6 +1856,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "UMmQ6e2P-8w",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Customers Rush to This Soba Shop in Japan for Its Thick-Cut Katsudon",
+   "published": "2026-10-17T22:00:05Z",
+   "state": "screen",
+   "runs": 2075,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "gvVAwc7xozg",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -1966,24 +1976,14 @@
    "channel": "Japanese Food Craftsman"
   },
   {
-   "id": "qErv-wlk7Ao",
+   "id": "lOgLPlh6V5g",
    "source": "japanese-food-craftsman",
-   "form": "short",
-   "title": "70年間1日1000本の和包丁を作り続ける鉄人すーぱーおじいちゃん！",
-   "published": "2026-09-18T09:00:17Z",
-   "state": "screen",
-   "runs": 26,
-   "channel": "Japanese Food Craftsman"
-  },
-  {
-   "id": "BIN2fo9nfaE",
-   "source": "bon-appetit",
    "form": "long",
-   "title": "How America’s Best Pork Chop is Made at NYC's #1 Restaurant | Made to Order | Bon Appétit",
-   "published": "2026-09-17T16:00:13Z",
+   "title": "Japan's Wildest Kindergarten! 5yr Olds Cook, Start Fires & Hike 8km!",
+   "published": "2026-10-18T09:50:25Z",
    "state": "screen",
-   "runs": 488,
-   "channel": "Bon Appétit"
+   "runs": 1776,
+   "channel": "Japanese Food Craftsman"
   },
   {
    "id": "YJpgGtF3egI",
@@ -2216,6 +2216,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "We7LlbUL2fI",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "Over Easy vs. Over Medium vs. Over Hard Eggs",
+   "published": "2026-10-17T16:00:05Z",
+   "state": "screen",
+   "runs": 37,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "J-lEHpqcOO8",
    "source": "insider-food",
    "form": "long",
@@ -2263,16 +2273,6 @@
    "published": "2026-10-14T17:00:04Z",
    "state": "screen",
    "runs": 866,
-   "channel": "Fallow"
-  },
-  {
-   "id": "uJKxP_yia-Q",
-   "source": "fallow",
-   "form": "short",
-   "title": "Best Pork Belly You'll Ever Make",
-   "published": "2026-09-17T19:05:23Z",
-   "state": "screen",
-   "runs": 76,
    "channel": "Fallow"
   },
   {
@@ -2526,16 +2526,6 @@
    "channel": "mrnigelng"
   },
   {
-   "id": "8nhK0gmMGSg",
-   "source": "mrnigelng",
-   "form": "short",
-   "title": "Pad Thai for Uncle Status @jettila",
-   "published": "2026-09-17T19:52:46Z",
-   "state": "screen",
-   "runs": 144,
-   "channel": "mrnigelng"
-  },
-  {
    "id": "G-wL2Qq8ST4",
    "source": "mrnigelng",
    "form": "short",
@@ -2663,6 +2653,16 @@
    "published": "2026-10-13T20:24:33Z",
    "state": "screen",
    "runs": 30,
+   "channel": "Eater"
+  },
+  {
+   "id": "aQhKZ4kOdGc",
+   "source": "eater",
+   "form": "short",
+   "title": "Why Steve Gao (@stevenmotocooks12) dropped out of culinary school to cook full-time",
+   "published": "2026-10-17T13:01:02Z",
+   "state": "screen",
+   "runs": 140,
    "channel": "Eater"
   },
   {
@@ -2851,13 +2851,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2865,13 +2865,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2879,13 +2879,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2893,13 +2893,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2907,13 +2907,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2921,13 +2921,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2935,13 +2935,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2949,13 +2949,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2963,13 +2963,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2977,13 +2977,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -2991,13 +2991,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3005,13 +3005,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3019,13 +3019,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3033,13 +3033,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3047,13 +3047,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3061,13 +3061,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3075,13 +3075,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3089,13 +3089,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3103,13 +3103,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3117,13 +3117,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3131,13 +3131,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3145,13 +3145,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   },
@@ -3159,16 +3159,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-17T11:55:59Z"
+     "2026-10-18T11:23:24Z"
     ]
    ]
   }
  },
- "set": "2026-10-17T11:55Z"
+ "set": "2026-10-18T11:23Z"
 }
