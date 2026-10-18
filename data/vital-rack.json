@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-17T11:40Z",
+ "set": "2026-10-18T11:19Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-17T11:40:38Z"
+     "2026-10-18T11:19:11Z"
     ]
    ]
   }
@@ -268,6 +268,16 @@
    "published": "2026-09-19T15:00:35Z",
    "state": "screen",
    "runs": 1394,
+   "channel": "Rainbow Plant Life"
+  },
+  {
+   "id": "R0J-7r_Zgoo",
+   "source": "rainbow-plant-life",
+   "form": "long",
+   "title": "The Indian Tofu Dish I Wish I'd Tried Sooner",
+   "published": "2026-10-17T15:00:26Z",
+   "state": "screen",
+   "runs": 460,
    "channel": "Rainbow Plant Life"
   },
   {
@@ -521,6 +531,16 @@
    "channel": "Ahmad Noori"
   },
   {
+   "id": "7FSC47zMUcY",
+   "source": "ahmad-noori",
+   "form": "short",
+   "title": "The 30-Minute Creamy Vegan Ravioli You Need to Try #veganfood #recipe",
+   "published": "2026-10-17T15:00:06Z",
+   "state": "screen",
+   "runs": 20,
+   "channel": "Ahmad Noori"
+  },
+  {
    "id": "5p3XjT925hE",
    "source": "so-vegan",
    "form": "short",
@@ -529,16 +549,6 @@
    "state": "screen",
    "runs": 20,
    "channel": "So Vegan"
-  },
-  {
-   "id": "-Mrq4P8JL1g",
-   "source": "veganproteins",
-   "form": "long",
-   "title": "I Left Bodybuilding for CrossFit… Here’s Why",
-   "published": "2026-09-17T15:45:10Z",
-   "state": "screen",
-   "runs": 1445,
-   "channel": "VeganProteins"
   },
   {
    "id": "YUVZVb9VR6E",
@@ -651,15 +661,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "v5wPYsygd5A",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "Can Low-FODMAP Food Still Taste Good?",
-   "published": "2026-10-13T17:37:36Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "fl2S8e852SU",
    "source": "pb-with-j",
    "form": "long",
@@ -670,13 +671,13 @@
    "channel": "PB with J"
   },
   {
-   "id": "gp41B7jrhqA",
+   "id": "v5wPYsygd5A",
    "source": "pb-with-j",
-   "form": "short",
-   "title": "Lose Weight: Name It To Tame It Philosophy! #shorts",
-   "published": "2026-09-17T12:29:24Z",
+   "form": "long",
+   "title": "Can Low-FODMAP Food Still Taste Good?",
+   "published": "2026-10-17T14:00:06Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 755,
    "channel": "PB with J"
   },
   {
@@ -810,26 +811,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "o8ns6xt531Q",
-   "source": "carleigh-bodrug",
-   "form": "short",
-   "title": "I got scammed. Get your real copy of quickies! #cookbook",
-   "published": "2026-09-17T12:06:32Z",
-   "state": "screen",
-   "runs": 40,
-   "channel": "Carleigh Bodrug"
-  },
-  {
-   "id": "2r4axoJu3ug",
-   "source": "carleigh-bodrug",
-   "form": "short",
-   "title": "sheet pan soup from my new cookbook, PlantYou quickies :) #soup",
-   "published": "2026-09-18T00:00:31Z",
-   "state": "screen",
-   "runs": 17,
-   "channel": "Carleigh Bodrug"
-  },
-  {
    "id": "ywWi3e8Zc_c",
    "source": "carleigh-bodrug",
    "form": "short",
@@ -950,6 +931,16 @@
    "channel": "Carleigh Bodrug"
   },
   {
+   "id": "mMuBTO0ZeAY",
+   "source": "carleigh-bodrug",
+   "form": "short",
+   "title": "pumpkin blondies from my new book! #recipe",
+   "published": "2026-10-17T17:48:46Z",
+   "state": "screen",
+   "runs": 16,
+   "channel": "Carleigh Bodrug"
+  },
+  {
    "id": "cOVmB3XuxFs",
    "source": "yeung-man-cooking",
    "form": "long",
@@ -967,16 +958,6 @@
    "published": "2026-10-04T16:00:24Z",
    "state": "screen",
    "runs": 549,
-   "channel": "Yeung Man Cooking"
-  },
-  {
-   "id": "giD16sJ5uPk",
-   "source": "yeung-man-cooking",
-   "form": "short",
-   "title": "If Hummus had an elegant sister #recipe #food #yeungmancooking",
-   "published": "2026-09-17T16:00:11Z",
-   "state": "screen",
-   "runs": 113,
    "channel": "Yeung Man Cooking"
   },
   {
