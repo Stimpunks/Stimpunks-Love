@@ -119,9 +119,14 @@
   var EFFECTS = [
     ['butterflies', 'Butterflies'], ['fireflies', 'Fireflies'], ['petals', 'Falling petals'], ['leaves', 'Falling leaves'],
     ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
-    ['notes', 'Music notes'], ['hearts', 'Hearts']
+    ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon']
   ];
   /* profile:effects:end */
+  /* AN EFFECT AFTER SOMEBODY ELSE'S WORK SAYS WHOSE, on the card it is on and
+     in the editor, because attribution is the habit this street kept. */
+  var EFFECT_CREDITS = {
+    lagoon: 'Effect after the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy. Their world, not them: nobody real is drawn, the creature is our own, and the poison ivy round the edge is a nod to her name.'
+  };
 
   function f(n) { return (Math.round(n * 10) / 10).toString(); }
   function el(tag, cls, text) {
@@ -777,6 +782,277 @@
   E.hearts = { edge: [['heart', 'tl', 0, 22, -15], ['heart', 'top', .24, 12, 10], ['heart', 'left', .6, 14], ['heart', 'bl', 0, 20, 15], ['heart', 'br', 0, 20, -15], ['heart', 'bottom', .4, 12]],
     pass: { motif: 'heart', from: 'bottom', n: 7, size: 16, t: 26, drift: 12 } };
 
+  /* effect:lagoon:begin */
+  /* THE BLACK LEATHER LAGOON, after the street's room and The Cramps (Ryan,
+     2026-10-18, from a Discord effect he admired: "Their world, not them").
+     NOBODY REAL IS DRAWN: no band member, no photograph, no logo, no album
+     art and no lyric; the poison ivy round the edge is a nod to Poison Ivy's
+     name, and the creature is a sea serpent of our own, nothing of anybody's
+     film monster. It is drawn in the Lagoon's own declared inks, which is the
+     one effect not in its card's theme, and make-profile.py holds this block
+     to them. AS IN THE ROOM, THE SCREEN IS THE ONLY LIGHT: everything has its
+     face turned to it and goes dark behind, and NOTHING FLICKERS, the room's
+     rule, so the screen's glow breathes over nine seconds and never jumps.
+
+     It is the street's most detailed effect: a scene over the card's banner
+     (sky, the screen with a giant B-movie eye on it, its glow and its legs,
+     black water with the screen's reflection rippling in it, reeds, and the
+     serpent's coils rising and sinking), poison ivy creeping down both sides,
+     leopard print along the foot, a finned hot rod parked in the corner, and
+     a pass of bats from the screen's side across the whole profile. The scene
+     sits in 380 by 112, the card's banner, and keeps off the avatar's corner. */
+  function lag(tag, at, o) { return svgEl(tag, at, o); }
+  /* The scene's own gradient and blur, each with an id of its own so that two
+     profiles on one page never share one. A stop's ink is named like a fill,
+     so make-profile.py reads it with the rest. */
+  var lagN = 0;
+  function lagDefs(s) { var d = document.createElementNS(NS, 'defs'); s.appendChild(d); return d; }
+  function lagStop(grad, offset, opacity, o) {
+    var st = document.createElementNS(NS, 'stop');
+    st.setAttribute('offset', String(offset));
+    st.style.setProperty('stop-color', 'var(' + o.stop + ')');
+    st.style.setProperty('stop-opacity', String(opacity));
+    grad.appendChild(st);
+  }
+  M.bat = function (g, moving) {
+    var w = svgEl('g', {}, { cls: moving ? 'fx-batflap' : 'art-breathe', t: 3 });
+    w.style.removeProperty('fill');
+    w.appendChild(lag('path', { d: 'M0 -1C-3 -4 -6 -5 -11 -3C-9 -1 -9 1 -10 3C-8 2 -7 3 -6 5C-5 3 -3 3 -2 4C-1 2 -1 1 0 1Z' }, { fill: '--lag-card', stroke: '--lag-dim', sw: .7 }));
+    w.appendChild(lag('path', { d: 'M0 -1C3 -4 6 -5 11 -3C9 -1 9 1 10 3C8 2 7 3 6 5C5 3 3 3 2 4C1 2 1 1 0 1Z' }, { fill: '--lag-card', stroke: '--lag-dim', sw: .7 }));
+    g.appendChild(w);
+    g.appendChild(lag('path', { d: 'M-1.6 -3L-1.2 -5.2L-.4 -3.6H.4L1.2 -5.2L1.6 -3C1.8 0 1.2 3 0 4C-1.2 3 -1.8 0 -1.6 -3Z' }, { fill: '--lag-card', stroke: '--lag-dim', sw: .6 }));
+    g.appendChild(lag('circle', { cx: -.6, cy: -2.4, r: .45 }, { fill: '--lag-poster' }));
+    g.appendChild(lag('circle', { cx: .6, cy: -2.4, r: .45 }, { fill: '--lag-poster' }));
+  };
+  /* A finned hot rod parked at the drive-in, side on and facing the screen,
+     with leopard print on the seat. Lit along its front, dark behind. */
+  M.hotrod = function (g) {
+    var car = svgEl('g', { transform: 'scale(.92)' });
+    car.style.removeProperty('fill');
+    car.appendChild(lag('path', { d: 'M-12 2.4L-11 -.2Q-10 -1.4 -7 -1.6L-4 -1.8L-2 -4.2Q-1 -5 0 -5L3 -5Q4 -5 4.6 -4L6 -2L8.6 -2.4L11 -6.6L11.8 -6.4L11.8 1.6Q11.6 3 10 3L-11 3.4Q-12.2 3.4 -12 2.4Z' }, { fill: '--lag-card', stroke: '--lag-screen', sw: .55 }));
+    car.appendChild(lag('path', { d: 'M-11.2 1.2H11.4' }, { stroke: '--lag-blood', sw: .7 }));
+    car.appendChild(lag('path', { d: 'M-1.6 -3.6Q-.8 -4.3 0 -4.3L2.6 -4.3L3.8 -2.4L-2.6 -2.2Z' }, { fill: '--lag-dim' }));
+    [[-.6, -3.2], [1, -2.8], [2.6, -3.4], [.2, -2.4]].forEach(function (s) { car.appendChild(lag('circle', { cx: s[0], cy: s[1], r: .32 }, { fill: '--lag-water' })); });
+    car.appendChild(lag('path', { d: 'M-4.2 -1.9L-2.4 -4.6' }, { stroke: '--lag-screen', sw: .5 }));
+    car.appendChild(lag('path', { d: 'M10.6 -5.6L11.6 -5.8V-3.8L10.8 -3.6Z' }, { fill: '--lag-poster' }));
+    car.appendChild(lag('path', { d: 'M11.8 2.2H13.4' }, { stroke: '--lag-dim', sw: .8 }));
+    [[-7.4, 3.4, 2.5], [7.2, 3.3, 2.9]].forEach(function (w) {
+      car.appendChild(lag('circle', { cx: w[0], cy: w[1], r: w[2] }, { fill: '--lag-water', stroke: '--lag-dim', sw: .5 }));
+      car.appendChild(lag('circle', { cx: w[0], cy: w[1], r: w[2] * .42 }, { fill: '--lag-dim' }));
+    });
+    car.appendChild(lag('path', { d: 'M-12.2 1.6H-13.4' }, { stroke: '--lag-screen', sw: .7 }));
+    g.appendChild(car);
+  };
+
+  function lagSvg(w, h, cls) {
+    var s = plainSvg(w, h, cls);
+    s.setAttribute('preserveAspectRatio', 'xMinYMin meet');
+    return s;
+  }
+  /* The scene over the banner. */
+  function lagoonScene() {
+    var s = lagSvg(380, 112, 'pf-fx__scene');
+    s.removeAttribute('width');
+    s.removeAttribute('height');
+    var n = ++lagN, defs = lagDefs(s);
+    var sky = document.createElementNS(NS, 'linearGradient');
+    sky.setAttribute('id', 'pf-lag-sky-' + n);
+    sky.setAttribute('x1', '0'); sky.setAttribute('x2', '1'); sky.setAttribute('y1', '0'); sky.setAttribute('y2', '0');
+    lagStop(sky, 0, 0, { stop: '--lag-water' });
+    lagStop(sky, .22, .86, { stop: '--lag-water' });
+    lagStop(sky, 1, .86, { stop: '--lag-water' });
+    defs.appendChild(sky);
+    var blur = document.createElementNS(NS, 'filter');
+    blur.setAttribute('id', 'pf-lag-blur-' + n);
+    blur.setAttribute('x', '-40%'); blur.setAttribute('y', '-40%'); blur.setAttribute('width', '180%'); blur.setAttribute('height', '180%');
+    var gb = document.createElementNS(NS, 'feGaussianBlur');
+    gb.setAttribute('stdDeviation', '7');
+    blur.appendChild(gb);
+    defs.appendChild(blur);
+    var g = group(s);
+    // the night over the banner's right-hand part, fading in from the left so it
+    // is not a box laid on somebody's banner, and leaving the avatar's corner be
+    var night = lag('rect', { x: 130, y: 0, width: 250, height: 112 }, {});
+    night.style.setProperty('fill', 'url(#pf-lag-sky-' + n + ')');
+    g.appendChild(night);
+    for (var i = 0; i < 16; i++) {
+      var sx = 156 + rnd(i + 40) * 220, sy = 3 + rnd(i + 70) * 46;
+      if (sx > 226 && sx < 362 && sy < 62) continue;
+      g.appendChild(lag('circle', { cx: f(sx), cy: f(sy), r: f(.5 + rnd(i + 9) * .7) }, { fill: '--lag-dim', cls: i % 3 ? '' : 'art-twinkle', d: i * .5 % 4, t: 5 }));
+    }
+    // the screen's glow, breathing slowly, never jumping
+    var glow = svgEl('g', {}, { cls: 'fx-breathe', t: 9 });
+    glow.style.removeProperty('fill');
+    glow.style.setProperty('filter', 'url(#pf-lag-blur-' + n + ')');
+    glow.appendChild(lag('rect', { x: 226, y: 0, width: 136, height: 64, rx: 8, 'fill-opacity': '.34' }, { fill: '--lag-acid' }));
+    glow.appendChild(lag('rect', { x: 240, y: 84, width: 108, height: 14, rx: 7, 'fill-opacity': '.18' }, { fill: '--lag-acid' }));
+    g.appendChild(glow);
+    // the legs into the water
+    g.appendChild(lag('rect', { x: 250, y: 52, width: 4, height: 32, 'fill-opacity': '.62' }, { fill: '--lag-screen' }));
+    g.appendChild(lag('rect', { x: 334, y: 52, width: 4, height: 32, 'fill-opacity': '.62' }, { fill: '--lag-screen' }));
+    // the screen, and on it a giant eye, bloodshot, looking about
+    g.appendChild(lag('rect', { x: 236, y: 8, width: 116, height: 46, rx: 1.5 }, { fill: '--lag-screen', stroke: '--lag-dim', sw: 1 }));
+    g.appendChild(lag('path', { d: 'M262 31Q294 9 326 31Q294 53 262 31Z' }, { fill: '--lag-screen', stroke: '--lag-card', sw: 1.4 }));
+    g.appendChild(lag('path', { d: 'M264 30Q272 27 276 29M266 34Q273 35 278 33M324 30Q316 27 312 29M322 33Q315 35 310 33' }, { stroke: '--lag-poster', sw: .6 }));
+    var look = svgEl('g', {}, { cls: 'fx-look', t: 11 });
+    look.style.removeProperty('fill');
+    look.appendChild(lag('circle', { cx: 294, cy: 31, r: 9.5 }, { fill: '--lag-acid', stroke: '--lag-card', sw: 1.2 }));
+    look.appendChild(lag('path', { d: 'M286.5 31Q294 25 301.5 31M287 33Q294 37 301 33' }, { stroke: '--lag-card', sw: .5 }));
+    look.appendChild(lag('circle', { cx: 294, cy: 31, r: 4.4 }, { fill: '--lag-water' }));
+    look.appendChild(lag('circle', { cx: 296.4, cy: 28.6, r: 1.5 }, { fill: '--lag-screen' }));
+    g.appendChild(look);
+    g.appendChild(lag('path', { d: 'M270 22L268 18M280 17L279 13M294 15V11M308 17L309 13M318 22L320 18' }, { stroke: '--lag-card', sw: 1.1 }));
+    // reeds at the water's edge, their tips catching the screen
+    [[152, 64], [157, 70], [162, 60], [342, 66], [347, 58], [377, 64]].forEach(function (r, j) {
+      var reed = svgEl('g', {}, { cls: 'art-sway', d: j * .6, t: 6 });
+      reed.style.removeProperty('fill');
+      reed.appendChild(lag('path', { d: 'M' + r[0] + ' 84Q' + (r[0] + 1.5) + ' ' + (r[1] + 10) + ' ' + (r[0] + .5) + ' ' + r[1] }, { stroke: '--lag-card', sw: 1.6 }));
+      reed.appendChild(lag('rect', { x: f(r[0] - .9), y: r[1] - 6, width: 2.8, height: 7, rx: 1.4 }, { fill: '--lag-blood' }));
+      reed.appendChild(lag('path', { d: 'M' + f(r[0] + 1.6) + ' ' + (r[1] - 5) + 'V' + (r[1] + 1) }, { stroke: '--lag-dim', sw: .5 }));
+      g.appendChild(reed);
+    });
+    // THE SERPENT, our own: three coils and a round snout, eyes on stalks,
+    // pondweed on its head. Lit on the side towards the screen.
+    function coil(x0, x1, h, j) {
+      var c = svgEl('g', {}, { cls: 'fx-rise', d: j * 1.3, t: 7 });
+      c.style.removeProperty('fill');
+      var m = (x0 + x1) / 2, top = 82 - h;
+      // a hump of the body, its foot under the water
+      c.appendChild(lag('path', { d: 'M' + x0 + ' 94Q' + x0 + ' ' + top + ' ' + m + ' ' + top + 'Q' + x1 + ' ' + top + ' ' + x1 + ' 94Z' }, { fill: '--lag-acid', stroke: '--lag-card', sw: .8 }));
+      // dark on the side away from the screen, a rim of its light on the side towards it
+      c.appendChild(lag('path', { d: 'M' + (x0 + 2) + ' 90Q' + (x0 + 2.4) + ' ' + (top + 3) + ' ' + (m - 2) + ' ' + (top + 1.6) }, { stroke: '--lag-card', sw: 3.2, cls: '' }));
+      c.appendChild(lag('path', { d: 'M' + (m + 2) + ' ' + (top + .8) + 'Q' + (x1 - 1.2) + ' ' + (top + 1.2) + ' ' + (x1 - 1) + ' 88' }, { stroke: '--lag-screen', sw: .8 }));
+      // scales, as small arcs along the back
+      for (var k = 0; k < 4; k++) {
+        var sx = x0 + 4 + (x1 - x0 - 8) * k / 3, sy = top + 4 + Math.abs(k - 1.5) * 1.6;
+        c.appendChild(lag('path', { d: 'M' + f(sx - 1.4) + ' ' + f(sy) + 'q1.4 -1.4 2.8 0' }, { stroke: '--lag-card', sw: .6 }));
+      }
+      g.appendChild(c);
+      g.appendChild(lag('ellipse', { cx: f(m), cy: 81, rx: f((x1 - x0) / 2 + 3), ry: 2.2 }, { stroke: '--lag-dim', sw: .7, cls: 'fx-ring', d: j * 1.3, t: 7 }));
+    }
+    coil(170, 186, 9, 0);
+    coil(190, 208, 13, 1);
+    var head = svgEl('g', {}, { cls: 'fx-rise', d: 2.6, t: 7 });
+    head.style.removeProperty('fill');
+    head.appendChild(lag('path', { d: 'M212 92Q210 66 220 52L228 54Q222 70 224 92Z' }, { fill: '--lag-acid', stroke: '--lag-card', sw: .8 }));
+    head.appendChild(lag('path', { d: 'M213.5 90Q212.4 70 220.6 56' }, { stroke: '--lag-card', sw: 2.6 }));
+    head.appendChild(lag('path', { d: 'M226.4 56Q221.8 70 223.4 88' }, { stroke: '--lag-screen', sw: .8 }));
+    head.appendChild(lag('path', { d: 'M215 52Q216 42 226 41Q238 41 243 47Q245 52 240 55Q232 58 222 57Q215 57 215 52Z' }, { fill: '--lag-acid', stroke: '--lag-card', sw: .9 }));
+    head.appendChild(lag('path', { d: 'M226 53Q234 55 242 52' }, { stroke: '--lag-card', sw: .9 }));
+    head.appendChild(lag('path', { d: 'M232 54.2L233 57.4L234.2 54.4M237.6 53.6L238.4 56.4L239.4 53.4' }, { fill: '--lag-screen', stroke: '--lag-screen', sw: .4 }));
+    head.appendChild(lag('circle', { cx: 241, cy: 47.5, r: .8 }, { fill: '--lag-card' }));
+    head.appendChild(lag('path', { d: 'M216 52Q217 45 222 44' }, { stroke: '--lag-card', sw: 2.4 }));
+    [[224, 41, 221, 33], [230, 41, 231, 32]].forEach(function (st) {
+      head.appendChild(lag('path', { d: 'M' + st[0] + ' ' + st[1] + 'Q' + (st[0] - 1) + ' ' + (st[3] + 4) + ' ' + st[2] + ' ' + st[3] }, { stroke: '--lag-acid', sw: 1.6 }));
+      head.appendChild(lag('circle', { cx: st[2], cy: st[3], r: 3.2 }, { fill: '--lag-screen', stroke: '--lag-card', sw: .7 }));
+      head.appendChild(lag('circle', { cx: st[2] + 1.1, cy: st[3] + .2, r: 1.4 }, { fill: '--lag-water' }));
+    });
+    var weed = svgEl('g', {}, { cls: 'art-sway', t: 5 });
+    weed.style.removeProperty('fill');
+    weed.appendChild(lag('path', { d: 'M219 44Q214.6 49 216.4 56M222 42.6Q219.6 48 220.4 53' }, { stroke: '--lag-dim', sw: .8 }));
+    [[215.4, 50, -30], [216.6, 55.4, 20], [219.8, 48.6, -20]].forEach(function (w) {
+      at(weed, w[0], w[1], w[2]).appendChild(lag('path', { d: leaf(1.8, 1) }, { fill: '--lag-dim' }));
+    });
+    head.appendChild(weed);
+    head.appendChild(lag('path', { d: 'M230 41.6Q239 42 242.6 46.6' }, { stroke: '--lag-screen', sw: .7 }));
+    var drip = lag('ellipse', { cx: 236, cy: 58.5, rx: .7, ry: 1.1, 'fill-opacity': '.7' }, { fill: '--lag-screen', cls: 'art-fall', t: 3, run: 20 });
+    head.appendChild(drip);
+    g.appendChild(head);
+    g.appendChild(lag('ellipse', { cx: 218, cy: 81, rx: 10, ry: 2.4 }, { stroke: '--lag-dim', sw: .7, cls: 'fx-ring', d: 2.6, t: 7 }));
+    // the black water, in front of everything below the line
+    var water = lag('rect', { x: 130, y: 80, width: 250, height: 32 }, {});
+    water.style.setProperty('fill', 'url(#pf-lag-sky-' + n + ')');
+    g.appendChild(water);
+    g.appendChild(lag('rect', { x: 186, y: 80, width: 194, height: 32 }, { fill: '--lag-water' }));
+    g.appendChild(lag('path', { d: 'M168 80H380' }, { stroke: '--lag-card', sw: 1 }));
+    // a lobby card on a post out in the shallows, its top edge lit by the screen
+    g.appendChild(lag('rect', { x: 364, y: 70, width: 3, height: 18, 'fill-opacity': '.7' }, { fill: '--lag-blood' }));
+    g.appendChild(lag('rect', { x: 355, y: 54, width: 21, height: 16, rx: .8 }, { fill: '--lag-card' }));
+    g.appendChild(lag('rect', { x: 355, y: 54, width: 21, height: 1.6 }, { fill: '--lag-screen' }));
+    g.appendChild(lag('rect', { x: 358, y: 58, width: 8, height: 9 }, { fill: '--lag-poster' }));
+    g.appendChild(lag('path', { d: 'M368 59.5H373.5M368 62.5H373.5M368 65.5H372' }, { stroke: '--lag-dim', sw: .8 }));
+    // the screen in the water, rippling
+    [[84, .26, 112], [89, .18, 104], [94, .12, 96], [99, .08, 88], [104, .05, 80]].forEach(function (r, j) {
+      var w = r[2];
+      g.appendChild(lag('rect', { x: f(294 - w / 2), y: r[0], width: w, height: 2.4, rx: 1.2, 'fill-opacity': String(r[1]) }, { fill: '--lag-screen', cls: 'fx-ripple', d: j * .9, t: 6 }));
+    });
+    [[166, 96], [184, 104], [204, 92], [214, 108], [356, 94], [366, 104]].forEach(function (r, j) {
+      g.appendChild(lag('path', { d: 'M' + r[0] + ' ' + r[1] + 'h7' }, { stroke: '--lag-card', sw: 1, cls: 'fx-ripple', d: j * .7, t: 6 }));
+    });
+    // two bats near the screen, against its glow
+    [[176, 16, 13, -8], [202, 30, 10, 6], [214, 10, 8, -4]].forEach(function (b, j) {
+      var q = at(g, b[0], b[1], b[3]);
+      var bob = svgEl('g', {}, { cls: 'fx-bob' });
+      bob.style.removeProperty('fill');
+      bob.style.setProperty('--b', (3 + j * .7) + 's');
+      var sc = svgEl('g', { transform: 'scale(' + f(b[2] / 22) + ')' });
+      sc.style.removeProperty('fill');
+      M.bat(sc, true);
+      bob.appendChild(sc);
+      q.appendChild(bob);
+    });
+    return s;
+  }
+  /* Poison ivy down a side: leaves of three, green and turning red, on a
+     red stem, drawn once longer than a profile can be and growing in. */
+  function lagoonVine(right) {
+    var L = stripLength(), box = el('div', 'pf-fx__vine pf-fx__vine--' + (right ? 'r' : 'l'));
+    var s = plainSvg(18, L);
+    var g = group(s, right ? 'matrix(-1,0,0,1,18,0)' : '');
+    var d = '', y, i;
+    for (y = 0; y <= L; y += 6) d += (y ? 'L' : 'M') + f(6 + 2.6 * Math.sin(y / 34 + (right ? 1.4 : 0))) + ' ' + y;
+    g.appendChild(lag('path', { d: d, pathLength: 1 }, { stroke: '--lag-blood', sw: 1.4, cls: 'art-grow', t: 14 }));
+    for (y = 22, i = 0; y < L; y += 38, i++) {
+      var x = 6 + 2.6 * Math.sin(y / 34 + (right ? 1.4 : 0)), red = i % 4 === 3;
+      var q = at(g, x, y, i % 2 ? 24 : -24 + 180);
+      var three = svgEl('g', {}, { cls: 'art-pop', d: Math.min(13, y / 70), t: 1.4 });
+      three.style.removeProperty('fill');
+      var sway = svgEl('g', {}, { cls: 'art-sway', d: i * .5 % 5, t: 6 });
+      sway.style.removeProperty('fill');
+      sway.appendChild(lag('path', { d: 'M0 0L0 -4' }, { stroke: '--lag-blood', sw: .8 }));
+      [[0, -4, 0, 4.2, 2.6], [0, -2.2, -62, 3.4, 2.2], [0, -2.2, 62, 3.4, 2.2]].forEach(function (lf) {
+        var r = at(sway, lf[0], lf[1], lf[2]);
+        r.appendChild(lag('path', { d: 'M0 0Q' + lf[4] + ' ' + f(-lf[3] * .6) + ' 0 ' + f(-lf[3] * 2) + 'Q' + (-lf[4]) + ' ' + f(-lf[3] * .6) + ' 0 0Z' }, { fill: red ? '--lag-poster' : '--lag-acid', stroke: '--lag-card', sw: .4 }));
+      });
+      three.appendChild(sway);
+      q.appendChild(three);
+    }
+    box.appendChild(s);
+    return box;
+  }
+  /* Leopard print along the foot: khaki in the screen's light, dark rosettes. */
+  function lagoonLeopard() {
+    var L = stripLength(), box = el('div', 'pf-fx__leopard');
+    var s = plainSvg(L, 10);
+    s.appendChild(lag('rect', { x: 0, y: 0, width: L, height: 10 }, { fill: '--lag-dim' }));
+    // a rosette is a broken ring of dark spots round a darker centre, and
+    // there are loose spots between them
+    for (var x = 5, i = 0; x < L; x += 11, i++) {
+      var cx = x + rnd(i + 11) * 3, cy = 3 + rnd(i + 23) * 4, r = 2 + rnd(i + 5) * .6;
+      s.appendChild(lag('ellipse', { cx: f(cx), cy: f(cy), rx: f(r * .8), ry: f(r * .62), 'fill-opacity': '.32' }, { fill: '--lag-card' }));
+      var start = rnd(i + 31) * 360, k;
+      for (k = 0; k < 4; k++) {
+        var a = (start + k * 84 + rnd(i * 4 + k) * 22) * Math.PI / 180;
+        s.appendChild(lag('ellipse', { cx: f(cx + r * Math.cos(a)), cy: f(cy + r * .8 * Math.sin(a)), rx: f(.9 + rnd(i + k + 3) * .4), ry: f(.6 + rnd(i + k + 8) * .3),
+          transform: 'rotate(' + f(a * 180 / Math.PI + 90) + ' ' + f(cx + r * Math.cos(a)) + ' ' + f(cy + r * .8 * Math.sin(a)) + ')' }, { fill: '--lag-water' }));
+      }
+      s.appendChild(lag('circle', { cx: f(x + 8 + rnd(i + 51) * 2), cy: f(1.5 + rnd(i + 61) * 7), r: f(.45 + rnd(i + 71) * .35) }, { fill: '--lag-water' }));
+    }
+    box.appendChild(s);
+    return box;
+  }
+  E.lagoon = {
+    scene: function (box) {
+      box.appendChild(lagoonScene());
+      box.appendChild(lagoonVine(false));
+      box.appendChild(lagoonVine(true));
+      box.appendChild(lagoonLeopard());
+    },
+    edge: [['hotrod', 'br', 0, 34, 0, [-30, -11]]],
+    pass: { motif: 'bat', from: 'right', n: 6, size: 24, t: 24, drift: 14 }
+  };
+  /* effect:lagoon:end */
+
   var EDGE_AT = {
     tl: function () { return [0, 0]; }, tr: function () { return [100, 0]; },
     bl: function () { return [0, 100]; }, br: function () { return [100, 100]; },
@@ -788,6 +1064,7 @@
     var across = 6 + 88 * (i + .5 + (rnd(i + 7) - .5) * .6) / p.n;
     var drift = (rnd(i + 3) - .5) * 2 * (p.drift || 0), start, px, py;
     if (p.from === 'left') { start = [-8, across]; px = 116; py = drift; }
+    else if (p.from === 'right') { start = [104, across]; px = -116; py = drift; }
     else if (p.from === 'top') { start = [across, -8]; px = drift; py = 116; }
     else if (p.from === 'bottom') { start = [across, 104]; px = drift; py = -116; }
     else { start = [-8, across * .6 - 10]; px = 116; py = 70; }
@@ -808,23 +1085,25 @@
     if (!e) return null;
     var box = el('div', 'pf-fx');
     box.setAttribute('aria-hidden', 'true');
-    var pass = el('div', 'pf-fx__pass');
-    for (var i = 0; i < e.pass.n; i++) pass.appendChild(passOne(e.pass, i));
-    box.appendChild(pass);
+    if (e.scene) e.scene(box);
     e.edge.forEach(function (sp) {
       var s = motif(sp[0], sp[3], false, sp[4]);
       s.setAttribute('class', 'pf-fx__edge');
-      var pos = EDGE_AT[sp[1]](sp[2]);
-      s.style.left = f(pos[0]) + '%';
-      s.style.top = f(pos[1]) + '%';
+      var pos = EDGE_AT[sp[1]](sp[2]), off = sp[5] || [0, 0];
+      s.style.left = 'calc(' + f(pos[0]) + '% + ' + f(off[0]) + 'px)';
+      s.style.top = 'calc(' + f(pos[1]) + '% + ' + f(off[1]) + 'px)';
       box.appendChild(s);
     });
+    var pass = el('div', 'pf-fx__pass');
+    for (var i = 0; i < e.pass.n; i++) pass.appendChild(passOne(e.pass, i));
+    box.appendChild(pass);
     return box;
   }
   function effectName(key) {
     for (var i = 0; i < EFFECTS.length; i++) if (EFFECTS[i][0] === key) return EFFECTS[i][1];
     return '';
   }
+  function effectCredit(key) { return Object.prototype.hasOwnProperty.call(EFFECT_CREDITS, key) ? EFFECT_CREDITS[key] : ''; }
 
   /* A FRAME AND AN EFFECT ROUND A PROFILE, or round the card in the editor:
      stage holds one thing, the profile's sheet or the card, and wears the
@@ -916,6 +1195,8 @@
       p.links.forEach(function (l) { var li = el('li'); o.links(li, l); ul.appendChild(li); });
       body.appendChild(ul);
     }
+    var credit = p.effect && effectCredit(p.effect);
+    if (credit) body.appendChild(el('p', 'pf-credit', credit));
     c.appendChild(body);
     return c;
   }
@@ -924,7 +1205,7 @@
 
   window.loveProfile = {
     FACES: FACES, DECORATIONS: DECORATIONS, FRAMES: FRAMES, EFFECTS: EFFECTS, dress: dress, nameStyle: nameStyle, faceOf: faceOf,
-    drawing: drawing, decoration: decoration, decorationName: decorationName, frameName: frameName, effectName: effectName,
+    drawing: drawing, decoration: decoration, decorationName: decorationName, frameName: frameName, effectName: effectName, effectCredit: effectCredit,
     card: card, drawCard: drawCard, surround: surround
   };
 })();

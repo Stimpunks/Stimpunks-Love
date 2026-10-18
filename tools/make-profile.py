@@ -31,6 +31,15 @@ WHAT IT REFUSES, and why each one is here:
     drawing, two of any of them or two faces with one name, and a face love.css
     does not declare: a browser answers a face it has not got with another and
     says nothing.
+  · AN INK THAT IS NOT THE CARD'S THEME. Every frame, decoration and effect is
+    drawn in the seven --cb-* inks of the card's theme, so none brings a colour
+    nobody measured, and no colour in profile.js is a literal. THE ONE
+    EXCEPTION IS THE BLACK LEATHER LAGOON (Ryan, 2026-10-18, after the street's
+    room and The Cramps): its drawing is in that room's own declared --lag-*
+    inks, between the effect:lagoon markers and nowhere else, and each one must
+    be declared in love.css. Its credit must name The Cramps, Lux Interior and
+    Poison Ivy and say nobody real is drawn, because that is the condition it
+    was built on: their world, not them.
   · AN EFFECT'S PASS SHOWN WHERE THE DRAWINGS DO NOT MOVE. Ryan's call,
     2026-10-18: the pass crosses a profile's words, which is the one drawing on
     the radio that does. It is drawn only under :host([data-motion="on"]), at
@@ -154,6 +163,32 @@ def main():
             if k not in ks:
                 refuse(f"profile.js draws {letter}.{k}, which {what} does not offer.")
         listed[what] = ks
+    lag_src = between(src, "/* effect:lagoon:begin */", "/* effect:lagoon:end */", "profile.js")
+    lag_code = re.sub(r"/\*.*?\*/", "", lag_src, flags=re.S)
+    rest_code = re.sub(r"/\*.*?\*/", "", src.replace(lag_src, ""), flags=re.S)
+    ink = r"(?:fill|stroke|stop)\s*:\s*(?:[^,}]*\?\s*)?'(--[a-z0-9-]+)'(?:\s*:\s*'(--[a-z0-9-]+)')?"
+    theirs = {f"--cb-{x}" for x in PARTS}
+    for m in re.finditer(ink, rest_code):
+        for name in filter(None, m.groups()):
+            if name not in theirs:
+                refuse(f"profile.js draws in {name} outside the Lagoon: a card's drawings are in its theme's seven --cb-* inks.")
+    lag_inks = {n for m in re.finditer(ink, lag_code) for n in m.groups() if n}
+    if not lag_inks:
+        refuse("the Black Leather Lagoon draws in no ink this tool can read.")
+    for name in sorted(lag_inks):
+        if not name.startswith("--lag-") or name not in declared:
+            refuse(f"the Black Leather Lagoon draws in {name}, which is not one of that room's --lag- inks declared in love.css.")
+    if re.search(r"#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(", re.sub(r"(?m)//.*$", "", rest_code + lag_code)):
+        refuse("profile.js has a literal colour. Every colour on a card is a declared ink, named.")
+    if "E.lagoon = {" not in lag_src:
+        refuse("the effect:lagoon markers do not hold E.lagoon.")
+    cred = re.search(r"var EFFECT_CREDITS = \{(.*?)\n  \};", src, re.S)
+    lc = re.search(r"lagoon:\s*'([^']*)'", cred.group(1)) if cred else None
+    if "lagoon" in listed.get("EFFECTS", []):
+        words = lc.group(1) if lc else ""
+        for need in ("The Cramps", "Lux Interior", "Poison Ivy", "nobody real is drawn"):
+            if need not in words:
+                refuse(f"the Black Leather Lagoon's credit does not say {need!r}: their world, not them, and the credit says whose.")
     cbcss = re.sub(r"/\*.*?\*/", "", (ROOT / "cb.css").read_text(), flags=re.S)
     rules = re.findall(r"([^{}]*\.pf-fx__pass[^{}]*)\{([^}]*)\}", cbcss)
     shown = [sel.strip() for sel, body in rules

@@ -2691,7 +2691,11 @@
     var fFrame = pfField(form, 'Frame', 'pf-frame', pfSelect(LP.FRAMES.filter(function (x) { return (keys.frames || []).indexOf(x[0]) >= 0; }), 'None'),
       'A band of your card’s theme round all four sides of your profile, outside it. It moves where the radio’s drawings do.');
     var fEffect = pfField(form, 'Effect', 'pf-effect', pfSelect(LP.EFFECTS.filter(function (x) { return (keys.effects || []).indexOf(x[0]) >= 0; }), 'None'),
-      'Drawn over your profile in your card’s colours. Part of it stays along the edges and in the banner; the rest crosses the whole profile, words and all, from time to time, only for people whose radio is at MAX GLITTER or set to Let my theme move. For everybody else it stays at the edges, still.');
+      'Drawn over your profile in your card’s colours, or in a room’s own for an effect after one. Part of it stays along the edges and in the banner; the rest crosses the whole profile, words and all, from time to time, only for people whose radio is at MAX GLITTER or set to Let my theme move. For everybody else it stays at the edges, still.');
+    // An effect after somebody's work says whose, here and on the card.
+    var fxCredit = el('p', 'cb-hint pf-hint');
+    fxCredit.hidden = true;
+    form.appendChild(fxCredit);
     form.appendChild(el('h3', 'pf-edit__sub', 'Name style'));
     var fFace = pfField(form, 'Face for your name', 'pf-face', pfSelect(LP.FACES.filter(function (x) { return keys.faces.indexOf(x[0]) >= 0; }).map(function (x, i) {
       return [i ? x[0] : '', i ? x[0] : 'Plain (' + x[0] + ')'];
@@ -2793,6 +2797,9 @@
       sample.appendChild(plate);
       LP.drawing(plate, p.plate);
       fWhy.disabled = !fRoom.value;
+      var credit = LP.effectCredit ? LP.effectCredit(p.effect) : '';
+      fxCredit.textContent = credit;
+      fxCredit.hidden = !credit;
     }
     function soon() { if (!timer) timer = setTimeout(redraw, 120); }
     form.addEventListener('input', soon);

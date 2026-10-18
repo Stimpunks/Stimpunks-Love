@@ -849,6 +849,33 @@ ol.cb-md-list { list-style: decimal; }
 }
 @keyframes cb-fx-bob { 0%, 100% { transform: translateY(-4px); } 50% { transform: translateY(4px); } }
 @keyframes cb-fx-flap { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.45); } }
+/* THE BLACK LEATHER LAGOON'S PARTS (2026-10-18): a scene the size of the
+   card's banner, poison ivy down both sides and leopard print along the foot,
+   all still part and all in the Lagoon's own inks. Its motion, like every
+   effect's, is only under data-motion, and nothing in it flickers: the
+   screen's glow breathes over nine seconds, the eye on it looks about over
+   eleven, the serpent rises and sinks over seven, and the bats' wings beat
+   once a second. */
+.pf-fx__scene { position: absolute; top: 0; left: 0; display: block; width: min(100%, 380px); height: auto; aspect-ratio: 380 / 112; overflow: visible; }
+.pf-fx__vine { position: absolute; top: 0; bottom: 0; width: 18px; overflow: hidden; }
+.pf-fx__vine--l { left: 0; }
+.pf-fx__vine--r { right: 0; }
+.pf-fx__vine svg, .pf-fx__leopard svg { display: block; }
+.pf-fx__leopard { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; overflow: hidden; border-radius: 0 0 10px 10px; }
+:host([data-motion="on"]) .fx-breathe { animation: cb-fx-breathe var(--t, 9s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .fx-look { animation: cb-fx-look var(--t, 11s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .fx-rise { animation: cb-fx-rise var(--t, 7s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .fx-ripple { animation: cb-fx-ripple var(--t, 6s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .fx-ring { transform-box: fill-box; transform-origin: center; animation: cb-fx-ring var(--t, 7s) ease-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .fx-batflap { transform-box: fill-box; transform-origin: 50% 30%; animation: cb-fx-batflap 1s ease-in-out infinite; }
+@keyframes cb-fx-breathe { 0%, 100% { opacity: .6; } 50% { opacity: 1; } }
+@keyframes cb-fx-look { 0%, 100% { transform: translateX(-5px); } 45%, 55% { transform: translateX(5px); } }
+@keyframes cb-fx-rise { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
+@keyframes cb-fx-ripple { 0%, 100% { transform: translateX(-3px); } 50% { transform: translateX(3px); } }
+@keyframes cb-fx-ring { 0% { transform: scale(.7); opacity: .7; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
+@keyframes cb-fx-batflap { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.4); } }
+/* An effect after somebody's work says whose, at the foot of the card. */
+.pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 
 @media (max-width: 720px) {
   .pf-dialog { width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; }
@@ -874,6 +901,8 @@ ol.cb-md-list { list-style: decimal; }
   .pf-dialog > .pf-stage { height: 100%; }
   .pf-dialog > .pf-stage--framed { border-radius: 0; }
   .pf-stage--framed > .pf-sheet { max-height: none; }
+  /* The editor's strip on a phone has a banner 64px high, so the scene fits it. */
+  .pf-preview .pf-fx__scene { width: min(100%, 217px); }
 }
 .cb-radio--small .cb-picture-img { max-height: 90px; }
 .cb-pic-ready { display: grid; gap: 6px; margin: 8px 0 0; }
