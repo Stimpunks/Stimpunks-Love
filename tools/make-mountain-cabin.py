@@ -65,12 +65,15 @@ IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
 import html
 import importlib.util
+import sys as _sys
 import json
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+_sys.path.insert(0, str(ROOT / "tools"))
+import imgsize  # width and height read off the file, never typed
 TOOLS = ROOT / "tools"
 DATA = ROOT / "data/mountain-cabin.json"
 POLAROIDS = ROOT / "data/polaroids.json"
@@ -305,10 +308,11 @@ def wall_block(d):
     for pid in ids:
         rec = records[pid]
         file = next(f"{pid}{s}" for s in PHOTO_SUFFIXES if (ROOT / "photos" / f"{pid}{s}").exists())
+        w, h = imgsize.size(ROOT / "photos" / file)
         cap = rec.get("caption") or ""
         out += [
             '      <figure class="efw-photo">',
-            f'        <img class="photo" src="photos/{file}" alt="{attr(rec["alt"])}" loading="lazy" decoding="async">',
+            f'        <img class="photo" src="photos/{file}" alt="{attr(rec["alt"])}" width="{w}" height="{h}" loading="lazy" decoding="async">',
             f'        <figcaption>{esc(cap)}</figcaption>' if cap else '        <figcaption class="sr">A photograph of David&rsquo;s.</figcaption>',
             '      </figure>']
     out.append('    </div>')
@@ -330,9 +334,10 @@ def gallery_block(d):
     for pid in ids:
         rec = records[pid]
         file = next(f"{pid}{s}" for s in PHOTO_SUFFIXES if (ROOT / "photos" / f"{pid}{s}").exists())
+        w, h = imgsize.size(ROOT / "photos" / file)
         cap = rec.get("caption") or ""
         out += ['      <figure class="efw-gallery__photo">',
-                f'        <img class="photo" src="photos/{file}" alt="{attr(rec["alt"])}" loading="lazy" decoding="async">',
+                f'        <img class="photo" src="photos/{file}" alt="{attr(rec["alt"])}" width="{w}" height="{h}" loading="lazy" decoding="async">',
                 f'        <figcaption>{esc(cap)}</figcaption>' if cap else '        <figcaption class="sr">A photograph of David&rsquo;s.</figcaption>',
                 '      </figure>']
     out.append('    </div>')
