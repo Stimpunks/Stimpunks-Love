@@ -1404,8 +1404,13 @@ in `lib.test.mjs`, and taken out first when a card goes. A quiet room cannot be 
 The editor's preview is `inert`, and on a phone it is a sticky strip above the choices, the Dress-Up Den's rule. **The
 friendly edits are a Member since line, a count of anything, an uploaded banner or avatar picture** (which would bring
 the photograph rules onto the CB), **and a switch that starts off "for privacy"**, which would hide what people wrote to
-be shown. **Moderators cannot clear one card**: the desk deletes the whole username; a desk action for a card would be
-Ryan's call.
+be shown. **A moderator can clear one card from the desk** (Ryan's call, 2026-10-18, for a card that breaks the
+covenant, which until then could only go with the whole username): `clearCard` on `/cb/account/admin`, base pass only and
+after the desk's `isMod` refusal, runs `clearProfile` in `lib.mjs`, which is `forgetProfile` (nameplate off first) and
+leaves the username, its password, pets, avatars, jobs and patches. `tools/make-accounts.py` lets the desk do exactly
+find, reset, delete and clearCard, and refuses `clearProfile` writing anything: **the friendly edit is a note of who
+cleared whose card and when**, which would be a record of moderation kept against a person that the privacy page does
+not mention.
 
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are

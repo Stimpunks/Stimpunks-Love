@@ -39,7 +39,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
-  PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS } from './lib.mjs';
+  PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -1999,6 +1999,31 @@ test('a profile is shown on a claimed username only, holds no date, and goes wit
   await deleteAccount('Ada', s);
   assert.equal(await readProfile(pk, s), null, 'a deleted username kept its profile');
   assert.equal((await withPlates(people, s))[0].plate, undefined, 'a deleted username kept its nameplate');
+}));
+
+test('a moderator clears one card, keeps nothing about it, and leaves the username and everything under it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  const p = cleanProfile(fullProfile()).profile;
+  assert.equal((await clearProfile('Ada', s)).error, 'That username has not been claimed.', 'an unclaimed handle had a card to clear');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const worn = (await keepAvatar(pk, { look: lookOf(), name: 'Saloon' }, s)).kept;
+  await wearAvatar(pk, worn.id, s);
+  await keepProfile(pk, p, s);
+  const people = [{ handle: 'Ada', claimed: true, rooms: [] }];
+  assert.equal((await withPlates(people, s))[0].plate, p.plate);
+  const account = await readAccount('Ada', s);
+  const keys = s.keys().filter((k) => k !== `profile/${pk}`).sort();
+  assert.deepEqual(await clearProfile('ada', s), { cleared: true, had: true });
+  assert.equal(await readProfile(pk, s), null, 'the card is still there');
+  assert.equal((await withPlates(people, s))[0].plate, undefined, 'the nameplate is still on Who\'s online');
+  assert.deepEqual(await shownProfile('Ada', s), { handle: 'Ada', profile: null });
+  assert.deepEqual(await readAccount('Ada', s), account, 'clearing a card changed the username, or signed it off');
+  assert.equal((await readAvatars(pk, s)).wearing, worn.id, 'clearing a card took the avatar off');
+  assert.deepEqual(s.keys().sort(), keys, 'clearing a card wrote something, or deleted something besides the card');
+  assert.deepEqual(await clearProfile('Ada', s), { cleared: true, had: false });
+  await keepProfile(pk, p, s);
+  assert.deepEqual((await shownProfile('Ada', s)).profile, p, 'a cleared username could not fill in a new card');
 }));
 
 for (const etagOnRead of [true, false]) {

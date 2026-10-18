@@ -1,7 +1,9 @@
 /* =============================================================================
    The moderators' desk in the Moderators' room: look up one username by name,
-   give it a reset code, or delete it. Ryan's calls, 2026-09-30: accounts with
-   no email, recovery codes, and moderators able to reset or delete, here.
+   give it a reset code, delete it, or clear its profile card. Ryan's calls,
+   2026-09-30: accounts with no email, recovery codes, and moderators able to
+   reset or delete, here; and 2026-10-18, clearing one card that breaks the
+   covenant without deleting the username it is on.
 
    IT OPENS ONLY FOR A BASE PASS, and the server refuses anybody else whatever
    this page shows: this file is the page keeping quiet, never the lock. It
@@ -71,12 +73,15 @@
     var since = '';
     try { since = new Date(a.since).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) {}
     if (a.mod) {
-      found.appendChild(el('p', a.handle + ' is a moderator\u2019s username, on their own password since ' + since + '. The desk does not reset or delete a moderator\u2019s username, because a reset code would let one moderator sign on as another, roles and all. They use their own recovery code, or Ryan or Helen moves them back.'));
+      found.appendChild(el('p', a.handle + ' is a moderator\u2019s username, on their own password since ' + since + '. The desk does not reset or delete a moderator\u2019s username, or clear its card, because a reset code would let one moderator sign on as another, roles and all. They use their own recovery code, or Ryan or Helen moves them back.'));
       return;
     }
-    found.appendChild(el('p', a.handle + ' is claimed, since ' + since + '.'));
+    var about = el('p', a.handle + ' is claimed, since ' + since + (a.card ? ', and has a profile card.' : ', with no profile card.'));
+    found.appendChild(about);
     var reset = button('Give ' + a.handle + ' a reset code'), del = button('Delete ' + a.handle);
     var row = el('p'); row.appendChild(reset); row.appendChild(del);
+    var card = a.card ? button('Clear ' + a.handle + '\u2019s profile card') : null;
+    if (card) row.appendChild(card);
     found.appendChild(row);
     reset.addEventListener('click', function () {
       confirmThen('This signs ' + a.handle + ' off everywhere and makes a one-time code, good for a day, that lets them set a new password at the Community Center. Only do it once you are sure you are talking to them.',
@@ -100,6 +105,22 @@
             found.textContent = '';
             say(a.handle + ' is deleted, with its password and its pets.');
           }, function () { say('The desk could not be reached. Nothing was deleted.'); });
+        });
+    });
+    /* For a card that breaks the covenant. The username and everything else
+       under it stay; nothing is kept about the clearing. */
+    if (card) card.addEventListener('click', function () {
+      confirmThen('This clears ' + a.handle + '\u2019s profile card: its theme, banner, decoration, name face, nameplate, pronouns, bio, links and favourite room, and takes the nameplate off Who\u2019s online. Their username, password, pets, avatars, jobs and patches stay, and they can fill in a new card. Nothing tells them it was cleared. It cannot be undone.',
+        'Clear the card', function () {
+          say('Clearing…');
+          call({ action: 'clearCard', handle: a.handle }).then(function (r) {
+            if (r.status !== 200) { say(why(r, 'That did not work. Nothing was cleared.')); return; }
+            card.remove();
+            about.textContent = a.handle + ' is claimed, since ' + since + ', with no profile card.';
+            say(r.body.had
+              ? a.handle + '\u2019s profile card is cleared. Their username and everything else under it are as they were.'
+              : a.handle + ' had no profile card by then. Nothing else was changed.');
+          }, function () { say('The desk could not be reached. Nothing was cleared.'); });
         });
     });
   }

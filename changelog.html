@@ -41,6 +41,12 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-18-desk-clears-a-card">2026-10-18 &mdash; A moderator can clear one profile card</h2>
+  <ul>
+    <li><strong>The moderators&rsquo; desk can clear somebody&rsquo;s profile card without deleting their username.</strong> Until now a card that broke <a href="https://stimpunks.org/covenant/">our covenant</a> could only go with the whole username, its password, pets, avatars, jobs and patches. Looking a username up at the desk now says whether it has a card, and <b>Clear their profile card</b>, which asks once more, takes the card and its nameplate on Who&rsquo;s online exactly as <b>Clear my card</b> does. Everything else stays, and they can fill in a new one. Ryan&rsquo;s call.</li>
+    <li><strong>Nothing is kept about it</strong>: not who cleared a card, not when, not what it said, and the accounts checker refuses one that would. The desk still leaves a moderator&rsquo;s username alone, card included. <a href="privacy.html#profile">Privacy</a>, <a href="cb-guide.html#card">the CB guide</a> and the Moderators&rsquo; room say so. Changed: <code>desk.js</code>, <code>netlify/cb/lib.mjs</code>, <code>netlify/functions/cb-account-admin.mjs</code>, <code>tools/make-accounts.py</code>, <code>privacy.html</code>, <code>cb-guide.html</code>, <code>town-hall-moderators.html</code>.</li>
+  </ul>
+
   <h2 id="2026-10-18-cb-profiles">2026-10-18 &mdash; Profile cards on the CB</h2>
   <ul>
     <li><strong>Pressing a handle opens a whole profile now</strong>, over the page, after requests for profiles more like Discord&rsquo;s. On the left is the person&rsquo;s card; on the right, where Discord has Board, Activity and Wishlist, are tabs for their <b>Avatars</b>, <b>Pets</b>, <b>Badges and jobs</b> and <b>Battle jacket</b>, each shown as they have chosen. A name on Who&rsquo;s online opens the same profile. <a href="cb-guide.html#their-profile">The CB guide</a> says how it works.</li>

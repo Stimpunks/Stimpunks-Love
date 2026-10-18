@@ -92,7 +92,8 @@
        CAN CLAIM THEIRS TOO, AND KEEPS THEIR ROLES FROM THE LIST. Ryan's calls,
        2026-09-30: from Profile on the radio, with a password of your own and
        no email; a recovery code shown once; moderators can reset or delete
-       one, by name, and there is no list of everybody. A claimed username
+       one, or clear its profile card, by name, and there is no list of
+       everybody. A claimed username
        signs on with its own password and the community password stops
        working for it. See the accounts section below.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
@@ -1587,7 +1588,8 @@ export function shapeJacketSticker(st) {
    THE NAMEPLATE IS COPIED TO ONE BLOB, the way the avatar worn is, so Who's
    online reads one blob rather than one per person, and it is taken out of
    that blob FIRST when the profile goes. Forget me and deleting the username
-   delete the profile. */
+   delete the profile, and a moderator can clear one card from the desk without
+   deleting the username (clearProfile, Ryan's call, 2026-10-18). */
 /* profile:keys:begin */
 export const PROFILE_KEYS = {"themes":["amber","day","high","soldark","sollight","green","red","teal","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"banners":["soldark","sollight","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"decorations":["wreath","vines","stars","sparkles","mushrooms","leaves","hearts","gears","bubbles","snow","flames","moons","notes","paws","halo","circuit","butterflies","crystals"],"faces":["Atkinson Hyperlegible","Abril Fatface","Amarante","Anton","B612","Bagel Fat One","Bowlby One SC","Bungee","Bungee Shade","Caveat","Chakra Petch","Cherry Bomb One","Cinzel","Courier Prime","Della Respira","Doto","DynaPuff","Eczar","Exo 2","Forum","Fraunces","Fredoka","Gloria Hallelujah","Gravitas One","Inter","JetBrains Mono","Libre Franklin","Lilita One","Limelight","Macondo","Marcellus SC","Martian Mono","Michroma","Monoton","Oxanium","Permanent Marker","Playfair Display","Press Start 2P","Righteous","Rubik Dirt","Rye","Sansita","Shrikhand","Sour Gummy","Space Mono","Syncopate","Titan One","Unbounded","VT323","Yanone Kaffeesatz","Yellowtail"]};
 /* profile:keys:end */
@@ -1718,12 +1720,29 @@ export async function keepProfile(pk, p, s = store()) {
   return p;
 }
 
-/* Clearing it, Forget me and deleting the username: off Who's online first,
-   then the record. */
+/* Clearing it, a moderator clearing it, Forget me and deleting the username:
+   off Who's online first, then the record. */
 export async function forgetProfile(pk, s = store()) {
   await showPlate(pk, '', s);
   await s.delete(profileBlob(pk));
   return true;
+}
+
+/* A moderator clearing somebody's card from the desk. Ryan's call,
+   2026-10-18: until then a card that broke the covenant could only go with the
+   whole username, its password, pets, avatars, jobs and patches. This takes the
+   card and its nameplate exactly as Clear my card does and leaves everything
+   else, so the person can fill in a new one. Nothing is kept about it: not who
+   cleared it, not when, not what the card said. { cleared, had } for a claimed
+   username, whether or not it had a card; { error } for one not claimed, which
+   has no card to clear. The desk refuses a moderator's username before this. */
+export async function clearProfile(handle, s = store()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return { error: 'That username has not been claimed.' };
+  const pk = petKey(handle);
+  const had = !!(await readProfile(pk, s));
+  await forgetProfile(pk, s);
+  return { cleared: true, had };
 }
 
 /* Somebody's profile as anybody signed on is shown it: { handle, profile }
@@ -2659,8 +2678,8 @@ export function accountAnswer(handle, v, mods = readMods()) {
   return { pass: issueAccountPass(handle, v), handle, base: false, roles: [], claimed: true };
 }
 
-/* Whether a handle is a moderator's. The desk will not reset or delete one:
-   a reset code for a moderator's username would let one moderator sign on as
+/* Whether a handle is a moderator's. The desk will not reset or delete one,
+   or clear its card: a reset code for a moderator's username would let one moderator sign on as
    another, with the other's roles, which is the reason for moving moderators
    onto passwords of their own in the first place. */
 export function isMod(handle, mods = readMods()) {
@@ -2671,8 +2690,8 @@ export function isMod(handle, mods = readMods()) {
 
 /* Ryan's calls, 2026-09-30: a Profile on the CB where you can claim your
    username and set your own password; no email; a recovery code shown once
-   when you claim; moderators can reset a password or delete an account, in
-   the Moderators' room. Claiming is optional and only possible while signed
+   when you claim; moderators can reset a password, delete an account or
+   clear its profile card, in the Moderators' room. Claiming is optional and only possible while signed
    on with the community password, so there is no public sign-up.
 
    MODERATORS CAN MOVE ONTO PASSWORDS OF THEIR OWN. Ryan's call, the same

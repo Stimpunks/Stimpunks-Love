@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 18 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A moderator can clear one profile card</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-18-desk-clears-a-card</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-desk-clears-a-card</guid>
+      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The moderators’ desk can clear somebody’s profile card without deleting their username. Until now a card that broke our covenant could only go with the whole username, its password, pets, avatars, jobs and patches. Looking a username up at the desk now says whether it has a card, and Clear their profile card, which asks once more, takes the card and its nameplate on Who’s online exactly as Clear my card does. Everything else stays, and they can fill in a new one. Ryan’s call. Nothing is kept about it: not who cleared a card, not when, not what it said, and the accounts checker refuses one that would. The desk still leaves a moderator’s username alone, card included. Privacy, the CB guide and the Moderators’ room say so. Changed: desk.js, netlify/cb/lib.mjs, netlify/functions/cb-account-admin.mjs, tools/make-accounts.py, privacy.html, cb-guide.html, town-hall-moderators.html.</description>
+    </item>
+    <item>
       <title>Profile cards on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-profiles</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-profiles</guid>
-      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:59:00 GMT</pubDate>
       <description>Pressing a handle opens a whole profile now, over the page, after requests for profiles more like Discord’s. On the left is the person’s card; on the right, where Discord has Board, Activity and Wishlist, are tabs for their Avatars, Pets, Badges and jobs and Battle jacket, each shown as they have chosen. A name on Who’s online opens the same profile. The CB guide says how it works. A claimed username can fill in its card, at Edit my profile card in Profile, with the card drawn beside the choices as they change: a theme from the radio’s own, a banner from their drawings, a decoration round the avatar you wear (flowers, ivy, stars, gears, flames, moons and more, drawn in the card’s own colours), a face for your name from the street’s typefaces, a nameplate under your name on Who’s online, your pronouns, a few words about you, up to five links elsewhere, each shown with its site after it, and your favourite room on the street, with a line on why. Ryan’s calls: whatever you fill in is shown to anybody signed on to the CB, as the avatar you wear is, with no switch; and no card says when anybody joined, because a date beside a name invites ranking who has been here longest. Every colour on a card is a pair the contrast checker already holds for every theme, and every drawing on it moves only where the radio’s do. Clear my card, Forget me and deleting the username delete it. Privacy has the whole of what is kept. Changed: cb.js, cb.css, love.css, netlify/cb/lib.mjs, privacy.html, cb-guide.html, community-center.html; new: profile.js, tools/make-profile.py, two functions.</description>
     </item>
     <item>

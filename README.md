@@ -183,7 +183,7 @@ fridge.js             The Fridge of Sighs: reads the door and the drawer, puts u
 stair.js              Count Me In: reads the stair, takes a step by number or by the lift with a CB pass
 shelter.js            Rescue A Cat and Rescue A Dog: looks, rescues and adopts with a CB pass; keeps the ones you rescued in love-rescues
 animals.js            Every cat and dog, drawn: the shelters and the CB's Profile both draw from here
-desk.js               The moderators' desk in the Moderators' room: look up one username, reset it or delete it
+desk.js               The moderators' desk in the Moderators' room: look up one username, reset it, delete it or clear its card
 netlify/functions/    The CB's functions: sign on, listen, transmit, moderate, the hourly sweep, and the
                       chalkboard's read, write and rub-out, Pando Calrissian's tree and its fence, the Fridge of Sighs' door, Count Me In's stair, Rescue A Cat's shelter,
                       and the Slake's: be seen at a place, say something there, leave, and the base station's
@@ -781,8 +781,8 @@ the next. The tree's fence runs on the chalkboard's rules.
 hash of your folded handle so they follow you to any device, until you press Forget me in Profile
 on your radio. An unclaimed handle is not an account, and Profile says so; claim it there with a
 password of your own and only that password reaches them. **That username is the only account on
-the street**: no email, and moderators can find one by name, reset it or delete it, but never list
-them.
+the street**: no email, and moderators can find one by name, reset it, delete it or clear its
+profile card, but never list them.
 
 ## Attribution
 
