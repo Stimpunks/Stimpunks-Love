@@ -4210,8 +4210,18 @@ Randimals: our friends' company makes plush combined animals, and its characters
     for everybody. **The friendly edit is a live AI drawing "so nobody has to wait"**: it breaks that sentence and
     Stimpunks' art policy, which rules out AI-made finished illustrations and art in the style of an artist.
   · **A CHIMERA IS A LIST OF CHOICES, NEVER A PICTURE**, avatar.js's rule: `clean()` takes exactly its parts, each an
-    animal on the shelf, and it travels in the address as `#chimera=` and the parts. The room keeps and sends
-    nothing until the keeping half lands.
+    animal on the shelf, and it travels in the address as `#chimera=` and the parts. **`chimera.js` builds elements
+    with createElementNS** (`draw()`) and a string only at build time (`svg()`), so no page writes a chimera with
+    innerHTML and the radio can show one; the tool refuses markup from a string in `chimera-obscura.js`.
+  · **CHIMERAS ARE THE SIXTH THING KEPT UNDER A PERSON**, after pets, avatars, jobs, patches and profile cards, and
+    only when somebody presses **Keep it in my Profile** in the room. The avatars' arrangement: `chimeras/<pet key>`
+    holding each one's parts and name and **nothing about when** (the tool refuses a time in `keepChimera`), 24 at
+    most, `cleanChimera()` in `lib.mjs` agreeing with `clean()` in `chimera.js` (the test races them), a sticker
+    found by id among the sender's own (`chimeraSticker`), and **Show my chimeras on the CB**, claimed only, as
+    `chshown/<pet key>`. Forget me and deleting the username delete both, and `make-chimera-obscura.py` refuses
+    either losing that. On the radio a chimera carries its own ground, the table's white (`draw({ ground: true })`),
+    so a dark theme never swallows its outline; its words are which animal gave which part, and its name is its
+    maker's.
   · **SUGGESTED NAMES ARE CHECKED, EVERY ONE.** The body's animal, then the animal that gave the most other parts;
     the tool refuses a suggestion that is a Randimals character's name (their shop's list, in the data file) or
     carries a slur. **"Coon", the obvious end of "raccoon", is a racial slur**, so raccoon's end is "accoon" and

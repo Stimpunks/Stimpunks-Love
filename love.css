@@ -25118,6 +25118,9 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .chm-naming__in { flex: 1 1 14ch; min-width: 0; font: 400 22px/1.2 'Gilda Display', Georgia, serif; padding: 6px 10px; border-radius: 10px; border: 2px solid var(--chm-line); background: var(--chm-panel); color: var(--chm-text); }
 .chm-naming__note { margin: 6px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--chm-dim); max-width: 60ch; }
 .chm-share { margin: 14px 0 0; }
+.chm-keep { margin: 12px 0 0; }
+.chm-keep__how, .chm-keep__off { margin: 0 0 8px; font-size: 15px; line-height: 1.5; color: var(--chm-dim); max-width: 56ch; }
+.chimera-obscura .chm-keep__how b { color: var(--chm-text); }
 .chm-said { margin: 8px 0 0; min-height: 1.5em; font-size: 15px; color: var(--chm-dim); }
 .chm-noscript { margin: 0; font-size: 16px; line-height: 1.55; color: var(--chm-dim); max-width: 50ch; }
 .chm-quote { margin: 16px 0; padding: 0 0 0 16px; border-left: 3px solid var(--chm-brass); max-width: 62ch; }

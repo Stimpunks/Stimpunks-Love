@@ -11,6 +11,12 @@
    anybody typed ever reaches the drawing; a chimera's name travels beside it
    and is never put inside it.
 
+   IT BUILDS ELEMENTS, NOT MARKUP. The drawing is a small tree of nodes, turned
+   into SVG elements with createElementNS in a page (draw()), and into a string
+   only at build time, under Node, for the room's starting drawings (svg()). So
+   no page ever writes this drawing with innerHTML, and the radio, whose own
+   rule is that nothing becomes markup, can show it.
+
    EVERY PART IS FITTED TO THE BODY IT LANDS ON. Each animal is drawn for one
    shared rig, sitting up and facing you: a body of its own width and height, a
    head on top, ears placed round the head, a tail leaving the body's side, a
@@ -40,23 +46,43 @@
 /* chimera:data:end */
 
   var INK = '#2A211F';
+  var SVGNS = 'http://www.w3.org/2000/svg';
   var A = SHELF.animals || {};
   var SLOTS = (SHELF.slots || []).map(function (s) { return s.key; });
   var seq = 0;
 
-  /* ── Small pieces ────────────────────────────────────────────────────── */
+  /* ── Nodes ───────────────────────────────────────────────────────────── */
+  function N(t, a, k) { return { t: t, a: a || {}, k: k || [] }; }
   function n(v) { return Math.round(v * 10) / 10; }
+  function attrs(base, more) { return Object.assign({}, base, more || {}); }
+  function OL(sw) { return { stroke: INK, 'stroke-width': sw || 5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }; }
+  function ell(cx, cy, rx, ry, a, deg) {
+    var o = attrs({ cx: n(cx), cy: n(cy), rx: n(rx), ry: n(ry) }, a);
+    if (deg) o.transform = 'rotate(' + n(deg) + ' ' + n(cx) + ' ' + n(cy) + ')';
+    return N('ellipse', o);
+  }
+  function pth(d, a) { return N('path', attrs({ d: d }, a)); }
+  function line(x1, y1, x2, y2, a) { return N('line', attrs({ x1: n(x1), y1: n(y1), x2: n(x2), y2: n(y2) }, a)); }
+  function rect(x, y, w, h, a) { return N('rect', attrs({ x: n(x), y: n(y), width: n(w), height: n(h) }, a)); }
+  function G(a, k) { return N('g', a, k); }
+  function clip(id, d) { return N('clipPath', { id: id }, [pth(d)]); }
+
+  function esc(v) { return String(v).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+  function toStr(node) {
+    var a = '';
+    for (var key in node.a) if (Object.prototype.hasOwnProperty.call(node.a, key)) a += ' ' + key + '="' + esc(node.a[key]) + '"';
+    if (!node.k.length) return '<' + node.t + a + '/>';
+    return '<' + node.t + a + '>' + node.k.map(toStr).join('') + '</' + node.t + '>';
+  }
+  function toDom(node, doc) {
+    var e = doc.createElementNS(SVGNS, node.t);
+    for (var key in node.a) if (Object.prototype.hasOwnProperty.call(node.a, key)) e.setAttribute(key, String(node.a[key]));
+    node.k.forEach(function (c) { e.appendChild(toDom(c, doc)); });
+    return e;
+  }
+
   function ellD(cx, cy, rx, ry) {
     return 'M' + n(cx - rx) + ',' + n(cy) + ' a' + n(rx) + ',' + n(ry) + ' 0 1,0 ' + n(2 * rx) + ',0 a' + n(rx) + ',' + n(ry) + ' 0 1,0 ' + n(-2 * rx) + ',0 Z';
-  }
-  function OL(sw) { return 'stroke="' + INK + '" stroke-width="' + (sw || 5) + '" stroke-linejoin="round" stroke-linecap="round"'; }
-  function ell(cx, cy, rx, ry, attrs, deg) {
-    return '<ellipse cx="' + n(cx) + '" cy="' + n(cy) + '" rx="' + n(rx) + '" ry="' + n(ry) + '" ' + attrs +
-      (deg ? ' transform="rotate(' + n(deg) + ' ' + n(cx) + ' ' + n(cy) + ')"' : '') + '/>';
-  }
-  function pth(d, attrs) { return '<path d="' + d + '" ' + attrs + '/>'; }
-  function line(x1, y1, x2, y2, attrs) {
-    return '<line x1="' + n(x1) + '" y1="' + n(y1) + '" x2="' + n(x2) + '" y2="' + n(y2) + '" ' + attrs + '/>';
   }
   /* A tail's shape, with "@circle cx cy r" for a round one. */
   function tailD(d) {
@@ -81,255 +107,276 @@
   var SPECKS = [[-.8, -.2], [-.6, -.6], [-.45, .1], [-.25, -.75], [-.1, -.35], [.15, -.82], [.3, -.42], [.5, -.7], [.62, 0], [.8, -.32], [-.7, .42], [.72, .45]];
 
   /* ── The parts ───────────────────────────────────────────────────────── */
-  function shellDome(id, cx, yt, h, w, P) {
-    var dcy = yt + h * .3, drx = w * .6, dry = h * .5, d = ellD(cx, dcy, drx, dry), cid = id('sh');
-    var s = '<clipPath id="' + cid + '"><path d="' + d + '"/></clipPath>' + pth(d, 'fill="' + P.plate + '"') + '<g clip-path="url(#' + cid + ')">';
+  function shellDome(out, id, cx, yt, h, w, P) {
+    var dcy = yt + h * .3, drx = w * .6, dry = h * .5, d = ellD(cx, dcy, drx, dry), cid = id('sh'), inside = [];
+    out.push(clip(cid, d), pth(d, { fill: P.plate }));
     for (var i = -3; i <= 3; i++) {
       var x0 = cx + i * drx * .27;
-      s += pth('M' + n(x0) + ',' + n(dcy - dry - 6) + ' Q' + n(x0 + i * drx * .07) + ',' + n(dcy) + ' ' + n(x0) + ',' + n(dcy + dry + 6),
-        'fill="none" stroke="' + P.band + '" stroke-width="4"');
+      inside.push(pth('M' + n(x0) + ',' + n(dcy - dry - 6) + ' Q' + n(x0 + i * drx * .07) + ',' + n(dcy) + ' ' + n(x0) + ',' + n(dcy + dry + 6),
+        { fill: 'none', stroke: P.band, 'stroke-width': 4 }));
     }
-    SPECKS.forEach(function (q) { s += ell(cx + q[0] * drx, dcy + q[1] * dry, 4, 3, 'fill="' + P.speck + '"'); });
-    return s + '</g>' + pth(d, 'fill="none" ' + OL());
+    SPECKS.forEach(function (q) { inside.push(ell(cx + q[0] * drx, dcy + q[1] * dry, 4, 3, { fill: P.speck })); });
+    out.push(G({ 'clip-path': 'url(#' + cid + ')' }, inside), pth(d, attrs({ fill: 'none' }, OL())));
   }
 
-  function cap(id, hx, hy, rx, ry, P) {
-    var L = hx - rx * .8, R = hx + rx * .8, yb = hy - ry * .4, cid = id('cp');
+  function cap(out, id, hx, hy, rx, ry, P) {
+    var L = hx - rx * .8, R = hx + rx * .8, yb = hy - ry * .4, cid = id('cp'), inside = [];
     var d = 'M' + n(L) + ',' + n(yb) + ' Q' + n(hx) + ',' + n(hy - ry * 1.62) + ' ' + n(R) + ',' + n(yb) +
       ' Q' + n(hx) + ',' + n(hy - ry * .62) + ' ' + n(L) + ',' + n(yb) + ' Z';
-    var s = '<clipPath id="' + cid + '"><path d="' + d + '"/></clipPath>' + pth(d, 'fill="' + P.plate + '"') + '<g clip-path="url(#' + cid + ')">';
+    out.push(clip(cid, d), pth(d, { fill: P.plate }));
     [-.3, 0, .3].forEach(function (u) {
-      s += pth('M' + n(hx + u * rx) + ',' + n(hy - ry * 1.2) + ' Q' + n(hx + u * rx * 1.25) + ',' + n(hy - ry * .8) + ' ' + n(hx + u * rx * 1.1) + ',' + n(hy - ry * .3),
-        'fill="none" stroke="' + P.band + '" stroke-width="3.5"');
+      inside.push(pth('M' + n(hx + u * rx) + ',' + n(hy - ry * 1.2) + ' Q' + n(hx + u * rx * 1.25) + ',' + n(hy - ry * .8) + ' ' + n(hx + u * rx * 1.1) + ',' + n(hy - ry * .3),
+        { fill: 'none', stroke: P.band, 'stroke-width': 3.5 }));
     });
-    [[-.5, -.62], [-.15, -.85], [.2, -.7], [.48, -.6]].forEach(function (q) { s += ell(hx + q[0] * rx, hy + q[1] * ry, 3.5, 2.6, 'fill="' + P.speck + '"'); });
-    return s + '</g>' + pth(d, 'fill="none" ' + OL(4.5));
+    [[-.5, -.62], [-.15, -.85], [.2, -.7], [.48, -.6]].forEach(function (q) { inside.push(ell(hx + q[0] * rx, hy + q[1] * ry, 3.5, 2.6, { fill: P.speck })); });
+    out.push(G({ 'clip-path': 'url(#' + cid + ')' }, inside), pth(d, attrs({ fill: 'none' }, OL(4.5))));
   }
 
-  function ears(E, hx, hy, rx, ry, r, C, mk) {
-    var a = E.a * Math.PI / 180, k = E.s * r, s = '';
+  function ears(out, E, hx, hy, rx, ry, r, C, mk) {
+    var a = E.a * Math.PI / 180, k = E.s * r;
     var outer = mk.darkEars ? C.dark : mk.rimEars ? C.light : C.fur;
     var mid = mk.rimEars ? C.fur : null;
     var inner = mk.darkEars ? C.dark : C.skin;
     [-1, 1].forEach(function (side) {
-      var ax = hx + side * rx * Math.sin(a), ay = hy - ry * Math.cos(a), g = '';
+      var ax = hx + side * rx * Math.sin(a), ay = hy - ry * Math.cos(a), g = [];
       if (E.type === 'round' || E.type === 'semi') {
         var cy = E.type === 'round' ? -k * .35 : -k * .2;
-        g += ell(0, cy, k, k, 'fill="' + outer + '" ' + OL());
-        if (mid) g += ell(0, cy, k * .76, k * .76, 'fill="' + mid + '"');
-        g += ell(0, cy + k * .08, k * .48, k * .48, 'fill="' + inner + '"');
+        g.push(ell(0, cy, k, k, attrs({ fill: outer }, OL())));
+        if (mid) g.push(ell(0, cy, k * .76, k * .76, { fill: mid }));
+        g.push(ell(0, cy + k * .08, k * .48, k * .48, { fill: inner }));
       } else if (E.type === 'long' || E.type === 'oval') {
         var long = E.type === 'long', c2 = long ? -k * .85 : -k * .6, w2 = long ? r * .22 : r * .2;
-        g += ell(0, c2, w2, k * (long ? 1 : .95), 'fill="' + outer + '" ' + OL());
-        if (mid) g += ell(0, c2 + k * .04, w2 * .74, k * .84, 'fill="' + mid + '"');
-        g += ell(0, c2 + k * .1, w2 * .45, k * (long ? .66 : .55), 'fill="' + inner + '"');
+        g.push(ell(0, c2, w2, k * (long ? 1 : .95), attrs({ fill: outer }, OL())));
+        if (mid) g.push(ell(0, c2 + k * .04, w2 * .74, k * .84, { fill: mid }));
+        g.push(ell(0, c2 + k * .1, w2 * .45, k * (long ? .66 : .55), { fill: inner }));
       } else if (E.type === 'tri') {
         var K = k * 1.25;
-        g += pth('M' + n(-.42 * K) + ',' + n(.2 * K) + ' L0,' + n(-K) + ' L' + n(.42 * K) + ',' + n(.2 * K) + ' Z', 'fill="' + outer + '" ' + OL());
-        if (mid) g += pth('M' + n(-.32 * K) + ',' + n(.16 * K) + ' L0,' + n(-.78 * K) + ' L' + n(.32 * K) + ',' + n(.16 * K) + ' Z',
-          'fill="' + mid + '" stroke="' + mid + '" stroke-width="4" stroke-linejoin="round"');
-        g += pth('M' + n(-.2 * K) + ',' + n(.12 * K) + ' L0,' + n(-.5 * K) + ' L' + n(.2 * K) + ',' + n(.12 * K) + ' Z',
-          'fill="' + inner + '" stroke="' + inner + '" stroke-width="4" stroke-linejoin="round"');
+        g.push(pth('M' + n(-.42 * K) + ',' + n(.2 * K) + ' L0,' + n(-K) + ' L' + n(.42 * K) + ',' + n(.2 * K) + ' Z', attrs({ fill: outer }, OL())));
+        if (mid) g.push(pth('M' + n(-.32 * K) + ',' + n(.16 * K) + ' L0,' + n(-.78 * K) + ' L' + n(.32 * K) + ',' + n(.16 * K) + ' Z',
+          { fill: mid, stroke: mid, 'stroke-width': 4, 'stroke-linejoin': 'round' }));
+        g.push(pth('M' + n(-.2 * K) + ',' + n(.12 * K) + ' L0,' + n(-.5 * K) + ' L' + n(.2 * K) + ',' + n(.12 * K) + ' Z',
+          { fill: inner, stroke: inner, 'stroke-width': 4, 'stroke-linejoin': 'round' }));
       }
-      s += '<g transform="translate(' + n(ax) + ' ' + n(ay) + ') rotate(' + side * E.a + ')">' + g + '</g>';
+      out.push(G({ transform: 'translate(' + n(ax) + ' ' + n(ay) + ') rotate(' + side * E.a + ')' }, g));
     });
-    return s;
   }
 
-  function tail(id, T, tx, ty, C, mk) {
-    var fill = T.fill === 'skin' ? C.skin : T.fill === 'light' ? C.light : C.fur, d = tailD(T.d);
-    var s = '<g transform="translate(' + n(tx) + ' ' + n(ty) + ')">';
+  function tail(out, id, T, tx, ty, C, mk) {
+    var fill = T.fill === 'skin' ? C.skin : T.fill === 'light' ? C.light : C.fur, d = tailD(T.d), g = [];
+    var at = { transform: 'translate(' + n(tx) + ' ' + n(ty) + ')' };
     if (T.string) {
-      s += pth(d, 'fill="none" stroke="' + INK + '" stroke-width="12" stroke-linecap="round"');
-      s += pth(d, 'fill="none" stroke="' + fill + '" stroke-width="6" stroke-linecap="round"');
-      if (mk.rings) s += pth(d, 'fill="none" stroke="' + C.dark + '" stroke-width="6" stroke-dasharray="9 9"');
-      return s + '</g>';
+      g.push(pth(d, { fill: 'none', stroke: INK, 'stroke-width': 12, 'stroke-linecap': 'round' }));
+      g.push(pth(d, { fill: 'none', stroke: fill, 'stroke-width': 6, 'stroke-linecap': 'round' }));
+      if (mk.rings) g.push(pth(d, { fill: 'none', stroke: C.dark, 'stroke-width': 6, 'stroke-dasharray': '9 9' }));
+      out.push(G(at, g));
+      return;
     }
-    var cid = id('tl'), inner = '';
-    s += '<clipPath id="' + cid + '"><path d="' + d + '"/></clipPath>' + pth(d, 'fill="' + fill + '"');
-    if (T.bands) [24, 48, 72, 96].forEach(function (x) { inner += line(x, -30, x + 6, 40, 'stroke="' + C.dark + '" stroke-width="3"'); });
+    var cid = id('tl'), inside = [];
+    g.push(clip(cid, d), pth(d, { fill: fill }));
+    if (T.bands) [24, 48, 72, 96].forEach(function (x) { inside.push(line(x, -30, x + 6, 40, { stroke: C.dark, 'stroke-width': 3 })); });
     if (T.axis) {
       var x0 = T.axis[0], y0 = T.axis[1], x1 = T.axis[2], y1 = T.axis[3];
       var dx = x1 - x0, dy = y1 - y0, L = Math.sqrt(dx * dx + dy * dy), nx = -dy / L, ny = dx / L;
       if (mk.rings) {
         [.32, .54, .76].forEach(function (t) {
           var mx = x0 + dx * t, my = y0 + dy * t;
-          inner += line(mx + nx * 90, my + ny * 90, mx - nx * 90, my - ny * 90, 'stroke="' + C.dark + '" stroke-width="' + n(L * .1) + '"');
+          inside.push(line(mx + nx * 90, my + ny * 90, mx - nx * 90, my - ny * 90, { stroke: C.dark, 'stroke-width': n(L * .1) }));
         });
-        inner += ell(x1, y1, L * .13, L * .13, 'fill="' + C.dark + '"');
+        inside.push(ell(x1, y1, L * .13, L * .13, { fill: C.dark }));
       }
-      if (mk.tailTip) inner += ell(x1, y1, L * .24, L * .24, 'fill="' + C.light + '"');
+      if (mk.tailTip) inside.push(ell(x1, y1, L * .24, L * .24, { fill: C.light }));
     }
-    s += '<g clip-path="url(#' + cid + ')">' + inner + '</g>' + pth(d, 'fill="none" ' + OL());
-    return s + '</g>';
+    g.push(G({ 'clip-path': 'url(#' + cid + ')' }, inside), pth(d, attrs({ fill: 'none' }, OL())));
+    out.push(G(at, g));
   }
 
   function arm(sx, sy, px, py, rw, fill) {
     var vx = px - sx, vy = py - sy, len = Math.sqrt(vx * vx + vy * vy);
     var deg = Math.atan2(-vx, vy) * 180 / Math.PI;
-    return ell((sx + px) / 2, (sy + py) / 2, rw, len / 2 + rw * .6, 'fill="' + fill + '" ' + OL(), deg);
+    return ell((sx + px) / 2, (sy + py) / 2, rw, len / 2 + rw * .6, attrs({ fill: fill }, OL()), deg);
   }
 
-  function foot(type, fx, fy, w, fill, C) {
-    var s = '';
+  function foot(out, type, fx, fy, w, fill, C) {
     if (type === 'pads') {
-      s += ell(fx, fy, w * .15, w * .105, 'fill="' + fill + '" ' + OL());
-      s += ell(fx, fy + w * .015, w * .07, w * .05, 'fill="' + C.skin + '"');
-      [-1, 0, 1].forEach(function (i) { s += ell(fx + i * w * .052, fy - w * .058, w * .022, w * .022, 'fill="' + C.skin + '"'); });
+      out.push(ell(fx, fy, w * .15, w * .105, attrs({ fill: fill }, OL())));
+      out.push(ell(fx, fy + w * .015, w * .07, w * .05, { fill: C.skin }));
+      [-1, 0, 1].forEach(function (i) { out.push(ell(fx + i * w * .052, fy - w * .058, w * .022, w * .022, { fill: C.skin })); });
     } else if (type === 'small') {
-      s += ell(fx, fy, w * .11, w * .068, 'fill="' + fill + '" ' + OL());
+      out.push(ell(fx, fy, w * .11, w * .068, attrs({ fill: fill }, OL())));
     } else if (type === 'claws') {
-      s += ell(fx, fy, w * .125, w * .078, 'fill="' + fill + '" ' + OL());
-      [-1, 0, 1].forEach(function (i) { s += line(fx + i * w * .04, fy + w * .03, fx + i * w * .046, fy + w * .075, 'stroke="#EFE9DF" stroke-width="3.5" stroke-linecap="round"'); });
+      out.push(ell(fx, fy, w * .125, w * .078, attrs({ fill: fill }, OL())));
+      [-1, 0, 1].forEach(function (i) { out.push(line(fx + i * w * .04, fy + w * .03, fx + i * w * .046, fy + w * .075, { stroke: '#EFE9DF', 'stroke-width': 3.5, 'stroke-linecap': 'round' })); });
     } else if (type === 'big') {
-      s += ell(fx, fy - w * .05, w * .15, w * .165, 'fill="' + fill + '" ' + OL());
-      s += ell(fx, fy - w * .03, w * .07, w * .095, 'fill="' + C.skin + '"');
+      out.push(ell(fx, fy - w * .05, w * .15, w * .165, attrs({ fill: fill }, OL())));
+      out.push(ell(fx, fy - w * .03, w * .07, w * .095, { fill: C.skin }));
     } else if (type === 'webbed') {
-      s += ell(fx, fy, w * .15, w * .078, 'fill="' + fill + '" ' + OL());
-      [-1, 0, 1].forEach(function (i) { s += line(fx + i * w * .05, fy - w * .03, fx + i * w * .062, fy + w * .05, 'stroke="' + INK + '" stroke-width="2.5" stroke-linecap="round"'); });
+      out.push(ell(fx, fy, w * .15, w * .078, attrs({ fill: fill }, OL())));
+      [-1, 0, 1].forEach(function (i) { out.push(line(fx + i * w * .05, fy - w * .03, fx + i * w * .062, fy + w * .05, { stroke: INK, 'stroke-width': 2.5, 'stroke-linecap': 'round' })); });
     }
-    return s;
   }
 
-  function eyes(HD, hx, hy, rx, ry, r, sclera, fierce) {
-    var s = '';
+  function eyes(out, HD, hx, hy, rx, ry, r, sclera, fierce) {
     [-1, 1].forEach(function (side) {
       var ex = hx + side * HD.eyes.x * rx, ey = hy + HD.eyes.y * ry;
       if (sclera) {
-        s += ell(ex, ey, r * .1, r * .115, 'fill="#FFFFFF"');
-        s += ell(ex - side * r * .015, ey + r * .01, r * .062, r * .078, 'fill="#141010"');
+        out.push(ell(ex, ey, r * .1, r * .115, { fill: '#FFFFFF' }));
+        out.push(ell(ex - side * r * .015, ey + r * .01, r * .062, r * .078, { fill: '#141010' }));
       } else {
-        s += ell(ex, ey, r * .075, r * .095, 'fill="#141010"');
+        out.push(ell(ex, ey, r * .075, r * .095, { fill: '#141010' }));
       }
-      s += ell(ex - r * .022, ey - r * .035, r * .027, r * .027, 'fill="#FFFFFF"');
-      if (fierce) s += line(ex + side * r * .14, ey - r * .21, ex - side * r * .1, ey - r * .12, OL(5.5));
+      out.push(ell(ex - r * .022, ey - r * .035, r * .027, r * .027, { fill: '#FFFFFF' }));
+      if (fierce) out.push(line(ex + side * r * .14, ey - r * .21, ex - side * r * .1, ey - r * .12, OL(5.5)));
     });
-    return s;
   }
 
-  function nose(type, hx, ny, r, C) {
-    var g = 'fill="' + C.nose + '" ' + OL(3);
-    if (type === 'round') return ell(hx, ny, r * .14, r * .095, g) + ell(hx - r * .045, ny - r * .03, r * .035, r * .02, 'fill="#FFFFFF" opacity=".7"');
-    if (type === 'wide') return ell(hx, ny, r * .19, r * .1, g) + ell(hx - r * .06, ny - r * .035, r * .045, r * .022, 'fill="#FFFFFF" opacity=".7"');
-    if (type === 'small') return ell(hx, ny, r * .08, r * .055, g);
+  function nose(out, type, hx, ny, r, C) {
+    var g = attrs({ fill: C.nose }, OL(3));
+    if (type === 'round') { out.push(ell(hx, ny, r * .14, r * .095, g), ell(hx - r * .045, ny - r * .03, r * .035, r * .02, { fill: '#FFFFFF', opacity: '.7' })); return; }
+    if (type === 'wide') { out.push(ell(hx, ny, r * .19, r * .1, g), ell(hx - r * .06, ny - r * .035, r * .045, r * .022, { fill: '#FFFFFF', opacity: '.7' })); return; }
+    if (type === 'small') { out.push(ell(hx, ny, r * .08, r * .055, g)); return; }
     var q = type === 'y' ? .075 : .1;
-    return pth('M' + n(hx - r * q) + ',' + n(ny - r * q * .5) + ' Q' + n(hx) + ',' + n(ny - r * q) + ' ' + n(hx + r * q) + ',' + n(ny - r * q * .5) +
+    out.push(pth('M' + n(hx - r * q) + ',' + n(ny - r * q * .5) + ' Q' + n(hx) + ',' + n(ny - r * q) + ' ' + n(hx + r * q) + ',' + n(ny - r * q * .5) +
       ' Q' + n(hx + r * q * .2) + ',' + n(ny + r * q * .8) + ' ' + n(hx) + ',' + n(ny + r * q * .8) +
-      ' Q' + n(hx - r * q * .2) + ',' + n(ny + r * q * .8) + ' ' + n(hx - r * q) + ',' + n(ny - r * q * .5) + ' Z', g);
+      ' Q' + n(hx - r * q * .2) + ',' + n(ny + r * q * .8) + ' ' + n(hx - r * q) + ',' + n(ny - r * q * .5) + ' Z', g));
   }
 
-  function mouthArt(type, hx, ny, my, r) {
-    var k = r / 75, s = '', st = 'fill="none" ' + OL(3.5);
+  function mouthArt(out, type, hx, ny, my, r) {
+    var k = r / 75, st = attrs({ fill: 'none' }, OL(3.5));
     var phil = pth('M' + n(hx) + ',' + n(ny + r * .08) + ' L' + n(hx) + ',' + n(my), st);
     function wsmile(wd, dp) {
       return pth('M' + n(hx - wd * k) + ',' + n(my - 2 * k) + ' Q' + n(hx - wd * k / 2) + ',' + n(my + dp * k) + ' ' + n(hx) + ',' + n(my) +
         ' Q' + n(hx + wd * k / 2) + ',' + n(my + dp * k) + ' ' + n(hx + wd * k) + ',' + n(my - 2 * k), st);
     }
     function teeth(tw, th) {
-      return '<rect x="' + n(hx - tw * k) + '" y="' + n(my) + '" width="' + n(tw * k) + '" height="' + n(th * k) + '" rx="1.5" fill="#FFFFFF" ' + OL(2.5) + '/>' +
-        '<rect x="' + n(hx) + '" y="' + n(my) + '" width="' + n(tw * k) + '" height="' + n(th * k) + '" rx="1.5" fill="#FFFFFF" ' + OL(2.5) + '/>';
+      var t = attrs({ rx: 1.5, fill: '#FFFFFF' }, OL(2.5));
+      return [rect(hx - tw * k, my, tw * k, th * k, t), rect(hx, my, tw * k, th * k, t)];
     }
-    if (type === 'smile') s = phil + wsmile(15, 8);
-    else if (type === 'buck') s = teeth(7.5, 12) + phil + wsmile(14, 6);
-    else if (type === 'bunny') s = teeth(5, 9) + phil + wsmile(11, 5);
-    else if (type === 'w') s = wsmile(12, 6);
-    else if (type === 'tiny') s = pth('M' + n(hx - 6 * k) + ',' + n(my) + ' Q' + n(hx) + ',' + n(my + 5 * k) + ' ' + n(hx + 6 * k) + ',' + n(my), st);
-    else if (type === 'fierce') s = pth('M' + n(hx + 3 * k) + ',' + n(my + 1 * k) + ' L' + n(hx + 6.5 * k) + ',' + n(my + 9 * k) + ' L' + n(hx + 10 * k) + ',' + n(my + 2.5 * k) + ' Z', 'fill="#FFFFFF" ' + OL(2.5)) +
-      pth('M' + n(hx - 13 * k) + ',' + n(my + 5 * k) + ' Q' + n(hx) + ',' + n(my - 4 * k) + ' ' + n(hx + 13 * k) + ',' + n(my + 5 * k), st);
-    else if (type === 'open') s = phil + pth('M' + n(hx - 15 * k) + ',' + n(my - 1 * k) + ' Q' + n(hx) + ',' + n(my + 20 * k) + ' ' + n(hx + 15 * k) + ',' + n(my - 1 * k) + ' Z', 'fill="#5A2420" ' + OL(3)) +
-      ell(hx, my + 8 * k, 6.5 * k, 4 * k, 'fill="#E8788A"');
-    else if (type === 'smirk') s = pth('M' + n(hx + 4 * k) + ',' + n(my + 3 * k) + ' L' + n(hx + 6.5 * k) + ',' + n(my + 9 * k) + ' L' + n(hx + 9.5 * k) + ',' + n(my + 2 * k) + ' Z', 'fill="#FFFFFF" ' + OL(2.5)) +
-      pth('M' + n(hx - 12 * k) + ',' + n(my) + ' Q' + n(hx + 2 * k) + ',' + n(my + 9 * k) + ' ' + n(hx + 14 * k) + ',' + n(my - 4 * k), st);
-    return s;
+    function fang(x0, y0, x1, y1, x2, y2) {
+      return pth('M' + n(hx + x0 * k) + ',' + n(my + y0 * k) + ' L' + n(hx + x1 * k) + ',' + n(my + y1 * k) + ' L' + n(hx + x2 * k) + ',' + n(my + y2 * k) + ' Z',
+        attrs({ fill: '#FFFFFF' }, OL(2.5)));
+    }
+    if (type === 'smile') out.push(phil, wsmile(15, 8));
+    else if (type === 'buck') out.push.apply(out, teeth(7.5, 12).concat([phil, wsmile(14, 6)]));
+    else if (type === 'bunny') out.push.apply(out, teeth(5, 9).concat([phil, wsmile(11, 5)]));
+    else if (type === 'w') out.push(wsmile(12, 6));
+    else if (type === 'tiny') out.push(pth('M' + n(hx - 6 * k) + ',' + n(my) + ' Q' + n(hx) + ',' + n(my + 5 * k) + ' ' + n(hx + 6 * k) + ',' + n(my), st));
+    else if (type === 'fierce') out.push(fang(3, 1, 6.5, 9, 10, 2.5),
+      pth('M' + n(hx - 13 * k) + ',' + n(my + 5 * k) + ' Q' + n(hx) + ',' + n(my - 4 * k) + ' ' + n(hx + 13 * k) + ',' + n(my + 5 * k), st));
+    else if (type === 'open') out.push(phil,
+      pth('M' + n(hx - 15 * k) + ',' + n(my - 1 * k) + ' Q' + n(hx) + ',' + n(my + 20 * k) + ' ' + n(hx + 15 * k) + ',' + n(my - 1 * k) + ' Z', attrs({ fill: '#5A2420' }, OL(3))),
+      ell(hx, my + 8 * k, 6.5 * k, 4 * k, { fill: '#E8788A' }));
+    else if (type === 'smirk') out.push(fang(4, 3, 6.5, 9, 9.5, 2),
+      pth('M' + n(hx - 12 * k) + ',' + n(my) + ' Q' + n(hx + 2 * k) + ',' + n(my + 9 * k) + ' ' + n(hx + 14 * k) + ',' + n(my - 4 * k), st));
   }
 
-  /* ── One chimera ─────────────────────────────────────────────────────── */
-  function inner(c, prefix) {
+  /* ── One chimera, as nodes ───────────────────────────────────────────── */
+  function nodes(c, prefix) {
     var p = clean(c);
-    if (!p) return '';
-    var P = prefix || ('chm' + (++seq)), k = 0;
-    function id(tag) { k += 1; return P + '-' + tag + k; }
+    if (!p) return null;
+    var P = prefix || ('chm' + (++seq)), count = 0;
+    function id(tag) { count += 1; return P + '-' + tag + count; }
     var C = A[p.colours].colours, mk = A[p.markings].markings, B = A[p.body].body, HD = A[p.head].head,
       E = A[p.ears].ears, T = A[p.tail].tail, MO = A[p.mouth].mouth, BK = p.back === 'none' ? null : A[p.back].back;
     var cx = 200, yb = 405, w = B.w, h = B.h, wTop = w * B.top, yt = yb - h;
     var r = HD.r, rx = r * HD.sx, ry = r * HD.sy, hx = cx, hy = yt - ry * .55;
     var torsoD = pear(cx, yt, yb, wTop, w);
     var headD = HD.shape === 'wedge' ? wedge(hx, hy, rx, ry) : ellD(hx, hy, rx, ry);
-    var cT = id('t'), cH = id('h'), s = '';
-    s += '<defs><clipPath id="' + cT + '"><path d="' + torsoD + '"/></clipPath><clipPath id="' + cH + '"><path d="' + headD + '"/></clipPath></defs>';
-    s += ell(cx, yb + 6, w * .62, 13, 'fill="#000000" opacity=".12"');
-    if (BK) s += shellDome(id, cx, yt, h, w, BK);
-    s += tail(id, T, cx + w * (T.at || .3), yb - h * .24, C, mk);
-    s += ears(E, hx, hy, rx, ry, r, C, mk);
+    var cT = id('t'), cH = id('h'), out = [];
+    out.push(N('defs', {}, [clip(cT, torsoD), clip(cH, headD)]));
+    out.push(ell(cx, yb + 6, w * .62, 13, { fill: '#000000', opacity: '.12' }));
+    if (BK) shellDome(out, id, cx, yt, h, w, BK);
+    tail(out, id, T, cx + w * (T.at || .3), yb - h * .24, C, mk);
+    ears(out, E, hx, hy, rx, ry, r, C, mk);
 
-    s += pth(torsoD, 'fill="' + C.fur + '"') + '<g clip-path="url(#' + cT + ')">';
-    if (mk.band) s += '<rect x="' + n(cx - w) + '" y="' + n(yt - 20) + '" width="' + n(2 * w) + '" height="' + n(h * .36 + 20) + '" fill="' + C.dark + '"/>';
-    if (mk.belly) s += ell(cx, yt + h * .64, w * .28, h * .28, 'fill="' + C.light + '"');
-    if (mk.chest) s += ell(cx, yt + h * .52, w * .27, h * .4, 'fill="' + C.light + '"');
-    s += ell(cx + w * .56, yt + h * .55, w * .4, h * .85, 'fill="#000000" opacity=".09"');
-    s += '</g>' + pth(torsoD, 'fill="none" ' + OL());
+    var torso = [];
+    if (mk.band) torso.push(rect(cx - w, yt - 20, 2 * w, h * .36 + 20, { fill: C.dark }));
+    if (mk.belly) torso.push(ell(cx, yt + h * .64, w * .28, h * .28, { fill: C.light }));
+    if (mk.chest) torso.push(ell(cx, yt + h * .52, w * .27, h * .4, { fill: C.light }));
+    torso.push(ell(cx + w * .56, yt + h * .55, w * .4, h * .85, { fill: '#000000', opacity: '.09' }));
+    out.push(pth(torsoD, { fill: C.fur }), G({ 'clip-path': 'url(#' + cT + ')' }, torso), pth(torsoD, attrs({ fill: 'none' }, OL())));
 
     var limb = mk.darkLimbs ? C.dark : C.fur, feetFill = (mk.darkLimbs || mk.darkPaws) ? C.dark : C.fur;
-    [-1, 1].forEach(function (side) { s += foot(B.feet, cx + side * w * .26, yb - 4, w, feetFill, C); });
+    [-1, 1].forEach(function (side) { foot(out, B.feet, cx + side * w * .26, yb - 4, w, feetFill, C); });
     var rw = B.arms === 'thick' ? w * .12 : w * .085;
     [-1, 1].forEach(function (side) {
       var sx = cx + side * wTop * .4, sy = yt + h * .18, px = cx + side * w * .22, py = sy + Math.min(h * .42, w * .4);
-      s += arm(sx, sy, px, py, rw, limb);
+      out.push(arm(sx, sy, px, py, rw, limb));
       if (B.arms === 'hands') {
         var hf = mk.darkPaws || mk.darkLimbs ? C.dark : C.fur;
-        s += ell(px, py + rw * .4, w * .07, w * .065, 'fill="' + hf + '" ' + OL());
-        [-1, 0, 1].forEach(function (i) { s += line(px + i * w * .03, py + rw * .4 + w * .02, px + i * w * .034, py + rw * .4 + w * .06, OL(2.5)); });
+        out.push(ell(px, py + rw * .4, w * .07, w * .065, attrs({ fill: hf }, OL())));
+        [-1, 0, 1].forEach(function (i) { out.push(line(px + i * w * .03, py + rw * .4 + w * .02, px + i * w * .034, py + rw * .4 + w * .06, OL(2.5))); });
       } else if (mk.darkPaws) {
-        s += ell(px, py + rw * .5, rw * 1.02, rw * .9, 'fill="' + C.dark + '" ' + OL());
+        out.push(ell(px, py + rw * .5, rw * 1.02, rw * .9, attrs({ fill: C.dark }, OL())));
       }
     });
 
-    s += pth(headD, 'fill="' + (mk.lightHead ? C.light : C.fur) + '"') + '<g clip-path="url(#' + cH + ')">';
-    if (mk.lowerFace) s += ell(hx, hy + ry * .5, rx * .92, ry * .62, 'fill="' + C.light + '"');
-    if (mk.bands) [-1, 1].forEach(function (side) { s += ell(hx + side * rx * .36, hy - ry * .25, rx * .2, ry * .95, 'fill="' + C.dark + '"', side * 14); });
+    var head = [];
+    if (mk.lowerFace) head.push(ell(hx, hy + ry * .5, rx * .92, ry * .62, { fill: C.light }));
+    if (mk.bands) [-1, 1].forEach(function (side) { head.push(ell(hx + side * rx * .36, hy - ry * .25, rx * .2, ry * .95, { fill: C.dark }, side * 14)); });
     if (mk.patches) [-1, 1].forEach(function (side) {
       var ex = hx + side * HD.eyes.x * rx, ey = hy + HD.eyes.y * ry;
-      s += ell(ex + side * r * .03, ey + r * .04, r * .2, r * .145, 'fill="' + C.dark + '"', side * 28);
+      head.push(ell(ex + side * r * .03, ey + r * .04, r * .2, r * .145, { fill: C.dark }, side * 28));
     });
     if (mk.mask) {
-      s += pth('M' + n(hx - rx * .95) + ',' + n(hy - ry * .1) +
+      head.push(pth('M' + n(hx - rx * .95) + ',' + n(hy - ry * .1) +
         ' C' + n(hx - rx * .7) + ',' + n(hy - ry * .34) + ' ' + n(hx - rx * .2) + ',' + n(hy - ry * .3) + ' ' + n(hx) + ',' + n(hy - ry * .14) +
         ' C' + n(hx + rx * .2) + ',' + n(hy - ry * .3) + ' ' + n(hx + rx * .7) + ',' + n(hy - ry * .34) + ' ' + n(hx + rx * .95) + ',' + n(hy - ry * .1) +
         ' C' + n(hx + rx * .72) + ',' + n(hy + ry * .28) + ' ' + n(hx + rx * .25) + ',' + n(hy + ry * .22) + ' ' + n(hx) + ',' + n(hy + ry * .12) +
         ' C' + n(hx - rx * .25) + ',' + n(hy + ry * .22) + ' ' + n(hx - rx * .72) + ',' + n(hy + ry * .28) + ' ' + n(hx - rx * .95) + ',' + n(hy - ry * .1) + ' Z',
-        'fill="' + C.dark + '"');
-      [-1, 1].forEach(function (side) { s += ell(hx + side * rx * .42, hy - ry * .42, rx * .22, ry * .07, 'fill="' + C.light + '"', side * 8); });
+        { fill: C.dark }));
+      [-1, 1].forEach(function (side) { head.push(ell(hx + side * rx * .42, hy - ry * .42, rx * .22, ry * .07, { fill: C.light }, side * 8)); });
     }
-    s += ell(hx + rx * .95, hy + ry * .25, rx * .5, ry * 1.1, 'fill="#000000" opacity=".07"');
-    s += '</g>' + pth(headD, 'fill="none" ' + OL());
+    head.push(ell(hx + rx * .95, hy + ry * .25, rx * .5, ry * 1.1, { fill: '#000000', opacity: '.07' }));
+    out.push(pth(headD, { fill: mk.lightHead ? C.light : C.fur }), G({ 'clip-path': 'url(#' + cH + ')' }, head), pth(headD, attrs({ fill: 'none' }, OL())));
 
     var M = HD.muz, my = hy + M.y * ry, mry = M.ry * r;
-    if (HD.pads) [-1, 1].forEach(function (side) { s += ell(hx + side * r * .19, my, r * .25, r * .2, 'fill="' + C.light + '" ' + OL(3.5)); });
-    else s += ell(hx, my, M.rx * r, mry, 'fill="' + C.light + '" ' + OL(3.5));
-    if (BK) s += cap(id, hx, hy, rx, ry, BK);
-    s += eyes(HD, hx, hy, rx, ry, r, !!(mk.patches || mk.mask || mk.bands), MO === 'fierce');
+    if (HD.pads) [-1, 1].forEach(function (side) { out.push(ell(hx + side * r * .19, my, r * .25, r * .2, attrs({ fill: C.light }, OL(3.5)))); });
+    else out.push(ell(hx, my, M.rx * r, mry, attrs({ fill: C.light }, OL(3.5))));
+    if (BK) cap(out, id, hx, hy, rx, ry, BK);
+    eyes(out, HD, hx, hy, rx, ry, r, !!(mk.patches || mk.mask || mk.bands), MO === 'fierce');
 
     var ny = HD.nose === 'small' ? my + mry * .55 : my - mry * .3;
     if (HD.whiskers) [-1, 1].forEach(function (side) {
       [0, 1, 2].forEach(function (i) {
-        s += line(hx + side * r * .3, my - r * .02 + i * r * .06, hx + side * r * .78, my - r * .14 + i * r * .13, 'stroke="' + INK + '" stroke-width="2" stroke-linecap="round"');
+        out.push(line(hx + side * r * .3, my - r * .02 + i * r * .06, hx + side * r * .78, my - r * .14 + i * r * .13, { stroke: INK, 'stroke-width': 2, 'stroke-linecap': 'round' }));
       });
     });
-    s += mouthArt(MO, hx, ny, ny + r * .2, r);
-    s += nose(HD.nose, hx, ny, r, C);
-    return s;
+    mouthArt(out, MO, hx, ny, ny + r * .2, r);
+    nose(out, HD.nose, hx, ny, r, C);
+    return out;
   }
 
-  /* The whole drawing. opts: prefix (for every id inside it, so two chimeras
-     on one page never share a clip), cls, and width/height if wanted. */
-  function svg(c, opts) {
+  function svgNode(c, opts) {
     opts = opts || {};
-    var body = inner(c, opts.prefix);
-    if (!body) return '';
-    return '<svg' + (opts.cls ? ' class="' + opts.cls + '"' : '') + ' viewBox="0 0 400 460"' +
-      (opts.width ? ' width="' + opts.width + '"' : '') + (opts.height ? ' height="' + opts.height + '"' : '') +
-      ' aria-hidden="true" focusable="false">' + body + '</svg>';
+    var kids = nodes(c, opts.prefix);
+    if (!kids) return null;
+    // Its own ground, the table's white, wherever it is not already on the
+    // table: on the radio, in a profile, on a sticker, in a download. An
+    // avatar carries its own ground for the same reason, so a dark theme
+    // never swallows its outline.
+    if (opts.ground) kids.unshift(rect(0, 0, 400, 460, { rx: 28, fill: 'var(--chm-table)' }));
+    var a = {};
+    if (opts.cls) a['class'] = opts.cls;
+    a.viewBox = '0 0 400 460';
+    if (opts.width) a.width = opts.width;
+    if (opts.height) a.height = opts.height;
+    a['aria-hidden'] = 'true';
+    a.focusable = 'false';
+    return N('svg', a, kids);
   }
+
+  /* In a page: an <svg> element, built with createElementNS. opts: prefix
+     (for every id inside it, so two chimeras on one page never share a clip),
+     cls, ground (the table's white behind it), and width/height if wanted. */
+  function draw(c, opts) {
+    var node = svgNode(c, opts);
+    if (!node || !root.document) return null;
+    node.a.xmlns = SVGNS;
+    return toDom(node, root.document);
+  }
+  /* At build time, under Node: the same drawing as a string. */
+  function svg(c, opts) { var node = svgNode(c, opts); return node ? toStr(node) : ''; }
+  function inner(c, prefix) { var k = nodes(c, prefix); return k ? k.map(toStr).join('') : ''; }
 
   /* ── Checking, words and names ───────────────────────────────────────── */
   var own = function (o, k) { return Object.prototype.hasOwnProperty.call(o, k); };
@@ -385,7 +432,8 @@
   }
 
   /* Which animal gave which part, in words, for the live line beside the
-     table and for anybody who cannot see the drawing. */
+     table, for a sticker's caption, and for anybody who cannot see the
+     drawing. */
   function words(c) {
     var p = clean(c);
     if (!p) return '';
@@ -419,7 +467,7 @@
   }
 
   root.loveChimera = {
-    svg: svg, inner: inner, clean: clean, words: words, suggest: suggest,
+    draw: draw, svg: svg, inner: inner, clean: clean, words: words, suggest: suggest,
     second: second, code: code, uncode: uncode,
     slots: SHELF.slots || [], animals: Object.keys(A),
     hasBack: function (an) { return !!(own(A, an) && A[an].back); },

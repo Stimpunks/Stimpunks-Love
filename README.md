@@ -674,7 +674,7 @@ street where a chimera is made out of two animals, the body from one and every o
 body it lands on. It works out every name the room suggests and refuses one that is a Randimals character or
 carries a slur (which is why raccoon's end is *accoon* and otter plus raccoon is an otteraccoon), an animal
 missing a part, the freak show's words, a quiz, a count, and a `chimera.js` or `chimera-obscura.js` that makes a
-sound, fetches, stores, or writes markup other than `chimera.js`'s own drawing. **Nothing in it calls an AI**:
+sound, fetches anywhere but `/cb/chimeras`, stores, or writes markup from a string. Chimeras kept in Profile are the CB's (`/cb/chimeras`, `/cb/chimeras/of`, `cleanChimera` in `lib.mjs`), and the tool refuses Forget me or deleting a username losing them. **Nothing in it calls an AI**:
 an animal the shelf lacks is asked for in the suggestion box and drawn later. `tools/chimera.test.mjs` draws
 every pair of animals with every part from either of the two.
 

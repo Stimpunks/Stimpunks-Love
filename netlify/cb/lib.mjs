@@ -1378,6 +1378,175 @@ export function shapeAvatarSticker(st) {
   return { look, name: name || '', about: about || '' };
 }
 
+/* ── Your chimeras ──────────────────────────────────────────────────────────
+
+   Ryan's brief, 2026-10-18: a chimera made in Chimera Obscura, one creature out
+   of two animals, kept in your Profile, named, and sent as a sticker. What is
+   kept is its parts -- which animal gave the body, head, ears, mouth, tail,
+   back, colours and markings, every value a key out of CHIMERA below, checked
+   here by cleanChimera(), which chimera.js's clean() matches and
+   tools/chimera.test.mjs checks against it -- and the name its maker gave it.
+   Never a picture, and nothing about when.
+
+   THEY ARE THE SIXTH THING THE STREET KEEPS UNDER A PERSON, after pets,
+   avatars, jobs, patches and profile cards, and only when somebody presses
+   Keep it in my Profile. They are filed under the same scrambled form of the
+   folded handle (`petKey`), so a handle is not an account here either: anybody
+   who signs on with an unclaimed handle sees its chimeras, and Profile says
+   so. FORGET ME and deleting the username delete them.
+
+   SHOWING THEM NEEDS A CLAIMED USERNAME, the pets' rule and for the pets'
+   reason. The switch is one blob, chshown/<pet key>, holding when it was
+   switched on, deleted by switching it off, by Forget Me and by deleting the
+   username. The answer for a handle that is not claimed is the same whether it
+   is unclaimed or nobody at all, and shown chimeras carry no ids. */
+/* chimera:keys:begin */
+export const CHIMERA = {"slots":["body","head","ears","mouth","tail","back","colours","markings"],"animals":["armadillo","badger","bear","mouse","otter","panda","rabbit","raccoon"],"backs":["armadillo"]};
+/* chimera:keys:end */
+export const CHIMERA_KEEP = 24;           // chimeras one person keeps at once
+export const CHIMERA_NAME_MAX = 24;
+export const CHIMERA_ID = /^h[A-Za-z0-9_-]{10}$/;
+
+/* Exactly a chimera's parts, each its own property and an animal on the
+   shelf, and nothing else. */
+export function cleanChimera(c) {
+  if (!c || typeof c !== 'object' || Array.isArray(c)) return null;
+  if (Object.keys(c).length !== CHIMERA.slots.length) return null;
+  const out = {};
+  for (const k of CHIMERA.slots) {
+    if (!own(c, k)) return null;
+    const v = c[k];
+    if (typeof v !== 'string') return null;
+    if (k === 'back') { if (v !== 'none' && !CHIMERA.backs.includes(v)) return null; }
+    else if (!CHIMERA.animals.includes(v)) return null;
+    out[k] = v;
+  }
+  return out;
+}
+export const cleanChimeraName = (s) => cleanUpTo(s, CHIMERA_NAME_MAX);
+
+const chimerasBlob = (k) => `chimeras/${k}`;
+const chShownBlob = (k) => `chshown/${k}`;
+
+export async function readChimeras(pk, s = store()) {
+  const d = await s.get(chimerasBlob(pk), { type: 'json' });
+  return { chimeras: (d && Array.isArray(d.chimeras)) ? d.chimeras : [] };
+}
+
+/* One person's chimeras, changed without losing a change made at the same
+   moment from another tab, the avatars' arrangement. */
+async function updateChimeras(pk, change, s) {
+  const key = chimerasBlob(pk);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const d = (cur.exists && cur.data) || {};
+    const was = { chimeras: (Array.isArray(d.chimeras) ? d.chimeras : []).slice() };
+    const next = change(was);
+    if (next === null) return was;
+    if (next.error) return next;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { chimeras: next.chimeras }, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+export function shapeChimera(c) {
+  return { id: c.id, name: c.name || '', parts: c.parts };
+}
+
+/* Keep a new chimera. { kept } or { error }. */
+export async function keepChimera(pk, { parts, name = '' }, s = store()) {
+  const p = cleanChimera(parts);
+  if (!p) return { error: 'parts' };
+  const rec = { id: 'h' + randomBytes(8).toString('base64url').slice(0, 10), name, parts: p };
+  const next = await updateChimeras(pk, (was) => {
+    if (was.chimeras.length >= CHIMERA_KEEP) return { error: 'full' };
+    return { chimeras: [...was.chimeras, rec] };
+  }, s);
+  if (next.error) return next;
+  return { kept: rec, chimeras: next.chimeras };
+}
+
+/* Change one: its parts or its name. */
+export async function editChimera(pk, id, patch, s = store()) {
+  if (typeof id !== 'string' || !CHIMERA_ID.test(id)) return { error: 'which' };
+  const p = patch.parts !== undefined ? cleanChimera(patch.parts) : undefined;
+  if (p === null) return { error: 'parts' };
+  return updateChimeras(pk, (was) => {
+    const i = was.chimeras.findIndex((c) => c.id === id);
+    if (i < 0) return { error: 'which' };
+    const c = { ...was.chimeras[i] };
+    if (p) c.parts = p;
+    if (patch.name !== undefined) c.name = patch.name;
+    const chimeras = was.chimeras.slice();
+    chimeras[i] = c;
+    return { chimeras };
+  }, s);
+}
+
+export async function removeChimera(pk, id, s = store()) {
+  if (typeof id !== 'string' || !CHIMERA_ID.test(id)) return { error: 'which' };
+  return updateChimeras(pk, (was) => {
+    if (!was.chimeras.some((c) => c.id === id)) return { error: 'which' };
+    return { chimeras: was.chimeras.filter((c) => c.id !== id) };
+  }, s);
+}
+
+/* FORGET ME, and deleting the username: the record, then the switch. */
+export async function forgetChimeras(pk, s = store()) {
+  await s.delete(chimerasBlob(pk));
+  await s.delete(chShownBlob(pk));
+  return true;
+}
+
+export async function setChimerasShown(handle, on, s = store(), now = Date.now()) {
+  const k = chShownBlob(petKey(handle));
+  if (!on) { await s.delete(k); return false; }
+  const cur = await versioned(s, k);
+  if (!cur.exists) await s.setJSON(k, { since: now }, { onlyIfNew: true });
+  return true;
+}
+
+export async function chimerasShown(handle, s = store()) {
+  if (!(await readAccount(handle, s))) return false;
+  const d = await s.get(chShownBlob(petKey(handle)), { type: 'json' });
+  return !!(d && typeof d.since === 'number');
+}
+
+/* { handle, shown, chimeras? } for a claimed username, or null. Newest
+   first, with no ids. */
+export async function shownChimeras(handle, s = store()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return null;
+  const shown = await chimerasShown(handle, s);
+  const out = { handle: acct.handle, shown };
+  if (shown) {
+    out.chimeras = (await readChimeras(petKey(handle), s)).chimeras.slice().reverse()
+      .map((c) => ({ parts: cleanChimera(c.parts), name: c.name || '' }))
+      .filter((c) => c.parts);
+  }
+  return out;
+}
+
+/* A sticker of one of your own chimeras, found here by its id and never
+   described by the request: its parts and its name, and nothing that points
+   back at the record. */
+export async function chimeraSticker(handle, id, s = store()) {
+  if (typeof id !== 'string' || !CHIMERA_ID.test(id)) return null;
+  const c = (await readChimeras(petKey(handle), s)).chimeras.find((x) => x.id === id);
+  if (!c) return null;
+  return { parts: c.parts, name: c.name || '' };
+}
+
+export function shapeChimeraSticker(st) {
+  const parts = st && cleanChimera(st.parts);
+  if (!parts) return null;
+  const name = cleanChimeraName(st.name);
+  return { parts, name: name || '' };
+}
+
 /* ── Your jobs at the Adventurer's Guild ───────────────────────────────────
 
    Ryan's brief, 2026-10-14: completed jobs in a person's Profile, with a
@@ -2954,12 +3123,13 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its jobs, its patches and its profile. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches and its profile. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
   await forgetPets(petKey(handle), s);
   await forgetAvatars(petKey(handle), s);
+  await forgetChimeras(petKey(handle), s);
   await forgetJobs(petKey(handle), s);
   await forgetPatches(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
@@ -4702,7 +4872,7 @@ export async function notifyMessage(msg, room, s = store(), mods = readMods(), s
       text = String(msg.text || '').replace(/\s+/g, ' ').trim();
       if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
-    const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.patch || msg.jacket) ? 'sticker' : '';
+    const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.chimera || msg.patch || msg.jacket) ? 'sticker' : '';
     const payload = { kind: 'message', why: named ? 'mention' : 'channel', handle: msg.handle, room: room || '', text, what, id: msg.id };
     sends.push({ id, d, payload, opts: named ? { urgency: 'high' } : { topic: topicFor(room || 'world') } });
   }
@@ -4862,6 +5032,8 @@ export function shape(messages) {
     if (st) out.sticker = st;
     const av = m.avatar && shapeAvatarSticker(m.avatar);
     if (av) out.avatar = av;
+    const ch = m.chimera && shapeChimeraSticker(m.chimera);
+    if (ch) out.chimera = ch;
     const pt = m.patch && shapePatchSticker(m.patch);
     if (pt) out.patch = pt;
     const jk = m.jacket && shapeJacketSticker(m.jacket);

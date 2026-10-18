@@ -10,13 +10,15 @@
 
    It also holds clean(): what a chimera may hold is exactly its parts, each an
    animal on the shelf, and nothing else, because a chimera travels in an
-   address and (once chimeras can be kept) to the server.
+   address and to the server, and the page's checker and the server's
+   (cleanChimera in netlify/cb/lib.mjs) have to agree about every one.
 
    Node and nothing else: node --test tools/chimera.test.mjs */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import { cleanChimera, CHIMERA } from '../netlify/cb/lib.mjs';
 
 const here = new URL('..', import.meta.url).pathname;
 const ctx = {};
@@ -112,4 +114,21 @@ test('a chimera goes into an address and comes back the same', () => {
   assert.equal(C.uncode('bear.bear'), null);
   assert.equal(C.uncode('<script>'), null);
   assert.equal(C.uncode(SLOTS.map(() => 'unicorn').join('.')), null);
+});
+
+test('the page and the CB agree about what a chimera may hold', () => {
+  assert.deepEqual([...CHIMERA.slots], SLOTS, 'lib.mjs has different parts from chimera.js');
+  assert.deepEqual([...CHIMERA.animals].sort(), Array.from(C.animals).sort(), 'lib.mjs has a different shelf');
+  let seed = 11;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
+  const words = [...C.animals, 'none', 'unicorn', '', '__proto__', 'constructor', 7, null];
+  for (let i = 0; i < 4000; i++) {
+    const c = {};
+    for (const k of SLOTS) if (rnd() > 0.04) c[k] = rnd() < 0.85 ? (k === 'back' ? pick(['none', ...C.animals]) : pick(C.animals)) : pick(words);
+    if (rnd() < 0.05) c[pick(['extra', '__proto__', 'constructor', 'name'])] = pick(C.animals);
+    const page = C.clean(c), server = cleanChimera(c);
+    assert.equal(!!page, !!server, `the page and the CB disagree about ${JSON.stringify(c)}`);
+    if (page) assert.deepEqual({ ...page }, server);
+  }
 });

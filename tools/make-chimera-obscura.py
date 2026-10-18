@@ -59,9 +59,10 @@ IT REFUSES, RATHER THAN TRUSTS:
     to collect, no score. The friendly edit is "hundreds of combinations!".
 
   - A SOUND, A FETCH, OR A STORE. chimera.js and chimera-obscura.js may make no
-    sound, may not ask for the camera or draw onto a canvas, may write markup
-    only from chimera.js's own drawing, and may send nothing and store nothing
-    (until chimeras can be kept, and then only to /cb/chimeras).
+    sound, may not ask for the camera or draw onto a canvas, may write no markup
+    from a string (chimera.js builds elements), and may send nothing and store
+    nothing but a chimera kept on purpose, to /cb/chimeras, with the CB's pass
+    read out of love-cb and never written.
 
   - THE QUOTATION, IF THE MIRROR SAYS OTHERWISE. The line about Ryan's
     Bearmouse is read on our About page; when the Knowledge System mirror is on
@@ -539,11 +540,8 @@ def check_scripts(phase_keep):
             if re.search(r"\bfetch\s*\(|XMLHttpRequest|EventSource|WebSocket|sendBeacon|localStorage|innerHTML", code):
                 refuse("chimera.js fetches, stores or writes markup. It draws, and returns its drawing as a string.")
             continue
-        for m in re.finditer(r"\.innerHTML\s*=\s*([^;]+);", code):
-            if not re.match(r"\s*(?:C\.svg\(|''|\"\")", m.group(1)):
-                refuse(f"{js.name} writes markup from something other than chimera.js's drawing: {m.group(0)[:80]}")
-        if re.search(r"outerHTML|insertAdjacentHTML|document\.write", code):
-            refuse(f"{js.name} writes markup some other way than from chimera.js's drawing.")
+        if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write|DOMParser|createContextualFragment", code):
+            refuse(f"{js.name} writes markup from a string. The drawing is the element chimera.js builds.")
         if not phase_keep:
             if re.search(r"\bfetch\s*\(|XMLHttpRequest|EventSource|WebSocket|sendBeacon|localStorage", code):
                 refuse(f"{js.name} sends or stores something, and the bench keeps nothing and sends nothing.")
@@ -558,6 +556,36 @@ def check_scripts(phase_keep):
             for m in re.finditer(r"localStorage\.getItem\(\s*['\"]([^'\"]+)", code):
                 if m.group(1) != "love-cb":
                     refuse(f"{js.name} reads {m.group(1)!r}; the only thing it may read is the CB's pass, love-cb.")
+
+
+def check_server():
+    """Once chimeras can be kept, the promises privacy.html#chimeras makes are
+    held where they are kept: Forget me and deleting the username delete them,
+    a sticker is only ever the sender's own, and every answer asks search
+    engines to leave it alone."""
+    lib = LIB.read_text()
+    da = re.search(r"export async function deleteAccount\(.*?\n\}", lib, re.S)
+    if not da or "await forgetChimeras(petKey(handle), s);" not in da.group(0):
+        refuse("deleteAccount in lib.mjs no longer deletes a username's chimeras.")
+    fc = re.search(r"export async function forgetChimeras\(.*?\n\}", lib, re.S)
+    if not fc or "chimerasBlob(pk)" not in fc.group(0) or "chShownBlob(pk)" not in fc.group(0):
+        refuse("forgetChimeras in lib.mjs no longer deletes both the chimeras and the switch that shows them.")
+    if "forgetChimeras(pk)" not in (ROOT / "netlify/functions/cb-pets.mjs").read_text():
+        refuse("Forget me (cb-pets.mjs) no longer deletes chimeras.")
+    tx = (ROOT / "netlify/functions/cb-transmit.mjs").read_text()
+    if "chimeraSticker(who.handle, b.chimera)" not in tx:
+        refuse("a chimera sticker is no longer looked up among the sender's own chimeras in cb-transmit.mjs.")
+    keep = re.search(r"export async function keepChimera\(.*?\n\}", lib, re.S)
+    if not keep or re.search(r"\bt:|Date\.now|now\b", keep.group(0)):
+        refuse("keepChimera keeps a time. Nothing about when is kept: privacy.html#chimeras says so.")
+    for f in ("cb-chimeras.mjs", "cb-chimeras-of.mjs"):
+        src = (ROOT / "netlify/functions" / f).read_text()
+        if "noindex" not in src:
+            refuse(f"{f} answers without asking search engines not to index it.")
+    if re.search(r"console\.(log|info|warn|error)", (ROOT / "netlify/functions/cb-chimeras.mjs").read_text()):
+        refuse("cb-chimeras.mjs logs something, and nothing a person sends is ever logged.")
+    if 'id="chimeras"' not in (ROOT / "privacy.html").read_text():
+        refuse("privacy.html has no section on chimeras, and nothing is kept under a person that the page does not say.")
 
 
 def check_page(src):
@@ -601,6 +629,8 @@ def main():
     drawn = node_draw(d)
     check_names(d, drawn)
     check_scripts(phase_keep)
+    if phase_keep:
+        check_server()
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)

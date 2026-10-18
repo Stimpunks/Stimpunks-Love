@@ -1196,6 +1196,21 @@
     this.avWhere = el('p', 'cb-pets__where');
     pets.appendChild(this.avWhere);
 
+    /* YOUR CHIMERAS (Ryan, 2026-10-18): what you kept from Chimera Obscura,
+       named here, shown in your profile if you switch that on, and sent as
+       stickers. Read when the tray opens, never polled, and drawn by
+       chimera.js, loaded on the first. */
+    pets.appendChild(el('p', 'cb-pets__h', 'Your chimeras'));
+    this.chState = el('p', 'cb-quiet', '');
+    pets.appendChild(this.chState);
+    this.chList = el('ul', 'cb-avatars__list');
+    this.chList.hidden = true;
+    pets.appendChild(this.chList);
+    this.chShow = el('div', 'cb-pets__show');
+    pets.appendChild(this.chShow);
+    this.chWhere = el('p', 'cb-pets__where');
+    pets.appendChild(this.chWhere);
+
     // Your pets.
     pets.appendChild(el('p', 'cb-pets__h', 'Your pets'));
     this.petsState = el('p', 'cb-quiet', '');
@@ -1247,7 +1262,7 @@
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -1271,6 +1286,7 @@
     yes.addEventListener('click', function () { me.forgetMe(); });
     window.addEventListener('love-pets', function () { if (!pets.hidden) me.loadPets(); });
     window.addEventListener('love-avatars', function () { if (!pets.hidden) me.loadAvatars(); });
+    window.addEventListener('love-chimeras', function () { if (!pets.hidden) me.loadChimeras(); });
     window.addEventListener('love-patches', function () { if (!pets.hidden) me.loadPatches(); });
 
     var norms = el('p', 'cb-norms');
@@ -2099,6 +2115,7 @@
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
       if (m.avatar) li.appendChild(avatarSticker(m.avatar));
+      if (m.chimera) li.appendChild(chimeraSticker(m.chimera));
       if (m.patch) li.appendChild(patchSticker(m.patch));
       if (m.jacket) li.appendChild(jacketSticker(m.jacket));
       /* REACTIONS: who pressed what, by handle and never how many. Not read out
@@ -2710,8 +2727,8 @@
       if (!d.open) d.showModal();
       close.focus();
       var mineP = String(handle).toLowerCase() === String(me.state.handle || '').toLowerCase();
-      var panels = tabsInto(right, handle + '’s avatars, pets, badges and battle jacket',
-        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket']);
+      var panels = tabsInto(right, handle + '’s avatars, pets, badges, battle jacket and chimeras',
+        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket', 'Chimeras']);
       // The card waits for both its profile and the avatar its owner wears.
       var prof = call('/cb/profile/of', { body: { handle: handle } }, me.state.pass);
       var avs = call('/cb/avatars/of', { body: { handle: handle } }, me.state.pass);
@@ -2812,6 +2829,40 @@
           jkBox.hidden = false;
           jacketInto(jkBox, r.body.patches || [], mineP ? 'yours' : r.body.handle + '’s', true);
         }, function () { jkSaid.textContent = 'Their jacket could not be fetched just now.'; });
+      });
+      /* THEIR CHIMERAS (Ryan, 2026-10-18), only if they have chosen to show
+         them, which needs a claimed username: each drawn, with its name and
+         which animal gave which part. */
+      var chSaid = el('p', 'cb-quiet', 'Looking…');
+      panels[4].appendChild(chSaid);
+      var chList = el('ul', 'cb-avatars__list cb-peek__chimeras');
+      chList.hidden = true;
+      panels[4].appendChild(chList);
+      withChimera(function () {
+        call('/cb/chimeras/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+          if (peekN !== me.peekN) return;
+          if (r.status === 401) return me.lost();
+          if (r.status !== 200 || !r.body) { chSaid.textContent = 'Their chimeras could not be fetched just now.'; return; }
+          if (!r.body.shown) {
+            chSaid.textContent = mineP
+              ? 'You have not made your chimeras public. Profile, on this radio, is where you switch that on.'
+              : handle + ' has not made their chimeras public.';
+            return;
+          }
+          var list = r.body.chimeras || [];
+          if (!list.length) { chSaid.textContent = (r.body.handle || handle) + ' has no chimeras yet.'; return; }
+          chSaid.hidden = true;
+          chList.hidden = false;
+          list.forEach(function (c) {
+            var li = el('li', 'cb-avatar');
+            li.appendChild(chimeraArt(c.parts, 'cb-avatar__art'));
+            var words = el('div', 'cb-avatar__words');
+            words.appendChild(el('p', 'cb-pet__name', c.name || window.loveChimera.suggest(c.parts)));
+            words.appendChild(el('p', 'cb-pet__about', window.loveChimera.words(c.parts)));
+            li.appendChild(words);
+            chList.appendChild(li);
+          });
+        }, function () { chSaid.textContent = 'Their chimeras could not be fetched just now.'; });
       });
       withAnimals(function () {
         call('/cb/pets/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
@@ -3253,6 +3304,36 @@
         if (first) first.focus();
       }, function () { avSaid.textContent = 'Your avatars could not be fetched just now.'; });
     });
+    /* YOUR CHIMERAS next, each a button that sends a sticker of it. */
+    var chSaid = el('p', 'cb-quiet', 'Fetching your chimeras\u2026');
+    chSaid.setAttribute('role', 'status');
+    box.appendChild(chSaid);
+    withChimera(function () {
+      call('/cb/chimeras', null, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200 || !r.body.chimeras) { chSaid.textContent = 'Your chimeras could not be fetched just now.'; return; }
+        if (!r.body.chimeras.length) {
+          chSaid.textContent = 'No chimeras yet. Make one in ';
+          var room = el('a', null, 'Chimera Obscura'); room.href = '/chimera-obscura.html';
+          chSaid.appendChild(room); chSaid.appendChild(document.createTextNode('.'));
+          return;
+        }
+        chSaid.textContent = 'Press a chimera to send a sticker of it.';
+        var ul = el('ul', 'cb-stickers__list');
+        r.body.chimeras.slice().reverse().forEach(function (c) {
+          var li = el('li');
+          var b = el('button', 'cb-stickers__pick');
+          b.type = 'button';
+          var art = window.loveChimera.draw(c.parts, { ground: true, cls: 'cb-stickers__art' });
+          if (art) b.appendChild(art);
+          b.appendChild(el('span', null, 'Send ' + (c.name || window.loveChimera.suggest(c.parts))));
+          b.addEventListener('click', function () { me.sendSticker(c.id, 'chimera'); });
+          li.appendChild(b);
+          ul.appendChild(li);
+        });
+        chSaid.after(ul);
+      }, function () { chSaid.textContent = 'Your chimeras could not be fetched just now.'; });
+    });
     var said = el('p', 'cb-quiet', 'Fetching your pets\u2026');
     said.setAttribute('role', 'status');
     box.appendChild(said);
@@ -3335,7 +3416,7 @@
   Radio.prototype.sendSticker = function (id, kind) {
     var me = this, room = this.tunedRoom(), b = {};
     if (kind === 'jacket') b.jacket = true;
-    else b[kind === 'avatar' ? 'avatar' : kind === 'patch' ? 'patch' : 'sticker'] = id;
+    else b[kind === 'avatar' ? 'avatar' : kind === 'chimera' ? 'chimera' : kind === 'patch' ? 'patch' : 'sticker'] = id;
     if (room) b.room = room;
     this.tell('Sending the sticker\u2026');
     call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
@@ -3961,6 +4042,44 @@
     return fig;
   }
 
+  /* chimera.js, loaded on the first chimera the radio has to draw. */
+  function withChimera(then) {
+    if (window.loveChimera) { then(); return; }
+    var s = document.querySelector('script[data-cb-chimera]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/chimera.js';
+      s.setAttribute('data-cb-chimera', '');
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.loveChimera) then(); });
+  }
+
+  /* A chimera, drawn by chimera.js as elements. The drawing is silent; the
+     words beside it say which animal gave which part. */
+  function chimeraArt(parts, cls) {
+    var wrap = el('span', cls);
+    wrap.setAttribute('aria-hidden', 'true');
+    var art = window.loveChimera && window.loveChimera.draw(parts, { ground: true });
+    if (art) wrap.appendChild(art);
+    return wrap;
+  }
+
+  /* A CHIMERA STICKER on a message: the drawing and, under it for everybody,
+     its name and which animal gave which part. */
+  function chimeraSticker(st) {
+    var fig = el('figure', 'cb-sticker cb-sticker--chimera');
+    var cap = el('figcaption', null, st.name || 'A chimera');
+    fig.appendChild(cap);
+    withChimera(function () {
+      var said = window.loveChimera.words(st.parts);
+      cap.textContent = (st.name || window.loveChimera.suggest(st.parts) || 'A chimera') + (said ? ': ' + said : '');
+      var art = window.loveChimera.draw(st.parts, { ground: true, cls: 'cb-sticker__art' });
+      if (art) fig.insertBefore(art, fig.firstChild);
+    });
+    return fig;
+  }
+
   Radio.prototype.loadAvatars = function () {
     var me = this;
     me.avState.hidden = false;
@@ -4118,10 +4237,142 @@
     });
   };
 
+  /* ── Your chimeras ───────────────────────────────────────────────────── */
+  Radio.prototype.loadChimeras = function () {
+    var me = this;
+    me.chState.hidden = false;
+    me.chState.textContent = 'Looking for your chimeras\u2026';
+    withChimera(function () {
+      call('/cb/chimeras', null, me.state.pass).then(function (r) {
+        if (r.status === 200 && r.body.chimeras) { me.drawChimeras(r.body); return; }
+        me.chState.textContent = r.status === 401
+          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          : 'Your chimeras could not be fetched just now.';
+      }, function () { me.chState.textContent = 'Your chimeras could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.chimeraSend = function (body, said, done) {
+    var me = this;
+    return call('/cb/chimeras', { body: body }, me.state.pass).then(function (r) {
+      if (r.status === 200 && r.body.chimeras) { me.drawChimeras(r.body, done); return true; }
+      if (r.status === 401) { said.textContent = 'The password has changed since you signed on. Sign on again at the Community Center.'; return false; }
+      said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+      return false;
+    }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
+  };
+
+  /* YOUR CHIMERAS: each one drawn, with its name and which animal gave which
+     part; renamed; opened back on the table in Chimera Obscura; downloaded;
+     and deleted, which asks once more. The answer to a press goes on that
+     chimera's own card. */
+  Radio.prototype.drawChimeras = function (b, told) {
+    var me = this, ul = this.chList, claimed = !!b.claimed, C = window.loveChimera;
+    ul.textContent = '';
+    var w = this.chWhere;
+    w.textContent = '';
+    w.appendChild(document.createTextNode('Make one in '));
+    var room = el('a', null, 'Chimera Obscura'); room.href = '/chimera-obscura.html';
+    w.appendChild(room);
+    w.appendChild(document.createTextNode(claimed
+      ? ' and keep it here, and send it from Sticker. They are kept under your username, scrambled, and only your password reaches them.'
+      : ' and keep it here, and send it from Sticker. They are kept under the handle ' + this.state.handle + ', scrambled. A handle is not an account: anybody who signs on with it sees them too. Claim your username above to show them in your profile.'));
+    this.chimeraShow(b, told && told.show);
+    if (!b.chimeras.length) {
+      ul.hidden = true;
+      this.chState.hidden = false;
+      this.chState.textContent = told && told.said ? told.said + ' No chimeras now.' : 'No chimeras yet.';
+      return;
+    }
+    this.chState.hidden = true;
+    ul.hidden = false;
+    b.chimeras.slice().reverse().forEach(function (c) {
+      var li = el('li', 'cb-avatar');
+      li.appendChild(chimeraArt(c.parts, 'cb-avatar__art'));
+      var words = el('div', 'cb-avatar__words');
+      var shown = c.name || C.suggest(c.parts);
+      words.appendChild(el('p', 'cb-pet__name', shown));
+      words.appendChild(el('p', 'cb-pet__about', C.words(c.parts)));
+      var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+      var row = el('div', 'cb-acct__row');
+      var rename = el('button', 'cb-btn', 'Rename it'); rename.type = 'button';
+      row.appendChild(rename);
+      var open = el('a', 'cb-btn', 'Put it back on the table');
+      open.href = '/chimera-obscura.html#chimera=' + C.code(c.parts);
+      row.appendChild(open);
+      row.appendChild(saveButton(shown, function () { return li.querySelector('.cb-avatar__art svg'); },
+        'chimera-' + fileName(shown), null, said));
+      var del = el('button', 'cb-btn', 'Delete it'); del.type = 'button';
+      row.appendChild(del);
+      words.appendChild(row);
+      var form = el('div', 'cb-acct__form'); form.hidden = true;
+      words.appendChild(form);
+      rename.addEventListener('click', function () {
+        form.textContent = ''; form.hidden = false; rename.hidden = true;
+        var n = field('Its name', 'cb-ch-name-' + c.id, 'text');
+        n.input.maxLength = 24; n.input.autocomplete = 'off'; n.input.value = c.name || '';
+        form.appendChild(n.wrap);
+        var go = el('button', 'cb-btn', 'Save'); go.type = 'button';
+        var keep = el('button', 'cb-btn', 'Leave it as it is'); keep.type = 'button';
+        form.appendChild(go); form.appendChild(keep);
+        n.input.focus();
+        keep.addEventListener('click', function () { form.hidden = true; rename.hidden = false; rename.focus(); });
+        go.addEventListener('click', function () {
+          go.disabled = true;
+          me.chimeraSend({ edit: c.id, name: n.input.value }, said, { id: c.id, said: 'Saved.' })
+            .then(function () { go.disabled = false; });
+        });
+      });
+      var sure = el('div', 'cb-forget-sure'); sure.hidden = true;
+      sure.appendChild(el('p', null, 'This deletes it. It cannot be undone.'));
+      var yes = el('button', 'cb-btn', 'Yes, delete it'); yes.type = 'button';
+      var no = el('button', 'cb-btn', 'Keep it'); no.type = 'button';
+      sure.appendChild(yes); sure.appendChild(no);
+      words.appendChild(sure);
+      del.addEventListener('click', function () { sure.hidden = false; del.hidden = true; no.focus(); });
+      no.addEventListener('click', function () { sure.hidden = true; del.hidden = false; del.focus(); });
+      yes.addEventListener('click', function () {
+        yes.disabled = true;
+        me.chimeraSend({ remove: c.id }, said, { said: 'Deleted.' }).then(function () { yes.disabled = false; });
+      });
+      words.appendChild(said);
+      if (told && told.id === c.id) { said.textContent = told.said; told.focus = rename; }
+      li.appendChild(words);
+      ul.appendChild(li);
+    });
+    if (told) {
+      if (told.focus) told.focus.focus();
+      else if (told.said) { this.chState.hidden = false; this.chState.textContent = told.said; }
+    }
+  };
+
+  /* SHOWING YOUR CHIMERAS in your profile, off until you switch it on, and
+     only on a claimed username, the pets' rule. */
+  Radio.prototype.chimeraShow = function (b, focus) {
+    var me = this, box = this.chShow;
+    box.textContent = '';
+    if (!b.claimed || !b.chimeras.length) return;
+    var on = !!b.shown;
+    var t = el('button', 'cb-btn cb-pets-show', 'Show my chimeras on the CB: ' + (on ? 'on' : 'off'));
+    t.type = 'button';
+    t.setAttribute('aria-pressed', String(on));
+    box.appendChild(t);
+    box.appendChild(el('p', 'cb-quiet', on
+      ? 'Anybody signed on to the CB who opens your profile, from your handle on the channel or your name on Who\u2019s online, sees your chimeras, with their names.'
+      : 'Off: your profile shows none of them. Switch it on to show them there, with their names.'));
+    var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+    box.appendChild(said);
+    if (focus) t.focus();
+    t.addEventListener('click', function () {
+      t.disabled = true;
+      me.chimeraSend({ show: !on }, said, { show: true }).then(function () { t.disabled = false; });
+    });
+  };
+
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) { this.loadAccount(); this.loadProfileCard(); this.loadAvatars(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
+    if (open) { this.loadAccount(); this.loadProfileCard(); this.loadAvatars(); this.loadChimeras(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
   };
 

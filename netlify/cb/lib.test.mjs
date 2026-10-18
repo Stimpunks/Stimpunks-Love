@@ -36,6 +36,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
   setAvatarsShown, avatarsShown, shownAvatars,
+  CHIMERA, CHIMERA_KEEP, cleanChimera, readChimeras, keepChimera, editChimera, removeChimera, forgetChimeras, setChimerasShown, chimerasShown, shownChimeras, chimeraSticker, shapeChimeraSticker, shape as shapeMessages,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
@@ -1794,6 +1795,103 @@ test('a profile shows the avatar worn, first, and the rest only when a claimed u
   await setAvatarsShown('Ada', true, s, 11);
   await deleteAccount('Ada', s);
   assert.equal(await shownAvatars('Ada', s), null, 'a deleted username still has a profile');
+}));
+
+/* ── Chimeras kept from Chimera Obscura ─────────────────────────────────────
+   A list of choices and a name, never a picture and nothing about when; the
+   avatars' arrangement, under the same scrambled handle. */
+const partsOf = (over = {}) => {
+  const p = Object.fromEntries(CHIMERA.slots.map((k) => [k, k === 'back' ? 'none' : CHIMERA.animals[0]]));
+  return { ...p, ...over };
+};
+
+test('a chimera holds exactly its parts, each an animal on the shelf', () => {
+  assert.ok(cleanChimera(partsOf()));
+  assert.equal(cleanChimera(null), null);
+  assert.equal(cleanChimera([]), null);
+  assert.equal(cleanChimera({ ...partsOf(), picture: 'data:image/png;base64,AAAA' }), null, 'a picture rode along');
+  for (const k of CHIMERA.slots) {
+    const less = partsOf(); delete less[k];
+    assert.equal(cleanChimera(less), null, `no ${k}`);
+    assert.equal(cleanChimera(partsOf({ [k]: 'unicorn' })), null, `a ${k} the shelf does not have`);
+  }
+  const noBack = CHIMERA.animals.find((x) => !CHIMERA.backs.includes(x));
+  if (noBack) assert.equal(cleanChimera(partsOf({ back: noBack })), null, 'a back from an animal that has none');
+  assert.equal(cleanChimera(partsOf({ body: 'none' })), null);
+  assert.equal(cleanChimera(JSON.parse('{"__proto__": {"body": "bear"}}')), null);
+  assert.equal(cleanChimera(Object.create(partsOf())), null, 'inherited parts');
+});
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`chimeras kept fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => keepChimera('pkA', { parts: partsOf(), name: `n${i}` }, s)));
+    const worked = told.filter((r) => r.status === 'fulfilled' && r.value.kept).map((r) => r.value.kept.id);
+    const kept = new Set((await readChimeras('pkA', s)).chimeras.map((c) => c.id));
+    assert.deepEqual(worked.filter((id) => !kept.has(id)), [], 'a chimera that was told it was kept is not there');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  });
+}
+
+test('keeping chimeras stops at the limit; renaming, deleting, Forget me and deleting the username work', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (let i = 0; i < CHIMERA_KEEP; i++) await keepChimera('pkB', { parts: partsOf() }, s);
+  assert.equal((await keepChimera('pkB', { parts: partsOf() }, s)).error, 'full');
+  assert.equal((await keepChimera('pkC', { parts: { body: 'unicorn' } }, s)).error, 'parts');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const pk = petKey('Ada');
+  const a = (await keepChimera(pk, { parts: partsOf(), name: 'Otto' }, s)).kept;
+  assert.deepEqual(Object.keys(a).sort(), ['id', 'name', 'parts'], 'a chimera kept something more than its parts and name');
+  await editChimera(pk, a.id, { name: 'Ottilie' }, s);
+  assert.equal((await readChimeras(pk, s)).chimeras[0].name, 'Ottilie');
+  assert.equal((await editChimera(pk, a.id, { parts: { body: 'unicorn' } }, s)).error, 'parts');
+  assert.equal((await editChimera(pk, 'hNOTANIDxyz', { name: 'x' }, s)).error, 'which');
+  const b = (await keepChimera(pk, { parts: partsOf() }, s)).kept;
+  await removeChimera(pk, b.id, s);
+  assert.deepEqual((await readChimeras(pk, s)).chimeras.map((c) => c.id), [a.id]);
+  await setChimerasShown('Ada', true, s, 10);
+  await forgetChimeras(pk, s);
+  assert.deepEqual((await readChimeras(pk, s)).chimeras, []);
+  assert.equal(await chimerasShown('Ada', s), false, 'Forget me left the switch on');
+  await keepChimera(pk, { parts: partsOf() }, s);
+  await deleteAccount('Ada', s);
+  assert.deepEqual((await readChimeras(pk, s)).chimeras, [], 'a deleted username kept its chimeras');
+}));
+
+test('a chimera sticker is only ever your own chimera, and carries nothing but its parts and name', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const a = (await keepChimera(petKey('Ada'), { parts: partsOf(), name: 'Otto' }, s)).kept;
+  assert.equal(await chimeraSticker('Bex', a.id, s), null, 'a sticker of somebody else\'s chimera');
+  const st = await chimeraSticker('Ada', a.id, s);
+  assert.deepEqual(Object.keys(st).sort(), ['name', 'parts']);
+  assert.ok(shapeChimeraSticker(st));
+  assert.equal(shapeChimeraSticker({ parts: { body: 'unicorn' }, name: 'x' }), null);
+  const out = shapeMessages([{ id: 'm1', handle: 'Ada', text: '', t: 1, chimera: st }])[0];
+  assert.deepEqual(out.chimera, { parts: st.parts, name: 'Otto' }, 'the channel dropped a chimera sticker');
+});
+
+test('a profile shows chimeras only when a claimed username says so, and never their ids', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  await keepChimera(pk, { parts: partsOf(), name: 'Otto' }, s);
+  await keepChimera(pk, { parts: partsOf(), name: 'Bea' }, s);
+  await setChimerasShown('Ada', true, s, 3);
+  assert.equal(await shownChimeras('Ada', s), null, 'an unclaimed handle showed its chimeras');
+  assert.equal(await shownChimeras('Nobody', s), null);
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  await setChimerasShown('Ada', false, s);
+  let got = await shownChimeras('ada', s);
+  assert.equal(got.handle, 'Ada');
+  assert.equal(got.shown, false);
+  assert.equal(got.chimeras, undefined, 'shown with the switch off');
+  await setChimerasShown('Ada', true, s, 10);
+  got = await shownChimeras('Ada', s);
+  assert.deepEqual(got.chimeras.map((c) => c.name), ['Bea', 'Otto'], 'not newest first');
+  assert.equal(got.chimeras[0].id, undefined, 'a profile carries an id');
+  await deleteAccount('Ada', s);
+  assert.equal(await shownChimeras('Ada', s), null, 'a deleted username still shows chimeras');
 }));
 
 /* ── Jobs kept from the Adventurer's Guild ──────────────────────────────────

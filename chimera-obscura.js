@@ -3,15 +3,18 @@
    from, and the chimera appears on the table. chimera.js draws it; this only
    asks it to.
 
-   IT KEEPS NOTHING AND SENDS NOTHING. A chimera travels in the address after
-   the #, as chimera=<its parts>, which never reaches a server; the page puts
-   it there as you build, with replaceState, so the address in the bar is
-   always a link to what is on the table. tools/make-chimera-obscura.py refuses
-   a fetch, storage and a sound in this file.
+   IT SENDS NOTHING UNLESS YOU PRESS KEEP IT IN MY PROFILE, signed on to the CB,
+   and then only the chimera's parts and its name, to /cb/chimeras. Otherwise a
+   chimera travels in the address after the #, as chimera=<its parts>, which
+   never reaches a server; the page puts it there as you build, with
+   replaceState, so the address in the bar is always a link to what is on the
+   table. This file reads the CB's pass out of love-cb and never writes it, and
+   tools/make-chimera-obscura.py refuses any other request, any storage and a
+   sound in it.
 
-   MARKUP COMES FROM chimera.js AND NOWHERE ELSE. The controls are built with
-   createElement and textContent, and the only innerHTML here is the drawing
-   chimera.js hands back, so a name somebody types never becomes markup.
+   NOTHING HERE IS WRITTEN AS MARKUP. The controls are built with createElement
+   and textContent, and the drawing is the element chimera.js builds, so a name
+   somebody types never becomes markup.
 
    THE ANSWER IS WHERE THE HAND IS (the Playhouse's lesson): the drawing changes
    on the table beside the bench, its name and its words change under it, and
@@ -117,7 +120,9 @@
   }
 
   function render(fresh) {
-    disc.innerHTML = C.svg(state.parts, { prefix: 'chm-live', cls: 'chm-disc__draw' + (fresh ? ' chm-new' : '') });
+    disc.textContent = '';
+    var art = C.draw(state.parts, { prefix: 'chm-live', cls: 'chm-disc__draw' + (fresh ? ' chm-new' : '') });
+    if (art) disc.appendChild(art);
     if (!state.edited) state.name = C.suggest(state.parts);
     named.textContent = state.name || C.suggest(state.parts);
     if (nameIn.value !== state.name) nameIn.value = state.name;
@@ -193,6 +198,50 @@
       else fail();
     } catch (err) { fail(); }
   });
+
+  /* KEEP IT IN MY PROFILE, signed on to the CB: the chimera's parts and its
+     name, to /cb/chimeras, and the radio's Profile is told so it can redraw
+     its list if it is open. The answer goes in the bench's own line. */
+  function pass() {
+    try { var v = JSON.parse(localStorage.getItem('love-cb') || 'null'); return v && v.pass ? v : null; }
+    catch (e) { return null; }
+  }
+  var keepBox = document.getElementById('chm-keep');
+  var keepOff = document.getElementById('chm-keep-off');
+  var keepBtn = document.getElementById('chm-keep-btn');
+  var me = pass();
+  if (me && keepBox && keepBtn) {
+    keepBox.hidden = false;
+    var who = document.getElementById('chm-keep-who');
+    if (who) who.textContent = me.handle || '';
+    keepBtn.addEventListener('click', function () {
+      var p = pass();
+      if (!p) { say('Sign on to the CB first, at the Community Center, and press it again. Nothing was kept.'); return; }
+      keepBtn.disabled = true;
+      say('Keeping it\u2026');
+      fetch('/cb/chimeras', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + p.pass },
+        body: JSON.stringify({ keep: state.parts, name: state.name || C.suggest(state.parts) })
+      }).then(function (r) {
+        return r.json().then(function (b) { return { status: r.status, body: b }; }, function () { return { status: r.status, body: {} }; });
+      }).then(function (r) {
+        keepBtn.disabled = false;
+        if (r.status === 200) {
+          say('Kept in your Profile, on the radio, as ' + (state.name || C.suggest(state.parts)) + '. Send it as a sticker from there, or from Sticker.');
+          try { window.dispatchEvent(new CustomEvent('love-chimeras')); } catch (e) {}
+          return;
+        }
+        if (r.status === 401) { say('The password has changed since you signed on. Sign on again at the Community Center. Nothing was kept.'); return; }
+        say((r.body && typeof r.body.error === 'string') ? r.body.error + ' Nothing was kept.' : 'That did not work just now. Nothing was kept.');
+      }, function () {
+        keepBtn.disabled = false;
+        say('The street could not be reached just now. Nothing was kept.');
+      });
+    });
+  } else if (keepOff) {
+    keepOff.hidden = false;
+  }
 
   // A new chimera comes into focus at MAX; the class comes off once it has.
   disc.addEventListener('animationend', function (e) {
