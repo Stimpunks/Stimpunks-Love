@@ -9,66 +9,73 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 18 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Getting started at the Community Center, and no more meeting hall</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-18-getting-started</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-getting-started</guid>
+      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Our community uses Stimpunks.World and its forums for everything now, Ryan’s call, so the Community Center no longer mentions Stoat or Discord. This reverses the meeting hall of 2026-09-29, which sent people to our Stoat server for anything worth keeping and for the CB’s password. The room opens with Getting started in the community, from Ryan’s draft: ask to join on the Stimpunks Community page, which gives you a starter password; sign on to the CB with it; claim your username with a password of your own, step by step on the radio’s own buttons; and then some quests to go on, from an introduction in the forums to adopting a pet, collecting badges and patches, and making your profile your own. The starter password is the community password by a friendlier name: the radio and the CB guide still call it that, and the room says so. Every page that said to ask for it in the meeting hall now points at Getting started: the guest bar on the radio, the CB guide, the suggestion box in The Sandbox, the Fishbowl’s call, and the privacy page. Changed: community-center.html, guest.js, cb-guide.html, privacy.html, data/sandbox.json, tools/make-town-hall.py, liner-notes.html.</description>
+    </item>
+    <item>
       <title>Coping in the forums, a week at a time</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-forums-coping</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-forums-coping</guid>
-      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:59:00 GMT</pubDate>
       <description>Coping is a category in the forums now, Ryan’s call, because it is one of the busiest channels on our Discord and people moving over need somewhere to go. A topic there goes a week after its last post, where Discord keeps that channel for ever: a place for the hard days is not somewhere to keep them. Like every category, only claimed usernames on the CB can read it. Changed: data/forum.json, netlify/cb/lib.mjs, tools/make-forum.py, which now refuses a longer keep for it.</description>
     </item>
     <item>
       <title>The forums, for what needs longer than the CB’s day</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-forums</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-forums</guid>
-      <pubDate>Sun, 18 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:58:00 GMT</pubDate>
       <description>The forums are open: topics in categories, after Discourse, for conversations that need to last longer than the channel’s midnight, Ryan’s brief. The categories follow our Discord and Stoat’s channels: Announcements, Introductions, a Help desk, the Watering hole, Events, Mutual aid, Show your work, Work opportunities, Infodumps, Reading and watching, Education, Science and making, Nature, Artificial Intelligence, Operations and Editorial, and staff areas for our moderators, directors and board, by the same CB roles as the Town Hall’s rooms. The hope is that the CB and the forums together let us leave Discord and Stoat. Only a claimed username can read them, and a category somebody’s roles do not reach is never sent to them. Each category says how long a topic stays after its last post, a week, three months, six months or for good, and each topic says the date it goes; three months is the default. A pinned topic stays while it is pinned. Markdown, replies, quotes, reactions named and never counted, editing and taking down your own posts, search, and for moderators pin, close, move and take down. No notifications, no badges, no counts, and nothing kept about who reads: what is new to you is worked out in your own browser. A link on a line of its own becomes a preview: our server reads the page once, when the post is made, for its title and description, from public addresses only and with no pictures; a YouTube video becomes a press-to-play button that says how long it runs; a room on the street shows its own name. Take to the forums, under a message’s three dots on the radio, starts a topic with messages ticked off the channel. Our server copies them off the channel itself, exactly as they were sent, and whoever sent one can take it back out of the topic. The house norm now says to ask everybody first, as for a screenshot. They wear the CB’s themes: your radio’s, or any of them chosen for the forums alone, with its colours, its face for headings and its drawing. Privacy says what they keep, and the CB guide how they work. New: forum.html, forum.js, forum.css, netlify/functions/cb-forum.mjs, data/forum.json, tools/make-forum.py. Changed: netlify/cb/lib.mjs, cb.js, cb.css, privacy.html, community-center.html, architecture.html.</description>
     </item>
     <item>
       <title>A Halloween theme, frame and decoration, to pair with the Lagoon</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-halloween</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-halloween</guid>
-      <pubDate>Sun, 18 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:57:00 GMT</pubDate>
       <description>Black Leather Lagoon is a radio theme now, in the street’s Lagoon’s own colours: black water, the screen’s bone, acid green and poster red, with the radio’s name in its dripping bill face. Along its trims, its dividers and down its sides there is a drive-in screen glowing over the water now and then, and reeds with cattails, and bats. It is a banner and a nameplate for profiles too. Every word in it clears 4.5 to 1, and like the room nothing in it flickers. A Graveyard gate frame: iron railings with spear tips round all four sides, cobwebs in the corners, and a spider letting itself down from each top corner. A Jack-o’-lanterns decoration: a pumpkin vine round the avatar you wear, with lanterns whose carved faces glow, and two bats. Both are drawn in the card’s own theme, so in the Lagoon’s the pumpkins are its poster red and the light in them its acid green. Together with the Black Leather Lagoon effect, the four make one Halloween profile, Ryan’s ask. Nobody real is drawn in any of them; the liner notes say whose world it is. Changed: call.js, cb-themes.js, cb.css, love.css, profile.js, netlify/cb/lib.mjs, tools/check-contrast.py, cb-guide.html, liner-notes.html.</description>
     </item>
     <item>
       <title>The Lagoon effect rears up when a profile opens</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-lagoon-moment</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-lagoon-moment</guid>
-      <pubDate>Sun, 18 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:56:00 GMT</pubDate>
       <description>The Black Leather Lagoon effect now plays across the whole profile when it opens, the way Discord’s do, and then once a minute while it is open. Black water rises across the foot of the profile, mist climbs off it, the sea serpent’s coils break the surface, its head rears up over the profile and looks about with a flick of its tongue, and a flurry of bats bursts out past it. Then it all sinks back, after about nine seconds. The scene in the banner carries on the whole time. Ryan’s ask. It crosses the words, so it is there only where drawings move, at MAX GLITTER or after Let my theme move, like every effect’s pass, and every fade in it takes a second or more, so nothing flashes. Changing something else in Edit my profile card no longer starts an effect over. The CB guide says so. Changed: profile.js, cb.css, cb.js, tools/make-profile.py, cb-guide.html.</description>
     </item>
     <item>
       <title>Black Leather Lagoon, a profile effect</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-lagoon-effect</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-lagoon-effect</guid>
-      <pubDate>Sun, 18 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:55:00 GMT</pubDate>
       <description>A detailed profile effect after the street’s Black Leather Lagoon and The Cramps, Ryan’s ask. Over the card’s banner, a drive-in screen stands in black water with a giant bloodshot eye looking about on it, its glow breathing slowly. A sea serpent of our own rises and sinks in front of it, with its eyes on stalks and pondweed on its head. There are reeds, a lobby card on a post in the shallows, and the screen rippling in the water. Poison ivy creeps down both sides of the profile, leopard print runs along the foot, a finned hot rod is parked in the corner, and from time to time bats fly across the whole profile from the screen’s side. Their world, not them, Ryan’s call: nobody real is drawn, and nothing of the band’s is used. The card carries a credit naming The Cramps, Lux Interior and Poison Ivy, and the poison ivy is a nod to her name. It is the one effect drawn in its room’s own colours rather than the card’s theme, and, like the room, nothing in it flickers. It moves only at MAX GLITTER or after Let my theme move, as every effect does. The liner notes and the CB guide say so. Changed: profile.js, cb.js, cb.css, netlify/cb/lib.mjs, tools/make-profile.py, cb-guide.html, liner-notes.html.</description>
     </item>
     <item>
       <title>A profile lists the patches on its jacket</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-jacket-patches</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-jacket-patches</guid>
-      <pubDate>Sun, 18 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:54:00 GMT</pubDate>
       <description>The Battle jacket tab in somebody’s profile lists every patch sewn on, under the jacket, in the street’s order: each patch drawn on its own, its name, and the room it came from, linked to where it lies, so you can go and find one. A screen reader hears what each patch looks like. Ryan’s ask. Nothing is counted. Links in a profile’s tabs are the panel’s amber now. They were the browser’s own default blue, a colour nobody chose, which the job links in the Badges and jobs tab had been since profiles opened. The CB guide says so. Changed: cb.js, cb.css, cb-guide.html.</description>
     </item>
     <item>
       <title>Frames and effects for profiles on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-frames-effects</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-frames-effects</guid>
-      <pubDate>Sun, 18 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:53:00 GMT</pubDate>
       <description>A profile card can have a frame and an effect now, after Discord’s. A frame is a band of your card’s theme round all four sides of your profile, outside it: briar, ivy, brass and rivets, fairy lights, a stitched patch, a film strip, a circuit board, crystals, a flower garland or a starry night. An effect is drawn over your profile: butterflies, fireflies, falling petals or leaves, snow, bubbles, sparkles, shooting stars, music notes or hearts. Part of it stays along the edges and in the banner, and the rest crosses the whole profile from time to time. Both are in Edit my profile card, and both are drawn only in your card’s own colours. An effect’s pass crosses the words, Ryan’s call, which is the one place the radio lets a drawing do that. So it is drawn only where the radio’s drawings move, at MAX GLITTER or after Let my theme move: a profile standing still has nothing on its words, and nothing in an effect flashes. The CB guide and privacy say so. Changed: profile.js, cb.js, cb.css, netlify/cb/lib.mjs, tools/make-profile.py, cb-guide.html, community-center.html, privacy.html.</description>
     </item>
     <item>
       <title>A moderator can clear one profile card</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-desk-clears-a-card</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-desk-clears-a-card</guid>
-      <pubDate>Sun, 18 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:52:00 GMT</pubDate>
       <description>The moderators’ desk can clear somebody’s profile card without deleting their username. Until now a card that broke our covenant could only go with the whole username, its password, pets, avatars, jobs and patches. Looking a username up at the desk now says whether it has a card, and Clear their profile card, which asks once more, takes the card and its nameplate on Who’s online exactly as Clear my card does. Everything else stays, and they can fill in a new one. Ryan’s call. Nothing is kept about it: not who cleared a card, not when, not what it said, and the accounts checker refuses one that would. The desk still leaves a moderator’s username alone, card included. Privacy, the CB guide and the Moderators’ room say so. Changed: desk.js, netlify/cb/lib.mjs, netlify/functions/cb-account-admin.mjs, tools/make-accounts.py, privacy.html, cb-guide.html, town-hall-moderators.html.</description>
     </item>
     <item>
       <title>Profile cards on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-18-cb-profiles</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-profiles</guid>
-      <pubDate>Sun, 18 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Sun, 18 Oct 2026 11:51:00 GMT</pubDate>
       <description>Pressing a handle opens a whole profile now, over the page, after requests for profiles more like Discord’s. On the left is the person’s card; on the right, where Discord has Board, Activity and Wishlist, are tabs for their Avatars, Pets, Badges and jobs and Battle jacket, each shown as they have chosen. A name on Who’s online opens the same profile. The CB guide says how it works. A claimed username can fill in its card, at Edit my profile card in Profile, with the card drawn beside the choices as they change: a theme from the radio’s own, a banner from their drawings, a decoration round the avatar you wear (flowers, ivy, stars, gears, flames, moons and more, drawn in the card’s own colours), a face for your name from the street’s typefaces, a nameplate under your name on Who’s online, your pronouns, a few words about you, up to five links elsewhere, each shown with its site after it, and your favourite room on the street, with a line on why. Ryan’s calls: whatever you fill in is shown to anybody signed on to the CB, as the avatar you wear is, with no switch; and no card says when anybody joined, because a date beside a name invites ranking who has been here longest. Every colour on a card is a pair the contrast checker already holds for every theme, and every drawing on it moves only where the radio’s do. Clear my card, Forget me and deleting the username delete it. Privacy has the whole of what is kept. Changed: cb.js, cb.css, love.css, netlify/cb/lib.mjs, privacy.html, cb-guide.html, community-center.html; new: profile.js, tools/make-profile.py, two functions.</description>
     </item>
     <item>

@@ -3975,14 +3975,17 @@ the letterboard and never a sentence; Radio Canada carries what is read.** The h
 point at [our covenant](https://stimpunks.org/covenant/) rather than restating it, and say out loud that
 a handle proves nothing and BASE is the one mark that is checked.
 
-**THE MEETING HALL IS STOAT, AND IT IS A DOOR, NOT A WINDOW.** Ryan, 2026-09-29: the community is
-moving from Discord to Stoat, and the Community Center is where people are onboarded, so it opens
-with the meeting hall (the name is our community page's own, from its 4 Ms of Membership). Stoat's
-app sends `X-Frame-Options: SAMEORIGIN` (measured), so **do not add stoat.chat to `ORIGINS`**: a
-framed hall is a blank box. The hall is for what needs its own sign-in, roles and history, and the
-CB is for what forgets at midnight; **do not blur the two**, and do not send anything from the
-street to Stoat. The channel list there is the field guide's Discord list in outline, written without
-a count, and gets brought up to date once the move is done. Self-hosting is in `DECISIONS.md`.
+**THE COMMUNITY CENTER IS WHERE PEOPLE GET STARTED, AND IT NAMES NO OTHER CHAT.** Ryan, 2026-10-18,
+reversing the meeting hall of 2026-09-29: the community uses Stimpunks.World and its forums for everything,
+so the room no longer mentions Stoat or Discord. It opens with **Getting started**, Ryan's draft: ask to
+join on stimpunks.org's Community page, which gives you the **starter password** (the one shared password,
+which the radio, the CB guide and the privacy page still call the community password, and the room says
+so), sign on, claim your username, then quests. **The claiming steps name the radio's own buttons**
+(Profile, A password of your own, The same again, Claim), so a change to those labels in `cb.js` is a
+change to that list. **Other pages send people to `community-center.html#getting-started`**, never to a
+meeting hall: the guest bar, the CB guide, the Sandbox's box and the Fishbowl's call panel. The channel is
+still for what forgets at midnight and the forums for what needs longer. stoat.chat stays out of
+`ORIGINS`: it sends `X-Frame-Options: SAMEORIGIN`.
 
 **THE COMMUNITY SERVICE BOARD IS A ROOM FULL OF SENTENCES ABOUT OTHER ROOMS, SO EVERY ONE IS HELD.**
 The sorter on the Community Center's wall has a slot for every room that takes something in: what
@@ -4729,7 +4732,7 @@ is open, and a screenshot upload**, and each needs a decision of Ryan's written 
 at SECURITY.md.
 
 **THE FORUMS ARE THE CB'S, FOR WHAT NEEDS LONGER THAN A DAY, AND ONLY A CLAIMED USERNAME READS THEM.** Ryan's
-brief, 2026-10-18, after Discourse, so the CB and the forums together can let us leave Discord and Stoat. `forum.html`
+brief, 2026-10-18, after Discourse, so the CB and the forums together are where our community is, for everything. `forum.html`
 is paperwork beside the CB guide (pinned on the map, no job marker), and the forums are drawn by `forum.js` in a shadow
 root with `cb.css` and `forum.css`, so they **wear the reader's own radio theme, or one chosen for the forums alone**
 (`love-forum`): `forum.css` uses the CB's seven colours and nothing else, so no pair is new. The server is the forums

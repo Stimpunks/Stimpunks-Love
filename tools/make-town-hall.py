@@ -307,7 +307,7 @@ def panel(r):
             '    </div>'])
     return "\n".join([
         f'    <div class="{p}-call" data-call="{tag}" data-call-name="{name}">',
-        '      <p>The call in here is for people signed on to the CB. Anybody can come in and look around; to talk, and to be in the circle, you need the CB, and <a href="community-center.html#meeting-hall">the Community Center</a> says how to get on it.</p>',
+        '      <p>The call in here is for people signed on to the CB. Anybody can come in and look around; to talk, and to be in the circle, you need the CB, and <a href="community-center.html#getting-started">the Community Center</a> says how to get on it.</p>',
         f'      <p class="{p}-call__cb" data-call-cb hidden>You are not signed on to the CB in this browser. <a href="community-center.html">Sign on at the Community Center</a>, then come back and the way in is here.</p>',
         f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
         f'      <p class="{p}-call__who" data-call-who hidden></p>',

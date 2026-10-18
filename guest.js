@@ -182,11 +182,11 @@
        street that already says more. */
     var set = el('div', 'cb-set cb-guest-set');
     set.id = 'cb-guest-set';
-    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call and watch a film together. It keeps nothing past midnight.');
+    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call, watch a film together, and, with a claimed username, write in the forums. The channel keeps nothing past midnight; the forums are for what needs longer.');
     var p2 = el('p');
-    p2.appendChild(document.createTextNode('It takes a handle of your choosing and the community password, which is shared inside our community: ask for it in '));
-    p2.appendChild(link('/community-center.html#meeting-hall', 'the meeting hall'));
-    p2.appendChild(document.createTextNode(', our group chat on Stoat, which the Community Center says how to join. Then sign on here, or at '));
+    p2.appendChild(document.createTextNode('It takes a username of your choosing and the starter password, which you are given when you join our community: '));
+    p2.appendChild(link('/community-center.html#getting-started', 'Getting started'));
+    p2.appendChild(document.createTextNode(', at the Community Center, says how. Then sign on here, or at '));
     p2.appendChild(link('/community-center.html#cb-signon-desk', 'the front desk'));
     p2.appendChild(document.createTextNode(', where the house norms are.'));
     var p3 = el('p');
