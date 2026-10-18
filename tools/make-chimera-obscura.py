@@ -92,16 +92,24 @@ LIB = ROOT / "netlify/cb/lib.mjs"
 FACES = ROOT / "data/foundry-faces.json"
 MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org"
 
-SLOTS = ["body", "head", "ears", "mouth", "tail", "back", "colours", "markings"]
-ARMS = {"thick", "thin", "hands"}
-FEET = {"pads", "small", "claws", "big", "webbed"}
+SLOTS = ["body", "head", "ears", "mouth", "arms", "feet", "tail", "back", "colours", "markings"]
+# A part that may be missing from a chimera kept or linked before it was a
+# part of its own, and the part whose animal it then takes.
+DEFAULTS = {"arms": "body", "feet": "body"}
+ARMS = {"thick", "thin", "hands", "wings", "flippers"}
+FEET = {"pads", "small", "claws", "big", "webbed", "hooves", "toes", "talons", "paddles"}
 SHAPES = {"round", "wedge"}
-NOSES = {"round", "tri", "small", "y", "wide"}
-EARS = {"round", "semi", "long", "oval", "tri"}
-MOUTHS = {"smile", "buck", "bunny", "w", "tiny", "fierce", "open", "smirk"}
-FILLS = {"fur", "light", "skin"}
+NOSES = {"round", "tri", "small", "y", "wide", "snout", "beak", "nostrils", "trunk"}
+EARS = {"round", "semi", "long", "oval", "tri", "none", "flop", "fan", "tufts", "leaf"}
+MOUTHS = {"smile", "buck", "bunny", "w", "tiny", "fierce", "open", "smirk", "none", "tusks"}
+FILLS = {"fur", "light", "skin", "dark"}
 MARKS = {"belly", "chest", "band", "patches", "darkEars", "darkLimbs", "darkPaws", "rimEars",
-         "lightHead", "lowerFace", "bands", "mask", "rings", "tailTip"}
+         "lightHead", "lowerFace", "bands", "mask", "rings", "tailTip", "tux", "stripes", "chevrons",
+         "disc", "eyePatch", "darkMuzzle"}
+STRIPES = {"bold", "tabby"}
+# What each kind of back is drawn in.
+BACKS = {"shell": ("plate", "band", "speck"), "scutes": ("plate", "band", "speck"),
+         "quills": ("quill", "tip"), "mane": ("plate", "band")}
 COLOURS = {"fur", "light", "dark", "skin", "nose"}
 NAME_MAX = 24
 
@@ -179,6 +187,10 @@ def check_shelf(d):
     if [s.get("key") for s in d.get("slots", [])] != SLOTS:
         refuse(f"the slots must be exactly {SLOTS}, in that order: chimera.js draws those and nothing else.")
     for s in d.get("slots", []):
+        if s.get("defaults_to") != DEFAULTS.get(s.get("key")):
+            refuse(f"slot {s.get('key')!r} defaults to {s.get('defaults_to')!r}, and the CB and chimera.js expect "
+                   f"{DEFAULTS.get(s.get('key'))!r}: chimeras kept before it was a part depend on it.")
+    for s in d.get("slots", []):
         if not s.get("legend") or not s.get("word"):
             refuse(f"slot {s.get('key')!r} has no legend or no word, and a part that cannot be said cannot be chosen.")
     animals = d.get("animals", {})
@@ -229,24 +241,33 @@ def check_shelf(d):
             refuse(f"{where}: the tail needs a shape d and a fill in {sorted(FILLS)}.")
         elif t["d"].startswith("@") and not re.fullmatch(r"@circle -?[\d.]+ -?[\d.]+ [\d.]+", t["d"]):
             refuse(f"{where}: a round tail is written \"@circle cx cy r\".")
+        elif t.get("whip") is not None and not (isinstance(t["whip"], list) and len(t["whip"]) == 2 and
+                                                  t["whip"][0] > t["whip"][1] > 0):
+            refuse(f"{where}: a whip tail is [its outline's width, its fill's width], the outline the wider.")
         bk = a.get("back")
         if bk is not None:
-            if not (isinstance(bk, dict) and bk.get("kind") == "shell" and bk.get("word") and
-                    all(hexok(bk.get(k)) for k in ("plate", "band", "speck"))):
-                refuse(f"{where}: a back is null, or a shell with a word and plate, band and speck hexes.")
+            if not (isinstance(bk, dict) and bk.get("kind") in BACKS and bk.get("word") and
+                    all(hexok(bk.get(k)) for k in BACKS[bk["kind"]])):
+                refuse(f"{where}: a back is null, or one of {sorted(BACKS)} with a word and the colours that kind is "
+                       f"drawn in ({'; '.join(k + ': ' + ', '.join(v) for k, v in sorted(BACKS.items()))}).")
         m = a.get("markings", {})
         if not isinstance(m, dict) or not set(m) <= MARKS:
             refuse(f"{where}: markings may only be {sorted(MARKS)}; {sorted(set(m) - MARKS) if isinstance(m, dict) else m} "
                    "has no drawing in chimera.js.")
+        elif "stripes" in m and m["stripes"] not in STRIPES:
+            refuse(f"{where}: stripes are one of {sorted(STRIPES)}.")
 
 
 def clean(d, c):
     """chimera.js's clean(), for the data file's own chimeras."""
     animals = d["animals"]
-    if not isinstance(c, dict) or set(c) != set(SLOTS):
+    if not isinstance(c, dict) or not set(c) <= set(SLOTS):
         return None
+    c = {k: c[k] if k in c else c.get(DEFAULTS.get(k, ""), None) for k in SLOTS}
     for k in SLOTS:
         v = c[k]
+        if not isinstance(v, str):
+            return None
         if k == "back":
             if v != "none" and not (v in animals and animals[v].get("back")):
                 return None
@@ -289,6 +310,7 @@ def shelf_js(d):
 def keys_for_server(d):
     return {
         "slots": SLOTS,
+        "defaults": DEFAULTS,
         "animals": sorted(d["animals"]),
         "backs": sorted(k for k, a in d["animals"].items() if a.get("back")),
     }

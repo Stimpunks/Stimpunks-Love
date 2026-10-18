@@ -2,11 +2,14 @@
  "_what": "Chimera Obscura's shelf: every animal a chimera can be made from, as parts, and the chimeras the room opens on. tools/make-chimera-obscura.py writes the shelf into chimera.js between its chimera:data markers and the keys into netlify/cb/lib.mjs between its chimera:keys markers, and builds the room's generated parts. Never hand-edit between those markers.",
  "_brief": "Ryan, 2026-10-18: a builder for combining two animals, after Norah asked for an otteraccoon (otter and raccoon), modelled on the chimeras on stimpunks.org's About page, which take features and colouring from one animal onto another's body. Named and kept in a CB Profile and sent as stickers. Missing animals are asked for in the suggestion box and drawn in a later session; nothing calls an AI.",
  "_how_to_add_an_animal": "One entry under animals with every part below, drawn for the shared rig in chimera.js: a body (width w, height h, shoulders top, arms, feet), a head (r, sx, sy, shape, muz, nose, eyes, and whiskers or pads if it has them), ears, a mouth, a tail, a back or null, colours (fur, light, dark, skin, nose as hexes) and markings. The tool refuses an animal missing any of them, and tools/chimera.test.mjs draws it with every other animal before it can go up. Say parts give the suggested name: [the name as the body comes first, the name as the second animal, optionally a short form used before a vowel]. Answer the request in the suggestion box done once it is on the shelf.",
+ "_arms_and_feet": "Arms and feet became parts of their own on 2026-10-18, after chimeras were already being kept and linked. A part with defaults_to may be missing from a chimera, and then takes that part's animal (the body's), in chimera.js's clean() and in cleanChimera() on the CB, so nothing kept or linked before then stops working. An animal's arms and feet are still written in its body.",
  "slots": [
   {"key": "body",     "legend": "Body",     "word": "body"},
   {"key": "head",     "legend": "Head",     "word": "head"},
   {"key": "ears",     "legend": "Ears",     "word": "ears"},
   {"key": "mouth",    "legend": "Mouth",    "word": "mouth"},
+  {"key": "arms",     "legend": "Arms",     "word": "arms",     "defaults_to": "body"},
+  {"key": "feet",     "legend": "Feet",     "word": "feet",     "defaults_to": "body"},
   {"key": "tail",     "legend": "Tail",     "word": "tail"},
   {"key": "back",     "legend": "Back",     "word": "back"},
   {"key": "colours",  "legend": "Colours",  "word": "colours"},
@@ -100,10 +103,120 @@
    "tail": {"d": "M-8,-16 C30,-40 70,-110 106,-112 C132,-114 130,-84 110,-60 C80,-24 40,0 -8,18 Z", "fill": "fur", "axis": [0, 0, 112, -96]},
    "back": null,
    "markings": {"mask": true, "rimEars": true, "rings": true, "darkPaws": true, "belly": true}
+  },
+  "pig": {
+   "a": "a", "say": ["Pig", "pig"],
+   "colours": {"fur": "#F2B8C0", "light": "#FAD9DD", "dark": "#9C5866", "skin": "#E8909E", "nose": "#8E4553"},
+   "body": {"w": 196, "h": 168, "top": 0.82, "arms": "thick", "feet": "hooves"},
+   "head": {"r": 80, "sx": 1.08, "sy": 0.98, "shape": "round", "muz": {"none": true, "y": 0.36, "rx": 0.30, "ry": 0.21}, "nose": "snout", "eyes": {"x": 0.36, "y": -0.12}},
+   "ears": {"a": 40, "type": "tri", "s": 0.38},
+   "mouth": "smile",
+   "tail": {"d": "M0,0 C20,-2 40,-4 52,-10 C66,-18 64,-36 52,-34 C40,-32 44,-14 58,-14 C70,-14 76,-24 76,-34", "string": true, "fill": "skin"},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "porcupine": {
+   "a": "a", "say": ["Porcupine", "cupine"],
+   "colours": {"fur": "#7A5E48", "light": "#CDB394", "dark": "#3B2C22", "skin": "#9C7A62", "nose": "#2A1C14"},
+   "body": {"w": 172, "h": 160, "top": 0.76, "arms": "thin", "feet": "claws"},
+   "head": {"r": 70, "sx": 1.00, "sy": 0.95, "shape": "round", "muz": {"y": 0.42, "rx": 0.30, "ry": 0.26}, "nose": "round", "eyes": {"x": 0.36, "y": -0.04}},
+   "ears": {"a": 62, "type": "round", "s": 0.16},
+   "mouth": "buck",
+   "tail": {"d": "M-6,-12 L10,-24 L14,-12 L30,-26 L30,-10 L46,-18 L40,-2 L54,2 L38,10 L44,22 L26,16 L22,30 L10,16 L-6,18 Z", "fill": "dark"},
+   "back": {"kind": "quills", "word": "a porcupine's quills", "quill": "#3B2C22", "tip": "#EFE4D2"},
+   "markings": {"belly": true, "lowerFace": true}
+  },
+  "fox": {
+   "a": "a", "say": ["Fox", "fox"],
+   "colours": {"fur": "#D9692B", "light": "#F7EFE4", "dark": "#2E211B", "skin": "#2E211B", "nose": "#1E1612"},
+   "body": {"w": 164, "h": 176, "top": 0.72, "arms": "thin", "feet": "pads"},
+   "head": {"r": 74, "sx": 1.12, "sy": 0.90, "shape": "wedge", "muz": {"none": true, "y": 0.46, "rx": 0.26, "ry": 0.22}, "nose": "round", "eyes": {"x": 0.36, "y": -0.06}},
+   "ears": {"a": 32, "type": "tri", "s": 0.55},
+   "mouth": "smile",
+   "tail": {"d": "M-8,-12 C30,-30 80,-80 116,-70 C140,-62 132,-30 104,-20 C70,-8 30,4 -8,16 Z", "fill": "fur", "axis": [0, 0, 128, -50]},
+   "back": null,
+   "markings": {"lowerFace": true, "chest": true, "darkPaws": true, "tailTip": true}
+  },
+  "cat": {
+   "a": "a", "say": ["Cat", "cat"],
+   "colours": {"fur": "#A2A1A6", "light": "#ECE9E4", "dark": "#4E4D53", "skin": "#F2A7B5", "nose": "#E58A9B"},
+   "body": {"w": 158, "h": 168, "top": 0.72, "arms": "thin", "feet": "small"},
+   "head": {"r": 72, "sx": 1.06, "sy": 0.94, "shape": "round", "muz": {"y": 0.40, "rx": 0.30, "ry": 0.22}, "nose": "tri", "eyes": {"x": 0.37, "y": -0.04}, "whiskers": true},
+   "ears": {"a": 36, "type": "tri", "s": 0.42},
+   "mouth": "w",
+   "tail": {"d": "M-6,0 C30,-10 60,-40 50,-90 C46,-112 66,-124 76,-114", "whip": [13, 8], "fill": "fur", "end": [76, -114]},
+   "back": null,
+   "markings": {"stripes": "tabby", "belly": true}
+  },
+  "dog": {
+   "a": "a", "say": ["Dog", "dog"],
+   "colours": {"fur": "#D6A45E", "light": "#F3E3C6", "dark": "#7A4E26", "skin": "#8A5A3A", "nose": "#231A14"},
+   "body": {"w": 182, "h": 172, "top": 0.78, "arms": "thick", "feet": "pads"},
+   "head": {"r": 78, "sx": 1.04, "sy": 0.98, "shape": "round", "muz": {"y": 0.40, "rx": 0.40, "ry": 0.30}, "nose": "round", "eyes": {"x": 0.38, "y": -0.06}},
+   "ears": {"a": 70, "type": "flop", "s": 0.50},
+   "mouth": "open",
+   "tail": {"d": "M-6,0 C26,-6 50,-30 58,-62", "whip": [15, 10], "fill": "fur", "end": [58, -62]},
+   "back": null,
+   "markings": {"eyePatch": true, "belly": true}
+  },
+  "elephant": {
+   "a": "an", "say": ["Elephant", "phant"],
+   "colours": {"fur": "#A3A5AA", "light": "#C9CBCF", "dark": "#6C6E73", "skin": "#D9B8B1", "nose": "#4E5055"},
+   "body": {"w": 214, "h": 186, "top": 0.84, "arms": "thick", "feet": "toes"},
+   "head": {"r": 88, "sx": 1.00, "sy": 0.98, "shape": "round", "muz": {"none": true, "y": 0.50, "rx": 0.30, "ry": 0.30}, "nose": "trunk", "eyes": {"x": 0.34, "y": -0.12}},
+   "ears": {"a": 80, "type": "fan", "s": 0.62},
+   "mouth": "tusks",
+   "tail": {"d": "M-6,4 C20,14 40,30 46,60", "whip": [8, 4], "fill": "fur", "tuft": [46, 64, -10]},
+   "back": null,
+   "markings": {}
+  },
+  "penguin": {
+   "a": "a", "say": ["Penguin", "guin"],
+   "colours": {"fur": "#23272F", "light": "#F6F6F2", "dark": "#111419", "skin": "#F2A33A", "nose": "#F2A33A"},
+   "body": {"w": 168, "h": 196, "top": 0.70, "arms": "flippers", "feet": "paddles"},
+   "head": {"r": 72, "sx": 1.00, "sy": 0.96, "shape": "round", "muz": {"none": true, "y": 0.28, "rx": 0.20, "ry": 0.20}, "nose": "beak", "eyes": {"x": 0.33, "y": -0.06}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "none",
+   "tail": {"d": "@circle 12 6 12", "fill": "fur", "at": 0.40},
+   "back": null,
+   "markings": {"tux": true}
+  },
+  "owl": {
+   "a": "an", "say": ["Owl", "owl"],
+   "colours": {"fur": "#8C6A48", "light": "#EEE1CA", "dark": "#4A3626", "skin": "#F2B33D", "nose": "#C9A24A"},
+   "body": {"w": 184, "h": 176, "top": 0.86, "arms": "wings", "feet": "talons"},
+   "head": {"r": 84, "sx": 1.10, "sy": 0.96, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "beak", "eyes": {"x": 0.36, "y": -0.04, "big": true}},
+   "ears": {"a": 34, "type": "tufts", "s": 0.42},
+   "mouth": "none",
+   "tail": {"d": "M-8,-10 C20,0 40,20 46,40 L30,38 L32,52 L16,44 L10,56 L0,42 L-10,14 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"disc": true, "belly": true, "chevrons": true}
+  },
+  "turtle": {
+   "a": "a", "say": ["Turtle", "turtle"],
+   "colours": {"fur": "#7E9A4E", "light": "#E3D58E", "dark": "#4C6230", "skin": "#5E7A3A", "nose": "#2F3A1E"},
+   "body": {"w": 186, "h": 158, "top": 0.78, "arms": "thick", "feet": "claws"},
+   "head": {"r": 62, "sx": 0.95, "sy": 0.86, "shape": "round", "muz": {"none": true, "y": 0.36, "rx": 0.30, "ry": 0.20}, "nose": "nostrils", "eyes": {"x": 0.36, "y": -0.08}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "smile",
+   "tail": {"d": "M-6,-8 C14,-6 30,4 40,14 C28,14 10,12 -6,10 Z", "fill": "fur"},
+   "back": {"kind": "scutes", "word": "a turtle's shell", "plate": "#8A7A42", "band": "#4E4422", "speck": "#B3A05E"},
+   "markings": {"chest": true}
+  },
+  "zebra": {
+   "a": "a", "say": ["Zebra", "zebra"],
+   "colours": {"fur": "#F4F2EE", "light": "#FFFFFF", "dark": "#1E1E22", "skin": "#3A3A3E", "nose": "#8C8C93"},
+   "body": {"w": 182, "h": 182, "top": 0.76, "arms": "thin", "feet": "hooves"},
+   "head": {"r": 72, "sx": 0.90, "sy": 1.06, "shape": "round", "muz": {"y": 0.52, "rx": 0.32, "ry": 0.28}, "nose": "nostrils", "eyes": {"x": 0.38, "y": -0.12}},
+   "ears": {"a": 24, "type": "leaf", "s": 0.50},
+   "mouth": "tiny",
+   "tail": {"d": "M-6,4 C20,14 36,32 42,62", "whip": [8, 4], "fill": "fur", "tuft": [42, 66, -10]},
+   "back": {"kind": "mane", "word": "a zebra's mane", "plate": "#1E1E22", "band": "#F4F2EE"},
+   "markings": {"stripes": "bold", "darkMuzzle": true}
   }
  },
  "known": {
-  "_note": "Names somebody chose, used instead of the made-up one for exactly that body and second animal. Pandillo is the name Chelsea chose for hers. Porkypine is a name Randimals and Stimpunks made together and both use; it waits here until the pig and the porcupine are on the shelf.",
+  "_note": "Names somebody chose, used instead of the made-up one for exactly that body and second animal. Pandillo is the name Chelsea chose for hers. Porkypine is a name Randimals and Stimpunks made together and both use, and it is what a pig with the most of its other parts from a porcupine is called.",
   "panda+armadillo": "Pandillo",
   "pig+porcupine": "Porkypine"
  },
@@ -114,13 +227,13 @@
  },
  "presets": [
   {"id": "bearmouse", "label": "Bearmouse", "whose": "Ryan's",
-   "parts": {"body": "bear", "head": "bear", "ears": "bear", "mouth": "mouse", "tail": "mouse", "back": "none", "colours": "bear", "markings": "bear"}},
+   "parts": {"body": "bear", "head": "bear", "ears": "bear", "mouth": "mouse", "arms": "bear", "feet": "bear", "tail": "mouse", "back": "none", "colours": "bear", "markings": "bear"}},
   {"id": "pandillo", "label": "Pandillo", "whose": "Chelsea's",
-   "parts": {"body": "panda", "head": "panda", "ears": "panda", "mouth": "panda", "tail": "panda", "back": "armadillo", "colours": "panda", "markings": "panda"}},
+   "parts": {"body": "panda", "head": "panda", "ears": "panda", "mouth": "panda", "arms": "panda", "feet": "panda", "tail": "panda", "back": "armadillo", "colours": "panda", "markings": "panda"}},
   {"id": "bunnybadger", "label": "Bunnybadger", "whose": "Inna's",
-   "parts": {"body": "rabbit", "head": "rabbit", "ears": "rabbit", "mouth": "badger", "tail": "badger", "back": "none", "colours": "badger", "markings": "badger"}},
+   "parts": {"body": "rabbit", "head": "rabbit", "ears": "rabbit", "mouth": "badger", "arms": "rabbit", "feet": "rabbit", "tail": "badger", "back": "none", "colours": "badger", "markings": "badger"}},
   {"id": "otteraccoon", "label": "An otteraccoon", "whose": "Norah asked for one",
-   "parts": {"body": "otter", "head": "otter", "ears": "raccoon", "mouth": "otter", "tail": "raccoon", "back": "none", "colours": "otter", "markings": "raccoon"}}
+   "parts": {"body": "otter", "head": "otter", "ears": "raccoon", "mouth": "otter", "arms": "otter", "feet": "otter", "tail": "raccoon", "back": "none", "colours": "otter", "markings": "raccoon"}}
  ],
  "opens_on": "otteraccoon",
  "becky": {

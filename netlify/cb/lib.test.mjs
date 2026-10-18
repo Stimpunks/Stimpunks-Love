@@ -1812,9 +1812,15 @@ test('a chimera holds exactly its parts, each an animal on the shelf', () => {
   assert.equal(cleanChimera({ ...partsOf(), picture: 'data:image/png;base64,AAAA' }), null, 'a picture rode along');
   for (const k of CHIMERA.slots) {
     const less = partsOf(); delete less[k];
-    assert.equal(cleanChimera(less), null, `no ${k}`);
+    // Arms and feet became parts after chimeras were kept, so a chimera
+    // without them takes its body's.
+    if (CHIMERA.defaults[k]) assert.deepEqual(cleanChimera(less), partsOf(), `no ${k} should take the ${CHIMERA.defaults[k]}'s`);
+    else assert.equal(cleanChimera(less), null, `no ${k}`);
     assert.equal(cleanChimera(partsOf({ [k]: 'unicorn' })), null, `a ${k} the shelf does not have`);
   }
+  const kept = partsOf({ body: CHIMERA.animals[1] }); delete kept.arms; delete kept.feet;
+  const back = cleanChimera(kept);
+  assert.equal(back.arms, CHIMERA.animals[1]); assert.equal(back.feet, CHIMERA.animals[1]);
   const noBack = CHIMERA.animals.find((x) => !CHIMERA.backs.includes(x));
   if (noBack) assert.equal(cleanChimera(partsOf({ back: noBack })), null, 'a back from an animal that has none');
   assert.equal(cleanChimera(partsOf({ body: 'none' })), null);

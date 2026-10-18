@@ -1401,7 +1401,7 @@ export function shapeAvatarSticker(st) {
    username. The answer for a handle that is not claimed is the same whether it
    is unclaimed or nobody at all, and shown chimeras carry no ids. */
 /* chimera:keys:begin */
-export const CHIMERA = {"slots":["body","head","ears","mouth","tail","back","colours","markings"],"animals":["armadillo","badger","bear","mouse","otter","panda","rabbit","raccoon"],"backs":["armadillo"]};
+export const CHIMERA = {"slots":["body","head","ears","mouth","arms","feet","tail","back","colours","markings"],"defaults":{"arms":"body","feet":"body"},"animals":["armadillo","badger","bear","cat","dog","elephant","fox","mouse","otter","owl","panda","penguin","pig","porcupine","rabbit","raccoon","turtle","zebra"],"backs":["armadillo","porcupine","turtle","zebra"]};
 /* chimera:keys:end */
 export const CHIMERA_KEEP = 24;           // chimeras one person keeps at once
 export const CHIMERA_NAME_MAX = 24;
@@ -1411,11 +1411,14 @@ export const CHIMERA_ID = /^h[A-Za-z0-9_-]{10}$/;
    shelf, and nothing else. */
 export function cleanChimera(c) {
   if (!c || typeof c !== 'object' || Array.isArray(c)) return null;
-  if (Object.keys(c).length !== CHIMERA.slots.length) return null;
+  if (Object.keys(c).some((k) => !CHIMERA.slots.includes(k))) return null;
   const out = {};
   for (const k of CHIMERA.slots) {
-    if (!own(c, k)) return null;
-    const v = c[k];
+    // A part with a default (arms, feet) may be missing, from a chimera kept
+    // before it was a part of its own, and takes its default's animal.
+    const from = own(c, k) ? k : own(CHIMERA.defaults, k) ? CHIMERA.defaults[k] : null;
+    if (!from || !own(c, from)) return null;
+    const v = c[from];
     if (typeof v !== 'string') return null;
     if (k === 'back') { if (v !== 'none' && !CHIMERA.backs.includes(v)) return null; }
     else if (!CHIMERA.animals.includes(v)) return null;
@@ -1453,7 +1456,7 @@ async function updateChimeras(pk, change, s) {
 }
 
 export function shapeChimera(c) {
-  return { id: c.id, name: c.name || '', parts: c.parts };
+  return { id: c.id, name: c.name || '', parts: cleanChimera(c.parts) || c.parts };
 }
 
 /* Keep a new chimera. { kept } or { error }. */

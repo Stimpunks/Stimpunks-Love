@@ -27,6 +27,7 @@ vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(here + 'chimera.js', 'utf8'), ctx);
 const C = ctx.loveChimera;
 const SLOTS = Array.from(C.slots, (s) => s.key);  // an array of this realm, not the vm's
+const DEFAULTS = Object.fromEntries(Array.from(C.slots, (s) => [s.key, s.defaults_to]).filter((e) => e[1]));
 
 function drawnWell(c, where) {
   const s = C.svg(c, { prefix: 'tst' });
@@ -43,11 +44,13 @@ function drawnWell(c, where) {
 
 test('the shelf has animals and parts', () => {
   assert.ok(C.animals.length >= 2, 'fewer than two animals on the shelf');
-  assert.deepEqual(SLOTS, ['body', 'head', 'ears', 'mouth', 'tail', 'back', 'colours', 'markings']);
+  assert.deepEqual(SLOTS, ['body', 'head', 'ears', 'mouth', 'arms', 'feet', 'tail', 'back', 'colours', 'markings']);
 });
 
 test('every pair of animals, with every part from either of the two', () => {
-  const others = SLOTS.filter((k) => k !== 'body' && k !== 'back');
+  // Arms and feet are each fitted to the body and to nothing else, so here
+  // they come from the same animal; the random chimeras below take them apart.
+  const others = SLOTS.filter((k) => k !== 'body' && k !== 'back' && k !== 'feet');
   let drawn = 0;
   for (const a of C.animals) for (const b of C.animals) {
     if (a === b) continue;
@@ -56,6 +59,7 @@ test('every pair of animals, with every part from either of the two', () => {
       for (const back of backs) {
         const c = { body: a, back };
         others.forEach((k, i) => { c[k] = (mask >> i) & 1 ? b : a; });
+        c.feet = c.arms;
         drawnWell(c, `${a} with ${b} (${mask}, ${back})`);
         drawn++;
       }
@@ -91,7 +95,8 @@ test('clean() takes exactly a chimera and nothing else', () => {
   assert.equal(C.clean({ ...good, extra: 'x' }), null, 'a key that is not a part');
   for (const k of SLOTS) {
     const less = { ...good }; delete less[k];
-    assert.equal(C.clean(less), null, `a chimera with no ${k}`);
+    if (DEFAULTS[k]) assert.deepEqual({ ...C.clean(less) }, good, `a chimera with no ${k} takes the ${DEFAULTS[k]}'s`);
+    else assert.equal(C.clean(less), null, `a chimera with no ${k}`);
     assert.equal(C.clean({ ...good, [k]: 'unicorn' }), null, `a ${k} from an animal not on the shelf`);
     assert.equal(C.clean({ ...good, [k]: 7 }), null, `a ${k} that is not a word`);
   }
@@ -110,6 +115,19 @@ test('a chimera goes into an address and comes back the same', () => {
     assert.match(code, /^[a-z.]+$/);
     assert.deepEqual({ ...C.uncode(code) }, { ...C.clean(p.parts) });
   }
+  // Kept and linked before arms and feet were parts of their own: every part
+  // but those, in the same order, and they take the body's.
+  const old = { body: 'otter', head: 'raccoon', ears: 'raccoon', mouth: 'otter', tail: 'raccoon', back: 'none', colours: 'raccoon', markings: 'raccoon' };
+  const now = C.clean(old);
+  assert.ok(now, 'a chimera kept before arms and feet were parts no longer opens');
+  assert.equal(now.arms, 'otter'); assert.equal(now.feet, 'otter');
+  assert.deepEqual({ ...cleanChimera(old) }, { ...now }, 'the CB opens an older chimera differently');
+  const oldCode = 'otter.raccoon.raccoon.otter.raccoon.none.raccoon.raccoon';
+  assert.deepEqual({ ...C.uncode(oldCode) }, { ...now }, 'an older address no longer opens the same chimera');
+  assert.equal(C.code(now), oldCode, `a chimera with its body's arms and feet has a different address from before`);
+  const webbed = { ...now, feet: 'raccoon' };
+  assert.equal(C.code(webbed).split('.').length, SLOTS.length, 'arms or feet off the body need every part in the address');
+  assert.deepEqual({ ...C.uncode(C.code(webbed)) }, webbed);
   assert.equal(C.uncode(''), null);
   assert.equal(C.uncode('bear.bear'), null);
   assert.equal(C.uncode('<script>'), null);

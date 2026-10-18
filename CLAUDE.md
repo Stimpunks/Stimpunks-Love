@@ -4199,11 +4199,17 @@ puts the Den's rails on it, and the Den still draws no body of its own.
 Hicks's Bearmouse, Pandillo and Bunnybadger, which hang on its wall under CC BY-SA 4.0 with her yes). Not called
 Randimals: our friends' company makes plush combined animals, and its characters' names are theirs.
   · **IT IS A PARTS BUILDER, BECAUSE THAT IS HOW THE ABOUT PAGE'S CHIMERAS ARE MADE**: one animal's body, with the
-    head, ears, mouth, tail, back, colours and markings from it or another. `chimera.js` draws every chimera on
+    head, ears, mouth, arms, feet, tail, back, colours and markings from it or another. `chimera.js` draws every chimera on
     the street, each part fitted to the body it lands on, from the shelf `tools/make-chimera-obscura.py` writes
     between its `chimera:data` markers out of `data/chimera-obscura.json` (never hand-edit them), and
     `tools/chimera.test.mjs` draws every pair with every part from either. **A new animal is one data entry with
     every part**; the tool refuses one missing a part, and the test refuses one that cannot be drawn with another.
+    **A new kind of part** (a nose, an ear, a back, a marking) is a drawing in `chimera.js` and a word in the tool's
+    lists, which refuse a kind with no drawing.
+  · **ARMS AND FEET BECAME PARTS AFTER CHIMERAS WERE KEPT, SO THEY DEFAULT TO THE BODY'S** (`defaults_to` in the
+    data). `clean()` and `cleanChimera()` let them be missing, `uncode()` reads an address without them, and
+    `code()` leaves them out when they are the body's, so every chimera kept or linked before has the same address
+    now. **A later part gets a `defaults_to` too**; one without it would make every kept chimera unreadable.
   · **THE FALLBACK IS REQUEST, THEN DRAW.** Ryan offered to exempt one page from design.html's "Nothing you do here
     is sent to an AI" and chose this instead: an animal the shelf lacks is asked for in the Sandbox's suggestion
     box (`sandbox.html#suggest-chimera`, which `suggest.js` opens filled in) and drawn in a later session, as code,
