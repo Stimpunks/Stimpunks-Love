@@ -15,6 +15,9 @@ hand-edit between those markers.
 WHAT IT REFUSES, because a friendly edit could break each without a test
 noticing (netlify/cb/lib.test.mjs tests what the code does):
 
+  · COPING KEPT LONGER THAN A WEEK. Ryan's call, 2026-10-18: Discord keeps that
+    channel for ever, which is not what it is for, so here its topics go a week
+    after the last post. The friendly edit is to lengthen it to match the others.
   · A CATEGORY THAT IS NOT WHOLE: a slug the server cannot use, two alike, no
     name, about or group, a keep that is not one of the four, roles that are
     not CB_MODS roles, a staff category nobody but an administrator could read.
@@ -102,6 +105,8 @@ def categories(data, roles):
                 problems.append(f"{where}: it has no {k}.")
         if c.get("keep") not in KEEPS:
             problems.append(f"{where}: keep is {c.get('keep')!r}, not one of {KEEPS}.")
+        if slug == "coping" and c.get("keep") != "1 week":
+            problems.append(f"{where}: Coping's topics go a week after the last post, Ryan's call; Discord keeping that channel for ever is what the forums are not doing.")
         for k in ("see", "start"):
             v = c.get(k)
             if v is None:
