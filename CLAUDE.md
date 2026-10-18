@@ -1415,7 +1415,11 @@ not mention.
 **A PROFILE CAN HAVE A FRAME AND AN EFFECT, AFTER DISCORD'S, AND THE EFFECT'S PASS IS THE ONE DRAWING THAT CROSSES
 WORDS.** Ryan, 2026-10-18. Both are chosen from `profile.js`'s own lists (FRAMES, EFFECTS, written into `PROFILE_KEYS`
 by `make-profile.py`, each refused without its drawing), and `loveProfile.surround()` puts them on a `.pf-stage` round
-the profile's sheet or the editor's card, wearing the card's theme, so both are drawn only in that theme's seven inks. A
+the profile's sheet or the editor's card, wearing the card's theme, so both are drawn only in that theme's seven inks,
+**with one exception: the Black Leather Lagoon effect** (Ryan, 2026-10-18, after the room and The Cramps), which is drawn
+in that room's own declared `--lag-*` inks between the `effect:lagoon` markers and nowhere else, and whose credit must
+name The Cramps, Lux Interior and Poison Ivy and say nobody real is drawn: their world, not them, Ryan's call over
+drawing the two of them. `make-profile.py` holds all of it, and refuses a literal colour anywhere in `profile.js`. A
 **frame** is a band of the theme's case round all four sides, outside the profile, each side drawn once longer than a
 profile can be (the radio's sides' rule) and a corner covering the cut. An **effect** has a **still part** along the
 edges and in the banner, where no sentence is, and a **pass** that crosses the whole profile from time to time, **words
