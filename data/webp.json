@@ -801,6 +801,34 @@
       "ssim": 0.9807,
       "bytes_before": 321748,
       "bytes_after": 227598
+    },
+    "springs/mowery-hot-spring.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 332312 bytes against 316875, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9879,
+      "sha256": "13f7231faab390c1ac1cfd371ddbd64818bdcba3aa0bc7adea057eaddf17d71d",
+      "bytes": 316875
+    },
+    "borrowed/ly-wolf.webp": {
+      "from": "borrowed/ly-wolf.jpg",
+      "quality": 80,
+      "ssim": 0.9804,
+      "bytes_before": 177398,
+      "bytes_after": 83524
+    },
+    "borrowed/mowery-hot-spring.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 332312 bytes against 316875, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9879,
+      "sha256": "13f7231faab390c1ac1cfd371ddbd64818bdcba3aa0bc7adea057eaddf17d71d",
+      "bytes": 316875
+    },
+    "borrowed/shavr-huskies.jpg": {
+      "kept": "the WebP that reached SSIM 0.98 was 229642 bytes against 245826, under the 10% a swap has to save",
+      "quality": 90,
+      "ssim": 0.9818,
+      "sha256": "9173839a27e446858b8e19f398425232537c94c1960b7a5d5c01e20301f50bcb",
+      "bytes": 245826
     }
   }
 }

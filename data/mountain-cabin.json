@@ -108,7 +108,7 @@
   "pronouns": "he/they"
  },
  "springs": {
-  "_what": "Photographs of hot springs like the cabin's, beside the spring's words: not ours, not David's, and not of the cabin's own spring, which is drawn. Each is somebody's photograph on Unsplash under the Unsplash License, credited and linked by name and by picture, chosen by Helen Edgar on 2026-10-18, with nobody in it: a photograph with a person in it goes through data/polaroids.json or not at all. The file is saved through Pillow with every byte of metadata stripped; tools/make-webp.py measures it like every JPEG here.",
+  "_what": "Photographs of hot springs like the cabin's, beside the spring's words: not ours, not David's, and not of the cabin's own spring, which is drawn. Each is somebody's photograph on Unsplash under the Unsplash License, credited and linked by name and by picture, chosen by Helen Edgar on 2026-10-18, Where somebody is in one, far off and a stranger to this street, the room says so in the caption and the record says so here: Helen's call, 2026-10-18, to use Jeremy Mowery's anyway, credited and said. The file lives in borrowed/, the place for photographs that are somebody else's, saved through Pillow with every byte of metadata stripped; tools/make-webp.py measures it like every JPEG here.",
   "photos": [
    {
     "id": "sasso-hot-spring",
@@ -119,6 +119,42 @@
     "chosen": "2026-10-18",
     "alt": "A clear turquoise hot spring pool held in a rim of pale mineral rock, steam drifting off it, beside a wide shallow river with grass banks and a dark pine-covered hill under a cloudy sky.",
     "caption": "A hot spring beside a river, something like the one outside the door. Photograph by Fabio Sasso, on Unsplash."
+   },
+   {
+    "id": "mowery-hot-spring",
+    "by": "Jeremy Mowery",
+    "by_url": "https://unsplash.com/@jermowery",
+    "url": "https://unsplash.com/photos/turquoise-hot-spring-with-steam-rising-around-it-YboIU3UwVHQ",
+    "licence": "Unsplash License",
+    "chosen": "2026-10-18",
+    "people": "Three people standing on a boardwalk on the far side of the pool, small and far off, strangers to this street whose yes nobody could ask; Helen Edgar's call to use it anyway, credited, with the room saying so.",
+    "alt": "A wide turquoise hot spring pool with steam drifting across it, its rim crusted pale and the ground round it bare and stony with small yellow flowers, a wooden boardwalk along the far side with three people standing on it, a lake beyond, and a line of mountains under a grey sky.",
+    "caption": "A hot spring pool like ours, somewhere else: steam off turquoise water, and three people on a boardwalk at the far side, strangers to this street and a long way off. Photograph by Jeremy Mowery, on Unsplash."
+   }
+  ]
+ },
+ "wolves_photos": {
+  "_what": "Photographs beside the wolves' words, borrowed like the springs': credited, linked, licensed, and the caption saying what the animals in it are, because a photograph's own title is what it is and not what we would like it to be. Fetched from Unsplash's image host on 2026-10-18 with Helen's go-ahead, after the pictures she sent would not arrive as files.",
+  "photos": [
+   {
+    "id": "ly-wolf",
+    "by": "Andrew Ly",
+    "by_url": "https://unsplash.com/@nineteen",
+    "url": "https://unsplash.com/photos/brown-and-white-wolf-iUA1cea8QiY",
+    "licence": "Unsplash License",
+    "chosen": "2026-10-18",
+    "alt": "A wolf walking through snow between dark tree trunks, its head low and turned to one side, its fur grey-brown on the back and cream on the face and legs, one yellow eye catching the light.",
+    "caption": "A wolf like the ones outside, somewhere else, in the snow. Photograph by Andrew Ly, on Unsplash."
+   },
+   {
+    "id": "shavr-huskies",
+    "by": "Shavr IK",
+    "by_url": "https://unsplash.com/@shavr",
+    "url": "https://unsplash.com/photos/two-husky-dogs-looking-forward-4GSwxsYEMSA",
+    "licence": "Unsplash License",
+    "chosen": "2026-10-18",
+    "alt": "Two huskies close together in dim light: one in profile with a dark mask, a pale blue eye and a white muzzle, the other facing the camera with brown eyes, both grey, cream and tan.",
+    "caption": "Two huskies, by the photograph’s own title: dogs and not wolves, though they look the part, which is why they are here. Photograph by Shavr IK, on Unsplash."
    }
   ]
  }

@@ -4810,7 +4810,7 @@ def card_bough(p):
         f'</div>',
         f"A pale autumn card. On the right, a tree house up in a grove: a trunk rising through the middle of "
         f"a little house of silvered planks with a rust-red roof, two limbs curling round its walls, a gold "
-        f"window and a dark door, a rope ladder hanging down to fallen leaves, a small arched fairy door at the foot of the trunk, and a tiny black dog on the "
+        f"window and a dark door, a rope ladder hanging down to fallen leaves, an arched fairy door with a round window at the foot of the trunk, a toadstool beside it, and a tiny black dog on the "
         f"platform, under a crown of gold, rust, crimson and green leaves. On the left, small capitals reading "
         f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large brush lettering, then: "
         f"{p['desc_plain']} Below it: {plain(trail.group(1))}, stimpunks.world.",

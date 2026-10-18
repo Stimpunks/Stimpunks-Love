@@ -236,13 +236,13 @@ def check_data(d):
     for f in ("short", "name", "theme", "city", "dates", "url", "read"):
         if not str(cg.get(f, "")).strip():
             refuse(f"congress: no {f}; the wall says where the photographs were taken and where that was read.")
-    for i, sp in enumerate((d.get("springs") or {}).get("photos") or []):
-        where = f"spring photograph {i + 1} ({sp.get('id')})"
+    for i, sp in enumerate(borrowed(d)):
+        where = f"borrowed photograph {i + 1} ({sp.get('id')})"
         for f in ("id", "by", "by_url", "url", "licence", "chosen", "alt", "caption"):
             if not str(sp.get(f, "")).strip():
                 refuse(f"{where}: no {f}; somebody else's photograph is named, linked and licensed or it is not here.")
-        if not any((ROOT / "springs" / f"{sp.get('id')}{x}").exists() for x in PHOTO_SUFFIXES):
-            refuse(f"{where}: no file in springs/.")
+        if not any((ROOT / "borrowed" / f"{sp.get('id')}{x}").exists() for x in PHOTO_SUFFIXES):
+            refuse(f"{where}: no file in borrowed/.")
         if "utm_" in sp.get("url", "") + sp.get("by_url", ""):
             refuse(f"{where}: a tracking parameter in a credit link; the credit is the name and the page, not the referral.")
         if sp.get("by", "").strip() not in sp.get("caption", ""):
@@ -253,6 +253,10 @@ def check_data(d):
             refuse(f"david: no {f}.")
     if not dv.get("site", "").startswith("https://"):
         refuse("david: the site is not an https address.")
+
+
+def borrowed(d):
+    return [*((d.get("springs") or {}).get("photos") or []), *((d.get("wolves_photos") or {}).get("photos") or [])]
 
 
 # ── The big screen and its rack ──────────────────────────────────────────────
@@ -355,18 +359,18 @@ def gallery_block(d):
     return "\n".join(out)
 
 
-def springs_block(d):
-    """Somebody else's photographs of hot springs like the cabin's, each in a
-    frame of the logs with its credit under it."""
-    sps = (d.get("springs") or {}).get("photos") or []
+def springs_block(d, key="springs"):
+    """Somebody else's photographs beside a section's words, each in a frame of
+    the logs with its credit under it, the caption saying what is in it."""
+    sps = (d.get(key) or {}).get("photos") or []
     if not sps:
-        return "    <!-- no photographs of other springs -->"
+        return "    <!-- no borrowed photographs here yet -->"
     out = ['    <div class="efw-springs">']
     for sp in sps:
-        file = next(f"{sp['id']}{x}" for x in PHOTO_SUFFIXES if (ROOT / "springs" / f"{sp['id']}{x}").exists())
-        w, h = imgsize.size(ROOT / "springs" / file)
+        file = next(f"{sp['id']}{x}" for x in PHOTO_SUFFIXES if (ROOT / "borrowed" / f"{sp['id']}{x}").exists())
+        w, h = imgsize.size(ROOT / "borrowed" / file)
         out += ['      <figure class="efw-photo efw-photo--spring">',
-                f'        <img src="springs/{file}" alt="{attr(sp["alt"])}" width="{w}" height="{h}" loading="lazy" decoding="async">',
+                f'        <img src="borrowed/{file}" alt="{attr(sp["alt"])}" width="{w}" height="{h}" loading="lazy" decoding="async">',
                 f'        <figcaption>{esc(sp["caption"])} <a href="{attr(sp["url"])}">The photograph</a>, by <a href="{attr(sp["by_url"])}">{esc(sp["by"])}</a>, under the {esc(sp["licence"])}.</figcaption>',
                 '      </figure>']
     out.append('    </div>')
@@ -391,9 +395,10 @@ def liner_sources(d):
         ("The howl", 'Made in the browser with its own oscillators by <code>mountain-man.js</code> when the button is '
                      'pressed: three voices, one after another, about five seconds. No recording of any wolf, nothing fetched, '
                      'nothing hosted'),
-        *[("A photograph of a hot spring like the cabin's",
-           f'<a href="{attr(sp["url"])}">{esc(sp["alt"][:60].rsplit(" ", 1)[0])}&hellip;</a> by <a href="{attr(sp["by_url"])}">{esc(sp["by"])}</a> on Unsplash, under the {esc(sp["licence"])}, chosen by Helen Edgar {esc(sp["chosen"])}; nobody in it; not of the cabin\'s own spring, which is drawn; the file stripped of its metadata')
-          for sp in (d.get("springs") or {}).get("photos") or []],
+        *[("A borrowed photograph beside the spring's words" if sp in (d.get("springs") or {}).get("photos", []) else "A borrowed photograph beside the wolves' words",
+           f'<a href="{attr(sp["url"])}">{esc(sp["alt"][:60].rsplit(" ", 1)[0])}&hellip;</a> by <a href="{attr(sp["by_url"])}">{esc(sp["by"])}</a> on Unsplash, under the {esc(sp["licence"])}, chosen by Helen Edgar {esc(sp["chosen"])}; '
+           + (esc(sp["people"]) if sp.get("people") else "nobody in it") + '; not of the cabin\'s own, which is drawn; the file stripped of its metadata')
+          for sp in borrowed(d)],
         ("The rainbow sweets", 'Skittles, David&rsquo;s favourite, which the room names once; Skittles is a trade mark of '
                                'Mars Wrigley, which is not affiliated with Stimpunks'),
         ("The playlist on the big screen",
@@ -493,6 +498,7 @@ def main():
     swap(PAGE, "mtn:wall", wall_block(d), "    ")
     swap(PAGE, "mtn:gallery", gallery_block(d), "    ")
     swap(PAGE, "mtn:springs", springs_block(d), "    ")
+    swap(PAGE, "mtn:wolves-photos", springs_block(d, "wolves_photos"), "    ")
     swap(NOTES, "cabin-sources", liner_sources(d), "      ")
     check_page()
     section_css()
