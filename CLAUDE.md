@@ -1384,6 +1384,29 @@ the pets' rule. The board asks `/cb/jobs` once on arrival when signed on, to kno
 `DECISIONS.md` leaves open whether that should wait for a press. The filter (Every job, Not done, Done) hides
 rows and never says how many.
 
+**PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
+after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a
+`<dialog>` (`peek()` in `cb.js`, `.pf-*` in `cb.css`): the card on the left, drawn by `profile.js`, and on the right,
+where Discord has Board, Activity and Wishlist, tabs (the ARIA pattern) for Avatars, Pets, Badges and jobs and Battle
+jacket, each still behind its own switch. **Ryan's calls: every part Discord's editor has, shown once written on a
+claimed username only with no switch (the worn avatar's rule), and NO DATE**: "Member since" invites ranking who has
+been here longest, and `tools/make-profile.py` refuses a date in `profile.js` and a time in `lib.mjs`'s profile part.
+Every choice is checked against `PROFILE_KEYS`, which that tool writes between `profile:keys` markers out of `call.js`'s
+SCHEMES, `cb-themes.js`'s drawings and `profile.js`'s DECORATIONS and FACES (never hand-edit them), refusing a theme
+whose seven colours `love.css` lacks, a face it does not declare and a decoration with no drawing. **A card wears a
+theme by `loveProfile.dress()`**, which lays `--cb-<theme>-<part>` over the seven `--cb-*` on the element, so a card
+only ever uses pairs `CB_ROLES` already holds for every theme; **Amber's seven are `--cb-amber-<part>` in `love.css`,
+aliases of the bare names as `:root` has them**, because on the radio's host the bare names are the viewer's own theme.
+A banner and a nameplate are a theme's drawing on its own case (every avatar carries its own ground), a decoration is
+drawn in the card's own inks so it brings no colour nobody measured, and a face sets the name and nothing else. The
+nameplate is copied to one blob, `profiles-plates` (`withPlates`), the worn avatar's arrangement, raced fifteen at once
+in `lib.test.mjs`, and taken out first when a card goes. A quiet room cannot be a favourite: naming it would list it.
+The editor's preview is `inert`, and on a phone it is a sticky strip above the choices, the Dress-Up Den's rule. **The
+friendly edits are a Member since line, a count of anything, an uploaded banner or avatar picture** (which would bring
+the photograph rules onto the CB), **and a switch that starts off "for privacy"**, which would hide what people wrote to
+be shown. **Moderators cannot clear one card**: the desk deletes the whole username; a desk action for a card would be
+Ryan's call.
+
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
 identical at all three, because a fanfare is decoration and **Gentle takes away the wobble, never
@@ -4038,7 +4061,7 @@ puts the Den's rails on it, and the Den still draws no body of its own.
     a claimed name only, with the mark from the pass, and taking it off, deleting it, Forget me and deleting the
     username take it out of that blob *first*. `lib.test.mjs` races fifteen keeps and was broken on purpose.
   · **A PROFILE SHOWS THE WORN AVATAR, AND THE REST ONLY ON THE OWNER'S SAY.** Pressing a name on Who's
-    online or a handle on the channel opens the peek, which shows the worn avatar first and large
+    online or a handle on the channel opens their profile, whose Avatars tab shows the worn avatar first and large
     (`/cb/avatars/of`, `shownAvatars()`), and every avatar in it opens in the radio's one lightbox
     (`avatarBox`, sharing `lboxMake` with pictures). The others need **Show my avatars on the CB**
     (`avshown/<pet key>`, claimed only, the pets' switch). **The friendly edit is to show them all**, because

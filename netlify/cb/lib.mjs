@@ -1560,6 +1560,195 @@ export function shapeJacketSticker(st) {
   return patches.length ? { patches } : null;
 }
 
+/* ── Profiles ────────────────────────────────────────────────────────────
+
+   Ryan, 2026-10-17, after requests for profiles more like Discord's: a theme
+   and a banner, a decoration round the avatar you wear, your name in a face of
+   your choosing, a nameplate under your name on Who's online, your pronouns, a
+   bio, links to your other places, and your favourite room on the street.
+   Ryan's calls the same day: all of those, NO DATE (nothing says when anybody
+   claimed their username or joined, which a profile beside a name would turn
+   into who has been here longest), and WHATEVER IS FILLED IN IS SHOWN, to
+   anybody signed on to the CB, on a claimed username only, the way the avatar
+   you wear already is. An unclaimed handle is anybody's who signs on with it,
+   so it has no profile: nobody could write one on anybody's behalf.
+
+   IT IS THE FIFTH THING KEPT UNDER A PERSON, filed under the pet key like the
+   rest, and it holds the choices and the words and nothing else: no time, no
+   count, nothing about who looked. Every choice is checked against the lists
+   tools/make-profile.py writes between the markers below, out of call.js's
+   themes, cb-themes.js's drawings and profile.js's decorations and faces; a
+   link must be an http or https address with a dotted host and no name or
+   password in it, shown as its own address with its host after it, the
+   channel's rule; a room is a room's tag, never one that keeps to itself,
+   because a quiet room named on a profile would be the listing it exists not
+   to have. A profile with nothing in it is no profile, and is deleted.
+
+   THE NAMEPLATE IS COPIED TO ONE BLOB, the way the avatar worn is, so Who's
+   online reads one blob rather than one per person, and it is taken out of
+   that blob FIRST when the profile goes. Forget me and deleting the username
+   delete the profile. */
+/* profile:keys:begin */
+export const PROFILE_KEYS = {"themes":["amber","day","high","soldark","sollight","green","red","teal","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"banners":["soldark","sollight","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"decorations":["wreath","vines","stars","sparkles","mushrooms","leaves","hearts","gears","bubbles","snow","flames","moons","notes","paws","halo","circuit","butterflies","crystals"],"faces":["Atkinson Hyperlegible","Abril Fatface","Amarante","Anton","B612","Bagel Fat One","Bowlby One SC","Bungee","Bungee Shade","Caveat","Chakra Petch","Cherry Bomb One","Cinzel","Courier Prime","Della Respira","Doto","DynaPuff","Eczar","Exo 2","Forum","Fraunces","Fredoka","Gloria Hallelujah","Gravitas One","Inter","JetBrains Mono","Libre Franklin","Lilita One","Limelight","Macondo","Marcellus SC","Martian Mono","Michroma","Monoton","Oxanium","Permanent Marker","Playfair Display","Press Start 2P","Righteous","Rubik Dirt","Rye","Sansita","Shrikhand","Sour Gummy","Space Mono","Syncopate","Titan One","Unbounded","VT323","Yanone Kaffeesatz","Yellowtail"]};
+/* profile:keys:end */
+export const PRONOUNS_MAX = 40;
+export const BIO_MAX = 500;
+export const PROFILE_LINKS = 5;
+export const PROFILE_LINK_MAX = 300;
+export const ROOM_WHY_MAX = 200;
+const profileBlob = (k) => `profile/${k}`;
+const PLATES = 'profiles-plates';
+
+function inList(list, v) { return v === '' || v == null ? '' : (typeof v === 'string' && list.includes(v) ? v : null); }
+
+/* An address on somebody's profile, as typed, or '' for none and null for one
+   refused: http or https, a dotted host, no name or password, short enough to
+   print whole. What is typed is what is shown, and the radio links it to what
+   URL() makes of it, so a lookalike shows its host. */
+export function cleanProfileLink(v) {
+  const t = tidy(v);
+  if (!t) return '';
+  if ([...t].length > PROFILE_LINK_MAX) return null;
+  let u;
+  try { u = new URL(t); } catch (e) { return null; }
+  if ((u.protocol !== 'https:' && u.protocol !== 'http:') || u.username || u.password || !/\./.test(u.hostname)) return null;
+  return t;
+}
+
+/* A bio keeps its lines, the channel's rule for a message, and is at most
+   BIO_MAX characters. '' for none, null for too long. */
+export function cleanBio(v) {
+  const t = String(v == null ? '' : v)
+    .replace(/\r\n?/g, '\n')
+    .replace(/\t/g, '    ')
+    .replace(/[\u0000-\u0009\u000b-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, ' ')
+    .split('\n').map((line) => line.replace(/[  ]+$/, '')).join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/^\n+|\n+$/g, '');
+  if (!t.trim()) return '';
+  return [...t].length <= BIO_MAX ? t : null;
+}
+
+/* A profile as somebody sent it, checked: { profile } with every part, empty
+   ones as '' or [], or { error } saying which part was refused. */
+export function cleanProfile(p) {
+  if (!p || typeof p !== 'object' || Array.isArray(p)) return { error: 'That is not a profile.' };
+  const K = PROFILE_KEYS;
+  const out = {};
+  const pick = [['theme', K.themes, 'theme'], ['banner', K.banners, 'banner'], ['decoration', K.decorations, 'decoration'],
+    ['face', K.faces, 'name face'], ['plate', K.banners, 'nameplate']];
+  for (const [k, list, said] of pick) {
+    const v = inList(list, p[k]);
+    if (v === null) return { error: `The street does not know that ${said}.` };
+    out[k] = v;
+  }
+  const pronouns = cleanUpTo(p.pronouns, PRONOUNS_MAX);
+  if (pronouns === null) return { error: `Pronouns are at most ${PRONOUNS_MAX} characters.` };
+  out.pronouns = pronouns;
+  const bio = cleanBio(p.bio);
+  if (bio === null) return { error: `A bio is at most ${BIO_MAX} characters.` };
+  out.bio = bio;
+  const links = Array.isArray(p.links) ? p.links : (p.links == null ? [] : null);
+  if (!links) return { error: 'Links are a list of addresses.' };
+  out.links = [];
+  for (const l of links) {
+    const c = cleanProfileLink(l);
+    if (c === null) return { error: `${String(l).slice(0, 60)} is not an address the CB can link: it needs to start with https:// or http://, with no name or password in it, and be at most ${PROFILE_LINK_MAX} characters.` };
+    if (c && !out.links.includes(c)) out.links.push(c);
+  }
+  if (out.links.length > PROFILE_LINKS) return { error: `A profile links at most ${PROFILE_LINKS} places.` };
+  const room = p.room == null || p.room === '' ? '' : roomTag(p.room);
+  if (room === null) return { error: 'That is not a room on the street.' };
+  if (room && quietRoom(room)) return { error: 'That room keeps to itself, so it cannot be named on a profile.' };
+  out.room = room;
+  const why = cleanUpTo(p.why, ROOM_WHY_MAX);
+  if (why === null) return { error: `Why it is your favourite is at most ${ROOM_WHY_MAX} characters.` };
+  out.why = room ? why : '';
+  return { profile: out };
+}
+
+function emptyProfile(p) {
+  return !p || !Object.keys(p).some((k) => (Array.isArray(p[k]) ? p[k].length : !!p[k]));
+}
+
+export async function readProfile(pk, s = store()) {
+  const d = await s.get(profileBlob(pk), { type: 'json' });
+  if (!d || typeof d !== 'object') return null;
+  const c = cleanProfile(d);
+  return c.profile && !emptyProfile(c.profile) ? c.profile : null;
+}
+
+async function updatePlates(change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, PLATES);
+    const plates = { ...((cur.exists && cur.data && cur.data.plates) || {}) };
+    if (change(plates) === false) return plates;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(PLATES, { plates }, opts);
+    if (res.modified) return plates;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* The nameplate, copied to where Who's online can read it, or taken out. */
+async function showPlate(pk, plate, s) {
+  return updatePlates((plates) => {
+    if (!plate) { if (!own(plates, pk)) return false; delete plates[pk]; return true; }
+    if (plates[pk] === plate) return false;
+    plates[pk] = plate;
+    return true;
+  }, s);
+}
+
+/* Keep a profile, already checked by cleanProfile. The caller has checked the
+   username is claimed. One with nothing in it is forgotten instead. */
+export async function keepProfile(pk, p, s = store()) {
+  if (emptyProfile(p)) { await forgetProfile(pk, s); return null; }
+  const key = profileBlob(pk);
+  for (let attempt = 0; ; attempt++) {
+    if (attempt >= 12) throw new Error('busy');
+    const cur = await versioned(s, key);
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, p, opts);
+    if (res.modified) break;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  await showPlate(pk, p.plate || '', s);
+  return p;
+}
+
+/* Clearing it, Forget me and deleting the username: off Who's online first,
+   then the record. */
+export async function forgetProfile(pk, s = store()) {
+  await showPlate(pk, '', s);
+  await s.delete(profileBlob(pk));
+  return true;
+}
+
+/* Somebody's profile as anybody signed on is shown it: { handle, profile }
+   for a claimed username, with profile null when there is nothing in it, and
+   null for a handle that is not claimed, whatever the reason. */
+export async function shownProfile(handle, s = store()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return null;
+  return { handle: acct.handle, profile: await readProfile(petKey(handle), s) };
+}
+
+/* Who's online, with the nameplate each claimed person chose. Nothing is
+   added beside an unclaimed name, whatever the blob holds. */
+export async function withPlates(people, s = store()) {
+  if (!people.some((p) => p.claimed)) return people;
+  const d = await s.get(PLATES, { type: 'json' });
+  const plates = (d && d.plates) || {};
+  return people.map((p) => {
+    if (!p.claimed) return p;
+    const k = petKey(p.handle);
+    const plate = own(plates, k) ? inList(PROFILE_KEYS.banners, plates[k]) : null;
+    return plate ? { ...p, plate } : p;
+  });
+}
+
 /* ── The Slake ───────────────────────────────────────────────────────────── */
 
 /* Every place on the Slake, named HERE and nowhere else on the server side.
@@ -2666,7 +2855,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its jobs and its patches. The username is free again. */
+/* Delete an account, its pets, its avatars, its jobs, its patches and its profile. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -2674,6 +2863,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetAvatars(petKey(handle), s);
   await forgetJobs(petKey(handle), s);
   await forgetPatches(petKey(handle), s);
+  await forgetProfile(petKey(handle), s);
   await s.delete(acctBlob(handle));
   return { deleted: true };
 }

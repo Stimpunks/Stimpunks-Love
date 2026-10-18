@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sat, 17 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Profile cards on the CB</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-18-cb-profiles</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-18-cb-profiles</guid>
+      <pubDate>Sun, 18 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Pressing a handle opens a whole profile now, over the page, after requests for profiles more like Discord’s. On the left is the person’s card; on the right, where Discord has Board, Activity and Wishlist, are tabs for their Avatars, Pets, Badges and jobs and Battle jacket, each shown as they have chosen. A name on Who’s online opens the same profile. The CB guide says how it works. A claimed username can fill in its card, at Edit my profile card in Profile, with the card drawn beside the choices as they change: a theme from the radio’s own, a banner from their drawings, a decoration round the avatar you wear (flowers, ivy, stars, gears, flames, moons and more, drawn in the card’s own colours), a face for your name from the street’s typefaces, a nameplate under your name on Who’s online, your pronouns, a few words about you, up to five links elsewhere, each shown with its site after it, and your favourite room on the street, with a line on why. Ryan’s calls: whatever you fill in is shown to anybody signed on to the CB, as the avatar you wear is, with no switch; and no card says when anybody joined, because a date beside a name invites ranking who has been here longest. Every colour on a card is a pair the contrast checker already holds for every theme, and every drawing on it moves only where the radio’s do. Clear my card, Forget me and deleting the username delete it. Privacy has the whole of what is kept. Changed: cb.js, cb.css, love.css, netlify/cb/lib.mjs, privacy.html, cb-guide.html, community-center.html; new: profile.js, tools/make-profile.py, two functions.</description>
+    </item>
     <item>
       <title>Small is one press away on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-17-cb-sizes</link>

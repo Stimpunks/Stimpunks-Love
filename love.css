@@ -1317,6 +1317,13 @@
      is where check-contrast.py can hold every one of them to a pair. */
   --cb-case: #121315;  --cb-bar: #24272B;  --cb-steel: #D8DCE1;  --cb-steel-2: #A3AAB3;
   --cb-lcd: #1B1305;   --cb-amber: #FFB83F; --cb-amber-2: #D9A042;
+  /* Amber's seven again, by the name every other theme's go by, for a profile
+     card wearing Amber on a radio that wears something else: on the radio's
+     host the bare names above are the viewer's own theme, and these were
+     worked out here, where they are still Amber's (profile.js). */
+  --cb-amber-case: var(--cb-case); --cb-amber-bar: var(--cb-bar); --cb-amber-steel: var(--cb-steel);
+  --cb-amber-steel-2: var(--cb-steel-2); --cb-amber-lcd: var(--cb-lcd); --cb-amber-amber: var(--cb-amber);
+  --cb-amber-amber-2: var(--cb-amber-2);
   /* ITS OTHER COLOUR SCHEMES (Ryan, 2026-10-17, from a request): the same
      seven parts in other clothes, which somebody picks for their own radio
      under Your radio, so the radio still keeps its own clothes in every room

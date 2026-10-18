@@ -653,15 +653,7 @@ ol.cb-md-list { list-style: decimal; }
    words under it in the log's amber, so nothing new is measured here. */
 .cb-sticker__art { display: block; width: 120px; height: auto; border-radius: 4px; }
 .cb-sticker figcaption { margin: 3px 0 0; font-size: 13px; line-height: 1.4; }
-.cb-peek { margin: 8px 0 0; padding: 8px 0 0; border-top: 1px solid var(--cb-amber-2); }
-.cb-peek__h { margin: 0 0 4px; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
-.cb-peek__h .cb-tag { margin-left: 6px; }
-.cb-peek__sub { margin: 0 0 6px; font-size: 13px; font-weight: 700; }
-/* A profile opened from Who's online is on the case, not the readout: the
-   case's words and its second steel for the rule. The line saying it is still
-   looking is the quiet amber, a pair check-contrast.py holds on the case. */
-.cb-peek--case { border-top-color: var(--cb-steel-2); }
-.cb-peek .cb-pets__list { margin: 0 0 8px; }
+.pf-panel-tab .cb-pets__list { margin: 0 0 8px; }
 /* SOMEBODY'S AVATARS, in their profile: the one they wear first and large
    enough to see its details, the rest smaller beside it. Each is a button that
    opens it in the lightbox; the drawing is on its own ground, so nothing of the
@@ -711,6 +703,126 @@ ol.cb-md-list { list-style: decimal; }
 .cb-lightbox-cap { margin: 8px 0 0; color: var(--cb-amber-2); overflow-wrap: anywhere; }
 .cb-lightbox-bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin: 10px 0 0; }
 .cb-lightbox-dl { display: inline-flex; align-items: center; text-decoration: none; }
+/* PROFILES (Ryan, 2026-10-17, after requests for profiles more like
+   Discord's). Somebody's profile opens in a dialog over the page, in the
+   browser's top layer like the lightbox: their card on the left, in the theme
+   they chose, and tabs on the right where Discord has Board, Activity and
+   Wishlist. profile.js lays the chosen theme's seven colours over the seven
+   here on the sheet, so every rule below is the radio's own pairs in that
+   theme's clothes: steel and amber-2 on the case, amber and amber-2 on the
+   readout, steel-2 for every border, amber for the focus ring. Every one is in
+   check-contrast.py's CB_ROLES for every theme. A banner and a nameplate are
+   drawn on their own theme's case and carry no word; the decoration round an
+   avatar is drawn in the card's own inks. Every sentence is in Atkinson
+   Hyperlegible; the chosen face sets the name and nothing else. */
+.pf-dialog {
+  width: min(96vw, 960px); max-width: none; max-height: 94vh; padding: 0; box-sizing: border-box;
+  background: transparent; border: 0; color: var(--cb-steel); overflow: visible;
+  font: 15px/1.45 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+.pf-dialog::backdrop { background: rgba(0, 0, 0, .78); }
+.pf-dialog :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.pf-sheet {
+  position: relative; display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  max-height: 94vh; overflow: auto; box-sizing: border-box;
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 12px;
+}
+.pf-left { min-width: 0; border-right: 2px solid var(--cb-steel-2); }
+.pf-right { min-width: 0; padding: 66px 18px 18px; }
+.pf-close { position: absolute; top: 10px; right: 10px; z-index: 2; }
+.pf-looking { margin: 0; padding: 12px 18px 18px; }
+.pf-empty { margin: 0; }
+
+.pf-card { min-height: 100%; background: var(--cb-case); color: var(--cb-steel); }
+.pf-banner { height: 112px; overflow: hidden; background: var(--cb-case); border-bottom: 2px solid var(--cb-steel-2); }
+.pf-banner svg, .pf-plate svg { display: block; width: 100%; height: 100%; }
+.pf-top { padding: 14px 16px 0; }
+.pf-card--banner .pf-top { margin-top: -64px; }
+.pf-face { position: relative; width: 140px; height: 140px; }
+.pf-avatar {
+  position: absolute; left: 22px; top: 22px; width: 96px; height: 96px; padding: 0; box-sizing: border-box;
+  border-radius: 50%; overflow: hidden; line-height: 0; cursor: zoom-in;
+  background: var(--cb-lcd); border: 4px solid var(--cb-case);
+}
+.pf-avatar--none { cursor: default; background: var(--cb-bar); }
+.pf-avatar__art { display: block; width: 100%; height: 100%; }
+.pf-deco { position: absolute; inset: 0; width: 140px; height: 140px; overflow: visible; pointer-events: none; }
+.pf-body { display: grid; gap: 8px; padding: 2px 18px 20px; }
+.pf-name { margin: 0; line-height: 1.15; color: var(--cb-steel); overflow-wrap: anywhere; }
+.pf-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; }
+.pf-line .cb-tag { margin-left: 0; }
+.pf-pronouns { color: var(--cb-amber-2); }
+.pf-sub { margin: 8px 0 0; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .04em; color: var(--cb-steel); }
+.pf-panel, .pf-links {
+  margin: 0; padding: 10px 12px; overflow-wrap: anywhere;
+  background: var(--cb-lcd); color: var(--cb-amber);
+  border: 2px solid var(--cb-steel-2); border-radius: 8px;
+}
+.pf-panel a, .pf-links a { color: var(--cb-amber); }
+.pf-bio { display: grid; gap: 8px; }
+.pf-bio > * { margin: 0; }
+.pf-room__name { font-weight: 700; }
+.pf-room__why { margin: 4px 0 0; color: var(--cb-amber-2); }
+.pf-links { list-style: none; display: grid; gap: 6px; }
+
+.pf-tabs { display: flex; flex-wrap: wrap; gap: 0 20px; margin: 0 0 14px; border-bottom: 2px solid var(--cb-steel-2); }
+.pf-tab {
+  min-height: 44px; margin: 0 0 -2px; padding: 6px 2px; cursor: pointer;
+  font: 700 15px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-steel);
+  background: none; border: 0; border-bottom: 3px solid transparent;
+}
+.pf-tab:hover { border-bottom-color: var(--cb-steel-2); }
+.pf-tab[aria-selected="true"] { border-bottom-color: var(--cb-amber); }
+.pf-panel-tab {
+  min-height: 140px; padding: 12px; overflow-wrap: anywhere;
+  background: var(--cb-lcd); color: var(--cb-amber);
+  border: 2px solid var(--cb-steel-2); border-radius: 8px;
+}
+.pf-panel-tab > p { margin: 0 0 8px; }
+
+/* Editing your own: the choices in your radio's own clothes, and the card
+   beside them in the theme being chosen, standing still while the form
+   scrolls. */
+.pf-sheet--edit { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); }
+.pf-editor { display: grid; gap: 10px; align-content: start; padding: 18px; border-right: 2px solid var(--cb-steel-2); }
+.pf-edit__h { margin: 0; font: 700 20px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-steel); }
+.pf-edit__sub { margin: 10px 0 0; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .04em; color: var(--cb-steel); }
+.pf-editor .cb-hint { margin: 0; }
+.pf-field { display: grid; gap: 2px; }
+.pf-field .cb-say { width: 100%; box-sizing: border-box; }
+.pf-field .cb-say:disabled { opacity: .55; }
+.pf-bio-in { min-height: 110px; resize: vertical; }
+.pf-edit__row { flex-wrap: wrap; margin-top: 8px; }
+.pf-preview { position: sticky; top: 0; display: grid; gap: 10px; align-content: start; align-self: start; padding: 18px; }
+.pf-preview__card .pf-card { min-height: 0; overflow: hidden; border: 2px solid var(--cb-steel-2); border-radius: 10px; }
+.pf-preview__online { padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+
+/* The nameplate, under a name on Who's online. */
+.pf-plate { display: block; height: 20px; margin: 6px 0 0; overflow: hidden; border-radius: 3px; background: var(--cb-case); }
+
+@media (max-width: 720px) {
+  .pf-dialog { width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; }
+  .pf-sheet, .pf-sheet--edit { grid-template-columns: minmax(0, 1fr); align-content: start; height: 100%; max-height: 100dvh; border-radius: 0; }
+  .pf-card { min-height: 0; }
+  .pf-left, .pf-editor { border-right: 0; border-bottom: 2px solid var(--cb-steel-2); }
+  .pf-right { padding-top: 16px; }
+  /* On a phone the card being chosen stays in sight above the choices, the
+     Dress-Up Den's sticky stand: its banner, avatar, name and nameplate, and
+     See my card as others do shows the rest. */
+  .pf-preview {
+    order: -1; position: sticky; top: 0; z-index: 1; gap: 6px; padding: 10px 12px;
+    background: var(--cb-case); border-bottom: 2px solid var(--cb-steel-2);
+  }
+  .pf-preview > .pf-edit__sub, .pf-preview > .cb-hint { display: none; }
+  .pf-preview .pf-body > :not(.pf-name):not(.pf-line) { display: none; }
+  .pf-preview .pf-body { padding-bottom: 10px; }
+  .pf-preview .pf-banner { height: 64px; }
+  .pf-preview .pf-card--banner .pf-top { margin-top: -46px; }
+  .pf-preview .pf-face, .pf-preview .pf-deco { width: 100px; height: 100px; }
+  .pf-preview .pf-avatar { left: 16px; top: 16px; width: 68px; height: 68px; border-width: 3px; }
+  .pf-preview__online { padding: 4px 8px; }
+}
 .cb-radio--small .cb-picture-img { max-height: 90px; }
 .cb-pic-ready { display: grid; gap: 6px; margin: 8px 0 0; }
 .cb-pic-line { margin: 0; font-size: 13px; }

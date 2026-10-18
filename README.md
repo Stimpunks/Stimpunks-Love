@@ -316,6 +316,7 @@ python3 tools/make-bodymind.py     # the Bodymind Booth, and the avatar lists in
 node --test tools/avatar.test.mjs  # every avatar choice and garment drawn in every pose, and the page and the CB agreeing about a look
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
+python3 tools/make-profile.py      # The CB's profile cards: the themes, drawings, decorations and faces written into lib.mjs; refuses a theme love.css cannot paint, a face it does not declare, a decoration with no drawing, or a date
 python3 tools/make-brass.py        # The Brass Tacks Board: refuses innerHTML in brass.js, a post by anybody but a moderator, an edit by anybody but the author, a picture with no description or yes, and a board with no feed
 python3 tools/make-sandbox.py      # The Sandbox's suggestion box and steps for contributors, in the spaces the room left, and CONTRIBUTING.md from the same steps; refuses innerHTML in suggest.js or markdown.js, an answer without a reply, a take-down outside canTakeOff, a colour not hers, and a space gone missing
 tools/setup.sh                     # A contributor's first step: checks Git, Python, Node, Chrome and the rest, installs the CB's one library, runs its tests; installs nothing else

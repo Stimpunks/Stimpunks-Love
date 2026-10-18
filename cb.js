@@ -882,15 +882,6 @@
     // Nothing is claimed about the channel until it has been heard.
     this.quiet = el('p', 'cb-quiet', 'Tuning in\u2026');
     lcd.appendChild(this.quiet);
-    /* SOMEBODY'S PETS, Ryan's brief, 2026-09-30: press a handle on the channel
-       to see their pets, if they have made them public. On the readout, under
-       the message you pressed from, and nothing is fetched until the press. */
-    var peek = this.peekBox = el('div', 'cb-peek');
-    peek.id = 'cb-peek';
-    peek.hidden = true;
-    peek.setAttribute('role', 'group');
-    lcd.appendChild(peek);
-    peek.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.unpeek(); } });
     /* HOSTS: every beacon on the street, this room's with a Catch up button and
        the others with a link to their room that carries the host's spot. Not a
        live region: it is redrawn on every listen, and something read out every
@@ -1158,6 +1149,13 @@
     this.acctSaid = el('p', 'cb-said cb-acct__said');
     this.acctSaid.setAttribute('role', 'status');
     pets.appendChild(this.acctSaid);
+
+    /* YOUR PROFILE CARD (Ryan, 2026-10-17, after requests for profiles more
+       like Discord's): what anybody signed on sees when they press your name,
+       edited in a window of its own with the card drawn beside the choices. */
+    pets.appendChild(el('p', 'cb-pets__h', 'Your profile card'));
+    this.pfBox = el('div', 'cb-pf-box');
+    pets.appendChild(this.pfBox);
 
     /* YOUR AVATARS (Ryan, 2026-10-14): what you made at the Bodymind Booth or
        put on the stand at the Dress-Up Den, kept here, one of them worn on the
@@ -1839,7 +1837,7 @@
       var head = el('p', 'cb-head');
       var who = el('button', 'cb-handle', m.handle);
       who.type = 'button';
-      who.setAttribute('aria-controls', 'cb-peek');
+      who.setAttribute('aria-haspopup', 'dialog');
       (function (h, b, mk) { b.addEventListener('click', function () { me.peek(h, b, mk); }); })(m.handle, who, m);
       head.appendChild(who);
       if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
@@ -2244,149 +2242,270 @@
     return fig;
   }
 
-  /* SOMEBODY'S PROFILE: their handle, the mark the server gave it, and their
-     pets if they have made them public. Opened from a handle on the channel,
-     it is drawn on the readout under the log; from a name on Who's online
-     (Ryan, 2026-10-13), under that list, so it opens where the hand is. */
+  /* SOMEBODY'S PROFILE, IN FULL (Ryan, 2026-10-17, after requests for
+     profiles more like Discord's). Pressing a handle on the channel, or a name
+     on Who's online, opens a <dialog> over the page: on the left their card,
+     in the theme they chose, with whatever they filled in (profile.js draws
+     it); on the right, where Discord has Board, Activity and Wishlist, tabs for
+     their avatars, their pets, their badges and jobs and their battle jacket,
+     each shown only as they have chosen. Opened modally, so the keyboard stays
+     inside it; Escape, Close or a press outside shuts it, and the keyboard
+     goes back to the name. Nothing is fetched until the press. */
+  var profileWait = null;
+  function withProfile(then) {
+    if (window.loveProfile && window.loveCbArt && window.loveAvatar) { then(); return; }
+    if (!profileWait) {
+      profileWait = [];
+      var got = 0;
+      var done = function () {
+        if (++got < 2) return;
+        if (window.loveProfile) { then(); return; }
+        var s = document.createElement('script');
+        s.src = '/profile.js';
+        s.addEventListener('load', function () { var w = profileWait; profileWait = null; w.forEach(function (f) { f(); }); });
+        document.head.appendChild(s);
+      };
+      withArt(done);
+      withAvatar(done);
+    }
+    profileWait.push(then);
+  }
+
+  Radio.prototype.pfMake = function () {
+    var me = this, d = this.pfDialog;
+    if (!d) {
+      d = this.pfDialog = el('dialog', 'pf-dialog');
+      d.setAttribute('aria-labelledby', 'pf-name');
+      d.addEventListener('click', function (e) { if (e.target === d) d.close(); });
+      d.addEventListener('close', function () {
+        d.textContent = '';
+        var from = me.peekFrom, at = me.peekAt;
+        me.peekFrom = null;
+        me.peekAt = null;
+        me.peekN = (me.peekN || 0) + 1;
+        // Who's online may have been redrawn while it was open: the same
+        // name's new button takes the keyboard back.
+        if (from && !from.isConnected && at) {
+          var again = me.onlineList.querySelectorAll('.cb-handle');
+          for (var i = 0; i < again.length; i++) if (again[i].dataset.at === at) from = again[i];
+        }
+        if (from && from.isConnected) from.focus();
+      });
+      this.host.shadowRoot.appendChild(d);
+    }
+    d.textContent = '';
+    return d;
+  };
+
+  // The card's helpers, lent to profile.js: what is typed reaches it as text.
+  function pfLink(li, l) {
+    var u = awayUrl(l);
+    if (onStreet(l)) streetPart(li, l, 0, l.length);
+    else if (u) li.appendChild(awayLink(l, u));
+    else li.appendChild(document.createTextNode(l));
+  }
+  function pfRoom(tag) { return byTag[tag] || null; }
+
+  /* Tabs, the ARIA pattern: the arrow keys, Home and End move along them and
+     show the one they land on, and only the tab showing is in the tab order. */
+  function tabsInto(right, label, names) {
+    var list = el('div', 'pf-tabs');
+    list.setAttribute('role', 'tablist');
+    list.setAttribute('aria-label', label);
+    right.appendChild(list);
+    var tabs = [], panels = [];
+    names.forEach(function (n, i) {
+      var t = el('button', 'pf-tab', n);
+      t.type = 'button';
+      t.id = 'pf-tab-' + i;
+      t.setAttribute('role', 'tab');
+      t.setAttribute('aria-controls', 'pf-panel-' + i);
+      var pn = el('div', 'pf-panel-tab');
+      pn.id = 'pf-panel-' + i;
+      pn.setAttribute('role', 'tabpanel');
+      pn.setAttribute('aria-labelledby', t.id);
+      pn.tabIndex = 0;
+      list.appendChild(t);
+      right.appendChild(pn);
+      tabs.push(t); panels.push(pn);
+      t.addEventListener('click', function () { show(i, false); });
+    });
+    function show(i, focus) {
+      tabs.forEach(function (t, j) {
+        t.setAttribute('aria-selected', String(i === j));
+        t.tabIndex = i === j ? 0 : -1;
+        panels[j].hidden = i !== j;
+      });
+      if (focus) tabs[i].focus();
+    }
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(e.target), n = tabs.length;
+      if (i < 0) return;
+      var to = e.key === 'ArrowRight' ? (i + 1) % n : e.key === 'ArrowLeft' ? (i + n - 1) % n
+        : e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : -1;
+      if (to < 0) return;
+      e.preventDefault();
+      show(to, true);
+    });
+    show(0, false);
+    return panels;
+  }
+
   Radio.prototype.peek = function (handle, from, mark) {
-    var me = this, box = this.peekBox;
-    var onCase = !!(from && this.online.contains(from));
-    if (onCase && box.parentNode !== this.online) this.online.appendChild(box);
-    if (!onCase && box.parentNode !== this.lcd) this.lcd.insertBefore(box, this.beaconList);
-    box.classList.toggle('cb-peek--case', onCase);
+    var me = this;
     this.peekFrom = from;
     this.peekAt = from && from.dataset ? from.dataset.at : null;
-    box.textContent = '';
-    box.hidden = false;
-    box.setAttribute('aria-label', handle + '\u2019s profile');
-    var h = el('h3', 'cb-peek__h', handle + '\u2019s profile');
-    h.tabIndex = -1;
-    if (mark && mark.base) h.appendChild(el('span', 'cb-tag', 'BASE'));
-    else if (mark && mark.claimed) h.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
-    box.appendChild(h);
-    /* THEIR AVATARS FIRST (Ryan, 2026-10-14): the one they wear, large, then
-       the rest if they have made them public, each a button that opens it in
-       the lightbox. */
     var peekN = this.peekN = (this.peekN || 0) + 1;
-    box.appendChild(el('p', 'cb-peek__sub', 'Avatars'));
-    var avSaid = el('p', 'cb-quiet', 'Looking\u2026');
-    box.appendChild(avSaid);
-    var avBox = el('div', 'cb-peek__avatars');
-    avBox.hidden = true;
-    box.appendChild(avBox);
-    withAvatar(function () {
-      call('/cb/avatars/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+    this.loadRooms();
+    withProfile(function () {
+      if (peekN !== me.peekN) return;
+      var d = me.pfMake();
+      d.setAttribute('aria-labelledby', 'pf-name');
+      var sheet = el('div', 'pf-sheet');
+      var left = el('div', 'pf-left');
+      var right = el('div', 'pf-right');
+      var close = el('button', 'cb-btn pf-close', 'Close');
+      close.type = 'button';
+      close.addEventListener('click', function () { d.close(); });
+      var said = el('p', 'cb-quiet pf-looking', 'Looking…');
+      left.appendChild(said);
+      sheet.appendChild(left);
+      sheet.appendChild(right);
+      sheet.appendChild(close);
+      d.appendChild(sheet);
+      if (!d.open) d.showModal();
+      close.focus();
+      var mineP = String(handle).toLowerCase() === String(me.state.handle || '').toLowerCase();
+      var panels = tabsInto(right, handle + '’s avatars, pets, badges and battle jacket',
+        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket']);
+      // The card waits for both its profile and the avatar its owner wears.
+      var prof = call('/cb/profile/of', { body: { handle: handle } }, me.state.pass);
+      var avs = call('/cb/avatars/of', { body: { handle: handle } }, me.state.pass);
+      Promise.all([prof, avs, me.roomsReady || null]).then(function (rs) {
         if (peekN !== me.peekN) return;
-        if (r.status === 401) return me.lost();
-        if (r.status !== 200 || !r.body) { avSaid.textContent = 'Their avatars could not be fetched just now.'; return; }
-        me.peekAvatars(r.body, handle, avSaid, avBox);
-      }, function () { avSaid.textContent = 'Their avatars could not be fetched just now.'; });
-    });
-    box.appendChild(el('p', 'cb-peek__sub', 'Pets'));
-    var said = el('p', 'cb-quiet', 'Looking\u2026');
-    box.appendChild(said);
-    var list = el('ul', 'cb-pets__list');
-    list.hidden = true;
-    box.appendChild(list);
-    /* THEIR JOBS AND BADGES (Ryan, 2026-10-14), only if they have chosen to
-       show them, which needs a claimed username. The badges are worked out
-       here from the jobs; nobody keeps a badge, and nothing counts them. */
-    box.appendChild(el('p', 'cb-peek__sub', 'Badges and jobs'));
-    var bBox = el('div', 'cb-jobs-box');
-    bBox.hidden = true;
-    box.appendChild(bBox);
-    var jSaid = el('p', 'cb-quiet', 'Looking\u2026');
-    box.appendChild(jSaid);
-    var jBox = el('div', 'cb-jobs-box');
-    jBox.hidden = true;
-    box.appendChild(jBox);
-    var mineJ = String(handle).toLowerCase() === String(this.state.handle || '').toLowerCase();
-    /* THEIR BADGES are worked out from what the profile shows and nothing
-       else: their jobs if they show them, and Pet Parent if they show their
-       pets. Never Rescue Ranger, because nothing on the street knows who
-       rescued, so nothing here could. Drawn once both have answered. */
-    var shownJobs = [], shownPets = false, guildNow = null, waiting = 2;
-    function badgesNow() {
-      if (--waiting > 0 || peekN !== me.peekN || !guildNow) return;
-      var bs = badgesFor(guildNow, shownJobs, { pets: shownPets, rescues: false });
-      badgesInto(bBox, bs);
-      bBox.hidden = !bs.length;
-    }
-    withGuild(function (guild) {
-      guildNow = guild;
-      call('/cb/jobs/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
-        if (peekN !== me.peekN) return;
-        if (r.status === 401) return me.lost();
-        if (r.status !== 200 || !r.body || !guild) jSaid.textContent = 'Their jobs could not be fetched just now.';
-        else if (!r.body.shown) {
-          jSaid.textContent = mineJ
-            ? 'You have not made your jobs public. Profile, on this radio, is where you switch that on.'
-            : handle + ' has not made their jobs public.';
-        } else if (!r.body.jobs.length) jSaid.textContent = r.body.handle + ' has no jobs kept.';
-        else {
-          shownJobs = r.body.jobs;
-          jSaid.hidden = true;
-          jBox.hidden = false;
-          jobsInto(jBox, guild, r.body.jobs, mineJ ? 'The jobs you have handed in' : 'The jobs ' + r.body.handle + ' has handed in');
-        }
-        badgesNow();
-      }, function () { jSaid.textContent = 'Their jobs could not be fetched just now.'; badgesNow(); });
-    });
-    /* THEIR BATTLE JACKET (Ryan, 2026-10-14), only if they have chosen to show
-       it, which needs a claimed username. */
-    box.appendChild(el('p', 'cb-peek__sub', 'Battle jacket'));
-    var pSaid = el('p', 'cb-quiet', 'Looking\u2026');
-    box.appendChild(pSaid);
-    var pBox = el('div', 'cb-jacket');
-    pBox.hidden = true;
-    box.appendChild(pBox);
-    withPatches(function () {
-      call('/cb/patches/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
-        if (peekN !== me.peekN) return;
-        if (r.status === 401) return me.lost();
-        if (r.status !== 200 || !r.body) { pSaid.textContent = 'Their jacket could not be fetched just now.'; return; }
-        if (!r.body.shown) {
-          pSaid.textContent = mineJ
-            ? 'You have not made your battle jacket public. Profile, on this radio, is where you switch that on.'
-            : handle + ' has not made their battle jacket public.';
-          return;
-        }
-        pSaid.hidden = true;
-        pBox.hidden = false;
-        jacketInto(pBox, r.body.patches || [], mineJ ? 'yours' : r.body.handle + '\u2019s');
-      }, function () { pSaid.textContent = 'Their jacket could not be fetched just now.'; });
-    });
-    var close = el('button', 'cb-btn cb-peek__close', 'Close');
-    close.type = 'button';
-    close.addEventListener('click', function () { me.unpeek(); });
-    box.appendChild(close);
-    h.focus();
-    box.scrollIntoView({ block: 'nearest' });
-    withAnimals(function () {
-      call('/cb/pets/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
-        if (r.status === 401) return me.lost();
-        shownPets = !!(r.status === 200 && r.body.shown && r.body.pets && r.body.pets.length);
-        badgesNow();
-        if (r.status !== 200) { said.textContent = 'Their pets could not be fetched just now.'; return; }
-        if (!r.body.shown) {
-          said.textContent = handle === me.state.handle
-            ? 'You have not made your pets public. Profile, on this radio, is where you switch that on.'
-            : handle + ' has not made their pets public.';
-          return;
-        }
-        if (!r.body.pets.length) { said.textContent = r.body.handle + ' has no pets yet.'; return; }
-        said.hidden = true;
-        list.hidden = false;
-        r.body.pets.slice().reverse().forEach(function (a) {
-          var li = el('li', 'cb-pet');
-          li.appendChild(window.loveAnimals.draw(a, 'cb-pet__art'));
-          var words = el('div', 'cb-pet__words');
-          words.appendChild(el('p', 'cb-pet__name', a.name || 'Not named yet'));
-          words.appendChild(el('p', 'cb-pet__about', petWords(Object.assign({}, a, { name: '' })) + '.'));
-          li.appendChild(words);
-          list.appendChild(li);
+        if (rs[0].status === 401 || rs[1].status === 401) { d.close(); return me.lost(); }
+        var p = rs[0].status === 200 && rs[0].body ? rs[0].body.profile : null;
+        var av = rs[1].status === 200 && rs[1].body ? rs[1].body : null;
+        var whose = (rs[0].body && rs[0].body.handle) || handle;
+        if (p && p.theme) window.loveProfile.dress(sheet, p.theme);
+        left.textContent = '';
+        var card = window.loveProfile.card(p || {}, {
+          handle: whose, mark: mark, mine: mineP, wearing: av && av.wearing, nameId: 'pf-name',
+          md: md, links: pfLink, room: pfRoom,
+          onAvatar: function (btn) { me.avatarBox({ look: av.wearing.look, about: av.wearing.about, worn: true }, btn, whose); },
         });
-      }, function () { said.textContent = 'Their pets could not be fetched just now.'; badgesNow(); });
+        left.appendChild(card);
+        window.loveProfile.drawCard(card, p);
+        var cardBody = card.querySelector('.pf-body');
+        if (rs[0].status !== 200) cardBody.appendChild(el('p', 'cb-quiet pf-empty', 'Their profile card could not be fetched just now.'));
+        else if (!p) cardBody.appendChild(el('p', 'cb-quiet pf-empty', mineP
+          ? (me.state.claimed ? 'Your card has nothing on it yet. Edit my profile card, in Profile on this radio, is where you fill it in.' : 'Claim your username, in Profile on this radio, and you can fill in a profile card.')
+          : whose + ' has nothing on their card.'));
+        var avSaid = el('p', 'cb-quiet', 'Looking…');
+        panels[0].appendChild(avSaid);
+        var avBox = el('div', 'cb-peek__avatars');
+        avBox.hidden = true;
+        panels[0].appendChild(avBox);
+        if (!av) avSaid.textContent = 'Their avatars could not be fetched just now.';
+        else me.peekAvatars(av, handle, avSaid, avBox);
+      }, function () { if (peekN === me.peekN) said.textContent = 'Their profile could not be fetched just now.'; });
+
+      // PETS.
+      var pSaid = el('p', 'cb-quiet', 'Looking…');
+      panels[1].appendChild(pSaid);
+      var list = el('ul', 'cb-pets__list');
+      list.hidden = true;
+      panels[1].appendChild(list);
+      /* THEIR JOBS AND BADGES (Ryan, 2026-10-14), only if they have chosen to
+         show them, which needs a claimed username. The badges are worked out
+         here from the jobs; nobody keeps a badge, and nothing counts them.
+         They come from what the profile shows and nothing else: their jobs if
+         they show them, and Pet Parent if they show their pets. Never Rescue
+         Ranger, because nothing on the street knows who rescued. */
+      var bBox = el('div', 'cb-jobs-box');
+      bBox.hidden = true;
+      panels[2].appendChild(bBox);
+      var jSaid = el('p', 'cb-quiet', 'Looking…');
+      panels[2].appendChild(jSaid);
+      var jBox = el('div', 'cb-jobs-box');
+      jBox.hidden = true;
+      panels[2].appendChild(jBox);
+      var shownJobs = [], shownPets = false, guildNow = null, waiting = 2;
+      function badgesNow() {
+        if (--waiting > 0 || peekN !== me.peekN || !guildNow) return;
+        var bs = badgesFor(guildNow, shownJobs, { pets: shownPets, rescues: false });
+        badgesInto(bBox, bs);
+        bBox.hidden = !bs.length;
+      }
+      withGuild(function (guild) {
+        guildNow = guild;
+        call('/cb/jobs/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+          if (peekN !== me.peekN) return;
+          if (r.status === 401) return me.lost();
+          if (r.status !== 200 || !r.body || !guild) jSaid.textContent = 'Their jobs could not be fetched just now.';
+          else if (!r.body.shown) {
+            jSaid.textContent = mineP
+              ? 'You have not made your jobs public. Profile, on this radio, is where you switch that on.'
+              : handle + ' has not made their jobs public.';
+          } else if (!r.body.jobs.length) jSaid.textContent = r.body.handle + ' has no jobs kept.';
+          else {
+            shownJobs = r.body.jobs;
+            jSaid.hidden = true;
+            jBox.hidden = false;
+            jobsInto(jBox, guild, r.body.jobs, mineP ? 'The jobs you have handed in' : 'The jobs ' + r.body.handle + ' has handed in');
+          }
+          badgesNow();
+        }, function () { jSaid.textContent = 'Their jobs could not be fetched just now.'; badgesNow(); });
+      });
+      // THEIR BATTLE JACKET (Ryan, 2026-10-14), only if they have chosen to show it.
+      var jkSaid = el('p', 'cb-quiet', 'Looking…');
+      panels[3].appendChild(jkSaid);
+      var jkBox = el('div', 'cb-jacket');
+      jkBox.hidden = true;
+      panels[3].appendChild(jkBox);
+      withPatches(function () {
+        call('/cb/patches/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+          if (peekN !== me.peekN) return;
+          if (r.status === 401) return me.lost();
+          if (r.status !== 200 || !r.body) { jkSaid.textContent = 'Their jacket could not be fetched just now.'; return; }
+          if (!r.body.shown) {
+            jkSaid.textContent = mineP
+              ? 'You have not made your battle jacket public. Profile, on this radio, is where you switch that on.'
+              : handle + ' has not made their battle jacket public.';
+            return;
+          }
+          jkSaid.hidden = true;
+          jkBox.hidden = false;
+          jacketInto(jkBox, r.body.patches || [], mineP ? 'yours' : r.body.handle + '’s');
+        }, function () { jkSaid.textContent = 'Their jacket could not be fetched just now.'; });
+      });
+      withAnimals(function () {
+        call('/cb/pets/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+          if (peekN !== me.peekN) return;
+          if (r.status === 401) return me.lost();
+          shownPets = !!(r.status === 200 && r.body.shown && r.body.pets && r.body.pets.length);
+          badgesNow();
+          if (r.status !== 200) { pSaid.textContent = 'Their pets could not be fetched just now.'; return; }
+          if (!r.body.shown) {
+            pSaid.textContent = mineP
+              ? 'You have not made your pets public. Profile, on this radio, is where you switch that on.'
+              : handle + ' has not made their pets public.';
+            return;
+          }
+          if (!r.body.pets.length) { pSaid.textContent = r.body.handle + ' has no pets yet.'; return; }
+          pSaid.hidden = true;
+          list.hidden = false;
+          r.body.pets.slice().reverse().forEach(function (a) {
+            var li = el('li', 'cb-pet');
+            li.appendChild(window.loveAnimals.draw(a, 'cb-pet__art'));
+            var words = el('div', 'cb-pet__words');
+            words.appendChild(el('p', 'cb-pet__name', a.name || 'Not named yet'));
+            words.appendChild(el('p', 'cb-pet__about', petWords(Object.assign({}, a, { name: '' })) + '.'));
+            li.appendChild(words);
+            list.appendChild(li);
+          });
+        }, function () { pSaid.textContent = 'Their pets could not be fetched just now.'; badgesNow(); });
+      });
     });
   };
 
@@ -2431,18 +2550,277 @@
   };
 
   Radio.prototype.unpeek = function () {
-    this.peekBox.hidden = true;
-    this.peekBox.textContent = '';
-    var from = this.peekFrom, at = this.peekAt;
-    this.peekFrom = null;
-    this.peekAt = null;
-    // Who's online may have been redrawn while it was open: the same name's
-    // new button takes the keyboard back.
-    if (from && !from.isConnected && at) {
-      var again = this.onlineList.querySelectorAll('.cb-handle');
-      for (var i = 0; i < again.length; i++) if (again[i].dataset.at === at) from = again[i];
+    if (this.pfDialog && this.pfDialog.open) this.pfDialog.close();
+  };
+
+  /* YOUR PROFILE CARD, in Profile: what it is, a way to edit it and a way to
+     see it as anybody else does. Only a claimed username has one. */
+  Radio.prototype.myMark = function () {
+    return { base: !!this.state.base, claimed: !this.state.base && (!!this.state.claimed || claimedPass(this.state.pass)) };
+  };
+  Radio.prototype.loadProfileCard = function () {
+    var me = this, box = this.pfBox;
+    box.textContent = '';
+    box.appendChild(el('p', 'cb-quiet', 'Looking up your card…'));
+    call('/cb/profile', null, me.state.pass).then(function (r) {
+      box.textContent = '';
+      if (r.status !== 200 || !r.body) {
+        box.appendChild(el('p', 'cb-quiet', r.status === 401
+          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          : 'Your card could not be looked up just now.'));
+        return;
+      }
+      if (!r.body.claimed) {
+        box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can fill in a profile card: a theme and a banner, a decoration round the avatar you wear, a face for your name, a nameplate on Who’s online, your pronouns, a few words about yourself, links to your other places and your favourite room. Whatever you fill in is shown to anybody signed on to the CB.'));
+        return;
+      }
+      box.appendChild(el('p', null, r.body.profile
+        ? 'Your card is what anybody signed on to the CB sees when they press your name, with everything you filled in on it.'
+        : 'Your card has nothing on it yet. Whatever you fill in is shown to anybody signed on to the CB when they press your name; a part left empty shows nothing.'));
+      var row = el('p', 'cb-acct__row');
+      var edit = el('button', 'cb-btn', 'Edit my profile card');
+      edit.type = 'button';
+      edit.setAttribute('aria-haspopup', 'dialog');
+      edit.addEventListener('click', function () { me.pfEdit(edit); });
+      var see = el('button', 'cb-btn', 'See my card as others do');
+      see.type = 'button';
+      see.setAttribute('aria-haspopup', 'dialog');
+      see.addEventListener('click', function () { me.peek(me.state.handle, see, me.myMark()); });
+      row.appendChild(edit);
+      row.appendChild(see);
+      box.appendChild(row);
+    }, function () {
+      box.textContent = '';
+      box.appendChild(el('p', 'cb-quiet', 'Your card could not be looked up just now.'));
+    });
+  };
+
+  /* EDITING IT, in the same window a profile opens in: the choices on the
+     left, in your radio's own clothes, and the card drawn beside them in the
+     theme you are choosing, again after every change, with your nameplate as
+     Who's online would show it. Nothing is kept until Save my card; Cancel,
+     Escape or a press outside leaves the card as it was. */
+  var PF_GROUPS = [['every', 'Everyday'], ['radio', 'Radio faceplates'], ['world', 'Worlds'], ['skin', 'Winamp skins'], ['geo', 'GeoCities pages'], ['game', 'Ryan’s favourite games']];
+  function pfField(form, label, id, input, hint) {
+    var wrap = el('div', 'pf-field');
+    var lab = el('label', 'cb-lab', label);
+    lab.htmlFor = id;
+    input.id = id;
+    wrap.appendChild(lab);
+    wrap.appendChild(input);
+    if (hint) {
+      var h = el('p', 'cb-hint pf-hint', hint);
+      h.id = id + '-hint';
+      input.setAttribute('aria-describedby', h.id);
+      wrap.appendChild(h);
     }
-    if (from && from.isConnected) from.focus();
+    form.appendChild(wrap);
+    return input;
+  }
+  function pfSelect(options, none) {
+    var s = el('select', 'cb-say pf-select');
+    if (none) { var o = el('option', null, none); o.value = ''; s.appendChild(o); }
+    options.forEach(function (x) {
+      if (x.group) {
+        var g = el('optgroup');
+        g.label = x.group;
+        x.options.forEach(function (y) { var o = el('option', null, y[1]); o.value = y[0]; g.appendChild(o); });
+        if (x.options.length) s.appendChild(g);
+        return;
+      }
+      var o = el('option', null, x[1]);
+      o.value = x[0];
+      s.appendChild(o);
+    });
+    return s;
+  }
+
+  Radio.prototype.pfEdit = function (from) {
+    var me = this;
+    this.peekFrom = from;
+    this.peekAt = null;
+    var peekN = this.peekN = (this.peekN || 0) + 1;
+    this.loadRooms();
+    withProfile(function () {
+      if (peekN !== me.peekN) return;
+      Promise.all([call('/cb/profile', null, me.state.pass), call('/cb/avatars', null, me.state.pass), me.roomsReady || null]).then(function (rs) {
+        if (peekN !== me.peekN) return;
+        if (rs[0].status === 401) return me.lost();
+        if (rs[0].status !== 200 || !rs[0].body || !rs[0].body.claimed) { me.acctSay('Your card could not be opened just now.'); return; }
+        me.pfEditor(rs[0].body, rs[1].status === 200 ? rs[1].body : null, peekN);
+      }, function () { me.acctSay('Your card could not be opened just now.'); });
+    });
+  };
+
+  Radio.prototype.pfEditor = function (got, avs, peekN) {
+    var me = this, LP = window.loveProfile, lc = window.loveCall;
+    var keys = got.keys, lim = got.limits;
+    var worn = avs && avs.wearing ? (avs.avatars || []).filter(function (a) { return a.id === avs.wearing; })[0] : null;
+    var wearing = worn ? { look: worn.look, about: worn.about || '' } : null;
+    var p0 = got.profile || {};
+    var d = me.pfMake();
+    d.setAttribute('aria-labelledby', 'pf-edit-h');
+    var sheet = el('div', 'pf-sheet pf-sheet--edit');
+    var form = el('form', 'pf-editor');
+    form.noValidate = true;
+    var h = el('h2', 'pf-edit__h', 'Your profile card');
+    h.id = 'pf-edit-h';
+    h.tabIndex = -1;
+    form.appendChild(h);
+    form.appendChild(el('p', 'cb-hint', 'Whatever you fill in is shown to anybody signed on to the CB when they press your name. A part left empty shows nothing, and nothing says when you joined. Nothing is kept until you press Save my card.'));
+
+    var names = {};
+    ((lc && lc.schemes) || []).forEach(function (x) { names[x[0]] = x[1]; });
+    function grouped(list) {
+      return PF_GROUPS.map(function (g) {
+        return { group: g[1], options: ((lc && lc.schemes) || []).filter(function (x) { return x[2] === g[0] && list.indexOf(x[0]) >= 0; }).map(function (x) { return [x[0], x[1]]; }) };
+      });
+    }
+    form.appendChild(el('h3', 'pf-edit__sub', 'Theme and banner'));
+    var fTheme = pfField(form, 'Theme', 'pf-theme', pfSelect(grouped(keys.themes), 'None: everybody sees it in their own radio’s theme'),
+      'The CB’s themes, every one with colours that clear 4.5 to 1.');
+    var fBanner = pfField(form, 'Banner', 'pf-banner', pfSelect(grouped(keys.banners), 'None'),
+      'A theme’s drawing, along the top of your card on its own theme’s colours. It moves where the radio’s drawings do.');
+    form.appendChild(el('h3', 'pf-edit__sub', 'Avatar decoration'));
+    var fDeco = pfField(form, 'Decoration', 'pf-deco', pfSelect(LP.DECORATIONS.filter(function (x) { return keys.decorations.indexOf(x[0]) >= 0; }), 'None'),
+      wearing ? 'Drawn round the avatar you wear, in your card’s colours.' : 'Drawn round the avatar you wear, in your card’s colours. You are not wearing one: Your avatars, in Profile, is where you wear one.');
+    form.appendChild(el('h3', 'pf-edit__sub', 'Name style'));
+    var fFace = pfField(form, 'Face for your name', 'pf-face', pfSelect(LP.FACES.filter(function (x) { return keys.faces.indexOf(x[0]) >= 0; }).map(function (x, i) {
+      return [i ? x[0] : '', i ? x[0] : 'Plain (' + x[0] + ')'];
+    })), 'One of the street’s typefaces. It sets your name on your card and nothing else.');
+    form.appendChild(el('h3', 'pf-edit__sub', 'Nameplate'));
+    var fPlate = pfField(form, 'Nameplate', 'pf-plate', pfSelect(grouped(keys.banners), 'None'),
+      'A strip of a theme’s drawing under your name on Who’s online.');
+    form.appendChild(el('h3', 'pf-edit__sub', 'In your own words'));
+    var pr = el('input', 'cb-say');
+    pr.type = 'text'; pr.maxLength = lim.pronouns; pr.autocomplete = 'off';
+    var fPron = pfField(form, 'Pronouns', 'pf-pron', pr, 'Up to ' + lim.pronouns + ' characters, as you write them.');
+    var bio = el('textarea', 'cb-say pf-bio-in');
+    bio.rows = 5; bio.maxLength = lim.bio;
+    var fBio = pfField(form, 'About you', 'pf-bio', bio, 'Up to ' + lim.bio + ' characters. Markdown works as it does on the channel.');
+    form.appendChild(el('h3', 'pf-edit__sub', 'Elsewhere'));
+    var linkIns = [];
+    for (var i = 0; i < lim.links; i++) {
+      var li = el('input', 'cb-say');
+      li.type = 'url'; li.maxLength = lim.link; li.autocomplete = 'off'; li.spellcheck = false;
+      linkIns.push(pfField(form, 'Link ' + (i + 1), 'pf-link-' + i, li, i ? null : 'Each starts with https:// and is shown as you type it, with its site after it, so nobody is sent somewhere it does not say.'));
+    }
+    form.appendChild(el('h3', 'pf-edit__sub', 'Favourite room'));
+    var fRoom = pfField(form, 'Your favourite room on the street', 'pf-room', pfSelect((rooms || []).map(function (r) { return [r.tag, r.name]; }), 'None'));
+    var why = el('input', 'cb-say');
+    why.type = 'text'; why.maxLength = lim.why; why.autocomplete = 'off';
+    var fWhy = pfField(form, 'Why it is your favourite', 'pf-why', why, 'Up to ' + lim.why + ' characters.');
+
+    fTheme.value = p0.theme || ''; fBanner.value = p0.banner || ''; fDeco.value = p0.decoration || '';
+    fFace.value = p0.face || ''; fPlate.value = p0.plate || ''; fPron.value = p0.pronouns || '';
+    fBio.value = p0.bio || ''; fRoom.value = p0.room || ''; fWhy.value = p0.why || '';
+    (p0.links || []).forEach(function (l, j) { if (linkIns[j]) linkIns[j].value = l; });
+
+    var row = el('div', 'cb-acct__row pf-edit__row');
+    var save = el('button', 'cb-btn', 'Save my card');
+    save.type = 'submit';
+    var cancel = el('button', 'cb-btn', 'Cancel');
+    cancel.type = 'button';
+    var clear = el('button', 'cb-btn', 'Clear my card');
+    clear.type = 'button';
+    row.appendChild(save); row.appendChild(cancel); row.appendChild(clear);
+    form.appendChild(row);
+    var sure = el('div', 'cb-acct__row');
+    sure.hidden = true;
+    sure.appendChild(el('p', null, 'This clears everything on your card and takes your nameplate off Who’s online. Your avatars, pets, jobs and jacket stay as they are.'));
+    var yes = el('button', 'cb-btn', 'Yes, clear my card'); yes.type = 'button';
+    var keep = el('button', 'cb-btn', 'Keep it'); keep.type = 'button';
+    sure.appendChild(yes); sure.appendChild(keep);
+    form.appendChild(sure);
+    var said = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    form.appendChild(said);
+
+    var prev = el('div', 'pf-preview');
+    prev.appendChild(el('h3', 'pf-edit__sub', 'As others see it'));
+    // A picture of your choices, and nothing in it to press or to hear twice:
+    // the form says everything it shows.
+    var cardAt = el('div', 'pf-preview__card');
+    cardAt.inert = true;
+    prev.appendChild(cardAt);
+    prev.appendChild(el('h3', 'pf-edit__sub', 'On Who’s online'));
+    var sample = el('div', 'pf-preview__online cb-online-row');
+    sample.inert = true;
+    prev.appendChild(sample);
+    prev.appendChild(el('p', 'cb-hint', 'The card here is a picture of your choices; press your name on Who’s online, or See my card as others do, in Profile, for the card itself.'));
+
+    sheet.appendChild(form);
+    sheet.appendChild(prev);
+    d.appendChild(sheet);
+
+    function current() {
+      return {
+        theme: fTheme.value, banner: fBanner.value, decoration: fDeco.value, face: fFace.value, plate: fPlate.value,
+        pronouns: fPron.value.trim(), bio: fBio.value, room: fRoom.value, why: fRoom.value ? fWhy.value.trim() : '',
+        links: linkIns.map(function (x) { return x.value.trim(); }).filter(Boolean),
+      };
+    }
+    var drawn = '', timer = null;
+    function redraw() {
+      timer = null;
+      var p = current(), k = JSON.stringify(p);
+      if (k === drawn) return;
+      drawn = k;
+      cardAt.textContent = '';
+      var card = LP.card(p, { handle: me.state.handle, mark: me.myMark(), mine: true, wearing: wearing, nameId: 'pf-preview-name', md: md, links: pfLink, room: pfRoom });
+      card.pfName.removeAttribute('tabindex');
+      cardAt.appendChild(card);
+      LP.drawCard(card, p);
+      sample.textContent = '';
+      if (wearing) sample.appendChild(avatarArt(wearing.look, '', 'cb-online-face', 'bust'));
+      sample.appendChild(el('b', null, me.state.handle));
+      var mk = me.myMark();
+      if (mk.base) sample.appendChild(el('span', 'cb-tag', 'BASE'));
+      else if (mk.claimed) sample.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
+      sample.appendChild(document.createTextNode(' in ' + (p.room && byTag[p.room] ? byTag[p.room].name : 'a room')));
+      var plate = el('div', 'pf-plate');
+      plate.setAttribute('aria-hidden', 'true');
+      sample.appendChild(plate);
+      LP.drawing(plate, p.plate);
+      fWhy.disabled = !fRoom.value;
+    }
+    function soon() { if (!timer) timer = setTimeout(redraw, 120); }
+    form.addEventListener('input', soon);
+    form.addEventListener('change', soon);
+    cancel.addEventListener('click', function () { d.close(); });
+    clear.addEventListener('click', function () { sure.hidden = false; clear.hidden = true; keep.focus(); });
+    keep.addEventListener('click', function () { sure.hidden = true; clear.hidden = false; clear.focus(); });
+    yes.addEventListener('click', function () {
+      yes.disabled = true;
+      call('/cb/profile', { body: { clear: true } }, me.state.pass).then(function (r) {
+        yes.disabled = false;
+        if (r.status === 401) { d.close(); return me.lost(); }
+        if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
+        [fTheme, fBanner, fDeco, fFace, fPlate, fPron, fBio, fRoom, fWhy].concat(linkIns).forEach(function (x) { x.value = ''; });
+        sure.hidden = true; clear.hidden = false;
+        redraw();
+        said.textContent = 'Cleared. Your card has nothing on it, and your nameplate is off Who’s online.';
+        clear.focus();
+        me.loadProfileCard();
+      }, function () { yes.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      save.disabled = true;
+      said.textContent = 'Saving…';
+      call('/cb/profile', { body: { profile: current() } }, me.state.pass).then(function (r) {
+        save.disabled = false;
+        if (r.status === 401) { d.close(); return me.lost(); }
+        if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
+        said.textContent = r.body.profile
+          ? 'Saved. Anybody signed on to the CB sees it when they press your name.'
+          : 'Saved, with nothing on it, so your card is empty.';
+        me.loadProfileCard();
+      }, function () { save.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+    });
+    if (!d.open) d.showModal();
+    h.focus();
+    redraw();
   };
 
   /* THE STICKER PICKER: your pets, each a button that sends a sticker of them
@@ -3335,7 +3713,7 @@
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) { this.loadAccount(); this.loadAvatars(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
+    if (open) { this.loadAccount(); this.loadProfileCard(); this.loadAvatars(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
   };
 
@@ -3939,13 +4317,14 @@
     var again = focused && this.online.contains(focused) && focused.dataset ? focused.dataset.at : null;
     function back(b) { if (again && b.dataset.at === again) setTimeout(function () { b.focus(); }, 0); }
     ul.textContent = '';
+    var plates = [];
     shown.forEach(function (p) {
       var li = el('li', 'cb-online-row');
       /* A NAME OPENS THEIR PROFILE, as a handle on the channel does (Ryan,
          2026-10-13), under the list rather than on the channel's readout. */
       var who = el('button', 'cb-handle', p.handle);
       who.type = 'button';
-      who.setAttribute('aria-controls', 'cb-peek');
+      who.setAttribute('aria-haspopup', 'dialog');
       who.dataset.at = p.handle + '|';
       who.addEventListener('click', function () { me.peek(p.handle, who, p); });
       back(who);
@@ -3964,8 +4343,18 @@
         li.appendChild(a);
         back(a);
       });
+      /* THE NAMEPLATE they chose on their profile card (2026-10-17), beside a
+         claimed name only: a strip of a theme's drawing under the line, on its
+         own theme's colours, carrying no word and standing behind none. */
+      if (p.plate) {
+        var plate = el('div', 'pf-plate');
+        plate.setAttribute('aria-hidden', 'true');
+        li.appendChild(plate);
+        plates.push([plate, p.plate]);
+      }
       ul.appendChild(li);
     });
+    if (plates.length) withProfile(function () { plates.forEach(function (x) { if (x[0].isConnected) window.loveProfile.drawing(x[0], x[1]); }); });
     /* CALLS GOING NOW: every room whose call has somebody in it, in walking
        order, the room and nothing else. Only once the server says 8x8 is
        telling it, so "nobody" is never a guess. */

@@ -10,15 +10,17 @@
    is telling us at all, so an empty list of calls is never a guess.
 
    And the avatar each claimed person wears on the CB (Ryan, 2026-10-14), out
-   of one blob, beside a claimed name only, by withAvatars()'s rules. */
-import { readPass, whoSeen, withAvatars, callsOn, json, sameSite } from '../cb/lib.mjs';
+   of one blob, beside a claimed name only, by withAvatars()'s rules, and the
+   nameplate each chose on their profile (2026-10-17), the same way, by
+   withPlates()'s. */
+import { readPass, whoSeen, withAvatars, withPlates, callsOn, json, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const heard = !!process.env.CB_JAAS_EVENTS_SECRET;
-  return json(200, { people: await withAvatars(await whoSeen(who)), calls: heard ? await callsOn(who) : [], callHeard: heard });
+  return json(200, { people: await withPlates(await withAvatars(await whoSeen(who))), calls: heard ? await callsOn(who) : [], callHeard: heard });
 };
 
 export const config = {

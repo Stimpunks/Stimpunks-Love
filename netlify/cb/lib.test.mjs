@@ -38,7 +38,8 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   setAvatarsShown, avatarsShown, shownAvatars,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
-  cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls } from './lib.mjs';
+  cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
+  PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS } from './lib.mjs';
 import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 function memoryStore({ etagOnRead }) {
@@ -1932,3 +1933,85 @@ test('a jacket is shown only on a claimed username that says so, and a sticker i
   assert.deepEqual(await readPatches(pk, s), [], 'a deleted username kept its patches');
   assert.equal(await s.get(`patchshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
 }));
+
+/* ── Profiles ─────────────────────────────────────────────────────────── */
+
+const fullProfile = (over = {}) => ({
+  theme: 'lcars', banner: PROFILE_KEYS.banners[0], decoration: PROFILE_KEYS.decorations[0], face: PROFILE_KEYS.faces[1],
+  plate: PROFILE_KEYS.banners[1], pronouns: 'they/them', bio: 'Line one.\n\nLine two.', links: ['https://example.org/me'],
+  room: 'the-den', why: 'the carpet', ...over,
+});
+
+test('a profile holds only choices from the lists and words within their limits', () => {
+  const ok = cleanProfile(fullProfile());
+  assert.ok(ok.profile, ok.error);
+  assert.deepEqual(Object.keys(ok.profile).sort(), ['banner', 'bio', 'decoration', 'face', 'links', 'plate', 'pronouns', 'room', 'theme', 'why'].sort());
+  assert.ok(cleanProfile(fullProfile({ theme: 'nope' })).error, 'a theme the radio has not got');
+  assert.ok(cleanProfile(fullProfile({ theme: 'auto' })).error, 'Match my device is a rule, not a theme');
+  assert.ok(cleanProfile(fullProfile({ banner: 'amber' })).error, 'a banner with no drawing');
+  assert.ok(cleanProfile(fullProfile({ decoration: 'skull' })).error);
+  assert.ok(cleanProfile(fullProfile({ face: 'Comic Sans MS' })).error, 'a face the street does not declare');
+  assert.ok(cleanProfile(fullProfile({ room: QUIET_ROOMS[0] })).error, 'a quiet room named on a profile');
+  assert.ok(cleanProfile(fullProfile({ room: 'Not A Tag' })).error);
+  assert.ok(cleanProfile(fullProfile({ bio: 'x'.repeat(BIO_MAX + 1) })).error);
+  assert.ok(cleanProfile(fullProfile({ links: Array.from({ length: PROFILE_LINKS + 1 }, (_, i) => `https://e${i}.org`) })).error);
+  assert.ok(cleanProfile(fullProfile({ links: 'https://example.org' })).error, 'links that are not a list');
+  assert.ok(cleanProfile({ ...fullProfile(), __proto__: { theme: 'x' } }).profile);
+  for (const bad of ['javascript:alert(1)', 'https://stimpunks.world@elsewhere.example', 'https://localhost/x', 'ftp://example.org', 'example.org']) {
+    assert.equal(cleanProfileLink(bad), null, `${bad} was taken as a link`);
+  }
+  assert.equal(cleanProfileLink('  https://example.org/a b  '), 'https://example.org/a b', 'a link is kept as typed');
+  assert.deepEqual(cleanProfile(fullProfile({ links: ['https://a.org', '', 'https://a.org'] })).profile.links, ['https://a.org'], 'a link twice, or an empty one');
+  assert.equal(cleanProfile(fullProfile({ room: '', why: 'because' })).profile.why, '', 'a why with no room');
+  assert.equal(cleanBio('a\n\n\n\nb'), 'a\n\nb');
+  assert.equal(cleanBio('   '), '');
+  assert.equal(cleanProfile({ extra: 'x', since: 1 }).profile.since, undefined, 'a date rode along on a profile');
+});
+
+test('a profile is shown on a claimed username only, holds no date, and goes with Forget me and the username', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  const p = cleanProfile(fullProfile()).profile;
+  await keepProfile(pk, p, s);
+  assert.equal(await shownProfile('Ada', s), null, 'an unclaimed handle showed a profile');
+  assert.equal(await shownProfile('Nobody', s), null);
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const got = await shownProfile('ada', s);
+  assert.equal(got.handle, 'Ada');
+  assert.deepEqual(got.profile, p);
+  const raw = await s.get(`profile/${pk}`, { type: 'json' });
+  assert.deepEqual(Object.keys(raw).sort(), Object.keys(p).sort(), 'the record holds something besides the choices and words');
+  const people = [{ handle: 'Ada', claimed: true, rooms: [] }, { handle: 'Bex', claimed: false, rooms: [] }];
+  let shown = await withPlates(people, s);
+  assert.equal(shown[0].plate, p.plate);
+  assert.equal(shown[1].plate, undefined);
+  assert.equal((await withPlates([{ handle: 'Ada', claimed: false, rooms: [] }], s))[0].plate, undefined, 'an unclaimed name wore a nameplate');
+  await keepProfile(pk, { ...p, plate: '' }, s);
+  assert.equal((await withPlates(people, s))[0].plate, undefined, 'a nameplate taken off is still shown');
+  assert.equal(await keepProfile(pk, cleanProfile({}).profile, s), null);
+  assert.equal(await readProfile(pk, s), null, 'an empty profile was kept');
+  assert.deepEqual(await shownProfile('Ada', s), { handle: 'Ada', profile: null });
+  await keepProfile(pk, p, s);
+  await forgetProfile(pk, s);
+  assert.equal(await readProfile(pk, s), null, 'Forget me left the profile');
+  assert.equal((await withPlates(people, s))[0].plate, undefined, 'Forget me left the nameplate');
+  await keepProfile(pk, p, s);
+  await deleteAccount('Ada', s);
+  assert.equal(await readProfile(pk, s), null, 'a deleted username kept its profile');
+  assert.equal((await withPlates(people, s))[0].plate, undefined, 'a deleted username kept its nameplate');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen nameplates kept at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const names = Array.from({ length: 15 }, (_, i) => `P${i}`);
+    const p = cleanProfile(fullProfile()).profile;
+    const told = await Promise.allSettled(names.map((n) => keepProfile(petKey(n), p, s)));
+    const worked = names.filter((_, i) => told[i].status === 'fulfilled');
+    const shown = await withPlates(names.map((handle) => ({ handle, claimed: true, rooms: [] })), s);
+    assert.deepEqual(worked.filter((n) => !shown.find((x) => x.handle === n).plate), [], 'a nameplate that was told it was kept is not on Who\'s online');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  });
+}
