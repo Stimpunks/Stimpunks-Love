@@ -1,0 +1,102 @@
+{
+ "_what": "The Emergent Future Worlds Meets Mountain Man, David's log cabin at the summit of the mountain that stands over the Campgrounds, off the main campsite. Helen Edgar's relay of his brief, 2026-10-18: a cabin on a mountain with a lake through the windows, the windows opening onto his photographs; a fire; a lounge; warm and cosy meets smart-home modern, LED strips that change colour, a big screen and speakers with his YouTube on it; an oil diffuser; one switch; one wolf inside and the pack outside under a full moon, with a button to hear them; coffee and cups; crisps, sweets and Skittles; and, the same morning, geothermal like Ryan's hermitage is solar, a hot spring outside, a cable car up so Ryan, Helen and Jess can visit, and wolves outside. tools/make-mountain-cabin.py writes the big screen and its rack, the wall and the window of photographs and the credits in liner-notes.html from this file. Do not hand-edit between the markers.",
+ "_source": "The playlist was read off its own page on YouTube on 2026-10-18 (ytInitialData, whose rows came as lockupViewModel, the shape pull-live-month.py learned on 2026-10-15), and every video was asked on its own watch page the same day: playabilityStatus OK, playableInEmbed true, none of them LOGIN_REQUIRED, and the title, channel and length as that page gives them. The titles are the channels' own and are not swept. A runtime is the watch page's lengthSeconds, which can read a second shorter than the player's figure, because it is rounded down.",
+ "_drift": "The rack is a mirror of the playlist and drifts by design: a video David adds is on the big screen the next time somebody puts the whole playlist on, and on the rack only when somebody reads the playlist again and adds a row here. The room prints the date this file was read, under the rack.",
+ "_checked": "2026-10-18",
+ "playlist": {
+  "list": "PLLv3oou9WCpE",
+  "title": "Future Mountain Man",
+  "by": "NeuroHub Community",
+  "channel_url": "https://www.youtube.com/@neurohubcommunity",
+  "opens": "Ok9D0tTMlBA",
+  "note": "David's playlist, on NeuroHub Community's own channel, put on whole in his order. No runtime: it is his list and he can add to it, and a total here would be wrong the next time he did."
+ },
+ "videos": [
+  {
+   "id": "Ok9D0tTMlBA",
+   "title": "Restless Spirit- Lonesome Valley (original)",
+   "channel": "Lonesome Valley",
+   "channel_id": "UC5ZnNqIqKgKeADCwF30UZbA",
+   "runtime": "3:14",
+   "published": "2021-12-12"
+  },
+  {
+   "id": "XoYu7K6Ywkg",
+   "title": "Paramore: Last Hope (LIVE)",
+   "channel": "Paramore",
+   "channel_id": "UCc7_woMAIVIW2mAr1rPCsFQ",
+   "runtime": "5:28",
+   "published": "2014-09-01"
+  },
+  {
+   "id": "B3ZCJhp39F0",
+   "title": "Hayley Williams - Asystole  [Official Audio]",
+   "channel": "Hayley Williams",
+   "channel_id": "UCoGbSChtzhQ4r1toYPmeiSA",
+   "runtime": "3:06",
+   "published": "2021-02-04"
+  },
+  {
+   "id": "4CmYE-fbVWc",
+   "title": "The Skinner Brothers - Nothing on Me (Official Music Video)",
+   "channel": "The Skinner Brothers",
+   "channel_id": "UCIp5TPlRAWLEIyA969K2V3A",
+   "runtime": "2:44",
+   "published": "2026-06-18"
+  },
+  {
+   "id": "cW5ueE2vUm0",
+   "title": "Paramore: Rose-Colored Boy [OFFICIAL VIDEO]",
+   "channel": "Paramore",
+   "channel_id": "UCc7_woMAIVIW2mAr1rPCsFQ",
+   "runtime": "4:40",
+   "published": "2018-02-05"
+  },
+  {
+   "id": "O_F0AECwu2k",
+   "title": "Enter Shikari - Common Dreads (Official Audio)",
+   "channel": "Enter Shikari",
+   "channel_id": "UCOi91U744e2YRmq24kyuLJg",
+   "runtime": "2:08",
+   "published": "2019-12-17"
+  },
+  {
+   "id": "YonS9_QJbp8",
+   "title": "Ren - Money Game Part 2 (Official Lyric Video)",
+   "channel": "Ren",
+   "channel_id": "UCqq3VcwPGseErHUa0-xLInQ",
+   "runtime": "3:43",
+   "published": "2020-04-16"
+  },
+  {
+   "id": "ho9rZjlsyYY",
+   "title": "Toccata and Fugue in D Minor (Best Version Ever)",
+   "channel": "MovieMongerHZ",
+   "channel_id": "UC34UEanXVzwLauDJwXjuntQ",
+   "runtime": "9:21",
+   "published": "2010-10-05"
+  }
+ ],
+ "photos": {
+  "_what": "David's own photographs. Every one needs its record in data/polaroids.json (on_wall false, elsewhere naming this page, David as photographer and his yes, nobody in it or everybody in it recorded) and its file in photos/, stripped of every byte of metadata, which tools/make-polaroids.py enforces for every photograph on the street. Each id here is a polaroids.json id, and the tool refuses one with no record or no file. Until a photograph is here with its record, the wall holds its frames and says so.",
+  "where": "Lake Geneva, Switzerland",
+  "when": "July 2026",
+  "ids": []
+ },
+ "congress": {
+  "short": "ISPS",
+  "name": "the International Society for Psychological and Social Approaches to Psychosis",
+  "theme": "Back to the Future: Inspired by Pioneers",
+  "city": "Lausanne",
+  "dates": "6 to 8 July 2026",
+  "url": "https://www.isps.org/",
+  "read": "2026-10-18"
+ },
+ "david": {
+  "name": "David",
+  "role": "CEO of NeuroHub Community",
+  "site": "https://david.neurohubcommunity.org",
+  "read": "2026-10-18",
+  "_name": "Credited as David, the name Helen gave; whether his surname or a handle is wanted is his and Helen's to say."
+ }
+}

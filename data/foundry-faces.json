@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-17",
+ "_checked": "2026-10-18",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -286,6 +286,29 @@
      "style": "normal",
      "file": "asap-700.woff2",
      "sha": "1ea4e924903959a4"
+    }
+   ]
+  },
+  "assistant": {
+   "family": "Assistant",
+   "category": "Sans Serif",
+   "designer": "Adobe Systems Inc., Ben Nathan",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/assistant",
+   "copyright": "Copyright 2020 The Assistant Project Authors (https://github.com/hafontia/Assistant). Copyright 2010 The Source Sans Pro Authors (https://github.com/adobe-fonts/source-sans-pro), with Reserved Font Name 'Source'. Source is a trademark of Adobe Systems Incorporated in the United States and/or other countries.",
+   "repository": "https://github.com/TypeNetwork/Assistant",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "assistant-400.woff2",
+     "sha": "93ba70e47226645b"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "assistant-400.woff2",
+     "sha": "93ba70e47226645b"
     }
    ]
   },
@@ -3956,6 +3979,23 @@
      "style": "normal",
      "file": "spectral-600.woff2",
      "sha": "1fb6ca29fc243e8b"
+    }
+   ]
+  },
+  "staatliches": {
+   "family": "Staatliches",
+   "category": "Display",
+   "designer": "Brian LaRossa, Erica Carras",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/staatliches",
+   "copyright": "Copyright 2018 The Staatliches Project Authors (https://github.com/googlefonts/staatliches)",
+   "repository": "https://github.com/googlefonts/staatliches",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "staatliches-400.woff2",
+     "sha": "51f65317ecb30daf"
     }
    ]
   },

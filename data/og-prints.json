@@ -5,7 +5,7 @@
  },
  "about": {
   "made_from": "5e27bf23d3847b04a39fecf0ee7c2a2bbebcf49704c047f475b82c4761e49bfa",
-  "png": "cb047a6c9c8d882836b4591ff433e21c420e2de3e9bc759a38031055feeb8762"
+  "png": "82896f88cf7c4afd7b887cea30516c26cbc995acabd01b142ba3cd5fb5cfae97"
  },
  "adventurers-guild": {
   "made_from": "f020e10c57a41db0b1a87d2bd5df809784c1c16f28d0f881aa0c27f68b25a2cf",
@@ -21,7 +21,7 @@
  },
  "arcade": {
   "made_from": "0e4df50a464f2787c076c4f53b950bbda5e937b55e8917a5e389b1a304455976",
-  "png": "988e2d73dd4061cc7ff51ebeadc7aec4678675748d5efa0a7ab657941f10bd6f"
+  "png": "8f22fb34e1212c788ab81f50c9f9f0f7107cd652e648414a267673abde337cca"
  },
  "architecture": {
   "made_from": "71fc09d00582c1b320ec8daa22e5694ea67ad2a1833441cd9a8699b87cb26704",
@@ -60,8 +60,8 @@
   "png": "bae2b8c741dfdc0f044014f03f3175d29e7e6e3f6c68f09c0b3b07d6e6c08bee"
  },
  "campgrounds": {
-  "made_from": "32efc3649399d061034c3dece6fa409b4f455cd0f44aeeaa1efd8b63d664ddef",
-  "png": "b7d52d42e571828ad8cb3dfe38b211caf321e3ce96dcd0d6ff91583add32092f"
+  "made_from": "9265999719e492db923634c1d827160a0b5aaa1588432751e6c85d57e7b4c43a",
+  "png": "56da1e34481fa0626d2a7094153a8d9bcdbfb1e3a9bed882107edab2f086244f"
  },
  "cavendish-campfire": {
   "made_from": "687ed457dfc529ad5de32376e3f62cd39519e396c8ca916453693be810f57c44",
@@ -125,7 +125,7 @@
  },
  "covenstead": {
   "made_from": "8f635723e02f24a482f7ae04700b0af52106d75ec340d9d3cb1608dac20ff556",
-  "png": "185955392cc8af338553e8e8b4723dee8665b121b10fa9e7c1a49cdb9acc3f63"
+  "png": "783aa49e5279722380632cb41a79a4848bed3219ddc7d2de47171ce30e41bee3"
  },
  "dance-punks": {
   "made_from": "46606e3c8d83b3923158cf5438e2600d485412910cc9f1f7fcef09a582042011",
@@ -289,7 +289,7 @@
  },
  "pebble-board": {
   "made_from": "9289c50d7a24d3b4ae936cd215d4eec77908ce5371505aea854af5292e35cdce",
-  "png": "935fc010a7f90c413f1ad770283c8409744db1a36e787e651049251ba072fae7"
+  "png": "9d86438d384b50b8d3f375055cd82ed488a5a65d1be3f17fb1b9dc602ce24d1e"
  },
  "pekoe-and-purrs": {
   "made_from": "82c51044f721b526252de99a6bbe89e20fa5846dcc259da85871c5e44e8e6f88",
@@ -380,8 +380,8 @@
   "png": "667cc9ce36568cd76058ce185899ed69840af13ccb6dcdff08c80ff73aeebf7e"
  },
  "the-bough-house": {
-  "made_from": "304b67cf83e372416fb4f3519ecd828d1eaae49b90785fe34a54b99c4596eea8",
-  "png": "72477e44bef2a6630947095af269d4a5d48571b92652a26dadc5661b8715bad2"
+  "made_from": "b6db4dc585057901facdc34e48a6acbe9472e9581e4a507d8e62eec7f0f06fd9",
+  "png": "9156a5cdc518bba3e04060684405b9985a939a55ff3fe6af11f85810f44cab8a"
  },
  "the-chappell": {
   "made_from": "b47f5c31cf6c4c6f50184baadeb54c136d28cee00b34e8365b7902a8a4781332",
@@ -422,6 +422,10 @@
  "the-mopery": {
   "made_from": "318599fe0cb255e1cbffe24a9f7b3b61f5cdb5075cdcc7f52b5fe151e0b372e6",
   "png": "cb4d1ffd36500ad635fbc124683955b819465fd7583cb60d7b84c025c45593d4"
+ },
+ "the-mountain-cabin": {
+  "made_from": "f56327af0105d12f6b97693450cca888d1b7c87ff74e0acdc218c1eb6d8041ea",
+  "png": "b7bb1cc5368507efe8b22179eedd6f65bb2ffe5081d7767f26ac6f0efed3309a"
  },
  "the-mud-room": {
   "made_from": "208b1b61d32a2995234947ad8a9957ae4f07db0c7fac6c8f7f5ec9b6f60c580f",

@@ -1296,6 +1296,16 @@
 @font-face { font-family: 'Overlock'; src: url('fonts/overlock-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Overlock'; src: url('fonts/overlock-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 
+/* The Mountain Cabin. A ROUTE PAINTED ON A ROCK, AND A VOICE FOR THIN AIR.
+   Staatliches, by Brian LaRossa and Erica Carras, sets the name and the
+   headings and nothing at reading size, one weight, which is all it has;
+   Assistant, by Ben Nathan with Adobe Systems, carries every word that is
+   read, one variable file for both weights.
+   Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Staatliches'; src: url('fonts/staatliches-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Assistant'; src: url('fonts/assistant-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Assistant'; src: url('fonts/assistant-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -2618,6 +2628,36 @@
   --bgh-bark:    #33241B;  --bgh-bark-2: #5B4535;  --bgh-trunk: #4A3527;
   --bgh-rust:    #9C3A16;  --bgh-crimson: #8A1F33;
   --bgh-gold:    #D9952B;  --bgh-amber:  #C2631B;  --bgh-moss:  #5E6B2E;  --bgh-ben: #1C1917;
+
+  /* The Emergent Future Worlds Meets Mountain Man (§118), David's cabin at the
+     summit over the Campgrounds, inside, at night. --efw-night is the dark of
+     a smart home at night, blue-charcoal and never brown, and the ground the
+     page stands on; --efw-panel every card; --efw-text every word; --efw-dim
+     the fine print; --efw-link every link, in the fire's own colour, and
+     --efw-link-2 one under the pointer. The rest are the drawing's and carry
+     no word: --efw-floor the boards, --efw-log the logs and --efw-log-2 the
+     dark between them, --efw-iron the stove, the screen's frame and the
+     speakers and --efw-iron-2 their trim, --efw-screen the screen's black and
+     the plates, --efw-sky the night outside and the firebox, --efw-moon the
+     moon, the stars, the steam and the wisps, --efw-ridge and --efw-lake the
+     view, --efw-flame, --efw-ember and --efw-heart the fire, --efw-cup the
+     cups, the pot and the bowls, --efw-velvet and --efw-velvet-2 the sofas and
+     chairs, --efw-cushion the cushions, --efw-rug the rug, --efw-wood the
+     tables, --efw-wolf every wolf, --efw-led-1 to -4 the four colours the strips
+     start with (teal, magenta, lime, periwinkle, which the cushions and bean
+     bags wear too) and --efw-rb-red to -violet the whole rainbow after them,
+     Helen's ask, all the visitor's to pick. Every one is in check-contrast.py. */
+  --efw-night:  #1A1F2B;  --efw-panel:  #242B3A;  --efw-text:  #F1EDE4;  --efw-dim: #BFC6D4;
+  --efw-link:   #FFC27A;  --efw-link-2: #FFE2B8;
+  --efw-floor:  #2A2420;  --efw-log:    #5A3E2B;  --efw-log-2: #3A281C;
+  --efw-iron:   #2F3440;  --efw-iron-2: #4A5160;  --efw-screen: #0A0D14;  --efw-sky: #0B1020;
+  --efw-moon:   #EAF0FF;  --efw-ridge:  #182A44;  --efw-lake:  #26405F;
+  --efw-flame:  #FFB347;  --efw-ember:  #E2571F;  --efw-heart: #FFF1B8;  --efw-cup: #E9DFD2;
+  --efw-velvet: #3B5B6B;  --efw-velvet-2: #2E4855;  --efw-cushion: #C9823A;  --efw-rug: #4C5A6E;  --efw-wood: #6B4A33;
+  --efw-wolf:   #9AA3B2;
+  --efw-led-1:  #27D3C4;  --efw-led-2:  #E34FBF;  --efw-led-3: #8AD24A;  --efw-led-4: #6E7BFF;
+  --efw-rb-red: #FF4D4D;  --efw-rb-orange: #FF9A2E;  --efw-rb-yellow: #FFE04D;  --efw-rb-green: #4DD66A;
+  --efw-rb-blue: #4DA3FF;  --efw-rb-indigo: #6A5BFF;  --efw-rb-violet: #C45CFF;
 
   /* Now Playing (§53). ONE SHEET SCREENPRINTED IN TWO INKS, PASTED ROUND A
      COLUMN ON THE PAVEMENT. --np-stock is the paper and --np-night the street
@@ -6013,6 +6053,14 @@ html[data-intensity="gentle"] .room-chappell h1 { text-shadow: none; }
    website usually pretends it does not — the honest alternative is publishing
    a room before it is a room. */
 .pitch--raising h3 { color: var(--bone); }
+
+/* THE SUMMIT'S SIGN, David's, 2026-10-18: the one home off the main campsite,
+   at the top of the mountain that stands over the field. Same post, same
+   lettering, because it is the field's sign and not the room; what sets it
+   apart is where it stands on the board, first, because the mountain is the
+   first thing you see from anywhere on the field, and the one lit colour in
+   its drawing. The map reads the state off this class (make-map.py). */
+.pitch--summit { border-left-color: var(--bone); }
 
 /* THE SIGN AND THE THING THE SIGN IS ABOUT. The notice is nailed to the post on
    the left; the drawing stands further out on the ground beside it. An open plot
@@ -14622,6 +14670,21 @@ html[data-intensity="max"] .cc-lamp--door-strip:not(.cc-case--dark):hover::befor
 .mm-trees { display: block; width: 100%; height: 44px; margin-top: 22px; }
 .mm-trees__tops { fill: var(--mm-face); }
 .mm-trees__sticks { stroke: var(--mm-face); stroke-width: 3; }
+/* ABOVE THE FIELD: the mountain, one piece of card folded to a point, taller
+   and narrower than any tent, standing over the pitches with the cabin's name
+   on its face. Read off the board's summit sign (.pitch--summit); a second
+   summit would stand beside it, and the model has no opinion about how many. */
+.mm-peaks { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 34px; }
+.mm-summit { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--mm-ink); }
+.mm-summit::before { content: ""; width: 96px; height: 88px; margin-bottom: -1px;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: linear-gradient(90deg, var(--mm-side) 50%, var(--mm-top) 50%); }
+.mm-summit .mm-name { color: var(--mm-ink); }
+.mm-summit > .mm-name, .mm-summit > .mm-no { max-width: 12rem; }
+.mm-summit > .mm-name { padding: 7px 11px 0; background: var(--mm-face); }
+.mm-summit > .mm-no { margin: 0; padding: 2px 11px 7px; width: 100%; max-width: 12rem; background: var(--mm-face);
+  box-shadow: -6px 7px 0 rgba(12, 36, 28, .45); }
+.mm-summit:hover .mm-name { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ── Past the campgrounds: the land, further off the top of the board ───── */
 /* FIELDS LAID FLAT, one white card each, because farmland is flat on a model
@@ -16665,7 +16728,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §119
+   class on it is `bb-`, its sizes are in points and millimetres, and §120
    prints it and nothing else. */
 
 .room-broadside {
@@ -16726,7 +16789,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §119 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §120 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -19881,7 +19944,9 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    brighter than the sky, because snow throws the sun back up, and every shadow
    on it is blue because a shadow on snow is lit only by the sky. You find a dog
    by following their prints across it. No other room here has shadows that are
-   a colour, or a ground brighter than its sky.
+   a colour; the Mountain Cabin's snow is brighter than its sky too, and that
+   is noon at altitude under a sky that is nearly night, with shadows that are
+   the sky's dark and no colour of their own.
 
    THE COLLISIONS, AND WHAT KEEPS THEM OFF:
      · RESCUE A CAT is next door and does the same thing, which is the reason it
@@ -24548,7 +24613,169 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .bgh-player .facade__play { inset: auto auto 12px 16px; }
 }
 
-/* §118 ── Small screens ───────────────────────────────────────────────────────
+/* §118 ── THE SUMMIT: The Emergent Future Worlds Meets Mountain Man (up the mountain from the campgrounds)
+   David's cabin at the top of the mountain that stands over the Campgrounds,
+   off the main campsite, seen from its own door at night. Helen Edgar's relay
+   of his brief, 2026-10-18: a log cabin on a mountain with a lake through the
+   windows, which open onto his photographs; a fire; a lounge of high-back
+   sofas, armchairs and a corner sofa; warm and cosy meets smart-home modern,
+   LED strips that change colour, a big screen and speakers; his own playlist
+   on the screen; an oil diffuser; one switch for all of it; one wolf inside
+   and the pack outside under a full moon, with a button to hear them; coffee
+   on the stove and lots of cups; crisps, sweets and Skittles. And, the same
+   morning: geothermal, a hot spring outside, a cable car up, wolves outside.
+   tools/make-mountain-cabin.py writes the screen, the rack, the wall, the
+   window and the credits; mountain-man.js moves what moves, after a press.
+
+   THE LIGHT IS THE VISITOR'S TO CHOOSE, AND THAT IS THE ROOM. Every warm room
+   on this street is lit by one flame and its walls go amber: the Faery Yurt's
+   candles on canvas, The Latibulum's lamp on plaster, The Den's panelling, the
+   Hermitage's cave, Brew and Stew's foxfire in its own logs. This cabin has a
+   fire, behind the glass of a modern stove, and it is NOT what lights the
+   room: the walls are lit by LED strips in a colour the visitor picks, teal
+   or magenta or lime or violet, and the fire is one warm thing in a cool
+   room, like the coffee. So THE GROUND IS NOT BROWN. The page's ground is the
+   blue-charcoal of a smart home at night, the cards are the same dark a shade
+   up with a strip of the chosen colour along their top edge, and the only
+   brown in the room is the logs in the drawing. If the ground in here ever
+   warms, it has become the yurt with a lake, which is the one thing the
+   brief said it must not be.
+
+   AND THE COLD HALF IS THE WINDOW. The whole back wall is glass, and behind it
+   is the other world: a lake under a full moon, the mountain's shoulder, the
+   hot spring's steam, the pack on the warm ground. Warm inside, cold outside,
+   both at once, which no other interior here has: the Small Hours is a lit
+   room seen FROM the cold, the Live Room is two lit rooms through glass, and
+   the Hermitage's cave has no window at all. The collisions, and what holds
+   them off:
+     · BREW AND STEW is the other log cabin on this field: night, foxfire in
+       the joints, no flame, no screen, no colour that changes. Here there is
+       a fire and a screen and the colour is yours.
+     · THE SOLARPUNK HERMITAGE is the other home that runs on something, the
+       sun, by day, warm plaster and green. This runs on the ground, by night,
+       and nothing in it is green but when you pick lime.
+     · THE BOUGH HOUSE is the other home up off the ground on this field, an
+       autumn afternoon in the air. This is night, inside, at the top.
+     · THE LATIBULUM and THE DEN are the other rooms with a wolf's worth of
+       dark wood in them, and both are brown to the ground. This ground is
+       blue-charcoal, and the wood stops at the drawing's edge.
+     · THE REBELLION RAVE ROOM is the other room with coloured light the
+       visitor switches on, and it is beams in haze and a strobe, opted into.
+       These are strips on a wall, steady, and they never flash: a drift from
+       one colour to the next takes three seconds and only at MAX, only asked.
+
+   NOTHING MOVES UNTIL THE SWITCH IS PRESSED, and no rule here moves anything:
+   the fire's sway, the wisps and the drift are mountain-man.js's, after a
+   press, at Regular and MAX; at Gentle the fire and the diffuser are lit and
+   still, the words the same. Off is a class on the drawing (.is-off), which
+   darkens the fire, the strips, the wisps, the screen and the lamps without a
+   transition. Staatliches sets the name and the headings and nothing at
+   reading size; Assistant carries every word that is read. */
+.summit { background-color: var(--efw-night); color: var(--efw-text); font-family: 'Assistant', var(--sans), sans-serif; font-synthesis: none; }
+.summit a { color: var(--efw-link); text-underline-offset: 3px; text-decoration-thickness: 2px; }
+.summit a:hover { color: var(--efw-link-2); }
+/* A DARK ROOM DECIDES ITS OWN RING: the fire's colour, on the night and on a card. */
+.summit :focus-visible { outline-color: var(--efw-link); }
+.summit :where(p, li) { font-size: 18px; line-height: 1.6; }
+.summit strong, .summit b { font-weight: 700; }
+.summit .backlink { font-family: 'Assistant', var(--sans), sans-serif; font-size: 16px; letter-spacing: 0; color: var(--efw-link); }
+
+.efw-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
+.summit .efw-trail { margin: 0; font-size: 15px; color: var(--efw-dim); }
+.efw-head { margin: 26px 0 0; }
+.summit .efw-over { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--efw-dim); }
+.summit h1 {
+  margin: 4px 0 0; font-family: 'Staatliches', var(--sans), sans-serif; font-weight: 400; letter-spacing: .04em;
+  font-size: clamp(40px, 7.4vw, 86px); line-height: 1; color: var(--efw-text); max-width: 14ch;
+}
+.summit .efw-sub { margin: 12px 0 0; font-size: 21px; line-height: 1.45; max-width: 52ch; }
+.summit h2 { font-family: 'Staatliches', var(--sans), sans-serif; font-weight: 400; letter-spacing: .05em; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 12px; color: var(--efw-text); }
+
+/* THE SCENE: the drawing stands on the night with no frame, and the strips in
+   it take the colour the visitor picked, --efw-led, which the script sets on
+   the drawing and nowhere else. Off darkens what the switch darkens. */
+.efw-scene { margin: 18px auto 0; max-width: 900px; line-height: 0; }
+.efw-scene__draw { display: block; width: 100%; height: auto; --efw-led: var(--efw-led-1); }
+.efw-scene__draw.is-off .efw-fire, .efw-scene__draw.is-off .efw-led, .efw-scene__draw.is-off .efw-wisps,
+.efw-scene__draw.is-off .efw-coffee, .efw-scene__draw.is-off .efw-tv__on, .efw-scene__draw.is-off .efw-speaker__lamp,
+.efw-scene__draw.is-off .efw-diffuser__lamp { opacity: 0; }
+.summit .efw-lede { max-width: 900px; margin: 18px auto 0; font-size: 19px; }
+
+/* THE SWITCH AND ITS WORDS, under the drawing: a row of buttons the script
+   writes, so a page without it shows no control that does nothing, and a
+   status line beside them that says what moved. */
+.summit .efw-controls { max-width: 900px; margin: 14px auto 0; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.summit .efw-says { max-width: 900px; margin: 8px auto 0; font-size: 16px; color: var(--efw-dim); min-height: 1.4em; }
+.efw-btn {
+  cursor: pointer; font: 700 16px/1.2 'Assistant', var(--sans), sans-serif; color: var(--efw-text);
+  background: var(--efw-iron-2); border: 0; border-radius: 4px; padding: 9px 14px;
+}
+.efw-btn:hover { background: var(--efw-link); color: var(--efw-night); }
+.efw-btn:disabled { cursor: default; opacity: .7; }
+
+/* EVERY CARD IS A PANEL a shade up from the night, with the strips' colour
+   along its top edge: the LEDs reach the furniture. */
+.efw-part {
+  max-width: 900px; margin: 30px auto 0; padding: 22px 26px 24px;
+  background: var(--efw-panel); color: var(--efw-text); border-radius: 6px;
+  border-top: 4px solid var(--efw-led-1);
+}
+.efw-part > :last-child { margin-bottom: 0; }
+.summit .efw-go { font-weight: 700; }
+.summit .efw-fine, .summit .efw-row__by, .summit .efw-from, .summit .efw-screen__credit, .summit .efw-wall__where, .summit .efw-wall__wait, .summit .efw-gallery__wait { font-size: 16px; color: var(--efw-dim); }
+
+/* THE BIG SCREEN: a black plate in a frame of the stove's iron. The pressed
+   player keeps the frame, styled from the container, because the button's
+   classes do not survive the press. The switch hides the whole plate. */
+.efw-screen { margin: 16px 0 0; }
+.efw-screen .facade { border: 10px solid var(--efw-iron); border-radius: 4px; overflow: hidden; }
+.efw-screen button.facade {
+  background: var(--efw-screen); color: var(--efw-text);
+  font-family: 'Assistant', var(--sans), sans-serif; font-weight: 700; font-size: 20px; line-height: 1.35; padding: 20px 22px 44px;
+}
+.efw-screen button.facade:hover { background: var(--efw-iron); }
+.efw-screen .facade__play { font-family: 'Assistant', var(--sans), sans-serif; font-size: 15px; letter-spacing: .12em; color: var(--efw-link); inset: auto auto 18px 22px; }
+.efw-screen .facade iframe { border-radius: 0; }
+.efw-screen__now { margin: 10px 0 0; font-weight: 700; }
+
+/* THE RACK: every video on the playlist, one press each, each in its own
+   small frame of the iron. The <details> ships open. */
+.efw-rack { margin: 18px 0 0; }
+.efw-rack__sum { cursor: pointer; font-family: 'Staatliches', var(--sans), sans-serif; font-size: 22px; letter-spacing: .05em; color: var(--efw-text); }
+.efw-rows { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px 16px; }
+.efw-row { border-top: 3px solid var(--efw-iron-2); padding-top: 8px; }
+.summit .efw-row__title { margin: 0; font-family: 'Assistant', var(--sans), sans-serif; font-weight: 700; font-size: 17px; line-height: 1.3; color: var(--efw-text); }
+.efw-row .facade { margin-top: 8px; border: 4px solid var(--efw-iron); border-radius: 4px; overflow: hidden; }
+.efw-row button.facade { background: var(--efw-screen); color: var(--efw-text); font: 700 15px/1.3 'Assistant', var(--sans), sans-serif; padding: 14px 14px 36px; }
+.efw-row button.facade:hover { background: var(--efw-iron); }
+.efw-row .facade__play { font-size: 13px; letter-spacing: .12em; color: var(--efw-link); inset: auto auto 10px 14px; }
+.efw-row__up { margin-top: 8px; }
+
+/* THE WINDOW: a dialog on the night, one photograph at a time to scroll
+   through, or the note that it is waiting. Every photograph in a frame of
+   the logs' dark. */
+.efw-gallery { background: var(--efw-panel); color: var(--efw-text); border: 0; border-top: 4px solid var(--efw-led-1); border-radius: 6px; padding: 22px 26px 24px; max-width: min(92vw, 760px); max-height: 90vh; }
+.efw-gallery::backdrop { background: var(--efw-sky); opacity: .85; }
+.summit .efw-gallery__h { font-family: 'Staatliches', var(--sans), sans-serif; font-weight: 400; letter-spacing: .05em; font-size: 30px; margin: 0 0 12px; color: var(--efw-text); }
+.efw-gallery__scroll { display: flex; flex-direction: column; gap: 18px; }
+.efw-gallery__photo, .efw-photo { margin: 0; border: 8px solid var(--efw-log-2); background: var(--efw-log-2); }
+.efw-gallery__photo img, .efw-photo img { display: block; width: 100%; height: auto; }
+.efw-gallery__photo figcaption, .efw-photo figcaption { padding: 8px 4px 2px; font-size: 15px; color: var(--efw-text); }
+.efw-gallery__close { margin: 16px 0 0; }
+.summit .efw-gallery :focus-visible { outline-color: var(--efw-link); }
+.efw-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 14px 0 0; }
+
+/* The job marker lies on the night, and opens onto a panel. */
+.summit .quest__panel { background: var(--efw-panel); color: var(--efw-text); border-color: var(--efw-dim); }
+.summit .quest__panel a { color: var(--efw-link); }
+
+@media (max-width: 560px) {
+  .efw-part { padding: 18px 18px 20px; }
+  .efw-screen button.facade { font-size: 17px; padding: 14px 16px 40px; }
+  .efw-screen .facade__play { inset: auto auto 12px 16px; }
+}
+
+/* §119 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -24652,7 +24879,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §118 says every
+   shipped with no rule here at all — which on a street whose §119 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -24776,7 +25003,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §119 ── Print ───────────────────────────────────────────────────────────────
+/* §120 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

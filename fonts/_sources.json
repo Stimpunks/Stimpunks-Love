@@ -3003,5 +3003,33 @@
    "src": "https://fonts.gstatic.com/s/overlock/v19/Z9XTDmdMWRiN1_T9Z7Tc2O6sk5OB_Co.woff2",
    "note": "The italic of the 400 above, for the song's title."
   }
+ ],
+ "staatliches": [
+  {
+   "file": "staatliches-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 10752,
+   "src": "https://fonts.gstatic.com/s/staatliches/v15/HI_OiY8KO6hCsQSoAPmtMYebvpCfOMPT.woff2",
+   "note": "The Mountain Cabin (§118), David's log cabin at the summit above the Campgrounds: its name and every heading, and nothing at reading size. Brian LaRossa and Erica Carras's tall display capitals, the letters a route is painted on a rock in. One weight, which is all it has."
+  }
+ ],
+ "assistant": [
+  {
+   "file": "assistant-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22056,
+   "src": "https://fonts.gstatic.com/s/assistant/v24/2sDcZGJYnIjSi6H75xkzaGW5Kb8VZA.woff2",
+   "note": "The Mountain Cabin (§118), every word that is read. Ben Nathan's plain humanist sans (with Adobe Systems, on the record), drawn to be read in thin air. One variable file for both weights; the browser instances its weight axis at each declaration (Cinzel's lesson in the Foundry)."
+  },
+  {
+   "file": "assistant-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 22056,
+   "src": "https://fonts.gstatic.com/s/assistant/v24/2sDcZGJYnIjSi6H75xkzaGW5Kb8VZA.woff2",
+   "note": "Byte-identical to the 400 above; see that note."
+  }
  ]
 }

@@ -73,6 +73,7 @@ TALLOW, TALLOW2, TALLOW3 = "#F2E6D4", "#C2AC91", "#A4907B"
 # not a flame -- the structural opposite of the yurt's candle next to it.
 SUNFLOWER, SCREEN = "#E8C33A", "#A3D4DF"
 LINGER = "#F08A5D"   # the last sun on the top of the Bough House's tree, on its sign
+FAR = "#DCEBFF"      # the Mountain Cabin's one lit window, up among the stars, on its sign
 # The Solarpunk Hermitage (love.css §19), and THE FIRST ROOM ON THIS STREET
 # WHOSE TYPE IS DARK ON LIGHT ALL THE WAY DOWN. Which inverts the usual job of
 # this file: everywhere else the risk is an ink too dim against a dark ground,
@@ -867,6 +868,10 @@ FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # autumn sky and on silvered planks.
 BGH_SKY, BGH_PLANK, BGH_BARK, BGH_BARK2 = "#F3E4CC", "#E2DCD0", "#33241B", "#5B4535"
 BGH_RUST, BGH_CRIMSON, BGH_GOLD, BGH_TRUNK = "#9C3A16", "#8A1F33", "#D9952B", "#4A3527"
+# The Emergent Future Worlds Meets Mountain Man (§118): David's cabin at the
+# summit, inside at night, warm words on a blue-charcoal dark.
+EFW_NIGHT, EFW_PANEL, EFW_TEXT, EFW_DIM = "#1A1F2B", "#242B3A", "#F1EDE4", "#BFC6D4"
+EFW_LINK, EFW_LINK2, EFW_IRON, EFW_IRON2, EFW_SCREEN = "#FFC27A", "#FFE2B8", "#2F3440", "#4A5160", "#0A0D14"
 
 # Now Playing (love.css §53). One sheet screenprinted in two inks and pasted
 # round a column on the pavement. Every word on the sheet is --np-both, which is
@@ -1143,6 +1148,9 @@ PAIRS = [
     (LINGER, DUSK,   False, "campgrounds: the last sun on the top of the tree and the ridge of the roof, on the Bough House's sign"),
     (LINGER, SPRUCE, False, "campgrounds: the same, against the crown's own mass"),
     (LINGER, BARK,   False, "campgrounds: the same where it runs along the roof"),
+    (FAR,    DUSK,   False, "campgrounds: the Mountain Cabin's one lit window on its sign, the size of a star, against the sky"),
+    (FAR,    SPRUCE, False, "campgrounds: the same against the mountain's mass"),
+    (FAR,    BARK,   False, "campgrounds: the same against the cabin's own walls and the snow drawn in bark"),
 
     # THE SOLARPUNK HERMITAGE (love.css §19). Outside first: daylight, where the
     # failure mode is a pale ink rather than a dim one.
@@ -3475,6 +3483,19 @@ PAIRS = [
     (BGH_GOLD,    BGH_BARK,    False, "bough house: PRESS PLAY on the record's plate"),
     (BGH_PLANK,   BGH_TRUNK,   False, "bough house: the record's words under the pointer"),
     (BGH_GOLD,    BGH_TRUNK,   False, "bough house: PRESS PLAY under the pointer"),
+    (EFW_TEXT,    EFW_NIGHT,   False, "mountain man: the name, the line under it, the lede and the switch's words on the night"),
+    (EFW_DIM,     EFW_NIGHT,   False, "mountain man: the trail, the line over the name and the status line on the night"),
+    (EFW_LINK,    EFW_NIGHT,   False, "mountain man: the backlink, a link on the night, and the focus ring there"),
+    (EFW_LINK2,   EFW_NIGHT,   False, "mountain man: a link under the pointer on the night"),
+    (EFW_TEXT,    EFW_PANEL,   False, "mountain man: every word and heading on a panel -- whose it is, the switch, the spring, the wolves, the screen, the window, the cable car, the credits, the job marker's panel, the gallery"),
+    (EFW_DIM,     EFW_PANEL,   False, "mountain man: the fine print on a panel -- a row's channel and date, the rack's date line, the playlist's credit, where the photographs were taken, the waiting note"),
+    (EFW_LINK,    EFW_PANEL,   False, "mountain man: every link on a panel, David's page among them, and the focus ring there"),
+    (EFW_LINK2,   EFW_PANEL,   False, "mountain man: a link under the pointer on a panel"),
+    (EFW_TEXT,    EFW_SCREEN,  False, "mountain man: the words on the big screen's plate and on every plate on the rack"),
+    (EFW_LINK,    EFW_SCREEN,  False, "mountain man: PRESS PLAY on those plates"),
+    (EFW_TEXT,    EFW_IRON,    False, "mountain man: a plate under the pointer"),
+    (EFW_TEXT,    EFW_IRON2,   False, "mountain man: every button -- the switch, Next colour, the howl, the window"),
+    (EFW_NIGHT,   EFW_LINK,    False, "mountain man: a button under the pointer"),
     (FFD_GROUND,  FFD_ROSE,    False, "fantasy fancy dress: the way back to the Dress-Up Den's words"),
     (FFD_GROUND,  FFD_INK,     False, "fantasy fancy dress: a button under the pointer"),
     (FFD_EDGE,    FFD_PANEL,   False, "fantasy fancy dress: the rim of a quiet button and of a print or colours list, on a plate (a control.s edge, held to the body threshold anyway)"),
@@ -3818,6 +3839,37 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#2a2420": "mountain man: --efw-floor, the floorboards, 1.08 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#5a3e2b": "mountain man: --efw-log, the log walls, 1.69 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#3a281c": "mountain man: --efw-log-2, the dark between the logs, the sill and every photograph's frame, 1.18 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#2f3440": "mountain man: --efw-iron, the stove, the screen's frame and the speakers; also a ground for a plate under the pointer, held above, 1.32 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#4a5160": "mountain man: --efw-iron-2, the stove's trim and the speakers' cones; also every button's ground, held above, 2.07 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#0a0d14": "mountain man: --efw-screen, the screen's black; a ground for the plates, held above, 1.18 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#0b1020": "mountain man: --efw-sky, the night outside the window and the firebox; a ground for the moon and the fire, each measured here, 1.15 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#eaf0ff": "mountain man: --efw-moon, the moon, the stars, the steam, the wisps and the coffee's steam, 16.59 on the sky outside, 14.44 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#182a44": "mountain man: --efw-ridge, the mountain's shoulder through the window, 1.31 on the sky, 1.14 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#26405f": "mountain man: --efw-lake, the lake, 1.79 on the sky, 1.55 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#ffb347": "mountain man: --efw-flame, the fire's outer flame and its glow, 10.63 on the firebox, 9.25 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#e2571f": "mountain man: --efw-ember, the fire's base, 5.06 on the firebox, 4.41 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#fff1b8": "mountain man: --efw-heart, the fire's heart, 16.70 on the firebox, 14.53 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#e9dfd2": "mountain man: --efw-cup, the cups, the pot, the bowls and the diffuser, 7.39 on the logs, 12.51 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#3b5b6b": "mountain man: --efw-velvet, the sofas and the chairs, 2.27 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#2e4855": "mountain man: --efw-velvet-2, the seams of the sofas, 1.71 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#c9823a": "mountain man: --efw-cushion, the cushions, 3.12 on the logs, 5.29 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#4c5a6e": "mountain man: --efw-rug, the rug, 2.35 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#6b4a33": "mountain man: --efw-wood, the low table and the side table, 2.08 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#9aa3b2": "mountain man: --efw-wolf, the wolf on the rug and the pack through the window, 7.44 on the sky, 6.48 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#27d3c4": "mountain man: --efw-led-1, the strips in teal, and cushions and a bean bag in it, the colour they start in, 5.19 on the logs, 8.79 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#e34fbf": "mountain man: --efw-led-2, the strips in magenta, and cushions and a bean bag in it, 2.84 on the logs, 4.81 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#8ad24a": "mountain man: --efw-led-3, the strips in lime, and cushions and a bean bag in it, 5.28 on the logs, 8.94 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#6e7bff": "mountain man: --efw-led-4, the strips in periwinkle, and cushions and a bean bag in it, 2.75 on the logs, 4.66 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#ff4d4d": "mountain man: --efw-rb-red, the strips in red, one of the rainbow the visitor can pick, 5.04 on the night and 2.97 on the logs, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#ff9a2e": "mountain man: --efw-rb-orange, the strips in orange, one of the rainbow the visitor can pick, 7.78 on the night and 4.59 on the logs, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#ffe04d": "mountain man: --efw-rb-yellow, the strips in yellow, one of the rainbow the visitor can pick, 12.57 on the night and 7.42 on the logs, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#4dd66a": "mountain man: --efw-rb-green, the strips in green, one of the rainbow the visitor can pick, 8.74 on the night and 5.16 on the logs, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#4da3ff": "mountain man: --efw-rb-blue, the strips in blue, one of the rainbow the visitor can pick, 6.27 on the night and 3.71 on the logs, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#6a5bff": "mountain man: --efw-rb-indigo, the strips in indigo, one of the rainbow the visitor can pick, 3.57 on the night and 2.11 on the logs, in a drawing that is aria-hidden and described in the lede; it carries no word.",
+    "#c45cff": "mountain man: --efw-rb-violet, the strips in violet, one of the rainbow the visitor can pick, 4.96 on the night and 2.93 on the logs, in a drawing that is aria-hidden and described in the lede; it carries no word.",
     "#30171f": "reading room: --rdr-panel, the switches' panel and the hearth's stone surround, 1.10 on the wall. A ground, and every ink on it is measured above.",
     "#6a2a3e": "reading room: --rdr-velvet, the sofa and the rug in the scene drawing, 1.74 on the wall. It carries no word; the drawing is described in its aria-label.",
     "#7a4530": "reading room: --rdr-leather, the two armchairs, 2.35 on the wall. It carries no word.",

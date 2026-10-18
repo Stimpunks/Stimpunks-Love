@@ -2,7 +2,9 @@
 """Write the neighbours line into every home on the campgrounds.
 
 Helen Edgar's ask, 2026-10-17: a line in her Faery Yurt, Jess's Bough House
-and Ryan's Solarpunk Hermitage that sends a visitor to the others, each named
+and Ryan's Solarpunk Hermitage (and, from 2026-10-18, David's Mountain Cabin
+at the summit, which the board carries as a pitch in the summit state) that
+sends a visitor to the others, each named
 with the room's name and whose it is, linked, and kept up to date as people
 join, so the commit that brings a new pitch brings the whole list with it.
 
@@ -79,8 +81,11 @@ def line(me, everyone):
                 'when somebody does, they will be named here.</p>')
     bits = [f'{possessive(h["whose"])} <a href="{h["page"]}">{bare(h["name"])}</a> at {h["no"].lower()}' for h in others]
     said = bits[0] if len(bits) == 1 else ", ".join(bits[:-1]) + " and " + bits[-1]
-    return ('<p class="neighbours"><strong>The neighbours on the campgrounds</strong>, down the pebble paths '
-            f'from <a href="campgrounds.html#between">the pond</a>: {said}. Go and visit.</p>')
+    # "From the pond": the paths and the cable car both leave from it, and a
+    # home at the summit is up the car rather than down a path, so the line
+    # names the pond and not the way.
+    return ('<p class="neighbours"><strong>The neighbours on the campgrounds</strong>, from '
+            f'<a href="campgrounds.html#between">the pond</a>, down a pebble path or up the cable car: {said}. Go and visit.</p>')
 
 
 def main():

@@ -278,6 +278,11 @@ LISTS = [
     ("hey good cookin's rack", "data/hey-good-cookin-month.json", "hey-good-cookin.html"),
     ("pekoe and purrs", "data/pekoe.json", "pekoe-and-purrs.html"),
     ("brew and stew", "data/brew-and-stew.json", "brew-and-stew.html"),
+    # The Mountain Cabin's rack: every video on David's playlist. The playlist
+    # on the big screen is not checked, for the reason above; its first entry
+    # is the rack's first row, which is the one that decides whether the whole
+    # playlist embeds.
+    ("the mountain cabin", "data/mountain-cabin.json", "the-mountain-cabin.html"),
     # All Needs Met: the latest month of fourteen channels, refilled by
     # tools/pull-nature-month.py sanctuary on the morning timer.
     ("all needs met's rack", "data/all-needs-met-month.json", "all-needs-met.html"),

@@ -1355,6 +1355,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
   line-height: 1.38; margin: 0 0 16px; }}
 .og--bough .og-foot {{ font-family: 'Overlock', sans-serif; color: var(--bgh-bark-2); font-size: 18px; margin: 0; }}
 
+/* mountain man — THE CABIN beside the name, lifted off the page whole: the
+   log walls, the fire behind the stove's glass, the lounge, the big screen
+   with its speakers, the strips in teal, the one wolf on the rug and the lake
+   under the full moon through the window with the pack outside, standing on
+   the night with no frame, the way the room has it. */
+.og--summit {{ flex-direction: row; align-items: center; gap: 24px; padding: 30px 46px; }}
+.og--summit .og-words {{ flex: 0 0 440px; }}
+.og--summit .og-scene {{ flex: 0 0 630px; line-height: 0; }}
+.og--summit .og-scene svg {{ display: block; width: 100%; height: auto; }}
+.og--summit .efw-over {{ font-size: 15px; margin: 0 0 8px !important; }}
+.og--summit h1 {{ font-size: 54px; line-height: .98; margin: 0 0 14px !important; max-width: none; }}
+.og--summit .og-lede {{ font-family: 'Assistant', sans-serif; color: var(--efw-text); font-size: 22px;
+  line-height: 1.38; margin: 0 0 16px; }}
+.og--summit .og-foot {{ font-family: 'Assistant', sans-serif; color: var(--efw-dim); font-size: 18px; margin: 0; }}
+
 /* a quiet pint — THE PUB under the name, lifted off the page whole: the room
    from a seat at the south end, the windows at the top of the street wall,
    the mirrors and the patches of light they pass on, the carved columns, the
@@ -4784,10 +4799,43 @@ def card_bough(p):
         f'</div>',
         f"A pale autumn card. On the right, a tree house up in a grove: a trunk rising through the middle of "
         f"a little house of silvered planks with a rust-red roof, two limbs curling round its walls, a gold "
-        f"window and a dark door, a rope ladder hanging down to fallen leaves, and a tiny black dog on the "
+        f"window and a dark door, a rope ladder hanging down to fallen leaves, a small arched fairy door at the foot of the trunk, and a tiny black dog on the "
         f"platform, under a crown of gold, rust, crimson and green leaves. On the left, small capitals reading "
         f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large brush lettering, then: "
         f"{p['desc_plain']} Below it: {plain(trail.group(1))}, stimpunks.world.",
+    )
+
+
+def card_summit(p):
+    # THE SUMMIT AND THE NAME ARE LIFTED WHOLE, so the card cannot show a cabin
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="efw-scene__draw".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="efw-over">(.*?)</p>', p["src"], re.S)
+    trail = re.search(r'<p class="efw-trail">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and trail and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the-mountain-cabin.html has lost the drawing of the summit or\n"
+            "its header, and the card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--summit" data-fit="card">'
+        f'<div class="og-words"><p class="efw-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'<p class="og-foot" data-fit="footer">{trail.group(1)} &middot; stimpunks.world</p></div>'
+        f'<div class="og-scene">{draw.group(1)}</div>'
+        f'</div>',
+        f"A dark blue-charcoal card. On the right, the inside of a log cabin at night: a window the width of the "
+        f"back wall with a lake under a full moon through it, the moon's path on the water, white steam at the "
+        f"near edge and three grey wolves lying on the ground outside; a glass-fronted stove on the left with an "
+        f"orange fire in it, a coffee pot on top and two shelves of cups above; a teal corner sofa, a high-back "
+        f"sofa and two high-back armchairs round a low table with bowls of crisps, sweets and rainbow sweets, bright "
+        f"cushions on every seat and bright bean bags on the floor; a "
+        f"big dark screen on the right wall with a speaker standing either side; thin teal LED strips along the "
+        f"top of the walls and under the screen; an oil diffuser on a side table with wisps rising; and one grey "
+        f"wolf asleep on the rug by the stove. On the left, small pale capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in tall cream capitals, then: {p['desc_plain']} Below it: "
+        f"{plain(trail.group(1))}, stimpunks.world.",
     )
 
 
@@ -5255,6 +5303,7 @@ CARDS = {
     "purrs":        card_purrs,
     "brewstew":     card_brewstew,
     "bough":        card_bough,
+    "summit":       card_summit,
     "natures":      card_natures,
     "sanctuary":    card_sanctuary,
     "solarfarm":    card_solarfarm,

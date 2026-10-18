@@ -101,6 +101,9 @@ ORDER = ["index.html",
          "the-bough-house.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",
          "brew-and-stew.html",
+         # The summit: David's log cabin, up the cable car from the field, off
+         # the main campsite and still the campgrounds'.
+         "the-mountain-cabin.html",
          # Past the campgrounds and through its wood, the land the street
          # lives on: Nature's Contribution, then its places as they open, in
          # the order its fingerpost's arms run.

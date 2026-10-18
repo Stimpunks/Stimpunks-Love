@@ -149,6 +149,12 @@ street = doors()
 furn = furniture()
 ground = lots()
 pitches = signs("campgrounds.html", "pitch")
+# THE SUMMIT: a home on the board in the summit state (pitch--summit) stands
+# over the field rather than on it, so it is drawn above the pitches as a peak
+# and not among them as a tent. Read off the same sign markup; nothing here
+# knows which room it is.
+summits = [p for p in pitches if p["state"] == "summit"]
+pitches = [p for p in pitches if p["state"] != "summit"]
 turnings = signs("the-outskirts.html", "turning")
 levels = signs("arlesglad-caverns.html", "cav-stop")
 # PAST THE CAMPGROUNDS, through the wood the map does not draw: the land off
@@ -177,7 +183,7 @@ for cls, page in furn.items():
     place(page, cls)
 for g in ground:
     place(g, "the open ground")
-for p in pitches:
+for p in pitches + summits:
     if p["href"]:
         place(p["href"], p["no"])
 for t in turnings:
@@ -343,6 +349,16 @@ def pitch(p):
             f'<span class="mm-no">{no} &middot; {state}</span></span></li>')
 
 
+def peak(p):
+    """The mountain over the field: one card folded to a point, with the cabin's
+    name on its face. A summit with no door yet would be a pitch being raised,
+    and is drawn as one."""
+    if not p["href"]:
+        return pitch(p)
+    no = html.escape(p["no"].title(), quote=False)
+    return f'<li class="mm-peak">{link(p["href"], "mm-summit", p["name"], numbered(no))}</li>'
+
+
 def turning(t, side):
     no = html.escape(t["no"].title(), quote=False)
     if t["href"] and t["state"] != "dark":
@@ -415,6 +431,7 @@ block = "\n".join([
     '  <section class="mm-field" aria-labelledby="at-campgrounds">',
     f'    <h3 class="mm-edge">{link(camp, "mm-edge__name")}'
     f'<span class="mm-edge__where">past the treeline, off the board</span></h3>',
+    *(['    <ul class="mm-peaks">', *[f"      {peak(p)}" for p in summits], "    </ul>"] if summits else []),
     '    <ul class="mm-pitches">',
     *[f"      {pitch(p)}" for p in pitches],
     "    </ul>",

@@ -162,6 +162,11 @@
    "room": "The Bough House"
   },
   {
+   "id": "mtn-carabiner",
+   "title": "Which lake is on the cabin wall?",
+   "room": "The Emergent Future Worlds Meets Mountain Man"
+  },
+  {
    "id": "ncx-stile",
    "title": "What is shading the fields?",
    "room": "Nature’s Contribution"

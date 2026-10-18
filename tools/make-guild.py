@@ -482,6 +482,10 @@ DRAW = {
     # floor line are --bns-text, 13.23, both over the body threshold a marker is
     # held to.
     "bns-spoon": """<path d="M3 29 H29" stroke="var(--bns-text)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="9" cy="22" rx="5.5" ry="3.6" fill="var(--bns-glow)" stroke="var(--bns-text)" stroke-width="1.2"/><path d="M13.6 20.6 L28 15" stroke="var(--bns-glow)" stroke-width="2.6" stroke-linecap="round"/>""",
+    # Mountain Man's carabiner, off the cable car's top station and dropped on
+    # the cabin's floor: its body and the floor line are --efw-text, 14.10 on
+    # the night it lies against, and its gate --efw-link, 10.39.
+    "mtn-carabiner": """<path d="M3 29 H29" stroke="var(--efw-text)" stroke-width="1.6" stroke-linecap="round"/><rect x="10" y="3" width="12" height="23" rx="6" fill="none" stroke="var(--efw-text)" stroke-width="2.4"/><path d="M10 10 V19" stroke="var(--efw-link)" stroke-width="3.2" stroke-linecap="round"/><path d="M7.5 9.5 L10 10 M7.5 19.5 L10 19" stroke="var(--efw-text)" stroke-width="1.6" stroke-linecap="round"/>""",
     # The Bough House's acorn, dropped on the platform: its nut is --bgh-rust,
     # 5.54 on the autumn sky it lies against, and its cap, its stalk and the
     # floor line are --bgh-bark, 11.91.

@@ -908,6 +908,44 @@
    }
   },
   {
+   "id": "mtn-carabiner",
+   "page": "the-mountain-cabin.html",
+   "room": "The Emergent Future Worlds Meets Mountain Man",
+   "title": "Which lake is on the cabin wall?",
+   "posted": "There is a log cabin at the top of the mountain that stands over the Campgrounds, with a fire behind glass, a big screen, a wolf on the rug and the whole back wall a window. Take the cable car up, look out of the window, and come back with the name of the lake.",
+   "rank": 3,
+   "takes": "two minutes, and a song if you want one",
+   "target": "a carabiner, dropped on the snow by the top station",
+   "code": "CARABINER",
+   "learned": "Lake Geneva: the window opens onto David's own photographs of it, taken in Lausanne in July 2026, and the cabin runs on the mountain's own heat.",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds first.",
+    "The sign at the top of the campgrounds' board: the cable car goes up from the pond.",
+    "On the floor of the room, before the sign-off."
+   ],
+   "ask": {
+    "question": "Which lake is through the cabin's window?",
+    "accept": [
+     "geneva",
+     "lake geneva",
+     "geneva lake",
+     "lac leman",
+     "lac léman",
+     "lake leman",
+     "lake léman",
+     "leman",
+     "léman"
+    ],
+    "answer": "Lake Geneva",
+    "why": "Lake Geneva, in Switzerland: David took the photographs there in July 2026, at the ISPS congress in Lausanne.",
+    "hints": [
+     "It is on the window's own heading.",
+     "A lake in Switzerland, with a city on it that held a congress.",
+     "The heading says which lake."
+    ]
+   }
+  },
+  {
    "id": "ncx-stile",
    "page": "natures-contribution.html",
    "room": "Nature’s Contribution",

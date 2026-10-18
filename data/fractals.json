@@ -1606,6 +1606,23 @@
         "--bgh-amber"
       ]
     },
+    "the-mountain-cabin.html": {
+      "kind": "julia",
+      "c": [
+        -0.79,
+        0.15
+      ],
+      "orbit": 0.012,
+      "bands": 0.08,
+      "ground": "--efw-night",
+      "inks": [
+        "--efw-text",
+        "--efw-led-1",
+        "--efw-flame",
+        "--efw-moon",
+        "--efw-lake"
+      ]
+    },
     "the-run.html": {
       "kind": "julia",
       "c": [

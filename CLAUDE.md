@@ -1019,6 +1019,35 @@ Ryan's call. **The Bough House is the only room up off the ground**: dark words 
 sky, so it is not one more brown warm room beside the yurt, and its sign's light on the board is the fifth, the last
 sun still on the top of the tree.
 
+**THE EMERGENT FUTURE WORLDS MEETS MOUNTAIN MAN IS DAVID'S, AT THE SUMMIT OVER THE FIELD, AND IT IS THE
+FIRST HOME OFF THE MAIN CAMPSITE.** Helen Edgar's relay of David's brief, 2026-10-18 (§118,
+`the-mountain-cabin.html`, `tools/make-mountain-cabin.py`, `mountain-man.js`): a log cabin on a mountain with a
+lake through the windows, which open onto his photographs; a fire; a lounge; warm and cosy meets smart-home
+modern, LED strips that change colour, a big screen and speakers with his playlist on it; an oil diffuser; one
+switch for all of it; one wolf inside and the pack outside under a full moon, with a button to hear them; coffee
+and cups; crisps, sweets and Skittles; then geothermal like Ryan's hermitage is solar, a hot spring outside, a
+cable car up so Ryan, Helen and Jess can visit, and wolves outside. **The board carries it as a pitch in the summit
+state** (`pitch--summit`, first on the board, `pitch__no` THE SUMMIT): `make-map.py` draws a state it reads as a
+peak over the field, `make-neighbours.py` reads it as a home like any other, and the card and the poster read the
+sign like every pitch's. **The light is the visitor's to choose, and that is what holds it off every warm room**:
+the fire is behind the glass of a modern stove and is not what lights the room, the walls are lit by strips in a
+colour the visitor picks, and the page's ground is the blue-charcoal of a smart home at night, never brown; the
+brief said it must not become the yurt with a lake, and the ground is where that is kept. The window is the cold
+half, a lake under a full moon with the pack on the warm ground, which no other interior has. **Nothing moves
+before the switch is pressed and §118 holds no keyframe, animation or transition**: the fire's sway, the wisps and
+the colour drift are the script's, after a press, at Regular and MAX, still at Gentle with the words the same;
+the drift runs only at MAX, only asked, three seconds a colour, round the cabin's four colours and the whole rainbow, and
+nothing flashes. The diffuser's seven oils are Helen's list, named on the page and in the script's `SCENTS`, which the tool
+holds together, and no scent is ever said to do anything. **The howl is arithmetic**,
+three oscillator voices under `MAX_GAIN`, which the tool refuses above 0.2, no recording and nothing fetched.
+**The photographs go up only with their records** in `data/polaroids.json` (on_wall false, `elsewhere` naming the
+page), and until then the window says it is waiting for David's pictures; the tool refuses an id with no record or
+no file, and never fills the window from anywhere else. **He is credited as David**, the name Helen gave, and the
+rainbow sweets are named once as Skittles with Mars Wrigley's mark in the liner notes. **The spring is water and
+the tool refuses the cure** (Stay Frosty's rule, warm); **the wolves are the mountain's and the tool refuses a
+threat**, and nobody counts, feeds or names them. On the board its light is the sixth, FAR: one lit window so high
+it sits among the stars, the strips' colour and not a flame's. A seventh pitch needs a seventh light.
+
 **AND A PITCH CAN BE TAKEN WITH NOTHING BEHIND IT.** `.pitch--raising` is a solid post, a sign, a
 drawing and no link. A campground has that state and a website usually pretends it does not; the
 alternative was publishing a room before it was a room. The drawing of Helen's yurt is **ours and
@@ -4330,18 +4359,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §119 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §120 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§119 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§120 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §119 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §120 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
