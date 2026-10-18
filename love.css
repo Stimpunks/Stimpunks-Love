@@ -1419,6 +1419,35 @@
   --cb-ti82-case: #B9BE9F; --cb-ti82-bar: #A9AE8E; --cb-ti82-steel: #14160E; --cb-ti82-steel-2: #2E3224;
   --cb-ti82-lcd: #C9CDB0; --cb-ti82-amber: #1A1C12; --cb-ti82-amber-2: #3A3F2C;
   --cb-ti82-body: #3A3634; --cb-ti82-key: #5A5654; --cb-ti82-blue: #3C5A9A; --cb-ti82-grey: #8E8A84;
+  /* THE GEOCITIES PAGES (Ryan, 2026-10-17): themes after eight pages in
+     Restorativland's GeoCities archive, each the same seven parts and its
+     drawing's inks. Their colours were looked at and nothing on them is used:
+     no picture, no clip art, no photograph, no word. Who made each page is said
+     as the page says it, in call.js and in the CB guide and liner notes. */
+  --cb-louise-case: #7E160E; --cb-louise-bar: #5E0F09; --cb-louise-steel: #FFF1D6; --cb-louise-steel-2: #F6C88A;
+  --cb-louise-lcd: #2A0906; --cb-louise-amber: #FF9BD0; --cb-louise-amber-2: #F5C04A;
+  --cb-louise-mustard: #E0A63A; --cb-louise-orange: #EF7A2A; --cb-louise-swoosh: #120404; --cb-louise-rose: #D9647A;
+  --cb-paula-case: #000000; --cb-paula-bar: #0E1A06; --cb-paula-steel: #FFFFFF; --cb-paula-steel-2: #9EE05A;
+  --cb-paula-lcd: #000000; --cb-paula-amber: #66CC00; --cb-paula-amber-2: #C9A0FF;
+  --cb-paula-fern: #3E9E2A; --cb-paula-bamboo: #C8A048; --cb-paula-purple: #8A6CFF; --cb-paula-flower: #E8357A; --cb-paula-lizard: #E0402A; --cb-paula-leaf: #2E7A1E;
+  --cb-shop-case: #0A0A0A; --cb-shop-bar: #1A1A1A; --cb-shop-steel: #FFFFFF; --cb-shop-steel-2: #FF66CC;
+  --cb-shop-lcd: #000000; --cb-shop-amber: #FF0099; --cb-shop-amber-2: #00CE00;
+  --cb-shop-orange: #FF6600; --cb-shop-lime: #99FF33; --cb-shop-gold: #FFD700;
+  --cb-mansn-case: #FFF6E0; --cb-mansn-bar: #FBE7F0; --cb-mansn-steel: #2B2340; --cb-mansn-steel-2: #6A4FA0;
+  --cb-mansn-lcd: #FFFFFF; --cb-mansn-amber: #4A2AA8; --cb-mansn-amber-2: #6A4FA0;
+  --cb-mansn-pink: #F8B6CF; --cb-mansn-yellow: #FBEFA0; --cb-mansn-mint: #BDEBD2; --cb-mansn-lavender: #D7C8F5; --cb-mansn-sunflower: #F2C230; --cb-mansn-leaf: #8CC06A; --cb-mansn-crayon: #F29A3A;
+  --cb-w-case: #142141; --cb-w-bar: #0E1830; --cb-w-steel: #E6E8EE; --cb-w-steel-2: #B8BCC8;
+  --cb-w-lcd: #0B1530; --cb-w-amber: #FFFFFF; --cb-w-amber-2: #C0C0C0;
+  --cb-w-chalk: #D8DCE6; --cb-w-dim: #5A6688;
+  --cb-termites-case: #FFDE42; --cb-termites-bar: #F5D02E; --cb-termites-steel: #2A1A12; --cb-termites-steel-2: #8E1E16;
+  --cb-termites-lcd: #FFF3B8; --cb-termites-amber: #9E1E16; --cb-termites-amber-2: #5A4A3A;
+  --cb-termites-red: #D63939; --cb-termites-chain: #8A8A8A; --cb-termites-shine: #C8C8C8;
+  --cb-greenroom-case: #003300; --cb-greenroom-bar: #002200; --cb-greenroom-steel: #FFFFFF; --cb-greenroom-steel-2: #99CC00;
+  --cb-greenroom-lcd: #001A00; --cb-greenroom-amber: #99CC33; --cb-greenroom-amber-2: #C0C0C0;
+  --cb-greenroom-olive: #999900; --cb-greenroom-green: #009900; --cb-greenroom-frame: #6E6E3A;
+  --cb-sarah-case: #1414B8; --cb-sarah-bar: #0E0E8A; --cb-sarah-steel: #FFFFA8; --cb-sarah-steel-2: #9EF0FF;
+  --cb-sarah-lcd: #08085A; --cb-sarah-amber: #FFFF00; --cb-sarah-amber-2: #7FFFFF;
+  --cb-sarah-pink: #FF66CC; --cb-sarah-orange: #FF9933; --cb-sarah-green: #66FF66; --cb-sarah-violet: #B48CFF; --cb-sarah-dot: #C8D2FF;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
      profile. NOT A ROOM'S PALETTE: a person's own jacket, drawn wherever their

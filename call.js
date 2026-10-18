@@ -186,7 +186,20 @@
     ['cube', 'The Cube', 'skin', 'the Cube v2, Kuki\u2019s Winamp skin of green cubes. Kuki asked that nothing of it be republished, and nothing is: these cubes are drawn for the radio', 'moves'],
     ['pipboy', 'Pip-Boy 3000', 'skin', 'Fallout Pip-Boy 3000 Green, the Winamp skin by shadesmaclean (Neko-Sen\u2019nin) of Spooky Door Productions. Fallout and Pip-Boy are trade marks of Bethesda Softworks, and the drawing is ours', 'moves'],
     ['gameboy', 'Game Boy', 'skin', 'gameboy, a Winamp skin with no readme and no maker named in it, and the handheld\u2019s four greens. Game Boy is a trade mark of Nintendo', 'moves'],
-    ['ti82', 'TI-82', 'skin', 'TI-82 v1.1, the Winamp skin by bLy (Erik Waldner) of 2000. TI-82 is a trade mark of Texas Instruments', 'moves']
+    ['ti82', 'TI-82', 'skin', 'TI-82 v1.1, the Winamp skin by bLy (Erik Waldner) of 2000. TI-82 is a trade mark of Texas Instruments', 'moves'],
+    /* THE GEOCITIES PAGES (Ryan, 2026-10-17): after eight pages in
+       Restorativland's GeoCities archive. Each is credited as the page names
+       its maker, and by its own title and address where it names nobody; no
+       email address, surname a page did not give, or detail about anybody's
+       life is repeated. Nothing on them is used: every drawing is ours. */
+    ['louise', 'Divine Louise Brooks', 'geo', 'Divine Louise Brooks, a fan page made in Microsoft Publisher 97 at GeoCities\u2019 PicketFence/Gazebo/3270, which names nobody. Its photographs are not here: the drawing is its blocks and swooshes', 'still'],
+    ['paula', 'Paula\u2019s Page', 'geo', 'Paula\u2019s Page at GeoCities\u2019 RainForest/Jungle/2703: its jungle, bamboo, ferns and lizard, drawn for the radio, and none of its clip art', 'moves'],
+    ['shop', 'Shop Til U Drop!', 'geo', 'Shop Til U Drop!, Fran and Charlotte\u2019s window-shopping page at GeoCities\u2019 RodeoDrive/Boutique/5707: its neon, its checks and its zebra stripes', 'moves'],
+    ['mansn', 'mansnhomepage', 'geo', 'mansnhomepage at GeoCities\u2019 Area51/Atlantis/7331: its pastel checks and sunflowers. The child\u2019s drawings on it are not copied', 'moves'],
+    ['w', 'Double U for W', 'geo', 'Dat\u2019s double U for W!!! at GeoCities\u2019 Area51/Atlantis/7472: chalk scribbles on navy, drawn for the radio', 'moves'],
+    ['termites', 'Beatnik Termites', 'geo', 'the Beatnik Termites\u2019 Unofficial Home Page at GeoCities\u2019 Area51/Orion/8820, designed by Benjamin T. Marotta: red on yellow, and chain links. The band is not drawn', 'moves'],
+    ['greenroom', 'The Green Room', 'geo', 'The Green Room, Aaron Ortiz\u2019s page at GeoCities\u2019 Athens/Aegean/1213, made in 1995 and kept as it was: its greens and its olive columns', 'still'],
+    ['sarah', 'Sarah\u2019s Room', 'geo', 'Sarah\u2019s Room, Sarah\u2019s home page at GeoCities\u2019 EnchantedForest/6203: a starry blue sky and a column of rainbow stars', 'moves']
   ];
   function known(k) { return SCHEMES.some(function (x) { return x[0] === k && k !== 'auto'; }); }
   /* A THEME'S DRAWING MOVES at MAX GLITTER by itself, and at any other setting

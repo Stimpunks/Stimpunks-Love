@@ -757,6 +757,237 @@
     }
   };
 
+  /* ── THE GEOCITIES PAGES (Ryan, 2026-10-17) ──────────────────────────────
+     After eight pages in Restorativland's GeoCities archive. Each band is drawn
+     here in the page's spirit and its theme's inks: no picture, clip art or
+     photograph from any of them is used, and nobody on them is drawn. */
+
+  // A five-pointed star centred on x, y.
+  function star5(x, y, r) {
+    var d = '';
+    for (var i = 0; i < 10; i++) {
+      var a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.45 : r;
+      d += (i ? 'L' : 'M') + f(x + rr * Math.cos(a)) + ' ' + f(y + rr * Math.sin(a));
+    }
+    return d + 'Z';
+  }
+
+  /* DIVINE LOUISE BROOKS: the page's blocks of red, mustard, orange and rose,
+     a few with pinstripes, and the black swoosh over them. Still, like a page
+     made in Publisher. */
+  T.louise = {
+    band: function (c, r) {
+      var s = c.s, x = 0, inks = ['--cb-louise-mustard', '--cb-louise-orange', '--cb-louise-rose', '--cb-bar'];
+      var top = c.h * 0.18, bh = c.h * 0.64;
+      while (x < c.w) {
+        var w = (24 + r() * 46) * at(s, 0.6), ink = inks[Math.floor(r() * inks.length)];
+        add(c.svg, 'rect', { x: f(x), y: f(top), width: f(w), height: f(bh) }, { fill: ink });
+        if (r() < 0.3) for (var k = 1; k < 4; k++) add(c.svg, 'path', { d: 'M' + f(x + 2) + ' ' + f(top + bh * k / 4) + 'l' + f(w - 4) + ' 0' }, { stroke: '--cb-steel', sw: 0.8 });
+        x += w;
+      }
+      for (x = 20 + r() * 40; x < c.w; x += 110 + r() * 90) {
+        add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(c.h * 0.95) + 'C' + f(x + 10 * s) + ' ' + f(c.h * 0.2) + ' ' + f(x + 30 * s) + ' ' + f(c.h * 0.05) + ' ' + f(x + 46 * s) + ' ' + f(c.h * 0.4) },
+          { stroke: '--cb-louise-swoosh', sw: at(4.5 * s, 2.4) });
+      }
+    }
+  };
+
+  /* PAULA'S PAGE: a bamboo pole with ferns growing off it, jungle flowers,
+     and now and then a lizard sunning itself. */
+  T.paula = {
+    band: function (c, r) {
+      var s = c.s, y = c.h * 0.62, x;
+      add(c.svg, 'rect', { x: 0, y: f(y - 2 * s), width: c.w, height: f(at(4 * s, 2)), rx: 1 }, { fill: '--cb-paula-bamboo' });
+      for (x = 12; x < c.w; x += 28 + r() * 20) add(c.svg, 'rect', { x: f(x), y: f(y - 2.6 * s), width: f(at(1.6 * s, 1)), height: f(at(5.2 * s, 2.6)) }, { fill: '--cb-paula-leaf' });
+      for (x = 20 + r() * 30; x < c.w - 10; x += 46 + r() * 50) {
+        var fern = group(c.svg, {}, { cls: 'art-sway', d: r() * 4, t: 6 + r() * 3 }), len = c.h * 0.55, dir = r() < 0.5 ? -1 : 1;
+        add(fern, 'path', { d: 'M' + f(x) + ' ' + f(y) + 'q' + f(dir * len * 0.3) + ' ' + f(-len * 0.6) + ' ' + f(dir * len * 0.7) + ' ' + f(-len * 0.9) }, { stroke: '--cb-paula-fern', sw: at(s, 0.7) });
+        for (var k = 1; k < 6; k++) {
+          var t = k / 6, fx = x + dir * len * 0.7 * t, fy = y - len * 0.9 * t;
+          add(fern, 'path', { d: 'M' + f(fx) + ' ' + f(fy) + 'l' + f(-3 * s) + ' ' + f(-2 * s) + 'M' + f(fx) + ' ' + f(fy) + 'l' + f(3 * s) + ' ' + f(-1 * s) }, { stroke: '--cb-paula-fern', sw: at(1.2 * s, 0.8) });
+        }
+      }
+      for (x = 34 + r() * 40; x < c.w - 10; x += 70 + r() * 70) {
+        var fy2 = c.h * (0.22 + r() * 0.2), pr = at(2.4 * s, 1.5), fl = group(c.svg, {}, { cls: 'art-pop', d: r() * 4, t: 1.4 });
+        for (var p = 0; p < 5; p++) {
+          var a = p * Math.PI * 2 / 5;
+          add(fl, 'circle', { cx: f(x + Math.cos(a) * pr), cy: f(fy2 + Math.sin(a) * pr), r: f(pr * 0.8) }, { fill: '--cb-paula-flower' });
+        }
+        add(fl, 'circle', { cx: f(x), cy: f(fy2), r: f(pr * 0.6) }, { fill: '--cb-paula-bamboo' });
+      }
+      if (c.w > 200) {
+        var lx = c.w * (0.3 + r() * 0.4), ly = y - 2.5 * s, ls = at(s, 0.6);
+        add(c.svg, 'path', { d: 'M' + f(lx) + ' ' + f(ly) + 'q' + f(10 * ls) + ' ' + f(-6 * ls) + ' ' + f(20 * ls) + ' 0q' + f(4 * ls) + ' ' + f(3 * ls) + ' ' + f(8 * ls) + ' ' + f(-1 * ls) },
+          { stroke: '--cb-paula-lizard', sw: at(3 * ls, 1.6) });
+        add(c.svg, 'path', { d: 'M' + f(lx) + ' ' + f(ly) + 'q' + f(-6 * ls) + ' ' + f(2 * ls) + ' ' + f(-5 * ls) + ' ' + f(-4 * ls) + 'q' + f(1 * ls) + ' ' + f(-3 * ls) + ' ' + f(3 * ls) + ' ' + f(-1 * ls) }, { stroke: '--cb-paula-lizard', sw: at(1.4 * ls, 0.9) });
+        add(c.svg, 'circle', { cx: f(lx + 27 * ls), cy: f(ly - 2 * ls), r: f(at(0.8 * ls, 0.6)) }, { fill: '--cb-steel' });
+      }
+    }
+  };
+
+  /* SHOP TIL U DROP!: checkerboard, zebra stripes, neon blocks, shopping bags,
+     and a pink arrow pointing down at the bargains. */
+  T.shop = {
+    band: function (c, r) {
+      var s = c.s, x = 4, kind = 0;
+      while (x < c.w - 10) {
+        var w, y0 = c.h * 0.2, h = c.h * 0.6;
+        if (kind % 5 === 0) {
+          var sq = h / 3;
+          w = sq * (4 + Math.floor(r() * 4));
+          for (var i = 0; i * sq < w; i++) for (var j = 0; j < 3; j++) {
+            add(c.svg, 'rect', { x: f(x + i * sq), y: f(y0 + j * sq), width: f(sq), height: f(sq) }, { fill: (i + j) % 2 ? '--cb-steel' : '--cb-case' });
+          }
+          add(c.svg, 'rect', { x: f(x), y: f(y0), width: f(w), height: f(h), rx: f(h / 2) }, { stroke: '--cb-steel', sw: 1 });
+        } else if (kind % 5 === 1) {
+          w = (34 + r() * 20) * at(s, 0.6);
+          add(c.svg, 'rect', { x: f(x), y: f(y0), width: f(w), height: f(h), rx: f(h / 2) }, { fill: '--cb-steel' });
+          for (var z = 0; z < w; z += 6 * at(s, 0.6)) add(c.svg, 'path', { d: 'M' + f(x + z) + ' ' + f(y0 + h) + 'q' + f(3 * s) + ' ' + f(-h / 2) + ' ' + f(1 * s) + ' ' + f(-h) }, { stroke: '--cb-case', sw: at(2 * s, 1.2) });
+        } else if (kind % 5 === 2) {
+          w = (20 + r() * 20) * at(s, 0.6);
+          add(c.svg, 'rect', { x: f(x), y: f(y0), width: f(w), height: f(h) }, { fill: r() < 0.5 ? '--cb-shop-orange' : '--cb-amber' });
+          var zz = 'M' + f(x + 2) + ' ' + f(y0 + h / 2);
+          for (var q = 4; q < w - 2; q += 4) zz += 'L' + f(x + q) + ' ' + f(y0 + h * (q % 8 ? 0.3 : 0.7));
+          add(c.svg, 'path', { d: zz }, { stroke: '--cb-shop-lime', sw: at(1.4 * s, 1), cls: 'art-glow', d: r() * 3, t: 3.5 });
+        } else if (kind % 5 === 3) {
+          w = at(16 * s, 10);
+          var bh = h * 0.9, by = c.h - 2 - bh;
+          add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(by) + 'h' + f(w) + 'l' + f(-2 * s) + ' ' + f(bh) + 'h' + f(-w + 4 * s) + 'Z' }, { fill: '--cb-shop-gold' });
+          add(c.svg, 'path', { d: 'M' + f(x + w * 0.3) + ' ' + f(by) + 'q' + f(w * 0.2) + ' ' + f(-6 * s) + ' ' + f(w * 0.4) + ' 0' }, { stroke: '--cb-shop-gold', sw: at(1.4 * s, 1) });
+        } else {
+          w = at(8 * s, 5);
+          var ar = group(c.svg, {}, { cls: 'art-breathe', d: r() * 2, t: 2.6 });
+          add(ar, 'path', { d: 'M' + f(x + w / 2) + ' ' + f(c.h * 0.08) + 'L' + f(x + w / 2) + ' ' + f(c.h * 0.7) }, { stroke: '--cb-amber', sw: at(1.4 * s, 1) });
+          add(ar, 'path', { d: 'M' + f(x) + ' ' + f(c.h * 0.62) + 'L' + f(x + w) + ' ' + f(c.h * 0.62) + 'L' + f(x + w / 2) + ' ' + f(c.h * 0.92) + 'Z' }, { fill: '--cb-amber' });
+        }
+        x += w + 8;
+        kind++;
+      }
+    }
+  };
+
+  /* MANSNHOMEPAGE: pastel checks, sunflowers among them, and a crayon
+     scribble. The child's drawings on the page are not copied. */
+  T.mansn = {
+    band: function (c, r) {
+      var s = c.s, sq = c.h * 0.5, y0 = c.h * 0.08, x, inks = ['--cb-mansn-pink', '--cb-mansn-yellow', '--cb-mansn-mint', '--cb-mansn-lavender'], i = 0;
+      for (x = 0; x < c.w; x += sq, i++) add(c.svg, 'rect', { x: f(x), y: f(y0), width: f(sq + 0.3), height: f(sq) }, { fill: inks[i % 4] });
+      var sc = '';
+      for (x = 0; x < c.w; x += 7 * at(s, 0.6)) sc += (sc ? 'L' : 'M') + f(x) + ' ' + f(c.h * (0.78 + (r() - 0.5) * 0.16));
+      add(c.svg, 'path', { d: sc }, { stroke: '--cb-mansn-crayon', sw: at(1.8 * s, 1.1) });
+      for (x = 16 + r() * 30; x < c.w - 10; x += 60 + r() * 60) {
+        var cy = y0 + sq / 2, pr = sq * 0.32, fl = group(c.svg, {}, { cls: 'art-sway', d: r() * 4, t: 7 + r() * 3 });
+        add(fl, 'path', { d: 'M' + f(x) + ' ' + f(cy) + 'L' + f(x) + ' ' + f(c.h * 0.8) }, { stroke: '--cb-mansn-leaf', sw: at(1.4 * s, 1) });
+        add(fl, 'ellipse', { cx: f(x + 3 * s), cy: f(c.h * 0.66), rx: f(3 * s), ry: f(1.6 * s) }, { fill: '--cb-mansn-leaf' });
+        for (var p = 0; p < 10; p++) {
+          var a = p * Math.PI / 5;
+          add(fl, 'circle', { cx: f(x + Math.cos(a) * pr), cy: f(cy + Math.sin(a) * pr), r: f(pr * 0.42) }, { fill: '--cb-mansn-sunflower' });
+        }
+        add(fl, 'circle', { cx: f(x), cy: f(cy), r: f(pr * 0.55) }, { fill: '--cb-mansn-crayon' });
+      }
+    }
+  };
+
+  /* DOUBLE U FOR W: chalk scribbles on navy, a star or two, an empty speech
+     balloon, and a stick figure waving, drawing themselves. */
+  T.w = {
+    band: function (c, r) {
+      var s = c.s, x = 6, grow = growFor(c);
+      while (x < c.w - 12) {
+        var pick = r(), w = (26 + r() * 40) * at(s, 0.6);
+        if (pick < 0.45) {
+          var d = 'M' + f(x) + ' ' + f(c.h / 2), cx = x;
+          while (cx < x + w) { cx += 3 + r() * 5; d += 'L' + f(cx) + ' ' + f(c.h * (0.2 + r() * 0.6)); }
+          add(c.svg, 'path', { d: d, pathLength: 1 }, { stroke: r() < 0.6 ? '--cb-w-chalk' : '--cb-w-dim', sw: at(1.2 * s, 0.8), cls: 'art-grow', d: (x / c.w) * grow, t: 2 });
+        } else if (pick < 0.65) {
+          add(c.svg, 'path', { d: star5(x + 6 * s, c.h / 2, at(5 * s, 3)), pathLength: 1 }, { stroke: '--cb-w-chalk', sw: at(s, 0.8), cls: 'art-grow', d: (x / c.w) * grow, t: 1.6 });
+          w = 14 * at(s, 0.6);
+        } else if (pick < 0.82) {
+          var bw = 20 * at(s, 0.6), bh = c.h * 0.4;
+          add(c.svg, 'path', { d: 'M' + f(x) + ' ' + f(c.h * 0.15) + 'h' + f(bw) + 'v' + f(bh) + 'h' + f(-bw * 0.6) + 'l' + f(-4 * s) + ' ' + f(5 * s) + 'l' + f(1 * s) + ' ' + f(-5 * s) + 'h' + f(-bw * 0.4 + 3 * s) + 'Z', pathLength: 1 },
+            { stroke: '--cb-w-chalk', sw: at(s, 0.8), cls: 'art-grow', d: (x / c.w) * grow, t: 1.8 });
+          w = bw + 6;
+        } else {
+          var hy = c.h * 0.24, hr = at(3 * s, 2), fig = group(c.svg, {}, { cls: 'art-sway', d: r() * 3, t: 4 });
+          add(fig, 'circle', { cx: f(x + 6 * s), cy: f(hy), r: f(hr) }, { stroke: '--cb-w-chalk', sw: at(s, 0.8) });
+          add(fig, 'path', { d: 'M' + f(x + 6 * s) + ' ' + f(hy + hr) + 'L' + f(x + 6 * s) + ' ' + f(c.h * 0.66) +
+            'L' + f(x + 2 * s) + ' ' + f(c.h * 0.92) + 'M' + f(x + 6 * s) + ' ' + f(c.h * 0.66) + 'L' + f(x + 10 * s) + ' ' + f(c.h * 0.92) +
+            'M' + f(x) + ' ' + f(c.h * 0.42) + 'L' + f(x + 6 * s) + ' ' + f(c.h * 0.5) + 'L' + f(x + 13 * s) + ' ' + f(c.h * 0.3) }, { stroke: '--cb-w-chalk', sw: at(s, 0.8) });
+          w = 16 * at(s, 0.6);
+        }
+        x += w + 6;
+      }
+    }
+  };
+
+  /* BEATNIK TERMITES: a chain of links, as on the page's menu, with guitars,
+     drums and notes doodled in red between them. The band is not drawn. */
+  T.termites = {
+    band: function (c, r) {
+      var s = c.s, cy = c.h / 2, lw = at(9 * s, 5), lh = at(5 * s, 3), x = 4, i = 0;
+      while (x < c.w - lw) {
+        if (c.kind !== 'divider' && i > 0 && r() < 0.12) {
+          var pick = r(), d = group(c.svg, {}, { cls: 'art-sway', d: r() * 3, t: 5 });
+          if (pick < 0.4) {
+            add(d, 'circle', { cx: f(x + 4 * s), cy: f(cy + 3 * s), r: f(at(4 * s, 2.4)) }, { fill: '--cb-termites-red' });
+            add(d, 'circle', { cx: f(x + 9 * s), cy: f(cy + 1 * s), r: f(at(3 * s, 1.8)) }, { fill: '--cb-termites-red' });
+            add(d, 'path', { d: 'M' + f(x + 10 * s) + ' ' + f(cy) + 'L' + f(x + 22 * s) + ' ' + f(cy - 6 * s) }, { stroke: '--cb-termites-red', sw: at(1.6 * s, 1) });
+            x += 26 * s;
+          } else if (pick < 0.7) {
+            add(d, 'ellipse', { cx: f(x + 7 * s), cy: f(cy + 2 * s), rx: f(at(7 * s, 4)), ry: f(at(5 * s, 3)) }, { fill: '--cb-termites-red' });
+            add(d, 'path', { d: 'M' + f(x + 2 * s) + ' ' + f(cy - 7 * s) + 'l' + f(4 * s) + ' ' + f(5 * s) + 'M' + f(x + 13 * s) + ' ' + f(cy - 7 * s) + 'l' + f(-4 * s) + ' ' + f(5 * s) }, { stroke: '--cb-steel', sw: at(s, 0.8) });
+            x += 18 * s;
+          } else {
+            add(d, 'ellipse', { cx: f(x + 3 * s), cy: f(cy + 4 * s), rx: f(at(3 * s, 1.8)), ry: f(at(2.2 * s, 1.4)) }, { fill: '--cb-termites-red' });
+            add(d, 'path', { d: 'M' + f(x + 6 * s) + ' ' + f(cy + 4 * s) + 'L' + f(x + 6 * s) + ' ' + f(cy - 8 * s) + 'q' + f(4 * s) + ' ' + f(2 * s) + ' ' + f(5 * s) + ' ' + f(6 * s) }, { stroke: '--cb-termites-red', sw: at(1.2 * s, 0.9) });
+            x += 14 * s;
+          }
+          continue;
+        }
+        var flat = i % 2 === 0;
+        add(c.svg, 'rect', { x: f(x), y: f(flat ? cy - lh / 2 : cy - lh * 0.35), width: f(flat ? lw : lw * 0.55), height: f(flat ? lh : lh * 0.7), rx: f(lh / 2) },
+          { stroke: '--cb-termites-chain', sw: at(1.6 * s, 1.1) });
+        if (flat) add(c.svg, 'path', { d: 'M' + f(x + lw * 0.3) + ' ' + f(cy - lh / 2 + 0.8) + 'l' + f(lw * 0.3) + ' 0' }, { stroke: '--cb-termites-shine', sw: 0.8 });
+        x += (flat ? lw : lw * 0.55) - 1.5;
+        i++;
+      }
+    }
+  };
+
+  /* THE GREEN ROOM: table columns with olive borders, as the page has been
+     since 1995, and the odd framed square. It stands still. */
+  T.greenroom = {
+    band: function (c, r) {
+      var x = 2, i = 0;
+      while (x < c.w - 4) {
+        var w = 24 + r() * 50;
+        add(c.svg, 'rect', { x: f(x), y: 2, width: f(Math.min(w, c.w - 2 - x)), height: f(c.h - 4) }, { fill: i % 2 ? '--cb-greenroom-green' : '--cb-lcd', stroke: '--cb-greenroom-olive', sw: 1.6 });
+        if (r() < 0.35 && w > 30) {
+          var sq = c.h * 0.56, sx = x + w / 2 - sq / 2, sy = c.h / 2 - sq / 2;
+          add(c.svg, 'rect', { x: f(sx), y: f(sy), width: f(sq), height: f(sq) }, { stroke: '--cb-greenroom-frame', sw: 2 });
+          add(c.svg, 'rect', { x: f(sx + 3), y: f(sy + 3), width: f(sq - 6), height: f(sq - 6) }, { stroke: '--cb-amber', sw: 0.8 });
+        }
+        x += w + 3; i++;
+      }
+    }
+  };
+
+  /* SARAH'S ROOM: a starry blue sky with rainbow stars in it, which down the
+     sides is the page's own column of stars. */
+  T.sarah = {
+    band: function (c, r) {
+      var s = c.s, x, inks = ['--cb-sarah-pink', '--cb-sarah-orange', '--cb-amber', '--cb-sarah-green', '--cb-amber-2', '--cb-sarah-violet'];
+      for (x = 0; x < c.w; x += 4 + r() * 8) {
+        add(c.svg, 'circle', { cx: f(x), cy: f(r() * c.h), r: f(0.5 + r() * 0.6) }, { fill: '--cb-sarah-dot', cls: 'art-twinkle', d: r() * 5, t: 3 + r() * 3 });
+      }
+      var i = 0;
+      for (x = 8 + r() * 10; x < c.w - 6; x += (c.kind === 'left' || c.kind === 'right' ? 16 : 34 + r() * 30), i++) {
+        add(c.svg, 'path', { d: star5(x, c.h / 2 + (r() - 0.5) * c.h * 0.2, at(c.h * 0.38, 4)) },
+          { fill: inks[i % inks.length], stroke: '--cb-steel', sw: 0.5, cls: 'art-twinkle', d: r() * 4, t: 4 + r() * 2 });
+      }
+    }
+  };
+
   // Every strip has its own seed, so the two sides and every divider differ.
   var SEED = { top: 1966, foot: 2026, left: 1987, right: 1701, divider: 1588 };
   function one(theme, box, kind, n) {

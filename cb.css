@@ -93,9 +93,48 @@
   --cb-display: 'Doto'; --cb-display-scale: 1.3; --cb-display-track: .06em; --cb-display-case: uppercase; }
 :host([data-scheme="ti82"]) { --cb-case: var(--cb-ti82-case); --cb-bar: var(--cb-ti82-bar); --cb-steel: var(--cb-ti82-steel); --cb-steel-2: var(--cb-ti82-steel-2); --cb-lcd: var(--cb-ti82-lcd); --cb-amber: var(--cb-ti82-amber); --cb-amber-2: var(--cb-ti82-amber-2);
   --cb-display: 'Chakra Petch'; --cb-display-scale: 1.1; --cb-display-track: .06em; --cb-display-case: uppercase; }
+/* THE GEOCITIES PAGES (Ryan, 2026-10-17): the same seven parts, a face for
+   the name and headings, and a shape after each page's; the drawings are
+   cb-themes.js's, and nothing on the pages themselves is used. */
+:host([data-scheme="louise"]) { --cb-case: var(--cb-louise-case); --cb-bar: var(--cb-louise-bar); --cb-steel: var(--cb-louise-steel); --cb-steel-2: var(--cb-louise-steel-2); --cb-lcd: var(--cb-louise-lcd); --cb-amber: var(--cb-louise-amber); --cb-amber-2: var(--cb-louise-amber-2);
+  --cb-display: 'Yellowtail'; --cb-display-scale: 1.5; --cb-display-track: 0; --cb-display-case: none; }
+:host([data-scheme="paula"]) { --cb-case: var(--cb-paula-case); --cb-bar: var(--cb-paula-bar); --cb-steel: var(--cb-paula-steel); --cb-steel-2: var(--cb-paula-steel-2); --cb-lcd: var(--cb-paula-lcd); --cb-amber: var(--cb-paula-amber); --cb-amber-2: var(--cb-paula-amber-2);
+  --cb-display: 'Sansita'; --cb-display-scale: 1.2; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="shop"]) { --cb-case: var(--cb-shop-case); --cb-bar: var(--cb-shop-bar); --cb-steel: var(--cb-shop-steel); --cb-steel-2: var(--cb-shop-steel-2); --cb-lcd: var(--cb-shop-lcd); --cb-amber: var(--cb-shop-amber); --cb-amber-2: var(--cb-shop-amber-2);
+  --cb-display: 'Bowlby One SC'; --cb-display-scale: 1.05; --cb-display-track: .04em; --cb-display-case: uppercase; }
+:host([data-scheme="mansn"]) { --cb-case: var(--cb-mansn-case); --cb-bar: var(--cb-mansn-bar); --cb-steel: var(--cb-mansn-steel); --cb-steel-2: var(--cb-mansn-steel-2); --cb-lcd: var(--cb-mansn-lcd); --cb-amber: var(--cb-mansn-amber); --cb-amber-2: var(--cb-mansn-amber-2);
+  --cb-display: 'Gloria Hallelujah'; --cb-display-scale: 1.2; --cb-display-track: 0; --cb-display-case: none; }
+:host([data-scheme="w"]) { --cb-case: var(--cb-w-case); --cb-bar: var(--cb-w-bar); --cb-steel: var(--cb-w-steel); --cb-steel-2: var(--cb-w-steel-2); --cb-lcd: var(--cb-w-lcd); --cb-amber: var(--cb-w-amber); --cb-amber-2: var(--cb-w-amber-2);
+  --cb-display: 'Permanent Marker'; --cb-display-scale: 1.15; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="termites"]) { --cb-case: var(--cb-termites-case); --cb-bar: var(--cb-termites-bar); --cb-steel: var(--cb-termites-steel); --cb-steel-2: var(--cb-termites-steel-2); --cb-lcd: var(--cb-termites-lcd); --cb-amber: var(--cb-termites-amber); --cb-amber-2: var(--cb-termites-amber-2);
+  --cb-display: 'Yanone Kaffeesatz'; --cb-display-scale: 1.5; --cb-display-track: .04em; --cb-display-case: uppercase; }
+:host([data-scheme="greenroom"]) { --cb-case: var(--cb-greenroom-case); --cb-bar: var(--cb-greenroom-bar); --cb-steel: var(--cb-greenroom-steel); --cb-steel-2: var(--cb-greenroom-steel-2); --cb-lcd: var(--cb-greenroom-lcd); --cb-amber: var(--cb-greenroom-amber); --cb-amber-2: var(--cb-greenroom-amber-2);
+  --cb-display: 'Libre Franklin'; --cb-display-scale: 1.1; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="sarah"]) { --cb-case: var(--cb-sarah-case); --cb-bar: var(--cb-sarah-bar); --cb-steel: var(--cb-sarah-steel); --cb-steel-2: var(--cb-sarah-steel-2); --cb-lcd: var(--cb-sarah-lcd); --cb-amber: var(--cb-sarah-amber); --cb-amber-2: var(--cb-sarah-amber-2);
+  --cb-display: 'Playfair Display'; --cb-display-scale: 1.15; --cb-display-track: .06em; --cb-display-case: uppercase; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
-   of the readout's black edge: High contrast's, LCARS' and ASCII-Amp's. */
-:host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd { border-color: var(--cb-steel-2); }
+   of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
+:host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,
+:host([data-scheme="paula"]) .cb-lcd { border-color: var(--cb-steel-2); }
+/* The pages' shapes: square-cornered tables, bamboo, neon, crayon, chalk, chain
+   and a starry sky, the way homepages were built when they were built. */
+:host([data-scheme="louise"]) .cb-radio { border-radius: 0; border-color: var(--cb-louise-mustard); border-width: 3px; }
+:host([data-scheme="louise"]) .cb-btn { border-radius: 0; }
+:host([data-scheme="paula"]) .cb-radio { border-radius: 0; border: 4px solid var(--cb-paula-bamboo); }
+:host([data-scheme="paula"]) .cb-btn { border-radius: 4px; }
+:host([data-scheme="shop"]) .cb-radio { border-radius: 14px; border-color: var(--cb-amber); }
+:host([data-scheme="shop"]) .cb-btn { border-radius: 14px; }
+:host([data-scheme="mansn"]) .cb-radio { border-radius: 14px; border: 3px solid var(--cb-mansn-lavender); }
+:host([data-scheme="mansn"]) .cb-btn { border-radius: 12px; }
+:host([data-scheme="w"]) .cb-radio { border-radius: 18px 6px 16px 9px / 9px 16px 7px 18px; }
+:host([data-scheme="w"]) .cb-btn { border-radius: 10px 4px 9px 5px / 5px 9px 4px 10px; }
+:host([data-scheme="termites"]) .cb-radio { border-radius: 0; border: 4px solid var(--cb-amber); }
+:host([data-scheme="termites"]) .cb-btn { border-radius: 0; }
+:host([data-scheme="greenroom"]) .cb-radio { border-radius: 0; border: 6px double var(--cb-greenroom-olive); }
+:host([data-scheme="greenroom"]) .cb-btn { border-radius: 0; border-color: var(--cb-greenroom-olive); }
+:host([data-scheme="greenroom"]) .cb-sec + .cb-sec { border-top: 3px double var(--cb-greenroom-olive); }
+:host([data-scheme="sarah"]) .cb-radio { border-radius: 10px; border-color: var(--cb-amber); }
+:host([data-scheme="sarah"]) .cb-btn { border-radius: 8px; }
 /* The skins' shapes. The four games are hard-cornered and thick-edged, like
    pixels; ASCII-Amp is drawn in dashes; the calculators have keys; the Game
    Boy keeps the one corner its case has rounded. */

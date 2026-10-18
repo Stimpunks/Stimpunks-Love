@@ -3561,7 +3561,10 @@ must not start a drawing again. The Mover keeps the radio that much further from
 drawing behind the words (it goes in a trim, a side or a divider's groove) and a theme that flashes. **The Winamp skins** (Ryan, 2026-10-17) are a fourth group, each
 credited in `call.js` to whoever its own readme in the Winamp Skin Museum names, or saying it names nobody
 (an email address is not published); **no skin's bitmap and no game's character or mark is drawn**, and Kuki's
-readme asks that nothing of the Cube be republished. The radio's name never draws past 1.1 of its size in a
+readme asks that nothing of the Cube be republished. **The GeoCities pages** (the same day) are a fifth group, after
+homepages in Restorativland's GeoCities archive: each credited as the page names its maker and otherwise by
+title and address, never an email or anything about anybody's life, and nothing on them used or anybody on
+them drawn, the child whose drawings fill mansnhomepage above all. The radio's name never draws past 1.1 of its size in a
 theme's face, because the bar is full. **It never claims what it has not
 heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It
