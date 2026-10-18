@@ -1306,6 +1306,15 @@
 @font-face { font-family: 'Assistant'; src: url('fonts/assistant-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Assistant'; src: url('fonts/assistant-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Chimera Obscura. A NAME ON A BRASS PLATE, AND A PLAIN VOICE IN THE DARK.
+   Gilda Display, by Eduardo Tunni, sets the room's name, its headings and a
+   chimera's name on the table, and nothing at reading size; Gantari, by
+   Lafontype, carries every word that is read, one variable file for both
+   weights. Read off their own records; see fonts/_sources.json. */
+@font-face { font-family: 'Gilda Display'; src: url('fonts/gilda-display-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gantari'; src: url('fonts/gantari-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gantari'; src: url('fonts/gantari-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -3836,6 +3845,24 @@
   --www-thread: #4B567F;  --www-glint: #F0CFAE;  --www-bead: #FFE6C4;
   --www-moss: #5E8F6A;  --www-rim: #323D70;  --www-body: #3A456F;
 
+  /* Chimera Obscura (§120): a camera obscura, painted matte black inside, lit
+     only by a lens in the roof throwing daylight down onto a round white
+     table. --chm-room is the black every word stands on and --chm-panel the
+     bench's boxes on it; --chm-text is every word, --chm-dim the quiet lines,
+     --chm-link every link, a picked choice's edge, the dark buttons' ground
+     and the focus ring, --chm-pick a picked choice's ground. --chm-table is the
+     table, a frame on the wall and the light coming down, and --chm-ink every
+     word and outline set on it. The rest carry no word: --chm-line an
+     unpicked choice's edge, --chm-edge where the table's light falls off,
+     --chm-brass the lens's housing, --chm-plinth the table's pedestal and
+     --chm-rail the rail people lean on round it. The animals bring their own
+     colours, out of data/chimera-obscura.json. */
+  --chm-room: #0E0D10;  --chm-panel: #1A181D;  --chm-text: #ECE7DE;
+  --chm-dim: #ABA59C;  --chm-link: #EBC883;  --chm-pick: #2E2819;
+  --chm-table: #F8F5EF;  --chm-ink: #221E24;  --chm-line: #5A5460;
+  --chm-edge: #BDB6AA;  --chm-brass: #A57E45;  --chm-plinth: #2B2830;
+  --chm-rail: #3A3640;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -4857,6 +4884,18 @@ div.facade--square { border: 0; background: none; }
 .door--sandbox .door__blurb { font-family: Fredoka, "Trebuchet MS", sans-serif; color: var(--sb-sandlit); }
 .door--sandbox .door__knock { font-family: Fredoka, "Trebuchet MS", sans-serif; color: var(--sb-glow); }
 /* import:sandbox:door:end */
+/* CHIMERA OBSCURA'S DOOR IS A BLACKED-OUT WINDOW with the table's round light
+   showing through the awning, the way it shows through the room from the door,
+   and nothing else lit. */
+.door--chimera { background-color: var(--chm-room); border-color: var(--chm-brass); }
+.door--chimera .door__awning {
+  background-color: var(--chm-room);
+  background-image: radial-gradient(ellipse 24% 70% at 50% 62%, var(--chm-table), var(--chm-edge) 58%, transparent 100%);
+  border-bottom-color: var(--chm-brass);
+}
+.door--chimera .door__name  { font-family: 'Gilda Display', Georgia, serif; font-weight: 400; color: var(--chm-table); font-size: 28px; line-height: 1.05; font-synthesis: none; }
+.door--chimera .door__blurb { font-family: 'Gantari', var(--sans); color: var(--chm-text); font-size: 14px; font-synthesis: none; }
+.door--chimera .door__knock { font-family: 'Gantari', var(--sans); font-weight: 700; font-size: 13px; color: var(--chm-link); font-synthesis: none; }
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -16689,7 +16728,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §121
+   class on it is `bb-`, its sizes are in points and millimetres, and §122
    prints it and nothing else. */
 
 .room-broadside {
@@ -16750,7 +16789,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §121 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §122 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -24982,7 +25021,131 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .room-world .quest { margin-top: 30px; color: var(--www-silk); }
 .room-world .quest__panel a { color: var(--www-dawn); }
 
-/* §120 ── Small screens ───────────────────────────────────────────────────────
+/* §120 ── ROOM: Chimera Obscura (a shopfront on the street) ──────────────────
+   Ryan's brief, 2026-10-18: a builder for making one creature out of two
+   animals, after Norah asked for an otteraccoon, built on the chimeras Becky
+   Hicks drew for stimpunks.org's About page, which hang on its wall.
+
+   THE LIGHT IS A CAMERA OBSCURA'S. The room is painted matte black inside, as
+   every camera obscura is, so the only light in it comes down through a lens in
+   the roof and lands on a round white table, and the chimera is the picture it
+   makes there. Every word stands on the black or on the bench's dark boxes; the
+   table carries the drawing and nothing else, and the light falling off at its
+   edge carries no word.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE EDITORIAL ROOM is the one to watch: also a dark room round one lit
+       white surface. There the light comes UP through the table, flat and even,
+       and there is no picture in it; here it comes DOWN through a lens, it IS
+       the picture, and it falls off at the table's edge. If the table ever lights
+       evenly to its rim, it has become the light table.
+     · THE RABBIT HOLE is lit from above too, down a grey shaft that darkens the
+       further you read. Here the walls are black and the light lands as a
+       picture on a table.
+     · LAUGHINGSTOCK throws one pool from a spot behind you onto a brick wall.
+       Here it falls from above onto a table, with a picture in it.
+     · THE BODYMIND BOOTH and THE DOPAMINE DRESS-UP DEN are the other rooms where
+       you build a figure, and nothing of theirs is here: no curtain, no strip
+       lights, no crystal, no lavender wall, no valet stand.
+   NOTHING MOVES UNTIL YOU PRESS SOMETHING, and only at MAX GLITTER does a new
+   chimera come into focus, as a blur clearing: a filter, never a transform,
+   because rotation and skew are all check-gentle.py can read. Nothing makes a
+   sound. The animals bring their own colours, out of data/chimera-obscura.json,
+   and are drawn by chimera.js with their own ink outline. */
+.chimera-obscura { background: var(--chm-room); color: var(--chm-text); font-family: 'Gantari', var(--sans); font-synthesis: none; }
+.chimera-obscura a { color: var(--chm-link); text-underline-offset: 3px; }
+.chimera-obscura a:hover { color: var(--chm-text); }
+.chimera-obscura :focus-visible { outline-color: var(--chm-link); }
+.chimera-obscura .backlink { font-family: 'Gantari', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: 0; color: var(--chm-link); }
+.chm-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.chm-trail { margin: 0; font-size: 15px; color: var(--chm-dim); }
+.chm-head { margin: 28px 0 0; }
+.chm-over { margin: 0; font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--chm-dim); }
+.chimera-obscura h1 {
+  margin: 6px 0 8px; font-family: 'Gilda Display', Georgia, serif; font-weight: 400;
+  font-size: clamp(46px, 9vw, 104px); line-height: 1; letter-spacing: .01em; color: var(--chm-table);
+}
+.chm-sub { margin: 0; font-size: 20px; line-height: 1.45; max-width: 44ch; }
+.chimera-obscura h2 { margin: 0 0 12px; font-family: 'Gilda Display', Georgia, serif; font-weight: 400; font-size: 34px; line-height: 1.15; color: var(--chm-table); }
+.chm-scene { margin: 26px 0 0; max-width: 1100px; }
+.chm-scene__draw { display: block; width: 100%; height: auto; }
+.chm-lede { margin: 22px 0 0; font-size: 18.5px; line-height: 1.66; max-width: 66ch; }
+.chm-part { margin-top: 48px; }
+.chm-part > p { font-size: 17px; line-height: 1.66; max-width: 68ch; }
+.chm-work { display: grid; grid-template-columns: minmax(260px, 460px) minmax(0, 1fr); gap: 28px; align-items: start; }
+/* The table stays in view while the bench is long, because a pick that changes
+   a drawing three screens away is the Playhouse's unseen answer again. */
+.chm-tablewrap { position: sticky; top: 8px; z-index: 1; padding: 6px 0 10px; background: var(--chm-room); }
+.chm-disc {
+  aspect-ratio: 1; max-width: 100%; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle closest-side, var(--chm-table) 0 76%, var(--chm-edge) 92%, var(--chm-room) 100%);
+}
+.chm-disc__draw { display: block; width: 78%; height: auto; }
+.chm-named { margin: 10px 0 0; font-family: 'Gilda Display', Georgia, serif; font-size: 30px; line-height: 1.1; color: var(--chm-table); text-align: center; overflow-wrap: anywhere; }
+.chm-words { margin: 6px 0 0; font-size: 16px; line-height: 1.55; color: var(--chm-dim); text-align: center; }
+.chm-bench { min-width: 0; }
+.chimera-obscura .chm-bench__h { margin: 0 0 6px; font-family: 'Gilda Display', Georgia, serif; font-weight: 400; font-size: 26px; color: var(--chm-table); }
+.chm-bench__how, .chm-bench__label { margin: 0 0 10px; font-size: 16px; line-height: 1.55; }
+.chm-bench__label { margin-bottom: 6px; font-weight: 700; }
+.chm-starts { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+.chm-start {
+  display: flex; flex-direction: column; align-items: center; padding: 6px 12px 8px;
+  background: var(--chm-table); color: var(--chm-ink); border: 2px solid var(--chm-table);
+  border-radius: 50% 50% 14px 14px / 34% 34% 14px 14px; font: 700 15px/1.25 'Gantari', var(--sans); cursor: pointer;
+}
+.chm-start:hover { border-color: var(--chm-link); }
+.chimera-obscura .chm-start:focus-visible { outline-offset: 3px; }
+.chm-start__draw { display: block; width: 86px; height: auto; }
+.chm-start__whose { font-weight: 400; font-size: 13.5px; }
+.chm-two { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 0 0 10px; }
+.chm-two__pick { display: flex; flex-direction: column; gap: 3px; font-weight: 700; font-size: 15px; }
+.chm-two select { font: 600 16px/1.2 'Gantari', var(--sans); padding: 6px 8px; border-radius: 8px; border: 2px solid var(--chm-line); background: var(--chm-panel); color: var(--chm-text); }
+.chm-btn { font: 700 15px/1.2 'Gantari', var(--sans); padding: 8px 14px; border-radius: 999px; border: 2px solid var(--chm-link); background: var(--chm-link); color: var(--chm-room); cursor: pointer; }
+.chm-btn:hover { background: var(--chm-table); border-color: var(--chm-table); }
+.chm-btn--quiet { background: var(--chm-panel); color: var(--chm-text); border-color: var(--chm-line); }
+.chm-btn--quiet:hover { background: var(--chm-pick); color: var(--chm-text); border-color: var(--chm-link); }
+.chm-any { display: inline-flex; gap: 8px; align-items: center; margin: 2px 0 12px; font-size: 16px; }
+.chm-any input, .chm-opt input { accent-color: var(--chm-link); }
+.chm-slot { margin: 0 0 8px; padding: 6px 12px 10px; border: 1px solid var(--chm-line); border-radius: 12px; background: var(--chm-panel); min-width: 0; }
+.chm-slot__name { padding: 0 4px; font-weight: 700; font-size: 15px; }
+.chm-slot__opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.chm-opt { display: inline-flex; align-items: center; gap: 5px; padding: 3px 12px 3px 8px; border: 2px solid var(--chm-line); border-radius: 999px; cursor: pointer; font-size: 15.5px; }
+.chm-opt:has(input:checked) { border-color: var(--chm-link); background: var(--chm-pick); }
+.chm-slot__none { margin: 0; font-size: 15px; color: var(--chm-dim); }
+.chm-naming { margin: 14px 0 0; }
+.chm-naming__lab { display: block; margin: 0 0 4px; font-weight: 700; font-size: 15px; }
+.chm-naming__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chm-naming__in { flex: 1 1 14ch; min-width: 0; font: 400 22px/1.2 'Gilda Display', Georgia, serif; padding: 6px 10px; border-radius: 10px; border: 2px solid var(--chm-line); background: var(--chm-panel); color: var(--chm-text); }
+.chm-naming__note { margin: 6px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--chm-dim); max-width: 60ch; }
+.chm-share { margin: 14px 0 0; }
+.chm-said { margin: 8px 0 0; min-height: 1.5em; font-size: 15px; color: var(--chm-dim); }
+.chm-noscript { margin: 0; font-size: 16px; line-height: 1.55; color: var(--chm-dim); max-width: 50ch; }
+.chm-quote { margin: 16px 0; padding: 0 0 0 16px; border-left: 3px solid var(--chm-brass); max-width: 62ch; }
+.chm-quote p { margin: 0; font-size: 18px; line-height: 1.55; }
+.chimera-obscura .chm-quote__from { margin-top: 6px; font-size: 14.5px; color: var(--chm-dim); }
+.chm-wall { list-style: none; margin: 18px 0; padding: 0; display: flex; flex-wrap: wrap; gap: 18px; }
+.chm-frame { width: 200px; max-width: 100%; }
+.chm-frame img { display: block; width: 100%; height: auto; max-width: 100%; background: var(--chm-table); border: 8px solid var(--chm-table); border-radius: 4px; }
+.chm-frame__name { margin: 8px 0 0; font-family: 'Gilda Display', Georgia, serif; font-size: 22px; color: var(--chm-table); }
+.chm-frame__whose { margin: 2px 0 0; font-size: 14.5px; color: var(--chm-dim); }
+.chm-shelf { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 8px 0 14px; padding: 0; }
+.chm-shelf li { padding: 3px 12px; border: 1px solid var(--chm-line); border-radius: 999px; font-size: 15.5px; }
+.chm-ask { font-weight: 700; font-size: 18px; }
+.chm-rules ul, .chm-creditlist { margin: 0; padding-left: 22px; max-width: 70ch; }
+.chm-rules li, .chm-creditlist li { margin: 0 0 10px; font-size: 17px; line-height: 1.6; }
+/* THE JOB MARKER on the room's black floor, in the room's own words colour. */
+.chimera-obscura .quest { margin-top: 30px; color: var(--chm-text); }
+.chimera-obscura .quest__panel a { color: var(--chm-link); }
+/* A new chimera coming into focus, at MAX only, and only once per pick. */
+:root[data-intensity="max"] .chm-disc__draw.chm-new { animation: chm-focus 520ms ease-out; }
+@keyframes chm-focus { from { filter: blur(7px); opacity: .55; } to { filter: none; opacity: 1; } }
+@media (max-width: 780px) {
+  .chm-work { grid-template-columns: minmax(0, 1fr); }
+  .chm-disc { width: min(100%, 42vh); margin: 0 auto; }
+  .chm-named { font-size: 24px; }
+}
+
+/* §121 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -25086,7 +25249,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §120 says every
+   shipped with no rule here at all — which on a street whose §121 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -25210,7 +25373,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §121 ── Print ───────────────────────────────────────────────────────────────
+/* §122 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

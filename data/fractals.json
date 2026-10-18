@@ -1902,6 +1902,22 @@
         "--bmb-pleat"
       ]
     },
+    "chimera-obscura.html": {
+      "kind": "julia",
+      "c": [
+        0.37,
+        0.1
+      ],
+      "orbit": 0.015,
+      "spin": 0.15,
+      "ground": "--chm-room",
+      "inks": [
+        "--chm-table",
+        "--chm-link",
+        "--chm-edge",
+        "--chm-brass"
+      ]
+    },
     "fantasy-fancy-dress.html": {
       "kind": "phoenix",
       "c": [

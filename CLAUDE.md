@@ -4194,6 +4194,40 @@ puts the Den's rails on it, and the Den still draws no body of its own.
     Every plate has its rims lit both sides; the collisions are in §113, and **All Together Now Farms** (the
     other two-light room, two colours on two sides of a field) and **the Den next door** are the ones to watch.
 
+**CHIMERA OBSCURA (§120) MAKES ONE CREATURE OUT OF TWO ANIMALS, AND NOTHING IN IT CALLS AN AI.** Ryan's brief,
+2026-10-18, after Norah asked for an otteraccoon, built on the chimeras on stimpunks.org's About page (Becky
+Hicks's Bearmouse, Pandillo and Bunnybadger, which hang on its wall under CC BY-SA 4.0 with her yes). Not called
+Randimals: our friends' company makes plush combined animals, and its characters' names are theirs.
+  · **IT IS A PARTS BUILDER, BECAUSE THAT IS HOW THE ABOUT PAGE'S CHIMERAS ARE MADE**: one animal's body, with the
+    head, ears, mouth, tail, back, colours and markings from it or another. `chimera.js` draws every chimera on
+    the street, each part fitted to the body it lands on, from the shelf `tools/make-chimera-obscura.py` writes
+    between its `chimera:data` markers out of `data/chimera-obscura.json` (never hand-edit them), and
+    `tools/chimera.test.mjs` draws every pair with every part from either. **A new animal is one data entry with
+    every part**; the tool refuses one missing a part, and the test refuses one that cannot be drawn with another.
+  · **THE FALLBACK IS REQUEST, THEN DRAW.** Ryan offered to exempt one page from design.html's "Nothing you do here
+    is sent to an AI" and chose this instead: an animal the shelf lacks is asked for in the Sandbox's suggestion
+    box (`sandbox.html#suggest-chimera`, which `suggest.js` opens filled in) and drawn in a later session, as code,
+    for everybody. **The friendly edit is a live AI drawing "so nobody has to wait"**: it breaks that sentence and
+    Stimpunks' art policy, which rules out AI-made finished illustrations and art in the style of an artist.
+  · **A CHIMERA IS A LIST OF CHOICES, NEVER A PICTURE**, avatar.js's rule: `clean()` takes exactly its parts, each an
+    animal on the shelf, and it travels in the address as `#chimera=` and the parts. The room keeps and sends
+    nothing until the keeping half lands.
+  · **SUGGESTED NAMES ARE CHECKED, EVERY ONE.** The body's animal, then the animal that gave the most other parts;
+    the tool refuses a suggestion that is a Randimals character's name (their shop's list, in the data file) or
+    carries a slur. **"Coon", the obvious end of "raccoon", is a racial slur**, so raccoon's end is "accoon" and
+    otter plus raccoon is an otteraccoon. **Porkypine is a name Randimals and Stimpunks made together**, so it is
+    never refused. Pandillo is the name Chelsea chose and is used for exactly her pairing. A typed name is its
+    maker's.
+  · **NOTHING HERE IS A FREAK SHOW, A QUIZ OR A COUNT.** Bodies made of unexpected parts were exhibited as freaks,
+    and the people exhibited were mostly disabled, so the room's voice never calls a chimera a monster, a mutant, a
+    mistake or wrong; it never says which animal you are or calls anything a spirit animal; and it never counts
+    combinations, rarity or what anybody made. Each is a sweep with the negation window.
+  · **THE LIGHT IS A CAMERA OBSCURA'S**: matte black walls and a lens in the roof throwing daylight onto a round
+    white table, where the chimera is the picture. **The Editorial Room is the one to watch**: its light comes up
+    through a table, flat and even, with no picture in it. If the table ever lights evenly to its rim, it has
+    become the light table. Nothing moves until you press something; at MAX a new chimera comes into focus as a
+    blur clearing, a filter and never a transform. Nothing makes a sound.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
@@ -4417,18 +4451,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §121 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §122 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§121 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§122 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §121 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §122 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

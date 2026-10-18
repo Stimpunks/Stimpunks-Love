@@ -1576,6 +1576,20 @@
       "sections": [
         118
       ]
+    },
+    "gilda-display": {
+      "where": "Chimera Obscura",
+      "page": "chimera-obscura.html",
+      "sections": [
+        120
+      ]
+    },
+    "gantari": {
+      "where": "Chimera Obscura",
+      "page": "chimera-obscura.html",
+      "sections": [
+        120
+      ]
     }
   }
 }

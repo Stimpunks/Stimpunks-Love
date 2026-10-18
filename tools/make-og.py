@@ -1029,6 +1029,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--booth .og-booth {{ flex: 0 0 360px; margin: 0 !important; line-height: 0; }}
 .og--booth .og-booth svg {{ display: block; width: 360px; height: auto; max-width: none; }}
 
+/* chimera obscura — THE ROOM FROM THE DOOR. The page's own drawing, lifted
+   rather than redrawn: the black room, the lens in the roof, the light coming
+   down and the otteraccoon lying on the white table as a picture. The words
+   stand on the black above it, the name in the room's own face; nothing is set
+   on the light. */
+.og--chimera {{ width: 100%; flex-direction: column; align-items: center; padding: 30px 54px 0; gap: 0; }}
+.og--chimera .og-words {{ align-self: stretch; margin: 0 !important; }}
+.og--chimera .chm-over {{ font-size: 18px; margin: 0 !important; }}
+.og--chimera h1 {{ font-size: 88px; margin: 4px 0 0 !important; }}
+.og--chimera .chm-sub {{ font-size: 27px; margin: 8px 0 0 !important; max-width: 1000px; }}
+.og--chimera .og-scene {{ margin: 4px 0 0 !important; line-height: 0; }}
+.og--chimera .og-scene svg {{ display: block; width: 940px; height: auto; max-width: none; }}
+
 /* fantasy fancy dress — THE BACK OF THE SHOP OVER THE SIGN. The sheers and the
    rail of stock are the page's own drawing, across the top; every word sits
    under them on the dark, where the room sets every word. */
@@ -3971,6 +3984,30 @@ def card_dressup(p):
     )
 
 
+def card_chimera(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE ROOM ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="chm-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="chm-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: chimera-obscura.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--chimera" data-fit="card">'
+        f'<div class="og-words"><p class="chm-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="chm-sub">{sub.group(1).strip()}</p></div>'
+        f'<div class="og-scene">{p["chmscene"]}</div>'
+        f'</div>',
+        f"A black card. Small pale capitals reading {plain(over.group(1))}, then "
+        f"\u201c{p['h1text']}\u201d in large cream serif letters, and under it: {plain(sub.group(1))} "
+        f"Below, a dark room seen from the door: a small brass lens in the ceiling, a faint cone of light "
+        f"coming down from it onto a round white table on a pedestal, with a rail round it, and on the "
+        f"table, lying flat like a picture, a brown otter with a raccoon's mask, pointed ears and ringed tail.",
+    )
+
 def card_booth(p):
     # THE SIGN'S LINES AND THE DRAWING OF THE BOOTH ARE LIFTED FROM THE PAGE,
     # and the lede is its og:description, so the card cannot say what the room
@@ -5373,6 +5410,7 @@ CARDS = {
     "room-oook":    card_oook,
     "dressup":      card_dressup,
     "bodymind-booth": card_booth,
+    "chimera-obscura": card_chimera,
     "fancy-dress": card_fancy,
     "collections":  card_collection,
     "mapping":      card_map,
@@ -5506,6 +5544,7 @@ def main():
         ("radio",    "community-center.html", r'(<svg class="ctr-desk__radio".*?</svg>)'),
         ("stand",    "dopamine-dress-up-den.html", r'(<svg class="dd-stand".*?</svg>)'),
         ("booth",    "bodymind-booth.html", r'(<svg class="bmb-booth".*?</svg>)'),
+        ("chmscene", "chimera-obscura.html", r'(<svg class="chm-scene__draw".*?</svg></g></svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),

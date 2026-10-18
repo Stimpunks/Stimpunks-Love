@@ -1581,6 +1581,29 @@
     }
    ]
   },
+  "gantari": {
+   "family": "Gantari",
+   "category": "Sans Serif",
+   "designer": "Lafontype",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gantari",
+   "copyright": "Copyright 2022 The Gantari Project Authors (https://github.com/Lafontype/Gantari)",
+   "repository": "https://github.com/Lafontype/Gantari",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "gantari-400.woff2",
+     "sha": "7e2618722e29ca4a"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "gantari-400.woff2",
+     "sha": "7e2618722e29ca4a"
+    }
+   ]
+  },
   "geist": {
    "family": "Geist",
    "category": "Sans Serif",
@@ -1647,6 +1670,23 @@
      "style": "normal",
      "file": "geologica-400.woff2",
      "sha": "0df4fc8d54587111"
+    }
+   ]
+  },
+  "gilda-display": {
+   "family": "Gilda Display",
+   "category": "Serif",
+   "designer": "Eduardo Tunni",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/gildadisplay",
+   "copyright": "Copyright 2012 The Gilda Display Project Authors (https://github.com/etunni/gilda-display) with Reserved Font Name 'Gilda'.",
+   "repository": "https://github.com/etunni/gilda-display",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "gilda-display-400.woff2",
+     "sha": "f65c1ccd9034f577"
     }
    ]
   },

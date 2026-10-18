@@ -44,7 +44,7 @@ STEPS=(
   make-sweetgrass make-oracle make-doomscroll make-pebble-board make-guild make-patches
   make-arrivals make-garden make-zibaldone make-rabbit-hole make-checkpoint
   make-dead-tired make-laughingstock make-picture-house make-samefood
-  make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-mountain-cabin make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-your-room make-sandbox make-community make-dressup make-bodymind make-fancy-dress make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass make-forum make-profile
+  make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-mountain-cabin make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-your-room make-sandbox make-community make-dressup make-bodymind make-fancy-dress make-chimera-obscura make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass make-forum make-profile
   make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
   make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry
@@ -92,6 +92,14 @@ for s in "${STEPS[@]}"; do
     exit 1
   fi
 done
+
+# Every chimera the shelf can make, drawn, against the shelf make-chimera-obscura.py
+# just wrote into chimera.js. Node and nothing else. See tools/chimera.test.mjs.
+printf '\n\033[1m== every chimera is drawn\033[0m\n'
+if ! node --test tools/chimera.test.mjs; then
+  printf '\n\033[1mSTOPPED at the chimera test.\033[0m An animal on the shelf cannot be drawn with another, or a chimera holds what it should not.\n'
+  exit 1
+fi
 
 printf '\n\033[1m== every avatar choice is drawn, against the lists just written\033[0m\n'
 if ! node --test tools/avatar.test.mjs; then

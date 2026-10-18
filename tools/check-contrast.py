@@ -864,6 +864,11 @@ DD_WALL, DD_PANEL, DD_INK = "#D2C6EC", "#F7F3FD", "#1E1030"
 DD_INK2, DD_LINK = "#47306A", "#7C0F50"
 BMB_CURTAIN, BMB_PLEAT, BMB_CHROME, BMB_LAMP = "#E98A45", "#CF6E2E", "#F5F2EC", "#FFF4D6"
 BMB_INK, BMB_INK2, BMB_LINK, BMB_LINK_ON = "#22160E", "#5B4032", "#8A2A00", "#3D1500"
+# Chimera Obscura (love.css §120). A camera obscura, matte black inside: every
+# word on the black or the bench's dark boxes, and only the starting chimeras'
+# buttons and the frames on the wall set in the table's white.
+CHM_ROOM, CHM_PANEL, CHM_TEXT, CHM_DIM = "#0E0D10", "#1A181D", "#ECE7DE", "#ABA59C"
+CHM_LINK, CHM_PICK, CHM_TABLE, CHM_INK = "#EBC883", "#2E2819", "#F8F5EF", "#221E24"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3461,6 +3466,25 @@ PAIRS = [
                                       "the job marker's strip, outlined in the ink"),
     (BMB_CHROME,  BMB_INK,     False, "bodymind booth: every dark button's words"),
     (BMB_CHROME,  BMB_INK2,    False, "bodymind booth: a dark button under the pointer"),
+
+    # ── Chimera Obscura (§120) ───────────────────────────────────────────────
+    # Every word stands on the black or on the bench's boxes; the table carries
+    # the drawing and nothing else, and its fading edge carries no word.
+    (CHM_TEXT,  CHM_ROOM,  False, "chimera obscura: the lede, every paragraph, the rules, the credits, the "
+                                  "bench's words, the door's blurb, and the job marker on the floor"),
+    (CHM_TEXT,  CHM_PANEL, False, "chimera obscura: a choice's words in its box, the name you type, the "
+                                  "animal pickers"),
+    (CHM_TEXT,  CHM_PICK,  False, "chimera obscura: a picked choice's words, and the quiet button under the pointer"),
+    (CHM_DIM,   CHM_ROOM,  False, "chimera obscura: the trail, the line over the name, which animal gave which "
+                                  "part, the notes, the quote's source, whose each drawing is"),
+    (CHM_DIM,   CHM_PANEL, False, "chimera obscura: the note when no animal has a back"),
+    (CHM_LINK,  CHM_ROOM,  False, "chimera obscura: every link, the backlink, the door's knock, and the focus ring"),
+    (CHM_LINK,  CHM_PANEL, False, "chimera obscura: a picked choice's edge and the focus ring on the bench"),
+    (CHM_TABLE, CHM_ROOM,  False, "chimera obscura: the name, every heading, a chimera's name under the table, "
+                                  "the name on each drawing on the wall, and the name on the street door"),
+    (CHM_INK,   CHM_TABLE, False, "chimera obscura: a starting chimera's name and whose it is, on its white button"),
+    (CHM_ROOM,  CHM_LINK,  False, "chimera obscura: the words on the brass buttons, toss and copy a link"),
+    (CHM_ROOM,  CHM_TABLE, False, "chimera obscura: a brass button's words under the pointer"),
     # FANTASY FANCY DRESS: every word stands on the dark in front of the sheers
     # or on a plate a little lighter, never in the light; the gold sheer names
     # each rail and rings the focus, and a gold or rose button carries the dark.
@@ -4433,6 +4457,18 @@ ORNAMENT = {
     "#0c0a19": "fantasy fancy dress: the stock on the rail, dark against the light at 1.09 on "
                "the dark and carried by its rim of sheer colour, and the frame round the "
                "bodymind. It carries no word.",
+    "#5a5460": "chimera obscura: an unpicked choice's edge, the bench's box edges and the animal "
+               "pickers' borders, 2.65 on the black and 2.41 on the box, beside words in --chm-text "
+               "at 14.3; a picked choice's edge is --chm-link at 11.01. It carries no word.",
+    "#bdb6aa": "chimera obscura: where the table's light falls off at its edge, 9.63 on the black. It "
+               "is a gradient under the drawing and carries no word.",
+    "#a57e45": "chimera obscura: the lens's brass housing in the drawing, the rule beside the quote, "
+               "the street door's frame and the rim of the job marker's lens cap, 5.23 on the black. "
+               "It carries no word.",
+    "#2b2830": "chimera obscura: the table's pedestal and rim, and the ceiling's edge, in the drawing, "
+               "1.34 on the black. It carries no word.",
+    "#3a3640": "chimera obscura: the rail round the table in the drawing, 1.64 on the black. It carries "
+               "no word.",
     "#b5591f": "bodymind booth: the floor under the booth in its drawing, 1.85 on the curtain. "
                "It carries no word and is the only thing in the drawing with no ink outline, "
                "because it is a shadow.",

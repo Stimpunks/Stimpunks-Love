@@ -313,6 +313,12 @@ DRAW = {
     # any of them, lying on the curtain-coloured floor. The strip is the booth's
     # --bmb-lamp outlined in --bmb-ink, 6.88 on the curtain, and its frames are
     # the curtain itself. It lies still.
+    # Chimera Obscura: the brass cap off the lens in the roof, dropped on the
+    # black floor. Its rim is --chm-brass, 5.23 on the black, and its face
+    # --chm-link, 12.11, both over the body threshold a marker is held to, with a
+    # ring of the room's black on the face. The floor line is --chm-dim and
+    # carries nothing. It lies still.
+    "chm-lenscap": """<path d="M3 29 H29" stroke="var(--chm-dim)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="23.5" rx="11" ry="4.6" fill="var(--chm-brass)"/><circle cx="16" cy="15" r="8.6" fill="var(--chm-link)"/><circle cx="16" cy="15" r="5.4" fill="none" stroke="var(--chm-room)" stroke-width="1.3"/><circle cx="13.6" cy="12.6" r="1.4" fill="var(--chm-room)"/>""",
     "booth-strip": """<path d="M3 29.5 H29" stroke="var(--bmb-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M4 23.5 L27 17.5 L28.6 23.5 L5.6 29.5 Z" fill="var(--bmb-lamp)" stroke="var(--bmb-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 23.9 L10.6 23 L11.4 26.1 L7.8 27 Z M12.6 22.5 L16.2 21.6 L17 24.7 L13.4 25.6 Z M18.2 21.1 L21.8 20.2 L22.6 23.3 L19 24.2 Z M23.8 19.7 L27 18.9 L27.8 22 L24.6 22.8 Z" fill="var(--bmb-curtain)" stroke="var(--bmb-ink)" stroke-width=".8" stroke-linejoin="round"/>""",
     # Fantasy Fancy Dress: one faery wing come loose from its pair, lying on the
     # dark floor in front of the sheers. The wing is --ffd-rose outlined in

@@ -206,14 +206,18 @@
   function readout() { var p = el('p', 'sbs-said'); p.setAttribute('role', 'status'); return p; }
   function button(text, type) { var b = el('button', 'sbs-btn', text); b.type = type || 'button'; return b; }
 
-  function suggestForm(opener) {
+  /* preset fills the form for a room that sends people here with something
+     particular to ask: Chimera Obscura's "ask for an animal" arrives at
+     #suggest-chimera. The words are still theirs to change or send. */
+  function suggestForm(opener, preset) {
     var old = write.querySelector('.sbs-form');
-    if (old) { old.remove(); opener.focus(); return; }
+    if (old) { if (preset) return; old.remove(); opener.focus(); return; }
     var form = el('form', 'sbs-form');
     form.noValidate = true;
     var kind = choices('What is it?', 'kind', [['suggestion', 'A suggestion'], ['feature', 'A feature request'], ['bug', 'A bug report']], 'suggestion');
     var title = el('input', 'sbs-in'); title.type = 'text'; title.maxLength = 120; title.autocomplete = 'off';
     var body = el('textarea', 'sbs-in sbs-in--body'); body.rows = 8; body.maxLength = 4000;
+    if (preset) { title.value = preset.title || ''; body.value = preset.body || ''; }
     form.appendChild(kind);
     form.appendChild(field('A title', title));
     form.appendChild(field('Say more', body, 'Half an idea is fine. For a bug: which room, what you pressed, what happened, what you expected, and which browser. Markdown works: **bold**, *italic*, `code`, [a link](https://…), - lists, > quotes and ``` code blocks ```.'));
@@ -255,7 +259,8 @@
       }, function () { go.disabled = false; say('The box could not be reached just now. Nothing went in.', here); });
     });
     write.appendChild(form);
-    kind.querySelector('input').focus();
+    if (preset) { title.focus(); title.setSelectionRange(title.value.length, title.value.length); }
+    else kind.querySelector('input').focus();
   }
 
   function answerForm(p, art, opener) {
@@ -313,8 +318,16 @@
     if (line) line.textContent = me.handle;
     var open = document.getElementById('suggest-new');
     if (open) open.addEventListener('click', function () { suggestForm(open); });
+    if (open && location.hash === '#suggest-chimera') {
+      suggestForm(open, {
+        title: 'Chimera Obscura: please add ',
+        body: 'Which animal, or which part, and anything about how it looks that matters to you.'
+      });
+      write.scrollIntoView({ block: 'start' });
+    }
   } else if (signon) {
     signon.hidden = false;
+    if (location.hash === '#suggest-chimera') signon.scrollIntoView({ block: 'start' });
   }
 
   state.textContent = 'Reading the box…';

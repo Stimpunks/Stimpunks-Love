@@ -314,6 +314,8 @@ python3 tools/make-community.py    # The Community Center's service board; refus
 python3 tools/make-dressup.py      # the Dress-Up Den's stand, rails and looks, and the credits; refuses a size, a gendered rail, or no all-black colourway
 python3 tools/make-bodymind.py     # the Bodymind Booth, and the avatar lists in avatar.js and lib.mjs; refuses a starting body, an aid sold as clothing, or a camera
 node --test tools/avatar.test.mjs  # every avatar choice and garment drawn in every pose, and the page and the CB agreeing about a look
+python3 tools/make-chimera-obscura.py  # Chimera Obscura, and the shelf in chimera.js; refuses a missing part, a name that is Randimals' or a slur, the freak show's words, a quiz, a count, a sound or a fetch
+node --test tools/chimera.test.mjs  # every pair of animals on the shelf drawn with every part from either, and clean() holding
 python3 tools/make-mural.py        # Plural Mural's wall and its list; refuses a mural with no words, painted words under 4.5, a photograph, or a vote
 python3 tools/make-accounts.py     # The CB's accounts: refuses a console call in netlify/, a list of accounts, an email field, a desk that does more than find, reset and delete, and a Profile without Delete my account
 python3 tools/make-profile.py      # The CB's profile cards: the themes, drawings, decorations, frames, effects and faces written into lib.mjs; refuses a theme love.css cannot paint, a face it does not declare, a decoration with no drawing, or a date
@@ -665,6 +667,16 @@ on the Den's rails, a page that ships a choice checked, and a `booth.js` or `try
 takes a file, draws onto a canvas, stores anything or sends anywhere but `/cb/avatars`. `tools/avatar.test.mjs`
 puts every garment on a body in every pose, varies every choice, and races the page's checker against the
 server's; `tools/check-all.sh` runs it before the generators and again after them.
+
+`make-chimera-obscura.py` builds Chimera Obscura out of `data/chimera-obscura.json`, a camera obscura on the
+street where a chimera is made out of two animals, the body from one and every other part from either, and
+**writes the shelf into `chimera.js`, which draws every chimera on the street**, fitting each part to whatever
+body it lands on. It works out every name the room suggests and refuses one that is a Randimals character or
+carries a slur (which is why raccoon's end is *accoon* and otter plus raccoon is an otteraccoon), an animal
+missing a part, the freak show's words, a quiz, a count, and a `chimera.js` or `chimera-obscura.js` that makes a
+sound, fetches, stores, or writes markup other than `chimera.js`'s own drawing. **Nothing in it calls an AI**:
+an animal the shelf lacks is asked for in the suggestion box and drawn later. `tools/chimera.test.mjs` draws
+every pair of animals with every part from either of the two.
 
 `make-vital.py` builds Vital Plant Living out of `data/vital.json`, **where the pantry is Ryan's own**,
 the list he cooks from at home, written down as he gave it. It **refuses a combo that brings in

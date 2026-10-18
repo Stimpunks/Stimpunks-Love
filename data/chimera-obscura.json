@@ -1,0 +1,144 @@
+{
+ "_what": "Chimera Obscura's shelf: every animal a chimera can be made from, as parts, and the chimeras the room opens on. tools/make-chimera-obscura.py writes the shelf into chimera.js between its chimera:data markers and the keys into netlify/cb/lib.mjs between its chimera:keys markers, and builds the room's generated parts. Never hand-edit between those markers.",
+ "_brief": "Ryan, 2026-10-18: a builder for combining two animals, after Norah asked for an otteraccoon (otter and raccoon), modelled on the chimeras on stimpunks.org's About page, which take features and colouring from one animal onto another's body. Named and kept in a CB Profile and sent as stickers. Missing animals are asked for in the suggestion box and drawn in a later session; nothing calls an AI.",
+ "_how_to_add_an_animal": "One entry under animals with every part below, drawn for the shared rig in chimera.js: a body (width w, height h, shoulders top, arms, feet), a head (r, sx, sy, shape, muz, nose, eyes, and whiskers or pads if it has them), ears, a mouth, a tail, a back or null, colours (fur, light, dark, skin, nose as hexes) and markings. The tool refuses an animal missing any of them, and tools/chimera.test.mjs draws it with every other animal before it can go up. Say parts give the suggested name: [the name as the body comes first, the name as the second animal, optionally a short form used before a vowel]. Answer the request in the suggestion box done once it is on the shelf.",
+ "slots": [
+  {"key": "body",     "legend": "Body",     "word": "body"},
+  {"key": "head",     "legend": "Head",     "word": "head"},
+  {"key": "ears",     "legend": "Ears",     "word": "ears"},
+  {"key": "mouth",    "legend": "Mouth",    "word": "mouth"},
+  {"key": "tail",     "legend": "Tail",     "word": "tail"},
+  {"key": "back",     "legend": "Back",     "word": "back"},
+  {"key": "colours",  "legend": "Colours",  "word": "colours"},
+  {"key": "markings", "legend": "Markings", "word": "markings"}
+ ],
+ "animals": {
+  "bear": {
+   "a": "a", "say": ["Bear", "bear"],
+   "colours": {"fur": "#8A5A3B", "light": "#D9AB7F", "dark": "#4B2F20", "skin": "#E3A587", "nose": "#2A1A12"},
+   "body": {"w": 200, "h": 178, "top": 0.80, "arms": "thick", "feet": "pads"},
+   "head": {"r": 80, "sx": 1.05, "sy": 1.00, "shape": "round", "muz": {"y": 0.36, "rx": 0.44, "ry": 0.30}, "nose": "round", "eyes": {"x": 0.38, "y": -0.04}},
+   "ears": {"a": 42, "type": "round", "s": 0.36},
+   "mouth": "smile",
+   "tail": {"d": "@circle 16 -4 17", "fill": "fur", "at": 0.44},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "mouse": {
+   "a": "a", "say": ["Mouse", "mouse"],
+   "colours": {"fur": "#AAA29D", "light": "#EFE9E3", "dark": "#6B625D", "skin": "#F3A9B8", "nose": "#E27A92"},
+   "body": {"w": 156, "h": 150, "top": 0.74, "arms": "thin", "feet": "small"},
+   "head": {"r": 70, "sx": 1.00, "sy": 0.95, "shape": "round", "muz": {"y": 0.38, "rx": 0.30, "ry": 0.24}, "nose": "tri", "eyes": {"x": 0.36, "y": -0.02}, "whiskers": true},
+   "ears": {"a": 48, "type": "round", "s": 0.62},
+   "mouth": "buck",
+   "tail": {"d": "M-10,0 C40,6 70,-10 62,-48 C56,-78 84,-96 100,-82", "string": true, "fill": "skin"},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "panda": {
+   "a": "a", "say": ["Panda", "panda"],
+   "colours": {"fur": "#F7F4EE", "light": "#FFFFFF", "dark": "#262626", "skin": "#3B3B3B", "nose": "#1C1C1C"},
+   "body": {"w": 204, "h": 176, "top": 0.82, "arms": "thick", "feet": "pads"},
+   "head": {"r": 84, "sx": 1.08, "sy": 0.98, "shape": "round", "muz": {"y": 0.40, "rx": 0.32, "ry": 0.24}, "nose": "round", "eyes": {"x": 0.40, "y": -0.02}},
+   "ears": {"a": 44, "type": "round", "s": 0.38},
+   "mouth": "w",
+   "tail": {"d": "@circle 18 -2 19", "fill": "light", "at": 0.44},
+   "back": null,
+   "markings": {"patches": true, "darkEars": true, "darkLimbs": true, "band": true}
+  },
+  "armadillo": {
+   "a": "an", "say": ["Armadillo", "dillo"],
+   "colours": {"fur": "#D8AE8E", "light": "#F0D6BE", "dark": "#8F6B52", "skin": "#ECB9A3", "nose": "#6D4A3A"},
+   "body": {"w": 168, "h": 162, "top": 0.70, "arms": "thin", "feet": "claws"},
+   "head": {"r": 66, "sx": 0.86, "sy": 0.92, "shape": "round", "muz": {"y": 0.55, "rx": 0.25, "ry": 0.50}, "nose": "small", "eyes": {"x": 0.40, "y": -0.10}},
+   "ears": {"a": 30, "type": "oval", "s": 0.34},
+   "mouth": "tiny",
+   "tail": {"d": "M-6,-14 C40,-14 90,10 120,22 C126,25 122,31 115,30 C80,26 40,15 -6,14 Z", "fill": "fur", "bands": true, "axis": [0, 0, 118, 26]},
+   "back": {"kind": "shell", "word": "an armadillo's plates", "plate": "#9A7354", "band": "#5E4231", "speck": "#CBA584"},
+   "markings": {"belly": true}
+  },
+  "rabbit": {
+   "a": "a", "say": ["Bunny", "bunny"],
+   "colours": {"fur": "#B39A83", "light": "#F2E9DD", "dark": "#5F4C3D", "skin": "#F2B5BB", "nose": "#E48A98"},
+   "body": {"w": 164, "h": 166, "top": 0.72, "arms": "thin", "feet": "big"},
+   "head": {"r": 72, "sx": 0.95, "sy": 1.02, "shape": "round", "muz": {"y": 0.40, "rx": 0.34, "ry": 0.22}, "nose": "y", "eyes": {"x": 0.38, "y": -0.04}, "whiskers": true},
+   "ears": {"a": 16, "type": "long", "s": 0.80},
+   "mouth": "bunny",
+   "tail": {"d": "@circle 18 -8 22", "fill": "light", "at": 0.44},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "badger": {
+   "a": "a", "say": ["Badger", "badger"],
+   "colours": {"fur": "#56555A", "light": "#F0EFEA", "dark": "#1D1D20", "skin": "#4A4A4E", "nose": "#111113"},
+   "body": {"w": 212, "h": 152, "top": 0.86, "arms": "thick", "feet": "claws"},
+   "head": {"r": 76, "sx": 1.08, "sy": 0.94, "shape": "wedge", "muz": {"y": 0.44, "rx": 0.30, "ry": 0.26}, "nose": "round", "eyes": {"x": 0.38, "y": -0.02}},
+   "ears": {"a": 58, "type": "semi", "s": 0.26},
+   "mouth": "fierce",
+   "tail": {"d": "M-6,-10 C20,-40 60,-56 72,-48 C82,-40 52,-8 -6,12 Z", "fill": "fur", "axis": [0, 0, 70, -46]},
+   "back": null,
+   "markings": {"bands": true, "rimEars": true, "lightHead": true, "tailTip": true}
+  },
+  "otter": {
+   "a": "an", "say": ["Otter", "otter"],
+   "colours": {"fur": "#7B5233", "light": "#DCC099", "dark": "#45291A", "skin": "#5B3A27", "nose": "#2A1A10"},
+   "body": {"w": 146, "h": 198, "top": 0.70, "arms": "thin", "feet": "webbed"},
+   "head": {"r": 74, "sx": 1.18, "sy": 0.88, "shape": "round", "muz": {"y": 0.36, "rx": 0.48, "ry": 0.30}, "nose": "wide", "eyes": {"x": 0.40, "y": -0.10}, "whiskers": true, "pads": true},
+   "ears": {"a": 68, "type": "round", "s": 0.17},
+   "mouth": "open",
+   "tail": {"d": "M-6,-18 C50,-16 100,6 132,-10 C140,-14 142,-5 136,1 C102,30 50,24 -6,16 Z", "fill": "fur", "axis": [0, 0, 134, -6]},
+   "back": null,
+   "markings": {"chest": true, "lowerFace": true}
+  },
+  "raccoon": {
+   "a": "a", "say": ["Raccoon", "accoon", "Racc"],
+   "colours": {"fur": "#8F8E91", "light": "#E8E5E0", "dark": "#2B2B2E", "skin": "#3C3C3F", "nose": "#161617"},
+   "body": {"w": 180, "h": 164, "top": 0.78, "arms": "hands", "feet": "pads"},
+   "head": {"r": 76, "sx": 1.06, "sy": 0.96, "shape": "wedge", "muz": {"y": 0.42, "rx": 0.30, "ry": 0.26}, "nose": "round", "eyes": {"x": 0.38, "y": -0.02}, "whiskers": true},
+   "ears": {"a": 36, "type": "tri", "s": 0.46},
+   "mouth": "smirk",
+   "tail": {"d": "M-8,-16 C30,-40 70,-110 106,-112 C132,-114 130,-84 110,-60 C80,-24 40,0 -8,18 Z", "fill": "fur", "axis": [0, 0, 112, -96]},
+   "back": null,
+   "markings": {"mask": true, "rimEars": true, "rings": true, "darkPaws": true, "belly": true}
+  }
+ },
+ "known": {
+  "_note": "Names somebody chose, used instead of the made-up one for exactly that body and second animal. Pandillo is the name Chelsea chose for hers. Porkypine is a name Randimals and Stimpunks made together and both use; it waits here until the pig and the porcupine are on the shelf.",
+  "panda+armadillo": "Pandillo",
+  "pig+porcupine": "Porkypine"
+ },
+ "randimals": {
+  "_note": "Our friends at Randimals (randimals.com) make combined animals as plush toys, and these are their characters' names, read off their shop on 2026-10-18. A name the room suggests may never be one of them, so nobody leaves here with a name that is theirs. Porkypine is not on the list: Randimals and Stimpunks made it together and both use it.",
+  "url": "https://randimals.com/",
+  "names": ["Hork", "Mega Hork", "Narmoo", "Framel", "Octopuss", "Girtle", "B-Rex", "Huck", "P-Dawg", "Eagard", "Whanda", "Elarilla", "Zangaroo", "Sea Dog", "Squiger", "Hamlion"]
+ },
+ "presets": [
+  {"id": "bearmouse", "label": "Bearmouse", "whose": "Ryan's",
+   "parts": {"body": "bear", "head": "bear", "ears": "bear", "mouth": "mouse", "tail": "mouse", "back": "none", "colours": "bear", "markings": "bear"}},
+  {"id": "pandillo", "label": "Pandillo", "whose": "Chelsea's",
+   "parts": {"body": "panda", "head": "panda", "ears": "panda", "mouth": "panda", "tail": "panda", "back": "armadillo", "colours": "panda", "markings": "panda"}},
+  {"id": "bunnybadger", "label": "Bunnybadger", "whose": "Inna's",
+   "parts": {"body": "rabbit", "head": "rabbit", "ears": "rabbit", "mouth": "badger", "tail": "badger", "back": "none", "colours": "badger", "markings": "badger"}},
+  {"id": "otteraccoon", "label": "An otteraccoon", "whose": "Norah asked for one",
+   "parts": {"body": "otter", "head": "otter", "ears": "raccoon", "mouth": "otter", "tail": "raccoon", "back": "none", "colours": "otter", "markings": "raccoon"}}
+ ],
+ "opens_on": "otteraccoon",
+ "becky": {
+  "_note": "Becky Hicks drew these three for stimpunks.org's About page in 2022. She is on the Stimpunks board, gave us permission to use her art however we like, and agreed on 2026-10-18 that they travel under this site's licence, CC BY-SA 4.0. Fetched from stimpunks.org's own uploads on 2026-10-18, resized to 440 pixels on the long side and saved as lossless WebP with no metadata.",
+  "agreed": "2026-10-18",
+  "drawings": [
+   {"file": "art/bearmouse.webp", "width": 340, "height": 440, "name": "Bearmouse", "whose": "Ryan's",
+    "alt": "A cartoon bear sitting up and smiling, with a bear's round ears and brown fur but a mouse's two buck teeth and a long thin mouse tail curling up behind it. Under it, in black capitals: BEARMOUSE."},
+   {"file": "art/pandillo.webp", "width": 440, "height": 440, "name": "Pandillo", "whose": "Chelsea's",
+    "alt": "A cartoon panda standing on all fours, black and white, with an armadillo's banded brown plates over its back and a plated cap on its head."},
+   {"file": "art/bunnybadger.webp", "width": 440, "height": 440, "name": "Bunnybadger", "whose": "Inna's",
+    "alt": "A dark grey cartoon rabbit standing with its hands on its hips and a fierce frown, with long rabbit ears, a badger's white stripe on its forehead and a short badger tail tipped with white."}
+  ]
+ },
+ "quote": {
+  "words": "Many years ago, a friend dubbed Ryan “Bearmouse”, intuiting a part of his neurodivergent spiky profile.",
+  "url": "https://stimpunks.org/about/",
+  "mirror": "pages/about.md",
+  "read_on": "our About page"
+ }
+}

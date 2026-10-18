@@ -1,0 +1,115 @@
+/* Every chimera the shelf can make, drawn, and the checker holding.
+
+   WHY IT EXISTS. chimera.js fits every part to whatever body it lands on, so an
+   animal added to data/chimera-obscura.json whose ears, tail or markings cannot
+   be fitted to some other animal's body is not an error anywhere: it is a
+   drawing with NaN in it, or a clip pointing at nothing, on a table somebody is
+   looking at. tools/make-chimera-obscura.py checks the data's shape; this draws
+   it. Every pair of animals, with every part from either of the two, and then
+   random chimeras out of the whole shelf.
+
+   It also holds clean(): what a chimera may hold is exactly its parts, each an
+   animal on the shelf, and nothing else, because a chimera travels in an
+   address and (once chimeras can be kept) to the server.
+
+   Node and nothing else: node --test tools/chimera.test.mjs */
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+
+const here = new URL('..', import.meta.url).pathname;
+const ctx = {};
+ctx.globalThis = ctx;
+vm.createContext(ctx);
+vm.runInContext(fs.readFileSync(here + 'chimera.js', 'utf8'), ctx);
+const C = ctx.loveChimera;
+const SLOTS = Array.from(C.slots, (s) => s.key);  // an array of this realm, not the vm's
+
+function drawnWell(c, where) {
+  const s = C.svg(c, { prefix: 'tst' });
+  assert.ok(s.startsWith('<svg') && s.endsWith('</svg>'), `${where}: no drawing came back`);
+  assert.ok(!/NaN|undefined|Infinity/.test(s), `${where}: the drawing has NaN, undefined or Infinity in it`);
+  const ids = [...s.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]);
+  assert.equal(new Set(ids).size, ids.length, `${where}: two things in one drawing share an id`);
+  for (const id of ids) assert.ok(id.startsWith('tst-'), `${where}: an id without the drawing's prefix: ${id}`);
+  for (const m of s.matchAll(/url\(#([^)]+)\)/g)) assert.ok(ids.includes(m[1]), `${where}: a clip pointing at nothing: ${m[1]}`);
+  assert.ok(C.words(c).length > 10, `${where}: no words for it`);
+  const name = C.suggest(c);
+  assert.ok(name && name.length <= 24, `${where}: its suggested name is missing or too long: ${name}`);
+}
+
+test('the shelf has animals and parts', () => {
+  assert.ok(C.animals.length >= 2, 'fewer than two animals on the shelf');
+  assert.deepEqual(SLOTS, ['body', 'head', 'ears', 'mouth', 'tail', 'back', 'colours', 'markings']);
+});
+
+test('every pair of animals, with every part from either of the two', () => {
+  const others = SLOTS.filter((k) => k !== 'body' && k !== 'back');
+  let drawn = 0;
+  for (const a of C.animals) for (const b of C.animals) {
+    if (a === b) continue;
+    const backs = ['none', ...[a, b].filter((x) => C.hasBack(x))];
+    for (let mask = 0; mask < (1 << others.length); mask++) {
+      for (const back of backs) {
+        const c = { body: a, back };
+        others.forEach((k, i) => { c[k] = (mask >> i) & 1 ? b : a; });
+        drawnWell(c, `${a} with ${b} (${mask}, ${back})`);
+        drawn++;
+      }
+    }
+  }
+  assert.ok(drawn > 0);
+});
+
+test('random chimeras out of the whole shelf', () => {
+  let seed = 7;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
+  const backs = ['none', ...C.animals.filter((x) => C.hasBack(x))];
+  for (let i = 0; i < 2000; i++) {
+    const c = {};
+    for (const k of SLOTS) c[k] = k === 'back' ? pick(backs) : pick(C.animals);
+    drawnWell(c, `random ${i}`);
+  }
+});
+
+test('every starting chimera is on the shelf, and the room opens on one', () => {
+  assert.ok(C.presets.length > 0);
+  for (const p of C.presets) assert.ok(C.clean(p.parts), `the starting chimera ${p.id} uses a part the shelf does not have`);
+  assert.ok(C.presets.some((p) => p.id === C.opensOn), 'the room opens on a chimera that is not one of the starting ones');
+});
+
+test('clean() takes exactly a chimera and nothing else', () => {
+  const good = Object.fromEntries(SLOTS.map((k) => [k, k === 'back' ? 'none' : C.animals[0]]));
+  assert.ok(C.clean(good));
+  assert.equal(C.clean(null), null);
+  assert.equal(C.clean([]), null);
+  assert.equal(C.clean('bear'), null);
+  assert.equal(C.clean({ ...good, extra: 'x' }), null, 'a key that is not a part');
+  for (const k of SLOTS) {
+    const less = { ...good }; delete less[k];
+    assert.equal(C.clean(less), null, `a chimera with no ${k}`);
+    assert.equal(C.clean({ ...good, [k]: 'unicorn' }), null, `a ${k} from an animal not on the shelf`);
+    assert.equal(C.clean({ ...good, [k]: 7 }), null, `a ${k} that is not a word`);
+  }
+  const noBack = C.animals.find((x) => !C.hasBack(x));
+  if (noBack) assert.equal(C.clean({ ...good, back: noBack }), null, 'a back from an animal that has none');
+  assert.equal(C.clean({ ...good, body: 'none' }), null, 'none is only ever a back');
+  assert.equal(C.clean(JSON.parse('{"__proto__": {"body": "bear"}}')), null);
+  assert.equal(C.clean({ ...good, constructor: 'bear' }), null);
+  const inherits = Object.create(good);
+  assert.equal(C.clean(inherits), null, 'parts that are inherited rather than its own');
+});
+
+test('a chimera goes into an address and comes back the same', () => {
+  for (const p of C.presets) {
+    const code = C.code(p.parts);
+    assert.match(code, /^[a-z.]+$/);
+    assert.deepEqual({ ...C.uncode(code) }, { ...C.clean(p.parts) });
+  }
+  assert.equal(C.uncode(''), null);
+  assert.equal(C.uncode('bear.bear'), null);
+  assert.equal(C.uncode('<script>'), null);
+  assert.equal(C.uncode(SLOTS.map(() => 'unicorn').join('.')), null);
+});

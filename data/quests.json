@@ -2643,6 +2643,40 @@
    }
   },
   {
+   "id": "chm-lenscap",
+   "page": "chimera-obscura.html",
+   "room": "Chimera Obscura",
+   "title": "Three on the wall",
+   "posted": "There is a camera obscura on the street, black inside, where you make one creature out of two animals. Go and find out whose chimera the Pandillo is.",
+   "rank": 1,
+   "takes": "about as long as it takes your eyes to get used to the dark",
+   "target": "a brass lens cap, dropped on the black floor",
+   "code": "LENS",
+   "learned": "Ryan, Chelsea and Inna each chose a chimera years ago, and Becky Hicks drew them for stimpunks.org's About page: a Bearmouse, a Pandillo and a Bunnybadger. They hang on the wall in Chimera Obscura, and its bench can make all three.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, between The Sandbox and Your Room: the black one with a round light in its awning.",
+    "It is on the wall by the door, under each drawing.",
+    "Right at the foot of the room, under whose this is, where somebody dropped the lens's cap."
+   ],
+   "ask": {
+    "question": "Three chimeras hang on the wall in Chimera Obscura. Whose is the Pandillo?",
+    "accept": [
+     "chelsea",
+     "chelseas",
+     "chelsea's",
+     "chelsea adams",
+     "chelsea adams's"
+    ],
+    "answer": "Chelsea's",
+    "why": "The Pandillo is Chelsea's: a panda with an armadillo's plates on its back and head, drawn by Becky Hicks. Ryan's is the Bearmouse and Inna's the Bunnybadger.",
+    "hints": [
+     "It is a panda with an armadillo's plates.",
+     "Its name is under it on the wall, with whose it is.",
+     "Chelsea's."
+    ]
+   }
+  },
+  {
    "id": "booth-strip",
    "page": "bodymind-booth.html",
    "room": "The Bodymind Booth",

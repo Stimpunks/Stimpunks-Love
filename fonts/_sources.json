@@ -3031,5 +3031,33 @@
    "src": "https://fonts.gstatic.com/s/assistant/v24/2sDcZGJYnIjSi6H75xkzaGW5Kb8VZA.woff2",
    "note": "Byte-identical to the 400 above; see that note."
   }
+ ],
+ "gilda-display": [
+  {
+   "file": "gilda-display-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 13224,
+   "src": "https://fonts.gstatic.com/s/gildadisplay/v20/t5tmIRoYMoaYG0WEOh7HwMeR3T7Pr7GEch8.woff2",
+   "note": "Chimera Obscura (\u00a7120), the room's name, its headings and a chimera's name on the table, and nothing at reading size."
+  }
+ ],
+ "gantari": [
+  {
+   "file": "gantari-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 40560,
+   "src": "https://fonts.gstatic.com/s/gantari/v4/jVyK7nvyB2HL8iZyJEIupw4GV8w.woff2",
+   "note": "Chimera Obscura (\u00a7120), every word that is read. One variable file serves both weights."
+  },
+  {
+   "file": "gantari-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 40560,
+   "src": "https://fonts.gstatic.com/s/gantari/v4/jVyK7nvyB2HL8iZyJEIupw4GV8w.woff2",
+   "note": "The bold of the 400 above, out of the same variable file."
+  }
  ]
 }

@@ -361,6 +361,28 @@
       "more": "How to submit your room, and what happens next"
     },
     {
+      "id": "animal",
+      "label": "An animal for the chimeras",
+      "room": "Chimera Obscura",
+      "page": "chimera-obscura.html",
+      "anchor": "cant-find-it",
+      "takes": "An animal the shelf does not have yet, or a part no animal on it has, for everybody to make chimeras out of.",
+      "asks": [
+        "Ask in the suggestion box, signed on to the CB. A moderator answers it: done, or not doing, and why.",
+        "It gets drawn the way every part there was, as code, and goes on the shelf for everybody. That takes days, not seconds.",
+        "Only real animals: no people or parts of people, and no character somebody owns."
+      ],
+      "holds": [
+        "ask for it in the suggestion box in The Sandbox",
+        "It gets drawn the way every part here was, as code, and put on the shelf for everybody",
+        "That takes days, not seconds",
+        "A moderator answers every request, done or not doing, with a reply",
+        "no people or parts of people, and no character somebody owns"
+      ],
+      "route": "box",
+      "more": "How Chimera Obscura takes a request"
+    },
+    {
       "id": "box",
       "label": "An idea, a feature or a bug",
       "room": "The Sandbox",
