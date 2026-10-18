@@ -2479,7 +2479,7 @@
           }
           jkSaid.hidden = true;
           jkBox.hidden = false;
-          jacketInto(jkBox, r.body.patches || [], mineP ? 'yours' : r.body.handle + '’s');
+          jacketInto(jkBox, r.body.patches || [], mineP ? 'yours' : r.body.handle + '’s', true);
         }, function () { jkSaid.textContent = 'Their jacket could not be fetched just now.'; });
       });
       withAnimals(function () {
@@ -3299,12 +3299,32 @@
   }
 
   /* A battle jacket into a box: the drawing, whose label names what is sewn
-     on, and the same words under it for everybody. */
-  function jacketInto(box, ids, whose) {
+     on, and the same words under it for everybody. In a profile (listed), the
+     patches sewn on are listed under it one by one instead, Ryan's ask of
+     2026-10-18: each drawn on its own, by name, with the room it came from
+     linked to where it lies, in the street's order and with nothing counted. */
+  function jacketInto(box, ids, whose, listed) {
     box.textContent = '';
     var art = window.lovePatches.jacket(ids, { cls: 'cb-jacket__art' });
     if (art) box.appendChild(art);
-    box.appendChild(el('p', 'cb-jacket__on', ids.length ? 'Sewn on: ' + patchNames(ids) + '.' : 'Nothing is sewn on ' + whose + ' yet.'));
+    if (!ids.length) { box.appendChild(el('p', 'cb-jacket__on', 'Nothing is sewn on ' + whose + ' yet.')); return; }
+    if (!listed) { box.appendChild(el('p', 'cb-jacket__on', 'Sewn on: ' + patchNames(ids) + '.')); return; }
+    box.appendChild(el('h3', 'pf-sub', 'Sewn on'));
+    var ul = el('ul', 'cb-patchlist');
+    window.lovePatches.list.forEach(function (p) {
+      if (ids.indexOf(p.id) < 0) return;
+      var li = el('li', 'cb-patchlist__one');
+      var one = window.lovePatches.draw(p.id, { cls: 'cb-patchlist__art', label: true });
+      if (one) li.appendChild(one);
+      li.appendChild(el('span', 'cb-patchlist__name', p.name));
+      var from = el('span', 'cb-patchlist__from', 'From ');
+      var a = el('a', null, p.room);
+      a.href = '/' + p.page + '#patch-' + p.id;
+      from.appendChild(a);
+      li.appendChild(from);
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
   }
 
   /* SAVING A DRAWING AS A PICTURE (Ryan, 2026-10-16): an avatar, a pet, a

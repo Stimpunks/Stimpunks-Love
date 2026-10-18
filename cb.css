@@ -759,7 +759,9 @@ ol.cb-md-list { list-style: decimal; }
   background: var(--cb-lcd); color: var(--cb-amber);
   border: 2px solid var(--cb-steel-2); border-radius: 8px;
 }
-.pf-panel a, .pf-links a { color: var(--cb-amber); }
+/* A link in a tab is amber on the readout, like the panels': left to the
+   browser it was its own default blue, a colour nobody chose. */
+.pf-panel a, .pf-links a, .pf-panel-tab a { color: var(--cb-amber); }
 .pf-bio { display: grid; gap: 8px; }
 .pf-bio > * { margin: 0; }
 .pf-room__name { font-weight: 700; }
@@ -977,6 +979,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-jacket { margin: 0 0 8px; }
 .cb-jacket__art { display: block; width: min(100%, 260px); height: auto; }
 .cb-jacket__on { margin: 6px 0 8px; font-size: 14px; line-height: 1.45; }
+/* The patches on a jacket in a profile, one by one: the patch, its name, and
+   the room it came from. */
+.cb-patchlist { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 10px; }
+.cb-patchlist__one { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 2px 12px; align-items: center; }
+.cb-patchlist__art { grid-row: span 2; justify-self: center; display: block; width: auto; height: auto; max-width: 72px; max-height: 64px; }
+.cb-patchlist__name { align-self: end; font-weight: 700; overflow-wrap: anywhere; }
+.cb-patchlist__from { align-self: start; font-size: 14px; overflow-wrap: anywhere; }
 /* A patch as a sticker is its own size, up to a sticker's width. */
 .cb-sticker__patch { width: auto; max-width: 140px; height: auto; max-height: 120px; }
 /* A whole jacket as a sticker is a little larger, so its patches can be told
