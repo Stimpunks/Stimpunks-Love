@@ -92,6 +92,9 @@ ORDER = ["index.html",
          # links off this street, so the garden is a page of ours listing sites
          # that are not.
          "the-garden.html",
+         # The World room, past the Garden's spider: every room on its web,
+         # and its own channel and call are the World's.
+         "world.html",
          # The open ground where the buildings stop: the lots side by side,
          # behind a fence with a gate into each, in the order they stand --
          # the Run, the Truck Stop between it and the Green, then the Pile.
@@ -221,8 +224,25 @@ def _world(path, pattern):
 WORLD = _world("netlify/cb/lib.mjs", r"export const WORLD_CALL = '([a-z0-9-]+)';")
 if _world("cb.js", r"var WORLD_CALL = '([a-z0-9-]+)';") != WORLD:
     raise SystemExit("REFUSING: cb.js and netlify/cb/lib.mjs name the World call differently. Change both.")
-if (ROOT / f"{WORLD}.html").exists() or WORLD == "street":
-    raise SystemExit(f"REFUSING: {WORLD}.html would be a room whose call is the World call. Name the page something else.")
+# THE WORLD ROOM SHARES THE NAME ON PURPOSE. Until 2026-10-18 this refused a
+# page called world.html, because its own call would have been the World call.
+# Ryan reversed that: the World room is world.html, and its own channel IS the
+# World channel and its own call IS the World call, so there is no second of
+# either to split people between. What this holds now is that it stays one:
+# the page says so on its body (data-world), cb.js tunes it to World and hides
+# its separate room call (worldHere), and lib.mjs reads and writes its channel
+# as World's (readTuned).
+if WORLD == "street":
+    raise SystemExit("REFUSING: the World call cannot be called street, which is the street's own tag.")
+_wp = ROOT / f"{WORLD}.html"
+if _wp.exists():
+    _body = _re.search(r"<body[^>]*>", _wp.read_text())
+    if not _body or "data-world" not in _body.group(0):
+        raise SystemExit(f"REFUSING: {_wp.name} is the World room, whose channel and call are the World's; its <body> must say data-world.")
+    if "function worldHere()" not in (ROOT / "cb.js").read_text():
+        raise SystemExit("REFUSING: cb.js no longer knows the World room (worldHere), so its radio would tune to a room channel beside World.")
+    if "room && room !== WORLD_CALL ? readRoomTalk(room, s)" not in (ROOT / "netlify/cb/lib.mjs").read_text():
+        raise SystemExit("REFUSING: lib.mjs no longer reads the World room's channel as World's (readTuned).")
 
 # WHICH LICENCES THE TYPEFACES TRAVEL UNDER IS READ, NOT TYPED. This line said
 # every face was SIL Open Font License for as long as llms.txt existed, and four

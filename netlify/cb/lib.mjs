@@ -1399,7 +1399,7 @@ export function shapeAvatarSticker(st) {
    deleting the username delete it, and the switch that shows it with it.
    SHOWING THEM needs a claimed username, the pets' rule and for their reason. */
 /* quest:ids:begin */
-export const QUEST_IDS = ["street-chalk", "map-pin", "pony-sequin", "chappell-rhinestone", "club-pin", "zine-staple", "zine2-clip", "quantum-fringe", "enid-sticker", "polaroids-pin", "play-block", "arcade-token", "quill-feather", "otter-clam", "pebbling-stone", "burrow-door", "jungle-leaf", "den-spindle", "mopery-card", "oracle-lozenge", "doom-foxing", "feed-splitflap", "your-room-keys", "board-clip", "camp-peg", "yurt-tallow", "reading-bookmark", "music-moth", "meadow-firefly", "hermitage-sunflower", "bns-spoon", "bgh-acorn", "mtn-carabiner", "ncx-stile", "anm-feather", "bds-chiltepin", "ghc-leaf", "atn-egg", "dry-churn", "hbx-coin", "wsc-seed", "liner-colophon", "garden-label", "zibaldone-nib", "hole-cuts", "checkpoint-pillow", "foundry-sort", "danny-drain", "outskirts-reflector", "lagoon-speaker", "sithen-thorn", "covenstead-kettle", "dead-tired-doorstop", "laughingstock-setlist", "picture-house-earmuffs", "samefood-divider", "collection-tag", "vital-sprig", "looming-flood", "dance-punks-glowstick", "small-hours-crayon", "repeater-qsl", "nothing-for-sale-torch", "caverns-rail", "glow-star", "rave-earplug", "cool-cap", "bigsteep-carboy", "mycelium-block", "frosty-thermometer", "breezy-ribbon", "community-letter", "th-gavel", "fb-flake", "dr-key", "bd-lamp", "md-fuse", "es-note", "dressup-feather", "booth-strip", "fancy-wing", "now-playing-brush", "mural-lid", "lib-slip", "lsp-string", "ook-peel", "cavendish-marker", "live-room-tape", "broadside-sheet", "doom-scoop-scoop", "mud-welly", "pando-leaf", "fridge-magnet", "stair-lift", "cats-torch", "dogs-lead", "smalls-hay", "onb-washi", "ll-dibber", "hgc-ladle", "pkp-mouse", "aqp-mat", "brass-tack", "wr-mantle", "op-tag", "ed-loupe", "wh-feather", "cf-marshmallow", "cv-icicle", "nh-honey", "wbb-carrot", "sb-fork", "run-ball", "tks-boat", "grn-leaf", "pil-tape"];
+export const QUEST_IDS = ["street-chalk", "map-pin", "pony-sequin", "chappell-rhinestone", "club-pin", "zine-staple", "zine2-clip", "quantum-fringe", "enid-sticker", "polaroids-pin", "play-block", "arcade-token", "quill-feather", "otter-clam", "pebbling-stone", "burrow-door", "jungle-leaf", "den-spindle", "mopery-card", "oracle-lozenge", "doom-foxing", "feed-splitflap", "your-room-keys", "board-clip", "camp-peg", "yurt-tallow", "reading-bookmark", "music-moth", "meadow-firefly", "hermitage-sunflower", "bns-spoon", "bgh-acorn", "mtn-carabiner", "ncx-stile", "anm-feather", "bds-chiltepin", "ghc-leaf", "atn-egg", "dry-churn", "hbx-coin", "wsc-seed", "liner-colophon", "garden-label", "zibaldone-nib", "hole-cuts", "checkpoint-pillow", "foundry-sort", "danny-drain", "outskirts-reflector", "lagoon-speaker", "sithen-thorn", "covenstead-kettle", "dead-tired-doorstop", "laughingstock-setlist", "picture-house-earmuffs", "samefood-divider", "collection-tag", "vital-sprig", "looming-flood", "dance-punks-glowstick", "small-hours-crayon", "repeater-qsl", "nothing-for-sale-torch", "caverns-rail", "glow-star", "rave-earplug", "cool-cap", "bigsteep-carboy", "mycelium-block", "frosty-thermometer", "breezy-ribbon", "community-letter", "world-dewdrop", "th-gavel", "fb-flake", "dr-key", "bd-lamp", "md-fuse", "es-note", "dressup-feather", "booth-strip", "fancy-wing", "now-playing-brush", "mural-lid", "lib-slip", "lsp-string", "ook-peel", "cavendish-marker", "live-room-tape", "broadside-sheet", "doom-scoop-scoop", "mud-welly", "pando-leaf", "fridge-magnet", "stair-lift", "cats-torch", "dogs-lead", "smalls-hay", "onb-washi", "ll-dibber", "hgc-ladle", "pkp-mouse", "aqp-mat", "brass-tack", "wr-mantle", "op-tag", "ed-loupe", "wh-feather", "cf-marshmallow", "cv-icicle", "nh-honey", "wbb-carrot", "sb-fork", "run-ball", "tks-boat", "grn-leaf", "pil-tape"];
 /* quest:ids:end */
 const jobsBlob = (k) => `jobs/${k}`;
 const jobsShownBlob = (k) => `jobshown/${k}`;
@@ -2108,6 +2108,64 @@ export async function callsOn(who, s = store(), now = Date.now()) {
   return [...on].sort();
 }
 
+/* ── The World room's index ─────────────────────────────────────────────
+
+   Ryan's brief, 2026-10-18: a list of every room, with which have people in
+   them and which have calls going, filtered by active or not, and sorted by
+   latest activity or by most active. Ryan's call the same day: MOST ACTIVE IS
+   IN, which reverses the street's no-headcount rule for this one order and
+   nowhere else. So the people seen in each room and in its call are counted
+   here, every time somebody asks, and THE ANSWER CARRIES THE ORDER AND NEVER
+   THE NUMBERS (busiest): nothing is stored for it, and no count leaves.
+
+   For anybody signed on, by whoSeen's rules: who chose Be seen here, by name,
+   a room the asker may not enter left out, and a room that keeps to itself
+   never in it. Whether a room's call has somebody in it, and never who
+   (callsOn's rule). And the time of the latest message on each room's channel
+   today, never its words: the one thing this shows that was not shown before,
+   and privacy.html#world says so. The World channel's latest is the World
+   room's, because its channel is World. */
+export async function worldIndex(who, s = store(), now = Date.now()) {
+  const rooms = new Map();
+  const at = (tag) => { let r = rooms.get(tag); if (!r) rooms.set(tag, r = { people: new Map(), call: new Set(), last: 0 }); return r; };
+  const fits = (tag) => roomAllows(who, tag) && !quietRoom(tag);
+  for (const r of await everySeen(s)) {
+    if (now - r.t >= ROOM_FRESH || !fits(r.tag)) continue;
+    const x = at(r.tag);
+    const k = `${r.claimed ? 'c' : 'u'}|${r.handle}`;
+    const p = x.people.get(k) || { handle: r.handle, base: false, claimed: r.claimed };
+    if (r.base) p.base = true;
+    x.people.set(k, p);
+    x.last = Math.max(x.last, r.t);
+  }
+  for (const r of await listed(s, IN_CALL, parseInCall)) {
+    if (now - r.t >= callStale() || !fits(r.tag)) continue;
+    const x = at(r.tag);
+    x.call.add(foldHandle(r.name));
+    x.last = Math.max(x.last, r.t);
+  }
+  const talk = [[WORLD_CALL, await readChannel(s)]];
+  for (const b of (await s.list({ prefix: ROOM_TALK })).blobs || []) {
+    const tag = b.key.slice(ROOM_TALK.length);
+    if (!roomTag(tag) || tag === WORLD_CALL || !fits(tag)) continue;
+    talk.push([tag, await readRoomTalk(tag, s)]);
+  }
+  for (const [tag, log] of talk) {
+    const t = Math.max(0, ...log.messages.map((m) => (typeof m.t === 'number' ? m.t : 0)));
+    if (t) { const x = at(tag); x.last = Math.max(x.last, t); }
+  }
+  const list = [...rooms.entries()].map(([tag, x]) => {
+    // Everybody once: somebody seen in the room and in its call is one person.
+    const names = new Set([...x.people.values()].map((p) => foldHandle(p.handle)));
+    for (const n of x.call) names.add(n);
+    return { tag, people: [...x.people.values()].sort((a, b) => a.handle.localeCompare(b.handle) || Number(b.claimed) - Number(a.claimed)),
+      call: x.call.size > 0, last: x.last || null, n: names.size };
+  });
+  const busiest = list.filter((r) => r.n > 0)
+    .sort((a, b) => b.n - a.n || (b.last || 0) - (a.last || 0) || a.tag.localeCompare(b.tag)).map((r) => r.tag);
+  return { rooms: list.map((r) => ({ tag: r.tag, people: r.people, call: r.call, last: r.last })), busiest };
+}
+
 export async function sweepCalls(s = store(), now = Date.now()) {
   let any = false;
   for (const r of await listed(s, IN_CALL, parseInCall)) if (now - r.t >= callStale()) { await s.delete(r.key); any = true; }
@@ -2282,8 +2340,10 @@ export function roomAllows(who, tag) {
 }
 
 /* The channel a request names: a room's, or World's when it names none. */
-export function readTuned(room, s = store()) { return room ? readRoomTalk(room, s) : readChannel(s); }
-export function updateTuned(room, change, s = store()) { return room ? updateRoomTalk(room, change, s) : updateChannel(change, s); }
+/* The World room's channel IS the World channel (Ryan, 2026-10-18), so a room
+   named for the World call is World here too, and never a second channel. */
+export function readTuned(room, s = store()) { return room && room !== WORLD_CALL ? readRoomTalk(room, s) : readChannel(s); }
+export function updateTuned(room, change, s = store()) { return room && room !== WORLD_CALL ? updateRoomTalk(room, change, s) : updateChannel(change, s); }
 
 /* Hourly, with the World channel's sweep: every room's channel whose day is
    over in Colorado. */

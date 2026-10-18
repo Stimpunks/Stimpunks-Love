@@ -3809,6 +3809,23 @@
   --wsc-eye: #3B2A1A;  --wsc-fluff: #F7F9FF;
 
 
+  /* The World room (§119): the garden spider's web, strung between every
+     room on the street, at the moment the dawn reaches it. --www-sky is the
+     dark before it, the ground every word stands on; --www-panel a garden's
+     bed and --www-lit an active room's line, which every ink is also held
+     against. --www-silk is every word, --www-dim the quiet lines, --www-dawn
+     every heading's accent, every link and the focus ring, --www-visited a link
+     you have followed, --www-leaf who is here, and --www-call the call badge,
+     with --www-sky on it. The rest carry no word: --www-thread the silk the
+     dawn has not reached, --www-glint the silk it has, --www-bead a drop of
+     dew it has lit, --www-moss the gardens at the web's anchors, --www-rim a
+     bed's edge, and --www-body the spider. */
+  --www-sky: #121730;  --www-panel: #1B2242;  --www-lit: #283266;
+  --www-silk: #EAEFF8;  --www-dim: #A9B2CC;  --www-dawn: #F5C49C;
+  --www-visited: #CBB8F4;  --www-leaf: #A3DDB0;  --www-call: #FFA08C;
+  --www-thread: #4B567F;  --www-glint: #F0CFAE;  --www-bead: #FFE6C4;
+  --www-moss: #5E8F6A;  --www-rim: #323D70;  --www-body: #3A456F;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -16728,7 +16745,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §120
+   class on it is `bb-`, its sizes are in points and millimetres, and §121
    prints it and nothing else. */
 
 .room-broadside {
@@ -16789,7 +16806,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §120 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §121 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -24775,7 +24792,99 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .efw-screen .facade__play { inset: auto auto 12px 16px; }
 }
 
-/* §119 ── Small screens ───────────────────────────────────────────────────────
+/* §119 ── ROOM: World (past the Garden, on the garden spider's web) ─────────────
+   Ryan's brief and calls, 2026-10-18: a list of every room on the street, who
+   is in each and which have a call going, in a room whose own channel and call
+   are the CB's World channel and the World call; and, the same day, its look:
+   knowledge gardens and our garden spider, WEBS CONNECTING GARDENS AROUND THE
+   WORLD. Every room on the street is a garden, the web is what joins them, and
+   the spider at its hub is the Garden's own, drawn here in this room's inks.
+
+   THE LIGHT IS THE DAWN, WHICH IS ALWAYS ARRIVING SOMEWHERE IN THE WORLD, and
+   it comes in level from one edge, so it lights the silk ALONG ITS LENGTH on
+   that side and has not reached the other. Nothing else in the room is lit,
+   and there is no ground: the web hangs in the air between its gardens.
+
+   ITS COLLISIONS:
+     · THE GARDEN is the spider's home, at midday, light coming down through
+       leaves onto beds in the ground, every shadow under its thing. This is
+       before the sun is up, nothing is overhead, and nothing stands on ground.
+       If this room ever gets a ground or a midday, it has become the Garden at
+       a different hour, and it is this room that moves.
+     · THE CAMPGROUNDS is night-blue under nothing, a field with posts standing
+       on it, evenly dim. This has no field and no posts, and its light is warm
+       and arriving from one side.
+     · SITHEN is a ring of bank under a full moon from overhead, one hue. This is
+       lit level, warm on cool, and has no hill.
+     · STAY FROSTY is lit by reflections in points, in a cave. The dew here
+       catches the dawn too, but the light is along the threads; a bead is the
+       thread's, never the room's light.
+     · THE FEED AND THE MAP are the other lists of everything: a split-flap board
+       in a dark hall, and a white card model under a lamp. This is silk.
+
+   NOTHING IN §119 MOVES at any setting, and nothing is counted on the page.
+   Instrument Serif names the room and its gardens; Inclusive Sans carries
+   every word that is read. The web is drawn by tools/make-world.py. */
+.room-world { background: var(--www-sky); color: var(--www-silk); font-family: 'Inclusive Sans', var(--sans); }
+.room-world a { color: var(--www-dawn); }
+.room-world a:visited { color: var(--www-visited); }
+.room-world :focus-visible { outline-color: var(--www-dawn); }
+.room-world .backlink { font-family: 'Inclusive Sans', var(--sans); font-weight: 700; font-size: 16px; letter-spacing: .02em; color: var(--www-dawn); }
+.www-wrap { max-width: 1060px; padding-bottom: 56px; }
+.www-topline { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 18px; margin: 0 0 10px; }
+.www-trail { margin: 0; font-size: 14px; letter-spacing: .04em; color: var(--www-dim); }
+
+/* THE WEB, across the top: aria-hidden, drawn once, and still. */
+.www-web { margin: 0 -8px; line-height: 0; }
+.www-web svg { display: block; width: 100%; height: auto; }
+.www-head { text-align: center; margin: -8px 0 22px; }
+.room-world h1 { margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: clamp(54px, 10vw, 96px); line-height: .95; letter-spacing: 0; text-transform: none; color: var(--www-silk); }
+.www-tag { margin: 8px auto 0; max-width: 34ch; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; line-height: 1.25; color: var(--www-dawn); }
+.www-lede { margin: 0 auto 14px; max-width: 68ch; font-size: 17px; line-height: 1.6; }
+
+/* THE CONTROLS, two rows of the room's own buttons and a list. */
+.www-tools { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center; justify-content: center; margin: 24px 0 8px; }
+.www-field { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.www-field__lab { font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; color: var(--www-dawn); padding: 0; margin-right: 4px; }
+.www-pick { display: inline-flex; gap: 6px; align-items: center; min-height: 40px; padding: 2px 12px 2px 8px; border: 1px solid var(--www-dim); border-radius: 999px; cursor: pointer; }
+.www-pick:has(input:checked) { border-color: var(--www-dawn); }
+.www-pick input { width: 18px; height: 18px; margin: 0; accent-color: var(--www-dawn); }
+.www-select { min-height: 40px; padding: 4px 10px; font: inherit; color: var(--www-silk); background: var(--www-panel); border: 1px solid var(--www-dim); border-radius: 8px; }
+.www-status { margin: 4px auto 18px; max-width: 68ch; text-align: center; font-size: 15px; color: var(--www-dim); }
+
+/* THE GARDENS: one bed for each part of the Map, every room strung down a
+   thread in it, each on a bead the dawn lights when somebody is there. */
+.www-dir { display: grid; gap: 18px; }
+.www-cat { padding: 18px 20px 16px; background: var(--www-panel); border: 1px solid var(--www-rim); border-radius: 14px; }
+.www-cat__h { margin: 0 0 10px; font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.15; letter-spacing: 0; text-transform: none; color: var(--www-silk); }
+.www-list { list-style: none; margin: 0 0 0 7px; padding: 0 0 0 18px; border-left: 1px solid var(--www-thread); }
+.www-room { position: relative; margin: 0 0 4px; padding: 6px 10px; border-radius: 8px; }
+.www-room::before { content: ""; position: absolute; left: -24px; top: 14px; width: 9px; height: 9px; border-radius: 50%; background: var(--www-thread); }
+.www-room--active { background: var(--www-lit); }
+.www-room--active::before { background: var(--www-bead); box-shadow: 0 0 0 3px var(--www-glint); }
+.www-room__name { font-weight: 700; font-size: 17px; }
+.www-room__about { font-size: 15px; color: var(--www-silk); }
+.www-room__live { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; margin-top: 2px; font-size: 15px; }
+.www-here { color: var(--www-leaf); }
+.www-here__lab { font-weight: 700; }
+.www-mark { display: inline-block; margin-left: 4px; padding: 0 4px; font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--www-silk); border: 1px solid var(--www-silk); border-radius: 2px; vertical-align: 2px; }
+.www-mark--claimed { border-style: dashed; }
+.www-call { display: inline-block; padding: 0 8px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--www-sky); background: var(--www-call); border-radius: 999px; }
+.www-when { color: var(--www-dim); }
+.www-flat .www-cat__h { margin: 6px 0 12px; }
+.www-flat { padding: 18px 20px 16px; background: var(--www-panel); border: 1px solid var(--www-rim); border-radius: 14px; }
+.www-small { margin: 26px auto 0; max-width: 68ch; text-align: center; font-size: 14px; color: var(--www-dim); }
+@media (max-width: 640px) {
+  .www-cat, .www-flat { padding: 14px 12px 12px; }
+  .www-list { margin-left: 4px; padding-left: 14px; }
+  .www-room::before { left: -19px; }
+}
+
+/* THE JOB MARKER on the room's floor, in the silk. */
+.room-world .quest { margin-top: 30px; color: var(--www-silk); }
+.room-world .quest__panel a { color: var(--www-dawn); }
+
+/* §120 ── Small screens ───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -24879,7 +24988,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §119 says every
+   shipped with no rule here at all — which on a street whose §120 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -25003,7 +25112,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §120 ── Print ───────────────────────────────────────────────────────────────
+/* §121 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

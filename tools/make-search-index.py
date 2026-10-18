@@ -56,7 +56,9 @@ DAILY = ["ds-cabinet", "ds-set", "ds-counter", "arrivals:hall", "arrivals:set",
          "arrivals:shape", "vpl:rack", "onb:month", "ll:month", "hgc:month",
          "grn:latest", "np-bill", "lvr-month", "anm:month", "atn:month"]
 # Classes whose whole subtree is left out (see the docstring for each reason).
-SKIP_CLASS = {"sh-lyric", "doors", "mm-model", "finder", "mm-find", "quest", "skip"}
+# www-dir is the World room's directory of every room, which would make that
+# room a result for every word in every room's own description.
+SKIP_CLASS = {"sh-lyric", "doors", "mm-model", "www-dir", "finder", "mm-find", "quest", "skip"}
 SKIP_TAG = {"script", "style", "svg", "template", "noscript", "button", "select", "input",
             "textarea", "iframe", "canvas", "audio", "video"}
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta",

@@ -3570,6 +3570,25 @@ PAIRS = [
     (CB_AMBER2, CB_CASE,  False, "cb: the quiet lines on the case -- a profile opened from Who's "
                                  "online while it is still looking, and the pets tray's own; "
                                  "the tray had used it since it opened with no pair held"),
+    # THE WORLD ROOM (§119): the garden spider's web at dawn. Every ink is held
+    # against the dark before it, a garden's bed and an active room's line,
+    # because a room's line can stand on any of the three.
+    ("#EAEFF8", "#121730", False, "world: every word: the lede, a room's line, a garden's name, the h1, the backlink's neighbours, the job marker, on the dark before the dawn"),
+    ("#A9B2CC", "#121730", False, "world: the quiet lines: the trail, the status, when a quiet room was last busy, the small print, on the dark before the dawn"),
+    ("#F5C49C", "#121730", False, "world: every link, the tagline, the controls' names and the focus ring, on the dark before the dawn"),
+    ("#CBB8F4", "#121730", False, "world: a link you have followed, on the dark before the dawn"),
+    ("#A3DDB0", "#121730", False, "world: who is here, in a room's line, on the dark before the dawn"),
+    ("#EAEFF8", "#1B2242", False, "world: every word: the lede, a room's line, a garden's name, the h1, the backlink's neighbours, the job marker, on a garden's bed"),
+    ("#A9B2CC", "#1B2242", False, "world: the quiet lines: the trail, the status, when a quiet room was last busy, the small print, on a garden's bed"),
+    ("#F5C49C", "#1B2242", False, "world: every link, the tagline, the controls' names and the focus ring, on a garden's bed"),
+    ("#CBB8F4", "#1B2242", False, "world: a link you have followed, on a garden's bed"),
+    ("#A3DDB0", "#1B2242", False, "world: who is here, in a room's line, on a garden's bed"),
+    ("#EAEFF8", "#283266", False, "world: every word: the lede, a room's line, a garden's name, the h1, the backlink's neighbours, the job marker, on an active room's line"),
+    ("#A9B2CC", "#283266", False, "world: the quiet lines: the trail, the status, when a quiet room was last busy, the small print, on an active room's line"),
+    ("#F5C49C", "#283266", False, "world: every link, the tagline, the controls' names and the focus ring, on an active room's line"),
+    ("#CBB8F4", "#283266", False, "world: a link you have followed, on an active room's line"),
+    ("#A3DDB0", "#283266", False, "world: who is here, in a room's line, on an active room's line"),
+    ("#121730", "#FFA08C", False, "world: Call going, on its coral badge"),
     *[(sc[fg], sc[bg], False, f"cb, {name}: {what}")
       for name, sc in CB_SCHEMES.items() for fg, bg, what in CB_ROLES],
 
@@ -3839,6 +3858,12 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#4b567f": "world: --www-thread, the silk the dawn has not reached and a quiet room's bead, 2.47 on the sky; it carries no word.",
+    "#f0cfae": "world: --www-glint, the silk the dawn has reached and the ring round an active room's bead, 11.96 on the sky; it carries no word.",
+    "#ffe6c4": "world: --www-bead, a drop of dew the dawn has lit and an active room's bead, 14.58 on the sky; it carries no word.",
+    "#5e8f6a": "world: --www-moss, the gardens at the web's anchors, 4.71 on the sky; it carries no word.",
+    "#323d70": "world: --www-rim, a garden bed's edge, 1.71 on the sky; it carries no word.",
+    "#3a456f": "world: --www-body, the spider, outlined in the silk, 1.90 on the sky; it carries no word.",
     "#2a2420": "mountain man: --efw-floor, the floorboards, 1.08 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
     "#5a3e2b": "mountain man: --efw-log, the log walls, 1.69 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",
     "#3a281c": "mountain man: --efw-log-2, the dark between the logs, the sill and every photograph's frame, 1.18 on the night, in a drawing that is aria-hidden and described in the lede; it carries no word.",

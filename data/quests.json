@@ -2331,6 +2331,41 @@
    }
   },
   {
+   "id": "world-dewdrop",
+   "page": "world.html",
+   "room": "World",
+   "title": "Which channel is the World room's own?",
+   "posted": "Past the Garden Spider, through the gate in the wall, is the web it has strung between every room on the street. Find out which channel is that room's own.",
+   "rank": 2,
+   "takes": "a few minutes of reading",
+   "target": "a drop of dew on a broken strand of silk",
+   "code": "ORBWEAVER",
+   "learned": "World: the World room's own channel is the CB's World channel, and its own call is the World call, so the room where every other room is listed splits nobody between two.",
+   "hints": [
+    "It is on the street, through the gate in the wall: the Garden.",
+    "Past the Garden Spider, on its web.",
+    "On the floor of the room, under the gardens, before the sign-off."
+   ],
+   "ask": {
+    "question": "In the World room, which channel does the radio hear?",
+    "accept": [
+     "world",
+     "the world",
+     "world channel",
+     "the world channel",
+     "the cbs world channel",
+     "the cb world channel"
+    ],
+    "answer": "World",
+    "why": "World: in the World room, the room's own channel is the CB's World channel, and the room's own call is the World call.",
+    "hints": [
+     "It is in the second paragraph under the room's name.",
+     "It is the channel the whole street shares.",
+     "It is the room's own name."
+    ]
+   }
+  },
+  {
    "id": "th-gavel",
    "page": "town-hall.html",
    "room": "Town Hall",

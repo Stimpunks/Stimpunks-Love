@@ -831,15 +831,40 @@ an empty list is never a guess. **The friendly edit is to put the names in**, so
 in a call before they walk over; who is in a call is still shown only in its room, to radios seen there,
 and widening that is Ryan's call, written in `privacy.html#calls` first. No number either.
 
-**THE WORLD CALL IS A ROOM'S CALL UNDER A NAME NO ROOM MAY HAVE.** Ryan, 2026-10-13: **Join World call**,
+**THE WORLD CALL IS THE WORLD ROOM'S CALL.** Ryan, 2026-10-13: **Join World call**,
 under Who's around, opens one call for the whole street from any page, for anybody signed on and never a
 guest. `WORLD_CALL` in `lib.mjs` is the name (`stimpunks-world` at 8x8), `cb.js` keeps a copy, and
-`make-sitemap.py` refuses the two if they differ and refuses a page called `world.html`, whose own call
-would be the World's. Its window is `call.js`'s one window (`loveCall.openRoom()` says which call is in it),
-so each radio button asks after its own call. **Nobody is shown who is in it before they join**: there is
-no room to be seen in. **In a page it does not follow you between rooms**: every room is a page, and a page that goes takes its
+`make-sitemap.py` refuses the two if they differ. **Since 2026-10-18 `world.html` is the World room and its
+own call is the World call on purpose** (below); until then the tool refused that page. Its window is `call.js`'s one window (`loveCall.openRoom()` says which call is in it),
+so each radio button asks after its own call. **Who is in it is shown only to people seen in the World
+room**, as any room's call is shown to people seen there; nobody else is shown before they join. **In a page it does not follow you between rooms**: every room is a page, and a page that goes takes its
 call window with it. The friendly edit is to rejoin by itself on the next page, which drops you out and
 back in on every move and opens a call nobody pressed for.
+
+**THE WORLD ROOM IS EVERY ROOM IN A LIST, AND ITS CHANNEL AND CALL ARE THE WORLD'S.** Ryan's brief and
+calls, 2026-10-18. `world.html` hangs off the Garden, past its spider (§119): knowledge gardens and our garden
+spider, webs connecting gardens around the world, Ryan's look after a first draft as a 1996 web directory. The
+spider's web is strung between every room, each room a garden on it, lit by a dawn arriving level from one edge
+along the silk, with no ground; its collisions are in §119, and **the Garden is the one to watch**: midday,
+light down through leaves onto beds in the ground. **The spider is the Garden's, drawn in this room's inks, and
+says nothing here**, because in the Garden it is the careful guide to `/ask/`. **The web and the gardens are
+`tools/make-world.py`'s**, the web between `world:web` markers from a fixed seed (the card lifts it), the gardens
+between `world:directory` markers, from `cb-rooms.json` (names, order, never a quiet
+room), each page's own og:description, and the part of the Map it stands on, read off `map.html` (a room behind
+a room the Map does not draw takes its parent's part, from `data/map.json`), so a new room or area needs no edit
+here; it runs after `make-sitemap.py`, and a part of the Map it does not know stops the build. **What is live is
+`world.js` asking `/cb/world`** (`worldIndex` in `lib.mjs`) every half minute while the page is in front: who is
+seen in each room (Who's online's rules), whether its call has somebody in it and never who, and the time of
+each channel's latest message today, never its words, which is the one new thing it shows and
+`privacy.html#world` says so. **MOST ACTIVE REVERSES THE NO-HEADCOUNT RULE FOR THIS ONE ORDER**, Ryan's call:
+the server counts the people seen in each room and in its call (somebody in both once) and sends `busiest`, an
+order, never the numbers; the Mission says it is the one place the street counts people. **The friendly edits
+are a number of people beside a room, a number of rooms active, and a visitor counter**, and `make-world.py`
+refuses each; it also refuses `world.js` storing anything but `love-world` (the reader's filter and order). **Its own
+channel is World and its own call is the World call**: `worldHere()` in `cb.js` tunes the radio there to World
+and hides This room and Join this room's call, `readTuned`/`updateTuned` read and write a room named
+`WORLD_CALL` as World's channel, and `make-sitemap.py` holds the page (`data-world`), `cb.js` and `lib.mjs` to
+each other. The search index skips the directory (`www-dir`), as it skips the Map's model.
 
 **A CALL FOLLOWS YOU BY GOING INTO A WINDOW OF ITS OWN.** Ryan, 2026-10-13: **Pop out** on a signed-on
 call's window opens `call-window.html` in a browser window, which asks for the call afresh (you join again:
@@ -4359,18 +4384,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §120 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §121 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§120 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§121 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §120 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §121 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

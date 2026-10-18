@@ -2246,3 +2246,51 @@ test('a preview is fetched only from a public address, and a room on the street 
   assert.equal(metaOf('<title>a</title>').title, 'a');
   assert.equal(playerInfo('nothing here'), null);
 });
+
+/* ── The World room's index ──────────────────────────────────────────────── */
+import { worldIndex } from './lib.mjs';
+
+test('the World index names who is where, says a call is on and never who, and sends the busiest order without numbers', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const mob = (handle) => ({ role: 'mobile', handle, roles: new Set() });
+  const board = { role: 'base', handle: 'Bea', roles: new Set(['moderator', 'board']) };
+  const b64n = (n) => Buffer.from(n).toString('base64url');
+  await beSeen(mob('Ada'), 'the-den', 'visitAAAAAAAAAAAAAAAAAAAAA', s, now - 1000);
+  await beSeen(mob('Bo'), 'the-den', 'visitBBBBBBBBBBBBBBBBBBBBB', s, now - 1000);
+  await beSeen(mob('Cy'), 'the-garden', 'visitCCCCCCCCCCCCCCCCCCCCC', s, now - 1000);
+  await beSeen(mob('Dee'), 'the-secret-cabin', 'visitDDDDDDDDDDDDDDDDDDDDD', s, now - 1000);
+  await beSeen(board, 'town-hall-board', 'visitEEEEEEEEEEEEEEEEEEEEE', s, now - 1000);
+  for (const [tag, name] of [['the-garden', 'Cy'], ['the-garden', 'Eve'], ['the-garden', 'Fay'], ['world', 'Gus']]) {
+    await s.set(`call-in/${tag}/${b64n('pid-' + name)}.${now - 2000}.p.${b64n(name)}`, '');
+  }
+  await updateChannel((l) => [...l, { id: 'w1', handle: 'Hal', text: 'hello world', t: now - 5000 }], s);
+  await updateRoomTalk('the-mopery', (l) => [...l, { id: 'r1', handle: 'Ivy', text: 'quiet in here', t: now - 9000 }], s);
+  const r = await worldIndex(mob('Zed'), s, now);
+  const by = Object.fromEntries(r.rooms.map((x) => [x.tag, x]));
+  assert.deepEqual(by['the-den'].people.map((p) => p.handle), ['Ada', 'Bo']);
+  assert.equal(by['the-den'].call, false);
+  assert.equal(by['the-garden'].call, true);
+  assert.equal(by.world.call, true, 'the World call is the World room\'s call');
+  assert.equal(by.world.last >= now - 5000, true, 'the World channel\'s message is the World room\'s activity');
+  assert.equal(by['the-mopery'].last, now - 9000);
+  assert.deepEqual(by['the-mopery'].people, []);
+  assert.equal(by['the-secret-cabin'], undefined, 'a room that keeps to itself was in the index');
+  assert.equal(by['town-hall-board'], undefined, 'a private room was shown to somebody it is not for');
+  assert.ok((await worldIndex(board, s, now)).rooms.some((x) => x.tag === 'town-hall-board'), 'the board could not see its own room');
+  assert.deepEqual(r.busiest, ['the-garden', 'the-den', 'world'], 'Cy, Eve and Fay, then Ada and Bo, then Gus: Cy seen and in the call is one person');
+  const raw = JSON.stringify(r);
+  assert.equal(/"(n|count|total|busy|how_many)"\s*:/.test(raw), false, 'a number left with the order');
+  assert.equal(raw.includes('Eve') || raw.includes('Gus'), false, 'who is in a call was named');
+  assert.equal(raw.includes('hello world'), false, 'a message\'s words left the channel');
+  const later = await worldIndex(mob('Zed'), s, now + 60 * 1000);
+  assert.equal(later.rooms.find((x) => x.tag === 'the-den'), undefined, 'somebody no longer seen was still shown');
+});
+
+test('the World room\'s channel is the World channel, never a second one', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await updateTuned('world', (l) => [...l, { id: 'x', handle: 'Ada', text: 'hi', t: Date.now() }], s);
+  assert.deepEqual((await readChannel(s)).messages.map((m) => m.id), ['x']);
+  assert.deepEqual((await readTuned('world', s)).messages.map((m) => m.id), ['x']);
+  assert.equal(s.keys().some((k) => k.startsWith('room-talk-world')), false);
+});

@@ -362,6 +362,11 @@
    "room": "Community Center"
   },
   {
+   "id": "world-dewdrop",
+   "title": "Which channel is the World room's own?",
+   "room": "World"
+  },
+  {
    "id": "th-gavel",
    "title": "What the middle of the building is open to",
    "room": "Town Hall"

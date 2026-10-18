@@ -200,6 +200,21 @@
       ],
       "span": 1.4
     },
+    "world.html": {
+      "kind": "julia",
+      "c": [
+        -0.835,
+        -0.2321
+      ],
+      "orbit": 0.016,
+      "ground": "--www-sky",
+      "inks": [
+        "--www-glint",
+        "--www-silk",
+        "--www-dawn",
+        "--www-leaf"
+      ]
+    },
     "community-library.html": {
       "kind": "julia",
       "c": [

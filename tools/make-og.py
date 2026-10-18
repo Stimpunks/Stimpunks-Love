@@ -1041,6 +1041,17 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--fancy .ffd-sub {{ font-size: 25px; margin: 12px 0 0 !important; }}
 .og--fancy .og-lede {{ font-family: 'Kumbh Sans', sans-serif; color: var(--ffd-ink-2); font-size: 19px; line-height: 1.4; margin: 12px 0 0 !important; max-width: 1060px; }}
 
+/* the World room — THE WEB ITSELF. The sky is the room's own body rule, and
+   the web is the page's own drawing, so the card is the room's dawn and not a
+   picture of it. */
+.og--world {{ width: 100%; padding: 18px 70px 34px; justify-content: flex-start; gap: 0; }}
+.og--world .og-web {{ margin: 0 !important; line-height: 0; }}
+.og--world .og-web svg {{ display: block; width: 100%; height: auto; }}
+.og--world .www-head {{ margin: -26px 0 0 !important; text-align: center; }}
+.og--world h1 {{ font-size: 92px !important; }}
+.og--world .www-tag {{ font-size: 28px; margin: 4px auto 0 !important; max-width: none; }}
+.og--world .og-lede {{ font-family: 'Inclusive Sans', sans-serif; color: var(--www-silk); text-align: center; font-size: 21px; line-height: 1.35; margin: 10px 0 0 !important; }}
+
 /* the community center — THE LETTERBOARD AND THE RADIO ON THE BLUE WALL.
    The wall and its bars of sun come from the room's own body rule, so the card
    is lit through the same blind as the hall. The letterboard is the page's own
@@ -5079,6 +5090,34 @@ def card_community(p):
     )
 
 
+def card_world(p):
+    # THE WEB IS THE PAGE'S OWN DRAWING, lifted from what make-world.py wrote, so
+    # there is one drawing of it and not two; the name, the tagline and the line
+    # under them are the page's own. Nothing live is on it: a card is not a
+    # snapshot of who was in which room on the day it was drawn.
+    web = re.search(r"<!-- world:web:begin -->(.*?)<!-- world:web:end -->", p["src"], re.S)
+    tag = re.search(r'<p class="www-tag">(.*?)</p>', p["src"], re.S)
+    if not (web and "<svg" in web.group(1) and tag):
+        raise SystemExit(
+            "REFUSING: world.html has lost its web or its tagline, and its card is built out\n"
+            "of both. Run make-world.py, or redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    t_html = tag.group(1).strip()
+    return (
+        "",
+        f'<div class="og og--world" data-fit="card">'
+        f'<div class="www-web og-web">{web.group(1)}</div>'
+        f'<div class="www-head">{p["h1"]}<p class="www-tag">{t_html}</p></div>'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div>',
+        f"A spider\u2019s orb web on a deep indigo ground, the moment the dawn reaches it: "
+        f"the threads on the left lit a warm rose gold along their length, with drops of dew "
+        f"on them, the threads on the right still dark, and a small garden of leaves at every "
+        f"point the web is tied to. At its hub a garden spider with a cross on its back. Under "
+        f"it, in a fine italic serif, \u201c{p['h1text']}\u201d, then: {plain(t_html)}. Then: {p['desc_plain']}",
+    )
+
+
 def card_map(p):
     # THE CORNER OF THE MODEL IS LIFTED FROM THE PAGE: the first few lots out of
     # what make-map.py wrote, with the rooms behind them and the back stair left
@@ -5366,6 +5405,7 @@ CARDS = {
     "room-foundry": card_foundry,
     "room-danny":   card_danny,
     "room-plain":   card_plain,
+    "room-world":   card_world,
 }
 
 

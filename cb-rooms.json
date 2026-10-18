@@ -482,6 +482,12 @@
    "about": "Through the gate in the wall: the knowledge garden, with one bed for every site we publish. What a knowledge garden is, how this one is tended, how to start one of your own, and the Garden Spider, whose best answer is an entrance."
   },
   {
+   "tag": "world",
+   "name": "World",
+   "path": "/world.html",
+   "about": "The World room, past the Garden: the garden spider’s web, strung at dawn between every room on the street, each room a garden on it. For anybody signed on to the CB, who is in each, which have a call going, and when each was last busy, with filters for active and quiet and an order for most active. Its own channel is the CB’s World channel and its own call is the World call."
+  },
+  {
    "tag": "the-run",
    "name": "The Run",
    "path": "/the-run.html",

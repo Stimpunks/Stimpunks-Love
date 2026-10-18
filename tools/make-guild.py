@@ -331,6 +331,10 @@ DRAW = {
     # over the body threshold a marker is held to. The white alone would be
     # 1.3 against the paint, so the outline carries it, the way every chair in
     # the Hermitage is carried. It lies flat and does not move.
+    # The World room's drop of dew, on a broken strand fallen to the floor: the
+    # strand and the floor line are --www-silk, 15.28 on the sky, and the drop
+    # --www-bead, 14.58, both over the body threshold a marker is held to.
+    "world-dewdrop": """<path d="M3 29 H29" stroke="var(--www-silk)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 6 Q12 14 15 18 M19 15 Q24 9 28 4" stroke="var(--www-silk)" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M17 15.5 C19.5 19 21 21 21 23 A4 4 0 0 1 13 23 C13 21 14.5 19 17 15.5 Z" fill="var(--www-bead)" stroke="var(--www-silk)" stroke-width="1"/>""",
     "community-letter": """<path d="M3 29 H29" stroke="var(--ctr-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 11 H26 V16 H19 V26 H13 V16 H6 Z" fill="var(--ctr-letter)" stroke="var(--ctr-ink)" stroke-width="2" stroke-linejoin="round"/><path d="M9 8 V11 M23 8 V11" stroke="var(--ctr-ink)" stroke-width="1.8" stroke-linecap="round"/>""",
     "vital-sprig": """<path d="M3 29 H29" stroke="var(--vpl-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 25 Q15 22 26 13" fill="none" stroke="var(--vpl-leaf)" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="20" r="3.6" fill="var(--vpl-leaf)"/><circle cx="18" cy="15" r="3.6" fill="var(--vpl-leaf)"/><circle cx="25" cy="9" r="3.8" fill="var(--vpl-leaf)"/><circle cx="21" cy="21" r="3.2" fill="var(--vpl-leaf)"/>""",
     "samefood-divider": """<path d="M3 29 H29" stroke="var(--sf-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L7 13 L10 21 L13 8 L16 21 L19 9 L22 21 L25 12 L27 25 Z" fill="none" stroke="var(--sf-cress)" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 25 H27" stroke="var(--sf-cress)" stroke-width="2.6" stroke-linecap="round"/>""",

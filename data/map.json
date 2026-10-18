@@ -2,6 +2,7 @@
   "_what": "What tools/make-map.py cannot read off the street itself, and nothing else. The shopfronts, their names and the order they stand in come off index.html; the pitches off campgrounds.html; the turnings off the-outskirts.html; the garden gate's place is halfway down whatever the street's length is that day. So a room that opens on the front page goes up on the model with no entry here at all. What lives here is the one kind of place the front page does not show: A ROOM BEHIND A ROOM. Each entry names the room it is behind, and the tool refuses one whose parent page does not actually link to it, so the model cannot draw a door that is not there.",
   "behind": {
     "the-chappell.html": "pink-pony-club.html",
+    "world.html": "the-garden.html",
     "zine-issue-2.html": "zine-table.html",
     "polaroids.html": "enids-room.html",
     "quill-drift.html": "arcade.html",

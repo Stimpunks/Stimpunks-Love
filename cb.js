@@ -2305,6 +2305,12 @@
     return p === '/' ? '/' : p.replace(/\.html$/, '') + '.html';
   }
 
+  /* THE WORLD ROOM (Ryan, 2026-10-18): a room whose own channel is World and
+     whose own call is the World call, so there is no second channel or call to
+     split people between. Told by its address, so it holds before the list of
+     rooms arrives. make-sitemap.py holds the page and this to each other. */
+  function worldHere() { return herePath() === '/' + WORLD_CALL + '.html'; }
+
   /* ── The Profile ─────────────────────────────────────────────────────── */
   /* A pet in a few words, for a sticker's caption and somebody's pets: its
      name, what it is and its markings, never where it was found or when. */
@@ -4798,7 +4804,7 @@
     // In a room that keeps to itself the radio opens on its channel, and a
     // press of World or This room there is the visitor's and is kept as usual.
     var band = offList() && !this.bandPressed ? 'room' : this.state.band;
-    if (band !== 'room') return null;
+    if (band !== 'room' || worldHere()) return null;
     if (rooms && rooms.length && !hereRoom()) return null;
     var tag = hereTag();
     return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) ? tag : null;
@@ -4824,12 +4830,13 @@
   Radio.prototype.bandShown = function () {
     var room = this.tunedRoom(), here = hereRoom();
     var name = here ? here.name : 'this room';
-    this.roomBtn.hidden = !!(rooms && rooms.length && !here);
+    // In the World room, World IS this room's channel, so there is one button.
+    this.roomBtn.hidden = !!(rooms && rooms.length && !here) || worldHere();
     this.worldBtn.setAttribute('aria-pressed', String(!room));
     this.roomBtn.setAttribute('aria-pressed', String(!!room));
     this.roomBtn.textContent = 'This room';
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
-    this.bandNow.textContent = room ? 'Tuned to ' + name : 'Tuned to World';
+    this.bandNow.textContent = room ? 'Tuned to ' + name : worldHere() ? 'Tuned to World, which is this room\u2019s own channel' : 'Tuned to World';
     this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', latest ten messages');
     this.hereShown();
     this.presenceShown();
@@ -4990,7 +4997,8 @@
     var on = !!(open && open !== WORLD_CALL) || !!(away && here && away.tag === here.tag);
     var world = open === WORLD_CALL || !!(away && away.tag === WORLD_CALL);
     this.showWinBtn.hidden = !away;
-    this.callBtn.hidden = !(on || (this.calls && here));
+    // In the World room its call is the World call, and Join World call is its button.
+    this.callBtn.hidden = !(on || (this.calls && here)) || worldHere();
     this.callBtn.setAttribute('aria-pressed', String(on));
     this.worldCallBtn.hidden = !(world || this.calls);
     this.worldCallBtn.setAttribute('aria-pressed', String(world));
