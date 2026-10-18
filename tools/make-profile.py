@@ -40,6 +40,15 @@ WHAT IT REFUSES, and why each one is here:
     be declared in love.css. Its credit must name The Cramps, Lux Interior and
     Poison Ivy and say nobody real is drawn, because that is the condition it
     was built on: their world, not them.
+  · OTTERS IN THE KELP (Ryan, 2026-10-18) is the second effect not in its
+    card's theme: it is drawn in the Kelp Forest theme's declared --cb-kelp-*
+    inks between the effect:otters markers, because an otter needs a brown no
+    card's seven can be relied on for. It keeps the Arcade's otter rules
+    (otterly.js): floating fills nothing, so no word in it, its credit or its
+    theme's line says rest restores or earns anything; no otter is ranked; no
+    otters hold paws; no favourite stone in a pouch. Its credit names Helen
+    Edgar's Stimpunks Solidarity and Otters and Star Stuff's The Stone You Keep,
+    as the cabinet does.
   · AN EFFECT'S PASS SHOWN WHERE THE DRAWINGS DO NOT MOVE. Ryan's call,
     2026-10-18: the pass crosses a profile's words, which is the one drawing on
     the radio that does. It is drawn only under :host([data-motion="on"]), at
@@ -166,32 +175,66 @@ def main():
             if k not in ks:
                 refuse(f"profile.js draws {letter}.{k}, which {what} does not offer.")
         listed[what] = ks
-    lag_src = between(src, "/* effect:lagoon:begin */", "/* effect:lagoon:end */", "profile.js")
-    lag_code = re.sub(r"/\*.*?\*/", "", lag_src, flags=re.S)
-    rest_code = re.sub(r"/\*.*?\*/", "", src.replace(lag_src, ""), flags=re.S)
+    # EACH EFFECT DRAWN IN SOMETHING OTHER THAN ITS CARD'S THEME is a block
+    # between its own effect:<key> markers, held to one source of inks: the
+    # Lagoon to that room's --lag-*, the otters to the Kelp Forest theme's
+    # --cb-kelp-*. Everything outside those blocks is in the card's seven.
+    EFFECT_INKS = {
+        "lagoon": ("--lag-", "the Black Leather Lagoon", "that room's"),
+        "otters": ("--cb-kelp-", "Otters in the kelp", "the Kelp Forest theme's"),
+    }
+    blocks = {k: between(src, f"/* effect:{k}:begin */", f"/* effect:{k}:end */", "profile.js") for k in EFFECT_INKS}
+    rest_src = src
+    for b in blocks.values():
+        rest_src = rest_src.replace(b, "")
+    def uncomment(s):
+        return re.sub(r"(?m)^\s*//.*$", "", re.sub(r"/\*.*?\*/", "", s, flags=re.S))
     ink = r"(?:fill|stroke|stop)\s*:\s*(?:[^,}]*\?\s*)?'(--[a-z0-9-]+)'(?:\s*:\s*'(--[a-z0-9-]+)')?"
+    def inks(code):
+        found = {n for m in re.finditer(ink, code) for n in m.groups() if n}
+        return found | set(re.findall(r"var\(\s*(--[a-z0-9-]+)\s*\)", code))
     theirs = {f"--cb-{x}" for x in PARTS}
-    for m in re.finditer(ink, rest_code):
-        for name in filter(None, m.groups()):
-            if name not in theirs:
-                refuse(f"profile.js draws in {name} outside the Lagoon: a card's drawings are in its theme's seven --cb-* inks.")
-    lag_inks = {n for m in re.finditer(ink, lag_code) for n in m.groups() if n}
-    if not lag_inks:
-        refuse("the Black Leather Lagoon draws in no ink this tool can read.")
-    for name in sorted(lag_inks):
-        if not name.startswith("--lag-") or name not in declared:
-            refuse(f"the Black Leather Lagoon draws in {name}, which is not one of that room's --lag- inks declared in love.css.")
-    if re.search(r"#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(", re.sub(r"(?m)//.*$", "", rest_code + lag_code)):
+    for name in sorted(inks(uncomment(rest_src))):
+        if name not in theirs:
+            refuse(f"profile.js draws in {name} outside an effect's own block: a card's drawings are in its theme's seven --cb-* inks.")
+    for key, (prefix, title, whose) in EFFECT_INKS.items():
+        code = uncomment(blocks[key])
+        used = inks(code)
+        if not used:
+            refuse(f"{title} draws in no ink this tool can read.")
+        for name in sorted(used):
+            if not name.startswith(prefix) or name not in declared:
+                refuse(f"{title} draws in {name}, which is not one of {whose} {prefix} inks declared in love.css.")
+        if f"E.{key} = {{" not in blocks[key]:
+            refuse(f"the effect:{key} markers do not hold E.{key}.")
+    if re.search(r"#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(", uncomment(src)):
         refuse("profile.js has a literal colour. Every colour on a card is a declared ink, named.")
-    if "E.lagoon = {" not in lag_src:
-        refuse("the effect:lagoon markers do not hold E.lagoon.")
     cred = re.search(r"var EFFECT_CREDITS = \{(.*?)\n  \};", src, re.S)
-    lc = re.search(r"lagoon:\s*'([^']*)'", cred.group(1)) if cred else None
-    if "lagoon" in listed.get("EFFECTS", []):
-        words = lc.group(1) if lc else ""
-        for need in ("The Cramps", "Lux Interior", "Poison Ivy", "nobody real is drawn"):
-            if need not in words:
-                refuse(f"the Black Leather Lagoon's credit does not say {need!r}: their world, not them, and the credit says whose.")
+    def credit(key):
+        m = re.search(key + r":\s*'([^']*)'", cred.group(1)) if cred else None
+        return m.group(1) if m else ""
+    NEEDS = {
+        "lagoon": ("The Cramps", "Lux Interior", "Poison Ivy", "nobody real is drawn"),
+        "otters": ("Helen Edgar", "Stimpunks Solidarity and Otters", "The Stone You Keep", "fills nothing"),
+    }
+    for key, needs in NEEDS.items():
+        if key in listed.get("EFFECTS", []):
+            for need in needs:
+                if need not in credit(key):
+                    refuse(f"{EFFECT_INKS[key][1]}'s credit does not say {need!r}, and the credit says whose.")
+    # THE OTTERS KEEP THE ARCADE'S OTTER RULES (otterly.js): floating fills
+    # nothing, so no word says rest is for anything or earns anything; no otter
+    # is ranked; no otters hold paws; and no favourite stone in a pouch. Read in
+    # the effect's code, its credit, and the Kelp Forest theme's line.
+    kelp_line = re.search(r"\['kelp', 'Kelp Forest', 'world', '([^']*)'", CALL.read_text())
+    said = uncomment(blocks["otters"]) + " " + credit("otters") + " " + (kelp_line.group(1) if kelp_line else "")
+    m = re.search(r"recharg|restor|stamina|\benergy\b|\bmeters?\b|\breward|\bearn|productiv|rest so|so (?:it|they|you) can"
+                  r"|pouch|favou?rite (?:stone|rock)|hold(?:s|ing)? (?:paws|hands)|cutest|best otter|\branked?\b", said, re.I)
+    if m:
+        refuse(f"the otters say {m.group(0)!r}. Floating fills nothing, no otter is ranked, and none holds paws or keeps "
+               "a stone in a pouch: the Arcade's otter cabinet and the zine it is built on refuse each of those.")
+    if not kelp_line:
+        refuse("call.js has no Kelp Forest theme, which the otter effect is drawn in.")
     cbcss = re.sub(r"/\*.*?\*/", "", (ROOT / "cb.css").read_text(), flags=re.S)
     # The pass and the Lagoon's big moment cross words, so each is display: none
     # and only its data-motion rule shows it; and nothing an effect does moves
@@ -211,8 +254,9 @@ def main():
             "animation" in body and re.search(r"\.(?:pf-fx__|fx-)", sel))
         if moves and 'data-motion="on"' not in sel:
             refuse(f"cb.css moves an effect at {sel.strip()!r}, outside data-motion.")
-    if "lagoonMoment()" not in lag_src or "pf-fx__moment" not in lag_src:
-        refuse("the Black Leather Lagoon has lost its big moment, which Ryan asked to play across the profile when it opens.")
+    for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()")):
+        if f"appendChild({fn})" not in uncomment(blocks[key]) or "pf-fx__moment" not in blocks[key]:
+            refuse(f"{EFFECT_INKS[key][1]} has lost its opening across the profile, which Ryan asked for.")
 
     code = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
     code = re.sub(r"(?m)^\s*//.*$", "", code)

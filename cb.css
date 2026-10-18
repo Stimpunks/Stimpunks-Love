@@ -139,6 +139,8 @@
   --cb-display: 'Amarante'; --cb-display-scale: 1.2; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="lagoon"]) { --cb-case: var(--cb-lagoon-case); --cb-bar: var(--cb-lagoon-bar); --cb-steel: var(--cb-lagoon-steel); --cb-steel-2: var(--cb-lagoon-steel-2); --cb-lcd: var(--cb-lagoon-lcd); --cb-amber: var(--cb-lagoon-amber); --cb-amber-2: var(--cb-lagoon-amber-2);
   --cb-display: 'Creepster'; --cb-display-scale: 1.05; --cb-display-track: .04em; --cb-display-case: none; }
+:host([data-scheme="kelp"]) { --cb-case: var(--cb-kelp-case); --cb-bar: var(--cb-kelp-bar); --cb-steel: var(--cb-kelp-steel); --cb-steel-2: var(--cb-kelp-steel-2); --cb-lcd: var(--cb-kelp-lcd); --cb-amber: var(--cb-kelp-amber); --cb-amber-2: var(--cb-kelp-amber-2);
+  --cb-display: 'Fredoka'; --cb-display-scale: 1.1; --cb-display-track: .02em; --cb-display-case: none; }
 :host([data-scheme="mordor"]) { --cb-case: var(--cb-mordor-case); --cb-bar: var(--cb-mordor-bar); --cb-steel: var(--cb-mordor-steel); --cb-steel-2: var(--cb-mordor-steel-2); --cb-lcd: var(--cb-mordor-lcd); --cb-amber: var(--cb-mordor-amber); --cb-amber-2: var(--cb-mordor-amber-2);
   --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
@@ -158,6 +160,7 @@
 :host([data-scheme="gta"]) .cb-radio { border-radius: 0; border-color: var(--cb-amber); }
 :host([data-scheme="mordor"]) .cb-radio { border-color: var(--cb-amber); border-radius: 8px; }
 :host([data-scheme="lagoon"]) .cb-radio { border-color: var(--cb-amber); border-radius: 4px; }
+:host([data-scheme="kelp"]) .cb-radio { border-color: var(--cb-amber-2); border-radius: 18px; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
    of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
 :host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,
@@ -919,6 +922,41 @@ ol.cb-md-list { list-style: decimal; }
   12.8% { opacity: .9; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
   13.8%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
 }
+/* OTTERS IN THE KELP (2026-10-18). In the header, an otter swims back and
+   forth over fourteen seconds, turning at each end, and another rolls over at
+   the surface now and then. The opening runs on the Lagoon's sixty-second
+   clock: the water comes up, the kelp grows up through the profile, a big
+   otter swims up and rolls once, floats, and drifts away, with bubbles going
+   up, about nine seconds of every sixty. Shown only where drawings move. */
+.fx-swim, .fx-roll { transform-box: fill-box; transform-origin: center; }
+:host([data-motion="on"]) .fx-swim { animation: cb-fx-swim var(--t, 14s) ease-in-out var(--d, 0s) infinite; }
+:host([data-motion="on"]) .fx-roll { animation: cb-fx-roll var(--t, 13s) ease-in-out var(--d, 0s) infinite; }
+@keyframes cb-fx-swim { 0% { transform: translateX(0) scaleX(1); } 45% { transform: translateX(110px) scaleX(1); } 50% { transform: translateX(110px) scaleX(-1); } 95% { transform: translateX(0) scaleX(-1); } 100% { transform: translateX(0) scaleX(1); } }
+@keyframes cb-fx-roll { 0%, 70% { transform: rotate(0); } 85% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+.pf-fx__forest { position: absolute; inset: 0; display: block; width: 100%; height: 100%; overflow: visible; }
+.pf-fx__otter { position: absolute; right: 4%; top: 12%; display: block; width: min(64%, 520px); height: auto; aspect-ratio: 300 / 140; overflow: visible; }
+.pf-fx__ot-bubble { position: absolute; bottom: -6%; display: block; line-height: 0; opacity: 0; }
+.fx-mo-ot-kelp, .fx-mo-ot-kelp2 { transform-box: fill-box; transform-origin: 50% 100%; }
+.fx-mo-ot-roll { transform-box: fill-box; transform-origin: center; }
+:host([data-motion="on"]) .fx-mo-ot-tint { animation: cb-mo-ot-tint 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-ot-kelp { animation: cb-mo-ot-kelp 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-ot-kelp2 { animation: cb-mo-ot-kelp2 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-ot-roll { animation: cb-mo-ot-roll 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__ot-bubble { animation: cb-mo-ot-bubble 60s linear var(--d, 0s) infinite both; }
+@keyframes cb-mo-ot-tint { 0% { opacity: 0; } 2%, 12.5% { opacity: 1; } 15%, 100% { opacity: 0; } }
+@keyframes cb-mo-ot-kelp { 0%, .8% { transform: scaleY(0); } 4.5%, 12% { transform: scaleY(1); } 15%, 100% { transform: scaleY(0); } }
+@keyframes cb-mo-ot-kelp2 { 0%, 1.6% { transform: scaleY(0); } 5.5%, 11.6% { transform: scaleY(1); } 14.6%, 100% { transform: scaleY(0); } }
+@keyframes cb-mo-ot-roll {
+  0%, 1.5% { opacity: 0; transform: translate(-95%, 130%) rotate(-25deg); }
+  2.2% { opacity: 1; }
+  4% { transform: translate(-36%, 46%) rotate(-200deg); }
+  6% { transform: translate(0, 0) rotate(-360deg); }
+  8% { transform: translate(0, -4%) rotate(-360deg); }
+  10% { transform: translate(0, 3%) rotate(-360deg); }
+  11.5% { opacity: 1; transform: translate(0, 0) rotate(-360deg); }
+  14%, 100% { opacity: 0; transform: translate(70%, -10%) rotate(-360deg); }
+}
+@keyframes cb-mo-ot-bubble { 0%, 2% { opacity: 0; transform: translateY(0); } 3% { opacity: .85; } 11% { opacity: .7; transform: translateY(-80cqh); } 12%, 100% { opacity: 0; transform: translateY(-80cqh); } }
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

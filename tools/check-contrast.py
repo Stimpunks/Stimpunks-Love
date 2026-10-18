@@ -200,6 +200,8 @@ CB_SCHEMES = {
                           lcd="#080707", amber="#FF8A3A", amber2="#9FD0F0"),
     "Black Leather Lagoon": dict(case="#07090A", bar="#12161A", steel="#E6E2D2", steel2="#A7AFA0",
                           lcd="#0B0E10", amber="#8CC63F", amber2="#E4564A"),
+    "Kelp Forest":    dict(case="#0A2730", bar="#071D25", steel="#EAF6F1", steel2="#93C3C0",
+                          lcd="#051820", amber="#F4C25A", amber2="#8EE3CF"),
 }
 CB_HIGH = "High contrast"
 # What each part carries, as the amber set's pairs below say it.
@@ -5093,6 +5095,18 @@ CB_ORNAMENT = [
     ("Shadow of Mordor", "#C9A54A", "a rune medallion's gold ring and mark"),
     ("Shadow of Mordor", "#6FA8D8", "a rune medallion in wraith-blue"),
     ("Black Leather Lagoon", "#B6342F", "a cattail, the Lagoon's blood red"),
+    ("Kelp Forest", "#B8892C", "a kelp blade"),
+    ("Kelp Forest", "#7A5A1E", "a kelp stipe, the stalk, held low on purpose"),
+    ("Kelp Forest", "#D9A93E", "a kelp float"),
+    ("Kelp Forest", "#A97650", "an otter's fur, carried by its outline"),
+    ("Kelp Forest", "#7E5236", "an otter's fur in shade, held low on purpose"),
+    ("Kelp Forest", "#E9D6B4", "an otter's pale face"),
+    ("Kelp Forest", "#2B1A12", "an otter's nose, eyes and outline, which carry the otter on the water"),
+    ("Kelp Forest", "#14505E", "open water, held low on purpose"),
+    ("Kelp Forest", "#6FD3DC", "light through the water"),
+    ("Kelp Forest", "#CFF4F0", "a bubble"),
+    ("Kelp Forest", "#F2B8A0", "a shell"),
+    ("Kelp Forest", "#7A3A6A", "a sea urchin, held low on purpose"),
 ]
 for _theme, _hex, _what in CB_ORNAMENT:
     ORNAMENT.setdefault(_hex.lower(), f"cb, {_theme}: {_what}, "

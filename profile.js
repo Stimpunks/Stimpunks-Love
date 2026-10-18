@@ -97,7 +97,7 @@
     ['mushrooms', 'Mushrooms'], ['leaves', 'Autumn leaves'], ['hearts', 'Hearts'], ['gears', 'Gears'],
     ['bubbles', 'Bubbles'], ['snow', 'Snowflakes'], ['flames', 'Flames'], ['moons', 'Moons'],
     ['notes', 'Music notes'], ['paws', 'Paw prints'], ['halo', 'Halo'], ['circuit', 'Circuit'],
-    ['butterflies', 'Butterflies'], ['crystals', 'Crystals'], ['lanterns', 'Jack-o’-lanterns']
+    ['butterflies', 'Butterflies'], ['crystals', 'Crystals'], ['lanterns', 'Jack-o’-lanterns'], ['otterring', 'Otters in kelp']
   ];
   /* profile:decorations:end */
 
@@ -112,19 +112,20 @@
   var FRAMES = [
     ['briar', 'Briar'], ['ivy', 'Ivy'], ['brass', 'Brass and rivets'], ['lights', 'Fairy lights'],
     ['stitches', 'Stitched patch'], ['film', 'Film strip'], ['circuit', 'Circuit board'], ['crystals', 'Crystals'],
-    ['garland', 'Flower garland'], ['starry', 'Starry night'], ['gate', 'Graveyard gate']
+    ['garland', 'Flower garland'], ['starry', 'Starry night'], ['gate', 'Graveyard gate'], ['fronds', 'Kelp fronds']
   ];
   /* profile:frames:end */
   /* profile:effects:begin */
   var EFFECTS = [
     ['butterflies', 'Butterflies'], ['fireflies', 'Fireflies'], ['petals', 'Falling petals'], ['leaves', 'Falling leaves'],
     ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
-    ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon']
+    ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon'], ['otters', 'Otters in the kelp']
   ];
   /* profile:effects:end */
   /* AN EFFECT AFTER SOMEBODY ELSE'S WORK SAYS WHOSE, on the card it is on and
      in the editor, because attribution is the habit this street kept. */
   var EFFECT_CREDITS = {
+    otters: 'Effect after the Arcade\u2019s Otterly Adorbs, which is built on Helen Edgar\u2019s Stimpunks Solidarity and Otters and Star Stuff\u2019s zine No. 58, The Stone You Keep. The kelp does the holding, and floating fills nothing: these otters float because they want to.',
     lagoon: 'Effect after the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy. Their world, not them: nobody real is drawn, the creature is our own, and the poison ivy round the edge is a nod to her name.'
   };
 
@@ -463,6 +464,44 @@
     });
   };
 
+  /* OTTERS IN KELP (2026-10-18), to pair with the otter effect: a strand of
+     kelp wound round the avatar, and two little otters floating at its foot,
+     each with the kelp across it, because the kelp does the holding. They do
+     not hold paws: that story is the internet's (otterly.js says why). In the
+     card's own inks, like every decoration. */
+  function cardOtter(g, x, y, k, flip) {
+    var q = at(g, x, y);
+    var w = svgEl('g', { transform: flip ? 'scale(-1 1)' : '' }, { cls: 'art-sway', d: flip ? 1.2 : 0, t: 6 });
+    w.style.removeProperty('fill');
+    w.appendChild(svgEl('path', { d: 'M' + f(-9 * k) + ' ' + f(.4 * k) + 'Q' + f(-15 * k) + ' 0 ' + f(-14.4 * k) + ' ' + f(-2 * k) + 'Q' + f(-11 * k) + ' ' + f(-2.2 * k) + ' ' + f(-8.4 * k) + ' ' + f(-1.4 * k) + 'Z' }, { fill: '--cb-amber-2', stroke: '--cb-case', sw: .8 }));
+    w.appendChild(svgEl('ellipse', { cx: 0, cy: 0, rx: f(9.4 * k), ry: f(3.8 * k) }, { fill: '--cb-amber', stroke: '--cb-case', sw: .9 }));
+    w.appendChild(svgEl('ellipse', { cx: f(-7.6 * k), cy: f(-3.8 * k), rx: f(1.2 * k), ry: f(2.3 * k), transform: 'rotate(-18 ' + f(-7.6 * k) + ' ' + f(-3.8 * k) + ')' }, { fill: '--cb-amber-2', stroke: '--cb-case', sw: .7 }));
+    w.appendChild(svgEl('circle', { cx: f(10 * k), cy: f(-1.2 * k), r: f(4 * k) }, { fill: '--cb-steel', stroke: '--cb-case', sw: .9 }));
+    w.appendChild(svgEl('circle', { cx: f(8.2 * k), cy: f(-4.6 * k), r: f(.9 * k) }, { fill: '--cb-amber', stroke: '--cb-case', sw: .6 }));
+    w.appendChild(svgEl('path', { d: 'M' + f(8.8 * k) + ' ' + f(-2.2 * k) + 'q' + f(.7 * k) + ' ' + f(-.9 * k) + ' ' + f(1.4 * k) + ' 0' }, { stroke: '--cb-case', sw: .8 }));
+    w.appendChild(svgEl('ellipse', { cx: f(13.2 * k), cy: f(-1 * k), rx: f(.9 * k), ry: f(.7 * k) }, { fill: '--cb-case' }));
+    w.appendChild(svgEl('ellipse', { cx: f(4.6 * k), cy: f(-3.6 * k), rx: f(1.3 * k), ry: f(1 * k) }, { fill: '--cb-amber-2', stroke: '--cb-case', sw: .6 }));
+    w.appendChild(svgEl('path', { d: 'M' + f(-6 * k) + ' ' + f(3.6 * k) + 'Q0 ' + f(-5 * k) + ' ' + f(6.4 * k) + ' ' + f(3.6 * k) }, { stroke: '--cb-amber-2', sw: 1.4 }));
+    q.appendChild(w);
+  }
+  D.otterring = function (g) {
+    var d = '', i;
+    for (i = 0; i <= 72; i++) { var a = i * 5, rr = 57 + 2.4 * Math.sin(i * .8), p = polar(rr, a); d += (i ? 'L' : 'M') + f(p[0]) + ' ' + f(p[1]); }
+    g.appendChild(svgEl('path', { d: d, pathLength: 1 }, { stroke: '--cb-amber-2', sw: 1.8, cls: 'art-grow', t: 6 }));
+    around(10, function (a, j) {
+      var p = polar(j % 2 ? 61 : 53, a), q = at(g, p[0], p[1], a + (j % 2 ? 50 : -50));
+      q.appendChild(svgEl('path', { d: leaf(5.2, 2.6) }, { fill: '--cb-amber-2', cls: 'art-sway', d: j * .4, t: 6 }));
+      if (j % 3 === 0) q.appendChild(svgEl('circle', { cx: 0, cy: 5.4, r: 1.6 }, { fill: '--cb-amber' }));
+    }, 0);
+    var p1 = polar(58, 152), p2 = polar(58, 208);
+    cardOtter(g, p1[0], p1[1], 1.15, true);
+    cardOtter(g, p2[0], p2[1], 1.15, false);
+    [[-24, 64, 2.4], [-14, 68, 1.6], [20, 66, 2]].forEach(function (b, j) {
+      var p = polar(b[1], b[0]);
+      g.appendChild(svgEl('circle', { cx: f(p[0]), cy: f(p[1]), r: b[2] }, { stroke: '--cb-steel', sw: .9, cls: 'art-twinkle', d: j * .9, t: 4 }));
+    });
+  };
+
   function decoration(key) {
     if (!D[key]) return null;
     var s = document.createElementNS(NS, 'svg');
@@ -722,6 +761,29 @@
       hang.appendChild(svgEl('circle', { cx: 18.8, cy: 28.4, r: .6 }, { fill: '--cb-amber' }));
       hang.appendChild(svgEl('circle', { cx: 21.2, cy: 28.4, r: .6 }, { fill: '--cb-amber' }));
       g.appendChild(hang);
+    }
+  };
+
+  /* KELP FRONDS (2026-10-18), to pair with the otter effect: a kelp stalk
+     running round the profile with its blades and floats, bubbles along the
+     outer edge, and a starfish and a scallop in every corner. In the card's
+     own inks. */
+  F.fronds = {
+    side: function (g, L) {
+      g.appendChild(svgEl('path', { d: wave(L, 10, 2.4, 18) }, { stroke: '--cb-steel-2', sw: 1.5 }));
+      for (var x = 6, i = 0; x < L; x += 11, i++) {
+        var y = 10 + 2.4 * Math.sin(x / 18), dir = i % 2 ? 1 : -1;
+        var bl = at(g, x, y, dir > 0 ? 35 : 145);
+        bl.appendChild(svgEl('path', { d: leaf(5, 2.4) }, { fill: '--cb-amber-2', cls: i % 4 ? '' : 'art-sway', d: i * .3 % 5, t: 6 }));
+        if (i % 3 === 0) g.appendChild(svgEl('circle', { cx: f(x + 1.6), cy: f(y + dir * 1.4), r: 1.5 }, { fill: '--cb-amber' }));
+        if (i % 5 === 2) g.appendChild(svgEl('circle', { cx: f(x + 3), cy: 2.6, r: 1.3 }, { stroke: '--cb-steel', sw: .6, cls: 'art-twinkle', d: i * .5 % 4, t: 4 }));
+      }
+    },
+    corner: function (g) {
+      at(g, 13, 13, 12).appendChild(svgEl('path', { d: star5(8) }, { fill: '--cb-amber', stroke: '--cb-case', sw: .8 }));
+      var sh = at(g, 27, 27, -45);
+      sh.appendChild(svgEl('path', { d: 'M-6 3Q0 -9 6 3Z' }, { fill: '--cb-amber-2', stroke: '--cb-case', sw: .8 }));
+      sh.appendChild(svgEl('path', { d: 'M0 3L0 -3.4M-2.8 3L-1.6 -2.2M2.8 3L1.6 -2.2' }, { stroke: '--cb-case', sw: .6 }));
     }
   };
 
@@ -1289,6 +1351,233 @@
     pass: { motif: 'bat', from: 'right', n: 6, size: 24, t: 24, drift: 14 }
   };
   /* effect:lagoon:end */
+
+  /* effect:otters:begin */
+  /* OTTERS IN THE KELP (Ryan, 2026-10-18: "Make the effect large and cute.
+     Floating, swimming otters being cute. Kelp forests."), to pair with the
+     Kelp Forest theme. Drawn in that theme's own declared --cb-kelp-* inks,
+     and make-profile.py holds this block to them.
+
+     IT KEEPS THE ARCADE'S OTTER RULES (otterly.js, Otterly Adorbs): floating
+     fills nothing here either, with no meter and nothing earned, so no word
+     in this block or its credit says rest is for anything; no otter is better
+     than another; and no two otters hold paws, because that story is the
+     internet's and the zine does not tell it. What the cabinet does say is
+     drawn: the kelp does the holding, so the otter that floats keeps a strand
+     of it across its belly. Nobody carries a stone in a pouch either; nobody
+     carries a stone at all.
+
+     A scene over the card's banner (the surface with light coming down
+     through it, kelp rising to it with its floats, an otter anchored in the
+     kelp with a shell on its chest, an otter rolling over, an otter swimming
+     back and forth below, urchins and a starfish on the bottom), bubbles
+     rising across the profile, and an opening across the whole profile: the
+     kelp forest grows up through it, a big otter swims up, rolls once and
+     floats on its back, eyes shut, and drifts away. */
+  function otterBack(g, x, y, k, o) {
+    o = o || {};
+    var w = svgEl('g', {}, { cls: o.cls || '', d: o.d, t: o.t });
+    w.style.removeProperty('fill');
+    g.appendChild(w);
+    var n = '--cb-kelp-nose', sw = Math.max(.35, .5 * k);
+    function P(x0, y0) { return f(x + x0 * k) + ' ' + f(y + y0 * k); }
+    w.appendChild(svgEl('path', { d: 'M' + P(-9.6, .4) + 'Q' + P(-18, -.2) + ' ' + P(-17.4, -2.4) + 'Q' + P(-13.4, -2.6) + ' ' + P(-9, -1.6) + 'Z' }, { fill: '--cb-kelp-fur-2', stroke: n, sw: sw }));
+    [[-8.8, -4.4, -24], [-6.8, -4.9, 8]].forEach(function (ft) {
+      w.appendChild(svgEl('ellipse', { cx: f(x + ft[0] * k), cy: f(y + ft[1] * k), rx: f(1.5 * k), ry: f(2.8 * k), transform: 'rotate(' + ft[2] + ' ' + P(ft[0], ft[1]).replace(' ', ' ') + ')' }, { fill: '--cb-kelp-fur-2', stroke: n, sw: sw }));
+    });
+    w.appendChild(svgEl('path', { d: 'M' + P(-10, 0) + 'Q' + P(-10, -4.6) + ' ' + P(-2, -4.6) + 'L' + P(6, -4.2) + 'Q' + P(10, -3.6) + ' ' + P(10, 0) + 'Q' + P(10, 4) + ' ' + P(4, 4.2) + 'L' + P(-6, 4) + 'Q' + P(-10, 3.6) + ' ' + P(-10, 0) + 'Z' }, { fill: '--cb-kelp-fur', stroke: n, sw: sw }));
+    w.appendChild(svgEl('ellipse', { cx: f(x + 5 * k), cy: f(y - 1.6 * k), rx: f(4.2 * k), ry: f(2.5 * k), 'fill-opacity': '.5' }, { fill: '--cb-kelp-face' }));
+    [[9.4, -5.2, 1.1], [12.8, -5.6, 1]].forEach(function (e) { w.appendChild(svgEl('circle', { cx: f(x + e[0] * k), cy: f(y + e[1] * k), r: f(e[2] * k) }, { fill: '--cb-kelp-fur', stroke: n, sw: sw })); });
+    w.appendChild(svgEl('circle', { cx: f(x + 11.6 * k), cy: f(y - 1.2 * k), r: f(4.6 * k) }, { fill: '--cb-kelp-face', stroke: n, sw: sw }));
+    w.appendChild(svgEl('ellipse', { cx: f(x + 15 * k), cy: f(y - .4 * k), rx: f(2.2 * k), ry: f(1.6 * k) }, { fill: '--cb-kelp-face', stroke: n, sw: sw * .8 }));
+    w.appendChild(svgEl('ellipse', { cx: f(x + 15.8 * k), cy: f(y - 1.3 * k), rx: f(1 * k), ry: f(.72 * k) }, { fill: n }));
+    w.appendChild(svgEl('path', { d: 'M' + P(14.4, .3) + 'q' + f(.6 * k) + ' ' + f(.7 * k) + ' ' + f(1.2 * k) + ' 0q' + f(.6 * k) + ' ' + f(.7 * k) + ' ' + f(1.2 * k) + ' 0' }, { stroke: n, sw: sw * .8 }));
+    // eyes shut, content
+    [10.2, 12.8].forEach(function (ex) { w.appendChild(svgEl('path', { d: 'M' + P(ex, -2.4) + 'q' + f(.8 * k) + ' ' + f(-1 * k) + ' ' + f(1.6 * k) + ' 0' }, { stroke: n, sw: sw * .9 })); });
+    w.appendChild(svgEl('ellipse', { cx: f(x + 12.2 * k), cy: f(y - .4 * k), rx: f(.95 * k), ry: f(.55 * k), 'fill-opacity': '.75' }, { fill: '--cb-kelp-shell' }));
+    w.appendChild(svgEl('path', { d: 'M' + P(16.2, -.2) + 'l' + f(2.8 * k) + ' ' + f(-.9 * k) + 'M' + P(16.2, .4) + 'l' + f(3 * k) + ' ' + f(.2 * k) + 'M' + P(16, 1) + 'l' + f(2.6 * k) + ' ' + f(1 * k) }, { stroke: n, sw: sw * .6 }));
+    if (o.shell) {
+      w.appendChild(svgEl('path', { d: 'M' + P(4.4, -4.6) + 'Q' + P(6.3, -8.4) + ' ' + P(8.2, -4.6) + 'Z' }, { fill: '--cb-kelp-shell', stroke: n, sw: sw * .8 }));
+      w.appendChild(svgEl('path', { d: 'M' + P(6.3, -4.8) + 'L' + P(6.3, -7.4) + 'M' + P(5.4, -4.8) + 'L' + P(5.4, -6.8) + 'M' + P(7.2, -4.8) + 'L' + P(7.2, -6.8) }, { stroke: n, sw: sw * .5 }));
+    }
+    [[5.2, -4], [7.6, -3.9]].forEach(function (pw) { w.appendChild(svgEl('ellipse', { cx: f(x + pw[0] * k), cy: f(y + pw[1] * k), rx: f(1.4 * k), ry: f(1.1 * k) }, { fill: '--cb-kelp-fur-2', stroke: n, sw: sw * .8 })); });
+    if (o.kelp) {
+      w.appendChild(svgEl('path', { d: 'M' + P(-8, 5.6) + 'Q' + P(-1, -6.2) + ' ' + P(8, 5.6) }, { stroke: '--cb-kelp-blade', sw: Math.max(.9, 1.5 * k) }));
+      [[-5, 1.2, -50], [4.6, 1.4, 50]].forEach(function (bl) { at(w, x + bl[0] * k, y + bl[1] * k, bl[2]).appendChild(svgEl('path', { d: leaf(2.4 * k, 1.2 * k) }, { fill: '--cb-kelp-blade' })); });
+    }
+    if (o.water !== false) {
+      w.appendChild(svgEl('rect', { x: f(x - 20 * k), y: f(y + .8 * k), width: f(40 * k), height: f(6 * k), 'fill-opacity': '.5' }, { fill: '--cb-kelp-sea' }));
+      w.appendChild(svgEl('path', { d: 'M' + P(-20, .8) + 'q' + f(5 * k) + ' ' + f(-1 * k) + ' ' + f(10 * k) + ' 0t' + f(10 * k) + ' 0t' + f(10 * k) + ' 0t' + f(10 * k) + ' 0' }, { stroke: '--cb-kelp-light', sw: sw }));
+    }
+    return w;
+  }
+  function otterSwim(g, x, y, k, o) {
+    o = o || {};
+    var w = svgEl('g', {}, { cls: o.cls || '', d: o.d, t: o.t });
+    w.style.removeProperty('fill');
+    g.appendChild(w);
+    var n = '--cb-kelp-nose', sw = Math.max(.35, .5 * k);
+    function P(x0, y0) { return f(x + x0 * k) + ' ' + f(y + y0 * k); }
+    w.appendChild(svgEl('path', { d: 'M' + P(-11, -.4) + 'Q' + P(-19, -1.6) + ' ' + P(-20, .6) + 'Q' + P(-16, 1.6) + ' ' + P(-11, 1.2) + 'Z' }, { fill: '--cb-kelp-fur-2', stroke: n, sw: sw }));
+    [[-11, 2.4, 20], [-10, -1.8, -20]].forEach(function (ft) {
+      at(w, x + ft[0] * k, y + ft[1] * k, ft[2] + 90).appendChild(svgEl('path', { d: leaf(2.6 * k, 1.5 * k) }, { fill: '--cb-kelp-fur-2', stroke: n, sw: sw * .8 }));
+    });
+    w.appendChild(svgEl('path', { d: 'M' + P(-11, 0) + 'Q' + P(-11, -3.6) + ' ' + P(-3, -3.6) + 'L' + P(8, -3.2) + 'Q' + P(12, -2.6) + ' ' + P(12, .4) + 'Q' + P(12, 3.2) + ' ' + P(7, 3.2) + 'L' + P(-4, 3.4) + 'Q' + P(-11, 3.4) + ' ' + P(-11, 0) + 'Z' }, { fill: '--cb-kelp-fur', stroke: n, sw: sw }));
+    w.appendChild(svgEl('ellipse', { cx: f(x + 6.4 * k), cy: f(y + 3.4 * k), rx: f(1.6 * k), ry: f(.9 * k) }, { fill: '--cb-kelp-fur-2', stroke: n, sw: sw * .8 }));
+    w.appendChild(svgEl('circle', { cx: f(x + 13.6 * k), cy: f(y - .6 * k), r: f(3.6 * k) }, { fill: '--cb-kelp-face', stroke: n, sw: sw }));
+    w.appendChild(svgEl('circle', { cx: f(x + 12 * k), cy: f(y - 3.8 * k), r: f(.9 * k) }, { fill: '--cb-kelp-fur', stroke: n, sw: sw * .8 }));
+    w.appendChild(svgEl('circle', { cx: f(x + 14.4 * k), cy: f(y - 1.6 * k), r: f(.75 * k) }, { fill: n }));
+    w.appendChild(svgEl('circle', { cx: f(x + 14.7 * k), cy: f(y - 1.9 * k), r: f(.25 * k) }, { fill: '--cb-kelp-bubble' }));
+    w.appendChild(svgEl('ellipse', { cx: f(x + 17.2 * k), cy: f(y - .2 * k), rx: f(.9 * k), ry: f(.7 * k) }, { fill: n }));
+    w.appendChild(svgEl('path', { d: 'M' + P(16.8, .6) + 'l' + f(2.6 * k) + ' ' + f(.4 * k) + 'M' + P(16.6, 1.2) + 'l' + f(2.2 * k) + ' ' + f(1.2 * k) }, { stroke: n, sw: sw * .6 }));
+    return w;
+  }
+  function kelpStalk(g, x, bottom, top, k, i) {
+    var st = svgEl('g', {}, { cls: 'art-sway', d: i * .7 % 5, t: 6 + i % 3 });
+    st.style.removeProperty('fill');
+    var lean = (rnd(i + 3) - .5) * 10 * k;
+    st.appendChild(svgEl('path', { d: 'M' + f(x) + ' ' + f(bottom) + 'Q' + f(x + lean) + ' ' + f((bottom + top) / 2) + ' ' + f(x + lean * .3) + ' ' + f(top) }, { stroke: '--cb-kelp-stipe', sw: Math.max(.9, 1.6 * k) }));
+    for (var y = bottom - 6 * k, j = 0; y > top + 4 * k; y -= 7 * k, j++) {
+      var tt = (bottom - y) / (bottom - top), bx = x + lean * 2 * tt * (1 - tt) * 1.6 + lean * .3 * tt * tt, dir = (j + i) % 2 ? 1 : -1;
+      st.appendChild(svgEl('path', { d: 'M' + f(bx) + ' ' + f(y) + 'q' + f(dir * 6 * k) + ' ' + f(-2.6 * k) + ' ' + f(dir * 9 * k) + ' ' + f(-6.4 * k) + 'q' + f(-dir * 5 * k) + ' ' + f(1.4 * k) + ' ' + f(-dir * 9 * k) + ' ' + f(6.4 * k) + 'Z' }, { fill: '--cb-kelp-blade', stroke: '--cb-kelp-stipe', sw: Math.max(.3, .4 * k) }));
+      if (j % 2 === 0) st.appendChild(svgEl('circle', { cx: f(bx + dir * 1.6 * k), cy: f(y - .7 * k), r: f(1.4 * k) }, { fill: '--cb-kelp-float', stroke: '--cb-kelp-stipe', sw: Math.max(.3, .35 * k) }));
+    }
+    g.appendChild(st);
+    return st;
+  }
+  M.kbubble = function (g) {
+    g.appendChild(svgEl('circle', { r: 7 }, { stroke: '--cb-kelp-bubble', sw: 1.3 }));
+    g.appendChild(svgEl('path', { d: 'M-3.8 -1A4 4 0 0 1 -1 -3.8' }, { stroke: '--cb-kelp-bubble', sw: 1.3 }));
+  };
+  M.kstar = function (g) { g.appendChild(svgEl('path', { d: star5(9) }, { fill: '--cb-kelp-shell', stroke: '--cb-kelp-nose', sw: .8 })); };
+  M.kshell = function (g) {
+    g.appendChild(svgEl('path', { d: 'M-8 4Q0 -12 8 4Z' }, { fill: '--cb-kelp-face', stroke: '--cb-kelp-nose', sw: .8 }));
+    g.appendChild(svgEl('path', { d: 'M0 4L0 -4.6M-3.6 4L-2 -3M3.6 4L2 -3' }, { stroke: '--cb-kelp-nose', sw: .6 }));
+  };
+
+  var otN = 0;
+  function otterScene() {
+    var s = plainSvg(380, 112, 'pf-fx__scene');
+    s.removeAttribute('width');
+    s.removeAttribute('height');
+    var n = ++otN, defs = document.createElementNS(NS, 'defs');
+    s.appendChild(defs);
+    var fade = document.createElementNS(NS, 'linearGradient');
+    fade.setAttribute('id', 'pf-ot-fade-' + n);
+    fade.setAttribute('x1', '0'); fade.setAttribute('x2', '1'); fade.setAttribute('y1', '0'); fade.setAttribute('y2', '0');
+    [[0, 0], [.2, .88], [.88, .88], [1, 0]].forEach(function (st) {
+      var e = document.createElementNS(NS, 'stop');
+      e.setAttribute('offset', String(st[0]));
+      e.style.setProperty('stop-color', 'var(--cb-kelp-sea)');
+      e.style.setProperty('stop-opacity', String(st[1]));
+      fade.appendChild(e);
+    });
+    defs.appendChild(fade);
+    var g = group(s);
+    // below the surface the green water, fading in and out at its ends so it is
+    // not a box laid on the banner, and keeping off the avatar
+    var sea = svgEl('rect', { x: 130, y: 30, width: 250, height: 82 }, {});
+    sea.style.setProperty('fill', 'url(#pf-ot-fade-' + n + ')');
+    g.appendChild(sea);
+    // light falling through it, breathing slowly
+    var shafts = svgEl('g', {}, { cls: 'fx-breathe', t: 10 });
+    shafts.style.removeProperty('fill');
+    [[196, 10], [260, 14], [330, 9]].forEach(function (sh) {
+      shafts.appendChild(svgEl('path', { d: 'M' + sh[0] + ' 30L' + (sh[0] + sh[1]) + ' 30L' + (sh[0] + sh[1] + 26) + ' 112L' + (sh[0] + 22) + ' 112Z', 'fill-opacity': '.12' }, { fill: '--cb-kelp-light' }));
+    });
+    g.appendChild(shafts);
+    // the bottom, with urchins and a starfish
+    g.appendChild(svgEl('path', { d: 'M168 112Q240 104 300 108T380 104V112Z', 'fill-opacity': '.8' }, { fill: '--cb-kelp-stipe' }));
+    [[352, 105, 3.4], [366, 106.5, 2.6]].forEach(function (u) {
+      var spikes = '';
+      for (var a = 0; a < 360; a += 30) spikes += 'M' + f(u[0]) + ' ' + f(u[1]) + 'l' + f(Math.cos(a * Math.PI / 180) * u[2] * 1.7) + ' ' + f(Math.sin(a * Math.PI / 180) * u[2] * 1.7);
+      g.appendChild(svgEl('path', { d: spikes }, { stroke: '--cb-kelp-urchin', sw: .7 }));
+      g.appendChild(svgEl('circle', { cx: u[0], cy: u[1], r: u[2] }, { fill: '--cb-kelp-urchin' }));
+    });
+    at(g, 312, 106, 12).appendChild(svgEl('path', { d: star5(3.6) }, { fill: '--cb-kelp-shell', stroke: '--cb-kelp-nose', sw: .4 }));
+    // the kelp, rising to the surface, and its canopy lying on the water
+    [[176, 0], [210, 1], [266, 2], [300, 3], [346, 4]].forEach(function (kx) { kelpStalk(g, kx[0], 112, 31, .62, kx[1]); });
+    [[190, 30, -8], [236, 31, 6], [286, 30, -5], [362, 31, 8]].forEach(function (cn) {
+      at(g, cn[0], cn[1], 90 + cn[2]).appendChild(svgEl('path', { d: leaf(3, 9) }, { fill: '--cb-kelp-blade', stroke: '--cb-kelp-stipe', sw: .4 }));
+    });
+    // the swimmer, back and forth below, trailing bubbles
+    var swim = svgEl('g', {}, { cls: 'fx-swim', t: 14 });
+    swim.style.removeProperty('fill');
+    otterSwim(swim, 206, 78, 1.25);
+    [[180, 73, 0], [175, 66, 1], [182, 59, 2]].forEach(function (b) {
+      swim.appendChild(svgEl('circle', { cx: b[0], cy: b[1], r: 1.2 + b[2] * .3 }, { stroke: '--cb-kelp-bubble', sw: .5, cls: 'art-fall', d: b[2] * .8, t: 3, run: -18 }));
+    });
+    g.appendChild(swim);
+    // floating at the surface: one anchored in the kelp with a shell on its
+    // chest, one rolling over now and then
+    var bob1 = svgEl('g', {}, { cls: 'fx-bob' });
+    bob1.style.removeProperty('fill');
+    bob1.style.setProperty('--b', '4.6s');
+    otterBack(bob1, 226, 31, 1.45, { kelp: true, shell: true, cls: 'art-sway', t: 7 });
+    g.appendChild(bob1);
+    var bob2 = svgEl('g', {}, { cls: 'fx-bob' });
+    bob2.style.removeProperty('fill');
+    bob2.style.setProperty('--b', '5.4s');
+    var roll = svgEl('g', {}, { cls: 'fx-roll', t: 13 });
+    roll.style.removeProperty('fill');
+    otterBack(roll, 326, 31, 1.15, { water: false });
+    bob2.appendChild(roll);
+    bob2.appendChild(svgEl('rect', { x: 302, y: 32, width: 54, height: 7, 'fill-opacity': '.5' }, { fill: '--cb-kelp-sea' }));
+    g.appendChild(bob2);
+    return s;
+  }
+
+  /* THE OPENING, across the whole profile, on the Lagoon's sixty-second clock:
+     the water comes up, the kelp forest grows up through the profile, a big
+     otter swims up out of the bottom left, rolls once and floats on its back,
+     and then drifts away to the right while the forest goes. */
+  function otterMoment() {
+    var box = el('div', 'pf-fx__moment');
+    var forest = plainSvg(400, 300, 'pf-fx__forest');
+    forest.removeAttribute('width');
+    forest.removeAttribute('height');
+    forest.setAttribute('preserveAspectRatio', 'xMidYMax slice');
+    var g = group(forest);
+    var tint = svgEl('g', {}, { cls: 'fx-mo-ot-tint' });
+    tint.style.removeProperty('fill');
+    tint.appendChild(svgEl('rect', { x: -40, y: 0, width: 480, height: 320, 'fill-opacity': '.62' }, { fill: '--cb-kelp-sea' }));
+    [[40, 26], [150, 34], [262, 28], [352, 22]].forEach(function (sh) {
+      tint.appendChild(svgEl('path', { d: 'M' + sh[0] + ' 0L' + (sh[0] + sh[1]) + ' 0L' + (sh[0] + sh[1] + 60) + ' 300L' + (sh[0] + 46) + ' 300Z', 'fill-opacity': '.12' }, { fill: '--cb-kelp-light' }));
+    });
+    g.appendChild(tint);
+    [[14, 0], [62, 1], [118, 2], [176, 3], [232, 4], [290, 5], [344, 6], [392, 7]].forEach(function (kx, i) {
+      var grow = svgEl('g', {}, { cls: i % 2 ? 'fx-mo-ot-kelp2' : 'fx-mo-ot-kelp' });
+      grow.style.removeProperty('fill');
+      kelpStalk(grow, kx[0], 306, 26 + rnd(i + 9) * 50, 1.5, kx[1]);
+      g.appendChild(grow);
+    });
+    box.appendChild(forest);
+    var big = plainSvg(300, 140, 'pf-fx__otter');
+    big.removeAttribute('width');
+    big.removeAttribute('height');
+    var swimIn = svgEl('g', {}, { cls: 'fx-mo-ot-roll' });
+    swimIn.style.removeProperty('fill');
+    otterBack(swimIn, 128, 74, 6.2, { kelp: true, shell: true });
+    big.appendChild(swimIn);
+    box.appendChild(big);
+    for (var i = 0; i < 14; i++) {
+      var b = el('span', 'pf-fx__ot-bubble');
+      b.style.left = f(4 + rnd(i + 61) * 92) + '%';
+      b.style.setProperty('--d', f(rnd(i + 71) * 2.6) + 's');
+      b.appendChild(motif('kbubble', 8 + rnd(i + 81) * 10, true));
+      box.appendChild(b);
+    }
+    return box;
+  }
+  E.otters = {
+    scene: function (box) {
+      box.appendChild(otterScene());
+      box.appendChild(otterMoment());
+    },
+    edge: [['kshell', 'bl', 0, 18, -10, [16, -9]], ['kstar', 'br', 0, 16, 14, [-18, -10]]],
+    pass: { motif: 'kbubble', from: 'bottom', n: 10, size: 12, t: 24, drift: 8 }
+  };
+  /* effect:otters:end */
 
   var EDGE_AT = {
     tl: function () { return [0, 0]; }, tr: function () { return [100, 0]; },

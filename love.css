@@ -1512,6 +1512,16 @@
   --cb-lagoon-case: #07090A; --cb-lagoon-bar: #12161A; --cb-lagoon-steel: #E6E2D2; --cb-lagoon-steel-2: #A7AFA0;
   --cb-lagoon-lcd: #0B0E10; --cb-lagoon-amber: #8CC63F; --cb-lagoon-amber-2: #E4564A;
   --cb-lagoon-blood: #B6342F;
+  /* KELP FOREST (2026-10-18), to pair with the otter profile effect: deep green
+     water, foam, sea glass and the kelp's sunlit gold, and its drawing inks for
+     the kelp, the otters and what is round them. The otters' fur is carried by
+     its outline in --cb-kelp-nose; the shaded fur, the open water and the urchin
+     are held low on purpose. None carries a word. */
+  --cb-kelp-case: #0A2730; --cb-kelp-bar: #071D25; --cb-kelp-steel: #EAF6F1; --cb-kelp-steel-2: #93C3C0;
+  --cb-kelp-lcd: #051820; --cb-kelp-amber: #F4C25A; --cb-kelp-amber-2: #8EE3CF;
+  --cb-kelp-blade: #B8892C; --cb-kelp-stipe: #7A5A1E; --cb-kelp-float: #D9A93E; --cb-kelp-fur: #A97650;
+  --cb-kelp-fur-2: #7E5236; --cb-kelp-face: #E9D6B4; --cb-kelp-nose: #2B1A12; --cb-kelp-sea: #14505E;
+  --cb-kelp-light: #6FD3DC; --cb-kelp-bubble: #CFF4F0; --cb-kelp-shell: #F2B8A0; --cb-kelp-urchin: #7A3A6A;
   --cb-mordor-lava: #FF5A1E; --cb-mordor-glow: #FFB040; --cb-mordor-rock: #2A2626; --cb-mordor-ash: #6A625E; --cb-mordor-wraith: #CFE8FF; --cb-mordor-rune: #C9A54A; --cb-mordor-blue: #6FA8D8;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's

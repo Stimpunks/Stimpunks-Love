@@ -1220,6 +1220,57 @@
     }
   };
 
+  /* KELP FOREST (2026-10-18), to pair with the otter profile effect: kelp
+     rising through green water to the light, with its floats, bubbles going
+     up, and now and then a sea otter floating on its back at the surface, a
+     strand of kelp across it, because the kelp does the holding (the Arcade's
+     Otterly Adorbs says why). Nothing about the otters is scored or earned:
+     floating fills nothing. */
+  function kelpOtter(svg, x, y, k) {
+    var o = group(svg, {}, { cls: 'art-sway', d: (x % 7) * 0.4, t: 6 });
+    add(o, 'ellipse', { cx: f(x - 13.5 * k), cy: f(y - 0.4 * k), rx: f(3.4 * k), ry: f(1.2 * k) }, { fill: '--cb-kelp-fur-2', stroke: '--cb-kelp-nose', sw: at(0.4 * k, 0.3) });
+    add(o, 'ellipse', { cx: f(x), cy: f(y), rx: f(11 * k), ry: f(3.8 * k) }, { fill: '--cb-kelp-fur', stroke: '--cb-kelp-nose', sw: at(0.5 * k, 0.35) });
+    [[-9.4, -16], [-7.4, 10]].forEach(function (ft) {
+      add(o, 'ellipse', { cx: f(x + ft[0] * k), cy: f(y - 3.8 * k), rx: f(1.2 * k), ry: f(2.3 * k), transform: 'rotate(' + ft[1] + ' ' + f(x + ft[0] * k) + ' ' + f(y - 3.8 * k) + ')' }, { fill: '--cb-kelp-fur-2', stroke: '--cb-kelp-nose', sw: at(0.4 * k, 0.3) });
+    });
+    add(o, 'circle', { cx: f(x + 11 * k), cy: f(y - 1.4 * k), r: f(3.9 * k) }, { fill: '--cb-kelp-face', stroke: '--cb-kelp-nose', sw: at(0.5 * k, 0.35) });
+    add(o, 'circle', { cx: f(x + 9.2 * k), cy: f(y - 4.6 * k), r: f(0.9 * k) }, { fill: '--cb-kelp-fur', stroke: '--cb-kelp-nose', sw: at(0.3 * k, 0.25) });
+    add(o, 'path', { d: 'M' + f(x + 10.2 * k) + ' ' + f(y - 2.6 * k) + 'q' + f(0.7 * k) + ' ' + f(-0.7 * k) + ' ' + f(1.4 * k) + ' 0' }, { stroke: '--cb-kelp-nose', sw: at(0.45 * k, 0.3) });
+    add(o, 'ellipse', { cx: f(x + 14.5 * k), cy: f(y - 1.8 * k), rx: f(0.9 * k), ry: f(0.7 * k) }, { fill: '--cb-kelp-nose' });
+    [[4.4, -3.6], [6.6, -3.4]].forEach(function (pw) {
+      add(o, 'ellipse', { cx: f(x + pw[0] * k), cy: f(y + pw[1] * k), rx: f(1.3 * k), ry: f(1 * k) }, { fill: '--cb-kelp-fur-2', stroke: '--cb-kelp-nose', sw: at(0.35 * k, 0.25) });
+    });
+    add(o, 'path', { d: 'M' + f(x - 7 * k) + ' ' + f(y + 3 * k) + 'Q' + f(x) + ' ' + f(y - 4.8 * k) + ' ' + f(x + 7 * k) + ' ' + f(y + 3.2 * k) }, { stroke: '--cb-kelp-blade', sw: at(1.2 * k, 0.8) });
+  }
+  T.kelp = {
+    band: function (c, r) {
+      var s = c.s, x, surf = c.kind === 'top' || c.h >= 40;
+      // light falling slant-wise through the water, breathing slowly
+      for (x = r() * 60; x < c.w; x += 90 + r() * 90) {
+        add(c.svg, 'path', { d: 'M' + f(x) + ' 0L' + f(x + 12 * s) + ' 0L' + f(x + 30 * s) + ' ' + f(c.h) + 'L' + f(x + 16 * s) + ' ' + f(c.h) + 'Z', 'fill-opacity': '.1' }, { fill: '--cb-kelp-light', cls: 'art-glow', d: r() * 4, t: 10 });
+      }
+      if (surf) add(c.svg, 'path', { d: wave(c.w, c.h * 0.16, 0.6 * s, 14, 0) }, { stroke: '--cb-kelp-light', sw: at(0.8 * s, 0.6) });
+      // the kelp, each stalk swaying, with its blades and floats
+      for (x = r() * 16; x < c.w; x += (22 + r() * 34) * at(s, 0.6)) {
+        var top = c.h * (surf ? 0.16 : 0.06), kelp = group(c.svg, {}, { cls: 'art-sway', d: r() * 4, t: 6 + r() * 2 }), lean = (r() - 0.5) * 6 * s;
+        add(kelp, 'path', { d: 'M' + f(x) + ' ' + f(c.h) + 'Q' + f(x + lean) + ' ' + f((c.h + top) / 2) + ' ' + f(x + lean * 0.4) + ' ' + f(top) }, { stroke: '--cb-kelp-stipe', sw: at(1.1 * s, 0.8) });
+        for (var y = c.h - 6 * s, i = 0; y > top + 3 * s; y -= at(7 * s, 4), i++) {
+          var bx = x + lean * (1 - (y - top) / (c.h - top)) * 1.2, dir = i % 2 ? 1 : -1;
+          add(kelp, 'path', { d: 'M' + f(bx) + ' ' + f(y) + 'q' + f(dir * 5 * s) + ' ' + f(-2.4 * s) + ' ' + f(dir * 7 * s) + ' ' + f(-5.6 * s) + 'q' + f(-dir * 4 * s) + ' ' + f(1.2 * s) + ' ' + f(-dir * 7 * s) + ' ' + f(5.6 * s) + 'Z' }, { fill: '--cb-kelp-blade' });
+          if (i % 2 === 0) add(kelp, 'circle', { cx: f(bx + dir * 1.4 * s), cy: f(y - 0.6 * s), r: f(at(1.1 * s, 0.7)) }, { fill: '--cb-kelp-float' });
+        }
+      }
+      // bubbles
+      for (x = r() * 30; x < c.w; x += 26 + r() * 40) {
+        add(c.svg, 'circle', { cx: f(x), cy: f(c.h * (0.3 + r() * 0.6)), r: f(at((0.6 + r() * 0.9) * s, 0.6)) }, { stroke: '--cb-kelp-bubble', sw: at(0.4 * s, 0.35), cls: 'art-twinkle', d: r() * 4, t: 4 + r() * 2 });
+      }
+      // an otter floating at the surface now and then, where there is a surface
+      if (surf) {
+        for (x = 70 + r() * 80; x < c.w - 30; x += 230 + r() * 200) kelpOtter(c.svg, x, c.h * 0.17, at(c.h / 30 * 0.62, 0.5));
+      }
+    }
+  };
+
   /* BLACK LEATHER LAGOON (2026-10-18), after the street's room and The Cramps,
      to pair with the profile effect of the same name: black water with the
      screen's acid light lying along its edge, reeds with cattails, bats, and now
