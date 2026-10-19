@@ -68,8 +68,24 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-18T11:25Z",
+ "set": "2026-10-19T11:22Z",
  "latest": [
+  {
+   "id": "62qMOIdts8k",
+   "title": "He Built the Green Building Movement. Then His Life Fell Apart | David Gottfried",
+   "channel": "The Midlife Chrysalis Podcast",
+   "published": "2026-10-19T10:00:28Z",
+   "runs": 2901,
+   "search": "green-building"
+  },
+  {
+   "id": "Lj0xoX86wmw",
+   "title": "Open Veins Part I — Solarpunk Future Western Miniseries",
+   "channel": "Shadow Circuits",
+   "published": "2026-10-18T17:53:22Z",
+   "runs": 203,
+   "search": "solarpunk"
+  },
   {
    "id": "0MEAGNLGOLM",
    "title": "03 PodCast Jim Billings Avenel Renewable Energy",
@@ -119,6 +135,14 @@
    "search": "urban-forests"
   },
   {
+   "id": "8t_s-xPsF-8",
+   "title": "Renewable Heat Now October 2026 Power Hour",
+   "channel": "Renewable Heat Now",
+   "published": "2026-10-16T22:18:25Z",
+   "runs": 3494,
+   "search": "renewable-energy"
+  },
+  {
    "id": "umX7Aj6WP0I",
    "title": "Urban Farming | Grow Little For Big Impact | FULL HOUR",
    "channel": "Rosie On The House",
@@ -143,6 +167,14 @@
    "search": "solarpunk"
   },
   {
+   "id": "vFAVH9rJsHY",
+   "title": "Urban Green Spaces for Climate-Resilient Cities | RealUrbanGreen",
+   "channel": "I BORGHI PIU' BELLI D'ITALIA",
+   "published": "2026-10-16T14:36:37Z",
+   "runs": 56,
+   "search": "green-spaces"
+  },
+  {
    "id": "N_C1mX3IKww",
    "title": "The EU, is it Solarpunk?",
    "channel": "Pinpin - Solar Punk",
@@ -157,22 +189,6 @@
    "published": "2026-10-16T09:36:13Z",
    "runs": 399,
    "search": "green-building"
-  },
-  {
-   "id": "KxEjVWz1umU",
-   "title": "The Energy Rangers Program: Exploring Renewable Energy in Cumberland",
-   "channel": "ACET",
-   "published": "2026-10-15T23:13:20Z",
-   "runs": 330,
-   "search": "renewable-energy"
-  },
-  {
-   "id": "Ej1PLDbX1ys",
-   "title": "Exploring Bellevue's park and green spaces",
-   "channel": "WKRN News 2",
-   "published": "2026-10-15T22:07:53Z",
-   "runs": 152,
-   "search": "green-spaces"
   },
   {
    "id": "Z7OBdYxkcHg",
@@ -191,14 +207,6 @@
    "search": "urban-farms"
   },
   {
-   "id": "r-a-FXO3qH8",
-   "title": "Bullu & Robo Save the Rainbow City | A Solarpunk &  Hopepunk Animation",
-   "channel": "Bullu and Robo",
-   "published": "2026-10-14T22:41:34Z",
-   "runs": 86,
-   "search": "solarpunk"
-  },
-  {
    "id": "qhFv7-aLmUM",
    "title": "Growing the Urban Forest (2026 Tree Keeper training, part 3)",
    "channel": "Durham County EMGV Training",
@@ -215,14 +223,6 @@
    "search": "urban-forests"
   },
   {
-   "id": "1dA4_7Pmx8s",
-   "title": "Green Buildings & Smart Landscaping AI + BIM for Builders, Developers & Homeowners | The Nirgudwar’s",
-   "channel": "The Nirgudwar's",
-   "published": "2026-10-14T05:39:48Z",
-   "runs": 95,
-   "search": "green-building"
-  },
-  {
    "id": "BRfZMoNQI5E",
    "title": "How to Grow a Food Forest in Pots — Even in a Tiny Space!",
    "channel": "Plantspace Collective",
@@ -233,34 +233,6 @@
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "9pIycvISHKE",
-   "search": "green-spaces",
-   "title": "Giving one of Runcorn's Green spaces, some much needed love. Using ECOPIN",
-   "channel": "RecycALAN",
-   "published": "2026-10-11T13:38:16Z",
-   "runs": 448,
-   "state": "screen"
-  },
-  {
-   "id": "Rlve1GUSLFk",
-   "search": "green-spaces",
-   "title": "🌿 A Rainy Day in the City  Green Spaces and Wet Streets",
-   "channel": "Sons da Chuva",
-   "published": "2026-10-12T09:17:52Z",
-   "runs": 122,
-   "state": "left",
-   "why": "filed under Music"
-  },
-  {
-   "id": "xHH2GZRoZdc",
-   "search": "green-spaces",
-   "title": "Triangular Park at Lahore Smart City | Green Spaces for Everyday Living",
-   "channel": "Lahore Smart City",
-   "published": "2026-10-12T11:00:52Z",
-   "runs": 15,
-   "state": "screen"
-  },
   {
    "id": "dwrJP_nzBO0",
    "search": "green-spaces",
@@ -316,6 +288,15 @@
    "state": "screen"
   },
   {
+   "id": "vFAVH9rJsHY",
+   "search": "green-spaces",
+   "title": "Urban Green Spaces for Climate-Resilient Cities | RealUrbanGreen",
+   "channel": "I BORGHI PIU' BELLI D'ITALIA",
+   "published": "2026-10-16T14:36:37Z",
+   "runs": 56,
+   "state": "screen"
+  },
+  {
    "id": "nj8axCaB5PE",
    "search": "green-spaces",
    "title": "🇬🇧 Cycling Through London on a Sunny Day | Streets, Architecture & Green Spaces | 4K",
@@ -331,15 +312,6 @@
    "channel": "Lights On You",
    "published": "2026-10-17T07:17:39Z",
    "runs": 848,
-   "state": "screen"
-  },
-  {
-   "id": "iRaOEtT5f5E",
-   "search": "green-building",
-   "title": "🌿 GREEN BUILDING Explained! 🏢 | Sustainable Buildings & Energy Efficiency | Engineers View",
-   "channel": "கற்றது தமிழ்",
-   "published": "2026-10-11T16:27:25Z",
-   "runs": 94,
    "state": "screen"
   },
   {
@@ -406,6 +378,15 @@
    "state": "screen"
   },
   {
+   "id": "c553DS6qNOE",
+   "search": "green-building",
+   "title": "The Sedona Model by Green Building Group",
+   "channel": "Green Building Group",
+   "published": "2026-10-14T22:23:44Z",
+   "runs": 117,
+   "state": "screen"
+  },
+  {
    "id": "Z7OBdYxkcHg",
    "search": "green-building",
    "title": "Green Building: Does the Investment Case Stack Up?",
@@ -424,21 +405,12 @@
    "state": "screen"
   },
   {
-   "id": "csZz44jAHXQ",
-   "search": "urban-forests",
-   "title": "Voices from the Forest / Episode 1 / Naomi Zürcher: Who owns the urban forest?",
-   "channel": "Urban Forestry Network",
-   "published": "2026-10-12T06:08:50Z",
-   "runs": 2092,
-   "state": "screen"
-  },
-  {
-   "id": "fCJsvb6rn28",
-   "search": "urban-forests",
-   "title": "Teresa Mannino and Fra Mauro for the Danisinni \"Urban Forest\"",
-   "channel": "VEDI PALERMO",
-   "published": "2026-10-12T10:00:10Z",
-   "runs": 78,
+   "id": "62qMOIdts8k",
+   "search": "green-building",
+   "title": "He Built the Green Building Movement. Then His Life Fell Apart | David Gottfried",
+   "channel": "The Midlife Chrysalis Podcast",
+   "published": "2026-10-19T10:00:28Z",
+   "runs": 2901,
    "state": "screen"
   },
   {
@@ -488,13 +460,14 @@
    "state": "screen"
   },
   {
-   "id": "r1mtTkqwU0s",
-   "search": "urban-farms",
-   "title": "Central Florida's Developing Urban Agriculture",
-   "channel": "Ben Booc",
-   "published": "2026-10-11T16:53:57Z",
-   "runs": 249,
-   "state": "screen"
+   "id": "QS131Nykfl4",
+   "search": "urban-forests",
+   "title": "Urban Forest Breathes Always",
+   "channel": "Hana Almera - Topic",
+   "published": "2026-10-18T17:02:49Z",
+   "runs": 178,
+   "state": "left",
+   "why": "filed under Music"
   },
   {
    "id": "tDzoUbZfCC0",
@@ -616,7 +589,7 @@
    "state": "screen"
   },
   {
-   "id": "07p3Q1zdrAc",
+   "id": "XN3WtZhwSCc",
    "search": "solarpunk",
    "title": "Solarpunk Ambient LIVESTREAM",
    "state": "pending",
@@ -628,64 +601,6 @@
    "title": "Playing SolarPunk, a Gorgeous new game!",
    "state": "door",
    "why": "age-gated"
-  },
-  {
-   "id": "FAit-sbutHw",
-   "search": "solarpunk",
-   "title": "Solarpunk Ambient Music 🌿 Relaxing in a Green Future Utopia (4K)",
-   "channel": "Aetheria: Sci-Fi Ambient",
-   "published": "2026-10-11T12:00:37Z",
-   "runs": 1968,
-   "state": "screen"
-  },
-  {
-   "id": "_i-LcqcR8-0",
-   "search": "solarpunk",
-   "title": "New And Improved Dining Space | Part 65 | Solarpunk",
-   "channel": "True Blue",
-   "published": "2026-10-11T13:18:40Z",
-   "runs": 4003,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "gI6xio3trAU",
-   "search": "solarpunk",
-   "title": "Solarpunk | Welcome to the Cosiest Game I Have Ever Played! [1]",
-   "channel": "Friendly Corner",
-   "published": "2026-10-11T16:00:29Z",
-   "runs": 1072,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "0Xk1HB-MlBM",
-   "search": "solarpunk",
-   "title": "The Time I have here is priceless. #Solarpunk Homestead",
-   "channel": "Alex Jurj SolarPunk",
-   "published": "2026-10-11T17:00:35Z",
-   "runs": 405,
-   "state": "screen"
-  },
-  {
-   "id": "1D5fDT5v7DE",
-   "search": "solarpunk",
-   "title": "SolarPunk: More Frosty Bits! Episode 18",
-   "channel": "Jade Arcade - Gaming",
-   "published": "2026-10-12T04:00:29Z",
-   "runs": 3163,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "lBW__L8LdoQ",
-   "search": "solarpunk",
-   "title": "Solarpunk Elrona taking a walk",
-   "channel": "dangerism",
-   "published": "2026-10-12T09:58:19Z",
-   "runs": 7,
-   "state": "left",
-   "why": "filed under Gaming"
   },
   {
    "id": "SmCtdkdR0WA",
@@ -794,6 +709,16 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "yP_1Fho5MWg",
+   "search": "solarpunk",
+   "title": "Solarpunk | E8 ☁️ Cozy Gaming [No Commentary]✨",
+   "channel": "CocoaBeanz",
+   "published": "2026-10-14T22:00:26Z",
+   "runs": 5184,
+   "state": "door",
+   "why": "no embedding"
+  },
+  {
    "id": "r-a-FXO3qH8",
    "search": "solarpunk",
    "title": "Bullu & Robo Save the Rainbow City | A Solarpunk &  Hopepunk Animation",
@@ -863,10 +788,20 @@
   {
    "id": "xO6_SdMOVeM",
    "search": "solarpunk",
-   "title": "My First Day in Solarpunk! 🌴 Exploring a Beautiful Floating World",
+   "title": "Solarpunk DAY 1 🌿 Starting My Life on a Stunning Floating Island!",
    "channel": "FLAT FURY",
    "published": "2026-10-17T06:00:47Z",
    "runs": 1013,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "sGQW1hSZWSU",
+   "search": "solarpunk",
+   "title": "NEW DEMO ALERT before EARLY ACCESS DROP on Cute Solar Punk MMO Loftia!",
+   "channel": "TheOllieEdit",
+   "published": "2026-10-17T14:00:31Z",
+   "runs": 312,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -887,6 +822,55 @@
    "channel": "TheDevilDBP (Aka DBPTrolling)",
    "published": "2026-10-17T17:30:14Z",
    "runs": 9413,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "NKPsizvh3-4",
+   "search": "solarpunk",
+   "title": "[CHILL STREAM] The punk was the friends we made along the way - Solarpunk Playthrough (Part 5)",
+   "channel": "The Quiet Part",
+   "published": "2026-10-18T00:31:25Z",
+   "runs": 13993,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "Lj0xoX86wmw",
+   "search": "solarpunk",
+   "title": "Open Veins Part I — Solarpunk Future Western Miniseries",
+   "channel": "Shadow Circuits",
+   "published": "2026-10-18T17:53:22Z",
+   "runs": 203,
+   "state": "screen"
+  },
+  {
+   "id": "2qU5iOAWVsU",
+   "search": "solarpunk",
+   "title": "[CHILL STREAM] Kinda sick of farming at this point... - Solarpunk Playthrough (Part 6)",
+   "channel": "The Quiet Part",
+   "published": "2026-10-19T01:04:20Z",
+   "runs": 11866,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "pCBwTJOV6Ss",
+   "search": "solarpunk",
+   "title": "SolarPunk I Researched Sprinklers! Part 4",
+   "channel": "vSuperDuke",
+   "published": "2026-10-19T02:22:15Z",
+   "runs": 1615,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "rlCKuorXOfY",
+   "search": "solarpunk",
+   "title": "Big Rooms Are Tough | Part 68 | Solarpunk",
+   "channel": "True Blue",
+   "published": "2026-10-19T10:55:48Z",
+   "runs": 3713,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -945,6 +929,15 @@
    "state": "screen"
   },
   {
+   "id": "qdqcMR8Mrq8",
+   "search": "renewable-energy",
+   "title": "How Other Towns are Saving on Renewables",
+   "channel": "Mianus River Fishway - Greenwich Cons. Comm.",
+   "published": "2026-10-14T16:40:27Z",
+   "runs": 3766,
+   "state": "screen"
+  },
+  {
    "id": "iGleOsVUb3M",
    "search": "renewable-energy",
    "title": "Long-Duration Energy Storage & Renewable Power for Data Centers | Ore Energy",
@@ -960,6 +953,15 @@
    "channel": "ACET",
    "published": "2026-10-15T23:13:20Z",
    "runs": 330,
+   "state": "screen"
+  },
+  {
+   "id": "8t_s-xPsF-8",
+   "search": "renewable-energy",
+   "title": "Renewable Heat Now October 2026 Power Hour",
+   "channel": "Renewable Heat Now",
+   "published": "2026-10-16T22:18:25Z",
+   "runs": 3494,
    "state": "screen"
   },
   {
