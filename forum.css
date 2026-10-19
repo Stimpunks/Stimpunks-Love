@@ -141,6 +141,7 @@ a.fm-card .fm-card__title { color: var(--cb-amber); text-decoration: underline; 
 .fm-cb__head { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
 .fm-cb__head .cb-tag { margin-left: 0; }
 .fm-cb__time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
+.fm-cb__edited { font-size: 13px; color: var(--cb-amber-2); }
 .fm-cb__words blockquote, .fm-cb__words pre, .fm-cb__words code, .fm-cb__words hr { border-color: var(--cb-amber-2); }
 .fm-cb .cb-btn { justify-self: start; color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2); }
 .fm-from { display: grid; gap: 8px; }

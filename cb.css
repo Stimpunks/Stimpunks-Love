@@ -557,6 +557,17 @@ button.cb-handle {
   cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px;
 }
 .cb-time { margin-left: auto; font-size: 13px; color: var(--cb-amber-2); }
+/* EDITED, after the time, in the time's own ink, so no pair is new. */
+.cb-edited { font-size: 13px; color: var(--cb-amber-2); }
+/* EDIT: the words open in a box where they were, on the readout, so its
+   hint is the readout's quiet amber rather than the case's steel, and the
+   box is edged in that amber, the way the # list is, because steel was only
+   ever measured on the case. */
+.cb-msg > .cb-edit { grid-column: 1 / -1; grid-row: 3; display: grid; gap: 6px; margin: 2px 0 0; min-width: 0; }
+.cb-edit .cb-lab { margin: 0; }
+.cb-edit .cb-say { border-color: var(--cb-amber-2); }
+.cb-edit .cb-hint { margin: 0; color: var(--cb-amber-2); }
+.cb-edit__row { justify-content: flex-end; }
 .cb-text { overflow-wrap: anywhere; display: grid; gap: 6px; min-width: 0; }
 /* BASIC MARKDOWN, every piece in the log's own amber on the readout's black,
    so it brings no pair check-contrast.py has not measured: weight, slope and a

@@ -1404,6 +1404,11 @@
       me.pickKey(e);
       if (e.defaultPrevented || e.isComposing) return;
       if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); me.transmit(); }
+      // Up in an empty box edits your newest message, the way chat does.
+      if (e.key === 'ArrowUp' && !say.value && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
+        var last = me.lastMine();
+        if (last) { e.preventDefault(); me.editStart(last); }
+      }
     });
     say.addEventListener('input', function () { me.grow(); });
     say.addEventListener('blur', function () { me.close(); });
@@ -2128,15 +2133,24 @@
           URL.revokeObjectURL(this.pics[gone.dataset.pic]);
           delete this.pics[gone.dataset.pic];
         }
+        // The message you were editing went: the keyboard goes to the
+        // message box rather than to nowhere, and the radio says why.
+        if (this.editing && this.editing.li === lis[i]) {
+          var held = this.editing.box.contains(this.box.getRootNode().activeElement);
+          this.editing = null;
+          if (held && this.say.offsetParent) this.say.focus();
+          this.tell('The message you were editing has gone off the air.');
+        }
         lis[i].remove();
       }
     }
     for (i = 0; i < messages.length; i++) {
       var m = messages[i];
       if (this.seen[m.id]) {
-        // Already on the log: only its reactions can have changed.
+        // Already on the log: only its words, if its sender edited it, and
+        // its reactions can have changed.
         var was = this.msgLi(m.id);
-        if (was) this.drawReactions(was, m);
+        if (was) { this.drawWords(was, m); this.drawReactions(was, m); }
         continue;
       }
       this.seen[m.id] = true;
@@ -2155,8 +2169,9 @@
       head.appendChild(when);
       li.appendChild(head);
       var said = el('div', 'cb-text');
-      said.cbRaw = m.text;
+      said.cbRaw = m.text || '';
       li.appendChild(md(said, m.text));
+      this.markEdited(li, m);
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
       if (m.avatar) li.appendChild(avatarSticker(m.avatar));
@@ -2179,12 +2194,7 @@
          Ryan brought, 2026-10-17: a row of words on every message was a lot to
          look at). cb.css shows them while a message is pointed at or has the
          keyboard in it, and always where nothing can point. */
-      var acts = el('div', 'cb-acts');
-      acts.appendChild(this.reactBtn(m, li));
-      var more = this.moreFor(m, li);
-      if (more) acts.appendChild(more.btn);
-      li.appendChild(acts);
-      if (more) li.appendChild(more.box);
+      this.drawActs(li, m);
       this.log.appendChild(li);
       if (news && !(mine && m.handle === this.state.handle)) this.speak(li);
     }
@@ -2194,8 +2204,61 @@
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
   };
 
-  /* MORE, the three dots: Copy and Take off, folded under the message's line.
-     A disclosure and not an ARIA menu: a row of two ordinary buttons straight
+  /* React and More, after everything else in the message (above for why).
+     Drawn again only when an edit gives a message words or takes them all
+     away, because Copy and Take to the forums are only on a message with
+     words in it; the keyboard goes back to More if it was in them. */
+  Radio.prototype.drawActs = function (li, m) {
+    var on = this.box.getRootNode().activeElement;
+    var was = li.querySelector(':scope > .cb-acts'), old = li.querySelector(':scope > .cb-more-menu');
+    var held = !!on && ((was && was.contains(on)) || (old && old.contains(on)));
+    if (was) was.remove();
+    if (old) old.remove();
+    var acts = el('div', 'cb-acts');
+    acts.appendChild(this.reactBtn(m, li));
+    var more = this.moreFor(m, li);
+    if (more) acts.appendChild(more.btn);
+    li.appendChild(acts);
+    if (more) li.appendChild(more.box);
+    if (held) (more ? more.btn : acts.firstChild).focus();
+  };
+
+  /* AN EDIT arrives as the same message with new words and a later `edited`
+     (Ryan, 2026-10-18). The words and the mark are drawn again and nothing
+     else on the message moves. The log is a live region, so the new words are
+     read out as they land, after the mark the first time: what a screen
+     reader hears is that it was edited, and what it says now. */
+  Radio.prototype.drawWords = function (li, m) {
+    var said = li.querySelector(':scope > .cb-text');
+    if (!said) return;
+    var text = m.text || '';
+    if (said.cbRaw === text && (li.dataset.edited || '') === String(m.edited || '')) return;
+    var had = !!said.cbRaw;
+    this.markEdited(li, m);
+    said.cbRaw = text;
+    said.textContent = '';
+    md(said, text);
+    if (had !== !!text) this.drawActs(li, m);
+  };
+
+  /* EDITED, after the time on the message's line, with the time of the
+     latest edit. The words it replaced are not kept anywhere, so there is
+     nothing more to show. */
+  Radio.prototype.markEdited = function (li, m) {
+    var head = li.querySelector(':scope > .cb-head');
+    var mark = head && head.querySelector(':scope > .cb-edited');
+    li.dataset.edited = m.edited ? String(m.edited) : '';
+    if (!m.edited) { if (mark) mark.remove(); return; }
+    if (!mark) {
+      mark = el('time', 'cb-edited');
+      head.appendChild(mark);
+    }
+    mark.textContent = 'edited ' + clock(m.edited);
+    mark.dateTime = new Date(m.edited).toISOString();
+  };
+
+  /* MORE, the three dots: Copy, Edit and Take off, folded under the message's
+     line. A disclosure and not an ARIA menu: a row of ordinary buttons straight
      under the line, ready from the start and hidden, so opening it adds
      nothing to the log's live region, and the keyboard reaches them with Tab
      like everything else on the radio. Escape folds it and puts the keyboard
@@ -2203,7 +2266,17 @@
      yours to take off has no dots at all. */
   Radio.prototype.moreFor = function (m, li) {
     var me = this, items = [];
-    if (m.text) items.push(this.copyBtn(m));
+    if (m.text) items.push(this.copyBtn(m, li));
+    /* EDIT is on your own messages, and only yours, even for the base (Ryan,
+       2026-10-18): which are yours to edit is canEdit's rule in lib.mjs,
+       asked again by the server. */
+    if (this.mayEdit(m)) {
+      var ed = el('button', 'cb-btn cb-edit-btn', 'Edit');
+      ed.type = 'button';
+      ed.setAttribute('aria-label', 'Edit your message ' + sentAt(m.t));
+      ed.addEventListener('click', function () { me.editStart(m.id); });
+      items.push(ed);
+    }
     /* TAKE TO THE FORUMS, for a claimed username, on a message with words in
        it, anywhere but a room that keeps to itself (the server refuses that
        too). It only ticks; the server copies the messages off the channel. */
@@ -2296,7 +2369,7 @@
     var h = el('p', 'cb-h3', 'Take to the forums');
     h.id = 'cb-forum-pick-h';
     box.appendChild(h);
-    box.appendChild(el('p', 'cb-quiet', 'Tick the messages to start a forum topic with. They go in exactly as they were sent, handles and times and all, and whoever sent one can take it out again. Pictures and stickers stay behind. Ask everybody in the conversation first, as you would before a screenshot.'));
+    box.appendChild(el('p', 'cb-quiet', 'Tick the messages to start a forum topic with. They go in exactly as they are on the channel, handles and times and all, edited marks too, and whoever sent one can take it out again. Pictures and stickers stay behind. Ask everybody in the conversation first, as you would before a screenshot.'));
     var list = el('ul', 'cb-forum-pick__list');
     (this.onAir || []).forEach(function (m) {
       if (!m.text) return;
@@ -2338,7 +2411,7 @@
   /* COPY, on every message with words in it: the words as they were typed,
      Markdown and all, onto your own clipboard. The answer is on the button and
      on the radio's own line under the log, so it is seen where the hand is. */
-  Radio.prototype.copyBtn = function (m) {
+  Radio.prototype.copyBtn = function (m, li) {
     var me = this, b = el('button', 'cb-btn cb-copy', 'Copy');
     b.type = 'button';
     b.setAttribute('aria-label', 'Copy ' + m.handle + '’s message ' + sentAt(m.t));
@@ -2349,7 +2422,9 @@
         setTimeout(function () { b.textContent = 'Copy'; }, 1800);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(m.text).then(done, function () { me.tell('Your browser would not let the radio copy that.'); });
+        // The words on the message now, which an edit may have changed.
+        var said = li && li.querySelector(':scope > .cb-text');
+        navigator.clipboard.writeText(said ? said.cbRaw : m.text).then(done, function () { me.tell('Your browser would not let the radio copy that.'); });
       } else me.tell('Your browser would not let the radio copy that.');
     });
     return b;
@@ -5204,9 +5279,10 @@
     this.picReady.hidden = true;
   };
 
-  // The message box grows with what is in it, to about eight lines.
-  Radio.prototype.grow = function () {
-    var t = this.say;
+  // The message box grows with what is in it, to about eight lines, and so
+  // does the box an edit opens.
+  Radio.prototype.grow = function (box) {
+    var t = box || this.say;
     t.style.height = 'auto';
     var line = parseFloat(getComputedStyle(t).lineHeight) || 20;
     t.style.height = Math.min(t.scrollHeight + 4, line * 8 + 16) + 'px';
@@ -5245,6 +5321,117 @@
   Radio.prototype.mine = function (m) {
     if (m.base || fold(m.handle) !== fold(this.state.handle)) return false;
     return !m.claimed || claimedPass(this.state.pass);
+  };
+
+  /* Yours to edit, as canEdit in lib.mjs reads it: your handle, folded; a
+     CLAIMED message only with a claimed pass; a BASE message only with the
+     base's. Unlike Take off, the base gets no further than its own. */
+  Radio.prototype.mayEdit = function (m) {
+    if (fold(m.handle) !== fold(this.state.handle)) return false;
+    if (m.base) return !!this.state.base;
+    return !m.claimed || claimedPass(this.state.pass);
+  };
+
+  /* Your newest message on the channel you can edit, for Up in an empty
+     message box. */
+  Radio.prototype.lastMine = function () {
+    var list = this.onAir || [];
+    for (var i = list.length - 1; i >= 0; i--) if (this.mayEdit(list[i])) return list[i].id;
+    return null;
+  };
+
+  /* EDIT opens the words in a box where they were (Ryan, 2026-10-18). Enter
+     saves and Shift and Enter makes a new line, as in the message box, and
+     Escape puts the message back as it was. Only the words: a picture or a
+     sticker stays as it is. One edit at a time, and the box is not a live
+     region, so opening it reads nothing out. */
+  Radio.prototype.editStart = function (id) {
+    var me = this, li = this.msgLi(id);
+    if (!li) return;
+    if (this.editing) this.editStop();
+    shutMore(li);
+    shutPick(li);
+    var said = li.querySelector(':scope > .cb-text');
+    var box = el('div', 'cb-edit');
+    box.setAttribute('aria-live', 'off');
+    var lab = el('label', 'cb-lab', 'Edit your message');
+    lab.htmlFor = 'cb-edit-say';
+    var t = el('textarea', 'cb-say cb-say--msg cb-edit__say');
+    t.id = 'cb-edit-say';
+    t.rows = 2;
+    t.maxLength = MESSAGE_MAX;
+    t.autocomplete = 'off';
+    t.value = said ? said.cbRaw : '';
+    t.setAttribute('aria-describedby', 'cb-edit-hint');
+    t.setAttribute('enterkeyhint', 'done');
+    var hint = el('p', 'cb-hint', 'Enter saves, Shift and Enter makes a new line, Escape leaves it as it was. It will say edited beside the time.');
+    hint.id = 'cb-edit-hint';
+    var row = el('div', 'cb-row cb-edit__row');
+    var save = el('button', 'cb-btn cb-edit__save', 'Save');
+    save.type = 'button';
+    var no = el('button', 'cb-btn', 'Cancel');
+    no.type = 'button';
+    save.addEventListener('click', function () { me.editSave(); });
+    no.addEventListener('click', function () { me.editStop(true); me.tell(''); });
+    t.addEventListener('input', function () { me.grow(t); });
+    t.addEventListener('keydown', function (e) {
+      if (e.isComposing) return;
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); me.editStop(true); me.tell(''); }
+      else if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); me.editSave(); }
+    });
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && e.target !== t) { e.preventDefault(); me.editStop(true); me.tell(''); }
+    });
+    row.appendChild(save);
+    row.appendChild(no);
+    box.appendChild(lab);
+    box.appendChild(t);
+    box.appendChild(hint);
+    box.appendChild(row);
+    if (said) { said.hidden = true; said.after(box); }
+    else li.appendChild(box);
+    this.editing = { id: id, li: li, box: box, say: t };
+    t.focus();
+    t.setSelectionRange(t.value.length, t.value.length);
+    this.grow(t);
+  };
+
+  /* Closing the box puts the words back where they were. `back` puts the
+     keyboard on the message's More, which the edit came from. */
+  Radio.prototype.editStop = function (back) {
+    var ed = this.editing;
+    if (!ed) return;
+    this.editing = null;
+    ed.box.remove();
+    var said = ed.li.querySelector(':scope > .cb-text');
+    if (said) said.hidden = false;
+    if (!back) return;
+    var to = ed.li.isConnected && ed.li.querySelector(':scope > .cb-acts > .cb-more');
+    if (to) to.focus(); else if (this.say.offsetParent) this.say.focus();
+  };
+
+  Radio.prototype.editSave = function () {
+    var me = this, ed = this.editing;
+    if (!ed || ed.busy) return;
+    var room = this.tunedRoom(), b = { id: ed.id, text: ed.say.value.trim() };
+    if (room) b.room = room;
+    ed.busy = true;
+    this.tell('Saving your edit…');
+    call('/cb/edit', { body: b }, this.state.pass).then(function (r) {
+      ed.busy = false;
+      if (r.status === 401) return me.lost();
+      var here = room === me.tunedRoom();
+      if (r.status === 200) {
+        if (me.editing === ed) me.editStop(true);
+        if (here) me.show(r.body.messages || []);
+        me.tell(r.body.same ? 'Nothing changed: those are the words it already had.' : 'Your message is edited.');
+        return;
+      }
+      // Gone, or not yours after all: the answer carries the channel.
+      if (here && r.body && r.body.messages) me.show(r.body.messages);
+      if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
+      me.tell(why(r, 'That edit did not go out. Try again.'));
+    }).catch(function () { ed.busy = false; me.tell('No signal. That edit did not go out.'); });
   };
 
   Radio.prototype.moderate = function (what, own) {
@@ -5395,6 +5582,7 @@
     save(this.state);
     this.bandShown();
     if (this.tunedRoom() === was) return;
+    this.editing = null;
     this.log.textContent = '';
     this.seen = {};
     this.heard = false;

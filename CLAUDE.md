@@ -3743,6 +3743,17 @@ community password cannot reach back to the morning. Clear stays the base's, and
 `roomAllows` now, which it never did. `Radio.prototype.mine` in `cb.js` copies the rule only to draw the
 button; change both. Nothing marks where a message was, as with the base's: it goes as if its 48 hours were up.
 
+**EDIT IS ON YOUR OWN MESSAGES, AND THE BASE GETS NO FURTHER THAN ITS OWN.** Ryan, 2026-10-18. `/cb/edit`
+(`editMessage` in `lib.mjs`) replaces a message's words and adds `edited`, the time of the latest edit; the
+handle, marks, `t`, picture, sticker and reactions stay, so it still goes 48 hours after it was SENT.
+**`canEdit` is `canTakeOff` without the base's reach**: taking any message down is the base's, putting words in
+somebody's mouth is nobody's. `Radio.prototype.mayEdit` in `cb.js` copies it to draw the button; change both.
+**The words it replaces are not kept anywhere**, and the friendly edit is an edit history "for transparency":
+the mark is what says it changed. An edit tells only somebody it newly @mentions (`notifyEdit`, the forum's
+rule), and a copy taken to the forums carries `edited`, which is why "copied exactly as they were sent" now
+reads "as they are on the channel". The edit box opens in the words' place in the log with `aria-live="off"`;
+Up in an empty message box edits your newest message.
+
 **A MESSAGE IS 2,000 CHARACTERS AND BASIC MARKDOWN, DRAWN AS ELEMENTS AND NEVER AS HTML.** Ryan,
 2026-09-29. `MESSAGE_MAX` and `cleanMessage` in `lib.mjs` keep a message's lines (the Slake, the
 chalkboard and the bowls keep `TEXT_MAX`'s 280 and one line). `md()` in `cb.js` builds every piece

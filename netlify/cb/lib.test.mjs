@@ -30,7 +30,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
-  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -43,7 +43,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
-  mentions, notifyMessage, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET } from './lib.mjs';
+  mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -259,6 +259,68 @@ test('anybody takes off their own message, a claimed one only with its password,
   assert.equal(canTakeOff(null, ada), false);
   assert.equal(canTakeOff(asAda, null), false);
 });
+
+test('only whoever sent a message edits it, the base no one else\'s, and an edit changes the words and nothing else', () => {
+  const ada = { id: 'a', handle: 'Ada', text: 'hi', t: 1 };
+  const adaClaimed = { id: 'c', handle: 'Ada', text: 'hi', t: 2, claimed: true };
+  const fromBase = { id: 'b', handle: 'Juniper', text: 'hi', t: 3, base: true, claimed: true };
+  const asAda = { role: 'mobile', handle: 'Ada', roles: new Set() };
+  const asAdaClaimed = { role: 'mobile', handle: 'Ada', roles: new Set(), account: true };
+  const base = { role: 'base', handle: 'Juniper', roles: new Set(['moderator']) };
+  assert.equal(canEdit(asAda, ada), true, 'a sender could not edit their own message');
+  assert.equal(canEdit({ ...asAda, handle: ' ADA ' }, ada), true, 'the handle was not folded');
+  assert.equal(canEdit({ ...asAda, handle: 'Bo' }, ada), false, 'somebody edited another person\'s message');
+  assert.equal(canEdit(asAda, adaClaimed), false, 'a CLAIMED message was edited with the community password');
+  assert.equal(canEdit(asAdaClaimed, adaClaimed), true, 'a claimed username could not edit its own message');
+  // The base takes any message off the air, and edits only its own.
+  assert.equal(canEdit(base, ada), false, 'the base put words in somebody else\'s mouth');
+  assert.equal(canEdit(base, fromBase), true, 'the base could not edit its own message');
+  assert.equal(canEdit({ role: 'mobile', handle: 'Juniper', roles: new Set(), account: true }, fromBase), false, 'a BASE message was edited by somebody not the base');
+  assert.equal(canEdit(null, ada), false);
+  assert.equal(canEdit(asAda, null), false);
+
+  const heart = REACTIONS[0][0];
+  const pic = '00000000-0000-4000-8000-000000000000';
+  const list = [
+    { id: 'a', handle: 'Ada', text: 'helo', t: 1000, claimed: false, reactions: { [heart]: ['Bo'] } },
+    { id: 'p', handle: 'Ada', text: 'look', t: 2000, img: pic, alt: 'a moth' },
+    { id: 'o', handle: 'Bo', text: 'yo', t: 3000 }];
+  const r = editMessage(list, 'a', 'hello\r\n\n\n\nthere  ', asAda, 5000);
+  const m = r.list[0];
+  assert.equal(m.text, 'hello\n\nthere', 'an edit was not tidied the way a message is');
+  assert.equal(m.edited, 5000);
+  assert.equal(m.t, 1000, 'an edit moved when the message was sent, and so when it goes');
+  assert.deepEqual(m.reactions, list[0].reactions, 'an edit lost the reactions');
+  assert.equal(r.before, 'helo');
+  assert.equal(list[0].text, 'helo', 'an edit changed the list it was given');
+  assert.deepEqual(Object.keys(m).sort(), ['claimed', 'edited', 'handle', 'id', 'reactions', 't', 'text'], 'an edit kept something more than the words');
+  assert.equal(shape(r.list)[0].edited, 5000, 'the radio is not told a message was edited');
+  assert.equal(shape(list)[0].edited, undefined);
+  assert.equal(editMessage(list, 'a', 'helo', asAda).same, true, 'the same words again changed something');
+  assert.equal(editMessage(list, 'a', '   ', asAda).why, 'empty', 'a message was edited down to nothing');
+  const bare = editMessage(list, 'p', '', asAda, 6000).list[1];
+  assert.equal(bare.text, '', 'a picture could not lose its words');
+  assert.equal(bare.img, pic, 'an edit lost the picture');
+  assert.equal(bare.alt, 'a moth', 'an edit lost the picture\'s description');
+  assert.equal(editMessage(list, 'a', 'x'.repeat(MESSAGE_MAX + 1), asAda).why, 'bad');
+  assert.equal(editMessage(list, 'o', 'mine now', asAda).why, 'not yours');
+  assert.equal(editMessage(list, 'gone', 'hi', asAda).why, 'gone');
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen people editing their own messages at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: none told it worked is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const now = Date.now();
+    await updateChannel((list) => [...list, ...Array.from({ length: 15 }, (_, i) => ({ id: `m${i}`, handle: `p${i}`, text: 'before', t: now }))], s);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) =>
+      updateChannel((list) => editMessage(list, `m${i}`, `after ${i}`, { role: 'mobile', handle: `p${i}`, roles: new Set() }).list || null, s)));
+    const worked = told.map((r, i) => (r.status === 'fulfilled' ? i : null)).filter((i) => i !== null);
+    for (const f of told.filter((r) => r.status === 'rejected')) assert.equal(f.reason.message, 'busy');
+    const { messages } = await readChannel(s);
+    assert.deepEqual(worked.filter((i) => messages.find((m) => m.id === `m${i}`).text !== `after ${i}`), [], 'an edit that was told it worked is missing');
+    assert.equal(messages.filter((m) => m.edited).length, worked.length, 'an edit nobody was told about is there');
+  });
+}
 
 // THE BRASS TACKS BOARD.
 const MOD = { role: 'base', handle: 'Juniper', roles: new Set(['moderator']) };
@@ -2321,7 +2383,7 @@ test('messages are copied off the channel exactly as sent, and only their sender
   const now = Date.now();
   await updateChannel((l) => [...l,
     { id: 'm1', handle: 'Ada', text: 'Shall we keep this?', t: now - 3000, claimed: true },
-    { id: 'm2', handle: 'Cy', text: 'Yes **please**', t: now - 2000 },
+    { id: 'm2', handle: 'Cy', text: 'Yes **please**', t: now - 2000, edited: now - 1500 },
     { id: 'm3', handle: 'Ryan', text: 'Fine by me', t: now - 1000, base: true },
     { id: 'm4', handle: 'Bo', t: now - 500, img: '00000000-0000-4000-8000-000000000000' }], s);
   const r = await cbTranscript(BO, { room: null, ids: ['m1', 'm2', 'm4', 'nope'] }, s);
@@ -2332,6 +2394,9 @@ test('messages are copied off the channel exactly as sent, and only their sender
   const made = (await startTopic(BO, { cat: 'watering-hole', title: 'Keep', from: { room: null, ids: ['m1', 'm2', 'm3'] } }, s, T0, NO_NET)).topic;
   const pid = made.posts[0].id;
   assert.equal(made.posts[0].body, '', 'a topic from the CB needs no words of the copier\'s own');
+  const copies = (await forumTopic(BO, made.id, s, T0)).posts[0].cb.messages;
+  assert.equal(copies.find((m) => m.id === 'm2').edited, now - 1500, 'a copy of an edited message does not say it was edited');
+  assert.equal(copies.find((m) => m.id === 'm1').edited, undefined);
   assert.match((await uncopyMessage(BO, made.id, pid, 'm1', s, T0)).error, /Only whoever sent/);
   assert.match((await uncopyMessage(ADA_AGAIN, made.id, pid, 'm3', s, T0)).error, /Only whoever sent/);
   assert.ok((await uncopyMessage(ADA, made.id, pid, 'm1', s, T0)).topic, 'the sender could not take their message out');
@@ -2573,6 +2638,22 @@ test('a room that keeps to itself tells only the devices that follow it, never a
   const sent = [];
   await notifyMessage({ id: 'q', handle: 'Ada', text: 'hush @bex', t: 1 }, room, s, mods, async (sub) => { sent.push(sub.endpoint); return 201; });
   assert.deepEqual(sent, [cyDev.endpoint], 'a room that keeps to itself was announced to somebody who does not follow it');
+}));
+
+test('an edited message tells only somebody it newly @mentions, never the channel\'s followers again', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const bexDev = aDevice(), cyDev = aDevice(), dovDev = aDevice();
+  await keepDevice(bexDev, issuePass('mobile', 'Bex'), { mentions: true }, s);
+  await keepDevice(cyDev, issuePass('mobile', 'Cy'), { world: true, rooms: ['the-den'] }, s);
+  await keepDevice(dovDev, issuePass('mobile', 'Dov'), { mentions: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const msg = { id: 'e', handle: 'Ada', text: 'see you there @bex and @dov', t: 1, edited: 2 };
+  await notifyEdit(msg, 'see you there @bex', null, s, readMods(''), send);
+  assert.deepEqual(sent.map((x) => [x.to, x.payload.why]), [[dovDev.endpoint, 'mention']], 'an edit told somebody already named, or the followers again');
+  sent.length = 0;
+  await notifyEdit({ ...msg, text: 'see you there' }, 'see you ther', 'the-den', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'fixing a typo was news to a room\'s followers');
 }));
 
 test('a claimed username\'s devices stop at a password change, and go with the username', () => withPasswords(async () => {

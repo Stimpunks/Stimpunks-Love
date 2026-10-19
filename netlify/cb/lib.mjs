@@ -4185,8 +4185,12 @@ function withPreviews(blocks, links) {
 
 function shapeCopied(cb, who) {
   return { room: cb.room || null, day: cb.day,
-    messages: cb.messages.map((m) => ({ id: m.id, handle: m.handle, base: !!m.base, claimed: !!m.claimed && !m.base, t: m.t,
-      blocks: parseBrass(m.text), takeOut: canTakeOff(who, m) })) };
+    messages: cb.messages.map((m) => {
+      const out = { id: m.id, handle: m.handle, base: !!m.base, claimed: !!m.claimed && !m.base, t: m.t,
+        blocks: parseBrass(m.text), takeOut: canTakeOff(who, m) };
+      if (typeof m.edited === 'number') out.edited = m.edited;
+      return out;
+    }) };
 }
 
 function shapePost(p, who, mark) {
@@ -4327,6 +4331,8 @@ export async function cbTranscript(who, from, s = store(), cat = null) {
   return { cb: { room, day: today(), messages: picked.map((m) => {
     const c = { id: m.id, handle: m.handle, t: m.t, text: m.text };
     if (m.base) c.base = true; else if (m.claimed) c.claimed = true;
+    // Its sender edited it: the copy says so, as the channel does.
+    if (typeof m.edited === 'number') c.edited = m.edited;
     return c;
   }) }, short: picked.length < ids.length };
 }
@@ -5202,7 +5208,19 @@ const topicFor = (k) => createHash('sha256').update(`stimpunks-topic\0${k}`).dig
    it, once each, and none that may not. What a notification carries is what
    the service worker needs to say it: who, where, why, and the words if the
    device wants them. The worker puts a room's name to its tag. */
-export async function notifyMessage(msg, room, s = store(), mods = readMods(), send = sendPush) {
+export function notifyMessage(msg, room, s = store(), mods = readMods(), send = sendPush) {
+  return tellDevices(msg, room, null, s, mods, send);
+}
+
+/* An edited message tells only the devices it @mentions now and did not
+   before (Ryan, 2026-10-18, the forum's rule for an edited post): fixing a
+   typo is not news to a room's followers, and a mention added in an edit
+   reaches the person it names, once. */
+export function notifyEdit(msg, before, room, s = store(), mods = readMods(), send = sendPush) {
+  return tellDevices(msg, room, String(before || ''), s, mods, send);
+}
+
+async function tellDevices(msg, room, before, s, mods, send) {
   if (send === sendPush && !pushReady()) return [];
   const devs = await readDevices(s);
   const from = foldHandle(msg.handle), quiet = !!(room && quietRoom(room));
@@ -5210,8 +5228,9 @@ export async function notifyMessage(msg, room, s = store(), mods = readMods(), s
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold === from) continue;
     const w = d.want || {};
-    const followed = room ? (w.rooms || []).includes(room) : !!w.world;
-    const named = !!w.mentions && !quiet && mentions(msg.text, d.pass && d.pass.handle);
+    const h = d.pass && d.pass.handle;
+    const followed = before === null && (room ? (w.rooms || []).includes(room) : !!w.world);
+    const named = !!w.mentions && !quiet && mentions(msg.text, h) && !(before && mentions(before, h));
     if (!followed && !named) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
@@ -5330,6 +5349,53 @@ export function canTakeOff(who, m) {
   return !m.claimed || !!who.account;
 }
 
+/* ── Editing a message ────────────────────────────────────────────────────
+
+   Ryan, 2026-10-18: anybody can edit their own messages on the CB. The words
+   are replaced and nothing else is: the handle, the marks, the time it was
+   sent, its picture or sticker and its reactions stay as they were, and it
+   still goes 48 hours after it was SENT, because onAir reads `t` and an edit
+   never touches it. What it adds is `edited`, the time of the latest edit,
+   which every radio shows beside the message.
+
+   THE WORDS IT REPLACES ARE NOT KEPT. There is no history of a message,
+   here or anywhere: the friendly edit is a list of earlier versions "for
+   transparency", which would keep the words somebody chose to take back.
+   The mark is what tells everybody it changed.
+
+   ONLY WHOEVER SENT IT, and this is canTakeOff without the base's reach: the
+   base can take any message off the air, and putting words in somebody
+   else's mouth is not the same power. So the handle must be the sender's,
+   folded; a CLAIMED message edits only for that username's own password; and
+   a BASE message only for the base, under the same handle. An unclaimed
+   handle is whatever somebody typed, so anybody signed on as it can edit
+   what was said under it, as they could take it off, and the mark says so. */
+export function canEdit(who, m) {
+  if (!who || !m) return false;
+  if (foldHandle(m.handle) !== foldHandle(who.handle)) return false;
+  if (m.base) return who.role === 'base';
+  return !m.claimed || !!who.account;
+}
+
+/* The next list with message `id`'s words replaced by `text`, or why not:
+   'gone', 'not yours', 'bad' (too long, or nothing but spaces) or 'empty'
+   (no words left and nothing else in the message, which is Take off's job).
+   The same words again change nothing and answer `same`. */
+export function editMessage(list, id, text, who, now = Date.now()) {
+  const i = list.findIndex((m) => m.id === id);
+  if (i < 0) return { why: 'gone' };
+  const m = list[i];
+  if (!canEdit(who, m)) return { why: 'not yours' };
+  const words = text == null || String(text).trim() === '' ? '' : cleanMessage(text);
+  if (words === null) return { why: 'bad' };
+  const more = m.img || m.sticker || m.avatar || m.chimera || m.patch || m.jacket;
+  if (!words && !more) return { why: 'empty' };
+  if (words === (m.text || '')) return { same: true, list };
+  const next = list.slice();
+  next[i] = { ...m, text: words, edited: now };
+  return { list: next, before: m.text || '', msg: next[i] };
+}
+
 /* ── Reactions ────────────────────────────────────────────────────────────
 
    Ryan's brief, 2026-09-30: reactions on CB messages. A reaction is one of a
@@ -5410,6 +5476,7 @@ function shapeReactions(rx) {
 export function shape(messages) {
   return messages.map((m) => {
     const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base, claimed: !!m.claimed && !m.base };
+    if (typeof m.edited === 'number') out.edited = m.edited;
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
     const st = m.sticker && shapeSticker(m.sticker);
     if (st) out.sticker = st;

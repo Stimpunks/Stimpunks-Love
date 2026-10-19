@@ -561,6 +561,8 @@
       var tm = el('span', 'fm-cb__time');
       try { tm.textContent = oneDay ? new Date(m.t).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : when(m.t); } catch (e) {}
       head.appendChild(tm);
+      // Its sender edited it on the channel before it was copied.
+      if (m.edited) head.appendChild(el('span', 'fm-cb__edited', 'edited'));
       li.appendChild(head);
       var words = el('div', 'fm-body fm-cb__words');
       blocks(m.blocks, words);
@@ -1568,7 +1570,7 @@
           above.appendChild(el('p', 'fm-answer', why(x, 'Those messages could not be read off the channel just now.')));
           from = null;
         } else {
-          above.appendChild(el('p', null, 'These messages go into the topic exactly as they were sent, with their handles and times, copied off the channel by our server when you post. Pictures and stickers stay behind. Whoever sent one can take it out of the topic again.'));
+          above.appendChild(el('p', null, 'These messages go into the topic exactly as they are on the channel, with their handles and times, and edited on any their sender has edited, copied off the channel by our server when you post. Pictures and stickers stay behind. Whoever sent one can take it out of the topic again.'));
           above.appendChild(el('p', null, 'Ask everybody in the conversation first, as you would before a screenshot.'));
           if (x.body.short) above.appendChild(el('p', 'fm-answer', 'Some of the messages you ticked have gone from the channel, or had no words in them, so they are not here.'));
           above.appendChild(copied({ id: '' }, { id: '', cb: x.body.cb }));
