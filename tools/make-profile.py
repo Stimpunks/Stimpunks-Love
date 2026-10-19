@@ -49,6 +49,13 @@ WHAT IT REFUSES, and why each one is here:
     otters hold paws; no favourite stone in a pouch. Its credit names Helen
     Edgar's Stimpunks Solidarity and Otters and Star Stuff's The Stone You Keep,
     as the cabinet does.
+  · FLYING FAIRY (Ryan, 2026-10-19) is the third: it is drawn in the Fairy
+    Lights theme's declared --cb-fairy-* inks between the effect:fairy markers,
+    because its faeries are the Faery Yurt's own, in that room's colours, five
+    skins and seven hairs among them, which no card's seven could hold. Its
+    credit names Helen Edgar and her Faery Yurt, whose faeries they are. Its
+    faeries are dressed from lists of inks, and an ink named in a list is read
+    like one named on its own, so a list cannot carry an ink past this tool.
   · AN EFFECT'S PASS SHOWN WHERE THE DRAWINGS DO NOT MOVE. Ryan's call,
     2026-10-18: the pass crosses a profile's words, which is the one drawing on
     the radio that does. It is drawn only under :host([data-motion="on"]), at
@@ -182,6 +189,7 @@ def main():
     EFFECT_INKS = {
         "lagoon": ("--lag-", "the Black Leather Lagoon", "that room's"),
         "otters": ("--cb-kelp-", "Otters in the kelp", "the Kelp Forest theme's"),
+        "fairy": ("--cb-fairy-", "Flying Fairy", "the Fairy Lights theme's"),
     }
     blocks = {k: between(src, f"/* effect:{k}:begin */", f"/* effect:{k}:end */", "profile.js") for k in EFFECT_INKS}
     rest_src = src
@@ -190,8 +198,12 @@ def main():
     def uncomment(s):
         return re.sub(r"(?m)^\s*//.*$", "", re.sub(r"/\*.*?\*/", "", s, flags=re.S))
     ink = r"(?:fill|stroke|stop)\s*:\s*(?:[^,}]*\?\s*)?'(--[a-z0-9-]+)'(?:\s*:\s*'(--[a-z0-9-]+)')?"
+    # A list of inks, which a drawing picks from, is read as every ink in it.
+    listed_inks = r"\[\s*'--[a-z0-9-]+'(?:\s*,\s*'--[a-z0-9-]+')*\s*\]"
     def inks(code):
         found = {n for m in re.finditer(ink, code) for n in m.groups() if n}
+        for m in re.finditer(listed_inks, code):
+            found |= set(re.findall(r"'(--[a-z0-9-]+)'", m.group(0)))
         return found | set(re.findall(r"var\(\s*(--[a-z0-9-]+)\s*\)", code))
     theirs = {f"--cb-{x}" for x in PARTS}
     for name in sorted(inks(uncomment(rest_src))):
@@ -216,6 +228,7 @@ def main():
     NEEDS = {
         "lagoon": ("The Cramps", "Lux Interior", "Poison Ivy", "nobody real is drawn"),
         "otters": ("Helen Edgar", "Stimpunks Solidarity and Otters", "The Stone You Keep", "fills nothing"),
+        "fairy": ("Helen Edgar", "Faery Yurt"),
     }
     for key, needs in NEEDS.items():
         if key in listed.get("EFFECTS", []):
@@ -254,7 +267,7 @@ def main():
             "animation" in body and re.search(r"\.(?:pf-fx__|fx-)", sel))
         if moves and 'data-motion="on"' not in sel:
             refuse(f"cb.css moves an effect at {sel.strip()!r}, outside data-motion.")
-    for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()")):
+    for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()"), ("fairy", "fairyMoment()")):
         if f"appendChild({fn})" not in uncomment(blocks[key]) or "pf-fx__moment" not in blocks[key]:
             refuse(f"{EFFECT_INKS[key][1]} has lost its opening across the profile, which Ryan asked for.")
 

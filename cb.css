@@ -141,6 +141,8 @@
   --cb-display: 'Creepster'; --cb-display-scale: 1.05; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="kelp"]) { --cb-case: var(--cb-kelp-case); --cb-bar: var(--cb-kelp-bar); --cb-steel: var(--cb-kelp-steel); --cb-steel-2: var(--cb-kelp-steel-2); --cb-lcd: var(--cb-kelp-lcd); --cb-amber: var(--cb-kelp-amber); --cb-amber-2: var(--cb-kelp-amber-2);
   --cb-display: 'Fredoka'; --cb-display-scale: 1.1; --cb-display-track: .02em; --cb-display-case: none; }
+:host([data-scheme="fairy"]) { --cb-case: var(--cb-fairy-case); --cb-bar: var(--cb-fairy-bar); --cb-steel: var(--cb-fairy-steel); --cb-steel-2: var(--cb-fairy-steel-2); --cb-lcd: var(--cb-fairy-lcd); --cb-amber: var(--cb-fairy-amber); --cb-amber-2: var(--cb-fairy-amber-2);
+  --cb-display: 'Leckerli One'; --cb-display-scale: 1.1; --cb-display-track: .01em; --cb-display-case: none; }
 :host([data-scheme="mordor"]) { --cb-case: var(--cb-mordor-case); --cb-bar: var(--cb-mordor-bar); --cb-steel: var(--cb-mordor-steel); --cb-steel-2: var(--cb-mordor-steel-2); --cb-lcd: var(--cb-mordor-lcd); --cb-amber: var(--cb-mordor-amber); --cb-amber-2: var(--cb-mordor-amber-2);
   --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
@@ -161,6 +163,7 @@
 :host([data-scheme="mordor"]) .cb-radio { border-color: var(--cb-amber); border-radius: 8px; }
 :host([data-scheme="lagoon"]) .cb-radio { border-color: var(--cb-amber); border-radius: 4px; }
 :host([data-scheme="kelp"]) .cb-radio { border-color: var(--cb-amber-2); border-radius: 18px; }
+:host([data-scheme="fairy"]) .cb-radio { border-color: var(--cb-amber); border-radius: 14px; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
    of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
 :host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,
@@ -988,6 +991,86 @@ ol.cb-md-list { list-style: decimal; }
   14%, 100% { opacity: 0; transform: translate(70%, -10%) rotate(-360deg); }
 }
 @keyframes cb-mo-ot-bubble { 0%, 2% { opacity: 0; transform: translateY(0); } 3% { opacity: .85; } 11% { opacity: .7; transform: translateY(-80cqh); } 12%, 100% { opacity: 0; transform: translateY(-80cqh); } }
+/* FLYING FAIRY (2026-10-19). The Faery Yurt's faeries fly across the profile
+   in a pass of their own, from either side, darting and hovering, about two
+   at a time, each crossing in thirteen seconds of every thirty-two, wings
+   going and petals dropping behind it. The big fairy's opening runs on the
+   Lagoon's sixty-second clock: a dusk comes up, sparkles along the top, she
+   rises into the pink light, opens her wings and beats them slowly, petals
+   and leaves fall and three faeries fly out from her, then it all fades,
+   about nine seconds of every sixty. Shown only where drawings move, and
+   every fade takes a second or more. */
+.pf-fx__fly { position: absolute; display: block; line-height: 0; opacity: 0; }
+.pf-fx__fy-drop { position: absolute; top: 72%; display: block; line-height: 0; opacity: 0; }
+.fx-fy-flutter { transform-box: fill-box; transform-origin: center; }
+.fx-fy-hair { transform-box: fill-box; transform-origin: 50% 0; }
+:host([data-motion="on"]) .pf-fx__fly { animation: cb-fx-flit var(--t, 32s) ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__fy-drop { animation: cb-fx-drop 3.3s ease-in var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-fy-flutter { animation: cb-fx-flutter var(--t, .5s) ease-in-out infinite alternate; }
+:host([data-motion="on"]) .fx-fy-hair { animation: cb-fx-hair var(--t, 6s) ease-in-out var(--d, 0s) infinite; }
+@keyframes cb-fx-flit {
+  0% { opacity: 0; transform: translate(0, 0); }
+  3% { opacity: .95; }
+  9% { transform: translate(calc(var(--px, 0) * .22cqw), calc(var(--py, 0) * .2cqh - var(--wy, 1) * 14cqh)); }
+  15% { transform: translate(calc(var(--px, 0) * .34cqw), calc(var(--py, 0) * .3cqh - var(--wy, 1) * 4cqh)); }
+  21% { transform: translate(calc(var(--px, 0) * .3cqw), calc(var(--py, 0) * .36cqh + var(--wy, 1) * 10cqh)); }
+  27% { transform: translate(calc(var(--px, 0) * .5cqw), calc(var(--py, 0) * .5cqh + var(--wy, 1) * 5cqh)); }
+  34% { transform: translate(calc(var(--px, 0) * .74cqw), calc(var(--py, 0) * .7cqh - var(--wy, 1) * 12cqh)); }
+  38% { opacity: .95; }
+  42%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
+}
+@keyframes cb-fx-drop { 0% { opacity: 0; transform: translate(0, 0) rotate(0); } 18% { opacity: .9; } 100% { opacity: 0; transform: translate(-6px, 44px) rotate(150deg); } }
+@keyframes cb-fx-flutter { from { transform: scaleX(1); } to { transform: scaleX(.7); } }
+@keyframes cb-fx-hair { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg); } }
+.pf-fx__fy-dusk, .pf-fx__fy-glow { position: absolute; display: block; opacity: 0; }
+.pf-fx__fy-dusk { inset: 0; width: 100%; height: 100%; }
+.pf-fx__fy-glow { left: 6%; top: 8%; width: 88%; height: 100%; filter: blur(26px); }
+.pf-fx__fy-stand { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
+.pf-fx__fairy { display: block; height: 96%; width: auto; aspect-ratio: 300 / 400; max-width: 100%; overflow: visible; opacity: 0; }
+.pf-fx__fy-spark, .pf-fx__fy-fall, .pf-fx__fy-out { position: absolute; display: block; line-height: 0; opacity: 0; }
+.pf-fx__fy-out { left: 46%; top: 38%; }
+.fx-mo-fy-wing { transform-box: fill-box; transform-origin: 100% 50%; }
+:host([data-motion="on"]) .pf-fx__fy-dusk { animation: cb-mo-fy-dusk 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__fy-glow { animation: cb-mo-fy-glow 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__fairy { animation: cb-mo-fy-rise 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-fy-wing { animation: cb-mo-fy-wing 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__fy-spark { animation: cb-mo-fy-spark 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__fy-fall { animation: cb-mo-fy-fall 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__fy-out { animation: cb-mo-fy-out 60s ease-out var(--d, 0s) infinite both; }
+@keyframes cb-mo-fy-dusk { 0% { opacity: 0; } 2.5%, 12.5% { opacity: 1; } 15.5%, 100% { opacity: 0; } }
+@keyframes cb-mo-fy-glow { 0%, 1.5% { opacity: 0; } 4.5% { opacity: .9; } 8% { opacity: .7; } 11.5% { opacity: .9; } 15%, 100% { opacity: 0; } }
+@keyframes cb-mo-fy-rise {
+  0%, 1.5% { opacity: 0; transform: translateY(9%); }
+  4.5% { opacity: 1; transform: translateY(0); }
+  11.5% { opacity: 1; transform: translateY(-1.5%); }
+  15%, 100% { opacity: 0; transform: translateY(-7%); }
+}
+@keyframes cb-mo-fy-wing {
+  0%, 2.5% { transform: scaleX(.14); }
+  5% { transform: scaleX(1); }
+  6.5% { transform: scaleX(.78); } 8% { transform: scaleX(1); }
+  9.5% { transform: scaleX(.78); } 11% { transform: scaleX(1); }
+  12.5% { transform: scaleX(.82); } 14%, 100% { transform: scaleX(1); }
+}
+@keyframes cb-mo-fy-spark {
+  0%, 2% { opacity: 0; transform: scale(.4); }
+  4% { opacity: 1; transform: scale(1); }
+  6% { opacity: .5; } 8% { opacity: 1; } 10% { opacity: .5; }
+  12% { opacity: 1; transform: scale(1); }
+  14.5%, 100% { opacity: 0; transform: scale(.6); }
+}
+@keyframes cb-mo-fy-fall {
+  0%, 3% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  4.4% { opacity: .9; }
+  13% { opacity: .85; transform: translate(calc(var(--sx, 0) * 1cqw), 78cqh) rotate(var(--rot, 160deg)); }
+  14.8%, 100% { opacity: 0; transform: translate(calc(var(--sx, 0) * 1cqw), 88cqh) rotate(var(--rot, 160deg)); }
+}
+@keyframes cb-mo-fy-out {
+  0%, 6% { opacity: 0; transform: translate(0, 0); }
+  7.4% { opacity: .95; }
+  12.6% { opacity: .9; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
+  14.2%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
+}
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

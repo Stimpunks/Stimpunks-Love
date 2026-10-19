@@ -1271,6 +1271,49 @@
     }
   };
 
+  /* FAIRY LIGHTS (2026-10-19), from the Fairy lights frame for profiles
+     (profile.js's F.lights), to pair with the profile effect Flying Fairy:
+     the frame's string of lights, a wire swagged between hooks with a socket
+     and a bulb hanging at a quarter and three quarters of every swag, drawn at
+     whatever height its strip has, so it is the radio's trims, a profile's
+     banner and the nameplate under a name on Who's online. A strip tall enough
+     takes more than one string, and stars between them. The bulbs come in the
+     theme's gold and rose and four more, each with a little glow, and twinkle
+     slowly where the radio's drawings move; nothing flashes. */
+  var FAIRY_BULBS = ['--cb-amber', '--cb-amber-2', '--cb-fairy-mint', '--cb-fairy-lilac', '--cb-fairy-sky', '--cb-fairy-peach'];
+  function fairyString(svg, w, y0, sag, k, r, from) {
+    var P = 36 * k, x, n = from;
+    for (x = -P * r(); x < w + P; x += P) {
+      add(svg, 'path', { d: 'M' + f(x) + ' ' + f(y0) + 'Q' + f(x + P / 2) + ' ' + f(y0 + sag) + ' ' + f(x + P) + ' ' + f(y0) }, { stroke: '--cb-fairy-wire', sw: at(1.2 * k, 0.7) });
+      [0.25, 0.75].forEach(function (t) {
+        var bx = x + P * t, by = y0 + 2 * t * (1 - t) * sag, ink = FAIRY_BULBS[n++ % FAIRY_BULBS.length];
+        if (bx < -6 * k || bx > w + 6 * k) return;
+        add(svg, 'circle', { cx: f(bx), cy: f(by + 7.6 * k), r: f(6.2 * k), 'fill-opacity': '.2' }, { fill: ink, cls: 'art-glow', d: r() * 4, t: 4 + r() * 2 });
+        add(svg, 'rect', { x: f(bx - 1.3 * k), y: f(by), width: f(2.6 * k), height: f(2.2 * k), rx: f(0.4 * k) }, { fill: '--cb-fairy-socket' });
+        add(svg, 'ellipse', { cx: f(bx), cy: f(by + 5.6 * k), rx: f(2.6 * k), ry: f(3.4 * k) }, { fill: ink, cls: 'art-twinkle', d: r() * 4, t: 3.6 + r() * 1.6 });
+        add(svg, 'ellipse', { cx: f(bx - 0.8 * k), cy: f(by + 4.4 * k), rx: f(0.7 * k), ry: f(1.1 * k), 'fill-opacity': '.7' }, { fill: '--cb-steel' });
+      });
+    }
+  }
+  T.fairy = {
+    band: function (c, r) {
+      var rows = c.h >= 44 ? Math.max(2, Math.floor(c.h / 34)) : 1, gap = c.h / rows, i;
+      var k = rows > 1 ? Math.min(1.5, gap / 22) : Math.max(0.55, Math.min(1.5, c.h / 20));
+      // stars between the strings, where there is room for them
+      if (rows > 1) {
+        for (var x = r() * 20; x < c.w; x += 14 + r() * 26) {
+          var sy = r() * c.h, big = r() < 0.18;
+          if (big) add(c.svg, 'path', { d: sparkle(x, sy, at(2.2 * k, 1.2)) }, { fill: r() < 0.5 ? '--cb-steel-2' : '--cb-amber', cls: 'art-twinkle', d: r() * 4, t: 4 + r() * 2 });
+          else add(c.svg, 'circle', { cx: f(x), cy: f(sy), r: f(at((0.4 + r() * 0.5) * k, 0.4)) }, { fill: '--cb-steel-2', cls: r() < 0.4 ? 'art-twinkle' : '', d: r() * 4, t: 5 });
+        }
+      }
+      for (i = 0; i < rows; i++) {
+        var y0 = (rows > 1 ? gap * i + gap * 0.12 : c.h * 0.08), sag = 10 * k * (rows > 1 ? 0.8 + r() * 0.5 : 1);
+        fairyString(c.svg, c.w, y0, sag, k, r, i * 2);
+      }
+    }
+  };
+
   /* BLACK LEATHER LAGOON (2026-10-18), after the street's room and The Cramps,
      to pair with the profile effect of the same name: black water with the
      screen's acid light lying along its edge, reeds with cattails, bats, and now

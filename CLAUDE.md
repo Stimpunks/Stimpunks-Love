@@ -1475,15 +1475,19 @@ not mention.
 WORDS.** Ryan, 2026-10-18. Both are chosen from `profile.js`'s own lists (FRAMES, EFFECTS, written into `PROFILE_KEYS`
 by `make-profile.py`, each refused without its drawing), and `loveProfile.surround()` puts them on a `.pf-stage` round
 the profile's sheet or the editor's card, wearing the card's theme, so both are drawn only in that theme's seven inks,
-**with two exceptions, each between its own `effect:<key>` markers and held to one source of inks there.** **The Black
+**with three exceptions, each between its own `effect:<key>` markers and held to one source of inks there.** **The Black
 Leather Lagoon effect** (Ryan, 2026-10-18, after the room and The Cramps) is drawn in that room's own declared `--lag-*`
 inks, and its credit must name The Cramps, Lux Interior and Poison Ivy and say nobody real is drawn: their world, not
 them, Ryan's call over drawing the two of them. **Otters in the kelp** (Ryan, the same day) is drawn in the Kelp Forest
 theme's declared `--cb-kelp-*` inks, because an otter needs a brown no card's seven can be relied on for; its credit must
 name Helen Edgar's Stimpunks Solidarity and Otters and Star Stuff's The Stone You Keep, as the Arcade's otter cabinet
 does, and it keeps that cabinet's rules (`otterly.js`): floating fills nothing, no otter is ranked, no two otters hold
-paws, and nobody keeps a stone in a pouch, each refused as a word in its code, its credit and its theme's line. **A
-further such effect is a block of its own and an entry in `EFFECT_INKS`**, never a widening of either block, and
+paws, and nobody keeps a stone in a pouch, each refused as a word in its code, its credit and its theme's line. **Flying
+Fairy** (Ryan, 2026-10-19) is drawn in the Fairy Lights theme's declared `--cb-fairy-*` inks, because its faeries are the
+Faery Yurt's own, in that room's colours, five skins and seven hairs among them, redrawn as elements because
+`yurt-garden.js` writes them as markup with literal colours; its credit must name Helen Edgar and her Faery Yurt, and an
+ink named in a list is read as one named on its own. **A further such effect is a block of its own and an entry in
+`EFFECT_INKS`**, never a widening of another's block, and
 everything outside the blocks stays in the card's seven. `make-profile.py` holds all of it, and refuses a literal colour
 anywhere in `profile.js`. A
 **frame** is a band of the theme's case round all four sides, outside the profile, each side drawn once longer than a

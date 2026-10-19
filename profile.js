@@ -61,6 +61,7 @@
     ['Gravitas One', .95, .04, 'uppercase', 400],
     ['Inter', 1.05, .12, 'uppercase', 400],
     ['JetBrains Mono', 1.05, .02, 'none', 400],
+    ['Leckerli One', 1.1, .01, 'none', 400],
     ['Libre Franklin', 1.1, .04, 'none', 400],
     ['Lilita One', 1.25, .04, 'uppercase', 400],
     ['Limelight', 1.1, .04, 'none', 400],
@@ -119,14 +120,16 @@
   var EFFECTS = [
     ['butterflies', 'Butterflies'], ['fireflies', 'Fireflies'], ['petals', 'Falling petals'], ['leaves', 'Falling leaves'],
     ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
-    ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon'], ['otters', 'Otters in the kelp']
+    ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon'], ['otters', 'Otters in the kelp'],
+    ['fairy', 'Flying Fairy']
   ];
   /* profile:effects:end */
   /* AN EFFECT AFTER SOMEBODY ELSE'S WORK SAYS WHOSE, on the card it is on and
      in the editor, because attribution is the habit this street kept. */
   var EFFECT_CREDITS = {
     otters: 'Effect after the Arcade\u2019s Otterly Adorbs, which is built on Helen Edgar\u2019s Stimpunks Solidarity and Otters and Star Stuff\u2019s zine No. 58, The Stone You Keep. The kelp does the holding, and floating fills nothing: these otters float because they want to.',
-    lagoon: 'Effect after the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy. Their world, not them: nobody real is drawn, the creature is our own, and the poison ivy round the edge is a nod to her name.'
+    lagoon: 'Effect after the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy. Their world, not them: nobody real is drawn, the creature is our own, and the poison ivy round the edge is a nod to her name.',
+    fairy: 'Effect after Helen Edgar\u2019s Faery Yurt: its faeries fly here as they fly there, no two dressed alike, dropping petals under its fairy lights. The big fairy with butterfly wings is drawn here, in roses and moss, after the look of Helen\u2019s own profile.'
   };
 
   function f(n) { return (Math.round(n * 10) / 10).toString(); }
@@ -1578,6 +1581,458 @@
     pass: { motif: 'kbubble', from: 'bottom', n: 10, size: 12, t: 24, drift: 8 }
   };
   /* effect:otters:end */
+
+  /* effect:fairy:begin */
+  /* FLYING FAIRY (Ryan, 2026-10-19: "a Flying Fairy profile effect that
+     includes the fairies from the yurt flying around the page and a big
+     animation of a fairy woman with butterfly wings"), to pair with the Fairy
+     Lights theme. Drawn in that theme's own declared --cb-fairy-* inks, every
+     one named here as a string, singly or in a list, so make-profile.py can
+     hold this block to them.
+
+     THE FAERIES ARE THE FAERY YURT'S, Helen Edgar's room: the small woodland
+     faeries drawn for it at her ask (yurt-garden.js, Join the faeries), each
+     with a flower crown, long hair, a mossy cloak to the ground, a posy held
+     in front, gauzy wings, and some with little curled horns, no two dressed
+     alike, in the yurt's own colours. Here they fly across the profile,
+     darting and hovering, their wings going, dropping petals behind them.
+
+     THE BIG FAIRY is drawn here, after the look of Helen's own profile: red
+     hair under a crown of roses and two little curled horns, a cloak of moss,
+     a posy of red and pink roses held close, her eyes shut, and butterfly
+     wings. Nothing of anybody's art is copied. When the profile opens, and once
+     a minute, a dusk comes up over the profile with sparkles along its top,
+     she rises into it, opens her wings and lets them beat slowly while petals
+     and leaves fall round her and three of the yurt's faeries fly out from
+     her, and she fades: about nine seconds of every sixty, on the Lagoon's
+     clock, every fade a second or more.
+
+     The still part is a garland of fairy lights over the banner with a faery
+     sitting on it and another hovering, and roses, a daisy and sparkles in the
+     corners. The pass is petals falling. */
+  var FY_WING = ['--cb-fairy-wing-1', '--cb-fairy-wing-2', '--cb-fairy-wing-3', '--cb-fairy-wing-4', '--cb-fairy-wing-5', '--cb-fairy-wing-6', '--cb-fairy-wing-7'];
+  var FY_SKIN = ['--cb-fairy-skin-1', '--cb-fairy-skin-2', '--cb-fairy-skin-3', '--cb-fairy-skin-4', '--cb-fairy-skin-5'];
+  var FY_HAIR = ['--cb-fairy-hair-1', '--cb-fairy-hair-2', '--cb-fairy-hair-3', '--cb-fairy-hair-4', '--cb-fairy-hair-5', '--cb-fairy-hair-6', '--cb-fairy-hair-7'];
+  var FY_MOSS = ['--cb-fairy-moss-1', '--cb-fairy-moss-2', '--cb-fairy-moss-3', '--cb-fairy-moss-4', '--cb-fairy-moss-5', '--cb-fairy-moss-6'];
+  var FY_FOLD = ['--cb-fairy-fold-1', '--cb-fairy-fold-2', '--cb-fairy-fold-3', '--cb-fairy-fold-4', '--cb-fairy-fold-5', '--cb-fairy-fold-6'];
+  var FY_BLOOM = ['--cb-fairy-bloom-1', '--cb-fairy-bloom-2', '--cb-fairy-bloom-3', '--cb-fairy-bloom-4', '--cb-fairy-bloom-5'];
+  var FY_BULB = ['--cb-fairy-amber', '--cb-fairy-amber-2', '--cb-fairy-mint', '--cb-fairy-lilac', '--cb-fairy-sky', '--cb-fairy-peach'];
+  var FY_SPARK = ['--cb-fairy-spark-1', '--cb-fairy-spark-2', '--cb-fairy-spark-3', '--cb-fairy-spark-4'];
+  var FY_FALL = ['--cb-fairy-bloom-2', '--cb-fairy-rose', '--cb-fairy-bloom-5', '--cb-fairy-ember', '--cb-fairy-bloom-2', '--cb-fairy-lichen'];
+  function pickOf(a, x) { return a[Math.floor(x * a.length) % a.length]; }
+  var fyN = 0;
+  function fyStop(grad, offset, opacity, o) {
+    var st = document.createElementNS(NS, 'stop');
+    st.setAttribute('offset', String(offset));
+    st.style.setProperty('stop-color', 'var(' + o.stop + ')');
+    st.style.setProperty('stop-opacity', String(opacity));
+    grad.appendChild(st);
+  }
+
+  /* ONE OF THE YURT'S FAERIES, as yurt-garden.js draws it, in its own box from
+     -20 -24 to 20 24 and px tall, dressed by i, so no two are alike. */
+  function faerySvg(i, px, o) {
+    o = o || {};
+    var s = plainSvg(40, 48, 'pf-fx__faery');
+    s.setAttribute('viewBox', '-20 -24 40 48');
+    s.setAttribute('width', f(px * .83));
+    s.setAttribute('height', f(px));
+    s.style.overflow = 'visible';
+    var tint = pickOf(FY_WING, rnd(i * 7 + 1)), skin = pickOf(FY_SKIN, rnd(i * 7 + 2)), hair = pickOf(FY_HAIR, rnd(i * 7 + 3));
+    var c = Math.floor(rnd(i * 7 + 4) * FY_MOSS.length) % FY_MOSS.length, horns = rnd(i * 7 + 5) < .5;
+    var b1 = pickOf(FY_BLOOM, rnd(i * 7 + 6)), b2 = pickOf(FY_BLOOM, rnd(i * 7 + 8)), b3 = pickOf(FY_BLOOM, rnd(i * 7 + 9));
+    var n = ++fyN, defs = document.createElementNS(NS, 'defs');
+    s.appendChild(defs);
+    var glow = document.createElementNS(NS, 'radialGradient');
+    glow.setAttribute('id', 'pf-fy-glow-' + n);
+    fyStop(glow, 0, .5, { stop: tint });
+    fyStop(glow, 1, 0, { stop: tint });
+    defs.appendChild(glow);
+    var g = group(s);
+    var halo = svgEl('circle', { cy: -2, r: 17 }, {});
+    halo.style.setProperty('fill', 'url(#pf-fy-glow-' + n + ')');
+    g.appendChild(halo);
+    // the wings, behind everything, beating where the drawings move
+    var wings = svgEl('g', { 'fill-opacity': '.45', 'stroke-opacity': '.55' }, { fill: tint, stroke: '--cb-fairy-bloom-3', sw: .5, cls: o.still ? 'art-breathe' : 'fx-fy-flutter', t: o.still ? 4 : .4 + rnd(i + 2) * .3 });
+    ['M-1 -6C-9 -18 -17 -14 -14 -7C-12 -3 -6 -3 -1 -4Z', 'M1 -6C9 -18 17 -14 14 -7C12 -3 6 -3 1 -4Z',
+      'M-1 -3C-8 -2 -12 4 -8 6C-5 7 -2 2 -1 -1Z', 'M1 -3C8 -2 12 4 8 6C5 7 2 2 1 -1Z'].forEach(function (d) {
+      var w = svgEl('path', { d: d }, {});
+      w.style.removeProperty('fill');
+      wings.appendChild(w);
+    });
+    g.appendChild(wings);
+    // long hair falling behind the cloak
+    g.appendChild(svgEl('path', { d: 'M-3.4 -11C-7.5 -5 -8.5 3 -7 12C-5.8 10 -5 12.6 -3.6 10.5L3.6 10.5C5 12.6 5.8 10 7 12C8.5 3 7.5 -5 3.4 -11Z' }, { fill: hair }));
+    // the mossy cloak to the ground, with a ragged hem
+    g.appendChild(svgEl('path', { d: 'M-2.6 -6C-5 0 -7 8 -7.5 15L-5.5 13.6L-4 15.6L-2 14L0 16L2 14L4 15.6L5.5 13.6L7.5 15C7 8 5 0 2.6 -6Z' }, { fill: FY_MOSS[c] }));
+    g.appendChild(svgEl('path', { d: 'M-2 -5C-3.5 1 -4 8 -3.5 14L-2 14L0 16L1 13C1 7 1 0 2 -5Z', opacity: '.6' }, { fill: FY_FOLD[c] }));
+    // the posy held in front
+    g.appendChild(svgEl('path', { d: 'M0 0L0 5' }, { stroke: '--cb-fairy-moss-2', sw: .7 }));
+    g.appendChild(svgEl('circle', { cx: -1.2, cy: -.4, r: 1.3 }, { fill: b1 }));
+    g.appendChild(svgEl('circle', { cx: 1.2, cy: -.6, r: 1.3 }, { fill: b2 }));
+    g.appendChild(svgEl('circle', { cx: 0, cy: -1.8, r: 1.2 }, { fill: b3 }));
+    // the face and the fringe
+    g.appendChild(svgEl('circle', { cy: -10, r: 3.1 }, { fill: skin }));
+    g.appendChild(svgEl('path', { d: 'M-3.4 -10.4C-3.2 -14 3.2 -14 3.4 -10.4C2 -12 -1 -12.2 -3.4 -10.4Z' }, { fill: hair }));
+    if (horns) g.appendChild(svgEl('path', { d: 'M-2 -12.6C-4 -16 -6.5 -15 -5.2 -13.2M2 -12.6C4 -16 6.5 -15 5.2 -13.2' }, { stroke: '--cb-fairy-horn', sw: .9 }));
+    // the flower crown
+    [[-2.8, -12.2, .95, b1], [-1, -13.1, 1, b2], [1, -13.1, 1, b3], [2.8, -12.2, .95, b1]].forEach(function (cr) {
+      g.appendChild(svgEl('circle', { cx: cr[0], cy: cr[1], r: cr[2] }, { fill: cr[3] }));
+    });
+    return s;
+  }
+
+  /* A petal, a leaf, a rose, a daisy and a sparkle, each in a 24 box. */
+  M.fypetal = function (g) {
+    var q = at(g, 0, 0, 30);
+    q.appendChild(svgEl('path', { d: 'M0 -7C4.6 -5 4.6 3 0 7C-4.6 3 -4.6 -5 0 -7Z' }, { fill: '--cb-fairy-bloom-2' }));
+    q.appendChild(svgEl('path', { d: 'M0 -4C1.6 -2 1.6 2 0 4' }, { stroke: '--cb-fairy-rose', sw: .8 }));
+  };
+  function fyRose(g, x, y, r, red) {
+    var q = at(g, x, y);
+    q.appendChild(svgEl('circle', { r: f(r) }, { fill: red ? '--cb-fairy-rose' : '--cb-fairy-bloom-2', stroke: '--cb-fairy-line', sw: f(Math.max(.5, r * .1)) }));
+    q.appendChild(svgEl('path', { d: 'M' + f(-r * .62) + ' ' + f(r * .1) + 'A' + f(r * .64) + ' ' + f(r * .6) + ' 0 1 1 ' + f(r * .6) + ' ' + f(r * .2) }, { stroke: red ? '--cb-fairy-rose-2' : '--cb-fairy-rose', sw: f(Math.max(.5, r * .12)) }));
+    q.appendChild(svgEl('path', { d: 'M' + f(-r * .3) + ' ' + f(-r * .05) + 'A' + f(r * .32) + ' ' + f(r * .3) + ' 0 1 0 ' + f(r * .3) + ' ' + f(-r * .1) }, { stroke: red ? '--cb-fairy-rose-2' : '--cb-fairy-rose', sw: f(Math.max(.5, r * .1)) }));
+    q.appendChild(svgEl('path', { d: 'M' + f(-r * .05) + ' ' + f(-r * .78) + 'Q' + f(r * .5) + ' ' + f(-r * .9) + ' ' + f(r * .74) + ' ' + f(-r * .36) }, { stroke: '--cb-fairy-glow', sw: f(Math.max(.4, r * .08)), cls: '' }));
+    return q;
+  }
+  function fyDaisy(g, x, y, r) {
+    var q = at(g, x, y);
+    around(8, function (a) {
+      at(q, 0, 0, a).appendChild(svgEl('ellipse', { cx: 0, cy: f(-r * .62), rx: f(r * .24), ry: f(r * .46) }, { fill: '--cb-fairy-bloom-3', stroke: '--cb-fairy-line', sw: f(Math.max(.3, r * .05)) }));
+    });
+    q.appendChild(svgEl('circle', { r: f(r * .3) }, { fill: '--cb-fairy-bloom-4' }));
+    return q;
+  }
+  M.fyrose = function (g) {
+    [[-6, 4, 160], [5, 6, 30]].forEach(function (lf) { at(g, lf[0], lf[1], lf[2]).appendChild(svgEl('path', { d: leaf(5, 2.8) }, { fill: '--cb-fairy-fold-2', stroke: '--cb-fairy-line', sw: .5 })); });
+    fyRose(g, 0, -1, 6.4, true);
+  };
+  M.fydaisy = function (g) {
+    at(g, 4, 5, 40).appendChild(svgEl('path', { d: leaf(4.4, 2.2) }, { fill: '--cb-fairy-fold-1', stroke: '--cb-fairy-line', sw: .5 }));
+    fyDaisy(g, -1, -1, 7);
+  };
+  M.fyspark = function (g) {
+    g.appendChild(svgEl('path', { d: sparkle(9) }, { fill: '--cb-fairy-spark-1', cls: 'art-twinkle', t: 3.5 }));
+    at(g, 7, -7).appendChild(svgEl('path', { d: sparkle(3.6) }, { fill: '--cb-fairy-spark-3', cls: 'art-twinkle', d: 1.2, t: 3.5 }));
+    at(g, -7, 6).appendChild(svgEl('path', { d: sparkle(2.6) }, { fill: '--cb-fairy-spark-2', cls: 'art-twinkle', d: 2, t: 3.5 }));
+  };
+
+  /* THE STILL PART OVER THE BANNER: one long garland of fairy lights, the
+     Fairy Lights theme's own bulbs, draped deep across the banner's right-hand
+     part, keeping off the avatar's corner, with a faery sitting where it hangs
+     lowest and another hovering by it. */
+  function fairyScene() {
+    var s = plainSvg(380, 112, 'pf-fx__scene');
+    s.removeAttribute('width');
+    s.removeAttribute('height');
+    var g = group(s), k = 1.3, x0 = 140, x1 = 380, cx = 260, y0 = 4, cy = 78;
+    function on(t) { return [(1 - t) * (1 - t) * x0 + 2 * t * (1 - t) * cx + t * t * x1, (1 - t) * (1 - t) * y0 + 2 * t * (1 - t) * cy + t * t * y0]; }
+    g.appendChild(svgEl('path', { d: 'M' + x0 + ' ' + y0 + 'Q' + cx + ' ' + cy + ' ' + x1 + ' ' + y0 }, { stroke: '--cb-fairy-wire', sw: 1.5 }));
+    for (var j = 0; j < 12; j++) {
+      var t = .05 + j * .082, b = on(t), ink = FY_BULB[j % FY_BULB.length], d = (j * .53) % 4;
+      if (Math.abs(t - .5) < .05) continue;
+      g.appendChild(svgEl('circle', { cx: f(b[0]), cy: f(b[1] + 7.6 * k), r: f(7.4 * k), 'fill-opacity': '.2' }, { fill: ink, cls: 'art-glow', d: d, t: 4.4 }));
+      g.appendChild(svgEl('rect', { x: f(b[0] - 1.3 * k), y: f(b[1]), width: f(2.6 * k), height: f(2.2 * k), rx: .5 }, { fill: '--cb-fairy-socket' }));
+      g.appendChild(svgEl('ellipse', { cx: f(b[0]), cy: f(b[1] + 5.6 * k), rx: f(2.6 * k), ry: f(3.4 * k) }, { fill: ink, cls: 'art-twinkle', d: d, t: 3.8 }));
+      g.appendChild(svgEl('ellipse', { cx: f(b[0] - .8 * k), cy: f(b[1] + 4.4 * k), rx: f(.7 * k), ry: f(1.1 * k), 'fill-opacity': '.75' }, { fill: '--cb-fairy-steel' }));
+    }
+    [[176, 44, 3.4, 0], [214, 70, 2.4, 1], [322, 64, 3, 2], [366, 34, 2.2, 3], [290, 92, 2.6, 1]].forEach(function (sp, i) {
+      at(g, sp[0], sp[1]).appendChild(svgEl('path', { d: sparkle(sp[2]) }, { fill: FY_SPARK[sp[3]], cls: 'art-twinkle', d: i * .7, t: 4 }));
+    });
+    // a faery sitting where the garland hangs lowest, its hem on the wire,
+    // its wings breathing; another hovering by it, wings going
+    var low = on(.5), tall = 40, sit = faerySvg(2, tall, { still: true });
+    sit.setAttribute('x', f(low[0] - tall * .83 / 2));
+    sit.setAttribute('y', f(low[1] - tall * 40 / 48));
+    g.appendChild(sit);
+    var hov = svgEl('g', {}, { cls: 'fx-bob' });
+    hov.style.removeProperty('fill');
+    hov.style.setProperty('--b', '4.2s');
+    var fly = faerySvg(5, 30);
+    fly.setAttribute('x', '334');
+    fly.setAttribute('y', '50');
+    hov.appendChild(fly);
+    g.appendChild(hov);
+    return s;
+  }
+
+  /* THE FAERIES FLYING ACROSS THE PROFILE, from either side, darting and
+     hovering, each dropping petals behind it. A pass of their own, so like
+     every pass they are drawn only where the radio's drawings move. */
+  function fairyFlight() {
+    var box = el('div', 'pf-fx__pass pf-fx__flit'), sizes = [42, 66, 92, 54, 110], n = sizes.length;
+    for (var i = 0; i < n; i++) {
+      var one = el('span', 'pf-fx__fly'), ltr = i % 2 === 0;
+      one.style.left = ltr ? '-10%' : '104%';
+      one.style.top = f(10 + 70 * (i + .5) / n + (rnd(i + 31) - .5) * 10) + '%';
+      one.style.setProperty('--px', ltr ? '118' : '-118');
+      one.style.setProperty('--py', f((rnd(i + 37) - .5) * 30));
+      one.style.setProperty('--wy', rnd(i + 41) < .5 ? '1' : '-1');
+      one.style.setProperty('--t', '32s');
+      one.style.setProperty('--d', f(i * 32 * .9 / n + rnd(i + 43) * 2) + 's');
+      var bob = el('span', 'fx-bob');
+      bob.style.setProperty('--b', f(2.4 + rnd(i) * 1.4) + 's');
+      bob.appendChild(faerySvg(i + 7, sizes[i]));
+      one.appendChild(bob);
+      for (var k = 0; k < 3; k++) {
+        var drop = el('span', 'pf-fx__fy-drop');
+        drop.style.left = f(sizes[i] * .3 + (rnd(i * 3 + k + 50) - .5) * 10) + 'px';
+        drop.style.setProperty('--d', f(k * 1.1) + 's');
+        drop.appendChild(motif('fypetal', 5 + rnd(i * 3 + k) * 3, true));
+        one.appendChild(drop);
+      }
+      box.appendChild(one);
+    }
+    return box;
+  }
+
+  /* ── THE BIG FAIRY, in a box of 300 by 400 standing on the profile's foot ── */
+  function bigWing(g, right) {
+    var side = group(g, right ? 'matrix(-1,0,0,1,300,0)' : '');
+    var beat = svgEl('g', {}, { cls: 'fx-mo-fy-wing' });
+    beat.style.removeProperty('fill');
+    side.appendChild(beat);
+    // the forewing and the hindwing, violet with a pink heart and a teal edge
+    var fore = 'M147 146C122 100 74 30 34 32C8 34 2 78 20 112C36 142 92 160 145 160Z';
+    var hind = 'M145 166C104 168 52 190 40 230C30 264 56 292 86 280C114 268 134 216 147 180Z';
+    beat.appendChild(svgEl('path', { d: fore, 'fill-opacity': '.82' }, { fill: '--cb-fairy-wing-a', stroke: '--cb-fairy-wing-c', sw: 3.2 }));
+    beat.appendChild(svgEl('path', { d: hind, 'fill-opacity': '.82' }, { fill: '--cb-fairy-wing-a', stroke: '--cb-fairy-wing-c', sw: 3.2 }));
+    beat.appendChild(svgEl('path', { d: 'M143 150C118 116 82 66 52 62C34 62 30 86 44 110C60 134 100 152 141 156Z', 'fill-opacity': '.72' }, { fill: '--cb-fairy-wing-b' }));
+    beat.appendChild(svgEl('path', { d: 'M141 172C110 176 70 196 62 228C56 252 72 266 90 258C112 248 130 212 143 184Z', 'fill-opacity': '.72' }, { fill: '--cb-fairy-wing-b' }));
+    // the veins, out from the body
+    beat.appendChild(svgEl('path', { d: 'M146 152C112 118 72 62 40 42M146 152C104 126 50 92 18 82M146 154C108 142 60 128 24 116M146 156C120 154 92 152 70 150' +
+      'M146 172C114 186 76 206 46 228M146 174C120 204 92 246 60 276M146 176C130 210 116 246 98 268' }, { stroke: '--cb-fairy-vein', sw: 1.3 }));
+    // spots along the edge, and an eye on the hindwing
+    [[38, 40, 3.2], [24, 58, 2.6], [15, 80, 2.2], [14, 100, 1.8], [48, 284, 2.6], [38, 262, 2.2], [36, 240, 1.8]].forEach(function (sp) {
+      beat.appendChild(svgEl('circle', { cx: sp[0], cy: sp[1], r: sp[2] }, { fill: '--cb-fairy-bloom-3' }));
+    });
+    beat.appendChild(svgEl('circle', { cx: 80, cy: 236, r: 10 }, { fill: '--cb-fairy-vein' }));
+    beat.appendChild(svgEl('circle', { cx: 80, cy: 236, r: 7 }, { fill: '--cb-fairy-amber' }));
+    beat.appendChild(svgEl('circle', { cx: 80, cy: 236, r: 3.4 }, { fill: '--cb-fairy-vein' }));
+    beat.appendChild(svgEl('circle', { cx: 78.6, cy: 234.4, r: 1.3 }, { fill: '--cb-fairy-bloom-3' }));
+    beat.appendChild(svgEl('path', { d: fore }, { stroke: '--cb-fairy-line', sw: 1.4 }));
+    beat.appendChild(svgEl('path', { d: hind }, { stroke: '--cb-fairy-line', sw: 1.4 }));
+  }
+  // a path mirrored about the middle of the box, x to 300 - x: absolute M, L,
+  // C, Q and Z only, which is all it is given
+  function mirror(d) {
+    return d.replace(/([MLCQZ])([^MLCQZ]*)/g, function (all, cmd, nums) {
+      var v = nums.trim().split(/[\s,]+/).filter(Boolean).map(Number), i;
+      if (!v.length) return cmd;
+      for (i = 0; i < v.length; i += 2) v[i] = 300 - v[i];
+      return cmd + v.join(' ');
+    });
+  }
+  function bigFairy() {
+    var s = plainSvg(300, 400, 'pf-fx__fairy');
+    s.removeAttribute('width');
+    s.removeAttribute('height');
+    s.setAttribute('preserveAspectRatio', 'xMidYMax meet');
+    var g = group(s);
+    bigWing(g, false);
+    bigWing(g, true);
+    var line = '--cb-fairy-line';
+    // her hair at the back, falling past her shoulders
+    var back = svgEl('g', {}, { cls: 'fx-fy-hair', t: 6 });
+    back.style.removeProperty('fill');
+    back.appendChild(svgEl('path', { d: 'M128 70C100 82 96 120 100 160C102 184 92 196 96 218C100 238 86 250 76 272C92 268 102 278 108 292C116 278 114 262 120 248C126 232 122 220 126 212' +
+      'L174 212C178 220 174 232 180 248C186 262 184 278 192 292C198 278 208 268 224 272C214 250 200 238 204 218C208 196 198 184 200 160C204 120 200 82 172 70Z' }, { fill: '--cb-fairy-auburn', stroke: line, sw: 1.4 }));
+    back.appendChild(svgEl('path', { d: 'M110 118C104 150 112 176 104 200C98 222 104 240 90 264M118 146C114 176 120 200 114 226C110 246 116 262 108 284' }, { stroke: '--cb-fairy-hair-1', sw: 1.6 }));
+    back.appendChild(svgEl('path', { d: mirror('M110 118C104 150 112 176 104 200C98 222 104 240 90 264M118 146C114 176 120 200 114 226C110 246 116 262 108 284') }, { stroke: '--cb-fairy-hair-1', sw: 1.6 }));
+    back.appendChild(svgEl('path', { d: 'M115 102C108 132 116 160 108 188C104 204 108 220 100 236' }, { stroke: '--cb-fairy-auburn-lit', sw: 1.4 }));
+    back.appendChild(svgEl('path', { d: mirror('M115 102C108 132 116 160 108 188C104 204 108 220 100 236') }, { stroke: '--cb-fairy-auburn-lit', sw: 1.4 }));
+    g.appendChild(back);
+    // the cloak of moss, from the shoulders to the ground, with a ragged hem
+    g.appendChild(svgEl('path', { d: 'M128 208C118 248 98 300 62 386L70 381L78 393L88 384L98 395L110 386L122 396L134 387L146 397L158 388L170 396L182 386L194 395L206 385L218 393L230 383L238 388C202 300 182 248 172 208Z' }, { fill: '--cb-fairy-moss-1', stroke: line, sw: 1.4 }));
+    g.appendChild(svgEl('path', { d: 'M140 220C130 280 116 340 104 388L116 386C124 336 136 276 146 222Z', opacity: '.55' }, { fill: '--cb-fairy-fold-1' }));
+    g.appendChild(svgEl('path', { d: 'M164 222C176 280 190 336 204 386L214 388C200 336 182 276 168 220Z', opacity: '.55' }, { fill: '--cb-fairy-fold-1' }));
+    g.appendChild(svgEl('path', { d: 'M150 220C148 280 150 340 152 394L160 390C158 336 156 278 154 220Z', opacity: '.5' }, { fill: '--cb-fairy-moss-2' }));
+    for (var i = 0; i < 26; i++) {
+      var tt = rnd(i + 200), yy = 230 + tt * 156, half = 22 + tt * 84, xx = 150 + (rnd(i + 220) - .5) * 2 * half * .9;
+      g.appendChild(svgEl('circle', { cx: f(xx), cy: f(yy), r: f(1 + rnd(i + 240) * 1.6) }, { fill: i % 3 ? '--cb-fairy-lichen' : '--cb-fairy-fold-2' }));
+    }
+    // little flowers in the moss, more of them at the hem
+    [[96, 360, 5, 0], [124, 376, 4, 1], [178, 372, 4.6, 0], [208, 352, 4, 1], [138, 330, 3.6, 0], [170, 310, 3.4, 1], [228, 382, 3.8, 0], [76, 384, 3.6, 1]].forEach(function (fl) {
+      if (fl[3]) fyRose(g, fl[0], fl[1], fl[2], true);
+      else fyDaisy(g, fl[0], fl[1], fl[2]);
+    });
+    // tufts of moss along the hem, and two vines trailing down from the posy
+    for (var tf = 0; tf < 22; tf++) {
+      if (rnd(tf + 290) < .3) continue;
+      var hx = 70 + tf * 7.6 + rnd(tf + 260) * 5, hy = 374 + rnd(tf + 270) * 12;
+      g.appendChild(svgEl('circle', { cx: f(hx), cy: f(hy), r: f(2 + rnd(tf + 280) * 2.4) }, { fill: tf % 3 ? '--cb-fairy-fold-2' : '--cb-fairy-moss-2' }));
+      if (tf % 4 === 1) g.appendChild(svgEl('circle', { cx: f(hx + 1), cy: f(hy - 1), r: 1 }, { fill: '--cb-fairy-lichen' }));
+    }
+    [['M144 214C130 250 140 290 124 330C116 350 122 366 112 382', -1], ['M156 214C170 252 160 292 178 330C186 348 180 364 190 380', 1]].forEach(function (vn) {
+      g.appendChild(svgEl('path', { d: vn[0] }, { stroke: '--cb-fairy-moss-2', sw: 1.6 }));
+    });
+    [[134, 246, -40], [137, 286, 210], [126, 322, -50], [118, 356, 200], [166, 248, 40], [163, 290, -30], [175, 324, 220], [184, 356, 30]].forEach(function (lf) {
+      at(g, lf[0], lf[1], lf[2]).appendChild(svgEl('path', { d: leaf(5.6, 2.6) }, { fill: '--cb-fairy-fold-1', stroke: line, sw: .6 }));
+    });
+    // the bodice, the neck and the moss over her shoulders
+    g.appendChild(svgEl('path', { d: 'M120 140C124 170 126 194 128 214L172 214C174 194 176 170 180 140C166 148 134 148 120 140Z' }, { fill: '--cb-fairy-moss-1', stroke: line, sw: 1.4 }));
+    g.appendChild(svgEl('path', { d: 'M142 114L142 134C136 139 128 139 120 140C134 150 166 150 180 140C172 139 164 139 158 134L158 114Z' }, { fill: '--cb-fairy-fae', stroke: line, sw: 1.2 }));
+    g.appendChild(svgEl('path', { d: 'M142 118Q150 126 158 118L158 128Q150 132 142 128Z', opacity: '.6' }, { fill: '--cb-fairy-fae-2' }));
+    // a shawl of moss over her shoulders, open at the front, hanging in strands
+    var shawl = 'M121 137C104 141 95 160 95 184C95 204 99 222 103 238L107 229L110 242L114 231L118 246L121 233L125 242C128 222 130 202 130 184C128 166 127 150 121 137Z';
+    [shawl, mirror(shawl)].forEach(function (d) { g.appendChild(svgEl('path', { d: d }, { fill: '--cb-fairy-moss-2', stroke: line, sw: 1.2 })); });
+    [[101, 196, 106, 232], [108, 190, 112, 238], [116, 194, 119, 240], [123, 188, 124, 234]].forEach(function (st) {
+      [[st[0], st[1], st[2], st[3]], [300 - st[0], st[1], 300 - st[2], st[3]]].forEach(function (q) {
+        g.appendChild(svgEl('path', { d: 'M' + q[0] + ' ' + q[1] + 'Q' + (q[0] + (q[2] - q[0]) * .2 + 1.5) + ' ' + ((q[1] + q[3]) / 2) + ' ' + q[2] + ' ' + q[3] }, { stroke: '--cb-fairy-fold-1', sw: 1.1 }));
+      });
+    });
+    [[106, 150], [112, 170], [104, 184], [194, 150], [188, 170], [196, 184], [134, 160], [166, 166], [150, 150]].forEach(function (lc, j) {
+      g.appendChild(svgEl('circle', { cx: lc[0], cy: lc[1], r: j % 2 ? 1.6 : 2.2 }, { fill: j % 2 ? '--cb-fairy-lichen' : '--cb-fairy-fold-1' }));
+    });
+    // the posy: stems down the front, her hands round them, the roses above
+    g.appendChild(svgEl('path', { d: 'M146 196C144 214 142 232 138 250M150 198C150 218 150 236 150 256M154 196C156 214 160 230 164 246' }, { stroke: '--cb-fairy-moss-2', sw: 2 }));
+    [[132, 238, 200], [166, 236, -20], [146, 262, 100]].forEach(function (lf) {
+      at(g, lf[0], lf[1], lf[2]).appendChild(svgEl('path', { d: leaf(8, 3.6) }, { fill: '--cb-fairy-fold-2', stroke: line, sw: .8 }));
+    });
+    [[141, 206, -18], [159, 206, 18]].forEach(function (h) {
+      at(g, h[0], h[1], h[2]).appendChild(svgEl('ellipse', { rx: 8.5, ry: 6.4 }, { fill: '--cb-fairy-fae', stroke: line, sw: 1.1 }));
+    });
+    [[124, 186, 210], [176, 182, -30], [132, 172, 240], [170, 168, -60], [150, 166, 270]].forEach(function (lf) {
+      at(g, lf[0], lf[1], lf[2]).appendChild(svgEl('path', { d: leaf(9, 4) }, { fill: '--cb-fairy-fold-2', stroke: line, sw: .8 }));
+    });
+    fyRose(g, 138, 186, 9.5, true);
+    fyRose(g, 160, 182, 8.6, false);
+    fyRose(g, 150, 196, 8.4, true);
+    fyRose(g, 168, 196, 6.4, false);
+    fyRose(g, 130, 197, 6.2, false);
+    fyDaisy(g, 149, 175, 5.6);
+    [[124, 176], [178, 174], [144, 172], [172, 204], [128, 206]].forEach(function (b) {
+      g.appendChild(svgEl('circle', { cx: b[0], cy: b[1], r: 1.6 }, { fill: '--cb-fairy-bloom-3', stroke: line, sw: .4 }));
+    });
+    // her face, tilted a little, her eyes shut
+    var head = svgEl('g', { transform: 'rotate(-6 150 96)' });
+    head.style.removeProperty('fill');
+    head.appendChild(svgEl('path', { d: 'M132.4 96L121 82L133.6 106Z' }, { fill: '--cb-fairy-fae', stroke: line, sw: 1.1 }));
+    head.appendChild(svgEl('path', { d: mirror('M132.4 96L121 82L133.6 106Z') }, { fill: '--cb-fairy-fae', stroke: line, sw: 1.1 }));
+    head.appendChild(svgEl('ellipse', { cx: 150, cy: 96, rx: 19, ry: 24 }, { fill: '--cb-fairy-fae', stroke: line, sw: 1.3 }));
+    head.appendChild(svgEl('path', { d: 'M163 84C170 96 168 112 156 120C164 108 166 96 163 84Z', opacity: '.5' }, { fill: '--cb-fairy-fae-2' }));
+    [[139, 106], [161, 106]].forEach(function (b) { head.appendChild(svgEl('ellipse', { cx: b[0], cy: b[1], rx: 5, ry: 3, opacity: '.5' }, { fill: '--cb-fairy-blush' })); });
+    head.appendChild(svgEl('path', { d: 'M137 99Q142 103 147 99M153 99Q158 103 163 99' }, { stroke: line, sw: 1.5 }));
+    head.appendChild(svgEl('path', { d: 'M138 100.4L136.4 103M141 101.6L140.4 104.4M159 101.6L159.6 104.4M162 100.4L163.6 103' }, { stroke: line, sw: .9 }));
+    head.appendChild(svgEl('path', { d: 'M137 91Q142 88 147 90M153 90Q158 88 163 91' }, { stroke: '--cb-fairy-hair-1', sw: 1.1 }));
+    head.appendChild(svgEl('path', { d: 'M150 101Q148 107 151 109' }, { stroke: '--cb-fairy-fae-2', sw: 1.1 }));
+    head.appendChild(svgEl('path', { d: 'M144 113Q150 117 156 113Q150 115.6 144 113Z' }, { fill: '--cb-fairy-blush', stroke: '--cb-fairy-rose-2', sw: 1 }));
+    // the fringe and the locks falling in front of her shoulders
+    var front = svgEl('g', {}, { cls: 'fx-fy-hair', d: .8, t: 7 });
+    front.style.removeProperty('fill');
+    front.appendChild(svgEl('path', { d: 'M130 86C133 66 167 64 171 84C162 75 152 77 145 88C141 81 135 81 130 86Z' }, { fill: '--cb-fairy-auburn', stroke: line, sw: 1.1 }));
+    var lock = 'M131 82C121 100 128 118 122 136C116 154 124 170 116 188C112 198 118 206 112 216C124 210 130 198 128 184C126 168 134 152 132 136C130 118 134 102 137 92Z';
+    front.appendChild(svgEl('path', { d: lock }, { fill: '--cb-fairy-auburn', stroke: line, sw: 1.1 }));
+    front.appendChild(svgEl('path', { d: mirror(lock) }, { fill: '--cb-fairy-auburn', stroke: line, sw: 1.1 }));
+    front.appendChild(svgEl('path', { d: 'M129 104C125 120 129 134 124 150C120 164 125 178 120 194M171 104C175 120 171 134 176 150C180 164 175 178 180 194M140 72C150 69 160 70 166 76' }, { stroke: '--cb-fairy-auburn-lit', sw: 1.2 }));
+    head.appendChild(front);
+    // two little curled horns, and the crown of roses
+    var horn = 'M138 72C129 57 112 55 112 67C112 76 122 77 124 70';
+    head.appendChild(svgEl('path', { d: horn }, { stroke: line, sw: 6 }));
+    head.appendChild(svgEl('path', { d: horn }, { stroke: '--cb-fairy-horn', sw: 4 }));
+    head.appendChild(svgEl('path', { d: mirror(horn) }, { stroke: line, sw: 6 }));
+    head.appendChild(svgEl('path', { d: mirror(horn) }, { stroke: '--cb-fairy-horn', sw: 4 }));
+    [[124, 84, 230], [133, 72, 250], [167, 72, -70], [176, 84, -50], [150, 64, 270]].forEach(function (lf) {
+      at(head, lf[0], lf[1], lf[2]).appendChild(svgEl('path', { d: leaf(7, 3) }, { fill: '--cb-fairy-fold-2', stroke: line, sw: .7 }));
+    });
+    fyRose(head, 128, 80, 6.6, true);
+    fyRose(head, 140, 70, 6, false);
+    fyRose(head, 152, 66, 7.4, true);
+    fyRose(head, 164, 70, 6, false);
+    fyRose(head, 173, 80, 6.4, true);
+    fyDaisy(head, 134, 75, 4);
+    fyDaisy(head, 168, 75, 4);
+    g.appendChild(head);
+    return s;
+  }
+
+  function fairyMoment() {
+    var box = el('div', 'pf-fx__moment');
+    // the dusk over the whole profile, purple at the top and rose at the foot
+    var n = ++fyN, dusk = plainSvg(100, 100, 'pf-fx__fy-dusk');
+    dusk.removeAttribute('width');
+    dusk.removeAttribute('height');
+    dusk.setAttribute('preserveAspectRatio', 'none');
+    var defs = document.createElementNS(NS, 'defs'), lg = document.createElementNS(NS, 'linearGradient');
+    lg.setAttribute('id', 'pf-fy-dusk-' + n);
+    lg.setAttribute('x1', '0'); lg.setAttribute('x2', '0'); lg.setAttribute('y1', '0'); lg.setAttribute('y2', '1');
+    fyStop(lg, 0, .78, { stop: '--cb-fairy-dusk' });
+    fyStop(lg, .55, .5, { stop: '--cb-fairy-dusk' });
+    fyStop(lg, 1, .42, { stop: '--cb-fairy-blush' });
+    defs.appendChild(lg);
+    dusk.appendChild(defs);
+    var wash = svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {});
+    wash.style.setProperty('fill', 'url(#pf-fy-dusk-' + n + ')');
+    dusk.appendChild(wash);
+    box.appendChild(dusk);
+    // the pink light she comes up in
+    var glow = plainSvg(100, 100, 'pf-fx__fy-glow');
+    glow.removeAttribute('width');
+    glow.removeAttribute('height');
+    glow.setAttribute('preserveAspectRatio', 'none');
+    glow.appendChild(svgEl('ellipse', { cx: 50, cy: 58, rx: 44, ry: 46, 'fill-opacity': '.5' }, { fill: '--cb-fairy-glow' }));
+    glow.appendChild(svgEl('ellipse', { cx: 50, cy: 46, rx: 20, ry: 22, 'fill-opacity': '.6' }, { fill: '--cb-fairy-wing-b' }));
+    box.appendChild(glow);
+    // sparkles along the top of the profile, like a crown over it
+    for (var i = 0; i < 16; i++) {
+      var sp = el('span', 'pf-fx__fy-spark');
+      sp.style.left = f(2 + i * 6.1 + rnd(i + 90) * 3) + '%';
+      sp.style.top = f(1 + Math.abs(Math.sin(i * 1.3)) * 9 + rnd(i + 95) * 4) + '%';
+      sp.style.setProperty('--d', f(rnd(i + 99) * 1.4) + 's');
+      var px = 10 + rnd(i + 105) * 22, ss = plainSvg(24, 24);
+      ss.setAttribute('viewBox', '-12 -12 24 24');
+      ss.setAttribute('width', f(px));
+      ss.setAttribute('height', f(px));
+      ss.style.overflow = 'visible';
+      ss.appendChild(svgEl('path', { d: sparkle(11) }, { fill: FY_SPARK[i % FY_SPARK.length] }));
+      if (i % 3 === 0) ss.appendChild(svgEl('path', { d: sparkle(4), transform: 'translate(9 9)' }, { fill: FY_SPARK[(i + 2) % FY_SPARK.length] }));
+      sp.appendChild(ss);
+      box.appendChild(sp);
+    }
+    // the fairy, standing on the profile's foot
+    var stand = el('div', 'pf-fx__fy-stand');
+    stand.appendChild(bigFairy());
+    box.appendChild(stand);
+    // petals and leaves falling round her, over the whole profile
+    for (var k = 0; k < 18; k++) {
+      var fall = el('span', 'pf-fx__fy-fall');
+      fall.style.left = f(3 + rnd(k + 300) * 92) + '%';
+      fall.style.top = f(-6 + rnd(k + 310) * 14) + '%';
+      fall.style.setProperty('--d', f(rnd(k + 320) * 2.6) + 's');
+      fall.style.setProperty('--sx', f((rnd(k + 330) - .5) * 24));
+      fall.style.setProperty('--rot', f(90 + rnd(k + 340) * 220) + 'deg');
+      var ps = plainSvg(24, 24), big = 9 + rnd(k + 350) * 9, ink = FY_FALL[k % FY_FALL.length];
+      ps.setAttribute('viewBox', '-12 -12 24 24');
+      ps.setAttribute('width', f(big));
+      ps.setAttribute('height', f(big));
+      ps.style.overflow = 'visible';
+      if (k % 4 === 3) ps.appendChild(svgEl('path', { d: leaf(9, 5) }, { fill: ink, stroke: '--cb-fairy-line', sw: .6 }));
+      else ps.appendChild(svgEl('path', { d: 'M0 -8C5 -6 5 3 0 8C-5 3 -5 -6 0 -8Z' }, { fill: ink }));
+      fall.appendChild(ps);
+      box.appendChild(fall);
+    }
+    // three of the yurt's faeries flying out from her wings
+    [[-40, -22], [36, -30], [-30, 18]].forEach(function (o, j) {
+      var out = el('span', 'pf-fx__fy-out');
+      out.style.setProperty('--px', f(o[0]));
+      out.style.setProperty('--py', f(o[1]));
+      out.style.setProperty('--d', f(j * .5) + 's');
+      out.appendChild(faerySvg(20 + j, 30 + j * 6));
+      box.appendChild(out);
+    });
+    return box;
+  }
+  E.fairy = {
+    scene: function (box) {
+      box.appendChild(fairyScene());
+      box.appendChild(fairyFlight());
+      box.appendChild(fairyMoment());
+    },
+    edge: [['fyrose', 'tl', 0, 30, -10, [16, 14]], ['fyspark', 'top', .58, 16], ['fydaisy', 'bl', 0, 24, 0, [16, -14]], ['fyrose', 'br', 0, 26, 20, [-16, -14]], ['fyspark', 'right', .45, 13]],
+    pass: { motif: 'fypetal', from: 'top', n: 7, size: 14, t: 28, drift: 14 }
+  };
+  /* effect:fairy:end */
 
   var EDGE_AT = {
     tl: function () { return [0, 0]; }, tr: function () { return [100, 0]; },

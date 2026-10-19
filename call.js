@@ -187,6 +187,7 @@
     ['wabi', 'Wabi-sabi', 'world', 'what is stained, weathered and mended: a tea ring, a brush stroke, and a crack mended in gold. Nothing in it moves', 'still'],
     ['lagoon', 'Black Leather Lagoon', 'world', 'the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy: a drive-in screen glowing over black water, reeds and bats, in the Lagoon\u2019s own colours, with nobody real drawn and nothing of the band\u2019s used. It pairs with the profile effect of the same name', 'moves'],
     ['kelp', 'Kelp Forest', 'world', 'a kelp forest with sea otters floating in it, after the Arcade\u2019s Otterly Adorbs, which is built on Helen Edgar\u2019s Stimpunks Solidarity and Otters and Star Stuff\u2019s zine No. 58, The Stone You Keep. Floating fills nothing. It pairs with the profile effect Otters in the kelp', 'moves'],
+    ['fairy', 'Fairy Lights', 'world', 'the Fairy lights frame for profiles: strings of bulbs swagged across a plum night in gold, rose, mint, sky, lilac and peach, with stars between them, twinkling and never flashing. It pairs with the profile effect Flying Fairy, after Helen Edgar’s Faery Yurt', 'moves'],
     /* THE WINAMP SKINS (Ryan, 2026-10-17): after skins in the Winamp
        Skin Museum, each credited to whoever its readme says made it, or saying
        that it names nobody. Every drawing is ours and copies no bitmap of a

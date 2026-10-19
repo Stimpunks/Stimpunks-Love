@@ -1531,6 +1531,37 @@
   --cb-kelp-blade: #B8892C; --cb-kelp-stipe: #7A5A1E; --cb-kelp-float: #D9A93E; --cb-kelp-fur: #A97650;
   --cb-kelp-fur-2: #7E5236; --cb-kelp-face: #E9D6B4; --cb-kelp-nose: #2B1A12; --cb-kelp-sea: #14505E;
   --cb-kelp-light: #6FD3DC; --cb-kelp-bubble: #CFF4F0; --cb-kelp-shell: #F2B8A0; --cb-kelp-urchin: #7A3A6A;
+  /* FAIRY LIGHTS (2026-10-19), to pair with the profile effect Flying Fairy:
+     a plum night, cream and lilac words, and strings of bulbs in gold, rose,
+     mint, sky, lilac and peach, after the Fairy lights frame. Then the effect's
+     own inks. The faeries' are the Faery Yurt's own, read out of yurt-garden.js
+     (Helen Edgar's room; the faeries were drawn for it at her ask): their wings,
+     five skins, seven hairs, six mossy cloaks and their folds, five blooms, a
+     horn and two stars. The big fairy's are drawn after the roses, moss and red
+     hair of Helen's own profile: rose fae skin carried by its plum outline, red
+     and pink roses, butterfly wings, a dusk to stand in and sparkles. None
+     carries a word. */
+  --cb-fairy-case: #1D1029; --cb-fairy-bar: #140A1E; --cb-fairy-steel: #F8EEE4; --cb-fairy-steel-2: #CDB6DF;
+  --cb-fairy-lcd: #0E0716; --cb-fairy-amber: #F7C96A; --cb-fairy-amber-2: #F4A3C8;
+  --cb-fairy-wire: #6E5A7C; --cb-fairy-socket: #A896B6; --cb-fairy-mint: #9EE6C9; --cb-fairy-sky: #A3CDF6;
+  --cb-fairy-lilac: #C9A9F3; --cb-fairy-peach: #F7AA82;
+  --cb-fairy-wing-1: #C9A0A0; --cb-fairy-wing-2: #A3B59A; --cb-fairy-wing-3: #A99BC2; --cb-fairy-wing-4: #93A7B8;
+  --cb-fairy-wing-5: #CDB98A; --cb-fairy-wing-6: #B897A8; --cb-fairy-wing-7: #B7A48E;
+  --cb-fairy-skin-1: #F1D3C2; --cb-fairy-skin-2: #E5B99E; --cb-fairy-skin-3: #C68E6E; --cb-fairy-skin-4: #A2694E; --cb-fairy-skin-5: #7A4E3A;
+  --cb-fairy-hair-1: #8A3B2E; --cb-fairy-hair-2: #A3503A; --cb-fairy-hair-3: #5B2A26; --cb-fairy-hair-4: #3A2A26;
+  --cb-fairy-hair-5: #D9B26A; --cb-fairy-hair-6: #B86A7A; --cb-fairy-hair-7: #E8DCC4;
+  --cb-fairy-moss-1: #5A7848; --cb-fairy-moss-2: #4F6638; --cb-fairy-moss-3: #8A6A7A; --cb-fairy-moss-4: #6E6290;
+  --cb-fairy-moss-5: #8A5A3C; --cb-fairy-moss-6: #46664F;
+  --cb-fairy-fold-1: #7E9A64; --cb-fairy-fold-2: #6D8A56; --cb-fairy-fold-3: #B897A8; --cb-fairy-fold-4: #A99BC2;
+  --cb-fairy-fold-5: #B7804F; --cb-fairy-fold-6: #7FA08A;
+  --cb-fairy-bloom-1: #C9564F; --cb-fairy-bloom-2: #E28AA8; --cb-fairy-bloom-3: #F2E6D4; --cb-fairy-bloom-4: #E8C547; --cb-fairy-bloom-5: #D9B8C4;
+  --cb-fairy-horn: #B7804F; --cb-fairy-star-1: #E9C874; --cb-fairy-star-2: #F2B673;
+  --cb-fairy-fae: #DA8E92; --cb-fairy-fae-2: #B5636F; --cb-fairy-blush: #E86F86; --cb-fairy-line: #2B0F33;
+  --cb-fairy-auburn: #A8392E; --cb-fairy-auburn-lit: #D9674A; --cb-fairy-rose: #C2263A; --cb-fairy-rose-2: #7E1426;
+  --cb-fairy-lichen: #B3AE4A; --cb-fairy-ember: #D9623A;
+  --cb-fairy-wing-a: #B98BEA; --cb-fairy-wing-b: #F6A9D9; --cb-fairy-wing-c: #7FE0DE; --cb-fairy-vein: #3B1650;
+  --cb-fairy-dusk: #5A1F72; --cb-fairy-glow: #FFD3E2;
+  --cb-fairy-spark-1: #6FE6EE; --cb-fairy-spark-2: #F27BD6; --cb-fairy-spark-3: #F6EA7A; --cb-fairy-spark-4: #8FF0A8;
   --cb-mordor-lava: #FF5A1E; --cb-mordor-glow: #FFB040; --cb-mordor-rock: #2A2626; --cb-mordor-ash: #6A625E; --cb-mordor-wraith: #CFE8FF; --cb-mordor-rune: #C9A54A; --cb-mordor-blue: #6FA8D8;
 
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
