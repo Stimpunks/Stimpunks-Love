@@ -4902,9 +4902,29 @@ built by `loveEmbed.frame`, or a door. **Take to the forums on the radio only ti
 a `#`, and `cbTranscript` copies the messages off the channel itself, so nobody can quote somebody into saying
 anything; each sender takes theirs back out under `canTakeOff`; never out of a quiet room, and out of a private room
 only into a category no wider than it. Ryan's call: anybody's messages, under the house norm of asking first. **The
-friendly edits are a reply count, a view count, unread numbers, notifications and @mentions that ping, a fetched
-preview image, and the radio sending the messages' words itself**; each is refused by `make-forum.py` or by the
-privacy page, and notifications are the CB's own refusal. `DECISIONS.md` has what is still open.
+friendly edits are a reply count, a view count, unread numbers, a fetched preview image, and the radio sending the
+messages' words itself**; each is refused by `make-forum.py` or by the privacy page. `DECISIONS.md` has what is still open.
+
+**PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
+"words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
+redraw** (forum.js draws no canvas of its own), and `putForumUpload` refuses one still carrying camera data **and a
+picture sent as a file** (`picturish`), which would keep its GPS. A file is one of `FORUM_FILE_TYPES`, checked by its
+first bytes (`fileKind`), never a page, a script, an SVG, an archive or a document with macros, 5 MB at most, and goes
+as it is, which the privacy page says. An upload waits under `forum-up/`, marked with its writer's `authorMark` so only
+they can attach it, and is swept after a day; a post's own are copied to `forum-file/<topic>/<id>` **before** the topic is
+written, so no post holds a file that is not there, and are deleted when the post, the topic or an edit lets go of
+them. **They have no public address**: `/cb/forum/file` serves one only to a reader `forumFile` finds can read the topic
+now and a post in which holds it, so moving a topic moves who can fetch them; a file is sent as
+`application/octet-stream`, `attachment`, sandboxed, and forum.js only saves it, never opens it. **@mentions** draw from
+the topic's people and anybody claimed on Who's online (`/cb/online`, asked once when an @ is first typed, the
+teleporter's precedent); a post keeps `at`, the handles `mentions()` finds in its words, so a page can draw them as
+names; **Mentions** is worked out from the posts on every read (`forumMentions`) and kept nowhere; and `notifyForum`
+tells only a device with **When somebody @mentions me** on, whose pass can read the category now, and after an edit only
+about a mention that is new. **The friendly edits now are a notification for every reply, a list of your
+notifications kept on the server, an unread count beside Mentions, and a picture fetched from a link**: the first two are
+records kept against a person, the third a count, the fourth a request on somebody's behalf to a site they never chose.
+**And `image/*` is written in two halves in forum.js**, because `make-forum.py` strips comments with a regex that reads a
+slash and a star as one; a refusal from that tool about code that is plainly there is that.
 
 ## What this site is FOR, so you know what you are protecting
 

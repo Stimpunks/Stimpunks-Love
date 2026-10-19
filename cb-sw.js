@@ -10,7 +10,8 @@
    What a notification says is worked out here from what the street sent:
    who, where, why, and the words if this device asked for them. A room's
    name comes from the street's own list, /cb-rooms.json, the radio's; the
-   address it opens is a path on this site and nothing else. */
+   address it opens is a path on this site and nothing else, or a post in the
+   forums (Ryan, 2026-10-18: an @mention there tells the devices that asked). */
 'use strict';
 
 var ROOMS = null;
@@ -25,10 +26,21 @@ function placeOf(list, tag) {
   for (var i = 0; i < list.length; i++) if (list[i].tag === tag) return list[i];
   return null;
 }
-function safePath(p) { return typeof p === 'string' && /^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?$/.test(p) ? p : '/'; }
+function safePath(p) {
+  if (typeof p !== 'string') return '/';
+  if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?$/.test(p)) return p;
+  return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
+}
 
 function say(d) {
   if (!d || typeof d !== 'object') return Promise.resolve(null);
+  if (d.kind === 'forum') {
+    var by = String(d.handle || 'Somebody').slice(0, 40);
+    var cat = typeof d.cat === 'string' && d.cat ? d.cat.slice(0, 80) : 'the forums';
+    var said = typeof d.title === 'string' && d.title ? '“' + d.title + '”' + (d.text ? ': ' + d.text : '') : 'A post in ' + cat + '.';
+    return Promise.resolve({ title: by + ' mentioned you in ' + cat, body: said,
+      url: safePath('/forum.html#/t/' + String(d.t || '') + (d.p ? '/' + String(d.p) : '')), tag: 'cb-forum-' + String(d.p || d.t || '') });
+  }
   if (d.kind === 'test') {
     return Promise.resolve({ title: 'Notifications are on', body: 'This is how a notification from the CB looks on this device.', url: '/', tag: 'cb-test' });
   }
@@ -72,7 +84,7 @@ self.addEventListener('notificationclick', function (e) {
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (wins) {
     for (var i = 0; i < wins.length; i++) {
       var w = wins[i];
-      try { if (new URL(w.url).pathname === url && 'focus' in w) return w.focus(); } catch (err) { /* another site's window */ }
+      try { var u = new URL(w.url); if (u.pathname + (url.indexOf('#') >= 0 ? u.hash : '') === url && 'focus' in w) return w.focus(); } catch (err) { /* another site's window */ }
     }
     return self.clients.openWindow ? self.clients.openWindow(url) : null;
   }));

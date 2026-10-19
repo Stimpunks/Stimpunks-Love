@@ -5,21 +5,25 @@
      cat      &c= &before=   one category's topics, pinned ones first
      topic    &t=            one topic, every post in it
      search   &q=            topics whose title or posts hold every word
+     mentions                topics where somebody else has @mentioned you, worked out now
      cb       &room= &ids=   the messages that would be copied off a channel
    POST, with the same pass:
-     { action: 'start', cat, title, body, from? }    a new topic; from: { room, ids } copies messages off the CB
-     { action: 'reply', t, body, reply? }            a reply, to the topic or to one post in it
-     { action: 'edit', t, p, body, title? }          your own post, and the title if you started it
+     { action: 'start', cat, title, body, from?, files?, at? }   a new topic; from: { room, ids } copies messages off the CB
+     { action: 'reply', t, body, reply?, files?, at? }          a reply, to the topic or to one post in it
+     { action: 'edit', t, p, body, title?, files?, at? }        your own post, and the title if you started it
+       files: [{ id, alt? }], uploads from /cb/forum/file, and the post's own; at: the handles picked to @mention
      { action: 'remove', t, p }                      your own post, or any for a moderator
      { action: 'removeTopic', t }                    your topic while nobody else has posted, or any for a moderator
      { action: 'uncopy', t, p, m }                   a message of yours copied in from the CB, back out
      { action: 'react', t, p, emoji }                a reaction on, or off again
      { action: 'moderate', t, pin?, close?, move? }  a moderator pinning, closing or moving a topic
      { action: 'preview', body }                     how the words will set
-   Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum,
+   A post that @mentions somebody tells their devices, if they asked
+   (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
+import { readPass, forumReader, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
-  reactPost, moderateTopic, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS } from '../cb/lib.mjs';
+  reactPost, moderateTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
+  FORUM_ATTACH_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere: the forums are for
 // claimed usernames, and a cached answer is a copy.
@@ -28,9 +32,11 @@ const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on
 
 // The quick row of reactions, so the page keeps no copy of the list.
 const quick = REACTIONS.map(([emoji, name]) => ({ emoji, name }));
+// What a post may carry, so the page keeps no copy of these either.
+const takes = { most: FORUM_ATTACH_MAX, fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES) };
 const num = (v) => (v != null && /^\d{1,15}$/.test(v) ? Number(v) : null);
 
-export default async (req) => {
+export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'The forums only answer stimpunks.world.' }, QUIET);
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' }, QUIET);
@@ -41,7 +47,7 @@ export default async (req) => {
   try {
     if (req.method === 'GET') {
       const view = url.searchParams.get('view') || 'home';
-      if (view === 'home') return json(200, { me, cats, home: await forumHome(who) }, QUIET);
+      if (view === 'home') return json(200, { me, cats, takes, home: await forumHome(who) }, QUIET);
       if (view === 'latest') return json(200, { me, cats, ...(await forumLatest(who, num(url.searchParams.get('before')))) }, QUIET);
       if (view === 'cat') {
         const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')));
@@ -49,9 +55,10 @@ export default async (req) => {
       }
       if (view === 'topic') {
         const t = await forumTopic(who, url.searchParams.get('t'));
-        return t ? json(200, { me, cats, topic: t, quick }, QUIET) : json(404, { me, cats, error: 'That topic has gone, or is not one you can read.' }, QUIET);
+        return t ? json(200, { me, cats, topic: t, quick, takes }, QUIET) : json(404, { me, cats, error: 'That topic has gone, or is not one you can read.' }, QUIET);
       }
       if (view === 'search') return json(200, { me, cats, results: await searchForum(who, url.searchParams.get('q') || '') }, QUIET);
+      if (view === 'mentions') return json(200, { me, cats, results: await forumMentions(who) }, QUIET);
       if (view === 'cb') {
         const ids = String(url.searchParams.get('ids') || '').split(',').filter(Boolean);
         const r = await cbTranscript(who, { room: url.searchParams.get('room') || null, ids });
@@ -79,9 +86,13 @@ export default async (req) => {
     else return json(400, { error: 'Do what with it?' }, QUIET);
     if (r.error) return json(400, { error: r.error }, QUIET);
     if (r.gone) return json(200, { me, cats, gone: true }, QUIET);
+    if (r.post && r.topic && ['start', 'reply', 'edit'].includes(b.action)) {
+      const told = notifyForum(r.topic, r.post, r.before || '').catch(() => []);
+      if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
+    }
     const id = r.topic ? r.topic.id : t;
     const topic = await forumTopic(who, id);
-    return json(200, { me, cats, topic, quick, post: r.post ? r.post.id : null, gone: !topic }, QUIET);
+    return json(200, { me, cats, topic, quick, takes, post: r.post && b.action !== 'edit' ? r.post.id : null, gone: !topic }, QUIET);
   } catch (e) {
     return json(503, { error: 'The forums are busy just now. Look again in a moment before trying again.' }, QUIET);
   }

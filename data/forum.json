@@ -4,7 +4,7 @@
   "_keep": "How long a topic stays after its last post: \"1 week\", \"3 months\", \"6 months\" or \"never\". A topic with no keep of its own takes default_keep. Changing a category's keep here changes it for every topic already in it, because the date a topic goes is worked out every time it is read. A pinned topic is kept while it stays pinned. Ryan's calls, 2026-10-18: three months by default, and counted from the last post, so a living conversation never vanishes mid-discussion.",
   "_roles": "see: who can read the category, as CB_MODS roles (moderator, board, director, administrator); null is every claimed username. start: who can start a topic in it, as roles; null is everybody who can see it. An administrator sees and starts in every category unless it says strict, which is the Town Hall's Executive Session rule: the category's own roles are the only way in. A category somebody cannot see is never sent to them, and nothing says it exists.",
   "_coping": "Ryan's call, 2026-10-18: Coping is one of the most active channels on our Discord, so it is here for people moving over, and its topics go a week after the last post, because Discord keeps that channel for ever and that is not what it is for. Do not lengthen it to match the other categories.",
-  "_left_out": "From our old Discord's channels, left for Ryan or Helen to add: body doubling and the live rooms (those are calls, which every room on the street already has), and the gallery (the forums take words only, as the suggestion box does, until somebody decides how pictures of people's art are consented to).",
+  "_left_out": "From our old Discord's channels, left for Ryan or Helen to add: body doubling and the live rooms (those are calls, which every room on the street already has), and the gallery. Pictures and files arrived in posts on 2026-10-18 (Ryan's call), so a gallery could be a category now; Show your work and Pets already take pictures.",
   "default_keep": "3 months",
   "categories": [
     { "slug": "announcements", "name": "Announcements", "group": "Information",
@@ -33,6 +33,15 @@
       "keep": "3 months", "see": null, "start": null },
     { "slug": "work-opportunities", "name": "Work opportunities", "group": "Community",
       "about": "Jobs, gigs, calls for contributors and paid chances to do the work.",
+      "keep": "3 months", "see": null, "start": null },
+    { "slug": "discourse", "name": "Discourse", "group": "Community",
+      "about": "The news, ideas and arguments of the day, and what they mean for us. Disagree well: nobody has to win, and nobody has to take part.",
+      "keep": "3 months", "see": null, "start": null },
+    { "slug": "pets", "name": "Pets", "group": "Community",
+      "about": "Your animals: pictures, stories, worries and questions. Animals adopted from the street's shelters are welcome here too.",
+      "keep": "3 months", "see": null, "start": null },
+    { "slug": "props-and-gratitude", "name": "Props & Gratitude", "group": "Community",
+      "about": "Thank somebody out loud for something they did, big or small. Nobody is ranked, and nobody has to be thanked to belong.",
       "keep": "3 months", "see": null, "start": null },
     { "slug": "infodumps", "name": "Infodumps", "group": "Interests",
       "about": "Tell us everything about the thing you love. Long is welcome.",
@@ -66,6 +75,15 @@
       "keep": "6 months", "see": ["director"], "start": null },
     { "slug": "board", "name": "Board", "group": "Staff",
       "about": "For the board, and the directors who join its meetings, as the Board room off the Town Hall is.",
-      "keep": "6 months", "see": ["board", "director"], "start": null }
+      "keep": "6 months", "see": ["board", "director"], "start": null },
+    { "slug": "back-office-operations", "name": "Back Office Operations", "group": "Staff",
+      "about": "For the directors and the board: the paperwork, systems, filings and contracts that keep Stimpunks running behind the scenes.",
+      "keep": "6 months", "see": ["director", "board"], "start": null },
+    { "slug": "grantmaking", "name": "Grantmaking", "group": "Staff",
+      "about": "For the directors and the board: the grants we make, the requests that come in, and how they are decided.",
+      "keep": "6 months", "see": ["director", "board"], "start": null },
+    { "slug": "finance", "name": "Finance", "group": "Staff",
+      "about": "For the directors and the board: money in, money out, budgets, banking and the books.",
+      "keep": "6 months", "see": ["director", "board"], "start": null }
   ]
 }

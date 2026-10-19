@@ -6,7 +6,10 @@ Ryan's brief and calls, 2026-10-18: a forum after Discourse for discussions
 that need to last longer than the CB's two days, readable only by claimed usernames,
 a keep per category (a week, three months, six months or never, counted from
 the last post), categories kept to CB roles for staff areas, messages copied
-in from the CB, and links previewed by our server reading the page once.
+in from the CB, and links previewed by our server reading the page once. And
+later the same day, Ryan's calls reversing "words only" and "no
+notifications" for the forums: pictures and files in posts, and @mentions,
+which tell a device only through the radio's own When somebody @mentions me.
 
 WHAT IT WRITES: data/forum.json's categories, between the forum:categories
 markers in netlify/cb/lib.mjs, which is the only list the server reads. Never
@@ -36,7 +39,21 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · MARKUP FROM WHAT SOMEBODY TYPED: forum.js builds posts with markdown.js and
     textContent, never innerHTML or its relatives.
   · ANY STORAGE BUT love-forum, and writing love-cb, which only the radio does.
-    forum.js talks to /cb/forum and reads /cb-rooms.json, and nothing else.
+    forum.js talks to /cb/forum and /cb/forum/file, reads /cb-rooms.json, and
+    asks /cb/online (the radio's Who's online) for the @ list, and nothing else.
+  · A PICTURE WITH ITS CAMERA'S DATA, OR A FILE THAT RUNS. forum.js redraws a
+    picture with window.loveRedraw, the radio's one redraw, and draws no canvas
+    of its own; it saves a file as application/octet-stream and never opens
+    one. The server refuses a picture still carrying camera data, a picture
+    sent as a file, and any kind of file but FORUM_FILE_TYPES, which may not
+    name a page, a script or an SVG; /cb/forum/file sends a file only to be
+    saved, sniffed by nobody, sandboxed, and to no search engine.
+  · A PICTURE OR FILE FOR ANYBODY BUT A READER OF ITS TOPIC: forumFile asks
+    forumAllows and that a post in the topic holds it, every time.
+  · A MENTION TOLD TO SOMEBODY WHO DID NOT ASK OR CANNOT READ IT: notifyForum
+    tells only a device that switched on mentions, and only if its pass can
+    read the category now. Who was mentioned where is worked out on every read
+    and kept nowhere.
   · A COLOUR OF THE FORUMS' OWN. forum.css wears the CB's seven colours and
     nothing else, so every theme's pairs are the ones check-contrast.py
     already holds for the radio.
@@ -57,6 +74,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "forum.json"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 FN = ROOT / "netlify" / "functions" / "cb-forum.mjs"
+FILES = ROOT / "netlify" / "functions" / "cb-forum-file.mjs"
 MIDNIGHT = ROOT / "netlify" / "functions" / "cb-midnight.mjs"
 JS = ROOT / "forum.js"
 CSS = ROOT / "forum.css"
@@ -153,22 +171,22 @@ def check_lib(lib):
     code = re.sub(r"/\*.*?\*/", " ", sec, flags=re.S)
     if "console." in code:
         problems.append(f"{LIB.name}: the forums' section writes to the console. Nothing anybody types is ever logged.")
-    for name in ("forumHome", "forumLatest", "forumCategory", "forumTopic", "searchForum", "cbTranscript",
+    for name in ("forumHome", "forumLatest", "forumCategory", "forumTopic", "searchForum", "forumMentions", "cbTranscript",
                  "startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost",
-                 "removeTopic", "moderateTopic"):
+                 "removeTopic", "moderateTopic", "forumFile", "putForumUpload"):
         body = fn(sec, name)
         if not body:
             problems.append(f"{LIB.name}: {name} is missing.")
         elif "forumReader(who)" not in body and "forumAllows(who" not in body and "forumCatsFor(who)" not in body:
             problems.append(f"{LIB.name}: {name} no longer asks whether the reader is a claimed username who may see the category.")
-    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "removeTopic", "moderateTopic"):
+    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "removeTopic", "moderateTopic", "putForumUpload"):
         if "if (!forumReader(who)) return { error: CLAIM };" not in fn(sec, name):
             problems.append(f"{LIB.name}: {name} must refuse anybody but a claimed username first.")
     if "who.account && typeof who.since === 'number'" not in fn(sec, "forumReader"):
         problems.append(f"{LIB.name}: forumReader no longer means a claimed username.")
     if "since: acct.since" not in lib:
         problems.append(f"{LIB.name}: readPass no longer gives a claimed pass the moment it was claimed, which every post's mark needs.")
-    for name in ("shapePost", "shapeTopic", "shapeSummary", "shapeForumCat", "shapeCopied", "shapePreview"):
+    for name in ("shapePost", "shapeTopic", "shapeSummary", "shapeForumCat", "shapeCopied", "shapePreview", "shapeFile"):
         m = re.search(rf"function {name}\(.*?\n\}}", sec, re.S)
         body = m.group(0) if m else ""
         if not body:
@@ -197,6 +215,24 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: a copied message no longer comes out under the channel's own rule, canTakeOff.")
     if "readTuned(room, s)" not in fn(sec, "cbTranscript") or "quietRoom(room)" not in fn(sec, "cbTranscript"):
         problems.append(f"{LIB.name}: cbTranscript must copy off the channel itself, and never out of a quiet room.")
+    up = fn(sec, "putForumUpload")
+    if "carriesMetadata(bytes, type)" not in up or "fileKind(bytes, name)" not in up:
+        problems.append(f"{LIB.name}: putForumUpload no longer refuses a picture still carrying its camera's data, or a file that is not what it says.")
+    if "picturish(bytes)" not in fn(sec, "fileKind"):
+        problems.append(f"{LIB.name}: fileKind no longer refuses a picture sent as a file, which would keep its camera's data.")
+    m = re.search(r"export const FORUM_FILE_TYPES = \{(.*?)\n\};", sec, re.S)
+    kinds = re.findall(r"^\s*([a-z0-9]+):", m.group(1), re.M) if m else []
+    if not kinds:
+        problems.append(f"{LIB.name}: FORUM_FILE_TYPES cannot be read.")
+    for bad in ("svg", "html", "htm", "xhtml", "xml", "js", "mjs", "exe", "zip", "docm", "xlsm", "pptm", "heic", "jpg", "jpeg", "png", "gif", "webp"):
+        if bad in kinds:
+            problems.append(f"{LIB.name}: FORUM_FILE_TYPES takes .{bad}. A page, a script, an archive, a document with macros or a picture is never a forum file.")
+    ff = fn(sec, "forumFile")
+    if "forumAllows(who, cat)" not in ff or "p.files" not in ff:
+        problems.append(f"{LIB.name}: forumFile no longer asks whether the reader can read the topic, and whether a post in it holds the file.")
+    nf = fn(lib, "notifyForum")
+    if "forumAllows(who, cat)" not in nf or "d.want.mentions" not in nf or "deviceWho(d, s, mods)" not in nf:
+        problems.append(f"{LIB.name}: notifyForum must tell only a device that asked about mentions, whose pass can read the category now.")
     if "sweepForum" not in MIDNIGHT.read_text():
         problems.append(f"{MIDNIGHT.name}: the hourly sweep no longer sweeps the forums, so a topic past its date would stay stored.")
 
@@ -214,6 +250,21 @@ def check_function():
         problems.append(f"{FN.name}: its answers must ask search engines not to keep them.")
     if "path: '/cb/forum'" not in f:
         problems.append(f"{FN.name}: it no longer answers at /cb/forum, where forum.js asks.")
+    if not FILES.exists():
+        problems.append(f"{FILES.name}: missing.")
+        return
+    g = code_of(FILES)
+    gate = g.find("if (!forumReader(who))")
+    first = min([i for i in (g.find("forumFile("), g.find("putForumUpload(")) if i >= 0] or [-1])
+    if gate < 0 or first < 0 or gate > first:
+        problems.append(f"{FILES.name}: it must refuse anybody but a claimed username before it reads or puts up anything.")
+    for need, why in (("'application/octet-stream'", "a file is sent as nothing a browser would show"),
+                      ("content-disposition", "a file is sent to be saved"),
+                      ("'x-content-type-options': 'nosniff'", "nobody may guess a file is a page"),
+                      ("sandbox", "nothing in a file may run as a page of ours"),
+                      ("x-robots-tag", "no search engine keeps one")):
+        if need not in g:
+            problems.append(f"{FILES.name}: {need} is gone: {why}.")
 
 
 def check_js():
@@ -234,8 +285,12 @@ def check_js():
     if not re.search(r"var SEEN = 'love-forum';", js):
         problems.append(f"{JS.name}: its one key in the browser is love-forum.")
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/forum", "/cb-rooms.json", "/cb.css", "/forum.css", "/cb-themes.js", "/call.js", "/forum.html", "/privacy.html", "/cb-guide.html", "/community-center.html"):
-            problems.append(f"{JS.name}: it calls {url}. The forums talk to /cb/forum and read the list of rooms, and nothing else.")
+        if url not in ("/cb/forum", "/cb/forum/file", "/cb/online", "/cb-rooms.json", "/cb.css", "/forum.css", "/cb-themes.js", "/call.js", "/forum.html", "/privacy.html", "/cb-guide.html", "/community-center.html"):
+            problems.append(f"{JS.name}: it calls {url}. The forums talk to /cb/forum and /cb/forum/file, read the list of rooms and Who's online, and nothing else.")
+    if "window.loveRedraw(file)" not in js or re.search(r"getContext\(|toBlob\(|OffscreenCanvas", js):
+        problems.append(f"{JS.name}: a picture must be redrawn by window.loveRedraw, the radio's one redraw, and by no canvas of the forums' own.")
+    if "type: 'application/octet-stream'" not in js or re.search(r"window\.open\(|\.target\s*=", js):
+        problems.append(f"{JS.name}: a file is saved as application/octet-stream and never opened here.")
     for m in re.finditer(r"""\+\s*['"]\s*(replies|reply|posts|post|topics|topic|views|likes|people|members|readers|new)\b""", js):
         problems.append(f"{JS.name}: '{m.group(0).strip()}' looks like a number beside {m.group(1)}. Nothing in the forums is counted.")
     if re.search(r"\bunread\b|\bviews\b|\bview count", js, re.I):

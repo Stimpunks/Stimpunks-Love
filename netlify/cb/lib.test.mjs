@@ -71,8 +71,8 @@ function memoryStore({ etagOnRead }) {
     // nobody else writes it. Anything else fails.
     async set(key, value, opts = {}) {
       await tick();
-      // A picture's key is a fresh random id, so writing it can race nothing.
-      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
+      // A picture's or a forum upload's key is a fresh random id, so writing it can race nothing.
+      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|forum-up|forum-file)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -2656,3 +2656,112 @@ for (const etagOnRead of [true, false]) {
     if (etagOnRead) assert.equal(worked.length, 15);
   }));
 }
+
+/* ── The forums' pictures, files and @mentions ─────────────────────────── */
+import { putForumUpload, forumFile, forumMentions, fileKind, cleanFileName, notifyForum, FORUM_ATTACH_MAX } from './lib.mjs';
+
+const JPEG = () => Buffer.concat([Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0, 16]), Buffer.from('JFIF\0'), rnd(200)]);
+const EXIF = () => Buffer.concat([Buffer.from([0xff, 0xd8, 0xff, 0xe1, 0, 40]), Buffer.from('Exif\0\0'), rnd(200)]);
+const PDF = (extra = '') => Buffer.from(`%PDF-1.7\n1 0 obj << /Type /Catalog >> endobj ${extra}\n%%EOF`);
+const ZIP = (inside = 'word/document.xml') => Buffer.concat([Buffer.from([0x50, 0x4b, 3, 4]), Buffer.from(inside), rnd(64)]);
+
+test('a picture comes without its camera data, and a file only as one of the kinds the forums take', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const typed = { role: 'mobile', handle: 'Cy', roles: new Set() };
+  assert.match((await putForumUpload(typed, { kind: 'pic' }, JPEG(), s, T0)).error, /claimed usernames/);
+  assert.match((await putForumUpload(ADA, { kind: 'pic' }, EXIF(), s, T0)).error, /camera data/);
+  assert.ok((await putForumUpload(ADA, { kind: 'pic' }, JPEG(), s, T0)).id);
+  assert.match((await putForumUpload(ADA, { kind: 'file', name: 'photo.pdf' }, JPEG(), s, T0)).error, /That is a picture/, 'a photo went up as a file, camera data and all');
+  assert.ok((await putForumUpload(ADA, { kind: 'file', name: 'notes.pdf' }, PDF(), s, T0)).id);
+  assert.match((await putForumUpload(ADA, { kind: 'file', name: 'run.pdf' }, PDF('/JavaScript (app.alert(1))'), s, T0)).error, /script/);
+  assert.match((await putForumUpload(ADA, { kind: 'file', name: 'page.html' }, Buffer.from('<script>x</script>'), s, T0)).error, /name ends in/);
+  assert.match((await putForumUpload(ADA, { kind: 'file', name: 'drawing.svg' }, Buffer.from('<svg/>'), s, T0)).error, /name ends in/);
+  assert.match((await putForumUpload(ADA, { kind: 'file', name: 'macro.docx' }, ZIP('word/vbaProject.bin'), s, T0)).error, /macros/);
+  assert.ok((await putForumUpload(ADA, { kind: 'file', name: 'plain.docx' }, ZIP(), s, T0)).id);
+  assert.match(fileKind(Buffer.from('not a pdf at all'), 'x.pdf').error, /not the kind of file/);
+  assert.match(fileKind(Buffer.from([0x68, 0, 0x69]), 'x.txt').error, /not the kind/);
+  assert.match(fileKind(Buffer.from([0xc3, 0x28]), 'x.txt').error, /UTF-8/);
+  assert.equal(cleanFileName('../../etc/passwd.txt'), 'etc-passwd.txt');
+  assert.equal(cleanFileName('report.exe'), null);
+  assert.equal(cleanFileName('.txt'), null);
+});
+
+test('a post\'s pictures and files are its writer\'s own, read only where the topic is, and go with the post', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pic = await putForumUpload(ADA, { kind: 'pic' }, JPEG(), s, T0);
+  const doc = await putForumUpload(ADA, { kind: 'file', name: 'Minutes.pdf' }, PDF(), s, T0);
+  const bos = await putForumUpload(BO, { kind: 'pic' }, JPEG(), s, T0);
+  assert.match((await startTopic(ADA, { cat: 'pets', title: 'Theirs', files: [{ id: bos.id }] }, s, T0, NO_NET)).error, /not yours/, 'somebody else\'s upload went into a post');
+  assert.match((await startTopic(ADA, { cat: 'pets', title: 'Many', files: Array.from({ length: FORUM_ATTACH_MAX + 1 }, () => ({ id: pic.id })) }, s, T0, NO_NET)).error, /at most/);
+  const r = await startTopic(ADA, { cat: 'pets', title: 'My cat', files: [{ id: pic.id, alt: 'A grey cat asleep in a box' }, { id: doc.id }] }, s, T0, NO_NET);
+  assert.ok(r.topic, r.error);
+  const t = r.topic;
+  assert.equal(s.keys().some((k) => k === `forum-up/${pic.id}`), false, 'the upload stayed waiting once a post took it');
+  const shown = await forumTopic(BO, t.id, s, T0);
+  assert.deepEqual(shown.posts[0].files.map((f) => [f.kind, f.name || f.alt]), [['pic', 'A grey cat asleep in a box'], ['file', 'Minutes.pdf']]);
+  assert.ok(!JSON.stringify(shown).includes(authorMark(ADA)), 'an upload carried its writer\'s mark to a reader');
+  assert.ok(await forumFile(BO, t.id, pic.id, s, T0), 'a reader could not see a picture in a topic they can read');
+  assert.equal(await forumFile(BO, t.id, bos.id, s, T0), null, 'a file no post holds was served');
+  assert.equal(await forumFile(BO, 'tAAAAAAAAAAAA', pic.id, s, T0), null);
+  // Moved to where Bo cannot read, its files go out of Bo's reach with it.
+  await moderateTopic(FADMIN, t.id, { move: 'finance' }, s, T0);
+  assert.equal(await forumFile(BO, t.id, pic.id, s, T0), null, 'a file was served out of a category the reader cannot see');
+  assert.ok(await forumFile(FADMIN, t.id, pic.id, s, T0));
+  await moderateTopic(FADMIN, t.id, { move: 'pets' }, s, T0);
+  // An edit that lets one go deletes it; one left out of the edit is kept.
+  await editPost(ADA, t.id, t.posts[0].id, { body: 'Just the cat.' }, s, T0 + 1, NO_NET);
+  assert.ok(s.keys().includes(`forum-file/${t.id}/${doc.id}`), 'an edit that did not mention the files dropped them');
+  await editPost(ADA, t.id, t.posts[0].id, { body: 'Just the cat.', files: [{ id: pic.id }] }, s, T0 + 2, NO_NET);
+  assert.equal(s.keys().includes(`forum-file/${t.id}/${doc.id}`), false, 'a file the post let go of is still stored');
+  assert.equal((await forumTopic(BO, t.id, s, T0)).posts[0].files[0].alt, undefined, 'a description taken off stayed');
+  // A reply on a closed topic is refused, and its upload is still waiting.
+  const late = await putForumUpload(BO, { kind: 'pic' }, JPEG(), s, T0);
+  await moderateTopic(FMOD, t.id, { close: true }, s, T0);
+  assert.match((await replyTopic(BO, t.id, { files: [{ id: late.id }] }, s, T0 + 3, NO_NET)).error, /closed/);
+  assert.ok(s.keys().includes(`forum-up/${late.id}`) && !s.keys().includes(`forum-file/${t.id}/${late.id}`), 'a refused reply lost its upload or left a copy');
+  await moderateTopic(FMOD, t.id, { close: false }, s, T0);
+  const reply = await replyTopic(BO, t.id, { files: [{ id: late.id }] }, s, T0 + 4, NO_NET);
+  assert.ok(reply.post, 'a reply that is only a picture was refused');
+  await removePost(BO, t.id, reply.post.id, s, T0 + 5);
+  assert.equal(s.keys().includes(`forum-file/${t.id}/${late.id}`), false, 'a post taken down left its picture stored');
+  assert.equal(await forumFile(ADA, t.id, late.id, s, T0), null);
+  // The topic goes, and everything under it.
+  await removeTopic(FMOD, t.id, s, T0 + 6);
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('forum-file/')), [], 'a topic taken down left its files');
+  // An upload no post took goes after a day; one under no topic, after an hour.
+  const stray = await putForumUpload(ADA, { kind: 'pic' }, JPEG(), s, T0);
+  await s.set(`forum-file/tZZZZZZZZZZZZ/${stray.id}`, JPEG(), { metadata: { t: T0 } });
+  await sweepForum(s, T0 + 30 * 60 * 1000);
+  assert.ok(s.keys().includes(`forum-up/${stray.id}`) && s.keys().includes(`forum-file/tZZZZZZZZZZZZ/${stray.id}`), 'the sweep was early');
+  await sweepForum(s, T0 + DAYS(1) + 1);
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('forum-up/') || k.startsWith('forum-file/')), [], 'the sweep left an upload nobody posted');
+});
+
+test('a post keeps who it @mentions, the reader finds where they were mentioned, and a device is told only what its pass can read', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Bex', 'a long enough phrase', s, 9, null);
+  const BEX = fw('Bex', 9);
+  const dev = aDevice();
+  await keepDevice(dev, issueAccountPass('Bex', (await readAccount('Bex', s)).v), { mentions: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push(payload); return 201; };
+  const t = (await startTopic(ADA, { cat: 'nature', title: 'Moss', body: 'Moss for @Bex, and for @Nobody here', at: ['Bex', 'Nobody here', 'Cy'] }, s, T0, NO_NET)).topic;
+  assert.deepEqual(t.posts[0].at, ['Bex', 'Nobody here'], 'a handle the words do not mention was kept, or one they do was not');
+  const reply = await replyTopic(BO, t.id, { body: 'Thanks @ada!' }, s, T0 + 1, NO_NET);
+  assert.deepEqual(reply.post.at, ['Ada'], 'a topic\'s own people were not found mentioned');
+  await notifyForum(t, t.posts[0], '', s, readMods(''), send);
+  assert.equal(sent.length, 1);
+  assert.deepEqual([sent[0].kind, sent[0].why, sent[0].handle, sent[0].t, sent[0].cat, sent[0].title], ['forum', 'mention', 'Ada', t.id, 'Nature', 'Moss']);
+  sent.length = 0;
+  await notifyForum(t, { ...t.posts[0], body: 'Moss for @Bex, edited' }, t.posts[0].body, s, readMods(''), send);
+  assert.equal(sent.length, 0, 'an edit told somebody again about a mention they had already had');
+  const secret = (await startTopic(FBOARD, { cat: 'grantmaking', title: 'A request', body: '@Bex asked about this' }, s, T0, NO_NET)).topic;
+  await notifyForum(secret, secret.posts[0], '', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'a mention in a category Bex cannot read told Bex');
+  await notifyForum(t, { ...t.posts[0], handle: 'Bex', body: 'me, @Bex' }, '', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'somebody was told about their own post');
+  const found = await forumMentions(BEX, s, T0 + 2);
+  assert.deepEqual(found.map((x) => [x.id, x.match.handle]), [[t.id, 'Ada']], 'where Bex was mentioned was not found, or a hidden one was');
+  assert.match(found[0].match.words, /@Bex/);
+  assert.deepEqual((await forumMentions(ADA, s, T0 + 2)).map((x) => x.match.handle), ['Bo']);
+}));

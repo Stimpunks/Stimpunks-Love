@@ -107,8 +107,10 @@
        good, as its category says; read and written only by a claimed
        username; a few categories kept to CB roles; messages copied in from
        the CB by the server, never typed in by anybody, and taken back out by
-       whoever sent them. Nothing about who reads is kept. See the forums
-       section below.
+       whoever sent them; pictures, redrawn in the writer's browser, and
+       files, each fetched with the pass by readers of its topic only and gone
+       with its post; and @mentions, which tell only a device that asked.
+       Nothing about who reads is kept. See the forums section below.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
@@ -3733,6 +3735,30 @@ export async function removeSuggestion(who, id, s = store()) {
    rule, and a moderator can. Nothing is copied out of a quiet room, and out of
    a private room only into a category no wider than it.
 
+   PICTURES AND FILES, Ryan's call, 2026-10-18, reversing "words only". A
+   picture is redrawn in the writer's browser by the radio's one redraw before
+   it is sent, which takes off everything a camera wrote into it, GPS first,
+   and is refused here if it still carries any of it. A file goes up as it is,
+   and only as one of FORUM_FILE_TYPES, checked by its first bytes and not only
+   its name: never a picture (which must come as a picture, to lose its
+   camera's data), never a script, a web page or an SVG, never a document with
+   macros in it. An upload waits under forum-up/ until a post takes it, and is
+   swept after a day if none does; a post's own are copied to
+   forum-file/<topic>/<id> before the topic is written, and are deleted when
+   the post, the topic or the edit lets go of them. They have no public
+   address: each is served, with the pass, only to somebody who can read a
+   topic a post in which holds it (forumFile), so moving a topic moves who can
+   fetch them, and a post taken down takes its files out of reach at once.
+
+   @MENTIONS, Ryan's call, 2026-10-18, reversing "no notifications" for the
+   forums. A post keeps the handles it mentions (at): the ones its writer
+   picked, and the topic's own people, each only if mentions() finds it in the
+   words, so a reader's page can draw them. Nothing else is kept about a
+   mention: who has been mentioned where is worked out on every read
+   (forumMentions), and a mention notifies only a device that switched on
+   When somebody @mentions me and whose pass can read the category now
+   (notifyForum, with the notifications).
+
    NOTHING ANYBODY TYPES IS LOGGED, here as everywhere in this file. */
 export const FORUM_TITLE_MAX = 120;
 export const FORUM_BODY_MAX = 20000;
@@ -3742,9 +3768,34 @@ export const FORUM_PREVIEWS = 5;        // links previewed in one post
 export const FORUM_LATEST = 60;         // topics on one page of a list
 export const FORUM_SEARCH_MAX = 400;    // topics one search reads, newest first
 export const FORUM_KEEPS = ['1 week', '3 months', '6 months', 'never'];
+export const FORUM_ATTACH_MAX = 6;      // pictures and files on one post
+export const FORUM_FILE_MAX = 5000000;  // bytes in a file; a picture is IMG_MAX, after the browser has redrawn it
+export const FORUM_NAME_MAX = 120;      // characters of a file's name
+export const FORUM_ALT_MAX = 600;       // characters of a picture's description, which is offered and never required
+export const FORUM_AT_MAX = 10;         // handles one post keeps as mentioned
 const FORUM_CAT = 'forum/c/';
 const FORUM_TOPIC = 'forum/t/';
+const FORUM_UP = 'forum-up/';           // an upload no post has taken yet
+const FORUM_FILE = 'forum-file/';       // forum-file/<topic>/<id>, a post's own
+const FORUM_UNSENT = 24 * 60 * 60 * 1000;
 const DAY = 24 * 60 * 60 * 1000;
+
+/* What a file may be, by the end of its name, and what its first bytes must
+   say it is. A picture is never one of these: it comes as a picture. */
+export const FORUM_FILE_TYPES = {
+  pdf: { type: 'application/pdf', is: 'pdf' },
+  txt: { type: 'text/plain', is: 'text' },
+  md: { type: 'text/markdown', is: 'text' },
+  csv: { type: 'text/csv', is: 'text' },
+  rtf: { type: 'application/rtf', is: 'rtf' },
+  docx: { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', is: 'zip' },
+  xlsx: { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', is: 'zip' },
+  pptx: { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation', is: 'zip' },
+  odt: { type: 'application/vnd.oasis.opendocument.text', is: 'zip' },
+  ods: { type: 'application/vnd.oasis.opendocument.spreadsheet', is: 'zip' },
+  odp: { type: 'application/vnd.oasis.opendocument.presentation', is: 'zip' },
+  epub: { type: 'application/epub+zip', is: 'zip' },
+};
 
 /* forum:categories:begin -- written by tools/make-forum.py from data/forum.json. Do not hand-edit. */
 export const FORUM_DEFAULT_KEEP = "3 months";
@@ -3758,6 +3809,9 @@ export const FORUM_CATEGORIES = [
   {"slug": "mutual-aid", "name": "Mutual aid", "about": "To give help and to get it. Nobody owes anybody here.", "group": "Community", "keep": "3 months", "see": null, "start": null},
   {"slug": "show-your-work", "name": "Show your work", "about": "What you are making, writing, learning or fixing, finished or not.", "group": "Community", "keep": "3 months", "see": null, "start": null},
   {"slug": "work-opportunities", "name": "Work opportunities", "about": "Jobs, gigs, calls for contributors and paid chances to do the work.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "discourse", "name": "Discourse", "about": "The news, ideas and arguments of the day, and what they mean for us. Disagree well: nobody has to win, and nobody has to take part.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "pets", "name": "Pets", "about": "Your animals: pictures, stories, worries and questions. Animals adopted from the street's shelters are welcome here too.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "props-and-gratitude", "name": "Props & Gratitude", "about": "Thank somebody out loud for something they did, big or small. Nobody is ranked, and nobody has to be thanked to belong.", "group": "Community", "keep": "3 months", "see": null, "start": null},
   {"slug": "infodumps", "name": "Infodumps", "about": "Tell us everything about the thing you love. Long is welcome.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
   {"slug": "reading-watching-listening", "name": "Reading, watching, listening, playing", "about": "Books, films, shows, music, podcasts and games: what you are into and what you would pass along.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
   {"slug": "education", "name": "Education", "about": "Learning, schooling, unschooling and the places in between, and what they do to the people in them.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
@@ -3769,6 +3823,9 @@ export const FORUM_CATEGORIES = [
   {"slug": "moderators", "name": "Moderators", "about": "For our moderators: anything about keeping the street and the CB a good place to be.", "group": "Staff", "keep": "6 months", "see": ["moderator"], "start": null},
   {"slug": "directors", "name": "Directors", "about": "For our directors, as the Directors' room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["director"], "start": null},
   {"slug": "board", "name": "Board", "about": "For the board, and the directors who join its meetings, as the Board room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["board", "director"], "start": null},
+  {"slug": "back-office-operations", "name": "Back Office Operations", "about": "For the directors and the board: the paperwork, systems, filings and contracts that keep Stimpunks running behind the scenes.", "group": "Staff", "keep": "6 months", "see": ["director", "board"], "start": null},
+  {"slug": "grantmaking", "name": "Grantmaking", "about": "For the directors and the board: the grants we make, the requests that come in, and how they are decided.", "group": "Staff", "keep": "6 months", "see": ["director", "board"], "start": null},
+  {"slug": "finance", "name": "Finance", "about": "For the directors and the board: money in, money out, budgets, banking and the books.", "group": "Staff", "keep": "6 months", "see": ["director", "board"], "start": null},
 ];
 /* forum:categories:end */
 
@@ -3821,6 +3878,160 @@ export function cleanForumTitle(v) { const t = tidy(v); return t && [...t].lengt
 export function cleanForumBody(v) {
   const t = cleanBrassBody(v);
   return t && [...t].length <= FORUM_BODY_MAX ? t : null;
+}
+/* A picture's description: '' when there is none, null when it is too long. */
+export function cleanForumAlt(v) {
+  if (v == null || String(v).trim() === '') return '';
+  const t = tidy(v);
+  return t && [...t].length <= FORUM_ALT_MAX ? t : null;
+}
+
+/* ── Pictures and files ── */
+
+/* A file's name as it will be shown and saved: no path, no character a
+   computer would read as one, and ending in a kind the forums take. */
+export function cleanFileName(v) {
+  const t = tidy(String(v == null ? '' : v).replace(/[\\/:*?"<>|]/g, '-')).replace(/^[.\s-]+/, '');
+  if (!t || [...t].length > FORUM_NAME_MAX) return null;
+  const ext = (/\.([a-z0-9]{1,5})$/i.exec(t) || [])[1];
+  return ext && own(FORUM_FILE_TYPES, ext.toLowerCase()) ? t : null;
+}
+
+/* Whether a file's first bytes say it is a picture of any kind a camera or a
+   phone makes, so that it is refused as a file. */
+function picturish(b) {
+  if (imageKind(b)) return true;
+  const head = Buffer.from(b.subarray(0, 16)).toString('latin1');
+  return /^GIF8|^BM|^II\*\0|^MM\0\*|^\0\0\0.ftyp(?:hei|hev|mif|msf|avi)/s.test(head);
+}
+
+/* What a file is, checked by its first bytes against the end of its name.
+   { type } or { error }. */
+export function fileKind(bytes, name) {
+  const ext = String(name || '').split('.').pop().toLowerCase();
+  const k = own(FORUM_FILE_TYPES, ext) ? FORUM_FILE_TYPES[ext] : null;
+  if (!k) return { error: `The forums take ${Object.keys(FORUM_FILE_TYPES).join(', ')} files, and pictures.` };
+  if (picturish(bytes)) return { error: 'That is a picture. Add it as a picture, which takes its camera’s data off first.' };
+  const buf = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const not = { error: `That file is not the kind of file its name says it is (.${ext}).` };
+  if (k.is === 'pdf') {
+    if (!buf.subarray(0, 5).equals(Buffer.from('%PDF-'))) return not;
+    if (buf.includes('/JavaScript') || buf.includes('/Launch')) return { error: 'That PDF carries a script, or something that starts a program. The forums do not take those.' };
+  }
+  if (k.is === 'rtf' && !buf.subarray(0, 5).equals(Buffer.from('{\\rtf'))) return not;
+  if (k.is === 'zip') {
+    if (!(buf[0] === 0x50 && buf[1] === 0x4b && buf[2] === 3 && buf[3] === 4)) return not;
+    if (buf.includes('vbaProject') || buf.includes('Basic/') || buf.includes('Scripts/')) return { error: 'That document has macros in it. The forums do not take those: save it again without them.' };
+  }
+  if (k.is === 'text') {
+    if (buf.includes(0)) return not;
+    try { new TextDecoder('utf-8', { fatal: true }).decode(buf); } catch (e) { return { error: `A .${ext} file is plain text, saved as UTF-8. That one is not.` }; }
+  }
+  return { type: k.type };
+}
+
+/* An upload, before any post holds it. A picture has already been redrawn in
+   the writer's browser; a file is whatever they chose, checked. It waits under
+   forum-up/, marked with its writer's mark so only they can put it in a post,
+   and goes after a day if no post takes it. */
+export async function putForumUpload(who, f, bytes, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  if (!bytes || !bytes.length) return { error: 'There was nothing in that.' };
+  let meta;
+  if (f && f.kind === 'pic') {
+    if (bytes.length > IMG_MAX) return { error: 'That picture is too big, even after your browser made it smaller.' };
+    const type = imageKind(bytes);
+    if (!type) return { error: 'That is not a picture the forums can show.' };
+    if (carriesMetadata(bytes, type)) return { error: 'That picture still carries its camera data. Add it again in the forums, which take that off.' };
+    meta = { kind: 'pic', type, size: bytes.length };
+  } else if (f && f.kind === 'file') {
+    if (bytes.length > FORUM_FILE_MAX) return { error: `A file is ${FORUM_FILE_MAX / 1000000} MB at most.` };
+    const name = cleanFileName(f.name);
+    if (!name) return { error: `A file's name ends in .${Object.keys(FORUM_FILE_TYPES).join(', .')}, and is ${FORUM_NAME_MAX} characters at most.` };
+    const k = fileKind(bytes, name);
+    if (k.error) return k;
+    meta = { kind: 'file', type: k.type, name, size: bytes.length };
+  } else return { error: 'A picture or a file?' };
+  const id = randomUUID();
+  await s.set(FORUM_UP + id, bytes, { metadata: { ...meta, t: now, by: authorMark(who) } });
+  return { id, ...meta };
+}
+
+/* The pictures and files a post asks for (`asked`, a list of { id, alt }):
+   the ones it already had, kept, and this writer's own uploads. Answers
+   { files, fresh } or { error }; fresh is the uploads to copy under the topic. */
+async function attachments(who, asked, had, s) {
+  const list = Array.isArray(asked) ? asked : [];
+  if (list.length > FORUM_ATTACH_MAX) return { error: `A post holds ${FORUM_ATTACH_MAX} pictures and files at most.` };
+  const mark = authorMark(who);
+  const files = [], fresh = [], ids = new Set();
+  for (const a of list) {
+    const id = imageId(a && a.id);
+    if (!id || ids.has(id)) return { error: 'One of those pictures or files is not ready. Take it off and add it again.' };
+    ids.add(id);
+    const alt = cleanForumAlt(a.alt);
+    if (alt === null) return { error: `A picture's description is ${FORUM_ALT_MAX} characters at most.` };
+    const old = had.find((x) => x.id === id);
+    if (old) {
+      const kept = { ...old };
+      delete kept.alt;
+      if (kept.kind === 'pic' && alt) kept.alt = alt;
+      files.push(kept);
+      continue;
+    }
+    const got = await s.getWithMetadata(FORUM_UP + id, { type: 'arrayBuffer' });
+    const m = got && got.metadata;
+    if (!m || m.by !== mark || (m.kind !== 'pic' && m.kind !== 'file')) {
+      return { error: 'One of those pictures or files has gone, or is not yours. Take it off and add it again.' };
+    }
+    const file = { id, kind: m.kind, type: m.type, size: m.size };
+    if (m.kind === 'file') file.name = m.name;
+    if (m.kind === 'pic' && alt) file.alt = alt;
+    files.push(file);
+    fresh.push({ id, data: got.data, meta: { kind: m.kind, type: m.type, size: m.size, ...(m.name ? { name: m.name } : {}) } });
+  }
+  return { files, fresh };
+}
+const fileKey = (topic, id) => `${FORUM_FILE}${topic}/${id}`;
+async function keepUploads(topic, fresh, s) { for (const x of fresh) await s.set(fileKey(topic, x.id), x.data, { metadata: { ...x.meta, t: Date.now() } }); }
+async function doneUploads(fresh, s) { for (const x of fresh) await s.delete(FORUM_UP + x.id); }
+async function dropFiles(topic, ids, s) { for (const id of ids) await s.delete(fileKey(topic, id)); }
+async function dropTopicFiles(topic, s) {
+  for (const b of (await s.list({ prefix: `${FORUM_FILE}${topic}/` })).blobs || []) await s.delete(b.key);
+}
+const filesOf = (posts) => posts.flatMap((p) => (p.files || []).map((f) => f.id));
+
+/* One picture or file, for a reader who can read the topic a post of which
+   holds it now, and for nobody else. { data, file } or null. */
+export async function forumFile(who, tid, fid, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return null;
+  const t = await readTopic(tid, s);
+  if (!t) return null;
+  const cat = forumCat(t.cat);
+  if (!forumAllows(who, cat) || !topicLive(summaryOf(t), cat, now)) return null;
+  const id = imageId(fid);
+  const file = id && t.posts.flatMap((p) => p.files || []).find((x) => x.id === id);
+  if (!file) return null;
+  const got = await s.getWithMetadata(fileKey(t.id, id), { type: 'arrayBuffer' });
+  return got && got.data ? { data: got.data, file } : null;
+}
+
+/* The handles a post mentions, for a reader's page to draw: the ones its
+   writer picked and the topic's own people, each only if mentions() finds it
+   in the words. */
+function mentionedIn(body, asked, t) {
+  if (!body) return [];
+  const pool = (Array.isArray(asked) ? asked.slice(0, 40) : []).map(cleanHandle).filter(Boolean);
+  if (t) for (const p of t.posts) { pool.push(p.handle); if (p.cb) for (const m of p.cb.messages) pool.push(m.handle); }
+  const out = [], folds = new Set();
+  for (const h of pool) {
+    const f = foldHandle(h);
+    if (folds.has(f) || !mentions(body, h)) continue;
+    folds.add(f);
+    out.push(h);
+    if (out.length >= FORUM_AT_MAX) break;
+  }
+  return out;
 }
 
 /* ── Storing ── */
@@ -3984,6 +4195,14 @@ function shapePost(p, who, mark) {
   const rx = shapeReactions(p.reactions);
   if (rx) out.reactions = rx;
   if (p.cb && p.cb.messages && p.cb.messages.length) out.cb = shapeCopied(p.cb, who);
+  if (p.files && p.files.length) out.files = p.files.map(shapeFile);
+  if (p.at && p.at.length) out.at = p.at.slice();
+  return out;
+}
+function shapeFile(f) {
+  const out = { id: f.id, kind: f.kind, type: f.type, size: f.size };
+  if (f.kind === 'file') out.name = f.name;
+  if (f.kind === 'pic' && f.alt) out.alt = f.alt;
   return out;
 }
 
@@ -4012,8 +4231,31 @@ export async function forumTopic(who, id, s = store(), now = Date.now()) {
 /* Searching the titles, the posts and the copied messages of the topics the
    reader may see, newest first. Words are matched folded, all of them. */
 export async function searchForum(who, q, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return [];
   const words = foldHandle(q).split(' ').filter(Boolean).slice(0, 8);
   if (!words.length || String(q).length > 200) return [];
+  const out = [];
+  for (const { t, x, c } of await readableTopics(who, s, now)) {
+    if (out.length >= 30) break;
+    const texts = [{ post: null, handle: t.handle, text: t.title }];
+    t.posts.forEach((p) => {
+      if (p.body) texts.push({ post: p.id, handle: p.handle, text: p.body });
+      if (p.cb) p.cb.messages.forEach((m) => texts.push({ post: p.id, handle: m.handle, text: m.text }));
+      for (const f of p.files || []) { const label = f.kind === 'file' ? f.name : f.alt; if (label) texts.push({ post: p.id, handle: p.handle, text: label }); }
+    });
+    const hay = foldHandle(texts.map((y) => y.text).join(' '));
+    if (!words.every((w) => hay.includes(w))) continue;
+    const hit = texts.find((y) => y.post && foldHandle(y.text).includes(words[0])) || null;
+    const r = shapeSummary(x, c);
+    if (hit) r.match = { post: hit.post, handle: hit.handle, words: snippet(hit.text, foldHandle(tidy(hit.text)).indexOf(words[0])) };
+    out.push(r);
+  }
+  return out;
+}
+
+/* Every topic the reader may see, the latest post first, read whole: as many
+   as one search reads. */
+async function readableTopics(who, s, now) {
   const cats = forumCatsFor(who);
   const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
   let sums = [];
@@ -4021,25 +4263,33 @@ export async function searchForum(who, q, s = store(), now = Date.now()) {
   sums.sort((a, b) => b.x.last - a.x.last);
   sums = sums.slice(0, FORUM_SEARCH_MAX);
   const topics = await Promise.all(sums.map(({ x }) => readTopic(x.id, s)));
-  const out = [];
-  topics.forEach((t, i) => {
-    if (!t || out.length >= 30) return;
-    const texts = [{ post: null, handle: t.handle, text: t.title }];
+  return sums.map((y, i) => ({ ...y, t: topics[i] })).filter((y) => y.t && y.t.cat === y.c.slug);
+}
+function snippet(text, from) {
+  const plain = tidy(text);
+  const at = Math.max(0, from - 60);
+  return (at ? '…' : '') + [...plain].slice(at, at + 180).join('') + (plain.length > at + 180 ? '…' : '');
+}
+
+/* Where the reader has been @mentioned, by somebody else, in the topics they
+   may see: worked out from the words every time it is asked, the latest
+   first, and kept nowhere. */
+export async function forumMentions(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return [];
+  const me = foldHandle(who.handle), out = [];
+  for (const { t, x, c } of await readableTopics(who, s, now)) {
+    if (out.length >= 30) break;
+    const texts = [];
     t.posts.forEach((p) => {
-      if (p.body) texts.push({ post: p.id, handle: p.handle, text: p.body });
-      if (p.cb) p.cb.messages.forEach((m) => texts.push({ post: p.id, handle: m.handle, text: m.text }));
+      if (p.body && foldHandle(p.handle) !== me) texts.push({ post: p.id, handle: p.handle, text: p.body, t: p.t });
+      if (p.cb) p.cb.messages.forEach((m) => { if (foldHandle(m.handle) !== me) texts.push({ post: p.id, handle: m.handle, text: m.text, t: m.t }); });
     });
-    const hay = foldHandle(texts.map((x) => x.text).join(' '));
-    if (!words.every((w) => hay.includes(w))) return;
-    const hit = texts.find((x) => x.post && foldHandle(x.text).includes(words[0])) || null;
-    const r = shapeSummary(sums[i].x, sums[i].c);
-    if (hit) {
-      const plain = tidy(hit.text);
-      const at = Math.max(0, foldHandle(plain).indexOf(words[0]) - 60);
-      r.match = { post: hit.post, handle: hit.handle, words: (at ? '…' : '') + [...plain].slice(at, at + 180).join('') + (plain.length > at + 180 ? '…' : '') };
-    }
+    const hit = texts.filter((y) => mentions(y.text, who.handle)).sort((a, b) => b.t - a.t)[0];
+    if (!hit) continue;
+    const r = shapeSummary(x, c);
+    r.match = { post: hit.post, handle: hit.handle, words: snippet(hit.text, Math.max(0, foldHandle(tidy(hit.text)).indexOf('@' + me))) };
     out.push(r);
-  });
+  }
   return out;
 }
 
@@ -4082,10 +4332,12 @@ export function shapeTranscript(cb, who) { return shapeCopied(cb, who); }
 
 /* ── Writing ── */
 
-function makePost(who, body, links, now) {
+function makePost(who, body, links, now, files = [], at = []) {
   const p = { id: newPostId(), handle: who.handle, by: authorMark(who), t: now, body };
   if (who.role === 'base') p.base = true;
   if (links && links.length) p.links = links;
+  if (files.length) p.files = files;
+  if (at.length) p.at = at;
   return p;
 }
 
@@ -4114,19 +4366,25 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   }
   const body = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body);
   if (body === null) return { error: `A post is up to ${FORUM_BODY_MAX} characters.` };
-  if (!body && !cb) return { error: 'Say something to start the topic with.' };
+  const att = await attachments(who, f.files, [], s);
+  if (att.error) return att;
+  if (!body && !cb && !att.files.length) return { error: 'Say something to start the topic with, or add a picture or a file.' };
   if ((await readForumIndex(cat.slug, s)).length >= FORUM_TOPICS_MAX) {
     return { error: `${cat.name} is full. A moderator has to take some topics down before another fits.` };
   }
-  const post = makePost(who, body, await previewsOf(body, [], get), now);
+  const post = makePost(who, body, await previewsOf(body, [], get), now, att.files, mentionedIn(body, f.at, null));
   if (cb) post.cb = cb;
   const topic = { id: newTopicId(), v: 1, cat: cat.slug, title, handle: who.handle, by: authorMark(who), t: now, last: now, lastBy: who.handle, posts: [post] };
   if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
+  // The files go under the topic before the topic does, so no post ever
+  // holds one that is not there; the uploads go only once the topic is.
+  await keepUploads(topic.id, att.fresh, s);
   let clash = false;
   await updateDoc(topicKey(topic.id), (cur) => { clash = !!cur; return cur ? null : topic; }, s);
   if (clash) return { error: 'That did not work. Try again.' };
+  await doneUploads(att.fresh, s);
   await indexTopic(topic, s);
-  return { topic };
+  return { topic, post };
 }
 
 /* The topic `id`, changed by `change(t, cat)`, which answers the next topic,
@@ -4147,7 +4405,7 @@ async function changeTopic(who, id, now, s, change) {
     return r;
   }, s);
   if (why) return { error: why };
-  if (gone) { await unindexTopic(cat0, id, s); return { gone: true }; }
+  if (gone) { await unindexTopic(cat0, id, s); await dropTopicFiles(id, s); return { gone: true }; }
   if (next && next.cat !== cat0) await unindexTopic(cat0, id, s);
   if (next) await indexTopic(next, s);
   return { topic: next };
@@ -4165,15 +4423,23 @@ function settle(t) {
 
 export async function replyTopic(who, id, f, s = store(), now = Date.now(), get = safeGet) {
   if (!forumReader(who)) return { error: CLAIM };
-  const body = cleanForumBody(f && f.body);
-  if (!body) return { error: `A reply is between one and ${FORUM_BODY_MAX} characters.` };
+  const raw = f && f.body;
+  const body = raw == null || String(raw).trim() === '' ? '' : cleanForumBody(raw);
+  if (body === null) return { error: `A reply is up to ${FORUM_BODY_MAX} characters.` };
+  // Nothing is written under a topic the writer cannot read.
+  const pre = await readTopic(id, s);
+  if (!pre || !forumAllows(who, forumCat(pre.cat)) || !topicLive(summaryOf(pre), forumCat(pre.cat), now)) return { error: GONE };
+  const att = await attachments(who, f.files, [], s);
+  if (att.error) return att;
+  if (!body && !att.files.length) return { error: `A reply is between one and ${FORUM_BODY_MAX} characters, or a picture or a file.` };
   const links = await previewsOf(body, [], get);
   const to = postId(f.reply);
+  await keepUploads(id, att.fresh, s);
   let made = null;
   const r = await changeTopic(who, id, now, s, (t) => {
     if (t.closed && who.role !== 'base') return { why: 'This topic is closed, so nobody can reply to it.' };
     if (t.posts.length >= FORUM_POSTS_MAX) return { why: 'This topic is full. Start a new one, and link back to this one if it helps.' };
-    made = makePost(who, body, links, now);
+    made = makePost(who, body, links, now, att.files, mentionedIn(body, f.at, t));
     if (to && t.posts.some((p) => p.id === to)) made.reply = to;
     t.posts.push(made);
     // Never backwards: two replies in the same moment land in either order.
@@ -4181,7 +4447,9 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
     if (t.lastBy === who.handle && now >= t.last) { if (who.role === 'base') t.lastBase = true; else delete t.lastBase; }
     return t;
   });
-  return r.error ? r : { post: made, topic: r.topic };
+  if (r.error) { await dropFiles(id, att.fresh.map((x) => x.id), s); return r; }
+  await doneUploads(att.fresh, s);
+  return { post: made, topic: r.topic };
 }
 
 /* The author editing their post, and its title if it opens the topic they
@@ -4194,24 +4462,44 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
   const title = f && f.title != null ? cleanForumTitle(f.title) : undefined;
   if (title === null) return { error: `A title is between one and ${FORUM_TITLE_MAX} characters.` };
   const pre = await readTopic(id, s);
-  const had = pre ? ((pre.posts.find((p) => p.id === pid) || {}).links || []) : [];
-  const links = await previewsOf(body, had, get);
   const mark = authorMark(who);
-  return changeTopic(who, id, now, s, (t) => {
+  const was = pre && pre.posts.find((p) => p.id === pid);
+  if (!pre || !forumAllows(who, forumCat(pre.cat)) || !topicLive(summaryOf(pre), forumCat(pre.cat), now)) return { error: GONE };
+  if (!was) return { error: 'That post has been taken down.' };
+  if (was.by !== mark) return { error: 'Only whoever wrote a post can edit it.' };
+  const links = await previewsOf(body, was.links || [], get);
+  // Left out, the post keeps the pictures and files it had; a list is the whole of them.
+  const att = await attachments(who, f.files === undefined ? (was.files || []) : f.files, was.files || [], s);
+  if (att.error) return att;
+  await keepUploads(id, att.fresh, s);
+  let before = '', lost = [], made = null;
+  const r = await changeTopic(who, id, now, s, (t) => {
     const k = t.posts.findIndex((p) => p.id === pid);
     if (k < 0) return { why: 'That post has been taken down.' };
     const p = t.posts[k];
     if (p.by !== mark) return { why: 'Only whoever wrote a post can edit it.' };
-    if (!body && !(p.cb && p.cb.messages.length)) return { why: 'A post needs some words. To take it down, use Take down instead.' };
+    if (!body && !(p.cb && p.cb.messages.length) && !att.files.length) return { why: 'A post needs some words, or a picture or a file. To take it down, use Take down instead.' };
+    before = p.body || '';
+    const keep = new Set(att.files.map((x) => x.id));
+    lost = (p.files || []).map((x) => x.id).filter((x) => !keep.has(x));
     p.body = body;
     p.edited = now;
     if (links.length) p.links = links; else delete p.links;
+    if (att.files.length) p.files = att.files; else delete p.files;
+    const at = mentionedIn(body, f.at, t);
+    if (at.length) p.at = at; else delete p.at;
     if (title !== undefined) {
       if (k !== 0 || t.by !== mark) return { why: 'Only whoever started a topic can change its title.' };
       t.title = title;
     }
+    made = p;
     return t;
   });
+  if (r.error) { await dropFiles(id, att.fresh.map((x) => x.id), s); return r; }
+  await doneUploads(att.fresh, s);
+  const held = new Set(filesOf(r.topic.posts));
+  await dropFiles(id, lost.filter((x) => !held.has(x)), s);
+  return { topic: r.topic, post: made, before };
 }
 
 /* A post taken down by its author or a moderator. The topic stays while
@@ -4219,13 +4507,18 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
 export async function removePost(who, id, pid, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
   const mark = authorMark(who);
-  return changeTopic(who, id, now, s, (t) => {
+  let lost = [];
+  const r = await changeTopic(who, id, now, s, (t) => {
     const p = t.posts.find((x) => x.id === pid);
     if (!p) return { why: 'That post has already been taken down.' };
     if (p.by !== mark && who.role !== 'base') return { why: 'Only whoever wrote a post, or a moderator, can take it down.' };
+    lost = (p.files || []).map((x) => x.id);
     t.posts = t.posts.filter((x) => x.id !== pid);
     return settle(t);
   });
+  // Its pictures and files go with it, unless another post here holds one.
+  if (r.topic) { const held = new Set(filesOf(r.topic.posts)); await dropFiles(id, lost.filter((x) => !held.has(x)), s); }
+  return r;
 }
 
 /* A copied message taken back out by whoever sent it, or a moderator. */
@@ -4238,7 +4531,7 @@ export async function uncopyMessage(who, id, pid, mid, s = store(), now = Date.n
     if (!canTakeOff(who, m)) return { why: 'Only whoever sent a message, or a moderator, can take it out.' };
     p.cb.messages = p.cb.messages.filter((x) => x.id !== mid);
     if (!p.cb.messages.length) delete p.cb;
-    if (!p.body && !p.cb) t.posts = t.posts.filter((x) => x.id !== pid);
+    if (!p.body && !p.cb && !(p.files && p.files.length)) t.posts = t.posts.filter((x) => x.id !== pid);
     return settle(t);
   });
 }
@@ -4298,7 +4591,9 @@ export async function moderateTopic(who, id, f, s = store(), now = Date.now()) {
    topic has gone comes off its list, and a topic with no summary (its list's
    write was lost) is put back on its list, or goes if it is past its date. A
    topic whose category is no longer in data/forum.json is shown to nobody and
-   goes at the default keep. */
+   goes at the default keep. A topic's pictures and files go with it; an upload
+   no post took goes after a day; and a file under a topic that is not there
+   (a post that was refused after its files were copied) goes after an hour. */
 export async function sweepForum(s = store(), now = Date.now()) {
   const listed = await s.list({ prefix: FORUM_TOPIC });
   const there = new Set((listed.blobs || []).map((b) => b.key.slice(FORUM_TOPIC.length)));
@@ -4316,6 +4611,7 @@ export async function sweepForum(s = store(), now = Date.now()) {
       if (t && t.cat === c.slug && topicLive(summaryOf(t), c, now)) { await indexTopic(t, s); continue; }
       if (t && t.cat !== c.slug) { drop.add(x.id); continue; }
       await s.delete(topicKey(x.id));
+      await dropTopicFiles(x.id, s);
       drop.add(x.id);
     }
     if (drop.size) await updateForumIndex(c.slug, (l) => (l.some((x) => drop.has(x.id)) ? l.filter((x) => !drop.has(x.id)) : null), s);
@@ -4326,7 +4622,27 @@ export async function sweepForum(s = store(), now = Date.now()) {
     if (!t) continue;
     const c = forumCat(t.cat);
     if (topicLive(summaryOf(t), c, now)) { if (c) await indexTopic(t, s); }
-    else await s.delete(topicKey(id));
+    else { await s.delete(topicKey(id)); await dropTopicFiles(id, s); }
+  }
+  await sweepForumFiles(there, s, now);
+}
+
+async function blobMeta(s, key) {
+  if (typeof s.getMetadata === 'function') { const m = await s.getMetadata(key); return m && m.metadata; }
+  const got = await s.getWithMetadata(key, { type: 'arrayBuffer' });
+  return got && got.metadata;
+}
+async function sweepForumFiles(there, s, now) {
+  for (const b of (await s.list({ prefix: FORUM_UP })).blobs || []) {
+    const m = await blobMeta(s, b.key);
+    if (!m || typeof m.t !== 'number' || now - m.t >= FORUM_UNSENT) await s.delete(b.key);
+  }
+  for (const b of (await s.list({ prefix: FORUM_FILE })).blobs || []) {
+    const topic = b.key.slice(FORUM_FILE.length).split('/')[0];
+    if (there.has(topic)) continue;
+    // A topic being made right now has its files before it is there.
+    const m = await blobMeta(s, b.key);
+    if (!m || typeof m.t !== 'number' || now - m.t >= 60 * 60 * 1000) await s.delete(b.key);
   }
 }
 
@@ -4906,6 +5222,39 @@ export async function notifyMessage(msg, room, s = store(), mods = readMods(), s
     const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.chimera || msg.patch || msg.jacket) ? 'sticker' : '';
     const payload = { kind: 'message', why: named ? 'mention' : 'channel', handle: msg.handle, room: room || '', text, what, id: msg.id };
     sends.push({ id, d, payload, opts: named ? { urgency: 'high' } : { topic: topicFor(room || 'world') } });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* A forum post has @mentioned somebody (Ryan, 2026-10-18): tell each device
+   that switched on When somebody @mentions me, whose pass is a claimed
+   username's that can read the post's category now, and that the post names
+   and, after an edit, did not name before. Never the post's writer. A
+   notification says who, which category, and, if the device wants the words,
+   the topic's title and the post's first words. */
+export async function notifyForum(topic, post, before = '', s = store(), mods = readMods(), send = sendPush) {
+  if (send === sendPush && !pushReady()) return [];
+  if (!topic || !post || !post.body) return [];
+  const cat = forumCat(topic.cat);
+  if (!cat) return [];
+  const devs = await readDevices(s);
+  const from = foldHandle(post.handle);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold === from || !(d.want && d.want.mentions)) continue;
+    const h = d.pass && d.pass.handle;
+    if (!mentions(post.body, h) || (before && mentions(before, h))) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!forumAllows(who, cat)) continue;
+    let text = '', title = '';
+    if (d.want.words !== false) {
+      text = String(post.body).replace(/\s+/g, ' ').trim();
+      if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
+      title = [...String(topic.title || '')].slice(0, FORUM_TITLE_MAX).join('');
+    }
+    const payload = { kind: 'forum', why: 'mention', handle: post.handle, cat: cat.name, title, text, t: topic.id, p: post.id };
+    sends.push({ id, d, payload, opts: { urgency: 'high' } });
   }
   return deliver(sends, gone, s, send);
 }

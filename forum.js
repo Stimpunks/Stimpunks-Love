@@ -22,6 +22,20 @@
    before the press, built into a frame by love-embed.js, the street's one
    builder; one nobody could measure is a door to YouTube.
 
+   PICTURES AND FILES (Ryan, 2026-10-18) go up from the composer before the
+   post does. A picture is redrawn first by the radio's one redraw,
+   window.loveRedraw, which takes off what a camera wrote into it, GPS first;
+   a file goes as it is. Each is fetched again with the pass, never from a
+   public address, and a file is only ever saved, as a download with no type a
+   browser would open as a page.
+
+   @MENTIONS (Ryan, 2026-10-18): typing @ offers the people in the topic and
+   anybody claimed on Who's online, the radio's own list, asked for once when
+   an @ is first typed; a post's mentions are drawn as names that open a
+   profile, and Mentions lists where you have been mentioned, worked out by
+   the server each time. A mention notifies only the devices that asked, from
+   the server, and nothing here.
+
    NOTHING ABOUT READING IS SENT. What is new to you is marked from love-forum,
    in this browser: which topics you opened and the time of their latest post
    when you did. No number is put beside anything. tools/make-forum.py holds
@@ -82,8 +96,9 @@
   nav.setAttribute('aria-label', 'The forums');
   var navHome = el('a', 'cb-btn fm-navlink', 'Categories'); navHome.href = '#/';
   var navLatest = el('a', 'cb-btn fm-navlink', 'Latest'); navLatest.href = '#/latest';
+  var navAt = el('a', 'cb-btn fm-navlink', 'Mentions'); navAt.href = '#/mentions';
   var navNew = el('a', 'cb-btn fm-navlink', 'New topic'); navNew.href = '#/new';
-  nav.appendChild(navHome); nav.appendChild(navLatest); nav.appendChild(navNew);
+  nav.appendChild(navHome); nav.appendChild(navLatest); nav.appendChild(navAt); nav.appendChild(navNew);
   bar.appendChild(nav);
   var find = el('form', 'fm-find');
   find.setAttribute('role', 'search');
@@ -270,7 +285,32 @@
     return otherwise;
   }
 
+  /* A picture or a file, put up or fetched with the pass. */
+  function fileCall(q, bytes) {
+    var s = cbState();
+    var headers = { authorization: 'Bearer ' + (s ? s.pass : '') };
+    if (bytes) { headers['content-type'] = 'application/octet-stream'; headers.accept = 'application/json'; }
+    return fetch('/cb/forum/file?' + q, { method: bytes ? 'POST' : 'GET', headers: headers, body: bytes || undefined, credentials: 'omit', cache: 'no-store' });
+  }
+
+  /* Who's online, the radio's own list, for the @ completion: claimed names
+     only, because only they can read the forums. Asked once, when an @ is
+     first typed. */
+  var online = null, onlineAsk = null;
+  function loadOnline() {
+    if (onlineAsk) return onlineAsk;
+    var s = cbState();
+    onlineAsk = fetch('/cb/online', { headers: { accept: 'application/json', authorization: 'Bearer ' + (s ? s.pass : '') }, credentials: 'omit', cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        online = ((d && d.people) || []).filter(function (x) { return x.claimed; }).map(function (x) { return x.handle; });
+        return online;
+      }, function () { online = []; return online; });
+    return onlineAsk;
+  }
+
   var cats = [], me = null, quick = [];
+  var takes = { most: 6, fileMax: 5000000, kinds: ['pdf', 'txt', 'md', 'csv', 'rtf', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp', 'epub'] };
   var rooms = null, roomsAsk = null;
   function loadRooms() {
     if (roomsAsk) return roomsAsk;
@@ -311,6 +351,10 @@
     if (x.pinned) return 'Kept while it is pinned.';
     if (x.goes == null) return 'Kept for good.';
     return 'Goes on ' + dayOf(x.goes) + ' unless somebody posts in it.';
+  }
+  function sizeWords(n) {
+    if (n >= 1000000) return (Math.round(n / 100000) / 10) + ' MB';
+    return Math.max(1, Math.round(n / 1000)) + ' KB';
   }
   function runtime(n) {
     var h = Math.floor(n / 3600), m = Math.floor((n % 3600) / 60), s = n % 60;
@@ -520,6 +564,7 @@
       li.appendChild(head);
       var words = el('div', 'fm-body fm-cb__words');
       blocks(m.blocks, words);
+      if (t.posts) markMentions(words, peopleOf(t));
       li.appendChild(words);
       if (m.takeOut) {
         var out = el('button', 'cb-btn fm-small', fold(m.handle) === fold(me && me.handle) ? 'Take my message out' : 'Take ' + m.handle + '’s message out');
@@ -535,6 +580,148 @@
     });
     wrap.appendChild(ul);
     return wrap;
+  }
+
+  /* ── Pictures and files in a post ────────────────────────────────────── */
+
+  // Each fetched once while this page is open, and only when it comes near
+  // the screen, so a long topic does not ask for every picture at once.
+  var fetched = {};
+  var near = null;
+  try {
+    near = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { near.unobserve(e.target); e.target.fmLoad(); } });
+    }, { rootMargin: '600px 0px' });
+  } catch (e) { near = null; }
+
+  function fileQuery(t, f) { return 't=' + encodeURIComponent(t.id) + '&f=' + encodeURIComponent(f.id); }
+
+  function picOf(t, p, f) {
+    var li = el('li', 'fm-pic');
+    var said = f.alt || (p.handle + ' posted a picture, with no description.');
+    var b = el('button', 'fm-pic__btn');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', 'false');
+    b.setAttribute('aria-label', 'Larger: ' + said);
+    var img = el('img', 'fm-pic__img');
+    img.alt = '';
+    b.appendChild(img);
+    li.appendChild(b);
+    b.addEventListener('click', function () {
+      var big = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', String(big));
+      li.classList.toggle('fm-pic--large', big);
+    });
+    var key = t.id + '/' + f.id;
+    li.fmLoad = function () {
+      if (fetched[key]) { img.src = fetched[key]; return; }
+      fileCall(fileQuery(t, f)).then(function (r) { return r.ok ? r.blob() : null; }, function () { return null; }).then(function (blob) {
+        if (!blob || !/^image\//.test(blob.type)) { b.replaceWith(quiet('This picture could not be fetched just now: ' + said)); return; }
+        img.src = fetched[key] = URL.createObjectURL(blob);
+      });
+    };
+    if (near) near.observe(li); else li.fmLoad();
+    return li;
+  }
+
+  function docOf(t, f) {
+    var li = el('li', 'fm-doc');
+    var b = el('button', 'cb-btn fm-small', 'Save “' + f.name + '”');
+    b.type = 'button';
+    li.appendChild(b);
+    li.appendChild(el('span', 'fm-doc__what', (f.name.split('.').pop() || '').toUpperCase() + ', ' + sizeWords(f.size)));
+    b.addEventListener('click', function () {
+      b.disabled = true;
+      fileCall(fileQuery(t, f)).then(function (r) { return r.ok ? r.arrayBuffer() : null; }, function () { return null; }).then(function (buf) {
+        b.disabled = false;
+        if (!buf) { say('That file could not be fetched just now.'); return; }
+        // Saved, never opened here: a type no browser shows as a page.
+        var url = URL.createObjectURL(new Blob([buf], { type: 'application/octet-stream' }));
+        var a = el('a');
+        a.href = url;
+        a.download = f.name;
+        a.hidden = true;
+        box.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+        say('Saving ' + f.name + '. It is exactly as it was posted: open it only with something you trust.');
+      });
+    });
+    return li;
+  }
+
+  function attached(t, p) {
+    var wrap = el('div', 'fm-files');
+    var pics = (p.files || []).filter(function (f) { return f.kind === 'pic'; });
+    var docs = (p.files || []).filter(function (f) { return f.kind === 'file'; });
+    if (pics.length) { var ul = el('ul', 'fm-pics'); pics.forEach(function (f) { ul.appendChild(picOf(t, p, f)); }); wrap.appendChild(ul); }
+    if (docs.length) { var ul2 = el('ul', 'fm-docs'); docs.forEach(function (f) { ul2.appendChild(docOf(t, f)); }); wrap.appendChild(ul2); }
+    return wrap;
+  }
+
+  /* ── @mentions in a post ─────────────────────────────────────────────── */
+
+  // Everybody this topic knows by name: who started it, who posted in it, and
+  // whose messages were copied into it.
+  function peopleOf(t) {
+    var out = [];
+    function add(h) { if (h && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
+    if (!t) return out;
+    add(t.handle);
+    (t.posts || []).forEach(function (p) {
+      add(p.handle);
+      (p.at || []).forEach(add);
+      if (p.cb) p.cb.messages.forEach(function (m) { add(m.handle); });
+    });
+    return out;
+  }
+
+  /* A mention drawn as the name it is, which opens that person's profile as
+     every name in the forums does: only for the handles the server kept with
+     the post and the topic's own people, matched as the server's mentions()
+     matches, so a word after an @ that is nobody stays a word. Answers
+     whether the reader was one of them. */
+  function markMentions(into, handles) {
+    var list = [];
+    handles.forEach(function (h) { if (h && list.every(function (x) { return fold(x) !== fold(h); })) list.push(h); });
+    if (!list.length) return false;
+    list.sort(function (a, b) { return b.length - a.length; });
+    var escd = list.map(function (h) { return h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+'); });
+    var re;
+    try { re = new RegExp('(^|[^\\p{L}\\p{N}_@])@(' + escd.join('|') + ')(?![\\p{L}\\p{N}_]|:\\d)', 'giu'); } catch (e) { return false; }
+    var texts = [];
+    var walk = document.createTreeWalker(into, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) { return n.parentNode && n.parentNode.closest('a, code, pre, button') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; },
+    });
+    while (walk.nextNode()) texts.push(walk.currentNode);
+    var mineToo = false;
+    texts.forEach(function (n) {
+      var text = n.nodeValue, last = 0, m, frag = null;
+      re.lastIndex = 0;
+      while ((m = re.exec(text))) {
+        frag = frag || document.createDocumentFragment();
+        var at = m.index + m[1].length;
+        frag.appendChild(document.createTextNode(text.slice(last, at)));
+        var named = m[2].replace(/\s+/g, ' ');
+        var h = list.filter(function (x) { return fold(x) === fold(named); })[0] || named;
+        var mine = !!me && fold(h) === fold(me.handle);
+        if (mine) mineToo = true;
+        var b = el('button', 'fm-at' + (mine ? ' fm-at--me' : ''), '@' + m[2]);
+        b.type = 'button';
+        b.setAttribute('aria-label', mine ? '@' + h + ', you. Opens your profile.' : '@' + h + '. Opens their profile.');
+        (function (who2, btn) {
+          btn.addEventListener('click', function () {
+            if (window.loveRadioPeek) window.loveRadioPeek(who2, btn, null);
+            else say('Open the radio, in the corner, to see ' + who2 + '’s profile.');
+          });
+        })(h, b);
+        frag.appendChild(b);
+        last = at + 1 + m[2].length;
+      }
+      if (frag) { frag.appendChild(document.createTextNode(text.slice(last))); n.parentNode.replaceChild(frag, n); }
+    });
+    return mineToo;
   }
 
   function reactions(t, p) {
@@ -627,7 +814,9 @@
     if (p.cb) art.appendChild(copied(t, p));
     var body = el('div', 'fm-body');
     blocks(p.blocks, body);
+    if (markMentions(body, (p.at || []).concat(peopleOf(t)))) head.appendChild(tag('MENTIONS YOU', true));
     if (body.children.length) art.appendChild(body);
+    if (p.files && p.files.length) art.appendChild(attached(t, p));
     art.appendChild(reactions(t, p));
     var tools = el('div', 'fm-post__tools');
     if (t.reply && !t.full) {
@@ -690,15 +879,226 @@
       form.appendChild(tl); form.appendChild(title);
     }
     if (o.above) form.appendChild(o.above);
-    var bl = el('label', 'cb-lab', o.label || 'Your post'); bl.htmlFor = 'fm-body-' + key.replace(/[^a-z0-9]/gi, '');
+    var tid = 'fm-body-' + key.replace(/[^a-z0-9]/gi, '');
+    var bl = el('label', 'cb-lab', o.label || 'Your post'); bl.htmlFor = tid;
     var text = el('textarea', 'cb-say fm-text');
-    text.id = bl.htmlFor;
+    text.id = tid;
     text.rows = 7;
     text.maxLength = 20000;
     text.value = (fresh && fresh.body != null) ? fresh.body : (o.body || '');
+    text.setAttribute('aria-describedby', tid + '-hint');
+    /* THE @ LIST, the radio's # list for people: the ARIA combobox pattern.
+       Typing @ and a letter opens it; arrows move, Enter or Tab puts the name
+       in, Escape closes it for that @ and leaves what you typed alone. */
+    text.setAttribute('role', 'combobox');
+    text.setAttribute('aria-autocomplete', 'list');
+    text.setAttribute('aria-controls', tid + '-at');
+    text.setAttribute('aria-expanded', 'false');
+    var pick = el('ul', 'cb-pick fm-atpick');
+    pick.id = tid + '-at';
+    pick.setAttribute('role', 'listbox');
+    pick.setAttribute('aria-label', 'People to mention');
+    pick.hidden = true;
     form.appendChild(bl);
     form.appendChild(text);
-    form.appendChild(el('p', 'cb-quiet fm-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code` and links. A link on a line of its own becomes a preview, which our server makes by reading that page once.'));
+    form.appendChild(pick);
+    var hint = el('p', 'cb-quiet fm-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code` and links. A link on a line of its own becomes a preview, which our server makes by reading that page once. Type @ and a name to mention somebody: if they asked to be told, they are.');
+    hint.id = tid + '-hint';
+    form.appendChild(hint);
+
+    /* Pictures and files: each goes up as soon as it is chosen, a picture
+       redrawn first in this browser, and waits for the post. */
+    var files = (o.files || []).map(function (f) { return { id: f.id, kind: f.kind, name: f.name, size: f.size, alt: f.alt || '', had: true }; });
+    var pending = 0;
+    var attach = el('div', 'fm-attach');
+    var addBtn = el('button', 'cb-btn fm-small', 'Add pictures or files');
+    addBtn.type = 'button';
+    var picker = el('input', 'fm-picker');
+    picker.type = 'file';
+    picker.multiple = true;
+    // Any picture: written in two halves, because a slash and a star together
+    // read as the start of a comment to the tools that check this file.
+    picker.accept = 'image/' + '*,' + takes.kinds.map(function (k) { return '.' + k; }).join(',');
+    picker.hidden = true;
+    picker.tabIndex = -1;
+    addBtn.addEventListener('click', function () { picker.click(); });
+    picker.addEventListener('change', function () {
+      var list = Array.prototype.slice.call(picker.files || []);
+      picker.value = '';
+      refused = []; notKind = [];
+      list.forEach(upload);
+      if (notKind.length) {
+        refused.unshift(notKind.join(' and ') + (notKind.length > 1 ? ' are not kinds' : ' is not a kind') + ' of file the forums take. They take pictures, and ' +
+          takes.kinds.map(function (k) { return '.' + k; }).join(', ') + ' files.');
+      }
+      attWhy.textContent = refused.join(' ');
+    });
+    var attList = el('ul', 'fm-att');
+    // What could not go, kept on its own line so the next file's "ready" does not hide it.
+    var attWhy = el('p', 'fm-answer');
+    attWhy.setAttribute('role', 'status');
+    var refused = [], notKind = [];
+    var attNote = el('p', 'cb-quiet fm-hint', 'Pictures are redrawn in your browser before they go, which takes off what a camera wrote into them, where it was taken included. A file goes exactly as it is, with anything written inside it, such as an author’s name. Files can be ' +
+      takes.kinds.map(function (k) { return '.' + k; }).join(', ') + ', up to ' + sizeWords(takes.fileMax) + ' each. Ask anybody recognisable in a picture before you post it. They are not kept with a draft.');
+    attach.appendChild(addBtn);
+    attach.appendChild(picker);
+    attach.appendChild(attList);
+    attach.appendChild(attWhy);
+    attach.appendChild(attNote);
+    form.appendChild(attach);
+
+    function drawFiles() {
+      attList.textContent = '';
+      files.forEach(function (f, i) {
+        var li = el('li', 'fm-att__item');
+        if (f.kind === 'pic') {
+          if (f.local) { var im = el('img', 'fm-att__thumb'); im.alt = ''; im.src = f.local; li.appendChild(im); }
+          var line = el('p', 'fm-att__line', f.had ? 'A picture already on this post.' : 'A picture, ready.');
+          li.appendChild(line);
+          var al = el('label', 'cb-lab', 'Say what is in it, if you like');
+          var ai = el('input', 'cb-say fm-field');
+          ai.id = tid + '-alt-' + i;
+          al.htmlFor = ai.id;
+          ai.maxLength = 600;
+          ai.value = f.alt || '';
+          ai.addEventListener('input', function () { f.alt = ai.value; });
+          li.appendChild(al);
+          li.appendChild(ai);
+        } else {
+          li.appendChild(el('p', 'fm-att__line', f.name + ', ' + sizeWords(f.size) + (f.had ? ', already on this post.' : ', ready.')));
+        }
+        var drop = el('button', 'cb-btn fm-small', f.kind === 'pic' ? 'Take the picture off' : 'Take ' + f.name + ' off');
+        drop.type = 'button';
+        drop.addEventListener('click', function () {
+          files.splice(files.indexOf(f), 1);
+          if (f.local) URL.revokeObjectURL(f.local);
+          drawFiles();
+          addBtn.focus();
+          answer.textContent = 'Taken off.';
+        });
+        li.appendChild(drop);
+        attList.appendChild(li);
+      });
+    }
+    drawFiles();
+
+    function upload(file) {
+      if (files.length + pending >= takes.most) { refused.push(file.name + ' did not go: a post holds ' + takes.most + ' pictures and files at most.'); return; }
+      var ext = (String(file.name || '').split('.').pop() || '').toLowerCase();
+      var isPic = /^image\//.test(file.type || '') && !/svg/.test(file.type);
+      if (!isPic && takes.kinds.indexOf(ext) < 0) {
+        notKind.push(file.name);
+        return;
+      }
+      if (!isPic && file.size > takes.fileMax) { refused.push(file.name + ' is ' + sizeWords(file.size) + '. A file is ' + sizeWords(takes.fileMax) + ' at most.'); return; }
+      if (isPic && !window.loveRedraw) { refused.push(file.name + ' did not go: the radio, which redraws pictures, has not finished loading. Try again in a moment.'); return; }
+      pending++;
+      go.disabled = true;
+      answer.textContent = isPic ? 'Redrawing the picture…' : 'Sending ' + file.name + '…';
+      var ready = isPic ? window.loveRedraw(file) : Promise.resolve(file);
+      ready.then(function (blob) {
+        return fileCall(isPic ? 'kind=pic' : 'kind=file&name=' + encodeURIComponent(file.name), blob).then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (b) {
+            if (!r.ok) throw new Error((b && b.error) || 'That could not be sent just now.');
+            var f = { id: b.id, kind: b.kind, name: b.name, size: b.size, alt: '' };
+            if (isPic) f.local = URL.createObjectURL(blob);
+            files.push(f);
+            drawFiles();
+            answer.textContent = isPic ? 'The picture is ready. Say what is in it below, if you like.' : file.name + ' is ready.';
+          });
+        });
+      }).catch(function (e) {
+        answer.textContent = '';
+        attWhy.textContent = (attWhy.textContent ? attWhy.textContent + ' ' : '') + file.name + ': ' + ((e && e.message && e.message !== 'big') ? e.message : (isPic ? 'it could not be read or made small enough here. Try a screenshot of it, or another picture.' : 'it could not be sent just now.'));
+      }).then(function () { pending--; if (!pending) go.disabled = false; });
+    }
+
+    /* The @ being typed at the caret: where it starts and what follows it.
+       A handle can have spaces in it, so up to three words follow. */
+    var picked = [], offer = [], active = -1, dismissed = -1;
+    function token() {
+      var c = text.selectionStart;
+      if (c == null || c !== text.selectionEnd) return null;
+      var m = text.value.slice(0, c).match(/(^|[^\p{L}\p{N}_@])@([^\s@][^\n@]{0,23})$/u) || text.value.slice(0, c).match(/(^|[^\p{L}\p{N}_@])@()$/u);
+      if (!m || (m[2].match(/ /g) || []).length > 3 || / {2}$/.test(m[2])) return null;
+      return { start: c - m[2].length - 1, end: c, q: fold(m[2]), done: / $/.test(m[2]) };
+    }
+    function people() {
+      var out = [];
+      function add(h) { if (h && (!me || fold(h) !== fold(me.handle)) && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
+      (o.people || []).forEach(add);
+      (online || []).forEach(add);
+      return out;
+    }
+    function shut() {
+      pick.hidden = true; pick.textContent = ''; offer = []; active = -1;
+      text.setAttribute('aria-expanded', 'false');
+      text.removeAttribute('aria-activedescendant');
+    }
+    function markAt(n) {
+      active = n;
+      var lis = pick.children;
+      for (var i = 0; i < lis.length; i++) lis[i].setAttribute('aria-selected', String(i === n));
+      if (lis[n]) text.setAttribute('aria-activedescendant', lis[n].id); else text.removeAttribute('aria-activedescendant');
+    }
+    function complete() {
+      var t = root.activeElement === text && token();
+      if (!t || t.start === dismissed) { if (!t) dismissed = -1; shut(); return; }
+      if (online === null) loadOnline().then(complete);
+      var q = t.q;
+      // A name already typed out in full, and a space after it, is finished.
+      if (t.done && people().some(function (h) { return fold(h) === q; })) { shut(); return; }
+      var list = people().filter(function (h) {
+        var f = fold(h);
+        return !q || f.indexOf(q) === 0 || f.split(' ').some(function (w) { return w.indexOf(q) === 0; });
+      }).slice(0, 8);
+      if (!list.length) { shut(); return; }
+      offer = list;
+      pick.textContent = '';
+      list.forEach(function (h, i) {
+        var li = el('li', 'cb-opt');
+        li.id = tid + '-at-' + i;
+        li.setAttribute('role', 'option');
+        li.appendChild(el('span', 'cb-opt__name', h));
+        li.addEventListener('mousedown', function (e) { e.preventDefault(); });
+        li.addEventListener('click', function () { choose(i); });
+        pick.appendChild(li);
+      });
+      pick.hidden = false;
+      text.setAttribute('aria-expanded', 'true');
+      markAt(0);
+    }
+    function choose(n) {
+      var t = token(), h = offer[n];
+      if (!t || !h) { shut(); return; }
+      var v = text.value;
+      text.value = v.slice(0, t.start) + '@' + h + ' ' + v.slice(t.end);
+      var c = t.start + h.length + 2;
+      text.setSelectionRange(c, c);
+      if (picked.every(function (x) { return fold(x) !== fold(h); })) picked.push(h);
+      shut();
+      saveDraft();
+      text.focus();
+    }
+    text.addEventListener('keydown', function (e) {
+      if (pick.hidden || e.isComposing) return;
+      var n = offer.length;
+      if (e.key === 'ArrowDown') { e.preventDefault(); markAt((active + 1) % n); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); markAt((active - 1 + n) % n); }
+      else if (e.key === 'Enter' || e.key === 'Tab') { e.preventDefault(); choose(active); }
+      else if (e.key === 'Escape') { e.preventDefault(); var t = token(); dismissed = t ? t.start : -1; shut(); }
+    });
+    text.addEventListener('input', complete);
+    text.addEventListener('click', complete);
+    text.addEventListener('blur', function () { setTimeout(shut, 150); });
+    // Everybody the words might @mention, for the server to check against them.
+    function mentioned() {
+      var v = text.value;
+      return picked.concat(people()).filter(function (h, i, all) {
+        return v.toLowerCase().indexOf('@' + h.toLowerCase()) >= 0 && all.indexOf(h) === i;
+      }).slice(0, 40);
+    }
+
     var shown = el('div', 'fm-body fm-preview');
     shown.hidden = true;
     form.appendChild(shown);
@@ -739,6 +1139,7 @@
         if (r.status !== 200) { answer.textContent = why(r, 'The preview could not be made just now.'); return; }
         shown.textContent = '';
         blocks(r.body.blocks, shown);
+        markMentions(shown, mentioned().concat(o.people || []));
         shown.hidden = false;
         look.setAttribute('aria-pressed', 'true');
         look.textContent = 'Hide the preview';
@@ -747,12 +1148,16 @@
     });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (pending) { answer.textContent = 'Wait for the pictures and files to be ready.'; return; }
       go.disabled = true;
       answer.textContent = o.sending || 'Posting…';
-      o.send({ body: text.value, title: title ? title.value : undefined, cat: catSel ? catSel.value : undefined }).then(function (msg) {
+      var v = { body: text.value, title: title ? title.value : undefined, cat: catSel ? catSel.value : undefined, at: mentioned(),
+        files: files.map(function (f) { return f.kind === 'pic' && f.alt && f.alt.trim() ? { id: f.id, alt: f.alt.trim() } : { id: f.id }; }) };
+      o.send(v).then(function (msg) {
         go.disabled = false;
         if (msg) { answer.textContent = msg; return; }
         clearDraft();
+        files.forEach(function (f) { if (f.local) URL.revokeObjectURL(f.local); });
       });
     });
     form.focusFirst = function () { (title && !title.value ? title : text).focus(); };
@@ -791,9 +1196,10 @@
     var first = i === 0 && t.retitle;
     var f = composer({
       key: 'edit:' + p.id, body: p.body, title: first ? t.title : undefined, label: 'Your post', go: 'Save', sending: 'Saving…',
+      files: p.files || [], people: peopleOf(t),
       cancel: function () { f.replaceWith(was); was.querySelector('.fm-post__tools button') && was.querySelector('.fm-post__tools button').focus(); },
       send: function (v) {
-        var b = { action: 'edit', t: t.id, p: p.id, body: v.body };
+        var b = { action: 'edit', t: t.id, p: p.id, body: v.body, files: v.files, at: v.at };
         if (first) b.title = v.title;
         return call(null, b).then(function (r) {
           if (r.status !== 200) return why(r, 'That did not save. Nothing was changed.');
@@ -868,6 +1274,7 @@
   function took(r, here) {
     if (r.body.cats) cats = r.body.cats;
     if (r.body.me) me = r.body.me;
+    if (r.body.takes) takes = r.body.takes;
     navNew.hidden = !cats.some(function (c) { return c.start; });
     // New topic starts in the category you are in, where you can start one.
     var c = here && catOf(here);
@@ -1020,9 +1427,9 @@
       replyNote.hidden = true;
       view.appendChild(replyNote);
       replyBox = composer({
-        key: 'reply:' + t.id, label: 'Your reply', go: 'Post the reply',
+        key: 'reply:' + t.id, label: 'Your reply', go: 'Post the reply', people: peopleOf(t),
         send: function (v) {
-          return call(null, { action: 'reply', t: t.id, body: v.body, reply: replying }).then(function (r) {
+          return call(null, { action: 'reply', t: t.id, body: v.body, reply: replying, files: v.files, at: v.at }).then(function (r) {
             if (r.status !== 200) return why(r, 'That did not post. Nothing was changed.');
             replying = null;
             drawTopic(r.body, r.body.post);
@@ -1093,7 +1500,7 @@
       view.textContent = '';
       var h = heading(2, 'Searching for “' + q + '”');
       view.appendChild(h);
-      view.appendChild(quiet('Titles, posts and copied messages in every topic you can read, the latest first. Every word has to be there.'));
+      view.appendChild(quiet('Titles, posts, copied messages, file names and picture descriptions in every topic you can read, the latest first. Every word has to be there.'));
       if (!r.body.results.length) { view.appendChild(quiet('Nothing in the forums has all of those words.')); return h; }
       var ul = el('ul', 'fm-rows');
       r.body.results.forEach(function (x) {
@@ -1105,6 +1512,32 @@
           m.appendChild(a);
           li.appendChild(m);
         }
+        ul.appendChild(li);
+      });
+      view.appendChild(ul);
+      return h;
+    });
+  }
+
+  function mentionsView() {
+    blank(null, 'Looking…');
+    return call('view=mentions').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r);
+      drawSide(null);
+      view.textContent = '';
+      var h = heading(2, 'Mentions');
+      view.appendChild(h);
+      view.appendChild(quiet('Topics where somebody else has @mentioned you, in posts or in messages copied from the CB, the latest first. Our server works this out from the posts each time you look, and keeps nothing about it.'));
+      if (!r.body.results.length) { view.appendChild(quiet('Nobody has @mentioned you in a topic you can read.')); return h; }
+      var ul = el('ul', 'fm-rows');
+      r.body.results.forEach(function (x) {
+        var li = topicRow(x);
+        var m = el('p', 'fm-row__match');
+        var a = el('a', null, x.match.handle + ': ' + x.match.words);
+        a.href = '#/t/' + x.id + (x.match.post ? '/' + x.match.post : '');
+        m.appendChild(a);
+        li.appendChild(m);
         ul.appendChild(li);
       });
       view.appendChild(ul);
@@ -1144,9 +1577,10 @@
       }
       var f = composer({
         key: 'new:' + (q.from || '') + ':' + (q.ids || ''), cats: startable, cat: q.c, title: '', above: above,
+        people: from && rs[2].status === 200 ? rs[2].body.cb.messages.map(function (m) { return m.handle; }) : [],
         label: from ? 'Anything you want to add (you can leave this empty)' : 'Your post', go: 'Start the topic', sending: 'Starting it…',
         send: function (v) {
-          var b = { action: 'start', cat: v.cat, title: v.title, body: v.body };
+          var b = { action: 'start', cat: v.cat, title: v.title, body: v.body, files: v.files, at: v.at };
           if (from) b.from = from;
           return call(null, b).then(function (r2) {
             if (r2.status !== 200) return why(r2, 'That did not post. Nothing was changed.');
@@ -1187,10 +1621,12 @@
     else if (parts[0] === 't' && parts[1]) done = topic(parts[1], parts[2] || null);
     else if (parts[0] === 'new') done = newTopic(q);
     else if (parts[0] === 'search' && q.q) done = search(q.q);
+    else if (parts[0] === 'mentions') done = mentionsView();
     else done = home();
-    [navHome, navLatest, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navHome, navLatest, navAt, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
     if (!parts.length) navHome.setAttribute('aria-current', 'page');
     if (parts[0] === 'latest') navLatest.setAttribute('aria-current', 'page');
+    if (parts[0] === 'mentions') navAt.setAttribute('aria-current', 'page');
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
     Promise.resolve(done).then(function (h) {
       // On arriving, the page's own heading keeps the keyboard; after that,
