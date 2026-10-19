@@ -684,6 +684,19 @@
 
     // The bar along the top is the handle you drag it by, and holds the buttons.
     var bar = this.bar = el('div', 'cb-bar');
+    /* THE ICON, the smallest size (Ryan, 2026-10-19): a CB set drawn on the
+       radio's own case, and while the radio is one, the icon is all of it. It
+       is still on, which is what keeps it a size rather than folded: it
+       listens, hosts, follows and keeps you seen as Small does. Pressing it
+       opens the radio at Small; dragging it moves it (data-drag, the Mover's).
+       Shown only at that size, by cb.css. See setSize. */
+    var opener = this.openerBtn = el('button', 'cb-btn cb-opener');
+    opener.type = 'button';
+    opener.setAttribute('data-drag', '');
+    opener.setAttribute('aria-label', 'The CB, still on: open it');
+    opener.title = 'The CB, still on: open it';
+    opener.appendChild(radioIcon());
+    bar.appendChild(opener);
     var name = el('p', 'cb-name');
     name.appendChild(el('span', 'cb-brand', 'CB'));
     /* THE TELEPORTER, where "CH 19" used to sit. Ryan, 2026-09-26: the channel
@@ -704,9 +717,10 @@
        Small was a step too many). The grip is the same button the Mover drags by
        and listens to, named Move for a screen reader, so dragging it, or
        pressing it and then the arrow keys, moves the radio as Move did. Minus
-       and plus step through Small, Normal and Large, each named for the size it
-       goes to; at either end the one with nowhere to go stays where it is,
-       focusable, and says so, so the keyboard is never dropped off the bar. */
+       and plus step through Icon, Small, Normal, Large and Full, each named for
+       the size it goes to; at either end the one with nowhere to go stays where
+       it is, focusable, and says so, so the keyboard is never dropped off the
+       bar. At Icon the bar is the icon, and pressing it is the way back up. */
     var move = this.moveBtn = el('button', 'cb-btn cb-icon-btn cb-move');
     move.type = 'button';
     move.id = 'cb-move';
@@ -787,28 +801,38 @@
        space and a groove in the case between them. The headings are real ones,
        so a screen reader can move between the parts, and they are lettered on
        the case in the radio's own clothes. Small shows none of them. */
-    var dividers = this.dividers = [];
-    function part(cls, title) {
-      var sec = el('div', 'cb-sec ' + cls);
+    /* THREE COLUMNS, which are only columns at Full on a wide window (Ryan,
+       2026-10-19): where you are and who is around, then the channel, then
+       messages, watching together and your radio, so left to right is still
+       top to bottom. At every other size cb.css makes them display: contents
+       and the parts stand in one column as they always did. The groove is
+       above every part but the first (cb-sec--after), because a part's
+       neighbour may now be in another column. */
+    var cols = [el('div', 'cb-col cb-col--a'), el('div', 'cb-col cb-col--b'), el('div', 'cb-col cb-col--c')];
+    cols.forEach(function (c) { set.appendChild(c); });
+    var dividers = this.dividers = [], parts = 0;
+    function part(cls, title, col) {
+      var sec = el('div', 'cb-sec ' + cls + (parts ? ' cb-sec--after' : ''));
       // The groove above every part after the first carries a theme's drawing too.
-      if (set.children.length) {
+      if (parts) {
         var dv = el('div', 'cb-divider');
         dv.hidden = true;
         dv.setAttribute('aria-hidden', 'true');
         sec.appendChild(dv);
         dividers.push(dv);
       }
+      parts++;
       sec.appendChild(el('h2', 'cb-h', title));
-      set.appendChild(sec);
+      cols[col].appendChild(sec);
       return sec;
     }
-    var hereSec = part('cb-sec--here', 'Where you are');
-    var aroundSec = part('cb-sec--around', 'Who\u2019s around');
-    var chanSec = part('cb-sec--channel', 'Channel');
-    var dmSec = this.dmSec = part('cb-sec--dm', 'Messages');
-    var filmSec = this.filmSec = part('cb-sec--film', 'Watching together');
+    var hereSec = part('cb-sec--here', 'Where you are', 0);
+    var aroundSec = part('cb-sec--around', 'Who\u2019s around', 0);
+    var chanSec = part('cb-sec--channel', 'Channel', 1);
+    var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
+    var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', 2);
     filmSec.hidden = true;
-    var yourSec = part('cb-sec--yours', 'Your radio');
+    var yourSec = part('cb-sec--yours', 'Your radio', 2);
     /* MESSAGES, between Channel and Watching together (Ryan, 2026-10-18): one
        person to another, for claimed usernames. See dmMake. */
     this.dmMake(dmSec);
@@ -1376,11 +1400,17 @@
     if (window.ResizeObserver) new ResizeObserver(function () { me.drawArt(); }).observe(trimTop);
 
     fold.addEventListener('click', function () { me.setFolded(!me.state.folded); });
-    /* THE SIZE, three of them, Ryan's ask, 2026-09-29: Small is the bar and the
-       newest message and still listens, Normal is the radio as it was, and
-       Large is wide and tall, for long messages and pictures. */
+    /* THE SIZE, Ryan's ask, 2026-09-29: Small is the bar and the newest message
+       and still listens, Normal is the radio as it was, and Large is wide and
+       tall, for long messages and pictures. Then, 2026-10-19, Icon under Small
+       and Full over Large: see setSize. */
     smaller.addEventListener('click', function () { me.stepSize(-1); });
     larger.addEventListener('click', function () { me.stepSize(1); });
+    opener.addEventListener('click', function () {
+      if (me.state.size !== 'icon') return;
+      me.setSize('small');
+      larger.focus();
+    });
     schemeBtn.addEventListener('click', function () { me.setSchemePanel(me.schemePanel.hidden); });
     tp.addEventListener('click', function () { me.setTeleport(tpp.hidden); });
     find.addEventListener('input', function () { me.tpRender(); });
@@ -1439,6 +1469,8 @@
     this.mover = new window.loveCall.Mover(box, bar, move, state, 'right', 'cb-radio--held', function () { save(me.state); }, function () {
       me.tell('Drag the bar to move the radio, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.');
     });
+    // At Full the radio fills the window, so there is nowhere to move it to.
+    this.mover.still = function () { return me.state.size === 'full' && !me.state.folded; };
     // A theme's sides hang outside the box, so the radio keeps that much further in.
     this.mover.margin = function () {
       if (!me.sidesShown()) return 0;
@@ -1686,20 +1718,40 @@
      with the older messages hidden. Nothing lights up when a message lands,
      here as anywhere on the radio. To answer, make it full size again: a box
      to type in is most of what the radio's height is. The radio is anchored by
-     its bottom right corner, so it shrinks towards wherever it was put. */
+     its bottom right corner, so it shrinks towards wherever it was put.
+
+     ICON IS SMALLER AGAIN, AND STILL ON (Ryan, 2026-10-19): the radio drawn as
+     a CB set on its own case, and nothing else. It listens, so a film you host
+     or follow carries on and Be seen here still holds, but it shows nothing and
+     reads nothing to a screen reader, because the log is not on the page; Small
+     is the size for keeping an ear on the channel, and Fold away is still the
+     only off. Nothing on the icon lights up when a message lands, the radio's
+     rule. FULL is the whole window, less the gap every size keeps from its
+     edges, for somebody who wants only the CB: the channel down the middle as
+     tall as the window, and on a wide one, the other parts in a column either
+     side (cb.css). It does not move, because there is nowhere to move it, and
+     it sits under a room's call window rather than over it, so a call is never
+     lost behind it. */
+  var SIZES = ['icon', 'small', 'normal', 'large', 'full'];
+  var SIZE_SAYS = { icon: 'an icon, still on', small: 'Small, the bar and the newest message', normal: 'Normal', large: 'Large, wider and taller', full: 'Full, the whole window' };
   Radio.prototype.setSize = function (size, quiet) {
-    if (size !== 'small' && size !== 'large') size = 'normal';
-    var small = size === 'small';
+    if (SIZES.indexOf(size) < 0) size = 'normal';
+    var small = size === 'small', tiny = small || size === 'icon';
+    var had = this.box.contains(document.activeElement) || (this.host && this.host.shadowRoot && this.host.shadowRoot.activeElement);
     this.state.size = size;
     this.state.small = small;   // kept, so a radio saved before sizes still opens small
-    this.box.classList.toggle('cb-radio--small', small);
-    this.box.classList.toggle('cb-radio--large', size === 'large');
+    SIZES.forEach(function (s) { this.box.classList.toggle('cb-radio--' + s, s === size && s !== 'normal'); }, this);
     this.sizeShown();
-    if (small) { this.close(); this.tell(''); }
+    if (tiny) { this.close(); this.tell(''); }
+    if (size === 'icon' && !this.tpPanel.hidden) this.setTeleport(false);
     if (!quiet) save(this.state);
     this.place();
-    if (!small) this.log.scrollTop = this.log.scrollHeight;
+    if (!tiny) this.log.scrollTop = this.log.scrollHeight;
+    // The minus that made it an icon has gone, so the keyboard goes to the icon.
+    if (size === 'icon' && had && !this.state.folded) this.openerBtn.focus();
   };
+  // Small or an icon: what a press that needs the radio open makes Normal.
+  Radio.prototype.tiny = function () { return this.state.size === 'small' || this.state.size === 'icon'; };
 
   /* A SCHEME, chosen: remembered in love-cb like the size, put on this radio and
      on the call window at once by call.js, and said on the radio's own line,
@@ -2035,21 +2087,20 @@
   };
 
   /* Minus and plus: one size down or up, and at either end the button with
-     nowhere to go says so on the radio's line rather than doing nothing. */
-  var SIZES = ['small', 'normal', 'large'];
-  var SIZE_SAYS = { small: 'Small, the bar and the newest message', normal: 'Normal', large: 'Large, wider and taller' };
+     nowhere to go says so on the radio's line rather than doing nothing. At
+     Icon there is no minus to press: the icon is the way back up. */
   Radio.prototype.stepSize = function (by) {
-    var i = SIZES.indexOf(this.state.size || 'normal'), j = Math.max(0, Math.min(2, i + by));
+    var top = SIZES.length - 1, i = SIZES.indexOf(this.state.size || 'normal'), j = Math.max(0, Math.min(top, i + by));
     if (j === i) { this.tell(by < 0 ? 'The radio is as small as it goes.' : 'The radio is as large as it goes.'); return; }
     this.tell('');
     this.setSize(SIZES[j]);
   };
   Radio.prototype.sizeShown = function () {
-    var i = SIZES.indexOf(this.state.size || 'normal');
-    this.smallerBtn.setAttribute('aria-label', i > 0 ? 'Smaller: ' + SIZE_SAYS[SIZES[i - 1]] : 'Smaller: already Small');
-    this.largerBtn.setAttribute('aria-label', i < 2 ? 'Larger: ' + SIZE_SAYS[SIZES[i + 1]] : 'Larger: already Large');
+    var top = SIZES.length - 1, i = SIZES.indexOf(this.state.size || 'normal');
+    this.smallerBtn.setAttribute('aria-label', i > 0 ? 'Smaller: ' + SIZE_SAYS[SIZES[i - 1]] : 'Smaller: already an icon');
+    this.largerBtn.setAttribute('aria-label', i < top ? 'Larger: ' + SIZE_SAYS[SIZES[i + 1]] : 'Larger: already Full');
     this.smallerBtn.setAttribute('aria-disabled', String(i === 0));
-    this.largerBtn.setAttribute('aria-disabled', String(i === 2));
+    this.largerBtn.setAttribute('aria-disabled', String(i === top));
   };
 
   Radio.prototype.setFolded = function (folded, quiet) {
@@ -3938,6 +3989,41 @@
     guildWait.then(function (g) { then(g); });
   }
 
+  /* THE RADIO'S ICON (Ryan, 2026-10-19): a CB set, for the radio's smallest
+     size. A case with its readout and its knob, the aerial up out of the top,
+     and the handset on its coiled cord, which is what makes a CB a CB rather
+     than a radio you listen to. The readout says 19, the channel the bar used
+     to say before the teleporter took its place. Drawn in the radio's own
+     steel on its own case, the readout in its own amber on its own glass, so
+     every scheme's icon is that scheme's, in pairs check-contrast.py holds.
+     aria-hidden: the button carries its name. */
+  function radioIcon() {
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 32 32');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', 'cb-opener__art');
+    function add(tag, at) {
+      var e = document.createElementNS(SVGNS, tag);
+      for (var k in at) e.setAttribute(k, at[k]);
+      svg.appendChild(e);
+      return e;
+    }
+    var line = { fill: 'none', stroke: 'currentColor', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+    function stroke(at, w) { var o = {}; for (var k in line) o[k] = line[k]; for (k in at) o[k] = at[k]; o['stroke-width'] = w; return o; }
+    add('path', stroke({ d: 'M23.5 9.5L27 2.8' }, '2'));
+    add('circle', { cx: '27', cy: '2.8', r: '1.7', fill: 'currentColor' });
+    add('rect', stroke({ x: '2', y: '9.5', width: '28', height: '12.5', rx: '3' }, '2'));
+    add('rect', { class: 'cb-opener__glass', x: '5', y: '12.5', width: '12', height: '6.5', rx: '1.2', stroke: 'currentColor', 'stroke-width': '1.4' });
+    add('path', { class: 'cb-opener__lit', d: 'M8.9 14.3v3.1M11.6 15.85v-1.55h2.8v3.1h-2.8M11.6 15.85h2.8', fill: 'none', 'stroke-width': '1.3', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+    add('circle', stroke({ cx: '23.5', cy: '15.75', r: '3.4' }, '1.8'));
+    add('path', stroke({ d: 'M23.5 15.75V13.1' }, '1.6'));
+    add('path', stroke({ d: 'M6.5 22c-1.6.9-1.6 1.9 0 2.6s1.6 1.8 0 2.6-1.2 2.2 1.6 2.1H12' }, '1.4'));
+    add('rect', { x: '12', y: '26.2', width: '13', height: '4.8', rx: '2.4', fill: 'currentColor' });
+    add('path', { class: 'cb-opener__grille', d: 'M17 28.6h5', fill: 'none', 'stroke-width': '1.2', 'stroke-linecap': 'round' });
+    return svg;
+  }
+
   /* THE BAR'S ICONS: a grip of six dots for Move, and minus and plus for the
      size, in currentColor, aria-hidden, because each button carries its name. */
   function barIcon(kind) {
@@ -4931,7 +5017,7 @@
     var me = this;
     if (!this.dmBox) return;
     if (this.state.folded) this.setFolded(false, true);
-    if (this.state.size === 'small') this.setSize('normal', true);
+    if (this.tiny()) this.setSize('normal', true);
     this.dmOpen(handle);
     function go() { me.dmSec.scrollIntoView({ block: 'nearest' }); me.dmHead.focus(); }
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
@@ -4946,7 +5032,7 @@
     try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
     if (!this.dmBox) return;
     if (this.state.folded) this.setFolded(false, true);
-    if (this.state.size === 'small') this.setSize('normal', true);
+    if (this.tiny()) this.setSize('normal', true);
     if (this.dmWith) this.dmShowInbox();
     if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
     function go() { me.dmSec.scrollIntoView({ block: 'start' }); me.dmBtn.focus(); }
@@ -5287,7 +5373,7 @@
   Radio.prototype.toProps = function () {
     try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
     if (this.state.folded) this.setFolded(false, true);
-    if (this.state.size === 'small') this.setSize('normal', true);
+    if (this.tiny()) this.setSize('normal', true);
     if (this.petsPanel.hidden) this.setPets(true);
     var head = this.prHead;
     function go() { head.scrollIntoView({ block: 'start' }); head.focus(); }
@@ -7268,7 +7354,10 @@
     forget();
     clearTimeout(this.timer);
     this.hush();
+    // One sentence and a button, so not the whole window and not an icon.
+    if (this.state.size === 'full' || this.state.size === 'icon') this.setSize('normal', true);
     this.set.hidden = false;
+    this.set.classList.remove('cb-set--parts');
     this.set.textContent = '';
     var p = el('p', 'cb-who');
     p.appendChild(document.createTextNode('The password has changed, so you are off the channel. '));
@@ -7619,10 +7708,11 @@
 
   /* A film under the radio has been got ready out of sight, which is the
      fault this exists to fix, so the radio goes Small for now and says so.
-     Small still listens; + puts it back, and nothing is saved. */
+     Small still listens; + makes it larger again, and nothing is saved. An
+     icon is smaller than Small already and is left as it is. */
   function clearOf(node) {
     var shrank = false;
-    if (radio && radio.state.size !== 'small' && !radio.state.folded) {
+    if (radio && !radio.tiny() && !radio.state.folded) {
       var a = node.getBoundingClientRect(), r = radio.box.getBoundingClientRect();
       if (a.left < r.right && a.right > r.left && a.top < r.bottom && a.bottom > r.top) { radio.setSize('small', true); shrank = true; }
     }
@@ -7639,7 +7729,7 @@
   function readyNote(got) {
     if (!got) return '';
     return (got.put ? ' It went up on ' + got.put.name + ', in place of what was there; ' + got.put.back + '.' : '') +
-      (got.shrank ? ' The radio went small so you can see it; + puts it back.' : '');
+      (got.shrank ? ' The radio went small so you can see it; + makes it larger again.' : '');
   }
 
   function arrive() {

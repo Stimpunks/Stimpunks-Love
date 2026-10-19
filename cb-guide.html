@@ -76,8 +76,8 @@
     <tbody>
       <tr><td><b>CB</b></td><td>The radio&rsquo;s name, and somewhere to drag it by.</td><td>shown</td></tr>
       <tr><td><b>Teleport</b></td><td>Opens <a href="#teleport">the teleporter</a> under the bar.</td><td>hidden</td></tr>
-      <tr><td><b>Move</b>, the six dots</td><td>Drag the dots, or any part of the bar that is not a button, to put the radio somewhere else. Or press the dots: they take the keyboard and say how it works, and then the arrow keys move the radio 24 pixels a press and <kbd>Home</kbd> puts it back in the corner. The radio remembers where you left it.</td><td>shown</td></tr>
-      <tr><td><b>&minus;</b> and <b>+</b></td><td>Smaller and larger: one press goes from Large to Normal to Small, or back up. Each says which size it goes to, and says so when the radio is already as small or as large as it goes.</td><td>hidden</td></tr>
+      <tr><td><b>Move</b>, the six dots</td><td>Drag the dots, or any part of the bar that is not a button, to put the radio somewhere else. Or press the dots: they take the keyboard and say how it works, and then the arrow keys move the radio 24 pixels a press and <kbd>Home</kbd> puts it back in the corner. The radio remembers where you left it. Not at Full, which fills the window and has nowhere to move to.</td><td>shown</td></tr>
+      <tr><td><b>&minus;</b> and <b>+</b></td><td>Smaller and larger: one press goes from Full to Large to Normal to Small to an icon, or back up. Each says which size it goes to, and says so when the radio is already as small or as large as it goes.</td><td>hidden</td></tr>
       <tr><td><b>Fold away</b></td><td>Folds the radio down to its bar and stops it. It reads <b>Switch on</b> while folded, and that opens it again.</td><td>reads <b>Switch on</b></td></tr>
     </tbody>
   </table>
@@ -86,16 +86,18 @@
   <table class="plain-table">
     <thead><tr><th>State</th><th>What you see</th><th>Is it listening?</th></tr></thead>
     <tbody>
+      <tr><td><b>Icon</b></td><td>Only an icon of a CB set, the aerial, the readout and the handset, on the radio&rsquo;s own case. Press it, or press <kbd>Enter</kbd> on it, to open the radio at Small; drag it to put it somewhere else. Nothing on it changes when a message comes in. Good for getting the radio right out of the way while you host or follow a film.</td><td>yes, so a film you host or follow carries on and <b>Be seen here</b> still holds. A screen reader hears nothing new at this size; <b>Speak new messages aloud</b> still speaks. Choose Small to keep an ear on the channel.</td></tr>
       <tr><td><b>Small</b></td><td>The bar, the line saying what you are tuned to, and only the newest message. Good for keeping the radio on over a film.</td><td>yes, and it still reads new messages to a screen reader</td></tr>
       <tr><td><b>Normal</b></td><td>Everything, in a narrow panel.</td><td>yes</td></tr>
       <tr><td><b>Large</b></td><td>Everything, wider and taller, for long messages and pictures.</td><td>yes</td></tr>
+      <tr><td><b>Full</b></td><td>The whole window, for when you want only the CB, with the channel as tall as the window. On a wide window the parts stand in columns: <b>Where you are</b> and <b>Who&rsquo;s around</b> on the left, the channel in the middle, and the rest on the right. A room&rsquo;s call window stays on top of it.</td><td>yes</td></tr>
       <tr><td>Folded</td><td>Only <b>CB</b>, <b>Move</b> and <b>Switch on</b>.</td><td>no. It sends nothing, stops reading aloud, stops hosting and following a film, and stops you being seen.</td></tr>
     </tbody>
   </table>
-  <p>The radio is never wider or taller than your window. If it would cover the button it has just got ready for you to press, it goes Small for the moment and says so; <b>+</b> puts it back.</p>
+  <p>The radio is never wider or taller than your window. If it would cover the button it has just got ready for you to press, it goes Small for the moment and says so; <b>+</b> makes it larger again.</p>
 
   <h2 id="parts">The parts of the radio</h2>
-  <p>Under the bar the radio is in parts, top to bottom, each under a heading lettered on the case, with a groove in the case between one part and the next. A screen reader can move between the headings. Small shows none of them.</p>
+  <p>Under the bar the radio is in parts, top to bottom, each under a heading lettered on the case, with a groove in the case between one part and the next. A screen reader can move between the headings. Small shows none of them. At Full on a wide window they stand in columns instead, left to right in the same order, and each column scrolls by itself.</p>
   <table class="plain-table">
     <thead><tr><th>Heading</th><th>What is under it</th></tr></thead>
     <tbody>

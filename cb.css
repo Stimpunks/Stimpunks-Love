@@ -146,7 +146,7 @@
 :host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
 :host([data-scheme="crashers"]) .cb-btn { border: 3px solid var(--cb-steel); border-radius: 12px; }
 :host([data-scheme="inquisition"]) .cb-radio { border-color: var(--cb-amber); border-radius: 6px; }
-:host([data-scheme="inquisition"]) .cb-sec + .cb-sec { border-top: 1px solid var(--cb-amber); }
+:host([data-scheme="inquisition"]) .cb-sec.cb-sec--after { border-top: 1px solid var(--cb-amber); }
 :host([data-scheme="metroid"]) .cb-radio, :host([data-scheme="megaman"]) .cb-radio,
 :host([data-scheme="doom"]) .cb-radio, :host([data-scheme="loz"]) .cb-radio { border-radius: 0; border-width: 4px; }
 :host([data-scheme="metroid"]) .cb-btn, :host([data-scheme="megaman"]) .cb-btn,
@@ -181,7 +181,7 @@
 :host([data-scheme="termites"]) .cb-btn { border-radius: 0; }
 :host([data-scheme="greenroom"]) .cb-radio { border-radius: 0; border: 6px double var(--cb-greenroom-olive); }
 :host([data-scheme="greenroom"]) .cb-btn { border-radius: 0; border-color: var(--cb-greenroom-olive); }
-:host([data-scheme="greenroom"]) .cb-sec + .cb-sec { border-top: 3px double var(--cb-greenroom-olive); }
+:host([data-scheme="greenroom"]) .cb-sec.cb-sec--after { border-top: 3px double var(--cb-greenroom-olive); }
 :host([data-scheme="sarah"]) .cb-radio { border-radius: 10px; border-color: var(--cb-amber); }
 :host([data-scheme="sarah"]) .cb-btn { border-radius: 8px; }
 /* The skins' shapes. The games are hard-cornered and thick-edged, like
@@ -195,10 +195,10 @@
 :host([data-scheme="digdug"]) .cb-tp, :host([data-scheme="mario"]) .cb-tp { border-radius: 0; border-width: 3px; }
 :host([data-scheme="zelda"]) .cb-lcd { border: 3px solid var(--cb-amber); border-radius: 0; }
 :host([data-scheme="ascii"]) .cb-radio, :host([data-scheme="ascii"]) .cb-btn, :host([data-scheme="ascii"]) .cb-tp { border-style: dashed; border-radius: 0; }
-:host([data-scheme="ascii"]) .cb-sec + .cb-sec { border-top: 2px dashed var(--cb-steel-2); }
+:host([data-scheme="ascii"]) .cb-sec.cb-sec--after { border-top: 2px dashed var(--cb-steel-2); }
 :host([data-scheme="microchip"]) .cb-radio { border-radius: 4px; border-color: var(--cb-amber); }
 :host([data-scheme="microchip"]) .cb-btn { border-radius: 2px; }
-:host([data-scheme="microchip"]) .cb-sec + .cb-sec { border-top: 2px solid var(--cb-microchip-trace); }
+:host([data-scheme="microchip"]) .cb-sec.cb-sec--after { border-top: 2px solid var(--cb-microchip-trace); }
 :host([data-scheme="deviant"]) .cb-radio { border-radius: 4px; border-width: 1px; }
 :host([data-scheme="deviant"]) .cb-btn { border-radius: 3px; border-width: 1px; }
 :host([data-scheme="hp49g"]) .cb-radio, :host([data-scheme="ti82"]) .cb-radio { border-radius: 18px 18px 26px 26px; border-width: 3px; }
@@ -219,7 +219,7 @@
 :host([data-scheme="lcars"]) .cb-radio { border-width: 0 0 0 16px; border-color: var(--cb-amber); border-radius: 30px 10px 10px 30px; }
 :host([data-scheme="lcars"]) .cb-bar { border-bottom: 6px solid var(--cb-lcars-peach); border-radius: 0 8px 0 0; }
 :host([data-scheme="lcars"]) .cb-btn, :host([data-scheme="lcars"]) .cb-tp { border-radius: 999px; }
-:host([data-scheme="lcars"]) .cb-sec + .cb-sec { border-top: 4px solid var(--cb-lcars-peach); }
+:host([data-scheme="lcars"]) .cb-sec.cb-sec--after { border-top: 4px solid var(--cb-lcars-peach); }
 /* Max Glitter and Unicorn Poop: a border made of every colour, which only
    moves when the drawing does. The case under it stays its one flat colour. */
 :host([data-scheme="glitter"]) .cb-radio, :host([data-scheme="unicorn"]) .cb-radio {
@@ -233,9 +233,9 @@
   background-image: linear-gradient(var(--cb-case), var(--cb-case)), linear-gradient(90deg, var(--cb-unicorn-pink), var(--cb-unicorn-peach), var(--cb-unicorn-lemon), var(--cb-unicorn-mint), var(--cb-unicorn-sky), var(--cb-unicorn-lilac), var(--cb-unicorn-pink), var(--cb-unicorn-peach), var(--cb-unicorn-lemon));
   background-clip: padding-box, border-box; border-radius: 18px;
 }
-:host([data-scheme="unicorn"]) .cb-sec + .cb-sec { border-top: 3px solid; border-image: linear-gradient(90deg, var(--cb-unicorn-pink), var(--cb-unicorn-lemon), var(--cb-unicorn-mint), var(--cb-unicorn-sky), var(--cb-unicorn-lilac)) 1; }
+:host([data-scheme="unicorn"]) .cb-sec.cb-sec--after { border-top: 3px solid; border-image: linear-gradient(90deg, var(--cb-unicorn-pink), var(--cb-unicorn-lemon), var(--cb-unicorn-mint), var(--cb-unicorn-sky), var(--cb-unicorn-lilac)) 1; }
 :host([data-scheme="unicorn"]) .cb-btn { border-radius: 14px; }
-:host([data-scheme="glitter"]) .cb-sec + .cb-sec { border-top: 2px dashed var(--cb-amber-2); }
+:host([data-scheme="glitter"]) .cb-sec.cb-sec--after { border-top: 2px dashed var(--cb-amber-2); }
 /* Wabi-sabi: nothing square, and no two corners alike. */
 :host([data-scheme="wabi"]) .cb-radio { border-radius: 17px 7px 20px 10px / 10px 18px 8px 15px; }
 :host([data-scheme="wabi"]) .cb-btn { border-radius: 9px 4px 11px 5px / 5px 10px 4px 8px; }
@@ -424,6 +424,9 @@
 .cb-radio--large { width: min(640px, calc(100vw - 16px)); }
 .cb-radio--large .cb-log { max-height: min(62vh, 720px); }
 .cb-radio--large .cb-picture-img { max-height: 360px; }
+/* THE COLUMNS are only columns at Full on a wide window (below). Everywhere
+   else they are not there at all, and the parts are the set's own rows. */
+.cb-col { display: contents; }
 .cb-tp-find { width: 100%; }
 .cb-tp-list { max-height: min(40vh, 260px); margin: 0; }
 
@@ -464,7 +467,7 @@
    above, and the same capped column. */
 .cb-set--parts { gap: 16px; }
 .cb-sec { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; }
-.cb-sec + .cb-sec { padding-top: 14px; border-top: 2px solid var(--cb-bar); }
+.cb-sec.cb-sec--after { padding-top: 14px; border-top: 2px solid var(--cb-bar); }
 .cb-radio h2, .cb-radio h3 { margin: 0; }
 .cb-h {
   font: 400 calc(12px * var(--cb-display-scale, 1))/1.2 var(--cb-display, 'Bungee'), system-ui, sans-serif;
@@ -1195,6 +1198,69 @@ ol.cb-md-list { list-style: decimal; }
 .cb-radio--small .cb-log { max-height: none; overflow: hidden; }
 .cb-radio--small .cb-log > li:not(:last-child) { display: none; }
 .cb-radio--small .cb-text { max-height: 4.4em; overflow: hidden; }
+
+/* ICON: the radio as a CB set drawn on its own case, and nothing else (cb.js,
+   Ryan, 2026-10-19). Still on, so it is a size and not folded; folded, the bar
+   is the folded bar whatever the size. The case keeps its scheme's border and
+   corners, so every scheme's icon is that scheme's; the bar gives up its own
+   ground, so the icon stands on the case, which is the pair it was drawn for.
+   Nothing on it changes when a message lands. */
+.cb-opener { display: none; }
+.cb-radio--icon:not(.cb-radio--folded) { width: auto; }
+.cb-radio--icon:not(.cb-radio--folded) > :not(.cb-bar),
+.cb-radio--icon:not(.cb-radio--folded) .cb-bar > :not(.cb-opener) { display: none !important; }
+.cb-radio--icon:not(.cb-radio--folded) .cb-bar { padding: 3px; background: none; border-radius: 8px; }
+.cb-radio--icon:not(.cb-radio--folded) .cb-opener {
+  display: grid; place-items: center; width: 52px; height: 52px; min-width: 0; padding: 0;
+  background: none; border: 0; color: var(--cb-steel); cursor: pointer; touch-action: none;
+}
+.cb-opener:hover { color: var(--cb-amber); }
+.cb-opener__art { display: block; width: 44px; height: 44px; }
+.cb-opener__glass { fill: var(--cb-lcd); }
+.cb-opener__lit { stroke: var(--cb-amber); }
+.cb-opener__grille { stroke: var(--cb-case); }
+
+/* FULL: the whole window, less the gap every size keeps from its edges, for
+   somebody who wants only the CB (cb.js, Ryan, 2026-10-19). It does not move,
+   so Move is not on the bar, and it sits one step under a room's call window
+   (.cb-call, below), so a call is never lost behind it: everywhere else the
+   radio is over the call, so the radio can always be reached, and here the
+   radio is everywhere the call is not. A theme's sides hang outside the box,
+   and at Full there is no outside, so they are not drawn; its trims and the
+   drawing along every groove are. */
+.cb-radio--full:not(.cb-radio--folded) { top: 8px; left: 8px; right: 8px; bottom: 8px; width: auto; z-index: 88; }
+.cb-radio--full:not(.cb-radio--folded) .cb-move,
+.cb-radio--full:not(.cb-radio--folded) .cb-side { display: none; }
+/* One column on a narrow window: the log is as tall as leaves the rest of the
+   channel, from its heading to Transmit, on the screen with it. */
+.cb-radio--full .cb-log { max-height: max(14rem, calc(100vh - 340px)); max-height: max(14rem, calc(100dvh - 340px)); }
+.cb-radio--full .cb-picture-img { max-height: 420px; }
+/* THREE ON A WIDE ONE, and each scrolls by itself: where you are and who is
+   around, then the channel, as tall as the window with the log taking what is
+   left of it, then messages, watching together and your radio. Left to right
+   is the order the parts come in, top to bottom, everywhere else, which is the
+   order the keyboard and a screen reader meet them in. The first part in a
+   column has no part above it, so no groove and no drawing, whatever a scheme
+   says; between the columns is the same groove, standing up. */
+@media (min-width: 1000px) {
+  .cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
+    grid-template-columns: minmax(15rem, 1fr) minmax(0, 2.6fr) minmax(17rem, 1.15fr);
+    grid-template-rows: minmax(0, 1fr); gap: 0; padding: 0; overflow: hidden;
+  }
+  .cb-radio--full .cb-set--parts > .cb-col {
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; align-content: start; gap: 16px;
+    min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px 16px 16px;
+  }
+  .cb-radio--full .cb-set--parts > .cb-col + .cb-col { border-left: 2px solid var(--cb-bar); }
+  .cb-radio--full .cb-set .cb-col > .cb-sec--after:first-child { padding-top: 0; border-top: 0; }
+  .cb-radio--full .cb-set .cb-col > .cb-sec:first-child > .cb-divider { display: none; }
+  .cb-radio--full .cb-set--parts > .cb-col--b { display: flex; flex-direction: column; }
+  .cb-radio--full .cb-col--b > .cb-sec--channel { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+  .cb-radio--full .cb-sec--channel > * { flex: none; }
+  .cb-radio--full .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 12rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+  .cb-radio--full .cb-lcd > * { flex: none; }
+  .cb-radio--full .cb-lcd > .cb-log { flex: 1 1 0; min-height: 8rem; max-height: none; }
+}
 
 /* A ROOM'S CALL: a window of its own at the foot of the page, bottom left
    where the radio is bottom right, one step under it so the radio can always

@@ -56,7 +56,16 @@
      reader, and the drag's preventDefault kept a click from even focusing it.
      A tap on Move (or Enter or Space on it) now puts the keyboard on Move, so
      the arrows work at once, and calls `pressed`, which each window answers in
-     its own words and its own place. A click after a real drag does not count. */
+     its own words and its own place. A click after a real drag does not count.
+
+     A BUTTON MARKED data-drag DRAGS TOO, and a tap on it is its own press: the
+     radio's icon (cb.js), which is the whole radio while it is one. The bar
+     holds the pointer while it is down, so the button's own click never
+     arrives, and drop presses it instead when the pointer did not move.
+
+     A WINDOW THAT IS STILL DOES NOT MOVE: `still`, when the window gives one,
+     says so (the radio at Full, which fills the screen), and then place()
+     leaves it to its stylesheet and nothing drags it. */
   function Mover(box, bar, moveBtn, pos, side, held, save, pressed) {
     var me = this;
     this.box = box; this.pos = pos; this.side = side; this.save = save || function () {};
@@ -66,10 +75,12 @@
     moveBtn.addEventListener('click', function (e) { if (e.detail === 0) how(); });
     var start = null;
     bar.addEventListener('pointerdown', function (e) {
-      if (e.button !== 0 || (e.target.closest('button') && e.target !== moveBtn)) return;
+      var b = e.target.closest('button');
+      if (e.button !== 0 || (b && b !== moveBtn && !b.hasAttribute('data-drag'))) return;
+      if (me.still && me.still()) return;
       var p = me.place();
       start = { px: e.clientX, py: e.clientY, x: p.x, y: p.y, id: e.pointerId,
-                onMove: e.target === moveBtn, moved: false };
+                onMove: b === moveBtn, handle: b && b !== moveBtn ? b : null, moved: false };
       bar.setPointerCapture(e.pointerId);
       box.classList.add(held);
       e.preventDefault();
@@ -84,13 +95,14 @@
     });
     function drop(e) {
       if (!start || e.pointerId !== start.id) return;
-      var tapped = start.onMove && !start.moved;
+      var tapped = start.onMove && !start.moved, handle = !start.moved && start.handle;
       start = null;
       box.classList.remove(held);
       var q = me.place();
       me.pos.x = q.x; me.pos.y = q.y;
       me.save();
       if (tapped) { moveBtn.focus(); how(); }
+      if (handle) handle.click();
     }
     bar.addEventListener('pointerup', drop);
     bar.addEventListener('pointercancel', drop);
@@ -98,6 +110,7 @@
 
   Mover.prototype.place = function () {
     var s = this.pos, b = this.box;
+    if (this.still && this.still()) { b.style[this.side] = ''; b.style.bottom = ''; return { x: EDGE, y: EDGE }; }
     // A margin is room kept beside the box for what hangs off its sides: a
     // radio theme's side drawings, which the radio says it has.
     var side = EDGE + (this.margin ? this.margin() : 0);
@@ -111,6 +124,7 @@
   };
 
   Mover.prototype.key = function (e) {
+    if (this.still && this.still()) return;
     var s = this.pos, p = this.place(), k = e.key, out = this.side === 'right' ? 1 : -1;
     if (k === 'ArrowLeft') s.x = p.x + STEP * out;
     else if (k === 'ArrowRight') s.x = p.x - STEP * out;

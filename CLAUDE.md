@@ -3807,8 +3807,8 @@ title would otherwise break the link or the jump. **A message now has `li` insid
 pass that drops messages gone from the channel read those as messages and emptied every list; it
 asks for `:scope > li`. Anything else walking the log must ask the same way. Copy writes the words
 as typed and sends nothing. Size is − and + on the bar (Ryan, 2026-10-17: a panel to reach Small
-was a step too much), stepping Small, Normal, Large, and Move is a six-dot grip; both are icons,
-because the bar is full.
+was a step too much), stepping Icon, Small, Normal, Large, Full (2026-10-19 added the two ends),
+and Move is a six-dot grip; both are icons, because the bar is full.
 
 **THE TELEPORTER IS WHERE "CH 19" WAS, AND IT SENDS NOTHING.** Ryan, 2026-09-26: the channel number
 was decoration, so the bar's readout became a button that opens a filterable list of every room on
@@ -3850,6 +3850,26 @@ exactly as full size does. It is the same log with the older messages hidden, so
 still reads what arrives. **Do not merge small into folded** to save a button: folded sending nothing
 is a promise on the privacy page, and small exists precisely because somebody wanted to keep hearing.
 Nothing lights up when a message lands in either size.
+
+**ICON IS SMALLER THAN SMALL AND STILL ON; FULL IS THE WHOLE WINDOW.** Ryan, 2026-10-19, both the
+same morning. **Icon** is the radio as a CB set drawn on its own case (`radioIcon()` in `cb.js`: the
+aerial, a readout saying 19, a knob and the handset on its coiled cord, in the scheme's steel, glass
+and amber, so every scheme's icon is that scheme's). It listens, so hosting, following and Be seen
+here carry on, but it shows nothing and the log is off the page, so a screen reader hears nothing new
+(Speak new messages aloud still speaks), and the guide says Small is the size for keeping an ear on
+the channel. **The friendly edits are an unread dot on the icon and making the icon folded**: the
+first is the receive lamp the radio refuses, the second takes away the one size that keeps a hosted
+film going with the radio out of the way. Pressing it opens Small; it drags, because it is a button
+marked `data-drag`, which the Mover (`call.js`) now lets drag and presses itself on a tap, since the
+bar holds the pointer and the button's own click never arrives. **Full** fills the window less
+`EDGE`, does not move (`mover.still`), hides Move and the theme's sides (there is no outside for them),
+and sits at z-index 88, **under** a room's call window, so a call is never lost behind it. On a window
+at least 1000px wide the parts stand in three columns, each scrolling by itself, left to right in the
+order they come top to bottom everywhere else: `part()` puts them in `.cb-col` wrappers that are
+`display: contents` at every other size, and the groove is `.cb-sec--after` rather than
+`.cb-sec + .cb-sec`, because a part's neighbour may be in another column. **A scheme that styles the
+groove targets `.cb-sec.cb-sec--after`.** The Mover change also fixed a press on Move's own dots,
+which hit the drawing inside the button and did nothing, drag or tap, until then.
 
 **OPEN IS ON AND CLOSED IS OFF, AND THAT IS ONE FUNCTION.** `Radio.prototype.tune` is the only place
 that decides whether the radio makes requests: open *and* `document.visibilityState === 'visible'`.
