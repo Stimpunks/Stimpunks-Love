@@ -1502,6 +1502,20 @@ Each pass fades in and out over about a second, travels in its own container uni
 grows draws nothing again, and nothing in it flashes. The contrast checkers cannot hold a word with something crossing
 it, and Ryan chose it knowing that.
 
+**PROFILE SETS ARE A CARD'S LOOK UNDER A NAME, AND THEY NEVER HOLD ITS WORDS.** A request from our community, 2026-10-19
+(Otters, Halloween, Fairy Lights): save, update and switch between favourite sets of profile settings, by mood, room or what
+is on. A set is the seven drawn choices in `LOOK` in `lib.mjs` (theme, banner, decoration, frame, effect, face, nameplate) and
+which avatar is worn, or none; `profile-sets/<pet key>` holds each one's id, name, look and avatar and nothing about when,
+beside the card, claimed only, in Profile under the card (`drawProfileSets` in `cb.js`). **The server reads every set off the
+card as saved and the avatar as worn** (`cardAsIs`), never off what a page sends, so a set only holds what was on a card;
+wearing one (`wearProfileSet`) lays the look over the card, keeps its words, and wears the set's avatar or takes the worn one
+off. **Nothing records which set is worn**: `shapeProfileSet` works it out by comparing, and sets are shown to nobody.
+`make-profile.py` refuses a set built with anything else, the sets' code naming the card's words, and Forget me or deleting
+the username leaving them; Clear my card and a moderator clearing a card leave them, because a look is only choices off the
+street's own lists. **The friendly edits are a bio and pronouns in a set "so Halloween can have a spooky bio"**, which puts old
+words back on a card by a press, **a set shown on a profile**, and **sets switching by themselves by room or by date**, which
+changes somebody's card while they are not looking; `DECISIONS.md` has them as open, each Ryan's call first.
+
 **PROPS ARE THE SEVENTH THING KEPT UNDER A PERSON, AND NOTHING GOES UP UNTIL ITS PERSON SAYS YES.** Ryan, 2026-10-18,
 after the forums' Props & Gratitude: a **Props** tab in every profile (last of the tabs), where anybody signed on reads
 the props somebody confirmed and anybody with a **claimed** username (`forumReader`) writes them one, a sentence or a

@@ -2395,6 +2395,111 @@ for (const etagOnRead of [true, false]) {
   });
 }
 
+
+/* ── Profile sets ─────────────────────────────────────────────────────── */
+import { PROFILE_SETS_KEEP, PROFILE_SET_NAME_MAX, cardLook, readProfileSets, shapeProfileSet, saveProfileSet, wearProfileSet,
+  refreshProfileSet, renameProfileSet, removeProfileSet, forgetProfileSets } from './lib.mjs';
+
+test('a profile set is the card\'s look and the avatar worn, and wearing it keeps the card\'s words', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const otter = (await keepAvatar(pk, { look: lookOf(), name: 'Ottie' }, s)).kept;
+  await wearAvatar(pk, otter.id, s);
+  const otters = cleanProfile(fullProfile({ theme: 'kelp', effect: 'otters', bio: 'Otters first.' })).profile;
+  await keepProfile(pk, otters, s);
+  const a = await saveProfileSet(pk, 'Otters', s);
+  assert.ok(a.kept, a.error);
+  assert.deepEqual(Object.keys(a.kept).sort(), ['avatar', 'id', 'look', 'name'], 'a set holds something besides its look, its avatar and its name');
+  assert.deepEqual(a.kept.look, cardLook(otters));
+  assert.equal(a.kept.look.bio, undefined, 'a set took the card\'s words');
+  assert.equal(a.kept.avatar, otter.id);
+  assert.equal((await saveProfileSet(pk, '  otters ', s)).error, 'taken', 'two sets with one name');
+  assert.equal((await saveProfileSet(pk, '', s)).error, 'name', 'a set with no name');
+  assert.equal((await saveProfileSet(pk, 'x'.repeat(PROFILE_SET_NAME_MAX + 1), s)).error, 'name');
+
+  // A second look, with no avatar worn, and the words changed since.
+  await wearAvatar(pk, null, s);
+  await keepProfile(pk, cleanProfile(fullProfile({ theme: 'fairy', effect: 'fairy', bio: 'Faeries now.', pronouns: 'she/they' })).profile, s);
+  const b = (await saveProfileSet(pk, 'Fairy Lights', s)).kept;
+  assert.equal(b.avatar, null);
+
+  const w = await wearProfileSet(pk, a.kept.id, s);
+  assert.equal(w.avatarGone, false);
+  const card = await readProfile(pk, s);
+  assert.equal(card.theme, 'kelp'); assert.equal(card.effect, 'otters');
+  assert.equal(card.bio, 'Faeries now.', 'wearing a set put old words back');
+  assert.equal(card.pronouns, 'she/they', 'wearing a set changed the pronouns');
+  assert.equal((await readAvatars(pk, s)).wearing, otter.id, 'wearing a set did not wear its avatar');
+  await wearProfileSet(pk, b.id, s);
+  assert.equal((await readAvatars(pk, s)).wearing, null, 'a set with no avatar left one worn');
+  assert.equal((await readProfile(pk, s)).theme, 'fairy');
+
+  // Updating a set takes the card as it is, and keeps its name and place.
+  await keepProfile(pk, { ...(await readProfile(pk, s)), frame: PROFILE_KEYS.frames[1] }, s);
+  const up = await refreshProfileSet(pk, b.id, s);
+  assert.deepEqual(up.sets.map((x) => x.name), ['Otters', 'Fairy Lights']);
+  assert.equal(up.sets[1].look.frame, PROFILE_KEYS.frames[1]);
+  assert.equal((await renameProfileSet(pk, b.id, 'OTTERS', s)).error, 'taken');
+  assert.equal((await renameProfileSet(pk, b.id, 'Halloween', s)).sets[1].name, 'Halloween');
+  assert.equal((await refreshProfileSet(pk, 'lnot-a-set!', s)).error, 'which');
+  assert.equal((await wearProfileSet(pk, 'l' + 'x'.repeat(10), s)).error, 'which');
+
+  // An avatar deleted since leaves the one worn as it is, and says so.
+  const pumpkin = (await keepAvatar(pk, { look: lookOf(), name: 'Pumpkin' }, s)).kept;
+  await wearAvatar(pk, pumpkin.id, s);
+  await removeAvatar(pk, otter.id, s);
+  const gone = await wearProfileSet(pk, a.kept.id, s);
+  assert.equal(gone.avatarGone, true);
+  assert.equal((await readAvatars(pk, s)).wearing, pumpkin.id, 'a set whose avatar was deleted took the worn one off');
+  assert.equal(shapeProfileSet((await readProfileSets(pk, s))[0], (await readAvatars(pk, s)).avatars).avatarGone, true);
+  const [gOtters, gHallow] = await readProfileSets(pk, s);
+  const av2 = await readAvatars(pk, s), card2 = await readProfile(pk, s);
+  assert.equal(shapeProfileSet(gOtters, av2.avatars, card2, av2.wearing).on, false, 'a set whose avatar is gone is on the card');
+  await wearProfileSet(pk, gHallow.id, s);
+  const av3 = await readAvatars(pk, s), card3 = await readProfile(pk, s);
+  assert.deepEqual((await readProfileSets(pk, s)).map((x) => shapeProfileSet(x, av3.avatars, card3, av3.wearing).on), [false, true], 'the set just worn is not the one on the card');
+
+  // A drawing gone from the street is no choice, so an old set still wears.
+  assert.equal(cardLook({ theme: 'gone-theme', effect: 'otters' }).theme, '');
+  const raw = await s.get(`profile-sets/${pk}`, { type: 'json' });
+  assert.deepEqual(Object.keys(raw), ['sets']);
+  for (const x of raw.sets) assert.deepEqual(Object.keys(x).sort(), ['avatar', 'id', 'look', 'name'], 'a set kept a time, or anything else');
+
+  // Clearing the card leaves the sets; Forget me and deleting the username do not.
+  await clearProfile('Ada', s);
+  assert.equal((await readProfileSets(pk, s)).length, 2, 'clearing a card took the sets');
+  assert.equal((await removeProfileSet(pk, b.id, s)).sets.length, 1);
+  await forgetProfileSets(pk, s);
+  assert.deepEqual(await readProfileSets(pk, s), [], 'Forget me left the sets');
+  await saveProfileSet(pk, 'Again', s);
+  await deleteAccount('Ada', s);
+  assert.deepEqual(await readProfileSets(pk, s), [], 'a deleted username kept its sets');
+}));
+
+test('a full shelf of sets refuses the next one and pushes nothing out', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  for (let i = 0; i < PROFILE_SETS_KEEP; i++) assert.ok((await saveProfileSet(pk, `Set ${i}`, s)).kept);
+  assert.equal((await saveProfileSet(pk, 'One more', s)).error, 'full');
+  assert.equal((await readProfileSets(pk, s))[0].name, 'Set 0');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen sets saved at once from fifteen tabs, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const pk = petKey('Ada');
+    const names = Array.from({ length: 15 }, (_, i) => `Mood ${i}`);
+    const told = await Promise.allSettled(names.map((n) => saveProfileSet(pk, n, s)));
+    const worked = names.filter((_, i) => told[i].status === 'fulfilled' && told[i].value.kept);
+    const kept = (await readProfileSets(pk, s)).map((x) => x.name);
+    assert.deepEqual(worked.filter((n) => !kept.includes(n)), [], 'a set that was told it was saved is missing');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  });
+}
+
 /* ── The forums ──────────────────────────────────────────────────────────── */
 import { FORUM_CATEGORIES, forumCat, forumAllows, forumNav, forumHome, forumLatest, forumCategory, forumTopic, readTopic,
   readForumIndex, searchForum, cbTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,

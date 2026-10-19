@@ -1252,6 +1252,31 @@ ol.cb-md-list { list-style: decimal; }
 .cb-prop .pf-prop__from { margin: 6px 0 0; font-size: 13px; color: var(--cb-amber-2); }
 .cb-prop .pf-prop__from .cb-tag { margin-left: 6px; }
 .cb-prop .cb-acct__row { margin: 8px 0 0; }
+/* YOUR PROFILE SETS, in Profile under the card: each a button in the
+   radio's own clothes with a strip of the set's banner on it, drawn on its own
+   theme's case like a nameplate, so its words stay at whatever contrast the
+   reader chose for their radio. The one on the card is ringed in amber. */
+.cb-pfsets-box > .cb-pets__h { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--cb-steel-2); }
+.cb-pfsets__about { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
+.cb-pfsets { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 12px; }
+.cb-pfset { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 4px 10px; align-items: start; }
+.cb-pfset__wear { display: grid; gap: 4px; width: 150px; padding: 6px; text-align: left; }
+.cb-pfset--on .cb-pfset__wear { border-color: var(--cb-amber); }
+.cb-pfset__swatch { display: block; height: 22px; overflow: hidden; border-radius: 3px; background: var(--cb-case); border: 1px solid var(--cb-steel-2); }
+.cb-pfset__swatch svg { display: block; width: 100%; height: 100%; }
+.cb-pfset__swatch--plain { border-bottom: 6px solid var(--cb-amber); }
+.cb-pfset__name { font-size: 14px; overflow-wrap: anywhere; }
+.cb-pfset__on { font-size: 12px; color: var(--cb-amber); }
+.cb-pfset__what { margin: 0 0 4px; font-size: 13px; line-height: 1.4; }
+.cb-pfset__more > summary { cursor: pointer; padding: 4px 0; font-size: 13px; font-weight: 700; }
+.cb-pfset__more .cb-acct__row, .cb-pfset__more .cb-acct__form { margin: 6px 0; }
+.cb-pfset__more .cb-acct__form .cb-btn { margin: 6px 8px 0 0; }
+.cb-pfsets__new { margin: 6px 0 0; }
+.cb-pfsets__new > .cb-btn { margin: 6px 0 0; }
+@media (max-width: 420px) {
+  .cb-pfset { grid-template-columns: minmax(0, 1fr); }
+  .cb-pfset__wear { width: 100%; }
+}
 .cb-forget-sure { margin: 8px 0 0; }
 .cb-forget-sure p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
 .cb-forget-sure .cb-btn { margin: 0 8px 6px 0; }

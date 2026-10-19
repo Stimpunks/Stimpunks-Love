@@ -70,6 +70,12 @@ WHAT IT REFUSES, and why each one is here:
     a date beside a name invites ranking who has been here longest.
   · profile.js FETCHING, STORING OR WRITING MARKUP FROM A STRING. It draws what
     cb.js hands it and nothing else; everything typed reaches it as text.
+  · A PROFILE SET HOLDING MORE THAN A LOOK, A NAME AND AN AVATAR (a request
+    from our community, 2026-10-19). A set is the card's seven drawn choices
+    under a name, and which avatar is worn: never the card's words, which
+    wearing a set must leave as they are, and never a time, which the
+    profile's part already refuses. Every set lib.mjs writes is built in
+    exactly that shape, and Forget me and deleting the username delete them.
 """
 import json
 import re
@@ -290,6 +296,26 @@ def main():
     part_code = re.sub(r"/\*.*?\*/", "", part, flags=re.S)
     if re.search(r"Date\.now|\bnow\b|\bsince\b|\bt:\s", part_code):
         refuse("the profile's part of lib.mjs keeps a time: a profile holds the choices and the words and nothing about when.")
+
+    sets = part[part.index("/* ── Profile sets"):] if "/* ── Profile sets" in part else ""
+    if not sets:
+        refuse("the profile's part of lib.mjs has no Profile sets section, which the radio's Profile wears sets from.")
+    else:
+        sets_code = re.sub(r"/\*.*?\*/", "", sets, flags=re.S)
+        built = re.findall(r"(?:const rec =|sets\[i\] =) \{([^}]*)\}", sets_code)
+        shapes = [sorted(re.findall(r"(\w+):", b)) for b in built]
+        if len(built) < 2 or any(k not in (["avatar", "id", "look", "name"], ["name"]) for k in shapes):
+            refuse(f"a profile set in lib.mjs is built with {shapes}: a set holds its id, its name, its look and its avatar, "
+                   "and nothing else, so wearing one never puts words back on a card.")
+        if re.search(r"\b(?:bio|pronouns|links|why)\b", sets_code):
+            refuse("the profile sets' code in lib.mjs names a part of the card's words: a set is the look, and wearing it keeps the words.")
+        if not re.search(r"for \(const \[k, list\] of LOOK\)", sets_code):
+            refuse("cardLook in lib.mjs no longer reads exactly LOOK, the seven drawn choices.")
+    da = re.search(r"export async function deleteAccount\(.*?\n\}", lib, re.S)
+    if not da or "await forgetProfileSets(petKey(handle), s);" not in da.group(0):
+        refuse("deleting a username (deleteAccount in lib.mjs) no longer deletes its profile sets.")
+    if "forgetProfileSets(pk)" not in (ROOT / "netlify/functions/cb-pets.mjs").read_text():
+        refuse("Forget me (cb-pets.mjs) no longer deletes profile sets.")
 
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))

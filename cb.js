@@ -1312,6 +1312,14 @@
     this.pfBox = el('div', 'cb-pf-box');
     pets.appendChild(this.pfBox);
 
+    /* YOUR PROFILE SETS (2026-10-19, a request from our community): the
+       card's look saved under a name, with the avatar you wear, and worn again
+       with one press, by mood, by room or for what is on. Drawn from the same
+       answer as the card, so read when the tray opens and never polled. */
+    this.pfSetsBox = el('div', 'cb-pfsets-box');
+    this.pfSetsBox.hidden = true;
+    pets.appendChild(this.pfSetsBox);
+
     /* YOUR PROPS (Ryan, 2026-10-18): the props people gave you, waiting here
        for you to Confirm, which puts them on your profile's Props tab, or
        Reject, which deletes them and tells nobody; the ones up, to take off;
@@ -1414,7 +1422,7 @@
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, the props on it and waiting for you, your direct messages and every conversation you are in, for both of you, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your direct messages and every conversation you are in, for both of you, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -2252,9 +2260,12 @@
     this.hereTick();
     if (!this.online.hidden) this.onlineTick();
     if (this.dmBox && !this.dmBox.hidden) this.dmTick();
-    var room = this.tunedRoom();
-    call('/cb/channel' + (room ? '?room=' + room : ''), null, this.state.pass).then(function (r) {
-      if (r.status === 401) return me.lost();
+    var room = this.tunedRoom(), sent = this.state.pass;
+    call('/cb/channel' + (room ? '?room=' + room : ''), null, sent).then(function (r) {
+      // A listen that left just before the pass changed, by claiming the
+      // username or changing its password, is refused for the old pass: only a
+      // refusal of the pass the radio holds now signs it off.
+      if (r.status === 401) { if (sent === me.state.pass) me.lost(); return; }
       // Retuned while this was on its way: it is the other channel's answer.
       if (r.status === 200 && (r.body.room || null) !== me.tunedRoom()) return;
       if (r.status === 200) {
@@ -3432,42 +3443,225 @@
   Radio.prototype.myMark = function () {
     return { base: !!this.state.base, claimed: !this.state.base && (!!this.state.claimed || claimedPass(this.state.pass)) };
   };
-  Radio.prototype.loadProfileCard = function () {
+  Radio.prototype.loadProfileCard = function (quiet) {
     var me = this, box = this.pfBox;
-    box.textContent = '';
-    box.appendChild(el('p', 'cb-quiet', 'Looking up your card…'));
-    call('/cb/profile', null, me.state.pass).then(function (r) {
+    if (!quiet) {
       box.textContent = '';
+      box.appendChild(el('p', 'cb-quiet', 'Looking up your card…'));
+    }
+    call('/cb/profile', null, me.state.pass).then(function (r) {
       if (r.status !== 200 || !r.body) {
+        box.textContent = '';
+        me.pfSetsBox.hidden = true;
         box.appendChild(el('p', 'cb-quiet', r.status === 401
           ? 'The password has changed since you signed on. Sign on again at the Community Center.'
           : 'Your card could not be looked up just now.'));
         return;
       }
-      if (!r.body.claimed) {
-        box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can fill in a profile card: a theme and a banner, a decoration round the avatar you wear, a frame round your profile and an effect over it, a face for your name, a nameplate on Who’s online, your pronouns, a few words about yourself, links to your other places and your favourite room. Whatever you fill in is shown to anybody signed on to the CB.'));
-        return;
-      }
-      box.appendChild(el('p', null, r.body.profile
-        ? 'Your card is what anybody signed on to the CB sees when they press your name, with everything you filled in on it.'
-        : 'Your card has nothing on it yet. Whatever you fill in is shown to anybody signed on to the CB when they press your name; a part left empty shows nothing.'));
-      var row = el('p', 'cb-acct__row');
-      var edit = el('button', 'cb-btn', 'Edit my profile card');
-      edit.type = 'button';
-      edit.dataset.at = 'pf-edit';
-      edit.setAttribute('aria-haspopup', 'dialog');
-      edit.addEventListener('click', function () { me.pfEdit(edit); });
-      var see = el('button', 'cb-btn', 'See my card as others do');
-      see.type = 'button';
-      see.setAttribute('aria-haspopup', 'dialog');
-      see.addEventListener('click', function () { me.peek(me.state.handle, see, me.myMark()); });
-      row.appendChild(edit);
-      row.appendChild(see);
-      box.appendChild(row);
+      if (r.body.limits) me.pfLimits = r.body.limits;
+      me.drawProfileCard(r.body);
     }, function () {
       box.textContent = '';
+      me.pfSetsBox.hidden = true;
       box.appendChild(el('p', 'cb-quiet', 'Your card could not be looked up just now.'));
     });
+  };
+  Radio.prototype.drawProfileCard = function (got, told) {
+    var me = this, box = this.pfBox;
+    box.textContent = '';
+    me.drawProfileSets(got, told);
+    if (!got.claimed) {
+      box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can fill in a profile card: a theme and a banner, a decoration round the avatar you wear, a frame round your profile and an effect over it, a face for your name, a nameplate on Who’s online, your pronouns, a few words about yourself, links to your other places and your favourite room. Whatever you fill in is shown to anybody signed on to the CB.'));
+      return;
+    }
+    box.appendChild(el('p', null, got.profile
+      ? 'Your card is what anybody signed on to the CB sees when they press your name, with everything you filled in on it.'
+      : 'Your card has nothing on it yet. Whatever you fill in is shown to anybody signed on to the CB when they press your name; a part left empty shows nothing.'));
+    var row = el('p', 'cb-acct__row');
+    var edit = el('button', 'cb-btn', 'Edit my profile card');
+    edit.type = 'button';
+    edit.dataset.at = 'pf-edit';
+    edit.setAttribute('aria-haspopup', 'dialog');
+    edit.addEventListener('click', function () { me.pfEdit(edit); });
+    var see = el('button', 'cb-btn', 'See my card as others do');
+    see.type = 'button';
+    see.setAttribute('aria-haspopup', 'dialog');
+    see.addEventListener('click', function () { me.peek(me.state.handle, see, me.myMark()); });
+    row.appendChild(edit);
+    row.appendChild(see);
+    box.appendChild(row);
+  };
+
+  /* YOUR PROFILE SETS: each one a button with its name, a strip of its
+     banner in its own theme's colours (a picture, so a screen reader hears its
+     words instead), what it holds in words, and which one your card is wearing,
+     which the server works out by comparing and nothing records. Pressing one
+     wears it at once. Change it folds away under it: Update puts your card as
+     it is into it, Rename, and Delete, which asks once more, as Update does.
+     The answer to a press goes under that set, where the hand is. */
+  var PF_LOOK_SAID = [['theme', ' theme'], ['banner', ' banner'], ['decoration', ' decoration'], ['frame', ' frame'], ['effect', ' effect'], ['face', ''], ['plate', ' nameplate']];
+  function pfSetWords(x) {
+    var LP = window.loveProfile, names = {};
+    ((window.loveCall && window.loveCall.schemes) || []).forEach(function (sc) { names[sc[0]] = sc[1]; });
+    function named(list, k) { for (var i = 0; i < list.length; i++) if (list[i][0] === k) return list[i][1]; return k; }
+    var l = x.look || {}, parts = [];
+    PF_LOOK_SAID.forEach(function (w) {
+      var k = l[w[0]];
+      if (!k) return;
+      var n = w[0] === 'decoration' ? named(LP.DECORATIONS, k) : w[0] === 'frame' ? named(LP.FRAMES, k)
+        : w[0] === 'effect' ? named(LP.EFFECTS, k) : w[0] === 'face' ? 'your name in ' + k : (names[k] || k);
+      parts.push(n + w[1]);
+    });
+    var t = parts.length
+      ? parts.slice(0, -1).join(', ') + (parts.length > 1 ? ' and ' : '') + parts[parts.length - 1] + '.'
+      : 'A plain card: no theme, and nothing drawn on it.';
+    t = t.charAt(0).toUpperCase() + t.slice(1);
+    return t + ' ' + (x.avatarGone ? 'Its avatar has been deleted, so wearing it leaves the one you wear.'
+      : x.avatar ? (x.avatarName ? 'Wears ' + x.avatarName + '.' : 'Wears one of your avatars, not named.')
+      : 'Wears no avatar.');
+  }
+
+  Radio.prototype.drawProfileSets = function (got, told) {
+    var me = this, box = this.pfSetsBox;
+    box.textContent = '';
+    box.hidden = !got || !got.claimed;
+    if (box.hidden) return;
+    var head = el('p', 'cb-pets__h', 'Your profile sets');
+    head.tabIndex = -1;
+    box.appendChild(head);
+    box.appendChild(el('p', 'cb-pfsets__about', 'A set keeps your card\u2019s look under a name: its theme, banner, decoration, frame, effect, name face and nameplate, and the avatar you wear. Press one to wear it, and your card changes at once for everybody who opens it. Your pronouns, your words, your links and your favourite room are not in a set, so they stay as they are whichever you wear. Nobody else sees your sets.'));
+    var sets = got.sets || [], focus = null;
+    var state = el('p', 'cb-quiet', '');
+    state.setAttribute('role', 'status');
+    if (!sets.length) state.textContent = 'No sets yet. Get your card looking the way you want it, then save it as a set below.';
+    box.appendChild(state);
+    var list = el('ul', 'cb-pfsets');
+    list.hidden = !sets.length;
+    box.appendChild(list);
+    withProfile(function () {
+      sets.forEach(function (x) {
+        var li = el('li', 'cb-pfset' + (x.on ? ' cb-pfset--on' : ''));
+        var wear = el('button', 'cb-btn cb-pfset__wear');
+        wear.type = 'button';
+        var sw = el('span', 'cb-pfset__swatch');
+        sw.setAttribute('aria-hidden', 'true');
+        wear.appendChild(sw);
+        wear.appendChild(el('span', 'cb-pfset__name', x.name));
+        if (x.on) wear.appendChild(el('span', 'cb-pfset__on', 'On your card now'));
+        li.appendChild(wear);
+        var l = x.look || {};
+        if (!window.loveProfile.drawing(sw, l.banner || l.plate)) {
+          // No drawing: a strip in the theme's own case and amber, or none.
+          sw.hidden = !l.theme;
+          if (l.theme) { window.loveProfile.dress(sw, l.theme); sw.classList.add('cb-pfset__swatch--plain'); }
+        }
+        var words = el('div', 'cb-pfset__words');
+        var what = el('p', 'cb-pfset__what', pfSetWords(x));
+        what.id = 'cb-pfset-what-' + x.id;
+        wear.setAttribute('aria-describedby', what.id);
+        words.appendChild(what);
+        var said = el('p', 'cb-quiet', '');
+        said.setAttribute('role', 'status');
+        var more = el('details', 'cb-pfset__more');
+        var sum = el('summary', null, 'Change ' + x.name);
+        more.appendChild(sum);
+        var row = el('div', 'cb-acct__row');
+        var upd = el('button', 'cb-btn', 'Update it to my card as it is'); upd.type = 'button';
+        var ren = el('button', 'cb-btn', 'Rename it'); ren.type = 'button';
+        var del = el('button', 'cb-btn', 'Delete it'); del.type = 'button';
+        row.appendChild(upd); row.appendChild(ren); row.appendChild(del);
+        more.appendChild(row);
+        function ask(sentence, yesSaid, noSaid, go) {
+          var sure = el('div', 'cb-forget-sure'); sure.hidden = true;
+          sure.appendChild(el('p', null, sentence));
+          var yes = el('button', 'cb-btn', yesSaid); yes.type = 'button';
+          var no = el('button', 'cb-btn', noSaid); no.type = 'button';
+          sure.appendChild(yes); sure.appendChild(no);
+          more.appendChild(sure);
+          no.addEventListener('click', function () { sure.hidden = true; row.hidden = false; sum.focus(); });
+          yes.addEventListener('click', function () { yes.disabled = true; go(function () { yes.disabled = false; }); });
+          return function () { sure.hidden = false; row.hidden = true; no.focus(); };
+        }
+        var askUpd = ask('This puts your card as it is now, and the avatar you wear, into ' + x.name + ', in place of what it held.', 'Yes, update ' + x.name, 'Keep it as it was', function (done) {
+          me.pfSetSend({ setUpdate: x.id }, said, { id: x.id, at: 'more', said: x.name + ' holds your card as it is now.' }).then(done);
+        });
+        var askDel = ask('This deletes the set ' + x.name + '. Your card stays as it is.', 'Yes, delete ' + x.name, 'Keep it', function (done) {
+          me.pfSetSend({ setRemove: x.id }, said, { said: 'Deleted ' + x.name + '. Your card stays as it is.' }).then(done);
+        });
+        upd.addEventListener('click', askUpd);
+        del.addEventListener('click', askDel);
+        var form = el('div', 'cb-acct__form'); form.hidden = true;
+        more.appendChild(form);
+        ren.addEventListener('click', function () {
+          form.textContent = ''; form.hidden = false; row.hidden = true;
+          var n = field('A new name for ' + x.name, 'cb-pfset-name-' + x.id, 'text');
+          n.input.maxLength = (me.pfLimits && me.pfLimits.setName) || 24; n.input.value = x.name;
+          form.appendChild(n.wrap);
+          var go = el('button', 'cb-btn', 'Rename it'); go.type = 'button';
+          var keep = el('button', 'cb-btn', 'Leave its name'); keep.type = 'button';
+          form.appendChild(go); form.appendChild(keep);
+          n.input.focus();
+          n.input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); go.click(); } });
+          keep.addEventListener('click', function () { form.hidden = true; row.hidden = false; ren.focus(); });
+          go.addEventListener('click', function () {
+            go.disabled = true;
+            me.pfSetSend({ setRename: x.id, name: n.input.value }, said, { id: x.id, at: 'more', said: 'Renamed it.' }).then(function () { go.disabled = false; });
+          });
+        });
+        words.appendChild(more);
+        words.appendChild(said);
+        li.appendChild(words);
+        list.appendChild(li);
+        wear.addEventListener('click', function () {
+          wear.disabled = true;
+          me.pfSetSend({ setWear: x.id }, said, { id: x.id, at: 'wear', wore: true, name: x.name }).then(function () { wear.disabled = false; });
+        });
+        if (told && told.id === x.id) {
+          said.textContent = told.said;
+          if (told.at === 'more') { more.open = true; focus = sum; } else focus = wear;
+        }
+      });
+      if (told && !focus && told.said) { state.textContent = told.said; focus = head; }
+      if (focus) focus.focus();
+    });
+
+    // A new set, out of the card as it is.
+    var form = el('form', 'cb-pfsets__new');
+    form.noValidate = true;
+    var n = field('Save your card as it is now as a new set, named', 'cb-pfset-new', 'text');
+    n.input.maxLength = (me.pfLimits && me.pfLimits.setName) || 24;
+    form.appendChild(n.wrap);
+    form.appendChild(el('p', 'cb-hint', 'A set takes your card as you last saved it with Edit my profile card, and the avatar you wear.'));
+    var go = el('button', 'cb-btn', 'Save as a set'); go.type = 'submit';
+    form.appendChild(go);
+    var newSaid = el('p', 'cb-quiet', '');
+    newSaid.setAttribute('role', 'status');
+    form.appendChild(newSaid);
+    if (told && told.saved) { newSaid.textContent = told.saved; n.input.focus(); }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = n.input.value.trim();
+      go.disabled = true;
+      me.pfSetSend({ setSave: name }, newSaid, { saved: 'Saved your card as ' + name + '. Press it any time to wear it again.' }).then(function () { go.disabled = false; });
+    });
+    box.appendChild(form);
+  };
+
+  /* Every press on a set goes through here, and the tray is drawn again from
+     the answer, which carries the card, the sets and the avatar worn. */
+  Radio.prototype.pfSetSend = function (send, said, told) {
+    var me = this;
+    return call('/cb/profile', { body: send }, me.state.pass).then(function (r) {
+      if (r.status === 401) { me.lost(); return false; }
+      if (r.status !== 200 || !r.body) { said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.'; return false; }
+      if (told.wore) {
+        told.said = 'Wearing ' + told.name + '. Your card has its look now, and your words are as they were.'
+          + (r.body.avatarGone ? ' Its avatar has been deleted, so you are still wearing the one you wore.' : '');
+        me.loadAvatars();
+      }
+      me.drawProfileCard(r.body, told);
+      return true;
+    }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
   };
 
   /* EDITING IT, in the same window a profile opens in: the choices on the
@@ -3613,7 +3807,7 @@
     form.appendChild(row);
     var sure = el('div', 'cb-acct__row');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This clears everything on your card and takes your nameplate off Who’s online. Your avatars, pets, jobs and jacket stay as they are.'));
+    sure.appendChild(el('p', null, 'This clears everything on your card and takes your nameplate off Who’s online. Your profile sets, avatars, pets, jobs and jacket stay as they are.'));
     var yes = el('button', 'cb-btn', 'Yes, clear my card'); yes.type = 'button';
     var keep = el('button', 'cb-btn', 'Keep it'); keep.type = 'button';
     sure.appendChild(yes); sure.appendChild(keep);
@@ -4621,7 +4815,11 @@
   Radio.prototype.avatarSend = function (body, said, done) {
     var me = this;
     return call('/cb/avatars', { body: body }, me.state.pass).then(function (r) {
-      if (r.status === 200 && r.body.avatars) { me.drawAvatars(r.body, done); return true; }
+      if (r.status === 200 && r.body.avatars) {
+        me.drawAvatars(r.body, done);
+        if (body.wear !== undefined || body.remove) me.loadProfileCard(true);
+        return true;
+      }
       if (r.status === 401) { said.textContent = 'The password has changed since you signed on. Sign on again at the Community Center.'; return false; }
       said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
       return false;
@@ -5979,7 +6177,8 @@
     var done = el('button', 'cb-btn', 'I have kept it'); done.type = 'button';
     box.appendChild(done);
     done.focus();
-    done.addEventListener('click', function () { me.loadAccount(); });
+    // The card and its sets are a claimed username's, so they arrive now.
+    done.addEventListener('click', function () { me.loadAccount(); me.loadProfileCard(true); });
     me.acctSay('');
   };
 

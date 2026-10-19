@@ -1826,6 +1826,12 @@ const PLATES = 'profiles-plates';
 
 function inList(list, v) { return v === '' || v == null ? '' : (typeof v === 'string' && list.includes(v) ? v : null); }
 
+/* What a card LOOKS like, as against what it says: the seven drawn choices,
+   each with the list in PROFILE_KEYS it comes from and what a refusal calls
+   it. A profile set keeps exactly these. */
+const LOOK = [['theme', 'themes', 'theme'], ['banner', 'banners', 'banner'], ['decoration', 'decorations', 'decoration'],
+  ['frame', 'frames', 'frame'], ['effect', 'effects', 'effect'], ['face', 'faces', 'name face'], ['plate', 'banners', 'nameplate']];
+
 /* An address on somebody's profile, as typed, or '' for none and null for one
    refused: http or https, a dotted host, no name or password, short enough to
    print whole. What is typed is what is shown, and the radio links it to what
@@ -1862,10 +1868,8 @@ export function cleanProfile(p) {
   if (!p || typeof p !== 'object' || Array.isArray(p)) return { error: 'That is not a profile.' };
   const K = PROFILE_KEYS;
   const out = {};
-  const pick = [['theme', K.themes, 'theme'], ['banner', K.banners, 'banner'], ['decoration', K.decorations, 'decoration'],
-    ['frame', K.frames, 'frame'], ['effect', K.effects, 'effect'], ['face', K.faces, 'name face'], ['plate', K.banners, 'nameplate']];
-  for (const [k, list, said] of pick) {
-    const v = inList(list, p[k]);
+  for (const [k, list, said] of LOOK) {
+    const v = inList(K[list], p[k]);
     if (v === null) return { error: `The street does not know that ${said}.` };
     out[k] = v;
   }
@@ -1991,6 +1995,168 @@ export async function withPlates(people, s = store()) {
     const plate = own(plates, k) ? inList(PROFILE_KEYS.banners, plates[k]) : null;
     return plate ? { ...p, plate } : p;
   });
+}
+
+
+/* ── Profile sets ────────────────────────────────────────────────────────
+
+   A request from our community, relayed by Ryan, 2026-10-19: save sets of
+   profile settings, update them, and switch between them quickly, by mood,
+   by the room you are in and by what is on (Otters, Halloween, Fairy Lights).
+
+   A SET IS A CARD'S LOOK UNDER A NAME, and nothing else: the seven drawn
+   choices in LOOK, and which avatar is worn, or none. The card's words are not
+   in it (pronouns, bio, links, favourite room), so wearing a set changes how
+   the card looks and never what it says, and words rewritten since are never
+   put back by a press. A set is read off the card as it is saved and the
+   avatar as it is worn, here, never off what a page sends, so a set only ever
+   holds something that was really on the card.
+
+   SETS ARE PRIVATE. Nobody else is told what sets anybody has, or that they
+   have any, or which one a card is wearing: the card shows what is on it and
+   nothing else. They are kept under the pet key, on a claimed username only,
+   like the card, in one blob, profile-sets/<pet key>, holding each set's id,
+   name, look and avatar and nothing about when. Nothing records which set is
+   worn: the radio works it out by comparing. Forget me and deleting the
+   username delete them; Clear my card and a moderator clearing a card leave
+   them, because they hold no words, and a look is only ever choices off the
+   street's own lists. */
+export const PROFILE_SETS_KEEP = 24;       // sets one person keeps at once
+export const PROFILE_SET_NAME_MAX = 24;
+export const PROFILE_SET_ID = /^l[A-Za-z0-9_-]{10}$/;
+const setsBlob = (k) => `profile-sets/${k}`;
+export const cleanSetName = (v) => cleanUpTo(v, PROFILE_SET_NAME_MAX);
+
+/* The look off a card, or off a set kept before a drawing left the street: a
+   choice no longer on its list is no choice, so an old set can still be worn. */
+export function cardLook(p) {
+  const out = {};
+  for (const [k, list] of LOOK) out[k] = inList(PROFILE_KEYS[list], p && typeof p === 'object' ? p[k] : '') || '';
+  return out;
+}
+
+export async function readProfileSets(pk, s = store()) {
+  const d = await s.get(setsBlob(pk), { type: 'json' });
+  return (d && Array.isArray(d.sets)) ? d.sets : [];
+}
+
+/* One person's sets, changed without losing a change made at the same moment
+   from another tab, the chimeras' arrangement. */
+async function updateProfileSets(pk, change, s) {
+  const key = setsBlob(pk);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const d = (cur.exists && cur.data) || {};
+    const was = { sets: (Array.isArray(d.sets) ? d.sets : []).slice() };
+    const next = change(was);
+    if (next === null) return was;
+    if (next.error) return next;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { sets: next.sets }, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* A set as its owner is shown it, with the name of the avatar it wears,
+   whether that avatar has been deleted since, and whether the card is wearing
+   it, worked out here by comparing with the card and the avatar worn, so
+   nothing has to record it. */
+export function shapeProfileSet(set, avatars, card = null, wearing = null) {
+  const a = set.avatar ? (avatars || []).find((x) => x.id === set.avatar) : null;
+  const look = cardLook(set.look), mine = cardLook(card || {});
+  const on = !(!!set.avatar && !a) && (set.avatar || null) === (wearing || null) && LOOK.every(([k]) => look[k] === mine[k]);
+  return { id: set.id, name: set.name, look, avatar: a ? a.id : null, avatarName: a ? (a.name || '') : '', avatarGone: !!set.avatar && !a, on };
+}
+
+/* What a set saved or updated at this moment holds: the card as saved, and
+   the avatar as worn. */
+async function cardAsIs(pk, s) {
+  const [p, av] = await Promise.all([readProfile(pk, s), readAvatars(pk, s)]);
+  return { look: cardLook(p || {}), avatar: av.wearing || null };
+}
+const sameName = (a, b) => foldHandle(a) === foldHandle(b);
+const setId = (id) => typeof id === 'string' && PROFILE_SET_ID.test(id);
+
+/* Save the card as it is as a new set. { kept, sets } or { error }: 'name' for
+   no name or one too long, 'taken' for a name already one of yours, 'full'. */
+export async function saveProfileSet(pk, name, s = store()) {
+  const n = cleanSetName(name);
+  if (!n) return { error: 'name' };
+  const card = await cardAsIs(pk, s);
+  const rec = { id: 'l' + randomBytes(8).toString('base64url').slice(0, 10), name: n, look: card.look, avatar: card.avatar };
+  const next = await updateProfileSets(pk, (was) => {
+    if (was.sets.some((x) => sameName(x.name, n))) return { error: 'taken' };
+    if (was.sets.length >= PROFILE_SETS_KEEP) return { error: 'full' };
+    return { sets: [...was.sets, rec] };
+  }, s);
+  if (next.error) return next;
+  return { kept: rec, sets: next.sets };
+}
+
+/* Put the card as it is into a set already kept, keeping its name and place. */
+export async function refreshProfileSet(pk, id, s = store()) {
+  if (!setId(id)) return { error: 'which' };
+  const card = await cardAsIs(pk, s);
+  return updateProfileSets(pk, (was) => {
+    const i = was.sets.findIndex((x) => x.id === id);
+    if (i < 0) return { error: 'which' };
+    const sets = was.sets.slice();
+    sets[i] = { id: sets[i].id, name: sets[i].name, look: card.look, avatar: card.avatar };
+    return { sets };
+  }, s);
+}
+
+export async function renameProfileSet(pk, id, name, s = store()) {
+  if (!setId(id)) return { error: 'which' };
+  const n = cleanSetName(name);
+  if (!n) return { error: 'name' };
+  return updateProfileSets(pk, (was) => {
+    const i = was.sets.findIndex((x) => x.id === id);
+    if (i < 0) return { error: 'which' };
+    if (was.sets.some((x, j) => j !== i && sameName(x.name, n))) return { error: 'taken' };
+    if (was.sets[i].name === n) return null;
+    const sets = was.sets.slice();
+    sets[i] = { ...sets[i], name: n };
+    return { sets };
+  }, s);
+}
+
+export async function removeProfileSet(pk, id, s = store()) {
+  if (!setId(id)) return { error: 'which' };
+  return updateProfileSets(pk, (was) => {
+    if (!was.sets.some((x) => x.id === id)) return { error: 'which' };
+    return { sets: was.sets.filter((x) => x.id !== id) };
+  }, s);
+}
+
+/* Wear a set: its look laid over the card, whose words stay as they are, and
+   its avatar worn, or the one worn taken off when the set wears none. An
+   avatar deleted since the set was saved leaves the one worn as it is, and
+   says so. { profile, wearing, avatarGone } or { error }. The caller has
+   checked the username is claimed. */
+export async function wearProfileSet(pk, id, s = store()) {
+  if (!setId(id)) return { error: 'which' };
+  const set = (await readProfileSets(pk, s)).find((x) => x.id === id);
+  if (!set) return { error: 'which' };
+  const c = cleanProfile({ ...((await readProfile(pk, s)) || {}), ...cardLook(set.look) });
+  if (c.error) return { error: 'look' };
+  const profile = await keepProfile(pk, c.profile, s);
+  const want = typeof set.avatar === 'string' && AVATAR_ID.test(set.avatar) ? set.avatar : null;
+  const av = await readAvatars(pk, s);
+  if (want && !av.avatars.some((a) => a.id === want)) return { profile, wearing: av.wearing, avatarGone: true };
+  if (av.wearing !== want) {
+    const w = await wearAvatar(pk, want, s);
+    if (w.error) return { profile, wearing: av.wearing, avatarGone: true };
+  }
+  return { profile, wearing: want, avatarGone: false };
+}
+
+/* Forget me, and deleting the username. */
+export async function forgetProfileSets(pk, s = store()) {
+  await s.delete(setsBlob(pk));
+  return true;
 }
 
 /* ── Props ───────────────────────────────────────────────────────────────
@@ -3895,7 +4061,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile, its props and its messages. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its props and its messages. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -3905,6 +4071,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetJobs(petKey(handle), s);
   await forgetPatches(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
+  await forgetProfileSets(petKey(handle), s);
   await forgetProps(petKey(handle), s);
   await forgetDms(acct.handle, acct.since, s);
   await dropDevicesOf(handle, s);
