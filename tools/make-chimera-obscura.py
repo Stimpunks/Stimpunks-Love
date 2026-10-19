@@ -64,6 +64,20 @@ IT REFUSES, RATHER THAN TRUSTS:
     nothing but a chimera kept on purpose, to /cb/chimeras, with the CB's pass
     read out of love-cb and never written.
 
+  - A FAMILIAR THAT BREAKS ITS PROMISES (familiar.js and familiar.css, Ryan's
+    call of 2026-10-19). A familiar is a chimera somebody took with them, kept
+    in their own browser under love-familiar and nowhere else, and drawn again
+    in every room. familiar.js may send nothing, read or write no storage but
+    that key (not even the CB's pass: it does not react to the radio), write
+    no markup from a string, make no sound, draw on no canvas, and move only
+    with left and top. Everything that moves it by itself has to ask mayMove(),
+    which is MAX GLITTER or Let it move by itself, and its words may not give
+    it stats, a boost, a level, a streak or a collection: Castle Crashers'
+    orbs give their player something, and a familiar here is company. Its
+    stylesheet may use no colour but Chimera Obscura's own tokens, which are
+    measured, may animate only a walk, and must not print. love.js must load it
+    only where the familiar is allowed, and privacy.html must say what is kept.
+
   - THE QUOTATION, IF THE MIRROR SAYS OTHERWISE. The line about Ryan's
     Bearmouse is read on our About page; when the Knowledge System mirror is on
     this machine the words are looked for in it, the Town Hall's rule: re-copy,
@@ -88,6 +102,10 @@ PAGE = ROOT / "chimera-obscura.html"
 NOTES = ROOT / "liner-notes.html"
 JS = ROOT / "chimera.js"
 ROOM_JS = ROOT / "chimera-obscura.js"
+FAMILIAR = ROOT / "familiar.js"
+FAMILIAR_CSS = ROOT / "familiar.css"
+LOVE_JS = ROOT / "love.js"
+PRIVACY = ROOT / "privacy.html"
 LIB = ROOT / "netlify/cb/lib.mjs"
 FACES = ROOT / "data/foundry-faces.json"
 MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org"
@@ -128,6 +146,9 @@ QUIZ = (r"spirit animals?|which animal (?:are you|you are)|your (?:true |inner )
         r"personality|says about (?:you|anybody|somebody)|quiz(?:zes)?")
 TALLY = (r"combinations|possible chimeras|collect them all|rarest|rare|scores?|scored|"
          r"leaderboards?|how many (?:you|chimeras)")
+# What a familiar must never be given: anything it does for you, or a tally.
+PERKS = (r"level(?:s|led|ling|ed|ing)? up|levels?|xp|experience points|stats?|boosts?|boosted|buffs?|"
+         r"power-?ups?|streaks?|unlock(?:s|ed)?|evolves?|evolved|collection|collect")
 VOCAB = [
     (FREAK, "every chimera here is whole. A Disabled people's site does not borrow the freak show's words."),
     (QUIZ, "nothing here tells anybody which animal they are or what an animal says about them."),
@@ -424,7 +445,7 @@ def scene(drawn):
 
 def table(drawn):
     return (
-        f'<div class="chm-disc" id="chm-disc">{drawn["table"]}</div>\n'
+        f'<div class="chm-disc" id="chm-disc" data-familiar-avoid>{drawn["table"]}</div>\n'
         f'<p class="chm-named" id="chm-named">{esc(drawn["name"])}</p>\n'
         f'<p class="chm-words" id="chm-words" aria-live="polite">{esc(drawn["words"])}</p>'
     )
@@ -580,6 +601,84 @@ def check_scripts(phase_keep):
                     refuse(f"{js.name} reads {m.group(1)!r}; the only thing it may read is the CB's pass, love-cb.")
 
 
+def strings_of(code):
+    return " ".join(m.group(2) for m in re.finditer(r"(['\"])((?:\\.|(?!\1).)*)\1", code))
+
+
+def body_of(code, name):
+    m = re.search(rf"function {name}\s*\([^)]*\)\s*\{{(.*?)\n  \}}", code, re.S)
+    return m.group(1) if m else ""
+
+
+def check_familiar():
+    """The familiar's promises, held in the files that keep them."""
+    if not FAMILIAR.exists() or not FAMILIAR_CSS.exists():
+        refuse("familiar.js or familiar.css is missing.")
+        return
+    code = re.sub(r"/\*.*?\*/|//[^\n]*", "", FAMILIAR.read_text(), flags=re.S)
+    if re.search(r"\bfetch\s*\(|XMLHttpRequest|EventSource|WebSocket|sendBeacon|navigator\.share|/cb/", code):
+        refuse("familiar.js sends something. A familiar is kept in the browser and sent nowhere.")
+    if re.search(r"sessionStorage|indexedDB|document\.cookie|caches\.", code):
+        refuse("familiar.js stores something other than love-familiar.")
+    if not re.search(r"var KEY = 'love-familiar';", code):
+        refuse("familiar.js no longer keeps its familiar under love-familiar, which privacy.html names.")
+    for m in re.finditer(r"localStorage\.(?:getItem|setItem|removeItem)\(\s*([^,)]+)", code):
+        if m.group(1).strip() != "KEY":
+            refuse(f"familiar.js touches {m.group(1).strip()!r} in localStorage; the only key it may use is love-familiar.")
+    if re.search(r"localStorage\.clear|localStorage\[", code):
+        refuse("familiar.js reaches into localStorage some other way than by its one key.")
+    if re.search(r"love-cb", code):
+        refuse("familiar.js reads the CB's pass. A familiar does not react to the radio, and nobody needs to be signed on to have one.")
+    if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write|DOMParser|createContextualFragment", code):
+        refuse("familiar.js writes markup from a string. Its menu is built with createElement and textContent, and the drawing is chimera.js's.")
+    if re.search(r"\bnew Audio\b|AudioContext|speechSynthesis|navigator\.vibrate|<audio", code):
+        refuse("familiar.js makes a sound. A familiar is silent, as the Arcade promises of its rooms.")
+    if re.search(r"getUserMedia|getDisplayMedia|getContext\s*\(", code):
+        refuse("familiar.js asks for a camera or draws on a canvas. A familiar is a chimera, which is choices.")
+    if re.search(r"\.style\.transform|\btransform\s*=", code):
+        refuse("familiar.js moves something with a transform. It moves with left and top, so check-gentle.py can see it.")
+    may = body_of(code, "mayMove")
+    if "intensity() === 'max'" not in may or "state.moves" not in may:
+        refuse("mayMove() in familiar.js is no longer MAX GLITTER or Let it move by itself.")
+    for fn in ("wander", "followScroll", "followTo"):
+        if "mayMove()" not in body_of(code, fn):
+            refuse(f"{fn}() in familiar.js moves it without asking mayMove(). Nothing moves by itself below MAX GLITTER unless you let it.")
+    allowed = body_of(code, "allowed")
+    for need in ("window.top", "data-cb", "'off'", "data-cb-window"):
+        if need not in allowed:
+            refuse(f"allowed() in familiar.js no longer checks {need}: no familiar in a frame, a window, or a room that says data-cb=\"off\".")
+    words = strings_of(code)
+    for m in re.finditer(rf"\b(?:{PERKS})\b", words, re.I):
+        refuse(f"familiar.js says {m.group(0)!r}. A familiar keeps you company; it gives you nothing and nothing is counted.")
+    sweep(words, "familiar.js")
+
+    css = re.sub(r"/\*.*?\*/", "", FAMILIAR_CSS.read_text(), flags=re.S)
+    if re.search(r"#[0-9A-Fa-f]{3,8}\b|\brgba?\(|\bhsla?\(|(?<![\w-])(?:white|black)(?![\w-])", css):
+        refuse("familiar.css sets a colour of its own. It wears Chimera Obscura's tokens, whose pairs are measured.")
+    for m in re.finditer(r"var\(\s*(--[\w-]+)", css):
+        if not m.group(1).startswith("--chm-"):
+            refuse(f"familiar.css uses {m.group(1)}; it wears Chimera Obscura's --chm- tokens and nothing else.")
+    for m in re.finditer(r"([^{}]+)\{([^{}]*)\}", css):
+        sel, decl = m.group(1).strip(), m.group(2)
+        if re.search(r"\b(?:animation|transition)\s*:", decl) and ".is-walking" not in sel:
+            refuse(f"familiar.css moves something at {sel!r}. Nothing of it moves but a walk.")
+    if not re.search(r"@media print\s*\{\s*:host\s*\{\s*display:\s*none\s*!important", css):
+        refuse("familiar.css lets a familiar print. It is company on the screen, not part of the page.")
+
+    love = LOVE_JS.read_text()
+    fam = re.search(r"function familiar\(\)\s*\{(.*?)\n  \}", love, re.S)
+    if not fam:
+        refuse("love.js no longer loads a familiar.")
+    else:
+        for need in ("data-cb", "'off'", "data-cb-window", "window.top", "love-familiar"):
+            if need not in fam.group(1):
+                refuse(f"love.js loads familiar.js without checking {need}.")
+    if "<code>love-familiar</code>" not in PRIVACY.read_text():
+        refuse("privacy.html does not list love-familiar, and nothing is kept in a browser that the page does not say.")
+    if '<script src="familiar.js" defer></script>' not in PAGE.read_text():
+        refuse("chimera-obscura.html does not load familiar.js, so Take it with you has nothing to hand the chimera to.")
+
+
 def check_server():
     """Once chimeras can be kept, the promises privacy.html#chimeras makes are
     held where they are kept: Forget me and deleting the username delete them,
@@ -651,6 +750,7 @@ def main():
     drawn = node_draw(d)
     check_names(d, drawn)
     check_scripts(phase_keep)
+    check_familiar()
     if phase_keep:
         check_server()
     if problems:

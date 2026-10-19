@@ -1,0 +1,61 @@
+/* =============================================================================
+   A familiar's clothes, inside its own shadow root (familiar.js), so no room's
+   stylesheet reaches it and it lays no look over any room. It wears Chimera
+   Obscura's, the room it came out of: the table's white light round the
+   drawing, and the room's black, brass and words on its menu. Every colour
+   is one of that room's --chm- tokens in love.css §2, and every pair here is
+   one check-contrast.py already holds for that room: --chm-text and
+   --chm-dim on --chm-room, --chm-table on --chm-room for its name,
+   --chm-link on --chm-room for the link and the ring, --chm-room on
+   --chm-link and on --chm-table for the brass buttons, and --chm-text on
+   --chm-panel and --chm-pick for the quiet ones. The drawing's outlines are
+   the chimera's ink on the table's white, as on the table.
+
+   THE RING HAS TWO TONES because it stands on every ground on the street: the
+   brass ring the room uses, with a band of the room's black round it, so
+   one of the two shows on a pale room and the other on a dark one.
+
+   NOTHING MOVES HERE BUT A WALK, and a walk only happens at MAX GLITTER or
+   after Let it move by itself, and never at Gentle (familiar.js jumps
+   there). The step is a translate and the turn is a scale, inside the
+   shadow root. It does not print.
+   ============================================================================= */
+[hidden] { display: none !important; }
+
+.fam {
+  position: relative; display: block; box-sizing: border-box;
+  width: 100%; height: 100%; margin: 0; padding: 0; border: 0; border-radius: 50%;
+  background: radial-gradient(closest-side, var(--chm-table) 76%, var(--chm-edge) 90%, transparent 100%);
+  cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent;
+}
+:host(.is-held) .fam { cursor: grabbing; }
+.fam:focus-visible { outline: 3px solid var(--chm-link); outline-offset: 2px; box-shadow: 0 0 0 7px var(--chm-room); }
+.fam__art { position: absolute; left: 14%; right: 14%; top: 8%; bottom: 6%; display: block; pointer-events: none; }
+.fam__art svg { display: block; width: 100%; height: 100%; }
+:host(.is-left) .fam__art { scale: -1 1; }
+:host(.is-walking) .fam__art { animation: fam-step .3s ease-in-out infinite alternate; }
+@keyframes fam-step { from { translate: 0 0; } to { translate: 0 -6%; } }
+
+.fam__sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.fam__menu {
+  position: absolute; z-index: 1; box-sizing: border-box; padding: 14px 16px 12px;
+  background: var(--chm-room); color: var(--chm-text); border: 2px solid var(--chm-link); border-radius: 14px;
+  font: 400 15px/1.45 'Gantari', system-ui, sans-serif; font-synthesis: none; text-align: left;
+}
+.fam__name { margin: 0 0 4px; font: 400 24px/1.15 'Gilda Display', Georgia, serif; color: var(--chm-table); overflow-wrap: anywhere; }
+.fam__words, .fam__note, .fam__line { margin: 0 0 10px; color: var(--chm-dim); }
+.fam__line:empty { display: none; }
+.fam__row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+.fam__btn {
+  font: 700 14px/1.2 'Gantari', system-ui, sans-serif; padding: 7px 12px; border-radius: 999px;
+  border: 2px solid var(--chm-link); background: var(--chm-link); color: var(--chm-room); cursor: pointer;
+}
+.fam__btn:hover { background: var(--chm-table); border-color: var(--chm-table); }
+.fam__btn--quiet { background: var(--chm-panel); color: var(--chm-text); border-color: var(--chm-line); }
+.fam__btn--quiet:hover { background: var(--chm-pick); color: var(--chm-text); border-color: var(--chm-link); }
+.fam__link { color: var(--chm-link); text-underline-offset: 3px; font-weight: 700; }
+.fam__link:hover { color: var(--chm-text); }
+.fam__btn:focus-visible, .fam__link:focus-visible { outline: 3px solid var(--chm-link); outline-offset: 2px; }
+
+@media print { :host { display: none !important; } }

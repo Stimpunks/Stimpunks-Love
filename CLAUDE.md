@@ -4413,6 +4413,23 @@ Randimals: our friends' company makes plush combined animals, and its characters
     become the light table. Nothing moves until you press something; at MAX a new chimera comes into focus as a
     blur clearing, a filter and never a transform. Nothing makes a sound.
 
+**A CHIMERA CAN FOLLOW YOU AS A FAMILIAR, AND IT RESTS ONLY WHERE THERE ARE NO WORDS.** A suggestion from our
+community after Castle Crashers' animal orbs; Ryan's calls, 2026-10-19: loose in the room rather than on the radio,
+still below MAX, crossing words only while moving, resting off text, no stats or count. **`familiar.js` is the one file
+that keeps one**, in the browser under `love-familiar` (parts, name, whether it may move, and where in the *window* it
+was last put down, two fractions, never which room), and nothing is sent anywhere. Take it with you in Chimera
+Obscura and Take it with me in Profile hand it the parts through `loveFamiliar.take()`, so `chimera-obscura.js` and
+`cb.js` still store nothing; `love.js` loads it only when the key holds one, never in a frame, a window or a page that
+says `data-cb="off"`. **It is placed in the page, not the window**, and it rests only where `busy()` finds no text,
+control, meaningful picture, player, shadow host or `[data-familiar-avoid]` (put that on a room's game screen or
+builder table); `busy()` walks down from the body and skips any part nowhere near, which is what took a check on the
+changelog from 122 ms to 10. **Everything that moves it by itself asks `mayMove()`** (MAX GLITTER, or Let it move by
+itself, the candles' rule), and it moves with left and top. It wears Chimera Obscura's tokens in a shadow root
+(`familiar.css`). `make-chimera-obscura.py` refuses each promise broken. **The friendly edits are a level that grows
+with the rooms you visit, a boost, a collection of familiars, a sound, a reaction when a message lands, and showing
+it to other people**: the first is a tally of where you have been, the fourth breaks the Arcade's silence, the fifth is
+the receive lamp, and the last needs the server to know your room, which is Ryan's call and `privacy.html` first.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes

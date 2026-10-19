@@ -10,7 +10,8 @@
    replaceState, so the address in the bar is always a link to what is on the
    table. This file reads the CB's pass out of love-cb and never writes it, and
    tools/make-chimera-obscura.py refuses any other request, any storage and a
-   sound in it.
+   sound in it. Take it with you hands the chimera to familiar.js, which is
+   the one file that keeps a familiar.
 
    NOTHING HERE IS WRITTEN AS MARKUP. The controls are built with createElement
    and textContent, and the drawing is the element chimera.js builds, so a name
@@ -241,6 +242,23 @@
     });
   } else if (keepOff) {
     keepOff.hidden = false;
+  }
+
+  /* TAKE IT WITH YOU: the chimera on the table becomes your familiar and
+     follows you from room to room. familiar.js keeps it, in your browser, and
+     this only hands it the parts and the name; nothing is sent anywhere. */
+  var takeBox = document.getElementById('chm-take');
+  var takeBtn = document.getElementById('chm-take-btn');
+  if (takeBox && takeBtn && window.loveFamiliar) {
+    takeBox.hidden = false;
+    takeBtn.addEventListener('click', function () {
+      var name = state.name || C.suggest(state.parts);
+      if (window.loveFamiliar.take(state.parts, name, takeBtn)) {
+        say(name + ' is your familiar now, and follows you from room to room. Press it to move it, let it move by itself, or send it home.');
+      } else {
+        say('Your browser would not keep it, so it cannot follow you. Nothing was kept.');
+      }
+    });
   }
 
   // A new chimera comes into focus at MAX; the class comes off once it has.

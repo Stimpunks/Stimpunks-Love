@@ -5177,6 +5177,20 @@
     s.addEventListener('load', function () { if (window.loveChimera) then(); });
   }
 
+  /* familiar.js, loaded the first time somebody takes a chimera with them
+     from Profile. It is the one file that keeps a familiar, in the browser;
+     the radio only hands it the parts and the name. */
+  function withFamiliar(then) {
+    if (window.loveFamiliar) { then(); return; }
+    var s = document.querySelector('script[src$="familiar.js"]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/familiar.js';
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.loveFamiliar) then(); });
+  }
+
   /* A chimera, drawn by chimera.js as elements. The drawing is silent; the
      words beside it say which animal gave which part. */
   function chimeraArt(parts, cls) {
@@ -6371,6 +6385,15 @@
       row.appendChild(open);
       row.appendChild(saveButton(shown, function () { return li.querySelector('.cb-avatar__art svg'); },
         'chimera-' + fileName(shown), null, said));
+      var take = el('button', 'cb-btn', 'Take it with me'); take.type = 'button';
+      row.appendChild(take);
+      take.addEventListener('click', function () {
+        withFamiliar(function () {
+          said.textContent = window.loveFamiliar.take(c.parts, shown)
+            ? shown + ' is your familiar now, and follows you from room to room. Press it to move it, let it move by itself, or send it home.'
+            : 'Your browser would not keep it, so it cannot follow you.';
+        });
+      });
       var del = el('button', 'cb-btn', 'Delete it'); del.type = 'button';
       row.appendChild(del);
       words.appendChild(row);
