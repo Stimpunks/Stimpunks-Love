@@ -1485,6 +1485,7 @@ test('a picture is a real image with nothing from the camera left in it', async 
   assert.equal(imageKind(new Uint8Array(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>'))), null, 'an SVG can carry script');
   assert.equal(carriesMetadata(jpeg(), 'image/jpeg'), false);
   assert.equal(carriesMetadata(exifJpeg(), 'image/jpeg'), true, 'Exif is where the GPS lives');
+  assert.equal(carriesMetadata(new Uint8Array([0xff, 0xd8, 0xff, 0xed, 0x00, 0x38, ...Buffer.from('Photoshop 3.0\0'), 0, 0]), 'image/jpeg'), true, 'IPTC can name a place');
   const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, ...Buffer.from('....tEXtComment'), 0]);
   assert.equal(carriesMetadata(png, 'image/png'), true);
   assert.ok((await putImage(ada, null, exifJpeg(), s)).error);

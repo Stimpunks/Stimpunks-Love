@@ -108,8 +108,36 @@
   /* Redraw a picture on a canvas: at most 1600 pixels on its long side, the
      right way up, on white, as a JPEG. Nothing the camera wrote into the file
      survives a redraw, which is the point; the server refuses a file that
-     still carries it. Smaller and softer again if it is still too big. */
+     still carries it. Smaller and softer again if it is still too big.
+
+     WEBKIT'S ENCODER WRITES ITS OWN EXIF. Every iPhone browser, and Safari
+     on a Mac, hands back a canvas JPEG with an Exif block (colour space and
+     pixel size, no camera data) and an empty Photoshop block, measured in a
+     WKWebView on 2026-10-18; the server refused every picture sent from an
+     iPhone. So bare() keeps only what a JPEG needs to be drawn: the JFIF
+     header, a colour profile, Adobe's colour marker and the image itself,
+     and drops every other application block and comment. Anything it cannot
+     read goes as it is, and the server still decides. */
   var PIC_SIDE = 1600, PIC_MAX = 1500000;
+  function bare(blob) {
+    return blob.arrayBuffer().then(function (buf) {
+      var b = new Uint8Array(buf), keep = [b.subarray(0, 2)], i = 2;
+      if (b[0] !== 0xff || b[1] !== 0xd8) return blob;
+      while (i + 4 <= b.length) {
+        if (b[i] !== 0xff) return blob;
+        var m = b[i + 1];
+        if (m === 0xff) { i++; continue; }
+        if (m === 0xda) { keep.push(b.subarray(i)); return new Blob(keep, { type: 'image/jpeg' }); }
+        if (m === 0x01 || (m >= 0xd0 && m <= 0xd7)) { keep.push(b.subarray(i, i + 2)); i += 2; continue; }
+        var end = i + 2 + ((b[i + 2] << 8) | b[i + 3]);
+        if (end > b.length) return blob;
+        var app = m >= 0xe0 && m <= 0xef;
+        if (!(app && m !== 0xe0 && m !== 0xe2 && m !== 0xee) && m !== 0xfe) keep.push(b.subarray(i, end));
+        i = end;
+      }
+      return blob;
+    });
+  }
   function redraw(file) {
     return createImageBitmap(file, { imageOrientation: 'from-image' }).then(function (bmp) {
       function draw(side, q) {
@@ -121,7 +149,7 @@
         g.fillStyle = '#ffffff';
         g.fillRect(0, 0, c.width, c.height);
         g.drawImage(bmp, 0, 0, c.width, c.height);
-        return new Promise(function (ok, no) { c.toBlob(function (b) { b ? ok(b) : no(); }, 'image/jpeg', q); });
+        return new Promise(function (ok, no) { c.toBlob(function (b) { b ? ok(b) : no(); }, 'image/jpeg', q); }).then(bare);
       }
       return draw(PIC_SIDE, 0.86).then(function (b) {
         return b.size <= PIC_MAX ? b : draw(1100, 0.78).then(function (b2) { if (b2.size > PIC_MAX) throw new Error('big'); return b2; });

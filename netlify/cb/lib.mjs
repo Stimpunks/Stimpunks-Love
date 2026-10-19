@@ -2416,11 +2416,13 @@ export function imageKind(b) {
 }
 
 /* Whether a file still carries what a camera or a phone writes into it: Exif
-   (where the GPS lives), XMP, or a PNG's eXIf/tEXt chunks. A canvas's output
-   carries none of those. */
+   (where the GPS lives), XMP, a JPEG's Photoshop block (IPTC, where a photo
+   app writes a place name), or a PNG's eXIf/tEXt chunks. WebKit's canvas
+   writes an Exif and a Photoshop block of its own, so redraw() in cb.js takes
+   both off before a picture leaves the browser. */
 export function carriesMetadata(b, kind) {
   const text = Buffer.from(b.subarray(0, Math.min(b.length, 131072))).toString('latin1');
-  if (kind === 'image/jpeg') return /\xff\xe1..Exif\x00|\xff\xe1..http:\/\/ns\.adobe\.com\/xap/s.test(text);
+  if (kind === 'image/jpeg') return /\xff\xe1..Exif\x00|\xff\xe1..http:\/\/ns\.adobe\.com\/xap|\xff\xed..Photoshop 3\.0\x00/s.test(text);
   if (kind === 'image/png') return /eXIf|iTXtXML:com\.adobe\.xmp|tEXt/.test(text);
   if (kind === 'image/webp') return /EXIF|XMP /.test(text);
   return true;
