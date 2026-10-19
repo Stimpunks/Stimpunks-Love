@@ -1514,6 +1514,28 @@ wait, and never tells the writer anything**. Pressing it opens `/#cb=props`, whe
 open Profile at Your props (`toProps`, for that page only). The friendly edit is a count in the notification ("3 props
 waiting"), which is the number on the tab arriving by push. `DECISIONS.md` has what is still open.
 
+**DIRECT MESSAGES ARE THE CB'S, CLAIMED AT BOTH ENDS, AND NO MODERATOR CAN READ ONE.** Ryan's calls, 2026-10-18, as
+our community moves off Discord: messages between two people, in a **Messages** part on the radio between Channel and
+Watching together (`dmMake` in `cb.js`), the Direct messages part of `lib.mjs`, `/cb/dm` and `/cb/dm/reports`.
+**Claimed usernames only, at both ends** (`forumReader`), because an unclaimed handle is anybody's; a person is
+`dmKey`, the folded name and when it was claimed, so a name claimed again after its owner deleted it reaches nothing
+of theirs. **Let people message me is off until switched on**, and **the first message waits**, its sender able to
+write nothing more until it is answered (which accepts it), accepted, or rejected (emptied, nobody told): props' rule.
+A conversation already going goes on whatever the switch says. **Every message goes 48 hours after it was sent**, by
+`LIFE` and not by `onAir()`, which still keeps the channel's old midnight for what was sent before `LIFE_FROM`;
+**who talked to whom is not kept past the last message between them**, so the next message after two quiet days
+asks again. **A block is the blocker's own record, by the name blocked (`petKey`)**, so it holds through a re-claim;
+it empties the conversation for both and answers the blocked person `'closed'`, the same words as a switch that is
+off, so nothing ever says "blocked". **Not end-to-end encrypted**, and `privacy.html#messages` says so in those
+words. **A report is the one way a message reaches a moderator**: one message, copied with who reported it and a
+note onto the desk in the Moderators' room (`desk.js`), kept until closed or thirty days, even if either username
+is deleted. Forget me and deleting the username delete everything else, for both people. `tools/check-messages.py`
+holds all of it, and refuses a count, a receipt, "seen", "typing", a timer or browser storage in the radio's
+Messages code. **The friendly edits are an unread number, read receipts, a typing indicator, a moderator's way
+into a conversation "for safety", and the radio listening for messages while the part is shut** "so nothing is
+missed"; the notification switch (*When somebody messages me*, `notifyDm`) is how somebody is told. The open
+questions, safeguarding first, are in `DECISIONS.md`.
+
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
 identical at all three, because a fanfare is decoration and **Gentle takes away the wobble, never

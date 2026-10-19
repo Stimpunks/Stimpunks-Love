@@ -783,7 +783,7 @@
        testing: the radio had grown one control at a time into one long column
        with nothing to say where one part ended and the next began, and people
        could not tell where they were. So it reads top to bottom as where you
-       are, who is around, the channel, watching together, and your radio, with
+       are, who is around, the channel, messages, watching together, and your radio, with
        space and a groove in the case between them. The headings are real ones,
        so a screen reader can move between the parts, and they are lettered on
        the case in the radio's own clothes. Small shows none of them. */
@@ -805,9 +805,13 @@
     var hereSec = part('cb-sec--here', 'Where you are');
     var aroundSec = part('cb-sec--around', 'Who\u2019s around');
     var chanSec = part('cb-sec--channel', 'Channel');
+    var dmSec = this.dmSec = part('cb-sec--dm', 'Messages');
     var filmSec = this.filmSec = part('cb-sec--film', 'Watching together');
     filmSec.hidden = true;
     var yourSec = part('cb-sec--yours', 'Your radio');
+    /* MESSAGES, between Channel and Watching together (Ryan, 2026-10-18): one
+       person to another, for claimed usernames. See dmMake. */
+    this.dmMake(dmSec);
 
     /* WHERE YOU ARE, in words, at the top. Ryan, 2026-10-13: some people could
        not tell where they were. "Tuned to World" is the channel and not the
@@ -1327,7 +1331,7 @@
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, the props on it and waiting for you, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, the props on it and waiting for you, your direct messages and every conversation you are in, for both of you, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -1815,6 +1819,7 @@
   var NOTIFY_KINDS = [
     ['mentions', 'When somebody @mentions me'],
     ['props', 'When somebody gives me props'],
+    ['messages', 'When somebody messages me'],
     ['world', 'Every message on World'],
     ['calls', 'Calls starting in rooms I follow, and the World call'],
     ['words', 'Show the words of a message, a post or props'],
@@ -1882,7 +1887,7 @@
     var me = this, box = this.notifyPanel;
     var on = !!(sub && want);
     if (want) this.notifyWant = want;
-    var w = this.notifyWant = this.notifyWant || { mentions: false, props: false, world: false, calls: false, words: true, rooms: [] };
+    var w = this.notifyWant = this.notifyWant || { mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] };
     box.textContent = '';
     box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
     box.appendChild(el('p', null, on
@@ -2107,6 +2112,7 @@
     this.hostTick(w);
     this.hereTick();
     if (!this.online.hidden) this.onlineTick();
+    if (this.dmBox && !this.dmBox.hidden) this.dmTick();
     var room = this.tunedRoom();
     call('/cb/channel' + (room ? '?room=' + room : ''), null, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
@@ -2898,6 +2904,18 @@
         else if (!p) cardBody.appendChild(el('p', 'cb-quiet pf-empty', mineP
           ? (me.state.claimed ? 'Your card has nothing on it yet. Edit my profile card, in Profile on this radio, is where you fill it in.' : 'Claim your username, in Profile on this radio, and you can fill in a profile card.')
           : whose + ' has nothing on their card.'));
+        /* MESSAGE THEM (Ryan, 2026-10-18), for a claimed username looking at
+           somebody else's. Whether they take messages is said once their
+           conversation opens, never here: the answer is the same words for a
+           switch that is off and a block, so the profile cannot tell either. */
+        if (!mineP && me.dmBox) {
+          var dmRow = el('p', 'pf-message');
+          var dmB = el('button', 'cb-btn', 'Message ' + whose);
+          dmB.type = 'button';
+          dmB.addEventListener('click', function () { me.peekFrom = null; d.close(); me.dmTo(whose); });
+          dmRow.appendChild(dmB);
+          (card.querySelector('.pf-body') || left).appendChild(dmRow);
+        }
         var avSaid = el('p', 'cb-quiet', 'Looking…');
         panels[0].appendChild(avSaid);
         var avBox = el('div', 'cb-peek__avatars');
@@ -4568,6 +4586,697 @@
     });
   };
 
+  /* ── Messages ────────────────────────────────────────────────────────────
+
+     Ryan's calls, 2026-10-18, as our community moves off Discord: messages
+     between two people, with a claimed username at both ends. Nobody new can
+     start one with you until you switch on Let people message me; their first
+     message waits for you to answer it, accept it or reject it; each message
+     goes 48 hours after it was sent; a block says nothing to the person
+     blocked; and the only way a message reaches the moderators is a report.
+     The server is the Direct messages part of lib.mjs and /cb/dm.
+
+     ASKED ONLY FROM listen(), AND ONLY WHILE THIS PART IS OPEN: the list of
+     conversations, or the one on the screen. Folded, in a tab behind another,
+     or with the part shut, the radio asks nothing about messages, the same as
+     Who's online. A message arriving is told by a notification, for anybody
+     who switched When somebody messages me on, and never by anything on the
+     radio lighting up.
+
+     NOTHING IS COUNTED AND NOTHING SAYS WHO READ WHAT: no unread number, no
+     "seen", no typing. The list says who wrote last and when, which is all the
+     server keeps. Everything typed is drawn into elements by md(), as on the
+     channel. */
+  function firstWords(text) {
+    var t = String(text || '').replace(/\s+/g, ' ').trim();
+    return t.length > 140 ? t.slice(0, 139) + '…' : t;
+  }
+
+  Radio.prototype.dmMake = function (sec) {
+    var me = this;
+    this.dmWith = null;
+    this.dmBusy = null;
+    if (!forumPass(this.state.pass)) {
+      sec.appendChild(el('p', 'cb-quiet', 'Claim your username, in Profile under Your radio, and you can send direct messages and get them: one person to another, each gone 48 hours after it was sent.'));
+      return;
+    }
+    var btn = this.dmBtn = el('button', 'cb-btn cb-dm-btn', 'Your messages');
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'cb-dm');
+    var row = el('div', 'cb-tools');
+    row.appendChild(btn);
+    sec.appendChild(row);
+    var box = this.dmBox = el('div', 'cb-dm');
+    box.id = 'cb-dm';
+    box.hidden = true;
+
+    // THE LIST: the switch, a way to write to a username, and the conversations.
+    var inbox = this.dmInbox = el('div', 'cb-dm-inbox');
+    var about = el('p', 'cb-online-about');
+    about.appendChild(document.createTextNode('Between you and one other person, both with claimed usernames. Each message goes 48 hours after it was sent. Nobody else can read them, moderators included, unless one of you reports a message to them. They are not end-to-end encrypted: '));
+    var pa = el('a', null, 'what that means');
+    pa.href = '/privacy.html#messages';
+    about.appendChild(pa);
+    about.appendChild(document.createTextNode('.'));
+    inbox.appendChild(about);
+    var openBtn = this.dmOpenBtn = el('button', 'cb-btn cb-dm-open', 'Let people message me');
+    openBtn.type = 'button';
+    openBtn.setAttribute('aria-pressed', 'false');
+    inbox.appendChild(openBtn);
+    this.dmOpenNow = el('p', 'cb-seen-now');
+    inbox.appendChild(this.dmOpenNow);
+    var start = el('form', 'cb-dm-start');
+    var sl = el('label', 'cb-lab', 'Write to a username');
+    sl.htmlFor = 'cb-dm-to';
+    var to = el('input', 'cb-say cb-dm-to');
+    to.id = 'cb-dm-to';
+    to.type = 'text';
+    to.maxLength = 24;
+    to.autocomplete = 'off';
+    to.spellcheck = false;
+    var go = el('button', 'cb-btn', 'Open');
+    go.type = 'submit';
+    var srow = el('div', 'cb-acct__row');
+    srow.appendChild(to);
+    srow.appendChild(go);
+    start.appendChild(sl);
+    start.appendChild(srow);
+    inbox.appendChild(start);
+    this.dmLists = el('div', 'cb-dm-lists');
+    inbox.appendChild(this.dmLists);
+    box.appendChild(inbox);
+
+    // ONE CONVERSATION: who with, where it stands, its messages, and the box.
+    var talk = this.dmTalk = el('div', 'cb-dm-talk');
+    talk.hidden = true;
+    var back = el('button', 'cb-btn cb-dm-back', 'All messages');
+    back.type = 'button';
+    talk.appendChild(back);
+    var head = this.dmHead = el('h3', 'cb-h3 cb-dm-with');
+    head.tabIndex = -1;
+    talk.appendChild(head);
+    this.dmState = el('div', 'cb-dm-state');
+    talk.appendChild(this.dmState);
+    var lcd = this.dmLcd = el('div', 'cb-lcd cb-dm-lcd');
+    lcd.hidden = true;
+    var log = this.dmLog = el('ol', 'cb-log cb-dm-log');
+    log.setAttribute('role', 'log');
+    log.setAttribute('aria-live', 'off');
+    lcd.appendChild(log);
+    talk.appendChild(lcd);
+    var form = this.dmForm = el('form', 'cb-tx cb-dm-tx');
+    form.hidden = true;
+    var lab = this.dmLab = el('label', 'cb-lab', 'Your message');
+    lab.htmlFor = 'cb-dm-say';
+    var say = this.dmSay = el('textarea', 'cb-say cb-say--msg');
+    say.id = 'cb-dm-say';
+    say.rows = 2;
+    say.maxLength = MESSAGE_MAX;
+    say.autocomplete = 'off';
+    say.setAttribute('enterkeyhint', 'send');
+    say.setAttribute('aria-describedby', 'cb-dm-hint');
+    var hint = el('p', 'cb-hint', 'Enter sends, and Shift and Enter makes a new line. Basic Markdown works, as on the channel.');
+    hint.id = 'cb-dm-hint';
+    var send = el('button', 'cb-btn cb-send', 'Send');
+    send.type = 'submit';
+    var frow = el('div', 'cb-acct__row');
+    frow.appendChild(send);
+    form.appendChild(lab);
+    form.appendChild(say);
+    form.appendChild(hint);
+    form.appendChild(frow);
+    talk.appendChild(form);
+    this.dmBlockRow = el('div', 'cb-dm-block');
+    talk.appendChild(this.dmBlockRow);
+    box.appendChild(talk);
+
+    var said = this.dmSaid = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    said.tabIndex = -1;
+    box.appendChild(said);
+    sec.appendChild(box);
+
+    btn.addEventListener('click', function () { me.setDm(box.hidden); });
+    openBtn.addEventListener('click', function () {
+      var on = openBtn.getAttribute('aria-pressed') !== 'true';
+      me.dmCall({ open: on }, on ? 'On. Anybody with a claimed username can ask to message you.' : 'Off. Nobody new can message you.', function () { return openBtn; });
+    });
+    start.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var h = to.value.trim();
+      if (!h) { me.dmTold('Type the username you want to write to.'); to.focus(); return; }
+      to.value = '';
+      me.dmOpen(h);
+    });
+    back.addEventListener('click', function () { me.dmBack(); });
+    form.addEventListener('submit', function (e) { e.preventDefault(); me.dmSend(); });
+    say.addEventListener('keydown', function (e) {
+      if (e.isComposing) return;
+      if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); me.dmSend(); }
+    });
+    say.addEventListener('input', function () { me.grow(say); });
+    // Escape in a conversation goes back to the list, unless something in it
+    // (an edit, a report) took the Escape first.
+    talk.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !e.defaultPrevented) { e.preventDefault(); me.dmBack(); }
+    });
+  };
+
+  Radio.prototype.setDm = function (open) {
+    if (!this.dmBox) return;
+    this.dmBox.hidden = !open;
+    this.dmBtn.setAttribute('aria-expanded', String(open));
+    if (open) { this.dmSig = null; this.dmTick(); }
+    this.place();
+  };
+
+  // One status line for the whole part, set only when it changes, so a
+  // failure every few seconds is not read out every few seconds.
+  Radio.prototype.dmTold = function (t) { if (this.dmSaid.textContent !== t) this.dmSaid.textContent = t; };
+
+  /* From listen(), while the part is open: the conversation on the screen, or
+     the list. One request at a time for each. */
+  Radio.prototype.dmTick = function () {
+    var me = this;
+    if (!this.dmBox || this.dmBox.hidden) return;
+    var w = this.dmWith || '';
+    if (this.dmBusy === w) return;
+    this.dmBusy = w;
+    call('/cb/dm', { body: w ? { with: w } : {} }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (w !== (me.dmWith || '')) return;
+      if (r.status === 200 && r.body) {
+        if (w) me.dmDrawTalk(r.body); else me.dmDrawInbox(r.body);
+        if (me.dmFailed) { me.dmFailed = false; me.dmTold(''); }
+        return;
+      }
+      me.dmFailed = true;
+      me.dmTold(r.body && typeof r.body.error === 'string' ? r.body.error : 'Your messages could not be fetched just now. Still trying.');
+    }, function () {
+      if (w !== (me.dmWith || '')) return;
+      me.dmFailed = true;
+      me.dmTold('The street could not be reached just now. Still trying.');
+    }).then(function () { if (me.dmBusy === w) me.dmBusy = null; });
+  };
+
+  /* Something pressed: send it, and draw what comes back, which is the list
+     or the conversation. done is said in the status line; focus() says where
+     the keyboard goes, and without one it goes to that line. */
+  Radio.prototype.dmCall = function (body, done, focus) {
+    var me = this;
+    return call('/cb/dm', { body: body }, this.state.pass).then(function (r) {
+      if (r.status === 401) { me.lost(); return null; }
+      if (r.status === 200 && r.body) {
+        if (Array.isArray(r.body.conversations)) {
+          if (me.dmWith) me.dmShowInbox();
+          me.dmDrawInbox(r.body);
+        } else me.dmDrawTalk(r.body);
+        me.dmTold(done || '');
+        var to = focus && focus();
+        if (to && !to.hidden && to.isConnected) to.focus(); else if (done) me.dmSaid.focus();
+        return r.body;
+      }
+      me.dmTold((r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.');
+      return null;
+    }, function () { me.dmTold('The street could not be reached just now. Nothing changed.'); return null; });
+  };
+
+  Radio.prototype.dmShowInbox = function () {
+    this.dmWith = null;
+    this.dmTalk.hidden = true;
+    this.dmInbox.hidden = false;
+    this.dmSig = null;
+    this.place();
+  };
+
+  /* The list: who has asked to message you, then everybody you are talking
+     to, the latest first, then anybody you blocked. Drawn again only when it
+     changes, and the keyboard stays on the same row when it is. */
+  Radio.prototype.dmDrawInbox = function (b) {
+    var me = this;
+    this.dmOpenBtn.setAttribute('aria-pressed', String(!!b.open));
+    this.dmOpenBtn.textContent = 'Let people message me: ' + (b.open ? 'on' : 'off');
+    this.dmOpenNow.textContent = b.open
+      ? 'Anybody with a claimed username can ask to message you. Their first message waits here until you answer it, accept it or reject it.'
+      : 'Nobody new can message you. Conversations already going go on, and you can still write to people who take messages.';
+    var convs = Array.isArray(b.conversations) ? b.conversations : [];
+    var blocked = Array.isArray(b.blocked) ? b.blocked : [];
+    var sig = JSON.stringify([convs, blocked]);
+    if (sig === this.dmSig) return;
+    this.dmSig = sig;
+    var on = this.box.getRootNode().activeElement;
+    var keep = on && this.dmLists.contains(on) ? on.dataset.dmKey : null;
+    var box = this.dmLists;
+    box.textContent = '';
+    var asking = convs.filter(function (c) { return c.state === 'asking'; });
+    var rest = convs.filter(function (c) { return c.state !== 'asking'; });
+    function pick(c, key, label, aria) {
+      var open = el('button', 'cb-btn cb-dm-pick', label);
+      open.type = 'button';
+      open.dataset.dmKey = key;
+      if (aria) open.setAttribute('aria-label', aria);
+      open.addEventListener('click', function () { me.dmOpen(c.handle); });
+      return open;
+    }
+    if (asking.length) {
+      box.appendChild(el('h3', 'cb-h3', 'Asking to message you'));
+      var al = el('ul', 'cb-dm-list');
+      asking.forEach(function (c) {
+        var li = el('li', 'cb-dm-row');
+        li.appendChild(pick(c, 'a|' + c.handle, 'Read ' + c.handle + '’s message'));
+        if (c.text) li.appendChild(el('p', 'cb-dm-peek', firstWords(c.text)));
+        al.appendChild(li);
+      });
+      box.appendChild(al);
+    }
+    box.appendChild(el('h3', 'cb-h3', 'Conversations'));
+    if (!rest.length) {
+      box.appendChild(el('p', 'cb-seen-now', 'None going. To write to somebody, press their name on Who’s online or their handle on the channel and choose Message, or type their username above.'));
+    } else {
+      var ul = el('ul', 'cb-dm-list');
+      rest.forEach(function (c) {
+        var li = el('li', 'cb-dm-row');
+        li.appendChild(pick(c, 'c|' + c.handle, c.handle, 'Your conversation with ' + c.handle));
+        li.appendChild(el('p', 'cb-dm-peek', c.state === 'asked'
+          ? 'Waiting for ' + c.handle + ' to answer.'
+          : (c.last.mine ? 'You wrote last, ' : c.handle + ' wrote last, ') + clock(c.last.t) + '.'));
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+    if (blocked.length) {
+      box.appendChild(el('h3', 'cb-h3', 'People you have blocked'));
+      var bl = el('ul', 'cb-dm-list');
+      blocked.forEach(function (h) {
+        var li = el('li', 'cb-dm-row');
+        li.appendChild(el('span', 'cb-handle', h));
+        li.appendChild(document.createTextNode(' '));
+        var un = el('button', 'cb-btn', 'Unblock');
+        un.type = 'button';
+        un.dataset.dmKey = 'b|' + h;
+        un.setAttribute('aria-label', 'Unblock ' + h);
+        un.addEventListener('click', function () {
+          un.disabled = true;
+          me.dmCall({ unblock: h }, h + ' is unblocked. If you both write, nothing that was said before is back.', function () { return start(); })
+            .then(function (r) { if (!r) un.disabled = false; });
+        });
+        li.appendChild(un);
+        bl.appendChild(li);
+      });
+      box.appendChild(bl);
+    }
+    function start() { return me.dmInbox.querySelector('#cb-dm-to'); }
+    if (keep) {
+      var again = box.querySelector('[data-dm-key="' + CSS.escape(keep) + '"]');
+      if (again) again.focus();
+    }
+  };
+
+  /* Open the conversation with `handle`: its own view, the keyboard on its
+     heading, and the first answer drawn without reading every message out. */
+  Radio.prototype.dmOpen = function (handle) {
+    this.dmWith = String(handle);
+    this.dmStateSig = null;
+    this.dmBlockState = null;
+    this.dmHead.dataset.who = '';
+    this.dmHead.textContent = 'With ' + handle;
+    this.dmLog.textContent = '';
+    this.dmLog.setAttribute('aria-live', 'off');
+    this.dmFirst = true;
+    this.dmState.textContent = '';
+    this.dmForm.hidden = true;
+    this.dmLcd.hidden = true;
+    this.dmBlockRow.textContent = '';
+    this.dmTold('');
+    this.dmInbox.hidden = true;
+    this.dmTalk.hidden = false;
+    if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
+    this.dmHead.focus();
+    this.place();
+  };
+
+  Radio.prototype.dmBack = function () {
+    var was = this.dmWith;
+    this.dmShowInbox();
+    this.dmTick();
+    var row = was ? this.dmLists.querySelector('[data-dm-key="c|' + CSS.escape(was) + '"], [data-dm-key="a|' + CSS.escape(was) + '"]') : null;
+    (row || this.dmBtn).focus();
+  };
+
+  /* From a profile's Message button, or anywhere else that names somebody:
+     the radio switched on and Normal for this page, and their conversation
+     open. */
+  Radio.prototype.dmTo = function (handle) {
+    var me = this;
+    if (!this.dmBox) return;
+    if (this.state.folded) this.setFolded(false, true);
+    if (this.state.size === 'small') this.setSize('normal', true);
+    this.dmOpen(handle);
+    function go() { me.dmSec.scrollIntoView({ block: 'nearest' }); me.dmHead.focus(); }
+    if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
+  };
+
+  /* A notification of a message opens the street at #cb=messages (cb-sw.js),
+     and this opens the list with the keyboard on it. The address loses the
+     fragment, so a reload does not open it again; the radio is switched on
+     and made Normal for this page only, toProps' rule. */
+  Radio.prototype.toMessages = function () {
+    var me = this;
+    try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
+    if (!this.dmBox) return;
+    if (this.state.folded) this.setFolded(false, true);
+    if (this.state.size === 'small') this.setSize('normal', true);
+    if (this.dmWith) this.dmShowInbox();
+    if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
+    function go() { me.dmSec.scrollIntoView({ block: 'start' }); me.dmBtn.focus(); }
+    if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
+  };
+
+  Radio.prototype.dmDrawTalk = function (b) {
+    var me = this;
+    if (typeof b.handle === 'string' && b.handle) this.dmWith = b.handle;
+    var who = this.dmWith;
+    if (this.dmHead.dataset.who !== who) {
+      this.dmHead.dataset.who = who;
+      this.dmHead.textContent = '';
+      this.dmHead.appendChild(document.createTextNode('With '));
+      var hb = el('button', 'cb-handle', who);
+      hb.type = 'button';
+      hb.setAttribute('aria-haspopup', 'dialog');
+      hb.addEventListener('click', function () { me.peek(who, hb); });
+      this.dmHead.appendChild(hb);
+      this.dmLab.textContent = 'Your message to ' + who;
+    }
+    var sig = b.state + '|' + b.can;
+    if (this.dmStateSig !== sig) { this.dmStateSig = sig; this.dmDrawState(b); }
+    this.dmForm.hidden = b.can !== 'yes';
+    var msgs = Array.isArray(b.messages) ? b.messages : [];
+    this.dmDrawLog(msgs);
+    this.dmBlockShown(msgs.length > 0 && b.can !== 'blocked');
+  };
+
+  /* Where it stands, in words, with Accept and Reject on a request. */
+  Radio.prototype.dmDrawState = function (b) {
+    var me = this, box = this.dmState, who = this.dmWith;
+    box.textContent = '';
+    if (b.can === 'blocked') {
+      box.appendChild(el('p', null, 'You have blocked ' + who + '. Unblock them under All messages, and you can write to each other again.'));
+      return;
+    }
+    if (b.can === 'closed') {
+      box.appendChild(el('p', null, who + ' is not taking messages from you just now.'));
+      return;
+    }
+    if (b.state === 'asked') {
+      box.appendChild(el('p', 'cb-seen-now', 'Waiting for ' + who + ' to answer. Until they do, only the two of you can read it and you can write nothing more, but you can edit it or take it back. If they reject it, it goes, and nobody is told.'));
+      return;
+    }
+    if (b.state === 'new') {
+      box.appendChild(el('p', 'cb-seen-now', 'Nothing between you yet. Your first message waits for ' + who + ' to answer it, and you can write nothing more until they do.'));
+      return;
+    }
+    if (b.state !== 'asking') return;
+    box.appendChild(el('p', null, who + ' asks to message you. They can write nothing more until you answer. Answering, or Accept, starts the conversation; Reject deletes their message, and nobody is told.'));
+    var row = el('div', 'cb-acct__row');
+    var yes = el('button', 'cb-btn', 'Accept');
+    yes.type = 'button';
+    var no = el('button', 'cb-btn', 'Reject');
+    no.type = 'button';
+    row.appendChild(yes);
+    row.appendChild(no);
+    box.appendChild(row);
+    var sure = el('div', 'cb-forget-sure');
+    sure.hidden = true;
+    sure.appendChild(el('p', null, 'This deletes ' + who + '’s message, and nobody is told. They can ask again. It cannot be undone.'));
+    var sy = el('button', 'cb-btn', 'Yes, reject it');
+    sy.type = 'button';
+    var sn = el('button', 'cb-btn', 'Not now');
+    sn.type = 'button';
+    sure.appendChild(sy);
+    sure.appendChild(sn);
+    box.appendChild(sure);
+    yes.addEventListener('click', function () {
+      yes.disabled = true;
+      me.dmCall({ with: who, accept: true }, 'Accepted. You can write to each other now.', function () { return me.dmSay; })
+        .then(function (r) { if (!r) yes.disabled = false; });
+    });
+    no.addEventListener('click', function () { sure.hidden = false; row.hidden = true; sn.focus(); });
+    sn.addEventListener('click', function () { sure.hidden = true; row.hidden = false; no.focus(); });
+    sy.addEventListener('click', function () {
+      sy.disabled = true;
+      me.dmCall({ with: who, reject: true }, 'Rejected and deleted.').then(function (r) { if (!r) sy.disabled = false; });
+    });
+  };
+
+  /* The messages, each drawn once and its words again only when they change,
+     so the keyboard and anything half-written stay put while the rest is
+     asked again every few seconds. It follows the newest message only when
+     the log was at the bottom, or you have just sent one: the channel's rule. */
+  Radio.prototype.dmDrawLog = function (msgs) {
+    var me = this, log = this.dmLog;
+    var atEnd = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
+    var want = {}, added = 0, prev = null;
+    msgs.forEach(function (m) { want[m.id] = m; });
+    Array.prototype.slice.call(log.children).forEach(function (li) { if (!want[li.dataset.id]) li.remove(); });
+    msgs.forEach(function (m) {
+      var li = log.querySelector(':scope > li[data-id="' + CSS.escape(m.id) + '"]');
+      if (!li) {
+        li = me.dmMsg(m);
+        added++;
+        if (prev) prev.after(li); else log.prepend(li);
+      } else if (!li.dmEditing && (li.dmText !== m.text || li.dmEdited !== (m.edited || 0))) me.dmWords(li, m);
+      prev = li;
+    });
+    this.dmLcd.hidden = !msgs.length;
+    if (this.dmFirst) {
+      this.dmFirst = false;
+      log.scrollTop = log.scrollHeight;
+      log.setAttribute('aria-live', 'polite');
+    } else if (added && (atEnd || this.dmJustSent)) log.scrollTop = log.scrollHeight;
+    this.dmJustSent = false;
+  };
+
+  Radio.prototype.dmMsg = function (m) {
+    var li = el('li', 'cb-dm-msg');
+    li.dataset.id = m.id;
+    var head = el('p', 'cb-head');
+    head.appendChild(el('span', 'cb-handle', m.handle));
+    if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
+    var tm = el('time', 'cb-time', clock(m.t));
+    tm.dateTime = new Date(m.t).toISOString();
+    head.appendChild(tm);
+    li.appendChild(head);
+    li.appendChild(el('div', 'cb-text'));
+    this.dmWords(li, m);
+    li.appendChild(this.dmActs(li, m));
+    return li;
+  };
+
+  Radio.prototype.dmWords = function (li, m) {
+    var words = li.querySelector(':scope > .cb-text');
+    words.textContent = '';
+    md(words, m.text || '');
+    li.dmText = m.text;
+    li.dmEdited = m.edited || 0;
+    this.markEdited(li, m);
+  };
+
+  /* Your own message: Edit and Take back. Theirs: Report. Always shown,
+     because a message here is only ever one of the two. */
+  Radio.prototype.dmActs = function (li, m) {
+    var me = this, row = el('div', 'cb-acct__row cb-dm-acts');
+    if (m.mine) {
+      var ed = el('button', 'cb-btn cb-copy', 'Edit');
+      ed.type = 'button';
+      ed.setAttribute('aria-label', 'Edit your message ' + sentAt(m.t));
+      var tb = el('button', 'cb-btn cb-copy', 'Take back');
+      tb.type = 'button';
+      tb.setAttribute('aria-label', 'Take back your message ' + sentAt(m.t));
+      ed.addEventListener('click', function () { me.dmEdit(li, m.id); });
+      tb.addEventListener('click', function () {
+        me.dmSure(li, row, 'This deletes your message for both of you. It cannot be undone.', 'Yes, take it back', function () {
+          return me.dmCall({ with: me.dmWith, take: m.id }, 'Taken back.');
+        });
+      });
+      row.appendChild(ed);
+      row.appendChild(tb);
+    } else {
+      var rp = el('button', 'cb-btn cb-copy', 'Report');
+      rp.type = 'button';
+      rp.setAttribute('aria-label', 'Report ' + m.handle + '’s message ' + sentAt(m.t) + ' to the moderators');
+      rp.addEventListener('click', function () { me.dmReport(li, row, m); });
+      row.appendChild(rp);
+    }
+    return row;
+  };
+
+  // Ask once more, under the message, with the keyboard on Not now.
+  Radio.prototype.dmSure = function (li, row, text, yesText, act) {
+    var sure = el('div', 'cb-forget-sure cb-dm-sure');
+    sure.appendChild(el('p', null, text));
+    var y = el('button', 'cb-btn cb-copy', yesText);
+    y.type = 'button';
+    var n = el('button', 'cb-btn cb-copy', 'Not now');
+    n.type = 'button';
+    sure.appendChild(y);
+    sure.appendChild(n);
+    row.hidden = true;
+    li.appendChild(sure);
+    n.focus();
+    function shut() { sure.remove(); row.hidden = false; row.firstChild.focus(); }
+    n.addEventListener('click', shut);
+    sure.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); shut(); } });
+    y.addEventListener('click', function () {
+      y.disabled = true;
+      act().then(function (r) { if (!r) y.disabled = false; });
+    });
+  };
+
+  /* EDIT, in the words' place: the channel's rule, the old words kept
+     nowhere, and the message still gone 48 hours after it was sent. */
+  Radio.prototype.dmEdit = function (li, id) {
+    if (li.dmEditing) return;
+    li.dmEditing = true;
+    var me = this, words = li.querySelector(':scope > .cb-text'), row = li.querySelector(':scope > .cb-dm-acts');
+    words.hidden = true;
+    row.hidden = true;
+    var f = el('form', 'cb-edit cb-dm-edit');
+    var lab = el('label', 'cb-lab', 'Edit your message');
+    lab.htmlFor = 'cb-dm-edit-' + id;
+    var ta = el('textarea', 'cb-say');
+    ta.id = 'cb-dm-edit-' + id;
+    ta.rows = 3;
+    ta.maxLength = MESSAGE_MAX;
+    ta.value = li.dmText || '';
+    var save = el('button', 'cb-btn cb-copy', 'Save');
+    save.type = 'submit';
+    var cancel = el('button', 'cb-btn cb-copy', 'Cancel');
+    cancel.type = 'button';
+    var r = el('div', 'cb-acct__row cb-edit__row');
+    r.appendChild(save);
+    r.appendChild(cancel);
+    f.appendChild(lab);
+    f.appendChild(ta);
+    f.appendChild(r);
+    li.appendChild(f);
+    ta.focus();
+    function stop(back) {
+      f.remove();
+      words.hidden = false;
+      row.hidden = false;
+      li.dmEditing = false;
+      if (back) row.firstChild.focus();
+    }
+    cancel.addEventListener('click', function () { stop(true); });
+    ta.addEventListener('keydown', function (e) {
+      if (e.isComposing) return;
+      if (e.key === 'Escape') { e.preventDefault(); stop(true); }
+      else if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); f.requestSubmit(); }
+    });
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!ta.value.trim()) { me.dmTold('A message needs words. Take it back instead, if you want it gone.'); ta.focus(); return; }
+      save.disabled = true;
+      me.dmCall({ with: me.dmWith, edit: id, text: ta.value }).then(function (b) {
+        if (!b) { save.disabled = false; return; }
+        stop(false);
+        if (Array.isArray(b.messages)) me.dmDrawLog(b.messages);
+        if (li.isConnected) row.firstChild.focus();
+        me.dmTold('Edited.');
+      });
+    });
+  };
+
+  /* REPORT: a copy of this one message onto the moderators' desk, with who
+     reported it and a note if they write one. The sender is not told. */
+  Radio.prototype.dmReport = function (li, row, m) {
+    var me = this;
+    var f = el('form', 'cb-forget-sure cb-dm-sure');
+    f.appendChild(el('p', null, 'This sends a copy of this message, who sent it and when, to the moderators’ desk, with your username and a note if you write one. ' + m.handle + ' is not told. Only moderators read it, and it is deleted when they close it, or after thirty days.'));
+    var lab = el('label', 'cb-lab', 'A note for the moderators, if you like');
+    lab.htmlFor = 'cb-dm-note-' + m.id;
+    var ta = el('textarea', 'cb-say');
+    ta.id = 'cb-dm-note-' + m.id;
+    ta.rows = 2;
+    ta.maxLength = 280;
+    var y = el('button', 'cb-btn cb-copy', 'Send the report');
+    y.type = 'submit';
+    var n = el('button', 'cb-btn cb-copy', 'Not now');
+    n.type = 'button';
+    var r = el('div', 'cb-acct__row');
+    r.appendChild(y);
+    r.appendChild(n);
+    f.appendChild(lab);
+    f.appendChild(ta);
+    f.appendChild(r);
+    row.hidden = true;
+    li.appendChild(f);
+    ta.focus();
+    function shut(back) { f.remove(); row.hidden = false; if (back) row.firstChild.focus(); }
+    n.addEventListener('click', function () { shut(true); });
+    f.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); shut(true); } });
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      y.disabled = true;
+      me.dmCall({ with: me.dmWith, report: m.id, note: ta.value }, 'Reported. The moderators have it. If you do not want to hear from ' + m.handle + ', Block them below.')
+        .then(function (b) { if (b) shut(false); else y.disabled = false; });
+    });
+  };
+
+  /* BLOCK, under the conversation, asking once more. Built again only when
+     the person or whether it is shown changes. */
+  Radio.prototype.dmBlockShown = function (show) {
+    var me = this, box = this.dmBlockRow, who = this.dmWith;
+    var sig = who + '|' + show;
+    if (this.dmBlockState === sig) return;
+    this.dmBlockState = sig;
+    box.textContent = '';
+    if (!show) return;
+    var b = el('button', 'cb-btn', 'Block ' + who);
+    b.type = 'button';
+    var sure = el('div', 'cb-forget-sure');
+    sure.hidden = true;
+    sure.appendChild(el('p', null, 'This stops ' + who + ' writing to you, and you to them, and deletes your conversation for both of you. They are not told: if they try to write, they are told you are not taking messages from them. Report anything first, if you want the moderators to see it. You can unblock them from All messages.'));
+    var y = el('button', 'cb-btn', 'Yes, block ' + who);
+    y.type = 'button';
+    var n = el('button', 'cb-btn', 'Not now');
+    n.type = 'button';
+    sure.appendChild(y);
+    sure.appendChild(n);
+    box.appendChild(b);
+    box.appendChild(sure);
+    b.addEventListener('click', function () { sure.hidden = false; b.hidden = true; n.focus(); });
+    n.addEventListener('click', function () { sure.hidden = true; b.hidden = false; b.focus(); });
+    y.addEventListener('click', function () {
+      y.disabled = true;
+      me.dmCall({ with: who, block: true }, who + ' is blocked.').then(function (r) { if (!r) y.disabled = false; });
+    });
+  };
+
+  Radio.prototype.dmSend = function () {
+    var me = this, say = this.dmSay, text = say.value, who = this.dmWith;
+    if (!who) return;
+    if (!text.trim()) { this.dmTold('Write something first.'); say.focus(); return; }
+    if (this.dmSending) return;
+    this.dmSending = true;
+    call('/cb/dm', { body: { with: who, send: text } }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (who !== me.dmWith && String(who).toLowerCase() !== String(me.dmWith || '').toLowerCase()) return;
+      if (r.status === 200 && r.body) {
+        say.value = '';
+        me.grow(say);
+        me.dmJustSent = true;
+        me.dmDrawTalk(r.body);
+        me.dmTold(r.body.asked ? 'Sent. It waits for ' + me.dmWith + ' to answer it.' : r.body.accepted ? 'Sent, which accepts what ' + me.dmWith + ' asked.' : '');
+        if (me.dmForm.hidden) me.dmSaid.focus(); else say.focus();
+        return;
+      }
+      me.dmTold((r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not send just now. Your words are still in the box.');
+    }, function () { me.dmTold('The street could not be reached just now. It did not send; your words are still in the box.'); })
+      .then(function () { me.dmSending = false; });
+  };
+
   /* ── Your props ──────────────────────────────────────────────────────── */
 
   /* A notification that somebody gave you props opens the street at #cb=props
@@ -4995,8 +5704,8 @@
     del.addEventListener('click', function () {
       form.textContent = ''; form.hidden = false;
       form.appendChild(el('p', null, base
-        ? 'This deletes your own password and your pets, and puts ' + a.handle + ' back on the moderators\u2019 password, which any moderator can sign on with. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'
-        : 'This deletes your username, its password and your pets, and anybody can take the name afterwards. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+        ? 'This deletes your own password, your pets and your direct messages, and puts ' + a.handle + ' back on the moderators\u2019 password, which any moderator can sign on with. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'
+        : 'This deletes your username, its password, your pets and your direct messages, and anybody can take the name afterwards. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
       var pw = field('Your password, to be sure it is you', 'cb-acct-del', 'password');
       pw.input.autocomplete = 'current-password';
       form.appendChild(pw.wrap);
@@ -6935,6 +7644,7 @@
 
   function arrive() {
     if (location.hash === '#cb=props') { if (radio) radio.toProps(); return; }
+    if (location.hash === '#cb=messages') { if (radio) radio.toMessages(); return; }
     var m = location.hash.match(/^#spot=(\d{1,6}|live)(?:&film=([^&]*))?$/);
     if (!m || !radio) return;
     var secs = m[1] === 'live' ? null : +m[1], film = '';

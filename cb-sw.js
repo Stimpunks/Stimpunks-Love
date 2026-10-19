@@ -13,7 +13,8 @@
    address it opens is a path on this site and nothing else, a post in the
    forums (Ryan, 2026-10-18: an @mention there tells the devices that asked),
    or the street with #cb=props, where the radio opens Profile at Your props
-   (props given to you, the same evening). */
+   (props given to you, the same evening), or with #cb=messages, where it
+   opens Messages (a direct message, the same evening). */
 'use strict';
 
 var ROOMS = null;
@@ -30,7 +31,7 @@ function placeOf(list, tag) {
 }
 function safePath(p) {
   if (typeof p !== 'string') return '/';
-  if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?(?:#cb=props)?$/.test(p)) return p;
+  if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?(?:#cb=(?:props|messages))?$/.test(p)) return p;
   return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
 }
 
@@ -48,6 +49,12 @@ function say(d) {
     return Promise.resolve({ title: from + ' gave you props',
       body: typeof d.text === 'string' && d.text ? d.text : 'They wait in Profile on the CB for you to Confirm or Reject.',
       url: '/#cb=props', tag: 'cb-props-' + from });
+  }
+  if (d.kind === 'dm') {
+    var sender = String(d.handle || 'Somebody').slice(0, 40);
+    return Promise.resolve({ title: d.asked ? sender + ' asks to message you' : sender + ' sent you a message',
+      body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.' : 'Open Messages on the CB to read it.',
+      url: '/#cb=messages', tag: 'cb-dm-' + sender });
   }
   if (d.kind === 'test') {
     return Promise.resolve({ title: 'Notifications are on', body: 'This is how a notification from the CB looks on this device.', url: '/', tag: 'cb-test' });

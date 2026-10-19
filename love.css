@@ -19204,6 +19204,12 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 .md-desk__code { font-family: ui-monospace, Menlo, monospace; font-size: 22px; letter-spacing: .08em; user-select: all; }
 .md-desk button { margin: 0 10px 8px 0; }
+/* A reported message: the words as they were typed, plain, on the panel. */
+.md-reports { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 18px; }
+.md-report { padding: 0 0 0 14px; border-left: 3px solid var(--md-link); }
+.mdroom .md-report__who { margin: 0 0 6px; font-size: 15.5px; color: var(--md-dim); }
+.mdroom .md-report__words { margin: 0 0 8px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--md-text); }
+.mdroom .md-report__note { margin: 0 0 8px; font-style: italic; }
 .mdroom .md-call__fine { font-size: 15.5px; color: var(--md-dim); margin-bottom: 0; }
 .mdroom .md-credits p { font-size: 15.5px; color: var(--md-dim); }
 

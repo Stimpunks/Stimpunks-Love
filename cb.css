@@ -1277,3 +1277,34 @@ body.cb-callwin :focus-visible { outline: 3px solid var(--cb-amber); outline-off
 .cb-forum-pick__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 14em; overflow-y: auto; font-size: 14px; }
 .cb-forum-pick__row { display: flex; gap: 8px; align-items: flex-start; overflow-wrap: anywhere; cursor: pointer; }
 .cb-forum-pick__row input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--cb-amber); }
+
+/* MESSAGES (Ryan, 2026-10-18): one person to another, under their own part
+   between Channel and Watching together. The list is Who's online's steel on
+   the case; a conversation is the channel's own amber readout, and every
+   button inside it the readout's Copy, so no pair here is new. */
+.cb-dm-btn:hover, .cb-dm-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
+.cb-dm, .cb-dm-inbox, .cb-dm-talk, .cb-dm-lists, .cb-dm-start { display: grid; gap: 6px; min-width: 0; }
+.cb-dm-open { justify-self: start; }
+.cb-dm-open[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+.cb-dm-start .cb-acct__row { flex-wrap: nowrap; }
+.cb-dm-to { flex: 1 1 auto; min-width: 0; }
+.cb-dm-start .cb-btn { flex: none; }
+.cb-dm-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; max-height: 16em; overflow-y: auto; }
+.cb-dm-row { display: grid; gap: 2px; justify-items: start; font-size: 14px; overflow-wrap: anywhere; }
+.cb-dm-peek { margin: 0; font-size: 13px; overflow-wrap: anywhere; }
+.cb-dm-back { justify-self: start; }
+.cb-dm-with { margin: 2px 0 0; }
+.cb-dm-with:focus { outline: none; }
+.cb-dm-with:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-dm-state p { margin: 0 0 6px; font-size: 14px; }
+.cb-dm-log > .cb-dm-msg { display: grid; gap: 2px; min-width: 0; }
+.cb-dm-acts { margin: 2px 0 0; justify-content: flex-end; }
+.cb-dm-acts > .cb-btn, .cb-dm-sure .cb-btn, .cb-dm-edit .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
+.cb-dm-sure { margin: 4px 0 0; }
+.cb-dm-sure .cb-say, .cb-dm-edit .cb-say { border-color: var(--cb-amber-2); }
+.cb-dm-block { display: grid; gap: 6px; justify-items: start; }
+.cb-dm-block .cb-forget-sure { margin: 0; }
+.cb-radio--large .cb-dm-log { max-height: min(56vh, 640px); }
+/* In a profile, the Message button at the foot of the card, in its own inks. */
+.pf-message { margin: 4px 0 0; }
+

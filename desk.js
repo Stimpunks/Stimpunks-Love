@@ -1,6 +1,7 @@
 /* =============================================================================
    The moderators' desk in the Moderators' room: look up one username by name,
-   give it a reset code, delete it, or clear its profile card. Ryan's calls,
+   give it a reset code, delete it, or clear its profile card; and read the
+   direct messages people have reported, and close them. Ryan's calls,
    2026-09-30: accounts with no email, recovery codes, and moderators able to
    reset or delete, here; and 2026-10-18, clearing one card that breaks the
    covenant without deleting the username it is on.
@@ -138,4 +139,75 @@
   }
   find.addEventListener('click', lookUp);
   nameBox.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); lookUp(); } });
+
+  /* REPORTED MESSAGES (Ryan, 2026-10-18): the one way a direct message reaches
+     a moderator. Fetched when a moderator presses Show the reports, never on
+     arrival, and drawn as plain text: what somebody typed is never markup
+     here. Closing one asks once more, because it deletes it. */
+  var reports = document.getElementById('md-reports');
+  var rOff = document.getElementById('md-reports-off');
+  var rLoad = document.getElementById('md-reports-load');
+  var rList = document.getElementById('md-reports-list');
+  var rSaid = document.getElementById('md-reports-said');
+  if (!reports || !rLoad) return;
+  reports.hidden = false;
+  if (rOff) rOff.hidden = true;
+  function rSay(t) { rSaid.textContent = t; }
+  function reportCall(send) {
+    return fetch('/cb/dm/reports', {
+      method: 'POST', credentials: 'omit', cache: 'no-store',
+      headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+      body: JSON.stringify(send),
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+    });
+  }
+  function when(t) {
+    try { return new Date(t).toLocaleString(undefined, { weekday: 'long', hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'long' }); } catch (e) { return ''; }
+  }
+  function drawReports(list) {
+    rList.textContent = '';
+    if (!list.length) { rList.appendChild(el('p', 'Nothing has been reported.')); return; }
+    var ul = el('ul', null, 'md-reports');
+    list.forEach(function (r) {
+      var li = el('li', null, 'md-report');
+      li.appendChild(el('p', r.of + ' sent this to ' + r.by + ' on ' + when(r.sent) + ', and ' + r.by + ' reported it on ' + when(r.t) + ':', 'md-report__who'));
+      li.appendChild(el('p', r.text, 'md-report__words'));
+      if (r.note) li.appendChild(el('p', r.by + '\u2019s note: ' + r.note, 'md-report__note'));
+      var row = el('p');
+      var look = button('Look ' + r.of + ' up at the desk'), close = button('Close this report');
+      row.appendChild(look); row.appendChild(close);
+      li.appendChild(row);
+      look.addEventListener('click', function () { nameBox.value = r.of; lookUp(); nameBox.focus(); });
+      close.addEventListener('click', function () {
+        var box = el('div');
+        box.appendChild(el('p', 'This deletes the report. Nothing else changes, and nobody is told. It cannot be undone.'));
+        var yes = button('Close it'), no = button('Not now');
+        box.appendChild(yes); box.appendChild(no);
+        li.appendChild(box);
+        no.focus();
+        no.addEventListener('click', function () { box.remove(); close.focus(); });
+        yes.addEventListener('click', function () {
+          rSay('Closing\u2026');
+          reportCall({ close: r.id }).then(function (x) {
+            if (x.status !== 200) { rSay(why(x, 'That did not work. Nothing was closed.')); return; }
+            drawReports(x.body.reports || []);
+            rSay('Closed and deleted.');
+            rLoad.focus();
+          }, function () { rSay('The desk could not be reached. Nothing was closed.'); });
+        });
+      });
+      ul.appendChild(li);
+    });
+    rList.appendChild(ul);
+  }
+  rLoad.addEventListener('click', function () {
+    rSay('Looking\u2026');
+    reportCall({}).then(function (x) {
+      if (x.status !== 200) { rSay(why(x, 'The reports could not be fetched just now.')); return; }
+      rSay('');
+      drawReports(x.body.reports || []);
+      rLoad.textContent = 'Show them again';
+    }, function () { rSay('The desk could not be reached just now.'); });
+  });
 }());

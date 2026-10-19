@@ -2577,6 +2577,411 @@ export async function sweepCalls(s = store(), now = Date.now()) {
   return any;
 }
 
+/* ── Direct messages ───────────────────────────────────────────────────────
+
+   Ryan's calls, 2026-10-18, after requests from our community as it moves off
+   Discord: messages between two people, on the CB, with these defaults.
+
+   CLAIMED USERNAMES ONLY, AT BOTH ENDS (forumReader). An unclaimed handle is
+   anybody's who signs on with it, so a message sent to one would be read by
+   whoever used that handle next, and one sent from one could be anybody.
+
+   NOBODY CAN START ONE WITH YOU UNTIL YOU SWITCH IT ON. Let people message me
+   is off until its person switches it on (the other tabs' rule). The first
+   message from somebody new WAITS, seen only by the two of them, until its
+   person accepts it (or answers it, which is the same thing) or rejects it,
+   which empties the conversation and tells nobody: props' rule. While it waits,
+   whoever asked can send nothing more, so nobody can fill somebody's queue,
+   though they can edit it or take it back. A conversation already going goes
+   on whatever the switch says, until either of them blocks the other or it
+   goes quiet. Somebody switched off, somebody who blocked you, a handle nobody
+   has claimed and nobody at all all answer 'closed', the same words, so the
+   answer never tells which.
+
+   EVERY MESSAGE GOES 48 HOURS AFTER IT WAS SENT, the channel's LIFE, checked on
+   every read, and fifty in a conversation at most. (Not onAir() itself, which
+   still keeps the channel's old midnight for what was sent before LIFE_FROM:
+   messages began after the change, and owe no midnight.) A conversation with
+   nothing left in it is no conversation: who talked to whom is not kept a
+   minute past the last message between them, so the next message after a
+   quiet two days asks again. The hourly sweep deletes what is left.
+
+   BLOCKING is kept in the blocker's own record, by a hash of the name blocked
+   (petKey), so it holds if that name is deleted and claimed again; it empties
+   the conversation between them, and refuses messages both ways with 'closed'
+   for the one blocked and 'blocked' for the one who blocked. Nobody is told,
+   and nobody but its owner sees a block list.
+
+   NOT END-TO-END ENCRYPTED, and privacy.html#messages says so: the words sit in
+   this store like the channel's, and nothing here reads them out to anybody
+   but the two people in the conversation. NO MODERATOR CAN READ ONE. The only
+   way a message reaches the moderators is a REPORT, which one of the two makes
+   about a message the other sent: its words are copied onto the moderators'
+   desk with who reported it and an optional note, and kept there until a
+   moderator closes it or for thirty days, even if either of them deletes their
+   username, because it is how the moderators look after the street.
+
+   NOTHING COUNTED, NOTHING ABOUT WHO READ WHAT: no unread number, no read
+   receipt, no "seen", no typing. The friendly edits are all four.
+
+   WHAT IS KEPT. For each person (dmKey: the folded name and when it was
+   claimed, the forums' authorMark's ingredients, so a name claimed again after
+   its owner deleted it is somebody else): whether they take messages and who
+   they blocked (dm-set/). For each conversation (dm/, under both people's
+   keys): their two handles, who asked, whether it was accepted, and its
+   messages, each its words, its sender's handle and key, BASE if so, when it
+   was sent and last edited. And an empty marker per person per conversation
+   (dm-with/), holding when it was written and nothing else, written before
+   the conversation, so a listing finds somebody's
+   conversations without anybody keeping a list of them. Forget me and deleting
+   the username delete all of it. */
+export const DM_KEEP = KEEP;                   // messages in one conversation at once, the channel's fifty
+export const DM_WITH = 40;                     // conversations one person can be in at once
+export const DM_BLOCKS = 200;                  // people one person can block
+export const REPORT_KEEP = 200;                // reports waiting on the desk at once
+export const REPORT_DAYS = 30;
+export const REPORT_NOTE_MAX = 280;
+export const DM_ID = /^d[A-Za-z0-9_-]{10}$/;
+export const REPORT_ID = /^k[A-Za-z0-9_-]{10}$/;
+const REPORT_LIFE = REPORT_DAYS * 24 * 60 * 60 * 1000;
+const DM = 'dm/';
+const DM_MARK = 'dm-with/';
+const MARK_GRACE = 60 * 60 * 1000;             // a marker is written a moment before its conversation
+const DM_SET = 'dm-set/';
+const REPORTS = 'dm-reports';
+const pairBlob = (a, b) => DM + [a, b].sort().join('.');
+const markBlob = (me, them) => `${DM_MARK}${me}/${them}`;
+
+/* Who somebody is to their messages: the folded name and when it was claimed.
+   Never sent anywhere. */
+export function dmKey(handle, since) {
+  return createHash('sha256').update(`stimpunks-dm|${foldHandle(handle)}|${since}`).digest('base64url').slice(0, 32);
+}
+
+function plain(d) { return d && typeof d === 'object' && !Array.isArray(d) ? d : {}; }
+
+function dmSetDoc(d) {
+  d = plain(d);
+  const blocked = Array.isArray(d.blocked) ? d.blocked.filter((b) => b && typeof b.k === 'string' && typeof b.handle === 'string') : [];
+  return { open: d.open === true, blocked };
+}
+
+/* A conversation as it stands now: no message past its 48 hours, and one with
+   nothing left in it is nobody's. */
+function convDoc(d, now = Date.now()) {
+  d = plain(d);
+  const messages = stored(d).filter((m) => m && typeof m.t === 'number' && now - m.t < LIFE);
+  if (!messages.length) return { people: {}, from: null, open: false, messages: [] };
+  return { people: { ...plain(d.people) }, from: typeof d.from === 'string' ? d.from : null, open: d.open === true, messages };
+}
+
+function reportsDoc(d, now = Date.now()) {
+  const list = Array.isArray(plain(d).reports) ? plain(d).reports : [];
+  return { reports: list.filter((r) => r && typeof r.t === 'number' && now - r.t < REPORT_LIFE) };
+}
+
+/* One record changed without losing a change made at the same moment: the
+   props' write. change() returns the next record, null for no change, or
+   { error }. */
+async function updateDm(key, norm, change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const was = norm(cur.exists ? cur.data : null);
+    const next = change(was);
+    if (next === null) return was;
+    if (next.error) return next;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, next, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+export async function readDmSet(me, s = store()) { return dmSetDoc(await s.get(DM_SET + me, { type: 'json' })); }
+const updateDmSet = (me, change, s) => updateDm(DM_SET + me, dmSetDoc, change, s);
+const blocks = (set, handle) => set.blocked.some((b) => b.k === petKey(handle));
+
+function updateConv(key, change, s, now) {
+  return updateDm(key, (d) => convDoc(d, now), (was) => {
+    const next = change(was);
+    if (!next || next.error) return next;
+    return { people: next.people, from: next.from, open: next.open === true, messages: next.messages.slice(-DM_KEEP) };
+  }, s);
+}
+const emptied = () => ({ people: {}, from: null, open: false, messages: [] });
+
+/* The two people a request is about, or why not. */
+async function pairOf(who, handle, s) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const h = cleanHandle(handle);
+  if (!h) return { error: 'which' };
+  if (foldHandle(h) === foldHandle(who.handle)) return { error: 'self' };
+  const acct = await readAccount(h, s);
+  const me = dmKey(who.handle, who.since);
+  if (!acct) return { error: 'closed', me, handle: h };
+  const them = dmKey(acct.handle, acct.since);
+  return { me, them, acct, handle: acct.handle, key: pairBlob(me, them) };
+}
+
+/* A message as one of the two is shown it: never its sender's key, only
+   whether it is theirs. */
+export function shapeDm(m, me) {
+  const out = { id: m.id, handle: m.handle, text: m.text, t: m.t, base: !!m.base };
+  if (typeof m.edited === 'number') out.edited = m.edited;
+  if (m.by === me) out.mine = true;
+  return out;
+}
+const stateOf = (c, me) => (!c.messages.length ? 'new' : c.open ? 'open' : c.from === me ? 'asked' : 'asking');
+
+/* Send `text` to `handle`. { sent, handle, asked, accepted } or { error }:
+   'claim', 'self', 'empty', 'long', 'closed' (switched off, blocked you, not
+   claimed or nobody: the same answer), 'blocked' (you blocked them), 'waiting'
+   (you asked and they have not answered), 'many' (in DM_WITH conversations
+   already). */
+export async function sendDm(who, handle, text, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const words = cleanLines(text, MESSAGE_MAX);
+  if (words === null) return { error: 'long' };
+  if (!words) return { error: 'empty' };
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: p.error };
+  const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
+  if (blocks(mine, p.handle)) return { error: 'blocked' };
+  if (blocks(theirs, who.handle)) return { error: 'closed' };
+  const was = convDoc(await s.get(p.key, { type: 'json' }), now);
+  if (!was.messages.length) {
+    if (!theirs.open) return { error: 'closed' };
+    const marks = ((await s.list({ prefix: DM_MARK + p.me + '/' })).blobs || []).map((b) => b.key);
+    if (!marks.includes(markBlob(p.me, p.them)) && marks.length >= DM_WITH) return { error: 'many' };
+  }
+  // Both markers before the conversation, so no conversation is ever missing
+  // from either person's list; a marker with nothing behind it is swept.
+  await s.setJSON(markBlob(p.me, p.them), { t: now }, { onlyIfNew: true });
+  await s.setJSON(markBlob(p.them, p.me), { t: now }, { onlyIfNew: true });
+  const m = { id: 'd' + randomBytes(8).toString('base64url').slice(0, 10), handle: who.handle, by: p.me, text: words, t: now };
+  if (who.role === 'base') m.base = true;
+  let asked = false, accepted = false;
+  const next = await updateConv(p.key, (c) => {
+    asked = false; accepted = false;
+    if (!c.messages.length) {
+      if (!theirs.open) return { error: 'closed' };
+      asked = true;
+      return { people: { [p.me]: who.handle, [p.them]: p.handle }, from: p.me, open: false, messages: [m] };
+    }
+    if (!c.open) {
+      if (c.from === p.me) return { error: 'waiting' };
+      accepted = true;
+      return { ...c, open: true, messages: [...c.messages, m] };
+    }
+    return { ...c, messages: [...c.messages, m] };
+  }, s, now);
+  if (next.error) return next;
+  return { sent: m, handle: p.handle, asked, accepted };
+}
+
+/* The conversation with `handle`, as the person asking is shown it:
+   { handle, state, can, messages }. state is 'new', 'asked' (you asked, they
+   have not answered), 'asking' (they asked you) or 'open'; can is 'yes',
+   'closed', 'blocked' or 'waiting'. */
+export async function readDmWith(who, handle, s = store(), now = Date.now()) {
+  const p = await pairOf(who, handle, s);
+  if (p.error === 'closed') return { handle: p.handle, state: 'new', can: 'closed', messages: [] };
+  if (p.error) return p;
+  const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
+  if (blocks(mine, p.handle)) return { handle: p.handle, state: 'new', can: 'blocked', messages: [] };
+  if (blocks(theirs, who.handle)) return { handle: p.handle, state: 'new', can: 'closed', messages: [] };
+  const c = convDoc(await s.get(p.key, { type: 'json' }), now);
+  const state = stateOf(c, p.me);
+  const can = state === 'asked' ? 'waiting' : state === 'new' && !theirs.open ? 'closed' : 'yes';
+  return { handle: p.handle, state, can, messages: c.messages.map((m) => shapeDm(m, p.me)) };
+}
+
+/* Everybody you are in a conversation with, the latest first: who, whether
+   it is waiting and on whom, and who wrote last and when. Never how many of
+   anything, and never whether you have read it. With your switch and your
+   block list, which nobody else is ever shown. */
+export async function listDms(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const me = dmKey(who.handle, who.since);
+  const set = await readDmSet(me, s);
+  const prefix = DM_MARK + me + '/';
+  const out = [];
+  for (const b of (await s.list({ prefix })).blobs || []) {
+    const them = b.key.slice(prefix.length);
+    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now);
+    const handle = c.people[them];
+    if (!c.messages.length || typeof handle !== 'string' || blocks(set, handle)) continue;
+    const last = c.messages[c.messages.length - 1];
+    const row = { handle, state: stateOf(c, me), last: { handle: last.handle, t: last.t, mine: last.by === me } };
+    if (row.state === 'asking') row.text = c.messages[0].text;
+    out.push(row);
+  }
+  out.sort((a, b) => b.last.t - a.last.t || a.handle.localeCompare(b.handle));
+  return { open: set.open, blocked: set.blocked.map((b) => b.handle).sort((a, b) => a.localeCompare(b)), conversations: out };
+}
+
+/* Accept a request: what they asked is the start of a conversation. */
+export async function acceptDm(who, handle, s = store(), now = Date.now()) {
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  return updateConv(p.key, (c) => (c.messages.length && !c.open && c.from === p.them ? { ...c, open: true } : { error: 'which' }), s, now);
+}
+
+/* Reject a request: emptied, and nobody is told. */
+export async function rejectDm(who, handle, s = store(), now = Date.now()) {
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  return updateConv(p.key, (c) => (c.messages.length && !c.open && c.from === p.them ? emptied() : { error: 'which' }), s, now);
+}
+
+/* Take one of your own messages back. The last one going leaves no
+   conversation. Nobody else's: a moderator cannot reach in here. */
+export async function takeDm(who, handle, id, s = store(), now = Date.now()) {
+  if (typeof id !== 'string' || !DM_ID.test(id)) return { error: 'which' };
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  return updateConv(p.key, (c) => {
+    const m = c.messages.find((x) => x.id === id);
+    if (!m || m.by !== p.me) return { error: 'which' };
+    const left = c.messages.filter((x) => x.id !== id);
+    return left.length ? { ...c, messages: left } : emptied();
+  }, s, now);
+}
+
+/* Edit one of your own messages: the channel's rule, the words replaced and
+   `edited` set, the old words kept nowhere, and still gone 48 hours after it
+   was SENT. */
+export async function editDm(who, handle, id, text, s = store(), now = Date.now()) {
+  if (typeof id !== 'string' || !DM_ID.test(id)) return { error: 'which' };
+  const words = cleanLines(text, MESSAGE_MAX);
+  if (words === null) return { error: 'long' };
+  if (!words) return { error: 'empty' };
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  return updateConv(p.key, (c) => {
+    const i = c.messages.findIndex((x) => x.id === id);
+    if (i < 0 || c.messages[i].by !== p.me) return { error: 'which' };
+    if (c.messages[i].text === words) return null;
+    const messages = c.messages.slice();
+    messages[i] = { ...messages[i], text: words, edited: now };
+    return { ...c, messages };
+  }, s, now);
+}
+
+/* Whether you take messages from anybody new. */
+export async function setDmOpen(who, on, s = store()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  return updateDmSet(dmKey(who.handle, who.since), (was) => (was.open === !!on ? null : { ...was, open: !!on }), s);
+}
+
+/* Block somebody: into your own record by name, and the conversation between
+   you emptied. Nobody is told. */
+export async function blockDm(who, handle, s = store(), now = Date.now()) {
+  const p = await pairOf(who, handle, s);
+  if (p.error === 'closed' || p.error === 'self' || p.error === 'claim') return { error: p.error === 'closed' ? 'which' : p.error };
+  if (p.error) return p;
+  const k = petKey(p.handle);
+  const set = await updateDmSet(p.me, (was) => {
+    if (was.blocked.some((b) => b.k === k)) return null;
+    if (was.blocked.length >= DM_BLOCKS) return { error: 'full' };
+    return { ...was, blocked: [...was.blocked, { k, handle: p.handle }] };
+  }, s);
+  if (set.error) return set;
+  await updateConv(p.key, (c) => (c.messages.length ? emptied() : null), s, now);
+  return { blocked: p.handle };
+}
+
+export async function unblockDm(who, handle, s = store()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const h = cleanHandle(handle);
+  if (!h) return { error: 'which' };
+  const k = petKey(h);
+  return updateDmSet(dmKey(who.handle, who.since), (was) => (was.blocked.some((b) => b.k === k)
+    ? { ...was, blocked: was.blocked.filter((b) => b.k !== k) } : null), s);
+}
+
+/* Forget me and deleting the username: your switch, your blocks, every
+   conversation you are in, for both of you, and the markers. Reports stay on
+   the desk for their thirty days. */
+export async function forgetDms(handle, since, s = store()) {
+  const me = dmKey(handle, since);
+  const prefix = DM_MARK + me + '/';
+  for (const b of (await s.list({ prefix })).blobs || []) {
+    const them = b.key.slice(prefix.length);
+    await s.delete(pairBlob(me, them));
+    await s.delete(markBlob(them, me));
+    await s.delete(b.key);
+  }
+  await s.delete(DM_SET + me);
+  return true;
+}
+
+/* ── Reports, the one way a message reaches the moderators ── */
+
+/* Report a message the other person sent you: its words, who sent it and when,
+   who reported it and their note, onto the desk. Once per message per
+   reporter. Nobody is told. */
+export async function reportDm(who, handle, id, note, s = store(), now = Date.now()) {
+  if (typeof id !== 'string' || !DM_ID.test(id)) return { error: 'which' };
+  const n = note == null ? '' : cleanLines(note, REPORT_NOTE_MAX);
+  if (n === null) return { error: 'long' };
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  const c = convDoc(await s.get(p.key, { type: 'json' }), now);
+  const m = c.messages.find((x) => x.id === id);
+  if (!m || m.by === p.me) return { error: 'which' };
+  const rec = { id: 'k' + randomBytes(8).toString('base64url').slice(0, 10), t: now, by: who.handle, of: m.handle,
+    text: m.text, sent: m.t, msg: m.id, note: n };
+  const next = await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => {
+    if (was.reports.some((r) => r.msg === m.id && foldHandle(r.by) === foldHandle(who.handle))) return { error: 'again' };
+    if (was.reports.length >= REPORT_KEEP) return { error: 'full' };
+    return { reports: [...was.reports, rec] };
+  }, s);
+  return next.error ? next : { reported: rec.id };
+}
+
+/* The desk's list, newest first, for the base and nobody else. */
+export async function readReports(who, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return null;
+  const d = reportsDoc(await s.get(REPORTS, { type: 'json' }), now);
+  return d.reports.slice().reverse().map((r) => ({ id: r.id, t: r.t, by: r.by, of: r.of, text: r.text, sent: r.sent, note: r.note || '' }));
+}
+
+/* A moderator closes a report: it is deleted. */
+export async function closeReport(who, id, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'base' };
+  if (typeof id !== 'string' || !REPORT_ID.test(id)) return { error: 'which' };
+  return updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => (was.reports.some((r) => r.id === id)
+    ? { reports: was.reports.filter((r) => r.id !== id) } : { error: 'which' }), s);
+}
+
+/* Hourly: every conversation with nothing left in it, every marker with no
+   conversation behind it, and every report past its thirty days. */
+export async function sweepDms(s = store(), now = Date.now()) {
+  let any = false;
+  const live = new Set();
+  for (const b of (await s.list({ prefix: DM })).blobs || []) {
+    if (convDoc(await s.get(b.key, { type: 'json' }), now).messages.length) { live.add(b.key); continue; }
+    await s.delete(b.key);
+    any = true;
+  }
+  for (const b of (await s.list({ prefix: DM_MARK })).blobs || []) {
+    const [me, them] = b.key.slice(DM_MARK.length).split('/');
+    if (them && live.has(pairBlob(me, them))) continue;
+    const d = await s.get(b.key, { type: 'json' });
+    if (d && typeof d.t === 'number' && now - d.t < MARK_GRACE) continue;
+    await s.delete(b.key);
+    any = true;
+  }
+  const raw = await s.get(REPORTS, { type: 'json' });
+  if (raw && reportsDoc(raw, now).reports.length !== (plain(raw).reports || []).length) {
+    await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => was, s);
+    any = true;
+  }
+  return any;
+}
+
 /* ── Pictures on the channel ─────────────────────────────────────────── */
 
 /* A PICTURE IS PART OF ITS MESSAGE AND GOES WHEN THE MESSAGE GOES. Ryan,
@@ -3356,7 +3761,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its props. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile, its props and its messages. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -3367,6 +3772,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetPatches(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
   await forgetProps(petKey(handle), s);
+  await forgetDms(acct.handle, acct.since, s);
   await dropDevicesOf(handle, s);
   await s.delete(acctBlob(handle));
   return { deleted: true };
@@ -5166,7 +5572,8 @@ export function cleanMessage(s) {
    starting in a room you follow or the World call, and everything on World),
    each off until switched on, for anybody signed on; and the message's words
    in it, which each device can turn off. A fifth came the same evening: props
-   given to a claimed username (notifyProps).
+   given to a claimed username (notifyProps); and a sixth, a direct message to
+   one (notifyDm).
 
    WHAT IS KEPT is one record per device that switched them on, all in one
    blob (DEVICES), so a message reads one blob to find who to tell: the
@@ -5224,15 +5631,15 @@ export function cleanSubscription(sub) {
   return { endpoint, p256dh: b64(p256dh), auth: b64(auth) };
 }
 
-/* What a device asked for: five switches, all off until switched on, the
+/* What a device asked for: six switches, all off until switched on, the
    words, on unless switched off, and the rooms it follows. null if it follows
    too many. */
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
   if (rooms.length > PUSH_ROOMS_MAX) return null;
-  return { mentions: w.mentions === true, props: w.props === true, world: w.world === true, calls: w.calls === true,
-    words: w.words !== false, rooms };
+  return { mentions: w.mentions === true, props: w.props === true, messages: w.messages === true, world: w.world === true,
+    calls: w.calls === true, words: w.words !== false, rooms };
 }
 
 /* A pass's parts, which are kept, and its hash; never the pass. */
@@ -5508,6 +5915,33 @@ export async function notifyProps(handle, writer, text, s = store(), mods = read
       if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     sends.push({ id, d, payload: { kind: 'props', handle: String(writer || ''), text: words }, opts: {} });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* A direct message has arrived for a claimed username: tell its devices that
+   switched on When somebody messages me, and that can still read as that
+   username. Who sent it, whether it is a request, and, if the device wants the
+   words, its first words; never how many are waiting, and never anything to
+   the sender. A message stays on its conversation whether or not this
+   arrives. */
+export async function notifyDm(handle, sender, text, asked, s = store(), mods = readMods(), send = sendPush) {
+  if (send === sendPush && !pushReady()) return [];
+  const to = foldHandle(handle), from = foldHandle(sender);
+  if (!to || to === from) return [];
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold !== to || !(d.want && d.want.messages)) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!forumReader(who) || foldHandle(who.handle) !== to) continue;
+    let words = '';
+    if (d.want.words !== false) {
+      words = String(text || '').replace(/\s+/g, ' ').trim();
+      if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
+    }
+    sends.push({ id, d, payload: { kind: 'dm', handle: String(sender || ''), asked: !!asked, text: words }, opts: {} });
   }
   return deliver(sends, gone, s, send);
 }

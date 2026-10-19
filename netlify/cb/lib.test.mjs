@@ -45,6 +45,8 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
   mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET } from './lib.mjs';
+import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
+  reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, DM_KEEP, DM_WITH, REPORT_DAYS } from './lib.mjs';
 
 function memoryStore({ etagOnRead }) {
   const blobs = new Map();          // key -> { value, etag }
@@ -2702,7 +2704,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   assert.equal(cleanSubscription({ ...d, endpoint: d.endpoint.replace('.com/', '.com:8443/') }), null, 'a port');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, auth: rnd(8).toString('base64url') } }), null);
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(65).toString('base64url') } }), null, 'a key that is not a point');
-  assert.deepEqual(cleanWant({}), { mentions: false, props: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
+  assert.deepEqual(cleanWant({}), { mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
 });
@@ -3015,3 +3017,212 @@ test('props given tell only their person, with the switch on, as the claimed use
   await notifyProps('Ada', 'Cy', 'After the change.', s, readMods(''), send);
   assert.equal(sent.length, 0, 'a device was told after its username\'s password changed');
 }));
+
+/* ── Direct messages ──────────────────────────────────────────────────────
+   Claimed usernames only, at both ends; nobody new until switched on; the
+   first message waits; a block refuses both ways and says nothing; every
+   message gone 48 hours after it was sent; a moderator reads only what was
+   reported to them; nothing counted and the sender's key never sent; gone with
+   Forget me and with the username, and a name claimed again is somebody
+   else. */
+const person = (handle, since, role = 'mobile') => ({ role, handle, roles: new Set(), account: true, since });
+async function twoPeople(s) {
+  await claimAccount('Ada', 'a long enough phrase', s, 11, null);
+  await claimAccount('Bex', 'a long enough phrase', s, 22, null);
+  return [person('Ada', 11), person('Bex', 22)];
+}
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen messages into one conversation at once, from both ends, ${how}: none told it went is missing`, () => withPasswords(async () => {
+    const s = memoryStore({ etagOnRead });
+    const [ada, bex] = await twoPeople(s);
+    await setDmOpen(bex, true, s);
+    await sendDm(ada, 'Bex', 'hello', s);
+    await acceptDm(bex, 'Ada', s);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) =>
+      sendDm(i % 2 ? ada : bex, i % 2 ? 'Bex' : 'Ada', `number ${i}`, s)));
+    const worked = told.filter((r) => r.status === 'fulfilled' && r.value.sent).map((r) => r.value.sent.id);
+    const kept = new Set((await readDmWith(ada, 'Bex', s)).messages.map((m) => m.id));
+    assert.deepEqual(worked.filter((id) => !kept.has(id)), [], 'a message told it went is not in the conversation');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  }));
+}
+
+test('messages are for claimed usernames, start only when switched on, and the first one waits', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  assert.equal((await sendDm({ role: 'mobile', handle: 'Cy', roles: new Set() }, 'Bex', 'hi', s)).error, 'claim', 'an unclaimed handle sent a message');
+  assert.equal((await sendDm({ role: 'base', handle: 'Mo', roles: new Set() }, 'Bex', 'hi', s)).error, 'claim', 'the shared moderators’ password sent a message');
+  assert.equal((await sendDm(ada, 'Nobody', 'hi', s)).error, 'closed', 'a handle nobody claimed answered differently');
+  assert.equal((await sendDm(ada, 'Bex', 'hi', s)).error, 'closed', 'a message went to somebody who had not switched messages on');
+  assert.equal((await sendDm(ada, 'ada', 'hi', s)).error, 'self');
+  assert.equal((await sendDm(ada, 'Bex', '  \n ', s)).error, 'empty');
+  assert.equal((await sendDm(ada, 'Bex', 'x'.repeat(MESSAGE_MAX + 1), s)).error, 'long');
+  assert.equal((await readDmWith(ada, 'Bex', s)).can, 'closed');
+  await setDmOpen(bex, true, s);
+  assert.equal((await readDmWith(ada, 'bex', s)).can, 'yes');
+  const first = await sendDm(ada, 'bex', 'Hello, can I ask about the zine?', s);
+  assert.equal(first.asked, true);
+  assert.equal(first.handle, 'Bex');
+  assert.deepEqual(Object.keys(first.sent).sort(), ['by', 'handle', 'id', 't', 'text'], 'a message kept more than its words, its sender and when');
+  assert.equal((await sendDm(ada, 'Bex', 'And another thing.', s)).error, 'waiting', 'a second message while the first was waiting');
+  let a = await readDmWith(ada, 'Bex', s), b = await readDmWith(bex, 'Ada', s);
+  assert.equal(a.state, 'asked'); assert.equal(a.can, 'waiting');
+  assert.equal(b.state, 'asking'); assert.equal(b.can, 'yes');
+  assert.equal(a.messages[0].mine, true); assert.equal(b.messages[0].mine, undefined);
+  for (const m of [...a.messages, ...b.messages]) assert.equal(m.by, undefined, 'a sender’s key left the server');
+  // Somebody else sees nothing of it.
+  await claimAccount('Cy', 'a long enough phrase', s, 33, null);
+  const cy = person('Cy', 33);
+  assert.deepEqual((await readDmWith(cy, 'Bex', s)).messages, []);
+  assert.deepEqual((await listDms(cy, s)).conversations, []);
+  const list = (await listDms(bex, s)).conversations;
+  assert.deepEqual(list.map((c) => [c.handle, c.state, c.text]), [['Ada', 'asking', 'Hello, can I ask about the zine?']]);
+  assert.equal((await listDms(ada, s)).conversations[0].text, undefined, 'the asker was sent their own request as a preview');
+  // Rejected: emptied, and the asker's list simply loses it.
+  await rejectDm(bex, 'Ada', s);
+  assert.deepEqual((await listDms(ada, s)).conversations, [], 'a rejected request was still there');
+  assert.equal((await readDmWith(ada, 'Bex', s)).state, 'new');
+  // Asked again and answered, which accepts it.
+  await sendDm(ada, 'Bex', 'Sorry to ask again.', s);
+  const reply = await sendDm(bex, 'Ada', 'No trouble, go on.', s);
+  assert.equal(reply.accepted, true);
+  assert.equal((await readDmWith(ada, 'Bex', s)).state, 'open');
+  // A conversation going goes on after the switch goes off.
+  await setDmOpen(bex, false, s);
+  assert.ok((await sendDm(ada, 'Bex', 'Thanks!', s)).sent, 'switching off cut a conversation already going');
+  assert.equal((await sendDm(cy, 'Bex', 'hi', s)).error, 'closed', 'somebody new reached a switched-off person');
+}));
+
+test('only your own message comes back or changes, and a moderator cannot reach in', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  const one = (await sendDm(ada, 'Bex', 'first', s)).sent.id;
+  await acceptDm(bex, 'Ada', s);
+  const two = (await sendDm(bex, 'Ada', 'second', s)).sent.id;
+  assert.equal((await takeDm(ada, 'Bex', two, s)).error, 'which', 'somebody took back a message they did not send');
+  assert.equal((await editDm(ada, 'Bex', two, 'changed', s)).error, 'which', 'somebody edited a message they did not send');
+  const at = Date.now() + 1000;
+  await editDm(ada, 'Bex', one, 'first, better', s, at);
+  const after = (await readDmWith(bex, 'Ada', s)).messages;
+  assert.equal(after[0].text, 'first, better'); assert.equal(after[0].edited, at);
+  const mo = { role: 'base', handle: 'Mo', roles: new Set(['moderator']) };
+  assert.equal((await takeDm(mo, 'Bex', two, s)).error, 'which', 'the shared moderators’ pass took a message off');
+  await claimAccount('Mo', 'a long enough phrase', s, 44, null);
+  assert.equal((await takeDm({ ...mo, account: true, since: 44 }, 'Bex', two, s)).error, 'which', 'a moderator took a message off somebody else’s conversation');
+  assert.deepEqual((await readDmWith({ ...mo, account: true, since: 44 }, 'Bex', s)).messages, [], 'a moderator read somebody else’s conversation');
+  await takeDm(ada, 'Bex', one, s);
+  await takeDm(bex, 'Ada', two, s);
+  assert.deepEqual((await listDms(ada, s)).conversations, [], 'a conversation with nothing in it was still listed');
+}));
+
+test('a block refuses both ways, says nothing, empties the conversation and holds if the name is claimed again', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'hi', s);
+  await acceptDm(bex, 'Ada', s);
+  assert.deepEqual(await blockDm(bex, 'ada', s), { blocked: 'Ada' });
+  assert.deepEqual((await listDms(ada, s)).conversations, [], 'a block left the conversation');
+  assert.equal((await sendDm(ada, 'Bex', 'hello?', s)).error, 'closed', 'somebody blocked was told something other than closed');
+  assert.equal((await readDmWith(ada, 'Bex', s)).can, 'closed');
+  assert.equal((await sendDm(bex, 'Ada', 'hi', s)).error, 'blocked');
+  assert.deepEqual((await listDms(bex, s)).blocked, ['Ada']);
+  assert.deepEqual((await listDms(ada, s)).blocked, [], 'somebody was shown who blocked them');
+  await deleteAccount('Ada', s);
+  await claimAccount('ADA', 'a long enough phrase', s, 55, null);
+  assert.equal((await sendDm(person('ADA', 55), 'Bex', 'hi again', s)).error, 'closed', 'deleting and claiming the name again got round a block');
+  await unblockDm(bex, 'Ada', s);
+  assert.ok((await sendDm(person('ADA', 55), 'Bex', 'hi again', s)).sent);
+}));
+
+test('every message goes 48 hours after it was sent, and the conversation with it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  const t0 = Date.now();
+  await sendDm(ada, 'Bex', 'hi', s, t0);
+  assert.equal((await readDmWith(bex, 'Ada', s, t0 + LIFE - 1)).messages.length, 1);
+  assert.equal((await readDmWith(bex, 'Ada', s, t0 + LIFE)).messages.length, 0, 'a message outlived its 48 hours');
+  assert.deepEqual((await listDms(bex, s, t0 + LIFE)).conversations, []);
+  await sweepDms(s, t0 + LIFE + 2 * 60 * 60 * 1000);
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('dm/') || k.startsWith('dm-with/')), [], 'the sweep left a conversation or a marker behind');
+  // Fifty at most.
+  await sendDm(ada, 'Bex', 'again', s);
+  await acceptDm(bex, 'Ada', s);
+  for (let i = 0; i < DM_KEEP + 5; i++) await sendDm(ada, 'Bex', `n${i}`, s);
+  assert.equal((await readDmWith(ada, 'Bex', s)).messages.length, DM_KEEP);
+}));
+
+test('a report copies one message the other person sent onto the desk, for moderators only', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  const mine = (await sendDm(ada, 'Bex', 'something unkind', s)).sent.id;
+  assert.equal((await reportDm(ada, 'Bex', mine, '', s)).error, 'which', 'somebody reported their own message');
+  const r = await reportDm(bex, 'Ada', mine, 'Not the first time.', s);
+  assert.ok(r.reported);
+  assert.equal((await reportDm(bex, 'Ada', mine, '', s)).error, 'again');
+  assert.equal(await readReports(bex, s), null, 'somebody who is not a moderator read the desk');
+  const mo = { role: 'base', handle: 'Mo', roles: new Set(['moderator']) };
+  const desk = await readReports(mo, s);
+  assert.deepEqual(desk.map((x) => [x.by, x.of, x.text, x.note]), [['Bex', 'Ada', 'something unkind', 'Not the first time.']]);
+  // It stays when the person reported deletes their username, and goes when closed.
+  await deleteAccount('Ada', s);
+  assert.equal((await readReports(mo, s)).length, 1, 'deleting a username took a report about it off the desk');
+  assert.equal((await closeReport(bex, desk[0].id, s)).error, 'base');
+  await closeReport(mo, desk[0].id, s);
+  assert.deepEqual(await readReports(mo, s), []);
+  // And after thirty days by itself.
+  await claimAccount('Ada', 'a long enough phrase', s, 66, null);
+  const ada2 = person('Ada', 66);
+  const id = (await sendDm(ada2, 'Bex', 'hi', s)).sent.id;
+  await reportDm(bex, 'Ada', id, '', s);
+  assert.equal((await readReports(mo, s, Date.now() + REPORT_DAYS * 24 * 60 * 60 * 1000)).length, 0, 'a report outlived its thirty days');
+}));
+
+test('Forget me and deleting the username delete every conversation, and a name claimed again is somebody else', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(ada, true, s);
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'hi', s);
+  await forgetDms('Ada', 11, s);
+  assert.deepEqual((await listDms(bex, s)).conversations, [], 'Forget me left a conversation with the other person');
+  assert.equal((await readDmSet(dmKey('Ada', 11), s)).open, false, 'Forget me left the switch on');
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('dm') && k !== 'dm-set/' + dmKey('Bex', 22)), [], 'Forget me left something behind');
+  await setDmOpen(ada, true, s);
+  assert.ok((await sendDm(bex, 'Ada', 'are you there?', s)).sent);
+  assert.equal((await listDms(bex, s)).conversations.length, 1);
+  await deleteAccount('Ada', s);
+  assert.deepEqual((await listDms(bex, s)).conversations, [], 'deleting the username left a conversation');
+  // The same name claimed by somebody new reaches nothing of the old one's.
+  await sendDm(ada, 'Bex', 'kept?', s).catch(() => null);
+  await claimAccount('Ada', 'a long enough phrase', s, 77, null);
+  assert.notEqual(dmKey('Ada', 77), dmKey('Ada', 11));
+  assert.deepEqual((await listDms(person('Ada', 77), s)).conversations, [], 'a name claimed again found its old owner’s messages');
+}));
+
+test('a message tells only the devices switched on for messages, as that claimed username', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Bex', 'a long enough phrase', s, 22, null);
+  const acct = await readAccount('Bex', s);
+  const on = aDevice(), off = aDevice(), quiet = aDevice();
+  await keepDevice(on, issueAccountPass('Bex', acct.v), { messages: true }, s);
+  await keepDevice(off, issueAccountPass('Bex', acct.v), { mentions: true }, s);
+  await keepDevice(quiet, issueAccountPass('Bex', acct.v), { messages: true, words: false }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  await notifyDm('Bex', 'Ada', 'Hello there', true, s, readMods(''), send);
+  assert.deepEqual(sent.map((x) => x.to).sort(), [on.endpoint, quiet.endpoint].sort());
+  const told = (to) => sent.find((x) => x.to === to.endpoint).payload;
+  assert.deepEqual(told(on), { kind: 'dm', handle: 'Ada', asked: true, text: 'Hello there' });
+  assert.equal(told(quiet).text, '', 'a device that switched the words off was sent them');
+  sent.length = 0;
+  await notifyDm('Bex', 'bex', 'to myself', false, s, readMods(''), send);
+  assert.equal(sent.length, 0, 'somebody was told about their own message');
+}));
+
