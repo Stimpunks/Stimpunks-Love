@@ -641,6 +641,9 @@ ol.cb-md-list { list-style: decimal; }
 .cb-pets-btn:hover, .cb-pets-btn[aria-expanded="true"],
 .cb-notify-btn:hover, .cb-notify-btn[aria-expanded="true"],
 .cb-scheme-btn:hover, .cb-scheme-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
+/* A long tray's own Close, at its foot (cb.js, footClose). */
+.cb-foot-close { justify-content: flex-start; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--cb-steel-2); }
+.cb-notify__body { display: contents; }
 .cb-online, .cb-online-calls { display: grid; gap: 4px; }
 .cb-online-calls { margin-top: 6px; }
 .cb-online-about { font-size: 13px; }
@@ -1207,7 +1210,7 @@ ol.cb-md-list { list-style: decimal; }
 /* NOTIFICATIONS (2026-10-18): the same tray as Profile, in the radio's own
    pairs, every switch a button that says on or off in words. */
 .cb-notify { display: grid; gap: 8px; margin: 0; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
-.cb-notify > p, .cb-notify > h3 { margin: 0; }
+.cb-notify > p, .cb-notify > h3, .cb-notify__body > p, .cb-notify__body > h3 { margin: 0; }
 .cb-notify__kinds { display: flex; flex-wrap: wrap; gap: 6px; }
 .cb-notify__kind { text-align: left; }
 .cb-notify__rooms { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }

@@ -1469,6 +1469,7 @@
     mv.addEventListener('click', function () { me.setMotion(!me.state.motion); });
     scp.appendChild(mv);
     scp.appendChild(el('p', 'cb-hint', 'A theme with a drawing moves by itself at MAX GLITTER and stands still at the other settings unless you let it move. Nothing in any of them flashes, and nothing moves when a message arrives.'));
+    scp.appendChild(this.footClose('Close Themes', function () { me.setSchemePanel(false); }, schemeBtn));
     scp.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') { e.preventDefault(); me.setSchemePanel(false); me.schemeBtn.focus(); }
     });
@@ -1637,9 +1638,14 @@
     no.type = 'button';
     sure.appendChild(yes); sure.appendChild(no);
     pets.appendChild(sure);
+    pets.appendChild(this.footClose('Close Profile', function () { me.setPets(false); }, petsBtn));
     youSec.appendChild(pets);
     var ntf = this.notifyPanel = el('div', 'cb-notify');
     ntf.id = 'cb-notify';
+    // notifyLoad and notifyDraw redraw the body; the foot is the tray's own.
+    this.notifyBody = el('div', 'cb-notify__body');
+    ntf.appendChild(this.notifyBody);
+    ntf.appendChild(this.footClose('Close Notifications', function () { me.setNotify(false); }, notifyBtn));
     ntf.hidden = true;
     ntf.setAttribute('role', 'group');
     ntf.setAttribute('aria-label', 'Notifications');
@@ -2249,6 +2255,24 @@
     }).catch(function () { return null; });
   }
 
+  /* CLOSE AT THE FOOT (Ryan's ask, 2026-10-19): a long tray ends in a button
+     that closes it, so nobody has to scroll back up past all of it for the
+     button that opened it. Closing puts the view and the keyboard back on that
+     button, which is where the tray began. */
+  Radio.prototype.footClose = function (label, close, opener) {
+    var me = this, row = el('div', 'cb-row cb-foot-close');
+    var b = el('button', 'cb-btn', label);
+    b.type = 'button';
+    b.addEventListener('click', function () {
+      close();
+      opener.scrollIntoView({ block: 'nearest' });
+      opener.focus({ preventScroll: true });
+      me.place();
+    });
+    row.appendChild(b);
+    return row;
+  };
+
   Radio.prototype.setNotify = function (open) {
     this.notifyPanel.hidden = !open;
     this.notifyBtn.setAttribute('aria-expanded', String(!!open));
@@ -2257,7 +2281,7 @@
   };
 
   Radio.prototype.notifyLoad = function () {
-    var me = this, box = this.notifyPanel;
+    var me = this, box = this.notifyBody;
     box.textContent = '';
     box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
     var said = el('p', 'cb-quiet', 'Looking…');
@@ -2283,7 +2307,7 @@
   };
 
   Radio.prototype.notifyDraw = function (sub, want, told, focusKey) {
-    var me = this, box = this.notifyPanel;
+    var me = this, box = this.notifyBody;
     var on = !!(sub && want);
     if (want) this.notifyWant = want;
     var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] };
@@ -4473,6 +4497,7 @@
         pSaid.after(ul);
       }, function () { pSaid.textContent = 'Your patches could not be fetched just now.'; });
     });
+    box.appendChild(this.footClose('Close stickers', function () { me.setStickers(false); }, this.stickBtn));
   };
 
   Radio.prototype.sendSticker = function (id, kind) {
@@ -5505,6 +5530,7 @@
     said.setAttribute('role', 'status');
     said.tabIndex = -1;
     box.appendChild(said);
+    box.appendChild(this.footClose('Close your messages', function () { me.setDm(false); }, btn));
     sec.appendChild(box);
 
     btn.addEventListener('click', function () { me.setDm(box.hidden); });
