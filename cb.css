@@ -476,6 +476,11 @@
   font: 400 calc(12px * var(--cb-display-scale, 1))/1.2 var(--cb-display, 'Bungee'), system-ui, sans-serif;
   letter-spacing: var(--cb-display-track, .1em); text-transform: var(--cb-display-case, none); color: var(--cb-steel-2);
 }
+/* THE PARTS' HEADINGS ARE BIGGER (Ryan's ask, 2026-10-19): 15px where they
+   were 12, and a theme's scale is still followed, up to 19px, so the room's
+   name under Where you are (20px) stays the largest words on the radio. The
+   forums' headings wear .cb-h too and keep their own sizes in forum.css. */
+.cb-sec > .cb-h { font-size: min(calc(15px * var(--cb-display-scale, 1)), 19px); }
 .cb-h3 { margin-top: 4px; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .02em; color: var(--cb-steel); }
 .cb-sec > .cb-btn { justify-self: start; }
 /* WHERE YOU ARE: the room's name, the largest words on the radio, in the

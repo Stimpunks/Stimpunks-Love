@@ -9,87 +9,94 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Mon, 19 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Bigger headings on the radio, and Be seen here says whether it is on</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-19-cb-headings-seen</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-headings-seen</guid>
+      <pubDate>Mon, 19 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The headings between the radio’s parts are bigger, Where you are, Who’s around, Channel and the rest, so they are easier to find. In a theme whose lettering runs small they grow as far as they can while the room’s name stays the largest words on the radio. Be seen here says whether it is on: Be seen here: off and Be seen here: on, the way the switches under Your radio and in Notifications do, so you can tell at a glance.</description>
+    </item>
+    <item>
       <title>@mentions, links with words, headings, a look at your picture, and the radio in a window of its own</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-cb-mentions-popout</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-mentions-popout</guid>
-      <pubDate>Mon, 19 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:59:00 GMT</pubDate>
       <description>Type @ in the CB’s message box and it offers people to mention, the way # offers rooms: everybody who has spoken on the channel, everybody they mentioned, and everybody on Who’s online, alphabetically. Arrows move, Enter or Tab puts the handle in, Escape leaves what you typed. A mention is drawn as the person’s name, which opens their profile, and your own name is filled in where you are mentioned. Nothing lights up or chimes when one arrives, and a device that asked to be told about mentions is told, as before. A place in a film, @34:12, is still a place in a film. A link on the CB can have words of its own: [words](an address). That reverses a rule the radio has kept since links arrived, that a link’s words were always its address, and the reason for the rule still holds: a link to another site still says which site after its words, so no words can make it look like a link on the street, and words that are an address themselves, like [paypal.com](…), are not made a link at all. The CB guide and the house norms say so. # A heading, with a space after the #, is a heading in a message, and ## and ### smaller ones. Without the space, #the-den is still a room. A picture is shown before it goes. Pick one and the radio shows it above the message box, the moment it is chosen and then as it was redrawn, which is exactly what will be sent, with the name of the file you picked, so you can see it is the one you meant. In a conversation under Messages too. Pop out, under Your radio, moves the radio into a window of its own, as big as it is and at the size it is, like a call’s Pop out, and it stays open while you go from room to room in the window you came from. It follows you: This room, Be seen here, the room’s call and the teleporter are the room that window is on, and a link on the channel opens there. An @time and Catch up move the film in that window. Every other page has a small bar where the radio was, with Show it and Bring it back, so there is only ever one radio listening. Host this film and Follow stay with the radio in the page. Speak new messages aloud works again. Since yesterday it had been saying nothing: the list of messages on the channel and the radio’s note that it was speaking had the same name, and the list being there stopped the voice from ever starting.</description>
     </item>
     <item>
       <title>Profile sets: save a look and wear it again with one press</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-cb-profile-sets</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-profile-sets</guid>
-      <pubDate>Mon, 19 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:58:00 GMT</pubDate>
       <description>Your profile card’s look can be saved under a name and worn again with one press, asked for by somebody in our community who keeps a few favourites to switch between by mood, by the room they are in and for what is on: Otters, Halloween, Fairy Lights. Your profile sets, in Profile under the card, keeps each one: its theme, banner, decoration, frame, effect, name face and nameplate, and the avatar you wear. Pressing a set puts it on your card at once, and the one on your card says so. Change under each set updates it to your card as it is, renames it or deletes it. Your words are not in a set. Your pronouns, what you wrote about yourself, your links and your favourite room stay as they are whichever set you wear, so something you rewrote last week is never put back by a press. Nobody else sees your sets: your profile shows only what is on your card, not what sets you have or which one you are wearing, and nothing records when you made or wore one. Privacy and the CB guide say so. Claiming your username no longer signs the radio off by accident. If the radio was in the middle of listening at the moment you claimed, that listen came back refused for the handle’s old pass and the radio said the password had changed. Only a refusal of the pass it holds now signs it off. And once you press I have kept it, your profile card and your sets are there in Profile at once, rather than after you open it again. Changed: cb.js, cb.css, netlify/cb/lib.mjs, netlify/cb/lib.test.mjs, netlify/functions/cb-profile.mjs, netlify/functions/cb-pets.mjs, tools/make-profile.py, privacy.html, cb-guide.html.</description>
     </item>
     <item>
       <title>Pictures in messages, every notification at once, and new lines on a phone</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-cb-feedback</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-feedback</guid>
-      <pubDate>Mon, 19 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:57:00 GMT</pubDate>
       <description>A direct message can carry a picture once the conversation is accepted. Somebody in our community testing the Sandbox had a screenshot to show Ryan and no private way to send it. Picture now sits beside Send in a conversation both of you have started, and a first message is still words only, so nobody’s first contact with you can be a picture. It is the channel’s picture: redrawn in your browser first, which takes off what the camera wrote into it, with a description if you like, fetched by the two of you and nobody else, and gone when its message goes. A reported picture goes to the moderators’ desk with its message, where it waits behind Show the picture. Privacy and the CB guide say so. Everything, and anything added later is a new switch at the top of the CB’s Notifications, asked for by the same person after new switches arrived off overnight. It switches on every kind of notification there is, every message on World included, and any kind added after you press it, so you do not have to come back and look. Switch any one off and the rest stay on. It leaves the words, and the rooms you follow, as you set them. On a phone, Return makes a new line in the CB’s message boxes, and Transmit, Send or Save sends, because a phone’s keyboard has no Shift and Enter. The box starts four lines tall there, and its words are big enough that an iPhone no longer zooms in when you tap it. On a computer, Enter still sends and Shift and Enter still makes a new line, and Ctrl or Cmd and Enter sends anywhere. Changed: cb.js, cb.css, cb-sw.js, desk.js, love.css, netlify/cb/lib.mjs, netlify/functions/cb-dm.mjs, netlify/functions/cb-dm-reports.mjs, the new netlify/functions/cb-dm-image.mjs, tools/check-messages.py, tools/check-push.py, privacy.html, cb-guide.html, town-hall-moderators.html.</description>
     </item>
     <item>
       <title>Flying Fairy, a profile effect, and a Fairy Lights theme</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-cb-fairy</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-fairy</guid>
-      <pubDate>Mon, 19 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:56:00 GMT</pubDate>
       <description>A profile effect, Flying Fairy, Ryan’s ask. The faeries of Helen Edgar’s Faery Yurt fly across your profile, from either side, darting and hovering with their wings going, no two dressed alike, each dropping petals behind it, and petals drift down across the profile now and then. A garland of fairy lights hangs over your banner with a faery sitting on it and another hovering, and there are roses, a daisy and sparkles in the corners. When the profile opens, and once a minute, a dusk comes up over the whole profile with sparkles along its top, and a big fairy rises into it: red hair under a crown of roses and two little curled horns, a cloak of moss, a posy of red and pink roses held close, her eyes shut. She opens her butterfly wings and beats them slowly while petals and leaves fall round her and three of the yurt’s faeries fly out from her, and after about nine seconds she fades. She is our own drawing, after the look of Helen’s own profile. A Fairy Lights radio theme, grown from the Fairy lights frame for profiles: its strings of bulbs, swagged across a plum night in gold, rose, mint, sky, lilac and peach, with stars between them, along the radio’s trims, dividers and sides. The radio’s name is in a soft script, and every word clears 4.5 to 1. It is a banner and a nameplate for profiles too, drawn at whatever height it has, and the face is offered for your name on your card. Like every effect, it moves only at MAX GLITTER or after Let my theme move, and the bulbs twinkle slowly; nothing flashes. The liner notes and the CB guide say so. Changed: profile.js, cb-themes.js, call.js, cb.css, love.css, netlify/cb/lib.mjs, tools/make-profile.py, tools/check-contrast.py, cb-guide.html, liner-notes.html.</description>
     </item>
     <item>
       <title>Who is hosting moves to Watching together</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-cb-hosting-now</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-hosting-now</guid>
-      <pubDate>Mon, 19 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:55:00 GMT</pubDate>
       <description>Who is hosting a film is under the CB’s Watching together now, headed Hosting now, asked for by Ryan. It was in the readout under the messages, where a line saying somebody was hosting read as the newest message. Catch up and Follow moved with it, beside a host in your room. The radio answers Catch up, Follow, Host this film and Screen a video under them, in Watching together, so the sentence saying what you are hosting and who can see it is there too. While the radio is Small, which shows only the channel, the answer is under the readout as before.</description>
     </item>
     <item>
       <title>The CB points at the World room</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-cb-world-link</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-world-link</guid>
-      <pubDate>Mon, 19 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:54:00 GMT</pubDate>
       <description>Under the CB’s Channel, beside the line about the forums, a line now says where to find the rooms active now and the calls going: the World room, asked for by Ryan. It is left off in the World room itself. Calls going now, under Who’s online, lost the sentence under its heading, which said again what the heading says. Who is in a call is still shown only in its room, to anybody seen there, and the CB guide and the privacy page still say so.</description>
     </item>
     <item>
       <title>A screen in every gallery of the Jungle Room</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-jungle-screens</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-jungle-screens</guid>
-      <pubDate>Mon, 19 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:53:00 GMT</pubDate>
       <description>The Jungle Room has a screen at the top of every gallery, asked for by Ryan: any cam can go up on its gallery’s screen with the button under its leaf, so watching one big never means scrolling back to the top of the room. Every cam still opens in its own leaf where it hangs, the same size as before. A screen shows nothing of its own and loads nothing until you put a cam on it. Until then it is a low gap in the leaves; when a cam goes up it opens to the size of the picture, and the line under it says what is on and that it runs until you close it. Taking it off leaves the screen empty again. Each gallery’s leaves fold away, so a gallery you are not watching is one line. The cams whose owners have switched off embedding are still doors out to YouTube, with no screen button, because a screen could not show them either.</description>
     </item>
     <item>
       <title>Everybody down at the Watering Hole</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-watering-hole-animals</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-watering-hole-animals</guid>
-      <pubDate>Mon, 19 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:52:00 GMT</pubDate>
       <description>The Watering Hole’s drawing has everybody who comes down to the water, asked for by Ryan: elephants, springbok, gemsbok, zebras, rhinos, giraffes, gnus and ostriches, the animals people have seen on the waterhole cams. An elephant drinks with her trunk while her calf waits, a giraffe splays her legs to reach the water and another browses the camel-thorn, the gnus come in single file, and a rhino brings her calf down. It is still noon, so every shadow is straight under its animal, and the springbok leaping in the foreground has left hers on the ground. More of the pan, too: mud cracking round the edge, tracks going down to the water, dry grass, rings where somebody is drinking, a far tree on the plain, and a round rock in the middle of the pool, which is the real Namib waterhole’s. Nothing in the drawing moves. The Okaukuejo waterhole in Etosha is on the rack, after the Namib: the floodlit one, where elephant and rhino come in after dark. It is the Jungle Room’s cam, read out of that room’s own list, so it plays here or on the screen by the water and says what it is before you press it.</description>
     </item>
     <item>
       <title>The CB as an icon, and as the whole window</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-cb-icon-full</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-cb-icon-full</guid>
-      <pubDate>Mon, 19 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:51:00 GMT</pubDate>
       <description>The radio has a size smaller than Small, asked for by Ryan: an icon of a CB set, the aerial, the readout and the handset on its coiled cord, drawn on the radio’s own case in whichever colours you have chosen. − from Small makes it one, and pressing the icon opens the radio at Small again. Drag it to put it somewhere else. The icon is still on. It listens, so a film you are hosting or following carries on and Be seen here still holds, and Fold away is still the only off. Nothing on it changes when a message comes in, and a screen reader hears nothing new at that size; the CB guide says Small is the size for keeping an ear on the channel. And a size larger than Large, for anybody who wants to see only the CB: Full fills the window, with the channel as tall as it is. On a wide window the parts stand in three columns, where you are and who is around on the left, the channel in the middle, and messages, watching together and your radio on the right, each scrolling by itself. It stays put, and a room’s call window stays on top of it. Pressing the middle of Move’s six dots works now. It landed on the drawing of the dots rather than the button and did nothing, drag or press, so only the edges of the button moved the radio.</description>
     </item>
     <item>
       <title>A screen in the rock at Big Steep</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-big-steep-rack</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-big-steep-rack</guid>
-      <pubDate>Mon, 19 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:50:00 GMT</pubDate>
       <description>Big Steep Fermentables has a rack of somebody else’s cellars under a screen in the rock, asked for by Ryan, with seven more videos he picked: a rainy evening in an old wine cellar, a wine bar by a fire, a velvet wine cellar, an underground wine cellar, wine cellar ambient music, a fantasy tavern and a cellar soundscape. Each says how long it runs before you press it, plays where it hangs or goes up on the screen, and was checked on its own watch page first. The screen has nothing of its own on it, because the cellar has no whole list to put on, and it is not lit: it is a dark pane in the racks’ steel, and the room’s light still comes only through the drinks. It is the room’s first screen, so it is where the CB puts things: somebody can host what is on theirs and others can follow, and a moderator’s Screen a video goes up on it, waiting for each follower’s own press. The wine bar only plays on YouTube. Its channel has switched off showing it on other sites, so its card is a door out, dashed and with no screen button, and says why on its face. Two of the new videos play on into YouTube’s own mix, as the speakeasy already did, because that is how Ryan sent them. Their labels give the first video’s runtime and say nobody here has checked what the mix plays after it. A mix now starts on the first press in its card, where before it loaded a second play button.</description>
     </item>
     <item>
       <title>A Treasurer in the Town Hall</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-treasurer</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-treasurer</guid>
-      <pubDate>Mon, 19 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:49:00 GMT</pubDate>
       <description>Mila Krambo is on the walls of the Board room and Executive Session, as our Treasurer, elected Treasurer and director at the board meeting of 29 September 2026. Both rooms list the board as our Board &amp; Governance page does, in its order and with its titles, and her name goes to her section of our About page.</description>
     </item>
     <item>
       <title>A wiki in the forums</title>
       <link>https://stimpunks.world/changelog.html#2026-10-19-wiki</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-19-wiki</guid>
-      <pubDate>Mon, 19 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Mon, 19 Oct 2026 11:48:00 GMT</pubDate>
       <description>The forums have a Wiki, under Information: how to do things on the street, the CB and the forums, one thing to a page, for the questions people keep asking. The first pages cover making and dressing an avatar, editing your profile, writing in Markdown, changing your password, joining a call, choosing a CB theme, adopting a pet, making a chimera, collecting patches and badges, finding who’s online and which rooms are busy, giving props, and reporting bugs and asking for features. Every page is a living document. The post that opens each topic in the Wiki is a WIKI PAGE, and our moderators can edit it whoever started it, so the pages can be kept up to date as the street changes. Each says who started it and who edited it last. Replies stay their writers’ own, and only they can edit them, as everywhere else in the forums. Pages in the Wiki are kept for good. Something wrong or missing on one? Reply on the page, or ask in the Help desk. Privacy and the CB guide say what changed. Fixed: a forum post, a suggestion or a Brass Tacks plate with https:// in it and nothing after it, as in “an address starting with https:// becomes a link”, could not be sent: the forums said they were busy. It turned up while the Wiki’s page on Markdown was being written. Those words stay words now.</description>
     </item>
     <item>

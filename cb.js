@@ -1170,7 +1170,8 @@
        Not a live region: it is redrawn on every listen, and somebody arriving
        is not an alert. */
     var present = this.present = el('div', 'cb-present');
-    var seenBtn = this.seenBtn = el('button', 'cb-btn cb-seen', 'Be seen here');
+    // It says whether it is on, as the switches under Your radio do (Ryan's ask, 2026-10-19).
+    var seenBtn = this.seenBtn = el('button', 'cb-btn cb-seen', 'Be seen here: off');
     seenBtn.type = 'button';
     seenBtn.setAttribute('aria-pressed', 'false');
     this.seenNow = el('p', 'cb-seen-now');
@@ -7685,6 +7686,7 @@
     if (!tag) return;
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
+    this.seenBtn.textContent = on ? 'Be seen here: on' : 'Be seen here: off';
     this.inCallNow.hidden = true;
     if (!on) {
       this.seenNow.textContent = offList()
