@@ -687,7 +687,9 @@ had it playing twice), with the start still on the card's play button, where `ra
 and `rack.js` now plays a card's film in one place at a time. **A host's beacon
 carries the video's id** (`where().id`, `cleanVideo` in `lib.mjs`), which finds the button exactly;
 a stamp in a message still matches by title. The radio's answer line sits under the readout now,
-not under the message box. Our facades name the film and then its channel. It sets `data-embed-start`,
+not under the message box, and an answer to something under Watching together (Catch up, Follow, Host
+this film, Screen a video) sits under that part (`tellFilm`), except while the radio is Small, which shows
+only the channel. Our facades name the film and then its channel. It sets `data-embed-start`,
 opens any `<details>` round it, focuses it, and says so on the radio, and **it presses nothing**.
 `withStart()` in `love-embed.js` turns that into YouTube's `start=`, so the building stays in that
 file, **on a single video only**: `start=` on a playlist lands that far into whichever film comes
@@ -707,7 +709,8 @@ beacon not heard for `BEACON_FRESH` is shown to nobody and dropped by the next w
 server's clock**, so the radio finds its own room's host without saying where it is. Do not
 "optimise" that into a `?room=` on the listen: it would tell us where every listener is, every
 four seconds. **The hosts list is not a live region, and it updates rows in place**, because
-redrawing every four seconds threw the keyboard off Catch up.
+redrawing every four seconds threw the keyboard off Catch up. **It is Hosting now, under Watching together**,
+not in the readout, where a host's line under the messages read as the newest message (Ryan, 2026-10-19).
 
 **A MODERATOR CAN SCREEN A VIDEO WITH NO CARD FOR IT, AND EVERYBODY ELSE GETS ITS PLATE, NEVER THE
 FILM.** Ryan, 2026-10-04, for screening in a room without building a rack first. **Screen a video** on

@@ -978,14 +978,20 @@
     // Nothing is claimed about the channel until it has been heard.
     this.quiet = el('p', 'cb-quiet', 'Tuning in\u2026');
     lcd.appendChild(this.quiet);
-    /* HOSTS: every beacon on the street, this room's with a Catch up button and
-       the others with a link to their room that carries the host's spot. Not a
-       live region: it is redrawn on every listen, and something read out every
-       four seconds is the alert this radio refuses. Nothing is counted. */
+    /* HOSTING NOW, first under Watching together: every beacon on the
+       street, this room's with a Catch up button and the others with a link to
+       their room that carries the host's spot. It was in the readout under the
+       log until Ryan, 2026-10-19: a host's line under the messages read as the
+       newest message, and the part it belongs to has a heading now. Not a live
+       region: it is redrawn on every listen, and something read out every four
+       seconds is the alert this radio refuses. Nothing is counted. */
+    var hosts = this.hostsBox = el('div', 'cb-hosts');
+    hosts.hidden = true;
+    hosts.appendChild(el('h3', 'cb-h3', 'Hosting now'));
     var beacons = this.beaconList = el('ul', 'cb-beacons');
-    beacons.setAttribute('aria-label', 'Hosts');
-    beacons.hidden = true;
-    lcd.appendChild(beacons);
+    beacons.setAttribute('aria-label', 'Hosting now');
+    hosts.appendChild(beacons);
+    filmSec.appendChild(hosts);
     this.beacons = [];
     this.skew = 0;
     chanSec.appendChild(lcd);
@@ -1118,6 +1124,12 @@
     scrBtn.setAttribute('aria-controls', 'cb-screen');
     film.appendChild(scrBtn);
     filmSec.appendChild(film);
+    /* WATCHING TOGETHER'S ANSWER, under its buttons and the hosts' Catch up
+       and Follow, for the reason the readout's answer is under the readout.
+       See tellFilm. */
+    this.filmSaid = el('p', 'cb-said');
+    this.filmSaid.setAttribute('role', 'status');
+    filmSec.appendChild(this.filmSaid);
     this.screened = null;
     var callBtn = this.callBtn = el('button', 'cb-btn cb-call-btn', 'Join this room\u2019s call');
     callBtn.type = 'button';
@@ -6653,30 +6665,32 @@
      nothing and said nothing would look broken (the Playhouse's lesson). */
   Radio.prototype.jump = function (secs, film, room, video, beacon) {
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
+    // A beacon means Catch up, pressed under Watching together; a stamp has none.
+    var me = this, say = function (t) { if (beacon) me.tellFilm(t); else me.tell(t); };
     var live = secs == null;
     var at = live ? '' : place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
     if (room && hereTag() !== room) {
       var there = byTag[room] ? byTag[room].name : '#' + room;
-      this.tell((live ? called + ' is on live' : at + ' is in ' + called) + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
+      say((live ? called + ' is on live' : at + ' is in ' + called) + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
       return;
     }
     if (live) { this.goLive(film, video, beacon); return; }
     if (!w || (film && !sameFilm(film, w.film))) {
       var got = film && readyFilm(film, video, secs, beacon);
       if (got) {
-        this.tell(called + ' is ready at ' + at + ': ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
+        say(called + ' is ready at ' + at + ': ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
         return;
       }
-      this.tell(!w
+      say(!w
         ? 'No film has been started on this page, so there is nothing to move. Press play on ' + called + ' first, then ' + at + ' will take it there.'
         : at + ' is in ' + called + ', and the film playing here is \u201c' + w.film + '\u201d, so nothing moved. ' + called + ' has no play button of its own on this page.');
       return;
     }
     var r = e.seek(secs);
     if (r.past) {
-      this.tell(at + ' is past the end of \u201c' + r.film + '\u201d, which runs ' + place(r.duration) + '. It may have been said about a different film.');
+      say(at + ' is past the end of \u201c' + r.film + '\u201d, which runs ' + place(r.duration) + '. It may have been said about a different film.');
     } else {
-      this.tell('Moved \u201c' + r.film + '\u201d to ' + at + '. It plays or stays paused, as it was.');
+      say('Moved \u201c' + r.film + '\u201d to ' + at + '. It plays or stays paused, as it was.');
     }
   };
 
@@ -6685,15 +6699,16 @@
      already. It presses nothing. */
   Radio.prototype.goLive = function (film, video, beacon) {
     var e = window.loveEmbed, w = e && e.where ? e.where({ live: true }) : null;
+    var me = this, say = function (t) { if (beacon) me.tellFilm(t); else me.tell(t); };
     var called = film ? '\u201c' + film + '\u201d' : 'the live video';
     if (w && w.live && (!film || sameFilm(film, w.film))) {
-      this.tell(w.playing
+      say(w.playing
         ? called + ' is already playing here. It is live, so there is no place in it to move to.'
         : called + ' is on here, paused. It is live, so there is no place in it to move to; press play on it to go on.');
       return;
     }
     var got = readyFilm(film, video, null, beacon);
-    this.tell(got
+    say(got
       ? called + ' is ready: ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it plays live' + playsOn(got) + '.' + readyNote(got)
       : called + ' has no play button of its own on this page, so it could not be got ready. It may be in a playlist here.');
   };
@@ -7060,7 +7075,7 @@
     this.setScreenPanel(false);
     shell.scrollIntoView({ block: 'center' });
     var shrank = clearOf(shell);
-    this.tell('It is up on ' + glass.name + ' and playing on your page' + (v.start ? ' from ' + place(v.start) : '') +
+    this.tellFilm('It is up on ' + glass.name + ' and playing on your page' + (v.start ? ' from ' + place(v.start) : '') +
       '. Once it plays, Host this film lets everybody in this room follow; their screens get its play button, waiting for their press.' +
       (shrank ? ' The radio went small so you can see it; + puts it back.' : ''));
     (now || shell).focus({ preventScroll: true });
@@ -7098,14 +7113,14 @@
       if (was) this.sendBeacon({ room: was.room, off: true }, null, why2 || 'You have stopped hosting.');
       return;
     }
-    if (!w) { this.tell('Start a film on this page first, then you can host it.'); return; }
-    if (rooms && rooms.length && !hereRoom()) { this.tell('This page is not a room on the street, so it cannot be hosted.'); return; }
+    if (!w) { this.tellFilm('Start a film on this page first, then you can host it.'); return; }
+    if (rooms && rooms.length && !hereRoom()) { this.tellFilm('This page is not a room on the street, so it cannot be hosted.'); return; }
     this.hosting = { room: hereTag(), sent: null, busy: false };
     this.hostShown();
     // A live video has no place in it to show, so what is shown is that it is live.
     var what = '\u201c' + w.film + '\u201d' + (w.live ? ', live' : ''), seen = w.live ? 'that you are watching it live' : 'where you are in it';
-    if (offList()) this.tell('You are hosting ' + what + ' in this room only. Radios tuned to this room\u2019s channel can see ' + seen + ', and nobody outside this room is told. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
-    else this.tell('You are hosting ' + what + '. Everybody on the channel can see ' + seen + ', and in which room. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
+    if (offList()) this.tellFilm('You are hosting ' + what + ' in this room only. Radios tuned to this room\u2019s channel can see ' + seen + ', and nobody outside this room is told. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
+    else this.tellFilm('You are hosting ' + what + '. Everybody on the channel can see ' + seen + ', and in which room. Putting this tab behind another pauses it; folding the radio away or leaving the page stops it.');
     this.hostTick(w);
   };
 
@@ -7116,10 +7131,11 @@
   };
 
   /* Watching together has a heading of its own only while there is something
-     under it: a film started on this page, or the base's Screen a video. A
-     heading over nothing is a part of the radio that looks broken. */
+     under it: somebody hosting, a film started on this page, or the base's
+     Screen a video. A heading over nothing is a part of the radio that looks
+     broken. */
   Radio.prototype.filmShown = function () {
-    this.filmSec.hidden = this.spotBtn.hidden && this.hostBtn.hidden && this.screenBtn.hidden && this.screenPanel.hidden;
+    this.filmSec.hidden = this.hostsBox.hidden && this.spotBtn.hidden && this.hostBtn.hidden && this.screenBtn.hidden && this.screenPanel.hidden;
   };
 
   Radio.prototype.hostTick = function (w) {
@@ -7153,15 +7169,15 @@
       if (r.status === 200) {
         if (sent && h && me.hosting === h) h.sent = sent;
         me.showBeacons(r.body.beacons, r.body.now);
-        if (done) me.tell(done);
+        if (done) me.tellFilm(done);
         return;
       }
-      if (b.off) { me.tell(why(r, 'That did not reach the channel. Your beacon goes quiet by itself within a minute or two.')); return; }
+      if (b.off) { me.tellFilm(why(r, 'That did not reach the channel. Your beacon goes quiet by itself within a minute or two.')); return; }
       // Somebody else has this room, or the beacon was refused: stop. Anything
       // else, a busy channel or too many in a minute, is tried again next listen.
       if (r.status === 409 || r.status === 400) {
         if (me.hosting === h) { me.hosting = null; me.hostShown(); }
-        me.tell(why(r, 'Your beacon was refused, so you are not hosting.'));
+        me.tellFilm(why(r, 'Your beacon was refused, so you are not hosting.'));
       }
     }).catch(function () { if (h && !b.off) h.busy = false; });
   };
@@ -7194,14 +7210,14 @@
     if (!on) {
       this.following = null;
       this.drawBeacons();
-      this.tell(said || 'You have stopped following.');
+      this.tellFilm(said || 'You have stopped following.');
       return;
     }
     var b = this.beaconIn(room);
-    if (!b) { this.tell('That host has stopped.'); return; }
-    if (b.live) { this.tell(b.handle + ' is hosting a live video, so there is nothing to keep in step with. Catch up gets it ready to play.'); return; }
+    if (!b) { this.tellFilm('That host has stopped.'); return; }
+    if (b.live) { this.tellFilm(b.handle + ' is hosting a live video, so there is nothing to keep in step with. Catch up gets it ready to play.'); return; }
     this.following = { room: room, fresh: true, hostWas: null, sent: 0, waiting: false };
-    this.tell('Following ' + b.handle + ': your film keeps pace with theirs, at your own volume. Pause, or press Follow again, to go your own way.');
+    this.tellFilm('Following ' + b.handle + ': your film keeps pace with theirs, at your own volume. Pause, or press Follow again, to go your own way.');
     this.followTick();
     this.drawBeacons();
   };
@@ -7222,7 +7238,7 @@
     if (!w || !sameFilm(b.film, w.film)) {
       if (!f.waiting) {
         var ready = readyFilm(b.film, b.video, this.placeOf(b), b);
-        this.tell(ready
+        this.tellFilm(ready
           ? 'Following ' + b.handle + ': \u201c' + b.film + '\u201d is ready, and ' + pressOf(ready) + ' has the keyboard. Press it, or Enter, and it keeps pace from there' + playsOn(ready) + '.' + readyNote(ready)
           : 'Following ' + b.handle + ': press play on \u201c' + b.film + '\u201d and it will keep pace from there. It has no play button of its own on this page, so it may be in a playlist here.');
       }
@@ -7230,7 +7246,7 @@
       f.fresh = true;
       return;
     }
-    if (f.waiting) { f.waiting = false; this.tell('Following ' + b.handle + ' in \u201c' + b.film + '\u201d.'); }
+    if (f.waiting) { f.waiting = false; this.tellFilm('Following ' + b.handle + ' in \u201c' + b.film + '\u201d.'); }
     var now = Date.now(), settling = now - f.sent < SETTLE;
     var at = this.placeOf(b), turned = f.fresh || f.hostWas !== b.playing;
     f.hostWas = b.playing;
@@ -7291,7 +7307,8 @@
       var a = li.querySelector('a.cb-room');
       if (a) a.href = byTag[b.room].path + '#spot=' + (b.live ? 'live' : Math.floor(this.placeOf(b))) + '&film=' + encodeURIComponent(b.film);
     }
-    ul.hidden = list.length === 0;
+    this.hostsBox.hidden = list.length === 0;
+    this.filmShown();
   };
 
   Radio.prototype.beaconRow = function (b, key) {
@@ -7345,10 +7362,24 @@
       var b = this.beacons[i];
       if (b.room === room) { this.jump(b.live ? null : Math.floor(this.placeOf(b)), b.film, b.room, b.video, b); return; }
     }
-    this.tell('That host has stopped.');
+    this.tellFilm('That host has stopped.');
   };
 
-  Radio.prototype.tell = function (s) { this.said.textContent = s; };
+  /* THE RADIO'S ANSWER, on the line under what was pressed and one at a
+     time: tell() under the readout, tellFilm() under Watching together, for
+     the hosts' Catch up and Follow, Host this film and Screen a video. Small
+     and the icon show the channel and nothing else, so while the radio is
+     either, or that part is shut, tellFilm() answers under the readout, where
+     the answer can be seen. */
+  Radio.prototype.tell = function (s) {
+    this.said.textContent = s;
+    if (this.filmSaid) this.filmSaid.textContent = '';
+  };
+  Radio.prototype.tellFilm = function (s) {
+    if (this.tiny() || this.state.folded || this.filmSec.hidden) { this.tell(s); return; }
+    this.filmSaid.textContent = s;
+    this.said.textContent = '';
+  };
 
   /* Off the air for a moment. Said on the readout rather than left looking
      like a quiet channel, because "nobody has said anything" and "we could not

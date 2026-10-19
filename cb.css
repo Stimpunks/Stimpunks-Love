@@ -596,13 +596,12 @@ ol.cb-md-list { list-style: decimal; }
   color: var(--cb-amber); background: transparent;
   box-shadow: inset 0 0 0 1px var(--cb-amber);
 }
-/* Hosts, in the readout under the log. Amber on the readout's black, as the
-   log is, and the Catch up button is the Take-off-the-air button's pair. */
-.cb-beacons {
-  list-style: none; margin: 8px 0 0; padding: 8px 0 0;
-  border-top: 1px solid var(--cb-amber-2);
-  display: grid; gap: 6px; font-size: 14px;
-}
+/* HOSTING NOW, first under Watching together (it was in the readout under the
+   log until 2026-10-19, where a host read as the newest message). In the
+   case's own ink, as Who's online's lists are, and the Catch up button keeps
+   the Take-off-the-air button's pair, which brings its own ground. */
+.cb-hosts { display: grid; gap: 4px; }
+.cb-beacons { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
 .cb-beacon { overflow-wrap: anywhere; }
 .cb-beacon .cb-tag { margin: 0 0 0 6px; }
 .cb-catch { margin-left: 8px; }
