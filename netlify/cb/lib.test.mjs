@@ -30,7 +30,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
   ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
-  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
@@ -308,6 +308,23 @@ test('only whoever sent a message edits it, the base no one else\'s, and an edit
   assert.equal(editMessage(list, 'a', 'x'.repeat(MESSAGE_MAX + 1), asAda).why, 'bad');
   assert.equal(editMessage(list, 'o', 'mine now', asAda).why, 'not yours');
   assert.equal(editMessage(list, 'gone', 'hi', asAda).why, 'gone');
+});
+
+test('a message keeps the handles it @mentions only if its words name them', () => {
+  assert.deepEqual(channelMentions('hi @Ada and @Bo Peep, see you', ['Ada', 'Bo Peep', 'Cy', 'ada']), ['Ada', 'Bo Peep'],
+    'a handle the words never name was kept, or one was kept twice');
+  assert.deepEqual(channelMentions('back at @34:12', ['34']), [], 'a place in a film was read as a mention');
+  assert.deepEqual(channelMentions('mail ada@example.org', ['example']), [], 'an email address was read as a mention');
+  assert.deepEqual(channelMentions('@Ada', 'Ada'), [], 'something that is not a list was read as one');
+  assert.deepEqual(channelMentions('@Ada', [{ toString() { return 'Ada'; } }, 7]), [], 'something that is not a handle was kept');
+  const many = Array.from({ length: 20 }, (_, i) => `p${i}`);
+  assert.equal(channelMentions(many.map((h) => '@' + h).join(' '), many).length, MENTION_MAX, 'a message kept more mentions than it may');
+  assert.deepEqual(shape([{ id: 'a', handle: 'Ada', text: '@Bo', t: 1, at: ['Bo'] }])[0].at, ['Bo'], 'the radio is not told who a message mentions');
+  assert.equal(shape([{ id: 'a', handle: 'Ada', text: 'hi', t: 1 }])[0].at, undefined);
+  const asAda = { role: 'mobile', handle: 'Ada', roles: new Set() };
+  const list = [{ id: 'a', handle: 'Ada', text: 'hi @Bo', t: 1, at: ['Bo'] }];
+  assert.deepEqual(editMessage(list, 'a', 'hi @Bo and @Cy', asAda, 2, ['Cy']).list[0].at, ['Cy', 'Bo'], 'an edit lost a mention it still makes');
+  assert.equal('at' in editMessage(list, 'a', 'hi there', asAda, 2).list[0], false, 'an edit kept a mention its words no longer make');
 });
 
 for (const etagOnRead of [true, false]) {

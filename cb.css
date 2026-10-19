@@ -591,6 +591,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-md-code { padding: 0 3px; }
 .cb-md-pre { padding: 6px 8px; overflow-x: auto; white-space: pre; overflow-wrap: normal; max-width: 100%; }
 .cb-text strong { font-weight: 700; }
+/* A HEADING in a message (# and a space) is weight and size and no colour of
+   its own, and never as large as the radio's own parts' headings: it is a
+   heading inside somebody's words. */
+.cb-md-h { font: inherit; font-weight: 700; line-height: 1.25; }
+.cb-md-h1 { font-size: 1.22em; }
+.cb-md-h2 { font-size: 1.1em; }
+.cb-md-h3 { font-size: .92em; text-transform: uppercase; letter-spacing: .05em; }
 .cb-msg .cb-tag { margin-left: 0; }
 /* CLAIMED is outlined where BASE is filled, so the two are told apart by
    shape as well as by word: one says a moderator, the other only that this
@@ -647,6 +654,16 @@ ol.cb-md-list { list-style: decimal; }
   padding: 0 4px; margin: 0; cursor: pointer;
 }
 .cb-jump:hover { border-color: var(--cb-amber); }
+/* AN @MENTION: a name to press, which opens that person's profile, in the
+   log's own amber on the readout like a handle, dotted the way a handle is,
+   so no pair is new. Yours is filled, the BASE tag's pair. Nothing about it
+   moves or lights up when it lands. */
+.cb-at {
+  font: inherit; font-weight: 700; color: var(--cb-amber); background: none;
+  border: 0; border-radius: 3px; padding: 0 1px; margin: 0; cursor: pointer;
+  text-decoration: underline dotted; text-underline-offset: 3px;
+}
+.cb-at--me { color: var(--cb-lcd); background: var(--cb-amber); padding: 0 3px; text-decoration: none; }
 
 /* A PICTURE ON THE CHANNEL, under its words, in the readout's amber frame.
    It is kept small in the log so a screenshot does not push everything else
@@ -1102,7 +1119,16 @@ ol.cb-md-list { list-style: decimal; }
   .pf-preview .pf-fx__scene { width: min(100%, 217px); }
 }
 .cb-radio--small .cb-picture-img { max-height: 90px; }
-.cb-pic-ready { display: grid; gap: 6px; margin: 8px 0 0; }
+.cb-pic-ready { display: grid; gap: 6px; margin: 0 0 8px; }
+/* THE PICTURE WAITING TO GO, as the radio redrew it, so what you see is what
+   is sent. Large enough to know it by, never wider than the radio, and edged
+   in the case's own border like a button, because it sits on the case. */
+.cb-pic-preview {
+  display: block; justify-self: start; width: auto; height: auto; max-width: 100%; max-height: 200px;
+  border: 2px solid var(--cb-steel-2); border-radius: 4px; background: var(--cb-lcd);
+}
+.cb-radio--large .cb-pic-preview { max-height: 320px; }
+.cb-radio--full .cb-pic-preview { max-height: 360px; }
 .cb-pic-line { margin: 0; font-size: 13px; }
 .cb-pic-drop { justify-self: start; min-height: 36px; }
 
@@ -1375,6 +1401,27 @@ ol.cb-md-list { list-style: decimal; }
   .cb-radio--full .cb-lcd > .cb-log { flex: 1 1 0; min-height: 8rem; max-height: none; }
 }
 
+/* THE RADIO'S OWN WINDOW (cb-window.html, cb.js): the radio is the window,
+   at whichever size it is in, so it fills it edge to edge, every size and
+   folded alike. There is nowhere to move it, because the window is what
+   moves, and no outside for a theme's sides to hang in, as at Full. These
+   come after Full's rules, which they are level with, so they win. */
+.cb-radio--window, .cb-radio--window.cb-radio--full:not(.cb-radio--folded) {
+  top: 0; left: 0; right: 0; bottom: 0; width: auto; max-height: none;
+  border-radius: 0; border-width: 0; box-shadow: none;
+}
+.cb-radio--window .cb-bar { border-radius: 0; }
+.cb-radio--window .cb-move, .cb-radio--window .cb-side { display: none; }
+/* An icon in a window of its own stands in the middle of it. */
+.cb-radio--window.cb-radio--icon:not(.cb-radio--folded) .cb-bar { justify-content: center; flex: 1 1 auto; }
+/* THE BAR LEFT ON A PAGE while the radio is in its own window: the folded
+   radio's bar, with where it is in the bar's own quieter words. cb.js puts
+   it where the radio was. */
+.cb-radio--away { width: auto; max-width: calc(100vw - 16px); }
+.cb-away-where { font-size: 13px; color: var(--cb-steel); }
+.cb-away-said { margin: 8px; }
+.cb-away-said[hidden] { display: none; }
+
 /* A ROOM'S CALL: a window of its own at the foot of the page, bottom left
    where the radio is bottom right, one step under it so the radio can always
    be reached. Its clothes are the radio's, because it is the radio's. The
@@ -1434,18 +1481,19 @@ ol.cb-md-list { list-style: decimal; }
 .cb-call--whole .cb-call-screen { aspect-ratio: auto; border-radius: 0; }
 
 /* AND THE PAGE UNDER IT, which is only seen before the call opens or when
-   there is none to open: the radio's case and its words, the pairs
+   there is none to open, and the same for the radio's own window
+   (cb-window.html) before the radio is up: the radio's case and its words, the pairs
    check-contrast.py already holds, in a document rather than a shadow root.
    Nothing on the street dresses it, because it is the radio's. */
-body.cb-callwin {
+body.cb-callwin, body.cb-cbwin {
   margin: 0; min-height: 100vh; background: var(--cb-case); color: var(--cb-steel);
   font: 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif;
 }
 .cb-callwin__main { max-width: 40em; padding: 24px 16px; }
 .cb-callwin__h { margin: 0 0 10px; font: 400 20px/1.25 'Bungee', system-ui, sans-serif; letter-spacing: .06em; color: var(--cb-steel); }
 .cb-callwin__said, .cb-callwin__more { margin: 0 0 10px; }
-body.cb-callwin a { color: var(--cb-amber); }
-body.cb-callwin :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+body.cb-callwin a, body.cb-cbwin a { color: var(--cb-amber); }
+body.cb-callwin :focus-visible, body.cb-cbwin :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 
 @media print { .cb-radio, .cb-call { display: none; } }
 

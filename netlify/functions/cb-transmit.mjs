@@ -8,7 +8,7 @@
    channel, so a slow push service never holds the radio up. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage } from '../cb/lib.mjs';
+  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -70,6 +70,10 @@ export default async (req, context) => {
   // message says it came from a claimed username only because readPass found
   // that username's own account behind the pass that sent it.
   const msg = { id: randomUUID(), handle: who.handle, text, t: Date.now(), base: who.role === 'base', claimed: !!who.account };
+  // The handles it @mentions, out of those the radio says it means and only
+  // if the words name them (channelMentions), for every radio to draw.
+  const at = channelMentions(text, b.at);
+  if (at.length) msg.at = at;
   if (img) { msg.img = img; msg.alt = cleanAlt(b.alt); }
   if (sticker) msg.sticker = sticker;
   if (avatar) msg.avatar = avatar;

@@ -3790,11 +3790,50 @@ so a link off the street must never look like one on it. `awayUrl` parses it wit
 http or https, a dotted host and no name or password (`stimpunks.world@elsewhere` stays words, whole,
 rather than half a link to the street); it opens in a new tab with `noopener noreferrer nofollow
 ugc`, its words are what was typed, and `↗ host` after it is the host as `URL()` spells it, so a
-lookalike shows its punycode. Nothing lets a link's words differ from its address: a Markdown
-`[text](url)` stays as typed. The house norms and the privacy page say so. And **the log never
+lookalike shows its punycode. **A link's words can differ from its address since 2026-10-19, Ryan's
+ask, reversing "a Markdown `[text](url)` stays as typed"**, and the old reason still holds: a
+`[words](address)` link off the street is `awayLink` with those words, so `↗ host` is after them, and
+one on the street is a path checked as `streetLinks` checks one. **Words that are an address, or
+shaped like one (`paypal.com`), are not made a link** (`addressy` in `cb.js`): it stays as typed and its
+address is linked as a bare one is. The friendly edit is to drop the host after the words "because the
+words say where it goes"; the host is the only thing a stranger cannot dress up. The house norms and
+the privacy page say so. And **the log never
 scrolls under a reader**: it used to jump to the bottom on every listen, so scrolling up was undone
 four seconds later. It follows the newest message only when something new arrived and the log was
 already at the bottom, or when you transmitted.
+
+**AN @MENTION IS DRAWN AS A NAME, AND THE MESSAGE SAYS WHICH NAMES.** Ryan's ask, 2026-10-19: @ in
+the message box opens the # list's combobox for people (`token`, `peopleFor` in `cb.js`): the channel's
+senders, the handles its messages mention and Who's online, asked once, alphabetical, never you, and
+never on a stamp (`@34:12` is digits). The radio sends `at`, the handles it means, and `channelMentions`
+in `lib.mjs` keeps only those `mentions()` finds in the words, at most `MENTION_MAX`, worked out again on
+an edit; `markAt` draws them, and your own handle, as buttons that open the profile, yours filled. **It
+is not who gets told**: a notification still asks `mentions()` of each device's handle. The friendly
+edits are a highlight on the whole message, a sound when you are mentioned, and a list of your mentions;
+the first two are the receive lamp the radio refuses, and the third is a record kept against a person.
+
+**A PICTURE IS SHOWN BEFORE IT GOES** (Ryan's ask, 2026-10-19): `picPending`/`picReady` in `cb.js` put
+the redrawn blob, which is exactly what is sent, above the box with the file's name, for the channel and
+for Messages alike. It is a `blob:` address that goes with the picture.
+
+**THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
+2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under
+Your radio, opens it as big as the radio is and at its size; − and + there resize the window
+(`fitWindow`). Every other page gets the folded bar (`showStub`: Show it, Bring it back), which sends
+nothing; they talk over the `love-cb-window` BroadcastChannel, `love-cb` keeps `popped` while it is
+out, and a page whose window does not answer within a moment-and-a-half takes the radio back. **The
+radio there is about the window it came from** (`streetDoc`, read through `window.opener`, same site):
+`herePath`, `offList`, `quietHere`, `pageName` and `mayHere` read that page, so This room, Be seen here,
+the call and the teleporter follow you, `whereNow` retunes when it moves, links in the radio open there
+(`goStreet`), a page with `data-cb="off"` is no room to it, and a call goes straight into the call's own
+window (`loveCall.popOut`). **@times and Catch up run in that page's cb.js** (`loveCbFilms.jump`, which is
+`jumpHere`), because the film is there; **Host this film and Follow stay with the radio in the page**, and
+Follow is not offered in the window. It is a window (`tools/windows.py`), never a room. The browser pane
+in this app opens a pop-up in the same tab, so test it in real Chrome over CDP with `userGesture: true`.
+
+**SPEAK NEW MESSAGES ALOUD WAS SILENT FROM 2026-10-18 TO 2026-10-19**, because `show()` kept the channel
+in `this.onAir`, which is also the voice's speaking flag, so the queue never started. The list is
+`this.aired` now. **Two meanings, one name, no error**: grep a property before reusing it.
 
 **A REACTION NAMES WHO AND NEVER SAYS HOW MANY.** Ryan, 2026-09-30: React on a message opens a fixed
 set (`REACTIONS` in `lib.mjs`, copied in `cb.js`: change both), pressed again to take yours back
@@ -3830,9 +3869,10 @@ Up in an empty message box edits your newest message.
 **A MESSAGE IS 2,000 CHARACTERS AND BASIC MARKDOWN, DRAWN AS ELEMENTS AND NEVER AS HTML.** Ryan,
 2026-09-29. `MESSAGE_MAX` and `cleanMessage` in `lib.mjs` keep a message's lines (the Slake, the
 chalkboard and the bowls keep `TEXT_MAX`'s 280 and one line). `md()` in `cb.js` builds every piece
-with `el()` and `textContent`, so nothing typed becomes markup. **Links are still only
-`streetLinks`'**: a Markdown link stays as typed. `kept()` keeps a street address and a stamp with
-what it names out of the emphasis pass, because an underscore in a path or an asterisk in a film's
+with `el()` and `textContent`, so nothing typed becomes markup. **A link is `streetLinks`' or a
+`[words](address)` one (`mdLinks`), and `# heading` is a heading** (`#` and a space, so `#the-den` is
+still a room, h3 to h6 because the radio's parts are h2s). `kept()` keeps a street address, a
+`[words](address)` link and a stamp with what it names out of the emphasis pass, because an underscore in a path or an asterisk in a film's
 title would otherwise break the link or the jump. **A message now has `li` inside it**, and the
 pass that drops messages gone from the channel read those as messages and emptied every list; it
 asks for `:scope > li`. Anything else walking the log must ask the same way. **On a phone Return makes

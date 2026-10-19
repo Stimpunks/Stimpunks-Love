@@ -4,7 +4,9 @@ A WINDOW IS A PAGE OF OURS THAT OPENS IN A BROWSER WINDOW OF ITS OWN TO HOLD ONE
 THING. The first is call-window.html (Ryan, 2026-10-13): Pop out on a call moves
 the call into it, and it stays open while somebody goes from room to room in the
 window they came from, which is the only way a call can follow anybody here,
-because every room is a page and a page that goes takes its call with it.
+because every room is a page and a page that goes takes its call with it. The
+second is cb-window.html (Ryan, 2026-10-19), which Pop out on the radio moves the
+radio into, for the same reason.
 
 It is the radio's furniture in a window, not a place on the street, so the tools
 that hold every page to the street's rules for a PLACE name it here and leave it
@@ -30,7 +32,7 @@ Adding a window is a line here and a reason in each of those tools. A room is
 never a window: a place goes in make-sitemap.py's ORDER.
 """
 
-WINDOWS = {"call-window.html"}
+WINDOWS = {"call-window.html", "cb-window.html"}
 
 
 def is_window(name):

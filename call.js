@@ -528,6 +528,8 @@
   function openRoom() { return current ? current.room : null; }
 
   window.loveCall = { Mover: Mover, open: open, leave: leave, isOpen: function () { return !!current; }, openRoom: openRoom, whoLine: whoLine,
-    away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway,
+    // popOut: the radio's own window, where the radio is the whole window,
+    // sends a call straight into a window of its own (cb.js, setCall).
+    away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway, popOut: popOut,
     schemes: SCHEMES, schemeFor: schemeFor, dress: dress, redress: redress };
 })();

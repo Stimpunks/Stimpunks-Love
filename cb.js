@@ -66,7 +66,7 @@
        names a film or a room moves nothing anywhere else. See stamps and
        jump. A LIVE VIDEO HAS NO PLACE, so its spot is @live and its beacon
        says live; pressing either gets its play button ready, and it has no
-       Follow. See goLive.
+       Follow. See liveHere.
      · SMALL IS STILL ON. Folded is off and sends nothing; small is the bar and
        the newest message and nothing else, listening as it does full size, so
        somebody can watch a film in a room and still see the channel. See
@@ -97,6 +97,68 @@
   var WORLD_CALL = 'world';
   var WORLD = { tag: WORLD_CALL, name: 'World', title: 'The World call' };
   var SETTLE = 3000;      // ms a follower's player is given to obey before it is judged
+
+  /* THE RADIO'S OWN WINDOW (Ryan's ask, 2026-10-19: "a popout for the CB like
+     the video player, keeping currently selected size"). Pop out, under Your
+     radio, opens cb-window.html in a browser window of its own, as big as the
+     radio is and at the size it is, and the radio there carries on while you
+     go from room to room in the window you came from: the way a radio can
+     follow you about a street where every room is a page. Like the call's
+     own window (call.js):
+       · ONE RADIO AT A TIME. While it is out, the radio on every other page
+         steps aside for a bar saying where it is, with Show it and Bring it
+         back, which sends nothing, so two radios are never listening. The
+         pages and the window talk only inside this browser, over a
+         BroadcastChannel (love-cb-window), and love-cb keeps `popped` while
+         it is out, so a page opened meanwhile knows before it asks.
+       · IT IS ABOUT THE PAGE YOU CAME FROM. That window is this site's, so the
+         radio reads where it is straight from it (streetDoc): This room, Be
+         seen here, the room's call and Where you are are that page's, a link
+         on the channel or the teleporter opens there, and an @time or Catch
+         up moves the film there (loveCbFilms). It reads the page's address,
+         its title and what its <body> says about it, nothing else, and sends
+         nothing the radio on that page would not have sent. A page with no
+         radio (data-cb="off") is no room to it, so the Healing Checkpoint is
+         still a page that writes nothing down about you.
+       · NOTHING ABOUT IT IS KEPT but `popped`, which goes with the window.
+     Hosting a film and Follow stay with the radio in the page: they read and
+     drive the film the whole time, and the film is in the other window. */
+  var CB_WINDOW = '/cb-window.html';   // the page a popped-out radio is held in
+  var CB_WINDOW_NAME = 'stimpunks-cb'; // one such window, found again by its name
+  var popLine = typeof BroadcastChannel === 'function' ? new BroadcastChannel('love-cb-window') : null;
+  function inWindow() { return !!(document.body && document.body.hasAttribute('data-cb-window')); }
+  var streetWin = null;
+  // The window this one came from, or the one it last opened a room in, while
+  // it is open and on this site.
+  function streetWindow() {
+    var ws = [streetWin, window.opener];
+    for (var i = 0; i < ws.length; i++) {
+      try {
+        var w = ws[i];
+        if (w && !w.closed && w.location.host === location.host && w.document && w.document.body && w.location.pathname !== CB_WINDOW) return w;
+      } catch (e) { /* elsewhere now, or gone */ }
+    }
+    return null;
+  }
+  // The page the radio is about: this one, or from its own window, that
+  // window's page, or null. A page with no radio, or one the pass may not use,
+  // is none.
+  function streetDoc() {
+    if (!inWindow()) return document;
+    var w = streetWindow(), b = w && w.document.body;
+    if (!b || b.getAttribute('data-cb') === 'off') return null;
+    if (b.getAttribute('data-cb') === 'mods' && !mayHere(load(), b)) return null;
+    return w.document;
+  }
+  // An address on the street: opened here, or from the radio's own window, in
+  // the window it came from, or a new one if that has gone.
+  function goStreet(href) {
+    if (!inWindow()) { location.href = href; return; }
+    var w = streetWindow();
+    if (!w) { try { w = window.opener && !window.opener.closed ? window.opener : null; } catch (e) { w = null; } }
+    if (w) { try { w.location.href = href; w.focus(); return; } catch (e) { /* gone */ } }
+    streetWin = window.open(href, '_blank');
+  }
 
   function load() {
     try { var v = JSON.parse(localStorage.getItem(KEY) || 'null'); return v && v.pass ? v : null; }
@@ -155,6 +217,45 @@
         return b.size <= PIC_MAX ? b : draw(1100, 0.78).then(function (b2) { if (b2.size > PIC_MAX) throw new Error('big'); return b2; });
       });
     });
+  }
+
+  /* A PICTURE IS SHOWN BEFORE IT GOES (Ryan's ask, 2026-10-19), so you can see
+     you picked the one you meant, and so picking one plainly did something. The
+     box opens above the message box the moment a file is chosen, saying it is
+     getting it ready, and then shows the picture as the radio redrew it, which
+     is exactly what will be sent: the right way up, smaller, and with nothing of
+     the camera's left in it. It is a blob: address in this browser alone, and
+     nothing has gone anywhere until Transmit or Send. The line names the file,
+     which is how somebody who cannot see the preview knows it is the right one.
+     The channel's box and a conversation's work the same way, through these. */
+  function picPending(box, img, line, file) {
+    var name = file.name || 'the picture', waiting = !box.hidden && !!img.src;
+    // A picture already waiting stays in view until the new one is ready.
+    line.textContent = waiting ? 'Getting ' + name + ' ready, to go in place of the one above…' : 'Getting ' + name + ' ready…';
+    if (!waiting) img.hidden = true;
+    box.hidden = false;
+    box.scrollIntoView({ block: 'nearest' });
+  }
+  function picReady(box, img, line, blob, file) {
+    if (img.cbUrl) URL.revokeObjectURL(img.cbUrl);
+    img.cbUrl = URL.createObjectURL(blob);
+    img.src = img.cbUrl;
+    img.hidden = false;
+    line.textContent = 'This is the picture that will go with your message, ' + (file.name ? file.name + ', ' : '') +
+      'as it will be sent: the radio has redrawn it and taken off anything the camera wrote into it. Nothing has gone yet.';
+    box.hidden = false;
+    box.scrollIntoView({ block: 'nearest' });
+  }
+  function picFailed(box, img, line, had) {
+    if (had) { line.textContent = 'That picture could not be read, so the one above is still the one waiting to go.'; return; }
+    picGone(box, img);
+  }
+  function picGone(box, img) {
+    if (img.cbUrl) URL.revokeObjectURL(img.cbUrl);
+    img.cbUrl = null;
+    img.removeAttribute('src');
+    img.hidden = true;
+    box.hidden = true;
   }
 
   /* THE ONE REDRAW. The Brass Tacks Board takes a moderator's picture through
@@ -307,24 +408,98 @@
   /* BASIC MARKDOWN, Ryan's ask, 2026-09-29, and it is drawn as elements, never
      as HTML: a message is split into lines and every piece becomes a node built
      here, with the words as text, so nothing anybody types can become markup.
-     Paragraphs and line breaks; > a quote; - or * or 1. a list; ``` a block of
-     code; **bold**, *italic* or _italic_, ~~struck~~ and `code` inline.
-     NOT links: a [text](address) stays as it was typed, because a link's
-     words are the address it goes to (streetLinks), so nobody can dress one
-     address up as another.
-     TWO THINGS ARE KEPT WHOLE and never parsed for emphasis: an address,
-     on the street or off it (underscores in a path are not italics) and a place in a film with what it
+     Paragraphs and line breaks; # a heading; > a quote; - or * or 1. a list;
+     ``` a block of code; **bold**, *italic* or _italic_, ~~struck~~, `code`
+     and [words](address) inline.
+     A HEADING IS # AND A SPACE (Ryan's ask, 2026-10-19), so #the-den is still
+     a room: # is a heading under the channel's own, an h3, ## an h4, and so
+     on down to h6, the forums' rule that a heading in somebody's words is
+     never the page's.
+     A LINK CAN HAVE WORDS OF ITS OWN NOW (Ryan's ask, 2026-10-19, reversing
+     "a [text](address) stays as typed"), and the old reason still holds,
+     because a link off the street still says where it goes: [words](address)
+     to another site is a link with those words and the host after them,
+     exactly as a bare address is (awayLink), so no words can make it look
+     like one on the street. One on the street is a path, checked as
+     streetLinks checks one. And words that are themselves an address, or
+     look like one (paypal.com), are not made a link at all: the whole thing
+     stays as typed and its address is linked as it would be anyway, because
+     words naming one site over a link to another are the thing to refuse.
+     THREE THINGS ARE KEPT WHOLE and never parsed for emphasis: an address,
+     on the street or off it (underscores in a path are not italics), a
+     [words](address) link, and a place in a film with what it
      names (@1:25 in “the film” at #the-room), because a title with an asterisk
      in it would otherwise break the button that jumps to it. */
   var MD_ITEM = /^\s*([-*•]|\d{1,3}[.)])\s+(.*)$/;
   var MD_QUOTE = /^\s*>\s?(.*)$/;
   var MD_FENCE = /^\s*```/;
+  var MD_HEAD = /^\s{0,3}(#{1,6})\s+(.*?\S)\s*#*\s*$/;
   var MD_EMPH = '\\*\\*(?=\\S)([^*\\n]*?\\S)\\*\\*|~~(?=\\S)([^~\\n]*?\\S)~~|(^|[^\\w*])\\*(?=\\S)([^*\\n]*?\\S)\\*(?![\\w*])|(^|[^\\w])_(?=\\S)([^_\\n]*?\\S)_(?!\\w)';
+  // [words](address): one pair of brackets, and an address that may hold one
+  // pair of brackets of its own, as Wikipedia's do, in <> or not.
+  var MD_LINK = /\[([^\[\]\n]{1,300})\]\(\s*<?((?:[^\s()<>]|\([^\s()<>]*\))+)>?\s*\)/g;
+  var STREET_PATH = /^\/(?!\/)[A-Za-z0-9\-._~\/#?=&%+]*$/;
+
+  // Where a [words](address) link may go: a path on this street, or a site
+  // elsewhere as awayUrl takes one. Anything else stays as typed.
+  function mdTarget(said) {
+    if (STREET_PATH.test(said)) return { path: said };
+    var s = new RegExp('^' + STREET.source + '$', 'i').exec(said);
+    if (s && /^[A-Za-z0-9\-._~\/#?=&%+]*$/.test(s[1] || '')) return { path: s[1] || '/' };
+    if (!/^https?:\/\//i.test(said)) return null;
+    var u = awayUrl(said);
+    return u ? { away: u } : null;
+  }
+  // Words that name a site: an address, or one word shaped like host.tld.
+  function addressy(words) {
+    var w = words.trim();
+    return /:\/\/|^www\./i.test(w) || /stimpunks\.world/i.test(w) ||
+      /^[^\s]*[A-Za-z0-9-]\.[A-Za-z]{2,}(?:[\/:?#][^\s]*)?$/.test(w);
+  }
+  function mdLinksIn(text) {
+    var out = [], m, re = new RegExp(MD_LINK.source, 'g');
+    while ((m = re.exec(text))) {
+      if (m.index && text.charAt(m.index - 1) === '!') continue;
+      var to = mdTarget(m[2]);
+      if (!to || addressy(m[1]) || !m[1].trim()) continue;
+      out.push({ at: m.index, end: m.index + m[0].length, words: m[1].trim(), to: to });
+    }
+    return out;
+  }
+  function mdLink(l) {
+    if (l.to.away) {
+      var a = awayLink(l.words, l.to.away);
+      a.classList.add('cb-md-a');
+      return a;
+    }
+    var b = el('a', 'cb-md-a', l.words);
+    b.href = l.to.path;
+    return b;
+  }
+  // Text with any [words](address) links in it; everything between them goes
+  // on to streetLinks as it always did.
+  function mdLinks(parent, text) {
+    var links = mdLinksIn(text), at = 0;
+    for (var i = 0; i < links.length; i++) {
+      if (links[i].at > at) streetLinks(parent, text.slice(at, links[i].at));
+      parent.appendChild(mdLink(links[i]));
+      at = links[i].end;
+    }
+    if (at < text.length) streetLinks(parent, text.slice(at));
+  }
 
   function md(box, text) {
-    var lines = String(text || '').split('\n'), i = 0, para = null, q, it;
+    var lines = String(text || '').split('\n'), i = 0, para = null, q, it, hd;
     while (i < lines.length) {
       var line = lines[i];
+      if ((hd = MD_HEAD.exec(line))) {
+        var h = el('h' + Math.min(6, hd[1].length + 2), 'cb-md-h cb-md-h' + Math.min(3, hd[1].length));
+        inline(h, hd[2]);
+        box.appendChild(h);
+        para = null;
+        i++;
+        continue;
+      }
       if (MD_FENCE.test(line)) {
         var code = [];
         for (i++; i < lines.length && !/^\s*```\s*$/.test(lines[i]); i++) code.push(lines[i]);
@@ -376,7 +551,8 @@
   }
 
   function kept(text) {
-    var out = awayAt(text).map(function (w) { return [w.at, w.end]; });
+    var out = awayAt(text).map(function (w) { return [w.at, w.end]; })
+      .concat(mdLinksIn(text).map(function (l) { return [l.at, l.end]; }));
     var m, re = new RegExp(STREET.source, 'gi'), st = new RegExp(STAMP.source, 'g');
     while ((m = re.exec(text))) out.push([m.index, m.index + m[0].length]);
     while ((m = st.exec(text))) {
@@ -396,14 +572,14 @@
       var ml = m[1] != null || m[2] != null ? 2 : 1;
       var hit = keep.some(function (k) { return (k[0] < s + ml && k[1] > s) || (k[0] < e && k[1] > e - ml); });
       if (hit) { re.lastIndex = m.index + 1; continue; }
-      if (s > at) streetLinks(parent, text.slice(at, s));
+      if (s > at) mdLinks(parent, text.slice(at, s));
       var tag = m[1] != null ? 'strong' : m[2] != null ? 's' : 'em';
       var w = el(tag);
       emphasis(w, m[1] != null ? m[1] : m[2] != null ? m[2] : m[4] != null ? m[4] : m[6]);
       parent.appendChild(w);
       at = e;
     }
-    if (at < text.length) streetLinks(parent, text.slice(at));
+    if (at < text.length) mdLinks(parent, text.slice(at));
   }
 
   function streetLinks(parent, text) {
@@ -715,8 +891,10 @@
     // replaced it; a browser that remembered it forgets it here.
     if ('findable' in state) { delete state.findable; save(state); }
 
-    var box = this.box = el('section', 'cb-radio');
+    var box = this.box = el('section', 'cb-radio' + (inWindow() ? ' cb-radio--window' : ''));
     box.setAttribute('aria-label', 'CB radio');
+    // In its own window it is out, and says so for any page opened meanwhile.
+    if (inWindow() && !state.popped) { state.popped = true; save(state); }
 
     // The bar along the top is the handle you drag it by, and holds the buttons.
     var bar = this.bar = el('div', 'cb-bar');
@@ -1103,7 +1281,12 @@
     row.appendChild(send);
     var ready = this.picReady = el('div', 'cb-pic-ready');
     ready.hidden = true;
+    var preview = this.picShown = el('img', 'cb-pic-preview');
+    preview.alt = '';
+    preview.hidden = true;
+    ready.appendChild(preview);
     var readyLine = this.picReadyLine = el('p', 'cb-pic-line');
+    readyLine.setAttribute('role', 'status');
     var altLab = el('label', 'cb-lab', 'Say what is in it, if you like');
     altLab.htmlFor = 'cb-pic-alt';
     var alt = this.picAlt = el('input', 'cb-say cb-pic-alt');
@@ -1121,15 +1304,18 @@
     // In the form, hidden: a file input outside the document is one some
     // browsers will not open a picker for.
     form.appendChild(picFile);
-    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, > quotes, - lists.');
+    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, or # and a room.');
     hint.id = 'cb-say-hint';
+    /* The picture waiting to go is above the box, where Discord puts one:
+       you see it, say what is in it, write the message and send, in that
+       order, top to bottom and in the keyboard's order too. */
+    form.appendChild(ready);
     form.appendChild(lab);
     form.appendChild(pick);
     form.appendChild(say);
     form.appendChild(hint);
     form.appendChild(row);
     form.appendChild(stickBox);
-    form.appendChild(ready);
     chanSec.appendChild(form);
 
     var film = el('div', 'cb-tools cb-film');
@@ -1221,6 +1407,20 @@
     notifyBtn.setAttribute('aria-expanded', 'false');
     notifyBtn.setAttribute('aria-controls', 'cb-notify');
     tools.appendChild(notifyBtn);
+    /* POP OUT, into a window of its own (see CB_WINDOW), and in that window,
+       the way back. Only where the browser can tell the other pages, because a
+       radio out that the pages cannot hear about would be a second radio. */
+    var popBtn = this.popBtn = el('button', 'cb-btn cb-pop-btn', inWindow() ? 'Back into the page' : 'Pop out');
+    popBtn.type = 'button';
+    popBtn.hidden = !popLine;
+    var popHow = el('span', 'sr', inWindow()
+      ? 'Closes this window and puts the radio back on the page you came from.'
+      : 'Moves the radio into a window of its own, at the size it is now, which stays open while you go from room to room.');
+    popHow.id = 'cb-pop-how';
+    popBtn.setAttribute('aria-describedby', 'cb-pop-how');
+    popBtn.addEventListener('click', function () { if (inWindow()) closeWindow(); else me.popOut(); });
+    tools.appendChild(popBtn);
+    tools.appendChild(popHow);
     var off = el('button', 'cb-btn cb-off', 'Sign off');
     off.type = 'button';
     off.addEventListener('click', function () { signOff(); });
@@ -1537,7 +1737,8 @@
       me.tell('Drag the bar to move the radio, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.');
     });
     // At Full the radio fills the window, so there is nowhere to move it to.
-    this.mover.still = function () { return me.state.size === 'full' && !me.state.folded; };
+    // In its own window it is the window, and the window is what moves.
+    this.mover.still = function () { return inWindow() || (me.state.size === 'full' && !me.state.folded); };
     // A theme's sides hang outside the box, so the radio keeps that much further in.
     this.mover.margin = function () {
       if (!me.sidesShown()) return 0;
@@ -1580,6 +1781,22 @@
     root.appendChild(sheet);
     root.appendChild(box);
     document.body.appendChild(host);
+    if (inWindow()) {
+      /* A link to a page of this site opens in the window you came from, so
+         this window keeps the radio: the channel's, the teleporter's, a
+         profile's. One to elsewhere opens in a new tab as everywhere. */
+      root.addEventListener('click', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a || a.target || a.hasAttribute('download') || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        var u;
+        try { u = new URL(a.getAttribute('href'), location.href); } catch (x) { return; }
+        if (u.origin !== location.origin) return;
+        e.preventDefault();
+        goStreet(u.href);
+      });
+      window.addEventListener('focus', function () { if (me.whereNow() === false) me.bandShown(); });
+      this.whereNow();
+    }
     this.bandShown();
     this.setAloud(this.aloud(), true);
     this.setSpeak(!!this.state.speak, true);
@@ -1727,7 +1944,7 @@
     for (var i = 0; i < drawn.length; i++) drawn[i].remove();
     // A pause between the Markdown's paragraphs, lines and list items, which
     // textContent would otherwise run together into one word.
-    var parts = words.querySelectorAll('p, li, pre, br');
+    var parts = words.querySelectorAll('p, li, pre, br, h3, h4, h5, h6');
     for (i = 0; i < parts.length; i++) parts[i].after('. ');
     var pic = li.querySelector('.cb-picture-open');
     var told = pic ? ' ' + pic.getAttribute('aria-label').replace(/^Open the picture larger\. /, 'A picture: ') : '';
@@ -1813,10 +2030,58 @@
     if (size === 'icon' && !this.tpPanel.hidden) this.setTeleport(false);
     if (!quiet) save(this.state);
     this.place();
+    if (inWindow() && !quiet) this.fitWindow();
     if (!tiny) this.log.scrollTop = this.log.scrollHeight;
     // The minus that made it an icon has gone, so the keyboard goes to the icon.
     if (size === 'icon' && had && !this.state.folded) this.openerBtn.focus();
   };
+  /* IN ITS OWN WINDOW A SIZE IS THE WINDOW'S: - and + make the window as big
+     as the radio is at that size, as near as the browser allows, and Full fills
+     the screen. Only on a press, never as messages arrive, and a browser that
+     will not let a page size its window leaves the radio filling the one it has. */
+  var WIN_WIDE = { icon: 120, small: 360, normal: 360, large: 640 };
+  Radio.prototype.fitWindow = function () {
+    var me = this;
+    requestAnimationFrame(function () {
+      var size = me.state.folded ? 'small' : (me.state.size || 'normal');
+      var dw = window.outerWidth - window.innerWidth, dh = window.outerHeight - window.innerHeight;
+      var w, h;
+      if (size === 'full') {
+        w = screen.availWidth; h = screen.availHeight;
+        try { window.moveTo(screen.availLeft || 0, screen.availTop || 0); } catch (e) { /* the browser decides */ }
+      } else {
+        // As tall as what is in it, which in this window is not its height.
+        var tall = 4;
+        for (var i = 0; i < me.box.children.length; i++) {
+          var c = me.box.children[i];
+          if (getComputedStyle(c).display === 'none' || c.hidden) continue;
+          tall += c === me.set ? c.scrollHeight : c.offsetHeight;
+        }
+        w = WIN_WIDE[size] + dw;
+        h = Math.min(screen.availHeight, tall + dh);
+      }
+      try { window.resizeTo(Math.round(w), Math.round(h)); } catch (e) { /* the browser decides */ }
+    });
+  };
+
+  /* OUT INTO A WINDOW OF ITS OWN, as big as the radio is now and where it is
+     on the screen, so it keeps the size it is at. This radio steps aside once
+     the window has opened; the window's radio is a new one, which reads
+     love-cb as this one left it. A film hosted or followed here stops, and the
+     radio says so on the bar left here. */
+  Radio.prototype.popOut = function () {
+    var r = this.box.getBoundingClientRect();
+    var w = Math.max(240, Math.round(r.width)), h = Math.max(160, Math.round(r.height));
+    var left = Math.round((window.screenX || 0) + r.left), top = Math.round((window.screenY || 0) + (window.outerHeight - window.innerHeight) + r.top);
+    var win = null;
+    try { win = window.open(CB_WINDOW, CB_WINDOW_NAME, 'popup,width=' + w + ',height=' + h + ',left=' + left + ',top=' + top); } catch (e) { win = null; }
+    if (!win) { this.tell('Your browser stopped the window opening. Allow pop-ups for stimpunks.world to pop the radio out, or keep it here.'); return; }
+    var stopped = !!(this.hosting || this.following);
+    this.state.popped = true;
+    save(this.state);
+    stepAside(stopped ? 'The radio is in a window of its own. Hosting and Follow stopped here, because they need the radio on the page with the film.' : '');
+  };
+
   // Small or an icon: what a press that needs the radio open makes Normal.
   Radio.prototype.tiny = function () { return this.state.size === 'small' || this.state.size === 'icon'; };
 
@@ -2237,6 +2502,7 @@
 
   Radio.prototype.listen = function () {
     var me = this;
+    if (this.whereNow()) return;
     this.loadRooms();
     /* Tuned to a room, the first listen waits for the street's list, so that
        a page that is no room (the 404 answers any address) never sends its
@@ -2293,8 +2559,11 @@
      arrives, because that is the live region's job and not the scroll bar's. */
   Radio.prototype.show = function (messages, mine) {
     var me = this, want = {}, i, added = 0;
-    // What is on the channel now, for Take to the forums to offer.
-    this.onAir = messages;
+    /* What is on the channel now, for Take to the forums, Up to edit and the @
+       list. Not this.onAir, which is the voice's flag that it is speaking: the
+       two shared a name from 2026-10-18, and the list being there kept the
+       voice from ever starting (Speak new messages aloud said nothing). */
+    this.aired = messages;
     var log = this.log;
     var atEnd = log.hidden || log.scrollHeight - log.scrollTop - log.clientHeight < 24;
     // The first hearing is what was already said; only what comes after is news.
@@ -2352,7 +2621,9 @@
       li.appendChild(head);
       var said = el('div', 'cb-text');
       said.cbRaw = m.text || '';
+      said.cbAt = m.at || [];
       li.appendChild(md(said, m.text));
+      this.markAt(said, said.cbAt);
       this.markEdited(li, m);
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
@@ -2418,8 +2689,10 @@
     var had = !!said.cbRaw;
     this.markEdited(li, m);
     said.cbRaw = text;
+    said.cbAt = m.at || [];
     said.textContent = '';
     md(said, text);
+    this.markAt(said, said.cbAt);
     if (had !== !!text) this.drawActs(li, m);
   };
 
@@ -2553,7 +2826,7 @@
     box.appendChild(h);
     box.appendChild(el('p', 'cb-quiet', 'Tick the messages to start a forum topic with. They go in exactly as they are on the channel, handles and times and all, edited marks too, and whoever sent one can take it out again. Pictures and stickers stay behind. Ask everybody in the conversation first, as you would before a screenshot.'));
     var list = el('ul', 'cb-forum-pick__list');
-    (this.onAir || []).forEach(function (m) {
+    (this.aired || []).forEach(function (m) {
       if (!m.text) return;
       var li = el('li');
       var lab = el('label', 'cb-forum-pick__row');
@@ -2777,32 +3050,127 @@
       if (typeof ps[i].cbRaw !== 'string') continue;
       ps[i].textContent = '';
       md(ps[i], ps[i].cbRaw);
+      this.markAt(ps[i], ps[i].cbAt);
     }
   };
 
-  // The # being typed at the caret, if any: where it starts and what follows.
+  /* AN @MENTION IS DRAWN AS THE NAME IT IS (Ryan's ask, 2026-10-19): a button
+     that opens that person's profile, as their handle on the channel does. Only
+     the handles the server kept with the message (channelMentions in
+     netlify/cb/lib.mjs) and your own, matched as the server's mentions()
+     matches, so an @ followed by nobody stays words. Yours is filled, the BASE
+     tag's pair the other way round, so you can see where you were named; it
+     neither moves nor lights up when it lands, the radio's rule. Not inside a
+     link, code or another button. */
+  Radio.prototype.markAt = function (into, handles) {
+    var me = this, list = [];
+    (handles || []).concat(this.state.handle).forEach(function (h) {
+      if (typeof h === 'string' && h.trim() && list.every(function (x) { return fold(x) !== fold(h); })) list.push(h);
+    });
+    list.sort(function (a, b) { return b.length - a.length; });
+    var escd = list.map(function (h) { return h.normalize('NFKC').trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+'); });
+    var re;
+    try { re = new RegExp('(^|[^\\p{L}\\p{N}_@])@(' + escd.join('|') + ')(?![\\p{L}\\p{N}_]|:\\d)', 'giu'); } catch (e) { return; }
+    var texts = [];
+    var walk = document.createTreeWalker(into, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) { return n.parentNode && n.parentNode.closest('a, code, pre, button') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; },
+    });
+    while (walk.nextNode()) texts.push(walk.currentNode);
+    texts.forEach(function (n) {
+      var text = n.nodeValue, last = 0, m, frag = null;
+      re.lastIndex = 0;
+      while ((m = re.exec(text))) {
+        frag = frag || document.createDocumentFragment();
+        var at = m.index + m[1].length;
+        frag.appendChild(document.createTextNode(text.slice(last, at)));
+        var named = m[2].replace(/\s+/g, ' ');
+        var h = list.filter(function (x) { return fold(x) === fold(named); })[0] || named;
+        var mine = fold(h) === fold(me.state.handle);
+        var b = el('button', 'cb-at' + (mine ? ' cb-at--me' : ''), '@' + m[2]);
+        b.type = 'button';
+        b.setAttribute('aria-haspopup', 'dialog');
+        b.setAttribute('aria-label', mine ? '@' + h + ', you. Opens your profile.' : '@' + h + '. Opens their profile.');
+        (function (who, btn) { btn.addEventListener('click', function () { me.peek(who, btn, null); }); })(h, b);
+        frag.appendChild(b);
+        last = at + 1 + m[2].length;
+      }
+      if (frag) { frag.appendChild(document.createTextNode(text.slice(last))); n.parentNode.replaceChild(frag, n); }
+    });
+  };
+
+  /* The # or @ being typed at the caret, if any: which, where it starts and
+     what follows. A # is a room. An @ is a person, with up to three words
+     after it, because a handle can have spaces in it; never a place in a film
+     (@34:12), which is digits, and never the middle of an address
+     (ada@example.org), which has a letter before it. */
   Radio.prototype.token = function () {
     var v = this.say.value, c = this.say.selectionStart;
     if (c == null || c !== this.say.selectionEnd) return null;
-    var m = v.slice(0, c).match(/(^|[\s(\[])#([a-z][a-z0-9-]*)$/i);
-    if (!m) return null;
-    return { start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
+    var before = v.slice(0, c);
+    var m = before.match(/(^|[\s(\[])#([a-z][a-z0-9-]*)$/i);
+    if (m) return { kind: 'room', start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
+    m = before.match(/(^|[^\p{L}\p{N}_@.\/])@([^\s@][^\n@]{0,23})$/u) || before.match(/(^|[^\p{L}\p{N}_@.\/])@()$/u);
+    if (!m || (m[2].match(/ /g) || []).length > 3 || / {2}$/.test(m[2]) || /^\d{1,3}(?::\d{0,2}){0,2}$/.test(m[2])) return null;
+    return { kind: 'person', start: c - m[2].length - 1, end: c, q: fold(m[2]), done: / $/.test(m[2]) };
+  };
+
+  /* WHO THE @ LIST OFFERS (Ryan's ask, 2026-10-19): everybody who has said
+     something on this channel, everybody those messages @mention, and
+     everybody on Who's online, which is asked for once, the first time an @
+     is typed, as the teleporter's @ asks. Never you. Alphabetical, the way
+     Who's online lists people, so nobody is put first, and nothing is counted. */
+  Radio.prototype.atPeople = function () {
+    var me = this, out = [];
+    function add(h) { if (h && fold(h) !== fold(me.state.handle) && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
+    (this.aired || []).forEach(function (m) { add(m.handle); (m.at || []).forEach(add); });
+    (this.people || []).forEach(function (p) { add(p.handle); });
+    (this.atPicked || []).forEach(add);
+    return out.sort(function (a, b) { return fold(a).localeCompare(fold(b)); });
+  };
+
+  Radio.prototype.peopleFor = function (t) {
+    if (!this.people && !this.atAsked) { this.atAsked = true; this.atWants = true; this.onlineTick(); }
+    var q = t.q, all = this.atPeople();
+    // A name already typed out in full, and a space after it, is finished.
+    if (t.done && all.some(function (h) { return fold(h) === q; })) return [];
+    return all.filter(function (h) {
+      var f = fold(h);
+      return !q || f.indexOf(q) === 0 || f.split(' ').some(function (w) { return w.indexOf(q) === 0; });
+    }).slice(0, PICK);
+  };
+
+  // Everybody the words might @mention, for the server to check against them
+  // (channelMentions in netlify/cb/lib.mjs keeps only the ones they name).
+  Radio.prototype.mentioned = function (text, more) {
+    var v = String(text || '').toLowerCase();
+    return (this.atPicked || []).concat(more || [], this.atPeople()).filter(function (h, i, all) {
+      return v.indexOf('@' + h.toLowerCase()) >= 0 && all.indexOf(h) === i;
+    }).slice(0, 40);
   };
 
   Radio.prototype.complete = function () {
-    var t = rooms && this.say.getRootNode().activeElement === this.say && this.token();
+    var t = this.say.getRootNode().activeElement === this.say && this.token();
+    if (t && t.kind === 'room' && !rooms) t = null;
     if (!t || t.start === this.dismissed) { if (!t) this.dismissed = -1; this.close(); return; }
-    var offer = roomsFor(t.q);
+    var person = t.kind === 'person';
+    var offer = person ? this.peopleFor(t) : roomsFor(t.q);
     if (!offer.length) { this.close(); return; }
     var keep = this.active >= 0 && this.offer[this.active] && offer.indexOf(this.offer[this.active]);
     this.offer = offer;
+    this.offerKind = t.kind;
     this.pick.textContent = '';
+    this.pick.setAttribute('aria-label', person ? 'People to mention' : 'Rooms on the street');
     for (var i = 0; i < offer.length; i++) {
       var li = el('li', 'cb-opt');
-      li.id = 'cb-pick-' + offer[i].tag;
       li.setAttribute('role', 'option');
-      li.appendChild(el('span', 'cb-opt__name', offer[i].name));
-      li.appendChild(el('span', 'cb-opt__tag', '#' + offer[i].tag));
+      if (person) {
+        li.id = 'cb-pick-at-' + i;
+        li.appendChild(el('span', 'cb-opt__name', offer[i]));
+      } else {
+        li.id = 'cb-pick-' + offer[i].tag;
+        li.appendChild(el('span', 'cb-opt__name', offer[i].name));
+        li.appendChild(el('span', 'cb-opt__tag', '#' + offer[i].tag));
+      }
       li.addEventListener('mousedown', function (e) { e.preventDefault(); });
       (function (n, me) { li.addEventListener('click', function () { me.choose(n); }); })(i, this);
       this.pick.appendChild(li);
@@ -2841,19 +3209,22 @@
      #tag is the address, and the address is how you get in. Who's online
      never lists it. */
   function offList() {
-    return !!(document.body && document.body.hasAttribute('data-unlisted'));
+    var d = streetDoc();
+    return !!(d && d.body && d.body.hasAttribute('data-unlisted'));
   }
 
   // The room an unlisted page is, out of its own address and its own title.
   function quietHere() {
     var tag = herePath().replace(/^\//, '').replace(/\.html$/, '');
-    var name = document.title.replace(/\s+\u2014\s+Stimpunks\.World$/, '');
+    var d = streetDoc();
+    var name = (d ? d.title : '').replace(/\s+\u2014\s+Stimpunks\.World$/, '');
     return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) ? { tag: tag, name: name, path: herePath(), quiet: true } : null;
   }
 
   // Where this page is, as the room list writes it, so the list can say so.
   function herePath() {
-    var p = location.pathname.replace(/\/index(?:\.html)?$/, '/');
+    var d = streetDoc();
+    var p = (d ? d.location : location).pathname.replace(/\/index(?:\.html)?$/, '/');
     return p === '/' ? '/' : p.replace(/\.html$/, '') + '.html';
   }
 
@@ -5088,7 +5459,13 @@
     picFile.addEventListener('change', function () { me.dmPickPicture(picFile.files && picFile.files[0]); });
     var ready = this.dmPicReady = el('div', 'cb-pic-ready');
     ready.hidden = true;
-    ready.appendChild(el('p', 'cb-pic-line', 'Picture ready to go with your message. The radio has taken off anything the camera wrote into it.'));
+    var dmShown = this.dmPicShown = el('img', 'cb-pic-preview');
+    dmShown.alt = '';
+    dmShown.hidden = true;
+    ready.appendChild(dmShown);
+    var dmLine = this.dmPicLine = el('p', 'cb-pic-line');
+    dmLine.setAttribute('role', 'status');
+    ready.appendChild(dmLine);
     var altLab = el('label', 'cb-lab', 'Say what is in it, if you like');
     altLab.htmlFor = 'cb-dm-pic-alt';
     var alt = this.dmPicAlt = el('input', 'cb-say cb-pic-alt');
@@ -5106,11 +5483,11 @@
     frow.appendChild(picBtn);
     frow.appendChild(send);
     form.appendChild(picFile);
+    form.appendChild(ready);
     form.appendChild(lab);
     form.appendChild(say);
     form.appendChild(hint);
     form.appendChild(frow);
-    form.appendChild(ready);
     talk.appendChild(form);
     this.dmBlockRow = el('div', 'cb-dm-block');
     talk.appendChild(this.dmBlockRow);
@@ -5670,19 +6047,22 @@
     this.dmPicFile.value = '';
     if (!file) return;
     if (!/^image\//.test(file.type)) { this.dmTold('That is not a picture.'); return; }
-    this.dmTold('Getting the picture ready…');
+    this.dmTold('');
+    picPending(this.dmPicReady, this.dmPicShown, this.dmPicLine, file);
     redraw(file).then(function (blob) {
       me.dmPicture = blob;
-      me.dmPicReady.hidden = false;
-      me.dmTold('');
-      me.dmPicAlt.focus();
-    }).catch(function () { me.dmTold('The radio could not read that picture.'); });
+      picReady(me.dmPicReady, me.dmPicShown, me.dmPicLine, blob, file);
+      me.dmPicAlt.focus({ preventScroll: true });
+    }).catch(function () {
+      picFailed(me.dmPicReady, me.dmPicShown, me.dmPicLine, !!me.dmPicture);
+      me.dmTold('The radio could not read that picture.');
+    });
   };
 
   Radio.prototype.dmDropPicture = function () {
     this.dmPicture = null;
     this.dmPicAlt.value = '';
-    this.dmPicReady.hidden = true;
+    picGone(this.dmPicReady, this.dmPicShown);
   };
 
   Radio.prototype.dmSend = function () {
@@ -6588,6 +6968,7 @@
         if (!me.online.hidden) me.onlineShown();
         if (me.tpWants && !me.tpPanel.hidden && personTyped(me.tpFind.value) !== null) me.tpRender();
         me.tpWants = false;
+        if (me.atWants) { me.atWants = false; me.complete(); }
       });
   };
 
@@ -6750,7 +7131,7 @@
   Radio.prototype.go = function (room) {
     if (!room) return;
     this.setTeleport(false);
-    location.href = room.path;
+    goStreet(room.path);
   };
 
   Radio.prototype.close = function () {
@@ -6776,14 +7157,19 @@
     }
   };
 
-  // Put the chosen room's #tag in place of what was typed after the #.
+  // Put the chosen room's #tag in place of what was typed after the #, or
+  // the chosen person's handle in place of what was typed after the @.
   Radio.prototype.choose = function (n) {
-    var t = this.token(), room = this.offer[n];
-    if (!t || !room) { this.close(); return; }
+    var t = this.token(), pick = this.offer[n];
+    if (!t || !pick || (t.kind === 'person') !== (this.offerKind === 'person')) { this.close(); return; }
     var v = this.say.value, after = v.slice(t.end);
-    var put = '#' + room.tag + (after.charAt(0) === ' ' ? '' : ' ');
+    var put = (t.kind === 'person' ? '@' + pick : '#' + pick.tag) + (after.charAt(0) === ' ' ? '' : ' ');
     var next = v.slice(0, t.start) + put + after;
-    if (next.length > this.say.maxLength) { this.tell('That room would not fit in the message.'); this.close(); return; }
+    if (next.length > this.say.maxLength) { this.tell(t.kind === 'person' ? 'That name would not fit in the message.' : 'That room would not fit in the message.'); this.close(); return; }
+    if (t.kind === 'person') {
+      this.atPicked = this.atPicked || [];
+      if (this.atPicked.every(function (x) { return fold(x) !== fold(pick); })) this.atPicked.push(pick);
+    }
     this.say.value = next;
     this.grow();
     var c = t.start + put.length;
@@ -6799,20 +7185,22 @@
     this.picFile.value = '';
     if (!file) return;
     if (!/^image\//.test(file.type)) { this.tell('That is not a picture.'); return; }
-    this.tell('Getting the picture ready…');
+    this.tell('');
+    picPending(this.picReady, this.picShown, this.picReadyLine, file);
     redraw(file).then(function (blob) {
       me.picture = blob;
-      me.picReadyLine.textContent = 'Picture ready to go with your message. The radio has taken off anything the camera wrote into it.';
-      me.picReady.hidden = false;
-      me.tell('');
-      me.picAlt.focus();
-    }).catch(function () { me.tell('The radio could not read that picture.'); });
+      picReady(me.picReady, me.picShown, me.picReadyLine, blob, file);
+      me.picAlt.focus({ preventScroll: true });
+    }).catch(function () {
+      picFailed(me.picReady, me.picShown, me.picReadyLine, !!me.picture);
+      me.tell('The radio could not read that picture.');
+    });
   };
 
   Radio.prototype.dropPicture = function () {
     this.picture = null;
     this.picAlt.value = '';
-    this.picReady.hidden = true;
+    picGone(this.picReady, this.picShown);
   };
 
   // The message box grows with what is in it, to about eight lines, and so
@@ -6831,6 +7219,8 @@
     this.tell(picture ? 'Sending the picture…' : 'Transmitting…');
     var room = this.tunedRoom(), b = { text: text };
     if (room) b.room = room;
+    var at = this.mentioned(text);
+    if (at.length) b.at = at;
     var first = picture ? sendPicture(picture, room, this.state.pass) : Promise.resolve(null);
     first.then(function (up) {
       if (up && up.status === 401) return { status: 401 };
@@ -6841,6 +7231,7 @@
       if (r.status === 401) return me.lost();
       if (r.status === 200) {
         me.say.value = '';
+        me.atPicked = [];
         me.grow();
         if (picture) me.dropPicture();
         me.tell('');
@@ -6871,7 +7262,7 @@
   /* Your newest message on the channel you can edit, for Up in an empty
      message box. */
   Radio.prototype.lastMine = function () {
-    var list = this.onAir || [];
+    var list = this.aired || [];
     for (var i = list.length - 1; i >= 0; i--) if (this.mayEdit(list[i])) return list[i].id;
     return null;
   };
@@ -6951,6 +7342,9 @@
     if (!ed || ed.busy) return;
     var room = this.tunedRoom(), b = { id: ed.id, text: ed.say.value.trim() };
     if (room) b.room = room;
+    var was = (this.aired || []).filter(function (m) { return m.id === ed.id; })[0];
+    var at = this.mentioned(b.text, was && was.at);
+    if (at.length) b.at = at;
     ed.busy = true;
     this.tell('Saving your edit…');
     call('/cb/edit', { body: b }, this.state.pass).then(function (r) {
@@ -6995,54 +7389,60 @@
      the one line shown besides the newest message, because a jump that did
      nothing and said nothing would look broken (the Playhouse's lesson). */
   Radio.prototype.jump = function (secs, film, room, video, beacon) {
-    var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     // A beacon means Catch up, pressed under Watching together; a stamp has none.
     var me = this, say = function (t) { if (beacon) me.tellFilm(t); else me.tell(t); };
+    if (!inWindow()) { say(jumpHere(secs, film, room, video, beacon)); return; }
+    /* From the radio's own window, in the window it came from, by that page's
+       own cb.js (loveCbFilms), which finds the film and its play button
+       there; the answer is said here, and that window is brought forward. */
+    var w = streetWindow(), there = null;
+    try { there = w && w.loveCbFilms ? w.loveCbFilms.jump(secs, film, room, video, beacon) : null; } catch (e) { there = null; }
+    if (!there) { say('Films play on the page in the window you came from, and there is none with the radio on it now. Bring the radio back into a page to watch together.'); return; }
+    say(there + ' That is in the window you came from.');
+    try { w.focus(); } catch (e) { /* the browser decides */ }
+  };
+
+  /* What moving the film on THIS page to secs (null for live) does, in words:
+     a stamp's press, Catch up, or the radio's own window asking. */
+  function jumpHere(secs, film, room, video, beacon) {
+    var e = window.loveEmbed, w = e && e.where ? e.where() : null;
     var live = secs == null;
     var at = live ? '' : place(secs), called = film ? '\u201c' + film + '\u201d' : 'the film';
     if (room && hereTag() !== room) {
       var there = byTag[room] ? byTag[room].name : '#' + room;
-      say((live ? called + ' is on live' : at + ' is in ' + called) + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
-      return;
+      return ((live ? called + ' is on live' : at + ' is in ' + called) + ' at ' + there + ', and you are in another room, so nothing moved. The room\u2019s name in that message takes you there.');
     }
-    if (live) { this.goLive(film, video, beacon); return; }
+    if (live) return liveHere(film, video, beacon);
     if (!w || (film && !sameFilm(film, w.film))) {
       var got = film && readyFilm(film, video, secs, beacon);
       if (got) {
-        say(called + ' is ready at ' + at + ': ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
-        return;
+        return (called + ' is ready at ' + at + ': ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
       }
-      say(!w
+      return (!w
         ? 'No film has been started on this page, so there is nothing to move. Press play on ' + called + ' first, then ' + at + ' will take it there.'
         : at + ' is in ' + called + ', and the film playing here is \u201c' + w.film + '\u201d, so nothing moved. ' + called + ' has no play button of its own on this page.');
-      return;
     }
     var r = e.seek(secs);
-    if (r.past) {
-      say(at + ' is past the end of \u201c' + r.film + '\u201d, which runs ' + place(r.duration) + '. It may have been said about a different film.');
-    } else {
-      say('Moved \u201c' + r.film + '\u201d to ' + at + '. It plays or stays paused, as it was.');
-    }
-  };
+    if (r.past) return (at + ' is past the end of \u201c' + r.film + '\u201d, which runs ' + place(r.duration) + '. It may have been said about a different film.');
+    return ('Moved \u201c' + r.film + '\u201d to ' + at + '. It plays or stays paused, as it was.');
+  }
 
   /* A LIVE SPOT, or Catch up beside a live host: a live video has no place to
      move to, so this gets its own play button ready, or says it is on here
      already. It presses nothing. */
-  Radio.prototype.goLive = function (film, video, beacon) {
+  function liveHere(film, video, beacon) {
     var e = window.loveEmbed, w = e && e.where ? e.where({ live: true }) : null;
-    var me = this, say = function (t) { if (beacon) me.tellFilm(t); else me.tell(t); };
     var called = film ? '\u201c' + film + '\u201d' : 'the live video';
     if (w && w.live && (!film || sameFilm(film, w.film))) {
-      say(w.playing
+      return (w.playing
         ? called + ' is already playing here. It is live, so there is no place in it to move to.'
         : called + ' is on here, paused. It is live, so there is no place in it to move to; press play on it to go on.');
-      return;
     }
     var got = readyFilm(film, video, null, beacon);
-    say(got
+    return (got
       ? called + ' is ready: ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it plays live' + playsOn(got) + '.' + readyNote(got)
       : called + ' has no play button of its own on this page, so it could not be got ready. It may be in a playlist here.');
-  };
+  }
 
   // A title cut short to fit a message ends in an ellipsis and matches by its start.
   function sameFilm(said, playing) {
@@ -7120,7 +7520,13 @@
     this.state.band = band === 'room' ? 'room' : 'world';
     save(this.state);
     this.bandShown();
+    this.lastTuned = this.tunedRoom();
     if (this.tunedRoom() === was) return;
+    this.retune();
+  };
+
+  // A new channel: the log starts afresh, and what is on it already is not news.
+  Radio.prototype.retune = function () {
     this.editing = null;
     this.log.textContent = '';
     this.seen = {};
@@ -7130,6 +7536,30 @@
     this.quiet.hidden = false;
     this.tell('');
     this.tune();
+  };
+
+  /* IN ITS OWN WINDOW, THE PAGE CAN CHANGE UNDER IT: the window you came from
+     has gone to another room. Asked at every listen, when this window is
+     focused, and when a page in that window says it has arrived. Tuned to This
+     room, the radio retunes to the new room's channel, as walking into it with
+     the radio on the page would; Be seen here follows on the next listen, and
+     the server replaces the record rather than adding one. Answers whether it
+     retuned, which has listened already. */
+  Radio.prototype.whereNow = function () {
+    if (!inWindow()) return false;
+    var now = herePath() + (offList() ? '|quiet' : '');
+    if (now === this.wasPath) return false;
+    var first = this.wasPath === undefined;
+    this.wasPath = now;
+    this.bandPressed = false;
+    this.seenFrom = null;
+    this.seenAnswer = null;
+    this.bandShown();
+    this.callShown();
+    var tuned = this.tunedRoom(), moved = !first && tuned !== this.lastTuned;
+    this.lastTuned = tuned;
+    if (moved) this.retune();
+    return moved;
   };
 
   Radio.prototype.bandShown = function () {
@@ -7153,13 +7583,15 @@
      given a room's name it does not have. A room that keeps to itself names
      itself (quietHere), to the person standing in it and nobody else. */
   function pageName() {
-    return document.title.replace(/\s+\u2014\s+Stimpunks\.World$/, '') || 'This page';
+    var d = streetDoc();
+    if (!d) return 'No page: the window you came from has gone';
+    return d.title.replace(/\s+\u2014\s+Stimpunks\.World$/, '') || 'This page';
   }
 
   Radio.prototype.hereShown = function () {
     var here = hereRoom();
     var known = !!(rooms && rooms.length);
-    this.hereName.textContent = here ? here.name : known ? 'A page that is not a room on the street' : pageName();
+    this.hereName.textContent = here ? here.name : inWindow() && !streetDoc() ? pageName() : known ? 'A page that is not a room on the street' : pageName();
     this.hereName.classList.toggle('cb-here-name--off', !here && known);
   };
 
@@ -7328,6 +7760,16 @@
     }
     var here = world ? WORLD : hereRoom();
     if (!here) { this.tell('This page is not a room on the street, so it has no call of its own. Join World call works from here.'); return; }
+    /* In the radio's own window the radio is the whole window, so a call goes
+       into a window of its own, the call's Pop out, straight away. */
+    if (inWindow() && window.loveCall.popOut) {
+      var out = window.loveCall.popOut(here);
+      this.callShown();
+      this.tell(out
+        ? 'The call is in a window of its own: join it there. It stays open while you go from room to room, and closing it hangs up.'
+        : 'Your browser stopped the call\u2019s window opening. Allow pop-ups for stimpunks.world to join a call from here.');
+      return;
+    }
     this.tell(world ? 'Opening the World call\u2026' : 'Opening the call\u2026');
     window.loveCall.open(here, {
       // The window the keyboard was in has gone, so it comes back to the
@@ -7676,7 +8118,8 @@
         : 'Catch up with ' + b.handle + ' in ' + b.film);
       li.appendChild(c);
       // No Follow beside a live video: there is no place in it to keep in step.
-      if (b.live) return li;
+      // And none in the radio's own window, where no film is (see popOut).
+      if (b.live || inWindow()) return li;
       var fo = el('button', 'cb-btn cb-catch cb-follow', 'Follow');
       fo.type = 'button';
       fo.dataset.room = b.room;
@@ -7768,7 +8211,7 @@
 
   function tuneIn() {
     var s = load();
-    if (!s || radio) return;
+    if (!s || radio || stub) return;
     if (!window.loveCall) { withCall(tuneIn); return; }
     // Never inside a frame: the Hermitage's laptop shows this site inside
     // itself, and a radio inside that screen would be a second radio.
@@ -7777,6 +8220,25 @@
     // A Town Hall private room: the radio is the base's there (love.js does not
     // load this file for anybody else, and the server refuses them anyway).
     if (!mayHere(s)) return;
+    /* OUT IN A WINDOW OF ITS OWN: this page gets the bar saying so, unless
+       nothing answers, which means the window went without saying (a crash,
+       or a browser that closed it), and then the radio is back here. A radio
+       that has started here and then hears a window open steps aside (see
+       popLine). */
+    if (!inWindow() && popLine) {
+      if (s.popped) {
+        showStub(s, '');
+        askWindow(function (alive) {
+          if (alive || !stub) return;
+          var now = load();
+          if (now) { delete now.popped; save(now); }
+          unStub();
+        });
+        arrive();
+        return;
+      }
+      popLine.postMessage({ ask: true });
+    }
     radio = new Radio(s);
     /* The forums open a person's profile the way a handle on the channel does:
        their names are buttons, and this is what those buttons press. */
@@ -7785,6 +8247,9 @@
        call.js has to load first, and arrive() used to run from start() while
        the radio was still null, so a spot's room link did nothing there. */
     arrive();
+    // The radio's own window says it is open, so a radio on any other page
+    // steps aside for it.
+    if (inWindow() && popLine) popLine.postMessage({ window: 'open' });
   }
 
   /* The roles a pass carries are the server's, read off CB_MODS on every
@@ -7800,8 +8265,8 @@
   };
 
   // May this pass have the radio on a Town Hall page that names a role?
-  function mayHere(s) {
-    var b = document.body;
+  function mayHere(s, b) {
+    b = b || document.body;
     if (b.getAttribute('data-cb') !== 'mods') return true;
     var need = (b.getAttribute('data-cb-role') || 'moderator').split(/\s+/);
     var roles = (s && s.roles) || [];
@@ -7816,7 +8281,167 @@
     if (was && was.pass) dropThisDevice(was.pass);
     forget();
     if (radio) { clearTimeout(radio.timer); radio.hush(); radio.host.remove(); radio = null; }
+    if (stub) unStub();
     counter();
+    // Signed off in its own window: the window has nothing left to hold.
+    if (inWindow()) closeWindow();
+  }
+
+  /* ── The radio's own window, seen from a page ─────────────────────────── */
+
+  var stub = null, windowAnswered = null;
+
+  // Is a window holding the radio? Asked over the line; a moment's silence is no.
+  function askWindow(then) {
+    var done = false;
+    windowAnswered = function () { if (done) return; done = true; windowAnswered = null; then(true); };
+    popLine.postMessage({ ask: true });
+    setTimeout(function () { if (done) return; done = true; windowAnswered = null; then(false); }, 1500);
+  }
+
+  /* The radio on this page goes into a window of its own, or has heard that one
+     is open: it stops listening, stops being seen, and becomes the bar. */
+  function stepAside(said) {
+    if (!radio) return;
+    var s = radio.state;
+    clearTimeout(radio.timer);
+    radio.timer = null;
+    radio.hush();
+    radio.leaveSeen();
+    radio.host.remove();
+    radio = null;
+    window.loveRadioPeek = null;
+    showStub(s, said);
+  }
+
+  /* THE BAR LEFT ON A PAGE while the radio is in its own window: the folded
+     radio's bar, in the radio's own clothes, saying where it is, with Show it
+     and Bring it back. It sends nothing to anybody: it is not the radio. */
+  function showStub(s, said) {
+    if (stub) { if (said) stub.tell(said); return; }
+    var host = el('div', 'cb-host');
+    if (window.loveCall && window.loveCall.dress) window.loveCall.dress(host, s.scheme);
+    var root = host.attachShadow({ mode: 'open' });
+    var sheet = document.createElement('link');
+    sheet.rel = 'stylesheet';
+    sheet.href = '/cb.css';
+    host.style.visibility = 'hidden';
+    sheet.addEventListener('load', function () { host.style.visibility = ''; });
+    sheet.addEventListener('error', function () { host.style.visibility = ''; });
+    root.appendChild(sheet);
+    var box = el('section', 'cb-radio cb-radio--folded cb-radio--away');
+    box.setAttribute('aria-label', 'CB radio, in a window of its own');
+    var x = typeof s.x === 'number' ? s.x : null, y = typeof s.y === 'number' ? s.y : null;
+    box.style.right = Math.max(8, Math.min(x == null ? 16 : x, window.innerWidth - 200)) + 'px';
+    box.style.bottom = Math.max(8, Math.min(y == null ? 16 : y, window.innerHeight - 80)) + 'px';
+    var bar = el('div', 'cb-bar cb-away-bar');
+    var name = el('p', 'cb-name');
+    name.appendChild(el('span', 'cb-brand', 'CB'));
+    name.appendChild(el('span', 'cb-away-where', 'In a window of its own'));
+    bar.appendChild(name);
+    var show = el('button', 'cb-btn', 'Show it');
+    show.type = 'button';
+    var back = el('button', 'cb-btn', 'Bring it back');
+    back.type = 'button';
+    bar.appendChild(show);
+    bar.appendChild(back);
+    box.appendChild(bar);
+    var line = el('p', 'cb-said cb-away-said');
+    line.setAttribute('role', 'status');
+    box.appendChild(line);
+    root.appendChild(box);
+    document.body.appendChild(host);
+    function tell(t) { line.textContent = t || ''; line.hidden = !t; }
+    tell(said);
+    show.addEventListener('click', function () {
+      if (!showWindow()) tell('Your browser would not bring it forward from here. It is in a window of its own; Bring it back puts it on this page instead.');
+      else tell('');
+    });
+    back.addEventListener('click', function () {
+      tell('Bringing it back\u2026');
+      // The window closes itself and says so, and every page gets its radio
+      // back; if it does not answer, it has gone, and this page takes it back.
+      askWindow(function (alive) {
+        if (alive) { popLine.postMessage({ back: true }); return; }
+        var now = load();
+        if (now) { delete now.popped; save(now); }
+        unStub(true);
+      });
+    });
+    stub = { host: host, tell: tell, back: back };
+  }
+
+  // The bar goes and the radio comes back to this page.
+  function unStub(focus) {
+    if (!stub) return;
+    var had = focus || (stub.host.shadowRoot && stub.host.shadowRoot.activeElement);
+    stub.host.remove();
+    stub = null;
+    tuneIn();
+    if (had && radio) radio.whenShown = function () { radio.foldBtn.focus(); };
+  }
+
+  /* Bring the window forward. window.open with no address finds a window by its
+     name without loading anything into it; where the browser makes a blank one
+     instead, it is closed again at once, and the window is asked to come
+     forward itself, which a browser may or may not let it do. call.js's
+     showAway does the same for the call's window. */
+  function showWindow() {
+    var w = null;
+    try { w = window.open('', CB_WINDOW_NAME); } catch (e) { w = null; }
+    var ours = false;
+    try { ours = !!w && w.location.pathname === CB_WINDOW; } catch (e) { ours = false; }
+    if (w && !ours) { try { w.close(); } catch (e) { /* gone */ } w = null; }
+    if (w) { try { w.focus(); } catch (e) { /* the browser decides */ } return true; }
+    if (popLine) popLine.postMessage({ show: true });
+    return false;
+  }
+
+  /* The radio's own window closes: it says it is no longer out first, so the
+     pages that get their radios back read love-cb without `popped`. */
+  function closeWindow() {
+    letGo();
+    window.close();
+    // A window somebody opened by its address is not one a page may close, so
+    // the radio leaves it instead, and the page says where it went.
+    setTimeout(function () {
+      if (radio) { clearTimeout(radio.timer); radio.host.remove(); radio = null; }
+      var said = document.querySelector('[data-cbwin-said]');
+      if (said) said.textContent = 'The radio is back on the page you came from. You can close this window.';
+    }, 400);
+  }
+  var letGone = false;
+  function letGo() {
+    if (letGone || !inWindow()) return;
+    letGone = true;
+    var now = radio ? radio.state : load();
+    if (radio) { radio.leaveSeen(); radio.hush(); }
+    if (now && now.popped) { delete now.popped; if (load()) save(now); }
+    if (popLine) popLine.postMessage({ window: 'closed' });
+  }
+
+  if (popLine) popLine.onmessage = function (e) {
+    var d = e.data || {};
+    if (inWindow()) {
+      if (d.ask && radio) popLine.postMessage({ window: 'open' });
+      if (d.back) closeWindow();
+      if (d.show) { try { window.focus(); } catch (x) { /* the browser decides */ } }
+      if (d.arrived && radio) radio.whereNow();
+      return;
+    }
+    if (d.window === 'open') {
+      if (windowAnswered) windowAnswered();
+      if (radio) stepAside('');
+      else if (!stub && load() && document.body.getAttribute('data-cb') !== 'off' && mayHere(load())) showStub(load(), '');
+    }
+    if (d.window === 'closed' && stub) unStub();
+  };
+  // The window says when it goes; a page tells the window it has arrived, so
+  // the radio out there knows where you are without waiting for its next listen.
+  window.addEventListener('pagehide', function () { if (inWindow()) letGo(); });
+  if (popLine && !inWindow()) {
+    window.addEventListener('pageshow', function () { popLine.postMessage({ arrived: true }); });
+    window.addEventListener('focus', function () { popLine.postMessage({ arrived: true }); });
   }
 
   /* ── The counter at the Community Center ──────────────────────────────── */
@@ -8109,6 +8734,12 @@
     if (location.hash === '#cb=props') { if (radio) radio.toProps(); return; }
     if (location.hash === '#cb=messages') { if (radio) radio.toMessages(); return; }
     var m = location.hash.match(/^#spot=(\d{1,6}|live)(?:&film=([^&]*))?$/);
+    if (m && !radio && stub) {
+      var s2 = m[1] === 'live' ? null : +m[1], f2 = '';
+      try { f2 = decodeURIComponent(m[2] || ''); } catch (e) { return; }
+      stub.tell(jumpHere(s2, f2, '', null, null));
+      return;
+    }
     if (!m || !radio) return;
     var secs = m[1] === 'live' ? null : +m[1], film = '';
     try { film = decodeURIComponent(m[2] || ''); } catch (e) { return; }
@@ -8137,8 +8768,15 @@
     radio.tell('You came for ' + at + ' in ' + called + '. ' + upFirst(pressOf(got)) + ' has the keyboard: press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
   }
 
+  if (!inWindow()) window.loveCbFilms = { jump: jumpHere };
+
   function start() {
     wireCounter();
+    // The radio's own window, opened with nobody signed on in this browser.
+    if (inWindow() && !load()) {
+      var said = document.querySelector('[data-cbwin-said]');
+      if (said) said.textContent = 'This browser is not signed on to the CB, so there is no radio to hold here. Sign on at the Community Center, then pop the radio out again.';
+    }
     tuneIn();
     // Following a spot to the room you are already in changes only the hash.
     window.addEventListener('hashchange', arrive);

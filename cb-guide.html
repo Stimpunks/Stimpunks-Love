@@ -106,7 +106,7 @@
       <tr><td><b>Channel</b></td><td><a href="#tuning">World or this room</a>, links to <a href="#forums">the forums</a> and to <a href="world.html">the World room</a>, which lists the rooms active now and the calls going, the messages, and <a href="#writing">the box to write in</a>.</td></tr>
       <tr><td><b>Messages</b></td><td><a href="#messages">Your messages</a>: writing to one other person. For a claimed username; without one the part says how to claim yours.</td></tr>
       <tr><td><b>Watching together</b></td><td><b>Hosting now</b>, everybody <a href="#films">hosting a film</a> on the street, with <b>Catch up</b> and <b>Follow</b> beside a host in your room, then <a href="#films">Add my spot, Host this film and Screen a video</a>, and the radio&rsquo;s answers to all of them. The part is only there while one of them is.</td></tr>
-      <tr><td><b>Your radio</b></td><td><a href="#tools">The switches for a screen reader and for speaking aloud, Themes, Profile and Sign off</a>, and links to the house norms and this guide.</td></tr>
+      <tr><td><b>Your radio</b></td><td><a href="#tools">The switches for a screen reader and for speaking aloud, Themes, Profile, Notifications, Pop out and Sign off</a>, and links to the house norms and this guide.</td></tr>
     </tbody>
   </table>
 
@@ -181,11 +181,12 @@
   <table class="plain-table">
     <thead><tr><th>Keys in the box</th><th>What they do</th></tr></thead>
     <tbody>
-      <tr><td><kbd>Enter</kbd></td><td>Transmits, unless the list of rooms is open. On a phone or a tablet, where there is no <kbd>Shift</kbd> and <kbd>Enter</kbd>, <kbd>Return</kbd> starts a new line instead and <b>Transmit</b> sends, and the box starts four lines tall.</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>Transmits, unless the list of rooms or people is open. On a phone or a tablet, where there is no <kbd>Shift</kbd> and <kbd>Enter</kbd>, <kbd>Return</kbd> starts a new line instead and <b>Transmit</b> sends, and the box starts four lines tall.</td></tr>
       <tr><td><kbd>Shift</kbd> and <kbd>Enter</kbd></td><td>Starts a new line.</td></tr>
       <tr><td><kbd>Ctrl</kbd> or <kbd>Cmd</kbd> and <kbd>Enter</kbd></td><td>Transmits, on any device, for a tablet with a keyboard on it.</td></tr>
       <tr><td><kbd>&uarr;</kbd>, with the box empty</td><td>Edits your newest message on the channel. See <a href="#reading"><b>Edit</b></a>.</td></tr>
       <tr><td><kbd>#</kbd> and the start of a room&rsquo;s name</td><td>Opens a list of rooms. <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> move through it, <kbd>Enter</kbd> or <kbd>Tab</kbd> picks one, and <kbd>Escape</kbd> leaves your # as you typed it.</td></tr>
+      <tr id="mentions"><td><kbd>@</kbd> and the start of somebody&rsquo;s handle</td><td>Opens a list of people to <a href="#mentioning">mention</a>, the same way: <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> move, <kbd>Enter</kbd> or <kbd>Tab</kbd> puts their handle in, and <kbd>Escape</kbd> leaves your @ as you typed it. A place in a film, <code>@34:12</code>, opens nothing.</td></tr>
     </tbody>
   </table>
   <p>Answers from the radio, like <b>Transmitting&hellip;</b> or <b>No signal. That did not go out.</b>, appear in one line just above the box. If you send more than twelve messages in a minute it asks you to wait a moment.</p>
@@ -202,13 +203,18 @@
       <tr><td>Three backticks on a line of their own, before and after</td><td>a block of code</td></tr>
       <tr><td><code>&gt;</code> at the start of a line</td><td>a quote</td></tr>
       <tr><td><code>-</code>, <code>*</code> or <code>1.</code> at the start of a line</td><td>a list</td></tr>
+      <tr><td><code>#</code> and a space at the start of a line</td><td>a heading, and <code>##</code> or <code>###</code> a smaller one. With no space, <code>#the-den</code> is still a room.</td></tr>
+      <tr><td><code>[words](an address)</code></td><td>a link with your words on it. One to another site still says where it goes after your words, as <b>&nearr; the site</b>, so no words can make it look like a link on the street. Words that are themselves an address, like <code>[paypal.com](&hellip;)</code>, are not made a link: it stays as typed, and its address is a link of its own.</td></tr>
       <tr><td>A blank line</td><td>a new paragraph</td></tr>
     </tbody>
   </table>
-  <p>There are no headings, images or HTML, and a link&rsquo;s words are always its address, so <code>[words](an address)</code> stays exactly as you typed it.</p>
+  <p>There are no images or HTML.</p>
+
+  <h3 id="mentioning">Mentioning somebody</h3>
+  <p>Type <kbd>@</kbd> and the start of somebody&rsquo;s handle, and the radio offers people to mention: everybody who has said something on the channel you are tuned to, everybody those messages mention, and everybody on <a href="#online">Who&rsquo;s online</a>, alphabetically, never you. The first <kbd>@</kbd> asks for Who&rsquo;s online once. A mention is drawn as the person&rsquo;s name, which opens their profile, and where you are mentioned your name is filled in, so you can see it. Nothing moves or lights up when one arrives. If they switched on <a href="#notifications">When somebody @mentions me</a>, they are told, as they were before.</p>
 
   <h3 id="pictures">Pictures</h3>
-  <p>Press <b>Picture</b> and choose a screenshot or a photo. <strong>The radio redraws it in your browser before it goes</strong>, which takes off where it was taken and everything else the camera wrote into it. Then:</p>
+  <p>Press <b>Picture</b> and choose a screenshot or a photo. <strong>The radio redraws it in your browser before it goes</strong>, which takes off where it was taken and everything else the camera wrote into it. <strong>It shows you the picture first</strong>, above the box, as it will be sent, with the name of the file you picked, and nothing has gone anywhere yet. Then:</p>
   <ul>
     <li><b>Say what is in it, if you like</b> is a description, up to 280 characters. It is offered, never required, and it is what a screen reader hears.</li>
     <li><b>Remove the picture</b> takes it off the message.</li>
@@ -228,6 +234,7 @@
       <tr id="theme-move"><td><b>Let my theme move: off</b></td><td>Under the themes. A drawing moves by itself at MAX GLITTER, growing, twinkling, glowing or breathing, and stands still at the other settings; press this to let yours move at every setting. Nothing in any of them flashes, nothing moves when a message arrives, and <b>Solarized</b> and <b>Wabi-sabi</b> never move at all.</td><td>in Themes</td></tr>
       <tr><td><b>Profile</b></td><td>Opens <a href="#profile">your username, your profile card and sets, your props, your avatars, your chimeras, your pets, your badges and jobs, and your battle jacket</a>.</td><td>always</td></tr>
       <tr><td><b>Notifications</b></td><td>Opens <a href="#notifications">notifications for this device</a>.</td><td>always</td></tr>
+      <tr><td><b>Pop out</b></td><td>Moves the radio into <a href="#radio-window">a window of its own</a>, at the size it is now, which stays open while you go from room to room. In that window it is <b>Back into the page</b>.</td><td>where your browser lets pages talk to each other</td></tr>
       <tr><td><b>Sign off</b></td><td>Signs you off and takes the radio away, on every page, until you sign on again. It also switches off notifications on this device.</td><td>always</td></tr>
     </tbody>
   </table>
@@ -236,6 +243,17 @@
   <p id="geo-credits"><strong>The GeoCities pages</strong> are after homepages kept in <a href="https://geocities.restorativland.org/">Restorativland&rsquo;s GeoCities archive</a>, Ryan&rsquo;s picks, each credited as the page names its maker and otherwise by its own title and address: <b>Divine Louise Brooks</b> after a fan page made in Microsoft Publisher 97 at PicketFence/Gazebo/3270, which names nobody; <b>Paula&rsquo;s Page</b> at RainForest/Jungle/2703; <b>Shop Til U Drop!</b>, Fran and Charlotte&rsquo;s window-shopping page at RodeoDrive/Boutique/5707; <b>mansnhomepage</b> at Area51/Atlantis/7331; <b>Double U for W</b> after <i>Dat&rsquo;s double U for W!!!</i> at Area51/Atlantis/7472; <b>Beatnik Termites</b> after the band&rsquo;s unofficial home page at Area51/Orion/8820, designed by Benjamin T. Marotta; <b>The Green Room</b>, Aaron Ortiz&rsquo;s page at Athens/Aegean/1213; and <b>Sarah&rsquo;s Room</b>, Sarah&rsquo;s home page at EnchantedForest/6203. <strong>Their colours were looked at and nothing on them is used</strong>: no picture, clip art, photograph or word, and nobody on them is drawn, not Louise Brooks, the band, or the child whose drawings fill mansnhomepage. No email address on any of them is repeated here, and nothing about anybody&rsquo;s life.</p>
   <p id="game-credits"><strong>Ryan&rsquo;s favourite games</strong> are after the games, each in its own palette and the shapes of its world, and <strong>no character, logo, emblem or symbol of any of them is drawn</strong>: castles and pennants, green rifts and gold filigree, blue cavern rock, an energy meter and ladders, a golden trail, snowy peaks and an aurora, riveted metal and fire, white panels and two portals, pines and a moon, a sunset and palms, the overworld&rsquo;s trees and rocks, and rune medallions over black mountains and lava. <b>Shadow of Mordor</b>&rsquo;s runes are after the game&rsquo;s own, at Ryan&rsquo;s ask: a gold ring with a mark glowing in it, each mark made up here out of a stave, branches, a crescent, prongs and dots, so none is a rune of the game&rsquo;s and none a letter of Tolkien&rsquo;s. Castle Crashers is The Behemoth&rsquo;s; Dragon Age: Inquisition is BioWare&rsquo;s, and Dragon Age a trade mark of Electronic Arts; Metroid and The Legend of Zelda are trade marks of Nintendo; Mega Man of Capcom; Fable III is Lionhead Studios&rsquo;, and Fable a trade mark of Microsoft; The Elder Scrolls V: Skyrim is Bethesda Game Studios&rsquo;, and its names trade marks of Bethesda Softworks; Doom is a trade mark of id Software; Portal of Valve; The Witcher 3: Wild Hunt is CD Projekt Red&rsquo;s, and The Witcher a trade mark of CD PROJEKT; Grand Theft Auto V is Rockstar North&rsquo;s, and Grand Theft Auto a trade mark of Take-Two Interactive; Middle-earth: Shadow of Mordor is Monolith Productions&rsquo;, for Warner Bros., and Middle-earth is J. R. R. Tolkien&rsquo;s.</p>
   <p>With both <b>New messages to a screen reader</b> and <b>Speak new messages aloud</b> on, a screen reader user hears everything twice. At the foot of the radio are links to the house norms and to this guide.</p>
+
+  <h3 id="radio-window">The radio in a window of its own: Pop out</h3>
+  <p>Every room is a page of its own, and the radio is on the page. <b>Pop out</b>, under Your radio, moves it into a browser window of its own, as big as it is and at the size it is in, and it stays there while you go from room to room in the window you came from.</p>
+  <ul>
+    <li><strong>One radio at a time.</strong> While it is out, every page has a small bar where the radio was, saying <b>In a window of its own</b>, with <b>Show it</b>, which brings the window forward if your browser lets it, and <b>Bring it back</b>, which closes the window and puts the radio on that page. The bar sends nothing.</li>
+    <li><strong>It is about the page you came from.</strong> <b>Where you are</b>, <b>This room</b>, <a href="#seen">Be seen here</a> and the room&rsquo;s call are that page&rsquo;s, and follow it as you walk. A link on the channel, the teleporter and a room in somebody&rsquo;s profile open there, so the radio&rsquo;s window keeps the radio. A page with no radio of its own, like the Healing Checkpoint, is no room to it.</li>
+    <li><strong>Films are in the page.</strong> A place in a film, <code>@34:12</code>, and <b>Catch up</b> move the film in the window you came from, and say so. <b>Host this film</b>, <b>Add my spot</b> and <b>Follow</b> need the radio on the page with the film, so bring it back for those.</li>
+    <li><strong>A call goes into a window of its own</strong> from there, the way <a href="#pop-out">Pop out</a> on a call does, because the radio is the whole of its window.</li>
+    <li><strong>&minus; and +</strong> still change the size, and make the window that size, as near as your browser allows. <b>Back into the page</b> closes the window, and so does closing it yourself.</li>
+    <li>Your browser has to let stimpunks.world open a window. If it will not, the radio says so and stays where it was. <strong>On a phone</strong> the window is another tab.</li>
+  </ul>
 
   <h2 id="notifications">Notifications</h2>
   <p><b>Notifications</b> opens a tray that switches this device on to be told about the CB, even with stimpunks.world closed. It is for this device only: a phone and a laptop are switched on, and choose, separately. Nothing is asked of your browser until you press <b>Notify me on this device</b>.</p>

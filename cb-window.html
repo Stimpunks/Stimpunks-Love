@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The CB — Stimpunks.World</title>
+<meta name="description" content="The CB radio, popped out into a window of its own, which keeps it while you go from room to room in the window you came from.">
+<!-- THE RADIO'S OWN WINDOW. Not a room: a window (tools/windows.py), which
+     Pop out, under the radio's Your radio, opens and the radio is held in, so
+     that it can follow somebody about the street while every room is a page
+     of its own (Ryan's ask, 2026-10-19). cb.js says how, beside CB_WINDOW.
+       · THE RADIO IS THE WHOLE WINDOW, at the size it was popped out at, and
+         a size pressed here is the window's size.
+       · ONE RADIO AT A TIME: while it is here, the radio on every other page
+         is a bar saying so, which sends nothing.
+       · NO GUEST BAR AND NO LOVE.JS (data-cb="here", which is also how the
+         Community Center loads cb.js itself), NO SIGN-OFF, NO SHARE CARD, NO
+         JOB MARKER, AND ON NO LIST: every link in a sign-off would take the
+         window, and the radio in it, somewhere else.
+       · NOTHING IS KEPT about it but love-cb's popped, which goes when the
+         window does.
+       · EVERY PATH STARTS WITH A SLASH, as on the 404, so the render checkers'
+         probes and any address this is reached at agree. -->
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#121315">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/love.css">
+<link rel="stylesheet" href="/cb.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+</head>
+<body class="cb-cbwin" id="top" data-cb="here" data-cb-window>
+
+<main id="main" class="cb-callwin__main">
+  <h1 class="cb-callwin__h">The CB</h1>
+  <p class="cb-callwin__said" data-cbwin-said role="status">Tuning in&hellip;</p>
+  <noscript><p class="cb-callwin__said">The radio needs JavaScript, and this window has nothing in it without it. Close it to go back to <a href="/">the street</a>.</p></noscript>
+  <p class="cb-callwin__more">This window holds the radio when somebody pops it out with <b>Pop out</b>, under <b>Your radio</b>, so it can stay open while they go from room to room. <a href="/cb-guide.html#radio-window">The CB guide</a> says how.</p>
+</main>
+
+<script src="/call.js"></script>
+<script src="/cb.js"></script>
+</body>
+</html>

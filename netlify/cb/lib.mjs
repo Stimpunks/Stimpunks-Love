@@ -6096,6 +6096,28 @@ export function mentions(text, handle) {
   return new RegExp(`(^|[^\\p{L}\\p{N}_@])@${esc}(?![\\p{L}\\p{N}_]|:\\d)`, 'iu').test(String(text).normalize('NFKC'));
 }
 
+/* THE HANDLES A MESSAGE @MENTIONS, for every radio to draw as names (Ryan's
+   ask, 2026-10-19: mentions on the CB, with completions). The sender's radio
+   says who it means, the people it offered in its @ list and the ones on the
+   channel; this keeps only those mentions() finds in the words, so a message
+   can never claim to name somebody it does not, and at most MENTION_MAX of
+   them. It is not who gets told: a notification asks mentions() of every
+   device's own handle, as it always did. A handle somebody typed by hand and
+   nobody offered stays words, which is what it is to every reader. */
+export const MENTION_MAX = 10;
+export function channelMentions(text, asked) {
+  const out = [], folds = new Set();
+  if (!text || !Array.isArray(asked)) return out;
+  for (const a of asked.slice(0, 60)) {
+    const h = typeof a === 'string' ? cleanHandle(a) : null;
+    if (!h || folds.has(foldHandle(h)) || !mentions(text, h)) continue;
+    folds.add(foldHandle(h));
+    out.push(h);
+    if (out.length >= MENTION_MAX) break;
+  }
+  return out;
+}
+
 /* ── Sending: RFC 8291's encryption and RFC 8292's VAPID, with node:crypto ── */
 
 function pushKey(raw = process.env.CB_PUSH_KEY) {
@@ -6412,7 +6434,7 @@ export function canEdit(who, m) {
    'gone', 'not yours', 'bad' (too long, or nothing but spaces) or 'empty'
    (no words left and nothing else in the message, which is Take off's job).
    The same words again change nothing and answer `same`. */
-export function editMessage(list, id, text, who, now = Date.now()) {
+export function editMessage(list, id, text, who, now = Date.now(), asked = null) {
   const i = list.findIndex((m) => m.id === id);
   if (i < 0) return { why: 'gone' };
   const m = list[i];
@@ -6424,6 +6446,10 @@ export function editMessage(list, id, text, who, now = Date.now()) {
   if (words === (m.text || '')) return { same: true, list };
   const next = list.slice();
   next[i] = { ...m, text: words, edited: now };
+  // Who it @mentions is worked out again from the new words: the names the
+  // radio offered now, and the ones it named before, if they are still there.
+  const named = channelMentions(words, [...(Array.isArray(asked) ? asked : []), ...(m.at || [])]);
+  if (named.length) next[i].at = named; else delete next[i].at;
   return { list: next, before: m.text || '', msg: next[i] };
 }
 
@@ -6508,6 +6534,7 @@ export function shape(messages) {
   return messages.map((m) => {
     const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base, claimed: !!m.claimed && !m.base };
     if (typeof m.edited === 'number') out.edited = m.edited;
+    if (Array.isArray(m.at) && m.at.length) out.at = m.at.slice(0, MENTION_MAX);
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
     const st = m.sticker && shapeSticker(m.sticker);
     if (st) out.sticker = st;

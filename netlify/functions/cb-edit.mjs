@@ -19,7 +19,7 @@ export default async (req, context) => {
   try {
     let got = null;
     const messages = await updateTuned(room, (list) => {
-      got = editMessage(list, b.id, b.text, who);
+      got = editMessage(list, b.id, b.text, who, Date.now(), b.at);
       return got.list && !got.same ? got.list : null;
     });
     if (got.why === 'gone') return json(404, { error: 'That message has gone off the air.', messages: shape(messages) });
