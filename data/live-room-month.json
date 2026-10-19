@@ -23,26 +23,6 @@
  ],
  "log": [
   {
-   "id": "hbQMuETLjH0",
-   "source": "acl",
-   "form": "long",
-   "title": "Cassandra Wilson - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-09-18T14:17:00Z",
-   "state": "screen",
-   "runs": 3401,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "sO-SVEKqT5I",
-   "source": "acl",
-   "form": "long",
-   "title": "Billy Strings - Seven Weeks In County | Live on Austin City Limits TV",
-   "published": "2026-09-18T15:30:33Z",
-   "state": "screen",
-   "runs": 359,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "RKHy7cKAXDg",
    "source": "acl",
    "form": "long",
@@ -305,31 +285,11 @@
    "id": "MHLGcNt91pU",
    "source": "acl",
    "form": "short",
-   "title": "Ari Lennox - Under The Moon clip | Live From Austin City Limits TV",
+   "title": "Ari Lennox - Under The Moon clip | Live on Austin City Limits TV",
    "published": "2026-10-18T01:03:35Z",
    "state": "screen",
    "runs": 54,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "ocu0gNv_jnc",
-   "source": "kexp",
-   "form": "long",
-   "title": "Prewn - But I Want More (Live on KEXP)",
-   "published": "2026-09-18T13:00:14Z",
-   "state": "screen",
-   "runs": 349,
-   "channel": "KEXP"
-  },
-  {
-   "id": "EC-OPiYXagw",
-   "source": "kexp",
-   "form": "long",
-   "title": "Prewn - Full Performance (Live on KEXP)",
-   "published": "2026-09-18T15:00:37Z",
-   "state": "screen",
-   "runs": 1818,
-   "channel": "KEXP"
   },
   {
    "id": "76jnoO_pEEI",
@@ -1352,16 +1312,6 @@
    "channel": "KEXP"
   },
   {
-   "id": "p_FRmLhFTmQ",
-   "source": "kexp",
-   "form": "short",
-   "title": "Prewn performs \"Ticks\" & more Live on KEXP",
-   "published": "2026-09-18T17:05:16Z",
-   "state": "screen",
-   "runs": 60,
-   "channel": "KEXP"
-  },
-  {
    "id": "_tGMeFjl0HM",
    "source": "kexp",
    "form": "short",
@@ -1642,16 +1592,6 @@
    "channel": "KCRW"
   },
   {
-   "id": "EjVgGkE9JDg",
-   "source": "kcrw",
-   "form": "short",
-   "title": "The Avalanches DJ set at The Silverlake Lounge",
-   "published": "2026-09-18T18:27:20Z",
-   "state": "screen",
-   "runs": 20,
-   "channel": "KCRW"
-  },
-  {
    "id": "Xxjux4MoFmM",
    "source": "kcrw",
    "form": "short",
@@ -1687,13 +1627,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-18T11:29:09Z"
+     "2026-10-19T11:23:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-18T11:29:09Z"
+     "2026-10-19T11:23:44Z"
     ]
    ]
   },
@@ -1701,13 +1641,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-18T11:29:09Z"
+     "2026-10-19T11:23:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-18T11:29:09Z"
+     "2026-10-19T11:23:44Z"
     ]
    ]
   },
@@ -1715,16 +1655,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-18T11:29:09Z"
+     "2026-10-19T11:23:44Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-18T11:29:09Z"
+     "2026-10-19T11:23:44Z"
     ]
    ]
   }
  },
- "set": "2026-10-18T11:29Z"
+ "set": "2026-10-19T11:23Z"
 }
