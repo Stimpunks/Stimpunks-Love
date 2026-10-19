@@ -189,35 +189,105 @@
   </section>
 
   <section aria-labelledby="bs-amb-h" class="bs-section">
-    <h2 id="bs-amb-h">Somebody else&rsquo;s cellar, to leave on</h2>
-    <p class="bs-intro">Long, quiet videos of other people&rsquo;s cellars, to have running while you are down here. <strong>They are not this cellar</strong>: there are barrels, wood and a fire in them, and none of that is down here. Each one says how long it runs before you press it, and nothing loads from YouTube until you do. The titles are their makers&rsquo;, as they wrote them.</p>
+    <h2 id="bs-amb-h">Somebody else&rsquo;s cellars, to leave on</h2>
+    <p class="bs-intro">Long, quiet videos of other people&rsquo;s cellars, and a bar and a tavern, picked by Ryan, in his order, to have running while you are down here. <strong>They are not this cellar</strong>: there are barrels, wood and fires in them, and none of that is down here. Each one plays where it hangs on the rack, or goes up on the screen in the rock with the button under it. Every button says how long it runs before you press it, and nothing loads from YouTube until you do. <strong>One of them only plays on YouTube</strong>, because its channel has switched off showing it on other sites, so it is a door out rather than a screen. The titles are their makers&rsquo;, as they wrote them.</p>
   <!-- bigsteep:ambience:begin -->
-  <ul class="bs-ambience">
-    <li class="bs-amb">
-      <h3 class="bs-amb__title">Underground Wine Cellar | Ultimate Relaxation Ambience</h3>
-      <p class="bs-amb__who">Tranquility Through Flames &middot; 10:00:08</p>
-      <button type="button" class="facade" data-embed-id="IIy8Sxw0bRo" data-embed-title="Tranquility Through Flames &mdash; Underground Wine Cellar | Ultimate Relaxation Ambience">
-        Put it on &mdash; 10:00:08
-        <span class="facade__play">&#9654; PRESS PLAY</span>
-      </button>
-    </li>
-    <li class="bs-amb">
-      <h3 class="bs-amb__title">Wine Cellar Ambience 🍷 Dripping Water Sounds, Basement Ambience &amp; Soft Crackling Fire 🔥 10 Hours</h3>
-      <p class="bs-amb__who">Relaxation Ambience &middot; 10:00:00</p>
-      <button type="button" class="facade" data-embed-id="b4mNy2lkqMY" data-embed-title="Relaxation Ambience &mdash; Wine Cellar Ambience 🍷 Dripping Water Sounds, Basement Ambience &amp; Soft Crackling Fire 🔥 10 Hours">
-        Put it on &mdash; 10:00:00
-        <span class="facade__play">&#9654; PRESS PLAY</span>
-      </button>
-    </li>
-    <li class="bs-amb">
-      <h3 class="bs-amb__title">Speakeasy Wine Lounge | 4 Hours of Soft Jazz &amp; Cozy Bar Ambience</h3>
-      <p class="bs-amb__who">Serene Ambience &middot; 4:46:57, and then a mix YouTube picks as it goes. Nobody here has checked what the mix plays after the first video.</p>
-      <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/Ss7DTLmKle0?list=RDSs7DTLmKle0" data-embed-title="Serene Ambience &mdash; Speakeasy Wine Lounge | 4 Hours of Soft Jazz &amp; Cozy Bar Ambience">
-        Put it on &mdash; 4:46:57, then YouTube&rsquo;s own mix until you stop it
-        <span class="facade__play">&#9654; PRESS PLAY</span>
-      </button>
-    </li>
-  </ul>
+  <div class="bs-screen" data-rack-screen="bs" tabindex="-1" hidden>
+    <p class="bs-screen__idle"><span><b>The screen in the rock.</b> Nothing shows on it. Any video on the rack can go up here with the button under it, and nothing loads until you press one.</span></p>
+  </div>
+  <p class="bs-screen__now" data-rack-now="bs" tabindex="-1" hidden></p>
+  <p class="bs-screen__back" hidden><button type="button" class="bs-btn" data-rack-back="bs">Take it off the screen</button></p>
+  <details class="bs-cellars" open>
+    <summary class="bs-cellars__sum">The rack: somebody else&rsquo;s cellars</summary>
+      <ul class="bs-ambience">
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Underground Wine Cellar | Ultimate Relaxation Ambience</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Tranquility Through Flames</span> &middot; 5 August 2025 &middot; 10:00:08</p>
+          <button type="button" class="facade" data-embed-id="IIy8Sxw0bRo" data-embed-title="Tranquility Through Flames &mdash; Underground Wine Cellar | Ultimate Relaxation Ambience">
+            Play it here &mdash; 10:00:08
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/IIy8Sxw0bRo?autoplay=1&amp;rel=0" data-rack-title="Tranquility Through Flames &mdash; Underground Wine Cellar | Ultimate Relaxation Ambience, on the screen in the rock" data-rack-film="Underground Wine Cellar | Ultimate Relaxation Ambience" data-rack-runtime="10:00:08">Put it on the screen &mdash; 10:00:08</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Wine Cellar Ambience 🍷 Dripping Water Sounds, Basement Ambience &amp; Soft Crackling Fire 🔥 10 Hours</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Relaxation Ambience</span> &middot; 11 August 2020 &middot; 10:00:00</p>
+          <button type="button" class="facade" data-embed-id="b4mNy2lkqMY" data-embed-title="Relaxation Ambience &mdash; Wine Cellar Ambience 🍷 Dripping Water Sounds, Basement Ambience &amp; Soft Crackling Fire 🔥 10 Hours">
+            Play it here &mdash; 10:00:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/b4mNy2lkqMY?autoplay=1&amp;rel=0" data-rack-title="Relaxation Ambience &mdash; Wine Cellar Ambience 🍷 Dripping Water Sounds, Basement Ambience &amp; Soft Crackling Fire 🔥 10 Hours, on the screen in the rock" data-rack-film="Wine Cellar Ambience 🍷 Dripping Water Sounds, Basement Ambience &amp; Soft Crackling Fire 🔥 10 Hours" data-rack-runtime="10:00:00">Put it on the screen &mdash; 10:00:00</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Speakeasy Wine Lounge | 4 Hours of Soft Jazz &amp; Cozy Bar Ambience</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Serene Ambience</span> &middot; 4 July 2025 &middot; 4:46:57, and then a mix YouTube picks as it goes. Nobody here has checked what the mix plays after the first video.</p>
+          <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/Ss7DTLmKle0?list=RDSs7DTLmKle0&amp;autoplay=1" data-embed-title="Serene Ambience &mdash; Speakeasy Wine Lounge | 4 Hours of Soft Jazz &amp; Cozy Bar Ambience">
+            Play it here &mdash; 4:46:57, then YouTube’s own mix until you stop it
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/Ss7DTLmKle0?list=RDSs7DTLmKle0&amp;autoplay=1&amp;rel=0" data-rack-title="Serene Ambience &mdash; Speakeasy Wine Lounge | 4 Hours of Soft Jazz &amp; Cozy Bar Ambience, on the screen in the rock" data-rack-film="Speakeasy Wine Lounge | 4 Hours of Soft Jazz &amp; Cozy Bar Ambience" data-rack-runtime="4:46:57, then YouTube’s own mix until you stop it">Put it on the screen &mdash; 4:46:57, then YouTube’s own mix until you stop it</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">A Rainy Evening in the Old Wine Cellar</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Quiet Ember</span> &middot; 31 March 2026 &middot; 3:01:48</p>
+          <button type="button" class="facade" data-embed-id="JAsSlfFoEDg" data-embed-title="Quiet Ember &mdash; A Rainy Evening in the Old Wine Cellar">
+            Play it here &mdash; 3:01:48
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/JAsSlfFoEDg?autoplay=1&amp;rel=0" data-rack-title="Quiet Ember &mdash; A Rainy Evening in the Old Wine Cellar, on the screen in the rock" data-rack-film="A Rainy Evening in the Old Wine Cellar" data-rack-runtime="3:01:48">Put it on the screen &mdash; 3:01:48</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Wine Bar 🍷 Cozy Fireplace Bar Ambience: Rainy Evening Glow | 2 Hours (4K)</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Fireside Glow Ambience</span> &middot; 6 January 2026 &middot; 2:00:01</p>
+          <a class="bs-door" href="https://www.youtube.com/watch?v=IuE_EyvAu8g">Watch it on YouTube &mdash; 2:00:01 <span class="bs-door__why">its channel has switched off showing it on other sites, so it plays there and not here</span></a>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Velvet Wine Cellar • Warm Cellar Tone for Sleep</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Velvet Dark Ambience</span> &middot; 10 October 2026 &middot; 10:00:00</p>
+          <button type="button" class="facade" data-embed-id="D2_oIr0W0rw" data-embed-title="Velvet Dark Ambience &mdash; Velvet Wine Cellar • Warm Cellar Tone for Sleep">
+            Play it here &mdash; 10:00:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/D2_oIr0W0rw?autoplay=1&amp;rel=0" data-rack-title="Velvet Dark Ambience &mdash; Velvet Wine Cellar • Warm Cellar Tone for Sleep, on the screen in the rock" data-rack-film="Velvet Wine Cellar • Warm Cellar Tone for Sleep" data-rack-runtime="10:00:00">Put it on the screen &mdash; 10:00:00</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Underground Wine Cellar – The BEST Ambient Sleep Experience</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Here While You Sleep</span> &middot; 12 March 2026 &middot; 1:00:00</p>
+          <button type="button" class="facade" data-embed-id="QYEse0JfpAw" data-embed-title="Here While You Sleep &mdash; Underground Wine Cellar – The BEST Ambient Sleep Experience">
+            Play it here &mdash; 1:00:00
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/QYEse0JfpAw?autoplay=1&amp;rel=0" data-rack-title="Here While You Sleep &mdash; Underground Wine Cellar – The BEST Ambient Sleep Experience, on the screen in the rock" data-rack-film="Underground Wine Cellar – The BEST Ambient Sleep Experience" data-rack-runtime="1:00:00">Put it on the screen &mdash; 1:00:00</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Wine cellar ambient music to relax, study and sleep 🍷🎶💤</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Sleepy Soundscaper</span> &middot; 14 May 2023 &middot; 25:00, and then a mix YouTube picks as it goes. Nobody here has checked what the mix plays after the first video.</p>
+          <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/ltRSc-MIg9g?list=RDltRSc-MIg9g&amp;autoplay=1" data-embed-title="Sleepy Soundscaper &mdash; Wine cellar ambient music to relax, study and sleep 🍷🎶💤">
+            Play it here &mdash; 25:00, then YouTube’s own mix until you stop it
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/ltRSc-MIg9g?list=RDltRSc-MIg9g&amp;autoplay=1&amp;rel=0" data-rack-title="Sleepy Soundscaper &mdash; Wine cellar ambient music to relax, study and sleep 🍷🎶💤, on the screen in the rock" data-rack-film="Wine cellar ambient music to relax, study and sleep 🍷🎶💤" data-rack-runtime="25:00, then YouTube’s own mix until you stop it">Put it on the screen &mdash; 25:00, then YouTube’s own mix until you stop it</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Relaxed Fantasy Tavern | Music &amp; Ambience | Cozy Medieval Inn | 4K</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Sound eScapes</span> &middot; 26 December 2022 &middot; 1:00:00, and then a mix YouTube picks as it goes. Nobody here has checked what the mix plays after the first video.</p>
+          <button type="button" class="facade" data-embed-src="https://www.youtube-nocookie.com/embed/bXT96SVp0jg?list=RDbXT96SVp0jg&amp;autoplay=1" data-embed-title="Sound eScapes &mdash; Relaxed Fantasy Tavern | Music &amp; Ambience | Cozy Medieval Inn | 4K">
+            Play it here &mdash; 1:00:00, then YouTube’s own mix until you stop it
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/bXT96SVp0jg?list=RDbXT96SVp0jg&amp;autoplay=1&amp;rel=0" data-rack-title="Sound eScapes &mdash; Relaxed Fantasy Tavern | Music &amp; Ambience | Cozy Medieval Inn | 4K, on the screen in the rock" data-rack-film="Relaxed Fantasy Tavern | Music &amp; Ambience | Cozy Medieval Inn | 4K" data-rack-runtime="1:00:00, then YouTube’s own mix until you stop it">Put it on the screen &mdash; 1:00:00, then YouTube’s own mix until you stop it</button>
+        </li>
+        <li class="bs-amb" data-rack-card>
+          <h3 class="bs-amb__title">Cellar soundscape | ASMR</h3>
+          <p class="bs-amb__who"><span class="bs-amb__ch">Elisirium</span> &middot; 20 September 2026 &middot; 13:23</p>
+          <button type="button" class="facade" data-embed-id="xQyZFKhNr1c" data-embed-title="Elisirium &mdash; Cellar soundscape | ASMR">
+            Play it here &mdash; 13:23
+            <span class="facade__play">&#9654; PRESS PLAY</span>
+          </button>
+          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="bs" data-rack-name="the screen in the rock" data-rack-src="https://www.youtube-nocookie.com/embed/xQyZFKhNr1c?autoplay=1&amp;rel=0" data-rack-title="Elisirium &mdash; Cellar soundscape | ASMR, on the screen in the rock" data-rack-film="Cellar soundscape | ASMR" data-rack-runtime="13:23">Put it on the screen &mdash; 13:23</button>
+        </li>
+      </ul>
+  </details>
   <!-- bigsteep:ambience:end -->
   </section>
 
@@ -296,6 +366,7 @@
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="rack.js" defer></script>
 <script src="quest.js" defer></script>
 </body>
 </html>

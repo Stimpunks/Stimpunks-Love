@@ -17637,8 +17637,15 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
        pass, red and from above. This is lit from behind, through glass, in
        the drinks' colours.
 
-   NOTHING MOVES AT ANY SETTING: no bubbles rising, no pour animating, because
-   the first friendly edit to a brewery is a glass filling up. */
+   NOTHING MOVES BY ITSELF AT ANY SETTING: no bubbles rising, no pour
+   animating, because the first friendly edit to a brewery is a glass filling
+   up. The screen in the rock plays only what somebody presses.
+
+   THE SCREEN IN THE ROCK IS NOT LIT (2026-10-19, Ryan's ask for the street's
+   rack and shared screen). It is a dark pane set into the rock in a steel
+   frame, the racks' own steel, and gives off nothing until somebody presses
+   something, because the room's light comes through the drinks and nowhere
+   else. A glowing screen would be a second light in a room built on one. */
 
 .bigsteep { background: var(--bs-rock); color: var(--bs-cream); font-family: 'Red Hat Text', var(--sans); }
 .bigsteep a { color: var(--bs-straw); text-underline-offset: 3px; }
@@ -17701,13 +17708,36 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 .bs-ledge li::marker { color: var(--bs-straw); }
 .bs-credit { margin: 30px 0 0; font-size: 14.5px; color: var(--bs-dim); max-width: 64ch; }
 
-/* SOMEBODY ELSE'S CELLAR, TO LEAVE ON. Three long videos in niches of their
-   own, each with its runtime above the press; the facade wears the rock, and
-   the pressed container is styled from .facade, never the button. */
-.bs-ambience { list-style: none; margin: 0; padding: 0; display: grid;
+/* SOMEBODY ELSE'S CELLARS, TO LEAVE ON: rack.js's pattern in the cellar's
+   clothes. The screen in the rock has nothing of its own on it and ships
+   hidden; every card on the rack plays where it hangs or goes up on the
+   screen. The screen is a dark pane in the racks' steel, never lit. A pressed
+   player is styled from .facade, never the button. */
+.bs-screen { margin: 4px 0 0; max-width: 860px; border-radius: 10px; }
+.bigsteep .bs-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border: 8px solid var(--bs-rack); border-radius: 10px;
+  background: var(--bs-rock); color: var(--bs-cream); font-size: 17px; line-height: 1.5;
+}
+.bs-screen__idle span { max-width: 44ch; }
+.bs-screen__idle b { color: var(--bs-straw); }
+.bigsteep .bs-screen .facade { border: 8px solid var(--bs-rack); border-radius: 10px; background: var(--bs-rock); }
+.bigsteep .bs-screen .facade iframe { border-radius: 2px; }
+.bigsteep .bs-screen__now { margin: 10px 0 0; max-width: 860px; font-weight: 700; font-size: 16px; }
+.bigsteep .bs-screen__back { margin: 8px 0 0; }
+
+.bs-btn {
+  font: 700 15px/1.3 'Red Hat Text', var(--sans); padding: 8px 14px; min-height: 44px; cursor: pointer;
+  text-align: left; border: 2px solid var(--bs-dim); border-radius: 8px; background: var(--bs-niche); color: var(--bs-cream);
+}
+.bs-btn:hover { border-color: var(--bs-straw); }
+
+.bs-cellars { margin: 24px 0 0; }
+.bs-cellars__sum { cursor: pointer; font: 700 23px/1.25 'Zilla Slab', Georgia, serif; color: var(--bs-cream); }
+.bs-ambience { list-style: none; margin: 14px 0 0; padding: 0; display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.bs-amb { display: flex; flex-direction: column; gap: 6px; padding: 14px; background: var(--bs-niche); border-radius: 12px; }
-.bs-amb .bs-amb__title { font-family: 'Red Hat Text', var(--sans); font-weight: 700; font-size: 16px; line-height: 1.35; }
+.bs-amb { display: flex; flex-direction: column; gap: 8px; padding: 14px; background: var(--bs-niche); border-radius: 12px; }
+.bs-amb .bs-amb__title { font-family: 'Red Hat Text', var(--sans); font-weight: 700; font-size: 16px; line-height: 1.35; overflow-wrap: anywhere; }
 .bs-amb__who { margin: 0; font-size: 14px; color: var(--bs-dim); }
 .bs-amb .facade { margin-top: auto; }
 .bigsteep .facade { border: 2px solid var(--bs-dim); background: var(--bs-rock); color: var(--bs-cream);
@@ -17715,6 +17745,15 @@ html[data-intensity="max"] .bz-fan.is-on svg .bz-ribbon--lift {
 .bigsteep .facade:hover { border-color: var(--bs-straw); }
 .bigsteep .facade__play { font-family: 'Red Hat Text', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .12em; color: var(--bs-straw); }
 .bigsteep .facade iframe { border-radius: 6px; }
+
+/* A DOOR OUT, for a video whose channel will not let other sites show it.
+   Shaped like a door and not a window: no aspect ratio, and dashed where
+   every plate on the rack is solid, because a link dressed as a screen
+   promises the one thing it cannot do. */
+.bigsteep .bs-door { margin-top: auto; display: block; padding: 12px 14px; border: 2px dashed var(--bs-dim); border-radius: 8px;
+  font-weight: 700; font-size: 15.5px; line-height: 1.4; color: var(--bs-straw); text-decoration: none; }
+.bigsteep .bs-door:hover { border-color: var(--bs-straw); text-decoration: underline; }
+.bs-door__why { display: block; margin-top: 4px; font-weight: 400; font-size: 14px; color: var(--bs-dim); }
 
 @media (max-width: 560px) {
   .bs-racks { grid-template-columns: 1fr; }

@@ -308,7 +308,7 @@ LISTS = [
     # asking here is worth more than anywhere.
     ("the green's search rack", "data/the-green-latest.json", "the-green.html"),
     ("the pile", "data/the-pile.json", "the-pile.html"),
-    # Big Steep: three long cellar ambience videos on their makers' own
+    # Big Steep: long cellar ambience videos on their makers' own
     # channels, the kind of upload that goes private without ceremony.
     ("big steep", "data/big-steep.json", "big-steep-fermentables.html"),
     # The cabin behind the door marked E, a room you have to know the address
@@ -399,9 +399,12 @@ def tracks_in(data):
         # like a re-upload until Ryan says), so it is not reported.
         return [dict(v, artist=v.get("channel")) for v in data["videos"] if not v.get("held")]
     # BIG STEEP keeps its cellar videos beside its house styles, which are
-    # drinks rather than videos.
+    # drinks rather than videos. 'how' is normalised to 'state' the way the
+    # Hermitage's is: a video published as a door out (its channel has switched
+    # off showing it on other sites) is EXPECTED to refuse the frame.
     if "ambience" in data:
-        return [dict(a, artist=a.get("channel")) for a in data["ambience"]]
+        return [dict(a, artist=a.get("channel"), state="link" if a.get("how") == "link" else None)
+                for a in data["ambience"]]
     # THE LIVE ROOM IS TESTED BEFORE 'sessions', because its studios hold
     # sessions and The Den's file is keyed on 'sessions' at the top. A file with
     # 'studios' is the Live Room's; its sessions are one video each.

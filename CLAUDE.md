@@ -4689,7 +4689,11 @@ description 5; it runs 4:46:57). **The speakeasy plays into a YouTube mix (`list
 Ryan's call after it was first dropped: a list YouTube builds on the fly, so the label gives the
 first video's runtime, then says the mix has none and is unchecked. `make-big-steep.py` refuses a mix
 that is not RD plus the video's own id, because a label describing the wrong list is the broken
-thing. Their descriptions sell them for sleep and focus; none of that is copied.
+thing. Their descriptions sell them for sleep and focus; none of that is copied. **Since 2026-10-19
+they are a rack under the screen in the rock** (`rack.js`, Ryan's ask): a dark pane in the racks'
+steel with nothing of its own on it, shipped hidden, never lit, because the room's light comes only
+through the drinks. A video whose channel switches embedding off is a door (`how: "link"` with a
+`door_why`), and the tool refuses a door with a mix.
 
 **MYCELIUM MUNCHIES IS LEVEL B2, A MUSHROOM FARM WITH A RESTAURANT AT THE END OF IT.** §65, Ryan's
 brief, 2026-09-26, built by `tools/make-mycelium.py` out of `data/mycelium.json`. **Vital Plant

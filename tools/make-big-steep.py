@@ -26,10 +26,18 @@ WHAT IT REFUSES:
   · A HEALTH CLAIM. Probiotics, gut health, antioxidants, detox, a hangover cure:
     kombucha in particular is sold on its body, and a drink here is a drink.
   · A COUNT: no tally of pours, rounds or units.
-  · AN AMBIENCE VIDEO WITHOUT A RUNTIME, OR WITH AN ID THAT IS NOT ONE. The
-    street's oldest promise, for three ten-hour cellars that are somebody
-    else's. Their titles are quoted as written and cut out of the sweep,
-    because they are their uploaders' words.
+  · A CELLAR VIDEO WITHOUT A RUNTIME, OR WITH AN ID THAT IS NOT ONE. The
+    street's oldest promise, for long videos of cellars that are somebody
+    else's. Their titles and channel names are quoted as written and cut out
+    of the sweep, because they are their uploaders' words; every sentence of
+    ours round them is swept.
+  · A CELLAR VIDEO WITH NO DATE IT WENT UP, AND A DOOR WITH NO REASON. Since
+    2026-10-19 the videos are a rack under the screen in the rock (rack.js,
+    Ryan's ask): each plays where it hangs or goes up on the screen, which has
+    nothing of its own on it and ships hidden. A video whose channel has
+    switched off showing it on other sites is a door out to YouTube, never a
+    screen, and it says why on its face; a door with a mix is refused, because
+    the mix is a list the door never opens.
   · WOOD, in the room's own words about the cellar: the vessels are glass and
     steel, which is what keeps the room off the brown rooms.
 
@@ -131,6 +139,7 @@ for st in styles:
 
 VID = re.compile(r"^[A-Za-z0-9_-]{11}$")
 RUNTIME = re.compile(r"^(?:\d+:)?[0-5]?\d:[0-5]\d$")
+ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 for a in data.get("ambience", []):
     where = f"ambience {a.get('id')!r}"
     if not VID.match(a.get("id", "")):
@@ -140,6 +149,19 @@ for a in data.get("ambience", []):
     for key in ("title", "channel"):
         if not a.get(key):
             problems.append(f"{where} has no {key}.")
+    if not ISO.match(str(a.get("published", ""))):
+        problems.append(f"{where} has no date it went up (published, YYYY-MM-DD), read off its own watch page.")
+    # A DOOR is a video its channel will not let other sites show. It goes out
+    # to YouTube, says why on its face, and never has a screen button.
+    if a.get("how", "screen") not in ("screen", "link"):
+        problems.append(f"{where}'s how is {a['how']!r}; a cellar video is a screen or a link out.")
+    if a.get("how") == "link":
+        if not a.get("door_why"):
+            problems.append(f"{where} is a door with no door_why. A door says why it is not a screen.")
+        else:
+            sweep(a["door_why"], f"{where} (door_why)")
+        if "mix" in a:
+            problems.append(f"{where} is a door with a mix. A door opens the watch page, never the mix.")
     # A YOUTUBE MIX is a list YouTube builds on the fly, starting from this
     # video: its id is RD followed by the video's own. Anything else is a mix of
     # something else, and the label would be describing the wrong list.
@@ -194,29 +216,75 @@ def card(st):
 
 block = "\n".join(['  <ul class="bs-racks">', *[card(st) for st in styles], "  </ul>"])
 att = lambda s: html.escape(s, quote=True)
-amb = ['  <ul class="bs-ambience">']
-for a in data.get("ambience", []):
+MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August",
+          "September", "October", "November", "December")
+SCREEN = ("bs", "the screen in the rock")
+
+
+def day(iso):
+    y, m, dd = (int(x) for x in iso.split("-"))
+    return f"{dd} {MONTHS[m - 1]} {y}"
+
+
+def cellar(a):
+    """One card on the rack: the uploader's title and channel, the date it went
+    up, how long it runs, and either the two presses (here, or on the screen)
+    or a door out to YouTube."""
+    sid, sname = SCREEN
+    t, c, r = esc(a["title"]), esc(a["channel"]), a["runtime"]
+    out = ['        <li class="bs-amb" data-rack-card>',
+           f'          <h3 class="bs-amb__title">{t}</h3>']
+    if a.get("mix"):
+        out.append(f'          <p class="bs-amb__who"><span class="bs-amb__ch">{c}</span> &middot; {day(a["published"])} '
+                   f'&middot; {r}, and then a mix YouTube picks as it goes. Nobody here has checked what the mix plays '
+                   'after the first video.</p>')
+    else:
+        out.append(f'          <p class="bs-amb__who"><span class="bs-amb__ch">{c}</span> &middot; {day(a["published"])} '
+                   f'&middot; {r}</p>')
+    if a.get("how") == "link":
+        out += [f'          <a class="bs-door" href="https://www.youtube.com/watch?v={a["id"]}">Watch it on YouTube &mdash; {r} '
+                f'<span class="bs-door__why">{esc(a["door_why"])}</span></a>',
+                '        </li>']
+        return out
     if a.get("mix"):
         # THE MIX PLAYS ON PAST THE FIRST VIDEO, so the label gives that
         # video's runtime and then says the rest has none and is unchecked.
-        embed = (f'data-embed-src="https://www.youtube-nocookie.com/embed/{a["id"]}?list={a["mix"]}"')
-        label = f'Put it on &mdash; {a["runtime"]}, then YouTube&rsquo;s own mix until you stop it'
-        note = (f'{esc(a["channel"])} &middot; {a["runtime"]}, and then a mix YouTube picks as it goes. '
-                'Nobody here has checked what the mix plays after the first video.')
+        # A list built from data-embed-src gets no autoplay from love-embed.js,
+        # so it asks for it here, or the press only loads a second play button.
+        embed = f'data-embed-src="https://www.youtube-nocookie.com/embed/{a["id"]}?list={a["mix"]}&amp;autoplay=1"'
+        src = f'https://www.youtube-nocookie.com/embed/{a["id"]}?list={a["mix"]}&amp;autoplay=1&amp;rel=0'
+        runs = f"{r}, then YouTube’s own mix until you stop it"
     else:
         embed = f'data-embed-id="{a["id"]}"'
-        label = f'Put it on &mdash; {a["runtime"]}'
-        note = f'{esc(a["channel"])} &middot; {a["runtime"]}'
-    amb += ['    <li class="bs-amb">',
-            f'      <h3 class="bs-amb__title">{esc(a["title"])}</h3>',
-            f'      <p class="bs-amb__who">{note}</p>',
-            f'      <button type="button" class="facade" {embed} '
+        src = f'https://www.youtube-nocookie.com/embed/{a["id"]}?autoplay=1&amp;rel=0'
+        runs = r
+    out += [f'          <button type="button" class="facade" {embed} '
             f'data-embed-title="{att(a["channel"])} &mdash; {att(a["title"])}">',
-            f'        {label}',
-            '        <span class="facade__play">&#9654; PRESS PLAY</span>',
-            '      </button>',
-            '    </li>']
-amb.append("  </ul>")
+            f'            Play it here &mdash; {esc(runs)}',
+            '            <span class="facade__play">&#9654; PRESS PLAY</span>',
+            '          </button>',
+            f'          <button type="button" class="bs-btn bs-amb__up" hidden data-rack-to="{sid}" '
+            f'data-rack-name="{sname}" data-rack-src="{src}" '
+            f'data-rack-title="{att(a["channel"])} &mdash; {att(a["title"])}, on {sname}" '
+            f'data-rack-film="{att(a["title"])}" data-rack-runtime="{att(runs)}">Put it on the screen &mdash; {esc(runs)}</button>',
+            '        </li>']
+    return out
+
+
+sid, sname = SCREEN
+amb = [f'  <div class="bs-screen" data-rack-screen="{sid}" tabindex="-1" hidden>',
+       '    <p class="bs-screen__idle"><span><b>The screen in the rock.</b> Nothing shows on it. Any video on the rack '
+       'can go up here with the button under it, and nothing loads until you press one.</span></p>',
+       '  </div>',
+       f'  <p class="bs-screen__now" data-rack-now="{sid}" tabindex="-1" hidden></p>',
+       f'  <p class="bs-screen__back" hidden><button type="button" class="bs-btn" data-rack-back="{sid}">'
+       'Take it off the screen</button></p>',
+       '  <details class="bs-cellars" open>',
+       '    <summary class="bs-cellars__sum">The rack: somebody else&rsquo;s cellars</summary>',
+       '      <ul class="bs-ambience">']
+for a in data.get("ambience", []):
+    amb += cellar(a)
+amb += ['      </ul>', '  </details>']
 amb_block = "\n".join(amb)
 src = ROOM.read_text()
 if "<!-- bigsteep:styles:begin -->" not in src:
@@ -232,9 +300,11 @@ if data.get("ambience"):
 main = re.search(r"<main\b.*?</main>", out, re.S)
 text = main.group(0) if main else ""
 text = re.sub(r"<!-- quest:[^:]+:begin -->.*?<!-- quest:[^:]+:end -->", " ", text, flags=re.S)
-# THE AMBIENCE TITLES ARE THEIR UPLOADERS' WORDS, quoted as written, and cut out
-# before the room's own voice is swept; the sentences of ours around them are not.
-text = re.sub(r"<!-- bigsteep:ambience:begin -->.*?<!-- bigsteep:ambience:end -->", " ", text, flags=re.S)
+# THE CELLAR VIDEOS' TITLES AND CHANNEL NAMES ARE THEIR UPLOADERS' WORDS, quoted
+# as written, and cut out before the room's own voice is swept; the sentences of
+# ours around them, the screen's plate and every label, are not. (The titles in
+# attributes go with the tags.)
+text = re.sub(r'<h3 class="bs-amb__title">.*?</h3>|<span class="bs-amb__ch">.*?</span>', " ", text, flags=re.S)
 text = re.sub(r"<!--.*?-->|<(svg|script|style)\b.*?</\1>", " ", text, flags=re.S)
 text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", text)))
 sweep(text, "big-steep-fermentables.html")
