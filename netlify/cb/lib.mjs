@@ -5165,7 +5165,8 @@ export function cleanMessage(s) {
    that can notify (an @ mention, a message in a room you follow, a call
    starting in a room you follow or the World call, and everything on World),
    each off until switched on, for anybody signed on; and the message's words
-   in it, which each device can turn off.
+   in it, which each device can turn off. A fifth came the same evening: props
+   given to a claimed username (notifyProps).
 
    WHAT IS KEPT is one record per device that switched them on, all in one
    blob (DEVICES), so a message reads one blob to find who to tell: the
@@ -5223,14 +5224,15 @@ export function cleanSubscription(sub) {
   return { endpoint, p256dh: b64(p256dh), auth: b64(auth) };
 }
 
-/* What a device asked for: four switches, all off until switched on, the
+/* What a device asked for: five switches, all off until switched on, the
    words, on unless switched off, and the rooms it follows. null if it follows
    too many. */
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
   if (rooms.length > PUSH_ROOMS_MAX) return null;
-  return { mentions: w.mentions === true, world: w.world === true, calls: w.calls === true, words: w.words !== false, rooms };
+  return { mentions: w.mentions === true, props: w.props === true, world: w.world === true, calls: w.calls === true,
+    words: w.words !== false, rooms };
 }
 
 /* A pass's parts, which are kept, and its hash; never the pass. */
@@ -5475,6 +5477,37 @@ export async function notifyForum(topic, post, before = '', s = store(), mods = 
     }
     const payload = { kind: 'forum', why: 'mention', handle: post.handle, cat: cat.name, title, text, t: topic.id, p: post.id };
     sends.push({ id, d, payload, opts: { urgency: 'high' } });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* Somebody has given props (Ryan, 2026-10-18, the follow-up DECISIONS.md
+   left open when props shipped): tell each device that switched on When
+   somebody gives me props and was switched on as the person they were given
+   to, whose pass is still that claimed username's own. Until then a prop
+   waited in Profile until its person happened to open it, because nothing on
+   the radio lights up or counts. The notification says who wrote it and, if
+   the device wants the words, the prop's first words; never how many are
+   waiting, and never anything to the writer. A prop waits until its person
+   presses Confirm or Reject, so a notification that never arrives loses
+   nothing. */
+export async function notifyProps(handle, writer, text, s = store(), mods = readMods(), send = sendPush) {
+  if (send === sendPush && !pushReady()) return [];
+  const to = foldHandle(handle), from = foldHandle(writer);
+  if (!to || to === from) return [];
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold !== to || !(d.want && d.want.props)) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!who.account || foldHandle(who.handle) !== to) continue;
+    let words = '';
+    if (d.want.words !== false) {
+      words = String(text || '').replace(/\s+/g, ' ').trim();
+      if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
+    }
+    sends.push({ id, d, payload: { kind: 'props', handle: String(writer || ''), text: words }, opts: {} });
   }
   return deliver(sends, gone, s, send);
 }

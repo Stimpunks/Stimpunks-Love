@@ -2702,7 +2702,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   assert.equal(cleanSubscription({ ...d, endpoint: d.endpoint.replace('.com/', '.com:8443/') }), null, 'a port');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, auth: rnd(8).toString('base64url') } }), null);
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(65).toString('base64url') } }), null, 'a key that is not a point');
-  assert.deepEqual(cleanWant({}), { mentions: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
+  assert.deepEqual(cleanWant({}), { mentions: false, props: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
 });
@@ -2970,4 +2970,48 @@ test('a post keeps who it @mentions, the reader finds where they were mentioned,
   assert.deepEqual(found.map((x) => [x.id, x.match.handle]), [[t.id, 'Ada']], 'where Bex was mentioned was not found, or a hidden one was');
   assert.match(found[0].match.words, /@Bex/);
   assert.deepEqual((await forumMentions(ADA, s, T0 + 2)).map((x) => x.match.handle), ['Bo']);
+}));
+
+import { notifyProps, PUSH_WORDS } from './lib.mjs';
+
+test('props given tell only their person, with the switch on, as the claimed username, and never the writer', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  // A device switched on as Ada before she claimed the name: her pass then is
+  // no pass now, so it is dropped rather than told.
+  const before = aDevice();
+  await keepDevice(before, issuePass('mobile', 'Ada'), { props: true }, s);
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  await setPropsOpen(petKey('Ada'), true, s);
+  const pass = issueAccountPass('Ada', (await readAccount('Ada', s)).v);
+  const on = aDevice(), quiet = aDevice(), off = aDevice(), bex = aDevice();
+  await keepDevice(on, pass, { props: true }, s);
+  await keepDevice(quiet, pass, { props: true, words: false }, s);
+  await keepDevice(off, pass, { mentions: true, world: true }, s);
+  await keepDevice(bex, issuePass('mobile', 'Bex'), { props: true, mentions: true, world: true }, s);
+  assert.equal(cleanWant({}).props, false, 'props were on before anybody switched them on');
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const to = (d) => sent.filter((x) => x.to === d.endpoint).map((x) => x.payload);
+
+  const g = await giveProp('ada', writer('Bex'), 'Thank you   for the\nspoons.', s);
+  await notifyProps(g.handle, 'Bex', g.given.text, s, readMods(''), send);
+  assert.deepEqual(to(on), [{ kind: 'props', handle: 'Bex', text: 'Thank you for the spoons.' }], 'the prop was not said, or said with more than who and the words');
+  assert.deepEqual(to(quiet), [{ kind: 'props', handle: 'Bex', text: '' }], 'the words went to a device that turned them off');
+  assert.equal(to(off).length, 0, 'a device that never switched props on was told');
+  assert.equal(to(bex).length, 0, 'the writer was told about the props they gave');
+  assert.equal(to(before).length, 0, 'a pass from before the name was claimed was told');
+  assert.ok(!(pushDeviceId(before.endpoint) in await readDevices(s)), 'a device whose pass has gone is still kept');
+
+  sent.length = 0;
+  await notifyProps('Ada', 'ADA', 'Me!', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'somebody was told about props from themselves');
+  await notifyProps('Bex', 'Cy', 'For Bex.', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'props for a handle nobody has claimed told the device switched on as it');
+  await notifyProps('Ada', 'Cy', 'x'.repeat(PUSH_WORDS + 40), s, readMods(''), send);
+  assert.equal([...to(on)[0].text].length, PUSH_WORDS, 'the words were not cut to the notification\'s length');
+
+  sent.length = 0;
+  await changePassword('Ada', 'a long enough phrase', 'another long phrase', s);
+  await notifyProps('Ada', 'Cy', 'After the change.', s, readMods(''), send);
+  assert.equal(sent.length, 0, 'a device was told after its username\'s password changed');
 }));

@@ -1230,7 +1230,10 @@
        Reject, which deletes them and tells nobody; the ones up, to take off;
        and the switch that opens the tab. Read when the tray opens, never
        polled, and never counted. */
-    pets.appendChild(el('p', 'cb-pets__h', 'Your props'));
+    // The heading takes the keyboard when a props notification opens Profile.
+    this.prHead = el('p', 'cb-pets__h', 'Your props');
+    this.prHead.tabIndex = -1;
+    pets.appendChild(this.prHead);
     this.prState = el('p', 'cb-quiet', '');
     pets.appendChild(this.prState);
     this.prShow = el('div', 'cb-pets__show');
@@ -1463,7 +1466,12 @@
     sheet.rel = 'stylesheet';
     sheet.href = '/cb.css';
     host.style.visibility = 'hidden';
-    function shown() { host.style.visibility = ''; me.place(); me.drawArt(); }
+    function shown() {
+      host.style.visibility = ''; me.place(); me.drawArt();
+      // Anything waiting to put the keyboard in the radio: hidden, it cannot.
+      var then = me.whenShown; me.whenShown = null;
+      if (then) then();
+    }
     sheet.addEventListener('load', shown);
     sheet.addEventListener('error', shown);
     root.appendChild(sheet);
@@ -1806,9 +1814,10 @@
   var NOTIFY_SW = '/cb-sw.js';
   var NOTIFY_KINDS = [
     ['mentions', 'When somebody @mentions me'],
+    ['props', 'When somebody gives me props'],
     ['world', 'Every message on World'],
     ['calls', 'Calls starting in rooms I follow, and the World call'],
-    ['words', 'Show the words of a message'],
+    ['words', 'Show the words of a message, a post or props'],
   ];
   function pushable() { return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
   function ourReg() {
@@ -1873,7 +1882,7 @@
     var me = this, box = this.notifyPanel;
     var on = !!(sub && want);
     if (want) this.notifyWant = want;
-    var w = this.notifyWant = this.notifyWant || { mentions: false, world: false, calls: false, words: true, rooms: [] };
+    var w = this.notifyWant = this.notifyWant || { mentions: false, props: false, world: false, calls: false, words: true, rooms: [] };
     box.textContent = '';
     box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
     box.appendChild(el('p', null, on
@@ -4560,6 +4569,23 @@
   };
 
   /* ── Your props ──────────────────────────────────────────────────────── */
+
+  /* A notification that somebody gave you props opens the street at #cb=props
+     (cb-sw.js), and this opens Profile there with the keyboard on Your props.
+     The address loses #cb=props, so a reload does not open it again. The radio
+     is switched on and made Normal for this page only, because that is what
+     the press asked for; what it remembers between pages is left alone. */
+  Radio.prototype.toProps = function () {
+    try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* the address stays */ }
+    if (this.state.folded) this.setFolded(false, true);
+    if (this.state.size === 'small') this.setSize('normal', true);
+    if (this.petsPanel.hidden) this.setPets(true);
+    var head = this.prHead;
+    function go() { head.scrollIntoView({ block: 'start' }); head.focus(); }
+    // Until cb.css has loaded the radio is hidden, and nothing hidden takes focus.
+    if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
+  };
+
   Radio.prototype.loadProps = function () {
     var me = this;
     me.prBox.textContent = '';
@@ -6908,6 +6934,7 @@
   }
 
   function arrive() {
+    if (location.hash === '#cb=props') { if (radio) radio.toProps(); return; }
     var m = location.hash.match(/^#spot=(\d{1,6}|live)(?:&film=([^&]*))?$/);
     if (!m || !radio) return;
     var secs = m[1] === 'live' ? null : +m[1], film = '';

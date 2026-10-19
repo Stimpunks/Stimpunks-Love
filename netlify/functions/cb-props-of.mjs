@@ -13,12 +13,15 @@
    waiting comes back to you, and nobody else's does. Giving props needs a
    claimed username, because a prop carries your name on somebody else's
    profile. Nothing about who asked is kept, and the handle travels in the body
-   rather than the address, so it is in no request log. */
-import { readPass, shownProps, giveProp, dropProp, cleanHandle, PROP_MAX, json, body, sameSite } from '../cb/lib.mjs';
+   rather than the address, so it is in no request log. Props given tell their
+   person's devices, if they switched on When somebody gives me props
+   (notifyProps), after the props are waiting, so a slow push service never
+   holds the press up. */
+import { readPass, shownProps, giveProp, dropProp, notifyProps, cleanHandle, PROP_MAX, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
-export default async (req) => {
+export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This tray only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
@@ -36,6 +39,8 @@ export default async (req) => {
       if (r.error === 'closed') return json(403, { error: `${handle} has not opened their Props tab, so nobody can give them props just now.` });
       if (r.error === 'waiting') return json(409, { error: `You have props waiting for ${handle} to confirm already. Take those back to write them again.` });
       if (r.error === 'full') return json(409, { error: `${handle} has props waiting to read already. Try again another day.` });
+      const told = notifyProps(r.handle, who.handle, r.given.text).catch(() => []);
+      if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
       return tab({ given: r.given.id });
     }
     if (typeof b.remove === 'string') {

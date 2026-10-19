@@ -1507,7 +1507,12 @@ never sees what waits. `tools/check-props.py` refuses a time in that part, a pro
 a writer who is not claimed, anything but `confirmProp` putting a prop on a tab, Forget me or deleting the username
 leaving props, and a count in the radio's props code. **The friendly edits are a number on the tab** (the headcount the
 street refuses, wearing a thank-you), **a date on each prop**, and **letting props go up unconfirmed "so nobody has to
-wait"**. `DECISIONS.md` has what is open, a notification when props arrive above all.
+wait"**. **Props arriving can notify their person** (the same evening): **When somebody gives me props**, the fifth push
+switch, off until switched on; `notifyProps` in `lib.mjs`, called by `/cb/props/of` once a prop waits, tells only devices
+switched on as that claimed username, says who wrote it and its first words under the words switch, **never how many
+wait, and never tells the writer anything**. Pressing it opens `/#cb=props`, where `arrive()` in `cb.js` has the radio
+open Profile at Your props (`toProps`, for that page only). The friendly edit is a count in the notification ("3 props
+waiting"), which is the number on the tab arriving by push. `DECISIONS.md` has what is still open.
 
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
@@ -3832,12 +3837,12 @@ the pane is not showing**, so a radio that seems to have stopped listening in a 
 that rule. Do not add a second timer anywhere else in the file.
 
 **NOTIFICATIONS REVERSED "NO ALERTS", AND THE RADIO STILL LISTENS ONLY WHILE IT IS OPEN.** Ryan, 2026-10-18, after
-requests "especially for staff": Web Push, so a device is told with the site closed; four things that can notify (an
-@ mention, a message in a room the device follows, a call starting in a room it follows or the World call, and every
-message on World), each off until switched on; anybody signed on; and the message's first `PUSH_WORDS` characters, which
+requests "especially for staff": Web Push, so a device is told with the site closed; the things that can notify (an
+@ mention, a message in a room the device follows, a call starting in a room it follows or the World call, every
+message on World, and, the same evening, props given to a claimed username), each off until switched on; anybody signed on; and the message's first `PUSH_WORDS` characters, which
 each device can switch off. **"Open is on and closed is off" is still the radio's rule**: notifications come from the
 server when a message is sent (`notifyMessage` from `cb-transmit`, `notifyCall` from `cb-call-events` when a call
-goes from nobody to somebody), never from a radio listening in the background. **One record per device in one blob**
+goes from nobody to somebody, `notifyProps` from `cb-props-of`), never from a radio listening in the background. **One record per device in one blob**
 (`push-devices`, the worn avatar's arrangement, raced fifteen at once in `lib.test.mjs`): the push address and its keys,
 the handle, the pass's kind and **a hash of the pass, never the pass**. Before a device is told anything, the pass its
 handle would have now is made again (`issuePass`, `issueAccountPass`), checked against the hash and read by `readPass()`,
