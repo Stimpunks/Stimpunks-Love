@@ -40,7 +40,8 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
-  PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS } from './lib.mjs';
+  PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
+  PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
   mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET } from './lib.mjs';
@@ -2007,6 +2008,129 @@ test('a profile shows chimeras only when a claimed username says so, and never t
   assert.equal(got.chimeras[0].id, undefined, 'a profile carries an id');
   await deleteAccount('Ada', s);
   assert.equal(await shownChimeras('Ada', s), null, 'a deleted username still shows chimeras');
+}));
+
+/* ── Props ────────────────────────────────────────────────────────────────
+   Nothing goes up until its person confirms it; only a claimed username gives
+   or keeps props; one waiting from each writer; nothing about when and nothing
+   counted; the writer's mark never leaves the server; and gone with Forget me
+   and with the username. */
+const writer = (handle, since = 1, role = 'mobile') => ({ role, handle, roles: new Set(), account: true, since });
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen people giving one person props at once, ${how}: none told it worked is missing`, () => withPasswords(async () => {
+    const s = memoryStore({ etagOnRead });
+    await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+    await setPropsOpen(petKey('Ada'), true, s);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => giveProp('Ada', writer(`W${i}`, i + 1), `Thank you, ${i}.`, s)));
+    const worked = told.filter((r) => r.status === 'fulfilled' && r.value.given).map((r) => r.value.given.id);
+    const kept = new Set((await readProps(petKey('Ada'), s)).waiting.map((p) => p.id));
+    assert.deepEqual(worked.filter((id) => !kept.has(id)), [], 'a prop that was told it was given is not there');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  }));
+}
+
+test('props wait for their person, only a claimed username gives them, and nothing about when is kept', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal((await giveProp('Ada', writer('Bex'), 'Thanks!', s)).error, 'closed', 'props given to a handle nobody has claimed');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  assert.equal((await giveProp('Ada', writer('Bex'), 'Thanks!', s)).error, 'closed', 'props given while the tab is shut');
+  const pk = petKey('Ada');
+  await setPropsOpen(pk, true, s);
+  assert.equal((await giveProp('Ada', { role: 'mobile', handle: 'Bex', roles: new Set() }, 'Thanks!', s)).error, 'claim', 'an unclaimed handle gave props');
+  assert.equal((await giveProp('Ada', { role: 'base', handle: 'Mo', roles: new Set() }, 'Thanks!', s)).error, 'claim', 'the shared moderators’ password gave props');
+  assert.equal((await giveProp('Ada', writer('Bex'), '   \n ', s)).error, 'empty');
+  assert.equal((await giveProp('Ada', writer('Bex'), 'x'.repeat(PROP_MAX + 1), s)).error, 'long');
+  assert.equal((await giveProp('ada', writer('ADA'), 'Me!', s)).error, 'self');
+  assert.equal(cleanProp('one\r\ntwo\n\n\n\nthree  '), 'one\ntwo\n\nthree', 'a prop lost its lines');
+  const g = await giveProp('ada', writer('Bex'), 'Thank you for the spoons.', s);
+  assert.equal(g.handle, 'Ada');
+  assert.deepEqual(Object.keys(g.given).sort(), ['by', 'handle', 'id', 'text'], 'a prop kept something more than its words, its writer and an id');
+  assert.equal((await giveProp('Ada', writer('Bex'), 'And again.', s)).error, 'waiting', 'two props from one writer waiting at once');
+  const base = await giveProp('Ada', writer('Mo', 4, 'base'), 'Thanks from the desk.', s);
+  assert.equal(base.given.base, true);
+  for (let i = 2; i < PROPS_WAITING; i++) await giveProp('Ada', writer(`W${i}`, 100 + i), 'Thanks.', s);
+  assert.equal((await giveProp('Ada', writer('Late', 999), 'Thanks.', s)).error, 'full');
+  const d = await readProps(pk, s);
+  assert.equal(d.waiting.length, PROPS_WAITING);
+  assert.deepEqual(d.props, [], 'a prop went up before its person confirmed it');
+  // What anybody else sees: nothing waiting but their own, and never a mark.
+  let seen = await shownProps('Ada', writer('Cy', 7), s);
+  assert.deepEqual(seen.props, [], 'something showed before it was confirmed');
+  assert.deepEqual(seen.waiting, [], 'somebody saw props they did not write');
+  assert.equal(seen.yours, undefined, 'somebody else was told whether anything is waiting');
+  seen = await shownProps('Ada', writer('Bex'), s);
+  assert.deepEqual(seen.waiting.map((p) => p.text), ['Thank you for the spoons.']);
+  assert.equal(seen.waiting[0].mine, true);
+  assert.equal(seen.waiting[0].by, undefined, 'the writer’s mark left the server');
+  assert.equal((await shownProps('Ada', writer('Ada', 9), s)).yours, true, 'its person was not told something is waiting');
+  // Confirm and reject.
+  assert.equal((await confirmProp(pk, 'rNOTANIDxyz', s)).error, 'which');
+  await confirmProp(pk, g.given.id, s);
+  await rejectProp(pk, base.given.id, s);
+  const after = await readProps(pk, s);
+  assert.deepEqual(after.props.map((p) => p.id), [g.given.id]);
+  assert.ok(!after.waiting.some((p) => p.id === g.given.id || p.id === base.given.id), 'a confirmed or rejected prop is still waiting');
+  seen = await shownProps('Ada', { role: 'mobile', handle: 'Anon', roles: new Set() }, s);
+  assert.deepEqual(seen.props, [{ id: g.given.id, text: 'Thank you for the spoons.', handle: 'Bex', base: false, claimed: true }]);
+  assert.deepEqual(seen.waiting, []);
+  const own = ownProps(after);
+  assert.equal(own.props[0].by, undefined, 'its own person was sent a writer’s mark');
+  assert.ok(!JSON.stringify(after).match(/"t"|time|when|since|count/), 'the record keeps a time or a count');
+  // Shut, the tab shows nothing, and keeps what was confirmed for when it opens.
+  await setPropsOpen(pk, false, s);
+  seen = await shownProps('Ada', writer('Cy', 7), s);
+  assert.equal(seen.shown, false);
+  assert.equal(seen.props, undefined, 'a shut tab showed its props');
+  await setPropsOpen(pk, true, s);
+  assert.equal((await shownProps('Ada', writer('Cy', 7), s)).props.length, 1, 'opening the tab again lost what was confirmed');
+}));
+
+test('a prop comes off for its person, its writer and the base, and for nobody else', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const pk = petKey('Ada');
+  await setPropsOpen(pk, true, s);
+  const give = async (who, text) => (await giveProp('Ada', who, text, s)).given.id;
+  const a = await give(writer('Bex', 2), 'one');
+  const b = await give(writer('Cy', 3), 'two');
+  const c = await give(writer('Di', 4), 'three');
+  for (const id of [a, b, c]) await confirmProp(pk, id, s);
+  const w = await give(writer('Bex', 2), 'four, waiting');
+  assert.ok((await dropProp('Ada', writer('Eve', 5), a, s)).error, 'a stranger took a prop down');
+  assert.ok((await dropProp('Ada', writer('Bex', 77), a, s)).error, 'a name claimed again by somebody else took its old owner’s prop back');
+  assert.ok((await dropProp('Ada', { role: 'mobile', handle: 'Bex', roles: new Set() }, a, s)).error, 'an unclaimed handle took a claimed writer’s prop back');
+  assert.ok((await dropProp('Ada', writer('Mo', 6, 'base'), w, s)).error, 'the base reached a prop that is waiting');
+  assert.ok((await dropProp('Ada', writer('Ada', 9), w, s)).error, 'its person took a waiting prop off rather than rejecting it');
+  assert.ok(!(await dropProp('Ada', writer('Bex', 2), w, s)).error, 'its writer could not take a waiting prop back');
+  assert.ok(!(await dropProp('Ada', writer('Bex', 2), a, s)).error, 'its writer could not take a prop back');
+  assert.ok(!(await dropProp('Ada', writer('Mo', 6, 'base'), b, s)).error, 'the base could not take a prop down');
+  assert.ok(!(await dropProp('ada', writer('ADA', 9), c, s)).error, 'its person could not take a prop off');
+  const d = await readProps(pk, s);
+  assert.deepEqual([d.props, d.waiting], [[], []]);
+}));
+
+test('a full Props tab refuses to confirm, and Forget me and deleting the username delete props', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const pk = petKey('Ada');
+  await setPropsOpen(pk, true, s);
+  for (let i = 0; i < PROPS_KEEP; i++) {
+    const id = (await giveProp('Ada', writer(`W${i}`, i + 10), 'Thanks.', s)).given.id;
+    await confirmProp(pk, id, s);
+  }
+  const extra = (await giveProp('Ada', writer('Late', 5), 'Thanks.', s)).given.id;
+  assert.equal((await confirmProp(pk, extra, s)).error, 'full');
+  assert.ok((await readProps(pk, s)).waiting.some((p) => p.id === extra), 'a refused confirmation lost the prop');
+  await forgetProps(pk, s);
+  assert.deepEqual(await readProps(pk, s), { open: false, waiting: [], props: [] }, 'Forget me left props');
+  await setPropsOpen(pk, true, s);
+  await giveProp('Ada', writer('Bex', 2), 'Thanks.', s);
+  await deleteAccount('Ada', s);
+  assert.deepEqual(await readProps(pk, s), { open: false, waiting: [], props: [] }, 'a deleted username kept its props');
+  assert.equal(await shownProps('Ada', writer('Bex', 2), s), null, 'a deleted username still has a Props tab');
 }));
 
 /* ── Jobs kept from the Adventurer's Guild ──────────────────────────────────

@@ -1225,6 +1225,23 @@
     this.pfBox = el('div', 'cb-pf-box');
     pets.appendChild(this.pfBox);
 
+    /* YOUR PROPS (Ryan, 2026-10-18): the props people gave you, waiting here
+       for you to Confirm, which puts them on your profile's Props tab, or
+       Reject, which deletes them and tells nobody; the ones up, to take off;
+       and the switch that opens the tab. Read when the tray opens, never
+       polled, and never counted. */
+    pets.appendChild(el('p', 'cb-pets__h', 'Your props'));
+    this.prState = el('p', 'cb-quiet', '');
+    pets.appendChild(this.prState);
+    this.prShow = el('div', 'cb-pets__show');
+    pets.appendChild(this.prShow);
+    this.prBox = el('div', 'cb-props');
+    pets.appendChild(this.prBox);
+    this.prSaid = el('p', 'cb-said');
+    this.prSaid.setAttribute('role', 'status');
+    this.prSaid.tabIndex = -1;
+    pets.appendChild(this.prSaid);
+
     /* YOUR AVATARS (Ryan, 2026-10-14): what you made at the Bodymind Booth or
        put on the stand at the Dress-Up Den, kept here, one of them worn on the
        CB, beside your name on Who's online. Read when the tray opens, never
@@ -1307,7 +1324,7 @@
     pets.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card, the props on it and waiting for you, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -2776,7 +2793,7 @@
 
   /* Tabs, the ARIA pattern: the arrow keys, Home and End move along them and
      show the one they land on, and only the tab showing is in the tab order. */
-  function tabsInto(right, label, names) {
+  function tabsInto(right, label, names, start) {
     var list = el('div', 'pf-tabs');
     list.setAttribute('role', 'tablist');
     list.setAttribute('aria-label', label);
@@ -2815,11 +2832,11 @@
       e.preventDefault();
       show(to, true);
     });
-    show(0, false);
+    show(start || 0, false);
     return panels;
   }
 
-  Radio.prototype.peek = function (handle, from, mark) {
+  Radio.prototype.peek = function (handle, from, mark, tab) {
     var me = this;
     this.peekFrom = from;
     this.peekAt = from && from.dataset ? from.dataset.at : null;
@@ -2847,8 +2864,8 @@
       if (!d.open) d.showModal();
       close.focus();
       var mineP = String(handle).toLowerCase() === String(me.state.handle || '').toLowerCase();
-      var panels = tabsInto(right, handle + '’s avatars, pets, badges, battle jacket and chimeras',
-        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket', 'Chimeras']);
+      var panels = tabsInto(right, handle + '’s avatars, pets, badges, battle jacket, chimeras and props',
+        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket', 'Chimeras', 'Props'], tab === 'props' ? 5 : 0);
       // The card waits for both its profile and the avatar its owner wears.
       var prof = call('/cb/profile/of', { body: { handle: handle } }, me.state.pass);
       var avs = call('/cb/avatars/of', { body: { handle: handle } }, me.state.pass);
@@ -3011,6 +3028,191 @@
           });
         }, function () { pSaid.textContent = 'Their pets could not be fetched just now.'; badgesNow(); });
       });
+      me.peekProps(panels[5], handle, mineP, peekN);
+    });
+  };
+
+  /* THEIR PROPS (Ryan, 2026-10-18, after the forums' Props & Gratitude): the
+     props they confirmed, newest first, each with who wrote it, if they have
+     opened their Props tab; and, for anybody with a claimed username, a box to
+     give them props, which wait for them to Confirm or Reject in Profile.
+     Whatever you wrote for them that is still waiting is shown to you, with a
+     way to take it back. NEVER A COUNT: not how many props anybody has, nor how
+     many are waiting. The answer to a press goes in one status line under the
+     tab, which stays while the rest is drawn again. */
+  Radio.prototype.peekProps = function (panel, handle, mine, peekN) {
+    var me = this;
+    var box = el('div', 'pf-props');
+    var said = el('p', 'cb-said pf-props__said');
+    said.setAttribute('role', 'status');
+    panel.appendChild(box);
+    panel.appendChild(said);
+    box.appendChild(el('p', 'cb-quiet', 'Looking…'));
+    var ctx = { panel: panel, box: box, said: said, handle: handle, mine: mine, peekN: peekN };
+    call('/cb/props/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+      if (peekN !== me.peekN) return;
+      if (r.status === 401) return me.lost();
+      if (r.status !== 200 || !r.body) { box.textContent = ''; box.appendChild(el('p', 'cb-quiet', 'Their props could not be fetched just now.')); return; }
+      me.drawPeekProps(ctx, r.body);
+    }, function () {
+      if (peekN !== me.peekN) return;
+      box.textContent = '';
+      box.appendChild(el('p', 'cb-quiet', 'Their props could not be fetched just now.'));
+    });
+  };
+
+  /* Send something about somebody's props, and draw the tab again from the
+     answer. focus says where the keyboard goes once it is drawn. */
+  Radio.prototype.propsOf = function (ctx, body, done, focus) {
+    var me = this;
+    body.handle = ctx.handle;
+    return call('/cb/props/of', { body: body }, me.state.pass).then(function (r) {
+      if (ctx.peekN !== me.peekN) return false;
+      if (r.status === 401) { me.lost(); return false; }
+      if (r.status === 200 && r.body) {
+        me.drawPeekProps(ctx, r.body);
+        ctx.said.textContent = done;
+        var to = focus && focus();
+        (to || ctx.panel).focus();
+        return true;
+      }
+      ctx.said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+      return false;
+    }, function () { ctx.said.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
+  };
+
+  Radio.prototype.drawPeekProps = function (ctx, b) {
+    var me = this, box = ctx.box, whose = b.handle || ctx.handle, mine = ctx.mine;
+    box.textContent = '';
+    var waiting = Array.isArray(b.waiting) ? b.waiting : [];
+    var up = Array.isArray(b.props) ? b.props : [];
+    if (waiting.length) {
+      box.appendChild(el('h3', 'pf-props__h', 'Waiting for ' + whose + ' to confirm'));
+      var wl = el('ul', 'pf-props__list');
+      waiting.forEach(function (p) { wl.appendChild(me.propItem(ctx, p, whose)); });
+      box.appendChild(wl);
+      box.appendChild(el('p', 'cb-quiet', 'Only you and ' + whose + ' can read it until they confirm it. If they reject it, it stops waiting, and nobody is told.'));
+    }
+    if (!b.shown) {
+      box.appendChild(el('p', 'cb-quiet', mine
+        ? 'You have not opened your Props tab. Profile, on this radio, is where you switch that on.'
+        : whose + ' has not opened their Props tab.'));
+    } else {
+      if (mine && b.yours) box.appendChild(el('p', null, 'Props are waiting for you to confirm or reject, in Profile on this radio.'));
+      if (waiting.length || up.length) box.appendChild(el('h3', 'pf-props__h', mine ? 'Your props' : 'Props for ' + whose));
+      if (!up.length) {
+        box.appendChild(el('p', 'cb-quiet', mine ? 'Nobody has given you props yet.' : 'Nobody has given ' + whose + ' props yet.'));
+      } else {
+        var ul = el('ul', 'pf-props__list');
+        up.forEach(function (p) { ul.appendChild(me.propItem(ctx, p, whose)); });
+        box.appendChild(ul);
+      }
+      if (!mine) this.propGive(ctx, whose, waiting.length > 0);
+    }
+    var more = el('p', 'cb-quiet pf-props__more');
+    more.appendChild(document.createTextNode('For thanks the whole community reads, there is '));
+    var a = el('a', null, 'Props & Gratitude in the forums');
+    a.href = '/forum.html#/c/props-and-gratitude';
+    more.appendChild(a);
+    more.appendChild(document.createTextNode('.'));
+    box.appendChild(more);
+  };
+
+  /* One prop: its words, as Markdown drawn into elements like a message; who
+     wrote it, which opens their profile; and, for whoever may, a way to take it
+     off, which asks once more. */
+  Radio.prototype.propItem = function (ctx, p, whose) {
+    var me = this;
+    var li = el('li', 'pf-prop');
+    // From inside a profile, their profile opens in its place, and Close
+    // still takes the keyboard back to the name first pressed.
+    this.propWords(li, p, function () { return me.peekFrom; });
+    var label = p.mine ? 'Take it back' : ctx.mine ? 'Take it off my profile' : me.state.base ? 'Take it down' : '';
+    if (!label) return li;
+    var sureText = p.mine ? 'This deletes what you wrote for ' + whose + '. It cannot be undone.'
+      : ctx.mine ? 'This takes it off your profile and deletes it. Nobody is told. It cannot be undone.'
+      : 'This takes it off ' + whose + '’s profile and deletes it. Nothing is kept about it. It cannot be undone.';
+    var row = el('div', 'cb-acct__row');
+    var drop = el('button', 'cb-btn', label);
+    drop.type = 'button';
+    row.appendChild(drop);
+    li.appendChild(row);
+    var sure = el('div', 'cb-forget-sure');
+    sure.hidden = true;
+    sure.appendChild(el('p', null, sureText));
+    var yes = el('button', 'cb-btn', 'Yes, ' + label.charAt(0).toLowerCase() + label.slice(1));
+    yes.type = 'button';
+    var no = el('button', 'cb-btn', 'Leave it');
+    no.type = 'button';
+    sure.appendChild(yes); sure.appendChild(no);
+    li.appendChild(sure);
+    drop.addEventListener('click', function () { sure.hidden = false; drop.hidden = true; no.focus(); });
+    no.addEventListener('click', function () { sure.hidden = true; drop.hidden = false; drop.focus(); });
+    yes.addEventListener('click', function () {
+      yes.disabled = true;
+      me.propsOf(ctx, { remove: p.id }, p.mine ? 'Taken back.' : 'Taken off.').then(function (ok) { if (!ok) yes.disabled = false; });
+    });
+    return li;
+  };
+
+  /* A prop's words, as Markdown drawn into elements like a message, and who
+     wrote it, a button that opens their profile, with the mark their pass gave
+     them. from() is what the keyboard goes back to when that profile closes. */
+  Radio.prototype.propWords = function (li, p, from) {
+    var me = this;
+    var words = el('div', 'pf-prop__words');
+    md(words, p.text);
+    li.appendChild(words);
+    var line = el('p', 'pf-prop__from');
+    line.appendChild(document.createTextNode('From '));
+    var who = el('button', 'cb-handle pf-prop__who', p.handle);
+    who.type = 'button';
+    who.setAttribute('aria-haspopup', 'dialog');
+    who.addEventListener('click', function () { me.peek(p.handle, from() || who, { base: !!p.base, claimed: !!p.claimed }); });
+    line.appendChild(who);
+    if (p.base) line.appendChild(el('span', 'cb-tag', 'BASE'));
+    else if (p.claimed) line.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
+    li.appendChild(line);
+  };
+
+  /* Giving somebody props: a sentence or a short paragraph, which waits for
+     them. Only a claimed username can, and one at a time for each person. */
+  Radio.prototype.propGive = function (ctx, whose, waiting) {
+    var me = this, box = ctx.box;
+    if (waiting) return;
+    if (!forumPass(me.state.pass)) {
+      box.appendChild(el('p', 'cb-quiet', 'Claim your username, in Profile on this radio, and you can give ' + whose + ' props.'));
+      return;
+    }
+    var form = el('form', 'pf-props__give');
+    var id = 'pf-props-give';
+    var lab = el('label', 'pf-props__h', 'Give ' + whose + ' props');
+    lab.htmlFor = id;
+    var ta = el('textarea', 'cb-say pf-props__say');
+    ta.id = id;
+    ta.rows = 3;
+    ta.maxLength = 500;
+    ta.setAttribute('aria-describedby', id + '-hint');
+    var hint = el('p', 'pf-props__hint', 'A sentence or a short paragraph thanking ' + whose + ', acknowledging them or celebrating them, for something they did for you or for the community. It goes on their profile, with your username on it, only once they confirm it. Basic Markdown works, as on the channel.');
+    hint.id = id + '-hint';
+    var go = el('button', 'cb-btn', 'Send it to ' + whose);
+    go.type = 'submit';
+    form.appendChild(lab);
+    form.appendChild(ta);
+    form.appendChild(hint);
+    var row = el('div', 'cb-acct__row');
+    row.appendChild(go);
+    form.appendChild(row);
+    box.appendChild(form);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!ta.value.trim()) { ctx.said.textContent = 'Write what you would like to thank them for first.'; ta.focus(); return; }
+      go.disabled = true;
+      me.propsOf(ctx, { give: ta.value }, 'Sent. It goes on ' + whose + '’s profile if they confirm it.', function () {
+        var h = ctx.box.querySelector('h3');
+        if (h) h.tabIndex = -1;
+        return h;
+      }).then(function (ok) { if (!ok) { go.disabled = false; ta.focus(); } });
     });
   };
 
@@ -4357,6 +4559,165 @@
     });
   };
 
+  /* ── Your props ──────────────────────────────────────────────────────── */
+  Radio.prototype.loadProps = function () {
+    var me = this;
+    me.prBox.textContent = '';
+    me.prShow.textContent = '';
+    me.prSaid.textContent = '';
+    me.prState.hidden = false;
+    me.prState.className = 'cb-quiet';
+    me.prState.textContent = 'Looking for your props\u2026';
+    call('/cb/props', null, me.state.pass).then(function (r) {
+      if (r.status === 200 && r.body) { me.drawProps(r.body); return; }
+      me.prState.textContent = r.status === 401
+        ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+        : 'Your props could not be fetched just now.';
+    }, function () { me.prState.textContent = 'Your props could not be fetched just now.'; });
+  };
+
+  /* Send something about your props and draw them again from the answer.
+     focus() says where the keyboard goes once they are drawn; without one it
+     goes to the line that says what happened. */
+  Radio.prototype.propSend = function (body, done, focus) {
+    var me = this;
+    return call('/cb/props', { body: body }, me.state.pass).then(function (r) {
+      if (r.status === 200 && r.body) {
+        me.drawProps(r.body);
+        me.prSaid.textContent = done;
+        var to = focus && focus();
+        (to || me.prSaid).focus();
+        return true;
+      }
+      me.prSaid.textContent = r.status === 401
+        ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+        : (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+      return false;
+    }, function () { me.prSaid.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
+  };
+
+  /* YOUR PROPS: what is waiting, each with Confirm and Reject, and what is up,
+     each with a way to take it off, both newest first. Reject and taking one
+     off ask once more, because neither can be undone; Confirm does not, because
+     a prop that is up can always come off again. */
+  Radio.prototype.drawProps = function (b) {
+    var me = this, box = this.prBox;
+    box.textContent = '';
+    this.prShow.textContent = '';
+    this.prState.hidden = false;
+    this.prState.className = 'cb-props__about';
+    if (!b.claimed) {
+      this.prState.textContent = 'Claim your username above and you can open a Props tab on your profile, where anybody with a claimed username can give you props: a sentence or a short paragraph thanking you for something. Nothing goes up until you confirm it.';
+      return;
+    }
+    this.prState.textContent = 'Props are what people with a claimed username write to thank you, acknowledge you or celebrate you. Each one waits here until you confirm it; then it is on your profile\u2019s Props tab, with their username on it. Reject one and it is deleted, and nobody is told.';
+    this.propShow(b);
+    var waiting = b.waiting || [], up = b.props || [];
+    if (waiting.length) {
+      box.appendChild(el('p', 'cb-props__sub', 'Waiting for you'));
+      var wl = el('ul', 'cb-props__list cb-props__list--waiting');
+      waiting.forEach(function (p) {
+        var li = el('li', 'cb-prop');
+        me.propWords(li, p, function () { return null; });
+        var row = el('div', 'cb-acct__row');
+        var yes = el('button', 'cb-btn cb-prop__confirm', 'Confirm');
+        yes.type = 'button';
+        yes.setAttribute('aria-label', 'Confirm the props from ' + p.handle + ', which puts them on your profile');
+        var no = el('button', 'cb-btn', 'Reject');
+        no.type = 'button';
+        no.setAttribute('aria-label', 'Reject the props from ' + p.handle);
+        row.appendChild(yes); row.appendChild(no);
+        li.appendChild(row);
+        var sure = el('div', 'cb-forget-sure');
+        sure.hidden = true;
+        sure.appendChild(el('p', null, 'This deletes it, and nobody is told. It cannot be undone.'));
+        var sureYes = el('button', 'cb-btn', 'Yes, reject it');
+        sureYes.type = 'button';
+        var sureNo = el('button', 'cb-btn', 'Leave it waiting');
+        sureNo.type = 'button';
+        sure.appendChild(sureYes); sure.appendChild(sureNo);
+        li.appendChild(sure);
+        // After either, the keyboard goes to the next prop waiting, if any.
+        var next = function () { return box.querySelector('.cb-prop__confirm'); };
+        yes.addEventListener('click', function () {
+          yes.disabled = true;
+          me.propSend({ confirm: p.id }, 'Confirmed. It is on your profile\u2019s Props tab.', next).then(function (ok) { if (!ok) yes.disabled = false; });
+        });
+        no.addEventListener('click', function () { sure.hidden = false; row.hidden = true; sureNo.focus(); });
+        sureNo.addEventListener('click', function () { sure.hidden = true; row.hidden = false; no.focus(); });
+        sureYes.addEventListener('click', function () {
+          sureYes.disabled = true;
+          me.propSend({ reject: p.id }, 'Rejected and deleted.', next).then(function (ok) { if (!ok) sureYes.disabled = false; });
+        });
+        wl.appendChild(li);
+      });
+      box.appendChild(wl);
+    }
+    if (up.length) {
+      box.appendChild(el('p', 'cb-props__sub', 'On your profile'));
+      var ul = el('ul', 'cb-props__list');
+      up.forEach(function (p) {
+        var li = el('li', 'cb-prop');
+        me.propWords(li, p, function () { return null; });
+        var off = el('button', 'cb-btn', 'Take it off my profile');
+        off.type = 'button';
+        off.setAttribute('aria-label', 'Take the props from ' + p.handle + ' off my profile');
+        var row = el('div', 'cb-acct__row');
+        row.appendChild(off);
+        li.appendChild(row);
+        var sure = el('div', 'cb-forget-sure');
+        sure.hidden = true;
+        sure.appendChild(el('p', null, 'This takes it off your profile and deletes it. Nobody is told. It cannot be undone.'));
+        var sureYes = el('button', 'cb-btn', 'Yes, take it off');
+        sureYes.type = 'button';
+        var sureNo = el('button', 'cb-btn', 'Leave it up');
+        sureNo.type = 'button';
+        sure.appendChild(sureYes); sure.appendChild(sureNo);
+        li.appendChild(sure);
+        off.addEventListener('click', function () { sure.hidden = false; row.hidden = true; sureNo.focus(); });
+        sureNo.addEventListener('click', function () { sure.hidden = true; row.hidden = false; off.focus(); });
+        sureYes.addEventListener('click', function () {
+          sureYes.disabled = true;
+          me.propSend({ remove: p.id }, 'Taken off your profile.').then(function (ok) { if (!ok) sureYes.disabled = false; });
+        });
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+    if (!waiting.length && !up.length && b.open) box.appendChild(el('p', 'cb-quiet', 'Nobody has given you props yet.'));
+    if (b.open) {
+      var see = el('button', 'cb-btn', 'See my Props tab as others do');
+      see.type = 'button';
+      see.setAttribute('aria-haspopup', 'dialog');
+      see.addEventListener('click', function () { me.peek(me.state.handle, see, me.myMark(), 'props'); });
+      var seeRow = el('p', 'cb-acct__row');
+      seeRow.appendChild(see);
+      box.appendChild(seeRow);
+    }
+  };
+
+  /* OPENING YOUR PROPS TAB, off until you switch it on, and only on a claimed
+     username, the other tabs' rule. Shut, nobody can give you props and your
+     tab shows none of them; what you confirmed is kept for when you open it. */
+  Radio.prototype.propShow = function (b) {
+    var me = this, box = this.prShow;
+    box.textContent = '';
+    var on = !!b.open;
+    var t = el('button', 'cb-btn cb-pets-show', 'Show my props on the CB: ' + (on ? 'on' : 'off'));
+    t.type = 'button';
+    t.setAttribute('aria-pressed', String(on));
+    box.appendChild(t);
+    box.appendChild(el('p', 'cb-quiet', on
+      ? 'Anybody signed on to the CB who opens your profile, from your handle on the channel or your name on Who\u2019s online, reads the props you confirmed on its Props tab, and anybody with a claimed username can give you props there.'
+      : 'Off: your Props tab shows none of them, and nobody can give you props. Switch it on to open it. Props you confirmed before are kept, and come back when you do.'));
+    t.addEventListener('click', function () {
+      t.disabled = true;
+      me.propSend({ show: !on }, on ? 'Your Props tab is shut.' : 'Your Props tab is open.', function () {
+        return me.prShow.querySelector('.cb-pets-show');
+      }).then(function (ok) { if (!ok) t.disabled = false; });
+    });
+  };
+
   /* ── Your chimeras ───────────────────────────────────────────────────── */
   Radio.prototype.loadChimeras = function () {
     var me = this;
@@ -4492,7 +4853,7 @@
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) { this.loadAccount(); this.loadProfileCard(); this.loadAvatars(); this.loadChimeras(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
+    if (open) { this.loadAccount(); this.loadProfileCard(); this.loadProps(); this.loadAvatars(); this.loadChimeras(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
   };
 

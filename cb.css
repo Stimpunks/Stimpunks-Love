@@ -799,6 +799,24 @@ ol.cb-md-list { list-style: decimal; }
   border: 2px solid var(--cb-steel-2); border-radius: 8px;
 }
 .pf-panel-tab > p { margin: 0 0 8px; }
+/* PROPS (Ryan, 2026-10-18), in somebody's profile: on the tab's readout, so
+   every word is amber or amber-2 on its black, the pairs the other tabs use;
+   each prop a box ruled in amber-2, its words first and who wrote it under
+   them. No number anywhere: the friendly edit is a count on the tab. */
+.pf-props > * { margin: 0 0 10px; }
+.pf-props__h { display: block; margin: 0 0 8px; font: 700 15px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-amber); }
+.pf-props__list { list-style: none; padding: 0; display: grid; gap: 10px; }
+.pf-prop { padding: 8px 10px; border: 1px solid var(--cb-amber-2); border-radius: 6px; overflow-wrap: anywhere; }
+.pf-prop__words { display: grid; gap: 6px; }
+.pf-prop__words > * { margin: 0; }
+.pf-prop__from { margin: 6px 0 0; font-size: 13px; color: var(--cb-amber-2); }
+.pf-prop__from .cb-tag { margin-left: 6px; }
+.pf-prop .cb-acct__row { margin: 8px 0 0; }
+.pf-props__say { display: block; width: 100%; box-sizing: border-box; resize: vertical; }
+.pf-props__hint { margin: 6px 0 0; font-size: 13px; line-height: 1.45; color: var(--cb-amber-2); }
+.pf-props__give .cb-acct__row { margin: 8px 0 0; }
+.pf-props__more { font-size: 13px; }
+.pf-props__said { margin: 8px 0 0; }
 
 /* Editing your own: the choices in your radio's own clothes, and the card
    beside them in the theme being chosen, standing still while the form
@@ -1131,6 +1149,18 @@ ol.cb-md-list { list-style: decimal; }
 .cb-saves__art { display: block; justify-self: center; width: auto; height: auto; max-width: 64px; max-height: 56px; }
 .cb-saves__name { font-weight: 700; overflow-wrap: anywhere; }
 .cb-saves__one .cb-save__said { grid-column: 1 / -1; margin: 0; }
+/* YOUR PROPS, in Profile, on the case: the words in the case's steel and who
+   wrote each in its quiet amber-2, each prop ruled off like a message. */
+.cb-props { margin: 8px 0 0; }
+.cb-props__about { margin: 0 0 6px; font-size: 14px; line-height: 1.45; }
+.cb-props__sub { margin: 10px 0 6px; font-size: 14px; font-weight: 700; }
+.cb-props__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cb-prop { padding: 8px 10px; border: 1px solid var(--cb-steel-2); border-radius: 6px; overflow-wrap: anywhere; }
+.cb-prop .pf-prop__words { display: grid; gap: 6px; font-size: 14px; line-height: 1.45; }
+.cb-prop .pf-prop__words > * { margin: 0; }
+.cb-prop .pf-prop__from { margin: 6px 0 0; font-size: 13px; color: var(--cb-amber-2); }
+.cb-prop .pf-prop__from .cb-tag { margin-left: 6px; }
+.cb-prop .cb-acct__row { margin: 8px 0 0; }
 .cb-forget-sure { margin: 8px 0 0; }
 .cb-forget-sure p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
 .cb-forget-sure .cb-btn { margin: 0 8px 6px 0; }

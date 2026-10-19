@@ -272,7 +272,8 @@ def main():
             refuse(f"profile.js has {m.group(0)!r}, {why}.")
 
     lib = LIB.read_text()
-    part = lib[lib.index("/* ── Profiles"):lib.index("/* ── The Slake")]
+    # The profile's part runs to Props, which tools/check-props.py holds.
+    part = lib[lib.index("/* ── Profiles"):lib.index("/* ── Props")]
     part_code = re.sub(r"/\*.*?\*/", "", part, flags=re.S)
     if re.search(r"Date\.now|\bnow\b|\bsince\b|\bt:\s", part_code):
         refuse("the profile's part of lib.mjs keeps a time: a profile holds the choices and the words and nothing about when.")

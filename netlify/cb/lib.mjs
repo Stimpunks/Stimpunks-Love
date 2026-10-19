@@ -1841,8 +1841,10 @@ export function cleanProfileLink(v) {
 }
 
 /* A bio keeps its lines, the channel's rule for a message, and is at most
-   BIO_MAX characters. '' for none, null for too long. */
-export function cleanBio(v) {
+   BIO_MAX characters. '' for none, null for too long. A prop is cleaned the
+   same way, to PROP_MAX. */
+export function cleanBio(v) { return cleanLines(v, BIO_MAX); }
+function cleanLines(v, max) {
   const t = String(v == null ? '' : v)
     .replace(/\r\n?/g, '\n')
     .replace(/\t/g, '    ')
@@ -1851,7 +1853,7 @@ export function cleanBio(v) {
     .replace(/\n{3,}/g, '\n\n')
     .replace(/^\n+|\n+$/g, '');
   if (!t.trim()) return '';
-  return [...t].length <= BIO_MAX ? t : null;
+  return [...t].length <= max ? t : null;
 }
 
 /* A profile as somebody sent it, checked: { profile } with every part, empty
@@ -1989,6 +1991,202 @@ export async function withPlates(people, s = store()) {
     const plate = own(plates, k) ? inList(PROFILE_KEYS.banners, plates[k]) : null;
     return plate ? { ...p, plate } : p;
   });
+}
+
+/* ── Props ───────────────────────────────────────────────────────────────
+
+   Ryan, 2026-10-18, after the forums' Props & Gratitude category: a Props tab
+   in every profile, where anybody signed on reads the props somebody has been
+   given and anybody with a claimed username writes them one. A prop is a
+   sentence or a short paragraph thanking, acknowledging or celebrating
+   somebody, usually for helping them or the community.
+
+   NOTHING GOES UP UNTIL ITS PERSON SAYS YES. A prop written for somebody waits,
+   seen only by them and by whoever wrote it, until they Confirm it, which puts
+   it on their Props tab, or Reject it, which deletes it. Nobody is told it was
+   rejected: it simply stops waiting. Once it is up, they can take it off again,
+   its writer can take it back, and the base can take it down. Nothing is kept
+   about any of that.
+
+   THE TAB IS SHUT UNTIL ITS PERSON SWITCHES IT ON, the other tabs' rule, and
+   only a claimed username can: an unclaimed handle is anybody's who signs on
+   with it, so anybody could confirm props on its behalf. While it is shut,
+   nobody can give that person props and their tab shows none; what they
+   confirmed is kept, and comes back when they switch it on again.
+
+   WRITING ONE NEEDS A CLAIMED USERNAME TOO (forumReader), because a prop
+   carries its writer's name on somebody else's profile for as long as it is
+   up, and a name anybody can sign on as could thank people in somebody else's
+   voice. Each prop keeps its writer's handle, whether they were the base, and
+   the forums' mark of the claimed username that wrote it (authorMark), which
+   never leaves this file: it is how a name deleted and claimed again by
+   somebody else cannot take back what its owner wrote. One prop from each
+   writer waits for a person at a time, so nobody can fill somebody's queue.
+
+   IT IS THE SEVENTH THING KEPT UNDER A PERSON, after pets, avatars, jobs,
+   patches, profile cards and chimeras, filed under the pet key in one blob:
+   whether the tab is open, the props waiting and the props up, each its words,
+   its writer and an id, AND NOTHING ABOUT WHEN. NO COUNT EITHER: nothing says
+   how many props anybody has or has waiting, and the friendly edit is a number
+   on the tab, which is the headcount the street refuses wearing a thank-you.
+   FORGET ME and deleting the username delete it. Props somebody wrote for other
+   people stay up on their tabs, under the name they were written as, the way a
+   forum post stays up. */
+export const PROP_MAX = 500;
+export const PROPS_KEEP = 100;            // props up on one profile at once
+export const PROPS_WAITING = 20;          // props waiting for one person at once
+export const PROP_ID = /^r[A-Za-z0-9_-]{10}$/;
+const propsBlob = (k) => `props/${k}`;
+
+export function cleanProp(v) { return cleanLines(v, PROP_MAX); }
+
+function propsDoc(d) {
+  d = d && typeof d === 'object' && !Array.isArray(d) ? d : {};
+  return {
+    open: d.open === true,
+    waiting: Array.isArray(d.waiting) ? d.waiting.slice() : [],
+    props: Array.isArray(d.props) ? d.props.slice() : [],
+  };
+}
+
+export async function readProps(pk, s = store()) {
+  return propsDoc(await s.get(propsBlob(pk), { type: 'json' }));
+}
+
+/* One person's props, changed without losing a change made at the same moment:
+   fifteen people giving one person props at once, and that person confirming
+   one while they do. change() returns the new record, null for no change, or
+   { error }. */
+async function updateProps(pk, change, s) {
+  const key = propsBlob(pk);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const was = propsDoc(cur.exists && cur.data);
+    const next = change(was);
+    if (next === null) return was;
+    if (next.error) return next;
+    const rec = { open: next.open === true, waiting: next.waiting, props: next.props };
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, rec, opts);
+    if (res.modified) return rec;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* A prop as anybody is shown it: its id, its words, who wrote it and their
+   mark, and whether the person asking wrote it. Never the writer's mark. */
+export function shapeProp(p, mark = null) {
+  const out = { id: p.id, text: p.text, handle: p.handle, base: !!p.base, claimed: !p.base };
+  if (mark && p.by === mark) out.mine = true;
+  return out;
+}
+
+/* Give somebody props. { given, handle } or { error }: 'claim' for a writer
+   whose username is not claimed, 'empty', 'long', 'self', 'closed' for a
+   handle that is not claimed or whose tab is shut (the same answer for both),
+   'waiting' when this writer already has props waiting for them, and 'full'. */
+export async function giveProp(handle, who, text, s = store()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const t = cleanProp(text);
+  if (t === null) return { error: 'long' };
+  if (!t) return { error: 'empty' };
+  const acct = await readAccount(handle, s);
+  if (!acct) return { error: 'closed' };
+  if (foldHandle(acct.handle) === foldHandle(who.handle)) return { error: 'self' };
+  const by = authorMark(who);
+  const rec = { id: 'r' + randomBytes(8).toString('base64url').slice(0, 10), text: t, handle: who.handle, by };
+  if (who.role === 'base') rec.base = true;
+  const next = await updateProps(petKey(acct.handle), (was) => {
+    if (!was.open) return { error: 'closed' };
+    if (was.waiting.some((p) => p.by === by)) return { error: 'waiting' };
+    if (was.waiting.length >= PROPS_WAITING) return { error: 'full' };
+    return { ...was, waiting: [...was.waiting, rec] };
+  }, s);
+  if (next.error) return next;
+  return { given: rec, handle: acct.handle };
+}
+
+/* Its person says yes: off the waiting list and onto their tab. */
+export async function confirmProp(pk, id, s = store()) {
+  if (typeof id !== 'string' || !PROP_ID.test(id)) return { error: 'which' };
+  return updateProps(pk, (was) => {
+    const p = was.waiting.find((x) => x.id === id);
+    if (!p) return { error: 'which' };
+    if (was.props.length >= PROPS_KEEP) return { error: 'full' };
+    return { ...was, waiting: was.waiting.filter((x) => x.id !== id), props: [...was.props, p] };
+  }, s);
+}
+
+/* Its person says no: deleted, and nobody is told. */
+export async function rejectProp(pk, id, s = store()) {
+  if (typeof id !== 'string' || !PROP_ID.test(id)) return { error: 'which' };
+  return updateProps(pk, (was) => {
+    if (!was.waiting.some((x) => x.id === id)) return { error: 'which' };
+    return { ...was, waiting: was.waiting.filter((x) => x.id !== id) };
+  }, s);
+}
+
+/* Taking one off somebody's tab, or back off their waiting list. Their person
+   takes any prop off their own tab; whoever wrote one takes it back, waiting
+   or up, under the claimed username that wrote it; the base takes down any
+   prop that is up, and never sees what is waiting. */
+export async function dropProp(handle, who, id, s = store()) {
+  if (typeof id !== 'string' || !PROP_ID.test(id) || !who) return { error: 'which' };
+  const acct = await readAccount(handle, s);
+  if (!acct) return { error: 'which' };
+  const theirs = !!who.account && foldHandle(who.handle) === foldHandle(acct.handle);
+  const mark = forumReader(who) ? authorMark(who) : null;
+  return updateProps(petKey(acct.handle), (was) => {
+    const up = was.props.find((x) => x.id === id);
+    const waiting = was.waiting.find((x) => x.id === id);
+    if (up && (theirs || (mark && up.by === mark) || who.role === 'base')) {
+      return { ...was, props: was.props.filter((x) => x.id !== id) };
+    }
+    if (waiting && mark && waiting.by === mark) {
+      return { ...was, waiting: was.waiting.filter((x) => x.id !== id) };
+    }
+    return { error: 'which' };
+  }, s);
+}
+
+/* Opening the tab or shutting it. The caller has checked the username is
+   claimed. */
+export async function setPropsOpen(pk, on, s = store()) {
+  return updateProps(pk, (was) => (was.open === !!on ? null : { ...was, open: !!on }), s);
+}
+
+/* Forget me and deleting the username. */
+export async function forgetProps(pk, s = store()) {
+  await s.delete(propsBlob(pk));
+  return true;
+}
+
+/* Your own props, for Profile: what is waiting and what is up, newest first. */
+export function ownProps(d) {
+  return {
+    open: d.open,
+    waiting: d.waiting.slice().reverse().map((p) => shapeProp(p)),
+    props: d.props.slice().reverse().map((p) => shapeProp(p)),
+  };
+}
+
+/* Somebody's Props tab as the person asking is shown it: { handle, shown,
+   props?, waiting, yours? } for a claimed username, and null for a handle that
+   is not claimed, whatever the reason. The props that are up, newest first, if
+   the tab is open; whatever the asker wrote that is still waiting, and nobody
+   else's; and, for its own person, whether anything is waiting for them,
+   which is a yes or a no and never how many. */
+export async function shownProps(handle, who, s = store()) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return null;
+  const d = await readProps(petKey(acct.handle), s);
+  const mark = forumReader(who) ? authorMark(who) : null;
+  const out = { handle: acct.handle, shown: d.open };
+  if (d.open) out.props = d.props.slice().reverse().map((p) => shapeProp(p, mark));
+  out.waiting = mark ? d.waiting.filter((p) => p.by === mark).map((p) => shapeProp(p, mark)) : [];
+  if (who && who.account && foldHandle(who.handle) === foldHandle(acct.handle)) out.yours = d.waiting.length > 0;
+  return out;
 }
 
 /* ── The Slake ───────────────────────────────────────────────────────────── */
@@ -3158,7 +3356,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches and its profile. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its props. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -3168,6 +3366,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetJobs(petKey(handle), s);
   await forgetPatches(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
+  await forgetProps(petKey(handle), s);
   await dropDevicesOf(handle, s);
   await s.delete(acctBlob(handle));
   return { deleted: true };

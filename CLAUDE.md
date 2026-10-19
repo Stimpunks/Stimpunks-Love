@@ -1493,6 +1493,22 @@ Each pass fades in and out over about a second, travels in its own container uni
 grows draws nothing again, and nothing in it flashes. The contrast checkers cannot hold a word with something crossing
 it, and Ryan chose it knowing that.
 
+**PROPS ARE THE SEVENTH THING KEPT UNDER A PERSON, AND NOTHING GOES UP UNTIL ITS PERSON SAYS YES.** Ryan, 2026-10-18,
+after the forums' Props & Gratitude: a **Props** tab in every profile (last of the tabs), where anybody signed on reads
+the props somebody confirmed and anybody with a **claimed** username (`forumReader`) writes them one, a sentence or a
+short paragraph of thanks. A prop **waits**, read only by its person, in **Your props** in Profile, and by its writer,
+until its person presses **Confirm** (onto the tab) or **Reject** (deleted, nobody told). **The tab is shut until its
+person switches Show my props on the CB on**, claimed only, the other tabs' rule, and while it is shut nobody can give
+them props. The Props part of `lib.mjs` keeps one blob per person (`props/<pet key>`: open, waiting, up), each prop its
+words, its writer's handle, BASE if so, an id and the forums' `authorMark` (`by`), **which never leaves the server**
+(`shapeProp`), so a name deleted and claimed again cannot take back its old owner's props. **One waiting from each
+writer per person**; the owner takes any prop off, the writer takes theirs back, the base takes down what is up and
+never sees what waits. `tools/check-props.py` refuses a time in that part, a prop kept with more, the mark in an answer,
+a writer who is not claimed, anything but `confirmProp` putting a prop on a tab, Forget me or deleting the username
+leaving props, and a count in the radio's props code. **The friendly edits are a number on the tab** (the headcount the
+street refuses, wearing a thank-you), **a date on each prop**, and **letting props go up unconfirmed "so nobody has to
+wait"**. `DECISIONS.md` has what is open, a notification when props arrive above all.
+
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
 identical at all three, because a fanfare is decoration and **Gentle takes away the wobble, never
