@@ -20,6 +20,11 @@ is left of the old promise is checked here rather than remembered:
   · A CALL'S NOTIFICATION NEVER SAYS WHO JOINED. Who is in a call is shown only
     to radios seen in its room (privacy.html#calls); notifyCall's payload is the
     room and nothing else.
+  · EVERYTHING REACHES A KIND ADDED LATER (feedback from our community and
+    Ryan's call, 2026-10-19). A device can switch on every kind at once, and
+    every kind added after it, so every notifier asks wants() in lib.mjs and
+    never a switch by name: a switch read directly would stay off for somebody
+    who chose everything, and nothing would say so.
   · THE PRIVACY PAGE SAYS SO, under #notifications.
 """
 import re
@@ -68,6 +73,17 @@ def main():
         for p in pats:
             if not p.endswith("$"):
                 problems.append(f"PUSH_HOSTS entry /{p}/ is not anchored at its end, so a longer host would pass.")
+    # The part and its sub-parts (Sending, and the notifiers), up to Answers.
+    part = re.search(r"/\* ── Notifications ─.*?(?=/\* ── Answers )", lib, re.S)
+    kinds = re.search(r"export const PUSH_KINDS = \[([^\]]*)\]", lib)
+    if not part or not kinds:
+        problems.append("lib.mjs has no Notifications part, or no PUSH_KINDS in it.")
+    else:
+        names = re.findall(r"'([a-z]+)'", kinds.group(1))
+        body = re.sub(r"export function (cleanWant|wants)\(.*?\n}\n", "", code(part.group(0)), flags=re.S)
+        for k in names + ["all"]:
+            for m in re.finditer(r"\b(?:want|w)\s*\??\.\s*" + k + r"\b", body):
+                problems.append(f"lib.mjs reads the {k} switch by name ({m.group(0)}): ask wants(), or Everything misses it.")
     call = re.search(r"export async function notifyCall\(.*?\n}\n", lib, re.S)
     if not call:
         problems.append("lib.mjs has no notifyCall.")

@@ -143,7 +143,13 @@
   /* REPORTED MESSAGES (Ryan, 2026-10-18): the one way a direct message reaches
      a moderator. Fetched when a moderator presses Show the reports, never on
      arrival, and drawn as plain text: what somebody typed is never markup
-     here. Closing one asks once more, because it deletes it. */
+     here. Closing one asks once more, because it deletes it.
+
+     A REPORTED PICTURE (Ryan's call, 2026-10-19, when conversations took
+     pictures) waits behind Show the picture, so nobody looking through the
+     desk has a picture somebody reported put in front of them unasked. It is
+     fetched with the pass when pressed, shown from memory, and its
+     description, if it had one, is said with it. */
   var reports = document.getElementById('md-reports');
   var rOff = document.getElementById('md-reports-off');
   var rLoad = document.getElementById('md-reports-load');
@@ -172,7 +178,29 @@
     list.forEach(function (r) {
       var li = el('li', null, 'md-report');
       li.appendChild(el('p', r.of + ' sent this to ' + r.by + ' on ' + when(r.sent) + ', and ' + r.by + ' reported it on ' + when(r.t) + ':', 'md-report__who'));
-      li.appendChild(el('p', r.text, 'md-report__words'));
+      if (r.text) li.appendChild(el('p', r.text, 'md-report__words'));
+      if (r.img) {
+        var pic = el('p', null, 'md-report__pic');
+        var show = button('Show the picture ' + r.of + ' sent');
+        pic.appendChild(show);
+        li.appendChild(pic);
+        show.addEventListener('click', function () {
+          show.disabled = true;
+          fetch('/cb/dm/reports', {
+            method: 'POST', credentials: 'omit', cache: 'no-store',
+            headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+            body: JSON.stringify({ picture: r.id }),
+          }).then(function (x) { return x.ok ? x.blob() : null; }).then(function (b) {
+            if (!b) { pic.textContent = 'That picture is not on the desk any more.'; return; }
+            var img = document.createElement('img');
+            img.className = 'md-report__img';
+            img.src = URL.createObjectURL(b);
+            img.alt = r.alt ? r.of + '\u2019s description: ' + r.alt : r.of + ' sent it with no description.';
+            pic.textContent = '';
+            pic.appendChild(img);
+          }, function () { show.disabled = false; rSay('The desk could not be reached just now.'); });
+        });
+      }
       if (r.note) li.appendChild(el('p', r.by + '\u2019s note: ' + r.note, 'md-report__note'));
       var row = el('p');
       var look = button('Look ' + r.of + ' up at the desk'), close = button('Close this report');

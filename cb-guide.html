@@ -154,7 +154,7 @@
       <tr><td><b>React</b>, the smiley</td><td>Opens the <a href="#react">reactions</a> under the message.</td></tr>
       <tr><td><b>More</b>, the three dots</td><td>Opens <b>Copy</b>, <b>Edit</b>, <b>Take to the forums</b> and <b>Take off</b> in a row under the message&rsquo;s line, whichever this message has. Press it again, or <kbd>Escape</kbd>, to fold them away. A message with no words that is not yours has no <b>More</b>.</td></tr>
       <tr><td><b>Copy</b>, under <b>More</b></td><td>Puts the message&rsquo;s words on your own clipboard, as they were typed. It reads <b>Copied</b> for a moment.</td></tr>
-      <tr><td><b>Edit</b>, under <b>More</b></td><td>Only on messages you sent, and a moderator&rsquo;s only on their own. Opens the words in a box where they were: <kbd>Enter</kbd> or <b>Save</b> saves, <kbd>Shift</kbd> and <kbd>Enter</kbd> starts a new line, and <kbd>Escape</kbd> or <b>Cancel</b> leaves it as it was. Only the words change: its picture, sticker and reactions stay, and it still goes 48 hours after you first sent it. <kbd>&uarr;</kbd> in an empty message box edits your newest message. A message marked <b>CLAIMED</b> edits only with that username&rsquo;s own password, and one marked <b>BASE</b> only for the base.</td></tr>
+      <tr><td><b>Edit</b>, under <b>More</b></td><td>Only on messages you sent, and a moderator&rsquo;s only on their own. Opens the words in a box where they were: <kbd>Enter</kbd> or <b>Save</b> saves, <kbd>Shift</kbd> and <kbd>Enter</kbd> starts a new line (on a phone, <kbd>Return</kbd> starts a new line and <b>Save</b> saves), and <kbd>Escape</kbd> or <b>Cancel</b> leaves it as it was. Only the words change: its picture, sticker and reactions stay, and it still goes 48 hours after you first sent it. <kbd>&uarr;</kbd> in an empty message box edits your newest message. A message marked <b>CLAIMED</b> edits only with that username&rsquo;s own password, and one marked <b>BASE</b> only for the base.</td></tr>
       <tr><td><b>Take to the forums</b>, under <b>More</b></td><td>With a claimed username, on a message with words in it. Opens a box under the readout listing what is on the channel now, with this message ticked: tick any others, then <b>Start a topic with these</b> opens <a href="#forums">the forums</a> with them, copied exactly as they were sent. Ask everybody in the conversation first. Not in a room that keeps to itself.</td></tr>
       <tr><td><b>Take off</b>, under <b>More</b></td><td>Only on messages you sent. Takes the message off the air for everybody, with its picture, sticker and reactions, and puts the keyboard back in the message box. It cannot be put back. A message marked <b>CLAIMED</b> comes off only for that username&rsquo;s own password, and one marked <b>BASE</b> only for the base.</td></tr>
       <tr><td>A picture</td><td>Press it to see it larger, with <b>Download</b> and <b>Close</b>. <b>Download</b> under it keeps a copy on your device.</td></tr>
@@ -181,8 +181,9 @@
   <table class="plain-table">
     <thead><tr><th>Keys in the box</th><th>What they do</th></tr></thead>
     <tbody>
-      <tr><td><kbd>Enter</kbd></td><td>Transmits, unless the list of rooms is open.</td></tr>
+      <tr><td><kbd>Enter</kbd></td><td>Transmits, unless the list of rooms is open. On a phone or a tablet, where there is no <kbd>Shift</kbd> and <kbd>Enter</kbd>, <kbd>Return</kbd> starts a new line instead and <b>Transmit</b> sends, and the box starts four lines tall.</td></tr>
       <tr><td><kbd>Shift</kbd> and <kbd>Enter</kbd></td><td>Starts a new line.</td></tr>
+      <tr><td><kbd>Ctrl</kbd> or <kbd>Cmd</kbd> and <kbd>Enter</kbd></td><td>Transmits, on any device, for a tablet with a keyboard on it.</td></tr>
       <tr><td><kbd>&uarr;</kbd>, with the box empty</td><td>Edits your newest message on the channel. See <a href="#reading"><b>Edit</b></a>.</td></tr>
       <tr><td><kbd>#</kbd> and the start of a room&rsquo;s name</td><td>Opens a list of rooms. <kbd>&uarr;</kbd> and <kbd>&darr;</kbd> move through it, <kbd>Enter</kbd> or <kbd>Tab</kbd> picks one, and <kbd>Escape</kbd> leaves your # as you typed it.</td></tr>
     </tbody>
@@ -241,6 +242,7 @@
   <table class="plain-table">
     <thead><tr><th>Control</th><th>What it does</th></tr></thead>
     <tbody>
+      <tr><td><b>Everything, and anything added later</b></td><td>Switches on every kind below, every message on World included, and any kind of notification the street adds later, so you do not have to come back and look. It leaves <b>Show the words</b> and the rooms you follow as they are. While it is on, every kind says on; switch one off and Everything goes off, and the rest stay on.</td></tr>
       <tr><td><b>When somebody @mentions me</b></td><td>Tells you when a message on a channel you can hear, or a post in <a href="#forums">the forums</a> that your claimed username can read, has <code>@</code> and your handle in it, and when an edit puts it in. Pressing a forum one opens the post. Off until you switch it on, like every switch here.</td></tr>
       <tr><td><b>When somebody messages me</b></td><td>Tells you when somebody sends you a <a href="#messages">direct message</a>, or asks to start a conversation, with who it is from. Pressing it opens the street with <b>Messages</b> open. Only a claimed username can be sent one. It never says how many are waiting.</td></tr>
       <tr><td><b>When somebody gives me props</b></td><td>Tells you when somebody gives you <a href="#props">props</a>, which wait in Profile for you to confirm or reject, with who wrote them. Pressing it opens the street with Profile open at <b>Your props</b>. Only a claimed username has props to be told about. It never says how many are waiting.</td></tr>
@@ -265,9 +267,10 @@
       <tr><td><b>Asking to message you</b></td><td>Somebody&rsquo;s first message, waiting for you, with its first words. <b>Read</b> their message to open it.</td></tr>
       <tr><td><b>Conversations</b></td><td>Everybody you are talking with, whoever wrote last first, saying who wrote last and when, or that you are waiting for them to answer. A name opens the conversation.</td></tr>
       <tr><td><b>Accept</b> and <b>Reject</b></td><td>On somebody&rsquo;s first message. <b>Accept</b>, or simply answering, starts the conversation. <b>Reject</b> asks first, then deletes their message, and nobody is told; they can ask again.</td></tr>
-      <tr><td><b>Send</b></td><td>Sends what is in the box: <kbd>Enter</kbd> sends, and <kbd>Shift</kbd> and <kbd>Enter</kbd> starts a new line. Basic Markdown works, as on the channel, up to 2,000 characters. Your first message to somebody waits for them to answer it, and you can write nothing more until they do.</td></tr>
+      <tr><td><b>Send</b></td><td>Sends what is in the box: <kbd>Enter</kbd> sends, and <kbd>Shift</kbd> and <kbd>Enter</kbd> starts a new line, as in <a href="#writing">the message box</a>, so on a phone <kbd>Return</kbd> starts a new line and <b>Send</b> sends. Basic Markdown works, as on the channel, up to 2,000 characters. Your first message to somebody waits for them to answer it, and you can write nothing more until they do.</td></tr>
+      <tr><td><b>Picture</b></td><td>Only once a conversation is accepted: a first message is words only. Adds a picture to your message, the way <a href="#pictures">Picture</a> does on the channel: redrawn here first, with a description if you like, and gone when the message goes. Press it to open it larger, and <b>Download</b> keeps a copy.</td></tr>
       <tr><td><b>Edit</b> and <b>Take back</b></td><td>On your own messages. <b>Edit</b> opens the words in a box where they were, and the message shows that it was edited. <b>Take back</b> asks first, then deletes it for both of you.</td></tr>
-      <tr><td><b>Report</b></td><td>On a message the other person sent you. Sends a copy of it, who sent it and when, your username and a note if you write one, to the moderators&rsquo; desk. They are not told. It is the only way a moderator ever sees a message.</td></tr>
+      <tr><td><b>Report</b></td><td>On a message the other person sent you. Sends a copy of it, its picture if it has one, who sent it and when, your username and a note if you write one, to the moderators&rsquo; desk. They are not told. It is the only way a moderator ever sees a message.</td></tr>
       <tr><td><b>Block</b></td><td>Under a conversation. Asks first, then stops them writing to you and you to them, and deletes your conversation for both of you. They are not told: if they write, they are told you are not taking messages from them. <b>Unblock</b> is under <b>People you have blocked</b>.</td></tr>
       <tr><td><b>All messages</b></td><td>Back to the list. So is <kbd>Escape</kbd>.</td></tr>
     </tbody>
@@ -435,6 +438,7 @@
       <tr><td>Editing a message</td><td><kbd>Enter</kbd> saves; <kbd>Shift</kbd> and <kbd>Enter</kbd> starts a new line; <kbd>Escape</kbd> leaves it as it was.</td></tr>
       <tr><td>A conversation, under Messages</td><td><kbd>Enter</kbd> sends; <kbd>Shift</kbd> and <kbd>Enter</kbd> starts a new line; <kbd>Escape</kbd> goes back to all your messages.</td></tr>
       <tr><td>A list of rooms</td><td><kbd>&uarr;</kbd> and <kbd>&darr;</kbd> move; <kbd>Enter</kbd> picks or goes; <kbd>Escape</kbd> closes it.</td></tr>
+      <tr><td>On a phone or a tablet</td><td><kbd>Return</kbd> starts a new line in every box that sends, and its button sends; <kbd>Ctrl</kbd> or <kbd>Cmd</kbd> and <kbd>Enter</kbd> sends with a keyboard.</td></tr>
       <tr><td>A large picture</td><td><kbd>Escape</kbd> or <b>Close</b>.</td></tr>
     </tbody>
   </table>

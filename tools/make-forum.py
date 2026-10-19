@@ -261,7 +261,8 @@ def check_lib(lib):
     if "forumAllows(who, cat)" not in ff or "p.files" not in ff:
         problems.append(f"{LIB.name}: forumFile no longer asks whether the reader can read the topic, and whether a post in it holds the file.")
     nf = fn(lib, "notifyForum")
-    if "forumAllows(who, cat)" not in nf or "d.want.mentions" not in nf or "deviceWho(d, s, mods)" not in nf:
+    # wants(), never the switch by name, so Everything reaches it (check-push.py).
+    if "forumAllows(who, cat)" not in nf or "wants(d.want, 'mentions')" not in nf or "deviceWho(d, s, mods)" not in nf:
         problems.append(f"{LIB.name}: notifyForum must tell only a device that asked about mentions, whose pass can read the category now.")
     if "sweepForum" not in MIDNIGHT.read_text():
         problems.append(f"{MIDNIGHT.name}: the hourly sweep no longer sweeps the forums, so a topic past its date would stay stored.")

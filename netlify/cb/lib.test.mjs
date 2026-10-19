@@ -75,7 +75,7 @@ function memoryStore({ etagOnRead }) {
     async set(key, value, opts = {}) {
       await tick();
       // A picture's or a forum upload's key is a fresh random id, so writing it can race nothing.
-      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|forum-up|forum-file)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
+      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|forum-up|forum-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -2749,7 +2749,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   assert.equal(cleanSubscription({ ...d, endpoint: d.endpoint.replace('.com/', '.com:8443/') }), null, 'a port');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, auth: rnd(8).toString('base64url') } }), null);
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(65).toString('base64url') } }), null, 'a key that is not a point');
-  assert.deepEqual(cleanWant({}), { mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
 });
@@ -3254,6 +3254,79 @@ test('Forget me and deleting the username delete every conversation, and a name 
   assert.deepEqual((await listDms(person('Ada', 77), s)).conversations, [], 'a name claimed again found its old owner’s messages');
 }));
 
+import { putDmImage, getDmImage, reportImage } from './lib.mjs';
+test('a conversation takes a picture only once accepted, shows it only to the two, and loses it with its message', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  // A request is words only: nobody's first contact with you is a picture.
+  assert.equal((await putDmImage(ada, 'Bex', jpeg(), s)).error, 'accepted', 'a picture went before there was a conversation');
+  await sendDm(ada, 'Bex', 'Hi, may I send you a screenshot?', s);
+  assert.equal((await putDmImage(ada, 'Bex', jpeg(), s)).error, 'accepted', 'a picture went with a request still waiting');
+  assert.equal((await putDmImage(bex, 'Ada', jpeg(), s)).error, 'accepted', 'a picture went back before the request was accepted');
+  await acceptDm(bex, 'Ada', s);
+  assert.equal((await putDmImage(ada, 'Bex', exifJpeg(), s)).error, 'bad', 'a picture still carrying camera data was taken');
+  const id = (await putDmImage(ada, 'Bex', jpeg(), s)).id;
+  assert.ok(id);
+  assert.ok(s.keys().includes('dm-img/' + id) && !s.keys().includes('img/' + id), 'a conversation\u2019s picture is where the channel\u2019s sweep looks');
+  // Only a picture of yours, put up for this conversation, goes in it.
+  await claimAccount('Cy', 'a long enough phrase', s, 33, null);
+  const cy = person('Cy', 33);
+  await setDmOpen(cy, true, s);
+  await sendDm(bex, 'Cy', 'hello', s);
+  await acceptDm(cy, 'Bex', s);
+  const cys = (await putDmImage(cy, 'Bex', jpeg(), s)).id;
+  assert.equal((await sendDm(ada, 'Bex', { text: '', img: cys }, s)).error, 'picture', 'somebody else\u2019s picture went into a conversation');
+  assert.equal((await sendDm(bex, 'Cy', { text: '', img: id }, s)).error, 'picture', 'a picture went into a conversation it was not for');
+  const sent = (await sendDm(ada, 'Bex', { text: '', img: id, alt: 'The sandbox, not loading' }, s)).sent;
+  assert.ok(sent);
+  const seen = (await readDmWith(bex, 'Ada', s)).messages.at(-1);
+  assert.equal(seen.img, id);
+  assert.equal(seen.alt, 'The sandbox, not loading');
+  assert.equal(seen.text, '');
+  assert.ok(await getDmImage(bex, id, s), 'the other person could not see it');
+  assert.ok(await getDmImage(ada, id, s), 'its sender could not see it');
+  assert.equal(await getDmImage(cy, id, s), null, 'somebody outside the conversation fetched its picture');
+  await claimAccount('Mo', 'a long enough phrase', s, 44, null);
+  const mo = { role: 'base', handle: 'Mo', roles: new Set(['moderator']), account: true, since: 44 };
+  assert.equal(await getDmImage(mo, id, s), null, 'a moderator fetched a picture out of a conversation');
+  // Words only on a picture's message may be edited away; it is still the picture.
+  assert.ok(!(await editDm(ada, 'Bex', sent.id, 'look at this', s)).error);
+  assert.ok(!(await editDm(ada, 'Bex', sent.id, '', s)).error, 'a picture\u2019s words could not be edited away');
+  // Reported: a copy onto the desk, for the base only, kept when the message goes.
+  await reportDm(bex, 'Ada', sent.id, '', s);
+  const desk = await readReports(mo, s);
+  assert.equal(desk[0].img, true);
+  assert.equal(desk[0].alt, 'The sandbox, not loading');
+  assert.ok(await reportImage(mo, desk[0].id, s));
+  assert.equal(await reportImage(bex, desk[0].id, s), null, 'somebody who is not a moderator saw a reported picture');
+  await takeDm(ada, 'Bex', sent.id, s);
+  assert.equal(await getDmImage(bex, id, s), null, 'a picture taken back could still be fetched');
+  assert.ok(!s.keys().includes('dm-img/' + id), 'a picture outlived its message');
+  assert.ok(await reportImage(mo, desk[0].id, s), 'taking a message back took its picture off the desk');
+  await closeReport(mo, desk[0].id, s);
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('dm-report-img/')), [], 'closing a report left its picture');
+  // The sweep: a picture past its message's 48 hours, and one never sent.
+  const t0 = Date.now();
+  const late = (await putDmImage(ada, 'Bex', jpeg(), s, t0)).id;
+  await sendDm(ada, 'Bex', { text: 'later', img: late }, s, t0);
+  const unsent = (await putDmImage(ada, 'Bex', jpeg(), s, t0)).id;
+  await sweepDms(s, t0 + 1000);
+  assert.ok(s.keys().includes('dm-img/' + late) && s.keys().includes('dm-img/' + unsent), 'the sweep took a picture still held, or one just put up');
+  await sweepDms(s, t0 + LIFE + 1);
+  assert.ok(!s.keys().includes('dm-img/' + late), 'the sweep left a picture whose message had gone');
+  assert.ok(!s.keys().includes('dm-img/' + unsent), 'the sweep left a picture nobody sent');
+  // Forget me, and blocking, take every picture in the conversations with them.
+  await sendDm(ada, 'Bex', 'again', s);
+  await acceptDm(bex, 'Ada', s);
+  await sendDm(ada, 'Bex', { text: '', img: (await putDmImage(ada, 'Bex', jpeg(), s)).id }, s);
+  await blockDm(bex, 'Ada', s);
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('dm-img/') && k !== 'dm-img/' + cys), [], 'a block left a picture behind');
+  await sendDm(cy, 'Bex', { text: '', img: cys }, s);
+  await forgetDms('Cy', 33, s);
+  assert.deepEqual(s.keys().filter((k) => k.startsWith('dm-img/')), [], 'Forget me left a picture behind');
+}));
+
 test('a message tells only the devices switched on for messages, as that claimed username', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   await claimAccount('Bex', 'a long enough phrase', s, 22, null);
@@ -3272,5 +3345,35 @@ test('a message tells only the devices switched on for messages, as that claimed
   sent.length = 0;
   await notifyDm('Bex', 'bex', 'to myself', false, s, readMods(''), send);
   assert.equal(sent.length, 0, 'somebody was told about their own message');
+}));
+
+import { wants, PUSH_KINDS } from './lib.mjs';
+test('Everything tells a device about every kind there is, World included, and a kind added later', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Bex', 'a long enough phrase', s, 22, null);
+  const acct = await readAccount('Bex', s);
+  const every = aDevice(), quiet = aDevice(), one = aDevice();
+  await keepDevice(every, issueAccountPass('Bex', acct.v), { all: true }, s);
+  await keepDevice(quiet, issueAccountPass('Bex', acct.v), { all: true, words: false }, s);
+  await keepDevice(one, issueAccountPass('Bex', acct.v), { props: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  await notifyMessage({ id: 'w1', handle: 'Ada', text: 'morning, World', t: 1 }, null, s, readMods(''), send);
+  await notifyMessage({ id: 'w2', handle: 'Ada', text: 'in the den @bex', t: 1 }, 'the-den', s, readMods(''), send);
+  await notifyMessage({ id: 'w3', handle: 'Ada', text: 'in the den, nobody named', t: 1 }, 'the-den', s, readMods(''), send);
+  await notifyDm('Bex', 'Ada', 'Hello there', true, s, readMods(''), send);
+  await notifyProps('Bex', 'Ada', 'Thank you', s, readMods(''), send);
+  await notifyCall(WORLD_CALL, s, readMods(''), send, Date.now());
+  const kinds = (d) => sent.filter((x) => x.to === d.endpoint).map((x) => x.payload.kind + (x.payload.why ? ' ' + x.payload.why : ''));
+  assert.deepEqual(kinds(every), ['message channel', 'message mention', 'dm', 'props', 'call'],
+    'Everything missed a kind, or followed a room nobody followed');
+  assert.deepEqual(kinds(one), ['props'], 'one switch told a device about the others');
+  assert.ok(sent.filter((x) => x.to === quiet.endpoint).every((x) => !x.payload.text), 'Everything showed the words to a device that switched them off');
+  // A kind that does not exist yet is on for Everything and off for everybody else.
+  assert.ok(wants(cleanWant({ all: true }), 'a-kind-added-next-year'));
+  assert.ok(!wants(cleanWant({ props: true }), 'a-kind-added-next-year'));
+  for (const k of PUSH_KINDS) assert.ok(wants(cleanWant({ all: true }), k), k);
+  assert.deepEqual(cleanWant({ all: true }).rooms, [], 'Everything followed rooms');
+  assert.equal(cleanWant({ all: true }).words, true, 'Everything changed the words switch');
 }));
 

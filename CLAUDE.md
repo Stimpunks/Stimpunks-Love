@@ -1542,8 +1542,15 @@ is deleted. Forget me and deleting the username delete everything else, for both
 holds all of it, and refuses a count, a receipt, "seen", "typing", a timer or browser storage in the radio's
 Messages code. **The friendly edits are an unread number, read receipts, a typing indicator, a moderator's way
 into a conversation "for safety", and the radio listening for messages while the part is shut** "so nothing is
-missed"; the notification switch (*When somebody messages me*, `notifyDm`) is how somebody is told. The open
-questions, safeguarding first, are in `DECISIONS.md`.
+missed"; the notification switch (*When somebody messages me*, `notifyDm`) is how somebody is told. **A conversation
+takes pictures once it is accepted, and a request never does** (Ryan's call, 2026-10-19, after somebody could not send
+him a screenshot privately): `putDmImage` and `sendDm` refuse one until the conversation is open, so nobody's first
+contact with you is a picture. It is the channel's picture otherwise (the one redraw, `pictureCheck` shared with
+`putImage`), kept under `dm-img/`, which the channel's own sweep never lists, and served by `getDmImage` only to the two
+people and only while a message holds it; `updateConv` deletes what a write let go of, and Forget me and the sweep the
+rest. A reported picture is copied onto the desk, shown there only after **Show the picture**, and goes with its report.
+The friendly edit is a picture in the request "so people can explain what they want"; it is the first contact the rule
+exists to keep words. The open questions, safeguarding first, are in `DECISIONS.md`.
 
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
@@ -3814,8 +3821,11 @@ with `el()` and `textContent`, so nothing typed becomes markup. **Links are stil
 what it names out of the emphasis pass, because an underscore in a path or an asterisk in a film's
 title would otherwise break the link or the jump. **A message now has `li` inside it**, and the
 pass that drops messages gone from the channel read those as messages and emptied every list; it
-asks for `:scope > li`. Anything else walking the log must ask the same way. Copy writes the words
-as typed and sends nothing. Size is − and + on the bar (Ryan, 2026-10-17: a panel to reach Small
+asks for `:scope > li`. Anything else walking the log must ask the same way. **On a phone Return makes
+a new line and the button sends** (feedback from our community, 2026-10-19: a phone's keyboard has no Shift and Enter):
+every box that sends on Enter asks `sendKey()` in `cb.js` and takes its hint from `enterHint()`, Ctrl or Cmd and Enter
+sends everywhere, and on a touch screen the box starts four lines tall at 16px, because iOS zooms into anything smaller.
+Copy writes the words as typed and sends nothing. Size is − and + on the bar (Ryan, 2026-10-17: a panel to reach Small
 was a step too much), stepping Icon, Small, Normal, Large, Full (2026-10-19 added the two ends),
 and Move is a six-dot grip; both are icons, because the bar is full.
 
@@ -3909,7 +3919,11 @@ there tells nobody, because a notification is the room announced outside. Nobody
 refuses a fetch listener, a cache, storage or imported code in it, and any script but `cb.js` asking the browser for
 notifications. Signing off, Switch off on this device, Forget me and deleting the username delete a device's record. **The
 friendly edits are an unread count, a badge on the radio or the tab, and the radio listening in a background tab "to
-notify sooner"**: the first two are the counts the street refuses, the third breaks the radio's own rule. On an iPhone a
+notify sooner"**: the first two are the counts the street refuses, the third breaks the radio's own rule. **Everything,
+and anything added later** (feedback from our community and Ryan's call, 2026-10-19, World included) is a switch `all`
+that turns on every kind and every kind added after it, so **every notifier asks `wants()`, never a switch by name**, and
+`check-push.py` refuses one that does: a kind read directly would stay off for somebody who chose everything. A new kind
+is an entry in `PUSH_KINDS` and in the radio's `NOTIFY_KINDS`; it leaves the words and the rooms followed alone. On an iPhone a
 site can only notify once it is on the Home Screen; the manifest's `display` is `minimal-ui`, and whether iOS needs
 `standalone` is worth checking before anybody says it works there.
 

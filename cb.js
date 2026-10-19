@@ -171,6 +171,18 @@
       '-' + two(d.getHours()) + two(d.getMinutes()) + '.jpg';
   }
 
+  /* A picture for a conversation under Messages, once it is accepted: the
+     same redraw, its own address, and the handle in a header rather than the
+     address, as /cb/dm keeps it in the body. */
+  function sendDmPicture(blob, handle, pass) {
+    return fetch('/cb/dm/image', {
+      method: 'POST', body: blob, credentials: 'omit', cache: 'no-store',
+      headers: { 'content-type': 'image/jpeg', 'authorization': 'Bearer ' + pass, 'accept': 'application/json', 'x-cb-with': encodeURIComponent(handle) },
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+    });
+  }
+
   function sendPicture(blob, room, pass) {
     return fetch('/cb/image' + (room ? '?room=' + encodeURIComponent(room) : ''), {
       method: 'POST', body: blob, credentials: 'omit', cache: 'no-store',
@@ -185,6 +197,30 @@
     if (cls) e.className = cls;
     if (text != null) e.textContent = text;
     return e;
+  }
+
+  /* ON A PHONE, RETURN MAKES A NEW LINE (feedback from our community,
+     2026-10-19). A phone's keyboard has no Shift and Enter, so with Enter
+     sending there was no way to start a new line on one. Where the main
+     pointer is a finger and nothing hovers, Return is a new line and the
+     button sends; Ctrl or Cmd and Enter sends everywhere, for a tablet with a
+     keyboard on it. Every box that sends on Enter asks sendKey(), and its hint
+     comes from enterHint(), so the two cannot disagree. */
+  var TOUCH = window.matchMedia ? window.matchMedia('(hover: none) and (pointer: coarse)') : null;
+  function onTouch() { return !!(TOUCH && TOUCH.matches); }
+  function sendKey(e) {
+    if (e.key !== 'Enter' || e.isComposing || e.shiftKey || e.altKey) return false;
+    return e.ctrlKey || e.metaKey || !onTouch();
+  }
+  // The first half of a box's hint, for a button named `button` that does `does`.
+  function enterHint(button, does) {
+    return onTouch() ? 'Return makes a new line, and ' + button + ' ' + does + '.'
+      : 'Enter ' + does + ', and Shift and Enter makes a new line.';
+  }
+  // A box that sends on Enter: the keyboard's key says what it does.
+  function sendBox(t, key) {
+    t.rows = onTouch() ? 4 : 2;
+    t.setAttribute('enterkeyhint', onTouch() ? 'enter' : key);
   }
 
   function call(path, opts, pass) {
@@ -1010,14 +1046,14 @@
     lab.htmlFor = 'cb-say';
     /* A TEXTAREA, so a message can be a list, a paragraph or a block of code.
        It grows as you type, up to about eight lines, and can be dragged taller.
-       Enter sends and Shift and Enter makes a new line, the way chat does. */
+       Enter sends and Shift and Enter makes a new line, the way chat does,
+       and on a phone Return makes a new line and Transmit sends (sendKey). */
     var say = this.say = el('textarea', 'cb-say cb-say--msg');
     say.id = 'cb-say';
-    say.rows = 2;
     say.maxLength = MESSAGE_MAX;
     say.setAttribute('aria-describedby', 'cb-say-hint');
     say.autocomplete = 'off';
-    say.setAttribute('enterkeyhint', 'send');
+    sendBox(say, 'send');
     /* THE COMPLETION LIST, the ARIA combobox pattern. Typing # and a letter
        opens it; arrows move, Enter or Tab puts the room in, Escape closes it
        for that # and leaves what you typed alone. With the list closed, Enter
@@ -1085,7 +1121,7 @@
     // In the form, hidden: a file input outside the document is one some
     // browsers will not open a picker for.
     form.appendChild(picFile);
-    var hint = el('p', 'cb-hint', 'Enter sends, Shift and Enter makes a new line. Markdown works: **bold**, *italic*, `code`, > quotes, - lists.');
+    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, > quotes, - lists.');
     hint.id = 'cb-say-hint';
     form.appendChild(lab);
     form.appendChild(pick);
@@ -1480,7 +1516,7 @@
     say.addEventListener('keydown', function (e) {
       me.pickKey(e);
       if (e.defaultPrevented || e.isComposing) return;
-      if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); me.transmit(); }
+      if (sendKey(e)) { e.preventDefault(); me.transmit(); }
       // Up in an empty box edits your newest message, the way chat does.
       if (e.key === 'ArrowUp' && !say.value && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
         var last = me.lastMine();
@@ -1891,6 +1927,13 @@
      signing off. What the device asked for is kept on the street, beside its
      push address (/cb/push), and nothing it is sent is kept anywhere. */
   var NOTIFY_SW = '/cb-sw.js';
+  /* EVERYTHING comes first (feedback from our community and Ryan's call,
+     2026-10-19): every kind below, every message on World included, and any
+     kind added later, which the street decides with wants() in lib.mjs. It
+     leaves the words and the rooms you follow as they are. While it is on,
+     every kind reads on, and switching one off switches Everything off and
+     keeps the others on. */
+  var NOTIFY_ALL = 'Everything, and anything added later';
   var NOTIFY_KINDS = [
     ['mentions', 'When somebody @mentions me'],
     ['props', 'When somebody gives me props'],
@@ -1962,7 +2005,7 @@
     var me = this, box = this.notifyPanel;
     var on = !!(sub && want);
     if (want) this.notifyWant = want;
-    var w = this.notifyWant = this.notifyWant || { mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] };
+    var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] };
     box.textContent = '';
     box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
     box.appendChild(el('p', null, on
@@ -1982,15 +2025,37 @@
       }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; });
     }
     var row = el('div', 'cb-notify__kinds');
+    var every = el('button', 'cb-btn cb-notify__kind', NOTIFY_ALL + ': ' + (w.all ? 'on' : 'off'));
+    every.type = 'button';
+    every.setAttribute('aria-pressed', String(!!w.all));
+    every.setAttribute('aria-describedby', 'cb-notify-all');
+    every.addEventListener('click', function () { apply(Object.assign({}, w, { all: !w.all }), 'all'); });
+    row.appendChild(every);
+    if (focusKey === 'all') setTimeout(function () { every.focus(); }, 0);
     NOTIFY_KINDS.forEach(function (k) {
-      var b = el('button', 'cb-btn cb-notify__kind', k[1] + ': ' + (w[k[0]] ? 'on' : 'off'));
+      // The words are not a kind of notification, so Everything leaves them alone.
+      var kind = k[0] !== 'words', is = !!(w[k[0]] || (kind && w.all));
+      var b = el('button', 'cb-btn cb-notify__kind', k[1] + ': ' + (is ? 'on' : 'off'));
       b.type = 'button';
-      b.setAttribute('aria-pressed', String(!!w[k[0]]));
-      b.addEventListener('click', function () { var n = Object.assign({}, w); n[k[0]] = !w[k[0]]; apply(n, k[0]); });
+      b.setAttribute('aria-pressed', String(is));
+      b.addEventListener('click', function () {
+        var n = Object.assign({}, w);
+        if (kind && w.all) {
+          n.all = false;
+          NOTIFY_KINDS.forEach(function (x) { if (x[0] !== 'words') n[x[0]] = true; });
+        }
+        n[k[0]] = !is;
+        apply(n, k[0]);
+      });
       row.appendChild(b);
       if (focusKey === k[0]) setTimeout(function () { b.focus(); }, 0);
     });
     box.appendChild(row);
+    var allSays = el('p', 'cb-hint', w.all
+      ? 'Everything is on, so anything new the street can tell you about will be on here too, without asking. Switch any one off and the rest stay on. Rooms you follow are still your own list.'
+      : 'Everything switches on every kind above, every message on World included, and anything the street adds later. Rooms you follow stay your own list.');
+    allSays.id = 'cb-notify-all';
+    box.appendChild(allSays);
     // Rooms you follow: this one, if this page is one, and every one you follow.
     box.appendChild(el('p', 'cb-pets__h', 'Rooms you follow'));
     var room = hereRoom();
@@ -2537,8 +2602,9 @@
   };
 
   /* A picture in the log. It has no public address, so it is fetched with the
-     pass, once, and shown from memory until its message goes. */
-  Radio.prototype.picture_ = function (m) {
+     pass, once, and shown from memory until its message goes. `from` is where
+     it is fetched: the channel's, or a conversation's under Messages. */
+  Radio.prototype.picture_ = function (m, from) {
     var me = this, fig = el('figure', 'cb-picture');
     var img = el('img', 'cb-picture-img');
     img.alt = m.alt || (m.handle + ' sent a picture, with no description.');
@@ -2572,7 +2638,7 @@
       keep.hidden = false;
     }
     if (this.pics[m.img]) { ready(this.pics[m.img]); return fig; }
-    fetch('/cb/image?id=' + encodeURIComponent(m.img), {
+    fetch((from || '/cb/image?id=') + encodeURIComponent(m.img), {
       headers: { 'authorization': 'Bearer ' + this.state.pass }, credentials: 'omit', cache: 'no-store',
     }).then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) {
       if (!b) { fig.replaceChild(el('p', 'cb-picture-gone', 'That picture has gone with its message.'), open); keep.remove(); return; }
@@ -4800,21 +4866,53 @@
     lab.htmlFor = 'cb-dm-say';
     var say = this.dmSay = el('textarea', 'cb-say cb-say--msg');
     say.id = 'cb-dm-say';
-    say.rows = 2;
     say.maxLength = MESSAGE_MAX;
     say.autocomplete = 'off';
-    say.setAttribute('enterkeyhint', 'send');
+    sendBox(say, 'send');
     say.setAttribute('aria-describedby', 'cb-dm-hint');
-    var hint = el('p', 'cb-hint', 'Enter sends, and Shift and Enter makes a new line. Basic Markdown works, as on the channel.');
+    var hint = el('p', 'cb-hint', enterHint('Send', 'sends') + ' Basic Markdown works, as on the channel.');
     hint.id = 'cb-dm-hint';
     var send = el('button', 'cb-btn cb-send', 'Send');
     send.type = 'submit';
+    /* A PICTURE, once the conversation is accepted (Ryan's call, 2026-10-19):
+       a request is words only, so the button is there only in an open
+       conversation (dmDrawTalk). The channel's redraw, before anything goes. */
+    var picBtn = this.dmPicBtn = el('button', 'cb-btn cb-pic', 'Picture');
+    picBtn.type = 'button';
+    picBtn.setAttribute('aria-label', 'Add a picture to your message');
+    picBtn.hidden = true;
+    var picFile = this.dmPicFile = el('input', 'cb-pic-file');
+    picFile.type = 'file';
+    picFile.accept = 'image/' + '*';
+    picFile.hidden = true;
+    picFile.tabIndex = -1;
+    picBtn.addEventListener('click', function () { picFile.click(); });
+    picFile.addEventListener('change', function () { me.dmPickPicture(picFile.files && picFile.files[0]); });
+    var ready = this.dmPicReady = el('div', 'cb-pic-ready');
+    ready.hidden = true;
+    ready.appendChild(el('p', 'cb-pic-line', 'Picture ready to go with your message. The radio has taken off anything the camera wrote into it.'));
+    var altLab = el('label', 'cb-lab', 'Say what is in it, if you like');
+    altLab.htmlFor = 'cb-dm-pic-alt';
+    var alt = this.dmPicAlt = el('input', 'cb-say cb-pic-alt');
+    alt.id = 'cb-dm-pic-alt';
+    alt.type = 'text';
+    alt.maxLength = 280;
+    alt.autocomplete = 'off';
+    var drop = el('button', 'cb-btn cb-pic-drop', 'Remove the picture');
+    drop.type = 'button';
+    drop.addEventListener('click', function () { me.dmDropPicture(); picBtn.focus(); });
+    ready.appendChild(altLab);
+    ready.appendChild(alt);
+    ready.appendChild(drop);
     var frow = el('div', 'cb-acct__row');
+    frow.appendChild(picBtn);
     frow.appendChild(send);
+    form.appendChild(picFile);
     form.appendChild(lab);
     form.appendChild(say);
     form.appendChild(hint);
     form.appendChild(frow);
+    form.appendChild(ready);
     talk.appendChild(form);
     this.dmBlockRow = el('div', 'cb-dm-block');
     talk.appendChild(this.dmBlockRow);
@@ -4841,8 +4939,7 @@
     back.addEventListener('click', function () { me.dmBack(); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.dmSend(); });
     say.addEventListener('keydown', function (e) {
-      if (e.isComposing) return;
-      if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); me.dmSend(); }
+      if (sendKey(e)) { e.preventDefault(); me.dmSend(); }
     });
     say.addEventListener('input', function () { me.grow(say); });
     // Escape in a conversation goes back to the list, unless something in it
@@ -5080,6 +5177,10 @@
     var sig = b.state + '|' + b.can;
     if (this.dmStateSig !== sig) { this.dmStateSig = sig; this.dmDrawState(b); }
     this.dmForm.hidden = b.can !== 'yes';
+    // A picture only once the conversation is accepted: a request is words only.
+    var pics = b.can === 'yes' && b.state === 'open';
+    this.dmPicBtn.hidden = !pics;
+    if (!pics && this.dmPicture) this.dmDropPicture();
     var msgs = Array.isArray(b.messages) ? b.messages : [];
     this.dmDrawLog(msgs);
     this.dmBlockShown(msgs.length > 0 && b.can !== 'blocked');
@@ -5178,6 +5279,8 @@
     li.appendChild(head);
     li.appendChild(el('div', 'cb-text'));
     this.dmWords(li, m);
+    li.dmImg = !!m.img;
+    if (m.img) li.appendChild(this.picture_(m, '/cb/dm/image?id='));
     li.appendChild(this.dmActs(li, m));
     return li;
   };
@@ -5255,7 +5358,7 @@
     lab.htmlFor = 'cb-dm-edit-' + id;
     var ta = el('textarea', 'cb-say');
     ta.id = 'cb-dm-edit-' + id;
-    ta.rows = 3;
+    sendBox(ta, 'done');
     ta.maxLength = MESSAGE_MAX;
     ta.value = li.dmText || '';
     var save = el('button', 'cb-btn cb-copy', 'Save');
@@ -5281,11 +5384,11 @@
     ta.addEventListener('keydown', function (e) {
       if (e.isComposing) return;
       if (e.key === 'Escape') { e.preventDefault(); stop(true); }
-      else if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); f.requestSubmit(); }
+      else if (sendKey(e)) { e.preventDefault(); f.requestSubmit(); }
     });
     f.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!ta.value.trim()) { me.dmTold('A message needs words. Take it back instead, if you want it gone.'); ta.focus(); return; }
+      if (!ta.value.trim() && !li.dmImg) { me.dmTold('A message needs words. Take it back instead, if you want it gone.'); ta.focus(); return; }
       save.disabled = true;
       me.dmCall({ with: me.dmWith, edit: id, text: ta.value }).then(function (b) {
         if (!b) { save.disabled = false; return; }
@@ -5363,18 +5466,47 @@
     });
   };
 
+  // A picture chosen, and redrawn at once, the channel's way.
+  Radio.prototype.dmPickPicture = function (file) {
+    var me = this;
+    this.dmPicFile.value = '';
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { this.dmTold('That is not a picture.'); return; }
+    this.dmTold('Getting the picture ready…');
+    redraw(file).then(function (blob) {
+      me.dmPicture = blob;
+      me.dmPicReady.hidden = false;
+      me.dmTold('');
+      me.dmPicAlt.focus();
+    }).catch(function () { me.dmTold('The radio could not read that picture.'); });
+  };
+
+  Radio.prototype.dmDropPicture = function () {
+    this.dmPicture = null;
+    this.dmPicAlt.value = '';
+    this.dmPicReady.hidden = true;
+  };
+
   Radio.prototype.dmSend = function () {
-    var me = this, say = this.dmSay, text = say.value, who = this.dmWith;
+    var me = this, say = this.dmSay, text = say.value, who = this.dmWith, picture = this.dmPicture;
     if (!who) return;
-    if (!text.trim()) { this.dmTold('Write something first.'); say.focus(); return; }
+    if (!text.trim() && !picture) { this.dmTold('Write something, or add a picture, first.'); say.focus(); return; }
     if (this.dmSending) return;
     this.dmSending = true;
-    call('/cb/dm', { body: { with: who, send: text } }, this.state.pass).then(function (r) {
+    if (picture) this.dmTold('Sending the picture…');
+    var first = picture ? sendDmPicture(picture, who, this.state.pass) : Promise.resolve(null);
+    first.then(function (up) {
+      if (up && up.status !== 200) return up;
+      var body = { with: who, send: text };
+      if (up) { body.img = up.body.id; body.alt = me.dmPicAlt.value.trim(); }
+      return call('/cb/dm', { body: body }, me.state.pass);
+    }).then(function (r) {
       if (r.status === 401) return me.lost();
       if (who !== me.dmWith && String(who).toLowerCase() !== String(me.dmWith || '').toLowerCase()) return;
       if (r.status === 200 && r.body) {
         say.value = '';
         me.grow(say);
+        if (picture) me.dmDropPicture();
         me.dmJustSent = true;
         me.dmDrawTalk(r.body);
         me.dmTold(r.body.asked ? 'Sent. It waits for ' + me.dmWith + ' to answer it.' : r.body.accepted ? 'Sent, which accepts what ' + me.dmWith + ' asked.' : '');
@@ -6546,7 +6678,8 @@
   };
 
   /* EDIT opens the words in a box where they were (Ryan, 2026-10-18). Enter
-     saves and Shift and Enter makes a new line, as in the message box, and
+     saves and Shift and Enter makes a new line, as in the message box (on a
+     phone, Return makes a new line and Save saves), and
      Escape puts the message back as it was. Only the words: a picture or a
      sticker stays as it is. One edit at a time, and the box is not a live
      region, so opening it reads nothing out. */
@@ -6563,13 +6696,12 @@
     lab.htmlFor = 'cb-edit-say';
     var t = el('textarea', 'cb-say cb-say--msg cb-edit__say');
     t.id = 'cb-edit-say';
-    t.rows = 2;
     t.maxLength = MESSAGE_MAX;
     t.autocomplete = 'off';
     t.value = said ? said.cbRaw : '';
     t.setAttribute('aria-describedby', 'cb-edit-hint');
-    t.setAttribute('enterkeyhint', 'done');
-    var hint = el('p', 'cb-hint', 'Enter saves, Shift and Enter makes a new line, Escape leaves it as it was. It will say edited beside the time.');
+    sendBox(t, 'done');
+    var hint = el('p', 'cb-hint', enterHint('Save', 'saves') + (onTouch() ? '' : ' Escape leaves it as it was.') + ' It will say edited beside the time.');
     hint.id = 'cb-edit-hint';
     var row = el('div', 'cb-row cb-edit__row');
     var save = el('button', 'cb-btn cb-edit__save', 'Save');
@@ -6582,7 +6714,7 @@
     t.addEventListener('keydown', function (e) {
       if (e.isComposing) return;
       if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); me.editStop(true); me.tell(''); }
-      else if (e.key === 'Enter' && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) { e.preventDefault(); me.editSave(); }
+      else if (sendKey(e)) { e.preventDefault(); me.editSave(); }
     });
     box.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && e.target !== t) { e.preventDefault(); me.editStop(true); me.tell(''); }

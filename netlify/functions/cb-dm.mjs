@@ -6,6 +6,8 @@
      { open: true | false }          Let people message me, on or off
      { with }                        the conversation with somebody
      { with, send: words }           send them a message
+     { with, send, img, alt }        with a picture /cb/dm/image took, once
+                                     the conversation is accepted
      { with, accept: true }          accept what they asked
      { with, reject: true }          reject it: emptied, and nobody is told
      { with, take: id }              take one of your messages back
@@ -52,8 +54,11 @@ export default async (req, context) => {
       return ok({ ...r, ...extra });
     };
     if (b.send !== undefined) {
-      const r = await sendDm(who, handle, b.send);
+      const said = b.img != null ? { text: b.send, img: b.img, alt: b.alt } : b.send;
+      const r = await sendDm(who, handle, said);
       if (r.error === 'empty') return json(400, { error: 'Write something first.' });
+      if (r.error === 'accepted') return json(409, { error: `A picture can go once ${handle} has accepted the conversation. A first message is words only.` });
+      if (r.error === 'picture') return json(400, { error: 'That picture did not come through. Add it again.' });
       if (r.error === 'long') return json(400, { error: `A message is at most ${MESSAGE_MAX} characters.` });
       if (r.error === 'self') return json(400, { error: 'Messages are for somebody else.' });
       if (r.error === 'closed') return json(403, { error: `${handle} is not taking messages from you just now.` });
@@ -61,7 +66,7 @@ export default async (req, context) => {
       if (r.error === 'waiting') return json(409, { error: `Your first message is waiting for ${handle} to answer. You can write more once they do.` });
       if (r.error === 'many') return json(409, { error: `You are in ${DM_WITH} conversations already. One goes when nothing has been said in it for two days.` });
       if (r.error) return json(400, { error: 'That did not send.' });
-      const told = notifyDm(r.handle, who.handle, r.sent.text, r.asked).catch(() => []);
+      const told = notifyDm(r.handle, who.handle, r.sent, r.asked).catch(() => []);
       if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
       return talk({ sent: r.sent.id, asked: r.asked, accepted: r.accepted });
     }
@@ -82,7 +87,7 @@ export default async (req, context) => {
     }
     if (typeof b.edit === 'string') {
       const r = await editDm(who, handle, b.edit, b.text);
-      if (r.error === 'empty') return json(400, { error: 'A message needs words. Take it back instead, if you want it gone.' });
+      if (r.error === 'empty') return json(400, { error: 'A message needs words, unless it is a picture. Take it back instead, if you want it gone.' });
       if (r.error === 'long') return json(400, { error: `A message is at most ${MESSAGE_MAX} characters.` });
       if (r.error) return json(404, { error: 'That message is not there any more, or is not yours.' });
       return talk();

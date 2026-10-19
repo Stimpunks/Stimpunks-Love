@@ -18,10 +18,21 @@ WHAT IT REFUSES, and why each one is here:
     switch that is off, and nobody but its owner is sent a block list.
   · A SENDER'S KEY IN AN ANSWER. shapeDm sends whether a message is yours,
     never whose key it is, and never spreads a message into an answer.
-  · A MODERATOR READING A CONVERSATION. Only readReports and closeReport ask
-    for the base, and only reportDm puts anything on the desk; no other
-    function in the part treats the base differently, except to mark a
-    message BASE.
+  · A MODERATOR READING A CONVERSATION. Only readReports, closeReport and
+    reportImage ask for the base, and only reportDm puts anything on the desk;
+    no other function in the part treats the base differently, except to mark
+    a message BASE.
+  · A PICTURE BEFORE A CONVERSATION IS ACCEPTED (Ryan's call, 2026-10-19,
+    when conversations took pictures). A request is words only, so nobody's
+    first contact with you is a picture: putDmImage and sendDm both refuse one
+    until the conversation is open, and the radio offers Picture only then.
+  · A PICTURE ANYBODY ELSE CAN FETCH, or that outlives its message.
+    getDmImage serves one only to the two people in its conversation, and only
+    while a message there holds it; every write to a conversation deletes the
+    pictures it let go of, Forget me deletes them, and the sweep deletes the
+    rest. They live under dm-img/, which the channel's own sweep never lists. A
+    reported picture's copy goes when its report does, and the desk shows it
+    only when a moderator presses for it.
   · A MESSAGE KEPT PAST ITS 48 HOURS, and the sweep not deleting what is left.
   · FORGET ME OR DELETING THE USERNAME LEAVING A CONVERSATION BEHIND.
   · A COUNT, A RECEIPT OR A TIMER in the radio's Messages code: no unread
@@ -43,7 +54,7 @@ LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 CB = ROOT / "cb.js"
 DESK = ROOT / "desk.js"
 SW = ROOT / "cb-sw.js"
-FUNCS = [ROOT / "netlify" / "functions" / n for n in ("cb-dm.mjs", "cb-dm-reports.mjs")]
+FUNCS = [ROOT / "netlify" / "functions" / n for n in ("cb-dm.mjs", "cb-dm-reports.mjs", "cb-dm-image.mjs")]
 
 problems = []
 
@@ -89,15 +100,37 @@ def main():
     shape = fn(part, "shapeDm")
     if re.search(r"\bby\s*:|\.\.\.\s*m\b", shape):
         refuse("shapeDm sends a sender's key, or spreads the whole message into an answer.")
-    for name in ("readReports", "closeReport"):
+    for name in ("readReports", "closeReport", "reportImage"):
         if "who.role !== 'base'" not in fn(part, name):
             refuse(f"{name} no longer refuses everybody but the base.")
-    for name in ("readDmWith", "listDms", "takeDm", "editDm", "acceptDm", "rejectDm", "blockDm", "reportDm"):
+    for name in ("readDmWith", "listDms", "takeDm", "editDm", "acceptDm", "rejectDm", "blockDm", "reportDm",
+                 "putDmImage", "getDmImage"):
         if re.search(r"role\s*===?\s*'base'|\.roles\b", fn(part, name)):
             refuse(f"{name} treats a moderator differently. No moderator reaches into a conversation; a report is the one way.")
     if re.search(r"\.set(JSON)?\(\s*REPORTS", re.sub(r"export async function (reportDm|closeReport|sweepDms)\(.*?\n\}", "", code, flags=re.S)) \
             or re.search(r"updateDm\(REPORTS", re.sub(r"export async function (reportDm|closeReport|sweepDms)\(.*?\n\}", "", code, flags=re.S)):
         refuse("something other than reportDm, closeReport and the sweep writes to the moderators' desk.")
+    # Pictures: accepted conversations only, the two people only, gone with their message.
+    if "if (img && !c.open) return { error: 'accepted' };" not in send or "if (!was.open) return { error: 'accepted' };" not in send:
+        refuse("sendDm lets a picture into a conversation nobody has accepted. A request is words only.")
+    if ".open) return { error: 'accepted' };" not in fn(part, "putDmImage"):
+        refuse("putDmImage takes a picture for a conversation nobody has accepted.")
+    get = fn(part, "getDmImage")
+    if ".includes(dmKey(who.handle, who.since))" not in get or "c.messages.some((m) => m.img === id)" not in get:
+        refuse("getDmImage serves a picture to somebody outside its conversation, or after its message has gone.")
+    if not re.search(r"const DM_IMG = 'dm-img/';", part):
+        refuse("a conversation's pictures are not under dm-img/, where the channel's sweep never deletes them early.")
+    if "dropDmImages(droppedImages(before.messages, after.messages), s)" not in fn(part, "updateConv"):
+        refuse("updateConv no longer deletes the pictures a write let go of: one would outlive its message.")
+    if "dropDmImages(" not in fn(part, "forgetDms"):
+        refuse("forgetDms leaves a conversation's pictures behind.")
+    sweep_fn = fn(part, "sweepDms")
+    if "prefix: DM_IMG" not in sweep_fn or "prefix: REPORT_IMG" not in sweep_fn:
+        refuse("sweepDms no longer sweeps a conversation's pictures, or a closed report's.")
+    if "s.delete(REPORT_IMG + id)" not in fn(part, "closeReport"):
+        refuse("closeReport leaves a reported picture behind.")
+    if "pictureCheck(bytes)" not in fn(part, "putDmImage"):
+        refuse("putDmImage no longer checks a picture the channel's way, so one could carry its camera data.")
     if "now - m.t < LIFE" not in fn(part, "convDoc"):
         refuse("a conversation no longer drops every message past its 48 hours on every read.")
     if "slice(-DM_KEEP)" not in code:
@@ -143,6 +176,10 @@ def main():
         refuse("listen() no longer asks for messages while the Messages part is open.")
     if re.search(r"innerHTML|outerHTML|insertAdjacentHTML", uncomment(DESK.read_text())):
         refuse("desk.js writes something as markup from a string. A report's words are plain text.")
+    if not re.search(r"show\.addEventListener\('click', function \(\) \{\s*show\.disabled = true;\s*fetch\('/cb/dm/reports'", DESK.read_text()):
+        refuse("desk.js fetches a reported picture without a moderator pressing Show the picture.")
+    if "this.dmPicBtn.hidden = !pics;" not in radio or "b.state === 'open'" not in radio:
+        refuse("the radio offers Picture in a conversation nobody has accepted.")
     sw = SW.read_text()
     if "d.kind === 'dm'" not in sw or "'/#cb=messages'" not in sw:
         refuse("cb-sw.js no longer shows a message's notification, or opens Messages from it.")

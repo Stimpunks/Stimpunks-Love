@@ -19338,6 +19338,10 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .mdroom .md-report__who { margin: 0 0 6px; font-size: 15.5px; color: var(--md-dim); }
 .mdroom .md-report__words { margin: 0 0 8px; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--md-text); }
 .mdroom .md-report__note { margin: 0 0 8px; font-style: italic; }
+/* A reported picture, once a moderator presses for it: its own size, never
+   wider than the desk, and nothing laid over it. */
+.md-report__pic { margin: 0 0 8px; }
+.md-report__img { display: block; max-width: 100%; max-height: 60vh; height: auto; }
 .mdroom .md-call__fine { font-size: 15.5px; color: var(--md-dim); margin-bottom: 0; }
 .mdroom .md-credits p { font-size: 15.5px; color: var(--md-dim); }
 

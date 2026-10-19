@@ -2624,6 +2624,22 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    NOTHING COUNTED, NOTHING ABOUT WHO READ WHAT: no unread number, no read
    receipt, no "seen", no typing. The friendly edits are all four.
 
+   PICTURES, ONCE A CONVERSATION IS ACCEPTED. Ryan's call, 2026-10-19, after
+   somebody in our community could not send him a screenshot privately: it
+   settles the question DECISIONS.md left open when messages shipped words
+   only. A REQUEST IS WORDS ONLY, so nobody's first contact with you is a
+   picture: putDmImage and sendDm both refuse a picture until the conversation
+   is open. Everything else is the channel's picture: redrawn in the sender's
+   browser by the radio's one redraw, refused if it still carries camera data,
+   no public address, and GONE WHEN ITS MESSAGE GOES, whether taken back,
+   pushed off, emptied by a rejection or a block, forgotten, or past its 48
+   hours. It is kept under its own prefix, DM_IMG, which the channel's sweep
+   never lists, with whose it is (the sender's dmKey) and which conversation
+   it is for, and getDmImage serves it only to the two people in that
+   conversation, and only while a message there still holds it. A REPORTED
+   PICTURE IS COPIED ONTO THE DESK with its message (REPORT_IMG), copy first,
+   and goes when the report is closed or at its thirty days.
+
    WHAT IS KEPT. For each person (dmKey: the folded name and when it was
    claimed, the forums' authorMark's ingredients, so a name claimed again after
    its owner deleted it is somebody else): whether they take messages and who
@@ -2648,6 +2664,8 @@ const DM = 'dm/';
 const DM_MARK = 'dm-with/';
 const MARK_GRACE = 60 * 60 * 1000;             // a marker is written a moment before its conversation
 const DM_SET = 'dm-set/';
+const DM_IMG = 'dm-img/';                     // a conversation's pictures, never the channel's img/
+const REPORT_IMG = 'dm-report-img/';          // a reported picture's copy, by its report's id
 const REPORTS = 'dm-reports';
 const pairBlob = (a, b) => DM + [a, b].sort().join('.');
 const markBlob = (me, them) => `${DM_MARK}${me}/${them}`;
@@ -2702,12 +2720,23 @@ export async function readDmSet(me, s = store()) { return dmSetDoc(await s.get(D
 const updateDmSet = (me, change, s) => updateDm(DM_SET + me, dmSetDoc, change, s);
 const blocks = (set, handle) => set.blocked.some((b) => b.k === petKey(handle));
 
-function updateConv(key, change, s, now) {
-  return updateDm(key, (d) => convDoc(d, now), (was) => {
+/* Every write to a conversation goes through here, and a picture its write
+   let go of (taken back, pushed off, emptied) is deleted as soon as the write
+   has landed. One past its 48 hours is held by nothing and goes in the sweep. */
+async function updateConv(key, change, s, now) {
+  let before = null, after = null;
+  const out = await updateDm(key, (d) => convDoc(d, now), (was) => {
     const next = change(was);
     if (!next || next.error) return next;
-    return { people: next.people, from: next.from, open: next.open === true, messages: next.messages.slice(-DM_KEEP) };
+    before = was;
+    after = { people: next.people, from: next.from, open: next.open === true, messages: next.messages.slice(-DM_KEEP) };
+    return after;
   }, s);
+  if (after && out === after) await dropDmImages(droppedImages(before.messages, after.messages), s);
+  return out;
+}
+async function dropDmImages(ids, s) {
+  for (const id of ids) if (imageId(id)) await s.delete(DM_IMG + id);
 }
 const emptied = () => ({ people: {}, from: null, open: false, messages: [] });
 
@@ -2729,27 +2758,38 @@ async function pairOf(who, handle, s) {
 export function shapeDm(m, me) {
   const out = { id: m.id, handle: m.handle, text: m.text, t: m.t, base: !!m.base };
   if (typeof m.edited === 'number') out.edited = m.edited;
+  if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
   if (m.by === me) out.mine = true;
   return out;
 }
 const stateOf = (c, me) => (!c.messages.length ? 'new' : c.open ? 'open' : c.from === me ? 'asked' : 'asking');
 
-/* Send `text` to `handle`. { sent, handle, asked, accepted } or { error }:
-   'claim', 'self', 'empty', 'long', 'closed' (switched off, blocked you, not
-   claimed or nobody: the same answer), 'blocked' (you blocked them), 'waiting'
-   (you asked and they have not answered), 'many' (in DM_WITH conversations
-   already). */
-export async function sendDm(who, handle, text, s = store(), now = Date.now()) {
+/* Send `said` to `handle`: its words, or { text, img, alt } with a picture
+   putDmImage took for this conversation. { sent, handle, asked, accepted } or
+   { error }: 'claim', 'self', 'empty', 'long', 'closed' (switched off, blocked
+   you, not claimed or nobody: the same answer), 'blocked' (you blocked them),
+   'waiting' (you asked and they have not answered), 'many' (in DM_WITH
+   conversations already), 'accepted' (a picture before the conversation is),
+   'picture' (no such picture of yours for this conversation). */
+export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: 'claim' };
-  const words = cleanLines(text, MESSAGE_MAX);
+  const pic = said && typeof said === 'object' ? said : null;
+  const words = cleanLines(pic ? pic.text : said, MESSAGE_MAX);
   if (words === null) return { error: 'long' };
-  if (!words) return { error: 'empty' };
+  const img = pic && pic.img != null ? imageId(pic.img) : null;
+  if (pic && pic.img != null && !img) return { error: 'picture' };
+  if (!words && !img) return { error: 'empty' };
   const p = await pairOf(who, handle, s);
   if (p.error) return { error: p.error };
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { error: 'blocked' };
   if (blocks(theirs, who.handle)) return { error: 'closed' };
   const was = convDoc(await s.get(p.key, { type: 'json' }), now);
+  if (img) {
+    if (!was.open) return { error: 'accepted' };
+    const got = await s.getWithMetadata(DM_IMG + img, { type: 'arrayBuffer' });
+    if (!got || !got.metadata || got.metadata.by !== p.me || got.metadata.pair !== p.key) return { error: 'picture' };
+  }
   if (!was.messages.length) {
     if (!theirs.open) return { error: 'closed' };
     const marks = ((await s.list({ prefix: DM_MARK + p.me + '/' })).blobs || []).map((b) => b.key);
@@ -2761,9 +2801,12 @@ export async function sendDm(who, handle, text, s = store(), now = Date.now()) {
   await s.setJSON(markBlob(p.them, p.me), { t: now }, { onlyIfNew: true });
   const m = { id: 'd' + randomBytes(8).toString('base64url').slice(0, 10), handle: who.handle, by: p.me, text: words, t: now };
   if (who.role === 'base') m.base = true;
+  if (img) { m.img = img; m.alt = cleanAlt(pic.alt); }
   let asked = false, accepted = false;
   const next = await updateConv(p.key, (c) => {
     asked = false; accepted = false;
+    // A request is words only, however the conversation got here.
+    if (img && !c.open) return { error: 'accepted' };
     if (!c.messages.length) {
       if (!theirs.open) return { error: 'closed' };
       asked = true;
@@ -2778,6 +2821,37 @@ export async function sendDm(who, handle, text, s = store(), now = Date.now()) {
   }, s, now);
   if (next.error) return next;
   return { sent: m, handle: p.handle, asked, accepted };
+}
+
+/* A picture for the conversation with `handle`, already redrawn by the radio,
+   before the message that carries it: { id } or { error }, the same words as
+   sendDm's for who, and 'accepted' until the conversation is. One nobody sends
+   is swept after IMG_UNSENT. */
+export async function putDmImage(who, handle, bytes, s = store(), now = Date.now()) {
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: p.error };
+  const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
+  if (blocks(mine, p.handle)) return { error: 'blocked' };
+  if (blocks(theirs, who.handle)) return { error: 'closed' };
+  if (!convDoc(await s.get(p.key, { type: 'json' }), now).open) return { error: 'accepted' };
+  const k = pictureCheck(bytes);
+  if (k.error) return { error: 'bad', why: k.error };
+  const id = randomUUID();
+  await s.set(DM_IMG + id, bytes, { metadata: { by: p.me, pair: p.key, t: now, type: k.kind } });
+  return { id };
+}
+
+/* A conversation's picture, for one of the two people in it, while a message
+   there holds it; null for anybody and anything else. */
+export async function getDmImage(who, id, s = store(), now = Date.now()) {
+  if (!forumReader(who) || !imageId(id)) return null;
+  const got = await s.getWithMetadata(DM_IMG + id, { type: 'arrayBuffer' });
+  const meta = got && got.metadata;
+  if (!meta || typeof meta.pair !== 'string' || !meta.pair.startsWith(DM)) return null;
+  if (!meta.pair.slice(DM.length).split('.').includes(dmKey(who.handle, who.since))) return null;
+  const c = convDoc(await s.get(meta.pair, { type: 'json' }), now);
+  if (!c.messages.some((m) => m.img === id)) return null;
+  return { data: got.data, type: meta.type };
 }
 
 /* The conversation with `handle`, as the person asking is shown it:
@@ -2856,12 +2930,13 @@ export async function editDm(who, handle, id, text, s = store(), now = Date.now(
   if (typeof id !== 'string' || !DM_ID.test(id)) return { error: 'which' };
   const words = cleanLines(text, MESSAGE_MAX);
   if (words === null) return { error: 'long' };
-  if (!words) return { error: 'empty' };
   const p = await pairOf(who, handle, s);
   if (p.error) return { error: 'which' };
   return updateConv(p.key, (c) => {
     const i = c.messages.findIndex((x) => x.id === id);
     if (i < 0 || c.messages[i].by !== p.me) return { error: 'which' };
+    // Only a picture's message may be left with no words: it is still the picture.
+    if (!words && !c.messages[i].img) return { error: 'empty' };
     if (c.messages[i].text === words) return null;
     const messages = c.messages.slice();
     messages[i] = { ...messages[i], text: words, edited: now };
@@ -2909,7 +2984,9 @@ export async function forgetDms(handle, since, s = store()) {
   const prefix = DM_MARK + me + '/';
   for (const b of (await s.list({ prefix })).blobs || []) {
     const them = b.key.slice(prefix.length);
+    const c = await s.get(pairBlob(me, them), { type: 'json' });
     await s.delete(pairBlob(me, them));
+    await dropDmImages(stored(plain(c)).map((m) => m && m.img).filter(Boolean), s);
     await s.delete(markBlob(them, me));
     await s.delete(b.key);
   }
@@ -2933,27 +3010,51 @@ export async function reportDm(who, handle, id, note, s = store(), now = Date.no
   if (!m || m.by === p.me) return { error: 'which' };
   const rec = { id: 'k' + randomBytes(8).toString('base64url').slice(0, 10), t: now, by: who.handle, of: m.handle,
     text: m.text, sent: m.t, msg: m.id, note: n };
+  // A picture is copied onto the desk first, so no report on it is ever
+  // without it; a copy whose report did not go on is deleted at once.
+  if (m.img) {
+    const got = await s.getWithMetadata(DM_IMG + m.img, { type: 'arrayBuffer' });
+    if (got && got.metadata) {
+      await s.set(REPORT_IMG + rec.id, got.data, { metadata: { t: now, type: got.metadata.type } });
+      rec.img = true;
+      rec.alt = m.alt || '';
+    }
+  }
   const next = await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => {
     if (was.reports.some((r) => r.msg === m.id && foldHandle(r.by) === foldHandle(who.handle))) return { error: 'again' };
     if (was.reports.length >= REPORT_KEEP) return { error: 'full' };
     return { reports: [...was.reports, rec] };
   }, s);
+  if (next.error && rec.img) await s.delete(REPORT_IMG + rec.id);
   return next.error ? next : { reported: rec.id };
+}
+
+/* A reported picture, for the base and nobody else, while its report is on
+   the desk. */
+export async function reportImage(who, id, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return null;
+  if (typeof id !== 'string' || !REPORT_ID.test(id)) return null;
+  if (!reportsDoc(await s.get(REPORTS, { type: 'json' }), now).reports.some((r) => r.id === id && r.img)) return null;
+  const got = await s.getWithMetadata(REPORT_IMG + id, { type: 'arrayBuffer' });
+  return got && got.metadata ? { data: got.data, type: got.metadata.type } : null;
 }
 
 /* The desk's list, newest first, for the base and nobody else. */
 export async function readReports(who, s = store(), now = Date.now()) {
   if (!who || who.role !== 'base') return null;
   const d = reportsDoc(await s.get(REPORTS, { type: 'json' }), now);
-  return d.reports.slice().reverse().map((r) => ({ id: r.id, t: r.t, by: r.by, of: r.of, text: r.text, sent: r.sent, note: r.note || '' }));
+  return d.reports.slice().reverse().map((r) => ({ id: r.id, t: r.t, by: r.by, of: r.of, text: r.text, sent: r.sent, note: r.note || '',
+    ...(r.img ? { img: true, alt: r.alt || '' } : {}) }));
 }
 
 /* A moderator closes a report: it is deleted. */
 export async function closeReport(who, id, s = store(), now = Date.now()) {
   if (!who || who.role !== 'base') return { error: 'base' };
   if (typeof id !== 'string' || !REPORT_ID.test(id)) return { error: 'which' };
-  return updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => (was.reports.some((r) => r.id === id)
+  const out = await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => (was.reports.some((r) => r.id === id)
     ? { reports: was.reports.filter((r) => r.id !== id) } : { error: 'which' }), s);
+  if (!out.error) await s.delete(REPORT_IMG + id);
+  return out;
 }
 
 /* Hourly: every conversation with nothing left in it, every marker with no
@@ -2977,6 +3078,30 @@ export async function sweepDms(s = store(), now = Date.now()) {
   const raw = await s.get(REPORTS, { type: 'json' });
   if (raw && reportsDoc(raw, now).reports.length !== (plain(raw).reports || []).length) {
     await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => was, s);
+    any = true;
+  }
+  // A conversation's picture no live message holds, once past the hour an
+  // upload is given to be sent; a reported picture whose report has gone.
+  const held = new Map();
+  for (const b of (await s.list({ prefix: DM_IMG })).blobs || []) {
+    const id = b.key.slice(DM_IMG.length);
+    const got = await s.getWithMetadata(b.key, { type: 'arrayBuffer' });
+    const meta = (got && got.metadata) || {};
+    if (typeof meta.t === 'number' && now - meta.t < IMG_UNSENT) continue;
+    if (typeof meta.pair === 'string' && meta.pair.startsWith(DM)) {
+      if (!held.has(meta.pair)) held.set(meta.pair, new Set(convDoc(await s.get(meta.pair, { type: 'json' }), now).messages.map((m) => m.img).filter(Boolean)));
+      if (held.get(meta.pair).has(id)) continue;
+    }
+    await s.delete(b.key);
+    any = true;
+  }
+  const onDesk = new Set(reportsDoc(await s.get(REPORTS, { type: 'json' }), now).reports.filter((r) => r.img).map((r) => r.id));
+  for (const b of (await s.list({ prefix: REPORT_IMG })).blobs || []) {
+    if (onDesk.has(b.key.slice(REPORT_IMG.length))) continue;
+    const got = await s.getWithMetadata(b.key, { type: 'arrayBuffer' });
+    const t = got && got.metadata && got.metadata.t;
+    if (typeof t === 'number' && now - t < IMG_UNSENT) continue;
+    await s.delete(b.key);
     any = true;
   }
   return any;
@@ -3031,12 +3156,21 @@ export function carriesMetadata(b, kind) {
   return true;
 }
 
-export async function putImage(who, room, bytes, s = store(), now = Date.now()) {
+/* Whether a picture may go, on the channel or in a conversation: { kind } or
+   { error }, in words for the sender. One check, so the two cannot differ. */
+export function pictureCheck(bytes) {
   if (!bytes || !bytes.length) return { error: 'There was no picture in that.' };
   if (bytes.length > IMG_MAX) return { error: 'That picture is too big to send, even after the radio made it smaller.' };
   const kind = imageKind(bytes);
   if (!kind) return { error: 'That is not a picture the radio can send.' };
   if (carriesMetadata(bytes, kind)) return { error: 'That picture still carries its camera data. Send it through the radio, which takes that off.' };
+  return { kind };
+}
+
+export async function putImage(who, room, bytes, s = store(), now = Date.now()) {
+  const checked = pictureCheck(bytes);
+  if (checked.error) return { error: checked.error };
+  const kind = checked.kind;
   const id = randomUUID();
   await s.set(IMG + id, bytes, { metadata: { handle: who.handle, room: room || '', t: now, type: kind } });
   return { id };
@@ -5617,6 +5751,15 @@ export function cleanMessage(s) {
    given to a claimed username (notifyProps); and a sixth, a direct message to
    one (notifyDm).
 
+   EVERYTHING, AND WHATEVER IS ADDED LATER (feedback from our community and
+   Ryan's call, 2026-10-19, after somebody found new switches off the morning
+   after they arrived): one more switch, `all`, which is every kind there is,
+   every message on World included, and every kind added after it. So EVERY
+   NOTIFIER ASKS wants(), never a switch by name, and check-push.py refuses
+   one that does: a kind read directly would stay off for somebody who chose
+   everything. It changes neither the rooms a device follows, which stay a
+   list, nor whether the words are shown, which is not a kind of notification.
+
    WHAT IS KEPT is one record per device that switched them on, all in one
    blob (DEVICES), so a message reads one blob to find who to tell: the
    device's push address and the two keys its browser made for it; the handle
@@ -5673,15 +5816,21 @@ export function cleanSubscription(sub) {
   return { endpoint, p256dh: b64(p256dh), auth: b64(auth) };
 }
 
-/* What a device asked for: six switches, all off until switched on, the
-   words, on unless switched off, and the rooms it follows. null if it follows
-   too many. */
+/* What a device asked for: a switch per kind and one for every kind, all off
+   until switched on, the words, on unless switched off, and the rooms it
+   follows. null if it follows too many. */
+export const PUSH_KINDS = ['mentions', 'props', 'messages', 'world', 'calls'];
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
   if (rooms.length > PUSH_ROOMS_MAX) return null;
-  return { mentions: w.mentions === true, props: w.props === true, messages: w.messages === true, world: w.world === true,
-    calls: w.calls === true, words: w.words !== false, rooms };
+  const out = { all: w.all === true };
+  for (const k of PUSH_KINDS) out[k] = w[k] === true;
+  return { ...out, words: w.words !== false, rooms };
+}
+/* Whether a device wants this kind: its own switch, or Everything. */
+export function wants(w, kind) {
+  return !!(w && typeof w === 'object' && (w.all === true || w[kind] === true));
 }
 
 /* A pass's parts, which are kept, and its hash; never the pass. */
@@ -5879,8 +6028,8 @@ async function tellDevices(msg, room, before, s, mods, send) {
     if (!d || d.fold === from) continue;
     const w = d.want || {};
     const h = d.pass && d.pass.handle;
-    const followed = before === null && (room ? (w.rooms || []).includes(room) : !!w.world);
-    const named = !!w.mentions && !quiet && mentions(msg.text, h) && !(before && mentions(before, h));
+    const followed = before === null && (room ? (w.rooms || []).includes(room) : wants(w, 'world'));
+    const named = wants(w, 'mentions') && !quiet && mentions(msg.text, h) && !(before && mentions(before, h));
     if (!followed && !named) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
@@ -5914,7 +6063,7 @@ export async function notifyForum(topic, post, before = '', s = store(), mods = 
   const from = foldHandle(writer);
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
-    if (!d || d.fold === from || !(d.want && d.want.mentions)) continue;
+    if (!d || d.fold === from || !wants(d.want, 'mentions')) continue;
     const h = d.pass && d.pass.handle;
     if (!mentions(post.body, h) || (before && mentions(before, h))) continue;
     const who = await deviceWho(d, s, mods);
@@ -5949,7 +6098,7 @@ export async function notifyProps(handle, writer, text, s = store(), mods = read
   const devs = await readDevices(s);
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
-    if (!d || d.fold !== to || !(d.want && d.want.props)) continue;
+    if (!d || d.fold !== to || !wants(d.want, 'props')) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!who.account || foldHandle(who.handle) !== to) continue;
@@ -5965,18 +6114,21 @@ export async function notifyProps(handle, writer, text, s = store(), mods = read
 
 /* A direct message has arrived for a claimed username: tell its devices that
    switched on When somebody messages me, and that can still read as that
-   username. Who sent it, whether it is a request, and, if the device wants the
-   words, its first words; never how many are waiting, and never anything to
-   the sender. A message stays on its conversation whether or not this
-   arrives. */
-export async function notifyDm(handle, sender, text, asked, s = store(), mods = readMods(), send = sendPush) {
+   username. Who sent it, whether it is a request, whether it is a picture,
+   and, if the device wants the words, its first words; never the picture,
+   never how many are waiting, and never anything to the sender. A message
+   stays on its conversation whether or not this arrives. `said` is its words,
+   or the message itself. */
+export async function notifyDm(handle, sender, said, asked, s = store(), mods = readMods(), send = sendPush) {
+  const text = said && typeof said === 'object' ? said.text : said;
+  const picture = !!(said && typeof said === 'object' && said.img);
   if (send === sendPush && !pushReady()) return [];
   const to = foldHandle(handle), from = foldHandle(sender);
   if (!to || to === from) return [];
   const devs = await readDevices(s);
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
-    if (!d || d.fold !== to || !(d.want && d.want.messages)) continue;
+    if (!d || d.fold !== to || !wants(d.want, 'messages')) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!forumReader(who) || foldHandle(who.handle) !== to) continue;
@@ -5985,7 +6137,9 @@ export async function notifyDm(handle, sender, text, asked, s = store(), mods = 
       words = String(text || '').replace(/\s+/g, ' ').trim();
       if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
-    sends.push({ id, d, payload: { kind: 'dm', handle: String(sender || ''), asked: !!asked, text: words }, opts: {} });
+    const payload = { kind: 'dm', handle: String(sender || ''), asked: !!asked, text: words };
+    if (picture) payload.what = 'picture';
+    sends.push({ id, d, payload, opts: {} });
   }
   return deliver(sends, gone, s, send);
 }
@@ -6008,7 +6162,7 @@ export async function notifyCall(tag, s = store(), mods = readMods(), send = sen
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
     const w = (d && d.want) || {};
-    if (!w.calls || !(tag === WORLD_CALL || (w.rooms || []).includes(tag))) continue;
+    if (!wants(w, 'calls') || !(tag === WORLD_CALL || (w.rooms || []).includes(tag))) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (tag !== WORLD_CALL && !roomAllows(who, tag)) continue;
