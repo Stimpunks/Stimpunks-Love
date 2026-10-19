@@ -53,7 +53,7 @@
     <p class="eyebrow">Stimpunks.World &middot; a door on the street, a canopy behind it</p>
     <h1>The Jungle Room</h1>
     <p class="jungle-tagline">Drop in. Space out. Belong here.</p>
-    <p class="lede">A room with the cameras on and nobody presenting. Every screen in here is somebody else&rsquo;s camera pointed at somewhere real, and every one of them is off until you open it.</p>
+    <p class="lede">A room with the cameras on and nobody presenting. Every leaf in here is somebody else&rsquo;s camera pointed at somewhere real, and every one of them is off until you open it.</p>
   </header>
 
   <section>
@@ -74,14 +74,22 @@
         <p>The gathering mode this whole thing is named after. A pool in a dry place, and whoever turns up.</p>
       </div>
     </div>
+    <div class="canopy-gap" data-rack-screen="jr-watering-hole" tabindex="-1" hidden>
+      <p class="canopy-gap__idle"><b>The Watering Hole Cams screen.</b> Nothing is up on it. Any cam below can go up here with the button under its leaf, and nothing loads until you press one.</p>
+    </div>
+    <p class="canopy-gap__now" data-rack-now="jr-watering-hole" tabindex="-1" hidden></p>
+    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" data-rack-back="jr-watering-hole">Take it off the Watering Hole Cams screen</button></p>
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">Watering Hole Cams: the leaves</summary>
       <ul class="cams">
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="ydYDqZQpim8" data-embed-title="Live stream in the Namib Desert — NamibiaCam">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-watering-hole" data-rack-name="the Watering Hole Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/ydYDqZQpim8?autoplay=1&amp;rel=0" data-rack-title="Live stream in the Namib Desert, NamibiaCam, on the Watering Hole Cams screen" data-rack-film="Live stream in the Namib Desert" data-rack-runtime="live, runs until you close it">Up on the Watering Hole Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live stream in the Namib Desert</h3>
@@ -89,13 +97,14 @@
             <p class="cam__who">NamibiaCam&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="AeMUdOPFcXI" data-embed-title="Okaukuejo waterhole, Etosha National Park — NamibiaCam">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-watering-hole" data-rack-name="the Watering Hole Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/AeMUdOPFcXI?autoplay=1&amp;rel=0" data-rack-title="Okaukuejo waterhole, Etosha National Park, NamibiaCam, on the Watering Hole Cams screen" data-rack-film="Okaukuejo waterhole, Etosha National Park" data-rack-runtime="live, runs until you close it">Up on the Watering Hole Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Okaukuejo waterhole, Etosha National Park</h3>
@@ -103,13 +112,14 @@
             <p class="cam__who">NamibiaCam&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="NapztoCaKFY" data-embed-title="Olifants River — Greater Kruger National Park — Africam">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-watering-hole" data-rack-name="the Watering Hole Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/NapztoCaKFY?autoplay=1&amp;rel=0" data-rack-title="Olifants River — Greater Kruger National Park, Africam, on the Watering Hole Cams screen" data-rack-film="Olifants River — Greater Kruger National Park" data-rack-runtime="live, runs until you close it">Up on the Watering Hole Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Olifants River — Greater Kruger National Park</h3>
@@ -118,6 +128,7 @@
           </div>
         </li>
       </ul>
+    </details>
     <!-- jungle:watering-hole:end -->
   </section>
 
@@ -130,14 +141,22 @@
         <p>Let the otters do the heavy lifting. Our own events page says so; we are only obeying it.</p>
       </div>
     </div>
+    <div class="canopy-gap" data-rack-screen="jr-otters" tabindex="-1" hidden>
+      <p class="canopy-gap__idle"><b>The Otter Cams screen.</b> Nothing is up on it. Any cam below can go up here with the button under its leaf, and nothing loads until you press one.</p>
+    </div>
+    <p class="canopy-gap__now" data-rack-now="jr-otters" tabindex="-1" hidden></p>
+    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" data-rack-back="jr-otters">Take it off the Otter Cams screen</button></p>
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">Otter Cams: the leaves</summary>
       <ul class="cams">
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="9mg9PoFEX2U" data-embed-title="Sea Otter Cam — Vancouver Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-otters" data-rack-name="the Otter Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/9mg9PoFEX2U?autoplay=1&amp;rel=0" data-rack-title="Sea Otter Cam, Vancouver Aquarium, on the Otter Cams screen" data-rack-film="Sea Otter Cam" data-rack-runtime="live, runs until you close it">Up on the Otter Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Sea Otter Cam</h3>
@@ -145,13 +164,14 @@
             <p class="cam__who">Vancouver Aquarium&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="_KXHUb0wFRE" data-embed-title="Sea Otter Cam 2 — Vancouver Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-otters" data-rack-name="the Otter Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/_KXHUb0wFRE?autoplay=1&amp;rel=0" data-rack-title="Sea Otter Cam 2, Vancouver Aquarium, on the Otter Cams screen" data-rack-film="Sea Otter Cam 2" data-rack-runtime="live, runs until you close it">Up on the Otter Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Sea Otter Cam 2</h3>
@@ -159,13 +179,14 @@
             <p class="cam__who">Vancouver Aquarium&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="abbR-Ttd-cA" data-embed-title="Live Sea Otter Cam — Monterey Bay Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-otters" data-rack-name="the Otter Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/abbR-Ttd-cA?autoplay=1&amp;rel=0" data-rack-title="Live Sea Otter Cam, Monterey Bay Aquarium, on the Otter Cams screen" data-rack-film="Live Sea Otter Cam" data-rack-runtime="live, runs until you close it">Up on the Otter Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live Sea Otter Cam</h3>
@@ -173,13 +194,14 @@
             <p class="cam__who">Monterey Bay Aquarium&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="LrO-tgqYXXI" data-embed-title="Live Sea Otter Cam (second view) — Monterey Bay Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-otters" data-rack-name="the Otter Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/LrO-tgqYXXI?autoplay=1&amp;rel=0" data-rack-title="Live Sea Otter Cam (second view), Monterey Bay Aquarium, on the Otter Cams screen" data-rack-film="Live Sea Otter Cam (second view)" data-rack-runtime="live, runs until you close it">Up on the Otter Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live Sea Otter Cam (second view)</h3>
@@ -187,13 +209,14 @@
             <p class="cam__who">Monterey Bay Aquarium&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="NqOmHpwMUxs" data-embed-title="Live sea otter and fur seal cam — Seattle Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-otters" data-rack-name="the Otter Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/NqOmHpwMUxs?autoplay=1&amp;rel=0" data-rack-title="Live sea otter and fur seal cam, Seattle Aquarium, on the Otter Cams screen" data-rack-film="Live sea otter and fur seal cam" data-rack-runtime="live, runs until you close it">Up on the Otter Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live sea otter and fur seal cam</h3>
@@ -202,6 +225,7 @@
           </div>
         </li>
       </ul>
+    </details>
     <!-- jungle:otters:end -->
   </section>
 
@@ -214,14 +238,22 @@
         <p>Underwater, where nothing is in a hurry and the light moves anyway.</p>
       </div>
     </div>
+    <div class="canopy-gap" data-rack-screen="jr-ocean" tabindex="-1" hidden>
+      <p class="canopy-gap__idle"><b>The Ocean and Reef Cams screen.</b> Nothing is up on it. Any cam below can go up here with the button under its leaf, and nothing loads until you press one.</p>
+    </div>
+    <p class="canopy-gap__now" data-rack-now="jr-ocean" tabindex="-1" hidden></p>
+    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" data-rack-back="jr-ocean">Take it off the Ocean and Reef Cams screen</button></p>
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">Ocean and Reef Cams: the leaves</summary>
       <ul class="cams">
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="eQ_foBERmzA" data-embed-title="Live Jelly Cam — Monterey Bay Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/eQ_foBERmzA?autoplay=1&amp;rel=0" data-rack-title="Live Jelly Cam, Monterey Bay Aquarium, on the Ocean and Reef Cams screen" data-rack-film="Live Jelly Cam" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live Jelly Cam</h3>
@@ -229,13 +261,14 @@
             <p class="cam__who">Monterey Bay Aquarium&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="w3LjpFhySTg" data-embed-title="Live Kelp Forest Cam — Monterey Bay Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/w3LjpFhySTg?autoplay=1&amp;rel=0" data-rack-title="Live Kelp Forest Cam, Monterey Bay Aquarium, on the Ocean and Reef Cams screen" data-rack-film="Live Kelp Forest Cam" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live Kelp Forest Cam</h3>
@@ -243,13 +276,14 @@
             <p class="cam__who">Monterey Bay Aquarium&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="n_GpVsz4nHU" data-embed-title="Live Open Sea Cam — Monterey Bay Aquarium">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/n_GpVsz4nHU?autoplay=1&amp;rel=0" data-rack-title="Live Open Sea Cam, Monterey Bay Aquarium, on the Ocean and Reef Cams screen" data-rack-film="Live Open Sea Cam" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live Open Sea Cam</h3>
@@ -257,13 +291,14 @@
             <p class="cam__who">Monterey Bay Aquarium&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="jzx_n25g3kA" data-embed-title="Utopia Village Sandy Channel Underwater Reef Cam — Explore Oceans">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/jzx_n25g3kA?autoplay=1&amp;rel=0" data-rack-title="Utopia Village Sandy Channel Underwater Reef Cam, Explore Oceans, on the Ocean and Reef Cams screen" data-rack-film="Utopia Village Sandy Channel Underwater Reef Cam" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Utopia Village Sandy Channel Underwater Reef Cam</h3>
@@ -271,13 +306,14 @@
             <p class="cam__who">Explore Oceans&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="1zcIUk66HX4" data-embed-title="Utopia Village Top-of-Wall Underwater Reef Cam — Explore Oceans">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/1zcIUk66HX4?autoplay=1&amp;rel=0" data-rack-title="Utopia Village Top-of-Wall Underwater Reef Cam, Explore Oceans, on the Ocean and Reef Cams screen" data-rack-film="Utopia Village Top-of-Wall Underwater Reef Cam" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Utopia Village Top-of-Wall Underwater Reef Cam</h3>
@@ -285,13 +321,14 @@
             <p class="cam__who">Explore Oceans&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="qi0mY6zVQnY" data-embed-title="Live Cam in The Lower Keys — Viva The Keys">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/qi0mY6zVQnY?autoplay=1&amp;rel=0" data-rack-title="Live Cam in The Lower Keys, Viva The Keys, on the Ocean and Reef Cams screen" data-rack-film="Live Cam in The Lower Keys" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live Cam in The Lower Keys</h3>
@@ -299,13 +336,14 @@
             <p class="cam__who">Viva The Keys&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="7i8ARjIeM2k" data-embed-title="Coral City Camera — Coral Morphologic">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/7i8ARjIeM2k?autoplay=1&amp;rel=0" data-rack-title="Coral City Camera, Coral Morphologic, on the Ocean and Reef Cams screen" data-rack-film="Coral City Camera" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Coral City Camera</h3>
@@ -313,13 +351,14 @@
             <p class="cam__who">Coral Morphologic&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="Fz6sl9YJZE0" data-embed-title="Underwater Manatee Cam at Homosassa Springs — Explore Live Nature Cams">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-ocean" data-rack-name="the Ocean and Reef Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/Fz6sl9YJZE0?autoplay=1&amp;rel=0" data-rack-title="Underwater Manatee Cam at Homosassa Springs, Explore Live Nature Cams, on the Ocean and Reef Cams screen" data-rack-film="Underwater Manatee Cam at Homosassa Springs" data-rack-runtime="live, runs until you close it">Up on the Ocean and Reef Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Underwater Manatee Cam at Homosassa Springs</h3>
@@ -328,6 +367,7 @@
           </div>
         </li>
       </ul>
+    </details>
     <!-- jungle:ocean:end -->
   </section>
 
@@ -340,14 +380,22 @@
         <p>The ones this room is named for. Water, leaves, and a lot of birdsong nobody is performing.</p>
       </div>
     </div>
+    <div class="canopy-gap" data-rack-screen="jr-jungle" tabindex="-1" hidden>
+      <p class="canopy-gap__idle"><b>The Jungle and Forest Cams screen.</b> Nothing is up on it. Any cam below can go up here with the button under its leaf, and nothing loads until you press one.</p>
+    </div>
+    <p class="canopy-gap__now" data-rack-now="jr-jungle" tabindex="-1" hidden></p>
+    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" data-rack-back="jr-jungle">Take it off the Jungle and Forest Cams screen</button></p>
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">Jungle and Forest Cams: the leaves</summary>
       <ul class="cams">
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="8kEzFZvtLzM" data-embed-title="Calm woodland stream with birdsong — Forest Sounds UHD">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-jungle" data-rack-name="the Jungle and Forest Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/8kEzFZvtLzM?autoplay=1&amp;rel=0" data-rack-title="Calm woodland stream with birdsong, Forest Sounds UHD, on the Jungle and Forest Cams screen" data-rack-film="Calm woodland stream with birdsong" data-rack-runtime="live, runs until you close it">Up on the Jungle and Forest Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Calm woodland stream with birdsong</h3>
@@ -355,13 +403,14 @@
             <p class="cam__who">Forest Sounds UHD&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="4BrvMGznLTo" data-embed-title="Waterfall in a mountain forest — Nature Zilla">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-jungle" data-rack-name="the Jungle and Forest Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/4BrvMGznLTo?autoplay=1&amp;rel=0" data-rack-title="Waterfall in a mountain forest, Nature Zilla, on the Jungle and Forest Cams screen" data-rack-film="Waterfall in a mountain forest" data-rack-runtime="live, runs until you close it">Up on the Jungle and Forest Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Waterfall in a mountain forest</h3>
@@ -369,13 +418,14 @@
             <p class="cam__who">Nature Zilla&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="F0GOOP82094" data-embed-title="Wildlife in the forest, 24/7 — Nature Live Camera">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-jungle" data-rack-name="the Jungle and Forest Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/F0GOOP82094?autoplay=1&amp;rel=0" data-rack-title="Wildlife in the forest, 24/7, Nature Live Camera, on the Jungle and Forest Cams screen" data-rack-film="Wildlife in the forest, 24/7" data-rack-runtime="live, runs until you close it">Up on the Jungle and Forest Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Wildlife in the forest, 24/7</h3>
@@ -384,6 +434,7 @@
           </div>
         </li>
       </ul>
+    </details>
     <!-- jungle:jungle:end -->
   </section>
 
@@ -396,14 +447,22 @@
         <p>Small, erratic, unrepeatable. A different kind of thing to rest your eyes on.</p>
       </div>
     </div>
+    <div class="canopy-gap" data-rack-screen="jr-butterfly" tabindex="-1" hidden>
+      <p class="canopy-gap__idle"><b>The Butterfly Cams screen.</b> Nothing is up on it. Any cam below can go up here with the button under its leaf, and nothing loads until you press one.</p>
+    </div>
+    <p class="canopy-gap__now" data-rack-now="jr-butterfly" tabindex="-1" hidden></p>
+    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" data-rack-back="jr-butterfly">Take it off the Butterfly Cams screen</button></p>
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">Butterfly Cams: the leaves</summary>
       <ul class="cams">
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="lKOIqNGcW-M" data-embed-title="Butterfly House Live Cam — Zoos Victoria">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-butterfly" data-rack-name="the Butterfly Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/lKOIqNGcW-M?autoplay=1&amp;rel=0" data-rack-title="Butterfly House Live Cam, Zoos Victoria, on the Butterfly Cams screen" data-rack-film="Butterfly House Live Cam" data-rack-runtime="live, runs until you close it">Up on the Butterfly Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Butterfly House Live Cam</h3>
@@ -411,13 +470,14 @@
             <p class="cam__who">Zoos Victoria&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="GSUL6qeh8tQ" data-embed-title="Butterfly Garden 4K — Soul Corner Radio">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-butterfly" data-rack-name="the Butterfly Cams screen" data-rack-src="https://www.youtube-nocookie.com/embed/GSUL6qeh8tQ?autoplay=1&amp;rel=0" data-rack-title="Butterfly Garden 4K, Soul Corner Radio, on the Butterfly Cams screen" data-rack-film="Butterfly Garden 4K" data-rack-runtime="live, runs until you close it">Up on the Butterfly Cams screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Butterfly Garden 4K</h3>
@@ -426,6 +486,7 @@
           </div>
         </li>
       </ul>
+    </details>
     <!-- jungle:butterfly:end -->
   </section>
 
@@ -438,14 +499,22 @@
         <p>Somebody else&#x27;s doorstep, and the traffic on it.</p>
       </div>
     </div>
+    <div class="canopy-gap" data-rack-screen="jr-birds" tabindex="-1" hidden>
+      <p class="canopy-gap__idle"><b>The Bird Nests and Feeders screen.</b> Nothing is up on it. Any cam below can go up here with the button under its leaf, and nothing loads until you press one.</p>
+    </div>
+    <p class="canopy-gap__now" data-rack-now="jr-birds" tabindex="-1" hidden></p>
+    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" data-rack-back="jr-birds">Take it off the Bird Nests and Feeders screen</button></p>
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">Bird Nests and Feeders: the leaves</summary>
       <ul class="cams">
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="B4-L2nfGcuE" data-embed-title="Big Bear Bald Eagle Live Nest — Cam 1 — FOBBV CAM">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-birds" data-rack-name="the Bird Nests and Feeders screen" data-rack-src="https://www.youtube-nocookie.com/embed/B4-L2nfGcuE?autoplay=1&amp;rel=0" data-rack-title="Big Bear Bald Eagle Live Nest — Cam 1, FOBBV CAM, on the Bird Nests and Feeders screen" data-rack-film="Big Bear Bald Eagle Live Nest — Cam 1" data-rack-runtime="live, runs until you close it">Up on the Bird Nests and Feeders screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Big Bear Bald Eagle Live Nest — Cam 1</h3>
@@ -453,13 +522,14 @@
             <p class="cam__who">FOBBV CAM&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="y9t1g8Ike6g" data-embed-title="Bird feeder and wildlife cam, Gettysburg, PA — Gettysburg LiveCam">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-birds" data-rack-name="the Bird Nests and Feeders screen" data-rack-src="https://www.youtube-nocookie.com/embed/y9t1g8Ike6g?autoplay=1&amp;rel=0" data-rack-title="Bird feeder and wildlife cam, Gettysburg, PA, Gettysburg LiveCam, on the Bird Nests and Feeders screen" data-rack-film="Bird feeder and wildlife cam, Gettysburg, PA" data-rack-runtime="live, runs until you close it">Up on the Bird Nests and Feeders screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Bird feeder and wildlife cam, Gettysburg, PA</h3>
@@ -467,13 +537,14 @@
             <p class="cam__who">Gettysburg LiveCam&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="MrLVxFR1IbI" data-embed-title="South Africa bird feeder and wildlife cam — Bird Watching HQ">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-birds" data-rack-name="the Bird Nests and Feeders screen" data-rack-src="https://www.youtube-nocookie.com/embed/MrLVxFR1IbI?autoplay=1&amp;rel=0" data-rack-title="South Africa bird feeder and wildlife cam, Bird Watching HQ, on the Bird Nests and Feeders screen" data-rack-film="South Africa bird feeder and wildlife cam" data-rack-runtime="live, runs until you close it">Up on the Bird Nests and Feeders screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>South Africa bird feeder and wildlife cam</h3>
@@ -481,13 +552,14 @@
             <p class="cam__who">Bird Watching HQ&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="ZGAf77sGw6Q" data-embed-title="Burrowing Owl Nest Cam, Oregon — Explore Owl Nests &amp; California Condors">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-birds" data-rack-name="the Bird Nests and Feeders screen" data-rack-src="https://www.youtube-nocookie.com/embed/ZGAf77sGw6Q?autoplay=1&amp;rel=0" data-rack-title="Burrowing Owl Nest Cam, Oregon, Explore Owl Nests &amp; California Condors, on the Bird Nests and Feeders screen" data-rack-film="Burrowing Owl Nest Cam, Oregon" data-rack-runtime="live, runs until you close it">Up on the Bird Nests and Feeders screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Burrowing Owl Nest Cam, Oregon</h3>
@@ -496,6 +568,7 @@
           </div>
         </li>
       </ul>
+    </details>
     <!-- jungle:birds:end -->
   </section>
 
@@ -508,8 +581,15 @@
         <p>Whoever walks past. Most of the time nobody does, and that is still the feed working.</p>
       </div>
     </div>
+    <div class="canopy-gap" data-rack-screen="jr-wildlife" tabindex="-1" hidden>
+      <p class="canopy-gap__idle"><b>The Wildlife screen.</b> Nothing is up on it. Any cam below can go up here with the button under its leaf, and nothing loads until you press one.</p>
+    </div>
+    <p class="canopy-gap__now" data-rack-now="jr-wildlife" tabindex="-1" hidden></p>
+    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" data-rack-back="jr-wildlife">Take it off the Wildlife screen</button></p>
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">Wildlife: the leaves</summary>
       <ul class="cams">
-        <li class="cam cam--away">
+        <li class="cam cam--away" data-rack-card>
           <a class="cam__away" href="https://www.youtube.com/watch?v=0cn-Y3Mfx3g">
             <strong>Watch on YouTube &rarr;</strong>
             <span class="jungle-note">This camera&rsquo;s owner has embedding switched off, so it cannot open in a screen here.</span>
@@ -521,13 +601,14 @@
             <p class="cam__who">CritterVision&rsquo;s camera, on YouTube. Nothing of it is hosted here; following the link is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="oI8R4_UG3Fs" data-embed-title="Live Deer, Bird and Wildlife Cam — Woodlands Critter Quest">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-wildlife" data-rack-name="the Wildlife screen" data-rack-src="https://www.youtube-nocookie.com/embed/oI8R4_UG3Fs?autoplay=1&amp;rel=0" data-rack-title="Live Deer, Bird and Wildlife Cam, Woodlands Critter Quest, on the Wildlife screen" data-rack-film="Live Deer, Bird and Wildlife Cam" data-rack-runtime="live, runs until you close it">Up on the Wildlife screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Live Deer, Bird and Wildlife Cam</h3>
@@ -535,13 +616,14 @@
             <p class="cam__who">Woodlands Critter Quest&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="x10vL6_47Dw" data-embed-title="Cornell Lab FeederWatch Cam at Sapsucker Woods — Cornell Lab Bird Cams">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-wildlife" data-rack-name="the Wildlife screen" data-rack-src="https://www.youtube-nocookie.com/embed/x10vL6_47Dw?autoplay=1&amp;rel=0" data-rack-title="Cornell Lab FeederWatch Cam at Sapsucker Woods, Cornell Lab Bird Cams, on the Wildlife screen" data-rack-film="Cornell Lab FeederWatch Cam at Sapsucker Woods" data-rack-runtime="live, runs until you close it">Up on the Wildlife screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Cornell Lab FeederWatch Cam at Sapsucker Woods</h3>
@@ -549,7 +631,7 @@
             <p class="cam__who">Cornell Lab Bird Cams&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam cam--away">
+        <li class="cam cam--away" data-rack-card>
           <a class="cam__away" href="https://www.youtube.com/watch?v=EvsLqQS_80E">
             <strong>Watch on YouTube &rarr;</strong>
             <span class="jungle-note">This camera&rsquo;s owner has embedding switched off, so it cannot open in a screen here.</span>
@@ -561,13 +643,14 @@
             <p class="cam__who">Red Squirrel Studios&rsquo;s camera, on YouTube. Nothing of it is hosted here; following the link is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="XfNhPa26fP8" data-embed-title="PixCams Wildlife Cam 2 — PixCams">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-wildlife" data-rack-name="the Wildlife screen" data-rack-src="https://www.youtube-nocookie.com/embed/XfNhPa26fP8?autoplay=1&amp;rel=0" data-rack-title="PixCams Wildlife Cam 2, PixCams, on the Wildlife screen" data-rack-film="PixCams Wildlife Cam 2" data-rack-runtime="live, runs until you close it">Up on the Wildlife screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>PixCams Wildlife Cam 2</h3>
@@ -575,7 +658,7 @@
             <p class="cam__who">PixCams&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam cam--away">
+        <li class="cam cam--away" data-rack-card>
           <a class="cam__away" href="https://www.youtube.com/watch?v=UEyEs8AE1ss">
             <strong>Watch on YouTube &rarr;</strong>
             <span class="jungle-note">This camera&rsquo;s owner has embedding switched off, so it cannot open in a screen here.</span>
@@ -587,13 +670,14 @@
             <p class="cam__who">Red Squirrel Studios&rsquo;s camera, on YouTube. Nothing of it is hosted here; following the link is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="RhP-_jX8-Zs" data-embed-title="Anan Bear Cam: Lower Falls and Caves, Alaska — Explore Live Nature Cams">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-wildlife" data-rack-name="the Wildlife screen" data-rack-src="https://www.youtube-nocookie.com/embed/RhP-_jX8-Zs?autoplay=1&amp;rel=0" data-rack-title="Anan Bear Cam: Lower Falls and Caves, Alaska, Explore Live Nature Cams, on the Wildlife screen" data-rack-film="Anan Bear Cam: Lower Falls and Caves, Alaska" data-rack-runtime="live, runs until you close it">Up on the Wildlife screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Anan Bear Cam: Lower Falls and Caves, Alaska</h3>
@@ -601,13 +685,14 @@
             <p class="cam__who">Explore Live Nature Cams&rsquo;s camera, on YouTube. Nothing of it is hosted here; pressing is what sends the request.</p>
           </div>
         </li>
-        <li class="cam">
+        <li class="cam" data-rack-card>
           <div class="cam__view">
             <button type="button" class="facade" data-embed-id="gqP5nBCRbHA" data-embed-title="Bonobo Cam: Lola ya Bonobo Sanctuary, DR Congo — Explore Gorilla &amp; Bonobo Cams: Great Apes">
               Live — no end. Whatever is happening there right now.
               <span class="facade__play">&#9654; Open the leaves</span>
             </button>
           </div>
+          <button type="button" class="cam__up" hidden data-rack-to="jr-wildlife" data-rack-name="the Wildlife screen" data-rack-src="https://www.youtube-nocookie.com/embed/gqP5nBCRbHA?autoplay=1&amp;rel=0" data-rack-title="Bonobo Cam: Lola ya Bonobo Sanctuary, DR Congo, Explore Gorilla &amp; Bonobo Cams: Great Apes, on the Wildlife screen" data-rack-film="Bonobo Cam: Lola ya Bonobo Sanctuary, DR Congo" data-rack-runtime="live, runs until you close it">Up on the Wildlife screen &mdash; live, runs until you close it</button>
           <div>
             <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>Live &middot; no end</p>
             <h3>Bonobo Cam: Lola ya Bonobo Sanctuary, DR Congo</h3>
@@ -616,6 +701,7 @@
           </div>
         </li>
       </ul>
+    </details>
     <!-- jungle:wildlife:end -->
   </section>
 
@@ -623,10 +709,11 @@
     <div class="buttress">
       <h2>What the room is</h2>
       <ul class="jungle-rules">
-        <li><strong>Nothing plays until you press play.</strong> Every screen above is a button. Until you press one, this page has asked YouTube for nothing on your behalf &mdash; no iframe, no cookie, no request, no pixel. Press one and exactly one becomes a video; the rest stay buttons.</li>
+        <li><strong>Nothing plays until you press play.</strong> Every leaf above is a button, and so is every <em>Up on the screen</em> under one. Until you press one, this page has asked YouTube for nothing on your behalf &mdash; no iframe, no cookie, no request, no pixel. Press one and exactly one becomes a video; the rest stay buttons.</li>
+        <li><strong>Every gallery has a screen of its own.</strong> Any cam opens in its own leaf, where it hangs, or goes up on the screen at the top of its gallery, in place of whatever was up there, so watching one big never means going back to the top of the room. The screen shows nothing of its own and loads nothing until you put a cam on it, and taking the cam off leaves it empty again. Each gallery&rsquo;s leaves fold away too, so a gallery you are not watching is one line.</li>
         <li><strong>Nothing here says how long it runs, because none of it ends.</strong> Every other press-to-play control on this street carries a runtime, and that is the promise that lets you decide before you press. A live camera has no runtime to carry. Putting the length of whichever stream happens to be up today on the page would be a number that is wrong tomorrow, so the label says the true thing instead: it runs until you close it.</li>
         <li><strong>The picture is whatever is happening there right now.</strong> Which is sometimes darkness, sometimes rain, sometimes an empty waterhole, and sometimes a cam between streams showing you the last one. None of that is a fault. A camera pointed at somewhere real is a camera that is often pointed at nothing, and sitting with nothing happening is most of what this room is for.</li>
-        <li><strong>Nothing is hosted here.</strong> Not one frame. Every camera belongs to the people who put it up &mdash; aquariums, sanctuaries, research institutes, reserves, and a few people with a feeder and a good angle &mdash; and every screen says whose it is on its own face rather than filing it away in the credits.</li>
+        <li><strong>Nothing is hosted here.</strong> Not one frame. Every camera belongs to the people who put it up &mdash; aquariums, sanctuaries, research institutes, reserves, and a few people with a feeder and a good angle &mdash; and every leaf says whose it is on its own card rather than filing it away in the credits.</li>
         <li><strong>Nothing is counted.</strong> No minutes watched, no cams visited, no streak, nothing that notices you were here. This is a room for being near something alive, and a tally beside that would turn it into an activity.</li>
         <li><strong>Gentle takes away the wobble, never the words.</strong> There is no content behind an intensity level anywhere on this street. At MAX the light shifts through the leaves and the dot beside the word LIVE breathes; that is the whole of it. Turn the dial down and you lose two flickers and not one camera.</li>
       </ul>
@@ -714,6 +801,7 @@
 
 <script src="love.js" defer></script>
 <script src="love-embed.js" defer></script>
+<script src="rack.js" defer></script>
 <script src="quest.js" defer></script>
 </body>
 </html>

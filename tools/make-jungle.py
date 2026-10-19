@@ -49,6 +49,22 @@ does nothing and reports nothing anywhere), a missing name for whoever runs the
 camera (attribution is the one careful habit this site kept, and none of these
 cameras is ours), the same id twice, and -- as in the burrow -- a group with no
 markers in the page, or markers in the page for a group the data does not have.
+
+EVERY GALLERY HAS A SCREEN, AND ITS CAMS ARE A RACK (2026-10-19, Ryan's ask:
+the street's racks and shared screens, keeping the leaf for every cam, and a
+screen in each gallery rather than one for the room, so putting a cam up never
+means scrolling back to the top of the room). rack.js's pattern: every cam
+opens in its own leaf where it hangs, as it always has, or goes up on its
+gallery's screen. The screen has nothing of its own on it (the Doom Scoop's
+and Big Steep's), because a gallery of live cams is not a list anybody puts on
+whole, so it ships hidden and is a low gap in the leaves until a cam goes up.
+THE CARDS ARE NOT SMALLER, and that was tried: a small leaf beside its words
+for a shorter rack, and Ryan's answer the same morning was that the leaf is
+then too small to watch. The leaves stay the size they were.
+Each gallery's rack is a <details> that ships open. A door has no screen
+button, because what it cannot do here it cannot do on the screen either. And
+the room is refused without rack.js, because a rack whose second button never
+appears is a page that looks finished and is not.
 """
 import html
 import json
@@ -69,6 +85,13 @@ groups = data["groups"]
 
 problems = []
 seen = {}
+slugs = [g.get("slug") for g in groups]
+for s in sorted({s for s in slugs if slugs.count(s) > 1}):
+    problems.append(f"group slug {s!r} is used twice; it names a gallery's screen, so two "
+                    "galleries would share one and a cam would go up in the wrong place.")
+if 'src="rack.js"' not in ROOM.read_text():
+    problems.append(f"{ROOM.name} does not load rack.js, so no cam could go up on its gallery's "
+                    "screen, and every screen button would stay hidden.")
 for g in groups:
     for field in ("slug", "name", "sub", "cams"):
         if not g.get(field):
@@ -125,12 +148,21 @@ def e(s):
     return html.escape(s, quote=True)
 
 
-def screen(c):
-    """A live cam: a leaf-shaped aperture with a button in it.
+RUNS = "live, runs until you close it"   # what the screen button says instead of a runtime
 
-    The button carries the cam's name and who runs it, because that is the whole
-    of what a screen reader gets from the control -- everything around it is
-    either a drawing or already said in the plate."""
+
+def screen_of(g):
+    """A gallery's screen: its rack.js id and the name its cards call it."""
+    return f'jr-{g["slug"]}', f'the {g["name"]} screen'
+
+
+def leaf(c, g):
+    """A live cam: a leaf-shaped aperture with a button in it, which opens where
+    it hangs, and under it a second button that puts it up on its gallery's
+    screen. The leaf's words keep "no end", which is what the street's poster
+    column reads off the room's first press; the second button says the same
+    in the rack's words, because every press here says how long before it."""
+    sid, sname = screen_of(g)
     label = f'{c["title"]} — {c["channel"]}'
     return (f'          <div class="cam__view">\n'
             f'            <button type="button" class="facade" data-embed-id="{c["id"]}" '
@@ -138,11 +170,18 @@ def screen(c):
             f'              Live — no end. Whatever is happening there right now.\n'
             f'              <span class="facade__play">&#9654; Open the leaves</span>\n'
             f'            </button>\n'
-            f'          </div>')
+            f'          </div>\n'
+            f'          <button type="button" class="cam__up" hidden data-rack-to="{sid}" '
+            f'data-rack-name="{e(sname)}" '
+            f'data-rack-src="https://www.youtube-nocookie.com/embed/{c["id"]}?autoplay=1&amp;rel=0" '
+            f'data-rack-title="{e(c["title"])}, {e(c["channel"])}, on {e(sname)}" '
+            f'data-rack-film="{e(c["title"])}" data-rack-runtime="{RUNS}">'
+            f'Up on {e(sname)} &mdash; {RUNS}</button>')
 
 
 def away(c):
-    """A cam whose owner has embedding switched off: a way out, saying so."""
+    """A cam whose owner has embedding switched off: a way out, saying so. No
+    screen button: what it cannot do in its leaf it cannot do on a screen."""
     return (f'          <a class="cam__away" href="{WATCH}{c["id"]}">\n'
             f'            <strong>Watch on YouTube &rarr;</strong>\n'
             f'            <span class="jungle-note">This camera&rsquo;s owner has embedding '
@@ -150,12 +189,12 @@ def away(c):
             f'          </a>')
 
 
-def cam(c):
-    body = screen(c) if c["state"] == "live" else away(c)
+def cam(c, g):
+    body = leaf(c, g) if c["state"] == "live" else away(c)
     live = ('            <p class="cam__live"><span class="cam__dot" aria-hidden="true"></span>'
             'Live &middot; no end</p>\n') if c["state"] == "live" else (
             '            <p class="cam__live">Off site &middot; opens on YouTube</p>\n')
-    return (f'        <li class="cam{" cam--away" if c["state"] == "link" else ""}">\n'
+    return (f'        <li class="cam{" cam--away" if c["state"] == "link" else ""}" data-rack-card>\n'
             f'{body}\n'
             f'          <div>\n'
             f'{live}'
@@ -166,6 +205,20 @@ def cam(c):
             f'{"following the link is what sends the request" if c["state"] == "link" else "pressing is what sends the request"}.</p>\n'
             f'          </div>\n'
             f'        </li>')
+
+
+def gap(g):
+    """The gallery's screen: a low gap in the leaves with nothing of its own on
+    it, its now-showing line, and the way to take a cam back off it."""
+    sid, sname = screen_of(g)
+    return (f'    <div class="canopy-gap" data-rack-screen="{sid}" tabindex="-1" hidden>\n'
+            f'      <p class="canopy-gap__idle"><b>The {e(g["name"])} screen.</b> Nothing is up on it. '
+            f'Any cam below can go up here with the button under its leaf, and nothing loads until '
+            f'you press one.</p>\n'
+            f'    </div>\n'
+            f'    <p class="canopy-gap__now" data-rack-now="{sid}" tabindex="-1" hidden></p>\n'
+            f'    <p class="canopy-gap__back" hidden><button type="button" class="canopy-gap__off" '
+            f'data-rack-back="{sid}">Take it off {e(sname)}</button></p>')
 
 
 LEAF = ('<svg viewBox="0 0 34 34" aria-hidden="true" fill="none" stroke="#57A05C" '
@@ -185,9 +238,13 @@ for g in groups:
         <p>{e(g["sub"])}</p>
       </div>
     </div>
+{gap(g)}
+    <details class="cam-rack" open>
+      <summary class="cam-rack__sum">{e(g["name"])}: the leaves</summary>
       <ul class="cams">
-{chr(10).join(cam(c) for c in cams)}
-      </ul>''', "    ")
+{chr(10).join(cam(c, g) for c in cams)}
+      </ul>
+    </details>''', "    ")
 
 # ── What is gone, in the room rather than only in the data ───────────────────
 # A gallery that is quietly shorter than our own events page says it is would
@@ -254,6 +311,6 @@ for g in groups:
             f'<td><a href="{WATCH}{c["id"]}">watch</a></td></tr>')
 swap(CREDITS, "jungle-credits", "\n".join(rows), "      ")
 
-print(f"the jungle room: {len(groups)} galleries in {ROOM.name} · {shown} screens, "
+print(f"the jungle room: {len(groups)} galleries in {ROOM.name}, a screen in each · {shown} leaves, "
       f"{doors} link-outs, {gone} dark · {len(rows)} credit rows in {CREDITS.name} · "
       f"none of it hosted here, and not one of them carries a runtime")

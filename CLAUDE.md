@@ -366,6 +366,8 @@ check is one line. The room's count of dead
 cams is generated, **and so is the grammar of the sentence around it**: the first version
 generated the number and left the tail plural, which is a hand-typed total wearing a disguise.
 
+**EVERY GALLERY IN THE JUNGLE ROOM HAS A SCREEN OF ITS OWN.** Ryan, 2026-10-19: the street's racks and shared screens, keeping the leaf for every cam, with a screen in each gallery so that putting a cam up never means scrolling back to the top of the room. `make-jungle.py` writes each gallery's screen (`jr-<slug>`, nothing of its own on it, shipped hidden, a low gap in the leaves until a cam goes up), its now-showing line and way back, and the gallery's cams as a `<details>` that ships open, an *Up on the screen* button under every leaf and none on a door; it refuses the room without `rack.js`. **The cards keep their full-size leaves**: a small leaf beside its words was tried the same morning for a shorter rack, and Ryan found the picture too small to watch. The friendly edits are that smaller card again, and one screen for the whole room, which is the scroll back to the top.
+
 **THE THIRD GREEN THING ON THE STREET, AND THE FIELD IS THE ONE TO WATCH.** The Campgrounds is
 night-blue under nothing: a bare field, sky still on it, posts standing alone on open ground,
 lettering routed flat like a park sign. The Jungle Room is night-green under a **roof**: light

@@ -7529,7 +7529,11 @@ html[data-intensity="max"] .lamp-flame { animation: latibulum-breathe 9s ease-in
    EVERY SCREEN IS A LEAF, and that is the whole shape of the room: an aperture
    with two pointed corners and two round ones, which is a leaf and is also a
    gap in the canopy. Nothing else on this street is that shape, and it is why
-   thirty-odd rectangles of video do not read as a spreadsheet.
+   a room of rectangles of video does not read as a spreadsheet. Since
+   2026-10-19 (Ryan's ask: the street's racks and shared screens, keeping the
+   leaf for every cam) every cam keeps its leaf on its gallery's rack, and
+   every gallery has one larger leaf at its top, its screen, so a cam can go
+   up big without anybody scrolling back to the top of the room.
 
    THE ONE ROOM WHERE A FACADE CANNOT SAY HOW LONG IT RUNS. Every other
    press-to-play control here carries a runtime, because that is what lets
@@ -7634,6 +7638,54 @@ html[data-intensity="max"] .room-jungle::before { animation: jungle-light 22s ea
 .gallery__head { display: flex; gap: 14px; align-items: flex-start; margin: 0 0 22px; padding-bottom: 14px; border-bottom: 1px solid var(--buttress); }
 .gallery__head svg { flex: 0 0 auto; width: 34px; height: 34px; margin-top: 4px; }
 .gallery__head p { margin: 0; color: var(--sap); font-size: 16px; max-width: 62ch; }
+
+/* THE GALLERY'S SCREEN, A GAP IN THE LEAVES. rack.js's pattern: every cam on
+   the rack below opens in its own leaf, or goes up here. ONE IN EVERY GALLERY
+   rather than one for the room, so the screen is never further away than the
+   top of the gallery you are in. It has nothing of its own on it (a gallery of
+   live cams is not a list anybody puts on whole), so it ships hidden, and
+   UNTIL A CAM GOES UP IT IS LOW: an empty sixteen by nine screen at the top of
+   every gallery would make the room a column of black boxes before anybody
+   had pressed anything. When a cam goes up it opens to the player's shape,
+   which is what "Open the leaves" has always meant in here. The large leaf
+   clips whatever is on it, so the pressed player is styled from the container
+   and never from a button. */
+.canopy-gap {
+  max-width: 860px; overflow: hidden;
+  border-radius: 56px 8px 56px 8px; background: #041209;
+  box-shadow: inset 0 0 0 1px rgba(87,160,92,.5), inset 0 0 60px rgba(0,0,0,.8);
+}
+.room-jungle .canopy-gap__idle { margin: 0; padding: 18px 40px; font-size: 15px; line-height: 1.55; color: var(--sap); }
+.canopy-gap__idle b { color: var(--sun); }
+.room-jungle .canopy-gap .facade { border-radius: 0; box-shadow: none; }
+.room-jungle .canopy-gap .facade iframe { border-radius: 0; }
+.room-jungle .canopy-gap__now {
+  margin: 12px 0 0; max-width: 860px;
+  font-family: 'Cabin', system-ui, sans-serif; font-weight: 700; font-size: 15px; color: var(--daylight);
+}
+.room-jungle .canopy-gap__back { margin: 8px 0 0; }
+
+/* Both presses that are not a leaf: up on the screen, under a cam's own
+   leaf, and off it again. Each is a small leaf itself, in the card's ground. */
+.cam__up, .canopy-gap__off {
+  min-height: 44px; padding: 8px 14px; cursor: pointer; text-align: left;
+  font-family: 'Cabin', system-ui, sans-serif; font-weight: 700; font-size: 13.5px; line-height: 1.35;
+  color: var(--daylight); background: var(--understory);
+  border: 1px solid var(--palm); border-radius: 16px 3px 16px 3px;
+}
+.cam__up:hover, .canopy-gap__off:hover { color: var(--sun); border-color: var(--sun); }
+
+/* The rack folds away, like every rack on the street, and ships open, because
+   a shut rack is words the contrast and focus checkers never see. */
+.cam-rack { margin: 22px 0 0; }
+.cam-rack__sum {
+  width: fit-content; padding: 6px 0; margin: 0 0 14px; cursor: pointer;
+  font-family: 'Cabin', system-ui, sans-serif; font-weight: 700;
+  font-size: 13px; letter-spacing: .16em; text-transform: uppercase; color: var(--sap);
+}
+.cam-rack__sum::marker { color: var(--palm); }
+.cam-rack__sum:hover { color: var(--sun); }
+.cam-rack:not([open]) .cam-rack__sum { margin-bottom: 0; }
 
 .cams { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 26px; margin: 0; padding: 0; list-style: none; }
 
