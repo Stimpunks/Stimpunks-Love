@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-18T11:28Z",
+ "set": "2026-10-19T11:47Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-18T11:28:31Z"
+     "2026-10-19T11:47:48Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-18T11:28:31Z"
+     "2026-10-19T11:47:48Z"
     ]
    ]
   }
@@ -415,6 +415,46 @@
    "published": "2026-10-17T13:06:33Z",
    "state": "screen",
    "runs": 110,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ha7yVNM0UNw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Thinking about farming for a living? I wrote a book about it. Link in description :-)",
+   "published": "2026-10-18T12:05:49Z",
+   "state": "screen",
+   "runs": 89,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "ObTfrUh4-8E",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Another hot pot adventure!",
+   "published": "2026-10-18T14:07:09Z",
+   "state": "screen",
+   "runs": 123,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "p1OE46f_HmE",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "How far can we drop a farm fresh egg?",
+   "published": "2026-10-18T21:33:57Z",
+   "state": "screen",
+   "runs": 124,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "Mpzk3tS_SBM",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "How do you know it’s big ag?",
+   "published": "2026-10-19T11:34:35Z",
+   "state": "screen",
+   "runs": 121,
    "channel": "Farming While Beige"
   }
  ]
