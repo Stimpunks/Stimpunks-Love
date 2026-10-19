@@ -359,13 +359,14 @@
    "prefix": "wh",
    "item": "cam",
    "rack": {
-    "_why": "Ryan's brief, 2026-09-28: the Watering Hole gets a selection from the Jungle Room, particularly the Namib Desert, the otters and the jellyfish. The cams are read out of data/jungle.json by id, never restated, so the two rooms cannot say two different things about one camera, and a cam that goes dark there goes dark here.",
+    "_why": "Ryan's brief, 2026-09-28: the Watering Hole gets a selection from the Jungle Room, particularly the Namib Desert, the otters and the jellyfish. The cams are read out of data/jungle.json by id, never restated, so the two rooms cannot say two different things about one camera, and a cam that goes dark there goes dark here. Ryan added the Okaukuejo waterhole in Etosha on 2026-10-19, the second waterhole on the rack, which is why the rack is the waterholes rather than the desert.",
     "screen": "the screen by the water",
-    "rack_title": "The cams: the desert, the otters and the jellies",
+    "rack_title": "The cams: the waterholes, the otters and the jellies",
     "off": "The desert is off it until you put it back.",
     "cams_from": "data/jungle.json",
     "cams": [
      "ydYDqZQpim8",
+     "AeMUdOPFcXI",
      "9mg9PoFEX2U",
      "_KXHUb0wFRE",
      "abbR-Ttd-cA",

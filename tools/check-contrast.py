@@ -4148,6 +4148,10 @@ ORNAMENT = {
     "#3a2c22": "campfire: the logs' bark, 1.40 on the night, and the job marker's log and floor line; they carry nothing",
     "#57504b": "campfire: the stones round the fire and the smoke, 2.38 on the night; drawn, and carry no word",
     "#2c7f8a": "watering hole: the rim of the pool, 3.75 on the sand; drawn, and carries no word",
+    "#857e73": "watering hole: the elephants', the rhinos' and the ostriches' dust-grey, 3.24 on the sand and "
+               "3.97 against the black shadow each one stands in; drawn, and carries no word",
+    "#ad9c80": "watering hole: the gemsbok's grey-fawn, 2.16 on the sand, held off it by the black markings "
+               "and the shadow under it; drawn, and carries no word",
     "#00a3d1": "editorial room: the colour bar's process cyan, 6.11 on the studio; a printer's mark, and it carries no word",
     "#d6246e": "editorial room: the colour bar's process magenta and the proofreader's mark in the margin, 4.49 on the table; marks, and no word stands in them",
     "#f2c200": "editorial room: the colour bar's process yellow, 10.67 on the studio; a printer's mark, and it carries no word",

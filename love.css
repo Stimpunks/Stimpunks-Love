@@ -3000,12 +3000,16 @@
      ground of the room, bleached; --wh-board every card on the rack and the
      one paler thing, a board left out in the sun; --wh-panel the call's panel,
      the sand in a wind-shadow. --wh-ink is what you read, --wh-dim the fine
-     print, --wh-water every link and the buttons' ground, --wh-rust the oryx
-     and every hover. --wh-dune, --wh-pool and --wh-shade draw the dunes, the
-     water and the black pool of shadow under everything, and carry no word. */
+     print, --wh-water every link and the buttons' ground, --wh-rust the
+     giraffes' coats, the springbok's flank and every hover. --wh-dune, --wh-pool
+     and --wh-shade draw the dunes, the water and the black pool of shadow under
+     everything; --wh-hide is the dust-grey of the elephants and the rhinos, and
+     the ostriches' necks and legs, and --wh-fawn the gemsbok's grey-fawn; those
+     two carry no word. */
   --wh-sand:  #F1E6CB;  --wh-board: #FBF7EE;  --wh-panel: #E4D3AC;
   --wh-ink:   #2A2016;  --wh-dim:   #5E4E39;  --wh-water: #17565F;
   --wh-rust:  #8C3517;  --wh-dune:  #D8BD86;  --wh-pool:  #2C7F8A;  --wh-shade: #2A2016;
+  --wh-hide:  #857E73;  --wh-fawn:  #AD9C80;
 
   /* The Campfire (§75). A FIRE IN A CLEARING, AT NIGHT. --cf-night is the dark
      past the ring of logs, and the ground of the room; --cf-log the shadow side
@@ -18594,8 +18598,10 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
    on-topic, with no particular agenda. A watering hole is that, and it is what
    the Watering Hole Hangs are named after: a pool in a dry place, and whoever
    turns up. The desert is the Namib, because that is where the first cam on
-   this room's rack is, and the rack is the Jungle Room's desert, otters and
-   jellies, read out of its own data.
+   this room's rack is, and the rack is the Jungle Room's waterholes, otters and
+   jellies, read out of its own data. The animals in the drawing are the ones
+   people have seen at those waterholes, each drawn once and set down round
+   the pool, each with its shadow straight under it.
 
    THE LIGHT IS THE UNFILTERED MIDDAY SUN. Nothing stands between the sand and
    the sky, so the sand is bleached to nearly white and every shadow is a black

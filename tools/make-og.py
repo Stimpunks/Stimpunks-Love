@@ -700,8 +700,8 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--edroom .og-scene svg {{ display: block; width: 1200px; height: 300px; }}
 
 /* the watering hole — THE PAN AT NOON, LIFTED OFF THE ROOM: the dunes, the one
-   pool, the oryx, the springbok and the camel-thorn, each shadow straight under
-   it. The one pale card among the Cavendish rooms, because it is the one room
+   pool and its rock, the camel-thorn, and everybody who has come down to the
+   water, each shadow straight under it. The one pale card among the Cavendish rooms, because it is the one room
    among them in the sun. */
 .og--whroom {{ width: 100%; padding: 40px 60px 0; gap: 8px; justify-content: flex-start; }}
 .og--whroom .wh-over {{ margin: 0 !important; font-size: 19px; letter-spacing: .06em; text-transform: uppercase; color: #5E4E39; }}
@@ -3375,9 +3375,11 @@ def card_whroom(p):
         f"A bleached pale sand card. A small line in brown capitals reading behind the Watering "
         f"Hole door at Cavendish Coworking, then “{p['h1text']}” in heavy dark-brown letters, and "
         f"under it: {p['desc_plain']} Along the foot, a desert pan at noon under a white sky: low "
-        f"dunes, one pool of deep teal water, a rust-coloured oryx with long straight horns at the "
-        f"water, a pale springbok coming in, and a flat-topped camel-thorn tree, each with a black "
-        f"pool of shadow directly beneath it.",
+        f"dunes, one pool of deep teal water with a round rock in it, and round it two gemsbok with "
+        f"long straight horns, three zebras drinking, a giraffe splayed to drink, a file of gnus "
+        f"coming in, two ostriches, a rhino and her calf, an elephant drinking with her trunk and "
+        f"her calf beside her, a second giraffe browsing a flat-topped camel-thorn tree, and "
+        f"springbok, one of them leaping, each with a black pool of shadow directly beneath it.",
     )
 
 
