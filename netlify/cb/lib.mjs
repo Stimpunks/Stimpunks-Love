@@ -3881,9 +3881,11 @@ function brassInline(src, depth = 0) {
       const href = m && brassHref(m[1]);
       if (href) { push({ t: 'a', href, c: [{ t: 'text', v: m[1] }] }); i += m[0].length; continue; }
     }
-    if ((c === 'h' || c === 'H') && /^https?:\/\//i.test(src.slice(i)) && !/[\w/]$/.test(buf)) {
-      let m = /^https?:\/\/[^\s<>]+/i.exec(src.slice(i))[0];
-      m = m.replace(/[.,;:!?'")\]]+$/, '');
+    // An address with nothing after its // (as in "starting with https:// ")
+    // stays words; reading it as one threw, and the whole post with it.
+    const bare = (c === 'h' || c === 'H') && !/[\w/]$/.test(buf) ? /^https?:\/\/[^\s<>]+/i.exec(src.slice(i)) : null;
+    if (bare) {
+      const m = bare[0].replace(/[.,;:!?'")\]]+$/, '');
       const href = brassHref(m);
       if (href) { push({ t: 'a', href, c: [{ t: 'text', v: m }] }); i += m.length; continue; }
     }
@@ -4366,6 +4368,16 @@ export async function removeSuggestion(who, id, s = store()) {
    When somebody @mentions me and whose pass can read the category now
    (notifyForum, with the notifications).
 
+   A WIKI'S DOCUMENTS ARE EDITED BY ITS ROLES, WHOEVER WROTE THEM. Ryan's
+   call, 2026-10-19: support docs as living documents that several people
+   keep up to date, in a Wiki category that never expires, where moderators
+   and above edit any of them. A document is the post that opens a topic in a
+   category whose `wiki` names roles (forumEditor), and those roles edit it and
+   its title. Everywhere else, and on every reply in a wiki, only a post's
+   author edits it: the channel's rule that putting words in somebody's mouth
+   is nobody's. A document edited by anybody says on it who edited it last
+   (editedBy), and goes only with its topic, so a reply never becomes one.
+
    NOTHING ANYBODY TYPES IS LOGGED, here as everywhere in this file. */
 export const FORUM_TITLE_MAX = 120;
 export const FORUM_BODY_MAX = 20000;
@@ -4410,6 +4422,7 @@ export const FORUM_CATEGORIES = [
   {"slug": "announcements", "name": "Announcements", "about": "News from the people who run Stimpunks. Only moderators start a topic here; anybody can reply.", "group": "Information", "keep": "6 months", "see": null, "start": ["moderator"]},
   {"slug": "introductions", "name": "Introductions", "about": "Say hello, if you like, and say as much or as little as you want to. Reading along is a fine way to belong too.", "group": "Information", "keep": "6 months", "see": null, "start": null},
   {"slug": "help-desk", "name": "Help desk", "about": "When something on the street, the CB or the forums does not work, or you cannot find your way.", "group": "Information", "keep": "3 months", "see": null, "start": null},
+  {"slug": "wiki", "name": "Wiki", "about": "How to do things on the street, the CB and the forums, one thing to a page. Every page is a living document that our moderators keep up to date, whoever started it. Something wrong or missing? Reply on the page, or ask in the Help desk.", "group": "Information", "keep": "never", "see": null, "start": ["moderator"], "wiki": ["moderator"]},
   {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time. The CB for the things that need longer than two days, but not much longer.", "group": "Community", "keep": "1 week", "see": null, "start": null},
   {"slug": "coping", "name": "Coping", "about": "For the hard days, and for getting through them together. Say what is going on and be met where you are; nobody has to fix anything, and nobody has to answer. What is said here stays here.", "group": "Community", "keep": "1 week", "see": null, "start": null},
   {"slug": "events", "name": "Events", "about": "What is coming up, and what happened: our calls, campfires, watch-togethers and anything else worth turning up for.", "group": "Community", "keep": "3 months", "see": null, "start": null},
@@ -4464,6 +4477,16 @@ export function forumAllows(who, cat, what = 'see') {
   if (who.role !== 'base' || !who.roles) return false;
   if (!cat.strict && who.roles.has('administrator')) return true;
   return roles.some((r) => who.roles.has(r));
+}
+
+/* Who edits a wiki's documents, whoever wrote them: the category's `wiki`
+   roles, by forumAllows' rules, and nobody at all in a category that names
+   none. A document is a topic's first post; every reply stays its writer's. */
+export function forumEditor(who, cat) {
+  if (!cat || !Array.isArray(cat.wiki) || !cat.wiki.length || !forumAllows(who, cat)) return false;
+  if (who.role !== 'base' || !who.roles) return false;
+  if (!cat.strict && who.roles.has('administrator')) return true;
+  return cat.wiki.some((r) => who.roles.has(r));
 }
 
 export function keepOf(cat) { return (cat && FORUM_KEEPS.includes(cat.keep) && cat.keep) || FORUM_DEFAULT_KEEP; }
@@ -4707,6 +4730,7 @@ export function forumCatsFor(who) { return FORUM_CATEGORIES.filter((c) => forumA
 function shapeForumCat(c, who) {
   const out = { slug: c.slug, name: c.name, about: c.about, group: c.group, keep: keepOf(c), start: forumAllows(who, c, 'start') };
   if (c.see) out.staff = true;
+  if (c.wiki) out.wiki = true;
   return out;
 }
 export function forumNav(who) { return forumCatsFor(who).map((c) => shapeForumCat(c, who)); }
@@ -4798,10 +4822,17 @@ function shapeCopied(cb, who) {
     }) };
 }
 
-function shapePost(p, who, mark) {
+/* `doc`: this post is a wiki's document, which goes only with its topic;
+   `editor`: the reader edits the wiki's documents (forumEditor). */
+function shapePost(p, who, mark, doc = false, editor = false) {
   const out = { id: p.id, handle: p.handle, base: !!p.base, t: p.t, body: p.body || '',
-    blocks: withPreviews(parseBrass(p.body || ''), p.links), edit: p.by === mark, takeDown: p.by === mark || who.role === 'base' };
+    blocks: withPreviews(parseBrass(p.body || ''), p.links), edit: p.by === mark || (doc && editor),
+    takeDown: !doc && (p.by === mark || who.role === 'base') };
+  if (doc) out.wiki = true;
   if (typeof p.edited === 'number') out.edited = p.edited;
+  // Whoever edited it last, when that is somebody: a document's words are
+  // never shown as only its starter's.
+  if (p.editedBy) { out.editedBy = p.editedBy; if (p.editedBase) out.editedBase = true; }
   if (p.reply) out.reply = p.reply;
   const rx = shapeReactions(p.reactions);
   if (rx) out.reactions = rx;
@@ -4820,12 +4851,12 @@ function shapeFile(f) {
 function topicAlone(t, mark) { return t.posts.every((p) => p.by === mark); }
 
 export function shapeTopic(t, cat, who) {
-  const mark = authorMark(who), mod = who.role === 'base';
+  const mark = authorMark(who), mod = who.role === 'base', editor = forumEditor(who, cat), wiki = !!cat.wiki;
   const out = { id: t.id, cat: shapeForumCat(cat, who), title: t.title, handle: t.handle, base: !!t.base, t: t.t, last: t.last,
-    goes: topicGoes(summaryOf(t), cat), retitle: t.by === mark, mod,
+    goes: topicGoes(summaryOf(t), cat), retitle: t.by === mark || editor, mod,
     takeDown: mod || (t.by === mark && topicAlone(t, mark)),
     reply: !t.closed || mod, full: t.posts.length >= FORUM_POSTS_MAX,
-    posts: t.posts.map((p) => shapePost(p, who, mark)) };
+    posts: t.posts.map((p, i) => shapePost(p, who, mark, wiki && i === 0, editor)) };
   if (t.pinned) out.pinned = true;
   if (t.closed) out.closed = true;
   return out;
@@ -5066,7 +5097,9 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
 }
 
 /* The author editing their post, and its title if it opens the topic they
-   started. An edit does not move the topic's clock. */
+   started; or, in a wiki, somebody with its roles editing the document that
+   opens a topic, and its title, whoever wrote it (forumEditor), which then
+   says who edited it last. An edit does not move the topic's clock. */
 export async function editPost(who, id, pid, f, s = store(), now = Date.now(), get = safeGet) {
   if (!forumReader(who)) return { error: CLAIM };
   const raw = f && f.body;
@@ -5077,20 +5110,23 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
   const pre = await readTopic(id, s);
   const mark = authorMark(who);
   const was = pre && pre.posts.find((p) => p.id === pid);
-  if (!pre || !forumAllows(who, forumCat(pre.cat)) || !topicLive(summaryOf(pre), forumCat(pre.cat), now)) return { error: GONE };
+  const cat = pre && forumCat(pre.cat);
+  if (!pre || !forumAllows(who, cat) || !topicLive(summaryOf(pre), cat, now)) return { error: GONE };
   if (!was) return { error: 'That post has been taken down.' };
-  if (was.by !== mark) return { error: 'Only whoever wrote a post can edit it.' };
+  if (was.by !== mark && !(forumEditor(who, cat) && pre.posts[0] === was)) return { error: 'Only whoever wrote a post can edit it.' };
   const links = await previewsOf(body, was.links || [], get);
   // Left out, the post keeps the pictures and files it had; a list is the whole of them.
   const att = await attachments(who, f.files === undefined ? (was.files || []) : f.files, was.files || [], s);
   if (att.error) return att;
   await keepUploads(id, att.fresh, s);
   let before = '', lost = [], made = null;
-  const r = await changeTopic(who, id, now, s, (t) => {
+  const r = await changeTopic(who, id, now, s, (t, cat) => {
     const k = t.posts.findIndex((p) => p.id === pid);
     if (k < 0) return { why: 'That post has been taken down.' };
     const p = t.posts[k];
-    if (p.by !== mark) return { why: 'Only whoever wrote a post can edit it.' };
+    // A wiki's document is the topic's first post, and only that.
+    const doc = k === 0 && !!cat.wiki, editor = doc && forumEditor(who, cat);
+    if (p.by !== mark && !editor) return { why: 'Only whoever wrote a post can edit it.' };
     if (!body && !(p.cb && p.cb.messages.length) && !att.files.length) return { why: 'A post needs some words, or a picture or a file. To take it down, use Take down instead.' };
     before = p.body || '';
     const keep = new Set(att.files.map((x) => x.id));
@@ -5102,8 +5138,12 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
     const at = mentionedIn(body, f.at, t);
     if (at.length) p.at = at; else delete p.at;
     if (title !== undefined) {
-      if (k !== 0 || t.by !== mark) return { why: 'Only whoever started a topic can change its title.' };
+      if (k !== 0 || (t.by !== mark && !editor)) return { why: 'Only whoever started a topic can change its title.' };
       t.title = title;
+    }
+    if (doc) {
+      p.editedBy = who.handle;
+      if (who.role === 'base') p.editedBase = true; else delete p.editedBase;
     }
     made = p;
     return t;
@@ -5121,10 +5161,12 @@ export async function removePost(who, id, pid, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
   const mark = authorMark(who);
   let lost = [];
-  const r = await changeTopic(who, id, now, s, (t) => {
+  const r = await changeTopic(who, id, now, s, (t, cat) => {
     const p = t.posts.find((x) => x.id === pid);
     if (!p) return { why: 'That post has already been taken down.' };
     if (p.by !== mark && who.role !== 'base') return { why: 'Only whoever wrote a post, or a moderator, can take it down.' };
+    // A wiki's document goes only with its topic, or a reply would become it.
+    if (cat.wiki && t.posts[0] === p) return { why: 'A wiki page goes only with its topic. Take the whole topic down instead.' };
     lost = (p.files || []).map((x) => x.id);
     t.posts = t.posts.filter((x) => x.id !== pid);
     return settle(t);
@@ -5867,7 +5909,9 @@ export async function notifyForum(topic, post, before = '', s = store(), mods = 
   const cat = forumCat(topic.cat);
   if (!cat) return [];
   const devs = await readDevices(s);
-  const from = foldHandle(post.handle);
+  // A wiki's document says who edited it last, and an edit's mention is theirs.
+  const writer = post.editedBy || post.handle;
+  const from = foldHandle(writer);
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold === from || !(d.want && d.want.mentions)) continue;
@@ -5882,7 +5926,7 @@ export async function notifyForum(topic, post, before = '', s = store(), mods = 
       if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
       title = [...String(topic.title || '')].slice(0, FORUM_TITLE_MAX).join('');
     }
-    const payload = { kind: 'forum', why: 'mention', handle: post.handle, cat: cat.name, title, text, t: topic.id, p: post.id };
+    const payload = { kind: 'forum', why: 'mention', handle: writer, cat: cat.name, title, text, t: topic.id, p: post.id };
     sends.push({ id, d, payload, opts: { urgency: 'high' } });
   }
   return deliver(sends, gone, s, send);

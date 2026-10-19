@@ -18,6 +18,17 @@ hand-edit between those markers.
 WHAT IT REFUSES, because a friendly edit could break each without a test
 noticing (netlify/cb/lib.test.mjs tests what the code does):
 
+  · ANYBODY EDITING SOMEBODY ELSE'S POST OUTSIDE A WIKI. Ryan's call,
+    2026-10-19: a Wiki category whose documents, the posts that open its
+    topics, the roles it names edit whoever wrote them. Everywhere else, and
+    on every reply in a wiki, only a post's author edits it, the channel's
+    rule that putting words in somebody's mouth is nobody's. The friendly edit
+    is to let moderators edit any post; editPost may reach past the author only
+    through forumEditor, which refuses a category that names no wiki roles and
+    any post but a topic's first. And the name of whoever edited a post last
+    is sent with it (editedBy), so a moderator's words are never shown as the
+    starter's. A wiki document goes only with its topic, so a reply never
+    becomes the document, and a wiki keeps its pages for good.
   · COPING KEPT LONGER THAN A WEEK. Ryan's call, 2026-10-18: Discord keeps that
     channel for ever, which is not what it is for, so here its topics go a week
     after the last post. The friendly edit is to lengthen it to match the others.
@@ -125,7 +136,7 @@ def categories(data, roles):
             problems.append(f"{where}: keep is {c.get('keep')!r}, not one of {KEEPS}.")
         if slug == "coping" and c.get("keep") != "1 week":
             problems.append(f"{where}: Coping's topics go a week after the last post, Ryan's call; Discord keeping that channel for ever is what the forums are not doing.")
-        for k in ("see", "start"):
+        for k in ("see", "start", "wiki"):
             v = c.get(k)
             if v is None:
                 continue
@@ -135,13 +146,17 @@ def categories(data, roles):
             problems.append(f"{where}: strict is true, false, or left out.")
         if c.get("strict") and not c.get("see"):
             problems.append(f"{where}: strict keeps an administrator out of a category that names roles; this one names none.")
-        extra = set(c) - {"slug", "name", "about", "group", "keep", "see", "start", "strict"}
+        if c.get("wiki") and c.get("keep") != "never":
+            problems.append(f"{where}: a wiki keeps its pages for good. An edit does not move a topic's clock, so a page nobody replied to would go.")
+        extra = set(c) - {"slug", "name", "about", "group", "keep", "see", "start", "strict", "wiki"}
         if extra:
             problems.append(f"{where}: {', '.join(sorted(extra))} is nothing the forums read.")
         cat = {"slug": slug, "name": c.get("name"), "about": c.get("about"), "group": c.get("group"),
                "keep": c.get("keep"), "see": c.get("see"), "start": c.get("start")}
         if c.get("strict"):
             cat["strict"] = True
+        if c.get("wiki"):
+            cat["wiki"] = c.get("wiki")
         out.append(cat)
     if not out:
         problems.append(f"{DATA.name}: no categories.")
@@ -211,6 +226,21 @@ def check_lib(lib):
     look = re.search(r"function safeLookup\(.*?\n\}", sec, re.S)
     if not look or "publicAddress(a.address)" not in look.group(0):
         problems.append(f"{LIB.name}: safeLookup no longer refuses an address publicAddress does not pass.")
+    ed = fn(sec, "forumEditor")
+    if "Array.isArray(cat.wiki)" not in ed or "forumAllows(who, cat)" not in ed:
+        problems.append(f"{LIB.name}: forumEditor no longer refuses a category that names no wiki roles, or somebody who cannot read it.")
+    ep = fn(sec, "editPost")
+    if ep.count("forumEditor(who, cat)") < 2 or ep.count("p.by !== mark") + ep.count("was.by !== mark") < 2:
+        problems.append(f"{LIB.name}: editPost lets somebody but a post's author edit it some other way than forumEditor, checked before and inside the write.")
+    if re.search(r"who\.roles|who\.role !== 'base'|\|\|\s*who\.role === 'base'|who\.role === 'base'\s*\|\|", ep):
+        problems.append(f"{LIB.name}: editPost asks for a role itself. Only forumEditor, in a wiki, lets anybody edit a post they did not write.")
+    if "k === 0" not in ep or "editedBy = who.handle" not in ep:
+        problems.append(f"{LIB.name}: editPost must let a wiki's editors edit only a topic's first post, and say on it who edited it last.")
+    if "cat.wiki" not in fn(sec, "removePost"):
+        problems.append(f"{LIB.name}: removePost lets a wiki document be taken down without its topic, which would make a reply the document.")
+    sp = re.search(r"function shapePost\(.*?\n\}", sec, re.S)
+    if not sp or "out.editedBy = p.editedBy" not in sp.group(0):
+        problems.append(f"{LIB.name}: shapePost no longer says who edited a post last, so a moderator's words could be shown as the starter's.")
     if "canTakeOff(who, m)" not in fn(sec, "uncopyMessage"):
         problems.append(f"{LIB.name}: a copied message no longer comes out under the channel's own rule, canTakeOff.")
     if "readTuned(room, s)" not in fn(sec, "cbTranscript") or "quietRoom(room)" not in fn(sec, "cbTranscript"):

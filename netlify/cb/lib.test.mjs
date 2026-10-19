@@ -387,6 +387,12 @@ test('the board reads Markdown into nodes, never HTML, and links only where link
   assert.equal(brassHref('mailto:hello@example.org'), 'mailto:hello@example.org');
   for (const bad of ['javascript:alert(1)', 'JavaScript:x', 'data:x', '//evil.example', 'https://a:b@evil.example', 'vbscript:x'])
     assert.equal(brassHref(bad), null, bad);
+  // An address with nothing after its // is words, and must not throw (it took the whole post with it).
+  for (const v of ['starting with https:// becomes a link', 'https://', 'see http://<b>', 'HTTPS://\n']) {
+    assert.ok(parseBrass(v).length, `parseBrass threw or lost ${JSON.stringify(v)}`);
+  }
+  assert.equal(JSON.stringify(parseBrass('starting with https:// is words')).includes('"t":"a"'), false);
+  assert.equal(parseBrass('go to https://example.com/x.')[0].c[1].href, 'https://example.com/x');
   const all = parseBrass('# H\n\n- a\n- b\n\n1. c\n\n> q\n\n```\ncode <b>\n```\n\n---\n\n| a | b |\n|---|---|\n| 1 | 2 |');
   assert.deepEqual(all.map((n) => n.t), ['h', 'ul', 'ol', 'quote', 'code', 'hr', 'table']);
   assert.ok(brassHtml(all).includes('code &lt;b&gt;'));
@@ -2392,7 +2398,7 @@ for (const etagOnRead of [true, false]) {
 /* ── The forums ──────────────────────────────────────────────────────────── */
 import { FORUM_CATEGORIES, forumCat, forumAllows, forumNav, forumHome, forumLatest, forumCategory, forumTopic, readTopic,
   readForumIndex, searchForum, cbTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
-  reactPost, moderateTopic, sweepForum, goesAt, publicAddress, previewFor, metaOf, playerInfo, loneLinks, authorMark } from './lib.mjs';
+  reactPost, moderateTopic, sweepForum, goesAt, publicAddress, previewFor, metaOf, playerInfo, loneLinks, authorMark, forumEditor } from './lib.mjs';
 
 const fw = (handle, since, roles = null) => ({ role: roles ? 'base' : 'mobile', handle, since, account: true,
   roles: new Set(roles ? ['moderator', ...roles] : []) });
@@ -2502,6 +2508,45 @@ test('only a post\'s author edits it, and a name claimed again after it was dele
   assert.equal(await readTopic(t.id, s), null);
   const mine = (await startTopic(BO, { cat: 'infodumps', title: 'Owls', body: 'Hoo.' }, s, T0, NO_NET)).topic;
   assert.ok((await removeTopic(BO, mine.id, s, T0 + 1)).gone, 'a starter alone in their topic could not take it down');
+});
+
+test('a wiki\'s documents are edited by its roles whoever wrote them, its replies only by their writers, and the last editor is named', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const wiki = FORUM_CATEGORIES.find((c) => c.wiki);
+  assert.ok(wiki && wiki.keep === 'never', 'there is no wiki category kept for good');
+  assert.equal(forumEditor(FMOD, forumCat('infodumps')), false, 'a moderator edits documents in a category with no wiki roles');
+  assert.equal(forumEditor(ADA, wiki), false, 'a claimed username with no role edits a wiki');
+  assert.match((await startTopic(ADA, { cat: wiki.slug, title: 'How to', body: 'Steps.' }, s, T0, NO_NET)).error, /Only moderators start/);
+  const t = (await startTopic(FMOD, { cat: wiki.slug, title: 'Changing your password', body: 'Open Profile.' }, s, T0, NO_NET)).topic;
+  const doc = t.posts[0].id;
+  const reply = (await replyTopic(ADA, t.id, { body: 'Thanks, this helped.' }, s, T0 + 1, NO_NET)).post;
+  const asAda = await forumTopic(ADA, t.id, s, T0 + 2);
+  assert.equal(asAda.posts[0].wiki, true);
+  assert.equal(asAda.posts[0].edit, false, 'somebody with no role was offered the edit of a wiki page');
+  assert.equal(asAda.posts[0].takeDown, false, 'a wiki page could be taken down without its topic');
+  assert.match((await editPost(ADA, t.id, doc, { body: 'Mine now' }, s, T0 + 3, NO_NET)).error, /Only whoever wrote/);
+  // Another moderator edits the page and its title, and is named on it.
+  const OTHER = fw('Mo', 600, []);
+  assert.equal((await forumTopic(OTHER, t.id, s, T0 + 3)).retitle, true);
+  assert.ok((await editPost(OTHER, t.id, doc, { body: 'Open **Profile** on the radio.', title: 'Your password' }, s, T0 + 4, NO_NET)).topic);
+  const after = await forumTopic(ADA, t.id, s, T0 + 5);
+  assert.equal(after.title, 'Your password');
+  assert.deepEqual([after.posts[0].handle, after.posts[0].editedBy, after.posts[0].editedBase, after.posts[0].edited], ['Ryan', 'Mo', true, T0 + 4]);
+  assert.equal(after.last, T0 + 1, 'an edit moved the page\'s clock');
+  // A reply stays its writer's, in a wiki too.
+  assert.match((await editPost(OTHER, t.id, reply.id, { body: 'Words Ada never said' }, s, T0 + 6, NO_NET)).error, /Only whoever wrote/);
+  assert.ok((await editPost(ADA, t.id, reply.id, { body: 'Thanks, this really helped.' }, s, T0 + 6, NO_NET)).topic);
+  assert.equal((await forumTopic(ADA, t.id, s, T0 + 7)).posts[1].editedBy, undefined, 'a reply edited by its writer named an editor');
+  // The page goes only with its topic, so a reply never becomes the page.
+  assert.match((await removePost(FMOD, t.id, doc, s, T0 + 8)).error, /goes only with its topic/);
+  assert.ok((await removePost(OTHER, t.id, reply.id, s, T0 + 8)).topic, 'a moderator could not take a reply down');
+  assert.equal(await forumTopic(ADA, t.id, s, T0 + DAYS(4000)) !== null, true, 'a wiki page went');
+  // Moved out of the wiki, the page is its starter's post again, still naming its last editor.
+  await moderateTopic(FMOD, t.id, { move: 'help-desk' }, s, T0 + 9);
+  const moved = await forumTopic(OTHER, t.id, s, T0 + 10);
+  assert.equal(moved.posts[0].edit, false, 'a moderator kept the edit of a post outside the wiki');
+  assert.equal(moved.posts[0].editedBy, 'Mo');
+  assert.equal(JSON.stringify(moved).includes(authorMark(FMOD)), false, 'an author\'s mark was sent');
 });
 
 test('messages are copied off the channel exactly as sent, and only their sender or a moderator takes one out', async () => {
@@ -2966,6 +3011,9 @@ test('a post keeps who it @mentions, the reader finds where they were mentioned,
   const secret = (await startTopic(FBOARD, { cat: 'grantmaking', title: 'A request', body: '@Bex asked about this' }, s, T0, NO_NET)).topic;
   await notifyForum(secret, secret.posts[0], '', s, readMods(''), send);
   assert.equal(sent.length, 0, 'a mention in a category Bex cannot read told Bex');
+  await notifyForum(t, { ...t.posts[0], body: 'Moss, and @Bex too', editedBy: 'Mo' }, 'Moss', s, readMods(''), send);
+  assert.equal(sent.length === 1 && sent[0].handle, 'Mo', 'a wiki page\'s new mention was put in its starter\'s mouth');
+  sent.length = 0;
   await notifyForum(t, { ...t.posts[0], handle: 'Bex', body: 'me, @Bex' }, '', s, readMods(''), send);
   assert.equal(sent.length, 0, 'somebody was told about their own post');
   const found = await forumMentions(BEX, s, T0 + 2);

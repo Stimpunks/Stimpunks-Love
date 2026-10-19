@@ -4959,6 +4959,16 @@ only into a category no wider than it. Ryan's call: anybody's messages, under th
 friendly edits are a reply count, a view count, unread numbers, a fetched preview image, and the radio sending the
 messages' words itself**; each is refused by `make-forum.py` or by the privacy page. `DECISIONS.md` has what is still open.
 
+**THE WIKI IS THE ONE PLACE A MODERATOR EDITS SOMEBODY ELSE'S WORDS, AND ONLY THE PAGE.** Ryan, 2026-10-19: support
+docs as living documents, in a Wiki category kept for good, where moderators and above edit any of them. A category's
+`wiki` in `data/forum.json` names the roles; `forumEditor` in `lib.mjs` is the only way `editPost` reaches past a post's
+author, and only to a topic's **first** post, the page. Every reply, in the Wiki too, stays its writer's, the channel's
+rule that putting words in somebody's mouth is nobody's. A page says who edited it last (`editedBy`, kept on the post and
+shown wherever the post goes), goes only with its whole topic so a reply never becomes the page, and `make-forum.py`
+refuses a wiki not kept for good, because an edit does not move a topic's clock. **The friendly edit is letting
+moderators edit any post "to fix typos"**; the tool refuses `editPost` asking for a role itself. The pages live in the
+forums, not in this repository, so a change to a feature changes its Wiki page there.
+
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
 redraw** (forum.js draws no canvas of its own), and `putForumUpload` refuses one still carrying camera data **and a

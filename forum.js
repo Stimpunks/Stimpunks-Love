@@ -794,13 +794,21 @@
     art.setAttribute('aria-labelledby', 'fm-p-' + p.id + '-by');
     var head = el('p', 'fm-post__head');
     head.id = 'fm-p-' + p.id + '-by';
+    // A wiki page is everybody's to keep up: it says who started it, and who
+    // edited it last when that was somebody else.
+    if (p.wiki) { head.appendChild(tag('WIKI PAGE', true)); head.appendChild(document.createTextNode(' started by ')); }
     head.appendChild(who(p.handle, p.base));
     marks(head, p.base);
     var link = el('a', 'fm-post__when', when(p.t));
     link.href = '#/t/' + t.id + '/' + p.id;
     link.setAttribute('aria-label', 'Posted ' + when(p.t) + '. Link to this post.');
     head.appendChild(link);
-    if (p.edited) head.appendChild(el('span', 'fm-post__edited', 'edited ' + when(p.edited)));
+    if (p.edited && p.editedBy && p.editedBy !== p.handle) {
+      var eby = el('span', 'fm-post__edited', 'edited by ');
+      eby.appendChild(who(p.editedBy, p.editedBase));
+      eby.appendChild(document.createTextNode(' ' + when(p.edited)));
+      head.appendChild(eby);
+    } else if (p.edited) head.appendChild(el('span', 'fm-post__edited', 'edited ' + when(p.edited)));
     art.appendChild(head);
     if (p.reply) {
       var to = t.posts.filter(function (x) { return x.id === p.reply; })[0];
@@ -1197,7 +1205,7 @@
   function editing(t, p, i, art) {
     var first = i === 0 && t.retitle;
     var f = composer({
-      key: 'edit:' + p.id, body: p.body, title: first ? t.title : undefined, label: 'Your post', go: 'Save', sending: 'Saving…',
+      key: 'edit:' + p.id, body: p.body, title: first ? t.title : undefined, label: p.wiki ? 'The wiki page' : 'Your post', go: 'Save', sending: 'Saving…',
       files: p.files || [], people: peopleOf(t),
       cancel: function () { f.replaceWith(was); was.querySelector('.fm-post__tools button') && was.querySelector('.fm-post__tools button').focus(); },
       send: function (v) {
@@ -1307,6 +1315,7 @@
           a.href = '#/c/' + c.slug;
           ch.appendChild(a);
           if (c.staff) ch.appendChild(tag('STAFF', true));
+          if (c.wiki) ch.appendChild(tag('WIKI', true));
           card.appendChild(ch);
           card.appendChild(el('p', 'fm-cat__about', c.about));
           card.appendChild(quiet(keepWords(c.keep)));
@@ -1379,6 +1388,7 @@
       var h = heading(2, c.name);
       view.appendChild(h);
       if (c.staff) view.appendChild(el('p', null, '')).appendChild(tag('STAFF', true));
+      if (c.wiki) view.appendChild(el('p', null, '')).appendChild(tag('WIKI', true));
       view.appendChild(el('p', 'fm-lede', c.about));
       view.appendChild(quiet(keepWords(c.keep)));
       if (c.start) {
