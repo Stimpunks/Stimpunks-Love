@@ -875,6 +875,18 @@
     forumLine.appendChild(forumLink);
     forumLine.appendChild(document.createTextNode(forumPass(state.pass) ? '.' : ', for claimed usernames.'));
     chanSec.appendChild(forumLine);
+    /* THE WORLD ROOM, beside it (Ryan, 2026-10-19): every room on one page,
+       with which are active now and which have a call going. Left off in the
+       World room itself, which is where it would send you. */
+    if (!worldHere()) {
+      var worldLine = el('p', 'cb-quiet cb-world-line');
+      worldLine.appendChild(document.createTextNode('For a list of active rooms and calls: '));
+      var worldLink = el('a', null, 'the World room');
+      worldLink.href = '/' + WORLD_CALL + '.html';
+      worldLine.appendChild(worldLink);
+      worldLine.appendChild(document.createTextNode('.'));
+      chanSec.appendChild(worldLine);
+    }
     /* WHO'S ONLINE, under Who's around. Ryan, 2026-10-07: "Folks are
        wanting to know who's around and are having a hard time connecting right
        now." Everybody seen in a room, with the rooms they are in, for anybody
@@ -927,7 +939,6 @@
     var calls = this.callsBox = el('div', 'cb-online-calls');
     calls.hidden = true;
     calls.appendChild(el('h3', 'cb-h3', 'Calls going now'));
-    calls.appendChild(el('p', 'cb-online-about', 'The World call and every room\u2019s call, each while somebody is in it. Who is in a room\u2019s call is shown in that room, to anybody seen there.'));
     this.callList = el('ul', 'cb-online-list');
     this.callList.setAttribute('aria-label', 'Calls going now');
     calls.appendChild(this.callList);
