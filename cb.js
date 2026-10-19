@@ -1046,6 +1046,11 @@
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
     var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', 2);
     filmSec.hidden = true;
+    /* YOU, Profile and Sign off under a heading of their own (Ryan's ask,
+       2026-10-19): with Profile open he lost where it started, and scrolled
+       past its top looking for the button to close it. The tray opens under
+       this heading, and Your radio, after it, is the radio's own switches. */
+    var youSec = part('cb-sec--you', 'You', 2);
     var yourSec = part('cb-sec--yours', 'Your radio', 2);
     /* MESSAGES, between Channel and Watching together (Ryan, 2026-10-18): one
        person to another, for claimed usernames. See dmMake. */
@@ -1321,6 +1326,7 @@
 
     var film = el('div', 'cb-tools cb-film');
     var tools = el('div', 'cb-tools');
+    var youTools = el('div', 'cb-tools');
     /* ADD MY SPOT, shown only while a film on this page has been started. It
        reads where your player is and writes "@34:12" into the box, and that
        is all: nothing goes out until you transmit, the same as anything else
@@ -1397,7 +1403,7 @@
     petsBtn.type = 'button';
     petsBtn.setAttribute('aria-expanded', 'false');
     petsBtn.setAttribute('aria-controls', 'cb-pets');
-    tools.appendChild(petsBtn);
+    youTools.appendChild(petsBtn);
     /* NOTIFICATIONS (Ryan, 2026-10-18, after requests, "especially for
        staff"): a tray under this row, like Themes and Profile, where a device
        is switched on to be told about mentions, rooms it follows, calls
@@ -1425,7 +1431,8 @@
     var off = el('button', 'cb-btn cb-off', 'Sign off');
     off.type = 'button';
     off.addEventListener('click', function () { signOff(); });
-    tools.appendChild(off);
+    youTools.appendChild(off);
+    youSec.appendChild(youTools);
     yourSec.appendChild(tools);
     var scp = this.schemePanel = el('div', 'cb-scheme-panel');
     scp.id = 'cb-scheme-panel';
@@ -1630,7 +1637,7 @@
     no.type = 'button';
     sure.appendChild(yes); sure.appendChild(no);
     pets.appendChild(sure);
-    yourSec.appendChild(pets);
+    youSec.appendChild(pets);
     var ntf = this.notifyPanel = el('div', 'cb-notify');
     ntf.id = 'cb-notify';
     ntf.hidden = true;

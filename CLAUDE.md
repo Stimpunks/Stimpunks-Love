@@ -887,7 +887,8 @@ in the same tab, so test the two sides in two tabs there, or in a real browser.
 
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
 they were): Where you are (the room's name in the largest words on the radio, `hereShown`), Who's around,
-Channel, Watching together (only there while something in it is, `filmShown`) and Your radio. `part()` in
+Channel, Messages, Watching together (only there while something in it is, `filmShown`), You (Profile, its
+tray and Sign off, Ryan's ask of 2026-10-19 after losing where an open Profile began) and Your radio. `part()` in
 `cb.js` makes them, and `cb-guide.html#parts` lists them in order: **a new control goes into the part it
 belongs to, and a new part is a row in that table.** The headings are `h2`s in the shadow root, so a
 screen reader moves between them; Small shows none of them. Do not flatten it back into one column to
