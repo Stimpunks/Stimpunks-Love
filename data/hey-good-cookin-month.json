@@ -146,16 +146,6 @@
  ],
  "log": [
   {
-   "id": "01Y-LiyqPXc",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "A Shanghainese Classic: Scallion Oil Noodles | America's Test Kitchen",
-   "published": "2026-09-18T15:59:55Z",
-   "state": "screen",
-   "runs": 676,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "uvDpOz0bJc8",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -776,16 +766,6 @@
    "channel": "Epicurious"
   },
   {
-   "id": "8Q1DKd_2X1U",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "Theo James Teaches Kaya Scodelario How to Make His Restaurant’s Pasta | NYT Cooking",
-   "published": "2026-09-18T19:00:33Z",
-   "state": "screen",
-   "runs": 694,
-   "channel": "NYT Cooking"
-  },
-  {
    "id": "aTjlDBd9eP8",
    "source": "nyt-cooking",
    "form": "long",
@@ -1066,26 +1046,6 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "-XkSatyC25E",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "Parmesan rind ￼for the win ￼🪤",
-   "published": "2026-09-18T11:29:12Z",
-   "state": "screen",
-   "runs": 24,
-   "channel": "Andy Cooks"
-  },
-  {
-   "id": "W0bruOpqk3M",
-   "source": "andy-cooks",
-   "form": "short",
-   "title": "Steak Quesadilla 🥩 🌮",
-   "published": "2026-09-19T11:00:14Z",
-   "state": "screen",
-   "runs": 58,
-   "channel": "Andy Cooks"
-  },
-  {
    "id": "jjVvDsoo-r8",
    "source": "andy-cooks",
    "form": "short",
@@ -1256,6 +1216,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "iiVPtlPnykQ",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "My new Nashville Hot Chicken with @RedRockDeliAustralia",
+   "published": "2026-10-19T08:15:11Z",
+   "state": "screen",
+   "runs": 43,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "wwYBvBvoiI8",
    "source": "back-of-house",
    "form": "long",
@@ -1343,16 +1313,6 @@
    "published": "2026-10-16T19:00:08Z",
    "state": "screen",
    "runs": 688,
-   "channel": "The Pasta Queen"
-  },
-  {
-   "id": "xlN67nYnTtw",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "ITALIAN APPLE CAKE 🍎",
-   "published": "2026-09-18T18:51:00Z",
-   "state": "screen",
-   "runs": 72,
    "channel": "The Pasta Queen"
   },
   {
@@ -1866,6 +1826,26 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "ujZsVkGTZnY",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "How a 27-Year-Old Chef Serves Udon and Tempura Alone from a Tiny Trailer in Japan",
+   "published": "2026-10-18T22:00:09Z",
+   "state": "screen",
+   "runs": 3050,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "0a7LIIo5Bbc",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Why Workers Rush to This 100-Square-Foot Soba Stand at 5AM in Japan",
+   "published": "2026-10-19T00:00:03Z",
+   "state": "screen",
+   "runs": 1181,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "gvVAwc7xozg",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -2226,6 +2206,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "fJP-IQRrjf4",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "Why You Should Be Fluffing Your Fried Rice",
+   "published": "2026-10-18T16:00:08Z",
+   "state": "screen",
+   "runs": 34,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "J-lEHpqcOO8",
    "source": "insider-food",
    "form": "long",
@@ -2273,16 +2263,6 @@
    "published": "2026-10-14T17:00:04Z",
    "state": "screen",
    "runs": 866,
-   "channel": "Fallow"
-  },
-  {
-   "id": "TfeBKaLaCew",
-   "source": "fallow",
-   "form": "short",
-   "title": "Only Way to Make Prime Rib",
-   "published": "2026-09-18T20:57:31Z",
-   "state": "screen",
-   "runs": 114,
    "channel": "Fallow"
   },
   {
@@ -2446,14 +2426,14 @@
    "channel": "Fallow"
   },
   {
-   "id": "PgFjH1Qf12w",
-   "source": "guga",
-   "form": "long",
-   "title": "Can You Still Find a GOOD Cheap Steak in America?",
-   "published": "2026-09-18T15:15:09Z",
+   "id": "D8F7p873jdg",
+   "source": "fallow",
+   "form": "short",
+   "title": "How Chefs Get Crispy Pork Skin",
+   "published": "2026-10-18T21:46:41Z",
    "state": "screen",
-   "runs": 1271,
-   "channel": "Guga"
+   "runs": 42,
+   "channel": "Fallow"
   },
   {
    "id": "yflmSoaq5WU",
@@ -2553,6 +2533,16 @@
    "published": "2026-10-06T00:05:18Z",
    "state": "screen",
    "runs": 145,
+   "channel": "mrnigelng"
+  },
+  {
+   "id": "Ba-mwCGmYko",
+   "source": "mrnigelng",
+   "form": "short",
+   "title": "I'll pay you $1,000 if you find me this ingredient",
+   "published": "2026-10-18T15:40:39Z",
+   "state": "screen",
+   "runs": 112,
    "channel": "mrnigelng"
   },
   {
@@ -2756,6 +2746,16 @@
    "channel": "Joshua Weissman"
   },
   {
+   "id": "7kYAD8-yKPw",
+   "source": "joshua-weissman",
+   "form": "long",
+   "title": "I Tried Exotic Food From Every Country",
+   "published": "2026-10-18T14:30:01Z",
+   "state": "screen",
+   "runs": 2588,
+   "channel": "Joshua Weissman"
+  },
+  {
    "id": "kBw5gyJtELg",
    "source": "joshua-weissman",
    "form": "short",
@@ -2836,6 +2836,16 @@
    "channel": "Strictly Dumpling"
   },
   {
+   "id": "Equ0JIfFn2I",
+   "source": "strictly-dumpling",
+   "form": "long",
+   "title": "HAWAII on a Budget! My Top 5 Cheap Eats in Oahu 🌴🍽️",
+   "published": "2026-10-19T02:00:36Z",
+   "state": "screen",
+   "runs": 1612,
+   "channel": "Strictly Dumpling"
+  },
+  {
    "id": "5uxrzq0aQ_o",
    "source": "strictly-dumpling",
    "form": "short",
@@ -2851,13 +2861,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2865,13 +2875,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2879,13 +2889,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2893,13 +2903,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2907,13 +2917,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2921,13 +2931,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2935,13 +2945,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2949,13 +2959,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2963,13 +2973,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2977,13 +2987,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -2991,13 +3001,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3005,13 +3015,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3019,13 +3029,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3033,13 +3043,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3047,13 +3057,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3061,13 +3071,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3075,13 +3085,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3089,13 +3099,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3103,13 +3113,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3117,13 +3127,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3131,13 +3141,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3145,13 +3155,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   },
@@ -3159,16 +3169,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-18T11:23:24Z"
+     "2026-10-19T11:43:52Z"
     ]
    ]
   }
  },
- "set": "2026-10-18T11:23Z"
+ "set": "2026-10-19T11:43Z"
 }
