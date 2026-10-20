@@ -18,7 +18,7 @@ export default async (req) => {
     const live = b.live === true;
     const film = cleanFilm(b.film), at = live ? 0 : cleanAt(b.at);
     if (!film || at === null) return json(400, { error: 'A beacon needs the film and a place in it, or that it is live.' });
-    const r = await hostBeacon(who, room, film, at, !!b.playing, undefined, undefined, b.video, b.length, live);
+    const r = await hostBeacon(who, room, film, at, !!b.playing, undefined, undefined, b.video, b.length, live, b.list);
     if (r.closed) return json(403, { error: 'Hosting in this room is for the moderators it is for.' });
     if (r.held) return json(409, { error: `${r.held} is already hosting this room. Ask them, or the base, if you want to take over.` });
     return json(200, { beacons: shapeBeacons(r.beacons, who, room), now: Date.now() });

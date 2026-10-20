@@ -1048,7 +1048,7 @@ test('a beacon\'s base mark comes from the pass, and its length is checked', asy
   const den = all.find((b) => b.room === 'the-den'), lph = all.find((b) => b.room === 'lightbulb-picture-house');
   assert.deepEqual([den.base, den.video, den.length], [false, 'dQw4w9WgXcQ', 212.4]);
   assert.deepEqual([lph.base, lph.video, lph.length], [true, null, null]);
-  for (const b of all) assert.deepEqual(Object.keys(b).sort(), ['at', 'base', 'film', 'handle', 'length', 'live', 'playing', 'room', 't', 'video']);
+  for (const b of all) assert.deepEqual(Object.keys(b).sort(), ['at', 'base', 'film', 'handle', 'length', 'list', 'live', 'playing', 'room', 't', 'video']);
   assert.deepEqual(all.map((b) => b.live), [false, false], 'a beacon is not live unless it says so');
 });
 
@@ -1064,6 +1064,25 @@ test('a live beacon keeps no place and no length', async () => {
   assert.deepEqual([den.live, den.at], [false, 30], 'only true makes a beacon live');
   const again = await hostBeacon(ada, 'the-jungle-room', 'A film now', 12, false, s);
   assert.equal(again.beacons.find((b) => b.room === 'the-jungle-room').live, false, 'a host who moves off a live video is not live any more');
+});
+
+/* A film in a YouTube list says which list, so a follower's radio can move
+   along it with the host (2026-10-20). Only a list id's shape is kept: never a
+   mix, which is each listener's own, never anything else, and never on a live
+   beacon, which has no place in anything to keep in step with. */
+test('a beacon keeps the list its film is in, and nothing shaped otherwise', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const album = 'OLAK5uy_ngX5UfQV3KBXD2cBpUFU1i4haE6dihe1Q';
+  const cyd = { role: 'mobile', handle: 'Cyd' }, dee = { role: 'mobile', handle: 'Dee' };
+  await hostBeacon(ada, 'solarpunk-hermitage', 'Dedicated To You', 12, true, s, Date.now(), 'MP_NqRR2Nzo', 332, false, album);
+  await hostBeacon(bex, 'the-den', 'A film', 30, true, s, Date.now(), 'dQw4w9WgXcQ', 212, false, 'RDdQw4w9WgXcQ');
+  await hostBeacon(cyd, 'club-chronic', 'A song', 3, true, s, Date.now(), null, null, false, 'not a list id!');
+  await hostBeacon(dee, 'the-jungle-room', 'A live cam', 0, true, s, Date.now(), 'dQw4w9WgXcQ', null, true, album);
+  const all = shapeBeacons(await readBeacons(s)), of = (r) => all.find((b) => b.room === r).list;
+  assert.equal(of('solarpunk-hermitage'), album);
+  assert.equal(of('the-den'), null, 'a mix is not kept');
+  assert.equal(of('club-chronic'), null, 'anything not shaped like a list id is not kept');
+  assert.equal(of('the-jungle-room'), null, 'a live beacon keeps no list');
 });
 
 test('only the host or the base stops a beacon', async () => {

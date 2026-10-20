@@ -118,7 +118,25 @@
      into the CB and transmit it themselves. seek() never presses play: a jump
      moves your place, and whether it plays is still yours. */
   var YT = 'https://www.youtube-nocookie.com';
+  var VIDEO = /^[A-Za-z0-9_-]{11}$/;
   var players = [];
+
+  /* A LIST TURNING FROM ONE FILM TO THE NEXT says nothing true for a moment,
+     and that moment broke Follow (Helen Edgar hosting an album at the
+     Hermitage, 2026-10-20). Measured the same day, on the live site: the
+     player names the next film's place in the list at once, then goes on
+     giving the last film's title, with its clock back at 0:00, for about half
+     a second before the next one's details arrive; and after a cue or a load
+     it can send the last film's details beside the new place. So a film in a
+     list is believed only once the film the player names is the one at the
+     place it says it is at. Until then the player is TURNING: what it says
+     about the film is not taken, and where() says so, so a host's radio does
+     not tell everybody the album went back to the start, and a follower's
+     radio judges nothing. The end of a film with another after it is the
+     start of a turn too. A turn is given TURN to finish and then believed
+     anyway, because a list whose next film will not load must not leave the
+     page silent for good. */
+  var TURN = 5000;
 
   function hear(e) {
     if (e.origin !== YT) return;
@@ -128,21 +146,34 @@
     for (var i = 0; i < players.length; i++) {
       var p = players[i];
       if (!p.el.contentWindow || p.el.contentWindow !== e.source) continue;
-      var info = d.info;
-      if (typeof info.currentTime === 'number') p.time = info.currentTime;
-      if (typeof info.duration === 'number' && info.duration > 0) p.duration = info.duration;
-      if (info.videoData) {
-        if (info.videoData.title) p.film = info.videoData.title;
-        // Which video, so the CB can find this film's own play button by id
-        // rather than by a title several films on a rack may share.
-        if (/^[A-Za-z0-9_-]{11}$/.test(info.videoData.video_id || '')) p.id = info.videoData.video_id;
-        p.live = !!info.videoData.isLive;
+      // A list YouTube refused names its video "videoseries", eleven letters
+      // like an id (measured): it is no film.
+      var info = d.info, vd = info.videoData, id = vd && VIDEO.test(vd.video_id || '') && vd.video_id !== 'videoseries' ? vd.video_id : null;
+      if (p.turning && Date.now() - p.turning.at >= TURN) p.turning = null;
+      // The list's own ids. An empty list is the player loading one again
+      // (measured), not a list with nothing in it.
+      if (Array.isArray(info.playlist) && info.playlist.length) p.ids = info.playlist.filter(function (v) { return VIDEO.test(v); });
+      if (typeof info.playlistIndex === 'number' && info.playlistIndex >= 0 && info.playlistIndex !== p.index) {
+        if (p.index != null) p.turning = { from: p.turning ? p.turning.from : p.index, at: Date.now() };
+        p.index = info.playlistIndex;
       }
       if (typeof info.playerState === 'number') {
         p.state = info.playerState;
         // 1 playing, 2 paused, 3 buffering: somebody has started this one.
         if (p.state === 1 || p.state === 2 || p.state === 3) p.started = true;
         if (p.state === 1) p.lastPlayed = Date.now();
+        if (p.state === 0 && !p.turning && p.ids && p.index != null && p.index < p.ids.length - 1) p.turning = { from: p.index, at: Date.now() };
+      }
+      if (p.turning && id && p.index !== p.turning.from && (p.ids ? p.ids[p.index] === id : id !== p.id)) p.turning = null;
+      if (p.turning) return;
+      if (typeof info.currentTime === 'number') p.time = info.currentTime;
+      if (typeof info.duration === 'number' && info.duration > 0) p.duration = info.duration;
+      if (vd) {
+        if (vd.title) p.film = vd.title;
+        // Which video, so the CB can find this film's own play button by id
+        // rather than by a title several films on a rack may share.
+        if (id) p.id = id;
+        p.live = !!vd.isLive;
       }
       return;
     }
@@ -182,16 +213,36 @@
     var m = /\/embed\/([A-Za-z0-9_-]{11})(?:\?|$)/.exec(p.el.src || '');
     return m && !/[?&]list=/.test(p.el.src) ? m[1] : null;
   }
+  /* The YouTube list a frame plays, out of its own address. A mix (RD…) is
+     made afresh for each listener, so it is nobody's list but theirs and is
+     not given: the next film in mine is not the next film in yours. */
+  function listOf(p) {
+    var m = /[?&]list=([A-Za-z0-9_-]+)/.exec(p.el.src || '');
+    return m && !/^RD/.test(m[1]) ? m[1] : null;
+  }
+  function turning(p) { return !!(p.turning && Date.now() - p.turning.at < TURN); }
 
+  /* Besides the film and the place: the list it is one of, its place in the
+     list and the list's ids, whether the player is turning to another film
+     in it (above), and paused and ended, because only a pause is somebody
+     choosing to stop. A film that ended, or a next film that would not start,
+     stopped by itself. */
   function where(opts) {
     var p = active(!!(opts && opts.live));
     if (!p) return null;
     // Buffering counts as playing: it is on its way, and a host's beacon
     // flickering to paused on every buffer would be noise on everybody's radio.
     // A live video has no place and no length to give.
-    return p.live
+    var w = p.live
       ? { time: null, duration: null, film: name(p), id: idOf(p), playing: p.state === 1 || p.state === 3, live: true }
       : { time: p.time, duration: p.duration || null, film: name(p), id: idOf(p), playing: p.state === 1 || p.state === 3, live: false };
+    w.list = listOf(p);
+    w.index = w.list && p.index != null ? p.index : null;
+    w.ids = w.list && p.ids ? p.ids.slice() : null;
+    w.turning = turning(p);
+    w.paused = p.state === 2;
+    w.ended = p.state === 0;
+    return w;
   }
 
   function seek(seconds) {
@@ -217,6 +268,30 @@
   function play() { return command('playVideo'); }
   function pause() { return command('pauseVideo'); }
 
+  /* A FILM IN A LIST, for the CB's Follow and Catch up when the host's film
+     is another film of a list this page is playing: the list goes to that
+     film and that place in it in one message, YouTube's own loadPlaylist,
+     which plays, or cuePlaylist, which waits. Measured 2026-10-20 on the live
+     site: a cue to the third film at 90 s waited there, paused; a load to the
+     sixth at 120 s played from there. So nothing has to seek in a film the
+     player has not turned to yet, and Catch up can move a paused list without
+     pressing play, which seek()'s rule asks. A list frame nobody has started
+     yet (a browser that only cues on the first press) is moved too, and its
+     own play button inside it then plays from there. Returns the film's place
+     in the list, or null when no list here has that film in it. */
+  function toEntry(video, seconds, playing, list) {
+    if (!list || !VIDEO.test(video || '')) return null;
+    players = players.filter(function (q) { return q.el.isConnected; });
+    var p = active();
+    if (!p || listOf(p) !== list) p = players.filter(function (q) { return listOf(q) === list && !q.live; })[0] || null;
+    var at = p && p.ids ? p.ids.indexOf(video) : -1;
+    if (at < 0) return null;
+    p.el.contentWindow.postMessage(JSON.stringify({ event: 'command', func: playing ? 'loadPlaylist' : 'cuePlaylist',
+      args: [{ list: list, listType: 'playlist', index: at, startSeconds: Math.max(0, Math.floor(seconds) || 0) }], id: 1, channel: 'widget' }), YT);
+    p.turning = { from: p.index === at ? -1 : p.index, at: Date.now() };
+    return { index: at };
+  }
+
   function frameUrl(src, title) {
     if (!src || !ORIGINS.some(function (o) { return src.indexOf(o) === 0; })) return null;
     var yt = src.indexOf(YT + '/') === 0;
@@ -241,13 +316,29 @@
   /* A PLACE TO START FROM, carried in by a spot on the CB. cb.js puts
      data-embed-start on the one play button a spot is about, and this is
      where it becomes YouTube's own start= on the frame the press builds, so
-     the building stays in this file. A single video only: on a playlist,
-     start= would land that far into whichever film comes first, which is a
-     different film from the one the spot is about. */
+     the building stays in this file. A single video, or a list whose address
+     names the film it opens on (/embed/<id>?list=, measured 2026-10-20:
+     start=60 there opened that film a minute in and played on through the
+     list). On /embed/videoseries, start= would land that far into whichever
+     film comes first, which is a different film from the one the spot is
+     about. "videoseries" is eleven letters, so it is refused by name. A mix
+     (list=RD…) is refused too: it is made afresh for whoever presses it, and
+     nobody has measured a start in one (the Rebellion Rave Room relies on it). */
   function withStart(src, start) {
     var n = parseInt(start, 10);
-    if (!(n > 0) || src.indexOf(YT + '/embed/') !== 0 || /[?&](list|start)=|\/embed\/videoseries/.test(src)) return src;
+    if (!(n > 0) || src.indexOf(YT + '/embed/') !== 0 || /[?&]start=/.test(src)) return src;
+    if (/[?&]list=/.test(src) && (/[?&]list=RD/.test(src) || !/\/embed\/(?!videoseries\?)[A-Za-z0-9_-]{11}\?/.test(src))) return src;
     return src + (src.indexOf('?') < 0 ? '?' : '&') + 'start=' + n;
+  }
+
+  /* A list got ready at one of its films: the CB's Follow and Catch up put
+     data-embed-entry on the list's play button, and the frame the press
+     builds opens on that film, because /embed/<id>?list= is the one form that
+     moves where a list starts (Club Chronic measured it). Anything else is
+     left as it is. */
+  function atEntry(src, id) {
+    if (!VIDEO.test(id || '') || !src || src.indexOf(YT + '/embed/') !== 0 || !/[?&]list=/.test(src)) return src;
+    return src.replace(/^([^?]*\/embed\/)[^/?]+/, '$1' + id);
   }
 
   function frame(id, title, start) {
@@ -304,7 +395,7 @@
     return el;
   }
 
-  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, play: play, pause: pause, withStart: withStart };
+  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, play: play, pause: pause, toEntry: toEntry, withStart: withStart };
 
   function swap(btn) {
     /* Named player, not `frame`: `var frame` here would be hoisted over the
@@ -313,7 +404,7 @@
     var player = isAudio
       ? audio(btn.dataset.audioSrc, btn.dataset.embedTitle)
       : btn.dataset.embedSrc
-        ? frameUrl(withStart(btn.dataset.embedSrc, btn.dataset.embedStart), btn.dataset.embedTitle)
+        ? frameUrl(withStart(atEntry(btn.dataset.embedSrc, btn.dataset.embedEntry), btn.dataset.embedStart), btn.dataset.embedTitle)
         : frame(btn.dataset.embedId, btn.dataset.embedTitle, btn.dataset.embedStart);
     if (!player) return;
 

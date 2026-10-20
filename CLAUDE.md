@@ -692,8 +692,8 @@ this film, Screen a video) sits under that part (`tellFilm`), except while the r
 only the channel. Our facades name the film and then its channel. It sets `data-embed-start`,
 opens any `<details>` round it, focuses it, and says so on the radio, and **it presses nothing**.
 `withStart()` in `love-embed.js` turns that into YouTube's `start=`, so the building stays in that
-file, **on a single video only**: `start=` on a playlist lands that far into whichever film comes
-first. A film with no button of its own gets a sentence saying what to do instead, never a guess.
+file, **on a single video, or a list whose address names the film it opens on** (`/embed/<id>?list=`):
+`start=` on `/embed/videoseries` lands that far into whichever film comes first, and a mix is refused. A film with no button of its own gets a sentence saying what to do instead, never a guess.
 The Picture House's big-screen button reads the start off its own card's play button, and
 `cb.js` knows nothing about big screens. A room with a second way to play a film does the same:
 read `data-embed-start` from the facade beside it, and pass it through `loveEmbed.withStart`.
@@ -712,6 +712,25 @@ four seconds. **The hosts list is not a live region, and it updates rows in plac
 redrawing every four seconds threw the keyboard off Catch up. **It is Hosting now, under Watching together**,
 not in the readout, where a host's line under the messages read as the newest message (Ryan, 2026-10-19).
 
+**A SONG IN AN ALBUM IS A FILM IN A LIST, AND FOLLOW KEEPS PACE WITH THE LIST.** Helen hosted the Coltrane
+and Hartman album at the Hermitage, 2026-10-20, Ryan followed, and his stopped at the end of every song:
+each song is a film of its own, Follow took every new one for a film to get ready, and for a moderator's
+hosting `plateFor` puts that one song on the page's first screen alone, the television there, where it ends. **The beacon carries the
+list now** (`list`, `cleanList` in `lib.mjs`, never a mix, since each listener's `RD…` is their own), and
+`love-embed.js`'s `where()` gives the list, its ids, the place in it, `paused` and `ended`. A song apart at
+the turn, the one behind gets there by itself (`atTurn`); anywhere else, `loveEmbed.toEntry` moves the list
+with YouTube's own `loadPlaylist` or `cuePlaylist`, film and place in one message; before anything has
+started, `readyFilm` puts `data-embed-entry` on the list's own button and the press opens
+`/embed/<film>?list=` at the place. **A list turning is believed only once the film the player names is the
+one at the place it says it is at** (`TURN` in `love-embed.js`): measured on the live site, it names the next
+place at once and goes on giving the last film's title, clock at 0:00, for about half a second, so a host's
+beacon sent then told everybody the album had gone back to the start. Nothing is sent or judged while
+`turning`. **Only a pause (`paused`) ends Follow now**: a film that ended first waits for the host, and a
+next film that would not start is played, said once if it still will not. The friendly edit is to let
+`plateFor` take a list's song "because the host is a moderator"; that is the fault this fixed. The
+Hermitage's records, like the lists in several other rooms, also wait for a second press inside the frame,
+because their address has no `autoplay=1`. That was so before this and is not part of it.
+
 **A MODERATOR CAN SCREEN A VIDEO WITH NO CARD FOR IT, AND EVERYBODY ELSE GETS ITS PLATE, NEVER THE
 FILM.** Ryan, 2026-10-04, for screening in a room without building a rack first. **Screen a video** on
 the radio shows to the base on a page with a `[data-rack-screen]`; `videoOf` in `cb.js` keeps only the id
@@ -728,7 +747,7 @@ those files are separate on purpose; keep them that way rather than sharing one.
 video plays because they pressed, a follower's set goes dark with the video tuned on its own panel and its
 own play button has the keyboard, and the set's controls are the way back. The Hermitage and Looming Rocks
 tune their own channel or act when the video is one of theirs. **The rave always cues it alone**, because a
-mix cannot start at a place in its first video (`withStart` refuses a list) and a follower must start where
+mix cannot start at a place in its first video (`withStart` refuses a mix) and a follower must start where
 the host is; its cue says the video may flash, and the warning above that screen says a CB video may flash
 too, keeping the clause `make-rave.py` reads. `firstScreen` in `cb.js` puts a rack's screen and a set
 behind one face (`play`, `ready`, `back`). And

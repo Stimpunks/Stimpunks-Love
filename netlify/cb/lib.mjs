@@ -3734,6 +3734,13 @@ async function updateBeacons(change, s, now) {
    film's own play button exactly; a rack can hold several films with nearly
    the same title. An id names a public video and nobody. */
 export function cleanVideo(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{11}$/.test(v) ? v : null; }
+/* And the YouTube list the film is one of, when the host is playing a list
+   (Helen Edgar hosting an album at the Hermitage, 2026-10-20). It is how a
+   follower's radio finds that list's own play button and moves along it with
+   the host, rather than taking each new film in it for a film of its own. Only
+   the shape is checked; a mix (RD…) never arrives, because love-embed.js does
+   not give one, each listener's being their own. */
+export function cleanList(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{10,64}$/.test(v) && !/^RD/.test(v) ? v : null; }
 /* And how long the film runs, as the host's player reports it, so a radio
    that has to put the film's play button up for somebody (a moderator's video
    pasted into the radio has no button of its own on anybody else's page) can
@@ -3743,7 +3750,7 @@ export function cleanVideo(v) { return typeof v === 'string' && /^[A-Za-z0-9_-]{
    live instead: at is 0 and length null whatever the radio sent, and a radio
    offers Catch up to get its play button ready, never Follow, because there
    is nothing in a live video to keep in step with. */
-export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now(), video = null, length = null, live = false) {
+export async function hostBeacon(who, room, film, at, playing, s = store(), now = Date.now(), video = null, length = null, live = false, playlist = null) {
   if (!roomAllows(who, room)) return { closed: true };
   live = live === true;
   let held = null;
@@ -3752,7 +3759,7 @@ export async function hostBeacon(who, room, film, at, playing, s = store(), now 
     const there = list.find((b) => b.room === room);
     if (there && there.handle !== who.handle && who.role !== 'base') { held = there.handle; return null; }
     return list.filter((b) => b.room !== room)
-      .concat({ room, handle: who.handle, base: who.role === 'base', film, video: cleanVideo(video),
+      .concat({ room, handle: who.handle, base: who.role === 'base', film, video: cleanVideo(video), list: live ? null : cleanList(playlist),
         length: live ? null : cleanAt(length) || null, at: live ? 0 : at, live, playing: !!playing, t: now });
   }, s, now);
   return held ? { held } : { beacons };
@@ -3781,7 +3788,7 @@ export async function sweepBeacons(s = store(), now = Date.now()) {
    (QUIET_ROOMS) is heard only by a radio tuned to that room's channel, which is
    `tuned`: the room a listen names, or the room a host is hosting. */
 export function shapeBeacons(list, who = null, tuned = null) {
-  return list.filter((b) => (!who || roomAllows(who, b.room)) && (!quietRoom(b.room) || b.room === tuned)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, video: b.video || null, length: b.length || null, at: b.at, live: !!b.live, playing: !!b.playing, t: b.t }));
+  return list.filter((b) => (!who || roomAllows(who, b.room)) && (!quietRoom(b.room) || b.room === tuned)).map((b) => ({ room: b.room, handle: b.handle, base: !!b.base, film: b.film, video: b.video || null, list: b.list || null, length: b.length || null, at: b.at, live: !!b.live, playing: !!b.playing, t: b.t }));
 }
 
 /* ── Passes ────────────────────────────────────────────────────────────── */

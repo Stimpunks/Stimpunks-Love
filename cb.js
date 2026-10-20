@@ -7596,6 +7596,16 @@
     }
     if (live) return liveHere(film, video, beacon);
     if (!w || (film && !sameFilm(film, w.film))) {
+      /* Catch up beside a host whose film is another film in a list here: the
+         list goes to it at the host's place, playing if yours was and waiting
+         if it was not, because a jump moves your place and whether it plays is
+         still yours. A list nobody has started here is moved and waits. */
+      var lst = beacon && beacon.list, mine = !!(w && lst && w.list === lst);
+      if (lst && video && e.toEntry && (mine || !w) && e.toEntry(video, secs, mine && w.playing, lst)) {
+        return mine
+          ? 'Moved to ' + at + ' in ' + called + ', in the list playing here. It plays or stays paused, as it was.'
+          : called + ' is ready at ' + at + ' in the list here. Press play on it and it starts there.';
+      }
       var got = film && readyFilm(film, video, secs, beacon);
       if (got) {
         return (called + ' is ready at ' + at + ': ' + pressOf(got) + ' has the keyboard. Press it, or Enter, and it starts there' + playsOn(got) + '.' + readyNote(got));
@@ -8195,6 +8205,11 @@
     var h = this.hosting;
     if (!h || h.busy) return;
     if (!w) { this.setHosting(false, 'Your film is off, so you have stopped hosting.'); return; }
+    /* A list turning to its next film says nothing true about either for a
+       moment (love-embed.js), so nothing goes until the next film has started:
+       sent in that moment, the beacon told everybody the album had gone back
+       to the start of the song just finished. */
+    if (w.turning) return;
     var now = Date.now(), last = h.sent;
     var film = Array.from(w.film);
     film = film.length > FILM_MAX ? film.slice(0, FILM_MAX - 1).join('') + '\u2026' : w.film;
@@ -8209,7 +8224,7 @@
     var guess = last && !last.live ? last.at + (last.playing ? (now - last.when) / 1000 : 0) : 0;
     if (last && !last.live && last.film === w.film && last.playing === w.playing && last.length === !!w.duration &&
         Math.abs(w.time - guess) < 3 && now - last.when < BEAT) return;
-    this.sendBeacon({ room: h.room, film: film, video: w.id || null, length: w.duration || null, at: Math.max(0, w.time), playing: !!w.playing },
+    this.sendBeacon({ room: h.room, film: film, video: w.id || null, list: w.list || null, length: w.duration || null, at: Math.max(0, w.time), playing: !!w.playing },
                     { film: w.film, at: w.time, playing: !!w.playing, length: !!w.duration, when: now });
   };
 
@@ -8288,9 +8303,37 @@
     // FOLLOW IS NEVER FOR A LIVE VIDEO: there is no place in it to keep in step.
     if (b.live) { this.setFollow(false, null, b.handle + ' is hosting a live video now, so there is nothing to keep in step with, and you have stopped following. Catch up gets it ready to play.'); return; }
     var e = window.loveEmbed, w = e && e.where ? e.where() : null;
+    // Your own list turning to its next film: nothing it says is true yet.
+    if (w && w.turning) return;
+    var now = Date.now(), at = this.placeOf(b);
     if (!w || !sameFilm(b.film, w.film)) {
+      /* THE HOST'S FILM CAN BE ANOTHER FILM IN A LIST ON THIS PAGE. Helen Edgar
+         hosted a whole album at the Hermitage, 2026-10-20, Ryan followed, and
+         his album stopped at the end of every song. Each song in a list is a
+         film of its own, and Follow took every new one for a film to get ready
+         by itself: for a moderator's hosting that puts the song on the page's
+         first screen alone (plateFor), the Hermitage's television, where it
+         plays to its end and stops, and the next one the same. The beacon says which list now, and a list keeps pace as a list.
+         A film apart at the turn, the one behind gets there by itself (atTurn);
+         anywhere else in the list, the list here goes to the host's film and
+         place in one message (loveEmbed.toEntry), playing or paused as the
+         host is. A list here that nobody has started is moved once and waits
+         for its own play button. */
+      var mine = !!(w && b.list && w.list === b.list), i = mine && w.ids && b.video ? w.ids.indexOf(b.video) : -1;
+      if (i >= 0 && atTurn(w, i, b, at)) return;
+      if (b.list && b.video && e.toEntry && (mine || (!w && !f.waiting))) {
+        if (now - f.sent < SETTLE) return;
+        if (e.toEntry(b.video, at, b.playing, b.list)) {
+          f.sent = now;
+          if (w) { f.hostWas = b.playing; f.fresh = false; f.waiting = false; return; }
+          this.tellFilm('Following ' + b.handle + ': the list here is at \u201c' + b.film + '\u201d, where they are. Press play on it and it keeps pace from there.');
+          f.waiting = true;
+          f.fresh = true;
+          return;
+        }
+      }
       if (!f.waiting) {
-        var ready = readyFilm(b.film, b.video, this.placeOf(b), b);
+        var ready = readyFilm(b.film, b.video, at, b);
         this.tellFilm(ready
           ? 'Following ' + b.handle + ': \u201c' + b.film + '\u201d is ready, and ' + pressOf(ready) + ' has the keyboard. Press it, or Enter, and it keeps pace from there' + playsOn(ready) + '.' + readyNote(ready)
           : 'Following ' + b.handle + ': press play on \u201c' + b.film + '\u201d and it will keep pace from there. It has no play button of its own on this page, so it may be in a playlist here.');
@@ -8300,8 +8343,8 @@
       return;
     }
     if (f.waiting) { f.waiting = false; this.tellFilm('Following ' + b.handle + ' in \u201c' + b.film + '\u201d.'); }
-    var now = Date.now(), settling = now - f.sent < SETTLE;
-    var at = this.placeOf(b), turned = f.fresh || f.hostWas !== b.playing;
+    var settling = now - f.sent < SETTLE;
+    var turned = f.fresh || f.hostWas !== b.playing;
     f.hostWas = b.playing;
     f.fresh = false;
     if (turned) {
@@ -8313,6 +8356,25 @@
       return;
     }
     if (settling) return;
+    /* ONLY A PAUSE IS YOU GOING YOUR OWN WAY. A film that ended before the
+       host's, or a next film in a list that would not start by itself (a
+       browser that will not play without a press inside the frame), stopped
+       on its own, and Follow was switched on to keep pace: it plays it, or
+       waits at the end for the host to finish, and says so once if the
+       player will not start. It used to read all of these as your pause. */
+    if (b.playing && !w.playing && !w.paused) {
+      if (w.ended && b.length && b.length - at <= DRIFT + 1) return;
+      e.play();
+      f.sent = now;
+      if (!f.stalled) f.stalled = now;
+      else if (!f.toldStall && now - f.stalled > 3 * SETTLE) {
+        f.toldStall = true;
+        this.tellFilm('Following ' + b.handle + ': your player will not start \u201c' + w.film + '\u201d by itself. Press play on it and it keeps pace from there.');
+      }
+      return;
+    }
+    f.stalled = 0;
+    f.toldStall = false;
     if (w.playing !== b.playing) {
       this.setFollow(false, null, w.playing
         ? 'You played on while ' + b.handle + ' is paused, so you have stopped following. Press Follow to pick up again.'
@@ -8321,6 +8383,19 @@
     }
     if (Math.abs(w.time - at) > DRIFT) { e.seek(at); f.sent = now; }
   };
+
+  /* A film apart at the turn of a list: you are finishing the film the host
+     has just finished, or the host is finishing the one you have just
+     finished, within DRIFT and a second. The one behind gets there by itself,
+     so nothing is moved; moving it would cut the end off a song, or play its
+     last seconds twice. A host whose beacon has gone on well past the end of
+     its film without turning is not waited for. */
+  function atTurn(w, i, b, at) {
+    var near = DRIFT + 1;
+    if (i === w.index + 1) return !!(w.playing && w.duration && w.duration - w.time <= near);
+    if (i === w.index - 1) return !!(b.playing && b.length && b.length - at <= near && at - b.length < 20);
+    return false;
+  }
 
   // Where a host has got to by now: a playing film has gone on since it was heard.
   Radio.prototype.placeOf = function (b) {
@@ -8827,8 +8902,9 @@
      a host's beacon carries one, finds the button exactly; otherwise the title
      is matched from its start, because a button here names the film and then
      its channel. Only a single video's button can start at a place, so a film
-     that is only in a playlist is not found. */
-  function filmButton(film, video) {
+     that is only in a playlist is found by its list's button, and only when
+     the host's beacon says which list (readyFilm opens the list at it). */
+  function filmButton(film, video, list) {
     var btns = document.querySelectorAll('button.facade'), i, b, src;
     function single(b) {
       src = b.dataset.embedSrc || '';
@@ -8847,6 +8923,12 @@
       if (!single(b)) continue;
       var t = norm(b.dataset.embedTitle);
       if (t.indexOf(want) === 0 && (cut || t.length === want.length || /^[\s,:(\-\u2013\u2014|]/.test(t.charAt(want.length)))) return b;
+    }
+    // A film in a list has no button of its own: the list's play button is
+    // its way in, and readyFilm gets it ready at that film.
+    for (i = 0; list && i < btns.length; i++) {
+      var m = /[?&]list=([A-Za-z0-9_-]+)/.exec(btns[i].dataset.embedSrc || '');
+      if (m && m[1] === list) return btns[i];
     }
     return null;
   }
@@ -8956,16 +9038,30 @@
     return to && !to.hidden && to.offsetParent ? to : null;
   }
 
+  /* A LIST'S PLAY BUTTON IS GOT READY AT ONE OF ITS FILMS (2026-10-20): the
+     host's beacon says which list, and before it did, a moderator's song out
+     of an album went up on the page's first screen on its own, as if it had
+     been pasted into the radio, and stopped there at its end. The list's own
+     button now carries data-embed-entry, the host's film, and the frame its
+     press builds opens on that film at that place and plays on through the
+     list (love-embed.js's atEntry and withStart). Only one list waits at a
+     film at a time, and a list without its film named gets no start, because
+     start= would land in whichever film comes first. It is pressed where it
+     is, never through a rack's screen button, which knows nothing of entries. */
   function readyFilm(film, video, secs, beacon) {
-    var hit = filmButton(film, video), put = null;
+    var list = beacon && beacon.list, hit = filmButton(film, video, list), put = null;
     if (!hit && beacon && (put = plateFor(beacon))) hit = put.button;
     if (!hit) return null;
     var old = document.querySelectorAll('[data-cb-ready]');
     for (var o = 0; o < old.length; o++) old[o].removeAttribute('data-cb-ready');
-    if (secs != null) hit.dataset.embedStart = String(Math.max(0, Math.floor(secs)));
+    var inList = !put && !!list && /[?&]list=/.test(hit.dataset.embedSrc || '');
+    var was = document.querySelectorAll('[data-embed-entry]');
+    for (o = 0; o < was.length; o++) was[o].removeAttribute('data-embed-entry');
+    if (inList && /^[A-Za-z0-9_-]{11}$/.test(video || '')) hit.dataset.embedEntry = video;
+    if (secs != null && (!inList || hit.dataset.embedEntry)) hit.dataset.embedStart = String(Math.max(0, Math.floor(secs)));
     else delete hit.dataset.embedStart;
     for (var d = hit.closest('details'); d; d = d.parentElement && d.parentElement.closest('details')) d.open = true;
-    var to = put ? null : screenButtonFor(hit), press = to || hit;
+    var to = put || inList ? null : screenButtonFor(hit), press = to || hit;
     // Seen as well as focused: the page goes to it (at once, the dial's rule
     // against smooth scrolling), and it wears a ring even after a mouse press,
     // which is the case a browser's own focus ring leaves out.
@@ -8973,12 +9069,14 @@
     press.setAttribute('data-cb-ready', '');
     press.addEventListener('blur', function off() { press.removeAttribute('data-cb-ready'); press.removeEventListener('blur', off); });
     try { press.focus({ preventScroll: true, focusVisible: true }); } catch (e) { press.focus(); }
-    return { button: press, shrank: clearOf(press), put: put, screen: to ? to.getAttribute('data-rack-name') || 'the screen' : null };
+    return { button: press, shrank: clearOf(press), put: put, screen: to ? to.getAttribute('data-rack-name') || 'the screen' : null,
+             list: inList ? hit.dataset.embedTitle || 'the list it is in' : null };
   }
 
   /* What the radio says has the keyboard, and where it plays: the card's
      screen button and the screen, or the film's own play button. */
   function pressOf(got) {
+    if (got && got.list) return 'the play button of the list it is in, \u201c' + got.list + '\u201d,';
     return got && got.screen ? 'the button that puts it up on ' + got.screen : 'its play button';
   }
   function playsOn(got) { return got && got.screen ? ', on ' + got.screen : ''; }

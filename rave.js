@@ -48,7 +48,7 @@
    plays: the screen goes dark with that video on it, naming who is hosting it
    and how long it runs, and the play button has the keyboard. It is always
    cued on its own, even when it opens one of the mixes, because a mix cannot
-   start at a place in its first video (loveEmbed.withStart refuses a list),
+   start at a place in its first video (loveEmbed.withStart refuses a mix),
    and a follower has to start where the host is. Like every film here it may
    flash, and it says so on the screen. cb.js reaches this through
    window.loveSet. It switches nothing on the rig.
