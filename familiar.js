@@ -319,13 +319,15 @@
   }
   // The free cozies in the window whose seat has no words over it, nearest a
   // point first.
-  function freeCozies(self, tx, ty) {
+  function freeCozies(self, tx, ty, anywhere) {
     var v = view(), S = size(), out = [];
     Array.prototype.forEach.call(document.querySelectorAll('[data-familiar-cozy]'), function (c) {
       var who = whoIn(c);
       if (who && who !== self) return;
       var s = seat(c);
-      if (!s || s.x < v.x || s.x + S > v.x + v.w || s.y < v.y || s.y + S > v.y + v.h) return;
+      if (!s) return;
+      // In the window, unless asked for anywhere in the room (Sit in the cozy).
+      if (!anywhere && (s.x < v.x || s.x + S > v.x + v.w || s.y < v.y || s.y + S > v.y + v.h)) return;
       if (!clearBox(boxAt(s.x, s.y, S), self.host)) return;
       out.push({ x: s.x, y: s.y, cozy: c });
     });
@@ -433,7 +435,7 @@
 
   F.buildOwn = function (menu, closeB) {
     var me = this;
-    menu.appendChild(el('p', 'fam__note', 'It goes where you go on the street and sits wherever there are no words, or in a cozy if the room has one free. It keeps you company, and that is all it does.'));
+    menu.appendChild(el('p', 'fam__note', 'It goes where you go on the street and sits wherever there are no words. In a room with a free cozy, Sit in the cozy puts it there. It keeps you company, and that is all it does.'));
     var row = el('div', 'fam__row');
     var moveB = btnEl('fam__btn', 'Move it');
     this.cozyB = btnEl('fam__btn', 'Sit in the cozy');
@@ -468,16 +470,31 @@
     moveB.addEventListener('click', function () { me.startMoving(); });
     // Your press, so it goes at any setting: a glide where a move may glide,
     // a jump at Gentle and wherever it may not move by itself.
+    /* SIT IN THE COZY, in any room with a free one (Ryan, 2026-10-19: he
+       could not find it while it showed only for a cozy already in the
+       window). The nearest free cozy in the room: a walk if it is in the
+       window and a move may glide, else a jump, and a cozy out of the window
+       is brought into it, because you asked to see it sit there. */
     this.cozyB.addEventListener('click', function () {
-      var cz = freeCozies(me, me.pos.x, me.pos.y);
-      // The keyboard goes back to it once it has moved, without scrolling:
-      // put back first, the page scrolled to where it was leaving.
+      var cz = freeCozies(me, me.pos.x, me.pos.y, true);
       me.closeMenu(false);
+      if (!cz.length) {
+        try { me.btn.focus({ preventScroll: true }); } catch (e) { me.btn.focus(); }
+        me.tell('No cozy in this room is free just now.');
+        return;
+      }
+      var h = cz[0], v = view(), S = size();
+      var inView = h.y >= v.y && h.y + S <= v.y + v.h;
+      sitIn(me, h.cozy);
+      if (inView && intensity() !== 'gentle') me.walkTo(h.x, h.y, function () { me.remember(); });
+      else {
+        me.jump(h.x, h.y);
+        if (!inView) { try { h.cozy.scrollIntoView({ block: 'center' }); } catch (e) { h.cozy.scrollIntoView(); } }
+        me.remember();
+      }
+      // The keyboard goes back to it once it has moved, without scrolling
+      // the page back to where it was.
       try { me.btn.focus({ preventScroll: true }); } catch (e) { me.btn.focus(); }
-      if (!cz.length) { me.tell('No cozy in this part of the room is free just now.'); return; }
-      sitIn(me, cz[0].cozy);
-      if (intensity() !== 'gentle') me.walkTo(cz[0].x, cz[0].y, function () { me.remember(); });
-      else { me.jump(cz[0].x, cz[0].y); me.remember(); }
       me.tell('It sits in the cozy.');
     });
     this.letB.addEventListener('click', function () {
@@ -578,7 +595,7 @@
     if (this.own) {
       this.sure.hidden = true;
       this.homeB.hidden = false;
-      this.cozyB.hidden = !!cozyOf(this) || !freeCozies(this).length;
+      this.cozyB.hidden = !!cozyOf(this) || !freeCozies(this, null, null, true).length;
     }
     this.line.textContent = '';
     this.draw();
