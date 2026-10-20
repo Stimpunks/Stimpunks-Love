@@ -172,7 +172,9 @@ chancel = (f'      <div class="chancel__glass" aria-hidden="true"></div>\n'
            f'      <h3>{html.escape(pl["title"])}</h3>\n'
            f'      <p class="chancel__note">{html.escape(pl["note"])}</p>\n'
            f'      <button type="button" class="facade" '
-           f'data-embed-src="{html.escape(pl["frame"], quote=True)}" '
+           # autoplay=1, or the press only cues the list and the visitor has to
+           # press play again inside the player. rel=0 as love-embed.js's frame().
+           f'data-embed-src="{html.escape(pl["frame"] + "&autoplay=1&rel=0", quote=True)}" '
            f'data-embed-title="{html.escape(pl["title"], quote=True)} on YouTube">\n'
            f'        Play the whole playlist &mdash; runs until you stop it\n'
            f'        <span class="facade__play">&#9654; PRESS PLAY</span>\n'

@@ -286,13 +286,25 @@ def origins():
     return tuple(re.findall(r"'(https://[^']+)'", block.group(1)))
 
 
+def plays(src):
+    """A LIST PLAYS ON THE PRESS THAT ASKED FOR IT. Without autoplay=1 a framed
+    list is only cued, and the visitor presses play a second time inside the
+    player: measured 2026-10-20 on the live site, where Put the record on cued
+    the Coltrane and Hartman album and it played only after that second press.
+    A single video gets the same from love-embed.js's frame(); a list's address
+    is written here, so it says so here. rel=0 as frame() has it."""
+    if "autoplay=" in src:
+        return src
+    return src + ("&" if "?" in src else "?") + "autoplay=1&rel=0"
+
+
 def speaker(pl):
     """The cave's speaker. NO RUNTIME ON THIS LABEL, and it says why in the
     room rather than leaving a blank for somebody to fill in."""
     return (
         f'    <p style="margin:10px 0 0;max-width:60ch;">{esc(pl["note"])}</p>\n'
         f'    <button type="button" class="facade" '
-        f'data-embed-src="{esc(pl["frame"])}" '
+        f'data-embed-src="{esc(plays(pl["frame"]))}" '
         f'data-embed-title="{esc(pl["title"])} on YouTube">\n'
         f'      Play {esc(pl["title"])} &mdash; runs until you stop it\n'
         f'      <span class="facade__play">&#9654; PRESS PLAY</span>\n'
@@ -311,8 +323,8 @@ def records(recs):
     out = []
     for r in recs:
         if r.get("list"):
-            attrs = (f'data-embed-src="https://www.youtube-nocookie.com/embed/videoseries?'
-                     f'list={esc(r["list"])}"')
+            attrs = (f'data-embed-src="'
+                     f'{esc(plays("https://www.youtube-nocookie.com/embed/videoseries?list=" + r["list"]))}"')
             what = "the whole album"
         else:
             attrs = f'data-embed-id="{esc(r["id"])}"'

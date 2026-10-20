@@ -214,7 +214,10 @@ def screen(pl):
         f'        <p class="feature__by">Kept by {esc(pl["by"])} &middot; '
         f'<a href="{esc(pl["out"])}">open it there &rarr;</a></p>\n'
         f'        <p>{esc(pl["note"])}</p>\n'
-        f'        <button type="button" class="facade" data-embed-src="{esc(pl["frame"])}"\n'
+        # autoplay=1, or the press only cues the list and the visitor has to
+        # press play again inside the player. rel=0 as love-embed.js's frame().
+        f'        <button type="button" class="facade" '
+        f'data-embed-src="{esc(pl["frame"])}&amp;autoplay=1&amp;rel=0"\n'
         f'                data-embed-title="{esc(pl["title"])} on YouTube">'
         f'Press to play &middot; runs until you stop it</button>\n'
         f'      </div>')

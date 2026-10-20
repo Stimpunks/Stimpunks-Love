@@ -262,7 +262,13 @@ def stage(plays):
                 f'</a>\n'
                 '      </div>')
             continue
-        button = (f'<button type="button" class="facade" data-embed-src="{esc(pl["frame"])}"\n'
+        # A YouTube list gets autoplay=1, or the press only cues it and the visitor
+        # has to press play again inside the player; rel=0 as love-embed.js's
+        # frame(). club.js swaps only the path, so the query survives a random start.
+        src = pl["frame"]
+        if src.startswith("https://www.youtube-nocookie.com/") and "autoplay=" not in src:
+            src += "&autoplay=1&rel=0"
+        button = (f'<button type="button" class="facade" data-embed-src="{esc(src)}"\n'
                   f'                data-embed-title="{esc(pl["title"])} on {esc(pl["name"])[3:] or esc(pl["name"])}"'
                   f'{attr}>'
                   f'{label}</button>')

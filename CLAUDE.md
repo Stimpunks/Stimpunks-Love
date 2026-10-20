@@ -727,9 +727,11 @@ place at once and goes on giving the last film's title, clock at 0:00, for about
 beacon sent then told everybody the album had gone back to the start. Nothing is sent or judged while
 `turning`. **Only a pause (`paused`) ends Follow now**: a film that ended first waits for the host, and a
 next film that would not start is played, said once if it still will not. The friendly edit is to let
-`plateFor` take a list's song "because the host is a moderator"; that is the fault this fixed. The
-Hermitage's records, like the lists in several other rooms, also wait for a second press inside the frame,
-because their address has no `autoplay=1`. That was so before this and is not part of it.
+`plateFor` take a list's song "because the host is a moderator"; that is the fault this fixed. **A list's
+address is written by its room's generator, never by `frame()`, so it must carry `autoplay=1` there**
+(`&rel=0` as `frame()` has it): without it YouTube only cues the list (playerState 5) and the visitor presses
+play again inside the player, which the Hermitage's records, Club Chronic, Pink Pony Club, the Chappell and
+the Lagoon did until 2026-10-20, measured with and without it under the real headers.
 
 **A MODERATOR CAN SCREEN A VIDEO WITH NO CARD FOR IT, AND EVERYBODY ELSE GETS ITS PLATE, NEVER THE
 FILM.** Ryan, 2026-10-04, for screening in a room without building a rack first. **Screen a video** on
