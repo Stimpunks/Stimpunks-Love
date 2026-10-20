@@ -23,16 +23,6 @@
  ],
  "log": [
   {
-   "id": "RKHy7cKAXDg",
-   "source": "acl",
-   "form": "long",
-   "title": "Billy Strings - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-09-20T02:00:07Z",
-   "state": "screen",
-   "runs": 3117,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "2m-gxaGH3w0",
    "source": "acl",
    "form": "long",
@@ -93,6 +83,15 @@
    "channel": "Austin City Limits"
   },
   {
+   "id": "hf_NYmmeFHE",
+   "source": "acl",
+   "form": "long",
+   "title": "Maggie Rose - Gentle Man | Live on Austin City Limits TV",
+   "published": "2026-10-02T16:15:29Z",
+   "state": "pending",
+   "why": "live, or not out yet"
+  },
+  {
    "id": "viIhdPUSXlU",
    "source": "acl",
    "form": "long",
@@ -149,16 +148,6 @@
    "published": "2026-10-18T01:00:09Z",
    "state": "screen",
    "runs": 3202,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "_UDYwt3NgmY",
-   "source": "acl",
-   "form": "short",
-   "title": "Billy Strings \"Skateboarding is cooler than pickleball\"",
-   "published": "2026-09-20T02:20:25Z",
-   "state": "screen",
-   "runs": 41,
    "channel": "Austin City Limits"
   },
   {
@@ -289,6 +278,16 @@
    "published": "2026-10-18T01:03:35Z",
    "state": "screen",
    "runs": 54,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "dyM_nFuOEi0",
+   "source": "acl",
+   "form": "short",
+   "title": "Ari Lennox - Soft Girl Era clip  | Live From Austin City Limits TV",
+   "published": "2026-10-20T00:05:35Z",
+   "state": "screen",
+   "runs": 58,
    "channel": "Austin City Limits"
   },
   {
@@ -1312,6 +1311,46 @@
    "channel": "KEXP"
   },
   {
+   "id": "8lUzwni-deE",
+   "source": "kexp",
+   "form": "long",
+   "title": "TONTRAKUL - Strategy (Live on KEXP)",
+   "published": "2026-10-20T11:00:04Z",
+   "state": "screen",
+   "runs": 298,
+   "channel": "KEXP"
+  },
+  {
+   "id": "Yd4x5humcSw",
+   "source": "kexp",
+   "form": "long",
+   "title": "TONTRAKUL - Electro Khaen (Live on KEXP)",
+   "published": "2026-10-20T11:00:07Z",
+   "state": "screen",
+   "runs": 293,
+   "channel": "KEXP"
+  },
+  {
+   "id": "gJyca4OjcGM",
+   "source": "kexp",
+   "form": "long",
+   "title": "TONTRAKUL - Earn (เอิ้น) (Live on KEXP)",
+   "published": "2026-10-20T11:00:07Z",
+   "state": "screen",
+   "runs": 290,
+   "channel": "KEXP"
+  },
+  {
+   "id": "U_MYC27NC2Y",
+   "source": "kexp",
+   "form": "long",
+   "title": "TONTRAKUL - Muan (ม่วน) (Live on KEXP)",
+   "published": "2026-10-20T11:00:15Z",
+   "state": "screen",
+   "runs": 245,
+   "channel": "KEXP"
+  },
+  {
    "id": "_tGMeFjl0HM",
    "source": "kexp",
    "form": "short",
@@ -1592,13 +1631,13 @@
    "channel": "KCRW"
   },
   {
-   "id": "Xxjux4MoFmM",
+   "id": "bYdTIzaYNqg",
    "source": "kcrw",
-   "form": "short",
-   "title": "Liz Phair & Corin Tucker's Must Listen CDs",
-   "published": "2026-09-19T15:00:02Z",
+   "form": "long",
+   "title": "Legendary pop group Menudo on their career, legacy, and riding a motorcycle on stage | KCRW",
+   "published": "2026-10-19T14:00:07Z",
    "state": "screen",
-   "runs": 165,
+   "runs": 2146,
    "channel": "KCRW"
   },
   {
@@ -1627,13 +1666,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-19T11:23:44Z"
+     "2026-10-20T11:30:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-19T11:23:44Z"
+     "2026-10-20T11:30:23Z"
     ]
    ]
   },
@@ -1641,13 +1680,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-19T11:23:44Z"
+     "2026-10-20T11:30:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-19T11:23:44Z"
+     "2026-10-20T11:30:23Z"
     ]
    ]
   },
@@ -1655,16 +1694,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-19T11:23:44Z"
+     "2026-10-20T11:30:23Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-19T11:23:44Z"
+     "2026-10-20T11:30:23Z"
     ]
    ]
   }
  },
- "set": "2026-10-19T11:23Z"
+ "set": "2026-10-20T11:30Z"
 }
