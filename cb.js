@@ -14,8 +14,12 @@
        other time. Folded down, or in a tab nobody is looking at, it sends
        nothing at all. That is the whole of "if the CB is closed you get
        nothing", and it is also what keeps this cheap.
-     · NO ALERTS. No chime, no notification, no badge, no unread count, nothing
-       in the page title, and nothing is saved up for when you come back. The
+     · NO ALERTS. No chime, no notification, no badge, no number, nothing in
+       the page title. WHAT IS NEW TO YOU IS MARKED, NEVER COUNTED (Ryan's ask
+       and call, 2026-10-20, reversing "no unread count" for a mark): a dot on
+       World, This room, Your messages and a conversation, and the Unreads
+       part, worked out by the server from when your claimed username last
+       read each one. See newsTick. The
        channels it does use are the screen reader's and, if you switch it on,
        a voice reading the words out, and both only while the radio is open,
        each with its own switch on the radio. See setSpeak.
@@ -1057,6 +1061,15 @@
     }
     var hereSec = part('cb-sec--here', 'Where you are', 0);
     var aroundSec = part('cb-sec--around', 'Who\u2019s around', 0);
+    /* UNREADS (Ryan's proposal, 2026-10-20): World, the rooms you follow and
+       your conversations, each listed while something has been said there
+       since you last read it, and never how much. See newsShown. */
+    var newSec = this.newSec = part('cb-sec--new', 'Unreads', 0);
+    this.newList = el('ul', 'cb-new-list');
+    this.newList.hidden = true;
+    this.newNone = el('p', 'cb-quiet');
+    newSec.appendChild(this.newList);
+    newSec.appendChild(this.newNone);
     var chanSec = part('cb-sec--channel', 'Channel', 1);
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
     var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', 2);
@@ -1098,6 +1111,15 @@
     br.type = 'button';
     band.appendChild(bw);
     band.appendChild(br);
+    /* FOLLOW THIS ROOM, for Unreads: kept in love-cb, in this browser, and
+       sent nowhere. Only on a page that is a room, and only for a claimed
+       username, because only one is told what is new. */
+    var fr = this.followRoomBtn = el('button', 'cb-btn cb-follow-room', 'Follow this room: off');
+    fr.type = 'button';
+    fr.hidden = true;
+    fr.setAttribute('aria-pressed', 'false');
+    fr.addEventListener('click', function () { me.setFollowRoom(fr.getAttribute('aria-pressed') !== 'true'); });
+    band.appendChild(fr);
     chanSec.appendChild(band);
     /* THE FORUMS (Ryan, 2026-10-18): for what needs longer than the channel's
        day, for claimed usernames. A link, and Take to the forums under a
@@ -1669,7 +1691,7 @@
     acctP.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your direct messages and every conversation you are in, for both of you, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -2607,6 +2629,7 @@
     this.hereTick();
     if (!this.online.hidden) this.onlineTick();
     if (this.dmBox && !this.dmBox.hidden) this.dmTick();
+    this.newsTick();
     var room = this.tunedRoom(), sent = this.state.pass;
     call('/cb/channel' + (room ? '?room=' + room : ''), null, sent).then(function (r) {
       // A listen that left just before the pass changed, by claiming the
@@ -2616,7 +2639,7 @@
       // Retuned while this was on its way: it is the other channel's answer.
       if (r.status === 200 && (r.body.room || null) !== me.tunedRoom()) return;
       if (r.status === 200) {
-        me.signal(true); me.show(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now);
+        me.signal(true); me.show(r.body.messages || []); me.readTick(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now);
         me.calls = !!r.body.calls;
         me.callShown();
         me.keepRoles(r.body.roles);
@@ -5466,6 +5489,170 @@
     });
   };
 
+  /* ── New to you ──────────────────────────────────────────────────────────
+
+     WHAT IS NEW IS MARKED AND NEVER COUNTED (Ryan, 2026-10-20). The server
+     keeps, for a claimed username, when it last read each channel and each
+     conversation (newFor and markRead in netlify/cb/lib.mjs), so reading on
+     one device clears the mark on another; Ryan chose that over each
+     browser keeping its own. The radio asks /cb/unread from inside listen()
+     and nowhere else, at most every NEWS_EVERY, and says it has read a
+     channel when the newest message there is on the screen at the foot of
+     the log, or a conversation when it is open. The marks are a dot in the
+     button's own ink and the words "something new" to a screen reader: no
+     number, no colour of their own, nothing that moves or sounds. The rooms
+     you follow are kept in love-cb, in this browser, and sent nowhere. */
+  var NEWS_EVERY = 30000;   // ms between asking what is new, while listening
+  var FOLLOW_MAX = 200;     // rooms one browser follows at most
+
+  function markNew(btn, on) {
+    if (!btn) return;
+    var dot = btn.querySelector(':scope > .cb-new');
+    if (on && !dot) {
+      dot = el('span', 'cb-new');
+      dot.setAttribute('aria-hidden', 'true');
+      btn.appendChild(dot);
+      btn.appendChild(el('span', 'sr cb-new-sr', ', something new'));
+    }
+    if (!on && dot) {
+      dot.remove();
+      var said = btn.querySelector(':scope > .cb-new-sr');
+      if (said) said.remove();
+    }
+    var base = btn.dataset.label;
+    if (base) btn.setAttribute('aria-label', base + (on ? ', something new' : ''));
+  }
+
+  Radio.prototype.newsTick = function () {
+    var me = this;
+    if (!forumPass(this.state.pass)) { this.news = null; this.newsShown(); return; }
+    if (this.newsBusy || Date.now() - (this.newsAt || 0) < NEWS_EVERY) return;
+    this.newsBusy = true;
+    call('/cb/unread', { body: {} }, this.state.pass).then(function (r) {
+      me.newsAt = Date.now();
+      if (r.status === 401) return me.lost();
+      if (r.status === 200 && r.body && r.body.latest) { me.news = r.body; me.newsShown(); }
+    }, function () { me.newsAt = Date.now(); }).then(function () { me.newsBusy = false; });
+  };
+
+  // The channel being listened to has been read up to its newest message, if
+  // that message is on the screen.
+  Radio.prototype.readTick = function (messages) {
+    if (!forumPass(this.state.pass) || this.state.folded || this.state.size === 'icon' || offList()) return;
+    var log = this.log;
+    if (!log.hidden && log.scrollHeight - log.scrollTop - log.clientHeight >= 24) return;
+    var tag = this.tunedRoom() || WORLD_CALL, newest = 0;
+    (messages || []).forEach(function (m) { if (typeof m.t === 'number' && m.t > newest) newest = m.t; });
+    this.readUpTo({ ch: tag }, 'ch|' + tag, newest);
+  };
+
+  // A conversation open on the screen has been read up to its newest message.
+  Radio.prototype.dmReadTick = function (msgs) {
+    var who = this.dmWith, newest = 0;
+    if (!who || this.state.folded || !forumPass(this.state.pass)) return;
+    (msgs || []).forEach(function (m) { if (typeof m.t === 'number' && m.t > newest) newest = m.t; });
+    if (this.news && this.news.dms) this.news.dms = this.news.dms.filter(function (h) { return fold(h) !== fold(who); });
+    this.readUpTo({ dm: who }, 'dm|' + fold(who), newest);
+  };
+
+  Radio.prototype.readUpTo = function (what, key, newest) {
+    var sent = this.readSent = this.readSent || {};
+    if (!newest || (sent[key] || 0) >= newest) return;
+    sent[key] = newest;
+    var n = this.news;
+    if (n && what.ch) {
+      n.read = n.read || {};
+      n.read[what.ch] = Math.max(n.read[what.ch] || 0, newest);
+    }
+    this.newsShown();
+    call('/cb/unread', { body: { read: what, t: newest } }, this.state.pass).catch(function () { /* the next look asks again */ });
+  };
+
+  // This page's room, if it is one Unreads and Follow can name.
+  function followable() {
+    var here = hereRoom();
+    return here && !here.quiet && !worldHere() ? here : null;
+  }
+
+  Radio.prototype.followShown = function () {
+    var here = followable(), b = this.followRoomBtn;
+    b.hidden = !here || !forumPass(this.state.pass);
+    if (b.hidden) return;
+    var on = (this.state.follow || []).indexOf(here.tag) >= 0;
+    b.setAttribute('aria-pressed', String(on));
+    b.textContent = 'Follow this room: ' + (on ? 'on' : 'off');
+  };
+
+  Radio.prototype.setFollowRoom = function (on) {
+    var here = followable();
+    if (!here) return;
+    var list = (this.state.follow || []).filter(function (t) { return t !== here.tag; });
+    if (on) list.push(here.tag);
+    this.state.follow = list.slice(-FOLLOW_MAX);
+    save(this.state);
+    this.followShown();
+    this.newsShown();
+    this.tell(on ? 'Following ' + here.name + ': Unreads lists it whenever something new is said here. Kept in this browser only.' : 'Not following ' + here.name + ' any more.');
+  };
+
+  Radio.prototype.newsShown = function () {
+    if (!this.newList) return;
+    var me = this, n = this.news, claimed = forumPass(this.state.pass);
+    var tuned = this.tunedRoom() || WORLD_CALL, here = followable();
+    function fresh(tag) {
+      var t = n && n.latest && n.latest[tag];
+      return !!t && t > ((n.read && n.read[tag]) || 0) && tag !== tuned;
+    }
+    markNew(this.worldBtn, fresh(WORLD_CALL));
+    markNew(this.roomBtn, !!here && fresh(here.tag));
+    var dms = (n && n.dms) || [];
+    // A first message waiting is in dms until it is read, like any other.
+    markNew(this.dmBtn, dms.length > 0);
+    if (this.dmBox && !this.dmBox.hidden && !this.dmWith && this.dmInboxBody) this.dmDrawInbox(this.dmInboxBody);
+    // Unreads: World, then the rooms followed, in walking order, then conversations.
+    var items = [];
+    if (fresh(WORLD_CALL)) items.push({ key: 'w', world: true });
+    var follow = this.state.follow || [];
+    (rooms || []).forEach(function (r) { if (follow.indexOf(r.tag) >= 0 && fresh(r.tag)) items.push({ key: 'r|' + r.tag, room: r }); });
+    // A first message waiting is one of these: it opens where Accept is.
+    dms.forEach(function (h) { items.push({ key: 'd|' + h, dm: h }); });
+    var sig = JSON.stringify([claimed, items.map(function (x) { return x.key; }), here && here.tag, follow.length > 0]);
+    if (sig === this.newSig) return;
+    this.newSig = sig;
+    var on = this.box.getRootNode().activeElement, keep = on && this.newList.contains(on) ? on.dataset.newKey : null;
+    var ul = this.newList;
+    ul.textContent = '';
+    items.forEach(function (x) {
+      var li = el('li'), b;
+      if (x.room && !(here && x.room.tag === here.tag)) {
+        b = el('a', 'cb-room');
+        b.href = x.room.path;
+        var hash = el('span', null, '#');
+        hash.setAttribute('aria-hidden', 'true');
+        b.appendChild(hash);
+        b.appendChild(document.createTextNode(x.room.name));
+      } else {
+        b = el('button', 'cb-btn cb-new-go', x.world ? 'World' : x.room ? '#' + x.room.name : 'Messages from ' + x.dm);
+        b.type = 'button';
+        b.addEventListener('click', function () {
+          if (x.world) me.setBand('world');
+          else if (x.room) me.setBand('room');
+          else { me.setDm(true); me.dmOpen(x.dm); }
+        });
+      }
+      b.dataset.newKey = x.key;
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    ul.hidden = !items.length;
+    var hint = follow.length ? '' : 'Follow a room, with Follow this room under Channel, and it is listed here whenever something new is said there.';
+    this.newNone.textContent = !claimed
+      ? 'Claim your username, under Account, and the radio marks what is new to you and lists it here.'
+      : items.length ? hint : 'Nothing new in World, the rooms you follow or your messages.' + (hint ? ' ' + hint : '');
+    this.newNone.hidden = !this.newNone.textContent;
+    if (keep) { var again = ul.querySelector('[data-new-key="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
+  };
+
   /* ── Messages ────────────────────────────────────────────────────────────
 
      Ryan's calls, 2026-10-18, as our community moves off Discord: messages
@@ -5501,6 +5688,7 @@
       return;
     }
     var btn = this.dmBtn = el('button', 'cb-btn cb-dm-btn', 'Your messages');
+    btn.dataset.label = 'Your messages';
     btn.type = 'button';
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-controls', 'cb-dm');
@@ -5762,7 +5950,9 @@
       : 'Nobody new can message you. Conversations already going go on, and you can still write to people who take messages.';
     var convs = Array.isArray(b.conversations) ? b.conversations : [];
     var blocked = Array.isArray(b.blocked) ? b.blocked : [];
-    var sig = JSON.stringify([convs, blocked]);
+    this.dmInboxBody = b;
+    var fresh = (this.news && this.news.dms) || [];
+    var sig = JSON.stringify([convs, blocked, fresh]);
     if (sig === this.dmSig) return;
     this.dmSig = sig;
     var on = this.box.getRootNode().activeElement;
@@ -5797,7 +5987,10 @@
       var ul = el('ul', 'cb-dm-list');
       rest.forEach(function (c) {
         var li = el('li', 'cb-dm-row');
-        li.appendChild(pick(c, 'c|' + c.handle, c.handle, 'Your conversation with ' + c.handle));
+        var pk = pick(c, 'c|' + c.handle, c.handle, 'Your conversation with ' + c.handle);
+        pk.dataset.label = 'Your conversation with ' + c.handle;
+        markNew(pk, fresh.some(function (h) { return fold(h) === fold(c.handle); }));
+        li.appendChild(pk);
         li.appendChild(el('p', 'cb-dm-peek', c.state === 'asked'
           ? 'Waiting for ' + c.handle + ' to answer.'
           : (c.last.mine ? 'You wrote last, ' : c.handle + ' wrote last, ') + clock(c.last.t) + '.'));
@@ -5921,6 +6114,7 @@
     this.dmLive = pics;
     var msgs = Array.isArray(b.messages) ? b.messages : [];
     this.dmDrawLog(msgs);
+    this.dmReadTick(msgs);
     this.dmBlockShown(msgs.length > 0 && b.can !== 'blocked');
   };
 
@@ -7548,7 +7742,7 @@
         me.grow();
         if (picture) me.dropPicture();
         me.tell('');
-        if (room === me.tunedRoom()) me.show(r.body.messages || [], true);
+        if (room === me.tunedRoom()) { me.show(r.body.messages || [], true); me.readTick(r.body.messages || []); }
         return;
       }
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
@@ -7893,11 +8087,14 @@
     this.worldBtn.setAttribute('aria-pressed', String(!room));
     this.roomBtn.setAttribute('aria-pressed', String(!!room));
     this.roomBtn.textContent = 'This room';
+    this.roomBtn.dataset.label = 'This room: ' + name;
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
     this.bandNow.textContent = room ? 'Tuned to ' + name : worldHere() ? 'Tuned to World, which is this room\u2019s own channel' : 'Tuned to World';
     this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', the last 48 hours');
     this.hereShown();
     this.presenceShown();
+    this.followShown();
+    this.newsShown();
   };
 
   /* WHERE YOU ARE: the room's name as the street's list writes it. Until the

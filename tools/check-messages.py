@@ -40,7 +40,9 @@ WHAT IT REFUSES, and why each one is here:
   · A MESSAGE KEPT PAST ITS 48 HOURS, and the sweep not deleting what is left.
   · FORGET ME OR DELETING THE USERNAME LEAVING A CONVERSATION BEHIND.
   · A COUNT, A RECEIPT OR A TIMER in the radio's Messages code: no unread
-    number, no "seen", no "typing", and nothing that asks the server on a timer
+    number (a conversation is MARKED when something new is in it, Ryan's call,
+    2026-10-20, and never counted; the marks live outside this part), no
+    "seen" told to the other person, no "typing", and nothing that asks the server on a timer
     of its own (listen() is the only thing that asks). The friendly edits are
     all of those. "seen" is the word and not part of a name: its first run
     refused the radio's own cb-seen-now class, and the pattern was narrowed

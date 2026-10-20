@@ -643,6 +643,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-notify-btn:hover, .cb-notify-btn[aria-expanded="true"],
 .cb-scheme-btn:hover, .cb-scheme-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
 /* A long tray's own Close, at its foot (cb.js, footClose). */
+/* WHAT IS NEW TO YOU (cb.js, newsShown): a dot in the button's own ink, so it
+   brings no colour nobody measured, and the words to a screen reader. Never
+   a number, and nothing about it moves. */
+.cb-new { display: inline-block; width: 8px; height: 8px; margin-left: 6px; border-radius: 50%; background: currentColor; vertical-align: middle; }
+.cb-new-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; }
+.cb-new-list > li { margin: 0; }
+.cb-follow-room[aria-pressed="true"] { border-color: var(--cb-amber); }
 .cb-foot-close { justify-content: flex-start; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--cb-steel-2); }
 .cb-notify__body { display: contents; }
 .cb-online, .cb-online-calls { display: grid; gap: 4px; }

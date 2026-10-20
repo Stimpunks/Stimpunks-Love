@@ -3617,3 +3617,57 @@ test('Everything tells a device about every kind there is, World included, and a
   assert.equal(cleanWant({ all: true }).words, true, 'Everything changed the words switch');
 }));
 
+
+import { noteLatest, newFor, markRead, forgetReads } from './lib.mjs';
+
+test('what is new to a claimed username is a mark worked out from what it read, and never counted', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  const now = Date.now();
+  assert.equal((await newFor({ role: 'mobile', handle: 'Cy', roles: new Set() }, s)).error, 'claim', 'an unclaimed handle was told what is new to it');
+  await noteLatest(WORLD_CALL, now - 5000, s, now);
+  await noteLatest('the-den', now - 4000, s, now);
+  assert.equal(await noteLatest(QUIET_ROOMS[0], now - 3000, s, now), false, 'a room that keeps to itself was put on the map');
+  await noteLatest('the-den', now - 9000, s, now);
+  let n = await newFor(ada, s, now);
+  assert.deepEqual(Object.keys(n).sort(), ['asking', 'dms', 'latest', 'read'], 'the answer carried more than marks need');
+  assert.equal(n.latest[WORLD_CALL], now - 5000);
+  assert.equal(n.latest['the-den'], now - 4000, 'the newest time went backwards');
+  assert.equal(n.latest[QUIET_ROOMS[0]], undefined);
+  assert.deepEqual(n.read, {});
+  // Reading World up to its newest message clears it, and never goes back.
+  await markRead(ada, { ch: WORLD_CALL }, now - 5000, s, now);
+  await markRead(ada, { ch: WORLD_CALL }, now - 60000, s, now);
+  n = await newFor(ada, s, now);
+  assert.equal(n.read[WORLD_CALL], now - 5000, 'reading went backwards');
+  assert.equal((await newFor(bex, s, now)).read[WORLD_CALL], undefined, 'one person was told what another read');
+  assert.equal((await markRead(ada, { ch: QUIET_ROOMS[0] }, now, s, now)).error, 'which', 'reading a room that keeps to itself was recorded');
+  assert.equal((await markRead(ada, { ch: 'town-hall-board' }, now, s, now)).error, 'which', 'reading a room the username may not enter was recorded');
+  assert.equal((await markRead(ada, { ch: 'the-den' }, now + 99999, s, now)).read, true);
+  assert.equal((await newFor(ada, s, now)).read['the-den'], now, 'a read time was kept from the future');
+  // A conversation is new when the other person spoke last, after you read it.
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'hello', s, now - 3000);
+  n = await newFor(bex, s, now);
+  assert.equal(n.asking, true, 'a first message waiting was not marked');
+  assert.deepEqual(n.dms, ['Ada']);
+  assert.deepEqual((await newFor(ada, s, now)).dms, [], 'the asker was marked new by their own message');
+  await sendDm(bex, 'Ada', 'hi back', s, now - 2000);
+  assert.deepEqual((await newFor(bex, s, now)).dms, [], 'answering left the conversation marked new');
+  assert.deepEqual((await newFor(ada, s, now)).dms, ['Bex']);
+  await markRead(ada, { dm: 'Bex' }, now - 2000, s, now);
+  assert.deepEqual((await newFor(ada, s, now)).dms, [], 'reading a conversation did not clear it');
+  // Forgetting deletes the record.
+  await forgetReads('Ada', 11, s);
+  assert.deepEqual((await newFor(ada, s, now)).read, {}, 'Forget me left what was read');
+}));
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen channels noting a new message at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: none told it went is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const now = Date.now();
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => noteLatest(`room-${i}`, now - i, s, now)));
+    const map = (await s.get('channel-latest', { type: 'json' })).latest;
+    told.forEach((r, i) => { if (r.status === 'fulfilled') assert.equal(map[`room-${i}`], now - i, `room-${i} was told it went and is missing`); });
+  });
+}

@@ -45,7 +45,7 @@
     <ul>
       <li><strong>Open is on, folded is off.</strong> Open, with the tab in front of you, the radio listens every four seconds. Folded, or behind another tab, it sends nothing.</li>
       <li><strong>Fifty messages a channel, each gone 48 hours after it was sent</strong>, so people in every timezone can read what was said while they slept. A fifty-first pushes the oldest off. A message from before today says which day, yesterday or the day&rsquo;s name, beside its time.</li>
-      <li><strong>Notifications only if you ask.</strong> The radio has no chime, no badge and no unread count, and the tab&rsquo;s title never changes. <a href="#notifications">Notifications</a>, under Your radio, can tell a device about mentions, rooms you follow, calls starting and everything on World, even with the site closed.</li>
+      <li><strong>Notifications only if you ask.</strong> The radio has no chime and never a number of anything, and the tab&rsquo;s title never changes. With a claimed username, what is new to you is marked with a dot, and listed under <a href="#unreads">Unreads</a>. <a href="#notifications">Notifications</a>, under Your radio, can tell a device about mentions, rooms you follow, calls starting and everything on World, even with the site closed.</li>
       <li><strong>Names, never numbers.</strong> A reaction says who pressed it, and Who&rsquo;s online says who is around and where, and which rooms have somebody in their call. Nothing shows a count.</li>
       <li><strong>Nothing on it moves when a message arrives</strong>, and it is the same radio in every room. The one thing that ever moves is a <a href="#colours">theme&rsquo;s drawing</a>, and only at MAX GLITTER or when you let it.</li>
     </ul>
@@ -104,7 +104,8 @@
     <tbody>
       <tr><td><b>Where you are</b></td><td>The name of the room you are in, <b>On the channel as</b> and your handle, <a href="#seen">Be seen here</a>, <a href="#familiar">Bring my familiar</a> when a familiar is following you, and <a href="#calls">Join this room&rsquo;s call</a>.</td></tr>
       <tr><td><b>Who&rsquo;s around</b></td><td><a href="#online">Who&rsquo;s online</a>, <a href="#world-call">Join World call</a>, and <a href="#pop-out">Show the call window</a> while a call is in a window of its own.</td></tr>
-      <tr><td><b>Channel</b></td><td><a href="#tuning">World or this room</a>, links to <a href="#forums">the forums</a> and to <a href="world.html">the World room</a>, which lists the rooms active now and the calls going, the messages, and <a href="#writing">the box to write in</a>.</td></tr>
+      <tr><td><b>Unreads</b></td><td><a href="#unreads">World, the rooms you follow and your conversations</a>, while something new has been said in them, for a claimed username.</td></tr>
+      <tr><td><b>Channel</b></td><td><a href="#tuning">World or this room</a>, <a href="#unreads">Follow this room</a>, links to <a href="#forums">the forums</a> and to <a href="world.html">the World room</a>, which lists the rooms active now and the calls going, the messages, and <a href="#writing">the box to write in</a>.</td></tr>
       <tr><td><b>Messages</b></td><td><a href="#messages">Your messages</a>: writing to one other person. For a claimed username; without one the part says how to claim yours.</td></tr>
       <tr><td><b>Watching together</b></td><td><b>Hosting now</b>, everybody <a href="#films">hosting a film</a> on the street, with <b>Catch up</b> and <b>Follow</b> beside a host in your room, then <a href="#films">Add my spot, Host this film and Screen a video</a>, and the radio&rsquo;s answers to all of them. The part is only there while one of them is.</td></tr>
       <tr><td><b>You</b></td><td><a href="#profile">Profile</a> and <a href="#account">Account</a>, whose trays open under this heading, and <b>Sign off</b>.</td></tr>
@@ -114,6 +115,16 @@
 
   <h2 id="here">Where you are</h2>
   <p>At the top of the radio is the name of the room this page is, as the street names it, in the largest words on the radio: <b>The Den</b>, say, or <b>The Street</b> on the front page. It is where you are standing, which is not always the channel you are hearing: tuned to World, you hear the whole street from wherever you are. A page that is not a room says <b>A page that is not a room on the street</b>. Under the name, a line says <b>On the channel as</b> and your handle, then come <a href="#seen">Be seen here</a> and, in a room when calls are switched on, <b>Join this room&rsquo;s call</b>.</p>
+
+  <h2 id="unreads">What is new to you: Unreads</h2>
+  <p>With a claimed username, the radio marks what has been said since you last read it, with a dot and, to a screen reader, the words <b>something new</b>. <strong>It is a mark, never a number</strong>, and nothing about it sounds, moves or flashes.</p>
+  <ul>
+    <li><strong>Where the dots are.</strong> On <b>World</b> and <b>This room</b> when the channel you are not tuned to has something new; on <b>Your messages</b> and on a conversation in it when the other person has written since you read it, a first message to you included.</li>
+    <li><strong>Unreads</strong>, the part under Who&rsquo;s around, lists them: World, the rooms you follow, and your conversations. Press one to go there: World tunes to World, a room on this page tunes to it, another room is a link to it, and a conversation opens under Messages.</li>
+    <li><strong>Follow this room: off</strong>, beside This room under Channel, puts the room you are in on Unreads whenever something new is said there. Which rooms you follow is kept in this browser only.</li>
+    <li><strong>What counts as read.</strong> A channel when its newest message is on your screen at the foot of the log, with the radio open; a conversation when you have it open. Reading on one device clears the dot on your others, because the street keeps, for your username, when you last read each one, and nothing else. See <a href="privacy.html#unreads">the privacy page</a>.</li>
+    <li>The radio asks what is new at most every half a minute, and only while it is open, so a dot can take that long to come.</li>
+  </ul>
 
   <h2 id="seen">Be seen here</h2>
   <p>In a room, <b>Be seen here: off</b>, under <a href="#here">Where you are</a>, says whether it is on, as the switches under Your radio do; pressed, it says <b>Be seen here: on</b> and puts you, by your handle, on <a href="#online">Who&rsquo;s online</a> for anybody signed on, with the room you are in, and shows you and anybody else who has switched it on in the same room to each other. In a room that keeps to itself it shows you only to people seen there. While it is off you are on nobody&rsquo;s list; you can still open Who&rsquo;s online, but not see who else is in this room or in its call.</p>

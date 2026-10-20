@@ -3322,6 +3322,120 @@ export async function forgetDms(handle, since, s = store()) {
   return true;
 }
 
+/* ── New to you: what you have read, for a claimed username ──────────────
+
+   Ryan's ask and call, 2026-10-20, reversing "no badge, no unread count" for
+   a MARK and never a number: World, This room, Your messages and each
+   conversation are marked when something has been said there since you last
+   read it, and the radio's Unreads lists what is new in World, the rooms you
+   follow and your conversations. Ryan chose to keep what you have read ON THE
+   SERVER, per claimed username, so reading on one device clears the mark on
+   another, over keeping it in each browser.
+
+   WHAT IS KEPT. Under the username's dmKey (reads/), when you last read each
+   channel and each conversation, and nothing else: no list of what you read,
+   no count, nothing about other people's reading, and an entry older than a
+   message lives (LIFE) is dropped on every write, because nothing that old is
+   left to be new. Never a room that keeps to itself: reading one is not
+   recorded, because a record would be a trace of having been there. Forget me
+   and deleting the username delete it. Nobody but its owner is ever sent it.
+
+   HOW NEW IS WORKED OUT. The channels' newest messages are one small map,
+   LATEST, a time per channel kept by every transmit, so the radio can be told
+   what is new in World and in the room it is on without saying where it is:
+   it is sent the whole map, the rooms it may enter and none that keeps to
+   itself, as the World room already shows when each channel last spoke. A
+   conversation is new when its newest message is the other person's and came
+   after you last read it, or when somebody's first message waits for you. */
+const READS = 'reads/';
+const LATEST = 'channel-latest';
+export const READS_ROOMS = 400;                // channels one record keeps a time for at most
+
+function readsDoc(d, now = Date.now()) {
+  d = plain(d);
+  const keep = (m, ok) => Object.fromEntries(Object.entries(plain(m))
+    .filter(([k, t]) => ok(k) && typeof t === 'number' && now - t < LIFE));
+  return { ch: keep(d.ch, (k) => !!roomTag(k)), dm: keep(d.dm, (k) => /^[A-Za-z0-9_-]{32}$/.test(k)) };
+}
+
+/* A channel has had a new message: its time in LATEST, which never goes
+   backwards and keeps nothing past LIFE. */
+export async function noteLatest(tag, t, s = store(), now = Date.now()) {
+  if (!roomTag(tag) || quietRoom(tag)) return false;
+  await updateMap(LATEST, 'latest', (map) => {
+    for (const k of Object.keys(map)) if (typeof map[k] !== 'number' || now - map[k] >= LIFE) delete map[k];
+    if ((map[tag] || 0) >= t) return false;
+    map[tag] = t;
+  }, s);
+  return true;
+}
+
+/* What is new to a claimed username: { latest, read, dms, asking }. latest is
+   every channel's newest message time it may hear (World as WORLD_CALL), read
+   its own last-read times, dms the handles of conversations with something new
+   from the other person, and asking whether a first message waits for it. */
+export async function newFor(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  const me = dmKey(who.handle, who.since);
+  const r = readsDoc(await s.get(READS + me, { type: 'json' }), now);
+  const map = plain((await s.get(LATEST, { type: 'json' }) || {}).latest);
+  const latest = {};
+  for (const [tag, t] of Object.entries(map)) {
+    if (typeof t !== 'number' || now - t >= LIFE || !roomTag(tag) || quietRoom(tag)) continue;
+    if (tag !== WORLD_CALL && !roomAllows(who, tag)) continue;
+    latest[tag] = t;
+  }
+  const set = await readDmSet(me, s);
+  const prefix = DM_MARK + me + '/';
+  const dms = [];
+  let asking = false;
+  for (const b of (await s.list({ prefix })).blobs || []) {
+    const them = b.key.slice(prefix.length);
+    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now);
+    const handle = c.people[them];
+    if (!c.messages.length || typeof handle !== 'string' || blocks(set, handle)) continue;
+    const state = stateOf(c, me);
+    if (state === 'asked') continue;
+    if (state === 'asking') asking = true;
+    const last = c.messages[c.messages.length - 1];
+    if (last.by !== me && last.t > (r.dm[them] || 0)) dms.push(handle);
+  }
+  dms.sort((a, b) => a.localeCompare(b));
+  return { latest, read: r.ch, dms, asking };
+}
+
+/* You have read a channel (`ch`, a room's tag or WORLD_CALL) or a conversation
+   (`dm`, the other person's handle) up to `t`, which never goes past now and
+   never back. Never a room that keeps to itself, or one you may not enter. */
+export async function markRead(who, what, t, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: 'claim' };
+  if (typeof t !== 'number' || !isFinite(t)) return { error: 'when' };
+  const at = Math.min(Math.floor(t), now);
+  let field, key;
+  if (what && typeof what.ch === 'string') {
+    const tag = roomTag(what.ch);
+    if (!tag || quietRoom(tag) || (tag !== WORLD_CALL && !roomAllows(who, tag))) return { error: 'which' };
+    field = 'ch'; key = tag;
+  } else if (what && typeof what.dm === 'string') {
+    const p = await pairOf(who, what.dm, s);
+    if (p.error) return { error: 'which' };
+    field = 'dm'; key = p.them;
+  } else return { error: 'which' };
+  const me = dmKey(who.handle, who.since);
+  const out = await updateDm(READS + me, (d) => readsDoc(d, now), (was) => {
+    if ((was[field][key] || 0) >= at) return null;
+    if (field === 'ch' && !(key in was.ch) && Object.keys(was.ch).length >= READS_ROOMS) return { error: 'full' };
+    return { ...was, [field]: { ...was[field], [key]: at } };
+  }, s);
+  return out.error ? out : { read: true };
+}
+
+/* Forget me, and deleting the username: the record of what was read. */
+export async function forgetReads(handle, since, s = store()) {
+  await s.delete(READS + dmKey(handle, since));
+  return true;
+}
+
 /* ── Reports, the one way a message reaches the moderators ── */
 
 /* Report a message the other person sent you: its words, who sent it and when,
@@ -4243,6 +4357,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetProfileSets(petKey(handle), s);
   await forgetProps(petKey(handle), s);
   await forgetDms(acct.handle, acct.since, s);
+  await forgetReads(acct.handle, acct.since, s);
   await dropDevicesOf(handle, s);
   await s.delete(acctBlob(handle));
   return { deleted: true };

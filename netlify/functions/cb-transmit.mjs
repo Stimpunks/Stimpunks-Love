@@ -8,7 +8,8 @@
    channel, so a slow push service never holds the radio up. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions } from '../cb/lib.mjs';
+  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions,
+  noteLatest, WORLD_CALL } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -88,6 +89,8 @@ export default async (req, context) => {
       return list;
     });
     await dropImages(droppedImages(seen, messages));
+    // The channel's newest time, so radios elsewhere can mark it new (newFor).
+    await noteLatest(room || WORLD_CALL, msg.t).catch(() => false);
     const told = notifyMessage(msg, room).catch(() => []);
     if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
     return json(200, { messages: shape(messages) });

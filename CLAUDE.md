@@ -3820,7 +3820,7 @@ down a side each medallion is turned back upright about its own centre. The radi
 theme's face, because the bar is full. **It never claims what it has not
 heard** — it says *tuning in* until the first listen answers and *no signal* when one fails, because
 "nobody has said anything" is a statement about the channel and only a reply can make it true. It
-also never counts: no people on the channel, no unread number.
+also never counts: no people on the channel, no number of anything new (what is new is marked, below).
 
 **A ROOM ON THE STREET IS A LINK ON THE CHANNEL, AND A LINK OFF IT SAYS SO.** Ryan, 2026-09-25, so somebody
 can drop a room for somebody else to join them in. **#rooms are Discord's way, Ryan's call**: the
@@ -3883,6 +3883,20 @@ in this app opens a pop-up in the same tab, so test it in real Chrome over CDP w
 **SPEAK NEW MESSAGES ALOUD WAS SILENT FROM 2026-10-18 TO 2026-10-19**, because `show()` kept the channel
 in `this.onAir`, which is also the voice's speaking flag, so the queue never started. The list is
 `this.aired` now. **Two meanings, one name, no error**: grep a property before reusing it.
+
+**WHAT IS NEW TO YOU IS MARKED, NEVER COUNTED, AND THE SERVER KEEPS WHAT YOU READ.** Ryan's ask and calls,
+2026-10-20, reversing "no badge, no unread count" and "nothing lights up when a message lands" for a mark:
+a dot in the button's own ink (`markNew`, "something new" to a screen reader) on World, This room, Your
+messages and a conversation, and the **Unreads** part (`newsShown`) listing World, the rooms followed and
+conversations. **What you read is on the server, per claimed username** (`newFor`, `markRead`, `reads/` under
+the dmKey, a time per channel and conversation, dropped at 48 hours), Ryan's choice over each browser keeping
+its own; **Follow this room is in love-cb**. The channels' newest times are one map, `channel-latest`, kept by
+`noteLatest` in `cb-transmit`, so the radio learns what is new in This room without saying where it is. The
+radio asks `/cb/unread` from `listen()` at most every `NEWS_EVERY`, and reports a channel read only when its
+newest message is at the foot of the log. Never a room that keeps to itself; Forget me and deleting the
+username delete the record. **The friendly edits are a number beside the dot, a dot on the icon, a sound,
+and the tab's title changing**; each is the count or the alert the street still refuses. DECISIONS.md has
+what is still open.
 
 **A REACTION NAMES WHO AND NEVER SAYS HOW MANY.** Ryan, 2026-09-30: React on a message opens a fixed
 set (`REACTIONS` in `lib.mjs`, copied in `cb.js`: change both), pressed again to take yours back
