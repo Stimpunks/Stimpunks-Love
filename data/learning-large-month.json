@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-19T11:42Z",
+ "set": "2026-10-20T11:22Z",
  "log": [
   {
    "id": "rPGJhrunbxo",
@@ -88,6 +88,16 @@
    "published": "2026-09-28T14:10:55Z",
    "state": "screen",
    "runs": 1462,
+   "channel": "Tina Huang"
+  },
+  {
+   "id": "mn0agTT8lG8",
+   "source": "tina-huang",
+   "form": "long",
+   "title": "Here's the AI Roadmap You Actually Need",
+   "published": "2026-10-19T12:59:11Z",
+   "state": "screen",
+   "runs": 1532,
    "channel": "Tina Huang"
   },
   {
@@ -241,6 +251,16 @@
    "channel": "AI LABS"
   },
   {
+   "id": "y2ifUC9_zuU",
+   "source": "ai-labs",
+   "form": "long",
+   "title": "Vercel's CEO Just Unveiled The Greatest AI Coding Workflow Ever",
+   "published": "2026-10-19T15:00:27Z",
+   "state": "screen",
+   "runs": 861,
+   "channel": "AI LABS"
+  },
+  {
    "id": "0t-eWrGFZyA",
    "source": "matt-wolfe",
    "form": "long",
@@ -388,6 +408,26 @@
    "published": "2026-10-16T04:30:35Z",
    "state": "screen",
    "runs": 46,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "aIrrq3CLSKM",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "3 New Claude Prompts You Need To Try",
+   "published": "2026-10-19T12:43:39Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "VVBszkWK0Io",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "My favorite new image editing tool",
+   "published": "2026-10-20T04:19:39Z",
+   "state": "screen",
+   "runs": 80,
    "channel": "Matt Wolfe"
   },
   {
@@ -791,6 +831,16 @@
    "channel": "Less Bitter"
   },
   {
+   "id": "oAn38UNeRqw",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "20-year devs can't find work anymore",
+   "published": "2026-10-20T02:39:41Z",
+   "state": "screen",
+   "runs": 795,
+   "channel": "Less Bitter"
+  },
+  {
    "id": "F3YXg7AaKWE",
    "source": "theo",
    "form": "long",
@@ -978,16 +1028,6 @@
    "published": "2026-10-18T23:57:04Z",
    "state": "screen",
    "runs": 1907,
-   "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "YG0zcYHJe1I",
-   "source": "theo",
-   "form": "short",
-   "title": "The Danger of AI Isn't an Off-Switch",
-   "published": "2026-09-19T14:00:17Z",
-   "state": "screen",
-   "runs": 24,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1374,7 +1414,7 @@
    "id": "fDE5R4fSq2w",
    "source": "riley-brown",
    "form": "long",
-   "title": "How To Use Claude Code For EVERYTHING",
+   "title": "Start Using Claude Code For EVERYTHING (Trust Me)",
    "published": "2026-10-15T18:24:45Z",
    "state": "screen",
    "runs": 1654,
@@ -1384,7 +1424,7 @@
    "id": "1d7P3ewd9AA",
    "source": "riley-brown",
    "form": "long",
-   "title": "Gemini 4 and Muse Wonder Dropped… But Fable 5.5 Is TERRIFYING",
+   "title": "Gemini 4 is HERE… But Fable 5.5 Is TERRIFYING",
    "published": "2026-10-16T17:30:21Z",
    "state": "screen",
    "runs": 1572,
@@ -1431,24 +1471,14 @@
    "channel": "Riley Brown"
   },
   {
-   "id": "9KOtMsZ9I28",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "How to Build Codex Skills Better than 99% of People",
-   "published": "2026-09-19T12:57:24Z",
+   "id": "0Z8YxSDh028",
+   "source": "riley-brown",
+   "form": "short",
+   "title": "ChatGPT dots to do 3D modeling and Videos",
+   "published": "2026-10-19T21:17:38Z",
    "state": "screen",
-   "runs": 1624,
-   "channel": "Nate Herk | AI Automation"
-  },
-  {
-   "id": "ymgH8jS6Wb8",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "I Tested Jev on 12 Real Use Cases. My Honest Thoughts.",
-   "published": "2026-09-19T17:25:09Z",
-   "state": "screen",
-   "runs": 968,
-   "channel": "Nate Herk | AI Automation"
+   "runs": 104,
+   "channel": "Riley Brown"
   },
   {
    "id": "X-pbJWKmwi0",
@@ -1658,6 +1688,16 @@
    "published": "2026-10-16T19:52:20Z",
    "state": "screen",
    "runs": 2690,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "hgLI491ajG0",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "I Tried 100+ AI Tools. These 7 Are the Best",
+   "published": "2026-10-19T14:22:01Z",
+   "state": "screen",
+   "runs": 615,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -1981,6 +2021,16 @@
    "channel": "Chase AI"
   },
   {
+   "id": "4B1iGFShCnI",
+   "source": "chase-ai",
+   "form": "long",
+   "title": "Claude Code's #1 Token Saving Skill Just Got Upgraded (But Is It BS?)",
+   "published": "2026-10-19T20:58:39Z",
+   "state": "screen",
+   "runs": 1026,
+   "channel": "Chase AI"
+  },
+  {
    "id": "wugozhTLlKM",
    "source": "chase-ai",
    "form": "short",
@@ -2081,6 +2131,26 @@
    "channel": "Chase AI"
   },
   {
+   "id": "lHvzytIV_go",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "I Put Ponytail 5.0 To The Test (All Hype??)",
+   "published": "2026-10-19T23:00:09Z",
+   "state": "screen",
+   "runs": 148,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "OOYKxthpcxA",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "Claude Can Now Hack Your TV",
+   "published": "2026-10-20T01:30:08Z",
+   "state": "screen",
+   "runs": 24,
+   "channel": "Chase AI"
+  },
+  {
    "id": "YuOSyRj3sXg",
    "source": "greg-isenberg",
    "form": "long",
@@ -2169,6 +2239,16 @@
    "state": "screen",
    "runs": 1850,
    "channel": "Greg Isenberg"
+  },
+  {
+   "id": "tpZOU1ugODQ",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "Meta Muse Will Create 1,000 Millionaires",
+   "published": "2026-10-19T17:50:26Z",
+   "state": "screen",
+   "runs": 1474,
+   "channel": "Greg Isenberg"
   }
  ],
  "covered": {
@@ -2176,13 +2256,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2190,13 +2270,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2204,13 +2284,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2218,13 +2298,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2232,13 +2312,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2246,13 +2326,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2260,13 +2340,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2274,13 +2354,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2288,13 +2368,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2302,13 +2382,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2316,13 +2396,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   },
@@ -2330,13 +2410,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-19T11:42:31Z"
+     "2026-10-20T11:22:28Z"
     ]
    ]
   }
