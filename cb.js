@@ -1185,6 +1185,16 @@
     present.appendChild(seenBtn);
     present.appendChild(this.seenNow);
     present.appendChild(this.inCallNow);
+    /* BRING MY FAMILIAR (Ryan, 2026-10-19): only for a claimed username with
+       a familiar following it, off until pressed; see familiarShown(). */
+    var famBtn = this.famBtn = el('button', 'cb-btn cb-seen', 'Bring my familiar: off');
+    famBtn.type = 'button';
+    famBtn.setAttribute('aria-pressed', 'false');
+    famBtn.hidden = true;
+    this.famNow = el('p', 'cb-seen-now');
+    this.famNow.hidden = true;
+    present.appendChild(famBtn);
+    present.appendChild(this.famNow);
     present.hidden = true;
     hereSec.appendChild(present);
 
@@ -1712,6 +1722,9 @@
     window.loveCall.onAway(function () { me.callShown(); });
     bw.addEventListener('click', function () { me.setBand('world'); });
     seenBtn.addEventListener('click', function () { me.setSeen(!me.state.seen); });
+    famBtn.addEventListener('click', function () { me.setFamiliarOut(!me.famOut); });
+    // A familiar taken, changed or sent home on this page: the switch follows.
+    window.addEventListener('love-familiar', function () { if (me.present) me.familiarShown(true); });
     ob.addEventListener('click', function () { me.setOnline(online.hidden); });
     window.addEventListener('pagehide', function () { me.leaveSeen(); });
     br.addEventListener('click', function () { me.setBand('room'); });
@@ -3577,6 +3590,7 @@
             var words = el('div', 'cb-avatar__words');
             words.appendChild(el('p', 'cb-pet__name', c.name || window.loveChimera.suggest(c.parts)));
             words.appendChild(el('p', 'cb-pet__about', window.loveChimera.words(c.parts)));
+            chimeraSays(words, c.sayings);
             li.appendChild(words);
             chList.appendChild(li);
           });
@@ -5178,17 +5192,28 @@
   }
 
   /* familiar.js, loaded the first time somebody takes a chimera with them
-     from Profile. It is the one file that keeps a familiar, in the browser;
-     the radio only hands it the parts and the name. */
+     from Profile, or the first time somebody seen here has brought theirs, in
+     the page the familiars are in. It is the one file that keeps a familiar,
+     in the browser; the radio only hands it what to draw. */
   function withFamiliar(then) {
-    if (window.loveFamiliar) { then(); return; }
-    var s = document.querySelector('script[src$="familiar.js"]');
-    if (!s) {
-      s = document.createElement('script');
-      s.src = '/familiar.js';
-      document.head.appendChild(s);
-    }
-    s.addEventListener('load', function () { if (window.loveFamiliar) then(); });
+    var w = familiarWindow();
+    try {
+      if (w.loveFamiliar) { then(w.loveFamiliar); return; }
+      var d = w.document, s = d.querySelector('script[src$="familiar.js"]');
+      if (!s) {
+        s = d.createElement('script');
+        s.src = '/familiar.js';
+        d.head.appendChild(s);
+      }
+      s.addEventListener('load', function () { if (w.loveFamiliar) then(w.loveFamiliar); });
+    } catch (e) { /* that page has gone */ }
+  }
+
+  /* What a chimera says, its maker's words, each in quotation marks, as text. */
+  function chimeraSays(box, sayings) {
+    (sayings || []).forEach(function (t) {
+      if (typeof t === 'string' && t) box.appendChild(el('p', 'cb-pet__about cb-ch-says', '\u201c' + t + '\u201d'));
+    });
   }
 
   /* A chimera, drawn by chimera.js as elements. The drawing is silent; the
@@ -6351,6 +6376,8 @@
      chimera's own card. */
   Radio.prototype.drawChimeras = function (b, told) {
     var me = this, ul = this.chList, claimed = !!b.claimed, C = window.loveChimera;
+    this.chSayings = b.sayingsMax;
+    this.chSayingMax = b.sayingMax;
     ul.textContent = '';
     var w = this.chWhere;
     w.textContent = '';
@@ -6376,9 +6403,10 @@
       var shown = c.name || C.suggest(c.parts);
       words.appendChild(el('p', 'cb-pet__name', shown));
       words.appendChild(el('p', 'cb-pet__about', C.words(c.parts)));
+      chimeraSays(words, c.sayings);
       var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
       var row = el('div', 'cb-acct__row');
-      var rename = el('button', 'cb-btn', 'Rename it'); rename.type = 'button';
+      var rename = el('button', 'cb-btn', 'Its name and sayings'); rename.type = 'button';
       row.appendChild(rename);
       var open = el('a', 'cb-btn', 'Put it back on the table');
       open.href = '/chimera-obscura.html#chimera=' + C.code(c.parts);
@@ -6388,8 +6416,8 @@
       var take = el('button', 'cb-btn', 'Take it with me'); take.type = 'button';
       row.appendChild(take);
       take.addEventListener('click', function () {
-        withFamiliar(function () {
-          said.textContent = window.loveFamiliar.take(c.parts, shown)
+        withFamiliar(function (fam) {
+          said.textContent = fam.take({ parts: c.parts, name: shown, sayings: c.sayings || [], kept: c.id })
             ? shown + ' is your familiar now, and follows you from room to room. Press it to move it, let it move by itself, or send it home.'
             : 'Your browser would not keep it, so it cannot follow you.';
         });
@@ -6404,6 +6432,20 @@
         var n = field('Its name', 'cb-ch-name-' + c.id, 'text');
         n.input.maxLength = 24; n.input.autocomplete = 'off'; n.input.value = c.name || '';
         form.appendChild(n.wrap);
+        /* ITS SAYINGS (Ryan, 2026-10-19), edited beside its name: what it
+           says when it is pressed as a familiar, in a speech bubble when it
+           may move by itself, and under it in your profile. */
+        var sw = el('p', 'cb-acct__field');
+        var sl = el('label', 'cb-lab', 'Its sayings, one to a line');
+        sl.htmlFor = 'cb-ch-says-' + c.id;
+        var sa = el('textarea', 'cb-say');
+        sa.id = 'cb-ch-says-' + c.id; sa.rows = 4; sa.spellcheck = true;
+        sa.value = (c.sayings || []).join('\n');
+        var shint = el('span', 'cb-quiet', 'Up to ' + (me.chSayings || 5) + ' lines, each up to ' + (me.chSayingMax || 80) + ' characters.');
+        shint.id = 'cb-ch-says-hint-' + c.id;
+        sa.setAttribute('aria-describedby', shint.id);
+        sw.appendChild(sl); sw.appendChild(sa); sw.appendChild(shint);
+        form.appendChild(sw);
         var go = el('button', 'cb-btn', 'Save'); go.type = 'button';
         var keep = el('button', 'cb-btn', 'Leave it as it is'); keep.type = 'button';
         form.appendChild(go); form.appendChild(keep);
@@ -6411,7 +6453,8 @@
         keep.addEventListener('click', function () { form.hidden = true; rename.hidden = false; rename.focus(); });
         go.addEventListener('click', function () {
           go.disabled = true;
-          me.chimeraSend({ edit: c.id, name: n.input.value }, said, { id: c.id, said: 'Saved.' })
+          var lines = sa.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean);
+          me.chimeraSend({ edit: c.id, name: n.input.value, sayings: lines }, said, { id: c.id, said: 'Saved.' })
             .then(function () { go.disabled = false; });
         });
       });
@@ -6436,6 +6479,15 @@
       if (told.focus) told.focus.focus();
       else if (told.said) { this.chState.hidden = false; this.chState.textContent = told.said; }
     }
+    // Your familiar, if it is one of these, takes a new name or sayings with it.
+    var fw = familiarWindow(), cur = null;
+    try { cur = fw.loveFamiliar ? fw.loveFamiliar.current() : null; } catch (e) { cur = null; }
+    if (cur && cur.kept) b.chimeras.forEach(function (c) {
+      var name = c.name || C.suggest(c.parts);
+      if (c.id === cur.kept && JSON.stringify([name, c.sayings || [], c.parts]) !== JSON.stringify([cur.name, cur.sayings || [], cur.parts])) {
+        fw.loveFamiliar.take({ parts: c.parts, name: name, sayings: c.sayings || [], kept: c.id });
+      }
+    });
   };
 
   /* SHOWING YOUR CHIMERAS in your profile, off until you switch it on, and
@@ -7739,6 +7791,9 @@
     var tag = presentRoom();
     this.present.hidden = !tag;
     this.panelShown(tag, tag && this.seenFrom === tag ? this.seenAnswer : null);
+    var seenA = tag && this.seenFrom === tag ? this.seenAnswer : null;
+    this.visitorsShown(this.state.seen && !this.state.folded && seenA && !seenA.refused ? seenA.others : []);
+    this.familiarShown();
     if (!tag) return;
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
@@ -7769,6 +7824,86 @@
         var c = el('span'); whoList(c, inc, 'name'); this.inCallNow.appendChild(c);
       } else this.inCallNow.textContent = 'Nobody is in this room\u2019s call.';
     }
+  };
+
+  /* FAMILIARS IN THE ROOM (Ryan, 2026-10-19: let other people see what
+     chimeras are in the room). A familiar lives in its person's own browser
+     (familiar.js) and sends nothing; Bring my familiar sends a copy of yours,
+     its parts, its name and its sayings, to /cb/familiar, and the people seen
+     in the same room as you get it back on their Be seen here answer, as you
+     get theirs. So a familiar is seen only where its person is seen, and only
+     by people seen there: the one switch both ways, never on Who's online.
+     Claimed only, off until pressed, and the copy follows the familiar: taking
+     another changes it, and sending it home takes it in. The radio asks
+     /cb/familiar once a page whether yours is out. In the radio's own window
+     the familiars are in the page it came from. */
+  function familiarWindow() { return (inWindow() && streetWindow()) || window; }
+  function myFamiliar() {
+    try { var w = familiarWindow(); return w.loveFamiliar ? w.loveFamiliar.current() : null; } catch (e) { return null; }
+  }
+  function famCopy(f) { return f ? JSON.stringify({ parts: f.parts, name: f.name, sayings: f.sayings || [] }) : ''; }
+  Radio.prototype.visitorsShown = function (others) {
+    var mine = fold(this.state.handle);
+    var list = (others || []).filter(function (o) { return o && o.familiar && fold(o.handle) !== mine; });
+    if (!list.length && !this.hadVisitors) return;
+    this.hadVisitors = list.length > 0;
+    withFamiliar(function (fam) { fam.visitors(list); });
+  };
+  Radio.prototype.familiarShown = function (pressed) {
+    // A moderator's own password counts: the server is what decides.
+    var me = this, f = myFamiliar(), claimed = !!this.state.claimed || claimedPass(this.state.pass);
+    // The copy out in rooms follows the familiar, whatever this page shows:
+    // at once when somebody took, changed or sent theirs home, and otherwise
+    // only while the radio is open, because folded sends nothing.
+    if (this.famOut && !this.famBusy && (pressed || !this.state.folded) && famCopy(f) !== this.famSent) {
+      if (f) this.sendFamiliar(f); else this.setFamiliarOut(false, true);
+    }
+    var show = !!(f && claimed && presentRoom());
+    this.famBtn.hidden = !show;
+    this.famNow.hidden = !show;
+    if (!show) return;
+    if (this.famOut === undefined && !this.famAsking) {
+      this.famAsking = true;
+      call('/cb/familiar', null, this.state.pass).then(function (r) {
+        me.famAsking = false;
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200) return;
+        me.famOut = !!r.body.out;
+        if (me.famOut) me.famSent = '';
+        me.familiarShown();
+      }, function () { me.famAsking = false; });
+    }
+    var on = !!this.famOut;
+    this.famBtn.setAttribute('aria-pressed', String(on));
+    this.famBtn.textContent = 'Bring my familiar: ' + (on ? 'on' : 'off');
+    this.famNow.textContent = on
+      ? f.name + ' is with you in every room you are seen in, for the people seen there, with its sayings.'
+      : 'Switch it on and the people seen in the same room as you see ' + f.name + ' there too, while you are seen. It is off until you do.';
+  };
+  Radio.prototype.sendFamiliar = function (f, said) {
+    var me = this, copy = famCopy(f);
+    this.famBusy = true;
+    return call('/cb/familiar', { body: { out: JSON.parse(copy) } }, this.state.pass).then(function (r) {
+      me.famBusy = false;
+      if (r.status === 401) return me.lost();
+      if (r.status === 200) { me.famOut = true; me.famSent = copy; if (said) me.tell(said); }
+      else me.tell((r.body && r.body.error) || 'That did not work just now.');
+      me.familiarShown();
+    }, function () { me.famBusy = false; me.tell('The street could not be reached just now. Nothing changed.'); });
+  };
+  Radio.prototype.setFamiliarOut = function (on, quiet) {
+    var me = this, f = myFamiliar();
+    if (on) {
+      if (f) this.sendFamiliar(f, f.name + ' comes with you now, into every room you are seen in.');
+      return;
+    }
+    this.famBusy = true;
+    call('/cb/familiar', { body: { out: null } }, this.state.pass).then(function (r) {
+      me.famBusy = false;
+      if (r.status === 401) return me.lost();
+      if (r.status === 200) { me.famOut = false; me.famSent = ''; if (!quiet) me.tell('Your familiar stays with you alone now: nobody else sees it.'); }
+      me.familiarShown();
+    }, function () { me.famBusy = false; });
   };
 
   Radio.prototype.quietText = function () {

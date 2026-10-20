@@ -213,6 +213,28 @@
    "tail": {"d": "M-6,4 C20,14 36,32 42,62", "whip": [8, 4], "fill": "fur", "tuft": [42, 66, -10]},
    "back": {"kind": "mane", "word": "a zebra's mane", "plate": "#1E1E22", "band": "#F4F2EE"},
    "markings": {"stripes": "bold", "darkMuzzle": true}
+  },
+  "possum": {
+   "a": "a", "say": ["Possum", "possum"],
+   "colours": {"fur": "#8F8B89", "light": "#EDE6DA", "dark": "#2C2826", "skin": "#E6A9AE", "nose": "#D98A92"},
+   "body": {"w": 168, "h": 172, "top": 0.76, "arms": "hands", "feet": "claws"},
+   "head": {"r": 72, "sx": 1.00, "sy": 0.94, "shape": "round", "muz": {"y": 0.42, "rx": 0.28, "ry": 0.22}, "nose": "tri", "eyes": {"x": 0.38, "y": -0.06, "big": "dark"}, "whiskers": true},
+   "ears": {"a": 30, "type": "oval", "s": 0.46},
+   "mouth": "tiny",
+   "tail": {"d": "M-8,-14 C30,-34 74,-86 108,-76 C134,-68 128,-36 102,-30 C70,-22 34,2 -8,16 Z", "fill": "dark", "axis": [0, 0, 118, -64]},
+   "back": null,
+   "markings": {"chest": true, "lowerFace": true}
+  },
+  "opossum": {
+   "a": "an", "say": ["Opossum", "opossum"],
+   "colours": {"fur": "#A5A19E", "light": "#F4F1EC", "dark": "#232123", "skin": "#EBAFB6", "nose": "#E58E9C"},
+   "body": {"w": 172, "h": 160, "top": 0.76, "arms": "hands", "feet": "pads"},
+   "head": {"r": 68, "sx": 0.92, "sy": 0.94, "shape": "wedge", "muz": {"y": 0.52, "rx": 0.24, "ry": 0.42}, "nose": "small", "eyes": {"x": 0.36, "y": -0.08}, "whiskers": true},
+   "ears": {"a": 40, "type": "round", "s": 0.40},
+   "mouth": "smile",
+   "tail": {"d": "M-6,0 C30,8 62,-4 64,-40 C66,-70 40,-82 32,-62 C26,-48 42,-40 50,-52", "whip": [14, 9], "fill": "skin", "end": [50, -52]},
+   "back": null,
+   "markings": {"lightHead": true, "darkEars": true, "darkLimbs": true}
   }
  },
  "known": {

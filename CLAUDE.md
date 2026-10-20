@@ -4416,19 +4416,47 @@ Randimals: our friends' company makes plush combined animals, and its characters
 **A CHIMERA CAN FOLLOW YOU AS A FAMILIAR, AND IT RESTS ONLY WHERE THERE ARE NO WORDS.** A suggestion from our
 community after Castle Crashers' animal orbs; Ryan's calls, 2026-10-19: loose in the room rather than on the radio,
 still below MAX, crossing words only while moving, resting off text, no stats or count. **`familiar.js` is the one file
-that keeps one**, in the browser under `love-familiar` (parts, name, whether it may move, and where in the *window* it
-was last put down, two fractions, never which room), and nothing is sent anywhere. Take it with you in Chimera
-Obscura and Take it with me in Profile hand it the parts through `loveFamiliar.take()`, so `chimera-obscura.js` and
-`cb.js` still store nothing; `love.js` loads it only when the key holds one, never in a frame, a window or a page that
-says `data-cb="off"`. **It is placed in the page, not the window**, and it rests only where `busy()` finds no text,
-control, meaningful picture, player, shadow host or `[data-familiar-avoid]` (put that on a room's game screen or
-builder table); `busy()` walks down from the body and skips any part nowhere near, which is what took a check on the
-changelog from 122 ms to 10. **Everything that moves it by itself asks `mayMove()`** (MAX GLITTER, or Let it move by
-itself, the candles' rule), and it moves with left and top. It wears Chimera Obscura's tokens in a shadow root
-(`familiar.css`). `make-chimera-obscura.py` refuses each promise broken. **The friendly edits are a level that grows
-with the rooms you visit, a boost, a collection of familiars, a sound, a reaction when a message lands, and showing
-it to other people**: the first is a tally of where you have been, the fourth breaks the Arcade's silence, the fifth is
-the receive lamp, and the last needs the server to know your room, which is Ryan's call and `privacy.html` first.
+that keeps one and draws every familiar on a page**, yours and the visitors', in the browser under `love-familiar`
+(parts, name, sayings, which kept chimera, whether it may move, where in the *window* it was put down and where it was
+when you left the last page, never which room), and it sends nothing. Take it with you in Chimera Obscura and Take it
+with me in Profile hand it over through `loveFamiliar.take()`, so `chimera-obscura.js` and `cb.js` still store
+nothing; `love.js` loads it only when the key holds one, never in a frame, a window or a page that says
+`data-cb="off"`. **It is placed in the page, not the window**, and rests only where `busy()` finds no text, control,
+meaningful picture, player, shadow host (other familiars included) or `[data-familiar-avoid]`; `busy()` walks down from
+the body and skips any part nowhere near, which took a check on the changelog from 122 ms to 10. **Everything that
+moves one by itself asks `mayMove()`** (MAX GLITTER, or Let it move by itself, the candles' rule), a glide and a speech
+bubble ask `mayGlide()` (never at Gentle), and they move with left and top. `make-chimera-obscura.py` refuses each
+promise broken.
+
+**OTHER PEOPLE'S FAMILIARS COME ON THE RADIO, AND ONLY BOTH WAYS.** Ryan, the same evening: "let other people see what
+Chimeras are in the room". **Bring my familiar**, under Be seen here, claimed only and off until pressed, sends a copy
+(parts, name, sayings) to `/cb/familiar`, kept in one blob, `familiars-out`, the worn avatar's arrangement;
+`withFamiliars()` adds it to the people seen in a room on `/cb/here`'s answer, so a familiar is seen only where its
+person is seen and only by people seen there. `cb.js` hands them to `loveFamiliar.visitors()` (in the page the radio
+came from, when it is popped out) and leaves out your own handle; the copy follows the familiar (taking another changes
+it, Send it home, Forget me and deleting the username take it in), and a folded radio sends nothing by itself.
+`lib.test.mjs` races fifteen and was broken on purpose. **The friendly edits are a familiar on Who's online, and a
+list of everybody's familiars**: the first widens Be seen here past the room, which is Ryan's call and
+`privacy.html#chimeras` first.
+
+**A CHIMERA HAS SAYINGS, ITS MAKER'S WORDS.** Up to `CHIMERA_SAYINGS` lines of `CHIMERA_SAYING_MAX` characters, written
+on the bench beside its name or in Profile under *Its name and sayings*, kept with the chimera (`cleanChimeraSayings`),
+shown under it in profiles, said when its familiar is pressed, and now and then in a speech bubble while it may move by
+itself, only where the bubble covers no words, aria-hidden because the press says the same thing. A sticker carries
+none. **The friendly edit is a stock of sayings the house writes for every chimera**; a familiar with none says nothing.
+A moderator cannot clear one yet (`DECISIONS.md`).
+
+**CHIMERA COZIES ARE A FAMILIAR'S OWN SPOT, AND EACH IS ITS ROOM'S.** `tools/make-cozies.py` draws a cozy between
+`cozy` markers in each room listed in `data/cozies.json`, in that room's declared inks, refusing a colour of its own, a
+word, a transform and two rooms alike: the job marker's rule. `.cozy` in §4 is layout only, a box with a familiar's height
+of clear air over the drawing; familiar.js sits a familiar in a free cozy in the window (`data-familiar-cozy`), one to a
+cozy, and at MAX they wander between them. **The friendly edit is one cushion drawing for every room.** A new cozy is
+an entry, a drawing in that room's own inks, and a pair of markers where the room has a little space.
+
+**WALKING THROUGH THE DOOR IS DRAWN, NOT A VIEW TRANSITION.** At MAX (or when let), yours walks in from where it was in
+the window when you left the last page, and visitors walk in from the window's edge and out to it. Cross-document view
+transitions were the other way, and they would need the familiar on the new page before its first paint, which means a
+render-blocking script on every page; the familiar is drawn by a script that loads after it.
 
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's

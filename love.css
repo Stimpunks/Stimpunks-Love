@@ -4201,6 +4201,20 @@ div.facade--square { border: 0; background: none; }
   border: 2px solid currentColor; border-radius: 0; padding: 8px 16px; min-height: 44px;
 }
 
+/* A CHIMERA COZY. A familiar's own spot in a room (Ryan, 2026-10-19), laid out
+   by tools/make-cozies.py, which draws each room's in that room's own inks and
+   refuses two alike, the job marker's rule. This is layout and nothing else:
+   no colour, no face, no ground. The box keeps a familiar's height of clear
+   air above the drawing, so one sitting in it (familiar.js finds the drawing
+   by data-familiar-cozy) is on no words, and the words of the room wrap round
+   it. On a phone it stands on its own line rather than squeezing them. */
+.cozy { width: 132px; height: 146px; display: flex; align-items: flex-end; margin: 4px 0 12px; }
+.cozy--right { float: right; margin-left: 22px; }
+.cozy--left { float: left; margin-right: 22px; }
+.cozy__seat { display: block; width: 132px; height: 48px; }
+@media (max-width: 560px) { .cozy--right, .cozy--left { float: none; margin: 4px auto 12px; } }
+@media print { .cozy { display: none; } }
+
 /* THE JOB MARKER. Furniture rather than a room, for the facade's reason: every
    room on the street wears one, so it belongs to §1–§4 where a name is allowed
    to be global. What is NOT shared is the drawing inside it -- make-guild.py
@@ -25255,6 +25269,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .chm-naming__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .chm-naming__in { flex: 1 1 14ch; min-width: 0; font: 400 22px/1.2 'Gilda Display', Georgia, serif; padding: 6px 10px; border-radius: 10px; border: 2px solid var(--chm-line); background: var(--chm-panel); color: var(--chm-text); }
 .chm-naming__note { margin: 6px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--chm-dim); max-width: 60ch; }
+.chm-sayings__in { box-sizing: border-box; display: block; width: 100%; max-width: 60ch; font: 400 16px/1.45 'Gantari', var(--sans); padding: 8px 10px; border-radius: 10px; border: 2px solid var(--chm-line); background: var(--chm-panel); color: var(--chm-text); resize: vertical; }
 .chm-share { margin: 14px 0 0; }
 .chm-keep { margin: 12px 0 0; }
 .chm-keep + .chm-keep { margin-top: 16px; }

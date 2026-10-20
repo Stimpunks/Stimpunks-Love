@@ -1436,10 +1436,12 @@ export function shapeAvatarSticker(st) {
    username. The answer for a handle that is not claimed is the same whether it
    is unclaimed or nobody at all, and shown chimeras carry no ids. */
 /* chimera:keys:begin */
-export const CHIMERA = {"slots":["body","head","ears","mouth","arms","feet","tail","back","colours","markings"],"defaults":{"arms":"body","feet":"body"},"animals":["armadillo","badger","bear","cat","dog","elephant","fox","mouse","otter","owl","panda","penguin","pig","porcupine","rabbit","raccoon","turtle","zebra"],"backs":["armadillo","porcupine","turtle","zebra"]};
+export const CHIMERA = {"slots":["body","head","ears","mouth","arms","feet","tail","back","colours","markings"],"defaults":{"arms":"body","feet":"body"},"animals":["armadillo","badger","bear","cat","dog","elephant","fox","mouse","opossum","otter","owl","panda","penguin","pig","porcupine","possum","rabbit","raccoon","turtle","zebra"],"backs":["armadillo","porcupine","turtle","zebra"]};
 /* chimera:keys:end */
 export const CHIMERA_KEEP = 24;           // chimeras one person keeps at once
 export const CHIMERA_NAME_MAX = 24;
+export const CHIMERA_SAYINGS = 5;         // sayings one chimera keeps
+export const CHIMERA_SAYING_MAX = 80;     // characters in one saying
 export const CHIMERA_ID = /^h[A-Za-z0-9_-]{10}$/;
 
 /* Exactly a chimera's parts, each its own property and an animal on the
@@ -1462,6 +1464,24 @@ export function cleanChimera(c) {
   return out;
 }
 export const cleanChimeraName = (s) => cleanUpTo(s, CHIMERA_NAME_MAX);
+
+/* A chimera's sayings (Ryan, 2026-10-19): what it says when you press it as a
+   familiar, and in a speech bubble when it may move by itself, and under it in
+   a profile. Its maker's words, a line each, CHIMERA_SAYINGS at most and each
+   CHIMERA_SAYING_MAX characters at most; blank lines are dropped. An array, or
+   null for anything else or anything too long. */
+export function cleanChimeraSayings(list) {
+  if (list == null) return [];
+  if (!Array.isArray(list) || list.length > CHIMERA_SAYINGS * 2) return null;
+  const out = [];
+  for (const x of list) {
+    if (typeof x !== 'string') return null;
+    const t = cleanUpTo(x, CHIMERA_SAYING_MAX);
+    if (t === null) return null;
+    if (t && !out.includes(t)) out.push(t);
+  }
+  return out.length > CHIMERA_SAYINGS ? null : out;
+}
 
 const chimerasBlob = (k) => `chimeras/${k}`;
 const chShownBlob = (k) => `chshown/${k}`;
@@ -1491,14 +1511,19 @@ async function updateChimeras(pk, change, s) {
 }
 
 export function shapeChimera(c) {
-  return { id: c.id, name: c.name || '', parts: cleanChimera(c.parts) || c.parts };
+  return { id: c.id, name: c.name || '', parts: cleanChimera(c.parts) || c.parts, sayings: sayingsOf(c) };
 }
+function sayingsOf(c) { return (c && Array.isArray(c.sayings) ? c.sayings : []).filter((x) => typeof x === 'string'); }
 
-/* Keep a new chimera. { kept } or { error }. */
-export async function keepChimera(pk, { parts, name = '' }, s = store()) {
+/* Keep a new chimera. { kept } or { error }. Sayings are kept only when it
+   has some, so a chimera with none is exactly its id, name and parts. */
+export async function keepChimera(pk, { parts, name = '', sayings = [] }, s = store()) {
   const p = cleanChimera(parts);
   if (!p) return { error: 'parts' };
+  const said = cleanChimeraSayings(sayings);
+  if (said === null) return { error: 'sayings' };
   const rec = { id: 'h' + randomBytes(8).toString('base64url').slice(0, 10), name, parts: p };
+  if (said.length) rec.sayings = said;
   const next = await updateChimeras(pk, (was) => {
     if (was.chimeras.length >= CHIMERA_KEEP) return { error: 'full' };
     return { chimeras: [...was.chimeras, rec] };
@@ -1507,17 +1532,20 @@ export async function keepChimera(pk, { parts, name = '' }, s = store()) {
   return { kept: rec, chimeras: next.chimeras };
 }
 
-/* Change one: its parts or its name. */
+/* Change one: its parts, its name or its sayings. */
 export async function editChimera(pk, id, patch, s = store()) {
   if (typeof id !== 'string' || !CHIMERA_ID.test(id)) return { error: 'which' };
   const p = patch.parts !== undefined ? cleanChimera(patch.parts) : undefined;
   if (p === null) return { error: 'parts' };
+  const said = patch.sayings !== undefined ? cleanChimeraSayings(patch.sayings) : undefined;
+  if (said === null) return { error: 'sayings' };
   return updateChimeras(pk, (was) => {
     const i = was.chimeras.findIndex((c) => c.id === id);
     if (i < 0) return { error: 'which' };
     const c = { ...was.chimeras[i] };
     if (p) c.parts = p;
     if (patch.name !== undefined) c.name = patch.name;
+    if (said !== undefined) { if (said.length) c.sayings = said; else delete c.sayings; }
     const chimeras = was.chimeras.slice();
     chimeras[i] = c;
     return { chimeras };
@@ -1532,8 +1560,10 @@ export async function removeChimera(pk, id, s = store()) {
   }, s);
 }
 
-/* FORGET ME, and deleting the username: the record, then the switch. */
+/* FORGET ME, and deleting the username: the familiar out in rooms first,
+   then the record, then the switch. */
 export async function forgetChimeras(pk, s = store()) {
+  await showFamiliar(pk, null, s);
   await s.delete(chimerasBlob(pk));
   await s.delete(chShownBlob(pk));
   return true;
@@ -1562,7 +1592,7 @@ export async function shownChimeras(handle, s = store()) {
   const out = { handle: acct.handle, shown };
   if (shown) {
     out.chimeras = (await readChimeras(petKey(handle), s)).chimeras.slice().reverse()
-      .map((c) => ({ parts: cleanChimera(c.parts), name: c.name || '' }))
+      .map((c) => ({ parts: cleanChimera(c.parts), name: c.name || '', sayings: sayingsOf(c) }))
       .filter((c) => c.parts);
   }
   return out;
@@ -1583,6 +1613,76 @@ export function shapeChimeraSticker(st) {
   if (!parts) return null;
   const name = cleanChimeraName(st.name);
   return { parts, name: name || '' };
+}
+
+/* ── Familiars, seen in the room you are in ─────────────────────────────
+
+   Ryan, 2026-10-19: let other people see what chimeras are in the room. A
+   familiar is a chimera somebody took with them (familiar.js keeps it in their
+   own browser and sends nothing). This is the one copy of it the street keeps,
+   and only once its person, signed on with a CLAIMED username, presses Bring
+   my familiar on the radio: its parts, its name and its sayings, filed under
+   the pet key in one blob (`familiars-out`), the worn avatar's arrangement, so
+   the people seen in a room are read with one blob rather than one each.
+
+   IT IS SEEN ONLY WHERE ITS PERSON IS SEEN, AND ONLY BY PEOPLE SEEN THERE:
+   /cb/here adds it to the people seen in the asker's room (withFamiliars), and
+   /cb/here answers only somebody who pressed Be seen here in that room, the one
+   switch both ways. It is never on Who's online, nothing about when is kept,
+   and nobody is told who looked. Sending it home, Forget me, deleting the
+   username and switching Bring my familiar off take it out of the blob. */
+const FAMILIARS = 'familiars-out';
+
+export function cleanFamiliar(f) {
+  if (!f || typeof f !== 'object' || Array.isArray(f)) return null;
+  const parts = cleanChimera(f.parts);
+  const name = cleanChimeraName(f.name);
+  const sayings = cleanChimeraSayings(f.sayings);
+  if (!parts || name === null || sayings === null) return null;
+  return { parts, name: name || '', sayings };
+}
+
+async function updateFamiliars(change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, FAMILIARS);
+    const out = { ...((cur.exists && cur.data && cur.data.out) || {}) };
+    if (change(out) === false) return out;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(FAMILIARS, { out }, opts);
+    if (res.modified) return out;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Bring a familiar out, change it, or take it in (fam null). */
+export async function showFamiliar(pk, fam, s = store()) {
+  return updateFamiliars((out) => {
+    if (!fam) { if (!own(out, pk)) return false; delete out[pk]; return true; }
+    const was = own(out, pk) ? JSON.stringify(out[pk]) : '';
+    out[pk] = fam;
+    return JSON.stringify(out[pk]) !== was;
+  }, s);
+}
+
+export async function familiarOut(handle, s = store()) {
+  const d = await s.get(FAMILIARS, { type: 'json' });
+  const pk = petKey(handle);
+  return !!(d && d.out && own(d.out, pk));
+}
+
+/* The people seen in a room, with the familiar each claimed one brought.
+   Nothing is added beside an unclaimed name, whatever the blob holds. */
+export async function withFamiliars(people, s = store()) {
+  if (!people.some((p) => p.claimed)) return people;
+  const d = await s.get(FAMILIARS, { type: 'json' });
+  const out = (d && d.out) || {};
+  return people.map((p) => {
+    if (!p.claimed) return p;
+    const k = petKey(p.handle);
+    const f = own(out, k) ? cleanFamiliar(out[k]) : null;
+    return f ? { ...p, familiar: f } : p;
+  });
 }
 
 /* ── Your jobs at the Adventurer's Guild ───────────────────────────────────

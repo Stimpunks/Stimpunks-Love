@@ -249,7 +249,8 @@ def check_shelf(d):
         h = a.get("head", {})
         muz = h.get("muz", {})
         if not (isinstance(h.get("r"), (int, float)) and 55 <= h["r"] <= 90 and h.get("shape") in SHAPES and
-                h.get("nose") in NOSES and isinstance(h.get("eyes"), dict) and {"y", "rx", "ry"} <= set(muz)):
+                h.get("nose") in NOSES and isinstance(h.get("eyes"), dict) and {"y", "rx", "ry"} <= set(muz)
+                and h["eyes"].get("big", False) in (False, True, "dark")):
             refuse(f"{where}: the head needs r (55 to 90), sx, sy, a shape in {sorted(SHAPES)}, a nose in "
                    f"{sorted(NOSES)}, eyes and a muzzle.")
         e = a.get("ears", {})
@@ -606,8 +607,15 @@ def strings_of(code):
 
 
 def body_of(code, name):
-    m = re.search(rf"function {name}\s*\([^)]*\)\s*\{{(.*?)\n  \}}", code, re.S)
-    return m.group(1) if m else ""
+    """The body of a function or a method, by counting braces."""
+    m = re.search(rf"(?:function {name}|\.{name} = function)\s*\([^)]*\)\s*\{{", code)
+    if not m:
+        return ""
+    i, depth = m.end(), 1
+    while i < len(code) and depth:
+        depth += {"{": 1, "}": -1}.get(code[i], 0)
+        i += 1
+    return code[m.end():i - 1]
 
 
 def check_familiar():
@@ -643,6 +651,17 @@ def check_familiar():
     for fn in ("wander", "followScroll", "followTo"):
         if "mayMove()" not in body_of(code, fn):
             refuse(f"{fn}() in familiar.js moves it without asking mayMove(). Nothing moves by itself below MAX GLITTER unless you let it.")
+    glide = body_of(code, "mayGlide")
+    if "mayMove()" not in glide or "'gentle'" not in glide:
+        refuse("mayGlide() in familiar.js no longer asks mayMove() and keeps out of Gentle.")
+    if "mayGlide()" not in body_of(code, "speak"):
+        refuse("speak() in familiar.js puts up a speech bubble without asking mayGlide(). A bubble is only for a familiar "
+               "that may move by itself, and never at Gentle.")
+    if "this.bubbleEl.setAttribute('aria-hidden', 'true');" not in code:
+        refuse("a familiar's speech bubble is no longer aria-hidden. Pressing it says the same thing on purpose; a "
+               "bubble read out by itself is words arriving unasked.")
+    if "clearBox(" not in body_of(code, "speak"):
+        refuse("speak() in familiar.js puts up a speech bubble without checking it covers no words.")
     allowed = body_of(code, "allowed")
     for need in ("window.top", "data-cb", "'off'", "data-cb-window"):
         if need not in allowed:

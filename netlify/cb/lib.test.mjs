@@ -37,6 +37,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
   setAvatarsShown, avatarsShown, shownAvatars,
   CHIMERA, CHIMERA_KEEP, cleanChimera, readChimeras, keepChimera, editChimera, removeChimera, forgetChimeras, setChimerasShown, chimerasShown, shownChimeras, chimeraSticker, shapeChimeraSticker, shape as shapeMessages,
+  CHIMERA_SAYINGS, CHIMERA_SAYING_MAX, cleanChimeraSayings, cleanFamiliar, showFamiliar, familiarOut, withFamiliars, shapeChimera,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
@@ -2033,6 +2034,67 @@ test('a profile shows chimeras only when a claimed username says so, and never t
   assert.equal(got.chimeras[0].id, undefined, 'a profile carries an id');
   await deleteAccount('Ada', s);
   assert.equal(await shownChimeras('Ada', s), null, 'a deleted username still shows chimeras');
+}));
+
+test('a chimera\'s sayings are its maker\'s, a few short lines, and kept only when there are some', () => withPasswords(async () => {
+  assert.deepEqual(cleanChimeraSayings(undefined), []);
+  assert.deepEqual(cleanChimeraSayings(['  Hello  there ', '', 'Hello there', 'Bye']), ['Hello there', 'Bye'], 'blank and repeated lines kept');
+  assert.equal(cleanChimeraSayings('hello'), null);
+  assert.equal(cleanChimeraSayings([1]), null);
+  assert.equal(cleanChimeraSayings(['x'.repeat(CHIMERA_SAYING_MAX + 1)]), null, 'a saying past its length');
+  assert.equal(cleanChimeraSayings(Array.from({ length: CHIMERA_SAYINGS + 1 }, (_, i) => `s${i}`)), null, 'too many sayings');
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  const a = (await keepChimera(pk, { parts: partsOf(), name: 'Otto', sayings: ['Hello'] }, s)).kept;
+  assert.deepEqual(a.sayings, ['Hello']);
+  assert.equal((await keepChimera(pk, { parts: partsOf(), sayings: ['x'.repeat(200)] }, s)).error, 'sayings');
+  await editChimera(pk, a.id, { sayings: ['One', 'Two'] }, s);
+  assert.deepEqual(shapeChimera((await readChimeras(pk, s)).chimeras[0]).sayings, ['One', 'Two']);
+  await editChimera(pk, a.id, { sayings: [] }, s);
+  assert.deepEqual(Object.keys((await readChimeras(pk, s)).chimeras[0]).sort(), ['id', 'name', 'parts'], 'emptied sayings left a key behind');
+  assert.equal((await editChimera(pk, a.id, { sayings: 'x' }, s)).error, 'sayings');
+  const st = await chimeraSticker('Ada', a.id, s);
+  assert.deepEqual(Object.keys(st).sort(), ['name', 'parts'], 'a sticker carries sayings');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`familiars brought out fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const fam = (i) => ({ parts: partsOf(), name: `n${i}`, sayings: [] });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => showFamiliar(`pk${i}`, fam(i), s)));
+    const out = (await s.get('familiars-out', { type: 'json' })).out;
+    told.forEach((r, i) => { if (r.status === 'fulfilled') assert.ok(out[`pk${i}`], 'a familiar told it was out is not there'); });
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(Object.keys(out).length, 15);
+  });
+}
+
+test('a familiar is seen beside a claimed name only, and Forget me and deleting the username take it in', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal(cleanFamiliar({ parts: { body: 'unicorn' }, name: 'x' }), null);
+  assert.equal(cleanFamiliar({ parts: partsOf(), name: 'x'.repeat(40) }), null, 'a name past its length');
+  assert.equal(cleanFamiliar({ parts: partsOf(), name: 'Otto', sayings: ['x'.repeat(200)] }), null, 'a saying past its length');
+  const f = cleanFamiliar({ parts: partsOf(), name: 'Otto', sayings: ['Hello'], extra: 'dropped' });
+  assert.deepEqual(Object.keys(f).sort(), ['name', 'parts', 'sayings'], 'a familiar kept something more');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const pk = petKey('Ada');
+  const people = [{ handle: 'Ada', claimed: true }, { handle: 'Bex', claimed: false }];
+  assert.equal((await withFamiliars(people, s))[0].familiar, undefined, 'seen before it was brought out');
+  await showFamiliar(pk, f, s);
+  assert.equal(await familiarOut('Ada', s), true);
+  let seen = await withFamiliars(people, s);
+  assert.deepEqual(seen[0].familiar, f);
+  assert.equal(seen[1].familiar, undefined);
+  assert.equal((await withFamiliars([{ handle: 'Ada', claimed: false }], s))[0].familiar, undefined, 'an unclaimed name brought a familiar');
+  await showFamiliar(pk, null, s);
+  assert.equal((await withFamiliars(people, s))[0].familiar, undefined, 'taken in and still seen');
+  await showFamiliar(pk, f, s);
+  await forgetChimeras(pk, s);
+  assert.equal((await withFamiliars(people, s))[0].familiar, undefined, 'forgotten and still seen');
+  await showFamiliar(pk, f, s);
+  await deleteAccount('Ada', s);
+  assert.equal(await familiarOut('Ada', s), false, 'a deleted username still has a familiar out');
 }));
 
 /* ── Props ────────────────────────────────────────────────────────────────

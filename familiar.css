@@ -9,7 +9,8 @@
    --chm-link on --chm-room for the link and the ring, --chm-room on
    --chm-link and on --chm-table for the brass buttons, and --chm-text on
    --chm-panel and --chm-pick for the quiet ones. The drawing's outlines are
-   the chimera's ink on the table's white, as on the table.
+   the chimera's ink on the table's white, as on the table, and so are the
+   words in a speech bubble (--chm-ink on --chm-table).
 
    THE RING HAS TWO TONES because it stands on every ground on the street: the
    brass ring the room uses, with a band of the room's black round it, so
@@ -44,7 +45,9 @@
   font: 400 15px/1.45 'Gantari', system-ui, sans-serif; font-synthesis: none; text-align: left;
 }
 .fam__name { margin: 0 0 4px; font: 400 24px/1.15 'Gilda Display', Georgia, serif; color: var(--chm-table); overflow-wrap: anywhere; }
+.fam__whose { margin: 0 0 6px; font-weight: 700; color: var(--chm-text); }
 .fam__words, .fam__note, .fam__line { margin: 0 0 10px; color: var(--chm-dim); }
+.fam__says { margin: 0 0 10px; color: var(--chm-text); }
 .fam__line:empty { display: none; }
 .fam__row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
 .fam__btn {
@@ -57,5 +60,23 @@
 .fam__link { color: var(--chm-link); text-underline-offset: 3px; font-weight: 700; }
 .fam__link:hover { color: var(--chm-text); }
 .fam__btn:focus-visible, .fam__link:focus-visible { outline: 3px solid var(--chm-link); outline-offset: 2px; }
+
+/* A speech bubble: the table's white with the chimera's own ink, the pair
+   every chimera is drawn in, so it reads on any room. It points down at the
+   familiar from above, or up at it from below. It appears and goes; nothing
+   about it moves. */
+.fam__bubble {
+  position: absolute; z-index: 1; box-sizing: border-box; width: max-content; max-width: 220px; margin: 0;
+  padding: 8px 12px; background: var(--chm-table); color: var(--chm-ink); border: 2px solid var(--chm-ink); border-radius: 14px;
+  font: 600 15px/1.35 'Gantari', system-ui, sans-serif; font-synthesis: none; text-align: left; overflow-wrap: anywhere; pointer-events: none;
+}
+/* The point is two clipped triangles, the ink one under the white one,
+   rather than a turned square: a rotation is what check-gentle.py reads. */
+.fam__bubble::before, .fam__bubble::after { content: ""; position: absolute; clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.fam__bubble::before { left: calc(50% - 9px); bottom: -11px; width: 18px; height: 11px; background: var(--chm-ink); }
+.fam__bubble::after { left: calc(50% - 6px); bottom: -7px; width: 12px; height: 8px; background: var(--chm-table); }
+.fam__bubble--under::before, .fam__bubble--under::after { bottom: auto; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.fam__bubble--under::before { top: -11px; }
+.fam__bubble--under::after { top: -7px; }
 
 @media print { :host { display: none !important; } }

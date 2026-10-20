@@ -37,6 +37,20 @@
   var any = document.getElementById('chm-any');
   var slots = document.getElementById('chm-slots');
   var nameIn = document.getElementById('chm-name');
+  var saysIn = document.getElementById('chm-says');
+  // Its sayings, a line each, as written: blank lines dropped, five at most.
+  function sayings() {
+    return (saysIn ? saysIn.value.split('\n') : []).map(function (x) { return x.replace(/\s+/g, ' ').trim(); })
+      .filter(function (x, i, all) { return x && all.indexOf(x) === i; }).slice(0, 5);
+  }
+  // A saying past its length is said, not quietly cut: nothing is taken or kept.
+  function sayingsWrong() {
+    var lines = (saysIn ? saysIn.value.split('\n') : []).map(function (x) { return x.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+    var long = lines.filter(function (x) { return x.length > 80; })[0];
+    if (long) return 'A saying is at most 80 characters, and the one beginning \u201c' + long.slice(0, 24) + '\u2026\u201d is longer.';
+    if (lines.length > 5) return 'A chimera has at most five sayings, one to a line.';
+    return '';
+  }
   var said = document.getElementById('chm-said');
   var noscript = document.getElementById('chm-noscript');
 
@@ -216,6 +230,8 @@
     var who = document.getElementById('chm-keep-who');
     if (who) who.textContent = me.handle || '';
     keepBtn.addEventListener('click', function () {
+      var wrong = sayingsWrong();
+      if (wrong) { say(wrong + ' Nothing was kept.'); return; }
       var p = pass();
       if (!p) { say('Sign on to the CB first, at the Community Center, and press it again. Nothing was kept.'); return; }
       keepBtn.disabled = true;
@@ -223,7 +239,7 @@
       fetch('/cb/chimeras', {
         method: 'POST', credentials: 'omit', cache: 'no-store',
         headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + p.pass },
-        body: JSON.stringify({ keep: state.parts, name: state.name || C.suggest(state.parts) })
+        body: JSON.stringify({ keep: state.parts, name: state.name || C.suggest(state.parts), sayings: sayings() })
       }).then(function (r) {
         return r.json().then(function (b) { return { status: r.status, body: b }; }, function () { return { status: r.status, body: {} }; });
       }).then(function (r) {
@@ -252,8 +268,10 @@
   if (takeBox && takeBtn && window.loveFamiliar) {
     takeBox.hidden = false;
     takeBtn.addEventListener('click', function () {
+      var wrong = sayingsWrong();
+      if (wrong) { say(wrong + ' It did not go with you.'); return; }
       var name = state.name || C.suggest(state.parts);
-      if (window.loveFamiliar.take(state.parts, name, takeBtn)) {
+      if (window.loveFamiliar.take({ parts: state.parts, name: name, sayings: sayings() }, takeBtn)) {
         say(name + ' is your familiar now, and follows you from room to room. Press it to move it, let it move by itself, or send it home.');
       } else {
         say('Your browser would not keep it, so it cannot follow you. Nothing was kept.');
