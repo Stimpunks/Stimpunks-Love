@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-19T11:47Z",
+ "set": "2026-10-20T11:29Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-19T11:47:48Z"
+     "2026-10-20T11:29:39Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-19T11:47:48Z"
+     "2026-10-20T11:29:39Z"
     ]
    ]
   }
@@ -98,23 +98,13 @@
    "channel": "Farming While Beige"
   },
   {
-   "id": "W6RaJILKmXg",
+   "id": "cOeXz-SvDRg",
    "source": "farming-while-beige",
-   "form": "short",
-   "title": "Buy my danged food (and don’t mind the angle of the sun)",
-   "published": "2026-09-19T13:44:02Z",
+   "form": "long",
+   "title": "I Am a Capitalist Shill (Allegedly)",
+   "published": "2026-10-20T00:58:20Z",
    "state": "screen",
-   "runs": 44,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "34q8cQyiCL8",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "Johnsongrass infestation.",
-   "published": "2026-09-19T15:23:54Z",
-   "state": "screen",
-   "runs": 56,
+   "runs": 714,
    "channel": "Farming While Beige"
   },
   {
@@ -455,6 +445,16 @@
    "published": "2026-10-19T11:34:35Z",
    "state": "screen",
    "runs": 121,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "-z6lFiGgnqM",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Is there a TikTok money glitch?",
+   "published": "2026-10-19T15:28:28Z",
+   "state": "screen",
+   "runs": 104,
    "channel": "Farming While Beige"
   }
  ]
