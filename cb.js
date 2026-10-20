@@ -7850,18 +7850,32 @@
     withFamiliar(function (fam) { fam.visitors(list); });
   };
   Radio.prototype.familiarShown = function (pressed) {
-    // A moderator's own password counts: the server is what decides.
-    var me = this, f = myFamiliar(), claimed = !!this.state.claimed || claimedPass(this.state.pass);
+    // A moderator's own password counts (a cb2.base pass is a claimed
+    // username too, forumPass's rule): the server is what decides.
+    var me = this, f = myFamiliar(), claimed = !!this.state.claimed || forumPass(this.state.pass);
     // The copy out in rooms follows the familiar, whatever this page shows:
     // at once when somebody took, changed or sent theirs home, and otherwise
     // only while the radio is open, because folded sends nothing.
     if (this.famOut && !this.famBusy && (pressed || !this.state.folded) && famCopy(f) !== this.famSent) {
       if (f) this.sendFamiliar(f); else this.setFamiliarOut(false, true);
     }
-    var show = !!(f && claimed && presentRoom());
+    var here = !!(claimed && presentRoom()), show = !!(f && here);
     this.famBtn.hidden = !show;
-    this.famNow.hidden = !show;
-    if (!show) return;
+    // No familiar following you: while you are seen here, a line saying where
+    // one comes from, so the switch can be found. Drawn once, not on every
+    // listen, so the keyboard is never thrown off its link.
+    this.famNow.hidden = !(show || (here && this.state.seen));
+    if (!show) {
+      if (!this.famNow.hidden && this.famNowKind !== 'none') {
+        this.famNowKind = 'none';
+        this.famNow.textContent = 'No familiar is following you. Take a chimera with you from ';
+        var room = el('a', null, 'Chimera Obscura'); room.href = '/chimera-obscura.html';
+        this.famNow.appendChild(room);
+        this.famNow.appendChild(document.createTextNode(', or from your chimeras in Profile, and Bring my familiar comes here, to show it to the people seen with you.'));
+      }
+      return;
+    }
+    this.famNowKind = 'switch';
     if (this.famOut === undefined && !this.famAsking) {
       this.famAsking = true;
       call('/cb/familiar', null, this.state.pass).then(function (r) {

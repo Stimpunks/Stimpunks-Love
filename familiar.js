@@ -977,6 +977,8 @@
       mine = new Familiar(v, true);
       mine.arrive(null, true);
       listen();
+      // So the radio, if it is already up, finds it at once.
+      told();
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
