@@ -59,14 +59,17 @@ IT REFUSES, RATHER THAN TRUSTS:
         special needs -- the words that turn an aid into a tragedy.
       · scoring: rating, score, likes, votes, most popular, best.
 
-  - A CAMERA OR AN UPLOAD. booth.js and try-on.js may not ask for the camera or
+  - A CAMERA OR AN UPLOAD. booth.js, try-on.js and strip.js may not ask for the camera or
     the microphone, may not take a file, and may not draw onto a canvas: an
     avatar is kept as the list of choices it is, never as a picture.
 
   - A SCRIPT THAT KEEPS OR SENDS ANYTHING IT SHOULD NOT. booth.js and try-on.js
     read the CB's pass out of love-cb and never write it; they send only to
     /cb/avatars, and only when somebody presses a button that says it keeps;
-    they store nothing.
+    they store nothing. strip.js is Your strip, in the booth, the Dress-Up Den
+    and Fantasy Fancy Dress, and it only READS: one GET of /cb/avatars when
+    somebody presses Open my strip, so it is refused a POST as well, because
+    Fantasy Fancy Dress promises that nothing in there is kept.
 
   - THE QUOTATION, IF THE MIRROR SAYS OTHERWISE. Nick Walker's line is read on
     our Bodymind entry; when the Knowledge System mirror is on this machine, the
@@ -92,7 +95,9 @@ NOTES = ROOT / "liner-notes.html"
 CSS = ROOT / "love.css"
 AVATAR = ROOT / "avatar.js"
 LIB = ROOT / "netlify/cb/lib.mjs"
-SCRIPTS = (ROOT / "booth.js", ROOT / "try-on.js")
+SCRIPTS = (ROOT / "booth.js", ROOT / "try-on.js", ROOT / "strip.js")
+STRIP_PAGES = {"bodymind-booth.html": "booth.js", "dopamine-dress-up-den.html": "try-on.js",
+               "fantasy-fancy-dress.html": "fancy-dress.js"}
 MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org"
 
 ONLY_LISTS = "--lists" in sys.argv
@@ -374,6 +379,16 @@ def check_scripts():
                 refuse(f"{js.name} fetches {m.group(1).strip()}; it may send only to /cb/avatars.")
         if re.search(r"\b(?:normal|default|average|standard|typical)\b\s*(?:body|bodymind)", src, re.I):
             refuse(f"{js.name} names a starting body. See _no_first_body.")
+        if js.name == "strip.js" and re.search(r"['\"](?:POST|PUT|PATCH|DELETE)['\"]|JSON\.stringify|sendBeacon", src):
+            refuse("strip.js sends a body; Your strip only reads what is already kept, and keeping is "
+                   "booth.js's and try-on.js's, when somebody presses Keep.")
+    for name, own in STRIP_PAGES.items():
+        src = (ROOT / name).read_text()
+        at = {k: src.find(f'src="{k}"') for k in ("avatar.js", "strip.js", own)}
+        if min(at.values()) < 0 or not at["avatar.js"] < at["strip.js"] < at[own] \
+                or 'id="your-strip"' not in src:
+            refuse(f"{name} has no Your strip, or does not load strip.js after avatar.js and before its own "
+                   "script, which calls it.")
 
 
 def main():

@@ -35,6 +35,8 @@ It refuses, and writes nothing, if any of these is true:
     fragment, which never reaches a server. Keeping happens next door, when
     somebody presses Keep. It also refuses a camera, a file, a canvas and
     innerHTML in that script.
+    Your strip is strip.js's, shared with the booth and the Den, which only
+    reads what is already kept; make-bodymind.py holds it to that.
   - THE DEN WITH NO DOOR TO THIS ROOM, or a door that does not say the
     bodymind goes through with you.
 
@@ -147,9 +149,13 @@ def check_js():
 
 def check_den():
     src = DEN.read_text()
-    m = re.search(r'<a id="dd-fancy-door" href="fantasy-fancy-dress\.html">', src)
+    m = re.search(r'<a id="dd-fancy-door" href="fantasy-fancy-dress\.html"[^>]*>(.*?)</a>', src, re.S)
     if not m:
         refuse("the Dress-Up Den has no door to Fantasy Fancy Dress (dd-fancy-door), and a room behind a room needs its door.")
+    elif 'class="dd-curtain"' not in m.group(1) or not re.search(r"<span[^>]*>\s*[^<\s][^<]*Fantasy Fancy Dress", m.group(1)):
+        # Since 2026-10-20 the door is a curtain you can see and a button that
+        # names where it goes, in one link; a line of text was too easy to miss.
+        refuse("the Dress-Up Den's door to Fantasy Fancy Dress is not the curtain and the button naming this room, in one link.")
     if "your bodymind goes through with you" not in src:
         refuse("the Dress-Up Den's door does not say your bodymind goes through with you, which is what the room does.")
 

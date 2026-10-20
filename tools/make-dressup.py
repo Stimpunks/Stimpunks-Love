@@ -524,6 +524,100 @@ def stand(d, look):
     return "\n".join(out)
 
 
+# ── The curtain at the back ──────────────────────────────────────────────────
+# A doorway in the back wall with a curtain drawn back: the way through to
+# Fantasy Fancy Dress, which was a line of text until 2026-10-20 and is a door
+# you can see now. It is THIS room's drawing in this room's inks, the
+# campgrounds' rule for a sign: what you see of another room from here is drawn
+# in here's colours. The curtain is cloth off these rails, a print and a
+# colourway out of the same lists the stand wears, on a wooden rod with rings,
+# held back with gold rope; through the gap the back of the shop is dark, with a
+# pale light at the far end coming through hanging sheers, which is all of that
+# room you can see from this one. Two of the crystal's rainbows are on the wall
+# beside it. It carries no word: the link it sits in says where it goes.
+
+CURTAIN = ("moons", "violet-gold")
+CURTAIN_W = 240
+
+LEFT_DRAPE = "M34 114 H118 Q114 168 68 206 Q92 252 104 304 H34 Z"
+LEFT_FOLDS = ("M50 118 Q52 170 50 203", "M66 118 Q70 168 58 205", "M84 118 Q86 166 63 206",
+              "M102 118 Q100 164 66 206", "M50 210 Q50 260 48 302", "M60 210 Q66 258 66 302",
+              "M66 210 Q80 256 86 302")
+LEFT_TASSEL = "M68 209 L63 232 H81 L76 209 Z"
+LEFT_FRINGE = "M67 227 V232 M72 227 V232 M77 227 V232"
+LEFT_ROPE = "M30 198 Q50 214 72 204"
+SHEERS = ("M58 30 Q52 170 60 304 H74 Q68 170 72 28 Z", "M92 24 Q98 170 90 304 H106 Q112 170 106 22 Z",
+          "M128 22 Q122 170 132 304 H148 Q140 170 144 24 Z", "M166 28 Q172 170 164 304 H180 Q186 170 182 32 Z")
+
+
+def across(d):
+    """A path reflected about the doorway's middle, x -> 240 - x: the right
+    half of the curtain is the left half, the way a curtain is hung."""
+    out, cmd, k = [], None, 0
+    for t in re.findall(r"[A-Za-z]|-?\d+(?:\.\d+)?", d):
+        if t.isalpha():
+            cmd, k = t, 0
+            out.append(t)
+            continue
+        v = float(t)
+        if (cmd in "MLQCT" and k % 2 == 0) or cmd == "H":
+            v = CURTAIN_W - v
+        k += 1
+        out.append(f"{v:g}")
+    return " ".join(out)
+
+
+def curtain(d):
+    cw = {c["key"]: c for c in d["colourways"]}
+    print_key, colours = CURTAIN
+    if print_key not in PRINTS or colours not in cw:
+        refuse(f"the curtain at the back is {print_key} in {colours}, which is not a print and a "
+               "colourway on these rails; it is cloth off the rails or it is nothing.")
+        return ""
+    w, h, tile = PRINTS[print_key]
+    gap = "M40 304 V112 A80 80 0 0 1 200 112 V304 Z"
+    halves = []
+    for f, knob in ((lambda x: x, 72), (across, CURTAIN_W - 72)):
+        halves.append(f'<path class="dd-drape" d="{f(LEFT_DRAPE)}"/>'
+                      + "".join(f'<path class="dd-seam" d="{f(x)}"/>' for x in LEFT_FOLDS)
+                      + f'<path class="dd-rope dd-rope--under" d="{f(LEFT_ROPE)}"/>'
+                      + f'<path class="dd-rope" d="{f(LEFT_ROPE)}"/>'
+                      + f'<path class="dd-tassel" d="{f(LEFT_TASSEL)}"/>'
+                      + f'<path class="dd-seam" d="{f(LEFT_FRINGE)}"/>'
+                      + f'<circle class="dd-tassel" cx="{knob}" cy="206" r="5"/>')
+    rings = "".join(f'<circle class="dd-knot" cx="{x}" cy="112" r="3.6"/>'
+                    for x in (44, 58, 72, 86, 100, 114, 126, 140, 154, 168, 182, 196))
+    sp = "".join(f'<stop offset="{i/5:.2f}" stop-color="var(--dd-sp-{i+1})"/>' for i in range(6))
+    return "".join((
+        f'<svg class="dd-curtain" viewBox="0 0 {CURTAIN_W} 316" fill="none" '
+        'xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">',
+        '<defs>',
+        f'<pattern id="dd-curtain-print" patternUnits="userSpaceOnUse" width="{w}" height="{h}" '
+        f'style="{ink_vars(cw[colours]["inks"])}">{tile()}</pattern>',
+        '<radialGradient id="dd-curtain-glow" gradientUnits="userSpaceOnUse" cx="120" cy="176" r="96">'
+        '<stop offset="0" stop-color="var(--dd-glass)" stop-opacity=".62"/>'
+        '<stop offset=".6" stop-color="var(--dd-glass)" stop-opacity=".14"/>'
+        '<stop offset="1" stop-color="var(--dd-glass)" stop-opacity="0"/></radialGradient>',
+        f'<linearGradient id="dd-curtain-sp" x1="0" x2="1" y1="0" y2="0">{sp}</linearGradient>',
+        f'<linearGradient id="dd-curtain-sp-v" x1="0" x2="0" y1="0" y2="1">{sp}</linearGradient>',
+        f'<clipPath id="dd-curtain-gap"><path d="{gap}"/></clipPath>',
+        '</defs>',
+        '<g class="dd-flecks"><ellipse class="dd-fleck" cx="13" cy="58" rx="9" ry="3" fill="url(#dd-curtain-sp)"/>'
+        '<ellipse class="dd-fleck" cx="228" cy="176" rx="3" ry="10" fill="url(#dd-curtain-sp-v)"/></g>',
+        f'<path class="dd-gap" d="{gap}"/>',
+        '<g clip-path="url(#dd-curtain-gap)">'
+        + "".join(f'<path class="dd-sheer" d="{x}"/>' for x in SHEERS)
+        + f'<path d="{gap}" fill="url(#dd-curtain-glow)"/></g>',
+        '<path class="dd-wood" d="M26 304 V112 A94 94 0 0 1 214 112 V304 H200 V112 A80 80 0 0 0 40 112 V304 Z"/>',
+        '<path class="dd-wood" d="M112 14 H128 L126 34 H114 Z"/>',
+        *halves,
+        '<rect class="dd-wood" x="28" y="108" width="184" height="8" rx="4"/>',
+        '<circle class="dd-wood" cx="26" cy="112" r="7"/><circle class="dd-wood" cx="214" cy="112" r="7"/>',
+        rings,
+        '<rect class="dd-wood" x="18" y="302" width="204" height="9" rx="3"/>',
+        '</svg>'))
+
+
 def cuts_template(d):
     """Every cut and every print, once, for dressup.js to clone. A <template>
     so none of it renders and none of it is in the accessibility tree; the
@@ -857,6 +951,7 @@ def main():
     d = json.loads(DATA.read_text())
     check(d)
     check_js()
+    drape = curtain(d)
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)
@@ -866,6 +961,7 @@ def main():
          "        ")
     swap(PAGE, "dd:rails", rails(d, look), "      ")
     swap(PAGE, "dd:cuts", cuts_template(d), "")
+    swap(PAGE, "dd:curtain", drape, "      ")
     swap(PAGE, "dd:looks", looks(d), "")
     swap(PAGE, "dd:cap", cap(), "")
     swap(NOTES, "dressup-credits", liner(d), "      ")

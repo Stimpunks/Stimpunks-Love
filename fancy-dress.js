@@ -11,11 +11,18 @@
    different somebody each time: the booth's rule that no body is the one a
    room starts from. avatar.js draws all of it.
 
-   NOTHING IS KEPT AND NOTHING IS SENT. The way back to the Den carries the
-   look in its own address, the same way it came in, and keeping it as an
-   avatar is the Den's to do, when somebody presses Keep there.
+   NOTHING IS KEPT AND NOTHING IS SENT FROM HERE. The way back to the Den
+   carries the look in its own address, the same way it came in, and keeping
+   it as an avatar is the Den's to do, when somebody presses Keep there.
    tools/make-fancy-dress.py reads this file and refuses a fetch, storage, a
    camera, a file, a canvas or markup written from a string.
+
+   YOUR STRIP IS strip.js's, which only reads: signed on, "Open my strip" asks
+   the CB for the avatars already kept, and this file says what pressing a
+   frame does. A bodymind comes into the fitting with everything it had on; an
+   outfit on the stand is the Den's, so it is a way back through. Which avatar
+   came in rides back to the Den in the address, so Keep the changes there
+   changes that one.
 
    NOTHING MOVES. A pick changes the drawing at once.
    ============================================================================= */
@@ -51,6 +58,9 @@
   if (brought && brought.base !== 'bodymind') brought = null;
   var body = brought ? brought.body : A.random().body;
   var den = {};   // what it has on from the Den's rails, which stays on it
+  var yours = !!brought;   // a bodymind of yours, rather than somebody at random
+  // Which kept avatar it is, if the Den or your strip said, for the way back.
+  var kept = brought && from.avatar && /^v[A-Za-z0-9_-]{10}$/.test(from.avatar) ? from.avatar : null;
 
   function sel(rail, part) { return rail.querySelector('[data-part="' + part + '"]'); }
   function radio(rail, value) { return rail.querySelector('input[type="radio"][value="' + value + '"]'); }
@@ -93,9 +103,9 @@
     if (art) box.appendChild(art);
     box.hidden = false;
     var on = lk ? A.wearWords(lk) : '';
-    var whose = brought ? 'On your bodymind: ' : 'On somebody drawn at random: ';
-    readout.textContent = on ? whose + on + '.' : (brought ? 'Your bodymind has nothing on from the rails yet.' : 'Somebody drawn at random, with nothing on from the rails yet.');
-    if (back) back.href = 'dopamine-dress-up-den.html' + (lk ? '#look=' + A.code(lk) : '');
+    var whose = yours ? 'On your bodymind: ' : 'On somebody drawn at random: ';
+    readout.textContent = on ? whose + on + '.' : (yours ? 'Your bodymind has nothing on from the rails yet.' : 'Somebody drawn at random, with nothing on from the rails yet.');
+    if (back) back.href = 'dopamine-dress-up-den.html' + (lk ? '#' + (kept ? 'avatar=' + encodeURIComponent(kept) + '&' : '') + 'look=' + A.code(lk) : '');
     return lk;
   }
 
@@ -139,6 +149,50 @@
       say('Somebody else, drawn at random. ' + readout.textContent);
     });
   }
+
+  /* ── Your strip ──────────────────────────────────────────────────────── */
+  function fromStrip(a) {
+    body = a.look.body;
+    den = {};
+    rails.forEach(function (rail) { rail.querySelector('input[type="radio"]').checked = true; });
+    Object.keys(a.look.wear || {}).forEach(function (slot) {
+      if (ONLY.indexOf(slot) !== -1) set(slot, a.look.wear[slot]);
+      else den[slot] = a.look.wear[slot];
+    });
+    yours = true;
+    kept = a.id;
+    if (someone) someone.hidden = true;
+    if (who) who.textContent = (a.name || 'Your bodymind') + ' came out of your strip, with everything it had on. What it wears from the Dress-Up Den stays on it, and what it wears from these rails is back on them.';
+    show();
+    document.getElementById('the-fitting').scrollIntoView({ block: 'start' });
+    var first = form.querySelector('input[type="radio"]:checked');
+    if (first) first.focus({ preventScroll: true });
+    say((a.name || 'Your bodymind') + ' is in the fitting, as you kept it. ' + readout.textContent);
+  }
+  if (window.loveStrip) window.loveStrip({
+    shows: document.getElementById('ffd-strip-do'),
+    open: document.getElementById('ffd-strip-open'),
+    list: document.getElementById('ffd-strip'),
+    said: document.getElementById('ffd-strip-said'),
+    item: 'ffd-kept', art: 'ffd-kept__photo',
+    none: 'Nothing kept yet. Draw a bodymind at the Bodymind Booth, and keep it there or in the Dress-Up Den.',
+    act: function (a) {
+      if (a.look.base === 'bodymind') {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'ffd-go ffd-go--quiet';
+        b.textContent = 'Dress ' + (a.name || 'this one') + ' here';
+        b.addEventListener('click', function () { fromStrip(a); });
+        return b;
+      }
+      // The stand never comes through the curtain; its way is back through.
+      var to = document.createElement('a');
+      to.className = 'ffd-go ffd-go--quiet';
+      to.href = 'dopamine-dress-up-den.html#avatar=' + encodeURIComponent(a.id) + '&look=' + A.code(a.look);
+      to.textContent = 'Back through with ' + (a.name || 'this one');
+      return to;
+    }
+  });
 
   if (who) {
     who.textContent = '';

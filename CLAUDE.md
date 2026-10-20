@@ -4378,6 +4378,14 @@ puts the Den's rails on it, and the Den still draws no body of its own.
     way to put a look back) and dispatches `love-dressed`; `try-on.js` is the file that keeps, and says so. Do
     not move the keeping into dressup.js to save a file: make-dressup.py's refusal of `fetch` there is the
     Den's promise.
+  · **YOUR STRIP IS `strip.js`, IN THE BOOTH, THE DEN AND FANTASY FANCY DRESS, AND IT ONLY READS** (Ryan,
+    2026-10-20, so somebody walking into either room on their own can bring back what they kept): one GET of
+    `/cb/avatars` on a press, each room passing `window.loveStrip` its own parts and classes and saying what a
+    frame does there. `make-bodymind.py` refuses a POST in it, because Fantasy Fancy Dress keeps nothing. Which
+    avatar is being changed rides the address both ways through the curtain (`avatar=`), so Keep the changes
+    in the Den still changes that one. **The way through to Fantasy Fancy Dress is a curtained doorway**, drawn
+    by `make-dressup.py` in the Den's own inks inside the one link with its button, and `make-fancy-dress.py`
+    refuses the door without both.
   · **THE LIGHT IS TWO STRIP LIGHTS A HAND'S WIDTH AWAY, AND NO FLASH**, because a booth's flash is the strobe.
     Every plate has its rims lit both sides; the collisions are in §113, and **All Together Now Farms** (the
     other two-light room, two colours on two sides of a field) and **the Den next door** are the ones to watch.

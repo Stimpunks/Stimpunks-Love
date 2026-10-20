@@ -79,7 +79,7 @@
               <button type="button" class="ffd-go ffd-go--quiet" id="ffd-someone" hidden>Somebody else</button>
             </div>
             <p class="ffd-backto"><a class="ffd-go ffd-go--door" id="ffd-back" href="dopamine-dress-up-den.html">Back through to the Dress-Up Den, wearing it</a></p>
-            <p class="ffd-fine">Nothing in here is kept or sent. To keep it as an avatar, take it back through: the Dress-Up Den keeps it in your Profile on the CB, and only when you press Keep there.</p>
+            <p class="ffd-fine">Nothing in here is kept. To keep it as an avatar, take it back through: the Dress-Up Den keeps it in your Profile on the CB, and only when you press Keep there.</p>
             <p class="ffd-said" id="ffd-said" role="status"></p>
           </div>
         </div>
@@ -171,6 +171,14 @@
     </div>
   </section>
 
+  <section class="ffd-part" aria-labelledby="ffd-strip-h" id="your-strip">
+    <h2 id="ffd-strip-h">Your strip</h2>
+    <p>Every avatar you keep, at <a href="bodymind-booth.html">the Bodymind Booth</a> or in the Dress-Up Den, goes into your Profile on the CB, a frame at a time. Signed on to the CB, you can open your strip here and bring a bodymind you kept into the fitting, with everything it had on. Change what you like, then take it back through to the Dress-Up Den and press <em>Keep the changes</em> there: it goes back knowing which one it is.</p>
+    <p class="ffd-strip-do" id="ffd-strip-do" hidden><button type="button" class="ffd-go ffd-go--quiet" id="ffd-strip-open">Open my strip</button></p>
+    <ul class="ffd-strip" id="ffd-strip" hidden></ul>
+    <p class="ffd-strip-said" id="ffd-strip-said" role="status"></p>
+  </section>
+
   <section class="ffd-part" aria-labelledby="ffd-rules-h" id="house-rules">
     <h2 id="ffd-rules-h">House rules</h2>
     <ol class="ffd-rules">
@@ -179,7 +187,7 @@
       <li><strong>Wings fold flat for sitting back in a chair, and a tail lies to one side.</strong> Everything here is drawn on your bodymind as it is, on its feet or sitting down, and nothing put on here takes off anything you always have with you.</li>
       <li><strong>Every piece comes in every print and every colourway</strong> the Dress-Up Den has, all black included. Each rail opens on a first suggestion, and that is all it is.</li>
       <li><strong>Nothing has to go with anything.</strong> Dragon claws with a velvet choker and great faery wings is as good a look as any.</li>
-      <li><strong>Nothing in here is kept or sent.</strong> Your bodymind came in through the address and goes back to the Dress-Up Den the same way, and keeping it as an avatar is done there, when you press Keep.</li>
+      <li><strong>Nothing in here is kept.</strong> Your bodymind came in through the address, or out of your strip, and goes back to the Dress-Up Den the same way, and keeping it as an avatar is done there, when you press Keep. <em>Open my strip</em>, signed on to the CB, only asks your Profile for the avatars you kept, and only when you press it.</li>
     </ol>
   </section>
 
@@ -187,7 +195,7 @@
     <h2 id="ffd-whose-h">Whose this is</h2>
     <p><strong>This shop is Helen Edgar&rsquo;s idea.</strong> She asked on 2026-10-15 for an annexe to the Dopamine Dress-Up Den, which was her idea too: faery wings big and small in every colour, jewellery, beads and rings, onesies, tiger, bear, dragon and unicorn outfits, and animal ears, tails and paws. She chose the name on the sign, and she chose that everything here is worn by your bodymind.</p>
     <p><strong>The drawings are the house&rsquo;s.</strong> Every piece is worked out again from the bodymind it is put on, its shoulders, middle, hips, height and how it gets about, so wings fit whoever wears them and a dragon tail lies the right way off a wheelchair seat.</p>
-    <p><code>tools/make-fancy-dress.py</code> builds these rails out of one data file and refuses rather than guesses. It will not hang a piece that does not say how it feels and how it comes off, a piece nothing can draw, or a word next door refuses, from sizes and gendered rails to fashion rules and scores, and it will not let this room&rsquo;s script keep or send anything.</p>
+    <p><code>tools/make-fancy-dress.py</code> builds these rails out of one data file and refuses rather than guesses. It will not hang a piece that does not say how it feels and how it comes off, a piece nothing can draw, or a word next door refuses, from sizes and gendered rails to fashion rules and scores, and it will not let this room&rsquo;s own script keep or send anything.</p>
     <p class="ffd-further">The type is Abril Fatface, by TypeTogether, for the sign, and Kumbh Sans, by Saurabh Sharma, for everything you read, both under the SIL Open Font License.</p>
   </section>
 
@@ -253,6 +261,7 @@
 
 <script src="love.js" defer></script>
 <script src="avatar.js" defer></script>
+<script src="strip.js" defer></script>
 <script src="fancy-dress.js" defer></script>
 <script src="quest.js" defer></script>
 </body>

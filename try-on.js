@@ -14,9 +14,11 @@
    the bodymind, and what is on it, as keys and nothing else -- with the name
    and words typed beside it, to /cb/avatars, with the pass the radio keeps in
    love-cb, which this file reads and never writes. "Your bodymind", with none
-   brought in, asks the same address for the ones already kept. Nothing is
-   stored, no camera or file is asked for, nothing is drawn onto a canvas, and
-   tools/make-bodymind.py reads this file and refuses each of those.
+   brought in, asks the same address for the ones already kept, and so does
+   Your strip, which strip.js draws and this file says what pressing does.
+   Nothing is stored, no camera or file is asked for, nothing is drawn onto a
+   canvas, and tools/make-bodymind.py reads this file and refuses each of
+   those.
 
    NOTHING MOVES. Changing who wears it swaps the drawing at once.
    ============================================================================= */
@@ -90,11 +92,13 @@
     Object.keys(extra).forEach(function (k) { wear[k] = extra[k]; });
     return { base: 'bodymind', body: body, wear: wear };
   }
-  /* The door through the back takes the bodymind with it, in the address. */
+  /* The door through the back takes the bodymind with it, in the address,
+     and which avatar it is, if one is being changed, so Keep the changes still
+     changes that one when it comes back through. */
   function doorTo() {
     if (!door) return;
     var lk = onBody && body ? A.clean(look()) : null;
-    door.href = 'fantasy-fancy-dress.html' + (lk ? '#look=' + A.code(lk) : '');
+    door.href = 'fantasy-fancy-dress.html' + (lk ? '#' + (editing ? 'avatar=' + encodeURIComponent(editing) + '&' : '') + 'look=' + A.code(lk) : '');
   }
 
   /* Draw whoever is wearing it, and say it in the readout's own words. */
@@ -198,6 +202,7 @@
     aboutIn.value = was.about;
     change.hidden = !id;
     keep.textContent = id ? 'Keep it as a new one' : 'Keep it as an avatar';
+    doorTo();
   }
 
   function words(payload, edit) {
@@ -216,6 +221,7 @@
         editMode(r.body.kept.id, r.body.kept.name, r.body.kept.about);
         say('Kept. It is in your Profile on the radio' + (r.body.claimed ? ', where you can wear it on the CB.' : '. Claim your username under Account, on the radio, to wear it on the CB.'));
         try { window.dispatchEvent(new CustomEvent('love-avatars')); } catch (e) {}
+        if (strip) strip.refresh();
         return;
       }
       say(trouble(r, 'Nothing was kept.'));
@@ -232,10 +238,51 @@
         was = { name: nameIn.value, about: aboutIn.value };
         say('Changed, in your Profile' + (r.body.wearing === editing ? ' and on the CB, where you wear it.' : '.'));
         try { window.dispatchEvent(new CustomEvent('love-avatars')); } catch (e) {}
+        if (strip) strip.refresh();
         return;
       }
       say(trouble(r, 'Nothing was changed.'));
     });
+  });
+
+  /* ── Your strip ────────────────────────────────────────────────────────────
+     strip.js draws it; this says what pressing a frame does here. Whatever
+     comes out of it comes in as it was kept: a bodymind with everything it
+     had on, the rails' things back on the rails and Fantasy Fancy Dress's
+     carried with it, or an outfit back on the stand. Keep the changes then
+     changes that one. */
+  var strip = window.loveStrip && window.loveStrip({
+    shows: document.getElementById('dd-strip-do'),
+    open: document.getElementById('dd-strip-open'),
+    list: document.getElementById('dd-strip'),
+    said: document.getElementById('dd-strip-said'),
+    item: 'dd-kept', art: 'dd-kept__photo',
+    none: 'Nothing kept yet. Keep one from the stand above, or draw a bodymind at the Bodymind Booth next door.',
+    act: function (a) {
+      var mind = a.look.base === 'bodymind';
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'dd-go dd-go--quiet';
+      b.textContent = (mind ? 'Dress ' : 'Put ') + (a.name || 'this one') + (mind ? ' here' : ' on the stand');
+      b.addEventListener('click', function () {
+        if (mind) {
+          D.put(a.look.wear || {});
+          extra = fancy(a.look.wear);
+          wearIt(a.look.body, '');
+        } else {
+          onBody = false;
+          mine.textContent = '';
+          D.put(a.look.wear || {});
+          show();
+        }
+        editMode(a.id, a.name, a.about);
+        document.getElementById('the-stand').scrollIntoView({ block: 'start' });
+        (mind ? bodyBtn : standBtn).focus({ preventScroll: true });
+        say((a.name || (mind ? 'Your bodymind' : 'Your outfit')) + (mind ? ' is here, ' : ' is on the stand, ') +
+          'as you kept it. Change what you like on the rails and press Keep the changes. ' + readout.textContent);
+      });
+      return b;
+    }
   });
 
   /* ── Brought in ────────────────────────────────────────────────────────── */

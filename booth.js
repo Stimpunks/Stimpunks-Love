@@ -17,7 +17,7 @@
    "Keep it in my Profile" and "Keep the changes" send the look -- the choices
    and nothing else -- with the name and words typed beside it, to /cb/avatars,
    with the pass the radio keeps in love-cb, which this file reads and never
-   writes. "Open my strip" asks the same address for the avatars already kept.
+   writes. Your strip, under the booth, is strip.js's, which only reads.
    Nothing is stored, no camera or file is asked for, and nothing is drawn onto
    a canvas: an avatar stays a list of choices. make-bodymind.py reads this file
    and refuses each of those.
@@ -48,7 +48,7 @@
   var aboutIn = document.getElementById('bmb-about');
   var stripDo = document.getElementById('bmb-strip-do');
   var stripOpen = document.getElementById('bmb-strip-open');
-  var strip = document.getElementById('bmb-strip');
+  var stripList = document.getElementById('bmb-strip');
   var stripSaid = document.getElementById('bmb-strip-said');
 
   var AVATARS = '/cb/avatars';
@@ -184,7 +184,7 @@
         editMode(r.body.kept.id, r.body.kept.name, r.body.kept.about);
         say(said, 'Kept. It is in your Profile on the radio' + (r.body.claimed ? ', where you can wear it on the CB.' : '. Claim your username under Account, on the radio, to wear it on the CB.'));
         try { window.dispatchEvent(new CustomEvent('love-avatars')); } catch (e) {}
-        if (!strip.hidden) openStrip();
+        if (strip) strip.refresh();
         return;
       }
       say(said, trouble(r, 'Nothing was kept.'));
@@ -201,64 +201,46 @@
         was = { name: nameIn.value, about: aboutIn.value };
         say(said, 'Changed, in your Profile' + (r.body.wearing === editing ? ' and on the CB, where you wear it.' : '.'));
         try { window.dispatchEvent(new CustomEvent('love-avatars')); } catch (e) {}
-        if (!strip.hidden) openStrip();
+        if (strip) strip.refresh();
         return;
       }
       say(said, trouble(r, 'Nothing was changed.'));
     });
   });
 
-  /* ── Your strip ────────────────────────────────────────────────────────── */
-  function openStrip() {
-    say(stripSaid, 'Fetching your strip…');
-    send(null).then(function (r) {
-      if (r.status !== 200 || !r.body.avatars) { say(stripSaid, trouble(r, '')); return; }
-      strip.textContent = '';
-      if (!r.body.avatars.length) { strip.hidden = true; say(stripSaid, 'Nothing kept yet. Keep one from the booth above.'); return; }
-      strip.hidden = false;
-      r.body.avatars.slice().reverse().forEach(function (a) {
-        var li = document.createElement('li');
-        li.className = 'bmb-frame-kept';
-        var art = A.draw(a.look, { ground: true, cls: 'bmb-photo' });
-        var pic = document.createElement('span');
-        pic.className = 'bmb-frame-kept__art';
-        if (a.about) { pic.setAttribute('role', 'img'); pic.setAttribute('aria-label', a.about); }
-        else pic.setAttribute('aria-hidden', 'true');
-        if (art) pic.appendChild(art);
-        li.appendChild(pic);
-        var name = document.createElement('p');
-        name.className = 'bmb-frame-kept__name';
-        name.textContent = (a.name || 'Not named') + (r.body.wearing === a.id ? ', worn on the CB' : '');
-        li.appendChild(name);
-        if (a.look.base === 'bodymind') {
-          var b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'bmb-go bmb-go--quiet';
-          b.textContent = 'Change ' + (a.name || 'this one') + ' here';
-          b.addEventListener('click', function () {
-            wear = a.look.wear || {};
-            set(a.look);
-            feet();
-            editMode(a.id, a.name, a.about);
-            draw();
-            document.getElementById('the-booth').scrollIntoView({ block: 'start' });
-            keep.focus();
-            say(said, (a.name || 'It') + ' is in the booth. Change what you like and press Keep the changes.');
-          });
-          li.appendChild(b);
-        } else {
-          var to = document.createElement('a');
-          to.className = 'bmb-go bmb-go--quiet';
-          to.href = 'dopamine-dress-up-den.html#avatar=' + encodeURIComponent(a.id) + '&look=' + A.code(a.look);
-          to.textContent = 'Dress ' + (a.name || 'this one') + ' next door';
-          li.appendChild(to);
-        }
-        strip.appendChild(li);
-      });
-      say(stripSaid, 'Your strip is open.');
-    });
-  }
-  stripOpen.addEventListener('click', openStrip);
+  /* ── Your strip ──────────────────────────────────────────────────────────
+     strip.js draws it; this says what pressing a frame does here. A bodymind
+     comes back into the booth to be changed; an outfit on the stand is the
+     Dress-Up Den's to change, so it is a way next door. */
+  var strip = window.loveStrip && window.loveStrip({
+    shows: stripDo, open: stripOpen, list: stripList, said: stripSaid,
+    item: 'bmb-frame-kept', art: 'bmb-photo',
+    none: 'Nothing kept yet. Keep one from the booth above.',
+    act: function (a) {
+      if (a.look.base === 'bodymind') {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'bmb-go bmb-go--quiet';
+        b.textContent = 'Change ' + (a.name || 'this one') + ' here';
+        b.addEventListener('click', function () {
+          wear = a.look.wear || {};
+          set(a.look);
+          feet();
+          editMode(a.id, a.name, a.about);
+          draw();
+          document.getElementById('the-booth').scrollIntoView({ block: 'start' });
+          keep.focus();
+          say(said, (a.name || 'It') + ' is in the booth. Change what you like and press Keep the changes.');
+        });
+        return b;
+      }
+      var to = document.createElement('a');
+      to.className = 'bmb-go bmb-go--quiet';
+      to.href = 'dopamine-dress-up-den.html#avatar=' + encodeURIComponent(a.id) + '&look=' + A.code(a.look);
+      to.textContent = 'Dress ' + (a.name || 'this one') + ' next door';
+      return to;
+    }
+  });
 
   /* ── Wiring ────────────────────────────────────────────────────────────── */
   form.addEventListener('change', function () {
@@ -293,6 +275,5 @@
   }
 
   document.getElementById('bmb-do').hidden = false;
-  if (pass()) stripDo.hidden = false;
   draw();
 })();
