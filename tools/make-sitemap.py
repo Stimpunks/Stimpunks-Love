@@ -155,6 +155,9 @@ ORDER = ["index.html",
          # radio's, as its guide is, and in the reader's own CB theme rather
          # than a world of its own, so it stands beside the guide.
          "forum.html",
+         # Tasks, the team's to-do list, moved from EspoCRM. The CB's too, for
+         # directors and administrators, so it stands beside the forums.
+         "tasks.html",
          "changelog.html"]
 
 def field(src, pat):
@@ -349,6 +352,7 @@ lines += [
     "- How the site runs, its code and its hosting: https://stimpunks.world/architecture.html",
     "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
     "- The CB's forums, for claimed usernames on the CB (nothing in them is public): https://stimpunks.world/forum.html",
+    "- Tasks, the team's to-do list, for its directors and administrators (nothing in it is public): https://stimpunks.world/tasks.html",
     "",
     "## For agents",
     "",

@@ -3779,3 +3779,87 @@ for (const etagOnRead of [true, false]) {
     told.forEach((r, i) => { if (r.status === 'fulfilled') assert.equal(map[`room-${i}`], now - i, `room-${i} was told it went and is missing`); });
   });
 }
+
+/* ── Tasks ─────────────────────────────────────────────────────────────── */
+import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readTasks, TASK_STATUSES, TASK_TAGS } from './lib.mjs';
+
+const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
+const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
+const TSAM = fw('Sam', 800, []), TADMIN = fw('Al', 500, ['administrator']);
+
+test('tasks are for directors and administrators on a claimed username, and nobody else is told a thing', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.ok(tasksAllow(TCHELSEA) && tasksAllow(TRYAN) && tasksAllow(TADMIN));
+  for (const who of [ADA, TSAM, { role: 'base', handle: 'Chelsea', roles: new Set(['moderator', 'director']) }]) {
+    assert.equal(tasksAllow(who), false, `${who.handle} was let into tasks`);
+    assert.equal(await tasksList(who, s), null);
+    assert.match((await saveTask(who, { name: 'Sneak' }, s, T0, TMODS)).error, /directors and administrators/);
+  }
+  assert.deepEqual(taskPeople(TMODS), ['Chelsea', 'Norah', 'Ryan'], 'somebody who cannot read tasks could be assigned one');
+  assert.deepEqual(await readTasks(s), [], 'a refused save wrote something');
+});
+
+test('a task keeps what it is given, checks every field, and a change touches only what it names', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const made = await saveTask(TCHELSEA, { name: '  Pay Employee Invoices ', priority: 'High', due: '2026-10-24', who: 'norah', with: ['Ryan', 'chelsea'], tags: ['Weekly', 'Finance'], body: 'Pay **every** invoice.' }, s, T0, TMODS);
+  assert.ok(made.task, made.error);
+  const t = made.task;
+  assert.deepEqual([t.name, t.status, t.priority, t.due, t.who, t.with, t.tags, t.by, t.t], ['Pay Employee Invoices', TASK_STATUSES[0], 'High', '2026-10-24', 'Norah', ['Chelsea', 'Ryan'], ['Finance', 'Weekly'], 'Chelsea', T0]);
+  assert.equal(t.blocks[0].t, 'p');
+  for (const [f, why] of [[{ status: 'Done-ish' }, /status/], [{ priority: 'Meh' }, /priority/], [{ due: '2026-13-40' }, /day/], [{ tags: ['Nope'] }, /tag/], [{ who: 'Sam' }, /assigned/], [{ name: '' }, /name/], [{ with: ['Sam'] }, /working/]]) {
+    assert.match((await saveTask(TRYAN, { id: t.id, ...f }, s, T0 + 1, TMODS)).error, why);
+  }
+  // Two people changing different things both keep theirs.
+  await Promise.all([saveTask(TRYAN, { id: t.id, status: 'Started' }, s, T0 + 2, TMODS), saveTask(TCHELSEA, { id: t.id, tags: ['Finance'] }, s, T0 + 2, TMODS)]);
+  let now = await taskOne(TRYAN, t.id, s);
+  assert.deepEqual([now.status, now.tags, now.priority, now.who], ['Started', ['Finance'], 'High', 'Norah']);
+  assert.ok(now.editedBy && now.edited === T0 + 2);
+  // Finished when it becomes Completed, and not when it stops being.
+  now = (await saveTask(TRYAN, { id: t.id, status: 'Completed' }, s, T0 + 3, TMODS)).task;
+  assert.equal(now.done, T0 + 3);
+  now = (await saveTask(TRYAN, { id: t.id, status: 'Started' }, s, T0 + 4, TMODS)).task;
+  assert.equal(now.done, null);
+  // Somebody who leaves the list keeps the tasks they had.
+  const fewer = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"]}');
+  assert.ok((await saveTask(TRYAN, { id: t.id, name: 'Pay invoices', who: 'Norah' }, s, T0 + 5, fewer)).task, 'a change failed because the task kept somebody who left');
+  assert.match((await saveTask(TRYAN, { name: 'New', who: 'Norah' }, s, T0 + 6, fewer)).error, /assigned/);
+  const list = await tasksList(TRYAN, s);
+  assert.equal(list[0].body, undefined, 'the list sent a description');
+  assert.equal(list[0].words, 'Pay **every** invoice.'.length);
+  assert.ok((await removeTask(TRYAN, t.id, s)).gone);
+  assert.match((await removeTask(TRYAN, t.id, s)).error, /already been deleted/);
+});
+
+test('a task brought from EspoCRM again changes the one already brought, and keeps EspoCRM\'s dates', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const f = { espo: '6ad749d56d3dcd58d', name: 'Categorize New Receipts', status: 'Completed', start: '2026-10-20', due: '2026-10-20', who: 'Norah', tags: ['Finance', 'Weekly'], t: T0 - DAYS(3), done: T0 - DAYS(2), by: 'Ryan' };
+  const one = (await saveTask(TRYAN, f, s, T0, TMODS)).task;
+  const two = (await saveTask(TRYAN, { ...f, status: 'Started' }, s, T0 + 1, TMODS)).task;
+  assert.equal(one.id, two.id, 'bringing a task again made it twice');
+  assert.equal((await readTasks(s)).length, 1);
+  assert.deepEqual([one.t, one.done, one.by], [T0 - DAYS(3), T0 - DAYS(2), 'Ryan']);
+  // Without EspoCRM's id nobody can backdate a task or put it in somebody else's name.
+  const mine = (await saveTask(TCHELSEA, { name: 'Mine', t: T0 - DAYS(99), by: 'Ryan' }, s, T0 + 2, TMODS)).task;
+  assert.deepEqual([mine.t, mine.by], [T0 + 2, 'Chelsea']);
+  assert.match((await saveTask(TRYAN, { espo: 'not an id!', name: 'x' }, s, T0, TMODS)).error, /EspoCRM/);
+  // Bringing it over again is nobody's change, so a task nobody here has changed can be refreshed.
+  assert.equal(two.edited, null, 'an import counted as somebody changing the task');
+  // Changed here, it is ours; deleted here, it stays deleted.
+  await saveTask(TCHELSEA, { id: one.id, priority: 'High' }, s, T0 + 3, TMODS);
+  assert.equal((await taskOne(TRYAN, one.id, s)).editedBy, 'Chelsea');
+  assert.ok((await removeTask(TRYAN, one.id, s)).gone);
+  assert.match((await saveTask(TRYAN, f, s, T0 + 4, TMODS)).error, /stays deleted/);
+  assert.equal((await readTasks(s)).some((t) => t.espo === f.espo), false, 'a task deleted here came back');
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`tasks, fifteen saved at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: none told it was saved is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => saveTask(TCHELSEA, { name: `Task ${i}`, tags: [TASK_TAGS[0]] }, s, T0 + i, TMODS)));
+    const ok = told.filter((r) => r.status === 'fulfilled' && r.value.task).map((r) => r.value.task.id);
+    const kept = new Set((await readTasks(s)).map((t) => t.id));
+    assert.deepEqual(ok.filter((id) => !kept.has(id)), [], 'a task told it was saved is missing');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(ok.length, 15);
+  });
+}

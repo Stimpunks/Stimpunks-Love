@@ -5223,6 +5223,21 @@ templates, the other two break the forums' oldest promises. **A wiki's page may 
 20,000** (`bodyMost`, Ryan's call the same day, so board minutes with their transcript go up whole); a reply is never a
 page, and `make-forum.py` refuses `replyTopic` reaching the long limit.
 
+**TASKS ARE THE TEAM'S TO-DO LIST, MOVED FROM ESPOCRM IN STAGES, AND NUMBERS BESIDE THINGS ARE FINE IN THEM.** Ryan's
+brief, 2026-10-20: EspoCRM costs $45 a month and is not part of the street, so its tasks come here, iteratively: the
+tasks and their list first (done), then Kanban and saved filters, recurring tasks, and a timeline. `tasks.html` (paperwork
+beside the forums, in the CB's colours through a shadow root, `tasks.css` the CB's seven tokens only), `tasks.js`,
+`/cb/tasks`, the Tasks section at the end of `lib.mjs`, `data/tasks.json` (who reads them, and EspoCRM's own statuses,
+priorities and tags, written between `tasks:settings` markers by `tools/make-tasks.py`; never hand-edit them). **Directors
+and administrators only** (`tasksAllow`), and a task is assigned only to somebody who could read it (`taskPeople`, from
+`CB_MODS`). **One blob holds every task**, the Brass Tacks Board's arrangement, and a change sends only the fields it
+changes, laid over the task as it is now, so two directors changing different things both keep theirs. **A task brought
+from EspoCRM keeps EspoCRM's id**, so bringing tasks again changes them rather than doubling them: the import can run at
+every stage until the cut-over. **The list's filters and order live in the address and nothing is kept in the browser**,
+which `privacy.html#tasks` says. **Ryan's call, the same day: the street's rule against numbers beside things does not
+apply to tasks or to backend tools**, so the list says how many match and how many each filter choice would show; the
+rule still holds in every room and in the forums, and a tool that refuses a count there is right.
+
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
 redraw** (forum.js draws no canvas of its own), and `putForumUpload` refuses one still carrying camera data **and a

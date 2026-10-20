@@ -594,6 +594,20 @@
         "--yellow"
       ]
     },
+    "tasks.html": {
+      "kind": "julia",
+      "c": [
+        -0.70176,
+        -0.3842
+      ],
+      "orbit": 0.014,
+      "ground": "--ink",
+      "inks": [
+        "--green",
+        "--cyan",
+        "--pink"
+      ]
+    },
     "live-room.html": {
       "kind": "newton",
       "degree": 3,

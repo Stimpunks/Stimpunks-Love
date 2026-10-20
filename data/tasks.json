@@ -1,0 +1,16 @@
+{
+  "_what": "Tasks, the team's to-do list, moved here from EspoCRM. tools/make-tasks.py writes this into netlify/cb/lib.mjs between the tasks:settings markers, which is the only copy the server reads. Do not hand-edit those markers; edit this and run tools/check-all.sh.",
+  "_brief": "Ryan's brief, 2026-10-20: EspoCRM mostly fits, but it costs $45 a month and is not part of Stimpunks.World, which is becoming the one stop for everything; replicate its tasks iteratively. The features in use: a Kanban view, a timeline view, a list view, field filters and sorting, saved filters, Markdown and recurring tasks. Stage one is the tasks themselves and the list view with its filters and sorting; Kanban and saved filters, recurring tasks, and the timeline follow, in that order.",
+  "_numbers": "Ryan's call, 2026-10-20: the street's rule against numbers beside things does not apply in tasks or in backend tools, so the list says how many tasks match and how many have each status, priority, person and tag.",
+  "_see": "see: the CB_MODS roles that read and change tasks. An administrator always may. Ryan's call, 2026-10-20: directors, as Back Office Operations is; the About page lists Ryan Boren, Chelsea Adams, Norah Hobbs and Helen Edgar as directors. A task may be assigned only to somebody who can read tasks.",
+  "_lists": "statuses, priorities and tags are EspoCRM's own, word for word, so the tasks brought over keep theirs. done: the statuses that mean a task needs nothing more, which the list hides until asked. Adding a tag is a line here and a run of tools/check-all.sh, as it was an administrator's edit in EspoCRM.",
+  "see": ["director"],
+  "statuses": ["Not Started", "Started", "Completed", "Canceled", "Deferred"],
+  "done": ["Completed", "Canceled"],
+  "priorities": ["Low", "Normal", "High", "Urgent"],
+  "default_priority": "Normal",
+  "tags": ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance",
+           "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social",
+           "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off",
+           "Volunteering", "Weekly"]
+}

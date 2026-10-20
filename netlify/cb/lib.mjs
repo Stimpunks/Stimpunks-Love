@@ -7007,3 +7007,195 @@ export function sameSite(req) {
   if (!origin) return req.method === 'GET';
   try { return new URL(origin).host === new URL(req.url).host; } catch (e) { return false; }
 }
+
+/* ── Tasks ────────────────────────────────────────────────────────────────
+
+   Ryan's brief, 2026-10-20: the team's to-do list, moved here from EspoCRM,
+   which costs $45 a month and is not part of the street, built in stages:
+   the tasks and their list first, then Kanban and saved filters, recurring
+   tasks, and a timeline. data/tasks.json says who reads them and what a
+   status, a priority and a tag may be, written in here by tools/make-tasks.py.
+
+   ONLY THE ROLES IN TASK_SEE, AND AN ADMINISTRATOR, on a claimed username
+   (tasksAllow). Everybody else is told nothing, not even that there are any.
+   A task may be assigned only to somebody who could read it (taskPeople,
+   from CB_MODS), and keeps whoever it had when that person leaves the list.
+
+   ONE BLOB HOLDS EVERY TASK (`tasks`), written with the boards' conditional
+   write: a team's list is hundreds of tasks, not millions, so a list and its
+   filters are worked out from the whole of it, in the browser. A change sends
+   only the fields it changes, and they are laid over the task as it is now,
+   so two people changing different things at once both keep theirs.
+
+   NUMBERS BESIDE THINGS ARE FINE HERE (Ryan's call, the same day): the street's
+   rule against counting does not apply to tasks or to backend tools.
+
+   NOTHING ANYBODY TYPES IS LOGGED, here as everywhere in this file. */
+/* tasks:settings:begin -- written by tools/make-tasks.py from data/tasks.json. Do not hand-edit. */
+export const TASK_SEE = ["director"];
+export const TASK_STATUSES = ["Not Started", "Started", "Completed", "Canceled", "Deferred"];
+export const TASK_DONE = ["Completed", "Canceled"];
+export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
+export const TASK_DEFAULT_PRIORITY = "Normal";
+export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
+/* tasks:settings:end */
+export const TASK_NAME_MAX = 200;
+export const TASK_BODY_MAX = FORUM_BODY_MAX;
+const TASKS = 'tasks';
+const TASKS_GONE = 'tasks-gone';    // EspoCRM's ids of tasks brought over and deleted here, so a later import leaves them deleted
+const NO_TASKS = 'Tasks are for our directors and administrators, on a claimed username.';
+
+/* Who reads and changes tasks: a claimed username on the base pass, holding
+   one of TASK_SEE's roles or administrator. */
+export function tasksAllow(who) {
+  if (!forumReader(who) || who.role !== 'base' || !who.roles) return false;
+  return who.roles.has('administrator') || TASK_SEE.some((r) => who.roles.has(r));
+}
+
+/* Everybody a task can be assigned to: the handles on CB_MODS that could
+   read it, alphabetical. */
+export function taskPeople(mods = readMods()) {
+  if (!mods) return [];
+  return [...mods.values()].filter((m) => m.roles.has('administrator') || TASK_SEE.some((r) => m.roles.has(r)))
+    .map((m) => m.handle).sort((a, b) => a.localeCompare(b));
+}
+
+export function taskId(v) { return typeof v === 'string' && /^k[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newTaskId = () => 'k' + randomBytes(9).toString('base64url');
+const day = (v) => (v == null || v === '' ? null : (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v + 'T00:00:00Z')) ? v : undefined));
+
+export async function readTasks(s = store()) {
+  const d = await s.get(TASKS, { type: 'json' });
+  return d && Array.isArray(d.tasks) ? d.tasks : [];
+}
+
+/* The fields a change asks for, checked: { fields } or { error }. Only the
+   fields present are there; `had` is the task as it is, if there is one. */
+function taskFields(f, had, people) {
+  const out = {};
+  const inPeople = (h) => people.some((p) => foldHandle(p) === foldHandle(h)) || (had && (foldHandle(had.who || '') === foldHandle(h) || (had.with || []).some((x) => foldHandle(x) === foldHandle(h))));
+  const pick = (h) => people.find((p) => foldHandle(p) === foldHandle(h)) || h;
+  if (f.name !== undefined) {
+    const n = tidy(f.name);
+    if (!n || [...n].length > TASK_NAME_MAX) return { error: `A task's name is between one and ${TASK_NAME_MAX} characters.` };
+    out.name = n;
+  }
+  if (f.status !== undefined) {
+    if (!TASK_STATUSES.includes(f.status)) return { error: `A status is one of ${TASK_STATUSES.join(', ')}.` };
+    out.status = f.status;
+  }
+  if (f.priority !== undefined) {
+    if (!TASK_PRIORITIES.includes(f.priority)) return { error: `A priority is one of ${TASK_PRIORITIES.join(', ')}.` };
+    out.priority = f.priority;
+  }
+  for (const [k, word] of [['start', 'start'], ['due', 'due date']]) {
+    if (f[k] === undefined) continue;
+    const d = day(f[k]);
+    if (d === undefined) return { error: `A ${word} is a day, as YYYY-MM-DD, or nothing.` };
+    out[k] = d;
+  }
+  if (f.body !== undefined) {
+    const b = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body, TASK_BODY_MAX);
+    if (b === null) return { error: `A task's description is up to ${TASK_BODY_MAX} characters.` };
+    out.body = b;
+  }
+  if (f.who !== undefined) {
+    if (f.who == null || f.who === '') out.who = null;
+    else if (typeof f.who !== 'string' || !inPeople(f.who)) return { error: 'A task is assigned to somebody who can read tasks, or to nobody.' };
+    else out.who = pick(f.who);
+  }
+  if (f.with !== undefined) {
+    if (!Array.isArray(f.with) || f.with.length > 20 || f.with.some((h) => typeof h !== 'string' || !inPeople(h))) return { error: 'Everybody working on a task can read tasks.' };
+    out.with = [...new Set(f.with.map(pick))].sort((a, b) => a.localeCompare(b));
+  }
+  if (f.tags !== undefined) {
+    if (!Array.isArray(f.tags) || f.tags.some((t) => !TASK_TAGS.includes(t))) return { error: `A tag is one of ${TASK_TAGS.join(', ')}.` };
+    out.tags = TASK_TAGS.filter((t) => f.tags.includes(t));
+  }
+  return { fields: out };
+}
+
+/* A task as a reader is sent it: everything, the description as nodes too
+   when `whole`, and only its length otherwise, for the list. */
+export function shapeTask(t, whole = false) {
+  const out = { id: t.id, name: t.name, status: t.status, priority: t.priority, start: t.start || null, due: t.due || null,
+    done: t.done || null, who: t.who || null, with: t.with || [], tags: t.tags || [], t: t.t, by: t.by,
+    edited: t.edited || null, editedBy: t.editedBy || null };
+  if (t.espo) out.espo = t.espo;
+  if (whole) { out.body = t.body || ''; out.blocks = parseBrass(t.body || ''); } else out.words = [...(t.body || '')].length;
+  return out;
+}
+
+export async function tasksList(who, s = store()) {
+  if (!tasksAllow(who)) return null;
+  return (await readTasks(s)).map((t) => shapeTask(t));
+}
+export async function taskOne(who, id, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const t = (await readTasks(s)).find((x) => x.id === taskId(id));
+  return t ? shapeTask(t, true) : null;
+}
+
+/* A task made, or changed: `f.id` names one to change, and `f.espo`, EspoCRM's
+   id for a task brought over, changes the one brought over before rather than
+   making it twice. Answers { task } or { error }. A task brought over keeps
+   when EspoCRM says it was made and finished, and who made it; any other keeps
+   now, and the director making it.
+
+   BRINGING TASKS OVER AGAIN, until the cut-over, adds what EspoCRM has made
+   since and refreshes what nobody here has changed: an import is not a change
+   by anybody, so it never sets `edited`, and the importer leaves alone any
+   task that has one. A task brought over and deleted here stays deleted. */
+export async function saveTask(who, f, s = store(), now = Date.now(), mods = readMods()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  f = f || {};
+  const espo = typeof f.espo === 'string' && /^[A-Za-z0-9]{6,40}$/.test(f.espo) ? f.espo : null;
+  if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
+  const people = taskPeople(mods);
+  if (espo && (await readTaskGone(s)).includes(espo)) return { error: 'That task was brought over and deleted here, so it stays deleted.' };
+  let saved = null, why = null;
+  await updateList(TASKS, 'tasks', (list) => {
+    why = null; saved = null;
+    const k = f.id != null ? list.findIndex((x) => x.id === taskId(f.id)) : (espo ? list.findIndex((x) => x.espo === espo) : -1);
+    if (f.id != null && k < 0) { why = 'That task has been deleted.'; return null; }
+    const had = k >= 0 ? list[k] : null;
+    const r = taskFields(f, had, people);
+    if (r.error) { why = r.error; return null; }
+    const next = had ? { ...had, ...r.fields } : { id: newTaskId(), name: null, status: TASK_STATUSES[0], priority: TASK_DEFAULT_PRIORITY,
+      start: null, due: null, body: '', who: null, with: [], tags: [], t: now, by: who.handle, ...r.fields };
+    if (!next.name) { why = 'Give the task a name.'; return null; }
+    if (espo) next.espo = espo;
+    // Finished when it became Completed, and not finished when it stops being.
+    if (next.status === 'Completed' && !(had && had.status === 'Completed')) next.done = now;
+    if (next.status !== 'Completed') delete next.done;
+    if (espo) {
+      for (const [key, v] of [['t', f.t], ['done', f.done]]) if (typeof v === 'number' && v > 0 && v <= now) next[key] = v;
+      if (typeof f.by === 'string' && cleanHandle(f.by)) next.by = cleanHandle(f.by);
+    }
+    if (espo) next.synced = now;
+    else if (had) { next.edited = now; next.editedBy = who.handle; }
+    saved = next;
+    const copy = list.slice();
+    if (had) copy[k] = next; else copy.push(next);
+    return copy;
+  }, s);
+  if (why) return { error: why };
+  return { task: shapeTask(saved, true) };
+}
+
+export async function removeTask(who, id, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  let gone = null;
+  await updateList(TASKS, 'tasks', (list) => {
+    const k = list.findIndex((x) => x.id === taskId(id));
+    gone = k >= 0 ? list[k] : null;
+    return gone ? list.filter((_, i) => i !== k) : null;
+  }, s);
+  if (!gone) return { error: 'That task has already been deleted.' };
+  if (gone.espo) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  return { gone: true };
+}
+async function readTaskGone(s) {
+  const d = await s.get(TASKS_GONE, { type: 'json' });
+  return d && Array.isArray(d.ids) ? d.ids : [];
+}
