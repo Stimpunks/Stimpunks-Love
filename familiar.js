@@ -214,7 +214,15 @@
       if (e === self || /^(?:SCRIPT|STYLE|NOSCRIPT|TEMPLATE)$/.test(e.tagName)) return;
       var r = e.getBoundingClientRect(), sized = r.width || r.height;
       if (sized && !meets(onPage(r, GAP), area)) return;
-      if (e.shadowRoot) { if (sized) out.push(onPage(r, GAP)); return; }
+      if (e.shadowRoot) {
+        if (sized) out.push(onPage(r, GAP));
+        // The radio's host has no size of its own; its box is inside it.
+        else for (var k = e.shadowRoot.firstElementChild; k; k = k.nextElementSibling) {
+          var kr = k.getBoundingClientRect();
+          if ((kr.width || kr.height) && meets(onPage(kr, GAP), area)) out.push(onPage(kr, GAP));
+        }
+        return;
+      }
       if (sized && e.matches(AVOID)) { out.push(onPage(r, GAP)); return; }
       for (var c = e.firstChild; c; c = c.nextSibling) {
         if (c.nodeType === 1) visit(c);
@@ -355,10 +363,9 @@
     var sheet = el('link');
     sheet.rel = 'stylesheet';
     sheet.href = '/familiar.css';
-    // Shown once its stylesheet has arrived, so it never appears for a
-    // moment as a bare button.
-    var shown = false;
-    function ready() { if (shown) return; shown = true; host.style.visibility = ''; }
+    // Shown once its stylesheet has arrived and it has a place, so it never
+    // appears for a moment as a bare button, or in the corner.
+    function ready() { me.styled = true; me.reveal(); }
     sheet.addEventListener('load', ready);
     sheet.addEventListener('error', ready);
     root.appendChild(sheet);
@@ -423,8 +430,11 @@
     menu.appendChild(el('p', 'fam__note', 'It goes where you go on the street and sits wherever there are no words, or in a cozy if the room has one free. It keeps you company, and that is all it does.'));
     var row = el('div', 'fam__row');
     var moveB = btnEl('fam__btn', 'Move it');
+    this.cozyB = btnEl('fam__btn', 'Sit in the cozy');
+    this.cozyB.hidden = true;
     this.letB = btnEl('fam__btn fam__btn--quiet');
     row.appendChild(moveB);
+    row.appendChild(this.cozyB);
     row.appendChild(this.letB);
     menu.appendChild(row);
     this.letNote = el('p', 'fam__note', 'At MAX GLITTER it moves by itself whatever this says, and says things now and then. Below MAX it stays where you put it unless this is on.');
@@ -450,6 +460,17 @@
     menu.appendChild(sure);
 
     moveB.addEventListener('click', function () { me.startMoving(); });
+    // Your press, so it goes at any setting: a glide where a move may glide,
+    // a jump at Gentle and wherever it may not move by itself.
+    this.cozyB.addEventListener('click', function () {
+      var cz = freeCozies(me, me.pos.x, me.pos.y);
+      me.closeMenu(true);
+      if (!cz.length) { me.tell('No cozy in this part of the room is free just now.'); return; }
+      sitIn(me, cz[0].cozy);
+      if (intensity() !== 'gentle') me.walkTo(cz[0].x, cz[0].y, function () { me.remember(); });
+      else { me.jump(cz[0].x, cz[0].y); me.remember(); }
+      me.tell('It sits in the cozy.');
+    });
     this.letB.addEventListener('click', function () {
       me.state.moves = !me.state.moves;
       write(me.state);
@@ -541,7 +562,11 @@
   F.openMenu = function () {
     this.menuOpen = true;
     this.hideBubble();
-    if (this.own) { this.sure.hidden = true; this.homeB.hidden = false; }
+    if (this.own) {
+      this.sure.hidden = true;
+      this.homeB.hidden = false;
+      this.cozyB.hidden = !!cozyOf(this) || !freeCozies(this).length;
+    }
     this.line.textContent = '';
     this.draw();
     var said = this.saying();
@@ -736,13 +761,29 @@
     this.later('chatter', function () { me.chatter(); }, 40000 + Math.random() * 50000);
     if (!this.walking) this.speak();
   };
-  // Left behind when you scrolled: yours comes in from the edge it was left
-  // at. Other people's stay in the room.
+  // When you scroll, at MAX or when let: one in the window and not in a cozy
+  // goes to sit in a free cozy that has come into the window. Yours, left
+  // behind, comes in from the edge it was left at; other people's stay in the
+  // room.
   F.followScroll = function () {
-    if (!this.own || !mayMove() || this.busyNow() || this.inView() || document.visibilityState !== 'visible') return;
+    if (!mayMove() || this.busyNow() || document.visibilityState !== 'visible') return;
+    if (this.inView()) { this.seekCozy(); return; }
+    if (!this.own) return;
     var t = this.fromKept(this.state.at), h = homeNear(this, t[0], t[1]);
     if (!h || h.clear === false) return;
     this.enterFrom(this.pos.y < view().y ? 'top' : 'bottom', h);
+  };
+  // A free cozy in the window is its spot: at MAX, or when let, one that is
+  // in the window and not in a cozy goes to sit in it. Asked after a scroll,
+  // and whenever the page or the radio changes (a click, a resize), so a
+  // cozy the radio stopped covering, or that a panel moved into the window,
+  // is found as well as one that was scrolled to.
+  F.seekCozy = function () {
+    if (!mayMove() || this.busyNow() || cozyOf(this) || !this.inView() || document.visibilityState !== 'visible') return false;
+    var cz = freeCozies(this, this.pos.x, this.pos.y);
+    if (!cz.length) return false;
+    this.goTo(cz[0], true);
+    return true;
   };
   // Over to where you are: beside what has the keyboard, or where the
   // pointer has settled, unless it is near enough already.
@@ -785,13 +826,24 @@
     }
     if (!c && !clearBox(boxAt(this.pos.x, this.pos.y, S), this.host)) {
       this.goTo(homeNear(this, this.pos.x, this.pos.y), !this.menuOpen);
-    }
+    } else if (!c) this.seekCozy();
     if (this.menuOpen) this.placeMenu();
   };
 
   F.arrive = function (near, door) {
-    var me = this;
+    var me = this, done = false;
     document.body.appendChild(this.host);
+    function go() { if (done || !me.host.parentNode) return; done = true; me.settleIn(near, door); }
+    // A press (near) needs no waiting; a page that has just opened does,
+    // until its faces are in, or a second and a half, whichever is first.
+    if (near || !document.fonts || !document.fonts.ready) go();
+    else { document.fonts.ready.then(go, go); setTimeout(go, 1500); }
+  };
+  F.reveal = function () { if (this.styled && this.placed) this.host.style.visibility = ''; };
+  F.settleIn = function (near, door) {
+    var me = this;
+    this.placed = true;
+    this.reveal();
     this.measureOrigin();
     this.draw();
     var t = this.own ? this.fromKept(this.state.at) : null;
@@ -901,6 +953,11 @@
     window.addEventListener('scroll', function () { later('scroll', function () { each(function (f) { f.followScroll(); }); }, 700); }, { passive: true });
     function recheck() { each(function (f) { f.recheck(); }); }
     window.addEventListener('resize', function () { later('check', recheck, 400); });
+    // The radio opening, changing size, moving or folding resizes nothing on
+    // the page, so nothing above would hear it: a look every few seconds,
+    // only around each familiar and only while the tab is in front, moves one
+    // out from under the radio and finds a cozy the radio stopped covering.
+    setInterval(function () { if (document.visibilityState === 'visible') recheck(); }, 3000);
     if (window.ResizeObserver) new ResizeObserver(function () { later('check', recheck, 400); }).observe(document.body);
     document.addEventListener('click', function () { later('check', recheck, 500); }, true);
     document.addEventListener('toggle', function () { later('check', recheck, 300); }, true);

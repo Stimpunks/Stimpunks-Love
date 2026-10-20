@@ -4450,7 +4450,10 @@ A moderator cannot clear one yet (`DECISIONS.md`).
 `cozy` markers in each room listed in `data/cozies.json`, in that room's declared inks, refusing a colour of its own, a
 word, a transform and two rooms alike: the job marker's rule. `.cozy` in §4 is layout only, a box with a familiar's height
 of clear air over the drawing; familiar.js sits a familiar in a free cozy in the window (`data-familiar-cozy`), one to a
-cozy, and at MAX they wander between them. **The friendly edit is one cushion drawing for every room.** A new cozy is
+cozy, and at MAX (or when let) one in the window goes to a free cozy that comes into it (`seekCozy`, asked after a scroll and on
+every `recheck`). **The radio resizes nothing on the page**, so `recheck` also runs every few seconds while the tab is in
+front, and `busy()` reads a size-less shadow host by the boxes inside it: that is what keeps a familiar out from under the
+radio and lets one find a cozy the radio stopped covering. **The friendly edit is one cushion drawing for every room.** A new cozy is
 an entry, a drawing in that room's own inks, and a pair of markers where the room has a little space.
 
 **WALKING THROUGH THE DOOR IS DRAWN, NOT A VIEW TRANSITION.** At MAX (or when let), yours walks in from where it was in

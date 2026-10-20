@@ -648,7 +648,7 @@ def check_familiar():
     may = body_of(code, "mayMove")
     if "intensity() === 'max'" not in may or "state.moves" not in may:
         refuse("mayMove() in familiar.js is no longer MAX GLITTER or Let it move by itself.")
-    for fn in ("wander", "followScroll", "followTo"):
+    for fn in ("wander", "followScroll", "followTo", "seekCozy"):
         if "mayMove()" not in body_of(code, fn):
             refuse(f"{fn}() in familiar.js moves it without asking mayMove(). Nothing moves by itself below MAX GLITTER unless you let it.")
     glide = body_of(code, "mayGlide")
