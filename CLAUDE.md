@@ -5274,6 +5274,25 @@ filled with its first coloured tag and striped along its foot when it has more t
 which tags wear which. **The friendly edit is a colour for every tag**: past eight, nobody can tell them apart, and
 `make-tasks.py` refuses a ninth.
 
+**THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
+2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators
+only (`officeAllow` is `tasksAllow`); encrypted at rest; nothing recording who reads; and stimpunks.org's forms posting
+here through a secret-keyed intake at the cut-over. `office.html` (paperwork beside tasks, in the CB's colours through a
+shadow root, `office.css` the CB's seven tokens only), `office.js`, `/cb/office`, the office section at the end of
+`lib.mjs`, `tools/make-office.py`. **Every record is sealed with AES-256-GCM under `CB_OFFICE_KEY`** (32 bytes,
+base64url, in Netlify and nowhere else) by `seal`, written only by `updateSealed`, and **without the key the office is
+shut**, never open in the clear; `make-office.py` refuses a write past `updateSealed`, a fixed nonce, the key read
+anywhere but `officeKey`, and a value for it in any file. **Losing the key loses the office**: Ryan keeps a copy of it
+somewhere of his own, and changing it means unsealing everything with the old key first. **Most of these people never
+signed on to the street, so nothing about them is ever logged** (the function, the office's code and its page), and **a
+search never goes into the address**, which goes into the browser's history; only the list's order does. **A contact
+brought from EspoCRM keeps EspoCRM's id** and arrives through `importContacts`, two hundred to a sealed write, which
+leaves alone one changed here (`edited`) and one deleted here (`office-gone`), so it can run again until the cut-over.
+**Its importer reads EspoCRM's API itself** and prints counts and ids only, so nobody's details pass through a
+conversation; it lives outside the repository with the tasks importer. **The friendly edits are a search kept in the
+address "so it can be shared", a log line for debugging an import, and a second, unsealed copy "for speed"**; each puts
+somebody's details where privacy.html#office says they are not.
+
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
 redraw** (forum.js draws no canvas of its own), and `putForumUpload` refuses one still carrying camera data **and a

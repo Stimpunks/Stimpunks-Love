@@ -3783,7 +3783,8 @@ for (const etagOnRead of [true, false]) {
 /* ── Tasks ─────────────────────────────────────────────────────────────── */
 import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readTasks, taskViews, saveTaskView, removeTaskView,
   forgetTaskViews, taskAddress, TASK_VIEWS_KEEP, TASK_STATUSES, TASK_TAGS, taskRecurs, taskRecur, saveRecur, removeRecur,
-  makeRecurring, readRecurs, isoWeek, recurName, recurAfter, tickTask, taskBoxes } from './lib.mjs';
+  makeRecurring, readRecurs, isoWeek, recurName, recurAfter, tickTask, taskBoxes, officeAllow, officeReady, seal, unseal,
+  readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4073,3 +4074,105 @@ for (const etagOnRead of [true, false]) {
     if (etagOnRead) assert.ok(lines.every((l) => l.startsWith('- [x]')));
   });
 }
+
+// A throwaway key for the office's tests, made fresh each run.
+const OFFICE_TEST_KEY = rnd(32).toString('base64url');
+async function withOfficeKey(key, fn) {
+  const was = process.env.CB_OFFICE_KEY;
+  if (key == null) delete process.env.CB_OFFICE_KEY; else process.env.CB_OFFICE_KEY = key;
+  try { return await fn(); } finally { if (was == null) delete process.env.CB_OFFICE_KEY; else process.env.CB_OFFICE_KEY = was; }
+}
+
+test('the office seals what it keeps, and without its key it is shut, never open in the clear', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  assert.equal(officeReady(), true);
+  const box = seal({ hello: 'Ada', n: 1 });
+  assert.deepEqual(Object.keys(box).sort(), ['data', 'iv', 'sealed', 'tag']);
+  assert.ok(!JSON.stringify(box).includes('Ada'), 'a sealed record can be read without its key');
+  assert.deepEqual(unseal(box), { hello: 'Ada', n: 1 });
+  assert.notEqual(seal({ a: 1 }).iv, seal({ a: 1 }).iv, 'two seals shared a nonce');
+  const bent = { ...box, data: box.data.slice(0, -2) + (box.data.endsWith('A') ? 'BB' : 'AA') };
+  assert.throws(() => unseal(bent), 'a tampered record opened');
+  assert.throws(() => unseal({ contacts: [] }), 'an unsealed blob was read as if sealed');
+  await withOfficeKey(rnd(32).toString('base64url'), async () => assert.throws(() => unseal(box), 'another key opened a record'));
+  await withOfficeKey(null, async () => {
+    assert.equal(officeReady(), false);
+    assert.throws(() => seal({ a: 1 }), /shut/);
+  });
+  await withOfficeKey('too-short', async () => assert.equal(officeReady(), false));
+}));
+
+test('contacts are for directors and administrators, sealed in the store, and a change touches only what it names', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (const who of [TSAM, fw('Chelsea', 700)]) {
+    assert.equal(officeAllow(who), false);
+    assert.equal(await officeContacts(who, s), null);
+    assert.match((await saveContact(who, { first: 'Sneak' }, s, T0)).error, /directors and administrators/);
+  }
+  const made = await saveContact(TCHELSEA, { first: ' Ada ', last: 'Lovelace', email: 'ada@example.org', phone: '+1 (555) 010-2030', notes: 'Met at **camp**.' }, s, T0);
+  assert.ok(made.contact, made.error);
+  const c = made.contact;
+  assert.deepEqual([c.name, c.email, c.phone, c.noEmail, c.by, c.t], ['Ada Lovelace', 'ada@example.org', '+1 (555) 010-2030', false, 'Chelsea', T0]);
+  // The store holds no word of it in the clear.
+  const raw = JSON.stringify(await s.get('office-contacts', { type: 'json' }));
+  for (const word of ['Ada', 'Lovelace', 'ada@example.org', '555', 'camp']) assert.ok(!raw.includes(word), `the store holds ${word} in the clear`);
+  for (const [f, why] of [[{ email: 'not an email' }, /email/], [{ phone: 'call me maybe' }, /phone/], [{ first: '', last: '' }, /name/], [{ first: 'x'.repeat(81) }, /up to/]]) {
+    assert.match((await saveContact(TRYAN, { id: c.id, ...f }, s, T0 + 1)).error, why);
+  }
+  assert.match((await saveContact(TRYAN, { first: 'Another', email: 'ADA@example.org' }, s, T0 + 2)).error, /Ada Lovelace is already a contact/);
+  await Promise.all([saveContact(TRYAN, { id: c.id, noEmail: true }, s, T0 + 3), saveContact(TCHELSEA, { id: c.id, phone: '' }, s, T0 + 3)]);
+  const both = await officeContact(TRYAN, c.id, s);
+  assert.deepEqual([both.noEmail, both.phone, both.first, both.notes], [true, '', 'Ada', 'Met at **camp**.'], 'two changes at once lost one');
+  assert.ok(both.edited && both.editedBy);
+  assert.equal((await officeContacts(TRYAN, s))[0].words, 'Met at **camp**.'.length);
+  assert.ok((await removeContact(TRYAN, c.id, s)).gone);
+  assert.match((await removeContact(TRYAN, c.id, s)).error, /already/);
+  assert.equal(await officeContact(TRYAN, c.id, s), null);
+}));
+
+test('a contact brought from EspoCRM comes again rather than twice, and stays deleted', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const f = { espo: '6ac7f4da71b684145', first: 'Bo', last: 'Peep', email: 'bo@example.org', t: T0 - DAYS(30), by: 'stimpunks.org form' };
+  const one = (await saveContact(TRYAN, f, s, T0)).contact;
+  assert.deepEqual([one.t, one.by, one.edited, one.espo], [T0 - DAYS(30), 'stimpunks.org form', null, f.espo]);
+  const two = (await saveContact(TRYAN, { ...f, phone: '555 0100' }, s, T0 + 1)).contact;
+  assert.deepEqual([two.id, two.phone, (await readContacts(s)).length], [one.id, '555 0100', 1]);
+  assert.match((await saveContact(TRYAN, { espo: 'not an id!', first: 'x' }, s, T0)).error, /EspoCRM/);
+  assert.ok((await removeContact(TRYAN, one.id, s)).gone);
+  assert.match((await saveContact(TRYAN, f, s, T0 + 2)).error, /stays deleted/);
+  assert.equal((await readContacts(s)).length, 0);
+}));
+
+for (const etagOnRead of [true, false]) {
+  test(`contacts, fifteen saved at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: none told it was saved is missing`, () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => saveContact(TCHELSEA, { first: `Person ${i}`, email: `p${i}@example.org` }, s, T0 + i)));
+    const ok = told.filter((r) => r.status === 'fulfilled' && r.value.contact).map((r) => r.value.contact.id);
+    const kept = new Set((await readContacts(s)).map((c) => c.id));
+    assert.deepEqual(ok.filter((id) => !kept.has(id)), [], 'a contact told it was saved is missing');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(ok.length, 15);
+  }));
+}
+
+test('EspoCRM contacts arrive many to a write, and one changed or deleted here is left as it is', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const row = (i, extra = {}) => ({ espo: `68dd0000000000${String(i).padStart(3, '0')}`, last: `Person${i}`, email: `p${i}@example.org`, t: T0 - DAYS(5), by: 'Ryan', ...extra });
+  assert.match((await importContacts(TSAM, [row(1)], s, T0)).error, /directors and administrators/);
+  assert.match((await importContacts(TRYAN, [], s, T0)).error, /Between one/);
+  assert.match((await importContacts(TRYAN, Array.from({ length: 201 }, (_, i) => row(i)), s, T0)).error, /Between one/);
+  assert.match((await importContacts(TRYAN, [{ ...row(1), id: 'cAAAAAAAAAAAA' }], s, T0)).error, /EspoCRM id and nothing of ours/);
+  const first = await importContacts(TRYAN, [row(1), row(2), row(3), row(4, { email: 'not an email' })], s, T0);
+  assert.deepEqual(first.told.map((t) => [t.made, !!t.error]), [[true, false], [true, false], [true, false], [undefined, true]]);
+  assert.equal((await readContacts(s)).length, 3);
+  const [one, two] = first.told;
+  await saveContact(TCHELSEA, { id: one.id, phone: '555 0101' }, s, T0 + 1);
+  await removeContact(TRYAN, two.id, s);
+  const again = await importContacts(TRYAN, [row(1, { last: 'Renamed' }), row(2), row(3, { phone: '555 0303' }), row(5)], s, T0 + 2);
+  assert.deepEqual(again.told.map((t) => t.kept || (t.made ? 'made' : 'refreshed')), ['changed here', 'deleted here', 'refreshed', 'made']);
+  const now = await readContacts(s);
+  assert.deepEqual(now.map((c) => c.last).sort(), ['Person1', 'Person3', 'Person5']);
+  assert.equal(now.find((c) => c.last === 'Person1').phone, '555 0101', 'an import overwrote a change made here');
+  assert.equal(now.find((c) => c.last === 'Person3').phone, '555 0303');
+  const quiet = await importContacts(TRYAN, [row(1)], s, T0 + 3);
+  assert.equal(quiet.told[0].kept, 'changed here');
+}));

@@ -1,0 +1,102 @@
+/* =============================================================================
+   The office, inside its own shadow root beside cb.css (office.js).
+
+   THE CB'S CLOTHES AND NONE OF ITS OWN, as tasks' and the forums': every
+   colour here is one of the radio's seven, var(--cb-*), which cb.css lays
+   over with whichever theme the reader has on, so the office wears every
+   theme the radio does and brings no pair check-contrast.py has not already
+   measured for it. Words on the case in --cb-steel, headings in --cb-steel-2,
+   quiet lines in --cb-amber-2, links and the focus ring in --cb-amber.
+   tools/make-office.py refuses a literal colour in this file. Every sentence
+   stays in Atkinson Hyperlegible.
+
+   NOTHING HERE MOVES. No transition, no animation, no transform.
+   ============================================================================= */
+:host { display: block; }
+.of, .of *, .of *::before, .of *::after { box-sizing: border-box; }
+.of {
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  font: 16px/1.55 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left; overflow-wrap: anywhere;
+}
+.of :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.of a { color: var(--cb-amber); }
+.of p { margin: 0; }
+.of h2, .of h3 { margin: 0; }
+
+/* THE BAR: the radio's, across the top. */
+.of-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px 8px 0 0; cursor: default; user-select: auto; touch-action: auto; }
+.of-name { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--cb-steel); margin-right: auto; }
+.of-nav { display: flex; flex-wrap: wrap; gap: 6px; }
+.of-navlink { display: inline-flex; align-items: center; text-decoration: none; }
+.of .of-navlink { color: var(--cb-steel); }
+.of-navlink[aria-current="page"] { border-color: var(--cb-amber); }
+
+.of-view { display: grid; gap: 12px; padding: 18px 18px 8px; min-width: 0; }
+@media (max-width: 759px) { .of-view { padding: 14px 12px 6px; } }
+.of-view > h2 {
+  font: 400 calc(26px * var(--cb-display-scale, 1))/1.2 var(--cb-display, 'Atkinson Hyperlegible'), 'Atkinson Hyperlegible', system-ui, sans-serif;
+  letter-spacing: var(--cb-display-track, 0); text-transform: var(--cb-display-case, none); color: var(--cb-steel);
+}
+.of .cb-tag { margin-left: 8px; }
+
+/* SEARCHING: one box, and the order. */
+.of-find { display: grid; gap: 10px 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.of-field { display: grid; gap: 4px; }
+.of-input { width: 100%; }
+.of-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; grid-column: 1 / -1; }
+.of .cb-btn.of-small { min-height: 36px; padding: 4px 10px; display: inline-flex; align-items: center; text-decoration: none; }
+.of .of-row a.cb-btn { color: var(--cb-steel); }
+.of-shown { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* THE LIST: a table that scrolls inside its own box on a narrow screen, never the page. */
+.of-tablebox { overflow-x: auto; min-width: 0; }
+.of-list { border-collapse: collapse; width: 100%; font-size: 15px; }
+.of-list th, .of-list td { padding: 6px 8px; border-bottom: 2px solid var(--cb-bar); text-align: left; vertical-align: top; }
+.of-list th { border-bottom-color: var(--cb-steel-2); white-space: nowrap; }
+.of-list td { overflow-wrap: normal; }
+.of-sort { font: inherit; font-weight: 700; color: var(--cb-steel-2); background: none; border: 0; padding: 4px 0; cursor: pointer; min-height: 32px; }
+th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; text-underline-offset: 3px; }
+.of-title { min-width: 12em; font-weight: 700; }
+.of-day { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.of-mail { min-width: 14em; overflow-wrap: anywhere; }
+.of-phone { white-space: nowrap; }
+
+/* ONE CONTACT: its facts in two columns, then its notes as markdown.js builds them. */
+.of-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 16px; margin: 0; }
+.of-facts dt { font-weight: 700; color: var(--cb-steel-2); }
+.of-facts dd { margin: 0; }
+.of-body { display: grid; gap: 10px; min-width: 0; padding-top: 10px; border-top: 2px solid var(--cb-bar); }
+.of-body > * { margin: 0; }
+.of-body ul, .of-body ol { margin: 0; padding-left: 1.4em; }
+.of-body blockquote { margin: 0; padding: 2px 0 2px 12px; border-left: 3px solid var(--cb-steel-2); display: grid; gap: 8px; }
+.of-body code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .92em; padding: 0 3px; border: 1px solid var(--cb-steel-2); border-radius: 3px; }
+.of-body pre { margin: 0; padding: 8px 10px; overflow-x: auto; border: 1px solid var(--cb-steel-2); border-radius: 4px; }
+.of-body pre code { border: 0; padding: 0; }
+.of-body hr { border: 0; border-top: 2px solid var(--cb-steel-2); width: 100%; }
+/* A checkbox in notes: shown as it was written, ticked by editing them. */
+.of-box { list-style: none; }
+.of-box > p > input[type="checkbox"], .of-box > input[type="checkbox"] { width: 18px; height: 18px; margin: 0 8px 0 0; vertical-align: -3px; accent-color: var(--cb-amber); }
+/* A table in notes: markdown.js's scrolling box, PREFIX-table. */
+.of-table { overflow-x: auto; }
+.of-table table { border-collapse: collapse; }
+.of-table th, .of-table td { padding: 4px 10px; border: 1px solid var(--cb-steel-2); text-align: left; vertical-align: top; }
+.of-table th { font-weight: 700; border-bottom-width: 2px; }
+.of-host { color: var(--cb-amber-2); font-size: .88em; white-space: nowrap; }
+.of-sure { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; padding: 8px 10px; border: 2px solid var(--cb-amber); border-radius: 6px; }
+.of-sure > p { flex: 1 1 100%; }
+
+/* WRITING: the radio's own fields. */
+.of-form { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); align-items: start; }
+.of-form > .of-checks, .of-form > .of-field:has(.of-text), .of-form > .of-hint, .of-form > .of-preview, .of-form > .of-answer, .of-form > .of-row { grid-column: 1 / -1; }
+.of-checks { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.of-checks legend { padding: 0 0 4px; float: left; width: 100%; }
+.of-check { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 2px 10px 2px 8px; font-size: 15px; border: 2px solid var(--cb-bar); border-radius: 6px; }
+.of-check input { width: 18px; height: 18px; accent-color: var(--cb-amber); flex: none; margin: 0; }
+.of-text { display: block; width: 100%; min-height: 10em; resize: vertical; font-size: 16px; line-height: 1.5; }
+.of-hint { font-size: 13px; }
+.of-preview { padding: 10px 12px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; }
+.of-answer { font-size: 15px; }
+.of-said { padding: 0 18px 12px; font-size: 15px; min-height: 1.5em; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

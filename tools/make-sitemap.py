@@ -158,6 +158,9 @@ ORDER = ["index.html",
          # Tasks, the team's to-do list, moved from EspoCRM. The CB's too, for
          # directors and administrators, so it stands beside the forums.
          "tasks.html",
+         # The office, contacts and then grant requests and cases, moved from
+         # EspoCRM. The CB's, for directors and administrators, beside tasks.
+         "office.html",
          "changelog.html"]
 
 def field(src, pat):
@@ -353,6 +356,7 @@ lines += [
     "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
     "- The CB's forums, for claimed usernames on the CB (nothing in them is public): https://stimpunks.world/forum.html",
     "- Tasks, the team's to-do list, for its directors and administrators (nothing in it is public): https://stimpunks.world/tasks.html",
+    "- The Office, the people and organisations Stimpunks is in touch with, for its directors and administrators (nothing in it is public): https://stimpunks.world/office.html",
     "",
     "## For agents",
     "",

@@ -117,7 +117,7 @@
        anywhere to go stale or leak.
    ============================================================================= */
 import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID, randomBytes, scryptSync,
-  createECDH, createCipheriv, hkdfSync, sign as cryptoSign } from 'node:crypto';
+  createECDH, createCipheriv, createDecipheriv, hkdfSync, sign as cryptoSign } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import { request as httpRequest } from 'node:http';
 import { request as httpsRequest } from 'node:https';
@@ -7565,5 +7565,235 @@ export async function removeRecur(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That recurring task has already been deleted.' };
   if (gone.espo) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  return { gone: true };
+}
+
+/* ── The office ───────────────────────────────────────────────────────────
+
+   Ryan's brief, 2026-10-20: contacts, grant requests and cases, moved here
+   from EspoCRM after its tasks, in stages, so EspoCRM can be switched off.
+   Ryan's calls, the same evening:
+
+     · DIRECTORS AND ADMINISTRATORS ONLY (officeAllow, the same people as
+       tasks), on a claimed username. Everybody else is told nothing, not even
+       that there are any.
+     · SEALED AT REST. Every record is encrypted with AES-256-GCM under
+       CB_OFFICE_KEY, which only the functions hold (Netlify's environment), so
+       the blob store alone shows nothing readable. Without the key the office
+       is shut, never open in the clear (officeReady).
+     · NOTHING RECORDS WHO READS, as everywhere on the CB. A change says who.
+     · stimpunks.org's forms will post here at the cut-over, through a
+       secret-keyed intake (stage four).
+
+   These are other people's details, most of whom never signed on to the
+   street, so NOTHING HERE IS EVER LOGGED, not even while debugging. */
+const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
+const NO_OFFICE = 'The office is for our directors and administrators, on a claimed username.';
+
+export function officeAllow(who) { return tasksAllow(who); }
+
+/* The key: 32 bytes, as base64url, in CB_OFFICE_KEY. Anything else and the
+   office is shut. */
+function officeKey() {
+  const v = process.env.CB_OFFICE_KEY;
+  if (!v) return null;
+  try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
+}
+export function officeReady() { return !!officeKey(); }
+
+/* A record sealed: the JSON encrypted, with a fresh nonce each time and GCM's
+   tag, so a sealed blob cannot be read or altered without the key. */
+export function seal(obj) {
+  const key = officeKey();
+  if (!key) throw new Error('shut');
+  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
+  const data = Buffer.concat([c.update(JSON.stringify(obj), 'utf8'), c.final()]);
+  return { sealed: 1, iv: iv.toString('base64url'), tag: c.getAuthTag().toString('base64url'), data: data.toString('base64url') };
+}
+export function unseal(box) {
+  const key = officeKey();
+  if (!key) throw new Error('shut');
+  if (!box || box.sealed !== 1) throw new Error('unsealed');
+  const d = createDecipheriv('aes-256-gcm', key, Buffer.from(box.iv, 'base64url'));
+  d.setAuthTag(Buffer.from(box.tag, 'base64url'));
+  return JSON.parse(Buffer.concat([d.update(Buffer.from(box.data, 'base64url')), d.final()]).toString('utf8'));
+}
+async function readSealed(key, s) {
+  const d = await s.get(key, { type: 'json' });
+  return d ? unseal(d) : null;
+}
+/* A sealed blob changed with the boards' conditional write: read, open,
+   change, seal again, and write only if nobody wrote between. */
+async function updateSealed(key, change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const was = cur.exists && cur.data ? unseal(cur.data) : null;
+    const next = change(was);
+    if (next === null) return was;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, seal(next), opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+async function readOfficeGone(s) {
+  const d = await s.get(OFFICE_GONE, { type: 'json' });
+  return d && Array.isArray(d.ids) ? d.ids : [];
+}
+const espoIdOf = (v) => (typeof v === 'string' && /^[A-Za-z0-9]{6,40}$/.test(v) ? v : null);
+
+/* CONTACTS (stage one): a person or an organisation we are in touch with. Each
+   keeps a first and last name, an email and a phone, whether they have asked
+   not to be emailed or called, notes in Markdown, who added it and when, who
+   changed it last and when, and EspoCRM's id for one brought over. EspoCRM's
+   address and payment fields were empty on every contact, so they are not
+   kept. One sealed blob holds every contact: a team's contacts are thousands,
+   not millions. */
+const CONTACTS = 'office-contacts';
+export const CONTACT_NAME_MAX = 80;
+export const CONTACT_NOTES_MAX = 20000;
+export function contactId(v) { return typeof v === 'string' && /^c[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newContactId = () => 'c' + randomBytes(9).toString('base64url');
+const EMAIL = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/;
+const PHONE = /^[0-9+().\-\s/x#*ext]{3,40}$/i;
+
+export async function readContacts(s = store()) {
+  const d = await readSealed(CONTACTS, s);
+  return d && Array.isArray(d.contacts) ? d.contacts : [];
+}
+
+function contactFields(f) {
+  const out = {};
+  for (const k of ['first', 'last']) {
+    if (f[k] === undefined) continue;
+    const v = f[k] == null ? '' : tidy(f[k]);
+    if ([...v].length > CONTACT_NAME_MAX) return { error: `A name is up to ${CONTACT_NAME_MAX} characters.` };
+    out[k] = v;
+  }
+  if (f.email !== undefined) {
+    const v = f.email == null ? '' : String(f.email).trim();
+    if (v && (v.length > 254 || !EMAIL.test(v))) return { error: 'That is not an email address.' };
+    out.email = v;
+  }
+  if (f.phone !== undefined) {
+    const v = f.phone == null ? '' : String(f.phone).trim();
+    if (v && !PHONE.test(v)) return { error: 'A phone number is digits, spaces, + ( ) - and an extension, up to 40 characters.' };
+    out.phone = v;
+  }
+  for (const k of ['noEmail', 'noCall']) if (f[k] !== undefined) out[k] = f[k] === true;
+  if (f.notes !== undefined) {
+    const b = f.notes == null || String(f.notes).trim() === '' ? '' : cleanForumBody(f.notes, CONTACT_NOTES_MAX);
+    if (b === null) return { error: `Notes are up to ${CONTACT_NOTES_MAX} characters.` };
+    out.notes = b;
+  }
+  return { fields: out };
+}
+
+export function shapeContact(c, whole = false) {
+  const out = { id: c.id, name: [c.first, c.last].filter(Boolean).join(' '), first: c.first || '', last: c.last || '',
+    email: c.email || '', phone: c.phone || '', noEmail: !!c.noEmail, noCall: !!c.noCall,
+    t: c.t, by: c.by || null, edited: c.edited || null, editedBy: c.editedBy || null };
+  if (c.espo) out.espo = c.espo;
+  if (whole) { out.notes = c.notes || ''; out.blocks = parseBrass(c.notes || '', { boxes: true }); } else out.words = [...(c.notes || '')].length;
+  return out;
+}
+
+export async function officeContacts(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  return (await readContacts(s)).map((c) => shapeContact(c));
+}
+export async function officeContact(who, id, s = store()) {
+  if (!officeAllow(who)) return null;
+  const c = (await readContacts(s)).find((x) => x.id === contactId(id));
+  return c ? shapeContact(c, true) : null;
+}
+
+/* One contact made or changed in a list already open: only the fields sent
+   change; `espo` brings one over again rather than twice, keeping when EspoCRM
+   says it was made and by whom; a new one with an email another contact has is
+   refused, saying whose, so nobody is entered twice. */
+function applyContact(list, f, who, now) {
+  const espo = espoIdOf(f.espo);
+  const k = f.id != null ? list.findIndex((x) => x.id === contactId(f.id)) : (espo ? list.findIndex((x) => x.espo === espo) : -1);
+  if (f.id != null && k < 0) return { error: 'That contact has been deleted.' };
+  const had = k >= 0 ? list[k] : null;
+  const r = contactFields(f);
+  if (r.error) return r;
+  const next = had ? { ...had, ...r.fields } : { id: newContactId(), first: '', last: '', email: '', phone: '', noEmail: false, noCall: false,
+    notes: '', t: now, by: who.handle, ...r.fields };
+  if (!next.first && !next.last) return { error: 'Give the contact a name.' };
+  if (!had && !espo && next.email) {
+    const twin = list.find((x) => x.email && x.email.toLowerCase() === next.email.toLowerCase());
+    if (twin) return { error: `${[twin.first, twin.last].filter(Boolean).join(' ')} is already a contact with that email.` };
+  }
+  if (espo) {
+    next.espo = espo;
+    if (typeof f.t === 'number' && f.t > 0 && f.t <= now) next.t = f.t;
+    if (typeof f.by === 'string' && tidy(f.by)) next.by = tidy(f.by).slice(0, 40);
+    next.synced = now;
+  } else if (had) { next.edited = now; next.editedBy = who.handle; }
+  const copy = list.slice();
+  if (had) copy[k] = next; else copy.push(next);
+  return { list: copy, saved: next };
+}
+
+export async function saveContact(who, f, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  f = f || {};
+  const espo = espoIdOf(f.espo);
+  if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
+  if (espo && (await readOfficeGone(s)).includes(espo)) return { error: 'That contact was brought over and deleted here, so it stays deleted.' };
+  let saved = null, why = null;
+  await updateSealed(CONTACTS, (was) => {
+    const r = applyContact(was && Array.isArray(was.contacts) ? was.contacts : [], f, who, now);
+    why = r.error || null; saved = r.saved || null;
+    return r.error ? null : { contacts: r.list };
+  }, s);
+  if (why) return { error: why };
+  return { contact: shapeContact(saved, true) };
+}
+
+/* EspoCRM's contacts brought over in one write, up to IMPORT_MAX at a time,
+   which is how thousands arrive without thousands of writes. Safe to run again
+   until the cut-over: it adds what EspoCRM has made since and refreshes what
+   nobody here has changed, and it leaves alone a contact somebody here has
+   changed and one deleted here. Each row is answered by its EspoCRM id. */
+export const IMPORT_MAX = 200;
+export async function importContacts(who, rows, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!Array.isArray(rows) || !rows.length || rows.length > IMPORT_MAX) return { error: `Between one and ${IMPORT_MAX} contacts at a time.` };
+  if (rows.some((r) => !r || !espoIdOf(r.espo) || r.id != null)) return { error: 'Every contact brought over carries its EspoCRM id and nothing of ours.' };
+  const gone = new Set(await readOfficeGone(s));
+  let told = [];
+  await updateSealed(CONTACTS, (was) => {
+    let list = was && Array.isArray(was.contacts) ? was.contacts : [];
+    told = [];
+    for (const row of rows) {
+      const espo = espoIdOf(row.espo);
+      const there = list.find((x) => x.espo === espo);
+      if (gone.has(espo)) { told.push({ espo, kept: 'deleted here' }); continue; }
+      if (there && there.edited) { told.push({ espo, kept: 'changed here', id: there.id }); continue; }
+      const r = applyContact(list, row, who, now);
+      if (r.error) { told.push({ espo, error: r.error }); continue; }
+      list = r.list;
+      told.push({ espo, id: r.saved.id, made: !there });
+    }
+    return told.some((t) => t.id && !t.kept) ? { contacts: list } : null;
+  }, s);
+  return { told };
+}
+
+export async function removeContact(who, id, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  let gone = null;
+  await updateSealed(CONTACTS, (was) => {
+    const list = was && Array.isArray(was.contacts) ? was.contacts : [];
+    const k = list.findIndex((x) => x.id === contactId(id));
+    gone = k >= 0 ? list[k] : null;
+    return gone ? { contacts: list.filter((_, i) => i !== k) } : null;
+  }, s);
+  if (!gone) return { error: 'That contact has already been deleted.' };
+  if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
   return { gone: true };
 }

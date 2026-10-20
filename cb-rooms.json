@@ -764,6 +764,12 @@
    "about": "Tasks, the team’s to-do list on the CB, moved here from EspoCRM, for our directors and administrators: every task with its status, priority, start and due dates, who it is assigned to, tags and a Markdown description, in a list you can filter and sort, with how many match. Not public."
   },
   {
+   "tag": "office",
+   "name": "The Office",
+   "path": "/office.html",
+   "about": "The office, moved here from EspoCRM, for our directors and administrators: the people and organisations we are in touch with, each with a name, an email, a phone number, whether they have asked not to be emailed or called, and notes in Markdown, sealed at rest. Grant requests and cases follow. Not public."
+  },
+  {
    "tag": "changelog",
    "name": "Changelog",
    "path": "/changelog.html",

@@ -135,7 +135,7 @@ CREDITS = ROOT / "liner-notes.html"
 #                    marker in it would be a job in a room nobody can walk to.
 from windows import WINDOWS
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
-          "mission.html", "architecture.html", "cb-guide.html", "about.html", "forum.html", "tasks.html"} | WINDOWS
+          "mission.html", "architecture.html", "cb-guide.html", "about.html", "forum.html", "tasks.html", "office.html"} | WINDOWS
 
 # A ROOM YOU HAVE TO KNOW THE ADDRESS OF CARRIES NO MARKER, AND IS REFUSED ONE.
 # Ryan's call, 2026-10-07 (tools/unlisted.py). The board prints every job beside

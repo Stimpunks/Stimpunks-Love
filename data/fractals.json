@@ -608,6 +608,20 @@
         "--pink"
       ]
     },
+    "office.html": {
+      "kind": "julia",
+      "c": [
+        -0.62,
+        0.43
+      ],
+      "orbit": 0.016,
+      "ground": "--ink",
+      "inks": [
+        "--violet",
+        "--cyan",
+        "--chalk"
+      ]
+    },
     "live-room.html": {
       "kind": "newton",
       "degree": 3,

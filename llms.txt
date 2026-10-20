@@ -135,6 +135,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - [The CB guide — Stimpunks.World](https://stimpunks.world/cb-guide.html): The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, direct messages, the teleporter, watching films together, calls, Profile, avatars, pets, jobs and patches, and what it keeps.
 - [The forums — Stimpunks.World](https://stimpunks.world/forum.html): The CB’s forums: topics in categories for conversations that need longer than two days, after Discourse, for claimed usernames on the CB. A wiki of how-tos, introductions, events, announcements, mutual aid, pets, props and gratitude, infodumps, education, nature, AI, our teams, and areas for staff with the team’s documents, field guide, notes, meeting minutes and templates. Markdown with tables, pictures and files in the words or below them, @mentions, link previews, reactions, and chats copied in from the CB.
 - [Tasks — Stimpunks.World](https://stimpunks.world/tasks.html): Tasks, the team’s to-do list on the CB, moved here from EspoCRM, for our directors and administrators: every task with its status, priority, start and due dates, who it is assigned to, tags and a Markdown description, in a list you can filter and sort, with how many match. Not public.
+- [The Office — Stimpunks.World](https://stimpunks.world/office.html): The office, moved here from EspoCRM, for our directors and administrators: the people and organisations we are in touch with, each with a name, an email, a phone number, whether they have asked not to be emailed or called, and notes in Markdown, sealed at rest. Grant requests and cases follow. Not public.
 - [Changelog — Stimpunks.World](https://stimpunks.world/changelog.html): What changed on the street, and when. Every Stimpunks site publishes one of these.
 
 ## Attribution
@@ -151,6 +152,7 @@ Every page carries an intensity dial with three settings. It defaults to whateve
 - The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html
 - The CB's forums, for claimed usernames on the CB (nothing in them is public): https://stimpunks.world/forum.html
 - Tasks, the team's to-do list, for its directors and administrators (nothing in it is public): https://stimpunks.world/tasks.html
+- The Office, the people and organisations Stimpunks is in touch with, for its directors and administrators (nothing in it is public): https://stimpunks.world/office.html
 
 ## For agents
 
