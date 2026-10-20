@@ -29,6 +29,19 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
     is sent with it (editedBy), so a moderator's words are never shown as the
     starter's. A wiki document goes only with its topic, so a reply never
     becomes the document, and a wiki keeps its pages for good.
+  · A SUBCATEGORY WIDER THAN ITS CATEGORY. Ryan's ask, 2026-10-20, for Team
+    Docs: a category can stand in another (parent), and this writes its
+    parent's group, keep, roles, strict and wiki into it and refuses one that
+    sets its own, so nobody is ever sent a subcategory of a category they
+    cannot read. A shelf (topics: false) holds categories and no topics, and
+    startTopic and a move must refuse it; a shelf with nothing on it is
+    refused. `years` is the first year a category is filed by, and the server
+    makes the rest as each year begins, so no file here changes with the date.
+    A category's page reads only the categories under it the reader may see;
+    templates are offered only from categories the reader may see, never their
+    pinned read-me; and a picture stands in a post's words only if the post
+    holds it, placed by placePictures in shapePost, so no picture from
+    anywhere else is ever shown.
   · COPING KEPT LONGER THAN A WEEK. Ryan's call, 2026-10-18: Discord keeps that
     channel for ever, which is not what it is for, so here its topics go a week
     after the last post. The friendly edit is to lengthen it to match the others.
@@ -76,6 +89,7 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
 
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
+import datetime
 import json
 import re
 import sys
@@ -121,6 +135,8 @@ def categories(data, roles):
     default = data.get("default_keep")
     if default not in KEEPS or default == "never":
         problems.append(f"{DATA.name}: default_keep is {default!r}; it must be a week or a number of months, one of {KEEPS[:-1]}.")
+    by_slug = {}
+    year = datetime.date.today().year
     for c in data.get("categories", []):
         slug = c.get("slug", "")
         where = f"{DATA.name}: category {slug or '(no slug)'}"
@@ -129,6 +145,34 @@ def categories(data, roles):
         if slug in seen:
             problems.append(f"{where}: two categories share the slug.")
         seen.add(slug)
+        if re.fullmatch(r".+-\d{4}", slug) and slug.rsplit("-", 1)[0] in by_slug and by_slug[slug.rsplit("-", 1)[0]].get("years"):
+            problems.append(f"{where}: the server makes that slug for one of {slug.rsplit('-', 1)[0]}'s years.")
+        parent = c.get("parent")
+        if parent is not None:
+            up = by_slug.get(parent)
+            if not up:
+                problems.append(f"{where}: its parent, {parent!r}, is not a category earlier in the list.")
+                continue
+            # A subcategory is its parent's in everything but its name, its
+            # words and what it holds, so nobody is ever sent a subcategory of
+            # a category they cannot read.
+            mine = set(c) & {"group", "keep", "see", "start", "strict", "wiki"}
+            if mine:
+                problems.append(f"{where}: a subcategory takes its parent's {', '.join(sorted(mine))}, and may not set its own.")
+            depth = up["_depth"] + 1
+            if depth > 2 or (depth == 2 and c.get("years")):
+                problems.append(f"{where}: three levels at most, a category, its subcategories and theirs, and a year counts as one.")
+            c = {**{k: up[k] for k in ("group", "keep", "see", "start", "strict", "wiki") if k in up}, **c}
+        else:
+            depth = 0
+        if c.get("topics") not in (None, False):
+            problems.append(f"{where}: topics is false, for a shelf, or left out.")
+        if c.get("templates") not in (None, True):
+            problems.append(f"{where}: templates is true, or left out.")
+        if c.get("templates") and c.get("topics") is False:
+            problems.append(f"{where}: a shelf holds no topics, so it can hold no templates.")
+        if c.get("years") is not None and (not isinstance(c.get("years"), int) or isinstance(c.get("years"), bool) or not 2000 <= c["years"] <= year):
+            problems.append(f"{where}: years is the first year it is filed by, a year no later than this one.")
         for k in ("name", "about", "group"):
             if not isinstance(c.get(k), str) or not c[k].strip():
                 problems.append(f"{where}: it has no {k}.")
@@ -148,7 +192,7 @@ def categories(data, roles):
             problems.append(f"{where}: strict keeps an administrator out of a category that names roles; this one names none.")
         if c.get("wiki") and c.get("keep") != "never":
             problems.append(f"{where}: a wiki keeps its pages for good. An edit does not move a topic's clock, so a page nobody replied to would go.")
-        extra = set(c) - {"slug", "name", "about", "group", "keep", "see", "start", "strict", "wiki"}
+        extra = set(c) - {"slug", "name", "about", "group", "keep", "see", "start", "strict", "wiki", "parent", "topics", "years", "templates"}
         if extra:
             problems.append(f"{where}: {', '.join(sorted(extra))} is nothing the forums read.")
         cat = {"slug": slug, "name": c.get("name"), "about": c.get("about"), "group": c.get("group"),
@@ -157,7 +201,19 @@ def categories(data, roles):
             cat["strict"] = True
         if c.get("wiki"):
             cat["wiki"] = c.get("wiki")
+        if parent is not None:
+            cat["parent"] = parent
+        if c.get("topics") is False:
+            cat["shelf"] = True
+        if c.get("years"):
+            cat["years"] = c.get("years")
+        if c.get("templates"):
+            cat["templates"] = True
         out.append(cat)
+        by_slug[slug] = {**cat, "_depth": depth}
+    for cat in out:
+        if cat.get("shelf") and not cat.get("years") and not any(x.get("parent") == cat["slug"] for x in out):
+            problems.append(f"{DATA.name}: category {cat['slug']} is a shelf with nothing on it: a shelf holds subcategories or years.")
     if not out:
         problems.append(f"{DATA.name}: no categories.")
     return default, out
@@ -188,11 +244,11 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: the forums' section writes to the console. Nothing anybody types is ever logged.")
     for name in ("forumHome", "forumLatest", "forumCategory", "forumTopic", "searchForum", "forumMentions", "cbTranscript",
                  "startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost",
-                 "removeTopic", "moderateTopic", "forumFile", "putForumUpload"):
+                 "removeTopic", "moderateTopic", "forumFile", "putForumUpload", "forumTemplates"):
         body = fn(sec, name)
         if not body:
             problems.append(f"{LIB.name}: {name} is missing.")
-        elif "forumReader(who)" not in body and "forumAllows(who" not in body and "forumCatsFor(who)" not in body:
+        elif "forumReader(who)" not in body and "forumAllows(who" not in body and "forumCatsFor(who" not in body:
             problems.append(f"{LIB.name}: {name} no longer asks whether the reader is a claimed username who may see the category.")
     for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "removeTopic", "moderateTopic", "putForumUpload"):
         if "if (!forumReader(who)) return { error: CLAIM };" not in fn(sec, name):
@@ -241,6 +297,14 @@ def check_lib(lib):
     sp = re.search(r"function shapePost\(.*?\n\}", sec, re.S)
     if not sp or "out.editedBy = p.editedBy" not in sp.group(0):
         problems.append(f"{LIB.name}: shapePost no longer says who edited a post last, so a moderator's words could be shown as the starter's.")
+    if "cat.shelf" not in fn(sec, "startTopic") or "to.shelf" not in fn(sec, "moderateTopic"):
+        problems.append(f"{LIB.name}: a shelf holds subcategories and no topics, so starting a topic in one or moving a topic into one must be refused.")
+    if "forumTree(cat, now).filter((c) => forumAllows(who, c))" not in sec:
+        problems.append(f"{LIB.name}: a category's page lists the topics under it some other way than asking forumAllows of every category it reads.")
+    if "forumCatsFor(who, now).filter((x) => x.templates)" not in fn(sec, "forumTemplates") or "!x.pinned" not in fn(sec, "forumTemplates"):
+        problems.append(f"{LIB.name}: forumTemplates must offer only the templates the reader may see, and never a templates category's pinned read-me.")
+    if "pics.has(m[2])" not in fn(sec, "placePictures") or "placePictures(withPreviews(parseBrass(p.body || ''), p.links), pics, placed)" not in sec:
+        problems.append(f"{LIB.name}: a picture in the words must be one of the post's own, placed by placePictures in shapePost; anything else written that way stays words, so no picture from elsewhere is ever shown.")
     if "canTakeOff(who, m)" not in fn(sec, "uncopyMessage"):
         problems.append(f"{LIB.name}: a copied message no longer comes out under the channel's own rule, canTakeOff.")
     if "readTuned(room, s)" not in fn(sec, "cbTranscript") or "quietRoom(room)" not in fn(sec, "cbTranscript"):

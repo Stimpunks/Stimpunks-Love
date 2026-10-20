@@ -6,6 +6,7 @@
      topic    &t=            one topic, every post in it
      search   &q=            topics whose title or posts hold every word
      mentions                topics where somebody else has @mentioned you, worked out now
+     templates               what a new topic can start from: the templates you may read
      cb       &room= &ids=   the messages that would be copied off a channel
    POST, with the same pass:
      { action: 'start', cat, title, body, from?, files?, at? }   a new topic; from: { room, ids } copies messages off the CB
@@ -17,13 +18,13 @@
      { action: 'uncopy', t, p, m }                   a message of yours copied in from the CB, back out
      { action: 'react', t, p, emoji }                a reaction on, or off again
      { action: 'moderate', t, pin?, close?, move? }  a moderator pinning, closing or moving a topic
-     { action: 'preview', body }                     how the words will set
+     { action: 'preview', body, pics? }              how the words will set; pics: the composer's pictures, placed where the words say
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
 import { readPass, forumReader, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, moderateTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
-  FORUM_ATTACH_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES } from '../cb/lib.mjs';
+  FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere: the forums are for
 // claimed usernames, and a cached answer is a copy.
@@ -33,7 +34,7 @@ const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on
 // The quick row of reactions, so the page keeps no copy of the list.
 const quick = REACTIONS.map(([emoji, name]) => ({ emoji, name }));
 // What a post may carry, so the page keeps no copy of these either.
-const takes = { most: FORUM_ATTACH_MAX, fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES) };
+const takes = { most: FORUM_ATTACH_MAX, docMost: FORUM_DOC_ATTACH_MAX, fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES) };
 const num = (v) => (v != null && /^\d{1,15}$/.test(v) ? Number(v) : null);
 
 export default async (req, context) => {
@@ -59,6 +60,7 @@ export default async (req, context) => {
       }
       if (view === 'search') return json(200, { me, cats, results: await searchForum(who, url.searchParams.get('q') || '') }, QUIET);
       if (view === 'mentions') return json(200, { me, cats, results: await forumMentions(who) }, QUIET);
+      if (view === 'templates') return json(200, { me, cats, templates: await forumTemplates(who) }, QUIET);
       if (view === 'cb') {
         const ids = String(url.searchParams.get('ids') || '').split(',').filter(Boolean);
         const r = await cbTranscript(who, { room: url.searchParams.get('room') || null, ids });
@@ -71,7 +73,8 @@ export default async (req, context) => {
     if (b.action === 'preview') {
       const text = cleanForumBody(b.body);
       if (!text) return json(400, { error: `Between one and ${FORUM_BODY_MAX} characters.` }, QUIET);
-      return json(200, { blocks: parseBrass(text) }, QUIET);
+      const pics = new Map((Array.isArray(b.pics) ? b.pics : []).slice(0, FORUM_DOC_ATTACH_MAX).map(imageId).filter(Boolean).map((id) => [id, '']));
+      return json(200, { blocks: placePictures(parseBrass(text), pics) }, QUIET);
     }
     let r;
     const t = String(b.t || ''), p = String(b.p || '');

@@ -4963,6 +4963,18 @@ export async function removeSuggestion(who, id, s = store()) {
    is nobody's. A document edited by anybody says on it who edited it last
    (editedBy), and goes only with its topic, so a reply never becomes one.
 
+   TEAM DOCS, Ryan's ask, 2026-10-20, moving the team's documents out of
+   Google Docs: A CATEGORY CAN STAND IN ANOTHER (`parent`), and is its
+   parent's in everything but its name, its words and what it holds, which
+   tools/make-forum.py writes down from the parent; one marked a shelf holds
+   categories and no topics; one filed by `years` has a category for every
+   year from its first to this one, made here as each year begins
+   (forumCategories); and one marked `templates` holds the topics a new topic
+   can start from (forumTemplates). A category's page lists every topic in it
+   and under it. A PICTURE CAN STAND IN THE WORDS, where the post writes
+   ![what it shows](pic:<id>) for one of its own pictures (placePictures), and
+   a wiki's document holds a screenshot for every step of a how-to.
+
    NOTHING ANYBODY TYPES IS LOGGED, here as everywhere in this file. */
 export const FORUM_TITLE_MAX = 120;
 export const FORUM_BODY_MAX = 20000;
@@ -4973,6 +4985,8 @@ export const FORUM_LATEST = 60;         // topics on one page of a list
 export const FORUM_SEARCH_MAX = 400;    // topics one search reads, newest first
 export const FORUM_KEEPS = ['1 week', '3 months', '6 months', 'never'];
 export const FORUM_ATTACH_MAX = 6;      // pictures and files on one post
+export const FORUM_DOC_ATTACH_MAX = 30; // on a wiki's document, a how-to with a screenshot for each step
+export const FORUM_TEMPLATES_MAX = 60;  // templates one reader is offered
 export const FORUM_FILE_MAX = 5000000;  // bytes in a file; a picture is IMG_MAX, after the browser has redrawn it
 export const FORUM_NAME_MAX = 120;      // characters of a file's name
 export const FORUM_ALT_MAX = 600;       // characters of a picture's description, which is offered and never required
@@ -5026,6 +5040,11 @@ export const FORUM_CATEGORIES = [
   {"slug": "operations", "name": "Operations", "about": "The work of running Stimpunks, out in the open, with room for anybody who wants to watch and learn.", "group": "Teams", "keep": "3 months", "see": null, "start": null},
   {"slug": "editorial", "name": "Editorial", "about": "What we publish and how: drafts, edits, ideas for pages and the glossary.", "group": "Teams", "keep": "3 months", "see": null, "start": null},
   {"slug": "moderators", "name": "Moderators", "about": "For our moderators: anything about keeping the street and the CB a good place to be.", "group": "Staff", "keep": "6 months", "see": ["moderator"], "start": null},
+  {"slug": "team-docs", "name": "Team Docs", "about": "The team’s own documents, which used to live in Google Docs: how we do things, notes, the minutes of our meetings, and the templates they start from. For moderators and above, and every document here is any of them to keep up to date.", "group": "Staff", "keep": "never", "see": ["moderator"], "start": null, "wiki": ["moderator"], "shelf": true},
+  {"slug": "field-guide", "name": "Field Guide", "about": "How we do things, one thing to a page, with screenshots in the flow of the words where they help.", "group": "Staff", "keep": "never", "see": ["moderator"], "start": null, "wiki": ["moderator"], "parent": "team-docs"},
+  {"slug": "notes", "name": "Notes", "about": "Notes worth keeping: research, drafts, plans and ideas that are not a Field Guide page or a meeting’s minutes.", "group": "Staff", "keep": "never", "see": ["moderator"], "start": null, "wiki": ["moderator"], "parent": "team-docs"},
+  {"slug": "meeting-minutes", "name": "Meeting Minutes", "about": "The minutes of our meetings, filed by the year each meeting was held.", "group": "Staff", "keep": "never", "see": ["moderator"], "start": null, "wiki": ["moderator"], "parent": "team-docs", "shelf": true, "years": 2024},
+  {"slug": "templates", "name": "Templates", "about": "What new documents start from. Start a topic anywhere you can see this and pick one under Start from a template, which copies its title and words in for you to fill. Editing a template changes what the next topic starts from, never one already started. A pinned topic here is a read-me, not a template.", "group": "Staff", "keep": "never", "see": ["moderator"], "start": null, "wiki": ["moderator"], "parent": "team-docs", "templates": true},
   {"slug": "directors", "name": "Directors", "about": "For our directors, as the Directors' room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["director"], "start": null},
   {"slug": "board", "name": "Board", "about": "For the board, and the directors who join its meetings, as the Board room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["board", "director"], "start": null},
   {"slug": "back-office-operations", "name": "Back Office Operations", "about": "For the directors and the board: the paperwork, systems, filings and contracts that keep Stimpunks running behind the scenes.", "group": "Staff", "keep": "6 months", "see": ["director", "board"], "start": null},
@@ -5037,7 +5056,38 @@ export const FORUM_CATEGORIES = [
 const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on the radio, then come back.';
 const GONE = 'That topic has gone, or is not one you can read.';
 
-export function forumCat(slug) { return FORUM_CATEGORIES.find((c) => c.slug === slug) || null; }
+/* Every category there is now: the listed ones, each followed by the
+   subcategory for every year it is filed by (`years`, Meeting Minutes'),
+   newest first, from its first year to this one on the street's clock. They
+   are made here rather than listed, so a year is there on the first of
+   January without anybody adding it, and a year's topics stay found for good.
+   A year is its parent's in everything but its name. */
+const forumYears = new Map();
+export function forumCategories(now = Date.now()) {
+  const y = Number(new Intl.DateTimeFormat('en-US', { timeZone: ZONE, year: 'numeric' }).format(new Date(now)));
+  if (!forumYears.has(y)) {
+    const all = [];
+    for (const c of FORUM_CATEGORIES) {
+      all.push(c);
+      if (!c.years) continue;
+      for (let k = y; k >= c.years; k--) {
+        const yc = { ...c, slug: `${c.slug}-${k}`, name: String(k), about: `${c.name} from ${k}.`, parent: c.slug, year: k };
+        delete yc.years; delete yc.shelf;
+        all.push(yc);
+      }
+    }
+    forumYears.clear();
+    forumYears.set(y, all);
+  }
+  return forumYears.get(y);
+}
+export function forumCat(slug, now = Date.now()) { return forumCategories(now).find((c) => c.slug === slug) || null; }
+/* A category and every one under it, at any depth, in the list's order. */
+function forumTree(cat, now = Date.now()) {
+  const all = forumCategories(now), out = [cat];
+  for (const c of all) if (c.parent && out.some((x) => x.slug === c.parent) && !out.includes(c)) out.push(c);
+  return out;
+}
 export function topicId(v) { return typeof v === 'string' && /^t[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
 export function postId(v) { return typeof v === 'string' && /^p[A-Za-z0-9_-]{11}$/.test(v) ? v : null; }
 function newTopicId() { return 't' + randomBytes(9).toString('base64url'); }
@@ -5175,9 +5225,9 @@ export async function putForumUpload(who, f, bytes, s = store(), now = Date.now(
 /* The pictures and files a post asks for (`asked`, a list of { id, alt }):
    the ones it already had, kept, and this writer's own uploads. Answers
    { files, fresh } or { error }; fresh is the uploads to copy under the topic. */
-async function attachments(who, asked, had, s) {
+async function attachments(who, asked, had, s, most = FORUM_ATTACH_MAX) {
   const list = Array.isArray(asked) ? asked : [];
-  if (list.length > FORUM_ATTACH_MAX) return { error: `A post holds ${FORUM_ATTACH_MAX} pictures and files at most.` };
+  if (list.length > most) return { error: `${most === FORUM_ATTACH_MAX ? 'A post' : 'A document'} holds ${most} pictures and files at most.` };
   const mark = authorMark(who);
   const files = [], fresh = [], ids = new Set();
   for (const a of list) {
@@ -5207,6 +5257,10 @@ async function attachments(who, asked, had, s) {
   }
   return { files, fresh };
 }
+/* How many pictures and files a post may hold: a wiki's document, the post
+   that opens one of its topics, holds a screenshot for every step of a how-to
+   (Ryan's ask, 2026-10-20, for the Field Guide); every other post, six. */
+function attachMost(cat, first) { return cat && cat.wiki && first ? FORUM_DOC_ATTACH_MAX : FORUM_ATTACH_MAX; }
 const fileKey = (topic, id) => `${FORUM_FILE}${topic}/${id}`;
 async function keepUploads(topic, fresh, s) { for (const x of fresh) await s.set(fileKey(topic, x.id), x.data, { metadata: { ...x.meta, t: Date.now() } }); }
 async function doneUploads(fresh, s) { for (const x of fresh) await s.delete(FORUM_UP + x.id); }
@@ -5222,7 +5276,7 @@ export async function forumFile(who, tid, fid, s = store(), now = Date.now()) {
   if (!forumReader(who)) return null;
   const t = await readTopic(tid, s);
   if (!t) return null;
-  const cat = forumCat(t.cat);
+  const cat = forumCat(t.cat, now);
   if (!forumAllows(who, cat) || !topicLive(summaryOf(t), cat, now)) return null;
   const id = imageId(fid);
   const file = id && t.posts.flatMap((p) => p.files || []).find((x) => x.id === id);
@@ -5311,14 +5365,19 @@ async function unindexTopic(slug, id, s) {
 
 /* ── What a reader is sent ── */
 
-export function forumCatsFor(who) { return FORUM_CATEGORIES.filter((c) => forumAllows(who, c)); }
+export function forumCatsFor(who, now = Date.now()) { return forumCategories(now).filter((c) => forumAllows(who, c)); }
+/* `parent`: the category it stands in; `shelf`: it holds subcategories and
+   no topics of its own; `templates`: its topics are offered as templates. */
 function shapeForumCat(c, who) {
-  const out = { slug: c.slug, name: c.name, about: c.about, group: c.group, keep: keepOf(c), start: forumAllows(who, c, 'start') };
+  const out = { slug: c.slug, name: c.name, about: c.about, group: c.group, keep: keepOf(c), start: forumAllows(who, c, 'start') && !c.shelf };
   if (c.see) out.staff = true;
   if (c.wiki) out.wiki = true;
+  if (c.parent) out.parent = c.parent;
+  if (c.shelf) out.shelf = true;
+  if (c.templates) out.templates = true;
   return out;
 }
-export function forumNav(who) { return forumCatsFor(who).map((c) => shapeForumCat(c, who)); }
+export function forumNav(who, now = Date.now()) { return forumCatsFor(who, now).map((c) => shapeForumCat(c, who)); }
 
 function shapeSummary(sum, cat) {
   const out = { id: sum.id, cat: cat.slug, title: sum.title, handle: sum.handle, base: !!sum.base, t: sum.t,
@@ -5329,19 +5388,36 @@ function shapeSummary(sum, cat) {
 }
 const byLast = (a, b) => b.last - a.last;
 
-/* The front of the forums: every category the reader may see, each with its
-   three latest topics. */
-export async function forumHome(who, s = store(), now = Date.now()) {
-  const cats = forumCatsFor(who);
+/* The live topics of a category and of every one under it that the reader
+   may see, each summary shaped with the category it is in. */
+async function treeTopics(who, cat, s, now) {
+  const cats = forumTree(cat, now).filter((c) => forumAllows(who, c));
   const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
-  return cats.map((c, i) => ({ ...shapeForumCat(c, who),
-    latest: lists[i].filter((x) => topicLive(x, c, now)).sort(byLast).slice(0, 3).map((x) => shapeSummary(x, c)) }));
+  return cats.flatMap((c, i) => lists[i].filter((x) => topicLive(x, c, now)).map((x) => shapeSummary(x, c)));
+}
+/* The ones directly under a category, for its page and its card. */
+function subsOf(who, cat, now) {
+  return forumCatsFor(who, now).filter((c) => c.parent === cat.slug).map((c) => shapeForumCat(c, who));
+}
+
+/* The front of the forums: every category the reader may see that stands on
+   its own, each with what is under it and the three latest topics in it or
+   under it. */
+export async function forumHome(who, s = store(), now = Date.now()) {
+  const cats = forumCatsFor(who, now).filter((c) => !c.parent);
+  const trees = await Promise.all(cats.map((c) => treeTopics(who, c, s, now)));
+  return cats.map((c, i) => {
+    const out = { ...shapeForumCat(c, who), latest: trees[i].sort(byLast).slice(0, 3) };
+    const subs = subsOf(who, c, now);
+    if (subs.length) out.subs = subs;
+    return out;
+  });
 }
 
 /* Every category the reader may see, its topics together, the latest post
    first. `before` pages back: topics last posted to before that time. */
 export async function forumLatest(who, before = null, s = store(), now = Date.now()) {
-  const cats = forumCatsFor(who);
+  const cats = forumCatsFor(who, now);
   const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
   let all = [];
   cats.forEach((c, i) => { all = all.concat(lists[i].filter((x) => topicLive(x, c, now)).map((x) => shapeSummary(x, c))); });
@@ -5350,15 +5426,22 @@ export async function forumLatest(who, before = null, s = store(), now = Date.no
   return { topics: all.slice(0, FORUM_LATEST), more: all.length > FORUM_LATEST };
 }
 
-/* One category's topics: pinned ones first, then the latest post first. */
+/* One category's topics, and those of every category under it: pinned ones
+   first, then the latest post first; and the categories directly under it. */
 export async function forumCategory(who, slug, before = null, s = store(), now = Date.now()) {
-  const cat = forumCat(slug);
+  const cat = forumCat(slug, now);
   if (!forumAllows(who, cat)) return null;
-  const live = (await readForumIndex(slug, s)).filter((x) => topicLive(x, cat, now)).map((x) => shapeSummary(x, cat));
-  const pinned = before == null ? live.filter((x) => x.pinned).sort(byLast) : [];
-  let rest = live.filter((x) => !x.pinned).sort(byLast);
+  const live = await treeTopics(who, cat, s, now);
+  // Its own pinned topics first, on the first page only; one pinned in a
+  // category under it is in that category's place at the top, not this one's.
+  const own = (x) => x.pinned && x.cat === cat.slug;
+  const pinned = before == null ? live.filter(own).sort(byLast) : [];
+  let rest = live.filter((x) => !own(x)).sort(byLast);
   if (typeof before === 'number') rest = rest.filter((x) => x.last < before);
-  return { cat: shapeForumCat(cat, who), topics: pinned.concat(rest.slice(0, FORUM_LATEST)), more: rest.length > FORUM_LATEST };
+  const out = { cat: shapeForumCat(cat, who), topics: pinned.concat(rest.slice(0, FORUM_LATEST)), more: rest.length > FORUM_LATEST };
+  const subs = subsOf(who, cat, now);
+  if (subs.length) out.subs = subs;
+  return out;
 }
 
 /* A preview stands where its link stood: a paragraph that is one address and
@@ -5407,11 +5490,53 @@ function shapeCopied(cb, who) {
     }) };
 }
 
+/* A PICTURE IN THE WORDS, Ryan's ask, 2026-10-20, for screenshots in the flow
+   of a Field Guide page: `![what it shows](pic:<id>)`, where <id> is one of
+   the post's own pictures, stands where it is written, and the post shows it
+   there and not again below. The description is the words between the
+   brackets, or the picture's own when those are empty. Anything else written
+   that way stays the words typed: a picture from anywhere else is never shown,
+   and a post can only place what it holds. Read in the nodes parseBrass made,
+   as withPreviews reads links, so the one reader of Markdown is unchanged. */
+const PIC_REF = /!\[([^\]\n]*)\]\(pic:([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\)/g;
+export function placePictures(blocks, pics, placed = new Set()) {
+  const inline = (ns) => ns.flatMap((n) => {
+    if (n.t === 'b' || n.t === 'i' || n.t === 's') return [{ ...n, c: inline(n.c) }];
+    if (n.t !== 'text' || !n.v.includes('](pic:')) return [n];
+    const out = [];
+    let at = 0;
+    for (const m of n.v.matchAll(PIC_REF)) {
+      if (!pics.has(m[2])) continue;
+      if (m.index > at) out.push({ t: 'text', v: n.v.slice(at, m.index) });
+      out.push({ t: 'pic', id: m[2], alt: tidy(m[1]) || pics.get(m[2]) || '' });
+      placed.add(m[2]);
+      at = m.index + m[0].length;
+    }
+    if (at < n.v.length) out.push({ t: 'text', v: n.v.slice(at) });
+    return out;
+  });
+  const block = (b) => {
+    if (b.t === 'p' || b.t === 'h') return { ...b, c: inline(b.c) };
+    if (b.t === 'quote') return { ...b, c: b.c.map(block) };
+    if (b.t === 'ul' || b.t === 'ol') return { ...b, items: b.items.map((it) => it.map(block)) };
+    if (b.t === 'table') return { ...b, head: b.head.map(inline), rows: b.rows.map((r) => r.map(inline)) };
+    return b;
+  };
+  return blocks.map(block);
+}
+/* A template's words, without the pictures it places: they are its topic's,
+   and a new topic starts with none. */
+export function withoutPictures(body) {
+  return String(body || '').replace(PIC_REF, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
 /* `doc`: this post is a wiki's document, which goes only with its topic;
    `editor`: the reader edits the wiki's documents (forumEditor). */
 function shapePost(p, who, mark, doc = false, editor = false) {
+  const placed = new Set();
+  const pics = new Map((p.files || []).filter((f) => f.kind === 'pic').map((f) => [f.id, f.alt || '']));
   const out = { id: p.id, handle: p.handle, base: !!p.base, t: p.t, body: p.body || '',
-    blocks: withPreviews(parseBrass(p.body || ''), p.links), edit: p.by === mark || (doc && editor),
+    blocks: placePictures(withPreviews(parseBrass(p.body || ''), p.links), pics, placed), edit: p.by === mark || (doc && editor),
     takeDown: !doc && (p.by === mark || who.role === 'base') };
   if (doc) out.wiki = true;
   if (typeof p.edited === 'number') out.edited = p.edited;
@@ -5422,14 +5547,16 @@ function shapePost(p, who, mark, doc = false, editor = false) {
   const rx = shapeReactions(p.reactions);
   if (rx) out.reactions = rx;
   if (p.cb && p.cb.messages && p.cb.messages.length) out.cb = shapeCopied(p.cb, who);
-  if (p.files && p.files.length) out.files = p.files.map(shapeFile);
+  if (p.files && p.files.length) out.files = p.files.map((f) => shapeFile(f, placed.has(f.id)));
   if (p.at && p.at.length) out.at = p.at.slice();
   return out;
 }
-function shapeFile(f) {
+/* `placed`: the picture stands in the words, so it is not shown again below. */
+function shapeFile(f, placed = false) {
   const out = { id: f.id, kind: f.kind, type: f.type, size: f.size };
   if (f.kind === 'file') out.name = f.name;
   if (f.kind === 'pic' && f.alt) out.alt = f.alt;
+  if (placed) out.placed = true;
   return out;
 }
 
@@ -5450,9 +5577,29 @@ export function shapeTopic(t, cat, who) {
 export async function forumTopic(who, id, s = store(), now = Date.now()) {
   const t = await readTopic(id, s);
   if (!t) return null;
-  const cat = forumCat(t.cat);
+  const cat = forumCat(t.cat, now);
   if (!forumAllows(who, cat) || !topicLive(summaryOf(t), cat, now)) return null;
   return shapeTopic(t, cat, who);
+}
+
+/* THE TEMPLATES a reader is offered when they start a topic, Ryan's ask,
+   2026-10-20, after the team's templates folder in Google Docs: the topics of
+   every category marked `templates` that the reader may see, each its title
+   and the words of the post that opens it, in the order of their titles. A
+   pinned one is the category's read-me and is not offered. Nothing is kept
+   about which template anybody used. */
+export async function forumTemplates(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return [];
+  const out = [];
+  for (const c of forumCatsFor(who, now).filter((x) => x.templates)) {
+    const live = (await readForumIndex(c.slug, s)).filter((x) => !x.pinned && topicLive(x, c, now));
+    const ts = await Promise.all(live.slice(0, FORUM_TEMPLATES_MAX).map((x) => readTopic(x.id, s)));
+    for (const t of ts) {
+      const body = t && t.cat === c.slug && t.posts[0] ? withoutPictures(t.posts[0].body) : '';
+      if (body) out.push({ id: t.id, cat: c.slug, title: t.title, body });
+    }
+  }
+  return out.sort((a, b) => a.title.localeCompare(b.title)).slice(0, FORUM_TEMPLATES_MAX);
 }
 
 /* Searching the titles, the posts and the copied messages of the topics the
@@ -5483,7 +5630,7 @@ export async function searchForum(who, q, s = store(), now = Date.now()) {
 /* Every topic the reader may see, the latest post first, read whole: as many
    as one search reads. */
 async function readableTopics(who, s, now) {
-  const cats = forumCatsFor(who);
+  const cats = forumCatsFor(who, now);
   const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
   let sums = [];
   cats.forEach((c, i) => { sums = sums.concat(lists[i].filter((x) => topicLive(x, c, now)).map((x) => ({ x, c }))); });
@@ -5582,8 +5729,9 @@ async function previewsOf(body, had = [], get = safeGet) {
 
 export async function startTopic(who, f, s = store(), now = Date.now(), get = safeGet) {
   if (!forumReader(who)) return { error: CLAIM };
-  const cat = forumCat(f && f.cat);
+  const cat = forumCat(f && f.cat, now);
   if (!forumAllows(who, cat)) return { error: 'There is no such category.' };
+  if (cat.shelf) return { error: `${cat.name} holds its subcategories rather than topics of its own. Start the topic in one of them.` };
   if (!forumAllows(who, cat, 'start')) return { error: `Only moderators start topics in ${cat.name}. You can reply to any of them.` };
   const title = cleanForumTitle(f.title);
   if (!title) return { error: `Give the topic a title, up to ${FORUM_TITLE_MAX} characters.` };
@@ -5595,7 +5743,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   }
   const body = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body);
   if (body === null) return { error: `A post is up to ${FORUM_BODY_MAX} characters.` };
-  const att = await attachments(who, f.files, [], s);
+  const att = await attachments(who, f.files, [], s, attachMost(cat, true));
   if (att.error) return att;
   if (!body && !cb && !att.files.length) return { error: 'Say something to start the topic with, or add a picture or a file.' };
   if ((await readForumIndex(cat.slug, s)).length >= FORUM_TOPICS_MAX) {
@@ -5624,7 +5772,7 @@ async function changeTopic(who, id, now, s, change) {
   const next = await updateDoc(topicKey(id), (t) => {
     why = null; gone = false;
     if (!t) { why = GONE; return null; }
-    const cat = forumCat(t.cat);
+    const cat = forumCat(t.cat, now);
     cat0 = t.cat;
     if (!forumAllows(who, cat) || !topicLive(summaryOf(t), cat, now)) { why = GONE; return null; }
     const r = change(structuredClone(t), cat);
@@ -5657,7 +5805,7 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
   if (body === null) return { error: `A reply is up to ${FORUM_BODY_MAX} characters.` };
   // Nothing is written under a topic the writer cannot read.
   const pre = await readTopic(id, s);
-  if (!pre || !forumAllows(who, forumCat(pre.cat)) || !topicLive(summaryOf(pre), forumCat(pre.cat), now)) return { error: GONE };
+  if (!pre || !forumAllows(who, forumCat(pre.cat, now)) || !topicLive(summaryOf(pre), forumCat(pre.cat, now), now)) return { error: GONE };
   const att = await attachments(who, f.files, [], s);
   if (att.error) return att;
   if (!body && !att.files.length) return { error: `A reply is between one and ${FORUM_BODY_MAX} characters, or a picture or a file.` };
@@ -5695,13 +5843,13 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
   const pre = await readTopic(id, s);
   const mark = authorMark(who);
   const was = pre && pre.posts.find((p) => p.id === pid);
-  const cat = pre && forumCat(pre.cat);
+  const cat = pre && forumCat(pre.cat, now);
   if (!pre || !forumAllows(who, cat) || !topicLive(summaryOf(pre), cat, now)) return { error: GONE };
   if (!was) return { error: 'That post has been taken down.' };
   if (was.by !== mark && !(forumEditor(who, cat) && pre.posts[0] === was)) return { error: 'Only whoever wrote a post can edit it.' };
   const links = await previewsOf(body, was.links || [], get);
   // Left out, the post keeps the pictures and files it had; a list is the whole of them.
-  const att = await attachments(who, f.files === undefined ? (was.files || []) : f.files, was.files || [], s);
+  const att = await attachments(who, f.files === undefined ? (was.files || []) : f.files, was.files || [], s, attachMost(cat, pre.posts[0] === was));
   if (att.error) return att;
   await keepUploads(id, att.fresh, s);
   let before = '', lost = [], made = null;
@@ -5811,8 +5959,9 @@ export async function moderateTopic(who, id, f, s = store(), now = Date.now()) {
     }
     if (typeof f.close === 'boolean') { if (f.close) t.closed = true; else delete t.closed; }
     if (f.move != null) {
-      const to = forumCat(f.move);
+      const to = forumCat(f.move, now);
       if (!forumAllows(who, to)) return { why: 'There is no such category.' };
+      if (to.shelf) return { why: `${to.name} holds its subcategories rather than topics of its own. Move it into one of them.` };
       for (const p of t.posts) {
         const room = p.cb && p.cb.room;
         if (room && modRoom(room) && !narrowerThan(to, room)) {
@@ -5838,7 +5987,7 @@ export async function sweepForum(s = store(), now = Date.now()) {
   const listed = await s.list({ prefix: FORUM_TOPIC });
   const there = new Set((listed.blobs || []).map((b) => b.key.slice(FORUM_TOPIC.length)));
   const indexed = new Set();
-  for (const c of FORUM_CATEGORIES) {
+  for (const c of forumCategories(now)) {
     const list = await readForumIndex(c.slug, s);
     const drop = new Set();
     for (const x of list) {
@@ -5860,7 +6009,7 @@ export async function sweepForum(s = store(), now = Date.now()) {
     if (indexed.has(id)) continue;
     const t = await readTopic(id, s);
     if (!t) continue;
-    const c = forumCat(t.cat);
+    const c = forumCat(t.cat, now);
     if (topicLive(summaryOf(t), c, now)) { if (c) await indexTopic(t, s); }
     else { await s.delete(topicKey(id)); await dropTopicFiles(id, s); }
   }

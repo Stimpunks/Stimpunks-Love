@@ -3193,6 +3193,98 @@ test('a post\'s pictures and files are its writer\'s own, read only where the to
   assert.deepEqual(s.keys().filter((k) => k.startsWith('forum-up/') || k.startsWith('forum-file/')), [], 'the sweep left an upload nobody posted');
 });
 
+/* ── Team Docs: subcategories, years, templates and pictures in the words ── */
+import { forumCategories, forumTemplates, placePictures, withoutPictures, FORUM_DOC_ATTACH_MAX } from './lib.mjs';
+
+test('Team Docs is for moderators, a subcategory is its parent\'s in everything, and a shelf holds no topics', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const docs = ['team-docs', 'field-guide', 'notes', 'meeting-minutes', 'templates', 'meeting-minutes-2026'];
+  for (const slug of docs) {
+    assert.ok(!forumNav(ADA).some((c) => c.slug === slug), `${slug} was sent to a claimed username with no role`);
+    assert.ok(forumNav(FMOD).some((c) => c.slug === slug), `${slug} was not sent to a moderator`);
+  }
+  for (const c of forumCategories(T0).filter((x) => x.parent)) {
+    const up = forumCat(c.parent, T0);
+    for (const k of ['see', 'start', 'strict', 'wiki', 'keep', 'group']) assert.deepEqual(c[k], up[k], `${c.slug}'s ${k} is not its parent's`);
+  }
+  const nav = forumNav(FMOD);
+  const at = (slug) => nav.find((c) => c.slug === slug);
+  assert.deepEqual([at('team-docs').shelf, at('team-docs').start, at('field-guide').start, at('field-guide').wiki], [true, false, true, true]);
+  assert.match((await startTopic(FMOD, { cat: 'team-docs', title: 'Loose', body: 'Words.' }, s, T0, NO_NET)).error, /holds its subcategories/);
+  assert.match((await startTopic(FMOD, { cat: 'meeting-minutes', title: 'Loose', body: 'Words.' }, s, T0, NO_NET)).error, /holds its subcategories/);
+  const min = (await startTopic(FMOD, { cat: 'meeting-minutes-2025', title: 'Board Meeting Minutes for 12/02/2025', body: 'Present: everybody.' }, s, T0, NO_NET)).topic;
+  const page = (await startTopic(FMOD, { cat: 'field-guide', title: 'Claiming a username', body: 'Open Account.' }, s, T0 + 1, NO_NET)).topic;
+  assert.equal(await forumTopic(ADA, min.id, s, T0 + 2), null, 'minutes were read by somebody with no role');
+  assert.equal(await forumCategory(ADA, 'team-docs', null, s, T0 + 2), null);
+  // A category's page lists the topics under it, and the categories directly in it.
+  const shelf = await forumCategory(FMOD, 'team-docs', null, s, T0 + 2);
+  assert.deepEqual(shelf.subs.map((c) => c.slug), ['field-guide', 'notes', 'meeting-minutes', 'templates']);
+  assert.deepEqual(shelf.topics.map((x) => [x.id, x.cat]), [[page.id, 'field-guide'], [min.id, 'meeting-minutes-2025']]);
+  assert.deepEqual((await forumCategory(FMOD, 'meeting-minutes', null, s, T0 + 2)).subs.map((c) => c.name), ['2026', '2025', '2024']);
+  // The front lists Team Docs once, with what is in it, and its latest from under it.
+  const home = await forumHome(FMOD, s, T0 + 2);
+  assert.ok(!home.some((c) => c.parent), 'a subcategory stood on the front by itself');
+  const card = home.find((c) => c.slug === 'team-docs');
+  assert.deepEqual([card.subs.length, card.latest[0].id], [4, page.id]);
+  // Moved, never onto a shelf; and its pages are any moderator's to keep up.
+  assert.match((await moderateTopic(FMOD, min.id, { move: 'team-docs' }, s, T0 + 3)).error, /holds its subcategories/);
+  assert.ok((await moderateTopic(FMOD, page.id, { move: 'notes' }, s, T0 + 3)).topic);
+  assert.ok((await editPost(fw('Mo', 600, []), min.id, min.posts[0].id, { body: 'Present: everybody but Bo.' }, s, T0 + 4, NO_NET)).topic, 'another moderator could not keep the minutes up to date');
+  assert.ok(await forumTopic(FMOD, min.id, s, T0 + DAYS(4000)), 'minutes went');
+});
+
+test('Meeting Minutes has a year for every year from its first to this one, on the street\'s clock, and keeps them', () => {
+  const years = (now) => forumCategories(now).filter((c) => c.parent === 'meeting-minutes').map((c) => c.slug);
+  assert.deepEqual(years(T0), ['meeting-minutes-2026', 'meeting-minutes-2025', 'meeting-minutes-2024']);
+  // 03:00 on the first of January in London is still New Year's Eve in Colorado.
+  assert.equal(years(Date.UTC(2027, 0, 1, 3)).includes('meeting-minutes-2027'), false);
+  assert.deepEqual(years(Date.UTC(2027, 0, 1, 12)).slice(0, 2), ['meeting-minutes-2027', 'meeting-minutes-2026']);
+  assert.ok(forumCat('meeting-minutes-2024', Date.UTC(2030, 5, 1)), 'an old year stopped being found');
+  assert.equal(forumCat('meeting-minutes-2027', T0), null, 'a year was there before it began');
+});
+
+test('templates are offered to the people who can read them, without their pictures or their read-me', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pic = await putForumUpload(FMOD, { kind: 'pic' }, JPEG(), s, T0);
+  const tpl = (await startTopic(FMOD, { cat: 'templates', title: 'Weekly Operations Meeting for Week xx',
+    body: `## Agenda\n\n![The board](pic:${pic.id})\n\n- One`, files: [{ id: pic.id }] }, s, T0, NO_NET)).topic;
+  const readme = (await startTopic(FMOD, { cat: 'templates', title: 'Read Me: Using These Templates', body: 'Pick one.' }, s, T0 + 1, NO_NET)).topic;
+  await moderateTopic(FMOD, readme.id, { pin: true }, s, T0 + 2);
+  await startTopic(FMOD, { cat: 'field-guide', title: 'Not a template', body: 'Words.' }, s, T0 + 3, NO_NET);
+  assert.deepEqual(await forumTemplates(FMOD, s, T0 + 4), [{ id: tpl.id, cat: 'templates', title: 'Weekly Operations Meeting for Week xx', body: '## Agenda\n\n- One' }]);
+  assert.deepEqual(await forumTemplates(ADA, s, T0 + 4), [], 'a template was offered to somebody who cannot read it');
+  assert.equal(withoutPictures(`a ![x](pic:${pic.id}) b`), 'a  b');
+});
+
+test('a picture stands in the words only where its post holds it, and is not shown again below them', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const one = await putForumUpload(FMOD, { kind: 'pic' }, JPEG(), s, T0);
+  const two = await putForumUpload(FMOD, { kind: 'pic' }, JPEG(), s, T0);
+  const loose = await putForumUpload(FMOD, { kind: 'pic' }, JPEG(), s, T0);
+  const elsewhere = '00000000-0000-4000-8000-000000000000';
+  const body = `Step one.\n\n![The radio](pic:${one.id})\n\n| Step | Picture |\n|---|---|\n| two | ![](pic:${two.id}) |\n\n![A stranger's](pic:${elsewhere})`;
+  const t = (await startTopic(FMOD, { cat: 'field-guide', title: 'A how-to', body, files: [{ id: one.id }, { id: two.id, alt: 'The Account part' }, { id: loose.id }] }, s, T0, NO_NET)).topic;
+  const p = (await forumTopic(FMOD, t.id, s, T0)).posts[0];
+  const pics = JSON.stringify(p.blocks).match(/"t":"pic","id":"[^"]+","alt":"[^"]*"/g);
+  assert.deepEqual(pics, [`"t":"pic","id":"${one.id}","alt":"The radio"`, `"t":"pic","id":"${two.id}","alt":"The Account part"`]);
+  assert.ok(JSON.stringify(p.blocks).includes(`![A stranger's](pic:${elsewhere})`), 'a picture the post does not hold was shown, or its words went');
+  assert.deepEqual(p.files.map((f) => !!f.placed), [true, true, false]);
+  // Nothing is placed by a page that does not ask: the board and the box read Markdown as before.
+  assert.equal(JSON.stringify(parseBrass(body)).includes('"t":"pic"'), false);
+  assert.equal(JSON.stringify(placePictures(parseBrass(body), new Map())).includes('"t":"pic"'), false);
+});
+
+test('a wiki\'s document holds a screenshot for every step, and every other post a few', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const up = async (n) => { const out = []; for (let i = 0; i < n; i++) out.push({ id: (await putForumUpload(FMOD, { kind: 'pic' }, JPEG(), s, T0)).id }); return out; };
+  const many = await up(FORUM_ATTACH_MAX + 4);
+  const t = await startTopic(FMOD, { cat: 'field-guide', title: 'Twelve steps', body: 'Steps.', files: many }, s, T0, NO_NET);
+  assert.ok(t.topic, t.error);
+  assert.match((await replyTopic(FMOD, t.topic.id, { body: 'More', files: await up(FORUM_ATTACH_MAX + 1) }, s, T0 + 1, NO_NET)).error, /A post holds/);
+  assert.match((await startTopic(FMOD, { cat: 'moderators', title: 'Lots', body: 'x', files: await up(FORUM_ATTACH_MAX + 1) }, s, T0 + 2, NO_NET)).error, /A post holds/);
+  assert.match((await startTopic(FMOD, { cat: 'notes', title: 'Too many', body: 'x', files: Array.from({ length: FORUM_DOC_ATTACH_MAX + 1 }, () => many[0]) }, s, T0 + 3, NO_NET)).error, /A document holds/);
+});
+
 test('a post keeps who it @mentions, the reader finds where they were mentioned, and a device is told only what its pass can read', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   await claimAccount('Bex', 'a long enough phrase', s, 9, null);

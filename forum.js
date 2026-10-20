@@ -36,6 +36,13 @@
    the server each time. A mention notifies only the devices that asked, from
    the server, and nothing here.
 
+   SUBCATEGORIES, TEMPLATES AND PICTURES IN THE WORDS (Ryan, 2026-10-20, for
+   the team's documents moving from Google Docs): a category can stand in
+   another, and the side, the cards and every list name a category by the
+   path to it; a new topic can start from a template, which copies its title
+   and words in; and a picture can stand where the words put it, by a button,
+   by pasting a screenshot into the box, or by dropping one on it.
+
    NOTHING ABOUT READING IS SENT. What is new to you is marked from love-forum,
    in this browser: which topics you opened and the time of their latest post
    when you did. No number is put beside anything. tools/make-forum.py holds
@@ -325,6 +332,19 @@
   }
   function roomByTag(tag) { return rooms ? rooms.filter(function (r) { return r.tag === tag; })[0] || null : null; }
   function catOf(slug) { return cats.filter(function (c) { return c.slug === slug; })[0] || null; }
+  function kidsOf(slug) { return cats.filter(function (c) { return c.parent === slug; }); }
+  function pathOf(c) { var out = []; while (c) { out.unshift(c); c = c.parent ? catOf(c.parent) : null; } return out; }
+  // A category by the path to it, so a year says whose year it is.
+  function label(c) { return pathOf(c).map(function (x) { return x.name; }).join(' › '); }
+  // Where a topic can start in or under a category: itself, or the first
+  // under it that holds topics, as New topic in a shelf needs.
+  function startIn(c) {
+    if (!c) return null;
+    if (c.start) return c;
+    var k = kidsOf(c.slug);
+    for (var i = 0; i < k.length; i++) { var x = startIn(k[i]); if (x) return x; }
+    return null;
+  }
 
   /* ── Words for times and keeps ─────────────────────────────────────────── */
 
@@ -407,6 +427,19 @@
 
   function quiet(text) { return el('p', 'cb-quiet', text); }
 
+  /* The path to a category, each a link, after `lead`. */
+  function crumbs(lead, path, cls) {
+    var p = el('p', cls || 'fm-crumbs');
+    if (lead) p.appendChild(document.createTextNode(lead));
+    path.forEach(function (x, i) {
+      if (i) p.appendChild(document.createTextNode(' › '));
+      var a = el('a', null, x.name);
+      a.href = '#/c/' + x.slug;
+      p.appendChild(a);
+    });
+    return p;
+  }
+
   function topicRow(x) {
     var li = el('li', 'fm-row');
     var top = el('p', 'fm-row__top');
@@ -421,7 +454,7 @@
     var meta = el('p', 'fm-row__meta');
     var c = catOf(x.cat);
     if (c) {
-      var ca = el('a', null, c.name);
+      var ca = el('a', null, label(c));
       ca.href = '#/c/' + c.slug;
       meta.appendChild(ca);
       meta.appendChild(document.createTextNode(' · '));
@@ -445,28 +478,35 @@
     d.open = window.matchMedia ? !window.matchMedia('(max-width: 759px)').matches : true;
     d.appendChild(el('summary', 'fm-side__sum', 'Categories'));
     var groups = [];
-    cats.forEach(function (c) { if (groups.indexOf(c.group) < 0) groups.push(c.group); });
-    groups.forEach(function (g) {
-      d.appendChild(el('p', 'cb-h fm-side__group', g));
-      var ul = el('ul', 'fm-side__list');
-      cats.filter(function (c) { return c.group === g; }).forEach(function (c) {
+    cats.forEach(function (c) { if (!c.parent && groups.indexOf(c.group) < 0) groups.push(c.group); });
+    // A category's subcategories are a list inside its own item.
+    function list(of, cls) {
+      var ul = el('ul', cls);
+      of.forEach(function (c) {
         var li = el('li');
         var a = el('a', null, c.name);
         a.href = '#/c/' + c.slug;
         if (c.slug === active) a.setAttribute('aria-current', 'page');
         li.appendChild(a);
+        var k = kidsOf(c.slug);
+        if (k.length) li.appendChild(list(k, 'fm-side__list fm-side__sub'));
         ul.appendChild(li);
       });
-      d.appendChild(ul);
+      return ul;
+    }
+    groups.forEach(function (g) {
+      d.appendChild(el('p', 'cb-h fm-side__group', g));
+      d.appendChild(list(cats.filter(function (c) { return !c.parent && c.group === g; }), 'fm-side__list'));
     });
     side.appendChild(d);
   }
 
   /* ── Posts: words, previews, copied messages ─────────────────────────── */
 
-  function blocks(nodes, into) {
+  // `pic` draws a picture the server placed in the words (markdown.js's hook).
+  function blocks(nodes, into, pic) {
     var run = [];
-    function flush() { if (run.length) { window.loveMarkdown.blocks(run, into, { top: 3, prefix: 'fm' }); run = []; } }
+    function flush() { if (run.length) { window.loveMarkdown.blocks(run, into, { top: 3, prefix: 'fm', pic: pic || null }); run = []; } }
     (nodes || []).forEach(function (b) {
       if (b.t === 'preview') { flush(); into.appendChild(previewOf(b)); }
       else run.push(b);
@@ -598,9 +638,19 @@
 
   function fileQuery(t, f) { return 't=' + encodeURIComponent(t.id) + '&f=' + encodeURIComponent(f.id); }
 
-  function picOf(t, p, f) {
-    var li = el('li', 'fm-pic');
-    var said = f.alt || (p.handle + ' posted a picture, with no description.');
+  function picOf(t, p, f) { return picEl('li', 'fm-pic', t, p, f, f.alt); }
+
+  /* A picture standing in the words where the post put it: the same frame,
+     pressed to grow, fetched as it comes near, inside the paragraph. */
+  function picIn(t, p, n) {
+    var f = (p.files || []).filter(function (x) { return x.id === n.id; })[0];
+    if (!f) return document.createTextNode(n.alt || '');
+    return picEl('span', 'fm-pic fm-pic--in', t, p, f, n.alt);
+  }
+
+  function picEl(tag, cls, t, p, f, alt) {
+    var li = el(tag, cls);
+    var said = alt || (p.handle + ' posted a picture, with no description.');
     var b = el('button', 'fm-pic__btn');
     b.type = 'button';
     b.setAttribute('aria-pressed', 'false');
@@ -618,7 +668,7 @@
     li.fmLoad = function () {
       if (fetched[key]) { img.src = fetched[key]; return; }
       fileCall(fileQuery(t, f)).then(function (r) { return r.ok ? r.blob() : null; }, function () { return null; }).then(function (blob) {
-        if (!blob || !/^image\//.test(blob.type)) { b.replaceWith(quiet('This picture could not be fetched just now: ' + said)); return; }
+        if (!blob || !/^image\//.test(blob.type)) { b.replaceWith(el(tag === 'li' ? 'p' : 'span', 'cb-quiet', 'This picture could not be fetched just now: ' + said)); return; }
         img.src = fetched[key] = URL.createObjectURL(blob);
       });
     };
@@ -655,7 +705,8 @@
 
   function attached(t, p) {
     var wrap = el('div', 'fm-files');
-    var pics = (p.files || []).filter(function (f) { return f.kind === 'pic'; });
+    // A picture standing in the words is not shown again below them.
+    var pics = (p.files || []).filter(function (f) { return f.kind === 'pic' && !f.placed; });
     var docs = (p.files || []).filter(function (f) { return f.kind === 'file'; });
     if (pics.length) { var ul = el('ul', 'fm-pics'); pics.forEach(function (f) { ul.appendChild(picOf(t, p, f)); }); wrap.appendChild(ul); }
     if (docs.length) { var ul2 = el('ul', 'fm-docs'); docs.forEach(function (f) { ul2.appendChild(docOf(t, f)); }); wrap.appendChild(ul2); }
@@ -823,10 +874,10 @@
     }
     if (p.cb) art.appendChild(copied(t, p));
     var body = el('div', 'fm-body');
-    blocks(p.blocks, body);
+    blocks(p.blocks, body, function (n) { return picIn(t, p, n); });
     if (markMentions(body, (p.at || []).concat(peopleOf(t)))) head.appendChild(tag('MENTIONS YOU', true));
     if (body.children.length) art.appendChild(body);
-    if (p.files && p.files.length) art.appendChild(attached(t, p));
+    if (p.files && p.files.some(function (f) { return !f.placed; })) art.appendChild(attached(t, p));
     art.appendChild(reactions(t, p));
     var tools = el('div', 'fm-post__tools');
     if (t.reply && !t.full) {
@@ -871,7 +922,7 @@
       var cl = el('label', 'cb-lab', 'Category'); cl.htmlFor = 'fm-c';
       catSel = el('select', 'cb-say fm-field');
       catSel.id = 'fm-c';
-      o.cats.forEach(function (c) { var op = el('option', null, c.name + (c.staff ? ' (staff)' : '')); op.value = c.slug; catSel.appendChild(op); });
+      o.cats.forEach(function (c) { var op = el('option', null, label(c) + (c.staff ? ' (staff)' : '')); op.value = c.slug; catSel.appendChild(op); });
       catSel.value = (fresh && fresh.cat) || o.cat || (o.cats[0] && o.cats[0].slug) || '';
       form.appendChild(cl); form.appendChild(catSel);
       var keepLine = quiet('');
@@ -888,6 +939,7 @@
       title.value = (fresh && fresh.title != null) ? fresh.title : (o.title || '');
       form.appendChild(tl); form.appendChild(title);
     }
+    if (o.templates && o.templates.length) form.insertBefore(templateRow(), title ? title.previousSibling : null);
     if (o.above) form.appendChild(o.above);
     var tid = 'fm-body-' + key.replace(/[^a-z0-9]/gi, '');
     var bl = el('label', 'cb-lab', o.label || 'Your post'); bl.htmlFor = tid;
@@ -912,14 +964,22 @@
     form.appendChild(bl);
     form.appendChild(text);
     form.appendChild(pick);
-    var hint = el('p', 'cb-quiet fm-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code` and links. A link on a line of its own becomes a preview, which our server makes by reading that page once. Type @ and a name to mention somebody: if they asked to be told, they are.');
+    var hint = el('p', 'cb-quiet fm-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A link on a line of its own becomes a preview, which our server makes by reading that page once. Paste a screenshot into the box, or drop a picture on it, to have it stand right there in the words. Type @ and a name to mention somebody: if they asked to be told, they are.');
     hint.id = tid + '-hint';
     form.appendChild(hint);
 
     /* Pictures and files: each goes up as soon as it is chosen, a picture
-       redrawn first in this browser, and waits for the post. */
+       redrawn first in this browser, and waits for the post. A picture can
+       stand in the words, as ![what it shows](pic:its-id) on a line of its
+       own: Put it in the words writes that at the cursor, and so does pasting
+       a screenshot into the box or dropping a picture on it. */
     var files = (o.files || []).map(function (f) { return { id: f.id, kind: f.kind, name: f.name, size: f.size, alt: f.alt || '', had: true }; });
     var pending = 0;
+    // A wiki's document holds a screenshot for every step; any other post, a few.
+    function most() {
+      var c = catSel ? catOf(catSel.value) : null;
+      return (o.doc || (c && c.wiki)) && takes.docMost ? takes.docMost : takes.most;
+    }
     var attach = el('div', 'fm-attach');
     var addBtn = el('button', 'cb-btn fm-small', 'Add pictures or files');
     addBtn.type = 'button';
@@ -932,16 +992,19 @@
     picker.hidden = true;
     picker.tabIndex = -1;
     addBtn.addEventListener('click', function () { picker.click(); });
-    picker.addEventListener('change', function () {
-      var list = Array.prototype.slice.call(picker.files || []);
-      picker.value = '';
+    function several(list, at) {
       refused = []; notKind = [];
-      list.forEach(upload);
+      list.forEach(function (f) { upload(f, at); });
       if (notKind.length) {
         refused.unshift(notKind.join(' and ') + (notKind.length > 1 ? ' are not kinds' : ' is not a kind') + ' of file the forums take. They take pictures, and ' +
           takes.kinds.map(function (k) { return '.' + k; }).join(', ') + ' files.');
       }
       attWhy.textContent = refused.join(' ');
+    }
+    picker.addEventListener('change', function () {
+      var list = Array.prototype.slice.call(picker.files || []);
+      picker.value = '';
+      several(list, null);
     });
     var attList = el('ul', 'fm-att');
     // What could not go, kept on its own line so the next file's "ready" does not hide it.
@@ -949,7 +1012,7 @@
     attWhy.setAttribute('role', 'status');
     var refused = [], notKind = [];
     var attNote = el('p', 'cb-quiet fm-hint', 'Pictures are redrawn in your browser before they go, which takes off what a camera wrote into them, where it was taken included. A file goes exactly as it is, with anything written inside it, such as an author’s name. Files can be ' +
-      takes.kinds.map(function (k) { return '.' + k; }).join(', ') + ', up to ' + sizeWords(takes.fileMax) + ' each. Ask anybody recognisable in a picture before you post it. They are not kept with a draft.');
+      takes.kinds.map(function (k) { return '.' + k; }).join(', ') + ', up to ' + sizeWords(takes.fileMax) + ' each. A picture is shown below the words unless you put it in them. Ask anybody recognisable in a picture before you post it. They are not kept with a draft.');
     attach.appendChild(addBtn);
     attach.appendChild(picker);
     attach.appendChild(attList);
@@ -957,13 +1020,36 @@
     attach.appendChild(attNote);
     form.appendChild(attach);
 
+    /* A picture's place in the words. Its description goes between the
+       brackets, without anything that would end them. */
+    function refOf(f) { return new RegExp('!\\[[^\\]\\n]*\\]\\(pic:' + f.id + '\\)', 'g'); }
+    function bracket(v) { return String(v || '').replace(/[[\]\n]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+    function inWords(f) { return refOf(f).test(text.value); }
+    function putIn(f, at) {
+      var v = text.value;
+      var c = at != null ? Math.min(at, v.length) : (text.selectionEnd != null ? text.selectionEnd : v.length);
+      var before = v.slice(0, c), after = v.slice(c);
+      var lead = !before || /\n\n$/.test(before) ? '' : (/\n$/.test(before) ? '\n' : '\n\n');
+      var tail = /^\n\n/.test(after) ? '' : (/^\n/.test(after) ? '\n' : '\n\n');
+      var put = before + lead + '![' + bracket(f.alt) + '](pic:' + f.id + ')' + tail;
+      text.value = put + after;
+      text.setSelectionRange(put.length, put.length);
+      saveDraft();
+      return put.length;
+    }
+    function takeOut(f) {
+      text.value = text.value.replace(refOf(f), '').replace(/\n{3,}/g, '\n\n');
+      saveDraft();
+    }
+
     function drawFiles() {
       attList.textContent = '';
       files.forEach(function (f, i) {
         var li = el('li', 'fm-att__item');
         if (f.kind === 'pic') {
           if (f.local) { var im = el('img', 'fm-att__thumb'); im.alt = ''; im.src = f.local; li.appendChild(im); }
-          var line = el('p', 'fm-att__line', f.had ? 'A picture already on this post.' : 'A picture, ready.');
+          var placed = inWords(f);
+          var line = el('p', 'fm-att__line', (f.had ? 'A picture already on this post' : 'A picture, ready') + (placed ? ', standing in the words where its line is.' : ', shown below the words.'));
           li.appendChild(line);
           var al = el('label', 'cb-lab', 'Say what is in it, if you like');
           var ai = el('input', 'cb-say fm-field');
@@ -971,9 +1057,23 @@
           al.htmlFor = ai.id;
           ai.maxLength = 600;
           ai.value = f.alt || '';
-          ai.addEventListener('input', function () { f.alt = ai.value; });
+          // The words between its brackets follow, so the box and the line agree.
+          ai.addEventListener('input', function () {
+            f.alt = ai.value;
+            if (inWords(f)) { text.value = text.value.replace(refOf(f), '![' + bracket(f.alt) + '](pic:' + f.id + ')'); saveDraft(); }
+          });
           li.appendChild(al);
           li.appendChild(ai);
+          var where = el('button', 'cb-btn fm-small', placed ? 'Show it below the words instead' : 'Put it in the words, at the cursor');
+          where.type = 'button';
+          where.addEventListener('click', function () {
+            if (inWords(f)) { takeOut(f); answer.textContent = 'It is shown below the words now.'; }
+            else { putIn(f, lastAt); answer.textContent = 'It stands in the words now, on a line of its own. Move the line to move the picture.'; }
+            drawFiles();
+            var again = attList.children[files.indexOf(f)];
+            if (again) again.querySelectorAll('button')[0].focus();
+          });
+          li.appendChild(where);
         } else {
           li.appendChild(el('p', 'fm-att__line', f.name + ', ' + sizeWords(f.size) + (f.had ? ', already on this post.' : ', ready.')));
         }
@@ -982,6 +1082,7 @@
         drop.addEventListener('click', function () {
           files.splice(files.indexOf(f), 1);
           if (f.local) URL.revokeObjectURL(f.local);
+          if (f.kind === 'pic' && inWords(f)) takeOut(f);
           drawFiles();
           addBtn.focus();
           answer.textContent = 'Taken off.';
@@ -990,18 +1091,21 @@
         attList.appendChild(li);
       });
     }
-    drawFiles();
 
-    function upload(file) {
-      if (files.length + pending >= takes.most) { refused.push(file.name + ' did not go: a post holds ' + takes.most + ' pictures and files at most.'); return; }
+    // Where the cursor was in the box, for a picture put in after it has gone.
+    var lastAt = null;
+
+    // `at`: where in the words a pasted or dropped picture goes, or null.
+    function upload(file, at) {
+      if (files.length + pending >= most()) { refused.push(file.name + ' did not go: ' + (most() > takes.most ? 'a wiki page' : 'a post') + ' holds ' + most() + ' pictures and files at most.'); return; }
       var ext = (String(file.name || '').split('.').pop() || '').toLowerCase();
       var isPic = /^image\//.test(file.type || '') && !/svg/.test(file.type);
       if (!isPic && takes.kinds.indexOf(ext) < 0) {
-        notKind.push(file.name);
+        notKind.push(file.name || 'That');
         return;
       }
       if (!isPic && file.size > takes.fileMax) { refused.push(file.name + ' is ' + sizeWords(file.size) + '. A file is ' + sizeWords(takes.fileMax) + ' at most.'); return; }
-      if (isPic && !window.loveRedraw) { refused.push(file.name + ' did not go: the radio, which redraws pictures, has not finished loading. Try again in a moment.'); return; }
+      if (isPic && !window.loveRedraw) { refused.push((file.name || 'The picture') + ' did not go: the radio, which redraws pictures, has not finished loading. Try again in a moment.'); return; }
       pending++;
       go.disabled = true;
       answer.textContent = isPic ? 'Redrawing the picture…' : 'Sending ' + file.name + '…';
@@ -1013,13 +1117,15 @@
             var f = { id: b.id, kind: b.kind, name: b.name, size: b.size, alt: '' };
             if (isPic) f.local = URL.createObjectURL(blob);
             files.push(f);
+            // Several pasted at once go in one after another.
+            if (isPic && at != null) at = putIn(f, at);
             drawFiles();
-            answer.textContent = isPic ? 'The picture is ready. Say what is in it below, if you like.' : file.name + ' is ready.';
+            answer.textContent = isPic ? (at != null ? 'The picture is in the words where you put it. Say what is in it below, if you like.' : 'The picture is ready. Say what is in it below, if you like.') : file.name + ' is ready.';
           });
         });
       }).catch(function (e) {
         answer.textContent = '';
-        attWhy.textContent = (attWhy.textContent ? attWhy.textContent + ' ' : '') + file.name + ': ' + ((e && e.message && e.message !== 'big') ? e.message : (isPic ? 'it could not be read or made small enough here. Try a screenshot of it, or another picture.' : 'it could not be sent just now.'));
+        attWhy.textContent = (attWhy.textContent ? attWhy.textContent + ' ' : '') + (file.name || 'The picture') + ': ' + ((e && e.message && e.message !== 'big') ? e.message : (isPic ? 'it could not be read or made small enough here. Try a screenshot of it, or another picture.' : 'it could not be sent just now.'));
       }).then(function () { pending--; if (!pending) go.disabled = false; });
     }
 
@@ -1100,7 +1206,29 @@
     });
     text.addEventListener('input', complete);
     text.addEventListener('click', complete);
-    text.addEventListener('blur', function () { setTimeout(shut, 150); });
+    text.addEventListener('blur', function () { lastAt = text.selectionEnd; setTimeout(shut, 150); });
+    /* A screenshot pasted into the box, or a picture dropped on it, goes up
+       and stands in the words where the cursor is. Words pasted stay words. */
+    function picturesIn(list) {
+      return Array.prototype.slice.call(list || []).filter(function (f) { return /^image\//.test(f.type || '') && !/svg/.test(f.type); });
+    }
+    text.addEventListener('paste', function (e) {
+      var pics = picturesIn(e.clipboardData && e.clipboardData.files);
+      if (!pics.length) return;
+      e.preventDefault();
+      several(pics, text.selectionStart);
+    });
+    text.addEventListener('dragover', function (e) {
+      if (e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], 'Files') >= 0) e.preventDefault();
+    });
+    text.addEventListener('drop', function (e) {
+      var all = Array.prototype.slice.call((e.dataTransfer && e.dataTransfer.files) || []);
+      if (!all.length) return;
+      e.preventDefault();
+      var pics = picturesIn(all);
+      several(pics, text.selectionStart);
+      if (all.length > pics.length) several(all.filter(function (f) { return pics.indexOf(f) < 0; }), null);
+    });
     // Everybody the words might @mention, for the server to check against them.
     function mentioned() {
       var v = text.value;
@@ -1126,6 +1254,7 @@
     var answer = el('p', 'fm-answer');
     answer.setAttribute('role', 'status');
     form.appendChild(answer);
+    drawFiles();
 
     var timer = null;
     function saveDraft() {
@@ -1145,10 +1274,19 @@
       if (!shown.hidden) { shown.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; return; }
       if (!text.value.trim()) { answer.textContent = 'There is nothing to preview yet.'; return; }
       answer.textContent = 'Setting it…';
-      call(null, { action: 'preview', body: text.value }).then(function (r) {
+      var pics = files.filter(function (f) { return f.kind === 'pic'; });
+      call(null, { action: 'preview', body: text.value, pics: pics.map(function (f) { return f.id; }) }).then(function (r) {
         if (r.status !== 200) { answer.textContent = why(r, 'The preview could not be made just now.'); return; }
         shown.textContent = '';
-        blocks(r.body.blocks, shown);
+        blocks(r.body.blocks, shown, function (n) {
+          var f = pics.filter(function (x) { return x.id === n.id; })[0];
+          var said = n.alt || (f && f.alt) || 'A picture, with no description yet.';
+          if (f && f.had && o.topic) return picEl('span', 'fm-pic fm-pic--in', o.topic, { handle: '', files: [] }, f, said);
+          var sp = el('span', 'fm-pic fm-pic--in');
+          if (f && f.local) { var im = el('img', 'fm-pic__img'); im.src = f.local; im.alt = said; sp.appendChild(im); }
+          else sp.appendChild(el('span', 'cb-quiet', said));
+          return sp;
+        });
         markMentions(shown, mentioned().concat(o.people || []));
         shown.hidden = false;
         look.setAttribute('aria-pressed', 'true');
@@ -1170,6 +1308,50 @@
         files.forEach(function (f) { if (f.local) URL.revokeObjectURL(f.local); });
       });
     });
+    /* START FROM A TEMPLATE: its title and words, copied in to be filled.
+       Over words already written, only after a second press. */
+    function templateRow() {
+      var row = el('div', 'fm-tpl');
+      var lab = el('label', 'cb-lab', 'Start from a template');
+      lab.htmlFor = 'fm-tpl';
+      var sel = el('select', 'cb-say fm-field');
+      sel.id = 'fm-tpl';
+      var none = el('option', null, 'No template');
+      none.value = '';
+      sel.appendChild(none);
+      o.templates.forEach(function (x) { var op = el('option', null, x.title); op.value = x.id; sel.appendChild(op); });
+      var use = el('button', 'cb-btn fm-small', 'Use it');
+      use.type = 'button';
+      var said2 = el('p', 'fm-answer');
+      said2.setAttribute('role', 'status');
+      function useIt(x) {
+        if (title) title.value = x.title;
+        text.value = x.body;
+        saveDraft();
+        said2.textContent = 'The title and words of “' + x.title + '” are in. Change the title, and fill in the words.';
+        if (title) { title.focus(); title.select(); } else text.focus();
+      }
+      use.addEventListener('click', function () {
+        var x = o.templates.filter(function (y) { return y.id === sel.value; })[0];
+        if (!x) { said2.textContent = 'Pick a template first.'; return; }
+        if (!text.value.trim() && !(title && title.value.trim())) { useIt(x); return; }
+        said2.textContent = '';
+        sure(row, 'This puts the title and words of “' + x.title + '” in place of what you have written.', 'Use the template', function () {
+          var box2 = row.querySelector('.fm-sure');
+          if (box2) box2.remove();
+          use.hidden = false;
+          useIt(x);
+        }, use);
+      });
+      var line = el('div', 'fm-tpl__row');
+      line.appendChild(sel);
+      line.appendChild(use);
+      row.appendChild(lab);
+      row.appendChild(line);
+      row.appendChild(said2);
+      return row;
+    }
+
     form.focusFirst = function () { (title && !title.value ? title : text).focus(); };
     form.text = text;
     return form;
@@ -1206,7 +1388,7 @@
     var first = i === 0 && t.retitle;
     var f = composer({
       key: 'edit:' + p.id, body: p.body, title: first ? t.title : undefined, label: p.wiki ? 'The wiki page' : 'Your post', go: 'Save', sending: 'Saving…',
-      files: p.files || [], people: peopleOf(t),
+      files: p.files || [], people: peopleOf(t), doc: !!p.wiki, topic: t,
       cancel: function () { f.replaceWith(was); was.querySelector('.fm-post__tools button') && was.querySelector('.fm-post__tools button').focus(); },
       send: function (v) {
         var b = { action: 'edit', t: t.id, p: p.id, body: v.body, files: v.files, at: v.at };
@@ -1287,8 +1469,8 @@
     if (r.body.takes) takes = r.body.takes;
     navNew.hidden = !cats.some(function (c) { return c.start; });
     // New topic starts in the category you are in, where you can start one.
-    var c = here && catOf(here);
-    navNew.href = c && c.start ? '#/new?c=' + encodeURIComponent(c.slug) : '#/new';
+    var c = startIn(here && catOf(here));
+    navNew.href = c ? '#/new?c=' + encodeURIComponent(c.slug) : '#/new';
   }
 
   function home() {
@@ -1318,6 +1500,7 @@
           if (c.wiki) ch.appendChild(tag('WIKI', true));
           card.appendChild(ch);
           card.appendChild(el('p', 'fm-cat__about', c.about));
+          if (c.subs) card.appendChild(subLine(c.subs));
           card.appendChild(quiet(keepWords(c.keep)));
           if (c.latest.length) {
             var ul = el('ul', 'fm-cat__latest');
@@ -1341,7 +1524,21 @@
     });
   }
 
-  function more(into, q, before) {
+  /* What stands in a category, named in a line of links. */
+  function subLine(subs) {
+    var p = el('p', 'fm-cat__subs');
+    p.appendChild(document.createTextNode('In it: '));
+    subs.forEach(function (x, i) {
+      if (i) p.appendChild(document.createTextNode(' · '));
+      var a = el('a', null, x.name);
+      a.href = '#/c/' + x.slug;
+      p.appendChild(a);
+    });
+    return p;
+  }
+
+  // In a category, its own pinned topics were on the first page already.
+  function more(into, q, before, slug) {
     var b = el('button', 'cb-btn', 'Older topics'); b.type = 'button';
     b.addEventListener('click', function () {
       b.disabled = true;
@@ -1350,9 +1547,9 @@
         if (r.status !== 200) { say(why(r, 'Older topics could not be read just now.')); return; }
         var ul = into.querySelector('.fm-rows') || into.appendChild(el('ul', 'fm-rows'));
         var first = null;
-        r.body.topics.filter(function (x) { return !x.pinned; }).forEach(function (x) { var li = topicRow(x); first = first || li; ul.appendChild(li); });
+        r.body.topics.filter(function (x) { return !(slug && x.pinned && x.cat === slug); }).forEach(function (x) { var li = topicRow(x); first = first || li; ul.appendChild(li); });
         if (first) first.querySelector('a').focus();
-        if (r.body.more && r.body.topics.length) more(into, q, r.body.topics[r.body.topics.length - 1].last);
+        if (r.body.more && r.body.topics.length) more(into, q, r.body.topics[r.body.topics.length - 1].last, slug);
       });
     });
     into.appendChild(b);
@@ -1387,21 +1584,39 @@
       view.textContent = '';
       var h = heading(2, c.name);
       view.appendChild(h);
+      var up = pathOf(catOf(c.slug) || c).slice(0, -1);
+      if (up.length) view.appendChild(crumbs('In ', up));
       if (c.staff) view.appendChild(el('p', null, '')).appendChild(tag('STAFF', true));
       if (c.wiki) view.appendChild(el('p', null, '')).appendChild(tag('WIKI', true));
       view.appendChild(el('p', 'fm-lede', c.about));
       view.appendChild(quiet(keepWords(c.keep)));
-      if (c.start) {
+      var where = startIn(catOf(c.slug) || c);
+      if (where) {
         var p = el('p');
-        var a = el('a', 'cb-btn fm-start', 'Start a topic in ' + c.name);
-        a.href = '#/new?c=' + encodeURIComponent(c.slug);
+        var a = el('a', 'cb-btn fm-start', 'Start a topic in ' + (where.slug === c.slug ? c.name : label(where)));
+        a.href = '#/new?c=' + encodeURIComponent(where.slug);
         p.appendChild(a);
         view.appendChild(p);
-      } else view.appendChild(quiet('Only moderators start topics here. Anybody can reply to them.'));
+      } else if (c.shelf) view.appendChild(quiet('Topics go in the categories under it.'));
+      else view.appendChild(quiet('Only moderators start topics here. Anybody can reply to them.'));
+      if (r.body.subs) {
+        view.appendChild(el('h3', 'cb-h fm-group', 'In ' + c.name));
+        var ul = el('ul', 'fm-subs');
+        r.body.subs.forEach(function (x) {
+          var li = el('li', 'fm-sub');
+          var a = el('a', 'fm-sub__name', x.name);
+          a.href = '#/c/' + x.slug;
+          li.appendChild(a);
+          li.appendChild(el('p', 'fm-sub__about', x.about));
+          ul.appendChild(li);
+        });
+        view.appendChild(ul);
+        view.appendChild(el('h3', 'cb-h fm-group', 'Topics in all of it'));
+      }
       view.appendChild(topicList(r.body.topics, 'Nothing here yet.'));
       if (r.body.more) {
-        var rest = r.body.topics.filter(function (x) { return !x.pinned; });
-        if (rest.length) more(view, 'view=cat&c=' + encodeURIComponent(c.slug), rest[rest.length - 1].last);
+        var rest = r.body.topics.filter(function (x) { return !(x.pinned && x.cat === c.slug); });
+        if (rest.length) more(view, 'view=cat&c=' + encodeURIComponent(c.slug), rest[rest.length - 1].last, c.slug);
       }
       return h;
     });
@@ -1417,10 +1632,7 @@
     view.textContent = '';
     var h = heading(2, t.title, 'fm-topic__title');
     view.appendChild(h);
-    var meta = el('p', 'fm-topic__meta');
-    var ca = el('a', null, t.cat.name);
-    ca.href = '#/c/' + t.cat.slug;
-    meta.appendChild(ca);
+    var meta = crumbs('', pathOf(catOf(t.cat.slug) || t.cat), 'fm-topic__meta');
     meta.appendChild(document.createTextNode(' · started by ' + t.handle + ', ' + when(t.t)));
     if (t.pinned) meta.appendChild(tag('PINNED', true));
     if (t.closed) meta.appendChild(tag('CLOSED', true));
@@ -1474,7 +1686,7 @@
       var ml = el('label', 'sr', 'Move to'); ml.htmlFor = 'fm-move';
       var ms = el('select', 'cb-say fm-small');
       ms.id = 'fm-move';
-      cats.forEach(function (c) { if (c.slug !== t.cat.slug) { var o = el('option', null, c.name); o.value = c.slug; ms.appendChild(o); } });
+      cats.forEach(function (c) { if (c.slug !== t.cat.slug && !c.shelf) { var o = el('option', null, label(c)); o.value = c.slug; ms.appendChild(o); } });
       var mv = el('button', 'cb-btn fm-small', 'Move'); mv.type = 'button';
       mv.addEventListener('click', function () { act({ action: 'moderate', t: t.id, move: ms.value }, 'Moved.'); });
       if (ms.children.length) { box2.appendChild(ml); box2.appendChild(ms); box2.appendChild(mv); }
@@ -1560,13 +1772,14 @@
   function newTopic(q) {
     blank(null, 'Looking…');
     var from = q.from ? { room: q.from === 'world' ? null : q.from, ids: (q.ids || '').split(',').filter(Boolean) } : null;
-    var asks = [call('view=home'), loadRooms()];
+    var asks = [call('view=home'), loadRooms(), call('view=templates')];
     if (from) asks.push(call('view=cb&room=' + encodeURIComponent(from.room || '') + '&ids=' + encodeURIComponent(from.ids.join(','))));
     return Promise.all(asks).then(function (rs) {
       var r = rs[0];
       if (r.status !== 200) return refused(r);
       took(r);
       drawSide(q.c || null);
+      var templates = rs[2].status === 200 ? rs[2].body.templates || [] : [];
       view.textContent = '';
       var h = heading(2, from ? 'A new topic, from the CB' : 'A new topic');
       view.appendChild(h);
@@ -1574,7 +1787,7 @@
       if (!startable.length) { view.appendChild(quiet('There is no category you can start a topic in.')); return h; }
       var above = null;
       if (from) {
-        var x = rs[2];
+        var x = rs[3];
         above = el('div', 'fm-from');
         if (x.status !== 200) {
           above.appendChild(el('p', 'fm-answer', why(x, 'Those messages could not be read off the channel just now.')));
@@ -1588,8 +1801,9 @@
         }
       }
       var f = composer({
-        key: 'new:' + (q.from || '') + ':' + (q.ids || ''), cats: startable, cat: q.c, title: '', above: above,
-        people: from && rs[2].status === 200 ? rs[2].body.cb.messages.map(function (m) { return m.handle; }) : [],
+        key: 'new:' + (q.from || '') + ':' + (q.ids || ''), cats: startable, cat: q.c && startIn(catOf(q.c)) ? startIn(catOf(q.c)).slug : q.c, title: '', above: above,
+        templates: templates,
+        people: from && rs[3].status === 200 ? rs[3].body.cb.messages.map(function (m) { return m.handle; }) : [],
         label: from ? 'Anything you want to add (you can leave this empty)' : 'Your post', go: 'Start the topic', sending: 'Starting it…',
         send: function (v) {
           var b = { action: 'start', cat: v.cat, title: v.title, body: v.body, files: v.files, at: v.at };

@@ -5194,7 +5194,7 @@ only into a category no wider than it. Ryan's call: anybody's messages, under th
 friendly edits are a reply count, a view count, unread numbers, a fetched preview image, and the radio sending the
 messages' words itself**; each is refused by `make-forum.py` or by the privacy page. `DECISIONS.md` has what is still open.
 
-**THE WIKI IS THE ONE PLACE A MODERATOR EDITS SOMEBODY ELSE'S WORDS, AND ONLY THE PAGE.** Ryan, 2026-10-19: support
+**A WIKI IS THE ONE PLACE A MODERATOR EDITS SOMEBODY ELSE'S WORDS, AND ONLY THE PAGE.** Ryan, 2026-10-19: support
 docs as living documents, in a Wiki category kept for good, where moderators and above edit any of them. A category's
 `wiki` in `data/forum.json` names the roles; `forumEditor` in `lib.mjs` is the only way `editPost` reaches past a post's
 author, and only to a topic's **first** post, the page. Every reply, in the Wiki too, stays its writer's, the channel's
@@ -5203,6 +5203,23 @@ shown wherever the post goes), goes only with its whole topic so a reply never b
 refuses a wiki not kept for good, because an edit does not move a topic's clock. **The friendly edit is letting
 moderators edit any post "to fix typos"**; the tool refuses `editPost` asking for a role itself. The pages live in the
 forums, not in this repository, so a change to a feature changes its Wiki page there.
+
+**TEAM DOCS IS THE SECOND WIKI, AND A CATEGORY CAN STAND IN ANOTHER NOW.** Ryan's ask, 2026-10-20, moving the team's
+documents out of Google Docs: Team Docs (staff, moderators and above, kept for good, `wiki`) holding Field Guide, Notes,
+Meeting Minutes and Templates. **A subcategory is its parent's in everything but its name, words and what it holds**:
+`make-forum.py` copies the group, keep, roles, strict and wiki down and refuses a subcategory that sets its own, so nobody
+is ever sent a subcategory of a category they cannot read. `topics: false` is a shelf (Team Docs, Meeting Minutes), which
+`startTopic` and a move refuse. **Meeting Minutes' years are made by the server, not listed** (`years` in the data,
+`forumCategories(now)` in `lib.mjs`, on the street's clock), so a year is there on the first of January with nothing to
+edit and no generated file that changes with the date: **pass `now` to `forumCat` and `forumCatsFor`**, and never read
+`FORUM_CATEGORIES` for what exists, which is only the listed ones. **Templates are topics** in a category marked
+`templates` (`forumTemplates`), after the Drive's templates folder; using one copies its title and words in the browser,
+a pinned one is the read-me, and nothing records who used which. **A picture in the words is `![words](pic:<id>)`**,
+placed by `placePictures` in `shapePost` only when the post holds that picture, so `parseBrass` is unchanged and no
+picture from anywhere else is ever shown; markdown.js draws it through a `pic` hook a page passes. **The friendly edits
+are a template list kept in the data "so it is versioned", a subcategory with roles wider than its parent's, and taking
+a picture's address from outside the post "so people can link one"**; the first stops the team keeping its own
+templates, the other two break the forums' oldest promises. Moving the documents across is not done (`DECISIONS.md`).
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

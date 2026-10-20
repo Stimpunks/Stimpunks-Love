@@ -18,6 +18,10 @@
              host shown after a link off the street (PREFIX-host) and the
              scrolling box round a table (PREFIX-table). Each room dresses them
              in its own section.
+     pic     for a page whose posts hold pictures (the forums, 2026-10-20): a
+             function given a picture node the server placed in the words,
+             { id, alt }, that answers the element to stand there. Without
+             one, a picture is its description, as words.
    ============================================================================= */
 (function () {
   'use strict';
@@ -35,6 +39,7 @@
       else if (n.t === 'br') into.appendChild(el('br'));
       else if (n.t === 'code') into.appendChild(el('code', null, n.v));
       else if (n.t === 'b' || n.t === 'i' || n.t === 's') { var w = el({ b: 'strong', i: 'em', s: 'del' }[n.t]); inline(n.c, w, o); into.appendChild(w); }
+      else if (n.t === 'pic') into.appendChild(o.pic ? o.pic(n) : document.createTextNode(n.alt || ''));
       else if (n.t === 'a') {
         var a = el('a'); a.href = n.href; inline(n.c, a, o);
         try {
@@ -85,7 +90,7 @@
 
   window.loveMarkdown = {
     blocks: function (nodes, into, opts) {
-      blocks(nodes || [], into, { top: (opts && opts.top) || 2, prefix: (opts && opts.prefix) || 'md' });
+      blocks(nodes || [], into, { top: (opts && opts.top) || 2, prefix: (opts && opts.prefix) || 'md', pic: (opts && opts.pic) || null });
     },
   };
 }());
