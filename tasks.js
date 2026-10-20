@@ -63,8 +63,9 @@
   nav.setAttribute('aria-label', 'Tasks');
   var navList = el('a', 'cb-btn tk-navlink', 'List'); navList.href = '#/';
   var navBoard = el('a', 'cb-btn tk-navlink', 'Board'); navBoard.href = '#/board';
+  var navRecur = el('a', 'cb-btn tk-navlink', 'Recurring'); navRecur.href = '#/recurring';
   var navNew = el('a', 'cb-btn tk-navlink', 'New task'); navNew.href = '#/new';
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navNew);
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navRecur); nav.appendChild(navNew);
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -118,7 +119,7 @@
     return otherwise;
   }
 
-  var settings = null, people = [], me = null, tasks = [], views = [];
+  var settings = null, people = [], me = null, tasks = [], views = [], recurs = [];
   function took(b) {
     if (b.settings) settings = b.settings;
     if (b.people) people = b.people;
@@ -274,6 +275,7 @@
       took(r.body);
       tasks = r.body.tasks || [];
       views = r.body.views || [];
+      recurs = r.body.recurs || [];
       return drawTasks(readQuery(), mode);
     });
   }
@@ -707,7 +709,14 @@
     if (t.due) { var d = el('span', null, dayWords(t.due)); if (overdue(t)) d.appendChild(tag('OVERDUE', 'tk-late')); fact('Due', d); }
     if (t.done) fact('Finished', when(t.done));
     if (t.tags.length) fact('Tags', t.tags.join(', '));
-    fact('Made', (t.by ? t.by + ', ' : '') + when(t.t));
+    if (t.recur) {
+      // Made by a recurring task, on its day, under nobody's name.
+      var made = el('span', null, 'By ');
+      if (t.from) { var ra = el('a', null, 'the recurring task “' + t.from.name + '”'); ra.href = '#/recurring/' + t.from.id; made.appendChild(ra); }
+      else made.appendChild(document.createTextNode('a recurring task since deleted'));
+      made.appendChild(document.createTextNode(', for ' + dayWords(t.on) + ', ' + when(t.t)));
+      fact('Made', made);
+    } else fact('Made', (t.by ? t.by + ', ' : '') + when(t.t));
     if (t.edited) fact('Changed', (t.editedBy ? t.editedBy + ', ' : '') + when(t.edited));
     view.appendChild(dl);
     var body = el('div', 'tk-body');
@@ -759,13 +768,10 @@
     });
   }
 
-  function drawForm(t) {
-    view.textContent = '';
-    view.appendChild(backToList());
-    var h = heading(2, t ? 'Changing “' + t.name + '”' : 'A new task');
-    view.appendChild(h);
-    var form = el('form', 'tk-form');
-    form.noValidate = true;
+  /* A form's pieces, for a task's form and a recurring task's: a labelled
+     field, a select, a group of checkboxes, and the description with its
+     preview, Save and Cancel. */
+  function formKit(form) {
     function field(id, label, input) {
       var w = el('div', 'tk-field');
       var l = el('label', 'cb-lab', label); l.htmlFor = id; input.id = id;
@@ -780,18 +786,6 @@
       s.value = value || '';
       return s;
     }
-    var name = el('input', 'cb-say tk-input'); name.maxLength = settings.nameMax; name.value = t ? t.name : '';
-    field('tk-name', 'Name', name);
-    var status = field('tk-status', 'Status', select(settings.statuses, t ? t.status : settings.statuses[0]));
-    var priority = field('tk-priority', 'Priority', select(settings.priorities, t ? t.priority : settings.priority));
-    var choices = people.slice();
-    if (t && t.who && choices.every(function (p) { return fold(p) !== fold(t.who); })) choices.push(t.who);
-    var who = field('tk-whois', 'Assigned to', select(choices, t ? t.who : (me && choices.some(function (p) { return fold(p) === fold(me.handle); }) ? me.handle : ''), 'Nobody'));
-    var start = el('input', 'cb-say tk-input'); start.type = 'date'; start.value = t && t.start ? t.start : '';
-    field('tk-start', 'Starts', start);
-    var due = el('input', 'cb-say tk-input'); due.type = 'date'; due.value = t && t.due ? t.due : '';
-    field('tk-duein', 'Due', due);
-
     function boxes(id, label, values, on) {
       var fs = el('fieldset', 'tk-checks');
       fs.appendChild(el('legend', 'cb-lab', label));
@@ -805,41 +799,67 @@
       form.appendChild(fs);
       return function () { return Array.prototype.filter.call(fs.querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; }); };
     }
+    function describe(value, goText, cancelTo) {
+      var text = el('textarea', 'cb-say tk-text'); text.rows = 9; text.maxLength = settings.bodyMax; text.value = value;
+      field('tk-body', 'Description', text);
+      text.setAttribute('aria-describedby', 'tk-body-hint');
+      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row.');
+      hint.id = 'tk-body-hint';
+      form.appendChild(hint);
+      var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;
+      form.appendChild(preview);
+      var row = el('div', 'tk-row');
+      var go = el('button', 'cb-btn', goText); go.type = 'submit';
+      var look = el('button', 'cb-btn', 'Preview'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
+      var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = cancelTo;
+      row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
+      form.appendChild(row);
+      var answer = el('p', 'tk-answer'); answer.setAttribute('role', 'status');
+      form.appendChild(answer);
+      look.addEventListener('click', function () {
+        if (!preview.hidden) { preview.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; return; }
+        if (!text.value.trim()) { answer.textContent = 'There is no description to preview yet.'; return; }
+        call(null, { action: 'preview', body: text.value }).then(function (r) {
+          if (r.status !== 200) { answer.textContent = why(r, 'The preview could not be made just now.'); return; }
+          preview.textContent = '';
+          window.loveMarkdown.blocks(r.body.blocks, preview, { top: 2, prefix: 'tk' });
+          preview.hidden = false;
+          look.setAttribute('aria-pressed', 'true');
+          look.textContent = 'Hide the preview';
+        });
+      });
+      return { text: text, go: go, answer: answer };
+    }
+    return { field: field, select: select, boxes: boxes, describe: describe };
+  }
+
+  function drawForm(t) {
+    view.textContent = '';
+    view.appendChild(backToList());
+    var h = heading(2, t ? 'Changing “' + t.name + '”' : 'A new task');
+    view.appendChild(h);
+    var form = el('form', 'tk-form');
+    form.noValidate = true;
+    var kit = formKit(form), field = kit.field, select = kit.select, boxes = kit.boxes;
+    var name = el('input', 'cb-say tk-input'); name.maxLength = settings.nameMax; name.value = t ? t.name : '';
+    field('tk-name', 'Name', name);
+    var status = field('tk-status', 'Status', select(settings.statuses, t ? t.status : settings.statuses[0]));
+    var priority = field('tk-priority', 'Priority', select(settings.priorities, t ? t.priority : settings.priority));
+    var choices = people.slice();
+    if (t && t.who && choices.every(function (p) { return fold(p) !== fold(t.who); })) choices.push(t.who);
+    var who = field('tk-whois', 'Assigned to', select(choices, t ? t.who : (me && choices.some(function (p) { return fold(p) === fold(me.handle); }) ? me.handle : ''), 'Nobody'));
+    var start = el('input', 'cb-say tk-input'); start.type = 'date'; start.value = t && t.start ? t.start : '';
+    field('tk-start', 'Starts', start);
+    var due = el('input', 'cb-say tk-input'); due.type = 'date'; due.value = t && t.due ? t.due : '';
+    field('tk-duein', 'Due', due);
+
     var withOn = t ? t.with : [];
     var withAll = people.concat(withOn.filter(function (h) { return people.every(function (p) { return fold(p) !== fold(h); }); }));
     var withOf = boxes('tk-with', 'Also on it', withAll, withOn);
     var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, t ? t.tags : []);
 
-    var text = el('textarea', 'cb-say tk-text'); text.rows = 9; text.maxLength = settings.bodyMax; text.value = t ? t.body : '';
-    field('tk-body', 'Description', text);
-    text.setAttribute('aria-describedby', 'tk-body-hint');
-    var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row.');
-    hint.id = 'tk-body-hint';
-    form.appendChild(hint);
-    var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;
-    form.appendChild(preview);
-
-    var row = el('div', 'tk-row');
-    var go = el('button', 'cb-btn', t ? 'Save' : 'Make the task'); go.type = 'submit';
-    var look = el('button', 'cb-btn', 'Preview'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
-    var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = t ? '#/t/' + t.id : '#/';
-    row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
-    form.appendChild(row);
-    var answer = el('p', 'tk-answer'); answer.setAttribute('role', 'status');
-    form.appendChild(answer);
-
-    look.addEventListener('click', function () {
-      if (!preview.hidden) { preview.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; return; }
-      if (!text.value.trim()) { answer.textContent = 'There is no description to preview yet.'; return; }
-      call(null, { action: 'preview', body: text.value }).then(function (r) {
-        if (r.status !== 200) { answer.textContent = why(r, 'The preview could not be made just now.'); return; }
-        preview.textContent = '';
-        window.loveMarkdown.blocks(r.body.blocks, preview, { top: 2, prefix: 'tk' });
-        preview.hidden = false;
-        look.setAttribute('aria-pressed', 'true');
-        look.textContent = 'Hide the preview';
-      });
-    });
+    var desc = kit.describe(t ? t.body : '', t ? 'Save' : 'Make the task', t ? '#/t/' + t.id : '#/');
+    var text = desc.text, go = desc.go, answer = desc.answer;
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -862,6 +882,242 @@
         if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
         location.hash = '#/t/' + r.body.task.id;
         say(t ? 'Saved.' : 'Made.');
+      });
+    });
+    view.appendChild(form);
+    return h;
+  }
+
+  /* ── Recurring tasks ───────────────────────────────────────────────────── */
+
+  /* A task that comes round again: on its next day the server makes its task
+     by itself, starting and due so many days after that day, and moves the day
+     on. Switched off, it makes nothing. lib.mjs works out what each will make,
+     and this only shows it. */
+  function afterWords(n) { return n === 0 ? 'that day' : n === 1 ? 'a day after' : n + ' days after'; }
+  function backToRecurs() { var p = el('p'); var a = el('a', null, '← All recurring tasks'); a.href = '#/recurring'; p.appendChild(a); return p; }
+
+  function recurList() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=list').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      tasks = r.body.tasks || [];
+      recurs = r.body.recurs || [];
+      return drawRecurs();
+    });
+  }
+
+  function drawRecurs() {
+    view.textContent = '';
+    var h = heading(2, 'Recurring tasks');
+    view.appendChild(h);
+    var on = recurs.filter(function (r) { return r.on; }).length;
+    view.appendChild(el('p', 'tk-shown', recurs.length + ' recurring ' + (recurs.length === 1 ? 'task' : 'tasks') + ', ' + on + ' switched on'));
+    view.appendChild(el('p', null, 'On its next day, each one switched on makes its task by itself, within the hour after midnight in Colorado, and its next day moves on.'));
+    var row = el('p', 'tk-row');
+    var make = el('a', 'cb-btn tk-small', 'New recurring task'); make.href = '#/recurring/new';
+    row.appendChild(make);
+    view.appendChild(row);
+    if (!recurs.length) { view.appendChild(quiet('There are no recurring tasks yet.')); return h; }
+    var box = el('div', 'tk-tablebox');
+    box.tabIndex = 0; box.setAttribute('role', 'region'); box.setAttribute('aria-label', 'Recurring tasks');
+    var t = el('table', 'tk-list');
+    t.appendChild(el('caption', 'sr', 'Recurring tasks, by the next day each makes a task.'));
+    var hr = el('tr');
+    ['Recurring task', 'Comes round', 'Next', 'Each task', 'Assigned to', 'Switched on'].forEach(function (c) { var th = el('th', null, c); th.scope = 'col'; hr.appendChild(th); });
+    var thead = el('thead'); thead.appendChild(hr); t.appendChild(thead);
+    var tb = el('tbody');
+    recurs.slice().sort(function (a, b) { return a.next < b.next ? -1 : a.next > b.next ? 1 : a.name.localeCompare(b.name); }).forEach(function (r) {
+      var tr = el('tr');
+      var td = el('td', 'tk-title');
+      var a = el('a', null, r.name); a.href = '#/recurring/' + r.id;
+      td.appendChild(a);
+      tr.appendChild(td);
+      tr.appendChild(el('td', null, r.repeats));
+      tr.appendChild(el('td', 'tk-day', dayWords(r.next)));
+      tr.appendChild(el('td', null, r.startAfter === r.dueAfter ? 'Starts and is due ' + afterWords(r.startAfter)
+        : 'Starts ' + afterWords(r.startAfter) + ', due ' + afterWords(r.dueAfter)));
+      tr.appendChild(el('td', null, r.who || '—'));
+      var o = el('td');
+      if (r.on) o.textContent = 'On'; else o.appendChild(tag('OFF', 'tk-off'));
+      tr.appendChild(o);
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    box.appendChild(t);
+    view.appendChild(box);
+    return h;
+  }
+
+  function recurView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=recur&id=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status !== 200) {
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That recurring task has been deleted'); view.appendChild(h0); view.appendChild(backToRecurs()); return h0; }
+        return refused(r);
+      }
+      took(r.body);
+      return drawRecur(r.body.recur, r.body.made || []);
+    });
+  }
+
+  function drawRecur(r, made) {
+    view.textContent = '';
+    view.appendChild(backToRecurs());
+    var h = heading(2, r.name);
+    view.appendChild(h);
+    var dl = el('dl', 'tk-facts');
+    function fact(k, v) { if (v == null || v === '') return; dl.appendChild(el('dt', null, k)); var dd = el('dd'); if (typeof v === 'string') dd.textContent = v; else dd.appendChild(v); dl.appendChild(dd); }
+    fact('Switched on', r.on ? 'Yes' : 'No: it makes nothing until it is switched on');
+    fact('Comes round', r.repeats);
+    fact('Next day', dayWords(r.next));
+    fact('Each task starts', afterWords(r.startAfter));
+    fact('Each task is due', afterWords(r.dueAfter));
+    fact('Assigned to', r.who || 'Nobody');
+    if (r.with.length) fact('Also on it', r.with.join(', '));
+    fact('Priority', r.priority);
+    if (r.tags.length) fact('Tags', r.tags.join(', '));
+    if (r.espo) fact('From', 'Brought over from EspoCRM');
+    fact('Made', (r.by ? r.by + ', ' : '') + when(r.t));
+    if (r.edited) fact('Changed', (r.editedBy ? r.editedBy + ', ' : '') + when(r.edited));
+    view.appendChild(dl);
+
+    view.appendChild(heading(3, 'Its next three'));
+    if (!r.on) view.appendChild(quiet('Switched off, so none of these will be made until it is switched on.'));
+    var ul = el('ul', 'tk-coming');
+    r.coming.forEach(function (c) {
+      ul.appendChild(el('li', null, dayWords(c.on) + ': “' + c.name + '”, starts ' + dayWords(c.start) + ', due ' + dayWords(c.due)));
+    });
+    view.appendChild(ul);
+
+    var body = el('div', 'tk-body');
+    if (r.blocks && r.blocks.length) window.loveMarkdown.blocks(r.blocks, body, { top: 3, prefix: 'tk' });
+    else body.appendChild(quiet('No description.'));
+    view.appendChild(heading(3, 'Each task’s description'));
+    view.appendChild(body);
+
+    var tools = el('div', 'tk-row');
+    var edit = el('a', 'cb-btn tk-small', 'Edit'); edit.href = '#/recurring/edit/' + r.id;
+    tools.appendChild(edit);
+    var flip = el('button', 'cb-btn tk-small', r.on ? 'Switch off' : 'Switch on'); flip.type = 'button';
+    flip.addEventListener('click', function () {
+      flip.disabled = true;
+      call(null, { action: 'recur-save', id: r.id, on: !r.on }).then(function (a) {
+        flip.disabled = false;
+        if (a.status !== 200) { say(why(a, 'That did not save. Nothing was changed.')); return; }
+        drawRecur(a.body.recur, made).focus();
+        say(a.body.recur.on ? 'Switched on. Its next task is made on ' + dayWords(a.body.recur.next) + '.' : 'Switched off. It makes nothing until it is switched on.');
+      });
+    });
+    tools.appendChild(flip);
+    var del = el('button', 'cb-btn tk-small', 'Delete'); del.type = 'button';
+    del.addEventListener('click', function () {
+      var stay = made.length === 0 ? 'It has made no tasks here.' : made.length === 1 ? 'The task it made stays.' : 'The ' + made.length + ' tasks it made stay.';
+      sure(tools, 'This deletes the recurring task “' + r.name + '” for everybody, and it makes no more tasks. ' + stay + ' It cannot be put back.', 'Delete it', function (done) {
+        call(null, { action: 'recur-remove', id: r.id }).then(function (a) {
+          done();
+          if (a.status !== 200) { say(why(a, 'That did not delete. Nothing was changed.')); return; }
+          say('Deleted. The tasks it made stay.');
+          location.hash = '#/recurring';
+        });
+      }, del);
+    });
+    tools.appendChild(del);
+    view.appendChild(tools);
+
+    view.appendChild(heading(3, 'Tasks it has made (' + made.length + ')'));
+    if (!made.length) view.appendChild(quiet(r.espo ? 'None here yet. The tasks EspoCRM made from it were brought over as tasks of their own.' : 'None yet.'));
+    else {
+      var ml = el('ul', 'tk-made');
+      made.slice().sort(function (a, b) { return a.on < b.on ? 1 : a.on > b.on ? -1 : 0; }).forEach(function (t) {
+        var li = el('li', isDone(t) ? 'tk-done' : null);
+        var a = el('a', null, t.name); a.href = '#/t/' + t.id;
+        li.appendChild(a);
+        li.appendChild(document.createTextNode(', ' + dayWords(t.on) + ', ' + t.status));
+        if (overdue(t)) li.appendChild(tag('OVERDUE', 'tk-late'));
+        ml.appendChild(li);
+      });
+      view.appendChild(ml);
+    }
+    return h;
+  }
+
+  function recurFormView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    var ask = id ? call('view=recur&id=' + encodeURIComponent(id)) : call('view=list');
+    return ask.then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawRecurForm(id ? r.body.recur : null);
+    });
+  }
+
+  function drawRecurForm(r) {
+    view.textContent = '';
+    view.appendChild(backToRecurs());
+    var h = heading(2, r ? 'Changing “' + r.name + '”' : 'A new recurring task');
+    view.appendChild(h);
+    var form = el('form', 'tk-form');
+    form.noValidate = true;
+    var kit = formKit(form), field = kit.field, select = kit.select, boxes = kit.boxes;
+    var name = el('input', 'cb-say tk-input'); name.maxLength = settings.nameMax; name.value = r ? r.name : '';
+    field('tk-name', 'Name', name);
+    name.setAttribute('aria-describedby', 'tk-name-hint');
+    var nameHint = el('p', 'cb-quiet tk-hint', '{week}, {year} and {month} are filled in from the day each task is made: “Week in Review for Week {week} of {year}”. {week} is the ISO week, Monday to Sunday.');
+    nameHint.id = 'tk-name-hint';
+    form.appendChild(nameHint);
+    var repeats = field('tk-repeats', 'Comes round', select(settings.repeats, r ? r.repeats : settings.repeats[0]));
+    var next = el('input', 'cb-say tk-input'); next.type = 'date'; next.value = r ? r.next : today();
+    field('tk-next', 'Next day it makes a task', next);
+    function days(id, label, value) {
+      var n = el('input', 'cb-say tk-input'); n.type = 'number'; n.min = '0'; n.max = String(settings.afterMax); n.step = '1'; n.inputMode = 'numeric'; n.value = String(value);
+      return field(id, label, n);
+    }
+    var startAfter = days('tk-startafter', 'Each task starts, days after that day', r ? r.startAfter : 0);
+    var dueAfter = days('tk-dueafter', 'Each task is due, days after that day', r ? r.dueAfter : 0);
+    var priority = field('tk-priority', 'Priority', select(settings.priorities, r ? r.priority : settings.priority));
+    var choices = people.slice();
+    if (r && r.who && choices.every(function (p) { return fold(p) !== fold(r.who); })) choices.push(r.who);
+    var who = field('tk-whois', 'Assigned to', select(choices, r ? r.who : (me && choices.some(function (p) { return fold(p) === fold(me.handle); }) ? me.handle : ''), 'Nobody'));
+    var withOn = r ? r.with : [];
+    var withAll = people.concat(withOn.filter(function (x) { return people.every(function (p) { return fold(p) !== fold(x); }); }));
+    var withOf = boxes('tk-with', 'Also on it', withAll, withOn);
+    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, r ? r.tags : []);
+    var onWrap = el('label', 'tk-check tk-switch');
+    var on = el('input'); on.type = 'checkbox'; on.id = 'tk-on'; on.checked = r ? r.on : true;
+    onWrap.htmlFor = 'tk-on';
+    onWrap.appendChild(on);
+    onWrap.appendChild(document.createTextNode(' Switched on: it makes its task on its next day'));
+    form.appendChild(onWrap);
+    var desc = kit.describe(r ? r.body : '', r ? 'Save' : 'Make the recurring task', r ? '#/recurring/' + r.id : '#/recurring');
+    var text = desc.text, go = desc.go, answer = desc.answer;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var whole = function (x) { return x.value.trim() === '' ? 0 : Number(x.value); };
+      var v = { name: name.value, repeats: repeats.value, next: next.value || null, startAfter: whole(startAfter), dueAfter: whole(dueAfter),
+        priority: priority.value, who: who.value || null, with: withOf(), tags: tagsOf(), on: on.checked, body: text.value };
+      // A change sends only what changed, so somebody else's change to another field stays.
+      var send = { action: 'recur-save' };
+      if (r) {
+        send.id = r.id;
+        Object.keys(v).forEach(function (k) {
+          var was = r[k] == null ? (k === 'body' ? '' : null) : r[k];
+          if (JSON.stringify(was) !== JSON.stringify(v[k])) send[k] = v[k];
+        });
+        if (Object.keys(send).length === 2) { location.hash = '#/recurring/' + r.id; return; }
+      } else Object.keys(v).forEach(function (k) { send[k] = v[k]; });
+      go.disabled = true;
+      answer.textContent = 'Saving…';
+      call(null, send).then(function (a) {
+        go.disabled = false;
+        if (a.status !== 200) { answer.textContent = why(a, 'That did not save. Nothing was changed.'); return; }
+        location.hash = '#/recurring/' + a.body.recur.id;
+        say(r ? 'Saved.' : 'Made. Its first task is made on ' + dayWords(a.body.recur.next) + '.');
       });
     });
     view.appendChild(form);
@@ -902,10 +1158,15 @@
     else if (parts[0] === 't' && parts[1]) done = taskView(parts[1]);
     else if (parts[0] === 'new') done = formView(null);
     else if (parts[0] === 'board') done = tasksView('board');
+    else if (parts[0] === 'recurring' && parts[1] === 'new') done = recurFormView(null);
+    else if (parts[0] === 'recurring' && parts[1] === 'edit' && parts[2]) done = recurFormView(parts[2]);
+    else if (parts[0] === 'recurring' && parts[1]) done = recurView(parts[1]);
+    else if (parts[0] === 'recurring') done = recurList();
     else done = tasksView('list');
-    [navList, navBoard, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navList, navBoard, navRecur, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
     else if (parts[0] === 'board') navBoard.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'recurring' && !parts[1]) navRecur.setAttribute('aria-current', 'page');
     else if (!parts.length) navList.setAttribute('aria-current', 'page');
     Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });
   }

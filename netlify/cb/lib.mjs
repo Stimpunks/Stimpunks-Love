@@ -7037,6 +7037,7 @@ export const TASK_SEE = ["director"];
 export const TASK_STATUSES = ["Not Started", "Started", "Completed", "Canceled", "Deferred"];
 export const TASK_DONE = ["Completed", "Canceled"];
 export const TASK_BOARD_HIDES = ["Canceled"];
+export const TASK_REPEATS = {"Weekly": {"days": 7}, "Every 2 Weeks": {"days": 14}, "Monthly": {"months": 1}};
 export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
@@ -7124,6 +7125,7 @@ export function shapeTask(t, whole = false) {
     done: t.done || null, who: t.who || null, with: t.with || [], tags: t.tags || [], t: t.t, by: t.by,
     edited: t.edited || null, editedBy: t.editedBy || null };
   if (t.espo) out.espo = t.espo;
+  if (t.recur) { out.recur = t.recur; out.on = t.on; }
   if (whole) { out.body = t.body || ''; out.blocks = parseBrass(t.body || ''); } else out.words = [...(t.body || '')].length;
   return out;
 }
@@ -7280,4 +7282,226 @@ export async function removeTaskView(who, id, s = store()) {
 export async function forgetTaskViews(pk, s = store()) {
   await s.delete(taskViewsBlob(pk));
   return true;
+}
+
+/* RECURRING TASKS (Ryan's stage three, 2026-10-20), after EspoCRM's: a task
+   that comes round again, weekly, every 2 weeks or monthly (TASK_REPEATS, from
+   data/tasks.json). Every one is the team's, like a task, in one blob,
+   task-recurs, and each keeps its name, description, who its tasks go to and
+   who else is on them, their priority and tags, how often, `next` (the day it
+   next makes a task), `day` (a monthly one's day of the month), `startAfter`
+   and `dueAfter` (days after that day), `on`, who made it and changed it and
+   when, and EspoCRM's id for one brought over.
+
+   ON ITS DAY THE TASK IS MADE BY ITSELF, AS ESPOCRM DID IT: starting startAfter
+   days after the day and due dueAfter days after, the name's {week}, {year} and
+   {month} filled in from the day, and the day moved on. "Its day" is the
+   street's clock, Colorado's (today()), and the making is makeRecurring(), run
+   every hour by cb-recur.mjs and whenever a director opens the list, so a task
+   is there within the hour after midnight there. A made task keeps `recur` and
+   `on`, which recurring task and which day, and makeRecurring never makes one
+   that is already there, so two runs at once make it once. Missed days (the
+   hourly run stopped) are each made, up to TASK_CATCH_UP; SWITCHED OFF IS OFF:
+   switching one on again starts it from its next day still to come, without
+   the ones it missed, because a switched-off recurring task was asked to make
+   nothing. Deleting one leaves the tasks it made. */
+export const TASK_RECURS_KEEP = 200;
+export const TASK_AFTER_MAX = 366;          // days after its day a made task may start or be due
+const TASK_RECURS = 'task-recurs';
+const TASK_CATCH_UP = 12;                   // days one recurring task makes in one run, if runs were missed
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+export function recurId(v) { return typeof v === 'string' && /^r[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newRecurId = () => 'r' + randomBytes(9).toString('base64url');
+
+// A day as a whole number of days, so no clock change can move one.
+const dayNumber = (d) => Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10)) / 86400000;
+const dayFrom = (n) => new Date(n * 86400000).toISOString().slice(0, 10);
+export function addDays(d, n) { return dayFrom(dayNumber(d) + n); }
+
+/* The ISO week a day is in, and that week's year: a week starts on Monday, and
+   week 1 is the one holding the year's first Thursday, so 2027-01-01 is in
+   week 53 of 2026. */
+export function isoWeek(d) {
+  const n = dayNumber(d), monday0 = (new Date(n * 86400000).getUTCDay() + 6) % 7;
+  const thursday = n - monday0 + 3;
+  const year = new Date(thursday * 86400000).getUTCFullYear();
+  return { week: Math.floor((thursday - Date.UTC(year, 0, 1) / 86400000) / 7) + 1, year };
+}
+
+/* A recurring task's name on a day: {week} the ISO week, {month} the month's
+   name, and {year} the year, which in a name that has {week} in it is that
+   week's year, so "Week 53 of 2026" never becomes "Week 53 of 2027". */
+export function recurName(template, d) {
+  const w = isoWeek(d);
+  const year = /\{week\}/.test(template) ? w.year : +d.slice(0, 4);
+  return template.replace(/\{week\}/g, String(w.week)).replace(/\{year\}/g, String(year))
+    .replace(/\{month\}/g, MONTH_NAMES[+d.slice(5, 7) - 1]);
+}
+
+/* The day after `d` that a recurring task comes round on: so many days on, or
+   so many months on to its own day of the month (`day`), or the month's last
+   day when that month is shorter. */
+export function recurAfter(r, d) {
+  const step = TASK_REPEATS[r.repeats] || TASK_REPEATS[Object.keys(TASK_REPEATS)[0]];
+  if (step.days) return addDays(d, step.days);
+  const m0 = +d.slice(5, 7) - 1 + step.months, y = +d.slice(0, 4) + Math.floor(m0 / 12), m = ((m0 % 12) + 12) % 12;
+  const last = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+  const day = Math.min(r.day || +d.slice(8, 10), last);
+  return `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+export async function readRecurs(s = store()) {
+  const d = await s.get(TASK_RECURS, { type: 'json' });
+  return d && Array.isArray(d.recurs) ? d.recurs : [];
+}
+
+/* The task a recurring task makes for a day. Nobody's name is on it as its
+   maker: it says which recurring task made it, and for which day. */
+function recurTask(r, d, now) {
+  return { id: newTaskId(), name: recurName(r.name, d), status: TASK_STATUSES[0], priority: r.priority,
+    start: addDays(d, r.startAfter || 0), due: addDays(d, r.dueAfter || 0), body: r.body || '', who: r.who || null,
+    with: r.with || [], tags: r.tags || [], t: now, by: null, recur: r.id, on: d };
+}
+
+/* Make every task a switched-on recurring task owes, on or before today, and
+   move its next day on. { made } is how many tasks were made. Safe to run at
+   any moment, any number of times at once: a task already there for that
+   recurring task and that day is never made again. */
+export async function makeRecurring(s = store(), now = Date.now()) {
+  const day = today(new Date(now));
+  const due = (await readRecurs(s)).filter((r) => r.on && r.next && r.next <= day);
+  if (!due.length) return { made: 0 };
+  const want = [];
+  for (const r of due) {
+    let d = r.next;
+    for (let i = 0; i < TASK_CATCH_UP && d <= day; i++) { want.push({ r, d }); d = recurAfter(r, d); }
+  }
+  let made = 0;
+  await updateList(TASKS, 'tasks', (list) => {
+    const there = new Set(list.filter((t) => t.recur).map((t) => t.recur + ' ' + t.on));
+    const add = want.filter((w) => !there.has(w.r.id + ' ' + w.d)).map((w) => recurTask(w.r, w.d, now));
+    made = add.length;
+    return add.length ? list.concat(add) : null;
+  }, s);
+  await updateList(TASK_RECURS, 'recurs', (list) => {
+    let moved = false;
+    const next = list.map((r) => {
+      if (!r.on || !r.next || r.next > day || !due.some((x) => x.id === r.id)) return r;
+      let d = r.next;
+      while (d <= day) d = recurAfter(r, d);
+      moved = true;
+      return { ...r, next: d };
+    });
+    return moved ? next : null;
+  }, s);
+  return { made };
+}
+
+/* A recurring task as a director is shown it, with the next three days it will
+   come round on and what each task will be, worked out by the same functions
+   that will make them. */
+export function shapeRecur(r, whole = false) {
+  const out = { id: r.id, name: r.name, priority: r.priority, who: r.who || null, with: r.with || [], tags: r.tags || [],
+    repeats: r.repeats, next: r.next, startAfter: r.startAfter || 0, dueAfter: r.dueAfter || 0, on: !!r.on,
+    t: r.t, by: r.by, edited: r.edited || null, editedBy: r.editedBy || null };
+  if (r.espo) out.espo = r.espo;
+  const coming = [];
+  for (let d = r.next, i = 0; d && i < 3; i++, d = recurAfter(r, d)) {
+    coming.push({ on: d, name: recurName(r.name, d), start: addDays(d, r.startAfter || 0), due: addDays(d, r.dueAfter || 0) });
+  }
+  out.coming = coming;
+  if (whole) { out.body = r.body || ''; out.blocks = parseBrass(r.body || ''); } else out.words = [...(r.body || '')].length;
+  return out;
+}
+
+export async function taskRecurs(who, s = store()) {
+  if (!tasksAllow(who)) return null;
+  return (await readRecurs(s)).map((r) => shapeRecur(r));
+}
+export async function taskRecur(who, id, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const r = (await readRecurs(s)).find((x) => x.id === recurId(id));
+  return r ? shapeRecur(r, true) : null;
+}
+
+/* A recurring task made, or changed, as saveTask does a task: only the fields
+   sent change, `espo` brings one over again rather than twice, and one brought
+   over arrives switched off, so it makes nothing beside EspoCRM's until somebody
+   switches it on. Its next day is a day; switched on, it is today or later. */
+export async function saveRecur(who, f, s = store(), now = Date.now(), mods = readMods()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  f = f || {};
+  const espo = typeof f.espo === 'string' && /^[A-Za-z0-9]{6,40}$/.test(f.espo) ? f.espo : null;
+  if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
+  const people = taskPeople(mods);
+  if (espo && (await readTaskGone(s)).includes(espo)) return { error: 'That recurring task was brought over and deleted here, so it stays deleted.' };
+  const todayIs = today(new Date(now));
+  let saved = null, why = null;
+  await updateList(TASK_RECURS, 'recurs', (list) => {
+    why = null; saved = null;
+    const k = f.id != null ? list.findIndex((x) => x.id === recurId(f.id)) : (espo ? list.findIndex((x) => x.espo === espo) : -1);
+    if (f.id != null && k < 0) { why = 'That recurring task has been deleted.'; return null; }
+    const had = k >= 0 ? list[k] : null;
+    if (!had && list.length >= TASK_RECURS_KEEP) { why = `There can be up to ${TASK_RECURS_KEEP} recurring tasks. Delete one first.`; return null; }
+    const pick = {};
+    for (const key of ['name', 'priority', 'body', 'who', 'with', 'tags']) if (f[key] !== undefined) pick[key] = f[key];
+    const r = taskFields(pick, had, people);
+    if (r.error) { why = r.error; return null; }
+    const out = r.fields;
+    if (f.repeats !== undefined) {
+      if (!Object.hasOwn(TASK_REPEATS, f.repeats)) { why = `A recurring task comes round ${Object.keys(TASK_REPEATS).join(', ')}.`; return null; }
+      out.repeats = f.repeats;
+    }
+    for (const [key, word] of [['startAfter', 'starts'], ['dueAfter', 'is due']]) {
+      if (f[key] === undefined) continue;
+      if (!Number.isInteger(f[key]) || f[key] < 0 || f[key] > TASK_AFTER_MAX) { why = `Each task ${word} a whole number of days after its day, from 0 to ${TASK_AFTER_MAX}.`; return null; }
+      out[key] = f[key];
+    }
+    if (f.next !== undefined) {
+      const d = day(f.next);
+      if (!d) { why = 'Its next day is a day, as YYYY-MM-DD.'; return null; }
+      out.next = d;
+      out.day = +d.slice(8, 10);
+    }
+    if (f.on !== undefined) out.on = f.on === true;
+    const next = had ? { ...had, ...out } : { id: newRecurId(), name: null, priority: TASK_DEFAULT_PRIORITY, body: '', who: null,
+      with: [], tags: [], repeats: Object.keys(TASK_REPEATS)[0], next: null, day: null, startAfter: 0, dueAfter: 0, on: !espo,
+      t: now, by: who.handle, ...out };
+    if (!next.name) { why = 'Give the recurring task a name.'; return null; }
+    if (!next.next) { why = 'Say the next day it makes a task.'; return null; }
+    if (next.dueAfter < next.startAfter) { why = 'A task cannot be due before it starts.'; return null; }
+    if (next.on && next.next < todayIs) {
+      // A day already gone, asked for in so many words, is a mistake; one left behind while switched off is skipped.
+      if (f.next !== undefined) { why = 'Switched on, its next day is today or later.'; return null; }
+      let d = next.next;
+      while (d < todayIs) d = recurAfter(next, d);
+      next.next = d;
+    }
+    if (espo) {
+      next.espo = espo;
+      if (typeof f.t === 'number' && f.t > 0 && f.t <= now) next.t = f.t;
+      if (typeof f.by === 'string' && cleanHandle(f.by)) next.by = cleanHandle(f.by);
+      next.synced = now;
+    } else if (had) { next.edited = now; next.editedBy = who.handle; }
+    saved = next;
+    const copy = list.slice();
+    if (had) copy[k] = next; else copy.push(next);
+    return copy;
+  }, s);
+  if (why) return { error: why };
+  return { recur: shapeRecur(saved, true) };
+}
+
+/* Deleting a recurring task makes no more tasks; the ones it made stay. */
+export async function removeRecur(who, id, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  let gone = null;
+  await updateList(TASK_RECURS, 'recurs', (list) => {
+    const k = list.findIndex((x) => x.id === recurId(id));
+    gone = k >= 0 ? list[k] : null;
+    return gone ? list.filter((_, i) => i !== k) : null;
+  }, s);
+  if (!gone) return { error: 'That recurring task has already been deleted.' };
+  if (gone.espo) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  return { gone: true };
 }

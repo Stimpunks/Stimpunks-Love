@@ -3,8 +3,8 @@
 privacy.html say.
 
 Ryan's brief, 2026-10-20: the team's to-do list, moved here from EspoCRM in
-stages (the tasks and their list first, then a board and saved filters;
-recurring tasks and a timeline to follow), for directors and administrators
+stages (the tasks and their list first, then a board and saved filters,
+then recurring tasks; a timeline to follow), for directors and administrators
 only.
 
 WHAT IT WRITES: data/tasks.json's roles, statuses, priorities and tags,
@@ -28,6 +28,9 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · ANY PLACE BUT /cb/tasks: tasks.js talks to it and to nothing else.
   · A COLOUR OF ITS OWN. tasks.css wears the CB's seven colours, as the forums
     do, so every theme's pairs are ones check-contrast.py already holds.
+  · A RECURRING TASK'S TASK MADE UNDER SOMEBODY'S NAME, without where it came
+    from, or twice for one day; one brought from EspoCRM arriving switched on
+    beside EspoCRM's own; and cb-recur.mjs not running every hour.
   · A SAVED FILTER KEPT WITH MORE THAN ITS ID, NAME AND ADDRESS, or left
     behind when its person uses Forget me or deletes the username.
   · privacy.html without its tasks section, and the page without its link to it.
@@ -84,6 +87,12 @@ def settings(data, roles):
     hides = data.get("board_hides")
     if not isinstance(hides, list) or any(x not in (data.get("statuses") or []) for x in hides) or len(hides) >= len(data.get("statuses") or []):
         problems.append(f"{DATA.name}: board_hides is a list of statuses, and leaves a board at least one.")
+    reps = data.get("repeats")
+    if not isinstance(reps, dict) or not reps or any(
+            not isinstance(k, str) or not k.strip() or not isinstance(v, dict) or len(v) != 1
+            or next(iter(v)) not in ("days", "months") or not isinstance(next(iter(v.values())), int)
+            or not 1 <= next(iter(v.values())) <= (366 if "days" in v else 24) for k, v in reps.items()):
+        problems.append(f"{DATA.name}: repeats names each way a task can come round, as a number of days (1 to 366) or months (1 to 24).")
     if data.get("default_priority") not in (data.get("priorities") or []):
         problems.append(f"{DATA.name}: default_priority is one of the priorities.")
 
@@ -95,6 +104,7 @@ def write(lib, data):
              + f"export const TASK_STATUSES = {j(data['statuses'])};\n"
              + f"export const TASK_DONE = {j(data['done'])};\n"
              + f"export const TASK_BOARD_HIDES = {j(data['board_hides'])};\n"
+             + f"export const TASK_REPEATS = {j(data['repeats'])};\n"
              + f"export const TASK_PRIORITIES = {j(data['priorities'])};\n"
              + f"export const TASK_DEFAULT_PRIORITY = {j(data['default_priority'])};\n"
              + f"export const TASK_TAGS = {j(data['tags'])};\n"
@@ -115,7 +125,8 @@ def check_lib(lib):
     code = re.sub(r"/\*.*?\*/", " ", sec, flags=re.S)
     if "console." in code:
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
-    for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView"):
+    for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
+                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -127,6 +138,16 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: tasksAllow no longer means a claimed username on the base pass holding one of TASK_SEE's roles.")
     if "TASK_SEE" not in fn(sec, "taskPeople"):
         problems.append(f"{LIB.name}: taskPeople must be everybody who could read tasks, and nobody else.")
+    # A recurring task's task is made under nobody's name, says where it came from, and is never made twice.
+    rt = re.search(r"function recurTask\(.*?\n\}", sec, re.S)
+    if not rt or "by: null" not in rt.group(0) or "recur: r.id" not in rt.group(0) or "on: d" not in rt.group(0):
+        problems.append(f"{LIB.name}: a recurring task's task is made under nobody's name and keeps which recurring task and which day made it.")
+    mk = fn(sec, "makeRecurring")
+    if "there.has(" not in mk or "today(" not in mk:
+        problems.append(f"{LIB.name}: makeRecurring must skip a task already made for that day, and count days on the street's clock.")
+    sr = fn(sec, "saveRecur")
+    if "on: !espo" not in sr:
+        problems.append(f"{LIB.name}: a recurring task brought from EspoCRM must arrive switched off, so it makes nothing beside EspoCRM's.")
     # Saved filters are kept under the person and go with them.
     if "s.delete(taskViewsBlob(pk))" not in fn(sec, "forgetTaskViews"):
         problems.append(f"{LIB.name}: forgetTaskViews no longer deletes somebody's saved filters.")
@@ -154,6 +175,18 @@ def check_function():
         problems.append(f"{FN.name}: its answers must ask search engines not to keep them.")
     if "path: '/cb/tasks'" not in f:
         problems.append(f"{FN.name}: it no longer answers at /cb/tasks, where tasks.js asks.")
+
+
+def check_recur():
+    f = ROOT / "netlify" / "functions" / "cb-recur.mjs"
+    if not f.exists():
+        problems.append("cb-recur.mjs: missing. Recurring tasks are made by it every hour.")
+        return
+    code = code_of(f)
+    if "makeRecurring()" not in code or "schedule: '@hourly'" not in code:
+        problems.append("cb-recur.mjs: it must run makeRecurring every hour.")
+    if re.search(r"export default async \(req", code):
+        problems.append("cb-recur.mjs: it is a scheduled function and answers nobody.")
 
 
 def check_js():
@@ -212,6 +245,7 @@ def main():
             lib = new
     check_lib(lib)
     check_function()
+    check_recur()
     check_js()
     check_css()
     check_page()

@@ -5225,7 +5225,7 @@ page, and `make-forum.py` refuses `replyTopic` reaching the long limit.
 
 **TASKS ARE THE TEAM'S TO-DO LIST, MOVED FROM ESPOCRM IN STAGES, AND NUMBERS BESIDE THINGS ARE FINE IN THEM.** Ryan's
 brief, 2026-10-20: EspoCRM costs $45 a month and is not part of the street, so its tasks come here, iteratively: the
-tasks and their list first, then a board and saved filters (both done), recurring tasks, and a timeline. `tasks.html` (paperwork
+tasks and their list first, then a board and saved filters, then recurring tasks (all done), and a timeline. `tasks.html` (paperwork
 beside the forums, in the CB's colours through a shadow root, `tasks.css` the CB's seven tokens only), `tasks.js`,
 `/cb/tasks`, the Tasks section at the end of `lib.mjs`, `data/tasks.json` (who reads them, and EspoCRM's own statuses,
 priorities and tags, written between `tasks:settings` markers by `tools/make-tasks.py`; never hand-edit them). **Directors
@@ -5242,7 +5242,16 @@ off until ticked), priority or person, each column with its count; **a card move
 which is how a keyboard, a screen reader and a phone move it, so the friendly edit, dropping Move to because dragging
 works, locks them out. **Saved filters are each director's own, on the server**: `task-views/<pet key>`, each an id, a
 name and an address and nothing about when, shown to nobody else, deleted by Forget me and by deleting the username;
-`make-tasks.py` refuses a saved filter kept with more, or either deletion leaving them.
+`make-tasks.py` refuses a saved filter kept with more, or either deletion leaving them. **Recurring tasks make their
+own tasks, as EspoCRM's did** (`task-recurs`, `makeRecurring` in `lib.mjs`): on its `next` day, by the street's
+Colorado clock (`today()`), a switched-on one makes a task starting `startAfter` and due `dueAfter` days later, its
+name's `{week}` (ISO), `{year}` (that week's year when the name has a week) and `{month}` filled in, and moves its day
+on (`recurAfter`; a monthly one keeps its day of the month, `day`). `cb-recur.mjs` runs it hourly and opening the list
+runs it too. **A made task carries `recur` and `on` and no maker**, and that pair is how it is never made twice, which
+`lib.test.mjs` races fifteen at once; missed days are each made (up to `TASK_CATCH_UP`), but **switched on again, one
+starts from its next day still to come**, because switched off was asked to make nothing. **One brought from EspoCRM
+arrives switched off**, so nothing is made twice while EspoCRM is still making its own; switching EspoCRM's off and
+ours on is the cut-over. How often one can come round is `repeats` in `data/tasks.json`.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

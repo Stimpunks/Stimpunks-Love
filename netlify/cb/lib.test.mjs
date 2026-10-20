@@ -3782,7 +3782,8 @@ for (const etagOnRead of [true, false]) {
 
 /* ── Tasks ─────────────────────────────────────────────────────────────── */
 import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readTasks, taskViews, saveTaskView, removeTaskView,
-  forgetTaskViews, taskAddress, TASK_VIEWS_KEEP, TASK_STATUSES, TASK_TAGS } from './lib.mjs';
+  forgetTaskViews, taskAddress, TASK_VIEWS_KEEP, TASK_STATUSES, TASK_TAGS, taskRecurs, taskRecur, saveRecur, removeRecur,
+  makeRecurring, readRecurs, isoWeek, recurName, recurAfter } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -3914,5 +3915,110 @@ for (const etagOnRead of [true, false]) {
     for (const [i, r] of told.entries()) if (r.status === 'fulfilled' && r.value.views) assert.ok(kept.has(`View ${i}`), `View ${i} was told it was saved and is missing`);
     for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
     if (etagOnRead) assert.equal(kept.size, 15);
+  });
+}
+
+test('a recurring task names its ISO week, keeps its day of the month, and counts days whatever the clocks do', () => {
+  for (const [d, week, year] of [['2026-10-15', 42, 2026], ['2026-10-20', 43, 2026], ['2026-10-27', 44, 2026], ['2026-12-28', 53, 2026],
+    ['2027-01-01', 53, 2026], ['2027-01-03', 53, 2026], ['2027-01-04', 1, 2027], ['2025-12-29', 1, 2026]]) {
+    assert.deepEqual(isoWeek(d), { week, year }, d);
+  }
+  assert.equal(recurName('Week in Review for Week {week} of {year}', '2027-01-01'), 'Week in Review for Week 53 of 2026');
+  assert.equal(recurName('{month} {year} payout', '2027-01-01'), 'January 2027 payout', 'a name with no week took the week’s year');
+  assert.equal(recurName('Pay Employee Invoices', '2026-10-24'), 'Pay Employee Invoices');
+  const monthly = { repeats: 'Monthly', day: 31 };
+  assert.deepEqual([recurAfter(monthly, '2026-01-31'), recurAfter(monthly, '2026-02-28'), recurAfter(monthly, '2026-04-30'), recurAfter({ repeats: 'Monthly', day: 29 }, '2028-01-29')],
+    ['2026-02-28', '2026-03-31', '2026-05-31', '2028-02-29'], 'a monthly task lost its day of the month');
+  assert.equal(recurAfter({ repeats: 'Monthly', day: 25 }, '2026-12-25'), '2027-01-25');
+  assert.equal(recurAfter({ repeats: 'Weekly' }, '2026-10-31'), '2026-11-07', 'a week across the clocks going back was not seven days');
+  assert.equal(recurAfter({ repeats: 'Every 2 Weeks' }, '2026-10-27'), '2026-11-10');
+});
+
+// 01:00 and 23:00 in Colorado (MDT, UTC-6) on the days named.
+const DENVER = (d, h) => Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10), h + 6);
+
+test('a recurring task makes its task on its day in Colorado, once, and moves its day on', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (const who of [TSAM, fw('Chelsea', 700)]) {
+    assert.equal(await taskRecurs(who, s), null, `${who.handle} could read recurring tasks`);
+    assert.match((await saveRecur(who, { name: 'x', next: '2026-10-27' }, s, T0, TMODS)).error, /directors and administrators/);
+  }
+  const made = await saveRecur(TRYAN, { name: 'Weekly Operations Meeting for Week {week} of {year}', repeats: 'Weekly', next: '2026-10-27',
+    dueAfter: 3, who: 'ryan', with: ['Chelsea'], tags: ['Operations', 'Weekly'], body: 'Add the agenda.' }, s, T0, TMODS);
+  assert.ok(made.recur, made.error);
+  const r = made.recur;
+  assert.deepEqual([r.on, r.who, r.with, r.startAfter, r.dueAfter, r.by], [true, 'Ryan', ['Chelsea'], 0, 3, 'Ryan']);
+  assert.deepEqual(r.coming.map((c) => [c.on, c.name, c.due]), [['2026-10-27', 'Weekly Operations Meeting for Week 44 of 2026', '2026-10-30'],
+    ['2026-11-03', 'Weekly Operations Meeting for Week 45 of 2026', '2026-11-06'], ['2026-11-10', 'Weekly Operations Meeting for Week 46 of 2026', '2026-11-13']]);
+  for (const [f, why] of [[{ repeats: 'Daily' }, /comes round/], [{ dueAfter: -1 }, /whole number/], [{ startAfter: 1.5 }, /whole number/],
+    [{ startAfter: 5 }, /before it starts/], [{ next: '2026-10-01' }, /today or later/], [{ next: 'soon' }, /YYYY-MM-DD/], [{ who: 'Sam' }, /assigned/], [{ name: '' }, /name/]]) {
+    assert.match((await saveRecur(TRYAN, { id: r.id, ...f }, s, T0 + 1, TMODS)).error, why);
+  }
+  // 23:00 the night before in Colorado is already the day in UTC, and nothing is made.
+  assert.equal((await makeRecurring(s, DENVER('2026-10-26', 23))).made, 0, 'a task was made before its day in Colorado');
+  assert.equal((await makeRecurring(s, DENVER('2026-10-27', 1))).made, 1);
+  assert.equal((await makeRecurring(s, DENVER('2026-10-27', 2))).made, 0, 'a second run made the task again');
+  const tasks = await readTasks(s);
+  assert.equal(tasks.length, 1);
+  const t = tasks[0];
+  assert.deepEqual([t.name, t.status, t.start, t.due, t.who, t.with, t.tags, t.by, t.recur, t.on, t.body],
+    ['Weekly Operations Meeting for Week 44 of 2026', TASK_STATUSES[0], '2026-10-27', '2026-10-30', 'Ryan', ['Chelsea'], ['Operations', 'Weekly'], null, r.id, '2026-10-27', 'Add the agenda.']);
+  assert.equal((await readRecurs(s))[0].next, '2026-11-03');
+  // A made task changed keeps where it came from.
+  assert.equal((await saveTask(TCHELSEA, { id: t.id, status: 'Started' }, s, T0 + 9, TMODS)).task.recur, r.id);
+  // Missed runs are made, each for its own day.
+  assert.equal((await makeRecurring(s, DENVER('2026-11-17', 1))).made, 3);
+  assert.deepEqual((await readTasks(s)).filter((x) => x.recur).map((x) => x.on).sort(), ['2026-10-27', '2026-11-03', '2026-11-10', '2026-11-17']);
+  assert.equal((await readRecurs(s))[0].next, '2026-11-24');
+  // Switched off makes nothing; switched on again starts from its next day still to come, without the ones missed.
+  await saveRecur(TCHELSEA, { id: r.id, on: false }, s, DENVER('2026-11-18', 9), TMODS);
+  assert.equal((await makeRecurring(s, DENVER('2026-12-02', 1))).made, 0, 'a switched-off recurring task made a task');
+  const back = await saveRecur(TCHELSEA, { id: r.id, on: true }, s, DENVER('2026-12-02', 9), TMODS);
+  assert.deepEqual([back.recur.on, back.recur.next, back.recur.editedBy], [true, '2026-12-08', 'Chelsea']);
+  assert.equal((await makeRecurring(s, DENVER('2026-12-02', 10))).made, 0, 'switching on made the days it missed');
+  // Deleting it makes no more and leaves what it made.
+  assert.ok((await removeRecur(TRYAN, r.id, s)).gone);
+  assert.equal((await makeRecurring(s, DENVER('2026-12-09', 1))).made, 0);
+  assert.equal((await readTasks(s)).filter((x) => x.recur === r.id).length, 4, 'deleting a recurring task took its tasks');
+  assert.match((await removeRecur(TRYAN, r.id, s)).error, /already/);
+  assert.equal(await taskRecur(TRYAN, r.id, s), null);
+});
+
+test('a monthly recurring task starts and is due days after its day, and keeps its day of the month', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const r = (await saveRecur(TRYAN, { name: 'Chase Auto Pay On 23rd', repeats: 'Monthly', next: '2026-11-10', startAfter: 10, dueAfter: 13, who: 'Chelsea' }, s, T0, TMODS)).recur;
+  assert.equal((await makeRecurring(s, DENVER('2026-11-10', 1))).made, 1);
+  const t = (await readTasks(s))[0];
+  assert.deepEqual([t.start, t.due], ['2026-11-20', '2026-11-23']);
+  assert.equal((await readRecurs(s))[0].next, '2026-12-10');
+  assert.equal(r.coming[2].on, '2027-01-10');
+});
+
+test('a recurring task brought from EspoCRM arrives switched off, comes again rather than twice, and stays deleted', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const f = { espo: '6ac0762551485e8a3', name: 'Submit Weekly Invoice', repeats: 'Weekly', next: '2026-10-23', who: 'Norah', with: ['Chelsea', 'Norah'], tags: ['Finance'], t: T0 - DAYS(17), by: 'Ryan' };
+  const one = (await saveRecur(TRYAN, f, s, T0, TMODS)).recur;
+  assert.deepEqual([one.on, one.espo, one.t, one.by, one.edited], [false, f.espo, T0 - DAYS(17), 'Ryan', null]);
+  assert.equal((await makeRecurring(s, DENVER('2026-10-23', 1))).made, 0, 'a recurring task brought over made a task beside EspoCRM’s');
+  const two = (await saveRecur(TRYAN, { ...f, next: '2026-10-30' }, s, T0 + 1, TMODS)).recur;
+  assert.deepEqual([two.id, two.next, (await readRecurs(s)).length], [one.id, '2026-10-30', 1]);
+  assert.match((await saveRecur(TRYAN, { espo: 'not an id!', name: 'x', next: '2026-10-30' }, s, T0, TMODS)).error, /EspoCRM/);
+  assert.ok((await removeRecur(TRYAN, one.id, s)).gone);
+  assert.match((await saveRecur(TRYAN, f, s, T0 + 2, TMODS)).error, /stays deleted/);
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`recurring tasks, fifteen runs at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: each day's task made once`, async () => {
+    const s = memoryStore({ etagOnRead });
+    await saveRecur(TRYAN, { name: 'Week in Review for Week {week} of {year}', next: '2026-10-23', dueAfter: 3, who: 'Ryan' }, s, T0, TMODS);
+    await saveRecur(TRYAN, { name: 'Pay Employee Invoices', next: '2026-10-24', who: 'Chelsea' }, s, T0, TMODS);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, () => makeRecurring(s, DENVER('2026-10-24', 1))));
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.ok(told.every((r) => r.status === 'fulfilled'));
+    await makeRecurring(s, DENVER('2026-10-24', 2));
+    const tasks = await readTasks(s);
+    assert.deepEqual(tasks.map((t) => t.recur + ' ' + t.on).sort(), [...new Set(tasks.map((t) => t.recur + ' ' + t.on))].sort(), 'a day’s task was made twice');
+    assert.equal(tasks.length, 2);
+    assert.deepEqual((await readRecurs(s)).map((r) => r.next).sort(), ['2026-10-30', '2026-10-31']);
   });
 }

@@ -106,6 +106,15 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-move__sel { flex: 1 1 auto; min-width: 0; min-height: 32px; font-size: 14px; }
 .tk-empty { font-size: 14px; padding: 4px 0; }
 
+/* RECURRING: its next three and the tasks it made are plain lists; OFF is the
+   radio's own tag, and the switch in its form is one of the form's checks. */
+.tk-coming, .tk-made { margin: 0; padding-left: 1.4em; display: grid; gap: 4px; }
+.tk-made .tk-done a { text-decoration: line-through; }
+.tk .tk-off { margin-left: 0; }
+.tk-form > .tk-switch, .tk-form > .tk-hint { grid-column: 1 / -1; }
+.tk-switch { justify-self: start; }
+.tk-view > h3 { font-size: 18px; color: var(--cb-steel); margin-top: 6px; }
+
 /* ONE TASK: its facts in two columns, then its description as markdown.js builds it. */
 .tk-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 16px; margin: 0; }
 .tk-facts dt { font-weight: 700; color: var(--cb-steel-2); }
