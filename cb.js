@@ -1541,114 +1541,111 @@
     /* YOUR PROFILE CARD (Ryan, 2026-10-17, after requests for profiles more
        like Discord's): what anybody signed on sees when they press your name,
        edited in a window of its own with the card drawn beside the choices. */
-    pets.appendChild(el('p', 'cb-pets__h', 'Your profile card'));
+    var pfCard = this.pfSection(pets, 'card', 'Your profile card', function () { this.loadProfileCard(); });
     this.pfBox = el('div', 'cb-pf-box');
-    pets.appendChild(this.pfBox);
+    pfCard.appendChild(this.pfBox);
 
     /* YOUR PROFILE SETS (2026-10-19, a request from our community): the
        card's look saved under a name, with the avatar you wear, and worn again
        with one press, by mood, by room or for what is on. Drawn from the same
-       answer as the card, so read when the tray opens and never polled. */
+       answer as the card, so read when its section opens and never polled. */
     this.pfSetsBox = el('div', 'cb-pfsets-box');
     this.pfSetsBox.hidden = true;
-    pets.appendChild(this.pfSetsBox);
+    pfCard.appendChild(this.pfSetsBox);
 
     /* YOUR PROPS (Ryan, 2026-10-18): the props people gave you, waiting here
        for you to Confirm, which puts them on your profile's Props tab, or
        Reject, which deletes them and tells nobody; the ones up, to take off;
-       and the switch that opens the tab. Read when the tray opens, never
+       and the switch that opens the tab. Read when its section opens, never
        polled, and never counted. */
-    // The heading takes the keyboard when a props notification opens Profile.
-    this.prHead = el('p', 'cb-pets__h', 'Your props');
-    this.prHead.tabIndex = -1;
-    pets.appendChild(this.prHead);
+    var pfProps = this.pfSection(pets, 'props', 'Your props', function () { this.loadProps(); });
     this.prState = el('p', 'cb-quiet', '');
-    pets.appendChild(this.prState);
+    pfProps.appendChild(this.prState);
     this.prShow = el('div', 'cb-pets__show');
-    pets.appendChild(this.prShow);
+    pfProps.appendChild(this.prShow);
     this.prBox = el('div', 'cb-props');
-    pets.appendChild(this.prBox);
+    pfProps.appendChild(this.prBox);
     this.prSaid = el('p', 'cb-said');
     this.prSaid.setAttribute('role', 'status');
     this.prSaid.tabIndex = -1;
-    pets.appendChild(this.prSaid);
+    pfProps.appendChild(this.prSaid);
 
     /* YOUR AVATARS (Ryan, 2026-10-14): what you made at the Bodymind Booth or
        put on the stand at the Dress-Up Den, kept here, one of them worn on the
-       CB, beside your name on Who's online. Read when the tray opens, never
+       CB, beside your name on Who's online. Read when its section opens, never
        polled, and drawn by avatar.js, loaded on the first. */
-    pets.appendChild(el('p', 'cb-pets__h', 'Your avatars'));
+    var pfAvatars = this.pfSection(pets, 'avatars', 'Your avatars', function () { this.loadAvatars(); });
     this.avState = el('p', 'cb-quiet', '');
-    pets.appendChild(this.avState);
+    pfAvatars.appendChild(this.avState);
     this.avList = el('ul', 'cb-avatars__list');
     this.avList.hidden = true;
-    pets.appendChild(this.avList);
+    pfAvatars.appendChild(this.avList);
     // Whether people on the CB see the rest in your profile, too.
     this.avShow = el('div', 'cb-pets__show');
-    pets.appendChild(this.avShow);
+    pfAvatars.appendChild(this.avShow);
     this.avWhere = el('p', 'cb-pets__where');
-    pets.appendChild(this.avWhere);
+    pfAvatars.appendChild(this.avWhere);
 
     /* YOUR CHIMERAS (Ryan, 2026-10-18): what you kept from Chimera Obscura,
        named here, shown in your profile if you switch that on, and sent as
-       stickers. Read when the tray opens, never polled, and drawn by
+       stickers. Read when its section opens, never polled, and drawn by
        chimera.js, loaded on the first. */
-    pets.appendChild(el('p', 'cb-pets__h', 'Your chimeras'));
+    var pfChimeras = this.pfSection(pets, 'chimeras', 'Your chimeras', function () { this.loadChimeras(); });
     this.chState = el('p', 'cb-quiet', '');
-    pets.appendChild(this.chState);
+    pfChimeras.appendChild(this.chState);
     this.chList = el('ul', 'cb-avatars__list');
     this.chList.hidden = true;
-    pets.appendChild(this.chList);
+    pfChimeras.appendChild(this.chList);
     this.chShow = el('div', 'cb-pets__show');
-    pets.appendChild(this.chShow);
+    pfChimeras.appendChild(this.chShow);
     this.chWhere = el('p', 'cb-pets__where');
-    pets.appendChild(this.chWhere);
+    pfChimeras.appendChild(this.chWhere);
 
     // Your pets.
-    pets.appendChild(el('p', 'cb-pets__h', 'Your pets'));
+    var pfPets = this.pfSection(pets, 'pets', 'Your pets', function () { this.drawWhere(/^cb2\./.test(this.state.pass)); this.loadPets(); });
     this.petsState = el('p', 'cb-quiet', '');
-    pets.appendChild(this.petsState);
+    pfPets.appendChild(this.petsState);
     this.petsList = el('ul', 'cb-pets__list');
     this.petsList.hidden = true;
-    pets.appendChild(this.petsList);
+    pfPets.appendChild(this.petsList);
     // Whether people on the CB can see them, by pressing your handle.
     this.showBox = el('div', 'cb-pets__show');
-    pets.appendChild(this.showBox);
+    pfPets.appendChild(this.showBox);
     var where = this.petsWhere = el('p', 'cb-pets__where');
-    pets.appendChild(where);
+    pfPets.appendChild(where);
 
     /* YOUR JOBS (Ryan, 2026-10-14): the jobs kept from the Adventurer's Guild,
        once its board's Keep my jobs in my Profile is on, and the badges they
        make, worked out here from the jobs and kept nowhere. Read when the tray
        opens, never polled. */
-    pets.appendChild(el('p', 'cb-pets__h', 'Your badges and jobs'));
+    var pfJobs = this.pfSection(pets, 'jobs', 'Your badges and jobs', function () { this.loadJobs(); });
     this.badgeBox = el('div', 'cb-jobs-box');
     this.badgeBox.hidden = true;
-    pets.appendChild(this.badgeBox);
+    pfJobs.appendChild(this.badgeBox);
     this.jobsState = el('p', 'cb-quiet', '');
-    pets.appendChild(this.jobsState);
+    pfJobs.appendChild(this.jobsState);
     this.jobsBox = el('div', 'cb-jobs-box');
     this.jobsBox.hidden = true;
-    pets.appendChild(this.jobsBox);
+    pfJobs.appendChild(this.jobsBox);
     // Whether people on the CB see them in your profile.
     this.jobsShow = el('div', 'cb-pets__show');
-    pets.appendChild(this.jobsShow);
+    pfJobs.appendChild(this.jobsShow);
     this.jobsWhere = el('p', 'cb-pets__where');
-    pets.appendChild(this.jobsWhere);
+    pfJobs.appendChild(this.jobsWhere);
 
     /* YOUR BATTLE JACKET (Ryan, 2026-10-14): the patches picked up around the
        street, sewn onto one denim jacket by patches.js, loaded on the first.
-       Read when the tray opens, never polled. */
-    pets.appendChild(el('p', 'cb-pets__h', 'Your battle jacket'));
+       Read when its section opens, never polled. */
+    var pfJacket = this.pfSection(pets, 'jacket', 'Your battle jacket', function () { this.loadPatches(); });
     this.patchState = el('p', 'cb-quiet', '');
-    pets.appendChild(this.patchState);
+    pfJacket.appendChild(this.patchState);
     this.patchBox = el('div', 'cb-jacket');
     this.patchBox.hidden = true;
-    pets.appendChild(this.patchBox);
+    pfJacket.appendChild(this.patchBox);
     this.patchShow = el('div', 'cb-pets__show');
-    pets.appendChild(this.patchShow);
+    pfJacket.appendChild(this.patchShow);
     this.patchWhere = el('p', 'cb-pets__where');
-    pets.appendChild(this.patchWhere);
+    pfJacket.appendChild(this.patchWhere);
 
     acctP.appendChild(el('p', 'cb-pets__h', 'Forget me'));
     acctP.appendChild(el('p', 'cb-pets__where', 'Deletes everything the street keeps under this handle, from your avatars to your messages. It asks once more first.'));
@@ -1690,10 +1687,10 @@
     forgetBtn.addEventListener('click', function () { sure.hidden = false; forgetBtn.hidden = true; no.focus(); });
     no.addEventListener('click', function () { sure.hidden = true; forgetBtn.hidden = false; forgetBtn.focus(); });
     yes.addEventListener('click', function () { me.forgetMe(); });
-    window.addEventListener('love-pets', function () { if (!pets.hidden) me.loadPets(); });
-    window.addEventListener('love-avatars', function () { if (!pets.hidden) me.loadAvatars(); });
-    window.addEventListener('love-chimeras', function () { if (!pets.hidden) me.loadChimeras(); });
-    window.addEventListener('love-patches', function () { if (!pets.hidden) me.loadPatches(); });
+    window.addEventListener('love-pets', function () { if (me.pfShown('pets')) me.loadPets(); });
+    window.addEventListener('love-avatars', function () { if (me.pfShown('avatars')) me.loadAvatars(); });
+    window.addEventListener('love-chimeras', function () { if (me.pfShown('chimeras')) me.loadChimeras(); });
+    window.addEventListener('love-patches', function () { if (me.pfShown('jacket')) me.loadPatches(); });
 
     var norms = el('p', 'cb-norms');
     var a = el('a', null, 'House norms at the Community Center');
@@ -4097,7 +4094,7 @@
       if (told.wore) {
         told.said = 'Wearing ' + told.name + '. Your card has its look now, and your words are as they were.'
           + (r.body.avatarGone ? ' Its avatar has been deleted, so you are still wearing the one you wore.' : '');
-        me.loadAvatars();
+        if (me.pfShown('avatars')) me.loadAvatars();
       }
       me.drawProfileCard(r.body, told);
       return true;
@@ -5283,7 +5280,7 @@
     return call('/cb/avatars', { body: body }, me.state.pass).then(function (r) {
       if (r.status === 200 && r.body.avatars) {
         me.drawAvatars(r.body, done);
-        if (body.wear !== undefined || body.remove) me.loadProfileCard(true);
+        if ((body.wear !== undefined || body.remove) && me.pfShown('card')) me.loadProfileCard(true);
         return true;
       }
       if (r.status === 401) { said.textContent = 'The password has changed since you signed on. Sign on again at the Community Center.'; return false; }
@@ -6204,7 +6201,8 @@
     if (this.state.folded) this.setFolded(false, true);
     if (this.tiny()) this.setSize('normal', true);
     if (this.petsPanel.hidden) this.setPets(true);
-    var head = this.prHead;
+    if (this.pfSecs.props.body.hidden) this.pfOpen('props', true);
+    var head = this.pfSecs.props.btn;
     function go() { head.scrollIntoView({ block: 'start' }); head.focus(); }
     // Until cb.css has loaded the radio is hidden, and nothing hidden takes focus.
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
@@ -6539,10 +6537,53 @@
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    // Whether the username is claimed, for the lines under the pets, is the
-    // pass's to say now that the username itself is under Account.
-    if (open) { this.drawWhere(/^cb2\./.test(this.state.pass)); this.loadProfileCard(); this.loadProps(); this.loadAvatars(); this.loadChimeras(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
+    // Only the sections that are open are read again (see pfSection).
+    if (open) for (var k in this.pfSecs) if (!this.pfSecs[k].body.hidden) this.pfSecs[k].load.call(this);
     this.place();
+  };
+
+  /* PROFILE'S SECTIONS ARE FOLDED UP (Ryan's ask, 2026-10-19: the tray was so
+     long he scanned and scrolled for the one he wanted). Each section's
+     heading is a button that opens it, so the headings are the list of what
+     is there; a section is read from the street only when it is opened, and
+     again each time it or the tray opens, and never polled. Any number can be
+     open at once. Nothing about which are open is kept: a new page starts
+     with every section folded. */
+  Radio.prototype.pfSection = function (into, key, title, load) {
+    var me = this, sec = el('div', 'cb-pfsec');
+    var h = el('h3', 'cb-pets__h cb-pfsec__h');
+    var b = el('button', 'cb-pfsec__btn');
+    b.type = 'button';
+    b.setAttribute('aria-expanded', 'false');
+    var mark = el('span', 'cb-pfsec__mark');
+    mark.setAttribute('aria-hidden', 'true');
+    b.appendChild(mark);
+    b.appendChild(document.createTextNode(title));
+    var body = el('div', 'cb-pfsec__body');
+    body.id = 'cb-pf-' + key;
+    body.hidden = true;
+    b.setAttribute('aria-controls', body.id);
+    h.appendChild(b);
+    sec.appendChild(h);
+    sec.appendChild(body);
+    into.appendChild(sec);
+    (this.pfSecs = this.pfSecs || {})[key] = { btn: b, body: body, load: load };
+    b.addEventListener('click', function () { me.pfOpen(key, body.hidden); });
+    return body;
+  };
+
+  Radio.prototype.pfOpen = function (key, open) {
+    var s = this.pfSecs[key];
+    s.body.hidden = !open;
+    s.btn.setAttribute('aria-expanded', String(!!open));
+    if (open) s.load.call(this);
+    this.place();
+  };
+
+  // Is that section on the screen, so that reading it again is worth a request?
+  Radio.prototype.pfShown = function (key) {
+    var s = this.pfSecs && this.pfSecs[key];
+    return !!s && !s.body.hidden && !this.petsPanel.hidden;
   };
 
   Radio.prototype.setAccount = function (open) {
@@ -6700,7 +6741,7 @@
     box.appendChild(done);
     done.focus();
     // The card and its sets are a claimed username's, so they arrive now.
-    done.addEventListener('click', function () { me.loadAccount(); me.loadProfileCard(true); });
+    done.addEventListener('click', function () { me.loadAccount(); if (me.pfShown('card')) me.loadProfileCard(true); });
     me.acctSay('');
   };
 

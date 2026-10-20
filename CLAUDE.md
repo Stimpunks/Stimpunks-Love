@@ -889,6 +889,12 @@ in the same tab, so test the two sides in two tabs there, or in a real browser.
 they were): Where you are (the room's name in the largest words on the radio, `hereShown`), Who's around,
 Channel, Messages, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
 their trays and Sign off, Ryan's asks of 2026-10-19 after losing where an open Profile began) and Your radio.
+**PROFILE'S SECTIONS START FOLDED, AND EACH IS READ ONLY WHEN IT IS OPENED** (Ryan's choice, 2026-10-19,
+over a table of contents): `pfSection` makes each heading an h3 holding a button with `aria-expanded`,
+`pfOpen` runs that section's loader, `setPets` reloads only the open ones, and anything outside a section
+that would reload it asks `pfShown` first, so a folded section costs no request. **A new Profile section
+is a `pfSection` with its loader**, never a heading appended straight to the tray. Which are open is not
+kept anywhere.
 **ACCOUNT IS WHAT YOU ARE SIGNED ON AS, PROFILE IS WHAT YOU SHOW** (Ryan's ask, 2026-10-19): Your username
 (claiming, the password, recovery, Delete my account) and Forget me left Profile for the Account tray
 (`setAccount`, `acctPanel`), and every sentence that said claim it above or in Profile says under Account,
