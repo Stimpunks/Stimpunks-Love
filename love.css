@@ -1343,6 +1343,17 @@
   --cb-amber-case: var(--cb-case); --cb-amber-bar: var(--cb-bar); --cb-amber-steel: var(--cb-steel);
   --cb-amber-steel-2: var(--cb-steel-2); --cb-amber-lcd: var(--cb-lcd); --cb-amber-amber: var(--cb-amber);
   --cb-amber-amber-2: var(--cb-amber-2);
+  /* TASKS' TAG COLOURS (Ryan, 2026-10-20): the dataviz method's first seven
+     categorical slots in its fixed order, one step for a radio theme with a
+     light case and one for a dark (tasks.js tells which by measuring the case),
+     and the ink that reads on each, pure black or white, picked by measuring:
+     every pair is in check-contrast.py. Which tag wears which is
+     data/tasks.json's, written in by tools/make-tasks.py. */
+  --cb-task-blue: #2a78d6; --cb-task-orange: #eb6834; --cb-task-aqua: #1baf7a; --cb-task-yellow: #eda100;
+  --cb-task-magenta: #e87ba4; --cb-task-green: #008300; --cb-task-violet: #6250d6;
+  --cb-task-blue-dark: #3987e5; --cb-task-orange-dark: #d95926; --cb-task-aqua-dark: #199e70; --cb-task-yellow-dark: #c98500;
+  --cb-task-magenta-dark: #d55181; --cb-task-green-dark: #008300; --cb-task-violet-dark: #9085e9;
+  --cb-task-black: #000000; --cb-task-white: #ffffff;
   /* ITS OTHER COLOUR SCHEMES (Ryan, 2026-10-17, from a request): the same
      seven parts in other clothes, which somebody picks for their own radio
      under Your radio, so the radio still keeps its own clothes in every room

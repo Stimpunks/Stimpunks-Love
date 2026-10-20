@@ -46,7 +46,7 @@
     var l = document.createElement('link');
     l.rel = 'stylesheet';
     l.href = href;
-    function ready() { if (--waiting === 0) host.style.visibility = ''; }
+    function ready() { if (--waiting === 0) { host.style.visibility = ''; toneNow(); } }
     l.addEventListener('load', ready);
     l.addEventListener('error', ready);
     root.appendChild(l);
@@ -88,6 +88,15 @@
     else if (lc && lc.schemeFor) { var s = cbState(); look = lc.schemeFor((s && s.scheme) || 'auto'); }
     if (look) host.setAttribute('data-scheme', look);
     host.setAttribute('data-motion', 'off');
+    toneNow();
+  }
+  /* Light or dark, measured off the case the reader's theme draws, so a tag's
+     colour takes the step made for that kind of ground (tasks.css). */
+  function toneNow() {
+    var m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(box).backgroundColor || '');
+    if (!m) return;
+    var l = [m[1], m[2], m[3]].map(function (v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    host.setAttribute('data-tone', 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2] > 0.18 ? 'light' : 'dark');
   }
   try {
     var watched = null, onHost = new MutationObserver(dressNow);
@@ -145,6 +154,34 @@
   }
   function isDone(t) { return settings && settings.done.indexOf(t.status) >= 0; }
   function overdue(t) { return t.due && !isDone(t) && t.due < today(); }
+
+  /* ── Tag colours ───────────────────────────────────────────────────────── */
+
+  /* Each tag's colour is data/tasks.json's, by what the tag is about; a tag
+     with none (Weekly, Monthly) wears none. A colour always comes with the
+     tag's name in words, never alone. */
+  function colourOf(tag) { return (settings && settings.tagColours && settings.tagColours[tag]) || null; }
+  function coloursOf(t) {
+    var out = [];
+    (t.tags || []).forEach(function (x) { var c = colourOf(x); if (c && out.indexOf(c) < 0) out.push(c); });
+    return out;
+  }
+  function tagDot(tag) {
+    var d = el('span', 'tk-dot' + (colourOf(tag) ? ' tk-c--' + colourOf(tag) : ' tk-dot--none'));
+    d.setAttribute('aria-hidden', 'true');
+    return d;
+  }
+  function tagWords(tags, cls) {
+    var w = el('span', cls || null);
+    tags.forEach(function (x, i) {
+      var one = el('span', 'tk-tagname');
+      one.appendChild(tagDot(x));
+      one.appendChild(document.createTextNode(x));
+      w.appendChild(one);
+      if (i < tags.length - 1) w.appendChild(document.createTextNode(', '));
+    });
+    return w;
+  }
 
   /* ── Pieces ────────────────────────────────────────────────────────────── */
 
@@ -340,6 +377,10 @@
         along.appendChild(x);
       });
       view.appendChild(along);
+      var legend = el('div', 'tk-legend');
+      legend.setAttribute('role', 'group');
+      legend.setAttribute('aria-label', 'What the colours are');
+      view.appendChild(legend);
     }
     view.appendChild(shown);
     view.appendChild(out);
@@ -544,7 +585,8 @@
         var c = el('input'); c.type = 'checkbox'; c.id = id; c.value = v; c.checked = on.indexOf(v) >= 0;
         var l = el('label', 'tk-check'); l.htmlFor = id;
         l.appendChild(c);
-        l.appendChild(document.createTextNode(' ' + v + ' '));
+        if (key === 'tags') { l.appendChild(document.createTextNode(' ')); l.appendChild(tagDot(v)); l.appendChild(document.createTextNode(v + ' ')); }
+        else l.appendChild(document.createTextNode(' ' + v + ' '));
         l.appendChild(el('span', 'tk-n', String(n[v] || 0)));
         c.addEventListener('change', function () {
           var picked = Array.prototype.filter.call(fs.querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; });
@@ -608,7 +650,7 @@
         var due = el('td', 'tk-day', dayWords(x.due));
         if (overdue(x)) due.appendChild(tag('OVERDUE', 'tk-late'));
         tr.appendChild(due);
-        tr.appendChild(el('td', 'tk-tagcell', x.tags.join(', ')));
+        var tc = el('td', 'tk-tagcell'); tc.appendChild(tagWords(x.tags)); tr.appendChild(tc);
         tb.appendChild(tr);
       });
       t.appendChild(tb);
@@ -718,7 +760,7 @@
       if (overdue(t)) facts.appendChild(tag('OVERDUE', 'tk-late'));
       if ((t.priority === 'High' || t.priority === 'Urgent') && f.cols !== 'priority') facts.classList.add('tk-high');
       li.appendChild(facts);
-      if (t.tags.length) li.appendChild(el('p', 'tk-card__tags', t.tags.join(', ')));
+      if (t.tags.length) { var tp = el('p', 'tk-card__tags'); tp.appendChild(tagWords(t.tags)); li.appendChild(tp); }
       var mv = el('label', 'tk-move');
       var ms = el('select', 'cb-say tk-move__sel');
       ms.dataset.move = t.id;
@@ -741,6 +783,25 @@
        as at its open end. The day header is drawn for the eye; every bar says
        its own days in words. Two tasks on the same days stand one above the
        other, and nothing is left off a row for want of room. */
+    /* The legend: each colour on these days, in the palette's order, with the
+       tags that wear it, so a colour is always said in words too. */
+    function drawLegend(on) {
+      var lg = view.querySelector('.tk-legend');
+      if (!lg) return;
+      lg.textContent = '';
+      var here = (settings.colours || []).filter(function (c) { return on.some(function (t) { return coloursOf(t).indexOf(c) >= 0; }); });
+      if (!here.length) { lg.hidden = true; return; }
+      lg.hidden = false;
+      here.forEach(function (c) {
+        var item = el('span', 'tk-legend__item');
+        var sw = el('span', 'tk-dot tk-c--' + c); sw.setAttribute('aria-hidden', 'true');
+        item.appendChild(sw);
+        item.appendChild(document.createTextNode(settings.tags.filter(function (x) { return colourOf(x) === c; }).join(', ')));
+        lg.appendChild(item);
+      });
+      if (on.some(function (t) { return coloursOf(t).length > 1; })) lg.appendChild(el('span', 'tk-legend__item', 'Stripes along a bar’s foot: tags of more than one colour, the bar in the first.'));
+    }
+
     function drawTimeline() {
       var a = mondayOf(f.from || today()), span = f.span, b = plus(a, span - 1), now = today();
       var all = tasks.filter(function (t) { return passes(t, f, null, mode); });
@@ -749,6 +810,7 @@
       shown.textContent = on.length + ' of ' + all.length + ' tasks fall between ' + dayWords(a) + ' and ' + dayWords(b)
         + (undated ? '; ' + undated + ' have no start or due day, so no place on it' : '');
       if (along) along.querySelectorAll('button')[1].setAttribute('aria-pressed', String(a === mondayOf(now)));
+      drawLegend(on);
       out.textContent = '';
       var tl = el('div', 'tk-tl');
       // A day is never narrower than a short word, so a one-day bar can be read; the box scrolls sideways instead.
@@ -822,16 +884,23 @@
           li.style.gridRow = String(pl.lane + 1);
           var bar = el('a', 'tk-tl__bar' + (before ? ' tk-tl__bar--before' : '') + (after ? ' tk-tl__bar--after' : '')
             + (overdue(t) ? ' tk-tl__bar--late' : '') + (isDone(t) ? ' tk-done' : '') + (t.priority === 'High' || t.priority === 'Urgent' ? ' tk-high' : '')
-            + (also ? ' tk-tl__bar--also' : ''));
+            + (also ? ' tk-tl__bar--also' : '') + (coloursOf(t).length ? ' tk-filled tk-c--' + coloursOf(t)[0] : ''));
           bar.href = '#/t/' + t.id;
           if (overdue(t)) bar.appendChild(tag('OVERDUE', 'tk-late'));
           if (also) bar.appendChild(tag('ALSO ON IT', 'tk-also'));
           bar.appendChild(el('span', 'tk-tl__name', t.name));
+          if (coloursOf(t).length > 1) {
+            var stripes = el('span', 'tk-tl__stripes');
+            stripes.setAttribute('aria-hidden', 'true');
+            coloursOf(t).forEach(function (c) { stripes.appendChild(el('span', 'tk-c--' + c)); });
+            bar.appendChild(stripes);
+          }
           var words = t.start && t.due && t.start !== t.due ? 'starts ' + dayWords(t.start) + ', due ' + dayWords(t.due)
             : t.due ? 'due ' + dayWords(t.due) : 'starts ' + dayWords(t.start);
           bar.appendChild(el('span', 'sr', ', ' + words + (before ? ', began before these days' : '') + (after ? ', runs on past these days' : '')
             + ', ' + t.status + (t.priority === 'High' || t.priority === 'Urgent' ? ', ' + t.priority : '')
-            + (also ? ', assigned to ' + (t.who || 'nobody') : alsoOn(t).length ? ', with ' + alsoOn(t).join(', ') : '')));
+            + (also ? ', assigned to ' + (t.who || 'nobody') : alsoOn(t).length ? ', with ' + alsoOn(t).join(', ') : '')
+            + (t.tags.length ? ', tagged ' + t.tags.join(', ') : '')));
           li.appendChild(bar);
           lanes.appendChild(li);
         });
@@ -877,7 +946,7 @@
     fact('Starts', dayWords(t.start));
     if (t.due) { var d = el('span', null, dayWords(t.due)); if (overdue(t)) d.appendChild(tag('OVERDUE', 'tk-late')); fact('Due', d); }
     if (t.done) fact('Finished', when(t.done));
-    if (t.tags.length) fact('Tags', t.tags.join(', '));
+    if (t.tags.length) fact('Tags', tagWords(t.tags));
     if (t.recur) {
       // Made by a recurring task, on its day, under nobody's name.
       var made = el('span', null, 'By ');
@@ -972,14 +1041,16 @@
       s.value = value || '';
       return s;
     }
-    function boxes(id, label, values, on) {
+    function boxes(id, label, values, on, dots) {
       var fs = el('fieldset', 'tk-checks');
       fs.appendChild(el('legend', 'cb-lab', label));
       values.forEach(function (v, i) {
         var c = el('input'); c.type = 'checkbox'; c.id = id + '-' + i; c.value = v;
         c.checked = on.some(function (x) { return fold(x) === fold(v); });
         var l = el('label', 'tk-check'); l.htmlFor = c.id;
-        l.appendChild(c); l.appendChild(document.createTextNode(' ' + v));
+        l.appendChild(c); l.appendChild(document.createTextNode(' '));
+        if (dots) l.appendChild(tagDot(v));
+        l.appendChild(document.createTextNode(v));
         fs.appendChild(l);
       });
       form.appendChild(fs);
@@ -1042,7 +1113,7 @@
     var withOn = t ? t.with : [];
     var withAll = people.concat(withOn.filter(function (h) { return people.every(function (p) { return fold(p) !== fold(h); }); }));
     var withOf = boxes('tk-with', 'Also on it', withAll, withOn);
-    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, t ? t.tags : []);
+    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, t ? t.tags : [], true);
 
     var desc = kit.describe(t ? t.body : '', t ? 'Save' : 'Make the task', t ? '#/t/' + t.id : '#/');
     var text = desc.text, go = desc.go, answer = desc.answer;
@@ -1165,7 +1236,7 @@
     fact('Assigned to', r.who || 'Nobody');
     if (r.with.length) fact('Also on it', r.with.join(', '));
     fact('Priority', r.priority);
-    if (r.tags.length) fact('Tags', r.tags.join(', '));
+    if (r.tags.length) fact('Tags', tagWords(r.tags));
     if (r.espo) fact('From', 'Brought over from EspoCRM');
     fact('Made', (r.by ? r.by + ', ' : '') + when(r.t));
     if (r.edited) fact('Changed', (r.editedBy ? r.editedBy + ', ' : '') + when(r.edited));
@@ -1272,7 +1343,7 @@
     var withOn = r ? r.with : [];
     var withAll = people.concat(withOn.filter(function (x) { return people.every(function (p) { return fold(p) !== fold(x); }); }));
     var withOf = boxes('tk-with', 'Also on it', withAll, withOn);
-    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, r ? r.tags : []);
+    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, r ? r.tags : [], true);
     var onWrap = el('label', 'tk-check tk-switch');
     var on = el('input'); on.type = 'checkbox'; on.id = 'tk-on'; on.checked = r ? r.on : true;
     onWrap.htmlFor = 'tk-on';

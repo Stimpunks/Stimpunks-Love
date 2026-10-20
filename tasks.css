@@ -107,6 +107,35 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-move__sel { flex: 1 1 auto; min-width: 0; min-height: 32px; font-size: 14px; }
 .tk-empty { font-size: 14px; padding: 4px 0; }
 
+/* TAG COLOURS: each tag colour sets its fill and the ink that reads on it,
+   for a theme with a light case and one with a dark (tasks.js measures
+   which, as data-tone on the host). The colours are love.css's --cb-task-*,
+   every fill and ink pair held in check-contrast.py. A dot beside a tag
+   name, a timeline bar and its stripes all read them, and a dot is ringed
+   in the theme's own line, so a colour close to the case still shows. */
+.tk-c--blue { --cb-tk-fill: var(--cb-task-blue); --cb-tk-ink: var(--cb-task-black); }
+.tk-c--orange { --cb-tk-fill: var(--cb-task-orange); --cb-tk-ink: var(--cb-task-black); }
+.tk-c--aqua { --cb-tk-fill: var(--cb-task-aqua); --cb-tk-ink: var(--cb-task-black); }
+.tk-c--yellow { --cb-tk-fill: var(--cb-task-yellow); --cb-tk-ink: var(--cb-task-black); }
+.tk-c--magenta { --cb-tk-fill: var(--cb-task-magenta); --cb-tk-ink: var(--cb-task-black); }
+.tk-c--green { --cb-tk-fill: var(--cb-task-green); --cb-tk-ink: var(--cb-task-white); }
+.tk-c--violet { --cb-tk-fill: var(--cb-task-violet); --cb-tk-ink: var(--cb-task-white); }
+:host([data-tone="dark"]) .tk-c--blue { --cb-tk-fill: var(--cb-task-blue-dark); --cb-tk-ink: var(--cb-task-black); }
+:host([data-tone="dark"]) .tk-c--orange { --cb-tk-fill: var(--cb-task-orange-dark); --cb-tk-ink: var(--cb-task-black); }
+:host([data-tone="dark"]) .tk-c--aqua { --cb-tk-fill: var(--cb-task-aqua-dark); --cb-tk-ink: var(--cb-task-black); }
+:host([data-tone="dark"]) .tk-c--yellow { --cb-tk-fill: var(--cb-task-yellow-dark); --cb-tk-ink: var(--cb-task-black); }
+:host([data-tone="dark"]) .tk-c--magenta { --cb-tk-fill: var(--cb-task-magenta-dark); --cb-tk-ink: var(--cb-task-black); }
+:host([data-tone="dark"]) .tk-c--green { --cb-tk-fill: var(--cb-task-green-dark); --cb-tk-ink: var(--cb-task-white); }
+:host([data-tone="dark"]) .tk-c--violet { --cb-tk-fill: var(--cb-task-violet-dark); --cb-tk-ink: var(--cb-task-black); }
+.tk-dot { display: inline-block; width: .72em; height: .72em; border-radius: 50%; border: 1px solid var(--cb-steel-2); background: var(--cb-tk-fill, transparent); margin-right: .35em; vertical-align: -.06em; flex: none; }
+.tk-dot--none { border-style: dashed; }
+.tk-tagname { white-space: nowrap; }
+.tk .tk-tl__bar.tk-filled { background: var(--cb-tk-fill); color: var(--cb-tk-ink); }
+.tk-tl__stripes { display: flex; gap: 2px; flex: 1 1 100%; height: 6px; }
+.tk-tl__stripes > span { flex: 1; background: var(--cb-tk-fill); border: 1px solid currentColor; border-radius: 2px; }
+.tk-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; }
+.tk-legend__item { display: inline-flex; align-items: baseline; }
+
 /* THE TIMELINE: the days across, a row for each person, a bar for each task.
    It scrolls sideways inside its own box, never the page, and each person's
    name stays at the left as it does. Today is outlined, never filled, a bar

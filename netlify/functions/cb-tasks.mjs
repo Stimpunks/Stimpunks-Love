@@ -25,13 +25,13 @@
 import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
-  TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX } from '../cb/lib.mjs';
+  TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere.
 const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
-  repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX };
+  repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS };
 
 /* A task a recurring task made says which, while that recurring task is there. */
 async function withFrom(who, t) {

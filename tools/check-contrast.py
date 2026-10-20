@@ -957,6 +957,23 @@ RDR_WALL, RDR_PANEL, RDR_INK, RDR_INK2 = "#22101A", "#30171F", "#F3E5D8", "#CDB4
 RDR_FLAME, RDR_FLAME2, RDR_BRASS = "#F2994F", "#FFC76E", "#D6B06A"
 
 PAIRS = [
+    # TASKS' TAG COLOURS (2026-10-20): a timeline bar is filled with its tag's
+    # colour and its name is set on it in the ink picked for that fill, light
+    # theme steps and dark, so every fill is held to body text with its ink.
+    # The light blue clears 4.5 only with pure black (#0b0b0b gave 4.46).
+    ("#000000", "#2a78d6", False, "tasks: a task's name on a blue bar (light themes)"),
+    ("#000000", "#eb6834", False, "tasks: on an orange bar (light)"),
+    ("#000000", "#1baf7a", False, "tasks: on an aqua bar (light)"),
+    ("#000000", "#eda100", False, "tasks: on a yellow bar (light)"),
+    ("#000000", "#e87ba4", False, "tasks: on a magenta bar (light)"),
+    ("#ffffff", "#008300", False, "tasks: on a green bar (light and dark: one step serves both)"),
+    ("#ffffff", "#6250d6", False, "tasks: on a violet bar (light)"),
+    ("#000000", "#3987e5", False, "tasks: on a blue bar (dark themes)"),
+    ("#000000", "#d95926", False, "tasks: on an orange bar (dark)"),
+    ("#000000", "#199e70", False, "tasks: on an aqua bar (dark)"),
+    ("#000000", "#c98500", False, "tasks: on a yellow bar (dark)"),
+    ("#000000", "#d55181", False, "tasks: on a magenta bar (dark)"),
+    ("#000000", "#9085e9", False, "tasks: on a violet bar (dark)"),
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
     (GREEN,   INK,  True,  "street: tagline 'Divergent and proud' 21px bold display"),

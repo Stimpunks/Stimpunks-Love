@@ -87,6 +87,12 @@ def settings(data, roles):
         problems.append(f"{DATA.name}: done is a list of statuses.")
     if (data.get("statuses") or [None])[0] in (done or []):
         problems.append(f"{DATA.name}: a new task takes the first status, so the first cannot be one that is done.")
+    colours = data.get("colours")
+    if not isinstance(colours, list) or not colours or len(set(colours)) != len(colours) or len(colours) > 8:
+        problems.append(f"{DATA.name}: colours is a list of up to eight colours, each once: past eight, nobody can tell them apart.")
+    tc = data.get("tag_colours")
+    if not isinstance(tc, dict) or any(t not in (data.get("tags") or []) or c not in (colours or []) for t, c in tc.items()):
+        problems.append(f"{DATA.name}: tag_colours gives a tag one of the colours, and names only tags there are.")
     hides = data.get("board_hides")
     if not isinstance(hides, list) or any(x not in (data.get("statuses") or []) for x in hides) or len(hides) >= len(data.get("statuses") or []):
         problems.append(f"{DATA.name}: board_hides is a list of statuses, and leaves a board at least one.")
@@ -108,6 +114,8 @@ def write(lib, data):
              + f"export const TASK_DONE = {j(data['done'])};\n"
              + f"export const TASK_BOARD_HIDES = {j(data['board_hides'])};\n"
              + f"export const TASK_REPEATS = {j(data['repeats'])};\n"
+             + f"export const TASK_COLOURS = {j(data['colours'])};\n"
+             + f"export const TASK_TAG_COLOURS = {j(data['tag_colours'])};\n"
              + f"export const TASK_PRIORITIES = {j(data['priorities'])};\n"
              + f"export const TASK_DEFAULT_PRIORITY = {j(data['default_priority'])};\n"
              + f"export const TASK_TAGS = {j(data['tags'])};\n"
@@ -212,6 +220,19 @@ def check_js():
             problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks and nothing else.")
 
 
+def check_colours(data):
+    """Every tag colour is declared in love.css for light and dark themes, and
+    tasks.css dresses it in both, so a tag never shows a colour nobody chose."""
+    root = (ROOT / "love.css").read_text()
+    css = CSS.read_text() if CSS.exists() else ""
+    for c in data.get("colours") or []:
+        for name in (f"--cb-task-{c}", f"--cb-task-{c}-dark"):
+            if not re.search(rf"{re.escape(name)}\s*:\s*#[0-9a-fA-F]{{6}}", root):
+                problems.append(f"love.css: {name} is not declared. Every tag colour has a light and a dark step.")
+        if not re.search(rf"\.tk-c--{c}\s*\{{[^}}]*var\(--cb-task-{c}\)", css) or not re.search(rf"\.tk-c--{c}\s*\{{[^}}]*var\(--cb-task-{c}-dark\)", css):
+            problems.append(f"{CSS.name}: .tk-c--{c} is not dressed for light and dark themes.")
+
+
 def check_css():
     if not CSS.exists():
         problems.append(f"{CSS.name}: missing.")
@@ -251,6 +272,7 @@ def main():
             lib = new
     check_lib(lib)
     check_function()
+    check_colours(data)
     check_recur()
     check_js()
     check_css()

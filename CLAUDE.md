@@ -5266,7 +5266,13 @@ task ownership, we include Assigned to and Also on it"), so **Whose** (`whoOf`, 
 view opens on Mine, and the timeline puts a task in every owner's row, ALSO ON IT where they are not the assignee. An
 address with no `who` is Mine and `who=all` is everybody's. The board's columns by person stay by assignee, because a
 move there changes who it is assigned to. The friendly edit is a filter by assignee alone, which hides Norah from her
-own tasks.
+own tasks. **Tags have colours by family** (Ryan's ask, the same evening): `colours` and `tag_colours` in
+`data/tasks.json`, the dataviz method's first seven categorical slots in its fixed order, declared in `love.css` as
+`--cb-task-<colour>` and `-dark` with black and white inks, every fill and ink pair in `check-contrast.py`.
+`tasks.js` measures the reader's radio case to pick the light or dark steps (`toneNow`, `data-tone`). A timeline bar is
+filled with its first coloured tag and striped along its foot when it has more than one colour, and a legend says
+which tags wear which. **The friendly edit is a colour for every tag**: past eight, nobody can tell them apart, and
+`make-tasks.py` refuses a ninth.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
