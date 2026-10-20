@@ -1730,11 +1730,14 @@ body.cb-callwin :focus-visible, body.cb-cbwin :focus-visible { outline: 3px soli
 .cb-dm-with:focus { outline: none; }
 .cb-dm-with:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
 .cb-dm-state p { margin: 0 0 6px; font-size: 14px; }
-.cb-dm-log > .cb-dm-msg { display: grid; gap: 2px; min-width: 0; }
+.cb-dm-log > .cb-dm-msg { min-width: 0; }
+/* A CONVERSATION'S MESSAGE IS THE CHANNEL'S (.cb-msg, 2026-10-20): the same
+   line with React and the dots on it, the same rows under it. A question
+   asked under one (Take back, Report) goes at its foot. */
+.cb-dm-msg > .cb-dm-sure { grid-column: 1 / -1; grid-row: 7; }
 /* A picture in a conversation (2026-10-19): the channel's picture, at its edge. */
 .cb-dm-msg > .cb-picture { margin: 4px 0 0; min-width: 0; max-width: 100%; }
-.cb-dm-acts { margin: 2px 0 0; justify-content: flex-end; }
-.cb-dm-acts > .cb-btn, .cb-dm-sure .cb-btn, .cb-dm-edit .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
+.cb-dm-sure .cb-btn, .cb-dm-edit .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
 .cb-dm-sure { margin: 4px 0 0; }
 .cb-dm-sure .cb-say, .cb-dm-edit .cb-say { border-color: var(--cb-amber-2); }
 .cb-dm-block { display: grid; gap: 6px; justify-items: start; }

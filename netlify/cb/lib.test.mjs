@@ -3458,6 +3458,43 @@ test('Forget me and deleting the username delete every conversation, and a name 
 }));
 
 import { putDmImage, getDmImage, reportImage } from './lib.mjs';
+import { reactDm } from './lib.mjs';
+
+test('a conversation takes stickers and reactions only once accepted, the channel\'s way', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  const av = (await keepAvatar(petKey('Ada'), { look: lookOf(), name: 'Saloon' }, s)).kept;
+  // A request is words only: no sticker, and nothing to react to yet.
+  assert.equal((await sendDm(ada, 'Bex', { text: '', avatar: av.id }, s)).error, 'accepted', 'a sticker went before there was a conversation');
+  const first = (await sendDm(ada, 'Bex', 'hello', s)).sent;
+  assert.equal((await sendDm(ada, 'Bex', { text: '', avatar: av.id }, s)).error, 'accepted', 'a sticker went with a request waiting');
+  assert.equal((await reactDm(bex, 'Ada', first.id, '\u2764\uFE0F', s)).error, 'accepted', 'somebody reacted to a request instead of answering it');
+  await acceptDm(bex, 'Ada', s);
+  // Only one's own, one at a time.
+  assert.equal((await sendDm(bex, 'Ada', { text: '', avatar: av.id }, s)).error, 'sticker', 'somebody sent a sticker of another person\'s avatar');
+  assert.equal((await sendDm(ada, 'Bex', { text: '', avatar: av.id, jacket: true }, s)).error, 'one', 'a message carried two stickers');
+  const st = (await sendDm(ada, 'Bex', { text: '', avatar: av.id }, s)).sent;
+  assert.equal(st.avatar.name, 'Saloon', 'the sticker was not copied when it went');
+  let b = await readDmWith(bex, 'Ada', s);
+  const shown = b.messages.find((m) => m.id === st.id);
+  assert.ok(shown.avatar && shown.avatar.look, 'the other person was not shown the sticker');
+  assert.equal(shown.by, undefined, 'a sender’s key left the server');
+  // A reaction names who, never how many, and the second press takes it back.
+  const heart = REACTIONS[0][0];
+  await reactDm(bex, 'Ada', first.id, heart, s);
+  await reactDm(ada, 'Bex', first.id, heart, s);
+  b = await readDmWith(bex, 'Ada', s);
+  assert.deepEqual(b.messages[0].reactions, [{ emoji: heart, name: REACTIONS[0][1], who: ['Ada', 'Bex'] }]);
+  await reactDm(bex, 'Ada', first.id, heart, s);
+  assert.deepEqual((await readDmWith(ada, 'Bex', s)).messages[0].reactions[0].who, ['Ada'], 'a reaction did not come back off');
+  assert.equal((await reactDm(ada, 'Bex', first.id, 'not an emoji', s)).error, 'emoji');
+  assert.equal((await reactDm(ada, 'Bex', 'dnothere000', heart, s)).error, 'which');
+  // An edit keeps them; a sticker's message may be left with no words.
+  await editDm(ada, 'Bex', first.id, 'hello again', s);
+  assert.equal((await readDmWith(ada, 'Bex', s)).messages[0].reactions[0].who[0], 'Ada', 'an edit lost the reactions');
+  assert.equal((await editDm(ada, 'Bex', st.id, '', s)).error, undefined, 'a sticker could not lose its words');
+}));
 test('a conversation takes a picture only once accepted, shows it only to the two, and loses it with its message', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   const [ada, bex] = await twoPeople(s);

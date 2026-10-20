@@ -258,6 +258,21 @@
     box.hidden = true;
   }
 
+  /* A PICTURE CAN BE PASTED (Ryan's ask, 2026-10-20): a screenshot on the
+     clipboard goes into the message box with Ctrl or Cmd and V and comes to
+     the same preview and the same redraw as one picked with Picture. Words
+     pasted with it are pasted as words; only a clipboard holding a picture and
+     no words is not also pasted as text. SVG is never a picture here. */
+  function pastedPicture(e) {
+    var d = e.clipboardData, f = null, i;
+    if (!d) return null;
+    var ok = function (t) { return /^image\//.test(t || '') && !/svg/i.test(t); };
+    for (i = 0; d.files && i < d.files.length && !f; i++) if (ok(d.files[i].type)) f = d.files[i];
+    for (i = 0; !f && d.items && i < d.items.length; i++) if (d.items[i].kind === 'file' && ok(d.items[i].type)) f = d.items[i].getAsFile();
+    if (f && !d.getData('text/plain')) e.preventDefault();
+    return f;
+  }
+
   /* THE ONE REDRAW. The Brass Tacks Board takes a moderator's picture through
      this same function rather than a copy of it, because two copies of what
      strips a camera's GPS is one copy that gets fixed and one that does not.
@@ -1320,7 +1335,7 @@
     // In the form, hidden: a file input outside the document is one some
     // browsers will not open a picker for.
     form.appendChild(picFile);
-    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, or # and a room.');
+    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, or # and a room. Paste a picture to add it.');
     hint.id = 'cb-say-hint';
     /* The picture waiting to go is above the box, where Discord puts one:
        you see it, say what is in it, write the message and send, in that
@@ -1779,6 +1794,7 @@
     });
     say.addEventListener('input', function () { me.grow(); });
     say.addEventListener('blur', function () { me.close(); });
+    say.addEventListener('paste', function (e) { var f = pastedPicture(e); if (f) me.pickPicture(f); });
     this.mover = new window.loveCall.Mover(box, bar, move, state, 'right', 'cb-radio--held', function () { save(me.state); }, function () {
       me.tell('Drag the bar to move the radio, or use the arrow keys while Move has the keyboard. Home puts it back in the corner.');
     });
@@ -2816,6 +2832,13 @@
       items.push(off);
     }
     if (!items.length) return null;
+    return this.moreMenu(m, li, items);
+  };
+
+  /* THE THREE DOTS AND WHAT THEY OPEN, for the channel's messages and a
+     conversation's alike (Ryan's ask, 2026-10-20: messages should have the
+     same interface), each with its own items. */
+  Radio.prototype.moreMenu = function (m, li, items) {
     var box = el('div', 'cb-more-menu');
     box.id = 'cb-more-' + m.id;
     box.hidden = true;
@@ -2931,21 +2954,23 @@
   /* COPY, on every message with words in it: the words as they were typed,
      Markdown and all, onto your own clipboard. The answer is on the button and
      on the radio's own line under the log, so it is seen where the hand is. */
-  Radio.prototype.copyBtn = function (m, li) {
+  // `say` is where it answers: the channel's line, or a conversation's.
+  Radio.prototype.copyBtn = function (m, li, say) {
     var me = this, b = el('button', 'cb-btn cb-copy', 'Copy');
+    var tellIt = say || function (t) { me.tell(t); };
     b.type = 'button';
     b.setAttribute('aria-label', 'Copy ' + m.handle + '’s message ' + sentAt(m.t));
     b.addEventListener('click', function () {
       var done = function () {
         b.textContent = 'Copied';
-        me.tell('Copied ' + m.handle + '’s message.');
+        tellIt('Copied ' + m.handle + '’s message.');
         setTimeout(function () { b.textContent = 'Copy'; }, 1800);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         // The words on the message now, which an edit may have changed.
         var said = li && li.querySelector(':scope > .cb-text');
-        navigator.clipboard.writeText(said ? said.cbRaw : m.text).then(done, function () { me.tell('Your browser would not let the radio copy that.'); });
-      } else me.tell('Your browser would not let the radio copy that.');
+        navigator.clipboard.writeText(said ? said.cbRaw : m.text).then(done, function () { tellIt('Your browser would not let the radio copy that.'); });
+      } else tellIt('Your browser would not let the radio copy that.');
     });
     return b;
   };
@@ -4385,10 +4410,17 @@
   /* THE STICKER PICKER: your pets, each a button that sends a sticker of them
      to the channel you are tuned to, straight away. Whatever is in the box
      stays there. */
-  Radio.prototype.setStickers = function (open) {
-    var me = this, box = this.stickBox;
+  /* `where` is 'dm' for the tray under a conversation's box (Ryan's ask,
+     2026-10-20), and the channel's otherwise; one tray is open at a time, and
+     sendSticker sends to whichever it was opened for. */
+  Radio.prototype.setStickers = function (open, where) {
+    var me = this, dm = where === 'dm';
+    var box = dm ? this.dmStickBox : this.stickBox, btn = dm ? this.dmStickBtn : this.stickBtn;
+    var other = dm ? this.stickBox : this.dmStickBox;
+    if (open && other && !other.hidden) { other.hidden = true; other.textContent = ''; (dm ? this.stickBtn : this.dmStickBtn).setAttribute('aria-expanded', 'false'); }
+    this.stickTo = dm ? 'dm' : 'channel';
     box.hidden = !open;
-    this.stickBtn.setAttribute('aria-expanded', String(!!open));
+    btn.setAttribute('aria-expanded', String(!!open));
     if (!open) { box.textContent = ''; return; }
     box.textContent = '';
     /* YOUR AVATARS FIRST, then your pets: each a button that sends a sticker
@@ -4531,13 +4563,22 @@
         pSaid.after(ul);
       }, function () { pSaid.textContent = 'Your patches could not be fetched just now.'; });
     });
-    box.appendChild(this.footClose('Close stickers', function () { me.setStickers(false); }, this.stickBtn));
+    box.appendChild(this.footClose('Close stickers', function () { me.setStickers(false, where); }, btn));
   };
 
   Radio.prototype.sendSticker = function (id, kind) {
     var me = this, room = this.tunedRoom(), b = {};
     if (kind === 'jacket') b.jacket = true;
     else b[kind === 'avatar' ? 'avatar' : kind === 'chimera' ? 'chimera' : kind === 'patch' ? 'patch' : 'sticker'] = id;
+    // Into a conversation, through Messages' own way of asking.
+    if (this.stickTo === 'dm' && this.dmWith) {
+      b.with = this.dmWith;
+      b.send = '';
+      this.dmTold('Sending the sticker\u2026');
+      this.dmJustSent = true;
+      this.dmCall(b, '').then(function (r) { if (r) { me.setStickers(false, 'dm'); me.dmStickBtn.focus(); } });
+      return;
+    }
     if (room) b.room = room;
     this.tell('Sending the sticker\u2026');
     call('/cb/transmit', { body: b }, this.state.pass).then(function (r) {
@@ -4584,8 +4625,9 @@
      and the handles that pressed it, alphabetical. Pressing one adds yours or
      takes it back. Drawn again only when it has changed, and the keyboard
      stays on the reaction it was on. */
-  Radio.prototype.drawReactions = function (li, m) {
+  Radio.prototype.drawReactions = function (li, m, send) {
     var me = this, rx = li.querySelector(':scope > .cb-rx');
+    send = send || function (e) { me.react(m.id, e); };
     if (!rx) return;
     var list = m.reactions || [];
     var key = JSON.stringify(list);
@@ -4606,15 +4648,17 @@
       var e = el('span', 'cb-rx__emoji', x.emoji); e.setAttribute('aria-hidden', 'true');
       b.appendChild(e);
       b.appendChild(el('span', 'cb-rx__who', names(x.who)));
-      b.addEventListener('click', function () { me.react(m.id, x.emoji); });
+      b.addEventListener('click', function () { send(x.emoji); });
       rx.appendChild(b);
     });
     if (on) { var again = rx.querySelector('[data-emoji="' + on + '"]'); if (again) again.focus(); }
   };
 
-  /* React, on the message's own line: opens the set under the message. */
-  Radio.prototype.reactBtn = function (m, li) {
+  /* React, on the message's own line: opens the set under the message. `send`
+     presses one: on the channel by default, or in a conversation. */
+  Radio.prototype.reactBtn = function (m, li, send) {
     var me = this;
+    send = send || function (e) { me.react(m.id, e); };
     var b = el('button', 'cb-btn cb-ico cb-react');
     b.type = 'button';
     b.appendChild(msgIcon('react'));
@@ -4638,7 +4682,7 @@
         p.setAttribute('aria-pressed', String(!!here[x[0]]));
         p.addEventListener('click', function () {
           pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus();
-          me.react(m.id, x[0]);
+          send(x[0]);
         });
         pick.appendChild(p);
       });
@@ -4657,7 +4701,7 @@
         var v = oin.value.trim();
         if (!v) { oin.focus(); return; }
         pick.remove(); b.setAttribute('aria-expanded', 'false'); b.focus();
-        me.react(m.id, v);
+        send(v);
       }
       ogo.addEventListener('click', sendOther);
       oin.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); sendOther(); } });
@@ -5531,7 +5575,7 @@
     say.autocomplete = 'off';
     sendBox(say, 'send');
     say.setAttribute('aria-describedby', 'cb-dm-hint');
-    var hint = el('p', 'cb-hint', enterHint('Send', 'sends') + ' Basic Markdown works, as on the channel.');
+    var hint = el('p', 'cb-hint', enterHint('Send', 'sends') + ' Markdown works, as on the channel. Once you are both talking, paste a picture to add it.');
     hint.id = 'cb-dm-hint';
     var send = el('button', 'cb-btn cb-send', 'Send');
     send.type = 'submit';
@@ -5571,8 +5615,22 @@
     ready.appendChild(altLab);
     ready.appendChild(alt);
     ready.appendChild(drop);
+    /* A STICKER, once the conversation is accepted (Ryan's ask, 2026-10-20):
+       the channel's tray, sending here instead (setStickers' where). */
+    var stickBtn = this.dmStickBtn = el('button', 'cb-btn cb-stick', 'Sticker');
+    stickBtn.type = 'button';
+    stickBtn.hidden = true;
+    stickBtn.setAttribute('aria-label', 'Send a sticker of one of your avatars or pets');
+    stickBtn.setAttribute('aria-expanded', 'false');
+    stickBtn.setAttribute('aria-controls', 'cb-dm-stickers');
+    stickBtn.addEventListener('click', function () { me.setStickers(me.dmStickBox.hidden, 'dm'); });
+    var stickBox = this.dmStickBox = el('div', 'cb-stickers');
+    stickBox.id = 'cb-dm-stickers';
+    stickBox.hidden = true;
+    stickBox.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); me.setStickers(false, 'dm'); stickBtn.focus(); } });
     var frow = el('div', 'cb-acct__row');
     frow.appendChild(picBtn);
+    frow.appendChild(stickBtn);
     frow.appendChild(send);
     form.appendChild(picFile);
     form.appendChild(ready);
@@ -5580,6 +5638,7 @@
     form.appendChild(say);
     form.appendChild(hint);
     form.appendChild(frow);
+    form.appendChild(stickBox);
     talk.appendChild(form);
     this.dmBlockRow = el('div', 'cb-dm-block');
     talk.appendChild(this.dmBlockRow);
@@ -5610,6 +5669,13 @@
       if (sendKey(e)) { e.preventDefault(); me.dmSend(); }
     });
     say.addEventListener('input', function () { me.grow(say); });
+    // A pasted picture, only where Picture is offered: a request is words only.
+    say.addEventListener('paste', function (e) {
+      var f = pastedPicture(e);
+      if (!f) return;
+      if (picBtn.hidden) { me.dmTold('A picture can go once ' + me.dmWith + ' has accepted the conversation. A first message is words only.'); return; }
+      me.dmPickPicture(f);
+    });
     // Escape in a conversation goes back to the list, unless something in it
     // (an edit, a report) took the Escape first.
     talk.addEventListener('keydown', function (e) {
@@ -5849,6 +5915,10 @@
     var pics = b.can === 'yes' && b.state === 'open';
     this.dmPicBtn.hidden = !pics;
     if (!pics && this.dmPicture) this.dmDropPicture();
+    // So with a sticker, and a reaction (dmDrawActs).
+    this.dmStickBtn.hidden = !pics;
+    if (!pics && !this.dmStickBox.hidden) this.setStickers(false, 'dm');
+    this.dmLive = pics;
     var msgs = Array.isArray(b.messages) ? b.messages : [];
     this.dmDrawLog(msgs);
     this.dmBlockShown(msgs.length > 0 && b.can !== 'blocked');
@@ -5923,7 +5993,11 @@
         li = me.dmMsg(m);
         added++;
         if (prev) prev.after(li); else log.prepend(li);
-      } else if (!li.dmEditing && (li.dmText !== m.text || li.dmEdited !== (m.edited || 0))) me.dmWords(li, m);
+      } else {
+        if (!li.dmEditing && (li.dmText !== m.text || li.dmEdited !== (m.edited || 0))) me.dmWords(li, m);
+        if (li.dmLive !== me.dmLive) me.dmDrawActs(li, m);
+        me.drawReactions(li, m, function (e) { me.dmReact(m.id, e); });
+      }
       prev = li;
     });
     this.dmLcd.hidden = !msgs.length;
@@ -5935,11 +6009,19 @@
     this.dmJustSent = false;
   };
 
+  /* A MESSAGE IS DRAWN AS THE CHANNEL'S ARE (Ryan's ask, 2026-10-20:
+     everything group chat does, the same interface): the handle opens their
+     profile, then the words, a picture or sticker, the reactions, and React
+     and the three dots on the message's own line. */
   Radio.prototype.dmMsg = function (m) {
-    var li = el('li', 'cb-dm-msg');
+    var me = this, li = el('li', 'cb-msg cb-dm-msg' + (m.base ? ' cb-msg--base' : ''));
     li.dataset.id = m.id;
     var head = el('p', 'cb-head');
-    head.appendChild(el('span', 'cb-handle', m.handle));
+    var who = el('button', 'cb-handle', m.handle);
+    who.type = 'button';
+    who.setAttribute('aria-haspopup', 'dialog');
+    who.addEventListener('click', function () { me.peek(m.handle, who, m); });
+    head.appendChild(who);
     if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
     var tm = el('time', 'cb-time', clock(m.t));
     tm.dateTime = new Date(m.t).toISOString();
@@ -5949,50 +6031,98 @@
     this.dmWords(li, m);
     li.dmImg = !!m.img;
     if (m.img) li.appendChild(this.picture_(m, '/cb/dm/image?id='));
-    li.appendChild(this.dmActs(li, m));
+    if (m.sticker) li.appendChild(sticker(m.sticker));
+    if (m.avatar) li.appendChild(avatarSticker(m.avatar));
+    if (m.chimera) li.appendChild(chimeraSticker(m.chimera));
+    if (m.patch) li.appendChild(patchSticker(m.patch));
+    if (m.jacket) li.appendChild(jacketSticker(m.jacket));
+    li.dmStuck = !!(m.sticker || m.avatar || m.chimera || m.patch || m.jacket);
+    var rx = el('div', 'cb-rx');
+    rx.setAttribute('aria-live', 'off');
+    li.appendChild(rx);
+    this.drawReactions(li, m, function (e) { me.dmReact(m.id, e); });
+    this.dmDrawActs(li, m);
     return li;
   };
 
   Radio.prototype.dmWords = function (li, m) {
     var words = li.querySelector(':scope > .cb-text');
     words.textContent = '';
+    words.cbRaw = m.text || '';
     md(words, m.text || '');
+    // An @name is drawn as a name, as on the channel: here only the two of you.
+    this.markAt(words, this.dmWith ? [this.dmWith] : []);
     li.dmText = m.text;
     li.dmEdited = m.edited || 0;
     this.markEdited(li, m);
   };
 
-  /* Your own message: Edit and Take back. Theirs: Report. Always shown,
-     because a message here is only ever one of the two. */
-  Radio.prototype.dmActs = function (li, m) {
-    var me = this, row = el('div', 'cb-acct__row cb-dm-acts');
+  /* React and the three dots, on the message's line, as on the channel. React
+     only in an open conversation; under the dots, Copy, and on your own
+     message Edit and Take back, on theirs Report. Drawn again only when the
+     conversation opens or stops being open, with the keyboard kept on them. */
+  Radio.prototype.dmDrawActs = function (li, m) {
+    var me = this, on = this.box.getRootNode().activeElement;
+    var was = li.querySelector(':scope > .cb-acts'), old = li.querySelector(':scope > .cb-more-menu');
+    var held = !!on && ((was && was.contains(on)) || (old && old.contains(on)));
+    if (was) was.remove();
+    if (old) old.remove();
+    shutPick(li);
+    li.dmLive = this.dmLive;
+    var acts = el('div', 'cb-acts');
+    if (this.dmLive) acts.appendChild(this.reactBtn(m, li, function (e) { me.dmReact(m.id, e); }));
+    var more = this.dmMore(m, li);
+    acts.appendChild(more.btn);
+    li.appendChild(acts);
+    li.appendChild(more.box);
+    if (held) more.btn.focus();
+  };
+
+  Radio.prototype.dmMore = function (m, li) {
+    var me = this, items = [];
+    if (m.text) items.push(this.copyBtn(m, li, function (t) { me.dmTold(t); }));
     if (m.mine) {
-      var ed = el('button', 'cb-btn cb-copy', 'Edit');
+      var ed = el('button', 'cb-btn cb-edit-btn', 'Edit');
       ed.type = 'button';
       ed.setAttribute('aria-label', 'Edit your message ' + sentAt(m.t));
-      var tb = el('button', 'cb-btn cb-copy', 'Take back');
+      ed.addEventListener('click', function () { shutMore(li); me.dmEdit(li, m.id); });
+      var tb = el('button', 'cb-btn cb-take', 'Take back');
       tb.type = 'button';
       tb.setAttribute('aria-label', 'Take back your message ' + sentAt(m.t));
-      ed.addEventListener('click', function () { me.dmEdit(li, m.id); });
       tb.addEventListener('click', function () {
-        me.dmSure(li, row, 'This deletes your message for both of you. It cannot be undone.', 'Yes, take it back', function () {
+        shutMore(li);
+        me.dmSure(li, 'This deletes your message for both of you. It cannot be undone.', 'Yes, take it back', function () {
           return me.dmCall({ with: me.dmWith, take: m.id }, 'Taken back.');
         });
       });
-      row.appendChild(ed);
-      row.appendChild(tb);
+      items.push(ed);
+      items.push(tb);
     } else {
-      var rp = el('button', 'cb-btn cb-copy', 'Report');
+      var rp = el('button', 'cb-btn cb-take', 'Report');
       rp.type = 'button';
       rp.setAttribute('aria-label', 'Report ' + m.handle + '’s message ' + sentAt(m.t) + ' to the moderators');
-      rp.addEventListener('click', function () { me.dmReport(li, row, m); });
-      row.appendChild(rp);
+      rp.addEventListener('click', function () { shutMore(li); me.dmReport(li, m); });
+      items.push(rp);
     }
-    return row;
+    return this.moreMenu(m, li, items);
+  };
+
+  // The line's buttons, out of the way while a question or an edit is open
+  // under the message, and the keyboard back on the dots when it shuts.
+  function dmActsOff(li, off) {
+    var a = li.querySelector(':scope > .cb-acts');
+    if (!a) return;
+    a.hidden = !!off;
+    if (!off) { var d = a.querySelector('.cb-more') || a.firstChild; if (d) d.focus(); }
+  }
+
+  // A reaction, or yours taken back: the channel's, in this conversation.
+  Radio.prototype.dmReact = function (id, emoji) {
+    return this.dmCall({ with: this.dmWith, react: id, emoji: emoji });
   };
 
   // Ask once more, under the message, with the keyboard on Not now.
-  Radio.prototype.dmSure = function (li, row, text, yesText, act) {
+  Radio.prototype.dmSure = function (li, text, yesText, act) {
     var sure = el('div', 'cb-forget-sure cb-dm-sure');
     sure.appendChild(el('p', null, text));
     var y = el('button', 'cb-btn cb-copy', yesText);
@@ -6001,10 +6131,10 @@
     n.type = 'button';
     sure.appendChild(y);
     sure.appendChild(n);
-    row.hidden = true;
+    dmActsOff(li, true);
     li.appendChild(sure);
     n.focus();
-    function shut() { sure.remove(); row.hidden = false; row.firstChild.focus(); }
+    function shut() { sure.remove(); dmActsOff(li, false); }
     n.addEventListener('click', shut);
     sure.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); shut(); } });
     y.addEventListener('click', function () {
@@ -6018,9 +6148,11 @@
   Radio.prototype.dmEdit = function (li, id) {
     if (li.dmEditing) return;
     li.dmEditing = true;
-    var me = this, words = li.querySelector(':scope > .cb-text'), row = li.querySelector(':scope > .cb-dm-acts');
+    var me = this, words = li.querySelector(':scope > .cb-text');
     words.hidden = true;
-    row.hidden = true;
+    shutMore(li);
+    shutPick(li);
+    dmActsOff(li, true);
     var f = el('form', 'cb-edit cb-dm-edit');
     var lab = el('label', 'cb-lab', 'Edit your message');
     lab.htmlFor = 'cb-dm-edit-' + id;
@@ -6044,9 +6176,8 @@
     function stop(back) {
       f.remove();
       words.hidden = false;
-      row.hidden = false;
       li.dmEditing = false;
-      if (back) row.firstChild.focus();
+      if (back) dmActsOff(li, false); else { var a = li.querySelector(':scope > .cb-acts'); if (a) a.hidden = false; }
     }
     cancel.addEventListener('click', function () { stop(true); });
     ta.addEventListener('keydown', function (e) {
@@ -6056,13 +6187,13 @@
     });
     f.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!ta.value.trim() && !li.dmImg) { me.dmTold('A message needs words. Take it back instead, if you want it gone.'); ta.focus(); return; }
+      if (!ta.value.trim() && !li.dmImg && !li.dmStuck) { me.dmTold('A message needs words. Take it back instead, if you want it gone.'); ta.focus(); return; }
       save.disabled = true;
       me.dmCall({ with: me.dmWith, edit: id, text: ta.value }).then(function (b) {
         if (!b) { save.disabled = false; return; }
         stop(false);
         if (Array.isArray(b.messages)) me.dmDrawLog(b.messages);
-        if (li.isConnected) row.firstChild.focus();
+        if (li.isConnected) dmActsOff(li, false);
         me.dmTold('Edited.');
       });
     });
@@ -6070,7 +6201,7 @@
 
   /* REPORT: a copy of this one message onto the moderators' desk, with who
      reported it and a note if they write one. The sender is not told. */
-  Radio.prototype.dmReport = function (li, row, m) {
+  Radio.prototype.dmReport = function (li, m) {
     var me = this;
     var f = el('form', 'cb-forget-sure cb-dm-sure');
     f.appendChild(el('p', null, 'This sends a copy of this message, who sent it and when, to the moderators’ desk, with your username and a note if you write one. ' + m.handle + ' is not told. Only moderators read it, and it is deleted when they close it, or after thirty days.'));
@@ -6090,10 +6221,10 @@
     f.appendChild(lab);
     f.appendChild(ta);
     f.appendChild(r);
-    row.hidden = true;
+    dmActsOff(li, true);
     li.appendChild(f);
     ta.focus();
-    function shut(back) { f.remove(); row.hidden = false; if (back) row.firstChild.focus(); }
+    function shut(back) { f.remove(); if (back) dmActsOff(li, false); else { var a = li.querySelector(':scope > .cb-acts'); if (a) a.hidden = false; } }
     n.addEventListener('click', function () { shut(true); });
     f.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); shut(true); } });
     f.addEventListener('submit', function (e) {

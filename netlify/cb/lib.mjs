@@ -2890,6 +2890,14 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    NOTHING COUNTED, NOTHING ABOUT WHO READ WHAT: no unread number, no read
    receipt, no "seen", no typing. The friendly edits are all four.
 
+   STICKERS AND REACTIONS, ONCE A CONVERSATION IS ACCEPTED (Ryan's ask,
+   2026-10-20: messages should do everything the channel does). A sticker is
+   the channel's, found among the sender's own and copied when it goes
+   (stickerOf and its kin), and a reaction is the channel's toggle on the
+   message, naming who and never how many. Neither goes in a request, for the
+   reason a picture does not: nobody's first contact with you is anything but
+   words. Both go with their message.
+
    PICTURES, ONCE A CONVERSATION IS ACCEPTED. Ryan's call, 2026-10-19, after
    somebody in our community could not send him a screenshot privately: it
    settles the question DECISIONS.md left open when messages shipped words
@@ -3025,8 +3033,39 @@ export function shapeDm(m, me) {
   const out = { id: m.id, handle: m.handle, text: m.text, t: m.t, base: !!m.base };
   if (typeof m.edited === 'number') out.edited = m.edited;
   if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
+  const st = m.sticker && shapeSticker(m.sticker);
+  if (st) out.sticker = st;
+  const av = m.avatar && shapeAvatarSticker(m.avatar);
+  if (av) out.avatar = av;
+  const ch = m.chimera && shapeChimeraSticker(m.chimera);
+  if (ch) out.chimera = ch;
+  const pt = m.patch && shapePatchSticker(m.patch);
+  if (pt) out.patch = pt;
+  const jk = m.jacket && shapeJacketSticker(m.jacket);
+  if (jk) out.jacket = jk;
+  const rx = shapeReactions(m.reactions);
+  if (rx) out.reactions = rx;
   if (m.by === me) out.mine = true;
   return out;
+}
+
+const STICKER_KINDS = ['sticker', 'avatar', 'chimera', 'patch', 'jacket'];
+const hasSticker = (m) => STICKER_KINDS.some((k) => m[k]);
+
+/* The sticker `said` asks for, found among the sender's own the channel's
+   way, as { kind: copy }; null for none asked; { error } for one that is not
+   theirs, or more than one. */
+async function dmSticker(handle, said, s) {
+  const asked = STICKER_KINDS.filter((k) => said && said[k] != null && said[k] !== false);
+  if (!asked.length) return null;
+  if (asked.length > 1) return { error: 'one' };
+  const k = asked[0], id = said[k];
+  const got = k === 'sticker' ? await stickerOf(handle, id, s)
+    : k === 'avatar' ? await avatarSticker(handle, id, s)
+      : k === 'chimera' ? await chimeraSticker(handle, id, s)
+        : k === 'patch' ? await patchSticker(handle, id, s)
+          : await jacketSticker(handle, s);
+  return got ? { [k]: got } : { error: 'sticker' };
 }
 const stateOf = (c, me) => (!c.messages.length ? 'new' : c.open ? 'open' : c.from === me ? 'asked' : 'asking');
 
@@ -3044,13 +3083,18 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   if (words === null) return { error: 'long' };
   const img = pic && pic.img != null ? imageId(pic.img) : null;
   if (pic && pic.img != null && !img) return { error: 'picture' };
-  if (!words && !img) return { error: 'empty' };
+  const stick = await dmSticker(who.handle, pic, s);
+  if (stick && stick.error) return stick;
+  if (img && stick) return { error: 'one' };
+  if (!words && !img && !stick) return { error: 'empty' };
   const p = await pairOf(who, handle, s);
   if (p.error) return { error: p.error };
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { error: 'blocked' };
   if (blocks(theirs, who.handle)) return { error: 'closed' };
   const was = convDoc(await s.get(p.key, { type: 'json' }), now);
+  // A sticker is not for a request either.
+  if (stick && !was.open) return { error: 'accepted' };
   if (img) {
     if (!was.open) return { error: 'accepted' };
     const got = await s.getWithMetadata(DM_IMG + img, { type: 'arrayBuffer' });
@@ -3068,11 +3112,13 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   const m = { id: 'd' + randomBytes(8).toString('base64url').slice(0, 10), handle: who.handle, by: p.me, text: words, t: now };
   if (who.role === 'base') m.base = true;
   if (img) { m.img = img; m.alt = cleanAlt(pic.alt); }
+  if (stick) Object.assign(m, stick);
   let asked = false, accepted = false;
   const next = await updateConv(p.key, (c) => {
     asked = false; accepted = false;
     // A request is words only, however the conversation got here.
     if (img && !c.open) return { error: 'accepted' };
+    if (stick && !c.open) return { error: 'accepted' };
     if (!c.messages.length) {
       if (!theirs.open) return { error: 'closed' };
       asked = true;
@@ -3201,12 +3247,28 @@ export async function editDm(who, handle, id, text, s = store(), now = Date.now(
   return updateConv(p.key, (c) => {
     const i = c.messages.findIndex((x) => x.id === id);
     if (i < 0 || c.messages[i].by !== p.me) return { error: 'which' };
-    // Only a picture's message may be left with no words: it is still the picture.
-    if (!words && !c.messages[i].img) return { error: 'empty' };
+    // Only a picture's or a sticker's message may be left with no words.
+    if (!words && !c.messages[i].img && !hasSticker(c.messages[i])) return { error: 'empty' };
     if (c.messages[i].text === words) return null;
     const messages = c.messages.slice();
     messages[i] = { ...messages[i], text: words, edited: now };
     return { ...c, messages };
+  }, s, now);
+}
+
+/* React to a message in the conversation, or take yours back: the channel's
+   toggle, once the conversation is accepted. 'accepted' before then, 'which'
+   for a message that is not there, 'full' for one with every kind it holds. */
+export async function reactDm(who, handle, id, emoji, s = store(), now = Date.now()) {
+  if (typeof id !== 'string' || !DM_ID.test(id)) return { error: 'which' };
+  if (!reactionOf(emoji)) return { error: 'emoji' };
+  const p = await pairOf(who, handle, s);
+  if (p.error) return { error: 'which' };
+  return updateConv(p.key, (c) => {
+    if (!c.open) return { error: 'accepted' };
+    if (!c.messages.some((x) => x.id === id)) return { error: 'which' };
+    const next = toggleReaction(c.messages, id, emoji, who.handle);
+    return next ? { ...c, messages: next } : { error: 'full' };
   }, s, now);
 }
 
@@ -6418,6 +6480,7 @@ export async function notifyProps(handle, writer, text, s = store(), mods = read
 export async function notifyDm(handle, sender, said, asked, s = store(), mods = readMods(), send = sendPush) {
   const text = said && typeof said === 'object' ? said.text : said;
   const picture = !!(said && typeof said === 'object' && said.img);
+  const stuck = !!(said && typeof said === 'object' && STICKER_KINDS.some((k) => said[k]));
   if (send === sendPush && !pushReady()) return [];
   const to = foldHandle(handle), from = foldHandle(sender);
   if (!to || to === from) return [];
@@ -6435,6 +6498,7 @@ export async function notifyDm(handle, sender, said, asked, s = store(), mods = 
     }
     const payload = { kind: 'dm', handle: String(sender || ''), asked: !!asked, text: words };
     if (picture) payload.what = 'picture';
+    else if (stuck) payload.what = 'sticker';
     sends.push({ id, d, payload, opts: {} });
   }
   return deliver(sends, gone, s, send);

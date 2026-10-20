@@ -8,6 +8,11 @@
      { with, send: words }           send them a message
      { with, send, img, alt }        with a picture /cb/dm/image took, once
                                      the conversation is accepted
+     { with, send, sticker | avatar | chimera | patch: id, or jacket: true }
+                                     with a sticker of one of your own, once
+                                     the conversation is accepted
+     { with, react: id, emoji }      react to a message, or take yours back,
+                                     once the conversation is accepted
      { with, accept: true }          accept what they asked
      { with, reject: true }          reject it: emptied, and nobody is told
      { with, take: id }              take one of your messages back
@@ -21,7 +26,7 @@
    devices that switched on When somebody messages me (notifyDm), after it is
    in the conversation, so a slow push service never holds the press up. The
    moderators' list of reports is /cb/dm/reports. */
-import { readPass, forumReader, listDms, readDmWith, sendDm, acceptDm, rejectDm, takeDm, editDm, setDmOpen, blockDm,
+import { readPass, forumReader, listDms, readDmWith, sendDm, acceptDm, rejectDm, takeDm, editDm, reactDm, setDmOpen, blockDm,
   unblockDm, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it, as
@@ -33,7 +38,7 @@ export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'Messages only answer stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
-  if (!forumReader(who)) return json(403, { error: 'Claim your username first, in Profile on this radio: messages are for claimed usernames only, because an unclaimed handle is anybody’s who signs on with it.' });
+  if (!forumReader(who)) return json(403, { error: 'Claim your username first, under Account on this radio: messages are for claimed usernames only, because an unclaimed handle is anybody’s who signs on with it.' });
   const b = (await body(req)) || {};
   try {
     if (typeof b.open === 'boolean') {
@@ -54,10 +59,15 @@ export default async (req, context) => {
       return ok({ ...r, ...extra });
     };
     if (b.send !== undefined) {
-      const said = b.img != null ? { text: b.send, img: b.img, alt: b.alt } : b.send;
+      const kinds = ['sticker', 'avatar', 'chimera', 'patch', 'jacket'];
+      const said = b.img != null || kinds.some((k) => b[k] != null)
+        ? { text: b.send, img: b.img, alt: b.alt, sticker: b.sticker, avatar: b.avatar, chimera: b.chimera, patch: b.patch, jacket: b.jacket === true ? true : undefined }
+        : b.send;
       const r = await sendDm(who, handle, said);
       if (r.error === 'empty') return json(400, { error: 'Write something first.' });
-      if (r.error === 'accepted') return json(409, { error: `A picture can go once ${handle} has accepted the conversation. A first message is words only.` });
+      if (r.error === 'accepted') return json(409, { error: `A picture or a sticker can go once ${handle} has accepted the conversation. A first message is words only.` });
+      if (r.error === 'one') return json(400, { error: 'A message is one picture or one sticker, not two.' });
+      if (r.error === 'sticker') return json(400, { error: 'That is not one of yours to send as a sticker.' });
       if (r.error === 'picture') return json(400, { error: 'That picture did not come through. Add it again.' });
       if (r.error === 'long') return json(400, { error: `A message is at most ${MESSAGE_MAX} characters.` });
       if (r.error === 'self') return json(400, { error: 'Messages are for somebody else.' });
@@ -83,6 +93,14 @@ export default async (req, context) => {
     if (typeof b.take === 'string') {
       const r = await takeDm(who, handle, b.take);
       if (r.error) return json(404, { error: 'That message is not there any more, or is not yours.' });
+      return talk();
+    }
+    if (typeof b.react === 'string') {
+      const r = await reactDm(who, handle, b.react, b.emoji);
+      if (r.error === 'emoji') return json(400, { error: 'A reaction is one emoji, and only an emoji.' });
+      if (r.error === 'accepted') return json(409, { error: `Reactions are for a conversation ${handle} has accepted.` });
+      if (r.error === 'full') return json(409, { error: 'That message has as many different reactions as it can hold. Press one that is already there.' });
+      if (r.error) return json(404, { error: 'That message is not there any more.' });
       return talk();
     }
     if (typeof b.edit === 'string') {

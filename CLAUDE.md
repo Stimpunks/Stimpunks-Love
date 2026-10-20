@@ -1600,7 +1600,12 @@ is deleted. Forget me and deleting the username delete everything else, for both
 holds all of it, and refuses a count, a receipt, "seen", "typing", a timer or browser storage in the radio's
 Messages code. **The friendly edits are an unread number, read receipts, a typing indicator, a moderator's way
 into a conversation "for safety", and the radio listening for messages while the part is shut** "so nothing is
-missed"; the notification switch (*When somebody messages me*, `notifyDm`) is how somebody is told. **A conversation
+missed"; the notification switch (*When somebody messages me*, `notifyDm`) is how somebody is told. **A conversation's messages are the channel's** (Ryan's ask,
+2026-10-20): `dmMsg` draws `.cb-msg` with React and the dots (`moreMenu`, shared with the channel's
+`moreFor`), stickers and reactions are the channel's (`dmSticker`, `reactDm` with `toggleReaction`), and
+both wait, like pictures, until the conversation is accepted; `check-messages.py` holds that. Nothing in a
+conversation goes to the forums. **A picture can be pasted** into either box (`pastedPicture`), into the
+same preview and redraw. **A conversation
 takes pictures once it is accepted, and a request never does** (Ryan's call, 2026-10-19, after somebody could not send
 him a screenshot privately): `putDmImage` and `sendDm` refuse one until the conversation is open, so nobody's first
 contact with you is a picture. It is the channel's picture otherwise (the one redraw, `pictureCheck` shared with

@@ -26,6 +26,10 @@ WHAT IT REFUSES, and why each one is here:
     when conversations took pictures). A request is words only, so nobody's
     first contact with you is a picture: putDmImage and sendDm both refuse one
     until the conversation is open, and the radio offers Picture only then.
+  · A STICKER OR A REACTION BEFORE A CONVERSATION IS ACCEPTED (Ryan's ask,
+    2026-10-20, messages doing what the channel does), for the picture's
+    reason: sendDm and reactDm refuse both until it is open, and the radio
+    offers Sticker and React only then.
   · A PICTURE ANYBODY ELSE CAN FETCH, or that outlives its message.
     getDmImage serves one only to the two people in its conversation, and only
     while a message there holds it; every write to a conversation deletes the
@@ -113,6 +117,10 @@ def main():
     # Pictures: accepted conversations only, the two people only, gone with their message.
     if "if (img && !c.open) return { error: 'accepted' };" not in send or "if (!was.open) return { error: 'accepted' };" not in send:
         refuse("sendDm lets a picture into a conversation nobody has accepted. A request is words only.")
+    if "if (stick && !c.open) return { error: 'accepted' };" not in send or "if (stick && !was.open) return { error: 'accepted' };" not in send:
+        refuse("sendDm lets a sticker into a conversation nobody has accepted. A request is words only.")
+    if "if (!c.open) return { error: 'accepted' };" not in fn(part, "reactDm"):
+        refuse("reactDm lets somebody react to a request instead of answering it.")
     if ".open) return { error: 'accepted' };" not in fn(part, "putDmImage"):
         refuse("putDmImage takes a picture for a conversation nobody has accepted.")
     get = fn(part, "getDmImage")
@@ -180,6 +188,8 @@ def main():
         refuse("desk.js fetches a reported picture without a moderator pressing Show the picture.")
     if "this.dmPicBtn.hidden = !pics;" not in radio or "b.state === 'open'" not in radio:
         refuse("the radio offers Picture in a conversation nobody has accepted.")
+    if "this.dmStickBtn.hidden = !pics;" not in radio or "if (this.dmLive) acts.appendChild(this.reactBtn(" not in radio:
+        refuse("the radio offers Sticker or React in a conversation nobody has accepted.")
     sw = SW.read_text()
     if "d.kind === 'dm'" not in sw or "'/#cb=messages'" not in sw:
         refuse("cb-sw.js no longer shows a message's notification, or opens Messages from it.")

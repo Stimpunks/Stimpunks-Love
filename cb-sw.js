@@ -54,7 +54,8 @@ function say(d) {
     var sender = String(d.handle || 'Somebody').slice(0, 40);
     return Promise.resolve({ title: d.asked ? sender + ' asks to message you' : sender + ' sent you a message',
       body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.'
-        : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.' : 'Open Messages on the CB to read it.',
+        : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.'
+        : d.what === 'sticker' ? 'A sticker. Open Messages on the CB to see it.' : 'Open Messages on the CB to read it.',
       url: '/#cb=messages', tag: 'cb-dm-' + sender });
   }
   if (d.kind === 'test') {
