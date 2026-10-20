@@ -3783,7 +3783,7 @@ for (const etagOnRead of [true, false]) {
 /* ── Tasks ─────────────────────────────────────────────────────────────── */
 import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readTasks, taskViews, saveTaskView, removeTaskView,
   forgetTaskViews, taskAddress, TASK_VIEWS_KEEP, TASK_STATUSES, TASK_TAGS, taskRecurs, taskRecur, saveRecur, removeRecur,
-  makeRecurring, readRecurs, isoWeek, recurName, recurAfter } from './lib.mjs';
+  makeRecurring, readRecurs, isoWeek, recurName, recurAfter, tickTask, taskBoxes } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4020,5 +4020,56 @@ for (const etagOnRead of [true, false]) {
     assert.deepEqual(tasks.map((t) => t.recur + ' ' + t.on).sort(), [...new Set(tasks.map((t) => t.recur + ' ' + t.on))].sort(), 'a day’s task was made twice');
     assert.equal(tasks.length, 2);
     assert.deepEqual((await readRecurs(s)).map((r) => r.next).sort(), ['2026-10-30', '2026-10-31']);
+  });
+}
+
+test('a box in a task’s description ticks in place, one line, and only the box the page saw', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const body = 'Paid:\n\n- [ ] Chelsea **Adams**\n- [x] Norah\n  - [ ] nested\n> - [ ] quoted\n\n```\n- [ ] in code\n```\n1. [ ] numbered';
+  const t = (await saveTask(TRYAN, { name: 'Pay Employee Invoices', body }, s, T0, TMODS)).task;
+  assert.equal(t.ticks, true);
+  assert.deepEqual(t.blocks.find((b) => b.box).box.map((b) => b && [b.n, b.on, b.raw]), [[0, false, 'Chelsea **Adams**'], [1, true, 'Norah']]);
+  assert.match((await tickTask(TSAM, t.id, 0, 'Chelsea **Adams**', true, s, T0 + 1)).error, /directors and administrators/);
+  let r = await tickTask(TCHELSEA, t.id, 0, 'Chelsea **Adams**', true, s, T0 + 2);
+  assert.ok(r.task, r.error);
+  assert.equal(r.task.body, body.replace('- [ ] Chelsea', '- [x] Chelsea'), 'a tick changed more than its own box');
+  assert.deepEqual([r.task.edited, r.task.editedBy], [T0 + 2, 'Chelsea']);
+  r = await tickTask(TRYAN, t.id, 1, 'Norah', false, s, T0 + 3);
+  assert.equal(r.task.body.split('\n')[3], '- [ ] Norah');
+  for (const [n, text] of [[3, 'quoted'], [4, 'numbered'], [2, 'nested']]) assert.ok((await tickTask(TRYAN, t.id, n, text, true, s, T0 + 4)).task);
+  const now = (await readTasks(s))[0].body;
+  assert.ok(now.includes('> - [x] quoted') && now.includes('1. [x] numbered') && now.includes('  - [x] nested') && now.includes('- [ ] in code'), 'a box in a code block was counted, or one was missed');
+  // Ticking what is already ticked changes nothing and says nobody changed it.
+  const before = (await readTasks(s))[0];
+  assert.equal((await tickTask(TCHELSEA, t.id, 4, 'numbered', true, s, T0 + 5)).task.edited, before.edited);
+  // The wrong words, or a box that is not there, change nothing.
+  for (const [n, text] of [[0, 'Norah'], [9, 'nothing'], [-1, 'x'], [1.5, 'Norah']]) assert.ok((await tickTask(TRYAN, t.id, n, text, true, s, T0 + 6)).error);
+  assert.equal((await readTasks(s))[0].body, before.body);
+  assert.match((await tickTask(TRYAN, 'knotatask000', 0, 'x', true, s)).error, /deleted/);
+});
+
+test('a description whose boxes the reader and the lines disagree on is drawn, and not ticked', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal(taskBoxes('    - [ ] indented past a list').agree, false);
+  const t = (await saveTask(TRYAN, { name: 'Odd', body: '    - [ ] indented past a list' }, s, T0, TMODS)).task;
+  assert.equal(t.ticks, false);
+  assert.match((await tickTask(TRYAN, t.id, 0, 'indented past a list', true, s, T0 + 1)).error, /changed/);
+  assert.equal((await readTasks(s))[0].body, '    - [ ] indented past a list');
+  // Anywhere else the reader draws no boxes at all.
+  assert.deepEqual(parseBrass('- [ ] a')[0].items[0][0].c, [{ t: 'text', v: '[ ] a' }]);
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen boxes ticked at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: every tick told it worked is kept`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const body = Array.from({ length: 15 }, (_, i) => `- [ ] Box ${i}`).join('\n');
+    const t = (await saveTask(TRYAN, { name: 'Many', body }, s, T0, TMODS)).task;
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => tickTask(TCHELSEA, t.id, i, `Box ${i}`, true, s, T0 + i)));
+    const lines = (await readTasks(s))[0].body.split('\n');
+    told.forEach((r, i) => {
+      if (r.status === 'fulfilled' && r.value.task) assert.equal(lines[i], `- [x] Box ${i}`, `box ${i} was told it was ticked and is not`);
+      else if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    });
+    if (etagOnRead) assert.ok(lines.every((l) => l.startsWith('- [x]')));
   });
 }

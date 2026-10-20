@@ -11,6 +11,8 @@
          a new task, or a change to the one `id` names; only the fields sent change.
          espo: EspoCRM's id for a task brought over, so bringing it again changes it
          rather than making it twice; with it, t, done and by may say EspoCRM's own.
+     { action: 'tick', id, n, text, on }             checkbox n in a task's description ticked (on) or
+                                                     not; text is the words the page saw beside it
      { action: 'remove', id }                        a task deleted
      { action: 'preview', body }                     how a description will set
      { action: 'view-save', id?, name, address }     a saved filter: a name and the #/ or #/board
@@ -20,7 +22,7 @@
        startAfter?, dueAfter?, on? }                 a recurring task, new or changed; only the fields sent change
      { action: 'recur-remove', id }                  a recurring task deleted; the tasks it made stay
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
-import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, taskViews, saveTaskView,
+import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX } from '../cb/lib.mjs';
@@ -30,6 +32,12 @@ const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
   repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX };
+
+/* A task a recurring task made says which, while that recurring task is there. */
+async function withFrom(who, t) {
+  if (t && t.recur) { const r = await taskRecur(who, t.recur); t.from = r ? { id: r.id, name: r.name } : null; }
+  return t;
+}
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'Tasks only answer stimpunks.world.' }, QUIET);
@@ -59,8 +67,7 @@ export default async (req) => {
       }
       if (view === 'task') {
         const t = await taskOne(who, url.searchParams.get('id'));
-        // A task a recurring task made says which, while that recurring task is there.
-        if (t && t.recur) { const r = await taskRecur(who, t.recur); t.from = r ? { id: r.id, name: r.name } : null; }
+        if (t) await withFrom(who, t);
         return t ? json(200, { me, settings, people: taskPeople(), task: t }, QUIET) : json(404, { error: 'That task has been deleted.' }, QUIET);
       }
       return json(400, { error: 'Show what?' }, QUIET);
@@ -69,11 +76,15 @@ export default async (req) => {
     if (b.action === 'preview') {
       const text = cleanForumBody(b.body, TASK_BODY_MAX);
       if (!text) return json(400, { error: `Between one and ${TASK_BODY_MAX} characters.` }, QUIET);
-      return json(200, { blocks: parseBrass(text) }, QUIET);
+      return json(200, { blocks: parseBrass(text, { boxes: true }) }, QUIET);
     }
     if (b.action === 'save') {
       const r = await saveTask(who, b);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { task: r.task }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { task: await withFrom(who, r.task) }, QUIET);
+    }
+    if (b.action === 'tick') {
+      const r = await tickTask(who, String(b.id || ''), b.n, b.text, b.on);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { task: await withFrom(who, r.task) }, QUIET);
     }
     if (b.action === 'remove') {
       const r = await removeTask(who, String(b.id || ''));

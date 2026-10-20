@@ -720,9 +720,26 @@
     if (t.edited) fact('Changed', (t.editedBy ? t.editedBy + ', ' : '') + when(t.edited));
     view.appendChild(dl);
     var body = el('div', 'tk-body');
-    if (t.blocks && t.blocks.length) window.loveMarkdown.blocks(t.blocks, body, { top: 2, prefix: 'tk' });
+    // A checkbox in the description ticks in place, as EspoCRM's did: only that box's line changes.
+    var md = { top: 2, prefix: 'tk' };
+    if (t.ticks) md.box = function (bx, c) {
+      c.setAttribute('data-box', String(bx.n));
+      c.addEventListener('change', function () {
+        var on = c.checked, label = c.getAttribute('aria-label');
+        c.disabled = true;
+        call(null, { action: 'tick', id: t.id, n: bx.n, text: bx.raw, on: on }).then(function (r) {
+          if (r.status !== 200) { c.checked = !on; c.disabled = false; say(why(r, 'That did not save. Nothing was changed.')); return; }
+          drawTask(r.body.task);
+          var again = view.querySelector('input[data-box="' + bx.n + '"]');
+          if (again) again.focus();
+          say((on ? 'Ticked' : 'Unticked') + ' “' + label + '”.');
+        });
+      });
+    };
+    if (t.blocks && t.blocks.length) window.loveMarkdown.blocks(t.blocks, body, md);
     else body.appendChild(quiet('No description.'));
     view.appendChild(body);
+    if (!t.ticks && body.querySelector('input[type="checkbox"]')) view.appendChild(quiet('These boxes are ticked by editing the description: here, they are not where the description says they are.'));
     var tools = el('div', 'tk-row');
     var edit = el('a', 'cb-btn tk-small', 'Edit'); edit.href = '#/edit/' + t.id;
     tools.appendChild(edit);
@@ -803,7 +820,7 @@
       var text = el('textarea', 'cb-say tk-text'); text.rows = 9; text.maxLength = settings.bodyMax; text.value = value;
       field('tk-body', 'Description', text);
       text.setAttribute('aria-describedby', 'tk-body-hint');
-      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row.');
+      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself.');
       hint.id = 'tk-body-hint';
       form.appendChild(hint);
       var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;

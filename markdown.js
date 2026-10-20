@@ -22,6 +22,11 @@
              function given a picture node the server placed in the words,
              { id, alt }, that answers the element to stand there. Without
              one, a picture is its description, as words.
+     box     for a page whose words hold checkboxes (tasks, 2026-10-20; the
+             server marks them only where it is asked to): a function given a
+             box the server marked, { n, on, raw }, and its checkbox, which it
+             makes tickable. Without one, a box is drawn ticked or not, and
+             cannot be changed there. Each box is named by its item's words.
    ============================================================================= */
 (function () {
   'use strict';
@@ -67,7 +72,19 @@
       else if (b.t === 'ul' || b.t === 'ol') {
         e = el(b.t);
         if (b.t === 'ol' && b.start !== 1) e.start = b.start;
-        b.items.forEach(function (it) { var li = el('li'); blocks(it, li, o); e.appendChild(li); });
+        b.items.forEach(function (it, k) {
+          var li = el('li'); blocks(it, li, o);
+          var bx = b.box && b.box[k];
+          if (bx) {
+            var c = el('input'); c.type = 'checkbox'; c.checked = !!bx.on;
+            var first = li.firstElementChild && li.firstElementChild.tagName === 'P' ? li.firstElementChild : null;
+            c.setAttribute('aria-label', (first ? first.textContent : '').trim() || 'A box with no words beside it');
+            li.className = o.prefix + '-box';
+            if (o.box) o.box(bx, c); else c.disabled = true;
+            if (first) first.insertBefore(c, first.firstChild); else li.insertBefore(c, li.firstChild);
+          }
+          e.appendChild(li);
+        });
       } else if (b.t === 'table') {
         var wrap = el('div', o.prefix + '-table'); wrap.tabIndex = 0;
         e = el('table');
@@ -90,7 +107,7 @@
 
   window.loveMarkdown = {
     blocks: function (nodes, into, opts) {
-      blocks(nodes || [], into, { top: (opts && opts.top) || 2, prefix: (opts && opts.prefix) || 'md', pic: (opts && opts.pic) || null });
+      blocks(nodes || [], into, { top: (opts && opts.top) || 2, prefix: (opts && opts.prefix) || 'md', pic: (opts && opts.pic) || null, box: (opts && opts.box) || null });
     },
   };
 }());

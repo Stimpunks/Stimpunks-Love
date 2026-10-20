@@ -5251,7 +5251,12 @@ runs it too. **A made task carries `recur` and `on` and no maker**, and that pai
 `lib.test.mjs` races fifteen at once; missed days are each made (up to `TASK_CATCH_UP`), but **switched on again, one
 starts from its next day still to come**, because switched off was asked to make nothing. **One brought from EspoCRM
 arrives switched off**, so nothing is made twice while EspoCRM is still making its own; switching EspoCRM's off and
-ours on was the cut-over, made on 2026-10-20 with Ryan's go, so recurring tasks are made here and nowhere else now: **do not switch EspoCRM's back on** while ours are on. How often one can come round is `repeats` in `data/tasks.json`.
+ours on was the cut-over, made on 2026-10-20 with Ryan's go, so recurring tasks are made here and nowhere else now: **do not switch EspoCRM's back on** while ours are on. How often one can come round is `repeats` in `data/tasks.json`. **A checklist in a description ticks in place** (Ryan's ask,
+the same evening, after EspoCRM's): `parseBrass(body, { boxes: true })` marks `- [ ]` and `- [x]` items as boxes, for
+tasks only, so the forums, the board and the suggestion box still show `[ ]` as words; `markdown.js` draws a box
+read-only unless the page passes `box`. `tickTask` changes one line of the description, and only where the reader and
+a plain scan of the lines agree on every box (`taskBoxes`) and the box's words are the ones the page saw, so a tick can
+never land on another box; `make-tasks.py` holds both guards. The friendly edit is matching a box by its number alone.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

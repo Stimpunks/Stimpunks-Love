@@ -4512,7 +4512,7 @@ function tableCells(line) {
 }
 
 /* Block Markdown into nodes: h, p, ul, ol, quote, code, hr, table. */
-function brassBlocks(lines, depth = 0) {
+function brassBlocks(lines, depth = 0, ctx = null) {
   const out = [];
   let i = 0;
   while (i < lines.length) {
@@ -4538,7 +4538,7 @@ function brassBlocks(lines, depth = 0) {
         body.push(lines[i].replace(/^ {0,3}> ?/, ''));
         i++;
       }
-      out.push({ t: 'quote', c: depth < 8 ? brassBlocks(body, depth + 1) : [{ t: 'p', c: brassInline(body.join('\n')) }] });
+      out.push({ t: 'quote', c: depth < 8 ? brassBlocks(body, depth + 1, ctx) : [{ t: 'p', c: brassInline(body.join('\n')) }] });
       continue;
     }
     if (line.includes('|') && i + 1 < lines.length && /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(lines[i + 1]) && lines[i + 1].includes('-')) {
@@ -4553,13 +4553,17 @@ function brassBlocks(lines, depth = 0) {
     }
     if ((m = LIST_ITEM.exec(line))) {
       const ordered = /\d/.test(m[2]);
-      const items = [];
+      const items = [], boxes = [];
       const start = ordered ? parseInt(m[2], 10) : 1;
       while (i < lines.length) {
         const it = LIST_ITEM.exec(lines[i]);
         if (!it || /\d/.test(it[2]) !== ordered) break;
         const indent = it[1].length + it[2].length + it[3].length;
         const body = [it[4]];
+        // A checkbox, "- [ ]" or "- [x]", where the caller asks for them (tasks): numbered in the order it is met.
+        const bx = ctx && /^\[([ xX])\](?: +(.*)|$)/.exec(it[4]);
+        if (bx) { body[0] = bx[2] || ''; boxes.push({ n: ctx.boxes.length, on: bx[1] !== ' ', raw: (bx[2] || '').trim() }); ctx.boxes.push((bx[2] || '').trim()); }
+        else boxes.push(null);
         i++;
         while (i < lines.length) {
           const next = lines[i];
@@ -4572,10 +4576,12 @@ function brassBlocks(lines, depth = 0) {
           if (LIST_ITEM.test(next) || isBlockStart(next)) break;
           body.push(next); i++;                                   // a lazy continuation line
         }
-        items.push(depth < 8 ? brassBlocks(body, depth + 1) : [{ t: 'p', c: brassInline(body.join('\n')) }]);
+        items.push(depth < 8 ? brassBlocks(body, depth + 1, ctx) : [{ t: 'p', c: brassInline(body.join('\n')) }]);
         while (i < lines.length && !lines[i].trim() && i + 1 < lines.length && LIST_ITEM.test(lines[i + 1])) i++;
       }
-      out.push(ordered ? { t: 'ol', start, items } : { t: 'ul', items });
+      const list = ordered ? { t: 'ol', start, items } : { t: 'ul', items };
+      if (boxes.some(Boolean)) list.box = boxes;
+      out.push(list);
       continue;
     }
     const para = [];
@@ -4585,8 +4591,30 @@ function brassBlocks(lines, depth = 0) {
   return out;
 }
 
-export function parseBrass(body) {
-  return brassBlocks(String(body || '').split('\n'));
+export function parseBrass(body, opts = null) {
+  return brassBlocks(String(body || '').split('\n'), 0, opts && opts.boxes ? { boxes: [] } : null);
+}
+
+/* A task's checkboxes, two ways: the reader's, in the order they are drawn,
+   and a plain scan of the lines, which is what a tick changes. A tick is only
+   offered where the two agree, box for box and word for word, so a box can
+   never be drawn in one place and ticked in another; where they disagree (a box
+   in a code block, an item indented past what the reader takes), the boxes are
+   drawn and the description is the way to change them. */
+const BOX_LINE = /^((?:[ \t]*>)*[ \t]*(?:[-*+]|\d{1,9}[.)]) +)\[([ xX])\](?= |$)/;
+export function taskBoxes(body) {
+  const text = String(body || ''), lines = text.split('\n'), ctx = { boxes: [] }, found = [];
+  brassBlocks(lines, 0, ctx);
+  let fence = null;
+  lines.forEach((line, k) => {
+    const f = /^(?:[ \t]*>)*[ \t]*(```|~~~)/.exec(line);
+    if (f) { fence = fence === null ? f[1] : (fence === f[1] ? null : fence); return; }
+    if (fence) return;
+    const m = BOX_LINE.exec(line);
+    if (m) found.push({ k, at: m[1].length, raw: line.slice(m[1].length + 3).trim() });
+  });
+  const agree = found.length === ctx.boxes.length && found.every((b, j) => b.raw === ctx.boxes[j]);
+  return { agree, lines, found };
 }
 
 /* The feed's HTML, built from the same nodes and escaping every word. */
@@ -7126,7 +7154,11 @@ export function shapeTask(t, whole = false) {
     edited: t.edited || null, editedBy: t.editedBy || null };
   if (t.espo) out.espo = t.espo;
   if (t.recur) { out.recur = t.recur; out.on = t.on; }
-  if (whole) { out.body = t.body || ''; out.blocks = parseBrass(t.body || ''); } else out.words = [...(t.body || '')].length;
+  if (whole) {
+    out.body = t.body || '';
+    out.blocks = parseBrass(t.body || '', { boxes: true });
+    out.ticks = taskBoxes(t.body || '').agree;
+  } else out.words = [...(t.body || '')].length;
   return out;
 }
 
@@ -7182,6 +7214,34 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods = rea
     const copy = list.slice();
     if (had) copy[k] = next; else copy.push(next);
     return copy;
+  }, s);
+  if (why) return { error: why };
+  return { task: shapeTask(saved, true) };
+}
+
+/* A checkbox in a task's description ticked or unticked in place, as EspoCRM's
+   could be: box `n`, whose words the page saw were `text`, set to `on`. Only
+   that line of the description changes, laid over the description as it is
+   now, so two people ticking different boxes at once both keep theirs; if the
+   box has moved or its words changed since the page drew it, nothing changes
+   and the answer says to look again. A tick is a change, so it says who. */
+export async function tickTask(who, id, n, text, on, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (!Number.isInteger(n) || n < 0 || typeof text !== 'string' || typeof on !== 'boolean') return { error: 'Tick which box?' };
+  let saved = null, why = null;
+  await updateList(TASKS, 'tasks', (list) => {
+    saved = null; why = null;
+    const k = list.findIndex((x) => x.id === taskId(id));
+    if (k < 0) { why = 'That task has been deleted.'; return null; }
+    const b = taskBoxes(list[k].body || '');
+    const box = b.agree ? b.found[n] : null;
+    if (!box || box.raw !== text.trim()) { why = 'That checkbox has changed since the task was drawn. Look again.'; return null; }
+    const line = b.lines[box.k];
+    if ((line[box.at + 1] !== ' ') === on) { saved = list[k]; return null; }
+    const lines = b.lines.slice();
+    lines[box.k] = line.slice(0, box.at) + (on ? '[x]' : '[ ]') + line.slice(box.at + 3);
+    saved = { ...list[k], body: lines.join('\n'), edited: now, editedBy: who.handle };
+    const copy = list.slice(); copy[k] = saved; return copy;
   }, s);
   if (why) return { error: why };
   return { task: shapeTask(saved, true) };
@@ -7410,7 +7470,7 @@ export function shapeRecur(r, whole = false) {
     coming.push({ on: d, name: recurName(r.name, d), start: addDays(d, r.startAfter || 0), due: addDays(d, r.dueAfter || 0) });
   }
   out.coming = coming;
-  if (whole) { out.body = r.body || ''; out.blocks = parseBrass(r.body || ''); } else out.words = [...(r.body || '')].length;
+  if (whole) { out.body = r.body || ''; out.blocks = parseBrass(r.body || '', { boxes: true }); } else out.words = [...(r.body || '')].length;
   return out;
 }
 

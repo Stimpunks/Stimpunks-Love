@@ -31,6 +31,9 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · A RECURRING TASK'S TASK MADE UNDER SOMEBODY'S NAME, without where it came
     from, or twice for one day; one brought from EspoCRM arriving switched on
     beside EspoCRM's own; and cb-recur.mjs not running every hour.
+  · A TICK THAT CAN LAND ON ANOTHER BOX: tickTask changes a box only where the
+    reader and a scan of the lines agree, and only when its words are the ones
+    the page saw.
   · A SAVED FILTER KEPT WITH MORE THAN ITS ID, NAME AND ADDRESS, or left
     behind when its person uses Forget me or deletes the username.
   · privacy.html without its tasks section, and the page without its link to it.
@@ -126,7 +129,7 @@ def check_lib(lib):
     if "console." in code:
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
     for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
-                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur"):
+                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -145,6 +148,9 @@ def check_lib(lib):
     mk = fn(sec, "makeRecurring")
     if "there.has(" not in mk or "today(" not in mk:
         problems.append(f"{LIB.name}: makeRecurring must skip a task already made for that day, and count days on the street's clock.")
+    tk = fn(sec, "tickTask")
+    if "b.agree ? b.found[n] : null" not in tk or "box.raw !== text.trim()" not in tk:
+        problems.append(f"{LIB.name}: tickTask must tick only a box the reader and the lines agree on, and only when its words are the ones the page saw.")
     sr = fn(sec, "saveRecur")
     if "on: !espo" not in sr:
         problems.append(f"{LIB.name}: a recurring task brought from EspoCRM must arrive switched off, so it makes nothing beside EspoCRM's.")

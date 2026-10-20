@@ -115,6 +115,10 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-switch { justify-self: start; }
 .tk-view > h3 { font-size: 18px; color: var(--cb-steel); margin-top: 6px; }
 
+/* A CHECKBOX IN A DESCRIPTION: the item's own marker gives way to its box. */
+.tk-box { list-style: none; }
+.tk-box > p > input[type="checkbox"], .tk-box > input[type="checkbox"] { width: 18px; height: 18px; margin: 0 8px 0 0; vertical-align: -3px; accent-color: var(--cb-amber); }
+
 /* ONE TASK: its facts in two columns, then its description as markdown.js builds it. */
 .tk-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 16px; margin: 0; }
 .tk-facts dt { font-weight: 700; color: var(--cb-steel-2); }
