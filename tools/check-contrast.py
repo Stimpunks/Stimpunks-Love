@@ -5220,6 +5220,96 @@ for _theme, _hex, _what in CB_ORNAMENT:
                         f"{ratio(_hex, CB_SCHEMES[_theme]['case']):.2f} on its case. A drawing in "
                         "the radio's trim, aria-hidden, and it carries no word.")
 
+# PROFILE EFFECTS IN PALETTES OF THEIR OWN (2026-10-19). Each ink below is only
+# ever part of a scene drawn over somebody's profile, aria-hidden and carrying no
+# word, so it is ornament; its measurement on its own scene's ground is worked out
+# here rather than typed, so a changed ground cannot leave a stale number.
+PFX_ORNAMENT = [
+    ("Howling Wolf", "the night sky", "#0D1830", [
+        ("#0D1830", "the night sky itself"),
+        ("#1C2D4E", "the sky low down, laid over the night"),
+        ("#F1EEDA", "the full moon"),
+        ("#D3CFB6", "the seas on the moon"),
+        ("#A8BCDD", "the moon's halo and the howl going out towards it, laid thin"),
+        ("#DCE5F6", "a star"),
+        ("#33476B", "thin cloud across the moon"),
+        ("#070D1A", "the far ridge, the wolf's open mouth and its nose, held low on purpose"),
+        ("#141E31", "the crag the wolf sits on, its top edged in the moon's light"),
+        ("#0A1222", "a pine on the ridge, held low on purpose"),
+        ("#2C3648", "the wolf, a silhouette against the moon"),
+        ("#56657E", "the wolf's chest and ear"),
+        ("#C3D2E8", "the moon's light along the wolf's front and the crag"),
+    ]),
+    ("Starward Dreaming", "the night sky", "#0A0A22", [
+        ("#0A0A22", "the night sky itself"),
+        ("#04040F", "the sky darkening to the trees"),
+        ("#2E3168", "the Milky Way, blurred"),
+        ("#6A70B4", "the bright core of the Milky Way, blurred"),
+        ("#F5F2FF", "a white star"),
+        ("#A9B8FF", "a blue star"),
+        ("#FFE2AE", "a warm star, and an ember become one"),
+        ("#030409", "the woods and the crowns round the clearing, held low on purpose"),
+        ("#170F19", "a trunk, held low on purpose"),
+        ("#8E4628", "the fire's light up a trunk"),
+        ("#D2763A", "the fire's light at a trunk's foot"),
+        ("#FF9B3D", "a flame"),
+        ("#FFD47E", "the heart of a flame"),
+        ("#E0502A", "the foot of a flame"),
+        ("#FFB65C", "an ember"),
+        ("#FF8A3A", "the fire's glow and an ember's, laid thin and blurred"),
+    ]),
+    ("Leaping Dolphins", "the sea", "#1B2B50", [
+        ("#2E2350", "the sky high up"),
+        ("#C24F6E", "the sunset's rose"),
+        ("#F59A55", "the sky at the horizon, and the horizon line"),
+        ("#FFD983", "the sun"),
+        ("#FFB24E", "the sun's edge and its glow"),
+        ("#1B2B50", "the sea itself"),
+        ("#2C4677", "the sea near the horizon, and its swell"),
+        ("#FFCB78", "a dapple of sunlight on the sea, and the sun along a dolphin's back"),
+        ("#F68D6D", "a rosier dapple, and a streak of cloud"),
+        ("#3A4868", "a dolphin, carried by its outline"),
+        ("#A7B2CB", "a dolphin's belly"),
+        ("#121A33", "a dolphin's outline and eye, held low on purpose"),
+        ("#EDF2FA", "spray where a dolphin breaks the surface"),
+        ("#1A1430", "a gull against the sunset"),
+    ]),
+    ("Autumn Falls", "the afternoon sky", "#F7D9A0", [
+        ("#F7D9A0", "the afternoon sky itself"),
+        ("#F2B872", "the warmer sky low down"),
+        ("#4B2F1F", "the tree's bark"),
+        ("#7A4E33", "the light down the bark"),
+        ("#C93A2B", "a red leaf"),
+        ("#E8772B", "an orange leaf"),
+        ("#F2B43C", "a gold leaf, and an acorn"),
+        ("#F6D55E", "a yellow leaf"),
+        ("#96471F", "a rust leaf, and the far trees, laid thin"),
+        ("#6E3B1E", "the inside of a pile of leaves, an acorn's cup"),
+        ("#6F8B3B", "the grass"),
+        ("#2B1A12", "every outline, a face's eyes and smile"),
+        ("#FFF0C8", "the low sun's light, blurred"),
+        ("#F4D7C2", "a child's skin"),
+        ("#E3B590", "a child's skin"),
+        ("#C48C63", "a child's skin"),
+        ("#92603F", "a child's skin"),
+        ("#5D3A27", "a child's skin"),
+        ("#22170F", "a child's hair"),
+        ("#6B3A1E", "a child's hair"),
+        ("#D8A441", "a child's hair"),
+        ("#A8402A", "a child's hair"),
+        ("#2E8686", "a child's jumper"),
+        ("#3E6DB0", "a child's jumper, and the ear defenders"),
+        ("#7B4F9C", "a child's jumper"),
+        ("#D25A7A", "a child's jumper, and the ties in a child's bunches"),
+        ("#2F4E7A", "the wheelchair's frame and hand rims"),
+    ]),
+]
+for _effect, _where, _ground, _inks in PFX_ORNAMENT:
+    for _hex, _what in _inks:
+        ORNAMENT.setdefault(_hex.lower(), f"profile effect {_effect}: {_what}, "
+                            f"{ratio(_hex, _ground):.2f} on {_where}. Drawn over a profile, "
+                            "aria-hidden, and it carries no word.")
+
 # MEASURED MEANS "IN A PAIR", not "appears somewhere in this file". The first
 # version scanned the whole source, which meant the ORNAMENT list below counted
 # its own entries as measured and the check passed while doing nothing at all --

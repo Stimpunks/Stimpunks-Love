@@ -1102,6 +1102,182 @@ ol.cb-md-list { list-style: decimal; }
   12.6% { opacity: .9; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
   14.2%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)); }
 }
+/* EFFECTS IN PALETTES OF THEIR OWN (2026-10-19): Howling Wolf, Starward
+   Dreaming, Leaping Dolphins and Autumn Falls. Their banners move only where
+   drawings move, like every effect's, and each opening runs on the Lagoon's
+   sixty-second clock, about nine seconds of every sixty, its washes fading
+   over a second or more. A part drawn only for the still picture says
+   fx-still and goes where drawings move, so nothing stands frozen beside the
+   same thing moving. */
+:host([data-motion="on"]) .fx-still { display: none; }
+:host([data-motion="on"]) .fx-drift { animation: cb-fx-drift var(--t, 38s) ease-in-out var(--d, 0s) infinite alternate; }
+@keyframes cb-fx-drift { from { transform: translateX(-14px); } to { transform: translateX(14px); } }
+@keyframes cb-mo-fx-wash { 0% { opacity: 0; } 2.5%, 12.5% { opacity: 1; } 15.5%, 100% { opacity: 0; } }
+@keyframes cb-mo-fx-star { 0%, 1% { opacity: 0; } 4% { opacity: 1; } 6.5% { opacity: .6; } 9% { opacity: 1; } 11.5% { opacity: .75; } 14.5%, 100% { opacity: 0; } }
+/* HOWLING WOLF. In the banner the wolf lowers its head and raises it again
+   every sixteen seconds, and howls while it is up, in rings going out towards
+   the moon. In the opening the night comes up, the moon rises behind the crag,
+   the wolf raises its head and howls, and two wolves on the far ridge answer.
+   A head turns about its shoulders, the middle of its pivot's box. */
+.fx-wf-nod, .fx-mo-wf-nod, .fx-mo-wf-far, .fx-mo-wf-moon { transform-box: fill-box; transform-origin: center; }
+.fx-wf-howl, .fx-mo-wf-howl, .fx-mo-wf-farhowl { transform-box: fill-box; transform-origin: 0 50%; }
+:host([data-motion="on"]) .fx-wf-nod { animation: cb-fx-wf-nod 16s ease-in-out infinite; }
+:host([data-motion="on"]) .fx-wf-howl { animation: cb-fx-wf-howl 16s ease-out var(--d, 0s) infinite both; }
+@keyframes cb-fx-wf-nod { 0%, 30% { transform: rotate(0); } 37%, 84% { transform: rotate(38deg); } 91%, 100% { transform: rotate(0); } }
+@keyframes cb-fx-wf-howl { 0% { opacity: 0; transform: translateX(0) scale(.7); } 3% { opacity: 1; } 14%, 100% { opacity: 0; transform: translateX(12px) scale(1.3); } }
+.pf-fx__wf-night { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; }
+.pf-fx__wf-star { position: absolute; display: block; line-height: 0; opacity: 0; }
+.pf-fx__wf-ridge { position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 30%; opacity: 0; }
+.pf-fx__wf-crag { position: absolute; right: 0; bottom: 0; display: block; height: 90%; width: auto; aspect-ratio: 300 / 340; max-width: 100%; overflow: visible; opacity: 0; }
+:host([data-motion="on"]) .pf-fx__wf-night, :host([data-motion="on"]) .pf-fx__wf-ridge { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__wf-star { animation: cb-mo-fx-star 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__wf-crag { animation: cb-mo-wf-crag 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-wf-moon { animation: cb-mo-wf-moon 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-wf-nod { animation: cb-mo-wf-nod 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-wf-howl { animation: cb-mo-wf-howl 60s ease-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-mo-wf-far { animation: cb-mo-wf-far 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-mo-wf-farhowl { animation: cb-mo-wf-farhowl 60s ease-out var(--d, 0s) infinite both; }
+@keyframes cb-mo-wf-crag { 0%, 1% { opacity: 0; transform: translateY(5%); } 3.5%, 12.5% { opacity: 1; transform: translateY(0); } 15.5%, 100% { opacity: 0; transform: translateY(0); } }
+@keyframes cb-mo-wf-moon { 0%, .5% { opacity: 0; transform: translateY(24%); } 5%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes cb-mo-wf-nod { 0%, 4.4% { transform: rotate(40deg); } 6.6%, 100% { transform: rotate(0); } }
+@keyframes cb-mo-wf-howl { 0%, 6.8% { opacity: 0; transform: translateX(0) scale(.7); } 7.4% { opacity: 1; } 10.4%, 100% { opacity: 0; transform: translateX(34px) scale(1.6); } }
+@keyframes cb-mo-wf-far { 0%, 8.2% { transform: rotate(36deg); } 9.6%, 13% { transform: rotate(0); } 15%, 100% { transform: rotate(36deg); } }
+@keyframes cb-mo-wf-farhowl { 0%, 9.8% { opacity: 0; transform: translateX(0) scale(.7); } 10.3% { opacity: 1; } 12.6%, 100% { opacity: 0; transform: translateX(26px) scale(1.5); } }
+/* STARWARD DREAMING. THE FLAMES ARE HELD UNDER THE FLASH LINE, the cabin's
+   candles' rule: a flame sways on a time of its own out of SW_FLICKER in
+   profile.js, each half of a sway at least four tenths of a second, never in
+   step with another, and its brightness moves by a tenth at most, which
+   make-profile.py reads off cb-fx-sw-flicker. The embers rise, slowing as they
+   go, and cool into stars on the way up. */
+.fx-sw-flame { transform-box: fill-box; transform-origin: 50% 100%; }
+:host([data-motion="on"]) .fx-sw-flame { animation: cb-fx-sw-flicker var(--t, .7s) ease-in-out var(--d, 0s) infinite alternate; }
+@keyframes cb-fx-sw-flicker { from { transform: scale(1.04, .9) translateX(-.4px); opacity: .9; } to { transform: scale(.96, 1.07) translateX(.4px); opacity: 1; } }
+:host([data-motion="on"]) .fx-sw-rise { animation: cb-fx-sw-rise var(--t, 7s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-sw-ember { animation: cb-fx-sw-ember var(--t, 7s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-sw-star { animation: cb-fx-sw-star var(--t, 7s) linear var(--d, 0s) infinite both; }
+@keyframes cb-fx-sw-rise {
+  0% { opacity: 0; transform: translate(0, 0); animation-timing-function: cubic-bezier(.3, .55, .45, 1); }
+  6% { opacity: 1; }
+  70% { transform: translate(var(--sx, 0px), var(--rise, -60px)); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--sx, 0px), var(--rise, -60px)); }
+}
+@keyframes cb-fx-sw-ember { 0%, 30% { opacity: 1; } 55%, 100% { opacity: 0; } }
+@keyframes cb-fx-sw-star { 0%, 36% { opacity: 0; } 62%, 100% { opacity: 1; } }
+:host([data-motion="on"]) .fx-sw-pe { animation: cb-fx-sw-pe var(--t, 24s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-sw-ps { animation: cb-fx-sw-ps var(--t, 24s) linear var(--d, 0s) infinite both; }
+@keyframes cb-fx-sw-pe { 0%, 14% { opacity: 1; } 26%, 100% { opacity: 0; } }
+@keyframes cb-fx-sw-ps { 0%, 17% { opacity: 0; } 28%, 100% { opacity: 1; } }
+.pf-fx__sw-sky, .pf-fx__sw-woods { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; }
+.pf-fx__sw-fire { position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 16%; overflow: visible; opacity: 0; }
+.pf-fx__sw-embers { position: absolute; inset: 0; opacity: 0; }
+.pf-fx__sw-star, .pf-fx__sw-ember, .pf-fx__sw-fall { position: absolute; display: block; line-height: 0; opacity: 0; }
+.fx-mo-sw-fire { transform-box: fill-box; transform-origin: 50% 100%; }
+:host([data-motion="on"]) .pf-fx__sw-sky, :host([data-motion="on"]) .pf-fx__sw-fire, :host([data-motion="on"]) .pf-fx__sw-embers { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__sw-star { animation: cb-mo-fx-star 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__sw-woods { animation: cb-mo-sw-woods 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-sw-fire { animation: cb-mo-sw-fire 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__sw-ember { animation: cb-mo-sw-ember 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-sw-me { animation: cb-mo-sw-me 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-sw-ms { animation: cb-mo-sw-ms 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__sw-fall { animation: cb-mo-sw-fall 60s ease-in infinite both; }
+@keyframes cb-mo-sw-woods { 0% { opacity: 0; transform: scale(1.3); } 3.5%, 12.5% { opacity: 1; transform: scale(1); } 15.5%, 100% { opacity: 0; transform: scale(1); } }
+@keyframes cb-mo-sw-fire { 0%, 1.5% { transform: scaleY(0); } 4.5%, 11% { transform: scaleY(1); } 15%, 100% { transform: scaleY(0); } }
+@keyframes cb-mo-sw-ember {
+  0%, 2% { opacity: 0; transform: translate(0, 0); animation-timing-function: cubic-bezier(.3, .55, .45, 1); }
+  2.6% { opacity: 1; }
+  8.6% { transform: translate(calc(var(--sx, 0) * 1cqw), calc(var(--rise, -60) * 1cqh)); }
+  12% { opacity: 1; }
+  14.5%, 100% { opacity: 0; transform: translate(calc(var(--sx, 0) * 1cqw), calc(var(--rise, -60) * 1cqh)); }
+}
+@keyframes cb-mo-sw-me { 0%, 5% { opacity: 1; } 7.6%, 100% { opacity: 0; } }
+@keyframes cb-mo-sw-ms { 0%, 5.6% { opacity: 0; } 8%, 100% { opacity: 1; } }
+@keyframes cb-mo-sw-fall { 0%, 8.8% { opacity: 0; transform: translate(0, 0); } 9.3% { opacity: .95; } 11%, 100% { opacity: 0; transform: translate(-34cqw, 20cqh); } }
+/* LEAPING DOLPHINS. A leap is three movements on one clock: across, at an
+   even pace; up and down, slowing to the top of the arc and quickening off it,
+   which makes the arc; and a turn from nose up to nose down. Below the surface
+   the dolphin is clipped away, so it comes out of the water and goes back in,
+   and a splash comes up where it does each, over a second or more. */
+.fx-dp-r { transform-box: fill-box; transform-origin: center; }
+.fx-dp-in, .fx-dp-out { transform-box: fill-box; transform-origin: 50% 100%; }
+:host([data-motion="on"]) .fx-dp-x { animation: cb-fx-dp-x var(--t, 12s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-dp-y { animation: cb-fx-dp-y var(--t, 12s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-dp-r { animation: cb-fx-dp-r var(--t, 12s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-dp-in { animation: cb-fx-dp-in var(--t, 12s) ease-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-dp-out { animation: cb-fx-dp-out var(--t, 12s) ease-out var(--d, 0s) infinite both; }
+@keyframes cb-fx-dp-x { 0% { transform: translateX(calc(var(--dx, 30px) * -1.55)); } 34%, 100% { transform: translateX(calc(var(--dx, 30px) * 1.55)); } }
+@keyframes cb-fx-dp-y {
+  0% { transform: translateY(calc(var(--dy, 20px) * 2.4)); animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
+  17% { transform: translateY(0); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
+  34%, 100% { transform: translateY(calc(var(--dy, 20px) * 2.4)); }
+}
+@keyframes cb-fx-dp-r { 0% { transform: rotate(-62deg); } 34%, 100% { transform: rotate(62deg); } }
+@keyframes cb-fx-dp-in { 0%, 4.6% { opacity: 0; transform: scale(.4); } 7.6% { opacity: .9; } 17%, 100% { opacity: 0; transform: scale(1.3); } }
+@keyframes cb-fx-dp-out { 0%, 26.6% { opacity: 0; transform: scale(.4); } 29.6% { opacity: .9; } 39%, 100% { opacity: 0; transform: scale(1.3); } }
+.pf-fx__dp-sky { position: absolute; left: 0; top: 0; display: block; width: 100%; height: 62%; opacity: 0; }
+.pf-fx__dp-sea { position: absolute; left: 0; top: 62%; display: block; width: 100%; height: 38%; opacity: 0; }
+.pf-fx__dp-sun { position: absolute; left: 50%; top: 62%; display: block; width: 26%; aspect-ratio: 1; opacity: 0; }
+.pf-fx__dp-sun svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.pf-fx__dp-pod { position: absolute; left: 0; top: 0; width: 100%; height: 86%; overflow: hidden; container-type: size; }
+.pf-fx__dp-leap, .pf-fx__dp-splash, .pf-fx__dp-leap span { position: absolute; display: block; width: 0; height: 0; }
+.pf-fx__dp-leap span { left: 0; top: 0; }
+.pf-fx__dp-leap svg, .pf-fx__dp-splash svg { position: absolute; display: block; overflow: visible; }
+.pf-fx__dp-splash { opacity: 0; }
+:host([data-motion="on"]) .pf-fx__dp-sky, :host([data-motion="on"]) .pf-fx__dp-sea { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__dp-sun { animation: cb-mo-dp-sun 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .fx-mo-dp-x { animation: cb-mo-dp-x 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-mo-dp-y { animation: cb-mo-dp-y 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-mo-dp-r { animation: cb-mo-dp-r 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__dp-splash--in { animation: cb-mo-dp-in 60s ease-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__dp-splash--out { animation: cb-mo-dp-out 60s ease-out var(--d, 0s) infinite both; }
+@keyframes cb-mo-dp-sun { 0% { opacity: 0; transform: translate(-50%, -58%); } 3%, 12.5% { opacity: 1; } 15.5%, 100% { opacity: 0; transform: translate(-50%, -44%); } }
+@keyframes cb-mo-dp-x { 0%, 4% { transform: translateX(calc(var(--dx, 10) * -1.55cqw)); } 8.4%, 100% { transform: translateX(calc(var(--dx, 10) * 1.55cqw)); } }
+@keyframes cb-mo-dp-y {
+  0%, 4% { transform: translateY(calc(var(--dy, 30) * 2.4cqh)); animation-timing-function: cubic-bezier(.333, .667, .667, 1); }
+  6.2% { transform: translateY(0); animation-timing-function: cubic-bezier(.333, 0, .667, .333); }
+  8.4%, 100% { transform: translateY(calc(var(--dy, 30) * 2.4cqh)); }
+}
+@keyframes cb-mo-dp-r { 0%, 4% { transform: rotate(-62deg); } 8.4%, 100% { transform: rotate(62deg); } }
+@keyframes cb-mo-dp-in { 0%, 4.4% { opacity: 0; transform: scale(.4); } 5.6% { opacity: .95; } 8%, 100% { opacity: 0; transform: scale(1.4); } }
+@keyframes cb-mo-dp-out { 0%, 7.2% { opacity: 0; transform: scale(.4); } 8.4% { opacity: .95; } 10.8%, 100% { opacity: 0; transform: scale(1.4); } }
+/* AUTUMN FALLS. A leaf falls at an even pace and swings from side to side as
+   it goes; a child ducks into its pile and pops up again with leaves flying;
+   the crown sways a degree each way. In the opening the piles grow as the
+   leaves land, and the children pop up once they are full and duck back down
+   as it fades. */
+.fx-au-swing, .fx-au-toss, .fx-mo-au-toss { transform-box: fill-box; transform-origin: center; }
+.fx-au-sway, .fx-mo-au-pile { transform-box: fill-box; transform-origin: 50% 100%; }
+:host([data-motion="on"]) .fx-au-fall { animation: cb-fx-au-fall var(--t, 9s) linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-au-swing { animation: cb-fx-au-swing var(--s, 3s) ease-in-out infinite; }
+:host([data-motion="on"]) .fx-au-sway { animation: cb-fx-au-sway 8s ease-in-out infinite; }
+:host([data-motion="on"]) .fx-au-pop { animation: cb-fx-au-pop var(--t, 9s) ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-au-toss { animation: cb-fx-au-toss var(--t, 9s) ease-out var(--d, 0s) infinite both; }
+@keyframes cb-fx-au-fall { 0% { opacity: 0; transform: translate(0, calc(var(--run, 40px) * -.5)); } 8%, 86% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--sx, 0px), var(--run, 40px)); } }
+@keyframes cb-fx-au-swing { 0%, 100% { transform: translateX(-4px) rotate(-26deg); } 50% { transform: translateX(4px) rotate(26deg); } }
+@keyframes cb-fx-au-sway { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
+@keyframes cb-fx-au-pop { 0%, 6% { transform: translateY(var(--sink, 20px)); } 11% { transform: translateY(-2px); } 13%, 62% { transform: translateY(0); } 70%, 100% { transform: translateY(var(--sink, 20px)); } }
+@keyframes cb-fx-au-toss { 0%, 9% { opacity: 0; transform: translate(0, 0) rotate(0); } 12% { opacity: 1; } 32%, 100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -20px)) rotate(220deg); } }
+.pf-fx__au-wash { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; }
+.pf-fx__au-tree { position: absolute; right: -4%; bottom: 0; display: block; height: 100%; width: auto; aspect-ratio: 300 / 420; max-width: 64%; overflow: visible; opacity: 0; }
+.pf-fx__au-leaves { position: absolute; inset: 0; opacity: 0; }
+.pf-fx__au-fall { position: absolute; display: block; line-height: 0; opacity: 0; }
+.pf-fx__au-piles { position: absolute; left: 0; bottom: 0; display: block; width: 78%; height: 40%; overflow: visible; opacity: 0; }
+:host([data-motion="on"]) .pf-fx__au-wash, :host([data-motion="on"]) .pf-fx__au-leaves, :host([data-motion="on"]) .pf-fx__au-piles { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__au-tree { animation: cb-mo-au-tree 60s ease-out infinite both; }
+:host([data-motion="on"]) .pf-fx__au-fall { animation: cb-mo-au-fall 60s linear var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-mo-au-pile { animation: cb-mo-au-pile 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-au-pop { animation: cb-mo-au-pop 60s ease-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .fx-mo-au-toss { animation: cb-mo-au-toss 60s ease-out var(--d, 0s) infinite both; }
+@keyframes cb-mo-au-tree { 0% { opacity: 0; transform: translateY(4%); } 3%, 12.5% { opacity: 1; transform: translateY(0); } 15.5%, 100% { opacity: 0; transform: translateY(0); } }
+@keyframes cb-mo-au-fall {
+  0%, 1% { opacity: 0; transform: translate(0, 0); }
+  2.6% { opacity: .95; }
+  9.5% { opacity: .95; transform: translate(calc(var(--sx, 0) * 1cqw), calc(var(--fall, 60) * 1cqh)); }
+  11.5%, 100% { opacity: 0; transform: translate(calc(var(--sx, 0) * 1cqw), calc(var(--fall, 60) * 1cqh)); }
+}
+@keyframes cb-mo-au-pile { 0%, 2.5% { transform: scaleY(.12); } 9.4%, 100% { transform: scaleY(1); } }
+@keyframes cb-mo-au-pop { 0%, 8.8% { transform: translateY(var(--sink, 40px)); } 9.8% { transform: translateY(-3px); } 10.4%, 13% { transform: translateY(0); } 15%, 100% { transform: translateY(var(--sink, 40px)); } }
+@keyframes cb-mo-au-toss { 0%, 9.2% { opacity: 0; transform: translate(0, 0) rotate(0); } 10% { opacity: 1; } 13.4%, 100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) rotate(240deg); } }
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

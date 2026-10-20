@@ -1564,6 +1564,36 @@
   --cb-fairy-spark-1: #6FE6EE; --cb-fairy-spark-2: #F27BD6; --cb-fairy-spark-3: #F6EA7A; --cb-fairy-spark-4: #8FF0A8;
   --cb-mordor-lava: #FF5A1E; --cb-mordor-glow: #FFB040; --cb-mordor-rock: #2A2626; --cb-mordor-ash: #6A625E; --cb-mordor-wraith: #CFE8FF; --cb-mordor-rune: #C9A54A; --cb-mordor-blue: #6FA8D8;
 
+  /* PROFILE EFFECTS IN PALETTES OF THEIR OWN (Ryan, 2026-10-19): Howling
+     Wolf, Starward Dreaming, Leaping Dolphins and Autumn Falls. NOT A ROOM'S
+     AND NOT A THEME'S. Each is a scene whose light is the point -- a full moon,
+     a fire under the stars, a sun setting on the sea, an autumn afternoon --
+     and Autumn Falls has children in it, whose skins no card's seven inks could
+     hold. So each is drawn in its own inks over whatever card it is on, as the
+     Lagoon is, and tools/make-profile.py holds each block in profile.js to its
+     own prefix. None carries a word; check-contrast.py measures every one on
+     its own scene's ground. */
+  --pfx-wolf-night: #0D1830; --pfx-wolf-dusk: #1C2D4E; --pfx-wolf-moon: #F1EEDA; --pfx-wolf-mare: #D3CFB6;
+  --pfx-wolf-halo: #A8BCDD; --pfx-wolf-star: #DCE5F6; --pfx-wolf-cloud: #33476B; --pfx-wolf-ridge: #070D1A;
+  --pfx-wolf-rock: #141E31; --pfx-wolf-pine: #0A1222; --pfx-wolf-fur: #2C3648; --pfx-wolf-fur-2: #56657E;
+  --pfx-wolf-rim: #C3D2E8;
+  --pfx-star-sky: #0A0A22; --pfx-star-deep: #04040F; --pfx-star-milky: #2E3168; --pfx-star-milky-2: #6A70B4;
+  --pfx-star-star: #F5F2FF; --pfx-star-star-2: #A9B8FF; --pfx-star-star-3: #FFE2AE; --pfx-star-tree: #030409;
+  --pfx-star-trunk: #170F19; --pfx-star-lit: #8E4628; --pfx-star-lit-2: #D2763A; --pfx-star-flame: #FF9B3D;
+  --pfx-star-flame-2: #FFD47E; --pfx-star-flame-3: #E0502A; --pfx-star-ember: #FFB65C; --pfx-star-glow: #FF8A3A;
+  --pfx-dolphin-high: #2E2350; --pfx-dolphin-rose: #C24F6E; --pfx-dolphin-glow: #F59A55; --pfx-dolphin-sun: #FFD983;
+  --pfx-dolphin-sun-2: #FFB24E; --pfx-dolphin-sea: #1B2B50; --pfx-dolphin-sea-2: #2C4677; --pfx-dolphin-dapple: #FFCB78;
+  --pfx-dolphin-dapple-2: #F68D6D; --pfx-dolphin-body: #3A4868; --pfx-dolphin-belly: #A7B2CB; --pfx-dolphin-line: #121A33;
+  --pfx-dolphin-spray: #EDF2FA; --pfx-dolphin-gull: #1A1430;
+  --pfx-autumn-sky: #F7D9A0; --pfx-autumn-haze: #F2B872; --pfx-autumn-bark: #4B2F1F; --pfx-autumn-bark-2: #7A4E33;
+  --pfx-autumn-red: #C93A2B; --pfx-autumn-orange: #E8772B; --pfx-autumn-gold: #F2B43C; --pfx-autumn-yellow: #F6D55E;
+  --pfx-autumn-rust: #96471F; --pfx-autumn-brown: #6E3B1E; --pfx-autumn-grass: #6F8B3B; --pfx-autumn-line: #2B1A12;
+  --pfx-autumn-light: #FFF0C8;
+  --pfx-autumn-skin-1: #F4D7C2; --pfx-autumn-skin-2: #E3B590; --pfx-autumn-skin-3: #C48C63; --pfx-autumn-skin-4: #92603F; --pfx-autumn-skin-5: #5D3A27;
+  --pfx-autumn-hair-1: #22170F; --pfx-autumn-hair-2: #6B3A1E; --pfx-autumn-hair-3: #D8A441; --pfx-autumn-hair-4: #A8402A;
+  --pfx-autumn-jumper-1: #2E8686; --pfx-autumn-jumper-2: #3E6DB0; --pfx-autumn-jumper-3: #7B4F9C; --pfx-autumn-jumper-4: #D25A7A;
+  --pfx-autumn-chair: #2F4E7A;
+
   /* The battle jacket (patches.js), in the radio's Profile and in somebody's
      profile. NOT A ROOM'S PALETTE: a person's own jacket, drawn wherever their
      Profile is opened, so it keeps its own clothes the radio's way -- denim, a

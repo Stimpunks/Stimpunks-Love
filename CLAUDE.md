@@ -1491,7 +1491,7 @@ not mention.
 WORDS.** Ryan, 2026-10-18. Both are chosen from `profile.js`'s own lists (FRAMES, EFFECTS, written into `PROFILE_KEYS`
 by `make-profile.py`, each refused without its drawing), and `loveProfile.surround()` puts them on a `.pf-stage` round
 the profile's sheet or the editor's card, wearing the card's theme, so both are drawn only in that theme's seven inks,
-**with three exceptions, each between its own `effect:<key>` markers and held to one source of inks there.** **The Black
+**with exceptions, each between its own `effect:<key>` markers and held to one source of inks there.** **The Black
 Leather Lagoon effect** (Ryan, 2026-10-18, after the room and The Cramps) is drawn in that room's own declared `--lag-*`
 inks, and its credit must name The Cramps, Lux Interior and Poison Ivy and say nobody real is drawn: their world, not
 them, Ryan's call over drawing the two of them. **Otters in the kelp** (Ryan, the same day) is drawn in the Kelp Forest
@@ -1502,8 +1502,15 @@ paws, and nobody keeps a stone in a pouch, each refused as a word in its code, i
 Fairy** (Ryan, 2026-10-19) is drawn in the Fairy Lights theme's declared `--cb-fairy-*` inks, because its faeries are the
 Faery Yurt's own, in that room's colours, five skins and seven hairs among them, redrawn as elements because
 `yurt-garden.js` writes them as markup with literal colours; its credit must name Helen Edgar and her Faery Yurt, and an
-ink named in a list is read as one named on its own. **A further such effect is a block of its own and an entry in
-`EFFECT_INKS`**, never a widening of another's block, and
+ink named in a list is read as one named on its own. **Howling Wolf, Starward Dreaming, Leaping Dolphins and Autumn
+Falls** (Ryan, 2026-10-19) are each drawn in a palette of their own, `--pfx-<name>-*` declared in `love.css` and measured
+in `check-contrast.py` on its own scene's ground (`PFX_ORNAMENT`), because a full moon, firelight, a sunset and children's
+skins are colours no card's seven can be relied on for, and a starry night in the Daylight theme would be a day; they are
+nobody else's work, so they need no credit. **Starward Dreaming's flames are held under the flash line**, the cabin's
+candles' rule: each sways on its own time out of `SW_FLICKER`, never under four tenths of a second a half-sway and no two
+alike, and `cb-fx-sw-flicker` dims a flame by a tenth at most. The friendly edit is a faster flicker "so the fire looks
+real"; the brief said flicker, and the sway is how this street says it. **A further such effect is a block of its own and
+an entry in `EFFECT_INKS`**, never a widening of another's block, and
 everything outside the blocks stays in the card's seven. `make-profile.py` holds all of it, and refuses a literal colour
 anywhere in `profile.js`. A
 **frame** is a band of the theme's case round all four sides, outside the profile, each side drawn once longer than a

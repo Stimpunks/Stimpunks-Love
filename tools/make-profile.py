@@ -56,6 +56,17 @@ WHAT IT REFUSES, and why each one is here:
     credit names Helen Edgar and her Faery Yurt, whose faeries they are. Its
     faeries are dressed from lists of inks, and an ink named in a list is read
     like one named on its own, so a list cannot carry an ink past this tool.
+  · HOWLING WOLF, STARWARD DREAMING, LEAPING DOLPHINS AND AUTUMN FALLS (Ryan,
+    2026-10-19) are drawn in palettes of their own, --pfx-<name>-* in love.css,
+    each between its own effect:<key> markers, because a full moon, a fire
+    under the stars, a sunset on the sea and an autumn afternoon with children
+    in it are lights and skins no card's seven inks can hold. They are nobody
+    else's work, so they need no credit. check-contrast.py measures every one
+    of their inks on its own scene's ground.
+  · STARWARD DREAMING'S FIRE SHOWN OVER THE FLASH LINE. The cabin's candles'
+    rule: every flame sways on a time of its own out of SW_FLICKER, each half of
+    a sway at least four tenths of a second and no two alike, and the flames'
+    keyframes in cb.css move their brightness by a tenth at most.
   · AN EFFECT'S PASS SHOWN WHERE THE DRAWINGS DO NOT MOVE. Ryan's call,
     2026-10-18: the pass crosses a profile's words, which is the one drawing on
     the radio that does. It is drawn only under :host([data-motion="on"]), at
@@ -191,11 +202,16 @@ def main():
     # EACH EFFECT DRAWN IN SOMETHING OTHER THAN ITS CARD'S THEME is a block
     # between its own effect:<key> markers, held to one source of inks: the
     # Lagoon to that room's --lag-*, the otters to the Kelp Forest theme's
-    # --cb-kelp-*. Everything outside those blocks is in the card's seven.
+    # --cb-kelp-*, and an effect with a palette of its own to that palette,
+    # --pfx-<name>-*. Everything outside those blocks is in the card's seven.
     EFFECT_INKS = {
         "lagoon": ("--lag-", "the Black Leather Lagoon", "that room's"),
         "otters": ("--cb-kelp-", "Otters in the kelp", "the Kelp Forest theme's"),
         "fairy": ("--cb-fairy-", "Flying Fairy", "the Fairy Lights theme's"),
+        "wolf": ("--pfx-wolf-", "Howling Wolf", "its own"),
+        "starward": ("--pfx-star-", "Starward Dreaming", "its own"),
+        "dolphins": ("--pfx-dolphin-", "Leaping Dolphins", "its own"),
+        "autumn": ("--pfx-autumn-", "Autumn Falls", "its own"),
     }
     blocks = {k: between(src, f"/* effect:{k}:begin */", f"/* effect:{k}:end */", "profile.js") for k in EFFECT_INKS}
     rest_src = src
@@ -273,9 +289,31 @@ def main():
             "animation" in body and re.search(r"\.(?:pf-fx__|fx-)", sel))
         if moves and 'data-motion="on"' not in sel:
             refuse(f"cb.css moves an effect at {sel.strip()!r}, outside data-motion.")
-    for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()"), ("fairy", "fairyMoment()")):
+    for key, fn in (("lagoon", "lagoonMoment()"), ("otters", "otterMoment()"), ("fairy", "fairyMoment()"),
+                    ("wolf", "wolfMoment()"), ("starward", "swMoment()"), ("dolphins", "dpMoment()"), ("autumn", "auMoment()")):
         if f"appendChild({fn})" not in uncomment(blocks[key]) or "pf-fx__moment" not in blocks[key]:
             refuse(f"{EFFECT_INKS[key][1]} has lost its opening across the profile, which Ryan asked for.")
+    # STARWARD DREAMING'S FIRE IS HELD UNDER THE FLASH LINE, the cabin's
+    # candles' rule: each flame sways on a time of its own out of SW_FLICKER,
+    # each half of a sway at least four tenths of a second and no two alike,
+    # every flame takes its time from that list, and the flames' keyframes move
+    # their brightness by a tenth at most.
+    sw_code = uncomment(blocks["starward"])
+    times = re.search(r"var SW_FLICKER = \[([^\]]*)\]", sw_code)
+    vals = [float(v) for v in re.findall(r"[0-9]*\.?[0-9]+", times.group(1))] if times else []
+    if not vals or min(vals) < .4 or len(vals) != len(set(vals)):
+        refuse("Starward Dreaming's SW_FLICKER is missing, has a sway under four tenths of a second, or two alike: "
+               "a flame wobbles no faster than two and a half times a second and never in step with another.")
+    flames = [ln for ln in sw_code.splitlines() if "fx-sw-flame" in ln]
+    if not flames or any("t: SW_FLICKER[" not in ln for ln in flames):
+        refuse("a flame in Starward Dreaming takes its time from somewhere other than SW_FLICKER.")
+    flick = re.search(r"@keyframes cb-fx-sw-flicker\s*\{(.*?)\}\s*\}", cbcss, re.S)
+    ops = [float(v) for v in re.findall(r"opacity\s*:\s*([0-9.]+)", flick.group(1))] if flick else []
+    if not ops or min(ops) < .9:
+        refuse("cb.css's cb-fx-sw-flicker is missing or dims a flame by more than a tenth of itself; the cabin's rule holds it at .9 and up.")
+    rule = re.search(r"\.fx-sw-flame\s*\{[^}]*animation\s*:\s*([^;]*)", cbcss)
+    if not rule or "cb-fx-sw-flicker" not in rule.group(1) or "var(--t" not in rule.group(1):
+        refuse("cb.css no longer sways .fx-sw-flame with cb-fx-sw-flicker on the flame's own time.")
 
     code = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
     code = re.sub(r"(?m)^\s*//.*$", "", code)

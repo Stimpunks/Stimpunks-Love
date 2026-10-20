@@ -121,7 +121,8 @@
     ['butterflies', 'Butterflies'], ['fireflies', 'Fireflies'], ['petals', 'Falling petals'], ['leaves', 'Falling leaves'],
     ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
     ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon'], ['otters', 'Otters in the kelp'],
-    ['fairy', 'Flying Fairy']
+    ['fairy', 'Flying Fairy'], ['wolf', 'Howling Wolf'], ['starward', 'Starward Dreaming'], ['dolphins', 'Leaping Dolphins'],
+    ['autumn', 'Autumn Falls']
   ];
   /* profile:effects:end */
   /* AN EFFECT AFTER SOMEBODY ELSE'S WORK SAYS WHOSE, on the card it is on and
@@ -2033,6 +2034,935 @@
     pass: { motif: 'fypetal', from: 'top', n: 7, size: 14, t: 28, drift: 14 }
   };
   /* effect:fairy:end */
+
+  /* ── FOR AN EFFECT DRAWN IN A PALETTE OF ITS OWN ─────────────────────────
+     Its defs: a gradient, a fade in from the left, a clip and a blur, each with
+     an id of its own, so that two profiles on one page never share one. A
+     gradient's stop names its ink like a fill, { stop: '--ink' }, so
+     make-profile.py reads it with the rest. The fade is an alpha mask, so only
+     its stops' opacity counts, and its ink is the card's own case. */
+  var fxN = 0;
+  function fxSvg(w, h, cls, aspect) {
+    var s = plainSvg(w, h, cls);
+    s.removeAttribute('width');
+    s.removeAttribute('height');
+    if (aspect) s.setAttribute('preserveAspectRatio', aspect);
+    return s;
+  }
+  function fxDefs(s) { var d = document.createElementNS(NS, 'defs'); s.appendChild(d); return d; }
+  function fxMade(defs, tag, kind) {
+    var e = document.createElementNS(NS, tag);
+    e.setAttribute('id', 'pf-' + kind + '-' + (++fxN));
+    defs.appendChild(e);
+    return e;
+  }
+  function fxUrl(e) { return 'url(#' + e.getAttribute('id') + ')'; }
+  // where is [x1, y1, x2, y2] for a line or [cx, cy, r] for a circle, and each
+  // stop is [offset, opacity, { stop: '--ink' }]
+  function fxGrad(defs, where, stops, user) {
+    var g = fxMade(defs, where.length === 3 ? 'radialGradient' : 'linearGradient', 'grad');
+    (where.length === 3 ? ['cx', 'cy', 'r'] : ['x1', 'y1', 'x2', 'y2']).forEach(function (nm, i) { g.setAttribute(nm, String(where[i])); });
+    if (user) g.setAttribute('gradientUnits', 'userSpaceOnUse');
+    stops.forEach(function (st) {
+      var e = document.createElementNS(NS, 'stop');
+      e.setAttribute('offset', String(st[0]));
+      e.style.setProperty('stop-color', 'var(' + st[2].stop + ')');
+      e.style.setProperty('stop-opacity', String(st[1]));
+      g.appendChild(e);
+    });
+    return fxUrl(g);
+  }
+  function paint(e, url) { e.style.setProperty('fill', url); return e; }
+  // a scene fading in from the left across the banner, so that it is not a box
+  // laid on somebody's banner, and leaving the avatar's corner be
+  function fxFade(defs, x0, x1, w, h) {
+    var m = fxMade(defs, 'mask', 'fade');
+    m.setAttribute('maskUnits', 'userSpaceOnUse');
+    m.setAttribute('x', '0'); m.setAttribute('y', '-60'); m.setAttribute('width', String(w)); m.setAttribute('height', String(h + 120));
+    m.style.setProperty('mask-type', 'alpha');
+    m.appendChild(paint(svgEl('rect', { x: 0, y: -60, width: w, height: h + 120 }, {}),
+      fxGrad(defs, [x0, 0, x1, 0], [[0, 0, { stop: '--cb-case' }], [1, 1, { stop: '--cb-case' }]], true)));
+    return fxUrl(m);
+  }
+  function fxClip(defs, x, y, w, h) {
+    var c = fxMade(defs, 'clipPath', 'clip');
+    c.appendChild(svgEl('rect', { x: f(x), y: f(y), width: f(w), height: f(h) }, {}));
+    return fxUrl(c);
+  }
+  function fxBlur(defs, sd) {
+    var b = fxMade(defs, 'filter', 'blur');
+    b.setAttribute('x', '-50%'); b.setAttribute('y', '-50%'); b.setAttribute('width', '200%'); b.setAttribute('height', '200%');
+    var gb = document.createElementNS(NS, 'feGaussianBlur');
+    gb.setAttribute('stdDeviation', String(sd));
+    b.appendChild(gb);
+    return fxUrl(b);
+  }
+  function k3(n) { return String(Math.round(n * 1000) / 1000); }
+  function scaled(parent, x, y, k) { return group(parent, 'translate(' + f(x) + ' ' + f(y) + ') scale(' + k3(k) + ')'); }
+  // A GROUP THAT TURNS ABOUT x y: a box round that point, wider than anything
+  // drawn in it, keeps the point the group's middle, so transform-origin:
+  // center turns it there. It is drawn into in its parent's own coordinates.
+  function pivot(parent, x, y, r, cls, d) {
+    var g = svgEl('g', {}, { cls: cls || '', d: d });
+    g.style.removeProperty('fill');
+    at(parent, x, y).appendChild(g);
+    g.appendChild(svgEl('rect', { x: -r, y: -r, width: 2 * r, height: 2 * r }, {}));
+    return group(g, 'translate(' + f(-x) + ' ' + f(-y) + ')');
+  }
+  // a part of an opening, placed on the profile in per cent, on its own clock
+  function fxSpan(box, cls, left, top, d) {
+    var s = el('span', cls);
+    s.style.left = f(left) + '%';
+    s.style.top = f(top) + '%';
+    if (d != null) s.style.setProperty('--d', f(d) + 's');
+    box.appendChild(s);
+    return s;
+  }
+  // a small mark in a span, in a box from -12 -12 to 12 12, px wide
+  function tiny(px) {
+    var s = plainSvg(24, 24);
+    s.setAttribute('viewBox', '-12 -12 24 24');
+    s.setAttribute('width', f(px));
+    s.setAttribute('height', f(px));
+    s.style.overflow = 'visible';
+    return s;
+  }
+
+  /* effect:wolf:begin */
+  /* HOWLING WOLF (Ryan, 2026-10-19: "a wolf raising its head and howling at
+     the moon"). Drawn in its own --pfx-wolf-* inks, declared in love.css, and
+     make-profile.py holds this block to them: a full moon is a light no card's
+     seven inks can be relied on for. The wolf is our own, drawn here after
+     nobody's emblem; it sits, raises its head and howls, and it threatens
+     nobody: no tooth is bared and nothing is hunted. Nothing makes a sound.
+
+     The still part is a night over the banner's right-hand part: stars, the
+     full moon in its halo with thin cloud across its foot, a far ridge of
+     pines, and the wolf sitting on a crag with its head raised against the
+     moon, lit along its front by it. Where drawings move, it lowers its head
+     and raises it again every sixteen seconds and howls, the howl going out
+     towards the moon in soft rings, and the cloud drifts. The opening, on the
+     Lagoon's sixty-second clock: the night comes up over the profile, the moon
+     rises behind the crag, the wolf on it raises its head and howls, two
+     wolves on the far ridge answer, and it all fades, about nine seconds of
+     every sixty. The pass is cloud drifting across the moonlight. */
+  // ITS HEAD, the muzzle along x from the back of its skull at 0 0, the mouth
+  // open; and, when howl is given, its howl going out from the muzzle in rings.
+  function wolfHead(h, rw, howl, step, d0) {
+    h.appendChild(svgEl('path', { d: 'M12 -15L18 -27L21 -13Z' }, { fill: '--pfx-wolf-fur' }));
+    h.appendChild(svgEl('path', { d: 'M-4 -1L-11 2L-4 4L-9 9L0 6.4L-2 11L6 7.4Z' }, { fill: '--pfx-wolf-fur' }));
+    h.appendChild(svgEl('path', { d: 'M27.4 -.8L40.6 -3L37.6 2.6L23.4 1.4Z' }, { fill: '--pfx-wolf-ridge' }));
+    h.appendChild(svgEl('path', { d: 'M4 7C-2 6 -5 1 -5 -5C-5 -12 1 -17 9 -17C14 -17 18 -15 21 -12L40 -6.4C42.4 -5.8 42.6 -3.6 40.6 -3L28 -.6C24 2 16 6 10 7Z' }, { fill: '--pfx-wolf-fur' }));
+    h.appendChild(svgEl('path', { d: 'M24 1.2L37.6 2.6C39 2.9 38.8 4.6 37.4 4.8L20 6.4Z' }, { fill: '--pfx-wolf-fur' }));
+    h.appendChild(svgEl('path', { d: 'M3 -14L11 -28L14 -15Z' }, { fill: '--pfx-wolf-fur' }));
+    h.appendChild(svgEl('path', { d: 'M6.4 -15L10.6 -24L12 -15.4Z', 'fill-opacity': '.8' }, { fill: '--pfx-wolf-fur-2' }));
+    h.appendChild(svgEl('ellipse', { cx: 41, cy: -4.8, rx: 1.9, ry: 1.5 }, { fill: '--pfx-wolf-ridge' }));
+    h.appendChild(svgEl('path', { d: 'M15 -10.6Q17.2 -12 19.6 -10.8' }, { stroke: '--pfx-wolf-ridge', sw: rw * .9 }));
+    // the moon's light along its brow and nose, and the edge of its ear
+    h.appendChild(svgEl('path', { d: 'M9 -17C14 -17 18 -15 21 -12L40 -6.4', 'stroke-opacity': '.9' }, { stroke: '--pfx-wolf-rim', sw: rw }));
+    h.appendChild(svgEl('path', { d: 'M11 -28L14 -15', 'stroke-opacity': '.8' }, { stroke: '--pfx-wolf-rim', sw: rw * .7 }));
+    if (howl) for (var i = 0; i < 3; i++) {
+      var x = 48 + i * 6;
+      h.appendChild(svgEl('path', { d: 'M' + x + ' -12Q' + (x + 5) + ' -4.6 ' + x + ' 2.8', 'stroke-opacity': '.6' }, { stroke: '--pfx-wolf-halo', sw: rw * 1.3, cls: howl, d: (d0 || 0) + i * step }));
+    }
+  }
+  // A WOLF SITTING, facing right, its rump on the ground at x y, about 120 tall
+  // at k 1 with its head raised. Its neck and head turn about its shoulders
+  // (o.nod), so that it can lower its head and raise it again.
+  function wolfSits(g, x, y, k, o) {
+    o = o || {};
+    var w = scaled(g, x, y, k), rw = o.rw || Math.max(1, .8 / k);
+    w.appendChild(svgEl('path', { d: 'M6 -5C-4 -3 -16 -1 -25 -7C-29 -10 -28 -15 -23 -14C-16 -11 -6 -11 4 -13Z' }, { fill: '--pfx-wolf-fur' }));
+    w.appendChild(svgEl('path', { d: 'M42 -30L42 -3Q42 0 45 0L49 0Q51 0 50 -2L48 -30Z' }, { fill: '--pfx-wolf-fur' }));
+    w.appendChild(svgEl('ellipse', { cx: 13, cy: -16, rx: 15, ry: 15.5 }, { fill: '--pfx-wolf-fur' }));
+    w.appendChild(svgEl('path', { d: 'M2 -9C0 -30 10 -48 24 -58L38 -64C46 -56 48 -42 46 -30L40 -14C30 -6 14 -4 2 -9Z' }, { fill: '--pfx-wolf-fur' }));
+    w.appendChild(svgEl('ellipse', { cx: 23, cy: -2.2, rx: 8, ry: 2.6 }, { fill: '--pfx-wolf-fur' }));
+    w.appendChild(svgEl('path', { d: 'M35 -30L35 -3Q35 0 38 0L43 0Q45 0 44 -2L42 -30Z' }, { fill: '--pfx-wolf-fur' }));
+    w.appendChild(svgEl('path', { d: 'M38 -60C45 -52 47 -40 45 -31L41 -26C41 -38 39 -49 34 -56Z', 'fill-opacity': '.85' }, { fill: '--pfx-wolf-fur-2' }));
+    w.appendChild(svgEl('path', { d: 'M5 -26C8 -32 14 -34 20 -32' }, { stroke: '--pfx-wolf-fur-2', sw: rw }));
+    // the moon's light down its chest and the fronts of its legs
+    w.appendChild(svgEl('path', { d: 'M41 -61C46 -55 48 -42 46 -31', 'stroke-opacity': '.85' }, { stroke: '--pfx-wolf-rim', sw: rw }));
+    w.appendChild(svgEl('path', { d: 'M44 -27L44 -3', 'stroke-opacity': '.45' }, { stroke: '--pfx-wolf-rim', sw: rw * .7 }));
+    var neck = pivot(w, 31, -60, 96, o.nod, o.d);
+    neck.appendChild(svgEl('path', { d: 'M19 -54C21 -68 26 -80 31 -88L48 -82C47 -72 46 -64 42 -58Z' }, { fill: '--pfx-wolf-fur' }));
+    neck.appendChild(svgEl('path', { d: 'M46 -80L53 -74L46 -71L52 -65L45 -63L48 -58L41 -59Z' }, { fill: '--pfx-wolf-fur' }));
+    neck.appendChild(svgEl('path', { d: 'M47 -80C47.4 -72 47 -66 44 -60', 'stroke-opacity': '.85' }, { stroke: '--pfx-wolf-rim', sw: rw }));
+    wolfHead(at(neck, 35, -86, -54), rw, o.howl, o.step || .8, o.d);
+  }
+  function wolfMoon(g, cx, cy, r, defs) {
+    var halo = svgEl('g', {}, { cls: 'fx-breathe', t: 10 });
+    halo.style.removeProperty('fill');
+    halo.style.setProperty('filter', fxBlur(defs, f(r * .22)));
+    halo.appendChild(svgEl('circle', { cx: cx, cy: cy, r: f(r * 1.8), 'fill-opacity': '.12' }, { fill: '--pfx-wolf-halo' }));
+    halo.appendChild(svgEl('circle', { cx: cx, cy: cy, r: f(r * 1.35), 'fill-opacity': '.2' }, { fill: '--pfx-wolf-halo' }));
+    g.appendChild(halo);
+    g.appendChild(svgEl('circle', { cx: cx, cy: cy, r: r }, { fill: '--pfx-wolf-moon' }));
+    [[-.32, -.24, .26, .19], [.26, .24, .3, .21], [-.1, .44, .17, .12], [.4, -.36, .14, .11], [-.52, .14, .1, .08]].forEach(function (m) {
+      g.appendChild(svgEl('ellipse', { cx: f(cx + m[0] * r), cy: f(cy + m[1] * r), rx: f(m[2] * r), ry: f(m[3] * r), 'fill-opacity': '.7' }, { fill: '--pfx-wolf-mare' }));
+    });
+  }
+  // a pine, its foot at x base, h tall; rim, the moon's light down its right side
+  function wolfPine(g, x, base, h, rim) {
+    var w = h * .42, P = function (dx, dy) { return f(x + dx) + ' ' + f(base - dy); };
+    g.appendChild(svgEl('path', { d: 'M' + P(0, h) + 'L' + P(w * .55, h * .55) + 'L' + P(w * .3, h * .55) + 'L' + P(w, h * .1) + 'L' + P(-w, h * .1) + 'L' + P(-w * .3, h * .55) + 'L' + P(-w * .55, h * .55) + 'Z' }, { fill: '--pfx-wolf-pine' }));
+    g.appendChild(svgEl('rect', { x: f(x - h * .04), y: f(base - h * .12), width: f(h * .08), height: f(h * .12) }, { fill: '--pfx-wolf-pine' }));
+    if (rim) g.appendChild(svgEl('path', { d: 'M' + P(0, h) + 'L' + P(w * .55, h * .55) + 'M' + P(w * .3, h * .55) + 'L' + P(w, h * .1), 'stroke-opacity': '.6' }, { stroke: '--pfx-wolf-halo', sw: rim }));
+  }
+  function wolfScene() {
+    var s = fxSvg(380, 112, 'pf-fx__scene'), defs = fxDefs(s), g = group(s), i;
+    g.setAttribute('mask', fxFade(defs, 132, 196, 380, 112));
+    g.appendChild(svgEl('rect', { x: 130, y: 0, width: 250, height: 112 }, { fill: '--pfx-wolf-night' }));
+    g.appendChild(paint(svgEl('rect', { x: 130, y: 36, width: 250, height: 76 }, {}),
+      fxGrad(defs, [0, 0, 0, 1], [[0, 0, { stop: '--pfx-wolf-dusk' }], [1, .95, { stop: '--pfx-wolf-dusk' }]])));
+    for (i = 0; i < 26; i++) {
+      var sx = 140 + rnd(i + 200) * 238, sy = 3 + rnd(i + 230) * 62;
+      if (Math.hypot(sx - 332, sy - 36) < 40 || (sy > 58 && sx > 250)) continue;
+      g.appendChild(svgEl('circle', { cx: f(sx), cy: f(sy), r: f(.45 + rnd(i + 260) * .8) }, { fill: '--pfx-wolf-star', cls: i % 3 ? '' : 'art-twinkle', d: i * .6 % 5, t: 5 }));
+    }
+    wolfMoon(g, 332, 36, 25, defs);
+    var cloud = svgEl('g', {}, { cls: 'fx-drift', t: 38 });
+    cloud.style.removeProperty('fill');
+    [[310, 53, 28, 2.4], [350, 58, 20, 2], [296, 61, 16, 1.8], [366, 47, 12, 1.4]].forEach(function (c) {
+      cloud.appendChild(svgEl('ellipse', { cx: c[0], cy: c[1], rx: c[2], ry: c[3], 'fill-opacity': '.85' }, { fill: '--pfx-wolf-cloud' }));
+    });
+    g.appendChild(cloud);
+    g.appendChild(svgEl('path', { d: 'M130 92C160 84 190 88 214 82C238 76 258 86 280 84C304 82 330 88 352 80C364 76 374 80 380 82V112H130Z' }, { fill: '--pfx-wolf-ridge' }));
+    [[164, 88, 9], [174, 87, 12], [184, 87, 8], [226, 81, 10], [238, 80, 13], [250, 82, 9], [362, 79, 11], [372, 80, 8]].forEach(function (p) { wolfPine(g, p[0], p[1], p[2]); });
+    // the crag the wolf sits on, its top lit by the moon
+    g.appendChild(svgEl('path', { d: 'M256 112C260 100 268 90 279 86L291 81L330 80C340 80 348 84 356 92C366 98 374 104 380 106V112Z' }, { fill: '--pfx-wolf-rock' }));
+    g.appendChild(svgEl('path', { d: 'M280 86L291 81.4L330 80.4C340 80.4 348 84 356 92', 'stroke-opacity': '.7' }, { stroke: '--pfx-wolf-rim', sw: .9 }));
+    g.appendChild(svgEl('path', { d: 'M300 89L306 98M322 87L317 101M342 92L348 104' }, { stroke: '--pfx-wolf-ridge', sw: .8 }));
+    wolfSits(g, 296, 81, .46, { nod: 'fx-wf-nod', howl: 'fx-wf-howl', step: .8 });
+    return s;
+  }
+  function wolfMoment() {
+    var box = el('div', 'pf-fx__moment'), i;
+    var night = fxSvg(100, 100, 'pf-fx__wf-night', 'none'), nd = fxDefs(night);
+    night.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {}),
+      fxGrad(nd, [0, 0, 0, 1], [[0, .95, { stop: '--pfx-wolf-night' }], [.55, .9, { stop: '--pfx-wolf-night' }], [1, .9, { stop: '--pfx-wolf-dusk' }]])));
+    box.appendChild(night);
+    for (i = 0; i < 26; i++) {
+      var st = fxSpan(box, 'pf-fx__wf-star', 2 + rnd(i + 400) * 94, 2 + rnd(i + 430) * 56, rnd(i + 460) * 1.6);
+      var ts = tiny(4 + rnd(i + 490) * 9);
+      ts.appendChild(svgEl('path', { d: sparkle(i % 4 ? 5 : 10) }, { fill: '--pfx-wolf-star' }));
+      st.appendChild(ts);
+    }
+    // the far ridge across the foot of the profile, and two wolves on it who answer
+    var ridge = fxSvg(400, 90, 'pf-fx__wf-ridge', 'xMidYMax slice'), r = group(ridge);
+    r.appendChild(svgEl('path', { d: 'M0 52C40 40 80 46 120 38C160 30 190 44 230 42C270 40 300 50 340 40C366 34 386 38 400 42V90H0Z' }, { fill: '--pfx-wolf-ridge' }));
+    [[20, 50, 16], [34, 48, 22], [150, 37, 18], [166, 38, 24], [182, 40, 14], [300, 46, 20], [316, 44, 16], [380, 39, 22]].forEach(function (p) { wolfPine(r, p[0], p[1], p[2], .5); });
+    wolfSits(r, 66, 44.4, .15, { nod: 'fx-mo-wf-far', howl: 'fx-mo-wf-farhowl', step: .5, rw: 2.4 });
+    wolfSits(r, 94, 42.4, .13, { nod: 'fx-mo-wf-far', howl: 'fx-mo-wf-farhowl', step: .5, d: .6, rw: 2.6 });
+    box.appendChild(ridge);
+    // the moon, the crag and the wolf, at the profile's bottom right
+    var big = fxSvg(300, 340, 'pf-fx__wf-crag', 'xMaxYMax meet'), bd = fxDefs(big), b = group(big);
+    var moon = svgEl('g', {}, { cls: 'fx-mo-wf-moon' });
+    moon.style.removeProperty('fill');
+    wolfMoon(moon, 196, 112, 70, bd);
+    b.appendChild(moon);
+    b.appendChild(svgEl('path', { d: 'M-40 340C-20 322 20 306 58 302L170 296C204 296 236 308 258 326L272 340Z' }, { fill: '--pfx-wolf-rock' }));
+    b.appendChild(svgEl('path', { d: 'M58 302L170 296.6C204 296.6 236 308 258 326', 'stroke-opacity': '.7' }, { stroke: '--pfx-wolf-rim', sw: 2 }));
+    b.appendChild(svgEl('path', { d: 'M110 306L124 330M190 302L180 334M232 316L246 338' }, { stroke: '--pfx-wolf-ridge', sw: 2 }));
+    wolfSits(b, 104, 300, 1.55, { nod: 'fx-mo-wf-nod', howl: 'fx-mo-wf-howl', step: .55 });
+    box.appendChild(big);
+    return box;
+  }
+  M.wstar = function (g) {
+    g.appendChild(svgEl('path', { d: sparkle(9) }, { fill: '--pfx-wolf-star', stroke: '--pfx-wolf-night', sw: 1, cls: 'art-twinkle', t: 5 }));
+    g.appendChild(svgEl('circle', { cx: 7, cy: -6, r: 1.2 }, { fill: '--pfx-wolf-star' }));
+  };
+  M.wpine = function (g) { wolfPine(g, 0, 11, 22, 1.2); };
+  M.wcloud = function (g) {
+    [[0, 0, 11, 3.2], [-4, -2.2, 6, 2.8], [4.4, -1.6, 5, 2.6], [8, 1, 4, 1.8]].forEach(function (c) {
+      g.appendChild(svgEl('ellipse', { cx: c[0], cy: c[1], rx: c[2], ry: c[3], 'fill-opacity': '.55' }, { fill: '--pfx-wolf-cloud' }));
+    });
+    g.appendChild(svgEl('path', { d: 'M-8 -2.6Q-4 -5.2 0 -3.4Q4 -4.6 8 -2.4', 'stroke-opacity': '.5' }, { stroke: '--pfx-wolf-halo', sw: .8 }));
+  };
+  E.wolf = {
+    scene: function (box) {
+      box.appendChild(wolfScene());
+      box.appendChild(wolfMoment());
+    },
+    edge: [['wstar', 'tl', 0, 16, 0, [16, 14]], ['wstar', 'top', .58, 11], ['wpine', 'bl', 0, 26, 0, [14, -18]], ['wpine', 'br', 0, 30, 0, [-14, -20]], ['wstar', 'right', .42, 12]],
+    pass: { motif: 'wcloud', from: 'left', n: 3, size: 40, t: 34, drift: 10 }
+  };
+  /* effect:wolf:end */
+
+  /* effect:starward:begin */
+  /* STARWARD DREAMING (Ryan, 2026-10-19: "a view looking up at a clear starry
+     night through a clearing in a group of trees. Flames and embers from an
+     offscreen fire flicker into the air. Invoke the feeling of being grounded
+     on earth yet projecting into the cosmos"). Drawn in its own --pfx-star-*
+     inks, declared in love.css, and make-profile.py holds this block to them.
+
+     It is seen lying on your back by a fire: the trunks rise from the edges of
+     the picture and meet in a ring of dark crowns, and in the clearing between
+     them is the sky with the Milky Way across it. The fire is out of the
+     picture, at your feet; its light is on the foot of every trunk, most on
+     those rising from that side, and its flames lick up over the bottom edge.
+     EVERY EMBER RISES OFF IT, COOLS AS IT CLIMBS AND BECOMES A STAR, the ground
+     and the sky in one movement, and that is the effect.
+
+     THE FIRE IS HELD UNDER THE FLASH LINE, the cabin's candles' rule: a flame
+     changes shape as it sways, its brightness moves by a tenth of itself at
+     most, each half of a sway takes the seconds SW_FLICKER gives it, never
+     under four tenths, and no two flames sway in step. make-profile.py reads
+     SW_FLICKER and the flames' keyframes in cb.css to hold it.
+
+     The still part is that clearing over the banner's right-hand part, the
+     flames at its foot, and embers on their way up, the highest already stars.
+     Where drawings move, the flames sway and the embers rise and cool into
+     stars. The opening, on the Lagoon's sixty-second clock: the night comes up
+     over the profile and the trees close round it, the stars come out, flames
+     rise along its foot and a shower of embers goes up off them, each one
+     becoming a star, a star falls across the clearing, and it all fades, about
+     nine seconds of every sixty. The pass is embers rising and cooling. */
+  var SW_FLICKER = [.62, .74, .55, .86, .68, .93, .58, .8, .71, .66, .9, .77, .6, .83];
+  var SW_STARS = ['--pfx-star-star', '--pfx-star-star-2', '--pfx-star-star-3'];
+  // THE CLEARING SEEN FROM BELOW, in a box w by h: dark woods all round a hole
+  // of sky at cx cy, rx by ry, crowns of needles round its edge, and trunks
+  // rising from the edges [x, y, half width] to meet there, each lit at its
+  // foot by the fire, the more the nearer the bottom edge it rises from.
+  function swWoods(g, defs, w, h, cx, cy, rx, ry, trunks, k) {
+    var hole = 'M' + f(cx - rx) + ' ' + f(cy) + 'A' + f(rx) + ' ' + f(ry) + ' 0 1 0 ' + f(cx + rx) + ' ' + f(cy) + 'A' + f(rx) + ' ' + f(ry) + ' 0 1 0 ' + f(cx - rx) + ' ' + f(cy) + 'Z';
+    g.appendChild(svgEl('path', { d: 'M-60 -60H' + (w + 60) + 'V' + (h + 60) + 'H-60Z' + hole, 'fill-rule': 'evenodd' }, { fill: '--pfx-star-tree' }));
+    trunks.forEach(function (t) {
+      var bx = t[0], by = t[1], dx = bx - cx, dy = by - cy, edge = 1 / Math.hypot(dx / rx, dy / ry) * .92;
+      var tx = cx + dx * edge, ty = cy + dy * edge, L = Math.hypot(tx - bx, ty - by), nx = -(ty - by) / L, ny = (tx - bx) / L;
+      var w0 = t[2] * k, w1 = w0 * .18, P = function (x, y) { return f(x) + ' ' + f(y); };
+      g.appendChild(svgEl('path', { d: 'M' + P(bx + nx * w0, by + ny * w0) + 'L' + P(tx + nx * w1, ty + ny * w1) + 'L' + P(tx - nx * w1, ty - ny * w1) + 'L' + P(bx - nx * w0, by - ny * w0) + 'Z' }, { fill: '--pfx-star-trunk' }));
+      var warm = Math.max(.3, Math.min(1, by / h));
+      g.appendChild(paint(svgEl('path', { d: 'M' + P(bx + nx * w0 * .1, by + ny * w0 * .1) + 'L' + P(tx, ty) + 'L' + P(bx - nx * w0, by - ny * w0) + 'Z' }, {}),
+        fxGrad(defs, [f(bx), f(by), f(tx), f(ty)], [[0, warm, { stop: '--pfx-star-lit-2' }], [.3, warm * .75, { stop: '--pfx-star-lit' }], [.75, 0, { stop: '--pfx-star-lit' }]], true)));
+      // a branch or two, dark against the trunk's light
+      [.34, .52].forEach(function (u, j) {
+        var px = bx + (tx - bx) * u, py = by + (ty - by) * u, side = j ? 1 : -1, len = L * .16;
+        g.appendChild(svgEl('path', { d: 'M' + P(px, py) + 'L' + P(px + nx * side * len + (tx - bx) / L * len * .5, py + ny * side * len + (ty - by) / L * len * .5) }, { stroke: '--pfx-star-tree', sw: f(Math.max(.8, w0 * .3)) }));
+      });
+    });
+    // crowns of needles round the clearing's edge, over the tops of the trunks
+    for (var j = 0; j < 34; j++) {
+      var a = (j + rnd(j + 600) * .5) / 34 * Math.PI * 2, rr = 1.04 + rnd(j + 630) * .14;
+      var px = cx + Math.cos(a) * rx * rr, py = cy + Math.sin(a) * ry * rr, size = (5 + rnd(j + 660) * 5) * k, spikes = '';
+      g.appendChild(svgEl('circle', { cx: f(px), cy: f(py), r: f(size) }, { fill: '--pfx-star-tree' }));
+      for (var m = -2; m <= 2; m++) {
+        var b = a + Math.PI + m * .32, l = size * (1.5 + rnd(j * 5 + m + 700) * .6);
+        spikes += 'M' + f(px + Math.cos(b) * size * .6) + ' ' + f(py + Math.sin(b) * size * .6) + 'L' + f(px + Math.cos(b) * l) + ' ' + f(py + Math.sin(b) * l);
+      }
+      g.appendChild(svgEl('path', { d: spikes }, { stroke: '--pfx-star-tree', sw: f(Math.max(.6, k * .9)) }));
+    }
+  }
+  // ONE TONGUE OF FLAME, its foot at x y, h tall, swaying on a time of its own
+  function swFlame(g, x, y, h, i) {
+    var t = svgEl('g', {}, { cls: 'fx-sw-flame', t: SW_FLICKER[i % SW_FLICKER.length], d: -rnd(i + 720) * 2 });
+    t.style.removeProperty('fill');
+    var w = h * .34;
+    [[1, { fill: '--pfx-star-flame-3' }, '.92'], [.7, { fill: '--pfx-star-flame' }, '.96'], [.4, { fill: '--pfx-star-flame-2' }, '1']].forEach(function (tg) {
+      var hh = h * tg[0], ww = w * tg[0];
+      t.appendChild(svgEl('path', { d: 'M' + f(x - ww) + ' ' + f(y) + 'C' + f(x - ww) + ' ' + f(y - hh * .5) + ' ' + f(x - ww * .2) + ' ' + f(y - hh * .62) + ' ' + f(x + ww * .12) + ' ' + f(y - hh) +
+        'C' + f(x + ww * .5) + ' ' + f(y - hh * .55) + ' ' + f(x + ww) + ' ' + f(y - hh * .45) + ' ' + f(x + ww) + ' ' + f(y) + 'Z', 'fill-opacity': tg[2] }, tg[1]));
+    });
+    g.appendChild(t);
+  }
+  // AN EMBER AND THE STAR IT BECOMES, at x y, r across: cool is how far it has
+  // gone (0 an ember, 1 a star) in the still picture; with cls, both are there
+  // for the cooling to cross between.
+  function swEmber(g, x, y, r, cool, emberCls, starCls) {
+    var e = svgEl('g', { opacity: emberCls ? '1' : f(1 - cool) }, { cls: emberCls || '' });
+    e.style.removeProperty('fill');
+    e.appendChild(svgEl('circle', { cx: f(x), cy: f(y), r: f(r * 2.6), 'fill-opacity': '.3' }, { fill: '--pfx-star-glow' }));
+    e.appendChild(svgEl('circle', { cx: f(x), cy: f(y), r: f(r) }, { fill: '--pfx-star-ember' }));
+    var s = svgEl('g', { opacity: starCls ? '1' : f(cool), transform: 'translate(' + f(x) + ' ' + f(y) + ')' }, { cls: starCls || '' });
+    s.style.removeProperty('fill');
+    s.appendChild(svgEl('path', { d: sparkle(r * 2.4) }, { fill: '--pfx-star-star-3' }));
+    g.appendChild(e);
+    g.appendChild(s);
+  }
+  function swScene() {
+    var s = fxSvg(380, 112, 'pf-fx__scene'), defs = fxDefs(s), g = group(s), i;
+    g.setAttribute('mask', fxFade(defs, 132, 196, 380, 112));
+    var cx = 262, cy = 46, rx = 64, ry = 33;
+    g.appendChild(svgEl('rect', { x: 130, y: 0, width: 250, height: 112 }, { fill: '--pfx-star-sky' }));
+    // the Milky Way, across the clearing
+    var mw = group(g, 'rotate(-24 ' + cx + ' ' + cy + ')');
+    mw.style.setProperty('filter', fxBlur(defs, 4));
+    mw.appendChild(svgEl('ellipse', { cx: cx, cy: cy, rx: 110, ry: 12, 'fill-opacity': '.65' }, { fill: '--pfx-star-milky' }));
+    mw.appendChild(svgEl('ellipse', { cx: cx + 6, cy: cy - 1, rx: 74, ry: 4.4, 'fill-opacity': '.5' }, { fill: '--pfx-star-milky-2' }));
+    for (i = 0; i < 46; i++) {
+      var a = rnd(i + 740) * Math.PI * 2, rr = Math.sqrt(rnd(i + 770)) * 1.05, big = i % 11 === 0;
+      var sx = cx + Math.cos(a) * rx * rr, sy = cy + Math.sin(a) * ry * rr;
+      if (big) at(g, sx, sy).appendChild(svgEl('path', { d: sparkle(2.6) }, { fill: SW_STARS[i % 3], cls: 'art-twinkle', d: i * .4 % 4, t: 4.5 }));
+      else g.appendChild(svgEl('circle', { cx: f(sx), cy: f(sy), r: f(.35 + rnd(i + 800) * .7) }, { fill: SW_STARS[i % 3], cls: i % 4 ? '' : 'art-twinkle', d: i * .3 % 4, t: 5 }));
+    }
+    swWoods(g, defs, 380, 112, cx, cy, rx, ry, [[168, 124, 7], [226, 128, 9], [302, 128, 9], [362, 122, 7], [396, 76, 6], [396, 18, 5], [334, -14, 5], [252, -16, 4.5], [186, -12, 5], [146, 46, 5]], 1);
+    // the fire's light coming up over the foot of the picture, and its flames
+    var glow = svgEl('ellipse', { cx: 270, cy: 116, rx: 70, ry: 20, 'fill-opacity': '.42' }, { fill: '--pfx-star-glow' });
+    glow.style.setProperty('filter', fxBlur(defs, 6));
+    g.appendChild(glow);
+    [[238, 10], [250, 16], [262, 22], [274, 18], [286, 24], [298, 15], [310, 11]].forEach(function (fl, j) { swFlame(g, fl[0], 115, fl[1], j); });
+    // embers on their way up, the highest already stars: still, then rising
+    var still = group(g);
+    still.setAttribute('class', 'fx-still');
+    [[256, 92, 0], [280, 84, 0], [246, 72, .25], [292, 64, .55], [262, 54, .85], [284, 38, 1], [240, 44, 1], [270, 24, 1]].forEach(function (e) { swEmber(still, e[0], e[1], .9, e[2]); });
+    for (i = 0; i < 10; i++) {
+      var rise = svgEl('g', { opacity: '0' }, { cls: 'fx-sw-rise', t: 6 + rnd(i + 820) * 3, d: -rnd(i + 840) * 9 });
+      rise.style.removeProperty('fill');
+      rise.style.setProperty('--rise', f(-48 - rnd(i + 860) * 44) + 'px');
+      rise.style.setProperty('--sx', f((rnd(i + 880) - .5) * 26) + 'px');
+      swEmber(rise, 244 + rnd(i + 900) * 56, 104, .85, 0, 'fx-sw-ember', 'fx-sw-star');
+      g.appendChild(rise);
+    }
+    return s;
+  }
+  function swMoment() {
+    var box = el('div', 'pf-fx__moment'), i;
+    var sky = fxSvg(100, 100, 'pf-fx__sw-sky', 'none'), sd = fxDefs(sky);
+    sky.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {}),
+      fxGrad(sd, [.5, .42, .75], [[0, .96, { stop: '--pfx-star-sky' }], [1, .97, { stop: '--pfx-star-deep' }]])));
+    var mw = group(sky, 'rotate(-32 50 46)');
+    mw.style.setProperty('filter', fxBlur(sd, 3));
+    mw.appendChild(svgEl('ellipse', { cx: 50, cy: 46, rx: 80, ry: 10, 'fill-opacity': '.6' }, { fill: '--pfx-star-milky' }));
+    mw.appendChild(svgEl('ellipse', { cx: 54, cy: 45, rx: 52, ry: 3.6, 'fill-opacity': '.45' }, { fill: '--pfx-star-milky-2' }));
+    box.appendChild(sky);
+    for (i = 0; i < 44; i++) {
+      var st = fxSpan(box, 'pf-fx__sw-star', 14 + rnd(i + 1400) * 72, 8 + rnd(i + 1430) * 66, rnd(i + 1460) * 1.8);
+      var ts = tiny(3 + rnd(i + 1490) * (i % 6 ? 7 : 14));
+      ts.appendChild(svgEl('path', { d: sparkle(i % 6 ? 5 : 10) }, { fill: SW_STARS[i % 3] }));
+      st.appendChild(ts);
+    }
+    // the trees closing round the clearing
+    var woods = fxSvg(400, 300, 'pf-fx__sw-woods', 'xMidYMid slice'), wd = fxDefs(woods), wg = group(woods);
+    swWoods(wg, wd, 400, 300, 200, 128, 136, 96, [[30, 336, 13], [130, 348, 17], [262, 348, 17], [372, 336, 13], [446, 210, 12], [446, 60, 10], [340, -36, 10], [210, -40, 9], [80, -34, 10], [-46, 90, 11], [-46, 236, 12]], 1.5);
+    box.appendChild(woods);
+    // the flames along the foot
+    var fire = fxSvg(400, 70, 'pf-fx__sw-fire', 'xMidYMax slice'), fd = fxDefs(fire);
+    var rise = svgEl('g', {}, { cls: 'fx-mo-sw-fire' });
+    rise.style.removeProperty('fill');
+    var glow = svgEl('ellipse', { cx: 200, cy: 80, rx: 230, ry: 40, 'fill-opacity': '.5' }, { fill: '--pfx-star-glow' });
+    glow.style.setProperty('filter', fxBlur(fd, 10));
+    rise.appendChild(glow);
+    for (i = 0; i < 13; i++) swFlame(rise, 10 + i * 30 + rnd(i + 1500) * 14, 76, 16 + rnd(i + 1520) * 26, i + 3);
+    fire.appendChild(rise);
+    box.appendChild(fire);
+    // a shower of embers off them, each one becoming a star where it stops
+    var showers = el('div', 'pf-fx__sw-embers');
+    for (i = 0; i < 28; i++) {
+      var em = fxSpan(showers, 'pf-fx__sw-ember', 4 + rnd(i + 1540) * 92, 94, rnd(i + 1570) * 3.2);
+      em.style.setProperty('--rise', f(-40 - rnd(i + 1600) * 48));
+      em.style.setProperty('--sx', f((rnd(i + 1630) - .5) * 18));
+      var es = tiny(6 + rnd(i + 1660) * 6);
+      swEmber(es, 0, 0, 2.6, 0, 'fx-sw-me', 'fx-sw-ms');
+      em.appendChild(es);
+    }
+    box.appendChild(showers);
+    // and a star falling across the clearing
+    var fall = fxSpan(box, 'pf-fx__sw-fall', 72, 10), fs = tiny(70);
+    fs.appendChild(svgEl('path', { d: 'M0 0L22 -13', 'stroke-opacity': '.7' }, { stroke: '--pfx-star-star-2', sw: 1.2 }));
+    fs.appendChild(svgEl('path', { d: sparkle(3) }, { fill: '--pfx-star-star' }));
+    fall.appendChild(fs);
+    return box;
+  }
+  M.swstar = function (g) {
+    g.appendChild(svgEl('path', { d: sparkle(9) }, { fill: '--pfx-star-star', stroke: '--pfx-star-sky', sw: 1, cls: 'art-twinkle', t: 4.5 }));
+    g.appendChild(svgEl('circle', { cx: -7, cy: 6, r: 1.3 }, { fill: '--pfx-star-star-2' }));
+  };
+  M.swember = function (g) {
+    g.appendChild(svgEl('circle', { r: 6, 'fill-opacity': '.32' }, { fill: '--pfx-star-glow', cls: 'art-glow', t: 3.6 }));
+    g.appendChild(svgEl('circle', { r: 2.2 }, { fill: '--pfx-star-ember', stroke: '--pfx-star-flame-3', sw: .8 }));
+    g.appendChild(svgEl('circle', { cx: 5, cy: -6, r: 1 }, { fill: '--pfx-star-ember' }));
+  };
+  // the pass: an ember rising, cooling into a star on the way
+  M.swspark = function (g) { swEmber(g, 0, 0, 2.2, 0, 'fx-sw-pe', 'fx-sw-ps'); };
+  E.starward = {
+    scene: function (box) {
+      box.appendChild(swScene());
+      box.appendChild(swMoment());
+    },
+    edge: [['swstar', 'tl', 0, 15, 0, [16, 14]], ['swstar', 'top', .62, 10], ['swember', 'bl', 0, 14, 0, [18, -16]], ['swember', 'br', 0, 16, 0, [-18, -18]], ['swstar', 'right', .4, 11]],
+    pass: { motif: 'swspark', from: 'bottom', n: 8, size: 12, t: 24, drift: 10 }
+  };
+  /* effect:starward:end */
+
+  /* effect:dolphins:begin */
+  /* LEAPING DOLPHINS (Ryan, 2026-10-19: "Dolphins leaping out of the water in
+     arcs across an ocean dappled by a setting sun"). Drawn in its own
+     --pfx-dolphin-* inks, declared in love.css, and make-profile.py holds this
+     block to them: a sunset is a light no card's seven inks can be relied on
+     for. The dolphins are drawn here, after no picture of anybody's.
+
+     The still part is the sun going down over the banner's right-hand part,
+     its path broken into dapples on the sea, streaks of cloud lit from below,
+     two gulls, and two dolphins in the air, one near and one far. Where
+     drawings move, each leaps out along its arc and back in every twelve
+     seconds, the water breaking where it comes out and where it goes in, and
+     the dapples glint slowly. The opening, on the Lagoon's sixty-second clock:
+     the sunset comes up over the profile, the sun sits on the sea with its
+     light across the water, a pod of dolphins leaps across the profile one
+     after another, and it all fades, about nine seconds of every sixty. The
+     pass is gulls crossing. Nothing in it flashes: a dapple glints over
+     seconds, and a splash comes and goes over more than one. */
+  // A DOLPHIN, facing right, its middle at 0 0 and about 60 long, the low sun
+  // along its back.
+  function dolphin(g, k) {
+    var d = group(g), sw = Math.max(.5, .7 / k);
+    d.appendChild(svgEl('path', { d: 'M-19 .8C-23 -3 -27 -5 -30.6 -4.6C-28.4 -2 -26.4 -.2 -23 1C-26 2.2 -28 4.4 -29.6 7.2C-26 6.6 -22.6 4.6 -19 2.6Z' }, { fill: '--pfx-dolphin-body', stroke: '--pfx-dolphin-line', sw: sw }));
+    d.appendChild(svgEl('path', { d: 'M-2 -7.2C0 -12 2.4 -14.8 6 -15.6C4.2 -12 4.2 -9.4 5.2 -7Z' }, { fill: '--pfx-dolphin-body', stroke: '--pfx-dolphin-line', sw: sw }));
+    d.appendChild(svgEl('path', { d: 'M-20 1C-14 -5 -2 -8 8 -7C13 -6.6 16 -5 18 -3.6L23.4 -3C24.8 -2.8 24.8 -1.8 23.4 -1.4L18 -.6C14 2.4 6 4.6 -2 4.4C-10 4.2 -15 3 -20 1Z' }, { fill: '--pfx-dolphin-body', stroke: '--pfx-dolphin-line', sw: sw }));
+    d.appendChild(svgEl('path', { d: 'M-13 3.2C-4 4.4 6 4 13 1.4L18 -.6C14 1.6 8 3 0 3.2C-6 3.2 -10 3.2 -13 3.2Z' }, { fill: '--pfx-dolphin-belly' }));
+    d.appendChild(svgEl('path', { d: 'M6 2.6C5 6 3 8 0 8.6C1.6 6.4 2.6 4.6 2.8 2.8Z' }, { fill: '--pfx-dolphin-body', stroke: '--pfx-dolphin-line', sw: sw }));
+    d.appendChild(svgEl('circle', { cx: 14.6, cy: -3.4, r: .9 }, { fill: '--pfx-dolphin-line' }));
+    d.appendChild(svgEl('path', { d: 'M18 -1.6Q20 -1.1 22.6 -1.6' }, { stroke: '--pfx-dolphin-line', sw: sw * .7 }));
+    d.appendChild(svgEl('path', { d: 'M-15 -3.6C-7 -7.4 4 -8.2 12 -6.4M-1 -8.2C1 -11.8 3 -13.8 5.4 -14.8' }, { stroke: '--pfx-dolphin-dapple', sw: sw * 1.3 }));
+    return d;
+  }
+  // A SPLASH, its foot on the water at 0 0
+  function splash(g, k) {
+    var s = group(g, 'scale(' + k3(k) + ')');
+    s.appendChild(svgEl('ellipse', { cx: 0, cy: 0, rx: 9, ry: 1.6 }, { stroke: '--pfx-dolphin-spray', sw: 1 }));
+    s.appendChild(svgEl('path', { d: 'M-6 0Q-5.4 -4 -3.4 -6.4M-2 0Q-1.4 -6 0 -8.6M2 0Q1.4 -5 3.4 -6.8M6 0Q5.4 -3 4.2 -4.8' }, { stroke: '--pfx-dolphin-spray', sw: 1.1 }));
+    [[-5.2, -8.4, .9], [1.2, -11, 1], [5, -7.6, .8], [-1.6, -12.8, .6]].forEach(function (p) { s.appendChild(svgEl('circle', { cx: p[0], cy: p[1], r: p[2] }, { fill: '--pfx-dolphin-spray' })); });
+  }
+  // A LEAP: the dolphin at the top of its arc at x y, crossing the surface dx
+  // either side of that and dy under it. Where drawings move it goes out along
+  // the arc and back in on a turn of t seconds from d, clipped away below the
+  // surface, so it comes up out of the water and goes back into it.
+  function dpLeap(g, defs, x, y, dx, dy, k, t, d) {
+    var surf = y + dy, clip = group(g);
+    clip.setAttribute('clip-path', fxClip(defs, x - dx * 3, y - 80, dx * 6, dy + 80));
+    var X = svgEl('g', {}, { cls: 'fx-dp-x', t: t, d: d });
+    X.style.removeProperty('fill');
+    X.style.setProperty('--dx', f(dx) + 'px');
+    X.style.setProperty('--dy', f(dy) + 'px');
+    var Y = svgEl('g', {}, { cls: 'fx-dp-y' }), R = svgEl('g', {}, { cls: 'fx-dp-r' });
+    Y.style.removeProperty('fill');
+    R.style.removeProperty('fill');
+    dolphin(scaled(R, x, y, k), k);
+    Y.appendChild(R);
+    X.appendChild(Y);
+    clip.appendChild(X);
+    [[-1, 'fx-dp-in', '.75'], [1, 'fx-dp-out', '0']].forEach(function (sp) {
+      var w = svgEl('g', { opacity: sp[2] }, { cls: sp[1], t: t, d: d });
+      w.style.removeProperty('fill');
+      splash(at(w, x + sp[0] * dx, surf), k * 1.1);
+      g.appendChild(w);
+    });
+  }
+  // THE SUN'S PATH ON THE SEA, broken into dapples: rows widening and parting
+  // as they come nearer, under the sun at x, from the horizon at y0 to y1.
+  function dpDapples(g, x, y0, y1, k) {
+    for (var r = 0, y = y0 + 1; y < y1; r++) {
+      var spread = (4 + r * 7) * k, n = 2 + r % 3;
+      for (var j = 0; j < n; j++) {
+        var dx = (rnd(r * 7 + j + 800) - .5) * 2 * spread, w = (3 + rnd(r * 7 + j + 830) * 7) * k * (1 + r * .12), h = (.9 + r * .16) * k;
+        g.appendChild(svgEl('rect', { x: f(x + dx - w / 2), y: f(y), width: f(w), height: f(h), rx: f(h / 2) },
+          { fill: Math.abs(dx) < spread * .45 ? '--pfx-dolphin-dapple' : '--pfx-dolphin-dapple-2', cls: 'art-twinkle', d: rnd(r + j + 860) * 4, t: 3.6 + rnd(r * 3 + j) * 2 }));
+      }
+      y += (1.6 + r * .9) * k;
+    }
+  }
+  function gull(g, x, y, s) {
+    g.appendChild(svgEl('path', { d: 'M' + f(x - s) + ' ' + f(y) + 'Q' + f(x - s / 2) + ' ' + f(y - s * .7) + ' ' + f(x) + ' ' + f(y) + 'Q' + f(x + s / 2) + ' ' + f(y - s * .7) + ' ' + f(x + s) + ' ' + f(y) }, { stroke: '--pfx-dolphin-gull', sw: 1.1 }));
+  }
+  function dpScene() {
+    var s = fxSvg(380, 112, 'pf-fx__scene'), defs = fxDefs(s), g = group(s);
+    g.setAttribute('mask', fxFade(defs, 132, 196, 380, 112));
+    g.appendChild(paint(svgEl('rect', { x: 130, y: 0, width: 250, height: 67 }, {}),
+      fxGrad(defs, [0, 0, 0, 1], [[0, .96, { stop: '--pfx-dolphin-high' }], [.55, .96, { stop: '--pfx-dolphin-rose' }], [1, .96, { stop: '--pfx-dolphin-glow' }]])));
+    // streaks of cloud, lit from beneath
+    g.appendChild(svgEl('path', { d: 'M176 20H222M196 26H236M318 14H360M336 21H372M248 36H276', 'stroke-opacity': '.7' }, { stroke: '--pfx-dolphin-dapple-2', sw: 1.8 }));
+    g.appendChild(svgEl('path', { d: 'M180 21.4H214M322 15.4H352M252 37.2H270', 'stroke-opacity': '.65' }, { stroke: '--pfx-dolphin-dapple', sw: .8 }));
+    // the sun on the sea, in its glow
+    var glow = svgEl('g', {}, { cls: 'fx-breathe', t: 11 });
+    glow.style.removeProperty('fill');
+    glow.style.setProperty('filter', fxBlur(defs, 6));
+    glow.appendChild(svgEl('circle', { cx: 300, cy: 66, r: 36, 'fill-opacity': '.34' }, { fill: '--pfx-dolphin-sun-2' }));
+    g.appendChild(glow);
+    g.appendChild(svgEl('circle', { cx: 300, cy: 66, r: 15 }, { fill: '--pfx-dolphin-sun', stroke: '--pfx-dolphin-sun-2', sw: 1.4 }));
+    gull(g, 184, 40, 5);
+    gull(g, 198, 33, 4);
+    // the sea, and the sun's path broken into dapples on it
+    g.appendChild(paint(svgEl('rect', { x: 130, y: 66, width: 250, height: 46 }, {}),
+      fxGrad(defs, [0, 0, 0, 1], [[0, .97, { stop: '--pfx-dolphin-sea-2' }], [1, .98, { stop: '--pfx-dolphin-sea' }]])));
+    g.appendChild(svgEl('path', { d: 'M130 66.4H380', 'stroke-opacity': '.8' }, { stroke: '--pfx-dolphin-glow', sw: .9 }));
+    dpDapples(g, 300, 67, 112, 1);
+    g.appendChild(svgEl('path', { d: 'M150 82h18M176 94h24M340 88h20M318 104h26M206 104h18', 'stroke-opacity': '.8' }, { stroke: '--pfx-dolphin-sea-2', sw: 1.2 }));
+    dpLeap(g, defs, 352, 60, 18, 10, .4, 12, 3.4);
+    dpLeap(g, defs, 226, 54, 44, 30, .72, 12, 0);
+    return s;
+  }
+  function dpMoment() {
+    var box = el('div', 'pf-fx__moment'), i;
+    var sky = fxSvg(100, 100, 'pf-fx__dp-sky', 'none'), sd = fxDefs(sky);
+    sky.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {}),
+      fxGrad(sd, [0, 0, 0, 1], [[0, .93, { stop: '--pfx-dolphin-high' }], [.55, .9, { stop: '--pfx-dolphin-rose' }], [1, .92, { stop: '--pfx-dolphin-glow' }]])));
+    sky.appendChild(svgEl('path', { d: 'M6 30H30M16 37H40M58 20H88M68 27H96M38 52H58', 'stroke-opacity': '.6' }, { stroke: '--pfx-dolphin-dapple-2', sw: 1 }));
+    box.appendChild(sky);
+    // the sun, sitting on the sea and going down
+    var sun = el('div', 'pf-fx__dp-sun'), ss = fxSvg(100, 100), sg = fxDefs(ss);
+    var halo = svgEl('circle', { cx: 50, cy: 50, r: 46, 'fill-opacity': '.4' }, { fill: '--pfx-dolphin-sun-2' });
+    halo.style.setProperty('filter', fxBlur(sg, 8));
+    ss.appendChild(halo);
+    ss.appendChild(svgEl('circle', { cx: 50, cy: 50, r: 24 }, { fill: '--pfx-dolphin-sun', stroke: '--pfx-dolphin-sun-2', sw: 2 }));
+    sun.appendChild(ss);
+    box.appendChild(sun);
+    // the sea, the sun's path across it
+    var sea = fxSvg(200, 76, 'pf-fx__dp-sea', 'none'), ed = fxDefs(sea);
+    sea.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 200, height: 76 }, {}),
+      fxGrad(ed, [0, 0, 0, 1], [[0, .96, { stop: '--pfx-dolphin-sea-2' }], [1, .97, { stop: '--pfx-dolphin-sea' }]])));
+    sea.appendChild(svgEl('path', { d: 'M0 .6H200', 'stroke-opacity': '.8' }, { stroke: '--pfx-dolphin-glow', sw: 1 }));
+    dpDapples(sea, 100, 0, 76, 1);
+    sea.appendChild(svgEl('path', { d: 'M12 20h22M40 44h30M150 30h26M136 60h36M60 66h24', 'stroke-opacity': '.8' }, { stroke: '--pfx-dolphin-sea-2', sw: 1.6 }));
+    box.appendChild(sea);
+    // the pod, leaping across one after another; below the surface they are clipped away
+    var pod = el('div', 'pf-fx__dp-pod');
+    [[16, 10, 34, 120], [37, 11, 40, 150], [59, 10, 32, 112], [80, 9, 30, 132]].forEach(function (p, j) {
+      var leap = fxSpan(pod, 'pf-fx__dp-leap', p[0], 100 - p[2], j * .8);
+      leap.style.setProperty('--dx', String(p[1]));
+      leap.style.setProperty('--dy', String(p[2]));
+      var X = el('span', 'fx-mo-dp-x'), Y = el('span', 'fx-mo-dp-y'), R = el('span', 'fx-mo-dp-r');
+      var ds = plainSvg(64, 32);
+      ds.setAttribute('viewBox', '-33 -17 60 28');
+      ds.setAttribute('width', String(p[3]));
+      ds.setAttribute('height', f(p[3] * 28 / 60));
+      ds.style.left = f(-p[3] / 2) + 'px';
+      ds.style.top = f(-p[3] * 14 / 60) + 'px';
+      dolphin(ds, p[3] / 60);
+      R.appendChild(ds);
+      Y.appendChild(R);
+      X.appendChild(Y);
+      leap.appendChild(X);
+      [[-1, 'in'], [1, 'out']].forEach(function (sp) {
+        var w = fxSpan(pod, 'pf-fx__dp-splash pf-fx__dp-splash--' + sp[1], p[0] + sp[0] * p[1], 100, j * .8), sz = p[3] * .5;
+        var sv = plainSvg(24, 16);
+        sv.setAttribute('viewBox', '-12 -14 24 16');
+        sv.setAttribute('width', f(sz));
+        sv.setAttribute('height', f(sz * 16 / 24));
+        sv.style.left = f(-sz / 2) + 'px';
+        sv.style.top = f(-sz * 14 / 24) + 'px';
+        splash(sv, 1);
+        w.appendChild(sv);
+      });
+    });
+    box.appendChild(pod);
+    return box;
+  }
+  M.dpgull = function (g, moving) {
+    var w = svgEl('g', {}, { cls: moving ? 'fx-batflap' : '' });
+    w.style.removeProperty('fill');
+    w.appendChild(svgEl('path', { d: 'M-10 -1Q-5 -6.4 0 0Q5 -6.4 10 -1', 'stroke-opacity': '.55' }, { stroke: '--pfx-dolphin-dapple', sw: 3.2 }));
+    w.appendChild(svgEl('path', { d: 'M-10 -1Q-5 -6.4 0 0Q5 -6.4 10 -1' }, { stroke: '--pfx-dolphin-gull', sw: 1.6 }));
+    g.appendChild(w);
+  };
+  M.dpwave = function (g) {
+    g.appendChild(svgEl('path', { d: 'M-11 5C-8 -2 -2 -6 4 -4.4C8.4 -3.2 9.4 1 6.4 2.2C4 3 2.6 1.2 3.6 -.2' }, { stroke: '--pfx-dolphin-sea-2', sw: 3 }));
+    g.appendChild(svgEl('path', { d: 'M-11 5C-8 -2 -2 -6 4 -4.4C8.4 -3.2 9.4 1 6.4 2.2C4 3 2.6 1.2 3.6 -.2' }, { stroke: '--pfx-dolphin-spray', sw: 1.1, cls: 'art-twinkle', t: 4 }));
+    [[9, -6, 1], [11.4, -2.4, .8], [6.6, -8.4, .7]].forEach(function (p) { g.appendChild(svgEl('circle', { cx: p[0], cy: p[1], r: p[2] }, { fill: '--pfx-dolphin-spray' })); });
+  };
+  M.dpdolphin = function (g) {
+    dolphin(group(g, 'scale(.38)'), .38);
+    splash(at(g, -9, 7), .6);
+  };
+  E.dolphins = {
+    scene: function (box) {
+      box.appendChild(dpScene());
+      box.appendChild(dpMoment());
+    },
+    edge: [['dpgull', 'tl', 0, 16, 0, [18, 16]], ['dpgull', 'top', .6, 11], ['dpwave', 'bl', 0, 18, 0, [16, -14]], ['dpdolphin', 'br', 0, 30, -18, [-28, -16]]],
+    pass: { motif: 'dpgull', from: 'right', n: 3, size: 16, t: 30, drift: 12 }
+  };
+  /* effect:dolphins:end */
+
+  /* effect:autumn:begin */
+  /* AUTUMN FALLS (Ryan, 2026-10-19: "a large tree in fall foliage with leaves
+     dropping and drifting gently into leaf piles with children popping up out
+     of them"). Drawn in its own --pfx-autumn-* inks, declared in love.css, and
+     make-profile.py holds this block to them: the reds and golds of the leaves
+     and the children's skins are colours no card's seven inks can hold.
+
+     THE CHILDREN ARE NOBODY IN PARTICULAR AND NO TWO ALIKE: five skins, four
+     hairs, curls, a bob, bunches and short, jumpers in four colours, one in
+     glasses, one in ear defenders, and one in a wheelchair beside the piles
+     throwing leaves up with both hands. Their faces are two dots and a smile,
+     and nobody is described in words: every drawing is aria-hidden, as every
+     avatar on the street is.
+
+     The still part is an afternoon over the banner's right-hand part: the tree
+     in red, orange and gold, leaves in the air, two piles of leaves on the
+     grass with a child popping up out of one and peeping out of the other,
+     and the child in the wheelchair between them with leaves going up over
+     their hands. Where drawings move, the leaves drop and drift down swinging,
+     and the children duck into the piles and pop up again with leaves flying.
+     The opening, on the Lagoon's sixty-second clock: the afternoon comes up
+     over the profile, the big tree stands at its side, its leaves come down
+     all over it and pile up along its foot, the children pop up out of the
+     piles one after another with leaves flying, and it all fades, about nine
+     seconds of every sixty. The pass is leaves drifting down. */
+  var AU_LEAF = ['--pfx-autumn-red', '--pfx-autumn-orange', '--pfx-autumn-gold', '--pfx-autumn-yellow', '--pfx-autumn-rust'];
+  var AU_SKIN = ['--pfx-autumn-skin-1', '--pfx-autumn-skin-2', '--pfx-autumn-skin-3', '--pfx-autumn-skin-4', '--pfx-autumn-skin-5'];
+  var AU_HAIR = ['--pfx-autumn-hair-1', '--pfx-autumn-hair-2', '--pfx-autumn-hair-3', '--pfx-autumn-hair-4'];
+  var AU_JUMPER = ['--pfx-autumn-jumper-1', '--pfx-autumn-jumper-2', '--pfx-autumn-jumper-3', '--pfx-autumn-jumper-4'];
+  var AU_MAPLE = 'M0 -10L2 -6L5 -8L4.4 -3.6L9 -4.6L7 -1L9.6 .4L5 2.6L5.6 5L1 3.6L1.2 9H-1.2L-1 3.6L-5.6 5L-5 2.6L-9.6 .4L-7 -1L-9 -4.6L-4.4 -3.6L-5 -8L-2 -6Z';
+  // A LEAF, a maple's or a plain one, its middle at x y, s its size
+  function auLeaf(g, x, y, s, rot, ink, maple) {
+    var q = at(g, x, y, rot);
+    q.appendChild(svgEl('path', { d: maple ? AU_MAPLE : leaf(8, 4.6), transform: 'scale(' + k3(s) + ')' }, { fill: ink, stroke: '--pfx-autumn-line', sw: .5 }));
+    return q;
+  }
+  // A PILE OF LEAVES, its foot at cx base, w wide and h high, heaped with leaves
+  function auPile(g, cx, base, w, h, seed) {
+    var p = group(g), i, n = Math.round(w * h / 20);
+    p.appendChild(svgEl('path', { d: 'M' + f(cx - w / 2) + ' ' + f(base) + 'Q' + f(cx - w * .46) + ' ' + f(base - h * .9) + ' ' + f(cx - w * .12) + ' ' + f(base - h) +
+      'Q' + f(cx + w * .06) + ' ' + f(base - h * 1.08) + ' ' + f(cx + w * .2) + ' ' + f(base - h * .96) + 'Q' + f(cx + w * .48) + ' ' + f(base - h * .82) + ' ' + f(cx + w / 2) + ' ' + f(base) + 'Z' }, { fill: '--pfx-autumn-brown' }));
+    for (i = 0; i < n; i++) {
+      var u = rnd(seed + i * 3), v = rnd(seed + i * 3 + 1);
+      var x = cx + (u - .5) * w * .9, top = base - h * (1 - Math.pow(2 * (x - cx) / w, 2)) * .92, y = top + v * (base - top) * .85 + 1;
+      auLeaf(p, x, y, (.26 + rnd(seed + i * 3 + 2) * .2) * h / 14, rnd(seed + i + 40) * 360, AU_LEAF[i % AU_LEAF.length], i % 3 === 0);
+    }
+    return p;
+  }
+  // A CHILD POPPING UP OUT OF A PILE, its middle at x and the pile's top at y,
+  // arms up; o says its skin, hair and jumper (as indexes), the hair's style,
+  // glasses, ear defenders, and a leaf caught in its hair.
+  function auKid(g, x, y, k, o) {
+    var c = scaled(g, x, y, k), skin = AU_SKIN[o.skin], hair = AU_HAIR[o.hair], top = AU_JUMPER[o.jumper];
+    c.appendChild(svgEl('path', { d: 'M-4.6 -3L-11 -17.6M4.6 -3L11 -17.6' }, { stroke: top, sw: 3.6 }));
+    [-1, 1].forEach(function (sd) { c.appendChild(svgEl('circle', { cx: sd * 11.4, cy: -18.6, r: 2.1 }, { fill: skin, stroke: '--pfx-autumn-line', sw: .45 })); });
+    c.appendChild(svgEl('path', { d: 'M-6.4 14V-1.6C-6.4 -4.4 -4 -6 0 -6C4 -6 6.4 -4.4 6.4 -1.6V14Z' }, { fill: top, stroke: '--pfx-autumn-line', sw: .5 }));
+    if (o.style === 'curls') {
+      c.appendChild(svgEl('circle', { cx: 0, cy: -15, r: 7.6 }, { fill: hair }));
+      for (var a = 0; a < 360; a += 36) c.appendChild(svgEl('circle', { cx: f(7.4 * Math.cos(a * Math.PI / 180)), cy: f(-15.4 + 7.4 * Math.sin(a * Math.PI / 180)), r: 2.1 }, { fill: hair }));
+    } else if (o.style === 'bob') c.appendChild(svgEl('path', { d: 'M-6.8 -9C-7.8 -18 -4 -21.2 0 -21.2C4 -21.2 7.8 -18 6.8 -9Z' }, { fill: hair }));
+    else if (o.style === 'bunches') [-1, 1].forEach(function (sd) {
+      c.appendChild(svgEl('circle', { cx: sd * 7.6, cy: -15.6, r: 3.3 }, { fill: hair }));
+      c.appendChild(svgEl('circle', { cx: sd * 5.7, cy: -15.6, r: 1.1 }, { fill: '--pfx-autumn-jumper-4' }));
+    });
+    c.appendChild(svgEl('rect', { x: -1.7, y: -9, width: 3.4, height: 3.6 }, { fill: skin }));
+    c.appendChild(svgEl('circle', { cx: 0, cy: -13.6, r: 5.6 }, { fill: skin, stroke: '--pfx-autumn-line', sw: .5 }));
+    var fringe = {
+      curls: 'M-5.8 -14.4C-6.4 -19.8 -2.6 -21 0 -20.8C3 -21 6.4 -19.6 5.8 -14.4C4.4 -16.8 2 -17.4 0 -16.4C-2 -17.4 -4.4 -16.8 -5.8 -14.4Z',
+      bob: 'M-5.8 -13.4C-5.6 -18.6 -2.2 -20 0 -20C2.4 -20 5.6 -18.6 5.8 -13.4L4.8 -15.8C2.2 -17.2 -2.2 -17.2 -4.8 -15.8Z',
+      bunches: 'M-5.8 -14.2C-6 -19.4 -2.6 -20.4 0 -20.4C2.6 -20.4 6 -19.4 5.8 -14.2C3.6 -16.6 -3.6 -16.6 -5.8 -14.2Z',
+      short: 'M-5.8 -14.4C-6 -19.8 -2.4 -20.6 0 -20.6C2.8 -20.6 6.2 -19.4 5.8 -14.4C4.8 -16.2 1 -17.6 -2 -16.8C-3.6 -16.4 -5 -15.8 -5.8 -14.4Z'
+    };
+    c.appendChild(svgEl('path', { d: fringe[o.style] }, { fill: hair }));
+    c.appendChild(svgEl('circle', { cx: -2, cy: -13.2, r: .7 }, { fill: '--pfx-autumn-line' }));
+    c.appendChild(svgEl('circle', { cx: 2, cy: -13.2, r: .7 }, { fill: '--pfx-autumn-line' }));
+    c.appendChild(svgEl('path', { d: 'M-2.2 -11Q0 -9 2.2 -11' }, { stroke: '--pfx-autumn-line', sw: .6 }));
+    if (o.glasses) c.appendChild(svgEl('path', { d: 'M-3.8 -13.2A1.8 1.8 0 1 0 -.2 -13.2A1.8 1.8 0 1 0 -3.8 -13.2ZM.2 -13.2A1.8 1.8 0 1 0 3.8 -13.2A1.8 1.8 0 1 0 .2 -13.2Z' }, { stroke: '--pfx-autumn-line', sw: .5 }));
+    if (o.ears) {
+      c.appendChild(svgEl('path', { d: 'M-6 -13C-6.6 -22.4 6.6 -22.4 6 -13' }, { stroke: '--pfx-autumn-jumper-2', sw: 1.5 }));
+      [-1, 1].forEach(function (sd) { c.appendChild(svgEl('ellipse', { cx: sd * 6.1, cy: -13, rx: 1.8, ry: 2.7 }, { fill: '--pfx-autumn-jumper-2', stroke: '--pfx-autumn-line', sw: .4 })); });
+    }
+    if (o.leaf) auLeaf(c, 3.4, -19.6, .32, 30, AU_LEAF[2], true);
+  }
+  // A CHILD IN A WHEELCHAIR, side on, its wheels on the ground at x y, facing
+  // right (dir 1) or left (-1), throwing leaves up with both hands; toss says
+  // how the leaves over its hands go up where drawings move.
+  function auChair(g, x, y, k, dir, o, toss) {
+    var c = group(g, 'translate(' + f(x) + ' ' + f(y) + ') scale(' + k3(k * dir) + ' ' + k3(k) + ')');
+    var skin = AU_SKIN[o.skin], hair = AU_HAIR[o.hair], top = AU_JUMPER[o.jumper], legs = AU_JUMPER[o.legs];
+    c.appendChild(svgEl('path', { d: 'M-7 -14H9L11.6 -6.6M-7 -14L-9.4 -29H-13.4M9 -14L14 -6H18.4' }, { stroke: '--pfx-autumn-chair', sw: 1.7 }));
+    c.appendChild(svgEl('path', { d: 'M-4 -16.4H8.4L13 -9' }, { stroke: legs, sw: 4.2 }));
+    c.appendChild(svgEl('ellipse', { cx: 15.4, cy: -7.4, rx: 2.8, ry: 1.7 }, { fill: '--pfx-autumn-line' }));
+    c.appendChild(svgEl('path', { d: 'M-1.6 -26.4L6.4 -43M-1.6 -26.4L-7.6 -43.4' }, { stroke: top, sw: 3.2 }));
+    c.appendChild(svgEl('path', { d: 'M-7 -15C-8 -22 -6 -27.6 -1.6 -28.6C2.6 -29 4.4 -25 4 -15Z' }, { fill: top, stroke: '--pfx-autumn-line', sw: .5 }));
+    [[6.8, -44.4], [-8, -44.8]].forEach(function (h) { c.appendChild(svgEl('circle', { cx: h[0], cy: h[1], r: 2 }, { fill: skin, stroke: '--pfx-autumn-line', sw: .45 })); });
+    c.appendChild(svgEl('rect', { x: -1.8, y: -31.4, width: 3.4, height: 3.4 }, { fill: skin }));
+    c.appendChild(svgEl('circle', { cx: .6, cy: -34.8, r: 5.4 }, { fill: skin, stroke: '--pfx-autumn-line', sw: .5 }));
+    c.appendChild(svgEl('path', { d: 'M-4.6 -34C-5.6 -40 -.6 -41.6 2.6 -40.8C5.6 -40 6.6 -37.6 6.2 -36.4C4.4 -38 1 -38.2 -1 -36.8C-2.4 -35.8 -3.6 -34.6 -4.6 -34Z' }, { fill: hair }));
+    c.appendChild(svgEl('circle', { cx: 2.6, cy: -35.2, r: .65 }, { fill: '--pfx-autumn-line' }));
+    c.appendChild(svgEl('circle', { cx: 5, cy: -35, r: .6 }, { fill: '--pfx-autumn-line' }));
+    c.appendChild(svgEl('path', { d: 'M2.4 -32.6Q4 -31 5.6 -32.6' }, { stroke: '--pfx-autumn-line', sw: .55 }));
+    // the big wheel beside the child, its hand rim and spokes, and the little one
+    var sp = '';
+    for (var a = 0; a < 180; a += 30) {
+      var ca = Math.cos(a * Math.PI / 180) * 9, sa = Math.sin(a * Math.PI / 180) * 9;
+      sp += 'M' + f(-2 - ca) + ' ' + f(-10 - sa) + 'L' + f(-2 + ca) + ' ' + f(-10 + sa);
+    }
+    c.appendChild(svgEl('path', { d: sp, 'stroke-opacity': '.7' }, { stroke: '--pfx-autumn-chair', sw: .45 }));
+    c.appendChild(svgEl('circle', { cx: -2, cy: -10, r: 10 }, { stroke: '--pfx-autumn-line', sw: 1.8 }));
+    c.appendChild(svgEl('circle', { cx: -2, cy: -10, r: 8 }, { stroke: '--pfx-autumn-chair', sw: .9 }));
+    c.appendChild(svgEl('circle', { cx: -2, cy: -10, r: 1.5 }, { fill: '--pfx-autumn-chair' }));
+    c.appendChild(svgEl('circle', { cx: 12, cy: -2.3, r: 2.3 }, { stroke: '--pfx-autumn-line', sw: 1.2 }));
+    // leaves over its hands: still, and going up where drawings move
+    if (toss) {
+      var still = group(c);
+      still.setAttribute('class', 'fx-still');
+      [[-.6, -50, 40], [-8.4, -51.6, 160], [7.4, -52.6, 280]].forEach(function (l, i) {
+        auLeaf(still, l[0], l[1], .36, l[2], AU_LEAF[i + 1], i % 2 === 0);
+        var fly = svgEl('g', { opacity: '0' }, { cls: toss.cls, t: toss.t, d: toss.d });
+        fly.style.removeProperty('fill');
+        fly.style.setProperty('--tx', f((i - 1) * 10) + 'px');
+        fly.style.setProperty('--ty', f(-18 - i * 5) + 'px');
+        auLeaf(fly, l[0] * .6, -45, .36, l[2], AU_LEAF[i + 2], i % 2 === 1);
+        c.appendChild(fly);
+      });
+    }
+    return c;
+  }
+  // THE TREE: a trunk from its foot at x y, h tall, branching up into a crown
+  // of autumn leaves w wide (at h 70); cls sways the crown.
+  function auTree(g, x, y, h, w, seed, cls) {
+    var kk = h / 70, t = scaled(g, x, y, kk), i;
+    t.appendChild(svgEl('path', { d: 'M-7 2C-5 -14 -4 -30 -6 -42C-10 -48 -16 -52 -26 -56L-25 -58.6C-15 -55.6 -9 -52 -4.4 -48C-3.6 -54 -3.6 -60 -6.4 -68L-2.6 -69C.6 -61 1 -54 .8 -47.4C5 -52.4 11 -56.4 19 -58.6L20 -56C12.4 -53 7.4 -48 4 -42C3 -30 4 -14 7 2Z' }, { fill: '--pfx-autumn-bark' }));
+    t.appendChild(svgEl('path', { d: 'M4 -42C3 -30 4 -14 7 2M.8 -47.4C5 -52.4 11 -56.4 19 -58.6' }, { stroke: '--pfx-autumn-bark-2', sw: f(Math.max(.8, 1.2 / kk)) }));
+    t.appendChild(svgEl('path', { d: 'M-3 -10q1.4 -4 0 -8M1.6 -24q-1 -4 0 -7M-2 -34q1 -3 0 -5', 'stroke-opacity': '.6' }, { stroke: '--pfx-autumn-line', sw: .5 }));
+    t.appendChild(svgEl('path', { d: 'M-7 2Q-12 3 -16 4M7 2Q12 3 15 4' }, { stroke: '--pfx-autumn-bark', sw: 1.6 }));
+    var crown = svgEl('g', {}, { cls: cls || '' });
+    crown.style.removeProperty('fill');
+    t.appendChild(crown);
+    // the darker leaves at the back, the brighter in front, and loose ones round the edge
+    var n = Math.round(w * 1.3), lay, j;
+    for (lay = 0; lay < 2; lay++) for (i = 0; i < n; i++) {
+      var a = rnd(seed + i * 2 + lay * 500) * Math.PI * 2, rr = Math.sqrt(rnd(seed + i * 2 + 1 + lay * 500)) * (lay ? .9 : 1);
+      crown.appendChild(svgEl('circle', { cx: f(Math.cos(a) * rr * w), cy: f(-66 + Math.sin(a) * rr * 24), r: f((6 + rnd(seed + i + 77 + lay * 300) * 6) * w / 34) },
+        { fill: lay ? AU_LEAF[i % 4] : (i % 2 ? '--pfx-autumn-rust' : '--pfx-autumn-brown') }));
+    }
+    for (j = 0; j < w; j++) {
+      var b = j / w * Math.PI * 2;
+      auLeaf(crown, Math.cos(b) * w * 1.08, -66 + Math.sin(b) * 26, .36 * w / 34, rnd(seed + j + 900) * 360, AU_LEAF[j % AU_LEAF.length], j % 2 === 0);
+    }
+  }
+  // A PILE WITH A CHILD IN IT: the child behind the pile's front and clipped at
+  // the ground, popping up out of it where drawings move, leaves flying off it.
+  // peek is how far lower the child is, so only its head shows.
+  function auPop(g, clip, cx, base, w, h, o, k, d, seed, peek) {
+    var top = base - h, inside = group(g), i;
+    inside.setAttribute('clip-path', clip);
+    var pop = svgEl('g', {}, { cls: 'fx-au-pop', t: 9, d: d });
+    pop.style.removeProperty('fill');
+    pop.style.setProperty('--sink', f(26 * k - (peek || 0)) + 'px');
+    auKid(pop, cx, top + 3 + (peek || 0), k, o);
+    inside.appendChild(pop);
+    auPile(g, cx, base, w, h, seed);
+    var still = group(g);
+    still.setAttribute('class', 'fx-still');
+    for (i = 0; i < 4; i++) {
+      var tx = (i - 1.5) * w * .24, ty = -(h + 8 + rnd(seed + i + 50) * 12);
+      auLeaf(still, cx + tx * .7, top + ty * .5, .34, rnd(seed + i) * 360, AU_LEAF[(i + 1) % AU_LEAF.length], i % 2 === 0);
+      var fly = svgEl('g', { opacity: '0' }, { cls: 'fx-au-toss', t: 9, d: d });
+      fly.style.removeProperty('fill');
+      fly.style.setProperty('--tx', f(tx) + 'px');
+      fly.style.setProperty('--ty', f(ty) + 'px');
+      auLeaf(fly, cx + tx * .1, top + 2, .34, rnd(seed + i + 9) * 360, AU_LEAF[(i + 2) % AU_LEAF.length], i % 2 === 1);
+      g.appendChild(fly);
+    }
+  }
+  function auScene() {
+    var s = fxSvg(380, 112, 'pf-fx__scene'), defs = fxDefs(s), g = group(s), i;
+    g.setAttribute('mask', fxFade(defs, 132, 196, 380, 112));
+    g.appendChild(paint(svgEl('rect', { x: 130, y: 0, width: 250, height: 112 }, {}),
+      fxGrad(defs, [0, 0, 0, 1], [[0, .95, { stop: '--pfx-autumn-sky' }], [1, .95, { stop: '--pfx-autumn-haze' }]])));
+    var sun = svgEl('circle', { cx: 372, cy: 4, r: 34, 'fill-opacity': '.75' }, { fill: '--pfx-autumn-light' });
+    sun.style.setProperty('filter', fxBlur(defs, 8));
+    g.appendChild(sun);
+    // a far hedge of trees turning, and the grass with leaves lying on it
+    for (i = 0; i < 14; i++) g.appendChild(svgEl('circle', { cx: f(150 + i * 17 + rnd(i + 900) * 8), cy: f(88 + rnd(i + 910) * 3), r: f(7 + rnd(i + 920) * 5), 'fill-opacity': '.5' }, { fill: i % 2 ? '--pfx-autumn-rust' : '--pfx-autumn-gold' }));
+    g.appendChild(svgEl('path', { d: 'M130 95C170 91 220 93 262 91C302 89 342 93 380 91V112H130Z' }, { fill: '--pfx-autumn-grass' }));
+    for (i = 0; i < 22; i++) auLeaf(g, 160 + rnd(i + 940) * 216, 98 + rnd(i + 950) * 12, .32, rnd(i + 960) * 360, AU_LEAF[i % AU_LEAF.length], i % 3 === 0);
+    auTree(g, 344, 100, 92, 34, 0, 'fx-au-sway');
+    auChair(g, 250, 100.5, .78, -1, { skin: 4, hair: 1, jumper: 1, legs: 2 }, { cls: 'fx-au-toss', t: 9, d: 1.6 });
+    auPop(g, fxClip(defs, 150, -40, 110, 139), 206, 100, 46, 15, { skin: 1, hair: 2, jumper: 0, style: 'bunches', leaf: true }, .85, 0, 1000);
+    auPop(g, fxClip(defs, 262, -40, 60, 140), 292, 101, 38, 12, { skin: 3, hair: 0, jumper: 2, style: 'curls', ears: true }, .72, 3.2, 1060, 7);
+    // leaves coming down
+    [[230, 30, 0], [258, 46, 1], [282, 20, 2], [304, 62, 3], [320, 76, 4], [366, 64, 0], [244, 66, 2], [222, 52, 3], [354, 84, 1]].forEach(function (l, j) {
+      var fall = svgEl('g', {}, { cls: 'fx-au-fall', t: 8 + rnd(j + 980) * 4, d: -rnd(j + 990) * 10 });
+      fall.style.removeProperty('fill');
+      fall.style.setProperty('--run', f(100 - l[1]) + 'px');
+      fall.style.setProperty('--sx', f((rnd(j + 1000) - .5) * 30) + 'px');
+      var swing = svgEl('g', {}, { cls: 'fx-au-swing' });
+      swing.style.removeProperty('fill');
+      swing.style.setProperty('--s', f(2.6 + rnd(j) * 1.2) + 's');
+      auLeaf(swing, l[0], l[1], .5, rnd(j + 1010) * 360, AU_LEAF[l[2]], j % 2 === 0);
+      fall.appendChild(swing);
+      g.appendChild(fall);
+    });
+    return s;
+  }
+  function auMoment() {
+    var box = el('div', 'pf-fx__moment'), i;
+    var wash = fxSvg(100, 100, 'pf-fx__au-wash', 'none'), wd = fxDefs(wash);
+    wash.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {}),
+      fxGrad(wd, [0, 0, 0, 1], [[0, .66, { stop: '--pfx-autumn-sky' }], [1, .6, { stop: '--pfx-autumn-haze' }]])));
+    box.appendChild(wash);
+    var tree = fxSvg(300, 420, 'pf-fx__au-tree', 'xMaxYMax meet');
+    auTree(tree, 210, 420, 330, 46, 300, 'fx-au-sway');
+    box.appendChild(tree);
+    // leaves coming down all over the profile
+    var leaves = el('div', 'pf-fx__au-leaves');
+    for (i = 0; i < 30; i++) {
+      var lf = fxSpan(leaves, 'pf-fx__au-fall', 4 + rnd(i + 1100) * 90, 4 + rnd(i + 1130) * 30, rnd(i + 1160) * 3.6);
+      lf.style.setProperty('--sx', f((rnd(i + 1190) - .5) * 20));
+      lf.style.setProperty('--fall', f(54 + rnd(i + 1220) * 26));
+      var ts = tiny(12 + rnd(i + 1250) * 14), swing = group(ts);
+      swing.setAttribute('class', 'fx-au-swing');
+      swing.style.setProperty('--s', f(2.2 + rnd(i + 1280) * 1.4) + 's');
+      swing.appendChild(svgEl('path', { d: i % 3 ? leaf(9, 5) : AU_MAPLE }, { fill: AU_LEAF[i % AU_LEAF.length], stroke: '--pfx-autumn-line', sw: .5 }));
+      lf.appendChild(ts);
+    }
+    box.appendChild(leaves);
+    // the piles along the foot, growing as the leaves land, and a child in each
+    var piles = fxSvg(400, 120, 'pf-fx__au-piles', 'xMinYMax meet'), pd = fxDefs(piles), pg = group(piles);
+    auChair(pg, 152, 117, 1.9, 1, { skin: 2, hair: 3, jumper: 1, legs: 0 }, { cls: 'fx-mo-au-toss', d: 1 });
+    [[60, 117, 100, 30, { skin: 4, hair: 0, jumper: 0, style: 'curls' }, 2, 0],
+     [256, 117, 110, 34, { skin: 0, hair: 3, jumper: 3, style: 'bob', glasses: true, leaf: true }, 2.1, .5],
+     [354, 118, 84, 26, { skin: 2, hair: 1, jumper: 2, style: 'short', ears: true }, 1.8, 1]].forEach(function (p, j) {
+      var inside = group(pg);
+      inside.setAttribute('clip-path', fxClip(pd, p[0] - 80, -100, 160, p[1] + 99));
+      var pop = svgEl('g', {}, { cls: 'fx-mo-au-pop', d: p[6] });
+      pop.style.removeProperty('fill');
+      pop.style.setProperty('--sink', f(28 * p[5]) + 'px');
+      auKid(pop, p[0], p[1] - p[3] + 3, p[5], p[4]);
+      inside.appendChild(pop);
+      var grow = svgEl('g', {}, { cls: 'fx-mo-au-pile' });
+      grow.style.removeProperty('fill');
+      auPile(grow, p[0], p[1], p[2], p[3], 1300 + j * 97);
+      pg.appendChild(grow);
+      for (var k = 0; k < 6; k++) {
+        var fly = svgEl('g', { opacity: '0' }, { cls: 'fx-mo-au-toss', d: p[6] });
+        fly.style.removeProperty('fill');
+        fly.style.setProperty('--tx', f((k - 2.5) * p[2] * .14) + 'px');
+        fly.style.setProperty('--ty', f(-(p[3] + 20 + rnd(j * 6 + k + 1400) * 30)) + 'px');
+        auLeaf(fly, p[0] + (k - 2.5) * 4, p[1] - p[3] + 4, .5 * p[5], rnd(j * 6 + k + 1420) * 360, AU_LEAF[(j + k) % AU_LEAF.length], k % 2 === 0);
+        pg.appendChild(fly);
+      }
+    });
+    box.appendChild(piles);
+    return box;
+  }
+  M.aumaple = function (g) {
+    var s = svgEl('g', {}, { cls: 'art-sway', t: 5 });
+    s.style.removeProperty('fill');
+    s.appendChild(svgEl('path', { d: AU_MAPLE }, { fill: '--pfx-autumn-red', stroke: '--pfx-autumn-line', sw: .7 }));
+    s.appendChild(svgEl('path', { d: 'M0 3.6V10.6M0 3V-7M0 1L5.6 -3M0 1L-5.6 -3', 'stroke-opacity': '.55' }, { stroke: '--pfx-autumn-line', sw: .6 }));
+    g.appendChild(s);
+  };
+  M.auleaf = function (g) { g.appendChild(svgEl('path', { d: leaf(9, 5) }, { fill: '--pfx-autumn-gold', stroke: '--pfx-autumn-line', sw: .7, cls: 'art-sway', t: 4.4 })); };
+  M.auacorn = function (g) {
+    g.appendChild(svgEl('path', { d: 'M-4.4 -1.6C-4.4 5 -1 8 0 8.4C1 8 4.4 5 4.4 -1.6Z' }, { fill: '--pfx-autumn-gold', stroke: '--pfx-autumn-line', sw: .7 }));
+    g.appendChild(svgEl('path', { d: 'M-5.6 -1.4C-5.6 -6.4 5.6 -6.4 5.6 -1.4Z' }, { fill: '--pfx-autumn-brown', stroke: '--pfx-autumn-line', sw: .7 }));
+    g.appendChild(svgEl('path', { d: 'M0 -5L1 -8.4' }, { stroke: '--pfx-autumn-line', sw: 1 }));
+  };
+  // the pass: leaves drifting down, each a colour of its own in turn
+  var auNext = 0;
+  M.aufall = function (g) {
+    var ink = AU_LEAF[auNext % AU_LEAF.length], maple = auNext % 2 === 0;
+    auNext++;
+    var s = svgEl('g', {}, { cls: 'fx-au-swing' });
+    s.style.removeProperty('fill');
+    s.style.setProperty('--s', '3s');
+    s.appendChild(svgEl('path', { d: maple ? AU_MAPLE : leaf(9, 5) }, { fill: ink, stroke: '--pfx-autumn-line', sw: .6 }));
+    g.appendChild(s);
+  };
+  E.autumn = {
+    scene: function (box) {
+      box.appendChild(auScene());
+      box.appendChild(auMoment());
+    },
+    edge: [['aumaple', 'tl', 0, 20, -20, [16, 14]], ['auleaf', 'top', .6, 12, 40], ['auacorn', 'bl', 0, 16, -10, [16, -14]], ['aumaple', 'br', 0, 22, 30, [-18, -16]]],
+    pass: { motif: 'aufall', from: 'top', n: 8, size: 15, t: 26, drift: 16 }
+  };
+  /* effect:autumn:end */
 
   var EDGE_AT = {
     tl: function () { return [0, 0]; }, tr: function () { return [100, 0]; },
