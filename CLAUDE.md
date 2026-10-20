@@ -5225,7 +5225,7 @@ page, and `make-forum.py` refuses `replyTopic` reaching the long limit.
 
 **TASKS ARE THE TEAM'S TO-DO LIST, MOVED FROM ESPOCRM IN STAGES, AND NUMBERS BESIDE THINGS ARE FINE IN THEM.** Ryan's
 brief, 2026-10-20: EspoCRM costs $45 a month and is not part of the street, so its tasks come here, iteratively: the
-tasks and their list first, then a board and saved filters, then recurring tasks (all done), and a timeline. `tasks.html` (paperwork
+tasks and their list first, then a board and saved filters, then recurring tasks, then a timeline, all done. `tasks.html` (paperwork
 beside the forums, in the CB's colours through a shadow root, `tasks.css` the CB's seven tokens only), `tasks.js`,
 `/cb/tasks`, the Tasks section at the end of `lib.mjs`, `data/tasks.json` (who reads them, and EspoCRM's own statuses,
 priorities and tags, written between `tasks:settings` markers by `tools/make-tasks.py`; never hand-edit them). **Directors
@@ -5257,6 +5257,10 @@ tasks only, so the forums, the board and the suggestion box still show `[ ]` as 
 read-only unless the page passes `box`. `tickTask` changes one line of the description, and only where the reader and
 a plain scan of the lines agree on every box (`taskBoxes`) and the box's words are the ones the page saw, so a tick can
 never land on another box; `make-tasks.py` holds both guards. The friendly edit is matching a box by its number alone.
+**The timeline is the list drawn across days** (`#/timeline`, after EspoCRM's calendar timeline), a row per person and a
+bar per task from its start to its due day, under the list's filters, address and saved filters; a timeline saved on
+this week keeps no day in its address, so it is always this week. Every bar says its days in words, and a day is never
+narrower than a short word (the box scrolls sideways instead); the friendly edit is cutting names short to fit.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

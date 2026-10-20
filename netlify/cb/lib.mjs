@@ -7274,16 +7274,16 @@ async function readTaskGone(s) {
 export const TASK_VIEWS_KEEP = 40;
 export const TASK_VIEW_NAME_MAX = 60;
 const TASK_VIEW_ADDRESS_MAX = 1000;
-const TASK_VIEW_KEYS = new Set(['q', 'status', 'priority', 'tags', 'who', 'due', 'sort', 'dir', 'cols']);
+const TASK_VIEW_KEYS = new Set(['q', 'status', 'priority', 'tags', 'who', 'due', 'sort', 'dir', 'cols', 'from', 'span']);
 const taskViewsBlob = (k) => `task-views/${k}`;
 const taskViewId = (v) => (typeof v === 'string' && /^v[A-Za-z0-9_-]{10}$/.test(v) ? v : null);
 
-/* An address a saved filter may hold: #/ for the list or #/board for the
-   board, and after a ? only the filters tasks.js writes, each once, encoded
-   as it encodes them. Anything else is null. */
+/* An address a saved filter may hold: #/ for the list, #/board for the board
+   or #/timeline for the timeline, and after a ? only the filters tasks.js
+   writes, each once, encoded as it encodes them. Anything else is null. */
 export function taskAddress(v) {
   if (typeof v !== 'string' || v.length > TASK_VIEW_ADDRESS_MAX) return null;
-  const m = /^#\/(board)?(?:\?([A-Za-z0-9%._~!*'(),&=+-]*))?$/.exec(v);
+  const m = /^#\/(board|timeline)?(?:\?([A-Za-z0-9%._~!*'(),&=+-]*))?$/.exec(v);
   if (!m) return null;
   const seen = new Set();
   for (const kv of (m[2] || '').split('&').filter(Boolean)) {

@@ -63,9 +63,10 @@
   nav.setAttribute('aria-label', 'Tasks');
   var navList = el('a', 'cb-btn tk-navlink', 'List'); navList.href = '#/';
   var navBoard = el('a', 'cb-btn tk-navlink', 'Board'); navBoard.href = '#/board';
+  var navTime = el('a', 'cb-btn tk-navlink', 'Timeline'); navTime.href = '#/timeline';
   var navRecur = el('a', 'cb-btn tk-navlink', 'Recurring'); navRecur.href = '#/recurring';
   var navNew = el('a', 'cb-btn tk-navlink', 'New task'); navNew.href = '#/new';
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navRecur); nav.appendChild(navNew);
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navRecur); nav.appendChild(navNew);
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -181,9 +182,11 @@
     });
     var list = function (k) { return q[k] != null ? q[k].split(',').filter(Boolean) : null; };
     var cols = q.cols === 'priority' || q.cols === 'who' ? q.cols : 'status';
+    var span = SPANS.some(function (x) { return String(x[0]) === q.span; }) ? +q.span : 14;
     return {
       q: q.q || '', status: list('status'), priority: list('priority'), tags: list('tags'),
       who: q.who || '', due: q.due || '', sort: q.sort || 'due', dir: q.dir === 'desc' ? 'desc' : 'asc', cols: cols,
+      from: /^\d{4}-\d{2}-\d{2}$/.test(q.from || '') ? q.from : null, span: span,
     };
   }
   function addressOf(f, mode) {
@@ -196,13 +199,16 @@
     if (f.due) parts.push('due=' + f.due);
     if (f.sort !== 'due' || f.dir !== 'asc') parts.push('sort=' + f.sort + '&dir=' + f.dir);
     if (mode === 'board' && f.cols !== 'status') parts.push('cols=' + f.cols);
-    return (mode === 'board' ? '#/board' : '#/') + (parts.length ? '?' + parts.join('&') : '');
+    if (mode === 'timeline' && f.span !== 14) parts.push('span=' + f.span);
+    // A timeline on this week keeps no day, so a saved one is always this week.
+    if (mode === 'timeline' && f.from && mondayOf(f.from) !== mondayOf(today())) parts.push('from=' + mondayOf(f.from));
+    return (mode === 'board' ? '#/board' : mode === 'timeline' ? '#/timeline' : '#/') + (parts.length ? '?' + parts.join('&') : '');
   }
   function writeQuery(f, mode) {
     var h = addressOf(f, mode);
     if (location.hash !== h) history.replaceState(null, '', h);
   }
-  function modeOf(hash) { return /^#\/board(\?|$)/.test(hash || '') ? 'board' : 'list'; }
+  function modeOf(hash) { var m = /^#\/(board|timeline)(\?|$)/.exec(hash || ''); return m ? m[1] : 'list'; }
   /* Until somebody picks statuses, the list shows the ones still to do, and a
      board by status shows every status but the ones it hides (Canceled). */
   function statusesOf(f, mode) {
@@ -261,11 +267,20 @@
       return a.name.localeCompare(b.name);
     });
   }
-  // How many tasks a saved filter would show now, worked out here.
+  // How many tasks a saved filter would show now, worked out here: on a timeline, those on its days.
   function howMany(address) {
-    var g = readQuery(address), m = modeOf(address);
-    return tasks.filter(function (t) { return passes(t, g, null, m); }).length;
+    var g = readQuery(address), m = modeOf(address), a = mondayOf(g.from || today()), b = plus(a, g.span - 1);
+    return tasks.filter(function (t) { return passes(t, g, null, m) && (m !== 'timeline' || onDays(t, a, b)); }).length;
   }
+
+  /* THE TIMELINE'S DAYS: weeks start on Monday, as the recurring tasks' weeks
+     do; a task's days run from its start to its due day, and a task with only
+     one of them is on that one day. */
+  var SPANS = [[7, 'A week'], [14, '2 weeks'], [28, '4 weeks']];
+  function mondayOf(d) { var p = d.split('-'), x = new Date(+p[0], +p[1] - 1, +p[2]); return plus(d, -((x.getDay() + 6) % 7)); }
+  function daysBetween(a, b) { var p = a.split('-'), q = b.split('-'); return Math.round((Date.UTC(+q[0], +q[1] - 1, +q[2]) - Date.UTC(+p[0], +p[1] - 1, +p[2])) / 86400000); }
+  function spanOf(t) { var s = t.start || t.due, e = t.due || t.start; if (!s) return null; return s <= e ? [s, e] : [e, s]; }
+  function onDays(t, a, b) { var d = spanOf(t); return !!d && d[0] <= b && d[1] >= a; }
 
   function tasksView(mode) {
     view.textContent = '';
@@ -282,7 +297,7 @@
 
   function drawTasks(f, mode) {
     view.textContent = '';
-    var h = heading(2, mode === 'board' ? 'Tasks, as a board' : 'Tasks');
+    var h = heading(2, mode === 'board' ? 'Tasks, as a board' : mode === 'timeline' ? 'Tasks, on a timeline' : 'Tasks');
     view.appendChild(h);
     var saved = el('div', 'tk-saved');
     var filters = el('form', 'tk-filters');
@@ -290,13 +305,33 @@
     filters.addEventListener('submit', function (e) { e.preventDefault(); });
     var shown = el('p', 'tk-shown');
     shown.setAttribute('aria-live', 'polite');
-    var out = el('div', mode === 'board' ? 'tk-boardbox' : 'tk-tablebox');
+    var out = el('div', mode === 'board' ? 'tk-boardbox' : mode === 'timeline' ? 'tk-tlbox' : 'tk-tablebox');
     // It scrolls sideways on a narrow screen, so a keyboard can reach it.
     out.tabIndex = 0;
     out.setAttribute('role', 'region');
-    out.setAttribute('aria-label', mode === 'board' ? 'The board' : 'The tasks');
+    out.setAttribute('aria-label', mode === 'board' ? 'The board' : mode === 'timeline' ? 'The timeline' : 'The tasks');
     view.appendChild(saved);
     view.appendChild(filters);
+    // The timeline's way along its days, which stays put while the days change.
+    var along = null;
+    if (mode === 'timeline') {
+      along = el('div', 'tk-row tk-along');
+      along.setAttribute('aria-label', 'Which days');
+      along.setAttribute('role', 'group');
+      [['earlier', '← Earlier'], ['now', 'This week'], ['later', 'Later →']].forEach(function (b) {
+        var x = el('button', 'cb-btn tk-small', b[1]); x.type = 'button';
+        x.addEventListener('click', function () {
+          var a = mondayOf(f.from || today());
+          f.from = b[0] === 'now' ? null : plus(a, b[0] === 'earlier' ? -f.span : f.span);
+          if (f.from && mondayOf(f.from) === mondayOf(today())) f.from = null;
+          writeQuery(f, mode);
+          drawSaved();
+          drawOut();
+        });
+        along.appendChild(x);
+      });
+      view.appendChild(along);
+    }
     view.appendChild(shown);
     view.appendChild(out);
 
@@ -309,7 +344,7 @@
       drawFilters();
       drawOut(focusSort);
     }
-    function drawOut(focus) { if (mode === 'board') drawBoard(focus); else drawTable(focus); }
+    function drawOut(focus) { if (mode === 'board') drawBoard(focus); else if (mode === 'timeline') drawTimeline(); else drawTable(focus); }
 
     /* SAVED FILTERS, each yours, kept under your username: what it shows, and
        how many tasks it shows now. */
@@ -406,6 +441,16 @@
       filters.textContent = '';
       var fields = el('div', 'tk-fields');
       filters.appendChild(fields);
+      if (mode === 'timeline') {
+        var sf = el('div', 'tk-field');
+        var sl = el('label', 'cb-lab', 'Days shown'); sl.htmlFor = 'tk-span';
+        var ss = el('select', 'cb-say tk-input'); ss.id = 'tk-span';
+        SPANS.forEach(function (x) { var o = el('option', null, x[1]); o.value = String(x[0]); ss.appendChild(o); });
+        ss.value = String(f.span);
+        ss.addEventListener('change', function () { f.span = +ss.value; refresh(); });
+        sf.appendChild(sl); sf.appendChild(ss);
+        fields.appendChild(sf);
+      }
       if (mode === 'board') {
         var cf = el('div', 'tk-field');
         var cl = el('label', 'cb-lab', 'Columns by'); cl.htmlFor = 'tk-cols';
@@ -462,7 +507,7 @@
       filters.appendChild(tagFold);
 
       var row = el('p', 'tk-row');
-      var clear = el('a', 'cb-btn tk-small', 'Clear the filters'); clear.href = mode === 'board' ? '#/board' : '#/';
+      var clear = el('a', 'cb-btn tk-small', 'Clear the filters'); clear.href = mode === 'board' ? '#/board' : mode === 'timeline' ? '#/timeline' : '#/';
       row.appendChild(clear);
       var link = el('button', 'cb-btn tk-small', 'Copy a link to this view'); link.type = 'button';
       link.addEventListener('click', function () {
@@ -670,6 +715,96 @@
       mv.appendChild(ms);
       li.appendChild(mv);
       return li;
+    }
+
+    /* THE TIMELINE, after EspoCRM's calendar timeline: a row for each person a
+       task can be assigned to, and Nobody when anything is, with the days
+       running across and each task a bar from its start to its due day. A bar
+       that began before these days or runs past them says so, in words as well
+       as at its open end. The day header is drawn for the eye; every bar says
+       its own days in words. Two tasks on the same days stand one above the
+       other, and nothing is left off a row for want of room. */
+    function drawTimeline() {
+      var a = mondayOf(f.from || today()), span = f.span, b = plus(a, span - 1), now = today();
+      var all = tasks.filter(function (t) { return passes(t, f, null, mode); });
+      var on = all.filter(function (t) { return onDays(t, a, b); });
+      var undated = all.filter(function (t) { return !spanOf(t); }).length;
+      shown.textContent = on.length + ' of ' + all.length + ' tasks fall between ' + dayWords(a) + ' and ' + dayWords(b)
+        + (undated ? '; ' + undated + ' have no start or due day, so no place on it' : '');
+      if (along) along.querySelectorAll('button')[1].setAttribute('aria-pressed', String(a === mondayOf(now)));
+      out.textContent = '';
+      var tl = el('div', 'tk-tl');
+      // A day is never narrower than a short word, so a one-day bar can be read; the box scrolls sideways instead.
+      tl.style.minWidth = (span * 80) + 'px';
+      var cols = 'repeat(' + span + ', minmax(0, 1fr))';
+      var days = el('div', 'tk-tl__days');
+      days.setAttribute('aria-hidden', 'true');
+      days.style.gridTemplateColumns = cols;
+      for (var i = 0; i < span; i++) {
+        var d = plus(a, i), p = d.split('-'), x = new Date(+p[0], +p[1] - 1, +p[2]);
+        var c = el('div', 'tk-tl__day' + (d === now ? ' tk-tl__day--today' : '') + (x.getDay() === 1 ? ' tk-tl__day--monday' : ''));
+        c.appendChild(el('span', 'tk-tl__wd', x.toLocaleDateString(undefined, { weekday: 'short' })));
+        c.appendChild(el('span', 'tk-tl__dn', (i === 0 || +p[2] === 1 ? x.toLocaleDateString(undefined, { month: 'short' }) + ' ' : '') + (+p[2])));
+        if (d === now) c.appendChild(el('span', 'tk-tl__now', 'Today'));
+        days.appendChild(c);
+      }
+      tl.appendChild(days);
+      var rows = people.slice();
+      on.forEach(function (t) { if (t.who && rows.every(function (p) { return fold(p) !== fold(t.who); })) rows.push(t.who); });
+      rows = rows.map(function (p) { return [p, p]; });
+      if (on.some(function (t) { return !t.who; })) rows.push(['', 'Nobody']);
+      var todayAt = daysBetween(a, now);
+      rows.forEach(function (row, r) {
+        var mine = on.filter(function (t) { return fold(t.who || '') === fold(row[0]); }).sort(function (x, y) {
+          var p = spanOf(x), q = spanOf(y);
+          return p[0] < q[0] ? -1 : p[0] > q[0] ? 1 : p[1] < q[1] ? -1 : p[1] > q[1] ? 1 : x.name.localeCompare(y.name);
+        });
+        var sec = el('section', 'tk-tl__row');
+        var hid = 'tk-tl-row-' + r;
+        sec.setAttribute('aria-labelledby', hid);
+        var hd = el('h3', 'tk-tl__who'); hd.id = hid;
+        hd.appendChild(document.createTextNode(row[1] + ' '));
+        hd.appendChild(el('span', 'tk-n', String(mine.length)));
+        sec.appendChild(hd);
+        if (!mine.length) { sec.appendChild(el('p', 'cb-quiet tk-tl__none', 'Nothing on these days.')); tl.appendChild(sec); return; }
+        var lanes = el('ul', 'tk-tl__lanes');
+        lanes.style.gridTemplateColumns = cols;
+        var ends = [];
+        var placed = mine.map(function (t) {
+          var d = spanOf(t), s0 = Math.max(0, daysBetween(a, d[0])), e0 = Math.min(span - 1, daysBetween(a, d[1]));
+          var lane = 0;
+          while (ends[lane] != null && ends[lane] >= s0) lane++;
+          ends[lane] = e0;
+          return { t: t, d: d, s0: s0, e0: e0, lane: lane };
+        });
+        if (todayAt >= 0 && todayAt < span) {
+          var mark = el('li', 'tk-tl__todaycol');
+          mark.setAttribute('aria-hidden', 'true');
+          mark.style.gridColumn = (todayAt + 1) + ' / ' + (todayAt + 2);
+          mark.style.gridRow = '1 / ' + (ends.length + 1);
+          lanes.appendChild(mark);
+        }
+        placed.forEach(function (pl) {
+          var t = pl.t, before = pl.d[0] < a, after = pl.d[1] > b;
+          var li = el('li', 'tk-tl__item');
+          li.style.gridColumn = (pl.s0 + 1) + ' / ' + (pl.e0 + 2);
+          li.style.gridRow = String(pl.lane + 1);
+          var bar = el('a', 'tk-tl__bar' + (before ? ' tk-tl__bar--before' : '') + (after ? ' tk-tl__bar--after' : '')
+            + (overdue(t) ? ' tk-tl__bar--late' : '') + (isDone(t) ? ' tk-done' : '') + (t.priority === 'High' || t.priority === 'Urgent' ? ' tk-high' : ''));
+          bar.href = '#/t/' + t.id;
+          if (overdue(t)) bar.appendChild(tag('OVERDUE', 'tk-late'));
+          bar.appendChild(el('span', 'tk-tl__name', t.name));
+          var words = t.start && t.due && t.start !== t.due ? 'starts ' + dayWords(t.start) + ', due ' + dayWords(t.due)
+            : t.due ? 'due ' + dayWords(t.due) : 'starts ' + dayWords(t.start);
+          bar.appendChild(el('span', 'sr', ', ' + words + (before ? ', began before these days' : '') + (after ? ', runs on past these days' : '')
+            + ', ' + t.status + (t.priority === 'High' || t.priority === 'Urgent' ? ', ' + t.priority : '')));
+          li.appendChild(bar);
+          lanes.appendChild(li);
+        });
+        sec.appendChild(lanes);
+        tl.appendChild(sec);
+      });
+      out.appendChild(tl);
     }
 
     drawSaved();
@@ -1175,14 +1310,16 @@
     else if (parts[0] === 't' && parts[1]) done = taskView(parts[1]);
     else if (parts[0] === 'new') done = formView(null);
     else if (parts[0] === 'board') done = tasksView('board');
+    else if (parts[0] === 'timeline') done = tasksView('timeline');
     else if (parts[0] === 'recurring' && parts[1] === 'new') done = recurFormView(null);
     else if (parts[0] === 'recurring' && parts[1] === 'edit' && parts[2]) done = recurFormView(parts[2]);
     else if (parts[0] === 'recurring' && parts[1]) done = recurView(parts[1]);
     else if (parts[0] === 'recurring') done = recurList();
     else done = tasksView('list');
-    [navList, navBoard, navRecur, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navList, navBoard, navTime, navRecur, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
     else if (parts[0] === 'board') navBoard.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'timeline') navTime.setAttribute('aria-current', 'page');
     else if (parts[0] === 'recurring' && !parts[1]) navRecur.setAttribute('aria-current', 'page');
     else if (!parts.length) navList.setAttribute('aria-current', 'page');
     Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });

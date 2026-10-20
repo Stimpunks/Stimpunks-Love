@@ -4,7 +4,7 @@ privacy.html say.
 
 Ryan's brief, 2026-10-20: the team's to-do list, moved here from EspoCRM in
 stages (the tasks and their list first, then a board and saved filters,
-then recurring tasks; a timeline to follow), for directors and administrators
+then recurring tasks, then a timeline), for directors and administrators
 only.
 
 WHAT IT WRITES: data/tasks.json's roles, statuses, priorities and tags,
