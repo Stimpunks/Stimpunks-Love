@@ -5225,7 +5225,7 @@ page, and `make-forum.py` refuses `replyTopic` reaching the long limit.
 
 **TASKS ARE THE TEAM'S TO-DO LIST, MOVED FROM ESPOCRM IN STAGES, AND NUMBERS BESIDE THINGS ARE FINE IN THEM.** Ryan's
 brief, 2026-10-20: EspoCRM costs $45 a month and is not part of the street, so its tasks come here, iteratively: the
-tasks and their list first (done), then Kanban and saved filters, recurring tasks, and a timeline. `tasks.html` (paperwork
+tasks and their list first, then a board and saved filters (both done), recurring tasks, and a timeline. `tasks.html` (paperwork
 beside the forums, in the CB's colours through a shadow root, `tasks.css` the CB's seven tokens only), `tasks.js`,
 `/cb/tasks`, the Tasks section at the end of `lib.mjs`, `data/tasks.json` (who reads them, and EspoCRM's own statuses,
 priorities and tags, written between `tasks:settings` markers by `tools/make-tasks.py`; never hand-edit them). **Directors
@@ -5236,7 +5236,13 @@ from EspoCRM keeps EspoCRM's id**, so bringing tasks again changes them rather t
 every stage until the cut-over. **The list's filters and order live in the address and nothing is kept in the browser**,
 which `privacy.html#tasks` says. **Ryan's call, the same day: the street's rule against numbers beside things does not
 apply to tasks or to backend tools**, so the list says how many match and how many each filter choice would show; the
-rule still holds in every room and in the forums, and a tool that refuses a count there is right.
+rule still holds in every room and in the forums, and a tool that refuses a count there is right. **The board is the
+list drawn as columns** (`#/board`, the same filters and address), by status (`board_hides` in the data leaves Canceled
+off until ticked), priority or person, each column with its count; **a card moves by dragging or by its own Move to**,
+which is how a keyboard, a screen reader and a phone move it, so the friendly edit, dropping Move to because dragging
+works, locks them out. **Saved filters are each director's own, on the server**: `task-views/<pet key>`, each an id, a
+name and an address and nothing about when, shown to nobody else, deleted by Forget me and by deleting the username;
+`make-tasks.py` refuses a saved filter kept with more, or either deletion leaving them.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

@@ -3,8 +3,9 @@
 privacy.html say.
 
 Ryan's brief, 2026-10-20: the team's to-do list, moved here from EspoCRM in
-stages (the tasks and their list first; Kanban and saved filters, recurring
-tasks and a timeline to follow), for directors and administrators only.
+stages (the tasks and their list first, then a board and saved filters;
+recurring tasks and a timeline to follow), for directors and administrators
+only.
 
 WHAT IT WRITES: data/tasks.json's roles, statuses, priorities and tags,
 between the tasks:settings markers in netlify/cb/lib.mjs, which is the only
@@ -27,6 +28,8 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · ANY PLACE BUT /cb/tasks: tasks.js talks to it and to nothing else.
   · A COLOUR OF ITS OWN. tasks.css wears the CB's seven colours, as the forums
     do, so every theme's pairs are ones check-contrast.py already holds.
+  · A SAVED FILTER KEPT WITH MORE THAN ITS ID, NAME AND ADDRESS, or left
+    behind when its person uses Forget me or deletes the username.
   · privacy.html without its tasks section, and the page without its link to it.
 
 NUMBERS ARE FINE HERE. Ryan's call, 2026-10-20: the street's rule against
@@ -78,6 +81,9 @@ def settings(data, roles):
         problems.append(f"{DATA.name}: done is a list of statuses.")
     if (data.get("statuses") or [None])[0] in (done or []):
         problems.append(f"{DATA.name}: a new task takes the first status, so the first cannot be one that is done.")
+    hides = data.get("board_hides")
+    if not isinstance(hides, list) or any(x not in (data.get("statuses") or []) for x in hides) or len(hides) >= len(data.get("statuses") or []):
+        problems.append(f"{DATA.name}: board_hides is a list of statuses, and leaves a board at least one.")
     if data.get("default_priority") not in (data.get("priorities") or []):
         problems.append(f"{DATA.name}: default_priority is one of the priorities.")
 
@@ -88,6 +94,7 @@ def write(lib, data):
              + f"export const TASK_SEE = {j(data['see'])};\n"
              + f"export const TASK_STATUSES = {j(data['statuses'])};\n"
              + f"export const TASK_DONE = {j(data['done'])};\n"
+             + f"export const TASK_BOARD_HIDES = {j(data['board_hides'])};\n"
              + f"export const TASK_PRIORITIES = {j(data['priorities'])};\n"
              + f"export const TASK_DEFAULT_PRIORITY = {j(data['default_priority'])};\n"
              + f"export const TASK_TAGS = {j(data['tags'])};\n"
@@ -108,7 +115,7 @@ def check_lib(lib):
     code = re.sub(r"/\*.*?\*/", " ", sec, flags=re.S)
     if "console." in code:
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
-    for name in ("tasksList", "taskOne", "saveTask", "removeTask"):
+    for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -120,6 +127,18 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: tasksAllow no longer means a claimed username on the base pass holding one of TASK_SEE's roles.")
     if "TASK_SEE" not in fn(sec, "taskPeople"):
         problems.append(f"{LIB.name}: taskPeople must be everybody who could read tasks, and nobody else.")
+    # Saved filters are kept under the person and go with them.
+    if "s.delete(taskViewsBlob(pk))" not in fn(sec, "forgetTaskViews"):
+        problems.append(f"{LIB.name}: forgetTaskViews no longer deletes somebody's saved filters.")
+    da = re.search(r"export async function deleteAccount\(.*?\n\}", lib, re.S)
+    if not da or "await forgetTaskViews(petKey(handle), s);" not in da.group(0):
+        problems.append(f"{LIB.name}: deleting a username must delete its saved filters (forgetTaskViews).")
+    if "forgetTaskViews(pk)" not in (ROOT / "netlify/functions/cb-pets.mjs").read_text():
+        problems.append("cb-pets.mjs: Forget me must delete somebody's saved filters (forgetTaskViews).")
+    kept = re.findall(r"copy(?:\[k\] = |\.push\()\{(.*?)\}\)?;", fn(sec, "saveTaskView"))
+    keys = [sorted(k.split(":")[0].strip() for k in re.sub(r"\([^()]*\)", "", rec).split(",")) for rec in kept]
+    if len(kept) != 2 or any(k != ["address", "id", "name"] for k in keys):
+        problems.append(f"{LIB.name}: a saved filter holds its id, name and address, and nothing else, nothing about when included.")
 
 
 def check_function():

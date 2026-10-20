@@ -9,59 +9,66 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Tue, 20 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Tasks: a board, and saved filters</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-board</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-board</guid>
+      <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Tasks have a board, beside the list: the same tasks in columns by status, priority or who they are assigned to, each column saying how many it holds. Drag a card to another column to change it, or use the card’s own Move to, which works from a keyboard, a screen reader and a phone. The list’s filters work on the board too. Saved filters. Save a list or a board as it is, filters, order and columns, under a name, and it is there on any device you sign on with, saying how many tasks it shows now. They are yours alone. The CB guide has how, and the privacy page what is kept. Recurring tasks come next, then a timeline.</description>
+    </item>
+    <item>
       <title>Tasks: the team’s to-do list, on the street</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks</guid>
-      <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:59:00 GMT</pubDate>
       <description>Tasks are the team’s to-do list, moving here from EspoCRM. Only our directors and administrators can read them, signed on to the CB with a claimed username, and they wear your radio’s colours, like the forums. The list shows every task with its status, priority, who it is assigned to, the days it starts and is due, and its tags, and says how many tasks match. Filter by words in the name, who it is assigned to, when it is due, status, priority and tags, each choice saying how many it would show, and sort by any column. The filters and the order live in the page’s address, so a bookmark or a link keeps them. A task has a Markdown description, people working on it beside whoever it is assigned to, and says who made it and who changed it last. Edit it, mark it completed, or delete it. Kanban and saved filters, recurring tasks, and a timeline come next, in that order. The CB guide and the privacy page say all of this.</description>
     </item>
     <item>
       <title>A page in the Wiki or Team Docs can be as long as a long document</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-long-pages</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-long-pages</guid>
-      <pubDate>Tue, 20 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:58:00 GMT</pubDate>
       <description>The page that opens a topic in the Wiki or Team Docs can be 150,000 characters now, so the team’s longest documents go up whole as they move out of Google Docs, board minutes with their transcript included. Every other post, a reply on a page included, is still up to 20,000. The CB guide says so.</description>
     </item>
     <item>
       <title>Team Docs in the forums, with templates and pictures in the words</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-team-docs</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-team-docs</guid>
-      <pubDate>Tue, 20 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:57:00 GMT</pubDate>
       <description>The team’s documents can move out of Google Docs and into the forums. A new staff category, Team Docs, is for our moderators, directors, board and administrators only, keeps everything for good, and every page in it is a living document any of them can edit, as in the Wiki. Inside it are Field Guide, Notes, Meeting Minutes and Templates. A category can hold other categories now. They stand under it at the side and on its page, and its page lists every topic in it and under them. Meeting Minutes holds a category for every year from 2024, and a new one arrives by itself each January. A new topic can start from a template. Pick one over the title and press Use it, and its title and words go in for you to fill. The templates are the topics in Team Docs’ Templates, so the team keeps them up to date in the forums, the way it kept them in a folder before. A pinned one there is its read-me, not a template. A picture can stand in the middle of a post’s words, for a screenshot at the step it shows. Paste a screenshot straight into the box you are writing in, drop a picture on it, or press Put it in the words, and it goes in where the cursor is. Everywhere else, pictures still sit below the words. A page in the Wiki or Team Docs holds thirty pictures and files, for a how-to with a screenshot for each step; any other post, six. Tables were already there, and now the forums say so: a row to a line, a | between cells, and a line of dashes under the first row. Their headings are bold now. The CB guide and the privacy page say all of this.</description>
     </item>
     <item>
       <title>The street on your Home Screen and in your Dock</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-on-your-home-screen</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-on-your-home-screen</guid>
-      <pubDate>Tue, 20 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:56:00 GMT</pubDate>
       <description>People are adding stimpunks.world to their Docks and Home Screens, so we checked it behaves there. Chrome says it can be installed from every page, and it keeps a back button in a Mac’s Dock and in Chrome’s window, because a street of pages with no way back is a maze. Installed, each room still colours the window’s bar its own way. On an iPhone or iPad, notifications need iOS or iPadOS 26 or later. Older versions save the street to the Home Screen as a Safari bookmark, and a bookmark cannot notify; from 26, every site added to the Home Screen opens as a web app, and notifications work. The CB guide, the privacy page and the radio’s Notifications tray said any iPhone would do, and say iOS 26 or later now. Added to a Home Screen or a Mac’s Dock, the street starts afresh, because Apple keeps an installed web app’s storage apart from Safari’s: you sign on to the CB again there, and the dial and the animals you rescued start again too. The CB guide says so. Installed from Chrome or Edge, you stay signed on. On Android, a CB notification’s little picture in the status bar is the heart now, where it was a plain white square. And the manifest, which tells an installed app its name and icons, says which app it is, so an install made before today stays the same app, and a change to it reaches installed apps without waiting out a week’s cache.</description>
     </item>
     <item>
       <title>Albums and playlists play on the first press</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-lists-play-on-the-first-press</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-lists-play-on-the-first-press</guid>
-      <pubDate>Tue, 20 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:55:00 GMT</pubDate>
       <description>Every album and playlist button on the street now plays when you press it. In these rooms a whole list only got ready when pressed, and you had to press play a second time inside the player: the records and the cave’s speaker at the Solarpunk Hermitage, the YouTube deck on Club Chronic’s stage, both decks at Pink Pony Club, the chancel in The Chappell, and the screen at Black Leather Lagoon. A single video already played on its press, and so did the lists in the other rooms. Now these do too. Nothing reaches YouTube before you press, the same as before; the press that asked for the list now plays it.</description>
     </item>
     <item>
       <title>Follow keeps going through an album</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-follow-through-an-album</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-follow-through-an-album</guid>
-      <pubDate>Tue, 20 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:54:00 GMT</pubDate>
       <description>Following somebody through an album now goes on from song to song. Helen hosted the John Coltrane and Johnny Hartman album at the Solarpunk Hermitage, Ryan pressed Follow, and his playback stopped at the end of every song. Each song in an album is a video of its own, and the radio was treating each new one as a film to get ready on its own: when a moderator is hosting, that puts the song by itself on the Hermitage’s television, where it plays to its end and stops. Now a host’s radio says which album or playlist the song is in, and Follow keeps pace with the whole list: when the host goes on to the next song, yours does too, and if they skip to another song, yours goes there, to the same place in it. Pressing Follow before you have started anything gets the album’s own play button ready at the host’s song and place, and nothing goes up on the television. Catch up moves an album you are already playing to the host’s song and place, and still never presses play: it plays if yours was playing and waits if it was not. Two smaller faults went with it. For about half a second between songs, the player still gives the last song’s title with its clock back at 0:00, and a host’s radio that spoke then told everybody the album had gone back to the start of that song; now nothing is said until the next song has started. And Follow used to take any stop for your own pause: now only a pause does, so a song that ended before the host’s waits for them, and a next song your player would not start is started, and the radio says so if it still will not. The privacy page says what a host’s radio now sends: the album’s or playlist’s YouTube id, beside the song’s own.</description>
     </item>
     <item>
       <title>Your strip in the Dress-Up Den and Fantasy Fancy Dress, and a curtain at the back</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-your-strip-and-the-curtain</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-your-strip-and-the-curtain</guid>
-      <pubDate>Tue, 20 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:53:00 GMT</pubDate>
       <description>Your strip is in the Dopamine Dress-Up Den and Fantasy Fancy Dress now, as well as the Bodymind Booth, so you can walk into either room on your own and bring back an avatar you kept. Signed on to the CB, press Open my strip: in the Dress-Up Den a bodymind comes back in with everything it had on, and an outfit goes back on the stand, ready to change and keep; in Fantasy Fancy Dress a bodymind comes into the fitting with its wings and ears and everything else, and when you take it back through, the Dress-Up Den knows which one it is, so Keep the changes changes that one. Opening your strip only asks your Profile for what you already kept, and only when you press it. Nothing in Fantasy Fancy Dress is kept, and the privacy page says what opening your strip sends. The way through to Fantasy Fancy Dress is a curtain you can see. It was a link in a sentence near the top of the Dress-Up Den, easy to miss; now it is a doorway at the back of the shop, its curtain in moons and stars drawn back with gold rope, the back room dark beyond it with a light at the far end, and a button under it, Through to Fantasy Fancy Dress. Press the curtain or the button. Your bodymind still goes through with you, and so does which avatar it is.</description>
     </item>
     <item>
       <title>Howling Wolf, Starward Dreaming, Leaping Dolphins and Autumn Falls</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-four-scene-effects</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-four-scene-effects</guid>
-      <pubDate>Tue, 20 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:52:00 GMT</pubDate>
       <description>Howling Wolf is a new profile effect: a wolf sitting on a crag against a full moon, raising its head and howling, with stars, cloud and a far ridge of pines over your banner. When your profile opens, the night comes up over it, the moon rises, the wolf howls and two wolves on the far ridge answer. Nothing makes a sound. Starward Dreaming looks up through a clearing in the trees at the stars and the Milky Way, from beside a fire you cannot see: its light is on the trunks, its flames lick up over the foot, and its embers rise and become stars. When your profile opens, the trees close round the whole of it, a shower of embers goes up and becomes stars, and a star falls. The flames sway slowly and never flicker, so nothing in it flashes. Leaping Dolphins is dolphins leaping in arcs across a sea dappled by the setting sun. When your profile opens, the sunset comes up over the whole of it and a pod of dolphins leaps across, one after another. Autumn Falls is a big tree in red, orange and gold, its leaves drifting down into piles, and children popping up out of them, with one in a wheelchair beside them throwing leaves up. When your profile opens, leaves come down all over it, pile up along its foot, and the children pop up out of the piles. Each is drawn in colours of its own over whatever card it is on, because moonlight, firelight, a sunset and an autumn afternoon with children in it are colours a card’s own cannot hold. As with every effect, the part that crosses your words, and the opening, are drawn only at MAX GLITTER or after Let my theme move.</description>
     </item>
     <item>
@@ -117,21 +124,21 @@
       <title>Messages stay together at Full</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-full-log</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-full-log</guid>
-      <pubDate>Tue, 20 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:51:00 GMT</pubDate>
       <description>At Full, on a wide window, a channel with only a few messages no longer spreads them down the whole column with their words far below their names. The log is as tall as the column, and its messages now sit together at the top of it, as they do at every other size.</description>
     </item>
     <item>
       <title>The CB marks what is new to you, and Unreads lists it</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-unreads</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-unreads</guid>
-      <pubDate>Tue, 20 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:50:00 GMT</pubDate>
       <description>A dot now marks what has been said since you last read it, on World, This room, Your messages and each conversation in it. That reverses the radio’s old rule of no badge and no unread count, and only as far as a mark: it is never a number, it makes no sound, and nothing moves. A screen reader hears “something new”. Unreads, a new part under Who’s around, lists World, the rooms you follow and your conversations while something new is waiting in them, and takes you there. Follow this room, beside This room, puts a room on it; which rooms you follow stays in your browser. It needs a claimed username. So that reading on your phone clears the dot on your laptop, the street keeps when you last read each channel and conversation, and nothing else, for 48 hours at most; the privacy page says so, and Forget me deletes it.</description>
     </item>
     <item>
       <title>Paste a picture, and messages that work like the channel</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-paste-dm</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-paste-dm</guid>
-      <pubDate>Tue, 20 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:49:00 GMT</pubDate>
       <description>Paste a picture into the CB with Ctrl or Cmd and V, on the channel or in a conversation, instead of finding it with Picture. It comes to the same preview, redrawn the same way before it goes. Words pasted with it are pasted as words. Direct messages work like the channel. Each message has React and the three dots on its line: Copy, Edit and Take back on yours, Copy and Report on theirs. Sticker sits beside Picture and opens the same tray. Reactions say who, never how many. An @name is drawn as a name. A first message is still words only, so a picture, a sticker and a reaction wait until the conversation is accepted.</description>
     </item>
     <item>

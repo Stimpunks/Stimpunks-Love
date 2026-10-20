@@ -75,6 +75,37 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-done .tk-title a { text-decoration: line-through; }
 .tk .tk-late { margin-left: 6px; }
 
+/* SAVED FILTERS: a picker and its one button, above the filters. */
+.tk-saved { display: grid; gap: 8px; }
+.tk-savedrow { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: end; }
+.tk-savedpick { flex: 1 1 260px; max-width: 30em; }
+.tk-savedform { display: grid; gap: 6px; max-width: 30em; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.tk-savedform .cb-btn { justify-self: start; }
+
+/* THE BOARD: a column for each status, priority or person, side by side and
+   scrolling sideways inside its own box; one above the other on a phone, so a
+   narrow screen never scrolls sideways at all. A column a card is dragged over
+   is outlined in amber, and a card being dragged is dashed: a line, never a
+   colour of its own, and nothing moves. */
+.tk-boardbox { overflow-x: auto; min-width: 0; padding-bottom: 4px; }
+.tk-board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(250px, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 759px) { .tk-board { grid-auto-flow: row; grid-auto-columns: auto; } }
+.tk-col { display: grid; gap: 8px; align-content: start; padding: 10px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
+.tk-col--over { border-color: var(--cb-amber); border-style: dashed; }
+.tk-col__h { font-size: 17px; font-weight: 700; color: var(--cb-steel); display: flex; gap: 8px; align-items: baseline; }
+.tk-col__h .tk-n { font-size: 15px; }
+.tk-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; min-height: 3em; }
+.tk-card { display: grid; gap: 4px; padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 6px; cursor: grab; }
+.tk-card--lifted { border-style: dashed; cursor: grabbing; }
+.tk-card__name { font-weight: 700; }
+.tk-done .tk-card__name { text-decoration: line-through; }
+.tk-card__facts { font-size: 14px; }
+.tk-card__tags { font-size: 13px; color: var(--cb-amber-2); }
+.tk-move { display: flex; align-items: center; gap: 6px; font-size: 13px; margin-top: 2px; }
+.tk-move__lab { color: var(--cb-steel-2); }
+.tk-move__sel { flex: 1 1 auto; min-width: 0; min-height: 32px; font-size: 14px; }
+.tk-empty { font-size: 14px; padding: 4px 0; }
+
 /* ONE TASK: its facts in two columns, then its description as markdown.js builds it. */
 .tk-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 16px; margin: 0; }
 .tk-facts dt { font-weight: 700; color: var(--cb-steel-2); }

@@ -3781,7 +3781,8 @@ for (const etagOnRead of [true, false]) {
 }
 
 /* ── Tasks ─────────────────────────────────────────────────────────────── */
-import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readTasks, TASK_STATUSES, TASK_TAGS } from './lib.mjs';
+import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readTasks, taskViews, saveTaskView, removeTaskView,
+  forgetTaskViews, taskAddress, TASK_VIEWS_KEEP, TASK_STATUSES, TASK_TAGS } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -3861,5 +3862,57 @@ for (const etagOnRead of [true, false]) {
     assert.deepEqual(ok.filter((id) => !kept.has(id)), [], 'a task told it was saved is missing');
     for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
     if (etagOnRead) assert.equal(ok.length, 15);
+  });
+}
+
+test('saved filters are each reader\'s own, hold a name and an address and nothing else, and go with them', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  for (const who of [TSAM, fw('Chelsea', 700)]) {
+    assert.equal(await taskViews(who, s), null, `${who.handle} could read saved filters`);
+    assert.match((await saveTaskView(who, { name: 'x', address: '#/' }, s)).error, /directors and administrators/);
+  }
+  // Only an address tasks.js writes.
+  for (const a of ['#/', '#/board', '#/?status=Started,Deferred&who=%40me&sort=due&dir=desc', '#/board?cols=who&tags=Networking%2FSocial'])
+    assert.equal(taskAddress(a), a, `${a} was refused`);
+  for (const a of ['', '#/t/kabc', 'https://example.com/#/', '#/?evil=1', '#/?q=a&q=b', '#/?q', '#/?q=%E0%A4%A', '#/board?q=<b>', '#/' + '?q=' + 'a'.repeat(1000), 42, null])
+    assert.equal(taskAddress(a), null, `${a} was taken as an address`);
+  let r = await saveTaskView(TCHELSEA, { name: ' Mine, overdue ', address: '#/?who=%40me&due=overdue' }, s);
+  assert.deepEqual(r.views.map((v) => Object.keys(v).sort()), [['address', 'id', 'name']], 'a saved filter holds more than its id, name and address');
+  const id = r.views[0].id;
+  assert.equal(r.views[0].name, 'Mine, overdue');
+  assert.match((await saveTaskView(TCHELSEA, { name: 'mine,  OVERDUE', address: '#/board' }, s)).error, /already have/);
+  assert.match((await saveTaskView(TCHELSEA, { name: '', address: '#/board' }, s)).error, /Name it/);
+  assert.match((await saveTaskView(TCHELSEA, { name: 'Bad', address: '#/?nope=1' }, s)).error, /not the address/);
+  // In place of one already saved, keeping its id; and in name order.
+  r = await saveTaskView(TCHELSEA, { id, name: 'Mine, overdue', address: '#/board?who=%40me&due=overdue' }, s);
+  assert.deepEqual(r.views.map((v) => [v.id, v.address]), [[id, '#/board?who=%40me&due=overdue']]);
+  r = await saveTaskView(TCHELSEA, { name: 'Aardvark', address: '#/' }, s);
+  assert.deepEqual(r.views.map((v) => v.name), ['Aardvark', 'Mine, overdue']);
+  // Nobody else sees them.
+  assert.deepEqual(await taskViews(TRYAN, s), []);
+  assert.match((await removeTaskView(TRYAN, id, s)).error, /already been deleted/);
+  assert.match((await saveTaskView(TRYAN, { id, name: 'Took it', address: '#/' }, s)).error, /deleted/);
+  assert.equal((await taskViews(TCHELSEA, s)).length, 2, 'somebody else changed a saved filter');
+  // A cap, and deleting.
+  for (let i = (await taskViews(TCHELSEA, s)).length; i < TASK_VIEWS_KEEP; i++) await saveTaskView(TCHELSEA, { name: `F${i}`, address: '#/' }, s);
+  assert.match((await saveTaskView(TCHELSEA, { name: 'One more', address: '#/' }, s)).error, /up to/);
+  assert.ok((await removeTaskView(TCHELSEA, id, s)).views.every((v) => v.id !== id));
+  // Forget me, and deleting the username.
+  await forgetTaskViews(petKey('Chelsea'), s);
+  assert.deepEqual(await taskViews(TCHELSEA, s), [], 'Forget me left saved filters');
+  await saveTaskView(TCHELSEA, { name: 'Again', address: '#/' }, s);
+  await claimAccount('Chelsea', 'a long enough phrase', s, 9, null);
+  assert.equal((await deleteAccount('Chelsea', s)).deleted, true);
+  assert.deepEqual(await taskViews(TCHELSEA, s), [], 'a deleted username kept its saved filters');
+}));
+
+for (const etagOnRead of [true, false]) {
+  test(`saved filters, fifteen at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: none told it was saved is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => saveTaskView(TCHELSEA, { name: `View ${i}`, address: '#/board' }, s)));
+    const kept = new Set((await taskViews(TCHELSEA, s)).map((v) => v.name));
+    for (const [i, r] of told.entries()) if (r.status === 'fulfilled' && r.value.views) assert.ok(kept.has(`View ${i}`), `View ${i} was told it was saved and is missing`);
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(kept.size, 15);
   });
 }

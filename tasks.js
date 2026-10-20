@@ -62,8 +62,9 @@
   var nav = el('nav', 'tk-nav');
   nav.setAttribute('aria-label', 'Tasks');
   var navList = el('a', 'cb-btn tk-navlink', 'List'); navList.href = '#/';
+  var navBoard = el('a', 'cb-btn tk-navlink', 'Board'); navBoard.href = '#/board';
   var navNew = el('a', 'cb-btn tk-navlink', 'New task'); navNew.href = '#/new';
-  nav.appendChild(navList); nav.appendChild(navNew);
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navNew);
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -117,7 +118,7 @@
     return otherwise;
   }
 
-  var settings = null, people = [], me = null, tasks = [];
+  var settings = null, people = [], me = null, tasks = [], views = [];
   function took(b) {
     if (b.settings) settings = b.settings;
     if (b.people) people = b.people;
@@ -161,25 +162,30 @@
     y.addEventListener('click', function () { y.disabled = true; yes(function () { y.disabled = false; }); });
   }
 
-  /* ── The list: filters and order, kept in the address ────────────────── */
+  /* ── The list and the board: filters and order, kept in the address ──── */
 
   var COLUMNS = [['name', 'Task'], ['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to'], ['start', 'Starts'], ['due', 'Due'], ['tags', 'Tags']];
   var DUES = [['', 'Any time'], ['overdue', 'Overdue'], ['today', 'Due today'], ['week', 'Due in the next 7 days'], ['month', 'Due this month'], ['none', 'No due date']];
+  // What a board's columns can be, and the field a move between them changes.
+  var GROUPS = [['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to']];
 
-  function readQuery() {
+  /* An address's filters, from the part after its ?: this page's, or a saved
+     filter's. */
+  function readQuery(hash) {
     var q = {};
-    (location.hash.split('?')[1] || '').split('&').forEach(function (kv) {
+    (String(hash == null ? location.hash : hash).split('?')[1] || '').split('&').forEach(function (kv) {
       if (!kv) return;
       var i = kv.indexOf('=');
       try { q[decodeURIComponent(i < 0 ? kv : kv.slice(0, i))] = i < 0 ? '' : decodeURIComponent(kv.slice(i + 1).replace(/\+/g, ' ')); } catch (e) { /* a broken address */ }
     });
-    var list = function (k) { return q[k] ? q[k].split(',').filter(Boolean) : null; };
+    var list = function (k) { return q[k] != null ? q[k].split(',').filter(Boolean) : null; };
+    var cols = q.cols === 'priority' || q.cols === 'who' ? q.cols : 'status';
     return {
       q: q.q || '', status: list('status'), priority: list('priority'), tags: list('tags'),
-      who: q.who || '', due: q.due || '', sort: q.sort || 'due', dir: q.dir === 'desc' ? 'desc' : 'asc',
+      who: q.who || '', due: q.due || '', sort: q.sort || 'due', dir: q.dir === 'desc' ? 'desc' : 'asc', cols: cols,
     };
   }
-  function writeQuery(f) {
+  function addressOf(f, mode) {
     var parts = [];
     if (f.q) parts.push('q=' + encodeURIComponent(f.q));
     if (f.status) parts.push('status=' + f.status.map(encodeURIComponent).join(','));
@@ -188,17 +194,27 @@
     if (f.who) parts.push('who=' + encodeURIComponent(f.who));
     if (f.due) parts.push('due=' + f.due);
     if (f.sort !== 'due' || f.dir !== 'asc') parts.push('sort=' + f.sort + '&dir=' + f.dir);
-    var h = '#/' + (parts.length ? '?' + parts.join('&') : '');
+    if (mode === 'board' && f.cols !== 'status') parts.push('cols=' + f.cols);
+    return (mode === 'board' ? '#/board' : '#/') + (parts.length ? '?' + parts.join('&') : '');
+  }
+  function writeQuery(f, mode) {
+    var h = addressOf(f, mode);
     if (location.hash !== h) history.replaceState(null, '', h);
   }
-  // Until somebody picks statuses, the list shows the ones still to do.
-  function statusesOf(f) { return f.status || settings.statuses.filter(function (s) { return settings.done.indexOf(s) < 0; }); }
+  function modeOf(hash) { return /^#\/board(\?|$)/.test(hash || '') ? 'board' : 'list'; }
+  /* Until somebody picks statuses, the list shows the ones still to do, and a
+     board by status shows every status but the ones it hides (Canceled). */
+  function statusesOf(f, mode) {
+    if (f.status) return f.status;
+    if (mode === 'board' && f.cols === 'status') return settings.statuses.filter(function (s) { return (settings.boardHides || []).indexOf(s) < 0; });
+    return settings.statuses.filter(function (s) { return settings.done.indexOf(s) < 0; });
+  }
 
   /* Whether a task passes every filter, leaving out `skip`, so each filter's
      own counts say what picking that value would show. */
-  function passes(t, f, skip) {
+  function passes(t, f, skip, mode) {
     if (skip !== 'q' && f.q) { var w = fold(f.q); if (fold(t.name).indexOf(w) < 0) return false; }
-    if (skip !== 'status' && statusesOf(f).indexOf(t.status) < 0) return false;
+    if (skip !== 'status' && statusesOf(f, mode).indexOf(t.status) < 0) return false;
     if (skip !== 'priority' && f.priority && f.priority.indexOf(t.priority) < 0) return false;
     if (skip !== 'tags' && f.tags && !t.tags.some(function (x) { return f.tags.indexOf(x) >= 0; })) return false;
     if (skip !== 'who' && f.who) {
@@ -216,10 +232,10 @@
     }
     return true;
   }
-  function counted(f, skip, key) {
+  function counted(f, skip, key, mode) {
     var n = {};
     tasks.forEach(function (t) {
-      if (!passes(t, f, skip)) return;
+      if (!passes(t, f, skip, mode)) return;
       var v = key(t);
       (Array.isArray(v) ? v : [v]).forEach(function (x) { n[x] = (n[x] || 0) + 1; });
     });
@@ -231,7 +247,6 @@
       var v = t[f.sort];
       if (rank[f.sort]) return rank[f.sort].indexOf(v);
       if (f.sort === 'tags') return (v || []).join(', ').toLowerCase();
-      if (f.sort === 'priority') return v;
       return v == null ? null : String(v).toLowerCase();
     };
     var s = f.dir === 'desc' ? -1 : 1;
@@ -245,43 +260,141 @@
       return a.name.localeCompare(b.name);
     });
   }
+  // How many tasks a saved filter would show now, worked out here.
+  function howMany(address) {
+    var g = readQuery(address), m = modeOf(address);
+    return tasks.filter(function (t) { return passes(t, g, null, m); }).length;
+  }
 
-  function listView() {
+  function tasksView(mode) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=list').then(function (r) {
       if (r.status !== 200) return refused(r);
       took(r.body);
       tasks = r.body.tasks || [];
-      return drawList(readQuery());
+      views = r.body.views || [];
+      return drawTasks(readQuery(), mode);
     });
   }
 
-  function drawList(f) {
+  function drawTasks(f, mode) {
     view.textContent = '';
-    var h = heading(2, 'Tasks');
+    var h = heading(2, mode === 'board' ? 'Tasks, as a board' : 'Tasks');
     view.appendChild(h);
+    var saved = el('div', 'tk-saved');
     var filters = el('form', 'tk-filters');
     filters.setAttribute('aria-label', 'Filter the tasks');
     filters.addEventListener('submit', function (e) { e.preventDefault(); });
     var shown = el('p', 'tk-shown');
     shown.setAttribute('aria-live', 'polite');
-    var table = el('div', 'tk-tablebox');
+    var out = el('div', mode === 'board' ? 'tk-boardbox' : 'tk-tablebox');
     // It scrolls sideways on a narrow screen, so a keyboard can reach it.
-    table.tabIndex = 0;
-    table.setAttribute('role', 'region');
-    table.setAttribute('aria-label', 'The tasks');
+    out.tabIndex = 0;
+    out.setAttribute('role', 'region');
+    out.setAttribute('aria-label', mode === 'board' ? 'The board' : 'The tasks');
+    view.appendChild(saved);
     view.appendChild(filters);
     view.appendChild(shown);
-    view.appendChild(table);
+    view.appendChild(out);
 
     // The words box and the tags' fold, held rather than looked up: they live
-    // in this list's own box, which no page's ids reach.
+    // in this view's own box, which no page's ids reach.
     var qBox = null, tagFoldEl = null;
     function refresh(focusSort) {
-      writeQuery(f);
+      writeQuery(f, mode);
+      drawSaved();
       drawFilters();
-      drawTable(focusSort);
+      drawOut(focusSort);
+    }
+    function drawOut(focus) { if (mode === 'board') drawBoard(focus); else drawTable(focus); }
+
+    /* SAVED FILTERS, each yours, kept under your username: what it shows, and
+       how many tasks it shows now. */
+    var savedOpen = false, savedSel = null;
+    function drawSaved() {
+      var at = root.activeElement && root.activeElement.id;
+      saved.textContent = '';
+      var here = addressOf(f, mode);
+      var mine = views.filter(function (v) { return v.address === here; })[0] || null;
+      var row = el('div', 'tk-savedrow');
+      var lab = el('label', 'cb-lab', 'Saved filters'); lab.htmlFor = 'tk-saved';
+      var sel = el('select', 'cb-say tk-input'); sel.id = 'tk-saved';
+      savedSel = sel;
+      var none = el('option', null, views.length ? (mine ? 'None: clear the filters' : 'This view is not saved') : 'None saved yet'); none.value = '';
+      sel.appendChild(none);
+      views.forEach(function (v) { var o = el('option', null, v.name + ' (' + howMany(v.address) + ')'); o.value = v.id; sel.appendChild(o); });
+      sel.value = mine ? mine.id : '';
+      sel.addEventListener('change', function () {
+        var v = views.filter(function (x) { return x.id === sel.value; })[0];
+        location.hash = v ? v.address : (mode === 'board' ? '#/board' : '#/');
+      });
+      var field = el('div', 'tk-field tk-savedpick');
+      field.appendChild(lab); field.appendChild(sel);
+      row.appendChild(field);
+      var tools = el('div', 'tk-row');
+      if (mine) {
+        var del = el('button', 'cb-btn tk-small', 'Delete “' + mine.name + '”'); del.type = 'button';
+        del.addEventListener('click', function () {
+          sure(tools, 'This deletes the saved filter “' + mine.name + '”. The tasks stay as they are.', 'Delete it', function (done) {
+            call(null, { action: 'view-remove', id: mine.id }).then(function (r) {
+              done();
+              if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
+              views = r.body.views || [];
+              drawSaved();
+              if (savedSel) savedSel.focus();
+              say('Deleted the saved filter. This view stays as it is until you change it.');
+            });
+          }, del);
+        });
+        tools.appendChild(del);
+      } else {
+        var save = el('button', 'cb-btn tk-small', 'Save this view'); save.type = 'button';
+        save.setAttribute('aria-expanded', String(savedOpen));
+        save.addEventListener('click', function () { savedOpen = !savedOpen; drawSaved(); var n = saved.querySelector('.tk-savename'); if (n) n.focus(); });
+        tools.appendChild(save);
+      }
+      row.appendChild(tools);
+      saved.appendChild(row);
+      if (savedOpen && !mine) {
+        var form = el('form', 'tk-savedform');
+        var nl = el('label', 'cb-lab', 'Name it'); nl.htmlFor = 'tk-savename';
+        var name = el('input', 'cb-say tk-input tk-savename'); name.id = 'tk-savename'; name.maxLength = settings.viewNameMax || 60;
+        var replace = views.length ? select(views, '') : null;
+        var go = el('button', 'cb-btn tk-small', 'Save'); go.type = 'submit';
+        form.appendChild(nl); form.appendChild(name);
+        if (replace) {
+          var rl = el('label', 'cb-lab', 'Or put it in place of'); rl.htmlFor = 'tk-replace'; replace.id = 'tk-replace';
+          form.appendChild(rl); form.appendChild(replace);
+        }
+        form.appendChild(go);
+        var said2 = el('p', 'tk-answer'); said2.setAttribute('role', 'status');
+        form.appendChild(said2);
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var send = { action: 'view-save', address: here, name: name.value };
+          if (replace && replace.value) { send.id = replace.value; if (!name.value.trim()) send.name = views.filter(function (x) { return x.id === replace.value; })[0].name; }
+          go.disabled = true;
+          call(null, send).then(function (r) {
+            go.disabled = false;
+            if (r.status !== 200) { said2.textContent = why(r, 'That did not save.'); return; }
+            views = r.body.views || [];
+            savedOpen = false;
+            drawSaved();
+            if (savedSel) savedSel.focus();
+            say('Saved. It is under Saved filters, here and on any device you sign on with.');
+          });
+        });
+        saved.appendChild(form);
+      }
+      if (at) { var back = root.getElementById(at); if (back) back.focus(); }
+    }
+    function select(list, value) {
+      var s = el('select', 'cb-say tk-input');
+      var o0 = el('option', null, 'Nothing: a new saved filter'); o0.value = ''; s.appendChild(o0);
+      list.forEach(function (v) { var o = el('option', null, v.name); o.value = v.id; s.appendChild(o); });
+      s.value = value;
+      return s;
     }
 
     /* Words, then each filter with how many tasks each choice would show. */
@@ -291,18 +404,28 @@
       filters.textContent = '';
       var fields = el('div', 'tk-fields');
       filters.appendChild(fields);
+      if (mode === 'board') {
+        var cf = el('div', 'tk-field');
+        var cl = el('label', 'cb-lab', 'Columns by'); cl.htmlFor = 'tk-cols';
+        var cs = el('select', 'cb-say tk-input'); cs.id = 'tk-cols';
+        GROUPS.forEach(function (g) { var o = el('option', null, g[1]); o.value = g[0]; cs.appendChild(o); });
+        cs.value = f.cols;
+        cs.addEventListener('change', function () { f.cols = cs.value; refresh(); });
+        cf.appendChild(cl); cf.appendChild(cs);
+        fields.appendChild(cf);
+      }
       var words = el('div', 'tk-field');
       var wl = el('label', 'cb-lab', 'Words in the name'); wl.htmlFor = 'tk-q';
       var wi = el('input', 'cb-say tk-input'); wi.id = 'tk-q'; wi.type = 'search'; wi.value = f.q; wi.autocomplete = 'off';
       qBox = wi;
-      wi.addEventListener('input', function () { f.q = wi.value; writeQuery(f); drawTable(); drawCounts(); });
+      wi.addEventListener('input', function () { f.q = wi.value; writeQuery(f, mode); drawOut(); drawCounts(); });
       words.appendChild(wl); words.appendChild(wi);
       fields.appendChild(words);
 
       var who = el('div', 'tk-field');
       var hl = el('label', 'cb-lab', 'Assigned to'); hl.htmlFor = 'tk-who';
       var hs = el('select', 'cb-say tk-input'); hs.id = 'tk-who';
-      var nWho = counted(f, 'who', function (t) { return t.who ? fold(t.who) : '-'; });
+      var nWho = counted(f, 'who', function (t) { return t.who ? fold(t.who) : '-'; }, mode);
       var opt = function (v, label) { var o = el('option', null, label); o.value = v; hs.appendChild(o); };
       opt('', 'Anybody (' + Object.keys(nWho).reduce(function (a, k) { return a + nWho[k]; }, 0) + ')');
       if (me) opt('@me', 'Me (' + (nWho[fold(me.handle)] || 0) + ')');
@@ -317,8 +440,8 @@
       var dl = el('label', 'cb-lab', 'Due'); dl.htmlFor = 'tk-due';
       var ds = el('select', 'cb-say tk-input'); ds.id = 'tk-due';
       DUES.forEach(function (d) {
-        var g = { q: f.q, status: f.status, priority: f.priority, tags: f.tags, who: f.who, due: d[0] };
-        var n = tasks.filter(function (t) { return passes(t, g); }).length;
+        var g = { q: f.q, status: f.status, priority: f.priority, tags: f.tags, who: f.who, due: d[0], cols: f.cols };
+        var n = tasks.filter(function (t) { return passes(t, g, null, mode); }).length;
         var o = el('option', null, d[1] + ' (' + n + ')'); o.value = d[0]; ds.appendChild(o);
       });
       ds.value = f.due;
@@ -326,7 +449,7 @@
       due.appendChild(dl); due.appendChild(ds);
       fields.appendChild(due);
 
-      filters.appendChild(checks('status', 'Status', settings.statuses, statusesOf(f), function (t) { return t.status; }));
+      filters.appendChild(checks('status', 'Status', settings.statuses, statusesOf(f, mode), function (t) { return t.status; }));
       filters.appendChild(checks('priority', 'Priority', settings.priorities, f.priority || settings.priorities, function (t) { return t.priority; }));
       // Tags in a fold of their own, open while any is picked.
       var tagFold = el('details', 'tk-fold');
@@ -337,9 +460,9 @@
       filters.appendChild(tagFold);
 
       var row = el('p', 'tk-row');
-      var clear = el('a', 'cb-btn tk-small', 'Clear the filters'); clear.href = '#/';
+      var clear = el('a', 'cb-btn tk-small', 'Clear the filters'); clear.href = mode === 'board' ? '#/board' : '#/';
       row.appendChild(clear);
-      var link = el('button', 'cb-btn tk-small', 'Copy a link to this list'); link.type = 'button';
+      var link = el('button', 'cb-btn tk-small', 'Copy a link to this view'); link.type = 'button';
       link.addEventListener('click', function () {
         var u = location.href;
         (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function () { say('Copied. A director who opens it sees the same filters and order.'); },
@@ -354,7 +477,7 @@
     function checks(key, label, values, on, val) {
       var fs = el('fieldset', 'tk-checks');
       fs.appendChild(el('legend', 'cb-lab', label));
-      var n = counted(f, key, val);
+      var n = counted(f, key, val, mode);
       values.forEach(function (v, i) {
         var id = 'tk-' + key + '-' + i;
         var c = el('input'); c.type = 'checkbox'; c.id = id; c.value = v; c.checked = on.indexOf(v) >= 0;
@@ -364,7 +487,7 @@
         l.appendChild(el('span', 'tk-n', String(n[v] || 0)));
         c.addEventListener('change', function () {
           var picked = Array.prototype.filter.call(fs.querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; });
-          if (key === 'status') f.status = picked.length ? picked : [];
+          if (key === 'status') f.status = picked;
           else if (key === 'priority') f.priority = picked.length === values.length ? null : picked;
           else f.tags = picked.length ? picked : null;
           refresh();
@@ -376,15 +499,16 @@
     function drawCounts() {
       var at = root.activeElement;
       var keep = at && at === qBox ? [at.selectionStart, at.selectionEnd] : null;
+      drawSaved();
       drawFilters();
       if (keep) { qBox.focus(); qBox.setSelectionRange(keep[0], keep[1]); }
     }
 
     function drawTable(focusSort) {
-      var list = ordered(tasks.filter(function (t) { return passes(t, f); }), f);
+      var list = ordered(tasks.filter(function (t) { return passes(t, f, null, mode); }), f);
       shown.textContent = list.length + ' of ' + tasks.length + ' tasks';
-      table.textContent = '';
-      if (!list.length) { table.appendChild(quiet(tasks.length ? 'No task matches every filter.' : 'There are no tasks yet.')); return; }
+      out.textContent = '';
+      if (!list.length) { out.appendChild(quiet(tasks.length ? 'No task matches every filter.' : 'There are no tasks yet.')); return; }
       var t = el('table', 'tk-list');
       t.appendChild(el('caption', 'sr', 'Tasks, ' + list.length + ' shown. The column headings sort them.'));
       var hr = el('tr');
@@ -396,7 +520,8 @@
         b.addEventListener('click', function () {
           f.dir = f.sort === c[0] && f.dir === 'asc' ? 'desc' : 'asc';
           f.sort = c[0];
-          writeQuery(f);
+          writeQuery(f, mode);
+          drawSaved();
           drawTable(c[0]);
         });
         b.dataset.sort = c[0];
@@ -425,12 +550,129 @@
         tb.appendChild(tr);
       });
       t.appendChild(tb);
-      table.appendChild(t);
+      out.appendChild(t);
       if (focusSort) { var sb = t.querySelector('[data-sort="' + focusSort + '"]'); if (sb) sb.focus(); }
     }
 
+    /* THE BOARD: a column for each status, priority or person, with how many
+       tasks are in it. A card moves by dragging it to another column, or by
+       its own Move to, which is how a keyboard, a screen reader and a phone
+       move it: dragging alone would leave them out. A move changes that one
+       field and nothing else. */
+    function columnsOf() {
+      if (f.cols === 'priority') return (f.priority || settings.priorities).map(function (v) { return [v, v]; });
+      if (f.cols === 'who') {
+        var ps = people.slice();
+        tasks.forEach(function (t) { if (t.who && ps.every(function (p) { return fold(p) !== fold(t.who); }) && passes(t, f, null, mode)) ps.push(t.who); });
+        return ps.map(function (p) { return [p, p]; }).concat([['', 'Nobody']]);
+      }
+      return statusesOf(f, mode).map(function (v) { return [v, v]; });
+    }
+    function choicesOf() {
+      if (f.cols === 'priority') return settings.priorities.map(function (v) { return [v, v]; });
+      if (f.cols === 'who') return people.map(function (p) { return [p, p]; }).concat([['', 'Nobody']]);
+      return settings.statuses.map(function (v) { return [v, v]; });
+    }
+    function valueOf(t) { return f.cols === 'who' ? (t.who || '') : t[f.cols]; }
+    function columnFor(v) {
+      var cols = columnsOf();
+      return cols.filter(function (c) { return f.cols === 'who' ? fold(c[0]) === fold(v) : c[0] === v; })[0] || null;
+    }
+
+    function move(t, to, focusAfter) {
+      if (fold(valueOf(t)) === fold(to)) return;
+      var send = { action: 'save', id: t.id };
+      send[f.cols] = f.cols === 'who' && !to ? null : to;
+      say('Moving “' + t.name + '”…');
+      call(null, send).then(function (r) {
+        if (r.status !== 200) { say(why(r, 'That did not move. Nothing was changed.')); drawBoard(); return; }
+        var k = tasks.findIndex(function (x) { return x.id === t.id; });
+        var next = r.body.task; delete next.body; delete next.blocks;
+        if (k >= 0) tasks[k] = next;
+        var col = columnFor(to);
+        drawSaved();
+        drawFilters();
+        drawBoard(focusAfter ? t.id : null);
+        say('Moved “' + t.name + '” to ' + (col ? col[1] : (to || 'Nobody')) + (col ? '.' : ', which is not on this board as it is filtered, so it has gone from view.'));
+      });
+    }
+
+    var dragging = null;
+    function drawBoard(focusId) {
+      var list = ordered(tasks.filter(function (t) { return passes(t, f, null, mode); }), f);
+      shown.textContent = list.length + ' of ' + tasks.length + ' tasks';
+      out.textContent = '';
+      var board = el('div', 'tk-board');
+      var cols = columnsOf(), choices = choicesOf();
+      cols.forEach(function (c) {
+        var mine = list.filter(function (t) { return fold(valueOf(t)) === fold(c[0]); });
+        var col = el('section', 'tk-col');
+        var hid = 'tk-col-' + cols.indexOf(c);
+        col.setAttribute('aria-labelledby', hid);
+        var hd = el('h3', 'tk-col__h');
+        hd.id = hid;
+        hd.appendChild(document.createTextNode(c[1] + ' '));
+        hd.appendChild(el('span', 'tk-n', String(mine.length)));
+        col.appendChild(hd);
+        var ul = el('ul', 'tk-cards');
+        ul.addEventListener('dragover', function (e) { if (dragging) { e.preventDefault(); col.classList.add('tk-col--over'); } });
+        ul.addEventListener('dragleave', function () { col.classList.remove('tk-col--over'); });
+        ul.addEventListener('drop', function (e) {
+          e.preventDefault();
+          col.classList.remove('tk-col--over');
+          if (dragging) move(dragging, c[0], false);
+          dragging = null;
+        });
+        if (!mine.length) ul.appendChild(el('li', 'tk-empty cb-quiet', 'Nothing here.'));
+        mine.forEach(function (t) { ul.appendChild(card(t, choices)); });
+        col.appendChild(ul);
+        board.appendChild(col);
+      });
+      out.appendChild(board);
+      if (focusId) { var m = out.querySelector('[data-move="' + focusId + '"]'); if (m) m.focus(); }
+    }
+
+    function card(t, choices) {
+      var li = el('li', 'tk-card' + (isDone(t) ? ' tk-done' : ''));
+      li.draggable = true;
+      li.addEventListener('dragstart', function (e) {
+        dragging = t;
+        li.classList.add('tk-card--lifted');
+        try { e.dataTransfer.setData('text/plain', t.name); e.dataTransfer.effectAllowed = 'move'; } catch (err) { /* an old browser */ }
+      });
+      li.addEventListener('dragend', function () { li.classList.remove('tk-card--lifted'); dragging = null; });
+      var a = el('a', 'tk-card__name', t.name); a.href = '#/t/' + t.id;
+      a.draggable = false;
+      li.appendChild(a);
+      var facts = el('p', 'tk-card__facts');
+      var bits = [];
+      if (f.cols !== 'status') bits.push(t.status);
+      if (f.cols !== 'priority' && t.priority !== settings.priority) bits.push(t.priority);
+      if (f.cols !== 'who') bits.push(t.who || 'Nobody');
+      if (t.due) bits.push('due ' + dayWords(t.due));
+      facts.textContent = bits.join(' · ');
+      if (overdue(t)) facts.appendChild(tag('OVERDUE', 'tk-late'));
+      if ((t.priority === 'High' || t.priority === 'Urgent') && f.cols !== 'priority') facts.classList.add('tk-high');
+      li.appendChild(facts);
+      if (t.tags.length) li.appendChild(el('p', 'tk-card__tags', t.tags.join(', ')));
+      var mv = el('label', 'tk-move');
+      var ms = el('select', 'cb-say tk-move__sel');
+      ms.dataset.move = t.id;
+      ms.setAttribute('aria-label', 'Move “' + t.name + '” to');
+      mv.appendChild(el('span', 'tk-move__lab', 'Move to'));
+      // Somebody who has left the people a task can go to keeps the tasks they had, so their name stays a choice on those.
+      var own = choices.some(function (c) { return fold(c[0]) === fold(valueOf(t)); }) ? choices : choices.concat([[valueOf(t), valueOf(t)]]);
+      own.forEach(function (c) { var o = el('option', null, c[1]); o.value = c[0]; ms.appendChild(o); });
+      ms.value = own.filter(function (c) { return fold(c[0]) === fold(valueOf(t)); }).map(function (c) { return c[0]; })[0] || '';
+      ms.addEventListener('change', function () { move(t, ms.value, true); });
+      mv.appendChild(ms);
+      li.appendChild(mv);
+      return li;
+    }
+
+    drawSaved();
     drawFilters();
-    drawTable();
+    drawOut();
     return h;
   }
 
@@ -659,9 +901,12 @@
     else if (parts[0] === 'edit' && parts[1]) done = formView(parts[1]);
     else if (parts[0] === 't' && parts[1]) done = taskView(parts[1]);
     else if (parts[0] === 'new') done = formView(null);
-    else done = listView();
-    navList.removeAttribute('aria-current'); navNew.removeAttribute('aria-current');
-    if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page'); else if (!parts.length) navList.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'board') done = tasksView('board');
+    else done = tasksView('list');
+    [navList, navBoard, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
+    if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'board') navBoard.setAttribute('aria-current', 'page');
+    else if (!parts.length) navList.setAttribute('aria-current', 'page');
     Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });
   }
   window.addEventListener('hashchange', function () { if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route(); });

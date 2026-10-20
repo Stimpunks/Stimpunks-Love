@@ -1,7 +1,8 @@
 /* Tasks, the team's to-do list. Every answer needs the pass of a claimed
    username holding one of TASK_SEE's roles, or administrator; everybody else
    is told nothing. GET, with ?view=:
-     list                    every task, without its description, and who a task can be assigned to
+     list                    every task, without its description, who a task can be assigned to,
+                             and the reader's own saved filters
      task     &id=           one task, its description as words and as nodes
    POST, with the same pass:
      { action: 'save', id?, espo?, name?, status?, priority?, start?, due?, body?, who?, with?, tags? }
@@ -10,15 +11,19 @@
          rather than making it twice; with it, t, done and by may say EspoCRM's own.
      { action: 'remove', id }                        a task deleted
      { action: 'preview', body }                     how a description will set
+     { action: 'view-save', id?, name, address }     a saved filter: a name and the #/ or #/board
+                                                     address of a list or a board, new or in place of `id`
+     { action: 'view-remove', id }                   a saved filter deleted
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
-import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, parseBrass,
+import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, taskViews, saveTaskView,
+  removeTaskView, parseBrass,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
-  TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX } from '../cb/lib.mjs';
+  TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere.
 const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
-  tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX };
+  tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX };
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'Tasks only answer stimpunks.world.' }, QUIET);
@@ -34,7 +39,10 @@ export default async (req) => {
   try {
     if (req.method === 'GET') {
       const view = url.searchParams.get('view') || 'list';
-      if (view === 'list') return json(200, { me, settings, people: taskPeople(), tasks: await tasksList(who) }, QUIET);
+      if (view === 'list') {
+        const [tasks, views] = await Promise.all([tasksList(who), taskViews(who)]);
+        return json(200, { me, settings, people: taskPeople(), tasks, views }, QUIET);
+      }
       if (view === 'task') {
         const t = await taskOne(who, url.searchParams.get('id'));
         return t ? json(200, { me, settings, people: taskPeople(), task: t }, QUIET) : json(404, { error: 'That task has been deleted.' }, QUIET);
@@ -54,6 +62,14 @@ export default async (req) => {
     if (b.action === 'remove') {
       const r = await removeTask(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'view-save') {
+      const r = await saveTaskView(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { views: r.views }, QUIET);
+    }
+    if (b.action === 'view-remove') {
+      const r = await removeTaskView(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { views: r.views }, QUIET);
     }
     return json(400, { error: 'Do what with it?' }, QUIET);
   } catch (e) {

@@ -4355,6 +4355,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetPatches(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
   await forgetProfileSets(petKey(handle), s);
+  await forgetTaskViews(petKey(handle), s);
   await forgetProps(petKey(handle), s);
   await forgetDms(acct.handle, acct.since, s);
   await forgetReads(acct.handle, acct.since, s);
@@ -7035,6 +7036,7 @@ export function sameSite(req) {
 export const TASK_SEE = ["director"];
 export const TASK_STATUSES = ["Not Started", "Started", "Completed", "Canceled", "Deferred"];
 export const TASK_DONE = ["Completed", "Canceled"];
+export const TASK_BOARD_HIDES = ["Canceled"];
 export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
@@ -7198,4 +7200,84 @@ export async function removeTask(who, id, s = store()) {
 async function readTaskGone(s) {
   const d = await s.get(TASKS_GONE, { type: 'json' });
   return d && Array.isArray(d.ids) ? d.ids : [];
+}
+
+/* SAVED FILTERS are each reader's own (Ryan's stage two, 2026-10-20): a name
+   and the address of a list or a board, the part after the # that holds its
+   filters, order and columns, kept under the pet key in one blob,
+   task-views/<pet key>, holding each one's id, name and address and nothing
+   about when. Nobody else is told what anybody has saved. The browser works
+   out how many tasks each one shows, from the list it already has. Forget me
+   and deleting the username delete them. */
+export const TASK_VIEWS_KEEP = 40;
+export const TASK_VIEW_NAME_MAX = 60;
+const TASK_VIEW_ADDRESS_MAX = 1000;
+const TASK_VIEW_KEYS = new Set(['q', 'status', 'priority', 'tags', 'who', 'due', 'sort', 'dir', 'cols']);
+const taskViewsBlob = (k) => `task-views/${k}`;
+const taskViewId = (v) => (typeof v === 'string' && /^v[A-Za-z0-9_-]{10}$/.test(v) ? v : null);
+
+/* An address a saved filter may hold: #/ for the list or #/board for the
+   board, and after a ? only the filters tasks.js writes, each once, encoded
+   as it encodes them. Anything else is null. */
+export function taskAddress(v) {
+  if (typeof v !== 'string' || v.length > TASK_VIEW_ADDRESS_MAX) return null;
+  const m = /^#\/(board)?(?:\?([A-Za-z0-9%._~!*'(),&=+-]*))?$/.exec(v);
+  if (!m) return null;
+  const seen = new Set();
+  for (const kv of (m[2] || '').split('&').filter(Boolean)) {
+    const [k, ...rest] = kv.split('=');
+    if (!TASK_VIEW_KEYS.has(k) || seen.has(k) || !rest.length) return null;
+    seen.add(k);
+    try { decodeURIComponent(rest.join('=')); } catch (e) { return null; }
+  }
+  return v;
+}
+
+export async function taskViews(who, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const d = await s.get(taskViewsBlob(petKey(who.handle)), { type: 'json' });
+  return d && Array.isArray(d.views) ? d.views : [];
+}
+
+/* Save a list's or a board's address under a name, as a new saved filter or
+   in place of the one `f.id` names. { views } or { error }. */
+export async function saveTaskView(who, f, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  f = f || {};
+  const name = cleanUpTo(f.name, TASK_VIEW_NAME_MAX);
+  if (!name) return { error: `Name it, in up to ${TASK_VIEW_NAME_MAX} characters.` };
+  const address = taskAddress(f.address);
+  if (!address) return { error: 'That is not the address of a list or a board of tasks.' };
+  const id = f.id != null ? taskViewId(f.id) : null;
+  if (f.id != null && !id) return { error: 'That saved filter has been deleted.' };
+  let why = null;
+  const views = await updateList(taskViewsBlob(petKey(who.handle)), 'views', (list) => {
+    why = null;
+    const k = id ? list.findIndex((x) => x.id === id) : -1;
+    if (id && k < 0) { why = 'That saved filter has been deleted.'; return null; }
+    if (list.some((x, i) => i !== k && foldHandle(x.name) === foldHandle(name))) { why = `You already have a saved filter called “${name}”.`; return null; }
+    if (k < 0 && list.length >= TASK_VIEWS_KEEP) { why = `You keep up to ${TASK_VIEWS_KEEP} saved filters. Delete one first.`; return null; }
+    const copy = list.slice();
+    if (k >= 0) copy[k] = { id, name, address };
+    else copy.push({ id: 'v' + randomBytes(8).toString('base64url').slice(0, 10), name, address });
+    return copy.sort((a, b) => a.name.localeCompare(b.name));
+  }, s);
+  return why ? { error: why } : { views };
+}
+
+export async function removeTaskView(who, id, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const v = taskViewId(id);
+  let had = false;
+  const views = await updateList(taskViewsBlob(petKey(who.handle)), 'views', (list) => {
+    had = list.some((x) => x.id === v);
+    return had ? list.filter((x) => x.id !== v) : null;
+  }, s);
+  return had ? { views } : { error: 'That saved filter has already been deleted.' };
+}
+
+/* Forget me, and deleting the username. */
+export async function forgetTaskViews(pk, s = store()) {
+  await s.delete(taskViewsBlob(pk));
+  return true;
 }
