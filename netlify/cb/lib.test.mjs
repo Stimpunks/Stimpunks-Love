@@ -3194,7 +3194,7 @@ test('a post\'s pictures and files are its writer\'s own, read only where the to
 });
 
 /* ── Team Docs: subcategories, years, templates and pictures in the words ── */
-import { forumCategories, forumTemplates, placePictures, withoutPictures, FORUM_DOC_ATTACH_MAX } from './lib.mjs';
+import { forumCategories, forumTemplates, placePictures, withoutPictures, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_BODY_MAX } from './lib.mjs';
 
 test('Team Docs is for moderators, a subcategory is its parent\'s in everything, and a shelf holds no topics', async () => {
   const s = memoryStore({ etagOnRead: true });
@@ -3283,6 +3283,22 @@ test('a wiki\'s document holds a screenshot for every step, and every other post
   assert.match((await replyTopic(FMOD, t.topic.id, { body: 'More', files: await up(FORUM_ATTACH_MAX + 1) }, s, T0 + 1, NO_NET)).error, /A post holds/);
   assert.match((await startTopic(FMOD, { cat: 'moderators', title: 'Lots', body: 'x', files: await up(FORUM_ATTACH_MAX + 1) }, s, T0 + 2, NO_NET)).error, /A post holds/);
   assert.match((await startTopic(FMOD, { cat: 'notes', title: 'Too many', body: 'x', files: Array.from({ length: FORUM_DOC_ATTACH_MAX + 1 }, () => many[0]) }, s, T0 + 3, NO_NET)).error, /A document holds/);
+});
+
+test('a wiki\'s page is as long as a long document, and every other post stays short', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const words = (n) => ('Minutes. '.repeat(Math.ceil(n / 9))).slice(0, n);
+  const page = await startTopic(FMOD, { cat: 'meeting-minutes-2026', title: 'September 29 board meeting', body: words(100358) }, s, T0, NO_NET);
+  assert.ok(page.topic, page.error);
+  const p0 = page.topic.posts[0].id;
+  assert.match((await startTopic(FMOD, { cat: 'notes', title: 'Too long even for a page', body: words(FORUM_DOC_BODY_MAX + 1) }, s, T0, NO_NET)).error, /A page is up to 150000/);
+  assert.match((await startTopic(FMOD, { cat: 'moderators', title: 'Long', body: words(FORUM_BODY_MAX + 1) }, s, T0, NO_NET)).error, /A post is up to 20000/);
+  assert.match((await replyTopic(FMOD, page.topic.id, { body: words(FORUM_BODY_MAX + 1) }, s, T0 + 1, NO_NET)).error, /up to 20000/, 'a reply in a wiki was as long as a page');
+  const reply = (await replyTopic(FMOD, page.topic.id, { body: 'Seconded.' }, s, T0 + 2, NO_NET)).post;
+  assert.ok((await editPost(fw('Mo', 600, []), page.topic.id, p0, { body: words(120000) }, s, T0 + 3, NO_NET)).topic, 'another moderator could not keep a long page up to date');
+  assert.match((await editPost(FMOD, page.topic.id, reply.id, { body: words(FORUM_BODY_MAX + 1) }, s, T0 + 4, NO_NET)).error, /A post is up to 20000/);
+  assert.match((await editPost(FMOD, page.topic.id, p0, { body: words(FORUM_DOC_BODY_MAX + 1) }, s, T0 + 5, NO_NET)).error, /up to 150000/);
+  assert.equal((await forumTopic(ADA, page.topic.id, s, T0 + 6)), null, 'a long page went to somebody who cannot read Team Docs');
 });
 
 test('a post keeps who it @mentions, the reader finds where they were mentioned, and a device is told only what its pass can read', () => withPasswords(async () => {

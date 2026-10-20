@@ -5219,7 +5219,9 @@ placed by `placePictures` in `shapePost` only when the post holds that picture, 
 picture from anywhere else is ever shown; markdown.js draws it through a `pic` hook a page passes. **The friendly edits
 are a template list kept in the data "so it is versioned", a subcategory with roles wider than its parent's, and taking
 a picture's address from outside the post "so people can link one"**; the first stops the team keeping its own
-templates, the other two break the forums' oldest promises. Moving the documents across is not done (`DECISIONS.md`).
+templates, the other two break the forums' oldest promises. **A wiki's page may be 150,000 characters and every other post
+20,000** (`bodyMost`, Ryan's call the same day, so board minutes with their transcript go up whole); a reply is never a
+page, and `make-forum.py` refuses `replyTopic` reaching the long limit.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

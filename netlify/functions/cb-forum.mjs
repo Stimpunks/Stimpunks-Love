@@ -24,7 +24,7 @@
 import { readPass, forumReader, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, moderateTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
-  FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
+  FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere: the forums are for
 // claimed usernames, and a cached answer is a copy.
@@ -34,7 +34,8 @@ const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on
 // The quick row of reactions, so the page keeps no copy of the list.
 const quick = REACTIONS.map(([emoji, name]) => ({ emoji, name }));
 // What a post may carry, so the page keeps no copy of these either.
-const takes = { most: FORUM_ATTACH_MAX, docMost: FORUM_DOC_ATTACH_MAX, fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES) };
+const takes = { most: FORUM_ATTACH_MAX, docMost: FORUM_DOC_ATTACH_MAX, body: FORUM_BODY_MAX, docBody: FORUM_DOC_BODY_MAX,
+  fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES) };
 const num = (v) => (v != null && /^\d{1,15}$/.test(v) ? Number(v) : null);
 
 export default async (req, context) => {
@@ -71,8 +72,9 @@ export default async (req, context) => {
     }
     const b = (await body(req)) || {};
     if (b.action === 'preview') {
-      const text = cleanForumBody(b.body);
-      if (!text) return json(400, { error: `Between one and ${FORUM_BODY_MAX} characters.` }, QUIET);
+      // A preview sets words and keeps nothing, so it takes as many as a wiki page can hold.
+      const text = cleanForumBody(b.body, FORUM_DOC_BODY_MAX);
+      if (!text) return json(400, { error: `Between one and ${FORUM_DOC_BODY_MAX} characters.` }, QUIET);
       const pics = new Map((Array.isArray(b.pics) ? b.pics : []).slice(0, FORUM_DOC_ATTACH_MAX).map(imageId).filter(Boolean).map((id) => [id, '']));
       return json(200, { blocks: placePictures(parseBrass(text), pics) }, QUIET);
     }

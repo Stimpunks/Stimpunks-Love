@@ -4408,7 +4408,7 @@ const BRASS_IMG_UNSENT = 24 * 60 * 60 * 1000;
 
 export function cleanBrassTitle(v) { const t = tidy(v); return t && [...t].length <= BRASS_TITLE_MAX ? t : null; }
 export function cleanBrassAlt(v) { const t = tidy(v); return t && [...t].length <= BRASS_ALT_MAX ? t : null; }
-export function cleanBrassBody(v) {
+export function cleanBrassBody(v, max = BRASS_BODY_MAX) {
   const t = String(v == null ? '' : v)
     .replace(/\r\n?/g, '\n')
     .replace(/\t/g, '    ')
@@ -4416,7 +4416,7 @@ export function cleanBrassBody(v) {
     .split('\n').map((line) => line.replace(/[  ]+$/, '')).join('\n')
     .replace(/\n{4,}/g, '\n\n\n')
     .replace(/^\n+|\n+$/g, '');
-  return t.trim() && [...t].length <= BRASS_BODY_MAX ? t : null;
+  return t.trim() && [...t].length <= max ? t : null;
 }
 
 /* Where a link may go, or null. Only these, and the words stay words otherwise. */
@@ -4978,6 +4978,7 @@ export async function removeSuggestion(who, id, s = store()) {
    NOTHING ANYBODY TYPES IS LOGGED, here as everywhere in this file. */
 export const FORUM_TITLE_MAX = 120;
 export const FORUM_BODY_MAX = 20000;
+export const FORUM_DOC_BODY_MAX = 150000; // a wiki's document: a long Google Doc, or a board meeting's minutes with their transcript
 export const FORUM_POSTS_MAX = 400;     // posts in one topic; past it, start a new one
 export const FORUM_TOPICS_MAX = 2000;   // topics in one category; a full one refuses, it never pushes the oldest out
 export const FORUM_PREVIEWS = 5;        // links previewed in one post
@@ -5140,9 +5141,8 @@ export function topicGoes(sum, cat) { return sum.pinned ? null : goesAt(clockOf(
 export function topicLive(sum, cat, now = Date.now()) { const g = topicGoes(sum, cat); return g === null || g > now; }
 
 export function cleanForumTitle(v) { const t = tidy(v); return t && [...t].length <= FORUM_TITLE_MAX ? t : null; }
-export function cleanForumBody(v) {
-  const t = cleanBrassBody(v);
-  return t && [...t].length <= FORUM_BODY_MAX ? t : null;
+export function cleanForumBody(v, max = FORUM_BODY_MAX) {
+  return cleanBrassBody(v, max);
 }
 /* A picture's description: '' when there is none, null when it is too long. */
 export function cleanForumAlt(v) {
@@ -5261,6 +5261,11 @@ async function attachments(who, asked, had, s, most = FORUM_ATTACH_MAX) {
    that opens one of its topics, holds a screenshot for every step of a how-to
    (Ryan's ask, 2026-10-20, for the Field Guide); every other post, six. */
 function attachMost(cat, first) { return cat && cat.wiki && first ? FORUM_DOC_ATTACH_MAX : FORUM_ATTACH_MAX; }
+/* And how long its words may be: a wiki's document as long as a long Google
+   Doc, so a board meeting's minutes go up whole with their transcript (Ryan's
+   call, 2026-10-20, moving Team Docs); every other post, a reply in a wiki
+   included, 20,000 characters. */
+function bodyMost(cat, first) { return cat && cat.wiki && first ? FORUM_DOC_BODY_MAX : FORUM_BODY_MAX; }
 const fileKey = (topic, id) => `${FORUM_FILE}${topic}/${id}`;
 async function keepUploads(topic, fresh, s) { for (const x of fresh) await s.set(fileKey(topic, x.id), x.data, { metadata: { ...x.meta, t: Date.now() } }); }
 async function doneUploads(fresh, s) { for (const x of fresh) await s.delete(FORUM_UP + x.id); }
@@ -5741,8 +5746,8 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
     if (r.error) return r;
     cb = r.cb;
   }
-  const body = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body);
-  if (body === null) return { error: `A post is up to ${FORUM_BODY_MAX} characters.` };
+  const body = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body, bodyMost(cat, true));
+  if (body === null) return { error: `${cat.wiki ? 'A page' : 'A post'} is up to ${bodyMost(cat, true)} characters.` };
   const att = await attachments(who, f.files, [], s, attachMost(cat, true));
   if (att.error) return att;
   if (!body && !cb && !att.files.length) return { error: 'Say something to start the topic with, or add a picture or a file.' };
@@ -5836,8 +5841,9 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
 export async function editPost(who, id, pid, f, s = store(), now = Date.now(), get = safeGet) {
   if (!forumReader(who)) return { error: CLAIM };
   const raw = f && f.body;
-  const body = raw == null || String(raw).trim() === '' ? '' : cleanForumBody(raw);
-  if (body === null) return { error: `A post is up to ${FORUM_BODY_MAX} characters.` };
+  // Read against the longest a post can be; held to its own once the topic says which it is.
+  const body = raw == null || String(raw).trim() === '' ? '' : cleanForumBody(raw, FORUM_DOC_BODY_MAX);
+  if (body === null) return { error: `A post is up to ${FORUM_DOC_BODY_MAX} characters.` };
   const title = f && f.title != null ? cleanForumTitle(f.title) : undefined;
   if (title === null) return { error: `A title is between one and ${FORUM_TITLE_MAX} characters.` };
   const pre = await readTopic(id, s);
@@ -5847,6 +5853,8 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
   if (!pre || !forumAllows(who, cat) || !topicLive(summaryOf(pre), cat, now)) return { error: GONE };
   if (!was) return { error: 'That post has been taken down.' };
   if (was.by !== mark && !(forumEditor(who, cat) && pre.posts[0] === was)) return { error: 'Only whoever wrote a post can edit it.' };
+  const most = bodyMost(cat, pre.posts[0] === was);
+  if ([...body].length > most) return { error: `${most === FORUM_BODY_MAX ? 'A post' : 'A page'} is up to ${most} characters.` };
   const links = await previewsOf(body, was.links || [], get);
   // Left out, the post keeps the pictures and files it had; a list is the whole of them.
   const att = await attachments(who, f.files === undefined ? (was.files || []) : f.files, was.files || [], s, attachMost(cat, pre.posts[0] === was));

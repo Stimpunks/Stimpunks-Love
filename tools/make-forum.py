@@ -41,7 +41,11 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
     templates are offered only from categories the reader may see, never their
     pinned read-me; and a picture stands in a post's words only if the post
     holds it, placed by placePictures in shapePost, so no picture from
-    anywhere else is ever shown.
+    anywhere else is ever shown. A wiki's page, the post that opens one of
+    its topics, may be 150,000 characters, so a long Google Doc or a board
+    meeting's minutes with their transcript go up whole (Ryan's call, the same
+    day); every other post, a reply in a wiki included, stays at 20,000, and
+    only bodyMost decides which.
   · COPING KEPT LONGER THAN A WEEK. Ryan's call, 2026-10-18: Discord keeps that
     channel for ever, which is not what it is for, so here its topics go a week
     after the last post. The friendly edit is to lengthen it to match the others.
@@ -297,6 +301,13 @@ def check_lib(lib):
     sp = re.search(r"function shapePost\(.*?\n\}", sec, re.S)
     if not sp or "out.editedBy = p.editedBy" not in sp.group(0):
         problems.append(f"{LIB.name}: shapePost no longer says who edited a post last, so a moderator's words could be shown as the starter's.")
+    bm = re.search(r"function bodyMost\(.*?\n", sec)
+    if not bm or "cat.wiki && first ? FORUM_DOC_BODY_MAX : FORUM_BODY_MAX" not in bm.group(0):
+        problems.append(f"{LIB.name}: bodyMost must give the long limit to a wiki's page and nothing else.")
+    if "bodyMost(cat, true)" not in fn(sec, "startTopic") or "bodyMost(cat, pre.posts[0] === was)" not in fn(sec, "editPost"):
+        problems.append(f"{LIB.name}: starting a topic and editing a post must hold the words to bodyMost, so only a wiki's page is long.")
+    if re.search(r"FORUM_DOC_BODY_MAX|bodyMost", fn(sec, "replyTopic")):
+        problems.append(f"{LIB.name}: a reply is never a page, so it is never as long as one.")
     if "cat.shelf" not in fn(sec, "startTopic") or "to.shelf" not in fn(sec, "moderateTopic"):
         problems.append(f"{LIB.name}: a shelf holds subcategories and no topics, so starting a topic in one or moving a topic into one must be refused.")
     if "forumTree(cat, now).filter((c) => forumAllows(who, c))" not in sec:

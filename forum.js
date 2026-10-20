@@ -317,7 +317,7 @@
   }
 
   var cats = [], me = null, quick = [];
-  var takes = { most: 6, fileMax: 5000000, kinds: ['pdf', 'txt', 'md', 'csv', 'rtf', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp', 'epub'] };
+  var takes = { most: 6, body: 20000, fileMax: 5000000, kinds: ['pdf', 'txt', 'md', 'csv', 'rtf', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp', 'epub'] };
   var rooms = null, roomsAsk = null;
   function loadRooms() {
     if (roomsAsk) return roomsAsk;
@@ -946,7 +946,6 @@
     var text = el('textarea', 'cb-say fm-text');
     text.id = tid;
     text.rows = 7;
-    text.maxLength = 20000;
     text.value = (fresh && fresh.body != null) ? fresh.body : (o.body || '');
     text.setAttribute('aria-describedby', tid + '-hint');
     /* THE @ LIST, the radio's # list for people: the ARIA combobox pattern.
@@ -980,6 +979,13 @@
       var c = catSel ? catOf(catSel.value) : null;
       return (o.doc || (c && c.wiki)) && takes.docMost ? takes.docMost : takes.most;
     }
+    // As long as this post may be: a wiki's page far longer, kept in step with the category.
+    function longest() {
+      var c = catSel ? catOf(catSel.value) : null;
+      return (o.doc || (c && c.wiki)) && takes.docBody ? takes.docBody : takes.body;
+    }
+    text.maxLength = longest();
+    if (catSel) catSel.addEventListener('change', function () { text.maxLength = longest(); });
     var attach = el('div', 'fm-attach');
     var addBtn = el('button', 'cb-btn fm-small', 'Add pictures or files');
     addBtn.type = 'button';
