@@ -651,6 +651,9 @@ def check_familiar():
     for fn in ("wander", "followScroll", "followTo", "seekCozy"):
         if "mayMove()" not in body_of(code, fn):
             refuse(f"{fn}() in familiar.js moves it without asking mayMove(). Nothing moves by itself below MAX GLITTER unless you let it.")
+    if re.search(r"\.style\.(?:left|top)\s*=", body_of(code, "measureOrigin")):
+        refuse("measureOrigin() in familiar.js moves the familiar to measure it. Setting left and top to measure, with a "
+               "walk's transition still on, walked it in from the corner of the page every few seconds; read them instead.")
     glide = body_of(code, "mayGlide")
     if "mayMove()" not in glide or "'gentle'" not in glide:
         refuse("mayGlide() in familiar.js no longer asks mayMove() and keeps out of Gentle.")

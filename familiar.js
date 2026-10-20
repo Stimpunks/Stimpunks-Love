@@ -504,16 +504,20 @@
 
   F.place = function () { this.host.style.left = (this.pos.x - this.origin.x) + 'px'; this.host.style.top = (this.pos.y - this.origin.y) + 'px'; };
   F.put = function (x, y) { this.pos = { x: Math.round(x), y: Math.round(y) }; this.place(); };
-  // Where left: 0 lands depends on the page, so it is measured, not assumed.
+  // Where left: 0 lands depends on the page, so it is measured, not assumed:
+  // where it is on the page now less the left and top it has now, read and
+  // never set, because SETTING them to 0 to measure, with a walk's
+  // transition still on it, walked it in from the top corner of the page
+  // every time this ran (Ryan saw it every few seconds, 2026-10-19). Only a
+  // change in the origin moves it, and then with a jump.
   F.measureOrigin = function () {
-    var h = this.host, t = h.style.transition;
-    h.style.transition = 'none';
-    h.style.left = '0px';
-    h.style.top = '0px';
-    var r = h.getBoundingClientRect();
-    this.origin = { x: r.left + window.scrollX, y: r.top + window.scrollY };
-    h.style.transition = t;
-    if (this.pos) this.place();
+    var h = this.host, r = h.getBoundingClientRect(), cs = getComputedStyle(h);
+    var l = parseFloat(cs.left), t = parseFloat(cs.top);
+    if (!isFinite(l) || !isFinite(t)) return;
+    var o = { x: Math.round(r.left + window.scrollX - l), y: Math.round(r.top + window.scrollY - t) };
+    if (o.x === this.origin.x && o.y === this.origin.y) return;
+    this.origin = o;
+    if (this.pos && !this.walking) { h.style.transition = 'none'; this.place(); }
   };
   F.stopWalking = function () {
     clearTimeout(this.walkT);
