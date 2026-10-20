@@ -1414,6 +1414,15 @@
     petsBtn.setAttribute('aria-expanded', 'false');
     petsBtn.setAttribute('aria-controls', 'cb-pets');
     youTools.appendChild(petsBtn);
+    /* ACCOUNT (Ryan's ask, 2026-10-19): your username, claiming it, its
+       password, its recovery and deleting it, and Forget me, out of Profile
+       into a tray of their own. Profile is what you show; Account is what
+       you are signed on as and what the street keeps under you. */
+    var acctBtn = this.acctBtn = el('button', 'cb-btn cb-acct-btn', 'Account');
+    acctBtn.type = 'button';
+    acctBtn.setAttribute('aria-expanded', 'false');
+    acctBtn.setAttribute('aria-controls', 'cb-account');
+    youTools.appendChild(acctBtn);
     /* NOTIFICATIONS (Ryan, 2026-10-18, after requests, "especially for
        staff"): a tray under this row, like Themes and Profile, where a device
        is switched on to be told about mentions, rooms it follows, calls
@@ -1516,13 +1525,18 @@
     pets.setAttribute('role', 'group');
     pets.setAttribute('aria-label', 'Your profile');
 
-    // Your username.
-    pets.appendChild(el('p', 'cb-pets__h', 'Your username'));
+    // The Account tray: your username, then Forget me. See acctBtn.
+    var acctP = this.acctPanel = el('div', 'cb-pets cb-account');
+    acctP.id = 'cb-account';
+    acctP.hidden = true;
+    acctP.setAttribute('role', 'group');
+    acctP.setAttribute('aria-label', 'Your account');
+    acctP.appendChild(el('p', 'cb-pets__h', 'Your username'));
     var acct = this.acctBox = el('div', 'cb-acct');
-    pets.appendChild(acct);
+    acctP.appendChild(acct);
     this.acctSaid = el('p', 'cb-said cb-acct__said');
     this.acctSaid.setAttribute('role', 'status');
-    pets.appendChild(this.acctSaid);
+    acctP.appendChild(this.acctSaid);
 
     /* YOUR PROFILE CARD (Ryan, 2026-10-17, after requests for profiles more
        like Discord's): what anybody signed on sees when they press your name,
@@ -1636,9 +1650,11 @@
     this.patchWhere = el('p', 'cb-pets__where');
     pets.appendChild(this.patchWhere);
 
+    acctP.appendChild(el('p', 'cb-pets__h', 'Forget me'));
+    acctP.appendChild(el('p', 'cb-pets__where', 'Deletes everything the street keeps under this handle, from your avatars to your messages. It asks once more first.'));
     var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
     forgetBtn.type = 'button';
-    pets.appendChild(forgetBtn);
+    acctP.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
     sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your direct messages and every conversation you are in, for both of you, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
@@ -1647,9 +1663,14 @@
     var no = el('button', 'cb-btn', 'Keep them');
     no.type = 'button';
     sure.appendChild(yes); sure.appendChild(no);
-    pets.appendChild(sure);
+    acctP.appendChild(sure);
+    var forgetSaid = this.forgetSaid = el('p', 'cb-said');
+    forgetSaid.setAttribute('role', 'status');
+    acctP.appendChild(forgetSaid);
     pets.appendChild(this.footClose('Close Profile', function () { me.setPets(false); }, petsBtn));
+    acctP.appendChild(this.footClose('Close Account', function () { me.setAccount(false); }, acctBtn));
     youSec.appendChild(pets);
+    youSec.appendChild(acctP);
     var ntf = this.notifyPanel = el('div', 'cb-notify');
     ntf.id = 'cb-notify';
     // notifyLoad and notifyDraw redraw the body; the foot is the tray's own.
@@ -1665,6 +1686,7 @@
     yourSec.appendChild(ntf);
     notifyBtn.addEventListener('click', function () { me.setNotify(ntf.hidden); });
     petsBtn.addEventListener('click', function () { me.setPets(pets.hidden); });
+    acctBtn.addEventListener('click', function () { me.setAccount(acctP.hidden); });
     forgetBtn.addEventListener('click', function () { sure.hidden = false; forgetBtn.hidden = true; no.focus(); });
     no.addEventListener('click', function () { sure.hidden = true; forgetBtn.hidden = false; forgetBtn.focus(); });
     yes.addEventListener('click', function () { me.forgetMe(); });
@@ -2517,6 +2539,7 @@
     this.tpBtn.hidden = folded;
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
     if (folded && !this.petsPanel.hidden) this.setPets(false);
+    if (folded && !this.acctPanel.hidden) this.setAccount(false);
     if (folded && !this.screenPanel.hidden) this.setScreenPanel(false);
     this.foldBtn.setAttribute('aria-expanded', String(!folded));
     this.foldBtn.textContent = folded ? 'Switch on' : 'Fold away';
@@ -3469,7 +3492,7 @@
         var cardBody = card.querySelector('.pf-body');
         if (rs[0].status !== 200) cardBody.appendChild(el('p', 'cb-quiet pf-empty', 'Their profile card could not be fetched just now.'));
         else if (!p) cardBody.appendChild(el('p', 'cb-quiet pf-empty', mineP
-          ? (me.state.claimed ? 'Your card has nothing on it yet. Edit my profile card, in Profile on this radio, is where you fill it in.' : 'Claim your username, in Profile on this radio, and you can fill in a profile card.')
+          ? (me.state.claimed ? 'Your card has nothing on it yet. Edit my profile card, in Profile on this radio, is where you fill it in.' : 'Claim your username, under Account on this radio, and you can fill in a profile card.')
           : whose + ' has nothing on their card.'));
         /* MESSAGE THEM (Ryan, 2026-10-18), for a claimed username looking at
            somebody else's. Whether they take messages is said once their
@@ -3776,7 +3799,7 @@
     var me = this, box = ctx.box;
     if (waiting) return;
     if (!forumPass(me.state.pass)) {
-      box.appendChild(el('p', 'cb-quiet', 'Claim your username, in Profile on this radio, and you can give ' + whose + ' props.'));
+      box.appendChild(el('p', 'cb-quiet', 'Claim your username, under Account on this radio, and you can give ' + whose + ' props.'));
       return;
     }
     var form = el('form', 'pf-props__give');
@@ -3888,7 +3911,7 @@
     box.textContent = '';
     me.drawProfileSets(got, told);
     if (!got.claimed) {
-      box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can fill in a profile card: a theme and a banner, a decoration round the avatar you wear, a frame round your profile and an effect over it, a face for your name, a nameplate on Who’s online, your pronouns, a few words about yourself, links to your other places and your favourite room. Whatever you fill in is shown to anybody signed on to the CB.'));
+      box.appendChild(el('p', 'cb-quiet', 'Claim your username under Account and you can fill in a profile card: a theme and a banner, a decoration round the avatar you wear, a frame round your profile and an effect over it, a face for your name, a nameplate on Who’s online, your pronouns, a few words about yourself, links to your other places and your favourite room. Whatever you fill in is shown to anybody signed on to the CB.'));
       return;
     }
     box.appendChild(el('p', null, got.profile
@@ -5286,7 +5309,7 @@
     w.appendChild(den);
     w.appendChild(document.createTextNode(claimed
       ? ', and keep it here. They are kept under your username, scrambled, and only your password reaches them. The one you wear is shown beside your name on Who\u2019s online, and large in your profile, to anybody signed on to the CB.'
-      : ', and keep it here. They are kept under the handle ' + this.state.handle + ', scrambled. A handle is not an account: anybody who signs on with it sees them too. Claim your username above to wear one on the CB, beside your name on Who\u2019s online.'));
+      : ', and keep it here. They are kept under the handle ' + this.state.handle + ', scrambled. A handle is not an account: anybody who signs on with it sees them too. Claim your username under Account to wear one on the CB, beside your name on Who\u2019s online.'));
     this.avatarShow(b, told && told.show);
     if (!b.avatars.length) {
       ul.hidden = true;
@@ -5433,7 +5456,7 @@
     this.dmWith = null;
     this.dmBusy = null;
     if (!forumPass(this.state.pass)) {
-      sec.appendChild(el('p', 'cb-quiet', 'Claim your username, in Profile under Your radio, and you can send direct messages and get them: one person to another, each gone 48 hours after it was sent.'));
+      sec.appendChild(el('p', 'cb-quiet', 'Claim your username, under Account in You on this radio, and you can send direct messages and get them: one person to another, each gone 48 hours after it was sent.'));
       return;
     }
     var btn = this.dmBtn = el('button', 'cb-btn cb-dm-btn', 'Your messages');
@@ -6234,7 +6257,7 @@
     this.prState.hidden = false;
     this.prState.className = 'cb-props__about';
     if (!b.claimed) {
-      this.prState.textContent = 'Claim your username above and you can open a Props tab on your profile, where anybody with a claimed username can give you props: a sentence or a short paragraph thanking you for something. Nothing goes up until you confirm it.';
+      this.prState.textContent = 'Claim your username under Account and you can open a Props tab on your profile, where anybody with a claimed username can give you props: a sentence or a short paragraph thanking you for something. Nothing goes up until you confirm it.';
       return;
     }
     this.prState.textContent = 'Props are what people with a claimed username write to thank you, acknowledge you or celebrate you. Each one waits here until you confirm it; then it is on your profile\u2019s Props tab, with their username on it. Reject one and it is deleted, and nobody is told.';
@@ -6386,7 +6409,7 @@
     w.appendChild(room);
     w.appendChild(document.createTextNode(claimed
       ? ' and keep it here, and send it from Sticker. They are kept under your username, scrambled, and only your password reaches them.'
-      : ' and keep it here, and send it from Sticker. They are kept under the handle ' + this.state.handle + ', scrambled. A handle is not an account: anybody who signs on with it sees them too. Claim your username above to show them in your profile.'));
+      : ' and keep it here, and send it from Sticker. They are kept under the handle ' + this.state.handle + ', scrambled. A handle is not an account: anybody who signs on with it sees them too. Claim your username under Account to show them in your profile.'));
     this.chimeraShow(b, told && told.show);
     if (!b.chimeras.length) {
       ul.hidden = true;
@@ -6516,8 +6539,18 @@
   Radio.prototype.setPets = function (open) {
     this.petsPanel.hidden = !open;
     this.petsBtn.setAttribute('aria-expanded', String(!!open));
-    if (open) { this.loadAccount(); this.loadProfileCard(); this.loadProps(); this.loadAvatars(); this.loadChimeras(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
+    // Whether the username is claimed, for the lines under the pets, is the
+    // pass's to say now that the username itself is under Account.
+    if (open) { this.drawWhere(/^cb2\./.test(this.state.pass)); this.loadProfileCard(); this.loadProps(); this.loadAvatars(); this.loadChimeras(); this.loadPets(); this.loadJobs(); this.loadPatches(); }
+    this.place();
+  };
+
+  Radio.prototype.setAccount = function (open) {
+    this.acctPanel.hidden = !open;
+    this.acctBtn.setAttribute('aria-expanded', String(!!open));
+    if (open) { this.loadAccount(); this.forgetSaid.textContent = ''; }
     else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
+    this.place();
   };
 
   /* ── Your username ─────────────────────────────────────────────────────── */
@@ -6680,7 +6713,7 @@
     w.appendChild(ca); w.appendChild(document.createTextNode(' or ')); w.appendChild(da);
     w.appendChild(document.createTextNode(claimed
       ? '. Your pets are kept under your username, scrambled, so they follow you to any device you sign on with, and only your password reaches them.'
-      : '. Your pets are kept under the handle ' + this.state.handle + ', scrambled, so they follow you to any device you sign on with. A handle is not an account: anybody who signs on with it sees them too, until you claim it above.'));
+      : '. Your pets are kept under the handle ' + this.state.handle + ', scrambled, so they follow you to any device you sign on with. A handle is not an account: anybody who signs on with it sees them too, until you claim it under Account.'));
   };
 
   Radio.prototype.loadPets = function () {
@@ -6703,7 +6736,7 @@
     var me = this, box = this.showBox;
     box.textContent = '';
     if (!b.claimed) {
-      box.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can let people on the CB see your pets, by pressing your handle on the channel.'));
+      box.appendChild(el('p', 'cb-quiet', 'Claim your username under Account and you can let people on the CB see your pets, by pressing your handle on the channel.'));
       return;
     }
     var on = !!b.shown;
@@ -6866,7 +6899,7 @@
     box.appendChild(det);
     var claimed = !!b.claimed;
     if (!claimed) {
-      show.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can let people on the CB see your battle jacket in your profile.'));
+      show.appendChild(el('p', 'cb-quiet', 'Claim your username under Account and you can let people on the CB see your battle jacket in your profile.'));
     } else {
       var on = !!b.shown;
       var t = el('button', 'cb-btn cb-pets-show', 'Show my battle jacket on the CB: ' + (on ? 'on' : 'off'));
@@ -6890,7 +6923,7 @@
     }
     this.patchWhere.textContent = (claimed
       ? 'Your patches are kept under your username, scrambled: which patches, and nothing about when. '
-      : 'Your patches are kept under the handle ' + this.state.handle + ', scrambled: which patches, and nothing about when. A handle is not an account: anybody who signs on with it has this jacket too, until you claim it above. ') +
+      : 'Your patches are kept under the handle ' + this.state.handle + ', scrambled: which patches, and nothing about when. A handle is not an account: anybody who signs on with it has this jacket too, until you claim it under Account. ') +
       'Nothing counts who else has one. Sticker, on the radio, sends one to the channel, or the whole jacket, and Forget me takes them all off.';
   };
 
@@ -6942,7 +6975,7 @@
     }
     var claimed = !!b.claimed;
     if (!claimed) {
-      show.appendChild(el('p', 'cb-quiet', 'Claim your username above and you can let people on the CB see your jobs and their badges in your profile.'));
+      show.appendChild(el('p', 'cb-quiet', 'Claim your username under Account and you can let people on the CB see your jobs and their badges in your profile.'));
     } else {
       var on = !!b.shown;
       var t = el('button', 'cb-btn cb-pets-show', 'Show my jobs on the CB: ' + (on ? 'on' : 'off'));
@@ -6966,21 +6999,20 @@
     }
     w.textContent = (claimed
       ? 'Your jobs are kept under your username, scrambled: which jobs, and nothing about when. '
-      : 'Your jobs are kept under the handle ' + this.state.handle + ', scrambled: which jobs, and nothing about when. A handle is not an account: anybody who signs on with it sees them too, until you claim it above. ') +
+      : 'Your jobs are kept under the handle ' + this.state.handle + ', scrambled: which jobs, and nothing about when. A handle is not an account: anybody who signs on with it sees them too, until you claim it under Account. ') +
       'A badge is worked out from them and kept nowhere. Switching keeping off, on the Guild\u2019s board, deletes them, and so does Forget me.';
   };
 
   Radio.prototype.forgetMe = function () {
     var me = this;
-    me.petsState.hidden = false;
-    me.petsState.textContent = 'Forgetting\u2026';
+    me.forgetSaid.textContent = 'Forgetting\u2026';
     call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.drawPatches({ patches: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); me.petsState.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
-      me.petsState.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.drawPatches({ patches: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); me.forgetSaid.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      me.forgetSaid.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
     }, function () {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      me.petsState.textContent = 'The street could not be reached just now. Nothing was forgotten.';
+      me.forgetSaid.textContent = 'The street could not be reached just now. Nothing was forgotten.';
     });
   };
 

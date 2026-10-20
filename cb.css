@@ -636,9 +636,10 @@ ol.cb-md-list { list-style: decimal; }
    rather than pushing the message box off a short screen. A name is a button
    that opens their profile, in the channel handle's dotted underline. */
 .cb-online-btn:hover, .cb-online-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
-/* PROFILE, NOTIFICATIONS AND THEMES say they are open the same way (Ryan's
+/* PROFILE, ACCOUNT, NOTIFICATIONS AND THEMES say they are open the same way (Ryan's
    ask, 2026-10-19), so a tray that is out can be told from its button. */
 .cb-pets-btn:hover, .cb-pets-btn[aria-expanded="true"],
+.cb-acct-btn:hover, .cb-acct-btn[aria-expanded="true"],
 .cb-notify-btn:hover, .cb-notify-btn[aria-expanded="true"],
 .cb-scheme-btn:hover, .cb-scheme-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
 /* A long tray's own Close, at its foot (cb.js, footClose). */

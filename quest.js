@@ -407,7 +407,7 @@
         : 'Off: the jobs you hand in are stamped in this browser and sent nowhere. Switch it on and they are ' +
           'kept in your Profile on the CB as well, under your handle scrambled, so they follow you to any device ' +
           'you sign on with, and this browser’s stamps go with them. It keeps which jobs and nothing about when.') +
-        (claimed ? '' : ' Your handle is not claimed, so anybody who signs on with it has these jobs too, until you claim it in Profile.');
+        (claimed ? '' : ' Your handle is not claimed, so anybody who signs on with it has these jobs too, until you claim it under Account on the radio.');
       var extra = on ? local.filter(function (id) { return profile.indexOf(id) < 0; }) : [];
       if (bring) bring.hidden = !extra.length;
     }

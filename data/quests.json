@@ -3227,7 +3227,7 @@
    "takes": "about as long as it takes to find the torch",
    "target": "a torch somebody left on the kerb, still on, with two eyes shining back from the dark beyond it",
    "code": "WHISKERS",
-   "learned": "An adopted cat goes into Profile on your CB radio, which follows you to any device you sign on with, and onto the list of everybody ever adopted, which never says who adopted anybody. “Forget me” in the tray deletes your pets and leaves the cats on that list.",
+   "learned": "An adopted cat goes into Profile on your CB radio, which follows you to any device you sign on with, and onto the list of everybody ever adopted, which never says who adopted anybody. “Forget me”, under Account on the radio, deletes your pets and leaves the cats on that list.",
    "hints": [
     "On the street itself, in the row of shopfronts: the dark one with two eyes on its awning.",
     "In the rules about how rescuing and adopting work.",
@@ -3245,8 +3245,8 @@
     "why": "An adopted cat goes into Profile on your CB radio. The list of everybody adopted keeps them too, for good, and never says who adopted them.",
     "hints": [
      "It is in the rules about how rescuing and adopting work.",
-     "It is a button on the radio, beside Sign off.",
-     "It is where your username is too."
+     "It is a button on the radio, under the heading You.",
+     "It is where your avatars are too."
     ]
    }
   },
@@ -3255,7 +3255,7 @@
    "page": "rescue-a-dog.html",
    "room": "Rescue A Dog",
    "title": "What does “Forget me” forget?",
-   "posted": "There is a park on the street the morning after snow, where dogs turn up who need bringing in, and anybody signed on can adopt one into Profile on their CB radio. The tray has a “Forget me” in it. Go and find out what it forgets.",
+   "posted": "There is a park on the street the morning after snow, where dogs turn up who need bringing in, and anybody signed on can adopt one into Profile on their CB radio. Account, beside it, has a “Forget me”. Go and find out what it forgets.",
    "rank": 1,
    "takes": "about as long as it takes to follow a line of prints",
    "target": "a dog's red lead, dropped in the snow by a gate, with prints going off from it",
@@ -3267,7 +3267,7 @@
     "In the snow by the gate, where somebody let go of the lead."
    ],
    "ask": {
-    "question": "“Forget me” in Profile deletes what the street keeps under your handle. What is that?",
+    "question": "“Forget me”, under Account, deletes what the street keeps under your handle. What is that?",
     "accept": [
      "pets",
      "mypets",

@@ -22,7 +22,7 @@ WHAT IT REFUSES:
   · PETS FILED UNDER A HANDLE rather than petKey's scrambled form of it, or
     under the community password, which would lose everybody's pets on the day
     it changed.
-  · A PETS TRAY WITHOUT FORGET ME, or a Forget Me that does not ask twice, or
+  · A RADIO WITHOUT FORGET ME (under Account since 2026-10-19), or a Forget Me that does not ask twice, or
     a tray that does not say a handle is not an account.
   · A RARITY: any weight in the looks, or the vocabulary of prizes.
   · A LOOK WITH NO DRAWING: every coat and marking of each kind must be a key
@@ -185,7 +185,7 @@ def main():
                       ("'Yes, delete my account'", "a second press before an account is deleted"),
                       ("it will not be shown again", "the sentence saying a recovery code is shown once")):
         if want not in cb:
-            problems.append(f"{CB.name}: Profile has lost {why}.")
+            problems.append(f"{CB.name}: the radio has lost {why}.")
 
     for kind, page in PAGES.items():
         src = page.read_text()

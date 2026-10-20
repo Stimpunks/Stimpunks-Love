@@ -1268,7 +1268,7 @@
     side.textContent = '';
     var h = heading(2, 'Sign on to read the forums');
     view.appendChild(h);
-    view.appendChild(el('p', null, 'The forums are for claimed usernames on the CB. Sign on to the CB with the bar in the corner of your screen, then press Profile on the radio and claim your username with a password of your own.'));
+    view.appendChild(el('p', null, 'The forums are for claimed usernames on the CB. Sign on to the CB with the bar in the corner of your screen, then press Account on the radio, under You, and claim your username with a password of your own.'));
     var p = el('p');
     var a = el('a', null, 'How to get on the CB');
     a.href = '/community-center.html';

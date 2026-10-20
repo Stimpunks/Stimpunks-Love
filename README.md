@@ -793,9 +793,9 @@ and the highest it has reached; and the list of every cat and dog ever adopted, 
 adopted them. The fridge and the stair each keep one scrambled mark of whoever went last, replaced by
 the next. The tree's fence runs on the chalkboard's rules.
 **Your pets are the one thing kept under a person**: every cat and dog you adopt, filed under a plain
-hash of your folded handle so they follow you to any device, until you press Forget me in Profile
-on your radio. An unclaimed handle is not an account, and Profile says so; claim it there with a
-password of your own and only that password reaches them. **That username is the only account on
+hash of your folded handle so they follow you to any device, until you press Forget me under Account
+on your radio. An unclaimed handle is not an account, and the radio says so; claim it under Account
+with a password of your own and only that password reaches them. **That username is the only account on
 the street**: no email, and moderators can find one by name, reset it, delete it or clear its
 profile card, but never list them.
 

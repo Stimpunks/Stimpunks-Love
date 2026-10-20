@@ -182,7 +182,7 @@
       keep.disabled = false;
       if (r.status === 200 && r.body.kept) {
         editMode(r.body.kept.id, r.body.kept.name, r.body.kept.about);
-        say(said, 'Kept. It is in your Profile on the radio' + (r.body.claimed ? ', where you can wear it on the CB.' : '. Claim your username there to wear it on the CB.'));
+        say(said, 'Kept. It is in your Profile on the radio' + (r.body.claimed ? ', where you can wear it on the CB.' : '. Claim your username under Account, on the radio, to wear it on the CB.'));
         try { window.dispatchEvent(new CustomEvent('love-avatars')); } catch (e) {}
         if (!strip.hidden) openStrip();
         return;

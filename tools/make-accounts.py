@@ -26,7 +26,7 @@ one without any test noticing:
     of moderation kept against a person that privacy.html does not mention.
   · NO EMAIL. The account record has no field for one and the word does not
     appear in what claiming writes.
-  · YOU CAN LEAVE. Profile offers Delete my account, with a second press, and
+  · YOU CAN LEAVE. Account (Profile's until 2026-10-19) offers Delete my account, with a second press, and
     the desk asks once more before it deletes, resets or clears a card.
   · CLAIMED IS THE SERVER'S WORD. Ryan's call, 2026-09-30: a claimed username
     is marked on the channel like BASE. The mark means something only because
@@ -37,7 +37,7 @@ one without any test noticing:
   · THE DESK LEAVES A MODERATOR'S USERNAME ALONE. A reset code for one would
     let one moderator become another, with the other's roles. Their card is
     left alone with it.
-  · privacy.html has the section the Profile and the desk point at, and says
+  · privacy.html has the section Account and the desk point at, and says
     there is no email.
 
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
@@ -109,7 +109,7 @@ def main():
                       ("'Claim ' + h", "the offer to claim"), ("it will not be shown again", "saying the recovery code is shown once"),
                       ("'CLAIMED'", "the CLAIMED mark on the channel")):
         if want not in cb:
-            problems.append(f"{CB.name}: Profile has lost {why}.")
+            problems.append(f"{CB.name}: Account has lost {why}.")
     desk = DESK.read_text()
     if desk.count("confirmThen(") < 4:
         problems.append(f"{DESK.name}: a reset, a delete or clearing a card no longer asks once more.")

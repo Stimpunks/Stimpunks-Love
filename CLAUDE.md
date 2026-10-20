@@ -887,9 +887,15 @@ in the same tab, so test the two sides in two tabs there, or in a real browser.
 
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
 they were): Where you are (the room's name in the largest words on the radio, `hereShown`), Who's around,
-Channel, Messages, Watching together (only there while something in it is, `filmShown`), You (Profile, its
-tray and Sign off, Ryan's ask of 2026-10-19 after losing where an open Profile began) and Your radio.
-**A long tray ends in its own Close** (`footClose`: Profile, Themes, Notifications, the stickers and Your
+Channel, Messages, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
+their trays and Sign off, Ryan's asks of 2026-10-19 after losing where an open Profile began) and Your radio.
+**ACCOUNT IS WHAT YOU ARE SIGNED ON AS, PROFILE IS WHAT YOU SHOW** (Ryan's ask, 2026-10-19): Your username
+(claiming, the password, recovery, Delete my account) and Forget me left Profile for the Account tray
+(`setAccount`, `acctPanel`), and every sentence that said claim it above or in Profile says under Account,
+in `cb.js`, `forum.js`, `quest.js`, the booths, the shelters, the Community Center's claiming steps, the
+moderators' room, the privacy page, the guide and `data/quests.json`. A new line about claiming says
+Account.
+**A long tray ends in its own Close** (`footClose`: Profile, Account, Themes, Notifications, the stickers and Your
 messages), which closes it and puts the view and the keyboard back on the button that opened it; a tray
 drawn afresh on each opening (stickers, the Notifications body) draws its foot again too. `part()` in
 `cb.js` makes them, and `cb-guide.html#parts` lists them in order: **a new control goes into the part it
@@ -4086,8 +4092,8 @@ It moved off the Directors' room's ground before it opened: same hex to the digi
 not this shape**, because it keeps who caught what and how many; it became Rescue A Cat, below, where
 the only per-person list is in the rescuer's own browser.
 
-**A USERNAME CAN BE CLAIMED, AND `readPass` IS ASYNC BECAUSE OF IT.** Ryan, 2026-09-30: Profile on the
-radio claims the handle you are on as, with a password of your own; no email; a recovery code shown
+**A USERNAME CAN BE CLAIMED, AND `readPass` IS ASYNC BECAUSE OF IT.** Ryan, 2026-09-30: Account (in Profile
+until 2026-10-19) on the radio claims the handle you are on as, with a password of your own; no email; a recovery code shown
 once; the moderators reset or delete one by name from a desk in the Moderators' room (`desk.js`,
 `/cb/account/admin`), and **there is no list of everybody**, for moderators or anybody. A claimed
 username signs on with its own password and **the community password is refused for it**, the
@@ -4098,7 +4104,7 @@ store**, and `readPass` and `signOn` are async: every CB function awaits them no
 An account is the username, a salted scrypt hash of the password and of the recovery code, when it was
 claimed, a version and a lock (five wrong passwords, fifteen minutes), filed under `acctKey`, a plain
 hash of the folded name. Deleting it deletes its pets. **A moderator can move onto a password of their own** (Ryan, the
-same evening, starting with himself): signed on with the MOD password, Profile claims the handle, the
+same evening, starting with himself): signed on with the MOD password, Account claims the handle, the
 MOD password is then refused for it, and its pass is `cb2.base`, signed with the MOD password. **The
 account holds no role**: roles are still read off `CB_MODS` on every request, so taking somebody off
 the list leaves an ordinary claimed username, and an unreadable list gives nobody the base.
@@ -4108,7 +4114,7 @@ sign on as another with the other's roles, Executive Session included; a moderat
 password nor recovery code is taken off the list for a moment, reset as an ordinary username, and put
 back. No shared password can be taken as a personal one (`ownPassword`). `tools/make-accounts.py` refuses a console call anywhere in `netlify/`,
 anything listing `acct/`, a desk action beyond find, reset and delete, an account field beyond those,
-the word email in claiming, and Profile losing Delete my account or its second press. **A claimed username is marked CLAIMED on the channel, like BASE** (Ryan, the same evening):
+the word email in claiming, and Account losing Delete my account or its second press. **A claimed username is marked CLAIMED on the channel, like BASE** (Ryan, the same evening):
 `cb-transmit` sets it from `who.account` and never from the request, `shape()` keeps it off a BASE
 message, and the tag is outlined where BASE is filled; `make-accounts.py` refuses any other source for
 it. The friendly
@@ -4133,7 +4139,7 @@ which needs a claimed username; `shown/<pet key>` holds only when, and Forget Me
 account delete it. The answer never tells not-shown from unclaimed from nobody, and shown pets carry
 no dates. `make-rescue.py` holds all of it. **A pet can be renamed once adopted** (Ryan, 2026-09-30, `renamePet`): in the person's pets and
 on the forever list, which keeps the name it came in under as `first`, set once, so the rescuer's
-naming is never written over; unnaming clears both. **Forget Me is in Profile, asks twice, and
+naming is never written over; unnaming clears both. **Forget Me is under Account, asks twice, and
 deletes the record**; the animals stay on the forever list, which never knew who adopted them.
 **Adoption files in three places and loses nothing**: the shelter's conditional write picks the one
 adopter and moves the animal to `leaving` with its pet key; `finishAdoptions` copies it into the pets
@@ -4237,7 +4243,7 @@ so the room no longer mentions Stoat or Discord. It opens with **Getting started
 join on stimpunks.org's Community page, which gives you the **starter password** (the one shared password,
 which the radio, the CB guide and the privacy page still call the community password, and the room says
 so), sign on, claim your username, then quests. **The claiming steps name the radio's own buttons**
-(Profile, A password of your own, The same again, Claim), so a change to those labels in `cb.js` is a
+(Account, A password of your own, The same again, Claim), so a change to those labels in `cb.js` is a
 change to that list. **Other pages send people to `community-center.html#getting-started`**, never to a
 meeting hall: the guest bar, the CB guide, the Sandbox's box and the Fishbowl's call panel. The channel is
 still for what forgets in 48 hours and the forums for what needs longer. stoat.chat stays out of
