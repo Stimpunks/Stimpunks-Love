@@ -3784,7 +3784,8 @@ for (const etagOnRead of [true, false]) {
 import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readTasks, taskViews, saveTaskView, removeTaskView,
   forgetTaskViews, taskAddress, TASK_VIEWS_KEEP, TASK_STATUSES, TASK_TAGS, taskRecurs, taskRecur, saveRecur, removeRecur,
   makeRecurring, readRecurs, isoWeek, recurName, recurAfter, tickTask, taskBoxes, officeAllow, officeReady, seal, unseal,
-  readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts } from './lib.mjs';
+  readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
+  readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4176,3 +4177,70 @@ test('EspoCRM contacts arrive many to a write, and one changed or deleted here i
   const quiet = await importContacts(TRYAN, [row(1)], s, T0 + 3);
   assert.equal(quiet.told[0].kept, 'changed here');
 }));
+
+test('a grant request moves through its pipeline, its status follows the stage, and the day it was decided follows the status', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TCHELSEA, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  for (const who of [TSAM, fw('Chelsea', 700)]) {
+    assert.equal(await officeGrants(who, s), null);
+    assert.match((await saveGrant(who, { name: 'Sneak' }, s, T0)).error, /directors and administrators/);
+  }
+  assert.match((await saveGrant(TRYAN, { pipeline: 'Mutual Aid' }, s, T0)).error, /name/);
+  const g = (await saveGrant(TRYAN, { name: 'Mutual Aid Grant Request 1: Ada', contactEmail: 'ADA@example.org', amount: 500, submitted: '2026-10-01', body: 'Rent, **please**.' }, s, T0)).grant;
+  assert.deepEqual([g.pipeline, g.stage, g.status, g.closed, g.contact, g.contactName, g.amount], ['Mutual Aid', 'Received', 'Open', null, ada.id, 'Ada Lovelace', 500]);
+  const raw = JSON.stringify(await s.get('office-grants', { type: 'json' }));
+  for (const word of ['Ada', 'Rent', 'Mutual']) assert.ok(!raw.includes(word), `the grants' store holds ${word} in the clear`);
+  for (const [f, why] of [[{ stage: 'Nope' }, /no stage called Nope/], [{ pipeline: 'Nope' }, /no pipeline/], [{ amount: 12.5 }, /whole dollars/],
+    [{ amount: -1 }, /whole dollars/], [{ submitted: '1 Oct' }, /YYYY-MM-DD/], [{ contactEmail: 'nobody@example.org' }, /Add them as a contact first/], [{ form: 'x' }, /form entry/]]) {
+    assert.match((await saveGrant(TRYAN, { id: g.id, ...f }, s, T0 + 1)).error, why);
+  }
+  const granted = (await saveGrant(TRYAN, { id: g.id, stage: 'Granted' }, s, Date.UTC(2026, 9, 21, 18))).grant;
+  assert.deepEqual([granted.status, granted.closed, granted.editedBy], ['Granted', '2026-10-21', 'Ryan']);
+  const back = (await saveGrant(TRYAN, { id: g.id, stage: 'Holding' }, s, T0 + 3)).grant;
+  assert.deepEqual([back.status, back.closed], ['Open', null]);
+  const moved = (await saveGrant(TRYAN, { id: g.id, pipeline: 'Creator Grants' }, s, T0 + 4)).grant;
+  assert.deepEqual([moved.pipeline, moved.stage], ['Creator Grants', OFFICE_PIPELINES[1].stages[0].name], 'a move to another pipeline starts at its first stage');
+  const denied = (await saveGrant(TRYAN, { id: g.id, stage: 'Denied', closed: '2026-09-30' }, s, T0 + 5)).grant;
+  assert.deepEqual([denied.status, denied.closed], ['Denied', '2026-09-30']);
+  // Two changes at once both stay.
+  await Promise.all([saveGrant(TRYAN, { id: g.id, amount: 3000 }, s, T0 + 6), saveGrant(TCHELSEA, { id: g.id, form: 4242 }, s, T0 + 6)]);
+  const both = await officeGrant(TRYAN, g.id, s);
+  assert.deepEqual([both.amount, both.form, both.body], [3000, 4242, 'Rent, **please**.']);
+  assert.equal((await officeContact(TRYAN, ada.id, s)).grants[0].id, g.id, 'a contact lists their grant requests');
+  await removeContact(TRYAN, ada.id, s);
+  const orphan = await officeGrant(TRYAN, g.id, s);
+  assert.deepEqual([orphan.contactGone, orphan.contactName], [true, null]);
+  assert.ok((await removeGrant(TRYAN, g.id, s)).gone);
+  assert.match((await removeGrant(TRYAN, g.id, s)).error, /already/);
+}));
+
+test('EspoCRM grant requests arrive with their contacts found by EspoCRM id, and one changed or deleted here is left as it is', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await importContacts(TRYAN, [{ espo: '68dd00000000000c1', last: 'One', email: 'one@example.org' }], s, T0);
+  const row = (i, extra = {}) => ({ espo: `68dd0000000000g${String(i).padStart(2, '0')}`, name: `Grant ${i}`, pipeline: 'Mutual Aid', stage: 'Denied', closed: '2025-01-02',
+    amount: 500, submitted: '2025-01-01', contactEspo: '68dd00000000000c1', form: 100 + i, body: `Form Link: https://stimpunks.org/?entry=${i}`, t: T0 - DAYS(9), by: 'Ryan', ...extra });
+  assert.match((await importGrants(TRYAN, [{ ...row(1), contact: 'cAAAAAAAAAAAA' }], s, T0)).error, /nothing of ours/);
+  const first = await importGrants(TRYAN, [row(1), row(2), row(3, { contactEspo: '68dd0000000000nope' }), row(4, { stage: 'Nope' })], s, T0);
+  assert.deepEqual(first.told.map((t) => t.error ? 'refused' : 'made'), ['made', 'made', 'refused', 'refused']);
+  const [one, two] = first.told;
+  const g1 = await officeGrant(TRYAN, one.id, s);
+  assert.deepEqual([g1.status, g1.closed, g1.contactName, g1.t, g1.by, g1.edited], ['Denied', '2025-01-02', 'One', T0 - DAYS(9), 'Ryan', null]);
+  await saveGrant(TCHELSEA, { id: one.id, amount: 600 }, s, T0 + 1);
+  await removeGrant(TRYAN, two.id, s);
+  const again = await importGrants(TRYAN, [row(1, { amount: 1 }), row(2), row(5)], s, T0 + 2);
+  assert.deepEqual(again.told.map((t) => t.kept || (t.made ? 'made' : 'refreshed')), ['changed here', 'deleted here', 'made']);
+  assert.equal((await officeGrant(TRYAN, one.id, s)).amount, 600, 'an import overwrote a change made here');
+  assert.equal((await readGrants(s)).length, 2);
+}));
+
+for (const etagOnRead of [true, false]) {
+  test(`grant requests, fifteen saved at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: none told it was saved is missing`, () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => saveGrant(TCHELSEA, { name: `Request ${i}` }, s, T0 + i)));
+    const ok = told.filter((r) => r.status === 'fulfilled' && r.value.grant).map((r) => r.value.grant.id);
+    const kept = new Set((await readGrants(s)).map((g) => g.id));
+    assert.deepEqual(ok.filter((id) => !kept.has(id)), [], 'a grant request told it was saved is missing');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(ok.length, 15);
+  }));
+}

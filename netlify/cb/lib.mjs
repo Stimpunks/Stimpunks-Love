@@ -7587,6 +7587,11 @@ export async function removeRecur(who, id, s = store()) {
 
    These are other people's details, most of whom never signed on to the
    street, so NOTHING HERE IS EVER LOGGED, not even while debugging. */
+/* office:settings:begin -- written by tools/make-office.py from data/office.json. Do not hand-edit. */
+export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
+export const OFFICE_CURRENCY = "USD";
+export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
+/* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
 const NO_OFFICE = 'The office is for our directors and administrators, on a claimed username.';
 
@@ -7706,7 +7711,9 @@ export async function officeContacts(who, s = store()) {
 export async function officeContact(who, id, s = store()) {
   if (!officeAllow(who)) return null;
   const c = (await readContacts(s)).find((x) => x.id === contactId(id));
-  return c ? shapeContact(c, true) : null;
+  if (!c) return null;
+  const mine = (await readGrants(s)).filter((g) => g.contact === c.id);
+  return { ...shapeContact(c, true), grants: mine.map((g) => shapeGrant(g, new Map([[c.id, c]]))) };
 }
 
 /* One contact made or changed in a list already open: only the fields sent
@@ -7794,6 +7801,217 @@ export async function removeContact(who, id, s = store()) {
     return gone ? { contacts: list.filter((_, i) => i !== k) } : null;
   }, s);
   if (!gone) return { error: 'That contact has already been deleted.' };
+  if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  return { gone: true };
+}
+
+/* GRANT REQUESTS (stage two): our Mutual Aid and Creator Grants, as EspoCRM
+   kept them. Each is in a pipeline and at a stage of it, and the stage says its
+   status (OFFICE_PIPELINES, from data/office.json); its amount in whole dollars;
+   the day it was submitted and the day it was decided, which is set when it
+   moves to a stage that decides it and cleared when it moves back; the contact
+   it is from; the stimpunks.org form entry it came in as; a description in
+   Markdown; who added it and when, who changed it last and when; and EspoCRM's
+   id for one brought over. EspoCRM's history of stage changes is not brought
+   over: a change replaces what was there, as everywhere in the office. One
+   sealed blob holds every grant request, beside the contacts'. */
+const GRANTS = 'office-grants';
+export const GRANT_NAME_MAX = 200;
+export const GRANT_BODY_MAX = 40000;
+export const GRANT_AMOUNT_MAX = 1000000;
+export function grantId(v) { return typeof v === 'string' && /^g[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newGrantId = () => 'g' + randomBytes(9).toString('base64url');
+export function pipelineOf(name) { return OFFICE_PIPELINES.find((p) => p.name === name) || null; }
+function stageIn(p, name) { return p ? p.stages.find((x) => x.name === name) || null : null; }
+
+export async function readGrants(s = store()) {
+  const d = await readSealed(GRANTS, s);
+  return d && Array.isArray(d.grants) ? d.grants : [];
+}
+
+/* What a change asks for, checked: only the fields sent. The pipeline and the
+   stage are checked together, against the record they will be laid over. */
+function grantFields(f, had, contacts) {
+  const out = {};
+  if (f.name !== undefined) {
+    const v = f.name == null ? '' : tidy(f.name);
+    if (!v) return { error: 'Give the grant request a name.' };
+    if ([...v].length > GRANT_NAME_MAX) return { error: `A name is up to ${GRANT_NAME_MAX} characters.` };
+    out.name = v;
+  }
+  const pipeName = f.pipeline !== undefined ? f.pipeline : had ? had.pipeline : OFFICE_PIPELINES[0].name;
+  const p = pipelineOf(pipeName);
+  if (!p) return { error: 'There is no pipeline by that name.' };
+  if (f.pipeline !== undefined) out.pipeline = p.name;
+  if (f.stage !== undefined || f.pipeline !== undefined || !had) {
+    const want = f.stage !== undefined ? f.stage : had && f.pipeline === undefined ? had.stage : p.stages[0].name;
+    const st = stageIn(p, want);
+    if (!st) return { error: `${p.name} has no stage called ${want}.` };
+    out.stage = st.name;
+  }
+  if (f.amount !== undefined) {
+    const v = f.amount === null || f.amount === '' ? null : Number(f.amount);
+    if (v !== null && !(Number.isInteger(v) && v >= 0 && v <= GRANT_AMOUNT_MAX)) return { error: `An amount is whole dollars, up to ${GRANT_AMOUNT_MAX}, or nothing.` };
+    out.amount = v;
+  }
+  for (const [k, word] of [['submitted', 'submitted'], ['closed', 'decided']]) {
+    if (f[k] === undefined) continue;
+    const d = day(f[k]);
+    if (d === undefined) return { error: `The day it was ${word} is a day, as YYYY-MM-DD, or nothing.` };
+    out[k] = d;
+  }
+  if (f.contact !== undefined) {
+    if (f.contact === null || f.contact === '') out.contact = null;
+    else if (!contacts.some((c) => c.id === contactId(f.contact))) return { error: 'That contact has been deleted.' };
+    else out.contact = contactId(f.contact);
+  } else if (f.contactEmail !== undefined) {
+    const e = String(f.contactEmail || '').trim().toLowerCase();
+    if (!e) out.contact = null;
+    else {
+      const c = contacts.find((x) => x.email && x.email.toLowerCase() === e);
+      if (!c) return { error: 'No contact has that email. Add them as a contact first.' };
+      out.contact = c.id;
+    }
+  }
+  if (f.form !== undefined) {
+    const v = f.form === null || f.form === '' ? null : Number(f.form);
+    if (v !== null && !(Number.isInteger(v) && v > 0 && v < 1e9)) return { error: 'A form entry is its number on stimpunks.org, or nothing.' };
+    out.form = v;
+  }
+  if (f.body !== undefined) {
+    const b = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body, GRANT_BODY_MAX);
+    if (b === null) return { error: `A description is up to ${GRANT_BODY_MAX} characters.` };
+    out.body = b;
+  }
+  return { fields: out };
+}
+
+/* The status follows the stage, and the day it was decided follows the status:
+   set to today when it moves to a deciding stage without one, cleared when it
+   moves back to an open stage. */
+function settleGrant(g, now) {
+  const st = stageIn(pipelineOf(g.pipeline), g.stage);
+  const status = st ? st.status : 'Open';
+  if (status === 'Open') g.closed = null;
+  else if (!g.closed) g.closed = today(new Date(now));
+  return g;
+}
+export function grantStatus(g) {
+  const st = stageIn(pipelineOf(g.pipeline), g.stage);
+  return st ? st.status : 'Open';
+}
+
+export function shapeGrant(g, contacts, whole = false) {
+  const c = g.contact ? contacts.get(g.contact) : null;
+  const out = { id: g.id, name: g.name, pipeline: g.pipeline, stage: g.stage, status: grantStatus(g), amount: g.amount ?? null,
+    submitted: g.submitted || null, closed: g.closed || null, contact: g.contact || null,
+    contactName: c ? [c.first, c.last].filter(Boolean).join(' ') : null, contactEmail: c ? c.email || '' : null, contactGone: !!(g.contact && !c),
+    form: g.form || null, t: g.t, by: g.by || null, edited: g.edited || null, editedBy: g.editedBy || null };
+  if (g.espo) out.espo = g.espo;
+  if (whole) { out.body = g.body || ''; out.blocks = parseBrass(g.body || ''); } else out.words = [...(g.body || '')].length;
+  return out;
+}
+const contactMap = (list) => new Map(list.map((c) => [c.id, c]));
+
+export async function officeGrants(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  const [grants, contacts] = await Promise.all([readGrants(s), readContacts(s)]);
+  const m = contactMap(contacts);
+  return grants.map((g) => shapeGrant(g, m));
+}
+export async function officeGrant(who, id, s = store()) {
+  if (!officeAllow(who)) return null;
+  const g = (await readGrants(s)).find((x) => x.id === grantId(id));
+  return g ? shapeGrant(g, contactMap(await readContacts(s)), true) : null;
+}
+
+/* One grant request made or changed in a list already open, as applyContact. */
+function applyGrant(list, f, who, now, contacts) {
+  const espo = espoIdOf(f.espo);
+  const k = f.id != null ? list.findIndex((x) => x.id === grantId(f.id)) : (espo ? list.findIndex((x) => x.espo === espo) : -1);
+  if (f.id != null && k < 0) return { error: 'That grant request has been deleted.' };
+  const had = k >= 0 ? list[k] : null;
+  if (!had && f.name === undefined) return { error: 'Give the grant request a name.' };
+  const r = grantFields(f, had, contacts);
+  if (r.error) return r;
+  const next = settleGrant(had ? { ...had, ...r.fields } : { id: newGrantId(), name: '', pipeline: OFFICE_PIPELINES[0].name, stage: OFFICE_PIPELINES[0].stages[0].name,
+    amount: null, submitted: null, closed: null, contact: null, form: null, body: '', t: now, by: who.handle, ...r.fields }, now);
+  // A decided day sent with the change stands, even on a stage that sets one.
+  if (r.fields.closed && grantStatus(next) !== 'Open') next.closed = r.fields.closed;
+  if (espo) {
+    next.espo = espo;
+    if (typeof f.t === 'number' && f.t > 0 && f.t <= now) next.t = f.t;
+    if (typeof f.by === 'string' && tidy(f.by)) next.by = tidy(f.by).slice(0, 40);
+    next.synced = now;
+  } else if (had) { next.edited = now; next.editedBy = who.handle; }
+  const copy = list.slice();
+  if (had) copy[k] = next; else copy.push(next);
+  return { list: copy, saved: next };
+}
+
+export async function saveGrant(who, f, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  f = f || {};
+  const espo = espoIdOf(f.espo);
+  if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
+  if (espo && (await readOfficeGone(s)).includes(espo)) return { error: 'That grant request was brought over and deleted here, so it stays deleted.' };
+  const contacts = await readContacts(s);
+  let saved = null, why = null;
+  await updateSealed(GRANTS, (was) => {
+    const r = applyGrant(was && Array.isArray(was.grants) ? was.grants : [], f, who, now, contacts);
+    why = r.error || null; saved = r.saved || null;
+    return r.error ? null : { grants: r.list };
+  }, s);
+  if (why) return { error: why };
+  return { grant: shapeGrant(saved, contactMap(contacts), true) };
+}
+
+/* EspoCRM's grant requests brought over, IMPORT_MAX to a write, as contacts are.
+   Each row names its contact by EspoCRM's id for the contact (contactEspo),
+   which finds the contact brought over with it. */
+export async function importGrants(who, rows, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!Array.isArray(rows) || !rows.length || rows.length > IMPORT_MAX) return { error: `Between one and ${IMPORT_MAX} grant requests at a time.` };
+  if (rows.some((r) => !r || !espoIdOf(r.espo) || r.id != null || r.contact != null)) return { error: 'Every grant request brought over carries its EspoCRM id and nothing of ours.' };
+  const gone = new Set(await readOfficeGone(s));
+  const contacts = await readContacts(s);
+  const byEspo = new Map(contacts.filter((c) => c.espo).map((c) => [c.espo, c.id]));
+  let told = [];
+  await updateSealed(GRANTS, (was) => {
+    let list = was && Array.isArray(was.grants) ? was.grants : [];
+    told = [];
+    for (const row of rows) {
+      const espo = espoIdOf(row.espo);
+      const there = list.find((x) => x.espo === espo);
+      if (gone.has(espo)) { told.push({ espo, kept: 'deleted here' }); continue; }
+      if (there && there.edited) { told.push({ espo, kept: 'changed here', id: there.id }); continue; }
+      const f = { ...row };
+      delete f.contactEspo;
+      if (row.contactEspo != null) {
+        const cid = byEspo.get(espoIdOf(row.contactEspo));
+        if (!cid) { told.push({ espo, error: 'Its contact has not been brought over.' }); continue; }
+        f.contact = cid;
+      }
+      const r = applyGrant(list, f, who, now, contacts);
+      if (r.error) { told.push({ espo, error: r.error }); continue; }
+      list = r.list;
+      told.push({ espo, id: r.saved.id, made: !there });
+    }
+    return told.some((t) => t.id && !t.kept) ? { grants: list } : null;
+  }, s);
+  return { told };
+}
+
+export async function removeGrant(who, id, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  let gone = null;
+  await updateSealed(GRANTS, (was) => {
+    const list = was && Array.isArray(was.grants) ? was.grants : [];
+    const k = list.findIndex((x) => x.id === grantId(id));
+    gone = k >= 0 ? list[k] : null;
+    return gone ? { grants: list.filter((_, i) => i !== k) } : null;
+  }, s);
+  if (!gone) return { error: 'That grant request has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
   return { gone: true };
 }

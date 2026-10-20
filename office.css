@@ -87,9 +87,32 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-sure { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; padding: 8px 10px; border: 2px solid var(--cb-amber); border-radius: 6px; }
 .of-sure > p { flex: 1 1 100%; }
 
+/* GRANT REQUESTS: the filters are the search's box; the status checks are chips. */
+.of-n { font-size: 13px; color: var(--cb-amber-2); font-variant-numeric: tabular-nums; }
+.of-find > .of-checks { grid-column: 1 / -1; }
+.of-theirs { margin: 0; padding-left: 1.4em; display: grid; gap: 4px; }
+.of-view > h3 { font-size: 18px; color: var(--cb-steel); margin-top: 6px; }
+.of-move { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; max-width: 100%; }
+.of-move > span { white-space: nowrap; }
+.of-move select { min-width: 0; flex: 1 1 auto; }
+
+/* THE BOARD: a column for each stage, scrolling sideways in its own box on a
+   narrow screen, never the page. A card is a bordered box in the case's own ink. */
+.of-board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(230px, 1fr); gap: 10px; overflow-x: auto; padding-bottom: 6px; min-width: 0; }
+.of-col { display: grid; align-content: start; gap: 6px; padding: 8px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
+.of-col--over { border-color: var(--cb-amber); }
+.of-col__name { font-size: 16px; color: var(--cb-steel); margin: 0; }
+.of-col__sum { font-size: 14px; font-variant-numeric: tabular-nums; }
+.of-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; min-height: 2em; }
+.of-card { display: grid; gap: 4px; padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 6px; font-size: 15px; cursor: grab; }
+.of-card--lifted { border-style: dashed; }
+.of-card__name { font-weight: 700; }
+.of-card .of-move select { max-width: 100%; }
+.of-fold__sum { cursor: pointer; font-weight: 700; padding: 4px 0; }
+
 /* WRITING: the radio's own fields. */
 .of-form { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); align-items: start; }
-.of-form > .of-checks, .of-form > .of-field:has(.of-text), .of-form > .of-hint, .of-form > .of-preview, .of-form > .of-answer, .of-form > .of-row { grid-column: 1 / -1; }
+.of-form > .of-checks, .of-form > .of-wide, .of-form > .of-field:has(.of-text), .of-form > .of-hint, .of-form > .of-preview, .of-form > .of-answer, .of-form > .of-row { grid-column: 1 / -1; }
 .of-checks { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
 .of-checks legend { padding: 0 0 4px; float: left; width: 100%; }
 .of-check { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 2px 10px 2px 8px; font-size: 15px; border: 2px solid var(--cb-bar); border-radius: 6px; }

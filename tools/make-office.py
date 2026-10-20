@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-"""Hold the office to what it and privacy.html say.
+"""Write the office's settings into the CB, and hold the office to what it and
+privacy.html say.
 
 Ryan's brief, 2026-10-20: contacts, grant requests and cases, moved here from
 EspoCRM in stages, after its tasks, so EspoCRM can be switched off. His calls
 the same evening: directors and administrators only, sealed at rest, nothing
 recording who reads, and stimpunks.org's forms posting here at the cut-over.
+
+WHAT IT WRITES: data/office.json's statuses and grant pipelines, with their
+stages, between the office:settings markers in netlify/cb/lib.mjs, which is the
+only copy the server reads. Never hand-edit between those markers.
 
 THE OFFICE HOLDS PEOPLE WHO NEVER SIGNED ON TO THE STREET, so it is held more
 tightly than anything else on the CB, and this refuses, because a friendly edit
@@ -29,7 +34,9 @@ the code does):
     in the address, because the address goes into the browser's history.
   · ANY PLACE BUT /cb/office: office.js talks to it and to nothing else.
   · A COLOUR OF ITS OWN. office.css wears the CB's seven colours, as tasks do.
-  · A CONTACT KEPT WITH MORE than privacy.html lists.
+  · A CONTACT OR A GRANT REQUEST KEPT WITH MORE than privacy.html lists.
+  · A PIPELINE THAT IS NOT WHOLE: a stage twice, a stage whose status is not
+    a status, or a first stage that is not open, where a new one starts.
   · privacy.html and the CB guide without their office sections, and the page
     without its link to what the office keeps.
 
@@ -37,12 +44,14 @@ NUMBERS ARE FINE HERE. Ryan's call, 2026-10-20, for tasks and backend tools.
 
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
+import json
 import re
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+DATA = ROOT / "data" / "office.json"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 FN = ROOT / "netlify" / "functions" / "cb-office.mjs"
 JS = ROOT / "office.js"
@@ -55,7 +64,49 @@ GUIDE = ROOT / "cb-guide.html"
 CONTACT_KEEPS = {"id", "first", "last", "email", "phone", "noEmail", "noCall", "notes", "t", "by",
                  "edited", "editedBy", "espo", "synced"}
 
+GRANT_KEEPS = {"id", "name", "pipeline", "stage", "amount", "submitted", "closed", "contact", "form", "body", "t", "by",
+               "edited", "editedBy", "espo", "synced"}
+
+BEGIN = "/* office:settings:begin -- written by tools/make-office.py from data/office.json. Do not hand-edit. */"
+END = "/* office:settings:end */"
+
 problems = []
+
+
+def settings(data):
+    statuses = data.get("statuses")
+    if not isinstance(statuses, list) or "Open" not in statuses or len(set(statuses)) != len(statuses):
+        problems.append(f"{DATA.name}: statuses is a list of words, each once, and Open is one of them.")
+        return
+    pipes = data.get("pipelines")
+    if not isinstance(pipes, list) or not pipes or len({p.get("name") for p in pipes}) != len(pipes):
+        problems.append(f"{DATA.name}: pipelines is a list, each with a name of its own.")
+        return
+    for p in pipes:
+        st = p.get("stages")
+        if not isinstance(st, list) or not st or len({x.get("name") for x in st}) != len(st):
+            problems.append(f"{DATA.name}: {p.get('name')} lists its stages, each once.")
+        elif any(x.get("status") not in statuses for x in st):
+            problems.append(f"{DATA.name}: every stage of {p.get('name')} names one of the statuses.")
+        elif st[0].get("status") != "Open":
+            problems.append(f"{DATA.name}: a new grant request starts at {p.get('name')}'s first stage, so it must be open.")
+    if data.get("currency") != "USD":
+        problems.append(f"{DATA.name}: amounts are in US dollars, as EspoCRM held every one; another currency needs its own words.")
+
+
+def write(lib, data):
+    j = lambda v: json.dumps(v, ensure_ascii=False)
+    pipes = [{"name": p["name"], "stages": [{"name": x["name"], "status": x["status"]} for x in p["stages"]]} for p in data["pipelines"]]
+    block = (BEGIN + "\n"
+             + f"export const OFFICE_STATUSES = {j(data['statuses'])};\n"
+             + f"export const OFFICE_CURRENCY = {j(data['currency'])};\n"
+             + f"export const OFFICE_PIPELINES = {j(pipes)};\n"
+             + END)
+    pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
+    if len(pat.findall(lib)) != 1:
+        problems.append(f"{LIB.name}: the office:settings markers must be there exactly once.")
+        return lib
+    return pat.sub(lambda m: block, lib)
 
 
 def code_of(text):
@@ -78,7 +129,8 @@ def check_lib(lib):
     code = code_of(sec)
     if "console." in code:
         problems.append(f"{LIB.name}: the office writes to the console. Nothing about a contact is ever logged.")
-    for name in ("officeContacts", "officeContact", "saveContact", "removeContact", "importContacts"):
+    for name in ("officeContacts", "officeContact", "saveContact", "removeContact", "importContacts",
+                 "officeGrants", "officeGrant", "saveGrant", "removeGrant", "importGrants"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -115,6 +167,14 @@ def check_lib(lib):
     keys.discard("")
     if not lit or not keys or keys - CONTACT_KEEPS:
         problems.append(f"{LIB.name}: a contact keeps {', '.join(sorted(keys - CONTACT_KEEPS)) or 'something unreadable'}, which privacy.html#office does not list.")
+    ag = re.search(r"function applyGrant\(.*?\n\}", sec, re.S)
+    glit = re.search(r"\{ id: newGrantId\(\),(.*?)\.\.\.r\.fields \}", ag.group(0) if ag else "", re.S)
+    gkeys = set(re.findall(r"(\w+):", glit.group(1))) | {"id"} if glit else set()
+    gkeys |= set(re.findall(r"next\.(\w+) =", ag.group(0) if ag else ""))
+    gf = re.search(r"function grantFields\(.*?\n\}", sec, re.S)
+    gkeys |= set(re.findall(r"out\.(\w+) =", gf.group(0) if gf else ""))
+    if not glit or gkeys - GRANT_KEEPS:
+        problems.append(f"{LIB.name}: a grant request keeps {', '.join(sorted(gkeys - GRANT_KEEPS)) or 'something unreadable'}, which privacy.html#office does not list.")
 
 
 def check_function():
@@ -202,7 +262,14 @@ def check_no_key():
 
 
 def main():
+    data = json.loads(DATA.read_text())
     lib = LIB.read_text()
+    settings(data)
+    if not problems:
+        new = write(lib, data)
+        if new != lib:
+            LIB.write_text(new)
+            lib = new
     check_lib(lib)
     check_function()
     check_js()
@@ -212,7 +279,7 @@ def main():
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
-    print("office: directors and administrators only, every record sealed, shut without its key, nothing logged, "
+    print("office: the pipelines written into the CB, directors and administrators only, every record sealed, shut without its key, nothing logged, "
           "nothing kept in the browser, and dressed in the CB's own colours.")
     return 0
 

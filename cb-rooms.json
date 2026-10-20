@@ -767,7 +767,7 @@
    "tag": "office",
    "name": "The Office",
    "path": "/office.html",
-   "about": "The office, moved here from EspoCRM, for our directors and administrators: the people and organisations we are in touch with, each with a name, an email, a phone number, whether they have asked not to be emailed or called, and notes in Markdown, sealed at rest. Grant requests and cases follow. Not public."
+   "about": "The office, moved here from EspoCRM, for our directors and administrators: the people and organisations we are in touch with, and our Mutual Aid and Creator Grants requests in their pipelines, with a list, a board by stage and what they come to, all sealed at rest. Cases follow. Not public."
   },
   {
    "tag": "changelog",

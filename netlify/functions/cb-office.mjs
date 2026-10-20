@@ -1,10 +1,12 @@
-/* The office: contacts (and, stage by stage, grant requests and cases), moved
+/* The office: contacts and grant requests (and, at the next stage, cases), moved
    here from EspoCRM. Every answer needs the pass of a claimed username holding
    one of TASK_SEE's roles, or administrator; everybody else is told nothing.
    Every record is sealed at rest under CB_OFFICE_KEY; without it the office
    is shut. GET, with ?view=:
      contacts                every contact, without notes
-     contact  &id=           one contact, its notes as words and as nodes
+     contact  &id=           one contact, its notes as words and as nodes, and their grant requests
+     grants                  every grant request, without its description
+     grant    &id=           one grant request, its description as words and as nodes
    POST, with the same pass:
      { action: 'contact-save', id?, espo?, first?, last?, email?, phone?, noEmail?, noCall?, notes? }
          a new contact, or a change to the one `id` names; only the fields sent change.
@@ -13,15 +15,24 @@
      { action: 'contact-remove', id }                a contact deleted
      { action: 'contact-import', rows: [...] }       EspoCRM's contacts, up to IMPORT_MAX at
          a time, each with its espo id; one changed or deleted here is left alone
-     { action: 'preview', body }                     how notes will set
+     { action: 'grant-save', id?, espo?, name?, pipeline?, stage?, amount?, submitted?, closed?,
+         contact? | contactEmail?, form?, body? }    a new grant request, or a change to one;
+         its status follows its stage, and the day it was decided follows its status
+     { action: 'grant-remove', id }                  a grant request deleted
+     { action: 'grant-import', rows: [...] }         EspoCRM's grant requests, as contacts are
+         brought over, each naming its contact by EspoCRM's id (contactEspo)
+     { action: 'preview', body }                     how notes or a description will set
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
-import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts, parseBrass,
-  cleanForumBody, json, body, sameSite, CONTACT_NAME_MAX, CONTACT_NOTES_MAX } from '../cb/lib.mjs';
+import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
+  officeGrants, officeGrant, saveGrant, removeGrant, importGrants, parseBrass, cleanForumBody, json, body, sameSite,
+  CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
+  OFFICE_CURRENCY } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere.
 const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
-const settings = { nameMax: CONTACT_NAME_MAX, notesMax: CONTACT_NOTES_MAX };
+const settings = { nameMax: CONTACT_NAME_MAX, notesMax: CONTACT_NOTES_MAX, grantNameMax: GRANT_NAME_MAX, grantBodyMax: GRANT_BODY_MAX,
+  amountMax: GRANT_AMOUNT_MAX, pipelines: OFFICE_PIPELINES, statuses: OFFICE_STATUSES, currency: OFFICE_CURRENCY };
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The office only answers stimpunks.world.' }, QUIET);
@@ -43,12 +54,17 @@ export default async (req) => {
         const c = await officeContact(who, url.searchParams.get('id'));
         return c ? json(200, { me, settings, contact: c }, QUIET) : json(404, { error: 'That contact has been deleted.' }, QUIET);
       }
+      if (view === 'grants') return json(200, { me, settings, grants: await officeGrants(who) }, QUIET);
+      if (view === 'grant') {
+        const g = await officeGrant(who, url.searchParams.get('id'));
+        return g ? json(200, { me, settings, grant: g }, QUIET) : json(404, { error: 'That grant request has been deleted.' }, QUIET);
+      }
       return json(400, { error: 'Show what?' }, QUIET);
     }
     const b = (await body(req)) || {};
     if (b.action === 'preview') {
-      const text = cleanForumBody(b.body, CONTACT_NOTES_MAX);
-      if (!text) return json(400, { error: `Between one and ${CONTACT_NOTES_MAX} characters.` }, QUIET);
+      const text = cleanForumBody(b.body, GRANT_BODY_MAX);
+      if (!text) return json(400, { error: `Between one and ${GRANT_BODY_MAX} characters.` }, QUIET);
       return json(200, { blocks: parseBrass(text, { boxes: true }) }, QUIET);
     }
     if (b.action === 'contact-save') {
@@ -58,6 +74,18 @@ export default async (req) => {
     if (b.action === 'contact-import') {
       const r = await importContacts(who, b.rows);
       return r.error ? json(400, { error: r.error }, QUIET) : json(200, { told: r.told }, QUIET);
+    }
+    if (b.action === 'grant-save') {
+      const r = await saveGrant(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { grant: r.grant }, QUIET);
+    }
+    if (b.action === 'grant-import') {
+      const r = await importGrants(who, b.rows);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { told: r.told }, QUIET);
+    }
+    if (b.action === 'grant-remove') {
+      const r = await removeGrant(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
     }
     if (b.action === 'contact-remove') {
       const r = await removeContact(who, String(b.id || ''));

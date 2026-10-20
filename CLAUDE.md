@@ -5291,7 +5291,16 @@ leaves alone one changed here (`edited`) and one deleted here (`office-gone`), s
 **Its importer reads EspoCRM's API itself** and prints counts and ids only, so nobody's details pass through a
 conversation; it lives outside the repository with the tasks importer. **The friendly edits are a search kept in the
 address "so it can be shared", a log line for debugging an import, and a second, unsealed copy "for speed"**; each puts
-somebody's details where privacy.html#office says they are not.
+somebody's details where privacy.html#office says they are not. **Grant requests are the office's second record**
+(Ryan's ask, the same evening): `office-grants`, sealed beside the contacts, each in a pipeline and at a stage of it,
+**the pipelines and stages EspoCRM's own, word for word, in `data/office.json`**, which `make-office.py` writes between
+`office:settings` markers in `lib.mjs` (never hand-edit them). **The status follows the stage, and the day it was decided
+follows the status** (`settleGrant`): set when it moves to Granted or Denied without one, cleared when it moves back. A
+request links its contact by our id, chosen on the page by the contact's email; an import finds it by EspoCRM's id for the
+contact (`contactEspo`). A list (filters in the address, a search not) says how many and what they come to, and a board
+by stage moves a card by dragging or by Move to. EspoCRM's stage history was not brought over. **A function name in
+`lib.mjs` is shared with the whole file**: the first draft's `settle` met the forums' and Node refused the file, which is
+the good outcome; a `const` would have done the same, a `var` would not.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
