@@ -5261,6 +5261,12 @@ never land on another box; `make-tasks.py` holds both guards. The friendly edit 
 bar per task from its start to its due day, under the list's filters, address and saved filters; a timeline saved on
 this week keeps no day in its address, so it is always this week. Every bar says its days in words, and a day is never
 narrower than a short word (the box scrolls sideways instead); the friendly edit is cutting names short to fit.
+**A task is somebody's when it is assigned to them or they are also on it** (Ryan, the same evening: "When we think about
+task ownership, we include Assigned to and Also on it"), so **Whose** (`whoOf`, `owns` in `tasks.js`) matches both, every
+view opens on Mine, and the timeline puts a task in every owner's row, ALSO ON IT where they are not the assignee. An
+address with no `who` is Mine and `who=all` is everybody's. The board's columns by person stay by assignee, because a
+move there changes who it is assigned to. The friendly edit is a filter by assignee alone, which hides Norah from her
+own tasks.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

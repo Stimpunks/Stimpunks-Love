@@ -166,7 +166,7 @@
 
   /* ── The list and the board: filters and order, kept in the address ──── */
 
-  var COLUMNS = [['name', 'Task'], ['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to'], ['start', 'Starts'], ['due', 'Due'], ['tags', 'Tags']];
+  var COLUMNS = [['name', 'Task'], ['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to'], ['with', 'Also on it'], ['start', 'Starts'], ['due', 'Due'], ['tags', 'Tags']];
   var DUES = [['', 'Any time'], ['overdue', 'Overdue'], ['today', 'Due today'], ['week', 'Due in the next 7 days'], ['month', 'Due this month'], ['none', 'No due date']];
   // What a board's columns can be, and the field a move between them changes.
   var GROUPS = [['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to']];
@@ -224,9 +224,11 @@
     if (skip !== 'status' && statusesOf(f, mode).indexOf(t.status) < 0) return false;
     if (skip !== 'priority' && f.priority && f.priority.indexOf(t.priority) < 0) return false;
     if (skip !== 'tags' && f.tags && !t.tags.some(function (x) { return f.tags.indexOf(x) >= 0; })) return false;
-    if (skip !== 'who' && f.who) {
-      if (f.who === '-') { if (t.who) return false; }
-      else if (fold(t.who) !== fold(f.who === '@me' && me ? me.handle : f.who)) return false;
+    if (skip !== 'who') {
+      // Whose: a task is somebody's when it is assigned to them or they are also on it. Mine until another is picked.
+      var whose = whoOf(f);
+      if (whose === '-') { if (t.who) return false; }
+      else if (whose !== 'all' && !owns(t, whose === '@me' ? (me ? me.handle : '') : whose)) return false;
     }
     if (skip !== 'due' && f.due) {
       var d = t.due, now = today();
@@ -239,6 +241,13 @@
     }
     return true;
   }
+  /* Whose tasks: '' or '@me' is mine, 'all' everybody's, '-' assigned to
+     nobody, and a handle that person's. A task is somebody's when it is
+     assigned to them or they are also on it, as the team counts it. */
+  function whoOf(f) { return !f.who || f.who === '@me' ? '@me' : f.who; }
+  // Who else is on a task, beside whoever it is assigned to.
+  function alsoOn(t) { return (t.with || []).filter(function (x) { return fold(x) !== fold(t.who); }); }
+  function owns(t, h) { return !!h && (fold(t.who) === fold(h) || (t.with || []).some(function (x) { return fold(x) === fold(h); })); }
   function counted(f, skip, key, mode) {
     var n = {};
     tasks.forEach(function (t) {
@@ -253,7 +262,7 @@
     var by = function (t) {
       var v = t[f.sort];
       if (rank[f.sort]) return rank[f.sort].indexOf(v);
-      if (f.sort === 'tags') return (v || []).join(', ').toLowerCase();
+      if (f.sort === 'tags' || f.sort === 'with') return (v || []).join(', ').toLowerCase() || null;
       return v == null ? null : String(v).toLowerCase();
     };
     var s = f.dir === 'desc' ? -1 : 1;
@@ -470,15 +479,20 @@
       fields.appendChild(words);
 
       var who = el('div', 'tk-field');
-      var hl = el('label', 'cb-lab', 'Assigned to'); hl.htmlFor = 'tk-who';
+      var hl = el('label', 'cb-lab', 'Whose'); hl.htmlFor = 'tk-who';
       var hs = el('select', 'cb-say tk-input'); hs.id = 'tk-who';
-      var nWho = counted(f, 'who', function (t) { return t.who ? fold(t.who) : '-'; }, mode);
+      // Each person's count is the tasks assigned to them or with them on it, so the counts overlap.
+      var nWho = counted(f, 'who', function (t) {
+        var o = [t.who ? fold(t.who) : '-'];
+        (t.with || []).forEach(function (x) { if (o.indexOf(fold(x)) < 0) o.push(fold(x)); });
+        return o.concat('*');
+      }, mode);
       var opt = function (v, label) { var o = el('option', null, label); o.value = v; hs.appendChild(o); };
-      opt('', 'Anybody (' + Object.keys(nWho).reduce(function (a, k) { return a + nWho[k]; }, 0) + ')');
-      if (me) opt('@me', 'Me (' + (nWho[fold(me.handle)] || 0) + ')');
-      people.forEach(function (p) { opt(p, p + ' (' + (nWho[fold(p)] || 0) + ')'); });
-      opt('-', 'Nobody (' + (nWho['-'] || 0) + ')');
-      hs.value = f.who;
+      opt('', 'Mine: assigned to me or also on it (' + (me ? nWho[fold(me.handle)] || 0 : 0) + ')');
+      opt('all', 'Everybody’s (' + (nWho['*'] || 0) + ')');
+      people.forEach(function (p) { if (!me || fold(p) !== fold(me.handle)) opt(p, p + '’s (' + (nWho[fold(p)] || 0) + ')'); });
+      opt('-', 'Assigned to nobody (' + (nWho['-'] || 0) + ')');
+      hs.value = whoOf(f) === '@me' ? '' : f.who;
       hs.addEventListener('change', function () { f.who = hs.value; refresh(); });
       who.appendChild(hl); who.appendChild(hs);
       fields.appendChild(who);
@@ -589,6 +603,7 @@
         if (x.priority === 'High' || x.priority === 'Urgent') pr.className = 'tk-high';
         tr.appendChild(pr);
         tr.appendChild(el('td', null, x.who || '—'));
+        tr.appendChild(el('td', 'tk-withcell', (x.with || []).join(', ') || '—'));
         tr.appendChild(el('td', 'tk-day', dayWords(x.start)));
         var due = el('td', 'tk-day', dayWords(x.due));
         if (overdue(x)) due.appendChild(tag('OVERDUE', 'tk-late'));
@@ -696,6 +711,8 @@
       if (f.cols !== 'status') bits.push(t.status);
       if (f.cols !== 'priority' && t.priority !== settings.priority) bits.push(t.priority);
       if (f.cols !== 'who') bits.push(t.who || 'Nobody');
+      var others = alsoOn(t);
+      if (others.length) bits.push('with ' + others.join(', '));
       if (t.due) bits.push('due ' + dayWords(t.due));
       facts.textContent = bits.join(' · ');
       if (overdue(t)) facts.appendChild(tag('OVERDUE', 'tk-late'));
@@ -749,13 +766,25 @@
         days.appendChild(c);
       }
       tl.appendChild(days);
-      var rows = people.slice();
-      on.forEach(function (t) { if (t.who && rows.every(function (p) { return fold(p) !== fold(t.who); })) rows.push(t.who); });
+      /* A task stands in the row of whoever it is assigned to and in the row of
+         everybody also on it, because that is whose it is. Everybody's shows a
+         row for everybody, empty or not; one person's (mine included) shows
+         theirs alone, and Assigned to nobody the row of tasks nobody has. */
+      var rows = people.slice(), whose = whoOf(f);
+      on.forEach(function (t) {
+        [t.who].concat(t.with || []).forEach(function (h) { if (h && rows.every(function (p) { return fold(p) !== fold(h); })) rows.push(h); });
+      });
       rows = rows.map(function (p) { return [p, p]; });
-      if (on.some(function (t) { return !t.who; })) rows.push(['', 'Nobody']);
+      if (on.some(function (t) { return !t.who; })) rows.push(['', 'Assigned to nobody']);
+      var rowOf = function (row) { return on.filter(function (t) { return row[0] ? owns(t, row[0]) : !t.who; }); };
+      if (whose !== 'all') {
+        var keep = whose === '@me' ? (me ? me.handle : '') : whose === '-' ? '' : whose;
+        rows = rows.filter(function (row) { return fold(row[0]) === fold(keep); });
+        if (!rows.length) rows = [[keep, keep || 'Assigned to nobody']];
+      }
       var todayAt = daysBetween(a, now);
       rows.forEach(function (row, r) {
-        var mine = on.filter(function (t) { return fold(t.who || '') === fold(row[0]); }).sort(function (x, y) {
+        var mine = rowOf(row).sort(function (x, y) {
           var p = spanOf(x), q = spanOf(y);
           return p[0] < q[0] ? -1 : p[0] > q[0] ? 1 : p[1] < q[1] ? -1 : p[1] > q[1] ? 1 : x.name.localeCompare(y.name);
         });
@@ -786,18 +815,23 @@
         }
         placed.forEach(function (pl) {
           var t = pl.t, before = pl.d[0] < a, after = pl.d[1] > b;
+          // In the row of somebody also on it rather than assigned to it, the bar says so, in words.
+          var also = !!row[0] && fold(t.who) !== fold(row[0]);
           var li = el('li', 'tk-tl__item');
           li.style.gridColumn = (pl.s0 + 1) + ' / ' + (pl.e0 + 2);
           li.style.gridRow = String(pl.lane + 1);
           var bar = el('a', 'tk-tl__bar' + (before ? ' tk-tl__bar--before' : '') + (after ? ' tk-tl__bar--after' : '')
-            + (overdue(t) ? ' tk-tl__bar--late' : '') + (isDone(t) ? ' tk-done' : '') + (t.priority === 'High' || t.priority === 'Urgent' ? ' tk-high' : ''));
+            + (overdue(t) ? ' tk-tl__bar--late' : '') + (isDone(t) ? ' tk-done' : '') + (t.priority === 'High' || t.priority === 'Urgent' ? ' tk-high' : '')
+            + (also ? ' tk-tl__bar--also' : ''));
           bar.href = '#/t/' + t.id;
           if (overdue(t)) bar.appendChild(tag('OVERDUE', 'tk-late'));
+          if (also) bar.appendChild(tag('ALSO ON IT', 'tk-also'));
           bar.appendChild(el('span', 'tk-tl__name', t.name));
           var words = t.start && t.due && t.start !== t.due ? 'starts ' + dayWords(t.start) + ', due ' + dayWords(t.due)
             : t.due ? 'due ' + dayWords(t.due) : 'starts ' + dayWords(t.start);
           bar.appendChild(el('span', 'sr', ', ' + words + (before ? ', began before these days' : '') + (after ? ', runs on past these days' : '')
-            + ', ' + t.status + (t.priority === 'High' || t.priority === 'Urgent' ? ', ' + t.priority : '')));
+            + ', ' + t.status + (t.priority === 'High' || t.priority === 'Urgent' ? ', ' + t.priority : '')
+            + (also ? ', assigned to ' + (t.who || 'nobody') : alsoOn(t).length ? ', with ' + alsoOn(t).join(', ') : '')));
           li.appendChild(bar);
           lanes.appendChild(li);
         });

@@ -71,6 +71,7 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-title { min-width: 14em; font-weight: 700; }
 .tk-day { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .tk-tagcell { min-width: 9em; color: var(--cb-amber-2); }
+.tk-withcell { min-width: 8em; }
 .tk-high { font-weight: 700; }
 .tk-done .tk-title a { text-decoration: line-through; }
 .tk .tk-late { margin-left: 6px; }
@@ -133,6 +134,8 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-tl__bar--before { border-left-style: dashed; border-top-left-radius: 0; border-bottom-left-radius: 0; }
 .tk-tl__bar--after { border-right-style: dashed; border-top-right-radius: 0; border-bottom-right-radius: 0; }
 .tk-tl__bar--late { border-color: var(--cb-amber); }
+.tk-tl__bar--also { border-style: dotted; }
+.tk .tk-tl__bar .tk-also { margin-left: 0; flex: none; }
 .tk-tl__bar.tk-high { border-width: 3px; font-weight: 700; }
 .tk-tl__bar.tk-done .tk-tl__name { text-decoration: line-through; }
 .tk .tk-tl__bar .tk-late { margin-left: 0; flex: none; }
