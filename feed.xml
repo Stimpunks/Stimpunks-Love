@@ -93,17 +93,24 @@
       <description>A chimera can come with you now. Take it with you in Chimera Obscura, or Take it with me on one of your chimeras in Profile on the radio, and it becomes your familiar: it is there in every room you walk into, in a little pool of the camera obscura’s light. The idea came from our community, after the animal orbs in Castle Crashers. It sits wherever there are no words. It finds a clear spot in each room, off the text, the buttons, the pictures and the players, and if the page changes under it, it moves aside. It only crosses words while it is on the move. It stays where you put it unless the dial is at MAX GLITTER, or you press it and switch on Let it move by itself. Then it wanders now and then, comes along when you scroll, and comes over to wherever your pointer or your keyboard has gone. At Gentle it jumps rather than walks. Press it to move it (drag it, or Move it and the arrow keys), put it back on the table in Chimera Obscura, or Send it home. It keeps you company and that is all it does: no levels, no boosts, nothing to collect, and nothing counted. It makes no sound. Your browser keeps it, and nothing is sent anywhere: what it is made of, its name, whether it may move, and roughly where in the window you last put it down, never which room. The privacy page lists it as love-familiar. Nobody else sees your familiar. It stays out of Stay Frosty, where nothing moves, and the Healing Checkpoint.</description>
     </item>
     <item>
+      <title>Messages stay together at Full</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-20-cb-full-log</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-full-log</guid>
+      <pubDate>Tue, 20 Oct 2026 11:55:00 GMT</pubDate>
+      <description>At Full, on a wide window, a channel with only a few messages no longer spreads them down the whole column with their words far below their names. The log is as tall as the column, and its messages now sit together at the top of it, as they do at every other size.</description>
+    </item>
+    <item>
       <title>The CB marks what is new to you, and Unreads lists it</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-unreads</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-unreads</guid>
-      <pubDate>Tue, 20 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:54:00 GMT</pubDate>
       <description>A dot now marks what has been said since you last read it, on World, This room, Your messages and each conversation in it. That reverses the radio’s old rule of no badge and no unread count, and only as far as a mark: it is never a number, it makes no sound, and nothing moves. A screen reader hears “something new”. Unreads, a new part under Who’s around, lists World, the rooms you follow and your conversations while something new is waiting in them, and takes you there. Follow this room, beside This room, puts a room on it; which rooms you follow stays in your browser. It needs a claimed username. So that reading on your phone clears the dot on your laptop, the street keeps when you last read each channel and conversation, and nothing else, for 48 hours at most; the privacy page says so, and Forget me deletes it.</description>
     </item>
     <item>
       <title>Paste a picture, and messages that work like the channel</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-paste-dm</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-paste-dm</guid>
-      <pubDate>Tue, 20 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:53:00 GMT</pubDate>
       <description>Paste a picture into the CB with Ctrl or Cmd and V, on the channel or in a conversation, instead of finding it with Picture. It comes to the same preview, redrawn the same way before it goes. Words pasted with it are pasted as words. Direct messages work like the channel. Each message has React and the three dots on its line: Copy, Edit and Take back on yours, Copy and Report on theirs. Sticker sits beside Picture and opens the same tray. Reactions say who, never how many. An @name is drawn as a name. A first message is still words only, so a picture, a sticker and a reaction wait until the conversation is accepted.</description>
     </item>
     <item>
