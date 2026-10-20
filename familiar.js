@@ -304,12 +304,18 @@
   function sitIn(f, c) {
     seated = seated.filter(function (x) { return x[1] !== f && x[0] !== c; });
     if (c) seated.push([c, f]);
+    // In a cozy its light draws in to just behind it, so the cozy shows.
+    if (f && f.host) f.host.classList.toggle('is-seated', !!c);
   }
-  // Where a familiar sits in a cozy: across its middle, sunk into it.
+  // Where a familiar sits in a cozy: across its middle, sunk into it, or as
+  // far down it as the cozy says (data-familiar-seat, a fraction of its
+  // height), the egg chair's seat being lower than a cushion's top.
   function seat(c) {
     var r = c.getBoundingClientRect(), S = size(), v = view();
     if (!r.width || !r.height) return null;
-    return { x: Math.round(r.left + v.x + r.width / 2 - S / 2), y: Math.round(r.top + v.y + r.height * 0.62 - S) };
+    var f = parseFloat(c.getAttribute('data-familiar-seat'));
+    if (!(f > 0 && f < 1)) f = 0.62;
+    return { x: Math.round(r.left + v.x + r.width / 2 - S / 2), y: Math.round(r.top + v.y + r.height * f - S) };
   }
   // The free cozies in the window whose seat has no words over it, nearest a
   // point first.
@@ -464,7 +470,10 @@
     // a jump at Gentle and wherever it may not move by itself.
     this.cozyB.addEventListener('click', function () {
       var cz = freeCozies(me, me.pos.x, me.pos.y);
-      me.closeMenu(true);
+      // The keyboard goes back to it once it has moved, without scrolling:
+      // put back first, the page scrolled to where it was leaving.
+      me.closeMenu(false);
+      try { me.btn.focus({ preventScroll: true }); } catch (e) { me.btn.focus(); }
       if (!cz.length) { me.tell('No cozy in this part of the room is free just now.'); return; }
       sitIn(me, cz[0].cozy);
       if (intensity() !== 'gentle') me.walkTo(cz[0].x, cz[0].y, function () { me.remember(); });

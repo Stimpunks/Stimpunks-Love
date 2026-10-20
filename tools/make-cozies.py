@@ -13,7 +13,8 @@ EVERY COZY IS ITS ROOM'S OWN, THE JOB MARKER'S RULE. A cozy is furniture drawn
 INTO a room, so it is drawn in that room's own declared inks and in a shape
 that belongs there, and no two rooms share one: a velvet pouf by the camera
 obscura's rail, a cushion of moss on a stone in the Garden, a knitted floor
-cushion against the burrow's plaster, a leather footstool in the reading room.
+cushion against the burrow's plaster, a leather footstool in the reading room,
+an egg chair in front of the Hermitage's screen.
 What is shared is only the layout (`.cozy` in love.css §4, which sets no
 colour) and the attribute familiar.js finds it by (data-familiar-cozy, on the
 drawing itself, which is what a familiar sits in). The friendly edit is one
@@ -46,7 +47,8 @@ DATA = ROOT / "data/cozies.json"
 CSS = ROOT / "love.css"
 BEGIN, END = "<!-- cozy:begin -->", "<!-- cozy:end -->"
 
-# Each drawing is 132 by 48, the seat across its middle, in its room's own inks.
+# Each drawing is 132 wide and, unless SHAPE says otherwise, 48 high, the seat
+# across its middle, in its room's own inks.
 DRAW = {
     "chimera-obscura.html": (
         # A round velvet pouf by the rail, piped and studded in the lens's brass.
@@ -68,6 +70,18 @@ DRAW = {
         '<path d="M40 13 C34 22 46 30 40 42 M66 11 C60 22 72 32 66 44 M92 13 C86 22 98 30 92 42" fill="none" stroke="var(--umber-2)" stroke-width="2.5" stroke-linecap="round"/>'
         '<path d="M12 16 l-6 -6 M120 16 l6 -6 M14 40 l-6 6 M118 40 l6 6" stroke="var(--rust)" stroke-width="3" stroke-linecap="round"/>'
     ),
+    "solarpunk-hermitage.html": (
+        # An egg chair in front of the campfire's screen: a pale shell on a
+        # swivel foot, padded in the cabin's mustard, outlined in --furrow like
+        # everything else on that rug, because the scene's own rule is that
+        # every object is carried by its outline.
+        '<ellipse cx="66" cy="114" rx="30" ry="5" fill="var(--bakelite)" stroke="var(--furrow)" stroke-width="2.5"/>'
+        '<path d="M61 96 L71 96 L70 112 L62 112 Z" fill="var(--bakelite)" stroke="var(--furrow)" stroke-width="2.5" stroke-linejoin="round"/>'
+        '<path d="M66 4 C104 4 124 36 122 66 C120 92 100 104 66 104 C32 104 12 92 10 66 C8 36 28 4 66 4 Z" fill="var(--noon)" stroke="var(--furrow)" stroke-width="3" stroke-linejoin="round"/>'
+        '<path d="M66 18 C94 18 108 42 106 64 C104 84 90 92 66 92 C42 92 28 84 26 64 C24 42 38 18 66 18 Z" fill="var(--bloom)" stroke="var(--furrow)" stroke-width="2.5" stroke-linejoin="round"/>'
+        '<path d="M30 76 Q66 94 102 76" fill="none" stroke="var(--furrow)" stroke-width="2.5" stroke-linecap="round"/>'
+        '<path d="M14 56 Q10 72 22 88 M118 56 Q122 72 110 88" fill="none" stroke="var(--noon-2)" stroke-width="3" stroke-linecap="round"/>'
+    ),
     "community-library.html": (
         # A leather footstool on turned oak legs, buttoned, by the shelves.
         '<path d="M28 34 L26 46 M104 34 L106 46" stroke="var(--cl-oak)" stroke-width="5" stroke-linecap="round"/>'
@@ -76,6 +90,13 @@ DRAW = {
         '<circle cx="46" cy="17" r="2" fill="var(--cl-ink)"/><circle cx="66" cy="17" r="2" fill="var(--cl-ink)"/><circle cx="86" cy="17" r="2" fill="var(--cl-ink)"/>'
     ),
 }
+
+# A cozy that is not the usual low cushion says how tall its drawing is and
+# where in it a familiar's feet go, as a fraction of that height.
+SHAPE = {
+    "solarpunk-hermitage.html": {"h": 120, "seat": 0.72},
+}
+SIDES = ("left", "right", "center")
 
 problems = []
 
@@ -94,8 +115,9 @@ def check(d):
     for page, info in rooms.items():
         if page not in DRAW:
             refuse(f"{page} is in data/cozies.json and this tool has no drawing for it. Draw its cozy in its own inks.")
-        if info.get("side") not in ("left", "right"):
-            refuse(f"{page}: side must be left or right, which side of the room's words the cozy stands.")
+        if info.get("side") not in SIDES:
+            refuse(f"{page}: side must be one of {SIDES}: which side of the room's words the cozy stands, or "
+                   "centred, where the room lays its things out down the middle.")
         if not (ROOT / page).exists():
             refuse(f"{page} is in data/cozies.json and is not a page.")
     for page, art in DRAW.items():
@@ -108,6 +130,11 @@ def check(d):
                 refuse(f"{page}'s cozy uses {m.group(1)}, which love.css does not declare.")
         if re.search(r"<text|transform", art):
             refuse(f"{page}'s cozy has words or a transform in it. A cozy carries no word, and moves nothing.")
+    for page, sh in SHAPE.items():
+        if page not in DRAW:
+            refuse(f"SHAPE has {page} and there is no drawing for it.")
+        if not (48 <= sh.get("h", 0) <= 140 and 0.3 <= sh.get("seat", 0) <= 0.95):
+            refuse(f"{page}: a cozy is 48 to 140 high and its seat between 0.3 and 0.95 of that.")
     arts = list(DRAW.values())
     if len(set(arts)) != len(arts):
         refuse("two rooms' cozies are drawn alike. Every cozy is its own room's.")
@@ -117,9 +144,12 @@ def check(d):
 
 
 def block(page, info):
+    sh = SHAPE.get(page, {})
+    h = sh.get("h", 48)
+    seat = f' data-familiar-seat="{sh["seat"]}"' if "seat" in sh else ""
     return (f'<div class="cozy cozy--{info["side"]}">'
-            f'<svg class="cozy__seat" data-familiar-cozy viewBox="0 0 132 48" aria-hidden="true" focusable="false">'
-            f'{DRAW[page]}</svg></div>')
+            f'<svg class="cozy__seat" data-familiar-cozy{seat} viewBox="0 0 132 {h}" width="132" height="{h}" '
+            f'aria-hidden="true" focusable="false">{DRAW[page]}</svg></div>')
 
 
 def main():

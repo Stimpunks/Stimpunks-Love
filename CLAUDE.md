@@ -4460,7 +4460,10 @@ A moderator cannot clear one yet (`DECISIONS.md`).
 
 **CHIMERA COZIES ARE A FAMILIAR'S OWN SPOT, AND EACH IS ITS ROOM'S.** `tools/make-cozies.py` draws a cozy between
 `cozy` markers in each room listed in `data/cozies.json`, in that room's declared inks, refusing a colour of its own, a
-word, a transform and two rooms alike: the job marker's rule. `.cozy` in §4 is layout only, a box with a familiar's height
+word, a transform and two rooms alike: the job marker's rule. A cozy taller than a cushion (the Hermitage's egg chair,
+in front of the campfire's screen, outlined in `--furrow` because every object on that rug is) gives its height and
+where a familiar sits in it in the tool's `SHAPE` (written as `data-familiar-seat`), and a room that lays its things out
+down the middle takes `"side": "center"`. A familiar in a cozy draws its light in (`is-seated`) so the cozy shows. `.cozy` in §4 is layout only, a box with a familiar's height
 of clear air over the drawing; familiar.js sits a familiar in a free cozy in the window (`data-familiar-cozy`), one to a
 cozy, and at MAX (or when let) one in the window goes to a free cozy that comes into it (`seekCozy`, asked after a scroll and on
 every `recheck`). **The radio resizes nothing on the page**, so `recheck` also runs every few seconds while the tab is in

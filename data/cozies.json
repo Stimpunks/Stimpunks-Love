@@ -1,5 +1,5 @@
 {
- "_what": "Chimera Cozies: a spot of their own for familiars in a room (Ryan, 2026-10-19). tools/make-cozies.py draws each one, in its room's own inks, between the cozy markers on its page; familiar.js sits a familiar in a free one in the window. side is which side of the room's words the cozy stands. A new cozy is an entry here, a drawing in the tool, and a pair of markers.",
+ "_what": "Chimera Cozies: a spot of their own for familiars in a room (Ryan, 2026-10-19). tools/make-cozies.py draws each one, in its room's own inks, between the cozy markers on its page; familiar.js sits a familiar in a free one in the window. side is which side of the room's words the cozy stands, or center where the room lays its things out down the middle. A new cozy is an entry here, a drawing in the tool, and a pair of markers.",
  "rooms": {
   "chimera-obscura.html": {
    "side": "right"
@@ -12,6 +12,9 @@
   },
   "community-library.html": {
    "side": "right"
+  },
+  "solarpunk-hermitage.html": {
+   "side": "center"
   }
  }
 }

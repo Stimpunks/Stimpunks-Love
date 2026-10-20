@@ -4207,11 +4207,15 @@ div.facade--square { border: 0; background: none; }
    no colour, no face, no ground. The box keeps a familiar's height of clear
    air above the drawing, so one sitting in it (familiar.js finds the drawing
    by data-familiar-cozy) is on no words, and the words of the room wrap round
-   it. On a phone it stands on its own line rather than squeezing them. */
-.cozy { width: 132px; height: 146px; display: flex; align-items: flex-end; margin: 4px 0 12px; }
+   it, or it stands in the middle where a room lays its things out that way.
+   A drawing taller than a cushion (the Hermitage's egg chair) takes its height
+   from its own viewBox and says where a familiar sits in it. On a phone it
+   stands on its own line rather than squeezing the words. */
+.cozy { width: 132px; min-height: 146px; display: flex; align-items: flex-end; margin: 4px 0 12px; }
 .cozy--right { float: right; margin-left: 22px; }
 .cozy--left { float: left; margin-right: 22px; }
-.cozy__seat { display: block; width: 132px; height: 48px; }
+.cozy--center { margin-left: auto; margin-right: auto; }
+.cozy__seat { display: block; width: 132px; height: auto; }
 @media (max-width: 560px) { .cozy--right, .cozy--left { float: none; margin: 4px auto 12px; } }
 @media print { .cozy { display: none; } }
 

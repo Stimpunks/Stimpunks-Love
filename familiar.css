@@ -30,6 +30,9 @@
   cursor: grab; touch-action: none; -webkit-tap-highlight-color: transparent;
 }
 :host(.is-held) .fam { cursor: grabbing; }
+/* Sitting in a cozy, its light draws in to just behind it, so the cozy it is
+   sitting in shows round it: the egg chair's lining, the pouf's velvet. */
+:host(.is-seated) .fam { background: radial-gradient(closest-side, var(--chm-table) 50%, transparent 68%); }
 .fam:focus-visible { outline: 3px solid var(--chm-link); outline-offset: 2px; box-shadow: 0 0 0 7px var(--chm-room); }
 .fam__art { position: absolute; left: 14%; right: 14%; top: 8%; bottom: 6%; display: block; pointer-events: none; }
 .fam__art svg { display: block; width: 100%; height: 100%; }
