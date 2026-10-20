@@ -2335,7 +2335,7 @@
     var said = el('p', 'cb-quiet', 'Looking…');
     box.appendChild(said);
     if (!pushable()) {
-      said.textContent = 'This browser cannot show notifications from a website. On an iPhone or iPad, add stimpunks.world to your Home Screen (Share, then Add to Home Screen) and open it from there.';
+      said.textContent = 'This browser cannot show notifications from a website. On an iPhone or iPad with iOS or iPadOS 26 or later, add stimpunks.world to your Home Screen (Share, then Add to Home Screen, with Open as Web App left on) and open it from there.';
       return;
     }
     this.loadRooms();

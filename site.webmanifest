@@ -1,7 +1,9 @@
 {
+  "id": "/",
   "name": "Stimpunks.World",
   "short_name": "stimpunks.world",
   "description": "Queer without fear. Interdependent and here. One street, no two rooms alike, and a dial that lets you decide how loud it gets.",
+  "lang": "en",
   "start_url": "/",
   "scope": "/",
   "display": "minimal-ui",

@@ -84,13 +84,17 @@ function say(d) {
   });
 }
 
+/* The badge is the small picture in Android's status bar, which Android draws
+   from its transparency alone: badge-96.png is the heart in white on nothing,
+   rendered by tools/make-icons.py, because icon-192's ground is opaque and came
+   out as a plain square. */
 self.addEventListener('push', function (e) {
   var d = null;
   try { d = e.data ? e.data.json() : null; } catch (err) { d = null; }
   e.waitUntil(say(d).then(function (n) {
     if (!n) return null;
     return self.registration.showNotification(n.title, {
-      body: n.body, tag: n.tag, renotify: true, icon: '/icon-192.png', badge: '/icon-192.png', data: { url: n.url },
+      body: n.body, tag: n.tag, renotify: true, icon: '/icon-192.png', badge: '/badge-96.png', data: { url: n.url },
     });
   }));
 });

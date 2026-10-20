@@ -23,12 +23,34 @@ WHY EACH ONE EXISTS, since each one is a file somebody will ask about:
   · icon-maskable-512 -- for launchers that crop to a circle or a squircle. The
     ground is full-bleed and the heart is shrunk to sit inside the 80% safe
     zone, so no mask can clip it.
+  · badge-96.png -- the small picture beside a CB notification in Android's
+    status bar (cb-sw.js's `badge`). Android draws a badge from its
+    transparency alone, in white, so icon-192 came out as a plain rounded
+    square: its ground is opaque. This is the heart's own outline, read out of
+    favicon.svg's clip path, in white on nothing. It is not in the manifest,
+    because a badge is not an icon anybody installs.
 
 The manifest's "icons" array is rewritten from the same list, so a file cannot
 be rendered and not declared, or declared and not rendered.
+
+TWO OTHER THINGS IN THE MANIFEST ARE HELD HERE, because this is the tool that
+writes it (Ryan, 2026-10-20, when people began adding the street to their
+Docks and Home Screens):
+  · "id" is "/" and must stay "/". Before it was written down, Chrome worked it
+    out from start_url, and "/" is what it got, so every install made before
+    2026-10-20 is the same app. A different id is a different app: everybody's
+    install would stop updating and a second one would be offered.
+  · "display" is "minimal-ui", Ryan's call. A Mac's Add to Dock shows back and
+    forward buttons only when the manifest is not "standalone", and a street of
+    pages without a way back is a maze. iOS ignores minimal-ui, so an iPhone or
+    iPad before iOS 26 saves the street as a Safari bookmark, with no
+    notifications; from iOS 26 every site added to the Home Screen opens as a
+    web app, and they work. The friendly edit is "standalone" so older iPhones
+    get notifications; it takes the Dock's back button away.
 """
 import json
 import os
+import re
 import shutil
 import struct
 import subprocess
@@ -51,6 +73,11 @@ ICONS = [
     ("icon-maskable-512.png", 512, 0.72, True),
 ]
 ICO_SIZES = [16, 32, 48]
+BADGE = ("badge-96.png", 96)
+# The heart's box in favicon.svg is 7..57 across and 11..55 down; this square
+# is centred on it with a little air, so the badge is the heart and no ground.
+BADGE_VIEW = "4 5 56 56"
+MANIFEST_HOLDS = {"id": "/", "display": "minimal-ui"}
 MANIFEST_ICONS = [
     {"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
     {"src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
@@ -74,8 +101,19 @@ def browser():
                      "Point at one with MAKE_OG_BROWSER=/path/to/chrome.")
 
 
-def render(chrome, tmp, size, fill, bleed, out):
-    page = tmp / f"icon-{size}-{int(fill * 100)}-{int(bleed)}.html"
+def heart(tmp):
+    """The badge's drawing: favicon.svg's own heart, white on nothing."""
+    m = re.search(r'<clipPath id="h">\s*<path d="([^"]+)"', SVG.read_text())
+    if not m:
+        raise SystemExit("REFUSING: favicon.svg has no heart (clipPath#h) to draw the badge from.")
+    out = tmp / "badge.svg"
+    out.write_text(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{BADGE_VIEW}">'
+                   f'<path d="{m.group(1)}" fill="#fff"/></svg>')
+    return out
+
+
+def render(chrome, tmp, size, fill, bleed, out, src=SVG):
+    page = tmp / f"icon-{size}-{int(fill * 100)}-{int(bleed)}-{src.stem}.html"
     edge = round(size * fill)
     page.write_text(
         "<!doctype html><html><head><style>"
@@ -83,7 +121,7 @@ def render(chrome, tmp, size, fill, bleed, out):
         f"background:{GROUND if bleed else 'transparent'}}}"
         f"img{{display:block;width:{edge}px;height:{edge}px;"
         f"margin:{(size - edge) // 2}px auto 0}}"
-        f"</style></head><body><img src=\"{SVG.as_uri()}\"></body></html>")
+        f"</style></head><body><img src=\"{src.as_uri()}\"></body></html>")
     cmd = [chrome, "--headless=new", "--disable-gpu", "--no-sandbox", "--hide-scrollbars",
            "--force-device-scale-factor=1", "--force-color-profile=srgb",
            "--default-background-color=00000000", f"--window-size={size},{size}",
@@ -134,12 +172,24 @@ def main():
             pngs.append((size, out.read_bytes()))
         (ROOT / "favicon.ico").write_bytes(ico(pngs))
         print(f"  {'favicon.ico':<24} " + ", ".join(f"{s}x{s}" for s in ICO_SIZES))
+        name, size = BADGE
+        render(chrome, tmp, size, 1.0, False, ROOT / name, src=heart(tmp))
+        print(f"  {name:<24} {size}x{size}")
 
     declared = {i["src"].lstrip("/") for i in MANIFEST_ICONS}
     missing = [d for d in declared if not (ROOT / d).exists()]
     if missing:
         raise SystemExit(f"REFUSING: the manifest would declare {missing}, which were not rendered.")
     m = json.loads(MANIFEST.read_text())
+    wrong = {k: m.get(k) for k, v in MANIFEST_HOLDS.items() if m.get(k) != v}
+    if wrong:
+        raise SystemExit(f"REFUSING: site.webmanifest has {wrong}, and this tool holds "
+                         f"{MANIFEST_HOLDS}. The docstring says why for each; the id never "
+                         "changes, and display is Ryan's call.")
+    sw = (ROOT / "cb-sw.js").read_text()
+    if f"badge: '/{BADGE[0]}'" not in sw:
+        raise SystemExit(f"REFUSING: cb-sw.js does not show /{BADGE[0]} as a notification's badge, "
+                         "so Android would draw the badge from an opaque icon: a plain square.")
     m["icons"] = MANIFEST_ICONS
     MANIFEST.write_text(json.dumps(m, indent=2, ensure_ascii=False) + "\n")
     print(f"site.webmanifest: {len(MANIFEST_ICONS)} icons declared, every one on disk")

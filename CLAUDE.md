@@ -4026,9 +4026,21 @@ notify sooner"**: the first two are the counts the street refuses, the third bre
 and anything added later** (feedback from our community and Ryan's call, 2026-10-19, World included) is a switch `all`
 that turns on every kind and every kind added after it, so **every notifier asks `wants()`, never a switch by name**, and
 `check-push.py` refuses one that does: a kind read directly would stay off for somebody who chose everything. A new kind
-is an entry in `PUSH_KINDS` and in the radio's `NOTIFY_KINDS`; it leaves the words and the rooms followed alone. On an iPhone a
-site can only notify once it is on the Home Screen; the manifest's `display` is `minimal-ui`, and whether iOS needs
-`standalone` is worth checking before anybody says it works there.
+is an entry in `PUSH_KINDS` and in the radio's `NOTIFY_KINDS`; it leaves the words and the rooms followed alone.
+
+**THE MANIFEST'S DISPLAY IS `minimal-ui`, SO AN iPHONE NOTIFIES ONLY FROM iOS 26.** Ryan's call, 2026-10-20, when people
+began adding the street to their Docks and Home Screens. An iPhone or iPad notifies only as a Home Screen web app, and iOS
+ignores `minimal-ui`, so before iOS 26 the street is saved as a Safari bookmark; from iOS 26 every site added to the Home
+Screen opens as a web app (WebKit's Safari 26 notes), so it notifies. **It stays `minimal-ui` because a Mac's Add to Dock
+shows back and forward only when the manifest is not `standalone`**, and the cb-guide, the privacy page and the radio's
+own line say iOS 26 or later. The friendly edit is `standalone` "so older iPhones get notifications", which takes the
+Dock's back button away. **The manifest's `id` is `/`**, what Chrome had already worked out from `start_url`, so every
+install made before it was written is the same app; a new id is a new app. `tools/make-icons.py` writes the manifest's
+icons and refuses either changing, and renders `badge-96.png`, the heart alone, because Android draws a notification's
+badge from its transparency and `icon-192` came out a plain square. **An installed app on iOS, iPadOS or a Mac's Dock keeps
+its storage apart from Safari's**, so the CB pass, the dial and `love-rescues` start afresh there (`cb-guide.html#installed`);
+Chrome's and Edge's share the browser's. **There is no offline page**, because `cb-sw.js` has no fetch handler and is
+registered only by Notify me: one would need a service worker for every visitor, which is Ryan's call.
 
 **`onlyIfMatch: undefined` IS NOT A CONDITIONAL WRITE, IT IS AN UNCONDITIONAL ONE.** Netlify's local
 Blobs emulator sends no etag on a read, so the first draft's compare-and-swap quietly wrote without a
