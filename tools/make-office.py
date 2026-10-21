@@ -128,6 +128,9 @@ def settings(data):
                     problems.append(f"{DATA.name}: intake.{k} makes a case, so it names one of the case types.")
             else:
                 problems.append(f"{DATA.name}: intake.{k} makes a grant request or a case (record: grant or case).")
+    cap = (data.get("dashboard") or {}).get("active_cap")
+    if not isinstance(cap, int) or isinstance(cap, bool) or cap < 1:
+        problems.append(f"{DATA.name}: dashboard.active_cap is a whole number of grant requests, 1 or more.")
     if data.get("currency") != "USD":
         problems.append(f"{DATA.name}: amounts are in US dollars, as EspoCRM held every one; another currency needs its own words.")
 
@@ -141,6 +144,7 @@ def write(lib, data):
              + f"export const OFFICE_PIPELINES = {j(pipes)};\n"
              + f"export const OFFICE_CASES = {j({k: data['cases'][k] for k in ('types', 'statuses', 'priorities', 'default_priority')})};\n"
              + f"export const OFFICE_INTAKE = {j(data['intake'])};\n"
+             + f"export const OFFICE_DASHBOARD = {j({'active_cap': data['dashboard']['active_cap']})};\n"
              + END)
     pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
     if len(pat.findall(lib)) != 1:
@@ -357,7 +361,7 @@ def check_js():
     if not wq or re.search(r"\bq\b|searched", wq.group(0).replace("f.sort", "").replace("f.dir", "")):
         problems.append(f"{JS.name}: a search must not go into the address, which goes into the browser's history.")
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/office", "/cb.css", "/office.css", "/privacy.html"):
+        if url not in ("/cb/office", "/cb.css", "/office.css", "/privacy.html", "/tasks.html"):
             problems.append(f"{JS.name}: it calls {url}. The office talks to /cb/office and nothing else.")
 
 

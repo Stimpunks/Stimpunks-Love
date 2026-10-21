@@ -62,11 +62,12 @@
   bar.appendChild(brand);
   var nav = el('nav', 'of-nav');
   nav.setAttribute('aria-label', 'The office');
+  var navDash = el('a', 'cb-btn of-navlink', 'Dashboard'); navDash.href = '#/dashboard';
   var navContacts = el('a', 'cb-btn of-navlink', 'Contacts'); navContacts.href = '#/';
   var navGrants = el('a', 'cb-btn of-navlink', 'Grant requests'); navGrants.href = '#/grants';
   var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
   var navMailings = el('a', 'cb-btn of-navlink', 'Mailings'); navMailings.href = '#/mailings';
-  [navContacts, navGrants, navCases, navMailings].forEach(function (a) { nav.appendChild(a); });
+  [navDash, navContacts, navGrants, navCases, navMailings].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -87,6 +88,15 @@
     else if (lc && lc.schemeFor) { var s = cbState(); look = lc.schemeFor((s && s.scheme) || 'auto'); }
     if (look) host.setAttribute('data-scheme', look);
     host.setAttribute('data-motion', 'off');
+    setTimeout(toneNow, 0);
+  }
+  /* Light or dark, measured off the case the theme gives the office, so a
+     chart takes the light or the dark step of each colour, as tasks do. */
+  function toneNow() {
+    var m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(getComputedStyle(box).backgroundColor || '');
+    if (!m) return;
+    var l = [m[1], m[2], m[3]].map(function (v) { v = v / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    host.setAttribute('data-tone', 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2] > 0.18 ? 'light' : 'dark');
   }
   try {
     var watched = null, onHost = new MutationObserver(dressNow);
@@ -1542,6 +1552,373 @@
     return h;
   }
 
+  /* ── The dashboard ─────────────────────────────────────────────────────── */
+
+  /* THE OFFICE AT A GLANCE, worked out by the server each time it is opened:
+     EspoCRM's four reports, what came in this week and the week before, tasks
+     and mailings, and the newest of each, with sentences built from the same
+     numbers and nothing else. Every chart has its numbers in a table beneath
+     it, every bar is labelled with its value, and colour follows the thing
+     counted: a pipeline wears the same colour on every chart. Charts are drawn
+     at the width they are shown at, as SVG built from nodes. */
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function sv(tag, attrs, text) {
+    var e = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : (many || one + 's')); }
+  function against(now, before) {
+    if (now === before) return 'the same as the week before';
+    var d = Math.abs(now - before);
+    return d + (now > before ? ' more' : ' fewer') + ' than the week before';
+  }
+  function monthWords(m) {
+    var p = m.split('-');
+    try { return new Date(+p[0], +p[1] - 1, 1).toLocaleDateString(undefined, { month: 'short' }); } catch (e) { return m; }
+  }
+  var tip = null;
+  function tipShow(e, lines) {
+    if (!tip) { tip = el('div', 'of-tip'); tip.setAttribute('aria-hidden', 'true'); box.appendChild(tip); }
+    tip.textContent = '';
+    lines.forEach(function (l, i) {
+      var p = el('p', i ? 'of-tip__k' : 'of-tip__v');
+      if (l.key) { var k = el('span', 'of-key ' + l.key); p.appendChild(k); }
+      p.appendChild(document.createTextNode(l.text));
+      tip.appendChild(p);
+    });
+    tip.hidden = false;
+    var r = box.getBoundingClientRect();
+    tip.style.left = Math.min(e.clientX - r.left + 12, r.width - 200) + 'px';
+    tip.style.top = (e.clientY - r.top + 14) + 'px';
+  }
+  function tipHide() { if (tip) tip.hidden = true; }
+  function hoverable(target, lines) {
+    target.addEventListener('pointermove', function (e) { tipShow(e, lines); });
+    target.addEventListener('pointerleave', tipHide);
+  }
+  /* A figure: its title, the chart drawn at its width (again whenever that
+     changes), and its numbers as a table under it. */
+  function figure(title, draw, table) {
+    var f = el('figure', 'of-fig');
+    f.appendChild(el('figcaption', 'of-fig__title', title));
+    var art = el('div', 'of-fig__art');
+    f.appendChild(art);
+    var nums = el('details', 'of-numbers');
+    nums.appendChild(el('summary', null, 'The numbers'));
+    nums.appendChild(table);
+    f.appendChild(nums);
+    var w = 0;
+    function again() { var now = Math.floor(art.clientWidth); if (now > 0 && now !== w) { w = now; art.textContent = ''; draw(art, w); } }
+    try { new ResizeObserver(again).observe(art); } catch (e) { /* an old browser draws once */ }
+    setTimeout(again, 0);
+    return f;
+  }
+  function numbersTable(head, rows) {
+    var t = el('table', 'of-list of-ntable');
+    var tr = el('tr'); head.forEach(function (h, i) { var th = el('th', i ? 'of-num' : null, h); th.scope = 'col'; tr.appendChild(th); });
+    var th = el('thead'); th.appendChild(tr); t.appendChild(th);
+    var tb = el('tbody');
+    rows.forEach(function (r) {
+      var row = el('tr');
+      r.forEach(function (c, i) { var td = el(i ? 'td' : 'th', i ? 'of-num' : null, String(c)); if (!i) td.scope = 'row'; row.appendChild(td); });
+      tb.appendChild(row);
+    });
+    t.appendChild(tb);
+    return t;
+  }
+  /* Horizontal bars, one series in one colour: a label down the left, each bar
+     no thicker than 24px with a rounded end, and its value at the tip. */
+  function hbars(art, w, rows, cls) {
+    var lab = Math.min(170, Math.max(90, w * 0.36)), gapR = 46, band = 34, bar = 22;
+    var h = rows.length * band + 6, max = Math.max(1, Math.max.apply(null, rows.map(function (r) { return r.value; })));
+    var svg = sv('svg', { width: w, height: h, viewBox: '0 0 ' + w + ' ' + h, role: 'img', 'aria-hidden': 'true', class: 'of-chart' });
+    var span = Math.max(10, w - lab - gapR);
+    svg.appendChild(sv('line', { x1: lab, x2: lab, y1: 0, y2: h, class: 'of-axis' }));
+    rows.forEach(function (r, i) {
+      var y = i * band + (band - bar) / 2, len = r.value ? Math.max(4, span * r.value / max) : 0;
+      svg.appendChild(sv('text', { x: lab - 8, y: y + bar / 2, class: 'of-label', 'text-anchor': 'end', 'dominant-baseline': 'central' }, r.label));
+      if (len) {
+        var x0 = lab + 1, x1 = lab + len, rr = Math.min(4, len / 2);
+        svg.appendChild(sv('path', { class: 'of-mark ' + cls, d: 'M' + x0 + ' ' + y + 'H' + (x1 - rr) + 'Q' + x1 + ' ' + y + ' ' + x1 + ' ' + (y + rr) + 'V' + (y + bar - rr) + 'Q' + x1 + ' ' + (y + bar) + ' ' + (x1 - rr) + ' ' + (y + bar) + 'H' + x0 + 'Z' }));
+      }
+      svg.appendChild(sv('text', { x: lab + len + 6, y: y + bar / 2, class: 'of-value', 'dominant-baseline': 'central' }, r.valueText || String(r.value)));
+      var hit = sv('rect', { x: 0, y: i * band, width: w, height: band, class: 'of-hit' });
+      hoverable(hit, [{ text: r.valueText || String(r.value) }, { text: r.label, key: cls }].concat(r.more ? [{ text: r.more }] : []));
+      svg.appendChild(hit);
+    });
+    art.appendChild(svg);
+  }
+  /* Columns stacked by series, one per month or year: 2px of the case between
+     the parts, a rounded top, the column's total over it, and a legend. o is
+     { series, cls, cols: [{ label, counts }], fmt } with fmt for the values. */
+  function compactMoney(n) { return n >= 1000 ? '$' + Math.round(n / 100) / 10 + 'K' : '$' + n; }
+  function stacked(art, w, o) {
+    var fmt = o.fmt || String, cols = o.cols;
+    var leg = el('p', 'of-legend');
+    o.series.forEach(function (s, i) { var it = el('span', 'of-legend__it'); it.appendChild(el('span', 'of-swatch ' + o.cls[i])); it.appendChild(document.createTextNode(s)); leg.appendChild(it); });
+    art.appendChild(leg);
+    var axisW = o.money ? 46 : 30, top = 18, base = 150, axisH = 22, h = top + base + axisH;
+    var totals = cols.map(function (c) { return c.counts.reduce(function (a, b) { return a + b; }, 0); });
+    var max = Math.max(1, Math.max.apply(null, totals));
+    var raw = max / 4, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = Math.max(1, [1, 2, 2.5, 5, 10].map(function (m) { return m * mag; }).filter(function (v) { return v >= raw; })[0]);
+    if (!o.money) step = Math.max(1, Math.ceil(step));
+    var nice = step * Math.ceil(max / step);
+    var svg = sv('svg', { width: w, height: h, viewBox: '0 0 ' + w + ' ' + h, role: 'img', 'aria-hidden': 'true', class: 'of-chart' });
+    for (var g = 0; g <= nice + 1e-9; g += step) {
+      var gy = top + base - base * g / nice;
+      svg.appendChild(sv('line', { x1: axisW, x2: w, y1: gy, y2: gy, class: g ? 'of-grid' : 'of-axis' }));
+      svg.appendChild(sv('text', { x: axisW - 6, y: gy, class: 'of-tick', 'text-anchor': 'end', 'dominant-baseline': 'central' }, o.money ? compactMoney(g) : String(g)));
+    }
+    var slot = (w - axisW) / Math.max(1, cols.length), bw = Math.min(24, slot * 0.6);
+    cols.forEach(function (c, i) {
+      var cx = axisW + slot * i + slot / 2, x = cx - bw / 2, y = top + base;
+      var parts = [];
+      c.counts.forEach(function (n, j) { if (n) parts.push({ n: n, j: j }); });
+      parts.forEach(function (p, k) {
+        var hh = base * p.n / nice, last = k === parts.length - 1, gap = k ? 2 : 0;
+        var y1 = y - hh, y0 = y - gap, rr = last ? Math.min(4, (y0 - y1) / 2, bw / 2) : 0;
+        if (y0 - y1 > 0.5) {
+          svg.appendChild(sv('path', { class: 'of-mark ' + o.cls[p.j], d: 'M' + x + ' ' + y0 + 'V' + (y1 + rr) + (rr ? 'Q' + x + ' ' + y1 + ' ' + (x + rr) + ' ' + y1 + 'H' + (x + bw - rr) + 'Q' + (x + bw) + ' ' + y1 + ' ' + (x + bw) + ' ' + (y1 + rr) : 'H' + (x + bw)) + 'V' + y0 + 'Z' }));
+        }
+        y = y1;
+      });
+      if (totals[i] && slot >= 34) svg.appendChild(sv('text', { x: cx, y: y - 5, class: 'of-value', 'text-anchor': 'middle' }, o.money ? compactMoney(totals[i]) : fmt(totals[i])));
+      svg.appendChild(sv('text', { x: cx, y: top + base + 15, class: 'of-tick', 'text-anchor': 'middle' }, c.label));
+      var hit = sv('rect', { x: axisW + slot * i, y: 0, width: slot, height: h, class: 'of-hit' });
+      hoverable(hit, [{ text: fmt(totals[i]) + ' in ' + c.label }].concat(o.series.map(function (s, j) { return { text: s + ': ' + fmt(c.counts[j]), key: o.cls[j] }; })));
+      svg.appendChild(hit);
+    });
+    art.appendChild(svg);
+  }
+  /* The cap, as a track filled to how many there are, and words beside it. */
+  function meter(count, cap) {
+    var wrap = el('div', 'of-meter');
+    var track = el('div', 'of-meter__track');
+    var fill = el('div', 'of-meter__fill of-bg1');
+    fill.style.width = Math.min(100, 100 * count / Math.max(1, cap)) + '%';
+    track.appendChild(fill);
+    wrap.appendChild(track);
+    wrap.setAttribute('role', 'meter');
+    wrap.setAttribute('aria-valuemin', '0'); wrap.setAttribute('aria-valuemax', String(cap)); wrap.setAttribute('aria-valuenow', String(Math.min(count, cap)));
+    wrap.setAttribute('aria-label', count + ' of a cap of ' + cap);
+    return wrap;
+  }
+  function tile(label, value, note) {
+    var t = el('div', 'of-tile');
+    t.appendChild(el('p', 'of-tile__label', label));
+    t.appendChild(el('p', 'of-tile__value', value));
+    if (note) t.appendChild(el('p', 'of-tile__note', note));
+    return t;
+  }
+
+  function dashboardView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=dashboard').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawDashboard(r.body.dashboard);
+    });
+  }
+  function drawDashboard(d) {
+    view.textContent = '';
+    var h = heading(2, 'Dashboard');
+    view.appendChild(h);
+    view.appendChild(el('p', 'cb-quiet', 'Worked out ' + when(d.asOf) + ' from the office’s own records. This week is the seven days to ' + dayWords(d.day) + '; the week before is the seven before that.'));
+    view.appendChild(viewLinks([['#/dashboard', 'Dashboard', true], ['#/reports', 'Reports']]));
+    var g = d.grants, k = d.cases, t = d.tasks, m = d.mailings;
+
+    // What it comes to, in sentences built from the same numbers.
+    var said = el('ul', 'of-theirs of-said-list');
+    function line(text) { said.appendChild(el('li', null, text)); }
+    line(plural(g.week.now, 'grant request') + ' came in this week, ' + against(g.week.now, g.week.before) + '.');
+    line(plural(k.week.now, 'case') + ' came in this week, ' + against(k.week.now, k.week.before) + '.');
+    var cap = g.active.cap, act = g.active.count;
+    line(plural(act, 'open grant request') + (act === 1 ? ' was' : ' were') + ' submitted this year: ' + (act <= cap ? (cap - act) + ' under the cap of ' + cap : (act - cap) + ' over the cap of ' + cap) + '.');
+    line('This year ' + plural(g.decided.granted, 'grant request') + (g.decided.granted === 1 ? ' was' : ' were') + ' granted, ' + money(g.decided.grantedSum) + ' in all, and ' + g.decided.denied + ' denied.');
+    line(plural(t.open, 'task') + (t.open === 1 ? ' is' : ' are') + ' open: ' + t.overdue + ' overdue and ' + t.dueSoon + ' due in the next seven days.');
+    if (m.waiting || m.sentWeek) line(plural(m.sentWeek, 'mailing email') + ' went this week' + (m.waiting ? ', and ' + m.waiting + (m.waiting === 1 ? ' is' : ' are') + ' waiting for the team mailbox' : '') + '.');
+    view.appendChild(said);
+
+    var tiles = el('div', 'of-tiles');
+    tiles.appendChild(tile('Grant requests this week', String(g.week.now), against(g.week.now, g.week.before)));
+    tiles.appendChild(tile('Open grant requests', String(g.open), money(g.openSum) + ' between them'));
+    tiles.appendChild(tile('Open cases', String(k.open), plural(k.week.now, 'new one') + ' this week'));
+    tiles.appendChild(tile('Open tasks', String(t.open), t.overdue + ' overdue'));
+    view.appendChild(tiles);
+
+    var grid = el('div', 'of-dash');
+    // EspoCRM's first report: open grant requests submitted this year, against the cap.
+    var capFig = el('figure', 'of-fig');
+    capFig.appendChild(el('figcaption', 'of-fig__title', 'Active grant applications this year'));
+    capFig.appendChild(el('p', 'of-big', act + ' of ' + cap));
+    capFig.appendChild(meter(act, cap));
+    capFig.appendChild(el('p', 'cb-quiet', 'Open grant requests submitted in ' + d.year + '. ' + (act <= cap ? (cap - act) + ' more before the cap.' : (act - cap) + ' over the cap.')));
+    var capNums = el('details', 'of-numbers'); capNums.appendChild(el('summary', null, 'The numbers'));
+    capNums.appendChild(numbersTable(['Pipeline', 'Open, submitted this year'], g.active.byPipeline.map(function (x) { return [x.pipeline, x.count]; }).concat([['Every pipeline', act], ['The cap', cap]])));
+    capFig.appendChild(capNums);
+    grid.appendChild(capFig);
+    // Every open case, by status.
+    grid.appendChild(figure('Open cases by status', function (art, w) {
+      hbars(art, w, k.byStatus.map(function (x) { return { label: x.status, value: x.count }; }), 'of-c3');
+    }, numbersTable(['Status', 'Open cases'], k.byStatus.map(function (x) { return [x.status, x.count]; }).concat(k.byType.map(function (x) { return [x.type + ' (open)', x.count]; })).concat([['Every open case', k.open]]))));
+    // Open grant requests by stage, a chart for each pipeline in its own colour.
+    g.stages.forEach(function (p, i) {
+      grid.appendChild(figure('Open grant requests by stage: ' + p.pipeline, function (art, w) {
+        hbars(art, w, p.stages.map(function (x) { return { label: x.stage, value: x.count, more: money(x.sum) }; }), i ? 'of-c2' : 'of-c1');
+      }, numbersTable(['Stage', 'Open', 'Amount'], p.stages.map(function (x) { return [x.stage, x.count, money(x.sum)]; }))));
+    });
+    // This year's grant requests, by the month they were submitted.
+    grid.appendChild(figure('Grant requests this year by month', function (art, w) {
+      stacked(art, w, { series: g.pipelines, cls: ['of-c1', 'of-c2'], cols: g.months.map(function (x) { return { label: monthWords(x.month), counts: x.counts }; }) });
+    },
+      numbersTable(['Month'].concat(g.pipelines).concat(['Every pipeline']), g.months.map(function (x) {
+        return [monthWords(x.month)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
+      }))));
+    // Tasks, by who they are assigned to.
+    var tf = el('figure', 'of-fig');
+    tf.appendChild(el('figcaption', 'of-fig__title', 'Open tasks by person'));
+    tf.appendChild(numbersTable(['Assigned to', 'Open', 'Overdue'], t.byPerson.map(function (x) { return [x.who, x.open, x.overdue]; }).concat(t.unassigned ? [['Nobody yet', t.unassigned, '']] : [])));
+    var tl = el('p'); var ta = el('a', null, 'Open the tasks'); ta.href = '/tasks.html#/'; tl.appendChild(ta); tf.appendChild(tl);
+    grid.appendChild(tf);
+    view.appendChild(grid);
+
+    // What came in last, of each.
+    view.appendChild(el('h3', null, 'Newest'));
+    var newest = el('div', 'of-dash');
+    function list(title, items, draw) {
+      var f = el('section', 'of-fig');
+      f.appendChild(el('h4', 'of-fig__title', title));
+      if (!items.length) { f.appendChild(quiet('None yet.')); return f; }
+      var ul = el('ul', 'of-theirs');
+      items.forEach(function (x) { var li = el('li'); draw(li, x); ul.appendChild(li); });
+      f.appendChild(ul);
+      return f;
+    }
+    newest.appendChild(list('Grant requests', d.recent.grants, function (li, x) {
+      var a = el('a', null, x.name); a.href = '#/g/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.pipeline + ', ' + x.stage + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
+    }));
+    newest.appendChild(list('Cases', d.recent.cases, function (li, x) {
+      var a = el('a', null, '#' + x.number + ' ' + x.name); a.href = '#/k/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.status + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
+    }));
+    newest.appendChild(list('Tasks', d.recent.tasks, function (li, x) {
+      var a = el('a', null, x.name); a.href = '/tasks.html#/t/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.status + (x.who ? ', ' + x.who : '') + (x.due ? ', due ' + dayWords(x.due) : '')));
+    }));
+    view.appendChild(newest);
+    return h;
+  }
+
+  /* EspoCRM's nine reports, by the names it gave them, worked out by the server
+     each time this page is opened, with a chart and its table for each. */
+  function reportsView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=reports').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawReports(r.body.reports);
+    });
+  }
+  function drawReports(d) {
+    view.textContent = '';
+    var h = heading(2, 'Reports');
+    view.appendChild(h);
+    view.appendChild(el('p', 'cb-quiet', 'EspoCRM’s reports, by the names it gave them, worked out ' + when(d.asOf) + ' from the office’s own records. A request or case counts in the year it was submitted, and an award in the year it was decided.'));
+    view.appendChild(viewLinks([['#/dashboard', 'Dashboard'], ['#/reports', 'Reports', true]]));
+    var pc = ['of-c1', 'of-c2'], kc = ['of-c3', 'of-c4'];
+    function sumOf(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+
+    view.appendChild(el('h3', null, 'Grant requests'));
+    var gg = el('div', 'of-dash');
+    var cap = d.active.cap, act = d.active.count;
+    var capFig = el('figure', 'of-fig');
+    capFig.appendChild(el('figcaption', 'of-fig__title', 'Active Applications This Year'));
+    capFig.appendChild(el('p', 'of-big', act + ' of ' + cap));
+    capFig.appendChild(meter(act, cap));
+    capFig.appendChild(el('p', 'cb-quiet', 'Open grant requests submitted in ' + d.year + ', against the cap of ' + cap + '.'));
+    var capNums = el('details', 'of-numbers'); capNums.appendChild(el('summary', null, 'The numbers'));
+    capNums.appendChild(numbersTable(['Pipeline', 'Open, submitted this year'], d.active.byPipeline.map(function (x) { return [x.pipeline, x.count]; }).concat([['Every pipeline', act]])));
+    capFig.appendChild(capNums);
+    gg.appendChild(capFig);
+    d.openStages.forEach(function (p, i) {
+      gg.appendChild(figure('Open Grant Requests by Stage: ' + p.pipeline, function (art, w) {
+        hbars(art, w, p.stages.map(function (x) { return { label: x.stage, value: x.count, more: money(x.sum) }; }), pc[i] || 'of-c1');
+      }, numbersTable(['Stage', 'Open', 'Amount'], p.stages.map(function (x) { return [x.stage, x.count, money(x.sum)]; }))));
+    });
+    gg.appendChild(figure('Grant Requests This Year by Month', function (art, w) {
+      stacked(art, w, { series: d.pipelines, cls: pc, cols: d.months.map(function (x) { return { label: monthWords(x.month), counts: x.counts }; }) });
+    }, numbersTable(['Month'].concat(d.pipelines).concat(['Every pipeline']), d.months.map(function (x) { return [monthWords(x.month)].concat(x.counts).concat([sumOf(x.counts)]); }))));
+    var byYear = figure('Grant Requests by Year', function (art, w) {
+      stacked(art, w, { series: d.pipelines, cls: pc, cols: d.byYear.map(function (x) { return { label: x.year, counts: x.counts }; }) });
+    }, numbersTable(['Year'].concat(d.pipelines).concat(['Every pipeline', 'Amount asked']), d.byYear.map(function (x) { return [x.year].concat(x.counts).concat([sumOf(x.counts), money(sumOf(x.sums))]); })));
+    if (d.noSubmitted) byYear.appendChild(el('p', 'cb-quiet', plural(d.noSubmitted, 'grant request') + ' with no submitted day ' + (d.noSubmitted === 1 ? 'is' : 'are') + ' not in it.'));
+    gg.appendChild(byYear);
+    var awarded = figure('Grants Awarded by Year', function (art, w) {
+      stacked(art, w, { series: d.pipelines, cls: pc, money: true, fmt: money, cols: d.awarded.map(function (x) { return { label: x.year, counts: x.sums }; }) });
+    }, numbersTable(['Year'].concat(d.pipelines.map(function (p) { return p + ' granted'; })).concat(d.pipelines.map(function (p) { return p + ' amount'; })).concat(['Amount in all']),
+      d.awarded.map(function (x) { return [x.year].concat(x.counts).concat(x.sums.map(money)).concat([money(sumOf(x.sums))]); })));
+    if (d.grantedUndated) awarded.appendChild(el('p', 'cb-quiet', plural(d.grantedUndated, 'granted request') + ' with no decided day ' + (d.grantedUndated === 1 ? 'is' : 'are') + ' not in it.'));
+    gg.appendChild(awarded);
+    view.appendChild(gg);
+
+    // Grantees: every granted request with its contact, a year at a time.
+    var gf = el('section', 'of-fig of-fig--wide');
+    gf.appendChild(el('h4', 'of-fig__title', 'Grantees'));
+    var yrs = []; d.grantees.forEach(function (x) { var y = x.closed ? x.closed.slice(0, 4) : 'No decided day'; if (yrs.indexOf(y) < 0) yrs.push(y); });
+    var pick = el('select', 'cb-say of-input'); pick.id = 'of-gyear';
+    var any = el('option', null, 'Every year'); any.value = ''; pick.appendChild(any);
+    yrs.forEach(function (y) { var o = el('option', null, y); o.value = y; pick.appendChild(o); });
+    if (yrs.indexOf(d.year) >= 0) pick.value = d.year;
+    var pl = el('label', 'cb-lab', 'Decided in '); pl.htmlFor = 'of-gyear';
+    var pr = el('p', 'of-row'); pr.appendChild(pl); pr.appendChild(pick); gf.appendChild(pr);
+    var gsum = el('p', 'of-shown'); gsum.setAttribute('aria-live', 'polite'); gf.appendChild(gsum);
+    var gbox = el('div', 'of-tablebox'); gf.appendChild(gbox);
+    function drawGrantees() {
+      var list = d.grantees.filter(function (x) { return !pick.value || (x.closed ? x.closed.slice(0, 4) : 'No decided day') === pick.value; });
+      gsum.textContent = plural(list.length, 'grant') + ' · ' + money(list.reduce(function (t, x) { return t + (x.amount || 0); }, 0));
+      gbox.textContent = '';
+      var t = el('table', 'of-list');
+      var hr = el('tr'); ['Decided', 'Grantee', 'Grant request', 'Pipeline', 'Amount'].forEach(function (x, i) { var th = el('th', i === 4 ? 'of-num' : null, x); th.scope = 'col'; hr.appendChild(th); });
+      var thd = el('thead'); thd.appendChild(hr); t.appendChild(thd);
+      var tb = el('tbody');
+      list.forEach(function (x) {
+        var tr = el('tr');
+        tr.appendChild(el('td', 'of-day', dayWords(x.closed) || '—'));
+        var c = el('td', 'of-mail');
+        if (x.contact) { var ca = el('a', null, x.contactName || 'A contact'); ca.href = '#/c/' + x.contact; c.appendChild(ca); } else c.textContent = '—';
+        tr.appendChild(c);
+        var gt = el('td', 'of-title'); var ga = el('a', null, x.name); ga.href = '#/g/' + x.id; gt.appendChild(ga); tr.appendChild(gt);
+        tr.appendChild(el('td', 'of-phone', x.pipeline));
+        tr.appendChild(el('td', 'of-num', x.amount != null ? money(x.amount) : '—'));
+        tb.appendChild(tr);
+      });
+      t.appendChild(tb);
+      gbox.appendChild(list.length ? t : quiet('Nobody was granted in ' + pick.value + '.'));
+    }
+    pick.addEventListener('change', drawGrantees);
+    drawGrantees();
+    view.appendChild(gf);
+
+    view.appendChild(el('h3', null, 'Cases'));
+    var kg = el('div', 'of-dash');
+    kg.appendChild(figure('Open Collaboration Cases', function (art, w) {
+      hbars(art, w, d.openCases.byStatus.map(function (x) { return { label: x.status, value: x.count }; }), 'of-c3');
+    }, numbersTable(['Status', 'Open cases'], d.openCases.byStatus.map(function (x) { return [x.status, x.count]; }).concat([['Every open case', d.openCases.open]]))));
+    kg.appendChild(figure('Collaboration Cases by Status', function (art, w) {
+      hbars(art, w, d.casesByStatus.map(function (x) { return { label: x.status, value: x.count }; }), 'of-c3');
+    }, numbersTable(['Status', 'Cases'], d.casesByStatus.map(function (x) { return [x.status, x.count]; }))));
+    kg.appendChild(figure('Collaboration Cases by Year', function (art, w) {
+      stacked(art, w, { series: d.caseTypes, cls: kc, cols: d.casesByYear.map(function (x) { return { label: x.year, counts: x.counts }; }) });
+    }, numbersTable(['Year'].concat(d.caseTypes).concat(['Every case']), d.casesByYear.map(function (x) { return [x.year].concat(x.counts).concat([sumOf(x.counts)]); }))));
+    view.appendChild(kg);
+    return h;
+  }
+
   /* ── Mailings: an email from a template to everybody at one stage ──────── */
 
   /* A TEMPLATE is a subject and words, with fill-ins in braces that the office
@@ -1948,6 +2325,8 @@
     else if (parts[0] === 'cases') done = casesView(false);
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1]);
     else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1]);
+    else if (parts[0] === 'dashboard') done = dashboardView();
+    else if (parts[0] === 'reports') done = reportsView();
     else if (parts[0] === 'templates' && parts[1] === 'new') done = templateFormView(null);
     else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = templateFormView(parts[2]);
     else if (parts[0] === 'templates') done = templatesView();
@@ -1956,10 +2335,11 @@
     else if (parts[0] === 'mailings') done = mailingsView();
     else done = contactsView();
     // The bar says which part of the office you are in.
-    [navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
-    var part = parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
+    [navDash, navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
+    var part = parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
       : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : navContacts;
-    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings') ? 'page' : 'true');
+    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard') ? 'page' : 'true');
+    if (parts[0] === 'reports') navDash.setAttribute('aria-current', 'true');
     Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });
   }
   window.addEventListener('hashchange', function () { if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route(); });

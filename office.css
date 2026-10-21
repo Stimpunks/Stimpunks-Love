@@ -133,5 +133,62 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-shownmail { display: grid; gap: 12px; min-width: 0; }
 .of-shownmail > .of-preview { display: grid; gap: 6px; }
 .of-to { font-size: 14px; color: var(--cb-amber-2); }
+/* THE DASHBOARD: figures in cards that wrap to the width, charts drawn in
+   SVG at the width they are shown at. Marks wear the tasks' tag colours, the
+   dataviz method's categorical slots in their fixed order (a pipeline keeps
+   its colour on every chart), each in its light or dark step by the case's
+   tone; every word, value and tick wears the case's own ink. Gridlines are
+   hairlines one step off the case, the tooltip only repeats what the bar's
+   label and the table already say, and nothing moves. */
+.of { position: relative; }
+.of-dash { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); }
+.of-fig { margin: 0; display: grid; gap: 8px; align-content: start; padding: 12px 14px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
+.of-fig__title { margin: 0; font-size: 16px; font-weight: 700; color: var(--cb-steel); }
+.of-fig__art { min-width: 0; }
+.of-chart { display: block; overflow: visible; }
+.of-chart text { font: 13px 'Atkinson Hyperlegible', system-ui, sans-serif; }
+.of-label { fill: var(--cb-steel); }
+.of-value { fill: var(--cb-steel); font-weight: 700; }
+.of-tick { fill: var(--cb-steel-2); font-variant-numeric: tabular-nums; }
+.of-axis { stroke: var(--cb-steel-2); stroke-width: 1; }
+.of-grid { stroke: var(--cb-bar); stroke-width: 1; }
+.of-hit { fill: transparent; }
+.of-hit:hover { fill: var(--cb-bar); fill-opacity: .3; }
+.of-c1 { fill: var(--cb-task-blue); }
+.of-c2 { fill: var(--cb-task-orange); }
+.of-c3 { fill: var(--cb-task-aqua); }
+.of-c4 { fill: var(--cb-task-yellow); }
+:host([data-tone="dark"]) .of-c4 { fill: var(--cb-task-yellow-dark); }
+.of-swatch.of-c4, .of-key.of-c4 { background: var(--cb-task-yellow); }
+:host([data-tone="dark"]) .of-swatch.of-c4, :host([data-tone="dark"]) .of-key.of-c4 { background: var(--cb-task-yellow-dark); }
+.of-fig--wide { grid-column: 1 / -1; }
+:host([data-tone="dark"]) .of-c1 { fill: var(--cb-task-blue-dark); }
+:host([data-tone="dark"]) .of-c2 { fill: var(--cb-task-orange-dark); }
+:host([data-tone="dark"]) .of-c3 { fill: var(--cb-task-aqua-dark); }
+.of-swatch.of-c1, .of-key.of-c1, .of-bg1 { background: var(--cb-task-blue); }
+.of-swatch.of-c2, .of-key.of-c2 { background: var(--cb-task-orange); }
+.of-swatch.of-c3, .of-key.of-c3 { background: var(--cb-task-aqua); }
+:host([data-tone="dark"]) .of-swatch.of-c1, :host([data-tone="dark"]) .of-key.of-c1, :host([data-tone="dark"]) .of-bg1 { background: var(--cb-task-blue-dark); }
+:host([data-tone="dark"]) .of-swatch.of-c2, :host([data-tone="dark"]) .of-key.of-c2 { background: var(--cb-task-orange-dark); }
+:host([data-tone="dark"]) .of-swatch.of-c3, :host([data-tone="dark"]) .of-key.of-c3 { background: var(--cb-task-aqua-dark); }
+.of-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; }
+.of-legend__it { display: inline-flex; align-items: center; gap: 6px; }
+.of-swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+.of-key { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.of-tip { position: absolute; z-index: 5; pointer-events: none; display: grid; gap: 2px; max-width: 220px; padding: 6px 10px;
+  background: var(--cb-case); color: var(--cb-steel); border: 2px solid var(--cb-steel-2); border-radius: 6px; font-size: 14px; }
+.of-tip__v { font-weight: 700; }
+.of-tiles { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+.of-tile { display: grid; gap: 2px; align-content: start; padding: 10px 12px; border: 2px solid var(--cb-bar); border-radius: 8px; }
+.of-tile__label { font-size: 14px; color: var(--cb-steel-2); }
+.of-tile__value { font-size: 32px; font-weight: 700; line-height: 1.15; }
+.of-tile__note { font-size: 14px; color: var(--cb-amber-2); }
+.of-big { font-size: 28px; font-weight: 700; line-height: 1.15; }
+.of-meter__track { height: 12px; border-radius: 6px; background: var(--cb-bar); overflow: hidden; }
+.of-meter__fill { height: 100%; border-radius: 6px; }
+.of-numbers > summary { cursor: pointer; font-weight: 700; color: var(--cb-steel-2); padding: 4px 0; }
+.of-ntable { margin-top: 6px; }
+.of-num { text-align: right; font-variant-numeric: tabular-nums; }
+.of-said-list { font-size: 16px; }
 .of-said { padding: 0 18px 12px; font-size: 15px; min-height: 1.5em; }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
