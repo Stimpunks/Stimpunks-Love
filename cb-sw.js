@@ -14,7 +14,8 @@
    forums (Ryan, 2026-10-18: an @mention there tells the devices that asked),
    or the street with #cb=props, where the radio opens Profile at Your props
    (props given to you, the same evening), or with #cb=messages, where it
-   opens Messages (a direct message, the same evening). */
+   opens Messages (a direct message, the same evening), or a task in Tasks,
+   or Tasks' Notifications when the task has been deleted (2026-10-21). */
 'use strict';
 
 var ROOMS = null;
@@ -32,7 +33,25 @@ function placeOf(list, tag) {
 function safePath(p) {
   if (typeof p !== 'string') return '/';
   if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?(?:#cb=(?:props|messages))?$/.test(p)) return p;
+  if (/^\/tasks\.html#\/(?:t\/k[A-Za-z0-9_-]{12}|inbox)$/.test(p)) return p;
   return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
+}
+
+/* A task's notification, in the words Tasks' own list uses. */
+function taskSays(d) {
+  var by = d.handle ? String(d.handle).slice(0, 40) : '';
+  var name = typeof d.name === 'string' && d.name ? '“' + d.name + '”' : '';
+  var title = d.did === 'recurred' ? (d.why === 'assigned' ? 'A recurring task came round for you' : 'A recurring task came round')
+    : d.why === 'assigned' ? by + ' assigned you a task'
+    : d.why === 'added' ? by + ' put you on a task'
+    : d.why === 'removed' ? by + ' took you off a task'
+    : d.why === 'mentioned' ? by + ' mentioned you in a task'
+    : d.did === 'made' ? by + ' made a task'
+    : d.did === 'deleted' ? by + ' deleted a task'
+    : d.did === 'ticked' ? by + ' ticked a box on a task' : by + ' changed a task';
+  var body = name ? name + (d.box ? ': “' + d.box + '”' : '') : 'Open Notifications in Tasks to see it.';
+  var task = typeof d.task === 'string' && /^k[A-Za-z0-9_-]{12}$/.test(d.task) ? d.task : '';
+  return { title: title, body: body, url: safePath(task ? '/tasks.html#/t/' + task : '/tasks.html#/inbox'), tag: 'cb-task-' + (task || 'gone') };
 }
 
 function say(d) {
@@ -58,6 +77,7 @@ function say(d) {
         : d.what === 'sticker' ? 'A sticker. Open Messages on the CB to see it.' : 'Open Messages on the CB to read it.',
       url: '/#cb=messages', tag: 'cb-dm-' + sender });
   }
+  if (d.kind === 'task') return Promise.resolve(taskSays(d));
   if (d.kind === 'test') {
     return Promise.resolve({ title: 'Notifications are on', body: 'This is how a notification from the CB looks on this device.', url: '/', tag: 'cb-test' });
   }

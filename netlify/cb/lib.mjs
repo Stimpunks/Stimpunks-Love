@@ -885,8 +885,8 @@ export function rescueCat(id, name, s = store(), now = Date.now(), gap = animalG
 
 /* A list in a blob, changed with the conditional write. Used for a person's
    pets and for each month's forever list. */
-async function updateList(key, field, change, s) {
-  for (let attempt = 0; attempt < 12; attempt++) {
+async function updateList(key, field, change, s, tries = 12) {
+  for (let attempt = 0; attempt < tries; attempt++) {
     const cur = await versioned(s, key);
     const list = ((cur.exists && cur.data && cur.data[field]) || []).slice();
     const next = change(list);
@@ -6485,7 +6485,7 @@ export function cleanSubscription(sub) {
 /* What a device asked for: a switch per kind and one for every kind, all off
    until switched on, the words, on unless switched off, and the rooms it
    follows. null if it follows too many. */
-export const PUSH_KINDS = ['mentions', 'props', 'messages', 'world', 'calls'];
+export const PUSH_KINDS = ['mentions', 'props', 'messages', 'world', 'calls', 'tasks'];
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
@@ -6830,6 +6830,36 @@ export async function notifyDm(handle, sender, said, asked, s = store(), mods = 
     if (picture) payload.what = 'picture';
     else if (stuck) payload.what = 'sticker';
     sends.push({ id, d, payload, opts: {} });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* Something has gone into somebody's notifications in Tasks (Ryan, 2026-10-21:
+   a switch beside the CB's, off until switched on): tell the devices switched
+   on as that claimed username that asked for tasks, and that can still read
+   tasks (tasksAllow, from the pass as it would be now). Who did it, why it is
+   theirs, and what kind of change; the task's name and a ticked box's words
+   only if the device wants the words; the task's id, so pressing it opens the
+   task. Never what changed in a description, never how many are unread, and
+   never anything to the person who made the change, who is never in anybody's
+   list for it. The notification is in their list whether or not this arrives. */
+export async function notifyTask(handle, item, s = store(), mods = readMods(), send = sendPush) {
+  if (send === sendPush && !pushReady()) return [];
+  const to = foldHandle(handle);
+  if (!to || !item || (item.by && foldHandle(item.by) === to)) return [];
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold !== to || !wants(d.want, 'tasks')) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!tasksAllow(who) || foldHandle(who.handle) !== to) continue;
+    const payload = { kind: 'task', why: item.why, did: item.kind, handle: item.by || '', task: item.kind === 'deleted' ? '' : item.task, name: '', box: '' };
+    if (d.want.words !== false) {
+      payload.name = [...String(item.name || '')].slice(0, PUSH_WORDS).join('');
+      if (item.box) payload.box = [...String(item.box.text || '')].slice(0, PUSH_WORDS).join('');
+    }
+    sends.push({ id, d, payload, opts: { urgency: item.why === 'yours' ? 'normal' : 'high' } });
   }
   return deliver(sends, gone, s, send);
 }
@@ -7326,6 +7356,7 @@ async function readTaskGone(s) {
 export const TASK_ACTIVITY_KEEP = 200;
 export const TASK_INBOX_KEEP = 200;
 export const TASK_INBOX_DAYS = 30;
+const TASK_INBOX_TRIES = 40;
 const TASK_FIELDS = ['name', 'status', 'priority', 'start', 'due', 'who', 'with', 'tags'];
 const TASK_WHY = ['assigned', 'added', 'removed', 'mentioned', 'yours'];
 const taskActivityBlob = (id) => `task-activity/${id}`;
@@ -7376,8 +7407,11 @@ async function noteTask(kind, by, had, next, s, now, mods, extra = {}) {
   else await updateList(taskActivityBlob(task.id), 'events', (list) => [ev, ...list].slice(0, TASK_ACTIVITY_KEEP), s);
   const since = now - TASK_INBOX_DAYS * 86400000;
   for (const [h, why] of taskConcerns(kind, by, had, next, taskPeople(mods))) {
+    // A person's list is the one blob many changes can race for at once, so it waits longer than most for its turn.
     await updateList(taskInboxBlob(petKey(h)), 'items',
-      (list) => [{ ...ev, why, read: false }, ...list.filter((x) => x.t >= since)].slice(0, TASK_INBOX_KEEP), s);
+      (list) => [{ ...ev, why, read: false }, ...list.filter((x) => x.t >= since)].slice(0, TASK_INBOX_KEEP), s, TASK_INBOX_TRIES);
+    // Their devices are told only once it is in their list (notifyTask, the tasks switch).
+    await notifyTask(h, { ...ev, why }, s, mods, extra.send || sendPush).catch(() => null);
   }
 }
 

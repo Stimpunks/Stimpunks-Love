@@ -2954,7 +2954,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   const offCurve = rnd(65); offCurve[0] = 4;
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
-  assert.deepEqual(cleanWant({}), { all: false, mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [] }, 'something started on');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
 });
@@ -3793,7 +3793,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
-  taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS } from './lib.mjs';
+  taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -5034,3 +5034,43 @@ for (const etagOnRead of [true, false]) {
     assert.deepEqual(made.filter((id) => !kept.has(id)), [], 'a task made and assigned is missing from the list');
   });
 }
+
+test('something new in Notifications tells only its person\'s devices with the tasks switch on, while they can read tasks, and never the person who did it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Norah":["director"],"Chelsea":["director"],"Sam":[]}');
+  await claimAccount('Norah', 'norah has a phrase', s, 0, mods, true);
+  await claimAccount('Sam', 'sam has a phrase too', s, 0, mods, true);
+  const norah = issueAccountPass('Norah', 1, 'base'), sam = issueAccountPass('Sam', 1, 'base');
+  const on = aDevice(), quiet = aDevice(), off = aDevice(), every = aDevice(), notDirector = aDevice(), ordinary = aDevice();
+  await keepDevice(on, norah, { tasks: true }, s);
+  await keepDevice(quiet, norah, { tasks: true, words: false }, s);
+  await keepDevice(off, norah, { mentions: true, props: true }, s);
+  await keepDevice(every, norah, { all: true }, s);
+  await keepDevice(notDirector, sam, { tasks: true }, s);
+  await keepDevice(ordinary, issueAccountPass('Norah', 1), { tasks: true }, s);
+  assert.equal(cleanWant({}).tasks, false, 'tasks were on before anybody switched them on');
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const to = (d) => sent.filter((x) => x.to === d.endpoint).map((x) => x.payload);
+  const item = { id: 'eAAAAAAAAAAAA', t: 1, by: 'Chelsea', task: 'kAAAAAAAAAAAA', name: 'Fix the shelf', kind: 'made', changes: [], why: 'assigned' };
+  await notifyTask('norah', item, s, mods, send);
+  assert.deepEqual(to(on), [{ kind: 'task', why: 'assigned', did: 'made', handle: 'Chelsea', task: 'kAAAAAAAAAAAA', name: 'Fix the shelf', box: '' }]);
+  assert.deepEqual(to(quiet), [{ kind: 'task', why: 'assigned', did: 'made', handle: 'Chelsea', task: 'kAAAAAAAAAAAA', name: '', box: '' }], 'the task\'s name went to a device that turned the words off');
+  assert.equal(to(every).length, 1, 'Everything did not include tasks');
+  assert.equal(to(off).length, 0, 'a device that never switched tasks on was told');
+  assert.equal(to(ordinary).length, 0, 'a pass that cannot read tasks was told about one');
+  sent.length = 0;
+  await notifyTask('Sam', { ...item, why: 'yours' }, s, mods, send);
+  assert.equal(to(notDirector).length, 0, 'somebody who cannot read tasks was told about one');
+  await notifyTask('Norah', { ...item, by: 'Norah' }, s, mods, send);
+  assert.equal(sent.length, 0, 'somebody was told about their own change');
+  // A deleted task says which kind, and has no task to open.
+  await notifyTask('Norah', { ...item, kind: 'deleted', why: 'yours' }, s, mods, send);
+  assert.equal(to(on)[0].task, '', 'a deleted task\'s notification still points at it');
+  // Through a real change: Chelsea assigns a task to Norah and her device is told, once.
+  sent.length = 0;
+  const made = (await saveTask(fw('Chelsea', 700, ['director']), { name: 'Order screws', who: 'Norah' }, s, Date.now(), mods)).task;
+  assert.ok(made);
+  // saveTask tells devices through sendPush, which needs CB_PUSH_KEY; with none set it sends nothing and the list still has it.
+  assert.equal((await taskInbox(fw('Norah', 0, ['director']), s)).items[0].task, made.id);
+}));

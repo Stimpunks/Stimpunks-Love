@@ -187,6 +187,13 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: nobody is told of their own change (taskConcerns).")
     if "if (!espo) await noteTask(" not in fn(sec, "saveTask"):
         problems.append(f"{LIB.name}: an import from EspoCRM is nobody's change, and must make no event.")
+    # Push: a device is told only once the notification is in its person's list, only with the tasks
+    # switch, only while it can read tasks, and never about its own change.
+    ntf = fn(lib, "notifyTask")
+    if "wants(d.want, 'tasks')" not in ntf or "tasksAllow(who)" not in ntf or "foldHandle(item.by) === to" not in ntf:
+        problems.append(f"{LIB.name}: notifyTask tells a device only with the tasks switch on, while it can read tasks, and never its own change.")
+    if "await notifyTask(h, { ...ev, why }" not in nt or nt.find("await notifyTask(") < nt.find("taskInboxBlob(petKey(h))"):
+        problems.append(f"{LIB.name}: a device is told only after the notification is in its person's list (noteTask).")
     if "s.delete(taskInboxBlob(pk))" not in fn(sec, "forgetTaskInbox"):
         problems.append(f"{LIB.name}: forgetTaskInbox no longer deletes somebody's notifications.")
     if not da or "await forgetTaskInbox(petKey(handle), s);" not in da.group(0):

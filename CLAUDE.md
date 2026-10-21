@@ -5286,8 +5286,12 @@ EspoCRM import is nobody's change and makes none; a recurring task's task is an 
 `make-tasks.py` holds each of those. **Due and overdue are worked out on reading, never kept.** The list says how many
 are unread, which tasks may (Ryan's call of 2026-10-20). The friendly edits are **the description's old words in the
 activity** "so a change can be undone", **telling the person their own change**, and **a notification for every read**
-of a task; the first keeps what privacy.html says is not kept. Push notifications for tasks are not built: a new
-`PUSH_KINDS` entry and Ryan's call.
+of a task; the first keeps what privacy.html says is not kept. **Push for tasks is `tasks` in `PUSH_KINDS`** (Ryan's ask,
+the same evening): `notifyTask`, called from `noteTask` only after an entry is in its person's list, tells their own devices
+with the switch on (or Everything) while the device's pass can still read tasks (`tasksAllow`), never the person who made
+the change, with the task's name only under the words switch and never a description's words; the radio offers the switch
+only on a base pass, and `cb-sw.js` opens the task (`/tasks.html#/t/<id>`, or Notifications for a deleted one).
+`make-tasks.py` holds all of it. The friendly edit is **an unread count in the notification**; Tasks has one, a push does not.
 
 **THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
 2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators

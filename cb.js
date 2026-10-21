@@ -2297,7 +2297,9 @@
     ['messages', 'When somebody messages me'],
     ['world', 'Every message on World'],
     ['calls', 'Calls starting in rooms I follow, and the World call'],
-    ['words', 'Show the words of a message, a post or props'],
+    // Tasks are for directors and administrators, on the base pass, so only a base pass is offered the switch.
+    ['tasks', 'Something new in my Notifications in Tasks', 'base'],
+    ['words', 'Show the words of a message, a post, props or a task'],
   ];
   function pushable() { return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
   function ourReg() {
@@ -2380,7 +2382,7 @@
     var me = this, box = this.notifyBody;
     var on = !!(sub && want);
     if (want) this.notifyWant = want;
-    var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] };
+    var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [] };
     box.textContent = '';
     box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
     box.appendChild(el('p', null, on
@@ -2408,6 +2410,7 @@
     row.appendChild(every);
     if (focusKey === 'all') setTimeout(function () { every.focus(); }, 0);
     NOTIFY_KINDS.forEach(function (k) {
+      if (k[2] === 'base' && !me.state.base) return;
       // The words are not a kind of notification, so Everything leaves them alone.
       var kind = k[0] !== 'words', is = !!(w[k[0]] || (kind && w.all));
       var b = el('button', 'cb-btn cb-notify__kind', k[1] + ': ' + (is ? 'on' : 'off'));
