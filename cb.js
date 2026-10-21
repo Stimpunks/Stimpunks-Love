@@ -1114,6 +1114,20 @@
     this.newNone = el('p', 'cb-quiet');
     newSec.appendChild(this.newList);
     newSec.appendChild(this.newNone);
+    /* FOLLOW EVERY ROOM (Norah's ask, 2026-10-21): every room you can go into
+       on Unreads, rooms added later included, instead of following them one
+       at a time. Kept in love-cb as followAll and sent nowhere; the rooms you
+       followed one by one stay your list for when it goes off. Never a room
+       that keeps to itself, which the street does not list. */
+    var fa = this.followAllBtn = el('button', 'cb-btn cb-follow-room', 'Follow every room: off');
+    fa.type = 'button';
+    fa.hidden = true;
+    fa.setAttribute('aria-pressed', 'false');
+    fa.addEventListener('click', function () { me.setFollowAll(fa.getAttribute('aria-pressed') !== 'true'); });
+    newSec.appendChild(fa);
+    this.newsSaid = el('p', 'cb-said');
+    this.newsSaid.setAttribute('role', 'status');
+    newSec.appendChild(this.newsSaid);
     var chanSec = part('cb-sec--channel', 'Channel', 1);
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
     var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', 2);
@@ -5657,8 +5671,12 @@
   }
 
   Radio.prototype.followShown = function () {
-    var here = followable(), b = this.followRoomBtn;
-    b.hidden = !here || !forumPass(this.state.pass);
+    var here = followable(), b = this.followRoomBtn, fa = this.followAllBtn, all = !!this.state.followAll;
+    fa.hidden = !forumPass(this.state.pass);
+    fa.setAttribute('aria-pressed', String(all));
+    fa.textContent = 'Follow every room: ' + (all ? 'on' : 'off');
+    // Following every room, this one is followed already, and the switch for it would say nothing.
+    b.hidden = !here || !forumPass(this.state.pass) || all;
     if (b.hidden) return;
     var on = (this.state.follow || []).indexOf(here.tag) >= 0;
     b.setAttribute('aria-pressed', String(on));
@@ -5675,6 +5693,16 @@
     this.followShown();
     this.newsShown();
     this.tell(on ? 'Following ' + here.name + ': Unreads lists it whenever something new is said here. Kept in this browser only.' : 'Not following ' + here.name + ' any more.');
+  };
+
+  Radio.prototype.setFollowAll = function (on) {
+    if (on) this.state.followAll = true; else delete this.state.followAll;
+    save(this.state);
+    this.followShown();
+    this.newsShown();
+    var mine = (this.state.follow || []).length;
+    this.tellNews(on ? 'Following every room: Unreads lists any room you can go into whenever something new is said there, rooms added later too. Kept in this browser only.'
+      : 'Not following every room any more.' + (mine ? ' Unreads is back to the rooms you followed one by one.' : ''));
   };
 
   Radio.prototype.newsShown = function () {
@@ -5694,11 +5722,12 @@
     // Unreads: World, then the rooms followed, in walking order, then conversations.
     var items = [];
     if (fresh(WORLD_CALL)) items.push({ key: 'w', world: true });
-    var follow = this.state.follow || [];
-    (rooms || []).forEach(function (r) { if (follow.indexOf(r.tag) >= 0 && fresh(r.tag)) items.push({ key: 'r|' + r.tag, room: r }); });
+    var follow = this.state.follow || [], all = !!this.state.followAll;
+    // The World room's channel is World, which is listed first already.
+    (rooms || []).forEach(function (r) { if (r.tag !== WORLD_CALL && (all || follow.indexOf(r.tag) >= 0) && fresh(r.tag)) items.push({ key: 'r|' + r.tag, room: r }); });
     // A first message waiting is one of these: it opens where Accept is.
     dms.forEach(function (h) { items.push({ key: 'd|' + h, dm: h }); });
-    var sig = JSON.stringify([claimed, items.map(function (x) { return x.key; }), here && here.tag, follow.length > 0]);
+    var sig = JSON.stringify([claimed, items.map(function (x) { return x.key; }), here && here.tag, follow.length > 0, all]);
     if (sig === this.newSig) return;
     this.newSig = sig;
     var on = this.box.getRootNode().activeElement, keep = on && this.newList.contains(on) ? on.dataset.newKey : null;
@@ -5727,10 +5756,10 @@
       ul.appendChild(li);
     });
     ul.hidden = !items.length;
-    var hint = follow.length ? '' : 'Follow a room, with Follow this room under Channel, and it is listed here whenever something new is said there.';
+    var hint = follow.length || all ? '' : 'Follow a room, with Follow this room under Channel, and it is listed here whenever something new is said there; or follow every room, below.';
     this.newNone.textContent = !claimed
       ? 'Claim your username, under Account, and the radio marks what is new to you and lists it here.'
-      : items.length ? hint : 'Nothing new in World, the rooms you follow or your messages.' + (hint ? ' ' + hint : '');
+      : items.length ? hint : 'Nothing new in World, ' + (all ? 'any room' : 'the rooms you follow') + ' or your messages.' + (hint ? ' ' + hint : '');
     this.newNone.hidden = !this.newNone.textContent;
     if (keep) { var again = ul.querySelector('[data-new-key="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
   };
@@ -8918,18 +8947,26 @@
 
   /* THE RADIO'S ANSWER, on the line under what was pressed and one at a
      time: tell() under the readout, tellFilm() under Watching together, for
-     the hosts' Catch up and Follow, Host this film and Screen a video. Small
-     and the icon show the channel and nothing else, so while the radio is
-     either, or that part is shut, tellFilm() answers under the readout, where
-     the answer can be seen. */
+     the hosts' Catch up and Follow, Host this film and Screen a video, and
+     tellNews() under Unreads, for Follow every room. Small and the icon show
+     the channel and nothing else, so while the radio is either, or that part
+     is shut, they answer under the readout, where the answer can be seen. */
   Radio.prototype.tell = function (s) {
     this.said.textContent = s;
     if (this.filmSaid) this.filmSaid.textContent = '';
+    if (this.newsSaid) this.newsSaid.textContent = '';
   };
   Radio.prototype.tellFilm = function (s) {
     if (this.tiny() || this.state.folded || this.filmSec.hidden) { this.tell(s); return; }
     this.filmSaid.textContent = s;
     this.said.textContent = '';
+    if (this.newsSaid) this.newsSaid.textContent = '';
+  };
+  Radio.prototype.tellNews = function (s) {
+    if (this.tiny() || this.state.folded) { this.tell(s); return; }
+    this.newsSaid.textContent = s;
+    this.said.textContent = '';
+    if (this.filmSaid) this.filmSaid.textContent = '';
   };
 
   /* Off the air for a moment. Said on the readout rather than left looking

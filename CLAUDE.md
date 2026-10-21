@@ -3890,7 +3890,10 @@ a dot in the button's own ink (`markNew`, "something new" to a screen reader) on
 messages and a conversation, and the **Unreads** part (`newsShown`) listing World, the rooms followed and
 conversations. **What you read is on the server, per claimed username** (`newFor`, `markRead`, `reads/` under
 the dmKey, a time per channel and conversation, dropped at 48 hours), Ryan's choice over each browser keeping
-its own; **Follow this room is in love-cb**. The channels' newest times are one map, `channel-latest`, kept by
+its own; **Follow this room is in love-cb**, and so is **Follow every room** (`followAll`, Norah's ask, 2026-10-21):
+every room `cb-rooms.json` and the forums give the radio, later ones included and never a quiet room, with the rooms
+followed one by one kept for when it goes off. The friendly edit is to write every tag into `follow`, which misses
+the next room to open and runs past `FOLLOW_MAX`. The channels' newest times are one map, `channel-latest`, kept by
 `noteLatest` in `cb-transmit`, so the radio learns what is new in This room without saying where it is. The
 radio asks `/cb/unread` from `listen()` at most every `NEWS_EVERY`, and reports a channel read only when its
 newest message is at the foot of the log. Never a room that keeps to itself; Forget me and deleting the
