@@ -161,8 +161,8 @@
     return otherwise;
   }
 
-  var settings = null, contacts = [], grants = [];
-  function took(b) { if (b.settings) settings = b.settings; }
+  var settings = null, me = null, contacts = [], grants = [];
+  function took(b) { if (b.settings) settings = b.settings; if (b.me) me = b.me; }
 
   /* ── Pieces ────────────────────────────────────────────────────────────── */
 
@@ -365,7 +365,7 @@
 
   /* ── One contact ───────────────────────────────────────────────────────── */
 
-  function contactView(id) {
+  function contactView(id, landOn) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=contact&id=' + encodeURIComponent(id)).then(function (r) {
@@ -374,11 +374,11 @@
         return refused(r);
       }
       took(r.body);
-      return drawContact(r.body.contact);
+      return drawContact(r.body.contact, r.body.comments, landOn);
     });
   }
 
-  function drawContact(c) {
+  function drawContact(c, comments, landOn) {
     view.textContent = '';
     step.up('#/', '← All contacts');
     var h = heading(2, nameOf(c));
@@ -473,7 +473,7 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
-    return h;
+    return addComments(c.id, comments, landOn) || h;
   }
 
   /* ── Adding and changing a contact ─────────────────────────────────────── */
@@ -914,7 +914,7 @@
 
   /* ── One grant request ─────────────────────────────────────────────────── */
 
-  function grantView(id) {
+  function grantView(id, landOn) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=grant&id=' + encodeURIComponent(id)).then(function (r) {
@@ -923,11 +923,11 @@
         return refused(r);
       }
       took(r.body);
-      return drawGrant(r.body.grant);
+      return drawGrant(r.body.grant, r.body.comments, landOn);
     });
   }
 
-  function drawGrant(g) {
+  function drawGrant(g, comments, landOn) {
     view.textContent = '';
     step.up('#/grants', '← All grant requests');
     var h = heading(2, g.name);
@@ -986,7 +986,7 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
-    return h;
+    return addComments(g.id, comments, landOn) || h;
   }
 
   /* ── Adding and changing a grant request ───────────────────────────────── */
@@ -1331,7 +1331,7 @@
     return h;
   }
 
-  function caseView(id) {
+  function caseView(id, landOn) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=case&id=' + encodeURIComponent(id)).then(function (r) {
@@ -1340,11 +1340,11 @@
         return refused(r);
       }
       took(r.body);
-      return drawCase(r.body.case);
+      return drawCase(r.body.case, r.body.comments, landOn);
     });
   }
 
-  function drawCase(k) {
+  function drawCase(k, comments, landOn) {
     view.textContent = '';
     step.up('#/cases', '← All cases');
     var h = heading(2, '#' + k.number + ' ' + k.name);
@@ -1402,7 +1402,7 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
-    return h;
+    return addComments(k.id, comments, landOn) || h;
   }
 
   function caseFormView(id, contact) {
@@ -1564,6 +1564,32 @@
   }
 
   /* ── Refusals ──────────────────────────────────────────────────────────── */
+
+  /* ── Comments under a record (comments.js) ──────────────────────────────── */
+
+  // The comments of the record on the page, kept while it is redrawn by Move to.
+  var talked = { id: null, list: null };
+  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks. Ctrl or Cmd and Enter sends it.';
+  function commentsFor(id, landOn) {
+    return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
+      admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
+      ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
+      kept: function (list) { talked = { id: id, list: list }; } };
+  }
+  /* The Comments part at the foot of a record's page. Answers the comment the
+     address named, brought into view, when it is there. */
+  function addComments(id, comments, landOn) {
+    if (comments) talked = { id: id, list: comments };
+    else if (talked.id !== id) talked = { id: id, list: null };
+    var talk = window.loveComments.section(commentsFor(id, landOn));
+    view.appendChild(talk.section);
+    if (talk.landed) requestAnimationFrame(function () { talk.landed.scrollIntoView({ block: 'center' }); });
+    return talk.landed;
+  }
+  // A record's address, or one of its comments': #/g/<grant request>/c/<comment>, which opens it on the comment.
+  function recordHref(kind, id, c) {
+    return '#/' + [kind === 'grant' ? 'g' : kind === 'case' ? 'k' : kind === 'mailing' ? 'mailings' : 'c', id].concat(c ? ['c', c] : []).join('/');
+  }
 
   function refused(r) {
     view.textContent = '';
@@ -2420,17 +2446,17 @@
     view.appendChild(ul);
     return h;
   }
-  function mailingView(id) {
+  function mailingView(id, landOn) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=mailing&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) return refused(r);
       took(r.body);
-      return drawMailing(r.body.mailing);
+      return drawMailing(r.body.mailing, r.body.comments, landOn);
     });
   }
   var STATE_WORDS = { waiting: 'Waiting to go', sent: 'Sent', failed: 'Google would not send it', stopped: 'Stopped' };
-  function drawMailing(m) {
+  function drawMailing(m, comments, landOn) {
     view.textContent = '';
     step.up('#/mailings', '← All mailings');
     var h = heading(2, m.template + ' · ' + m.stage);
@@ -2490,7 +2516,7 @@
       tools.appendChild(del);
     }
     view.appendChild(tools);
-    return h;
+    return addComments(m.id, comments, landOn) || h;
   }
 
   function newMailingView(hash) {
@@ -2709,7 +2735,7 @@
     view.appendChild(out);
     // How many cards are open is kept for coming back here, so Back finds the card you left by.
     var showing = step.kept('feed') || settings.feedPage || 20, got = {};
-    function lastAt(x) { return Math.max(x.t || 0, x.edited || 0); }
+    function lastAt(x) { return Math.max(x.t || 0, x.edited || 0, x.talk || 0); }
     function items() {
       var all = [];
       f.show.forEach(function (k) {
@@ -2720,7 +2746,7 @@
     }
     function draw(focusFrom) {
       var all = items();
-      shown.textContent = all.length + (all.length === 1 ? ' record' : ' records') + ', the latest added or changed first';
+      shown.textContent = all.length + (all.length === 1 ? ' record' : ' records') + ', the latest added, changed or commented on first';
       out.textContent = '';
       if (!f.show.length) { out.appendChild(quiet('Pick what to show.')); return; }
       if (!all.length) { out.appendChild(quiet('Nothing here yet.')); return; }
@@ -2748,7 +2774,7 @@
           var whole = x[x.kind];
           var it = want.filter(function (w) { return w.id === whole.id; })[0];
           if (!it) return;
-          got[it.id] = { at: lastAt(it.rec), whole: whole };
+          got[it.id] = { at: lastAt(it.rec), whole: whole, comments: x.comments || [], said: x.said || 0 };
           if (cards[it.id] && cards[it.id].isConnected) card(cards[it.id], it, whole);
         });
       });
@@ -2816,6 +2842,35 @@
         }
       }
       if (body) li.appendChild(body);
+      // Its latest comments, to read where the card stands; they are edited on the record's own page.
+      var talk = whole && got[x.id] && got[x.id].whole === whole ? got[x.id] : null;
+      if (talk && talk.said) li.appendChild(window.loveComments.latest({ p: 'of', when: when, href: function (c) { return recordHref(it.kind, x.id, c.id); } }, talk.comments || [], talk.said));
+      var writing = li.dataset.writing === '1';
+      if (writing) {
+        // A comment written on the card: what is typed is kept on the card while it is redrawn.
+        var box = window.loveComments.box({ p: 'of', id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
+          max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
+          cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; card(li, it, whole); },
+          send: function (text, done) {
+            call(null, { action: 'comment', id: x.id, body: text }).then(function (r) {
+              if (r.status !== 200) { done(false, why(r, 'That did not post. Nothing was changed.')); return; }
+              var c = r.body.comment, now = Object.assign({}, x, { talk: c.t }), had = got[x.id];
+              // Kept in its list for the order, and redrawn where it is.
+              if (it.kind === 'grant') grants = grants.map(function (g) { return g.id === x.id ? now : g; });
+              else if (it.kind === 'case') cases = cases.map(function (k) { return k.id === x.id ? now : k; });
+              else contacts = contacts.map(function (k) { return k.id === x.id ? now : k; });
+              it.rec = now;
+              var w = whole ? Object.assign({}, whole, { talk: c.t }) : null;
+              got[x.id] = { at: lastAt(now), whole: w, comments: ((had && had.comments) || []).concat([c]).slice(-2), said: ((had && had.said) || 0) + 1 };
+              li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment';
+              card(li, it, w);
+              say('Comment posted on “' + (x.name || 'No name') + '”.');
+            });
+          } });
+        box.text.setAttribute('data-keep', 'comment-text');
+        box.text.addEventListener('input', function () { li.draft = box.text.value; });
+        li.appendChild(box.form);
+      }
       var tools = el('div', 'of-row of-post__tools');
       if (it.kind !== 'contact') {
         var mv = el('label', 'of-move');
@@ -2837,7 +2892,8 @@
             if (it.kind === 'grant') grants = grants.map(function (g) { return g.id === w.id ? w : g; });
             else cases = cases.map(function (k) { return k.id === w.id ? w : k; });
             it.rec = w;
-            got[w.id] = { at: lastAt(w), whole: w };
+            var had = got[w.id];
+            got[w.id] = { at: lastAt(w), whole: w, comments: had ? had.comments : [], said: had ? had.said : 0 };
             card(li, it, w);
             say('Moved “' + w.name + '” to ' + (it.kind === 'grant' ? w.stage : w.status) + '.');
           });
@@ -2847,6 +2903,12 @@
       }
       var go = el('a', 'cb-btn of-small', 'Open'); go.href = a.href; go.setAttribute('aria-label', 'Open “' + (x.name || 'No name') + '”');
       tools.appendChild(go);
+      if (!writing) {
+        var cm = el('button', 'cb-btn of-small', 'Comment'); cm.type = 'button'; cm.setAttribute('data-keep', 'comment');
+        cm.setAttribute('aria-label', 'Comment on “' + (x.name || 'No name') + '”');
+        cm.addEventListener('click', function () { li.dataset.writing = '1'; li.dataset.keep = 'comment-text'; card(li, it, whole); });
+        tools.appendChild(cm);
+      }
       li.appendChild(tools);
       if (keep) { var k = li.querySelector('[data-keep="' + keep + '"]'); if (k && !k.disabled) k.focus(); }
     }
@@ -2864,17 +2926,17 @@
     if (!cbState()) done = Promise.resolve(guest());
     else if (parts[0] === 'contacts' && parts[1] === 'new') done = formView(null);
     else if (parts[0] === 'contacts' && parts[1] === 'edit' && parts[2]) done = formView(parts[2]);
-    else if (parts[0] === 'c' && parts[1]) done = contactView(parts[1]);
+    else if (parts[0] === 'c' && parts[1]) done = contactView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'grants' && parts[1] === 'board') done = grantsView(true);
     else if (parts[0] === 'grants' && parts[1] === 'new') done = grantFormView(null, (/[?&]contact=([^&]+)/.exec(hash) || [])[1] || null);
     else if (parts[0] === 'grants' && parts[1] === 'edit' && parts[2]) done = grantFormView(parts[2], null);
     else if (parts[0] === 'grants') done = grantsView(false);
-    else if (parts[0] === 'g' && parts[1]) done = grantView(parts[1]);
+    else if (parts[0] === 'g' && parts[1]) done = grantView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'cases' && parts[1] === 'board') done = casesView(true);
     else if (parts[0] === 'cases' && parts[1] === 'new') done = caseFormView(null, (/[?&]contact=([^&]+)/.exec(hash) || [])[1] || null);
     else if (parts[0] === 'cases' && parts[1] === 'edit' && parts[2]) done = caseFormView(parts[2], null);
     else if (parts[0] === 'cases') done = casesView(false);
-    else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1]);
+    else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1]);
     else if (parts[0] === 'dashboard') done = dashboardView(parts[1] === 'quickbooks' ? parts[2] : null);
     else if (parts[0] === 'feed') done = feedView();
@@ -2883,7 +2945,7 @@
     else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = templateFormView(parts[2]);
     else if (parts[0] === 'templates') done = templatesView();
     else if (parts[0] === 'mailings' && parts[1] === 'new') done = newMailingView(hash);
-    else if (parts[0] === 'mailings' && parts[1]) done = mailingView(parts[1]);
+    else if (parts[0] === 'mailings' && parts[1]) done = mailingView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'mailings') done = mailingsView();
     else done = contactsView();
     // The bar says which part of the office you are in.

@@ -5,11 +5,13 @@
                              the reader's own saved filters, and every recurring task; any task a
                              recurring task owes is made first
      recur    &id=           one recurring task, its description as words and as nodes, and the tasks it made
-     task     &id=           one task, its description as words and as nodes, and its activity, newest first
+     task     &id=           one task, its description as words and as nodes, its comments, oldest
+                             first, and its activity, newest first
      inbox                   the reader's own notifications, newest first, how many are unread, and the
                              tasks of theirs due by tomorrow or overdue
-     feed     &ids=          up to FEED_PAGE tasks, each whole, with its latest changes: one page of
-                             the Feed, whose order and filters the page works out
+     feed     &ids=          up to FEED_PAGE tasks, each whole, with its latest changes, its latest
+                             comments and how many it has: one page of the Feed, whose order and
+                             filters the page works out
    POST, with the same pass:
      { action: 'save', id?, espo?, notion?, name?, status?, priority?, start?, due?, body?, who?, with?, tags? }
          a new task, or a change to the one `id` names; only the fields sent change.
@@ -20,8 +22,11 @@
      { action: 'tick', id, n, text, on }             checkbox n in a task's description ticked (on) or
                                                      not; text is the words the page saw beside it
      { action: 'remove', id }                        a task deleted
+     { action: 'comment', id, body }                 a comment on a task
+     { action: 'comment-edit', id, c, body }         comment c changed, by whoever wrote it
+     { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
      { action: 'inbox-read', ids | all: true }       the reader's notifications marked read: those ids, or all
-     { action: 'preview', body }                     how a description will set
+     { action: 'preview', body, comment? }           how a description, or with comment: true a comment, will set
      { action: 'view-save', id?, name, address }     a saved filter: a name and the #/ or #/board
                                                      address of a list or a board, new or in place of `id`
      { action: 'view-remove', id }                   a saved filter deleted
@@ -30,7 +35,7 @@
      { action: 'recur-remove', id }                  a recurring task deleted; the tasks it made stay
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
-  taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE,
+  taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS } from '../cb/lib.mjs';
@@ -39,7 +44,8 @@ import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, save
 const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
-  repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS, feedPage: FEED_PAGE };
+  repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS, feedPage: FEED_PAGE,
+  commentMax: TASK_COMMENT_MAX };
 
 /* A task a recurring task made says which, while that recurring task is there. */
 async function withFrom(who, t) {
@@ -56,7 +62,8 @@ export default async (req) => {
       ? { error: 'Tasks are for our directors and administrators.' }
       : { error: 'Tasks are for our directors and administrators, on a claimed username. Claim yours under Account on the radio.', claim: true }, QUIET);
   }
-  const me = { handle: who.handle };
+  // An administrator may delete anybody's comment, so the page offers it.
+  const me = { handle: who.handle, admin: who.roles.has('administrator') };
   const url = new URL(req.url);
   try {
     if (req.method === 'GET') {
@@ -77,8 +84,8 @@ export default async (req) => {
         const t = await taskOne(who, url.searchParams.get('id'));
         if (t) await withFrom(who, t);
         if (!t) return json(404, { error: 'That task has been deleted.' }, QUIET);
-        const [activity, inbox] = await Promise.all([taskActivity(who, t.id), taskInbox(who)]);
-        return json(200, { me, settings, people: taskPeople(), task: t, activity, unread: inbox.unread }, QUIET);
+        const [activity, comments, inbox] = await Promise.all([taskActivity(who, t.id), taskComments(who, t.id), taskInbox(who)]);
+        return json(200, { me, settings, people: taskPeople(), task: t, comments, activity, unread: inbox.unread }, QUIET);
       }
       if (view === 'inbox') return json(200, { me, settings, inbox: await taskInbox(who) }, QUIET);
       if (view === 'feed') return json(200, { me, settings, feed: await taskFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
@@ -86,9 +93,11 @@ export default async (req) => {
     }
     const b = (await body(req)) || {};
     if (b.action === 'preview') {
-      const text = cleanForumBody(b.body, TASK_BODY_MAX);
-      if (!text) return json(400, { error: `Between one and ${TASK_BODY_MAX} characters.` }, QUIET);
-      return json(200, { blocks: parseBrass(text, { boxes: true }) }, QUIET);
+      // A comment sets as a comment does: shorter, and its [ ] are words rather than boxes.
+      const most = b.comment === true ? TASK_COMMENT_MAX : TASK_BODY_MAX;
+      const text = cleanForumBody(b.body, most);
+      if (!text) return json(400, { error: `Between one and ${most} characters.` }, QUIET);
+      return json(200, { blocks: b.comment === true ? parseBrass(text) : parseBrass(text, { boxes: true }) }, QUIET);
     }
     if (b.action === 'save') {
       const r = await saveTask(who, b);
@@ -100,6 +109,18 @@ export default async (req) => {
     }
     if (b.action === 'remove') {
       const r = await removeTask(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'comment') {
+      const r = await commentTask(who, String(b.id || ''), b.body);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment }, QUIET);
+    }
+    if (b.action === 'comment-edit') {
+      const r = await editTaskComment(who, String(b.id || ''), String(b.c || ''), b.body);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment }, QUIET);
+    }
+    if (b.action === 'comment-remove') {
+      const r = await removeTaskComment(who, String(b.id || ''), String(b.c || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
     }
     if (b.action === 'inbox-read') {

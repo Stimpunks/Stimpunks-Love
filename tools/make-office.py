@@ -192,6 +192,20 @@ def check_lib(lib):
         first = re.search(r"\{\n\s*(.*)", body)
         if name != "officeAllow" and (not first or "if (!officeAllow(who))" not in first.group(1)):
             problems.append(f"{LIB.name}: {name} takes a reader and does not ask officeAllow first.")
+    # Comments are sealed with their record's, kept with the writer's mark, edited only by the writer,
+    # deleted by the writer or an administrator, and gone with their record.
+    co = fn(sec, "commentOffice")
+    if "const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };" not in co or "updateSealed(officeCommentsKey(r.id)" not in co:
+        problems.append(f"{LIB.name}: an office comment is kept sealed, as its id, writer, the writer's mark, when and its words (commentOffice).")
+    if "list[k].mark !== authorMark(who)) { why" not in fn(sec, "editOfficeComment"):
+        problems.append(f"{LIB.name}: only whoever wrote a comment edits it (editOfficeComment).")
+    if "list[k].mark !== authorMark(who) && !who.roles.has('administrator')" not in fn(sec, "removeOfficeComment"):
+        problems.append(f"{LIB.name}: only whoever wrote a comment, or an administrator, deletes it (removeOfficeComment).")
+    for name in ("removeContact", "removeGrant", "removeCase", "removeMailing"):
+        if "await s.delete(officeCommentsKey(" not in fn(sec, name):
+            problems.append(f"{LIB.name}: {name} must delete the record's comments with it.")
+    if "readSealed(officeCommentsKey(" not in fn(sec, "officeComments"):
+        problems.append(f"{LIB.name}: officeComments must read the comments sealed.")
     # The feed is worked out from the records each time, and keeps nothing of its own.
     if re.search(r"\bupdate(?:List|Map|Sealed)\(|\.set(?:JSON)?\(|\.delete\(", fn(sec, "officeFeed")):
         problems.append(f"{LIB.name}: officeFeed writes something. The feed is worked out from the records and keeps nothing.")
@@ -480,9 +494,9 @@ def check_page():
         problems.append(f"{PAGE.name}: missing.")
         return
     page = PAGE.read_text()
-    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "office.js")]
-    if min(at) < 0 or at[0] > at[1]:
-        problems.append(f"{PAGE.name}: it must load markdown.js, then office.js.")
+    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "comments.js", "office.js")]
+    if min(at) < 0 or at != sorted(at):
+        problems.append(f"{PAGE.name}: it must load markdown.js, then comments.js, then office.js.")
     if 'href="privacy.html#office"' not in page:
         problems.append(f"{PAGE.name}: the page must link what the office keeps, privacy.html#office.")
     for doc in (PRIVACY, GUIDE):

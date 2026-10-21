@@ -6958,12 +6958,16 @@ export async function notifyTask(handle, item, s = store(), mods = readMods(), s
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!tasksAllow(who) || foldHandle(who.handle) !== to) continue;
-    const payload = { kind: 'task', why: item.why, did: item.kind, handle: item.by || '', task: item.kind === 'deleted' ? '' : item.task, name: '', box: '' };
+    const payload = { kind: 'task', why: item.why, did: item.kind, handle: item.by || '', task: item.kind === 'deleted' || !item.task ? '' : item.task, name: '', box: '' };
+    // An office comment says what it is on and its id, and nothing sealed: no name.
+    if (item.rec) { payload.rec = item.rec; payload.what = item.what; }
     if (d.want.words !== false) {
       payload.name = [...String(item.name || '')].slice(0, PUSH_WORDS).join('');
       if (item.box) payload.box = [...String(item.box.text || '')].slice(0, PUSH_WORDS).join('');
     }
-    sends.push({ id, d, payload, opts: { urgency: item.why === 'yours' ? 'normal' : 'high' } });
+    // A comment is told as that it was made and on which task, never its words.
+    if (item.comment) payload.comment = item.comment;
+    sends.push({ id, d, payload, opts: { urgency: item.why === 'yours' || item.why === 'commented' ? 'normal' : 'high' } });
   }
   return deliver(sends, gone, s, send);
 }
@@ -7338,7 +7342,7 @@ function taskFields(f, had, people) {
 export function shapeTask(t, whole = false) {
   const out = { id: t.id, name: t.name, status: t.status, priority: t.priority, start: t.start || null, due: t.due || null,
     done: t.done || null, who: t.who || null, with: t.with || [], tags: t.tags || [], t: t.t, by: t.by,
-    edited: t.edited || null, editedBy: t.editedBy || null };
+    edited: t.edited || null, editedBy: t.editedBy || null, talk: t.talk || null };
   if (t.espo) out.espo = t.espo;
   if (t.notion) out.notion = t.notion;
   if (t.recur) { out.recur = t.recur; out.on = t.on; }
@@ -7465,6 +7469,8 @@ export async function removeTask(who, id, s = store(), now = Date.now(), mods = 
   if (!gone) return { error: 'That task has already been deleted.' };
   const was = gone.espo || gone.notion;
   if (was) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(was) ? null : [...ids, was]), s);
+  // Its comments go with it, as its activity does.
+  await s.delete(taskCommentsBlob(gone.id));
   await noteTask('deleted', who.handle, gone, null, s, now, mods).catch(() => null);
   return { gone: true };
 }
@@ -7500,7 +7506,7 @@ export const TASK_INBOX_KEEP = 200;
 export const TASK_INBOX_DAYS = 30;
 const TASK_INBOX_TRIES = 40;
 const TASK_FIELDS = ['name', 'status', 'priority', 'start', 'due', 'who', 'with', 'tags'];
-const TASK_WHY = ['assigned', 'added', 'removed', 'mentioned', 'yours'];
+const TASK_WHY = ['assigned', 'added', 'removed', 'mentioned', 'yours', 'commented'];
 const taskActivityBlob = (id) => `task-activity/${id}`;
 const taskInboxBlob = (pk) => `task-inbox/${pk}`;
 const sameList = (a, b) => JSON.stringify(a || []) === JSON.stringify(b || []);
@@ -7516,8 +7522,11 @@ export function taskChanges(had, next) {
   return out;
 }
 
-/* Who an event concerns, and why, leaving out whoever made it. */
-function taskConcerns(kind, by, had, next, people) {
+/* Who an event concerns, and why, leaving out whoever made it. A comment
+   concerns everybody on the task, whoever made it, anybody who commented on
+   it before, and anybody it newly @mentions; an edited comment concerns only
+   the people it newly @mentions, as an edited forum post does. */
+function taskConcerns(kind, by, had, next, people, extra = {}) {
   const live = (h) => (h ? people.find((p) => foldHandle(p) === foldHandle(h)) : null);
   const onIt = (t) => (t ? [t.who, ...(t.with || [])].filter(Boolean) : []);
   const has = (list, h) => list.some((x) => foldHandle(x) === foldHandle(h));
@@ -7529,6 +7538,15 @@ function taskConcerns(kind, by, had, next, people) {
     if (!was || TASK_WHY.indexOf(why) < TASK_WHY.indexOf(was[1])) out.set(foldHandle(p), [p, why]);
   };
   const before = onIt(had), after = onIt(next), task = next || had;
+  if (kind === 'commented') {
+    const said = extra.comment ? extra.comment.body : '', was = extra.was || '';
+    for (const p of people) if (mentions(said, p) && !mentions(was, p)) add(p, 'mentioned');
+    if (extra.edit) return [...out.values()];
+    for (const h of after) add(h, 'yours');
+    if (task.by) add(task.by, 'yours');
+    for (const h of extra.earlier || []) add(h, 'commented');
+    return [...out.values()];
+  }
   if (kind === 'deleted') { for (const h of before) add(h, 'yours'); }
   else {
     for (const h of after) add(h, has(before, h) ? 'yours' : (foldHandle(next.who || '') === foldHandle(h) ? 'assigned' : 'added'));
@@ -7545,16 +7563,39 @@ async function noteTask(kind, by, had, next, s, now, mods, extra = {}) {
   if (!task || (kind === 'changed' && !changes.length)) return;
   const ev = { id: 'e' + randomBytes(9).toString('base64url'), t: now, by: by || null, task: task.id, name: task.name, kind, changes };
   if (kind === 'ticked') ev.box = { text: String(extra.box || '').slice(0, 200), on: !!extra.on };
+  // A comment's event names the comment and never keeps its words: they are the comment's, and go with it.
+  if (kind === 'commented') ev.comment = extra.comment.id;
   if (kind === 'deleted') await s.delete(taskActivityBlob(task.id));
-  else await updateList(taskActivityBlob(task.id), 'events', (list) => [ev, ...list].slice(0, TASK_ACTIVITY_KEEP), s);
+  // An edited comment is not a change to the task, so it is in nobody's activity; it only tells whoever it newly @mentions.
+  else if (!extra.edit) await updateList(taskActivityBlob(task.id), 'events', (list) => [ev, ...list].slice(0, TASK_ACTIVITY_KEEP), s);
+  await tellTaskPeople(ev, taskConcerns(kind, by, had, next, taskPeople(mods), extra), s, now, mods, extra.send);
+}
+
+/* Each person an event concerns gets it in their Notifications, and then their
+   devices are told. */
+async function tellTaskPeople(ev, told, s, now, mods, send) {
   const since = now - TASK_INBOX_DAYS * 86400000;
-  for (const [h, why] of taskConcerns(kind, by, had, next, taskPeople(mods))) {
+  for (const [h, why] of told) {
     // A person's list is the one blob many changes can race for at once, so it waits longer than most for its turn.
     await updateList(taskInboxBlob(petKey(h)), 'items',
       (list) => [{ ...ev, why, read: false }, ...list.filter((x) => x.t >= since)].slice(0, TASK_INBOX_KEEP), s, TASK_INBOX_TRIES);
     // Their devices are told only once it is in their list (notifyTask, the tasks switch).
-    await notifyTask(h, { ...ev, why }, s, mods, extra.send || sendPush).catch(() => null);
+    await notifyTask(h, { ...ev, why }, s, mods, send || sendPush).catch(() => null);
   }
+}
+
+/* AN OFFICE COMMENT'S NOTIFICATIONS go in the same Notifications as a task's
+   (Ryan's ask, 2026-10-21, comments in the office), because the office's
+   readers are Tasks' readers and one list is the place to look. The office is
+   sealed and this list is not, so an entry names the record only by its id
+   and what it is, never its name, and never the comment's words. It concerns
+   whoever added the record, anybody who commented on it before, and anybody
+   the comment @mentions; an edit, only anybody it newly @mentions. */
+export async function noteOfficeComment(what, rec, by, comment, extra, s = store(), now = Date.now(), mods = readMods()) {
+  const ev = { id: 'e' + randomBytes(9).toString('base64url'), t: now, by, kind: 'office', what, rec, comment: comment.id };
+  const record = { who: null, with: [], by: extra.maker || null };
+  const told = taskConcerns('commented', by, record, record, taskPeople(mods), { comment, was: extra.was, edit: extra.edit, earlier: extra.earlier });
+  await tellTaskPeople(ev, told, s, now, mods, extra.send);
 }
 
 /* A reader's own list, newest first, with how many are unread, and the tasks
@@ -7603,6 +7644,7 @@ export async function taskActivity(who, id, s = store()) {
    from what Tasks already keeps. */
 export const FEED_PAGE = 20;
 const FEED_ACTS = 3;
+const FEED_COMMENTS = 2;
 export async function taskFeed(who, ids, s = store()) {
   if (!tasksAllow(who)) return null;
   const want = [...new Set((Array.isArray(ids) ? ids : []).map(taskId).filter(Boolean))].slice(0, FEED_PAGE);
@@ -7610,14 +7652,115 @@ export async function taskFeed(who, ids, s = store()) {
   const all = await readTasks(s);
   const found = want.map((id) => all.find((t) => t.id === id)).filter(Boolean);
   return Promise.all(found.map(async (t) => {
-    const d = await s.get(taskActivityBlob(t.id), { type: 'json' });
-    return { task: shapeTask(t, true), acts: d && Array.isArray(d.events) ? d.events.slice(0, FEED_ACTS) : [] };
+    const [d, c] = await Promise.all([s.get(taskActivityBlob(t.id), { type: 'json' }), s.get(taskCommentsBlob(t.id), { type: 'json' })]);
+    const said = c && Array.isArray(c.comments) ? c.comments : [];
+    return { task: shapeTask(t, true), acts: d && Array.isArray(d.events) ? d.events.slice(0, FEED_ACTS) : [],
+      comments: said.slice(-FEED_COMMENTS).map((x) => shapeComment(x, who)), said: said.length };
   }));
 }
 
 export async function forgetTaskInbox(pk, s = store()) {
   await s.delete(taskInboxBlob(pk));
   return true;
+}
+
+/* COMMENTS (Ryan's ask, 2026-10-21, after EspoCRM's stream posts and Notion's
+   comments): a conversation under a task, in task-comments/<task id>, oldest
+   first, each its words in Markdown, who wrote it, when, and when it was last
+   edited. A comment is kept with its writer's authorMark, the forums' hash of
+   the folded username and when it was claimed, which never leaves the server:
+   only the person who wrote one edits it, and a name deleted and claimed again
+   by somebody else cannot reach the old owner's comments. Whoever wrote one, or
+   an administrator, deletes it. A comment goes in the task's activity and the
+   notifications of the people it concerns as that it was made, never its
+   words; editing one tells only anybody it newly @mentions. The task keeps
+   `talk`, when it was last commented on, so the Feed can put it first; a
+   comment is not a change to the task, so it sets no `edited`. Comments stay
+   when a username is deleted, as the tasks do: they are the organisation's
+   work, with the username on them as words. They go with their task. */
+export const TASK_COMMENT_MAX = 5000;
+export const TASK_COMMENTS_KEEP = 500;
+const taskCommentsBlob = (id) => `task-comments/${id}`;
+export function commentId(v) { return typeof v === 'string' && /^m[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newCommentId = () => 'm' + randomBytes(9).toString('base64url');
+
+function shapeComment(c, who) {
+  return { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body),
+    mine: !!who && !!who.since && c.mark === authorMark(who) };
+}
+
+export async function taskComments(who, id, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const t = taskId(id);
+  if (!t) return [];
+  const d = await s.get(taskCommentsBlob(t), { type: 'json' });
+  return (d && Array.isArray(d.comments) ? d.comments : []).map((c) => shapeComment(c, who));
+}
+
+export async function commentTask(who, id, text, s = store(), now = Date.now(), mods = readMods()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const tid = taskId(id);
+  const words = cleanForumBody(text, TASK_COMMENT_MAX);
+  if (!words) return { error: `A comment is between one and ${TASK_COMMENT_MAX} characters.` };
+  const task = tid ? (await readTasks(s)).find((x) => x.id === tid) : null;
+  if (!task) return { error: 'That task has been deleted.' };
+  const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };
+  let full = false, earlier = [];
+  await updateList(taskCommentsBlob(tid), 'comments', (list) => {
+    full = list.length >= TASK_COMMENTS_KEEP;
+    earlier = list.map((x) => x.by);
+    return full ? null : [...list, c];
+  }, s);
+  if (full) return { error: `This task has ${TASK_COMMENTS_KEEP} comments, as many as it keeps. Delete one, or carry on in a new task.` };
+  // When it was last talked about, for the Feed. A task deleted meanwhile takes the comment with it.
+  let gone = false;
+  await updateList(TASKS, 'tasks', (list) => {
+    const k = list.findIndex((x) => x.id === tid);
+    gone = k < 0;
+    if (gone || (list[k].talk || 0) >= now) return null;
+    const copy = list.slice(); copy[k] = { ...list[k], talk: now }; return copy;
+  }, s);
+  if (gone) { await s.delete(taskCommentsBlob(tid)); return { error: 'That task has been deleted.' }; }
+  await noteTask('commented', who.handle, task, task, s, now, mods, { comment: c, earlier }).catch(() => null);
+  return { comment: shapeComment(c, who) };
+}
+
+export async function editTaskComment(who, id, cid, text, s = store(), now = Date.now(), mods = readMods()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const tid = taskId(id), k0 = commentId(cid);
+  if (!tid || !k0) return { error: 'Edit which comment?' };
+  const words = cleanForumBody(text, TASK_COMMENT_MAX);
+  if (!words) return { error: `A comment is between one and ${TASK_COMMENT_MAX} characters.` };
+  let saved = null, was = null, why = null;
+  await updateList(taskCommentsBlob(tid), 'comments', (list) => {
+    saved = null; was = null; why = null;
+    const k = list.findIndex((x) => x.id === k0);
+    if (k < 0) { why = 'That comment has been deleted.'; return null; }
+    if (list[k].mark !== authorMark(who)) { why = 'Only whoever wrote a comment can change it.'; return null; }
+    if (list[k].body === words) { saved = list[k]; return null; }
+    was = list[k].body;
+    saved = { ...list[k], body: words, edited: now };
+    const copy = list.slice(); copy[k] = saved; return copy;
+  }, s);
+  if (why) return { error: why };
+  const task = was != null ? (await readTasks(s)).find((x) => x.id === tid) : null;
+  if (task) await noteTask('commented', who.handle, task, task, s, now, mods, { comment: saved, was, edit: true }).catch(() => null);
+  return { comment: shapeComment(saved, who) };
+}
+
+export async function removeTaskComment(who, id, cid, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const tid = taskId(id), k0 = commentId(cid);
+  if (!tid || !k0) return { error: 'Delete which comment?' };
+  let why = null;
+  await updateList(taskCommentsBlob(tid), 'comments', (list) => {
+    why = null;
+    const k = list.findIndex((x) => x.id === k0);
+    if (k < 0) { why = 'That comment has already been deleted.'; return null; }
+    if (list[k].mark !== authorMark(who) && !who.roles.has('administrator')) { why = 'Only whoever wrote a comment, or an administrator, can delete it.'; return null; }
+    return list.filter((_, i) => i !== k);
+  }, s);
+  return why ? { error: why } : { gone: true };
 }
 
 /* SAVED FILTERS are each reader's own (Ryan's stage two, 2026-10-20): a name
@@ -8057,7 +8200,7 @@ function contactFields(f) {
 export function shapeContact(c, whole = false) {
   const out = { id: c.id, name: [c.first, c.last].filter(Boolean).join(' '), first: c.first || '', last: c.last || '',
     email: c.email || '', phone: c.phone || '', noEmail: !!c.noEmail, noCall: !!c.noCall,
-    t: c.t, by: c.by || null, edited: c.edited || null, editedBy: c.editedBy || null };
+    t: c.t, by: c.by || null, edited: c.edited || null, editedBy: c.editedBy || null, talk: c.talk || null };
   if (c.espo) out.espo = c.espo;
   if (whole) { out.notes = c.notes || ''; out.blocks = parseBrass(c.notes || '', { boxes: true }); } else out.words = [...(c.notes || '')].length;
   return out;
@@ -8169,6 +8312,7 @@ export async function removeContact(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That contact has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  await s.delete(officeCommentsKey(gone.id));
   await forgetContactMail(gone.id, s);
   await forgetContactMailings(gone.id, s);
   return { gone: true };
@@ -8275,7 +8419,7 @@ export function shapeGrant(g, contacts, whole = false) {
   const out = { id: g.id, name: g.name, pipeline: g.pipeline, stage: g.stage, status: grantStatus(g), amount: g.amount ?? null,
     submitted: g.submitted || null, closed: g.closed || null, contact: g.contact || null,
     contactName: c ? [c.first, c.last].filter(Boolean).join(' ') : null, contactEmail: c ? c.email || '' : null, contactGone: !!(g.contact && !c),
-    form: g.form || null, t: g.t, by: g.by || null, edited: g.edited || null, editedBy: g.editedBy || null };
+    form: g.form || null, t: g.t, by: g.by || null, edited: g.edited || null, editedBy: g.editedBy || null, talk: g.talk || null };
   if (g.espo) out.espo = g.espo;
   if (whole) { out.body = g.body || ''; out.blocks = parseBrass(g.body || ''); } else out.words = [...(g.body || '')].length;
   return out;
@@ -8385,6 +8529,7 @@ export async function removeGrant(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That grant request has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  await s.delete(officeCommentsKey(gone.id));
   return { gone: true };
 }
 
@@ -8473,7 +8618,7 @@ export function shapeCase(k, contacts, whole = false) {
   const out = { id: k.id, number: k.number, name: k.name, type: k.type, status: k.status, open: caseOpen(k.status), priority: k.priority,
     submitted: k.submitted || null, closed: k.closed || null, contact: k.contact || null,
     contactName: c ? [c.first, c.last].filter(Boolean).join(' ') : null, contactEmail: c ? c.email || '' : null, contactGone: !!(k.contact && !c),
-    form: k.form || null, t: k.t, by: k.by || null, edited: k.edited || null, editedBy: k.editedBy || null };
+    form: k.form || null, t: k.t, by: k.by || null, edited: k.edited || null, editedBy: k.editedBy || null, talk: k.talk || null };
   if (k.espo) out.espo = k.espo;
   if (whole) { out.body = k.body || ''; out.blocks = parseBrass(k.body || ''); } else out.words = [...(k.body || '')].length;
   return out;
@@ -8504,12 +8649,18 @@ export async function officeFeed(who, ids, s = store()) {
   if (!want.length) return [];
   const [grants, cases, contacts] = await Promise.all([readGrants(s), readCases(s), readContacts(s)]);
   const m = contactMap(contacts);
-  return want.map((id) => {
+  const cards = want.map((id) => {
     if (grantId(id)) { const g = grants.find((x) => x.id === id); return g ? { kind: 'grant', grant: shapeGrant(g, m, true) } : null; }
     if (caseId(id)) { const k = cases.find((x) => x.id === id); return k ? { kind: 'case', case: shapeCase(k, m, true) } : null; }
     const c = m.get(id);
     return c ? { kind: 'contact', contact: shapeContact(c, true) } : null;
   }).filter(Boolean);
+  // Each card's latest comments and how many there are, as a task's card has.
+  return Promise.all(cards.map(async (x) => {
+    const d = await readSealed(officeCommentsKey(x[x.kind].id), s);
+    const said = d && Array.isArray(d.comments) ? d.comments : [];
+    return { ...x, comments: said.slice(-FEED_COMMENTS).map((c) => shapeComment(c, who)), said: said.length };
+  }));
 }
 
 /* One case made or changed in a list already open, as applyGrant. `top` is the
@@ -8616,6 +8767,7 @@ export async function removeCase(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That case has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  await s.delete(officeCommentsKey(gone.id));
   return { gone: true };
 }
 
@@ -9151,7 +9303,9 @@ export async function removeMailing(who, id, s = store()) {
     why = null;
     return { mailings: list.filter((x) => x !== m) };
   }, s);
-  return why ? { error: why } : { gone: true };
+  if (why) return { error: why };
+  await s.delete(officeCommentsKey(mailingId(id)));
+  return { gone: true };
 }
 /* A deleted contact's emails not yet sent are taken back with them. */
 async function forgetContactMailings(cid, s) {
@@ -9166,6 +9320,112 @@ async function forgetContactMailings(cid, s) {
     });
     return changed ? { mailings: next } : null;
   }, s);
+}
+
+/* COMMENTS IN THE OFFICE (Ryan's ask, 2026-10-21: "pretty much everything in
+   the office should allow comments"): on a contact, a grant request, a case or
+   a mailing, kept as a task's are (commentTask), except that they are sealed
+   like everything else here, one sealed blob of them for each record,
+   office-comments/<record id>, and a record has no activity to put them in.
+   The writer's authorMark is sealed with the comment and never leaves the
+   server: only the writer edits a comment, and the writer or an administrator
+   deletes one. Who is told goes in Tasks' Notifications, naming the record
+   only by its id (noteOfficeComment). A comment on a contact, a grant request
+   or a case sets the record's `talk`, so the Feed can put it first; it is not
+   a change to the record, so it sets no `edited`. A record's comments go with
+   it, and they stay when a username is deleted, as the records do. */
+export const OFFICE_COMMENT_MAX = TASK_COMMENT_MAX;
+export const OFFICE_COMMENTS_KEEP = TASK_COMMENTS_KEEP;
+const officeCommentsKey = (id) => `office-comments/${id}`;
+/* What a comment can be on, told apart by its id: which sealed blob holds it,
+   and whether the Feed shows it. */
+function commentable(id) {
+  if (contactId(id)) return { what: 'contact', key: CONTACTS, field: 'contacts', id, talk: true };
+  if (grantId(id)) return { what: 'grant', key: GRANTS, field: 'grants', id, talk: true };
+  if (caseId(id)) return { what: 'case', key: CASES, field: 'cases', id, talk: true };
+  if (mailingId(id)) return { what: 'mailing', key: MAILINGS, field: 'mailings', id, talk: false };
+  return null;
+}
+const NO_RECORD = 'That has been deleted from the office.';
+
+export async function officeComments(who, id, s = store()) {
+  if (!officeAllow(who)) return null;
+  const r = commentable(id);
+  if (!r) return [];
+  const d = await readSealed(officeCommentsKey(r.id), s);
+  return (d && Array.isArray(d.comments) ? d.comments : []).map((c) => shapeComment(c, who));
+}
+
+export async function commentOffice(who, id, text, s = store(), now = Date.now(), mods = readMods()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = commentable(id);
+  const words = cleanForumBody(text, OFFICE_COMMENT_MAX);
+  if (!words) return { error: `A comment is between one and ${OFFICE_COMMENT_MAX} characters.` };
+  const held = r ? await readSealed(r.key, s) : null;
+  const rec = held && Array.isArray(held[r.field]) ? held[r.field].find((x) => x.id === r.id) : null;
+  if (!rec) return { error: NO_RECORD };
+  const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };
+  let full = false, earlier = [];
+  await updateSealed(officeCommentsKey(r.id), (was) => {
+    const list = was && Array.isArray(was.comments) ? was.comments : [];
+    full = list.length >= OFFICE_COMMENTS_KEEP;
+    earlier = list.map((x) => x.by);
+    return full ? null : { comments: [...list, c] };
+  }, s);
+  if (full) return { error: `This has ${OFFICE_COMMENTS_KEEP} comments, as many as it keeps. Delete one first.` };
+  // When it was last talked about, for the Feed. A record deleted meanwhile takes the comment with it.
+  let gone = false;
+  await updateSealed(r.key, (was) => {
+    const list = was && Array.isArray(was[r.field]) ? was[r.field] : [];
+    const k = list.findIndex((x) => x.id === r.id);
+    gone = k < 0;
+    if (gone || !r.talk || (list[k].talk || 0) >= now) return null;
+    const copy = list.slice(); copy[k] = { ...list[k], talk: now };
+    return { ...was, [r.field]: copy };
+  }, s);
+  if (gone) { await s.delete(officeCommentsKey(r.id)); return { error: NO_RECORD }; }
+  await noteOfficeComment(r.what, r.id, who.handle, c, { maker: rec.by, earlier }, s, now, mods).catch(() => null);
+  return { comment: shapeComment(c, who) };
+}
+
+export async function editOfficeComment(who, id, cid, text, s = store(), now = Date.now(), mods = readMods()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = commentable(id), k0 = commentId(cid);
+  if (!r || !k0) return { error: 'Edit which comment?' };
+  const words = cleanForumBody(text, OFFICE_COMMENT_MAX);
+  if (!words) return { error: `A comment is between one and ${OFFICE_COMMENT_MAX} characters.` };
+  let saved = null, was = null, why = null;
+  await updateSealed(officeCommentsKey(r.id), (held) => {
+    saved = null; was = null; why = null;
+    const list = held && Array.isArray(held.comments) ? held.comments : [];
+    const k = list.findIndex((x) => x.id === k0);
+    if (k < 0) { why = 'That comment has been deleted.'; return null; }
+    if (list[k].mark !== authorMark(who)) { why = 'Only whoever wrote a comment can change it.'; return null; }
+    if (list[k].body === words) { saved = list[k]; return null; }
+    was = list[k].body;
+    saved = { ...list[k], body: words, edited: now };
+    const copy = list.slice(); copy[k] = saved;
+    return { comments: copy };
+  }, s);
+  if (why) return { error: why };
+  if (was != null) await noteOfficeComment(r.what, r.id, who.handle, saved, { was, edit: true }, s, now, mods).catch(() => null);
+  return { comment: shapeComment(saved, who) };
+}
+
+export async function removeOfficeComment(who, id, cid, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = commentable(id), k0 = commentId(cid);
+  if (!r || !k0) return { error: 'Delete which comment?' };
+  let why = null;
+  await updateSealed(officeCommentsKey(r.id), (held) => {
+    why = null;
+    const list = held && Array.isArray(held.comments) ? held.comments : [];
+    const k = list.findIndex((x) => x.id === k0);
+    if (k < 0) { why = 'That comment has already been deleted.'; return null; }
+    if (list[k].mark !== authorMark(who) && !who.roles.has('administrator')) { why = 'Only whoever wrote a comment, or an administrator, can delete it.'; return null; }
+    return { comments: list.filter((_, i) => i !== k) };
+  }, s);
+  return why ? { error: why } : { gone: true };
 }
 
 /* The mailbox script's half. The outbox: emails waiting, oldest mailing first,

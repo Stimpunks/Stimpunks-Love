@@ -5342,6 +5342,30 @@ activity kept as its own record** (the activity is per task already, and an offi
 about people that privacy.html does not mention), and **email in the office's feed**, which needs an index of recent mail
 the office does not keep.
 
+**A TASK HAS COMMENTS, AFTER ESPOCRM'S STREAM POSTS AND NOTION'S COMMENTS, AND THEIR WORDS STAY IN THEM.** Ryan's ask,
+2026-10-21. `task-comments/<task id>` (`commentTask`, `editTaskComment`, `removeTaskComment`, `taskComments` in `lib.mjs`),
+oldest first, each its Markdown words, its writer, when, `edited`, and **the forums' `authorMark`, which never leaves the
+server**: only the writer edits a comment, so a name deleted and claimed again cannot, and the writer or an administrator
+deletes one (`me.admin` tells the page). **A comment is in the activity and in Notifications as `kind: 'commented'` with
+the comment's id and never its words**, told to everybody on the task, its maker, anybody who commented before (`why:
+'commented'`, last in `TASK_WHY`) and anybody it @mentions; an edit is in nobody's activity and tells only somebody it
+newly @mentions, the forums' rule. A task keeps `talk`, when it was last commented on, which the Feed orders by and which
+is not `edited`. A comment's address is `#/t/<task>/c/<comment>` (`taskHref`), which opens the task on it, from
+Notifications and from a push. `make-tasks.py` holds all of it. The friendly edits are **a comment's words in its
+notification or its push** "so you can read it without opening Tasks", which copies the words where deleting the comment
+cannot reach them, **an edit history**, and **letting any director edit anybody's comment**.
+**The office's contacts, grant requests, cases and mailings take comments too** (Ryan, the same day: "pretty much
+everything in The Office should allow comments"): the same rules, **sealed** in `office-comments/<record id>` through
+`updateSealed` (`commentOffice`, `editOfficeComment`, `removeOfficeComment`, `officeComments`, `commentable()` telling a
+record by the first letter of its id), and a record's delete deletes them. **They are told in Tasks' Notifications**
+(`noteOfficeComment`, through `tellTaskPeople`, the one loop that writes a person's list and then tells their devices),
+because the office's readers are Tasks' readers; that list is not sealed, so **an office entry carries `what` and `rec`,
+the record's kind and id, and never its name**, and neither does its push. **Both pages draw comments with `comments.js`**
+(`window.loveComments`: `section`, `box`, `latest`), the rack.js rule for a pattern's second taker: it sets no colour and
+asks no server itself; each page passes its prefix, its words and its own `ask`. A third page with comments uses it too.
+The friendly edit is **a record's name in its office notification** "so you know which grant request", which carries
+sealed data into an unsealed list.
+
 **THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
 2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators
 only (`officeAllow` is `tasksAllow`); encrypted at rest; nothing recording who reads; and stimpunks.org's forms posting

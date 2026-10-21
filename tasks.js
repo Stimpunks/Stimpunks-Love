@@ -226,6 +226,13 @@
 
   /* ── Pieces ────────────────────────────────────────────────────────────── */
 
+  // A task's address, or one of its comments': #/t/<task>/c/<comment>, which opens the task on the comment.
+  function taskHref(id, c) { return '#/' + ['t', id].concat(c ? ['c', c] : []).join('/'); }
+  // An office comment's address in the office, which opens the record on it.
+  function officeHref(it) {
+    var at = { contact: 'c', grant: 'g', 'case': 'k', mailing: 'mailings' }[it.what] || 'c';
+    return 'office.html#/' + [at, it.rec, 'c', it.comment].join('/');
+  }
   function heading(level, text) { var h = el('h' + level, null, text); h.tabIndex = -1; return h; }
   function quiet(text) { return el('p', 'cb-quiet', text); }
   function tag(text, cls) { return el('span', 'cb-tag tk-tag' + (cls ? ' ' + cls : ''), text); }
@@ -962,7 +969,7 @@
        time the feed is drawn. */
     // How many cards are open is kept for coming back here, so Back finds the card you left by.
     var feedShown = step.kept('feed') || settings.feedPage || 20, feedGot = {};
-    function lastAt(t) { return Math.max(t.t || 0, t.edited || 0, t.done || 0); }
+    function lastAt(t) { return Math.max(t.t || 0, t.edited || 0, t.done || 0, t.talk || 0); }
     function drawFeed(focusFrom) {
       var list = tasks.filter(function (t) { return passes(t, f, null, mode); })
         .sort(function (a, b) { return lastAt(b) - lastAt(a) || a.name.localeCompare(b.name); });
@@ -992,7 +999,7 @@
         if (r.status !== 200) { say(why(r, 'The feed could not read its cards just now.')); return; }
         (r.body.feed || []).forEach(function (x) {
           var t = tasks.filter(function (y) { return y.id === x.task.id; })[0];
-          feedGot[x.task.id] = { at: t ? lastAt(t) : lastAt(x.task), task: x.task, acts: x.acts };
+          feedGot[x.task.id] = { at: t ? lastAt(t) : lastAt(x.task), task: x.task, acts: x.acts, comments: x.comments || [], said: x.said || 0 };
           var li = cards[x.task.id];
           if (li && li.isConnected) feedCard(li, x.task, feedGot[x.task.id]);
         });
@@ -1060,9 +1067,38 @@
         }
       }
       if (body) li.appendChild(body);
+      // Its latest comments, to read where the card stands; they are edited on the task's own page.
+      if (got && got.said) li.appendChild(window.loveComments.latest({ p: 'tk', when: when, href: function (c) { return taskHref(t.id, c.id); } }, got.comments || [], got.said));
+      var writing = li.dataset.writing === '1';
+      if (writing) {
+        // A comment written on the card: what is typed is kept on the card while it is redrawn.
+        var box = window.loveComments.box({ p: 'tk', id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
+          max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
+          cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; feedCard(li, t, got); },
+          send: function (text, done) {
+            call(null, { action: 'comment', id: t.id, body: text }).then(function (r) {
+              if (r.status !== 200) { done(false, why(r, 'That did not post. Nothing was changed.')); return; }
+              var c = r.body.comment, now = Object.assign({}, got && got.task ? got.task : t, { talk: c.t });
+              li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment';
+              if (got) { got = Object.assign({}, got, { comments: (got.comments || []).concat([c]).slice(-2), said: (got.said || 0) + 1 }); }
+              feedGot[t.id] = got;
+              settle(li, now);
+              say('Comment posted on “' + t.name + '”.');
+            });
+          } });
+        box.text.setAttribute('data-keep', 'comment-text');
+        box.text.addEventListener('input', function () { li.draft = box.text.value; });
+        li.appendChild(box.form);
+      }
       var tools = el('div', 'tk-row tk-post__tools');
       var go = el('a', 'cb-btn tk-small', 'Open'); go.href = '#/t/' + t.id; go.setAttribute('aria-label', 'Open “' + t.name + '”');
       tools.appendChild(go);
+      if (!writing) {
+        var cm = el('button', 'cb-btn tk-small', 'Comment'); cm.type = 'button'; cm.setAttribute('data-keep', 'comment');
+        cm.setAttribute('aria-label', 'Comment on “' + t.name + '”');
+        cm.addEventListener('click', function () { li.dataset.writing = '1'; li.dataset.keep = 'comment-text'; feedCard(li, t, got); });
+        tools.appendChild(cm);
+      }
       if (t.status !== 'Completed') {
         var fin = el('button', 'cb-btn tk-small', 'Mark it completed'); fin.type = 'button'; fin.setAttribute('data-keep', 'done');
         fin.setAttribute('aria-label', 'Mark “' + t.name + '” completed');
@@ -1087,13 +1123,13 @@
       tasks = tasks.map(function (x) { return x.id === task.id ? task : x; });
       // The save hands back the task whole, so the card keeps its words, and the keyboard its place, while its latest changes are read.
       var had = feedGot[task.id];
-      feedGot[task.id] = { at: lastAt(task), task: task, acts: had ? had.acts : [] };
+      feedGot[task.id] = { at: lastAt(task), task: task, acts: had ? had.acts : [], comments: had ? had.comments : [], said: had ? had.said : 0 };
       feedCard(li, task, feedGot[task.id]);
       drawCounts();
       call('view=feed&ids=' + encodeURIComponent(task.id)).then(function (r) {
         var x = r.status === 200 && (r.body.feed || [])[0];
         if (!x) return;
-        feedGot[task.id] = { at: lastAt(task), task: x.task, acts: x.acts };
+        feedGot[task.id] = { at: lastAt(task), task: x.task, acts: x.acts, comments: x.comments || [], said: x.said || 0 };
         if (li.isConnected) feedCard(li, task, feedGot[task.id]);
       });
     }
@@ -1106,7 +1142,7 @@
 
   /* ── One task ──────────────────────────────────────────────────────────── */
 
-  function taskView(id, focusEdit) {
+  function taskView(id, landOn) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=task&id=' + encodeURIComponent(id)).then(function (r) {
@@ -1115,10 +1151,14 @@
         return refused(r);
       }
       took(r.body);
-      return drawTask(r.body.task, r.body.activity);
+      return drawTask(r.body.task, r.body.activity, r.body.comments, landOn);
     });
   }
-  function drawTask(t, activity) {
+  // The comments of the task on the page, kept while it is redrawn by a tick or Mark it completed.
+  var talked = { id: null, list: null };
+  function drawTask(t, activity, comments, landOn) {
+    if (comments) talked = { id: t.id, list: comments };
+    else if (talked.id !== t.id) talked = { id: t.id, list: null };
     view.textContent = '';
     step.up('#/', '← Back to the list');
     var h = heading(2, t.name);
@@ -1204,6 +1244,11 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
+    // Comments: the conversation under the task, oldest first, with a box to add to it at the foot (comments.js).
+    var talk = window.loveComments.section(commentsFor(t.id, landOn, function () { freshActivity(t.id); }));
+    talkNow = talk;
+    view.appendChild(talk.section);
+    var landed = talk.landed;
     // Activity: every change to this task, newest first, as EspoCRM's stream showed it.
     var act = el('section', 'tk-activity');
     act.appendChild(heading(3, 'Activity'));
@@ -1211,7 +1256,22 @@
     act.appendChild(actList);
     view.appendChild(act);
     fillActivity(actList, activity);
+    if (landed) {
+      // Opened from a notification about it: the comment is brought into view, and has the keyboard unless the page has just loaded.
+      requestAnimationFrame(function () { landed.scrollIntoView({ block: 'center' }); });
+      return landed;
+    }
     return h;
+  }
+  /* What comments.js needs for this task's comments: tasks.js's own words,
+     classes and way of asking /cb/tasks. */
+  var talkNow = null;
+  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them. Ctrl or Cmd and Enter sends it.';
+  function commentsFor(id, landOn, posted) {
+    return { p: 'tk', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
+      admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
+      ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
+      kept: function (list) { talked = { id: id, list: list }; }, posted: posted };
   }
   function fillActivity(into, list) {
     if (!into) return;
@@ -1227,7 +1287,10 @@
   }
   function freshActivity(id) {
     call('view=task&id=' + encodeURIComponent(id)).then(function (r) {
-      if (r.status === 200) fillActivity(view.querySelector('.tk-acts'), r.body.activity);
+      if (r.status !== 200) return;
+      fillActivity(view.querySelector('.tk-acts'), r.body.activity);
+      // The comments too, when the page had none to keep, without moving the keyboard from one of them.
+      if ((!talked.list || talked.id !== id) && talkNow) talkNow.set(r.body.comments || []);
     });
   }
 
@@ -1268,15 +1331,21 @@
     if (ev.kind === 'made') return by + ' made this task.';
     if (ev.kind === 'recurred') return 'Its recurring task made this task.';
     if (ev.kind === 'ticked') return by + ' ' + (ev.box && ev.box.on ? 'ticked' : 'unticked') + ' “' + (ev.box ? ev.box.text : '') + '”.';
+    if (ev.kind === 'commented') return by + ' commented.';
     return by + ' ' + ev.changes.map(changeWords).filter(Boolean).join('; ') + '.';
   }
   /* A notification's first line, from why it is in the reader's list. */
+  // What an office comment is on: never its name, which the office keeps sealed.
+  var OFFICE_WHAT = { contact: 'a contact', grant: 'a grant request', 'case': 'a case', mailing: 'a mailing' };
   function headWords(it) {
     var by = it.by ? whoWords(it.by, true) : null, name = '“' + it.name + '”';
+    if (it.kind === 'office') return by + (it.why === 'mentioned' ? ' mentioned you in a comment on ' : it.why === 'commented' ? ' also commented on ' : ' commented on ')
+      + (OFFICE_WHAT[it.what] || 'something') + ' in the office.';
     if (it.kind === 'recurred') return name + (it.why === 'assigned' ? ' came round, and is yours.' : it.why === 'added' ? ' came round, and you are on it.' : ' came round again.');
     if (it.why === 'assigned') return by + (it.kind === 'made' ? ' made ' + name + ' and assigned it to you.' : ' assigned ' + name + ' to you.');
     if (it.why === 'added') return by + (it.kind === 'made' ? ' made ' + name + ' and put you on it.' : ' put you on ' + name + '.');
     if (it.why === 'removed') return by + ' took you off ' + name + '.';
+    if (it.kind === 'commented') return by + (it.why === 'mentioned' ? ' mentioned you in a comment on ' : it.why === 'commented' ? ' also commented on ' : ' commented on ') + name + '.';
     if (it.why === 'mentioned') return by + ' mentioned you in ' + name + '.';
     if (it.kind === 'made') return by + ' made ' + name + '.';
     if (it.kind === 'deleted') return by + ' deleted ' + name + '.';
@@ -1366,7 +1435,8 @@
       if (d) li.appendChild(el('p', 'tk-note__what', d));
       var foot = el('p', 'tk-when', when(it.t) + ' ');
       if (it.kind !== 'deleted') {
-        var a = el('a', null, 'Open the task'); a.href = '#/t/' + it.task;
+        var a = el('a', null, it.kind === 'office' ? 'Open it in the office' : it.kind === 'commented' ? 'Open the comment' : 'Open the task');
+        a.href = it.kind === 'office' ? officeHref(it) : taskHref(it.task, it.kind === 'commented' ? it.comment : null);
         // Opening it marks it read; the task opens whether or not that saves.
         if (!it.read) a.addEventListener('click', function () {
           call(null, { action: 'inbox-read', ids: [it.id] }).then(function (r) { if (r.status === 200) setUnread(r.body.unread); });
@@ -1796,7 +1866,7 @@
     var done;
     if (!cbState()) done = Promise.resolve(guest());
     else if (parts[0] === 'edit' && parts[1]) done = formView(parts[1]);
-    else if (parts[0] === 't' && parts[1]) done = taskView(parts[1]);
+    else if (parts[0] === 't' && parts[1]) done = taskView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'new') done = formView(null);
     else if (parts[0] === 'board') done = tasksView('board');
     else if (parts[0] === 'timeline') done = tasksView('timeline');

@@ -249,3 +249,18 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-post__body { padding-top: 8px; }
 .tk-post__more { justify-self: start; }
 .tk-feed__more { margin-top: 14px; }
+
+/* COMMENTS (comments.js): the conversation under a task, oldest first, each outlined like
+   a notification and set as a description is; the one a notification opened
+   on carries the amber bar a new notification does. The box to write one is
+   the radio's own field, shorter than a description's. */
+.tk-talk { display: grid; gap: 8px; }
+.tk-comments { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.tk-comment { display: grid; gap: 4px; padding: 8px 12px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
+.tk-comment--here { border-color: var(--cb-steel-2); border-left: 6px solid var(--cb-amber); }
+.tk-comment__by { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+.tk-comment__body { padding-top: 4px; border-top: 0; }
+.tk-cform { display: grid; gap: 6px; }
+.tk-cform .tk-cform__text { min-height: 5em; }
+.tk-post__talk { display: grid; gap: 6px; padding-top: 8px; border-top: 2px solid var(--cb-bar); }
+.tk-post__said { font-size: 14px; color: var(--cb-amber-2); }

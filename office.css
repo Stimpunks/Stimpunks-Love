@@ -256,3 +256,19 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-post__body { padding-top: 8px; }
 .of-post__more { justify-self: start; }
 .of-feed__more { margin-top: 14px; }
+
+/* COMMENTS (comments.js): the conversation at the foot of a record's page,
+   oldest first, each outlined, set as a description is; the one a
+   notification opened on carries an amber bar down its side. The box to
+   write one is the radio's own field, shorter than a description's. */
+.of-talk { display: grid; gap: 8px; }
+.of-comments { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.of-comment { display: grid; gap: 4px; padding: 8px 12px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
+.of-comment--here { border-color: var(--cb-steel-2); border-left: 6px solid var(--cb-amber); }
+.of-comment__by { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
+.of-comment__body { padding-top: 4px; border-top: 0; }
+.of-when { font-size: 14px; color: var(--cb-amber-2); }
+.of-cform { display: grid; gap: 6px; }
+.of-cform .of-cform__text { min-height: 5em; }
+.of-post__talk { display: grid; gap: 6px; padding-top: 8px; border-top: 2px solid var(--cb-bar); }
+.of-post__said { font-size: 14px; color: var(--cb-amber-2); }

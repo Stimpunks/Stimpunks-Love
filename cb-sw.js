@@ -36,7 +36,8 @@ function placeOf(list, tag) {
 function safePath(p) {
   if (typeof p !== 'string') return '/';
   if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?(?:#cb=(?:props|messages))?$/.test(p)) return p;
-  if (/^\/tasks\.html#\/(?:t\/k[A-Za-z0-9_-]{12}|inbox)$/.test(p)) return p;
+  if (/^\/tasks\.html#\/(?:t\/k[A-Za-z0-9_-]{12}(?:\/c\/m[A-Za-z0-9_-]{12})?|inbox)$/.test(p)) return p;
+  if (/^\/office\.html#\/(?:c|g|k|mailings)\/[cgkn][A-Za-z0-9_-]{12}(?:\/c\/m[A-Za-z0-9_-]{12})?$/.test(p)) return p;
   if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
   return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
 }
@@ -51,18 +52,30 @@ function forumPlace(d, tag) {
 /* A task's notification, in the words Tasks' own list uses. */
 function taskSays(d) {
   var by = d.handle ? String(d.handle).slice(0, 40) : '';
+  if (d.did === 'office') {
+    // A comment in the office: what it is on, never its name, which is sealed.
+    var what = { contact: 'a contact', grant: 'a grant request', 'case': 'a case', mailing: 'a mailing' }[d.what] || 'something';
+    var at = { contact: 'c', grant: 'g', 'case': 'k', mailing: 'mailings' }[d.what];
+    var rec = typeof d.rec === 'string' && /^[cgkn][A-Za-z0-9_-]{12}$/.test(d.rec) ? d.rec : '';
+    var on = rec && typeof d.comment === 'string' && /^m[A-Za-z0-9_-]{12}$/.test(d.comment) ? '/c/' + d.comment : '';
+    return { title: by + (d.why === 'mentioned' ? ' mentioned you in a comment on ' : d.why === 'commented' ? ' also commented on ' : ' commented on ') + what + ' in the office',
+      body: 'Open it in the office.', url: safePath(rec && at ? '/office.html#/' + at + '/' + rec + on : '/tasks.html#/inbox'), tag: 'cb-office-' + (rec || 'gone') };
+  }
   var name = typeof d.name === 'string' && d.name ? '“' + d.name + '”' : '';
   var title = d.did === 'recurred' ? (d.why === 'assigned' ? 'A recurring task came round for you' : 'A recurring task came round')
     : d.why === 'assigned' ? by + ' assigned you a task'
     : d.why === 'added' ? by + ' put you on a task'
     : d.why === 'removed' ? by + ' took you off a task'
-    : d.why === 'mentioned' ? by + ' mentioned you in a task'
+    : d.why === 'mentioned' ? by + (d.did === 'commented' ? ' mentioned you in a comment on a task' : ' mentioned you in a task')
+    : d.did === 'commented' ? by + (d.why === 'commented' ? ' also commented on a task' : ' commented on a task')
     : d.did === 'made' ? by + ' made a task'
     : d.did === 'deleted' ? by + ' deleted a task'
     : d.did === 'ticked' ? by + ' ticked a box on a task' : by + ' changed a task';
   var body = name ? name + (d.box ? ': “' + d.box + '”' : '') : 'Open Notifications in Tasks to see it.';
   var task = typeof d.task === 'string' && /^k[A-Za-z0-9_-]{12}$/.test(d.task) ? d.task : '';
-  return { title: title, body: body, url: safePath(task ? '/tasks.html#/t/' + task : '/tasks.html#/inbox'), tag: 'cb-task-' + (task || 'gone') };
+  // A comment opens on itself.
+  var said = task && typeof d.comment === 'string' && /^m[A-Za-z0-9_-]{12}$/.test(d.comment) ? '/c/' + d.comment : '';
+  return { title: title, body: body, url: safePath(task ? '/tasks.html#/t/' + task + said : '/tasks.html#/inbox'), tag: 'cb-task-' + (task || 'gone') };
 }
 
 function say(d) {

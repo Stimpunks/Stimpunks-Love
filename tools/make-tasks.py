@@ -137,7 +137,8 @@ def check_lib(lib):
     if "console." in code:
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
     for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
-                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity", "taskFeed"):
+                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity", "taskFeed",
+                 "taskComments", "commentTask", "editTaskComment", "removeTaskComment"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -181,8 +182,36 @@ def check_lib(lib):
     evkeys = {part.split(":")[0].strip() for part in re.split(r",\s*", ev.group(1))} if ev else set()
     if evkeys != {"id", "t", "by", "task", "name", "kind", "changes"}:
         problems.append(f"{LIB.name}: an event keeps who, when, which task, its kind and what changed, and nothing else.")
-    if "{ ...ev, why, read: false }" not in nt or "taskConcerns(kind, by, had, next, taskPeople(mods))" not in nt:
+    tell = (re.search(r"async function tellTaskPeople\(.*?\n\}", sec, re.S) or [""])[0]
+    if "{ ...ev, why, read: false }" not in tell or "tellTaskPeople(ev, taskConcerns(kind, by, had, next, taskPeople(mods), extra)" not in nt:
         problems.append(f"{LIB.name}: a notification is the event, why it is there and whether it is read, for somebody who could read tasks.")
+    # An office comment's notification names the record by its id and what it is, never its name or the comment's words.
+    noc = fn(sec, "noteOfficeComment")
+    oev = re.search(r"const ev = \{(.*?)\};", noc)
+    okeys = {part.split(":")[0].strip() for part in re.split(r",\s*", oev.group(1))} if oev else set()
+    if okeys != {"id", "t", "by", "kind", "what", "rec", "comment"} or "comment: comment.id" not in noc:
+        problems.append(f"{LIB.name}: an office comment's notification keeps who, when, what it is on, its id and the comment's id, and nothing sealed.")
+    if "tellTaskPeople(ev, told," not in noc or "taskPeople(mods)" not in noc:
+        problems.append(f"{LIB.name}: an office comment tells only people who could read tasks, through the one list (noteOfficeComment).")
+    # Comments: kept with their writer's mark, which never leaves the server; edited only by their writer;
+    # deleted by their writer or an administrator; told and kept in the activity as that one was made,
+    # never their words; and gone with their task.
+    if "if (kind === 'commented') ev.comment = extra.comment.id;" not in nt or re.search(r"ev\.\w+ = [^;]*\.body", nt):
+        problems.append(f"{LIB.name}: a comment's event names the comment and never keeps its words.")
+    ct = fn(sec, "commentTask")
+    if "const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };" not in ct:
+        problems.append(f"{LIB.name}: a comment is kept as its id, its writer, the writer's mark, when, and its words, and nothing else.")
+    sc = (re.search(r"function shapeComment\(.*?\n\}", sec, re.S) or [""])[0]
+    if "mark:" in sc or "c.mark ===" not in sc:
+        problems.append(f"{LIB.name}: shapeComment sends a comment's mark, or no longer works out whose it is from it. The mark never leaves the server.")
+    if "list[k].mark !== authorMark(who)) { why" not in fn(sec, "editTaskComment"):
+        problems.append(f"{LIB.name}: only whoever wrote a comment edits it (editTaskComment).")
+    if "list[k].mark !== authorMark(who) && !who.roles.has('administrator')" not in fn(sec, "removeTaskComment"):
+        problems.append(f"{LIB.name}: only whoever wrote a comment, or an administrator, deletes it (removeTaskComment).")
+    if "await s.delete(taskCommentsBlob(gone.id));" not in fn(sec, "removeTask"):
+        problems.append(f"{LIB.name}: a deleted task's comments must go with it (removeTask).")
+    if "payload.comment = item.comment;" not in fn(lib, "notifyTask") or re.search(r"comment\.body|\.body\b", fn(lib, "notifyTask")):
+        problems.append(f"{LIB.name}: notifyTask tells a device which comment and never its words.")
     if "out.push({ field: 'body' })" not in fn(sec, "taskChanges"):
         problems.append(f"{LIB.name}: a description's change is kept without its words.")
     tc = (re.search(r"function taskConcerns\(.*?\n\}", sec, re.S) or [""])[0]
@@ -198,8 +227,8 @@ def check_lib(lib):
     ntf = fn(lib, "notifyTask")
     if "wants(d.want, 'tasks')" not in ntf or "tasksAllow(who)" not in ntf or "foldHandle(item.by) === to" not in ntf:
         problems.append(f"{LIB.name}: notifyTask tells a device only with the tasks switch on, while it can read tasks, and never its own change.")
-    if "await notifyTask(h, { ...ev, why }" not in nt or nt.find("await notifyTask(") < nt.find("taskInboxBlob(petKey(h))"):
-        problems.append(f"{LIB.name}: a device is told only after the notification is in its person's list (noteTask).")
+    if "await notifyTask(h, { ...ev, why }" not in tell or tell.find("await notifyTask(") < tell.find("taskInboxBlob(petKey(h))"):
+        problems.append(f"{LIB.name}: a device is told only after the notification is in its person's list (tellTaskPeople).")
     if "s.delete(taskInboxBlob(pk))" not in fn(sec, "forgetTaskInbox"):
         problems.append(f"{LIB.name}: forgetTaskInbox no longer deletes somebody's notifications.")
     if not da or "await forgetTaskInbox(petKey(handle), s);" not in da.group(0):
@@ -256,6 +285,28 @@ def check_js():
             problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks and nothing else.")
 
 
+def check_comments_js():
+    """comments.js draws the comments for Tasks and the office: from nodes, never
+    HTML; through markdown.js; asking only through the page's own function; and
+    keeping nothing in the browser."""
+    f = ROOT / "comments.js"
+    if not f.exists():
+        problems.append("comments.js: missing. Tasks and the office draw their comments with it.")
+        return
+    js = code_of(f)
+    for bad in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write", "DOMParser", "createContextualFragment"):
+        if bad in js:
+            problems.append(f"comments.js: {bad}. A comment is built from nodes with textContent, never as HTML.")
+    if "window.loveMarkdown.blocks" not in js:
+        problems.append("comments.js: it builds a comment some way other than markdown.js, the street's one builder.")
+    if re.search(r"localStorage|sessionStorage|indexedDB", js):
+        problems.append("comments.js: it keeps something in the browser. privacy.html says neither Tasks nor the office keep anything there.")
+    if re.search(r"\bfetch\(|XMLHttpRequest|EventSource|WebSocket|sendBeacon", js):
+        problems.append("comments.js: it talks to a server itself. It asks only through the page's own function (o.ask).")
+    if re.search(r"--cb-|#[0-9a-fA-F]{3,8}\b|style\.", js):
+        problems.append("comments.js: it sets a colour or a style. Each page dresses its comments in its own stylesheet.")
+
+
 def check_colours(data):
     """Every tag colour is declared in love.css for light and dark themes, and
     tasks.css dresses it in both, so a tag never shows a colour nobody chose."""
@@ -286,9 +337,9 @@ def check_page():
         problems.append(f"{PAGE.name}: missing.")
         return
     page = PAGE.read_text()
-    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "tasks.js")]
-    if min(at) < 0 or at[0] > at[1]:
-        problems.append(f"{PAGE.name}: it must load markdown.js, then tasks.js.")
+    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "comments.js", "tasks.js")]
+    if min(at) < 0 or at != sorted(at):
+        problems.append(f"{PAGE.name}: it must load markdown.js, then comments.js, then tasks.js.")
     if 'href="privacy.html#tasks"' not in page:
         problems.append(f"{PAGE.name}: the page must link what tasks keep, privacy.html#tasks.")
     if 'id="tasks"' not in PRIVACY.read_text():
@@ -311,6 +362,7 @@ def main():
     check_colours(data)
     check_recur()
     check_js()
+    check_comments_js()
     check_css()
     check_page()
     if problems:

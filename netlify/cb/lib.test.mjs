@@ -3817,7 +3817,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
-  taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE } from './lib.mjs';
+  taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
+  TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -5358,6 +5359,146 @@ test('Tasks\' feed: the cards asked for, whole, with their latest changes, and o
   for (let i = 0; i < FEED_PAGE + 5; i++) many.push((await saveTask(TRYAN, { name: 'Task ' + i }, s, T0 + 10 + i, TMODS)).task.id);
   assert.equal((await taskFeed(TRYAN, many, s)).length, FEED_PAGE, 'a page of the feed held more than FEED_PAGE cards');
 });
+
+/* ── Comments on tasks (Ryan's ask, 2026-10-21) ──
+
+   A comment is its words, who wrote it and when, kept under its task with the
+   writer's mark, which never leaves the server. Only its writer edits it; its
+   writer or an administrator deletes it; it goes with its task. Broken on
+   purpose when it was written: with the mark check taken out of the edit, the
+   second claim of Chelsea's name edited the first one's comment; with the
+   comment's words put in the event, the notification carried them. */
+test('a comment on a task: its writer edits it, its writer or an administrator deletes it, and it goes with the task', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await saveTask(TRYAN, { name: 'Fix the shelf', who: 'Norah' }, s, T0, TMODS)).task;
+  assert.deepEqual(await commentTask(TSAM, t.id, 'Hello', s, T0 + 1, TMODS), { error: 'Tasks are for our directors and administrators, on a claimed username.' });
+  assert.equal(await taskComments(TSAM, t.id, s), null, 'somebody who cannot read tasks was sent its comments');
+  assert.ok((await commentTask(TCHELSEA, t.id, '', s, T0 + 1, TMODS)).error, 'an empty comment was kept');
+  assert.ok((await commentTask(TCHELSEA, t.id, 'x'.repeat(TASK_COMMENT_MAX + 1), s, T0 + 1, TMODS)).error, 'a comment over the limit was kept');
+  assert.ok((await commentTask(TCHELSEA, 'kAAAAAAAAAAAA', 'Hello', s, T0 + 1, TMODS)).error, 'a comment was kept on a task that is not there');
+  const c = (await commentTask(TCHELSEA, t.id, 'The **screws** are in the drawer.', s, T0 + 5, TMODS)).comment;
+  assert.deepEqual(Object.keys(c).sort(), ['blocks', 'body', 'by', 'edited', 'id', 'mine', 't'], 'a comment was sent with more than its words, writer and times');
+  assert.equal(c.mine, true);
+  const seen = await taskComments(TRYAN, t.id, s);
+  assert.equal(seen.length, 1);
+  assert.equal(seen[0].mine, false, 'somebody else\'s comment was offered to Ryan as his own');
+  assert.ok(!JSON.stringify(seen).includes('mark'), 'a comment\'s mark left the server');
+  // The task knows when it was last talked about, and a comment is not a change to it.
+  const after = (await readTasks(s)).find((x) => x.id === t.id);
+  assert.equal(after.talk, T0 + 5, 'the task does not say when it was last commented on');
+  assert.equal(after.edited, undefined, 'a comment counted as a change to the task');
+  // Only its writer edits it: not Ryan, an administrator, and not the next person to claim Chelsea's name.
+  assert.ok((await editTaskComment(TRYAN, t.id, c.id, 'Changed.', s, T0 + 6, TMODS)).error, 'somebody else edited a comment');
+  assert.ok((await editTaskComment(fw('Chelsea', 999, ['director']), t.id, c.id, 'Changed.', s, T0 + 6, TMODS)).error, 'a name claimed again edited its old owner\'s comment');
+  const ed = (await editTaskComment(TCHELSEA, t.id, c.id, 'The screws are in the **top** drawer.', s, T0 + 7, TMODS)).comment;
+  assert.equal(ed.body, 'The screws are in the **top** drawer.');
+  assert.equal(ed.edited, T0 + 7);
+  assert.equal(ed.t, T0 + 5, 'an edit changed when the comment was written');
+  // Its writer or an administrator deletes it; another director does not.
+  const d = (await commentTask(TCHELSEA, t.id, 'A second thought.', s, T0 + 8, TMODS)).comment;
+  assert.ok((await removeTaskComment(TNORAH, t.id, c.id, s)).error, 'a director deleted somebody else\'s comment');
+  assert.deepEqual(await removeTaskComment(TRYAN, t.id, c.id, s), { gone: true }, 'an administrator could not delete a comment');
+  assert.deepEqual(await removeTaskComment(TCHELSEA, t.id, d.id, s), { gone: true });
+  assert.ok((await removeTaskComment(TCHELSEA, t.id, d.id, s)).error, 'a comment was deleted twice');
+  assert.deepEqual(await taskComments(TRYAN, t.id, s), []);
+  // The feed carries the latest comments and how many there are.
+  for (let i = 0; i < 3; i++) await commentTask(TNORAH, t.id, 'Note ' + i, s, T0 + 20 + i, TMODS);
+  const card = (await taskFeed(TRYAN, [t.id], s))[0];
+  assert.deepEqual(card.comments.map((x) => x.body), ['Note 1', 'Note 2'], 'a card\'s comments are not the latest, oldest first');
+  assert.equal(card.said, 3);
+  // A deleted task takes its comments with it.
+  await removeTask(TRYAN, t.id, s, T0 + 30, TMODS);
+  assert.equal(await s.get(`task-comments/${t.id}`, { type: 'json' }), null, 'a deleted task\'s comments were left behind');
+});
+
+test('a comment tells the people on the task, whoever made it, anybody who commented before and anybody it @mentions, and never its words', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const TSARA = fw('Sara', 950, ['director']);
+  const mods = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sara":["director"],"Sam":[]}');
+  const t = (await saveTask(TCHELSEA, { name: 'Fix the shelf', who: 'Norah' }, s, T0, mods)).task;
+  await commentTask(TRYAN, t.id, 'I can bring a drill.', s, T0 + 1, mods);
+  const inbox = async (who) => (await taskInbox(who, s, T0 + 100)).items.filter((x) => x.kind === 'commented');
+  assert.deepEqual((await inbox(TNORAH)).map((x) => [x.by, x.why]), [['Ryan', 'yours']], 'whoever the task is assigned to was not told');
+  assert.deepEqual((await inbox(TCHELSEA)).map((x) => [x.by, x.why]), [['Ryan', 'yours']], 'whoever made the task was not told');
+  assert.deepEqual(await inbox(TRYAN), [], 'somebody was told about their own comment');
+  // The next comment tells Ryan, who commented before, and @Sara, who is on nothing, and nobody @Sam, who cannot read tasks.
+  const c2 = (await commentTask(TNORAH, t.id, 'Thanks @Ryan. @Sara, could you check? @Sam', s, T0 + 2, mods)).comment;
+  assert.deepEqual((await inbox(TRYAN)).map((x) => x.why), ['mentioned'], 'a mention did not outrank having commented');
+  assert.deepEqual((await inbox(TSARA)).map((x) => x.why), ['mentioned']);
+  assert.deepEqual((await taskInbox(TSAM, s, T0 + 100)), null);
+  const ev = (await inbox(TSARA))[0];
+  assert.equal(ev.comment, c2.id, 'the notification does not say which comment');
+  assert.ok(!JSON.stringify(ev).includes('could you check'), 'a comment\'s words went into a notification');
+  // A third, by Chelsea, tells Ryan as somebody who commented before.
+  await commentTask(TCHELSEA, t.id, 'On my way.', s, T0 + 3, mods);
+  assert.deepEqual((await inbox(TRYAN)).map((x) => x.why), ['commented', 'mentioned']);
+  // An edit tells only whoever it newly @mentions, and is in nobody's activity.
+  const acts = (await taskActivity(TRYAN, t.id, s)).filter((e) => e.kind === 'commented').length;
+  await editTaskComment(TNORAH, t.id, c2.id, 'Thanks @Ryan. @Sara, could you check? @Chelsea too.', s, T0 + 4, mods);
+  assert.deepEqual((await inbox(TCHELSEA)).map((x) => x.why), ['mentioned', 'yours', 'yours'], 'an edit did not tell somebody it newly mentioned, once');
+  assert.equal((await inbox(TSARA)).length, 1, 'an edit told somebody it had already mentioned');
+  assert.equal((await taskActivity(TRYAN, t.id, s)).filter((e) => e.kind === 'commented').length, acts, 'an edited comment went into the activity');
+  assert.ok((await taskActivity(TRYAN, t.id, s)).every((e) => !('body' in e)), 'a comment\'s words went into the activity');
+});
+
+/* Comments in the office are a task's comments, sealed: on a contact, a grant
+   request, a case or a mailing, told in Tasks' Notifications by the record's
+   id and what it is, never its name. Broken on purpose when it was written:
+   with the comment's words put in the notification, the test caught it there. */
+test('a comment in the office is sealed, its writer edits it, its writer or an administrator deletes it, and it goes with its record', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const c = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  const g = (await saveGrant(TRYAN, { name: 'Mutual Aid Grant Request 1: Ada', contactEmail: 'ada@example.org', amount: 500 }, s, T0 + 1)).grant;
+  const k = (await saveCase(TRYAN, { name: 'Connection Request: Ada', contactEmail: 'ada@example.org' }, s, T0 + 2)).case;
+  assert.equal(await officeComments(TSAM, g.id, s), null, 'somebody who cannot open the office was sent its comments');
+  assert.ok((await commentOffice(TSAM, g.id, 'Hello', s, T0 + 3, TMODS)).error);
+  assert.ok((await commentOffice(TCHELSEA, 'gAAAAAAAAAAAA', 'Hello', s, T0 + 3, TMODS)).error, 'a comment was kept on a grant request that is not there');
+  assert.ok((await commentOffice(TCHELSEA, 'tAAAAAAAAAAAA', 'Hello', s, T0 + 3, TMODS)).error, 'a comment was kept on something that takes none');
+  assert.ok((await commentOffice(TCHELSEA, g.id, 'x'.repeat(TASK_COMMENT_MAX + 1), s, T0 + 3, TMODS)).error, 'a comment over the limit was kept');
+  const said = (await commentOffice(TCHELSEA, g.id, 'Rent is due on the **first**.', s, T0 + 5, TMODS)).comment;
+  assert.equal(said.mine, true);
+  // Sealed where it is kept: the words are nowhere in the blob.
+  const raw = JSON.stringify(await s.get(`office-comments/${g.id}`, { type: 'json' }));
+  assert.ok(raw && !raw.includes('Rent is due') && !raw.includes('Chelsea'), 'an office comment was kept unsealed');
+  const seen = await officeComments(TRYAN, g.id, s);
+  assert.equal(seen.length, 1);
+  assert.equal(seen[0].mine, false);
+  assert.ok(!JSON.stringify(seen).includes('mark'), 'a comment\'s mark left the server');
+  const after = (await officeGrant(TRYAN, g.id, s));
+  assert.equal(after.talk, T0 + 5, 'the grant request does not say when it was last commented on');
+  assert.equal(after.edited, null, 'a comment counted as a change to the grant request');
+  // Only its writer edits it, and the writer or an administrator deletes it.
+  assert.ok((await editOfficeComment(TRYAN, g.id, said.id, 'Changed.', s, T0 + 6, TMODS)).error, 'somebody else edited a comment');
+  assert.ok((await editOfficeComment(fw('Chelsea', 999, ['director']), g.id, said.id, 'Changed.', s, T0 + 6, TMODS)).error, 'a name claimed again edited its old owner\'s comment');
+  assert.equal((await editOfficeComment(TCHELSEA, g.id, said.id, 'Rent is due on the 1st.', s, T0 + 7, TMODS)).comment.edited, T0 + 7);
+  assert.ok((await removeOfficeComment(TNORAH, g.id, said.id, s)).error, 'a director deleted somebody else\'s comment');
+  assert.deepEqual(await removeOfficeComment(TRYAN, g.id, said.id, s), { gone: true }, 'an administrator could not delete a comment');
+  // Contacts and cases take comments too, and the feed carries the latest.
+  await commentOffice(TNORAH, c.id, 'Met at the fair.', s, T0 + 8, TMODS);
+  for (let i = 0; i < 3; i++) await commentOffice(TNORAH, k.id, 'Note ' + i, s, T0 + 10 + i, TMODS);
+  const feed = await officeFeed(TRYAN, [k.id, c.id], s);
+  assert.deepEqual(feed.map((x) => [x.kind, x.said, x.comments.map((y) => y.body)]), [['case', 3, ['Note 1', 'Note 2']], ['contact', 1, ['Met at the fair.']]]);
+  // Deleting a record takes its comments.
+  await removeCase(TRYAN, k.id, s);
+  assert.equal(await s.get(`office-comments/${k.id}`, { type: 'json' }), null, 'a deleted case\'s comments were left behind');
+  await removeContact(TRYAN, c.id, s);
+  assert.equal(await s.get(`office-comments/${c.id}`, { type: 'json' }), null, 'a deleted contact\'s comments were left behind');
+}));
+
+test('a comment in the office tells whoever added the record, anybody who commented before and anybody it @mentions, in Tasks\' Notifications, naming nothing sealed', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const g = (await saveGrant(TRYAN, { name: 'Creator Grant Request 7: Grace Hopper', amount: 3000 }, s, T0)).grant;
+  await commentOffice(TCHELSEA, g.id, 'Looks good to me.', s, T0 + 1, TMODS);
+  const inbox = async (who) => (await taskInbox(who, s, T0 + 100)).items.filter((x) => x.kind === 'office');
+  assert.deepEqual((await inbox(TRYAN)).map((x) => [x.by, x.why, x.what, x.rec]), [['Chelsea', 'yours', 'grant', g.id]], 'whoever added the record was not told');
+  assert.deepEqual(await inbox(TCHELSEA), [], 'somebody was told about their own comment');
+  assert.deepEqual(await inbox(TNORAH), [], 'somebody it does not concern was told');
+  await commentOffice(TNORAH, g.id, '@Chelsea, can you send the agreement?', s, T0 + 2, TMODS);
+  assert.deepEqual((await inbox(TCHELSEA)).map((x) => x.why), ['mentioned']);
+  assert.deepEqual((await inbox(TRYAN)).map((x) => x.why), ['yours', 'yours']);
+  const all = JSON.stringify((await taskInbox(TRYAN, s, T0 + 100)).items);
+  assert.ok(!all.includes('Grace') && !all.includes('Looks good'), 'a notification carried a record\'s name or a comment\'s words out of the office\'s seal');
+}));
 
 test('the office\'s feed: grant requests, cases and contacts by their ids, whole, and only for directors and administrators', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });

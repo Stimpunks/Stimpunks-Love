@@ -5,21 +5,22 @@
    is shut. GET, with ?view=:
      contacts                every contact, without notes
      contact  &id=           one contact, its notes as words and as nodes, their grant requests and cases,
-                             and their emails (who, when, subject), newest first
+                             their emails (who, when, subject), newest first, and its comments, oldest first
      email    &id=           one email, whole, as the team mailbox's script sent it
      grants                  every grant request, without its description
-     grant    &id=           one grant request, its description as words and as nodes
+     grant    &id=           one grant request, its description as words and as nodes, and its comments
      cases                   every case, without its description
-     case     &id=           one case, its description as words and as nodes
+     case     &id=           one case, its description as words and as nodes, and its comments
      feed     &ids=          up to OFFICE_FEED_PAGE grant requests, cases and contacts by their ids, each
-                             whole: one page of the Feed, whose order and filters the page works out
+                             whole, with its latest comments and how many it has: one page of the Feed,
+                             whose order and filters the page works out
      dashboard               the office's figures, worked out now: EspoCRM's four reports, this week
                              and last, tasks, mailings, and the newest grant requests, cases and tasks
      reports                 EspoCRM's nine reports, worked out now: by stage, month and year, awards,
                              grantees, and cases by status and year
      templates               every mailing template
      mailings                every mailing, newest first, with how many of its emails are where
-     mailing  &id=           one mailing, its template's words and every email's state
+     mailing  &id=           one mailing, its template's words, every email's state, and its comments
    POST, with the same pass:
      { action: 'contact-save', id?, espo?, first?, last?, email?, phone?, noEmail?, noCall?, notes? }
          a new contact, or a change to the one `id` names; only the fields sent change.
@@ -59,13 +60,16 @@
      { action: 'gb-read' }                           Givebutter read now, as each night
      { action: 'qb-disconnect' }                     the office's permission revoked at Intuit, and
          what it last read deleted
-     { action: 'preview', body }                     how notes or a description will set
+     { action: 'comment', id, body }                 a comment on the contact, grant request, case or mailing `id` names
+     { action: 'comment-edit', id, c, body }         comment c changed, by whoever wrote it
+     { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
+     { action: 'preview', body, comment? }           how notes or a description, or with comment: true a comment, will set
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
@@ -75,7 +79,8 @@ const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
 const settings = { nameMax: CONTACT_NAME_MAX, notesMax: CONTACT_NOTES_MAX, grantNameMax: GRANT_NAME_MAX, grantBodyMax: GRANT_BODY_MAX,
   amountMax: GRANT_AMOUNT_MAX, pipelines: OFFICE_PIPELINES, statuses: OFFICE_STATUSES, currency: OFFICE_CURRENCY,
   cases: OFFICE_CASES, caseNameMax: CASE_NAME_MAX, caseBodyMax: CASE_BODY_MAX, fillIns: FILL_INS, templateNameMax: TEMPLATE_NAME_MAX,
-  templateSubjectMax: TEMPLATE_SUBJECT_MAX, templateBodyMax: TEMPLATE_BODY_MAX, mailingMax: MAILING_MAX, feedPage: OFFICE_FEED_PAGE };
+  templateSubjectMax: TEMPLATE_SUBJECT_MAX, templateBodyMax: TEMPLATE_BODY_MAX, mailingMax: MAILING_MAX, feedPage: OFFICE_FEED_PAGE,
+  commentMax: OFFICE_COMMENT_MAX };
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The office only answers stimpunks.world.' }, QUIET);
@@ -87,7 +92,8 @@ export default async (req) => {
       : { error: 'The office is for our directors and administrators, on a claimed username. Claim yours under Account on the radio.', claim: true }, QUIET);
   }
   if (!officeReady()) return json(503, { error: 'The office is shut: its key is not set, so nothing in it can be opened.' }, QUIET);
-  const me = { handle: who.handle };
+  // An administrator may delete anybody's comment, so the page offers it.
+  const me = { handle: who.handle, admin: who.roles.has('administrator') };
   const url = new URL(req.url);
   try {
     if (req.method === 'GET') {
@@ -95,12 +101,12 @@ export default async (req) => {
       if (view === 'contacts') return json(200, { me, settings, contacts: await officeContacts(who) }, QUIET);
       if (view === 'contact') {
         const c = await officeContact(who, url.searchParams.get('id'));
-        return c ? json(200, { me, settings, contact: c }, QUIET) : json(404, { error: 'That contact has been deleted.' }, QUIET);
+        return c ? json(200, { me, settings, contact: c, comments: await officeComments(who, c.id) }, QUIET) : json(404, { error: 'That contact has been deleted.' }, QUIET);
       }
       if (view === 'grants') return json(200, { me, settings, grants: await officeGrants(who) }, QUIET);
       if (view === 'grant') {
         const g = await officeGrant(who, url.searchParams.get('id'));
-        return g ? json(200, { me, settings, grant: g }, QUIET) : json(404, { error: 'That grant request has been deleted.' }, QUIET);
+        return g ? json(200, { me, settings, grant: g, comments: await officeComments(who, g.id) }, QUIET) : json(404, { error: 'That grant request has been deleted.' }, QUIET);
       }
       if (view === 'email') {
         const m = await officeEmail(who, url.searchParams.get('id'));
@@ -110,7 +116,7 @@ export default async (req) => {
       if (view === 'feed') return json(200, { me, settings, feed: await officeFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
       if (view === 'case') {
         const k = await officeCase(who, url.searchParams.get('id'));
-        return k ? json(200, { me, settings, case: k }, QUIET) : json(404, { error: 'That case has been deleted.' }, QUIET);
+        return k ? json(200, { me, settings, case: k, comments: await officeComments(who, k.id) }, QUIET) : json(404, { error: 'That case has been deleted.' }, QUIET);
       }
       if (view === 'dashboard') return json(200, { me, settings, dashboard: await officeDashboard(who) }, QUIET);
       if (view === 'reports') return json(200, { me, settings, reports: await officeReports(who) }, QUIET);
@@ -118,15 +124,29 @@ export default async (req) => {
       if (view === 'mailings') return json(200, { me, settings, mailings: await officeMailings(who) }, QUIET);
       if (view === 'mailing') {
         const m = await officeMailing(who, url.searchParams.get('id'));
-        return m ? json(200, { me, settings, mailing: m }, QUIET) : json(404, { error: 'That mailing has been deleted.' }, QUIET);
+        return m ? json(200, { me, settings, mailing: m, comments: await officeComments(who, m.id) }, QUIET) : json(404, { error: 'That mailing has been deleted.' }, QUIET);
       }
       return json(400, { error: 'Show what?' }, QUIET);
     }
     const b = (await body(req)) || {};
     if (b.action === 'preview') {
-      const text = cleanForumBody(b.body, GRANT_BODY_MAX);
-      if (!text) return json(400, { error: `Between one and ${GRANT_BODY_MAX} characters.` }, QUIET);
-      return json(200, { blocks: parseBrass(text, { boxes: true }) }, QUIET);
+      // A comment sets as a comment does: shorter, and its [ ] are words rather than boxes.
+      const most = b.comment === true ? OFFICE_COMMENT_MAX : GRANT_BODY_MAX;
+      const text = cleanForumBody(b.body, most);
+      if (!text) return json(400, { error: `Between one and ${most} characters.` }, QUIET);
+      return json(200, { blocks: b.comment === true ? parseBrass(text) : parseBrass(text, { boxes: true }) }, QUIET);
+    }
+    if (b.action === 'comment') {
+      const r = await commentOffice(who, String(b.id || ''), b.body);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment }, QUIET);
+    }
+    if (b.action === 'comment-edit') {
+      const r = await editOfficeComment(who, String(b.id || ''), String(b.c || ''), b.body);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment }, QUIET);
+    }
+    if (b.action === 'comment-remove') {
+      const r = await removeOfficeComment(who, String(b.id || ''), String(b.c || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
     }
     if (b.action === 'contact-save') {
       const r = await saveContact(who, b);
