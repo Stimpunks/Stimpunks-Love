@@ -83,15 +83,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "hf_NYmmeFHE",
-   "source": "acl",
-   "form": "long",
-   "title": "Maggie Rose - Gentle Man | Live on Austin City Limits TV",
-   "published": "2026-10-02T16:15:29Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "viIhdPUSXlU",
    "source": "acl",
    "form": "long",
@@ -148,6 +139,26 @@
    "published": "2026-10-18T01:00:09Z",
    "state": "screen",
    "runs": 3202,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "hf_NYmmeFHE",
+   "source": "acl",
+   "form": "long",
+   "title": "Maggie Rose - Gentle Man | Live on Austin City Limits TV",
+   "published": "2026-10-20T14:29:55Z",
+   "state": "screen",
+   "runs": 439,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "K11xiBTKLqg",
+   "source": "acl",
+   "form": "long",
+   "title": "SIENNA SPIRO - Die on This Hill | Live on Austin City Limits TV",
+   "published": "2026-10-20T16:01:12Z",
+   "state": "screen",
+   "runs": 280,
    "channel": "Austin City Limits"
   },
   {
@@ -289,46 +300,6 @@
    "state": "screen",
    "runs": 58,
    "channel": "Austin City Limits"
-  },
-  {
-   "id": "76jnoO_pEEI",
-   "source": "kexp",
-   "form": "long",
-   "title": "Austin TV - La ilusión del tacto (Live on KEXP)",
-   "published": "2026-09-21T11:00:01Z",
-   "state": "screen",
-   "runs": 355,
-   "channel": "KEXP"
-  },
-  {
-   "id": "-MmVQhSxOkc",
-   "source": "kexp",
-   "form": "long",
-   "title": "Austin TV - MA (Live on KEXP)",
-   "published": "2026-09-21T11:00:03Z",
-   "state": "screen",
-   "runs": 363,
-   "channel": "KEXP"
-  },
-  {
-   "id": "diiAlThkrsg",
-   "source": "kexp",
-   "form": "long",
-   "title": "Austin TV - Como un demonio en una nube (Live on KEXP)",
-   "published": "2026-09-21T11:00:21Z",
-   "state": "screen",
-   "runs": 289,
-   "channel": "KEXP"
-  },
-  {
-   "id": "7Uj7Y_lvMlU",
-   "source": "kexp",
-   "form": "long",
-   "title": "Austin TV - 171 (∅ ⊆ A) (Live on KEXP)",
-   "published": "2026-09-21T11:00:38Z",
-   "state": "screen",
-   "runs": 163,
-   "channel": "KEXP"
   },
   {
    "id": "AIq0Q87k9pM",
@@ -1351,6 +1322,76 @@
    "channel": "KEXP"
   },
   {
+   "id": "FUWf78dVtzw",
+   "source": "kexp",
+   "form": "long",
+   "title": "TONTRAKUL - Isan Lum Long (อีสานลำล่อง) (Live on KEXP)",
+   "published": "2026-10-20T13:00:01Z",
+   "state": "screen",
+   "runs": 251,
+   "channel": "KEXP"
+  },
+  {
+   "id": "mHD1vBLe6Fo",
+   "source": "kexp",
+   "form": "long",
+   "title": "TONTRAKUL - Home (โฮม) (Live on KEXP)",
+   "published": "2026-10-20T13:00:01Z",
+   "state": "screen",
+   "runs": 292,
+   "channel": "KEXP"
+  },
+  {
+   "id": "yZXpav794BY",
+   "source": "kexp",
+   "form": "long",
+   "title": "TONTRAKUL - Full Performance (Live on KEXP)",
+   "published": "2026-10-20T15:00:17Z",
+   "state": "screen",
+   "runs": 1650,
+   "channel": "KEXP"
+  },
+  {
+   "id": "5UcspgoBux8",
+   "source": "kexp",
+   "form": "long",
+   "title": "Numeron - Blood In My Vein (Live on KEXP)",
+   "published": "2026-10-21T11:00:02Z",
+   "state": "screen",
+   "runs": 370,
+   "channel": "KEXP"
+  },
+  {
+   "id": "_yXcDGhNb_s",
+   "source": "kexp",
+   "form": "long",
+   "title": "Numeron - The Lost Twin Observer (Live on KEXP)",
+   "published": "2026-10-21T11:00:03Z",
+   "state": "screen",
+   "runs": 385,
+   "channel": "KEXP"
+  },
+  {
+   "id": "6KnIYk5JM-Q",
+   "source": "kexp",
+   "form": "long",
+   "title": "Numeron - Triumph Of Death (Live on KEXP)",
+   "published": "2026-10-21T11:00:13Z",
+   "state": "screen",
+   "runs": 343,
+   "channel": "KEXP"
+  },
+  {
+   "id": "qkGfwlGDMh0",
+   "source": "kexp",
+   "form": "long",
+   "title": "Numeron - Cosmic Symphony (Live on KEXP)",
+   "published": "2026-10-21T11:00:35Z",
+   "state": "screen",
+   "runs": 387,
+   "channel": "KEXP"
+  },
+  {
    "id": "_tGMeFjl0HM",
    "source": "kexp",
    "form": "short",
@@ -1531,6 +1572,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "Ugv0GGD93jM",
+   "source": "kexp",
+   "form": "short",
+   "title": "TONTRAKUL performs \"Isan Lum Long (อีสานลำล่อง)\" & more Live on KEXP",
+   "published": "2026-10-20T17:11:36Z",
+   "state": "screen",
+   "runs": 70,
+   "channel": "KEXP"
+  },
+  {
    "id": "NzPCpOI0Ws8",
    "source": "kcrw",
    "form": "long",
@@ -1641,6 +1692,16 @@
    "channel": "KCRW"
   },
   {
+   "id": "4njGwwFkf3U",
+   "source": "kcrw",
+   "form": "long",
+   "title": "King Gizzard and the Lizard Wizard's Must-Listen Albums",
+   "published": "2026-10-20T14:00:27Z",
+   "state": "screen",
+   "runs": 770,
+   "channel": "KCRW"
+  },
+  {
    "id": "zdj_fXOs1UY",
    "source": "kcrw",
    "form": "short",
@@ -1666,13 +1727,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-20T11:30:23Z"
+     "2026-10-21T11:30:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-20T11:30:23Z"
+     "2026-10-21T11:30:14Z"
     ]
    ]
   },
@@ -1680,13 +1741,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-20T11:30:23Z"
+     "2026-10-21T11:30:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-20T11:30:23Z"
+     "2026-10-21T11:30:14Z"
     ]
    ]
   },
@@ -1694,16 +1755,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-20T11:30:23Z"
+     "2026-10-21T11:30:14Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-20T11:30:23Z"
+     "2026-10-21T11:30:14Z"
     ]
    ]
   }
  },
- "set": "2026-10-20T11:30Z"
+ "set": "2026-10-21T11:30Z"
 }
