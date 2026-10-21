@@ -8835,8 +8835,8 @@ export async function mailSentFor(p, s = store(), now = Date.now()) {
 
 /* THE DASHBOARD: the office's figures, worked out from the records every time
    it is opened, so it never disagrees with them (Ryan's brief, 2026-10-21). It
-   holds EspoCRM's four reports: the open grant requests submitted this year
-   against OFFICE_DASHBOARD.active_cap, every open case by status, the open
+   holds EspoCRM's four reports: the open grant requests submitted this year,
+   each pipeline against OFFICE_DASHBOARD.active_cap, every open case by status, the open
    grant requests by stage, and this year's grant requests by month. Beside them
    what came in this week and the week before, the tasks open, overdue and due
    soon, mailings, and the newest grant requests, cases and tasks. Weeks are the
@@ -8862,7 +8862,7 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   const g = {
     open: open.length, openSum: open.reduce((t, x) => t + (x.amount || 0), 0),
     active: { cap: OFFICE_DASHBOARD.active_cap, count: active.length,
-      byPipeline: OFFICE_PIPELINES.map((p) => ({ pipeline: p.name, count: active.filter((x) => x.pipeline === p.name).length })) },
+      byPipeline: OFFICE_PIPELINES.map((p) => ({ pipeline: p.name, count: active.filter((x) => x.pipeline === p.name).length, cap: OFFICE_DASHBOARD.active_cap })) },
     stages: OFFICE_PIPELINES.map((p) => ({ pipeline: p.name,
       stages: p.stages.filter((st) => st.status === 'Open').map((st) => {
         const here = open.filter((x) => x.pipeline === p.name && x.stage === st.name);

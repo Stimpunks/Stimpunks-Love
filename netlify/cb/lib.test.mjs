@@ -4534,7 +4534,7 @@ test('the dashboard works its figures out from the records: EspoCRM’s four rep
   assert.deepEqual([d.day, d.weekFrom, d.year], ['2026-10-18', '2026-10-12', '2026']);
   const g = d.grants;
   assert.deepEqual([g.open, g.openSum], [4, 4500]);
-  assert.deepEqual([g.active.cap, g.active.count, g.active.byPipeline.map((x) => x.count)], [100, 3, [2, 1]]);
+  assert.deepEqual([g.active.cap, g.active.count, g.active.byPipeline.map((x) => [x.count, x.cap])], [100, 3, [[2, 100], [1, 100]]]);
   assert.deepEqual(g.stages[0].stages.map((x) => [x.stage, x.count, x.sum]), [['Received', 1, 500], ['Holding', 2, 1000], ['Holding (No Updates)', 0, 0], ['Agreement Sent', 0, 0]]);
   assert.equal(g.months.length, 10, 'months after this one were drawn');
   assert.deepEqual([g.months[2].counts, g.months[3].counts, g.months[9].counts], [[1, 0], [1, 0], [2, 1]]);

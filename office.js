@@ -1693,17 +1693,35 @@
     art.appendChild(svg);
   }
   /* The cap, as a track filled to how many there are, and words beside it. */
-  function meter(count, cap) {
+  function meter(count, cap, cls, name) {
     var wrap = el('div', 'of-meter');
     var track = el('div', 'of-meter__track');
-    var fill = el('div', 'of-meter__fill of-bg1');
+    var fill = el('div', 'of-meter__fill ' + (cls || 'of-bg1'));
     fill.style.width = Math.min(100, 100 * count / Math.max(1, cap)) + '%';
     track.appendChild(fill);
     wrap.appendChild(track);
     wrap.setAttribute('role', 'meter');
     wrap.setAttribute('aria-valuemin', '0'); wrap.setAttribute('aria-valuemax', String(cap)); wrap.setAttribute('aria-valuenow', String(Math.min(count, cap)));
-    wrap.setAttribute('aria-label', count + ' of a cap of ' + cap);
+    wrap.setAttribute('aria-label', (name ? name + ': ' : '') + count + ' of a cap of ' + cap);
     return wrap;
+  }
+  /* Each pipeline's open grant requests submitted this year, against its own cap. */
+  function capFigure(title, a, year) {
+    var f = el('figure', 'of-fig');
+    f.appendChild(el('figcaption', 'of-fig__title', title));
+    a.byPipeline.forEach(function (x, i) {
+      var row = el('div', 'of-capped');
+      row.appendChild(el('p', 'of-capped__name', x.pipeline));
+      row.appendChild(el('p', 'of-big', x.count + ' of ' + x.cap));
+      row.appendChild(meter(x.count, x.cap, i ? 'of-bg2' : 'of-bg1', x.pipeline));
+      row.appendChild(el('p', 'cb-quiet', x.count <= x.cap ? (x.cap - x.count) + ' more before the cap.' : (x.count - x.cap) + ' over the cap.'));
+      f.appendChild(row);
+    });
+    f.appendChild(el('p', 'cb-quiet', 'Open grant requests submitted in ' + year + ', each pipeline against its own cap.'));
+    var nums = el('details', 'of-numbers'); nums.appendChild(el('summary', null, 'The numbers'));
+    nums.appendChild(numbersTable(['Pipeline', 'Open, submitted this year', 'Cap'], a.byPipeline.map(function (x) { return [x.pipeline, x.count, x.cap]; })));
+    f.appendChild(nums);
+    return f;
   }
   function tile(label, value, note) {
     var t = el('div', 'of-tile');
@@ -1735,8 +1753,9 @@
     function line(text) { said.appendChild(el('li', null, text)); }
     line(plural(g.week.now, 'grant request') + ' came in this week, ' + against(g.week.now, g.week.before) + '.');
     line(plural(k.week.now, 'case') + ' came in this week, ' + against(k.week.now, k.week.before) + '.');
-    var cap = g.active.cap, act = g.active.count;
-    line(plural(act, 'open grant request') + (act === 1 ? ' was' : ' were') + ' submitted this year: ' + (act <= cap ? (cap - act) + ' under the cap of ' + cap : (act - cap) + ' over the cap of ' + cap) + '.');
+    line('Open grant requests submitted this year: ' + g.active.byPipeline.map(function (x) {
+      return x.pipeline + ' has ' + x.count + ', ' + (x.count <= x.cap ? (x.cap - x.count) + ' under' : (x.count - x.cap) + ' over') + ' its cap of ' + x.cap;
+    }).join('; ') + '.');
     line('This year ' + plural(g.decided.granted, 'grant request') + (g.decided.granted === 1 ? ' was' : ' were') + ' granted, ' + money(g.decided.grantedSum) + ' in all, and ' + g.decided.denied + ' denied.');
     line(plural(t.open, 'task') + (t.open === 1 ? ' is' : ' are') + ' open: ' + t.overdue + ' overdue and ' + t.dueSoon + ' due in the next seven days.');
     if (m.waiting || m.sentWeek) line(plural(m.sentWeek, 'mailing email') + ' went this week' + (m.waiting ? ', and ' + m.waiting + (m.waiting === 1 ? ' is' : ' are') + ' waiting for the team mailbox' : '') + '.');
@@ -1751,15 +1770,7 @@
 
     var grid = el('div', 'of-dash');
     // EspoCRM's first report: open grant requests submitted this year, against the cap.
-    var capFig = el('figure', 'of-fig');
-    capFig.appendChild(el('figcaption', 'of-fig__title', 'Active grant applications this year'));
-    capFig.appendChild(el('p', 'of-big', act + ' of ' + cap));
-    capFig.appendChild(meter(act, cap));
-    capFig.appendChild(el('p', 'cb-quiet', 'Open grant requests submitted in ' + d.year + '. ' + (act <= cap ? (cap - act) + ' more before the cap.' : (act - cap) + ' over the cap.')));
-    var capNums = el('details', 'of-numbers'); capNums.appendChild(el('summary', null, 'The numbers'));
-    capNums.appendChild(numbersTable(['Pipeline', 'Open, submitted this year'], g.active.byPipeline.map(function (x) { return [x.pipeline, x.count]; }).concat([['Every pipeline', act], ['The cap', cap]])));
-    capFig.appendChild(capNums);
-    grid.appendChild(capFig);
+    grid.appendChild(capFigure('Active grant applications this year', g.active, d.year));
     // Every open case, by status.
     grid.appendChild(figure('Open cases by status', function (art, w) {
       hbars(art, w, k.byStatus.map(function (x) { return { label: x.status, value: x.count }; }), 'of-c3');
@@ -1835,16 +1846,7 @@
 
     view.appendChild(el('h3', null, 'Grant requests'));
     var gg = el('div', 'of-dash');
-    var cap = d.active.cap, act = d.active.count;
-    var capFig = el('figure', 'of-fig');
-    capFig.appendChild(el('figcaption', 'of-fig__title', 'Active Applications This Year'));
-    capFig.appendChild(el('p', 'of-big', act + ' of ' + cap));
-    capFig.appendChild(meter(act, cap));
-    capFig.appendChild(el('p', 'cb-quiet', 'Open grant requests submitted in ' + d.year + ', against the cap of ' + cap + '.'));
-    var capNums = el('details', 'of-numbers'); capNums.appendChild(el('summary', null, 'The numbers'));
-    capNums.appendChild(numbersTable(['Pipeline', 'Open, submitted this year'], d.active.byPipeline.map(function (x) { return [x.pipeline, x.count]; }).concat([['Every pipeline', act]])));
-    capFig.appendChild(capNums);
-    gg.appendChild(capFig);
+    gg.appendChild(capFigure('Active Applications This Year', d.active, d.year));
     d.openStages.forEach(function (p, i) {
       gg.appendChild(figure('Open Grant Requests by Stage: ' + p.pipeline, function (art, w) {
         hbars(art, w, p.stages.map(function (x) { return { label: x.stage, value: x.count, more: money(x.sum) }; }), pc[i] || 'of-c1');

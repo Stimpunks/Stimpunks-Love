@@ -166,10 +166,10 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 :host([data-tone="dark"]) .of-c2 { fill: var(--cb-task-orange-dark); }
 :host([data-tone="dark"]) .of-c3 { fill: var(--cb-task-aqua-dark); }
 .of-swatch.of-c1, .of-key.of-c1, .of-bg1 { background: var(--cb-task-blue); }
-.of-swatch.of-c2, .of-key.of-c2 { background: var(--cb-task-orange); }
+.of-swatch.of-c2, .of-key.of-c2, .of-bg2 { background: var(--cb-task-orange); }
 .of-swatch.of-c3, .of-key.of-c3 { background: var(--cb-task-aqua); }
 :host([data-tone="dark"]) .of-swatch.of-c1, :host([data-tone="dark"]) .of-key.of-c1, :host([data-tone="dark"]) .of-bg1 { background: var(--cb-task-blue-dark); }
-:host([data-tone="dark"]) .of-swatch.of-c2, :host([data-tone="dark"]) .of-key.of-c2 { background: var(--cb-task-orange-dark); }
+:host([data-tone="dark"]) .of-swatch.of-c2, :host([data-tone="dark"]) .of-key.of-c2, :host([data-tone="dark"]) .of-bg2 { background: var(--cb-task-orange-dark); }
 :host([data-tone="dark"]) .of-swatch.of-c3, :host([data-tone="dark"]) .of-key.of-c3 { background: var(--cb-task-aqua-dark); }
 .of-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; }
 .of-legend__it { display: inline-flex; align-items: center; gap: 6px; }
@@ -184,6 +184,9 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-tile__value { font-size: 32px; font-weight: 700; line-height: 1.15; }
 .of-tile__note { font-size: 14px; color: var(--cb-amber-2); }
 .of-big { font-size: 28px; font-weight: 700; line-height: 1.15; }
+.of-capped { display: grid; gap: 4px; }
+.of-capped + .of-capped { padding-top: 8px; border-top: 1px solid var(--cb-bar); }
+.of-capped__name { font-weight: 700; color: var(--cb-steel-2); }
 .of-meter__track { height: 12px; border-radius: 6px; background: var(--cb-bar); overflow: hidden; }
 .of-meter__fill { height: 100%; border-radius: 6px; }
 .of-numbers > summary { cursor: pointer; font-weight: 700; color: var(--cb-steel-2); padding: 4px 0; }
