@@ -6486,6 +6486,31 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 }
 .yurt-portal__sash { position: relative; display: block; width: 100%; height: 100%; border-radius: 50% 50% 3px 3px / 40% 40% 0 0; overflow: hidden; background: #0C0E14; box-shadow: inset 0 0 0 6px #2A1E17, inset 0 0 0 7px #120C09, inset 0 0 24px rgba(0,0,0,.6); }
 .yurt-portal__space { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+/* VERY SPARKLY AT MAX, Helen's ask, 2026-10-21: once the doors are open and
+   the dial is at MAX GLITTER, the stars twinkle, each at its own pace, and
+   nine four-pointed glints flare and fade across each sky. At Gentle and
+   Regular the sky is as still as it ever was and the glints are not there,
+   and nothing sparkles behind shut doors. Nothing flashes: every glint takes
+   most of a second to come up and as long to go, a few seconds apart, small,
+   the yurt's own fairy lights' pace. The turning and swelling is inside the
+   drawing, where a transform is part of the picture. */
+.yurt-portal__spark { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.yurt-portal__space circle { transform-box: fill-box; transform-origin: center; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__space circle[fill="#F2E6D4"] { animation: yurt-portal-twinkle 2.6s ease-in-out infinite; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__space circle[fill="#F2E6D4"]:nth-child(3n) { animation-duration: 3.4s; animation-delay: .7s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__space circle[fill="#F2E6D4"]:nth-child(4n) { animation-duration: 2.1s; animation-delay: 1.3s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__space circle[fill="#F2E6D4"]:nth-child(5n) { animation-duration: 3.9s; animation-delay: .4s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__spark { animation: yurt-portal-glint 3.6s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(253,243,216,.9)) drop-shadow(0 0 7px rgba(201,167,224,.7)); }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(2) .yurt-portal__spark { animation-delay: .4s; animation-duration: 4.2s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(3) .yurt-portal__spark { animation-delay: 1.1s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(4) .yurt-portal__spark { animation-delay: 1.8s; animation-duration: 3.1s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(5) .yurt-portal__spark { animation-delay: 2.4s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(6) .yurt-portal__spark { animation-delay: .9s; animation-duration: 4.6s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(7) .yurt-portal__spark { animation-delay: 2.9s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(8) .yurt-portal__spark { animation-delay: 1.5s; animation-duration: 3.8s; }
+html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__sparks g:nth-child(9) .yurt-portal__spark { animation-delay: 3.3s; }
+@keyframes yurt-portal-twinkle { 0%, 100% { opacity: .3; transform: scale(.7); } 50% { opacity: 1; transform: scale(1.5); } }
+@keyframes yurt-portal-glint { 0%, 55%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); } 25% { opacity: 1; transform: scale(1.15) rotate(45deg); } }
 .yurt-portal__shutter {
   position: absolute; top: 14px; bottom: 14px; width: calc(50% - 14px); border-radius: 3px;
   background:
@@ -24662,6 +24687,7 @@ html[data-intensity="max"] .rdr-phono__disc { animation: rdr-spin 6s linear infi
 .mus-lede { max-width: 62ch; margin: 0 auto; text-align: left; }
 .room-music .mus-intro { color: var(--rdr-ink-2); max-width: 64ch; margin: 22px 0 14px; }
 .mus-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
+.mus-elsewhere { margin: 22px 0 0; font-size: 16px; color: var(--rdr-ink-2); text-align: center; }
 
 /* The two switches, the yurt's, in this room's clothes. */
 .mus-magic { margin: 18px auto 0; max-width: 560px; text-align: center; }
