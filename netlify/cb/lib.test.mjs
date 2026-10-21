@@ -3789,7 +3789,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
-  mailSigned, mailReady, mailAddresses, officeMailIn, officeEmail, removeEmail } from './lib.mjs';
+  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4470,6 +4470,47 @@ test('an email with a contact is kept whole, sealed, on that contact, once; one 
   const long = await officeMailIn(mailFrom(6, { text: 'x'.repeat(250000) }), s, T0 + 5);
   assert.equal(long.kept, true);
   assert.match((await officeEmail(TRYAN, mailFrom(6).id, s)).text, /Cut short here/);
+})));
+
+test('a labelled thread’s person is found by address or added with the email’s name, and nothing else', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0);
+  const box = 'Team <team@example.org>';
+  assert.deepEqual(await officeMailContact({ name: 'Jane Q. Doe', email: 'Jane <JANE@example.net>', mailbox: box }, s, T0 + 1), { ok: true, made: true });
+  assert.deepEqual(await officeMailContact({ name: 'Jane', email: 'jane@example.net', mailbox: box }, s, T0 + 2), { ok: true, made: false }, 'one person became two contacts');
+  assert.deepEqual(await officeMailContact({ name: 'A. Lovelace', email: 'ADA@example.org', mailbox: box }, s, T0 + 3), { ok: true, made: false });
+  const names = [['Doe, Cy', 'cy@example.net', 'Cy', 'Doe'], ['"Bea Arthur, PhD"', 'bea@example.net', 'Bea', 'Arthur'],
+    ['Foo, Inc.', 'foo@example.net', 'Foo', ''], ['Prince', 'prince@example.net', 'Prince', ''], ['', 'dee@example.net', '', 'dee@example.net'],
+    ['dee2@example.net', 'dee2@example.net', '', 'dee2@example.net']];
+  for (const [name, email] of names) await officeMailContact({ name, email, mailbox: box }, s, T0 + 4);
+  const all = await readContacts(s);
+  for (const [name, email, first, last] of names) {
+    const c = all.find((x) => x.email === email);
+    assert.deepEqual([c.first, c.last], [first, last], `${JSON.stringify(name)} was named wrongly`);
+  }
+  const jane = all.find((c) => c.email === 'jane@example.net');
+  assert.deepEqual([jane.first, jane.last, jane.by, jane.phone, jane.notes], ['Jane Q.', 'Doe', MAIL_BY, '', '']);
+  assert.equal(all.find((c) => c.email === 'ada@example.org').first, 'Ada', 'a contact already here was renamed from an email');
+  assertSealed(await s.get('office-contacts', { type: 'json' }), ['Jane', 'example.net']);
+  for (const bad of [{ email: 'team@example.org', mailbox: box }, { email: 'nobody', mailbox: box }, { email: 'x@example.net' }, null]) {
+    assert.ok((await officeMailContact(bad, s, T0)).error, JSON.stringify(bad));
+  }
+  await withOfficeKey(null, async () => assert.equal((await officeMailContact({ email: 'x@example.net', mailbox: box }, s, T0)).status, 503));
+})));
+
+test('an email kept before somebody on it was a contact is theirs too once they are, and stays while either is', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  const both = mailFrom(7, { from: 'Cy Doe <cy@example.net>', to: ['team@example.org'], cc: ['ada@example.org'] });
+  await officeMailIn(both, s, T0 + 1);
+  await officeMailContact({ name: 'Cy Doe', email: 'cy@example.net', mailbox: 'team@example.org' }, s, T0 + 2);
+  assert.deepEqual(await officeMailIn(both, s, T0 + 3), { kept: true, made: false, contacts: 2 });
+  const cy = (await readContacts(s)).find((c) => c.email === 'cy@example.net');
+  assert.deepEqual((await officeContact(TRYAN, cy.id, s)).mail.map((x) => x.id), [both.id]);
+  assert.deepEqual((await officeEmail(TRYAN, both.id, s)).contacts.map((x) => x.name).sort(), ['Ada Lovelace', 'Cy Doe']);
+  await removeContact(TRYAN, ada.id, s);
+  assert.ok(await officeEmail(TRYAN, both.id, s), 'an email Cy is on went with Ada');
+  assert.deepEqual((await officeContact(TRYAN, cy.id, s)).mail.map((x) => x.id), [both.id]);
 })));
 
 test('fifteen emails to one contact at once: every one kept on their list', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {

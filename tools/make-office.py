@@ -279,7 +279,7 @@ def check_mail(lib):
         return
     f = code_of(MAILFN.read_text())
     ready, signed = f.find("if (!mailReady())"), f.find("if (!mailSigned(")
-    parsed, used = f.find("JSON.parse("), min([i for i in (f.find("officeMailIn("), f.find("mailAddresses(")) if i >= 0] or [-1])
+    parsed, used = f.find("JSON.parse("), min([i for i in (f.find("officeMailIn("), f.find("mailAddresses("), f.find("officeMailContact(")) if i >= 0] or [-1])
     if min(ready, signed, parsed, used) < 0 or not ready < signed < parsed < used:
         problems.append(f"{MAILFN.name}: it must be shut without its key, and check the signature before it reads the body or answers anything.")
     if "console." in f:
@@ -298,6 +298,15 @@ def check_mail(lib):
         problems.append(f"{LIB.name}: officeMailIn must keep nothing of an email that is with nobody in the office.")
     if "mailHash(" not in (re.search(r"export async function mailAddresses\(.*?\n\}", lib, re.S) or [""])[0]:
         problems.append(f"{LIB.name}: mailAddresses must answer keyed hashes, never addresses.")
+    # A contact from the mailbox is a name and an address off an email, and the
+    # answer says only whether one was made: privacy.html says no more is kept.
+    mc = (re.search(r"export async function officeMailContact\(.*?\n\}", lib, re.S) or [""])[0]
+    if "applyContact(list, { first, last, email }, MAIL_WHO, now)" not in mc or mc.count("applyContact(") != 1:
+        problems.append(f"{LIB.name}: officeMailContact must add a contact with only the name and address off the email.")
+    if "return { ok: true, made };" not in mc or re.search(r"return \{ (?!error:)[^}]*\b(?:id|contact|first|last|email)\b", mc):
+        problems.append(f"{LIB.name}: officeMailContact must answer whether it made a contact, and nothing about them.")
+    if "email === mailbox" not in mc:
+        problems.append(f"{LIB.name}: officeMailContact must never make the mailbox itself a contact.")
 
 
 def check_js():

@@ -9,10 +9,13 @@
          subject, text, files } }
                                one email; kept only if it is with a contact, and
                                never twice, and never one deleted from the office
+     { action: 'contact', contact: { name, email, mailbox } }
+                               the person a thread was labelled for in Gmail,
+                               found by their address or added with that name
      { test: true }            whether the way in is open, and nothing else
-   The answer says only whether an email was kept. Nothing about an email is
+   The answer says only whether an email was kept or a contact made. Nothing about an email is
    ever logged. See ../cb/lib.mjs, email. */
-import { mailReady, mailSigned, mailAddresses, officeMailIn, json } from '../cb/lib.mjs';
+import { mailReady, mailSigned, mailAddresses, officeMailIn, officeMailContact, json } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere.
 const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
@@ -28,6 +31,11 @@ export default async (req) => {
   if (b && b.test === true) return json(200, { ok: true, open: true }, QUIET);
   try {
     if (b && b.action === 'addresses') return json(200, { addresses: await mailAddresses() }, QUIET);
+    if (b && b.action === 'contact') {
+      const r = await officeMailContact(b.contact);
+      if (r.error) return json(r.status || 400, { error: r.error }, QUIET);
+      return json(200, { ok: true, made: !!r.made }, QUIET);
+    }
     if (b && b.action === 'email') {
       const r = await officeMailIn(b.email);
       if (r.error) return json(r.status || 400, { error: r.error }, QUIET);

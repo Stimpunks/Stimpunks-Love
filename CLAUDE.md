@@ -5339,6 +5339,15 @@ opens the thread and Gmail's compose window under the mailbox the email came fro
 script every contact's address "so it can match"**, which puts the contact list in a Google project, **filing every email
 "in case they become a contact"**, which is strangers' mail, **attachments**, which are where people's documents are, and
 **sending from the office**, which needs the office to hold a Google credential.
+**Somebody new is added by a Gmail label, chosen by a person** (Ryan's choice, 2026-10-20, over a bookmarklet): the
+script hands every thread labelled **Office** (or `LABEL`) to `officeMailContact` (`{ action: 'contact' }`), the sender
+of its first email, or whoever we sent it to, then sends the thread and remembers it as a `DONE_<thread>` Script
+property, so it keeps read-only access to Gmail. `officeMailContact` adds only the name and address off the email, as
+`MAIL_BY`, finds somebody already here by address, never makes the mailbox one, and answers only whether it made a
+contact; `make-office.py` holds all three. **An email already kept gains a contact who joins it later**
+(`officeMailIn` merges `contacts`), so deleting the first contact cannot leave the second pointing at nothing. The
+friendly edit is **adding everybody who writes in**, which files newsletters and strangers' mail; the label is the
+person's choice of who belongs in the office.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

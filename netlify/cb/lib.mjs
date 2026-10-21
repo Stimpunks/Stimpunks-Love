@@ -8443,8 +8443,16 @@ export async function officeMailIn(m, s = store(), now = Date.now()) {
     files: (Array.isArray(m.files) ? m.files : []).slice(0, MAIL_FILES_MAX).map((f) => ({
       name: [...tidy(f && f.name)].slice(0, 200).join('') || 'attachment', size: Number.isInteger(f && f.size) && f.size >= 0 ? f.size : null })),
     contacts: contacts.map((c) => c.id), t: now };
+  // An email kept before somebody on it became a contact gains them, so the
+  // email goes only when the last contact it is filed on goes.
   let made = false;
-  await updateSealed(mailKeyOf(id), (was) => { made = !was; return was ? null : record; }, s);
+  await updateSealed(mailKeyOf(id), (was) => {
+    made = !was;
+    if (!was) return record;
+    const had = Array.isArray(was.contacts) ? was.contacts : [];
+    const more = record.contacts.filter((c) => !had.includes(c));
+    return more.length ? { ...was, contacts: [...had, ...more] } : null;
+  }, s);
   // Every contact's list, whether or not the email was new, so a send cut off
   // halfway is finished by the next one.
   const out = bareAddress(from) === mailbox;
@@ -8458,6 +8466,51 @@ export async function officeMailIn(m, s = store(), now = Date.now()) {
   }
   await updateSealed(MAILBOX, (was) => (was && was.address === mailbox ? null : { address: mailbox }), s);
   return { kept: true, made, contacts: contacts.length };
+}
+
+/* A person somebody labelled a thread for in Gmail, from the mailbox script:
+   found by their address, or added with the name the email gives them and
+   nothing else. The script then sends the thread, which files it on them. Only
+   ever the address it was given, never the mailbox's own. Returns { made } or
+   { error }, and nothing about the contact. */
+export const MAIL_BY = 'the team mailbox';
+const MAIL_WHO = { handle: MAIL_BY };
+
+/* "Jane Doe", "Doe, Jane", "\"Jane Q. Doe\"" or nothing, as first and last; a
+   person with no name is named by their address, as the intake names one. */
+function nameFromMail(name, email) {
+  const n = [...tidy(name)].join('').replace(/^["'\s]+|["'\s]+$/g, '');
+  if (!n || n.includes('@')) return { first: '', last: [...email].slice(0, CONTACT_NAME_MAX).join('') };
+  const cut = (v) => [...v.trim()].slice(0, CONTACT_NAME_MAX).join('');
+  const parts = n.split(',').map((x) => x.trim());
+  // "Doe, Jane" the way Outlook writes it; "Bea Arthur, PhD" and "Foo, Inc." keep their order.
+  const suffix = parts.length === 2 && /^(?:inc|llc|ltd|co|jr|sr|ii|iii|iv|phd|md)\.?$/i.test(parts[1]);
+  if (parts.length === 2 && parts[0] && !suffix && /^[^\s.]+$/.test(parts[1])) return { first: cut(parts[1]), last: cut(parts[0]) };
+  const words = (suffix ? parts[0] : n).replace(/,/g, ' ').split(/\s+/).filter(Boolean);
+  return words.length > 1 ? { first: cut(words.slice(0, -1).join(' ')), last: cut(words[words.length - 1]) } : { first: cut(words[0] || n), last: '' };
+}
+
+export async function officeMailContact(p, s = store(), now = Date.now()) {
+  if (!officeReady()) return { error: 'The office is shut.', status: 503 };
+  p = p && typeof p === 'object' ? p : {};
+  const mailbox = bareAddress(p.mailbox);
+  if (!mailbox) return { error: 'A contact from the mailbox needs the mailbox it is from.' };
+  const email = bareAddress(p.email);
+  if (!email) return { error: 'That is not an email address.' };
+  if (email === mailbox) return { error: 'The mailbox is not a contact.' };
+  const { first, last } = nameFromMail(p.name, email);
+  let made = false, why = null;
+  await updateSealed(CONTACTS, (was) => {
+    const list = was && Array.isArray(was.contacts) ? was.contacts : [];
+    made = false; why = null;
+    if (list.some((x) => x.email && x.email.toLowerCase() === email)) return null;
+    const r = applyContact(list, { first, last, email }, MAIL_WHO, now);
+    if (r.error) { why = r.error; return null; }
+    made = true;
+    return { contacts: r.list };
+  }, s);
+  if (why) return { error: why };
+  return { ok: true, made };
 }
 
 export async function officeEmail(who, id, s = store()) {
