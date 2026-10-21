@@ -71,6 +71,10 @@
   bar.appendChild(nav);
   box.appendChild(bar);
 
+  // Back one step, or a view's own way up: steps.js fills it.
+  var backRow = el('p', 'of-back');
+  backRow.hidden = true;
+  box.appendChild(backRow);
   var view = el('div', 'of-view');
   box.appendChild(view);
   var said = el('p', 'of-said');
@@ -80,6 +84,33 @@
 
   mount.textContent = '';
   mount.appendChild(host);
+
+  /* GOING BACK ONE STEP, at the height you left the view, is steps.js's. What
+     the link back says about each view is here. Somebody's name, or a
+     request's, is said only from this page's memory: the tab's history keeps
+     the address and how far down, never a name. */
+  function placeOf(hash, title) {
+    var p = String(hash || '').slice(1).split('?')[0].split('/').filter(Boolean);
+    var named = function (kind) { return title ? '“' + title + '”' : kind; };
+    if (!p.length) return 'the contacts';
+    if (p[0] === 'c') return named('the contact');
+    if (p[0] === 'contacts') return p[1] === 'new' ? 'the new contact' : 'changing the contact';
+    if (p[0] === 'g') return named('the grant request');
+    if (p[0] === 'grants') return p[1] === 'board' ? 'the board of grant requests' : p[1] === 'new' ? 'the new grant request' : p[1] === 'edit' ? 'changing the grant request' : 'the grant requests';
+    if (p[0] === 'k') return named('the case');
+    if (p[0] === 'cases') return p[1] === 'board' ? 'the board of cases' : p[1] === 'new' ? 'the new case' : p[1] === 'edit' ? 'changing the case' : 'the cases';
+    if (p[0] === 'm') return named('the email');
+    if (p[0] === 'dashboard') return 'the dashboard';
+    if (p[0] === 'reports') return 'the reports';
+    if (p[0] === 'templates') return p[1] === 'new' ? 'the new template' : p[1] === 'edit' ? 'changing the template' : 'the templates';
+    if (p[0] === 'mailings') return p[1] === 'new' ? 'the new mailing' : p[1] ? 'the mailing' : 'the mailings';
+    return 'the office';
+  }
+  var step = window.loveSteps({
+    root: root, view: view, slot: backRow, place: placeOf,
+    title: function () { var h = view.querySelector('h2'); return h ? h.textContent : null; },
+    route: function () { route(); },
+  });
 
   /* Wearing the radio's theme, as tasks do. */
   function dressNow() {
@@ -180,7 +211,6 @@
     });
     return row;
   }
-  function backTo(href, words) { var p = el('p'); var a = el('a', null, words); a.href = href; p.appendChild(a); return p; }
   function nameOf(c) { return c.name || 'A contact with no name'; }
 
   /* ── Contacts: a search and an order, kept in the address ──────────────── */
@@ -205,7 +235,7 @@
     if (f.sort !== 'name') parts.push('sort=' + f.sort);
     if (f.dir !== 'asc') parts.push('dir=' + f.dir);
     var to = '#/' + (parts.length ? '?' + parts.join('&') : '');
-    if (to !== location.hash) history.replaceState(null, '', to);
+    if (to !== location.hash) step.replace(to);
   }
   // A phone matches by its digits too, so 555-0100 finds (555) 0100.
   function digits(v) { return String(v || '').replace(/\D+/g, ''); }
@@ -265,9 +295,9 @@
     view.appendChild(out);
     var more = el('p', 'of-row');
     view.appendChild(more);
-    var showing = PAGE;
+    var showing = step.kept('showing') || PAGE;
 
-    qBox.addEventListener('input', function () { f.q = searched = qBox.value; showing = PAGE; drawTable(); });
+    qBox.addEventListener('input', function () { f.q = searched = qBox.value; showing = PAGE; step.keep('showing', PAGE); drawTable(); });
 
     function drawTable(focusSort, focusRow) {
       var list = ordered(contacts.filter(function (c) { return matches(c, f.q); }), f);
@@ -318,7 +348,7 @@
         var b = el('button', 'cb-btn of-small', 'Show ' + Math.min(PAGE, list.length - showing) + ' more'); b.type = 'button';
         b.addEventListener('click', function () {
           var from = showing;
-          showing += PAGE;
+          showing += PAGE; step.keep('showing', showing);
           drawTable(null, from);
           var next = out.querySelector('[data-first-new]');
           if (next) next.focus();
@@ -339,7 +369,7 @@
     view.appendChild(quiet('Looking…'));
     return call('view=contact&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That contact has been deleted'); view.appendChild(h0); view.appendChild(backTo('#/', '← All contacts')); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That contact has been deleted'); view.appendChild(h0); step.up('#/', '← All contacts'); return h0; }
         return refused(r);
       }
       took(r.body);
@@ -349,7 +379,7 @@
 
   function drawContact(c) {
     view.textContent = '';
-    view.appendChild(backTo('#/', '← All contacts'));
+    step.up('#/', '← All contacts');
     var h = heading(2, nameOf(c));
     view.appendChild(h);
     var dl = el('dl', 'of-facts');
@@ -436,7 +466,7 @@
           done();
           if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted.');
-          location.hash = '#/';
+          step.go('#/');
         });
       }, del);
     });
@@ -460,7 +490,7 @@
 
   function drawForm(c) {
     view.textContent = '';
-    view.appendChild(c ? backTo('#/c/' + c.id, '← ' + nameOf(c)) : backTo('#/', '← All contacts'));
+    if (c) step.up('#/c/' + c.id, '← ' + nameOf(c)); else step.up('#/', '← All contacts');
     var h = heading(2, c ? 'Changing ' + nameOf(c) : 'A new contact');
     view.appendChild(h);
     var form = el('form', 'of-form');
@@ -505,7 +535,7 @@
     var row = el('div', 'of-row');
     var go = el('button', 'cb-btn', c ? 'Save' : 'Add the contact'); go.type = 'submit';
     var look = el('button', 'cb-btn', 'Preview the notes'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
-    var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = c ? '#/c/' + c.id : '#/';
+    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = c ? '#/c/' + c.id : '#/';
     row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
     form.appendChild(row);
     var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
@@ -531,14 +561,14 @@
       if (c) {
         send.id = c.id;
         Object.keys(v).forEach(function (k) { if (JSON.stringify(c[k] == null ? '' : c[k]) !== JSON.stringify(v[k])) send[k] = v[k]; });
-        if (Object.keys(send).length === 2) { location.hash = '#/c/' + c.id; return; }
+        if (Object.keys(send).length === 2) { step.go('#/c/' + c.id); return; }
       } else Object.keys(v).forEach(function (k) { send[k] = v[k]; });
       go.disabled = true;
       answer.textContent = 'Saving…';
       call(null, send).then(function (r) {
         go.disabled = false;
         if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
-        location.hash = '#/c/' + r.body.contact.id;
+        step.go('#/c/' + r.body.contact.id);
         say(c ? 'Saved.' : 'Added.');
       });
     });
@@ -582,7 +612,7 @@
       if (f.dir !== 'desc') parts.push('dir=' + f.dir);
     }
     var to = (board ? '#/grants/board' : '#/grants') + (parts.length ? '?' + parts.join('&') : '');
-    if (to !== location.hash) history.replaceState(null, '', to);
+    if (to !== location.hash) step.replace(to);
   }
   function grantMatches(g, q) {
     if (!q) return true;
@@ -655,7 +685,7 @@
     view.appendChild(out);
     var more = el('p', 'of-row');
     view.appendChild(more);
-    var showing = PAGE;
+    var showing = step.kept('showing') || PAGE;
     // Down to one stage of one pipeline, the list can be a mailing.
     function drawMailRow() {
       mailRow.textContent = '';
@@ -703,10 +733,10 @@
         fs.appendChild(l);
       });
     }
-    function refresh() { showing = PAGE; writeGrantQuery(f, false); drawFilters(); drawMailRow(); drawTable(); }
+    function refresh() { showing = PAGE; step.keep('showing', PAGE); writeGrantQuery(f, false); drawFilters(); drawMailRow(); drawTable(); }
     ps.addEventListener('change', function () { f.pipeline = ps.value; refresh(); });
     ss.addEventListener('change', function () { f.stage = ss.value; refresh(); });
-    qBox.addEventListener('input', function () { f.q = gSearched = qBox.value; showing = PAGE; drawFilters(); drawTable(); });
+    qBox.addEventListener('input', function () { f.q = gSearched = qBox.value; showing = PAGE; step.keep('showing', PAGE); drawFilters(); drawTable(); });
 
     function drawTable(focusSort, focusRow) {
       var list = grantsOrdered(grants.filter(function (g) { return passes(g); }), f);
@@ -760,7 +790,7 @@
         var b = el('button', 'cb-btn of-small', 'Show ' + Math.min(PAGE, list.length - showing) + ' more'); b.type = 'button';
         b.addEventListener('click', function () {
           var from = showing;
-          showing += PAGE;
+          showing += PAGE; step.keep('showing', showing);
           drawTable(null, from);
           var next = out.querySelector('[data-first-new]');
           if (next) next.focus();
@@ -888,7 +918,7 @@
     view.appendChild(quiet('Looking…'));
     return call('view=grant&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That grant request has been deleted'); view.appendChild(h0); view.appendChild(backTo('#/grants', '← All grant requests')); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That grant request has been deleted'); view.appendChild(h0); step.up('#/grants', '← All grant requests'); return h0; }
         return refused(r);
       }
       took(r.body);
@@ -898,7 +928,7 @@
 
   function drawGrant(g) {
     view.textContent = '';
-    view.appendChild(backTo('#/grants', '← All grant requests'));
+    step.up('#/grants', '← All grant requests');
     var h = heading(2, g.name);
     view.appendChild(h);
     var dl = el('dl', 'of-facts');
@@ -949,7 +979,7 @@
           done();
           if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted.');
-          location.hash = '#/grants';
+          step.go('#/grants');
         });
       }, del);
     });
@@ -973,7 +1003,7 @@
 
   function drawGrantForm(g, from) {
     view.textContent = '';
-    view.appendChild(g ? backTo('#/g/' + g.id, '← ' + g.name) : backTo('#/grants', '← All grant requests'));
+    if (g) step.up('#/g/' + g.id, '← ' + g.name); else step.up('#/grants', '← All grant requests');
     var h = heading(2, g ? 'Changing “' + g.name + '”' : 'A new grant request');
     view.appendChild(h);
     var form = el('form', 'of-form');
@@ -1021,7 +1051,7 @@
     var row = el('div', 'of-row');
     var go = el('button', 'cb-btn', g ? 'Save' : 'Add the grant request'); go.type = 'submit';
     var look = el('button', 'cb-btn', 'Preview the description'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
-    var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = g ? '#/g/' + g.id : (from ? '#/c/' + from.id : '#/grants');
+    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = g ? '#/g/' + g.id : (from ? '#/c/' + from.id : '#/grants');
     row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
     form.appendChild(row);
     var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
@@ -1050,14 +1080,14 @@
         Object.keys(v).forEach(function (k) { if (JSON.stringify(was[k] == null ? null : was[k]) !== JSON.stringify(v[k] === '' && k !== 'contactEmail' && k !== 'body' ? null : v[k])) send[k] = v[k]; });
         // A pipeline changed sends its stage with it, so the stage is checked against the new one.
         if (send.pipeline) send.stage = v.stage;
-        if (Object.keys(send).length === 2) { location.hash = '#/g/' + g.id; return; }
+        if (Object.keys(send).length === 2) { step.go('#/g/' + g.id); return; }
       } else Object.keys(v).forEach(function (k) { send[k] = v[k]; });
       go.disabled = true;
       answer.textContent = 'Saving…';
       call(null, send).then(function (r) {
         go.disabled = false;
         if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
-        location.hash = '#/g/' + r.body.grant.id;
+        step.go('#/g/' + r.body.grant.id);
         say(g ? 'Saved.' : 'Added.');
       });
     });
@@ -1098,7 +1128,7 @@
       if (f.dir !== 'desc') parts.push('dir=' + f.dir);
     }
     var to = (board ? '#/cases/board' : '#/cases') + (parts.length ? '?' + parts.join('&') : '');
-    if (to !== location.hash) history.replaceState(null, '', to);
+    if (to !== location.hash) step.replace(to);
   }
   function caseMatches(k, q) {
     if (!q) return true;
@@ -1164,7 +1194,7 @@
     view.appendChild(out);
     var more = el('p', 'of-row');
     view.appendChild(more);
-    var showing = PAGE;
+    var showing = step.kept('showing') || PAGE;
 
     function passes(k, skip) {
       if (skip !== 'type' && f.type && k.type !== f.type) return false;
@@ -1193,9 +1223,9 @@
         fs.appendChild(l);
       });
     }
-    function refresh() { showing = PAGE; writeCaseQuery(f, false); drawFilters(); drawTable(); }
+    function refresh() { showing = PAGE; step.keep('showing', PAGE); writeCaseQuery(f, false); drawFilters(); drawTable(); }
     ts.addEventListener('change', function () { f.type = ts.value; refresh(); });
-    qBox.addEventListener('input', function () { f.q = kSearched = qBox.value; showing = PAGE; drawFilters(); drawTable(); });
+    qBox.addEventListener('input', function () { f.q = kSearched = qBox.value; showing = PAGE; step.keep('showing', PAGE); drawFilters(); drawTable(); });
 
     function drawTable(focusSort, focusRow) {
       var list = casesOrdered(cases.filter(function (k) { return passes(k); }), f);
@@ -1249,7 +1279,7 @@
         var b = el('button', 'cb-btn of-small', 'Show ' + Math.min(PAGE, list.length - showing) + ' more'); b.type = 'button';
         b.addEventListener('click', function () {
           var from = showing;
-          showing += PAGE;
+          showing += PAGE; step.keep('showing', showing);
           drawTable(null, from);
           var next = out.querySelector('[data-first-new]');
           if (next) next.focus();
@@ -1305,7 +1335,7 @@
     view.appendChild(quiet('Looking…'));
     return call('view=case&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That case has been deleted'); view.appendChild(h0); view.appendChild(backTo('#/cases', '← All cases')); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That case has been deleted'); view.appendChild(h0); step.up('#/cases', '← All cases'); return h0; }
         return refused(r);
       }
       took(r.body);
@@ -1315,7 +1345,7 @@
 
   function drawCase(k) {
     view.textContent = '';
-    view.appendChild(backTo('#/cases', '← All cases'));
+    step.up('#/cases', '← All cases');
     var h = heading(2, '#' + k.number + ' ' + k.name);
     view.appendChild(h);
     var dl = el('dl', 'of-facts');
@@ -1365,7 +1395,7 @@
           done();
           if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted.');
-          location.hash = '#/cases';
+          step.go('#/cases');
         });
       }, del);
     });
@@ -1387,7 +1417,7 @@
 
   function drawCaseForm(k, from) {
     view.textContent = '';
-    view.appendChild(k ? backTo('#/k/' + k.id, '← #' + k.number + ' ' + k.name) : backTo('#/cases', '← All cases'));
+    if (k) step.up('#/k/' + k.id, '← #' + k.number + ' ' + k.name); else step.up('#/cases', '← All cases');
     var h = heading(2, k ? 'Changing case #' + k.number : 'A new case');
     view.appendChild(h);
     var form = el('form', 'of-form');
@@ -1428,7 +1458,7 @@
     var row = el('div', 'of-row');
     var go = el('button', 'cb-btn', k ? 'Save' : 'Add the case'); go.type = 'submit';
     var look = el('button', 'cb-btn', 'Preview the description'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
-    var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = k ? '#/k/' + k.id : (from ? '#/c/' + from.id : '#/cases');
+    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = k ? '#/k/' + k.id : (from ? '#/c/' + from.id : '#/cases');
     row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
     form.appendChild(row);
     var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
@@ -1455,14 +1485,14 @@
         var was = { name: k.name, type: k.type, status: k.status, priority: k.priority, submitted: k.submitted, closed: k.closed,
           contactEmail: k.contactEmail || '', form: k.form, body: k.body };
         Object.keys(v).forEach(function (x) { if (JSON.stringify(was[x] == null ? null : was[x]) !== JSON.stringify(v[x] === '' && x !== 'contactEmail' && x !== 'body' ? null : v[x])) send[x] = v[x]; });
-        if (Object.keys(send).length === 2) { location.hash = '#/k/' + k.id; return; }
+        if (Object.keys(send).length === 2) { step.go('#/k/' + k.id); return; }
       } else Object.keys(v).forEach(function (x) { send[x] = v[x]; });
       go.disabled = true;
       answer.textContent = 'Saving…';
       call(null, send).then(function (r) {
         go.disabled = false;
         if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
-        location.hash = '#/k/' + r.body.case.id;
+        step.go('#/k/' + r.body.case.id);
         say(k ? 'Saved.' : 'Added.');
       });
     });
@@ -1481,7 +1511,7 @@
     view.appendChild(quiet('Looking…'));
     return call('view=email&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That email has been deleted from the office'); view.appendChild(h0); view.appendChild(backTo('#/', '← All contacts')); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That email has been deleted from the office'); view.appendChild(h0); step.up('#/', '← All contacts'); return h0; }
         return refused(r);
       }
       took(r.body);
@@ -1492,7 +1522,7 @@
   function drawEmail(m) {
     view.textContent = '';
     var first = m.contacts[0];
-    view.appendChild(first ? backTo('#/c/' + first.id, '← ' + (first.name || first.email)) : backTo('#/', '← All contacts'));
+    if (first) step.up('#/c/' + first.id, '← ' + (first.name || first.email)); else step.up('#/', '← All contacts');
     var h = heading(2, m.subject || '(no subject)');
     view.appendChild(h);
     var dl = el('dl', 'of-facts');
@@ -1523,7 +1553,7 @@
           done();
           if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted from the office.');
-          location.hash = first ? '#/c/' + first.id : '#/';
+          step.go(first ? '#/c/' + first.id : '#/');
         });
       }, del);
     });
@@ -2000,7 +2030,7 @@
       if (back === 'connected') say('QuickBooks is connected. The office has read the books, and reads them again late each evening.');
       else if (back === 'not-connected') say('QuickBooks was not connected. Nothing was changed; Connect QuickBooks tries again.');
       // Netlify adds Intuit's query (the code, already used) to the way back, so the address loses it here.
-      if (back) history.replaceState(null, '', location.pathname + '#/dashboard');
+      if (back) step.replace(location.pathname + '#/dashboard');
       return h;
     });
   }
@@ -2294,13 +2324,13 @@
       if (r.status !== 200) return refused(r);
       took(r.body);
       var t = id ? (r.body.templates || []).filter(function (x) { return x.id === id; })[0] : null;
-      if (id && !t) { view.textContent = ''; var h = heading(2, 'That template has been deleted'); view.appendChild(h); view.appendChild(backTo('#/templates', '← All templates')); return h; }
+      if (id && !t) { view.textContent = ''; var h = heading(2, 'That template has been deleted'); view.appendChild(h); step.up('#/templates', '← All templates'); return h; }
       return drawTemplateForm(t);
     });
   }
   function drawTemplateForm(t) {
     view.textContent = '';
-    view.appendChild(backTo('#/templates', '← All templates'));
+    step.up('#/templates', '← All templates');
     var h = heading(2, t ? 'Changing ' + t.name : 'A new template');
     view.appendChild(h);
     var form = el('form', 'of-form');
@@ -2326,7 +2356,7 @@
     form.appendChild(hint);
     var row = el('div', 'of-row');
     var go = el('button', 'cb-btn', t ? 'Save' : 'Add the template'); go.type = 'submit';
-    var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = '#/templates';
+    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = '#/templates';
     row.appendChild(go); row.appendChild(cancel);
     if (t) {
       var del = el('button', 'cb-btn', 'Delete'); del.type = 'button';
@@ -2336,7 +2366,7 @@
             done();
             if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
             say('Deleted.');
-            location.hash = '#/templates';
+            step.go('#/templates');
           });
         }, del);
       });
@@ -2354,7 +2384,7 @@
       call(null, send).then(function (r) {
         go.disabled = false;
         if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
-        location.hash = '#/templates';
+        step.go('#/templates');
         say(t ? 'Saved.' : 'Added.');
       });
     });
@@ -2401,7 +2431,7 @@
   var STATE_WORDS = { waiting: 'Waiting to go', sent: 'Sent', failed: 'Google would not send it', stopped: 'Stopped' };
   function drawMailing(m) {
     view.textContent = '';
-    view.appendChild(backTo('#/mailings', '← All mailings'));
+    step.up('#/mailings', '← All mailings');
     var h = heading(2, m.template + ' · ' + m.stage);
     view.appendChild(h);
     var dl = el('dl', 'of-facts');
@@ -2452,7 +2482,7 @@
             done();
             if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
             say('Deleted.');
-            location.hash = '#/mailings';
+            step.go('#/mailings');
           });
         }, del);
       });
@@ -2478,7 +2508,7 @@
   }
   function drawNewMailing(templates, q) {
     view.textContent = '';
-    view.appendChild(backTo('#/mailings', '← All mailings'));
+    step.up('#/mailings', '← All mailings');
     var h = heading(2, 'A new mailing');
     view.appendChild(h);
     view.appendChild(el('p', null, 'An email from a template to everybody at one stage of a grant pipeline. You see every email, filled in, and who is left out, before anything is sent.'));
@@ -2534,7 +2564,7 @@
     function remember() {
       var to = '#/mailings/new?pipeline=' + encodeURIComponent(ps.value) + '&stage=' + encodeURIComponent(ss.value) + '&template=' + encodeURIComponent(ts.value) +
         (since.value ? '&since=' + since.value : '');
-      if (to !== location.hash) history.replaceState(null, '', to);
+      if (to !== location.hash) step.replace(to);
     }
     function clear() { shown.textContent = ''; answer.textContent = ''; remember(); }
     ps.addEventListener('change', function () { stages(); clear(); });
@@ -2597,7 +2627,7 @@
               grants: p.emails.map(function (x) { return x.grant; }) }).then(function (r) {
               done();
               if (r.status !== 200) { say(why(r, 'That did not send. Nothing was sent.')); return; }
-              location.hash = '#/mailings/' + r.body.mailing;
+              step.go('#/mailings/' + r.body.mailing);
               say('Sent to the team mailbox, which sends ' + (r.body.count === 1 ? 'it' : 'them') + ' within ten minutes.');
             });
           }, send);
@@ -2609,8 +2639,8 @@
 
   /* ── Where in the office an address is ─────────────────────────────────── */
 
-  var first = true;
   function route() {
+    step.arrive();
     dressNow();
     var hash = location.hash || '';
     if (hash && hash.indexOf('#/') !== 0) hash = '';
@@ -2646,7 +2676,8 @@
       : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : navContacts;
     part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard') ? 'page' : 'true');
     if (parts[0] === 'reports') navDash.setAttribute('aria-current', 'true');
-    Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });
+    // The keyboard goes to the new view's heading, or back where it was.
+    step.land(done);
   }
   window.addEventListener('hashchange', function () { if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route(); });
   route();

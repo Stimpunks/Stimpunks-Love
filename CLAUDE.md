@@ -5482,6 +5482,20 @@ those two lists cannot drift. **The friendly edits are category rooms in `cb-roo
 them for everybody", which names a staff category to the whole street, **a public category's channel open to an
 unclaimed handle**, and **a channel for every subcategory or year**; each reverses one of Ryan's calls.
 
+**GOING BACK IN TASKS, THE OFFICE AND THE FORUMS IS ONE STEP, AND IT IS `steps.js`'S.** Norah's ask, put by Ryan on
+2026-10-21, with the scroll his: each app draws its views by the address after the #, so the browser's Back, Forward and
+the link above every view (`.tk-back`, `.of-back`, `.fm-back`, a slot outside the view that each app dresses) go back one
+view, to where you were in it once it has drawn: the keyboard on the link you followed, held at the height it had, or the
+page's own height for anything outside the view (the forums' side list sticks). Every route starts `step.arrive()` and
+ends `step.land(done)`; filters go into the address by `step.replace()`, never `history.replaceState`, which drops the
+step; a view's old fixed link is `step.up()`, shown only when it was opened on its own; and Save, Cancel, Send and Delete
+are `step.go()` or `step.leave()`, which go back when the step behind is where they go and otherwise take the form's
+place, so Back never lands on a finished form. A list that pages (`Show more`, Older topics) keeps how far it went with
+`step.keep()` and shows it again. **The tab's history holds a key, how far down and the address behind, never a word**
+(`clean()`), because a name there is the office's search in the address again; the link back's words and the link
+followed are in the page's memory. `tools/check-steps.py` holds it. The friendly edits are smooth scrolling, a view's
+title kept in the history "so the link back can say it after a reload", and a back link that always goes to the list.
+
 ## What this site is FOR, so you know what you are protecting
 
 Ryan's brief, 2026-09-19: *"All of our sites are so careful. Careful color palettes, careful

@@ -42,6 +42,11 @@
 .fm-q { flex: 1 1 auto; }
 .fm-trim { margin: 0; }
 
+/* BACK ONE STEP, or nothing, above the page: steps.js fills it. */
+.fm-back { padding: 14px 18px 0; }
+.fm-back:not([hidden]) + .fm-main { padding-top: 10px; }
+@media (max-width: 759px) { .fm-back { padding: 12px 12px 0; } }
+
 /* THE PAGE: categories down the side, the view beside them; one column on a phone. */
 .fm-main { display: grid; grid-template-columns: minmax(180px, 230px) minmax(0, 1fr); gap: 24px; padding: 18px 18px 8px; }
 @media (max-width: 759px) { .fm-main { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 14px 12px 6px; } }

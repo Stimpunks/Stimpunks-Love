@@ -128,6 +128,11 @@
   [trimTop, trimFoot].forEach(function (t) { t.hidden = true; t.setAttribute('aria-hidden', 'true'); });
   box.appendChild(trimTop);
 
+  // Back one step: steps.js fills it, above the categories and the view alike.
+  var backRow = el('p', 'fm-back');
+  backRow.hidden = true;
+  box.appendChild(backRow);
+
   var main = el('div', 'fm-main');
   var side = el('nav', 'fm-side');
   side.setAttribute('aria-label', 'Categories');
@@ -167,6 +172,25 @@
 
   mount.textContent = '';
   mount.appendChild(host);
+
+  /* GOING BACK ONE STEP, at the height you left the view, is steps.js's. What
+     the link back says about each view is here: a topic by its title and a
+     category by its name, from this page's memory only. */
+  function placeOf(hash, title) {
+    var p = String(hash || '').slice(1).split('?')[0].split('/').filter(Boolean);
+    if (!p.length) return 'the categories';
+    if (p[0] === 'latest') return 'Latest';
+    if (p[0] === 'mentions') return 'Mentions';
+    if (p[0] === 'new') return 'the new topic';
+    if (p[0] === 'search') return 'the search';
+    if (p[0] === 'c') return title || 'the category';
+    return title ? '“' + title + '”' : 'the topic';
+  }
+  var step = window.loveSteps({
+    root: root, view: view, slot: backRow, place: placeOf,
+    title: function () { var h = view.querySelector('h2'); return h ? h.textContent : null; },
+    route: function () { route(); },
+  });
 
   /* ── Wearing the CB's themes ─────────────────────────────────────────────
 
@@ -1424,7 +1448,7 @@
       if (r.body.gone || !r.body.topic) {
         if (current) unsee(current.id);
         say(done || 'Done. The topic has gone.');
-        location.hash = current ? '#/c/' + current.cat.slug : '#/';
+        step.go(current ? '#/c/' + current.cat.slug : '#/');
         return;
       }
       drawTopic(r.body, null, true);
@@ -1577,21 +1601,32 @@
   }
 
   // In a category, its own pinned topics were on the first page already.
-  function more(into, q, before, slug) {
+  /* Older topics, a page at a time. Coming back to a list reads again the
+     pages that were open (`again`), before steps.js puts the place back. */
+  function more(into, q, before, slug, again) {
     var b = el('button', 'cb-btn', 'Older topics'); b.type = 'button';
-    b.addEventListener('click', function () {
+    function load() {
       b.disabled = true;
-      call(q + '&before=' + before).then(function (r) {
+      return call(q + '&before=' + before).then(function (r) {
         b.remove();
-        if (r.status !== 200) { say(why(r, 'Older topics could not be read just now.')); return; }
+        if (r.status !== 200) { say(why(r, 'Older topics could not be read just now.')); return null; }
         var ul = into.querySelector('.fm-rows') || into.appendChild(el('ul', 'fm-rows'));
         var first = null;
         r.body.topics.filter(function (x) { return !(slug && x.pinned && x.cat === slug); }).forEach(function (x) { var li = topicRow(x); first = first || li; ul.appendChild(li); });
-        if (first) first.querySelector('a').focus();
-        if (r.body.more && r.body.topics.length) more(into, q, r.body.topics[r.body.topics.length - 1].last, slug);
+        return { first: first, on: r.body.more && r.body.topics.length ? r.body.topics[r.body.topics.length - 1].last : null };
+      });
+    }
+    b.addEventListener('click', function () {
+      load().then(function (got) {
+        if (!got) return;
+        step.keep('older', (step.kept('older') || 0) + 1);
+        if (got.first) got.first.querySelector('a').focus();
+        if (got.on) more(into, q, got.on, slug);
       });
     });
     into.appendChild(b);
+    if (!again) return Promise.resolve();
+    return load().then(function (got) { if (got && got.on) return more(into, q, got.on, slug, again - 1); });
   }
 
   function latest() {
@@ -1605,8 +1640,8 @@
       view.appendChild(h);
       view.appendChild(quiet('Every topic you can read, the one posted in most lately first.'));
       view.appendChild(topicList(r.body.topics, 'Nobody has started a topic yet.'));
-      if (r.body.more && r.body.topics.length) more(view, 'view=latest', r.body.topics[r.body.topics.length - 1].last);
-      return h;
+      var older = r.body.more && r.body.topics.length ? more(view, 'view=latest', r.body.topics[r.body.topics.length - 1].last, null, step.kept('older')) : null;
+      return Promise.resolve(older).then(function () { return h; });
     });
   }
 
@@ -1653,11 +1688,12 @@
         view.appendChild(el('h3', 'cb-h fm-group', 'Topics in all of it'));
       }
       view.appendChild(topicList(r.body.topics, 'Nothing here yet.'));
+      var older = null;
       if (r.body.more) {
         var rest = r.body.topics.filter(function (x) { return !(x.pinned && x.cat === c.slug); });
-        if (rest.length) more(view, 'view=cat&c=' + encodeURIComponent(c.slug), rest[rest.length - 1].last, c.slug);
+        if (rest.length) older = more(view, 'view=cat&c=' + encodeURIComponent(c.slug), rest[rest.length - 1].last, c.slug, step.kept('older'));
       }
-      return h;
+      return Promise.resolve(older).then(function () { return h; });
     });
   }
 
@@ -1853,7 +1889,7 @@
           if (from) b.from = from;
           return call(null, b).then(function (r2) {
             if (r2.status !== 200) return why(r2, 'That did not post. Nothing was changed.');
-            location.hash = '#/t/' + r2.body.topic.id;
+            step.go('#/t/' + r2.body.topic.id);
             say('Started.');
             return null;
           });
@@ -1866,8 +1902,8 @@
 
   /* ── Where in the forums an address is ───────────────────────────────── */
 
-  var first = true;
   function route() {
+    step.arrive();
     fillSchemes();
     dressNow();
     var hash = location.hash || '';
@@ -1897,12 +1933,10 @@
     if (parts[0] === 'latest') navLatest.setAttribute('aria-current', 'page');
     if (parts[0] === 'mentions') navAt.setAttribute('aria-current', 'page');
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
-    Promise.resolve(done).then(function (h) {
-      // On arriving, the page's own heading keeps the keyboard; after that,
-      // every move in the forums puts it on what moved.
-      if (h && !first) h.focus();
-      first = false;
-    });
+    // On arriving, the page keeps the keyboard where the browser put it;
+    // after that, a step forward puts it on the new view's heading, and a step
+    // back on what it was on before (steps.js).
+    step.land(done);
   }
   window.addEventListener('hashchange', function () {
     if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route();

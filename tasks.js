@@ -80,6 +80,10 @@
   bar.appendChild(nav);
   box.appendChild(bar);
 
+  // Back one step, or a view's own way up: steps.js fills it.
+  var backRow = el('p', 'tk-back');
+  backRow.hidden = true;
+  box.appendChild(backRow);
   var view = el('div', 'tk-view');
   box.appendChild(view);
   var said = el('p', 'tk-said');
@@ -89,6 +93,31 @@
 
   mount.textContent = '';
   mount.appendChild(host);
+
+  /* GOING BACK ONE STEP, at the height you left the view, is steps.js's. What
+     the link back says about each view is here: a task or a recurring task by
+     its name, which stays in this page's memory and nowhere else. */
+  function placeOf(hash, title) {
+    var p = String(hash || '').slice(1).split('?')[0].split('/').filter(Boolean);
+    if (!p.length) return 'the list';
+    if (p[0] === 'board') return 'the board';
+    if (p[0] === 'timeline') return 'the timeline';
+    if (p[0] === 'inbox') return 'Notifications';
+    if (p[0] === 'new') return 'the new task';
+    if (p[0] === 'edit') return 'changing the task';
+    if (p[0] === 'recurring') {
+      if (!p[1]) return 'the recurring tasks';
+      if (p[1] === 'new') return 'the new recurring task';
+      if (p[1] === 'edit') return 'changing the recurring task';
+      return title ? '“' + title + '”' : 'the recurring task';
+    }
+    return title ? '“' + title + '”' : 'the task';
+  }
+  var step = window.loveSteps({
+    root: root, view: view, slot: backRow, place: placeOf,
+    title: function () { var h = view.querySelector('h2'); return h ? h.textContent : null; },
+    route: function () { route(); },
+  });
 
   /* Wearing the radio's theme, as the forums do: what its host wears, or
      call.js's own answer for what the radio would wear. */
@@ -254,7 +283,7 @@
   }
   function writeQuery(f, mode) {
     var h = addressOf(f, mode);
-    if (location.hash !== h) history.replaceState(null, '', h);
+    if (location.hash !== h) step.replace(h);
   }
   function modeOf(hash) { var m = /^#\/(board|timeline)(\?|$)/.exec(hash || ''); return m ? m[1] : 'list'; }
   /* Until somebody picks statuses, the list shows the ones still to do, and a
@@ -934,18 +963,16 @@
     view.appendChild(quiet('Looking…'));
     return call('view=task&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That task has been deleted'); view.appendChild(h0); view.appendChild(backToList()); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That task has been deleted'); view.appendChild(h0); step.up('#/', '← Back to the list'); return h0; }
         return refused(r);
       }
       took(r.body);
       return drawTask(r.body.task, r.body.activity);
     });
   }
-  function backToList() { var p = el('p'); var a = el('a', null, '← Back to the list'); a.href = '#/'; p.appendChild(a); return p; }
-
   function drawTask(t, activity) {
     view.textContent = '';
-    view.appendChild(backToList());
+    step.up('#/', '← Back to the list');
     var h = heading(2, t.name);
     view.appendChild(h);
     var dl = el('dl', 'tk-facts');
@@ -1023,7 +1050,7 @@
           done();
           if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted.');
-          location.hash = '#/';
+          step.go('#/');
         });
       }, del);
     });
@@ -1278,7 +1305,7 @@
       var row = el('div', 'tk-row');
       var go = el('button', 'cb-btn', goText); go.type = 'submit';
       var look = el('button', 'cb-btn', 'Preview'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
-      var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = cancelTo;
+      var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = cancelTo;
       row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
       form.appendChild(row);
       var answer = el('p', 'tk-answer'); answer.setAttribute('role', 'status');
@@ -1302,7 +1329,7 @@
 
   function drawForm(t) {
     view.textContent = '';
-    view.appendChild(backToList());
+    if (t) step.up('#/t/' + t.id, '← ' + t.name); else step.up('#/', '← Back to the list');
     var h = heading(2, t ? 'Changing “' + t.name + '”' : 'A new task');
     view.appendChild(h);
     var form = el('form', 'tk-form');
@@ -1340,14 +1367,14 @@
           var was = t[k] == null ? (k === 'body' ? '' : null) : t[k];
           if (JSON.stringify(was) !== JSON.stringify(v[k])) send[k] = v[k];
         });
-        if (Object.keys(send).length === 2) { location.hash = '#/t/' + t.id; return; }
+        if (Object.keys(send).length === 2) { step.go('#/t/' + t.id); return; }
       } else Object.keys(v).forEach(function (k) { send[k] = v[k]; });
       go.disabled = true;
       answer.textContent = 'Saving…';
       call(null, send).then(function (r) {
         go.disabled = false;
         if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
-        location.hash = '#/t/' + r.body.task.id;
+        step.go('#/t/' + r.body.task.id);
         say(t ? 'Saved.' : 'Made.');
       });
     });
@@ -1362,7 +1389,6 @@
      on. Switched off, it makes nothing. lib.mjs works out what each will make,
      and this only shows it. */
   function afterWords(n) { return n === 0 ? 'that day' : n === 1 ? 'a day after' : n + ' days after'; }
-  function backToRecurs() { var p = el('p'); var a = el('a', null, '← All recurring tasks'); a.href = '#/recurring'; p.appendChild(a); return p; }
 
   function recurList() {
     view.textContent = '';
@@ -1423,7 +1449,7 @@
     view.appendChild(quiet('Looking…'));
     return call('view=recur&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That recurring task has been deleted'); view.appendChild(h0); view.appendChild(backToRecurs()); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That recurring task has been deleted'); view.appendChild(h0); step.up('#/recurring', '← All recurring tasks'); return h0; }
         return refused(r);
       }
       took(r.body);
@@ -1433,7 +1459,7 @@
 
   function drawRecur(r, made) {
     view.textContent = '';
-    view.appendChild(backToRecurs());
+    step.up('#/recurring', '← All recurring tasks');
     var h = heading(2, r.name);
     view.appendChild(h);
     var dl = el('dl', 'tk-facts');
@@ -1488,7 +1514,7 @@
           done();
           if (a.status !== 200) { say(why(a, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted. The tasks it made stay.');
-          location.hash = '#/recurring';
+          step.go('#/recurring');
         });
       }, del);
     });
@@ -1525,7 +1551,7 @@
 
   function drawRecurForm(r) {
     view.textContent = '';
-    view.appendChild(backToRecurs());
+    if (r) step.up('#/recurring/' + r.id, '← ' + r.name); else step.up('#/recurring', '← All recurring tasks');
     var h = heading(2, r ? 'Changing “' + r.name + '”' : 'A new recurring task');
     view.appendChild(h);
     var form = el('form', 'tk-form');
@@ -1576,14 +1602,14 @@
           var was = r[k] == null ? (k === 'body' ? '' : null) : r[k];
           if (JSON.stringify(was) !== JSON.stringify(v[k])) send[k] = v[k];
         });
-        if (Object.keys(send).length === 2) { location.hash = '#/recurring/' + r.id; return; }
+        if (Object.keys(send).length === 2) { step.go('#/recurring/' + r.id); return; }
       } else Object.keys(v).forEach(function (k) { send[k] = v[k]; });
       go.disabled = true;
       answer.textContent = 'Saving…';
       call(null, send).then(function (a) {
         go.disabled = false;
         if (a.status !== 200) { answer.textContent = why(a, 'That did not save. Nothing was changed.'); return; }
-        location.hash = '#/recurring/' + a.body.recur.id;
+        step.go('#/recurring/' + a.body.recur.id);
         say(r ? 'Saved.' : 'Made. Its first task is made on ' + dayWords(a.body.recur.next) + '.');
       });
     });
@@ -1613,8 +1639,8 @@
 
   /* ── Where in tasks an address is ─────────────────────────────────────── */
 
-  var first = true;
   function route() {
+    step.arrive();
     dressNow();
     var hash = location.hash || '';
     if (hash && hash.indexOf('#/') !== 0) hash = '';
@@ -1639,7 +1665,8 @@
     else if (parts[0] === 'timeline') navTime.setAttribute('aria-current', 'page');
     else if (parts[0] === 'recurring' && !parts[1]) navRecur.setAttribute('aria-current', 'page');
     else if (!parts.length) navList.setAttribute('aria-current', 'page');
-    Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });
+    // The keyboard goes to the new view's heading, or back where it was.
+    step.land(done);
   }
   window.addEventListener('hashchange', function () { if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route(); });
   route();

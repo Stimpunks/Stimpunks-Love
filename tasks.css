@@ -32,6 +32,11 @@
 .tk .tk-navlink { color: var(--cb-steel); }
 .tk-navlink[aria-current="page"] { border-color: var(--cb-amber); }
 
+/* BACK ONE STEP, or the view's own way up, above it: steps.js fills it. */
+.tk-back { padding: 14px 18px 0; }
+.tk-back:not([hidden]) + .tk-view { padding-top: 10px; }
+@media (max-width: 759px) { .tk-back { padding: 12px 12px 0; } }
+
 .tk-view { display: grid; gap: 12px; padding: 18px 18px 8px; min-width: 0; }
 @media (max-width: 759px) { .tk-view { padding: 14px 12px 6px; } }
 .tk-view > h2 {

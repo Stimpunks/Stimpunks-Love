@@ -33,6 +33,11 @@
 .of .of-navlink { color: var(--cb-steel); }
 .of-navlink[aria-current] { border-color: var(--cb-amber); }
 
+/* BACK ONE STEP, or the view's own way up, above it: steps.js fills it. */
+.of-back { padding: 14px 18px 0; }
+.of-back:not([hidden]) + .of-view { padding-top: 10px; }
+@media (max-width: 759px) { .of-back { padding: 12px 12px 0; } }
+
 .of-view { display: grid; gap: 12px; padding: 18px 18px 8px; min-width: 0; }
 @media (max-width: 759px) { .of-view { padding: 14px 12px 6px; } }
 .of-view > h2 {
