@@ -64,7 +64,7 @@
   nav.setAttribute('aria-label', 'The office');
   var navDash = el('a', 'cb-btn of-navlink', 'Dashboard'); navDash.href = '#/dashboard';
   var navFeed = el('a', 'cb-btn of-navlink', 'Feed'); navFeed.href = '#/feed';
-  var navContacts = el('a', 'cb-btn of-navlink', 'Contacts'); navContacts.href = '#/';
+  var navContacts = el('a', 'cb-btn of-navlink', 'Contacts'); navContacts.href = '#/contacts';
   var navGrants = el('a', 'cb-btn of-navlink', 'Grant requests'); navGrants.href = '#/grants';
   var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
   var navMailings = el('a', 'cb-btn of-navlink', 'Mailings'); navMailings.href = '#/mailings';
@@ -93,9 +93,9 @@
   function placeOf(hash, title) {
     var p = String(hash || '').slice(1).split('?')[0].split('/').filter(Boolean);
     var named = function (kind) { return title ? '“' + title + '”' : kind; };
-    if (!p.length) return 'the contacts';
+    if (!p.length) return 'the dashboard';
     if (p[0] === 'c') return named('the contact');
-    if (p[0] === 'contacts') return p[1] === 'new' ? 'the new contact' : 'changing the contact';
+    if (p[0] === 'contacts') return p[1] === 'new' ? 'the new contact' : p[1] === 'edit' ? 'changing the contact' : 'the contacts';
     if (p[0] === 'g') return named('the grant request');
     if (p[0] === 'grants') return p[1] === 'board' ? 'the board of grant requests' : p[1] === 'new' ? 'the new grant request' : p[1] === 'edit' ? 'changing the grant request' : 'the grant requests';
     if (p[0] === 'k') return named('the case');
@@ -235,7 +235,7 @@
     var parts = [];
     if (f.sort !== 'name') parts.push('sort=' + f.sort);
     if (f.dir !== 'asc') parts.push('dir=' + f.dir);
-    var to = '#/' + (parts.length ? '?' + parts.join('&') : '');
+    var to = '#/contacts' + (parts.length ? '?' + parts.join('&') : '');
     if (to !== location.hash) step.replace(to);
   }
   // A phone matches by its digits too, so 555-0100 finds (555) 0100.
@@ -370,7 +370,7 @@
     view.appendChild(quiet('Looking…'));
     return call('view=contact&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That contact has been deleted'); view.appendChild(h0); step.up('#/', '← All contacts'); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That contact has been deleted'); view.appendChild(h0); step.up('#/contacts', '← All contacts'); return h0; }
         return refused(r);
       }
       took(r.body);
@@ -380,7 +380,7 @@
 
   function drawContact(c, comments, landOn) {
     view.textContent = '';
-    step.up('#/', '← All contacts');
+    step.up('#/contacts', '← All contacts');
     var h = heading(2, nameOf(c));
     view.appendChild(h);
     var dl = el('dl', 'of-facts');
@@ -467,7 +467,7 @@
           done();
           if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted.');
-          step.go('#/');
+          step.go('#/contacts');
         });
       }, del);
     });
@@ -491,7 +491,7 @@
 
   function drawForm(c) {
     view.textContent = '';
-    if (c) step.up('#/c/' + c.id, '← ' + nameOf(c)); else step.up('#/', '← All contacts');
+    if (c) step.up('#/c/' + c.id, '← ' + nameOf(c)); else step.up('#/contacts', '← All contacts');
     var h = heading(2, c ? 'Changing ' + nameOf(c) : 'A new contact');
     view.appendChild(h);
     var form = el('form', 'of-form');
@@ -536,7 +536,7 @@
     var row = el('div', 'of-row');
     var go = el('button', 'cb-btn', c ? 'Save' : 'Add the contact'); go.type = 'submit';
     var look = el('button', 'cb-btn', 'Preview the notes'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
-    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = c ? '#/c/' + c.id : '#/';
+    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = c ? '#/c/' + c.id : '#/contacts';
     row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
     form.appendChild(row);
     var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
@@ -1512,7 +1512,7 @@
     view.appendChild(quiet('Looking…'));
     return call('view=email&id=' + encodeURIComponent(id)).then(function (r) {
       if (r.status !== 200) {
-        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That email has been deleted from the office'); view.appendChild(h0); step.up('#/', '← All contacts'); return h0; }
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That email has been deleted from the office'); view.appendChild(h0); step.up('#/contacts', '← All contacts'); return h0; }
         return refused(r);
       }
       took(r.body);
@@ -1523,7 +1523,7 @@
   function drawEmail(m, comments, landOn) {
     view.textContent = '';
     var first = m.contacts[0];
-    if (first) step.up('#/c/' + first.id, '← ' + (first.name || first.email)); else step.up('#/', '← All contacts');
+    if (first) step.up('#/c/' + first.id, '← ' + (first.name || first.email)); else step.up('#/contacts', '← All contacts');
     var h = heading(2, m.subject || '(no subject)');
     view.appendChild(h);
     var dl = el('dl', 'of-facts');
@@ -1554,7 +1554,7 @@
           done();
           if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
           say('Deleted from the office.');
-          step.go(first ? '#/c/' + first.id : '#/');
+          step.go(first ? '#/c/' + first.id : '#/contacts');
         });
       }, del);
     });
@@ -2059,6 +2059,8 @@
       else if (back === 'not-connected') say('QuickBooks was not connected. Nothing was changed; Connect QuickBooks tries again.');
       // Netlify adds Intuit's query (the code, already used) to the way back, so the address loses it here.
       if (back) step.replace(location.pathname + '#/dashboard');
+      // The office opens here, so it has one address however it was reached.
+      else if (!/^#\/dashboard(\?|$)/.test(location.hash)) step.replace('#/dashboard');
       return h;
     });
   }
@@ -2181,6 +2183,11 @@
     newest.appendChild(list('Tasks', d.recent.tasks, function (li, x) {
       var a = el('a', null, x.name); a.href = '/tasks.html#/t/' + x.id; li.appendChild(a);
       li.appendChild(document.createTextNode(' · ' + x.status + (x.who ? ', ' + x.who : '') + (x.due ? ', due ' + dayWords(x.due) : '')));
+    }));
+    // The forum topics posted to last, of the ones you may read.
+    newest.appendChild(list('Forum posts', d.recent.forum, function (li, x) {
+      var a = el('a', null, x.title); a.href = '/forum.html#/t/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.cat + ', latest from ' + x.lastBy + ', ' + when(x.last)));
     }));
     view.appendChild(newest);
     return h;
@@ -2983,7 +2990,7 @@
     else if (parts[0] === 'cases') done = casesView(false);
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1], parts[2] === 'c' ? parts[3] : null);
-    else if (parts[0] === 'dashboard') done = dashboardView(parts[1] === 'quickbooks' ? parts[2] : null);
+    else if (!parts.length || parts[0] === 'dashboard') done = dashboardView(parts[1] === 'quickbooks' ? parts[2] : null);
     else if (parts[0] === 'feed') done = feedView();
     else if (parts[0] === 'reports') done = reportsView();
     else if (parts[0] === 'templates' && parts[1] === 'new') done = templateFormView(null);
@@ -2993,12 +3000,13 @@
     else if (parts[0] === 'mailings' && parts[1] === 'new') done = newMailingView(hash);
     else if (parts[0] === 'mailings' && parts[1]) done = mailingView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'mailings') done = mailingsView();
-    else done = contactsView();
+    else if (parts[0] === 'contacts') done = contactsView();
+    else done = dashboardView(null);
     // The bar says which part of the office you are in.
     [navDash, navFeed, navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
-    var part = parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'feed' ? navFeed : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
+    var part = !parts.length || parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'feed' ? navFeed : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
       : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : navContacts;
-    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard' || parts[0] === 'feed') ? 'page' : 'true');
+    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'contacts' || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard' || parts[0] === 'feed') ? 'page' : 'true');
     if (parts[0] === 'reports') navDash.setAttribute('aria-current', 'true');
     // The keyboard goes to the new view's heading, or back where it was.
     step.land(done);

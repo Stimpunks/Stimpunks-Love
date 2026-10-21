@@ -5468,6 +5468,11 @@ no room and no words**, so a quiet room is never named. Both keep 400 days. The 
 ("which rooms are busy"), which names a quiet room and is the World room's busiest order turned into numbers, and **counting
 direct messages**; each is Ryan's call and `privacy.html#day-counts` first. Each pipeline has its own cap
 (`dashboard.active_cap`, Ryan's answer after the first live reading added both pipelines against one cap).
+**The dashboard is the office's first page** (Ryan's ask, 2026-10-21): `office.html` and any address the router does not
+know open it, and `dashboardView` writes `#/dashboard` into the address so it has one; **the contacts are at `#/contacts`**,
+so a link meaning the contacts list says that, never `#/`. **Its Newest includes the forum topics posted to last** (the same
+day), from `forumLatest` for whoever is reading, so a category they cannot read is never there; `make-office.py` refuses
+the dashboard reading the forums any other way.
 
 **QUICKBOOKS IS READ AND NEVER WRITTEN, AND ITS TOKENS NEVER LEAVE THE SERVER.** Ryan's choice, 2026-10-21: an Intuit app
 of ours (`CB_QB_CLIENT_ID`, `CB_QB_CLIENT_SECRET` in Netlify), connected from the dashboard by a director. `qbConnect` keeps a

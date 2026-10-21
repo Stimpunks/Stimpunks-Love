@@ -392,6 +392,11 @@ def check_nights(lib):
     daily = code_of(DAILY.read_text()) if DAILY.exists() else ""
     if "officeNightly()" not in daily or "schedule: '50 5 * * *'" not in daily:
         problems.append(f"{DAILY.name}: it is the office's nightly line, scheduled late each evening in Colorado (05:50 UTC).")
+    # The newest forum posts are the forums' own Latest for whoever is reading,
+    # so a category they cannot read is never on their dashboard.
+    dash = code_of(fn(lib, "officeDashboard"))
+    if "forumLatest(who, null, s, now)" not in dash or re.search(r"readForumIndex|readTopic|FORUM_CATEGORIES", dash):
+        problems.append(f"{LIB.name}: the dashboard's forum posts come from forumLatest for the reader, never read from the forums by any other way.")
 
 
 def check_quickbooks(lib):
@@ -480,7 +485,8 @@ def check_js():
     if not wq or re.search(r"\bq\b|searched", wq.group(0).replace("f.sort", "").replace("f.dir", "")):
         problems.append(f"{JS.name}: a search must not go into the address, which goes into the browser's history.")
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/office", "/cb.css", "/office.css", "/privacy.html", "/tasks.html"):
+        # Pages it links to (tasks, the forums' topics, the privacy page) are not calls.
+        if url not in ("/cb/office", "/cb.css", "/office.css", "/privacy.html", "/tasks.html", "/forum.html"):
             problems.append(f"{JS.name}: it calls {url}. The office talks to /cb/office and nothing else.")
 
 

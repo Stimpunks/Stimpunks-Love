@@ -4595,6 +4595,13 @@ test('the dashboard works its figures out from the records: EspoCRM’s four rep
   assert.deepEqual([d.tasks.open, d.tasks.overdue, d.tasks.dueSoon, d.tasks.week.now], [2, 1, 1, 3]);
   assert.deepEqual(d.tasks.byPerson, [{ who: 'Norah', open: 2, overdue: 1 }]);
   assert.deepEqual(d.recent.grants.map((x) => x.contactName), Array(5).fill('Ada Lovelace'));
+  // The forum topics posted to last, from the forums' own Latest, with the path to each one's category.
+  assert.deepEqual(d.recent.forum, []);
+  const kettle = (await startTopic(TCHELSEA, { cat: 'help-desk', title: 'Where is the kettle?', body: 'x' }, s, T0 + 1, NO_NET)).topic;
+  await startTopic(TRYAN, { cat: 'notes', title: 'Board notes', body: 'x' }, s, T0 + 2, NO_NET);
+  await replyTopic(TRYAN, kettle.id, { body: 'Under the stairs.' }, s, T0 + 3, NO_NET);
+  assert.deepEqual((await officeDashboard(TRYAN, s, T0 + 4)).recent.forum.map((x) => [x.title, x.cat, x.lastBy, x.last]),
+    [['Where is the kettle?', 'Help desk', 'Ryan', T0 + 3], ['Board notes', 'Team Docs › Notes', 'Ryan', T0 + 2]]);
   // EspoCRM's other five reports, from the same records.
   assert.equal(await officeReports(TSAM, s, T0), null);
   const r = await officeReports(TRYAN, s, T0);

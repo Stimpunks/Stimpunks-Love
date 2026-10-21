@@ -9554,7 +9554,9 @@ export async function mailSentFor(p, s = store(), now = Date.now()) {
    each pipeline against OFFICE_DASHBOARD.active_cap, every open case by status, the open
    grant requests by stage, and this year's grant requests by month. Beside them
    what came in this week and the week before, the tasks open, overdue and due
-   soon, mailings, and the newest grant requests, cases and tasks. Weeks are the
+   soon, mailings, and the newest grant requests, cases and tasks, and the forum
+   topics posted to last that the reader may read, from the forums' own Latest
+   (forumLatest), so a category the reader cannot see is never in it. Weeks are the
    last seven days by the street's clock, and the one before. The sentences are
    built on the page from these numbers and nothing else. */
 export const NIGHTS_SHOWN = 90;
@@ -9625,12 +9627,15 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   const sumOf = (from, to) => Object.entries(perDay).filter(([d]) => d >= from && d <= to).reduce((n, [, c]) => n + DAY_KINDS.reduce((a, kind) => a + (Number.isInteger(plain(c)[kind]) ? plain(c)[kind] : 0), 0), 0);
   const cb = { days: cbDays, week: { now: sumOf(weekFrom, day), before: sumOf(lastFrom, dayBefore(weekFrom, 1)) }, since: Object.keys(perDay).filter(isDay).sort()[0] || null };
   const newest = (list, n) => list.slice().sort((a, b) => (b.t || 0) - (a.t || 0)).slice(0, n);
-  const [quickbooks, givebutter] = await Promise.all([qbStatus(who, s), gbStatus(who, s)]);
+  const [quickbooks, givebutter, latest] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now)]);
+  // A topic's category by its path, as the forums name it: Team Docs › Notes.
+  const catPath = (slug) => { const names = []; for (let c = forumCat(slug, now); c; c = c.parent ? forumCat(c.parent, now) : null) names.unshift(c.name); return names.join(' › '); };
   return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks, givebutter,
     recent: {
       grants: newest(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
       cases: newest(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
       tasks: newest(tasks, 5).map((x) => ({ id: x.id, name: x.name, who: x.who || null, due: x.due || null, status: x.status })),
+      forum: latest.topics.slice(0, 5).map((x) => ({ id: x.id, title: x.title, cat: catPath(x.cat), last: x.last, lastBy: x.lastBy })),
     } };
 }
 
