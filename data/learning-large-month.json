@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-20T11:22Z",
+ "set": "2026-10-21T11:22Z",
  "log": [
   {
    "id": "rPGJhrunbxo",
@@ -431,16 +431,6 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "eLpRDIvOMEw",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "You can be ambitious without the huge token bill. Here's how.",
-   "published": "2026-09-20T17:00:25Z",
-   "state": "screen",
-   "runs": 1857,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
-  },
-  {
    "id": "tYugqJ9YytQ",
    "source": "nate-b-jones",
    "form": "long",
@@ -601,13 +591,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "HBz9O5e7FiE",
+   "id": "xUl-RD4l4i4",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "The AI labs still have to earn our trust ... #AI #agents #OpenAI #productivity #futureofwork",
-   "published": "2026-09-21T03:00:05Z",
+   "form": "long",
+   "title": "Mac Mini For AI Agents: How Much Memory You Need, And How To Use What You Have.",
+   "published": "2026-10-20T14:00:12Z",
    "state": "screen",
-   "runs": 47,
+   "runs": 1590,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -841,16 +831,6 @@
    "channel": "Less Bitter"
   },
   {
-   "id": "F3YXg7AaKWE",
-   "source": "theo",
-   "form": "long",
-   "title": "Jev is incredible",
-   "published": "2026-09-21T00:28:21Z",
-   "state": "screen",
-   "runs": 1829,
-   "channel": "Theo - t3․gg"
-  },
-  {
    "id": "-XWSJM-Ue-o",
    "source": "theo",
    "form": "long",
@@ -1028,6 +1008,16 @@
    "published": "2026-10-18T23:57:04Z",
    "state": "screen",
    "runs": 1907,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "3OshsLm3_OQ",
+   "source": "theo",
+   "form": "long",
+   "title": "Opus 5.5 is proof that we do need smarter models",
+   "published": "2026-10-20T22:13:42Z",
+   "state": "screen",
+   "runs": 1873,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1238,6 +1228,16 @@
    "published": "2026-10-18T13:00:20Z",
    "state": "screen",
    "runs": 888,
+   "channel": "Paul J Lipsky"
+  },
+  {
+   "id": "HhfSBDcLQYI",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "Meta Muse: 7 Mind Blowing Use Cases",
+   "published": "2026-10-20T13:00:37Z",
+   "state": "screen",
+   "runs": 1024,
    "channel": "Paul J Lipsky"
   },
   {
@@ -1881,6 +1881,26 @@
    "channel": "Nate Herk | AI Automation"
   },
   {
+   "id": "2U8jn2M7g7U",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "This GitHub repo will automate getting you a job",
+   "published": "2026-10-20T17:48:10Z",
+   "state": "screen",
+   "runs": 28,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "ezCmuRCAVXY",
+   "source": "nate-herk",
+   "form": "short",
+   "title": "Claude Code + Blender = Insane 3D Renders",
+   "published": "2026-10-20T17:52:06Z",
+   "state": "screen",
+   "runs": 31,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
    "id": "ijPsFZ1EHlI",
    "source": "chase-ai",
    "form": "long",
@@ -2024,7 +2044,7 @@
    "id": "4B1iGFShCnI",
    "source": "chase-ai",
    "form": "long",
-   "title": "Claude Code's #1 Token Saving Skill Just Got Upgraded (But Is It BS?)",
+   "title": "Did Ponytail 5.0 Just Fix Claude's Token Problem? (No Hype Results)",
    "published": "2026-10-19T20:58:39Z",
    "state": "screen",
    "runs": 1026,
@@ -2151,6 +2171,26 @@
    "channel": "Chase AI"
   },
   {
+   "id": "n_iyI-C7WCs",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "Top 7 Claude Design Skills (All Free)",
+   "published": "2026-10-21T06:15:09Z",
+   "state": "screen",
+   "runs": 119,
+   "channel": "Chase AI"
+  },
+  {
+   "id": "YjqebVsgNcs",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "This Open Source Repo Is Basically A Free ElevenLabs",
+   "published": "2026-10-21T10:30:18Z",
+   "state": "screen",
+   "runs": 33,
+   "channel": "Chase AI"
+  },
+  {
    "id": "YuOSyRj3sXg",
    "source": "greg-isenberg",
    "form": "long",
@@ -2256,13 +2296,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2270,13 +2310,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2284,13 +2324,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2298,13 +2338,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2312,13 +2352,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2326,13 +2366,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2340,13 +2380,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2354,13 +2394,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2368,13 +2408,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2382,13 +2422,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2396,13 +2436,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   },
@@ -2410,13 +2450,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-20T11:22:28Z"
+     "2026-10-21T11:22:36Z"
     ]
    ]
   }
