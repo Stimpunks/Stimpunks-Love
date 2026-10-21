@@ -117,7 +117,7 @@
        anywhere to go stale or leak.
    ============================================================================= */
 import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID, randomBytes, scryptSync,
-  createECDH, createCipheriv, createDecipheriv, hkdfSync, sign as cryptoSign } from 'node:crypto';
+  createECDH, ECDH, createCipheriv, createDecipheriv, hkdfSync, sign as cryptoSign } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import { request as httpRequest } from 'node:http';
 import { request as httpsRequest } from 'node:https';
@@ -6450,6 +6450,8 @@ export function cleanSubscription(sub) {
   const keys = sub.keys && typeof sub.keys === 'object' ? sub.keys : {};
   const p256dh = unb64(keys.p256dh), auth = unb64(keys.auth);
   if (p256dh.length !== 65 || p256dh[0] !== 4 || auth.length !== 16) return null;
+  // The right shape is not enough: a key off the curve can never be sent to.
+  try { ECDH.convertKey(p256dh, 'prime256v1'); } catch (e) { return null; }
   return { endpoint, p256dh: b64(p256dh), auth: b64(auth) };
 }
 
@@ -7716,8 +7718,10 @@ export async function officeContact(who, id, s = store()) {
   if (!c) return null;
   const one = new Map([[c.id, c]]);
   const [grants, cases] = await Promise.all([readGrants(s), readCases(s)]);
+  const [mail, box] = await Promise.all([readSealed(mailIndexKey(c.id), s), readSealed(MAILBOX, s)]);
   return { ...shapeContact(c, true), grants: grants.filter((g) => g.contact === c.id).map((g) => shapeGrant(g, one)),
-    cases: cases.filter((k) => k.contact === c.id).map((k) => shapeCase(k, one)) };
+    cases: cases.filter((k) => k.contact === c.id).map((k) => shapeCase(k, one)),
+    mail: mail && Array.isArray(mail.mail) ? mail.mail : [], mailbox: box && box.address ? box.address : null };
 }
 
 /* One contact made or changed in a list already open: only the fields sent
@@ -7810,6 +7814,7 @@ export async function removeContact(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That contact has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  await forgetContactMail(gone.id, s);
   return { gone: true };
 }
 
@@ -8261,9 +8266,9 @@ function intakeKey() {
 }
 export function intakeReady() { return !!intakeKey() && officeReady(); }
 
-/* `t=<unix seconds>,v1=<hex HMAC-SHA256 of "t.body">`, as the plugin signs it. */
-export function intakeSigned(header, raw, now = Date.now()) {
-  const key = intakeKey();
+/* `t=<unix seconds>,v1=<hex HMAC-SHA256 of "t.body">`, as the plugin and the
+   mailbox script sign it, under the key each was given. */
+function hmacSigned(key, header, raw, now) {
   if (!key || typeof header !== 'string' || typeof raw !== 'string') return false;
   let t = null; const sigs = [];
   for (const part of header.split(',')) {
@@ -8277,6 +8282,7 @@ export function intakeSigned(header, raw, now = Date.now()) {
   const want = Buffer.from(createHmac('sha256', key).update(`${t}.${raw}`, 'utf8').digest('hex'));
   return sigs.some((v) => { const got = Buffer.from(v); return got.length === want.length && timingSafeEqual(got, want); });
 }
+export function intakeSigned(header, raw, now = Date.now()) { return hmacSigned(intakeKey(), header, raw, now); }
 
 /* A description too long for a record is cut short and says so. */
 function intakeBody(text, max) {
@@ -8350,4 +8356,152 @@ export async function officeIntake(sub, s = store(), now = Date.now()) {
   }
   if (why) return { error: why };
   return { ok: true, record: kind.record, made };
+}
+
+/* EMAIL: the team mailbox's correspondence with our contacts, kept whole (Ryan's
+   call, 2026-10-20, over keeping only who, when and the subject). A Google Apps
+   Script inside the mailbox (Stimpunks-Work's stimpunks-gmail-office) does the
+   sending, under CB_OFFICE_MAIL_KEY, a key of its own, signed as the forms are.
+   It first asks for MAIL ADDRESSES: an HMAC of each contact's email under that
+   key, so it can tell which emails are with a contact without being handed a
+   list of anybody's address, and it sends only those: email with anybody else
+   never leaves Gmail. Here each email is matched to its contacts again, and one
+   that matches nobody is stored nowhere.
+
+   Each email is a sealed blob of its own (office-mail/<Gmail's message id>),
+   holding who it was from and to, when, its subject, its text, the names and
+   sizes of its attachments (which stay in Gmail) and which contacts it is
+   with; each contact keeps a sealed list of theirs (office-mail-of/<contact>),
+   newest first. Deleting an email here deletes it from the office and never
+   from Gmail, and keeps its id so it is not sent again; deleting a contact
+   deletes their list, and an email with nobody else in the office goes with
+   it. The mailbox's own address is kept, sealed, for the links into Gmail. */
+const MAILBOX = 'office-mailbox';
+const MAIL_GONE = 'office-mail-gone';
+const mailKeyOf = (id) => `office-mail/${id}`;
+const mailIndexKey = (cid) => `office-mail-of/${cid}`;
+export const MAIL_TEXT_MAX = 200000;
+export const MAIL_SUBJECT_MAX = 500;
+export const MAIL_PEOPLE_MAX = 100;
+export const MAIL_FILES_MAX = 50;
+export function mailId(v) { return typeof v === 'string' && /^[0-9a-f]{8,32}$/i.test(v) ? v.toLowerCase() : null; }
+
+function mailKey() {
+  const v = process.env.CB_OFFICE_MAIL_KEY;
+  return typeof v === 'string' && v.trim().length >= 32 ? v.trim() : null;
+}
+export function mailReady() { return !!mailKey() && officeReady(); }
+export function mailSigned(header, raw, now = Date.now()) { return hmacSigned(mailKey(), header, raw, now); }
+
+async function readMailGone(s) {
+  const d = await s.get(MAIL_GONE, { type: 'json' });
+  return d && Array.isArray(d.ids) ? d.ids : [];
+}
+
+/* The address in `Name <address>` or a bare one, lowercased, or null. */
+function bareAddress(v) {
+  const t = String(v || '').trim();
+  const m = /<([^<>\s]+@[^<>\s]+)>\s*$/.exec(t);
+  const a = (m ? m[1] : t).trim().toLowerCase();
+  return a.length <= 254 && EMAIL.test(a) ? a : null;
+}
+const mailHash = (address) => createHmac('sha256', mailKey()).update(address, 'utf8').digest('hex');
+
+/* Every contact's address as the mailbox script asks for it: a keyed hash, so
+   the answer is no list of anybody's address. */
+export async function mailAddresses(s = store()) {
+  if (!mailReady()) return null;
+  const seen = new Set();
+  for (const c of await readContacts(s)) { const a = bareAddress(c.email); if (a) seen.add(mailHash(a)); }
+  return [...seen].sort();
+}
+
+function cleanPeople(list) {
+  return (Array.isArray(list) ? list : []).slice(0, MAIL_PEOPLE_MAX).map((x) => [...tidy(x)].slice(0, 320).join('')).filter(Boolean);
+}
+
+/* One email from the mailbox script. Returns { kept, made, contacts } or { error }. */
+export async function officeMailIn(m, s = store(), now = Date.now()) {
+  if (!officeReady()) return { error: 'The office is shut.', status: 503 };
+  m = m && typeof m === 'object' ? m : {};
+  const id = mailId(m.id);
+  if (!id) return { error: 'An email needs Gmail’s id for it.' };
+  const mailbox = bareAddress(m.mailbox);
+  if (!mailbox) return { error: 'An email needs the mailbox it is from.' };
+  const at = Number(m.at);
+  if (!(Number.isFinite(at) && at > 0 && at <= now + 86400000)) return { error: 'An email needs the time it was sent.' };
+  if ((await readMailGone(s)).includes(id)) return { kept: false, gone: true };
+  const from = [...tidy(m.from)].slice(0, 320).join('');
+  const to = cleanPeople(m.to), cc = cleanPeople(m.cc), bcc = cleanPeople(m.bcc);
+  const people = new Set([from, ...to, ...cc, ...bcc].map(bareAddress).filter((a) => a && a !== mailbox));
+  const contacts = (await readContacts(s)).filter((c) => { const a = bareAddress(c.email); return a && people.has(a); });
+  if (!contacts.length) return { kept: false };
+  let text = String(m.text == null ? '' : m.text).replace(/\r\n?/g, '\n');
+  if ([...text].length > MAIL_TEXT_MAX) text = [...text].slice(0, MAIL_TEXT_MAX - 80).join('') + '\n\n(Cut short here: the whole email is in Gmail.)';
+  const record = { id, thread: mailId(m.thread), mailbox, at, from, to, cc, bcc,
+    subject: [...tidy(m.subject)].slice(0, MAIL_SUBJECT_MAX).join(''), text,
+    files: (Array.isArray(m.files) ? m.files : []).slice(0, MAIL_FILES_MAX).map((f) => ({
+      name: [...tidy(f && f.name)].slice(0, 200).join('') || 'attachment', size: Number.isInteger(f && f.size) && f.size >= 0 ? f.size : null })),
+    contacts: contacts.map((c) => c.id), t: now };
+  let made = false;
+  await updateSealed(mailKeyOf(id), (was) => { made = !was; return was ? null : record; }, s);
+  // Every contact's list, whether or not the email was new, so a send cut off
+  // halfway is finished by the next one.
+  const out = bareAddress(from) === mailbox;
+  for (const c of contacts) {
+    await updateSealed(mailIndexKey(c.id), (was) => {
+      const list = was && Array.isArray(was.mail) ? was.mail : [];
+      if (list.some((x) => x.id === id)) return null;
+      const next = [...list, { id, at, subject: record.subject, from, out }].sort((a, b) => b.at - a.at);
+      return { mail: next };
+    }, s);
+  }
+  await updateSealed(MAILBOX, (was) => (was && was.address === mailbox ? null : { address: mailbox }), s);
+  return { kept: true, made, contacts: contacts.length };
+}
+
+export async function officeEmail(who, id, s = store()) {
+  if (!officeAllow(who)) return null;
+  const k = mailId(id);
+  const m = k ? await readSealed(mailKeyOf(k), s) : null;
+  if (!m) return null;
+  const byId = contactMap(await readContacts(s));
+  return { id: m.id, thread: m.thread || null, mailbox: m.mailbox, at: m.at, from: m.from, to: m.to, cc: m.cc, bcc: m.bcc,
+    subject: m.subject, text: m.text, files: m.files || [], out: bareAddress(m.from) === m.mailbox,
+    contacts: (m.contacts || []).map((cid) => byId.get(cid)).filter(Boolean).map((c) => ({ id: c.id, name: [c.first, c.last].filter(Boolean).join(' '), email: c.email })) };
+}
+
+/* An email deleted from the office, and never from Gmail; its id is kept so the
+   mailbox script does not send it again. */
+export async function removeEmail(who, id, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const k = mailId(id);
+  const m = k ? await readSealed(mailKeyOf(k), s) : null;
+  if (!m) return { error: 'That email has already been deleted from the office.' };
+  for (const cid of m.contacts || []) {
+    await updateSealed(mailIndexKey(cid), (was) => {
+      const list = was && Array.isArray(was.mail) ? was.mail : [];
+      return list.some((x) => x.id === k) ? { mail: list.filter((x) => x.id !== k) } : null;
+    }, s);
+  }
+  await s.delete(mailKeyOf(k));
+  await updateList(MAIL_GONE, 'ids', (ids) => (ids.includes(k) ? null : [...ids, k]), s);
+  return { gone: true };
+}
+
+/* A contact deleted: their list goes, and so does every email of theirs that is
+   with nobody else in the office. */
+async function forgetContactMail(cid, s) {
+  const idx = await readSealed(mailIndexKey(cid), s);
+  for (const x of (idx && idx.mail) || []) {
+    let empty = false;
+    await updateSealed(mailKeyOf(x.id), (was) => {
+      if (!was) return null;
+      const rest = (was.contacts || []).filter((c) => c !== cid);
+      empty = !rest.length;
+      return empty ? null : { ...was, contacts: rest };
+    }, s);
+    if (empty) await s.delete(mailKeyOf(x.id));
+  }
+  await s.delete(mailIndexKey(cid));
 }

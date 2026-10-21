@@ -152,6 +152,14 @@
     n.addEventListener('click', function () { b.remove(); if (back) { back.hidden = false; back.focus(); } });
     y.addEventListener('click', function () { y.disabled = true; yes(function () { y.disabled = false; }); });
   }
+  /* Links into the team mailbox in Gmail. They open Gmail, signed in as whoever
+     opens them; the office fetches nothing from Google. */
+  function gmailBase(mailbox) { return 'https://mail.google.com/mail/' + (mailbox ? 'u/' + encodeURIComponent(mailbox) + '/' : ''); }
+  function gmailThread(mailbox, thread) { return gmailBase(mailbox) + '#all/' + encodeURIComponent(thread); }
+  function gmailCompose(mailbox, to, subject) {
+    return gmailBase(mailbox) + '?view=cm&fs=1&to=' + encodeURIComponent(to) + (subject ? '&su=' + encodeURIComponent(subject) : '');
+  }
+  function outLink(href, words) { var a = el('a', null, words); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; }
   function viewLinks(list) {
     var row = el('p', 'of-row');
     list.forEach(function (x) {
@@ -370,6 +378,26 @@
       });
       view.appendChild(gl);
     } else view.appendChild(quiet('None.'));
+    view.appendChild(el('h3', null, 'Emails'));
+    var mail = c.mail || [];
+    if (c.email) {
+      var wr = el('p', 'of-row');
+      wr.appendChild(outLink(gmailCompose(c.mailbox, c.email, ''), 'Write to them in Gmail'));
+      if (c.noEmail) wr.appendChild(tag('THEY ASKED NOT TO BE EMAILED'));
+      view.appendChild(wr);
+    }
+    if (mail.length) {
+      view.appendChild(el('p', 'of-shown', mail.length + (mail.length === 1 ? ' email' : ' emails') + ' with the team mailbox'));
+      var ml = el('ul', 'of-theirs');
+      mail.forEach(function (m) {
+        var li = el('li');
+        li.appendChild(el('span', 'of-day', dayOf(m.at) + ' · ' + (m.out ? 'to them' : 'from them') + ' · '));
+        var a = el('a', null, m.subject || '(no subject)'); a.href = '#/m/' + m.id;
+        li.appendChild(a);
+        ml.appendChild(li);
+      });
+      view.appendChild(ml);
+    } else view.appendChild(quiet('None yet. Emails with them reach the office from the team mailbox.'));
     view.appendChild(el('h3', null, 'Cases'));
     var theirCases = c.cases || [];
     if (theirCases.length) {
@@ -1420,6 +1448,68 @@
     return h;
   }
 
+
+  /* ── One email ─────────────────────────────────────────────────────────── */
+
+  /* An email as the team mailbox's script sent it: who, when, the subject, the
+     attachments' names (the files stay in Gmail) and its text, shown as text
+     with its line breaks and nothing turned into markup. */
+  function emailView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=email&id=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status !== 200) {
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That email has been deleted from the office'); view.appendChild(h0); view.appendChild(backTo('#/', '← All contacts')); return h0; }
+        return refused(r);
+      }
+      took(r.body);
+      return drawEmail(r.body.email);
+    });
+  }
+
+  function drawEmail(m) {
+    view.textContent = '';
+    var first = m.contacts[0];
+    view.appendChild(first ? backTo('#/c/' + first.id, '← ' + (first.name || first.email)) : backTo('#/', '← All contacts'));
+    var h = heading(2, m.subject || '(no subject)');
+    view.appendChild(h);
+    var dl = el('dl', 'of-facts');
+    function fact(k, v) { if (v == null || v === '' || (Array.isArray(v) && !v.length)) return; dl.appendChild(el('dt', null, k)); var dd = el('dd'); if (typeof v === 'string') dd.textContent = v; else if (Array.isArray(v)) dd.textContent = v.join(', '); else dd.appendChild(v); dl.appendChild(dd); }
+    fact('From', m.from);
+    fact('To', m.to);
+    fact('Cc', m.cc);
+    fact('Bcc', m.bcc);
+    fact('Sent', when(m.at));
+    if (m.contacts.length) {
+      var cs = el('span');
+      m.contacts.forEach(function (c, i) { if (i) cs.appendChild(document.createTextNode(', ')); var a = el('a', null, c.name || c.email); a.href = '#/c/' + c.id; cs.appendChild(a); });
+      fact(m.contacts.length === 1 ? 'Contact' : 'Contacts', cs);
+    }
+    if (m.files.length) fact('Attachments', m.files.map(function (f) { return f.name + (f.size != null ? ' (' + Math.max(1, Math.round(f.size / 1024)) + ' KB)' : ''); }).join(', ') + ', in Gmail');
+    view.appendChild(dl);
+    var body = el('div', 'of-body of-mail');
+    body.textContent = m.text || '';
+    view.appendChild(body);
+    var tools = el('div', 'of-row');
+    if (m.thread) tools.appendChild(outLink(gmailThread(m.mailbox, m.thread), 'Open the thread in Gmail'));
+    var to = m.out ? (first && first.email) : m.from;
+    if (to) tools.appendChild(outLink(gmailCompose(m.mailbox, to, /^re:/i.test(m.subject || '') ? m.subject : 'Re: ' + (m.subject || '')), 'Reply in Gmail'));
+    var del = el('button', 'cb-btn of-small', 'Delete from the office'); del.type = 'button';
+    del.addEventListener('click', function () {
+      sure(tools, 'This deletes the email from the office for everybody, and it is not taken in again. It stays in Gmail.', 'Delete it', function (done) {
+        call(null, { action: 'mail-remove', id: m.id }).then(function (r) {
+          done();
+          if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
+          say('Deleted from the office.');
+          location.hash = first ? '#/c/' + first.id : '#/';
+        });
+      }, del);
+    });
+    tools.appendChild(del);
+    view.appendChild(tools);
+    return h;
+  }
+
   /* ── Refusals ──────────────────────────────────────────────────────────── */
 
   function refused(r) {
@@ -1463,6 +1553,7 @@
     else if (parts[0] === 'cases' && parts[1] === 'edit' && parts[2]) done = caseFormView(parts[2], null);
     else if (parts[0] === 'cases') done = casesView(false);
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1]);
+    else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1]);
     else done = contactsView();
     // The bar says which part of the office you are in.
     [navContacts, navGrants, navCases].forEach(function (a) { a.removeAttribute('aria-current'); });

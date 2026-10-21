@@ -41,6 +41,13 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-20-office-mail">2026-10-20 &mdash; The office: email with the team mailbox</h2>
+  <ul>
+    <li><strong>Email between the team mailbox and somebody in <a href="office.html">the office</a> is filed on their page</strong>, as EspoCRM did: newest first, each saying whether it went to them or came from them, and whole when opened, with its attachments named. A script inside the team&rsquo;s Gmail sends it, every ten minutes, signed with a key of its own.</li>
+    <li><strong>Only email with a contact leaves Gmail.</strong> The script is given a keyed hash of each contact&rsquo;s address rather than the address, and sends an email only when somebody on it matches. Attachments stay in Gmail.</li>
+    <li><strong>Writing stays in Gmail.</strong> <b>Write to them in Gmail</b>, <b>Open the thread in Gmail</b> and <b>Reply in Gmail</b> open it there, signed in as the team mailbox. <a href="privacy.html#office">Privacy</a> says what the office keeps of an email.</li>
+  </ul>
+
   <h2 id="2026-10-20-office-intake">2026-10-20 &mdash; The office takes stimpunks.org&rsquo;s forms, and EspoCRM goes</h2>
   <ul>
     <li><strong>A request for a grant, a connection or a volunteer application on stimpunks.org now arrives in <a href="office.html">the office</a></strong>, sent by stimpunks.org&rsquo;s server and signed with a key the two servers share. The person is found by their email or added, and their grant request or case is made, once, however often it is sent.</li>

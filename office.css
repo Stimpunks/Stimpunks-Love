@@ -76,6 +76,8 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-body pre { margin: 0; padding: 8px 10px; overflow-x: auto; border: 1px solid var(--cb-steel-2); border-radius: 4px; }
 .of-body pre code { border: 0; padding: 0; }
 .of-body hr { border: 0; border-top: 2px solid var(--cb-steel-2); width: 100%; }
+/* AN EMAIL: its text as it was written, every line break kept. */
+.of-mail { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; }
 /* A checkbox in notes: shown as it was written, ticked by editing them. */
 .of-box { list-style: none; }
 .of-box > p > input[type="checkbox"], .of-box > input[type="checkbox"] { width: 18px; height: 18px; margin: 0 8px 0 0; vertical-align: -3px; accent-color: var(--cb-amber); }

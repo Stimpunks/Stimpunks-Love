@@ -28,6 +28,9 @@ the code does):
   · AN INTAKE THAT TRUSTS WHAT IT IS SENT: /cb/office/intake checks the
     signature before it reads the body as anything, and is shut without its
     key; the key is read in one place, from the environment.
+  · MAIL THAT IS NOT OURS TO KEEP: the mailbox script's endpoint checks its own
+    key's signature first, an email that is with nobody in the office is kept
+    nowhere, and the script is given keyed hashes of addresses, never addresses.
   · ANYTHING LOGGED. Nothing about a contact, and nothing anybody types, goes
     to the console, in the office's code, its function or its page.
   · MARKUP FROM WHAT SOMEBODY TYPED: office.js builds notes with markdown.js
@@ -58,6 +61,7 @@ DATA = ROOT / "data" / "office.json"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 FN = ROOT / "netlify" / "functions" / "cb-office.mjs"
 INTAKE = ROOT / "netlify" / "functions" / "cb-office-intake.mjs"
+MAILFN = ROOT / "netlify" / "functions" / "cb-office-mail.mjs"
 JS = ROOT / "office.js"
 CSS = ROOT / "office.css"
 PAGE = ROOT / "office.html"
@@ -70,6 +74,7 @@ CONTACT_KEEPS = {"id", "first", "last", "email", "phone", "noEmail", "noCall", "
 
 CASE_KEEPS = {"id", "number", "name", "type", "status", "priority", "submitted", "closed", "contact", "form", "body", "t", "by",
               "edited", "editedBy", "espo", "synced"}
+MAIL_KEEPS = {"id", "thread", "mailbox", "at", "from", "to", "cc", "bcc", "subject", "text", "files", "contacts", "t"}
 GRANT_KEEPS = {"id", "name", "pipeline", "stage", "amount", "submitted", "closed", "contact", "form", "body", "t", "by",
                "edited", "editedBy", "espo", "synced"}
 
@@ -254,10 +259,45 @@ def check_intake(lib):
         problems.append(f"{INTAKE.name}: it writes to the console. Nothing about a submission is ever logged.")
     if "path: '/cb/office/intake'" not in f or "method: ['POST']" not in f:
         problems.append(f"{INTAKE.name}: it answers POST at /cb/office/intake, where the plugin posts, and nothing else.")
-    if lib.count("process.env.CB_OFFICE_INTAKE_KEY") != 1 or "v.trim().length >= 32" not in lib:
-        problems.append(f"{LIB.name}: CB_OFFICE_INTAKE_KEY must be read once, in intakeKey, and be at least 32 characters.")
-    if "timingSafeEqual" not in (re.search(r"export function intakeSigned\(.*?\n\}", lib, re.S) or [""])[0]:
-        problems.append(f"{LIB.name}: intakeSigned must compare signatures in constant time.")
+    for var in ("CB_OFFICE_INTAKE_KEY", "CB_OFFICE_MAIL_KEY"):
+        if lib.count(f"process.env.{var}") != 1:
+            problems.append(f"{LIB.name}: {var} must be read once, and be at least 32 characters.")
+    hs = (re.search(r"function hmacSigned\(.*?\n\}", lib, re.S) or [""])[0]
+    if "timingSafeEqual" not in hs or "INTAKE_SKEW" not in hs:
+        problems.append(f"{LIB.name}: hmacSigned must compare signatures in constant time and refuse an old one.")
+    for name, key in (("intakeSigned", "intakeKey()"), ("mailSigned", "mailKey()")):
+        if f"return hmacSigned({key}, header, raw, now)" not in lib:
+            problems.append(f"{LIB.name}: {name} must check with hmacSigned under its own key, {key}.")
+
+
+def check_mail(lib):
+    """The mailbox script's way in: signed under its own key before anything is
+    read, an email kept with only what privacy.html says, and email that is
+    with nobody in the office kept nowhere."""
+    if not MAILFN.exists():
+        problems.append(f"{MAILFN.name}: missing. The team mailbox's script posts to it.")
+        return
+    f = code_of(MAILFN.read_text())
+    ready, signed = f.find("if (!mailReady())"), f.find("if (!mailSigned(")
+    parsed, used = f.find("JSON.parse("), min([i for i in (f.find("officeMailIn("), f.find("mailAddresses(")) if i >= 0] or [-1])
+    if min(ready, signed, parsed, used) < 0 or not ready < signed < parsed < used:
+        problems.append(f"{MAILFN.name}: it must be shut without its key, and check the signature before it reads the body or answers anything.")
+    if "console." in f:
+        problems.append(f"{MAILFN.name}: it writes to the console. Nothing about an email is ever logged.")
+    if "path: '/cb/office/mail'" not in f or "method: ['POST']" not in f:
+        problems.append(f"{MAILFN.name}: it answers POST at /cb/office/mail and nothing else.")
+    mi = (re.search(r"export async function officeMailIn\(.*?\n\}", lib, re.S) or [""])[0]
+    rec = re.search(r"const record = \{(.*?)\};", mi, re.S)
+    flat = rec.group(1) if rec else ""
+    for _ in range(4):
+        flat = re.sub(r"\([^()]*\)|\{[^{}]*\}|\[[^\[\]]*\]", "", flat)
+    keys = {part.split(":")[0].strip() for part in flat.split(",") if part.strip()}
+    if not rec or keys - MAIL_KEEPS:
+        problems.append(f"{LIB.name}: an email keeps {', '.join(sorted(keys - MAIL_KEEPS)) or 'something unreadable'}, which privacy.html#office does not list.")
+    if "if (!contacts.length) return { kept: false };" not in mi or mi.find("if (!contacts.length)") > mi.find("updateSealed("):
+        problems.append(f"{LIB.name}: officeMailIn must keep nothing of an email that is with nobody in the office.")
+    if "mailHash(" not in (re.search(r"export async function mailAddresses\(.*?\n\}", lib, re.S) or [""])[0]:
+        problems.append(f"{LIB.name}: mailAddresses must answer keyed hashes, never addresses.")
 
 
 def check_js():
@@ -336,6 +376,7 @@ def main():
     check_lib(lib)
     check_function()
     check_intake(lib)
+    check_mail(lib)
     check_js()
     check_css()
     check_page()

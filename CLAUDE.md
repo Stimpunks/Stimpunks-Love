@@ -5324,6 +5324,22 @@ for, go in the description, so nothing sent is lost. **An import from EspoCRM le
 **a bearer token instead of the signature**, which puts the key in every request and every log that ever records one,
 **the plugin deciding names and amounts**, which is two places to change, and **a log line to debug an entry**.
 
+**THE TEAM MAILBOX FILES ITS EMAIL WITH OUR CONTACTS IN THE OFFICE, AND ONLY THAT EMAIL LEAVES GMAIL.** Ryan's choice,
+2026-10-20 (a script in the mailbox over a bookmarklet, and the whole email over a line about it): `/cb/office/mail`
+(`cb-office-mail.mjs`, the email part of the office section of `lib.mjs`) takes one email at a time from **Stimpunks Gmail
+to the Office**, a Google Apps Script in `~/Documents/GitHub/Stimpunks-Work/stimpunks-gmail-office/` (installed in the team
+mailbox, not a repository; its tests are `node tests/run.mjs`), signed as the intake is, through the same `hmacSigned`,
+under a key of its own, `CB_OFFICE_MAIL_KEY`. **The script is never given an address**: `addresses` answers a keyed hash
+of each contact's (`mailHash`), it sends an email only when somebody on it matches and never on the mailbox's own address,
+and `officeMailIn` checks again and keeps nothing of an email with no contact on it. An email is one sealed blob
+(`office-mail/<Gmail id>`) filed on each of its contacts in a sealed index (`office-mail-of/<contact>`), whole but for
+attachments, which stay in Gmail as names and sizes; deleting one from the office keeps its Gmail id in `office-mail-gone`
+so it is never filed again, and deleting a contact deletes the emails filed only on them. **Writing is Gmail's**: the office
+opens the thread and Gmail's compose window under the mailbox the email came from. The friendly edits are **giving the
+script every contact's address "so it can match"**, which puts the contact list in a Google project, **filing every email
+"in case they become a contact"**, which is strangers' mail, **attachments**, which are where people's documents are, and
+**sending from the office**, which needs the office to hold a Google credential.
+
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
 redraw** (forum.js draws no canvas of its own), and `putForumUpload` refuses one still carrying camera data **and a

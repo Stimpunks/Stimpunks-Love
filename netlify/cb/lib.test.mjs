@@ -2951,7 +2951,9 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   assert.equal(cleanSubscription({ ...d, endpoint: d.endpoint.replace('https:', 'http:') }), null);
   assert.equal(cleanSubscription({ ...d, endpoint: d.endpoint.replace('.com/', '.com:8443/') }), null, 'a port');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, auth: rnd(8).toString('base64url') } }), null);
-  assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(65).toString('base64url') } }), null, 'a key that is not a point');
+  const offCurve = rnd(65); offCurve[0] = 4;
+  assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
+  assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
   assert.deepEqual(cleanWant({}), { all: false, mentions: false, props: false, messages: false, world: false, calls: false, words: true, rooms: [] }, 'something started on');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
@@ -3786,7 +3788,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   makeRecurring, readRecurs, isoWeek, recurName, recurAfter, tickTask, taskBoxes, officeAllow, officeReady, seal, unseal,
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
-  readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY } from './lib.mjs';
+  readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
+  mailSigned, mailReady, mailAddresses, officeMailIn, officeEmail, removeEmail } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4411,3 +4414,69 @@ test('a final import from EspoCRM leaves alone what the form already brought her
   assert.deepEqual([g.told[0].kept, k.told[0].kept], ['already here', 'already here']);
   assert.deepEqual([(await readGrants(s)).length, (await readCases(s)).length], [1, 1], 'one form entry became two records');
 }));
+
+const MAIL_TEST_KEY = rnd(24).toString('hex');
+async function withMailKey(key, fn) {
+  const was = process.env.CB_OFFICE_MAIL_KEY;
+  if (key == null) delete process.env.CB_OFFICE_MAIL_KEY; else process.env.CB_OFFICE_MAIL_KEY = key;
+  try { return await fn(); } finally { if (was == null) delete process.env.CB_OFFICE_MAIL_KEY; else process.env.CB_OFFICE_MAIL_KEY = was; }
+}
+const mailFrom = (i, extra = {}) => ({ id: (0x18f0000 + i).toString(16).padStart(16, '0'), thread: (0x18e0000 + i).toString(16).padStart(16, '0'), mailbox: 'Team <team@example.org>', at: T0 - i * 60000,
+  from: 'Ada Lovelace <ADA@example.org>', to: ['team@example.org'], cc: [], bcc: [], subject: `About the grant ${i}`, text: `Hello, here is message ${i}.\r\nThanks`, files: [{ name: 'receipt.pdf', size: 1234 }], ...extra });
+
+test('the mailbox’s way in has its own key, and the forms’ key does not open it', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, () => withIntakeKey(INTAKE_TEST_KEY, async () => {
+  const raw = JSON.stringify({ action: 'addresses' });
+  assert.equal(mailReady(), true);
+  assert.equal(mailSigned(signIntake(raw, undefined, MAIL_TEST_KEY), raw, T0), true);
+  assert.equal(mailSigned(signIntake(raw, undefined, INTAKE_TEST_KEY), raw, T0), false, 'the forms’ key opened the mailbox’s way in');
+  assert.equal(intakeSigned(signIntake(raw, undefined, MAIL_TEST_KEY), raw, T0), false, 'the mailbox’s key opened the forms’ way in');
+  await withMailKey(null, async () => assert.equal(mailReady(), false));
+}))));
+
+test('an email with a contact is kept whole, sealed, on that contact, once; one with nobody is kept nowhere', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  const bo = (await saveContact(TRYAN, { first: 'Bo', last: 'Peep', email: 'bo@example.org' }, s, T0)).contact;
+  const hashes = await mailAddresses(s);
+  assert.deepEqual(hashes, ['ada@example.org', 'bo@example.org'].map((a) => createHmac('sha256', MAIL_TEST_KEY).update(a).digest('hex')).sort());
+  assert.ok(!JSON.stringify(hashes).includes('example.org'), 'addresses went out bare');
+  assert.deepEqual(await officeMailIn(mailFrom(1, { from: 'Stranger <stranger@example.net>' }), s, T0), { kept: false });
+  assert.equal(await s.get('office-mail/' + mailFrom(1).id, { type: 'json' }), null, 'an email with nobody here was stored');
+  assert.deepEqual(await officeMailIn(mailFrom(2), s, T0), { kept: true, made: true, contacts: 1 });
+  assert.deepEqual(await officeMailIn(mailFrom(2), s, T0 + 1), { kept: true, made: false, contacts: 1 }, 'an email sent twice was made twice');
+  assertSealed(await s.get('office-mail/' + mailFrom(2).id, { type: 'json' }), ['Lovelace', 'ada@example.org', 'About the grant', 'message 2', 'receipt.pdf']);
+  // One the team sent, to two contacts at once, with Bo copied.
+  await officeMailIn(mailFrom(3, { from: 'team@example.org', to: ['Ada <ada@example.org>'], cc: ['bo@example.org'], subject: 'Re: About the grant' }), s, T0 + 2);
+  const c = await officeContact(TRYAN, ada.id, s);
+  assert.deepEqual(c.mail.map((x) => [x.subject, x.out]), [['About the grant 2', false], ['Re: About the grant', true]]);
+  assert.deepEqual(c.mail.map((x) => x.id), [mailFrom(2).id, mailFrom(3).id], 'a contact’s emails are not newest first');
+  assert.equal(c.mailbox, 'team@example.org');
+  assert.deepEqual((await officeContact(TRYAN, bo.id, s)).mail.map((x) => x.id), [mailFrom(3).id]);
+  const e = await officeEmail(TRYAN, mailFrom(2).id, s);
+  assert.deepEqual([e.text, e.files[0].name, e.out, e.contacts.map((x) => x.name)], ['Hello, here is message 2.\nThanks', 'receipt.pdf', false, ['Ada Lovelace']]);
+  assert.equal(await officeEmail(TSAM, mailFrom(2).id, s), null, 'somebody outside the office read an email');
+  assert.match((await removeEmail(TSAM, mailFrom(2).id, s)).error, /directors and administrators/);
+  // Deleted here, and never taken back in.
+  assert.ok((await removeEmail(TRYAN, mailFrom(2).id, s)).gone);
+  assert.deepEqual(await officeMailIn(mailFrom(2), s, T0 + 3), { kept: false, gone: true });
+  assert.deepEqual((await officeContact(TRYAN, ada.id, s)).mail.map((x) => x.id), [mailFrom(3).id]);
+  // Bo deleted: the shared email stays on Ada; one with only Bo goes.
+  await officeMailIn(mailFrom(4, { from: 'bo@example.org' }), s, T0 + 4);
+  await removeContact(TRYAN, bo.id, s);
+  assert.equal(await s.get('office-mail/' + mailFrom(4).id, { type: 'json' }), null, 'an email with only a deleted contact stayed');
+  assert.deepEqual((await officeEmail(TRYAN, mailFrom(3).id, s)).contacts.map((x) => x.name), ['Ada Lovelace']);
+  assert.equal(await s.get('office-mail-of/' + bo.id, { type: 'json' }), null);
+  for (const bad of [{ ...mailFrom(5), id: 'not hex!' }, { ...mailFrom(5), mailbox: 'nobody' }, { ...mailFrom(5), at: 'soon' }, null]) assert.ok((await officeMailIn(bad, s, T0)).error);
+  const long = await officeMailIn(mailFrom(6, { text: 'x'.repeat(250000) }), s, T0 + 5);
+  assert.equal(long.kept, true);
+  assert.match((await officeEmail(TRYAN, mailFrom(6).id, s)).text, /Cut short here/);
+})));
+
+test('fifteen emails to one contact at once: every one kept on their list', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => officeMailIn(mailFrom(100 + i), s, T0 + i)));
+  const kept = told.filter((r) => r.status === 'fulfilled' && r.value.kept).length;
+  assert.equal((await officeContact(TRYAN, ada.id, s)).mail.length, kept, 'an email told it was kept is missing from its contact');
+  assert.equal(kept, 15);
+})));

@@ -4,7 +4,9 @@
    Every record is sealed at rest under CB_OFFICE_KEY; without it the office
    is shut. GET, with ?view=:
      contacts                every contact, without notes
-     contact  &id=           one contact, its notes as words and as nodes, and their grant requests and cases
+     contact  &id=           one contact, its notes as words and as nodes, their grant requests and cases,
+                             and their emails (who, when, subject), newest first
+     email    &id=           one email, whole, as the team mailbox's script sent it
      grants                  every grant request, without its description
      grant    &id=           one grant request, its description as words and as nodes
      cases                   every case, without its description
@@ -29,11 +31,14 @@
          that closes it, set here, sets the day it closed
      { action: 'case-remove', id }                   a case deleted
      { action: 'case-import', rows: [...] }          EspoCRM's cases, each keeping its number
+     { action: 'mail-remove', id }                   an email deleted from the office, never from
+         Gmail, and never taken in again
      { action: 'preview', body }                     how notes or a description will set
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
-  officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, parseBrass, cleanForumBody, json, body, sameSite,
+  officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases,
+  officeEmail, removeEmail, parseBrass, cleanForumBody, json, body, sameSite,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
 
@@ -68,6 +73,10 @@ export default async (req) => {
         const g = await officeGrant(who, url.searchParams.get('id'));
         return g ? json(200, { me, settings, grant: g }, QUIET) : json(404, { error: 'That grant request has been deleted.' }, QUIET);
       }
+      if (view === 'email') {
+        const m = await officeEmail(who, url.searchParams.get('id'));
+        return m ? json(200, { me, settings, email: m }, QUIET) : json(404, { error: 'That email has been deleted from the office.' }, QUIET);
+      }
       if (view === 'cases') return json(200, { me, settings, cases: await officeCases(who) }, QUIET);
       if (view === 'case') {
         const k = await officeCase(who, url.searchParams.get('id'));
@@ -99,6 +108,10 @@ export default async (req) => {
     }
     if (b.action === 'grant-remove') {
       const r = await removeGrant(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'mail-remove') {
+      const r = await removeEmail(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
     }
     if (b.action === 'case-save') {
