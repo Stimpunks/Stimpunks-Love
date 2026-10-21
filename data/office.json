@@ -85,14 +85,6 @@
         "open": true
       },
       {
-        "name": "Invited In",
-        "open": true
-      },
-      {
-        "name": "Collaborating",
-        "open": true
-      },
-      {
         "name": "Closed",
         "open": false
       },
@@ -132,5 +124,9 @@
       "prefix": "Volunteer Application",
       "type": "Volunteer Application"
     }
+  },
+  "_dashboard": "dashboard: the operations dashboard's settings. active_cap is EspoCRM's 'Active Grant Applications (100 cap)': how many open grant requests submitted this calendar year the dashboard measures against. Changing it is a line here and a run of tools/check-all.sh.",
+  "dashboard": {
+    "active_cap": 100
   }
 }

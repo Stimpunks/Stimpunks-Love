@@ -5349,6 +5349,15 @@ contact; `make-office.py` holds all three. **An email already kept gains a conta
 friendly edit is **adding everybody who writes in**, which files newsletters and strangers' mail; the label is the
 person's choice of who belongs in the office.
 
+**THE DASHBOARD AND REPORTS ARE WORKED OUT FROM THE RECORDS EVERY TIME, AND KEEP NOTHING.** Ryan's brief, 2026-10-21:
+`officeDashboard` and `officeReports` in `lib.mjs` (`view=dashboard`, `view=reports`), EspoCRM's nine reports by their own
+names, and sentences office.js builds from the same numbers, never written by an AI (Ryan's call). **Charts are SVG built
+with `createElementNS`, drawn at the width they are shown at**, in the tasks' tag colours (`--cb-task-*`, the dataviz
+method's slots, light or dark by the case's measured tone): a pipeline keeps its colour on every chart, every bar says its
+number, and every chart has its numbers in a table under it, because several radio themes' cases are close to a series
+colour. The friendly edits are **a chart with no table**, **a colour per bar**, and **a summary written by a model** "so it
+reads better"; the last sends the office's data somewhere Ryan chose it would not go.
+
 **A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
 2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one
 refused by `unknownFillIns`), a preview of every email filled in and everybody left out with the reason (`stageMail`,

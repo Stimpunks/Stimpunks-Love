@@ -7593,8 +7593,9 @@ export async function removeRecur(who, id, s = store()) {
 export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
-export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Invited In", "open": true}, {"name": "Collaborating", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
+export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
 export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}};
+export const OFFICE_DASHBOARD = {"active_cap": 100};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
 const NO_OFFICE = 'The office is for our directors and administrators, on a claimed username.';
@@ -8830,4 +8831,109 @@ export async function mailSentFor(p, s = store(), now = Date.now()) {
     return null;
   }, s);
   return { ok: true, known };
+}
+
+/* THE DASHBOARD: the office's figures, worked out from the records every time
+   it is opened, so it never disagrees with them (Ryan's brief, 2026-10-21). It
+   holds EspoCRM's four reports: the open grant requests submitted this year
+   against OFFICE_DASHBOARD.active_cap, every open case by status, the open
+   grant requests by stage, and this year's grant requests by month. Beside them
+   what came in this week and the week before, the tasks open, overdue and due
+   soon, mailings, and the newest grant requests, cases and tasks. Weeks are the
+   last seven days by the street's clock, and the one before. The sentences are
+   built on the page from these numbers and nothing else. */
+const dayBefore = (d, n) => new Date(Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10) - n)).toISOString().slice(0, 10);
+export async function officeDashboard(who, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return null;
+  const day = today(new Date(now)), year = day.slice(0, 4);
+  const weekFrom = dayBefore(day, 6), lastFrom = dayBefore(day, 13);
+  const dayOfT = (t) => today(new Date(t));
+  const inWeek = (d) => d && d >= weekFrom && d <= day;
+  const inLast = (d) => d && d >= lastFrom && d < weekFrom;
+  const [grants, cases, tasks, mailings, contacts] = await Promise.all([readGrants(s), readCases(s), readTasks(s), readMailings(s), readContacts(s)]);
+  const byId = contactMap(contacts);
+  const nameOf = (cid) => { const c = cid ? byId.get(cid) : null; return c ? [c.first, c.last].filter(Boolean).join(' ') : null; };
+
+  const status = (g) => grantStatus(g);
+  const open = grants.filter((g) => status(g) === 'Open');
+  const came = (x) => x.submitted || dayOfT(x.t);
+  const active = open.filter((g) => String(g.submitted || '').startsWith(year));
+  const months = Array.from({ length: 12 }, (_, i) => `${year}-${String(i + 1).padStart(2, '0')}`).filter((m) => m <= day.slice(0, 7));
+  const g = {
+    open: open.length, openSum: open.reduce((t, x) => t + (x.amount || 0), 0),
+    active: { cap: OFFICE_DASHBOARD.active_cap, count: active.length,
+      byPipeline: OFFICE_PIPELINES.map((p) => ({ pipeline: p.name, count: active.filter((x) => x.pipeline === p.name).length })) },
+    stages: OFFICE_PIPELINES.map((p) => ({ pipeline: p.name,
+      stages: p.stages.filter((st) => st.status === 'Open').map((st) => {
+        const here = open.filter((x) => x.pipeline === p.name && x.stage === st.name);
+        return { stage: st.name, count: here.length, sum: here.reduce((t, x) => t + (x.amount || 0), 0) };
+      }) })),
+    months: months.map((m) => ({ month: m, counts: OFFICE_PIPELINES.map((p) => grants.filter((x) => x.pipeline === p.name && String(x.submitted || '').startsWith(m)).length) })),
+    pipelines: OFFICE_PIPELINES.map((p) => p.name),
+    week: { now: grants.filter((x) => inWeek(came(x))).length, before: grants.filter((x) => inLast(came(x))).length },
+    decided: {
+      granted: grants.filter((x) => status(x) === 'Granted' && String(x.closed || '').startsWith(year)).length,
+      grantedSum: grants.filter((x) => status(x) === 'Granted' && String(x.closed || '').startsWith(year)).reduce((t, x) => t + (x.amount || 0), 0),
+      denied: grants.filter((x) => status(x) === 'Denied' && String(x.closed || '').startsWith(year)).length },
+  };
+  const openCases = cases.filter((k) => caseOpen(k.status));
+  const k = {
+    open: openCases.length,
+    byStatus: OFFICE_CASES.statuses.filter((st) => st.open).map((st) => ({ status: st.name, count: openCases.filter((x) => x.status === st.name).length })),
+    byType: OFFICE_CASES.types.map((ty) => ({ type: ty, count: openCases.filter((x) => x.type === ty).length })),
+    week: { now: cases.filter((x) => inWeek(came(x))).length, before: cases.filter((x) => inLast(came(x))).length },
+  };
+  const live = tasks.filter((x) => !TASK_DONE.includes(x.status));
+  const soon = dayBefore(day, -7);
+  const people = [...new Set(live.map((x) => x.who).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+  const t = {
+    open: live.length, overdue: live.filter((x) => x.due && x.due < day).length, dueSoon: live.filter((x) => x.due && x.due >= day && x.due <= soon).length,
+    week: { now: tasks.filter((x) => inWeek(dayOfT(x.t))).length, before: tasks.filter((x) => inLast(dayOfT(x.t))).length },
+    byPerson: people.map((p) => ({ who: p, open: live.filter((x) => x.who === p).length, overdue: live.filter((x) => x.who === p && x.due && x.due < day).length })),
+    unassigned: live.filter((x) => !x.who).length,
+  };
+  const m = {
+    waiting: mailings.reduce((n, x) => n + x.emails.filter((e) => outState(e) === 'waiting').length, 0),
+    sentWeek: mailings.reduce((n, x) => n + x.emails.filter((e) => e.sent && inWeek(dayOfT(e.sent))).length, 0),
+  };
+  const newest = (list, n) => list.slice().sort((a, b) => (b.t || 0) - (a.t || 0)).slice(0, n);
+  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m,
+    recent: {
+      grants: newest(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
+      cases: newest(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
+      tasks: newest(tasks, 5).map((x) => ({ id: x.id, name: x.name, who: x.who || null, due: x.due || null, status: x.status })),
+    } };
+}
+
+/* THE REPORTS: EspoCRM's nine, as its Reports section held them (Ryan's list,
+   2026-10-21), worked out from the records each time, like the dashboard,
+   which shares four of them. By year means the year a request or case was
+   submitted, and an award's year is the year it was decided. Grantees is
+   every granted request with its contact, for the office's own readers. */
+export async function officeReports(who, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return null;
+  const dash = await officeDashboard(who, s, now);
+  const [grants, cases, contacts] = await Promise.all([readGrants(s), readCases(s), readContacts(s)]);
+  const byId = contactMap(contacts);
+  const yearOf = (d) => (d ? String(d).slice(0, 4) : null);
+  const years = (list, pick) => [...new Set(list.map(pick).filter(Boolean))].sort();
+  const pipes = OFFICE_PIPELINES.map((p) => p.name);
+  const gYears = years(grants, (x) => yearOf(x.submitted));
+  const granted = grants.filter((x) => grantStatus(x) === 'Granted');
+  const aYears = years(granted, (x) => yearOf(x.closed));
+  const kYears = years(cases, (x) => yearOf(x.submitted));
+  return { asOf: dash.asOf, year: dash.year, pipelines: pipes, caseTypes: OFFICE_CASES.types,
+    active: dash.grants.active, months: dash.grants.months, openStages: dash.grants.stages, openCases: dash.cases,
+    byYear: gYears.map((y) => ({ year: y, counts: pipes.map((p) => grants.filter((x) => x.pipeline === p && yearOf(x.submitted) === y).length),
+      sums: pipes.map((p) => grants.filter((x) => x.pipeline === p && yearOf(x.submitted) === y).reduce((t, x) => t + (x.amount || 0), 0)) })),
+    noSubmitted: grants.filter((x) => !x.submitted).length,
+    awarded: aYears.map((y) => ({ year: y, counts: pipes.map((p) => granted.filter((x) => x.pipeline === p && yearOf(x.closed) === y).length),
+      sums: pipes.map((p) => granted.filter((x) => x.pipeline === p && yearOf(x.closed) === y).reduce((t, x) => t + (x.amount || 0), 0)) })),
+    grantedUndated: granted.filter((x) => !x.closed).length,
+    grantees: granted.slice().sort((a, b) => String(b.closed || '').localeCompare(String(a.closed || '')) || a.name.localeCompare(b.name))
+      .map((x) => { const c = x.contact ? byId.get(x.contact) : null; return { id: x.id, name: x.name, pipeline: x.pipeline, amount: x.amount ?? null, closed: x.closed || null,
+        contact: c ? c.id : null, contactName: c ? [c.first, c.last].filter(Boolean).join(' ') : null }; }),
+    casesByStatus: OFFICE_CASES.statuses.map((st) => ({ status: st.name, open: st.open, count: cases.filter((x) => x.status === st.name).length })),
+    casesByYear: kYears.map((y) => ({ year: y, counts: OFFICE_CASES.types.map((ty) => cases.filter((x) => x.type === ty && yearOf(x.submitted) === y).length) })),
+  };
 }

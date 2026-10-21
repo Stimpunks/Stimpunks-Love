@@ -11,6 +11,10 @@
      grant    &id=           one grant request, its description as words and as nodes
      cases                   every case, without its description
      case     &id=           one case, its description as words and as nodes
+     dashboard               the office's figures, worked out now: EspoCRM's four reports, this week
+                             and last, tasks, mailings, and the newest grant requests, cases and tasks
+     reports                 EspoCRM's nine reports, worked out now: by stage, month and year, awards,
+                             grantees, and cases by status and year
      templates               every mailing template
      mailings                every mailing, newest first, with how many of its emails are where
      mailing  &id=           one mailing, its template's words and every email's state
@@ -53,7 +57,7 @@
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeDashboard, officeReports, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
@@ -99,6 +103,8 @@ export default async (req) => {
         const k = await officeCase(who, url.searchParams.get('id'));
         return k ? json(200, { me, settings, case: k }, QUIET) : json(404, { error: 'That case has been deleted.' }, QUIET);
       }
+      if (view === 'dashboard') return json(200, { me, settings, dashboard: await officeDashboard(who) }, QUIET);
+      if (view === 'reports') return json(200, { me, settings, reports: await officeReports(who) }, QUIET);
       if (view === 'templates') return json(200, { me, settings, templates: await officeTemplates(who) }, QUIET);
       if (view === 'mailings') return json(200, { me, settings, mailings: await officeMailings(who) }, QUIET);
       if (view === 'mailing') {

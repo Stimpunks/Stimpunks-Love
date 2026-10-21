@@ -3790,7 +3790,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail,
-  officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
+  officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
@@ -4514,6 +4514,47 @@ test('an email kept before somebody on it was a contact is theirs too once they 
   assert.ok(await officeEmail(TRYAN, both.id, s), 'an email Cy is on went with Ada');
   assert.deepEqual((await officeContact(TRYAN, cy.id, s)).mail.map((x) => x.id), [both.id]);
 })));
+
+test('the dashboard works its figures out from the records: EspoCRM’s four reports, this week and last, and tasks', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  const MA = { pipeline: 'Mutual Aid', contact: ada.id, amount: 500 };
+  for (const f of [{ name: 'A', stage: 'Received', submitted: '2026-10-15' }, { name: 'B', stage: 'Holding', submitted: '2026-10-08' }, { name: 'C', stage: 'Holding', submitted: '2025-12-01' },
+    { name: 'D', stage: 'Granted', submitted: '2026-03-01', closed: '2026-03-02' }, { name: 'E', stage: 'Denied', submitted: '2026-04-01', closed: '2026-04-01' }]) {
+    assert.ok((await saveGrant(TRYAN, { ...MA, ...f }, s, T0)).grant, f.name);
+  }
+  await saveGrant(TRYAN, { name: 'F', pipeline: 'Creator Grants', stage: 'Received', contact: ada.id, amount: 3000, submitted: '2026-10-16' }, s, T0);
+  await saveCase(TRYAN, { name: 'Connection Request: Ada', submitted: '2026-10-17', contact: ada.id }, s, T0);
+  await saveCase(TRYAN, { name: 'Old one', submitted: '2026-01-02', status: 'Closed' }, s, T0);
+  await saveTask(TCHELSEA, { name: 'Late', due: '2026-10-10', who: 'norah' }, s, T0, TMODS);
+  await saveTask(TCHELSEA, { name: 'Soon', due: '2026-10-20', who: 'norah' }, s, T0, TMODS);
+  await saveTask(TCHELSEA, { name: 'Done', due: '2026-10-01', status: 'Completed' }, s, T0, TMODS);
+  assert.equal(await officeDashboard(TSAM, s, T0), null);
+  const d = await officeDashboard(TRYAN, s, T0);
+  assert.deepEqual([d.day, d.weekFrom, d.year], ['2026-10-18', '2026-10-12', '2026']);
+  const g = d.grants;
+  assert.deepEqual([g.open, g.openSum], [4, 4500]);
+  assert.deepEqual([g.active.cap, g.active.count, g.active.byPipeline.map((x) => x.count)], [100, 3, [2, 1]]);
+  assert.deepEqual(g.stages[0].stages.map((x) => [x.stage, x.count, x.sum]), [['Received', 1, 500], ['Holding', 2, 1000], ['Holding (No Updates)', 0, 0], ['Agreement Sent', 0, 0]]);
+  assert.equal(g.months.length, 10, 'months after this one were drawn');
+  assert.deepEqual([g.months[2].counts, g.months[3].counts, g.months[9].counts], [[1, 0], [1, 0], [2, 1]]);
+  assert.deepEqual(g.week, { now: 2, before: 1 });
+  assert.deepEqual(g.decided, { granted: 1, grantedSum: 500, denied: 1 });
+  assert.deepEqual([d.cases.open, d.cases.byStatus.find((x) => x.status === 'New').count, d.cases.week.now], [1, 1, 1]);
+  assert.ok(!d.cases.byStatus.some((x) => /Invited In|Collaborating/.test(x.status)), 'a retired status is back');
+  assert.deepEqual([d.tasks.open, d.tasks.overdue, d.tasks.dueSoon, d.tasks.week.now], [2, 1, 1, 3]);
+  assert.deepEqual(d.tasks.byPerson, [{ who: 'Norah', open: 2, overdue: 1 }]);
+  assert.deepEqual(d.recent.grants.map((x) => x.contactName), Array(5).fill('Ada Lovelace'));
+  // EspoCRM's other five reports, from the same records.
+  assert.equal(await officeReports(TSAM, s, T0), null);
+  const r = await officeReports(TRYAN, s, T0);
+  assert.deepEqual(r.byYear.map((x) => [x.year, x.counts, x.sums]), [['2025', [1, 0], [500, 0]], ['2026', [4, 1], [2000, 3000]]]);
+  assert.deepEqual(r.awarded.map((x) => [x.year, x.counts, x.sums]), [['2026', [1, 0], [500, 0]]]);
+  assert.deepEqual(r.grantees.map((x) => [x.name, x.contactName, x.closed, x.amount]), [['D', 'Ada Lovelace', '2026-03-02', 500]]);
+  assert.deepEqual(r.casesByStatus.map((x) => [x.status, x.count]), [['New', 1], ['Assigned', 0], ['Replied', 0], ['Closed', 1], ['Spam', 0]]);
+  assert.deepEqual(r.casesByYear.map((x) => [x.year, x.counts]), [['2026', [2, 0]]]);
+  assert.equal(r.noSubmitted, 0);
+}));
 
 const DEAR = { name: 'Holding note', subject: 'About {grant}', body: 'Dear {first},\n\nYour {amount} request is at {stage} in {pipeline}, sent {submitted}.\n\nStimpunks' };
 
