@@ -1823,7 +1823,15 @@
     if (b) {
       var inn = b.moneyIn, total = inn.reduce(function (n, x) { return n + x.amount; }, 0);
       var said = el('ul', 'of-theirs of-said-list');
-      said.appendChild(el('li', null, money(Math.round(total * 100) / 100) + ' came in from ' + dayWords(b.from) + ' to ' + dayWords(b.day) + ', in ' + plural(inn.filter(function (x) { return x.amount; }).length, 'deposit, payment or sales receipt', 'deposits, payments and sales receipts') + '.'));
+      // Say which kinds there were, so a month of deposits is not called deposits, payments and sales receipts.
+      var counted = inn.filter(function (x) { return x.amount; });
+      var kinds = [['Deposit', 'deposit'], ['Payment', 'payment'], ['Sales receipt', 'sales receipt']].map(function (k) {
+        var n = counted.filter(function (x) { return x.kind === k[0]; }).length;
+        return n ? plural(n, k[1]) : null;
+      }).filter(Boolean);
+      said.appendChild(el('li', null, counted.length
+        ? money(Math.round(total * 100) / 100) + ' came in from ' + dayWords(b.from) + ' to ' + dayWords(b.day) + ', in ' + (kinds.length > 1 ? kinds.slice(0, -1).join(', ') + ' and ' + kinds[kinds.length - 1] : kinds[0]) + '.'
+        : 'Nothing came in from ' + dayWords(b.from) + ' to ' + dayWords(b.day) + '.'));
       var pl = b.profitLoss, inc = pl.months.reduce(function (n, x) { return n + x.income; }, 0), exp = pl.months.reduce(function (n, x) { return n + x.expense; }, 0);
       if (pl.months.length) said.appendChild(el('li', null, 'This year so far, income was ' + money(Math.round(inc)) + ' and expenses ' + money(Math.round(exp)) + ', ' + (inc >= exp ? money(Math.round(inc - exp)) + ' more in than out.' : money(Math.round(exp - inc)) + ' more out than in.')));
       f.appendChild(said);
