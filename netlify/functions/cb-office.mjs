@@ -11,6 +11,8 @@
      grant    &id=           one grant request, its description as words and as nodes
      cases                   every case, without its description
      case     &id=           one case, its description as words and as nodes
+     feed     &ids=          up to OFFICE_FEED_PAGE grant requests, cases and contacts by their ids, each
+                             whole: one page of the Feed, whose order and filters the page works out
      dashboard               the office's figures, worked out now: EspoCRM's four reports, this week
                              and last, tasks, mailings, and the newest grant requests, cases and tasks
      reports                 EspoCRM's nine reports, worked out now: by stage, month and year, awards,
@@ -61,7 +63,7 @@
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
-  officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases,
+  officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
   stopMailing, removeMailing, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite,
@@ -73,7 +75,7 @@ const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
 const settings = { nameMax: CONTACT_NAME_MAX, notesMax: CONTACT_NOTES_MAX, grantNameMax: GRANT_NAME_MAX, grantBodyMax: GRANT_BODY_MAX,
   amountMax: GRANT_AMOUNT_MAX, pipelines: OFFICE_PIPELINES, statuses: OFFICE_STATUSES, currency: OFFICE_CURRENCY,
   cases: OFFICE_CASES, caseNameMax: CASE_NAME_MAX, caseBodyMax: CASE_BODY_MAX, fillIns: FILL_INS, templateNameMax: TEMPLATE_NAME_MAX,
-  templateSubjectMax: TEMPLATE_SUBJECT_MAX, templateBodyMax: TEMPLATE_BODY_MAX, mailingMax: MAILING_MAX };
+  templateSubjectMax: TEMPLATE_SUBJECT_MAX, templateBodyMax: TEMPLATE_BODY_MAX, mailingMax: MAILING_MAX, feedPage: OFFICE_FEED_PAGE };
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The office only answers stimpunks.world.' }, QUIET);
@@ -105,6 +107,7 @@ export default async (req) => {
         return m ? json(200, { me, settings, email: m }, QUIET) : json(404, { error: 'That email has been deleted from the office.' }, QUIET);
       }
       if (view === 'cases') return json(200, { me, settings, cases: await officeCases(who) }, QUIET);
+      if (view === 'feed') return json(200, { me, settings, feed: await officeFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
       if (view === 'case') {
         const k = await officeCase(who, url.searchParams.get('id'));
         return k ? json(200, { me, settings, case: k }, QUIET) : json(404, { error: 'That case has been deleted.' }, QUIET);

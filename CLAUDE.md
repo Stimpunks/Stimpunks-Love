@@ -5328,6 +5328,20 @@ Tasks has that recurring task, because EspoCRM's copy of the same day is already
 day and reports where the two disagree rather than changing either. Notion's rows are read through the connector in Claude
 (no API key), and the importer and how to run it are in `~/Documents/GitHub/Stimpunks-Work/notion-tasks-import/`.
 
+**TASKS AND THE OFFICE EACH HAVE A FEED, AFTER NOTION'S, AND IT KEEPS NOTHING.** Ryan's ask, 2026-10-21: a
+reverse-chronological feed with previews you can act on. Tasks' is a fourth view (`#/feed`) beside the list, board and
+timeline, with their filters, saved filters and address; the office's (`#/feed`) shows grant requests and cases, and
+contacts when ticked. **The page orders and filters the lists it already loads, newest change first, and asks
+`view=feed&ids=` for one page of cards** (`taskFeed`, `officeFeed`, `FEED_PAGE`, `OFFICE_FEED_PAGE`): each whole, and a
+task with its latest changes. Both must ask `tasksAllow`/`officeAllow` first and write nothing, which `make-tasks.py` and
+`make-office.py` hold. A card changed there (ticked, completed, moved) is redrawn where it stands, never sent to the top
+under the hand that changed it, and keeps the keyboard by a name its parts carry (`data-keep`), because disabling a box
+while it saves takes the focus away. A description shows its first few blocks with **More** for the rest, never the rest
+hidden under the first, where a box could be reached and not seen. The friendly edits are **a feed of everybody's
+activity kept as its own record** (the activity is per task already, and an office log of who changed what is a record
+about people that privacy.html does not mention), and **email in the office's feed**, which needs an index of recent mail
+the office does not keep.
+
 **THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
 2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators
 only (`officeAllow` is `tasksAllow`); encrypted at rest; nothing recording who reads; and stimpunks.org's forms posting

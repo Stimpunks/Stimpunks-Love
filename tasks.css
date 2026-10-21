@@ -234,3 +234,18 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-dues li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
 .tk .tk-dues .cb-tag { margin-left: 0; }
 .tk-unread { margin-left: 2px; }
+
+/* THE FEED, after Notion's: one column of cards, newest change first, each a
+   task's words where they can be read and ticked. Outlined like the board's
+   cards, never filled, so a card is the case with a line round it. */
+.tk-feed { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; max-width: 46rem; }
+.tk-post { display: grid; gap: 6px; padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; min-width: 0; }
+.tk-post__head { font-size: 1.15rem; }
+.tk-post__name { font-weight: 700; }
+.tk-done .tk-post__name { text-decoration: line-through; }
+.tk-post__what { font-size: 14px; color: var(--cb-amber-2); }
+.tk-post__facts { font-size: 14px; }
+.tk-post__tags { font-size: 13px; color: var(--cb-amber-2); }
+.tk-post__body { padding-top: 8px; }
+.tk-post__more { justify-self: start; }
+.tk-feed__more { margin-top: 14px; }

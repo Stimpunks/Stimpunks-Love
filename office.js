@@ -63,11 +63,12 @@
   var nav = el('nav', 'of-nav');
   nav.setAttribute('aria-label', 'The office');
   var navDash = el('a', 'cb-btn of-navlink', 'Dashboard'); navDash.href = '#/dashboard';
+  var navFeed = el('a', 'cb-btn of-navlink', 'Feed'); navFeed.href = '#/feed';
   var navContacts = el('a', 'cb-btn of-navlink', 'Contacts'); navContacts.href = '#/';
   var navGrants = el('a', 'cb-btn of-navlink', 'Grant requests'); navGrants.href = '#/grants';
   var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
   var navMailings = el('a', 'cb-btn of-navlink', 'Mailings'); navMailings.href = '#/mailings';
-  [navDash, navContacts, navGrants, navCases, navMailings].forEach(function (a) { nav.appendChild(a); });
+  [navDash, navFeed, navContacts, navGrants, navCases, navMailings].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -1869,7 +1870,7 @@
       var pl = b.profitLoss, inc = pl.months.reduce(function (n, x) { return n + x.income; }, 0), exp = pl.months.reduce(function (n, x) { return n + x.expense; }, 0);
       if (pl.months.length) said.appendChild(el('li', null, 'This year so far, income was ' + money(Math.round(inc)) + ' and expenses ' + money(Math.round(exp)) + ', ' + (inc >= exp ? money(Math.round(inc - exp)) + ' more in than out.' : money(Math.round(exp - inc)) + ' more out than in.')));
       f.appendChild(said);
-      var small = el('div', 'of-small');
+      var small = el('div', 'of-figrow');
       var days = []; for (var dd = b.from; dd <= b.day; dd = nextDay(dd)) days.push(dd);
       var perDay = days.map(function (x) { var on = inn.filter(function (t) { return t.day === x; }); return { day: x, total: on.reduce(function (n, t) { return n + t.amount; }, 0), count: on.length }; });
       var mf = figure('Money in each day', function (art, w) {
@@ -1957,7 +1958,7 @@
         : 'No recurring plan is giving.' + (m.pastDue ? ' ' + plural(m.pastDue, 'plan') + ' ' + (m.pastDue === 1 ? 'is' : 'are') + ' past due.' : '')));
       if (failed) said.appendChild(el('li', null, plural(failed, 'gift') + ' failed in the last 30 days and ' + (failed === 1 ? 'is' : 'are') + ' not counted.'));
       f.appendChild(said);
-      var small = el('div', 'of-small');
+      var small = el('div', 'of-figrow');
       // Every month of the last year, one series, with its parts in the tooltip and the table.
       var months = []; for (var mo = b.from.slice(0, 7); mo <= b.day.slice(0, 7); mo = nextMonth(mo)) months.push(mo);
       var per = months.map(function (x) {
@@ -2103,7 +2104,7 @@
     if (!nights.length) {
       nf.appendChild(el('p', 'cb-quiet', 'The office keeps a count of what is open late each evening, and the first is still to come. A line needs two nights.'));
     } else {
-      var small = el('div', 'of-small');
+      var small = el('div', 'of-figrow');
       function nightChart(title, series, cls, rows, dash) {
         var f = figure(title, function (art, w) {
           lines(art, w, { series: series, cls: cls, dash: dash, days: nights.map(function (x) { return x.day; }), rows: rows });
@@ -2639,6 +2640,220 @@
 
   /* ── Where in the office an address is ─────────────────────────────────── */
 
+  /* ── The feed ──────────────────────────────────────────────────────────── */
+
+  /* THE FEED, after Notion's Feed view, as Tasks' is (Ryan's ask, 2026-10-21):
+     grant requests and cases, and contacts when asked for, as cards, the one
+     added or changed last first, each with its description or notes to read and
+     what can be done there: a grant request or a case moved on, its contact
+     opened. A page of cards at a time, read whole in one ask; Show more adds
+     the next. A card moved here is redrawn where it is, not sent to the top
+     under the hand that moved it. What it shows is chosen in the address, and
+     nothing is kept: it is worked out from the records each time. */
+  var FEED_KINDS = [['grants', 'Grant requests'], ['cases', 'Cases'], ['contacts', 'Contacts']];
+  var FEED_SHOWS = ['grants', 'cases'];
+  function readFeedQuery() {
+    var m = /[?&]show=([^&]*)/.exec(location.hash || ''), show = null;
+    try { show = m ? decodeURIComponent(m[1]).split(',').filter(function (k) { return FEED_KINDS.some(function (x) { return x[0] === k; }); }) : null; } catch (e) { show = null; }
+    return { show: show || FEED_SHOWS.slice() };
+  }
+  function writeFeedQuery(f) {
+    var to = '#/feed' + (f.show.join(',') === FEED_SHOWS.join(',') ? '' : '?show=' + f.show.join(','));
+    if (to !== location.hash) step.replace(to);
+  }
+  function feedView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return Promise.all([call('view=grants'), call('view=cases'), call('view=contacts')]).then(function (rs) {
+      var bad = rs.filter(function (r) { return r.status !== 200; })[0];
+      if (bad) return refused(bad);
+      took(rs[0].body);
+      grants = rs[0].body.grants || [];
+      cases = rs[1].body.cases || [];
+      contacts = rs[2].body.contacts || [];
+      return drawFeed(readFeedQuery());
+    });
+  }
+  function drawFeed(f) {
+    view.textContent = '';
+    var h = heading(2, 'The office, as a feed');
+    view.appendChild(h);
+    var form = el('form', 'of-find');
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
+    var fs = el('fieldset', 'of-checks');
+    fs.appendChild(el('legend', 'cb-lab', 'Show'));
+    var listOf = { grants: function () { return grants; }, cases: function () { return cases; }, contacts: function () { return contacts; } };
+    FEED_KINDS.forEach(function (k) {
+      var id = 'of-feed-' + k[0];
+      var c = el('input'); c.type = 'checkbox'; c.id = id; c.value = k[0]; c.checked = f.show.indexOf(k[0]) >= 0;
+      var l = el('label', 'of-check'); l.htmlFor = id;
+      l.appendChild(c);
+      l.appendChild(document.createTextNode(' ' + k[1] + ' '));
+      l.appendChild(el('span', 'of-n', String(listOf[k[0]]().length)));
+      c.addEventListener('change', function () {
+        f.show = FEED_KINDS.map(function (x) { return x[0]; }).filter(function (x) { return root.getElementById('of-feed-' + x).checked; });
+        writeFeedQuery(f);
+        showing = settings.feedPage || 20; step.keep('feed', showing);
+        draw();
+      });
+      fs.appendChild(l);
+    });
+    form.appendChild(fs);
+    view.appendChild(form);
+    var shown = el('p', 'of-shown');
+    shown.setAttribute('aria-live', 'polite');
+    view.appendChild(shown);
+    var out = el('div', 'of-feedbox');
+    out.setAttribute('role', 'region');
+    out.setAttribute('aria-label', 'The feed');
+    view.appendChild(out);
+    // How many cards are open is kept for coming back here, so Back finds the card you left by.
+    var showing = step.kept('feed') || settings.feedPage || 20, got = {};
+    function lastAt(x) { return Math.max(x.t || 0, x.edited || 0); }
+    function items() {
+      var all = [];
+      f.show.forEach(function (k) {
+        var kind = k === 'grants' ? 'grant' : k === 'cases' ? 'case' : 'contact';
+        listOf[k]().forEach(function (x) { all.push({ id: x.id, kind: kind, rec: x }); });
+      });
+      return all.sort(function (a, b) { return lastAt(b.rec) - lastAt(a.rec) || String(a.rec.name).localeCompare(String(b.rec.name)); });
+    }
+    function draw(focusFrom) {
+      var all = items();
+      shown.textContent = all.length + (all.length === 1 ? ' record' : ' records') + ', the latest added or changed first';
+      out.textContent = '';
+      if (!f.show.length) { out.appendChild(quiet('Pick what to show.')); return; }
+      if (!all.length) { out.appendChild(quiet('Nothing here yet.')); return; }
+      var page = all.slice(0, showing);
+      var ol = el('ol', 'of-feed');
+      out.appendChild(ol);
+      var cards = {};
+      page.forEach(function (it) {
+        var li = el('li', 'of-post');
+        cards[it.id] = li;
+        card(li, it, got[it.id] && got[it.id].at === lastAt(it.rec) ? got[it.id].whole : null);
+        ol.appendChild(li);
+      });
+      if (all.length > page.length) {
+        var more = el('button', 'cb-btn of-small of-feed__more', 'Show ' + Math.min(settings.feedPage || 20, all.length - page.length) + ' more'); more.type = 'button';
+        more.addEventListener('click', function () { var from = showing; showing += settings.feedPage || 20; step.keep('feed', showing); draw(from); });
+        out.appendChild(more);
+      }
+      if (focusFrom != null && page[focusFrom]) { var go = cards[page[focusFrom].id].querySelector('.of-post__name'); if (go) go.focus(); }
+      var want = page.filter(function (it) { return !(got[it.id] && got[it.id].at === lastAt(it.rec)); });
+      if (!want.length) return;
+      call('view=feed&ids=' + want.map(function (it) { return encodeURIComponent(it.id); }).join(',')).then(function (r) {
+        if (r.status !== 200) { say(why(r, 'The feed could not read its cards just now.')); return; }
+        (r.body.feed || []).forEach(function (x) {
+          var whole = x[x.kind];
+          var it = want.filter(function (w) { return w.id === whole.id; })[0];
+          if (!it) return;
+          got[it.id] = { at: lastAt(it.rec), whole: whole };
+          if (cards[it.id] && cards[it.id].isConnected) card(cards[it.id], it, whole);
+        });
+      });
+    }
+    /* One card: what it is and its name, what happened to it last, its facts,
+       its words (the first few parts, and the rest with More), and what can be
+       done there. `whole` is the record read whole, or nothing yet. */
+    function card(li, it, whole) {
+      var x = it.rec, open = li.dataset.open === '1';
+      // What has the keyboard, said before anything it pressed was disabled or redrawn, or else whatever has it now.
+      var keep = li.dataset.keep || (root.activeElement && li.contains(root.activeElement) ? root.activeElement.getAttribute('data-keep') : null);
+      delete li.dataset.keep;
+      li.textContent = '';
+      li.className = 'of-post of-post--' + it.kind;
+      var kindWords = it.kind === 'grant' ? 'Grant request' : it.kind === 'case' ? 'Case #' + x.number : 'Contact';
+      li.appendChild(el('p', 'of-post__kind', kindWords));
+      var head = el('h3', 'of-post__head');
+      var a = el('a', 'of-post__name', x.name || 'No name');
+      a.href = (it.kind === 'grant' ? '#/g/' : it.kind === 'case' ? '#/k/' : '#/c/') + x.id;
+      a.setAttribute('data-keep', 'name');
+      head.appendChild(a);
+      li.appendChild(head);
+      li.appendChild(el('p', 'of-post__what', x.edited ? 'Changed' + (x.editedBy ? ' by ' + x.editedBy : '') + ', ' + when(x.edited)
+        : 'Added' + (x.by ? ' by ' + x.by : '') + (x.espo ? ', in EspoCRM' : '') + ', ' + when(x.t)));
+      var facts = el('p', 'of-post__facts'), bits = [];
+      if (it.kind === 'grant') {
+        bits.push(x.pipeline, x.stage);
+        if (x.amount != null) bits.push(money(x.amount));
+        if (x.submitted) bits.push('submitted ' + dayWords(x.submitted));
+        if (x.closed) bits.push((x.status === 'Granted' ? 'granted ' : 'decided ') + dayWords(x.closed));
+      } else if (it.kind === 'case') {
+        bits.push(x.type, x.status);
+        if (x.priority && x.priority !== 'Normal') bits.push(x.priority);
+        if (x.submitted) bits.push('submitted ' + dayWords(x.submitted));
+        if (x.closed) bits.push('closed ' + dayWords(x.closed));
+      } else {
+        if (x.email) bits.push(x.email);
+        if (x.phone) bits.push(x.phone);
+      }
+      facts.textContent = bits.filter(Boolean).join(' · ');
+      if (it.kind === 'contact' && x.noEmail) facts.appendChild(tag('NO EMAIL'));
+      if (it.kind === 'contact' && x.noCall) facts.appendChild(tag('NO CALLS'));
+      li.appendChild(facts);
+      if (it.kind !== 'contact' && x.contact && !x.contactGone) {
+        var cp = el('p', 'of-post__who');
+        cp.appendChild(document.createTextNode('From '));
+        var ca = el('a', null, x.contactName || x.contactEmail); ca.href = '#/c/' + x.contact;
+        cp.appendChild(ca);
+        li.appendChild(cp);
+      }
+      // A record with no description or notes has no place for them: the list already says how long they are.
+      var body = el('div', 'of-body of-post__body');
+      var blocks = whole ? whole.blocks || [] : null;
+      if (x.words === 0 || (whole && !blocks.length)) body = null;
+      else if (!whole) body.appendChild(quiet('Reading…'));
+      else {
+        // The first parts, and More for the rest: never the rest hidden under the first, where something could be reached and not seen.
+        var FEW = 3;
+        window.loveMarkdown.blocks(open ? blocks : blocks.slice(0, FEW), body, { top: 3, prefix: 'of' });
+        if (blocks.length > FEW) {
+          var mo = el('button', 'cb-btn of-small of-post__more', open ? 'Less' : 'More'); mo.type = 'button';
+          mo.setAttribute('aria-expanded', String(open)); mo.setAttribute('data-keep', 'more');
+          mo.addEventListener('click', function () { li.dataset.open = open ? '' : '1'; li.dataset.keep = 'more'; card(li, it, whole); });
+          body.appendChild(mo);
+        }
+      }
+      if (body) li.appendChild(body);
+      var tools = el('div', 'of-row of-post__tools');
+      if (it.kind !== 'contact') {
+        var mv = el('label', 'of-move');
+        mv.appendChild(el('span', null, 'Move to '));
+        var ms = el('select', 'cb-say'); ms.setAttribute('data-keep', 'move');
+        ms.setAttribute('aria-label', 'Move “' + x.name + '” to');
+        var choices = it.kind === 'grant' ? ((settings.pipelines.filter(function (p) { return p.name === x.pipeline; })[0] || { stages: [] }).stages) : settings.cases.statuses;
+        choices.forEach(function (c) { var o = el('option', null, c.name); o.value = c.name; ms.appendChild(o); });
+        ms.value = it.kind === 'grant' ? x.stage : x.status;
+        ms.addEventListener('change', function () {
+          ms.disabled = true;
+          var send = it.kind === 'grant' ? { action: 'grant-save', id: x.id, stage: ms.value } : { action: 'case-save', id: x.id, status: ms.value };
+          call(null, send).then(function (r) {
+            ms.disabled = false;
+            var w = r.body && (it.kind === 'grant' ? r.body.grant : r.body.case);
+            if (r.status !== 200 || !w) { ms.value = it.kind === 'grant' ? x.stage : x.status; ms.focus(); say(why(r, 'That did not move. Nothing was changed.')); return; }
+            li.dataset.keep = 'move';
+            // Kept in its list for the counts, and redrawn where it is.
+            if (it.kind === 'grant') grants = grants.map(function (g) { return g.id === w.id ? w : g; });
+            else cases = cases.map(function (k) { return k.id === w.id ? w : k; });
+            it.rec = w;
+            got[w.id] = { at: lastAt(w), whole: w };
+            card(li, it, w);
+            say('Moved “' + w.name + '” to ' + (it.kind === 'grant' ? w.stage : w.status) + '.');
+          });
+        });
+        mv.appendChild(ms);
+        tools.appendChild(mv);
+      }
+      var go = el('a', 'cb-btn of-small', 'Open'); go.href = a.href; go.setAttribute('aria-label', 'Open “' + (x.name || 'No name') + '”');
+      tools.appendChild(go);
+      li.appendChild(tools);
+      if (keep) { var k = li.querySelector('[data-keep="' + keep + '"]'); if (k && !k.disabled) k.focus(); }
+    }
+    draw();
+    return h;
+  }
+
   function route() {
     step.arrive();
     dressNow();
@@ -2662,6 +2877,7 @@
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1]);
     else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1]);
     else if (parts[0] === 'dashboard') done = dashboardView(parts[1] === 'quickbooks' ? parts[2] : null);
+    else if (parts[0] === 'feed') done = feedView();
     else if (parts[0] === 'reports') done = reportsView();
     else if (parts[0] === 'templates' && parts[1] === 'new') done = templateFormView(null);
     else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = templateFormView(parts[2]);
@@ -2671,10 +2887,10 @@
     else if (parts[0] === 'mailings') done = mailingsView();
     else done = contactsView();
     // The bar says which part of the office you are in.
-    [navDash, navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
-    var part = parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
+    [navDash, navFeed, navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
+    var part = parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'feed' ? navFeed : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
       : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : navContacts;
-    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard') ? 'page' : 'true');
+    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard' || parts[0] === 'feed') ? 'page' : 'true');
     if (parts[0] === 'reports') navDash.setAttribute('aria-current', 'true');
     // The keyboard goes to the new view's heading, or back where it was.
     step.land(done);

@@ -64,6 +64,7 @@
   var navList = el('a', 'cb-btn tk-navlink', 'List'); navList.href = '#/';
   var navBoard = el('a', 'cb-btn tk-navlink', 'Board'); navBoard.href = '#/board';
   var navTime = el('a', 'cb-btn tk-navlink', 'Timeline'); navTime.href = '#/timeline';
+  var navFeed = el('a', 'cb-btn tk-navlink', 'Feed'); navFeed.href = '#/feed';
   var navRecur = el('a', 'cb-btn tk-navlink', 'Recurring'); navRecur.href = '#/recurring';
   var navNew = el('a', 'cb-btn tk-navlink', 'New task'); navNew.href = '#/new';
   // Notifications, with how many are unread beside it (numbers are fine in tasks).
@@ -71,7 +72,7 @@
   var inboxCount = el('span', 'tk-n tk-unread');
   inboxCount.hidden = true;
   navInbox.appendChild(inboxCount);
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox);
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox);
   function setUnread(n) {
     inboxCount.textContent = n ? ' ' + n : '';
     inboxCount.hidden = !n;
@@ -279,18 +280,20 @@
     if (mode === 'timeline' && f.span !== 14) parts.push('span=' + f.span);
     // A timeline on this week keeps no day, so a saved one is always this week.
     if (mode === 'timeline' && f.from && mondayOf(f.from) !== mondayOf(today())) parts.push('from=' + mondayOf(f.from));
-    return (mode === 'board' ? '#/board' : mode === 'timeline' ? '#/timeline' : '#/') + (parts.length ? '?' + parts.join('&') : '');
+    return homeOf(mode) + (parts.length ? '?' + parts.join('&') : '');
   }
+  function homeOf(mode) { return mode === 'board' ? '#/board' : mode === 'timeline' ? '#/timeline' : mode === 'feed' ? '#/feed' : '#/'; }
   function writeQuery(f, mode) {
     var h = addressOf(f, mode);
     if (location.hash !== h) step.replace(h);
   }
-  function modeOf(hash) { var m = /^#\/(board|timeline)(\?|$)/.exec(hash || ''); return m ? m[1] : 'list'; }
+  function modeOf(hash) { var m = /^#\/(board|timeline|feed)(\?|$)/.exec(hash || ''); return m ? m[1] : 'list'; }
   /* Until somebody picks statuses, the list shows the ones still to do, and a
-     board by status shows every status but the ones it hides (Canceled). */
+     board by status and the feed show every status but the ones the board
+     hides (Canceled), so the feed shows what was finished as well. */
   function statusesOf(f, mode) {
     if (f.status) return f.status;
-    if (mode === 'board' && f.cols === 'status') return settings.statuses.filter(function (s) { return (settings.boardHides || []).indexOf(s) < 0; });
+    if ((mode === 'board' && f.cols === 'status') || mode === 'feed') return settings.statuses.filter(function (s) { return (settings.boardHides || []).indexOf(s) < 0; });
     return settings.statuses.filter(function (s) { return settings.done.indexOf(s) < 0; });
   }
 
@@ -383,7 +386,7 @@
 
   function drawTasks(f, mode) {
     view.textContent = '';
-    var h = heading(2, mode === 'board' ? 'Tasks, as a board' : mode === 'timeline' ? 'Tasks, on a timeline' : 'Tasks');
+    var h = heading(2, mode === 'board' ? 'Tasks, as a board' : mode === 'timeline' ? 'Tasks, on a timeline' : mode === 'feed' ? 'Tasks, as a feed' : 'Tasks');
     view.appendChild(h);
     var saved = el('div', 'tk-saved');
     var filters = el('form', 'tk-filters');
@@ -391,11 +394,11 @@
     filters.addEventListener('submit', function (e) { e.preventDefault(); });
     var shown = el('p', 'tk-shown');
     shown.setAttribute('aria-live', 'polite');
-    var out = el('div', mode === 'board' ? 'tk-boardbox' : mode === 'timeline' ? 'tk-tlbox' : 'tk-tablebox');
-    // It scrolls sideways on a narrow screen, so a keyboard can reach it.
-    out.tabIndex = 0;
+    var out = el('div', mode === 'board' ? 'tk-boardbox' : mode === 'timeline' ? 'tk-tlbox' : mode === 'feed' ? 'tk-feedbox' : 'tk-tablebox');
+    // It scrolls sideways on a narrow screen, so a keyboard can reach it. The feed never does, so it is no stop of its own.
+    if (mode !== 'feed') out.tabIndex = 0;
     out.setAttribute('role', 'region');
-    out.setAttribute('aria-label', mode === 'board' ? 'The board' : mode === 'timeline' ? 'The timeline' : 'The tasks');
+    out.setAttribute('aria-label', mode === 'board' ? 'The board' : mode === 'timeline' ? 'The timeline' : mode === 'feed' ? 'The feed' : 'The tasks');
     view.appendChild(saved);
     view.appendChild(filters);
     // The timeline's way along its days, which stays put while the days change.
@@ -434,7 +437,7 @@
       drawFilters();
       drawOut(focusSort);
     }
-    function drawOut(focus) { if (mode === 'board') drawBoard(focus); else if (mode === 'timeline') drawTimeline(); else drawTable(focus); }
+    function drawOut(focus) { if (mode === 'board') drawBoard(focus); else if (mode === 'timeline') drawTimeline(); else if (mode === 'feed') drawFeed(); else drawTable(focus); }
 
     /* SAVED FILTERS, each yours, kept under your username: what it shows, and
        how many tasks it shows now. */
@@ -454,7 +457,7 @@
       sel.value = mine ? mine.id : '';
       sel.addEventListener('change', function () {
         var v = views.filter(function (x) { return x.id === sel.value; })[0];
-        location.hash = v ? v.address : (mode === 'board' ? '#/board' : '#/');
+        location.hash = v ? v.address : homeOf(mode);
       });
       var field = el('div', 'tk-field tk-savedpick');
       field.appendChild(lab); field.appendChild(sel);
@@ -602,7 +605,7 @@
       filters.appendChild(tagFold);
 
       var row = el('p', 'tk-row');
-      var clear = el('a', 'cb-btn tk-small', 'Clear the filters'); clear.href = mode === 'board' ? '#/board' : mode === 'timeline' ? '#/timeline' : '#/';
+      var clear = el('a', 'cb-btn tk-small', 'Clear the filters'); clear.href = homeOf(mode);
       row.appendChild(clear);
       var link = el('button', 'cb-btn tk-small', 'Copy a link to this view'); link.type = 'button';
       link.addEventListener('click', function () {
@@ -948,6 +951,151 @@
         tl.appendChild(sec);
       });
       out.appendChild(tl);
+    }
+
+    /* THE FEED, after Notion's Feed view (Ryan's ask, 2026-10-21): every task
+       that passes the filters as a card, the one something last happened to
+       first, each saying what that was, with its description to read and tick
+       where it stands and Mark it completed. A page of cards at a time; Show
+       more adds the next. A card changed here is redrawn where it is, not moved
+       to the top under the hand that changed it; the order catches up the next
+       time the feed is drawn. */
+    // How many cards are open is kept for coming back here, so Back finds the card you left by.
+    var feedShown = step.kept('feed') || settings.feedPage || 20, feedGot = {};
+    function lastAt(t) { return Math.max(t.t || 0, t.edited || 0, t.done || 0); }
+    function drawFeed(focusFrom) {
+      var list = tasks.filter(function (t) { return passes(t, f, null, mode); })
+        .sort(function (a, b) { return lastAt(b) - lastAt(a) || a.name.localeCompare(b.name); });
+      shown.textContent = list.length + ' of ' + tasks.length + ' tasks, the latest change first';
+      out.textContent = '';
+      if (!list.length) { out.appendChild(quiet('No task passes these filters.')); return; }
+      var page = list.slice(0, feedShown);
+      var ol = el('ol', 'tk-feed');
+      out.appendChild(ol);
+      var cards = {};
+      page.forEach(function (t) {
+        var li = el('li', 'tk-post');
+        cards[t.id] = li;
+        feedCard(li, t, feedGot[t.id] && feedGot[t.id].at === lastAt(t) ? feedGot[t.id] : null);
+        ol.appendChild(li);
+      });
+      if (list.length > page.length) {
+        var more = el('button', 'cb-btn tk-small tk-feed__more', 'Show ' + Math.min(settings.feedPage || 20, list.length - page.length) + ' more'); more.type = 'button';
+        more.addEventListener('click', function () { var from = feedShown; feedShown += settings.feedPage || 20; step.keep('feed', feedShown); drawFeed(from); });
+        out.appendChild(more);
+      }
+      if (focusFrom != null && page[focusFrom]) { var go = cards[page[focusFrom].id].querySelector('.tk-post__name'); if (go) go.focus(); }
+      // The cards not yet read whole are read in one ask, then drawn where they stand.
+      var want = page.filter(function (t) { return !(feedGot[t.id] && feedGot[t.id].at === lastAt(t)); }).map(function (t) { return t.id; });
+      if (!want.length) return;
+      call('view=feed&ids=' + want.map(encodeURIComponent).join(',')).then(function (r) {
+        if (r.status !== 200) { say(why(r, 'The feed could not read its cards just now.')); return; }
+        (r.body.feed || []).forEach(function (x) {
+          var t = tasks.filter(function (y) { return y.id === x.task.id; })[0];
+          feedGot[x.task.id] = { at: t ? lastAt(t) : lastAt(x.task), task: x.task, acts: x.acts };
+          var li = cards[x.task.id];
+          if (li && li.isConnected) feedCard(li, x.task, feedGot[x.task.id]);
+        });
+      });
+    }
+    /* One card: its name, what happened last, its facts, its description (the
+       first few parts of it, and the rest with More), and what can be done
+       there. `got` is the task read whole, or nothing yet. */
+    function feedCard(li, t, got) {
+      var whole = got ? got.task : null, open = li.dataset.open === '1';
+      // What has the keyboard, said before anything it pressed was disabled or redrawn, or else whatever has it now.
+      var keep = li.dataset.keep || (root.activeElement && li.contains(root.activeElement) ? root.activeElement.getAttribute('data-keep') : null);
+      delete li.dataset.keep;
+      li.textContent = '';
+      li.className = 'tk-post' + (isDone(t) ? ' tk-done' : '');
+      var head = el('h3', 'tk-post__head');
+      var a = el('a', 'tk-post__name', t.name); a.href = '#/t/' + t.id; a.setAttribute('data-keep', 'name');
+      head.appendChild(a);
+      li.appendChild(head);
+      var ev = got && got.acts && got.acts[0];
+      var what = el('p', 'tk-post__what');
+      what.textContent = (ev ? actWords(ev) : t.recur ? 'Its recurring task made this task.' : t.by ? whoWords(t.by, true) + ' made this task.'
+        : t.espo ? 'Brought over from EspoCRM.' : t.notion ? 'Brought over from Notion.' : 'Made.')
+        + ' ' + when(ev ? ev.t : t.t);
+      li.appendChild(what);
+      var facts = el('p', 'tk-post__facts');
+      var bits = [t.status];
+      if (t.priority !== settings.priority) bits.push(t.priority);
+      bits.push(t.who ? 'assigned to ' + t.who : 'assigned to nobody');
+      var others = alsoOn(t);
+      if (others.length) bits.push('with ' + others.join(', '));
+      if (t.start && t.due && t.start !== t.due) bits.push('starts ' + dayWords(t.start));
+      if (t.due) bits.push('due ' + dayWords(t.due));
+      facts.textContent = bits.join(' · ');
+      if (overdue(t)) facts.appendChild(tag('OVERDUE', 'tk-late'));
+      li.appendChild(facts);
+      if (t.tags.length) { var tp = el('p', 'tk-post__tags'); tp.appendChild(tagWords(t.tags)); li.appendChild(tp); }
+      // A task with no description has no place for one: the list already says how long each is.
+      var body = el('div', 'tk-body tk-post__body');
+      if (t.words === 0 || (whole && (!whole.blocks || !whole.blocks.length))) body = null;
+      else if (!got) body.appendChild(quiet('Reading…'));
+      else {
+        // The first parts of the description, and More for the rest: never the rest hidden under the first, where a box could be reached and not seen.
+        var FEW = 3, all = whole.blocks, some = open ? all : all.slice(0, FEW);
+        var md = { top: 3, prefix: 'tk' };
+        if (whole.ticks) md.box = function (bx, c) {
+          c.setAttribute('data-keep', 'box-' + bx.n);
+          c.addEventListener('change', function () {
+            var on = c.checked, label = c.getAttribute('aria-label');
+            c.disabled = true;
+            call(null, { action: 'tick', id: t.id, n: bx.n, text: bx.raw, on: on }).then(function (r) {
+              if (r.status !== 200) { c.checked = !on; c.disabled = false; c.focus(); say(why(r, 'That did not save. Nothing was changed.')); return; }
+              li.dataset.keep = 'box-' + bx.n;
+              settle(li, r.body.task);
+              say((on ? 'Ticked' : 'Unticked') + ' “' + label + '”.');
+            });
+          });
+        };
+        window.loveMarkdown.blocks(some, body, md);
+        if (all.length > FEW) {
+          var mo = el('button', 'cb-btn tk-small tk-post__more', open ? 'Less' : 'More'); mo.type = 'button';
+          mo.setAttribute('aria-expanded', String(open)); mo.setAttribute('data-keep', 'more');
+          mo.addEventListener('click', function () { li.dataset.open = open ? '' : '1'; li.dataset.keep = 'more'; feedCard(li, t, got); });
+          body.appendChild(mo);
+        }
+      }
+      if (body) li.appendChild(body);
+      var tools = el('div', 'tk-row tk-post__tools');
+      var go = el('a', 'cb-btn tk-small', 'Open'); go.href = '#/t/' + t.id; go.setAttribute('aria-label', 'Open “' + t.name + '”');
+      tools.appendChild(go);
+      if (t.status !== 'Completed') {
+        var fin = el('button', 'cb-btn tk-small', 'Mark it completed'); fin.type = 'button'; fin.setAttribute('data-keep', 'done');
+        fin.setAttribute('aria-label', 'Mark “' + t.name + '” completed');
+        fin.addEventListener('click', function () {
+          fin.disabled = true;
+          call(null, { action: 'save', id: t.id, status: 'Completed' }).then(function (r) {
+            fin.disabled = false;
+            if (r.status !== 200) { say(why(r, 'That did not save. Nothing was changed.')); return; }
+            settle(li, r.body.task);
+            var nm = li.querySelector('.tk-post__name'); if (nm) nm.focus();
+            say('Completed “' + t.name + '”.');
+          });
+        });
+        tools.appendChild(fin);
+      }
+      li.appendChild(tools);
+      if (keep) { var k = li.querySelector('[data-keep="' + keep + '"]'); if (k && !k.disabled) k.focus(); }
+    }
+    /* A task changed on its card: kept in the list for the counts, and its card
+       read again where it stands. */
+    function settle(li, task) {
+      tasks = tasks.map(function (x) { return x.id === task.id ? task : x; });
+      // The save hands back the task whole, so the card keeps its words, and the keyboard its place, while its latest changes are read.
+      var had = feedGot[task.id];
+      feedGot[task.id] = { at: lastAt(task), task: task, acts: had ? had.acts : [] };
+      feedCard(li, task, feedGot[task.id]);
+      drawCounts();
+      call('view=feed&ids=' + encodeURIComponent(task.id)).then(function (r) {
+        var x = r.status === 200 && (r.body.feed || [])[0];
+        if (!x) return;
+        feedGot[task.id] = { at: lastAt(task), task: x.task, acts: x.acts };
+        if (li.isConnected) feedCard(li, task, feedGot[task.id]);
+      });
     }
 
     drawSaved();
@@ -1652,17 +1800,19 @@
     else if (parts[0] === 'new') done = formView(null);
     else if (parts[0] === 'board') done = tasksView('board');
     else if (parts[0] === 'timeline') done = tasksView('timeline');
+    else if (parts[0] === 'feed') done = tasksView('feed');
     else if (parts[0] === 'recurring' && parts[1] === 'new') done = recurFormView(null);
     else if (parts[0] === 'recurring' && parts[1] === 'edit' && parts[2]) done = recurFormView(parts[2]);
     else if (parts[0] === 'recurring' && parts[1]) done = recurView(parts[1]);
     else if (parts[0] === 'recurring') done = recurList();
     else if (parts[0] === 'inbox') done = inboxView();
     else done = tasksView('list');
-    [navList, navBoard, navTime, navRecur, navNew, navInbox].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navList, navBoard, navTime, navFeed, navRecur, navNew, navInbox].forEach(function (a) { a.removeAttribute('aria-current'); });
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
     else if (parts[0] === 'inbox') navInbox.setAttribute('aria-current', 'page');
     else if (parts[0] === 'board') navBoard.setAttribute('aria-current', 'page');
     else if (parts[0] === 'timeline') navTime.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'feed') navFeed.setAttribute('aria-current', 'page');
     else if (parts[0] === 'recurring' && !parts[1]) navRecur.setAttribute('aria-current', 'page');
     else if (!parts.length) navList.setAttribute('aria-current', 'page');
     // The keyboard goes to the new view's heading, or back where it was.

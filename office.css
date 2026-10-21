@@ -237,5 +237,22 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 :host([data-tone="dark"]) .of-swatch.of-c5, :host([data-tone="dark"]) .of-key.of-c5 { background: var(--cb-task-magenta-dark); }
 :host([data-tone="dark"]) .of-swatch.of-c6, :host([data-tone="dark"]) .of-key.of-c6 { background: var(--cb-task-green-dark); }
 :host([data-tone="dark"]) .of-swatch.of-c7, :host([data-tone="dark"]) .of-key.of-c7 { background: var(--cb-task-violet-dark); }
-.of-small { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+/* A row of small figures side by side. Not .of-small, which is the small buttons' class. */
+.of-figrow { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
 .of-fig--small { border: 0; padding: 0; margin: 0; background: none; }
+
+/* THE FEED, after Notion's, as Tasks' is: one column of cards, the latest
+   added or changed first, each a record's words where they can be read and
+   what can be done there. Outlined, never filled, so a card is the case with a
+   line round it, as Tasks' cards are. */
+.of-feed { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; max-width: 46rem; }
+.of-post { display: grid; gap: 6px; padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; min-width: 0; }
+.of-post__kind { font-size: 13px; font-weight: 700; color: var(--cb-steel-2); }
+.of-post__head { font-size: 1.15rem; }
+.of-post__name { font-weight: 700; }
+.of-post__what { font-size: 14px; color: var(--cb-amber-2); }
+.of-post__facts { font-size: 14px; }
+.of .of-post__facts .cb-tag { margin-left: 6px; }
+.of-post__body { padding-top: 8px; }
+.of-post__more { justify-self: start; }
+.of-feed__more { margin-top: 14px; }

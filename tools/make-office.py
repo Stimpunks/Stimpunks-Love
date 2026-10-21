@@ -180,7 +180,7 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: the office writes to the console. Nothing about a contact is ever logged.")
     for name in ("officeContacts", "officeContact", "saveContact", "removeContact", "importContacts",
                  "officeGrants", "officeGrant", "saveGrant", "removeGrant", "importGrants",
-                 "officeCases", "officeCase", "saveCase", "removeCase", "importCases"):
+                 "officeCases", "officeCase", "saveCase", "removeCase", "importCases", "officeFeed"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -192,6 +192,9 @@ def check_lib(lib):
         first = re.search(r"\{\n\s*(.*)", body)
         if name != "officeAllow" and (not first or "if (!officeAllow(who))" not in first.group(1)):
             problems.append(f"{LIB.name}: {name} takes a reader and does not ask officeAllow first.")
+    # The feed is worked out from the records each time, and keeps nothing of its own.
+    if re.search(r"\bupdate(?:List|Map|Sealed)\(|\.set(?:JSON)?\(|\.delete\(", fn(sec, "officeFeed")):
+        problems.append(f"{LIB.name}: officeFeed writes something. The feed is worked out from the records and keeps nothing.")
     if "return tasksAllow(who)" not in fn(sec, "officeAllow"):
         problems.append(f"{LIB.name}: officeAllow is no longer tasksAllow: directors and administrators, on a claimed username.")
     # Sealed, with a fresh nonce, under the one key from the environment.

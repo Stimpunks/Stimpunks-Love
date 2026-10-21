@@ -3816,7 +3816,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
-  taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask } from './lib.mjs';
+  taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
+  taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -5338,4 +5339,39 @@ test('a reply in a conversation answers a message in it, there now', () => withP
   assert.equal((await sendDm(ada, 'Bex', { text: 'and?', re: 'dNoSuchOne1' }, s)).error, 'reply', 'a reply went to a message that is not there');
   assert.equal((await sendDm(ada, 'Bex', { text: 'and?', re: 'not an id' }, s)).error, 'reply');
   assert.equal((await readDmWith(ada, 'Bex', s)).messages.length, 2, 'a refused reply was kept');
+}));
+
+/* The feeds hand back the cards a page asks for, whole, and nothing to anybody who cannot read them. */
+test('Tasks\' feed: the cards asked for, whole, with their latest changes, and only for somebody who reads tasks', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const a = (await saveTask(TCHELSEA, { name: 'Fix the shelf', who: 'Norah', body: '- [ ] buy screws\n- [ ] drill' }, s, T0, TMODS)).task;
+  const b = (await saveTask(TCHELSEA, { name: 'Send the minutes', who: 'Ryan' }, s, T0 + 1, TMODS)).task;
+  for (const [i, st] of ['Started', 'Deferred', 'Started', 'Completed'].entries()) await saveTask(TRYAN, { id: a.id, status: st }, s, T0 + 2 + i, TMODS);
+  assert.equal(await taskFeed(TSAM, [a.id], s), null, 'somebody who cannot read tasks was sent a card');
+  const feed = await taskFeed(TRYAN, [b.id, a.id, 'k-not-a-task!', a.id, 'kAAAAAAAAAAAA'], s);
+  assert.deepEqual(feed.map((x) => x.task.id), [b.id, a.id], 'the cards came back out of the order asked, twice, or with one that is not a task');
+  assert.equal(feed[1].task.blocks.length > 0 && feed[1].task.ticks, true, 'a card came back without its description to read and tick');
+  assert.deepEqual(feed[1].acts.map((e) => e.changes.map((c) => c.to)), [['Completed'], ['Started'], ['Deferred']], 'the latest changes on a card are not the newest three, newest first');
+  assert.deepEqual(feed[0].acts.map((e) => [e.kind, e.by]), [['made', 'Chelsea']], 'a card that was only made does not say who made it');
+  assert.deepEqual(await taskFeed(TRYAN, [], s), []);
+  const many = [];
+  for (let i = 0; i < FEED_PAGE + 5; i++) many.push((await saveTask(TRYAN, { name: 'Task ' + i }, s, T0 + 10 + i, TMODS)).task.id);
+  assert.equal((await taskFeed(TRYAN, many, s)).length, FEED_PAGE, 'a page of the feed held more than FEED_PAGE cards');
+});
+
+test('the office\'s feed: grant requests, cases and contacts by their ids, whole, and only for directors and administrators', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const c = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org', notes: 'Met at the **fair**.' }, s, T0)).contact;
+  const g = (await saveGrant(TRYAN, { name: 'Mutual Aid Grant Request 1: Ada', contactEmail: 'ada@example.org', amount: 500, body: 'Rent, **please**.' }, s, T0 + 1)).grant;
+  const k = (await saveCase(TRYAN, { name: 'Connection Request: Ada', contactEmail: 'ada@example.org', body: 'Wants to **join**.' }, s, T0 + 2)).case;
+  for (const who of [TSAM, fw('Chelsea', 700)]) assert.equal(await officeFeed(who, [g.id], s), null, 'somebody who cannot open the office was sent a card');
+  const feed = await officeFeed(TRYAN, [k.id, 'nonsense', g.id, c.id, g.id, 'gAAAAAAAAAAAA'], s);
+  assert.deepEqual(feed.map((x) => x.kind), ['case', 'grant', 'contact'], 'the cards came back out of order, twice, or with one that is nothing');
+  assert.equal(feed[0].case.id, k.id);
+  assert.equal(feed[1].grant.contactName, 'Ada Lovelace');
+  for (const [x, key] of [[feed[0].case, 'blocks'], [feed[1].grant, 'blocks'], [feed[2].contact, 'blocks']]) assert.ok(x[key] && x[key].length, 'a card came back without its words to read');
+  assert.deepEqual(await officeFeed(TRYAN, [], s), []);
+  const many = [];
+  for (let i = 0; i < OFFICE_FEED_PAGE + 3; i++) many.push((await saveContact(TRYAN, { first: 'P' + i, email: `p${i}@example.org` }, s, T0 + 10 + i)).contact.id);
+  assert.equal((await officeFeed(TRYAN, many, s)).length, OFFICE_FEED_PAGE, 'a page of the office\'s feed held more than OFFICE_FEED_PAGE cards');
 }));

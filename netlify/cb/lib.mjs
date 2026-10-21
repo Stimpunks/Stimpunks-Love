@@ -7595,6 +7595,26 @@ export async function taskActivity(who, id, s = store()) {
   return d && Array.isArray(d.events) ? d.events : [];
 }
 
+/* THE FEED (Ryan's ask, 2026-10-21, after Notion's Feed view): tasks as cards,
+   newest activity first, each with its description to read and tick, and what
+   happened to it last. The page orders and filters the list it already has
+   and asks for one page of cards at a time, so the feed costs one read of the
+   tasks and one of each card's activity, and keeps nothing: it is worked out
+   from what Tasks already keeps. */
+export const FEED_PAGE = 20;
+const FEED_ACTS = 3;
+export async function taskFeed(who, ids, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const want = [...new Set((Array.isArray(ids) ? ids : []).map(taskId).filter(Boolean))].slice(0, FEED_PAGE);
+  if (!want.length) return [];
+  const all = await readTasks(s);
+  const found = want.map((id) => all.find((t) => t.id === id)).filter(Boolean);
+  return Promise.all(found.map(async (t) => {
+    const d = await s.get(taskActivityBlob(t.id), { type: 'json' });
+    return { task: shapeTask(t, true), acts: d && Array.isArray(d.events) ? d.events.slice(0, FEED_ACTS) : [] };
+  }));
+}
+
 export async function forgetTaskInbox(pk, s = store()) {
   await s.delete(taskInboxBlob(pk));
   return true;
@@ -8469,6 +8489,27 @@ export async function officeCase(who, id, s = store()) {
   if (!officeAllow(who)) return null;
   const k = (await readCases(s)).find((x) => x.id === caseId(id));
   return k ? shapeCase(k, contactMap(await readContacts(s)), true) : null;
+}
+
+/* THE OFFICE'S FEED (Ryan's ask, 2026-10-21, after Notion's Feed view, as
+   Tasks' is): grant requests, cases and contacts as cards, newest first, each
+   whole so its description or notes can be read there. The page orders and
+   filters the lists it already has and asks for one page of cards at a time
+   by their ids, which say what each is; this reads the sealed records once
+   and keeps nothing. */
+export const OFFICE_FEED_PAGE = 20;
+export async function officeFeed(who, ids, s = store()) {
+  if (!officeAllow(who)) return null;
+  const want = [...new Set((Array.isArray(ids) ? ids : []).filter((v) => grantId(v) || caseId(v) || contactId(v)))].slice(0, OFFICE_FEED_PAGE);
+  if (!want.length) return [];
+  const [grants, cases, contacts] = await Promise.all([readGrants(s), readCases(s), readContacts(s)]);
+  const m = contactMap(contacts);
+  return want.map((id) => {
+    if (grantId(id)) { const g = grants.find((x) => x.id === id); return g ? { kind: 'grant', grant: shapeGrant(g, m, true) } : null; }
+    if (caseId(id)) { const k = cases.find((x) => x.id === id); return k ? { kind: 'case', case: shapeCase(k, m, true) } : null; }
+    const c = m.get(id);
+    return c ? { kind: 'contact', contact: shapeContact(c, true) } : null;
+  }).filter(Boolean);
 }
 
 /* One case made or changed in a list already open, as applyGrant. `top` is the

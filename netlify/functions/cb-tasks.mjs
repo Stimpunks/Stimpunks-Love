@@ -8,6 +8,8 @@
      task     &id=           one task, its description as words and as nodes, and its activity, newest first
      inbox                   the reader's own notifications, newest first, how many are unread, and the
                              tasks of theirs due by tomorrow or overdue
+     feed     &ids=          up to FEED_PAGE tasks, each whole, with its latest changes: one page of
+                             the Feed, whose order and filters the page works out
    POST, with the same pass:
      { action: 'save', id?, espo?, notion?, name?, status?, priority?, start?, due?, body?, who?, with?, tags? }
          a new task, or a change to the one `id` names; only the fields sent change.
@@ -28,7 +30,7 @@
      { action: 'recur-remove', id }                  a recurring task deleted; the tasks it made stay
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
-  taskInbox, readTaskInbox, taskActivity,
+  taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS } from '../cb/lib.mjs';
@@ -37,7 +39,7 @@ import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, save
 const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
-  repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS };
+  repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS, feedPage: FEED_PAGE };
 
 /* A task a recurring task made says which, while that recurring task is there. */
 async function withFrom(who, t) {
@@ -79,6 +81,7 @@ export default async (req) => {
         return json(200, { me, settings, people: taskPeople(), task: t, activity, unread: inbox.unread }, QUIET);
       }
       if (view === 'inbox') return json(200, { me, settings, inbox: await taskInbox(who) }, QUIET);
+      if (view === 'feed') return json(200, { me, settings, feed: await taskFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
       return json(400, { error: 'Show what?' }, QUIET);
     }
     const b = (await body(req)) || {};

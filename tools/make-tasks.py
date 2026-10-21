@@ -137,13 +137,16 @@ def check_lib(lib):
     if "console." in code:
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
     for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
-                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity"):
+                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity", "taskFeed"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
             problems.append(f"{LIB.name}: {name} is missing.")
         elif not first or "if (!tasksAllow(who))" not in first.group(1):
             problems.append(f"{LIB.name}: {name} must refuse anybody tasksAllow does not let in, before it reads or does anything.")
+    # The feed is worked out from what Tasks keeps, and keeps nothing of its own.
+    if re.search(r"\bupdate(?:List|Map|Sealed)\(|\.set(?:JSON)?\(|\.delete\(", fn(sec, "taskFeed")):
+        problems.append(f"{LIB.name}: taskFeed writes something. The feed is worked out from what Tasks keeps and keeps nothing.")
     allow = fn(sec, "tasksAllow")
     if "forumReader(who)" not in allow or "who.role !== 'base'" not in allow or "TASK_SEE" not in allow:
         problems.append(f"{LIB.name}: tasksAllow no longer means a claimed username on the base pass holding one of TASK_SEE's roles.")
