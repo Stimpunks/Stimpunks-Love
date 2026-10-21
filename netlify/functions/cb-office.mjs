@@ -6,7 +6,7 @@
      contacts                every contact, without notes
      contact  &id=           one contact, its notes as words and as nodes, their grant requests and cases,
                              their emails (who, when, subject), newest first, and its comments, oldest first
-     email    &id=           one email, whole, as the team mailbox's script sent it
+     email    &id=           one email, whole, as the team mailbox's script sent it, and its comments
      grants                  every grant request, without its description
      grant    &id=           one grant request, its description as words and as nodes, and its comments
      cases                   every case, without its description
@@ -19,6 +19,7 @@
      reports                 EspoCRM's nine reports, worked out now: by stage, month and year, awards,
                              grantees, and cases by status and year
      templates               every mailing template
+     template &id=           one template, and its comments
      mailings                every mailing, newest first, with how many of its emails are where
      mailing  &id=           one mailing, its template's words, every email's state, and its comments
    POST, with the same pass:
@@ -60,7 +61,8 @@
      { action: 'gb-read' }                           Givebutter read now, as each night
      { action: 'qb-disconnect' }                     the office's permission revoked at Intuit, and
          what it last read deleted
-     { action: 'comment', id, body }                 a comment on the contact, grant request, case or mailing `id` names
+     { action: 'comment', id, body }                 a comment on the contact, grant request, case, mailing or template
+         `id` names, or on an email, whose id is `email-` and its Gmail id
      { action: 'comment-edit', id, c, body }         comment c changed, by whoever wrote it
      { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
      { action: 'preview', body, comment? }           how notes or a description, or with comment: true a comment, will set
@@ -69,7 +71,7 @@
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
@@ -110,7 +112,7 @@ export default async (req) => {
       }
       if (view === 'email') {
         const m = await officeEmail(who, url.searchParams.get('id'));
-        return m ? json(200, { me, settings, email: m }, QUIET) : json(404, { error: 'That email has been deleted from the office.' }, QUIET);
+        return m ? json(200, { me, settings, email: m, comments: await officeComments(who, 'email-' + m.id) }, QUIET) : json(404, { error: 'That email has been deleted from the office.' }, QUIET);
       }
       if (view === 'cases') return json(200, { me, settings, cases: await officeCases(who) }, QUIET);
       if (view === 'feed') return json(200, { me, settings, feed: await officeFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
@@ -121,6 +123,10 @@ export default async (req) => {
       if (view === 'dashboard') return json(200, { me, settings, dashboard: await officeDashboard(who) }, QUIET);
       if (view === 'reports') return json(200, { me, settings, reports: await officeReports(who) }, QUIET);
       if (view === 'templates') return json(200, { me, settings, templates: await officeTemplates(who) }, QUIET);
+      if (view === 'template') {
+        const t = await officeTemplate(who, url.searchParams.get('id'));
+        return t ? json(200, { me, settings, template: t, comments: await officeComments(who, t.id) }, QUIET) : json(404, { error: 'That template has been deleted.' }, QUIET);
+      }
       if (view === 'mailings') return json(200, { me, settings, mailings: await officeMailings(who) }, QUIET);
       if (view === 'mailing') {
         const m = await officeMailing(who, url.searchParams.get('id'));

@@ -9,129 +9,136 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Wed, 21 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The office: comments on templates and emails</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-21-comments-templates-email</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-comments-templates-email</guid>
+      <pubDate>Wed, 21 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A mailing’s templates and the emails filed from the team mailbox take comments too, at the foot of their pages in the office, sealed like every other comment there. They tell people as the office’s other comments do, saying only that they are on a template or an email. Every template has a page of its own, opened from the list: its subject and words, who added and changed it, Edit, Send it as a mailing and Delete, and its comments. Saving one goes back to it.</description>
+    </item>
+    <item>
       <title>Tasks and the office: comments</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-comments</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-comments</guid>
-      <pubDate>Wed, 21 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:59:00 GMT</pubDate>
       <description>Every task in Tasks has Comments, after EspoCRM’s stream posts and Notion’s comments: the conversation about it, under its description, oldest first, with a box at the foot. A comment takes Markdown and has Preview; Ctrl or Cmd and Enter posts it. So does nearly everything in the office: every contact, grant request, case and mailing, at the foot of its page, encrypted where they are kept like everything else there. A comment tells the people it concerns, in their Notifications in Tasks and on their devices if they switched that on: for a task, whoever it is assigned to, anybody else on it and whoever made it; in the office, whoever added the record; and anybody who commented before and anybody it @mentions. It says who commented and on what, never the words, and opens on the comment. A comment in the office never names its record there. Only whoever wrote a comment can edit it, and an edit tells only somebody it newly @mentions. Its writer or an administrator can delete it. Both Feeds show each card’s latest comments and have Comment on every card, and a comment puts its card first. Privacy and the CB guide say what is kept.</description>
     </item>
     <item>
       <title>Tasks and the office: a Feed, after Notion’s</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-feeds</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-feeds</guid>
-      <pubDate>Wed, 21 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:58:00 GMT</pubDate>
       <description>Tasks has a Feed beside the list, the board and the timeline: every task as a card, the one something last happened to first, saying what that was, with its description to read and tick, More for the rest of it, and Mark it completed. The filters and saved filters work on it as on the others. The office has one too: grant requests and cases, and contacts if you ask for them, newest first, each with its description or notes, and Move to on a grant request or a case. Neither keeps anything: both are worked out from what Tasks and the office already hold, twenty cards at a time.</description>
     </item>
     <item>
       <title>The CB: Read aloud</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-cb-read-aloud</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-cb-read-aloud</guid>
-      <pubDate>Wed, 21 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:57:00 GMT</pubDate>
       <description>A message’s three dots have Read aloud, on the channel and in direct messages: that one message, read out now in the same voice as Speak new messages aloud, whether that switch is on or off. It says who sent it, whose message it replies to, its words, and what its picture or sticker is. It stops whatever the radio was saying first; while it reads, it says Stop reading, and pressing it stops. It keeps Speak aloud’s rules: a voice built into your own device and never a speech service somewhere else, and the static round it follows the dial. The CB guide says so.</description>
     </item>
     <item>
       <title>The CB: replies</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-cb-replies</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-cb-replies</guid>
-      <pubDate>Wed, 21 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:56:00 GMT</pubDate>
       <description>Every message on the CB has a Reply, a curved arrow between React and the three dots. It opens Replying to their name and the start of their words above the message box, and what you transmit goes out as an answer, with that line above it on everybody’s radio. Press the line to go to the message it answers. Cancel reply or Escape lets it go and keeps your words. Direct messages have it too, once a conversation is accepted. A reply keeps which message it answers and nothing else of it. The line is drawn from what is on the channel now, so it changes when that message is edited, and says the message has gone once it is taken off or its 48 hours are up. Copying the quoted words into the reply would have kept them after the message, and after somebody took them back. When somebody replies to me is a new notification switch, off until you switch it on, and Everything takes it in. It tells only whoever sent the message answered, and never in a room that keeps to itself. The CB guide and the privacy page say so.</description>
     </item>
     <item>
       <title>Notifications: follow every room</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-notify-every-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-notify-every-room</guid>
-      <pubDate>Wed, 21 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:55:00 GMT</pubDate>
       <description>Notifications on the radio have a Follow every room too, under Rooms you follow: every message in every room you can go into tells your device, and with Calls on, every call starting in one, including rooms that open later and the forums’ categories you can read. Norah’s ask, after the one for Unreads this morning. It can be a lot, and the switch says so. World keeps its own switch, and Everything leaves this one as you set it. Switched off, you are back to the rooms you followed one by one. A room that keeps to itself still tells only a device that followed it there by name, so its own switch stays in it. The CB guide and the privacy page say so.</description>
     </item>
     <item>
       <title>The CB: follow every room at once</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-follow-every-room</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-follow-every-room</guid>
-      <pubDate>Wed, 21 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:54:00 GMT</pubDate>
       <description>Follow every room, at the foot of Unreads on the radio, follows every room you can go into at once, instead of pressing Follow this room in each. Unreads then lists any room where something new has been said since you last read it, in the street’s walking order, including rooms that open later and the forums’ categories you can read. Norah’s ask. Switched off, Unreads goes back to the rooms you followed one by one, which it keeps as they were. It is kept in your browser only, like the rooms you follow, and a room that keeps to itself is never on it. The CB guide has it. It is for Unreads; notifications still follow the rooms you pick under Notifications.</description>
     </item>
     <item>
       <title>Tasks, the office and the forums: back one step, to where you were</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-back-one-step</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-back-one-step</guid>
-      <pubDate>Wed, 21 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:53:00 GMT</pubDate>
       <description>Going back in Tasks, the office and the forums goes back one step now, to the view you came from, at the height you left it, with the keyboard on the link you followed, once the view has drawn. Norah’s ask, and Ryan’s for the scroll. Your browser’s Back and Forward do it, and so does a link above every view you reached from another one, which says where it goes: ← Back to the board, say, or back to a task by its name. A view opened on its own keeps its old way up, like ← All contacts. Contacts you had shown with Show more, and older topics you had opened in the forums, are shown again when you go back to them, so the place is still there. Drawing the same view again, as Forget what I have read does, keeps your place too, where it used to jump to the top. Saving, cancelling, sending or deleting takes the place of the step it was done on rather than adding one after it, so Back never lands on a form you finished or something that has been deleted. The tab’s own history keeps how far down each view was, beside its address, so a reload or coming back from another page finds your place as well; never a name or a word of what is in them, which the privacy page says for each of the three. The CB guide has it.</description>
     </item>
     <item>
       <title>The forums: every category has its own channel on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-forum-category-rooms</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-forum-category-rooms</guid>
-      <pubDate>Wed, 21 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:52:00 GMT</pubDate>
       <description>Every category in the forums is a room on the CB now, instead of the whole of the forums sharing one channel. Open a category, or a topic in it, and the radio’s This room retunes to that category’s own room, The forums: Coping, say, with its own channel, Be seen here, call and Follow this room. Move to another category and it follows, without the page loading again. The forums’ home, Latest, Mentions and Search are still The forums’ own room. Ryan’s ask and his calls. A category’s room is for exactly the people who can read the category: a claimed username, with the category’s own roles, checked by our server for listening, sending, hosting a film, being seen, the call and notifications. So the channels of Moderators, Team Docs, Directors, Board, Back Office Operations, Grantmaking and Finance are their staff’s alone, as their topics are. A category inside another shares its room, so all of Team Docs is one. Category rooms are kept off the street’s public list of rooms. The radio asks which ones you can read, so #tags, the teleporter, Who’s around and Unreads only ever name a category to people who can read it. In the World room, The forums’ line takes in what is happening in the categories you can read. The privacy page and the CB guide say how it works.</description>
     </item>
     <item>
       <title>Tasks: brought over from Notion</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-tasks-from-notion</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-tasks-from-notion</guid>
-      <pubDate>Wed, 21 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:51:00 GMT</pubDate>
       <description>The tasks made in our Notion since they were last brought into EspoCRM are in Tasks now, with their status, days, tags, priority and who is on them. Each says it came from Notion and links its page there. Notion does not say who made a task or when it was finished, so those are left blank rather than guessed. Bringing tasks from Notion again updates the ones already brought rather than adding them twice, and one deleted here stays deleted, as with EspoCRM’s. Copies Notion’s recurring templates made of a task Tasks already makes were left out.</description>
     </item>
     <item>
       <title>Tasks: notifications on your phone or computer</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-tasks-push</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-tasks-push</guid>
-      <pubDate>Wed, 21 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:50:00 GMT</pubDate>
       <description>Something new in my Notifications in Tasks is a new switch under Notifications on the radio, for our directors and administrators, off until you switch it on. With it on, a device is told whenever something arrives in your Notifications in Tasks, with who did it and the task’s name, and pressing it opens the task. Your own changes never are. The privacy page says what a notification carries.</description>
     </item>
     <item>
       <title>Four more paintings in the yurt, three more spines, Feldman and Fisher in the Cinema</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-yurt-paintings</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-yurt-paintings</guid>
-      <pubDate>Wed, 21 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:49:00 GMT</pubDate>
       <description>Four more paintings hang on the yurt’s gallery wall, at Helen’s ask: Burne-Jones’s The Beguiling of Merlin, Waterhouse’s The Magic Circle and Hylas and the Nymphs, and Edward Robert Hughes’s Night with her Train of Stars, each out of copyright everywhere and each scan carrying a public domain template on its own Commons page. The Golden Stairs was the first choice and was left for Merlin, because neither scan of it carries that template. Agnes Martin, Hiroshi Sugimoto and James Turrell are spines on the Art shelf in the Reading Room, each a door to their page on Wikipedia, because their work is still their own. The Cinema’s Art shelf has Morton Feldman’s Rothko Chapel, the music he wrote for the chapel, played by Les Cris de Paris and the Ensemble intercontemporain on their own channel, beside the chapel’s own film; and its Philosophy shelf has more Mark Fisher: his Demonstration of Capitalist Realism from Artists Space, Kodwo Eshun’s memorial lecture from Goldsmiths, Acid Horizon on his final lectures, and two films from Epoch Philosophy.</description>
     </item>
     <item>
       <title>#3ecologies in the Music Room, sparkling skies behind the portals, and one reel off the Cosmos shelf</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-yurt-3ecologies</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-yurt-3ecologies</guid>
-      <pubDate>Wed, 21 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:48:00 GMT</pubDate>
       <description>The Music Room links to #3ecologies on YouTube Music, at Helen’s ask, under the record case. It is a search there, so it is a link that opens on YouTube Music and nothing plays here. At MAX GLITTER the stars behind the yurt’s portal doors sparkle once the doors are open, at her ask: every star twinkling at its own pace and four-pointed glints flaring and fading across each sky. At Gentle and Regular the skies stay still, and nothing flashes. Helen’s ballroom photograph hangs above the Music Room’s doors in the yurt now, at her ask, with its caption about the library turning into a masquerade ballroom. The Cinema’s Cosmos shelf lost one reel, at her ask: a fan’s upload of the first episode of Carl Sagan’s Cosmos, which was not its rights holder’s.</description>
     </item>
     <item>
       <title>The yurt’s doors open onto space, and the Cinema has a book</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-yurt-portals</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-yurt-portals</guid>
-      <pubDate>Wed, 21 Oct 2026 11:48:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:47:00 GMT</pubDate>
       <description>The doors to the Music Room, the Reading Room and the Cinema are portals now, at Helen’s ask: the Glimmer Window’s oak doors in their stone arch, the same size, and behind each one deep space, a sky of its own for each room (a violet nebula and a ringed planet, a moonlit constellation, a spiral galaxy). Open them and step through. The words under every door go through too, without opening anything. The books in the yurt are smaller when shut, so the portals are the big things on the page; each opens out to its full size to be read. The Cinema has a book in the yurt, bound like the songbooks: every reel on its rails, shelf by shelf, each line a link to that reel. Nothing in it plays. Two more shelves in the Cinema: Films I Love, official trailers for films that are hers to love and yours to buy, rent or find elsewhere, and Things That Make Me Smile: Curb Your Enthusiasm from HBO, Peep Show, Frasier from Paramount+, Gilmore Girls and Jeff Arcuri, every one from its own official channel. Fan uploads were swapped for the official ones, and one trailer with no official upload anywhere was left off.</description>
     </item>
     <item>
       <title>The Cinema, behind the yurt, with a reel for every film</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-yurt-cinema</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-yurt-cinema</guid>
-      <pubDate>Wed, 21 Oct 2026 11:47:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:46:00 GMT</pubDate>
       <description>A cinema door in the Faery Yurt opens the Cinema, at Helen’s ask: an old picture-house arch in the yurt’s timber with its screen lit and a film strip winding across the front of it, under a new heading of its own, The Cinema. Every film she keeps is an old-fashioned reel on a rail on the wall, in rows rather than a bookcase, on shelves under her own headings: Philosophy (lots of Deleuze and Guattari, Bergson and Merleau-Ponty (Absurd Being’s podcasts on both, and lectures), Mark Fisher’s The Slow Cancellation of the Future, every talk of Robert Chapman’s that could be found, Astrida Neimanis on bodies of water, and Philosophy Tube), Nature, Cosmos, Weird stuff (ContraPoints), Art (Rothko and Goldsworthy, from Tate, MoMA, the Rothko Chapel and the National Galleries of Scotland), Ma, Minimalism &amp; the Void, Poetry (Sylvia Plath and T. S. Eliot reading their own) and Relaxation. A reel can be one film, a whole channel or playlist that plays from the top with the rest to scroll through in the player, or a live camera: the Monterey Bay Aquarium’s jellies and the Okaukuejo waterhole in Etosha. A film says how long it runs before the press, a channel or playlist that it runs until you stop it, a live camera that it runs until you close it, and nothing plays until then. Every reel was pressed on the screen and played before it went up: where one of National Geographic’s playlists would not play in the United Kingdom, the reel holds its whole channel instead. The Reading Room’s card catalogue has The Deleuze Seminars, his lectures online at Purdue University, on the Gilles Deleuze card, at her ask the same morning. It is the Reading Room’s house two doors along, like the Music Room: claret walls, velvet curtains tied back from a silver screen, a candle in a sconce on each wall, three rows of velvet seats, and the light coming over your head from the projection box with the house lights down. The projector never flickers; its two reels turn at MAX and nowhere else. Join the Faeries and Grow a garden are in there too. A job marker of its own, a ticket stub dropped under a seat, on the guild’s board; a card, a place on the map and a fractal window, like every room.</description>
     </item>
     <item>
       <title>Tasks: activity and notifications</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-tasks-notifications</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-tasks-notifications</guid>
-      <pubDate>Wed, 21 Oct 2026 11:46:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:45:00 GMT</pubDate>
       <description>Every task in Tasks shows its Activity: each change made to it, newest first, who made it and what it changed from and to. A description’s change says only that it changed. Notifications, beside the other views, list the changes to the tasks you are assigned to, are on or made, being put on or taken off one, a task a recurring task made for you, and @mentions of you in a description, with how many are unread in the bar and your tasks due today, tomorrow or overdue at the top. Your own changes are never there, and nobody else sees your list. The privacy page says what is kept.</description>
     </item>
     <item>
       <title>The office: Givebutter on the dashboard</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-office-givebutter</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-office-givebutter</guid>
-      <pubDate>Wed, 21 Oct 2026 11:45:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:44:00 GMT</pubDate>
       <description>The dashboard in the office reads our Givebutter account late each evening, and when asked, and never writes to it. It shows what was given in the last 30 days against the 30 before, the recurring plans and what they give a month, every month of the last year, each campaign and what it has raised, and the newest gifts. Nobody who gave is named: the office keeps no donor’s name, email, phone or address, as the privacy page says. The QuickBooks summary now names only the kinds of transaction there were, so a month of deposits is no longer called deposits, payments and sales receipts.</description>
     </item>
     <item>
       <title>The office: each night, the CB’s days, and QuickBooks</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-office-quickbooks</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-office-quickbooks</guid>
-      <pubDate>Wed, 21 Oct 2026 11:44:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:43:00 GMT</pubDate>
       <description>The dashboard in the office keeps a line each night of how many grant requests, cases and tasks were open, and draws them as lines from the first night on. It shows how many messages went out on the CB each day for the last month: a count and nothing else, with no name, no room and no words, as the privacy page says. The office can be connected to our QuickBooks. It reads the books late each evening, and when asked, and never writes to them; the dashboard shows the last 30 days of money in and this year’s income and expenses by month. Each pipeline is held to its own cap of 100 on the dashboard and in Reports. The first version put both pipelines’ requests against one cap.</description>
     </item>
     <item>
       <title>The office: a dashboard and EspoCRM’s reports</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-office-dashboard</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-21-office-dashboard</guid>
-      <pubDate>Wed, 21 Oct 2026 11:43:00 GMT</pubDate>
+      <pubDate>Wed, 21 Oct 2026 11:42:00 GMT</pubDate>
       <description>The office opens a dashboard of what came in this week against the week before, open grant requests against the cap of 100, open cases and tasks, and the newest of each, with charts of EspoCRM’s four dashboard reports. Its summary is plain sentences built from the same numbers. Reports has all nine of EspoCRM’s reports, from grant requests by year and grants awarded by year to the grantees of any year and cases by status and year. Every chart says its numbers and has them in a table under it. Cases no longer have the Invited In and Collaborating statuses, which were being retired; no case was at either.</description>
     </item>
     <item>

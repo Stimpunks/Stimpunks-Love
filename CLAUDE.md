@@ -5355,9 +5355,13 @@ Notifications and from a push. `make-tasks.py` holds all of it. The friendly edi
 notification or its push** "so you can read it without opening Tasks", which copies the words where deleting the comment
 cannot reach them, **an edit history**, and **letting any director edit anybody's comment**.
 **The office's contacts, grant requests, cases and mailings take comments too** (Ryan, the same day: "pretty much
-everything in The Office should allow comments"): the same rules, **sealed** in `office-comments/<record id>` through
-`updateSealed` (`commentOffice`, `editOfficeComment`, `removeOfficeComment`, `officeComments`, `commentable()` telling a
-record by the first letter of its id), and a record's delete deletes them. **They are told in Tasks' Notifications**
+everything in The Office should allow comments"), **and so do its templates and filed emails** (the same evening): the
+same rules, **sealed** in `office-comments/<record id>` through `updateSealed` (`commentOffice`, `editOfficeComment`,
+`removeOfficeComment`, `officeComments`, `commentable()` telling a record by the first letter of its id). **An email goes
+by `email-` and its Gmail id**, because a Gmail id is hex and says nothing about what it is (a contact's id can be hex
+too), so a bare Gmail id is never taken for anything; its page is `#/m/<Gmail id>`. A record's delete deletes them, and an
+email that goes with its only contact (`forgetContactMail`) takes its comments too. A template has a page of its own now
+(`#/templates/<id>`, `view=template`), where its comments are. **They are told in Tasks' Notifications**
 (`noteOfficeComment`, through `tellTaskPeople`, the one loop that writes a person's list and then tells their devices),
 because the office's readers are Tasks' readers; that list is not sealed, so **an office entry carries `what` and `rec`,
 the record's kind and id, and never its name**, and neither does its push. **Both pages draw comments with `comments.js`**

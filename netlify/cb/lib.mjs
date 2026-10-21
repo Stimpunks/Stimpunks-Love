@@ -9067,6 +9067,7 @@ export async function removeEmail(who, id, s = store()) {
     }, s);
   }
   await s.delete(mailKeyOf(k));
+  await s.delete(officeCommentsKey('email-' + k));
   await updateList(MAIL_GONE, 'ids', (ids) => (ids.includes(k) ? null : [...ids, k]), s);
   return { gone: true };
 }
@@ -9083,7 +9084,7 @@ async function forgetContactMail(cid, s) {
       empty = !rest.length;
       return empty ? null : { ...was, contacts: rest };
     }, s);
-    if (empty) await s.delete(mailKeyOf(x.id));
+    if (empty) { await s.delete(mailKeyOf(x.id)); await s.delete(officeCommentsKey('email-' + x.id)); }
   }
   await s.delete(mailIndexKey(cid));
 }
@@ -9187,7 +9188,15 @@ export async function removeTemplate(who, id, s = store()) {
     gone = list.some((x) => x.id === templateId(id));
     return gone ? { templates: list.filter((x) => x.id !== templateId(id)) } : null;
   }, s);
-  return gone ? { gone: true } : { error: 'That template has already been deleted.' };
+  if (!gone) return { error: 'That template has already been deleted.' };
+  await s.delete(officeCommentsKey(templateId(id)));
+  return { gone: true };
+}
+/* One template, for its own page. */
+export async function officeTemplate(who, id, s = store()) {
+  if (!officeAllow(who)) return null;
+  const t = (await readTemplates(s)).find((x) => x.id === templateId(id));
+  return t ? shapeTemplate(t) : null;
 }
 
 /* Everybody at one stage of one pipeline: an email for each grant request
@@ -9323,8 +9332,9 @@ async function forgetContactMailings(cid, s) {
 }
 
 /* COMMENTS IN THE OFFICE (Ryan's ask, 2026-10-21: "pretty much everything in
-   the office should allow comments"): on a contact, a grant request, a case or
-   a mailing, kept as a task's are (commentTask), except that they are sealed
+   the office should allow comments"): on a contact, a grant request, a case, a
+   mailing, a template or an email filed from the team mailbox (the last two the
+   same evening), kept as a task's are (commentTask), except that they are sealed
    like everything else here, one sealed blob of them for each record,
    office-comments/<record id>, and a record has no activity to put them in.
    The writer's authorMark is sealed with the comment and never leaves the
@@ -9338,13 +9348,23 @@ export const OFFICE_COMMENT_MAX = TASK_COMMENT_MAX;
 export const OFFICE_COMMENTS_KEEP = TASK_COMMENTS_KEEP;
 const officeCommentsKey = (id) => `office-comments/${id}`;
 /* What a comment can be on, told apart by its id: which sealed blob holds it,
-   and whether the Feed shows it. */
+   and whether the Feed shows it. An email's id is Gmail's, which says nothing
+   about what it is, so its comments go by `email-` and the Gmail id. */
 function commentable(id) {
   if (contactId(id)) return { what: 'contact', key: CONTACTS, field: 'contacts', id, talk: true };
   if (grantId(id)) return { what: 'grant', key: GRANTS, field: 'grants', id, talk: true };
   if (caseId(id)) return { what: 'case', key: CASES, field: 'cases', id, talk: true };
   if (mailingId(id)) return { what: 'mailing', key: MAILINGS, field: 'mailings', id, talk: false };
+  if (templateId(id)) return { what: 'template', key: TEMPLATES, field: 'templates', id, talk: false };
+  const mail = typeof id === 'string' && id.startsWith('email-') ? mailId(id.slice(6)) : null;
+  if (mail) return { what: 'email', mail, id: 'email-' + mail, talk: false };
   return null;
+}
+/* The record a comment is on, as it is now, or nothing when it has gone. */
+async function commentedOn(r, s) {
+  if (r.mail) return readSealed(mailKeyOf(r.mail), s);
+  const held = await readSealed(r.key, s);
+  return held && Array.isArray(held[r.field]) ? held[r.field].find((x) => x.id === r.id) || null : null;
 }
 const NO_RECORD = 'That has been deleted from the office.';
 
@@ -9361,8 +9381,7 @@ export async function commentOffice(who, id, text, s = store(), now = Date.now()
   const r = commentable(id);
   const words = cleanForumBody(text, OFFICE_COMMENT_MAX);
   if (!words) return { error: `A comment is between one and ${OFFICE_COMMENT_MAX} characters.` };
-  const held = r ? await readSealed(r.key, s) : null;
-  const rec = held && Array.isArray(held[r.field]) ? held[r.field].find((x) => x.id === r.id) : null;
+  const rec = r ? await commentedOn(r, s) : null;
   if (!rec) return { error: NO_RECORD };
   const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };
   let full = false, earlier = [];
@@ -9373,13 +9392,14 @@ export async function commentOffice(who, id, text, s = store(), now = Date.now()
     return full ? null : { comments: [...list, c] };
   }, s);
   if (full) return { error: `This has ${OFFICE_COMMENTS_KEEP} comments, as many as it keeps. Delete one first.` };
-  // When it was last talked about, for the Feed. A record deleted meanwhile takes the comment with it.
-  let gone = false;
-  await updateSealed(r.key, (was) => {
+  // A record deleted meanwhile takes the comment with it.
+  let gone = !(await commentedOn(r, s));
+  // When it was last talked about, for the Feed.
+  if (!gone && r.talk) await updateSealed(r.key, (was) => {
     const list = was && Array.isArray(was[r.field]) ? was[r.field] : [];
     const k = list.findIndex((x) => x.id === r.id);
     gone = k < 0;
-    if (gone || !r.talk || (list[k].talk || 0) >= now) return null;
+    if (gone || (list[k].talk || 0) >= now) return null;
     const copy = list.slice(); copy[k] = { ...list[k], talk: now };
     return { ...was, [r.field]: copy };
   }, s);

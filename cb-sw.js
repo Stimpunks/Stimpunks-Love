@@ -37,7 +37,7 @@ function safePath(p) {
   if (typeof p !== 'string') return '/';
   if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?(?:#cb=(?:props|messages))?$/.test(p)) return p;
   if (/^\/tasks\.html#\/(?:t\/k[A-Za-z0-9_-]{12}(?:\/c\/m[A-Za-z0-9_-]{12})?|inbox)$/.test(p)) return p;
-  if (/^\/office\.html#\/(?:c|g|k|mailings)\/[cgkn][A-Za-z0-9_-]{12}(?:\/c\/m[A-Za-z0-9_-]{12})?$/.test(p)) return p;
+  if (/^\/office\.html#\/(?:(?:c|g|k|mailings|templates)\/[cgknt][A-Za-z0-9_-]{12}|m\/[0-9a-f]{8,32})(?:\/c\/m[A-Za-z0-9_-]{12})?$/.test(p)) return p;
   if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
   return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
 }
@@ -54,9 +54,11 @@ function taskSays(d) {
   var by = d.handle ? String(d.handle).slice(0, 40) : '';
   if (d.did === 'office') {
     // A comment in the office: what it is on, never its name, which is sealed.
-    var what = { contact: 'a contact', grant: 'a grant request', 'case': 'a case', mailing: 'a mailing' }[d.what] || 'something';
-    var at = { contact: 'c', grant: 'g', 'case': 'k', mailing: 'mailings' }[d.what];
-    var rec = typeof d.rec === 'string' && /^[cgkn][A-Za-z0-9_-]{12}$/.test(d.rec) ? d.rec : '';
+    var what = { contact: 'a contact', grant: 'a grant request', 'case': 'a case', mailing: 'a mailing', template: 'a template', email: 'an email' }[d.what] || 'something';
+    var at = { contact: 'c', grant: 'g', 'case': 'k', mailing: 'mailings', template: 'templates', email: 'm' }[d.what];
+    // An email's comments go by email- and its Gmail id, and its page by the Gmail id alone.
+    var rec = typeof d.rec !== 'string' ? '' : d.what === 'email' ? ((/^email-([0-9a-f]{8,32})$/.exec(d.rec) || [])[1] || '')
+      : /^[cgknt][A-Za-z0-9_-]{12}$/.test(d.rec) ? d.rec : '';
     var on = rec && typeof d.comment === 'string' && /^m[A-Za-z0-9_-]{12}$/.test(d.comment) ? '/c/' + d.comment : '';
     return { title: by + (d.why === 'mentioned' ? ' mentioned you in a comment on ' : d.why === 'commented' ? ' also commented on ' : ' commented on ') + what + ' in the office',
       body: 'Open it in the office.', url: safePath(rec && at ? '/office.html#/' + at + '/' + rec + on : '/tasks.html#/inbox'), tag: 'cb-office-' + (rec || 'gone') };

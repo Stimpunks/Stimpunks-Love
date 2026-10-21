@@ -201,9 +201,16 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: only whoever wrote a comment edits it (editOfficeComment).")
     if "list[k].mark !== authorMark(who) && !who.roles.has('administrator')" not in fn(sec, "removeOfficeComment"):
         problems.append(f"{LIB.name}: only whoever wrote a comment, or an administrator, deletes it (removeOfficeComment).")
-    for name in ("removeContact", "removeGrant", "removeCase", "removeMailing"):
+    for name in ("removeContact", "removeGrant", "removeCase", "removeMailing", "removeTemplate", "removeEmail"):
         if "await s.delete(officeCommentsKey(" not in fn(sec, name):
             problems.append(f"{LIB.name}: {name} must delete the record's comments with it.")
+    fcm = (re.search(r"async function forgetContactMail\(.*?\n\}", sec, re.S) or [""])[0]
+    if "officeCommentsKey('email-' + x.id)" not in fcm:
+        problems.append(f"{LIB.name}: an email that goes with its only contact must take its comments with it (forgetContactMail).")
+    # An email's comments go by email- and its Gmail id, so a bare Gmail id is never taken for a record.
+    cm = (re.search(r"function commentable\(.*?\n\}", sec, re.S) or [""])[0]
+    if "id.startsWith('email-') ? mailId(id.slice(6))" not in cm or re.search(r"if \(mailId\(id\)\)", cm):
+        problems.append(f"{LIB.name}: an email takes comments by email- and its Gmail id, never by the bare id (commentable).")
     if "readSealed(officeCommentsKey(" not in fn(sec, "officeComments"):
         problems.append(f"{LIB.name}: officeComments must read the comments sealed.")
     # The feed is worked out from the records each time, and keeps nothing of its own.

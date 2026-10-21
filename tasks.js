@@ -230,8 +230,10 @@
   function taskHref(id, c) { return '#/' + ['t', id].concat(c ? ['c', c] : []).join('/'); }
   // An office comment's address in the office, which opens the record on it.
   function officeHref(it) {
-    var at = { contact: 'c', grant: 'g', 'case': 'k', mailing: 'mailings' }[it.what] || 'c';
-    return 'office.html#/' + [at, it.rec, 'c', it.comment].join('/');
+    var at = { contact: 'c', grant: 'g', 'case': 'k', mailing: 'mailings', template: 'templates', email: 'm' }[it.what] || 'c';
+    // An email's comments go by email- and its Gmail id, and its page by the Gmail id alone.
+    var rec = it.what === 'email' ? String(it.rec || '').replace(/^email-/, '') : it.rec;
+    return 'office.html#/' + [at, rec, 'c', it.comment].join('/');
   }
   function heading(level, text) { var h = el('h' + level, null, text); h.tabIndex = -1; return h; }
   function quiet(text) { return el('p', 'cb-quiet', text); }
@@ -1336,7 +1338,7 @@
   }
   /* A notification's first line, from why it is in the reader's list. */
   // What an office comment is on: never its name, which the office keeps sealed.
-  var OFFICE_WHAT = { contact: 'a contact', grant: 'a grant request', 'case': 'a case', mailing: 'a mailing' };
+  var OFFICE_WHAT = { contact: 'a contact', grant: 'a grant request', 'case': 'a case', mailing: 'a mailing', template: 'a template', email: 'an email' };
   function headWords(it) {
     var by = it.by ? whoWords(it.by, true) : null, name = '“' + it.name + '”';
     if (it.kind === 'office') return by + (it.why === 'mentioned' ? ' mentioned you in a comment on ' : it.why === 'commented' ? ' also commented on ' : ' commented on ')

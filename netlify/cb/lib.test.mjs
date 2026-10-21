@@ -3818,7 +3818,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
-  TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment } from './lib.mjs';
+  TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -5484,6 +5484,38 @@ test('a comment in the office is sealed, its writer edits it, its writer or an a
   await removeContact(TRYAN, c.id, s);
   assert.equal(await s.get(`office-comments/${c.id}`, { type: 'json' }), null, 'a deleted contact\'s comments were left behind');
 }));
+
+test('a template and a filed email take comments too, an email by email- and its Gmail id, and each takes them when it goes', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  const t = (await saveTemplate(TCHELSEA, { name: 'Welcome', subject: 'Hello {first}', body: 'Hello {first}.' }, s, T0)).template;
+  assert.equal(await officeTemplate(TSAM, t.id, s), null, 'somebody who cannot open the office was sent a template');
+  assert.equal((await officeTemplate(TRYAN, t.id, s)).name, 'Welcome');
+  const tc = (await commentOffice(TRYAN, t.id, 'Shorter, @Chelsea?', s, T0 + 1, TMODS)).comment;
+  assert.ok(tc, 'a template took no comment');
+  assert.deepEqual((await taskInbox(TCHELSEA, s, T0 + 100)).items.filter((x) => x.kind === 'office').map((x) => [x.what, x.rec, x.why]), [['template', t.id, 'mentioned']]);
+  await removeTemplate(TRYAN, t.id, s);
+  assert.equal(await s.get(`office-comments/${t.id}`, { type: 'json' }), null, 'a deleted template\'s comments were left behind');
+  // An email, by email- and its Gmail id; the bare Gmail id names nothing a comment can be on.
+  await officeMailIn(mailFrom(1), s, T0);
+  const gid = mailFrom(1).id;
+  assert.ok((await commentOffice(TRYAN, gid, 'Hello', s, T0 + 2, TMODS)).error, 'a bare Gmail id was taken for something');
+  assert.ok((await commentOffice(TRYAN, 'email-ffffffffffffffff', 'Hello', s, T0 + 2, TMODS)).error, 'a comment was kept on an email that is not there');
+  const ec = (await commentOffice(TRYAN, 'email-' + gid, 'I replied, @Norah.', s, T0 + 3, TMODS)).comment;
+  assert.ok(ec, 'an email took no comment');
+  assert.deepEqual((await officeComments(TCHELSEA, 'email-' + gid, s)).map((x) => x.body), ['I replied, @Norah.']);
+  const told = (await taskInbox(TNORAH, s, T0 + 100)).items.filter((x) => x.kind === 'office');
+  assert.deepEqual(told.map((x) => [x.what, x.rec]), [['email', 'email-' + gid]]);
+  assert.ok(!JSON.stringify(told).includes('About the grant'), 'an email\'s subject went into a notification');
+  await removeEmail(TRYAN, gid, s);
+  assert.equal(await s.get(`office-comments/email-${gid}`, { type: 'json' }), null, 'a deleted email\'s comments were left behind');
+  // An email that goes with its only contact takes its comments with it too.
+  await officeMailIn(mailFrom(2), s, T0);
+  const g2 = mailFrom(2).id;
+  await commentOffice(TRYAN, 'email-' + g2, 'Filed.', s, T0 + 4, TMODS);
+  await removeContact(TRYAN, ada.id, s);
+  assert.equal(await s.get(`office-comments/email-${g2}`, { type: 'json' }), null, 'an email that went with its contact left its comments behind');
+})));
 
 test('a comment in the office tells whoever added the record, anybody who commented before and anybody it @mentions, in Tasks\' Notifications, naming nothing sealed', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });

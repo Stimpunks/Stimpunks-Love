@@ -1507,7 +1507,7 @@
   /* An email as the team mailbox's script sent it: who, when, the subject, the
      attachments' names (the files stay in Gmail) and its text, shown as text
      with its line breaks and nothing turned into markup. */
-  function emailView(id) {
+  function emailView(id, landOn) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=email&id=' + encodeURIComponent(id)).then(function (r) {
@@ -1516,11 +1516,11 @@
         return refused(r);
       }
       took(r.body);
-      return drawEmail(r.body.email);
+      return drawEmail(r.body.email, r.body.comments, landOn);
     });
   }
 
-  function drawEmail(m) {
+  function drawEmail(m, comments, landOn) {
     view.textContent = '';
     var first = m.contacts[0];
     if (first) step.up('#/c/' + first.id, '← ' + (first.name || first.email)); else step.up('#/', '← All contacts');
@@ -1560,7 +1560,8 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
-    return h;
+    // Its comments go by email- and its Gmail id, which says nothing about what it is.
+    return addComments('email-' + m.id, comments, landOn) || h;
   }
 
   /* ── Refusals ──────────────────────────────────────────────────────────── */
@@ -2336,13 +2337,57 @@
     var ul = el('ul', 'of-theirs');
     list.forEach(function (t) {
       var li = el('li');
-      var ta = el('a', null, t.name); ta.href = '#/templates/edit/' + t.id;
+      var ta = el('a', null, t.name); ta.href = '#/templates/' + t.id;
       li.appendChild(ta);
       li.appendChild(document.createTextNode(' · ' + t.subject + ' · ' + (t.edited ? 'changed by ' + (t.editedBy || 'somebody') + ', ' + when(t.edited) : 'added by ' + (t.by || 'somebody') + ', ' + when(t.t))));
       ul.appendChild(li);
     });
     view.appendChild(ul);
     return h;
+  }
+  function templateView(id, landOn) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=template&id=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status !== 200) {
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That template has been deleted'); view.appendChild(h0); step.up('#/templates', '← All templates'); return h0; }
+        return refused(r);
+      }
+      took(r.body);
+      return drawTemplate(r.body.template, r.body.comments, landOn);
+    });
+  }
+  function drawTemplate(t, comments, landOn) {
+    view.textContent = '';
+    step.up('#/templates', '← All templates');
+    var h = heading(2, t.name);
+    view.appendChild(h);
+    var dl = el('dl', 'of-facts');
+    function fact(k, v) { if (v == null || v === '') return; dl.appendChild(el('dt', null, k)); dl.appendChild(el('dd', null, v)); }
+    fact('Subject', t.subject);
+    fact('Added', (t.by ? t.by + ', ' : '') + when(t.t));
+    if (t.edited) fact('Changed', (t.editedBy ? t.editedBy + ', ' : '') + when(t.edited));
+    view.appendChild(dl);
+    view.appendChild(el('div', 'of-body of-mail', t.body));
+    var tools = el('div', 'of-row');
+    var edit = el('a', 'cb-btn of-small', 'Edit'); edit.href = '#/templates/edit/' + t.id;
+    tools.appendChild(edit);
+    var mail = el('a', 'cb-btn of-small', 'Send it as a mailing'); mail.href = '#/mailings/new?template=' + encodeURIComponent(t.id);
+    tools.appendChild(mail);
+    var del = el('button', 'cb-btn of-small', 'Delete'); del.type = 'button';
+    del.addEventListener('click', function () {
+      sure(tools, 'This deletes the template ' + t.name + ' and its comments. Mailings already sent keep their words.', 'Delete it', function (done) {
+        call(null, { action: 'template-remove', id: t.id }).then(function (r) {
+          done();
+          if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
+          say('Deleted.');
+          step.go('#/templates');
+        });
+      }, del);
+    });
+    tools.appendChild(del);
+    view.appendChild(tools);
+    return addComments(t.id, comments, landOn) || h;
   }
   function templateFormView(id) {
     view.textContent = '';
@@ -2383,12 +2428,12 @@
     form.appendChild(hint);
     var row = el('div', 'of-row');
     var go = el('button', 'cb-btn', t ? 'Save' : 'Add the template'); go.type = 'submit';
-    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = '#/templates';
+    var cancel = step.leave(el('a', 'cb-btn', 'Cancel')); cancel.href = t ? '#/templates/' + t.id : '#/templates';
     row.appendChild(go); row.appendChild(cancel);
     if (t) {
       var del = el('button', 'cb-btn', 'Delete'); del.type = 'button';
       del.addEventListener('click', function () {
-        sure(row, 'This deletes the template ' + t.name + '. Mailings already sent keep their words.', 'Delete it', function (done) {
+        sure(row, 'This deletes the template ' + t.name + ' and its comments. Mailings already sent keep their words.', 'Delete it', function (done) {
           call(null, { action: 'template-remove', id: t.id }).then(function (r) {
             done();
             if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
@@ -2411,7 +2456,7 @@
       call(null, send).then(function (r) {
         go.disabled = false;
         if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
-        step.go('#/templates');
+        step.go('#/templates/' + r.body.template.id);
         say(t ? 'Saved.' : 'Added.');
       });
     });
@@ -2937,12 +2982,13 @@
     else if (parts[0] === 'cases' && parts[1] === 'edit' && parts[2]) done = caseFormView(parts[2], null);
     else if (parts[0] === 'cases') done = casesView(false);
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1], parts[2] === 'c' ? parts[3] : null);
-    else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1]);
+    else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'dashboard') done = dashboardView(parts[1] === 'quickbooks' ? parts[2] : null);
     else if (parts[0] === 'feed') done = feedView();
     else if (parts[0] === 'reports') done = reportsView();
     else if (parts[0] === 'templates' && parts[1] === 'new') done = templateFormView(null);
     else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = templateFormView(parts[2]);
+    else if (parts[0] === 'templates' && parts[1]) done = templateView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (parts[0] === 'templates') done = templatesView();
     else if (parts[0] === 'mailings' && parts[1] === 'new') done = newMailingView(hash);
     else if (parts[0] === 'mailings' && parts[1]) done = mailingView(parts[1], parts[2] === 'c' ? parts[3] : null);
