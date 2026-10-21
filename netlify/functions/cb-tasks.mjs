@@ -5,7 +5,9 @@
                              the reader's own saved filters, and every recurring task; any task a
                              recurring task owes is made first
      recur    &id=           one recurring task, its description as words and as nodes, and the tasks it made
-     task     &id=           one task, its description as words and as nodes
+     task     &id=           one task, its description as words and as nodes, and its activity, newest first
+     inbox                   the reader's own notifications, newest first, how many are unread, and the
+                             tasks of theirs due by tomorrow or overdue
    POST, with the same pass:
      { action: 'save', id?, espo?, name?, status?, priority?, start?, due?, body?, who?, with?, tags? }
          a new task, or a change to the one `id` names; only the fields sent change.
@@ -14,6 +16,7 @@
      { action: 'tick', id, n, text, on }             checkbox n in a task's description ticked (on) or
                                                      not; text is the words the page saw beside it
      { action: 'remove', id }                        a task deleted
+     { action: 'inbox-read', ids | all: true }       the reader's notifications marked read: those ids, or all
      { action: 'preview', body }                     how a description will set
      { action: 'view-save', id?, name, address }     a saved filter: a name and the #/ or #/board
                                                      address of a list or a board, new or in place of `id`
@@ -23,6 +26,7 @@
      { action: 'recur-remove', id }                  a recurring task deleted; the tasks it made stay
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
+  taskInbox, readTaskInbox, taskActivity,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS } from '../cb/lib.mjs';
@@ -56,8 +60,8 @@ export default async (req) => {
       if (view === 'list') {
         // Whatever a recurring task owes is made before the list is read, so nobody waits for the hour.
         try { await makeRecurring(); } catch (e) { /* the hourly run makes it */ }
-        const [tasks, views, recurs] = await Promise.all([tasksList(who), taskViews(who), taskRecurs(who)]);
-        return json(200, { me, settings, people: taskPeople(), tasks, views, recurs }, QUIET);
+        const [tasks, views, recurs, inbox] = await Promise.all([tasksList(who), taskViews(who), taskRecurs(who), taskInbox(who)]);
+        return json(200, { me, settings, people: taskPeople(), tasks, views, recurs, unread: inbox.unread }, QUIET);
       }
       if (view === 'recur') {
         const r = await taskRecur(who, url.searchParams.get('id'));
@@ -68,8 +72,11 @@ export default async (req) => {
       if (view === 'task') {
         const t = await taskOne(who, url.searchParams.get('id'));
         if (t) await withFrom(who, t);
-        return t ? json(200, { me, settings, people: taskPeople(), task: t }, QUIET) : json(404, { error: 'That task has been deleted.' }, QUIET);
+        if (!t) return json(404, { error: 'That task has been deleted.' }, QUIET);
+        const [activity, inbox] = await Promise.all([taskActivity(who, t.id), taskInbox(who)]);
+        return json(200, { me, settings, people: taskPeople(), task: t, activity, unread: inbox.unread }, QUIET);
       }
+      if (view === 'inbox') return json(200, { me, settings, inbox: await taskInbox(who) }, QUIET);
       return json(400, { error: 'Show what?' }, QUIET);
     }
     const b = (await body(req)) || {};
@@ -89,6 +96,10 @@ export default async (req) => {
     if (b.action === 'remove') {
       const r = await removeTask(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'inbox-read') {
+      const r = await readTaskInbox(who, b.all === true ? 'all' : b.ids);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { unread: r.unread }, QUIET);
     }
     if (b.action === 'view-save') {
       const r = await saveTaskView(who, b);

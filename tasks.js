@@ -66,7 +66,17 @@
   var navTime = el('a', 'cb-btn tk-navlink', 'Timeline'); navTime.href = '#/timeline';
   var navRecur = el('a', 'cb-btn tk-navlink', 'Recurring'); navRecur.href = '#/recurring';
   var navNew = el('a', 'cb-btn tk-navlink', 'New task'); navNew.href = '#/new';
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navRecur); nav.appendChild(navNew);
+  // Notifications, with how many are unread beside it (numbers are fine in tasks).
+  var navInbox = el('a', 'cb-btn tk-navlink', 'Notifications'); navInbox.href = '#/inbox';
+  var inboxCount = el('span', 'tk-n tk-unread');
+  inboxCount.hidden = true;
+  navInbox.appendChild(inboxCount);
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox);
+  function setUnread(n) {
+    inboxCount.textContent = n ? ' ' + n : '';
+    inboxCount.hidden = !n;
+    navInbox.setAttribute('aria-label', n ? 'Notifications, ' + n + ' unread' : 'Notifications');
+  }
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -131,6 +141,7 @@
 
   var settings = null, people = [], me = null, tasks = [], views = [], recurs = [];
   function took(b) {
+    if (typeof b.unread === 'number') setUnread(b.unread);
     if (b.settings) settings = b.settings;
     if (b.people) people = b.people;
     if (b.me) me = b.me;
@@ -927,12 +938,12 @@
         return refused(r);
       }
       took(r.body);
-      return drawTask(r.body.task);
+      return drawTask(r.body.task, r.body.activity);
     });
   }
   function backToList() { var p = el('p'); var a = el('a', null, '← Back to the list'); a.href = '#/'; p.appendChild(a); return p; }
 
-  function drawTask(t) {
+  function drawTask(t, activity) {
     view.textContent = '';
     view.appendChild(backToList());
     var h = heading(2, t.name);
@@ -968,6 +979,7 @@
         call(null, { action: 'tick', id: t.id, n: bx.n, text: bx.raw, on: on }).then(function (r) {
           if (r.status !== 200) { c.checked = !on; c.disabled = false; say(why(r, 'That did not save. Nothing was changed.')); return; }
           drawTask(r.body.task);
+          freshActivity(t.id);
           var again = view.querySelector('input[data-box="' + bx.n + '"]');
           if (again) again.focus();
           say((on ? 'Ticked' : 'Unticked') + ' “' + label + '”.');
@@ -989,6 +1001,7 @@
           finish.disabled = false;
           if (r.status !== 200) { say(why(r, 'That did not save. Nothing was changed.')); return; }
           drawTask(r.body.task).focus();
+          freshActivity(t.id);
           say('Completed.');
         });
       });
@@ -1007,6 +1020,194 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
+    // Activity: every change to this task, newest first, as EspoCRM's stream showed it.
+    var act = el('section', 'tk-activity');
+    act.appendChild(heading(3, 'Activity'));
+    var actList = el('ol', 'tk-acts');
+    act.appendChild(actList);
+    view.appendChild(act);
+    fillActivity(actList, activity);
+    return h;
+  }
+  function fillActivity(into, list) {
+    if (!into) return;
+    into.textContent = '';
+    if (!list) { into.appendChild(el('li', 'cb-quiet', 'Looking…')); return; }
+    if (!list.length) { into.appendChild(el('li', 'cb-quiet', 'Nothing has changed since it was made, or since activity was first kept.')); return; }
+    list.forEach(function (ev) {
+      var li = el('li', 'tk-act');
+      li.appendChild(el('p', null, actWords(ev)));
+      li.appendChild(el('p', 'tk-when', when(ev.t)));
+      into.appendChild(li);
+    });
+  }
+  function freshActivity(id) {
+    call('view=task&id=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status === 200) fillActivity(view.querySelector('.tk-acts'), r.body.activity);
+    });
+  }
+
+  /* ── Activity and notifications, in words ─────────────────────────────── */
+
+  function isMe(h) { return !!(me && h && fold(h) === fold(me.handle)); }
+  function whoWords(h, cap) { return isMe(h) ? (cap ? 'You' : 'you') : h; }
+  function and(list) { return list.length < 2 ? list.join('') : list.slice(0, -1).join(', ') + ' and ' + list[list.length - 1]; }
+  var FIELD = { status: 'the status', priority: 'the priority', name: 'the name', start: 'the start', due: 'the due date' };
+  /* What one change did, as a phrase: "changed the status from Started to Completed". */
+  function changeWords(c) {
+    var f = c.field;
+    if (f === 'body') return 'edited the description';
+    if (f === 'status' || f === 'priority') return 'changed ' + FIELD[f] + ' from ' + (c.from || 'nothing') + ' to ' + (c.to || 'nothing');
+    if (f === 'name') return 'renamed it from “' + c.from + '” to “' + c.to + '”';
+    if (f === 'start' || f === 'due') {
+      if (!c.from) return 'set ' + FIELD[f] + ' to ' + dayWords(c.to);
+      if (!c.to) return 'took ' + FIELD[f] + ' off';
+      return 'moved ' + FIELD[f] + ' from ' + dayWords(c.from) + ' to ' + dayWords(c.to);
+    }
+    if (f === 'who') return c.to ? 'assigned it to ' + whoWords(c.to) : 'took it off ' + whoWords(c.from) + ', leaving it assigned to nobody';
+    var from = c.from || [], to = c.to || [];
+    var put = to.filter(function (x) { return !from.some(function (y) { return fold(y) === fold(x); }); });
+    var off = from.filter(function (x) { return !to.some(function (y) { return fold(y) === fold(x); }); });
+    var bits = [];
+    if (f === 'with') {
+      if (put.length) bits.push('put ' + and(put.map(function (x) { return whoWords(x); })) + ' on it');
+      if (off.length) bits.push('took ' + and(off.map(function (x) { return whoWords(x); })) + ' off it');
+    } else if (f === 'tags') {
+      if (put.length) bits.push('tagged it ' + and(put));
+      if (off.length) bits.push('took the tag' + (off.length > 1 ? 's ' : ' ') + and(off) + ' off');
+    }
+    return bits.join(' and ');
+  }
+  /* An event on a task's own page: "Ryan changed the status from … ; set the due date to …". */
+  function actWords(ev) {
+    var by = ev.by ? whoWords(ev.by, true) : 'Its recurring task';
+    if (ev.kind === 'made') return by + ' made this task.';
+    if (ev.kind === 'recurred') return 'Its recurring task made this task.';
+    if (ev.kind === 'ticked') return by + ' ' + (ev.box && ev.box.on ? 'ticked' : 'unticked') + ' “' + (ev.box ? ev.box.text : '') + '”.';
+    return by + ' ' + ev.changes.map(changeWords).filter(Boolean).join('; ') + '.';
+  }
+  /* A notification's first line, from why it is in the reader's list. */
+  function headWords(it) {
+    var by = it.by ? whoWords(it.by, true) : null, name = '“' + it.name + '”';
+    if (it.kind === 'recurred') return name + (it.why === 'assigned' ? ' came round, and is yours.' : it.why === 'added' ? ' came round, and you are on it.' : ' came round again.');
+    if (it.why === 'assigned') return by + (it.kind === 'made' ? ' made ' + name + ' and assigned it to you.' : ' assigned ' + name + ' to you.');
+    if (it.why === 'added') return by + (it.kind === 'made' ? ' made ' + name + ' and put you on it.' : ' put you on ' + name + '.');
+    if (it.why === 'removed') return by + ' took you off ' + name + '.';
+    if (it.why === 'mentioned') return by + ' mentioned you in ' + name + '.';
+    if (it.kind === 'made') return by + ' made ' + name + '.';
+    if (it.kind === 'deleted') return by + ' deleted ' + name + '.';
+    if (it.kind === 'ticked') return by + ' ' + (it.box && it.box.on ? 'ticked' : 'unticked') + ' a box on ' + name + '.';
+    return by + ' changed ' + name + '.';
+  }
+  function detailWords(it) {
+    if (it.kind === 'ticked') return '“' + (it.box ? it.box.text : '') + '”';
+    if (it.kind !== 'changed') return '';
+    // The headline already says the reader was assigned, put on or taken off, so the details leave that out.
+    var said = it.why === 'assigned' || it.why === 'added' || it.why === 'removed';
+    var notMe = function (l) { return (l || []).filter(function (x) { return !isMe(x); }); };
+    var w = it.changes.map(function (c) {
+      if (!said) return c;
+      if (c.field === 'who' && (isMe(c.to) || isMe(c.from))) return null;
+      if (c.field === 'with') return { field: 'with', from: notMe(c.from), to: notMe(c.to) };
+      return c;
+    }).filter(Boolean).map(changeWords).filter(Boolean).join('; ');
+    return w ? w.charAt(0).toUpperCase() + w.slice(1) + '.' : '';
+  }
+
+  /* ── Notifications ─────────────────────────────────────────────────────── */
+
+  function inboxView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=inbox').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      setUnread(r.body.inbox.unread);
+      return drawInbox(r.body.inbox, /[?&]show=unread/.test(location.hash));
+    });
+  }
+  function drawInbox(box, onlyUnread) {
+    view.textContent = '';
+    var h = heading(2, 'Notifications');
+    view.appendChild(h);
+    view.appendChild(quiet('Changes to the tasks you are assigned to, are on or made, being taken off a task, and @mentions of you in a description, from the last 30 days. Your own changes are not here.'));
+    // Due: worked out from the tasks now, nothing kept for it.
+    if (box.due.length) {
+      var dh = el('section', 'tk-due');
+      dh.appendChild(heading(3, 'Due'));
+      var dl = el('ul', 'tk-dues');
+      box.due.forEach(function (t) {
+        var li = el('li');
+        var a = el('a', null, t.name); a.href = '#/t/' + t.id;
+        li.appendChild(a);
+        li.appendChild(tag(t.due < box.today ? 'OVERDUE' : t.due === box.today ? 'DUE TODAY' : 'DUE TOMORROW', t.due < box.today ? 'tk-late' : null));
+        li.appendChild(el('span', 'tk-when', ' ' + dayWords(t.due)));
+        dl.appendChild(li);
+      });
+      dh.appendChild(dl);
+      view.appendChild(dh);
+    }
+    var tools = el('div', 'tk-row');
+    var all = el('a', 'cb-btn tk-small', 'Every one (' + box.items.length + ')'); all.href = '#/inbox';
+    var un = el('a', 'cb-btn tk-small', 'Unread (' + box.unread + ')'); un.href = '#/inbox?show=unread';
+    (onlyUnread ? un : all).setAttribute('aria-current', 'page');
+    tools.appendChild(all); tools.appendChild(un);
+    if (box.unread) {
+      var mark = el('button', 'cb-btn tk-small', 'Mark all read'); mark.type = 'button';
+      mark.addEventListener('click', function () {
+        mark.disabled = true;
+        call(null, { action: 'inbox-read', all: true }).then(function (r) {
+          mark.disabled = false;
+          if (r.status !== 200) { say(why(r, 'That did not save. Nothing was changed.')); return; }
+          setUnread(r.body.unread);
+          box.items.forEach(function (x) { x.read = true; });
+          box.unread = 0;
+          drawInbox(box, onlyUnread).focus();
+          say('All read.');
+        });
+      });
+      tools.appendChild(mark);
+    }
+    view.appendChild(tools);
+    var shown = box.items.filter(function (x) { return !onlyUnread || !x.read; });
+    if (!shown.length) { view.appendChild(quiet(onlyUnread ? 'Nothing unread.' : 'Nothing yet.')); return h; }
+    var list = el('ol', 'tk-inbox');
+    shown.forEach(function (it) {
+      var li = el('li', 'tk-note' + (it.read ? '' : ' tk-note--new'));
+      var head = el('p', 'tk-note__head');
+      if (!it.read) head.appendChild(tag('NEW', 'tk-new'));
+      head.appendChild(document.createTextNode(headWords(it)));
+      li.appendChild(head);
+      var d = detailWords(it);
+      if (d) li.appendChild(el('p', 'tk-note__what', d));
+      var foot = el('p', 'tk-when', when(it.t) + ' ');
+      if (it.kind !== 'deleted') {
+        var a = el('a', null, 'Open the task'); a.href = '#/t/' + it.task;
+        // Opening it marks it read; the task opens whether or not that saves.
+        if (!it.read) a.addEventListener('click', function () {
+          call(null, { action: 'inbox-read', ids: [it.id] }).then(function (r) { if (r.status === 200) setUnread(r.body.unread); });
+        });
+        foot.appendChild(a);
+      }
+      if (!it.read) {
+        var rd = el('button', 'cb-btn tk-small', 'Mark read'); rd.type = 'button';
+        rd.addEventListener('click', function () {
+          rd.disabled = true;
+          call(null, { action: 'inbox-read', ids: [it.id] }).then(function (r) {
+            if (r.status !== 200) { rd.disabled = false; say(why(r, 'That did not save. Nothing was changed.')); return; }
+            setUnread(r.body.unread);
+            it.read = true; box.unread = r.body.unread;
+            drawInbox(box, onlyUnread).focus();
+            say('Read.');
+          });
+        });
+        foot.appendChild(document.createTextNode(' '));
+        foot.appendChild(rd);
+      }
+      li.appendChild(foot);
+      list.appendChild(li);
+    });
+    view.appendChild(list);
     return h;
   }
 
@@ -1420,9 +1621,11 @@
     else if (parts[0] === 'recurring' && parts[1] === 'edit' && parts[2]) done = recurFormView(parts[2]);
     else if (parts[0] === 'recurring' && parts[1]) done = recurView(parts[1]);
     else if (parts[0] === 'recurring') done = recurList();
+    else if (parts[0] === 'inbox') done = inboxView();
     else done = tasksView('list');
-    [navList, navBoard, navTime, navRecur, navNew].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navList, navBoard, navTime, navRecur, navNew, navInbox].forEach(function (a) { a.removeAttribute('aria-current'); });
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'inbox') navInbox.setAttribute('aria-current', 'page');
     else if (parts[0] === 'board') navBoard.setAttribute('aria-current', 'page');
     else if (parts[0] === 'timeline') navTime.setAttribute('aria-current', 'page');
     else if (parts[0] === 'recurring' && !parts[1]) navRecur.setAttribute('aria-current', 'page');

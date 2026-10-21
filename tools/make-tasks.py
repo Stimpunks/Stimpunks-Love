@@ -137,7 +137,7 @@ def check_lib(lib):
     if "console." in code:
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
     for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
-                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask"):
+                 "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -170,6 +170,29 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: deleting a username must delete its saved filters (forgetTaskViews).")
     if "forgetTaskViews(pk)" not in (ROOT / "netlify/functions/cb-pets.mjs").read_text():
         problems.append("cb-pets.mjs: Forget me must delete somebody's saved filters (forgetTaskViews).")
+    # Activity and notifications: an event says who, when, which task, what kind and what changed, a
+    # description without its words; nobody is told of their own change, an import is nobody's, only
+    # somebody who could read tasks is told, and each person's list goes with them.
+    nt = (re.search(r"async function noteTask\(.*?\n\}", sec, re.S) or [""])[0]
+    ev = re.search(r"const ev = \{(.*?)\};", nt)
+    evkeys = {part.split(":")[0].strip() for part in re.split(r",\s*", ev.group(1))} if ev else set()
+    if evkeys != {"id", "t", "by", "task", "name", "kind", "changes"}:
+        problems.append(f"{LIB.name}: an event keeps who, when, which task, its kind and what changed, and nothing else.")
+    if "{ ...ev, why, read: false }" not in nt or "taskConcerns(kind, by, had, next, taskPeople(mods))" not in nt:
+        problems.append(f"{LIB.name}: a notification is the event, why it is there and whether it is read, for somebody who could read tasks.")
+    if "out.push({ field: 'body' })" not in fn(sec, "taskChanges"):
+        problems.append(f"{LIB.name}: a description's change is kept without its words.")
+    tc = (re.search(r"function taskConcerns\(.*?\n\}", sec, re.S) or [""])[0]
+    if "(by && foldHandle(p) === foldHandle(by))" not in tc:
+        problems.append(f"{LIB.name}: nobody is told of their own change (taskConcerns).")
+    if "if (!espo) await noteTask(" not in fn(sec, "saveTask"):
+        problems.append(f"{LIB.name}: an import from EspoCRM is nobody's change, and must make no event.")
+    if "s.delete(taskInboxBlob(pk))" not in fn(sec, "forgetTaskInbox"):
+        problems.append(f"{LIB.name}: forgetTaskInbox no longer deletes somebody's notifications.")
+    if not da or "await forgetTaskInbox(petKey(handle), s);" not in da.group(0):
+        problems.append(f"{LIB.name}: deleting a username must delete its notifications (forgetTaskInbox).")
+    if "forgetTaskInbox(pk)" not in (ROOT / "netlify/functions/cb-pets.mjs").read_text():
+        problems.append("cb-pets.mjs: Forget me must delete somebody's notifications (forgetTaskInbox).")
     kept = re.findall(r"copy(?:\[k\] = |\.push\()\{(.*?)\}\)?;", fn(sec, "saveTaskView"))
     keys = [sorted(k.split(":")[0].strip() for k in re.sub(r"\([^()]*\)", "", rec).split(",")) for rec in kept]
     if len(kept) != 2 or any(k != ["address", "id", "name"] for k in keys):

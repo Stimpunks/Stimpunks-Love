@@ -3792,7 +3792,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
-  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus } from './lib.mjs';
+  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
+  taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4948,3 +4949,88 @@ test('Givebutter: without the key, or without the office key, nothing is asked',
   await withGbKey('gb-test-key', () => withOfficeKey(null, async () => assert.equal((await officeGivebutter(s, Date.now(), fakeGivebutter(seen))).error, 'not-set-up')));
   assert.equal(seen.length, 0, 'Givebutter was asked without a key');
 }));
+
+/* ── Tasks: activity and notifications ───────────────────────────────────── */
+const TNORAH = fw('Norah', 900, ['director']);
+const kinds = async (who, s, now) => (await taskInbox(who, s, now)).items.map((x) => [x.kind, x.why, x.by]);
+
+test('a task change is its activity, and news to whoever it concerns but whoever made it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t0 = DENVER('2026-10-21', 9);
+  const made = (await saveTask(TCHELSEA, { name: 'Fix the shelf', who: 'norah', with: ['Ryan'], due: '2026-10-22' }, s, t0, TMODS)).task;
+  assert.deepEqual(await kinds(TNORAH, s, t0), [['made', 'assigned', 'Chelsea']]);
+  assert.deepEqual(await kinds(TRYAN, s, t0), [['made', 'added', 'Chelsea']]);
+  assert.deepEqual(await kinds(TCHELSEA, s, t0), [], 'the person who made the change was told about it');
+  // Norah starts it: news to the person who made it and to Ryan, not to Norah.
+  await saveTask(TNORAH, { id: made.id, status: 'Started' }, s, t0 + 1, TMODS);
+  const c = (await taskInbox(TCHELSEA, s, t0 + 1)).items[0];
+  assert.deepEqual([c.kind, c.why, c.by, c.changes], ['changed', 'yours', 'Norah', [{ field: 'status', from: 'Not Started', to: 'Started' }]]);
+  assert.equal((await kinds(TNORAH, s, t0 + 1)).length, 1, 'Norah was told about her own change');
+  // A save that changes nothing is nobody's news.
+  await saveTask(TNORAH, { id: made.id, status: 'Started' }, s, t0 + 2, TMODS);
+  assert.equal((await kinds(TCHELSEA, s, t0 + 2)).length, 1);
+  // A description that newly mentions Ryan tells him so, without its words; mentioning him again does not.
+  await saveTask(TCHELSEA, { id: made.id, body: '@Ryan please bring the drill\n\n- [ ] buy screws' }, s, t0 + 3, TMODS);
+  const m = (await taskInbox(TRYAN, s, t0 + 3)).items[0];
+  assert.deepEqual([m.why, m.changes], ['mentioned', [{ field: 'body' }]]);
+  assert.ok(!JSON.stringify(await s.get('task-inbox/' + petKey('Ryan'), { type: 'json' })).includes('drill'), 'a description\'s words went into a list');
+  await saveTask(TCHELSEA, { id: made.id, body: '@Ryan please bring the big drill\n\n- [ ] buy screws' }, s, t0 + 4, TMODS);
+  assert.equal((await taskInbox(TRYAN, s, t0 + 4)).items[0].why, 'yours', 'a mention already there was news again');
+  // Taken off it is news to the person taken off.
+  await saveTask(TCHELSEA, { id: made.id, with: [] }, s, t0 + 5, TMODS);
+  assert.deepEqual((await kinds(TRYAN, s, t0 + 5))[0], ['changed', 'removed', 'Chelsea']);
+  // A tick says which box.
+  await tickTask(TNORAH, made.id, 0, 'buy screws', true, s, t0 + 6, TMODS);
+  const tk = (await taskInbox(TCHELSEA, s, t0 + 6)).items[0];
+  assert.deepEqual([tk.kind, tk.box], ['ticked', { text: 'buy screws', on: true }]);
+  // The activity is every change, newest first.
+  assert.deepEqual((await taskActivity(TRYAN, made.id, s)).map((e) => e.kind), ['ticked', 'changed', 'changed', 'changed', 'changed', 'made'], 'a save that changed nothing made an event, or one was lost');
+  assert.equal(await taskActivity(TSAM, made.id, s), null);
+  // An import from EspoCRM is nobody's change.
+  const before = (await kinds(TNORAH, s, t0 + 7)).length;
+  await saveTask(TRYAN, { espo: 'abc123def456', name: 'Brought over', who: 'Norah' }, s, t0 + 7, TMODS);
+  assert.equal((await kinds(TNORAH, s, t0 + 7)).length, before, 'an import was news');
+  // Due: Norah's task due tomorrow, worked out now.
+  assert.deepEqual((await taskInbox(TNORAH, s, t0 + 8)).due.map((d) => [d.name, d.due]), [['Fix the shelf', '2026-10-22']]);
+  // Deleting tells whoever was on it, and the activity goes with the task.
+  await removeTask(TCHELSEA, made.id, s, t0 + 9, TMODS);
+  assert.deepEqual((await kinds(TNORAH, s, t0 + 9))[0], ['deleted', 'yours', 'Chelsea']);
+  assert.equal(await s.get('task-activity/' + made.id, { type: 'json' }), null, 'a deleted task kept its activity');
+  // Reading: one, then every one; nobody but its owner reads a list.
+  const n = await taskInbox(TNORAH, s, t0 + 9);
+  assert.ok(n.unread > 1);
+  assert.equal((await readTaskInbox(TNORAH, [n.items[0].id], s)).unread, n.unread - 1);
+  assert.equal((await readTaskInbox(TNORAH, 'all', s)).unread, 0);
+  assert.equal(await taskInbox(TSAM, s, t0), null);
+  assert.ok((await readTaskInbox(TSAM, 'all', s)).error);
+  // A month on, the list is empty; Forget me deletes it.
+  assert.deepEqual((await taskInbox(TNORAH, s, t0 + (TASK_INBOX_DAYS + 1) * 86400000)).items, []);
+  await forgetTaskInbox(petKey('Ryan'), s);
+  assert.deepEqual((await taskInbox(TRYAN, s, t0 + 9)).items, []);
+});
+
+test('a task a recurring task makes is news to whoever it goes to, under nobody\'s name', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await saveRecur(TRYAN, { name: 'Weekly check-in', repeats: 'Weekly', next: '2026-10-27', who: 'Norah' }, s, T0, TMODS);
+  assert.equal((await makeRecurring(s, DENVER('2026-10-27', 1), TMODS)).made, 1);
+  const it = (await taskInbox(TNORAH, s, DENVER('2026-10-27', 2))).items;
+  assert.deepEqual(it.map((x) => [x.kind, x.why, x.by, x.name]), [['recurred', 'assigned', null, 'Weekly check-in']]);
+});
+
+test('taskChanges says what changed, field by field, and a description only that it did', () => {
+  const had = { name: 'A', status: 'Not Started', priority: 'Normal', start: null, due: null, who: 'Norah', with: ['Ryan'], tags: [], body: 'x' };
+  assert.deepEqual(taskChanges(had, { ...had }), []);
+  assert.deepEqual(taskChanges(had, { ...had, due: '2026-10-30', with: [], tags: ['Finance'], body: 'y' }),
+    [{ field: 'due', from: null, to: '2026-10-30' }, { field: 'with', from: ['Ryan'], to: [] }, { field: 'tags', from: [], to: ['Finance'] }, { field: 'body' }]);
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen tasks assigned to one person at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: none told it worked is missing from their list`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const now = DENVER('2026-10-21', 9);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => saveTask(TCHELSEA, { name: 'Task ' + i, who: 'Norah' }, s, now, TMODS)));
+    const made = told.filter((r) => r.status === 'fulfilled' && r.value.task).map((r) => r.value.task.id);
+    const kept = new Set((await taskInbox(TNORAH, s, now)).items.map((x) => x.task));
+    assert.deepEqual(made.filter((id) => !kept.has(id)), [], 'a task made and assigned is missing from the list');
+  });
+}

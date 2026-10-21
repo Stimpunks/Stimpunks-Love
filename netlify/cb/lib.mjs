@@ -4382,6 +4382,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetProfile(petKey(handle), s);
   await forgetProfileSets(petKey(handle), s);
   await forgetTaskViews(petKey(handle), s);
+  await forgetTaskInbox(petKey(handle), s);
   await forgetProps(petKey(handle), s);
   await forgetDms(acct.handle, acct.since, s);
   await forgetReads(acct.handle, acct.since, s);
@@ -7219,12 +7220,13 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods = rea
   if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
   const people = taskPeople(mods);
   if (espo && (await readTaskGone(s)).includes(espo)) return { error: 'That task was brought over and deleted here, so it stays deleted.' };
-  let saved = null, why = null;
+  let saved = null, why = null, before = null;
   await updateList(TASKS, 'tasks', (list) => {
     why = null; saved = null;
     const k = f.id != null ? list.findIndex((x) => x.id === taskId(f.id)) : (espo ? list.findIndex((x) => x.espo === espo) : -1);
     if (f.id != null && k < 0) { why = 'That task has been deleted.'; return null; }
     const had = k >= 0 ? list[k] : null;
+    before = had;
     const r = taskFields(f, had, people);
     if (r.error) { why = r.error; return null; }
     const next = had ? { ...had, ...r.fields } : { id: newTaskId(), name: null, status: TASK_STATUSES[0], priority: TASK_DEFAULT_PRIORITY,
@@ -7246,6 +7248,8 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods = rea
     return copy;
   }, s);
   if (why) return { error: why };
+  // An import is nobody's change, so it is in nobody's activity or list.
+  if (!espo) await noteTask(before ? 'changed' : 'made', who.handle, before, saved, s, now, mods).catch(() => null);
   return { task: shapeTask(saved, true) };
 }
 
@@ -7255,14 +7259,15 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods = rea
    now, so two people ticking different boxes at once both keep theirs; if the
    box has moved or its words changed since the page drew it, nothing changes
    and the answer says to look again. A tick is a change, so it says who. */
-export async function tickTask(who, id, n, text, on, s = store(), now = Date.now()) {
+export async function tickTask(who, id, n, text, on, s = store(), now = Date.now(), mods = readMods()) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
   if (!Number.isInteger(n) || n < 0 || typeof text !== 'string' || typeof on !== 'boolean') return { error: 'Tick which box?' };
-  let saved = null, why = null;
+  let saved = null, why = null, before = null;
   await updateList(TASKS, 'tasks', (list) => {
     saved = null; why = null;
     const k = list.findIndex((x) => x.id === taskId(id));
     if (k < 0) { why = 'That task has been deleted.'; return null; }
+    before = list[k];
     const b = taskBoxes(list[k].body || '');
     const box = b.agree ? b.found[n] : null;
     if (!box || box.raw !== text.trim()) { why = 'That checkbox has changed since the task was drawn. Look again.'; return null; }
@@ -7274,10 +7279,11 @@ export async function tickTask(who, id, n, text, on, s = store(), now = Date.now
     const copy = list.slice(); copy[k] = saved; return copy;
   }, s);
   if (why) return { error: why };
+  if (saved !== before) await noteTask('ticked', who.handle, before, saved, s, now, mods, { box: text.trim(), on }).catch(() => null);
   return { task: shapeTask(saved, true) };
 }
 
-export async function removeTask(who, id, s = store()) {
+export async function removeTask(who, id, s = store(), now = Date.now(), mods = readMods()) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
   let gone = null;
   await updateList(TASKS, 'tasks', (list) => {
@@ -7287,11 +7293,135 @@ export async function removeTask(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That task has already been deleted.' };
   if (gone.espo) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  await noteTask('deleted', who.handle, gone, null, s, now, mods).catch(() => null);
   return { gone: true };
 }
 async function readTaskGone(s) {
   const d = await s.get(TASKS_GONE, { type: 'json' });
   return d && Array.isArray(d.ids) ? d.ids : [];
+}
+
+/* ACTIVITY AND NOTIFICATIONS (Ryan's ask, 2026-10-21, after EspoCRM's stream
+   and notifications and Notion's inbox). Every change a person makes to a task
+   is an event: who, when, which task (its id, and its name then), and what
+   changed, each field from what to what. A description's edit is said without
+   its words, and a tick with the words of the box ticked. A task a recurring
+   task makes is an event under nobody's name; an import from EspoCRM is
+   nobody's change and makes none.
+
+   A task's events are its activity, kept beside it in task-activity/<task id>,
+   newest first and TASK_ACTIVITY_KEEP at most, shown on its page and deleted
+   with it.
+
+   Each event also goes into the notification list of everybody it concerns
+   but the person who made it: whoever the task is assigned to and whoever is
+   on it, before and after the change, so being taken off a task is news; whoever
+   made it; and anybody the change newly @mentions in its description. Only
+   somebody taskPeople still names is told. A list is task-inbox/<pet key>, each
+   entry the event, why it is there (`why`: assigned, added, removed, mentioned
+   or yours) and whether it has been read; TASK_INBOX_KEEP at most and none older
+   than TASK_INBOX_DAYS. Nobody else is told what is in anybody's list. Forget me
+   and deleting the username delete it. It says how many are unread, which is
+   fine here (tasks are a backend tool). Nothing is sent anywhere else. */
+export const TASK_ACTIVITY_KEEP = 200;
+export const TASK_INBOX_KEEP = 200;
+export const TASK_INBOX_DAYS = 30;
+const TASK_FIELDS = ['name', 'status', 'priority', 'start', 'due', 'who', 'with', 'tags'];
+const TASK_WHY = ['assigned', 'added', 'removed', 'mentioned', 'yours'];
+const taskActivityBlob = (id) => `task-activity/${id}`;
+const taskInboxBlob = (pk) => `task-inbox/${pk}`;
+const sameList = (a, b) => JSON.stringify(a || []) === JSON.stringify(b || []);
+
+/* What a change changed, field by field: a description only that it changed. */
+export function taskChanges(had, next) {
+  const out = [];
+  for (const k of TASK_FIELDS) {
+    const a = had[k] === undefined ? null : had[k], b = next[k] === undefined ? null : next[k];
+    if (Array.isArray(a) || Array.isArray(b) ? !sameList(a, b) : a !== b) out.push({ field: k, from: a, to: b });
+  }
+  if ((had.body || '') !== (next.body || '')) out.push({ field: 'body' });
+  return out;
+}
+
+/* Who an event concerns, and why, leaving out whoever made it. */
+function taskConcerns(kind, by, had, next, people) {
+  const live = (h) => (h ? people.find((p) => foldHandle(p) === foldHandle(h)) : null);
+  const onIt = (t) => (t ? [t.who, ...(t.with || [])].filter(Boolean) : []);
+  const has = (list, h) => list.some((x) => foldHandle(x) === foldHandle(h));
+  const out = new Map();
+  const add = (h, why) => {
+    const p = live(h);
+    if (!p || (by && foldHandle(p) === foldHandle(by))) return;
+    const was = out.get(foldHandle(p));
+    if (!was || TASK_WHY.indexOf(why) < TASK_WHY.indexOf(was[1])) out.set(foldHandle(p), [p, why]);
+  };
+  const before = onIt(had), after = onIt(next), task = next || had;
+  if (kind === 'deleted') { for (const h of before) add(h, 'yours'); }
+  else {
+    for (const h of after) add(h, has(before, h) ? 'yours' : (foldHandle(next.who || '') === foldHandle(h) ? 'assigned' : 'added'));
+    for (const h of before) if (!has(after, h)) add(h, 'removed');
+    for (const p of people) if (mentions(next.body || '', p) && !mentions((had && had.body) || '', p)) add(p, 'mentioned');
+  }
+  if (task.by) add(task.by, 'yours');
+  return [...out.values()];
+}
+
+async function noteTask(kind, by, had, next, s, now, mods, extra = {}) {
+  const task = next || had;
+  const changes = kind === 'changed' ? taskChanges(had, next) : [];
+  if (!task || (kind === 'changed' && !changes.length)) return;
+  const ev = { id: 'e' + randomBytes(9).toString('base64url'), t: now, by: by || null, task: task.id, name: task.name, kind, changes };
+  if (kind === 'ticked') ev.box = { text: String(extra.box || '').slice(0, 200), on: !!extra.on };
+  if (kind === 'deleted') await s.delete(taskActivityBlob(task.id));
+  else await updateList(taskActivityBlob(task.id), 'events', (list) => [ev, ...list].slice(0, TASK_ACTIVITY_KEEP), s);
+  const since = now - TASK_INBOX_DAYS * 86400000;
+  for (const [h, why] of taskConcerns(kind, by, had, next, taskPeople(mods))) {
+    await updateList(taskInboxBlob(petKey(h)), 'items',
+      (list) => [{ ...ev, why, read: false }, ...list.filter((x) => x.t >= since)].slice(0, TASK_INBOX_KEEP), s);
+  }
+}
+
+/* A reader's own list, newest first, with how many are unread, and the tasks
+   of theirs due by tomorrow or overdue, worked out from the tasks now. */
+export async function taskInbox(who, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return null;
+  const since = now - TASK_INBOX_DAYS * 86400000;
+  const d = await s.get(taskInboxBlob(petKey(who.handle)), { type: 'json' });
+  const items = (d && Array.isArray(d.items) ? d.items : []).filter((x) => x.t >= since);
+  const todayIs = today(new Date(now)), tomorrow = addDays(todayIs, 1);
+  const mine = (t) => [t.who, ...(t.with || [])].some((h) => h && foldHandle(h) === foldHandle(who.handle));
+  const due = (await readTasks(s)).filter((t) => mine(t) && t.due && t.due <= tomorrow && !TASK_DONE.includes(t.status))
+    .sort((a, b) => (a.due < b.due ? -1 : a.due > b.due ? 1 : 0)).map((t) => ({ id: t.id, name: t.name, due: t.due, status: t.status }));
+  return { items, unread: items.filter((x) => !x.read).length, due, today: todayIs };
+}
+
+/* Entries marked read: those `ids` name, or every one. */
+export async function readTaskInbox(who, ids, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const all = ids === 'all';
+  if (!all && (!Array.isArray(ids) || ids.length > TASK_INBOX_KEEP || ids.some((x) => typeof x !== 'string'))) return { error: 'Mark which as read?' };
+  let unread = 0;
+  await updateList(taskInboxBlob(petKey(who.handle)), 'items', (list) => {
+    let moved = false;
+    const next = list.map((x) => { if (!x.read && (all || ids.includes(x.id))) { moved = true; return { ...x, read: true }; } return x; });
+    unread = next.filter((x) => !x.read).length;
+    return moved ? next : null;
+  }, s);
+  return { unread };
+}
+
+/* A task's own activity, newest first. */
+export async function taskActivity(who, id, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const t = taskId(id);
+  if (!t) return [];
+  const d = await s.get(taskActivityBlob(t), { type: 'json' });
+  return d && Array.isArray(d.events) ? d.events : [];
+}
+
+export async function forgetTaskInbox(pk, s = store()) {
+  await s.delete(taskInboxBlob(pk));
+  return true;
 }
 
 /* SAVED FILTERS are each reader's own (Ryan's stage two, 2026-10-20): a name
@@ -7457,7 +7587,7 @@ function recurTask(r, d, now) {
    move its next day on. { made } is how many tasks were made. Safe to run at
    any moment, any number of times at once: a task already there for that
    recurring task and that day is never made again. */
-export async function makeRecurring(s = store(), now = Date.now()) {
+export async function makeRecurring(s = store(), now = Date.now(), mods = readMods()) {
   const day = today(new Date(now));
   const due = (await readRecurs(s)).filter((r) => r.on && r.next && r.next <= day);
   if (!due.length) return { made: 0 };
@@ -7466,13 +7596,15 @@ export async function makeRecurring(s = store(), now = Date.now()) {
     let d = r.next;
     for (let i = 0; i < TASK_CATCH_UP && d <= day; i++) { want.push({ r, d }); d = recurAfter(r, d); }
   }
-  let made = 0;
+  let made = 0, added = [];
   await updateList(TASKS, 'tasks', (list) => {
     const there = new Set(list.filter((t) => t.recur).map((t) => t.recur + ' ' + t.on));
     const add = want.filter((w) => !there.has(w.r.id + ' ' + w.d)).map((w) => recurTask(w.r, w.d, now));
-    made = add.length;
+    made = add.length; added = add;
     return add.length ? list.concat(add) : null;
   }, s);
+  // Each task a recurring task made is news to whoever it goes to, under nobody's name.
+  for (const t of added) await noteTask('recurred', null, null, t, s, now, mods).catch(() => null);
   await updateList(TASK_RECURS, 'recurs', (list) => {
     let moved = false;
     const next = list.map((r) => {

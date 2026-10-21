@@ -5274,6 +5274,21 @@ filled with its first coloured tag and striped along its foot when it has more t
 which tags wear which. **The friendly edit is a colour for every tag**: past eight, nobody can tell them apart, and
 `make-tasks.py` refuses a ninth.
 
+**A TASK'S CHANGES ARE ITS ACTIVITY, AND NEWS TO WHOEVER THEY CONCERN BUT WHOEVER MADE THEM.** Ryan's ask,
+2026-10-21, after EspoCRM's stream and notifications and Notion's inbox. `noteTask` in `lib.mjs`, called after
+`saveTask`, `tickTask`, `removeTask` and `makeRecurring` write, turns a change into an event (who, when, the task's id and
+name then, its kind and `taskChanges`, each field from and to) kept in `task-activity/<task id>` (deleted with the task)
+and put in the `task-inbox/<pet key>` of everybody `taskConcerns` names: assignee and also-on-it before and after,
+the task's maker, and anybody newly @mentioned in its description (`mentions()`), **never the person who made the change,
+and only somebody `taskPeople` still names**. A description's change is `{ field: 'body' }`, never its words; an
+EspoCRM import is nobody's change and makes none; a recurring task's task is an event under nobody's name. A list keeps
+30 days and 200 entries, read and unread, shown to nobody else; Forget me and deleting the username delete it, and
+`make-tasks.py` holds each of those. **Due and overdue are worked out on reading, never kept.** The list says how many
+are unread, which tasks may (Ryan's call of 2026-10-20). The friendly edits are **the description's old words in the
+activity** "so a change can be undone", **telling the person their own change**, and **a notification for every read**
+of a task; the first keeps what privacy.html says is not kept. Push notifications for tasks are not built: a new
+`PUSH_KINDS` entry and Ryan's call.
+
 **THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
 2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators
 only (`officeAllow` is `tasksAllow`); encrypted at rest; nothing recording who reads; and stimpunks.org's forms posting
