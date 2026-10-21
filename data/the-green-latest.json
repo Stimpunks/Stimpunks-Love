@@ -68,22 +68,46 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-20T11:26Z",
+ "set": "2026-10-21T11:26Z",
  "latest": [
   {
-   "id": "IvUzNO2aSNs",
-   "title": "[Japan / Okinawa] POV Sliding Down the Spiral Tunnel Slide | Baba Urban Green Space",
+   "id": "Y1QElE4E-Ws",
+   "title": "[Japan / Okinawa] POV Sliding Down the Wave Slide | Baba Urban Green Space",
    "channel": "Shiyu Slide",
-   "published": "2026-10-20T09:00:36Z",
-   "runs": 91,
+   "published": "2026-10-21T09:00:13Z",
+   "runs": 69,
    "search": "green-spaces"
   },
   {
-   "id": "eUAfXGnMlMQ",
-   "title": "Progress on the “Green Building” project - Morning, Wiesbaden!",
-   "channel": "Wiesbadener Kurier",
-   "published": "2026-10-20T05:14:36Z",
-   "runs": 398,
+   "id": "iYwZeE4QSss",
+   "title": "How an Urban Farm in Technology Park Is Building Skills, Confidence and Community",
+   "channel": "Peachtree Corners Magazine",
+   "published": "2026-10-20T23:20:07Z",
+   "runs": 1986,
+   "search": "urban-farms"
+  },
+  {
+   "id": "6PhQc65Nkms",
+   "title": "Sustainable Architecture: Green Buildings & the Future of Eco-Friendly Design | PLANORA Architect",
+   "channel": "PLANORA Architect",
+   "published": "2026-10-20T16:33:50Z",
+   "runs": 181,
+   "search": "green-building"
+  },
+  {
+   "id": "SCjUi2G4HnI",
+   "title": "Sceptics to champions: how David Gottfried mobilised the green building movement and what's next",
+   "channel": "Courageous Leadership Podcast",
+   "published": "2026-10-20T14:42:06Z",
+   "runs": 4004,
+   "search": "green-building"
+  },
+  {
+   "id": "Fu92O-PDx-o",
+   "title": "Property Point Returns as a host of the SMME Village at Green Building Convention 2026",
+   "channel": "Property Point",
+   "published": "2026-10-20T09:40:29Z",
+   "runs": 78,
    "search": "green-building"
   },
   {
@@ -95,19 +119,19 @@
    "search": "urban-forests"
   },
   {
+   "id": "c7SGfpDsCT0",
+   "title": "Front Range Urban Forestry Council Meeting September 2026",
+   "channel": "Colorado's Urban Forestry Councils",
+   "published": "2026-10-19T21:24:58Z",
+   "runs": 11774,
+   "search": "urban-forests"
+  },
+  {
    "id": "pUNghA8x1jU",
    "title": "City of Portland Urban Forestry Commission (UFC) October 2026",
    "channel": "Portland Parks & Recreation",
    "published": "2026-10-19T21:19:33Z",
    "runs": 7541,
-   "search": "urban-forests"
-  },
-  {
-   "id": "nOAAyIBOwOk",
-   "title": "Front Range Urban Forestry Council Meeting July 2026",
-   "channel": "Colorado's Urban Forestry Councils",
-   "published": "2026-10-19T20:35:25Z",
-   "runs": 2384,
    "search": "urban-forests"
   },
   {
@@ -117,14 +141,6 @@
    "published": "2026-10-19T13:00:23Z",
    "runs": 848,
    "search": "green-spaces"
-  },
-  {
-   "id": "62qMOIdts8k",
-   "title": "He Built the Green Building Movement. Then His Life Fell Apart | David Gottfried",
-   "channel": "The Midlife Chrysalis Podcast",
-   "published": "2026-10-19T10:00:28Z",
-   "runs": 2901,
-   "search": "green-building"
   },
   {
    "id": "Lj0xoX86wmw",
@@ -199,20 +215,12 @@
    "search": "solarpunk"
   },
   {
-   "id": "N_C1mX3IKww",
-   "title": "The EU, is it Solarpunk?",
-   "channel": "Pinpin - Solar Punk",
-   "published": "2026-10-16T13:27:14Z",
-   "runs": 1085,
+   "id": "tTiiHp9Jry8",
+   "title": "What Would a Solarpunk World Look Like? Animated by Artists Worldwide",
+   "channel": "motioncollabs",
+   "published": "2026-10-16T16:00:09Z",
+   "runs": 723,
    "search": "solarpunk"
-  },
-  {
-   "id": "PuKscCmHS2c",
-   "title": "🌿 Green Buildings Explained | Features, Examples & Benefits 🏢| Edusphere Training and Consultancy",
-   "channel": "Edusphere Training & Consultancy",
-   "published": "2026-10-16T09:36:13Z",
-   "runs": 399,
-   "search": "green-building"
   },
   {
    "id": "KxEjVWz1umU",
@@ -221,54 +229,10 @@
    "published": "2026-10-15T23:13:20Z",
    "runs": 330,
    "search": "renewable-energy"
-  },
-  {
-   "id": "3ULwrFfPdR8",
-   "title": "Urban Agriculture Showcase at the N.C. A&T University Farm | Thank You!",
-   "channel": "Cooperative Extension at N.C. A&T",
-   "published": "2026-10-15T21:56:42Z",
-   "runs": 59,
-   "search": "urban-farms"
   }
  ],
  "_seen": "Every result that carried its search's words, as its watch page answered the morning it first turned up, kept for a week so nobody's page is asked twice. state is screen, door, gone, pending (asked again if it turns up again) or left, with why. Nothing is kept but what the rack needs: no description, no thumbnail, no count of views.",
  "seen": [
-  {
-   "id": "dwrJP_nzBO0",
-   "search": "green-spaces",
-   "title": "Green Space Advisory Commission 10/12/2026",
-   "channel": "City of Webster Groves",
-   "published": "2026-10-13T12:00:16Z",
-   "runs": 3453,
-   "state": "screen"
-  },
-  {
-   "id": "Bh-FhFC_4L0",
-   "search": "green-spaces",
-   "title": "Earth Check: Restoring Green Spaces & Protecting Public Land at Githurai People's Park",
-   "channel": "KUTV Kenya",
-   "published": "2026-10-13T14:03:14Z",
-   "runs": 1790,
-   "state": "screen"
-  },
-  {
-   "id": "BFuWB2g0Zhs",
-   "search": "green-spaces",
-   "title": "Enhancing Urban Sustainability with Copernicus Data: Monitoring Urban Green Spaces",
-   "channel": "Alia Space Systems",
-   "published": "2026-10-13T19:16:00Z",
-   "runs": 54,
-   "state": "screen"
-  },
-  {
-   "id": "t16zPwBvpMc",
-   "search": "green-spaces",
-   "title": "Farish Street Green grand opening offers cool green spaces while tracking area heating",
-   "channel": "WLBT 3 On Your Side",
-   "published": "2026-10-14T03:24:46Z",
-   "runs": 120,
-   "state": "screen"
-  },
   {
    "id": "5HpMQgmCSpQ",
    "search": "green-spaces",
@@ -342,30 +306,12 @@
    "state": "screen"
   },
   {
-   "id": "8VV4yObpguw",
-   "search": "green-building",
-   "title": "Inside The Home That Started Green Building Supply",
-   "channel": "Green Building Supply",
-   "published": "2026-10-13T13:37:11Z",
-   "runs": 615,
-   "state": "screen"
-  },
-  {
-   "id": "jvwb9mzUu8o",
-   "search": "green-building",
-   "title": "USGBC and NOMA Partner on Green Building Career Access",
-   "channel": "Environment+Energy Leader",
-   "published": "2026-10-13T18:30:55Z",
-   "runs": 227,
-   "state": "screen"
-  },
-  {
-   "id": "1dA4_7Pmx8s",
-   "search": "green-building",
-   "title": "Green Buildings & Smart Landscaping AI + BIM for Builders, Developers & Homeowners | The Nirgudwar’s",
-   "channel": "The Nirgudwar's",
-   "published": "2026-10-14T05:39:48Z",
-   "runs": 95,
+   "id": "Y1QElE4E-Ws",
+   "search": "green-spaces",
+   "title": "[Japan / Okinawa] POV Sliding Down the Wave Slide | Baba Urban Green Space",
+   "channel": "Shiyu Slide",
+   "published": "2026-10-21T09:00:13Z",
+   "runs": 69,
    "state": "screen"
   },
   {
@@ -414,12 +360,30 @@
    "state": "screen"
   },
   {
-   "id": "yiANmZT3NYI",
-   "search": "urban-forests",
-   "title": "MARTIAN BIOSPHERE AND URBAN FOREST MANAGEMENT COMPLEX",
-   "channel": "Space Manual",
-   "published": "2026-10-13T17:06:09Z",
-   "runs": 644,
+   "id": "Fu92O-PDx-o",
+   "search": "green-building",
+   "title": "Property Point Returns as a host of the SMME Village at Green Building Convention 2026",
+   "channel": "Property Point",
+   "published": "2026-10-20T09:40:29Z",
+   "runs": 78,
+   "state": "screen"
+  },
+  {
+   "id": "SCjUi2G4HnI",
+   "search": "green-building",
+   "title": "Sceptics to champions: how David Gottfried mobilised the green building movement and what's next",
+   "channel": "Courageous Leadership Podcast",
+   "published": "2026-10-20T14:42:06Z",
+   "runs": 4004,
+   "state": "screen"
+  },
+  {
+   "id": "6PhQc65Nkms",
+   "search": "green-building",
+   "title": "Sustainable Architecture: Green Buildings & the Future of Eco-Friendly Design | PLANORA Architect",
+   "channel": "PLANORA Architect",
+   "published": "2026-10-20T16:33:50Z",
+   "runs": 181,
    "state": "screen"
   },
   {
@@ -438,6 +402,15 @@
    "channel": "Durham County EMGV Training",
    "published": "2026-10-14T18:15:27Z",
    "runs": 3304,
+   "state": "screen"
+  },
+  {
+   "id": "rivNH-qxgBc",
+   "search": "urban-forests",
+   "title": "Late Night Urban Forest Techno SET",
+   "channel": "LEGCRY",
+   "published": "2026-10-15T14:41:40Z",
+   "runs": 3375,
    "state": "screen"
   },
   {
@@ -515,30 +488,21 @@
    "state": "screen"
   },
   {
+   "id": "c7SGfpDsCT0",
+   "search": "urban-forests",
+   "title": "Front Range Urban Forestry Council Meeting September 2026",
+   "channel": "Colorado's Urban Forestry Councils",
+   "published": "2026-10-19T21:24:58Z",
+   "runs": 11774,
+   "state": "screen"
+  },
+  {
    "id": "Vs7-6wW0RXI",
    "search": "urban-forests",
    "title": "From Desolation to Greenery  Lyari’s Urban Forest | Exclusive Video | City 41",
    "channel": "City 41",
    "published": "2026-10-19T21:50:36Z",
    "runs": 194,
-   "state": "screen"
-  },
-  {
-   "id": "-aL-TI8jEPg",
-   "search": "urban-farms",
-   "title": "How Is Burkina’s 2 000-hectare Urban Agriculture Belt Rewriting Trade Rules With the West?",
-   "channel": "Burkina Watch TV",
-   "published": "2026-10-13T11:35:07Z",
-   "runs": 1358,
-   "state": "screen"
-  },
-  {
-   "id": "I5pS0cbINjA",
-   "search": "urban-farms",
-   "title": "Hispanic Heritage Month: Dance, Tejano Flavors & Houston's Urban Farm",
-   "channel": "Chattin’ With Chelsea",
-   "published": "2026-10-13T14:12:23Z",
-   "runs": 1319,
    "state": "screen"
   },
   {
@@ -597,6 +561,15 @@
    "state": "screen"
   },
   {
+   "id": "iYwZeE4QSss",
+   "search": "urban-farms",
+   "title": "How an Urban Farm in Technology Park Is Building Skills, Confidence and Community",
+   "channel": "Peachtree Corners Magazine",
+   "published": "2026-10-20T23:20:07Z",
+   "runs": 1986,
+   "state": "screen"
+  },
+  {
    "id": "utNt1fTN5Ok",
    "search": "edibles",
    "title": "Food Forest Files Ep. 3: Ditching the Lawn for a Family Friendly Food Forest",
@@ -637,56 +610,6 @@
    "title": "Playing SolarPunk, a Gorgeous new game!",
    "state": "door",
    "why": "age-gated"
-  },
-  {
-   "id": "iAfHNdYWFeA",
-   "search": "solarpunk",
-   "title": "Unlimited power! Well... almost. | Ep 13, Solarpunk",
-   "channel": "Hock1216",
-   "published": "2026-10-13T16:00:38Z",
-   "runs": 2479,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "hxzNf_lyRS8",
-   "search": "solarpunk",
-   "title": "[CHILL STREAM] Solar Panel Time!!!  - Solarpunk Playthrough (Part 3)",
-   "channel": "The Quiet Part",
-   "published": "2026-10-13T22:39:12Z",
-   "runs": 10206,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "I8zfzh_bqsM",
-   "search": "solarpunk",
-   "title": "SolarPunk Part 3 Finding Copper On Floating Island",
-   "channel": "vSuperDuke",
-   "published": "2026-10-14T03:54:06Z",
-   "runs": 1452,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "mYhzTKNzPFQ",
-   "search": "solarpunk",
-   "title": "SOLARPUNK - [4K 60FPS] - GAMEPLAY PARTE 27",
-   "channel": "[PT]HUN7ER",
-   "published": "2026-10-14T08:00:08Z",
-   "runs": 903,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "d91bMu7cZ6E",
-   "search": "solarpunk",
-   "title": "One Lounge of Many | Part 66 | Solarpunk",
-   "channel": "True Blue",
-   "published": "2026-10-14T11:24:33Z",
-   "runs": 3547,
-   "state": "left",
-   "why": "filed under Gaming"
   },
   {
    "id": "yP_1Fho5MWg",
@@ -757,6 +680,15 @@
    "state": "screen"
   },
   {
+   "id": "tTiiHp9Jry8",
+   "search": "solarpunk",
+   "title": "What Would a Solarpunk World Look Like? Animated by Artists Worldwide",
+   "channel": "motioncollabs",
+   "published": "2026-10-16T16:00:09Z",
+   "runs": 723,
+   "state": "screen"
+  },
+  {
    "id": "-nai64UBn1A",
    "search": "solarpunk",
    "title": "Blaster Master - Factory - Solarpunk",
@@ -768,10 +700,20 @@
   {
    "id": "xO6_SdMOVeM",
    "search": "solarpunk",
-   "title": "My First Adventure in Solarpunk! 😍 Floating Island Survival DAY 1",
+   "title": "My First Day in Solarpunk! 🌴 Exploring a Beautiful Floating World",
    "channel": "FLAT FURY",
    "published": "2026-10-17T06:00:47Z",
    "runs": 1013,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "FZY9ihKTg98",
+   "search": "solarpunk",
+   "title": "🌿 SOLARPUNK EP4 | Building Our Island Paradise! 🏝️🐔🐷 | Co-op Survival PS5",
+   "channel": "DieLaksMan_ZA",
+   "published": "2026-10-17T11:09:47Z",
+   "runs": 11662,
    "state": "left",
    "why": "filed under Gaming"
   },
@@ -935,6 +877,16 @@
    "why": "filed under Gaming"
   },
   {
+   "id": "wzTQUWNd3bI",
+   "search": "solarpunk",
+   "title": "Day 01 of Building a NEW Wind Power System in My Solarpunk World!",
+   "channel": "BugsFlick",
+   "published": "2026-10-20T10:00:33Z",
+   "runs": 1368,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
    "id": "J442hFVy5To",
    "search": "solarpunk",
    "title": "I Beat Solarpunk 100% | The Coziest Survival Game!",
@@ -945,22 +897,24 @@
    "why": "filed under Gaming"
   },
   {
-   "id": "l92zS8ZCnTo",
-   "search": "renewable-energy",
-   "title": "West Broadway Neighborhood Association Working w/ Portside Renewables!",
-   "channel": "Portside Renewables",
-   "published": "2026-10-13T15:10:37Z",
-   "runs": 130,
-   "state": "screen"
+   "id": "HZcAhi0OCIM",
+   "search": "solarpunk",
+   "title": "Solarpunk gives me the chills",
+   "channel": "Splitora_vt",
+   "published": "2026-10-20T17:27:52Z",
+   "runs": 399,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
-   "id": "nGD1xa5RePI",
-   "search": "renewable-energy",
-   "title": "Assessing Data Center Integration in Indian Residential Renewable Energy Community",
-   "channel": "EnergyInformatics.Academy",
-   "published": "2026-10-14T09:55:38Z",
-   "runs": 621,
-   "state": "screen"
+   "id": "Arv5wYFE33g",
+   "search": "solarpunk",
+   "title": "[CHILL STREAM] Today's Subject: Robo-Slavery - Solarpunk Playthrough (Part 7)",
+   "channel": "The Quiet Part",
+   "published": "2026-10-20T23:23:52Z",
+   "runs": 15008,
+   "state": "left",
+   "why": "filed under Gaming"
   },
   {
    "id": "WsMVM43aX98",
