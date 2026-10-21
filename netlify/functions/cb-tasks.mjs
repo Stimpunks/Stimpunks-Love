@@ -9,10 +9,12 @@
      inbox                   the reader's own notifications, newest first, how many are unread, and the
                              tasks of theirs due by tomorrow or overdue
    POST, with the same pass:
-     { action: 'save', id?, espo?, name?, status?, priority?, start?, due?, body?, who?, with?, tags? }
+     { action: 'save', id?, espo?, notion?, name?, status?, priority?, start?, due?, body?, who?, with?, tags? }
          a new task, or a change to the one `id` names; only the fields sent change.
          espo: EspoCRM's id for a task brought over, so bringing it again changes it
          rather than making it twice; with it, t, done and by may say EspoCRM's own.
+         notion: a Notion page's id, the same for a task brought from Notion, where
+         by and done may be null because Notion does not say.
      { action: 'tick', id, n, text, on }             checkbox n in a task's description ticked (on) or
                                                      not; text is the words the page saw beside it
      { action: 'remove', id }                        a task deleted

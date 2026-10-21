@@ -7134,7 +7134,7 @@ export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Communi
 export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
 const TASKS = 'tasks';
-const TASKS_GONE = 'tasks-gone';    // EspoCRM's ids of tasks brought over and deleted here, so a later import leaves them deleted
+const TASKS_GONE = 'tasks-gone';    // EspoCRM's or Notion's ids of tasks brought over and deleted here, so a later import leaves them deleted
 const NO_TASKS = 'Tasks are for our directors and administrators, on a claimed username.';
 
 /* Who reads and changes tasks: a claimed username on the base pass, holding
@@ -7214,6 +7214,7 @@ export function shapeTask(t, whole = false) {
     done: t.done || null, who: t.who || null, with: t.with || [], tags: t.tags || [], t: t.t, by: t.by,
     edited: t.edited || null, editedBy: t.editedBy || null };
   if (t.espo) out.espo = t.espo;
+  if (t.notion) out.notion = t.notion;
   if (t.recur) { out.recur = t.recur; out.on = t.on; }
   if (whole) {
     out.body = t.body || '';
@@ -7242,18 +7243,28 @@ export async function taskOne(who, id, s = store()) {
    BRINGING TASKS OVER AGAIN, until the cut-over, adds what EspoCRM has made
    since and refreshes what nobody here has changed: an import is not a change
    by anybody, so it never sets `edited`, and the importer leaves alone any
-   task that has one. A task brought over and deleted here stays deleted. */
+   task that has one. A task brought over and deleted here stays deleted.
+
+   `f.notion`, a Notion page's id, does the same for a task brought from
+   Notion's Tasks (Ryan, 2026-10-21). Notion says when a page was made and not
+   who made it or when it was finished, so `by: null` and `done: null` say
+   nobody knows rather than naming the importer and today. */
 export async function saveTask(who, f, s = store(), now = Date.now(), mods = readMods()) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
   f = f || {};
   const espo = typeof f.espo === 'string' && /^[A-Za-z0-9]{6,40}$/.test(f.espo) ? f.espo : null;
   if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
+  const notion = typeof f.notion === 'string' && /^[0-9a-f]{32}$/.test(f.notion) ? f.notion : null;
+  if (f.notion != null && !notion) return { error: 'That is not a Notion page id.' };
+  if (espo && notion) return { error: 'A task is brought over from EspoCRM or from Notion, not both.' };
+  const from = espo || notion;
   const people = taskPeople(mods);
-  if (espo && (await readTaskGone(s)).includes(espo)) return { error: 'That task was brought over and deleted here, so it stays deleted.' };
+  if (from && (await readTaskGone(s)).includes(from)) return { error: 'That task was brought over and deleted here, so it stays deleted.' };
   let saved = null, why = null, before = null;
   await updateList(TASKS, 'tasks', (list) => {
     why = null; saved = null;
-    const k = f.id != null ? list.findIndex((x) => x.id === taskId(f.id)) : (espo ? list.findIndex((x) => x.espo === espo) : -1);
+    const k = f.id != null ? list.findIndex((x) => x.id === taskId(f.id))
+      : (espo ? list.findIndex((x) => x.espo === espo) : notion ? list.findIndex((x) => x.notion === notion) : -1);
     if (f.id != null && k < 0) { why = 'That task has been deleted.'; return null; }
     const had = k >= 0 ? list[k] : null;
     before = had;
@@ -7263,14 +7274,18 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods = rea
       start: null, due: null, body: '', who: null, with: [], tags: [], t: now, by: who.handle, ...r.fields };
     if (!next.name) { why = 'Give the task a name.'; return null; }
     if (espo) next.espo = espo;
+    if (notion) next.notion = notion;
     // Finished when it became Completed, and not finished when it stops being.
     if (next.status === 'Completed' && !(had && had.status === 'Completed')) next.done = now;
     if (next.status !== 'Completed') delete next.done;
-    if (espo) {
+    if (from) {
       for (const [key, v] of [['t', f.t], ['done', f.done]]) if (typeof v === 'number' && v > 0 && v <= now) next[key] = v;
       if (typeof f.by === 'string' && cleanHandle(f.by)) next.by = cleanHandle(f.by);
+      // Where the other place does not say, nobody here knows: not the importer, and not today.
+      if (notion && f.by === null) next.by = null;
+      if (notion && f.done === null) delete next.done;
     }
-    if (espo) next.synced = now;
+    if (from) next.synced = now;
     else if (had) { next.edited = now; next.editedBy = who.handle; }
     saved = next;
     const copy = list.slice();
@@ -7279,7 +7294,7 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods = rea
   }, s);
   if (why) return { error: why };
   // An import is nobody's change, so it is in nobody's activity or list.
-  if (!espo) await noteTask(before ? 'changed' : 'made', who.handle, before, saved, s, now, mods).catch(() => null);
+  if (!from) await noteTask(before ? 'changed' : 'made', who.handle, before, saved, s, now, mods).catch(() => null);
   return { task: shapeTask(saved, true) };
 }
 
@@ -7322,7 +7337,8 @@ export async function removeTask(who, id, s = store(), now = Date.now(), mods = 
     return gone ? list.filter((_, i) => i !== k) : null;
   }, s);
   if (!gone) return { error: 'That task has already been deleted.' };
-  if (gone.espo) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  const was = gone.espo || gone.notion;
+  if (was) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(was) ? null : [...ids, was]), s);
   await noteTask('deleted', who.handle, gone, null, s, now, mods).catch(() => null);
   return { gone: true };
 }

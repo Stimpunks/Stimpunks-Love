@@ -185,8 +185,11 @@ def check_lib(lib):
     tc = (re.search(r"function taskConcerns\(.*?\n\}", sec, re.S) or [""])[0]
     if "(by && foldHandle(p) === foldHandle(by))" not in tc:
         problems.append(f"{LIB.name}: nobody is told of their own change (taskConcerns).")
-    if "if (!espo) await noteTask(" not in fn(sec, "saveTask"):
-        problems.append(f"{LIB.name}: an import from EspoCRM is nobody's change, and must make no event.")
+    st = fn(sec, "saveTask")
+    if "if (!from) await noteTask(" not in st or "const from = espo || notion;" not in st:
+        problems.append(f"{LIB.name}: an import from EspoCRM or Notion is nobody's change, and must make no event.")
+    if "const was = gone.espo || gone.notion;" not in fn(sec, "removeTask"):
+        problems.append(f"{LIB.name}: a task brought from EspoCRM or Notion and deleted here must stay deleted (removeTask).")
     # Push: a device is told only once the notification is in its person's list, only with the tasks
     # switch, only while it can read tasks, and never about its own change.
     ntf = fn(lib, "notifyTask")

@@ -966,6 +966,15 @@
       made.appendChild(document.createTextNode(', for ' + dayWords(t.on) + ', ' + when(t.t)));
       fact('Made', made);
     } else fact('Made', (t.by ? t.by + ', ' : '') + when(t.t));
+    if (t.notion) {
+      // Brought from Notion's Tasks: its page there may say more than came over.
+      var np = el('a', null, 'its page in Notion');
+      np.href = 'https://www.notion.so/' + t.notion;
+      np.rel = 'noopener noreferrer';
+      var nf = el('span', null, 'Brought over from ');
+      nf.appendChild(np);
+      fact('From', nf);
+    }
     if (t.edited) fact('Changed', (t.editedBy ? t.editedBy + ', ' : '') + when(t.edited));
     view.appendChild(dl);
     var body = el('div', 'tk-body');

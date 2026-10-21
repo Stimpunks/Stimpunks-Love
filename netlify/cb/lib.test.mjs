@@ -3864,6 +3864,29 @@ test('a task brought from EspoCRM again changes the one already brought, and kee
   assert.equal((await readTasks(s)).some((t) => t.espo === f.espo), false, 'a task deleted here came back');
 });
 
+test('a task brought from Notion again changes the one already brought, names nobody as its maker, and stays deleted', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const f = { notion: '3f8857154e5380e3932aece93bc66a2e', name: 'Start Selection Process', status: 'Completed', start: '2026-10-13', due: '2026-10-27',
+    who: 'Chelsea', with: ['Norah'], tags: ['Grantmaking'], t: T0 - DAYS(8), by: null, done: null };
+  const one = (await saveTask(TRYAN, f, s, T0, TMODS)).task;
+  const two = (await saveTask(TRYAN, { ...f, status: 'Started' }, s, T0 + 1, TMODS)).task;
+  assert.equal(one.id, two.id, 'bringing a task from Notion again made it twice');
+  assert.equal((await readTasks(s)).length, 1);
+  assert.deepEqual([one.t, one.by, one.done, one.notion, one.espo], [T0 - DAYS(8), null, null, f.notion, undefined], 'Notion does not say who made it or when it was finished, and the task said otherwise');
+  assert.equal(two.edited, null, 'an import from Notion counted as somebody changing the task');
+  assert.equal((await taskActivity(TRYAN, one.id, s)).length, 0, 'an import from Notion made activity');
+  assert.match((await saveTask(TRYAN, { notion: 'not-a-page', name: 'x' }, s, T0, TMODS)).error, /Notion/);
+  assert.match((await saveTask(TRYAN, { notion: f.notion, espo: 'abc123def456', name: 'x' }, s, T0, TMODS)).error, /not both/);
+  // Without Notion's id, nobody's name cannot be taken off a task.
+  const mine = (await saveTask(TCHELSEA, { name: 'Mine', by: null, done: null }, s, T0 + 2, TMODS)).task;
+  assert.equal(mine.by, 'Chelsea');
+  // A Notion id and an EspoCRM id never find each other's task.
+  assert.notEqual((await saveTask(TRYAN, { espo: '3f8857154e5380e3', name: 'Other' }, s, T0 + 3, TMODS)).task.id, one.id);
+  assert.ok((await removeTask(TRYAN, one.id, s)).gone);
+  assert.match((await saveTask(TRYAN, f, s, T0 + 4, TMODS)).error, /stays deleted/);
+  assert.equal((await readTasks(s)).some((t) => t.notion === f.notion), false, 'a task from Notion deleted here came back');
+});
+
 for (const etagOnRead of [true, false]) {
   test(`tasks, fifteen saved at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: none told it was saved is missing`, async () => {
     const s = memoryStore({ etagOnRead });

@@ -5292,6 +5292,15 @@ with the switch on (or Everything) while the device's pass can still read tasks 
 the change, with the task's name only under the words switch and never a description's words; the radio offers the switch
 only on a base pass, and `cb-sw.js` opens the task (`/tasks.html#/t/<id>`, or Notifications for a deleted one).
 `make-tasks.py` holds all of it. The friendly edit is **an unread count in the notification**; Tasks has one, a push does not.
+**Tasks from Notion come in the way EspoCRM's did** (Ryan's ask, 2026-10-21, when Notion was still being used a few
+weeks after the last sync to EspoCRM): `saveTask` takes `notion`, a page's 32-hex id, which brings one over again rather
+than twice, makes no activity, and stays deleted once deleted here (`TASKS_GONE` holds either kind of id). **Notion says
+when a page was made and nothing about who made it or when it was finished**, so a Notion import sends `by: null` and
+`done: null` and the task page says who and when nowhere, with a link to the page in Notion instead; the friendly edit is
+the importer's name and today, which are both wrong. **A Notion page its recurring templates made is not brought** when
+Tasks has that recurring task, because EspoCRM's copy of the same day is already here; the importer matches by name and
+day and reports where the two disagree rather than changing either. The importer reads Notion through the connector in
+Claude and lives in the scratchpad, like EspoCRM's.
 
 **THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
 2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators
