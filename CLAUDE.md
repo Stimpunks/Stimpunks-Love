@@ -5456,6 +5456,32 @@ records kept against a person, the third a count, the fourth a request on somebo
 **And `image/*` is written in two halves in forum.js**, because `make-forum.py` strips comments with a regex that reads a
 slash and a star as one; a refusal from that tool about code that is plainly there is that.
 
+**EVERY FORUM CATEGORY IS A ROOM ON THE CB, AND ITS READERS ARE ITS ONLY LIST.** Ryan's ask and calls, 2026-10-21:
+the radio's This room follows the category being read, so a category's page, a topic in it and a new topic started in it
+(`#/new?c=`, or `from=` a category's room) tune to `forum-<slug>` (`FORUM_ROOM` in `lib.mjs`), and the forums' home,
+Latest, Mentions, Search and anything the forums refused are The forums' own `forum`. **A category is a room in every
+way**: its channel, Be seen here, its call (`stimpunks-forum-<slug>`), Follow this room, Unreads, notifications and
+hosting. **A subcategory is its top category's room** (`forumRoomOf`), so all of Team Docs, years and all, is one, and
+`forumRoom` refuses a subcategory's tag and one that names no category. **Who may enter is `forumAllows`**: `roomAllows`
+hands a `forum-` tag to it before anything else, so a claimed username and the category's roles out of
+`data/forum.json` are the one list, and every function that asks `roomAllows` locks a staff category's room exactly as
+the forums lock its topics; an unclaimed handle hears no category's channel (Ryan's call). `lockedRoom` treats a staff
+category's room as one of the base's for the office's day counts and for copying out (`narrowerThan`). **`forum.js` says
+where the page is** on `<body>` (`placeRadio`: `data-forum-room`, `data-forum-room-name`, only for a category the server
+sent) and fires `love-forum-room`; `cb.js` reads it in `forumHere()`, and **`whereNow()` runs on the page now, not only in
+the radio's own window**, retuning, moving Be seen here and stopping hosting when the room changes. **A category's room is
+not in `cb-rooms.json`**, which is public: `/cb/rooms` (`forumRooms`, its own endpoint because `cb.js` never talks to
+`/cb/forum`) tells a claimed pass the rooms it may enter, and `mergeRooms` puts them after The forums in the radio's
+list, so #tags, the teleporter, Who's online and Unreads name a category only to its readers; a notification about one
+carries its own `place` for `cb-sw.js`; the World room folds a category's people, call and latest message into The
+forums' line; and a category's room cannot be a profile's favourite room. Its address already has a fragment, so a room
+link to it carries no `#spot=` (`roomHref`). **`tools/make-forum.py` holds it**: the prefix and the name the same in
+`lib.mjs`, `cb.js` and `forum.js`; no page, `MOD_ROOMS`, `QUIET_ROOMS`, `PEBBLE_ROOMS` or `PUBLIC_CALLS` name shaped like
+a category's room; and a category's `as` (Directors, Board) taking exactly its Town Hall room's roles and strictness, so
+those two lists cannot drift. **The friendly edits are category rooms in `cb-rooms.json`** "so the teleporter lists
+them for everybody", which names a staff category to the whole street, **a public category's channel open to an
+unclaimed handle**, and **a channel for every subcategory or year**; each reverses one of Ryan's calls.
+
 ## What this site is FOR, so you know what you are protecting
 
 Ryan's brief, 2026-09-19: *"All of our sites are so careful. Careful color palettes, careful

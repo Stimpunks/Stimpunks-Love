@@ -1991,6 +1991,9 @@ export function cleanProfile(p) {
   const room = p.room == null || p.room === '' ? '' : roomTag(p.room);
   if (room === null) return { error: 'That is not a room on the street.' };
   if (room && quietRoom(room)) return { error: 'That room keeps to itself, so it cannot be named on a profile.' };
+  // A forum category's room is named only to the category's readers, and a
+  // profile is shown to everybody signed on: the forums themselves can be it.
+  if (room && room.startsWith(FORUM_ROOM)) return { error: 'A category in the forums cannot be named on a profile. The forums themselves can.' };
   out.room = room;
   const why = cleanUpTo(p.why, ROOM_WHY_MAX);
   if (why === null) return { error: `Why it is your favourite is at most ${ROOM_WHY_MAX} characters.` };
@@ -2794,10 +2797,16 @@ export async function callsOn(who, s = store(), now = Date.now()) {
    (callsOn's rule). And the time of the latest message on each room's channel,
    which is never more than 48 hours ago, and never its words: the one thing this shows that was not shown before,
    and privacy.html#world says so. The World channel's latest is the World
-   room's, because its channel is World. */
+   room's, because its channel is World. A forum category's room is The
+   forums' line in the directory (2026-10-21), which lists pages: whoever is
+   seen in a category the asker may read, its call and its latest message are
+   The forums', and a category the asker may not read adds nothing. */
 export async function worldIndex(who, s = store(), now = Date.now()) {
   const rooms = new Map();
-  const at = (tag) => { let r = rooms.get(tag); if (!r) rooms.set(tag, r = { people: new Map(), call: new Set(), last: 0 }); return r; };
+  const at = (tag) => {
+    if (forumRoom(tag)) tag = FORUM_PAGE;
+    let r = rooms.get(tag); if (!r) rooms.set(tag, r = { people: new Map(), call: new Set(), last: 0 }); return r;
+  };
   const fits = (tag) => roomAllows(who, tag) && !quietRoom(tag);
   for (const r of await everySeen(s)) {
     if (now - r.t >= ROOM_FRESH || !fits(r.tag)) continue;
@@ -3373,7 +3382,8 @@ export async function noteLatest(tag, t, s = store(), now = Date.now()) {
 /* MESSAGES A DAY, FOR THE OFFICE'S DASHBOARD (Ryan, 2026-10-21: messages per
    day, no names). Every message sent on a channel adds one to its day, by the
    street's clock, in one of three numbers: World, the rooms, and the rooms
-   only moderators can hear (MOD_ROOMS). No name, no room, no words and no time
+   only some can hear (lockedRoom: MOD_ROOMS, and a forum category with roles,
+   since 2026-10-21). No name, no room, no words and no time
    is kept, so a room that keeps to itself is counted with the others of its
    kind and never named. Direct messages and the Slake are not counted. A day
    older than DAY_COUNTS_DAYS goes on the next write. Only the office's
@@ -3383,7 +3393,8 @@ export const DAY_COUNTS_DAYS = 400;
 export const DAY_KINDS = ['world', 'rooms', 'mods'];
 const isDay = (d) => /^\d{4}-\d{2}-\d{2}$/.test(d);
 export async function countMessage(tag, s = store(), now = Date.now()) {
-  const kind = !tag || tag === WORLD_CALL ? 'world' : (MOD_ROOMS[tag] ? 'mods' : 'rooms');
+  // A forum category with roles counts with the base's rooms: only some may hear it.
+  const kind = !tag || tag === WORLD_CALL ? 'world' : (lockedRoom(tag) ? 'mods' : 'rooms');
   const day = today(new Date(now)), oldest = dayBefore(day, DAY_COUNTS_DAYS - 1);
   await updateMap(DAY_COUNTS, 'days', (map) => {
     for (const d of Object.keys(map)) if (!isDay(d) || d < oldest) delete map[d];
@@ -3746,7 +3757,65 @@ export const MOD_ROOMS = {
    Ryan the same day: administrators stay out. */
 export const STRICT_ROOMS = ['town-hall-executive-session'];
 export function modRoom(tag) { return Object.prototype.hasOwnProperty.call(MOD_ROOMS, tag) ? tag : null; }
+
+/* EVERY FORUM CATEGORY IS A ROOM OF ITS OWN, AND ITS READERS ARE ITS ONLY LIST.
+   Ryan's ask and calls, 2026-10-21: the radio's This room follows the category
+   being read in the forums, so a category's page and a topic in it tune to
+   that category's channel, and a category is a room in every way, its channel,
+   Be seen here, its call, Follow this room, Unreads, notifications and hosting
+   a film, all under one tag: FORUM_ROOM and its slug (forum-coping). The
+   forums' home, Latest, Mentions and Search stay The forums' own (forum).
+
+   WHO HEARS ONE IS WHO READS THE CATEGORY, by forumAllows(): a claimed username,
+   and the category's own roles out of data/forum.json, which make-forum.py
+   writes into this file. So there is no second list to disagree with the
+   first, and every function that asks roomAllows() locks a private category's
+   channel, call, hosts and people exactly as the forums lock its topics.
+
+   A SUBCATEGORY IS ITS PARENT'S IN EVERYTHING BUT ITS NAME, so it has no
+   channel of its own: all of Team Docs is one room. Its tag, and a tag naming
+   no category at all, is a room nobody may enter, rather than a channel
+   anybody could open beside the real one. tools/make-forum.py refuses a page
+   whose filename would be a category's tag, and a MOD_ROOMS or QUIET_ROOMS
+   name shaped like one. */
+export const FORUM_PAGE = 'forum';
+export const FORUM_ROOM = FORUM_PAGE + '-';
+export function forumRoom(tag, now = Date.now()) {
+  if (typeof tag !== 'string' || !tag.startsWith(FORUM_ROOM)) return null;
+  const cat = forumCat(tag.slice(FORUM_ROOM.length), now);
+  return cat && !cat.parent ? cat : null;
+}
+// What a category's room is called on the radio, and where it is.
+export function forumRoomName(cat) { return `The forums: ${cat.name}`; }
+export function forumPlace(tag) {
+  const cat = forumRoom(tag);
+  return cat ? { name: forumRoomName(cat), path: `/forum.html#/c/${cat.slug}` } : null;
+}
+/* Every category's room a pass may enter, for the radio to name them by: they
+   are not in cb-rooms.json, which is public, and a category somebody cannot
+   read is never named to them. In the forums' order. */
+export function forumRooms(who, now = Date.now()) {
+  return forumCategories(now).filter((c) => !c.parent && forumAllows(who, c))
+    .map((c) => ({ tag: FORUM_ROOM + c.slug, name: forumRoomName(c), path: `/forum.html#/c/${c.slug}`, about: c.about }));
+}
+// The room a category's topics are read in: its own, or its top category's.
+export function forumRoomOf(slug, now = Date.now()) {
+  let cat = forumCat(slug, now);
+  while (cat && cat.parent) cat = forumCat(cat.parent, now);
+  return cat ? FORUM_ROOM + cat.slug : null;
+}
+/* A room only some people may enter: one of the base's, or a category with
+   roles, as { roles, strict }. For counting and for copying out of a room. */
+export function lockedRoom(tag) {
+  if (modRoom(tag)) return { roles: MOD_ROOMS[tag], strict: STRICT_ROOMS.includes(tag) };
+  const cat = forumRoom(tag);
+  return cat && cat.see && cat.see.length ? { roles: cat.see, strict: !!cat.strict } : null;
+}
 export function roomAllows(who, tag) {
+  if (typeof tag === 'string' && tag.startsWith(FORUM_ROOM)) {
+    const cat = forumRoom(tag);
+    return !!cat && forumAllows(who, cat);
+  }
   if (!modRoom(tag)) return true;
   if (!who || who.role !== 'base' || !who.roles) return false;
   if (!STRICT_ROOMS.includes(tag) && who.roles.has('administrator')) return true;
@@ -5731,13 +5800,17 @@ export async function forumMentions(who, s = store(), now = Date.now()) {
 /* ── Copying from the CB ── */
 
 /* Whether everybody a category is for can already hear a private room, so
-   nothing copied out of the room reaches anybody it was not for. */
+   nothing copied out of the room reaches anybody it was not for. A private
+   category's own channel is a private room too (lockedRoom), and its messages
+   can always go back into the category itself. */
 function narrowerThan(cat, room) {
+  const lock = lockedRoom(room);
+  if (!lock) return true;
+  if (forumRoom(room) && forumRoomOf(cat.slug) === room) return true;
   if (!cat.see || !cat.see.length) return false;
-  if (STRICT_ROOMS.includes(room) && !cat.strict) return false;
-  const roomRoles = MOD_ROOMS[room];
-  if (roomRoles.includes('moderator')) return true;     // every role on the list is a moderator's
-  return cat.see.every((r) => roomRoles.includes(r));
+  if (lock.strict && !cat.strict) return false;
+  if (lock.roles.includes('moderator')) return true;     // every role on the list is a moderator's
+  return cat.see.every((r) => lock.roles.includes(r));
 }
 
 /* The messages `from.ids` on the channel `from.room` (World when it names
@@ -5749,7 +5822,7 @@ export async function cbTranscript(who, from, s = store(), cat = null) {
   if (from && from.room && !room) return { error: 'That is not a channel on the street.' };
   if (room && quietRoom(room)) return { error: 'Nothing said in a room that keeps to itself can be copied out of it.' };
   if (room && !roomAllows(who, room)) return { error: 'That is not a channel you can hear.' };
-  if (room && modRoom(room) && cat && !narrowerThan(cat, room)) {
+  if (room && lockedRoom(room) && cat && !narrowerThan(cat, room)) {
     return { error: 'What is said in that room can only go into a category that nobody but the people that room is for can read.' };
   }
   const ids = from && Array.isArray(from.ids) ? from.ids.filter((x) => typeof x === 'string' && x.length <= 64).slice(0, KEEP) : [];
@@ -6028,7 +6101,7 @@ export async function moderateTopic(who, id, f, s = store(), now = Date.now()) {
       if (to.shelf) return { why: `${to.name} holds its subcategories rather than topics of its own. Move it into one of them.` };
       for (const p of t.posts) {
         const room = p.cb && p.cb.room;
-        if (room && modRoom(room) && !narrowerThan(to, room)) {
+        if (room && lockedRoom(room) && !narrowerThan(to, room)) {
           return { why: `This topic holds messages from a private room, and ${to.name} can be read by people that room is not for.` };
         }
       }
@@ -6729,6 +6802,8 @@ async function tellDevices(msg, room, before, s, mods, send) {
     }
     const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.chimera || msg.patch || msg.jacket) ? 'sticker' : '';
     const payload = { kind: 'message', why: named ? 'mention' : 'channel', handle: msg.handle, room: room || '', text, what, id: msg.id };
+    // A forum category's room is in no public list, so it says its own name.
+    if (forumRoom(room)) payload.place = forumPlace(room);
     sends.push({ id, d, payload, opts: named ? { urgency: 'high' } : { topic: topicFor(room || 'world') } });
   }
   return deliver(sends, gone, s, send);
@@ -6886,7 +6961,9 @@ export async function notifyCall(tag, s = store(), mods = readMods(), send = sen
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (tag !== WORLD_CALL && !roomAllows(who, tag)) continue;
-    sends.push({ id, d, payload: { kind: 'call', room: tag }, opts: { ttl: 900, topic: topicFor(`call ${tag}`) } });
+    const payload = { kind: 'call', room: tag };
+    if (forumRoom(tag)) payload.place = forumPlace(tag);
+    sends.push({ id, d, payload, opts: { ttl: 900, topic: topicFor(`call ${tag}`) } });
   }
   return deliver(sends, gone, s, send);
 }

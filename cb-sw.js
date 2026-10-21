@@ -15,7 +15,10 @@
    or the street with #cb=props, where the radio opens Profile at Your props
    (props given to you, the same evening), or with #cb=messages, where it
    opens Messages (a direct message, the same evening), or a task in Tasks,
-   or Tasks' Notifications when the task has been deleted (2026-10-21). */
+   or Tasks' Notifications when the task has been deleted (2026-10-21). A
+   forum category's room (forum-coping) is in no public list, so the street
+   sends its name and its address with it, and the address is a category's in
+   the forums and nothing else (2026-10-21). */
 'use strict';
 
 var ROOMS = null;
@@ -34,7 +37,15 @@ function safePath(p) {
   if (typeof p !== 'string') return '/';
   if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?(?:#cb=(?:props|messages))?$/.test(p)) return p;
   if (/^\/tasks\.html#\/(?:t\/k[A-Za-z0-9_-]{12}|inbox)$/.test(p)) return p;
+  if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
   return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
+}
+// A forum category's room, as the street named it in the notification.
+function forumPlace(d, tag) {
+  var p = d.place;
+  if (!/^forum-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) || !p || typeof p.name !== 'string' || typeof p.path !== 'string') return null;
+  var path = safePath(p.path);
+  return path === '/' ? null : { name: p.name.slice(0, 120), path: path };
 }
 
 /* A task's notification, in the words Tasks' own list uses. */
@@ -83,7 +94,7 @@ function say(d) {
   }
   return rooms().then(function (list) {
     var tag = typeof d.room === 'string' ? d.room : '';
-    var place = tag && tag !== 'world' ? placeOf(list, tag) : null;
+    var place = tag && tag !== 'world' ? placeOf(list, tag) || forumPlace(d, tag) : null;
     var where = place ? place.name : (tag && tag !== 'world' ? '#' + tag : 'World');
     // World's channel is the World room's, so a World notification opens that
     // room when the street's list has it.

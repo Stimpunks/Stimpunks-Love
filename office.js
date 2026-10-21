@@ -2054,7 +2054,7 @@
         return [monthWords(x.month)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
       }))));
     // The CB, how many messages a day on its channels, and never whose.
-    var cbSeries = ['World', 'The rooms', 'The moderators’ rooms'];
+    var cbSeries = ['World', 'The rooms', 'The staff rooms'];
     var cbFig = figure('CB messages each day', function (art, w) {
       stacked(art, w, { series: ['Messages'], cls: ['of-c5'], on: true, bare: true, cols: d.cb.days.map(function (x) {
         return { label: dayShort(x.day), long: dayWords(x.day), counts: [x.counts.reduce(function (a, b) { return a + b; }, 0)],

@@ -655,18 +655,62 @@
   var TAG = /#([a-z0-9]+(?:-[a-z0-9]+)*)/gi;
   var ROOMPATH = /^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?$/;
 
+  /* EVERY FORUM CATEGORY IS A ROOM, AND ONLY ITS READERS KNOW ITS NAME. Ryan's
+     calls, 2026-10-21: in the forums, This room is the category being read, a
+     room in every way under the tag forum-<slug> (FORUM_ROOM in
+     netlify/cb/lib.mjs, which tools/make-forum.py holds this copy to), and a
+     subcategory is its top category's room. A category's room is not in
+     /cb-rooms.json, which is public, so the radio asks once, with a claimed
+     username's pass, for the rooms of the categories that pass may read
+     (/cb/rooms), and puts them in the list after The forums themselves. A
+     category somebody cannot read is never named to them, so #tags, the
+     teleporter, Who's online and Unreads name it only for its readers; for
+     anybody else it stays the words that were typed. */
+  var FORUM_PAGE = 'forum', FORUM_ROOM = FORUM_PAGE + '-';
+  var FORUMTAG = /^forum-[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  var FORUMPATH = /^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  var streetRooms = null, forumRooms = [];
+
   function takeRooms(list) {
     var ok = [];
     for (var i = 0; i < (list || []).length; i++) {
       var r = list[i];
       if (r && typeof r.tag === 'string' && typeof r.name === 'string' &&
-          typeof r.path === 'string' && ROOMPATH.test(r.path)) {
-        ok.push(r);
-        byTag[r.tag] = r;
+          typeof r.path === 'string' && ROOMPATH.test(r.path) && !FORUMTAG.test(r.tag)) ok.push(r);
+    }
+    streetRooms = ok;
+    mergeRooms();
+  }
+
+  function takeForumRooms(list) {
+    var ok = [];
+    for (var i = 0; i < (list || []).length; i++) {
+      var r = list[i];
+      if (r && typeof r.tag === 'string' && FORUMTAG.test(r.tag) && typeof r.name === 'string' &&
+          typeof r.path === 'string' && FORUMPATH.test(r.path) && r.path.slice(r.path.lastIndexOf('/') + 1) === r.tag.slice(FORUM_ROOM.length)) {
+        ok.push({ tag: r.tag, name: r.name, path: r.path, about: typeof r.about === 'string' ? r.about : '', forum: true });
       }
     }
-    rooms = ok;
+    forumRooms = ok;
+    mergeRooms();
   }
+
+  // The street's rooms in walking order, with the forums' categories after them.
+  function mergeRooms() {
+    if (!streetRooms) return;
+    var out = [];
+    byTag = {};
+    streetRooms.forEach(function (r) {
+      out.push(r);
+      byTag[r.tag] = r;
+      if (r.tag === FORUM_PAGE) forumRooms.forEach(function (f) { out.push(f); byTag[f.tag] = f; });
+    });
+    rooms = out;
+  }
+
+  // A room's address with something for the page after it, which a category's
+  // room cannot carry: its address has a fragment already.
+  function roomHref(room, frag) { return frag && room.path.indexOf('#') < 0 ? room.path + frag : room.path; }
 
   function hashRooms(parent, text, off) {
     off = off || 0;
@@ -682,7 +726,7 @@
       var spot = tagAt[off + m.index];
       // A room named by a spot carries the spot, in the fragment, which no
       // browser sends to any server. See arrive.
-      a.href = room.path + (spot ? '#spot=' + (spot.secs == null ? 'live' : spot.secs) + '&film=' + encodeURIComponent(spot.film) : '');
+      a.href = roomHref(room, spot ? '#spot=' + (spot.secs == null ? 'live' : spot.secs) + '&film=' + encodeURIComponent(spot.film) : '');
       var hash = el('span', null, '#');
       hash.setAttribute('aria-hidden', 'true');
       a.appendChild(hash);
@@ -3139,11 +3183,23 @@
   };
 
   /* The room list, fetched from this site once, and only while the radio is
-     on: by the first listen, or by opening the teleporter, whichever is first. */
+     on: by the first listen, or by opening the teleporter, whichever is first.
+     With a claimed username, the rooms of the forums' categories it may read
+     come with it, asked once of /cb/rooms. */
   Radio.prototype.loadRooms = function () {
     var me = this;
     if (this.askedRooms) return;
     this.askedRooms = true;
+    if (forumPass(this.state.pass)) {
+      call('/cb/rooms', null, this.state.pass).then(function (r) {
+        if (r.status !== 200 || !r.body || !Array.isArray(r.body.rooms)) return;
+        takeForumRooms(r.body.rooms);
+        if (!rooms) return;
+        me.rerender(); me.bandShown();
+        if (!me.tpPanel.hidden) me.tpRender();
+        if (!me.online.hidden) me.onlineShown();
+      }, function () { /* the categories' rooms stay unnamed, as a #word is */ });
+    }
     this.roomsReady = fetch('/cb-rooms.json', { credentials: 'omit', headers: { 'accept': 'application/json' } })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (d) {
@@ -3335,6 +3391,29 @@
     var d = streetDoc();
     var name = (d ? d.title : '').replace(/\s+\u2014\s+Stimpunks\.World$/, '');
     return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) ? { tag: tag, name: name, path: herePath(), quiet: true } : null;
+  }
+
+  /* IN THE FORUMS, THE CATEGORY BEING READ. forum.js says which on the page's
+     own <body>, data-forum-room and data-forum-room-name, for a category's
+     page, a topic in it and a new topic started in it, and takes them off
+     again on the forums' home, Latest, Mentions and Search, which are The
+     forums' own room. Only a category the forums sent this reader is ever
+     written there, and the server asks the category's roles again for
+     everything the radio does in its room. */
+  function forumHere() {
+    var d = streetDoc();
+    if (!d || !d.body || herePath() !== '/' + FORUM_PAGE + '.html') return null;
+    var tag = d.body.getAttribute('data-forum-room');
+    if (!tag || !FORUMTAG.test(tag)) return null;
+    return byTag[tag] || { tag: tag, name: d.body.getAttribute('data-forum-room-name') || 'The forums: a category',
+      path: '/' + FORUM_PAGE + '.html#/c/' + tag.slice(FORUM_ROOM.length), forum: true };
+  }
+  function forumHereTag() { var f = forumHere(); return f ? f.tag : ''; }
+
+  // Whether a room on a list is the one this page is in.
+  function isHere(r) {
+    var h = hereRoom();
+    return h ? r.tag === h.tag : r.path === herePath();
   }
 
   // Where this page is, as the room list writes it, so the list can say so.
@@ -4273,7 +4352,7 @@
       linkIns.push(pfField(form, 'Link ' + (i + 1), 'pf-link-' + i, li, i ? null : 'Each starts with https:// and is shown as you type it, with its site after it, so nobody is sent somewhere it does not say.'));
     }
     form.appendChild(el('h3', 'pf-edit__sub', 'Favourite room'));
-    var fRoom = pfField(form, 'Your favourite room on the street', 'pf-room', pfSelect((rooms || []).map(function (r) { return [r.tag, r.name]; }), 'None'));
+    var fRoom = pfField(form, 'Your favourite room on the street', 'pf-room', pfSelect((streetRooms || []).map(function (r) { return [r.tag, r.name]; }), 'None'));
     var why = el('input', 'cb-say');
     why.type = 'text'; why.maxLength = lim.why; why.autocomplete = 'off';
     var fWhy = pfField(form, 'Why it is your favourite', 'pf-why', why, 'Up to ' + lim.why + ' characters.');
@@ -7414,7 +7493,7 @@
       markIn(list, this.tpFind, -1);
       return;
     }
-    var found = findRooms(this.tpFind.value), here = herePath();
+    var found = findRooms(this.tpFind.value);
     var offer = this.tpOffer = found.map(function (f) { return f.room; });
     for (var i = 0; i < offer.length; i++) {
       var li = el('li', 'cb-opt');
@@ -7423,7 +7502,7 @@
       var nm = el('span', 'cb-opt__name', offer[i].name);
       if (found[i].why) nm.appendChild(el('span', 'cb-opt__why', found[i].why));
       li.appendChild(nm);
-      li.appendChild(el('span', 'cb-opt__tag', offer[i].path === here ? 'you are here' : '#' + offer[i].tag));
+      li.appendChild(el('span', 'cb-opt__tag', isHere(offer[i]) ? 'you are here' : '#' + offer[i].tag));
       li.addEventListener('mousedown', function (e) { e.preventDefault(); });
       (function (room, me) { li.addEventListener('click', function () { me.go(room); }); })(offer[i], this);
       list.appendChild(li);
@@ -7500,7 +7579,7 @@
      the same room's link, so a listen every four seconds does not throw
      somebody off the link they were about to press. */
   Radio.prototype.onlineShown = function () {
-    var ul = this.onlineList, none = this.onlineNone, me = this, here = herePath();
+    var ul = this.onlineList, none = this.onlineNone, me = this, here = herePath() + '|' + forumHereTag();
     this.onlineMe.textContent = this.state.seen
       ? 'You are on it while Be seen here is on, in a room, with the radio open.'
       : 'You are not on it: switch on Be seen here, in a room, to be.';
@@ -7542,7 +7621,7 @@
       li.appendChild(document.createTextNode(' in '));
       roomsOf(p).forEach(function (r, i) {
         if (i) li.appendChild(document.createTextNode(', '));
-        if (r.path === here) { li.appendChild(el('span', null, r.name + ' (this room)')); return; }
+        if (isHere(r)) { li.appendChild(el('span', null, r.name + ' (this room)')); return; }
         var a = el('a', 'cb-online-room', r.name);
         a.href = r.path;
         a.dataset.at = p.handle + '|' + r.tag;
@@ -7574,7 +7653,7 @@
     if (world) this.callList.appendChild(el('li', 'cb-online-row', 'The World call, which Join World call above takes you into'));
     calls.forEach(function (r) {
       var li = el('li', 'cb-online-row');
-      if (r.path === here) { li.appendChild(el('span', null, r.name + ' (this room)')); }
+      if (isHere(r)) { li.appendChild(el('span', null, r.name + ' (this room)')); }
       else {
         var a = el('a', 'cb-online-room', r.name);
         a.href = r.path;
@@ -7598,7 +7677,7 @@
   function nameFold(s) { return tpFold(s).replace(/\s+/g, ' ').trim(); }
 
   Radio.prototype.tpPeople = function () {
-    var list = this.tpList, none = this.tpNone, me = this, here = herePath();
+    var list = this.tpList, none = this.tpNone, me = this;
     var typed = nameFold(personTyped(this.tpFind.value) || '');
     list.setAttribute('aria-label', 'People seen in rooms');
     if (!this.peopleAt || Date.now() - this.peopleAt > EVERY) this.onlineTick(true);
@@ -7618,7 +7697,7 @@
         personLine(nm, p, false);
         nm.appendChild(el('span', 'cb-opt__why', 'in ' + r.name));
         li.appendChild(nm);
-        li.appendChild(el('span', 'cb-opt__tag', r.path === here ? 'this room' : '#' + r.tag));
+        li.appendChild(el('span', 'cb-opt__tag', isHere(r) ? 'this room' : '#' + r.tag));
         li.addEventListener('mousedown', function (e) { e.preventDefault(); });
         li.addEventListener('click', function () { me.go(r); });
         list.appendChild(li);
@@ -7981,6 +8060,8 @@
   // The room this page is, out of the street's own list, or null.
   function hereRoom() {
     if (offList()) return quietHere();
+    var f = forumHere();
+    if (f) return f;
     var p = herePath();
     for (var i = 0; rooms && i < rooms.length; i++) if (rooms[i].path === p) return rooms[i];
     return null;
@@ -8058,22 +8139,30 @@
     this.tune();
   };
 
-  /* IN ITS OWN WINDOW, THE PAGE CAN CHANGE UNDER IT: the window you came from
-     has gone to another room. Asked at every listen, when this window is
-     focused, and when a page in that window says it has arrived. Tuned to This
-     room, the radio retunes to the new room's channel, as walking into it with
-     the radio on the page would; Be seen here follows on the next listen, and
-     the server replaces the record rather than adding one. Answers whether it
-     retuned, which has listened already. */
+  /* THE ROOM CAN CHANGE UNDER THE RADIO. In its own window, the window you
+     came from has gone to another room; and in the forums, on the page itself,
+     another category is being read (2026-10-21), because the forums move by
+     their address's fragment and never load again. Asked at every listen, when
+     the radio's own window is focused, when a page in that window says it has
+     arrived, and when the forums say they have moved. Tuned to This room, the
+     radio retunes to the new room's channel, as walking into it with the radio
+     on the page would; Be seen here follows on the next listen, and the server
+     replaces the record rather than adding one; hosting a film stops, because
+     it was hosted in the room you left. Answers whether it retuned, which has
+     listened already. */
   Radio.prototype.whereNow = function () {
-    if (!inWindow()) return false;
-    var now = herePath() + (offList() ? '|quiet' : '');
+    var now = herePath() + (offList() ? '|quiet' : '') + '|' + forumHereTag();
     if (now === this.wasPath) return false;
     var first = this.wasPath === undefined;
     this.wasPath = now;
-    this.bandPressed = false;
-    this.seenFrom = null;
-    this.seenAnswer = null;
+    // The first time is where the radio started, which a press before it
+    // listened may already have tuned.
+    if (!first) {
+      this.bandPressed = false;
+      this.seenFrom = null;
+      this.seenAnswer = null;
+      if (this.hosting && this.hosting.room !== hereTag()) this.setHosting(false, 'You have gone into another room, so you have stopped hosting.');
+    }
     this.bandShown();
     this.callShown();
     var tuned = this.tunedRoom(), moved = !first && tuned !== this.lastTuned;
@@ -8351,8 +8440,10 @@
     var away = window.loveCall && window.loveCall.away ? window.loveCall.away() : null;
     var here = hereRoom();
     // A call is this room's if it is open at the foot of this page, or popped
-    // out into its own window from this room or any visit to it.
-    var on = !!(open && open !== WORLD_CALL) || !!(away && here && away.tag === here.tag);
+    // out into its own window from this room or any visit to it. In the forums
+    // the page can have moved to another category under a call that stays up,
+    // which is that category's call and not this one's.
+    var on = !!(open && open !== WORLD_CALL && (!here || open === here.tag)) || !!(away && here && away.tag === here.tag);
     var world = open === WORLD_CALL || !!(away && away.tag === WORLD_CALL);
     this.showWinBtn.hidden = !away;
     // In the World room its call is the World call, and Join World call is its button.
@@ -8764,7 +8855,7 @@
       var fo = li.querySelector('.cb-follow');
       if (fo) fo.setAttribute('aria-pressed', String(!!(this.following && this.following.room === b.room)));
       var a = li.querySelector('a.cb-room');
-      if (a) a.href = byTag[b.room].path + '#spot=' + (b.live ? 'live' : Math.floor(this.placeOf(b))) + '&film=' + encodeURIComponent(b.film);
+      if (a) a.href = roomHref(byTag[b.room], '#spot=' + (b.live ? 'live' : Math.floor(this.placeOf(b))) + '&film=' + encodeURIComponent(b.film));
     }
     this.hostsBox.hidden = list.length === 0;
     this.filmShown();
@@ -9128,6 +9219,14 @@
   if (popLine && !inWindow()) {
     window.addEventListener('pageshow', function () { popLine.postMessage({ arrived: true }); });
     window.addEventListener('focus', function () { popLine.postMessage({ arrived: true }); });
+  }
+  // The forums have moved to another category, or out of one (forum.js), on
+  // this page: the radio here, or the one in its own window, follows.
+  if (!inWindow()) {
+    window.addEventListener('love-forum-room', function () {
+      if (popLine) popLine.postMessage({ arrived: true });
+      if (radio && !radio.state.folded && radio.wasPath !== undefined) radio.whereNow();
+    });
   }
 
   /* ── The counter at the Community Center ──────────────────────────────── */

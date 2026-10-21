@@ -5097,3 +5097,151 @@ test('something new in Notifications tells only its person\'s devices with the t
   // saveTask tells devices through sendPush, which needs CB_PUSH_KEY; with none set it sends nothing and the list still has it.
   assert.equal((await taskInbox(fw('Norah', 0, ['director']), s)).items[0].task, made.id);
 }));
+
+/* ── Every forum category is a room on the CB (Ryan's calls, 2026-10-21) ──
+
+   The radio's This room follows the category being read, and a category's
+   room is for exactly the people who can read the category: a claimed
+   username, with the category's own roles. A subcategory is its top
+   category's room. Broken on purpose both ways when it was written: with the
+   lock taking everybody in, the staff categories' cases fail; with it taking
+   nobody, the readers' cases fail. */
+import { FORUM_PAGE, FORUM_ROOM, forumRoom, forumRoomOf, forumRooms, forumPlace, lockedRoom } from './lib.mjs';
+
+const FDIR = fw('Dee', 600, ['director']);
+const TYPED = { role: 'mobile', handle: 'Cy', roles: new Set() };
+const SHARED_BASE = { role: 'base', handle: 'Sam', roles: new Set(['moderator', 'board']) };
+const roomOfCat = (slug) => FORUM_ROOM + slug;
+
+test('a forum category\'s room lets in exactly who can read the category, and a subcategory has none of its own', () => {
+  const tops = FORUM_CATEGORIES.filter((c) => !c.parent);
+  assert.ok(tops.some((c) => c.see) && tops.some((c) => !c.see), 'there are no staff and public categories to test');
+  for (const c of tops) {
+    for (const who of [TYPED, SHARED_BASE, ADA, BO, FMOD, FBOARD, FDIR, FADMIN]) {
+      assert.equal(roomAllows(who, roomOfCat(c.slug)), forumAllows(who, forumCat(c.slug)), `${who.handle} in ${c.slug}'s room`);
+    }
+  }
+  assert.equal(roomAllows(ADA, 'forum-coping'), true, 'a claimed username was kept out of a public category\'s room');
+  assert.equal(roomAllows(TYPED, 'forum-coping'), false, 'an unclaimed handle heard a category it cannot read');
+  assert.equal(roomAllows(SHARED_BASE, 'forum-board'), false, 'a moderator on the shared password heard a category it cannot read');
+  assert.equal(roomAllows(ADA, 'forum-board'), false, 'a claimed username with no role heard the board');
+  assert.equal(roomAllows(FBOARD, 'forum-board'), true);
+  assert.equal(roomAllows(FDIR, 'forum-board'), true, 'directors join the board');
+  assert.equal(roomAllows(FBOARD, 'forum-directors'), false, 'the board heard the directors');
+  assert.equal(roomAllows(FMOD, 'forum-team-docs'), true);
+  assert.equal(roomAllows(FMOD, 'forum-finance'), false, 'a moderator heard Finance');
+  assert.equal(roomAllows(FADMIN, 'forum-finance'), true, 'an administrator goes where a category is not strict');
+  assert.equal(roomAllows(null, 'forum-coping'), false);
+  for (const sub of ['forum-field-guide', 'forum-notes', 'forum-meeting-minutes', 'forum-meeting-minutes-2025', 'forum-templates', 'forum-nonsense']) {
+    assert.equal(forumRoom(sub), null, `${sub} was a room`);
+    assert.equal(roomAllows(FADMIN, sub), false, `${sub} let somebody in beside its top category's room`);
+  }
+  assert.equal(roomAllows(TYPED, FORUM_PAGE), true, 'The forums\' own room is everybody\'s, as every page\'s is');
+  assert.equal(forumRoomOf('meeting-minutes-2025'), 'forum-team-docs');
+  assert.equal(forumRoomOf('field-guide'), 'forum-team-docs');
+  assert.equal(forumRoomOf('coping'), 'forum-coping');
+  assert.equal(forumRoomOf('no-such-category'), null);
+  assert.deepEqual(forumPlace('forum-coping'), { name: 'The forums: Coping', path: '/forum.html#/c/coping' });
+  assert.equal(forumPlace('forum-field-guide'), null);
+  assert.deepEqual(lockedRoom('forum-coping'), null);
+  assert.deepEqual(lockedRoom('forum-finance'), { roles: forumCat('finance').see, strict: false });
+  assert.deepEqual(lockedRoom('town-hall-executive-session'), { roles: ['board'], strict: true });
+});
+
+test('a pass is named only the categories\' rooms it may enter', () => {
+  assert.deepEqual(forumRooms(TYPED), [], 'an unclaimed handle was named categories');
+  assert.deepEqual(forumRooms(SHARED_BASE), []);
+  const tags = (who) => forumRooms(who).map((r) => r.tag);
+  for (const who of [ADA, FMOD, FBOARD, FDIR, FADMIN]) {
+    for (const r of forumRooms(who)) {
+      assert.ok(roomAllows(who, r.tag), `${who.handle} was named ${r.tag}, which they may not enter`);
+      assert.equal(r.path, '/forum.html#/c/' + r.tag.slice(FORUM_ROOM.length));
+      assert.ok(r.name.startsWith('The forums: '));
+    }
+    assert.ok(!tags(who).some((t) => forumRoom(t) === null), 'a subcategory was named as a room');
+  }
+  assert.ok(tags(ADA).includes('forum-coping') && !tags(ADA).includes('forum-board') && !tags(ADA).includes('forum-team-docs'));
+  assert.ok(tags(FBOARD).includes('forum-board') && !tags(FBOARD).includes('forum-directors'));
+});
+
+test('a private category\'s room keeps its hosts, its people, its call, its news and its counts to its readers', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  assert.equal((await hostBeacon(ADA, 'forum-board', 'Minutes', 1, true, s)).closed, true, 'somebody hosted in the board\'s room who cannot read the board');
+  await hostBeacon(FBOARD, 'forum-board', 'Minutes', 1, true, s);
+  await hostBeacon(BO, 'forum-coping', 'A film', 1, true, s);
+  const all = await readBeacons(s);
+  assert.deepEqual(shapeBeacons(all, ADA).map((b) => b.room), ['forum-coping'], 'the board\'s film was news to somebody who cannot read the board');
+  assert.deepEqual(shapeBeacons(all, FBOARD).map((b) => b.room).sort(), ['forum-board', 'forum-coping']);
+  assert.deepEqual(shapeBeacons(all, TYPED).map((b) => b.room), [], 'an unclaimed handle heard a category\'s film');
+
+  await beSeen(FBOARD, 'forum-board', 'visitBBBBBBBBBBBBBBBBBBBBB', s, now - 1000);
+  await beSeen(BO, 'forum-coping', 'visitCCCCCCCCCCCCCCCCCCCCC', s, now - 1000);
+  assert.deepEqual((await whoSeen(ADA, s, now)).map((p) => [p.handle, p.rooms]), [['Bo', ['forum-coping']]], 'somebody seen in the board\'s room was shown outside it');
+  assert.deepEqual((await whoSeen(FDIR, s, now)).map((p) => p.handle), ['Bea', 'Bo']);
+  assert.deepEqual((await whoSeen(TYPED, s, now)).map((p) => p.handle), [], 'an unclaimed handle saw who is in a category');
+
+  const b64n = (n) => Buffer.from(n).toString('base64url');
+  await s.set(`call-in/forum-board/${b64n('pid-Bea')}.${now - 2000}.p.${b64n('Bea')}`, '');
+  assert.deepEqual(await callsOn(ADA, s, now), [], 'the board\'s call was named to somebody who cannot read the board');
+  assert.deepEqual(await callsOn(FBOARD, s, now), ['forum-board']);
+  assert.equal(callToken(ADA, 'forum-board', now, key), null, 'somebody had a token for the board\'s call who cannot read the board');
+  assert.equal(callToken(TYPED, 'forum-coping', now, key), null, 'an unclaimed handle had a token for a category\'s call');
+  assert.equal(open(callToken(FDIR, 'forum-board', now, key)).body.room, 'stimpunks-forum-board');
+  assert.equal(open(callToken(ADA, 'forum-coping', now, key)).body.room, 'stimpunks-forum-coping');
+
+  // The World room lists pages, so a category's room is The forums' line there.
+  const ix = Object.fromEntries((await worldIndex(ADA, s, now)).rooms.map((x) => [x.tag, x]));
+  assert.deepEqual(ix[FORUM_PAGE].people.map((p) => p.handle), ['Bo'], 'The forums\' line did not take in a category, or took in one the asker cannot read');
+  assert.equal(ix[FORUM_PAGE].call, false, 'the board\'s call showed on The forums\' line to somebody who cannot read the board');
+  assert.ok(!Object.keys(ix).some((t) => t.startsWith(FORUM_ROOM)), 'a category\'s room had a line of its own in the World room');
+  const bix = Object.fromEntries((await worldIndex(FBOARD, s, now)).rooms.map((x) => [x.tag, x]));
+  assert.deepEqual(bix[FORUM_PAGE].people.map((p) => p.handle), ['Bea', 'Bo']);
+  assert.equal(bix[FORUM_PAGE].call, true);
+
+  await noteLatest('forum-board', now - 500, s, now);
+  await noteLatest('forum-coping', now - 400, s, now);
+  assert.deepEqual(Object.keys((await newFor(ADA, s, now)).latest).sort(), ['forum-coping'], 'the board\'s channel was news to somebody who cannot read the board');
+  assert.deepEqual(Object.keys((await newFor(FBOARD, s, now)).latest).sort(), ['forum-board', 'forum-coping']);
+
+  assert.equal(await countMessage('forum-finance', s, now), 'mods', 'a staff category\'s message was counted with the open rooms');
+  assert.equal(await countMessage('forum-coping', s, now), 'rooms');
+  assert.match(cleanProfile({ room: 'forum-coping' }).error || '', /cannot be named on a profile/, 'a category\'s room could be a favourite, shown to everybody');
+});
+
+test('what is said in a private category\'s room goes only into the category, or one no wider', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  await updateRoomTalk('forum-board', (l) => [...l, { id: 'b1', handle: 'Bea', text: 'board talk', t: now, base: true }], s);
+  await updateRoomTalk('forum-coping', (l) => [...l, { id: 'c1', handle: 'Bo', text: 'a hard day', t: now }], s);
+  assert.match((await cbTranscript(ADA, { room: 'forum-board', ids: ['b1'] }, s)).error, /not a channel you can hear/);
+  assert.match((await startTopic(FBOARD, { cat: 'events', title: 'Leak', from: { room: 'forum-board', ids: ['b1'] } }, s, T0, NO_NET)).error, /only go into a category/);
+  const kept = (await startTopic(FBOARD, { cat: 'board', title: 'Minutes', from: { room: 'forum-board', ids: ['b1'] } }, s, T0, NO_NET)).topic;
+  assert.ok(kept, 'the board\'s room could not go into the board\'s own category');
+  assert.match((await moderateTopic(FADMIN, kept.id, { move: 'events' }, s, T0)).error, /private room/);
+  assert.ok((await startTopic(BO, { cat: 'events', title: 'From Coping', from: { room: 'forum-coping', ids: ['c1'] } }, s, T0, NO_NET)).topic,
+    'a public category\'s room could not go into another public category');
+});
+
+test('a category\'s room tells only the devices whose pass can read the category, and says its own name', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Bea":["board"]}');
+  await claimAccount('Bea', 'bea has a phrase', s, 0, mods, true);
+  await claimAccount('Ada', 'ada has a phrase too', s, 0, mods, true);
+  const bea = issueAccountPass('Bea', 1, 'base'), ada = issueAccountPass('Ada', 1), cy = issuePass('mobile', 'Cy');
+  const beaDev = aDevice(), adaDev = aDevice(), cyDev = aDevice();
+  for (const [d, p] of [[beaDev, bea], [adaDev, ada], [cyDev, cy]]) await keepDevice(d, p, { calls: true, rooms: ['forum-board', 'forum-coping'] }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const to = (d) => sent.filter((x) => x.to === d.endpoint);
+  await notifyMessage({ id: 'm1', handle: 'Dee', text: 'budget', t: 1 }, 'forum-board', s, mods, send);
+  assert.equal(to(adaDev).length + to(cyDev).length, 0, 'the board\'s room told a device whose pass cannot read the board');
+  assert.deepEqual(to(beaDev)[0].payload.place, { name: 'The forums: Board', path: '/forum.html#/c/board' });
+  sent.length = 0;
+  await notifyMessage({ id: 'm2', handle: 'Dee', text: 'hello', t: 2 }, 'forum-coping', s, mods, send);
+  assert.deepEqual(sent.map((x) => x.to).sort(), [adaDev.endpoint, beaDev.endpoint].sort(), 'a public category\'s room told an unclaimed handle, or kept a reader out');
+  sent.length = 0;
+  await notifyCall('forum-board', s, mods, send);
+  assert.deepEqual(sent.map((x) => x.to), [beaDev.endpoint], 'the board\'s call was news to somebody who cannot read the board');
+  assert.deepEqual(sent[0].payload, { kind: 'call', room: 'forum-board', place: { name: 'The forums: Board', path: '/forum.html#/c/board' } });
+}));

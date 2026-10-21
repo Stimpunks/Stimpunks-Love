@@ -19,7 +19,8 @@ is left of the old promise is checked here rather than remembered:
     address and have this server post to it.
   · A CALL'S NOTIFICATION NEVER SAYS WHO JOINED. Who is in a call is shown only
     to radios seen in its room (privacy.html#calls); notifyCall's payload is the
-    room and nothing else.
+    room and nothing else, and for a forum category's room (2026-10-21), which
+    is in no public list, that room's name and address by forumPlace().
   · EVERYTHING REACHES A KIND ADDED LATER (feedback from our community and
     Ryan's call, 2026-10-19). A device can switch on every kind at once, and
     every kind added after it, so every notifier asks wants() in lib.mjs and
@@ -88,9 +89,11 @@ def main():
     if not call:
         problems.append("lib.mjs has no notifyCall.")
     else:
-        payloads = re.findall(r"payload:\s*(\{[^}]*\})", code(call.group(0)))
-        if payloads != ["{ kind: 'call', room: tag }"]:
-            problems.append(f"a call's notification carries {payloads}: it is the room and nothing else, never who joined.")
+        c = code(call.group(0))
+        payloads = re.findall(r"payload(?::|\s*=)\s*(\{[^}]*\})", c)
+        adds = re.findall(r"payload\.(\w+)\s*=\s*([^;]*);", c)
+        if payloads != ["{ kind: 'call', room: tag }"] or adds not in ([], [("place", "forumPlace(tag)")]):
+            problems.append(f"a call's notification carries {payloads} {adds}: it is the room and nothing else, never who joined.")
     priv = (ROOT / "privacy.html").read_text()
     if 'id="notifications"' not in priv:
         problems.append("privacy.html has no #notifications section, and the radio and the service worker link to it.")

@@ -88,6 +88,19 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · THE RADIO TYPING MESSAGES IN. cb.js only says which messages to take; the
     server copies them off the channel, so nobody can quote somebody into
     saying anything. cb.js must never send to /cb/forum.
+  · A CATEGORY'S ROOM ON THE CB LOCKED BY ANYTHING BUT THE CATEGORY. Ryan's
+    ask and calls, 2026-10-21: the radio's This room follows the category
+    being read, and every category is a room under FORUM_ROOM and its slug,
+    heard, seen in and called in by exactly the people who can read it, and a
+    subcategory is its top category's room. So roomAllows must hand a
+    category's tag to forumAllows and nothing else, forumRoom must refuse a
+    subcategory's tag, and the tag's start and the room's name must be the same
+    in lib.mjs, cb.js and forum.js. A page, a room of the base's, a quiet room,
+    a pebble bowl or a public call named like a category's room is refused,
+    because two rooms would share a tag; so is a category whose tag would be
+    too long to be a room. A category that says it is `as` one of the Town
+    Hall's rooms takes exactly that room's roles and strictness, so the two
+    lists cannot drift apart.
   · privacy.html without the forums' section and love-forum, and the page
     without its link to them.
 
@@ -112,6 +125,7 @@ PRIVACY = ROOT / "privacy.html"
 CB = ROOT / "cb.js"
 
 KEEPS = ["1 week", "3 months", "6 months", "never"]
+AS = {}     # a category's slug, and the Town Hall room it says it is for the same people as
 BEGIN = "/* forum:categories:begin -- written by tools/make-forum.py from data/forum.json. Do not hand-edit. */"
 END = "/* forum:categories:end */"
 
@@ -196,7 +210,7 @@ def categories(data, roles):
             problems.append(f"{where}: strict keeps an administrator out of a category that names roles; this one names none.")
         if c.get("wiki") and c.get("keep") != "never":
             problems.append(f"{where}: a wiki keeps its pages for good. An edit does not move a topic's clock, so a page nobody replied to would go.")
-        extra = set(c) - {"slug", "name", "about", "group", "keep", "see", "start", "strict", "wiki", "parent", "topics", "years", "templates"}
+        extra = set(c) - {"slug", "name", "about", "group", "keep", "see", "start", "strict", "wiki", "parent", "topics", "years", "templates", "as"}
         if extra:
             problems.append(f"{where}: {', '.join(sorted(extra))} is nothing the forums read.")
         cat = {"slug": slug, "name": c.get("name"), "about": c.get("about"), "group": c.get("group"),
@@ -213,6 +227,8 @@ def categories(data, roles):
             cat["years"] = c.get("years")
         if c.get("templates"):
             cat["templates"] = True
+        if c.get("as") is not None:
+            AS[slug] = c.get("as")
         out.append(cat)
         by_slug[slug] = {**cat, "_depth": depth}
     for cat in out:
@@ -440,6 +456,77 @@ def check_cb():
         problems.append(f"{CB.name}: Take to the forums no longer opens a new topic with the messages ticked.")
 
 
+def strings_of(lib, name):
+    m = re.search(rf"export const {name} = \[([^\]]*)\]", lib)
+    return re.findall(r"'([a-z0-9-]+)'", m.group(1)) if m else None
+
+
+def check_rooms(lib, cats):
+    """Every category is a room on the CB, locked by the category alone."""
+    prefix = re.search(r"export const FORUM_PAGE = '([a-z]+)';\nexport const FORUM_ROOM = FORUM_PAGE \+ '-';", lib)
+    if not prefix:
+        problems.append(f"{LIB.name}: FORUM_PAGE and FORUM_ROOM, the forums' own room and the start of every category's, cannot be read.")
+        return
+    page, room = prefix.group(1), prefix.group(1) + "-"
+    allows = fn(lib, "roomAllows")
+    if not re.search(r"if \(typeof tag === 'string' && tag\.startsWith\(FORUM_ROOM\)\) \{\s*const cat = forumRoom\(tag\);\s*return !!cat && forumAllows\(who, cat\);\s*\}", allows) \
+            or allows.find("FORUM_ROOM") > allows.find("modRoom(tag)"):
+        problems.append(f"{LIB.name}: roomAllows must hand a forum category's room to forumAllows, first and with nothing else, so the category's roles are the only list.")
+    if "return cat && !cat.parent ? cat : null;" not in fn(lib, "forumRoom"):
+        problems.append(f"{LIB.name}: forumRoom must refuse a subcategory's tag: a subcategory is its top category's room.")
+    if "!c.parent && forumAllows(who, c)" not in fn(lib, "forumRooms"):
+        problems.append(f"{LIB.name}: forumRooms must name only the rooms of top categories the pass may read.")
+    name = re.search(r"export function forumRoomName\(cat\) \{ return `([^`$]*)\$\{cat\.name\}`; \}", lib)
+    if not name:
+        problems.append(f"{LIB.name}: forumRoomName, what a category's room is called, cannot be read.")
+        return
+    cb, js = code_of(CB), code_of(JS)
+    if f"var FORUM_PAGE = '{page}', FORUM_ROOM = FORUM_PAGE + '-';" not in cb:
+        problems.append(f"{CB.name}: its FORUM_PAGE and FORUM_ROOM are not lib.mjs's ('{page}', '{room}').")
+    if f"var FORUM_ROOM = '{room}', FORUM_ROOM_NAME = '{name.group(1)}';" not in js:
+        problems.append(f"{JS.name}: its FORUM_ROOM and FORUM_ROOM_NAME are not lib.mjs's ('{room}', '{name.group(1)}').")
+    if "pathOf(catOf(slug))[0]" not in js or "window.dispatchEvent(new CustomEvent('love-forum-room'))" not in js:
+        problems.append(f"{JS.name}: placeRadio must name a category the server sent, by its top category, and say love-forum-room when it moves.")
+    if "addEventListener('love-forum-room'" not in cb or "data-forum-room" not in cb:
+        problems.append(f"{CB.name}: the radio no longer follows the forums from category to category.")
+    for html in sorted(ROOT.rglob("*.html")):
+        if html.stem.startswith(room) and ".git" not in html.parts:
+            problems.append(f"{html.relative_to(ROOT)}: a page named like a forum category's room, whose tag it would share.")
+    try:
+        listed = json.loads((ROOT / "cb-rooms.json").read_text()).get("rooms", [])
+    except (OSError, ValueError):
+        listed = None
+    if listed is not None and not any(r.get("tag") == page and r.get("path") == f"/{page}.html" for r in listed):
+        problems.append(f"cb-rooms.json: the forums are not the room '{page}' at /{page}.html, which every category's room stands under.")
+    mods = re.search(r"export const MOD_ROOMS = \{(.*?)\n\};", lib, re.S)
+    mod_roles = {k: re.findall(r"'([a-z]+)'", v) for k, v in re.findall(r"^\s*'([a-z0-9-]+)':\s*\[([^\]]*)\]", mods.group(1), re.M)} if mods else {}
+    if not mod_roles:
+        problems.append(f"{LIB.name}: MOD_ROOMS cannot be read.")
+    strict = strings_of(lib, "STRICT_ROOMS") or []
+    names = {"MOD_ROOMS": list(mod_roles)}
+    for n in ("QUIET_ROOMS", "PEBBLE_ROOMS", "PUBLIC_CALLS", "STRICT_ROOMS"):
+        got = strings_of(lib, n)
+        if got is None:
+            problems.append(f"{LIB.name}: {n} cannot be read.")
+        names[n] = got or []
+    for n, tags in names.items():
+        for t in tags:
+            if t.startswith(room):
+                problems.append(f"{LIB.name}: {n} names {t}, which is shaped like a forum category's room.")
+    for c in cats:
+        if len(room + c["slug"]) > 80 - 5:
+            problems.append(f"{DATA.name}: category {c['slug']}'s room, {room}{c['slug']}, is too long to be a room on the CB, with a year after it.")
+    by = {c["slug"]: c for c in cats}
+    for slug, town in AS.items():
+        c = by.get(slug, {})
+        if town not in mod_roles:
+            problems.append(f"{DATA.name}: category {slug} says it is as {town!r}, which is none of MOD_ROOMS.")
+            continue
+        if sorted(c.get("see") or []) != sorted(mod_roles[town]) or bool(c.get("strict")) != (town in strict):
+            problems.append(f"{DATA.name}: category {slug} says it is for the same people as {town}, which takes {mod_roles[town]}"
+                            f"{' and is strict' if town in strict else ''}; the category says {c.get('see')}{' and strict' if c.get('strict') else ''}.")
+
+
 def main():
     data = json.loads(DATA.read_text())
     lib = LIB.read_text()
@@ -453,6 +540,7 @@ def main():
             LIB.write_text(new)
             lib = new
     check_lib(lib)
+    check_rooms(lib, cats)
     check_function()
     check_js()
     check_css()
@@ -463,7 +551,7 @@ def main():
         return 1
     print("the forums: the categories written into the CB, claimed usernames only, nothing about reading kept or counted, "
           "no author's mark sent, previews fetched only from public addresses, copies made by the server, "
-          "and the forums dressed in the CB's own colours.")
+          "every category a room on the CB locked by its own roles, and the forums dressed in the CB's own colours.")
     return 0
 
 

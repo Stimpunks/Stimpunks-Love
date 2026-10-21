@@ -330,7 +330,11 @@
     var p = String(path || '/').replace(/\.html$/, '');
     return rooms.filter(function (r) { return r.path.replace(/\.html$/, '') === p; })[0] || null;
   }
-  function roomByTag(tag) { return rooms ? rooms.filter(function (r) { return r.tag === tag; })[0] || null : null; }
+  function roomByTag(tag) {
+    var c = FORUM_ROOM_TAG.test(tag || '') ? catOf(tag.slice(FORUM_ROOM.length)) : null;
+    if (c) return { tag: tag, name: FORUM_ROOM_NAME + c.name, path: '/forum.html#/c/' + c.slug };
+    return rooms ? rooms.filter(function (r) { return r.tag === tag; })[0] || null : null;
+  }
   function catOf(slug) { return cats.filter(function (c) { return c.slug === slug; })[0] || null; }
   function kidsOf(slug) { return cats.filter(function (c) { return c.parent === slug; }); }
   function pathOf(c) { var out = []; while (c) { out.unshift(c); c = c.parent ? catOf(c.parent) : null; } return out; }
@@ -1440,6 +1444,7 @@
     if (text) view.appendChild(quiet(text));
   }
   function refused(r) {
+    placeRadio(null);
     var why2 = why(r, 'The forums could not be read just now.');
     view.textContent = '';
     var h = heading(2, r.body && r.body.claim ? 'Claim your username first' : 'The forums');
@@ -1452,6 +1457,7 @@
   }
 
   function guest() {
+    placeRadio(null);
     view.textContent = '';
     side.textContent = '';
     var h = heading(2, 'Sign on to read the forums');
@@ -1469,10 +1475,37 @@
     return h;
   }
 
+  /* EVERY CATEGORY IS A ROOM ON THE CB (Ryan's calls, 2026-10-21), so the
+     radio's This room is the category being read: a category's page, a topic
+     in it, or a new topic started in it, and a subcategory is its top
+     category's room. The forums' home, Latest, Mentions and Search are The
+     forums' own room, and so is anything the forums could not show. Said on
+     the page's own <body>, where the radio reads it (cb.js's forumHere), with
+     love-forum-room when it changes; FORUM_ROOM and the name's start are
+     netlify/cb/lib.mjs's, and tools/make-forum.py holds these to them. Only a
+     category the server sent this reader is ever written there, and the
+     server asks the category's roles again for everything done in its room. */
+  var FORUM_ROOM = 'forum-', FORUM_ROOM_NAME = 'The forums: ';
+  var FORUM_ROOM_TAG = /^forum-[a-z0-9]+(?:-[a-z0-9]+)*$/;
+  function placeRadio(slug) {
+    var top = slug ? pathOf(catOf(slug))[0] : null;
+    var b = document.body, tag = top ? FORUM_ROOM + top.slug : '';
+    if ((b.getAttribute('data-forum-room') || '') === tag) return;
+    if (top) {
+      b.setAttribute('data-forum-room', tag);
+      b.setAttribute('data-forum-room-name', FORUM_ROOM_NAME + top.name);
+    } else {
+      b.removeAttribute('data-forum-room');
+      b.removeAttribute('data-forum-room-name');
+    }
+    window.dispatchEvent(new CustomEvent('love-forum-room'));
+  }
+
   function took(r, here) {
     if (r.body.cats) cats = r.body.cats;
     if (r.body.me) me = r.body.me;
     if (r.body.takes) takes = r.body.takes;
+    placeRadio(here || null);
     navNew.hidden = !cats.some(function (c) { return c.start; });
     // New topic starts in the category you are in, where you can start one.
     var c = startIn(here && catOf(here));
@@ -1783,8 +1816,12 @@
     return Promise.all(asks).then(function (rs) {
       var r = rs[0];
       if (r.status !== 200) return refused(r);
-      took(r);
-      drawSide(q.c || null);
+      // Started in a category, or from a category's channel on the CB: that
+      // category's, until it is changed, and that category's room on the radio.
+      if (r.body.cats) cats = r.body.cats;
+      var inCat = q.c || (q.from && FORUM_ROOM_TAG.test(q.from) && catOf(q.from.slice(FORUM_ROOM.length)) ? q.from.slice(FORUM_ROOM.length) : null);
+      took(r, inCat);
+      drawSide(inCat);
       var templates = rs[2].status === 200 ? rs[2].body.templates || [] : [];
       view.textContent = '';
       var h = heading(2, from ? 'A new topic, from the CB' : 'A new topic');
@@ -1807,7 +1844,7 @@
         }
       }
       var f = composer({
-        key: 'new:' + (q.from || '') + ':' + (q.ids || ''), cats: startable, cat: q.c && startIn(catOf(q.c)) ? startIn(catOf(q.c)).slug : q.c, title: '', above: above,
+        key: 'new:' + (q.from || '') + ':' + (q.ids || ''), cats: startable, cat: inCat && startIn(catOf(inCat)) ? startIn(catOf(inCat)).slug : inCat, title: '', above: above,
         templates: templates,
         people: from && rs[3].status === 200 ? rs[3].body.cb.messages.map(function (m) { return m.handle; }) : [],
         label: from ? 'Anything you want to add (you can leave this empty)' : 'Your post', go: 'Start the topic', sending: 'Starting it…',
