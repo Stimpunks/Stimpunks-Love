@@ -5327,6 +5327,14 @@ the importer's name and today, which are both wrong. **A Notion page its recurri
 Tasks has that recurring task, because EspoCRM's copy of the same day is already here; the importer matches by name and
 day and reports where the two disagree rather than changing either. Notion's rows are read through the connector in Claude
 (no API key), and the importer and how to run it are in `~/Documents/GitHub/Stimpunks-Work/notion-tasks-import/`.
+**Their comments come in too** (Ryan's ask, the same evening): `importTaskComment` (`comment-import` on `/cb/tasks`) keeps
+Notion's id for each (`notion`, never sent to a page, which shows only `from: 'notion'`), its writer as a username and its
+time, sorts it among the task's comments by that time, mends it when brought again unless edited here, and keeps its id in
+`TASKS_GONE` once deleted here; its mark is that username's as claimed now, so its writer can edit it. It is nobody's
+change: no activity, no notification, and `talk` only moves forward. **A task brought from EspoCRM has no Notion id**, so
+its page is found by name and due day (the nearest within three days for a name Notion repeats); the importer's
+`comments.mjs` takes our task id with each comment. **Leave out a comment naming an applicant or a member of the public**,
+as the descriptions do: Tasks is not sealed.
 
 **TASKS AND THE OFFICE EACH HAVE A FEED, AFTER NOTION'S, AND IT KEEPS NOTHING.** Ryan's ask, 2026-10-21: a
 reverse-chronological feed with previews you can act on. Tasks' is a fourth view (`#/feed`) beside the list, board and

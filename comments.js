@@ -80,7 +80,7 @@
     var by = el('p', o.p + '-comment__by');
     by.appendChild(el('b', null, c.by));
     by.appendChild(document.createTextNode(' '));
-    var words = o.when(c.t) + (c.edited ? ', edited ' + o.when(c.edited) : '');
+    var words = o.when(c.t) + (c.from === 'notion' ? ', in Notion' : '') + (c.edited ? ', edited ' + o.when(c.edited) : '');
     if (href) { var a = el('a', o.p + '-when', words); a.href = href; by.appendChild(a); }
     else by.appendChild(el('span', o.p + '-when', words));
     return by;

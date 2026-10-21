@@ -3818,7 +3818,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
-  TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate } from './lib.mjs';
+  TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -5410,6 +5410,51 @@ test('a comment on a task: its writer edits it, its writer or an administrator d
   await removeTask(TRYAN, t.id, s, T0 + 30, TMODS);
   assert.equal(await s.get(`task-comments/${t.id}`, { type: 'json' }), null, 'a deleted task\'s comments were left behind');
 });
+
+/* Comments brought from Notion keep Notion's id, their writer and their time,
+   sit among a task's comments by that time, are mended by bringing them again
+   and never doubled, stay deleted once deleted here, and tell nobody. Their
+   mark is their writer's claimed username, so they can edit them here. */
+test('a comment brought from Notion is its writer\'s, by its time, brought once, kept deleted, and tells nobody', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Chelsea', 'chelsea has a phrase', s, 700, TMODS, true);
+  const t = (await saveTask(TRYAN, { name: 'Figure out the books', who: 'Norah' }, s, T0, TMODS)).task;
+  const here = (await commentTask(TNORAH, t.id, 'Said here.', s, T0 + 50, TMODS)).comment;
+  const N1 = 'a'.repeat(32), N2 = 'b'.repeat(32), N3 = 'c'.repeat(32);
+  const bring = (f) => importTaskComment(TRYAN, { id: t.id, ...f }, s, T0 + 100);
+  assert.ok((await importTaskComment(TSAM, { id: t.id, notion: N1, by: 'Chelsea', t: T0 + 10, body: 'x' }, s, T0 + 100)).error);
+  assert.ok((await bring({ notion: 'not-an-id', by: 'Chelsea', t: T0 + 10, body: 'x' })).error, 'a comment with no Notion id was brought');
+  assert.ok((await bring({ notion: N1, by: 'Chelsea', t: T0 + 1000, body: 'x' })).error, 'a comment from the future was brought');
+  assert.ok((await bring({ notion: N1, t: T0 + 10, body: 'x' })).error, 'a comment with nobody\'s name was brought');
+  const a = await bring({ notion: N1, by: 'Chelsea', t: T0 + 10, body: 'Tiffany is working on this.' });
+  assert.equal(a.made, true);
+  assert.equal(a.comment.from, 'notion');
+  assert.equal(a.comment.mine, false, 'Ryan, who brought it, was told it was his');
+  assert.ok(!JSON.stringify(a.comment).includes(N1), 'Notion\'s id for a comment was sent to the page');
+  await bring({ notion: N2, by: 'Norah', t: T0 + 20, body: 'YNAB can help.' });
+  // Brought again: the same comment, mended, never twice.
+  const again = await bring({ notion: N1, by: 'Chelsea', t: T0 + 10, body: 'Tiffany is working on this. Follow up as needed.' });
+  assert.equal(again.made, false);
+  const seen = await taskComments(TCHELSEA, t.id, s);
+  assert.deepEqual(seen.map((c) => c.body), ['Tiffany is working on this. Follow up as needed.', 'YNAB can help.', 'Said here.'], 'brought comments do not sit among the task\'s comments by their time, or one was doubled');
+  // Its writer, claimed, may edit it; one edited here is left alone when brought again.
+  assert.equal(seen[0].mine, true, 'the writer of a brought comment was not told it was theirs');
+  assert.equal(seen[1].mine, false, 'a comment by a username nobody has claimed was given to somebody');
+  await editTaskComment(TCHELSEA, t.id, seen[0].id, 'Tiffany finished it.', s, T0 + 200, TMODS);
+  await bring({ notion: N1, by: 'Chelsea', t: T0 + 10, body: 'Tiffany is working on this.' });
+  assert.equal((await taskComments(TRYAN, t.id, s))[0].body, 'Tiffany finished it.', 'bringing a comment again wrote over an edit made here');
+  // One nobody claimed is deleted only by an administrator, and then stays deleted.
+  assert.ok((await removeTaskComment(TNORAH, t.id, seen[1].id, s)).error, 'a director deleted a brought comment that was not theirs');
+  assert.deepEqual(await removeTaskComment(TRYAN, t.id, seen[1].id, s), { gone: true });
+  assert.ok((await bring({ notion: N2, by: 'Norah', t: T0 + 20, body: 'YNAB can help.' })).error, 'a brought comment deleted here came back');
+  // Nobody is told, and nothing goes in the activity.
+  await bring({ notion: N3, by: 'Chelsea', t: T0 + 30, body: '@Norah, look at this.' });
+  assert.deepEqual((await taskInbox(TNORAH, s, T0 + 300)).items.filter((x) => x.kind === 'commented').map((x) => x.by), [], 'a brought comment told somebody');
+  assert.ok((await taskActivity(TRYAN, t.id, s)).every((e) => e.kind !== 'commented' || e.by === 'Norah'), 'a brought comment went into the activity');
+  // An old comment never makes the task look newer than it is.
+  assert.equal((await readTasks(s)).find((x) => x.id === t.id).talk, T0 + 50);
+  assert.ok(here);
+}));
 
 test('a comment tells the people on the task, whoever made it, anybody who commented before and anybody it @mentions, and never its words', async () => {
   const s = memoryStore({ etagOnRead: true });

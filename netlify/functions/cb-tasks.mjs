@@ -25,6 +25,10 @@
      { action: 'comment', id, body }                 a comment on a task
      { action: 'comment-edit', id, c, body }         comment c changed, by whoever wrote it
      { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
+     { action: 'comment-import', id, notion, by, t, body }
+         a comment brought from a task's page in Notion: notion is its id there (32 hex), by
+         the username of whoever wrote it, t when, in milliseconds; bringing it again changes it
+         rather than adding it twice, and it tells nobody
      { action: 'inbox-read', ids | all: true }       the reader's notifications marked read: those ids, or all
      { action: 'preview', body, comment? }           how a description, or with comment: true a comment, will set
      { action: 'view-save', id?, name, address }     a saved filter: a name and the #/ or #/board
@@ -35,7 +39,7 @@
      { action: 'recur-remove', id }                  a recurring task deleted; the tasks it made stay
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
-  taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, TASK_COMMENT_MAX,
+  taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS } from '../cb/lib.mjs';
@@ -122,6 +126,10 @@ export default async (req) => {
     if (b.action === 'comment-remove') {
       const r = await removeTaskComment(who, String(b.id || ''), String(b.c || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'comment-import') {
+      const r = await importTaskComment(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment, made: r.made }, QUIET);
     }
     if (b.action === 'inbox-read') {
       const r = await readTaskInbox(who, b.all === true ? 'all' : b.ids);

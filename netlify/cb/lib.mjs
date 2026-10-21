@@ -7685,8 +7685,11 @@ export function commentId(v) { return typeof v === 'string' && /^m[A-Za-z0-9_-]{
 const newCommentId = () => 'm' + randomBytes(9).toString('base64url');
 
 function shapeComment(c, who) {
-  return { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body),
-    mine: !!who && !!who.since && c.mark === authorMark(who) };
+  const out = { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body),
+    mine: !!who && !!who.since && !!c.mark && c.mark === authorMark(who) };
+  // One brought from Notion says so, and never sends Notion's id for it.
+  if (c.notion) out.from = 'notion';
+  return out;
 }
 
 export async function taskComments(who, id, s = store()) {
@@ -7752,15 +7755,72 @@ export async function removeTaskComment(who, id, cid, s = store()) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
   const tid = taskId(id), k0 = commentId(cid);
   if (!tid || !k0) return { error: 'Delete which comment?' };
-  let why = null;
+  let why = null, gone = null;
   await updateList(taskCommentsBlob(tid), 'comments', (list) => {
-    why = null;
+    why = null; gone = null;
     const k = list.findIndex((x) => x.id === k0);
     if (k < 0) { why = 'That comment has already been deleted.'; return null; }
     if (list[k].mark !== authorMark(who) && !who.roles.has('administrator')) { why = 'Only whoever wrote a comment, or an administrator, can delete it.'; return null; }
+    gone = list[k];
     return list.filter((_, i) => i !== k);
   }, s);
-  return why ? { error: why } : { gone: true };
+  if (why) return { error: why };
+  // One brought from Notion and deleted here stays deleted when comments are brought again.
+  if (gone && gone.notion) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.notion) ? null : [...ids, gone.notion]), s);
+  return { gone: true };
+}
+
+/* COMMENTS BROUGHT FROM NOTION (Ryan's ask, 2026-10-21): a comment on a task's
+   page in Notion's Tasks, kept as a comment here with Notion's id for it, so
+   bringing them again changes one rather than adding it twice, leaves alone one
+   edited here, and leaves deleted one deleted here (its id goes in TASKS_GONE,
+   beside the tasks'). It keeps who wrote it, as the CB username the importer
+   names, and when, and sits among the task's comments by that time. Its mark
+   is that username's as it is claimed now, so its writer can edit or delete it
+   here; a username not claimed gives it none, and then only an administrator
+   can. An import is nobody's change: it is in no activity and tells nobody. */
+export async function importTaskComment(who, f, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  f = f || {};
+  const notion = typeof f.notion === 'string' && /^[0-9a-f]{32}$/.test(f.notion) ? f.notion : null;
+  if (!notion) return { error: 'That is not a Notion comment id.' };
+  const words = cleanForumBody(f.body, TASK_COMMENT_MAX);
+  if (!words) return { error: `A comment is between one and ${TASK_COMMENT_MAX} characters.` };
+  const t = typeof f.t === 'number' && f.t > 0 && f.t <= now ? f.t : null;
+  if (!t) return { error: 'Say when it was written, no later than now.' };
+  const by = cleanHandle(f.by);
+  if (!by) return { error: 'Say who wrote it, as their username.' };
+  if ((await readTaskGone(s)).includes(notion)) return { error: 'That comment was brought over and deleted here, so it stays deleted.' };
+  const tid = taskId(f.id);
+  const task = tid ? (await readTasks(s)).find((x) => x.id === tid) : null;
+  if (!task) return { error: 'That task has been deleted.' };
+  const acct = await readAccount(by, s);
+  const mark = acct && acct.since ? authorMark({ handle: acct.handle, since: acct.since }) : null;
+  let saved = null, made = false, full = false;
+  await updateList(taskCommentsBlob(tid), 'comments', (list) => {
+    saved = null; made = false; full = false;
+    const k = list.findIndex((x) => x.notion === notion);
+    if (k >= 0) {
+      const had = list[k];
+      // Changed here, or the same as it was: left as it is.
+      if (had.edited || (had.body === words && had.by === by && had.t === t)) { saved = had; return null; }
+      saved = { ...had, body: words, by, t, mark: had.mark || mark };
+      const copy = list.slice(); copy[k] = saved;
+      return copy.sort((a, b) => a.t - b.t);
+    }
+    if (list.length >= TASK_COMMENTS_KEEP) { full = true; return null; }
+    made = true;
+    saved = { id: newCommentId(), by, mark, t, body: words, notion };
+    return [...list, saved].sort((a, b) => a.t - b.t);
+  }, s);
+  if (full) return { error: `This task has ${TASK_COMMENTS_KEEP} comments, as many as it keeps.` };
+  // When it was last talked about, for the Feed: an old comment never makes a task look newer than it is.
+  await updateList(TASKS, 'tasks', (list) => {
+    const k = list.findIndex((x) => x.id === tid);
+    if (k < 0 || (list[k].talk || 0) >= t) return null;
+    const copy = list.slice(); copy[k] = { ...list[k], talk: t }; return copy;
+  }, s);
+  return { comment: shapeComment(saved, who), made };
 }
 
 /* SAVED FILTERS are each reader's own (Ryan's stage two, 2026-10-20): a name

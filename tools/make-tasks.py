@@ -138,7 +138,7 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
     for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
                  "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity", "taskFeed",
-                 "taskComments", "commentTask", "editTaskComment", "removeTaskComment"):
+                 "taskComments", "commentTask", "editTaskComment", "removeTaskComment", "importTaskComment"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -210,6 +210,15 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: only whoever wrote a comment, or an administrator, deletes it (removeTaskComment).")
     if "await s.delete(taskCommentsBlob(gone.id));" not in fn(sec, "removeTask"):
         problems.append(f"{LIB.name}: a deleted task's comments must go with it (removeTask).")
+    # A comment brought from Notion is nobody's change: it tells nobody, keeps Notion's id only on the server,
+    # and stays deleted once deleted here.
+    itc = fn(sec, "importTaskComment")
+    if re.search(r"noteTask\(|tellTaskPeople\(|notifyTask\(", itc) or "saved = { id: newCommentId(), by, mark, t, body: words, notion };" not in itc:
+        problems.append(f"{LIB.name}: a comment brought from Notion is kept as its id, writer, mark, time, words and Notion's id, and tells nobody (importTaskComment).")
+    if "readTaskGone(s)).includes(notion)" not in itc or "if (gone && gone.notion) await updateList(TASKS_GONE" not in fn(sec, "removeTaskComment"):
+        problems.append(f"{LIB.name}: a comment brought from Notion and deleted here must stay deleted.")
+    if "notion:" in sc or "out.notion" in sc:
+        problems.append(f"{LIB.name}: shapeComment sends Notion's id for a comment. It says only that one came from Notion.")
     if "payload.comment = item.comment;" not in fn(lib, "notifyTask") or re.search(r"comment\.body|\.body\b", fn(lib, "notifyTask")):
         problems.append(f"{LIB.name}: notifyTask tells a device which comment and never its words.")
     if "out.push({ field: 'body' })" not in fn(sec, "taskChanges"):
