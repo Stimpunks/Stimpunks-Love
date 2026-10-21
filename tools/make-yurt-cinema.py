@@ -8,9 +8,13 @@ fashioned film reel for each one in rows instead of a bookcase". The room is
 hers, so the ask is the licence; what this tool adds is the street's plumbing
 round it.
 
-ONE DATA FILE, ONE TOOL. data/yurt-cinema.json holds the films; this writes the
-screen and the rows of reels into faery-cinema-room.html between the
-yurt-cinema:reels markers. Edit the data, never the markers.
+ONE DATA FILE, ONE TOOL, TWO SURFACES. data/yurt-cinema.json holds the films;
+this writes the screen and the rows of reels into faery-cinema-room.html
+between the yurt-cinema:reels markers, and the Cinema's book into the yurt
+between the yurt-cinema:book markers (Helen, 2026-10-21: "a book for the
+cinema room in same style" as the songbooks): Nature Notes' binding, a shelf to
+a run of pages, every reel a line linking to that reel in the Cinema. Nothing
+in the book plays. Edit the data, never the markers.
 
 THE RACK IS rack.js's PATTERN AND THE SCREEN HAS NOTHING OF ITS OWN ON IT. A
 cinema has no film that is "the whole programme" the way the Music Room's
@@ -381,5 +385,84 @@ b = page.index(end)
 new = page[:a] + "\n    " + block + "\n    " + page[b:]
 if new != page:
     PAGE.write_text(new)
-print(f"make-yurt-cinema: {len(films)} reel{'s' if len(films) != 1 else ''} on {len(shelves)} shelves"
+# ── The Cinema's book, in the yurt ──────────────────────────────────────────
+# The songbooks' binding (yurt-notebook.js shuts it and turns its pages; with no
+# script it is open and swipes), a shelf to a run of pages, seven lines to a
+# page, every line a link to its reel in the Cinema.
+YURT = ROOT / "faery-yurt.html"
+PER_PAGE = 7
+
+
+def reel_anchor(t):
+    return "cin-reel-" + (t.get("id") or t.get("list"))
+
+
+def reel_time(t):
+    if "list" in t:
+        return "runs until you stop it"
+    return "live" if t.get("live") else t["runtime"]
+
+
+book_pages = []
+for sh in shelves:
+    for n in range(0, len(sh["reels"]), PER_PAGE):
+        chunk = sh["reels"][n:n + PER_PAGE]
+        lines = [
+            f'            <li class="yurt-songbook__song"><a class="yurt-songbook__link" '
+            f'href="faery-cinema-room.html#{attr(reel_anchor(t))}">'
+            f'<span class="yurt-songbook__title">{esc(t["title"])}</span></a> '
+            f'<span class="yurt-songbook__what">{esc(t["channel"])}</span> '
+            f'<span class="yurt-songbook__time">{esc(reel_time(t))}</span></li>'
+            for t in chunk]
+        no = len(book_pages) + 1
+        say = (f'Page {no}: {sh["title"]}, from {chunk[0]["title"]} to {chunk[-1]["title"]}.'
+               if len(chunk) > 1 else f'Page {no}: {sh["title"]}, {chunk[0]["title"]}.')
+        book_pages.append(
+            f'        <li class="yurt-notebook__page" data-notebook-say="{attr(say)}">\n'
+            f'          <p class="yurt-songbook__head">{esc(sh["title"])}</p>\n'
+            f'          <ul class="yurt-songbook__list">\n' + "\n".join(lines) + '\n          </ul>\n'
+            f'          <span class="yurt-notebook__no" aria-hidden="true">No. {no}</span>\n'
+            f'        </li>')
+
+if book_pages:
+    book = (
+        '<div class="yurt-notebook yurt-songbook" data-notebook>\n'
+        '      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>\n'
+        '        <span class="yurt-notebook__title">The Cinema</span>\n'
+        '        <span class="yurt-notebook__open">Open the book</span>\n'
+        '      </button>\n'
+        '      <div class="yurt-notebook__cover" data-notebook-book>\n'
+        '        <ul class="yurt-notebook__pages" tabindex="0" aria-label="The Cinema: every reel on its rails, '
+        'shelf by shelf; each line goes to that reel in the Cinema" data-notebook-pages>\n'
+        + "\n".join(book_pages) + '\n'
+        '        </ul>\n'
+        '        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>\n'
+        '      </div>\n'
+        '      <div class="yurt-notebook__controls" data-notebook-controls hidden>\n'
+        '        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>\n'
+        '        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>\n'
+        '        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>\n'
+        '      </div>\n'
+        '      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>\n'
+        '    </div>\n'
+        '    <p class="yurt-songbook__from">Every reel on the rails in the <a href="faery-cinema-room.html">Cinema</a>, '
+        'shelf by shelf, in the order I hung them. Press a line and it takes you to that reel, which is where it plays. '
+        'Nothing in this book plays.</p>')
+else:
+    book = '<p class="yurt-songbook__from">The Cinema&rsquo;s book is waiting for its first reel.</p>'
+
+yurt = YURT.read_text()
+b2, e2 = "<!-- yurt-cinema:book:begin -->", "<!-- yurt-cinema:book:end -->"
+if yurt.count(b2) != 1 or yurt.count(e2) != 1:
+    raise SystemExit(f"REFUSING: faery-yurt.html must hold one {b2} and one {e2}.")
+a2, z2 = yurt.index(b2) + len(b2), yurt.index(e2)
+new_yurt = yurt[:a2] + "\n    " + book + "\n    " + yurt[z2:]
+if new_yurt != yurt:
+    YURT.write_text(new_yurt)
+if re.search(r"data-embed|data-rack-to|class=\"facade", new_yurt[a2:new_yurt.index(e2)]):
+    raise SystemExit("REFUSING: the Cinema's book in the yurt holds something that plays. The films play in the Cinema.")
+
+
+print(f"make-yurt-cinema: {len(films)} reel{'s' if len(films) != 1 else ''} on {len(shelves)} shelves, "
+      f"and {len(book_pages)} pages in the yurt's book"
       + ("" if films else " (none yet; the room says they are on their way)") + ".")

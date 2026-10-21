@@ -1,5 +1,5 @@
 {
-  "_source": "Helen Edgar's films for the Cinema, behind her Faery Yurt, asked for on 2026-10-21: every reel she drops in hangs on a rail on the wall, in rows, on a shelf under its own heading (her headings, the same day: Philosophy, Nature, Cosmos, Weird stuff, Poetry, Relaxation; Art and Ma, Minimalism & the Void the same morning, at her ask, with films Claude found on the galleries' and makers' own channels), and goes up on the screen when it is pressed. A reel is one video (id, with its runtime) or, at her ask the same day (\"main channels not just the link to a specific video so can scroll\"), a whole channel's uploads (kind channel, a list of UU plus the channel id after UC) or a playlist (kind playlist, its PL id, and the id it opens on), which plays from the top with no runtime, because it keeps growing; a live camera (live: true) has no runtime either. Everything was read off YouTube's own pages on 2026-10-21 with a browser's user agent, never from memory: each video's watch page for playabilityStatus (OK for all), playableInEmbed (true for all), lengthSeconds and author; each channel's page for its id and name; each playlist's page for its owner and its first row, whose watch page answered OK and playableInEmbed true. A video whose channel has embedding off goes in as a door (door + state: link). Titles are the uploaders' own. Edit this, then run tools/make-yurt-cinema.py; it writes the reels into faery-cinema-room.html. tools/check-jukebox.py reads the videos on every shelf.",
+  "_source": "Helen Edgar's films for the Cinema, behind her Faery Yurt, asked for on 2026-10-21: every reel she drops in hangs on a rail on the wall, in rows, on a shelf under its own heading (her headings, the same day: Philosophy, Nature, Cosmos, Weird stuff, Poetry, Relaxation; Art and Ma, Minimalism & the Void, Films I Love and Things That Make Me Smile the same morning, at her ask, with films Claude found on the galleries' and makers' own channels), and goes up on the screen when it is pressed. A reel is one video (id, with its runtime) or, at her ask the same day (\"main channels not just the link to a specific video so can scroll\"), a whole channel's uploads (kind channel, a list of UU plus the channel id after UC) or a playlist (kind playlist, its PL id, and the id it opens on), which plays from the top with no runtime, because it keeps growing; a live camera (live: true) has no runtime either. Everything was read off YouTube's own pages on 2026-10-21 with a browser's user agent, never from memory: each video's watch page for playabilityStatus (OK for all), playableInEmbed (true for all), lengthSeconds and author; each channel's page for its id and name; each playlist's page for its owner and its first row, whose watch page answered OK and playableInEmbed true. A video whose channel has embedding off goes in as a door (door + state: link). Titles are the uploaders' own. Edit this, then run tools/make-yurt-cinema.py; it writes the reels into faery-cinema-room.html. tools/check-jukebox.py reads the videos on every shelf. Helen asked for official uploads only: every trailer is Rotten Tomatoes Classic Trailers' or the studio's or distributor's own, and every channel or playlist the show's or its network's own; fan uploads were swapped for official ones or left off.",
   "_checked": "2026-10-21",
   "shelves": [
     {
@@ -520,6 +520,142 @@
           "title": "Relaxing Music | Full Moon Music | Deep Focus | Study Music | Background Music | Full Moon Energy",
           "runtime": "1:11:11",
           "channel": "Quiet Quest - Study Music"
+        }
+      ]
+    },
+    {
+      "title": "Films I Love",
+      "note": "Trailers for films I love. The films themselves you may need to buy, rent or find somewhere else.",
+      "reels": [
+        {
+          "id": "HUECWi5pX7o",
+          "title": "Amélie (2001) Official Trailer 1 - Audrey Tautou Movie",
+          "runtime": "1:03",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "caMgokYWboU",
+          "title": "The Royal Tenenbaums (2001) Trailer #1 | Movieclips Classic Trailers",
+          "runtime": "1:55",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "PCJ2gzSeTdE",
+          "title": "Withnail and I | Official Trailer | 4K",
+          "runtime": "2:01",
+          "channel": "Arrow Video"
+        },
+        {
+          "id": "iurbZwxKFUE",
+          "title": "Beauty and the Beast (1991) Trailer #1 | Movieclips Classic Trailers",
+          "runtime": "1:22",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "nPE0f-MB_bQ",
+          "title": "The Little Mermaid (1989) Trailer #1 | Movieclips Classic Trailers",
+          "runtime": "2:08",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "jbZJ487oJlY",
+          "title": "Mulholland Drive | Official Trailer | Starring Naomi Watts",
+          "runtime": "1:24",
+          "channel": "StudiocanalUK"
+        },
+        {
+          "id": "nxvGVSc6Ls8",
+          "title": "Twilight (2008) Trailer #1",
+          "runtime": "2:26",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "Mzw2ttJD2qQ",
+          "title": "The Odyssey | Official Trailer",
+          "runtime": "1:54",
+          "channel": "Universal Pictures"
+        },
+        {
+          "id": "8VOAxzgq42A",
+          "title": "Romeo + Juliet (1996) Trailer #1 | Movieclips Classic Trailers",
+          "runtime": "1:42",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "AOIPyZBySds",
+          "title": "Donnie Darko (2001) Trailer #1 | Movieclips Classic Trailers",
+          "runtime": "1:11",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "_e8QGuG50ro",
+          "title": "The Lord of the Rings: The Fellowship Of The Ring (2001) Official Trailer #1 - Ian McKellen Movie HD",
+          "runtime": "2:30",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "07-QBnEkgXU",
+          "title": "Eternal Sunshine of the Spotless Mind Official Trailer #1 - Jim Carrey, Kate Winslet Movie (2004) HD",
+          "runtime": "1:24",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        },
+        {
+          "id": "9POCgSRVvf0",
+          "title": "ALICE IN WONDERLAND | New Official Full Trailer (HQ) | Official Disney UK",
+          "runtime": "2:35",
+          "channel": "Disney UK"
+        },
+        {
+          "id": "AGACeWVdFqo",
+          "title": "Corpse Bride (2005) Official Trailer - Tim Burton Animated Musical HD",
+          "runtime": "1:02",
+          "channel": "Rotten Tomatoes Classic Trailers"
+        }
+      ]
+    },
+    {
+      "title": "Things That Make Me Smile",
+      "reels": [
+        {
+          "kind": "playlist",
+          "list": "PLO79iP69FaZN04_OXXByrv4AN6y4LQCoZ",
+          "title": "Curb Your Enthusiasm | HBO",
+          "channel": "HBO",
+          "opens": "Pi5tZTPVn1Y",
+          "address": "https://www.youtube.com/playlist?list=PLO79iP69FaZN04_OXXByrv4AN6y4LQCoZ"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLgZZ9Y_Cr271Ko4dk7vAH37fAZLOwbIKy",
+          "title": "Peep Show | Full Episodes",
+          "channel": "Peep Show",
+          "what": "on the official Peep Show channel",
+          "opens": "QGvIB20VQfA",
+          "address": "https://www.youtube.com/playlist?list=PLgZZ9Y_Cr271Ko4dk7vAH37fAZLOwbIKy"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLKfpV2bmlzOBiNtqMrbhTvKH_5H7IonwS",
+          "title": "Frasier | Paramount+",
+          "channel": "Paramount Plus",
+          "opens": "DSrr3X2l5wg",
+          "address": "https://www.youtube.com/playlist?list=PLKfpV2bmlzOBiNtqMrbhTvKH_5H7IonwS"
+        },
+        {
+          "kind": "channel",
+          "list": "UUJ4QsKOU-n3BuxIYSidJIcg",
+          "title": "Gilmore Girls",
+          "channel": "Gilmore Girls",
+          "what": "the official channel",
+          "address": "https://www.youtube.com/@gilmoregirls"
+        },
+        {
+          "kind": "channel",
+          "list": "UUpbWmV3trWP4kqbNawlXIcQ",
+          "title": "Jeff Arcuri",
+          "channel": "Jeff Arcuri",
+          "what": "his own channel",
+          "address": "https://www.youtube.com/@comedianJeffArcuri"
         }
       ]
     }

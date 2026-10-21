@@ -6448,7 +6448,7 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .room-yurt .yurt-songbook__from { max-width: 420px; margin: 14px auto 0; font-size: 15px; font-style: italic; color: var(--tallow-3); }
 /* The Reading Room's book stands on the Bookshelf above the door through to
    it (2026-10-18), and the door keeps its distance from the book's note. */
-.room-yurt .yurt-songbook__from + .yurt-door { margin-top: 26px; }
+.room-yurt .yurt-songbook__from + .yurt-portal { margin-top: 30px; }
 /* The way back, a button in the room's clothes: the gallery's plate wears it
    (the deck did too, until the deck went through to the Music Room). */
 .room-yurt .yurt-back {
@@ -6458,27 +6458,78 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 }
 .room-yurt .yurt-back:hover { border-color: var(--candle); color: var(--candle); }
 
-/* The door to the Reading Room, where the bookcases went on 2026-10-15: a
-   bookcase-shaped arch in the yurt's own timber, with the room's claret
-   showing through it. Her ask; the books outgrew the page. */
-.room-yurt .yurt-door { display: flex; gap: 22px; align-items: center; max-width: 560px; margin: 0 auto; color: var(--tallow); text-decoration: none; }
+/* THE PORTALS, Helen's ask, 2026-10-21: the doors to the Music Room, the
+   Reading Room and the Cinema are the Glimmer Window's oak doors in its stone
+   arch, the same size, opened the same way (a checkbox, no script), and behind
+   each is deep space, a sky of its own for each room: a violet nebula and a
+   ringed planet for the music, a moonlit starfield with a constellation for the
+   books, a spiral galaxy for the films. They replaced the little arches she
+   asked to be bigger. Once open, "Step through" stands in the doorway on the
+   tent's own ground; under every door its words are the way in as well, always
+   there, so a keyboard or a screen reader never has to open anything to go
+   through. Every stone, plank and star is ornament and carries no word.
+   Nothing in the sky moves. The doors swing at Regular and MAX and snap at
+   Gentle, because §3 takes transitions away there. */
+.yurt-portal { display: flex; flex-direction: column; align-items: center; margin: 26px auto 0; max-width: 560px; }
+.yurt-portal__door { position: relative; width: min(100%, 360px); }
+.yurt-portal__check { position: absolute; opacity: 0; pointer-events: none; }
+.yurt-portal__frame {
+  position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; box-sizing: border-box;
+  padding: 14px; cursor: pointer; border-radius: 50% 50% 4px 4px / 40% 40% 0 0;
+  background:
+    conic-gradient(from 270deg at 2px 50%, #241D19 0 25%, transparent 0) 0 0 / 54px 52px,
+    conic-gradient(from 270deg at 2px 50%, #241D19 0 25%, transparent 0) 27px 26px / 54px 52px,
+    linear-gradient(180deg, #241D19 0 2px, transparent 2px) 0 0 / 100% 26px,
+    radial-gradient(ellipse at 30% 30%, rgba(242,230,212,.10), transparent 60%) 0 0 / 54px 26px,
+    linear-gradient(160deg, #6A5E55, #3E3631 75%) #4E4540;
+  box-shadow: 0 24px 50px -22px rgba(0,0,0,.6), inset 0 0 0 2px #241D19, inset 0 0 18px rgba(0,0,0,.45);
+}
+.yurt-portal__sash { position: relative; display: block; width: 100%; height: 100%; border-radius: 50% 50% 3px 3px / 40% 40% 0 0; overflow: hidden; background: #0C0E14; box-shadow: inset 0 0 0 6px #2A1E17, inset 0 0 0 7px #120C09, inset 0 0 24px rgba(0,0,0,.6); }
+.yurt-portal__space { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.yurt-portal__shutter {
+  position: absolute; top: 14px; bottom: 14px; width: calc(50% - 14px); border-radius: 3px;
+  background:
+    radial-gradient(circle, #9A8A76 0 1.5px, #15100C 1.6px 3.2px, transparent 3.6px) 6px 21% / 22px 16px repeat-x,
+    radial-gradient(circle, #9A8A76 0 1.5px, #15100C 1.6px 3.2px, transparent 3.6px) 6px 76% / 22px 16px repeat-x,
+    linear-gradient(#1F1813, #2B221B 50%, #15100C) 0 21% / 100% 16px no-repeat,
+    linear-gradient(#1F1813, #2B221B 50%, #15100C) 0 76% / 100% 16px no-repeat,
+    linear-gradient(90deg, rgba(0,0,0,.30), transparent 8%, transparent 92%, rgba(0,0,0,.30)),
+    repeating-linear-gradient(90deg, #2A1E17 0 2px, #5A4332 2px 6px, #4A372B 6px 22px, #3E2E23 22px 26px),
+    linear-gradient(160deg, #5A4332, #2A1E17) #4A372B;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.4), 0 10px 20px -10px rgba(0,0,0,.55);
+  transition: transform .7s cubic-bezier(.6,0,.2,1);
+}
+.yurt-portal__shutter--l { left: 14px; transform-origin: left center; border-top-left-radius: 100% 40%; }
+.yurt-portal__shutter--r { right: 14px; transform-origin: right center; border-top-right-radius: 100% 40%; }
+.yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__shutter--l { transform: rotateY(-108deg); }
+.yurt-portal__check:checked + .yurt-portal__frame .yurt-portal__shutter--r { transform: rotateY(108deg); }
+/* The checkbox is invisible, so the ring goes on the frame, the Glimmer
+   Window's rule. */
+.yurt-portal__check:focus-visible + .yurt-portal__frame { outline: 4px solid var(--candle); outline-offset: 4px; }
+/* Step through: in the open doorway, on the tent's own ground in her tallow,
+   a pair already measured. Behind the shut doors it is hidden, and so out of
+   the tab order until the doors are opened. */
+.room-yurt .yurt-portal__step {
+  position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); visibility: hidden; white-space: nowrap;
+  padding: 10px 18px; border-radius: 6px; background: var(--tent); color: var(--tallow); border: 1px solid var(--candle);
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 21px; text-decoration: none;
+  box-shadow: 0 10px 24px -8px rgba(0,0,0,.8);
+}
+.room-yurt .yurt-portal__check:checked ~ .yurt-portal__step { visibility: visible; }
+.room-yurt .yurt-portal__step:hover { color: var(--candle); }
+.room-yurt .yurt-portal__step:focus-visible { outline: 3px solid var(--candle); outline-offset: 3px; }
+.yurt-portal__hint { display: block; margin-top: 12px; text-align: center; font-family: 'Caveat', cursive; font-size: 21px; color: var(--tallow-3); }
+.yurt-portal__hint .is-open { display: none; }
+.yurt-portal__door:has(.yurt-portal__check:checked) + .yurt-portal__hint .is-shut { display: none; }
+.yurt-portal__door:has(.yurt-portal__check:checked) + .yurt-portal__hint .is-open { display: inline; }
+/* The words under the door: the way in that is always there, bigger than the
+   little arches had, centred under the doorway. */
+.room-yurt .yurt-door { display: block; max-width: 520px; margin: 14px auto 0; color: var(--tallow); text-decoration: none; text-align: center; }
 .room-yurt .yurt-door:hover .yurt-door__go { color: var(--candle); }
 .room-yurt .yurt-door:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }
-.yurt-door__arch {
-  flex: 0 0 auto; width: 96px; height: 150px; box-sizing: border-box;
-  border: 8px solid var(--timber); border-bottom-width: 12px; border-radius: 48px 48px 3px 3px / 70px 70px 3px 3px;
-  background: radial-gradient(ellipse at 50% 95%, rgba(242,153,79,.38), transparent 60%), #22101A;
-  box-shadow: inset 0 0 18px rgba(0,0,0,.6);
-}
 .yurt-door__words { display: flex; flex-direction: column; gap: 6px; }
-.yurt-door__go { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 24px; line-height: 1.2; text-decoration: underline; text-decoration-color: rgba(224,144,74,.45); text-underline-offset: 4px; }
-.yurt-door__say { font-size: 16px; color: var(--tallow-2); }
-.room-yurt .yurt-door--music { margin-top: 26px; }
-/* The door to the Cinema (2026-10-21, Helen's ask): an old picture-house arch
-   with its screen lit and a film strip winding across the front, drawn in the
-   yurt's own declared colours, in place of the bookcase arch. */
-.yurt-door__cinema { flex: 0 0 auto; width: 96px; height: 150px; filter: drop-shadow(0 10px 14px rgba(0,0,0,.5)); }
-@media (max-width: 480px) { .room-yurt .yurt-door { flex-direction: column; text-align: center; } }
+.yurt-door__go { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 30px; line-height: 1.2; text-decoration: underline; text-decoration-color: rgba(224,144,74,.45); text-underline-offset: 4px; }
+.yurt-door__say { font-size: 17px; color: var(--tallow-2); }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
    everywhere, hung small on the wall in a thin gilt, and pressed off the wall
@@ -6769,6 +6820,12 @@ html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
 .yurt-notebook__shut:hover .yurt-notebook__open,
 .yurt-notebook__shut:focus-visible .yurt-notebook__open { border-color: var(--candle); color: var(--candle); }
 .yurt-notebook__shut:focus-visible { outline: 4px solid var(--candle); outline-offset: 4px; }
+/* SMALLER SHUT, Helen's ask, 2026-10-21 ("make the books smaller"): in her
+   yurt a shut book stands at about two thirds of its old width, so the portals
+   are the big things on the page; it opens out to its full width to be read. */
+.room-yurt .yurt-notebook__shut { width: min(100%, 260px); margin-inline: auto; gap: 12px; padding: 20px 20px 20px 36px; }
+.room-yurt .yurt-notebook__shut .yurt-notebook__title { font-size: clamp(24px, 6vw, 30px); padding: 10px 4px; }
+.room-yurt .yurt-notebook__shut .yurt-notebook__open { font-size: 15px; }
 .yurt-notebook__cover {
   position: relative; padding: 12px 18px 12px 22px; border-radius: 4px 10px 10px 4px; overflow: hidden;
   background-color: #4A2E1F;

@@ -738,7 +738,7 @@
    "page": "faery-reading-room.html",
    "room": "The Reading Room",
    "title": "A bookmark left in a borrowed book",
-   "posted": "Somebody left a ribbon bookmark in one of the books in the Reading Room, through the bookcase door in the Faery Yurt. Find it, read the page it marks if you like, and leave the book where it was.",
+   "posted": "Somebody left a ribbon bookmark in one of the books in the Reading Room, through the oak doors under the Bookshelf in the Faery Yurt. Find it, read the page it marks if you like, and leave the book where it was.",
    "rank": 3,
    "takes": "three minutes, and a sit-down by the fire",
    "target": "a ribbon bookmark left in a borrowed book",
@@ -779,7 +779,7 @@
    "code": "STUB",
    "hints": [
     "It is not on the street. Go out past the treeline to the campgrounds, and into the yurt at pitch 01.",
-    "In the yurt, the door with the film strip across it.",
+    "In the yurt, under The Cinema, the oak doors that open onto a galaxy. Open them and step through.",
     "At the very bottom of the Cinema, under the last row of reels."
    ],
    "learned": "The Cinema is Helen Edgar's, behind her yurt: a little picture palace in the Reading Room's colours, where every film she keeps is an old-fashioned reel on a rail, and goes up on the screen when you press it. The projector never flickers. Nothing in there counts what you watched."
