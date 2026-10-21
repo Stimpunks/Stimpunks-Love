@@ -4,8 +4,10 @@
    and the company's id. qbCallback in ../cb/lib.mjs keeps the tokens sealed
    only if the state is the one kept, unused and fresh, and the books are read
    at once so the dashboard has them. Then back to the office, which says
-   whether it worked; nothing about the books, the code or the tokens is in
-   the address it is sent to, or in any log. */
+   whether it worked. Netlify adds the request's query to this address, so
+   the office page arrives with Intuit's code (used by then) after a ?, and
+   office.js takes it straight back out of the address and its history
+   entry. Nothing about the books or the tokens is in any address or log. */
 import { qbCallback, officeQuickBooks } from '../cb/lib.mjs';
 
 export default async (req) => {

@@ -5373,7 +5373,8 @@ sealed state and hands back Intuit's address; Intuit sends them back to `/cb/off
 token Intuit hands back**, and keeps the last `QB_DAYS` of money in and this year's profit and loss, sealed, replacing the last
 read. A deposit line linked to a payment or a receipt already listed is not counted again (`moved`), and the report is read
 by its groups' names, never by row position, because Intuit's newer Reports API orders rows as it likes and leaves an empty
-value as `""`. `qbStatus` is the only answer about it and never carries a token or the company's id. **Intuit's redirect URI
+value as `""`. **Netlify adds a request's query to a function's relative `Location`** (measured live, not in `netlify dev`),
+so the office page arrives with Intuit's used code after a `?`, and office.js's `replaceState` drops it from the address. `qbStatus` is the only answer about it and never carries a token or the company's id. **Intuit's redirect URI
 must be exactly `https://stimpunks.world/cb/office/quickbooks`**, so a deploy preview cannot connect. The friendly edits are
 **a memo or an email kept "for context"**, **writing to the books** (an invoice from a grant request, say), and **a token in
 the page "to call Intuit from the browser"**; each is Ryan's call and `privacy.html#quickbooks` first. `make-office.py` holds it.

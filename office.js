@@ -1894,7 +1894,8 @@
       // Back from Intuit, the address says only whether connecting worked.
       if (back === 'connected') say('QuickBooks is connected. The office has read the books, and reads them again late each evening.');
       else if (back === 'not-connected') say('QuickBooks was not connected. Nothing was changed; Connect QuickBooks tries again.');
-      if (back) history.replaceState(null, '', '#/dashboard');
+      // Netlify adds Intuit's query (the code, already used) to the way back, so the address loses it here.
+      if (back) history.replaceState(null, '', location.pathname + '#/dashboard');
       return h;
     });
   }
