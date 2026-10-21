@@ -5299,8 +5299,8 @@ when a page was made and nothing about who made it or when it was finished**, so
 `done: null` and the task page says who and when nowhere, with a link to the page in Notion instead; the friendly edit is
 the importer's name and today, which are both wrong. **A Notion page its recurring templates made is not brought** when
 Tasks has that recurring task, because EspoCRM's copy of the same day is already here; the importer matches by name and
-day and reports where the two disagree rather than changing either. The importer reads Notion through the connector in
-Claude and lives in the scratchpad, like EspoCRM's.
+day and reports where the two disagree rather than changing either. Notion's rows are read through the connector in Claude
+(no API key), and the importer and how to run it are in `~/Documents/GitHub/Stimpunks-Work/notion-tasks-import/`.
 
 **THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
 2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators
