@@ -4044,6 +4044,10 @@ and anything added later** (feedback from our community and Ryan's call, 2026-10
 that turns on every kind and every kind added after it, so **every notifier asks `wants()`, never a switch by name**, and
 `check-push.py` refuses one that does: a kind read directly would stay off for somebody who chose everything. A new kind
 is an entry in `PUSH_KINDS` and in the radio's `NOTIFY_KINDS`; it leaves the words and the rooms followed alone.
+**Follow every room** (`everyRoom`, Norah's ask, 2026-10-21) is not a kind: a device follows every room its pass can go
+into, later ones included, and **every notifier asks `followsRoom()`, never `w.rooms`**, which `check-push.py` refuses,
+because `followsRoom()` is what keeps a room that keeps to itself out of every room: announcing one to everybody would
+name its address. The friendly edits are folding it into Everything, and letting it take in the quiet rooms.
 
 **THE MANIFEST'S DISPLAY IS `minimal-ui`, SO AN iPHONE NOTIFIES ONLY FROM iOS 26.** Ryan's call, 2026-10-20, when people
 began adding the street to their Docks and Home Screens. An iPhone or iPad notifies only as a Home Screen web app, and iOS

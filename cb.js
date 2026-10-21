@@ -2440,7 +2440,7 @@
     var me = this, box = this.notifyBody;
     var on = !!(sub && want);
     if (want) this.notifyWant = want;
-    var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [] };
+    var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [], everyRoom: false };
     box.textContent = '';
     box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
     box.appendChild(el('p', null, on
@@ -2492,10 +2492,27 @@
       : 'Everything switches on every kind above, every message on World included, and anything the street adds later. Rooms you follow stay your own list.');
     allSays.id = 'cb-notify-all';
     box.appendChild(allSays);
-    // Rooms you follow: this one, if this page is one, and every one you follow.
+    // Rooms you follow: every room, or this one, if this page is one, and every one you follow.
     box.appendChild(el('p', 'cb-pets__h', 'Rooms you follow'));
+    /* EVERY ROOM (Norah's ask, 2026-10-21): every message in every room your
+       pass can go into, rooms that open later too, instead of one at a time;
+       followsRoom() in lib.mjs. Never a room that keeps to itself, which tells
+       only a device that followed it there by name, so that switch stays. */
+    var ev = el('button', 'cb-btn', 'Follow every room: ' + (w.everyRoom ? 'on' : 'off'));
+    ev.type = 'button';
+    ev.setAttribute('aria-pressed', String(!!w.everyRoom));
+    ev.setAttribute('aria-describedby', 'cb-notify-every');
+    ev.addEventListener('click', function () { apply(Object.assign({}, w, { everyRoom: !w.everyRoom }), 'every'); });
+    box.appendChild(ev);
+    if (focusKey === 'every') setTimeout(function () { ev.focus(); }, 0);
+    var evSays = el('p', 'cb-hint', w.everyRoom
+      ? 'Every message in every room you can go into tells this device, rooms that open later too, and with Calls on, every call starting in one. World is its own switch, above. A room that keeps to itself tells you only if you follow it there. The rooms you follow one by one stay your list for when this goes off.'
+      : 'Every message in every room you can go into, rooms that open later too, instead of following them one at a time. It can be a lot.');
+    evSays.id = 'cb-notify-every';
+    box.appendChild(evSays);
     var room = hereRoom();
-    if (room) {
+    // Following every room, this one is followed already, unless it keeps to itself.
+    if (room && (!w.everyRoom || room.quiet)) {
       var follows = w.rooms.indexOf(room.tag) >= 0;
       var fb = el('button', 'cb-btn', 'Follow ' + room.name + ': ' + (follows ? 'on' : 'off'));
       fb.type = 'button';
@@ -2522,7 +2539,7 @@
         ul.appendChild(li);
       });
       box.appendChild(ul);
-    } else {
+    } else if (!w.everyRoom) {
       box.appendChild(el('p', 'cb-quiet', room ? 'None yet. Following a room tells you about every message on its channel.' : 'None yet. In a room, this tray can follow it: every message on its channel.'));
     }
     var acts = el('div', 'cb-acct__row');

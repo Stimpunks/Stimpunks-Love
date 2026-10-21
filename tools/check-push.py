@@ -26,6 +26,11 @@ is left of the old promise is checked here rather than remembered:
     every kind added after it, so every notifier asks wants() in lib.mjs and
     never a switch by name: a switch read directly would stay off for somebody
     who chose everything, and nothing would say so.
+  · EVERY ROOM IS NEVER A ROOM THAT KEEPS TO ITSELF (Norah's ask, 2026-10-21).
+    A device can follow every room at once, and followsRoom() in lib.mjs is the
+    one place a notifier asks whether it follows a room, so a room that keeps to
+    itself is told only to a device that followed it there by name: every room
+    taking it in would announce it to everybody who never knew its address.
   · THE PRIVACY PAGE SAYS SO, under #notifications.
 """
 import re
@@ -94,6 +99,12 @@ def main():
         adds = re.findall(r"payload\.(\w+)\s*=\s*([^;]*);", c)
         if payloads != ["{ kind: 'call', room: tag }"] or adds not in ([], [("place", "forumPlace(tag)")]):
             problems.append(f"a call's notification carries {payloads} {adds}: it is the room and nothing else, never who joined.")
+    follows = re.search(r"export function followsRoom\(w, room\) \{(.*?)\n\}", lib, re.S)
+    if not follows or "w.everyRoom === true && !quietRoom(room)" not in follows.group(1):
+        problems.append("lib.mjs: followsRoom() must leave a room that keeps to itself out of every room.")
+    if part:
+        for m in re.finditer(r"\b(?:w|want|d\.want)\s*\??\.\s*(?:rooms|everyRoom)\b[^;\n]*", re.sub(r"export function (cleanWant|followsRoom)\(.*?\n}\n", "", code(part.group(0)), flags=re.S)):
+            problems.append(f"lib.mjs reads the rooms a device follows itself ({m.group(0).strip()}): ask followsRoom(), which keeps every room off a room that keeps to itself.")
     priv = (ROOT / "privacy.html").read_text()
     if 'id="notifications"' not in priv:
         problems.append("privacy.html has no #notifications section, and the radio and the service worker link to it.")

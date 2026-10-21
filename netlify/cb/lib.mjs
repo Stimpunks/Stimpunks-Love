@@ -6556,8 +6556,8 @@ export function cleanSubscription(sub) {
 }
 
 /* What a device asked for: a switch per kind and one for every kind, all off
-   until switched on, the words, on unless switched off, and the rooms it
-   follows. null if it follows too many. */
+   until switched on, the words, on unless switched off, the rooms it follows,
+   and whether it follows every room. null if it follows too many. */
 export const PUSH_KINDS = ['mentions', 'props', 'messages', 'world', 'calls', 'tasks'];
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
@@ -6565,11 +6565,20 @@ export function cleanWant(w) {
   if (rooms.length > PUSH_ROOMS_MAX) return null;
   const out = { all: w.all === true };
   for (const k of PUSH_KINDS) out[k] = w[k] === true;
-  return { ...out, words: w.words !== false, rooms };
+  return { ...out, words: w.words !== false, rooms, everyRoom: w.everyRoom === true };
 }
 /* Whether a device wants this kind: its own switch, or Everything. */
 export function wants(w, kind) {
   return !!(w && typeof w === 'object' && (w.all === true || w[kind] === true));
+}
+/* Whether a device follows this room: on its list, or following every room
+   (Norah's ask, 2026-10-21), which takes in rooms that open later and is not
+   a kind, so Everything leaves it as it is. Every room is never a room that
+   keeps to itself: only a device that followed that one by its address is
+   told about it. Whether its pass may go in is roomAllows()'s, as ever. */
+export function followsRoom(w, room) {
+  if (!w || typeof w !== 'object' || !room) return false;
+  return (Array.isArray(w.rooms) && w.rooms.includes(room)) || (w.everyRoom === true && !quietRoom(room));
 }
 
 /* A pass's parts, which are kept, and its hash; never the pass. */
@@ -6789,7 +6798,7 @@ async function tellDevices(msg, room, before, s, mods, send) {
     if (!d || d.fold === from) continue;
     const w = d.want || {};
     const h = d.pass && d.pass.handle;
-    const followed = before === null && (room ? (w.rooms || []).includes(room) : wants(w, 'world'));
+    const followed = before === null && (room ? followsRoom(w, room) : wants(w, 'world'));
     const named = wants(w, 'mentions') && !quiet && mentions(msg.text, h) && !(before && mentions(before, h));
     if (!followed && !named) continue;
     const who = await deviceWho(d, s, mods);
@@ -6940,8 +6949,8 @@ export async function notifyTask(handle, item, s = store(), mods = readMods(), s
 }
 
 /* Somebody has joined a call nobody was in: tell the devices that follow its
-   room, or every device that asked about calls for the World call, once in
-   CALL_QUIET at most. Never who joined. */
+   room, every room included, or every device that asked about calls for the
+   World call, once in CALL_QUIET at most. Never who joined. */
 export async function notifyCall(tag, s = store(), mods = readMods(), send = sendPush, now = Date.now()) {
   if (send === sendPush && !pushReady()) return [];
   let fresh = false;
@@ -6957,7 +6966,7 @@ export async function notifyCall(tag, s = store(), mods = readMods(), send = sen
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
     const w = (d && d.want) || {};
-    if (!wants(w, 'calls') || !(tag === WORLD_CALL || (w.rooms || []).includes(tag))) continue;
+    if (!wants(w, 'calls') || !(tag === WORLD_CALL || followsRoom(w, tag))) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (tag !== WORLD_CALL && !roomAllows(who, tag)) continue;

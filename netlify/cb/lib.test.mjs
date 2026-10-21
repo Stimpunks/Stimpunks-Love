@@ -45,7 +45,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
-  mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET } from './lib.mjs';
+  mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET, followsRoom } from './lib.mjs';
 import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
   reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, DM_KEEP, DM_WITH, REPORT_DAYS } from './lib.mjs';
 
@@ -2954,7 +2954,8 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   const offCurve = rnd(65); offCurve[0] = 4;
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
-  assert.deepEqual(cleanWant({}), { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [] }, 'something started on');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [], everyRoom: false }, 'something started on');
+  assert.equal(cleanWant({ everyRoom: 'yes' }).everyRoom, false, 'every room is on only when it is true');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
 });
@@ -3014,6 +3015,28 @@ test('a room that keeps to itself tells only the devices that follow it, never a
   const sent = [];
   await notifyMessage({ id: 'q', handle: 'Ada', text: 'hush @bex', t: 1 }, room, s, mods, async (sub) => { sent.push(sub.endpoint); return 201; });
   assert.deepEqual(sent, [cyDev.endpoint], 'a room that keeps to itself was announced to somebody who does not follow it');
+}));
+
+test('following every room tells a device about every room its pass can go into, and never one that keeps to itself', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Cy":["administrator"]}');
+  const bexDev = aDevice(), cyDev = aDevice(), dovDev = aDevice();
+  await keepDevice(bexDev, issuePass('mobile', 'Bex'), { everyRoom: true, calls: true }, s);
+  await keepDevice(cyDev, issuePass('base', 'Cy'), { everyRoom: true, rooms: [QUIET_ROOMS[1]] }, s);
+  await keepDevice(dovDev, issuePass('mobile', 'Dov'), { all: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const to = (d) => sent.filter((x) => x.to === d.endpoint).map((x) => x.payload.room);
+  for (const room of ['the-den', 'a-room-that-opens-next-year', 'town-hall-moderators', QUIET_ROOMS[0], QUIET_ROOMS[1]]) {
+    await notifyMessage({ id: 'm-' + room, handle: 'Ada', text: 'hello', t: 1 }, room, s, mods, send);
+  }
+  assert.deepEqual(to(bexDev), ['the-den', 'a-room-that-opens-next-year'], 'every room missed a room, told a private one, or announced a quiet one');
+  assert.deepEqual(to(cyDev), ['the-den', 'a-room-that-opens-next-year', 'town-hall-moderators', QUIET_ROOMS[1]], 'every room and a room followed by name did not add up');
+  assert.deepEqual(to(dovDev), [], 'Everything followed every room, which it leaves as it is');
+  assert.ok(!followsRoom({ everyRoom: true }, null), 'World is its own switch, not a room');
+  sent.length = 0;
+  await notifyCall('the-den', s, mods, send, Date.now());
+  assert.deepEqual(sent.map((x) => x.to), [bexDev.endpoint], 'a call in any room missed somebody following every room with calls on');
 }));
 
 test('an edited message tells only somebody it newly @mentions, never the channel\'s followers again', () => withPasswords(async () => {
