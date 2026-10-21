@@ -65,7 +65,8 @@
   var navContacts = el('a', 'cb-btn of-navlink', 'Contacts'); navContacts.href = '#/';
   var navGrants = el('a', 'cb-btn of-navlink', 'Grant requests'); navGrants.href = '#/grants';
   var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
-  [navContacts, navGrants, navCases].forEach(function (a) { nav.appendChild(a); });
+  var navMailings = el('a', 'cb-btn of-navlink', 'Mailings'); navMailings.href = '#/mailings';
+  [navContacts, navGrants, navCases, navMailings].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -638,11 +639,21 @@
     var shown = el('p', 'of-shown');
     shown.setAttribute('aria-live', 'polite');
     view.appendChild(shown);
+    var mailRow = el('p', 'of-row');
+    view.appendChild(mailRow);
     var out = el('div', 'of-tablebox');
     view.appendChild(out);
     var more = el('p', 'of-row');
     view.appendChild(more);
     var showing = PAGE;
+    // Down to one stage of one pipeline, the list can be a mailing.
+    function drawMailRow() {
+      mailRow.textContent = '';
+      if (!f.pipeline || !f.stage) return;
+      var a = el('a', 'cb-btn of-small', 'Email everyone at ' + f.stage);
+      a.href = '#/mailings/new?pipeline=' + encodeURIComponent(f.pipeline) + '&stage=' + encodeURIComponent(f.stage);
+      mailRow.appendChild(a);
+    }
 
     function passes(g, skip) {
       if (skip !== 'pipeline' && f.pipeline && g.pipeline !== f.pipeline) return false;
@@ -682,7 +693,7 @@
         fs.appendChild(l);
       });
     }
-    function refresh() { showing = PAGE; writeGrantQuery(f, false); drawFilters(); drawTable(); }
+    function refresh() { showing = PAGE; writeGrantQuery(f, false); drawFilters(); drawMailRow(); drawTable(); }
     ps.addEventListener('change', function () { f.pipeline = ps.value; refresh(); });
     ss.addEventListener('change', function () { f.stage = ss.value; refresh(); });
     qBox.addEventListener('input', function () { f.q = gSearched = qBox.value; showing = PAGE; drawFilters(); drawTable(); });
@@ -750,6 +761,7 @@
       if (focusSort) { var sb = t.querySelector('[data-sort="' + focusSort + '"]'); if (sb) sb.focus(); }
     }
     drawFilters();
+    drawMailRow();
     drawTable();
     return h;
   }
@@ -1530,6 +1542,388 @@
     return h;
   }
 
+  /* ── Mailings: an email from a template to everybody at one stage ──────── */
+
+  /* A TEMPLATE is a subject and words, with fill-ins in braces that the office
+     knows by name; it refuses any other. A MAILING is shown in full, every email
+     filled in and everybody it leaves out named with the reason, and is sent
+     only from a second press that names everybody it goes to. The team
+     mailbox's script sends it within ten minutes, one email to each person, and
+     each is filed on its contact once the mailbox sees it go. */
+  var FILL_WORDS = { first: 'their first name, or their whole name if they have none', last: 'their last name', name: 'their whole name',
+    grant: 'the grant request’s name', amount: 'its amount, as $500', pipeline: 'its pipeline', stage: 'its stage', submitted: 'the day it was submitted, as October 1, 2026' };
+  function mailingLinks(here) {
+    return viewLinks([['#/mailings', 'Mailings', here === 'mailings'], ['#/mailings/new', 'New mailing', here === 'new'], ['#/templates', 'Templates', here === 'templates']]);
+  }
+  function countWords(c) {
+    var out = [];
+    if (c.sent) out.push(c.sent + ' sent');
+    if (c.waiting) out.push(c.waiting + ' waiting to go');
+    if (c.failed) out.push(c.failed + ' Google would not send');
+    if (c.stopped) out.push(c.stopped + ' stopped');
+    return out.join(' · ') || 'nobody left in it';
+  }
+  function fillInList() {
+    var ul = el('ul', 'of-theirs');
+    settings.fillIns.forEach(function (k) {
+      var li = el('li');
+      li.appendChild(el('code', null, '{' + k + '}'));
+      li.appendChild(document.createTextNode(' ' + (FILL_WORDS[k] || '')));
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  function templatesView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=templates').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawTemplates(r.body.templates || []);
+    });
+  }
+  function drawTemplates(list) {
+    view.textContent = '';
+    var h = heading(2, 'Templates');
+    view.appendChild(h);
+    view.appendChild(mailingLinks('templates'));
+    view.appendChild(el('p', null, 'A template is the subject and words of a mailing. These fill-ins are filled in for each person:'));
+    view.appendChild(fillInList());
+    var add = el('p', 'of-row'); var a = el('a', 'cb-btn of-small', 'New template'); a.href = '#/templates/new'; add.appendChild(a);
+    view.appendChild(add);
+    if (!list.length) { view.appendChild(quiet('No templates yet.')); return h; }
+    var ul = el('ul', 'of-theirs');
+    list.forEach(function (t) {
+      var li = el('li');
+      var ta = el('a', null, t.name); ta.href = '#/templates/edit/' + t.id;
+      li.appendChild(ta);
+      li.appendChild(document.createTextNode(' · ' + t.subject + ' · ' + (t.edited ? 'changed by ' + (t.editedBy || 'somebody') + ', ' + when(t.edited) : 'added by ' + (t.by || 'somebody') + ', ' + when(t.t))));
+      ul.appendChild(li);
+    });
+    view.appendChild(ul);
+    return h;
+  }
+  function templateFormView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=templates').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      var t = id ? (r.body.templates || []).filter(function (x) { return x.id === id; })[0] : null;
+      if (id && !t) { view.textContent = ''; var h = heading(2, 'That template has been deleted'); view.appendChild(h); view.appendChild(backTo('#/templates', '← All templates')); return h; }
+      return drawTemplateForm(t);
+    });
+  }
+  function drawTemplateForm(t) {
+    view.textContent = '';
+    view.appendChild(backTo('#/templates', '← All templates'));
+    var h = heading(2, t ? 'Changing ' + t.name : 'A new template');
+    view.appendChild(h);
+    var form = el('form', 'of-form');
+    form.noValidate = true;
+    function field(id, label, input, wide) {
+      var w = el('div', 'of-field' + (wide ? ' of-wide' : ''));
+      var l = el('label', 'cb-lab', label); l.htmlFor = id; input.id = id;
+      w.appendChild(l); w.appendChild(input);
+      form.appendChild(w);
+      return input;
+    }
+    var name = el('input', 'cb-say of-input'); name.type = 'text'; name.maxLength = settings.templateNameMax; name.value = t ? t.name : ''; name.autocomplete = 'off';
+    field('of-tname', 'Name, for the office', name);
+    var subject = el('input', 'cb-say of-input'); subject.type = 'text'; subject.maxLength = settings.templateSubjectMax; subject.value = t ? t.subject : ''; subject.autocomplete = 'off';
+    field('of-tsubject', 'Subject', subject, true);
+    var text = el('textarea', 'cb-say of-text'); text.rows = 12; text.maxLength = settings.templateBodyMax; text.value = t ? t.body : '';
+    field('of-tbody', 'Words', text);
+    text.setAttribute('aria-describedby', 'of-tbody-hint');
+    var hint = el('div', 'cb-quiet of-hint');
+    hint.id = 'of-tbody-hint';
+    hint.appendChild(el('p', null, 'Plain text, sent as written, with these fill-ins filled in for each person:'));
+    hint.appendChild(fillInList());
+    form.appendChild(hint);
+    var row = el('div', 'of-row');
+    var go = el('button', 'cb-btn', t ? 'Save' : 'Add the template'); go.type = 'submit';
+    var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = '#/templates';
+    row.appendChild(go); row.appendChild(cancel);
+    if (t) {
+      var del = el('button', 'cb-btn', 'Delete'); del.type = 'button';
+      del.addEventListener('click', function () {
+        sure(row, 'This deletes the template ' + t.name + '. Mailings already sent keep their words.', 'Delete it', function (done) {
+          call(null, { action: 'template-remove', id: t.id }).then(function (r) {
+            done();
+            if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
+            say('Deleted.');
+            location.hash = '#/templates';
+          });
+        }, del);
+      });
+      row.appendChild(del);
+    }
+    form.appendChild(row);
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    form.appendChild(answer);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var send = { action: 'template-save', name: name.value, subject: subject.value, body: text.value };
+      if (t) send.id = t.id;
+      go.disabled = true;
+      answer.textContent = 'Saving…';
+      call(null, send).then(function (r) {
+        go.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
+        location.hash = '#/templates';
+        say(t ? 'Saved.' : 'Added.');
+      });
+    });
+    view.appendChild(form);
+    return h;
+  }
+
+  function mailingsView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=mailings').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawMailings(r.body.mailings || []);
+    });
+  }
+  function drawMailings(list) {
+    view.textContent = '';
+    var h = heading(2, 'Mailings');
+    view.appendChild(h);
+    view.appendChild(mailingLinks('mailings'));
+    view.appendChild(el('p', null, 'An email from a template to everybody at one stage of a grant pipeline, one email to each person, sent from the team mailbox within ten minutes of being sent here. Each is filed on its contact once the team mailbox sees it go.'));
+    if (!list.length) { view.appendChild(quiet('No mailings yet.')); return h; }
+    var ul = el('ul', 'of-theirs');
+    list.forEach(function (m) {
+      var li = el('li');
+      var a = el('a', null, m.template + ' · ' + m.pipeline + ', ' + m.stage + (m.since ? ', since ' + dayWords(m.since) : '')); a.href = '#/mailings/' + m.id;
+      li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + m.by + ', ' + when(m.t) + ' · ' + countWords(m.counts)));
+      ul.appendChild(li);
+    });
+    view.appendChild(ul);
+    return h;
+  }
+  function mailingView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=mailing&id=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawMailing(r.body.mailing);
+    });
+  }
+  var STATE_WORDS = { waiting: 'Waiting to go', sent: 'Sent', failed: 'Google would not send it', stopped: 'Stopped' };
+  function drawMailing(m) {
+    view.textContent = '';
+    view.appendChild(backTo('#/mailings', '← All mailings'));
+    var h = heading(2, m.template + ' · ' + m.stage);
+    view.appendChild(h);
+    var dl = el('dl', 'of-facts');
+    function fact(k, v) { dl.appendChild(el('dt', null, k)); dl.appendChild(el('dd', null, v)); }
+    fact('Template', m.template);
+    fact('To', 'Everybody at ' + m.stage + ', in ' + m.pipeline + (m.since ? ', submitted since ' + dayWords(m.since) : ''));
+    fact('Sent by', m.by + ', ' + when(m.t));
+    if (m.stopped) fact('Stopped', (m.stoppedBy ? m.stoppedBy + ', ' : '') + when(m.stopped));
+    fact('Where they are', countWords(m.counts));
+    view.appendChild(dl);
+    view.appendChild(el('h3', null, 'Its words, before they were filled in'));
+    view.appendChild(el('p', null, 'Subject: ' + m.subject));
+    view.appendChild(el('div', 'of-mail', m.body));
+    view.appendChild(el('h3', null, 'Who it went to'));
+    if (m.emails.length) {
+      var ul = el('ul', 'of-theirs');
+      m.emails.forEach(function (e) {
+        var li = el('li');
+        if (e.name) { var ca = el('a', null, e.name); ca.href = '#/c/' + e.contact; li.appendChild(ca); }
+        else li.appendChild(document.createTextNode('A contact since deleted'));
+        li.appendChild(document.createTextNode(' · '));
+        if (e.grantName) { var ga = el('a', null, e.grantName); ga.href = '#/g/' + e.grant; li.appendChild(ga); }
+        else li.appendChild(document.createTextNode('a grant request since deleted'));
+        li.appendChild(document.createTextNode(' · ' + STATE_WORDS[e.state] + (e.when ? ', ' + when(e.when) : '')));
+        ul.appendChild(li);
+      });
+      view.appendChild(ul);
+    } else view.appendChild(quiet('Nobody: every email in it was taken back with its contact.'));
+    var tools = el('div', 'of-row');
+    if (m.counts.waiting) {
+      var stop = el('button', 'cb-btn of-small', 'Stop the rest'); stop.type = 'button';
+      stop.addEventListener('click', function () {
+        sure(tools, 'This takes back the ' + m.counts.waiting + (m.counts.waiting === 1 ? ' email' : ' emails') + ' not sent yet. Those already sent cannot be taken back.', 'Stop them', function (done) {
+          call(null, { action: 'mailing-stop', id: m.id }).then(function (r) {
+            done();
+            if (r.status !== 200) { say(why(r, 'That did not stop. Nothing was changed.')); return; }
+            say(r.body.stopped ? 'Stopped.' : 'There was nothing left to stop: the team mailbox had sent them.');
+            mailingView(m.id).then(function (hh) { if (hh) hh.focus(); });
+          });
+        }, stop);
+      });
+      tools.appendChild(stop);
+    } else {
+      var del = el('button', 'cb-btn of-small', 'Delete this record'); del.type = 'button';
+      del.addEventListener('click', function () {
+        sure(tools, 'This deletes the office’s record of this mailing. The emails it sent stay in Gmail and on each contact.', 'Delete it', function (done) {
+          call(null, { action: 'mailing-remove', id: m.id }).then(function (r) {
+            done();
+            if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
+            say('Deleted.');
+            location.hash = '#/mailings';
+          });
+        }, del);
+      });
+      tools.appendChild(del);
+    }
+    view.appendChild(tools);
+    return h;
+  }
+
+  function newMailingView(hash) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    var q = {};
+    (String(hash).split('?')[1] || '').split('&').forEach(function (kv) {
+      var i = kv.indexOf('=');
+      if (i > 0) { try { q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); } catch (e) { /* a broken address starts empty */ } }
+    });
+    return call('view=templates').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawNewMailing(r.body.templates || [], q);
+    });
+  }
+  function drawNewMailing(templates, q) {
+    view.textContent = '';
+    view.appendChild(backTo('#/mailings', '← All mailings'));
+    var h = heading(2, 'A new mailing');
+    view.appendChild(h);
+    view.appendChild(el('p', null, 'An email from a template to everybody at one stage of a grant pipeline. You see every email, filled in, and who is left out, before anything is sent.'));
+    if (!templates.length) {
+      var p = el('p'); p.appendChild(document.createTextNode('There are no templates yet. '));
+      var ta = el('a', null, 'Write one first'); ta.href = '#/templates/new'; p.appendChild(ta);
+      view.appendChild(p);
+      return h;
+    }
+    var form = el('form', 'of-form');
+    form.noValidate = true;
+    function field(id, label, input) {
+      var w = el('div', 'of-field');
+      var l = el('label', 'cb-lab', label); l.htmlFor = id; input.id = id;
+      w.appendChild(l); w.appendChild(input);
+      form.appendChild(w);
+      return input;
+    }
+    var ps = field('of-npipe', 'Pipeline', el('select', 'cb-say of-input'));
+    var ss = field('of-nstage', 'Stage', el('select', 'cb-say of-input'));
+    var ts = field('of-ntemplate', 'Template', el('select', 'cb-say of-input'));
+    var since = field('of-nsince', 'Submitted since', el('input', 'cb-say of-input'));
+    since.type = 'date';
+    since.setAttribute('aria-describedby', 'of-nsince-hint');
+    var sinceHint = el('p', 'cb-quiet of-hint', 'Optional. A stage holds everybody who ever reached it, so a date here narrows it to the requests submitted on or after that day. Empty is everybody.');
+    sinceHint.id = 'of-nsince-hint';
+    since.parentNode.appendChild(sinceHint);
+    var thisYear = el('button', 'cb-btn of-small', 'This year'); thisYear.type = 'button';
+    since.parentNode.appendChild(thisYear);
+    settings.pipelines.forEach(function (x) { var o = el('option', null, x.name); o.value = x.name; ps.appendChild(o); });
+    if (q.pipeline && settings.pipelines.some(function (x) { return x.name === q.pipeline; })) ps.value = q.pipeline;
+    function stages() {
+      ss.textContent = '';
+      var pipe = settings.pipelines.filter(function (x) { return x.name === ps.value; })[0];
+      (pipe ? pipe.stages : []).forEach(function (x) { var o = el('option', null, x.name); o.value = x.name; ss.appendChild(o); });
+    }
+    stages();
+    if (q.stage) ss.value = q.stage;
+    if (!ss.value && ss.options.length) ss.selectedIndex = 0;
+    templates.forEach(function (t) { var o = el('option', null, t.name); o.value = t.id; ts.appendChild(o); });
+    if (q.template && templates.some(function (t) { return t.id === q.template; })) ts.value = q.template;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(q.since || '')) since.value = q.since;
+    var row = el('div', 'of-row');
+    var look = el('button', 'cb-btn', 'Show every email'); look.type = 'submit';
+    row.appendChild(look);
+    form.appendChild(row);
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    form.appendChild(answer);
+    view.appendChild(form);
+    var shown = el('div', 'of-shownmail');
+    view.appendChild(shown);
+
+    function remember() {
+      var to = '#/mailings/new?pipeline=' + encodeURIComponent(ps.value) + '&stage=' + encodeURIComponent(ss.value) + '&template=' + encodeURIComponent(ts.value) +
+        (since.value ? '&since=' + since.value : '');
+      if (to !== location.hash) history.replaceState(null, '', to);
+    }
+    function clear() { shown.textContent = ''; answer.textContent = ''; remember(); }
+    ps.addEventListener('change', function () { stages(); clear(); });
+    ss.addEventListener('change', clear);
+    ts.addEventListener('change', clear);
+    since.addEventListener('change', clear);
+    thisYear.addEventListener('click', function () { since.value = new Date().getFullYear() + '-01-01'; clear(); since.focus(); });
+    remember();
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      shown.textContent = '';
+      look.disabled = true;
+      answer.textContent = 'Filling them in…';
+      call(null, { action: 'mailing-preview', pipeline: ps.value, stage: ss.value, template: ts.value, since: since.value || null }).then(function (r) {
+        look.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'The emails could not be filled in just now.'); return; }
+        answer.textContent = '';
+        drawPreview(r.body);
+      });
+    });
+
+    function drawPreview(p) {
+      var n = p.emails.length;
+      var top = heading(3, n + (n === 1 ? ' email' : ' emails') + (p.left.length ? ' · ' + p.left.length + ' left out' : ''));
+      shown.appendChild(top);
+      if (p.since) shown.appendChild(el('p', null, 'Only the requests submitted on or after ' + dayWords(p.since) + '. ' +
+        (p.before ? p.before + (p.before === 1 ? ' earlier one at ' + p.stage + ' is' : ' earlier ones at ' + p.stage + ' are') + ' not in it.' : 'None at ' + p.stage + ' is earlier.')));
+      if (p.left.length) {
+        shown.appendChild(el('h3', null, 'Left out'));
+        var lu = el('ul', 'of-theirs');
+        p.left.forEach(function (x) {
+          var li = el('li');
+          var ga = el('a', null, x.grantName); ga.href = '#/g/' + x.grant; li.appendChild(ga);
+          li.appendChild(document.createTextNode(': ' + x.why + '.'));
+          lu.appendChild(li);
+        });
+        shown.appendChild(lu);
+      }
+      if (!n) { shown.appendChild(quiet('Nobody at ' + p.stage + (p.since ? ' submitted since ' + dayWords(p.since) : '') + ' can be emailed, so there is nothing to send.')); top.focus(); return; }
+      if (n > p.max) { shown.appendChild(el('p', null, 'A mailing goes to at most ' + p.max + ' people. Move some grant requests on first, or write to them in two mailings.')); top.focus(); return; }
+      shown.appendChild(el('h3', null, 'The emails'));
+      p.emails.forEach(function (x) {
+        var box = el('div', 'of-preview');
+        box.appendChild(el('p', 'of-to', 'To ' + (x.name ? x.name + ' <' + x.to + '>' : x.to) + ' · ' + x.grantName));
+        box.appendChild(el('p', null, 'Subject: ' + x.subject));
+        box.appendChild(el('div', 'of-mail', x.body));
+        shown.appendChild(box);
+      });
+      var go = el('div', 'of-row');
+      var send = el('button', 'cb-btn', 'Send ' + n + (n === 1 ? ' email' : ' emails')); send.type = 'button';
+      go.appendChild(send);
+      shown.appendChild(go);
+      var names = p.emails.map(function (x) { return x.name || x.to; });
+      send.addEventListener('click', function () {
+        sure(go, 'Send ' + (n === 1 ? 'this email' : 'these ' + n + ' emails') + ' from the team mailbox, one to each person, within ten minutes?' +
+          (p.since ? ' Only requests at ' + p.stage + ' submitted since ' + dayWords(p.since) + '.' : ' Everybody at ' + p.stage + ', whenever they were submitted.') + ' They go to: ' + names.join(', ') + '.',
+          'Yes, send ' + (n === 1 ? 'it' : 'them'), function (done) {
+            call(null, { action: 'mailing-send', pipeline: p.pipeline, stage: p.stage, template: p.template.id, since: p.since, stamp: p.template.stamp,
+              grants: p.emails.map(function (x) { return x.grant; }) }).then(function (r) {
+              done();
+              if (r.status !== 200) { say(why(r, 'That did not send. Nothing was sent.')); return; }
+              location.hash = '#/mailings/' + r.body.mailing;
+              say('Sent to the team mailbox, which sends ' + (r.body.count === 1 ? 'it' : 'them') + ' within ten minutes.');
+            });
+          }, send);
+      });
+      top.focus();
+    }
+    return h;
+  }
+
   /* ── Where in the office an address is ─────────────────────────────────── */
 
   var first = true;
@@ -1554,11 +1948,18 @@
     else if (parts[0] === 'cases') done = casesView(false);
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1]);
     else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1]);
+    else if (parts[0] === 'templates' && parts[1] === 'new') done = templateFormView(null);
+    else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = templateFormView(parts[2]);
+    else if (parts[0] === 'templates') done = templatesView();
+    else if (parts[0] === 'mailings' && parts[1] === 'new') done = newMailingView(hash);
+    else if (parts[0] === 'mailings' && parts[1]) done = mailingView(parts[1]);
+    else if (parts[0] === 'mailings') done = mailingsView();
     else done = contactsView();
     // The bar says which part of the office you are in.
-    [navContacts, navGrants, navCases].forEach(function (a) { a.removeAttribute('aria-current'); });
-    var part = parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases : navContacts;
-    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases') ? 'page' : 'true');
+    [navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
+    var part = parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
+      : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : navContacts;
+    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings') ? 'page' : 'true');
     Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });
   }
   window.addEventListener('hashchange', function () { if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route(); });

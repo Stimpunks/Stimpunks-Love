@@ -3789,7 +3789,9 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
-  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail } from './lib.mjs';
+  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail,
+  officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
+  mailOutbox, mailSentFor, unknownFillIns } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4511,6 +4513,148 @@ test('an email kept before somebody on it was a contact is theirs too once they 
   await removeContact(TRYAN, ada.id, s);
   assert.ok(await officeEmail(TRYAN, both.id, s), 'an email Cy is on went with Ada');
   assert.deepEqual((await officeContact(TRYAN, cy.id, s)).mail.map((x) => x.id), [both.id]);
+})));
+
+const DEAR = { name: 'Holding note', subject: 'About {grant}', body: 'Dear {first},\n\nYour {amount} request is at {stage} in {pipeline}, sent {submitted}.\n\nStimpunks' };
+
+test('a mailing template refuses a fill-in the office does not know', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.match((await saveTemplate(TRYAN, { ...DEAR, body: 'Dear {frist},' }, s, T0)).error, /\{frist\}/);
+  assert.match((await saveTemplate(TRYAN, { ...DEAR, subject: 'About {grant name}' }, s, T0)).error, /\{grant name\}/);
+  assert.deepEqual(unknownFillIns('Hi {first} {first} {x} {} {{y}}'), ['{x}', '{}', '{y}']);
+  const t = (await saveTemplate(TRYAN, DEAR, s, T0)).template;
+  assert.equal(t.stamp, T0);
+  assert.match((await saveTemplate(TRYAN, { ...DEAR, name: 'holding NOTE' }, s, T0)).error, /already/);
+  const t2 = (await saveTemplate(TRYAN, { ...DEAR, id: t.id, subject: 'Your {grant}' }, s, T0 + 5)).template;
+  assert.deepEqual([t2.id, t2.subject, t2.stamp, t2.editedBy], [t.id, 'Your {grant}', T0 + 5, 'Ryan']);
+  assertSealed(await s.get('office-templates', { type: 'json' }), ['Dear {first}', 'Holding note']);
+  assert.match((await saveTemplate(TSAM, DEAR, s, T0)).error, /directors and administrators/);
+  assert.equal(await officeTemplates(TSAM, s), null);
+  assert.deepEqual((await officeTemplates(TRYAN, s)).map((x) => x.name), ['Holding note']);
+  assert.ok((await removeTemplate(TRYAN, t.id, s)).gone);
+  assert.deepEqual(await officeTemplates(TRYAN, s), []);
+}));
+
+async function stageFixture(s) {
+  const c = {};
+  for (const [k, f] of [['ada', { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }], ['bo', { first: 'Bo', last: 'Peep', email: 'bo@example.org', noEmail: true }],
+    ['cy', { first: 'Cy', last: 'Doe' }], ['dee', { first: 'Dee', last: 'Gone', email: 'dee@example.org' }]]) c[k] = (await saveContact(TRYAN, f, s, T0)).contact;
+  const g = {};
+  const at = { pipeline: 'Mutual Aid', stage: 'Holding' };
+  g.ada = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 1: Ada', contact: c.ada.id, amount: 500, submitted: '2026-10-01' }, s, T0)).grant;
+  g.bo = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 2: Bo', contact: c.bo.id, submitted: '2026-10-02' }, s, T0)).grant;
+  g.cy = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 3: Cy', contact: c.cy.id, submitted: '2026-10-03' }, s, T0)).grant;
+  g.none = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 4: nobody', submitted: '2026-10-04' }, s, T0)).grant;
+  g.dee = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 5: Dee', contact: c.dee.id, submitted: '2026-10-05' }, s, T0)).grant;
+  g.other = (await saveGrant(TRYAN, { pipeline: 'Mutual Aid', stage: 'Received', name: 'Aid Request 6: Ada again', contact: c.ada.id }, s, T0)).grant;
+  await removeContact(TRYAN, c.dee.id, s);
+  const t = (await saveTemplate(TRYAN, DEAR, s, T0)).template;
+  return { c, g, t, at };
+}
+
+test('a mailing previews everybody at a stage, leaves out who cannot be emailed, and sends only what was seen', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { c, g, t, at } = await stageFixture(s);
+  for (const [k, v] of Object.values(g).map((x) => [x.name, !!x.id])) assert.ok(v, k + ' was not made');
+  const p = await previewMailing(TRYAN, { ...at, template: t.id }, s);
+  assert.deepEqual(p.emails.map((e) => [e.name, e.to, e.subject]), [['Ada Lovelace', 'ada@example.org', 'About Aid Request 1: Ada']]);
+  assert.equal(p.emails[0].body, 'Dear Ada,\n\nYour $500 request is at Holding in Mutual Aid, sent October 1, 2026.\n\nStimpunks');
+  assert.deepEqual(p.left.map((x) => [x.grantName, x.why]), [['Aid Request 2: Bo', 'they asked not to be emailed'], ['Aid Request 3: Cy', 'their contact has no email address'],
+    ['Aid Request 4: nobody', 'it has no contact'], ['Aid Request 5: Dee', 'its contact has been deleted']]);
+  assert.match((await previewMailing(TSAM, { ...at, template: t.id }, s)).error, /directors and administrators/);
+  assert.match((await previewMailing(TRYAN, { pipeline: 'Mutual Aid', stage: 'Nowhere', template: t.id }, s)).error, /stage/);
+  const send = { ...at, template: t.id, stamp: t.stamp, grants: [g.ada.id] };
+  assert.match((await sendMailing(TRYAN, { ...send, stamp: t.stamp - 1 }, s, T0 + 1)).error, /template has changed/);
+  assert.match((await sendMailing(TRYAN, { ...send, grants: [g.ada.id, g.bo.id] }, s, T0 + 1)).error, /has changed since the preview/);
+  assert.match((await sendMailing(TSAM, send, s, T0 + 1)).error, /directors and administrators/);
+  const r = await sendMailing(TRYAN, send, s, T0 + 2);
+  assert.equal(r.count, 1);
+  assertSealed(await s.get('office-mailings', { type: 'json' }), ['ada@example.org', 'Dear Ada', 'Aid Request 1']);
+  const list = await officeMailings(TRYAN, s);
+  assert.deepEqual(list.map((m) => [m.template, m.stage, m.by, m.counts]), [['Holding note', 'Holding', 'Ryan', { waiting: 1, sent: 0, failed: 0, stopped: 0 }]]);
+  const m = await officeMailing(TRYAN, r.mailing, s);
+  assert.deepEqual(m.emails.map((e) => [e.state, e.name, e.grantName]), [['waiting', 'Ada Lovelace', 'Aid Request 1: Ada']]);
+  assert.equal(m.subject, 'About {grant}');
+  assert.equal(await officeMailing(TSAM, r.mailing, s), null);
+  // Once the template changes, the preview it was sent from no longer stands.
+  const t2 = (await saveTemplate(TRYAN, { ...DEAR, id: t.id, body: 'Hello {first}.' }, s, T0 + 3)).template;
+  assert.match((await sendMailing(TRYAN, send, s, T0 + 4)).error, /template has changed/);
+  assert.ok((await sendMailing(TRYAN, { ...send, stamp: t2.stamp }, s, T0 + 4)).mailing);
+}));
+
+test('a mailing narrowed to requests submitted since a day leaves the earlier ones out, and the send must agree', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { c, g, t, at } = await stageFixture(s);
+  const old = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 0: Ada last year', contact: c.ada.id, submitted: '2025-06-01' }, s, T0)).grant;
+  const undated = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 7: Ada undated', contact: c.ada.id }, s, T0)).grant;
+  const all = await previewMailing(TRYAN, { ...at, template: t.id }, s);
+  assert.deepEqual([all.since, all.before], [null, 0]);
+  assert.deepEqual(all.emails.map((e) => e.grantName).sort(), ['Aid Request 0: Ada last year', 'Aid Request 1: Ada', 'Aid Request 7: Ada undated']);
+  const p = await previewMailing(TRYAN, { ...at, template: t.id, since: '2026-01-01' }, s);
+  assert.deepEqual([p.since, p.before], ['2026-01-01', 1]);
+  assert.deepEqual(p.emails.map((e) => e.grantName), ['Aid Request 1: Ada']);
+  assert.deepEqual(p.left.filter((x) => x.grant === undated.id).map((x) => x.why), ['it has no submitted day']);
+  assert.ok(!p.left.some((x) => x.grant === old.id), 'an earlier request was named as left out');
+  for (const bad of ['2026-13-01', 'yesterday', '2026-1-1']) assert.match((await previewMailing(TRYAN, { ...at, template: t.id, since: bad }, s)).error, /Submitted since is a day/);
+  const send = { ...at, template: t.id, stamp: t.stamp, since: '2026-01-01', grants: [g.ada.id] };
+  assert.match((await sendMailing(TRYAN, { ...send, since: null }, s, T0 + 1)).error, /has changed since the preview/, 'a send that dropped the day went to everybody');
+  const r = await sendMailing(TRYAN, send, s, T0 + 2);
+  assert.equal(r.count, 1);
+  assert.equal((await officeMailing(TRYAN, r.mailing, s)).since, '2026-01-01');
+  assert.deepEqual((await officeMailings(TRYAN, s)).map((m) => m.since), ['2026-01-01']);
+}));
+
+test('the outbox hands the script only waiting emails, and one sent keeps only whose and when', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { c, g, t, at } = await stageFixture(s);
+  const send = { ...at, template: t.id, stamp: t.stamp, grants: [g.ada.id] };
+  const one = (await sendMailing(TRYAN, send, s, T0 + 1)).mailing;
+  const box = await mailOutbox(s);
+  assert.deepEqual(box.map((e) => [e.to, e.subject]), [['ada@example.org', 'About Aid Request 1: Ada']]);
+  assert.deepEqual(Object.keys(box[0]).sort(), ['body', 'id', 'subject', 'to']);
+  assert.deepEqual(await mailSentFor({ id: box[0].id }, s, T0 + 2), { ok: true, known: true });
+  assert.deepEqual(await mailSentFor({ id: box[0].id, failed: true }, s, T0 + 3), { ok: true, known: true }, 'a second word on one email');
+  assert.deepEqual(await mailOutbox(s), []);
+  const sealed = unseal(await s.get('office-mailings', { type: 'json' }));
+  assert.deepEqual(sealed.mailings[0].emails[0], { id: box[0].id, grant: g.ada.id, contact: c.ada.id, sent: T0 + 2 }, 'a sent email kept more than whose and when');
+  assert.deepEqual((await officeMailing(TRYAN, one, s)).emails.map((e) => [e.state, e.when]), [['sent', T0 + 2]]);
+  assert.deepEqual(await mailSentFor({ id: 'e' + 'x'.repeat(12) }, s), { ok: true, known: false });
+  assert.ok((await mailSentFor({ id: 'nope' }, s)).error);
+  // Google would not send one: it is not sent again.
+  const two = (await sendMailing(TRYAN, send, s, T0 + 4)).mailing;
+  await mailSentFor({ id: (await mailOutbox(s))[0].id, failed: true }, s, T0 + 5);
+  assert.deepEqual((await officeMailing(TRYAN, two, s)).counts, { waiting: 0, sent: 0, failed: 1, stopped: 0 });
+  // Stopping takes back what is waiting; a mailing with something waiting is not deleted.
+  const three = (await sendMailing(TRYAN, send, s, T0 + 6)).mailing;
+  assert.match((await removeMailing(TRYAN, three, s)).error, /Stop it first/);
+  assert.deepEqual(await stopMailing(TRYAN, three, s, T0 + 7), { stopped: 1 });
+  assert.deepEqual(await mailOutbox(s), []);
+  assert.ok(!JSON.stringify(unseal(await s.get('office-mailings', { type: 'json' }))).includes('ada@example.org'), 'a stopped email kept its address');
+  assert.ok((await removeMailing(TRYAN, three, s)).gone);
+  // A contact deleted takes their waiting emails with them.
+  const four = (await sendMailing(TRYAN, send, s, T0 + 8)).mailing;
+  await removeContact(TRYAN, c.ada.id, s);
+  assert.deepEqual(await mailOutbox(s), []);
+  assert.deepEqual((await officeMailing(TRYAN, four, s)).emails, []);
+  await withMailKey(null, async () => {
+    assert.equal(await mailOutbox(s), null);
+    assert.equal((await mailSentFor({ id: 'e' + 'x'.repeat(12) }, s)).status, 503);
+  });
+})));
+
+test('fifteen sent at once: every one recorded as sent', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ids = [];
+  for (let i = 0; i < 15; i++) {
+    const c = (await saveContact(TRYAN, { first: 'P' + i, last: 'Person', email: `p${i}@example.org` }, s, T0)).contact;
+    ids.push((await saveGrant(TRYAN, { pipeline: 'Mutual Aid', stage: 'Holding', name: `Aid ${i}`, contact: c.id }, s, T0)).grant.id);
+  }
+  const t = (await saveTemplate(TRYAN, DEAR, s, T0)).template;
+  const m = (await sendMailing(TRYAN, { pipeline: 'Mutual Aid', stage: 'Holding', template: t.id, stamp: t.stamp, grants: ids }, s, T0 + 1)).mailing;
+  const box = await mailOutbox(s);
+  assert.equal(box.length, 15);
+  await Promise.allSettled(box.map((e, i) => mailSentFor({ id: e.id }, s, T0 + 2 + i)));
+  assert.deepEqual((await officeMailing(TRYAN, m, s)).counts, { waiting: 0, sent: 15, failed: 0, stopped: 0 }, 'a sent email went unrecorded');
 })));
 
 test('fifteen emails to one contact at once: every one kept on their list', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {

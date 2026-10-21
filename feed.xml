@@ -16,150 +16,164 @@
       <description>A cinema door in the Faery Yurt opens the Cinema, at Helen’s ask: an old picture-house arch in the yurt’s timber with its screen lit and a film strip winding across the front of it, under a new heading of its own, The Cinema. Every film she keeps is an old-fashioned reel on a rail on the wall, in rows rather than a bookcase, on shelves under her own headings: Philosophy (lots of Deleuze and Guattari, Bergson and Merleau-Ponty (Absurd Being’s podcasts on both, and lectures), Mark Fisher’s The Slow Cancellation of the Future, every talk of Robert Chapman’s that could be found, Astrida Neimanis on bodies of water, and Philosophy Tube), Nature, Cosmos, Weird stuff (ContraPoints), Art (Rothko and Goldsworthy, from Tate, MoMA, the Rothko Chapel and the National Galleries of Scotland), Ma, Minimalism &amp; the Void, Poetry (Sylvia Plath and T. S. Eliot reading their own) and Relaxation. A reel can be one film, a whole channel or playlist that plays from the top with the rest to scroll through in the player, or a live camera: the Monterey Bay Aquarium’s jellies and the Okaukuejo waterhole in Etosha. A film says how long it runs before the press, a channel or playlist that it runs until you stop it, a live camera that it runs until you close it, and nothing plays until then. Every reel was pressed on the screen and played before it went up: where one of National Geographic’s playlists would not play in the United Kingdom, the reel holds its whole channel instead. The Reading Room’s card catalogue has The Deleuze Seminars, his lectures online at Purdue University, on the Gilles Deleuze card, at her ask the same morning. It is the Reading Room’s house two doors along, like the Music Room: claret walls, velvet curtains tied back from a silver screen, a candle in a sconce on each wall, three rows of velvet seats, and the light coming over your head from the projection box with the house lights down. The projector never flickers; its two reels turn at MAX and nowhere else. Join the Faeries and Grow a garden are in there too. A job marker of its own, a ticket stub dropped under a seat, on the guild’s board; a card, a place on the map and a fractal window, like every room.</description>
     </item>
     <item>
+      <title>The office: a mailing can start from a day</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-20-office-mailings-since</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-mailings-since</guid>
+      <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A mailing in the office can be narrowed to the grant requests submitted since a day, because a stage like Granted holds everybody who ever reached it. This year fills in the first of January. The preview says how many earlier requests it left out, the second press says so again, and sending is refused if the day changed after the preview.</description>
+    </item>
+    <item>
+      <title>The office: mailings to a grant stage</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-20-office-mailings</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-mailings</guid>
+      <pubDate>Tue, 20 Oct 2026 11:59:00 GMT</pubDate>
+      <description>A director can email everybody at one stage of a grant pipeline from a template, from the office: Email everyone at a stage on the grant requests list, or New mailing. Templates take fill-ins such as {first}, {grant} and {amount}, and refuse one the office does not know. Every email is shown filled in first, with everybody left out and why, and sending asks again, naming everybody it goes to. The team mailbox sends them within ten minutes, one email to each person, and each is filed on its contact. Anybody who asked not to be emailed is left out. A mailing can be stopped while emails wait. Privacy says what a mailing keeps, and that it is the one time the office hands the mailbox’s script anybody’s address.</description>
+    </item>
+    <item>
       <title>The office: a Gmail label adds somebody new</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-office-mail-label</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-mail-label</guid>
-      <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:58:00 GMT</pubDate>
       <description>Somebody who writes to the team mailbox and is not in the office yet can be added from Gmail: put the Office label on one of their emails, on the web, on a phone or with a filter, and within ten minutes they are a contact, with the whole thread on their page. For an email we started, whoever we sent it to is added. Only the name and address on the email go, and only for the emails somebody chose to label; everybody else’s email still stays in Gmail. Privacy says so.</description>
     </item>
     <item>
       <title>The office: email with the team mailbox</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-office-mail</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-mail</guid>
-      <pubDate>Tue, 20 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:57:00 GMT</pubDate>
       <description>Email between the team mailbox and somebody in the office is filed on their page, as EspoCRM did: newest first, each saying whether it went to them or came from them, and whole when opened, with its attachments named. A script inside the team’s Gmail sends it, every ten minutes, signed with a key of its own. Only email with a contact leaves Gmail. The script is given a keyed hash of each contact’s address rather than the address, and sends an email only when somebody on it matches. Attachments stay in Gmail. Writing stays in Gmail. Write to them in Gmail, Open the thread in Gmail and Reply in Gmail open it there, signed in as the team mailbox. Privacy says what the office keeps of an email.</description>
     </item>
     <item>
       <title>The office takes stimpunks.org’s forms, and EspoCRM goes</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-office-intake</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-intake</guid>
-      <pubDate>Tue, 20 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:56:00 GMT</pubDate>
       <description>A request for a grant, a connection or a volunteer application on stimpunks.org now arrives in the office, sent by stimpunks.org’s server and signed with a key the two servers share. The person is found by their email or added, and their grant request or case is made, once, however often it is sent. EspoCRM is no longer used for anything. Its tasks, contacts, grant requests and cases are all here, and the forms that fed it feed the office instead. Privacy says how an entry arrives.</description>
     </item>
     <item>
       <title>The office: cases</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-office-cases</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-cases</guid>
-      <pubDate>Tue, 20 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:55:00 GMT</pubDate>
       <description>Connection requests and volunteer applications are in the office, which EspoCRM called cases, each keeping its number, sealed at rest like everything there. A list and a board by status, as grant requests have, opening on the open cases. A contact’s page lists their cases beside their grant requests, and starts a new one from them.</description>
     </item>
     <item>
       <title>The office: grant requests</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-office-grants</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-grants</guid>
-      <pubDate>Tue, 20 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:54:00 GMT</pubDate>
       <description>Our grant requests are in the office, beside the contacts they come from, moved from EspoCRM: Mutual Aid and Creator Grants, each at a stage of its pipeline, sealed at rest like everything there. A list and a board, after EspoCRM’s: filter by pipeline, stage and status, each choice saying how many it would show, with what the shown requests come to; or see one pipeline’s stages as columns and move a card by dragging it or by its own Move to. A contact’s page lists their requests, and starts a new one from them.</description>
     </item>
     <item>
       <title>The office: contacts</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-office-contacts</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-office-contacts</guid>
-      <pubDate>Tue, 20 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:53:00 GMT</pubDate>
       <description>The office opens, for our directors and administrators: the people and organisations we are in touch with, moving here from EspoCRM after tasks, with grant requests and cases to follow. A list a hundred at a time, a search over names, emails and phone numbers, sorting, and each contact’s page with their notes in Markdown. Everything in it is encrypted where it is kept, under a key only the site’s functions hold; without the key the office is shut. Nothing about a contact is ever logged, nothing records who looks, and a search is never put in the page’s address, where the browser’s history would keep it. Privacy says what it keeps.</description>
     </item>
     <item>
       <title>Tasks: tag colours</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-colours</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-colours</guid>
-      <pubDate>Tue, 20 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:52:00 GMT</pubDate>
       <description>Tags have colours, a dot beside every tag’s name in Tasks, by what the tag is about: running things blue, money orange, people aqua, gatherings yellow, words magenta, the shop green, and looking after ourselves violet. The timeline’s bars wear them: each bar filled with its first tag’s colour, and striped along its foot when its tags have more than one, with a legend above saying which is which. The colours change step for light and dark radio themes so the words on every bar can be read.</description>
     </item>
     <item>
       <title>Tasks: yours includes the ones you are also on</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-whose</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-whose</guid>
-      <pubDate>Tue, 20 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:51:00 GMT</pubDate>
       <description>A task is yours when it is assigned to you or you are also on it, and Tasks open on yours now, in the list, on the board and on the timeline. Whose picks everybody’s, one person’s, or the ones assigned to nobody. Who else is on a task shows everywhere: a column in the list, a line on each board card, and on the timeline a task stands in the row of everybody on it, marked ALSO ON IT where they are not the one it is assigned to.</description>
     </item>
     <item>
       <title>Tasks: a timeline</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-timeline</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-timeline</guid>
-      <pubDate>Tue, 20 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:50:00 GMT</pubDate>
       <description>Tasks have a timeline, beside the list and the board: a row for each of us, the days running across, and each task a bar from the day it starts to the day it is due. Show a week, 2 weeks or 4, and move along with Earlier, This week and Later. The list’s filters work on it, and a timeline can be a saved filter. That finishes moving the team’s tasks off EspoCRM: the tasks, the list, the board, saved filters, recurring tasks, checklists and the timeline are all on the street now. The CB guide has how.</description>
     </item>
     <item>
       <title>Tasks: checklists you tick in place</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-checklists</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-checklists</guid>
-      <pubDate>Tue, 20 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:49:00 GMT</pubDate>
       <description>A checklist in a task’s description is boxes now, as it was in EspoCRM: write a list item as - [] or - [x], and on the task you tick it where it stands. A tick changes that box and nothing else, so two people ticking at once both keep theirs. The CB guide says how.</description>
     </item>
     <item>
       <title>Tasks: the recurring ones are made here now</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-cutover</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-cutover</guid>
-      <pubDate>Tue, 20 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:48:00 GMT</pubDate>
       <description>The team’s recurring tasks are made on the street from today, not in EspoCRM: EspoCRM’s twelve are switched off and ours on, each with the same next day. The first one made here is the Weekly Editorial Meeting on Thursday. Tasks › Recurring has them all.</description>
     </item>
     <item>
       <title>Tasks: recurring tasks</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-recurring</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-recurring</guid>
-      <pubDate>Tue, 20 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:47:00 GMT</pubDate>
       <description>Tasks can come round again, as they did in EspoCRM: weekly, every 2 weeks or monthly. On its day a recurring task makes its task by itself, starting and due as many days after that day as it says, and its name can carry the week, the year or the month. Each recurring task shows its next three tasks and the tasks it has made, and a task it made says so. Switch one off and it makes nothing until it is switched on again. The team’s twelve from EspoCRM are here, switched off until EspoCRM’s own are. The CB guide has how, and the privacy page what is kept. A timeline comes next.</description>
     </item>
     <item>
       <title>Tasks: a board, and saved filters</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks-board</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks-board</guid>
-      <pubDate>Tue, 20 Oct 2026 11:48:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:46:00 GMT</pubDate>
       <description>Tasks have a board, beside the list: the same tasks in columns by status, priority or who they are assigned to, each column saying how many it holds. Drag a card to another column to change it, or use the card’s own Move to, which works from a keyboard, a screen reader and a phone. The list’s filters work on the board too. Saved filters. Save a list or a board as it is, filters, order and columns, under a name, and it is there on any device you sign on with, saying how many tasks it shows now. They are yours alone. The CB guide has how, and the privacy page what is kept. Recurring tasks come next, then a timeline.</description>
     </item>
     <item>
       <title>Tasks: the team’s to-do list, on the street</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-tasks</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-tasks</guid>
-      <pubDate>Tue, 20 Oct 2026 11:47:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:45:00 GMT</pubDate>
       <description>Tasks are the team’s to-do list, moving here from EspoCRM. Only our directors and administrators can read them, signed on to the CB with a claimed username, and they wear your radio’s colours, like the forums. The list shows every task with its status, priority, who it is assigned to, the days it starts and is due, and its tags, and says how many tasks match. Filter by words in the name, who it is assigned to, when it is due, status, priority and tags, each choice saying how many it would show, and sort by any column. The filters and the order live in the page’s address, so a bookmark or a link keeps them. A task has a Markdown description, people working on it beside whoever it is assigned to, and says who made it and who changed it last. Edit it, mark it completed, or delete it. Kanban and saved filters, recurring tasks, and a timeline come next, in that order. The CB guide and the privacy page say all of this.</description>
     </item>
     <item>
       <title>A page in the Wiki or Team Docs can be as long as a long document</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-long-pages</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-long-pages</guid>
-      <pubDate>Tue, 20 Oct 2026 11:46:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:44:00 GMT</pubDate>
       <description>The page that opens a topic in the Wiki or Team Docs can be 150,000 characters now, so the team’s longest documents go up whole as they move out of Google Docs, board minutes with their transcript included. Every other post, a reply on a page included, is still up to 20,000. The CB guide says so.</description>
     </item>
     <item>
       <title>Team Docs in the forums, with templates and pictures in the words</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-team-docs</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-team-docs</guid>
-      <pubDate>Tue, 20 Oct 2026 11:45:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:43:00 GMT</pubDate>
       <description>The team’s documents can move out of Google Docs and into the forums. A new staff category, Team Docs, is for our moderators, directors, board and administrators only, keeps everything for good, and every page in it is a living document any of them can edit, as in the Wiki. Inside it are Field Guide, Notes, Meeting Minutes and Templates. A category can hold other categories now. They stand under it at the side and on its page, and its page lists every topic in it and under them. Meeting Minutes holds a category for every year from 2024, and a new one arrives by itself each January. A new topic can start from a template. Pick one over the title and press Use it, and its title and words go in for you to fill. The templates are the topics in Team Docs’ Templates, so the team keeps them up to date in the forums, the way it kept them in a folder before. A pinned one there is its read-me, not a template. A picture can stand in the middle of a post’s words, for a screenshot at the step it shows. Paste a screenshot straight into the box you are writing in, drop a picture on it, or press Put it in the words, and it goes in where the cursor is. Everywhere else, pictures still sit below the words. A page in the Wiki or Team Docs holds thirty pictures and files, for a how-to with a screenshot for each step; any other post, six. Tables were already there, and now the forums say so: a row to a line, a | between cells, and a line of dashes under the first row. Their headings are bold now. The CB guide and the privacy page say all of this.</description>
     </item>
     <item>
       <title>The street on your Home Screen and in your Dock</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-on-your-home-screen</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-on-your-home-screen</guid>
-      <pubDate>Tue, 20 Oct 2026 11:44:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:42:00 GMT</pubDate>
       <description>People are adding stimpunks.world to their Docks and Home Screens, so we checked it behaves there. Chrome says it can be installed from every page, and it keeps a back button in a Mac’s Dock and in Chrome’s window, because a street of pages with no way back is a maze. Installed, each room still colours the window’s bar its own way. On an iPhone or iPad, notifications need iOS or iPadOS 26 or later. Older versions save the street to the Home Screen as a Safari bookmark, and a bookmark cannot notify; from 26, every site added to the Home Screen opens as a web app, and notifications work. The CB guide, the privacy page and the radio’s Notifications tray said any iPhone would do, and say iOS 26 or later now. Added to a Home Screen or a Mac’s Dock, the street starts afresh, because Apple keeps an installed web app’s storage apart from Safari’s: you sign on to the CB again there, and the dial and the animals you rescued start again too. The CB guide says so. Installed from Chrome or Edge, you stay signed on. On Android, a CB notification’s little picture in the status bar is the heart now, where it was a plain white square. And the manifest, which tells an installed app its name and icons, says which app it is, so an install made before today stays the same app, and a change to it reaches installed apps without waiting out a week’s cache.</description>
     </item>
     <item>
       <title>Albums and playlists play on the first press</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-lists-play-on-the-first-press</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-lists-play-on-the-first-press</guid>
-      <pubDate>Tue, 20 Oct 2026 11:43:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:41:00 GMT</pubDate>
       <description>Every album and playlist button on the street now plays when you press it. In these rooms a whole list only got ready when pressed, and you had to press play a second time inside the player: the records and the cave’s speaker at the Solarpunk Hermitage, the YouTube deck on Club Chronic’s stage, both decks at Pink Pony Club, the chancel in The Chappell, and the screen at Black Leather Lagoon. A single video already played on its press, and so did the lists in the other rooms. Now these do too. Nothing reaches YouTube before you press, the same as before; the press that asked for the list now plays it.</description>
     </item>
     <item>
       <title>Follow keeps going through an album</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-follow-through-an-album</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-follow-through-an-album</guid>
-      <pubDate>Tue, 20 Oct 2026 11:42:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:40:00 GMT</pubDate>
       <description>Following somebody through an album now goes on from song to song. Helen hosted the John Coltrane and Johnny Hartman album at the Solarpunk Hermitage, Ryan pressed Follow, and his playback stopped at the end of every song. Each song in an album is a video of its own, and the radio was treating each new one as a film to get ready on its own: when a moderator is hosting, that puts the song by itself on the Hermitage’s television, where it plays to its end and stops. Now a host’s radio says which album or playlist the song is in, and Follow keeps pace with the whole list: when the host goes on to the next song, yours does too, and if they skip to another song, yours goes there, to the same place in it. Pressing Follow before you have started anything gets the album’s own play button ready at the host’s song and place, and nothing goes up on the television. Catch up moves an album you are already playing to the host’s song and place, and still never presses play: it plays if yours was playing and waits if it was not. Two smaller faults went with it. For about half a second between songs, the player still gives the last song’s title with its clock back at 0:00, and a host’s radio that spoke then told everybody the album had gone back to the start of that song; now nothing is said until the next song has started. And Follow used to take any stop for your own pause: now only a pause does, so a song that ended before the host’s waits for them, and a next song your player would not start is started, and the radio says so if it still will not. The privacy page says what a host’s radio now sends: the album’s or playlist’s YouTube id, beside the song’s own.</description>
     </item>
     <item>
       <title>Your strip in the Dress-Up Den and Fantasy Fancy Dress, and a curtain at the back</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-your-strip-and-the-curtain</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-your-strip-and-the-curtain</guid>
-      <pubDate>Tue, 20 Oct 2026 11:41:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:39:00 GMT</pubDate>
       <description>Your strip is in the Dopamine Dress-Up Den and Fantasy Fancy Dress now, as well as the Bodymind Booth, so you can walk into either room on your own and bring back an avatar you kept. Signed on to the CB, press Open my strip: in the Dress-Up Den a bodymind comes back in with everything it had on, and an outfit goes back on the stand, ready to change and keep; in Fantasy Fancy Dress a bodymind comes into the fitting with its wings and ears and everything else, and when you take it back through, the Dress-Up Den knows which one it is, so Keep the changes changes that one. Opening your strip only asks your Profile for what you already kept, and only when you press it. Nothing in Fantasy Fancy Dress is kept, and the privacy page says what opening your strip sends. The way through to Fantasy Fancy Dress is a curtain you can see. It was a link in a sentence near the top of the Dress-Up Den, easy to miss; now it is a doorway at the back of the shop, its curtain in moons and stars drawn back with gold rope, the back room dark beyond it with a light at the far end, and a button under it, Through to Fantasy Fancy Dress. Press the curtain or the button. Your bodymind still goes through with you, and so does which avatar it is.</description>
     </item>
     <item>
       <title>Howling Wolf, Starward Dreaming, Leaping Dolphins and Autumn Falls</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-four-scene-effects</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-four-scene-effects</guid>
-      <pubDate>Tue, 20 Oct 2026 11:40:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:38:00 GMT</pubDate>
       <description>Howling Wolf is a new profile effect: a wolf sitting on a crag against a full moon, raising its head and howling, with stars, cloud and a far ridge of pines over your banner. When your profile opens, the night comes up over it, the moon rises, the wolf howls and two wolves on the far ridge answer. Nothing makes a sound. Starward Dreaming looks up through a clearing in the trees at the stars and the Milky Way, from beside a fire you cannot see: its light is on the trunks, its flames lick up over the foot, and its embers rise and become stars. When your profile opens, the trees close round the whole of it, a shower of embers goes up and becomes stars, and a star falls. The flames sway slowly and never flicker, so nothing in it flashes. Leaping Dolphins is dolphins leaping in arcs across a sea dappled by the setting sun. When your profile opens, the sunset comes up over the whole of it and a pod of dolphins leaps across, one after another. Autumn Falls is a big tree in red, orange and gold, its leaves drifting down into piles, and children popping up out of them, with one in a wheelchair beside them throwing leaves up. When your profile opens, leaves come down all over it, pile up along its foot, and the children pop up out of the piles. Each is drawn in colours of its own over whatever card it is on, because moonlight, firelight, a sunset and an autumn afternoon with children in it are colours a card’s own cannot hold. As with every effect, the part that crosses your words, and the opening, are drawn only at MAX GLITTER or after Let my theme move.</description>
     </item>
     <item>
@@ -215,21 +229,21 @@
       <title>Messages stay together at Full</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-full-log</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-full-log</guid>
-      <pubDate>Tue, 20 Oct 2026 11:39:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:37:00 GMT</pubDate>
       <description>At Full, on a wide window, a channel with only a few messages no longer spreads them down the whole column with their words far below their names. The log is as tall as the column, and its messages now sit together at the top of it, as they do at every other size.</description>
     </item>
     <item>
       <title>The CB marks what is new to you, and Unreads lists it</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-unreads</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-unreads</guid>
-      <pubDate>Tue, 20 Oct 2026 11:38:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:36:00 GMT</pubDate>
       <description>A dot now marks what has been said since you last read it, on World, This room, Your messages and each conversation in it. That reverses the radio’s old rule of no badge and no unread count, and only as far as a mark: it is never a number, it makes no sound, and nothing moves. A screen reader hears “something new”. Unreads, a new part under Who’s around, lists World, the rooms you follow and your conversations while something new is waiting in them, and takes you there. Follow this room, beside This room, puts a room on it; which rooms you follow stays in your browser. It needs a claimed username. So that reading on your phone clears the dot on your laptop, the street keeps when you last read each channel and conversation, and nothing else, for 48 hours at most; the privacy page says so, and Forget me deletes it.</description>
     </item>
     <item>
       <title>Paste a picture, and messages that work like the channel</title>
       <link>https://stimpunks.world/changelog.html#2026-10-20-cb-paste-dm</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-20-cb-paste-dm</guid>
-      <pubDate>Tue, 20 Oct 2026 11:37:00 GMT</pubDate>
+      <pubDate>Tue, 20 Oct 2026 11:35:00 GMT</pubDate>
       <description>Paste a picture into the CB with Ctrl or Cmd and V, on the channel or in a conversation, instead of finding it with Picture. It comes to the same preview, redrawn the same way before it goes. Words pasted with it are pasted as words. Direct messages work like the channel. Each message has React and the three dots on its line: Copy, Edit and Take back on yours, Copy and Report on theirs. Sticker sits beside Picture and opens the same tray. Reactions say who, never how many. An @name is drawn as a name. A first message is still words only, so a picture, a sticker and a reaction wait until the conversation is accepted.</description>
     </item>
     <item>

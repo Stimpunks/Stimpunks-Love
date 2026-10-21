@@ -102,15 +102,20 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 /* THE BOARD: a column for each stage, scrolling sideways in its own box on a
    narrow screen, never the page. A card is a bordered box in the case's own ink. */
 .of-board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(230px, 1fr); gap: 10px; overflow-x: auto; padding-bottom: 6px; min-width: 0; }
-.of-col { display: grid; align-content: start; gap: 6px; padding: 8px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
+.of-col { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 6px; padding: 8px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
 .of-col--over { border-color: var(--cb-amber); }
 .of-col__name { font-size: 16px; color: var(--cb-steel); margin: 0; }
 .of-col__sum { font-size: 14px; font-variant-numeric: tabular-nums; }
-.of-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; min-height: 2em; }
-.of-card { display: grid; gap: 4px; padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 6px; font-size: 15px; cursor: grab; }
+/* A CARD KEEPS TO ITS COLUMN: every track is minmax(0, 1fr), so nothing in a
+   card (the Move to menu is as wide as its longest stage) can push it wider,
+   and the menu goes under its label when the two will not fit on a line. */
+.of-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; min-height: 2em; }
+.of-card { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; gap: 4px; padding: 8px 10px; border: 2px solid var(--cb-steel-2); border-radius: 6px; font-size: 15px; cursor: grab; }
 .of-card--lifted { border-style: dashed; }
 .of-card__name { font-weight: 700; }
-.of-card .of-move select { max-width: 100%; }
+.of-card .of-move { display: flex; flex-wrap: wrap; width: 100%; }
+.of-card .of-move select { flex: 1 1 11em; min-width: 0; max-width: 100%; }
+.of-col > details { min-width: 0; }
 .of-fold__sum { cursor: pointer; font-weight: 700; padding: 4px 0; }
 
 /* WRITING: the radio's own fields. */
@@ -124,5 +129,9 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-hint { font-size: 13px; }
 .of-preview { padding: 10px 12px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; }
 .of-answer { font-size: 15px; }
+/* A MAILING: every email shown filled in before it is sent, each in its own dashed box. */
+.of-shownmail { display: grid; gap: 12px; min-width: 0; }
+.of-shownmail > .of-preview { display: grid; gap: 6px; }
+.of-to { font-size: 14px; color: var(--cb-amber-2); }
 .of-said { padding: 0 18px 12px; font-size: 15px; min-height: 1.5em; }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

@@ -5329,7 +5329,7 @@ for, go in the description, so nothing sent is lost. **An import from EspoCRM le
 (`cb-office-mail.mjs`, the email part of the office section of `lib.mjs`) takes one email at a time from **Stimpunks Gmail
 to the Office**, a Google Apps Script in `~/Documents/GitHub/Stimpunks-Work/stimpunks-gmail-office/` (installed in the team
 mailbox, not a repository; its tests are `node tests/run.mjs`), signed as the intake is, through the same `hmacSigned`,
-under a key of its own, `CB_OFFICE_MAIL_KEY`. **The script is never given an address**: `addresses` answers a keyed hash
+under a key of its own, `CB_OFFICE_MAIL_KEY`. **The script is never given an address to find mail by** (a mailing's outbox, below, is the one exception): `addresses` answers a keyed hash
 of each contact's (`mailHash`), it sends an email only when somebody on it matches and never on the mailbox's own address,
 and `officeMailIn` checks again and keeps nothing of an email with no contact on it. An email is one sealed blob
 (`office-mail/<Gmail id>`) filed on each of its contacts in a sealed index (`office-mail-of/<contact>`), whole but for
@@ -5348,6 +5348,20 @@ contact; `make-office.py` holds all three. **An email already kept gains a conta
 (`officeMailIn` merges `contacts`), so deleting the first contact cannot leave the second pointing at nothing. The
 friendly edit is **adding everybody who writes in**, which files newsletters and strangers' mail; the label is the
 person's choice of who belongs in the office.
+
+**A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
+2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one
+refused by `unknownFillIns`), a preview of every email filled in and everybody left out with the reason (`stageMail`,
+which leaves out no contact, no address and `noEmail`, and with `since` every request submitted before that day),
+and `sendMailing`, which refuses unless the template's stamp, the day and the grant requests are the ones the preview showed, sent only from office.js's second press naming everybody. The team
+mailbox's script asks `/cb/office/mail` for the **outbox** on every run, **the one answer anywhere that hands it an
+address**, sends each with `MailApp` (scope `script.send_mail`, nothing more), one email to each person, and reports it
+(`mailSentFor`); `SENT_<id>` in its Script properties is set the moment one goes, so a run cut off before reporting never
+sends it twice, and Google's daily limit leaves the rest waiting. **An email sent or stopped keeps only whose and when**
+(`settled`): its address and words go, and the email itself comes back as one of the mailbox's, filed on its contact.
+`make-office.py` holds each of those. The friendly edits are **a BCC to the whole stage** (one email showing nobody's
+address is the reason for one each), **a mailing that skips the preview**, **sending to somebody who asked not to be
+emailed "just this once"**, and **the office keeping a Google login** to send by itself.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
