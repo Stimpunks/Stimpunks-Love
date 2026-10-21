@@ -43,7 +43,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
-import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey } from 'node:crypto';
+import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
   mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET } from './lib.mjs';
 import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
@@ -3786,7 +3786,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   makeRecurring, readRecurs, isoWeek, recurName, recurAfter, tickTask, taskBoxes, officeAllow, officeReady, seal, unseal,
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
-  readCases, officeCases, officeCase, saveCase, removeCase, importCases } from './lib.mjs';
+  readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4310,3 +4310,94 @@ for (const etagOnRead of [true, false]) {
     if (etagOnRead) assert.equal(ok.length, 15);
   }));
 }
+
+const INTAKE_TEST_KEY = rnd(24).toString('hex');
+async function withIntakeKey(key, fn) {
+  const was = process.env.CB_OFFICE_INTAKE_KEY;
+  if (key == null) delete process.env.CB_OFFICE_INTAKE_KEY; else process.env.CB_OFFICE_INTAKE_KEY = key;
+  try { return await fn(); } finally { if (was == null) delete process.env.CB_OFFICE_INTAKE_KEY; else process.env.CB_OFFICE_INTAKE_KEY = was; }
+}
+const signIntake = (raw, t = Math.floor(T0 / 1000), key = INTAKE_TEST_KEY) => `t=${t},v1=${createHmac('sha256', key).update(`${t}.${raw}`, 'utf8').digest('hex')}`;
+
+test('the intake reads only what is signed with its key, recently, and is shut without the key', () => withOfficeKey(OFFICE_TEST_KEY, () => withIntakeKey(INTAKE_TEST_KEY, async () => {
+  const raw = JSON.stringify({ type: 'connection', email: 'x@example.org' });
+  assert.equal(intakeReady(), true);
+  assert.equal(intakeSigned(signIntake(raw), raw, T0), true);
+  assert.equal(intakeSigned(signIntake(raw), raw + ' ', T0), false, 'a changed body passed');
+  assert.equal(intakeSigned(signIntake(raw, Math.floor(T0 / 1000) - 301), raw, T0), false, 'an old signature passed');
+  assert.equal(intakeSigned(signIntake(raw, undefined, 'another-key-another-key-another-key'), raw, T0), false, 'another key passed');
+  assert.equal(intakeSigned('', raw, T0), false);
+  assert.equal(intakeSigned(`t=${Math.floor(T0 / 1000)},v1=nothex`, raw, T0), false);
+  await withIntakeKey('short', async () => { assert.equal(intakeReady(), false); assert.equal(intakeSigned(signIntake(raw, undefined, 'short'), raw, T0), false); });
+  await withIntakeKey(null, async () => assert.equal(intakeReady(), false));
+  await withOfficeKey(null, async () => assert.equal(intakeReady(), false));
+})));
+
+test('a form entry finds or adds its contact by email, makes its record once, and keeps what it cannot place', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const jane = { type: 'mutual_aid', entry: 101, submitted: '2026-10-01', email: 'Jane@Example.com', first: 'Jane', last: 'Doe', name: 'Jane Q Doe', phone: '(555) 555-0100',
+    message: '**What do you need?**\nRent help.\n\nForm entry: https://stimpunks.org/wp-admin/admin.php?page=wpforms-entries&view=details&entry_id=101' };
+  assert.deepEqual(await officeIntake(jane, s, T0), { ok: true, record: 'grant', made: true });
+  const [c] = await readContacts(s);
+  assert.deepEqual([c.first, c.last, c.email, c.phone, c.by], ['Jane', 'Doe', 'jane@example.com', '(555) 555-0100', INTAKE_BY]);
+  const [g] = await readGrants(s);
+  assert.deepEqual([g.name, g.pipeline, g.stage, g.amount, g.submitted, g.form, g.contact, g.by], ['Aid Request 101: Jane Q Doe', 'Mutual Aid', 'Received', 500, '2026-10-01', 101, c.id, INTAKE_BY]);
+  assert.match(g.body, /Rent help\./);
+  assert.deepEqual(await officeIntake(jane, s, T0 + 1), { ok: true, record: 'grant', made: false }, 'a resend made a second record');
+  assert.equal((await readGrants(s)).length, 1);
+  // The same person again, on another form: name kept, the newest phone taken.
+  assert.deepEqual(await officeIntake({ type: 'connection', entry: 102, email: 'JANE@example.com', first: 'Janie', last: 'Doe', phone: '555-0199', message: 'Hello' }, s, T0 + 2),
+    { ok: true, record: 'case', made: true });
+  const contacts = await readContacts(s);
+  assert.deepEqual([contacts.length, contacts[0].first, contacts[0].phone, contacts[0].editedBy], [1, 'Jane', '555-0199', INTAKE_BY]);
+  const [k] = await readCases(s);
+  assert.deepEqual([k.name, k.type, k.status, k.number, k.form, k.contact], ['Connection Request 102: Janie Doe', 'Connection Request', 'New', 1, 102, contacts[0].id]);
+  // A phone the office cannot read goes in the description; an email-only person is named by their email.
+  await officeIntake({ type: 'creator_grant', entry: 103, email: 'mary@example.com', name: 'Mary Ann Smith', first: 'Mary Ann', last: 'Smith', phone: 'call me on Tuesdays' }, s, T0 + 3);
+  const mary = (await readContacts(s)).find((x) => x.email === 'mary@example.com');
+  const g3 = (await readGrants(s)).find((x) => x.form === 103);
+  assert.deepEqual([mary.phone, g3.amount, g3.pipeline], ['', 3000, 'Creator Grants']);
+  assert.match(g3.body, /\*\*Phone\*\*\ncall me on Tuesdays/);
+  await officeIntake({ type: 'volunteer', entry: 104, email: 'solo@example.com' }, s, T0 + 4);
+  const solo = (await readContacts(s)).find((x) => x.email === 'solo@example.com');
+  assert.deepEqual([solo.first, solo.last], ['', 'solo@example.com']);
+  assert.equal((await readCases(s)).find((x) => x.form === 104).name, 'Volunteer Application 104: solo@example.com');
+  // No email at all: no contact, and nothing lost.
+  await officeIntake({ type: 'connection', entry: 105, name: 'No Mail', email: 'not an email', phone: '555-0123' }, s, T0 + 5);
+  const k5 = (await readCases(s)).find((x) => x.form === 105);
+  assert.deepEqual([k5.contact, /\*\*Email\*\*\nnot an email/.test(k5.body), /\*\*Phone\*\*\n555-0123/.test(k5.body)], [null, true, true]);
+  // An entry brought over from EspoCRM is found by its form entry and not made again.
+  await importGrants(TRYAN, [{ espo: '68dd0000000000g77', name: 'Old', pipeline: 'Mutual Aid', stage: 'Denied', closed: '2025-01-01', form: 777, body: '' }], s, T0 + 6);
+  assert.deepEqual(await officeIntake({ type: 'mutual_aid', entry: 777, email: 'jane@example.com' }, s, T0 + 7), { ok: true, record: 'grant', made: false });
+  // A very long answer is cut short and says so.
+  await officeIntake({ type: 'connection', entry: 106, email: 'long@example.com', message: 'x'.repeat(50000) }, s, T0 + 8);
+  assert.match((await readCases(s)).find((x) => x.form === 106).body, /Cut short here/);
+  for (const bad of [{ type: 'nope' }, { type: '__proto__' }, { type: 'connection', entry: 'abc' }, null]) assert.ok((await officeIntake(bad, s, T0)).error);
+  await withOfficeKey(null, async () => assert.equal((await officeIntake(jane, s, T0)).status, 503));
+}));
+
+test('fifteen form entries at once, one person: one contact and fifteen cases, none lost and no number twice; the same entry fifteen times makes one', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => officeIntake({ type: 'connection', entry: 500 + i, email: 'same@example.org', first: 'Same' }, s, T0 + i)));
+  const ok = told.filter((r) => r.status === 'fulfilled' && r.value.made).length;
+  const cases = await readCases(s);
+  assert.equal(cases.length, ok, 'a case told it was made is missing');
+  assert.equal(new Set(cases.map((k) => k.number)).size, cases.length);
+  assert.equal((await readContacts(s)).filter((c) => c.email === 'same@example.org').length, 1, 'one person became two contacts');
+  const again = await Promise.allSettled(Array.from({ length: 15 }, () => officeIntake({ type: 'mutual_aid', entry: 900, email: 'same@example.org' }, s, T0 + 99)));
+  assert.equal(again.filter((r) => r.status === 'fulfilled' && r.value.made).length, 1);
+  assert.equal((await readGrants(s)).filter((g) => g.form === 900).length, 1, 'one entry made two grant requests');
+}));
+
+test('a final import from EspoCRM leaves alone what the form already brought here', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await officeIntake({ type: 'mutual_aid', entry: 4001, email: 'both@example.org', first: 'Both', last: 'Ways' }, s, T0);
+  await officeIntake({ type: 'connection', entry: 4002, email: 'both@example.org' }, s, T0 + 1);
+  const c = await importContacts(TRYAN, [{ espo: '68dd0000000000b01', first: 'Both', last: 'Ways', email: 'BOTH@example.org' }], s, T0 + 2);
+  assert.equal(c.told[0].kept, 'already here');
+  assert.equal((await readContacts(s)).length, 1, 'the same person became two contacts');
+  const g = await importGrants(TRYAN, [{ espo: '68dd0000000000b02', name: 'Aid Request 4001: Both Ways', pipeline: 'Mutual Aid', stage: 'Received', form: 4001 }], s, T0 + 3);
+  const k = await importCases(TRYAN, [{ espo: '68dd0000000000b03', number: 9, name: 'Connection Request 4002', type: 'Connection Request', status: 'New', form: 4002 }], s, T0 + 4);
+  assert.deepEqual([g.told[0].kept, k.told[0].kept], ['already here', 'already here']);
+  assert.deepEqual([(await readGrants(s)).length, (await readCases(s)).length], [1, 1], 'one form entry became two records');
+}));

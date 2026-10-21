@@ -1,5 +1,5 @@
 {
-  "_about": "The office's settings, written by tools/make-office.py between the office:settings markers in netlify/cb/lib.mjs, the only copy the server reads. The pipelines and their stages are EspoCRM's, word for word and in its order (read 2026-10-20): each stage says which status it puts a grant request in, and the first stage of each is where a new one starts. Statuses are EspoCRM's three. Amounts are whole dollars, as EspoCRM held every one. Cases are EspoCRM's too: its two types, its seven statuses in its order, each saying whether a case is still open, and its four priorities.",
+  "_about": "The office's settings, written by tools/make-office.py between the office:settings markers in netlify/cb/lib.mjs, the only copy the server reads. The pipelines and their stages are EspoCRM's, word for word and in its order (read 2026-10-20): each stage says which status it puts a grant request in, and the first stage of each is where a new one starts. Statuses are EspoCRM's three. Amounts are whole dollars, as EspoCRM held every one. Cases are EspoCRM's too: its two types, its seven statuses in its order, each saying whether a case is still open, and its four priorities. The intake says what each of stimpunks.org's forms makes when the WPForms plugin posts an entry: its name's prefix, and a grant request's pipeline and amount or a case's type, as the plugin made them in EspoCRM.",
   "statuses": [
     "Open",
     "Granted",
@@ -108,5 +108,29 @@
       "Urgent"
     ],
     "default_priority": "Normal"
+  },
+  "intake": {
+    "mutual_aid": {
+      "record": "grant",
+      "prefix": "Aid Request",
+      "pipeline": "Mutual Aid",
+      "amount": 500
+    },
+    "creator_grant": {
+      "record": "grant",
+      "prefix": "Creator Grant Request",
+      "pipeline": "Creator Grants",
+      "amount": 3000
+    },
+    "connection": {
+      "record": "case",
+      "prefix": "Connection Request",
+      "type": "Connection Request"
+    },
+    "volunteer": {
+      "record": "case",
+      "prefix": "Volunteer Application",
+      "type": "Volunteer Application"
+    }
   }
 }

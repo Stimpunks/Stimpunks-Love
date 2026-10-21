@@ -25,6 +25,9 @@ the code does):
     the environment, and no file in the repository holds a value for it.
   · AN OPEN OFFICE WITHOUT ITS KEY: the function says it is shut before it
     reads or does anything.
+  · AN INTAKE THAT TRUSTS WHAT IT IS SENT: /cb/office/intake checks the
+    signature before it reads the body as anything, and is shut without its
+    key; the key is read in one place, from the environment.
   · ANYTHING LOGGED. Nothing about a contact, and nothing anybody types, goes
     to the console, in the office's code, its function or its page.
   · MARKUP FROM WHAT SOMEBODY TYPED: office.js builds notes with markdown.js
@@ -54,6 +57,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "office.json"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 FN = ROOT / "netlify" / "functions" / "cb-office.mjs"
+INTAKE = ROOT / "netlify" / "functions" / "cb-office-intake.mjs"
 JS = ROOT / "office.js"
 CSS = ROOT / "office.css"
 PAGE = ROOT / "office.html"
@@ -104,6 +108,21 @@ def settings(data):
         problems.append(f"{DATA.name}: at least one case status must close a case.")
     if not isinstance(cases.get("priorities"), list) or cases.get("default_priority") not in (cases.get("priorities") or []):
         problems.append(f"{DATA.name}: cases.priorities lists the priorities, and default_priority is one of them.")
+    intake = data.get("intake")
+    if not isinstance(intake, dict) or not intake:
+        problems.append(f"{DATA.name}: intake says what each form type makes.")
+    else:
+        for k, v in intake.items():
+            if not re.fullmatch(r"[a-z_]{2,30}", k) or not isinstance(v, dict) or not str(v.get("prefix") or "").strip():
+                problems.append(f"{DATA.name}: intake.{k} needs a name made of a-z and _, and a prefix for its records' names.")
+            elif v.get("record") == "grant":
+                if v.get("pipeline") not in [p.get("name") for p in pipes] or not isinstance(v.get("amount"), int) or v["amount"] < 0:
+                    problems.append(f"{DATA.name}: intake.{k} makes a grant request, so it names a pipeline and a whole-dollar amount.")
+            elif v.get("record") == "case":
+                if v.get("type") not in ((data.get("cases") or {}).get("types") or []):
+                    problems.append(f"{DATA.name}: intake.{k} makes a case, so it names one of the case types.")
+            else:
+                problems.append(f"{DATA.name}: intake.{k} makes a grant request or a case (record: grant or case).")
     if data.get("currency") != "USD":
         problems.append(f"{DATA.name}: amounts are in US dollars, as EspoCRM held every one; another currency needs its own words.")
 
@@ -116,6 +135,7 @@ def write(lib, data):
              + f"export const OFFICE_CURRENCY = {j(data['currency'])};\n"
              + f"export const OFFICE_PIPELINES = {j(pipes)};\n"
              + f"export const OFFICE_CASES = {j({k: data['cases'][k] for k in ('types', 'statuses', 'priorities', 'default_priority')})};\n"
+             + f"export const OFFICE_INTAKE = {j(data['intake'])};\n"
              + END)
     pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
     if len(pat.findall(lib)) != 1:
@@ -221,6 +241,25 @@ def check_function():
         problems.append(f"{FN.name}: it no longer answers at /cb/office, where office.js asks.")
 
 
+def check_intake(lib):
+    if not INTAKE.exists():
+        problems.append(f"{INTAKE.name}: missing. stimpunks.org's forms post to it.")
+        return
+    f = code_of(INTAKE.read_text())
+    ready, signed = f.find("if (!intakeReady())"), f.find("if (!intakeSigned(")
+    parsed, made = f.find("JSON.parse("), f.find("officeIntake(")
+    if min(ready, signed, parsed, made) < 0 or not ready < signed < parsed < made:
+        problems.append(f"{INTAKE.name}: it must be shut without its key, and check the signature before it reads the body or makes anything.")
+    if "console." in f:
+        problems.append(f"{INTAKE.name}: it writes to the console. Nothing about a submission is ever logged.")
+    if "path: '/cb/office/intake'" not in f or "method: ['POST']" not in f:
+        problems.append(f"{INTAKE.name}: it answers POST at /cb/office/intake, where the plugin posts, and nothing else.")
+    if lib.count("process.env.CB_OFFICE_INTAKE_KEY") != 1 or "v.trim().length >= 32" not in lib:
+        problems.append(f"{LIB.name}: CB_OFFICE_INTAKE_KEY must be read once, in intakeKey, and be at least 32 characters.")
+    if "timingSafeEqual" not in (re.search(r"export function intakeSigned\(.*?\n\}", lib, re.S) or [""])[0]:
+        problems.append(f"{LIB.name}: intakeSigned must compare signatures in constant time.")
+
+
 def check_js():
     if not JS.exists():
         problems.append(f"{JS.name}: missing.")
@@ -296,6 +335,7 @@ def main():
             lib = new
     check_lib(lib)
     check_function()
+    check_intake(lib)
     check_js()
     check_css()
     check_page()

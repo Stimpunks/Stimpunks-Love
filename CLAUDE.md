@@ -5308,6 +5308,22 @@ there. **Closing a case here sets the day it closed, and an import never does**,
 cases have none and today would be a day nobody closed them. The boards of grant requests and cases are one helper,
 `columnBoard` in `office.js`.
 
+**STIMPUNKS.ORG'S FORMS COME IN THROUGH THE OFFICE'S INTAKE, AND EVERY ENTRY IS SIGNED.** Ryan, 2026-10-20, stopping the
+EspoCRM audition the same evening: `/cb/office/intake` (`cb-office-intake.mjs`, `officeIntake` in `lib.mjs`) takes one
+WPForms entry at a time from the **Stimpunks WPForms to the Office** plugin on stimpunks.org's server. The plugin lives in
+`~/Documents/GitHub/Stimpunks-Work/stimpunks-wpforms-office/` (a folder with its zip, not a repository; its tests are
+`php tests/run.php`), and the EspoCRM plugin beside it is kept as it was installed. **The signature is an HMAC-SHA256
+of `t.body` under `CB_OFFICE_INTAKE_KEY`**, in `X-Stimpunks-Signature: t=…,v1=<hex>`, good for five minutes, checked
+before the body is read as anything; the key is in Netlify, in stimpunks.org's wp-config.php and in 1Password, and is
+never sent. **What each form makes is the office's** (`intake` in `data/office.json`: a name prefix, and a pipeline and
+amount or a case type), so the plugin only says which type a form is. The person is found by email or added (an existing
+contact keeps their name and takes the newest phone, `editedBy` the form), and a record is never made twice for one
+entry (`form`). A phone or email the office cannot read, and the address and payment handles a contact has no field
+for, go in the description, so nothing sent is lost. **An import from EspoCRM leaves alone what a form already brought**
+(a contact by email, a record by its form entry), for the last sweep of EspoCRM after the switch. The friendly edits are
+**a bearer token instead of the signature**, which puts the key in every request and every log that ever records one,
+**the plugin deciding names and amounts**, which is two places to change, and **a log line to debug an entry**.
+
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
 redraw** (forum.js draws no canvas of its own), and `putForumUpload` refuses one still carrying camera data **and a

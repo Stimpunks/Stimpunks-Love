@@ -7592,6 +7592,7 @@ export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
 export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Invited In", "open": true}, {"name": "Collaborating", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
+export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
 const NO_OFFICE = 'The office is for our directors and administrators, on a claimed username.';
@@ -7784,6 +7785,10 @@ export async function importContacts(who, rows, s = store(), now = Date.now()) {
       const there = list.find((x) => x.espo === espo);
       if (gone.has(espo)) { told.push({ espo, kept: 'deleted here' }); continue; }
       if (there && there.edited) { told.push({ espo, kept: 'changed here', id: there.id }); continue; }
+      // Somebody already here by their email, from a form while both took entries, is not brought over again.
+      const mail = String(row.email || '').trim().toLowerCase();
+      const same = !there && mail && list.find((x) => !x.espo && x.email && x.email.toLowerCase() === mail);
+      if (same) { told.push({ espo, kept: 'already here', id: same.id }); continue; }
       const r = applyContact(list, row, who, now);
       if (r.error) { told.push({ espo, error: r.error }); continue; }
       list = r.list;
@@ -7988,6 +7993,9 @@ export async function importGrants(who, rows, s = store(), now = Date.now()) {
       const there = list.find((x) => x.espo === espo);
       if (gone.has(espo)) { told.push({ espo, kept: 'deleted here' }); continue; }
       if (there && there.edited) { told.push({ espo, kept: 'changed here', id: there.id }); continue; }
+      // An entry already here from the form, while both took entries, is not brought over again.
+      const twin = !there && row.form != null && list.find((x) => !x.espo && x.form === Number(row.form));
+      if (twin) { told.push({ espo, kept: 'already here', id: twin.id }); continue; }
       const f = { ...row };
       delete f.contactEspo;
       if (row.contactEspo != null) {
@@ -8194,6 +8202,9 @@ export async function importCases(who, rows, s = store(), now = Date.now()) {
       const there = list.find((x) => x.espo === espo);
       if (gone.has(espo)) { told.push({ espo, kept: 'deleted here' }); continue; }
       if (there && there.edited) { told.push({ espo, kept: 'changed here', id: there.id }); continue; }
+      // An entry already here from the form, while both took entries, is not brought over again.
+      const twin = !there && row.form != null && list.find((x) => !x.espo && x.form === Number(row.form));
+      if (twin) { told.push({ espo, kept: 'already here', id: twin.id }); continue; }
       const f = { ...row };
       delete f.contactEspo;
       if (row.contactEspo != null) {
@@ -8224,4 +8235,119 @@ export async function removeCase(who, id, s = store()) {
   if (!gone) return { error: 'That case has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
   return { gone: true };
+}
+
+/* THE INTAKE (stage four): stimpunks.org's forms, through the WPForms plugin,
+   which used to post to EspoCRM. One submission at a time, from a server and
+   never a browser, signed with CB_OFFICE_INTAKE_KEY, which the plugin holds in
+   wp-config.php: an HMAC-SHA256 of the timestamp and the body, so the key
+   itself never travels and a signature is good for five minutes. It finds the
+   contact by email, or adds one (an existing contact keeps their name and takes
+   the newest phone number), then makes the grant request or case
+   OFFICE_INTAKE says the form makes, at the first stage or status, under the
+   name `${prefix} ${entry}: ${their name}`. An entry already in the office is
+   never made twice, so the plugin's retries and resends are safe. A field the
+   office cannot keep where it belongs (an email or phone it cannot read) goes
+   into the description, so nothing sent is lost. Nothing about a submission is
+   ever logged, and the answer says only whether a record was made. */
+export const INTAKE_BY = 'stimpunks.org form';
+export const INTAKE_MAX = 300000;      // characters of a submission's body
+const INTAKE_SKEW = 300;               // seconds a signature is good for
+const INTAKE_WHO = { handle: INTAKE_BY };
+
+function intakeKey() {
+  const v = process.env.CB_OFFICE_INTAKE_KEY;
+  return typeof v === 'string' && v.trim().length >= 32 ? v.trim() : null;
+}
+export function intakeReady() { return !!intakeKey() && officeReady(); }
+
+/* `t=<unix seconds>,v1=<hex HMAC-SHA256 of "t.body">`, as the plugin signs it. */
+export function intakeSigned(header, raw, now = Date.now()) {
+  const key = intakeKey();
+  if (!key || typeof header !== 'string' || typeof raw !== 'string') return false;
+  let t = null; const sigs = [];
+  for (const part of header.split(',')) {
+    const i = part.indexOf('=');
+    if (i < 1) continue;
+    const k = part.slice(0, i).trim(), v = part.slice(i + 1).trim();
+    if (k === 't') t = v; else if (k === 'v1' && /^[0-9a-f]{64}$/.test(v)) sigs.push(v);
+  }
+  if (!t || !/^\d{9,11}$/.test(t) || !sigs.length) return false;
+  if (Math.abs(now / 1000 - Number(t)) > INTAKE_SKEW) return false;
+  const want = Buffer.from(createHmac('sha256', key).update(`${t}.${raw}`, 'utf8').digest('hex'));
+  return sigs.some((v) => { const got = Buffer.from(v); return got.length === want.length && timingSafeEqual(got, want); });
+}
+
+/* A description too long for a record is cut short and says so. */
+function intakeBody(text, max) {
+  const t = String(text || '').trim();
+  if ([...t].length <= max) return t;
+  return [...t].slice(0, max - 80).join('') + '\n\n(Cut short here: the whole answer is on the form entry.)';
+}
+
+export async function officeIntake(sub, s = store(), now = Date.now()) {
+  if (!officeReady()) return { error: 'The office is shut.', status: 503 };
+  sub = sub && typeof sub === 'object' ? sub : {};
+  const kind = typeof sub.type === 'string' && Object.prototype.hasOwnProperty.call(OFFICE_INTAKE, sub.type) ? OFFICE_INTAKE[sub.type] : null;
+  if (!kind) return { error: 'The office makes nothing for that form.' };
+  const entry = sub.entry == null || sub.entry === '' || sub.entry === 0 ? null : Number(sub.entry);
+  if (entry !== null && !(Number.isInteger(entry) && entry > 0 && entry < 1e9)) return { error: 'A form entry is a whole number.' };
+  const submitted = day(sub.submitted) || today(new Date(now));
+  const extra = [];
+  let email = String(sub.email || '').trim().toLowerCase();
+  if (email && (email.length > 254 || !EMAIL.test(email))) { extra.push(['Email', email]); email = ''; }
+  let phone = String(sub.phone || '').trim();
+  if (phone && !PHONE.test(phone)) { extra.push(['Phone', phone]); phone = ''; }
+  const first = [...tidy(sub.first)].slice(0, CONTACT_NAME_MAX).join('');
+  const last = [...tidy(sub.last)].slice(0, CONTACT_NAME_MAX).join('');
+  const display = [...(tidy(sub.name) || [first, last].filter(Boolean).join(' ') || email || 'Unknown')].slice(0, 120).join('');
+
+  // The contact: found by email, or added. A name is needed, so somebody who gave
+  // only an email is named by it, as the plugin did in EspoCRM.
+  let contact = null;
+  if (email) {
+    await updateSealed(CONTACTS, (was) => {
+      const list = was && Array.isArray(was.contacts) ? was.contacts : [];
+      const had = list.find((x) => x.email && x.email.toLowerCase() === email);
+      contact = had ? had.id : null;
+      if (had && (!phone || had.phone === phone)) return null;
+      const f = had ? { id: had.id, phone } : { first, last: first || last ? last : [...email].slice(0, CONTACT_NAME_MAX).join(''), email, phone };
+      const r = applyContact(list, f, INTAKE_WHO, now);
+      if (r.error) return null;
+      contact = r.saved.id;
+      return { contacts: r.list };
+    }, s);
+    if (!contact) extra.push(['Contact', `${display} · ${email}${phone ? ' · ' + phone : ''}`]);
+  } else if (phone) extra.push(['Phone', phone]);
+
+  const lines = extra.map(([k, v]) => `**${k}**\n${v}`);
+  const name = [...(entry ? `${kind.prefix} ${entry}: ${display}` : `${kind.prefix}: ${display}`)].slice(0, 200).join('');
+  const contacts = await readContacts(s);
+  let made = false, why = null;
+  if (kind.record === 'grant') {
+    const body = intakeBody([...lines, sub.message].filter(Boolean).join('\n\n'), GRANT_BODY_MAX);
+    await updateSealed(GRANTS, (was) => {
+      const list = was && Array.isArray(was.grants) ? was.grants : [];
+      made = false; why = null;
+      if (entry && list.some((g) => g.form === entry)) return null;
+      const r = applyGrant(list, { name, pipeline: kind.pipeline, amount: kind.amount, submitted, contact, form: entry, body }, INTAKE_WHO, now, contacts);
+      if (r.error) { why = r.error; return null; }
+      made = true;
+      return { grants: r.list };
+    }, s);
+  } else {
+    const body = intakeBody([...lines, sub.message].filter(Boolean).join('\n\n'), CASE_BODY_MAX);
+    await updateSealed(CASES, (was) => {
+      const list = was && Array.isArray(was.cases) ? was.cases : [];
+      made = false; why = null;
+      if (entry && list.some((k) => k.form === entry)) return null;
+      const top = topOf(was);
+      const r = applyCase(list, { name, type: kind.type, submitted, contact, form: entry, body }, INTAKE_WHO, now, contacts, top);
+      if (r.error) { why = r.error; return null; }
+      made = true;
+      return { cases: r.list, top: Math.max(top, r.saved.number) };
+    }, s);
+  }
+  if (why) return { error: why };
+  return { ok: true, record: kind.record, made };
 }
