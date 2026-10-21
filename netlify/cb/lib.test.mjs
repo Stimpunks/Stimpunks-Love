@@ -4085,12 +4085,25 @@ async function withOfficeKey(key, fn) {
   try { return await fn(); } finally { if (was == null) delete process.env.CB_OFFICE_KEY; else process.env.CB_OFFICE_KEY = was; }
 }
 
+/* A sealed blob holds only its sealed fields, and none of the words in its
+   ciphertext. Only words of four or more bytes are looked for: a shorter one can
+   turn up by chance in random bytes, and the first draft of these tests failed
+   now and then on "Bo" found in the base64. */
+function assertSealed(blob, words) {
+  assert.deepEqual(Object.keys(blob).sort(), ['data', 'iv', 'sealed', 'tag']);
+  const bytes = Buffer.from(blob.data, 'base64url');
+  for (const w of words) {
+    assert.ok(Buffer.byteLength(w) >= 4, `${w} is too short to look for`);
+    assert.ok(!bytes.includes(Buffer.from(w)) && !JSON.stringify(blob).includes(w), `the store holds ${w} in the clear`);
+  }
+}
+
 test('the office seals what it keeps, and without its key it is shut, never open in the clear', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   assert.equal(officeReady(), true);
-  const box = seal({ hello: 'Ada', n: 1 });
+  const box = seal({ hello: 'Lovelace', n: 1 });
   assert.deepEqual(Object.keys(box).sort(), ['data', 'iv', 'sealed', 'tag']);
-  assert.ok(!JSON.stringify(box).includes('Ada'), 'a sealed record can be read without its key');
-  assert.deepEqual(unseal(box), { hello: 'Ada', n: 1 });
+  assertSealed(box, ['Lovelace']);
+  assert.deepEqual(unseal(box), { hello: 'Lovelace', n: 1 });
   assert.notEqual(seal({ a: 1 }).iv, seal({ a: 1 }).iv, 'two seals shared a nonce');
   const bent = { ...box, data: box.data.slice(0, -2) + (box.data.endsWith('A') ? 'BB' : 'AA') };
   assert.throws(() => unseal(bent), 'a tampered record opened');
@@ -4115,8 +4128,7 @@ test('contacts are for directors and administrators, sealed in the store, and a 
   const c = made.contact;
   assert.deepEqual([c.name, c.email, c.phone, c.noEmail, c.by, c.t], ['Ada Lovelace', 'ada@example.org', '+1 (555) 010-2030', false, 'Chelsea', T0]);
   // The store holds no word of it in the clear.
-  const raw = JSON.stringify(await s.get('office-contacts', { type: 'json' }));
-  for (const word of ['Ada', 'Lovelace', 'ada@example.org', '555', 'camp']) assert.ok(!raw.includes(word), `the store holds ${word} in the clear`);
+  assertSealed(await s.get('office-contacts', { type: 'json' }), ['Lovelace', 'ada@example.org', '010-2030', 'camp']);
   for (const [f, why] of [[{ email: 'not an email' }, /email/], [{ phone: 'call me maybe' }, /phone/], [{ first: '', last: '' }, /name/], [{ first: 'x'.repeat(81) }, /up to/]]) {
     assert.match((await saveContact(TRYAN, { id: c.id, ...f }, s, T0 + 1)).error, why);
   }
@@ -4189,8 +4201,7 @@ test('a grant request moves through its pipeline, its status follows the stage, 
   assert.match((await saveGrant(TRYAN, { pipeline: 'Mutual Aid' }, s, T0)).error, /name/);
   const g = (await saveGrant(TRYAN, { name: 'Mutual Aid Grant Request 1: Ada', contactEmail: 'ADA@example.org', amount: 500, submitted: '2026-10-01', body: 'Rent, **please**.' }, s, T0)).grant;
   assert.deepEqual([g.pipeline, g.stage, g.status, g.closed, g.contact, g.contactName, g.amount], ['Mutual Aid', 'Received', 'Open', null, ada.id, 'Ada Lovelace', 500]);
-  const raw = JSON.stringify(await s.get('office-grants', { type: 'json' }));
-  for (const word of ['Ada', 'Rent', 'Mutual']) assert.ok(!raw.includes(word), `the grants' store holds ${word} in the clear`);
+  assertSealed(await s.get('office-grants', { type: 'json' }), ['Mutual Aid Grant Request', 'Rent, **please**', 'Mutual']);
   for (const [f, why] of [[{ stage: 'Nope' }, /no stage called Nope/], [{ pipeline: 'Nope' }, /no pipeline/], [{ amount: 12.5 }, /whole dollars/],
     [{ amount: -1 }, /whole dollars/], [{ submitted: '1 Oct' }, /YYYY-MM-DD/], [{ contactEmail: 'nobody@example.org' }, /Add them as a contact first/], [{ form: 'x' }, /form entry/]]) {
     assert.match((await saveGrant(TRYAN, { id: g.id, ...f }, s, T0 + 1)).error, why);
@@ -4255,8 +4266,7 @@ test('a case takes the next number, closing it here sets the day it closed, and 
   }
   const one = (await saveCase(TRYAN, { name: 'Connection Request: Bo', contactEmail: 'bo@example.org', body: 'Wants to **join**.' }, s, T0)).case;
   assert.deepEqual([one.number, one.type, one.status, one.open, one.priority, one.closed, one.contactName], [1, 'Connection Request', 'New', true, 'Normal', null, 'Bo Peep']);
-  const raw = JSON.stringify(await s.get('office-cases', { type: 'json' }));
-  for (const word of ['Bo', 'join', 'Connection']) assert.ok(!raw.includes(word), `the cases' store holds ${word} in the clear`);
+  assertSealed(await s.get('office-cases', { type: 'json' }), ['Connection Request: Bo', 'join', 'Connection']);
   const two = (await saveCase(TRYAN, { name: 'Volunteer', type: 'Volunteer Application' }, s, T0 + 1)).case;
   assert.equal(two.number, 2);
   for (const [f, why] of [[{ type: 'Nope' }, /Connection Request or a Volunteer Application/], [{ status: 'Nope' }, /no status/], [{ priority: 'Nope' }, /no priority/],
