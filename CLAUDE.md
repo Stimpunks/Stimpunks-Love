@@ -3882,7 +3882,11 @@ in this app opens a pop-up in the same tab, so test it in real Chrome over CDP w
 
 **SPEAK NEW MESSAGES ALOUD WAS SILENT FROM 2026-10-18 TO 2026-10-19**, because `show()` kept the channel
 in `this.onAir`, which is also the voice's speaking flag, so the queue never started. The list is
-`this.aired` now. **Two meanings, one name, no error**: grep a property before reusing it.
+`this.aired` now. **Two meanings, one name, no error**: grep a property before reusing it. **Read aloud**,
+under a message's three dots (Ryan's ask, 2026-10-21, the channel's and a conversation's), reads that one
+message now through the same queue as a `read` item (`readAloud`, `spokenText`), switch on or off, under
+the voice's rules: `localVoice()` only, and the squelch following the dial. It hushes what was being said
+first, and `hush()` moves `this.gen` on, so an utterance cut off can never end the one after it.
 
 **WHAT IS NEW TO YOU IS MARKED, NEVER COUNTED, AND THE SERVER KEEPS WHAT YOU READ.** Ryan's ask and calls,
 2026-10-20, reversing "no badge, no unread count" and "nothing lights up when a message lands" for a mark:

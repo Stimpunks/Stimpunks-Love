@@ -2049,6 +2049,10 @@
   Radio.prototype.hush = function () {
     this.air = [];
     this.onAir = false;
+    // What was cut off answers late, after anything started straight after
+    // it; the generation is how it knows it is no longer the one speaking.
+    this.gen = (this.gen || 0) + 1;
+    this.readOver();
     clearTimeout(this.airTimer);
     if (this.noise) { try { this.noise.stop(); } catch (e) { /* already stopped */ } this.noise = null; }
     if (VOICE) window.speechSynthesis.cancel();
@@ -2085,8 +2089,10 @@
     src.stop(t + length);
   };
 
-  Radio.prototype.speak = function (li) {
-    if (!this.state.speak || this.state.folded) return;
+  /* What the voice says for a message: its handle, who it answers, its words
+     with a pause between paragraphs, and its picture's description or its
+     sticker. Speak new messages aloud and Read aloud say the same. */
+  function spokenText(li) {
     var words = li.querySelector('.cb-text').cloneNode(true);
     var drawn = words.querySelectorAll('[aria-hidden="true"]');
     for (var i = 0; i < drawn.length; i++) drawn[i].remove();
@@ -2100,37 +2106,76 @@
     if (st) told += ' A sticker: ' + st.textContent + '.';
     var re = li.querySelector(':scope > .cb-re'), reWho = re && re.querySelector('.cb-re__who');
     var answers = re ? (reWho ? ', replying to ' + reWho.textContent : ', replying to a message no longer there') : '';
-    (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + answers + '. ' + words.textContent + told);
+    return li.querySelector('.cb-handle').textContent + answers + '. ' + words.textContent + told;
+  }
+
+  Radio.prototype.speak = function (li) {
+    if (!this.state.speak || this.state.folded) return;
+    (this.air = this.air || []).push(spokenText(li));
     if (!this.onAir) this.transmitNext();
+  };
+
+  /* READ ALOUD, under a message's three dots (Ryan's ask, 2026-10-21): that
+     one message, now, in Speak new messages aloud's voice and under its rules,
+     an on-device voice only and the squelch following the dial, whether that
+     switch is on or off. It stops whatever the radio was saying first, and
+     pressed again while it reads, it stops. It goes through the same queue as
+     a `read` item, so anything Speak aloud has waiting comes after it. */
+  Radio.prototype.readBtn = function (m, li, say) {
+    var me = this, b = el('button', 'cb-btn cb-read', 'Read aloud');
+    var tellIt = say || function (t) { me.tell(t); };
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Read ' + m.handle + '\u2019s message ' + sentAt(m.t) + ' aloud');
+    b.addEventListener('click', function () { me.readAloud(li, b, tellIt); });
+    return b;
+  };
+  Radio.prototype.readAloud = function (li, b, tellIt) {
+    if (this.reading === b) { this.hush(); return; }
+    if (!localVoice()) { tellIt('This device has no voice of its own to read with, so nothing will be spoken.'); return; }
+    this.hush();
+    this.reading = b;
+    b.textContent = 'Stop reading';
+    this.air = [{ read: true, text: spokenText(li) }];
+    this.transmitNext();
+  };
+  Radio.prototype.readOver = function () {
+    if (!this.reading) return;
+    this.reading.textContent = 'Read aloud';
+    this.reading = null;
   };
 
   // One message off the queue: key up, the words, let go, a breath, the next.
   Radio.prototype.transmitNext = function () {
-    var me = this, text = this.air.shift(), voice = localVoice();
-    if (!text || !voice || !this.state.speak || this.state.folded) { this.onAir = false; return; }
+    var me = this, item = this.air.shift(), voice = localVoice();
+    var read = !!(item && item.read), text = read ? item.text : item;
+    // A message pressed to be read has been, once whatever comes next starts.
+    if (!read) this.readOver();
+    if (!text || !voice || (!this.state.speak && !read) || this.state.folded) { this.onAir = false; this.readOver(); return; }
     this.onAir = true;
     if (!mayPlay()) {
       this.air = [];
       this.onAir = false;
+      this.readOver();
       if (!this.askedToPlay) {
         this.askedToPlay = true;
         this.tell('Your browser will not let the radio speak on this page until you have pressed or typed something on it.');
       }
       return;
     }
+    var gen = this.gen;
     this.squelch(BURST, function () {
-      if (!me.onAir) return;
+      if (!me.onAir || me.gen !== gen) return;
       var u = new SpeechSynthesisUtterance(text), over = false;
       u.voice = voice;
       u.lang = voice.lang;
       function done(e) {
-        if (over) return;
+        if (over || me.gen !== gen) return;
         over = true;
         clearTimeout(me.airTimer);
         if (!me.onAir) return;
-        if (e && e.error === 'not-allowed') { me.air = []; me.onAir = false; return; }
+        if (e && e.error === 'not-allowed') { me.air = []; me.onAir = false; me.readOver(); return; }
         me.squelch(TAIL, function () {
-          if (!me.onAir) return;
+          if (!me.onAir || me.gen !== gen) return;
           me.airTimer = setTimeout(function () { me.transmitNext(); }, GAP);
         });
       }
@@ -2981,16 +3026,18 @@
     mark.dateTime = new Date(m.edited).toISOString();
   };
 
-  /* MORE, the three dots: Copy, Edit and Take off, folded under the message's
-     line. A disclosure and not an ARIA menu: a row of ordinary buttons straight
+  /* MORE, the three dots: Copy, Read aloud, Edit and Take off, folded under
+     the message's line. A disclosure and not an ARIA menu: a row of ordinary buttons straight
      under the line, ready from the start and hidden, so opening it adds
      nothing to the log's live region, and the keyboard reaches them with Tab
      like everything else on the radio. Escape folds it and puts the keyboard
-     back on the dots. A message with nothing in it to copy and nothing of
-     yours to take off has no dots at all. */
+     back on the dots. Where the browser has a voice, every message has Read
+     aloud; where it has none, a message with nothing in it to copy and
+     nothing of yours to take off has no dots at all. */
   Radio.prototype.moreFor = function (m, li) {
     var me = this, items = [];
     if (m.text) items.push(this.copyBtn(m, li));
+    if (VOICE) items.push(this.readBtn(m, li));
     /* EDIT is on your own messages, and only yours, even for the base (Ryan,
        2026-10-18): which are yours to edit is canEdit's rule in lib.mjs,
        asked again by the server. */
@@ -6566,6 +6613,7 @@
   Radio.prototype.dmMore = function (m, li) {
     var me = this, items = [];
     if (m.text) items.push(this.copyBtn(m, li, function (t) { me.dmTold(t); }));
+    if (VOICE) items.push(this.readBtn(m, li, function (t) { me.dmTold(t); }));
     if (m.mine) {
       var ed = el('button', 'cb-btn cb-edit-btn', 'Edit');
       ed.type = 'button';
