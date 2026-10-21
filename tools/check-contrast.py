@@ -1423,6 +1423,13 @@ PAIRS = [
     # yurt's cream on the six spine colours, held with the bookcases above. The
     # moth on the guild's board is RDR_BRASS on the wall, 7.53.
     (RDR_BRASS,  RDR_WALL,  False, "music room: the moth on the guild's board, lying on the claret"),
+    # THE CINEMA (love.css §121), Helen's, two doors along and dressed in the
+    # Reading Room's colours at her ask (2026-10-21, "similar idea to my library
+    # and music room"), so every pair above is this room's too: the reels' labels
+    # and the dark screen are the panel with the house's ink and dimmer ink on
+    # it. The velvet, the stone and the brass in the drawings carry no word. The
+    # ticket stub on the guild's board is RDR_BRASS on the wall, 7.53.
+    (RDR_BRASS,  RDR_WALL,  False, "cinema: the ticket stub on the guild's board, lying on the claret"),
     # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat

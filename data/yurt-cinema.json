@@ -1,0 +1,527 @@
+{
+  "_source": "Helen Edgar's films for the Cinema, behind her Faery Yurt, asked for on 2026-10-21: every reel she drops in hangs on a rail on the wall, in rows, on a shelf under its own heading (her headings, the same day: Philosophy, Nature, Cosmos, Weird stuff, Poetry, Relaxation; Art and Ma, Minimalism & the Void the same morning, at her ask, with films Claude found on the galleries' and makers' own channels), and goes up on the screen when it is pressed. A reel is one video (id, with its runtime) or, at her ask the same day (\"main channels not just the link to a specific video so can scroll\"), a whole channel's uploads (kind channel, a list of UU plus the channel id after UC) or a playlist (kind playlist, its PL id, and the id it opens on), which plays from the top with no runtime, because it keeps growing; a live camera (live: true) has no runtime either. Everything was read off YouTube's own pages on 2026-10-21 with a browser's user agent, never from memory: each video's watch page for playabilityStatus (OK for all), playableInEmbed (true for all), lengthSeconds and author; each channel's page for its id and name; each playlist's page for its owner and its first row, whose watch page answered OK and playableInEmbed true. A video whose channel has embedding off goes in as a door (door + state: link). Titles are the uploaders' own. Edit this, then run tools/make-yurt-cinema.py; it writes the reels into faery-cinema-room.html. tools/check-jukebox.py reads the videos on every shelf.",
+  "_checked": "2026-10-21",
+  "shelves": [
+    {
+      "title": "Philosophy",
+      "note": "So far, lots of Deleuze and Guattari, and some Bergson, Merleau-Ponty and Mark Fisher, plus lots of Robert Chapman!",
+      "reels": [
+        {
+          "kind": "channel",
+          "list": "UUQp78LuKhWvRrNr2vx9hFjg",
+          "title": "Deleuze Philosophy",
+          "channel": "Deleuze Philosophy",
+          "what": "all about Deleuze’s philosophy, in the channel’s own words",
+          "address": "https://www.youtube.com/@deleuzephilosophy"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLP6F1ltYBCJouxcGF_LxH915VMGPKFYQT",
+          "title": "Where to Start With Deleuze",
+          "channel": "Quarantine Collective",
+          "opens": "VL0LzPcpRCY",
+          "address": "https://www.youtube.com/playlist?list=PLP6F1ltYBCJouxcGF_LxH915VMGPKFYQT"
+        },
+        {
+          "id": "bW14fhVzN00",
+          "title": "Episode 128 ... Deleuze pt. 4 - Flows",
+          "runtime": "22:54",
+          "channel": "Philosophize This!"
+        },
+        {
+          "id": "lXhCsXcBdKI",
+          "title": "Deleuze and Spinoza: Practical Philosophy and Process Ontology",
+          "runtime": "23:38",
+          "channel": "Epoch Philosophy"
+        },
+        {
+          "kind": "channel",
+          "list": "UUqzFQr1LCC8xrr0fMcRctYg",
+          "title": "Acid Horizon",
+          "channel": "Acid Horizon",
+          "what": "the theory podcast",
+          "address": "https://www.youtube.com/@AcidHorizon"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLD1szxop5A91gPCci-enrKnBfOBriemru",
+          "title": "About Deleuze",
+          "channel": "DISPUK",
+          "what": "Todd May’s lectures on Deleuze",
+          "opens": "pgh9hMgSKEM",
+          "address": "https://www.youtube.com/playlist?list=PLD1szxop5A91gPCci-enrKnBfOBriemru"
+        },
+        {
+          "id": "AUQTYlCTfek",
+          "title": "Introduction to Deleuze: Difference and Repetition",
+          "runtime": "16:34",
+          "channel": "Then & Now"
+        },
+        {
+          "id": "irrNcRPGr8Q",
+          "title": "What is the Body Without Organs? | Gilles Deleuze and Félix Guattari | Keyword",
+          "runtime": "25:09",
+          "channel": "Theory & Philosophy"
+        },
+        {
+          "kind": "channel",
+          "list": "UU_WdQzXkXPPL0Rq98bKuuLQ",
+          "title": "Buddies Without Organs",
+          "channel": "Buddies Without Organs",
+          "what": "a podcast by Sean Pearce, Matt Colquhoun and Corey J. White",
+          "address": "https://www.youtube.com/channel/UC_WdQzXkXPPL0Rq98bKuuLQ"
+        },
+        {
+          "id": "XFhH3dF7RYw",
+          "title": "Deleuze for the Desperate #4: body-without-organs",
+          "runtime": "44:39",
+          "channel": "Dave Harris"
+        },
+        {
+          "id": "jWPwVuNrvCM",
+          "title": "Our Bodies, Bodies of Water: A Call to Responsibility with Astrida Neimanis | Wisdoms of Water",
+          "runtime": "3:57",
+          "channel": "advaya"
+        },
+        {
+          "kind": "channel",
+          "list": "UU2PA-AKmVpU6NKCGtZq_rKQ",
+          "title": "Philosophy Tube",
+          "channel": "Philosophy Tube",
+          "address": "https://www.youtube.com/channel/UC2PA-AKmVpU6NKCGtZq_rKQ"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLk0yL-_RNygNeSFEOHQuwQg1kXpXsIA53",
+          "title": "Bergson",
+          "channel": "Absurd Being",
+          "what": "a podcast, from Henri Bergson (1), the introduction, on",
+          "opens": "lK46IeOA3v8",
+          "address": "https://www.youtube.com/playlist?list=PLk0yL-_RNygNeSFEOHQuwQg1kXpXsIA53"
+        },
+        {
+          "id": "0-JN_vf9EFo",
+          "title": "Bergson's Elan Vital and Vitalism",
+          "runtime": "45:15",
+          "channel": "Michael Sugrue"
+        },
+        {
+          "id": "t4vYdkFxQfI",
+          "title": "Time and Consciousness: An Introduction to Bergson's Metaphysics | Victoria Trumbull",
+          "runtime": "50:23",
+          "channel": "Victoria Trumbull"
+        },
+        {
+          "id": "ztruZVkMoek",
+          "title": "Einstein and Bergson on Time",
+          "runtime": "50:37",
+          "channel": "Chicago Humanities"
+        },
+        {
+          "id": "g6vdkDwN7Pg",
+          "title": "The Philosophy of Comedy | Henri Bergson",
+          "runtime": "26:53",
+          "channel": "Jonas Čeika - CCK Philosophy"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLk0yL-_RNygMKb8KFkwo7OAxo-SQB58NG",
+          "title": "Merleau-Ponty - Phenomenology of Perception",
+          "channel": "Absurd Being",
+          "what": "a podcast, from its first part on",
+          "opens": "JPpZwmKe4u4",
+          "address": "https://www.youtube.com/playlist?list=PLk0yL-_RNygMKb8KFkwo7OAxo-SQB58NG"
+        },
+        {
+          "id": "JFj8kWm_N-Y",
+          "title": "Merleau-Ponty, The Phenomenology of Perception",
+          "runtime": "12:38",
+          "channel": "Overthink Podcast"
+        },
+        {
+          "id": "9PjbXGFlQFM",
+          "title": "Merleau-Ponty, Phenomenology of Perception, 1: What is Phenomenology?",
+          "runtime": "1:19:32",
+          "channel": "John Russon"
+        },
+        {
+          "id": "Oq4sjz38z5A",
+          "title": "Hubert Dreyfus discusses Heidegger & Merleau-Ponty",
+          "runtime": "22:24",
+          "channel": "Tao Ruspoli"
+        },
+        {
+          "id": "aCgkLICTskQ",
+          "title": "Mark Fisher : The Slow Cancellation Of The Future",
+          "runtime": "46:14",
+          "channel": "MaMa Zagreb"
+        },
+        {
+          "id": "eZpVA-3KlWU",
+          "title": "Philosophy of psychiatry webinar : Robert Chapman talk",
+          "runtime": "37:37",
+          "channel": "abcphilo"
+        },
+        {
+          "id": "xoBQ6q56fJE",
+          "title": "The Rise of Anti-Capitalist Neurodiversity: Robert Chapman's 'Empire of Normality'",
+          "runtime": "1:00:36",
+          "channel": "Acid Horizon"
+        },
+        {
+          "kind": "playlist",
+          "list": "PL0mJZdLJAu8hwohGqAm6VGnLb3zNhNUvh",
+          "title": "ROBERT CHAPMAN",
+          "channel": "Salvatore Marzolo",
+          "what": "his talks, one after another",
+          "opens": "qiRyu8POjK0",
+          "address": "https://www.youtube.com/playlist?list=PL0mJZdLJAu8hwohGqAm6VGnLb3zNhNUvh"
+        },
+        {
+          "id": "JYJceTJL-RU",
+          "title": "Robert Chapman - Neurodiversity and the pathology paradigm",
+          "runtime": "56:22",
+          "channel": "Blavatnik School of Government"
+        },
+        {
+          "id": "sRH-_JdGLVQ",
+          "title": "Robert Chapman - Marx, Alienation and Mental Health",
+          "runtime": "51:39",
+          "channel": "Blavatnik School of Government"
+        },
+        {
+          "id": "SjmG8eE0_L8",
+          "title": "ADAPT OR REMAKE: WHAT IF IT’S THE SYSTEM, NOT YOU?",
+          "runtime": "1:13:00",
+          "channel": "Lighthouse Bookshop"
+        },
+        {
+          "id": "05k7Q2HFqqI",
+          "title": "Robert Chapman: 'Towards a Democratic Approach to Health Concepts'",
+          "runtime": "1:26:32",
+          "channel": "Philosophy and Medicine at KCL"
+        },
+        {
+          "id": "qiRyu8POjK0",
+          "title": "Robert Chapman - The Autistic Mind: A Wittgensteinian Account",
+          "runtime": "48:40",
+          "channel": "Critical Theory"
+        },
+        {
+          "id": "HYvzJLKd5G8",
+          "title": "Phil Persp on Neurodiversity: Part 3:  Robert Chapman: Neurodiversity, Objectivity, Relativism",
+          "runtime": "35:15",
+          "channel": "CompostCollective"
+        },
+        {
+          "id": "_X50JuS0Bak",
+          "title": "A Brave New Ultrahumanism - with Robert Chapman",
+          "runtime": "37:59",
+          "channel": "Team Futurism"
+        },
+        {
+          "id": "YQzmFShB1H8",
+          "title": "Teaser - Empire of Normality w/ Robert Chapman (12/18/23)",
+          "runtime": "19:49",
+          "channel": "Death Panel Podcast"
+        },
+        {
+          "id": "1k5oQ9MOiKI",
+          "title": "Robert Chapman. Después de la normalidad: neurodiversidad y capitalismo CCCB",
+          "runtime": "45:54",
+          "channel": "Josue Rodrigo",
+          "what": "in Spanish"
+        },
+        {
+          "id": "TGmxOc6j6oo",
+          "title": "Empire of Normality: Neurodiversity and… by Robert Chapman · Audiobook preview",
+          "runtime": "44:14",
+          "channel": "Google Play Books"
+        }
+      ]
+    },
+    {
+      "title": "Nature",
+      "reels": [
+        {
+          "id": "eQ_foBERmzA",
+          "title": "Live Jelly Cam | Monterey Bay Aquarium",
+          "live": true,
+          "channel": "Monterey Bay Aquarium"
+        },
+        {
+          "id": "AeMUdOPFcXI",
+          "title": "Namibia: Live stream at the Okaukuejo waterhole in Etosha National Park, Namibia",
+          "live": true,
+          "channel": "NamibiaCam"
+        },
+        {
+          "id": "JfKtk3Ch5KA",
+          "title": "Incredible Natural World Wonders - Narrated by Sir David Attenborough | BBC Earth",
+          "runtime": "2:00:42",
+          "channel": "BBC Earth"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLfKjT0HesrmDHEdzwvLq5mXgwmuB_V6Ew",
+          "title": "David Attenborough",
+          "channel": "Darpan Majumdar",
+          "what": "BBC Earth and Our Planet, from their own channels",
+          "opens": "tVUDJs6_A-0",
+          "address": "https://www.youtube.com/playlist?list=PLfKjT0HesrmDHEdzwvLq5mXgwmuB_V6Ew"
+        },
+        {
+          "id": "bRZYgdHTxjk",
+          "title": "Entangled Life",
+          "runtime": "0:40",
+          "channel": "Cosmo Sheldrake"
+        },
+        {
+          "kind": "channel",
+          "list": "UUEHbfWVMwrsS7GxszGbCsng",
+          "title": "Merlin Sheldrake",
+          "channel": "Merlin Sheldrake",
+          "address": "https://www.youtube.com/channel/UCEHbfWVMwrsS7GxszGbCsng"
+        }
+      ]
+    },
+    {
+      "title": "Cosmos",
+      "reels": [
+        {
+          "kind": "playlist",
+          "list": "PLwOPLqGzquBewv63fiw2bOlPhctF84SpM",
+          "title": "Brian Cox BBC",
+          "channel": "liza lutz",
+          "opens": "c17t_Pf8vI4",
+          "address": "https://www.youtube.com/playlist?list=PLwOPLqGzquBewv63fiw2bOlPhctF84SpM"
+        },
+        {
+          "id": "j5n19aGLVUM",
+          "title": "COSMOS Episode 1 | Carl Sagan's Universe Begins | Full Documentary (HD)|",
+          "runtime": "1:00:25",
+          "channel": "Cosmic clarity"
+        },
+        {
+          "id": "5BNPeFHU7QQ",
+          "title": "Decoding the Universe: Cosmos | Full Documentary | NOVA | PBS",
+          "runtime": "53:55",
+          "channel": "NOVA PBS Official"
+        },
+        {
+          "kind": "channel",
+          "list": "UUpVm7bg6pXKo1Pr6k5kxG9A",
+          "title": "National Geographic",
+          "channel": "National Geographic",
+          "address": "https://www.youtube.com/@NatGeo"
+        }
+      ]
+    },
+    {
+      "title": "Weird stuff",
+      "reels": [
+        {
+          "kind": "channel",
+          "list": "UUNvsIonJdJ5E4EXMa65VYpA",
+          "title": "ContraPoints",
+          "channel": "ContraPoints",
+          "what": "“YouTuber, ex-philosopher”, in the channel’s own words",
+          "address": "https://www.youtube.com/@ContraPoints"
+        }
+      ]
+    },
+    {
+      "title": "Art",
+      "note": "Rothko and Goldsworthy, whose work is still their own: films about it, mostly from the galleries that keep it.",
+      "reels": [
+        {
+          "id": "lPgj7lHnU10",
+          "title": "Mark Rothko at Tate Modern | TateShots",
+          "runtime": "5:55",
+          "channel": "Tate"
+        },
+        {
+          "id": "AGqAggmwyMU",
+          "title": "Restoring Rothko | Tate",
+          "runtime": "17:26",
+          "channel": "Tate"
+        },
+        {
+          "id": "JPoQeuWybIo",
+          "title": "Mark Rothko | AB EX NY",
+          "runtime": "5:37",
+          "channel": "The Museum of Modern Art"
+        },
+        {
+          "id": "RVesIMtX0Zo",
+          "title": "The Transformative Power of the Rothko Chapel",
+          "runtime": "13:27",
+          "channel": "Rothko Chapel Official"
+        },
+        {
+          "id": "fsz6bkkIHzQ",
+          "title": "Mark Rothko's Seagram Murals: Great Art Explained",
+          "runtime": "15:11",
+          "channel": "Great Art Explained"
+        },
+        {
+          "id": "IvLsCL4ChYA",
+          "title": "Andy Goldsworthy | Fifty Years",
+          "runtime": "7:27",
+          "channel": "nationalgalleries"
+        },
+        {
+          "id": "FHSDv9c4Lu0",
+          "title": "Art That Vanishes: The Mind of Andy Goldsworthy | Rivers and Tides | Full Free Documentary",
+          "runtime": "1:34:05",
+          "channel": "Free Movies By CONtv"
+        }
+      ]
+    },
+    {
+      "title": "Ma, Minimalism & the Void",
+      "note": "The space between things, and the art of nothing much: Ma, minimalism, liminal spaces.",
+      "reels": [
+        {
+          "id": "VI0xgxCOf8E",
+          "title": "The Concept of \"Ma\" in Japanese Life and Culture",
+          "runtime": "2:08",
+          "channel": "Carnegie Hall"
+        },
+        {
+          "id": "RVKvxO7Z2GY",
+          "title": "What Is Ma (間)? The Hidden Meaning Behind Japanese Minimalism",
+          "runtime": "10:54",
+          "channel": "Dans Le Gris"
+        },
+        {
+          "id": "ScpuByTfn3g",
+          "title": "Japanese Ways of Seeing Space: Ma, Yohaku no Bi, and Subtraction",
+          "runtime": "11:07",
+          "channel": "Dans Le Gris"
+        },
+        {
+          "id": "arGl_ZnYwl4",
+          "title": "The Beauty of Silence: The Japanese Concept of Ma Explained",
+          "runtime": "4:49",
+          "channel": "Azumi Uchitani"
+        },
+        {
+          "id": "XEi0Ib-nNGo",
+          "title": "The Case for Minimalism | The Art Assignment | PBS Digital Studios",
+          "runtime": "4:37",
+          "channel": "The Art Assignment"
+        },
+        {
+          "id": "k12tjjG3Slk",
+          "title": "David Gariff on Minimalism, Part 13",
+          "runtime": "1:51:59",
+          "channel": "National Gallery of Art  Talks"
+        },
+        {
+          "id": "olsXUqKTWgI",
+          "title": "The Art of The In-Between: An Analysis of Liminal Spaces",
+          "runtime": "21:12",
+          "channel": "Crescendex"
+        },
+        {
+          "id": "cQWdtZbj2Zg",
+          "title": "LIMINAL - A Video Essay On Liminal Space",
+          "runtime": "16:54",
+          "channel": "Daniel Felix"
+        }
+      ]
+    },
+    {
+      "title": "Poetry",
+      "reels": [
+        {
+          "id": "CqIhR4QIweQ",
+          "title": "Sylvia Plath reading her poems 1958 - thepostarchive",
+          "runtime": "1:02:16",
+          "channel": "thepostarchive"
+        },
+        {
+          "kind": "playlist",
+          "list": "PLb5z03HFNSZ_1MhKHqtwqWRqQ2bJ18F7H",
+          "title": "T. S. Eliot reads his poems",
+          "channel": "Thomas Gunter",
+          "opens": "JAO3QTU4PzY",
+          "what": "opening on The Love Song of J. Alfred Prufrock",
+          "address": "https://www.youtube.com/playlist?list=PLb5z03HFNSZ_1MhKHqtwqWRqQ2bJ18F7H"
+        },
+        {
+          "id": "CqvhMeZ2PlY",
+          "title": "T.S. Eliot reads: The Waste Land",
+          "runtime": "26:02",
+          "channel": "tim24frames"
+        },
+        {
+          "id": "Ga8tQrG4ZSw",
+          "title": "T S Eliot reads his Four Quartets",
+          "runtime": "55:39",
+          "channel": "vinyhilist"
+        },
+        {
+          "id": "z4clm7xUzPU",
+          "title": "Poetry: T.S. Eliot's Four Quartets - Quartet No. 1: \"Burnt Norton\" performed by Ralph Fiennes",
+          "runtime": "11:51",
+          "channel": "Zsuzsanna Uhlik"
+        }
+      ]
+    },
+    {
+      "title": "Relaxation",
+      "reels": [
+        {
+          "id": "Y_plhk1FUQA",
+          "title": "COSMIC RELAXATION: 8 HOURS of 4K Deep Space NASA Footage + Chillout Music for Studying, Working, Etc",
+          "runtime": "7:59:11",
+          "channel": "Nature Relaxation Films"
+        },
+        {
+          "id": "ztVV54sPOns",
+          "title": "Travel the Universe While Relaxation ★ Space Ambient Music",
+          "runtime": "2:56:32",
+          "channel": "Relaxation Ambient Music"
+        },
+        {
+          "id": "G52dUQLxPzg",
+          "title": "11 HOURS Stunning 4K Underwater footage + Music | Nature Relaxation™ Rare & Colorful Sea Life Video",
+          "runtime": "11:11:11",
+          "channel": "Nature Relaxation Films"
+        },
+        {
+          "id": "UJZxtO9XNno",
+          "title": "Gentle Stream Sounds | Relaxing Stream Sounds use for Relaxation, Sleep, insomnia",
+          "runtime": "12:00:01",
+          "channel": "The Relaxed Guy"
+        },
+        {
+          "id": "IvjMgVS6kng",
+          "title": "Relaxing River Sounds - Peaceful Forest River - 3 Hours Long - HD 1080p - Nature Video",
+          "runtime": "3:00:26",
+          "channel": "TheSilentWatcher"
+        },
+        {
+          "id": "lkUuCgNkSsk",
+          "title": "2 HOURS of Relaxing Clouds & The Best Relax Music ~ Sleep, Study, Meditation, Relaxation",
+          "runtime": "2:00:03",
+          "channel": "Cat Trumpet"
+        },
+        {
+          "id": "2xNSZdIVEAA",
+          "title": "Dawn Chorus Real Time Sunrise - Relaxing Sounds",
+          "runtime": "27:51",
+          "channel": "Fairyland Cottage"
+        },
+        {
+          "id": "nvtXGpy5iF0",
+          "title": "Relaxing Music | Full Moon Music | Deep Focus | Study Music | Background Music | Full Moon Energy",
+          "runtime": "1:11:11",
+          "channel": "Quiet Quest - Study Music"
+        }
+      ]
+    }
+  ]
+}

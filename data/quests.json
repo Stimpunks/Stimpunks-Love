@@ -768,6 +768,23 @@
    "learned": "The Music Room is Helen Edgar's, behind her yurt, for anybody who only wants to listen: her whole yarn on the phonograph and every song on it as a record in the case, in a room with nothing else to scroll past. Since 2026-10-18 it is the one place the yarn plays; the yurt keeps its phonograph, with a songbook under it listing every song, and both are written by one tool from one data file. Nothing in there counts what you played."
   },
   {
+   "id": "cinema-ticket",
+   "page": "faery-cinema-room.html",
+   "room": "The Cinema",
+   "title": "A ticket under a seat",
+   "posted": "Somebody has dropped their ticket stub under a seat in the Cinema, through the cinema door in the Faery Yurt. Find it and read what it says; the film it was for is up to you.",
+   "rank": 3,
+   "takes": "two minutes, and a film if you want one",
+   "target": "a ticket stub dropped under a seat",
+   "code": "STUB",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds, and into the yurt at pitch 01.",
+    "In the yurt, the door with the film strip across it.",
+    "At the very bottom of the Cinema, under the last row of reels."
+   ],
+   "learned": "The Cinema is Helen Edgar's, behind her yurt: a little picture palace in the Reading Room's colours, where every film she keeps is an old-fashioned reel on a rail, and goes up on the screen when you press it. The projector never flickers. Nothing in there counts what you watched."
+  },
+  {
    "id": "meadow-firefly",
    "page": "swaying-sweetgrass.html",
    "room": "Swaying Sweetgrass",

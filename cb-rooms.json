@@ -542,6 +542,12 @@
    "about": "Through the door by the phonograph in Helen's Faery Yurt: her music room, for anybody who only wants to listen. The phonograph with her two playlists on it, every song on them as a record in an arched case, candles that stand still, and faeries and a garden if you ask for them."
   },
   {
+   "tag": "faery-cinema-room",
+   "name": "The Cinema",
+   "path": "/faery-cinema-room.html",
+   "about": "Through the cinema door with the film strip on it in Helen's Faery Yurt: her picture palace, with velvet curtains, a silver screen and a projector in the box at the back. Every film she keeps is an old-fashioned reel on a rail on the wall, in rows, and goes up on the screen when you press it."
+  },
+  {
    "tag": "the-bough-house",
    "name": "The Bough House",
    "path": "/the-bough-house.html",

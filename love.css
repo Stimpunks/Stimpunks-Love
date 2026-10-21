@@ -6474,6 +6474,10 @@ html[data-intensity="max"] .yurt-phono__disc { animation: yurt-spin 6s linear in
 .yurt-door__go { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 24px; line-height: 1.2; text-decoration: underline; text-decoration-color: rgba(224,144,74,.45); text-underline-offset: 4px; }
 .yurt-door__say { font-size: 16px; color: var(--tallow-2); }
 .room-yurt .yurt-door--music { margin-top: 26px; }
+/* The door to the Cinema (2026-10-21, Helen's ask): an old picture-house arch
+   with its screen lit and a film strip winding across the front, drawn in the
+   yurt's own declared colours, in place of the bookcase arch. */
+.yurt-door__cinema { flex: 0 0 auto; width: 96px; height: 150px; filter: drop-shadow(0 10px 14px rgba(0,0,0,.5)); }
 @media (max-width: 480px) { .room-yurt .yurt-door { flex-direction: column; text-align: center; } }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
@@ -16911,7 +16915,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §122
+   class on it is `bb-`, its sizes are in points and millimetres, and §123
    prints it and nothing else. */
 
 .room-broadside {
@@ -16972,7 +16976,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §122 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §123 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -25398,7 +25402,172 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .chm-named { font-size: 24px; }
 }
 
-/* §121 ── Small screens───────────────────────────────────────────────────────
+/* §121 ── SUBROOM: The Cinema (behind the Faery Yurt) ───────────────────────
+   HELEN'S, LIKE THE YURT, THE READING ROOM AND THE MUSIC ROOM, and asked for
+   at the keyboard on 2026-10-21: a cinema behind her yurt, "similar idea to my
+   library and music room", through an old-style cinema door with a film strip
+   on it, and every film she keeps "on an old fashioned film reel for each one
+   in rows instead of a bookcase". The reels, the screen and the rack are
+   written by tools/make-yurt-cinema.py from data/yurt-cinema.json; this
+   section dresses them in the room's own class names (cin-).
+
+   IT IS THE READING ROOM'S HOUSE, LIKE THE MUSIC ROOM, at her ask, so it wears
+   §114's declared colours (--rdr-*) rather than declaring another claret, and
+   her two faces. Every ink here sits on §114's grounds, the wall and the panel,
+   in pairs check-contrast.py already holds, and the screen, dark until a reel
+   goes up, is the panel with the house's cream on it. What keeps it off
+   its two neighbours is the LIGHT: the Reading Room is lit by a fire from the
+   floor, the Music Room by candles with a window open on the night; here the
+   house lights are down and the light comes over your head from the box at
+   the back, a still wedge onto a silver screen. The REELS ARE IN ROWS ON RAILS,
+   not in an arched case: there is no bookcase in this room, which is what she
+   asked for.
+
+   THE LIGHTBULB PICTURE HOUSE (§42) IS THE OTHER CINEMA, and the light is the
+   whole difference: there the house lights stay up, bare bulbs all over, and
+   no beam, because a beam only shows in the dark. Here the house is dark and
+   the beam is the room. If the house lights ever come up in here, it has
+   become that room with candles.
+
+   A PROJECTOR FLICKERS AND THIS ONE DOES NOT, at any setting, for Club
+   Chronic's reason; make-yurt-cinema.py refuses a keyframe here that changes a
+   light. The only thing that moves is the two reels on the projector in the
+   drawing, at MAX GLITTER and nowhere else, as the record does in the Music
+   Room, which the room's dial line says; the faeries and the garden move only
+   when pressed. */
+
+.room-cinema { background: var(--rdr-wall); color: var(--rdr-ink); font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; line-height: 1.7; }
+.room-cinema a { color: var(--rdr-flame); text-decoration-color: rgba(242,153,79,.45); text-underline-offset: 3px; }
+.room-cinema a:hover { color: var(--rdr-flame-2); }
+.room-cinema .backlink { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: .06em; color: var(--rdr-ink-2); }
+.cin { width: min(860px, 100% - 40px); margin-inline: auto; padding: 0 0 70px; }
+.room-cinema h1, .room-cinema h2, .room-cinema h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  color: var(--rdr-ink); text-wrap: balance; letter-spacing: .01em;
+}
+.room-cinema h1 { font-size: clamp(42px, 7vw, 67px); font-style: italic; margin: 0 0 14px; }
+.room-cinema h2 { font-size: 30px; font-style: italic; margin: 0 0 6px; }
+.room-cinema section { padding: 30px 0; }
+.cin-top { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+.cin-top__note { margin: 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+.cin-head { text-align: center; padding: 22px 0 10px; }
+.cin-strip { display: block; width: 100%; height: 34px; margin: 0 0 26px; border-radius: 2px; }
+.cin-scene { display: block; width: min(100%, 580px); height: auto; margin: 0 auto 26px; border-radius: 8px; box-shadow: 0 18px 40px -22px rgba(0,0,0,.8), inset 0 0 0 1px rgba(214,176,106,.18); }
+/* The two reels on the projector turn at MAX and nowhere else; each turns
+   about its own centre, inside the drawing. */
+.cin-proj__reel { transform-box: fill-box; transform-origin: center; }
+html[data-intensity="max"] .cin-proj__reel { animation: cin-turn 4s linear infinite; }
+@keyframes cin-turn { to { transform: rotate(360deg); } }
+.cin-eyebrow { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 0 16px; }
+.cin-tagline { font-size: 19.5px; font-style: italic; color: var(--rdr-ink-2); max-width: 46ch; margin: 0 auto 18px; }
+.cin-lede { max-width: 62ch; margin: 0 auto; text-align: left; }
+.room-cinema .cin-intro { color: var(--rdr-ink-2); max-width: 64ch; margin: 22px 0 14px; }
+.room-cinema .cin-waiting { font-style: italic; text-align: center; margin-inline: auto; padding: 28px 22px; border-top: 14px solid var(--rdr-timber); border-bottom: 14px solid var(--rdr-timber); }
+.cin-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
+
+/* The two switches, the yurt's, in this room's clothes. */
+.cin-magic { margin: 18px auto 0; max-width: 560px; text-align: center; }
+.cin-magic__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.cin-magic__btn {
+  min-height: 44px; padding: 8px 18px; cursor: pointer;
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.35); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 18px;
+}
+.cin-magic__btn:hover { border-color: var(--rdr-flame-2); }
+.cin-magic__btn[aria-pressed="true"] { color: var(--rdr-flame-2); border-color: var(--rdr-flame-2); }
+.cin-magic__btn:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 2px; }
+.cin-magic__note { margin: 10px 0 0; font-size: 15px; color: var(--rdr-ink-2); }
+
+/* THE SCREEN: nothing of its own on it (rack.js unhides it), framed in gilt
+   with the curtains' claret either side. Styled from the container, because
+   love-embed.js swaps a pressed button for a bare div. */
+.room-cinema .cin-screen {
+  margin: 18px 0 0; padding: 14px; border-radius: 6px;
+  background: var(--rdr-velvet); border: 3px solid var(--rdr-brass);
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,.8);
+}
+.room-cinema .cin-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; border-radius: 2px;
+  background: var(--rdr-panel); color: var(--rdr-ink); font-size: 17px; line-height: 1.5;
+}
+.room-cinema .cin-screen__idle span { max-width: 44ch; }
+.room-cinema .cin-screen__idle b { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 20px; }
+.room-cinema .cin-screen__now { margin: 12px 0 0; font-size: 16px; font-style: italic; color: var(--rdr-ink-2); }
+.room-cinema .cin-screen__back { margin: 10px 0 0; }
+.room-cinema .cin-back {
+  display: block; width: 100%; cursor: pointer; text-align: left;
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.28); border-radius: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 17px; line-height: 1.3; padding: 10px 14px;
+}
+.room-cinema .cin-back:hover { border-color: var(--rdr-flame-2); color: var(--rdr-flame-2); }
+.room-cinema .cin-back:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 2px; }
+.room-cinema .cin-rack__sum {
+  cursor: pointer; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
+  font-size: 21px; color: var(--rdr-ink); padding: 4px 0;
+}
+.room-cinema .cin-rack__sum::marker { color: var(--rdr-ink-2); }
+.cin-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+/* THE SHELVES, each under its own heading in her words (2026-10-21): a
+   brass rule over the name, like the plate on a rack in a film store, and a
+   rail that is up but empty says its reels are coming. */
+.cin-shelf { margin: 34px 0 0; }
+.cin-shelf:first-of-type { margin-top: 18px; }
+.room-cinema .cin-shelf__name { font-size: 26px; font-style: italic; margin: 0 0 4px; padding-top: 12px; border-top: 1px solid rgba(214,176,106,.35); }
+.cin-shelf__note { margin: 0 0 6px; font-style: italic; color: var(--rdr-ink-2); }
+.cin-shelf__soon { margin: 10px 0 0; padding: 14px 0 16px; font-style: italic; color: var(--rdr-ink-2); border-bottom: 14px solid var(--rdr-timber); }
+
+/* THE RAILS: every film an old-fashioned reel hung on a rail on the wall, in
+   rows, each row standing on a length of the house's timber. THE REEL IS THE
+   PRESS, and its label plate says how long the film runs before you press it;
+   the line under it is the card's own facade, kept because the CB's
+   watch-together finds a film by it. Nothing on the rails moves. */
+.cin-reels {
+  list-style: none; margin: 14px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 26px 18px; align-items: stretch;
+}
+.cin-reel__slot { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0 4px 12px; border-bottom: 14px solid var(--rdr-timber); box-shadow: 0 16px 0 -10px rgba(0,0,0,.45); }
+.cin-reel__slot p { margin: 0; }
+.room-cinema .cin-reel__credit { margin-top: auto; }
+.room-cinema .cin-reel {
+  display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%;
+  padding: 0; border: 0; background: transparent; cursor: pointer; text-align: center; text-decoration: none;
+  color: var(--rdr-ink); font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+}
+.cin-reel__tin { display: block; width: 128px; height: 128px; margin-bottom: -10px; filter: drop-shadow(0 8px 10px rgba(0,0,0,.55)); }
+.cin-reel__label {
+  position: relative; display: flex; flex-direction: column; gap: 2px; width: 100%; box-sizing: border-box;
+  padding: 14px 10px 10px; background: var(--rdr-panel); border: 1px solid rgba(214,176,106,.28); border-radius: 4px;
+}
+.room-cinema .cin-reel:hover .cin-reel__label { border-color: var(--rdr-flame-2); }
+.room-cinema .cin-reel:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 4px; }
+.cin-reel__title { font-size: 17px; font-style: italic; line-height: 1.15; }
+.cin-reel__who { font-size: 14px; line-height: 1.2; }
+.cin-reel__kind { font-size: 13px; line-height: 1.2; font-family: 'Crimson Pro', Georgia, serif; font-weight: 400; color: var(--rdr-ink-2); }
+/* A whole channel or playlist: the same reel with a second spool of film
+   showing under its label's top edge, so a full reel reads as fuller. */
+.room-cinema .cin-reel--list .cin-reel__label { border-top: 3px double var(--rdr-brass); }
+.cin-reel__what { font-size: 13px; font-style: italic; line-height: 1.2; color: var(--rdr-ink-2); }
+.cin-reel__note { margin-top: 4px; font-size: 12.5px; font-style: italic; line-height: 1.25; font-weight: 400; font-family: 'Crimson Pro', Georgia, serif; color: var(--rdr-ink-2); }
+.cin-reel__go { margin-top: 6px; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; line-height: 1.2; color: var(--rdr-ink-2); }
+.room-cinema .cin-reel__slot button.facade {
+  width: auto; aspect-ratio: auto; padding: 0; border: 0; border-radius: 0; background: transparent;
+  color: var(--rdr-ink-2); font-family: 'Crimson Pro', Georgia, serif; font-size: 13px; text-align: center; white-space: nowrap;
+  text-decoration: underline; text-decoration-color: rgba(205,180,172,.5); text-underline-offset: 3px;
+}
+.room-cinema .cin-reel__slot button.facade:hover { background: transparent; color: var(--rdr-flame-2); }
+.room-cinema .cin-reel__slot button.facade .facade__play { display: none; }
+.room-cinema .cin-reel__slot div.facade { width: 100%; }
+.room-cinema .cin-reel__credit { font-size: 12px; color: var(--rdr-ink-2); text-align: center; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.room-cinema .cin-rack__from { margin: 14px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+/* A DOOR ON THE RAIL: a film whose channel has embedding off is a link to its
+   watch page, on the same reel, its plate dashed where every pressable plate
+   is solid, and it says so on its face. */
+.room-cinema .cin-reel--door .cin-reel__label { border-style: dashed; border-color: rgba(242,230,212,.55); }
+.room-cinema .cin-reel--door:hover .cin-reel__label { border-color: var(--rdr-flame-2); }
+
+
+/* §122 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -25502,7 +25671,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §121 says every
+   shipped with no rule here at all — which on a street whose §122 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -25626,7 +25795,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §122 ── Print ───────────────────────────────────────────────────────────────
+/* §123 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

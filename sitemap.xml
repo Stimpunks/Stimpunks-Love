@@ -90,7 +90,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/adventurers-guild.html</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-21</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/the-feed.html</loc>
@@ -318,7 +318,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/now-playing.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-21</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/the-garden.html</loc>
@@ -326,7 +326,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/world.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-21</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/the-run.html</loc>
@@ -350,15 +350,19 @@
   </url>
   <url>
     <loc>https://stimpunks.world/faery-yurt.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-21</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/faery-reading-room.html</loc>
-    <lastmod>2026-10-18</lastmod>
+    <lastmod>2026-10-21</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/faery-music-room.html</loc>
     <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://stimpunks.world/faery-cinema-room.html</loc>
+    <lastmod>2026-10-21</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/the-bough-house.html</loc>
@@ -474,7 +478,7 @@
   </url>
   <url>
     <loc>https://stimpunks.world/liner-notes.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-21</lastmod>
   </url>
   <url>
     <loc>https://stimpunks.world/about.html</loc>
@@ -514,6 +518,6 @@
   </url>
   <url>
     <loc>https://stimpunks.world/changelog.html</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-21</lastmod>
   </url>
 </urlset>

@@ -142,6 +142,11 @@
    "room": "The Music Room"
   },
   {
+   "id": "cinema-ticket",
+   "title": "A ticket under a seat",
+   "room": "The Cinema"
+  },
+  {
    "id": "meadow-firefly",
    "title": "The book this room lends",
    "room": "Swaying Sweetgrass"

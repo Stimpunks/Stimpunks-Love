@@ -1980,6 +1980,22 @@
         "--rdr-velvet"
       ]
     },
+    "faery-cinema-room.html": {
+      "kind": "julia",
+      "c": [
+        -0.12,
+        0.77
+      ],
+      "orbit": 0.014,
+      "bands": 0.05,
+      "ground": "--rdr-wall",
+      "inks": [
+        "--rdr-velvet",
+        "--rdr-brass",
+        "--rdr-ink-2",
+        "--rdr-flame-2"
+      ]
+    },
     "faery-reading-room.html": {
       "kind": "orbit",
       "trap": "ring",

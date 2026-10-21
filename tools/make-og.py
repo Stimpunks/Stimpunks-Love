@@ -1668,6 +1668,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--music .mus-eyebrow {{ margin: 0; }}
 .og--music h1 {{ font-size: 84px; margin: 0 !important; }}
 .og--music .og-lede {{ font-size: 27px; }}
+/* the cinema — the music room's card two doors along: the picture palace
+   lifted off the page, house lights down, the eyebrow, the name and the lede
+   beside it, in §114's inks on its claret, and the film strip from the top of
+   the room along the foot. */
+.og--cinema {{ width: 100%; padding: 36px 60px 30px; gap: 18px; }}
+.og--cinema .og-head {{ display: flex; align-items: center; gap: 40px; }}
+.og--cinema .cin-scene {{ flex: 0 0 auto; width: 470px; margin: 0; }}
+.og--cinema .og-words {{ display: flex; flex-direction: column; gap: 14px; }}
+.og--cinema .cin-eyebrow {{ margin: 0; }}
+.og--cinema h1 {{ font-size: 92px; margin: 0 !important; }}
+.og--cinema .og-lede {{ font-size: 26px; }}
+.og--cinema .cin-strip {{ margin: 0; height: 30px; }}
 .og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
   letter-spacing: 0; font-size: 30px; }}
@@ -2695,6 +2707,29 @@ def card_music(p):
         f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
         f"{p['desc_plain']} Along the bottom: just the music, nothing to scroll past, "
         f"stimpunks.world.",
+    )
+
+
+def card_cinema(p):
+    return (
+        "",
+        f'<div class="cin og og--cinema" data-fit="card">'
+        f'<div class="og-head">{p["cscene"]}<div class="og-words">'
+        f'<p class="cin-eyebrow">behind the faery yurt &middot; through the cinema door</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div></div>'
+        f'{p["cstrip"]}'
+        f'</div>',
+        f"A claret card. On the left, a drawing of an old picture palace with the "
+        f"house lights down, seen from the back row: a gilt arch round a pale screen, "
+        f"claret velvet curtains tied back either side under a fringed pelmet, a "
+        f"candle in a brass sconce on each wall, the tops of three rows of velvet "
+        f"seats, and a soft wedge of light falling onto the screen from the "
+        f"projection box high at the back. Beside it, small cream capitals reading "
+        f"behind the faery yurt, through the cinema door, then "
+        f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
+        f"{p['desc_plain']} Along the bottom, a strip of film with its sprocket holes.",
     )
 
 
@@ -5428,6 +5463,7 @@ CARDS = {
     "room-yurt":    card_yurt,
     "room-reading": card_reading,
     "room-music":   card_music,
+    "room-cinema":  card_cinema,
     "hermitage":    card_herm,
     "club":         card_club,
     "room-latibulum": card_latibulum,
@@ -5532,6 +5568,8 @@ def main():
         ("lights",   "faery-yurt.html",   r'(<div class="lights".*?</div>)'),
         ("scene",    "faery-reading-room.html", r'(<svg class="rdr-scene".*?</svg>)'),
         ("mscene",   "faery-music-room.html", r'(<svg class="mus-scene".*?</svg>)'),
+        ("cscene",   "faery-cinema-room.html", r'(<svg class="cin-scene".*?</svg>)'),
+        ("cstrip",   "faery-cinema-room.html", r'(<svg class="cin-strip".*?</svg>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),

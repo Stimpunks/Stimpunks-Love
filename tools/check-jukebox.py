@@ -319,6 +319,7 @@ LISTS = [
     # whole and is not here (a playlist is not one video); every song on its rack
     # is, including the one that plays another upload than the playlist's.
     ("the faery yurt", "data/yurt-yarn.json", "faery-yurt.html"),
+    ("the yurt's cinema", "data/yurt-cinema.json", "faery-cinema-room.html"),
     ("the cabin", "data/secret-cabin.json", "lydtyss.html"),
 ]
 
@@ -385,6 +386,13 @@ def tracks_in(data):
         return [dict(v, artist=v.get("channel") or v["source"],
                      state="link" if v.get("state") == "door" else None)
                 for v in data["log"] if v.get("state") in ("screen", "door")]
+    # THE YURT'S CINEMA keeps videos and whole channels and playlists on one
+    # rail under 'reels' on each of its shelves, in Helen's order; only a video
+    # has an id to check.
+    if "shelves" in data and "reels" in (data["shelves"] or [{}])[0]:
+        return [dict(t, artist=t.get("channel"),
+                     state="link" if t.get("door") else None)
+                for sh in data["shelves"] for t in sh["reels"] if t.get("id")]
     if "tracks" in data:
         return data["tracks"]
     # THE CABIN'S RECORD PLAYER plays whole albums, so its file keeps each
