@@ -11,6 +11,9 @@
      grant    &id=           one grant request, its description as words and as nodes
      cases                   every case, without its description
      case     &id=           one case, its description as words and as nodes
+     templates               every mailing template
+     mailings                every mailing, newest first, with how many of its emails are where
+     mailing  &id=           one mailing, its template's words and every email's state
    POST, with the same pass:
      { action: 'contact-save', id?, espo?, first?, last?, email?, phone?, noEmail?, noCall?, notes? }
          a new contact, or a change to the one `id` names; only the fields sent change.
@@ -31,6 +34,16 @@
          that closes it, set here, sets the day it closed
      { action: 'case-remove', id }                   a case deleted
      { action: 'case-import', rows: [...] }          EspoCRM's cases, each keeping its number
+     { action: 'template-save', id?, name, subject, body }
+         a mailing's template, or a change to one; an unknown {fill-in} is refused
+     { action: 'template-remove', id }               a template deleted
+     { action: 'mailing-preview', pipeline, stage, template }
+         every email a mailing to that stage would send, filled in, and who it leaves out and why
+     { action: 'mailing-send', pipeline, stage, template, stamp, grants }
+         the mailing the preview showed, queued for the team mailbox to send; refused
+         if the template or who is at the stage has changed since
+     { action: 'mailing-stop', id }                  every email of it not yet sent, taken back
+     { action: 'mailing-remove', id }                a mailing with nothing waiting, deleted
      { action: 'mail-remove', id }                   an email deleted from the office, never from
          Gmail, and never taken in again
      { action: 'preview', body }                     how notes or a description will set
@@ -38,7 +51,9 @@
    ../cb/lib.mjs, the office. */
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases,
-  officeEmail, removeEmail, parseBrass, cleanForumBody, json, body, sameSite,
+  officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
+  stopMailing, removeMailing, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  parseBrass, cleanForumBody, json, body, sameSite,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
 
@@ -46,7 +61,8 @@ import { readPass, forumReader, officeAllow, officeReady, officeContacts, office
 const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
 const settings = { nameMax: CONTACT_NAME_MAX, notesMax: CONTACT_NOTES_MAX, grantNameMax: GRANT_NAME_MAX, grantBodyMax: GRANT_BODY_MAX,
   amountMax: GRANT_AMOUNT_MAX, pipelines: OFFICE_PIPELINES, statuses: OFFICE_STATUSES, currency: OFFICE_CURRENCY,
-  cases: OFFICE_CASES, caseNameMax: CASE_NAME_MAX, caseBodyMax: CASE_BODY_MAX };
+  cases: OFFICE_CASES, caseNameMax: CASE_NAME_MAX, caseBodyMax: CASE_BODY_MAX, fillIns: FILL_INS, templateNameMax: TEMPLATE_NAME_MAX,
+  templateSubjectMax: TEMPLATE_SUBJECT_MAX, templateBodyMax: TEMPLATE_BODY_MAX, mailingMax: MAILING_MAX };
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The office only answers stimpunks.world.' }, QUIET);
@@ -81,6 +97,12 @@ export default async (req) => {
       if (view === 'case') {
         const k = await officeCase(who, url.searchParams.get('id'));
         return k ? json(200, { me, settings, case: k }, QUIET) : json(404, { error: 'That case has been deleted.' }, QUIET);
+      }
+      if (view === 'templates') return json(200, { me, settings, templates: await officeTemplates(who) }, QUIET);
+      if (view === 'mailings') return json(200, { me, settings, mailings: await officeMailings(who) }, QUIET);
+      if (view === 'mailing') {
+        const m = await officeMailing(who, url.searchParams.get('id'));
+        return m ? json(200, { me, settings, mailing: m }, QUIET) : json(404, { error: 'That mailing has been deleted.' }, QUIET);
       }
       return json(400, { error: 'Show what?' }, QUIET);
     }
@@ -124,6 +146,30 @@ export default async (req) => {
     }
     if (b.action === 'case-remove') {
       const r = await removeCase(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'template-save') {
+      const r = await saveTemplate(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { template: r.template }, QUIET);
+    }
+    if (b.action === 'template-remove') {
+      const r = await removeTemplate(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'mailing-preview') {
+      const r = await previewMailing(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, r, QUIET);
+    }
+    if (b.action === 'mailing-send') {
+      const r = await sendMailing(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, r, QUIET);
+    }
+    if (b.action === 'mailing-stop') {
+      const r = await stopMailing(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : json(200, r, QUIET);
+    }
+    if (b.action === 'mailing-remove') {
+      const r = await removeMailing(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
     }
     if (b.action === 'contact-remove') {

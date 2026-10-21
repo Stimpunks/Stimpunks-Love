@@ -7815,6 +7815,7 @@ export async function removeContact(who, id, s = store()) {
   if (!gone) return { error: 'That contact has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
   await forgetContactMail(gone.id, s);
+  await forgetContactMailings(gone.id, s);
   return { gone: true };
 }
 
@@ -8557,4 +8558,267 @@ async function forgetContactMail(cid, s) {
     if (empty) await s.delete(mailKeyOf(x.id));
   }
   await s.delete(mailIndexKey(cid));
+}
+
+/* MAILINGS: an email from a template to everybody at one stage of a grant
+   pipeline, sent from the team mailbox (Ryan's call, 2026-10-20, over drafts
+   to read and send by hand). A director writes TEMPLATES here, with fill-ins in
+   braces, and an unknown fill-in is refused, so a misspelt one never goes out
+   as braces. MAILING PREVIEW fills one email for every grant request at the
+   stage and names everybody it leaves out and why: no contact, a contact since
+   deleted, no address, or a contact who asked not to be emailed. SEND MAILING
+   is given the grant requests the preview showed and the template's stamp, and
+   refuses if either has changed since, so what is sent is what was seen. Each
+   email goes to one person, never as a group.
+
+   The office sends nothing itself, because that would need a Google login kept
+   here. The team mailbox's script asks for the OUTBOX on each run: the only
+   time the office gives it anybody's address, and only the addresses of a
+   mailing a director has sent. It sends each with the team mailbox's own
+   Gmail and says so (MAIL SENT), and the email then keeps only whose and when:
+   its address and words go, and the email itself comes back as one of the
+   mailbox's, filed on its contact. Stopping a mailing takes back every email
+   not yet sent; deleting a contact takes theirs; a mailing with nothing waiting
+   can be deleted. Templates and mailings are sealed like everything here. */
+const TEMPLATES = 'office-templates';
+const MAILINGS = 'office-mailings';
+export const TEMPLATE_NAME_MAX = 120;
+export const TEMPLATE_SUBJECT_MAX = 200;
+export const TEMPLATE_BODY_MAX = 20000;
+export const MAILING_MAX = 300;        // emails in one mailing
+export const OUTBOX_BATCH = 50;        // emails one ask of the outbox hands over
+export const FILL_INS = ['first', 'last', 'name', 'grant', 'amount', 'pipeline', 'stage', 'submitted'];
+export function templateId(v) { return typeof v === 'string' && /^t[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+export function mailingId(v) { return typeof v === 'string' && /^n[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+export function outboxId(v) { return typeof v === 'string' && /^e[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newTemplateId = () => 't' + randomBytes(9).toString('base64url');
+const newMailingId = () => 'n' + randomBytes(9).toString('base64url');
+const newOutboxId = () => 'e' + randomBytes(9).toString('base64url');
+
+async function readTemplates(s) { const d = await readSealed(TEMPLATES, s); return d && Array.isArray(d.templates) ? d.templates : []; }
+async function readMailings(s) { const d = await readSealed(MAILINGS, s); return d && Array.isArray(d.mailings) ? d.mailings : []; }
+
+/* The fill-ins in a template that the office does not know. */
+export function unknownFillIns(text) {
+  const out = [];
+  for (const m of String(text || '').matchAll(/\{([^{}\n]*)\}/g)) if (!FILL_INS.includes(m[1]) && !out.includes(m[0])) out.push(m[0]);
+  return out;
+}
+function fillIn(text, v) { return String(text).replace(/\{(\w+)\}/g, (m, k) => (Object.prototype.hasOwnProperty.call(v, k) ? v[k] : m)); }
+function moneyWords(n) { return n == null ? '' : '$' + Number(n).toLocaleString('en-US'); }
+function dayWordsOf(d) {
+  if (!d) return '';
+  try { return new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric' }); } catch (e) { return d; }
+}
+
+function shapeTemplate(t) {
+  return { id: t.id, name: t.name, subject: t.subject, body: t.body, stamp: t.edited || t.t, t: t.t, by: t.by || null, edited: t.edited || null, editedBy: t.editedBy || null };
+}
+export async function officeTemplates(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  return (await readTemplates(s)).map(shapeTemplate).sort((a, b) => a.name.localeCompare(b.name));
+}
+export async function saveTemplate(who, f, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  f = f && typeof f === 'object' ? f : {};
+  const name = [...tidy(f.name)].join('');
+  const subject = [...tidy(f.subject)].join('');
+  const body = cleanBrassBody(f.body, TEMPLATE_BODY_MAX);
+  if (!name || [...name].length > TEMPLATE_NAME_MAX) return { error: `A template needs a name, up to ${TEMPLATE_NAME_MAX} characters.` };
+  if (!subject || [...subject].length > TEMPLATE_SUBJECT_MAX) return { error: `A template needs a subject, up to ${TEMPLATE_SUBJECT_MAX} characters.` };
+  if (!body) return { error: `A template needs words, up to ${TEMPLATE_BODY_MAX} characters.` };
+  const unknown = unknownFillIns(subject + '\n' + body);
+  if (unknown.length) return { error: `The office has no fill-in called ${unknown.join(', ')}. It knows ${FILL_INS.map((x) => '{' + x + '}').join(', ')}.` };
+  let saved = null, why = null;
+  await updateSealed(TEMPLATES, (was) => {
+    const list = was && Array.isArray(was.templates) ? was.templates : [];
+    saved = null; why = null;
+    if (f.id != null) {
+      const k = list.findIndex((x) => x.id === templateId(f.id));
+      if (k < 0) { why = 'That template has been deleted.'; return null; }
+      saved = { ...list[k], name, subject, body, edited: now, editedBy: who.handle };
+      const copy = list.slice(); copy[k] = saved;
+      return { templates: copy };
+    }
+    if (list.some((x) => x.name.toLowerCase() === name.toLowerCase())) { why = 'There is a template with that name already.'; return null; }
+    saved = { id: newTemplateId(), name, subject, body, t: now, by: who.handle };
+    return { templates: [...list, saved] };
+  }, s);
+  if (why) return { error: why };
+  return { template: shapeTemplate(saved) };
+}
+export async function removeTemplate(who, id, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  let gone = false;
+  await updateSealed(TEMPLATES, (was) => {
+    const list = was && Array.isArray(was.templates) ? was.templates : [];
+    gone = list.some((x) => x.id === templateId(id));
+    return gone ? { templates: list.filter((x) => x.id !== templateId(id)) } : null;
+  }, s);
+  return gone ? { gone: true } : { error: 'That template has already been deleted.' };
+}
+
+/* Everybody at one stage of one pipeline: an email for each grant request
+   whose contact can be emailed, and the rest with the reason they are left out. */
+function stageMail(pipeline, stage, grants, contacts) {
+  const byId = contactMap(contacts);
+  const emails = [], left = [];
+  const here = grants.filter((g) => g.pipeline === pipeline && g.stage === stage)
+    .sort((a, b) => String(a.submitted || '').localeCompare(String(b.submitted || '')) || a.name.localeCompare(b.name));
+  for (const g of here) {
+    const c = g.contact ? byId.get(g.contact) : null;
+    const name = c ? [c.first, c.last].filter(Boolean).join(' ') : '';
+    const why = !g.contact ? 'it has no contact' : !c ? 'its contact has been deleted' : !c.email ? 'their contact has no email address'
+      : c.noEmail ? 'they asked not to be emailed' : null;
+    if (why) { left.push({ grant: g.id, grantName: g.name, contact: c ? c.id : null, name: name || null, why }); continue; }
+    emails.push({ grant: g.id, grantName: g.name, contact: c.id, name, to: c.email,
+      values: { first: c.first || name, last: c.last || '', name, grant: g.name, amount: moneyWords(g.amount), pipeline: g.pipeline, stage: g.stage, submitted: dayWordsOf(g.submitted) } });
+  }
+  return { emails, left };
+}
+async function mailingParts(f, s) {
+  const pipe = pipelineOf(f && f.pipeline);
+  if (!pipe) return { error: 'Which pipeline?' };
+  const stage = stageIn(pipe, f.stage);
+  if (!stage) return { error: 'Which stage of it?' };
+  const tmpl = (await readTemplates(s)).find((x) => x.id === templateId(f.template));
+  if (!tmpl) return { error: 'That template has been deleted.' };
+  const { emails, left } = stageMail(pipe.name, stage.name, await readGrants(s), await readContacts(s));
+  const filled = emails.map((e) => ({ ...e, subject: fillIn(tmpl.subject, e.values), body: fillIn(tmpl.body, e.values) }));
+  return { pipe, stage, tmpl, filled, left };
+}
+export async function previewMailing(who, f, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = await mailingParts(f, s);
+  if (r.error) return r;
+  return { template: shapeTemplate(r.tmpl), pipeline: r.pipe.name, stage: r.stage.name,
+    emails: r.filled.map((e) => ({ grant: e.grant, grantName: e.grantName, contact: e.contact, name: e.name, to: e.to, subject: e.subject, body: e.body })),
+    left: r.left, max: MAILING_MAX };
+}
+export async function sendMailing(who, f, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = await mailingParts(f, s);
+  if (r.error) return r;
+  if ((r.tmpl.edited || r.tmpl.t) !== Number(f.stamp)) return { error: 'The template has changed since the preview. Preview it again.' };
+  const seen = Array.isArray(f.grants) ? [...f.grants].map(String).sort() : [];
+  if (seen.join() !== r.filled.map((e) => e.grant).sort().join()) return { error: 'Who is at that stage has changed since the preview. Preview it again.' };
+  if (!r.filled.length) return { error: 'Nobody at that stage can be emailed.' };
+  if (r.filled.length > MAILING_MAX) return { error: `A mailing goes to at most ${MAILING_MAX} people.` };
+  const mailing = { id: newMailingId(), template: r.tmpl.name, subject: r.tmpl.subject, body: r.tmpl.body, pipeline: r.pipe.name, stage: r.stage.name,
+    t: now, by: who.handle, emails: r.filled.map((e) => ({ id: newOutboxId(), grant: e.grant, contact: e.contact, to: e.to, subject: e.subject, body: e.body })) };
+  await updateSealed(MAILINGS, (was) => ({ mailings: [...(was && Array.isArray(was.mailings) ? was.mailings : []), mailing] }), s);
+  return { mailing: mailing.id, count: mailing.emails.length };
+}
+
+/* An email's state: waiting while it still has an address, then sent, not
+   sent (Google would not send it) or stopped. */
+function outState(e) { return e.sent ? 'sent' : e.failed ? 'failed' : e.stopped ? 'stopped' : 'waiting'; }
+function shapeMailing(m, contacts, grants, whole) {
+  const counts = { waiting: 0, sent: 0, failed: 0, stopped: 0 };
+  for (const e of m.emails) counts[outState(e)]++;
+  const out = { id: m.id, template: m.template, pipeline: m.pipeline, stage: m.stage, t: m.t, by: m.by, stopped: m.stopped || null, stoppedBy: m.stoppedBy || null, counts };
+  if (whole) {
+    out.subject = m.subject; out.body = m.body;
+    out.emails = m.emails.map((e) => {
+      const c = contacts.get(e.contact), g = grants.get(e.grant);
+      return { id: e.id, state: outState(e), when: e.sent || e.failed || e.stopped || null, contact: e.contact, name: c ? [c.first, c.last].filter(Boolean).join(' ') : null,
+        grant: e.grant, grantName: g ? g.name : null };
+    });
+  }
+  return out;
+}
+export async function officeMailings(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  const contacts = contactMap(await readContacts(s)), grants = new Map((await readGrants(s)).map((g) => [g.id, g]));
+  return (await readMailings(s)).map((m) => shapeMailing(m, contacts, grants, false)).sort((a, b) => b.t - a.t);
+}
+export async function officeMailing(who, id, s = store()) {
+  if (!officeAllow(who)) return null;
+  const m = (await readMailings(s)).find((x) => x.id === mailingId(id));
+  if (!m) return null;
+  return shapeMailing(m, contactMap(await readContacts(s)), new Map((await readGrants(s)).map((g) => [g.id, g])), true);
+}
+/* Every email of a mailing not yet sent is taken back: its address and words go. */
+const settled = ({ id, grant, contact, sent, failed, stopped }) => ({ id, grant, contact, ...(sent ? { sent } : {}), ...(failed ? { failed } : {}), ...(stopped ? { stopped } : {}) });
+export async function stopMailing(who, id, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  let found = false, took = 0;
+  await updateSealed(MAILINGS, (was) => {
+    const list = was && Array.isArray(was.mailings) ? was.mailings : [];
+    const k = list.findIndex((x) => x.id === mailingId(id));
+    found = k >= 0; took = 0;
+    if (!found) return null;
+    const emails = list[k].emails.map((e) => (outState(e) === 'waiting' ? (took++, settled({ ...e, stopped: now })) : e));
+    if (!took) return null;
+    const copy = list.slice(); copy[k] = { ...list[k], emails, stopped: now, stoppedBy: who.handle };
+    return { mailings: copy };
+  }, s);
+  return found ? { stopped: took } : { error: 'That mailing has been deleted.' };
+}
+export async function removeMailing(who, id, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  let why = 'That mailing has already been deleted.';
+  await updateSealed(MAILINGS, (was) => {
+    const list = was && Array.isArray(was.mailings) ? was.mailings : [];
+    const m = list.find((x) => x.id === mailingId(id));
+    if (!m) { why = 'That mailing has already been deleted.'; return null; }
+    if (m.emails.some((e) => outState(e) === 'waiting')) { why = 'Some of its emails have not been sent yet. Stop it first.'; return null; }
+    why = null;
+    return { mailings: list.filter((x) => x !== m) };
+  }, s);
+  return why ? { error: why } : { gone: true };
+}
+/* A deleted contact's emails not yet sent are taken back with them. */
+async function forgetContactMailings(cid, s) {
+  await updateSealed(MAILINGS, (was) => {
+    const list = was && Array.isArray(was.mailings) ? was.mailings : [];
+    let changed = false;
+    const next = list.map((m) => {
+      const emails = m.emails.filter((e) => !(e.contact === cid && outState(e) === 'waiting'));
+      if (emails.length === m.emails.length) return m;
+      changed = true;
+      return { ...m, emails };
+    });
+    return changed ? { mailings: next } : null;
+  }, s);
+}
+
+/* The mailbox script's half. The outbox: emails waiting, oldest mailing first,
+   with their addresses, which is the one time the office hands it any. */
+export async function mailOutbox(s = store()) {
+  if (!mailReady()) return null;
+  const out = [];
+  for (const m of (await readMailings(s)).sort((a, b) => a.t - b.t)) {
+    for (const e of m.emails) {
+      if (outState(e) === 'waiting') out.push({ id: e.id, to: e.to, subject: e.subject, body: e.body });
+      if (out.length >= OUTBOX_BATCH) return out;
+    }
+  }
+  return out;
+}
+/* The script sent one, or Google would not: the email keeps only whose and when. */
+export async function mailSentFor(p, s = store(), now = Date.now()) {
+  if (!mailReady()) return { error: 'The office is shut.', status: 503 };
+  const id = outboxId(p && p.id);
+  if (!id) return { error: 'Which email?' };
+  const failed = !!(p && p.failed);
+  let known = false;
+  await updateSealed(MAILINGS, (was) => {
+    const list = was && Array.isArray(was.mailings) ? was.mailings : [];
+    known = false;
+    for (let k = 0; k < list.length; k++) {
+      const i = list[k].emails.findIndex((e) => e.id === id);
+      if (i < 0) continue;
+      known = true;
+      const e = list[k].emails[i];
+      if (e.sent || e.failed) return null;
+      // Sent after it was stopped is still sent: the record says what happened.
+      const emails = list[k].emails.slice();
+      emails[i] = settled({ ...e, stopped: undefined, ...(failed ? { failed: now } : { sent: now }) });
+      const copy = list.slice(); copy[k] = { ...list[k], emails };
+      return { mailings: copy };
+    }
+    return null;
+  }, s);
+  return { ok: true, known };
 }

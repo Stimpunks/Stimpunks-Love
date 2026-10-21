@@ -12,10 +12,14 @@
      { action: 'contact', contact: { name, email, mailbox } }
                                the person a thread was labelled for in Gmail,
                                found by their address or added with that name
+     { action: 'outbox' }      the emails of mailings a director has sent, waiting to
+                               go: the one answer here with anybody's address in it
+     { action: 'sent', id, failed? }
+                               one of those sent, or Google would not send it
      { test: true }            whether the way in is open, and nothing else
    The answer says only whether an email was kept or a contact made. Nothing about an email is
    ever logged. See ../cb/lib.mjs, email. */
-import { mailReady, mailSigned, mailAddresses, officeMailIn, officeMailContact, json } from '../cb/lib.mjs';
+import { mailReady, mailSigned, mailAddresses, officeMailIn, officeMailContact, mailOutbox, mailSentFor, json } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere.
 const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
@@ -31,6 +35,12 @@ export default async (req) => {
   if (b && b.test === true) return json(200, { ok: true, open: true }, QUIET);
   try {
     if (b && b.action === 'addresses') return json(200, { addresses: await mailAddresses() }, QUIET);
+    if (b && b.action === 'outbox') return json(200, { emails: await mailOutbox() }, QUIET);
+    if (b && b.action === 'sent') {
+      const r = await mailSentFor(b);
+      if (r.error) return json(r.status || 400, { error: r.error }, QUIET);
+      return json(200, { ok: true, known: r.known }, QUIET);
+    }
     if (b && b.action === 'contact') {
       const r = await officeMailContact(b.contact);
       if (r.error) return json(r.status || 400, { error: r.error }, QUIET);

@@ -124,5 +124,9 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-hint { font-size: 13px; }
 .of-preview { padding: 10px 12px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; }
 .of-answer { font-size: 15px; }
+/* A MAILING: every email shown filled in before it is sent, each in its own dashed box. */
+.of-shownmail { display: grid; gap: 12px; min-width: 0; }
+.of-shownmail > .of-preview { display: grid; gap: 6px; }
+.of-to { font-size: 14px; color: var(--cb-amber-2); }
 .of-said { padding: 0 18px 12px; font-size: 15px; min-height: 1.5em; }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

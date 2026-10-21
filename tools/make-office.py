@@ -279,7 +279,8 @@ def check_mail(lib):
         return
     f = code_of(MAILFN.read_text())
     ready, signed = f.find("if (!mailReady())"), f.find("if (!mailSigned(")
-    parsed, used = f.find("JSON.parse("), min([i for i in (f.find("officeMailIn("), f.find("mailAddresses("), f.find("officeMailContact(")) if i >= 0] or [-1])
+    parsed, used = f.find("JSON.parse("), min([i for i in (f.find("officeMailIn("), f.find("mailAddresses("), f.find("officeMailContact("),
+                                                     f.find("mailOutbox("), f.find("mailSentFor(")) if i >= 0] or [-1])
     if min(ready, signed, parsed, used) < 0 or not ready < signed < parsed < used:
         problems.append(f"{MAILFN.name}: it must be shut without its key, and check the signature before it reads the body or answers anything.")
     if "console." in f:
@@ -307,6 +308,35 @@ def check_mail(lib):
         problems.append(f"{LIB.name}: officeMailContact must answer whether it made a contact, and nothing about them.")
     if "email === mailbox" not in mc:
         problems.append(f"{LIB.name}: officeMailContact must never make the mailbox itself a contact.")
+    check_mailings(lib)
+
+
+def check_mailings(lib):
+    """A mailing goes only to somebody who can be emailed, only as the preview
+    showed it, and keeps no address or words once an email is sent or stopped;
+    the outbox is the one answer that hands the mailbox script an address."""
+    sm = (re.search(r"function stageMail\(.*?\n\}", lib, re.S) or [""])[0]
+    if "c.noEmail ?" not in sm or "!c.email ?" not in sm:
+        problems.append(f"{LIB.name}: stageMail must leave out anybody with no address or who asked not to be emailed.")
+    sd = (re.search(r"export async function sendMailing\(.*?\n\}", lib, re.S) or [""])[0]
+    if "return { mailing: mailing.id, count: mailing.emails.length };" not in sd:
+        problems.append(f"{LIB.name}: sendMailing must answer with the mailing and how many, never its addresses.")
+    if "Number(f.stamp)" not in sd or "has changed since the preview" not in sd:
+        problems.append(f"{LIB.name}: sendMailing must refuse a template or a stage that has changed since the preview.")
+    st = (re.search(r"const settled = \((\{[^)]*\})\) =>", lib) or [None, ""])[1]
+    if set(re.findall(r"\w+", st)) != {"id", "grant", "contact", "sent", "failed", "stopped"}:
+        problems.append(f"{LIB.name}: an email sent or stopped must keep only whose and when (settled), never its address or words.")
+    for name in ("mailSentFor", "stopMailing"):
+        if "settled(" not in (re.search(r"export async function " + name + r"\(.*?\n\}", lib, re.S) or [""])[0]:
+            problems.append(f"{LIB.name}: {name} must keep an email with settled, which drops its address and words.")
+    hands = [m.start() for m in re.finditer(r"\bto: e\.to\b", lib)]
+    allowed = [(m.start(), m.end()) for m in re.finditer(r"export async function (?:mailOutbox|previewMailing|sendMailing)\(.*?\n\}", lib, re.S)]
+    if any(not any(a <= h < b for a, b in allowed) for h in hands):
+        problems.append(f"{LIB.name}: only the outbox and a director's preview hand out a mailing's addresses.")
+    js = code_of(JS.read_text()) if JS.exists() else ""
+    at = js.find("'mailing-send'")
+    if at < 0 or js.rfind("sure(", 0, at) < 0 or at - js.rfind("sure(", 0, at) > 900:
+        problems.append(f"{JS.name}: a mailing is sent only from a second press (sure), naming who it goes to.")
 
 
 def check_js():
