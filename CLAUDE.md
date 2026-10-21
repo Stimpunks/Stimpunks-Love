@@ -5300,7 +5300,13 @@ request links its contact by our id, chosen on the page by the contact's email; 
 contact (`contactEspo`). A list (filters in the address, a search not) says how many and what they come to, and a board
 by stage moves a card by dragging or by Move to. EspoCRM's stage history was not brought over. **A function name in
 `lib.mjs` is shared with the whole file**: the first draft's `settle` met the forums' and Node refused the file, which is
-the good outcome; a `const` would have done the same, a `var` would not.
+the good outcome; a `const` would have done the same, a `var` would not. **Cases are the third record** (`office-cases`): connection
+requests and volunteer applications, EspoCRM's types, statuses (each saying whether it is open) and priorities in
+`data/office.json`. **A case keeps EspoCRM's number, and the blob keeps `top`, the highest number ever given**, so a new
+case takes the next and a deleted one's number never comes back; the friendly edit is numbering by the highest still
+there. **Closing a case here sets the day it closed, and an import never does**, because a hundred of EspoCRM's closed
+cases have none and today would be a day nobody closed them. The boards of grant requests and cases are one helper,
+`columnBoard` in `office.js`.
 
 **PICTURES, FILES AND @MENTIONS CAME THE SAME EVENING, AND EACH REVERSED A LINE ABOVE IT.** Ryan, 2026-10-18, reversing
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one

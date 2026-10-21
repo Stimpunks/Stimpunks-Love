@@ -8,7 +8,7 @@ the same evening: directors and administrators only, sealed at rest, nothing
 recording who reads, and stimpunks.org's forms posting here at the cut-over.
 
 WHAT IT WRITES: data/office.json's statuses and grant pipelines, with their
-stages, between the office:settings markers in netlify/cb/lib.mjs, which is the
+stages, and the cases' types, statuses and priorities, between the office:settings markers in netlify/cb/lib.mjs, which is the
 only copy the server reads. Never hand-edit between those markers.
 
 THE OFFICE HOLDS PEOPLE WHO NEVER SIGNED ON TO THE STREET, so it is held more
@@ -34,7 +34,7 @@ the code does):
     in the address, because the address goes into the browser's history.
   · ANY PLACE BUT /cb/office: office.js talks to it and to nothing else.
   · A COLOUR OF ITS OWN. office.css wears the CB's seven colours, as tasks do.
-  · A CONTACT OR A GRANT REQUEST KEPT WITH MORE than privacy.html lists.
+  · A CONTACT, A GRANT REQUEST OR A CASE KEPT WITH MORE than privacy.html lists.
   · A PIPELINE THAT IS NOT WHOLE: a stage twice, a stage whose status is not
     a status, or a first stage that is not open, where a new one starts.
   · privacy.html and the CB guide without their office sections, and the page
@@ -64,6 +64,8 @@ GUIDE = ROOT / "cb-guide.html"
 CONTACT_KEEPS = {"id", "first", "last", "email", "phone", "noEmail", "noCall", "notes", "t", "by",
                  "edited", "editedBy", "espo", "synced"}
 
+CASE_KEEPS = {"id", "number", "name", "type", "status", "priority", "submitted", "closed", "contact", "form", "body", "t", "by",
+              "edited", "editedBy", "espo", "synced"}
 GRANT_KEEPS = {"id", "name", "pipeline", "stage", "amount", "submitted", "closed", "contact", "form", "body", "t", "by",
                "edited", "editedBy", "espo", "synced"}
 
@@ -90,6 +92,18 @@ def settings(data):
             problems.append(f"{DATA.name}: every stage of {p.get('name')} names one of the statuses.")
         elif st[0].get("status") != "Open":
             problems.append(f"{DATA.name}: a new grant request starts at {p.get('name')}'s first stage, so it must be open.")
+    cases = data.get("cases") or {}
+    cst = cases.get("statuses")
+    if not isinstance(cases.get("types"), list) or not cases["types"] or len(set(cases["types"])) != len(cases["types"]):
+        problems.append(f"{DATA.name}: cases.types is a list of words, each once.")
+    if not isinstance(cst, list) or not cst or len({x.get("name") for x in cst}) != len(cst) or any(not isinstance(x.get("open"), bool) for x in cst):
+        problems.append(f"{DATA.name}: cases.statuses names each status once and says whether a case at it is open.")
+    elif not cst[0]["open"]:
+        problems.append(f"{DATA.name}: a new case starts at the first status, so it must be open.")
+    elif all(x["open"] for x in cst):
+        problems.append(f"{DATA.name}: at least one case status must close a case.")
+    if not isinstance(cases.get("priorities"), list) or cases.get("default_priority") not in (cases.get("priorities") or []):
+        problems.append(f"{DATA.name}: cases.priorities lists the priorities, and default_priority is one of them.")
     if data.get("currency") != "USD":
         problems.append(f"{DATA.name}: amounts are in US dollars, as EspoCRM held every one; another currency needs its own words.")
 
@@ -101,6 +115,7 @@ def write(lib, data):
              + f"export const OFFICE_STATUSES = {j(data['statuses'])};\n"
              + f"export const OFFICE_CURRENCY = {j(data['currency'])};\n"
              + f"export const OFFICE_PIPELINES = {j(pipes)};\n"
+             + f"export const OFFICE_CASES = {j({k: data['cases'][k] for k in ('types', 'statuses', 'priorities', 'default_priority')})};\n"
              + END)
     pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
     if len(pat.findall(lib)) != 1:
@@ -130,7 +145,8 @@ def check_lib(lib):
     if "console." in code:
         problems.append(f"{LIB.name}: the office writes to the console. Nothing about a contact is ever logged.")
     for name in ("officeContacts", "officeContact", "saveContact", "removeContact", "importContacts",
-                 "officeGrants", "officeGrant", "saveGrant", "removeGrant", "importGrants"):
+                 "officeGrants", "officeGrant", "saveGrant", "removeGrant", "importGrants",
+                 "officeCases", "officeCase", "saveCase", "removeCase", "importCases"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -173,6 +189,14 @@ def check_lib(lib):
     gkeys |= set(re.findall(r"next\.(\w+) =", ag.group(0) if ag else ""))
     gf = re.search(r"function grantFields\(.*?\n\}", sec, re.S)
     gkeys |= set(re.findall(r"out\.(\w+) =", gf.group(0) if gf else ""))
+    ac = re.search(r"function applyCase\(.*?\n\}", sec, re.S)
+    clit = re.search(r"\{ id: newCaseId\(\),(.*?)\.\.\.r\.fields \}", ac.group(0) if ac else "", re.S)
+    ckeys = set(re.findall(r"(\w+):", clit.group(1))) | {"id"} if clit else set()
+    ckeys |= set(re.findall(r"next\.(\w+) =", ac.group(0) if ac else ""))
+    cf = re.search(r"function caseFields\(.*?\n\}", sec, re.S)
+    ckeys |= set(re.findall(r"out\.(\w+) =", cf.group(0) if cf else ""))
+    if not clit or ckeys - CASE_KEEPS:
+        problems.append(f"{LIB.name}: a case keeps {', '.join(sorted(ckeys - CASE_KEEPS)) or 'something unreadable'}, which privacy.html#office does not list.")
     if not glit or gkeys - GRANT_KEEPS:
         problems.append(f"{LIB.name}: a grant request keeps {', '.join(sorted(gkeys - GRANT_KEEPS)) or 'something unreadable'}, which privacy.html#office does not list.")
 

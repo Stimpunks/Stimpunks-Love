@@ -31,7 +31,7 @@
 .of-nav { display: flex; flex-wrap: wrap; gap: 6px; }
 .of-navlink { display: inline-flex; align-items: center; text-decoration: none; }
 .of .of-navlink { color: var(--cb-steel); }
-.of-navlink[aria-current="page"] { border-color: var(--cb-amber); }
+.of-navlink[aria-current] { border-color: var(--cb-amber); }
 
 .of-view { display: grid; gap: 12px; padding: 18px 18px 8px; min-width: 0; }
 @media (max-width: 759px) { .of-view { padding: 14px 12px 6px; } }
@@ -48,6 +48,7 @@
 .of-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; grid-column: 1 / -1; }
 .of .cb-btn.of-small { min-height: 36px; padding: 4px 10px; display: inline-flex; align-items: center; text-decoration: none; }
 .of .of-row a.cb-btn { color: var(--cb-steel); }
+.of .of-row a.cb-btn[aria-current] { border-color: var(--cb-amber); }
 .of-shown { font-weight: 700; font-variant-numeric: tabular-nums; }
 
 /* THE LIST: a table that scrolls inside its own box on a narrow screen, never the page. */

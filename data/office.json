@@ -1,29 +1,112 @@
 {
-  "_about": "The office's settings, written by tools/make-office.py between the office:settings markers in netlify/cb/lib.mjs, the only copy the server reads. The pipelines and their stages are EspoCRM's, word for word and in its order (read 2026-10-20): each stage says which status it puts a grant request in, and the first stage of each is where a new one starts. Statuses are EspoCRM's three. Amounts are whole dollars, as EspoCRM held every one.",
-  "statuses": ["Open", "Granted", "Denied"],
+  "_about": "The office's settings, written by tools/make-office.py between the office:settings markers in netlify/cb/lib.mjs, the only copy the server reads. The pipelines and their stages are EspoCRM's, word for word and in its order (read 2026-10-20): each stage says which status it puts a grant request in, and the first stage of each is where a new one starts. Statuses are EspoCRM's three. Amounts are whole dollars, as EspoCRM held every one. Cases are EspoCRM's too: its two types, its seven statuses in its order, each saying whether a case is still open, and its four priorities.",
+  "statuses": [
+    "Open",
+    "Granted",
+    "Denied"
+  ],
   "currency": "USD",
   "pipelines": [
     {
       "name": "Mutual Aid",
       "stages": [
-        { "name": "Received", "status": "Open" },
-        { "name": "Holding", "status": "Open" },
-        { "name": "Holding (No Updates)", "status": "Open" },
-        { "name": "Agreement Sent", "status": "Open" },
-        { "name": "Granted", "status": "Granted" },
-        { "name": "Denied", "status": "Denied" }
+        {
+          "name": "Received",
+          "status": "Open"
+        },
+        {
+          "name": "Holding",
+          "status": "Open"
+        },
+        {
+          "name": "Holding (No Updates)",
+          "status": "Open"
+        },
+        {
+          "name": "Agreement Sent",
+          "status": "Open"
+        },
+        {
+          "name": "Granted",
+          "status": "Granted"
+        },
+        {
+          "name": "Denied",
+          "status": "Denied"
+        }
       ]
     },
     {
       "name": "Creator Grants",
       "stages": [
-        { "name": "Received", "status": "Open" },
-        { "name": "Holding", "status": "Open" },
-        { "name": "Holding (No Updates)", "status": "Open" },
-        { "name": "Agreement Sent", "status": "Open" },
-        { "name": "Granted", "status": "Granted" },
-        { "name": "Denied", "status": "Denied" }
+        {
+          "name": "Received",
+          "status": "Open"
+        },
+        {
+          "name": "Holding",
+          "status": "Open"
+        },
+        {
+          "name": "Holding (No Updates)",
+          "status": "Open"
+        },
+        {
+          "name": "Agreement Sent",
+          "status": "Open"
+        },
+        {
+          "name": "Granted",
+          "status": "Granted"
+        },
+        {
+          "name": "Denied",
+          "status": "Denied"
+        }
       ]
     }
-  ]
+  ],
+  "cases": {
+    "types": [
+      "Connection Request",
+      "Volunteer Application"
+    ],
+    "statuses": [
+      {
+        "name": "New",
+        "open": true
+      },
+      {
+        "name": "Assigned",
+        "open": true
+      },
+      {
+        "name": "Replied",
+        "open": true
+      },
+      {
+        "name": "Invited In",
+        "open": true
+      },
+      {
+        "name": "Collaborating",
+        "open": true
+      },
+      {
+        "name": "Closed",
+        "open": false
+      },
+      {
+        "name": "Spam",
+        "open": false
+      }
+    ],
+    "priorities": [
+      "Low",
+      "Normal",
+      "High",
+      "Urgent"
+    ],
+    "default_priority": "Normal"
+  }
 }

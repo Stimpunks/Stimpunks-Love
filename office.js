@@ -1,6 +1,5 @@
 /* =============================================================================
-   The office: contacts and grant requests (and, at the next stage, cases),
-   moved here from EspoCRM. Ryan's brief, 2026-10-20. See netlify/cb/lib.mjs, the
+   The office: contacts, grant requests and cases, moved here from EspoCRM. Ryan's brief, 2026-10-20. See netlify/cb/lib.mjs, the
    office, and privacy.html#office for what it keeps.
 
    THE CB'S, DRESSED AS THE CB, as tasks are: a shadow root with cb.css and
@@ -65,10 +64,8 @@
   nav.setAttribute('aria-label', 'The office');
   var navContacts = el('a', 'cb-btn of-navlink', 'Contacts'); navContacts.href = '#/';
   var navGrants = el('a', 'cb-btn of-navlink', 'Grant requests'); navGrants.href = '#/grants';
-  var navBoard = el('a', 'cb-btn of-navlink', 'Board'); navBoard.href = '#/grants/board';
-  var navNew = el('a', 'cb-btn of-navlink', 'New contact'); navNew.href = '#/contacts/new';
-  var navNewGrant = el('a', 'cb-btn of-navlink', 'New grant request'); navNewGrant.href = '#/grants/new';
-  [navContacts, navGrants, navBoard, navNew, navNewGrant].forEach(function (a) { nav.appendChild(a); });
+  var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
+  [navContacts, navGrants, navCases].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -155,6 +152,15 @@
     n.addEventListener('click', function () { b.remove(); if (back) { back.hidden = false; back.focus(); } });
     y.addEventListener('click', function () { y.disabled = true; yes(function () { y.disabled = false; }); });
   }
+  function viewLinks(list) {
+    var row = el('p', 'of-row');
+    list.forEach(function (x) {
+      var a = el('a', 'cb-btn of-small', x[1]); a.href = x[0];
+      if (x[2]) a.setAttribute('aria-current', 'page');
+      row.appendChild(a);
+    });
+    return row;
+  }
   function backTo(href, words) { var p = el('p'); var a = el('a', null, words); a.href = href; p.appendChild(a); return p; }
   function nameOf(c) { return c.name || 'A contact with no name'; }
 
@@ -221,6 +227,7 @@
     view.textContent = '';
     var h = heading(2, 'Contacts');
     view.appendChild(h);
+    view.appendChild(viewLinks([['#/contacts/new', 'New contact']]));
     var find = el('form', 'of-find');
     find.setAttribute('role', 'search');
     find.addEventListener('submit', function (e) { e.preventDefault(); });
@@ -363,9 +370,24 @@
       });
       view.appendChild(gl);
     } else view.appendChild(quiet('None.'));
+    view.appendChild(el('h3', null, 'Cases'));
+    var theirCases = c.cases || [];
+    if (theirCases.length) {
+      var kl = el('ul', 'of-theirs');
+      theirCases.forEach(function (k) {
+        var li = el('li');
+        var a = el('a', null, '#' + k.number + ' ' + k.name); a.href = '#/k/' + k.id;
+        li.appendChild(a);
+        li.appendChild(document.createTextNode(' · ' + k.type + ', ' + k.status + (k.submitted ? ', submitted ' + dayWords(k.submitted) : '')));
+        kl.appendChild(li);
+      });
+      view.appendChild(kl);
+    } else view.appendChild(quiet('None.'));
     var tools = el('div', 'of-row');
     var newGrant = el('a', 'cb-btn of-small', 'New grant request from them'); newGrant.href = '#/grants/new?contact=' + c.id;
     tools.appendChild(newGrant);
+    var newCase = el('a', 'cb-btn of-small', 'New case from them'); newCase.href = '#/cases/new?contact=' + c.id;
+    tools.appendChild(newCase);
     var edit = el('a', 'cb-btn of-small', 'Edit'); edit.href = '#/contacts/edit/' + c.id;
     tools.appendChild(edit);
     var del = el('button', 'cb-btn of-small', 'Delete'); del.type = 'button';
@@ -564,6 +586,7 @@
     view.textContent = '';
     var h = heading(2, 'Grant requests');
     view.appendChild(h);
+    view.appendChild(viewLinks([['#/grants', 'List', true], ['#/grants/board', 'Board'], ['#/grants/new', 'New grant request']]));
     var find = el('form', 'of-find');
     find.addEventListener('submit', function (e) { e.preventDefault(); });
     function field(id, label, input, hintText) {
@@ -703,47 +726,31 @@
     return h;
   }
 
-  /* THE BOARD: one pipeline's stages as columns, after EspoCRM's Kanban, each
-     saying how many it holds and what they come to. A card moves by dragging
-     or by its own Move to, which is how a keyboard, a screen reader and a
-     phone move it. The stages that decide a request keep their cards folded
-     until opened, because they are long and nothing more happens to them. */
+  /* A BOARD, after EspoCRM's Kanban, for grant requests by stage and cases by
+     status: a column for each, saying how many it holds (and, for grant
+     requests, what they come to). A card moves by dragging or by its own Move
+     to, which is how a keyboard, a screen reader and a phone move it. The
+     columns that close a record keep their cards folded until opened, because
+     they are long and nothing more happens to them. */
   var dragging = null;
-  function drawBoard(f) {
-    view.textContent = '';
-    var p = settings.pipelines.filter(function (x) { return x.name === f.pipeline; })[0] || settings.pipelines[0];
-    f.pipeline = p.name;
-    writeGrantQuery(f, true);
-    var h = heading(2, p.name + ': the board');
-    view.appendChild(h);
-    var row = el('div', 'of-row');
-    var lab = el('label', 'cb-lab', 'Pipeline '); lab.htmlFor = 'of-bpipe';
-    var ps = el('select', 'cb-say'); ps.id = 'of-bpipe';
-    settings.pipelines.forEach(function (x) { var o = el('option', null, x.name); o.value = x.name; ps.appendChild(o); });
-    ps.value = p.name;
-    ps.addEventListener('change', function () { f.pipeline = ps.value; drawBoard(f); var again = view.querySelector('#of-bpipe'); if (again) again.focus(); });
-    row.appendChild(lab); row.appendChild(ps);
-    view.appendChild(row);
-    var mine = grants.filter(function (g) { return g.pipeline === p.name; });
+  function columnBoard(o) {
     var boardEl = el('div', 'of-board');
-    p.stages.forEach(function (stage) {
-      var here = grantsOrdered(mine.filter(function (g) { return g.stage === stage.name; }), { sort: 'submitted', dir: 'desc' });
-      var sum = here.reduce(function (t, g) { return t + (g.amount || 0); }, 0);
+    o.cols.forEach(function (colDef) {
+      var here = o.items.filter(function (x) { return o.valueOf(x) === colDef.name; });
       var col = el('section', 'of-col');
-      col.setAttribute('aria-label', stage.name);
-      col.appendChild(el('h3', 'of-col__name', stage.name + ' (' + here.length + ')'));
-      col.appendChild(el('p', 'cb-quiet of-col__sum', money(sum)));
+      col.setAttribute('aria-label', colDef.name);
+      col.appendChild(el('h3', 'of-col__name', colDef.name + ' (' + here.length + ')'));
+      if (o.sum) col.appendChild(el('p', 'cb-quiet of-col__sum', o.sum(here)));
       var ul = el('ul', 'of-cards');
-      ul.dataset.stage = stage.name;
       ul.addEventListener('dragover', function (e) { if (dragging) { e.preventDefault(); col.classList.add('of-col--over'); } });
       ul.addEventListener('dragleave', function () { col.classList.remove('of-col--over'); });
       ul.addEventListener('drop', function (e) {
         e.preventDefault(); col.classList.remove('of-col--over');
-        var g = dragging; dragging = null;
-        if (g && g.stage !== stage.name) moveGrant(g, stage.name, f, false);
+        var x = dragging; dragging = null;
+        if (x && o.valueOf(x) !== colDef.name) o.move(x, colDef.name, false);
       });
-      here.forEach(function (g) { ul.appendChild(card(g, p, f)); });
-      if (stage.status !== 'Open' && here.length) {
+      here.forEach(function (x) { ul.appendChild(boardCard(x, o)); });
+      if (colDef.fold && here.length) {
         var fold = el('details', 'of-fold');
         fold.appendChild(el('summary', 'of-fold__sum', 'Show the ' + here.length));
         fold.appendChild(ul);
@@ -754,47 +761,74 @@
       }
       boardEl.appendChild(col);
     });
-    view.appendChild(boardEl);
-    return h;
+    return boardEl;
   }
-  function card(g, p, f) {
+  function boardCard(x, o) {
     var li = el('li', 'of-card');
     li.draggable = true;
-    li.addEventListener('dragstart', function (e) { dragging = g; li.classList.add('of-card--lifted'); try { e.dataTransfer.setData('text/plain', g.id); e.dataTransfer.effectAllowed = 'move'; } catch (x) { /* an old browser */ } });
+    li.addEventListener('dragstart', function (e) { dragging = x; li.classList.add('of-card--lifted'); try { e.dataTransfer.setData('text/plain', x.id); e.dataTransfer.effectAllowed = 'move'; } catch (er) { /* an old browser */ } });
     li.addEventListener('dragend', function () { li.classList.remove('of-card--lifted'); dragging = null; });
-    var a = el('a', 'of-card__name', g.name); a.href = '#/g/' + g.id;
+    var a = el('a', 'of-card__name', o.title(x)); a.href = o.href(x);
     li.appendChild(a);
-    var bits = [];
-    if (g.contactName) bits.push(g.contactName);
-    if (g.amount != null) bits.push(money(g.amount));
-    if (g.submitted) bits.push('submitted ' + dayWords(g.submitted));
+    var bits = o.bits(x).filter(Boolean);
     if (bits.length) li.appendChild(el('p', 'cb-quiet', bits.join(' · ')));
     var mv = el('label', 'of-move');
     mv.appendChild(el('span', null, 'Move to '));
     var ms = el('select', 'cb-say');
-    ms.setAttribute('aria-label', 'Move ' + g.name + ' to');
-    ms.setAttribute('data-grant', g.id);
-    p.stages.forEach(function (x) { var o = el('option', null, x.name); o.value = x.name; ms.appendChild(o); });
-    ms.value = g.stage;
-    ms.addEventListener('change', function () { moveGrant(g, ms.value, f, true); });
+    ms.setAttribute('aria-label', 'Move ' + o.title(x) + ' to');
+    ms.setAttribute('data-item', x.id);
+    o.cols.forEach(function (c) { var op = el('option', null, c.name); op.value = c.name; ms.appendChild(op); });
+    ms.value = o.valueOf(x);
+    ms.addEventListener('change', function () { o.move(x, ms.value, true); });
     mv.appendChild(ms);
     li.appendChild(mv);
     return li;
   }
-  function moveGrant(g, to, f, keyboard) {
-    call(null, { action: 'grant-save', id: g.id, stage: to }).then(function (r) {
-      if (r.status !== 200) { say(why(r, 'That did not move. Nothing was changed.')); drawBoard(f); return; }
-      var k = grants.findIndex(function (x) { return x.id === g.id; });
-      if (k >= 0) { var w = r.body.grant; grants[k] = Object.assign({}, w, { words: (w.body || '').length }); }
-      drawBoard(f);
-      if (keyboard) {
-        var again = view.querySelector('select[data-grant="' + g.id + '"]');
-        var shut = again && again.closest('details');
-        if (shut) shut.open = true;
-        if (again) again.focus();
-      }
-      say('Moved to ' + to + '.');
-    });
+  /* After a move, the board is drawn again and the keyboard goes back to the
+     card's Move to, opening its column if that column folds. */
+  function backToCard(id) {
+    var again = view.querySelector('select[data-item="' + id + '"]');
+    var shut = again && again.closest('details');
+    if (shut) shut.open = true;
+    if (again) again.focus();
+  }
+
+  function drawBoard(f) {
+    view.textContent = '';
+    var p = settings.pipelines.filter(function (x) { return x.name === f.pipeline; })[0] || settings.pipelines[0];
+    f.pipeline = p.name;
+    writeGrantQuery(f, true);
+    var h = heading(2, p.name + ': the board');
+    view.appendChild(h);
+    view.appendChild(viewLinks([['#/grants', 'List'], ['#/grants/board', 'Board', true], ['#/grants/new', 'New grant request']]));
+    var row = el('div', 'of-row');
+    var lab = el('label', 'cb-lab', 'Pipeline '); lab.htmlFor = 'of-bpipe';
+    var ps = el('select', 'cb-say'); ps.id = 'of-bpipe';
+    settings.pipelines.forEach(function (x) { var op = el('option', null, x.name); op.value = x.name; ps.appendChild(op); });
+    ps.value = p.name;
+    ps.addEventListener('change', function () { f.pipeline = ps.value; drawBoard(f); var again = view.querySelector('#of-bpipe'); if (again) again.focus(); });
+    row.appendChild(lab); row.appendChild(ps);
+    view.appendChild(row);
+    view.appendChild(columnBoard({
+      cols: p.stages.map(function (x) { return { name: x.name, fold: x.status !== 'Open' }; }),
+      items: grantsOrdered(grants.filter(function (g) { return g.pipeline === p.name; }), { sort: 'submitted', dir: 'desc' }),
+      valueOf: function (g) { return g.stage; },
+      sum: function (here) { return money(here.reduce(function (t, g) { return t + (g.amount || 0); }, 0)); },
+      title: function (g) { return g.name; },
+      href: function (g) { return '#/g/' + g.id; },
+      bits: function (g) { return [g.contactName, g.amount != null ? money(g.amount) : null, g.submitted ? 'submitted ' + dayWords(g.submitted) : null]; },
+      move: function (g, to, keyboard) {
+        call(null, { action: 'grant-save', id: g.id, stage: to }).then(function (r) {
+          if (r.status !== 200) { say(why(r, 'That did not move. Nothing was changed.')); drawBoard(f); return; }
+          var k = grants.findIndex(function (x) { return x.id === g.id; });
+          if (k >= 0) { var w = r.body.grant; grants[k] = Object.assign({}, w, { words: (w.body || '').length }); }
+          drawBoard(f);
+          if (keyboard) backToCard(g.id);
+          say('Moved to ' + to + '.');
+        });
+      },
+    }));
+    return h;
   }
 
   /* ── One grant request ─────────────────────────────────────────────────── */
@@ -981,6 +1015,411 @@
     return h;
   }
 
+
+  /* ── Cases: connection requests and volunteer applications ─────────────── */
+
+  /* The list opens on the open cases, newest number first. Its type, statuses
+     and order live in the address; a search does not, for the contacts' reason. */
+  var KSORTS = [['number', 'No.'], ['name', 'Name'], ['contact', 'Contact'], ['type', 'Type'], ['status', 'Status'], ['priority', 'Priority'],
+    ['submitted', 'Submitted'], ['closed', 'Closed']];
+  var kSearched = '', cases = [];
+  function openStatuses() { return settings.cases.statuses.filter(function (x) { return x.open; }).map(function (x) { return x.name; }); }
+  function readCaseQuery() {
+    var q = {};
+    (String(location.hash).split('?')[1] || '').split('&').forEach(function (kv) {
+      var i = kv.indexOf('=');
+      if (i > 0) { try { q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1)); } catch (e) { /* a broken address keeps its defaults */ } }
+    });
+    var names = settings.cases.statuses.map(function (x) { return x.name; });
+    return {
+      q: kSearched,
+      type: settings.cases.types.indexOf(q.type) >= 0 ? q.type : '',
+      status: q.status != null ? q.status.split(',').filter(function (x) { return names.indexOf(x) >= 0; }) : openStatuses(),
+      sort: KSORTS.some(function (x) { return x[0] === q.sort; }) ? q.sort : 'number',
+      dir: q.dir === 'asc' ? 'asc' : (q.dir === 'desc' || !q.sort ? 'desc' : 'asc'),
+    };
+  }
+  function writeCaseQuery(f, board) {
+    var parts = [];
+    if (f.type) parts.push('type=' + encodeURIComponent(f.type));
+    if (!board) {
+      if (f.status.join(',') !== openStatuses().join(',')) parts.push('status=' + f.status.map(encodeURIComponent).join(','));
+      if (f.sort !== 'number') parts.push('sort=' + f.sort);
+      if (f.dir !== 'desc') parts.push('dir=' + f.dir);
+    }
+    var to = (board ? '#/cases/board' : '#/cases') + (parts.length ? '?' + parts.join('&') : '');
+    if (to !== location.hash) history.replaceState(null, '', to);
+  }
+  function caseMatches(k, q) {
+    if (!q) return true;
+    var hay = fold('#' + k.number + ' ' + k.name + ' ' + (k.contactName || '') + ' ' + (k.contactEmail || '') + ' ' + (k.form || ''));
+    return fold(q).split(' ').every(function (w) { return hay.indexOf(w) >= 0; });
+  }
+  function caseKey(k, by) {
+    if (by === 'contact') return fold(k.contactName || '');
+    if (by === 'number') return k.number;
+    if (by === 'status') return settings.cases.statuses.map(function (x) { return x.name; }).indexOf(k.status);
+    if (by === 'priority') return settings.cases.priorities.indexOf(k.priority);
+    if (by === 'submitted' || by === 'closed') return k[by] || '';
+    return fold(k[by]);
+  }
+  function casesOrdered(list, f) {
+    return list.slice().sort(function (a, b) {
+      var x = caseKey(a, f.sort), y = caseKey(b, f.sort);
+      if (x === '' && y !== '') return 1;
+      if (y === '' && x !== '') return -1;
+      var d = x < y ? -1 : x > y ? 1 : 0;
+      return f.dir === 'asc' ? d : -d;
+    });
+  }
+
+  function casesView(board) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=cases').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      cases = r.body.cases || [];
+      return board ? drawCaseBoard(readCaseQuery()) : drawCases(readCaseQuery());
+    });
+  }
+
+  function drawCases(f) {
+    view.textContent = '';
+    var h = heading(2, 'Cases');
+    view.appendChild(h);
+    view.appendChild(viewLinks([['#/cases', 'List', true], ['#/cases/board', 'Board'], ['#/cases/new', 'New case']]));
+    var find = el('form', 'of-find');
+    find.addEventListener('submit', function (e) { e.preventDefault(); });
+    function field(id, label, input, hintText) {
+      var w = el('div', 'of-field');
+      var l = el('label', 'cb-lab', label); l.htmlFor = id; input.id = id;
+      w.appendChild(l); w.appendChild(input);
+      if (hintText) { var hn = el('p', 'cb-quiet of-hint', hintText); hn.id = id + '-hint'; input.setAttribute('aria-describedby', hn.id); w.appendChild(hn); }
+      find.appendChild(w);
+      return input;
+    }
+    var qBox = el('input', 'cb-say of-input'); qBox.type = 'search'; qBox.value = f.q; qBox.autocomplete = 'off';
+    field('of-kq', 'Find a case', qBox, 'Its number, any part of its name, its contact’s name or email, or its form entry.');
+    var ts = el('select', 'cb-say of-input');
+    field('of-ktype', 'Type', ts);
+    var fs = el('fieldset', 'of-checks');
+    fs.appendChild(el('legend', 'cb-lab', 'Status'));
+    find.appendChild(fs);
+    view.appendChild(find);
+    var shown = el('p', 'of-shown');
+    shown.setAttribute('aria-live', 'polite');
+    view.appendChild(shown);
+    var out = el('div', 'of-tablebox');
+    view.appendChild(out);
+    var more = el('p', 'of-row');
+    view.appendChild(more);
+    var showing = PAGE;
+
+    function passes(k, skip) {
+      if (skip !== 'type' && f.type && k.type !== f.type) return false;
+      if (skip !== 'status' && f.status.indexOf(k.status) < 0) return false;
+      return caseMatches(k, f.q);
+    }
+    function count(skip, test) { return cases.filter(function (k) { return passes(k, skip) && test(k); }).length; }
+    function drawFilters() {
+      ts.textContent = '';
+      var all = el('option', null, 'Every type (' + count('type', function () { return true; }) + ')'); all.value = ''; ts.appendChild(all);
+      settings.cases.types.forEach(function (t) {
+        var o = el('option', null, t + ' (' + count('type', function (k) { return k.type === t; }) + ')'); o.value = t; ts.appendChild(o);
+      });
+      ts.value = f.type;
+      while (fs.children.length > 1) fs.removeChild(fs.lastChild);
+      settings.cases.statuses.forEach(function (st, i) {
+        var c = el('input'); c.type = 'checkbox'; c.id = 'of-kst-' + i; c.value = st.name; c.checked = f.status.indexOf(st.name) >= 0;
+        var l = el('label', 'of-check'); l.htmlFor = c.id;
+        l.appendChild(c); l.appendChild(document.createTextNode(' ' + st.name + ' '));
+        l.appendChild(el('span', 'of-n', '(' + count('status', function (k) { return k.status === st.name; }) + ')'));
+        c.addEventListener('change', function () {
+          f.status = Array.prototype.filter.call(fs.querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; });
+          refresh();
+          var again = fs.querySelector('#of-kst-' + i); if (again) again.focus();
+        });
+        fs.appendChild(l);
+      });
+    }
+    function refresh() { showing = PAGE; writeCaseQuery(f, false); drawFilters(); drawTable(); }
+    ts.addEventListener('change', function () { f.type = ts.value; refresh(); });
+    qBox.addEventListener('input', function () { f.q = kSearched = qBox.value; showing = PAGE; drawFilters(); drawTable(); });
+
+    function drawTable(focusSort, focusRow) {
+      var list = casesOrdered(cases.filter(function (k) { return passes(k); }), f);
+      shown.textContent = list.length + ' of ' + cases.length + ' cases';
+      out.textContent = '';
+      more.textContent = '';
+      if (!list.length) { out.appendChild(quiet(cases.length ? 'No case matches every filter.' : 'There are no cases yet.')); return; }
+      var t = el('table', 'of-list');
+      var some = list.slice(0, showing);
+      t.appendChild(el('caption', 'sr', 'Cases, ' + some.length + ' of ' + list.length + ' shown. The column headings sort them.'));
+      var hr = el('tr');
+      KSORTS.forEach(function (c) {
+        var th = el('th'); th.scope = 'col';
+        var b = el('button', 'of-sort', c[1]); b.type = 'button';
+        if (f.sort === c[0]) th.setAttribute('aria-sort', f.dir === 'asc' ? 'ascending' : 'descending');
+        b.appendChild(el('span', null, f.sort === c[0] ? (f.dir === 'asc' ? ' ↑' : ' ↓') : ''));
+        b.addEventListener('click', function () {
+          f.dir = f.sort === c[0] && f.dir === 'asc' ? 'desc' : 'asc';
+          f.sort = c[0];
+          writeCaseQuery(f, false);
+          drawTable(c[0]);
+        });
+        b.dataset.sort = c[0];
+        th.appendChild(b);
+        hr.appendChild(th);
+      });
+      var thead = el('thead'); thead.appendChild(hr); t.appendChild(thead);
+      var tb = el('tbody');
+      some.forEach(function (k, i) {
+        var tr = el('tr');
+        tr.appendChild(el('td', 'of-day', '#' + k.number));
+        var td = el('td', 'of-title');
+        var a = el('a', null, k.name); a.href = '#/k/' + k.id;
+        if (i === focusRow) a.setAttribute('data-first-new', '');
+        td.appendChild(a);
+        tr.appendChild(td);
+        var ct = el('td', 'of-mail');
+        if (k.contact && !k.contactGone) { var ca = el('a', null, k.contactName || k.contactEmail); ca.href = '#/c/' + k.contact; ct.appendChild(ca); }
+        else ct.textContent = k.contactGone ? 'A contact since deleted' : '—';
+        tr.appendChild(ct);
+        tr.appendChild(el('td', 'of-phone', k.type));
+        tr.appendChild(el('td', 'of-phone', k.status));
+        tr.appendChild(el('td', 'of-phone', k.priority));
+        tr.appendChild(el('td', 'of-day', dayWords(k.submitted)));
+        tr.appendChild(el('td', 'of-day', dayWords(k.closed)));
+        tb.appendChild(tr);
+      });
+      t.appendChild(tb);
+      out.appendChild(t);
+      if (list.length > showing) {
+        var b = el('button', 'cb-btn of-small', 'Show ' + Math.min(PAGE, list.length - showing) + ' more'); b.type = 'button';
+        b.addEventListener('click', function () {
+          var from = showing;
+          showing += PAGE;
+          drawTable(null, from);
+          var next = out.querySelector('[data-first-new]');
+          if (next) next.focus();
+        });
+        more.appendChild(b);
+        more.appendChild(el('span', 'cb-quiet', some.length + ' of ' + list.length + ' shown'));
+      }
+      if (focusSort) { var sb = t.querySelector('[data-sort="' + focusSort + '"]'); if (sb) sb.focus(); }
+    }
+    drawFilters();
+    drawTable();
+    return h;
+  }
+
+  function drawCaseBoard(f) {
+    view.textContent = '';
+    writeCaseQuery(f, true);
+    var h = heading(2, (f.type ? f.type + 's' : 'Cases') + ': the board');
+    view.appendChild(h);
+    view.appendChild(viewLinks([['#/cases', 'List'], ['#/cases/board', 'Board', true], ['#/cases/new', 'New case']]));
+    var row = el('div', 'of-row');
+    var lab = el('label', 'cb-lab', 'Type '); lab.htmlFor = 'of-btype';
+    var ts = el('select', 'cb-say'); ts.id = 'of-btype';
+    var any = el('option', null, 'Every type'); any.value = ''; ts.appendChild(any);
+    settings.cases.types.forEach(function (x) { var op = el('option', null, x); op.value = x; ts.appendChild(op); });
+    ts.value = f.type;
+    ts.addEventListener('change', function () { f.type = ts.value; drawCaseBoard(f); var again = view.querySelector('#of-btype'); if (again) again.focus(); });
+    row.appendChild(lab); row.appendChild(ts);
+    view.appendChild(row);
+    view.appendChild(columnBoard({
+      cols: settings.cases.statuses.map(function (x) { return { name: x.name, fold: !x.open }; }),
+      items: casesOrdered(cases.filter(function (k) { return !f.type || k.type === f.type; }), { sort: 'number', dir: 'desc' }),
+      valueOf: function (k) { return k.status; },
+      title: function (k) { return '#' + k.number + ' ' + k.name; },
+      href: function (k) { return '#/k/' + k.id; },
+      bits: function (k) { return [f.type ? null : k.type, k.contactName, k.submitted ? 'submitted ' + dayWords(k.submitted) : null]; },
+      move: function (k, to, keyboard) {
+        call(null, { action: 'case-save', id: k.id, status: to }).then(function (r) {
+          if (r.status !== 200) { say(why(r, 'That did not move. Nothing was changed.')); drawCaseBoard(f); return; }
+          var i = cases.findIndex(function (x) { return x.id === k.id; });
+          if (i >= 0) { var w = r.body.case; cases[i] = Object.assign({}, w, { words: (w.body || '').length }); }
+          drawCaseBoard(f);
+          if (keyboard) backToCard(k.id);
+          say('Moved to ' + to + '.');
+        });
+      },
+    }));
+    return h;
+  }
+
+  function caseView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=case&id=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status !== 200) {
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That case has been deleted'); view.appendChild(h0); view.appendChild(backTo('#/cases', '← All cases')); return h0; }
+        return refused(r);
+      }
+      took(r.body);
+      return drawCase(r.body.case);
+    });
+  }
+
+  function drawCase(k) {
+    view.textContent = '';
+    view.appendChild(backTo('#/cases', '← All cases'));
+    var h = heading(2, '#' + k.number + ' ' + k.name);
+    view.appendChild(h);
+    var dl = el('dl', 'of-facts');
+    function fact(key, v) { if (v == null || v === '') return; dl.appendChild(el('dt', null, key)); var dd = el('dd'); if (typeof v === 'string') dd.textContent = v; else dd.appendChild(v); dl.appendChild(dd); }
+    fact('Type', k.type);
+    fact('Status', k.status);
+    fact('Priority', k.priority);
+    fact('Submitted', dayWords(k.submitted) || 'Not given');
+    if (k.closed) fact('Closed', dayWords(k.closed));
+    if (k.contact && !k.contactGone) {
+      var cs = el('span'); var ca = el('a', null, k.contactName || k.contactEmail); ca.href = '#/c/' + k.contact; cs.appendChild(ca);
+      if (k.contactEmail && k.contactName) cs.appendChild(document.createTextNode(' · ' + k.contactEmail));
+      fact('Contact', cs);
+    } else fact('Contact', k.contactGone ? 'A contact since deleted' : 'None');
+    if (k.form) fact('Form entry', '#' + k.form);
+    fact('Added', (k.by ? k.by + ', ' : '') + when(k.t) + (k.espo ? ', in EspoCRM' : ''));
+    if (k.edited) fact('Changed', (k.editedBy ? k.editedBy + ', ' : '') + when(k.edited));
+    view.appendChild(dl);
+    var body = el('div', 'of-body');
+    if (k.blocks && k.blocks.length) window.loveMarkdown.blocks(k.blocks, body, { top: 2, prefix: 'of' });
+    else body.appendChild(quiet('No description.'));
+    view.appendChild(body);
+    var tools = el('div', 'of-row');
+    var mv = el('label', 'of-move');
+    mv.appendChild(el('span', null, 'Move to '));
+    var ms = el('select', 'cb-say');
+    settings.cases.statuses.forEach(function (x) { var o = el('option', null, x.name); o.value = x.name; ms.appendChild(o); });
+    ms.value = k.status;
+    ms.addEventListener('change', function () {
+      ms.disabled = true;
+      call(null, { action: 'case-save', id: k.id, status: ms.value }).then(function (r) {
+        ms.disabled = false;
+        if (r.status !== 200) { ms.value = k.status; say(why(r, 'That did not move. Nothing was changed.')); return; }
+        drawCase(r.body.case);
+        var again = view.querySelector('.of-move select'); if (again) again.focus();
+        say('Moved to ' + r.body.case.status + '.');
+      });
+    });
+    mv.appendChild(ms);
+    tools.appendChild(mv);
+    var edit = el('a', 'cb-btn of-small', 'Edit'); edit.href = '#/cases/edit/' + k.id;
+    tools.appendChild(edit);
+    var del = el('button', 'cb-btn of-small', 'Delete'); del.type = 'button';
+    del.addEventListener('click', function () {
+      sure(tools, 'This deletes case #' + k.number + ' for everybody. It cannot be put back, and its number is not given again' + (k.espo ? '; bringing cases over from EspoCRM again leaves it deleted.' : '.'), 'Delete it', function (done) {
+        call(null, { action: 'case-remove', id: k.id }).then(function (r) {
+          done();
+          if (r.status !== 200) { say(why(r, 'That did not delete. Nothing was changed.')); return; }
+          say('Deleted.');
+          location.hash = '#/cases';
+        });
+      }, del);
+    });
+    tools.appendChild(del);
+    view.appendChild(tools);
+    return h;
+  }
+
+  function caseFormView(id, contact) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    var ask = id ? call('view=case&id=' + encodeURIComponent(id)) : contact ? call('view=contact&id=' + encodeURIComponent(contact)) : call('view=cases');
+    return ask.then(function (r) {
+      if (r.status !== 200 && !(contact && r.status === 404)) return refused(r);
+      took(r.body);
+      return drawCaseForm(id ? r.body.case : null, !id && r.body.contact ? r.body.contact : null);
+    });
+  }
+
+  function drawCaseForm(k, from) {
+    view.textContent = '';
+    view.appendChild(k ? backTo('#/k/' + k.id, '← #' + k.number + ' ' + k.name) : backTo('#/cases', '← All cases'));
+    var h = heading(2, k ? 'Changing case #' + k.number : 'A new case');
+    view.appendChild(h);
+    var form = el('form', 'of-form');
+    form.noValidate = true;
+    function field(id, label, input, hintText) {
+      var w = el('div', 'of-field');
+      var l = el('label', 'cb-lab', label); l.htmlFor = id; input.id = id;
+      w.appendChild(l); w.appendChild(input);
+      if (hintText) { var hn = el('p', 'cb-quiet of-hint', hintText); hn.id = id + '-hint'; input.setAttribute('aria-describedby', hn.id); w.appendChild(hn); }
+      form.appendChild(w);
+      return input;
+    }
+    function pick(values, value) {
+      var sel = el('select', 'cb-say of-input');
+      values.forEach(function (v) { var o = el('option', null, v); o.value = v; sel.appendChild(o); });
+      sel.value = value;
+      return sel;
+    }
+    var name = el('input', 'cb-say of-input'); name.maxLength = settings.caseNameMax; name.value = k ? k.name : (from ? 'Connection Request: ' + (from.name || '') : '');
+    field('of-kname', 'Name', name).parentNode.classList.add('of-wide');
+    var type = field('of-ktypein', 'Type', pick(settings.cases.types, k ? k.type : settings.cases.types[0]));
+    var status = field('of-kstatus', 'Status', pick(settings.cases.statuses.map(function (x) { return x.name; }), k ? k.status : settings.cases.statuses[0].name),
+      'A status that closes the case sets the day it closed, if none is given.');
+    var prio = field('of-kprio', 'Priority', pick(settings.cases.priorities, k ? k.priority : settings.cases.default_priority));
+    var sub = el('input', 'cb-say of-input'); sub.type = 'date'; sub.value = k && k.submitted ? k.submitted : '';
+    field('of-ksub', 'Submitted', sub);
+    var closed = el('input', 'cb-say of-input'); closed.type = 'date'; closed.value = k && k.closed ? k.closed : '';
+    field('of-kclosed', 'Closed', closed, 'Cleared when it moves back to an open status.');
+    var email = el('input', 'cb-say of-input'); email.type = 'email'; email.autocomplete = 'off';
+    email.value = k ? (k.contactEmail || '') : (from ? from.email || '' : '');
+    field('of-kcontact', 'Contact’s email', email, 'The email of a contact already in the office, to link them. Empty for none.');
+    var formNo = el('input', 'cb-say of-input'); formNo.type = 'number'; formNo.min = '1'; formNo.step = '1'; formNo.value = k && k.form ? String(k.form) : '';
+    field('of-kform', 'Form entry', formNo, 'Its number on stimpunks.org, if it came in through a form.');
+    var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.caseBodyMax; text.value = k ? k.body : '';
+    field('of-kbody', 'Description', text, 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables.');
+    var preview = el('div', 'of-body of-preview'); preview.hidden = true;
+    form.appendChild(preview);
+    var row = el('div', 'of-row');
+    var go = el('button', 'cb-btn', k ? 'Save' : 'Add the case'); go.type = 'submit';
+    var look = el('button', 'cb-btn', 'Preview the description'); look.type = 'button'; look.setAttribute('aria-pressed', 'false');
+    var cancel = el('a', 'cb-btn', 'Cancel'); cancel.href = k ? '#/k/' + k.id : (from ? '#/c/' + from.id : '#/cases');
+    row.appendChild(go); row.appendChild(look); row.appendChild(cancel);
+    form.appendChild(row);
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    form.appendChild(answer);
+    look.addEventListener('click', function () {
+      if (!preview.hidden) { preview.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview the description'; return; }
+      if (!text.value.trim()) { answer.textContent = 'There is no description to preview yet.'; return; }
+      call(null, { action: 'preview', body: text.value }).then(function (r) {
+        if (r.status !== 200) { answer.textContent = why(r, 'The preview could not be made just now.'); return; }
+        preview.textContent = '';
+        window.loveMarkdown.blocks(r.body.blocks, preview, { top: 2, prefix: 'of' });
+        preview.hidden = false;
+        look.setAttribute('aria-pressed', 'true');
+        look.textContent = 'Hide the preview';
+      });
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = { name: name.value, type: type.value, status: status.value, priority: prio.value, submitted: sub.value || null, closed: closed.value || null,
+        contactEmail: email.value.trim(), form: formNo.value === '' ? null : Number(formNo.value), body: text.value };
+      var send = { action: 'case-save' };
+      if (k) {
+        send.id = k.id;
+        var was = { name: k.name, type: k.type, status: k.status, priority: k.priority, submitted: k.submitted, closed: k.closed,
+          contactEmail: k.contactEmail || '', form: k.form, body: k.body };
+        Object.keys(v).forEach(function (x) { if (JSON.stringify(was[x] == null ? null : was[x]) !== JSON.stringify(v[x] === '' && x !== 'contactEmail' && x !== 'body' ? null : v[x])) send[x] = v[x]; });
+        if (Object.keys(send).length === 2) { location.hash = '#/k/' + k.id; return; }
+      } else Object.keys(v).forEach(function (x) { send[x] = v[x]; });
+      go.disabled = true;
+      answer.textContent = 'Saving…';
+      call(null, send).then(function (r) {
+        go.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'That did not save. Nothing was changed.'); return; }
+        location.hash = '#/k/' + r.body.case.id;
+        say(k ? 'Saved.' : 'Added.');
+      });
+    });
+    view.appendChild(form);
+    return h;
+  }
+
   /* ── Refusals ──────────────────────────────────────────────────────────── */
 
   function refused(r) {
@@ -1019,13 +1458,16 @@
     else if (parts[0] === 'grants' && parts[1] === 'edit' && parts[2]) done = grantFormView(parts[2], null);
     else if (parts[0] === 'grants') done = grantsView(false);
     else if (parts[0] === 'g' && parts[1]) done = grantView(parts[1]);
+    else if (parts[0] === 'cases' && parts[1] === 'board') done = casesView(true);
+    else if (parts[0] === 'cases' && parts[1] === 'new') done = caseFormView(null, (/[?&]contact=([^&]+)/.exec(hash) || [])[1] || null);
+    else if (parts[0] === 'cases' && parts[1] === 'edit' && parts[2]) done = caseFormView(parts[2], null);
+    else if (parts[0] === 'cases') done = casesView(false);
+    else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1]);
     else done = contactsView();
-    [navContacts, navGrants, navBoard, navNew, navNewGrant].forEach(function (a) { a.removeAttribute('aria-current'); });
-    if (parts[0] === 'contacts' && parts[1] === 'new') navNew.setAttribute('aria-current', 'page');
-    else if (parts[0] === 'grants' && parts[1] === 'new') navNewGrant.setAttribute('aria-current', 'page');
-    else if (parts[0] === 'grants' && parts[1] === 'board') navBoard.setAttribute('aria-current', 'page');
-    else if (parts[0] === 'grants' && !parts[1]) navGrants.setAttribute('aria-current', 'page');
-    else if (!parts.length) navContacts.setAttribute('aria-current', 'page');
+    // The bar says which part of the office you are in.
+    [navContacts, navGrants, navCases].forEach(function (a) { a.removeAttribute('aria-current'); });
+    var part = parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases : navContacts;
+    part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'grants' || parts[0] === 'cases') ? 'page' : 'true');
     Promise.resolve(done).then(function (h) { if (h && !first) h.focus(); first = false; });
   }
   window.addEventListener('hashchange', function () { if ((location.hash || '').indexOf('#/') === 0 || !location.hash) route(); });

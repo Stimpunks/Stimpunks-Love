@@ -3785,7 +3785,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   forgetTaskViews, taskAddress, TASK_VIEWS_KEEP, TASK_STATUSES, TASK_TAGS, taskRecurs, taskRecur, saveRecur, removeRecur,
   makeRecurring, readRecurs, isoWeek, recurName, recurAfter, tickTask, taskBoxes, officeAllow, officeReady, seal, unseal,
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
-  readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES } from './lib.mjs';
+  readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
+  readCases, officeCases, officeCase, saveCase, removeCase, importCases } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4240,6 +4241,71 @@ for (const etagOnRead of [true, false]) {
     const ok = told.filter((r) => r.status === 'fulfilled' && r.value.grant).map((r) => r.value.grant.id);
     const kept = new Set((await readGrants(s)).map((g) => g.id));
     assert.deepEqual(ok.filter((id) => !kept.has(id)), [], 'a grant request told it was saved is missing');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(ok.length, 15);
+  }));
+}
+
+test('a case takes the next number, closing it here sets the day it closed, and its contact lists it', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const bo = (await saveContact(TCHELSEA, { first: 'Bo', last: 'Peep', email: 'bo@example.org' }, s, T0)).contact;
+  for (const who of [TSAM, fw('Chelsea', 700)]) {
+    assert.equal(await officeCases(who, s), null);
+    assert.match((await saveCase(who, { name: 'Sneak' }, s, T0)).error, /directors and administrators/);
+  }
+  const one = (await saveCase(TRYAN, { name: 'Connection Request: Bo', contactEmail: 'bo@example.org', body: 'Wants to **join**.' }, s, T0)).case;
+  assert.deepEqual([one.number, one.type, one.status, one.open, one.priority, one.closed, one.contactName], [1, 'Connection Request', 'New', true, 'Normal', null, 'Bo Peep']);
+  const raw = JSON.stringify(await s.get('office-cases', { type: 'json' }));
+  for (const word of ['Bo', 'join', 'Connection']) assert.ok(!raw.includes(word), `the cases' store holds ${word} in the clear`);
+  const two = (await saveCase(TRYAN, { name: 'Volunteer', type: 'Volunteer Application' }, s, T0 + 1)).case;
+  assert.equal(two.number, 2);
+  for (const [f, why] of [[{ type: 'Nope' }, /Connection Request or a Volunteer Application/], [{ status: 'Nope' }, /no status/], [{ priority: 'Nope' }, /no priority/],
+    [{ number: 9 }, /next number by itself/], [{ closed: 'soon' }, /YYYY-MM-DD/], [{ contactEmail: 'nobody@example.org' }, /contact first/]]) {
+    assert.match((await saveCase(TRYAN, { id: one.id, ...f }, s, T0 + 2)).error, why);
+  }
+  const closed = (await saveCase(TRYAN, { id: one.id, status: 'Closed' }, s, Date.UTC(2026, 9, 21, 18))).case;
+  assert.deepEqual([closed.open, closed.closed, closed.editedBy], [false, '2026-10-21', 'Ryan']);
+  const spam = (await saveCase(TRYAN, { id: one.id, status: 'Spam' }, s, Date.UTC(2026, 9, 22, 18))).case;
+  assert.equal(spam.closed, '2026-10-21', 'a closed case kept the day it closed when it moved to another closing status');
+  const reopened = (await saveCase(TRYAN, { id: one.id, status: 'Replied' }, s, T0 + 3)).case;
+  assert.deepEqual([reopened.open, reopened.closed], [true, null]);
+  await Promise.all([saveCase(TRYAN, { id: one.id, priority: 'High' }, s, T0 + 4), saveCase(TCHELSEA, { id: one.id, form: 77 }, s, T0 + 4)]);
+  const both = await officeCase(TRYAN, one.id, s);
+  assert.deepEqual([both.priority, both.form, both.body], ['High', 77, 'Wants to **join**.']);
+  assert.equal((await officeContact(TRYAN, bo.id, s)).cases[0].id, one.id, 'a contact lists their cases');
+  assert.ok((await removeCase(TRYAN, one.id, s)).gone);
+  assert.match((await removeCase(TRYAN, one.id, s)).error, /already/);
+  assert.equal((await saveCase(TRYAN, { name: 'Three' }, s, T0 + 5)).case.number, 3, 'a number is never used twice, even after a delete of the highest but one');
+  const four = (await saveCase(TRYAN, { name: 'Four' }, s, T0 + 6)).case;
+  await removeCase(TRYAN, four.id, s);
+  assert.equal((await saveCase(TRYAN, { name: 'Five' }, s, T0 + 7)).case.number, 5, 'the newest case deleted gave its number away again');
+}));
+
+test('EspoCRM cases keep their numbers and their days as they were, and one changed or deleted here is left as it is', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await importContacts(TRYAN, [{ espo: '68dd00000000000c1', last: 'One', email: 'one@example.org' }], s, T0);
+  const row = (i, extra = {}) => ({ espo: `68dd0000000000k${String(i).padStart(2, '0')}`, number: i, name: `Case ${i}`, type: 'Connection Request',
+    status: 'Closed', closed: null, priority: 'Normal', submitted: '2025-01-01', contactEspo: '68dd00000000000c1', form: 200 + i, body: '', t: T0 - DAYS(9), by: 'Ryan', ...extra });
+  const first = await importCases(TRYAN, [row(5), row(9, { closed: '2025-02-02' }), row(12, { number: 5 }), row(13, { type: 'Nope' })], s, T0);
+  assert.deepEqual(first.told.map((t) => t.error ? 'refused' : 'made'), ['made', 'made', 'refused', 'refused']);
+  const k5 = await officeCase(TRYAN, first.told[0].id, s);
+  assert.deepEqual([k5.number, k5.closed, k5.open, k5.contactName, k5.edited], [5, null, false, 'One', null], 'an import set a day EspoCRM did not have');
+  assert.equal((await saveCase(TRYAN, { name: 'Next' }, s, T0 + 1)).case.number, 10, 'a new case takes the number after the highest brought over');
+  await saveCase(TCHELSEA, { id: first.told[0].id, priority: 'High' }, s, T0 + 2);
+  await removeCase(TRYAN, first.told[1].id, s);
+  const again = await importCases(TRYAN, [row(5, { priority: 'Low' }), row(9), row(14)], s, T0 + 3);
+  assert.deepEqual(again.told.map((t) => t.kept || (t.made ? 'made' : 'refreshed')), ['changed here', 'deleted here', 'made']);
+  assert.equal((await officeCase(TRYAN, first.told[0].id, s)).priority, 'High');
+}));
+
+for (const etagOnRead of [true, false]) {
+  test(`cases, fifteen saved at once, ${etagOnRead ? 'with' : 'with no'} etag on reads: none told it was saved is missing, and no number twice`, () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+    const s = memoryStore({ etagOnRead });
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => saveCase(TCHELSEA, { name: `Case ${i}` }, s, T0 + i)));
+    const ok = told.filter((r) => r.status === 'fulfilled' && r.value.case).map((r) => r.value.case.id);
+    const kept = await readCases(s);
+    assert.deepEqual(ok.filter((id) => !kept.some((k) => k.id === id)), [], 'a case told it was saved is missing');
+    assert.equal(new Set(kept.map((k) => k.number)).size, kept.length, 'two cases share a number');
     for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
     if (etagOnRead) assert.equal(ok.length, 15);
   }));

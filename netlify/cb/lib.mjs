@@ -7591,6 +7591,7 @@ export async function removeRecur(who, id, s = store()) {
 export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
+export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Invited In", "open": true}, {"name": "Collaborating", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
 const NO_OFFICE = 'The office is for our directors and administrators, on a claimed username.';
@@ -7712,8 +7713,10 @@ export async function officeContact(who, id, s = store()) {
   if (!officeAllow(who)) return null;
   const c = (await readContacts(s)).find((x) => x.id === contactId(id));
   if (!c) return null;
-  const mine = (await readGrants(s)).filter((g) => g.contact === c.id);
-  return { ...shapeContact(c, true), grants: mine.map((g) => shapeGrant(g, new Map([[c.id, c]]))) };
+  const one = new Map([[c.id, c]]);
+  const [grants, cases] = await Promise.all([readGrants(s), readCases(s)]);
+  return { ...shapeContact(c, true), grants: grants.filter((g) => g.contact === c.id).map((g) => shapeGrant(g, one)),
+    cases: cases.filter((k) => k.contact === c.id).map((k) => shapeCase(k, one)) };
 }
 
 /* One contact made or changed in a list already open: only the fields sent
@@ -8012,6 +8015,213 @@ export async function removeGrant(who, id, s = store()) {
     return gone ? { grants: list.filter((_, i) => i !== k) } : null;
   }, s);
   if (!gone) return { error: 'That grant request has already been deleted.' };
+  if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
+  return { gone: true };
+}
+
+/* CASES (stage three): connection requests and volunteer applications, as
+   EspoCRM kept them. Each has EspoCRM's number (a new one takes the next), a
+   name, a type and a status (OFFICE_CASES, from data/office.json), a priority,
+   the day it was submitted and the day it was closed, the contact it is from,
+   the stimpunks.org form entry it came in as, a description in Markdown, who
+   added it and when, who changed it last and when, and EspoCRM's id for one
+   brought over. A change made here to a status that closes a case sets the day
+   it closed, if none is given, and one back to an open status clears it; an
+   import keeps EspoCRM's days as they are, because a hundred of its closed
+   cases have none and today would be a day nobody closed them. EspoCRM's
+   HubSpot ids and its history of status changes are not brought over. */
+const CASES = 'office-cases';
+export const CASE_NAME_MAX = 200;
+export const CASE_BODY_MAX = 40000;
+export function caseId(v) { return typeof v === 'string' && /^k[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newCaseId = () => 'k' + randomBytes(9).toString('base64url');
+function caseOpen(status) { const st = OFFICE_CASES.statuses.find((x) => x.name === status); return !st || st.open; }
+
+export async function readCases(s = store()) {
+  const d = await readSealed(CASES, s);
+  return d && Array.isArray(d.cases) ? d.cases : [];
+}
+
+function caseFields(f, contacts) {
+  const out = {};
+  if (f.name !== undefined) {
+    const v = f.name == null ? '' : tidy(f.name);
+    if (!v) return { error: 'Give the case a name.' };
+    if ([...v].length > CASE_NAME_MAX) return { error: `A name is up to ${CASE_NAME_MAX} characters.` };
+    out.name = v;
+  }
+  if (f.type !== undefined) {
+    if (!OFFICE_CASES.types.includes(f.type)) return { error: `A case is a ${OFFICE_CASES.types.join(' or a ')}.` };
+    out.type = f.type;
+  }
+  if (f.status !== undefined) {
+    if (!OFFICE_CASES.statuses.some((x) => x.name === f.status)) return { error: 'There is no status by that name.' };
+    out.status = f.status;
+  }
+  if (f.priority !== undefined) {
+    if (!OFFICE_CASES.priorities.includes(f.priority)) return { error: 'There is no priority by that name.' };
+    out.priority = f.priority;
+  }
+  for (const [k, word] of [['submitted', 'submitted'], ['closed', 'closed']]) {
+    if (f[k] === undefined) continue;
+    const d = day(f[k]);
+    if (d === undefined) return { error: `The day it was ${word} is a day, as YYYY-MM-DD, or nothing.` };
+    out[k] = d;
+  }
+  if (f.contact !== undefined) {
+    if (f.contact === null || f.contact === '') out.contact = null;
+    else if (!contacts.some((c) => c.id === contactId(f.contact))) return { error: 'That contact has been deleted.' };
+    else out.contact = contactId(f.contact);
+  } else if (f.contactEmail !== undefined) {
+    const e = String(f.contactEmail || '').trim().toLowerCase();
+    if (!e) out.contact = null;
+    else {
+      const c = contacts.find((x) => x.email && x.email.toLowerCase() === e);
+      if (!c) return { error: 'No contact has that email. Add them as a contact first.' };
+      out.contact = c.id;
+    }
+  }
+  if (f.form !== undefined) {
+    const v = f.form === null || f.form === '' ? null : Number(f.form);
+    if (v !== null && !(Number.isInteger(v) && v > 0 && v < 1e9)) return { error: 'A form entry is its number on stimpunks.org, or nothing.' };
+    out.form = v;
+  }
+  if (f.number !== undefined) {
+    const v = Number(f.number);
+    if (!(Number.isInteger(v) && v > 0 && v < 1e9)) return { error: 'A case number is a whole number.' };
+    out.number = v;
+  }
+  if (f.body !== undefined) {
+    const b = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body, CASE_BODY_MAX);
+    if (b === null) return { error: `A description is up to ${CASE_BODY_MAX} characters.` };
+    out.body = b;
+  }
+  return { fields: out };
+}
+
+export function shapeCase(k, contacts, whole = false) {
+  const c = k.contact ? contacts.get(k.contact) : null;
+  const out = { id: k.id, number: k.number, name: k.name, type: k.type, status: k.status, open: caseOpen(k.status), priority: k.priority,
+    submitted: k.submitted || null, closed: k.closed || null, contact: k.contact || null,
+    contactName: c ? [c.first, c.last].filter(Boolean).join(' ') : null, contactEmail: c ? c.email || '' : null, contactGone: !!(k.contact && !c),
+    form: k.form || null, t: k.t, by: k.by || null, edited: k.edited || null, editedBy: k.editedBy || null };
+  if (k.espo) out.espo = k.espo;
+  if (whole) { out.body = k.body || ''; out.blocks = parseBrass(k.body || ''); } else out.words = [...(k.body || '')].length;
+  return out;
+}
+
+export async function officeCases(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  const [cases, contacts] = await Promise.all([readCases(s), readContacts(s)]);
+  const m = contactMap(contacts);
+  return cases.map((k) => shapeCase(k, m));
+}
+export async function officeCase(who, id, s = store()) {
+  if (!officeAllow(who)) return null;
+  const k = (await readCases(s)).find((x) => x.id === caseId(id));
+  return k ? shapeCase(k, contactMap(await readContacts(s)), true) : null;
+}
+
+/* One case made or changed in a list already open, as applyGrant. `top` is the
+   highest number ever given, kept beside the cases, so a number is never given
+   twice, even after the newest case is deleted, as EspoCRM's never was. */
+const topOf = (was) => Math.max(was && was.top || 0, ...((was && was.cases) || []).map((x) => x.number || 0), 0);
+function applyCase(list, f, who, now, contacts, top) {
+  const espo = espoIdOf(f.espo);
+  const k = f.id != null ? list.findIndex((x) => x.id === caseId(f.id)) : (espo ? list.findIndex((x) => x.espo === espo) : -1);
+  if (f.id != null && k < 0) return { error: 'That case has been deleted.' };
+  const had = k >= 0 ? list[k] : null;
+  if (!had && f.name === undefined) return { error: 'Give the case a name.' };
+  if (!espo && f.number !== undefined) return { error: 'A case takes the next number by itself.' };
+  const r = caseFields(f, contacts);
+  if (r.error) return r;
+  if (espo && r.fields.number != null && list.some((x, i) => i !== k && x.number === r.fields.number)) return { error: `Case number ${r.fields.number} is taken.` };
+  const next = had ? { ...had, ...r.fields } : { id: newCaseId(), number: top + 1, name: '',
+    type: OFFICE_CASES.types[0], status: OFFICE_CASES.statuses[0].name, priority: OFFICE_CASES.default_priority, submitted: null, closed: null,
+    contact: null, form: null, body: '', t: now, by: who.handle, ...r.fields };
+  if (espo) {
+    next.espo = espo;
+    if (typeof f.t === 'number' && f.t > 0 && f.t <= now) next.t = f.t;
+    if (typeof f.by === 'string' && tidy(f.by)) next.by = tidy(f.by).slice(0, 40);
+    next.synced = now;
+  } else {
+    // Closed, here, sets the day it closed, and open again clears it.
+    if (r.fields.status !== undefined && (!had || had.status !== r.fields.status)) {
+      if (caseOpen(next.status)) next.closed = null;
+      else if (!next.closed) next.closed = today(new Date(now));
+    }
+    if (had) { next.edited = now; next.editedBy = who.handle; }
+  }
+  const copy = list.slice();
+  if (had) copy[k] = next; else copy.push(next);
+  return { list: copy, saved: next };
+}
+
+export async function saveCase(who, f, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  f = f || {};
+  const espo = espoIdOf(f.espo);
+  if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
+  if (espo && (await readOfficeGone(s)).includes(espo)) return { error: 'That case was brought over and deleted here, so it stays deleted.' };
+  const contacts = await readContacts(s);
+  let saved = null, why = null;
+  await updateSealed(CASES, (was) => {
+    const top = topOf(was);
+    const r = applyCase(was && Array.isArray(was.cases) ? was.cases : [], f, who, now, contacts, top);
+    why = r.error || null; saved = r.saved || null;
+    return r.error ? null : { cases: r.list, top: Math.max(top, r.saved.number) };
+  }, s);
+  if (why) return { error: why };
+  return { case: shapeCase(saved, contactMap(contacts), true) };
+}
+
+/* EspoCRM's cases brought over, as grant requests are, each keeping EspoCRM's
+   number and naming its contact by EspoCRM's id for it. */
+export async function importCases(who, rows, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!Array.isArray(rows) || !rows.length || rows.length > IMPORT_MAX) return { error: `Between one and ${IMPORT_MAX} cases at a time.` };
+  if (rows.some((r) => !r || !espoIdOf(r.espo) || r.id != null || r.contact != null)) return { error: 'Every case brought over carries its EspoCRM id and nothing of ours.' };
+  const gone = new Set(await readOfficeGone(s));
+  const contacts = await readContacts(s);
+  const byEspo = new Map(contacts.filter((c) => c.espo).map((c) => [c.espo, c.id]));
+  let told = [];
+  await updateSealed(CASES, (was) => {
+    let list = was && Array.isArray(was.cases) ? was.cases : [];
+    let top = topOf(was);
+    told = [];
+    for (const row of rows) {
+      const espo = espoIdOf(row.espo);
+      const there = list.find((x) => x.espo === espo);
+      if (gone.has(espo)) { told.push({ espo, kept: 'deleted here' }); continue; }
+      if (there && there.edited) { told.push({ espo, kept: 'changed here', id: there.id }); continue; }
+      const f = { ...row };
+      delete f.contactEspo;
+      if (row.contactEspo != null) {
+        const cid = byEspo.get(espoIdOf(row.contactEspo));
+        if (!cid) { told.push({ espo, error: 'Its contact has not been brought over.' }); continue; }
+        f.contact = cid;
+      }
+      const r = applyCase(list, f, who, now, contacts, top);
+      if (r.error) { told.push({ espo, error: r.error }); continue; }
+      list = r.list;
+      top = Math.max(top, r.saved.number);
+      told.push({ espo, id: r.saved.id, made: !there });
+    }
+    return told.some((t) => t.id && !t.kept) ? { cases: list, top } : null;
+  }, s);
+  return { told };
+}
+
+export async function removeCase(who, id, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  let gone = null;
+  await updateSealed(CASES, (was) => {
+    const list = was && Array.isArray(was.cases) ? was.cases : [];
+    const k = list.findIndex((x) => x.id === caseId(id));
+    gone = k >= 0 ? list[k] : null;
+    return gone ? { cases: list.filter((_, i) => i !== k), top: topOf(was) } : null;
+  }, s);
+  if (!gone) return { error: 'That case has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
   return { gone: true };
 }
