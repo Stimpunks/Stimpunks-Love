@@ -3370,6 +3370,32 @@ export async function noteLatest(tag, t, s = store(), now = Date.now()) {
   return true;
 }
 
+/* MESSAGES A DAY, FOR THE OFFICE'S DASHBOARD (Ryan, 2026-10-21: messages per
+   day, no names). Every message sent on a channel adds one to its day, by the
+   street's clock, in one of three numbers: World, the rooms, and the rooms
+   only moderators can hear (MOD_ROOMS). No name, no room, no words and no time
+   is kept, so a room that keeps to itself is counted with the others of its
+   kind and never named. Direct messages and the Slake are not counted. A day
+   older than DAY_COUNTS_DAYS goes on the next write. Only the office's
+   dashboard reads it. */
+const DAY_COUNTS = 'channel-days';
+export const DAY_COUNTS_DAYS = 400;
+export const DAY_KINDS = ['world', 'rooms', 'mods'];
+const isDay = (d) => /^\d{4}-\d{2}-\d{2}$/.test(d);
+export async function countMessage(tag, s = store(), now = Date.now()) {
+  const kind = !tag || tag === WORLD_CALL ? 'world' : (MOD_ROOMS[tag] ? 'mods' : 'rooms');
+  const day = today(new Date(now)), oldest = dayBefore(day, DAY_COUNTS_DAYS - 1);
+  await updateMap(DAY_COUNTS, 'days', (map) => {
+    for (const d of Object.keys(map)) if (!isDay(d) || d < oldest) delete map[d];
+    const c = plain(map[day]);
+    map[day] = Object.fromEntries(DAY_KINDS.map((k) => [k, (Number.isInteger(c[k]) ? c[k] : 0) + (k === kind ? 1 : 0)]));
+  }, s);
+  return kind;
+}
+export async function readDayCounts(s = store()) {
+  return plain((await s.get(DAY_COUNTS, { type: 'json' }) || {}).days);
+}
+
 /* What is new to a claimed username: { latest, read, dms, asking }. latest is
    every channel's newest message time it may hear (World as WORLD_CALL), read
    its own last-read times, dms the handles of conversations with something new
@@ -8842,6 +8868,8 @@ export async function mailSentFor(p, s = store(), now = Date.now()) {
    soon, mailings, and the newest grant requests, cases and tasks. Weeks are the
    last seven days by the street's clock, and the one before. The sentences are
    built on the page from these numbers and nothing else. */
+export const NIGHTS_SHOWN = 90;
+export const CB_DAYS_SHOWN = 30;
 const dayBefore = (d, n) => new Date(Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10) - n)).toISOString().slice(0, 10);
 export async function officeDashboard(who, s = store(), now = Date.now()) {
   if (!officeAllow(who)) return null;
@@ -8896,13 +8924,58 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
     waiting: mailings.reduce((n, x) => n + x.emails.filter((e) => outState(e) === 'waiting').length, 0),
     sentWeek: mailings.reduce((n, x) => n + x.emails.filter((e) => e.sent && inWeek(dayOfT(e.sent))).length, 0),
   };
+  // The nightly lines, the last NIGHTS_SHOWN of them, and the CB's messages a
+  // day for the last month, both kept as they happened rather than worked out.
+  const [nightsDoc, perDay] = await Promise.all([readSealed(OFFICE_NIGHTS, s), readDayCounts(s)]);
+  const shownFrom = dayBefore(day, NIGHTS_SHOWN - 1);
+  const nights = Object.entries((nightsDoc && nightsDoc.nights) || {}).filter(([d]) => isDay(d) && d >= shownFrom && d <= day).sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([d, x]) => ({ day: d, grants: OFFICE_PIPELINES.map((p) => (x.grants && x.grants[p.name]) || 0), cases: x.cases || 0, tasks: x.tasks || 0, overdue: x.overdue || 0 }));
+  const firstNight = Object.keys((nightsDoc && nightsDoc.nights) || {}).filter(isDay).sort()[0] || null;
+  const cbDays = Array.from({ length: CB_DAYS_SHOWN }, (_, i) => dayBefore(day, CB_DAYS_SHOWN - 1 - i))
+    .map((d) => ({ day: d, counts: DAY_KINDS.map((kind) => { const n = plain(perDay[d])[kind]; return Number.isInteger(n) ? n : 0; }) }));
+  const sumOf = (from, to) => Object.entries(perDay).filter(([d]) => d >= from && d <= to).reduce((n, [, c]) => n + DAY_KINDS.reduce((a, kind) => a + (Number.isInteger(plain(c)[kind]) ? plain(c)[kind] : 0), 0), 0);
+  const cb = { days: cbDays, week: { now: sumOf(weekFrom, day), before: sumOf(lastFrom, dayBefore(weekFrom, 1)) }, since: Object.keys(perDay).filter(isDay).sort()[0] || null };
   const newest = (list, n) => list.slice().sort((a, b) => (b.t || 0) - (a.t || 0)).slice(0, n);
-  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m,
+  const quickbooks = await qbStatus(who, s);
+  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks,
     recent: {
       grants: newest(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
       cases: newest(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
       tasks: newest(tasks, 5).map((x) => ({ id: x.id, name: x.name, who: x.who || null, due: x.due || null, status: x.status })),
     } };
+}
+
+/* EACH NIGHT, WHAT WAS OPEN (Ryan, 2026-10-21: update the dashboard daily for
+   the things that are not worked out when it is opened). Everything else on
+   the dashboard comes from the records each time, but a record keeps no
+   history of its stages, so how many were open on a night long gone cannot be
+   worked out later. officeNightly, from cb-office-daily.mjs late each evening
+   in Colorado, keeps one line a night: how many grant requests were open in
+   each pipeline and how many of those were submitted that year, how many cases
+   and tasks were open, and how many tasks were overdue. Counts only, sealed
+   like every record, for OFFICE_NIGHTS_KEEP nights; the same night run again
+   replaces its line. */
+const OFFICE_NIGHTS = 'office-nights';
+export const OFFICE_NIGHTS_KEEP = 400;
+export async function officeNightly(s = store(), now = Date.now()) {
+  if (!officeReady()) return { error: 'shut' };
+  const day = today(new Date(now)), year = day.slice(0, 4), oldest = dayBefore(day, OFFICE_NIGHTS_KEEP - 1);
+  const [grants, cases, tasks] = await Promise.all([readGrants(s), readCases(s), readTasks(s)]);
+  const open = grants.filter((g) => grantStatus(g) === 'Open');
+  const live = tasks.filter((x) => !TASK_DONE.includes(x.status));
+  const line = {
+    grants: Object.fromEntries(OFFICE_PIPELINES.map((p) => [p.name, open.filter((g) => g.pipeline === p.name).length])),
+    active: Object.fromEntries(OFFICE_PIPELINES.map((p) => [p.name, open.filter((g) => g.pipeline === p.name && String(g.submitted || '').startsWith(year)).length])),
+    cases: cases.filter((k) => caseOpen(k.status)).length,
+    tasks: live.length,
+    overdue: live.filter((x) => x.due && x.due < day).length,
+  };
+  await updateSealed(OFFICE_NIGHTS, (was) => {
+    const nights = Object.fromEntries(Object.entries((was && was.nights) || {}).filter(([d]) => isDay(d) && d >= oldest));
+    nights[day] = line;
+    return { nights };
+  }, s);
+  return { day, line };
 }
 
 /* THE REPORTS: EspoCRM's nine, as its Reports section held them (Ryan's list,
@@ -8936,4 +9009,191 @@ export async function officeReports(who, s = store(), now = Date.now()) {
     casesByStatus: OFFICE_CASES.statuses.map((st) => ({ status: st.name, open: st.open, count: cases.filter((x) => x.status === st.name).length })),
     casesByYear: kYears.map((y) => ({ year: y, counts: OFFICE_CASES.types.map((ty) => cases.filter((x) => x.type === ty && yearOf(x.submitted) === y).length) })),
   };
+}
+
+/* QUICKBOOKS (Ryan, 2026-10-21: connect the office to QuickBooks, with an
+   Intuit app of ours and a daily pull). The app's id and secret are
+   CB_QB_CLIENT_ID and CB_QB_CLIENT_SECRET in Netlify; without both, or without
+   the office's key, nothing here runs. The office only READS our books: it
+   asks Intuit for nothing but QB_SCOPE and sends nothing back but the tokens'
+   own refresh and revoke.
+
+   CONNECTING. A director or an administrator presses Connect in the office.
+   qbConnect keeps a state, sealed, with who asked and when, for QB_STATE_FOR,
+   and hands back Intuit's address with it; Intuit sends them back to
+   QB_CALLBACK with a code and the company's id, and qbCallback, finding the
+   same state not yet used, trades the code for tokens and keeps them sealed in
+   QB with the company's id, who connected and when. The state is used once.
+   The tokens never leave the server, are never in an answer and are never
+   logged; qbStatus says only whether the office is connected, since when and
+   by whom, and when the books were last read. Disconnect revokes them at
+   Intuit and deletes them.
+
+   READING. officeQuickBooks, each night from cb-office-daily.mjs and on a
+   director's press, refreshes the access token, keeping whatever refresh
+   token Intuit hands back, since Intuit may replace it; reads the last QB_DAYS
+   days of money in (deposits, payments and sales receipts) and this year's
+   profit and loss by month; and keeps that, sealed, in QB_BOOKS, replacing
+   what was there. Each transaction keeps its kind, Intuit's id, its day, its
+   amount, who it was from as QuickBooks names them, and the account it went
+   to: no memo, no address, no email. A deposit line that moves a payment or a
+   receipt already listed is not counted again. The report is read by its
+   groups' names, never by row position, and a value Intuit leaves empty is
+   nothing, not a fault. */
+export const QB_SCOPE = 'com.intuit.quickbooks.accounting';
+const QB_AUTH = 'https://appcenter.intuit.com/connect/oauth2';
+const QB_TOKEN = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer';
+const QB_REVOKE = 'https://developer.api.intuit.com/v2/oauth2/tokens/revoke';
+const QB_API = 'https://quickbooks.api.intuit.com/v3/company/';
+const QB_MINOR = 75;
+export const QB_DAYS = 30;
+export const QB_CALLBACK = '/cb/office/quickbooks';
+const QB_STATE = 'office-qb-state', QB = 'office-qb', QB_BOOKS = 'office-qb-books';
+const QB_STATE_FOR = 10 * 60 * 1000;
+const QB_KINDS = { Deposit: 'Deposit', Payment: 'Payment', SalesReceipt: 'Sales receipt' };
+
+function qbClient() {
+  const id = process.env.CB_QB_CLIENT_ID, secret = process.env.CB_QB_CLIENT_SECRET;
+  return id && secret ? { id: id.trim(), secret: secret.trim() } : null;
+}
+export function qbReady() { return !!qbClient() && officeReady(); }
+const qbBasic = (c) => 'Basic ' + Buffer.from(c.id + ':' + c.secret).toString('base64');
+const qbHash = (state) => createHash('sha256').update(String(state)).digest('base64url');
+
+/* Connect: a state for Intuit to hand back, and Intuit's address with it. */
+export async function qbConnect(who, origin, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: 'office' };
+  const c = qbClient();
+  if (!c || !officeReady()) return { error: 'not-set-up' };
+  const state = randomBytes(24).toString('base64url');
+  await updateSealed(QB_STATE, () => ({ hash: qbHash(state), by: who.handle, t: now }), s);
+  const q = new URLSearchParams({ client_id: c.id, response_type: 'code', scope: QB_SCOPE, redirect_uri: origin + QB_CALLBACK, state });
+  return { go: QB_AUTH + '?' + q };
+}
+
+async function qbTokens(c, form, fetchFn) {
+  const r = await fetchFn(QB_TOKEN, { method: 'POST', headers: { authorization: qbBasic(c), accept: 'application/json', 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(form).toString() });
+  if (!r.ok) return null;
+  const t = await r.json().catch(() => null);
+  return t && typeof t.access_token === 'string' && typeof t.refresh_token === 'string' ? t : null;
+}
+const keepTokens = (t, now) => ({ access: t.access_token, accessUntil: now + (Number(t.expires_in) || 3600) * 1000,
+  refresh: t.refresh_token, refreshUntil: now + (Number(t.x_refresh_token_expires_in) || 100 * 86400) * 1000 });
+
+/* Intuit sends the person back here. The state must be the one kept, unused
+   and fresh; it goes whatever happens next. */
+export async function qbCallback(params, origin, s = store(), now = Date.now(), fetchFn = fetch) {
+  const c = qbClient();
+  if (!c || !officeReady()) return { error: 'not-set-up' };
+  const state = String(params.get('state') || ''), code = String(params.get('code') || ''), realm = String(params.get('realmId') || '');
+  let kept = null;
+  await updateSealed(QB_STATE, (was) => { kept = was; return was ? { gone: true } : null; }, s);
+  if (!kept || kept.gone || !state || kept.hash !== qbHash(state) || now - kept.t > QB_STATE_FOR) return { error: 'state' };
+  if (params.get('error')) return { error: 'refused' };
+  if (!code || !/^\d{1,40}$/.test(realm)) return { error: 'code' };
+  const t = await qbTokens(c, { grant_type: 'authorization_code', code, redirect_uri: origin + QB_CALLBACK }, fetchFn);
+  if (!t) return { error: 'code' };
+  await updateSealed(QB, () => ({ realm, ...keepTokens(t, now), by: kept.by, t: now }), s);
+  return { connected: true };
+}
+
+/* Whether the office is connected, and the books as last read, for the page:
+   never a token, never the company's id. */
+export async function qbStatus(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  const [q, books] = await Promise.all([readSealed(QB, s), readSealed(QB_BOOKS, s)]);
+  return { ready: qbReady(), connected: !!(q && q.refresh), by: q ? q.by : null, since: q ? q.t : null,
+    stale: !!(q && q.refreshUntil && q.refreshUntil < Date.now()), books: books || null };
+}
+
+export async function qbDisconnect(who, s = store(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: 'office' };
+  const c = qbClient(), q = await readSealed(QB, s);
+  if (c && q && q.refresh) {
+    await fetchFn(QB_REVOKE, { method: 'POST', headers: { authorization: qbBasic(c), accept: 'application/json', 'content-type': 'application/json' }, body: JSON.stringify({ token: q.refresh }) }).catch(() => null);
+  }
+  await s.delete(QB);
+  await s.delete(QB_BOOKS);
+  return { gone: true };
+}
+
+/* A fresh access token, refreshed when it has under five minutes left. */
+async function qbAccess(c, s, now, fetchFn) {
+  const q = await readSealed(QB, s);
+  if (!q || !q.refresh) return { error: 'not-connected' };
+  if (q.access && q.accessUntil - now > 5 * 60 * 1000) return { q };
+  const t = await qbTokens(c, { grant_type: 'refresh_token', refresh_token: q.refresh }, fetchFn);
+  if (!t) return { error: 'refresh' };
+  const next = { ...q, ...keepTokens(t, now) };
+  await updateSealed(QB, (was) => (was && was.realm === q.realm ? { ...was, ...keepTokens(t, now) } : null), s);
+  return { q: next };
+}
+
+const qbMoney = (v) => { const n = Number(v); return Number.isFinite(n) ? Math.round(n * 100) / 100 : 0; };
+const qbDay = (v) => (typeof v === 'string' && isDay(v) ? v : null);
+const qbName = (ref) => (ref && typeof ref.name === 'string' && ref.name.trim() ? ref.name.trim().slice(0, 200) : null);
+
+/* Money in, one row a transaction: a deposit counts only its lines that move
+   nothing already listed (no LinkedTxn). */
+export function qbMoneyIn(resp) {
+  const out = [];
+  for (const [entity, kind] of Object.entries(QB_KINDS)) {
+    for (const x of (resp && resp[entity]) || []) {
+      const day = qbDay(x.TxnDate);
+      if (!day || x.Id == null) continue;
+      let amount = qbMoney(x.TotalAmt), from = qbName(x.CustomerRef), moved = 0;
+      if (entity === 'Deposit') {
+        const lines = Array.isArray(x.Line) ? x.Line : [];
+        const own = lines.filter((l) => !(Array.isArray(l.LinkedTxn) && l.LinkedTxn.length));
+        moved = qbMoney(lines.reduce((n, l) => n + qbMoney(l.Amount), 0) - own.reduce((n, l) => n + qbMoney(l.Amount), 0));
+        amount = qbMoney(own.reduce((n, l) => n + qbMoney(l.Amount), 0));
+        from = own.map((l) => qbName(l.DepositLineDetail && l.DepositLineDetail.Entity)).find(Boolean) || null;
+      }
+      out.push({ kind, id: String(x.Id), day, amount, moved, from, account: qbName(x.DepositToAccountRef) });
+    }
+  }
+  return out.sort((a, b) => (a.day < b.day ? 1 : a.day > b.day ? -1 : 0));
+}
+
+/* This year's profit and loss by month, by its groups' names. */
+export function qbProfitLoss(report) {
+  const cols = ((report && report.Columns && report.Columns.Column) || []).map((c) => String(c.ColTitle || ''));
+  const months = cols.slice(1).filter((t) => t && !/^total$/i.test(t));
+  const rows = (report && report.Rows && report.Rows.Row) || [];
+  const find = (name) => rows.find((r) => r && r.group === name);
+  const sums = (row) => (row && row.Summary && Array.isArray(row.Summary.ColData) ? row.Summary.ColData.slice(1, 1 + months.length).map((d) => qbMoney(d && d.value)) : months.map(() => 0));
+  const income = sums(find('Income')), expense = sums(find('Expenses')), net = sums(find('NetIncome'));
+  const inc = find('Income');
+  const accounts = ((inc && inc.Rows && inc.Rows.Row) || []).map((r) => {
+    const cd = (r.ColData || (r.Header && r.Header.ColData) || []);
+    const total = r.Summary && r.Summary.ColData ? r.Summary.ColData.at(-1) : cd.at(-1);
+    return { account: String((cd[0] && cd[0].value) || '').slice(0, 200), total: qbMoney(total && total.value) };
+  }).filter((x) => x.account);
+  return { months: months.map((m, i) => ({ month: m, income: income[i] || 0, expense: expense[i] || 0, net: net[i] || 0 })), accounts };
+}
+
+async function qbGet(q, path, fetchFn) {
+  const r = await fetchFn(QB_API + q.realm + path + (path.includes('?') ? '&' : '?') + 'minorversion=' + QB_MINOR, { headers: { authorization: 'Bearer ' + q.access, accept: 'application/json' } });
+  if (!r.ok) return null;
+  return r.json().catch(() => null);
+}
+
+/* Read the books and keep what was read. */
+export async function officeQuickBooks(s = store(), now = Date.now(), fetchFn = fetch) {
+  const c = qbClient();
+  if (!c || !officeReady()) return { error: 'not-set-up' };
+  const a = await qbAccess(c, s, now, fetchFn);
+  if (a.error) return a;
+  const day = today(new Date(now)), from = dayBefore(day, QB_DAYS - 1), year = day.slice(0, 4);
+  const money = {};
+  for (const entity of Object.keys(QB_KINDS)) {
+    const got = await qbGet(a.q, '/query?query=' + encodeURIComponent(`select * from ${entity} where TxnDate >= '${from}' maxresults 1000`), fetchFn);
+    if (!got || !got.QueryResponse) return { error: 'read' };
+    money[entity] = got.QueryResponse[entity] || [];
+  }
+  const pl = await qbGet(a.q, '/reports/ProfitAndLoss?' + new URLSearchParams({ start_date: year + '-01-01', end_date: day, summarize_column_by: 'Month' }), fetchFn);
+  if (!pl) return { error: 'read' };
+  const books = { read: now, day, from, moneyIn: qbMoneyIn(money), year, profitLoss: qbProfitLoss(pl) };
+  await updateSealed(QB_BOOKS, () => books, s);
+  return { read: now, count: books.moneyIn.length };
 }

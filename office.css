@@ -195,3 +195,42 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-said-list { font-size: 16px; }
 .of-said { padding: 0 18px 12px; font-size: 15px; min-height: 1.5em; }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Lines: 2px, round, a dot on the last night, a dashed one for a part of
+   another, and a crosshair under the pointer. */
+/* A line is never filled, though it wears a series class that fills marks (and fills them harder on a dark case). */
+.of-line { fill: none !important; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.of-line--dash { stroke-dasharray: 5 4; }
+.of-line.of-c1 { stroke: var(--cb-task-blue); }
+.of-line.of-c2 { stroke: var(--cb-task-orange); }
+.of-line.of-c3 { stroke: var(--cb-task-aqua); }
+.of-line.of-c4 { stroke: var(--cb-task-yellow); }
+:host([data-tone="dark"]) .of-line.of-c1 { stroke: var(--cb-task-blue-dark); }
+:host([data-tone="dark"]) .of-line.of-c2 { stroke: var(--cb-task-orange-dark); }
+:host([data-tone="dark"]) .of-line.of-c3 { stroke: var(--cb-task-aqua-dark); }
+:host([data-tone="dark"]) .of-line.of-c4 { stroke: var(--cb-task-yellow-dark); }
+.of-line.of-c5 { stroke: var(--cb-task-magenta); }
+.of-line.of-c6 { stroke: var(--cb-task-green); }
+.of-line.of-c7 { stroke: var(--cb-task-violet); }
+:host([data-tone="dark"]) .of-line.of-c5 { stroke: var(--cb-task-magenta-dark); }
+:host([data-tone="dark"]) .of-line.of-c6 { stroke: var(--cb-task-green-dark); }
+:host([data-tone="dark"]) .of-line.of-c7 { stroke: var(--cb-task-violet-dark); }
+.of-dot { stroke: var(--cb-case); stroke-width: 2; }
+.of-cross { stroke: var(--cb-steel-2); stroke-width: 1; }
+.of-swatch--dash { background: none !important; border-top: 2px dashed var(--cb-task-yellow); height: 0; align-self: center; }
+:host([data-tone="dark"]) .of-swatch--dash { border-top-color: var(--cb-task-yellow-dark); }
+/* The CB's three channels, in their own colours: nothing else on the dashboard wears them. */
+.of-c5 { fill: var(--cb-task-magenta); }
+.of-c6 { fill: var(--cb-task-green); }
+.of-c7 { fill: var(--cb-task-violet); }
+:host([data-tone="dark"]) .of-c5 { fill: var(--cb-task-magenta-dark); }
+:host([data-tone="dark"]) .of-c6 { fill: var(--cb-task-green-dark); }
+:host([data-tone="dark"]) .of-c7 { fill: var(--cb-task-violet-dark); }
+.of-swatch.of-c5, .of-key.of-c5 { background: var(--cb-task-magenta); }
+.of-swatch.of-c6, .of-key.of-c6 { background: var(--cb-task-green); }
+.of-swatch.of-c7, .of-key.of-c7 { background: var(--cb-task-violet); }
+:host([data-tone="dark"]) .of-swatch.of-c5, :host([data-tone="dark"]) .of-key.of-c5 { background: var(--cb-task-magenta-dark); }
+:host([data-tone="dark"]) .of-swatch.of-c6, :host([data-tone="dark"]) .of-key.of-c6 { background: var(--cb-task-green-dark); }
+:host([data-tone="dark"]) .of-swatch.of-c7, :host([data-tone="dark"]) .of-key.of-c7 { background: var(--cb-task-violet-dark); }
+.of-small { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.of-fig--small { border: 0; padding: 0; margin: 0; background: none; }

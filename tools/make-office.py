@@ -62,6 +62,11 @@ LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 FN = ROOT / "netlify" / "functions" / "cb-office.mjs"
 INTAKE = ROOT / "netlify" / "functions" / "cb-office-intake.mjs"
 MAILFN = ROOT / "netlify" / "functions" / "cb-office-mail.mjs"
+DAILY = ROOT / "netlify" / "functions" / "cb-office-daily.mjs"
+TRANSMIT = ROOT / "netlify" / "functions" / "cb-transmit.mjs"
+QBFN = ROOT / "netlify" / "functions" / "cb-office-qb.mjs"
+QB_HOSTS = {"https://appcenter.intuit.com/connect/oauth2", "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer",
+            "https://developer.api.intuit.com/v2/oauth2/tokens/revoke", "https://quickbooks.api.intuit.com/v3/company/"}
 JS = ROOT / "office.js"
 CSS = ROOT / "office.css"
 PAGE = ROOT / "office.html"
@@ -343,6 +348,67 @@ def check_mailings(lib):
         problems.append(f"{JS.name}: a mailing is sent only from a second press (sure), naming who it goes to.")
 
 
+def check_nights(lib):
+    """What the dashboard keeps rather than works out, because nothing else
+    remembers it: a sealed line of counts a night (officeNightly, from
+    cb-office-daily.mjs), and the CB's messages a day (countMessage, from every
+    transmit), three numbers with no handle, no room and no words."""
+    cm = code_of(fn(lib, "countMessage"))
+    if "updateMap(DAY_COUNTS" not in cm:
+        problems.append(f"{LIB.name}: countMessage must keep the day's numbers with the boards' conditional write.")
+    if re.search(r"\b(?:handle|text|who|msg)\b", cm) or len(re.findall(r"\btag\b", cm)) != 4:
+        problems.append(f"{LIB.name}: countMessage keeps three numbers a day and nothing else: never a handle, words or the room.")
+    if "countMessage(room)" not in code_of(TRANSMIT.read_text()):
+        problems.append(f"{TRANSMIT.name}: every message sent on a channel must be counted on its day (countMessage).")
+    nn = code_of(fn(lib, "officeNightly"))
+    if "updateSealed(OFFICE_NIGHTS" not in nn or "officeReady()" not in nn:
+        problems.append(f"{LIB.name}: officeNightly must keep its line sealed, and only while the office is open.")
+    if re.search(r"\.(?:contact|email|first|last|body)\b", nn):
+        problems.append(f"{LIB.name}: officeNightly keeps counts only, nothing about anybody.")
+    daily = code_of(DAILY.read_text()) if DAILY.exists() else ""
+    if "officeNightly()" not in daily or "schedule: '50 5 * * *'" not in daily:
+        problems.append(f"{DAILY.name}: it is the office's nightly line, scheduled late each evening in Colorado (05:50 UTC).")
+
+
+def check_quickbooks(lib):
+    """QuickBooks is read and never written, from Intuit and nowhere else; the
+    state works once; the tokens are sealed and never in an answer; and what a
+    transaction keeps is what privacy.html#quickbooks lists."""
+    at = lib.find("/* QUICKBOOKS")
+    if at < 0:
+        problems.append(f"{LIB.name}: the QuickBooks part of the office is missing.")
+        return
+    sec = lib[at:]
+    code = code_of(sec)
+    urls = set(re.findall(r"'(https://[^']+)'", code))
+    if urls != QB_HOSTS:
+        problems.append(f"{LIB.name}: the office asks Intuit at exactly its four addresses and nowhere else ({', '.join(sorted(urls ^ QB_HOSTS)) or 'none'}).")
+    if "QB_SCOPE = 'com.intuit.quickbooks.accounting'" not in code or re.search(r"method: '(?:PUT|PATCH|DELETE)'", code):
+        problems.append(f"{LIB.name}: the office asks Intuit only for the accounting scope, and writes nothing to our books.")
+    posts = re.findall(r"fetchFn\((QB_[A-Z]+)[^)]*method: 'POST'", code)
+    if set(posts) - {"QB_TOKEN", "QB_REVOKE"}:
+        problems.append(f"{LIB.name}: the office posts to Intuit only for its tokens and to revoke them.")
+    if lib.count("process.env.CB_QB_CLIENT_SECRET") != 1 or "process.env.CB_QB_CLIENT_SECRET" not in fn(sec, "qbClient").replace("export ", "") + (re.search(r"function qbClient\(.*?\n\}", sec, re.S) or [""])[0]:
+        problems.append(f"{LIB.name}: CB_QB_CLIENT_SECRET is read once, in qbClient, and nowhere else.")
+    cb = code_of(fn(sec, "qbCallback"))
+    if "kept.hash !== qbHash(state)" not in cb or "QB_STATE_FOR" not in cb or "{ gone: true }" not in cb:
+        problems.append(f"{LIB.name}: qbCallback keeps tokens only for the state handed out, fresh, and used once.")
+    status = re.search(r"return \{ ready:(.*?)\};", fn(sec, "qbStatus"), re.S)
+    if not status or re.search(r"\b(?:realm|access|tokens?)\b|refresh:", status.group(1)):
+        problems.append(f"{LIB.name}: qbStatus answers whether, by whom, since when and what was read, never a token or the company's id.")
+    row = re.search(r"out\.push\(\{(.*?)\}\)", fn(sec, "qbMoneyIn"), re.S)
+    keys = set(re.findall(r"(\w+)(?:[:,]|\s*$)", row.group(1))) if row else set()
+    if keys - {"kind", "id", "day", "amount", "moved", "from", "account", "String", "x", "Id"} or not row:
+        problems.append(f"{LIB.name}: a transaction keeps its kind, id, day, amount, what it moved, who it was from and its account, and nothing else.")
+    if "PrivateNote" in code or "BillEmail" in code or "Memo" in code:
+        problems.append(f"{LIB.name}: the office reads a memo or an email off the books, which privacy.html#quickbooks says it never keeps.")
+    if "updateSealed(QB_BOOKS" not in fn(sec, "officeQuickBooks"):
+        problems.append(f"{LIB.name}: what the office reads from the books is kept sealed.")
+    back = code_of(QBFN.read_text()) if QBFN.exists() else ""
+    if "qbCallback(url.searchParams, url.origin)" not in back or not re.search(r"location: '/office\.html#/dashboard/quickbooks/' \+ \(ok \? 'connected' : 'not-connected'\),\n", back):
+        problems.append(f"{QBFN.name}: Intuit's way back keeps the tokens through qbCallback and sends the person to the dashboard with nothing in the address but whether it worked.")
+
+
 def check_js():
     if not JS.exists():
         problems.append(f"{JS.name}: missing.")
@@ -420,6 +486,8 @@ def main():
     check_function()
     check_intake(lib)
     check_mail(lib)
+    check_nights(lib)
+    check_quickbooks(lib)
     check_js()
     check_css()
     check_page()

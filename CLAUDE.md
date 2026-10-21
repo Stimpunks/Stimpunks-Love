@@ -5356,7 +5356,27 @@ with `createElementNS`, drawn at the width they are shown at**, in the tasks' ta
 method's slots, light or dark by the case's measured tone): a pipeline keeps its colour on every chart, every bar says its
 number, and every chart has its numbers in a table under it, because several radio themes' cases are close to a series
 colour. The friendly edits are **a chart with no table**, **a colour per bar**, and **a summary written by a model** "so it
-reads better"; the last sends the office's data somewhere Ryan chose it would not go.
+reads better"; the last sends the office's data somewhere Ryan chose it would not go. **Two things are kept rather than
+worked out, because nothing else remembers them**: a sealed line a night (`officeNightly`, from `cb-office-daily.mjs` at
+05:50 UTC, late evening in Colorado), counts only, since a record keeps no history of its stages; and the CB's messages a
+day (`countMessage` from `cb-transmit`, `channel-days`), three numbers, World, the rooms and `MOD_ROOMS`, **with no handle,
+no room and no words**, so a quiet room is never named. Both keep 400 days. The friendly edits are **a count per room**
+("which rooms are busy"), which names a quiet room and is the World room's busiest order turned into numbers, and **counting
+direct messages**; each is Ryan's call and `privacy.html#day-counts` first. Each pipeline has its own cap
+(`dashboard.active_cap`, Ryan's answer after the first live reading added both pipelines against one cap).
+
+**QUICKBOOKS IS READ AND NEVER WRITTEN, AND ITS TOKENS NEVER LEAVE THE SERVER.** Ryan's choice, 2026-10-21: an Intuit app
+of ours (`CB_QB_CLIENT_ID`, `CB_QB_CLIENT_SECRET` in Netlify), connected from the dashboard by a director. `qbConnect` keeps a
+sealed state and hands back Intuit's address; Intuit sends them back to `/cb/office/quickbooks` (`cb-office-qb.mjs`), and
+`qbCallback` keeps the tokens sealed in `office-qb` only for that state, unused and under ten minutes old. `officeQuickBooks`
+(each night from `cb-office-daily.mjs`, and on Read the books now) refreshes the access token, **keeping whatever refresh
+token Intuit hands back**, and keeps the last `QB_DAYS` of money in and this year's profit and loss, sealed, replacing the last
+read. A deposit line linked to a payment or a receipt already listed is not counted again (`moved`), and the report is read
+by its groups' names, never by row position, because Intuit's newer Reports API orders rows as it likes and leaves an empty
+value as `""`. `qbStatus` is the only answer about it and never carries a token or the company's id. **Intuit's redirect URI
+must be exactly `https://stimpunks.world/cb/office/quickbooks`**, so a deploy preview cannot connect. The friendly edits are
+**a memo or an email kept "for context"**, **writing to the books** (an invoice from a grant request, say), and **a token in
+the page "to call Intuit from the browser"**; each is Ryan's call and `privacy.html#quickbooks` first. `make-office.py` holds it.
 
 **A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
 2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one

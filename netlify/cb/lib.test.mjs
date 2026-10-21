@@ -3791,7 +3791,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
-  mailOutbox, mailSentFor, unknownFillIns } from './lib.mjs';
+  mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
+  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4556,6 +4557,61 @@ test('the dashboard works its figures out from the records: EspoCRM’s four rep
   assert.equal(r.noSubmitted, 0);
 }));
 
+test('the CB counts messages a day in three numbers and keeps no name, no room and no words', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const day = Date.parse('2026-10-18T18:00:00Z');
+  assert.equal(await countMessage(null, s, day), 'world');
+  assert.equal(await countMessage(WORLD_CALL, s, day), 'world');
+  assert.equal(await countMessage('the-den', s, day), 'rooms');
+  assert.equal(await countMessage('the-secret-cabin', s, day), 'mods', 'a locked room that keeps to itself was not counted with the locked rooms');
+  assert.equal(await countMessage('town-hall-board', s, day), 'mods');
+  assert.deepEqual(await readDayCounts(s), { '2026-10-18': { world: 2, rooms: 1, mods: 2 } });
+  assert.doesNotMatch(JSON.stringify(await s.get('channel-days', { type: 'json' })), /den|cabin|town-hall|world-call|stimpunks-world/, 'a room was named in the counts');
+  // A day past DAY_COUNTS_DAYS goes on the next write.
+  await countMessage(null, s, day + DAY_COUNTS_DAYS * 86400000);
+  assert.deepEqual(Object.keys(await readDayCounts(s)), [new Date(day + DAY_COUNTS_DAYS * 86400000).toISOString().slice(0, 10)]);
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen messages counted at once, ${etagOnRead ? 'with' : 'without'} an etag on reads: none told it was counted is missing`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const now = Date.parse('2026-10-18T18:00:00Z');
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => countMessage(i % 3 ? 'the-den' : null, s, now)));
+    const c = (await readDayCounts(s))['2026-10-18'];
+    const counted = told.filter((r) => r.status === 'fulfilled').map((r) => r.value);
+    assert.equal(c.world + c.rooms + c.mods, counted.length, 'a message told it was counted is missing, or one was counted twice');
+    assert.equal(c.world, counted.filter((k) => k === 'world').length);
+  });
+}
+
+test('each night the office keeps what was open, sealed, one line a night, and the dashboard shows the lines and the CB’s days', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  await saveGrant(TRYAN, { name: 'A', pipeline: 'Mutual Aid', stage: 'Holding', contact: ada.id, submitted: '2026-10-15' }, s, T0);
+  await saveGrant(TRYAN, { name: 'B', pipeline: 'Mutual Aid', stage: 'Holding', contact: ada.id, submitted: '2025-10-15' }, s, T0);
+  await saveGrant(TRYAN, { name: 'C', pipeline: 'Creator Grants', stage: 'Granted', contact: ada.id, submitted: '2026-10-15', closed: '2026-10-16' }, s, T0);
+  await saveCase(TRYAN, { name: 'Connection Request: Ada', submitted: '2026-10-17', contact: ada.id }, s, T0);
+  await saveTask(TCHELSEA, { name: 'Late', due: '2026-10-10', who: 'norah' }, s, T0, TMODS);
+  const night = Date.parse('2026-10-18T05:50:00Z');   // 23:50 the night before, in Colorado
+  assert.deepEqual(await officeNightly(s, night), { day: '2026-10-17', line: { grants: { 'Mutual Aid': 2, 'Creator Grants': 0 }, active: { 'Mutual Aid': 1, 'Creator Grants': 0 }, cases: 1, tasks: 1, overdue: 1 } });
+  assertSealed(await s.get('office-nights', { type: 'json' }), ['Mutual Aid', 'overdue']);
+  await saveCase(TRYAN, { name: 'Volunteer Application: Ada', submitted: '2026-10-17', contact: ada.id }, s, T0);
+  await officeNightly(s, night + 60000);
+  await officeNightly(s, night + 86400000);
+  // An old night goes.
+  await officeNightly(s, night - OFFICE_NIGHTS_KEEP * 86400000);
+  await officeNightly(s, night + 2 * 86400000);
+  await countMessage(null, s, T0);
+  await countMessage('the-den', s, T0);
+  const d = await officeDashboard(TRYAN, s, T0);
+  assert.deepEqual(d.nights.map((x) => [x.day, x.grants, x.cases]), [['2026-10-17', [2, 0], 2], ['2026-10-18', [2, 0], 2]], 'the same night run again added a line, or a night was lost');
+  assert.equal(d.firstNight, '2026-10-17', 'a night older than OFFICE_NIGHTS_KEEP was kept');
+  assert.equal(d.cb.days.length, 30);
+  assert.deepEqual(d.cb.days.at(-1), { day: '2026-10-18', counts: [1, 1, 0] });
+  assert.deepEqual(d.cb.week, { now: 2, before: 0 });
+  await withOfficeKey(null, async () => assert.equal((await officeNightly(s, night)).error, 'shut'));
+}));
+
 const DEAR = { name: 'Holding note', subject: 'About {grant}', body: 'Dear {first},\n\nYour {amount} request is at {stage} in {pipeline}, sent {submitted}.\n\nStimpunks' };
 
 test('a mailing template refuses a fill-in the office does not know', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
@@ -4705,4 +4761,114 @@ test('fifteen emails to one contact at once: every one kept on their list', () =
   const kept = told.filter((r) => r.status === 'fulfilled' && r.value.kept).length;
   assert.equal((await officeContact(TRYAN, ada.id, s)).mail.length, kept, 'an email told it was kept is missing from its contact');
   assert.equal(kept, 15);
+})));
+
+/* QuickBooks against a fake Intuit: the tokens endpoint, the query and report
+   endpoints and the revoke endpoint, each checking what it is sent. */
+async function withQbApp(on, fn) {
+  const was = [process.env.CB_QB_CLIENT_ID, process.env.CB_QB_CLIENT_SECRET];
+  if (on) { process.env.CB_QB_CLIENT_ID = 'app-id'; process.env.CB_QB_CLIENT_SECRET = 'app-secret-words'; }
+  else { delete process.env.CB_QB_CLIENT_ID; delete process.env.CB_QB_CLIENT_SECRET; }
+  try { return await fn(); } finally {
+    if (was[0] == null) delete process.env.CB_QB_CLIENT_ID; else process.env.CB_QB_CLIENT_ID = was[0];
+    if (was[1] == null) delete process.env.CB_QB_CLIENT_SECRET; else process.env.CB_QB_CLIENT_SECRET = was[1];
+  }
+}
+const QB_PL = { Columns: { Column: [{ ColTitle: '' }, { ColTitle: 'Jan 2026' }, { ColTitle: 'Feb 2026' }, { ColTitle: 'Total' }] },
+  Rows: { Row: [
+    { type: 'Section', group: 'Expenses', Summary: { ColData: [{ value: 'Total Expenses' }, { value: '40.00' }, { value: '10' }, { value: '50' }] } },
+    { type: 'Section', group: 'Income', Header: { ColData: [{ value: 'Income' }, { value: '' }, { value: '' }, { value: '' }] },
+      Rows: { Row: [{ type: 'Data', ColData: [{ value: 'Donations' }, { value: '100.00' }, { value: '' }, { value: '100.00' }] }] },
+      Summary: { ColData: [{ value: 'Total Income' }, { value: '100.00' }, { value: '' }, { value: '100.00' }] } },
+    { type: 'Section', group: 'NetIncome', Summary: { ColData: [{ value: 'Net Income' }, { value: '60.00' }, { value: '-10.00' }, { value: '50.00' }] } }] } };
+function fakeIntuit(seen) {
+  const res = (body, ok = true) => ({ ok, status: ok ? 200 : 400, json: async () => body });
+  return async (url, opts = {}) => {
+    const u = new URL(url);
+    seen.push(u.origin + u.pathname);
+    if (u.href === 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer') {
+      assert.equal(opts.headers.authorization, 'Basic ' + Buffer.from('app-id:app-secret-words').toString('base64'));
+      const f = new URLSearchParams(opts.body);
+      if (f.get('grant_type') === 'authorization_code' && f.get('code') === 'the-code' && f.get('redirect_uri') === 'https://stimpunks.world/cb/office/quickbooks') {
+        return res({ access_token: 'access-one', refresh_token: 'refresh-one', expires_in: 3600, x_refresh_token_expires_in: 8640000 });
+      }
+      if (f.get('grant_type') === 'refresh_token' && f.get('refresh_token') === 'refresh-one') {
+        return res({ access_token: 'access-two', refresh_token: 'refresh-two', expires_in: 3600, x_refresh_token_expires_in: 8640000 });
+      }
+      return res({ error: 'invalid_grant' }, false);
+    }
+    if (u.origin === 'https://quickbooks.api.intuit.com') {
+      assert.equal(opts.headers.authorization, 'Bearer access-two', 'the books were read without a fresh token');
+      assert.equal(u.searchParams.get('minorversion'), '75');
+      if (u.pathname === '/v3/company/9130354700000001/query') {
+        const q = u.searchParams.get('query');
+        assert.match(q, /where TxnDate >= '2026-09-19'/);
+        if (/from Deposit/.test(q)) return res({ QueryResponse: { Deposit: [
+          { Id: '7', TxnDate: '2026-10-17', TotalAmt: 150, DepositToAccountRef: { name: 'Checking' }, PrivateNote: 'a memo nobody keeps',
+            Line: [{ Amount: 100, LinkedTxn: [{ TxnId: '5', TxnType: 'Payment' }] }, { Amount: 50, DepositLineDetail: { Entity: { name: 'Givebutter' } } }] }] } });
+        if (/from Payment/.test(q)) return res({ QueryResponse: { Payment: [{ Id: '5', TxnDate: '2026-10-15', TotalAmt: 100, CustomerRef: { name: 'Ada Lovelace' }, DepositToAccountRef: { name: 'Undeposited Funds' } }] } });
+        if (/from SalesReceipt/.test(q)) return res({ QueryResponse: {} });
+      }
+      if (u.pathname === '/v3/company/9130354700000001/reports/ProfitAndLoss') {
+        assert.deepEqual([u.searchParams.get('start_date'), u.searchParams.get('end_date'), u.searchParams.get('summarize_column_by')], ['2026-01-01', '2026-10-18', 'Month']);
+        return res(QB_PL);
+      }
+    }
+    if (u.href === 'https://developer.api.intuit.com/v2/oauth2/tokens/revoke') {
+      assert.equal(JSON.parse(opts.body).token, 'refresh-two', 'the refresh token Intuit last gave was not the one revoked');
+      return res({});
+    }
+    return res({}, false);
+  };
+}
+
+test('QuickBooks: a state works once and only fresh, the tokens are sealed and never sent, and the books are read as money in and profit and loss', () => withOfficeKey(OFFICE_TEST_KEY, () => withQbApp(true, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const seen = [], fake = fakeIntuit(seen), site = 'https://stimpunks.world';
+  assert.equal((await qbConnect(TSAM, site, s, T0)).error, 'office');
+  const back = (go, extra = {}) => { const st = new URL(go).searchParams.get('state'); return new URLSearchParams({ code: 'the-code', state: st, realmId: '9130354700000001', ...extra }); };
+  let go = (await qbConnect(TRYAN, site, s, T0)).go;
+  const q = new URL(go).searchParams;
+  assert.equal(new URL(go).origin + new URL(go).pathname, 'https://appcenter.intuit.com/connect/oauth2');
+  assert.deepEqual([q.get('client_id'), q.get('response_type'), q.get('scope'), q.get('redirect_uri')], ['app-id', 'code', QB_SCOPE, site + '/cb/office/quickbooks']);
+  // A state too old is refused, and so is a wrong one.
+  assert.equal((await qbCallback(back(go), site, s, T0 + 11 * 60 * 1000, fake)).error, 'state');
+  go = (await qbConnect(TRYAN, site, s, T0)).go;
+  assert.equal((await qbCallback(back(go, { state: 'not-the-state' }), site, s, T0 + 1000, fake)).error, 'state');
+  go = (await qbConnect(TRYAN, site, s, T0)).go;
+  assert.equal((await qbCallback(back(go, { realmId: '../../x' }), site, s, T0 + 1000, fake)).error, 'code');
+  go = (await qbConnect(TRYAN, site, s, T0)).go;
+  assert.deepEqual(await qbCallback(back(go), site, s, T0 + 1000, fake), { connected: true });
+  assert.equal((await qbCallback(back(go), site, s, T0 + 2000, fake)).error, 'state', 'a state worked twice');
+  assertSealed(await s.get('office-qb', { type: 'json' }), ['access-one', 'refresh-one', '9130354700000001']);
+  // Read two hours on: the access token is refreshed and Intuit's new refresh token kept.
+  const read = await officeQuickBooks(s, T0 + 2 * 3600 * 1000, fake);
+  assert.equal(read.count, 2);
+  const st = await qbStatus(TRYAN, s);
+  assert.deepEqual([st.ready, st.connected, st.by], [true, true, 'Ryan']);
+  assert.deepEqual(st.books.moneyIn, [
+    { kind: 'Deposit', id: '7', day: '2026-10-17', amount: 50, moved: 100, from: 'Givebutter', account: 'Checking' },
+    { kind: 'Payment', id: '5', day: '2026-10-15', amount: 100, moved: 0, from: 'Ada Lovelace', account: 'Undeposited Funds' }]);
+  assert.deepEqual(st.books.profitLoss, { months: [{ month: 'Jan 2026', income: 100, expense: 40, net: 60 }, { month: 'Feb 2026', income: 0, expense: 10, net: -10 }],
+    accounts: [{ account: 'Donations', total: 100 }] });
+  const said = JSON.stringify(st);
+  for (const w of ['access-two', 'refresh-two', '9130354700000001', 'a memo nobody keeps']) assert.ok(!said.includes(w), `the page was sent ${w}`);
+  assertSealed(await s.get('office-qb', { type: 'json' }), ['access-two', 'refresh-two']);
+  assertSealed(await s.get('office-qb-books', { type: 'json' }), ['Givebutter', 'Ada Lovelace']);
+  assert.equal(await qbStatus(TSAM, s), null);
+  assert.equal((await qbDisconnect(TSAM, s, fake)).error, 'office');
+  assert.ok((await qbDisconnect(TRYAN, s, fake)).gone);
+  assert.ok(seen.includes('https://developer.api.intuit.com/v2/oauth2/tokens/revoke'));
+  const after = await qbStatus(TRYAN, s);
+  assert.deepEqual([after.connected, after.books], [false, null]);
+  assert.equal((await officeQuickBooks(s, T0, fake)).error, 'not-connected');
+  assert.ok(seen.every((x) => /^https:\/\/(oauth\.platform\.intuit\.com|quickbooks\.api\.intuit\.com|developer\.api\.intuit\.com)\//.test(x)), 'the office asked somewhere other than Intuit');
+})));
+
+test('QuickBooks: without our Intuit app in the settings, or without the office key, nothing runs', () => withOfficeKey(OFFICE_TEST_KEY, () => withQbApp(false, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal((await qbConnect(TRYAN, 'https://stimpunks.world', s, T0)).error, 'not-set-up');
+  assert.equal((await officeQuickBooks(s, T0, fakeIntuit([]))).error, 'not-set-up');
+  assert.equal((await qbStatus(TRYAN, s)).ready, false);
+  await withQbApp(true, () => withOfficeKey(null, async () => assert.equal((await qbConnect(TRYAN, 'https://stimpunks.world', s, T0)).error, 'not-set-up')));
 })));

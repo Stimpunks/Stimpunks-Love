@@ -1656,9 +1656,11 @@
   function compactMoney(n) { return n >= 1000 ? '$' + Math.round(n / 100) / 10 + 'K' : '$' + n; }
   function stacked(art, w, o) {
     var fmt = o.fmt || String, cols = o.cols;
-    var leg = el('p', 'of-legend');
-    o.series.forEach(function (s, i) { var it = el('span', 'of-legend__it'); it.appendChild(el('span', 'of-swatch ' + o.cls[i])); it.appendChild(document.createTextNode(s)); leg.appendChild(it); });
-    art.appendChild(leg);
+    if (o.series.length > 1) {
+      var leg = el('p', 'of-legend');
+      o.series.forEach(function (s, i) { var it = el('span', 'of-legend__it'); it.appendChild(el('span', 'of-swatch ' + o.cls[i])); it.appendChild(document.createTextNode(s)); leg.appendChild(it); });
+      art.appendChild(leg);
+    }
     var axisW = o.money ? 46 : 30, top = 18, base = 150, axisH = 22, h = top + base + axisH;
     var totals = cols.map(function (c) { return c.counts.reduce(function (a, b) { return a + b; }, 0); });
     var max = Math.max(1, Math.max.apply(null, totals));
@@ -1671,7 +1673,7 @@
       svg.appendChild(sv('line', { x1: axisW, x2: w, y1: gy, y2: gy, class: g ? 'of-grid' : 'of-axis' }));
       svg.appendChild(sv('text', { x: axisW - 6, y: gy, class: 'of-tick', 'text-anchor': 'end', 'dominant-baseline': 'central' }, o.money ? compactMoney(g) : String(g)));
     }
-    var slot = (w - axisW) / Math.max(1, cols.length), bw = Math.min(24, slot * 0.6);
+    var slot = (w - axisW) / Math.max(1, cols.length), bw = Math.min(24, slot * 0.6), every = Math.max(1, Math.ceil(46 / slot));
     cols.forEach(function (c, i) {
       var cx = axisW + slot * i + slot / 2, x = cx - bw / 2, y = top + base;
       var parts = [];
@@ -1684,13 +1686,70 @@
         }
         y = y1;
       });
-      if (totals[i] && slot >= 34) svg.appendChild(sv('text', { x: cx, y: y - 5, class: 'of-value', 'text-anchor': 'middle' }, o.money ? compactMoney(totals[i]) : fmt(totals[i])));
-      svg.appendChild(sv('text', { x: cx, y: top + base + 15, class: 'of-tick', 'text-anchor': 'middle' }, c.label));
+      if (totals[i] && slot >= 34 && !o.bare) svg.appendChild(sv('text', { x: cx, y: y - 5, class: 'of-value', 'text-anchor': 'middle' }, o.money ? compactMoney(totals[i]) : fmt(totals[i])));
+      if ((cols.length - 1 - i) % every === 0) svg.appendChild(sv('text', { x: cx, y: top + base + 15, class: 'of-tick', 'text-anchor': 'middle' }, c.label));
       var hit = sv('rect', { x: axisW + slot * i, y: 0, width: slot, height: h, class: 'of-hit' });
-      hoverable(hit, [{ text: fmt(totals[i]) + ' in ' + c.label }].concat(o.series.map(function (s, j) { return { text: s + ': ' + fmt(c.counts[j]), key: o.cls[j] }; })));
+      hoverable(hit, [{ text: fmt(totals[i]) + (o.on ? ' on ' : ' in ') + (c.long || c.label) }].concat(o.series.length > 1 ? o.series.map(function (s, j) { return { text: s + ': ' + fmt(c.counts[j]), key: o.cls[j] }; }) : []).concat((c.more || []).map(function (t) { return { text: t }; })));
       svg.appendChild(hit);
     });
     art.appendChild(svg);
+  }
+  /* Lines, one per series, on one axis: 2px each, a dot on the last night,
+     ticks on the left, the first and last day underneath, and a crosshair that
+     says every series at the point under it. o is { series, cls, dash, days,
+     rows } with rows[i] the values for days[i]; names, if given, label the
+     points instead of their days, and money says the values are dollars. */
+  function lines(art, w, o) {
+    var name = function (i) { return o.names ? o.names[i] : dayShort(o.days[i]); };
+    var fmt = o.money ? money : String;
+    if (o.series.length > 1) {
+      var leg = el('p', 'of-legend');
+      o.series.forEach(function (s, i) { var it = el('span', 'of-legend__it'); it.appendChild(el('span', 'of-swatch ' + o.cls[i] + (o.dash && o.dash[i] ? ' of-swatch--dash' : ''))); it.appendChild(document.createTextNode(s)); leg.appendChild(it); });
+      art.appendChild(leg);
+    }
+    var axisW = o.money ? 50 : 34, top = 12, base = 120, axisH = 22, right = 10, h = top + base + axisH;
+    var all = []; o.rows.forEach(function (r) { all = all.concat(r); });
+    var max = Math.max(1, Math.max.apply(null, all));
+    var raw = max / 3, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = Math.max(1, Math.ceil([1, 2, 2.5, 5, 10].map(function (m) { return m * mag; }).filter(function (v) { return v >= raw; })[0]));
+    if (o.money) step = Math.max(1, step);
+    var nice = step * Math.ceil(max / step);
+    var svg = sv('svg', { width: w, height: h, viewBox: '0 0 ' + w + ' ' + h, role: 'img', 'aria-hidden': 'true', class: 'of-chart' });
+    for (var g = 0; g <= nice; g += step) {
+      var gy = top + base - base * g / nice;
+      svg.appendChild(sv('line', { x1: axisW, x2: w - right, y1: gy, y2: gy, class: g ? 'of-grid' : 'of-axis' }));
+      svg.appendChild(sv('text', { x: axisW - 6, y: gy, class: 'of-tick', 'text-anchor': 'end', 'dominant-baseline': 'central' }, o.money ? compactMoney(g) : String(g)));
+    }
+    var n = o.rows.length, span = w - axisW - right - 8;
+    var xAt = function (i) { return axisW + 4 + (n > 1 ? span * i / (n - 1) : span / 2); };
+    var yAt = function (v) { return top + base - base * Math.max(0, v) / nice; };
+    o.series.forEach(function (s, j) {
+      if (n > 1) {
+        var d = o.rows.map(function (r, i) { return (i ? 'L' : 'M') + xAt(i).toFixed(1) + ' ' + yAt(r[j]).toFixed(1); }).join('');
+        svg.appendChild(sv('path', { d: d, class: 'of-line ' + o.cls[j] + (o.dash && o.dash[j] ? ' of-line--dash' : '') }));
+      }
+      var last = o.rows[n - 1][j];
+      svg.appendChild(sv('circle', { cx: xAt(n - 1), cy: yAt(last), r: 4, class: 'of-dot ' + o.cls[j] }));
+    });
+    [0, n - 1].filter(function (i, k, a) { return a.indexOf(i) === k; }).forEach(function (i) {
+      svg.appendChild(sv('text', { x: xAt(i), y: top + base + 15, class: 'of-tick', 'text-anchor': n > 1 ? (i ? 'end' : 'start') : 'middle' }, name(i)));
+    });
+    var cross = sv('line', { x1: 0, x2: 0, y1: top, y2: top + base, class: 'of-cross' });
+    cross.style.display = 'none';
+    svg.appendChild(cross);
+    var hit = sv('rect', { x: axisW, y: 0, width: w - axisW, height: h, class: 'of-hit' });
+    hit.addEventListener('pointermove', function (e) {
+      var r = svg.getBoundingClientRect(), x = e.clientX - r.left;
+      var i = n > 1 ? Math.max(0, Math.min(n - 1, Math.round((x - axisW - 4) / span * (n - 1)))) : 0;
+      cross.setAttribute('x1', xAt(i)); cross.setAttribute('x2', xAt(i)); cross.style.display = '';
+      tipShow(e, [{ text: name(i) }].concat(o.series.map(function (s, j) { return { text: s + ': ' + fmt(o.rows[i][j]), key: o.cls[j] }; })));
+    });
+    hit.addEventListener('pointerleave', function () { cross.style.display = 'none'; tipHide(); });
+    svg.appendChild(hit);
+    art.appendChild(svg);
+  }
+  function dayShort(v) {
+    var p = String(v).split('-');
+    try { return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString(undefined, { day: 'numeric', month: 'short' }); } catch (e) { return v; }
   }
   /* The cap, as a track filled to how many there are, and words beside it. */
   function meter(count, cap, cls, name) {
@@ -1731,13 +1790,112 @@
     return t;
   }
 
-  function dashboardView() {
+  /* QuickBooks, as the office last read it (Ryan, 2026-10-21). Not connected,
+     it says so and offers Connect, which goes to Intuit and comes back; once
+     connected, money in over the last days the server read and this year's
+     profit and loss by month, read late each evening and on Read the books
+     now. Nothing here writes to our books. */
+  function quickBooksFigure(q) {
+    var f = el('figure', 'of-fig of-fig--wide');
+    f.appendChild(el('figcaption', 'of-fig__title', 'QuickBooks'));
+    var tools = el('p', 'of-row');
+    if (!q || !q.ready) {
+      f.appendChild(quiet('QuickBooks is not set up yet: the office needs our Intuit app’s id and secret in Netlify’s settings.'));
+      return f;
+    }
+    if (!q.connected) {
+      f.appendChild(quiet('The office is not connected to QuickBooks. Connecting takes you to Intuit to sign in and choose our company, then brings you back here. From then on the office reads the books late each evening, and never writes to them.'));
+      var go = el('button', 'cb-btn of-small', 'Connect QuickBooks'); go.type = 'button';
+      go.addEventListener('click', function () {
+        go.disabled = true;
+        call(null, { action: 'qb-connect' }).then(function (r) {
+          if (r.status !== 200 || !r.body.go) { go.disabled = false; say(why(r, 'That did not start. Nothing was changed.')); return; }
+          location.assign(r.body.go);
+        });
+      });
+      tools.appendChild(go);
+      f.appendChild(tools);
+      return f;
+    }
+    var b = q.books;
+    f.appendChild(quiet('Connected by ' + q.by + ' on ' + when(q.since) + '. ' + (b ? 'The books were last read ' + when(b.read) + '.' : 'The books have not been read yet.') +
+      (q.stale ? ' Intuit’s permission has run out: disconnect, then connect again.' : '')));
+    if (b) {
+      var inn = b.moneyIn, total = inn.reduce(function (n, x) { return n + x.amount; }, 0);
+      var said = el('ul', 'of-theirs of-said-list');
+      said.appendChild(el('li', null, money(Math.round(total * 100) / 100) + ' came in from ' + dayWords(b.from) + ' to ' + dayWords(b.day) + ', in ' + plural(inn.filter(function (x) { return x.amount; }).length, 'deposit, payment or sales receipt', 'deposits, payments and sales receipts') + '.'));
+      var pl = b.profitLoss, inc = pl.months.reduce(function (n, x) { return n + x.income; }, 0), exp = pl.months.reduce(function (n, x) { return n + x.expense; }, 0);
+      if (pl.months.length) said.appendChild(el('li', null, 'This year so far, income was ' + money(Math.round(inc)) + ' and expenses ' + money(Math.round(exp)) + ', ' + (inc >= exp ? money(Math.round(inc - exp)) + ' more in than out.' : money(Math.round(exp - inc)) + ' more out than in.')));
+      f.appendChild(said);
+      var small = el('div', 'of-small');
+      var days = []; for (var dd = b.from; dd <= b.day; dd = nextDay(dd)) days.push(dd);
+      var perDay = days.map(function (x) { var on = inn.filter(function (t) { return t.day === x; }); return { day: x, total: on.reduce(function (n, t) { return n + t.amount; }, 0), count: on.length }; });
+      var mf = figure('Money in each day', function (art, w) {
+        stacked(art, w, { series: ['Money in'], cls: ['of-c6'], money: true, on: true, bare: true, fmt: money, cols: perDay.map(function (x) {
+          return { label: dayShort(x.day), long: dayWords(x.day), counts: [Math.round(x.total * 100) / 100], more: [plural(x.count, 'transaction')] };
+        }) });
+      }, numbersTable(['Day', 'Money in', 'Transactions'], perDay.slice().reverse().filter(function (x) { return x.count; }).map(function (x) { return [dayWords(x.day), money(Math.round(x.total * 100) / 100), x.count]; })));
+      mf.classList.add('of-fig--small');
+      small.appendChild(mf);
+      if (pl.months.length) {
+        var pf = figure('Income and expenses this year, by month', function (art, w) {
+          lines(art, w, { series: ['Income', 'Expenses'], cls: ['of-c6', 'of-c7'], money: true, names: pl.months.map(function (x) { return x.month; }), rows: pl.months.map(function (x) { return [x.income, x.expense]; }) });
+        }, numbersTable(['Month', 'Income', 'Expenses', 'Net'], pl.months.map(function (x) { return [x.month, money(x.income), money(x.expense), money(x.net)]; })));
+        pf.classList.add('of-fig--small');
+        small.appendChild(pf);
+      }
+      f.appendChild(small);
+      // The newest money in, as QuickBooks names who it was from.
+      var shown = inn.filter(function (x) { return x.amount || x.moved; }).slice(0, 12);
+      if (shown.length) {
+        f.appendChild(el('h3', 'of-fig__title', 'The newest money in'));
+        f.appendChild(numbersTable(['Day', 'Kind', 'From', 'Into', 'Amount'], shown.map(function (x) {
+          return [dayWords(x.day), x.kind, x.from || '', x.account || '', x.amount ? money(x.amount) : 'already listed (' + money(x.moved) + ')'];
+        })));
+      }
+    }
+    var read = el('button', 'cb-btn of-small', 'Read the books now'); read.type = 'button';
+    read.addEventListener('click', function () {
+      read.disabled = true;
+      say('Reading the books…');
+      call(null, { action: 'qb-read' }).then(function (r) {
+        read.disabled = false;
+        if (r.status !== 200) { say(why(r, 'The books could not be read just now. What the office last read is still here.')); return; }
+        say('Read.');
+        dashboardView();
+      });
+    });
+    var off = el('button', 'cb-btn of-small', 'Disconnect'); off.type = 'button';
+    off.addEventListener('click', function () {
+      sure(f, 'This tells Intuit the office may no longer read our books, and deletes what the office last read. Our books in QuickBooks are not touched.', 'Disconnect', function (done) {
+        call(null, { action: 'qb-disconnect' }).then(function (r) {
+          done();
+          if (r.status !== 200) { say(why(r, 'That did not disconnect. Nothing was changed.')); return; }
+          say('Disconnected.');
+          dashboardView();
+        });
+      }, off);
+    });
+    tools.appendChild(read); tools.appendChild(off);
+    f.appendChild(tools);
+    return f;
+  }
+  function nextDay(v) {
+    var p = v.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + 1));
+    return d.toISOString().slice(0, 10);
+  }
+  function dashboardView(back) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
     return call('view=dashboard').then(function (r) {
       if (r.status !== 200) return refused(r);
       took(r.body);
-      return drawDashboard(r.body.dashboard);
+      var h = drawDashboard(r.body.dashboard);
+      // Back from Intuit, the address says only whether connecting worked.
+      if (back === 'connected') say('QuickBooks is connected. The office has read the books, and reads them again late each evening.');
+      else if (back === 'not-connected') say('QuickBooks was not connected. Nothing was changed; Connect QuickBooks tries again.');
+      if (back) history.replaceState(null, '', '#/dashboard');
+      return h;
     });
   }
   function drawDashboard(d) {
@@ -1758,6 +1916,7 @@
     }).join('; ') + '.');
     line('This year ' + plural(g.decided.granted, 'grant request') + (g.decided.granted === 1 ? ' was' : ' were') + ' granted, ' + money(g.decided.grantedSum) + ' in all, and ' + g.decided.denied + ' denied.');
     line(plural(t.open, 'task') + (t.open === 1 ? ' is' : ' are') + ' open: ' + t.overdue + ' overdue and ' + t.dueSoon + ' due in the next seven days.');
+    line(plural(d.cb.week.now, 'message') + ' went out on the CB this week, ' + against(d.cb.week.now, d.cb.week.before) + '.');
     if (m.waiting || m.sentWeek) line(plural(m.sentWeek, 'mailing email') + ' went this week' + (m.waiting ? ', and ' + m.waiting + (m.waiting === 1 ? ' is' : ' are') + ' waiting for the team mailbox' : '') + '.');
     view.appendChild(said);
 
@@ -1788,6 +1947,43 @@
       numbersTable(['Month'].concat(g.pipelines).concat(['Every pipeline']), g.months.map(function (x) {
         return [monthWords(x.month)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
       }))));
+    // The CB, how many messages a day on its channels, and never whose.
+    var cbSeries = ['World', 'The rooms', 'The moderators’ rooms'];
+    var cbFig = figure('CB messages each day', function (art, w) {
+      stacked(art, w, { series: ['Messages'], cls: ['of-c5'], on: true, bare: true, cols: d.cb.days.map(function (x) {
+        return { label: dayShort(x.day), long: dayWords(x.day), counts: [x.counts.reduce(function (a, b) { return a + b; }, 0)],
+          more: cbSeries.map(function (n, i) { return n + ': ' + x.counts[i]; }) };
+      }) });
+    }, numbersTable(['Day'].concat(cbSeries).concat(['Every channel']), d.cb.days.slice().reverse().map(function (x) {
+      return [dayWords(x.day)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
+    })));
+    cbFig.classList.add('of-fig--wide');
+    cbFig.appendChild(el('p', 'cb-quiet', 'Messages sent on World and in the rooms, by the street’s clock. ' + (d.cb.since ? 'Counted since ' + dayWords(d.cb.since) + '.' : 'Counting starts with the next message.') + ' A count is all that is kept: no name, no room and no words. Direct messages are not counted.'));
+    grid.appendChild(cbFig);
+    // Each night, what was open: kept as it happened, so it starts on the first night.
+    var nights = d.nights;
+    var nf = el('figure', 'of-fig of-fig--wide');
+    nf.appendChild(el('figcaption', 'of-fig__title', 'Open each night'));
+    if (!nights.length) {
+      nf.appendChild(el('p', 'cb-quiet', 'The office keeps a count of what is open late each evening, and the first is still to come. A line needs two nights.'));
+    } else {
+      var small = el('div', 'of-small');
+      function nightChart(title, series, cls, rows, dash) {
+        var f = figure(title, function (art, w) {
+          lines(art, w, { series: series, cls: cls, dash: dash, days: nights.map(function (x) { return x.day; }), rows: rows });
+        }, numbersTable(['Night'].concat(series), nights.slice().reverse().map(function (x, i) { return [dayWords(x.day)].concat(rows[nights.length - 1 - i]); })));
+        f.classList.add('of-fig--small');
+        small.appendChild(f);
+      }
+      nightChart('Open grant requests', g.pipelines, ['of-c1', 'of-c2'], nights.map(function (x) { return x.grants; }));
+      nightChart('Open cases', ['Open cases'], ['of-c3'], nights.map(function (x) { return [x.cases]; }));
+      nightChart('Open tasks', ['Open', 'Overdue'], ['of-c4', 'of-c4'], nights.map(function (x) { return [x.tasks, x.overdue]; }), [false, true]);
+      nf.appendChild(small);
+      nf.appendChild(el('p', 'cb-quiet', 'Counted late each evening in Colorado, since ' + dayWords(d.firstNight) + (nights.length < 2 ? '. A line needs two nights.' : '; the last ' + nights.length + ' nights are shown.')));
+    }
+    grid.appendChild(nf);
+    // QuickBooks: read late each evening and on a press; nothing here writes to our books.
+    grid.appendChild(quickBooksFigure(d.quickbooks));
     // Tasks, by who they are assigned to.
     var tf = el('figure', 'of-fig');
     tf.appendChild(el('figcaption', 'of-fig__title', 'Open tasks by person'));
@@ -2327,7 +2523,7 @@
     else if (parts[0] === 'cases') done = casesView(false);
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1]);
     else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1]);
-    else if (parts[0] === 'dashboard') done = dashboardView();
+    else if (parts[0] === 'dashboard') done = dashboardView(parts[1] === 'quickbooks' ? parts[2] : null);
     else if (parts[0] === 'reports') done = reportsView();
     else if (parts[0] === 'templates' && parts[1] === 'new') done = templateFormView(null);
     else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = templateFormView(parts[2]);
