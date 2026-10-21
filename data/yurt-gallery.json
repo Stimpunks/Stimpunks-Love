@@ -112,6 +112,58 @@
       "shows": "A dark-haired woman in a blue silk dress rests her chin on her folded hands at a table, looking away to the left, with white roses in a glass vase and an open book beside her against a red curtain."
     },
     {
+      "slug": "burne-jones-beguiling-of-merlin",
+      "file": "gallery/burne-jones-beguiling-of-merlin.jpg",
+      "painter": "Edward Burne-Jones",
+      "died": 1898,
+      "title": "The Beguiling of Merlin",
+      "year": "1874",
+      "holder": "Lady Lever Art Gallery",
+      "commons": "https://commons.wikimedia.org/wiki/File:The_Beguiling_of_Merlin_by_Edward_Burne-Jones.jpg",
+      "template": "PD-Art|PD-old-100-1923",
+      "read": "2026-10-21",
+      "shows": "A woman in a flowing blue-grey gown, a dark cloth wound in her hair, reads aloud from an open book as she steps through flowering hawthorn, looking back at an old man in dark green robes who lies limp and spellbound in the branches beside her, with white irises at her bare feet."
+    },
+    {
+      "slug": "waterhouse-magic-circle",
+      "file": "gallery/waterhouse-magic-circle.jpg",
+      "painter": "John William Waterhouse",
+      "died": 1917,
+      "title": "The Magic Circle",
+      "year": "1886",
+      "holder": "Tate Britain",
+      "commons": "https://commons.wikimedia.org/wiki/File:John_William_Waterhouse_-_Magic_Circle.JPG",
+      "template": "PD-Art|PD-old-auto-expired",
+      "read": "2026-10-21",
+      "shows": "A barefoot woman in a pale blue dress and a red sash draws a circle in the dusty ground with a long wand, a crescent sickle in her other hand, beside a cauldron steaming over a fire, with ravens and a skull waiting outside the circle and pale cliffs behind."
+    },
+    {
+      "slug": "waterhouse-hylas",
+      "file": "gallery/waterhouse-hylas.jpg",
+      "painter": "John William Waterhouse",
+      "died": 1917,
+      "title": "Hylas and the Nymphs",
+      "year": "1896",
+      "holder": "Manchester Art Gallery",
+      "commons": "https://commons.wikimedia.org/wiki/File:Waterhouse_Hylas_and_the_Nymphs_Manchester_Art_Gallery_1896.15.jpg",
+      "template": "PD-Art|PD-old-auto-1923",
+      "read": "2026-10-21",
+      "shows": "A young man in a blue tunic and a red sash leans down at the edge of a dark pond with a jug, and seven pale nymphs with long red-brown hair rise bare-shouldered from the water among the lily pads, one taking hold of his arm."
+    },
+    {
+      "slug": "hughes-night-train-of-stars",
+      "file": "gallery/hughes-night-train-of-stars.jpg",
+      "painter": "Edward Robert Hughes",
+      "died": 1914,
+      "title": "Night with her Train of Stars",
+      "year": "1912",
+      "holder": "Birmingham Museum and Art Gallery",
+      "commons": "https://commons.wikimedia.org/wiki/File:Edward_Robert_Hughes_-_Night_with_her_Train_of_Stars_-_Birmingham_Museum_and_Art_Gallery.jpg",
+      "template": "PD-Art|PD-old-auto-expired",
+      "read": "2026-10-21",
+      "shows": "Night, a crowned woman with great dark wings and a finger to her lips, sweeps across a cloudy blue sky holding a sleeping baby, trailing a crowd of small children among scattered stars, red flowers and a flight of little golden birds."
+    },
+    {
       "slug": "malevich-black-square",
       "file": "gallery/malevich-black-square.jpg",
       "painter": "Kazimir Malevich",
@@ -137,19 +189,64 @@
     }
   ],
   "shelf": {
-    "_what": "Artists whose work is still their own, so nothing of theirs hangs here: each is a spine on the Art shelf in the bookcases, linking to Wikipedia. Checked to answer 200 without a redirect on 2026-10-15.",
+    "_what": "Artists whose work is still their own, so nothing of theirs hangs here: each is a spine on the Art shelf in the bookcases, linking to Wikipedia. Checked to answer 200 without a redirect on 2026-10-15. Agnes Martin, Hiroshi Sugimoto and James Turrell joined on 2026-10-21, checked the same way that day.",
     "artists": [
-      {"name": "Dan Flavin", "wikipedia": "https://en.wikipedia.org/wiki/Dan_Flavin"},
-      {"name": "Lucio Fontana", "wikipedia": "https://en.wikipedia.org/wiki/Lucio_Fontana"},
-      {"name": "Andy Goldsworthy", "wikipedia": "https://en.wikipedia.org/wiki/Andy_Goldsworthy"},
-      {"name": "Barbara Hepworth", "wikipedia": "https://en.wikipedia.org/wiki/Barbara_Hepworth"},
-      {"name": "Donald Judd", "wikipedia": "https://en.wikipedia.org/wiki/Donald_Judd"},
-      {"name": "Imi Knoebel", "wikipedia": "https://en.wikipedia.org/wiki/Imi_Knoebel"},
-      {"name": "Kazimir Malevich", "wikipedia": "https://en.wikipedia.org/wiki/Kazimir_Malevich"},
-      {"name": "François Morellet", "wikipedia": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Morellet"},
-      {"name": "Jackson Pollock", "wikipedia": "https://en.wikipedia.org/wiki/Jackson_Pollock"},
-      {"name": "Ad Reinhardt", "wikipedia": "https://en.wikipedia.org/wiki/Ad_Reinhardt"},
-      {"name": "Mark Rothko", "wikipedia": "https://en.wikipedia.org/wiki/Mark_Rothko"}
+      {
+        "name": "Dan Flavin",
+        "wikipedia": "https://en.wikipedia.org/wiki/Dan_Flavin"
+      },
+      {
+        "name": "Lucio Fontana",
+        "wikipedia": "https://en.wikipedia.org/wiki/Lucio_Fontana"
+      },
+      {
+        "name": "Andy Goldsworthy",
+        "wikipedia": "https://en.wikipedia.org/wiki/Andy_Goldsworthy"
+      },
+      {
+        "name": "Barbara Hepworth",
+        "wikipedia": "https://en.wikipedia.org/wiki/Barbara_Hepworth"
+      },
+      {
+        "name": "Donald Judd",
+        "wikipedia": "https://en.wikipedia.org/wiki/Donald_Judd"
+      },
+      {
+        "name": "Imi Knoebel",
+        "wikipedia": "https://en.wikipedia.org/wiki/Imi_Knoebel"
+      },
+      {
+        "name": "Kazimir Malevich",
+        "wikipedia": "https://en.wikipedia.org/wiki/Kazimir_Malevich"
+      },
+      {
+        "name": "Agnes Martin",
+        "wikipedia": "https://en.wikipedia.org/wiki/Agnes_Martin"
+      },
+      {
+        "name": "François Morellet",
+        "wikipedia": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Morellet"
+      },
+      {
+        "name": "Jackson Pollock",
+        "wikipedia": "https://en.wikipedia.org/wiki/Jackson_Pollock"
+      },
+      {
+        "name": "Ad Reinhardt",
+        "wikipedia": "https://en.wikipedia.org/wiki/Ad_Reinhardt"
+      },
+      {
+        "name": "Mark Rothko",
+        "wikipedia": "https://en.wikipedia.org/wiki/Mark_Rothko"
+      },
+      {
+        "name": "Hiroshi Sugimoto",
+        "wikipedia": "https://en.wikipedia.org/wiki/Hiroshi_Sugimoto"
+      },
+      {
+        "name": "James Turrell",
+        "wikipedia": "https://en.wikipedia.org/wiki/James_Turrell"
+      }
     ]
   }
 }

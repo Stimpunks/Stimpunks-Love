@@ -114,6 +114,8 @@ sizes = {}
 seen = set()
 for i, p in enumerate(paintings):
     where = f"paintings[{i}] ({p.get('painter', '?')}, {p.get('title', '?')})"
+    if p.get("read") is not None and not DATE.match(str(p["read"])):
+        problems.append(f"{where}: `read` is not a date, YYYY-MM-DD.")
     for k in ("slug", "file", "painter", "title", "year", "commons", "template", "shows"):
         if not p.get(k):
             problems.append(f"{where}: no {k}.")
@@ -226,7 +228,17 @@ for p in paintings:
                 f'<td>{esc(p["template"])}</td>'
                 f'<td><a href="{attr(p["commons"])}">the scan</a></td></tr>')
 swap(NOTES, "yurt-gallery-credits", "\n".join(rows).lstrip(), "      ")
-swap(NOTES, "yurt-gallery-read", f'Every record was read on {esc(d["_read"])}.', "")
+# A painting hung later carries its own `read` date (2026-10-21, the second
+# hanging); the credits say which day each group was read rather than one
+# day for all.
+later = sorted({p["read"] for p in paintings if p.get("read") and p["read"] != d["_read"]})
+if later:
+    hung = "; ".join(
+        f'{len([p for p in paintings if p.get("read") == day])} hung on {esc(day)} were read that day'
+        for day in later)
+    swap(NOTES, "yurt-gallery-read", f'The records were read on {esc(d["_read"])}; the {hung}.', "")
+else:
+    swap(NOTES, "yurt-gallery-read", f'Every record was read on {esc(d["_read"])}.', "")
 
 print(f"faery yurt: {len(paintings)} paintings on the wall in {ROOM.name}, {len(artists)} artists on the Art "
       f"shelf in {SHELF.name}; {len(rows)} credit rows in {NOTES.name}")
