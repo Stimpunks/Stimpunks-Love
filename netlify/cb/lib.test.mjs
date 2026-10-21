@@ -2954,7 +2954,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   const offCurve = rnd(65); offCurve[0] = 4;
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
-  assert.deepEqual(cleanWant({}), { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [], everyRoom: false }, 'something started on');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [], everyRoom: false }, 'something started on');
   assert.equal(cleanWant({ everyRoom: 'yes' }).everyRoom, false, 'every room is on only when it is true');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
@@ -5267,4 +5267,75 @@ test('a category\'s room tells only the devices whose pass can read the category
   await notifyCall('forum-board', s, mods, send);
   assert.deepEqual(sent.map((x) => x.to), [beaDev.endpoint], 'the board\'s call was news to somebody who cannot read the board');
   assert.deepEqual(sent[0].payload, { kind: 'call', room: 'forum-board', place: { name: 'The forums: Board', path: '/forum.html#/c/board' } });
+}));
+
+/* ── Replies (Ryan's ask, 2026-10-21) ── */
+import { replyTo } from './lib.mjs';
+
+test('a reply names the message it answers by id and keeps nothing else of it', () => {
+  assert.equal(replyTo('2f1c7a9e-1b2c-4d5e-8f90-1234567890ab'), '2f1c7a9e-1b2c-4d5e-8f90-1234567890ab');
+  assert.equal(replyTo('dAbC_123-xy'), 'dAbC_123-xy');
+  for (const bad of ['', 'two words', '<b>', 'x'.repeat(65), 7, null, {}]) assert.equal(replyTo(bad), null, `took ${JSON.stringify(bad)}`);
+  const list = [{ id: 'o', handle: 'Bex', text: 'the den at 3?', t: 1 }, { id: 'r', handle: 'Ada', text: 'yes', t: 2, re: 'o' }];
+  const out = shape(list);
+  assert.equal(out[1].re, 'o');
+  assert.deepEqual(Object.keys(out[1]).sort(), ['base', 'claimed', 'handle', 'id', 're', 't', 'text'], 'a reply carried something of the message it answers');
+  assert.equal(shape([{ ...list[1], re: '<script>' }])[0].re, undefined, 'a reply passed on a link that is no id');
+  const ed = editMessage(list, 'r', 'yes, at 3', { handle: 'Ada', role: 'mobile', roles: new Set() }, 5);
+  assert.equal(ed.msg.re, 'o', 'an edit lost what the message answers');
+});
+
+test('a reply tells whoever sent the message it answers, behind its own switch, and only them', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const bexDev = aDevice(), cyDev = aDevice(), dovDev = aDevice(), adaDev = aDevice();
+  await keepDevice(bexDev, issuePass('mobile', 'Bex'), { replies: true, rooms: ['the-den'] }, s);
+  await keepDevice(cyDev, issuePass('mobile', 'Cy'), { mentions: true }, s);
+  await keepDevice(dovDev, issuePass('mobile', 'Dov'), { all: true }, s);
+  await keepDevice(adaDev, issuePass('mobile', 'Ada'), { replies: true }, s);
+  const sent = [];
+  const send = async (sub, payload, opts) => { sent.push({ to: sub.endpoint, payload, opts }); return 201; };
+  const to = (d) => sent.filter((x) => x.to === d.endpoint);
+  const reply = { id: 'r1', handle: 'Ada', text: 'yes, see you there', t: 2, re: 'o1' };
+
+  await notifyMessage(reply, 'the-den', s, readMods(''), send, { id: 'o1', handle: 'Bex', text: 'the den at 3?', t: 1 });
+  assert.equal(to(bexDev).length, 1, 'the person answered was not told, or told twice');
+  assert.equal(to(bexDev)[0].payload.why, 'reply', 'a reply to somebody who follows the room read as the channel');
+  assert.equal(to(bexDev)[0].opts.urgency, 'high');
+  assert.equal(to(adaDev).length, 0, 'Ada was told about her own reply');
+  assert.equal(to(cyDev).length + to(dovDev).length, 0, 'a reply told somebody it does not answer');
+
+  sent.length = 0;
+  // In a room nobody here follows: Everything hears every message on World.
+  await notifyMessage({ ...reply, id: 'r2' }, 'the-garden', s, readMods(''), send, { id: 'o2', handle: 'Cy', text: 'hi', t: 1 });
+  assert.equal(sent.length, 0, 'a reply told somebody who switched replies off');
+  await notifyMessage({ ...reply, id: 'r3' }, 'the-garden', s, readMods(''), send, { id: 'o3', handle: 'Dov', text: 'hi', t: 1 });
+  assert.deepEqual(sent.map((x) => [x.to, x.payload.why]), [[dovDev.endpoint, 'reply']], 'Everything missed a reply');
+
+  // A claimed username's message: a pass that is not that username's own is not its sender.
+  sent.length = 0;
+  await notifyMessage({ ...reply, id: 'r4' }, 'the-garden', s, readMods(''), send, { id: 'o4', handle: 'Bex', text: 'hi', t: 1, claimed: true });
+  assert.equal(sent.length, 0, 'a reply to a claimed username\'s message reached somebody else signed on as that name');
+  // A room that keeps to itself announces nothing outside it, a reply included.
+  const mods = readMods('{"Bex":["administrator"]}');
+  const baseDev = aDevice();
+  await keepDevice(baseDev, issuePass('base', 'Bex'), { replies: true }, s);
+  await notifyMessage({ ...reply, id: 'r5' }, QUIET_ROOMS[0], s, mods, send, { id: 'o5', handle: 'Bex', text: 'hi', t: 1, base: true });
+  assert.equal(sent.length, 0, 'a reply announced a room that keeps to itself');
+  // An edit never tells anybody about a reply again.
+  await notifyEdit({ ...reply, id: 'r6', text: 'yes, see you at 3' }, 'yes, see you there', null, s, readMods(''), send);
+  assert.equal(sent.length, 0);
+}));
+
+test('a reply in a conversation answers a message in it, there now', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  const first = (await sendDm(ada, 'Bex', 'hello', s)).sent;
+  const r = await sendDm(bex, 'Ada', { text: 'hi there', re: first.id }, s);
+  assert.equal(r.sent.re, first.id, 'a reply in a conversation lost what it answers');
+  assert.ok(r.accepted, 'answering a first message with a reply did not accept it');
+  assert.equal((await readDmWith(ada, 'Bex', s)).messages[1].re, first.id);
+  assert.equal((await sendDm(ada, 'Bex', { text: 'and?', re: 'dNoSuchOne1' }, s)).error, 'reply', 'a reply went to a message that is not there');
+  assert.equal((await sendDm(ada, 'Bex', { text: 'and?', re: 'not an id' }, s)).error, 'reply');
+  assert.equal((await readDmWith(ada, 'Bex', s)).messages.length, 2, 'a refused reply was kept');
 }));

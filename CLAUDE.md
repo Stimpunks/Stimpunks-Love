@@ -3901,6 +3901,21 @@ username delete the record. **The friendly edits are a number beside the dot, a 
 and the tab's title changing**; each is the count or the alert the street still refuses. DECISIONS.md has
 what is still open.
 
+**A REPLY POINTS AT A MESSAGE AND KEEPS NOTHING OF IT.** Ryan's ask, 2026-10-21: **Reply**, a curved arrow between
+React and the dots, on the channel's messages and an accepted conversation's, opens a bar above the box (`reBar`,
+`replyStart`, `dmReplyStart` in `cb.js`) with whose message and its first words; Cancel reply or Escape lets it go and
+keeps the words. A message carries `re`, the id of the one it answers (`replyTo` in `lib.mjs`), which `cb-transmit`
+looks for inside the same conditional write the reply goes out with, and `sendDm` inside the conversation's, and
+refuses with `gone: 're'` when it has gone. **Nothing else of the message answered is kept**: every radio draws the
+quote (`drawRe`, `reWords`) from what is on the channel now, so an edit changes it, Take off takes it, and its 48 hours
+end it, after which the reply says it answered a message no longer on the channel. The quote sits on row 1 of the
+message's grid, above the name, and first in its markup, so the live region reads who it answers first. **When somebody
+replies to me** is the `replies` push kind: `notifyMessage` takes the message answered as `to`, found by transmit and
+never kept, and tells only a device that is its sender by `canEdit`'s rule, never in a room that keeps to itself. The
+friendly edits are **a copy of the quoted words "so the quote survives"**, which keeps words past their message and past
+Take off, and **a reply that notifies by default**, which is a switch somebody did not switch on. A forum copy does not
+yet carry which message a reply answered.
+
 **A REACTION NAMES WHO AND NEVER SAYS HOW MANY.** Ryan, 2026-09-30: React on a message opens a fixed
 set (`REACTIONS` in `lib.mjs`, copied in `cb.js`: change both), pressed again to take yours back
 (`toggleReaction`, `/cb/react`, the channel's conditional write, raced fifteen at once in

@@ -510,7 +510,11 @@
   padding: 8px 10px;
 }
 .cb-log {
-  list-style: none; margin: 0; padding: 0;
+  /* A scroll box clips whatever is drawn outside it, focus rings included, and
+     a message fills the log edge to edge: so the log reaches 5px into the
+     readout's own padding and takes it back as its own, and nothing in it
+     moves, while a ring round a message or its handle has room to show. */
+  list-style: none; margin: -5px; padding: 5px;
   max-height: min(42vh, 320px); overflow-y: auto;
   /* One column that can never be wider than the radio. An automatic column
      grows to the widest thing in it, and a picture's max-width: 100% does not
@@ -525,8 +529,26 @@
   align-content: start;
 }
 .cb-msg { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 8px; row-gap: 2px; align-content: start; }
-.cb-msg > .cb-head { grid-column: 1; grid-row: 1; }
-.cb-msg > .cb-text { grid-column: 1 / -1; grid-row: 3; }
+.cb-msg > .cb-head { grid-column: 1; grid-row: 2; }
+.cb-msg > .cb-text { grid-column: 1 / -1; grid-row: 4; }
+/* A REPLY (Ryan's ask, 2026-10-21) says which message it answers on a line
+   of its own above the name, where chat puts it: who, and their first words,
+   in the time's quiet amber on the readout, so no pair is new. It is a
+   button that takes you to that message while it is on the channel, and only
+   words once it has gone. One line, cut off with an ellipsis at the radio's
+   edge; the whole of it is still the button's name. */
+.cb-msg > .cb-re {
+  grid-column: 1 / -1; grid-row: 1; justify-self: start; max-width: 100%; min-width: 0;
+  margin: 0; padding: 0; font: inherit; font-size: 13px; line-height: 1.35; text-align: left;
+  color: var(--cb-amber-2); background: none; border: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+button.cb-re { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+.cb-re__mark { margin-right: 4px; }
+.cb-re__who { font-weight: 700; color: var(--cb-amber); }
+/* The message a quote was pressed on has the keyboard, and its edge says so:
+   the readout's own amber, as the focus ring everywhere on the radio is. */
+.cb-msg:focus { outline: 2px solid var(--cb-amber); outline-offset: 2px; }
 /* React and More sit at the end of the name-and-time line rather than on a
    row of their own under every message, which doubled the log's height. They
    are two icons in one small amber-edged strip, the log's own amber on the
@@ -535,7 +557,7 @@
    off in words on every message was a lot to look at). Still real targets:
    32px square, over WCAG's 24, with the radio's own focus ring. */
 .cb-msg > .cb-acts {
-  grid-column: 2; grid-row: 1; align-self: center;
+  grid-column: 2; grid-row: 2; align-self: center;
   display: flex; gap: 2px; padding: 1px;
   background: var(--cb-lcd); border: 1px solid var(--cb-amber-2); border-radius: 6px;
 }
@@ -559,7 +581,7 @@
 /* MORE: Copy and Take off in a row straight under the line, at its right-hand
    end, under the dots that opened it. */
 .cb-msg > .cb-more-menu {
-  grid-column: 1 / -1; grid-row: 2; justify-self: end;
+  grid-column: 1 / -1; grid-row: 3; justify-self: end;
   display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 4px;
 }
 .cb-more-menu > .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }
@@ -580,7 +602,7 @@ button.cb-handle {
    hint is the readout's quiet amber rather than the case's steel, and the
    box is edged in that amber, the way the # list is, because steel was only
    ever measured on the case. */
-.cb-msg > .cb-edit { grid-column: 1 / -1; grid-row: 3; display: grid; gap: 6px; margin: 2px 0 0; min-width: 0; }
+.cb-msg > .cb-edit { grid-column: 1 / -1; grid-row: 4; display: grid; gap: 6px; margin: 2px 0 0; min-width: 0; }
 .cb-edit .cb-lab { margin: 0; }
 .cb-edit .cb-say { border-color: var(--cb-amber-2); }
 .cb-edit .cb-hint { margin: 0; color: var(--cb-amber-2); }
@@ -700,8 +722,8 @@ ol.cb-md-list { list-style: decimal; }
 /* REACTIONS: in the log's own amber on the readout, so nothing new is
    measured. Yours is filled, BASE's pair the other way round, and pressed
    shows in aria-pressed as well as the fill. No number anywhere. */
-.cb-msg > .cb-rx { grid-column: 1 / -1; grid-row: 5; display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
-.cb-msg > .cb-rx-pick { grid-column: 1 / -1; grid-row: 6; display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+.cb-msg > .cb-rx { grid-column: 1 / -1; grid-row: 6; display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 0; }
+.cb-msg > .cb-rx-pick { grid-column: 1 / -1; grid-row: 7; display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
 .cb-rx__one, .cb-rx__pick {
   font: inherit; font-size: 13px; line-height: 1.3; color: var(--cb-amber); background: var(--cb-lcd);
   border: 1px solid var(--cb-amber-2); border-radius: 999px; padding: 2px 9px; min-height: 28px; cursor: pointer;
@@ -714,7 +736,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-rx__olab { flex: 1 1 100%; font-size: 13px; }
 .cb-rx-pick .cb-rx__in { width: 6em; flex: none; font-size: 18px; padding: 3px 8px; }
 .cb-rx__go { font-size: 13px; }
-.cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 4; margin: 4px 0 0; }
+.cb-msg > .cb-sticker { grid-column: 1 / -1; grid-row: 5; margin: 4px 0 0; }
 /* A STICKER: the pet on its own room's ground, drawn by animals.js, with its
    words under it in the log's amber, so nothing new is measured here. */
 .cb-sticker__art { display: block; width: 120px; height: auto; border-radius: 4px; }
@@ -746,7 +768,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-stickers__art { display: block; width: 80px; height: auto; }
 .cb-pets__show { margin: 10px 0 0; }
 .cb-pets__show p { margin: 6px 0 0; font-size: 13px; line-height: 1.45; }
-.cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 4; margin: 4px 0 0; min-width: 0; max-width: 100%; }
+.cb-msg > .cb-picture { grid-column: 1 / -1; grid-row: 5; margin: 4px 0 0; min-width: 0; max-width: 100%; }
 .cb-picture-img { display: block; width: auto; max-width: 100%; max-height: 180px; height: auto; border: 1px solid var(--cb-amber-2); border-radius: 3px; background: var(--cb-lcd); }
 .cb-picture-open { display: block; max-width: 100%; padding: 0; margin: 0; border: 0; background: none; cursor: zoom-in; border-radius: 3px; }
 .cb-picture-under { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; margin: 4px 0 0; font-size: 13px; }
@@ -1333,6 +1355,11 @@ ol.cb-md-list { list-style: decimal; }
 .cb-radio--large .cb-pic-preview { max-height: 320px; }
 .cb-radio--full .cb-pic-preview { max-height: 360px; }
 .cb-pic-line { margin: 0; font-size: 13px; }
+/* REPLYING TO, above the message box while a reply is being written, the
+   picture box's line and button in the case's own type. */
+.cb-re-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 0 8px; }
+.cb-re-line { margin: 0; font-size: 13px; flex: 1 1 14em; min-width: 0; overflow-wrap: anywhere; }
+.cb-re-no { min-height: 36px; }
 .cb-pic-drop { justify-self: start; min-height: 36px; }
 
 .cb-lab { display: block; font-size: 13px; margin-bottom: 4px; }
@@ -1747,7 +1774,7 @@ body.cb-callwin :focus-visible, body.cb-cbwin :focus-visible { outline: 3px soli
 /* A CONVERSATION'S MESSAGE IS THE CHANNEL'S (.cb-msg, 2026-10-20): the same
    line with React and the dots on it, the same rows under it. A question
    asked under one (Take back, Report) goes at its foot. */
-.cb-dm-msg > .cb-dm-sure { grid-column: 1 / -1; grid-row: 7; }
+.cb-dm-msg > .cb-dm-sure { grid-column: 1 / -1; grid-row: 8; }
 /* A picture in a conversation (2026-10-19): the channel's picture, at its edge. */
 .cb-dm-msg > .cb-picture { margin: 4px 0 0; min-width: 0; max-width: 100%; }
 .cb-dm-sure .cb-btn, .cb-dm-edit .cb-btn { min-height: 32px; min-width: 0; padding: 2px 8px; font-size: 12px; }

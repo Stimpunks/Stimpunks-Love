@@ -108,10 +108,11 @@ function say(d) {
     var who = String(d.handle || 'Somebody').slice(0, 40);
     var title = d.why === 'mention'
       ? who + ' mentioned you ' + (place || tag ? 'in ' + where : 'on World')
-      : who + (place || tag ? ' in ' + where : ' on World');
+      : d.why === 'reply' ? who + ' replied to you ' + (place || tag ? 'in ' + where : 'on World')
+        : who + (place || tag ? ' in ' + where : ' on World');
     var body = typeof d.text === 'string' && d.text ? d.text
       : d.what === 'picture' ? 'Sent a picture.' : d.what === 'sticker' ? 'Sent a sticker.' : 'Sent a message.';
-    return { title: title, body: body, url: url, tag: d.why === 'mention' ? 'cb-mention-' + String(d.id || '') : 'cb-' + (tag || 'world') };
+    return { title: title, body: body, url: url, tag: d.why === 'mention' || d.why === 'reply' ? 'cb-' + d.why + '-' + String(d.id || '') : 'cb-' + (tag || 'world') };
   });
 }
 

@@ -1412,6 +1412,9 @@
     ready.appendChild(altLab);
     ready.appendChild(alt);
     ready.appendChild(drop);
+    /* REPLYING TO, between the picture waiting to go and the box. */
+    var reB = this.reBar = reBar('cb-re-line', 'cb-say-hint', function () { me.replyStop(); say.focus(); });
+    this.replying = null;
     // In the form, hidden: a file input outside the document is one some
     // browsers will not open a picker for.
     form.appendChild(picFile);
@@ -1421,6 +1424,7 @@
        you see it, say what is in it, write the message and send, in that
        order, top to bottom and in the keyboard's order too. */
     form.appendChild(ready);
+    form.appendChild(reB);
     form.appendChild(lab);
     form.appendChild(pick);
     form.appendChild(say);
@@ -1865,6 +1869,8 @@
     say.addEventListener('keydown', function (e) {
       me.pickKey(e);
       if (e.defaultPrevented || e.isComposing) return;
+      // Escape lets a reply go, the way chat does, and keeps what you wrote.
+      if (e.key === 'Escape' && me.replying) { e.preventDefault(); me.replyStop(); return; }
       if (sendKey(e)) { e.preventDefault(); me.transmit(); }
       // Up in an empty box edits your newest message, the way chat does.
       if (e.key === 'ArrowUp' && !say.value && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
@@ -2092,7 +2098,9 @@
     var told = pic ? ' ' + pic.getAttribute('aria-label').replace(/^Open the picture larger\. /, 'A picture: ') : '';
     var st = li.querySelector('.cb-sticker figcaption');
     if (st) told += ' A sticker: ' + st.textContent + '.';
-    (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + '. ' + words.textContent + told);
+    var re = li.querySelector(':scope > .cb-re'), reWho = re && re.querySelector('.cb-re__who');
+    var answers = re ? (reWho ? ', replying to ' + reWho.textContent : ', replying to a message no longer there') : '';
+    (this.air = this.air || []).push(li.querySelector('.cb-handle').textContent + answers + '. ' + words.textContent + told);
     if (!this.onAir) this.transmitNext();
   };
 
@@ -2351,6 +2359,7 @@
   var NOTIFY_ALL = 'Everything, and anything added later';
   var NOTIFY_KINDS = [
     ['mentions', 'When somebody @mentions me'],
+    ['replies', 'When somebody replies to me'],
     ['props', 'When somebody gives me props'],
     ['messages', 'When somebody messages me'],
     ['world', 'Every message on World'],
@@ -2774,6 +2783,10 @@
           if (held && this.say.offsetParent) this.say.focus();
           this.tell('The message you were editing has gone off the air.');
         }
+        if (this.replying && this.replying.id === lis[i].dataset.id) {
+          this.replyStop();
+          this.tell('The message you were replying to has gone off the air. What you write now goes out on its own.');
+        }
         lis[i].remove();
       }
     }
@@ -2783,7 +2796,7 @@
         // Already on the log: only its words, if its sender edited it, and
         // its reactions can have changed.
         var was = this.msgLi(m.id);
-        if (was) { this.drawWords(was, m); this.drawReactions(was, m); }
+        if (was) { this.drawWords(was, m); this.drawReactions(was, m); this.drawRe(was, m, messages, this.log, RE_GONE); }
         continue;
       }
       this.seen[m.id] = true;
@@ -2801,6 +2814,9 @@
       when.dateTime = new Date(m.t).toISOString();
       head.appendChild(when);
       li.appendChild(head);
+      // A reply says what it answers above the name, first in the markup too,
+      // so the log's live region reads who it answers before what it says.
+      this.drawRe(li, m, messages, this.log, RE_GONE);
       var said = el('div', 'cb-text');
       said.cbRaw = m.text || '';
       said.cbAt = m.at || [];
@@ -2844,18 +2860,89 @@
      away, because Copy and Take to the forums are only on a message with
      words in it; the keyboard goes back to More if it was in them. */
   Radio.prototype.drawActs = function (li, m) {
-    var on = this.box.getRootNode().activeElement;
+    var me = this, on = this.box.getRootNode().activeElement;
     var was = li.querySelector(':scope > .cb-acts'), old = li.querySelector(':scope > .cb-more-menu');
     var held = !!on && ((was && was.contains(on)) || (old && old.contains(on)));
     if (was) was.remove();
     if (old) old.remove();
     var acts = el('div', 'cb-acts');
     acts.appendChild(this.reactBtn(m, li));
+    acts.appendChild(this.replyBtn(m, function () { me.replyStart(m.id); }));
     var more = this.moreFor(m, li);
     if (more) acts.appendChild(more.btn);
     li.appendChild(acts);
     if (more) li.appendChild(more.box);
     if (held) (more ? more.btn : acts.firstChild).focus();
+  };
+
+  /* REPLY, between React and the dots (Ryan's ask, 2026-10-21): the bar above
+     the message box says whose message and its first words, and Transmit
+     sends yours as an answer to it. Cancel reply, or Escape in the box, lets
+     it go and keeps what you wrote. */
+  Radio.prototype.replyBtn = function (m, start) {
+    var b = el('button', 'cb-btn cb-ico cb-reply');
+    b.type = 'button';
+    b.appendChild(msgIcon('reply'));
+    b.setAttribute('aria-label', 'Reply to ' + m.handle + '\u2019s message ' + sentAt(m.t));
+    b.addEventListener('click', start);
+    return b;
+  };
+  Radio.prototype.replyStart = function (id) {
+    var m = (this.aired || []).filter(function (x) { return x.id === id; })[0];
+    if (!m) return;
+    if (this.editing) this.editStop();
+    this.replying = { id: id };
+    reOn(this.reBar, this.say, m);
+    this.say.focus();
+    this.reBar.scrollIntoView({ block: 'nearest' });
+  };
+  Radio.prototype.replyStop = function () {
+    if (!this.replying) return;
+    this.replying = null;
+    reOff(this.reBar, this.say);
+  };
+
+  /* THE QUOTE, above the message's name: who it answers and their first
+     words, a button that takes you to that message while it is still there,
+     and words saying it has gone once it has. `list` is what is there now,
+     `log` the list it is drawn in, the channel's or a conversation's, and
+     `gone` what to say. Drawn again only when what it says changes, with the
+     keyboard kept on it. */
+  Radio.prototype.drawRe = function (li, m, list, log, gone) {
+    var me = this, was = li.querySelector(':scope > .cb-re');
+    if (!m.re) { if (was) was.remove(); return; }
+    var to = null;
+    for (var i = 0; i < list.length; i++) if (list[i].id === m.re) { to = list[i]; break; }
+    var key = to ? to.handle + '\n' + reWords(to) : '';
+    if (was && was.dataset.key === key) return;
+    var held = !!was && was === this.box.getRootNode().activeElement;
+    var q;
+    if (to) {
+      q = el('button', 'cb-re');
+      q.type = 'button';
+      var mark = el('span', 'cb-re__mark', '\u21aa');
+      mark.setAttribute('aria-hidden', 'true');
+      q.appendChild(mark);
+      q.appendChild(document.createTextNode('Replying to '));
+      q.appendChild(el('b', 'cb-re__who', to.handle));
+      q.appendChild(document.createTextNode(': ' + reWords(to)));
+      q.addEventListener('click', function () { me.reJump(log, m.re); });
+    } else q = el('p', 'cb-re', gone);
+    q.dataset.key = key;
+    if (was) was.replaceWith(q); else li.insertBefore(q, li.firstChild);
+    if (held && to) q.focus();
+  };
+  /* A quote pressed: the message it answers, brought into view in its list
+     and given the keyboard, edged so you can see which. Small shows only the
+     newest message, so the radio is made Normal for this page, as a
+     notification of props makes it. */
+  Radio.prototype.reJump = function (log, id) {
+    var li = log.querySelector(':scope > li[data-id="' + CSS.escape(id) + '"]');
+    if (!li) return;
+    if (log === this.log && this.state.size === 'small') this.setSize('normal', true);
+    li.tabIndex = -1;
+    li.scrollIntoView({ block: 'nearest' });
+    li.focus({ preventScroll: true });
   };
 
   /* AN EDIT arrives as the same message with new words and a later `edited`
@@ -4968,11 +5055,65 @@
       add('circle', { cx: '11.4', cy: '9.4', r: '1.1', fill: 'currentColor' });
       add('path', Object.assign({ d: 'M5.9 12.5a3.5 3.5 0 0 0 6.2 0' }, line));
       add('path', Object.assign({ d: 'M16.5 1.2v5M14 3.7h5' }, line));
+    } else if (kind === 'reply') {
+      var bend = { fill: 'none', stroke: 'currentColor', 'stroke-width': '1.8', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+      add('path', Object.assign({ d: 'M8 4.5 3.5 9 8 13.5' }, bend));
+      add('path', Object.assign({ d: 'M4 9h7.5a5 5 0 0 1 5 5v1.5' }, bend));
     } else {
       [4, 10, 16].forEach(function (x) { add('circle', { cx: String(x), cy: '10', r: '1.9', fill: 'currentColor' }); });
     }
     return svg;
   }
+
+  /* A REPLY names the message it answers by id and nothing else of it
+     (replyTo in lib.mjs, Ryan's ask, 2026-10-21): the quote is drawn from
+     what is on the channel, or in the conversation, now, so it changes when
+     that message is edited and goes when it does. Its words here are the
+     start of it with the Markdown's marks taken off, since a quote is a
+     reminder and not the message. */
+  var RE_WORDS = 90;
+  function reWords(m) {
+    var t = String(m.text || '')
+      .replace(/!?\[([^\]]*)\]\([^)\s]*\)/g, '$1')
+      .replace(/^[ \t]{0,3}(?:#{1,6}[ \t]+|>[ \t]?|[-*+][ \t]+|\d+[.)][ \t]+)/gm, '')
+      .replace(/\*\*|__|~~|[*`]/g, '')
+      .replace(/\s+/g, ' ').trim();
+    if (!t) return m.img ? 'a picture' : (m.sticker || m.avatar || m.chimera || m.patch || m.jacket) ? 'a sticker' : 'a message';
+    var cs = Array.from(t);
+    return cs.length > RE_WORDS ? cs.slice(0, RE_WORDS - 1).join('') + '\u2026' : t;
+  }
+  /* The bar above a message box while a reply is being written: whose message
+     and its first words, and Cancel reply. The box's description names them
+     too, so a screen reader hears who you are answering on the box itself. */
+  function reBar(id, hint, stop) {
+    var bar = el('div', 'cb-re-bar');
+    bar.hidden = true;
+    var line = el('p', 'cb-re-line');
+    line.id = id;
+    var no = el('button', 'cb-btn cb-re-no', 'Cancel reply');
+    no.type = 'button';
+    no.addEventListener('click', stop);
+    bar.appendChild(line);
+    bar.appendChild(no);
+    bar.cbHint = hint;
+    return bar;
+  }
+  function reOn(bar, say, m) {
+    var line = bar.firstChild;
+    line.textContent = '';
+    line.appendChild(document.createTextNode('Replying to '));
+    line.appendChild(el('b', null, m.handle));
+    line.appendChild(document.createTextNode(': ' + reWords(m)));
+    bar.hidden = false;
+    say.setAttribute('aria-describedby', line.id + ' ' + bar.cbHint);
+  }
+  function reOff(bar, say) {
+    bar.hidden = true;
+    bar.firstChild.textContent = '';
+    say.setAttribute('aria-describedby', bar.cbHint);
+  }
+  var RE_GONE = 'Replying to a message no longer on the channel';
+  var RE_GONE_DM = 'Replying to a message no longer in this conversation';
 
   /* A badge's drawing, built path by path from the list: never from markup,
      and only out of the letters and numbers a path is made of. */
@@ -5948,8 +6089,12 @@
     frow.appendChild(picBtn);
     frow.appendChild(stickBtn);
     frow.appendChild(send);
+    /* REPLYING TO, as on the channel, once the conversation is accepted. */
+    var reB = this.dmReBar = reBar('cb-dm-re-line', 'cb-dm-hint', function () { me.dmReplyStop(); say.focus(); });
+    this.dmReplying = null;
     form.appendChild(picFile);
     form.appendChild(ready);
+    form.appendChild(reB);
     form.appendChild(lab);
     form.appendChild(say);
     form.appendChild(hint);
@@ -5982,6 +6127,8 @@
     back.addEventListener('click', function () { me.dmBack(); });
     form.addEventListener('submit', function (e) { e.preventDefault(); me.dmSend(); });
     say.addEventListener('keydown', function (e) {
+      // Escape lets a reply go first; with none, it goes back to the list.
+      if (e.key === 'Escape' && !e.isComposing && me.dmReplying) { e.preventDefault(); me.dmReplyStop(); return; }
       if (sendKey(e)) { e.preventDefault(); me.dmSend(); }
     });
     say.addEventListener('input', function () { me.grow(say); });
@@ -6059,6 +6206,7 @@
   };
 
   Radio.prototype.dmShowInbox = function () {
+    this.dmReplyStop();
     this.dmWith = null;
     this.dmTalk.hidden = true;
     this.dmInbox.hidden = false;
@@ -6157,6 +6305,7 @@
   /* Open the conversation with `handle`: its own view, the keyboard on its
      heading, and the first answer drawn without reading every message out. */
   Radio.prototype.dmOpen = function (handle) {
+    this.dmReplyStop();
     this.dmWith = String(handle);
     this.dmStateSig = null;
     this.dmBlockState = null;
@@ -6239,6 +6388,8 @@
     // So with a sticker, and a reaction (dmDrawActs).
     this.dmStickBtn.hidden = !pics;
     if (!pics && !this.dmStickBox.hidden) this.setStickers(false, 'dm');
+    // So with a reply.
+    if (!pics) this.dmReplyStop();
     this.dmLive = pics;
     var msgs = Array.isArray(b.messages) ? b.messages : [];
     this.dmDrawLog(msgs);
@@ -6308,17 +6459,28 @@
     var atEnd = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
     var want = {}, added = 0, prev = null;
     msgs.forEach(function (m) { want[m.id] = m; });
-    Array.prototype.slice.call(log.children).forEach(function (li) { if (!want[li.dataset.id]) li.remove(); });
+    this.dmNow = msgs;
+    Array.prototype.slice.call(log.children).forEach(function (li) {
+      if (want[li.dataset.id]) return;
+      if (me.dmReplying && me.dmReplying.id === li.dataset.id) {
+        me.dmReplyStop();
+        me.dmTold('The message you were replying to is no longer in this conversation. What you write now goes on its own.');
+      }
+      li.remove();
+    });
     msgs.forEach(function (m) {
       var li = log.querySelector(':scope > li[data-id="' + CSS.escape(m.id) + '"]');
       if (!li) {
         li = me.dmMsg(m);
+        // Its quote before it goes into the log, so it is read in order.
+        me.drawRe(li, m, msgs, log, RE_GONE_DM);
         added++;
         if (prev) prev.after(li); else log.prepend(li);
       } else {
         if (!li.dmEditing && (li.dmText !== m.text || li.dmEdited !== (m.edited || 0))) me.dmWords(li, m);
         if (li.dmLive !== me.dmLive) me.dmDrawActs(li, m);
         me.drawReactions(li, m, function (e) { me.dmReact(m.id, e); });
+        me.drawRe(li, m, msgs, log, RE_GONE_DM);
       }
       prev = li;
     });
@@ -6393,6 +6555,7 @@
     li.dmLive = this.dmLive;
     var acts = el('div', 'cb-acts');
     if (this.dmLive) acts.appendChild(this.reactBtn(m, li, function (e) { me.dmReact(m.id, e); }));
+    if (this.dmLive) acts.appendChild(this.replyBtn(m, function () { me.dmReplyStart(m.id); }));
     var more = this.dmMore(m, li);
     acts.appendChild(more.btn);
     li.appendChild(acts);
@@ -6611,8 +6774,23 @@
     picGone(this.dmPicReady, this.dmPicShown);
   };
 
+  /* A reply in a conversation: the channel's bar, sending here. */
+  Radio.prototype.dmReplyStart = function (id) {
+    var m = (this.dmNow || []).filter(function (x) { return x.id === id; })[0];
+    if (!m || this.dmForm.hidden) return;
+    this.dmReplying = { id: id };
+    reOn(this.dmReBar, this.dmSay, m);
+    this.dmSay.focus();
+    this.dmReBar.scrollIntoView({ block: 'nearest' });
+  };
+  Radio.prototype.dmReplyStop = function () {
+    if (!this.dmReplying) return;
+    this.dmReplying = null;
+    reOff(this.dmReBar, this.dmSay);
+  };
+
   Radio.prototype.dmSend = function () {
-    var me = this, say = this.dmSay, text = say.value, who = this.dmWith, picture = this.dmPicture;
+    var me = this, say = this.dmSay, text = say.value, who = this.dmWith, picture = this.dmPicture, re = this.dmReplying;
     if (!who) return;
     if (!text.trim() && !picture) { this.dmTold('Write something, or add a picture, first.'); say.focus(); return; }
     if (this.dmSending) return;
@@ -6622,6 +6800,7 @@
     first.then(function (up) {
       if (up && up.status !== 200) return up;
       var body = { with: who, send: text };
+      if (re) body.re = re.id;
       if (up) { body.img = up.body.id; body.alt = me.dmPicAlt.value.trim(); }
       return call('/cb/dm', { body: body }, me.state.pass);
     }).then(function (r) {
@@ -6631,12 +6810,14 @@
         say.value = '';
         me.grow(say);
         if (picture) me.dmDropPicture();
+        if (me.dmReplying === re) me.dmReplyStop();
         me.dmJustSent = true;
         me.dmDrawTalk(r.body);
         me.dmTold(r.body.asked ? 'Sent. It waits for ' + me.dmWith + ' to answer it.' : r.body.accepted ? 'Sent, which accepts what ' + me.dmWith + ' asked.' : '');
         if (me.dmForm.hidden) me.dmSaid.focus(); else say.focus();
         return;
       }
+      if (r.status === 409 && r.body && r.body.gone === 're' && me.dmReplying === re) me.dmReplyStop();
       me.dmTold((r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not send just now. Your words are still in the box.');
     }, function () { me.dmTold('The street could not be reached just now. It did not send; your words are still in the box.'); })
       .then(function () { me.dmSending = false; });
@@ -7856,6 +8037,8 @@
     if (room) b.room = room;
     var at = this.mentioned(text);
     if (at.length) b.at = at;
+    var re = this.replying;
+    if (re) b.re = re.id;
     var first = picture ? sendPicture(picture, room, this.state.pass) : Promise.resolve(null);
     first.then(function (up) {
       if (up && up.status === 401) return { status: 401 };
@@ -7869,11 +8052,17 @@
         me.atPicked = [];
         me.grow();
         if (picture) me.dropPicture();
+        if (me.replying === re) me.replyStop();
         me.tell('');
         if (room === me.tunedRoom()) { me.show(r.body.messages || [], true); me.readTick(r.body.messages || []); }
         return;
       }
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
+      // The message it answered went first: the bar goes, the words stay.
+      if (r.status === 409 && r.body && r.body.gone === 're') {
+        if (me.replying === re) me.replyStop();
+        if (room === me.tunedRoom() && r.body.messages) me.show(r.body.messages);
+      }
       me.tell(why(r, 'That did not go out. Try again.'));
     }).catch(function () { me.tell('No signal. That did not go out.'); });
   };
@@ -8175,6 +8364,7 @@
   // A new channel: the log starts afresh, and what is on it already is not news.
   Radio.prototype.retune = function () {
     this.editing = null;
+    this.replyStop();
     this.log.textContent = '';
     this.seen = {};
     this.heard = false;

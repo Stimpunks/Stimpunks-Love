@@ -3,13 +3,15 @@
    its picture with it. A message may be words, a picture sent first to
    /cb/image, or both; or a sticker of one of the sender's own pets, own
    avatars, own chimeras or own patches, or of the sender's own battle jacket, with words
-   or without. And it tells the devices that asked to hear it (Ryan,
+   or without. It may answer another message on the same channel (`re`, its
+   id, which must be on the channel as this goes out: replyTo in lib.mjs).
+   And it tells the devices that asked to hear it (Ryan,
    2026-10-18, notifyMessage in lib.mjs), after the message is on the
    channel, so a slow push service never holds the radio up. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
   imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions,
-  noteLatest, countMessage, WORLD_CALL } from '../cb/lib.mjs';
+  noteLatest, countMessage, replyTo, WORLD_CALL } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -65,6 +67,8 @@ export default async (req, context) => {
     jacket = await jacketSticker(who.handle);
     if (!jacket) return json(400, { error: 'Nothing is sewn on your battle jacket yet.' });
   }
+  const re = b.re == null ? null : replyTo(b.re);
+  if (b.re != null && !re) return json(400, { error: 'Which message is that a reply to?' });
   const text = b.text == null || b.text === '' ? '' : cleanMessage(b.text);
   if (text === null || (!text && !img && !sticker && !avatar && !chimera && !patch && !jacket)) return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters, or a picture, or a sticker.` });
   // CLAIMED is read off the pass, like BASE, and never off the request: a
@@ -81,19 +85,27 @@ export default async (req, context) => {
   if (chimera) msg.chimera = chimera;
   if (patch) msg.patch = patch;
   if (jacket) msg.jacket = jacket;
+  if (re) msg.re = re;
   try {
-    let seen = [];
+    let seen = [], to = null;
     const messages = await updateTuned(room, (list) => {
+      // A reply answers a message on this channel now, checked in the same
+      // write it goes out with, so it can never point at one that went first.
+      to = re ? list.find((m) => m.id === re) || null : null;
+      if (re && !to) return null;
       list.push(msg);
       seen = list.slice();
       return list;
     });
+    if (re && !to) {
+      return json(409, { error: 'The message you were replying to has gone off the air, so yours did not go out. Your words are still in the box: transmit again to send them on their own.', gone: 're', messages: shape(messages) });
+    }
     await dropImages(droppedImages(seen, messages));
     // The channel's newest time, so radios elsewhere can mark it new (newFor).
     await noteLatest(room || WORLD_CALL, msg.t).catch(() => false);
     // One more on its day, for the office's dashboard: a number, no name (countMessage).
     await countMessage(room).catch(() => null);
-    const told = notifyMessage(msg, room).catch(() => []);
+    const told = notifyMessage(msg, room, undefined, undefined, undefined, to).catch(() => []);
     if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
     return json(200, { messages: shape(messages) });
   } catch (e) {

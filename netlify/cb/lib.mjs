@@ -3041,6 +3041,7 @@ async function pairOf(who, handle, s) {
 export function shapeDm(m, me) {
   const out = { id: m.id, handle: m.handle, text: m.text, t: m.t, base: !!m.base };
   if (typeof m.edited === 'number') out.edited = m.edited;
+  if (replyTo(m.re)) out.re = m.re;
   if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
   const st = m.sticker && shapeSticker(m.sticker);
   if (st) out.sticker = st;
@@ -3084,12 +3085,15 @@ const stateOf = (c, me) => (!c.messages.length ? 'new' : c.open ? 'open' : c.fro
    you, not claimed or nobody: the same answer), 'blocked' (you blocked them),
    'waiting' (you asked and they have not answered), 'many' (in DM_WITH
    conversations already), 'accepted' (a picture before the conversation is),
-   'picture' (no such picture of yours for this conversation). */
+   'picture' (no such picture of yours for this conversation), 'reply' (the
+   message it answers, `re`, is not in this conversation now). */
 export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: 'claim' };
   const pic = said && typeof said === 'object' ? said : null;
   const words = cleanLines(pic ? pic.text : said, MESSAGE_MAX);
   if (words === null) return { error: 'long' };
+  const re = pic && pic.re != null ? replyTo(pic.re) : null;
+  if (pic && pic.re != null && !re) return { error: 'reply' };
   const img = pic && pic.img != null ? imageId(pic.img) : null;
   if (pic && pic.img != null && !img) return { error: 'picture' };
   const stick = await dmSticker(who.handle, pic, s);
@@ -3120,11 +3124,14 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   await s.setJSON(markBlob(p.them, p.me), { t: now }, { onlyIfNew: true });
   const m = { id: 'd' + randomBytes(8).toString('base64url').slice(0, 10), handle: who.handle, by: p.me, text: words, t: now };
   if (who.role === 'base') m.base = true;
+  if (re) m.re = re;
   if (img) { m.img = img; m.alt = cleanAlt(pic.alt); }
   if (stick) Object.assign(m, stick);
   let asked = false, accepted = false;
   const next = await updateConv(p.key, (c) => {
     asked = false; accepted = false;
+    // A reply answers a message in this conversation, there now.
+    if (re && !c.messages.some((x) => x.id === re)) return { error: 'reply' };
     // A request is words only, however the conversation got here.
     if (img && !c.open) return { error: 'accepted' };
     if (stick && !c.open) return { error: 'accepted' };
@@ -6558,7 +6565,7 @@ export function cleanSubscription(sub) {
 /* What a device asked for: a switch per kind and one for every kind, all off
    until switched on, the words, on unless switched off, the rooms it follows,
    and whether it follows every room. null if it follows too many. */
-export const PUSH_KINDS = ['mentions', 'props', 'messages', 'world', 'calls', 'tasks'];
+export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks'];
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
@@ -6776,9 +6783,16 @@ const topicFor = (k) => createHash('sha256').update(`stimpunks-topic\0${k}`).dig
 /* A message has been sent on a channel: tell every device that asked to hear
    it, once each, and none that may not. What a notification carries is what
    the service worker needs to say it: who, where, why, and the words if the
-   device wants them. The worker puts a room's name to its tag. */
-export function notifyMessage(msg, room, s = store(), mods = readMods(), send = sendPush) {
-  return tellDevices(msg, room, null, s, mods, send);
+   device wants them. The worker puts a room's name to its tag.
+
+   A reply also tells whoever sent the message it answers (`to`, found on
+   the channel by transmit and never kept), on their devices with When
+   somebody replies to me on (Ryan's ask, 2026-10-21): only a device that is
+   that message's sender by canEdit's rule, so a claimed message's reply
+   reaches only that username's own password, never a room that keeps to
+   itself, and never anybody about their own message. */
+export function notifyMessage(msg, room, s = store(), mods = readMods(), send = sendPush, to = null) {
+  return tellDevices(msg, room, null, s, mods, send, to);
 }
 
 /* An edited message tells only the devices it @mentions now and did not
@@ -6789,7 +6803,7 @@ export function notifyEdit(msg, before, room, s = store(), mods = readMods(), se
   return tellDevices(msg, room, String(before || ''), s, mods, send);
 }
 
-async function tellDevices(msg, room, before, s, mods, send) {
+async function tellDevices(msg, room, before, s, mods, send, to = null) {
   if (send === sendPush && !pushReady()) return [];
   const devs = await readDevices(s);
   const from = foldHandle(msg.handle), quiet = !!(room && quietRoom(room));
@@ -6800,20 +6814,26 @@ async function tellDevices(msg, room, before, s, mods, send) {
     const h = d.pass && d.pass.handle;
     const followed = before === null && (room ? followsRoom(w, room) : wants(w, 'world'));
     const named = wants(w, 'mentions') && !quiet && mentions(msg.text, h) && !(before && mentions(before, h));
-    if (!followed && !named) continue;
+    let answered = before === null && !!to && wants(w, 'replies') && !quiet && d.fold === foldHandle(to.handle);
+    if (!followed && !named && !answered) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!roomAllows(who, room)) continue;
+    // The message answered is this device's only if it is its sender's, the
+    // way an edit would be (canEdit): a name somebody else holds now is not.
+    if (answered && !canEdit(who, to)) answered = false;
+    if (!followed && !named && !answered) continue;
     let text = '';
     if (w.words !== false) {
       text = String(msg.text || '').replace(/\s+/g, ' ').trim();
       if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.chimera || msg.patch || msg.jacket) ? 'sticker' : '';
-    const payload = { kind: 'message', why: named ? 'mention' : 'channel', handle: msg.handle, room: room || '', text, what, id: msg.id };
+    const why = answered ? 'reply' : named ? 'mention' : 'channel';
+    const payload = { kind: 'message', why, handle: msg.handle, room: room || '', text, what, id: msg.id };
     // A forum category's room is in no public list, so it says its own name.
     if (forumRoom(room)) payload.place = forumPlace(room);
-    sends.push({ id, d, payload, opts: named ? { urgency: 'high' } : { topic: topicFor(room || 'world') } });
+    sends.push({ id, d, payload, opts: why !== 'channel' ? { urgency: 'high' } : { topic: topicFor(room || 'world') } });
   }
   return deliver(sends, gone, s, send);
 }
@@ -7070,6 +7090,25 @@ export function editMessage(list, id, text, who, now = Date.now(), asked = null)
   return { list: next, before: m.text || '', msg: next[i] };
 }
 
+/* ── Replies ──────────────────────────────────────────────────────────────
+
+   Ryan's ask, 2026-10-21: a reply on the CB, the way chat has one. A message
+   may answer another on the same channel, or in the same conversation, and
+   says which by `re`, the other message's id, AND NOTHING ELSE OF IT: not its
+   words, not its sender. Every radio draws the quote out of what is on the
+   channel now, so an edit to the message answered changes the quote, taking it
+   off takes the quote with it, and when its 48 hours are up the reply says it
+   answered a message no longer on the channel. The friendly edit is a copy of
+   the words "so the quote survives", which would keep words past the message
+   they were said in, and past somebody taking them back.
+
+   The message answered must be on the channel when the reply is sent, and in
+   the same log (replyTo is only the shape; transmit and sendDm look for it).
+   Editing a reply keeps `re`, because an edit changes only the words. */
+export function replyTo(id) {
+  return typeof id === 'string' && /^[A-Za-z0-9_-]{1,64}$/.test(id) ? id : null;
+}
+
 /* ── Reactions ────────────────────────────────────────────────────────────
 
    Ryan's brief, 2026-09-30: reactions on CB messages. A reaction is one of a
@@ -7152,6 +7191,7 @@ export function shape(messages) {
     const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base, claimed: !!m.claimed && !m.base };
     if (typeof m.edited === 'number') out.edited = m.edited;
     if (Array.isArray(m.at) && m.at.length) out.at = m.at.slice(0, MENTION_MAX);
+    if (replyTo(m.re)) out.re = m.re;
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
     const st = m.sticker && shapeSticker(m.sticker);
     if (st) out.sticker = st;
