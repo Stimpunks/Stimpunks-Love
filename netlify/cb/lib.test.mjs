@@ -4582,6 +4582,28 @@ test('a mailing previews everybody at a stage, leaves out who cannot be emailed,
   assert.ok((await sendMailing(TRYAN, { ...send, stamp: t2.stamp }, s, T0 + 4)).mailing);
 }));
 
+test('a mailing narrowed to requests submitted since a day leaves the earlier ones out, and the send must agree', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { c, g, t, at } = await stageFixture(s);
+  const old = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 0: Ada last year', contact: c.ada.id, submitted: '2025-06-01' }, s, T0)).grant;
+  const undated = (await saveGrant(TRYAN, { ...at, name: 'Aid Request 7: Ada undated', contact: c.ada.id }, s, T0)).grant;
+  const all = await previewMailing(TRYAN, { ...at, template: t.id }, s);
+  assert.deepEqual([all.since, all.before], [null, 0]);
+  assert.deepEqual(all.emails.map((e) => e.grantName).sort(), ['Aid Request 0: Ada last year', 'Aid Request 1: Ada', 'Aid Request 7: Ada undated']);
+  const p = await previewMailing(TRYAN, { ...at, template: t.id, since: '2026-01-01' }, s);
+  assert.deepEqual([p.since, p.before], ['2026-01-01', 1]);
+  assert.deepEqual(p.emails.map((e) => e.grantName), ['Aid Request 1: Ada']);
+  assert.deepEqual(p.left.filter((x) => x.grant === undated.id).map((x) => x.why), ['it has no submitted day']);
+  assert.ok(!p.left.some((x) => x.grant === old.id), 'an earlier request was named as left out');
+  for (const bad of ['2026-13-01', 'yesterday', '2026-1-1']) assert.match((await previewMailing(TRYAN, { ...at, template: t.id, since: bad }, s)).error, /Submitted since is a day/);
+  const send = { ...at, template: t.id, stamp: t.stamp, since: '2026-01-01', grants: [g.ada.id] };
+  assert.match((await sendMailing(TRYAN, { ...send, since: null }, s, T0 + 1)).error, /has changed since the preview/, 'a send that dropped the day went to everybody');
+  const r = await sendMailing(TRYAN, send, s, T0 + 2);
+  assert.equal(r.count, 1);
+  assert.equal((await officeMailing(TRYAN, r.mailing, s)).since, '2026-01-01');
+  assert.deepEqual((await officeMailings(TRYAN, s)).map((m) => m.since), ['2026-01-01']);
+}));
+
 test('the outbox hands the script only waiting emails, and one sent keeps only whose and when', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });
   const { c, g, t, at } = await stageFixture(s);

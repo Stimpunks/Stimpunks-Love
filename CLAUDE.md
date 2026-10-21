@@ -5352,8 +5352,8 @@ person's choice of who belongs in the office.
 **A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
 2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one
 refused by `unknownFillIns`), a preview of every email filled in and everybody left out with the reason (`stageMail`,
-which leaves out no contact, no address and `noEmail`), and `sendMailing`, which refuses unless the template's stamp and
-the grant requests are the ones the preview showed, sent only from office.js's second press naming everybody. The team
+which leaves out no contact, no address and `noEmail`, and with `since` every request submitted before that day),
+and `sendMailing`, which refuses unless the template's stamp, the day and the grant requests are the ones the preview showed, sent only from office.js's second press naming everybody. The team
 mailbox's script asks `/cb/office/mail` for the **outbox** on every run, **the one answer anywhere that hands it an
 address**, sends each with `MailApp` (scope `script.send_mail`, nothing more), one email to each person, and reports it
 (`mailSentFor`); `SENT_<id>` in its Script properties is set the moment one goes, so a run cut off before reporting never

@@ -37,9 +37,10 @@
      { action: 'template-save', id?, name, subject, body }
          a mailing's template, or a change to one; an unknown {fill-in} is refused
      { action: 'template-remove', id }               a template deleted
-     { action: 'mailing-preview', pipeline, stage, template }
-         every email a mailing to that stage would send, filled in, and who it leaves out and why
-     { action: 'mailing-send', pipeline, stage, template, stamp, grants }
+     { action: 'mailing-preview', pipeline, stage, template, since? }
+         every email a mailing to that stage would send, filled in, and who it leaves out and why;
+         with since (a day), only the requests submitted on or after it
+     { action: 'mailing-send', pipeline, stage, template, since?, stamp, grants }
          the mailing the preview showed, queued for the team mailbox to send; refused
          if the template or who is at the stage has changed since
      { action: 'mailing-stop', id }                  every email of it not yet sent, taken back

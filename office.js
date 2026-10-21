@@ -1698,7 +1698,7 @@
     var ul = el('ul', 'of-theirs');
     list.forEach(function (m) {
       var li = el('li');
-      var a = el('a', null, m.template + ' · ' + m.pipeline + ', ' + m.stage); a.href = '#/mailings/' + m.id;
+      var a = el('a', null, m.template + ' · ' + m.pipeline + ', ' + m.stage + (m.since ? ', since ' + dayWords(m.since) : '')); a.href = '#/mailings/' + m.id;
       li.appendChild(a);
       li.appendChild(document.createTextNode(' · ' + m.by + ', ' + when(m.t) + ' · ' + countWords(m.counts)));
       ul.appendChild(li);
@@ -1724,7 +1724,7 @@
     var dl = el('dl', 'of-facts');
     function fact(k, v) { dl.appendChild(el('dt', null, k)); dl.appendChild(el('dd', null, v)); }
     fact('Template', m.template);
-    fact('To', 'Everybody at ' + m.stage + ', in ' + m.pipeline);
+    fact('To', 'Everybody at ' + m.stage + ', in ' + m.pipeline + (m.since ? ', submitted since ' + dayWords(m.since) : ''));
     fact('Sent by', m.by + ', ' + when(m.t));
     if (m.stopped) fact('Stopped', (m.stoppedBy ? m.stoppedBy + ', ' : '') + when(m.stopped));
     fact('Where they are', countWords(m.counts));
@@ -1817,6 +1817,14 @@
     var ps = field('of-npipe', 'Pipeline', el('select', 'cb-say of-input'));
     var ss = field('of-nstage', 'Stage', el('select', 'cb-say of-input'));
     var ts = field('of-ntemplate', 'Template', el('select', 'cb-say of-input'));
+    var since = field('of-nsince', 'Submitted since', el('input', 'cb-say of-input'));
+    since.type = 'date';
+    since.setAttribute('aria-describedby', 'of-nsince-hint');
+    var sinceHint = el('p', 'cb-quiet of-hint', 'Optional. A stage holds everybody who ever reached it, so a date here narrows it to the requests submitted on or after that day. Empty is everybody.');
+    sinceHint.id = 'of-nsince-hint';
+    since.parentNode.appendChild(sinceHint);
+    var thisYear = el('button', 'cb-btn of-small', 'This year'); thisYear.type = 'button';
+    since.parentNode.appendChild(thisYear);
     settings.pipelines.forEach(function (x) { var o = el('option', null, x.name); o.value = x.name; ps.appendChild(o); });
     if (q.pipeline && settings.pipelines.some(function (x) { return x.name === q.pipeline; })) ps.value = q.pipeline;
     function stages() {
@@ -1829,6 +1837,7 @@
     if (!ss.value && ss.options.length) ss.selectedIndex = 0;
     templates.forEach(function (t) { var o = el('option', null, t.name); o.value = t.id; ts.appendChild(o); });
     if (q.template && templates.some(function (t) { return t.id === q.template; })) ts.value = q.template;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(q.since || '')) since.value = q.since;
     var row = el('div', 'of-row');
     var look = el('button', 'cb-btn', 'Show every email'); look.type = 'submit';
     row.appendChild(look);
@@ -1840,13 +1849,16 @@
     view.appendChild(shown);
 
     function remember() {
-      var to = '#/mailings/new?pipeline=' + encodeURIComponent(ps.value) + '&stage=' + encodeURIComponent(ss.value) + '&template=' + encodeURIComponent(ts.value);
+      var to = '#/mailings/new?pipeline=' + encodeURIComponent(ps.value) + '&stage=' + encodeURIComponent(ss.value) + '&template=' + encodeURIComponent(ts.value) +
+        (since.value ? '&since=' + since.value : '');
       if (to !== location.hash) history.replaceState(null, '', to);
     }
     function clear() { shown.textContent = ''; answer.textContent = ''; remember(); }
     ps.addEventListener('change', function () { stages(); clear(); });
     ss.addEventListener('change', clear);
     ts.addEventListener('change', clear);
+    since.addEventListener('change', clear);
+    thisYear.addEventListener('click', function () { since.value = new Date().getFullYear() + '-01-01'; clear(); since.focus(); });
     remember();
 
     form.addEventListener('submit', function (e) {
@@ -1854,7 +1866,7 @@
       shown.textContent = '';
       look.disabled = true;
       answer.textContent = 'Filling them in…';
-      call(null, { action: 'mailing-preview', pipeline: ps.value, stage: ss.value, template: ts.value }).then(function (r) {
+      call(null, { action: 'mailing-preview', pipeline: ps.value, stage: ss.value, template: ts.value, since: since.value || null }).then(function (r) {
         look.disabled = false;
         if (r.status !== 200) { answer.textContent = why(r, 'The emails could not be filled in just now.'); return; }
         answer.textContent = '';
@@ -1866,6 +1878,8 @@
       var n = p.emails.length;
       var top = heading(3, n + (n === 1 ? ' email' : ' emails') + (p.left.length ? ' · ' + p.left.length + ' left out' : ''));
       shown.appendChild(top);
+      if (p.since) shown.appendChild(el('p', null, 'Only the requests submitted on or after ' + dayWords(p.since) + '. ' +
+        (p.before ? p.before + (p.before === 1 ? ' earlier one at ' + p.stage + ' is' : ' earlier ones at ' + p.stage + ' are') + ' not in it.' : 'None at ' + p.stage + ' is earlier.')));
       if (p.left.length) {
         shown.appendChild(el('h3', null, 'Left out'));
         var lu = el('ul', 'of-theirs');
@@ -1877,7 +1891,7 @@
         });
         shown.appendChild(lu);
       }
-      if (!n) { shown.appendChild(quiet('Nobody at ' + p.stage + ' can be emailed, so there is nothing to send.')); top.focus(); return; }
+      if (!n) { shown.appendChild(quiet('Nobody at ' + p.stage + (p.since ? ' submitted since ' + dayWords(p.since) : '') + ' can be emailed, so there is nothing to send.')); top.focus(); return; }
       if (n > p.max) { shown.appendChild(el('p', null, 'A mailing goes to at most ' + p.max + ' people. Move some grant requests on first, or write to them in two mailings.')); top.focus(); return; }
       shown.appendChild(el('h3', null, 'The emails'));
       p.emails.forEach(function (x) {
@@ -1893,9 +1907,10 @@
       shown.appendChild(go);
       var names = p.emails.map(function (x) { return x.name || x.to; });
       send.addEventListener('click', function () {
-        sure(go, 'Send ' + (n === 1 ? 'this email' : 'these ' + n + ' emails') + ' from the team mailbox, one to each person, within ten minutes? They go to: ' + names.join(', ') + '.',
+        sure(go, 'Send ' + (n === 1 ? 'this email' : 'these ' + n + ' emails') + ' from the team mailbox, one to each person, within ten minutes?' +
+          (p.since ? ' Only requests at ' + p.stage + ' submitted since ' + dayWords(p.since) + '.' : ' Everybody at ' + p.stage + ', whenever they were submitted.') + ' They go to: ' + names.join(', ') + '.',
           'Yes, send ' + (n === 1 ? 'it' : 'them'), function (done) {
-            call(null, { action: 'mailing-send', pipeline: p.pipeline, stage: p.stage, template: p.template.id, stamp: p.template.stamp,
+            call(null, { action: 'mailing-send', pipeline: p.pipeline, stage: p.stage, template: p.template.id, since: p.since, stamp: p.template.stamp,
               grants: p.emails.map(function (x) { return x.grant; }) }).then(function (r) {
               done();
               if (r.status !== 200) { say(why(r, 'That did not send. Nothing was sent.')); return; }

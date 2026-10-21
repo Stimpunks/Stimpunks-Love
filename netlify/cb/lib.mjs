@@ -8566,7 +8566,11 @@ async function forgetContactMail(cid, s) {
    braces, and an unknown fill-in is refused, so a misspelt one never goes out
    as braces. MAILING PREVIEW fills one email for every grant request at the
    stage and names everybody it leaves out and why: no contact, a contact since
-   deleted, no address, or a contact who asked not to be emailed. SEND MAILING
+   deleted, no address, or a contact who asked not to be emailed. A stage holds
+   everybody who ever reached it, so a mailing can be narrowed to the requests
+   SUBMITTED SINCE a day (on or after it); one with no submitted day is then
+   left out and named, and the preview says how many earlier ones it passed
+   over. SEND MAILING
    is given the grant requests the preview showed and the template's stamp, and
    refuses if either has changed since, so what is sent is what was seen. Each
    email goes to one person, never as a group.
@@ -8660,38 +8664,42 @@ export async function removeTemplate(who, id, s = store()) {
 
 /* Everybody at one stage of one pipeline: an email for each grant request
    whose contact can be emailed, and the rest with the reason they are left out. */
-function stageMail(pipeline, stage, grants, contacts) {
+function stageMail(pipeline, stage, grants, contacts, since = null) {
   const byId = contactMap(contacts);
   const emails = [], left = [];
+  let before = 0;
   const here = grants.filter((g) => g.pipeline === pipeline && g.stage === stage)
     .sort((a, b) => String(a.submitted || '').localeCompare(String(b.submitted || '')) || a.name.localeCompare(b.name));
   for (const g of here) {
+    if (since && g.submitted && g.submitted < since) { before++; continue; }
     const c = g.contact ? byId.get(g.contact) : null;
     const name = c ? [c.first, c.last].filter(Boolean).join(' ') : '';
-    const why = !g.contact ? 'it has no contact' : !c ? 'its contact has been deleted' : !c.email ? 'their contact has no email address'
-      : c.noEmail ? 'they asked not to be emailed' : null;
+    const why = since && !g.submitted ? 'it has no submitted day' : !g.contact ? 'it has no contact' : !c ? 'its contact has been deleted'
+      : !c.email ? 'their contact has no email address' : c.noEmail ? 'they asked not to be emailed' : null;
     if (why) { left.push({ grant: g.id, grantName: g.name, contact: c ? c.id : null, name: name || null, why }); continue; }
     emails.push({ grant: g.id, grantName: g.name, contact: c.id, name, to: c.email,
       values: { first: c.first || name, last: c.last || '', name, grant: g.name, amount: moneyWords(g.amount), pipeline: g.pipeline, stage: g.stage, submitted: dayWordsOf(g.submitted) } });
   }
-  return { emails, left };
+  return { emails, left, before };
 }
 async function mailingParts(f, s) {
   const pipe = pipelineOf(f && f.pipeline);
   if (!pipe) return { error: 'Which pipeline?' };
   const stage = stageIn(pipe, f.stage);
   if (!stage) return { error: 'Which stage of it?' };
+  const since = day(f.since);
+  if (since === undefined) return { error: 'Submitted since is a day, as 2026-01-01.' };
   const tmpl = (await readTemplates(s)).find((x) => x.id === templateId(f.template));
   if (!tmpl) return { error: 'That template has been deleted.' };
-  const { emails, left } = stageMail(pipe.name, stage.name, await readGrants(s), await readContacts(s));
+  const { emails, left, before } = stageMail(pipe.name, stage.name, await readGrants(s), await readContacts(s), since);
   const filled = emails.map((e) => ({ ...e, subject: fillIn(tmpl.subject, e.values), body: fillIn(tmpl.body, e.values) }));
-  return { pipe, stage, tmpl, filled, left };
+  return { pipe, stage, since, tmpl, filled, left, before };
 }
 export async function previewMailing(who, f, s = store()) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
   const r = await mailingParts(f, s);
   if (r.error) return r;
-  return { template: shapeTemplate(r.tmpl), pipeline: r.pipe.name, stage: r.stage.name,
+  return { template: shapeTemplate(r.tmpl), pipeline: r.pipe.name, stage: r.stage.name, since: r.since, before: r.before,
     emails: r.filled.map((e) => ({ grant: e.grant, grantName: e.grantName, contact: e.contact, name: e.name, to: e.to, subject: e.subject, body: e.body })),
     left: r.left, max: MAILING_MAX };
 }
@@ -8705,7 +8713,7 @@ export async function sendMailing(who, f, s = store(), now = Date.now()) {
   if (!r.filled.length) return { error: 'Nobody at that stage can be emailed.' };
   if (r.filled.length > MAILING_MAX) return { error: `A mailing goes to at most ${MAILING_MAX} people.` };
   const mailing = { id: newMailingId(), template: r.tmpl.name, subject: r.tmpl.subject, body: r.tmpl.body, pipeline: r.pipe.name, stage: r.stage.name,
-    t: now, by: who.handle, emails: r.filled.map((e) => ({ id: newOutboxId(), grant: e.grant, contact: e.contact, to: e.to, subject: e.subject, body: e.body })) };
+    ...(r.since ? { since: r.since } : {}), t: now, by: who.handle, emails: r.filled.map((e) => ({ id: newOutboxId(), grant: e.grant, contact: e.contact, to: e.to, subject: e.subject, body: e.body })) };
   await updateSealed(MAILINGS, (was) => ({ mailings: [...(was && Array.isArray(was.mailings) ? was.mailings : []), mailing] }), s);
   return { mailing: mailing.id, count: mailing.emails.length };
 }
@@ -8716,7 +8724,8 @@ function outState(e) { return e.sent ? 'sent' : e.failed ? 'failed' : e.stopped 
 function shapeMailing(m, contacts, grants, whole) {
   const counts = { waiting: 0, sent: 0, failed: 0, stopped: 0 };
   for (const e of m.emails) counts[outState(e)]++;
-  const out = { id: m.id, template: m.template, pipeline: m.pipeline, stage: m.stage, t: m.t, by: m.by, stopped: m.stopped || null, stoppedBy: m.stoppedBy || null, counts };
+  const out = { id: m.id, template: m.template, pipeline: m.pipeline, stage: m.stage, since: m.since || null, t: m.t, by: m.by,
+    stopped: m.stopped || null, stoppedBy: m.stoppedBy || null, counts };
   if (whole) {
     out.subject = m.subject; out.body = m.body;
     out.emails = m.emails.map((e) => {
