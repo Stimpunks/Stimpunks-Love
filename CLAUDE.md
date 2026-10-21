@@ -5379,6 +5379,20 @@ must be exactly `https://stimpunks.world/cb/office/quickbooks`**, so a deploy pr
 **a memo or an email kept "for context"**, **writing to the books** (an invoice from a grant request, say), and **a token in
 the page "to call Intuit from the browser"**; each is Ryan's call and `privacy.html#quickbooks` first. `make-office.py` holds it.
 
+**GIVEBUTTER IS READ WITH A KEY, NEVER WRITTEN, AND NOBODY WHO GAVE IS KEPT.** Ryan's ask, 2026-10-21:
+`officeGivebutter` (each night from `cb-office-daily.mjs`, and on Read Givebutter now) reads the last `GB_MONTHS` of
+gifts, every recurring plan and every campaign from `api.givebutter.com` with `CB_GIVEBUTTER_KEY`, and keeps them sealed in
+`office-givebutter`, replacing the last read. **A gift keeps its day, amount, payout, campaign, whether recurring and
+whether it went through (`gbGift`), and never a name, email, phone, address or message**: Givebutter lets somebody give
+anonymously, its API does not say which gifts were, and the dashboard counts without names, so `make-office.py` refuses a
+gift kept with more and the part reading a donor field at all. **Each page is asked for by number with the same filters**
+(`gbList`), never by following `links.next`, which a paginator may write without the filters, and a list longer than
+`GB_PAGES` pages is refused rather than half read. A key Givebutter issues can also write, so it is secret in Netlify; the
+office only sends GETs, which the tool holds. The friendly edits are **donor names on the newest gifts** "like QuickBooks
+has", which names somebody who chose not to be, and **a donor leaderboard**; each is Ryan's call and
+`privacy.html#givebutter` first. The Givebutter connector in Claude is how its numbers were explored, never how the site
+reads them.
+
 **A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
 2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one
 refused by `unknownFillIns`), a preview of every email filled in and everybody left out with the reason (`stageMail`,

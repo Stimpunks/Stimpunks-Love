@@ -378,7 +378,8 @@ def check_quickbooks(lib):
     if at < 0:
         problems.append(f"{LIB.name}: the QuickBooks part of the office is missing.")
         return
-    sec = lib[at:]
+    end = lib.find("/* GIVEBUTTER", at)
+    sec = lib[at:end if end > 0 else len(lib)]
     code = code_of(sec)
     urls = set(re.findall(r"'(https://[^']+)'", code))
     if urls != QB_HOSTS:
@@ -407,6 +408,34 @@ def check_quickbooks(lib):
     back = code_of(QBFN.read_text()) if QBFN.exists() else ""
     if "qbCallback(url.searchParams, url.origin)" not in back or not re.search(r"location: '/office\.html#/dashboard/quickbooks/' \+ \(ok \? 'connected' : 'not-connected'\),\n", back):
         problems.append(f"{QBFN.name}: Intuit's way back keeps the tokens through qbCallback and sends the person to the dashboard with nothing in the address but whether it worked.")
+
+
+def check_givebutter(lib):
+    """Givebutter is read and never written, from its own API and nowhere else,
+    with each page asked for by number; and a gift keeps nothing about who gave."""
+    at = lib.find("/* GIVEBUTTER")
+    if at < 0:
+        problems.append(f"{LIB.name}: the Givebutter part of the office is missing.")
+        return
+    sec = lib[at:]
+    code = code_of(sec)
+    if set(re.findall(r"'(https://[^']+)'", code)) != {"https://api.givebutter.com/v1/"}:
+        problems.append(f"{LIB.name}: the office asks Givebutter's own API and nowhere else.")
+    if re.search(r"method:", code):
+        problems.append(f"{LIB.name}: the office only reads Givebutter; it sends nothing but GETs.")
+    gl = (re.search(r"async function gbList\(.*?\n\}", sec, re.S) or [""])[0]
+    if not gl or "links.next" in gl.replace("!(b.links && b.links.next)", "") or "'page=' + page" not in gl:
+        problems.append(f"{LIB.name}: gbList asks for each page by number and never follows a link an answer gives.")
+    if lib.count("process.env.CB_GIVEBUTTER_KEY") != 1 or "process.env.CB_GIVEBUTTER_KEY" not in (re.search(r"function gbKey\(.*?\n\}", sec, re.S) or [""])[0]:
+        problems.append(f"{LIB.name}: CB_GIVEBUTTER_KEY is read once, in gbKey, and nowhere else.")
+    gift = re.search(r"return \{ (id: String\(x\.id\).*?) \};", fn(sec, "gbGift"), re.S)
+    keys = set(re.findall(r"(\w+):", gift.group(1))) if gift else set()
+    if keys != {"id", "day", "amount", "payout", "campaign", "recurring", "ok"}:
+        problems.append(f"{LIB.name}: a gift keeps its day, amount, payout, campaign, whether recurring and whether it went through, and nothing about who gave.")
+    if re.search(r"\bx\.(?:first_name|last_name|email|phone|address|giving_space|company|contact_id|dedication)\b", code):
+        problems.append(f"{LIB.name}: the Givebutter part reads who gave; the office keeps nobody's name.")
+    if "updateSealed(GB_BOOKS" not in fn(sec, "officeGivebutter"):
+        problems.append(f"{LIB.name}: what the office reads from Givebutter is kept sealed.")
 
 
 def check_js():
@@ -488,6 +517,7 @@ def main():
     check_mail(lib)
     check_nights(lib)
     check_quickbooks(lib)
+    check_givebutter(lib)
     check_js()
     check_css()
     check_page()

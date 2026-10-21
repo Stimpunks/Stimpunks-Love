@@ -1634,11 +1634,16 @@
     var lab = Math.min(170, Math.max(90, w * 0.36)), gapR = 46, band = 34, bar = 22;
     var h = rows.length * band + 6, max = Math.max(1, Math.max.apply(null, rows.map(function (r) { return r.value; })));
     var svg = sv('svg', { width: w, height: h, viewBox: '0 0 ' + w + ' ' + h, role: 'img', 'aria-hidden': 'true', class: 'of-chart' });
+    art.appendChild(svg);
     var span = Math.max(10, w - lab - gapR);
     svg.appendChild(sv('line', { x1: lab, x2: lab, y1: 0, y2: h, class: 'of-axis' }));
     rows.forEach(function (r, i) {
       var y = i * band + (band - bar) / 2, len = r.value ? Math.max(4, span * r.value / max) : 0;
-      svg.appendChild(sv('text', { x: lab - 8, y: y + bar / 2, class: 'of-label', 'text-anchor': 'end', 'dominant-baseline': 'central' }, r.label));
+      // A label longer than its column is cut short with an ellipsis; the tooltip and the table carry it whole.
+      var t = sv('text', { x: lab - 8, y: y + bar / 2, class: 'of-label', 'text-anchor': 'end', 'dominant-baseline': 'central' }, r.label);
+      svg.appendChild(t);
+      var words = r.label;
+      while (words.length > 1 && t.getComputedTextLength && t.getComputedTextLength() > lab - 12) { words = words.slice(0, -1); t.textContent = words.replace(/\s+$/, '') + '…'; }
       if (len) {
         var x0 = lab + 1, x1 = lab + len, rr = Math.min(4, len / 2);
         svg.appendChild(sv('path', { class: 'of-mark ' + cls, d: 'M' + x0 + ' ' + y + 'H' + (x1 - rr) + 'Q' + x1 + ' ' + y + ' ' + x1 + ' ' + (y + rr) + 'V' + (y + bar - rr) + 'Q' + x1 + ' ' + (y + bar) + ' ' + (x1 - rr) + ' ' + (y + bar) + 'H' + x0 + 'Z' }));
@@ -1648,7 +1653,6 @@
       hoverable(hit, [{ text: r.valueText || String(r.value) }, { text: r.label, key: cls }].concat(r.more ? [{ text: r.more }] : []));
       svg.appendChild(hit);
     });
-    art.appendChild(svg);
   }
   /* Columns stacked by series, one per month or year: 2px of the case between
      the parts, a rounded top, the column's total over it, and a legend. o is
@@ -1892,6 +1896,99 @@
     var p = v.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + 1));
     return d.toISOString().slice(0, 10);
   }
+  /* Givebutter, as the office last read it (Ryan, 2026-10-21): gifts in the
+     last 30 days against the 30 before, recurring plans, every month of the
+     last year, and campaigns. Nobody who gave is named here, because the
+     office keeps no name. Read late each evening and on Read Givebutter now;
+     nothing here writes to Givebutter. */
+  function givebutterFigure(g, day) {
+    var f = el('figure', 'of-fig of-fig--wide');
+    f.appendChild(el('figcaption', 'of-fig__title', 'Givebutter'));
+    if (!g || !g.ready) {
+      f.appendChild(quiet('Givebutter is not set up yet: the office needs an API key from Givebutter in Netlify’s settings.'));
+      return f;
+    }
+    var b = g.books;
+    f.appendChild(quiet(b ? 'Read ' + when(b.read) + '. Nobody who gave is named here: the office keeps no name.' : 'The office has not read Givebutter yet.'));
+    if (b) {
+      var ok = b.gifts.filter(function (x) { return x.ok; });
+      var sum = function (list, k) { return Math.round(list.reduce(function (n, x) { return n + x[k]; }, 0) * 100) / 100; };
+      var from30 = dayBack(b.day, 29), from60 = dayBack(b.day, 59);
+      var now = ok.filter(function (x) { return x.day >= from30; }), before = ok.filter(function (x) { return x.day >= from60 && x.day < from30; });
+      var failed = b.gifts.filter(function (x) { return !x.ok && x.day >= from30; }).length;
+      var said = el('ul', 'of-theirs of-said-list');
+      var rec = now.filter(function (x) { return x.recurring; }).length;
+      said.appendChild(el('li', null, now.length
+        ? money(sum(now, 'amount')) + ' was given in the last 30 days, in ' + plural(now.length, 'gift') + (rec ? ', ' + rec + ' of ' + (now.length === 1 ? 'it' : 'them') + ' recurring' : '') + '; ' + money(sum(now, 'payout')) + ' of it reached us after Givebutter’s fees. The 30 days before: ' + money(sum(before, 'amount')) + '.'
+        : 'Nothing was given in the last 30 days. The 30 days before: ' + money(sum(before, 'amount')) + '.'));
+      var m = b.monthly;
+      said.appendChild(el('li', null, m.active
+        ? plural(m.active, 'recurring plan') + ' ' + (m.active === 1 ? 'is' : 'are') + ' giving, ' + money(m.aMonth) + ' a month between them' + (m.unknown ? ' (' + m.unknown + ' of them at a frequency the office does not know, not counted)' : '') + '.' + (m.pastDue ? ' ' + plural(m.pastDue, 'plan') + ' ' + (m.pastDue === 1 ? 'is' : 'are') + ' past due.' : '')
+        : 'No recurring plan is giving.' + (m.pastDue ? ' ' + plural(m.pastDue, 'plan') + ' ' + (m.pastDue === 1 ? 'is' : 'are') + ' past due.' : '')));
+      if (failed) said.appendChild(el('li', null, plural(failed, 'gift') + ' failed in the last 30 days and ' + (failed === 1 ? 'is' : 'are') + ' not counted.'));
+      f.appendChild(said);
+      var small = el('div', 'of-small');
+      // Every month of the last year, one series, with its parts in the tooltip and the table.
+      var months = []; for (var mo = b.from.slice(0, 7); mo <= b.day.slice(0, 7); mo = nextMonth(mo)) months.push(mo);
+      var per = months.map(function (x) {
+        var on = ok.filter(function (t) { return t.day.slice(0, 7) === x; });
+        var r = on.filter(function (t) { return t.recurring; });
+        return { month: x, total: sum(on, 'amount'), recurring: sum(r, 'amount'), once: sum(on.filter(function (t) { return !t.recurring; }), 'amount'), count: on.length };
+      });
+      var mf = figure('Given each month', function (art, w) {
+        stacked(art, w, { series: ['Given'], cls: ['of-c6'], money: true, bare: true, fmt: money, cols: per.map(function (x) {
+          return { label: monthWords(x.month), long: monthWords(x.month) + ' ' + x.month.slice(0, 4), counts: [x.total],
+            more: [plural(x.count, 'gift'), 'Recurring: ' + money(x.recurring), 'Once: ' + money(x.once)] };
+        }) });
+      }, numbersTable(['Month', 'Given', 'Recurring', 'Once', 'Gifts'], per.slice().reverse().map(function (x) {
+        return [monthWords(x.month) + ' ' + x.month.slice(0, 4), money(x.total), money(x.recurring), money(x.once), x.count];
+      })));
+      mf.classList.add('of-fig--small');
+      small.appendChild(mf);
+      var camps = b.campaigns.filter(function (c) { return c.raised > 0; }).sort(function (a, c) { return c.raised - a.raised; });
+      if (camps.length) {
+        var cf = figure('Campaigns, raised so far', function (art, w) {
+          hbars(art, w, camps.map(function (c) {
+            return { label: c.title, value: c.raised, valueText: money(c.raised), more: (c.goal ? 'Goal ' + money(c.goal) + '. ' : '') + plural(c.donors, 'donor') };
+          }), 'of-c6');
+        }, numbersTable(['Campaign', 'Raised', 'Goal', 'Donors'], camps.map(function (c) { return [c.title, money(c.raised), c.goal ? money(c.goal) : '', c.donors]; })));
+        cf.classList.add('of-fig--small');
+        small.appendChild(cf);
+      }
+      f.appendChild(small);
+      var newest = ok.slice(0, 12);
+      if (newest.length) {
+        f.appendChild(el('h3', 'of-fig__title', 'The newest gifts'));
+        f.appendChild(numbersTable(['Day', 'Campaign', 'Kind', 'Given', 'Reached us'], newest.map(function (x) {
+          return [dayWords(x.day), x.campaign || '', x.recurring ? 'Recurring' : 'Once', money(x.amount), money(x.payout)];
+        })));
+      }
+    }
+    var tools = el('p', 'of-row');
+    var read = el('button', 'cb-btn of-small', 'Read Givebutter now'); read.type = 'button';
+    read.addEventListener('click', function () {
+      read.disabled = true;
+      say('Reading Givebutter…');
+      call(null, { action: 'gb-read' }).then(function (r) {
+        read.disabled = false;
+        if (r.status !== 200) { say(why(r, 'Givebutter could not be read just now. What the office last read is still here.')); return; }
+        say('Read.');
+        dashboardView();
+      });
+    });
+    tools.appendChild(read);
+    f.appendChild(tools);
+    return f;
+  }
+  function dayBack(v, n) {
+    var p = v.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] - n));
+    return d.toISOString().slice(0, 10);
+  }
+  function nextMonth(m) {
+    var y = +m.slice(0, 4), mo = +m.slice(5, 7) + 1;
+    if (mo > 12) { mo = 1; y++; }
+    return y + '-' + (mo < 10 ? '0' : '') + mo;
+  }
   function dashboardView(back) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
@@ -1993,6 +2090,8 @@
     grid.appendChild(nf);
     // QuickBooks: read late each evening and on a press; nothing here writes to our books.
     grid.appendChild(quickBooksFigure(d.quickbooks));
+    // Givebutter: read late each evening and on a press; nobody who gave is named.
+    grid.appendChild(givebutterFigure(d.givebutter, d.day));
     // Tasks, by who they are assigned to.
     var tf = el('figure', 'of-fig');
     tf.appendChild(el('figcaption', 'of-fig__title', 'Open tasks by person'));

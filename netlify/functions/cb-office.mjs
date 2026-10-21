@@ -54,6 +54,7 @@
      { action: 'qb-connect' }                        Intuit's address to connect the office to
          QuickBooks, with a state kept for the way back (/cb/office/quickbooks)
      { action: 'qb-read' }                           the books read now, as each night
+     { action: 'gb-read' }                           Givebutter read now, as each night
      { action: 'qb-disconnect' }                     the office's permission revoked at Intuit, and
          what it last read deleted
      { action: 'preview', body }                     how notes or a description will set
@@ -62,7 +63,7 @@
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
@@ -194,6 +195,11 @@ export default async (req) => {
       if (r.error === 'not-connected') return json(400, { error: 'The office is not connected to QuickBooks.' }, QUIET);
       if (r.error === 'refresh') return json(400, { error: 'Intuit would not renew the office’s permission. Disconnect, then connect again.' }, QUIET);
       return r.error ? json(502, { error: 'QuickBooks did not answer just now. What the office last read is still here.' }, QUIET) : json(200, { read: r.read }, QUIET);
+    }
+    if (b.action === 'gb-read') {
+      const r = await officeGivebutter();
+      if (r.error === 'not-set-up') return json(503, { error: 'Givebutter is not set up: our API key is not in Netlify’s settings.' }, QUIET);
+      return r.error ? json(502, { error: 'Givebutter did not answer just now. What the office last read is still here.' }, QUIET) : json(200, { read: r.read }, QUIET);
     }
     if (b.action === 'qb-disconnect') {
       const r = await qbDisconnect(who);

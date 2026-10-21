@@ -8936,8 +8936,8 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   const sumOf = (from, to) => Object.entries(perDay).filter(([d]) => d >= from && d <= to).reduce((n, [, c]) => n + DAY_KINDS.reduce((a, kind) => a + (Number.isInteger(plain(c)[kind]) ? plain(c)[kind] : 0), 0), 0);
   const cb = { days: cbDays, week: { now: sumOf(weekFrom, day), before: sumOf(lastFrom, dayBefore(weekFrom, 1)) }, since: Object.keys(perDay).filter(isDay).sort()[0] || null };
   const newest = (list, n) => list.slice().sort((a, b) => (b.t || 0) - (a.t || 0)).slice(0, n);
-  const quickbooks = await qbStatus(who, s);
-  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks,
+  const [quickbooks, givebutter] = await Promise.all([qbStatus(who, s), gbStatus(who, s)]);
+  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks, givebutter,
     recent: {
       grants: newest(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
       cases: newest(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
@@ -9196,4 +9196,102 @@ export async function officeQuickBooks(s = store(), now = Date.now(), fetchFn = 
   const books = { read: now, day, from, moneyIn: qbMoneyIn(money), year, profitLoss: qbProfitLoss(pl) };
   await updateSealed(QB_BOOKS, () => books, s);
   return { read: now, count: books.moneyIn.length };
+}
+
+/* GIVEBUTTER (Ryan, 2026-10-21: add Givebutter to the dashboard). Our giving
+   platform, read with an API key of ours, CB_GIVEBUTTER_KEY in Netlify, and
+   never written to: the office only asks GB_API for lists. Each night from
+   cb-office-daily.mjs, and on Read Givebutter now, officeGivebutter reads the
+   last GB_MONTHS months of gifts, every recurring plan and every campaign, and
+   keeps, sealed in GB_BOOKS and replacing the last read: for each gift its
+   id, day, amount, what reached us after fees, its campaign, whether it was
+   recurring and whether it went through; for each plan its status, how often
+   and how much; and for each campaign its title, goal, what it has raised and
+   how many have given. **No donor is named, emailed or addressed**: a donor
+   can give to Givebutter anonymously, the API does not say which gifts were,
+   and the dashboard needs nobody's name to count. Every page is asked of
+   GB_API by number with the same filters, never by following a link an
+   answer gives, and a list longer than GB_PAGES pages is refused rather than
+   half read. */
+export const GB_MONTHS = 12;
+const GB_API = 'https://api.givebutter.com/v1/';
+const GB_BOOKS = 'office-givebutter';
+const GB_PAGES = 50;
+const GB_A_MONTH = { weekly: 52 / 12, monthly: 1, quarterly: 1 / 3, yearly: 1 / 12, annually: 1 / 12 };
+
+function gbKey() {
+  const k = process.env.CB_GIVEBUTTER_KEY;
+  return k && k.trim() ? k.trim() : null;
+}
+export function gbReady() { return !!gbKey() && officeReady(); }
+
+async function gbList(path, key, fetchFn) {
+  // Each page is asked for by number, with the same filters, never by following a link the answer gives.
+  const out = [];
+  for (let page = 1; page <= GB_PAGES; page++) {
+    const r = await fetchFn(GB_API + path + (path.includes('?') ? '&' : '?') + 'page=' + page, { headers: { authorization: 'Bearer ' + key, accept: 'application/json' } });
+    if (!r.ok) return null;
+    const b = await r.json().catch(() => null);
+    if (!b || !Array.isArray(b.data)) return null;
+    out.push(...b.data);
+    const last = b.meta && Number.isInteger(b.meta.last_page) ? b.meta.last_page : null;
+    if (!b.data.length || (last != null ? page >= last : !(b.links && b.links.next))) return out;
+  }
+  return null;
+}
+
+const gbYes = (v) => v === true || v === 1 || v === 'true' || v === '1';
+const gbText = (v) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, 200) : null);
+
+/* A gift as the office keeps it: never who gave it. */
+export function gbGift(x) {
+  const at = x && typeof x.transacted_at === 'string' ? Date.parse(x.transacted_at) : NaN;
+  if (!x || x.id == null || !Number.isFinite(at)) return null;
+  return { id: String(x.id), day: today(new Date(at)), amount: qbMoney(x.amount), payout: qbMoney(x.payout),
+    campaign: gbText(x.campaign_title), recurring: x.plan_id != null || gbYes(x.is_recurring),
+    ok: x.status === 'succeeded' && !x.refunded_at };
+}
+export function gbPlan(p) {
+  return { status: gbText(p && p.status) || 'unknown', frequency: gbText(p && p.frequency) || 'unknown', amount: qbMoney(p && p.amount) };
+}
+export function gbCampaign(c) {
+  if (!c || !gbText(c.title)) return null;
+  const goal = Number(c.goal);
+  return { title: gbText(c.title), goal: Number.isFinite(goal) && goal > 0 ? qbMoney(goal) : null, raised: qbMoney(c.raised),
+    donors: Number.isInteger(c.donors) && c.donors >= 0 ? c.donors : 0, active: c.status === 'active' };
+}
+/* What the active plans give in a month, from how often each gives. */
+export function gbMonthly(plans) {
+  const live = plans.filter((p) => p.status === 'active');
+  return { active: live.length, aMonth: qbMoney(live.reduce((n, p) => n + p.amount * (GB_A_MONTH[p.frequency] || 0), 0)),
+    unknown: live.filter((p) => !GB_A_MONTH[p.frequency]).length, pastDue: plans.filter((p) => /past_due/.test(p.status)).length };
+}
+
+/* The first day of the month n months before day's. */
+const monthsBefore = (day, n) => { const d = new Date(Date.UTC(+day.slice(0, 4), +day.slice(5, 7) - 1 - n, 1)); return d.toISOString().slice(0, 10); };
+
+export async function officeGivebutter(s = store(), now = Date.now(), fetchFn = fetch) {
+  const key = gbKey();
+  if (!key || !officeReady()) return { error: 'not-set-up' };
+  const day = today(new Date(now)), from = monthsBefore(day, GB_MONTHS - 1);
+  // Asked from two days early, since Givebutter's clock is not Colorado's; the day decides.
+  const after = new Date(Date.parse(from + 'T00:00:00Z') - 2 * 86400000).toISOString();
+  const [gifts, plans, campaigns] = await Promise.all([
+    gbList('transactions?' + new URLSearchParams({ transactedAfter: after, per_page: '100' }), key, fetchFn),
+    gbList('plans?per_page=100', key, fetchFn),
+    gbList('campaigns?per_page=100', key, fetchFn),
+  ]);
+  if (!gifts || !plans || !campaigns) return { error: 'read' };
+  const books = { read: now, day, from,
+    gifts: gifts.map(gbGift).filter((g) => g && g.day >= from && g.day <= day).sort((a, b) => (a.day < b.day ? 1 : a.day > b.day ? -1 : 0)),
+    plans: plans.map(gbPlan), campaigns: campaigns.map(gbCampaign).filter(Boolean) };
+  await updateSealed(GB_BOOKS, () => books, s);
+  return { read: now, count: books.gifts.length };
+}
+
+/* Whether Givebutter is set up, and what the office last read. */
+export async function gbStatus(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  const books = await readSealed(GB_BOOKS, s);
+  return { ready: gbReady(), books: books ? { ...books, monthly: gbMonthly(books.plans || []) } : null };
 }

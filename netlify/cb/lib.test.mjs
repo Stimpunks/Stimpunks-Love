@@ -3792,7 +3792,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
-  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE } from './lib.mjs';
+  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4872,3 +4872,79 @@ test('QuickBooks: without our Intuit app in the settings, or without the office 
   assert.equal((await qbStatus(TRYAN, s)).ready, false);
   await withQbApp(true, () => withOfficeKey(null, async () => assert.equal((await qbConnect(TRYAN, 'https://stimpunks.world', s, T0)).error, 'not-set-up')));
 })));
+
+/* Givebutter against a fake of its API: two pages of gifts, plans and
+   campaigns, each request checked for the key and the filter, and every gift
+   carrying the donor's name, email and address, which must never be kept. */
+async function withGbKey(key, fn) {
+  const was = process.env.CB_GIVEBUTTER_KEY;
+  if (key == null) delete process.env.CB_GIVEBUTTER_KEY; else process.env.CB_GIVEBUTTER_KEY = key;
+  try { return await fn(); } finally { if (was == null) delete process.env.CB_GIVEBUTTER_KEY; else process.env.CB_GIVEBUTTER_KEY = was; }
+}
+function fakeGivebutter(seen, o = {}) {
+  const res = (body, ok = true) => ({ ok, status: ok ? 200 : 401, json: async () => body });
+  const who = { first_name: 'Ada', last_name: 'Lovelace', email: 'ada@example.org', phone: '5125550100', address: { address_1: '1 Byron Lane' }, giving_space: { name: 'Ada Lovelace', message: 'For the street' } };
+  const gift = (id, at, amount, extra = {}) => ({ id, number: 'TX' + id, transacted_at: at, amount, payout: amount - 1, campaign_title: 'Build a Counterculture of Care', status: 'succeeded', plan_id: null, is_recurring: false, refunded_at: null, ...who, ...extra });
+  const pages = {
+    'transactions?page=1': { data: [gift(1, '2026-10-17T15:00:00Z', 25), gift(2, '2026-10-02T15:00:00Z', 10, { plan_id: 77, is_recurring: true }), gift(3, '2026-10-10T15:00:00Z', 50, { status: 'failed' })],
+      links: { next: 'https://elsewhere.example/v1/transactions?page=2' }, meta: { current_page: 1, last_page: o.endless ? 999 : 2 } },
+    'transactions?page=2': { data: [gift(4, '2026-09-10T15:00:00Z', 15), gift(5, '2026-09-01T15:00:00Z', 40, { refunded_at: '2026-09-02T00:00:00Z' }), gift(6, '2025-09-15T15:00:00Z', 99)], links: { next: null }, meta: { current_page: 2, last_page: o.endless ? 999 : 2 } },
+    plans: { data: [{ id: 77, status: 'active', frequency: 'monthly', amount: '10.00', ...who }, { id: 78, status: 'active', frequency: 'yearly', amount: '120.00' },
+      { id: 79, status: 'cancelled', frequency: 'monthly', amount: '15.00' }, { id: 80, status: 'past_due_failed', frequency: 'monthly', amount: '50.00' }], links: { next: null }, meta: { last_page: 1 } },
+    campaigns: { data: [{ id: 317854, title: 'Build a Counterculture of Care', goal: 10000, raised: 5962, donors: 67, status: 'active' }, { id: 1, title: 'General Donations', goal: null, raised: 0, donors: 0, status: 'active' }], links: { next: null }, meta: { last_page: 1 } },
+  };
+  return async (url, opts = {}) => {
+    const u = new URL(url);
+    seen.push({ host: u.origin, path: u.pathname, method: opts.method || 'GET' });
+    assert.equal(opts.headers.authorization, 'Bearer gb-test-key', 'a request to Givebutter without the key');
+    if (u.origin !== 'https://api.givebutter.com') return res({}, false);
+    if (u.pathname === '/v1/transactions') {
+      assert.match(u.searchParams.get('transactedAfter') || '', /^2025-10-30T/, 'a page of gifts asked without the day it starts from');
+      const n = +u.searchParams.get('page');
+      return res(pages['transactions?page=' + (o.endless ? 1 + (n % 2) : n)]);
+    }
+    if (u.pathname === '/v1/plans') return res(pages.plans);
+    if (u.pathname === '/v1/campaigns') return res(pages.campaigns);
+    return res({}, false);
+  };
+}
+
+test('Givebutter: read with our key, every page followed on its own host, and no donor named, emailed or addressed', () => withOfficeKey(OFFICE_TEST_KEY, () => withGbKey('gb-test-key', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const seen = [];
+  const now = Date.parse('2026-10-18T18:00:00Z');
+  assert.deepEqual(await officeGivebutter(s, now, fakeGivebutter(seen)), { read: now, count: 5 });
+  assert.ok(seen.every((x) => x.host === 'https://api.givebutter.com' && x.method === 'GET'), 'the office asked somewhere else, or wrote');
+  assert.equal(seen.filter((x) => x.path === '/v1/transactions').length, 2, 'the second page of gifts was not followed');
+  const blob = await s.get('office-givebutter', { type: 'json' });
+  assertSealed(blob, ['Lovelace', 'example.org', 'Byron', '5125550100', 'For the street']);
+  const st = await gbStatus(TRYAN, s);
+  assert.equal(st.ready, true);
+  const b = st.books;
+  assert.deepEqual([b.day, b.from], ['2026-10-18', '2025-11-01']);
+  assert.deepEqual(b.gifts.map((g) => [g.id, g.day, g.amount, g.payout, g.recurring, g.ok]),
+    [['1', '2026-10-17', 25, 24, false, true], ['3', '2026-10-10', 50, 49, false, false], ['2', '2026-10-02', 10, 9, true, true], ['4', '2026-09-10', 15, 14, false, true], ['5', '2026-09-01', 40, 39, false, false]],
+    'a gift was read wrongly, or one from before the year was kept');
+  for (const g of b.gifts) assert.deepEqual(Object.keys(g).sort(), ['amount', 'campaign', 'day', 'id', 'ok', 'payout', 'recurring'], 'a gift keeps more than the office says it does');
+  const said = JSON.stringify(st);
+  for (const w of ['Ada', 'Lovelace', 'example.org', 'Byron', '5125550100', 'For the street']) assert.ok(!said.includes(w), `the dashboard was sent ${w}`);
+  assert.deepEqual(b.monthly, { active: 2, aMonth: 20, unknown: 0, pastDue: 1 });
+  assert.deepEqual(b.campaigns.map((c) => [c.title, c.goal, c.raised, c.donors]), [['Build a Counterculture of Care', 10000, 5962, 67], ['General Donations', null, 0, 0]]);
+  assert.equal(await gbStatus(TSAM, s), null);
+  // A list that never ends is refused rather than half read, and what was read before stays.
+  const endless = [];
+  assert.equal((await officeGivebutter(s, now + 1000, fakeGivebutter(endless, { endless: true }))).error, 'read');
+  assert.equal(endless.filter((x) => x.path === '/v1/transactions').length, 50, 'the office did not stop at GB_PAGES');
+  assert.equal((await gbStatus(TRYAN, s)).books.read, now);
+})));
+
+test('Givebutter: without the key, or without the office key, nothing is asked', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const seen = [];
+  await withGbKey(null, async () => {
+    assert.equal((await officeGivebutter(s, Date.now(), fakeGivebutter(seen))).error, 'not-set-up');
+    assert.deepEqual(await gbStatus(TRYAN, s), { ready: false, books: null });
+  });
+  await withGbKey('gb-test-key', () => withOfficeKey(null, async () => assert.equal((await officeGivebutter(s, Date.now(), fakeGivebutter(seen))).error, 'not-set-up')));
+  assert.equal(seen.length, 0, 'Givebutter was asked without a key');
+}));
