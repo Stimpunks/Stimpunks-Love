@@ -594,6 +594,20 @@
         "--yellow"
       ]
     },
+    "join.html": {
+      "kind": "julia",
+      "c": [
+        -0.4,
+        0.6
+      ],
+      "orbit": 0.012,
+      "ground": "--ink",
+      "inks": [
+        "--pink",
+        "--yellow",
+        "--cyan"
+      ]
+    },
     "tasks.html": {
       "kind": "julia",
       "c": [

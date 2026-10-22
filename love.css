@@ -19514,6 +19514,15 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 }
 .md-desk__code { font-family: ui-monospace, Menlo, monospace; font-size: 22px; letter-spacing: .08em; user-select: all; }
 .md-desk button { margin: 0 10px 8px 0; }
+.md-desk__in--wide { width: min(100%, 30em); }
+/* The invites: each one's link to copy, what it is for and how far it has gone,
+   on the panel, with a rule down its side like a reported message's. */
+.md-invites { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 18px; }
+.md-invite { padding: 0 0 0 14px; border-left: 3px solid var(--md-link); }
+.md-invite--done { border-left-style: dashed; }
+.mdroom .md-invite__note { margin: 0 0 6px; font-weight: 700; color: var(--md-text); }
+.mdroom .md-invite__about { margin: 0 0 8px; font-size: 15.5px; color: var(--md-dim); }
+.md-invite__link { width: min(100%, 34em); font-family: ui-monospace, Menlo, monospace; font-size: 15px; }
 /* A reported message: the words as they were typed, plain, on the panel. */
 .md-reports { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 18px; }
 .md-report { padding: 0 0 0 14px; border-left: 3px solid var(--md-link); }

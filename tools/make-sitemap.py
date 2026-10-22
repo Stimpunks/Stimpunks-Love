@@ -152,6 +152,9 @@ ORDER = ["index.html",
          # How to use the CB, part by part, beside what it keeps. A manual
          # rather than a room, so it stands with the paperwork too.
          "cb-guide.html",
+         # The joining page, where an invite becomes a username of your own
+         # (2026-10-21). The CB's, in its clothes, so it stands beside the guide.
+         "join.html",
          # The CB's forums, for what needs longer than the channel's two days. The
          # radio's, as its guide is, and in the reader's own CB theme rather
          # than a world of its own, so it stands beside the guide.
@@ -355,6 +358,7 @@ lines += [
     "- How the site is made, and how we use AI: https://stimpunks.world/design.html",
     "- How the site runs, its code and its hosting: https://stimpunks.world/architecture.html",
     "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
+    "- Joining the CB with an invite, which claims a username of your own: https://stimpunks.world/join.html",
     "- The CB's forums, for claimed usernames on the CB (nothing in them is public): https://stimpunks.world/forum.html",
     "- Tasks, the team's to-do list, for its directors and administrators (nothing in it is public): https://stimpunks.world/tasks.html",
     "- The Office, the people and organisations Stimpunks is in touch with, for its directors and administrators (nothing in it is public): https://stimpunks.world/office.html",

@@ -98,9 +98,40 @@
     </ul>
   </section>
 
+  <section class="md-part" aria-labelledby="md-invites-h">
+    <h2 id="md-invites-h">The desk: invites</h2>
+    <p><strong>Everybody joins the CB with an invite.</strong> The starter password was retired on 21 October 2026, and every username on the CB is claimed now, with a password of its own. Make an invite here and share its link: it opens <a href="join.html">the joining page</a> with the code filled in, where somebody chooses a username and a password of their own, and an email address for recovery if they want one. The code works typed into that page too.</p>
+    <p><strong>An invite can be for one person or for many</strong>, and runs out after a day, a week, a month, or never. One for a group, or for the join form on the Stimpunks Community page, is one with no limit; make a new one now and then, and delete the old. A note says what an invite is for, so the next moderator knows. <strong>Nothing records who joined with which invite</strong>: an invite counts how many times it has been used, and that is all. Deleting one stops it at once, and the usernames made with it stay. A moderator&rsquo;s username needs no invite: it is claimed with the moderators&rsquo; password.</p>
+    <div class="md-call md-desk" id="md-invites" hidden>
+      <p><label class="md-desk__lab" for="md-invites-note">What it is for (a note, seen only here)</label>
+      <input class="md-desk__in md-desk__in--wide" id="md-invites-note" type="text" maxlength="80" autocomplete="off"></p>
+      <p><label class="md-desk__lab" for="md-invites-most">How many people may join with it</label>
+      <select class="md-desk__in" id="md-invites-most">
+        <option value="1" selected>One person</option>
+        <option value="5">5 people</option>
+        <option value="10">10 people</option>
+        <option value="25">25 people</option>
+        <option value="50">50 people</option>
+        <option value="100">100 people</option>
+        <option value="0">No limit</option>
+      </select></p>
+      <p><label class="md-desk__lab" for="md-invites-days">When it runs out</label>
+      <select class="md-desk__in" id="md-invites-days">
+        <option value="1">After a day</option>
+        <option value="7" selected>After a week</option>
+        <option value="30">After 30 days</option>
+        <option value="0">Never, until it is deleted</option>
+      </select></p>
+      <p><button type="button" id="md-invites-make">Make the invite</button> <button type="button" id="md-invites-load">Show the invites</button></p>
+      <div id="md-invites-list"></div>
+      <p class="md-call__said" id="md-invites-said" role="status"></p>
+    </div>
+    <p class="md-call__fine" id="md-invites-off">The invites open for a moderator signed on as the base, and the server refuses everybody else whatever this page shows.</p>
+  </section>
+
   <section class="md-part" aria-labelledby="md-desk-h">
     <h2 id="md-desk-h">The desk: usernames</h2>
-    <p>Anybody on the CB can claim their username with a password of their own, from <b>Account</b> on their radio. There is no email, so when somebody has lost both their password and their recovery code, a moderator can give them a way back in from here. <strong>There is no list of everybody&rsquo;s username</strong>: look up the one you were asked about, by name.</p>
+    <p>Everybody on the CB has claimed their username, with a password of their own. When somebody has lost their password and their recovery code, and has no email address on their username or the reset code never came, a moderator can give them a way back in from here. <strong>There is no list of everybody&rsquo;s username</strong>, and the desk never shows anybody&rsquo;s email address: look up the one you were asked about, by name.</p>
     <p><strong>Before a reset, make sure who you are talking to</strong>, on Stoat or in a call, the way you would before giving anybody a key. A reset code is good for a day, signs the username off everywhere, and is shown to you once: pass it on privately. Deleting a username deletes its password and its pets, and anybody can claim the name afterwards.</p>
     <p><strong>A profile card that breaks <a href="https://stimpunks.org/covenant/">our covenant</a> can be cleared on its own.</strong> Look the username up and clear its card: the card and its nameplate on Who&rsquo;s online go, and the username, its password, pets, avatars, jobs and patches stay, so they can fill in a new one. Nothing tells them it was cleared, and nothing is kept about it, so tell them why yourself if you can.</p>
     <div class="md-call md-desk" id="md-desk" hidden>
@@ -110,8 +141,8 @@
       <div id="md-desk-found"></div>
       <p class="md-call__said" id="md-desk-said" role="status"></p>
     </div>
-    <p class="md-call__fine" id="md-desk-off">The desk opens for a moderator signed on as the base, with the moderators&rsquo; password or their own, and the server refuses everybody else whatever this page shows.</p>
-    <p><strong>Your own password.</strong> Every moderator knows the moderators&rsquo; password, so while you sign on with it any of us can sign on as you. <b>Account</b> on your radio moves you onto a password of your own: your roles stay on the moderators&rsquo; list, and the shared password stops working for your handle. <strong>The desk does not reset or delete a moderator&rsquo;s username, or clear its card</strong>, because a reset code would let one of us sign on as another, roles and all, so keep your recovery code. If you lose both, Ryan or Helen can move you back.</p>
+    <p class="md-call__fine" id="md-desk-off">The desk opens for a moderator signed on as the base, and the server refuses everybody else whatever this page shows.</p>
+    <p><strong>Your own password.</strong> The moderators&rsquo; password signs nobody on now: every moderator knows it, so while it did, any of us could sign on as any other. If your username on the moderators&rsquo; list is not claimed yet, claim it on <a href="join.html">the joining page</a> with the moderators&rsquo; password and one of your own; your roles stay on the list. <strong>The desk does not reset or delete a moderator&rsquo;s username, or clear its card</strong>, because a reset code would let one of us sign on as another, roles and all, so keep your recovery code, and give an email address for recovery if you like. If you lose both, Ryan or Helen can move you back.</p>
   </section>
 
   <section class="md-part" aria-labelledby="md-reports-h">
@@ -130,7 +161,7 @@
     <h2 id="md-call-h">Talking</h2>
 <!-- md-call:begin -->
     <div class="md-call" data-call="town-hall-moderators" data-call-name="Moderators" data-call-mods="moderator">
-      <p>The channel and the call in here are for any moderator: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>
+      <p>The channel and the call in here are for any moderator: moderators sign on at the Community Center with a username on the moderators&rsquo; list and their own password. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>
       <p class="md-call__cb" data-call-cb hidden>This browser is not signed on as a moderator this room is for, so the call in here is not yours to join. Moderators sign on at <a href="community-center.html#cb-signon-desk">the front desk</a>.</p>
       <p class="md-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>
       <p class="md-call__who" data-call-who hidden></p>

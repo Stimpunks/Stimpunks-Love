@@ -432,8 +432,10 @@
 
   /* ── Pieces ──────────────────────────────────────────────────────────── */
 
-  function tag(text, claimed) { return el('span', 'cb-tag' + (claimed ? ' cb-tag--claimed' : ''), text); }
-  function marks(into, base) { into.appendChild(base ? tag('BASE') : tag('CLAIMED', true)); }
+  /* BASE, filled, beside a moderator's name. There is no CLAIMED any more:
+     every username on the CB is claimed (2026-10-21), so it said nothing. */
+  function tag(text) { return el('span', 'cb-tag', text); }
+  function marks(into, base) { if (base) into.appendChild(tag('BASE')); }
 
   /* A name opens that person's profile on the radio, as a handle on the channel does. */
   function who(handle, base) {
@@ -625,7 +627,6 @@
       var head = el('p', 'fm-cb__head');
       head.appendChild(el('b', null, m.handle));
       if (m.base) head.appendChild(tag('BASE'));
-      else if (m.claimed) head.appendChild(tag('CLAIMED', true));
       var tm = el('span', 'fm-cb__time');
       try { tm.textContent = oneDay ? new Date(m.t).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }) : when(m.t); } catch (e) {}
       head.appendChild(tm);
@@ -1486,7 +1487,7 @@
     side.textContent = '';
     var h = heading(2, 'Sign on to read the forums');
     view.appendChild(h);
-    view.appendChild(el('p', null, 'The forums are for claimed usernames on the CB. Sign on to the CB with the bar in the corner of your screen, then press Account on the radio, under You, and claim your username with a password of your own.'));
+    view.appendChild(el('p', null, 'The forums are for everybody on the CB. Sign on with the bar in the corner of your screen, or join with an invite if you are new: the radio will ask you to claim your username first if you are on with the old starter password.'));
     var p = el('p');
     var a = el('a', null, 'How to get on the CB');
     a.href = '/community-center.html';

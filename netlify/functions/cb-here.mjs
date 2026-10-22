@@ -7,12 +7,12 @@
    seen here come with the familiar each claimed one brought (withFamiliars),
    so a familiar is seen only where its person is seen, and only by people
    seen there; never on Who's online. */
-import { readPass, roomTag, roomAllows, mudVisit, beSeen, withFamiliars, inCall, json, body, sameSite } from '../cb/lib.mjs';
+import { readPass, sharedPass, roomTag, roomAllows, mudVisit, beSeen, withFamiliars, inCall, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
   const who = await readPass(req);
-  if (!who) return json(401, { error: 'signed off' });
+  if (!who) return sharedPass(req) ? json(403, { error: 'claim your username first' }) : json(401, { error: 'signed off' });
   const b = (await body(req)) || {};
   const room = roomTag(b.room);
   const visit = mudVisit(b.visit);

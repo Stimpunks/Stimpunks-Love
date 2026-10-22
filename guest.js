@@ -177,31 +177,34 @@
     tpp.appendChild(none);
     box.appendChild(tpp);
 
-    /* GETTING ON THE CB: what it is, where the password comes from, and where
-       a member who signed off turns it back on. Every link is a place on this
-       street that already says more. */
+    /* GETTING ON THE CB: what it is, where an invite comes from, and where a
+       member who signed off turns it back on. Every link is a place on this
+       street that already says more. The starter password was retired on
+       2026-10-21: everybody joins by claiming a username, with an invite. */
     var set = el('div', 'cb-set cb-guest-set');
     set.id = 'cb-guest-set';
-    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call, watch a film together, and, with a claimed username, write in the forums. The channel keeps nothing past 48 hours; the forums are for what needs longer.');
+    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call, watch a film together, and write in the forums. The channel keeps nothing past 48 hours; the forums are for what needs longer.');
     var p2 = el('p');
-    p2.appendChild(document.createTextNode('It takes a username of your choosing and the starter password, which you are given when you join our community: '));
+    p2.appendChild(el('b', null, 'New here? '));
+    p2.appendChild(document.createTextNode('You join with an invite, a link or a code from a moderator, or from the Stimpunks Community page when you join our community: '));
     p2.appendChild(link('/community-center.html#getting-started', 'Getting started'));
-    p2.appendChild(document.createTextNode(', at the Community Center, says how. Then sign on here, or at '));
-    p2.appendChild(link('/community-center.html#cb-signon-desk', 'the front desk'));
-    p2.appendChild(document.createTextNode(', where the house norms are.'));
+    p2.appendChild(document.createTextNode(', at the Community Center, says how. An invite\u2019s link opens '));
+    p2.appendChild(link('/join.html', 'the joining page'));
+    p2.appendChild(document.createTextNode(', where you choose a username and a password of your own.'));
     var p3 = el('p');
     p3.appendChild(el('b', null, 'Signed on before? '));
     p3.appendChild(document.createTextNode('Signing off, or a new browser, takes the radio away. Sign on again here and it is back on every page.'));
 
-    /* SIGN ON FROM HERE, for somebody who already knows the password (Ryan,
+    /* SIGN ON FROM HERE, with a username and its own password (Ryan,
        2026-09-30). The front desk's own form, sending exactly what the desk
        sends, to the same /cb/signon, only when pressed; what comes back is kept
        in love-cb the way the desk keeps it, and then love.js brings the radio,
-       with every rule it applies to a page. The moderators' password works
-       here too, because the server decides which one it is. */
+       with every rule it applies to a page. A moderator whose username is
+       still on the moderators' password is answered { claim } and sent to the
+       joining page to claim it. */
     var form = el('form', 'cb-tx cb-guest-signon');
     form.setAttribute('aria-label', 'Sign on to the CB');
-    var hl = el('label', 'cb-lab', 'Your handle');
+    var hl = el('label', 'cb-lab', 'Your username');
     hl.htmlFor = 'cb-guest-handle';
     var handle = el('input', 'cb-say cb-guest-in');
     handle.id = 'cb-guest-handle';
@@ -209,9 +212,9 @@
     handle.type = 'text';
     handle.maxLength = 24;
     handle.required = true;
-    handle.autocomplete = 'nickname';
+    handle.autocomplete = 'username';
     handle.spellcheck = false;
-    var pl = el('label', 'cb-lab', 'The community password, or your own if you have claimed your username');
+    var pl = el('label', 'cb-lab', 'Your password');
     pl.htmlFor = 'cb-guest-password';
     var password = el('input', 'cb-say cb-guest-in');
     password.id = 'cb-guest-password';
@@ -248,10 +251,17 @@
         return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
       }).then(function (r) {
         send.disabled = false;
+        if (r.status === 200 && r.body.claim) {
+          password.value = '';
+          said.textContent = r.body.handle + ' is a moderator\u2019s username, and has not been claimed yet. Claim it on ';
+          said.appendChild(link('/join.html#name=' + encodeURIComponent(r.body.handle), 'the joining page'));
+          said.appendChild(document.createTextNode(', with the moderators\u2019 password and one of your own.'));
+          return;
+        }
         if (r.status === 200 && r.body.pass) {
           password.value = '';
           try {
-            localStorage.setItem('love-cb', JSON.stringify({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], folded: false, aloud: true }));
+            localStorage.setItem('love-cb', JSON.stringify({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], claimed: true, folded: false, aloud: true }));
           } catch (x) { said.textContent = 'This browser will not keep the pass, so the radio cannot stay on. A private window does that.'; return; }
           keep(false);
           host.remove();

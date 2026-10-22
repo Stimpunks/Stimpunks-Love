@@ -297,7 +297,7 @@ def panel(r):
     if r["mods"]:
         return "\n".join([
             f'    <div class="{p}-call" data-call="{tag}" data-call-name="{name}" data-call-mods="{roles_attr}"{strict_attr}>',
-            f'      <p>The channel and the call in here are for {who_for(r["for"])}{" and nobody else, not even an administrator" if r.get("strict") else "" if r["for"] == ["moderator"] else ", and for administrators"}: moderators sign on at the Community Center with the moderators&rsquo; password, under a handle on the moderators&rsquo; list. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>',
+            f'      <p>The channel and the call in here are for {who_for(r["for"])}{" and nobody else, not even an administrator" if r.get("strict") else "" if r["for"] == ["moderator"] else ", and for administrators"}: moderators sign on at the Community Center with a username on the moderators&rsquo; list and their own password. Anybody can come in and look around, and the radio waits outside the door for everybody else.</p>',
             f'      <p class="{p}-call__cb" data-call-cb hidden>This browser is not signed on as a moderator this room is for, so the call in here is not yours to join. Moderators sign on at <a href="community-center.html#cb-signon-desk">the front desk</a>.</p>',
             f'      <p class="{p}-call__member" data-call-join hidden><button type="button">Join the call as <b data-call-handle></b></button></p>',
             f'      <p class="{p}-call__who" data-call-who hidden></p>',

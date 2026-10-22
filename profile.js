@@ -3086,7 +3086,6 @@
     c.pfName = h;
     var line = el('p', 'pf-line');
     if (o.mark && o.mark.base) line.appendChild(el('span', 'cb-tag', 'BASE'));
-    else if (o.mark && o.mark.claimed) line.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     if (p.pronouns) line.appendChild(el('span', 'pf-pronouns', p.pronouns));
     if (line.childNodes.length) body.appendChild(line);
     if (p.bio && o.md) {

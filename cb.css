@@ -632,13 +632,6 @@ ol.cb-md-list { list-style: decimal; }
 .cb-md-h2 { font-size: 1.1em; }
 .cb-md-h3 { font-size: .92em; text-transform: uppercase; letter-spacing: .05em; }
 .cb-msg .cb-tag { margin-left: 0; }
-/* CLAIMED is outlined where BASE is filled, so the two are told apart by
-   shape as well as by word: one says a moderator, the other only that this
-   username signs on with its owner's own password. */
-.cb-tag--claimed {
-  color: var(--cb-amber); background: transparent;
-  box-shadow: inset 0 0 0 1px var(--cb-amber);
-}
 /* HOSTING NOW, first under Watching together (it was in the readout under the
    log until 2026-10-19, where a host read as the newest message). In the
    case's own ink, as Who's online's lists are, and the Catch up button keeps
@@ -1394,11 +1387,9 @@ ol.cb-md-list { list-style: decimal; }
 .cb-opt[aria-selected="true"] { color: var(--cb-lcd); background: var(--cb-amber); }
 .cb-opt[aria-selected="true"] .cb-opt__tag,
 .cb-opt[aria-selected="true"] .cb-opt__why { color: var(--cb-lcd); }
-/* A person in the teleporter carries BASE or CLAIMED, and on the picked row's
-   amber the two swap their inks: BASE filled in the readout's black, CLAIMED
-   outlined in it, so neither is amber on amber. */
+/* A person in the teleporter carries BASE, and on the picked row's amber it
+   swaps its inks, filled in the readout's black, so it is never amber on amber. */
 .cb-opt[aria-selected="true"] .cb-tag { color: var(--cb-amber); background: var(--cb-lcd); box-shadow: none; }
-.cb-opt[aria-selected="true"] .cb-tag--claimed { color: var(--cb-lcd); background: transparent; box-shadow: inset 0 0 0 1px var(--cb-lcd); }
 /* The radio's answer to a press, under the readout. A rule down its side in the
    log's amber, so a sentence that appears there is noticed. */
 /* The guest bar's sign-on: the front desk's two boxes, the width of the panel. */

@@ -112,8 +112,8 @@
   "png": "bc2d0226194715f8a31b5ff22efe898a5479ffc96f43840e51a45aaba1507cc0"
  },
  "community-center": {
-  "made_from": "e1c3e0da53d68385d9750d5bb3237e3822cb1fcf8e00180f05cd12cebfe83e76",
-  "png": "efced6b4db60098a7c1e44459608c8159c33a99f57b8d0ea170aafb290cf5ea8"
+  "made_from": "211d4bb130869a2bcc1726a571737d7b0fdb28a8fdbb329821eb418d7bfa7285",
+  "png": "61ff9acdec2106df29457007ad897ead30c58d3dbabd1138e16d24d8db214613"
  },
  "community-library": {
   "made_from": "a4c7ded05564fd995a8fac57aeb906ff7465da9981a4a524ce4c9a08d32312db",
@@ -210,6 +210,10 @@
  "index": {
   "made_from": "25910e967c103267198f9cb844ccc0dec5b0d04fc10f51211a5965d1cba9db39",
   "png": "5cba415d9d45ecf08a528540970552f86caf1c0e21eab9f87a199b1f93c9155c"
+ },
+ "join": {
+  "made_from": "504e6f419ee906a4f3dd53b6529e116ce11051a65aee59fb686ed074eeb2b871",
+  "png": "66797fdb0884a1cf7855e12cc9530b22e8c4e5a5edafa2a0776d083613e71c6c"
  },
  "jungle-room": {
   "made_from": "2da00f30abcf6a5e7956df4b7aeb67ccda6f86a92f5ad8a192b79c77f7d6d4c4",

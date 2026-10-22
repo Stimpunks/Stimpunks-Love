@@ -3758,8 +3758,7 @@ World room's last busy time and a forum copy that spans days. The friendly edit 
 2026-09-30: a guest CB for everybody not signed on, to bring people into the community and remind a
 member who signed off where to turn the radio back on. It is the radio's bar in the radio's clothes
 (its own shadow root, `cb.css`), **folded until pressed**, with the teleporter and a panel saying
-what the CB is, that the community password is asked for in the meeting hall, and where the front
-desk is. **It knows nothing about the channel and must not**: no count of who is on, no hint of what
+what the CB is, that you join with an invite on `join.html`, and where the front desk is. **It knows nothing about the channel and must not**: no count of who is on, no hint of what
 is said, or it is a window into the channel for people who are not on it. It keeps only
 `love-cb-guest = "open"` while its panel is left open, and the list of rooms is fetched only when the
 teleporter opens. `love.js` loads it exactly where the radio would come, so `data-cb="off"` pages
@@ -4205,13 +4204,47 @@ sign on as another with the other's roles, Executive Session included; a moderat
 password nor recovery code is taken off the list for a moment, reset as an ordinary username, and put
 back. No shared password can be taken as a personal one (`ownPassword`). `tools/make-accounts.py` refuses a console call anywhere in `netlify/`,
 anything listing `acct/`, a desk action beyond find, reset and delete, an account field beyond those,
-the word email in claiming, and Account losing Delete my account or its second press. **A claimed username is marked CLAIMED on the channel, like BASE** (Ryan, the same evening):
-`cb-transmit` sets it from `who.account` and never from the request, `shape()` keeps it off a BASE
-message, and the tag is outlined where BASE is filled; `make-accounts.py` refuses any other source for
-it. The friendly
+an email address kept unsealed or read by anything but its owner's Account and the reset email, and
+Account losing Delete my account or its second press. **A claimed username was marked CLAIMED on the
+channel, like BASE** (Ryan, the same evening), and **the mark went on 2026-10-21**, when every username
+became claimed: `make-accounts.py` refuses it in `cb.js`, `forum.js`, `profile.js` and `cb.css`. The
+server still keeps `claimed` on a message, because Take off and Edit read it: `cb-transmit` sets it from
+`who.account` and never from the request, and `shape()` keeps it off a BASE message. The friendly
 edit is **a table of users for the admins**; it would be a register of our community that the privacy
 page says does not exist. **Page scripts read the pass once when they load**, so a room left open while
 somebody claims says *the password has changed* on its next press, and a reload fixes it.
+
+**THE STARTER PASSWORD IS RETIRED, EVERYBODY JOINS WITH AN INVITE, AND EVERY USERNAME IS CLAIMED.**
+Ryan's brief and calls, 2026-10-21: invite codes in place of the starter password, made and deleted at the
+desk in the Moderators' room (`/cb/invites`, `desk.js`); an invite's link, `join.html#invite=<code>`, opens
+the joining page (`join.js`, `join.css`, the CB's clothes in a shadow root, `/cb/join`), where somebody
+chooses a username and a password of their own and is on with a claimed username from their first minute;
+**the starter password retired at once** (Ryan chose that over keeping it as a standing invite, knowing
+stimpunks.org's join page needs an invite link before anybody new can get in), so `signOn` refuses it with
+`STARTER_GONE`; **a pass from a shared password (`cb1`) is read only by `/cb/account`, for claiming**
+(`readPass(…, { unclaimed: true })`), and the radio builds no radio for one, only `claimFirst()` in
+`cb.js`, which claims and then brings the radio; `/cb/channel` and `/cb/here` answer such a pass 403
+(`sharedPass`), not 401, so a tab still running the old `cb.js` says "no signal" rather than forgetting
+the one pass that can still claim. **A moderator's username takes the moderators' password and no
+invite** (`joinAccount`), the moderators' password signs nobody on (it answers `{ claim }` and the page
+sends them to the joining page), and **joining fails closed** without a readable `CB_MODS`, so an invite
+cannot claim a moderator's name. **An invite is its id, code, note, maker, when made, when it runs out,
+how many uses it may have and how many it has had**: a use is reserved before the claim and given back
+if the claim fails (`lib.test.mjs` races fifteen at a five-use invite), and **nothing records who joined
+with which invite**. The friendly edits are "invited by" on a profile and a list of who used an invite;
+each is a register of our community by sponsor. **AN EMAIL ADDRESS IS OPTIONAL AND IS FOR ONE THING**,
+reversing "no email" (Ryan's choice of how, the same day: the team mailbox, over a mail service of its own
+and over moderators sending codes by hand): sealed with the office's key (`recoveryBox`), offered only
+while `emailOn()` (both office keys), shown to its owner and nobody else, moderators included, and used
+only by `mailResetCode`, which puts a reset code in the office's outbox (`acct-outbox`, ahead of the
+mailings) for the team mailbox's script to send; the code works an hour, one per username a quarter of an
+hour, signs nobody off until used, the front desk answers the same whether or not the address matches,
+the outbox forgets it once sent, and `officeMailIn` never files it with a contact. **The script needed no
+change**: it sends whatever the outbox hands it and reports each id. What it keeps is its Sent folder,
+which `privacy.html#recovery-email` says. `tools/make-accounts.py` holds all of it. **Every sentence
+that said claim it if you like, the starter password or an unclaimed handle was rewritten**: the Community
+Center's Getting started, the front desk, the guest bar, the CB guide, the privacy page, the Town Hall's
+call panels (`make-town-hall.py`) and the desk. A new sentence about getting on the CB says invite.
 
 **THE SHELTERS KNOW THEIR ANIMALS AND NOT THEIR PEOPLE, AND YOUR PETS ARE KEPT UNDER YOU.** Ryan, 2026-09-30: catch-a-cat renamed Rescue A Cat (§87), then adoption, a Pets tray in the CB,
 a list of everybody ever adopted kept for good, and Rescue A Dog (§88), all the same evening. Animals
@@ -4331,11 +4364,11 @@ a handle proves nothing and BASE is the one mark that is checked.
 **THE COMMUNITY CENTER IS WHERE PEOPLE GET STARTED, AND IT NAMES NO OTHER CHAT.** Ryan, 2026-10-18,
 reversing the meeting hall of 2026-09-29: the community uses Stimpunks.World and its forums for everything,
 so the room no longer mentions Stoat or Discord. It opens with **Getting started**, Ryan's draft: ask to
-join on stimpunks.org's Community page, which gives you the **starter password** (the one shared password,
-which the radio, the CB guide and the privacy page still call the community password, and the room says
-so), sign on, claim your username, then quests. **The claiming steps name the radio's own buttons**
-(Account, A password of your own, The same again, Claim), so a change to those labels in `cb.js` is a
-change to that list. **Other pages send people to `community-center.html#getting-started`**, never to a
+join on stimpunks.org's Community page, which gives you an **invite** (the starter password until
+2026-10-21), open its link, choose a username and a password of your own on the joining page, keep the
+recovery code, then quests. **The steps name the joining page's own labels and buttons**, and the note for
+somebody still on the starter password names the radio's (Claim and the username), so a change to those
+labels in `join.js` or `claimFirst` is a change to that list. **Other pages send people to `community-center.html#getting-started`**, never to a
 meeting hall: the guest bar, the CB guide, the Sandbox's box and the Fishbowl's call panel. The channel is
 still for what forgets in 48 hours and the forums for what needs longer. stoat.chat stays out of
 `ORIGINS`: it sends `X-Frame-Options: SAMEORIGIN`.

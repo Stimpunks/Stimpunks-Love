@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-"""Hold the CB's accounts to what privacy.html says about them.
+"""Hold the CB's accounts, and the invites that make them, to what privacy.html
+says about them.
 
 Ryan's calls, 2026-09-30: a Profile button on the CB where you can claim your
 username with a password of your own; no email; a recovery code shown once;
 moderators can look up one username by name, reset it or delete it, in the
-Moderators' room. And 2026-10-18: a moderator can clear one person's profile
-card there, without deleting their username. lib.test.mjs tests what the code does. This checks the
-promises that are not behaviour, which is where a friendly edit would break
-one without any test noticing:
+Moderators' room. 2026-10-18: a moderator can clear one person's profile card
+there, without deleting their username. And 2026-10-21: the starter password
+became invites and was retired the same day, everybody claims a username when
+they join (join.html), a pass from a shared password is good only for
+claiming, CLAIMED went from the channel because everybody is, and an account
+may keep an email address for one thing, a reset code its owner asks for,
+sent through the team mailbox. lib.test.mjs tests what the code does. This
+checks the promises that are not behaviour, which is where a friendly edit
+would break one without any test noticing:
 
   · NOTHING IS LOGGED. No console call anywhere in netlify/, because the one
     thing worse than keeping a password is printing one while debugging.
@@ -24,21 +30,41 @@ one without any test noticing:
     through forgetProfile and writes nothing of its own, because the friendly
     edit is a note of who cleared whose card and when, which would be a record
     of moderation kept against a person that privacy.html does not mention.
-  · NO EMAIL. The account record has no field for one and the word does not
-    appear in what claiming writes.
+  · AN EMAIL ADDRESS ONLY SEALED, AND ONLY FOR ITS OWNER. Reversing "no
+    email" (Ryan, 2026-10-21): claiming writes the base record and, only if
+    one was given, `email` from recoveryBox, which seals it. Nothing reads it
+    back (accountEmail) but the owner's own Account, setting it, and the reset
+    email; the desk never does, and shapeAccount, which the desk answers with,
+    never carries it. The friendly edit is "show moderators the address so
+    they can help"; privacy.html says nobody but its owner sees it.
+  · INVITES COUNT USES AND NEVER WHO. An invite is exactly its id, code, note,
+    maker, when it was made, when it runs out, how many uses it may have and
+    how many it has had; a use changes only that count (and when it filled).
+    The friendly edit is "invited by" on a profile, Discord's; it is a list of
+    who came in through whose invite. /cb/invites lists, makes and deletes and
+    does nothing else, for a base pass only.
+  · THE STARTER PASSWORD SIGNS NOBODY ON, and a pass from a shared password
+    (cb1) is read only by /cb/account, for claiming. The friendly edit is to
+    let the old password back in "for people who have not heard yet"; the radio
+    asks them to claim instead.
+  · THE JOINING PAGE sends to /cb/join and nowhere else, keeps nothing but the
+    pass it is given, builds nothing from a string, and its sheet wears the
+    CB's seven colours and no literal one.
   · YOU CAN LEAVE. Account (Profile's until 2026-10-19) offers Delete my account, with a second press, and
     the desk asks once more before it deletes, resets or clears a card.
-  · CLAIMED IS THE SERVER'S WORD. Ryan's call, 2026-09-30: a claimed username
-    is marked on the channel like BASE. The mark means something only because
-    the sender cannot set it, so cb-transmit takes it from who.account (what
-    readPass found behind the pass) and never from the request body, and
-    shape() never lets a message wear it beside BASE. The friendly edit is a
-    "verified" checkbox somebody ticks for themselves.
+  · CLAIMED IS THE SERVER'S WORD, AND NO LONGER DRAWN. Ryan's call,
+    2026-09-30, marked a claimed username on the channel like BASE; since
+    2026-10-21 every username is claimed, so the mark is gone from the radio,
+    the forums and the profiles, and refused there. The server still keeps the
+    field, because Take off and Edit read it, so cb-transmit takes it from
+    who.account (what readPass found behind the pass) and never from the
+    request body, and shape() never lets a message wear it beside BASE.
   · THE DESK LEAVES A MODERATOR'S USERNAME ALONE. A reset code for one would
     let one moderator become another, with the other's roles. Their card is
     left alone with it.
-  · privacy.html has the section Account and the desk point at, and says
-    there is no email.
+  · privacy.html has the sections Account, the desk and the joining page point
+    at, says nothing records who joined with which invite, and says who sees an
+    email address.
 
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
@@ -51,6 +77,14 @@ LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 ADMIN = ROOT / "netlify" / "functions" / "cb-account-admin.mjs"
 TRANSMIT = ROOT / "netlify" / "functions" / "cb-transmit.mjs"
 CB = ROOT / "cb.js"
+FORUM = ROOT / "forum.js"
+PROFILE = ROOT / "profile.js"
+CBCSS = ROOT / "cb.css"
+JOIN = ROOT / "join.js"
+JOINCSS = ROOT / "join.css"
+JOINPAGE = ROOT / "join.html"
+INVITES = ROOT / "netlify" / "functions" / "cb-invites.mjs"
+FUNCS = ROOT / "netlify" / "functions"
 DESK = ROOT / "desk.js"
 PRIVACY = ROOT / "privacy.html"
 MODS = ROOT / "town-hall-moderators.html"
@@ -76,11 +110,66 @@ def main():
     while re.search(r"\([^()]*\)", flat):
         flat = re.sub(r"\([^()]*\)", "", flat)
     keys = sorted(e.split(":")[0].strip() for e in flat.split(",") if e.strip())
-    if keys != sorted(["handle", "hash", "salt", "rhash", "rsalt", "since", "v", "fails", "lockUntil"]):
+    base = sorted(["handle", "hash", "salt", "rhash", "rsalt", "since", "v", "fails", "lockUntil"])
+    if keys != sorted(base + ["..."]) or "...(box ? { email: box.sealed } : {})" not in (body.group(1) if body else ""):
         problems.append(f"{LIB.name}: claiming writes {keys}; an account is the username, two hashes with "
-                        "their salts, when it was claimed, a version and its lock, and nothing else.")
-    if re.search(r"e-?mail", claim, re.I):
-        problems.append(f"{LIB.name}: claiming mentions email. There is no email.")
+                        "their salts, when it was claimed, a version and its lock, and an email address only "
+                        "as recoveryBox sealed it, and nothing else.")
+    m = re.search(r"async function recoveryBox\(.*?\n\}", lib, re.S)
+    if not m or "seal({ email: to })" not in m.group(0):
+        problems.append(f"{LIB.name}: recoveryBox does not seal the address. An email address is kept only sealed.")
+    m = re.search(r"export function shapeAccount\(.*?\n", lib)
+    if not m or "email" in m.group(0):
+        problems.append(f"{LIB.name}: shapeAccount carries an email address, and the desk answers with it.")
+    for f in sorted(FUNCS.glob("*.mjs")):
+        code = re.sub(r"/\*.*?\*/", " ", f.read_text(), flags=re.S)
+        if "accountEmail" in code and f.name != "cb-account.mjs":
+            problems.append(f"{f.name}: reads somebody's email address. Only its owner's own Account does.")
+    m = re.search(r"export async function makeInvite\(.*?\n\}", lib, re.S)
+    inv = re.search(r"const inv = \{ (.*?) \};", m.group(0), re.S) if m else None
+    flat = inv.group(1) if inv else ""
+    while re.search(r"\([^()]*\)", flat):
+        flat = re.sub(r"\([^()]*\)", "", flat)
+    ikeys = sorted(e.split(":")[0].strip() for e in flat.split(",") if e.strip())
+    if ikeys != sorted(["id", "code", "note", "by", "made", "until", "most", "used"]):
+        problems.append(f"{LIB.name}: an invite is {ikeys}; it is its id, code, note, maker, when it was made, "
+                        "when it runs out, how many uses it may have and how many it has had, and nothing else.")
+    m = re.search(r"async function useInvite\(.*?\n\}", lib, re.S)
+    use = m.group(0) if m else ""
+    if not use or re.search(r"handle|who\b|by:", use) or "{ ...i, used," not in use:
+        problems.append(f"{LIB.name}: useInvite is missing or writes something about who used the invite. A use "
+                        "changes the count and nothing else.")
+    m = re.search(r"export async function joinAccount\(.*?\n\}", lib, re.S)
+    join = m.group(0) if m else ""
+    if not join or re.search(r"updateInvites\(|\.setJSON\(", join):
+        problems.append(f"{LIB.name}: joinAccount writes to the invites itself. It takes a use through useInvite, "
+                        "which keeps nothing about who.")
+    if "if (all && same(password, all)) return { error: STARTER_GONE };" not in lib:
+        problems.append(f"{LIB.name}: signOn lets the retired starter password sign somebody on.")
+    if "if (!m || !unclaimed) return null;" not in lib:
+        problems.append(f"{LIB.name}: readPass reads a pass from a shared password for more than claiming.")
+    for f in sorted(FUNCS.glob("*.mjs")):
+        if "unclaimed: true" in f.read_text() and f.name != "cb-account.mjs":
+            problems.append(f"{f.name}: reads a pass from a shared password. Only claiming at /cb/account does.")
+    icode = re.sub(r"/\*.*?\*/", " ", INVITES.read_text(), flags=re.S) if INVITES.exists() else ""
+    asks = sorted(set(re.findall(r"\bb\.(\w+)", icode)))
+    if asks != ["delete", "make"] or "who.role !== 'base'" not in icode:
+        problems.append(f"{INVITES.name}: the invites' desk takes {asks} or not only from a base pass; it lists, "
+                        "makes and deletes, for a moderator, and nothing else.")
+    jcode = re.sub(r"/\*.*?\*/", " ", JOIN.read_text(), flags=re.S) if JOIN.exists() else ""
+    urls = sorted(set(re.findall(r"fetch\('([^']+)'", jcode)))
+    if urls != ["/cb/join"]:
+        problems.append(f"{JOIN.name}: the joining page sends to {urls}; it sends to /cb/join and nowhere else.")
+    if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|document\.write", jcode):
+        problems.append(f"{JOIN.name}: builds markup from a string.")
+    stores = sorted(set(re.findall(r"localStorage\.\w+\('([^']+)'", jcode)))
+    if re.search(r"sessionStorage|indexedDB|document\.cookie", jcode) or stores != ["love-cb"]:
+        problems.append(f"{JOIN.name}: keeps {stores or 'nothing'} or uses other storage; it keeps the pass, in love-cb, and nothing else.")
+    jcss = re.sub(r"/\*.*?\*/", " ", JOINCSS.read_text(), flags=re.S) if JOINCSS.exists() else ""
+    if re.search(r"#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(", jcss):
+        problems.append(f"{JOINCSS.name}: a literal colour. The joining desk wears the CB's seven and none of its own.")
+    if not JOINPAGE.exists() or "join.js" not in JOINPAGE.read_text() or 'data-cb-guest="off"' not in JOINPAGE.read_text():
+        problems.append(f"{JOINPAGE.name}: missing, without join.js, or with the guest bar offering the same door twice.")
     admin = re.sub(r"/\*.*?\*/", " ", ADMIN.read_text(), flags=re.S)
     actions = sorted(set(re.findall(r"b\.action === '(\w+)'", admin)))
     if actions != ["clearCard", "delete", "find", "reset"]:
@@ -107,21 +196,26 @@ def main():
     cb = CB.read_text()
     for want, why in (("'Delete my account'", "Delete my account"), ("'Yes, delete my account'", "the second press before deleting"),
                       ("'Claim ' + h", "the offer to claim"), ("it will not be shown again", "saying the recovery code is shown once"),
-                      ("'CLAIMED'", "the CLAIMED mark on the channel")):
+                      ("if (/^cb1\\./.test(s.pass || '')) { claimFirst(s); return; }", "claiming first, before any radio, for a pass from a shared password")):
         if want not in cb:
             problems.append(f"{CB.name}: Account has lost {why}.")
+    for f in (CB, FORUM, PROFILE, CBCSS):
+        if re.search(r"cb-tag--claimed|'CLAIMED'", f.read_text()):
+            problems.append(f"{f.name}: draws CLAIMED. Every username is claimed now, so a mark everybody wears says nothing.")
     desk = DESK.read_text()
     if desk.count("confirmThen(") < 4:
         problems.append(f"{DESK.name}: a reset, a delete or clearing a card no longer asks once more.")
     if 'id="md-desk"' not in MODS.read_text() or "desk.js" not in MODS.read_text():
         problems.append(f"{MODS.name}: the moderators' desk is not in the Moderators' room.")
     priv = PRIVACY.read_text()
-    if 'id="accounts"' not in priv or "No email" not in priv:
-        problems.append(f"{PRIVACY.name}: no accounts section saying there is no email.")
+    for want in ('id="accounts"', 'id="invites"', 'id="recovery-email"', "Nothing records who joined with which invite", "shown to nobody but you"):
+        if want not in priv:
+            problems.append(f"{PRIVACY.name}: the accounts section has lost {want!r}.")
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
-    print("accounts: nothing logged, no list of everybody, no email, and every account can be deleted.")
+    print("accounts: nothing logged, no list of everybody, an email address only sealed and only its owner's, "
+          "invites that count and never name, and every account can be deleted.")
     return 0
 
 

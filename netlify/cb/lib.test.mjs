@@ -28,7 +28,9 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
-  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf,
+  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf, STARTER_GONE, checkHandle, checkInvite, joinAccount,
+  makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
+  emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
   readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
@@ -1374,23 +1376,21 @@ test('the mods\' list: moderator implied, handles folded, and anything odd means
   assert.deepEqual(ROLES.slice().sort(), ['administrator', 'board', 'director', 'moderator']);
 });
 
-test('sign-on: the MOD password only for a listed handle, the community one never for a listed handle', async () => {
+test('sign-on: a claimed username\'s own password only; the starter password is retired, and the MOD password sends a moderator to claim', async () => {
   const S = memoryStore({ etagOnRead: true });
   const was = [process.env.CB_PASSWORD, process.env.CB_MOD_PASSWORD];
   process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
   try {
     const mods = readMods('{"Ryan":["administrator"],"Helen":["director"]}');
     const r = (await signOn('ryan', 'moderators-pw', mods, S));
-    assert.equal(r.role, 'base'); assert.equal(r.handle, 'Ryan', 'the list\'s spelling of the handle');
-    assert.ok(r.roles.has('administrator') && r.roles.has('moderator'));
+    assert.deepEqual(r, { claim: true, mod: true, handle: 'Ryan' }, 'a moderator on the shared password was given a pass rather than sent to claim');
     assert.ok((await signOn('Somebody', 'moderators-pw', mods, S)).error, 'not on the list');
-    assert.ok((await signOn('Ryan ', 'community-pw', mods, S)).error, 'a moderator\'s handle is reserved');
-    assert.ok((await signOn('HELEN', 'community-pw', mods, S)).error);
-    assert.equal((await signOn('Ada', 'community-pw', mods, S)).role, 'mobile');
+    assert.equal((await signOn('Ryan ', 'community-pw', mods, S)).error, STARTER_GONE);
+    assert.equal((await signOn('Ada', 'community-pw', mods, S)).error, STARTER_GONE, 'the starter password still signs somebody on');
+    assert.equal((await signOn('Ada', 'community-pw', null, S)).error, STARTER_GONE);
     assert.ok((await signOn('Ryan', 'moderators-pw', null, S)).error, 'no readable list, no MOD sign-on');
-    assert.equal((await signOn('Ada', 'community-pw', null, S)).role, 'mobile', 'the community CB goes on');
     assert.ok((await signOn('Ada', 'wrong', mods, S)).error);
-    assert.deepEqual(rolesOf(r), ['administrator', 'moderator']);
+    assert.ok(!(await signOn('Ada', 'wrong', mods, S)).claim);
   } finally {
     for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
       if (v === undefined) delete process.env[k]; else process.env[k] = v;
@@ -1404,15 +1404,19 @@ test('a pass is read against the list every time: roles follow it, and a removal
   process.env.CB_PASSWORD = 'community-pw'; process.env.CB_MOD_PASSWORD = 'moderators-pw';
   const req = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
   try {
+    // A pass from a shared password is read only for claiming the username it is on.
+    const U = { unclaimed: true };
     const basePass = issuePass('base', 'Helen'), comPass = issuePass('mobile', 'Ada');
     const before = readMods('{"Helen":["director"]}'), after = readMods('{"Helen":["director","board"]}');
-    assert.deepEqual(rolesOf((await readPass(req(basePass), before, S))), ['director', 'moderator']);
-    assert.deepEqual(rolesOf((await readPass(req(basePass), after, S))), ['board', 'director', 'moderator'], 'a new role, no new pass');
-    assert.equal((await readPass(req(basePass), readMods('{"Ryan":["administrator"]}'), S)), null, 'taken off the list');
-    assert.equal((await readPass(req(basePass), null, S)), null, 'no readable list, no base pass');
-    assert.equal((await readPass(req(comPass), before, S)).role, 'mobile');
-    assert.equal((await readPass(req(comPass), readMods('{"Ada":[]}'), S)), null, 'a community pass for a handle now reserved');
-    assert.equal((await readPass(req(comPass), null, S)).role, 'mobile');
+    assert.deepEqual(rolesOf((await readPass(req(basePass), before, S, U))), ['director', 'moderator']);
+    assert.deepEqual(rolesOf((await readPass(req(basePass), after, S, U))), ['board', 'director', 'moderator'], 'a new role, no new pass');
+    assert.equal((await readPass(req(basePass), readMods('{"Ryan":["administrator"]}'), S, U)), null, 'taken off the list');
+    assert.equal((await readPass(req(basePass), null, S, U)), null, 'no readable list, no base pass');
+    assert.equal((await readPass(req(comPass), before, S, U)).role, 'mobile');
+    assert.equal((await readPass(req(comPass), readMods('{"Ada":[]}'), S, U)), null, 'a community pass for a handle now reserved');
+    assert.equal((await readPass(req(comPass), null, S, U)).role, 'mobile');
+    assert.equal(await readPass(req(comPass), before, S), null, 'a pass from the starter password opened something other than claiming');
+    assert.equal(await readPass(req(basePass), before, S), null, 'a pass from the moderators\' password opened something other than claiming');
   } finally {
     for (const [k, v] of [['CB_PASSWORD', was[0]], ['CB_MOD_PASSWORD', was[1]]]) {
       if (v === undefined) delete process.env[k]; else process.env[k] = v;
@@ -1433,14 +1437,20 @@ async function withPasswords(fn) {
   }
 }
 const reqWith = (pass) => ({ headers: { get: (k) => (k === 'authorization' ? 'Bearer ' + pass : null) } });
+// EVERYBODY HAS CLAIMED A USERNAME since 2026-10-21, so a pass in a test is a
+// claimed username's: a pass from a shared password is good only for claiming.
+async function claimedPassFor(handle, s, role = 'mobile') {
+  await claimAccount(handle, `${handle} has a long phrase`, s, 1, null, role === 'base');
+  return issueAccountPass(handle, 1, role);
+}
 
 test('a claimed username signs on with its own password, and the community password stops working for it', () => withPasswords(async () => {
   const S = memoryStore({ etagOnRead: true });
   const oldPass = issuePass('mobile', 'Ada');
-  assert.equal((await readPass(reqWith(oldPass), null, S)).role, 'mobile');
+  assert.equal((await readPass(reqWith(oldPass), null, S, { unclaimed: true })).role, 'mobile');
   const c = await claimAccount('Ada', 'a long enough phrase', S, 1000, null);
   assert.equal(c.v, 1); assert.match(c.recovery, /^[A-Z2-9]{4}(-[A-Z2-9]{4}){3}$/);
-  assert.equal(await readPass(reqWith(oldPass), null, S), null, 'a community pass for a claimed username still works');
+  assert.equal(await readPass(reqWith(oldPass), null, S, { unclaimed: true }), null, 'a community pass for a claimed username still works');
   assert.ok((await signOn('ada', 'community-pw', null, S)).error, 'the community password signed on as a claimed username');
   const r = await signOn('ADA', 'a long enough phrase', null, S);
   assert.equal(r.handle, 'Ada'); assert.equal(r.account, 1);
@@ -1499,7 +1509,7 @@ test('deleting an account deletes its pets and frees the username; the store nev
   assert.equal(await readAccount('Eve', S), null);
   assert.equal((await readPets(petKey('Eve'), S)).length, 0, 'the pets outlived the account');
   assert.equal(await readPass(reqWith(issueAccountPass('Eve', 1)), null, S), null);
-  assert.equal((await signOn('Eve', 'community-pw', null, S)).role, 'mobile', 'the username is not free again');
+  assert.equal((await checkHandle('Eve', readMods(''), S)).ok, true, 'the username is not free again');
   const m = (await adoptedMonths('cat', S))[0];
   assert.equal((await readAdopted('cat', m, S)).length, 1, 'deleting an account took an animal off the forever list');
 }));
@@ -1517,14 +1527,15 @@ test('a moderator moves onto their own password: it gives the base with the list
   const S = memoryStore({ etagOnRead: true });
   const mods = readMods('{"Juniper":["board"],"Quill":[]}');
   const shared = await signOn('juniper', 'moderators-pw', mods, S);
-  assert.equal(shared.role, 'base');
+  assert.equal(shared.claim, true); assert.equal(shared.handle, 'Juniper');
+  // A pass from the moderators' password, from before 2026-10-21, opens claiming.
   const oldBase = issuePass('base', shared.handle);
-  assert.equal((await readPass(reqWith(oldBase), mods, S)).role, 'base');
+  assert.equal((await readPass(reqWith(oldBase), mods, S, { unclaimed: true })).role, 'base');
   assert.ok((await claimAccount('Juniper', 'moderators-pw', S, 0, mods, true)).error, 'the shared password taken as a personal one');
   assert.ok((await claimAccount('Juniper', 'community-pw', S, 0, mods, true)).error, 'the community password taken as a personal one');
   const c = await claimAccount('Juniper', 'juniper has a phrase', S, 0, mods, true);
   assert.equal(c.v, 1);
-  assert.equal(await readPass(reqWith(oldBase), mods, S), null, 'the shared password\'s pass outlived the move');
+  assert.equal(await readPass(reqWith(oldBase), mods, S, { unclaimed: true }), null, 'the shared password\'s pass outlived the move');
   assert.ok((await signOn('Juniper', 'moderators-pw', mods, S)).error, 'the shared password still signs on as a moderator who moved');
   assert.ok((await signOn('Juniper', 'community-pw', mods, S)).error);
   const own = await signOn('JUNIPER', 'juniper has a phrase', mods, S);
@@ -1540,7 +1551,7 @@ test('a moderator moves onto their own password: it gives the base with the list
   const forged = mine.replace(/\.[A-Za-z0-9_-]+$/, '.' + issueAccountPass('Juniper', 1).split('.').pop());
   assert.equal(await readPass(reqWith(forged), mods, S), null, 'a cb2.base pass signed with the community password');
   // Quill is still on the shared password, and nothing about Juniper moved them.
-  assert.equal((await signOn('Quill', 'moderators-pw', mods, S)).role, 'base');
+  assert.equal((await signOn('Quill', 'moderators-pw', mods, S)).claim, true);
   // A change of password signs the moderator off everywhere, as anybody's does.
   const ch = await changePassword('Juniper', 'juniper has a phrase', 'a newer phrase too', S, 0);
   assert.equal(ch.v, 2);
@@ -1554,9 +1565,9 @@ test('a moderator moves onto their own password: it gives the base with the list
   assert.equal(plain.role, 'mobile'); assert.equal(plain.account, 2);
   // An unreadable list gives nobody the base, a moderator on their own password included.
   assert.equal(await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), null, S), null);
-  // Deleting it puts the handle back on the shared password.
+  // Deleting it puts the handle back on the shared password, to be claimed again.
   await deleteAccount('Juniper', S);
-  assert.equal((await signOn('Juniper', 'moderators-pw', mods, S)).role, 'base');
+  assert.equal((await signOn('Juniper', 'moderators-pw', mods, S)).claim, true);
 }));
 
 test('the desk leaves a moderator\'s username alone, and the answer after a claim says base', () => withPasswords(async () => {
@@ -2972,7 +2983,7 @@ test('an @ mention is the handle with an @ before it and nothing joined on after
 
 test('a message tells the devices that asked, as their pass now allows, and nobody about their own', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
-  const bex = issuePass('mobile', 'Bex'), cy = issuePass('mobile', 'Cy'), ada = issuePass('mobile', 'Ada');
+  const bex = await claimedPassFor('Bex', s), cy = await claimedPassFor('Cy', s), ada = await claimedPassFor('Ada', s);
   const bexDev = aDevice(), cyDev = aDevice(), adaDev = aDevice();
   await keepDevice(bexDev, bex, { mentions: true }, s);
   await keepDevice(cyDev, cy, { world: true, words: false, rooms: ['the-den', 'town-hall-moderators'] }, s);
@@ -3010,8 +3021,8 @@ test('a room that keeps to itself tells only the devices that follow it, never a
   // Locked as well as quiet, so the people in it are administrators here.
   const mods = readMods('{"Bex":["administrator"],"Cy":["administrator"],"Ada":["administrator"]}');
   const bexDev = aDevice(), cyDev = aDevice();
-  await keepDevice(bexDev, issuePass('base', 'Bex'), { mentions: true }, s);
-  await keepDevice(cyDev, issuePass('base', 'Cy'), { rooms: [room] }, s);
+  await keepDevice(bexDev, await claimedPassFor('Bex', s, 'base'), { mentions: true }, s);
+  await keepDevice(cyDev, await claimedPassFor('Cy', s, 'base'), { rooms: [room] }, s);
   const sent = [];
   await notifyMessage({ id: 'q', handle: 'Ada', text: 'hush @bex', t: 1 }, room, s, mods, async (sub) => { sent.push(sub.endpoint); return 201; });
   assert.deepEqual(sent, [cyDev.endpoint], 'a room that keeps to itself was announced to somebody who does not follow it');
@@ -3021,9 +3032,9 @@ test('following every room tells a device about every room its pass can go into,
   const s = memoryStore({ etagOnRead: true });
   const mods = readMods('{"Cy":["administrator"]}');
   const bexDev = aDevice(), cyDev = aDevice(), dovDev = aDevice();
-  await keepDevice(bexDev, issuePass('mobile', 'Bex'), { everyRoom: true, calls: true }, s);
-  await keepDevice(cyDev, issuePass('base', 'Cy'), { everyRoom: true, rooms: [QUIET_ROOMS[1]] }, s);
-  await keepDevice(dovDev, issuePass('mobile', 'Dov'), { all: true }, s);
+  await keepDevice(bexDev, await claimedPassFor('Bex', s), { everyRoom: true, calls: true }, s);
+  await keepDevice(cyDev, await claimedPassFor('Cy', s, 'base'), { everyRoom: true, rooms: [QUIET_ROOMS[1]] }, s);
+  await keepDevice(dovDev, await claimedPassFor('Dov', s), { all: true }, s);
   const sent = [];
   const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
   const to = (d) => sent.filter((x) => x.to === d.endpoint).map((x) => x.payload.room);
@@ -3042,9 +3053,9 @@ test('following every room tells a device about every room its pass can go into,
 test('an edited message tells only somebody it newly @mentions, never the channel\'s followers again', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   const bexDev = aDevice(), cyDev = aDevice(), dovDev = aDevice();
-  await keepDevice(bexDev, issuePass('mobile', 'Bex'), { mentions: true }, s);
-  await keepDevice(cyDev, issuePass('mobile', 'Cy'), { world: true, rooms: ['the-den'] }, s);
-  await keepDevice(dovDev, issuePass('mobile', 'Dov'), { mentions: true }, s);
+  await keepDevice(bexDev, await claimedPassFor('Bex', s), { mentions: true }, s);
+  await keepDevice(cyDev, await claimedPassFor('Cy', s), { world: true, rooms: ['the-den'] }, s);
+  await keepDevice(dovDev, await claimedPassFor('Dov', s), { mentions: true }, s);
   const sent = [];
   const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
   const msg = { id: 'e', handle: 'Ada', text: 'see you there @bex and @dov', t: 1, edited: 2 };
@@ -3075,10 +3086,10 @@ test('a claimed username\'s devices stop at a password change, and go with the u
   await deleteAccount('Ada', s);
   assert.deepEqual(Object.keys(await readDevices(s)), [], 'a deleted username left a device');
   const dev3 = aDevice();
-  await keepDevice(dev3, issuePass('mobile', 'Cy'), { world: true }, s);
+  await keepDevice(dev3, await claimedPassFor('Cy', s), { world: true }, s);
   await dropDevicesOf('cy', s);
   assert.deepEqual(Object.keys(await readDevices(s)), [], 'Forget me left a device');
-  await keepDevice(dev3, issuePass('mobile', 'Cy'), { world: true }, s);
+  await keepDevice(dev3, await claimedPassFor('Cy', s), { world: true }, s);
   await dropDevice(dev3.endpoint, s);
   assert.deepEqual(Object.keys(await readDevices(s)), []);
 }));
@@ -3086,14 +3097,14 @@ test('a claimed username\'s devices stop at a password change, and go with the u
 test('a device the push service says has gone is forgotten, and a handle has only so many', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   const a = aDevice(), b = aDevice();
-  await keepDevice(a, issuePass('mobile', 'Bex'), { world: true }, s);
-  await keepDevice(b, issuePass('mobile', 'Cy'), { world: true }, s);
+  await keepDevice(a, await claimedPassFor('Bex', s), { world: true }, s);
+  await keepDevice(b, await claimedPassFor('Cy', s), { world: true }, s);
   await notifyMessage({ id: 'x', handle: 'Ada', text: 'hi', t: 1 }, null, s, readMods(''), async (sub) => (sub.endpoint === a.endpoint ? 410 : 201));
   assert.deepEqual(Object.keys(await readDevices(s)), [pushDeviceId(b.endpoint)]);
-  for (let i = 0; i < PUSH_PER_HANDLE - 1; i++) assert.ok((await keepDevice(aDevice(), issuePass('mobile', 'Cy'), {}, s)).id);
-  assert.equal((await keepDevice(aDevice(), issuePass('mobile', 'Cy'), {}, s)).error, 'many');
-  assert.ok((await keepDevice(b, issuePass('mobile', 'Cy'), { calls: true }, s)).id, 'changing a device already kept was refused');
-  assert.equal((await keepDevice(aDevice('example.org'), issuePass('mobile', 'Dee'), {}, s)).error, 'address');
+  for (let i = 0; i < PUSH_PER_HANDLE - 1; i++) assert.ok((await keepDevice(aDevice(), await claimedPassFor('Cy', s), {}, s)).id);
+  assert.equal((await keepDevice(aDevice(), await claimedPassFor('Cy', s), {}, s)).error, 'many');
+  assert.ok((await keepDevice(b, await claimedPassFor('Cy', s), { calls: true }, s)).id, 'changing a device already kept was refused');
+  assert.equal((await keepDevice(aDevice('example.org'), await claimedPassFor('Dee', s), {}, s)).error, 'address');
   assert.equal((await keepDevice(aDevice(), 'not a pass', {}, s)).error, 'pass');
 }));
 
@@ -3104,9 +3115,9 @@ test('a call that starts tells who follows its room, never who joined, and not t
   assert.equal(await callEvent(evt('PARTICIPANT_JOINED', 'Sam', 'p1', now), s, now), 'started');
   assert.equal(await callEvent(evt('PARTICIPANT_JOINED', 'Ada', 'p2', now + 1), s, now), 'joined');
   const den = aDevice(), all = aDevice(), off = aDevice();
-  await keepDevice(den, issuePass('mobile', 'Bex'), { calls: true, rooms: ['the-den'] }, s);
-  await keepDevice(all, issuePass('mobile', 'Cy'), { calls: true }, s);
-  await keepDevice(off, issuePass('mobile', 'Dee'), { rooms: ['the-den'] }, s);
+  await keepDevice(den, await claimedPassFor('Bex', s), { calls: true, rooms: ['the-den'] }, s);
+  await keepDevice(all, await claimedPassFor('Cy', s), { calls: true }, s);
+  await keepDevice(off, await claimedPassFor('Dee', s), { rooms: ['the-den'] }, s);
   const sent = [];
   const send = async (sub, payload) => { sent.push([sub.endpoint, payload]); return 201; };
   await notifyCall('the-den', s, readMods(''), send, now);
@@ -3119,7 +3130,7 @@ test('a call that starts tells who follows its room, never who joined, and not t
   await notifyCall(WORLD_CALL, s, readMods(''), send, now);
   assert.deepEqual(sent.map((x) => x[0]).sort(), [den.endpoint, all.endpoint].sort());
   sent.length = 0;
-  await keepDevice(off, issuePass('mobile', 'Dee'), { calls: true, rooms: ['town-hall-moderators'] }, s);
+  await keepDevice(off, await claimedPassFor('Dee', s), { calls: true, rooms: ['town-hall-moderators'] }, s);
   await notifyCall('town-hall-moderators', s, readMods(''), send, now);
   assert.equal(sent.length, 0, 'a private room\'s call told somebody who may not go in');
 }));
@@ -5297,10 +5308,10 @@ test('a reply names the message it answers by id and keeps nothing else of it', 
 test('a reply tells whoever sent the message it answers, behind its own switch, and only them', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   const bexDev = aDevice(), cyDev = aDevice(), dovDev = aDevice(), adaDev = aDevice();
-  await keepDevice(bexDev, issuePass('mobile', 'Bex'), { replies: true, rooms: ['the-den'] }, s);
-  await keepDevice(cyDev, issuePass('mobile', 'Cy'), { mentions: true }, s);
-  await keepDevice(dovDev, issuePass('mobile', 'Dov'), { all: true }, s);
-  await keepDevice(adaDev, issuePass('mobile', 'Ada'), { replies: true }, s);
+  await keepDevice(bexDev, await claimedPassFor('Bex', s), { replies: true, rooms: ['the-den'] }, s);
+  await keepDevice(cyDev, await claimedPassFor('Cy', s), { mentions: true }, s);
+  await keepDevice(dovDev, await claimedPassFor('Dov', s), { all: true }, s);
+  await keepDevice(adaDev, await claimedPassFor('Ada', s), { replies: true }, s);
   const sent = [];
   const send = async (sub, payload, opts) => { sent.push({ to: sub.endpoint, payload, opts }); return 201; };
   const to = (d) => sent.filter((x) => x.to === d.endpoint);
@@ -5320,10 +5331,10 @@ test('a reply tells whoever sent the message it answers, behind its own switch, 
   await notifyMessage({ ...reply, id: 'r3' }, 'the-garden', s, readMods(''), send, { id: 'o3', handle: 'Dov', text: 'hi', t: 1 });
   assert.deepEqual(sent.map((x) => [x.to, x.payload.why]), [[dovDev.endpoint, 'reply']], 'Everything missed a reply');
 
-  // A claimed username's message: a pass that is not that username's own is not its sender.
+  // The base's message: a pass that is not the base's is not its sender, though the name is the same.
   sent.length = 0;
-  await notifyMessage({ ...reply, id: 'r4' }, 'the-garden', s, readMods(''), send, { id: 'o4', handle: 'Bex', text: 'hi', t: 1, claimed: true });
-  assert.equal(sent.length, 0, 'a reply to a claimed username\'s message reached somebody else signed on as that name');
+  await notifyMessage({ ...reply, id: 'r4' }, 'the-garden', s, readMods(''), send, { id: 'o4', handle: 'Bex', text: 'hi', t: 1, base: true });
+  assert.equal(sent.length, 0, 'a reply to the base\'s message reached somebody signed on as that name without the base');
   // A room that keeps to itself announces nothing outside it, a reply included.
   const mods = readMods('{"Bex":["administrator"]}');
   const baseDev = aDevice();
@@ -5600,3 +5611,149 @@ test('the office\'s feed: grant requests, cases and contacts by their ids, whole
   for (let i = 0; i < OFFICE_FEED_PAGE + 3; i++) many.push((await saveContact(TRYAN, { first: 'P' + i, email: `p${i}@example.org` }, s, T0 + 10 + i)).contact.id);
   assert.equal((await officeFeed(TRYAN, many, s)).length, OFFICE_FEED_PAGE, 'a page of the office\'s feed held more than OFFICE_FEED_PAGE cards');
 }));
+
+// INVITES AND JOINING (Ryan's brief, 2026-10-21). The names and roles here are
+// made up: who holds which role is not ours to publish, in a test or anywhere.
+const IMOD = { handle: 'Juniper', role: 'base', roles: new Set(['moderator']), account: true };
+const IADA = { handle: 'Ada', role: 'mobile', roles: new Set(), account: true };
+
+test('an invite is made and deleted only at the desk, and counts its uses and never who used them', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Juniper":[]}');
+  assert.ok((await makeInvite(IADA, { most: 1, days: 7 }, S, 0)).error, 'somebody who is not a moderator made an invite');
+  assert.ok((await makeInvite(IMOD, { most: 3, days: 7 }, S, 0)).error, 'an invite took a number of uses the desk does not offer');
+  assert.ok((await makeInvite(IMOD, { most: 1, days: 2 }, S, 0)).error, 'an invite took a number of days the desk does not offer');
+  const { invite } = await makeInvite(IMOD, { note: '  for the  garden club  ', most: 5, days: 7 }, S, 0);
+  assert.match(invite.code, /^[A-Z2-9]{4}-[A-Z2-9]{4}-[A-Z2-9]{4}$/);
+  assert.equal(invite.note, 'for the garden club'); assert.equal(invite.by, 'Juniper'); assert.equal(invite.state, 'open');
+  assert.deepEqual((await checkInvite(invite.code.toLowerCase().replace(/-/g, ' '), S, 1)), { ok: true, until: 7 * 86400000 });
+  const j = await joinAccount({ invite: invite.code, handle: 'Bex', password: 'bex has a long phrase' }, mods, S, 2);
+  assert.match(j.pass, /^cb2\.acct\./); assert.equal(j.handle, 'Bex'); assert.match(j.recovery, /^[A-Z2-9]{4}(-[A-Z2-9]{4}){3}$/);
+  const raw = JSON.stringify(await S.get('invites', { type: 'json' }));
+  assert.ok(!raw.toLowerCase().includes('bex'), 'the invite kept who joined with it');
+  const [one] = (await listInvites(IMOD, S, 3)).invites;
+  assert.equal(one.used, 1);
+  assert.deepEqual(Object.keys(one).sort(), ['by', 'code', 'id', 'made', 'most', 'note', 'state', 'until', 'used']);
+  assert.ok((await listInvites(IADA, S)).error, 'somebody who is not a moderator read the invites');
+  assert.ok((await deleteInvite(IADA, one.id, S)).error);
+  assert.equal((await deleteInvite(IMOD, one.id, S)).gone, true);
+  assert.equal((await checkInvite(invite.code, S, 4)).ok, false, 'a deleted invite still works');
+  assert.ok((await joinAccount({ invite: invite.code, handle: 'Cy', password: 'cy has a long phrase' }, mods, S, 5)).error);
+  assert.ok(await readAccount('Bex', S), 'deleting the invite took the username made with it');
+}));
+
+test('an invite runs out of time and of uses, and a refused join costs it nothing', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Juniper":[]}');
+  const once = (await makeInvite(IMOD, { most: 1, days: 1 }, S, 0)).invite;
+  // Refused for its password, its address and a name taken: no use taken.
+  await claimAccount('Taken', 'taken has a phrase', S, 0, null);
+  assert.ok((await joinAccount({ invite: once.code, handle: 'Dee', password: 'short' }, mods, S, 1)).error);
+  assert.ok((await joinAccount({ invite: once.code, handle: 'Dee', password: 'community-pw' }, mods, S, 1)).error, 'the starter password taken as somebody\'s own');
+  assert.ok((await joinAccount({ invite: once.code, handle: 'Dee', password: 'dee has a long phrase', email: 'not an address' }, mods, S, 1)).error);
+  assert.equal((await joinAccount({ invite: once.code, handle: 'taken', password: 'dee has a long phrase' }, mods, S, 1)).taken, true);
+  assert.equal((await readInvites(S))[0].used, 0, 'a refused join used the invite');
+  assert.ok((await joinAccount({ invite: once.code, handle: 'Dee', password: 'dee has a long phrase' }, mods, S, 2)).pass);
+  assert.match((await joinAccount({ invite: once.code, handle: 'Eli', password: 'eli has a long phrase' }, mods, S, 3)).error, /used as many times/);
+  assert.equal((await listInvites(IMOD, S, 3)).invites[0].state, 'used');
+  const day = (await makeInvite(IMOD, { most: 0, days: 1 }, S, 0)).invite;
+  assert.match((await joinAccount({ invite: day.code, handle: 'Eli', password: 'eli has a long phrase' }, mods, S, 86400000)).error, /run out of time/);
+  assert.match((await joinAccount({ invite: 'ABCD-EFGH-JKLM', handle: 'Eli', password: 'eli has a long phrase' }, mods, S, 1)).error, /not an invite code/);
+  assert.ok((await joinAccount({ handle: 'Eli', password: 'eli has a long phrase' }, mods, S, 1)).error, 'joined with no invite');
+  // A month after it stopped, an invite leaves the list when the next one is made.
+  await makeInvite(IMOD, { most: 0, days: 0 }, S, 86400000 * 32);
+  assert.deepEqual((await readInvites(S)).map((i) => i.most), [0], 'finished invites stayed past their month');
+  const never = (await readInvites(S))[0];
+  assert.equal(never.until, 0); assert.equal((await checkInvite(never.code, S, 86400000 * 9999)).ok, true);
+}));
+
+test('fifteen people at an invite with five uses: five get in, and one name goes to one person', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Juniper":[]}');
+  const five = (await makeInvite(IMOD, { most: 5, days: 7 }, S, 0)).invite;
+  const got = await Promise.all(Array.from({ length: 15 }, (_, i) => joinAccount({ invite: five.code, handle: `P${i}`, password: `person number ${i}` }, mods, S, 1)));
+  assert.equal(got.filter((r) => r.pass).length, 5, 'an invite let in more than it was made for, or fewer');
+  assert.equal((await readInvites(S))[0].used, 5);
+  const any = (await makeInvite(IMOD, { most: 0, days: 0 }, S, 0)).invite;
+  const one = await Promise.all(Array.from({ length: 15 }, (_, i) => joinAccount({ invite: any.code, handle: 'Wren', password: `password number ${i}` }, mods, S, 1)));
+  assert.equal(one.filter((r) => r.pass).length, 1);
+  assert.equal((await readInvites(S)).find((i) => i.id === any.id).used, 1, 'a join that lost the name kept its use');
+}));
+
+test('a moderator\'s username is claimed only with the moderators\' password, which needs no invite', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Juniper":["board"]}');
+  const inv = (await makeInvite(IMOD, { most: 0, days: 0 }, S, 0)).invite;
+  assert.deepEqual(await checkHandle('juniper ', mods, S), { ok: true, mod: true, handle: 'Juniper' });
+  assert.equal((await joinAccount({ invite: inv.code, handle: 'juniper', password: 'juniper has a phrase' }, mods, S, 1)).mod, true, 'an invite was enough for a moderator\'s username');
+  assert.ok((await joinAccount({ handle: 'Juniper', modPassword: 'community-pw', password: 'juniper has a phrase' }, mods, S, 1)).error);
+  assert.ok((await joinAccount({ handle: 'Juniper', modPassword: 'moderators-pw', password: 'moderators-pw' }, mods, S, 1)).error, 'the shared password taken as a moderator\'s own');
+  assert.ok((await joinAccount({ handle: 'Juniper', modPassword: 'moderators-pw', password: 'juniper has a phrase' }, null, S, 1)).error, 'no readable list, and somebody joined');
+  const j = await joinAccount({ handle: 'JUNIPER', modPassword: 'moderators-pw', password: 'juniper has a phrase' }, mods, S, 1);
+  assert.match(j.pass, /^cb2\.base\./); assert.equal(j.handle, 'Juniper'); assert.deepEqual(j.roles, ['board', 'moderator']);
+  assert.equal((await readInvites(S))[0].used, 0, 'a moderator used an invite');
+  assert.equal((await checkHandle('Juniper', mods, S)).taken, true);
+  assert.equal((await signOn('Juniper', 'juniper has a phrase', mods, S)).role, 'base');
+}));
+
+test('an email address is kept sealed, only when recovery by email is on, and only its owner changes it', () => withPasswords(() => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Juniper":[]}');
+  const inv = (await makeInvite(IMOD, { most: 0, days: 0 }, S, 0)).invite;
+  await withMailKey(null, async () => {
+    assert.equal(emailOn(), false);
+    assert.match((await joinAccount({ invite: inv.code, handle: 'Fay', password: 'fay has a long phrase', email: 'fay@example.org' }, mods, S, 1)).error, /not switched on/);
+    assert.deepEqual(await mailResetCode('Fay', 'fay@example.org', S, 1), { off: true });
+  });
+  await withMailKey(MAIL_TEST_KEY, async () => {
+    assert.equal(cleanAddress('  Fay@Example.ORG '), 'fay@example.org');
+    assert.equal(cleanAddress('fay at example'), null);
+    assert.ok((await joinAccount({ invite: inv.code, handle: 'Fay', password: 'fay has a long phrase', email: ' Fay@Example.org ' }, mods, S, 1)).pass);
+    const raw = JSON.stringify(await S.get(`acct/${acctKey('Fay')}`, { type: 'json' }));
+    assert.ok(!raw.includes('example.org'), 'an address kept in the clear');
+    assert.equal(accountEmail(await readAccount('Fay', S)), 'fay@example.org');
+    assert.ok((await setAccountEmail('Fay', 'the wrong password', 'fay@example.net', S, 2)).error, 'an address changed without the password');
+    assert.equal((await setAccountEmail('Fay', 'fay has a long phrase', 'fay@example.net', S, 2)).email, 'fay@example.net');
+    assert.equal((await setAccountEmail('Fay', 'fay has a long phrase', '', S, 3)).email, null);
+    assert.equal(accountEmail(await readAccount('Fay', S)), null);
+    assert.ok(!('email' in (await readAccount('Fay', S))), 'taking the address off left something of it');
+  });
+})));
+
+test('a reset code by email goes only to the address on the username, says the same either way, and keeps nothing once sent', () => withPasswords(() => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const S = memoryStore({ etagOnRead: true });
+  await claimAccount('Gus', 'gus has a long phrase', S, 0, null, false, 'gus@example.org');
+  await claimAccount('Hal', 'hal has a long phrase', S, 0, null);
+  const T = 1000;
+  assert.deepEqual(await mailResetCode('Gus', 'someone@example.org', S, T), {});
+  assert.deepEqual(await mailResetCode('Hal', 'hal@example.org', S, T), {});
+  assert.deepEqual(await mailResetCode('Nobody', 'gus@example.org', S, T), {});
+  assert.deepEqual(await mailOutbox(S, T), [], 'an email went where it should not');
+  assert.deepEqual(await mailResetCode('gus', 'GUS@example.org', S, T), {});
+  const box = await mailOutbox(S, T + 1);
+  assert.equal(box.length, 1); assert.equal(box[0].to, 'gus@example.org'); assert.equal(box[0].subject, ACCT_MAIL_SUBJECT);
+  const code = /The reset code: ([A-Z2-9-]+)/.exec(box[0].body)[1];
+  // Asking again within the quarter hour sends nothing more, and asking signs nobody off.
+  await mailResetCode('Gus', 'gus@example.org', S, T + ACCT_MAIL_GAP - 1);
+  assert.equal((await mailOutbox(S, T + 2)).length, 1);
+  assert.equal((await signOn('Gus', 'gus has a long phrase', null, S, T + 3)).account, 1, 'asking for a code by email signed the username off');
+  // Sent: the outbox forgets it, and the email the mailbox sent is not filed in the office.
+  assert.deepEqual(await mailSentFor({ id: box[0].id }, S, T + 4), { ok: true, known: true });
+  assert.deepEqual(await mailOutbox(S, T + 4), []);
+  assert.ok(!JSON.stringify(unseal(await S.get('acct-outbox', { type: 'json' }))).includes('gus@'), 'a sent reset email was kept');
+  // Even when the address is a contact's in the office.
+  assert.ok((await saveContact(TRYAN, { first: 'Gus', email: 'gus@example.org' }, S, T)).contact);
+  const filed = await officeMailIn({ id: 'abcdef12', mailbox: 'team@example.org', at: T, from: 'Stimpunks <team@example.org>', to: ['gus@example.org'], subject: ACCT_MAIL_SUBJECT, text: box[0].body }, S, T + 5);
+  assert.equal(filed.kept, false, 'the office filed somebody\'s reset code');
+  assert.equal((await officeMailIn({ id: 'abcdef13', mailbox: 'team@example.org', at: T, from: 'Stimpunks <team@example.org>', to: ['gus@example.org'], subject: 'Hello', text: 'hi' }, S, T + 5)).kept, true);
+  // The code works for an hour, once, and moves the version.
+  assert.ok((await recoverAccount('Gus', code, 'gus has a new phrase', S, T + ACCT_MAIL_FOR + 1)).error, 'a code by email worked past its hour');
+  await mailResetCode('Gus', 'gus@example.org', S, T + ACCT_MAIL_GAP + 1);
+  const code2 = /The reset code: ([A-Z2-9-]+)/.exec((await mailOutbox(S, T + ACCT_MAIL_GAP + 2))[0].body)[1];
+  const back = await recoverAccount('Gus', code2.toLowerCase(), 'gus has a new phrase', S, T + ACCT_MAIL_GAP + 3);
+  assert.equal(back.v, 2);
+  assert.ok((await recoverAccount('Gus', code2, 'and another phrase', S, T + ACCT_MAIL_GAP + 4)).error, 'a code by email worked twice');
+  // One nobody sent in its hour is never handed to the script.
+  await mailResetCode('Gus', 'gus@example.org', S, T + ACCT_MAIL_GAP * 3);
+  assert.deepEqual(await mailOutbox(S, T + ACCT_MAIL_GAP * 3 + ACCT_MAIL_FOR), []);
+}))));

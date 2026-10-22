@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join the CB — Stimpunks.World</title>
+<meta name="description" content="The joining page for the CB, the street’s radio: an invite from a moderator becomes a username of your own, with a password of your own and, if you like, an email address for the day you forget it. Then you are on, on every page of the street.">
+<link rel="canonical" href="https://stimpunks.world/join.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="Join the CB — Stimpunks.World">
+<meta property="og:description" content="Join the CB with an invite: a username and a password of your own.">
+<meta property="og:url" content="https://stimpunks.world/join.html">
+<meta property="og:image" content="https://stimpunks.world/og/join.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark indigo card, deliberately quiet. Small cyan capitals reading stimpunks.world above a short pink rule, then “Join the CB” in yellow block capitals, and the line: Join the CB with an invite: a username and a password of your own.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
+<link rel="stylesheet" href="love.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/join.html#webpage","url":"https://stimpunks.world/join.html","name":"Join the CB — Stimpunks.World","description":"The joining page for the CB, the street’s radio: an invite from a moderator becomes a username of your own, with a password of your own and, if you like, an email address for the day you forget it. Then you are on, on every page of the street.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="room-plain" id="top" data-cb-guest="off">
+<!-- JOINING THE CB. Ryan's brief, 2026-10-21: the starter password became
+     invites, and an invite's link opens this page with its code after the #,
+     where somebody chooses a username and a password of their own and is on
+     the CB with a claimed username from their first minute. Not a room with a
+     world of its own: the CB's, as the forums and tasks are, so the form wears
+     the CB's clothes in a shadow root join.js draws.
+       · A MODERATOR'S USERNAME takes the moderators' password and no invite,
+         and the server decides it (joinAccount in netlify/cb/lib.mjs).
+       · AN EMAIL ADDRESS IS OPTIONAL, and offered only while recovery by email
+         is switched on. It is sealed and used for nothing but a reset code
+         its owner asks for.
+       · NOTHING RECORDS WHO JOINED WITH WHICH INVITE.
+       · data-cb-guest="off": this page is the way onto the CB, so the guest
+         bar offering it again would be the same door twice.
+     See privacy.html#accounts and tools/make-accounts.py, which holds it. -->
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="wrap" style="padding-bottom:56px;max-width:860px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <h1>Join the CB</h1>
+  <p class="lede">Somebody has invited you onto <strong>the CB</strong>, the street&rsquo;s radio, where our community talks: on World, in every room, in calls and in <a href="forum.html">the forums</a>. Here you choose a <strong>username</strong> and a <strong>password of your own</strong>, and then you are on, on every page of the street. <a href="cb-guide.html">The CB guide</a> &middot; <a href="community-center.html#cb-norms">The house norms</a> &middot; <a href="privacy.html#accounts">What we keep</a>.</p>
+
+  <div data-join>
+    <p>Opening the joining desk&hellip;</p>
+    <noscript><p>Joining needs JavaScript, and so does the CB: the radio is a script.</p></noscript>
+  </div>
+
+  <h2>What joining is</h2>
+  <ul>
+    <li><strong>An invite</strong> is a code a moderator made for you, or for a group you are in. Its link fills it in. Some are for one person and some for several, and each runs out after a while: if yours has, ask whoever gave it to you for another. Nothing records who joined with which invite.</li>
+    <li><strong>Your username</strong> is whatever you type, up to 24 characters, and it is yours: only your password signs on as it. Everybody on the CB sees it beside what you say. A moderator&rsquo;s username takes the moderators&rsquo; password as well, and no invite.</li>
+    <li><strong>Your password</strong> is eight characters or more. A few words you will remember is fine. We keep it only scrambled, and cannot tell you what it is.</li>
+    <li><strong>Your recovery code</strong> is shown once, when you join. Keep it where you keep passwords: it is the way back in if you forget yours.</li>
+    <li><strong>An email address is optional.</strong> If you give one, it is used for one thing: sending you a reset code when you ask for one at <a href="community-center.html#cb-signon-desk">the front desk</a>. It is kept scrambled, shown to nobody but you, and goes when your username does. You can add, change or take it off later, under <b>Account</b> on the radio.</li>
+    <li><strong>Next time</strong>, sign on at the front desk, or on the bar in the corner of any page, with your username and your password.</li>
+  </ul>
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-join">Where am I?</a> &middot; <a href="about.html">About</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;julia&quot;,&quot;c&quot;:[-0.4,0.6],&quot;orbit&quot;:0.012,&quot;ground&quot;:&quot;--ink&quot;,&quot;inks&quot;:[&quot;--pink&quot;,&quot;--yellow&quot;,&quot;--cyan&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="call.js" defer></script>
+<script src="join.js" defer></script>
+<script src="love.js" defer></script>
+</body>
+</html>

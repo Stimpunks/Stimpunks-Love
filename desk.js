@@ -1,10 +1,12 @@
 /* =============================================================================
-   The moderators' desk in the Moderators' room: look up one username by name,
-   give it a reset code, delete it, or clear its profile card; and read the
-   direct messages people have reported, and close them. Ryan's calls,
-   2026-09-30: accounts with no email, recovery codes, and moderators able to
-   reset or delete, here; and 2026-10-18, clearing one card that breaks the
-   covenant without deleting the username it is on.
+   The moderators' desk in the Moderators' room: make and delete invites; look
+   up one username by name, give it a reset code, delete it, or clear its
+   profile card; and read the direct messages people have reported, and close
+   them. Ryan's calls, 2026-09-30: accounts with no email, recovery codes, and
+   moderators able to reset or delete, here; 2026-10-18, clearing one card that
+   breaks the covenant without deleting the username it is on; and 2026-10-21,
+   invites in place of the starter password, which the desk makes and deletes.
+   An invite counts its uses and never says who used it.
 
    IT OPENS ONLY FOR A BASE PASS, and the server refuses anybody else whatever
    this page shows: this file is the page keeping quiet, never the lock. It
@@ -23,7 +25,8 @@
   if (!desk) return;
   var me = null;
   try { me = JSON.parse(localStorage.getItem('love-cb') || 'null'); } catch (e) {}
-  if (!me || !me.pass || !(me.base || /^cb[12]\.base\./.test(me.pass))) return;
+  // A base pass from the moderators' password is good only for claiming now.
+  if (!me || !me.pass || !/^cb2\.base\./.test(me.pass)) return;
   desk.hidden = false;
   if (off) off.hidden = true;
 
@@ -67,8 +70,8 @@
     found.textContent = '';
     if (!a.claimed) {
       found.appendChild(el('p', a.mod
-        ? handle + ' is a moderator\u2019s handle, still on the moderators\u2019 password.'
-        : handle + ' has not been claimed. Anybody with the community password can sign on as it.'));
+        ? handle + ' is a moderator\u2019s handle, not claimed yet. Its moderator claims it on the joining page, with the moderators\u2019 password.'
+        : handle + ' has not been claimed, so nobody can sign on as it. Anybody with an invite can join as it.'));
       return;
     }
     var since = '';
@@ -139,6 +142,113 @@
   }
   find.addEventListener('click', lookUp);
   nameBox.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); lookUp(); } });
+
+  /* INVITES (Ryan's brief, 2026-10-21): make one with a note, how many people
+     may join with it and when it runs out; see every one with its link and how
+     many times it has been used; delete one, which asks once more. The list is
+     fetched when a moderator presses for it, or after making one, never on
+     arrival. Nothing here says who joined with which invite, because nothing
+     anywhere knows. */
+  (function () {
+    var box = document.getElementById('md-invites');
+    var iOff = document.getElementById('md-invites-off');
+    var list = document.getElementById('md-invites-list');
+    var iSaid = document.getElementById('md-invites-said');
+    var make = document.getElementById('md-invites-make');
+    var load = document.getElementById('md-invites-load');
+    if (!box || !list || !make || !load) return;
+    box.hidden = false;
+    if (iOff) iOff.hidden = true;
+    function iSay(t) { iSaid.textContent = t; }
+    function inviteCall(send) {
+      return fetch('/cb/invites', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+        body: JSON.stringify(send),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      });
+    }
+    function day(t) {
+      try { return new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return ''; }
+    }
+    function linkOf(code) { return location.origin + '/join.html#invite=' + code; }
+    function draw(invites, made) {
+      list.textContent = '';
+      if (!invites.length) { list.appendChild(el('p', 'There are no invites. Make one above.')); return null; }
+      var ul = el('ul', null, 'md-invites'), first = null;
+      invites.forEach(function (v) {
+        var li = el('li', null, 'md-invite' + (v.state === 'open' ? '' : ' md-invite--done'));
+        li.appendChild(el('p', v.note || 'No note', 'md-invite__note'));
+        var uses = v.most ? 'Used ' + v.used + ' of ' + v.most + (v.most === 1 ? ' time' : ' times') : 'Used ' + v.used + (v.used === 1 ? ' time' : ' times') + ', no limit';
+        var ends = v.until ? (v.state === 'ended' ? 'Ran out on ' + day(v.until) : 'Runs out on ' + day(v.until)) : 'Never runs out';
+        var state = v.state === 'open' ? 'Works.' : v.state === 'used' ? 'Used up: it lets nobody else in.' : 'Ran out: it lets nobody else in.';
+        li.appendChild(el('p', state + ' ' + uses + '. ' + ends + '. Made by ' + v.by + ' on ' + day(v.made) + '. The code is ' + v.code + '.', 'md-invite__about'));
+        var lab = el('label', 'Its link', 'md-desk__lab');
+        var id = 'md-invite-' + v.id;
+        lab.htmlFor = id;
+        var input = el('input', null, 'md-desk__in md-invite__link');
+        input.id = id; input.type = 'text'; input.readOnly = true; input.value = linkOf(v.code);
+        input.addEventListener('focus', function () { input.select(); });
+        li.appendChild(lab); li.appendChild(input);
+        var row = el('p');
+        var copy = button('Copy the link'), del = button('Delete this invite');
+        row.appendChild(copy); row.appendChild(del);
+        li.appendChild(row);
+        copy.addEventListener('click', function () {
+          var done = function () { iSay('Copied the link' + (v.note ? ' for ' + v.note : '') + '.'); };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(input.value).then(done, function () { input.focus(); iSay('This browser would not copy it. The link is selected: copy it from there.'); });
+          else { input.focus(); iSay('The link is selected: copy it from there.'); }
+        });
+        del.addEventListener('click', function () {
+          var ask = el('div');
+          ask.appendChild(el('p', 'This stops the invite working at once. The usernames made with it stay. It cannot be undone.'));
+          var yes = button('Delete it'), no = button('Not now');
+          ask.appendChild(yes); ask.appendChild(no);
+          li.appendChild(ask);
+          no.focus();
+          no.addEventListener('click', function () { ask.remove(); del.focus(); });
+          yes.addEventListener('click', function () {
+            iSay('Deleting…');
+            inviteCall({ delete: v.id }).then(function (r) {
+              if (r.status !== 200) { iSay(why(r, 'That did not work. Nothing was deleted.')); return; }
+              draw(r.body.invites || []);
+              iSay('Deleted. That invite lets nobody in now.');
+              load.focus();
+            }, function () { iSay('The desk could not be reached. Nothing was deleted.'); });
+          });
+        });
+        if (v.id === made) first = input;
+        ul.appendChild(li);
+      });
+      list.appendChild(ul);
+      load.textContent = 'Show them again';
+      return first;
+    }
+    load.addEventListener('click', function () {
+      iSay('Looking…');
+      inviteCall({}).then(function (r) {
+        if (r.status !== 200) { iSay(why(r, 'The invites could not be fetched just now.')); return; }
+        iSay('');
+        draw(r.body.invites || []);
+      }, function () { iSay('The desk could not be reached just now.'); });
+    });
+    make.addEventListener('click', function () {
+      var note = document.getElementById('md-invites-note');
+      var most = Number(document.getElementById('md-invites-most').value);
+      var days = Number(document.getElementById('md-invites-days').value);
+      iSay('Making it…');
+      make.disabled = true;
+      inviteCall({ make: { note: note.value, most: most, days: days } }).then(function (r) {
+        make.disabled = false;
+        if (r.status !== 200) { iSay(why(r, 'That did not work. No invite was made.')); return; }
+        note.value = '';
+        var at = draw(r.body.invites || [], r.body.made);
+        iSay('Made. Its link is first in the list, selected, to copy and pass on.');
+        if (at) at.focus();
+      }, function () { make.disabled = false; iSay('The desk could not be reached. No invite was made.'); });
+    });
+  }());
 
   /* REPORTED MESSAGES (Ryan, 2026-10-18): the one way a direct message reaches
      a moderator. Fetched when a moderator presses Show the reports, never on

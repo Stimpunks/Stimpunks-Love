@@ -913,8 +913,9 @@
   }
 
   /* A claimed username's pass is the only cb2.acct pass there is, so the pass
-     itself says whether this radio is on as one. It only decides the mark on
-     your own "On the channel as" line; the mark on a message is the server's. */
+     itself says whether this radio is on as one. CLAIMED is no longer drawn
+     anywhere (2026-10-21: every username is claimed, so a mark everybody wears
+     says nothing); this decides only what the radio offers to whom. */
   function claimedPass(pass) { return /^cb2\.acct\./.test(pass || ''); }
   // A pass the forums take: any claimed username's, a moderator's own included.
   function forumPass(pass) { return /^cb2\./.test(pass || ''); }
@@ -1153,8 +1154,6 @@
     who.appendChild(document.createTextNode('On the channel as '));
     who.appendChild(el('b', null, state.handle));
     if (state.base) who.appendChild(el('span', 'cb-tag', 'BASE'));
-    this.whoTag = who.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
-    this.whoTag.hidden = !claimedPass(state.pass);
     hereSec.appendChild(who);
 
     /* THE BAND SWITCH: World, or this room's own channel. Two buttons, one
@@ -1206,7 +1205,7 @@
        now." Everybody seen in a room, with the rooms they are in, for anybody
        signed on. It reverses the rule that a radio not seen is told nothing,
        and the CB's refusal of a list of who is on; both were Ryan's calls, and
-       so is this. Names in alphabetical order, CLAIMED and BASE as on the
+       so is this. Names in alphabetical order, BASE as on the
        channel, no number, and not a live region: it is redrawn on each listen
        while it is open, and only then, because listen() is the only thing that
        asks. A name opens that person's profile, as a handle on the channel does
@@ -2854,7 +2853,6 @@
       (function (h, b, mk) { b.addEventListener('click', function () { me.peek(h, b, mk); }); })(m.handle, who, m);
       head.appendChild(who);
       if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
-      else if (m.claimed) head.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
       var when = el('time', 'cb-time', clock(m.t));
       when.dateTime = new Date(m.t).toISOString();
       head.appendChild(when);
@@ -4081,7 +4079,6 @@
     who.addEventListener('click', function () { me.peek(p.handle, from() || who, { base: !!p.base, claimed: !!p.claimed }); });
     line.appendChild(who);
     if (p.base) line.appendChild(el('span', 'cb-tag', 'BASE'));
-    else if (p.claimed) line.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     li.appendChild(line);
   };
 
@@ -4617,7 +4614,6 @@
       sample.appendChild(el('b', null, me.state.handle));
       var mk = me.myMark();
       if (mk.base) sample.appendChild(el('span', 'cb-tag', 'BASE'));
-      else if (mk.claimed) sample.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
       sample.appendChild(document.createTextNode(' in ' + (p.room && byTag[p.room] ? byTag[p.room].name : 'a room')));
       var plate = el('div', 'pf-plate');
       plate.setAttribute('aria-hidden', 'true');
@@ -7312,46 +7308,19 @@
     this.state.pass = pass;
     this.state.claimed = !!claimed;
     save(this.state);
-    if (this.whoTag) this.whoTag.hidden = !claimedPass(pass);
   };
 
   Radio.prototype.drawAccount = function (a) {
-    var me = this, box = me.acctBox, h = me.state.handle;
+    var me = this, box = me.acctBox;
     box.textContent = '';
     me.drawWhere(!!a.claimed);
-    /* A MODERATOR MOVES ONTO A PASSWORD OF THEIR OWN here, the same claim as
-       anybody's (Ryan's call, 2026-09-30). Their roles stay on the moderators'
-       list; the account only holds the password. */
+    /* A radio is built only for a claimed username now: a pass from a shared
+       password gets claimFirst instead, which claims and then brings the radio
+       (2026-10-21). A moderator moves onto a password of their own there, the
+       same claim as anybody's; their roles stay on the moderators' list. */
     var base = !!a.base;
     if (!a.claimed) {
-      if (base) {
-        box.appendChild(el('p', null, 'You are on with the moderators\u2019 password, which every moderator knows, so any of them can sign on as ' + h + ' today. Move onto a password of your own and only you can: your roles stay where they are, on the moderators\u2019 list, and the moderators\u2019 password stops working for ' + h + '.'));
-        box.appendChild(el('p', 'cb-quiet', 'There is no email. You get a recovery code, once, which is the way back in if you forget your password. The moderators\u2019 desk does not reset a moderator\u2019s username, so keep the code; failing that, Ryan or Helen can move you back.'));
-      } else {
-        box.appendChild(el('p', null, 'Anybody with the community password can sign on as ' + h + ' today. Claim it and it is yours: from then on it signs on with a password of your own, and the community password stops working for it.'));
-        box.appendChild(el('p', 'cb-quiet', 'There is no email. When you claim, you get a recovery code, once, which is the way back in if you forget your password; a moderator can also give you a reset code.'));
-      }
-      var pw = field('A password of your own', 'cb-acct-pw'), again = field('The same again', 'cb-acct-pw2');
-      box.appendChild(pw.wrap); box.appendChild(again.wrap);
-      var claim = el('button', 'cb-btn cb-acct-claim', base ? 'Move onto my own password' : 'Claim ' + h);
-      claim.type = 'button';
-      box.appendChild(claim);
-      claim.addEventListener('click', function () {
-        if (pw.input.value !== again.input.value) { me.acctSay('The two passwords are not the same.'); pw.input.focus(); return; }
-        claim.disabled = true;
-        me.acctSay('Claiming\u2026');
-        call('/cb/account', { body: { action: 'claim', password: pw.input.value } }, me.state.pass).then(function (r) {
-          claim.disabled = false;
-          if (r.status === 200 && r.body.pass) {
-            me.takePass(r.body.pass, true);
-            me.showRecovery(r.body.recovery, base
-              ? 'Done. You sign on as ' + h + ' with your own password now, still as the base, and the moderators\u2019 password no longer works for ' + h + '.'
-              : 'Claimed. ' + h + ' is yours, and signs on with your own password now.');
-            return;
-          }
-          me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was claimed.');
-        }, function () { claim.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was claimed.'); });
-      });
+      box.appendChild(el('p', 'cb-quiet', 'Your username is not claimed. Reload the page, and the radio offers to claim it.'));
       return;
     }
     var since = '';
@@ -7367,6 +7336,60 @@
     box.appendChild(row);
     var form = el('div', 'cb-acct__form'); form.hidden = true;
     box.appendChild(form);
+    /* AN EMAIL ADDRESS FOR RECOVERY, optional (Ryan, 2026-10-21): shown here to
+       its owner and to nobody else, and used only to send a reset code they ask
+       for at the front desk. Setting, changing or taking it off asks for the
+       password, so a pass left signed on somewhere cannot point the reset at
+       somebody else's address. Offered only while recovery by email is on. */
+    if (a.emailOn || a.email) {
+      var mail = el('div', 'cb-acct__mail');
+      mail.appendChild(el('h3', 'cb-h3', 'Email for password recovery'));
+      var mailNow = el('p', null, a.email
+        ? 'A reset code you ask for at the front desk goes to ' + a.email + '. Nobody else sees it.'
+        : 'None. If you add one, a reset code you ask for at the front desk goes there, and nobody else sees it.');
+      mail.appendChild(mailNow);
+      var mailRow = el('p', 'cb-acct__row');
+      var mailSet = el('button', 'cb-btn', a.email ? 'Change it' : 'Add one');
+      mailSet.type = 'button';
+      mailRow.appendChild(mailSet);
+      if (a.email) {
+        var mailOff = el('button', 'cb-btn', 'Take it off');
+        mailOff.type = 'button';
+        mailRow.appendChild(mailOff);
+      }
+      mail.appendChild(mailRow);
+      var mailForm = el('div', 'cb-acct__form'); mailForm.hidden = true;
+      mail.appendChild(mailForm);
+      box.appendChild(mail);
+      var mailGo = function (taking) {
+        mailForm.textContent = ''; mailForm.hidden = false;
+        var addr = null;
+        if (!taking) {
+          addr = field('Your email address', 'cb-acct-email', 'email');
+          addr.input.autocomplete = 'email';
+          if (a.email) addr.input.value = a.email;
+          mailForm.appendChild(addr.wrap);
+        } else {
+          mailForm.appendChild(el('p', null, 'Without it, your recovery code, or a reset code from a moderator, is the way back in if you forget your password.'));
+        }
+        var pwNow = field('Your password, to be sure it is you', 'cb-acct-email-pw', 'password');
+        pwNow.input.autocomplete = 'current-password';
+        mailForm.appendChild(pwNow.wrap);
+        var ok = el('button', 'cb-btn', taking ? 'Take it off' : 'Keep this address'); ok.type = 'button';
+        mailForm.appendChild(ok);
+        (addr ? addr.input : pwNow.input).focus();
+        ok.addEventListener('click', function () {
+          ok.disabled = true;
+          call('/cb/account', { body: { action: 'email', password: pwNow.input.value, email: taking ? '' : addr.input.value } }, me.state.pass).then(function (r) {
+            ok.disabled = false;
+            if (r.status === 200) { me.acctSay(r.body.email ? 'Kept. A reset code you ask for goes to ' + r.body.email + ' now.' : 'Taken off. No address is kept for you.'); me.loadAccount(); return; }
+            me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was changed.');
+          }, function () { ok.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was changed.'); });
+        });
+      };
+      mailSet.addEventListener('click', function () { mailGo(false); });
+      if (mailOff) mailOff.addEventListener('click', function () { mailGo(true); });
+    }
     change.addEventListener('click', function () {
       form.textContent = ''; form.hidden = false;
       var old = field('Your password now', 'cb-acct-old', 'password'), pw = field('A new password', 'cb-acct-new'), again = field('The same again', 'cb-acct-new2');
@@ -7407,24 +7430,6 @@
         }, function () { yes.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was deleted.'); });
       });
     });
-  };
-
-  /* A recovery code is shown once, and the tray says so rather than letting it
-     look like something that can be fetched again. */
-  Radio.prototype.showRecovery = function (code, lead) {
-    var me = this, box = me.acctBox;
-    box.textContent = '';
-    me.drawWhere(true);
-    box.appendChild(el('p', null, lead));
-    box.appendChild(el('p', null, 'Your recovery code is below. It is the way back in if you forget your password, and it will not be shown again: write it down, or keep it where you keep passwords.'));
-    var c = el('p', 'cb-acct__code', code);
-    box.appendChild(c);
-    var done = el('button', 'cb-btn', 'I have kept it'); done.type = 'button';
-    box.appendChild(done);
-    done.focus();
-    // The card and its sets are a claimed username's, so they arrive now.
-    done.addEventListener('click', function () { me.loadAccount(); if (me.pfShown('card')) me.loadProfileCard(true); });
-    me.acctSay('');
   };
 
   Radio.prototype.drawWhere = function (claimed) {
@@ -7846,7 +7851,6 @@
   function personLine(li, p, mine, profile) {
     li.appendChild(profile || el('b', null, p.handle));
     if (p.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
-    else if (p.claimed) li.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     if (mine) li.appendChild(document.createTextNode(' (you)'));
   }
 
@@ -8116,15 +8120,16 @@
   };
 
   /* Yours, as canTakeOff in lib.mjs reads it: your handle, folded, and if the
-     message is CLAIMED, a claimed pass. A BASE message is only ever the base's. */
+     message came from a claimed username, a claimed pass. A BASE message is
+     only ever the base's. */
   Radio.prototype.mine = function (m) {
     if (m.base || fold(m.handle) !== fold(this.state.handle)) return false;
     return !m.claimed || claimedPass(this.state.pass);
   };
 
   /* Yours to edit, as canEdit in lib.mjs reads it: your handle, folded; a
-     CLAIMED message only with a claimed pass; a BASE message only with the
-     base's. Unlike Take off, the base gets no further than its own. */
+     claimed username's message only with a claimed pass; a BASE message only
+     with the base's. Unlike Take off, the base gets no further than its own. */
   Radio.prototype.mayEdit = function (m) {
     if (fold(m.handle) !== fold(this.state.handle)) return false;
     if (m.base) return !!this.state.base;
@@ -8539,7 +8544,6 @@
       if (i) p.appendChild(document.createTextNode(', '));
       p.appendChild(el('b', null, x[key]));
       if (x.base) p.appendChild(el('span', 'cb-tag', 'BASE'));
-      else if (x.claimed) p.appendChild(el('span', 'cb-tag cb-tag--claimed', 'CLAIMED'));
     });
   }
 
@@ -9280,7 +9284,7 @@
 
   function tuneIn() {
     var s = load();
-    if (!s || radio || stub) return;
+    if (!s || radio || stub || claiming) return;
     if (!window.loveCall) { withCall(tuneIn); return; }
     // Never inside a frame: the Hermitage's laptop shows this site inside
     // itself, and a radio inside that screen would be a second radio.
@@ -9289,6 +9293,9 @@
     // A Town Hall private room: the radio is the base's there (love.js does not
     // load this file for anybody else, and the server refuses them anyway).
     if (!mayHere(s)) return;
+    // A pass from a shared password is good only for claiming the username it
+    // is on: no radio for it, only the claim (claimFirst).
+    if (/^cb1\./.test(s.pass || '')) { claimFirst(s); return; }
     /* OUT IN A WINDOW OF ITS OWN: this page gets the bar saying so, unless
        nothing answers, which means the window went without saying (a crash,
        or a browser that closed it), and then the radio is back here. A radio
@@ -9350,10 +9357,109 @@
     if (was && was.pass) dropThisDevice(was.pass);
     forget();
     if (radio) { clearTimeout(radio.timer); radio.hush(); radio.host.remove(); radio = null; }
+    if (claiming) { claiming.remove(); claiming = null; }
     if (stub) unStub();
     counter();
     // Signed off in its own window: the window has nothing left to hold.
     if (inWindow()) closeWindow();
+  }
+
+  /* ── Claiming first ───────────────────────────────────────────────────── */
+
+  /* EVERY USERNAME IS CLAIMED NOW. Ryan, 2026-10-21: "Prompt anyone still
+     using the community passwords to claim their username. They must claim a
+     username to retain access." A pass from the starter password, or from the
+     moderators' shared one, is good for one thing on the server now: claiming
+     the username it is on (readPass). So a radio holding one is not built at
+     all. This panel stands where it would be, in its clothes, says why, and
+     claims; claimed, the radio comes with the new pass. It sends nothing until
+     it is pressed, except one look at Account for whether recovery by email is
+     switched on. Sign off is here too, for somebody who would rather not. */
+  var claiming = null;
+  function claimFirst(s) {
+    if (claiming) return;
+    var base = /^cb1\.base\./.test(s.pass), h = s.handle;
+    var host = claiming = el('div', 'cb-host');
+    if (window.loveCall && window.loveCall.dress) window.loveCall.dress(host, s.scheme);
+    var root = host.attachShadow({ mode: 'open' });
+    var sheet = document.createElement('link');
+    sheet.rel = 'stylesheet';
+    sheet.href = '/cb.css';
+    host.style.visibility = 'hidden';
+    sheet.addEventListener('load', function () { host.style.visibility = ''; });
+    sheet.addEventListener('error', function () { host.style.visibility = ''; });
+    root.appendChild(sheet);
+    var box = el('section', 'cb-radio cb-radio--claim');
+    box.setAttribute('aria-labelledby', 'cb-claim-h');
+    box.style.right = '16px';
+    box.style.bottom = '16px';
+    var bar = el('div', 'cb-bar cb-claim-bar');
+    var name = el('p', 'cb-name');
+    name.appendChild(el('span', 'cb-brand', 'CB'));
+    bar.appendChild(name);
+    box.appendChild(bar);
+    var set = el('div', 'cb-set');
+    var head = el('h2', 'cb-h', 'Claim ' + h + ' to stay on');
+    head.id = 'cb-claim-h';
+    head.tabIndex = -1;
+    set.appendChild(head);
+    set.appendChild(el('p', null, base
+      ? 'Every username on the CB is claimed now, with a password of its own. You are on as ' + h + ' with the moderators’ password, which every moderator knows, so any of them could be you. Choose a password of your own and only you sign on as ' + h + '. Your roles stay where they are, on the moderators’ list.'
+      : 'The starter password has been retired, and every username on the CB is claimed now, with a password of its own. Until you claim ' + h + ', the radio is off. Choose a password and ' + h + ' is yours: your pets, avatars and everything else kept under it stay with it.'));
+    var pw = field('A password of your own, eight characters or more', 'cb-claim-pw'), again = field('The same again', 'cb-claim-pw2');
+    var email = field('An email address for password recovery, if you want one (optional)', 'cb-claim-email', 'email');
+    email.input.autocomplete = 'email';
+    email.wrap.hidden = true;
+    var about = el('p', 'cb-quiet', 'Used for one thing: sending you a reset code when you ask for one at the front desk. Kept scrambled, shown to nobody but you, and gone when your username goes. The email comes from our team’s mailbox.');
+    about.hidden = true;
+    set.appendChild(pw.wrap); set.appendChild(again.wrap); set.appendChild(email.wrap); set.appendChild(about);
+    var row = el('p', 'cb-acct__row');
+    var go = el('button', 'cb-btn cb-acct-claim', 'Claim ' + h);
+    go.type = 'button';
+    var off = el('button', 'cb-btn', 'Sign off');
+    off.type = 'button';
+    row.appendChild(go); row.appendChild(off);
+    set.appendChild(row);
+    var said = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    set.appendChild(said);
+    box.appendChild(set);
+    root.appendChild(box);
+    document.body.appendChild(host);
+    var gone = 'This browser cannot claim ' + h + ' any more: somebody else may have claimed it, or the password behind the pass has changed. Sign off, and join under a username of your own with an invite.';
+    call('/cb/account', null, s.pass).then(function (r) {
+      if (r.status === 401) { said.textContent = gone; go.disabled = true; return; }
+      if (r.status === 200 && r.body.emailOn) { email.wrap.hidden = false; about.hidden = false; }
+    }, function () { /* the claim press says what went wrong */ });
+    off.addEventListener('click', signOff);
+    go.addEventListener('click', function () {
+      if (pw.input.value !== again.input.value) { said.textContent = 'The two passwords are not the same.'; pw.input.focus(); return; }
+      go.disabled = true;
+      said.textContent = 'Claiming…';
+      call('/cb/account', { body: { action: 'claim', password: pw.input.value, email: email.wrap.hidden ? undefined : email.input.value } }, s.pass).then(function (r) {
+        if (r.status === 200 && r.body.pass) {
+          var now = load() || s;
+          now.pass = r.body.pass; now.handle = r.body.handle; now.base = !!r.body.base; now.roles = r.body.roles || []; now.claimed = true;
+          save(now);
+          set.textContent = '';
+          var done = el('h2', 'cb-h', h + ' is yours');
+          done.tabIndex = -1;
+          set.appendChild(done);
+          set.appendChild(el('p', null, 'It signs on with your own password now. Your recovery code is below. It is the way back in if you forget your password, and it will not be shown again: write it down, or keep it where you keep passwords.'));
+          set.appendChild(el('p', 'cb-acct__code', r.body.recovery));
+          var kept = el('button', 'cb-btn', 'I have kept it');
+          kept.type = 'button';
+          set.appendChild(kept);
+          done.focus();
+          kept.addEventListener('click', function () { host.remove(); claiming = null; tuneIn(); });
+          return;
+        }
+        go.disabled = false;
+        if (r.status === 401) { said.textContent = gone; go.disabled = true; return; }
+        if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }
+        said.textContent = why(r, 'That did not work just now. Nothing was claimed.');
+      }, function () { go.disabled = false; said.textContent = 'No signal: the desk could not be reached. Nothing was claimed.'; });
+    });
   }
 
   /* ── The radio's own window, seen from a page ─────────────────────────── */
@@ -9547,10 +9653,23 @@
       btn.disabled = true;
       call('/cb/signon', { body: { handle: handle, password: password } }).then(function (r) {
         btn.disabled = false;
-        if (r.status === 200) {
+        /* A MODERATOR'S USERNAME NOT CLAIMED YET (2026-10-21): the moderators'
+           password signs nobody on now, and sends its moderator to claim the
+           username on the joining page, where it is asked for again. */
+        if (r.status === 200 && r.body.claim) {
+          form.elements.password.value = '';
+          said.textContent = r.body.handle + ' is a moderator\u2019s username, and has not been claimed yet. Claim it on ';
+          var j = document.createElement('a');
+          j.href = '/join.html#name=' + encodeURIComponent(r.body.handle);
+          j.textContent = 'the joining page';
+          said.appendChild(j);
+          said.appendChild(document.createTextNode(', with the moderators\u2019 password and one of your own.'));
+          return;
+        }
+        if (r.status === 200 && r.body.pass) {
           form.elements.password.value = '';
           said.textContent = '';
-          save({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], folded: false, aloud: true });
+          save({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], claimed: true, folded: false, aloud: true });
           counter();
           tuneIn();
           var hello = document.getElementById('cb-on-said');
@@ -9570,13 +9689,14 @@
     counter();
   }
 
-  /* GETTING BACK INTO A CLAIMED USERNAME. The recovery code from claiming, or
-     a moderator's reset code, and a new password; the answer is a pass and a
-     NEW recovery code, shown here once. */
+  /* GETTING BACK INTO A CLAIMED USERNAME. The recovery code from claiming, a
+     reset code we emailed, or a moderator's reset code, and a new password;
+     the answer is a pass and a NEW recovery code, shown here once. */
   function wireRecover() {
     var box = document.getElementById('cb-recover-box');
     var form = document.getElementById('cb-recover');
     if (!box || !form) return;
+    wireMailReset();
     var said = document.getElementById('cb-recover-said');
     var btn = form.querySelector('button[type="submit"]');
     form.addEventListener('submit', function (e) {
@@ -9595,6 +9715,32 @@
           form.replaceWith(p1); p1.after(p2);
           counter();
           tuneIn();
+          return;
+        }
+        if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }
+        said.textContent = why(r, 'That did not work. Try again.');
+      }).catch(function () { btn.disabled = false; said.textContent = 'No signal: the counter could not be reached.'; });
+    });
+  }
+
+  /* EMAIL ME A RESET CODE (Ryan, 2026-10-21): the username and the address it
+     keeps, and the answer is the same whether or not they match, so the desk
+     tells nobody anything about anybody's address. */
+  function wireMailReset() {
+    var form = document.getElementById('cb-mailreset');
+    if (!form) return;
+    var said = document.getElementById('cb-mailreset-said');
+    var btn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      said.textContent = 'Asking\u2026';
+      btn.disabled = true;
+      call('/cb/account/recover', { body: { action: 'email', handle: form.elements.handle.value, email: form.elements.email.value } }).then(function (r) {
+        btn.disabled = false;
+        if (r.status === 200) {
+          var rec = document.getElementById('cb-recover-handle');
+          if (rec && !rec.value) rec.value = form.elements.handle.value;
+          said.textContent = 'Asked. If that username has that address on it, a reset code is on its way, within ten minutes or so, from our team\u2019s mailbox. It works for an hour, in the form below. Nothing came? The address may not be the one on the username, or none is: your recovery code, or a moderator, is the way back in then.';
           return;
         }
         if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }

@@ -5,11 +5,11 @@
    can find the one for its own room without telling us which room that is,
    except a room that keeps to itself (QUIET_ROOMS in lib.mjs), whose host is
    heard only by a radio tuned to that room. */
-import { readPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, shape, shapeBeacons, callsReady, json } from '../cb/lib.mjs';
+import { readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, shape, shapeBeacons, callsReady, json } from '../cb/lib.mjs';
 
 export default async (req) => {
   const who = await readPass(req);
-  if (!who) return json(401, { error: 'signed off' });
+  if (!who) return sharedPass(req) ? json(403, { error: 'claim your username first' }) : json(401, { error: 'signed off' });
   // ?room=<tag> only while the radio is tuned to a room; World sends nothing.
   const asked = new URL(req.url).searchParams.get('room');
   const room = asked === null ? null : roomTag(asked);

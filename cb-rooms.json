@@ -215,7 +215,7 @@
    "tag": "community-center",
    "name": "Community Center",
    "path": "/community-center.html",
-   "about": "A shopfront on the street with the blinds half open, and where you get started in our community: how to get a starter password, sign on to the CB and claim your username, the front desk where you sign on, things to do once you are on, the forums, its house norms and our covenant, and the community service board, with a slot for every room that takes something in from our community."
+   "about": "A shopfront on the street with the blinds half open, and where you get started in our community: how to join the CB with an invite and a username of your own, the front desk where you sign on, things to do once you are on, the forums, its house norms and our covenant, and the community service board, with a slot for every room that takes something in from our community."
   },
   {
    "tag": "town-hall",
@@ -756,6 +756,12 @@
    "name": "The CB guide",
    "path": "/cb-guide.html",
    "about": "The CB, the street’s radio, part by part: the guest bar and signing on, the bar and its sizes, World and room channels, reading and writing messages, reactions, pictures, direct messages, the teleporter, watching films together, calls, Profile, avatars, pets, jobs and patches, and what it keeps."
+  },
+  {
+   "tag": "join",
+   "name": "Join the CB",
+   "path": "/join.html",
+   "about": "The joining page for the CB, the street’s radio: an invite from a moderator becomes a username of your own, with a password of your own and, if you like, an email address for the day you forget it. Then you are on, on every page of the street."
   },
   {
    "tag": "forum",

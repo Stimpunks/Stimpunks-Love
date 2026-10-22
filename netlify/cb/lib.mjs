@@ -4128,9 +4128,16 @@ export function readMods(raw = process.env.CB_MODS) {
   return mods.size ? mods : null;
 }
 
-/* Signing on. The moderators' password is only for a handle on the list, and
-   the community password is refused for any handle on it. The answer is a role
-   and the roles, or a sentence saying why not. */
+/* Signing on. A claimed username signs on with its own password and nothing
+   else. The answer is a role and the roles, or a sentence saying why not.
+
+   EVERY USERNAME IS CLAIMED NOW. Ryan's calls, 2026-10-21: the starter
+   password became invites, everybody joins by claiming a username with a
+   password of their own, and the starter password was retired the same day,
+   so it signs nobody on. A moderator whose handle is still on the moderators'
+   password is answered { claim } and no pass: they claim it first, on the
+   joining page, with the moderators' password (joinAccount). */
+export const STARTER_GONE = 'The starter password has been retired. You join the CB with an invite now: a link or a code from a moderator, or from the Stimpunks Community page when you join our community.';
 export async function signOn(handle, password, mods = readMods(), s = store(), now = Date.now()) {
   const mod = secretFor('base');
   if (mod && same(password, mod)) {
@@ -4142,7 +4149,7 @@ export async function signOn(handle, password, mods = readMods(), s = store(), n
     // every moderator knows the moderators' password, so while it worked for
     // this handle any of them could sign on as it.
     if (await readAccount(m.handle, s)) return { error: 'That moderator signs on with their own password now, not the moderators\' one.' };
-    return { role: 'base', handle: m.handle, roles: m.roles };
+    return { claim: true, mod: true, handle: m.handle };
   }
   // A CLAIMED USERNAME SIGNS ON WITH ITS OWN PASSWORD AND NOTHING ELSE. The
   // community password is refused for it, the way it is refused for a
@@ -4163,13 +4170,11 @@ export async function signOn(handle, password, mods = readMods(), s = store(), n
     return { role: 'mobile', handle: acct.handle, roles: new Set(), account: r.v };
   }
   const all = secretFor('mobile');
-  if (all && same(password, all)) {
-    if (mods && mods.has(foldHandle(handle))) {
-      return { error: 'That handle belongs to a moderator. Sign on with the moderators\' password, or pick another handle.' };
-    }
-    return { role: 'mobile', handle, roles: new Set() };
+  if (all && same(password, all)) return { error: STARTER_GONE };
+  if (mods && mods.has(foldHandle(handle))) {
+    return { error: 'That username is a moderator\'s, and has not been claimed yet. Its moderator claims it on the joining page, with the moderators\' password.' };
   }
-  return { error: 'That is not the community password.' };
+  return { error: 'Nobody has claimed that username, so there is no password to sign on with. New here? You join the CB with an invite.' };
 }
 
 export function issuePass(role, handle) {
@@ -4182,8 +4187,13 @@ export function issuePass(role, handle) {
    claimed. A claimed username's pass (cb2) carries the account's version, and
    is refused the moment the version moves: a password change, a reset or a
    deletion signs every device off at once. Both kinds are signed with the
-   community password, so changing it still signs everybody off. */
-export async function readPass(req, mods = readMods(), s = store()) {
+   community password, so changing it still signs everybody off.
+
+   A PASS FROM A SHARED PASSWORD (cb1) IS GOOD FOR ONE THING NOW: claiming the
+   username it is on (Ryan, 2026-10-21, "They must claim a username to retain
+   access"). Only /cb/account asks for it, with { unclaimed: true }; to every
+   other function it is no pass, and the radio says why and offers the claim. */
+export async function readPass(req, mods = readMods(), s = store(), { unclaimed = false } = {}) {
   const h = req.headers.get('authorization') || '';
   const a = /^Bearer cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.([A-Za-z0-9_-]+)$/.exec(h);
   if (a) {
@@ -4210,7 +4220,7 @@ export async function readPass(req, mods = readMods(), s = store()) {
     return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since };
   }
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
-  if (!m) return null;
+  if (!m || !unclaimed) return null;
   const role = m[2];
   const secret = secretFor(role);
   if (!secret) return null;
@@ -4231,6 +4241,14 @@ export async function readPass(req, mods = readMods(), s = store()) {
   if (await readAccount(handle, s)) return null;
   return { role, handle, roles: new Set() };
 }
+
+/* Whether a request carries a pass from a shared password (cb1), which is
+   good only for claiming now. The channel and Be seen here answer one 403
+   rather than 401, so a radio still running the code from before 2026-10-21
+   goes on saying "no signal" rather than forgetting its pass: that pass is
+   the one thing that lets its person claim their username once the page is
+   reloaded, with the starter password retired. */
+export function sharedPass(req) { return /^Bearer cb1\./.test((req && req.headers && req.headers.get('authorization')) || ''); }
 
 /* A claimed username's pass. A moderator's is cb2.base, signed with the
    moderators' password so that changing it still signs every moderator off;
@@ -4263,8 +4281,16 @@ export function isMod(handle, mods = readMods()) {
 /* Ryan's calls, 2026-09-30: a Profile on the CB where you can claim your
    username and set your own password; no email; a recovery code shown once
    when you claim; moderators can reset a password, delete an account or
-   clear its profile card, in the Moderators' room. Claiming is optional and only possible while signed
-   on with the community password, so there is no public sign-up.
+   clear its profile card, in the Moderators' room. Claiming was optional
+   then, and only possible while signed on with the community password.
+
+   SINCE 2026-10-21 EVERYBODY CLAIMS, AND AN EMAIL ADDRESS IS OPTIONAL. Ryan's
+   calls that day: the starter password became invites (below), everybody on
+   the CB joins by claiming a username, a pass from a shared password is good
+   only for claiming (readPass), and an account may keep an email address for
+   one thing, sending its owner a reset code they ask for (mailResetCode).
+   That reverses "no email". The address is sealed with the office's key, read
+   by nobody but the code that sends the reset, and goes with the account.
 
    MODERATORS CAN MOVE ONTO PASSWORDS OF THEIR OWN. Ryan's call, the same
    evening, starting with himself. A moderator signed on with the moderators'
@@ -4280,8 +4306,9 @@ export function isMod(handle, mods = readMods()) {
 
    WHAT AN ACCOUNT IS: the username as claimed, a scrypt hash of its password
    and of its recovery code (each with its own salt), when it was claimed, a
-   version, and a count of wrong passwords with the time it is locked until.
-   No email, no other name, nothing about what anybody does. It is filed under
+   version, and a count of wrong passwords with the time it is locked until;
+   and, only if its owner gave one, an email address, sealed. No other name,
+   nothing about what anybody does. It is filed under
    acctKey, a plain hash of the folded username, so the store does not list
    usernames and there is nothing here to browse: a moderator finds an account
    by typing its name.
@@ -4362,17 +4389,20 @@ async function updateAccount(handle, change, s) {
   throw new Error('busy');
 }
 
-/* Claim `handle` with `password`. The first claim wins; a handle on the
-   moderators' list cannot be claimed. Answers { v, recovery } with the code
-   to be shown once, or { error }. */
-export async function claimAccount(handle, password, s = store(), now = Date.now(), mods = readMods(), asBase = false) {
+/* Claim `handle` with `password`, and an email address for recovery if one
+   is given. The first claim wins; a handle on the moderators' list cannot be
+   claimed. Answers { v, recovery } with the code to be shown once, or
+   { error }. */
+export async function claimAccount(handle, password, s = store(), now = Date.now(), mods = readMods(), asBase = false, email = null) {
   if (!asBase && mods && mods.has(foldHandle(handle))) return { error: 'That handle is a moderator\'s, and only they can move it onto a password of their own.' };
   const pw = ownPassword(password);
   if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not the community or the moderators' password. A few words you will remember is fine.` };
+  const box = await recoveryBox(email);
+  if (box && box.error) return box;
   const recovery = makeCode();
   const ps = salt(), rs = salt();
   const body = { handle, hash: scrypt(pw, ps), salt: ps, rhash: scrypt(cleanCode(recovery), rs), rsalt: rs,
-    since: now, v: 1, fails: 0, lockUntil: 0 };
+    since: now, v: 1, fails: 0, lockUntil: 0, ...(box ? { email: box.sealed } : {}) };
   const res = await s.setJSON(acctBlob(handle), body, { onlyIfNew: true });
   if (!res.modified) return { error: 'That username has already been claimed.' };
   return { v: 1, recovery, handle };
@@ -4416,13 +4446,14 @@ export async function recoverAccount(handle, code, password, s = store(), now = 
   if (acct.lockUntil > now) return { error: 'That username is locked for a few minutes after too many wrong tries. Try again soon, or ask a moderator.', locked: true };
   const c = cleanCode(code);
   const byReset = acct.reset && acct.reset.until > now && matches(c, acct.reset.salt, acct.reset.hash);
+  const byMail = acct.mailed && acct.mailed.until > now && matches(c, acct.mailed.salt, acct.mailed.hash);
   const byCode = matches(c, acct.rsalt, acct.rhash);
-  if (!byReset && !byCode) {
+  if (!byReset && !byMail && !byCode) {
     const after = await updateAccount(handle, (a) => {
       const fails = (a.lockUntil > now ? 0 : a.fails || 0) + 1;
       return fails >= ACCT_TRIES ? { ...a, fails: 0, lockUntil: now + ACCT_LOCK } : { ...a, fails };
     }, s);
-    return after && after.lockUntil > now ? { error: 'That is not its code, and it is locked for fifteen minutes now.', locked: true } : { error: 'That is not its recovery code, or a reset code a moderator gave you.' };
+    return after && after.lockUntil > now ? { error: 'That is not its code, and it is locked for fifteen minutes now.', locked: true } : { error: 'That is not its recovery code, a reset code we emailed you, or one a moderator gave you.' };
   }
   const pw = ownPassword(password);
   if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not one of the shared ones.` };
@@ -4431,6 +4462,7 @@ export async function recoverAccount(handle, code, password, s = store(), now = 
   const next = await updateAccount(handle, (a) => {
     const n = { ...a, hash: scrypt(pw, ps), salt: ps, rhash: scrypt(cleanCode(recovery), rs), rsalt: rs, v: a.v + 1, fails: 0, lockUntil: 0 };
     delete n.reset;
+    delete n.mailed;
     return n;
   }, s);
   return next ? { v: next.v, recovery, handle: next.handle } : { error: 'That username has not been claimed.' };
@@ -4474,6 +4506,322 @@ export function shapeAccount(a) { return a ? { claimed: true, handle: a.handle, 
 /* What a radio is told about its own pass: which of the rooms that need a role
    it may go into, so the page can keep quiet in the others. */
 export function rolesOf(who) { return who && who.roles ? [...who.roles].sort() : []; }
+
+/* ── An email address for recovery, if you give one ───────────────────────
+
+   Ryan's call, 2026-10-21: an account may keep one email address, for one
+   thing: sending its owner a reset code when they ask for one at the front
+   desk. It is never shown to anybody else, moderators included, never used
+   for anything else, and goes with the account.
+
+   IT GOES OUT THROUGH THE TEAM MAILBOX (Ryan's choice the same day, over a
+   mail service of its own and over moderators sending codes by hand): the
+   office's outbox hands the mailbox's script each reset email with the
+   mailings', the script sends it from the mailbox within ten minutes, and the
+   office forgets it once the script says it went. So recovery by email works
+   only while the office's key and the mailbox's key are both set (emailOn),
+   the address is sealed with the office's key, and the email the mailbox sent
+   is never filed in the office, even when its address is a contact's
+   (officeMailIn). What the mailbox keeps is its Sent folder, which is why the
+   code works for an hour and not a day.
+
+   ASKING NEVER SAYS WHETHER IT WORKED. The front desk answers the same
+   sentence whether the username has that address on it, a different one, or
+   none, so nobody can use it to learn somebody's address or whether they gave
+   one. One reset email a quarter of an hour, per username. */
+export const ACCT_MAIL_FOR = 60 * 60 * 1000;
+export const ACCT_MAIL_GAP = 15 * 60 * 1000;
+export const ACCT_MAIL_SUBJECT = 'Your Stimpunks.World reset code';
+const ACCT_OUTBOX = 'acct-outbox';
+
+export function emailOn() { return mailReady(); }
+
+/* An address as somebody typed it, trimmed and lowercased, or null. */
+export function cleanAddress(v) {
+  const a = String(v == null ? '' : v).trim().toLowerCase();
+  return a && a.length <= 254 && EMAIL.test(a) ? a : null;
+}
+
+/* What claiming or changing an address keeps: null for none, the sealed
+   address, or { error }. */
+async function recoveryBox(email) {
+  if (email == null || String(email).trim() === '') return null;
+  const to = cleanAddress(email);
+  if (!to) return { error: 'That does not look like an email address. Leave it empty if you would rather not give one.' };
+  if (!emailOn()) return { error: 'Recovery by email is not switched on yet, so leave the email address empty for now. Your recovery code is the way back in.' };
+  return { sealed: seal({ email: to }) };
+}
+
+/* The address an account keeps, for its owner's own Account and for sending
+   the reset, and nobody else. */
+export function accountEmail(a) {
+  if (!a || !a.email) return null;
+  try { return unseal(a.email).email || null; } catch (e) { return null; }
+}
+
+/* Set, change or take off the address, with the account's password. A new
+   address cancels any reset code already emailed to the old one. */
+export async function setAccountEmail(handle, password, email, s = store(), now = Date.now()) {
+  const ok = await checkPassword(handle, password, s, now);
+  if (ok.error) return ok;
+  const box = await recoveryBox(email);
+  if (box && box.error) return box;
+  const next = await updateAccount(handle, (a) => {
+    const n = { ...a };
+    if (box) n.email = box.sealed; else delete n.email;
+    delete n.mailed;
+    return n;
+  }, s);
+  return next ? { email: accountEmail(next) } : { error: 'That username has not been claimed.' };
+}
+
+export function resetMailText(handle, code) {
+  return [
+    `Somebody asked for a reset code for the username ${handle} on the CB at Stimpunks.World, with this email address.`,
+    '',
+    `The reset code: ${code}`,
+    '',
+    'It works for an hour, at the front desk in the Community Center, under "Forgotten your password?", where you choose a new password with it:',
+    'https://stimpunks.world/community-center.html#cb-signon-desk',
+    '',
+    'If it was not you, there is nothing to do: your password has not changed, and the code stops working in an hour.',
+    '',
+    'Stimpunks.World',
+  ].join('\n');
+}
+
+/* "Email me a reset code": made and put in the outbox only when the username
+   has exactly that address on it and none was sent in the last quarter of an
+   hour. The answer is the same either way. A code by email does not sign
+   anybody off until it is used, so asking for one cannot be used to throw
+   somebody off the CB. */
+export async function mailResetCode(handle, email, s = store(), now = Date.now()) {
+  if (!emailOn()) return { off: true };
+  const want = cleanAddress(email);
+  const acct = want ? await readAccount(handle, s) : null;
+  const had = accountEmail(acct);
+  if (!had || had !== want) return {};
+  if (acct.mailed && acct.mailed.t > now - ACCT_MAIL_GAP) return {};
+  const code = makeCode(), rs = salt();
+  const next = await updateAccount(handle, (a) => ({ ...a, mailed: { hash: scrypt(cleanCode(code), rs), salt: rs, until: now + ACCT_MAIL_FOR, t: now } }), s);
+  if (!next) return {};
+  await updateSealed(ACCT_OUTBOX, (was) => {
+    const list = (was && Array.isArray(was.emails) ? was.emails : []).filter((e) => e.until > now);
+    return { emails: [...list, { id: newOutboxId(), to: had, subject: ACCT_MAIL_SUBJECT, body: resetMailText(acct.handle, code), until: now + ACCT_MAIL_FOR }].slice(-OUTBOX_BATCH) };
+  }, s);
+  return {};
+}
+
+async function readAcctOutbox(s, now) {
+  const d = await readSealed(ACCT_OUTBOX, s);
+  return (d && Array.isArray(d.emails) ? d.emails : []).filter((e) => e.until > now);
+}
+
+/* ── Invites ───────────────────────────────────────────────────────────────
+
+   Ryan's brief, 2026-10-21: the starter password becomes an invite code
+   system. A moderator makes an invite at the desk in the Moderators' room and
+   shares its link, join.html#invite=<code>, which opens the joining page with
+   the code filled in; there a newcomer chooses their username and a password
+   of their own, and is on the CB with a claimed username from their first
+   minute. The link carries the code after the #, so it never reaches a server
+   as an address.
+
+   AN INVITE IS A CODE, A NOTE, WHO MADE IT AND WHEN, WHEN IT RUNS OUT AND HOW
+   MANY TIMES IT MAY BE USED, AND HOW MANY TIMES IT HAS BEEN. Numbers are fine
+   at the desk (Ryan's call of 2026-10-20 about backend tools). What is never
+   kept is who joined with which invite: an invite counts its uses, and the
+   usernames made with it are not written down anywhere, because a list of who
+   came in through whose invite is a register of our community by sponsor.
+   The friendly edit is "invited by" on a profile, Discord's; it is that list.
+
+   ONE BLOB HOLDS THEM ALL (`invites`), written with the boards' conditional
+   write. A use is RESERVED before the username is claimed and given back if
+   the claim fails, so fifteen people at an invite with one use left cannot
+   all get in. Deleting an invite stops it at once; the usernames made with it
+   stay. An invite that ran out leaves the list a month later.
+
+   A MODERATOR'S USERNAME NEEDS NO INVITE, AND NO INVITE IS ENOUGH FOR ONE
+   (Ryan's brief): it is claimed only with the moderators' password, which is
+   what proves whose it is. */
+export const INVITE_KEEP = 100;
+export const INVITE_NOTE_MAX = 80;
+export const INVITE_USES = [1, 5, 10, 25, 50, 100, 0];   // 0: no limit
+export const INVITE_DAYS = [1, 7, 30, 0];                // 0: never runs out
+const INVITE_DROP = 30 * 24 * 60 * 60 * 1000;
+const INVITES = 'invites';
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+export function inviteId(v) { return typeof v === 'string' && /^i[A-Za-z0-9_-]{8}$/.test(v) ? v : null; }
+export function makeInviteCode(bytes) { return makeCode(bytes).slice(0, 14); }
+
+function inviteState(inv, now) {
+  if (inv.until && inv.until <= now) return 'ended';
+  if (inv.most && inv.used >= inv.most) return 'used';
+  return 'open';
+}
+/* When an invite stopped working, if it has, for dropping it a month later:
+   when it ran out of time or was used for the last time, whichever was first. */
+function inviteEnded(inv, now) {
+  const t = Math.min(inv.until || Infinity, inv.full || Infinity);
+  return t <= now ? t : null;
+}
+
+export async function readInvites(s = store()) {
+  const d = await s.get(INVITES, { type: 'json' });
+  return d && Array.isArray(d.invites) ? d.invites : [];
+}
+
+async function updateInvites(change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, INVITES);
+    const list = cur.exists && cur.data && Array.isArray(cur.data.invites) ? cur.data.invites : [];
+    const next = change(list.slice());
+    if (next === null) return list;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(INVITES, { invites: next }, opts);
+    if (res.modified) return next;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* What the desk is told about one: everything but nothing about who used it. */
+export function shapeInvite(inv, now = Date.now()) {
+  return { id: inv.id, code: inv.code, note: inv.note || '', by: inv.by, made: inv.made, until: inv.until || null,
+    most: inv.most || null, used: inv.used || 0, state: inviteState(inv, now) };
+}
+
+export async function listInvites(who, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can see the invites.' };
+  return { invites: (await readInvites(s)).slice().sort((a, b) => b.made - a.made).map((i) => shapeInvite(i, now)) };
+}
+
+export async function makeInvite(who, { note, most, days } = {}, s = store(), now = Date.now(), bytes) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can make an invite.' };
+  const n = note == null ? '' : tidy(note);
+  if ([...n].length > INVITE_NOTE_MAX) return { error: `A note is up to ${INVITE_NOTE_MAX} characters.` };
+  const uses = Number(most), span = Number(days);
+  if (!INVITE_USES.includes(uses)) return { error: 'How many times may it be used?' };
+  if (!INVITE_DAYS.includes(span)) return { error: 'When does it run out?' };
+  const inv = { id: 'i' + randomBytes(6).toString('base64url'), code: makeInviteCode(bytes), note: n, by: who.handle,
+    made: now, until: span ? now + span * DAY_MS : 0, most: uses, used: 0 };
+  let full = false;
+  await updateInvites((list) => {
+    full = false;
+    const kept = list.filter((i) => { const e = inviteEnded(i, now); return !(e && e <= now - INVITE_DROP); });
+    if (kept.length >= INVITE_KEEP) { full = true; return null; }
+    return [...kept, inv];
+  }, s);
+  if (full) return { error: `There are ${INVITE_KEEP} invites already. Delete some that are finished with first.` };
+  return { invite: shapeInvite(inv, now) };
+}
+
+export async function deleteInvite(who, id, s = store()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can delete an invite.' };
+  const k = inviteId(id);
+  if (!k) return { error: 'Which invite?' };
+  let had = false;
+  await updateInvites((list) => {
+    had = list.some((i) => i.id === k);
+    return had ? list.filter((i) => i.id !== k) : null;
+  }, s);
+  return had ? { gone: true } : { error: 'That invite has already been deleted.' };
+}
+
+function findInvite(list, code) {
+  const c = cleanCode(code);
+  if (c.length !== 12) return null;
+  return list.find((i) => same(cleanCode(i.code), c)) || null;
+}
+function inviteWhy(inv, now) {
+  if (!inv) return 'That is not an invite code we know. Check it against the link or the message it came in, or ask whoever gave it to you.';
+  const st = inviteState(inv, now);
+  if (st === 'ended') return 'That invite has run out of time. Ask whoever gave it to you for another.';
+  if (st === 'used') return 'That invite has been used as many times as it was made for. Ask whoever gave it to you for another.';
+  return null;
+}
+
+/* Whether a code works, for the joining page before anybody types more. */
+export async function checkInvite(code, s = store(), now = Date.now()) {
+  const inv = findInvite(await readInvites(s), code);
+  const why = inviteWhy(inv, now);
+  return why ? { ok: false, why } : { ok: true, until: inv.until || null };
+}
+
+/* Take one use of an invite, or say why not. */
+async function useInvite(code, s, now) {
+  let why = null, id = null;
+  await updateInvites((list) => {
+    why = null; id = null;
+    const inv = findInvite(list, code);
+    why = inviteWhy(inv, now);
+    if (why) return null;
+    id = inv.id;
+    const used = (inv.used || 0) + 1;
+    return list.map((i) => (i.id === inv.id ? { ...i, used, ...(i.most && used >= i.most ? { full: now } : {}) } : i));
+  }, s);
+  return why ? { error: why } : { id };
+}
+async function giveBackInvite(id, s) {
+  await updateInvites((list) => {
+    if (!list.some((i) => i.id === id)) return null;
+    return list.map((i) => {
+      if (i.id !== id) return i;
+      const n = { ...i, used: Math.max(0, (i.used || 0) - 1) };
+      delete n.full;
+      return n;
+    });
+  }, s);
+}
+
+/* What the joining page may know about a username before it is claimed:
+   whether it is free, and whether it is a moderator's, so the page can ask for
+   the moderators' password. Both are already plain on the CB. */
+export async function checkHandle(handle, mods = readMods(), s = store()) {
+  const h = cleanHandle(handle);
+  if (!h) return { ok: false, why: `A username is between one and ${HANDLE_MAX} characters.` };
+  const m = mods && mods.get(foldHandle(h));
+  if (await readAccount(m ? m.handle : h, s)) return { ok: false, taken: true, mod: !!m, why: 'That username has been claimed already. Pick another.' };
+  return { ok: true, mod: !!m, handle: m ? m.handle : h };
+}
+
+/* JOINING: an invite (or, for a moderator's username, the moderators'
+   password), a username, a password of your own, and an email address if you
+   want one for recovery. The answer is what signing on answers, and the
+   recovery code, shown once. */
+export async function joinAccount({ invite, handle, modPassword, password, email } = {}, mods = readMods(), s = store(), now = Date.now()) {
+  const h = cleanHandle(handle);
+  if (!h) return { error: `A username is between one and ${HANDLE_MAX} characters.` };
+  // FAIL CLOSED: with no readable list, a moderator's username cannot be told
+  // from anybody's, and an invite could claim one.
+  if (!mods) return { error: 'Joining is switched off until the moderators\' list can be read, so that nobody claims a moderator\'s username by mistake. Tell Ryan or Helen.' };
+  const m = mods.get(foldHandle(h));
+  if (m) {
+    const mod = secretFor('base');
+    if (!mod || !same(modPassword == null ? '' : modPassword, mod)) {
+      return { error: 'That username is on the moderators\' list, so it is claimed only with the moderators\' password as well. Type that too, or pick another username.', mod: true };
+    }
+  }
+  const name = m ? m.handle : h;
+  if (await readAccount(name, s)) return { error: 'That username has been claimed already. Pick another.', taken: true };
+  // Checked before an invite's use is taken, so a password or an address
+  // somebody needs to fix costs nobody a use.
+  if (!ownPassword(password)) return { error: `A password of your own is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters. A few words you will remember is fine.` };
+  const box = await recoveryBox(email);
+  if (box && box.error) return box;
+  let used = null;
+  if (!m) {
+    used = await useInvite(invite, s, now);
+    if (used.error) return { error: used.error, invite: true };
+  }
+  const c = await claimAccount(name, password, s, now, mods, !!m, email);
+  if (c.error) {
+    if (used) await giveBackInvite(used.id, s);
+    return c;
+  }
+  return { ...accountAnswer(c.handle, c.v, mods), recovery: c.recovery };
+}
 
 /* ── The Brass Tacks Board ──────────────────────────────────────────────────
 
@@ -9021,6 +9369,9 @@ export async function officeMailIn(m, s = store(), now = Date.now()) {
   if (!(Number.isFinite(at) && at > 0 && at <= now + 86400000)) return { error: 'An email needs the time it was sent.' };
   if ((await readMailGone(s)).includes(id)) return { kept: false, gone: true };
   const from = [...tidy(m.from)].slice(0, 320).join('');
+  // A reset code the mailbox sent for somebody's username is theirs, not the
+  // office's, even when the address it went to is a contact's.
+  if (bareAddress(from) === mailbox && [...tidy(m.subject)].join('') === ACCT_MAIL_SUBJECT) return { kept: false };
   const to = cleanPeople(m.to), cc = cleanPeople(m.cc), bcc = cleanPeople(m.bcc);
   const people = new Set([from, ...to, ...cc, ...bcc].map(bareAddress).filter((a) => a && a !== mailbox));
   const contacts = (await readContacts(s)).filter((c) => { const a = bareAddress(c.email); return a && people.has(a); });
@@ -9509,10 +9860,13 @@ export async function removeOfficeComment(who, id, cid, s = store()) {
 }
 
 /* The mailbox script's half. The outbox: emails waiting, oldest mailing first,
-   with their addresses, which is the one time the office hands it any. */
-export async function mailOutbox(s = store()) {
+   with their addresses, which is the one time the office hands it any. The
+   reset codes somebody asked for by email come first (mailResetCode), each
+   only while its code still works. */
+export async function mailOutbox(s = store(), now = Date.now()) {
   if (!mailReady()) return null;
-  const out = [];
+  const out = (await readAcctOutbox(s, now)).slice(0, OUTBOX_BATCH).map((e) => ({ id: e.id, to: e.to, subject: e.subject, body: e.body }));
+  if (out.length >= OUTBOX_BATCH) return out;
   for (const m of (await readMailings(s)).sort((a, b) => a.t - b.t)) {
     for (const e of m.emails) {
       if (outState(e) === 'waiting') out.push({ id: e.id, to: e.to, subject: e.subject, body: e.body });
@@ -9527,6 +9881,14 @@ export async function mailSentFor(p, s = store(), now = Date.now()) {
   const id = outboxId(p && p.id);
   if (!id) return { error: 'Which email?' };
   const failed = !!(p && p.failed);
+  // A reset code's email, sent or not, is forgotten: nothing of it is kept.
+  let reset = false;
+  await updateSealed(ACCT_OUTBOX, (was) => {
+    const list = was && Array.isArray(was.emails) ? was.emails : [];
+    reset = list.some((e) => e.id === id);
+    return reset ? { emails: list.filter((e) => e.id !== id && e.until > now) } : null;
+  }, s);
+  if (reset) return { ok: true, known: true };
   let known = false;
   await updateSealed(MAILINGS, (was) => {
     const list = was && Array.isArray(was.mailings) ? was.mailings : [];
