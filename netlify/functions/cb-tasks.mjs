@@ -65,8 +65,8 @@ export default async (req) => {
   if (!who) return json(401, { error: 'signed off' }, QUIET);
   if (!tasksAllow(who)) {
     return json(403, forumReader(who)
-      ? { error: 'Tasks are for our directors and administrators.' }
-      : { error: 'Tasks are for our directors and administrators, on a claimed username. Claim yours under Account on the radio.', claim: true }, QUIET);
+      ? { error: 'Tasks are for our directors, board members and administrators.' }
+      : { error: 'Tasks are for our directors, board members and administrators, on a claimed username. Claim yours under Account on the radio.', claim: true }, QUIET);
   }
   // An administrator may delete anybody's comment, so the page offers it.
   const me = { handle: who.handle, admin: who.roles.has('administrator') };

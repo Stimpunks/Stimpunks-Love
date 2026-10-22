@@ -1670,7 +1670,7 @@
 
   function refused(r) {
     view.textContent = '';
-    var h = heading(2, r.status === 403 ? 'The office is for our directors and administrators' : 'The office');
+    var h = heading(2, r.status === 403 ? 'The office is for our directors, board members and administrators' : 'The office');
     view.appendChild(h);
     view.appendChild(el('p', null, why(r, 'The office could not be read just now.')));
     if (r.status === 401) view.appendChild(el('p', null, 'Your pass has stopped working, which happens when a password changes. Sign on to the CB again from the radio in the corner.'));
@@ -1680,7 +1680,7 @@
     view.textContent = '';
     var h = heading(2, 'Sign on to open the office');
     view.appendChild(h);
-    view.appendChild(el('p', null, 'The office holds the people and organisations we are in touch with, for our directors and administrators. Sign on to the CB with the bar in the corner of your screen, with your claimed username.'));
+    view.appendChild(el('p', null, 'The office holds the people and organisations we are in touch with, for our directors, board members and administrators. Sign on to the CB with the bar in the corner of your screen, with your claimed username.'));
     var p = el('p'); var a = el('a', null, 'What the office keeps'); a.href = '/privacy.html#office'; p.appendChild(a);
     view.appendChild(p);
     return h;

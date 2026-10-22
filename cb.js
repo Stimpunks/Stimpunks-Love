@@ -2484,7 +2484,7 @@
     ['messages', 'When somebody messages me'],
     ['world', 'Every message on World'],
     ['calls', 'Calls starting in rooms I follow, and the World call'],
-    // Tasks are for directors and administrators, on the base pass, so only a base pass is offered the switch.
+    // Tasks are for directors, board members and administrators, on the base pass, so only a base pass is offered the switch.
     ['tasks', 'Something new in my Notifications in Tasks', 'base'],
     ['words', 'Show the words of a message, a post, props or a task'],
   ];

@@ -7749,7 +7749,7 @@ export function sameSite(req) {
 
    NOTHING ANYBODY TYPES IS LOGGED, here as everywhere in this file. */
 /* tasks:settings:begin -- written by tools/make-tasks.py from data/tasks.json. Do not hand-edit. */
-export const TASK_SEE = ["director"];
+export const TASK_SEE = ["director", "board"];
 export const TASK_STATUSES = ["Not Started", "Started", "Completed", "Canceled", "Deferred"];
 export const TASK_DONE = ["Completed", "Canceled"];
 export const TASK_BOARD_HIDES = ["Canceled"];
@@ -7765,7 +7765,7 @@ export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
 const TASKS = 'tasks';
 const TASKS_GONE = 'tasks-gone';    // EspoCRM's or Notion's ids of tasks brought over and deleted here, so a later import leaves them deleted
-const NO_TASKS = 'Tasks are for our directors and administrators, on a claimed username.';
+const NO_TASKS = 'Tasks are for our directors, board members and administrators, on a claimed username.';
 
 /* Who reads and changes tasks: a claimed username on the base pass, holding
    one of TASK_SEE's roles or administrator. */
@@ -8665,7 +8665,7 @@ export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid R
 export const OFFICE_DASHBOARD = {"active_cap": 100};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
-const NO_OFFICE = 'The office is for our directors and administrators, on a claimed username.';
+const NO_OFFICE = 'The office is for our directors, board members and administrators, on a claimed username.';
 
 export function officeAllow(who) { return tasksAllow(who); }
 

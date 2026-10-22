@@ -92,8 +92,8 @@ export default async (req) => {
   if (!who) return json(401, { error: 'signed off' }, QUIET);
   if (!officeAllow(who)) {
     return json(403, forumReader(who)
-      ? { error: 'The office is for our directors and administrators.' }
-      : { error: 'The office is for our directors and administrators, on a claimed username. Claim yours under Account on the radio.', claim: true }, QUIET);
+      ? { error: 'The office is for our directors, board members and administrators.' }
+      : { error: 'The office is for our directors, board members and administrators, on a claimed username. Claim yours under Account on the radio.', claim: true }, QUIET);
   }
   if (!officeReady()) return json(503, { error: 'The office is shut: its key is not set, so nothing in it can be opened.' }, QUIET);
   // An administrator may delete anybody's comment, so the page offers it.

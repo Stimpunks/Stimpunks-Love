@@ -2011,7 +2011,7 @@
 
   function refused(r) {
     view.textContent = '';
-    var h = heading(2, r.status === 403 ? 'Tasks are for our directors and administrators' : 'Tasks');
+    var h = heading(2, r.status === 403 ? 'Tasks are for our directors, board members and administrators' : 'Tasks');
     view.appendChild(h);
     view.appendChild(el('p', null, why(r, 'Tasks could not be read just now.')));
     if (r.status === 401) view.appendChild(el('p', null, 'Your pass has stopped working, which happens when a password changes. Sign on to the CB again from the radio in the corner.'));
@@ -2021,7 +2021,7 @@
     view.textContent = '';
     var h = heading(2, 'Sign on to see tasks');
     view.appendChild(h);
-    view.appendChild(el('p', null, 'Tasks are the team’s to-do list, for our directors and administrators. Sign on to the CB with the bar in the corner of your screen, with your claimed username.'));
+    view.appendChild(el('p', null, 'Tasks are the team’s to-do list, for our directors, board members and administrators. Sign on to the CB with the bar in the corner of your screen, with your claimed username.'));
     var p = el('p'); var a = el('a', null, 'What tasks keep'); a.href = '/privacy.html#tasks'; p.appendChild(a);
     view.appendChild(p);
     return h;

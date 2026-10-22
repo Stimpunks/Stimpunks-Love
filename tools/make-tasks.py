@@ -4,7 +4,7 @@ privacy.html say.
 
 Ryan's brief, 2026-10-20: the team's to-do list, moved here from EspoCRM in
 stages (the tasks and their list first, then a board and saved filters,
-then recurring tasks, then a timeline), for directors and administrators
+then recurring tasks, then a timeline), for directors, board members and administrators
 only.
 
 WHAT IT WRITES: data/tasks.json's roles, statuses, priorities and tags,
@@ -427,7 +427,7 @@ def main():
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
-    print("tasks: the settings written into the CB, directors and administrators only, nothing kept in the browser, "
+    print("tasks: the settings written into the CB, directors, board members and administrators only, nothing kept in the browser, "
           "descriptions built from nodes, and tasks dressed in the CB's own colours.")
     return 0
 

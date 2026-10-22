@@ -3848,13 +3848,13 @@ const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["directo
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
 const TSAM = fw('Sam', 800, []), TADMIN = fw('Al', 500, ['administrator']);
 
-test('tasks are for directors and administrators on a claimed username, and nobody else is told a thing', async () => {
+test('tasks are for directors, board members and administrators on a claimed username, and nobody else is told a thing', async () => {
   const s = memoryStore({ etagOnRead: true });
   assert.ok(tasksAllow(TCHELSEA) && tasksAllow(TRYAN) && tasksAllow(TADMIN));
   for (const who of [ADA, TSAM, { role: 'base', handle: 'Chelsea', roles: new Set(['moderator', 'director']) }]) {
     assert.equal(tasksAllow(who), false, `${who.handle} was let into tasks`);
     assert.equal(await tasksList(who, s), null);
-    assert.match((await saveTask(who, { name: 'Sneak' }, s, T0, TMODS)).error, /directors and administrators/);
+    assert.match((await saveTask(who, { name: 'Sneak' }, s, T0, TMODS)).error, /directors, board members and administrators/);
   }
   assert.deepEqual(taskPeople(TMODS), ['Chelsea', 'Norah', 'Ryan'], 'somebody who cannot read tasks could be assigned one');
   assert.deepEqual(await readTasks(s), [], 'a refused save wrote something');
@@ -3952,7 +3952,7 @@ test('saved filters are each reader\'s own, hold a name and an address and nothi
   const s = memoryStore({ etagOnRead: true });
   for (const who of [TSAM, fw('Chelsea', 700)]) {
     assert.equal(await taskViews(who, s), null, `${who.handle} could read saved filters`);
-    assert.match((await saveTaskView(who, { name: 'x', address: '#/' }, s)).error, /directors and administrators/);
+    assert.match((await saveTaskView(who, { name: 'x', address: '#/' }, s)).error, /directors, board members and administrators/);
   }
   // Only an address tasks.js writes.
   for (const a of ['#/', '#/board', '#/timeline', '#/feed', '#/feed?who=all', '#/?who=all&group=whose', '#/timeline?span=28&from=2026-11-02&who=%40me', '#/?status=Started,Deferred&who=%40me&sort=due&dir=desc', '#/board?cols=who&tags=Networking%2FSocial'])
@@ -4023,7 +4023,7 @@ test('a recurring task makes its task on its day in Colorado, once, and moves it
   const s = memoryStore({ etagOnRead: true });
   for (const who of [TSAM, fw('Chelsea', 700)]) {
     assert.equal(await taskRecurs(who, s), null, `${who.handle} could read recurring tasks`);
-    assert.match((await saveRecur(who, { name: 'x', next: '2026-10-27' }, s, T0, TMODS)).error, /directors and administrators/);
+    assert.match((await saveRecur(who, { name: 'x', next: '2026-10-27' }, s, T0, TMODS)).error, /directors, board members and administrators/);
   }
   const made = await saveRecur(TRYAN, { name: 'Weekly Operations Meeting for Week {week} of {year}', repeats: 'Weekly', next: '2026-10-27',
     dueAfter: 3, who: 'ryan', with: ['Chelsea'], tags: ['Operations', 'Weekly'], body: 'Add the agenda.' }, s, T0, TMODS);
@@ -4111,7 +4111,7 @@ test('a box in a task’s description ticks in place, one line, and only the box
   const t = (await saveTask(TRYAN, { name: 'Pay Employee Invoices', body }, s, T0, TMODS)).task;
   assert.equal(t.ticks, true);
   assert.deepEqual(t.blocks.find((b) => b.box).box.map((b) => b && [b.n, b.on, b.raw]), [[0, false, 'Chelsea **Adams**'], [1, true, 'Norah']]);
-  assert.match((await tickTask(TSAM, t.id, 0, 'Chelsea **Adams**', true, s, T0 + 1)).error, /directors and administrators/);
+  assert.match((await tickTask(TSAM, t.id, 0, 'Chelsea **Adams**', true, s, T0 + 1)).error, /directors, board members and administrators/);
   let r = await tickTask(TCHELSEA, t.id, 0, 'Chelsea **Adams**', true, s, T0 + 2);
   assert.ok(r.task, r.error);
   assert.equal(r.task.body, body.replace('- [ ] Chelsea', '- [x] Chelsea'), 'a tick changed more than its own box');
@@ -4195,12 +4195,12 @@ test('the office seals what it keeps, and without its key it is shut, never open
   await withOfficeKey('too-short', async () => assert.equal(officeReady(), false));
 }));
 
-test('contacts are for directors and administrators, sealed in the store, and a change touches only what it names', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+test('contacts are for directors, board members and administrators, sealed in the store, and a change touches only what it names', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });
   for (const who of [TSAM, fw('Chelsea', 700)]) {
     assert.equal(officeAllow(who), false);
     assert.equal(await officeContacts(who, s), null);
-    assert.match((await saveContact(who, { first: 'Sneak' }, s, T0)).error, /directors and administrators/);
+    assert.match((await saveContact(who, { first: 'Sneak' }, s, T0)).error, /directors, board members and administrators/);
   }
   const made = await saveContact(TCHELSEA, { first: ' Ada ', last: 'Lovelace', email: 'ada@example.org', phone: '+1 (555) 010-2030', notes: 'Met at **camp**.' }, s, T0);
   assert.ok(made.contact, made.error);
@@ -4250,7 +4250,7 @@ for (const etagOnRead of [true, false]) {
 test('EspoCRM contacts arrive many to a write, and one changed or deleted here is left as it is', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });
   const row = (i, extra = {}) => ({ espo: `68dd0000000000${String(i).padStart(3, '0')}`, last: `Person${i}`, email: `p${i}@example.org`, t: T0 - DAYS(5), by: 'Ryan', ...extra });
-  assert.match((await importContacts(TSAM, [row(1)], s, T0)).error, /directors and administrators/);
+  assert.match((await importContacts(TSAM, [row(1)], s, T0)).error, /directors, board members and administrators/);
   assert.match((await importContacts(TRYAN, [], s, T0)).error, /Between one/);
   assert.match((await importContacts(TRYAN, Array.from({ length: 201 }, (_, i) => row(i)), s, T0)).error, /Between one/);
   assert.match((await importContacts(TRYAN, [{ ...row(1), id: 'cAAAAAAAAAAAA' }], s, T0)).error, /EspoCRM id and nothing of ours/);
@@ -4275,7 +4275,7 @@ test('a grant request moves through its pipeline, its status follows the stage, 
   const ada = (await saveContact(TCHELSEA, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
   for (const who of [TSAM, fw('Chelsea', 700)]) {
     assert.equal(await officeGrants(who, s), null);
-    assert.match((await saveGrant(who, { name: 'Sneak' }, s, T0)).error, /directors and administrators/);
+    assert.match((await saveGrant(who, { name: 'Sneak' }, s, T0)).error, /directors, board members and administrators/);
   }
   assert.match((await saveGrant(TRYAN, { pipeline: 'Mutual Aid' }, s, T0)).error, /name/);
   const g = (await saveGrant(TRYAN, { name: 'Mutual Aid Grant Request 1: Ada', contactEmail: 'ADA@example.org', amount: 500, submitted: '2026-10-01', body: 'Rent, **please**.' }, s, T0)).grant;
@@ -4341,7 +4341,7 @@ test('a case takes the next number, closing it here sets the day it closed, and 
   const bo = (await saveContact(TCHELSEA, { first: 'Bo', last: 'Peep', email: 'bo@example.org' }, s, T0)).contact;
   for (const who of [TSAM, fw('Chelsea', 700)]) {
     assert.equal(await officeCases(who, s), null);
-    assert.match((await saveCase(who, { name: 'Sneak' }, s, T0)).error, /directors and administrators/);
+    assert.match((await saveCase(who, { name: 'Sneak' }, s, T0)).error, /directors, board members and administrators/);
   }
   const one = (await saveCase(TRYAN, { name: 'Connection Request: Bo', contactEmail: 'bo@example.org', body: 'Wants to **join**.' }, s, T0)).case;
   assert.deepEqual([one.number, one.type, one.status, one.open, one.priority, one.closed, one.contactName], [1, 'Connection Request', 'New', true, 'Normal', null, 'Bo Peep']);
@@ -4531,7 +4531,7 @@ test('an email with a contact is kept whole, sealed, on that contact, once; one 
   const e = await officeEmail(TRYAN, mailFrom(2).id, s);
   assert.deepEqual([e.text, e.files[0].name, e.out, e.contacts.map((x) => x.name)], ['Hello, here is message 2.\nThanks', 'receipt.pdf', false, ['Ada Lovelace']]);
   assert.equal(await officeEmail(TSAM, mailFrom(2).id, s), null, 'somebody outside the office read an email');
-  assert.match((await removeEmail(TSAM, mailFrom(2).id, s)).error, /directors and administrators/);
+  assert.match((await removeEmail(TSAM, mailFrom(2).id, s)).error, /directors, board members and administrators/);
   // Deleted here, and never taken back in.
   assert.ok((await removeEmail(TRYAN, mailFrom(2).id, s)).gone);
   assert.deepEqual(await officeMailIn(mailFrom(2), s, T0 + 3), { kept: false, gone: true });
@@ -4705,7 +4705,7 @@ test('a mailing template refuses a fill-in the office does not know', () => with
   const t2 = (await saveTemplate(TRYAN, { ...DEAR, id: t.id, subject: 'Your {grant}' }, s, T0 + 5)).template;
   assert.deepEqual([t2.id, t2.subject, t2.stamp, t2.editedBy], [t.id, 'Your {grant}', T0 + 5, 'Ryan']);
   assertSealed(await s.get('office-templates', { type: 'json' }), ['Dear {first}', 'Holding note']);
-  assert.match((await saveTemplate(TSAM, DEAR, s, T0)).error, /directors and administrators/);
+  assert.match((await saveTemplate(TSAM, DEAR, s, T0)).error, /directors, board members and administrators/);
   assert.equal(await officeTemplates(TSAM, s), null);
   assert.deepEqual((await officeTemplates(TRYAN, s)).map((x) => x.name), ['Holding note']);
   assert.ok((await removeTemplate(TRYAN, t.id, s)).gone);
@@ -4738,12 +4738,12 @@ test('a mailing previews everybody at a stage, leaves out who cannot be emailed,
   assert.equal(p.emails[0].body, 'Dear Ada,\n\nYour $500 request is at Holding in Mutual Aid, sent October 1, 2026.\n\nStimpunks');
   assert.deepEqual(p.left.map((x) => [x.grantName, x.why]), [['Aid Request 2: Bo', 'they asked not to be emailed'], ['Aid Request 3: Cy', 'their contact has no email address'],
     ['Aid Request 4: nobody', 'it has no contact'], ['Aid Request 5: Dee', 'its contact has been deleted']]);
-  assert.match((await previewMailing(TSAM, { ...at, template: t.id }, s)).error, /directors and administrators/);
+  assert.match((await previewMailing(TSAM, { ...at, template: t.id }, s)).error, /directors, board members and administrators/);
   assert.match((await previewMailing(TRYAN, { pipeline: 'Mutual Aid', stage: 'Nowhere', template: t.id }, s)).error, /stage/);
   const send = { ...at, template: t.id, stamp: t.stamp, grants: [g.ada.id] };
   assert.match((await sendMailing(TRYAN, { ...send, stamp: t.stamp - 1 }, s, T0 + 1)).error, /template has changed/);
   assert.match((await sendMailing(TRYAN, { ...send, grants: [g.ada.id, g.bo.id] }, s, T0 + 1)).error, /has changed since the preview/);
-  assert.match((await sendMailing(TSAM, send, s, T0 + 1)).error, /directors and administrators/);
+  assert.match((await sendMailing(TSAM, send, s, T0 + 1)).error, /directors, board members and administrators/);
   const r = await sendMailing(TRYAN, send, s, T0 + 2);
   assert.equal(r.count, 1);
   assertSealed(await s.get('office-mailings', { type: 'json' }), ['ada@example.org', 'Dear Ada', 'Aid Request 1']);
@@ -5402,7 +5402,7 @@ test('Tasks\' feed: the cards asked for, whole, with their latest changes, and o
 test('a comment on a task: its writer edits it, its writer or an administrator deletes it, and it goes with the task', async () => {
   const s = memoryStore({ etagOnRead: true });
   const t = (await saveTask(TRYAN, { name: 'Fix the shelf', who: 'Norah' }, s, T0, TMODS)).task;
-  assert.deepEqual(await commentTask(TSAM, t.id, 'Hello', s, T0 + 1, TMODS), { error: 'Tasks are for our directors and administrators, on a claimed username.' });
+  assert.deepEqual(await commentTask(TSAM, t.id, 'Hello', s, T0 + 1, TMODS), { error: 'Tasks are for our directors, board members and administrators, on a claimed username.' });
   assert.equal(await taskComments(TSAM, t.id, s), null, 'somebody who cannot read tasks was sent its comments');
   assert.ok((await commentTask(TCHELSEA, t.id, '', s, T0 + 1, TMODS)).error, 'an empty comment was kept');
   assert.ok((await commentTask(TCHELSEA, t.id, 'x'.repeat(TASK_COMMENT_MAX + 1), s, T0 + 1, TMODS)).error, 'a comment over the limit was kept');
@@ -5608,7 +5608,7 @@ test('a comment in the office tells whoever added the record, anybody who commen
   assert.ok(!all.includes('Grace') && !all.includes('Looks good'), 'a notification carried a record\'s name or a comment\'s words out of the office\'s seal');
 }));
 
-test('the office\'s feed: grant requests, cases and contacts by their ids, whole, and only for directors and administrators', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+test('the office\'s feed: grant requests, cases and contacts by their ids, whole, and only for directors, board members and administrators', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });
   const c = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org', notes: 'Met at the **fair**.' }, s, T0)).contact;
   const g = (await saveGrant(TRYAN, { name: 'Mutual Aid Grant Request 1: Ada', contactEmail: 'ada@example.org', amount: 500, body: 'Rent, **please**.' }, s, T0 + 1)).grant;
@@ -5925,3 +5925,12 @@ test('fifteen administrators changing fifteen names at once lose nothing', () =>
     if (etagOnRead) assert.equal(said, 15);
   }
 }));
+
+test('the board opens Tasks and the office, as directors and administrators do (2026-10-22)', () => {
+  const boardOnly = fw('Bea', 900, ['board']);
+  assert.equal(tasksAllow(boardOnly), true, 'a board member could not open Tasks');
+  assert.equal(officeAllow(boardOnly), true, 'a board member could not open the office');
+  assert.equal(tasksAllow(fw('Mo', 901, [])), false, 'a moderator with no other role opened Tasks');
+  assert.ok(taskPeople(readMods('{"Bea":["board"],"Mo":[]}')).includes('Bea'), 'a board member cannot be given a task');
+  assert.ok(!taskPeople(readMods('{"Bea":["board"],"Mo":[]}')).includes('Mo'));
+});

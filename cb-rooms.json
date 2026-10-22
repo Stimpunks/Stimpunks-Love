@@ -773,13 +773,13 @@
    "tag": "tasks",
    "name": "Tasks",
    "path": "/tasks.html",
-   "about": "Tasks, the team’s to-do list on the CB, moved here from EspoCRM, for our directors and administrators: every task with its status, priority, start and due dates, who it is assigned to, tags and a Markdown description, in a list you can filter and sort, with how many match. Not public."
+   "about": "Tasks, the team’s to-do list on the CB, moved here from EspoCRM, for our directors, board members and administrators: every task with its status, priority, start and due dates, who it is assigned to, tags and a Markdown description, in a list you can filter and sort, with how many match. Not public."
   },
   {
    "tag": "office",
    "name": "The Office",
    "path": "/office.html",
-   "about": "The office, moved here from EspoCRM, for our directors and administrators: the people and organisations we are in touch with, our Mutual Aid and Creator Grants requests in their pipelines, and the connection requests and volunteer applications that come in, each with a list, a board and how many, all sealed at rest. Not public."
+   "about": "The office, moved here from EspoCRM, for our directors, board members and administrators: the people and organisations we are in touch with, our Mutual Aid and Creator Grants requests in their pipelines, and the connection requests and volunteer applications that come in, each with a list, a board and how many, all sealed at rest. Not public."
   },
   {
    "tag": "changelog",

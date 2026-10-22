@@ -6,7 +6,7 @@
      { action: 'find', q }        what the [[ menu offers for q (findLinks), the latest first
      { action: 'names', refs }    for each kind:id, { name, href }, { gone } or { shut } (resolveLinks)
    What somebody may open is asked of their pass every time, so a task's name
-   reaches only directors and administrators, and everybody else is told only
+   reaches only directors, board members and administrators, and everybody else is told only
    that it is one they can't open. A chat leaves no backlink: nothing is kept
    here. Nothing a person types is logged. See ../cb/lib.mjs, links. */
 import { readPass, forumReader, findLinks, resolveLinks, LINKS_MAX, json, body, sameSite } from '../cb/lib.mjs';

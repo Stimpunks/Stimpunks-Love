@@ -5305,8 +5305,8 @@ brief, 2026-10-20: EspoCRM costs $45 a month and is not part of the street, so i
 tasks and their list first, then a board and saved filters, then recurring tasks, then a timeline, all done. `tasks.html` (paperwork
 beside the forums, in the CB's colours through a shadow root, `tasks.css` the CB's seven tokens only), `tasks.js`,
 `/cb/tasks`, the Tasks section at the end of `lib.mjs`, `data/tasks.json` (who reads them, and EspoCRM's own statuses,
-priorities and tags, written between `tasks:settings` markers by `tools/make-tasks.py`; never hand-edit them). **Directors
-and administrators only** (`tasksAllow`), and a task is assigned only to somebody who could read it (`taskPeople`, from
+priorities and tags, written between `tasks:settings` markers by `tools/make-tasks.py`; never hand-edit them). **Directors,
+the board and administrators only** (`tasksAllow`; the board since 2026-10-22, Ryan's call), and a task is assigned only to somebody who could read it (`taskPeople`, from
 `CB_MODS`). **One blob holds every task**, the Brass Tacks Board's arrangement, and a change sends only the fields it
 changes, laid over the task as it is now, so two directors changing different things both keep theirs. **A task brought
 from EspoCRM keeps EspoCRM's id**, so bringing tasks again changes them rather than doubling them: the import can run at
@@ -5442,8 +5442,8 @@ sealed data into an unsealed list.
 **A TASK'S, A GRANT REQUEST'S OR A CASE'S NAME IN ITS LIST SHOWS A PREVIEW ON HOVER OR FOCUS, AND `preview.js` IS THE ONE FILE.** Norah's ask, 2026-10-21. `window.lovePreview({ p, box })` makes one card per page, and each list hands every name it watches its own `read(id)` (the feed's `view=feed&ids=`, kept by when the record last changed, never in the browser) and `draw`. It keeps WCAG 1.4.13: Escape puts it away until the pointer or the keyboard leaves that name, the pointer can move onto it, and it stays until they leave; a touch shows nothing. **It is `aria-hidden` and nothing on it can be pressed or reached** (`still()` makes markdown.js's links words and its boxes disabled), because the record's page is one press away with all of it and a screen reader would otherwise hear a description at every row. `make-tasks.py` holds it. The friendly edits are **buttons on the preview** ("Mark it completed from the hover"), which makes it something a keyboard has to get into, and **showing it on touch**, where a tap is the way in. **The forums' bar has Tasks and Office only when `/cb/forum`'s `me` says the pass reaches them** (`tasksAllow`, `officeAllow`), and Tasks' and the office's bars have Forums.
 
 **THE OFFICE IS ESPOCRM'S CONTACTS, AND THEN ITS GRANT REQUESTS AND CASES, AND IT IS SEALED.** Ryan's brief and calls,
-2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors and administrators
-only (`officeAllow` is `tasksAllow`); encrypted at rest; nothing recording who reads; and stimpunks.org's forms posting
+2026-10-20, after tasks: move the rest of EspoCRM here in stages so it can be switched off; directors, the board (since
+2026-10-22) and administrators only (`officeAllow` is `tasksAllow`); encrypted at rest; nothing recording who reads; and stimpunks.org's forms posting
 here through a secret-keyed intake at the cut-over. `office.html` (paperwork beside tasks, in the CB's colours through a
 shadow root, `office.css` the CB's seven tokens only), `office.js`, `/cb/office`, the office section at the end of
 `lib.mjs`, `tools/make-office.py`. **Every record is sealed with AES-256-GCM under `CB_OFFICE_KEY`** (32 bytes,

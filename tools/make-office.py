@@ -4,7 +4,7 @@ privacy.html say.
 
 Ryan's brief, 2026-10-20: contacts, grant requests and cases, moved here from
 EspoCRM in stages, after its tasks, so EspoCRM can be switched off. His calls
-the same evening: directors and administrators only, sealed at rest, nothing
+the same evening: directors, board members and administrators only, sealed at rest, nothing
 recording who reads, and stimpunks.org's forms posting here at the cut-over.
 
 WHAT IT WRITES: data/office.json's statuses and grant pipelines, with their
@@ -18,7 +18,7 @@ the code does):
 
   · ANYBODY BUT TASKS' PEOPLE. Every exported office function asks officeAllow
     first and refuses everybody else before it reads or does anything, and
-    officeAllow is tasksAllow: directors and administrators, claimed.
+    officeAllow is tasksAllow: directors, board members and administrators, claimed.
   · A RECORD WRITTEN IN THE CLEAR. The office's records are written only by
     updateSealed, which seals with AES-256-GCM under CB_OFFICE_KEY and a fresh
     nonce each time; the key is read in one place and never from anywhere but
@@ -219,7 +219,7 @@ def check_lib(lib):
     if re.search(r"\bupdate(?:List|Map|Sealed)\(|\.set(?:JSON)?\(|\.delete\(", fn(sec, "officeFeed")):
         problems.append(f"{LIB.name}: officeFeed writes something. The feed is worked out from the records and keeps nothing.")
     if "return tasksAllow(who)" not in fn(sec, "officeAllow"):
-        problems.append(f"{LIB.name}: officeAllow is no longer tasksAllow: directors and administrators, on a claimed username.")
+        problems.append(f"{LIB.name}: officeAllow is no longer tasksAllow: directors, board members and administrators, on a claimed username.")
     # Sealed, with a fresh nonce, under the one key from the environment.
     if lib.count("process.env.CB_OFFICE_KEY") != 1 or "process.env.CB_OFFICE_KEY" not in sec:
         problems.append(f"{LIB.name}: CB_OFFICE_KEY must be read once, in the office's officeKey, and nowhere else.")
@@ -557,7 +557,7 @@ def main():
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
-    print("office: the pipelines written into the CB, directors and administrators only, every record sealed, shut without its key, nothing logged, "
+    print("office: the pipelines written into the CB, directors, board members and administrators only, every record sealed, shut without its key, nothing logged, "
           "nothing kept in the browser, and dressed in the CB's own colours.")
     return 0
 

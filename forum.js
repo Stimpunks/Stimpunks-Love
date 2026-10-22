@@ -105,7 +105,7 @@
   var navLatest = el('a', 'cb-btn fm-navlink', 'Latest'); navLatest.href = '#/latest';
   var navAt = el('a', 'cb-btn fm-navlink', 'Mentions'); navAt.href = '#/mentions';
   var navNew = el('a', 'cb-btn fm-navlink', 'New topic'); navNew.href = '#/new';
-  // Tasks and the office, a press away for the directors and administrators who
+  // Tasks and the office, a press away for the directors, board members and administrators who
   // can open them (Ryan's ask, 2026-10-21), set a little apart because they are
   // other pages, and shown only once the server says this pass reaches them.
   var navTasks = el('a', 'cb-btn fm-navlink fm-navlink--other', 'Tasks'); navTasks.href = '/tasks.html#/'; navTasks.hidden = true;

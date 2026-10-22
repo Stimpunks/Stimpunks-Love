@@ -160,10 +160,10 @@ ORDER = ["index.html",
          # than a world of its own, so it stands beside the guide.
          "forum.html",
          # Tasks, the team's to-do list, moved from EspoCRM. The CB's too, for
-         # directors and administrators, so it stands beside the forums.
+         # directors, board members and administrators, so it stands beside the forums.
          "tasks.html",
          # The office, contacts and then grant requests and cases, moved from
-         # EspoCRM. The CB's, for directors and administrators, beside tasks.
+         # EspoCRM. The CB's, for directors, board members and administrators, beside tasks.
          "office.html",
          "changelog.html"]
 
@@ -360,8 +360,8 @@ lines += [
     "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
     "- Joining the CB with an invite, which claims a username of your own: https://stimpunks.world/join.html",
     "- The CB's forums, for claimed usernames on the CB (nothing in them is public): https://stimpunks.world/forum.html",
-    "- Tasks, the team's to-do list, for its directors and administrators (nothing in it is public): https://stimpunks.world/tasks.html",
-    "- The Office, the people and organisations Stimpunks is in touch with, for its directors and administrators (nothing in it is public): https://stimpunks.world/office.html",
+    "- Tasks, the team's to-do list, for its directors, board members and administrators (nothing in it is public): https://stimpunks.world/tasks.html",
+    "- The Office, the people and organisations Stimpunks is in touch with, for its directors, board members and administrators (nothing in it is public): https://stimpunks.world/office.html",
     "",
     "## For agents",
     "",
