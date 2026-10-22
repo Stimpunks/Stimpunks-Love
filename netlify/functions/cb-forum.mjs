@@ -6,6 +6,8 @@
      topic    &t=            one topic, every post in it
      search   &q=            topics whose title or posts hold every word
      mentions                topics where somebody else has @mentioned you, worked out now
+     people                  who the @ list offers: whoever started or last posted in a topic you can read,
+                             and for Tasks' readers everybody Tasks can assign (forumPeople)
      templates               what a new topic can start from: the templates you may read
      cb       &room= &ids=   the messages that would be copied off a channel
    POST, with the same pass:
@@ -23,7 +25,7 @@
                                                      the office's records, the reader can open (findLinks), by POST
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { readPass, forumReader, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, moderateTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -56,6 +58,7 @@ export default async (req, context) => {
       const view = url.searchParams.get('view') || 'home';
       if (view === 'home') return answer(200, { me, cats, takes, home: await forumHome(who) }, QUIET);
       if (view === 'latest') return answer(200, { me, cats, ...(await forumLatest(who, num(url.searchParams.get('before')))) }, QUIET);
+      if (view === 'people') return answer(200, { people: await forumPeople(who) }, QUIET);
       if (view === 'cat') {
         const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')));
         return r ? answer(200, { me, cats, ...r }, QUIET) : json(404, { me, cats, error: 'There is no such category.' }, QUIET);

@@ -337,6 +337,13 @@
      only, because only they can read the forums. Asked once, when an @ is
      first typed. */
   var online = null, onlineAsk = null;
+  // Who else the @ list offers: whoever started or last posted in a topic you can read (forumPeople), asked once.
+  var known = null, knownAsk = null;
+  function loadKnown() {
+    if (knownAsk) return knownAsk;
+    knownAsk = call('view=people').then(function (r) { known = r.status === 200 && Array.isArray(r.body.people) ? r.body.people : []; return known; });
+    return knownAsk;
+  }
   function loadOnline() {
     if (onlineAsk) return onlineAsk;
     var s = cbState();
@@ -1153,6 +1160,7 @@
       function add(h) { if (h && (!me || fold(h) !== fold(me.handle)) && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
       (o.people || []).forEach(add);
       (online || []).forEach(add);
+      (known || []).forEach(add);
       return out;
     }
     function shut() {
@@ -1170,6 +1178,7 @@
       var t = root.activeElement === text && token();
       if (!t || t.start === dismissed) { if (!t) dismissed = -1; shut(); return; }
       if (online === null) loadOnline().then(complete);
+      if (known === null) loadKnown().then(complete);
       var q = t.q;
       // A name already typed out in full, and a space after it, is finished.
       if (t.done && people().some(function (h) { return fold(h) === q; })) { shut(); return; }

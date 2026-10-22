@@ -5934,3 +5934,16 @@ test('the board opens Tasks and the office, as directors and administrators do (
   assert.ok(taskPeople(readMods('{"Bea":["board"],"Mo":[]}')).includes('Bea'), 'a board member cannot be given a task');
   assert.ok(!taskPeople(readMods('{"Bea":["board"],"Mo":[]}')).includes('Mo'));
 });
+
+test('the forums\' @ list offers whoever started or last posted in a topic the reader can read, and nobody else', async () => {
+  const { forumPeople } = await import('./lib.mjs');
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(ADA, { cat: 'help-desk', title: 'Hi', body: 'x' }, s, T0, NO_NET)).topic;
+  await replyTopic(BO, t.id, { body: 'Hello' }, s, T0 + 1, NO_NET);
+  const dir = fw('Dee', 300, ['director']);
+  await startTopic(dir, { cat: 'directors', title: 'Ours', body: 'y' }, s, T0 + 2, NO_NET);
+  assert.deepEqual(await forumPeople(ADA, s, T0 + 3), ['Bo'], 'not the topic\'s people, or Ada offered herself');
+  assert.ok((await forumPeople(dir, s, T0 + 3)).includes('Ada'));
+  assert.ok(!(await forumPeople(BO, s, T0 + 3)).includes('Dee'), 'somebody who only posted in a staff category was offered to somebody who cannot read it');
+  assert.deepEqual(await forumPeople({ role: 'mobile', handle: 'Typed', roles: new Set() }, s, T0 + 3), [], 'an unclaimed handle was told anybody');
+});

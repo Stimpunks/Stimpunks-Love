@@ -5590,8 +5590,10 @@ written, so no post holds a file that is not there, and are deleted when the pos
 them. **They have no public address**: `/cb/forum/file` serves one only to a reader `forumFile` finds can read the topic
 now and a post in which holds it, so moving a topic moves who can fetch them; a file is sent as
 `application/octet-stream`, `attachment`, sandboxed, and forum.js only saves it, never opens it. **@mentions** draw from
-the topic's people and anybody claimed on Who's online (`/cb/online`, asked once when an @ is first typed, the
-teleporter's precedent); a post keeps `at`, the handles `mentions()` finds in its words, so a page can draw them as
+the topic's people, anybody claimed on Who's online (`/cb/online`, asked once when an @ is first typed, the
+teleporter's precedent), and since 2026-10-22 whoever started or last posted in a topic the reader can read, plus for
+Tasks' readers everybody Tasks can assign (`forumPeople`, `view=people`, asked once; Ryan's report: a new topic offered
+nobody). Names the reader can see already, never a list of every username; a post keeps `at`, the handles `mentions()` finds in its words, so a page can draw them as
 names; **Mentions** is worked out from the posts on every read (`forumMentions`) and kept nowhere; and `notifyForum`
 tells only a device with **When somebody @mentions me** on, whose pass can read the category now, and after an edit only
 about a mention that is new. **The friendly edits now are a notification for every reply, a list of your

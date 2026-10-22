@@ -6232,6 +6232,25 @@ export async function forumTemplates(who, s = store(), now = Date.now()) {
   return out.sort((a, b) => a.title.localeCompare(b.title)).slice(0, FORUM_TEMPLATES_MAX);
 }
 
+/* WHO THE @ LIST OFFERS, beyond a topic's own people and Who's online
+   (Ryan's report, 2026-10-22: a new topic, or one nobody else had posted in,
+   offered nobody). Everybody who started or last posted in a topic the reader
+   can read, which the reader can see already on Latest; and, for a reader of
+   Tasks, everybody Tasks can assign, whom Tasks shows them already. Never a
+   list of every username, which does not exist, and never a count. */
+export const FORUM_PEOPLE_MAX = 500;
+export async function forumPeople(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return [];
+  const cats = forumCatsFor(who, now);
+  const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
+  const out = new Map();
+  const add = (h) => { if (typeof h === 'string' && cleanHandle(h) === h && !out.has(foldHandle(h))) out.set(foldHandle(h), h); };
+  cats.forEach((c, i) => lists[i].filter((x) => topicLive(x, c, now)).sort((a, b) => b.last - a.last).forEach((x) => { add(x.handle); add(x.lastBy); }));
+  if (tasksAllow(who)) taskPeople().forEach(add);
+  out.delete(foldHandle(who.handle));
+  return [...out.values()].slice(0, FORUM_PEOPLE_MAX).sort((a, b) => foldHandle(a).localeCompare(foldHandle(b)));
+}
+
 /* Searching the titles, the posts and the copied messages of the topics the
    reader may see, newest first. Words are matched folded, all of them. */
 export async function searchForum(who, q, s = store(), now = Date.now()) {
