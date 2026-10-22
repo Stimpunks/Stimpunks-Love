@@ -219,7 +219,7 @@
         if (r.body.words) draw(r.body);
         say(why(r, 'The last word put up was yours, so the next one is somebody else’s.'));
       } else if (r.status === 401) {
-        say('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
+        say('Since you signed on, this username has been signed off. Sign on again at the Community Center, then come back.');
       } else {
         say(why(r, 'That did not go up. Try again in a moment.'));
       }

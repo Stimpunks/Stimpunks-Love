@@ -13,10 +13,14 @@
    this page shows: this file is the page keeping quiet, never the lock. It
    reads love-cb and never writes it.
 
-   THERE IS NO LIST OF EVERYBODY. A moderator types the name they were asked
-   about. A reset code is shown once, to be passed on privately after the
-   moderator has made sure who they are talking to; the server keeps only its
-   hash. Every destructive press asks once more.
+   EVERYBODY (Ryan's ask and call, 2026-10-22, reversing "there is no list of
+   everybody", after moderators asked for it for safeguarding): every username,
+   how many there are, and who is seen in a room now by Be seen here's rules,
+   fetched when a moderator presses for it and never on arrival. A name opens
+   its profile, as a handle on the channel does. Kick, time out and ban came
+   the same day, on the username looked up. A reset code is shown once, to be
+   passed on privately after the moderator has made sure who they are talking
+   to; the server keeps only its hash. Every destructive press asks once more.
    ============================================================================= */
 (function () {
   'use strict';
@@ -67,6 +71,24 @@
     yes.addEventListener('click', function () { box.remove(); act(); });
   }
 
+  // How much longer a time out has, or that a ban holds until it is lifted.
+  function barSaid(bar) {
+    if (!bar) return '';
+    if (bar.until === 0) return 'Banned, until a moderator lifts it.';
+    var t = '';
+    try { t = new Date(bar.until).toLocaleString(undefined, { weekday: 'long', hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'long' }); } catch (e) {}
+    return 'Timed out until ' + t + '.';
+  }
+  function profileButton(handle, mod) {
+    var b = button('Open ' + handle + '\u2019s profile');
+    b.addEventListener('click', function () {
+      if (window.loveRadioPeek) window.loveRadioPeek(handle, b, { base: !!mod, claimed: !mod });
+      else say('Profiles open from the radio on this page. Bring the radio back here if it is in a window of its own.');
+    });
+    return b;
+  }
+  var SPANS = [['10m', 'ten minutes'], ['1h', 'an hour'], ['1d', 'a day'], ['1w', 'a week']];
+
   function show(handle, a) {
     found.textContent = '';
     if (!a.claimed) {
@@ -81,13 +103,59 @@
       found.appendChild(el('p', a.handle + ' is a moderator\u2019s username, on their own password since ' + since + '. The desk does not reset or delete a moderator\u2019s username, or clear its card, because a reset code would let one moderator sign on as another, roles and all. They use their own recovery code, or Ryan or Helen moves them back.'));
       return;
     }
-    var about = el('p', a.handle + ' is claimed, since ' + since + (a.card ? ', and has a profile card.' : ', with no profile card.'));
+    var about = el('p', a.handle + ' is claimed, since ' + since + (a.card ? ', and has a profile card.' : ', with no profile card.') + (a.bar ? ' ' + barSaid(a.bar) : ''));
     found.appendChild(about);
+    var look = el('p'); look.appendChild(profileButton(a.handle, false));
+    found.appendChild(look);
     var reset = button('Give ' + a.handle + ' a reset code'), del = button('Delete ' + a.handle);
     var row = el('p'); row.appendChild(reset); row.appendChild(del);
     var card = a.card ? button('Clear ' + a.handle + '\u2019s profile card') : null;
     if (card) row.appendChild(card);
     found.appendChild(row);
+    /* KICK, TIME OUT, BAN (2026-10-22). Each signs every device off at once.
+       A time out and a ban keep until when and nothing else, so tell them why
+       yourself if you can. Lifting one asks nothing more: it takes nothing away. */
+    var off = el('p');
+    var kick = button('Kick ' + a.handle);
+    off.appendChild(kick);
+    var span = null, timeout = null, ban = null, lift = null;
+    if (a.bar) {
+      lift = button(a.bar.until === 0 ? 'Lift the ban on ' + a.handle : 'Lift ' + a.handle + '\u2019s time out');
+      off.appendChild(lift);
+    } else {
+      var lab = el('label', 'For', 'md-desk__lab md-desk__lab--inline');
+      span = el('select', null, 'md-desk__in');
+      span.id = 'md-desk-span';
+      lab.htmlFor = span.id;
+      SPANS.forEach(function (x) { var o = el('option', x[1]); o.value = x[0]; if (x[0] === '1d') o.selected = true; span.appendChild(o); });
+      timeout = button('Time out ' + a.handle);
+      ban = button('Ban ' + a.handle);
+      off.appendChild(lab); off.appendChild(span); off.appendChild(timeout); off.appendChild(ban);
+    }
+    found.appendChild(off);
+    function act(send, doing, done, failed) {
+      say(doing);
+      call(send).then(function (r) {
+        if (r.status !== 200) { say(why(r, failed)); return; }
+        lookUp(done);
+      }, function () { say('The desk could not be reached. ' + failed); });
+    }
+    kick.addEventListener('click', function () {
+      confirmThen('This signs ' + a.handle + ' off every device at once. They can sign straight back on with their own password, and their notifications stay off until they switch them on again. Nothing tells them why, so tell them yourself if you can.',
+        'Kick ' + a.handle, function () { act({ action: 'kick', handle: a.handle }, 'Signing them off\u2026', a.handle + ' is signed off everywhere. They can sign back on.', 'Nothing was changed.'); });
+    });
+    if (timeout) timeout.addEventListener('click', function () {
+      var pick = SPANS.filter(function (x) { return x[0] === span.value; })[0] || SPANS[2];
+      confirmThen('This signs ' + a.handle + ' off every device and keeps them off the CB for ' + pick[1] + ': the channel, messages, the forums and everything else that needs signing on, reading included. Signing on, they are told a moderator timed them out, for how much longer and where to reach us, and nothing else. Nothing records who did it or why.',
+        'Time them out for ' + pick[1], function () { act({ action: 'timeout', handle: a.handle, 'for': pick[0] }, 'Timing them out\u2026', a.handle + ' is timed out for ' + pick[1] + '.', 'Nothing was changed.'); });
+    });
+    if (ban) ban.addEventListener('click', function () {
+      confirmThen('This signs ' + a.handle + ' off every device and keeps the username off the CB until a moderator lifts the ban. The username stays theirs, with everything under it, and nobody else can claim it. A ban holds the name, not the person: with another invite they could join under another. Nothing records who did it or why.',
+        'Ban ' + a.handle, function () { act({ action: 'ban', handle: a.handle }, 'Banning\u2026', a.handle + ' is banned until a moderator lifts it.', 'Nothing was changed.'); });
+    });
+    if (lift) lift.addEventListener('click', function () {
+      act({ action: 'lift', handle: a.handle }, 'Lifting it\u2026', a.handle + ' can sign on again, with their own password.', 'Nothing was changed.');
+    });
     reset.addEventListener('click', function () {
       confirmThen('This signs ' + a.handle + ' off everywhere and makes a one-time code, good for a day, that lets them set a new password at the Community Center. Only do it once you are sure you are talking to them.',
         'Make the reset code', function () {
@@ -130,19 +198,124 @@
     });
   }
 
-  function lookUp() {
+  // `after`: what to say once it is shown again, after something was done to it.
+  function lookUp(after) {
     var handle = nameBox.value.trim();
     if (!handle) { say('Type the username you were asked about.'); nameBox.focus(); return; }
     say('Looking…');
     found.textContent = '';
     call({ action: 'find', handle: handle }).then(function (r) {
       if (r.status !== 200) { say(why(r, 'That did not work just now.')); return; }
-      say('');
+      say(typeof after === 'string' ? after : '');
       show(handle, r.body);
     }, function () { say('The desk could not be reached just now.'); });
   }
-  find.addEventListener('click', lookUp);
+  find.addEventListener('click', function () { lookUp(); });
   nameBox.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); lookUp(); } });
+
+  /* EVERYBODY (Ryan's ask and call, 2026-10-22): every username and how many,
+     and who is seen in a room now, with the rooms. Seen means pressed Be seen
+     here, so everybody else may be on the CB too, and the list says so rather
+     than calling them offline. Fetched on a press, never on arrival; the
+     filter narrows what is drawn and sends nothing. A name opens its profile;
+     At the desk looks it up below, where everything that acts on it is. */
+  (function () {
+    var box = document.getElementById('md-everybody');
+    var pOff = document.getElementById('md-everybody-off');
+    var load = document.getElementById('md-everybody-load');
+    var list = document.getElementById('md-everybody-list');
+    var pSaid = document.getElementById('md-everybody-said');
+    var filter = document.getElementById('md-everybody-filter');
+    if (!box || !load || !list || !filter) return;
+    box.hidden = false;
+    if (pOff) pOff.hidden = true;
+    function pSay(t) { pSaid.textContent = t; }
+    var names = null;
+    // Room names: the street's, and the forum categories this pass may enter.
+    function roomNames() {
+      if (names) return Promise.resolve(names);
+      names = {};
+      var street = fetch('/cb-rooms.json', { credentials: 'omit' }).then(function (r) { return r.ok ? r.json() : {}; }).then(function (b) {
+        (b.rooms || []).forEach(function (x) { names[x.tag] = x.name; });
+      }, function () {});
+      var forums = fetch('/cb/rooms', { credentials: 'omit', cache: 'no-store', headers: { 'accept': 'application/json', 'authorization': 'Bearer ' + me.pass } })
+        .then(function (r) { return r.ok ? r.json() : {}; }).then(function (b) {
+          (b.rooms || []).forEach(function (x) { if (x && x.tag) names[x.tag] = x.name; });
+        }, function () {});
+      return Promise.all([street, forums]).then(function () { return names; });
+    }
+    function roomsSaid(rooms) {
+      return rooms.map(function (t) { return '#' + (names[t] || t); }).join(', ');
+    }
+    function row(p) {
+      var li = el('li', null, 'md-person');
+      li.dataset.name = p.handle.toLowerCase();
+      var line = el('p', null, 'md-person__line');
+      var who = button(p.handle);
+      who.className = 'md-person__name';
+      who.setAttribute('aria-label', 'Open ' + p.handle + '’s profile');
+      who.addEventListener('click', function () {
+        if (window.loveRadioPeek) window.loveRadioPeek(p.handle, who, { base: !!p.mod, claimed: !p.mod });
+        else pSay('Profiles open from the radio on this page. Bring the radio back here if it is in a window of its own.');
+      });
+      line.appendChild(who);
+      var marks = [];
+      if (p.mod) marks.push('Moderator');
+      if (p.bar) marks.push(p.bar.until === 0 ? 'Banned' : 'Timed out');
+      if (p.rooms.length) marks.push('Seen in ' + roomsSaid(p.rooms));
+      if (marks.length) line.appendChild(el('span', marks.join('. ') + '.', 'md-person__marks'));
+      if (!p.mod) {
+        var desk = button('At the desk');
+        desk.className = 'md-person__desk';
+        desk.setAttribute('aria-label', 'Look ' + p.handle + ' up at the desk');
+        desk.addEventListener('click', function () { nameBox.value = p.handle; lookUp(); nameBox.focus(); });
+        line.appendChild(desk);
+      }
+      li.appendChild(line);
+      return li;
+    }
+    function part(title, people, none) {
+      var wrap = el('div', null, 'md-people__part');
+      wrap.appendChild(el('h3', title, 'md-people__h'));
+      if (!people.length) { wrap.appendChild(el('p', none, 'md-call__fine')); return wrap; }
+      var ul = el('ul', null, 'md-people');
+      people.forEach(function (p) { ul.appendChild(row(p)); });
+      wrap.appendChild(ul);
+      return wrap;
+    }
+    function draw(b) {
+      list.textContent = '';
+      var people = b.people || [];
+      var seen = people.filter(function (p) { return p.rooms.length; });
+      var rest = people.filter(function (p) { return !p.rooms.length; });
+      list.appendChild(el('p', b.count + (b.count === 1 ? ' username' : ' usernames') + ' on the CB. ' + b.seen + ' of them seen in a room now.', 'md-people__count'));
+      list.appendChild(part('Seen in a room now (' + seen.length + ')', seen, 'Nobody has pressed Be seen here anywhere just now.'));
+      list.appendChild(part('Everybody else (' + rest.length + ')', rest, 'Everybody is seen somewhere just now.'));
+      narrow();
+      load.textContent = 'Show everybody again';
+    }
+    function narrow() {
+      var q = filter.value.trim().toLowerCase(), shown = 0, all = 0;
+      Array.prototype.forEach.call(list.querySelectorAll('.md-person'), function (li) {
+        all++;
+        var on = !q || li.dataset.name.indexOf(q) >= 0;
+        li.hidden = !on;
+        if (on) shown++;
+      });
+      if (q && all) pSay(shown === 0 ? 'No name has “' + filter.value.trim() + '” in it.' : shown + (shown === 1 ? ' name has' : ' names have') + ' “' + filter.value.trim() + '” in it.');
+      else if (!q) pSay('');
+    }
+    filter.addEventListener('input', narrow);
+    load.addEventListener('click', function () {
+      pSay('Looking…');
+      Promise.all([call({ action: 'directory' }), roomNames()]).then(function (got) {
+        var r = got[0];
+        if (r.status !== 200) { pSay(why(r, 'The list could not be fetched just now.')); return; }
+        pSay('');
+        draw(r.body);
+      }, function () { pSay('The desk could not be reached just now.'); });
+    });
+  }());
 
   /* INVITES (Ryan's brief, 2026-10-21): make one with a note, how many people
      may join with it and when it runs out; see every one with its link and how

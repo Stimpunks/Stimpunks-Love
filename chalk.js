@@ -142,7 +142,7 @@
         draw(r.body.notes);
         say('It is on the board, at the top, for seven days.');
       } else if (r.status === 401) {
-        say('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
+        say('Since you signed on, this username has been signed off. Sign on again at the Community Center, then come back.');
       } else {
         say(why(r, 'That did not go up. Try again in a moment.'));
       }

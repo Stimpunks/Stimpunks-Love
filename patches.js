@@ -188,7 +188,7 @@
             return;
           }
           said.textContent = r.status === 401
-            ? 'The password has changed since you signed on. Sign on again at the Community Center, and press it again.'
+            ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center, and press it again.'
             : r.status === -1 ? 'The street could not be reached just now. Nothing was taken.'
             : (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was taken.';
         });

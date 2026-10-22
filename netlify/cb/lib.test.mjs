@@ -34,6 +34,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
   readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
+  kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
   cleanMessage, MESSAGE_MAX, cleanText,
   cleanLook, readAvatars, keepAvatar, editAvatar, removeAvatar, wearAvatar, forgetAvatars, withAvatars, avatarSticker, shapeAvatarSticker, AVATAR, AVATAR_KEEP,
@@ -1512,6 +1513,86 @@ test('deleting an account deletes its pets and frees the username; the store nev
   assert.equal((await checkHandle('Eve', readMods(''), S)).ok, true, 'the username is not free again');
   const m = (await adoptedMonths('cat', S))[0];
   assert.equal((await readAdopted('cat', m, S)).length, 1, 'deleting an account took an animal off the forever list');
+}));
+
+// KICK, TIME OUT, BAN (2026-10-22). Each signs every device off; a time out
+// and a ban hold in readPass, and the front desk says so only after the right
+// password, so nobody else learns a username is barred.
+test('kick signs every device off and they sign straight back on', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  await claimAccount('Fen', 'fen has a phrase', S, 0, null);
+  assert.ok(await readPass(reqWith(issueAccountPass('Fen', 1)), null, S));
+  assert.equal((await kickAccount('Fen', S)).kicked, true);
+  assert.equal(await readPass(reqWith(issueAccountPass('Fen', 1)), null, S), null, 'a kicked device stayed signed on');
+  const back = await signOn('Fen', 'fen has a phrase', null, S, 10);
+  assert.equal(back.account, 2);
+  assert.ok(await readPass(reqWith(issueAccountPass('Fen', 2)), null, S));
+  assert.ok((await kickAccount('Nobody', S)).error);
+}));
+
+test('a time out keeps a username off until it ends, says so only after the right password, and keeps nothing after', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const c = await claimAccount('Gil', 'gil has a phrase', S, 0, null);
+  // readPass reads the clock, so the time out is an hour from now.
+  const T = Date.now(), until = T + BAR_FOR['1h'];
+  assert.deepEqual((await barAccount('Gil', until, S)).bar, { until });
+  const raw = JSON.parse(JSON.stringify(await S.get(`acct/${acctKey('Gil')}`)));
+  assert.deepEqual(raw.bar, { until }, 'a bar kept something beside until when');
+  assert.equal(await readPass(reqWith(issueAccountPass('Gil', 1)), null, S), null, 'a device stayed on through a time out');
+  assert.equal(await readPass(reqWith(issueAccountPass('Gil', 2)), null, S), null, 'a pass worked while timed out');
+  const wrong = await signOn('Gil', 'not the phrase', null, S, T + 2000);
+  assert.ok(wrong.error && !wrong.barred && !/moderator/.test(wrong.error), 'a wrong password learned the username is timed out');
+  const right = await signOn('Gil', 'gil has a phrase', null, S, T + 2000);
+  assert.ok(right.barred && /timed this username out/.test(right.error) && /more minute/.test(right.error));
+  assert.ok((await recoverAccount('Gil', c.recovery, 'a new phrase here', S, T + 2000)).barred, 'recovery got round a time out');
+  assert.ok(!(await recoverAccount('Gil', 'WRONG-CODE-HERE-0000', 'a new phrase here', S, T + 2001)).barred, 'a wrong code learned the username is timed out');
+  assert.equal(barredNow(await readAccount('Gil', S), until), false);
+  const after = await signOn('Gil', 'gil has a phrase', null, S, until + 1);
+  assert.equal(after.account, 2);
+  assert.equal((await readAccount('Gil', S)).bar, undefined, 'a time out that had ended was kept');
+  assert.ok(await readPass(reqWith(issueAccountPass('Gil', 2)), null, S));
+  assert.match(barWords({ until: 0 }), /banned/);
+  assert.match(barWords({ until: 3 * 86400000 }, 0), /3 more days/);
+  assert.match(barWords({ until: 3 * 3600000 }, 0), /3 more hours/);
+}));
+
+test('a ban holds until a moderator lifts it, and lifting takes nothing else away', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  await claimAccount('Hob', 'hob has a phrase', S, 0, null);
+  await barAccount('Hob', 0, S);
+  assert.ok((await signOn('Hob', 'hob has a phrase', null, S, 10 ** 13)).barred, 'a ban ran out by itself');
+  assert.deepEqual(shapeBar(await readAccount('Hob', S)), { until: 0 });
+  assert.ok((await claimAccount('Hob', 'somebody else here', S, 5, null)).error, 'somebody claimed a banned name');
+  assert.ok((await barAccount('Hob', -5, S)).error, 'a bar that ended before it began');
+  assert.equal((await liftBar('Hob', S)).lifted, true);
+  assert.equal((await liftBar('Hob', S)).lifted, false);
+  const back = await signOn('Hob', 'hob has a phrase', null, S, 20);
+  assert.equal(back.account, 2, 'lifting a ban changed the password or the version');
+}));
+
+test('the moderators\' directory: every username, how many, and who is seen by Be seen here\'s rules, and nothing else', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Iris":[]}');
+  for (const h of ['Zed', 'amy', 'Bo']) await claimAccount(h, h + ' has a long phrase', S, 0, mods);
+  await claimAccount('Iris', 'iris has a phrase', S, 0, mods, true, null);
+  await barAccount('Bo', 0, S);
+  const now = 10 ** 12;
+  const mod = { role: 'base', handle: 'Iris', roles: new Set(['moderator']), account: true };
+  await beSeen({ role: 'mobile', handle: 'Zed', account: true, roles: new Set() }, 'the-den', 'visit-zed-0001', S, now);
+  await beSeen({ role: 'mobile', handle: 'amy', account: true, roles: new Set() }, QUIET_ROOMS[0], 'visit-amy-0001', S, now);
+  const d = await accountDirectory(mod, S, now + 5, mods);
+  assert.deepEqual(d.people.map((p) => p.handle), ['amy', 'Bo', 'Iris', 'Zed']);
+  assert.equal(d.count, 4);
+  for (const p of d.people) assert.deepEqual(Object.keys(p).sort(), ['bar', 'handle', 'mod', 'rooms'], 'a name carried more than the desk needs');
+  const by = Object.fromEntries(d.people.map((p) => [p.handle, p]));
+  assert.deepEqual(by.Zed.rooms, ['the-den']);
+  assert.deepEqual(by.Bo.bar, { until: 0 });
+  assert.equal(by.Iris.mod, true);
+  assert.equal(by.Zed.mod, false);
+  assert.deepEqual(by.amy.rooms, [], 'somebody seen only in a quiet room was shown as seen');
+  assert.equal(d.seen, 1);
+  assert.ok(!JSON.stringify(d).includes('since') && !JSON.stringify(d).includes('hash'));
+  assert.deepEqual((await accountDirectory(mod, S, now + ROOM_FRESH + 10, mods)).seen, 0, 'somebody stayed seen past their last check');
 }));
 
 test('a moderator\'s handle is claimed only by the moderator, from a base pass', async () => {

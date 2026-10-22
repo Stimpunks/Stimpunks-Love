@@ -4223,7 +4223,8 @@ the only per-person list is in the rescuer's own browser.
 **A USERNAME CAN BE CLAIMED, AND `readPass` IS ASYNC BECAUSE OF IT.** Ryan, 2026-09-30: Account (in Profile
 until 2026-10-19) on the radio claims the handle you are on as, with a password of your own; no email; a recovery code shown
 once; the moderators reset or delete one by name from a desk in the Moderators' room (`desk.js`,
-`/cb/account/admin`), and **there is no list of everybody**, for moderators or anybody. A claimed
+`/cb/account/admin`), and **there was no list of everybody**, for moderators or anybody, until the
+moderators' directory (2026-10-22, below). A claimed
 username signs on with its own password and **the community password is refused for it**, the
 `CB_MODS` mechanism; its pass is `cb2.acct.<handle>.<v>.<sig>`, signed with the community password (so
 rotating it still signs everybody off) and **refused once the account's version moves**, which is how
@@ -4241,16 +4242,36 @@ not reset or delete a moderator's username** (`isMod`), because a reset code wou
 sign on as another with the other's roles, Executive Session included; a moderator with neither
 password nor recovery code is taken off the list for a moment, reset as an ordinary username, and put
 back. No shared password can be taken as a personal one (`ownPassword`). `tools/make-accounts.py` refuses a console call anywhere in `netlify/`,
-anything listing `acct/`, a desk action beyond find, reset and delete, an account field beyond those,
+anything but `accountDirectory` listing `acct/`, a desk action beyond its list, an account field beyond those,
 an email address kept unsealed or read by anything but its owner's Account and the reset email, and
 Account losing Delete my account or its second press. **A claimed username was marked CLAIMED on the
 channel, like BASE** (Ryan, the same evening), and **the mark went on 2026-10-21**, when every username
 became claimed: `make-accounts.py` refuses it in `cb.js`, `forum.js`, `profile.js` and `cb.css`. The
 server still keeps `claimed` on a message, because Take off and Edit read it: `cb-transmit` sets it from
-`who.account` and never from the request, and `shape()` keeps it off a BASE message. The friendly
-edit is **a table of users for the admins**; it would be a register of our community that the privacy
-page says does not exist. **Page scripts read the pass once when they load**, so a room left open while
-somebody claims says *the password has changed* on its next press, and a reload fixes it.
+`who.account` and never from the request, and `shape()` keeps it off a BASE message. **Page scripts
+read the pass once when they load**, so a room left open while somebody claims says *this username has
+been signed off* on its next press, and a reload fixes it.
+
+**THE MODERATORS' DESK LISTS EVERYBODY, AND CAN KICK, TIME OUT AND BAN.** Ryan's ask and calls,
+2026-10-22, after moderators asked for it for safeguarding: what we could tell at a glance if we were
+all in one room, the way Discord lists a server's members. **It reverses "there is no list of
+everybody"** for the desk and nowhere else, and **numbers are fine there**, Ryan's call that the rule
+against counting people is about the street's public surfaces (the Mission says so). `accountDirectory`
+in `lib.mjs` is the one thing that lists `acct/`, for the desk's `directory` action and a base pass:
+each name is its handle, whether it is a moderator's, whether it is barred now, and the rooms it is
+seen in **from `whoSeen` with the moderator's pass**, so only Be seen here counts as seen and a quiet
+room is never named; and the count of names and of names seen. A name opens its profile through
+`loveRadioPeek`. **Kick** moves the account's version (`kickAccount`); **time out** and **ban** move it
+and set `bar: { until }` (a time, or 0 until lifted), and **nothing else: not who, not why**. `readPass`
+refuses every pass while a bar holds (`barredNow`), so a time out is the whole CB, reading included,
+not Discord's read-only one, which would need every writing function to ask; `signOn` and
+`recoverAccount` say a username is barred **only after the right password or code**, so the front desk
+tells nobody else, and signing on after a time out takes the ended bar off. None of the three reaches a
+moderator's username (`isMod`). `make-accounts.py` holds all of it. **The friendly edits are a "joined"
+date beside each name** (the member-since ranking the profile cards refuse), **calling everybody not
+seen "offline"** (they may be on the CB unseen), **a note of who banned whom and why** (a record of
+moderation kept against a person, Ryan's call and `privacy.html#bars` first), and **the list or its
+count anywhere but the desk**. `DECISIONS.md` has what is still open.
 
 **THE STARTER PASSWORD IS RETIRED, EVERYBODY JOINS WITH AN INVITE, AND EVERY USERNAME IS CLAIMED.**
 Ryan's brief and calls, 2026-10-21: invite codes in place of the starter password, made and deleted at the

@@ -71,7 +71,7 @@
     });
   }
   function why(r, otherwise) {
-    if (r && r.status === 401) return 'The password has changed since you signed on. Sign on again at the Community Center, then come back.';
+    if (r && r.status === 401) return 'Since you signed on, this username has been signed off. Sign on again at the Community Center, then come back.';
     if (r && r.body && typeof r.body.error === 'string' && r.body.error) return r.body.error;
     if (r && (r.status === 404 || r.status === 405)) return 'The box is not kept on this server. It only answers on stimpunks.world itself.';
     return otherwise;

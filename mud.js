@@ -563,7 +563,7 @@
     call('/cb/mud/here', { place: place, visit: visit }).then(function (r) {
       if (!seenOn) { return; }
       if (r.status === 200) { hear(place, r.body); }
-      else if (r.status === 401) { stopSeen('The password has changed since you signed on. Sign on again at the Community Center, then come back.'); return; }
+      else if (r.status === 401) { stopSeen('Since you signed on, this username has been signed off. Sign on again at the Community Center, then come back.'); return; }
       else { cstate.textContent = why(r, 'No answer from the Slake just now. Trying again.'); }
       schedule();
     }, function () {
@@ -610,7 +610,7 @@
       if (r.status === 200 && place === state.here) {
         (r.body.messages || []).forEach(function (m) { if (!heard[m.id]) { heard[m.id] = true; say(line(m)); } });
       } else if (r.status === 401) {
-        stopSeen('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
+        stopSeen('Since you signed on, this username has been signed off. Sign on again at the Community Center, then come back.');
       } else if (r.status !== 200) {
         say(why(r, 'That did not reach anybody. Nothing was said. Try again in a moment.'));
       }

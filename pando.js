@@ -298,7 +298,7 @@
           }
         } else if (r.status === 401) {
           water.disabled = false;
-          say('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
+          say('Since you signed on, this username has been signed off. Sign on again at the Community Center, then come back.');
         } else {
           water.disabled = false;
           say(why(r, 'That did not pour. Try again in a moment.'));
@@ -327,7 +327,7 @@
         drawNotes(r.body.notes);
         sayNote('It is on the fence, at the top, for the week.');
       } else if (r.status === 401) {
-        sayNote('The password has changed since you signed on. Sign on again at the Community Center, then come back.');
+        sayNote('Since you signed on, this username has been signed off. Sign on again at the Community Center, then come back.');
       } else {
         sayNote(why(r, 'That did not go up. Try again in a moment.'));
       }

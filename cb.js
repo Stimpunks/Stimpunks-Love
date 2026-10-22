@@ -4758,7 +4758,7 @@
         box.textContent = '';
         me.pfSetsBox.hidden = true;
         box.appendChild(el('p', 'cb-quiet', r.status === 401
-          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
           : 'Your card could not be looked up just now.'));
         return;
       }
@@ -6208,7 +6208,7 @@
       call('/cb/avatars', null, me.state.pass).then(function (r) {
         if (r.status === 200 && r.body.avatars) { me.drawAvatars(r.body); return; }
         me.avState.textContent = r.status === 401
-          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
           : 'Your avatars could not be fetched just now.';
       }, function () { me.avState.textContent = 'Your avatars could not be fetched just now.'; });
     });
@@ -6222,7 +6222,7 @@
         if ((body.wear !== undefined || body.remove) && me.pfShown('card')) me.loadProfileCard(true);
         return true;
       }
-      if (r.status === 401) { said.textContent = 'The password has changed since you signed on. Sign on again at the Community Center.'; return false; }
+      if (r.status === 401) { said.textContent = 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'; return false; }
       said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
       return false;
     }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
@@ -7480,7 +7480,7 @@
     call('/cb/props', null, me.state.pass).then(function (r) {
       if (r.status === 200 && r.body) { me.drawProps(r.body); return; }
       me.prState.textContent = r.status === 401
-        ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+        ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
         : 'Your props could not be fetched just now.';
     }, function () { me.prState.textContent = 'Your props could not be fetched just now.'; });
   };
@@ -7499,7 +7499,7 @@
         return true;
       }
       me.prSaid.textContent = r.status === 401
-        ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+        ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
         : (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
       return false;
     }, function () { me.prSaid.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
@@ -7636,7 +7636,7 @@
       call('/cb/chimeras', null, me.state.pass).then(function (r) {
         if (r.status === 200 && r.body.chimeras) { me.drawChimeras(r.body); return; }
         me.chState.textContent = r.status === 401
-          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
           : 'Your chimeras could not be fetched just now.';
       }, function () { me.chState.textContent = 'Your chimeras could not be fetched just now.'; });
     });
@@ -7646,7 +7646,7 @@
     var me = this;
     return call('/cb/chimeras', { body: body }, me.state.pass).then(function (r) {
       if (r.status === 200 && r.body.chimeras) { me.drawChimeras(r.body, done); return true; }
-      if (r.status === 401) { said.textContent = 'The password has changed since you signed on. Sign on again at the Community Center.'; return false; }
+      if (r.status === 401) { said.textContent = 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'; return false; }
       said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
       return false;
     }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; return false; });
@@ -7875,7 +7875,7 @@
       if (r.status === 200) { me.drawAccount(r.body); return; }
       me.acctBox.textContent = '';
       me.acctBox.appendChild(el('p', 'cb-quiet', r.status === 401
-        ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+        ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
         : 'Your username could not be looked up just now.'));
     }, function () {
       me.acctBox.textContent = '';
@@ -8035,7 +8035,7 @@
       call('/cb/pets', null, me.state.pass).then(function (r) {
         if (r.status === 200 && r.body.pets) { me.drawPets(r.body.pets); me.drawShow(r.body); return; }
         me.petsState.textContent = r.status === 401
-          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
           : 'Your pets could not be fetched just now.';
       }, function () { me.petsState.textContent = 'Your pets could not be fetched just now.'; });
     });
@@ -8153,7 +8153,7 @@
       call('/cb/patches', null, me.state.pass).then(function (r) {
         if (r.status === 200 && r.body && Array.isArray(r.body.patches)) { me.drawPatches(r.body); return; }
         me.patchState.textContent = r.status === 401
-          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
           : 'Your jacket could not be fetched just now.';
       }, function () { me.patchState.textContent = 'Your jacket could not be fetched just now.'; });
     });
@@ -8247,7 +8247,7 @@
       call('/cb/jobs', null, me.state.pass).then(function (r) {
         if (r.status === 200 && r.body && guild) { me.drawJobs(r.body, guild); return; }
         me.jobsState.textContent = r.status === 401
-          ? 'The password has changed since you signed on. Sign on again at the Community Center.'
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
           : 'Your jobs could not be fetched just now.';
       }, function () { me.jobsState.textContent = 'Your jobs could not be fetched just now.'; });
     });
@@ -9842,7 +9842,8 @@
     this.set.classList.remove('cb-set--parts');
     this.set.textContent = '';
     var p = el('p', 'cb-who');
-    p.appendChild(document.createTextNode('The password has changed, so you are off the channel. '));
+    // A password change, a reset, a deletion, or a moderator's kick, time out or ban.
+    p.appendChild(document.createTextNode('You are signed off: this username\u2019s password changed, or a moderator signed it off. '));
     var a = el('a', null, 'Sign on again at the Community Center');
     a.href = '/community-center.html#cb-signon';
     p.appendChild(a);

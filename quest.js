@@ -389,7 +389,7 @@
 
     function trouble(r, nothing) {
       if (r.status === 0) return 'You are not signed on to the CB in this browser any more. ' + nothing;
-      if (r.status === 401) return 'The password has changed since you signed on. Sign on again at the Community Center. ' + nothing;
+      if (r.status === 401) return 'Since you signed on, this username has been signed off. Sign on again at the Community Center. ' + nothing;
       if (r.status === -1) return 'The street could not be reached just now. ' + nothing;
       return (r.body && typeof r.body.error === 'string') ? r.body.error + ' ' + nothing
         : 'That did not work just now. ' + nothing;

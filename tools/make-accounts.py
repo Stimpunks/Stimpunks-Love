@@ -17,11 +17,24 @@ would break one without any test noticing:
 
   · NOTHING IS LOGGED. No console call anywhere in netlify/, because the one
     thing worse than keeping a password is printing one while debugging.
-  · THERE IS NO LIST OF ACCOUNTS. Nothing lists the acct/ prefix, and the
-    moderators' desk takes find, reset, delete and clearCard and nothing that
-    enumerates. The friendly edit is "a table of users for the admins"; it
-    would be a register of who is in our community, which privacy.html says
-    does not exist.
+  · ONE LIST OF ACCOUNTS, THE MODERATORS', AND IT SAYS ALMOST NOTHING. Ryan's
+    ask and call, 2026-10-22, reversing "there is no list of accounts" after
+    moderators asked for one for safeguarding: accountDirectory in lib.mjs is
+    the one thing that lists the acct/ prefix, for the desk's `directory`
+    action and a base pass only. Each name in it is its handle, whether it is a
+    moderator's, whether it is barred now, and the rooms it is seen in, which
+    come from whoSeen with the moderator's pass (Be seen here's rules), and
+    nothing else: never when it was claimed, never an email address. The
+    friendly edits now are a "joined" date beside each name, which is the
+    member-since ranking the profile cards refuse, and calling everybody not
+    seen "offline", which claims what nobody has heard.
+  · KICK, TIME OUT AND BAN KEEP UNTIL WHEN AND NOTHING ELSE (the same day). Each
+    moves the version, so every device is signed off; a time out and a ban are
+    `bar: { until }` on the account, never who or why, because a note of who
+    banned whom is a record of moderation kept against a person. readPass
+    refuses a barred username's every pass, and signOn and recoverAccount say
+    it is barred only after the right password or code, so nobody else can
+    learn it at the front desk.
   · CLEARING A CARD IS THE ONE ACTION ADDED SINCE, AND IT KEEPS NOTHING.
     Ryan's call, 2026-10-18: a card that broke the covenant could only go with
     the whole username, its password, pets, avatars, jobs and patches. So the
@@ -98,9 +111,44 @@ def main():
         if re.search(r"\bconsole\.\w+\(", code):
             problems.append(f"{f.relative_to(ROOT)}: a console call. Nothing a person types is ever logged, "
                             "passwords above all, and a log line is where that promise breaks.")
+        if f == LIB:
+            code = re.sub(r"export async function accountDirectory\(.*?\n\}", " ", code, flags=re.S)
         if re.search(r"prefix:\s*['`]acct", code):
-            problems.append(f"{f.relative_to(ROOT)}: it lists the accounts. There is no list of everybody.")
+            problems.append(f"{f.relative_to(ROOT)}: it lists the accounts. The moderators' directory "
+                            "(accountDirectory in lib.mjs) is the one list of usernames.")
     lib = LIB.read_text()
+    m = re.search(r"export async function accountDirectory\(.*?\n\}", lib, re.S)
+    dirf = m.group(0) if m else ""
+    row = re.search(r"return \{ (handle: a\.handle[^}]*?) \};", dirf)
+    rkeys = sorted(e.split(":")[0].strip() for e in row.group(1).split(",")) if row else []
+    if not dirf or "prefix: 'acct/'" not in dirf or rkeys != ["bar", "handle", "mod", "rooms"]:
+        problems.append(f"{LIB.name}: the moderators' directory is missing, or a name in it carries {rkeys}; "
+                        "it is the handle, whether it is a moderator's, whether it is barred now and the rooms "
+                        "it is seen in, and nothing else: never when it was claimed, never an email address.")
+    if dirf and ("whoSeen(who, s, now)" not in dirf or re.search(r"everySeen|since|email|accountEmail", dirf)):
+        problems.append(f"{LIB.name}: the directory reads who is seen some other way than whoSeen with the "
+                        "moderator's pass, or reads when a username was claimed or its address.")
+    m = re.search(r"export async function barAccount\(.*?\n\}", lib, re.S)
+    bar = m.group(0) if m else ""
+    if not bar or "v: a.v + 1, bar: { until } }" not in bar or re.search(r"bar:\s*\{[^}]*(by|why|t)\b", bar):
+        problems.append(f"{LIB.name}: barAccount is missing, does not sign every device off, or keeps more than "
+                        "until when: never who timed somebody out or banned them, or why.")
+    m = re.search(r"export async function kickAccount\(.*?\n\}", lib, re.S)
+    if not m or "({ ...a, v: a.v + 1 })" not in m.group(0):
+        problems.append(f"{LIB.name}: kickAccount is missing, or does more than sign every device off.")
+    # Read as code: a line commented out still holds the words.
+    live = re.sub(r"(?m)^\s*//.*$", "", re.sub(r"/\*.*?\*/", " ", lib, flags=re.S))
+    m = re.search(r"export async function readPass\(.*?\n\}", live, re.S)
+    if not m or "if (barredNow(acct)) return null;" not in m.group(0):
+        problems.append(f"{LIB.name}: readPass lets a timed-out or banned username's pass through.")
+    for fn_name, after in (("signOn", "const r = await checkPassword(handle, password, s, now);"),
+                           ("recoverAccount", "if (!byReset && !byMail && !byCode)")):
+        m = re.search(rf"export async function {fn_name}\(.*?\n\}}", live, re.S)
+        body_ = m.group(0) if m else ""
+        i, j = body_.find(after), body_.find("barredNow(acct, now)")
+        if i < 0 or j < 0 or j < i:
+            problems.append(f"{LIB.name}: {fn_name} does not refuse a barred username, or says so before the "
+                            "right password or code, which tells anybody who tries the name that it is barred.")
     m = re.search(r"export async function claimAccount\(.*?\n\}", lib, re.S)
     claim = m.group(0) if m else ""
     body = re.search(r"const body = \{ (.*?) \};", claim, re.S)
@@ -172,9 +220,11 @@ def main():
         problems.append(f"{JOINPAGE.name}: missing, without join.js, or with the guest bar offering the same door twice.")
     admin = re.sub(r"/\*.*?\*/", " ", ADMIN.read_text(), flags=re.S)
     actions = sorted(set(re.findall(r"b\.action === '(\w+)'", admin)))
-    if actions != ["clearCard", "delete", "find", "reset"]:
-        problems.append(f"{ADMIN.name}: the desk does {actions}; it finds one username, resets it, deletes it "
-                        "or clears its profile card.")
+    if actions != ["ban", "clearCard", "delete", "directory", "find", "kick", "lift", "reset", "timeout"]:
+        problems.append(f"{ADMIN.name}: the desk does {actions}; it lists every username, and finds one, resets "
+                        "it, deletes it, clears its profile card, kicks, times out or bans it, or lifts a bar.")
+    if "if (!who || who.role !== 'base') return json(403" not in admin:
+        problems.append(f"{ADMIN.name}: the desk answers something other than a base pass.")
     m = re.search(r"export async function clearProfile\(.*?\n\}", lib, re.S)
     clear = re.sub(r"/\*.*?\*/", " ", m.group(0), flags=re.S) if m else ""
     if "forgetProfile(" not in clear or re.search(r"\.set(JSON)?\(|update\w*\(", clear):
@@ -188,7 +238,7 @@ def main():
     if not re.search(r"claimed:\s*!!m\.claimed && !m\.base", lib):
         problems.append(f"{LIB.name}: shape() no longer keeps CLAIMED off a BASE message, or drops it.")
     guard = admin.find("if (isMod(handle)) return json(403")
-    acts = [admin.find(f"action === '{a}'") for a in ("reset", "delete", "clearCard")]
+    acts = [admin.find(f"action === '{a}'") for a in ("reset", "delete", "clearCard", "kick", "timeout", "ban", "lift")]
     first = min([i for i in acts if i >= 0] or [-1])
     if guard < 0 or first < 0 or guard > first:
         problems.append(f"{ADMIN.name}: the desk can reach a moderator's username. It must refuse isMod(handle) "
@@ -203,19 +253,25 @@ def main():
         if re.search(r"cb-tag--claimed|'CLAIMED'", f.read_text()):
             problems.append(f"{f.name}: draws CLAIMED. Every username is claimed now, so a mark everybody wears says nothing.")
     desk = DESK.read_text()
-    if desk.count("confirmThen(") < 4:
-        problems.append(f"{DESK.name}: a reset, a delete or clearing a card no longer asks once more.")
+    if desk.count("confirmThen(") < 7:
+        problems.append(f"{DESK.name}: a reset, a delete, clearing a card, a kick, a time out or a ban no longer asks once more.")
+    if re.search(r"offline", re.sub(r"/\*.*?\*/", " ", desk, flags=re.S), re.I):
+        problems.append(f"{DESK.name}: calls somebody offline. Seen means they pressed Be seen here; everybody "
+                        "else may be on the CB too.")
     if 'id="md-desk"' not in MODS.read_text() or "desk.js" not in MODS.read_text():
         problems.append(f"{MODS.name}: the moderators' desk is not in the Moderators' room.")
     priv = PRIVACY.read_text()
-    for want in ('id="accounts"', 'id="invites"', 'id="recovery-email"', "Nothing records who joined with which invite", "shown to nobody but you"):
+    for want in ('id="accounts"', 'id="invites"', 'id="recovery-email"', "Nothing records who joined with which invite", "shown to nobody but you",
+                 'id="directory"', 'id="bars"', "nothing records who looked", "not which moderator did it, not why",
+                 "it says so only after the right password"):
         if want not in priv:
             problems.append(f"{PRIVACY.name}: the accounts section has lost {want!r}.")
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
-    print("accounts: nothing logged, no list of everybody, an email address only sealed and only its owner's, "
-          "invites that count and never name, and every account can be deleted.")
+    print("accounts: nothing logged, one list of usernames and only the moderators', bars that keep until when "
+          "and nothing more, an email address only sealed and only its owner's, invites that count and never "
+          "name, and every account can be deleted.")
     return 0
 
 

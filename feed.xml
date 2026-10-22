@@ -9,101 +9,108 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Thu, 22 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The moderators’ desk: everybody, and kick, time out and ban</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-22-moderators-everybody</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-moderators-everybody</guid>
+      <pubDate>Thu, 22 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The desk in the Moderators’ room lists every username on the CB, says how many there are and how many are seen in a room now, and shows who is seen and where. A name opens its profile; At the desk looks it up. Moderators asked for it for safeguarding, and it is Ryan’s call, which reverses the street’s rule that there was no list of everybody, for moderators or anybody, and his call that the rule against counting people is about the street’s public surfaces and not about moderation; the Mission says so now. Seen means they pressed Be seen here, by the same rules as Who’s online: a room that keeps to itself is never named. So the list never calls anybody offline: everybody not seen may be on the CB too. It shows nothing else about anybody: not when they joined, not an email address, not anybody’s roles beyond moderator, and nothing records who looked. A username looked up at the desk can be kicked, timed out or banned. Each signs it off every device at once. A kick is only that; a time out keeps it off the CB for ten minutes, an hour, a day or a week, reading included; a ban keeps it off until a moderator lifts it, and holds the name so nobody else can claim it. Signing on, the person is told a moderator timed them out and for how much longer, or banned them, and where to reach us, and only after the right password, so nobody else who tries the name learns anything. Only until when is kept: not which moderator, not why. The desk does none of the three to a moderator’s username. The radio and the rooms no longer say the password has changed when a username is signed off, because a moderator may have signed it off: they say it was signed off since you signed on. The privacy page says all of this, and changed first, as did SECURITY.md, whose note on accounts was out of date. Tested: a kick, a time out that ends and is not kept, a ban that holds until lifted, a wrong password learning nothing, recovery refused while barred, and the list showing only what it should. tools/make-accounts.py holds each promise, and was broken on purpose. Changed: netlify/cb/lib.mjs and its tests, netlify/functions/cb-account-admin.mjs, desk.js, town-hall-moderators.html, love.css, cb.js and the rooms’ scripts that said the password had changed, privacy.html, mission.html and SECURITY.md.</description>
+    </item>
+    <item>
       <title>Every sign-on note says invite</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-sign-on-notes-say-invite</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-sign-on-notes-say-invite</guid>
-      <pubDate>Thu, 22 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:59:00 GMT</pubDate>
       <description>The notes shown to somebody not signed on, beside the things only a CB username can do, still said those things took a CB handle and the community password, which retired on 2026-10-21. Each now says it takes a username on the CB, which you join with an invite, and links to Getting started at the Community Center, where the front desk is too: on Count Me In’s stair, Pando Calrissian’s tree and fence, Plural Mural’s chalkboard, the Fridge of Sighs, the three shelters, and the pebble bowls in the Faery Yurt and the Solarpunk Hermitage, which tools/make-pebbles.py writes.</description>
     </item>
     <item>
       <title>The Community Center’s door says invite</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-community-center-door</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-community-center-door</guid>
-      <pubDate>Thu, 22 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:58:00 GMT</pubDate>
       <description>The Community Center’s door on the front page still said to sign on with a handle and the community password, which retired on 2026-10-21. It says now that you join the CB with an invite and a username and password of your own, which is what Getting started says inside.</description>
     </item>
     <item>
       <title>Community Care: the street’s room for asking</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-community-care</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-community-care</guid>
-      <pubDate>Thu, 22 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:57:00 GMT</pubDate>
       <description>Community Care is a shopfront on the street, between Chimera Obscura and Your Room: our mutual aid and care room. Its channel on the CB is where you ask for mutual aid, peer support and any other help, and where anybody who can offers it, and it is under Community on the chat page, beside World, the Community Center and Dead Tired Society, whose page now points to it for peer support. Ryan’s brief. It is built out of three pages of ours: Community Care, our glossary’s Peer Support, and Tuesday Ferguson’s Tapping the Radical Roots of Peer Support. Every quotation was read on one of them, is credited to whoever said it, and is checked against them word for word. The channel is for four things, after a line of Vivian Ly’s at Autscape 2020: asking, offering, receiving and declining, and all four are allowed. Vivian Ly’s talk, which our Community Care page carries, is in the room to press, and says how long it runs first. Nobody who asks is sorted, owes anybody or proves anything, and nothing is counted. The room says it is not a crisis line and where the crisis lines are, says who can read the channel and how long a message stays, points to the forums’ Mutual aid and Coping for asks that need longer, and names the Foundation’s grants without promising them: they are by application, in scheduled rounds, and cannot cover anything urgent. The room is a street roofed with everybody’s umbrellas, tied to one another, in the rain, after our Community Care page’s umbrella and its photograph of umbrellas strung over a street. Nothing else holds the roof up. At MAX GLITTER the rain falls on it, and never under it. The Mission’s limit said this street is not mutual aid, which a room for asking for it would have made untrue. It says now that the street is not the foundation’s mutual aid: it still pays no rent, buys no groceries and gives no grant, and Community Care is where people ask each other. Agbalumo, by Raphael Alẹ́gbẹ́lẹ́yẹ̀ with Sorkin Type and Eben Sorkin, and Ysabeau Infant, by Christian Thalmann, join the street’s faces, in the Foundry, the Mopery’s nook and the Open Notebook’s sticker drawer. A job for the Guild, a share card, a fractal window and liner notes come with the room.</description>
     </item>
     <item>
       <title>A poll can be added to a topic that has started</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-a-poll-added-to-a-topic</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-a-poll-added-to-a-topic</guid>
-      <pubDate>Thu, 22 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:56:00 GMT</pubDate>
       <description>A topic without a poll has Add a poll at its top, for whoever started it, the editors of a wiki it is in (Grantmaking’s directors and board) and our moderators. The poll stands under the post that opens the topic, as one made with it does, and whoever added it can close it too. A poll is never added over one that is there, because its votes would go, and never to a closed topic. Adding one posts nothing, so reply if you want people to know.</description>
     </item>
     <item>
       <title>Polls in the forums: a show of hands, or a sealed ballot</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-polls-in-the-forums</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-polls-in-the-forums</guid>
-      <pubDate>Thu, 22 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:55:00 GMT</pubDate>
       <description>A topic can open with a poll, Norah’s ask: Add a poll under a new topic, with a question, two to twenty choices, one or several to pick, and a day it closes if you like. Its starter or a moderator closes it. A show of hands shows everybody who can read the topic who picked what, as the votes come in, and a vote can be changed or taken back while the poll is open. A sealed ballot keeps nothing that says who picked what: how many picked each choice, and apart from that who has voted, as a code that differs in every poll. So nobody can see anybody’s vote, moderators included, a vote cannot be changed or taken back and asks a second time before it goes, nobody sees a number until the poll closes, and once its results are out it stays closed. This reverses the forums’ rule that nothing in them is counted, for polls alone, Ryan’s call: a poll says how many picked each choice, in its own order, never sorted by it and with no winner marked. The Mission says the street counts people in two places now, the World room’s Most active order and these, and the privacy page says what each kind keeps.</description>
     </item>
     <item>
       <title>The newest email and the team mailbox’s counts on the office’s dashboard</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-the-newest-email-on-the-dashboard</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-the-newest-email-on-the-dashboard</guid>
-      <pubDate>Thu, 22 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:54:00 GMT</pubDate>
       <description>The office’s dashboard lists the newest email filed, under Newest: each one’s subject, which contacts it came from or went to, and when, linking to the email. Until now the office kept no list of recent email, only each contact’s own; it keeps the twenty newest now, sealed, for the dashboard alone, with no address and no word of an email in it. The team mailbox counts itself once an hour for the dashboard: unread conversations in the inbox, the emails that came in and went out in the last seven days against the seven before, and how many of those were with one of our contacts. Numbers only, so nothing about anybody leaves Gmail for them. The dashboard says when they were counted, and says a count could not be finished rather than showing a smaller number. The counts start once the team mailbox’s script is updated. The privacy page says what both keep.</description>
     </item>
     <item>
       <title>Messages on the chat page, and links named for their own site</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-messages-on-the-chat-page</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-messages-on-the-chat-page</guid>
-      <pubDate>Thu, 22 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:53:00 GMT</pubDate>
       <description>Your conversations are in the chat page’s list, under Direct messages after Community, and the one you pick takes the channel’s place in the middle, as tall as the page, rather than squeezing into the right-hand column. All messages is the list itself, with Let people message me. Your conversations are kept out of the page’s address. The CB guide has more. A link whose words name its own site is a link now, so [Chat — Stimpunks.World](https://stimpunks.world/chat) on the channel is a link to the chat page rather than the Markdown as typed. Words naming any other site still keep a link as typed, so nothing can pose as somewhere it does not go. Messages’ Open button stays inside a narrow radio, at Full and on the chat page.</description>
     </item>
     <item>
       <title>The chat page: every room’s channel on one page</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-the-chat-page</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-the-chat-page</guid>
-      <pubDate>Thu, 22 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:52:00 GMT</pubDate>
       <description>The chat page is every room’s channel on the CB in one place, laid out the way chat is: the channels down the left, the one you pick in the middle with what its room is about, and who is around on the right. It is the radio itself, docked into the page in your radio’s theme, so replies, reactions, pictures, Be seen here and each room’s call all work there. The channels are in three groups: Community, which is World, the Community Center, Dead Tired Society and every room at Cavendish Coworking; Staff, which is the Town Hall’s private rooms and the forums’ staff categories, shown only to the people who can go in; and World, which is every other room. A channel with something new in it is in bold with a dot, never a number, and a box finds a channel by its name or what its room is about. The channel you pick is in the page’s address, so Back goes to the one before and a link can open on one, like chat.html#the-den. It changes nothing about the radio on any other page. The CB guide has the rest.</description>
     </item>
     <item>
       <title>Grant rounds in Grantmaking, and tags in the forums</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-grant-rounds-in-grantmaking</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-grant-rounds-in-grantmaking</guid>
-      <pubDate>Thu, 22 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:51:00 GMT</pubDate>
       <description>Notion’s Grants table now lives in the forums’ Grantmaking, rather than in a copy of Notion’s databases: every grant round is a topic tagged grant-round, and the rounds from the table were brought in at the time each was made, under the username that made it, with its grant type and approvals at the top. Each says it was brought from Notion. Topics can carry tags, up to five words, and a category’s page can show only one tag’s topics. Tags are never counted. The CB guide has how. Grantmaking keeps its topics for good, not for six months, and any director or board member can edit the post that opens a round, so each can add their name to its approvals, as in Notion. Replies stay their writers’ own. A Grant Round template is in Team Docs’ Templates, with the sections the table’s own template had and the grant-round tag, which comes with it.</description>
     </item>
     <item>
       <title>Buttons for formatting, and links without Markdown</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-formatting-buttons</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-formatting-buttons</guid>
-      <pubDate>Thu, 22 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:50:00 GMT</pubDate>
       <description>Every Markdown box in the forums, Tasks and the office has buttons over it, for the many of us who would rather not write Markdown: Bold, Italic, Link, List, Numbered, Checklist where it fits, Quote, Heading and Code, with Ctrl or Cmd and B, I or K. To make a link, highlight the words and press Link, then give the address; or paste an address over the highlighted words. The CB guide has the rest.</description>
     </item>
     <item>
       <title>The office’s Newest, by the day they were submitted</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-dashboard-newest-by-submitted</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-dashboard-newest-by-submitted</guid>
-      <pubDate>Thu, 22 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:49:00 GMT</pubDate>
       <description>The grant requests and cases under Newest on the office’s dashboard are the ones submitted last. They were the ones added last, and a batch brought over from EspoCRM had put requests from 2023 at the top.</description>
     </item>
     <item>
       <title>The forums’ @ list offers more people</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-forum-mentions-offer-more</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-forum-mentions-offer-more</guid>
-      <pubDate>Thu, 22 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:48:00 GMT</pubDate>
       <description>Typing @ in the forums offers anybody who started or last posted in a topic you can read, as well as the topic’s own people and anybody on Who’s online, so a new topic, or one only you have posted in, offers names too. If you can open Tasks, it offers everybody Tasks can assign. They are names you can already see on Latest; there is still no list of every username.</description>
     </item>
     <item>
       <title>Tasks and the office, for the board too</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-tasks-and-office-for-the-board</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-tasks-and-office-for-the-board</guid>
-      <pubDate>Thu, 22 Oct 2026 11:48:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:47:00 GMT</pubDate>
       <description>Everybody on the board can open the office and Tasks, as our directors and administrators could, and can be given a task. They share one rule, so the one change opens both. Privacy and the CB guide say so.</description>
     </item>
     <item>
       <title>Moderator, shown as a role on the desk</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-moderator-on-the-desk</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-moderator-on-the-desk</guid>
-      <pubDate>Thu, 22 Oct 2026 11:47:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:46:00 GMT</pubDate>
       <description>The roles on the desk in the Moderators’ room start with Moderator, ticked for everybody on the list, and the button puts somebody on the list as a moderator, so a moderator who is not a director, on the board or an administrator is one press: their username, nothing else ticked.</description>
     </item>
     <item>

@@ -48,15 +48,18 @@ environment that is read on every request. A room's voice and video call is
 
 What that shape rules out, and what it does not:
 
-- **Accounts are optional and hold almost nothing.** An unclaimed handle is not
-  checked: impersonating one is expected, and the CB says so on the privacy page
-  and at the front desk where people sign on. A claimed username is an account,
-  and all it is is the name, a scrypt hash of its password and of a recovery
-  code shown once, a version, and a lock that holds for fifteen minutes after
-  five wrong passwords. There is no email, and no list of accounts for anybody,
-  moderators included. **Signing on as a claimed username without its password
-  or recovery code, getting a message marked BASE or CLAIMED that should not be,
-  or reaching a Town Hall room your roles do not open, is worth a report.**
+- **Accounts hold almost nothing.** Since 2026-10-21 everybody joins with an
+  invite and claims a username, and all an account is is the name, a scrypt
+  hash of its password and of a recovery code shown once, when it was claimed,
+  a version, a lock that holds for fifteen minutes after five wrong passwords,
+  an email address only if its owner gave one (sealed, and shown to nobody but
+  them), and, only while a moderator has timed it out or banned it, until when.
+  Moderators, and nobody else, see a list of every username at the desk in the
+  Moderators' room (since 2026-10-22). **Signing on as a username without its
+  password or recovery code, signing on or using a pass while it is timed out
+  or banned, getting a message marked BASE that should not be, seeing the
+  moderators' list without the base, or reaching a Town Hall room your roles do
+  not open, is worth a report.**
 - **No form submits anywhere.** The Content-Security-Policy sets
   `form-action 'none'`. The CB's boxes send with `fetch`, to this site only. The
   Zibaldone's attribution slip composes a block of text onto your own clipboard,

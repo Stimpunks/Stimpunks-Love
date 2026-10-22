@@ -249,7 +249,7 @@
           try { window.dispatchEvent(new CustomEvent('love-chimeras')); } catch (e) {}
           return;
         }
-        if (r.status === 401) { say('The password has changed since you signed on. Sign on again at the Community Center. Nothing was kept.'); return; }
+        if (r.status === 401) { say('Since you signed on, this username has been signed off. Sign on again at the Community Center. Nothing was kept.'); return; }
         say((r.body && typeof r.body.error === 'string') ? r.body.error + ' Nothing was kept.' : 'That did not work just now. Nothing was kept.');
       }, function () {
         keepBtn.disabled = false;

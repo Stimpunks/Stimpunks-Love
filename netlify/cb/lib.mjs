@@ -4190,6 +4190,11 @@ export async function signOn(handle, password, mods, s = store(), now = Date.now
     }
     const r = await checkPassword(handle, password, s, now);
     if (r.error) return r;
+    // Timed out or banned: said only now, after the right password, so the
+    // front desk tells nobody else that a username is barred. A time out that
+    // has ended is taken off the account here, so it is not kept past its time.
+    if (barredNow(acct, now)) return { error: barWords(acct.bar, now), barred: true };
+    if (acct.bar) await liftBar(handle, s, now);
     // Its roles still come from the moderators' list, read now, never from the
     // account: taking somebody off the list leaves them an ordinary claimed
     // username with the same password.
@@ -4239,6 +4244,10 @@ export async function readPass(req, mods, s = store(), { unclaimed = false } = {
     const on = mods && mods.get(foldHandle(handle));
     const acct = await readAccount(handle, s);
     if (!acct || acct.v !== v) return null;
+    // A username a moderator has timed out or banned has no pass that works
+    // while it holds (barredNow, below): this is the one check that keeps it
+    // off every part of the CB.
+    if (barredNow(acct)) return null;
     // since: when the username was claimed, which the forums fold into the
     // mark on every post (authorMark), so that a name claimed again after its
     // owner deleted it is a different author. It is never sent anywhere.
@@ -4442,11 +4451,12 @@ export async function setRoles(who, handle, roles, s = store(), now = Date.now()
    WHAT AN ACCOUNT IS: the username as claimed, a scrypt hash of its password
    and of its recovery code (each with its own salt), when it was claimed, a
    version, and a count of wrong passwords with the time it is locked until;
-   and, only if its owner gave one, an email address, sealed. No other name,
-   nothing about what anybody does. It is filed under
-   acctKey, a plain hash of the folded username, so the store does not list
-   usernames and there is nothing here to browse: a moderator finds an account
-   by typing its name.
+   only if its owner gave one, an email address, sealed; and only while a
+   moderator has timed it out or banned it, until when (bar, below). No other
+   name, nothing about what anybody does. It is filed under acctKey, a plain
+   hash of the folded username, so the store's keys do not list usernames. The
+   moderators' desk reads every record for its directory (accountDirectory,
+   Ryan's call of 2026-10-22, below), and nothing else does.
 
    A WRONG PASSWORD FIVE TIMES LOCKS IT FOR FIFTEEN MINUTES, on top of
    Netlify's limit per address. A moderator's reset gives a one-time code good
@@ -4591,6 +4601,7 @@ export async function recoverAccount(handle, code, password, s = store(), now = 
     }, s);
     return after && after.lockUntil > now ? { error: 'That is not its code, and it is locked for fifteen minutes now.', locked: true } : { error: 'That is not its recovery code, a reset code we emailed you, or one a moderator gave you.' };
   }
+  if (barredNow(acct, now)) return { error: barWords(acct.bar, now), barred: true };
   const pw = ownPassword(password);
   if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not one of the shared ones.` };
   const recovery = makeCode();
@@ -4638,6 +4649,119 @@ export async function deleteAccount(handle, s = store()) {
 /* What a person, or a moderator looking them up, is told about an account:
    whether it is claimed, as what, and since when. Never a hash. */
 export function shapeAccount(a) { return a ? { claimed: true, handle: a.handle, since: a.since } : { claimed: false }; }
+
+/* ── Kick, time out, ban: the desk's three ways to keep somebody off ─────
+
+   Ryan's ask, 2026-10-22, after moderators asked for it for safeguarding: a
+   moderator can sign a username off everywhere (kick), keep it off the CB for
+   a while (time out), or keep it off until a moderator lifts it (ban), as well
+   as give it a reset code or delete it.
+
+   ALL THREE MOVE THE VERSION, as a reset does, so every device signed on as it
+   is signed off at once and its notifications stop until it switches them on
+   again. A kicked username signs straight back on with its own password.
+
+   A TIME OUT AND A BAN ARE ONE FIELD, `bar`, which holds `until` (a time, or 0
+   for until a moderator lifts it) AND NOTHING ELSE: not who barred it, not
+   why, not when. The friendly edit is a note of who banned whom and why "so the
+   next moderator knows"; it is a record of moderation kept against a person,
+   which privacy.html#accounts says is not kept, and is Ryan's call first.
+   While it holds, readPass refuses every pass for the username, and signOn and
+   recoverAccount say so only AFTER the right password or code, so nobody else
+   can learn at the front desk that a username is barred. A time out that has
+   ended is taken off the next time the username signs on.
+
+   A TIME OUT IS NOT DISCORD'S, where somebody timed out can still read: here
+   the username is off the CB altogether for its time, reading included,
+   because one check in readPass then holds it everywhere, and a time out that
+   still let somebody read would need every function that writes to ask. A ban
+   holds the NAME, not the person: with another invite they could join under
+   another, and the desk says so. The desk does none of the three to a
+   moderator's username, for the reason it does not reset one (isMod). */
+export const BAR_FOR = { '10m': 10 * 60 * 1000, '1h': 60 * 60 * 1000, '1d': 24 * 60 * 60 * 1000, '1w': 7 * 24 * 60 * 60 * 1000 };
+
+export function barredNow(acct, now = Date.now()) {
+  const b = acct && acct.bar;
+  return !!b && (b.until === 0 || b.until > now);
+}
+
+/* What the desk is told about a bar that holds now: when it ends, or 0. */
+export function shapeBar(acct, now = Date.now()) {
+  return barredNow(acct, now) ? { until: acct.bar.until } : null;
+}
+
+/* What the person is told, after their right password: how much longer, in
+   words that need no time zone, because the server does not know theirs. */
+export function barWords(bar, now = Date.now()) {
+  if (!bar || bar.until === 0) return 'A moderator has banned this username, so it cannot sign on to the CB. If you think that is a mistake, reach us privately at stimpunks.org/contact.';
+  const left = Math.max(0, bar.until - now);
+  const mins = Math.ceil(left / 60000), hours = Math.ceil(left / 3600000), days = Math.ceil(left / 86400000);
+  const span = mins < 90 ? `${mins} more minute${mins === 1 ? '' : 's'}`
+    : hours < 48 ? `${hours} more hours` : `${days} more days`;
+  return `A moderator has timed this username out, so it cannot sign on to the CB for ${span}. If you think that is a mistake, reach us privately at stimpunks.org/contact.`;
+}
+
+export async function kickAccount(handle, s = store()) {
+  const next = await updateAccount(handle, (a) => ({ ...a, v: a.v + 1 }), s);
+  return next ? { kicked: true } : { error: 'That username has not been claimed.' };
+}
+
+/* Time out (until a time) or ban (until 0). */
+export async function barAccount(handle, until, s = store()) {
+  if (!(until === 0 || (Number.isFinite(until) && until > 0))) return { error: 'For how long?' };
+  const next = await updateAccount(handle, (a) => ({ ...a, v: a.v + 1, bar: { until } }), s);
+  return next ? { bar: { until } } : { error: 'That username has not been claimed.' };
+}
+
+/* Take a bar off: a moderator lifting it, or signing on once a time out has
+   ended (with `now`, which leaves a bar that still holds alone). */
+export async function liftBar(handle, s = store(), now = null) {
+  let had = false;
+  const next = await updateAccount(handle, (a) => {
+    if (!a.bar || (now !== null && barredNow(a, now))) return null;
+    had = true;
+    const n = { ...a };
+    delete n.bar;
+    return n;
+  }, s);
+  return next ? { lifted: had } : { error: 'That username has not been claimed.' };
+}
+
+/* ── The moderators' directory ────────────────────────────────────────
+
+   Ryan's ask and call, 2026-10-22, REVERSING "there is no list of everybody,
+   for moderators or anybody": moderators asked for it for safeguarding, and
+   what they should know is what they could tell at a glance if we were all in
+   one room together, the way Discord lists everybody on a server. So the
+   moderators' desk, and nothing else, lists every username, how many there
+   are, and who is seen in a room now.
+
+   EACH NAME IS ITS HANDLE, AND ONLY WHAT THE DESK ALREADY HAD: whether it is a
+   moderator's, whether it is timed out or banned now, and the rooms it is seen
+   in, which come from whoSeen with the moderator's own pass, so only somebody
+   who pressed Be seen here is seen, a room that keeps to itself is never named,
+   and somebody seen only there is not seen here. Never when a username was
+   claimed: "member since" is the ranking the profile cards refuse, and in a
+   room you could not tell. Never an email address, a role beyond moderator, or
+   anything else from the record. Nothing is kept for it, and nothing records
+   who looked. The counts are for moderators only: Ryan's call is that the
+   street's rule against counting people is about its public surfaces. */
+export async function accountDirectory(who, s = store(), now = Date.now(), mods) {
+  if (mods === undefined) mods = await loadMods();
+  const keys = ((await s.list({ prefix: 'acct/' })).blobs || []).map((b) => b.key);
+  const accts = [];
+  for (let i = 0; i < keys.length; i += 16) {
+    const got = await Promise.all(keys.slice(i, i + 16).map((k) => s.get(k, { type: 'json' }).catch(() => null)));
+    for (const a of got) if (a && typeof a.hash === 'string' && typeof a.handle === 'string') accts.push(a);
+  }
+  const seenIn = new Map();
+  for (const p of await whoSeen(who, s, now)) seenIn.set(foldHandle(p.handle), p.rooms);
+  const people = accts.map((a) => {
+    const k = foldHandle(a.handle), bar = shapeBar(a, now);
+    return { handle: a.handle, mod: !!(mods && mods.has(k)), bar, rooms: seenIn.get(k) || [] };
+  }).sort((x, y) => x.handle.localeCompare(y.handle));
+  return { people, count: people.length, seen: people.filter((p) => p.rooms.length).length };
+}
 
 /* What a radio is told about its own pass: which of the rooms that need a role
    it may go into, so the page can keep quiet in the others. */
