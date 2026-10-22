@@ -5336,7 +5336,10 @@ which tags wear which. **The friendly edit is a colour for every tag**: past eig
 `-dot` in `love.css`, one step for every theme, the ink pairs in `check-contrast.py` and the dots in `ORNAMENT`.
 **Started is Notion's light blue for In progress, because Norah and Chelsea key off it**, and `make-tasks.py` refuses
 Started in any other colour: the friendly edit is a tidier palette. The list's **Whose** column is Assigned to and Also on
-it together, alphabetical, and sorts by what the cell says (`whoseOf`).
+it together, alphabetical, and sorts by what the cell says (`whoseOf`). **Sorting on it cannot put a task under one
+person**, so the list has **Group by** (`group=` in the address and in saved filters, `groupsOf`, after Notion's By
+assignee, Ryan's ask the same day): Whose and Tags put a task under each person or tag it has, the rest once, Nobody and
+No tags last. The friendly edit is a Whose column on the board; a card in several columns has no single Move to.
 
 **A TASK'S CHANGES ARE ITS ACTIVITY, AND NEWS TO WHOEVER THEY CONCERN BUT WHOEVER MADE THEM.** Ryan's ask,
 2026-10-21, after EspoCRM's stream and notifications and Notion's inbox. `noteTask` in `lib.mjs`, called after

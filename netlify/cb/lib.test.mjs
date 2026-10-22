@@ -3942,7 +3942,7 @@ test('saved filters are each reader\'s own, hold a name and an address and nothi
     assert.match((await saveTaskView(who, { name: 'x', address: '#/' }, s)).error, /directors and administrators/);
   }
   // Only an address tasks.js writes.
-  for (const a of ['#/', '#/board', '#/timeline', '#/timeline?span=28&from=2026-11-02&who=%40me', '#/?status=Started,Deferred&who=%40me&sort=due&dir=desc', '#/board?cols=who&tags=Networking%2FSocial'])
+  for (const a of ['#/', '#/board', '#/timeline', '#/feed', '#/feed?who=all', '#/?who=all&group=whose', '#/timeline?span=28&from=2026-11-02&who=%40me', '#/?status=Started,Deferred&who=%40me&sort=due&dir=desc', '#/board?cols=who&tags=Networking%2FSocial'])
     assert.equal(taskAddress(a), a, `${a} was refused`);
   for (const a of ['', '#/t/kabc', '#/timelines', '#/recurring', 'https://example.com/#/', '#/?evil=1', '#/?q=a&q=b', '#/?q', '#/?q=%E0%A4%A', '#/board?q=<b>', '#/' + '?q=' + 'a'.repeat(1000), 42, null])
     assert.equal(taskAddress(a), null, `${a} was taken as an address`);

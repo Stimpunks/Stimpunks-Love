@@ -271,6 +271,10 @@
   var DUES = [['', 'Any time'], ['overdue', 'Overdue'], ['today', 'Due today'], ['week', 'Due in the next 7 days'], ['month', 'Due this month'], ['none', 'No due date']];
   // What a board's columns can be, and the field a move between them changes.
   var GROUPS = [['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to']];
+  /* WHAT THE LIST CAN BE GROUPED BY (Ryan's ask, 2026-10-21, after Notion's By
+     assignee view). Whose and Tags put a task under each person on it, or each
+     of its tags, so it can be in more than one group; the others, once. */
+  var LIST_GROUPS = [['', 'Nothing'], ['whose', 'Whose'], ['who', 'Assigned to'], ['status', 'Status'], ['priority', 'Priority'], ['tags', 'Tags']];
 
   /* An address's filters, from the part after its ?: this page's, or a saved
      filter's. */
@@ -287,6 +291,7 @@
     return {
       q: q.q || '', status: list('status'), priority: list('priority'), tags: list('tags'),
       who: q.who || '', due: q.due || '', sort: q.sort || 'due', dir: q.dir === 'desc' ? 'desc' : 'asc', cols: cols,
+      group: LIST_GROUPS.some(function (x) { return x[0] && x[0] === q.group; }) ? q.group : '',
       from: /^\d{4}-\d{2}-\d{2}$/.test(q.from || '') ? q.from : null, span: span,
     };
   }
@@ -300,6 +305,7 @@
     if (f.due) parts.push('due=' + f.due);
     if (f.sort !== 'due' || f.dir !== 'asc') parts.push('sort=' + f.sort + '&dir=' + f.dir);
     if (mode === 'board' && f.cols !== 'status') parts.push('cols=' + f.cols);
+    if (mode === 'list' && f.group) parts.push('group=' + f.group);
     if (mode === 'timeline' && f.span !== 14) parts.push('span=' + f.span);
     // A timeline on this week keeps no day, so a saved one is always this week.
     if (mode === 'timeline' && f.from && mondayOf(f.from) !== mondayOf(today())) parts.push('from=' + mondayOf(f.from));
@@ -576,6 +582,16 @@
         sf.appendChild(sl); sf.appendChild(ss);
         fields.appendChild(sf);
       }
+      if (mode === 'list') {
+        var gf = el('div', 'tk-field');
+        var gl = el('label', 'cb-lab', 'Group by'); gl.htmlFor = 'tk-group';
+        var gs = el('select', 'cb-say tk-input'); gs.id = 'tk-group';
+        LIST_GROUPS.forEach(function (g) { var o = el('option', null, g[1]); o.value = g[0]; gs.appendChild(o); });
+        gs.value = f.group;
+        gs.addEventListener('change', function () { f.group = gs.value; refresh(); });
+        gf.appendChild(gl); gf.appendChild(gs);
+        fields.appendChild(gf);
+      }
       if (mode === 'board') {
         var cf = el('div', 'tk-field');
         var cl = el('label', 'cb-lab', 'Columns by'); cl.htmlFor = 'tk-cols';
@@ -683,11 +699,81 @@
       if (keep) { qBox.focus(); qBox.setSelectionRange(keep[0], keep[1]); }
     }
 
-    function drawTable(focusSort) {
+    /* THE LIST: one table, or with Group by one under each group's heading,
+       each sorted by the column headings, which sort every group alike. A
+       group's heading folds it away, which lasts while this view is open and
+       is kept nowhere. */
+    var shut = {};
+    function drawTable(focusSort, focusGroup) {
       var list = ordered(tasks.filter(function (t) { return passes(t, f, null, mode); }), f);
       shown.textContent = list.length + ' of ' + tasks.length + ' tasks';
       out.textContent = '';
       if (!list.length) { out.appendChild(quiet(tasks.length ? 'No task matches every filter.' : 'There are no tasks yet.')); return; }
+      if (!f.group) {
+        var one = table(list, '');
+        out.appendChild(one);
+        if (focusSort) { var sb = one.querySelector('[data-sort="' + focusSort + '"]'); if (sb) sb.focus(); }
+        return;
+      }
+      groupsOf(list).forEach(function (g, i) {
+        var sec = el('section', 'tk-group');
+        var hid = 'tk-group-' + i;
+        sec.setAttribute('aria-labelledby', hid);
+        var h = el('h3', 'tk-group__h');
+        var b = el('button', 'tk-group__fold'); b.type = 'button'; b.id = hid;
+        var was = f.group + '\n' + g.key;
+        b.setAttribute('aria-expanded', String(!shut[was]));
+        b.appendChild(el('span', 'tk-group__mark', shut[was] ? '\u25B8' : '\u25BE'));
+        b.lastChild.setAttribute('aria-hidden', 'true');
+        if (f.group === 'status') b.appendChild(statusPill(g.name));
+        else if (f.group === 'tags' && g.key) { b.appendChild(tagDot(g.name)); b.appendChild(document.createTextNode(g.name)); }
+        else b.appendChild(document.createTextNode(g.name));
+        b.appendChild(document.createTextNode(' '));
+        b.appendChild(el('span', 'tk-n', String(g.tasks.length)));
+        h.appendChild(b);
+        sec.appendChild(h);
+        var tab = table(g.tasks, g.key);
+        tab.hidden = !!shut[was];
+        sec.appendChild(tab);
+        b.addEventListener('click', function () {
+          var open = b.getAttribute('aria-expanded') !== 'true';
+          b.setAttribute('aria-expanded', String(open));
+          b.firstChild.textContent = open ? '\u25BE' : '\u25B8';
+          tab.hidden = !open;
+          shut[was] = !open;
+        });
+        out.appendChild(sec);
+        if (focusSort && g.key === focusGroup) { var gb = tab.querySelector('[data-sort="' + focusSort + '"]'); if (gb) gb.focus(); }
+      });
+    }
+
+    /* The groups a list falls into, each with its tasks in the list's order.
+       Whose: everybody on a task, in alphabetical order, then Nobody. Assigned
+       to: each person, then Nobody. Status and priority: in their own order.
+       Tags: each tag in its order, then No tags. */
+    function groupsOf(list) {
+      var by = {}, order = [];
+      function put(key, name, t) {
+        var k = fold(key);
+        if (!by[k]) { by[k] = { key: k, name: name, tasks: [] }; order.push(k); }
+        by[k].tasks.push(t);
+      }
+      list.forEach(function (t) {
+        if (f.group === 'whose') { var w = whoseOf(t); if (w.length) w.forEach(function (p) { put(p, p, t); }); else put('', 'Nobody', t); }
+        else if (f.group === 'who') put(t.who || '', t.who || 'Nobody', t);
+        else if (f.group === 'tags') { if (t.tags.length) t.tags.forEach(function (x) { put(x, x, t); }); else put('', 'No tags', t); }
+        else put(t[f.group], t[f.group], t);
+      });
+      var rank = f.group === 'status' ? settings.statuses : f.group === 'priority' ? settings.priorities : f.group === 'tags' ? settings.tags : null;
+      return order.map(function (k) { return by[k]; }).sort(function (a, b) {
+        // Nobody and No tags last; the rest in their own order, or alphabetical.
+        if (!a.key !== !b.key) return a.key ? -1 : 1;
+        if (rank) return rank.indexOf(a.name) - rank.indexOf(b.name);
+        return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
+      });
+    }
+
+    function table(list, groupKey) {
       var t = el('table', 'tk-list');
       t.appendChild(el('caption', 'sr', 'Tasks, ' + list.length + ' shown. The column headings sort them.'));
       var hr = el('tr');
@@ -701,7 +787,7 @@
           f.sort = c[0];
           writeQuery(f, mode);
           drawSaved();
-          drawTable(c[0]);
+          drawTable(c[0], groupKey);
         });
         b.dataset.sort = c[0];
         th.appendChild(b);
@@ -731,8 +817,7 @@
         tb.appendChild(tr);
       });
       t.appendChild(tb);
-      out.appendChild(t);
-      if (focusSort) { var sb = t.querySelector('[data-sort="' + focusSort + '"]'); if (sb) sb.focus(); }
+      return t;
     }
 
     /* THE BOARD: a column for each status, priority or person, with how many
