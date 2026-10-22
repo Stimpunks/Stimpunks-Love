@@ -19546,6 +19546,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .md-role__check { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
 .md-role__check input { width: 22px; height: 22px; margin: 0; accent-color: var(--md-link); }
 .md-role__check:has(input:disabled) { cursor: not-allowed; color: var(--md-dim); }
+.md-role__check--always, .md-role__check--always:has(input:disabled) { cursor: default; color: var(--md-text); }
 .md-roles__add { margin: 0 0 12px; padding: 12px 14px 4px; border: 2px solid var(--md-link); border-radius: 4px; }
 .md-roles__add legend { padding: 0 6px; font-weight: 700; }
 /* A reported message: the words as they were typed, plain, on the panel. */

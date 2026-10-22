@@ -390,9 +390,17 @@
       var w = GIVEN.filter(function (g) { return roles.indexOf(g[0]) >= 0; }).map(function (g) { return g[1].toLowerCase(); });
       return w.length ? 'Moderator, ' + w.join(', ') + '.' : 'Moderator.';
     }
-    // A row of boxes, one for each role; board is shown and not changeable by somebody who may not give it.
+    // A row of boxes, one for each role: Moderator first, always ticked, because being
+    // on the list is what makes somebody one; board shown and not changeable by somebody
+    // who may not give it.
     function boxes(into, idBase, on) {
       into.textContent = '';
+      var always = el('label', null, 'md-role__check md-role__check--always');
+      var m = el('input');
+      m.type = 'checkbox'; m.value = 'moderator'; m.id = idBase + '-moderator'; m.checked = true; m.disabled = true;
+      always.title = 'Being on the list makes somebody a moderator. Take them off the list to end it.';
+      always.appendChild(m); always.appendChild(document.createTextNode('Moderator'));
+      into.appendChild(always);
       GIVEN.forEach(function (g) {
         var lab = el('label', null, 'md-role__check');
         var c = el('input');
@@ -403,14 +411,14 @@
       });
     }
     function ticked(into) {
-      return Array.prototype.filter.call(into.querySelectorAll('input'), function (c) { return c.checked; }).map(function (c) { return c.value; });
+      return Array.prototype.filter.call(into.querySelectorAll('input'), function (c) { return c.checked && c.value !== 'moderator'; }).map(function (c) { return c.value; });
     }
     function send(handle, roles, remove, had, after) {
       rSay(remove ? 'Taking ' + handle + ' off the list…' : 'Saving…');
       rolesCall(remove ? { action: 'remove', handle: handle } : { action: 'set', handle: handle, roles: roles }).then(function (r) {
         if (r.status !== 200) { rSay(why(r, 'That did not work. Nothing was changed.')); return; }
         draw(r.body);
-        rSay(remove ? handle + ' is off the list, and an ordinary username again.' : had ? 'Saved. ' + handle + ': ' + words(roles) : handle + ' is on the list: ' + words(roles));
+        rSay(remove ? handle + ' is off the list, and an ordinary username again.' : had ? 'Saved. ' + handle + ': ' + words(roles) : handle + ' is on the list as a moderator' + (roles.length ? ': ' + words(roles) : ', and nothing more.'));
         if (after) after();
       }, function () { rSay('The desk could not be reached. Nothing was changed.'); });
     }

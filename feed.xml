@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Wed, 21 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 22 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Moderator, shown as a role on the desk</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-22-moderator-on-the-desk</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-moderator-on-the-desk</guid>
+      <pubDate>Thu, 22 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The roles on the desk in the Moderators’ room start with Moderator, ticked for everybody on the list, and the button puts somebody on the list as a moderator, so a moderator who is not a director, on the board or an administrator is one press: their username, nothing else ticked.</description>
+    </item>
     <item>
       <title>Back Office Operations, for our moderators too</title>
       <link>https://stimpunks.world/changelog.html#2026-10-21-back-office-for-moderators</link>
