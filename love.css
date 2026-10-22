@@ -1315,6 +1315,18 @@
 @font-face { font-family: 'Gantari'; src: url('fonts/gantari-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Gantari'; src: url('fonts/gantari-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Community Care. A NAME PAINTED ROUND AND HEAVY, AND A PLAIN SOFT VOICE UNDER IT.
+   Agbalumo, by Raphael Alẹ́gbẹ́lẹ́yẹ̀ with Sorkin Type and Eben Sorkin, sets the
+   room's name, its headings and the name on its street door, and nothing at
+   reading size; Ysabeau Infant, by Christian Thalmann, with the one-storey a
+   and g, carries every word that is read, one variable file for both weights,
+   cut here to the Latin and Vietnamese letters so the credits can set
+   Raphael Alẹ́gbẹ́lẹ́yẹ̀'s name in it. Read off their own records; see
+   fonts/_sources.json. */
+@font-face { font-family: 'Agbalumo'; src: url('fonts/agbalumo-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Ysabeau Infant'; src: url('fonts/ysabeau-infant-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Ysabeau Infant'; src: url('fonts/ysabeau-infant-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -3950,6 +3962,23 @@
   --chm-edge: #BDB6AA;  --chm-brass: #A57E45;  --chm-plinth: #2B2830;
   --chm-rail: #3A3640;
 
+  /* Community Care (§122): a street roofed with everybody's umbrellas, tied
+     to one another, with the rain falling on top. --cmc-under is the dry
+     paving under the roof, the ground every word stands on, and --cmc-slab a
+     paving slab a little lighter, which is a card's ground and the shopfront
+     walls in the drawing. --cmc-text is every word, --cmc-dim the quiet lines,
+     --cmc-link every link, the door's knock and the focus ring. The rest carry
+     no word: --cmc-sky the rain sky over the roof and the umbrellas' poles,
+     --cmc-rain the rain, --cmc-rib every umbrella's ribs and outline, --cmc-tie
+     the cords that tie them, and the umbrellas, each its own colour, with the
+     marigold one the link's colour because it is the brightest thing up there. */
+  --cmc-under: #211E27;  --cmc-slab: #2C2833;  --cmc-text: #F3EEE6;
+  --cmc-dim: #C2BAC8;  --cmc-link: #F5C451;  --cmc-sky: #8C96A0;
+  --cmc-rain: #C9D1D8;  --cmc-rib: #16141B;  --cmc-tie: #E9E2D6;
+  --cmc-tomato: #E4563F;  --cmc-teal: #2BA89C;  --cmc-marigold: #F5C451;
+  --cmc-plum: #8C5FCB;  --cmc-leaf: #74B347;  --cmc-fuchsia: #D9479A;
+  --cmc-cobalt: #3D6FDB;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5001,6 +5030,23 @@ div.facade--square { border: 0; background: none; }
 .door--chimera .door__name  { font-family: 'Gilda Display', Georgia, serif; font-weight: 400; color: var(--chm-table); font-size: 28px; line-height: 1.05; font-synthesis: none; }
 .door--chimera .door__blurb { font-family: 'Gantari', var(--sans); color: var(--chm-text); font-size: 14px; font-synthesis: none; }
 .door--chimera .door__knock { font-family: 'Gantari', var(--sans); font-weight: 700; font-size: 13px; color: var(--chm-link); font-synthesis: none; }
+/* COMMUNITY CARE'S AWNING IS UMBRELLAS, open against the rain sky and
+   overlapping, in the colours of the roof inside; the door under it is the dry
+   paving under that roof. */
+.door--care { background-color: var(--cmc-under); border-color: var(--cmc-tie); }
+.door--care .door__awning {
+  background-color: var(--cmc-sky);
+  background-image:
+    radial-gradient(ellipse 27px 27px at 12.5% 100%, var(--cmc-tomato) 95%, transparent 100%),
+    radial-gradient(ellipse 27px 27px at 37.5% 100%, var(--cmc-teal) 95%, transparent 100%),
+    radial-gradient(ellipse 27px 27px at 62.5% 100%, var(--cmc-marigold) 95%, transparent 100%),
+    radial-gradient(ellipse 27px 27px at 87.5% 100%, var(--cmc-plum) 95%, transparent 100%);
+  background-size: 184px 36px; background-repeat: repeat-x;
+  border-bottom-color: var(--cmc-tie);
+}
+.door--care .door__name  { font-family: 'Agbalumo', var(--sans); font-weight: 400; color: var(--cmc-text); font-size: 29px; line-height: 1.05; font-synthesis: none; }
+.door--care .door__blurb { font-family: 'Ysabeau Infant', var(--sans); color: var(--cmc-text); font-size: 15px; font-synthesis: none; }
+.door--care .door__knock { font-family: 'Ysabeau Infant', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .06em; color: var(--cmc-link); font-synthesis: none; }
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -17008,7 +17054,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §123
+   class on it is `bb-`, its sizes are in points and millimetres, and §124
    prints it and nothing else. */
 
 .room-broadside {
@@ -17069,7 +17115,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §123 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §124 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -25685,7 +25731,144 @@ html[data-intensity="max"] .cin-proj__reel { animation: cin-turn 4s linear infin
 .room-cinema .cin-reel--door:hover .cin-reel__label { border-color: var(--rdr-flame-2); }
 
 
-/* §122 ── Small screens───────────────────────────────────────────────────────
+/* §122 ── ROOM: Community Care (a shopfront on the street) ────────────────────
+   The street's room for asking. Ryan's brief, 2026-10-22: our mutual aid and
+   care room, whose channel on the CB is where people ask for mutual aid, peer
+   support and any other help, built out of our Community Care page, our
+   glossary's Peer Support and Tuesday Ferguson's Tapping the Radical Roots of
+   Peer Support. tools/make-community-care.py writes the roof, the four things
+   the channel is for, every section with a quotation in it, and the credits.
+
+   THE ROOF IS EVERYBODY'S UMBRELLAS, AND THE LIGHT IS THE RAIN SKY THROUGH
+   THEM. Our Community Care page's sign is an umbrella, and its photograph is
+   umbrellas in every colour hanging on strings over a street, so this room is
+   that street in the rain: open umbrellas, tied to one another and to the
+   shopfronts either side, and between them one roof. It is overcast, so
+   nothing casts a hard shadow and there is no sun anywhere; the only light is
+   the grey sky, coming down through everybody's umbrellas, and the paving
+   under them is dry and dim. Every word stands on that paving. THE TIES ARE
+   THE ROOM: nothing else holds the roof up, no single umbrella keeps anybody
+   dry by itself, and the tool will not draw one untied. The cords are loose,
+   after Sophie K. Rosa's line on our page about no single knot tied too tight.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · TRUCKIN' FOOD COURT is the one to watch: light through coloured canvas
+       overhead, outdoors, and every board carries its awning's stripes along
+       its top. There it is the middle of a dry day and the sun lays the
+       stripes on the counter, with plain sun on the concrete between the
+       trucks. Here there is no sun, it is raining, the canvas is umbrellas
+       with no gap between them, and no colour is laid on the ground at all. If
+       the sun ever comes out in here, it has become the Truck Stop with the
+       umbrellas up, and it is this room that moves.
+     · THE CHAPPELL is coloured light through glass, at night, in a nave. This
+       is fabric, by day, over a street.
+     · THE MODERATORS' ROOM has the shopfronts' colours on its ceiling, side by
+       side and never mixed. Here the colours are the umbrellas themselves,
+       overlapping, and the ceiling is the rain sky.
+     · THE GREEN is just after the rain, under an open sky, with nothing casting
+       a shadow. Here it is still raining, and everybody is under cover.
+     · COVENSTEAD's cups do not match, and that is its subject. The umbrellas do
+       not match either, and that is not the subject: the ties are. If an
+       umbrella is ever drawn on its own, untied, it has become Covenstead with
+       weather.
+     · THE WORLD ROOM is a web strung between every room. Here a cord runs from
+       one umbrella to the next and nowhere else, and never crosses the roof.
+     · DEAD TIRED SOCIETY is peer support in the dark, where nobody has to sit
+       in the light. Here nobody is out in the rain, which is a different
+       promise about a different weather.
+     · THE DOPAMINE DRESS-UP DEN throws rainbows on its wall. The umbrellas are
+       never in a rainbow's order, and the tool refuses four in a row that are.
+
+   AT MAX GLITTER THE RAIN FALLS on the roof, a pattern moved down one tile of
+   itself with a translate and started again, clipped to the sky so it never
+   falls under the umbrellas; at Regular it hangs where it is, and §3 takes it
+   away at Gentle. Nothing else moves, nothing flashes, and nothing tilts. */
+
+.community-care {
+  background: var(--cmc-under); color: var(--cmc-text);
+  font-family: 'Ysabeau Infant', var(--sans); font-synthesis: none;
+}
+.community-care a { color: var(--cmc-link); }
+.community-care a:hover { color: var(--cmc-text); }
+.community-care :focus-visible { outline-color: var(--cmc-link); }
+.community-care :where(p, li) { font-size: 19px; line-height: 1.6; }
+.community-care .backlink { font-family: 'Ysabeau Infant', var(--sans); font-weight: 700; font-size: 16px; color: var(--cmc-link); }
+.cmc-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.cmc-trail { margin: 0; font-size: 16px; color: var(--cmc-dim); }
+
+.cmc-head { margin: 30px 0 0; }
+.cmc-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; color: var(--cmc-dim); }
+.community-care h1 {
+  margin: 6px 0 10px; font-family: 'Agbalumo', var(--sans); font-weight: 400; font-style: normal;
+  font-size: clamp(50px, 10vw, 104px); line-height: 1.02; color: var(--cmc-text);
+}
+.cmc-sub { margin: 0; font-size: 23px; line-height: 1.4; max-width: 38ch; }
+
+.cmc-roof { margin: 28px 0 0; }
+.cmc-canopy { display: block; width: 100%; height: auto; border-radius: 6px; }
+.cmc-roof__words { margin: 12px 0 0; font-size: 16px; line-height: 1.5; color: var(--cmc-dim); max-width: 62ch; }
+html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite; }
+@keyframes cmc-rain { from { transform: translate(0, 0); } to { transform: translate(0, 60px); } }
+
+.cmc-lede { margin: 32px 0 0; max-width: 64ch; }
+.cmc-lede p { margin: 0 0 16px; }
+.cmc-crisis { padding: 12px 16px; border: 2px solid var(--cmc-tie); border-radius: 10px; }
+
+.cmc-part { margin: 52px 0 0; max-width: 70ch; }
+.cmc-part > p { margin: 0 0 16px; }
+/* EVERY HEADING HAS AN UMBRELLA'S HEM UNDER IT, scalloped, in the colour of
+   the section's umbrella. On a pseudo-element, so no word ever stands on it. */
+.community-care h2 {
+  margin: 0 0 20px; font-family: 'Agbalumo', var(--sans); font-weight: 400;
+  font-size: clamp(30px, 5vw, 42px); line-height: 1.1; color: var(--cmc-text);
+}
+.community-care h2::after {
+  content: ""; display: block; height: 18px; margin-top: 12px; max-width: 320px;
+  background:
+    linear-gradient(var(--hem), var(--hem)) 0 0 / 100% 7px no-repeat,
+    radial-gradient(circle at 50% 0, var(--hem) 10px, transparent 10.5px) 0 6px / 22px 11px repeat-x;
+}
+.community-care h3 { margin: 0 0 8px; font-family: 'Agbalumo', var(--sans); font-weight: 400; font-size: 27px; line-height: 1.1; color: var(--cmc-text); }
+.cmc-hem--tomato   { --hem: var(--cmc-tomato); }
+.cmc-hem--teal     { --hem: var(--cmc-teal); }
+.cmc-hem--marigold { --hem: var(--cmc-marigold); }
+.cmc-hem--plum     { --hem: var(--cmc-plum); }
+.cmc-hem--leaf     { --hem: var(--cmc-leaf); }
+.cmc-hem--fuchsia  { --hem: var(--cmc-fuchsia); }
+.cmc-hem--cobalt   { --hem: var(--cmc-cobalt); }
+
+/* THE FOUR THINGS, each on a slab under its own umbrella's hem. */
+.cmc-four { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; }
+.cmc-four__item { position: relative; margin: 0; padding: 36px 20px 20px; background: var(--cmc-slab); border-radius: 0 0 12px 12px; }
+.cmc-four__item::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 19px;
+  background:
+    linear-gradient(var(--hem), var(--hem)) 0 0 / 100% 8px no-repeat,
+    radial-gradient(circle at 50% 0, var(--hem) 10px, transparent 10.5px) 0 7px / 22px 12px repeat-x;
+}
+.cmc-four__item p { margin: 0; font-size: 18px; }
+
+.cmc-quote { margin: 24px 0; padding: 2px 0 2px 20px; border-left: 3px solid var(--cmc-tie); }
+.cmc-quote p { margin: 0; font-size: 21px; line-height: 1.5; color: var(--cmc-text); }
+.cmc-quote__who { margin: 8px 0 0; font-size: 16px; line-height: 1.5; color: var(--cmc-dim); }
+
+.cmc-talk { margin: 24px 0; max-width: 640px; }
+.community-care button.facade {
+  border: 3px solid var(--cmc-tie); border-radius: 14px; background: var(--cmc-slab); color: var(--cmc-text);
+  font-family: 'Ysabeau Infant', var(--sans); font-size: 20px; font-weight: 700; line-height: 1.35;
+  padding: 20px 22px;
+}
+.community-care button.facade:hover { background: var(--cmc-rib); }
+.community-care .facade__play { font-family: 'Ysabeau Infant', var(--sans); font-weight: 700; font-size: 15px; letter-spacing: .1em; color: var(--cmc-link); inset: auto auto 20px 22px; }
+.cmc-talk__note { margin: 10px 0 0; font-size: 16px; color: var(--cmc-dim); }
+
+.cmc-rules, .cmc-next, .cmc-credits { margin: 0; padding: 0 0 0 1.2em; }
+.cmc-rules li, .cmc-next li, .cmc-credits li { margin: 0 0 12px; }
+.cmc-whose li { font-size: 17px; color: var(--cmc-dim); }
+.cmc-whose code { font-size: 15px; }
+
+
+/* §123 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -25789,7 +25972,7 @@ html[data-intensity="max"] .cin-proj__reel { animation: cin-turn 4s linear infin
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §122 says every
+   shipped with no rule here at all — which on a street whose §123 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -25913,7 +26096,7 @@ html[data-intensity="max"] .cin-proj__reel { animation: cin-turn 4s linear infin
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §123 ── Print ───────────────────────────────────────────────────────────────
+/* §124 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

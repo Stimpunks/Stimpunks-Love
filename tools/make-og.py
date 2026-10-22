@@ -1042,6 +1042,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--chimera .og-scene {{ margin: 4px 0 0 !important; line-height: 0; }}
 .og--chimera .og-scene svg {{ display: block; width: 940px; height: auto; max-width: none; }}
 
+/* community care — UNDER THE ROOF. The page's own drawing of everybody's
+   umbrellas, lifted rather than redrawn, across the top with the rain on it, and
+   every word below it on the dry paving, which is where the room sets every
+   word. The name in the room's own face; nothing is set on the sky. */
+.og--care {{ width: 100%; padding: 0 0 30px; gap: 0; justify-content: flex-start; }}
+.og--care .og-roof {{ margin: 0 !important; line-height: 0; }}
+.og--care .og-roof svg {{ display: block; width: 1200px; height: auto; max-width: none; border-radius: 0; }}
+.og--care .og-words {{ padding: 18px 60px 0; }}
+.og--care .og-words > * {{ margin: 0 !important; }}
+.og--care .cmc-over {{ font-size: 18px; }}
+.og--care h1 {{ font-size: 112px; margin-top: 4px !important; }}
+.og--care .cmc-sub {{ font-size: 32px; margin-top: 10px !important; max-width: 900px; }}
+
 /* fantasy fancy dress — THE BACK OF THE SHOP OVER THE SIGN. The sheers and the
    rail of stock are the page's own drawing, across the top; every word sits
    under them on the dark, where the room sets every word. */
@@ -4045,6 +4058,33 @@ def card_chimera(p):
         f"table, lying flat like a picture, a brown otter with a raccoon's mask, pointed ears and ringed tail.",
     )
 
+def card_care(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE ROOF ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="cmc-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="cmc-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: community-care.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--care" data-fit="card">'
+        f'<div class="og-roof">{p["cmcroof"]}</div>'
+        f'<div class="og-words"><p class="cmc-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="cmc-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card in the dim warm grey of dry paving under a roof. Across the top, a row of open "
+        f"umbrellas seen from the side, overlapping, each a different colour -- red, teal, yellow, "
+        f"purple, green, pink and blue -- with a second row behind them, all outlined in black, and "
+        f"grey rain falling on them from a grey sky. Under them their handles hang down in a row, "
+        f"tied one to the next by a loose white cord with a loop at each handle, and tied at both "
+        f"ends to the walls either side. Below, small grey capitals reading {plain(over.group(1))}, "
+        f"then \u201c{p['h1text']}\u201d in large round heavy cream letters, and under it: "
+        f"{plain(sub.group(1))}",
+    )
+
 def card_booth(p):
     # THE SIGN'S LINES AND THE DRAWING OF THE BOOTH ARE LIFTED FROM THE PAGE,
     # and the lede is its og:description, so the card cannot say what the room
@@ -5448,6 +5488,7 @@ CARDS = {
     "dressup":      card_dressup,
     "bodymind-booth": card_booth,
     "chimera-obscura": card_chimera,
+    "community-care": card_care,
     "fancy-dress": card_fancy,
     "collections":  card_collection,
     "mapping":      card_map,
@@ -5585,6 +5626,7 @@ def main():
         ("stand",    "dopamine-dress-up-den.html", r'(<svg class="dd-stand".*?</svg>)'),
         ("booth",    "bodymind-booth.html", r'(<svg class="bmb-booth".*?</svg>)'),
         ("chmscene", "chimera-obscura.html", r'(<svg class="chm-scene__draw".*?</svg></g></svg>)'),
+        ("cmcroof",  "community-care.html", r'(<svg class="cmc-canopy".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),

@@ -3059,5 +3059,33 @@
    "src": "https://fonts.gstatic.com/s/gantari/v4/jVyK7nvyB2HL8iZyJEIupw4GV8w.woff2",
    "note": "The bold of the 400 above, out of the same variable file."
   }
+ ],
+ "agbalumo": [
+  {
+   "file": "agbalumo-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 72048,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/agbalumo/Agbalumo-Regular.ttf",
+   "note": "Community Care (\u00a7122), the room's name, its headings and the name on its street door, and nothing at reading size. The family's own file in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2."
+  }
+ ],
+ "ysabeau-infant": [
+  {
+   "file": "ysabeau-infant-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 70704,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/ysabeauinfant/YsabeauInfant%5Bwght%5D.ttf",
+   "note": "Community Care (\u00a7122), every word that is read, including Raphael Al\u1eb9\u0301gb\u1eb9\u0301l\u1eb9\u0301y\u1eb9\u0300's name in its credits. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin and Vietnamese letters and saved as WOFF2: Google's own files split those two into separate subsets, and the dots under and accents over the letters of that name are in the second. Declared at 400 and 700 against this one file."
+  },
+  {
+   "file": "ysabeau-infant-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 70704,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/ysabeauinfant/YsabeauInfant%5Bwght%5D.ttf",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
+  }
  ]
 }

@@ -2694,6 +2694,40 @@
    }
   },
   {
+   "id": "cmc-spare",
+   "page": "community-care.html",
+   "room": "Community Care",
+   "title": "The fourth thing",
+   "posted": "There is a shopfront on the street roofed with everybody’s umbrellas, where you can ask for help and offer it. Its channel is for four things. Go and find out the fourth.",
+   "rank": 1,
+   "takes": "about as long as a shower lasts",
+   "target": "a spare umbrella, rolled up and left on the dry paving by the door",
+   "code": "SPARE",
+   "learned": "Community Care’s channel on the CB is for asking, offering, receiving and declining, after a line of Vivian Ly’s at Autscape 2020. All four are allowed there, and a no is an answer, not a verdict on anybody.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, between Chimera Obscura and Your Room: the one with umbrellas for an awning.",
+    "It is the first heading under the roof, and the cards under it.",
+    "Right at the foot of the room, on the dry paving, where somebody left a spare umbrella for whoever needs one."
+   ],
+   "ask": {
+    "question": "Community Care’s channel is for asking, offering, receiving, and one thing more. What is it?",
+    "accept": [
+     "declining",
+     "decline",
+     "saying no",
+     "say no",
+     "no"
+    ],
+    "answer": "Declining",
+    "why": "Asking, offering, receiving and declining are the four things the channel is for, and all four are allowed. Either side can say no, and a no is an answer, not a verdict on anybody.",
+    "hints": [
+     "It is on the last of the four cards.",
+     "It means saying no.",
+     "Declining."
+    ]
+   }
+  },
+  {
    "id": "booth-strip",
    "page": "bodymind-booth.html",
    "room": "The Bodymind Booth",

@@ -412,6 +412,11 @@
    "room": "Chimera Obscura"
   },
   {
+   "id": "cmc-spare",
+   "title": "The fourth thing",
+   "room": "Community Care"
+  },
+  {
    "id": "booth-strip",
    "title": "Only you describe you",
    "room": "The Bodymind Booth"

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Community Care &mdash; Stimpunks.World</title>
+<meta name="description" content="The street&rsquo;s room for asking: a shopfront roofed with everybody&rsquo;s umbrellas, tied to one another, with the rain falling on top. Its channel on the CB is where you ask for mutual aid, peer support and any other help, and where anybody who can offers it. Asking, offering, receiving and declining, with nobody sorted, nothing owed and nothing counted.">
+<link rel="canonical" href="https://stimpunks.world/community-care.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#211E27">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="Community Care &mdash; Stimpunks.World">
+<meta property="og:description" content="Under everybody&rsquo;s umbrellas, tied together: ask for mutual aid, peer support and any other help, and offer it. Nobody sorted, nothing owed, nothing counted.">
+<meta property="og:url" content="https://stimpunks.world/community-care.html">
+<meta property="og:image" content="https://stimpunks.world/og/community-care.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card in the dim warm grey of dry paving under a roof. Across the top, a row of open umbrellas seen from the side, overlapping, each a different colour -- red, teal, yellow, purple, green, pink and blue -- with a second row behind them, all outlined in black, and grey rain falling on them from a grey sky. Under them their handles hang down in a row, tied one to the next by a loose white cord with a loop at each handle, and tied at both ends to the walls either side. Below, small grey capitals reading A shopfront on the street, roofed with umbrellas, then “Community Care” in large round heavy cream letters, and under it: Mutual aid, peer support and any other help, asked for and offered among people who get it.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/agbalumo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ysabeau-infant-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/community-care.html#webpage","url":"https://stimpunks.world/community-care.html","name":"Community Care — Stimpunks.World","description":"The street’s room for asking: a shopfront roofed with everybody’s umbrellas, tied to one another, with the rain falling on top. Its channel on the CB is where you ask for mutual aid, peer support and any other help, and where anybody who can offers it. Asking, offering, receiving and declining, with nobody sorted, nothing owed and nothing counted.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="community-care" id="top">
+<a class="skip" href="#main">Skip under the umbrellas</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="cmc-topline">
+    <a class="backlink" href="index.html">&larr; back to the street</a>
+    <p class="cmc-trail">on the street &middot; under the umbrellas &middot; raining on the roof &middot; come in out of it</p>
+  </div>
+
+  <header class="cmc-head">
+    <p class="cmc-over">A shopfront on the street, roofed with umbrellas</p>
+    <h1>Community Care</h1>
+    <p class="cmc-sub">Mutual aid, peer support and any other help, asked for and offered among people who get it.</p>
+  </header>
+
+  <!-- THE ROOF, written by tools/make-community-care.py out of the umbrellas in
+       data/community-care.json: everybody's umbrellas, open, tied to one another
+       and to the shopfronts either side, with the rain falling on top and
+       nothing falling under them. aria-hidden, so the caption under it says the
+       same thing in words. Lifted whole by make-og.py for the share card. Do
+       not hand-edit between the markers. -->
+  <figure class="cmc-roof">
+<!-- cmc:canopy:begin -->
+  <svg class="cmc-canopy" viewBox="0 0 1200 300" aria-hidden="true" focusable="false"><defs><pattern id="cmc-rain-tile" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M12 2 l-5 15 M44 20 l-5 15 M28 40 l-5 15" stroke="var(--cmc-rain)" stroke-width="1.6" stroke-linecap="round"/></pattern><clipPath id="cmc-sky-clip"><rect x="0" y="0" width="1200" height="196"/></clipPath><clipPath id="cmc-dome-cmc-far-132"><path d="M82 150 A50 52 0 0 1 182 150 Q169.5 141 157 150 Q144.5 141 132 150 Q119.5 141 107 150 Q94.5 141 82 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-236"><path d="M186 150 A50 52 0 0 1 286 150 Q273.5 141 261 150 Q248.5 141 236 150 Q223.5 141 211 150 Q198.5 141 186 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-340"><path d="M290 150 A50 52 0 0 1 390 150 Q377.5 141 365 150 Q352.5 141 340 150 Q327.5 141 315 150 Q302.5 141 290 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-444"><path d="M394 150 A50 52 0 0 1 494 150 Q481.5 141 469 150 Q456.5 141 444 150 Q431.5 141 419 150 Q406.5 141 394 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-548"><path d="M498 150 A50 52 0 0 1 598 150 Q585.5 141 573 150 Q560.5 141 548 150 Q535.5 141 523 150 Q510.5 141 498 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-652"><path d="M602 150 A50 52 0 0 1 702 150 Q689.5 141 677 150 Q664.5 141 652 150 Q639.5 141 627 150 Q614.5 141 602 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-756"><path d="M706 150 A50 52 0 0 1 806 150 Q793.5 141 781 150 Q768.5 141 756 150 Q743.5 141 731 150 Q718.5 141 706 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-860"><path d="M810 150 A50 52 0 0 1 910 150 Q897.5 141 885 150 Q872.5 141 860 150 Q847.5 141 835 150 Q822.5 141 810 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-964"><path d="M914 150 A50 52 0 0 1 1014 150 Q1001.5 141 989 150 Q976.5 141 964 150 Q951.5 141 939 150 Q926.5 141 914 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-far-1068"><path d="M1018 150 A50 52 0 0 1 1118 150 Q1105.5 141 1093 150 Q1080.5 141 1068 150 Q1055.5 141 1043 150 Q1030.5 141 1018 150 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-80"><path d="M18 196 A62 64 0 0 1 142 196 Q126.5 187 111 196 Q95.5 187 80 196 Q64.5 187 49 196 Q33.5 187 18 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-184"><path d="M122 196 A62 64 0 0 1 246 196 Q230.5 187 215 196 Q199.5 187 184 196 Q168.5 187 153 196 Q137.5 187 122 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-288"><path d="M226 196 A62 64 0 0 1 350 196 Q334.5 187 319 196 Q303.5 187 288 196 Q272.5 187 257 196 Q241.5 187 226 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-392"><path d="M330 196 A62 64 0 0 1 454 196 Q438.5 187 423 196 Q407.5 187 392 196 Q376.5 187 361 196 Q345.5 187 330 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-496"><path d="M434 196 A62 64 0 0 1 558 196 Q542.5 187 527 196 Q511.5 187 496 196 Q480.5 187 465 196 Q449.5 187 434 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-600"><path d="M538 196 A62 64 0 0 1 662 196 Q646.5 187 631 196 Q615.5 187 600 196 Q584.5 187 569 196 Q553.5 187 538 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-704"><path d="M642 196 A62 64 0 0 1 766 196 Q750.5 187 735 196 Q719.5 187 704 196 Q688.5 187 673 196 Q657.5 187 642 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-808"><path d="M746 196 A62 64 0 0 1 870 196 Q854.5 187 839 196 Q823.5 187 808 196 Q792.5 187 777 196 Q761.5 187 746 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-912"><path d="M850 196 A62 64 0 0 1 974 196 Q958.5 187 943 196 Q927.5 187 912 196 Q896.5 187 881 196 Q865.5 187 850 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-1016"><path d="M954 196 A62 64 0 0 1 1078 196 Q1062.5 187 1047 196 Q1031.5 187 1016 196 Q1000.5 187 985 196 Q969.5 187 954 196 Z"/></clipPath><clipPath id="cmc-dome-cmc-near-1120"><path d="M1058 196 A62 64 0 0 1 1182 196 Q1166.5 187 1151 196 Q1135.5 187 1120 196 Q1104.5 187 1089 196 Q1073.5 187 1058 196 Z"/></clipPath></defs><rect x="0" y="0" width="1200" height="196" fill="var(--cmc-sky)"/><g clip-path="url(#cmc-sky-clip)"><rect class="cmc-rain" x="0" y="-60" width="1200" height="256" fill="url(#cmc-rain-tile)"/></g><rect x="0" y="190" width="1200" height="110" fill="var(--cmc-under)"/><g opacity=".82"><g class="cmc-far"><path d="M82 150 A50 52 0 0 1 182 150 Q169.5 141 157 150 Q144.5 141 132 150 Q119.5 141 107 150 Q94.5 141 82 150 Z" fill="var(--cmc-marigold)"/><g clip-path="url(#cmc-dome-cmc-far-132)"><path d="M132 98 L82 150 L107 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M132 98 L132 150 L157 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M132 98 L107 150"/><path d="M132 98 L132 150"/><path d="M132 98 L157 150"/></g><path d="M82 150 A50 52 0 0 1 182 150 Q169.5 141 157 150 Q144.5 141 132 150 Q119.5 141 107 150 Q94.5 141 82 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M132 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M186 150 A50 52 0 0 1 286 150 Q273.5 141 261 150 Q248.5 141 236 150 Q223.5 141 211 150 Q198.5 141 186 150 Z" fill="var(--cmc-plum)"/><g clip-path="url(#cmc-dome-cmc-far-236)"><path d="M236 98 L186 150 L211 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M236 98 L236 150 L261 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M236 98 L211 150"/><path d="M236 98 L236 150"/><path d="M236 98 L261 150"/></g><path d="M186 150 A50 52 0 0 1 286 150 Q273.5 141 261 150 Q248.5 141 236 150 Q223.5 141 211 150 Q198.5 141 186 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M236 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M290 150 A50 52 0 0 1 390 150 Q377.5 141 365 150 Q352.5 141 340 150 Q327.5 141 315 150 Q302.5 141 290 150 Z" fill="var(--cmc-leaf)"/><g clip-path="url(#cmc-dome-cmc-far-340)"><path d="M340 98 L290 150 L315 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M340 98 L340 150 L365 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M340 98 L315 150"/><path d="M340 98 L340 150"/><path d="M340 98 L365 150"/></g><path d="M290 150 A50 52 0 0 1 390 150 Q377.5 141 365 150 Q352.5 141 340 150 Q327.5 141 315 150 Q302.5 141 290 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M340 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M394 150 A50 52 0 0 1 494 150 Q481.5 141 469 150 Q456.5 141 444 150 Q431.5 141 419 150 Q406.5 141 394 150 Z" fill="var(--cmc-fuchsia)"/><g clip-path="url(#cmc-dome-cmc-far-444)"><path d="M444 98 L394 150 L419 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M444 98 L444 150 L469 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M444 98 L419 150"/><path d="M444 98 L444 150"/><path d="M444 98 L469 150"/></g><path d="M394 150 A50 52 0 0 1 494 150 Q481.5 141 469 150 Q456.5 141 444 150 Q431.5 141 419 150 Q406.5 141 394 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M444 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M498 150 A50 52 0 0 1 598 150 Q585.5 141 573 150 Q560.5 141 548 150 Q535.5 141 523 150 Q510.5 141 498 150 Z" fill="var(--cmc-marigold)"/><g clip-path="url(#cmc-dome-cmc-far-548)"><path d="M548 98 L498 150 L523 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M548 98 L548 150 L573 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M548 98 L523 150"/><path d="M548 98 L548 150"/><path d="M548 98 L573 150"/></g><path d="M498 150 A50 52 0 0 1 598 150 Q585.5 141 573 150 Q560.5 141 548 150 Q535.5 141 523 150 Q510.5 141 498 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M548 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M602 150 A50 52 0 0 1 702 150 Q689.5 141 677 150 Q664.5 141 652 150 Q639.5 141 627 150 Q614.5 141 602 150 Z" fill="var(--cmc-cobalt)"/><g clip-path="url(#cmc-dome-cmc-far-652)"><path d="M652 98 L602 150 L627 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M652 98 L652 150 L677 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M652 98 L627 150"/><path d="M652 98 L652 150"/><path d="M652 98 L677 150"/></g><path d="M602 150 A50 52 0 0 1 702 150 Q689.5 141 677 150 Q664.5 141 652 150 Q639.5 141 627 150 Q614.5 141 602 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M652 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M706 150 A50 52 0 0 1 806 150 Q793.5 141 781 150 Q768.5 141 756 150 Q743.5 141 731 150 Q718.5 141 706 150 Z" fill="var(--cmc-tomato)"/><g clip-path="url(#cmc-dome-cmc-far-756)"><path d="M756 98 L706 150 L731 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M756 98 L756 150 L781 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M756 98 L731 150"/><path d="M756 98 L756 150"/><path d="M756 98 L781 150"/></g><path d="M706 150 A50 52 0 0 1 806 150 Q793.5 141 781 150 Q768.5 141 756 150 Q743.5 141 731 150 Q718.5 141 706 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M756 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M810 150 A50 52 0 0 1 910 150 Q897.5 141 885 150 Q872.5 141 860 150 Q847.5 141 835 150 Q822.5 141 810 150 Z" fill="var(--cmc-leaf)"/><g clip-path="url(#cmc-dome-cmc-far-860)"><path d="M860 98 L810 150 L835 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M860 98 L860 150 L885 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M860 98 L835 150"/><path d="M860 98 L860 150"/><path d="M860 98 L885 150"/></g><path d="M810 150 A50 52 0 0 1 910 150 Q897.5 141 885 150 Q872.5 141 860 150 Q847.5 141 835 150 Q822.5 141 810 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M860 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M914 150 A50 52 0 0 1 1014 150 Q1001.5 141 989 150 Q976.5 141 964 150 Q951.5 141 939 150 Q926.5 141 914 150 Z" fill="var(--cmc-teal)"/><g clip-path="url(#cmc-dome-cmc-far-964)"><path d="M964 98 L914 150 L939 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M964 98 L964 150 L989 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M964 98 L939 150"/><path d="M964 98 L964 150"/><path d="M964 98 L989 150"/></g><path d="M914 150 A50 52 0 0 1 1014 150 Q1001.5 141 989 150 Q976.5 141 964 150 Q951.5 141 939 150 Q926.5 141 914 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M964 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-far"><path d="M1018 150 A50 52 0 0 1 1118 150 Q1105.5 141 1093 150 Q1080.5 141 1068 150 Q1055.5 141 1043 150 Q1030.5 141 1018 150 Z" fill="var(--cmc-tomato)"/><g clip-path="url(#cmc-dome-cmc-far-1068)"><path d="M1068 98 L1018 150 L1043 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M1068 98 L1068 150 L1093 150 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M1068 98 L1043 150"/><path d="M1068 98 L1068 150"/><path d="M1068 98 L1093 150"/></g><path d="M1018 150 A50 52 0 0 1 1118 150 Q1105.5 141 1093 150 Q1080.5 141 1068 150 Q1055.5 141 1043 150 Q1030.5 141 1018 150 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M1068 98 V89" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g></g><path d="M80 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M184 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M288 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M392 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M496 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M600 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M704 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M808 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M912 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M1016 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><path d="M1120 192 V262 q0 12 -10 12 q-8 0 -8 -8" fill="none" stroke="var(--cmc-sky)" stroke-width="3.2" stroke-linecap="round"/><g class="cmc-near"><path d="M18 196 A62 64 0 0 1 142 196 Q126.5 187 111 196 Q95.5 187 80 196 Q64.5 187 49 196 Q33.5 187 18 196 Z" fill="var(--cmc-tomato)"/><g clip-path="url(#cmc-dome-cmc-near-80)"><path d="M80 132 L18 196 L49 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M80 132 L80 196 L111 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M80 132 L49 196"/><path d="M80 132 L80 196"/><path d="M80 132 L111 196"/></g><path d="M18 196 A62 64 0 0 1 142 196 Q126.5 187 111 196 Q95.5 187 80 196 Q64.5 187 49 196 Q33.5 187 18 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M80 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M122 196 A62 64 0 0 1 246 196 Q230.5 187 215 196 Q199.5 187 184 196 Q168.5 187 153 196 Q137.5 187 122 196 Z" fill="var(--cmc-teal)"/><g clip-path="url(#cmc-dome-cmc-near-184)"><path d="M184 132 L122 196 L153 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M184 132 L184 196 L215 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M184 132 L153 196"/><path d="M184 132 L184 196"/><path d="M184 132 L215 196"/></g><path d="M122 196 A62 64 0 0 1 246 196 Q230.5 187 215 196 Q199.5 187 184 196 Q168.5 187 153 196 Q137.5 187 122 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M184 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M226 196 A62 64 0 0 1 350 196 Q334.5 187 319 196 Q303.5 187 288 196 Q272.5 187 257 196 Q241.5 187 226 196 Z" fill="var(--cmc-marigold)"/><g clip-path="url(#cmc-dome-cmc-near-288)"><path d="M288 132 L226 196 L257 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M288 132 L288 196 L319 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M288 132 L257 196"/><path d="M288 132 L288 196"/><path d="M288 132 L319 196"/></g><path d="M226 196 A62 64 0 0 1 350 196 Q334.5 187 319 196 Q303.5 187 288 196 Q272.5 187 257 196 Q241.5 187 226 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M288 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M330 196 A62 64 0 0 1 454 196 Q438.5 187 423 196 Q407.5 187 392 196 Q376.5 187 361 196 Q345.5 187 330 196 Z" fill="var(--cmc-plum)"/><g clip-path="url(#cmc-dome-cmc-near-392)"><path d="M392 132 L330 196 L361 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M392 132 L392 196 L423 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M392 132 L361 196"/><path d="M392 132 L392 196"/><path d="M392 132 L423 196"/></g><path d="M330 196 A62 64 0 0 1 454 196 Q438.5 187 423 196 Q407.5 187 392 196 Q376.5 187 361 196 Q345.5 187 330 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M392 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M434 196 A62 64 0 0 1 558 196 Q542.5 187 527 196 Q511.5 187 496 196 Q480.5 187 465 196 Q449.5 187 434 196 Z" fill="var(--cmc-leaf)"/><g clip-path="url(#cmc-dome-cmc-near-496)"><path d="M496 132 L434 196 L465 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M496 132 L496 196 L527 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M496 132 L465 196"/><path d="M496 132 L496 196"/><path d="M496 132 L527 196"/></g><path d="M434 196 A62 64 0 0 1 558 196 Q542.5 187 527 196 Q511.5 187 496 196 Q480.5 187 465 196 Q449.5 187 434 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M496 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M538 196 A62 64 0 0 1 662 196 Q646.5 187 631 196 Q615.5 187 600 196 Q584.5 187 569 196 Q553.5 187 538 196 Z" fill="var(--cmc-fuchsia)"/><g clip-path="url(#cmc-dome-cmc-near-600)"><path d="M600 132 L538 196 L569 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M600 132 L600 196 L631 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M600 132 L569 196"/><path d="M600 132 L600 196"/><path d="M600 132 L631 196"/></g><path d="M538 196 A62 64 0 0 1 662 196 Q646.5 187 631 196 Q615.5 187 600 196 Q584.5 187 569 196 Q553.5 187 538 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M600 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M642 196 A62 64 0 0 1 766 196 Q750.5 187 735 196 Q719.5 187 704 196 Q688.5 187 673 196 Q657.5 187 642 196 Z" fill="var(--cmc-marigold)"/><g clip-path="url(#cmc-dome-cmc-near-704)"><path d="M704 132 L642 196 L673 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M704 132 L704 196 L735 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M704 132 L673 196"/><path d="M704 132 L704 196"/><path d="M704 132 L735 196"/></g><path d="M642 196 A62 64 0 0 1 766 196 Q750.5 187 735 196 Q719.5 187 704 196 Q688.5 187 673 196 Q657.5 187 642 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M704 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M746 196 A62 64 0 0 1 870 196 Q854.5 187 839 196 Q823.5 187 808 196 Q792.5 187 777 196 Q761.5 187 746 196 Z" fill="var(--cmc-cobalt)"/><g clip-path="url(#cmc-dome-cmc-near-808)"><path d="M808 132 L746 196 L777 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M808 132 L808 196 L839 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M808 132 L777 196"/><path d="M808 132 L808 196"/><path d="M808 132 L839 196"/></g><path d="M746 196 A62 64 0 0 1 870 196 Q854.5 187 839 196 Q823.5 187 808 196 Q792.5 187 777 196 Q761.5 187 746 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M808 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M850 196 A62 64 0 0 1 974 196 Q958.5 187 943 196 Q927.5 187 912 196 Q896.5 187 881 196 Q865.5 187 850 196 Z" fill="var(--cmc-tomato)"/><g clip-path="url(#cmc-dome-cmc-near-912)"><path d="M912 132 L850 196 L881 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M912 132 L912 196 L943 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M912 132 L881 196"/><path d="M912 132 L912 196"/><path d="M912 132 L943 196"/></g><path d="M850 196 A62 64 0 0 1 974 196 Q958.5 187 943 196 Q927.5 187 912 196 Q896.5 187 881 196 Q865.5 187 850 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M912 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M954 196 A62 64 0 0 1 1078 196 Q1062.5 187 1047 196 Q1031.5 187 1016 196 Q1000.5 187 985 196 Q969.5 187 954 196 Z" fill="var(--cmc-leaf)"/><g clip-path="url(#cmc-dome-cmc-near-1016)"><path d="M1016 132 L954 196 L985 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M1016 132 L1016 196 L1047 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M1016 132 L985 196"/><path d="M1016 132 L1016 196"/><path d="M1016 132 L1047 196"/></g><path d="M954 196 A62 64 0 0 1 1078 196 Q1062.5 187 1047 196 Q1031.5 187 1016 196 Q1000.5 187 985 196 Q969.5 187 954 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M1016 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><g class="cmc-near"><path d="M1058 196 A62 64 0 0 1 1182 196 Q1166.5 187 1151 196 Q1135.5 187 1120 196 Q1104.5 187 1089 196 Q1073.5 187 1058 196 Z" fill="var(--cmc-teal)"/><g clip-path="url(#cmc-dome-cmc-near-1120)"><path d="M1120 132 L1058 196 L1089 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/><path d="M1120 132 L1120 196 L1151 196 Z" fill="var(--cmc-rib)" fill-opacity=".18"/></g><g fill="none" stroke="var(--cmc-rib)" stroke-width="1.4" stroke-opacity=".7"><path d="M1120 132 L1089 196"/><path d="M1120 132 L1120 196"/><path d="M1120 132 L1151 196"/></g><path d="M1058 196 A62 64 0 0 1 1182 196 Q1166.5 187 1151 196 Q1135.5 187 1120 196 Q1104.5 187 1089 196 Q1073.5 187 1058 196 Z" fill="none" stroke="var(--cmc-rib)" stroke-width="2.4" stroke-linejoin="round"/><path d="M1120 132 V123" stroke="var(--cmc-rib)" stroke-width="3" stroke-linecap="round"/></g><circle cx="80" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="184" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="288" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="392" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="496" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="600" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="704" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="808" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="912" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="1016" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><circle cx="1120" cy="230" r="4.5" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M28 230 Q54 243 80 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M80 230 Q132 243 184 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M184 230 Q236 243 288 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M288 230 Q340 243 392 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M392 230 Q444 243 496 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M496 230 Q548 243 600 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M600 230 Q652 243 704 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M704 230 Q756 243 808 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M808 230 Q860 243 912 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M912 230 Q964 243 1016 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M1016 230 Q1068 243 1120 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><path d="M1120 230 Q1146 243 1172 230" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8"/><rect x="0" y="0" width="28" height="300" fill="var(--cmc-slab)"/><rect x="1172" y="0" width="28" height="300" fill="var(--cmc-slab)"/><path d="M28 0 V300 M1172 0 V300" stroke="var(--cmc-rib)" stroke-width="2"/><circle cx="28" cy="230" r="5" fill="var(--cmc-tie)"/><circle cx="1172" cy="230" r="5" fill="var(--cmc-tie)"/></svg>
+  <!-- cmc:canopy:end -->
+    <figcaption class="cmc-roof__words">Overhead, everybody&rsquo;s umbrellas, open and tied to one another and to the shopfronts either side, so that between them they make one roof. It is raining on top of it. Under here it is dry.</figcaption>
+  </figure>
+
+  <section class="cmc-lede">
+    <p>This is the room where you ask. Its channel on the CB is for asking for mutual aid, for peer support and for any other help you need, and for offering it to whoever asks. Nobody here is a professional, and nobody needs to be: everybody under these umbrellas is a peer, which means somebody who has been somewhere like where you are.</p>
+    <p>To ask, sign on to the CB and tune the radio to <b>This room</b> while you are in here, or open <a href="chat.html#community-care">Community Care on the chat page</a>, under Community. If you are not on the CB yet, <a href="community-center.html#getting-started">the Community Center</a> says how to get an invite.</p>
+    <p class="cmc-crisis">This channel is people, and it is not a crisis line. If tonight is worse than a hard day, our <a href="https://stimpunks.org/help/">Help page</a> is a set of doors, and <a href="https://stimpunks.org/fieldguide/coping/#h-crisis-hotlines">Coping</a> lists crisis lines and warmlines.</p>
+  </section>
+
+  <section class="cmc-part cmc-hem--marigold" aria-labelledby="cmc-four-h">
+    <h2 id="cmc-four-h">Ask, offer, receive, decline</h2>
+<!-- cmc:four:begin -->
+    <blockquote class="cmc-quote">
+      <p>It’s much easier to practice asking, offering, receiving, and declining among people who “get it”!</p>
+      <footer class="cmc-quote__who">Vivian Ly, <a href="https://www.youtube.com/watch?v=4gLNzlKVVrY">Collective Community Care: Dreaming of Futures in Autistic Mutual Aid</a>, Autscape 2020, read on our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page</footer>
+    </blockquote>
+    <p>That is the whole of what the channel is for, and all four of them are allowed here. The line is off a slide in Vivian Ly’s talk at Autscape 2020, which our own Community Care page carries, and which is here to press as well.</p>
+    <div class="cmc-talk">
+      <button type="button" class="facade" data-embed-id="4gLNzlKVVrY" data-embed-title="Vivian Ly at Autscape 2020 — Collective Community Care: Dreaming of Futures in Autistic Mutual Aid">
+        Vivian Ly, Collective Community Care: Dreaming of Futures in Autistic Mutual Aid, Autscape 2020 &mdash; 26:50
+        <span class="facade__play">&#9654; PRESS PLAY</span>
+      </button>
+      <p class="cmc-talk__note">On Autscape&rsquo;s own channel. The questions at the end were left out of the upload, as its own description says. Nothing reaches YouTube until you press it.</p>
+    </div>
+    <ul class="cmc-four">
+      <li class="cmc-four__item cmc-hem--tomato">
+        <h3>Asking</h3>
+        <p>Say what you need, in your own words, as much or as little as you like. Nobody asks you to prove it, to say how you came to need it, or to have tried everything else first. Asking is not a weight on the room: it is how the people who want to show up find out where to stand.</p>
+      </li>
+      <li class="cmc-four__item cmc-hem--teal">
+        <h3>Offering</h3>
+        <p>Offer what you can spare, when you can spare it, and on your own terms. Nobody keeps track of who offered and who did not, and an offer that turns out to be more than you have can be taken back.</p>
+      </li>
+      <li class="cmc-four__item cmc-hem--marigold">
+        <h3>Receiving</h3>
+        <p>Take what is offered without paying for it in gratitude. Thanks are welcome and never owed, and nobody keeps a note of who has had help, or how often.</p>
+      </li>
+      <li class="cmc-four__item cmc-hem--plum">
+        <h3>Declining</h3>
+        <p>Either side can say no. An offer that does not fit can be turned down, an ask can go by, and nobody is asked for a reason. A no is an answer, not a verdict on anybody.</p>
+      </li>
+    </ul>
+    <!-- cmc:four:end -->
+  </section>
+
+  <section class="cmc-part cmc-hem--tomato" aria-labelledby="cmc-solidarity-h">
+    <h2 id="cmc-solidarity-h">Solidarity, not charity</h2>
+<!-- cmc:solidarity:begin -->
+    <blockquote class="cmc-quote">
+      <p>“Solidarity, not charity.”</p>
+      <footer class="cmc-quote__who">Vivian Ly, <a href="https://www.youtube.com/watch?v=4gLNzlKVVrY">Collective Community Care: Dreaming of Futures in Autistic Mutual Aid</a>, Autscape 2020, read on our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page</footer>
+    </blockquote>
+    <p>Mutual aid is people meeting each other’s needs directly, sideways rather than downwards. Nobody in here is the giving kind or the needing kind, because most of us are both, often in the same week, and the umbrella you are standing under today is not the one you brought.</p>
+    <blockquote class="cmc-quote">
+      <p>It’s about moving from a rights-based frame to a justice-based one: not accommodation as charity, but care as infrastructure. Not self-improvement, but survival as a shared project.</p>
+      <footer class="cmc-quote__who">Stimpunks, <a href="https://stimpunks.org/aid/community-care/">Community Care</a></footer>
+    </blockquote>
+    <p>Stimpunks also makes <a href="https://stimpunks.org/aid/grant/">mutual aid grants</a> and <a href="https://stimpunks.org/creators/grant/">creator grants</a> to neurodivergent and disabled people. Those are the Foundation’s, by application, in scheduled rounds, and they cannot cover anything urgent; their own pages say whether they are open, who they can reach and what they cannot pay for. Asking in this channel is asking the community, not applying, and you can do both.</p>
+    <!-- cmc:solidarity:end -->
+  </section>
+
+  <section class="cmc-part cmc-hem--teal" aria-labelledby="cmc-peer-h">
+    <h2 id="cmc-peer-h">Peer support, and where it comes from</h2>
+<!-- cmc:peer:begin -->
+    <blockquote class="cmc-quote">
+      <p>Peer support is typically defined as a non-clinical, mutuality-based relationship between folks who share lived experience</p>
+      <footer class="cmc-quote__who">Tuesday Ferguson, <a href="https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/">Tapping the Radical Roots of Peer Support</a>, 2024, on our blog</footer>
+    </blockquote>
+    <blockquote class="cmc-quote">
+      <p>The roots of peer support come from self-advocacy and activist movements that have always been rooted in resistance, mutual aid, and liberatory politics</p>
+      <footer class="cmc-quote__who">Tuesday Ferguson, <a href="https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/">Tapping the Radical Roots of Peer Support</a>, 2024, on our blog</footer>
+    </blockquote>
+    <p>Tuesday Ferguson wrote that for our blog in 2024, as a youth peer support worker, about what becomes of peer support when it turns into a job inside the systems it grew up resisting. <a href="https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/">The whole essay</a> is better than anything this room could say about it. What the room takes from it is where peer support comes from:</p>
+    <blockquote class="cmc-quote">
+      <p>It was championed first by the people who built kinship over the fact that they’d been othered, not by nonprofits and politicians playing the respectability game</p>
+      <footer class="cmc-quote__who">Tuesday Ferguson, <a href="https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/">Tapping the Radical Roots of Peer Support</a>, 2024, on our blog</footer>
+    </blockquote>
+    <blockquote class="cmc-quote">
+      <p>I believe people first and foremost do mutual aid and peer support because that’s what it means to show up for each other in relationships</p>
+      <footer class="cmc-quote__who">Tuesday Ferguson, <a href="https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/">Tapping the Radical Roots of Peer Support</a>, 2024, on our blog</footer>
+    </blockquote>
+    <p>So nobody here is assessed, referred or signed up for anything. Peer support in a channel is somebody saying that happened to me too, and this is what helped, and staying. Nothing has to come of it that anybody else can measure:</p>
+    <blockquote class="cmc-quote">
+      <p>provide care and support, without imposing interaction or forcing others to perform to a specific measurable outcome</p>
+      <footer class="cmc-quote__who">Tuesday Ferguson, <a href="https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/">Tapping the Radical Roots of Peer Support</a>, 2024, on our blog</footer>
+    </blockquote>
+    <p>Our glossary’s entry on <a href="https://stimpunks.org/glossary/peer-support/">peer support</a> starts by naming the version this is not:</p>
+    <blockquote class="cmc-quote">
+      <p>Many schools have run peer support models in the past where neurodivergent young people have been ‘buddied up’ with a neurotypical peer. However, often the goal of this is to help the neurodivergent person ‘learn’ neurotypical ‘social norms’.</p>
+      <footer class="cmc-quote__who">Salvesen Mindroom Research Centre, <a href="https://salvesen-research.ed.ac.uk/research/nest-neurodivergent-peer-support-toolkit">NEST (NEurodivergent peer Support Toolkit)</a>, read on our <a href="https://stimpunks.org/glossary/peer-support/">Peer Support</a> page</footer>
+    </blockquote>
+    <p>Nobody in here is buddied up with anybody to learn how to pass. The research the entry gathers says what Autistic people kept asking for instead, and it is honest about what being a peer does not give you:</p>
+    <blockquote class="cmc-quote">
+      <p>A common thread in the experiences of older autistic adults (aged 50+) was the importance of universality; being ‘in the same boat’.</p>
+      <footer class="cmc-quote__who">Norris, Harvey &amp; Hull, citing Hickey et al. (2018), <a href="https://journals.sagepub.com/doi/10.1177/13623613241273073">Post-diagnostic support for adults diagnosed with autism in adulthood in the UK: A systematic review with narrative synthesis</a>, 2025, read on our <a href="https://stimpunks.org/glossary/peer-support/">Peer Support</a> page</footer>
+    </blockquote>
+    <blockquote class="cmc-quote">
+      <p>The preference was for autistic-led peer support. However, individuals acknowledged that being autistic does not inherently provide the knowledge or skills necessary for the role, and that this requires training and/or experience.</p>
+      <footer class="cmc-quote__who">Norris, Harvey &amp; Hull, <a href="https://journals.sagepub.com/doi/10.1177/13623613241273073">Post-diagnostic support for adults diagnosed with autism in adulthood in the UK: A systematic review with narrative synthesis</a>, 2025, read on our <a href="https://stimpunks.org/glossary/peer-support/">Peer Support</a> page</footer>
+    </blockquote>
+    <p>This room keeps that second line. Being a peer is not the same as knowing what to do, nobody in here is pretending to be a service, and the entry says what peer support is for beside the rest:</p>
+    <blockquote class="cmc-quote">
+      <p>Autistic adults desired peer support not as a substitute for specialist services such as mental health support, but working alongside them.</p>
+      <footer class="cmc-quote__who">Stimpunks, <a href="https://stimpunks.org/glossary/peer-support/">Peer Support</a></footer>
+    </blockquote>
+    <!-- cmc:peer:end -->
+  </section>
+
+  <section class="cmc-part cmc-hem--plum" aria-labelledby="cmc-woven-h">
+    <h2 id="cmc-woven-h">Everybody&rsquo;s umbrella</h2>
+<!-- cmc:woven:begin -->
+    <blockquote class="cmc-quote">
+      <p>I am often struck by the dangerous narcissism fostered by spiritual rhetoric that pays so much attention to individual self-improvement and so little to the practice of love within the context of community.</p>
+      <footer class="cmc-quote__who">bell hooks, as our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page quotes it, naming no work</footer>
+    </blockquote>
+    <blockquote class="cmc-quote">
+      <p>We gotta keep each other alive any way we can ’cause nobody else is goin’ do it.</p>
+      <footer class="cmc-quote__who">Larry Mitchell, as our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page quotes it, naming no work</footer>
+    </blockquote>
+    <p>Our Community Care page opens with those two, and then with the story the dominant culture tells about care: that needing help is weakness, that independence is a virtue, and that your survival is your own problem.</p>
+    <blockquote class="cmc-quote">
+      <p>Community care is the refusal of that story.</p>
+      <footer class="cmc-quote__who">Stimpunks, <a href="https://stimpunks.org/aid/community-care/">Community Care</a></footer>
+    </blockquote>
+    <blockquote class="cmc-quote">
+      <p>I am fighting for an interdependence that embraces need and tells the truth: no one does it on their own and the myth of independence is just that, a myth.</p>
+      <footer class="cmc-quote__who">Mia Mingus, <a href="https://leavingevidence.wordpress.com/2011/02/12/changing-the-framework-disability-justice/">Changing the Framework: Disability Justice</a>, read on our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page</footer>
+    </blockquote>
+    <blockquote class="cmc-quote">
+      <p>Self-care is birthed by and through community care.</p>
+      <footer class="cmc-quote__who">Talila A. Lewis, <a href="https://twitter.com/talilalewis/status/946778812531879938">a post on Twitter</a>, read on our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page</footer>
+    </blockquote>
+    <blockquote class="cmc-quote">
+      <p>The parts we need to survive are scattered All amongst us.</p>
+      <footer class="cmc-quote__who">Tinu Abayomi-Paul, <a href="https://twitter.com/Tinu/status/1610393888589488129">a post on Twitter</a>, read on our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page</footer>
+    </blockquote>
+    <p>That is what the umbrellas are. Nobody brought enough for everybody, and nobody had to. Every umbrella is tied to the ones beside it and to the shopfronts either side, nothing else holds the roof up, and not one of them keeps anybody dry by itself. The ties are drawn from a line of Sophie K. Rosa’s, which our page carries too:</p>
+    <blockquote class="cmc-quote">
+      <p>Our mutual entwinement must be careful, spacious and supple, with no single knot tied too tight.</p>
+      <footer class="cmc-quote__who">Sophie K. Rosa, <a href="https://openlibrary.org/works/OL28697285W/Radical_Intimacy">Radical Intimacy</a>, Pluto Press, pages 172–173, read on our <a href="https://stimpunks.org/aid/community-care/">Community Care</a> page</footer>
+    </blockquote>
+    <!-- cmc:woven:end -->
+  </section>
+
+  <section class="cmc-part cmc-hem--leaf" aria-labelledby="cmc-rules-h">
+    <h2 id="cmc-rules-h">What is not under here</h2>
+<!-- cmc:rules:begin -->
+    <ul class="cmc-rules">
+      <li><strong>No proving it.</strong> Nobody asks for a diagnosis, a story, a reason or evidence, and nobody decides whether a need is real.</li>
+      <li><strong>No sorting.</strong> Nobody here is the deserving kind or the other kind. Everybody under the umbrellas is somebody who might ask.</li>
+      <li><strong>No ledger.</strong> Help puts nobody in anybody’s debt. Nothing records who gave and who got, and receiving costs nobody a performance of gratitude.</li>
+      <li><strong>Nothing counted.</strong> No total of what was asked or what was given, no list of who helped, and no wall of thank-yous.</li>
+      <li><strong>Nobody at the front.</strong> No professionals, no caseworkers, no intake and no forms. The only expertise in the room is having been there.</li>
+      <li><strong>Nobody owes an answer.</strong> An ask can go unanswered and an offer can go untaken, and neither is a verdict on anybody. If an ask goes by, asking again is allowed.</li>
+      <li><strong>Not a crisis line.</strong> Our <a href="https://stimpunks.org/help/">Help page</a> is a set of doors, and <a href="https://stimpunks.org/fieldguide/coping/#h-crisis-hotlines">Coping</a> lists crisis lines and warmlines. Nobody here is on call.</li>
+    </ul>
+    <!-- cmc:rules:end -->
+  </section>
+
+  <section class="cmc-part cmc-hem--cobalt" aria-labelledby="cmc-channel-h">
+    <h2 id="cmc-channel-h">Who reads the channel, and for how long</h2>
+<!-- cmc:channel:begin -->
+    <ul class="cmc-rules">
+      <li><strong>Everybody signed on to the CB can read this room&rsquo;s channel</strong>, so say only what you would say in a room with all of them in it. It keeps <a href="community-center.html#cb-norms">the house norms</a>, like every channel.</li>
+      <li><strong>Every message on it goes 48 hours after it was sent</strong>, like every channel on the CB. For an ask that needs longer, <a href="forum.html#/c/mutual-aid">Mutual aid</a> in the forums keeps a topic 3 months after its last post, and <a href="forum.html#/c/coping">Coping</a> keeps one 1 week.</li>
+      <li><strong>A direct message is between two people</strong>, and it is not end-to-end encrypted. One that breaks the house norms can be reported, which is the one way it reaches a moderator.</li>
+    </ul>
+    <!-- cmc:channel:end -->
+  </section>
+
+  <section class="cmc-part cmc-hem--fuchsia" aria-labelledby="cmc-next-h">
+    <h2 id="cmc-next-h">Next door, and down the street</h2>
+    <p>Other rooms on this street that keep somebody going, each in its own way:</p>
+<!-- cmc:elsewhere:begin -->
+    <ul class="cmc-next">
+      <li><a href="dead-tired-society.html">Dead Tired Society</a>, peer support by and for the burnt out, in a borrowed room with the big lights off, where nobody has to talk.</li>
+      <li><a href="hey-good-cookin.html">Hey, Good Cookin’</a>, a community kitchen where nobody is turned away and nothing is asked of you, not even a reason.</li>
+      <li><a href="nothing-for-sale.html">Nothing For Sale</a>, a free market in a lay-by out past the last streetlight: take what you need, leave what you can.</li>
+      <li><a href="healing-checkpoint.html">The Healing Checkpoint</a>, room 429, with a bed nobody is charging you for and nobody at the desk asking what you are there for.</li>
+      <li><a href="community-center.html">The Community Center</a>, where you get started on the CB, and the house norms every channel keeps.</li>
+    </ul>
+    <!-- cmc:elsewhere:end -->
+  </section>
+
+  <section class="cmc-part cmc-whose cmc-hem--teal" aria-labelledby="cmc-credits-h">
+    <h2 id="cmc-credits-h">Whose this is</h2>
+<!-- cmc:credits:begin -->
+    <ul class="cmc-credits">
+      <li><strong>The umbrellas are our Community Care page&rsquo;s.</strong> Its sign is an umbrella, and its photograph is open umbrellas in every colour hanging on strings over a street. The drawing is ours, made as code by Claude, an AI model made by Anthropic, to Ryan&rsquo;s brief, and nothing on this page calls an AI while you read it.</li>
+      <li><strong>Every quotation belongs to whoever said it</strong> and is credited to them where it stands: Vivian Ly, bell hooks, Larry Mitchell, Mia Mingus, Talila A. Lewis, Tinu Abayomi-Paul, Sophie K. Rosa, Tuesday Ferguson, Salvesen Mindroom Research Centre and Norris, Harvey and Hull. The words around them are ours, written for this room.</li>
+      <li><strong>Tapping the Radical Roots of Peer Support is Tuesday Ferguson&rsquo;s</strong>, published on our blog in 2024 under CC BY-SA 4.0.</li>
+      <li><strong>Vivian Ly&rsquo;s talk is Autscape&rsquo;s</strong>, from Autscape 2020, on their own channel; the presenter is named in the video&rsquo;s own description.</li>
+      <li>Every quotation in this room is 40 words or fewer and was read on one of our own pages, <a href="https://stimpunks.org/aid/community-care/">Community Care</a>, <a href="https://stimpunks.org/glossary/peer-support/">Peer Support</a>, <a href="https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/">Tapping the Radical Roots of Peer Support</a>, on 2026-10-22. <code>tools/make-community-care.py</code> checks each one against those pages word for word whenever our copy of stimpunks.org is on the machine, and where our page names no work for a line, neither does this room.</li>
+      <li>The type is Agbalumo, by Raphael Alẹ́gbẹ́lẹ́yẹ̀, Sorkin Type, Eben Sorkin, for the room&rsquo;s name and its headings, and Ysabeau Infant, by Christian Thalmann, for everything you read. Both under the SIL Open Font License, read off their own records. More in <a href="liner-notes.html#community-care">the liner notes</a>.</li>
+    </ul>
+    <!-- cmc:credits:end -->
+  </section>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:cmc-spare:begin -->
+  <details class="quest" data-quest="cmc-spare" data-code="SPARE" data-accept="decline|declining|no|sayingno|sayno">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29.5 H29" stroke="var(--cmc-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 26.5 L20.5 21.2 Q22.6 22.4 22.6 24.8 L21.8 26.6 Z" fill="var(--cmc-teal)" stroke="var(--cmc-rib)" stroke-width="1.2" stroke-linejoin="round"/><path d="M14.4 23.2 L15.2 26.6" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M22.4 25 H26 q2.8 0 2.8 -2.8 q0 -2.2 -2.2 -2.2" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M4.5 26.5 L2.6 27.2" stroke="var(--cmc-tie)" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a spare umbrella, rolled up and left on the dry paving by the door</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> The fourth thing</p>
+      <p class="quest__ask"><b>Before the code:</b> Community Care’s channel is for asking, offering, receiving, and one thing more. What is it?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="cmc-spare-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="cmc-spare-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is on the last of the four cards.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It means saying no.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Declining.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>Declining</b>. Asking, offering, receiving and declining are the four things the channel is for, and all four are allowed. Either side can say no, and a no is an answer, not a verdict on anybody.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPARE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPARE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>Asking, offering, receiving and declining are the four things the channel is for, and all four are allowed. Either side can say no, and a no is an answer, not a verdict on anybody.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SPARE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SPARE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:cmc-spare:end -->
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and at MAX GLITTER the rain falls on the roof, and never under it.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-community-care">Where am I?</a> &middot; <a href="about.html">About</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;orbit&quot;,&quot;trap&quot;:&quot;ring&quot;,&quot;radius&quot;:0.6,&quot;c&quot;:[-0.4,0.6],&quot;orbit&quot;:0.015,&quot;spin&quot;:0.12,&quot;ground&quot;:&quot;--cmc-under&quot;,&quot;inks&quot;:[&quot;--cmc-tomato&quot;,&quot;--cmc-teal&quot;,&quot;--cmc-marigold&quot;,&quot;--cmc-plum&quot;,&quot;--cmc-cobalt&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="love-embed.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

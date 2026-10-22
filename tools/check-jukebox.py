@@ -321,6 +321,9 @@ LISTS = [
     ("the faery yurt", "data/yurt-yarn.json", "faery-yurt.html"),
     ("the yurt's cinema", "data/yurt-cinema.json", "faery-cinema-room.html"),
     ("the cabin", "data/secret-cabin.json", "lydtyss.html"),
+    # Community Care's one talk, Vivian Ly's at Autscape 2020, on Autscape's own
+    # channel: the source of the four things the room's channel is for.
+    ("community care", "data/community-care.json", "community-care.html"),
 ]
 
 

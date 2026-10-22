@@ -97,6 +97,7 @@ zibaldone.html        A commonplace book open on a desk. Short quotations, each 
 rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 1865 engravings
 healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a bed with no terms on it
 dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
+community-care.html   The room for asking: mutual aid and peer support under everybody's umbrellas, tied together
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
 lightbulb-picture-house.html  Neurodiversity films and every Campfire Learn Together film, racks of cards. House lights up; nothing is blue
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
@@ -221,6 +222,7 @@ data/zibaldone.json   The quote bank. Every line names its printing and how it w
 data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyrics, refused
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
+data/community-care.json  The roof's umbrellas, the four things the channel is for, and every quotation, each read on a page of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The screens, the rack and the campfire rack. Every card says who made it, how long, and what is in it
 data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
@@ -284,6 +286,7 @@ python3 tools/make-zibaldone.py    # The Zibaldone's leaves and its attribution 
 python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and trail, and the credits
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
+python3 tools/make-community-care.py # Community Care's roof, its quotations and its credits; refuses sorting, debt, a means test, a tally, a form, and a quotation not on our page word for word
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
@@ -670,6 +673,16 @@ on the Den's rails, a page that ships a choice checked, and a `booth.js` or `try
 takes a file, draws onto a canvas, stores anything or sends anywhere but `/cb/avatars`. `tools/avatar.test.mjs`
 puts every garment on a body in every pose, varies every choice, and races the page's checker against the
 server's; `tools/check-all.sh` runs it before the generators and again after them.
+
+`make-community-care.py` builds Community Care out of `data/community-care.json`, the street's room for asking:
+its channel on the CB is where people ask for mutual aid, peer support and any other help. It **draws the roof**,
+everybody's umbrellas tied to one another and to the shopfronts either side, and refuses an umbrella untied, two
+alike side by side, or four in a rainbow's order. **Every quotation was read on a page of ours** (Community Care,
+our glossary's Peer Support, Tuesday Ferguson's Tapping the Radical Roots of Peer Support) and is checked against the
+Knowledge System mirror's copy word for word when the mirror is on the machine. It sweeps the room's own words for
+**sorting the people who ask, debt, a means test, a tally, advice and pity**, with the negation window and skipping
+blockquotes, and refuses the page without its paragraph saying the channel is not a crisis line, with a form or a box
+anywhere on it, or with a line about another room that room no longer says.
 
 `make-chimera-obscura.py` builds Chimera Obscura out of `data/chimera-obscura.json`, a camera obscura on the
 street where a chimera is made out of two animals, the body from one and every other part from either, and

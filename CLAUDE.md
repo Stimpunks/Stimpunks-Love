@@ -3877,7 +3877,7 @@ list of conversations is asked from `listen()` at most every `NEWS_EVERY` (`chat
 conversation is never in the address, because the address goes into the browser's history. The channel's pick lives only
 in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
 World or This room, popped) as they are stored, so the chat page never resizes or retunes the radio on another page. The
-groups: Community (World, the Community Center, Dead Tired Society and Cavendish's rooms out of `data/coworking.json`),
+groups: Community (World, the Community Center, Dead Tired Society, Community Care and Cavendish's rooms out of `data/coworking.json`),
 Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`) and World (every other room).
 `tools/make-chat.py` writes them onto the page and refuses a quiet room there, because the page is public. **The friendly
 edits are a second chat in a file of its own** (two copies of the message log, which drift), **saving the chat page's
@@ -4640,6 +4640,25 @@ the window when you left the last page, and visitors walk in from the window's e
 transitions were the other way, and they would need the familiar on the new page before its first paint, which means a
 render-blocking script on every page; the familiar is drawn by a script that loads after it.
 
+**COMMUNITY CARE (§122) IS THE ROOM FOR ASKING, AND ITS CHANNEL IS THE ONLY WAY TO ASK IN IT.** Ryan's brief,
+2026-10-22: our mutual aid and care room, whose channel on the CB is where people ask for mutual aid, peer support
+and any other help, under Community on the chat page (`COMMUNITY` in `tools/make-chat.py`). Its page is built from
+three pages of ours (Community Care, our glossary's Peer Support, Tuesday Ferguson's Tapping the Radical Roots of Peer
+Support) by `tools/make-community-care.py` out of `data/community-care.json`, which checks every quotation against
+the mirror word for word (the Town Hall's rule: when our page changes, re-copy, never loosen) and credits bell hooks
+and Larry Mitchell with no work, because our page names none. **It refuses sorting the people who ask, debt, a means
+test and a tally** in the room's own voice with the negation window, skipping blockquotes; **the page without its
+paragraph saying the channel is not a crisis line**, before the first heading; and **a form or a box anywhere on the
+page**: the friendly edit is a request form "so people do not have to sign on", which sends somebody's need to a
+server nobody told them about. **The Foundation's grants are named and linked and promised nothing**: the tool holds
+"scheduled grant rounds" and "urgent/emergency funding" against the mirror's grants page, and the room never says
+whether they are open, which goes stale by the month. **The world is everybody's umbrellas tied into one roof, in the
+rain**, after our page's umbrella and its photograph of umbrellas strung over a street: no sun, no colour laid on the
+ground, every word on the dry paving under it. **The Truck Stop is the one to watch** (coloured canvas over a sunny
+lot), and if the sun ever comes out in here it is this room that moves; the other collisions are in §122. The tool
+draws the roof and refuses an umbrella untied, two alike touching and four in a rainbow's order, because the ties
+are the room. Its lines about the rooms next door carry `holds`, the service board's rule.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
@@ -4863,18 +4882,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §123 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §124 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§123 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§124 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §123 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §124 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

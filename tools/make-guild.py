@@ -330,6 +330,12 @@ DRAW = {
     # ring of the room's black on the face. The floor line is --chm-dim and
     # carries nothing. It lies still.
     "chm-lenscap": """<path d="M3 29 H29" stroke="var(--chm-dim)" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="16" cy="23.5" rx="11" ry="4.6" fill="var(--chm-brass)"/><circle cx="16" cy="15" r="8.6" fill="var(--chm-link)"/><circle cx="16" cy="15" r="5.4" fill="none" stroke="var(--chm-room)" stroke-width="1.3"/><circle cx="13.6" cy="12.6" r="1.4" fill="var(--chm-room)"/>""",
+    # Community Care: a spare umbrella, rolled up with its strap done and left
+    # on the dry paving by the door for whoever needs one. The canopy is
+    # --cmc-teal, 5.61 on the paving and over the body threshold a marker is held
+    # to, and the strap, the handle and the tip are --cmc-tie, 12.75. The floor
+    # line is --cmc-dim and carries nothing. It lies still.
+    "cmc-spare": """<path d="M3 29.5 H29" stroke="var(--cmc-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 26.5 L20.5 21.2 Q22.6 22.4 22.6 24.8 L21.8 26.6 Z" fill="var(--cmc-teal)" stroke="var(--cmc-rib)" stroke-width="1.2" stroke-linejoin="round"/><path d="M14.4 23.2 L15.2 26.6" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M22.4 25 H26 q2.8 0 2.8 -2.8 q0 -2.2 -2.2 -2.2" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M4.5 26.5 L2.6 27.2" stroke="var(--cmc-tie)" stroke-width="1.4" stroke-linecap="round"/>""",
     "booth-strip": """<path d="M3 29.5 H29" stroke="var(--bmb-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M4 23.5 L27 17.5 L28.6 23.5 L5.6 29.5 Z" fill="var(--bmb-lamp)" stroke="var(--bmb-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 23.9 L10.6 23 L11.4 26.1 L7.8 27 Z M12.6 22.5 L16.2 21.6 L17 24.7 L13.4 25.6 Z M18.2 21.1 L21.8 20.2 L22.6 23.3 L19 24.2 Z M23.8 19.7 L27 18.9 L27.8 22 L24.6 22.8 Z" fill="var(--bmb-curtain)" stroke="var(--bmb-ink)" stroke-width=".8" stroke-linejoin="round"/>""",
     # Fantasy Fancy Dress: one faery wing come loose from its pair, lying on the
     # dark floor in front of the sheers. The wing is --ffd-rose outlined in

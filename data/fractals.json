@@ -1958,6 +1958,25 @@
         "--bmb-pleat"
       ]
     },
+    "community-care.html": {
+      "kind": "orbit",
+      "trap": "ring",
+      "radius": 0.6,
+      "c": [
+        -0.4,
+        0.6
+      ],
+      "orbit": 0.015,
+      "spin": 0.12,
+      "ground": "--cmc-under",
+      "inks": [
+        "--cmc-tomato",
+        "--cmc-teal",
+        "--cmc-marigold",
+        "--cmc-plum",
+        "--cmc-cobalt"
+      ]
+    },
     "chimera-obscura.html": {
       "kind": "julia",
       "c": [

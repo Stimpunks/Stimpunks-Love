@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-18",
+ "_checked": "2026-10-22",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -17,6 +17,23 @@
      "style": "normal",
      "file": "abril-fatface-400.woff2",
      "sha": "804040b2e060e7ed"
+    }
+   ]
+  },
+  "agbalumo": {
+   "family": "Agbalumo",
+   "category": "Display",
+   "designer": "Raphael Alẹ́gbẹ́lẹ́yẹ̀, Sorkin Type, Eben Sorkin",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/agbalumo",
+   "copyright": "Copyright 2023 The Agbalumo Project Authors (https://github.com/SorkinType/Agbalumo)",
+   "repository": "https://github.com/SorkinType/Agbalumo",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "agbalumo-400.woff2",
+     "sha": "aa15cbfe4f98af5d"
     }
    ]
   },
@@ -4332,6 +4349,29 @@
      "style": "normal",
      "file": "young-serif-400.woff2",
      "sha": "a46a84bfaa83dea2"
+    }
+   ]
+  },
+  "ysabeau-infant": {
+   "family": "Ysabeau Infant",
+   "category": "Sans Serif",
+   "designer": "Christian Thalmann",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/ysabeauinfant",
+   "copyright": "Copyright 2023 The Ysabeau Project Authors (https://github.com/CatharsisFonts/Ysabeau)",
+   "repository": "https://github.com/CatharsisFonts/Ysabeau",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "ysabeau-infant-400.woff2",
+     "sha": "c3a2efde2191720c"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "ysabeau-infant-400.woff2",
+     "sha": "c3a2efde2191720c"
     }
    ]
   },

@@ -1,0 +1,300 @@
+{
+  "_what": "Community Care (love.css §122): the street's room for asking. Its channel on the CB is where anybody signed on asks for mutual aid, peer support and any other help, and where anybody who can offers it. Ryan's brief, 2026-10-22, built from three pages of ours: Community Care (stimpunks.org/aid/community-care/), our glossary's Peer Support, and Tuesday Ferguson's Tapping the Radical Roots of Peer Support. Read by tools/make-community-care.py, which writes the canopy, the four things the channel is for, every section with a quotation in it, who reads the channel, next door, and the credits, into community-care.html and liner-notes.html.",
+  "_quotes": "EVERY QUOTATION WAS READ OFF ONE OF OUR OWN PAGES, named in `read_on`, and is checked against the Knowledge System mirror's copy of that page word for word on every build where the mirror is on the machine: the Town Hall's rule. When our page changes, re-copy the quotation; never loosen the check. Somebody else's words on our page carry who said them and the work they come from, and the room says they were read on our page rather than in the original, the Community Library's rule. Where our page names nobody's work, `work` is empty and `unnamed` says so: the herbarium's rule, so nothing is filled in from memory.",
+  "_cap": "A QUOTATION IS AT MOST `words` WORDS, and the number is printed in the room. Covenstead's reason rather than the Zibaldone's: these are a handful of passages the room's own words are about, and the longest is a defining sentence. Raise it on purpose, here, with the reason written down, never to fit one passage.",
+  "_umbrellas": "THE ROOF IS EVERYBODY'S UMBRELLAS, TIED TOGETHER. The tool draws the canopy from this list, left to right along the front row, with a back row behind it offset by half an umbrella; each colour is one of the room's own declared inks by name. It refuses two umbrellas alike side by side, four in a row in a rainbow's order (the Dopamine Dress-Up Den's rainbows are on its wall, not here), and an umbrella with no tie to the next one: nothing holds this roof up but the ties.",
+  "_no_charity": "NOBODY IS SORTED. The tool refuses the vocabulary that sorts people who ask for help -- deserving, worthy, needy, the less fortunate, the vulnerable, beneficiaries, handouts -- in the room's own words, with the negation window, so the room can still say that nobody is sorted. Nothing For Sale's rule, in the room where people ask in their own names.",
+  "_no_debt": "NOBODY OWES ANYBODY. It refuses pay it forward, repay, owe you, in return, give back, debt and a favour owed, with the negation window: help that puts somebody in debt is a loan with a smile on it, and the mutual aid category in our own forums says nobody owes anybody.",
+  "_no_tally": "NOTHING IS COUNTED. No total of what was asked or given, no list of who helped most, no wall of thank-yous, no goal and no progress bar. A room for asking is exactly where a counter of good deeds would arrive as a kindness.",
+  "_no_proof": "NOBODY PROVES ANYTHING. It refuses the vocabulary of a means test -- proof of need, verify, evidence, eligibility, qualify, documentation -- with the negation window. The Foundation's own grants have an application and the room says so and links it; the channel has none.",
+  "_crisis": "THE ROOM SAYS IT IS NOT A CRISIS LINE, near the top, and links where the crisis lines are. The tool refuses the page without that paragraph, because a channel full of people offering help is exactly where somebody in danger might wait for an answer.",
+  "words": 40,
+  "read": "2026-10-22",
+  "pages": {
+    "care": {
+      "title": "Community Care",
+      "url": "https://stimpunks.org/aid/community-care/",
+      "mirror": "pages/aid__community-care.md"
+    },
+    "peer": {
+      "title": "Peer Support",
+      "url": "https://stimpunks.org/glossary/peer-support/",
+      "mirror": "glossary/peer-support.md"
+    },
+    "roots": {
+      "title": "Tapping the Radical Roots of Peer Support",
+      "url": "https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/",
+      "mirror": "posts/tapping-the-radical-roots-of-peer-support.md"
+    },
+    "grant": {
+      "title": "Mutual Aid Grants",
+      "url": "https://stimpunks.org/aid/grant/",
+      "mirror": "pages/aid__grant.md",
+      "holds": ["urgent/emergency funding", "scheduled grant rounds"]
+    }
+  },
+  "umbrellas": ["tomato", "teal", "marigold", "plum", "leaf", "fuchsia", "marigold", "cobalt", "tomato", "leaf", "teal"],
+  "videos": [
+    {
+      "id": "4gLNzlKVVrY",
+      "title": "Collective Community Care: Dreaming of Futures in Autistic Mutual Aid",
+      "channel": "Autscape",
+      "who": "Vivian Ly",
+      "event": "Autscape 2020",
+      "runtime": "26:50",
+      "note": "The questions at the end were left out of the upload, as its own description says.",
+      "_checked": "2026-10-22: OK and playable in an embed on its watch page, 1,610 seconds, on Autscape's own channel. The presenter is named in the video's own description; our Community Care page carries the video and names its title."
+    }
+  ],
+  "quotes": {
+    "vivian-easier": {
+      "text": "It’s much easier to practice asking, offering, receiving, and declining among people who “get it”!",
+      "who": "Vivian Ly",
+      "work": "Collective Community Care: Dreaming of Futures in Autistic Mutual Aid",
+      "url": "https://www.youtube.com/watch?v=4gLNzlKVVrY",
+      "year": "Autscape 2020",
+      "read_on": "care"
+    },
+    "vivian-solidarity": {
+      "text": "“Solidarity, not charity.”",
+      "who": "Vivian Ly",
+      "work": "Collective Community Care: Dreaming of Futures in Autistic Mutual Aid",
+      "url": "https://www.youtube.com/watch?v=4gLNzlKVVrY",
+      "year": "Autscape 2020",
+      "read_on": "care"
+    },
+    "care-justice": {
+      "text": "It’s about moving from a rights-based frame to a justice-based one: not accommodation as charity, but care as infrastructure. Not self-improvement, but survival as a shared project.",
+      "who": "Stimpunks",
+      "work": "Community Care",
+      "url": "https://stimpunks.org/aid/community-care/",
+      "read_on": "care"
+    },
+    "hooks": {
+      "text": "I am often struck by the dangerous narcissism fostered by spiritual rhetoric that pays so much attention to individual self-improvement and so little to the practice of love within the context of community.",
+      "who": "bell hooks",
+      "work": "",
+      "unnamed": "our page credits bell hooks and names no work",
+      "url": "",
+      "read_on": "care"
+    },
+    "mitchell": {
+      "text": "We gotta keep each other alive any way we can ’cause nobody else is goin’ do it.",
+      "who": "Larry Mitchell",
+      "work": "",
+      "unnamed": "our page credits Larry Mitchell and names no work",
+      "url": "",
+      "read_on": "care"
+    },
+    "care-refusal": {
+      "text": "Community care is the refusal of that story.",
+      "who": "Stimpunks",
+      "work": "Community Care",
+      "url": "https://stimpunks.org/aid/community-care/",
+      "read_on": "care"
+    },
+    "mingus": {
+      "text": "I am fighting for an interdependence that embraces need and tells the truth: no one does it on their own and the myth of independence is just that, a myth.",
+      "who": "Mia Mingus",
+      "work": "Changing the Framework: Disability Justice",
+      "url": "https://leavingevidence.wordpress.com/2011/02/12/changing-the-framework-disability-justice/",
+      "read_on": "care"
+    },
+    "lewis": {
+      "text": "Self-care is birthed by and through community care.",
+      "who": "Talila A. Lewis",
+      "work": "a post on Twitter",
+      "url": "https://twitter.com/talilalewis/status/946778812531879938",
+      "read_on": "care"
+    },
+    "tinu": {
+      "text": "The parts we need to survive are scattered All amongst us.",
+      "who": "Tinu Abayomi-Paul",
+      "work": "a post on Twitter",
+      "url": "https://twitter.com/Tinu/status/1610393888589488129",
+      "read_on": "care"
+    },
+    "rosa": {
+      "text": "Our mutual entwinement must be careful, spacious and supple, with no single knot tied too tight.",
+      "who": "Sophie K. Rosa",
+      "work": "Radical Intimacy",
+      "url": "https://openlibrary.org/works/OL28697285W/Radical_Intimacy",
+      "year": "Pluto Press, pages 172–173",
+      "read_on": "care"
+    },
+    "roots-defined": {
+      "text": "Peer support is typically defined as a non-clinical, mutuality-based relationship between folks who share lived experience",
+      "who": "Tuesday Ferguson",
+      "work": "Tapping the Radical Roots of Peer Support",
+      "url": "https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/",
+      "year": "2024",
+      "read_on": "roots"
+    },
+    "roots-roots": {
+      "text": "The roots of peer support come from self-advocacy and activist movements that have always been rooted in resistance, mutual aid, and liberatory politics",
+      "who": "Tuesday Ferguson",
+      "work": "Tapping the Radical Roots of Peer Support",
+      "url": "https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/",
+      "year": "2024",
+      "read_on": "roots"
+    },
+    "roots-championed": {
+      "text": "It was championed first by the people who built kinship over the fact that they’d been othered, not by nonprofits and politicians playing the respectability game",
+      "who": "Tuesday Ferguson",
+      "work": "Tapping the Radical Roots of Peer Support",
+      "url": "https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/",
+      "year": "2024",
+      "read_on": "roots"
+    },
+    "roots-showup": {
+      "text": "I believe people first and foremost do mutual aid and peer support because that’s what it means to show up for each other in relationships",
+      "who": "Tuesday Ferguson",
+      "work": "Tapping the Radical Roots of Peer Support",
+      "url": "https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/",
+      "year": "2024",
+      "read_on": "roots"
+    },
+    "roots-outcome": {
+      "text": "provide care and support, without imposing interaction or forcing others to perform to a specific measurable outcome",
+      "who": "Tuesday Ferguson",
+      "work": "Tapping the Radical Roots of Peer Support",
+      "url": "https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/",
+      "year": "2024",
+      "read_on": "roots"
+    },
+    "nest-buddy": {
+      "text": "Many schools have run peer support models in the past where neurodivergent young people have been ‘buddied up’ with a neurotypical peer. However, often the goal of this is to help the neurodivergent person ‘learn’ neurotypical ‘social norms’.",
+      "who": "Salvesen Mindroom Research Centre",
+      "work": "NEST (NEurodivergent peer Support Toolkit)",
+      "url": "https://salvesen-research.ed.ac.uk/research/nest-neurodivergent-peer-support-toolkit",
+      "read_on": "peer"
+    },
+    "norris-boat": {
+      "text": "A common thread in the experiences of older autistic adults (aged 50+) was the importance of universality; being ‘in the same boat’.",
+      "who": "Norris, Harvey & Hull, citing Hickey et al. (2018)",
+      "work": "Post-diagnostic support for adults diagnosed with autism in adulthood in the UK: A systematic review with narrative synthesis",
+      "url": "https://journals.sagepub.com/doi/10.1177/13623613241273073",
+      "year": "2025",
+      "read_on": "peer"
+    },
+    "norris-training": {
+      "text": "The preference was for autistic-led peer support. However, individuals acknowledged that being autistic does not inherently provide the knowledge or skills necessary for the role, and that this requires training and/or experience.",
+      "who": "Norris, Harvey & Hull",
+      "work": "Post-diagnostic support for adults diagnosed with autism in adulthood in the UK: A systematic review with narrative synthesis",
+      "url": "https://journals.sagepub.com/doi/10.1177/13623613241273073",
+      "year": "2025",
+      "read_on": "peer"
+    },
+    "glossary-alongside": {
+      "text": "Autistic adults desired peer support not as a substitute for specialist services such as mental health support, but working alongside them.",
+      "who": "Stimpunks",
+      "work": "Peer Support",
+      "url": "https://stimpunks.org/glossary/peer-support/",
+      "read_on": "peer"
+    }
+  },
+  "four": [
+    {
+      "id": "asking",
+      "name": "Asking",
+      "line": "Say what you need, in your own words, as much or as little as you like. Nobody asks you to prove it, to say how you came to need it, or to have tried everything else first. Asking is not a weight on the room: it is how the people who want to show up find out where to stand."
+    },
+    {
+      "id": "offering",
+      "name": "Offering",
+      "line": "Offer what you can spare, when you can spare it, and on your own terms. Nobody keeps track of who offered and who did not, and an offer that turns out to be more than you have can be taken back."
+    },
+    {
+      "id": "receiving",
+      "name": "Receiving",
+      "line": "Take what is offered without paying for it in gratitude. Thanks are welcome and never owed, and nobody keeps a note of who has had help, or how often."
+    },
+    {
+      "id": "declining",
+      "name": "Declining",
+      "line": "Either side can say no. An offer that does not fit can be turned down, an ask can go by, and nobody is asked for a reason. A no is an answer, not a verdict on anybody."
+    }
+  ],
+  "sections": {
+    "four": [
+      {"q": "vivian-easier"},
+      {"p": "That is the whole of what the channel is for, and all four of them are allowed here. The line is off a slide in Vivian Ly’s talk at Autscape 2020, which our own Community Care page carries, and which is here to press as well."},
+      {"video": "4gLNzlKVVrY"},
+      {"four": true}
+    ],
+    "solidarity": [
+      {"q": "vivian-solidarity"},
+      {"p": "Mutual aid is people meeting each other’s needs directly, sideways rather than downwards. Nobody in here is the giving kind or the needing kind, because most of us are both, often in the same week, and the umbrella you are standing under today is not the one you brought."},
+      {"q": "care-justice"},
+      {"p": "Stimpunks also makes [mutual aid grants](https://stimpunks.org/aid/grant/) and [creator grants](https://stimpunks.org/creators/grant/) to neurodivergent and disabled people. Those are the Foundation’s, by application, in scheduled rounds, and they cannot cover anything urgent; their own pages say whether they are open, who they can reach and what they cannot pay for. Asking in this channel is asking the community, not applying, and you can do both."}
+    ],
+    "peer": [
+      {"q": "roots-defined"},
+      {"q": "roots-roots"},
+      {"p": "Tuesday Ferguson wrote that for our blog in 2024, as a youth peer support worker, about what becomes of peer support when it turns into a job inside the systems it grew up resisting. [The whole essay](https://stimpunks.org/2024/05/08/tapping-the-radical-roots-of-peer-support/) is better than anything this room could say about it. What the room takes from it is where peer support comes from:"},
+      {"q": "roots-championed"},
+      {"q": "roots-showup"},
+      {"p": "So nobody here is assessed, referred or signed up for anything. Peer support in a channel is somebody saying that happened to me too, and this is what helped, and staying. Nothing has to come of it that anybody else can measure:"},
+      {"q": "roots-outcome"},
+      {"p": "Our glossary’s entry on [peer support](https://stimpunks.org/glossary/peer-support/) starts by naming the version this is not:"},
+      {"q": "nest-buddy"},
+      {"p": "Nobody in here is buddied up with anybody to learn how to pass. The research the entry gathers says what Autistic people kept asking for instead, and it is honest about what being a peer does not give you:"},
+      {"q": "norris-boat"},
+      {"q": "norris-training"},
+      {"p": "This room keeps that second line. Being a peer is not the same as knowing what to do, nobody in here is pretending to be a service, and the entry says what peer support is for beside the rest:"},
+      {"q": "glossary-alongside"}
+    ],
+    "woven": [
+      {"q": "hooks"},
+      {"q": "mitchell"},
+      {"p": "Our Community Care page opens with those two, and then with the story the dominant culture tells about care: that needing help is weakness, that independence is a virtue, and that your survival is your own problem."},
+      {"q": "care-refusal"},
+      {"q": "mingus"},
+      {"q": "lewis"},
+      {"q": "tinu"},
+      {"p": "That is what the umbrellas are. Nobody brought enough for everybody, and nobody had to. Every umbrella is tied to the ones beside it and to the shopfronts either side, nothing else holds the roof up, and not one of them keeps anybody dry by itself. The ties are drawn from a line of Sophie K. Rosa’s, which our page carries too:"},
+      {"q": "rosa"}
+    ]
+  },
+  "not_here": [
+    {"name": "No proving it.", "line": "Nobody asks for a diagnosis, a story, a reason or evidence, and nobody decides whether a need is real."},
+    {"name": "No sorting.", "line": "Nobody here is the deserving kind or the other kind. Everybody under the umbrellas is somebody who might ask."},
+    {"name": "No ledger.", "line": "Help puts nobody in anybody’s debt. Nothing records who gave and who got, and receiving costs nobody a performance of gratitude."},
+    {"name": "Nothing counted.", "line": "No total of what was asked or what was given, no list of who helped, and no wall of thank-yous."},
+    {"name": "Nobody at the front.", "line": "No professionals, no caseworkers, no intake and no forms. The only expertise in the room is having been there."},
+    {"name": "Nobody owes an answer.", "line": "An ask can go unanswered and an offer can go untaken, and neither is a verdict on anybody. If an ask goes by, asking again is allowed."},
+    {"name": "Not a crisis line.", "line": "Our [Help page](https://stimpunks.org/help/) is a set of doors, and [Coping](https://stimpunks.org/fieldguide/coping/#h-crisis-hotlines) lists crisis lines and warmlines. Nobody here is on call."}
+  ],
+  "elsewhere": [
+    {
+      "page": "dead-tired-society.html",
+      "name": "Dead Tired Society",
+      "line": "peer support by and for the burnt out, in a borrowed room with the big lights off, where nobody has to talk.",
+      "holds": ["Peer support, by and for people who are burnt out", "Nobody has to talk"]
+    },
+    {
+      "page": "hey-good-cookin.html",
+      "name": "Hey, Good Cookin’",
+      "line": "a community kitchen where nobody is turned away and nothing is asked of you, not even a reason.",
+      "holds": ["no one is turned away", "Nothing is asked of you here"]
+    },
+    {
+      "page": "nothing-for-sale.html",
+      "name": "Nothing For Sale",
+      "line": "a free market in a lay-by out past the last streetlight: take what you need, leave what you can.",
+      "holds": ["Take what you need, leave what you can", "Everything on the tables is free"]
+    },
+    {
+      "page": "healing-checkpoint.html",
+      "name": "The Healing Checkpoint",
+      "line": "room 429, with a bed nobody is charging you for and nobody at the desk asking what you are there for.",
+      "holds": ["nobody is going to ask what you are here for", "the bed is free"]
+    },
+    {
+      "page": "community-center.html",
+      "name": "The Community Center",
+      "line": "where you get started on the CB, and the house norms every channel keeps.",
+      "holds": ["Getting started in the community", "House norms"]
+    }
+  ]
+}

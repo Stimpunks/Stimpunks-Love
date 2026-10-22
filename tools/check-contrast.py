@@ -871,6 +871,11 @@ BMB_INK, BMB_INK2, BMB_LINK, BMB_LINK_ON = "#22160E", "#5B4032", "#8A2A00", "#3D
 # buttons and the frames on the wall set in the table's white.
 CHM_ROOM, CHM_PANEL, CHM_TEXT, CHM_DIM = "#0E0D10", "#1A181D", "#ECE7DE", "#ABA59C"
 CHM_LINK, CHM_PICK, CHM_TABLE, CHM_INK = "#EBC883", "#2E2819", "#F8F5EF", "#221E24"
+# Community Care (love.css §122). A street roofed with everybody's umbrellas, in
+# the rain: every word on the dry paving under the roof or on a slab of it, and
+# nothing set on the sky or the umbrellas.
+CMC_UNDER, CMC_SLAB, CMC_TEXT, CMC_DIM = "#211E27", "#2C2833", "#F3EEE6", "#C2BAC8"
+CMC_LINK, CMC_RIB, CMC_TIE, CMC_TEAL = "#F5C451", "#16141B", "#E9E2D6", "#2BA89C"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3518,6 +3523,23 @@ PAIRS = [
     (CHM_INK,   CHM_TABLE, False, "chimera obscura: a starting chimera's name and whose it is, on its white button"),
     (CHM_ROOM,  CHM_LINK,  False, "chimera obscura: the words on the brass buttons, toss and copy a link"),
     (CHM_ROOM,  CHM_TABLE, False, "chimera obscura: a brass button's words under the pointer"),
+
+    # ── Community Care (§122) ────────────────────────────────────────────────
+    # Every word stands on the dry paving under the roof, or on a slab of it;
+    # the sky, the rain and the umbrellas carry none.
+    (CMC_TEXT,  CMC_UNDER, False, "community care: the name, every heading, the lede, every paragraph and "
+                                  "quotation, the rules, and the name and blurb on the street door"),
+    (CMC_TEXT,  CMC_SLAB,  False, "community care: the four things' cards, and the words on the talk's button"),
+    (CMC_TEXT,  CMC_RIB,   False, "community care: the talk's button under the pointer"),
+    (CMC_DIM,   CMC_UNDER, False, "community care: the trail, the line over the name, the caption under the roof, "
+                                  "whose each quotation is, the talk's note and the credits"),
+    (CMC_LINK,  CMC_UNDER, False, "community care: every link, the backlink, the door's knock, and the focus ring"),
+    (CMC_LINK,  CMC_SLAB,  False, "community care: PRESS PLAY on the talk's button, and the focus ring on it"),
+    (CMC_LINK,  CMC_RIB,   False, "community care: PRESS PLAY under the pointer"),
+    (CMC_TEAL,  CMC_UNDER, False, "community care: the job marker's spare umbrella on the paving, held to the "
+                                  "body threshold a marker is"),
+    (CMC_TIE,   CMC_UNDER, False, "community care: the marker's strap and handle, the cord beside every "
+                                  "quotation, the box round the crisis line and the door's frame"),
     # FANTASY FANCY DRESS: every word stands on the dark in front of the sheers
     # or on a plate a little lighter, never in the light; the gold sheer names
     # each rail and rings the focus, and a gold or rose button carries the dark.
@@ -4511,6 +4533,23 @@ ORNAMENT = {
                "1.34 on the black. It carries no word.",
     "#3a3640": "chimera obscura: the rail round the table in the drawing, 1.64 on the black. It carries "
                "no word.",
+    "#8c96a0": "community care: the rain sky over the roof in the drawing and on the street door's "
+               "awning, and the umbrellas' poles under the roof, 5.46 on the paving. It carries no word.",
+    "#c9d1d8": "community care: the rain falling on the roof, 1.95 on the sky, which is how rain looks. "
+               "It carries no word.",
+    "#16141b": "community care: every umbrella's ribs and outline, and the talk's button under the "
+               "pointer; the outline is 6.07 on the sky and 3.91 to 7.20 against the umbrellas, which is "
+               "what carries one umbrella from the next. It carries no word but the button's, measured.",
+    "#e4563f": "community care: the red umbrellas, 1.23 on the sky, carried by their outline at 4.96, and "
+               "a heading's hem, 4.46 on the paving. It carries no word.",
+    "#8c5fcb": "community care: the purple umbrellas, 1.51 on the sky, carried by their outline at 4.01, "
+               "and a heading's hem, 3.61 on the paving. It carries no word.",
+    "#74b347": "community care: the green umbrellas, 1.19 on the sky, carried by their outline at 7.20, "
+               "and a heading's hem, 6.47 on the paving. It carries no word.",
+    "#d9479a": "community care: the pink umbrella, 1.31 on the sky, carried by its outline at 4.62, and a "
+               "heading's hem, 4.16 on the paving. It carries no word.",
+    "#3d6fdb": "community care: the blue umbrella, 1.55 on the sky, carried by its outline at 3.91, and a "
+               "heading's hem, 3.51 on the paving. It carries no word.",
     "#b5591f": "bodymind booth: the floor under the booth in its drawing, 1.85 on the curtain. "
                "It carries no word and is the only thing in the drawing with no ink outline, "
                "because it is a shadow.",
