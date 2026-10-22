@@ -1437,7 +1437,7 @@ export function shapeAvatarSticker(st) {
    username. The answer for a handle that is not claimed is the same whether it
    is unclaimed or nobody at all, and shown chimeras carry no ids. */
 /* chimera:keys:begin */
-export const CHIMERA = {"slots":["body","head","ears","mouth","arms","feet","tail","back","colours","markings"],"defaults":{"arms":"body","feet":"body"},"animals":["armadillo","axolotl","badger","bear","beaver","capybara","cat","chameleon","chicken","dog","dolphin","elephant","fox","frog","highlandcow","jellyfish","koi","mouse","narwhal","octopus","opossum","otter","owl","panda","parrot","peacock","penguin","pig","platypus","porcupine","possum","rabbit","raccoon","raven","roadrunner","snake","squirrel","swan","turkey","turtle","zebra"],"backs":["armadillo","chameleon","highlandcow","peacock","porcupine","turkey","turtle","zebra"]};
+export const CHIMERA = {"slots":["body","head","ears","mouth","arms","feet","tail","back","colours","markings"],"defaults":{"arms":"body","feet":"body"},"animals":["armadillo","axolotl","badger","bear","beaver","capybara","cat","chameleon","chicken","dog","dolphin","elephant","fox","frog","highlandcow","jellyfish","koi","mouse","narwhal","octopus","opossum","otter","owl","panda","parrot","peacock","penguin","pig","platypus","porcupine","possum","rabbit","raccoon","raven","roadrunner","snake","squirrel","swan","turkey","turtle","zebra"],"backs":["armadillo","chameleon","chicken","highlandcow","owl","parrot","peacock","porcupine","raven","roadrunner","swan","turkey","turtle","zebra"]};
 /* chimera:keys:end */
 export const CHIMERA_KEEP = 24;           // chimeras one person keeps at once
 export const CHIMERA_NAME_MAX = 24;

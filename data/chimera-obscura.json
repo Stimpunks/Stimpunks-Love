@@ -189,7 +189,7 @@
    "ears": {"a": 34, "type": "tufts", "s": 0.42},
    "mouth": "none",
    "tail": {"d": "M-8,-10 C20,0 40,20 46,40 L30,38 L32,52 L16,44 L10,56 L0,42 L-10,14 Z", "fill": "fur"},
-   "back": null,
+   "back": {"kind": "wings", "word": "an owl's wings", "plate": "#8C6A48", "band": "#4A3626", "tip": "#EEE1CA"},
    "markings": {"disc": true, "belly": true, "chevrons": true}
   },
   "turtle": {
@@ -244,7 +244,7 @@
    "ears": {"a": 40, "type": "none", "s": 0.20},
    "mouth": "none",
    "tail": {"d": "M-8,-8 C20,4 44,24 62,52 L40,56 L46,66 L24,58 L-8,16 Z", "fill": "dark"},
-   "back": null,
+   "back": {"kind": "wings", "word": "a raven's wings", "plate": "#2E3140", "band": "#7C83A0", "tip": "#1B1C22"},
    "markings": {}
   },
   "dolphin": {
@@ -288,7 +288,7 @@
    "ears": {"a": 40, "type": "none", "s": 0.20},
    "mouth": "none",
    "tail": {"d": "M-8,-12 C16,-20 36,-34 48,-50 C50,-30 40,-6 -8,14 Z", "fill": "fur"},
-   "back": null,
+   "back": {"kind": "wings", "word": "a swan's wings", "plate": "#F7F6F2", "band": "#A9ADB3", "tip": "#FFFFFF"},
    "markings": {}
   },
   "chicken": {
@@ -299,7 +299,7 @@
    "ears": {"a": 0, "type": "comb", "s": 0.50},
    "mouth": "wattle",
    "tail": {"d": "M-8,-14 C10,-40 30,-74 52,-84 C46,-62 48,-46 60,-36 C70,-60 84,-72 98,-72 C84,-50 78,-24 60,-8 C40,8 16,14 -8,14 Z", "fill": "dark"},
-   "back": null,
+   "back": {"kind": "wings", "word": "a chicken's wings", "plate": "#C2662E", "band": "#7A3A18", "tip": "#8E4420"},
    "markings": {"chevrons": true, "belly": true}
   },
   "turkey": {
@@ -321,7 +321,7 @@
    "ears": {"a": 40, "type": "none", "s": 0.20},
    "mouth": "none",
    "tail": {"d": "M-8,-14 C20,-34 50,-80 72,-120 C78,-104 78,-90 72,-76 C84,-90 92,-96 100,-98 C88,-66 60,-24 -8,16 Z", "fill": "dark"},
-   "back": null,
+   "back": {"kind": "wings", "word": "a parrot's wings", "plate": "#D7372F", "band": "#F4C63A", "tip": "#2D5FB3"},
    "markings": {"darkLimbs": true, "facePatch": true}
   },
   "snake": {
@@ -431,7 +431,7 @@
    "ears": {"a": 0, "type": "crest", "s": 0.62},
    "mouth": "none",
    "tail": {"d": "M-8,-16 C20,-40 50,-100 68,-150 C78,-148 84,-142 84,-132 C70,-90 44,-30 -8,16 Z", "fill": "dark"},
-   "back": null,
+   "back": {"kind": "wings", "word": "a roadrunner's wings", "plate": "#8A6B4C", "band": "#3A2C20", "tip": "#EDE4D3"},
    "markings": {"chevrons": true, "belly": true}
   },
   "peacock": {

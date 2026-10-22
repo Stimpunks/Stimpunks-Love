@@ -135,7 +135,8 @@ STRIPES = {"bold", "tabby"}
 # What each kind of back is drawn in.
 BACKS = {"shell": ("plate", "band", "speck"), "scutes": ("plate", "band", "speck"),
          "quills": ("quill", "tip"), "mane": ("plate", "band"), "fan": ("quill", "band", "tip"),
-         "train": ("plate", "ring", "eye"), "shag": ("plate", "band"), "crest": ("plate", "band")}
+         "train": ("plate", "ring", "eye"), "shag": ("plate", "band"), "crest": ("plate", "band"),
+         "wings": ("plate", "band", "tip")}
 # A neck holds the head up; any longer and a tall pair of ears leaves the rig.
 NECK_MAX = 40
 COLOURS = {"fur", "light", "dark", "skin", "nose"}
