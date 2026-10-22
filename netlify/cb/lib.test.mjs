@@ -6101,3 +6101,108 @@ test('the dashboard\'s newest grant requests and cases are the latest submitted,
   assert.deepEqual(d.recent.grants.map((x) => x.name), ['This week', 'No day given', 'From 2023'], 'the latest added came first, not the latest submitted');
   assert.deepEqual(d.recent.cases.map((x) => x.name), ['New case', 'Old case']);
 }));
+
+/* ── Polls in the forums ── */
+import { cleanPoll, votePoll, closePoll, POLL_CHOICES_MAX } from './lib.mjs';
+
+const POLL = (kind, extra = {}) => ({ kind, q: 'Which day?', choices: ['Monday', 'Tuesday', 'Wednesday'], ...extra });
+
+test('a poll is a show of hands or a sealed ballot, with two to twenty choices and a closing date in the coming year', () => {
+  assert.match(cleanPoll({ kind: 'secret', choices: ['a', 'b'] }, T0).error, /show of hands or a sealed ballot/);
+  assert.match(cleanPoll({ kind: 'hands', choices: ['a'] }, T0).error, /between 2/);
+  assert.match(cleanPoll({ kind: 'hands', choices: Array.from({ length: POLL_CHOICES_MAX + 1 }, (_, i) => `c${i}`) }, T0).error, /between 2/);
+  assert.match(cleanPoll({ kind: 'hands', choices: ['Tea', ' tea '] }, T0).error, /the same/);
+  assert.match(cleanPoll({ kind: 'sealed', choices: ['a', 'b'], closes: T0 - 1 }, T0).error, /coming year/);
+  assert.match(cleanPoll({ kind: 'sealed', choices: ['a', 'b'], closes: T0 + DAYS(400) }, T0).error, /coming year/);
+  const { poll } = cleanPoll({ kind: 'sealed', choices: ['a', '', 'b'], closes: T0 + DAYS(3), many: 'yes' }, T0);
+  assert.deepEqual(poll.choices.map((c) => c.text), ['a', 'b']);
+  assert.equal(poll.many, false, 'anything but true made a poll take several choices');
+  assert.deepEqual(Object.keys(poll).sort(), ['cast', 'choices', 'closes', 'kind', 'many', 'q', 'tally']);
+});
+
+test('a show of hands names who picked what, takes changes and takes back, and its starter closes and opens it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(ADA, { cat: 'infodumps', title: 'Meetup', poll: POLL('hands') }, s, T0, NO_NET)).topic;
+  assert.ok(t, 'a topic with a poll and no words could not be started');
+  assert.equal((await readForumIndex('infodumps', s)).find((x) => x.id === t.id).poll, true, 'the list does not say the topic has a poll');
+  await votePoll(BO, t.id, ['c2'], s, T0 + 1);
+  await votePoll(ADA, t.id, ['c2'], s, T0 + 2);
+  let seen = (await forumTopic(fw('Cy', 700), t.id, s, T0 + 3)).poll;
+  assert.deepEqual(seen.choices[1].who, ['Ada', 'Bo'], 'the names under a choice are not everybody who picked it, alphabetically');
+  assert.equal(seen.choices[1].n, 2);
+  assert.deepEqual(seen.mine, []);
+  assert.equal(seen.close, false, 'somebody who did not start the topic was offered to close its poll');
+  assert.ok(!JSON.stringify(seen).includes(authorMark(BO)), 'a voter\'s mark was sent');
+  assert.match((await votePoll(BO, t.id, ['c1', 'c3'], s, T0 + 4)).error, /one choice/);
+  assert.match((await votePoll(BO, t.id, ['c9'], s, T0 + 4)).error, /not in this poll/);
+  await votePoll(BO, t.id, ['c3'], s, T0 + 5);
+  seen = (await forumTopic(BO, t.id, s, T0 + 6)).poll;
+  assert.deepEqual(seen.mine, ['c3']);
+  assert.deepEqual(seen.choices[1].who, ['Ada'], 'a changed vote stayed under its old choice');
+  await votePoll(BO, t.id, [], s, T0 + 7);
+  assert.equal((await forumTopic(BO, t.id, s, T0 + 8)).poll.n, 1, 'a vote taken back was still counted');
+  assert.match((await closePoll(BO, t.id, false, s, T0 + 9)).error, /Only whoever started/);
+  await closePoll(ADA, t.id, false, s, T0 + 9);
+  assert.match((await votePoll(BO, t.id, ['c1'], s, T0 + 10)).error, /closed/);
+  assert.deepEqual((await forumTopic(BO, t.id, s, T0 + 10)).poll.choices[1].who, ['Ada'], 'a closed show of hands stopped naming who picked what');
+  await closePoll(ADA, t.id, true, s, T0 + 11);
+  assert.ok((await votePoll(BO, t.id, ['c1'], s, T0 + 12)).topic, 'a show of hands opened again took no vote');
+  await moderateTopic(FMOD, t.id, { close: true }, s, T0 + 13);
+  assert.match((await votePoll(BO, t.id, ['c2'], s, T0 + 14)).error, /topic is closed/);
+  assert.equal((await readTopic(t.id, s)).last, T0, 'a vote moved the topic\'s clock');
+});
+
+test('a sealed ballot keeps nothing that says who picked what, shows nobody a number until it closes, and stays closed', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(BO, { cat: 'infodumps', title: 'Vote', body: 'Pick one.', poll: POLL('sealed', { many: true, closes: T0 + DAYS(2) }) }, s, T0, NO_NET)).topic;
+  await votePoll(ADA, t.id, ['c1', 'c3'], s, T0 + 1);
+  await votePoll(fw('Cy', 700), t.id, ['c3'], s, T0 + 2);
+  assert.match((await votePoll(ADA, t.id, ['c2'], s, T0 + 3)).error, /already voted/, 'a sealed vote was cast twice');
+  assert.match((await votePoll(fw('Di', 800), t.id, [], s, T0 + 3)).error, /Pick a choice/);
+  for (const reader of [ADA, BO, FMOD]) {
+    const seen = (await forumTopic(reader, t.id, s, T0 + 4)).poll;
+    assert.equal(seen.n, undefined, 'how many have voted in an open sealed ballot was sent');
+    assert.ok(seen.choices.every((c) => c.n === undefined && c.who === undefined), 'an open sealed ballot\'s numbers were sent');
+  }
+  assert.equal((await forumTopic(ADA, t.id, s, T0 + 4)).poll.voted, true);
+  assert.equal((await forumTopic(BO, t.id, s, T0 + 4)).poll.voted, false);
+  const kept = (await readTopic(t.id, s)).poll;
+  const stored = JSON.stringify(kept);
+  for (const x of ['Ada', 'Cy', authorMark(ADA), authorMark(fw('Cy', 700))]) assert.ok(!stored.includes(x), `a sealed ballot kept ${x}`);
+  assert.deepEqual(Object.keys(kept).sort(), ['cast', 'choices', 'closes', 'kind', 'many', 'q', 'tally']);
+  assert.deepEqual(kept.cast, kept.cast.slice().sort(), 'the ballots are kept in the order they were cast');
+  const shut = (await forumTopic(ADA, t.id, s, T0 + DAYS(2))).poll;
+  assert.equal(shut.shut, true, 'a sealed ballot past its date did not close');
+  assert.deepEqual(shut.choices.map((c) => c.n), [1, 0, 2]);
+  assert.equal(shut.n, 2);
+  assert.match((await votePoll(fw('Di', 800), t.id, ['c2'], s, T0 + DAYS(2))).error, /closed/);
+  assert.match((await closePoll(BO, t.id, true, s, T0 + DAYS(2))).error, /stays closed/, 'a sealed ballot was opened again after its results were out');
+});
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  for (const kind of ['hands', 'sealed']) {
+    test(`fifteen votes in one ${kind === 'hands' ? 'show of hands' : 'sealed ballot'} at once, ${how}`, async () => {
+      const s = memoryStore({ etagOnRead });
+      const t = (await startTopic(ADA, { cat: 'help-desk', title: 'Busy', poll: POLL(kind) }, s, T0, NO_NET)).topic;
+      const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => votePoll(fw(`V${i}`, i + 1), t.id, [`c${(i % 3) + 1}`], s, T0 + i)));
+      const worked = told.filter((r) => r.status === 'fulfilled' && r.value.topic).length;
+      for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+      const poll = (await readTopic(t.id, s)).poll;
+      if (kind === 'hands') assert.equal(poll.hands.length, worked, 'a vote that was told it counted is not in the show of hands');
+      else {
+        assert.equal(poll.cast.length, worked, 'a ballot that was told it counted is not among the ballots');
+        assert.equal(Object.values(poll.tally).reduce((a, b) => a + b, 0), worked, 'the tally and the ballots disagree');
+      }
+      if (etagOnRead) assert.equal(worked, 15);
+    });
+  }
+}
+
+test('a search finds a poll by its choices, and never by its votes', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(ADA, { cat: 'infodumps', title: 'Snacks', poll: { kind: 'hands', choices: ['Crisps', 'Grapes'] } }, s, T0, NO_NET)).topic;
+  await votePoll(BO, t.id, ['c1'], s, T0 + 1);
+  assert.ok((await searchForum(ADA, 'grapes', s, T0 + 2)).some((x) => x.id === t.id), 'a poll\'s choices are not searched');
+  assert.ok(!(await searchForum(ADA, 'bo', s, T0 + 2)).some((x) => x.id === t.id), 'a search found a topic by who voted in it');
+});

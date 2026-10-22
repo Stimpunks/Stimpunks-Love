@@ -11,7 +11,8 @@
      templates               what a new topic can start from: the templates you may read
      cb       &room= &ids=   the messages that would be copied off a channel
    POST, with the same pass:
-     { action: 'start', cat, title, body, tags?, from?, files?, at? }   a new topic; from: { room, ids } copies messages off the CB
+     { action: 'start', cat, title, body, tags?, from?, files?, at?, poll? }   a new topic; from: { room, ids } copies messages off the CB;
+                                                     poll: { kind: 'hands' or 'sealed', q?, choices, many?, closes? } (cleanPoll)
      { action: 'reply', t, body, reply?, files?, at? }          a reply, to the topic or to one post in it
      { action: 'edit', t, p, body, title?, files?, at? }        your own post, and the title if you started it
        files: [{ id, alt? }], uploads from /cb/forum/file, and the post's own; at: the handles picked to @mention
@@ -21,6 +22,8 @@
      { action: 'react', t, p, emoji }                a reaction on, or off again
      { action: 'moderate', t, pin?, close?, move? }  a moderator pinning, closing or moving a topic
      { action: 'tag', t, tags }                      a topic's tags, by its starter, a wiki's editors or a moderator
+     { action: 'vote', t, picks }                    a vote in the topic's poll; [] takes a show of hands' vote back
+     { action: 'poll', t, open? }                    its starter or a moderator closing the poll, or opening a show of hands again
      { action: 'import', notion, cat, title, body, t, by, tags? }   a moderator bringing a page in from Notion,
                                                      at the time it was made and under the username that made it
                                                      (importTopic); it tells nobody
@@ -31,8 +34,8 @@
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
 import { readPass, forumReader, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
-  reactPost, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
-  FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
+  reactPost, votePoll, closePoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
+  FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere: the forums are for
 // claimed usernames, and a cached answer is a copy.
@@ -43,7 +46,7 @@ const CLAIM = 'The forums are for claimed usernames. Claim yours under Account o
 const quick = REACTIONS.map(([emoji, name]) => ({ emoji, name }));
 // What a post may carry, so the page keeps no copy of these either.
 const takes = { most: FORUM_ATTACH_MAX, docMost: FORUM_DOC_ATTACH_MAX, body: FORUM_BODY_MAX, docBody: FORUM_DOC_BODY_MAX,
-  fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES) };
+  fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES), choices: POLL_CHOICES_MAX, choice: POLL_CHOICE_MAX, q: POLL_Q_MAX };
 const num = (v) => (v != null && /^\d{1,15}$/.test(v) ? Number(v) : null);
 
 export default async (req, context) => {
@@ -102,6 +105,8 @@ export default async (req, context) => {
     else if (b.action === 'react') r = await reactPost(who, t, p, b.emoji);
     else if (b.action === 'moderate') r = await moderateTopic(who, t, b);
     else if (b.action === 'tag') r = await retagTopic(who, t, b);
+    else if (b.action === 'vote') r = await votePoll(who, t, b.picks);
+    else if (b.action === 'poll') r = await closePoll(who, t, b.open === true);
     else if (b.action === 'import') {
       r = await importTopic(who, b);
       // What happened, for the importer, which reads no topic back and tells nobody.

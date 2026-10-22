@@ -5663,6 +5663,20 @@ records kept against a person, the third a count, the fourth a request on somebo
 **And `image/*` is written in two halves in forum.js**, because `make-forum.py` strips comments with a regex that reads a
 slash and a star as one; a refusal from that tool about code that is plainly there is that.
 
+**A POLL IS THE ONE PLACE THE FORUMS COUNT, AND A SEALED BALLOT KEEPS NOBODY'S PICK.** Norah's ask, Ryan's calls,
+2026-10-22, reversing the forums' tally rule for polls alone (the Mission says the street counts people in two places
+now). A topic can open with a poll (`cleanPoll` in `startTopic`; `votePoll`, `closePoll`, `shapePoll` in `lib.mjs`),
+of a kind chosen then and never changed. **A show of hands** keeps each voter's mark, handle and picks and names who
+picked what, live; a vote can be changed or taken back. **A sealed ballot** keeps a tally and, apart from it, the
+ballots cast (`ballotOf`, a hash of the topic and the voter's mark, so different in every poll), sorted, and nothing
+else (`sealVote`): so a sealed vote is never changed, goes after a second press in `forum.js`, **sends nobody a number,
+moderators included, until it closes** (`shapePoll` returns first), and stays shut once its results are out, because
+votes after them would tell by subtraction who picked what. Results stay in the poll's own order with no winner marked;
+`forum.js` puts a number beside votes only between `poll:begin` and `poll:end`, and a list says only POLL.
+`tools/make-forum.py` holds each of those. **The friendly edits are a running turnout on a sealed ballot, letting a
+sealed vote change "by keeping who picked what", results sorted with the winner on top, a list of who has not voted,
+and a count anywhere else in the forums "now that polls have one".**
+
 **EVERY FORUM CATEGORY IS A ROOM ON THE CB, AND ITS READERS ARE ITS ONLY LIST.** Ryan's ask and calls, 2026-10-21:
 the radio's This room follows the category being read, so a category's page, a topic in it and a new topic started in it
 (`#/new?c=`, or `from=` a category's room) tune to `forum-<slug>` (`FORUM_ROOM` in `lib.mjs`), and the forums' home,

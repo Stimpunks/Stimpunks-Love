@@ -129,6 +129,38 @@
 .fm-sure { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; padding: 8px 10px; border: 2px solid var(--cb-amber); border-radius: 6px; }
 .fm-sure > p { flex: 1 1 100%; }
 
+/* A POLL, under the post that opens its topic: edged in the case's own steel,
+   a choice to a row, and how many beside each as a bar in the link's amber on
+   a track of the case's steel edge. The bar is the number drawn, never instead
+   of it, and the results stay in the poll's own order. */
+.fm-poll { display: grid; gap: 8px; margin: 4px 0 10px; padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.fm-poll:focus { outline: none; }
+.fm-poll:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 4px; }
+.fm-poll__kind .cb-tag { margin-left: 0; }
+.fm .fm-poll__h { font: 700 20px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: 0; text-transform: none; color: var(--cb-steel-2); }
+.fm-poll__form { display: grid; gap: 8px; }
+.fm-poll__set { margin: 0; padding: 0; border: 0; display: grid; gap: 6px; min-width: 0; }
+.fm-poll__results { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.fm-poll__choice { display: grid; gap: 2px; padding: 6px 0; border-top: 2px solid var(--cb-bar); }
+.fm-poll__choice:first-child { border-top: 0; }
+.fm-poll__pick { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; min-height: 32px; }
+.fm-poll__pick input { width: 20px; height: 20px; margin: 3px 0 0; flex: none; accent-color: var(--cb-amber); }
+.fm-poll__text { font-weight: 700; }
+.fm-poll__tally { display: grid; gap: 2px; padding-left: 30px; }
+.fm-poll__results .fm-poll__tally { padding-left: 0; }
+.fm-poll__bar { display: block; height: 8px; max-width: 360px; border: 1px solid var(--cb-steel-2); border-radius: 4px; overflow: hidden; }
+.fm-poll__fill { display: block; height: 100%; background: var(--cb-amber); }
+.fm-poll__n { font-size: 15px; }
+.fm-poll__done { font-size: 15px; font-weight: 700; }
+.fm-poll__tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fm-pollset { display: grid; gap: 6px; margin: 0; padding: 10px 12px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; width: 100%; min-width: 0; }
+.fm-pollset legend { padding: 0 4px; }
+.fm-pollset__kinds { display: grid; gap: 8px; margin-bottom: 4px; }
+.fm-pollset__kind, .fm-pollset__many { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; cursor: pointer; }
+.fm-pollset__kind input, .fm-pollset__many input { width: 20px; height: 20px; margin: 2px 0 0; flex: none; accent-color: var(--cb-amber); }
+.fm-pollset__choices { min-height: 6em; }
+.fm-pollset__day { max-width: 14em; }
+
 /* THE WORDS of a post, as markdown.js builds them. Weight, slope and rules do
    the work, never a colour. */
 .fm-body { display: grid; gap: 10px; min-width: 0; }

@@ -513,6 +513,7 @@
     top.appendChild(a);
     if (x.pinned) top.appendChild(tag('PINNED', true));
     if (x.closed) top.appendChild(tag('CLOSED', true));
+    if (x.poll) top.appendChild(tag('POLL', true));
     var n = newness(x);
     if (n) top.appendChild(tag(n.toUpperCase()));
     li.appendChild(top);
@@ -868,6 +869,142 @@
     y.addEventListener('click', function () { y.disabled = true; yes(function () { y.disabled = false; }); });
   }
 
+  /* poll:begin */
+  /* A TOPIC'S POLL, the one place in the forums with numbers in it (Ryan's
+     call, 2026-10-22): how many picked each choice, in the poll's own order,
+     never sorted by it, and no winner marked. A show of hands names who picked
+     what as the votes come in. A sealed ballot shows nobody a number until it
+     closes, because until then the server sends none, and its vote goes only
+     after a second press, because it cannot be taken back. */
+  function votes(n) { return n === 1 ? '1 vote' : n ? n + ' votes' : 'No votes'; }
+  function pollTally(c, total) {
+    var line = el('div', 'fm-poll__tally');
+    line.id = 'fm-poll-n-' + c.id;
+    var bar = el('span', 'fm-poll__bar');
+    bar.setAttribute('aria-hidden', 'true');
+    var fill = el('span', 'fm-poll__fill');
+    fill.style.width = (total ? Math.round(100 * c.n / total) : 0) + '%';
+    bar.appendChild(fill);
+    line.appendChild(bar);
+    line.appendChild(el('span', 'fm-poll__n', votes(c.n) + (c.who && c.who.length ? ': ' + c.who.join(', ') : '')));
+    return line;
+  }
+  function pollForm(t, poll) {
+    var sealed = poll.kind === 'sealed', mineNow = poll.mine || [];
+    var form = el('form', 'fm-poll__form');
+    form.noValidate = true;
+    var set = el('fieldset', 'fm-poll__set');
+    set.appendChild(el('legend', 'sr', poll.many ? 'Your choices' : 'Your choice'));
+    var boxes = [];
+    poll.choices.forEach(function (c) {
+      var row = el('div', 'fm-poll__choice');
+      var lab = el('label', 'fm-poll__pick');
+      var inp = el('input');
+      inp.type = poll.many ? 'checkbox' : 'radio';
+      inp.name = 'fm-poll-pick';
+      inp.value = c.id;
+      inp.checked = mineNow.indexOf(c.id) >= 0;
+      boxes.push(inp);
+      lab.appendChild(inp);
+      lab.appendChild(el('span', 'fm-poll__text', c.text));
+      row.appendChild(lab);
+      if (!sealed) { row.appendChild(pollTally(c, poll.n)); inp.setAttribute('aria-describedby', 'fm-poll-n-' + c.id); }
+      set.appendChild(row);
+    });
+    form.appendChild(set);
+    var row = el('div', 'fm-poll__tools');
+    var go = el('button', 'cb-btn fm-small', mineNow.length ? 'Change my vote' : 'Vote'); go.type = 'submit';
+    row.appendChild(go);
+    if (mineNow.length) {
+      var back = el('button', 'cb-btn fm-small', 'Take my vote back'); back.type = 'button';
+      back.addEventListener('click', function () {
+        back.disabled = true;
+        act({ action: 'vote', t: t.id, picks: [] }, 'Your vote is taken back.', function () { back.disabled = false; });
+      });
+      row.appendChild(back);
+    }
+    form.appendChild(row);
+    var answer = el('p', 'fm-answer');
+    answer.setAttribute('role', 'status');
+    form.appendChild(answer);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (row.querySelector('.fm-sure')) return;
+      var ids = boxes.filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
+      if (!ids.length) { answer.textContent = 'Pick a choice first.'; return; }
+      answer.textContent = '';
+      if (!sealed) {
+        go.disabled = true;
+        act({ action: 'vote', t: t.id, picks: ids }, mineNow.length ? 'Your vote is changed.' : 'Your vote is in.', function () { go.disabled = false; });
+        return;
+      }
+      var named = poll.choices.filter(function (c) { return ids.indexOf(c.id) >= 0; }).map(function (c) { return '“' + c.text + '”'; }).join(' and ');
+      sure(row, 'Your vote for ' + named + ' cannot be changed or taken back afterwards, because nothing we keep says what you picked.', 'Cast my vote', function (done) {
+        act({ action: 'vote', t: t.id, picks: ids }, 'Your vote is in. Nothing we keep says what you picked.', done);
+      }, go);
+    });
+    return form;
+  }
+  function pollResults(poll) {
+    var list = el('ul', 'fm-poll__results');
+    poll.choices.forEach(function (c) {
+      var li = el('li', 'fm-poll__choice');
+      var yours = poll.mine && poll.mine.indexOf(c.id) >= 0;
+      li.appendChild(el('span', 'fm-poll__text', c.text + (yours ? ' (your vote)' : '')));
+      if (c.n != null) li.appendChild(pollTally(c, poll.n));
+      list.appendChild(li);
+    });
+    return list;
+  }
+  function pollOf(t) {
+    var poll = t.poll, sealed = poll.kind === 'sealed';
+    var box = el('section', 'fm-poll');
+    box.id = 'fm-poll';
+    box.tabIndex = -1;
+    box.setAttribute('aria-labelledby', 'fm-poll-h');
+    var kind = el('p', 'fm-poll__kind');
+    kind.appendChild(tag(sealed ? 'SEALED BALLOT' : 'SHOW OF HANDS', true));
+    box.appendChild(kind);
+    // The question is a sentence that is read, so it is set as the topic's title is, never in the theme's face.
+    var h = el('h3', 'fm-poll__h', poll.q || t.title);
+    h.id = 'fm-poll-h';
+    box.appendChild(h);
+    var open = !poll.shut && !t.closed && !(sealed && poll.voted);
+    box.appendChild(quiet((sealed
+      ? 'A sealed ballot: nothing we keep says who picked what, so nobody can see it, moderators included, and a vote cannot be changed or taken back.'
+      : 'A show of hands: everybody who can read this topic sees who picked what.') + (!open ? '' : poll.many ? ' Pick as many as you like.' : ' Pick one.')));
+    var then = sealed ? ', and then everybody sees the results.' : '.';
+    box.appendChild(quiet(poll.shut ? 'Closed ' + when(poll.shutAt || poll.closes) + '.'
+      : poll.closes ? 'Closes ' + when(poll.closes) + then
+      : 'Open until ' + t.handle + ' or a moderator closes it' + then));
+    box.appendChild(open ? pollForm(t, poll) : pollResults(poll));
+    if (!poll.shut && t.closed) box.appendChild(quiet('This topic is closed, so its poll takes no more votes.'));
+    if (sealed && poll.voted && !poll.shut) box.appendChild(el('p', 'fm-poll__done', 'You have voted. Nothing we keep says what you picked, so it cannot be changed. The results show when the poll closes.'));
+    if (sealed && poll.shut) box.appendChild(quiet('Ballots cast: ' + poll.n + '.'));
+    var tools = el('div', 'fm-poll__tools');
+    if (poll.close) {
+      var shutB = el('button', 'cb-btn fm-small', sealed ? 'Close the poll and show the results' : 'Close the poll'); shutB.type = 'button';
+      shutB.addEventListener('click', function () {
+        if (!sealed) { shutB.disabled = true; act({ action: 'poll', t: t.id }, 'The poll is closed.', function () { shutB.disabled = false; }); return; }
+        sure(tools, 'Closing shows the results to everybody, and a sealed ballot cannot be opened again.', 'Close it', function (done) {
+          act({ action: 'poll', t: t.id }, 'The poll is closed, and its results are out.', done);
+        }, shutB);
+      });
+      tools.appendChild(shutB);
+    }
+    if (poll.reopen) {
+      var openB = el('button', 'cb-btn fm-small', 'Open the poll again'); openB.type = 'button';
+      openB.addEventListener('click', function () {
+        openB.disabled = true;
+        act({ action: 'poll', t: t.id, open: true }, 'The poll is open again.', function () { openB.disabled = false; });
+      });
+      tools.appendChild(openB);
+    }
+    if (tools.children.length) box.appendChild(tools);
+    return box;
+  }
+  /* poll:end */
+
   function postOf(t, p, i) {
     var art = el('article', 'fm-post');
     art.id = 'fm-p-' + p.id;
@@ -1077,6 +1214,79 @@
     attach.appendChild(attWhy);
     attach.appendChild(attNote);
     form.appendChild(attach);
+
+    /* A POLL, only when a topic is started, and of the kind its starter
+       chooses here and never after: a show of hands, or a sealed ballot. */
+    var pollOn = false, pollIn = null, pollToggle = null;
+    if (o.poll) {
+      var had = fresh && fresh.poll;
+      pollToggle = el('button', 'cb-btn fm-small', 'Add a poll'); pollToggle.type = 'button';
+      pollToggle.setAttribute('aria-expanded', 'false');
+      pollToggle.setAttribute('aria-controls', 'fm-pollset');
+      var pset = el('fieldset', 'fm-pollset');
+      pset.id = 'fm-pollset';
+      pset.hidden = true;
+      pset.appendChild(el('legend', 'cb-lab', 'The poll'));
+      var kinds = el('div', 'fm-pollset__kinds');
+      kinds.setAttribute('role', 'radiogroup');
+      kinds.setAttribute('aria-label', 'What kind of poll');
+      var kindIn = {};
+      [['hands', 'A show of hands', 'Everybody who can read the topic sees who picked what, as the votes come in. A vote can be changed or taken back while the poll is open.'],
+        ['sealed', 'A sealed ballot', 'Nothing we keep says who picked what, so nobody can see it, moderators included, and a vote cannot be changed or taken back. Nobody sees a number until the poll closes, and then everybody does. With only a few votes, the results can still say who picked what.']].forEach(function (k) {
+        var lab = el('label', 'fm-pollset__kind');
+        var r = el('input');
+        r.type = 'radio'; r.name = 'fm-poll-kind'; r.value = k[0];
+        r.checked = had ? had.kind === k[0] : k[0] === 'hands';
+        r.addEventListener('change', saveDraft);
+        kindIn[k[0]] = r;
+        lab.appendChild(r);
+        var words = el('span');
+        words.appendChild(el('strong', null, k[1]));
+        words.appendChild(document.createTextNode('. ' + k[2]));
+        lab.appendChild(words);
+        kinds.appendChild(lab);
+      });
+      pset.appendChild(kinds);
+      var pql = el('label', 'cb-lab', 'The question (you can leave this empty, and the title is the question)'); pql.htmlFor = 'fm-poll-q';
+      var pq = el('input', 'cb-say fm-field'); pq.id = 'fm-poll-q'; pq.maxLength = takes.q || 300;
+      pq.value = had && had.q ? had.q : '';
+      var pcl = el('label', 'cb-lab', 'The choices, one to a line'); pcl.htmlFor = 'fm-poll-c';
+      var pc = el('textarea', 'cb-say fm-text fm-pollset__choices'); pc.id = 'fm-poll-c'; pc.rows = 4;
+      pc.value = had && had.choices ? had.choices.join('\n') : '';
+      pc.setAttribute('aria-describedby', 'fm-poll-c-hint');
+      var pch = el('p', 'cb-quiet fm-hint', 'Between two and ' + (takes.choices || 20) + ' choices, each up to ' + (takes.choice || 200) + ' characters. They are shown in this order, and so are the results.');
+      pch.id = 'fm-poll-c-hint';
+      var pml = el('label', 'fm-pollset__many');
+      var pm = el('input'); pm.type = 'checkbox'; pm.checked = !!(had && had.many);
+      pml.appendChild(pm);
+      pml.appendChild(document.createTextNode(' People can pick more than one'));
+      var pdl = el('label', 'cb-lab', 'It closes at the end of (you can leave this empty, and close it yourself)'); pdl.htmlFor = 'fm-poll-d';
+      var pd = el('input', 'cb-say fm-field fm-pollset__day'); pd.id = 'fm-poll-d'; pd.type = 'date';
+      pd.value = had && had.day ? had.day : '';
+      [pq, pc, pd].forEach(function (x) { x.addEventListener('input', saveDraft); });
+      pm.addEventListener('change', saveDraft);
+      [pql, pq, pcl, pc, pch, pml, pdl, pd].forEach(function (x) { pset.appendChild(x); });
+      pollIn = function () {
+        var kind = kindIn.sealed.checked ? 'sealed' : 'hands';
+        var closes = null, m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(pd.value);
+        // The end of that day where the starter is, as the date was meant.
+        if (m) closes = new Date(+m[1], +m[2] - 1, +m[3], 23, 59, 0).getTime();
+        return { kind: kind, q: pq.value, choices: pc.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean),
+          many: pm.checked, closes: closes, day: pd.value };
+      };
+      var setPoll = function (on) {
+        pollOn = on;
+        pset.hidden = !on;
+        pollToggle.textContent = on ? 'Take the poll off' : 'Add a poll';
+        pollToggle.setAttribute('aria-expanded', String(on));
+      };
+      pollToggle.addEventListener('click', function () { setPoll(!pollOn); if (pollOn) kindIn[kindIn.sealed.checked ? 'sealed' : 'hands'].focus(); saveDraft(); });
+      if (had) setPoll(true);
+      var prow = el('div', 'fm-attach');
+      prow.appendChild(pollToggle);
+      prow.appendChild(pset);
+      form.appendChild(prow);
+    }
 
     /* A picture's place in the words. Its description goes between the
        brackets, without anything that would end them. */
@@ -1321,8 +1531,9 @@
       clearTimeout(timer);
       timer = setTimeout(function () {
         var m = mine();
-        if (!text.value.trim() && !(title && title.value.trim())) { if (m.draft && m.draft.key === key) { delete m.draft; keepMine(m); } return; }
+        if (!text.value.trim() && !(title && title.value.trim()) && !pollOn) { if (m.draft && m.draft.key === key) { delete m.draft; keepMine(m); } return; }
         m.draft = { key: key, body: text.value, title: title ? title.value : null, cat: catSel ? catSel.value : null, tags: tagsIn ? tagsIn.value : null };
+        if (pollOn) { var pv = pollIn(); m.draft.poll = { kind: pv.kind, q: pv.q, choices: pv.choices, many: pv.many, day: pv.day }; }
         keepMine(m);
       }, 400);
     }
@@ -1363,6 +1574,7 @@
       var v = { body: text.value, title: title ? title.value : undefined, cat: catSel ? catSel.value : undefined, at: mentioned(),
         tags: tagsIn ? tagsFrom(tagsIn.value) : undefined,
         files: files.map(function (f) { return f.kind === 'pic' && f.alt && f.alt.trim() ? { id: f.id, alt: f.alt.trim() } : { id: f.id }; }) };
+      if (pollOn) { var pv = pollIn(); v.poll = { kind: pv.kind, q: pv.q, choices: pv.choices, many: pv.many, closes: pv.closes }; }
       o.send(v).then(function (msg) {
         go.disabled = false;
         if (msg) { answer.textContent = msg; return; }
@@ -1484,7 +1696,7 @@
       drawTopic(r.body, null, true);
       // The button pressed was redrawn with its post, so the keyboard goes back
       // to that post, or to the topic, where it was, without moving the page.
-      var back = (send.p && root.getElementById('fm-p-' + send.p)) || view.querySelector('h2');
+      var back = (send.p && root.getElementById('fm-p-' + send.p)) || ((send.action === 'vote' || send.action === 'poll') && view.querySelector('.fm-poll')) || view.querySelector('h2');
       if (back) { back.tabIndex = -1; back.focus({ preventScroll: true }); }
       if (done) say(done);
     });
@@ -1768,7 +1980,9 @@
     if (tl) view.appendChild(tl);
     view.appendChild(quiet(goesWords(t)));
     if (t.mod || t.takeDown || t.retag) view.appendChild(topicTools(t));
-    t.posts.forEach(function (p, i) { view.appendChild(postOf(t, p, i)); });
+    // A poll stands under the post that opens the topic, or alone when that has been taken down.
+    t.posts.forEach(function (p, i) { view.appendChild(postOf(t, p, i)); if (i === 0 && t.poll) view.appendChild(pollOf(t)); });
+    if (!t.posts.length && t.poll) view.appendChild(pollOf(t));
     if (!t.posts.length) view.appendChild(quiet('Every post in this topic has been taken down.'));
     // Linked from: the topics, and for staff the tasks and the office's records, that link here (links.js).
     if (body.backlinks) linkedFrom[t.id] = body.backlinks;
@@ -1955,11 +2169,12 @@
       }
       var f = composer({
         key: 'new:' + (q.from || '') + ':' + (q.ids || ''), cats: startable, cat: inCat && startIn(catOf(inCat)) ? startIn(catOf(inCat)).slug : inCat, title: '', above: above,
-        templates: templates, tags: [],
+        templates: templates, tags: [], poll: true,
         people: from && rs[3].status === 200 ? rs[3].body.cb.messages.map(function (m) { return m.handle; }) : [],
         label: from ? 'Anything you want to add (you can leave this empty)' : 'Your post', go: 'Start the topic', sending: 'Starting it…',
         send: function (v) {
           var b = { action: 'start', cat: v.cat, title: v.title, body: v.body, files: v.files, at: v.at, tags: v.tags };
+          if (v.poll) b.poll = v.poll;
           if (from) b.from = from;
           return call(null, b).then(function (r2) {
             if (r2.status !== 200) return why(r2, 'That did not post. Nothing was changed.');

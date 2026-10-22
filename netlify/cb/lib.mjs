@@ -5621,6 +5621,11 @@ export const FORUM_ALT_MAX = 600;       // characters of a picture's description
 export const FORUM_AT_MAX = 10;         // handles one post keeps as mentioned
 export const FORUM_TAGS_MAX = 5;        // tags on one topic
 export const FORUM_TAG_MAX = 30;        // characters in one tag
+export const POLL_KINDS = ['hands', 'sealed']; // a show of hands, or a sealed ballot
+export const POLL_CHOICES_MAX = 20;     // choices in one poll
+export const POLL_CHOICE_MAX = 200;     // characters in one choice
+export const POLL_Q_MAX = 300;          // characters in a poll's question
+export const POLL_AHEAD = 366 * 24 * 60 * 60 * 1000; // how far ahead a poll can be set to close
 const FORUM_CAT = 'forum/c/';
 const FORUM_GONE = 'forum-gone';        // Notion's ids of pages brought over and taken down here, so a later import leaves them down
 const FORUM_TOPIC = 'forum/t/';
@@ -6010,6 +6015,8 @@ function summaryOf(t) {
   if (t.tags && t.tags.length) sum.tags = t.tags.slice();
   // Which Notion page it was brought from, so bringing it again finds it; never sent.
   if (t.notion) sum.notion = t.notion;
+  // That it opens with a poll, so a list can say so; nothing about the votes.
+  if (t.poll) sum.poll = true;
   return sum;
 }
 
@@ -6049,6 +6056,7 @@ function shapeSummary(sum, cat) {
   if (sum.pinned) out.pinned = true;
   if (sum.closed) out.closed = true;
   if (sum.tags && sum.tags.length) out.tags = sum.tags.slice();
+  if (sum.poll) out.poll = true;
   return out;
 }
 const byLast = (a, b) => b.last - a.last;
@@ -6236,7 +6244,7 @@ function shapeFile(f, placed = false) {
 
 function topicAlone(t, mark) { return t.posts.every((p) => p.by === mark); }
 
-export function shapeTopic(t, cat, who) {
+export function shapeTopic(t, cat, who, now = Date.now()) {
   const mark = authorMark(who), mod = who.role === 'base', editor = forumEditor(who, cat), wiki = !!cat.wiki;
   const out = { id: t.id, cat: shapeForumCat(cat, who), title: t.title, handle: t.handle, base: !!t.base, t: t.t, last: t.last,
     goes: topicGoes(summaryOf(t), cat), retitle: t.by === mark || editor, retag: t.by === mark || editor || mod, tags: (t.tags || []).slice(), mod,
@@ -6245,6 +6253,7 @@ export function shapeTopic(t, cat, who) {
     posts: t.posts.map((p, i) => shapePost(p, who, mark, wiki && i === 0, editor)) };
   if (t.pinned) out.pinned = true;
   if (t.closed) out.closed = true;
+  if (t.poll) out.poll = shapePoll(t, who, mark, now);
   return out;
 }
 
@@ -6253,7 +6262,7 @@ export async function forumTopic(who, id, s = store(), now = Date.now()) {
   if (!t) return null;
   const cat = forumCat(t.cat, now);
   if (!forumAllows(who, cat) || !topicLive(summaryOf(t), cat, now)) return null;
-  return shapeTopic(t, cat, who);
+  return shapeTopic(t, cat, who, now);
 }
 
 /* THE TEMPLATES a reader is offered when they start a topic, Ryan's ask,
@@ -6307,6 +6316,8 @@ export async function searchForum(who, q, s = store(), now = Date.now()) {
     if (out.length >= 30) break;
     const texts = [{ post: null, handle: t.handle, text: t.title }];
     if (t.tags && t.tags.length) texts.push({ post: null, handle: t.handle, text: t.tags.join(' ') });
+    // A poll's question and choices; never its votes.
+    if (t.poll) texts.push({ post: null, handle: t.handle, text: [t.poll.q || '', ...t.poll.choices.map((c) => c.text)].join(' ') });
     t.posts.forEach((p) => {
       if (p.body) texts.push({ post: p.id, handle: p.handle, text: p.body });
       if (p.cb) p.cb.messages.forEach((m) => texts.push({ post: p.id, handle: m.handle, text: m.text }));
@@ -6444,9 +6455,11 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   }
   const body = f.body == null || String(f.body).trim() === '' ? '' : cleanForumBody(f.body, bodyMost(cat, true));
   if (body === null) return { error: `${cat.wiki ? 'A page' : 'A post'} is up to ${bodyMost(cat, true)} characters.` };
+  const poll = f.poll == null ? null : cleanPoll(f.poll, now);
+  if (poll && poll.error) return poll;
   const att = await attachments(who, f.files, [], s, attachMost(cat, true));
   if (att.error) return att;
-  if (!body && !cb && !att.files.length) return { error: 'Say something to start the topic with, or add a picture or a file.' };
+  if (!body && !cb && !att.files.length && !poll) return { error: 'Say something to start the topic with, or add a picture, a file or a poll.' };
   if ((await readForumIndex(cat.slug, s)).length >= FORUM_TOPICS_MAX) {
     return { error: `${cat.name} is full. A moderator has to take some topics down before another fits.` };
   }
@@ -6455,6 +6468,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   const topic = { id: newTopicId(), v: 1, cat: cat.slug, title, handle: who.handle, by: authorMark(who), t: now, last: now, lastBy: who.handle, posts: [post] };
   if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
   if (tags.length) topic.tags = tags;
+  if (poll) topic.poll = poll.poll;
   // The files go under the topic before the topic does, so no post ever
   // holds one that is not there; the uploads go only once the topic is.
   await keepUploads(topic.id, att.fresh, s);
@@ -6636,6 +6650,137 @@ export async function reactPost(who, id, pid, emoji, s = store(), now = Date.now
     const next = toggleReaction(t.posts, pid, emoji, who.handle);
     if (!next) return { why: 'That post has been taken down, or has as many different reactions as it can hold.' };
     t.posts = next;
+    return t;
+  });
+}
+
+/* POLLS, Norah's ask, Ryan's calls, 2026-10-22: a topic can open with a poll,
+   of one of two kinds, chosen by whoever starts it and never changed after.
+
+   A SHOW OF HANDS keeps who picked what (each hand its voter's mark, handle
+   and picks) and shows everybody who can read the topic the names under each
+   choice, as the votes come in. A hand can be changed or taken back while the
+   poll is open.
+
+   A SEALED BALLOT keeps who has voted apart from what was picked: a tally for
+   each choice, and the ballots cast, each a hash of the topic and the voter's
+   mark, sorted, so nothing kept says what anybody picked or in what order
+   they voted. So a sealed vote cannot be changed or taken back, because we
+   could not find it to take off. Nobody, moderators included, is sent any of
+   its numbers until it closes, by its date or by its starter or a moderator,
+   because a number moving just after somebody says "I voted" tells what they
+   picked. And it stays closed: votes after the results were out would tell by
+   subtraction who picked what.
+
+   Polls are the one place the forums count, Ryan's call: how many picked each
+   choice, in the poll's own order, never sorted by it and with no winner
+   marked. A vote moves nothing else: not the topic's clock, and nobody is
+   told. */
+export function cleanPoll(v, now = Date.now()) {
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return { error: 'That is not a poll the forums can hold.' };
+  if (!POLL_KINDS.includes(v.kind)) return { error: 'A poll is a show of hands or a sealed ballot.' };
+  const q = tidy(typeof v.q === 'string' ? v.q : '');
+  if ([...q].length > POLL_Q_MAX) return { error: `A poll's question is up to ${POLL_Q_MAX} characters.` };
+  const texts = (Array.isArray(v.choices) ? v.choices : []).map((x) => tidy(typeof x === 'string' ? x : '')).filter(Boolean);
+  if (texts.length < 2 || texts.length > POLL_CHOICES_MAX) return { error: `A poll has between 2 and ${POLL_CHOICES_MAX} choices, one to a line.` };
+  if (texts.some((x) => [...x].length > POLL_CHOICE_MAX)) return { error: `A choice is up to ${POLL_CHOICE_MAX} characters.` };
+  if (new Set(texts.map(foldHandle)).size !== texts.length) return { error: 'Two of the choices are the same.' };
+  const poll = { kind: v.kind, q, choices: texts.map((text, i) => ({ id: 'c' + (i + 1), text })), many: v.many === true };
+  if (v.closes != null && v.closes !== '') {
+    const at = Number(v.closes);
+    if (!Number.isFinite(at) || at <= now || at > now + POLL_AHEAD) return { error: 'A poll closes some time in the coming year, or leave the date empty and close it yourself.' };
+    poll.closes = Math.floor(at);
+  }
+  if (poll.kind === 'hands') poll.hands = [];
+  else { poll.tally = {}; poll.cast = []; }
+  return { poll };
+}
+/* Closed by hand, or past its date. */
+function pollShut(poll, now) { return typeof poll.shut === 'number' || (typeof poll.closes === 'number' && poll.closes <= now); }
+/* A sealed ballot's one trace of its voter, different in every poll. */
+function ballotOf(t, who) { return createHash('sha256').update(`forum-poll|${t.id}|${authorMark(who)}`).digest('base64url'); }
+/* A sealed vote: one more on each choice picked, and the ballot among the
+   others, sorted. Nothing else is written, and the picks are not kept. */
+function sealVote(poll, ballot, picks) {
+  for (const c of picks) poll.tally[c] = (poll.tally[c] || 0) + 1;
+  poll.cast = [...poll.cast, ballot].sort();
+}
+
+/* What a reader is sent about a poll. Never a voter's mark or a ballot; a
+   sealed ballot's numbers only once it is shut. */
+function shapePoll(t, who, mark, now) {
+  const poll = t.poll;
+  const shut = pollShut(poll, now);
+  const may = t.by === mark || who.role === 'base';
+  const out = { kind: poll.kind, q: poll.q || '', many: !!poll.many, shut, close: !shut && may,
+    reopen: shut && poll.kind === 'hands' && may, choices: poll.choices.map((c) => ({ id: c.id, text: c.text })) };
+  if (typeof poll.closes === 'number') out.closes = poll.closes;
+  if (typeof poll.shut === 'number') out.shutAt = poll.shut;
+  if (poll.kind === 'hands') {
+    const hand = poll.hands.find((h) => h.by === mark);
+    out.mine = hand ? hand.picks.slice() : [];
+    out.n = poll.hands.length;
+    out.choices.forEach((c) => {
+      c.who = poll.hands.filter((h) => h.picks.includes(c.id)).map((h) => h.handle).sort((a, b) => a.localeCompare(b));
+      c.n = c.who.length;
+    });
+    return out;
+  }
+  out.voted = poll.cast.includes(ballotOf(t, who));
+  const sealedOpen = !shut;
+  if (sealedOpen) return out;
+  out.n = poll.cast.length;
+  out.choices.forEach((c) => { c.n = poll.tally[c.id] || 0; });
+  return out;
+}
+
+/* A vote, by anybody who can read the topic, while the poll and the topic are
+   open. `picks` are choice ids; an empty list takes a hand back. */
+export async function votePoll(who, id, picks, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  if (!Array.isArray(picks) || picks.length > POLL_CHOICES_MAX) return { error: 'Pick a choice first.' };
+  const asked = [...new Set(picks.filter((x) => typeof x === 'string'))];
+  const mark = authorMark(who);
+  return changeTopic(who, id, now, s, (t) => {
+    const poll = t.poll;
+    if (!poll) return { why: 'This topic has no poll.' };
+    if (pollShut(poll, now)) return { why: 'This poll has closed.' };
+    if (t.closed) return { why: 'This topic is closed, so its poll takes no more votes.' };
+    if (asked.some((x) => !poll.choices.some((c) => c.id === x))) return { why: 'One of those choices is not in this poll any more. Reload the topic.' };
+    if (!poll.many && asked.length > 1) return { why: 'This poll takes one choice.' };
+    const ids = poll.choices.map((c) => c.id).filter((c) => asked.includes(c));
+    if (poll.kind === 'hands') {
+      const rest = poll.hands.filter((h) => h.by !== mark);
+      if (!ids.length && rest.length === poll.hands.length) return null;
+      poll.hands = ids.length ? [...rest, { by: mark, handle: who.handle, picks: ids }] : rest;
+      return t;
+    }
+    if (!ids.length) return { why: 'Pick a choice first.' };
+    const ballot = ballotOf(t, who);
+    if (poll.cast.includes(ballot)) return { why: 'You have already voted in this poll. A sealed vote cannot be changed, because nothing we keep says what you picked.' };
+    sealVote(poll, ballot, ids);
+    return t;
+  });
+}
+
+/* Whoever started the topic, or a moderator, closing its poll, or opening a
+   show of hands again. A sealed ballot, once its results are out, stays shut. */
+export async function closePoll(who, id, open = false, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const mark = authorMark(who);
+  return changeTopic(who, id, now, s, (t) => {
+    const poll = t.poll;
+    if (!poll) return { why: 'This topic has no poll.' };
+    if (t.by !== mark && who.role !== 'base') return { why: 'Only whoever started the topic, or a moderator, can close its poll.' };
+    if (!open) {
+      if (pollShut(poll, now)) return null;
+      poll.shut = now;
+      return t;
+    }
+    if (poll.kind === 'sealed') return { why: 'A sealed ballot stays closed once its results are out, because votes after them would tell who picked what.' };
+    if (!pollShut(poll, now)) return null;
+    delete poll.shut;
+    if (typeof poll.closes === 'number' && poll.closes <= now) delete poll.closes;
     return t;
   });
 }

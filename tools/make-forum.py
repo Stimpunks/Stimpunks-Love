@@ -110,6 +110,25 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
     which keeps the page's own time and maker, so a topic says when and by
     whom it was really written. The friendly edits are a number beside each
     tag, and announcing the import "so people know the rounds are here".
+  · A POLL THAT COUNTS ANYWHERE ELSE, OR A SEALED BALLOT THAT TELLS. Norah's
+    ask, Ryan's calls, 2026-10-22: a topic can open with a poll, a show of
+    hands or a sealed ballot, and polls are the one place the forums count,
+    reversing the tally rule above for them alone. So a topic's summary says
+    only that it has a poll (`poll`, true), shapePoll is the one shape that
+    carries a number, and forum.js puts a number beside votes only between its
+    poll:begin and poll:end markers, never sorting choices there, so the
+    results stay in the poll's own order with no winner marked. A sealed
+    ballot keeps who has voted apart from what was picked: sealVote writes the
+    tally and the ballots and nothing else, the ballots sorted, and a ballot
+    is a hash of the topic and the voter's mark, so it differs in every poll;
+    votePoll refuses a second ballot, so a sealed vote is never changed;
+    shapePoll returns before reading the tally or counting the ballots while
+    the poll is open, so nobody, moderators included, is sent a number before
+    it closes; closePoll never opens a sealed ballot again; and forum.js casts
+    a sealed vote only after a second press. The friendly edits are a running
+    count on a sealed ballot "so people can see the turnout", letting a sealed
+    vote be changed by keeping who picked what, results sorted with the winner
+    on top, and a list of who has not voted yet.
   · privacy.html without the forums' section and love-forum, and the page
     without its link to them.
 
@@ -142,7 +161,9 @@ problems = []
 
 
 def code_of(path):
-    c = re.sub(r"/\*.*?\*/", " ", path.read_text(), flags=re.S)
+    return code_of_text(path.read_text())
+def code_of_text(text):
+    c = re.sub(r"/\*.*?\*/", " ", text, flags=re.S)
     return re.sub(r"(?m)^\s*//[^\n]*", " ", c)
 
 
@@ -272,21 +293,21 @@ def check_lib(lib):
     if "console." in code:
         problems.append(f"{LIB.name}: the forums' section writes to the console. Nothing anybody types is ever logged.")
     for name in ("forumHome", "forumLatest", "forumCategory", "forumTopic", "searchForum", "forumMentions", "cbTranscript",
-                 "startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost",
+                 "startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "votePoll", "closePoll",
                  "removeTopic", "moderateTopic", "retagTopic", "importTopic", "forumFile", "putForumUpload", "forumTemplates"):
         body = fn(sec, name)
         if not body:
             problems.append(f"{LIB.name}: {name} is missing.")
         elif "forumReader(who)" not in body and "forumAllows(who" not in body and "forumCatsFor(who" not in body:
             problems.append(f"{LIB.name}: {name} no longer asks whether the reader is a claimed username who may see the category.")
-    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "removeTopic", "moderateTopic", "retagTopic", "importTopic", "putForumUpload"):
+    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "votePoll", "closePoll", "removeTopic", "moderateTopic", "retagTopic", "importTopic", "putForumUpload"):
         if "if (!forumReader(who)) return { error: CLAIM };" not in fn(sec, name):
             problems.append(f"{LIB.name}: {name} must refuse anybody but a claimed username first.")
     if "who.account && typeof who.since === 'number'" not in fn(sec, "forumReader"):
         problems.append(f"{LIB.name}: forumReader no longer means a claimed username.")
     if "since: acct.since" not in lib:
         problems.append(f"{LIB.name}: readPass no longer gives a claimed pass the moment it was claimed, which every post's mark needs.")
-    for name in ("shapePost", "shapeTopic", "shapeSummary", "shapeForumCat", "shapeCopied", "shapePreview", "shapeFile"):
+    for name in ("shapePost", "shapeTopic", "shapeSummary", "shapeForumCat", "shapeCopied", "shapePreview", "shapeFile", "shapePoll"):
         m = re.search(rf"function {name}\(.*?\n\}}", sec, re.S)
         body = m.group(0) if m else ""
         if not body:
@@ -299,8 +320,11 @@ def check_lib(lib):
                 problems.append(f"{LIB.name}: {name} sends `{word}`. Nothing about reading is kept, and nothing is counted.")
     m = re.search(r"function summaryOf\(t\) \{.*?\n\}", sec, re.S)
     keys = set(re.findall(r"\b(\w+):", m.group(0))) | set(re.findall(r"sum\.(\w+) =", m.group(0))) if m else set()
-    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "pinned", "closed", "unpinned", "tags", "notion"}:
+    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "pinned", "closed", "unpinned", "tags", "notion", "poll"}:
         problems.append(f"{LIB.name}: a topic's summary holds {sorted(keys)}; it holds what a list shows and nothing else.")
+    if m and "poll" in keys and "if (t.poll) sum.poll = true;" not in m.group(0):
+        problems.append(f"{LIB.name}: a topic's summary says only that the topic has a poll, never anything about its votes.")
+    check_polls(sec)
     get = fn(sec, "safeGet")
     if "lookup: safeLookup" not in get or "publicAddress(host)" not in get:
         problems.append(f"{LIB.name}: safeGet no longer checks the address it connects to through safeLookup and publicAddress.")
@@ -375,6 +399,30 @@ def check_lib(lib):
         problems.append(f"{MIDNIGHT.name}: the hourly sweep no longer sweeps the forums, so a topic past its date would stay stored.")
 
 
+def check_polls(sec):
+    """The one place the forums count, and a sealed ballot that tells nobody who picked what."""
+    def body(name):
+        m = re.search(rf"function {name}\(.*?\n\}}", sec, re.S)
+        return m.group(0) if m else ""
+    shape, seal, vote, close, ballot = (body(n) for n in ("shapePoll", "sealVote", "votePoll", "closePoll", "ballotOf"))
+    if not all((shape, seal, vote, close, ballot)):
+        problems.append(f"{LIB.name}: shapePoll, sealVote, votePoll, closePoll and ballotOf must all be there.")
+        return
+    gate = shape.find("if (sealedOpen) return out;")
+    if "const sealedOpen = !shut;" not in shape or gate < 0 or any(shape.find(x) < gate for x in ("poll.tally", "poll.cast.length")):
+        problems.append(f"{LIB.name}: shapePoll must return before it reads a sealed ballot's tally or counts its ballots while the poll is open.")
+    wrote = set(re.findall(r"poll\.(\w+)(?:\[[^\]]*\])?\s*=(?!=)", seal))
+    if wrote != {"tally", "cast"} or ".sort()" not in seal or re.search(r"cast\s*=.*picks", seal):
+        problems.append(f"{LIB.name}: sealVote writes the tally and the sorted ballots and nothing else, so nothing kept says who picked what.")
+    if "t.id" not in ballot or "authorMark(who)" not in ballot:
+        problems.append(f"{LIB.name}: a ballot is a hash of the topic and the voter's mark, so it differs in every poll.")
+    at = vote.find("if (poll.cast.includes(ballot))")
+    if at < 0 or at > vote.find("sealVote(") or "if (pollShut(poll, now))" not in vote:
+        problems.append(f"{LIB.name}: votePoll must refuse a vote in a closed poll, and a second ballot before it seals one.")
+    if "if (poll.kind === 'sealed') return { why:" not in close:
+        problems.append(f"{LIB.name}: closePoll must never open a sealed ballot again once its results are out.")
+
+
 def check_function():
     if not FN.exists():
         problems.append(f"{FN.name}: missing.")
@@ -436,6 +484,19 @@ def check_js():
         problems.append(f"{JS.name}: '{m.group(0).strip()}' looks like a number beside {m.group(1)}. Nothing in the forums is counted.")
     if re.search(r"\bunread\b|\bviews\b|\bview count", js, re.I):
         problems.append(f"{JS.name}: it speaks of views or unread. What is new to you is marked, never counted, and nothing about reading is kept by us.")
+    raw = JS.read_text()
+    a, b = raw.find("/* poll:begin */"), raw.find("/* poll:end */")
+    if a < 0 or b < a or raw.count("/* poll:begin */") != 1:
+        problems.append(f"{JS.name}: a topic's poll is drawn between one pair of poll:begin and poll:end markers.")
+        return
+    inside = re.sub(r"/\*.*?\*/", " ", raw[a:b], flags=re.S)
+    outside = code_of_text(raw[:a] + raw[b:])
+    for m in re.finditer(r"\bvotes\(|\bpollTally\(|\+\s*['\"]\s*(?:votes?|ballots?)\b", outside):
+        problems.append(f"{JS.name}: '{m.group(0)}' outside the poll markers. Polls are the one place the forums count.")
+    if ".sort(" in inside:
+        problems.append(f"{JS.name}: a poll's choices are sorted. Its results stay in the poll's own order, with no winner marked.")
+    if "sure(row, 'Your vote for '" not in inside or "'Cast my vote'" not in inside:
+        problems.append(f"{JS.name}: a sealed vote must go only after a second press, because it cannot be taken back.")
 
 
 def check_css():
@@ -465,6 +526,8 @@ def check_page():
     priv = PRIVACY.read_text()
     if 'id="forums"' not in priv or "<code>love-forum</code>" not in priv:
         problems.append(f"{PRIVACY.name}: it has no forums section (id=\"forums\") or does not list love-forum.")
+    if 'id="polls"' not in priv or "sealed ballot" not in priv:
+        problems.append(f"{PRIVACY.name}: it does not say what a poll keeps (id=\"polls\"), a show of hands and a sealed ballot each.")
 
 
 def check_cb():
@@ -569,6 +632,7 @@ def main():
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
     print("the forums: the categories written into the CB, claimed usernames only, nothing about reading kept or counted, "
+          "a poll's votes the one count and a sealed ballot keeping nobody's pick, "
           "no author's mark sent, previews fetched only from public addresses, copies made by the server, "
           "every category a room on the CB locked by its own roles, and the forums dressed in the CB's own colours.")
     return 0
