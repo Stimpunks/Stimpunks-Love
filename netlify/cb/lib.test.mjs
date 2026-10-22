@@ -3900,7 +3900,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
-  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN,
+  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
@@ -4685,6 +4685,30 @@ test('the dashboard’s newest email is a sealed list of the latest filed, which
   // Deleted from the office: off the list too.
   await removeEmail(TRYAN, mailFrom(0).id, s);
   assert.equal((await officeDashboard(TRYAN, s, T0)).recent.mail[0].subject, 'About the grant 1');
+})));
+
+test('email filed before the list existed is put on it from its contacts’ own lists, and a repair keeps what is newer', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0);
+  await saveContact(TRYAN, { first: 'Bo', last: 'Peep', email: 'bo@example.org' }, s, T0);
+  for (let i = 30; i >= 1; i--) await officeMailIn(mailFrom(i, i === 2 ? { from: 'team@example.org', to: ['ada@example.org', 'bo@example.org'], subject: 'To you both' } : {}), s, T0);
+  // As it was the morning the list arrived: every email on its contacts' lists and none on the dashboard's.
+  await s.delete('office-mail-recent');
+  const d = await officeDashboard(TRYAN, s, T0);
+  assert.deepEqual(d.recent.mail.map((x) => x.id), Array.from({ length: MAIL_RECENT_SHOWN }, (_, i) => mailFrom(i + 1).id));
+  assert.deepEqual([d.recent.mail[1].subject, d.recent.mail[1].out, d.recent.mail[1].contacts.slice().sort()], ['To you both', true, ['Ada Lovelace', 'Bo Peep']]);
+  const raw = await s.get('office-mail-recent', { type: 'json' });
+  assertSealed(raw, ['About the grant', 'Lovelace']);
+  const list = unseal(raw).mail;
+  assert.equal(list.length, MAIL_RECENT_KEEP);
+  for (const x of list) assert.deepEqual(Object.keys(x).sort(), ['at', 'contacts', 'id', 'out', 'subject'], 'the seed kept more than privacy.html#office says');
+  // A repair over a list that has moved on keeps the newer entries and adds nothing twice.
+  await officeMailIn(mailFrom(-5, { at: T0 + 5000, subject: 'Newest' }), s, T0);
+  const again = (await seedRecentMail(s)).mail;
+  assert.equal(again[0].subject, 'Newest');
+  assert.equal(new Set(again.map((x) => x.id)).size, again.length, 'an email went on the list twice');
+  assert.equal(again.length, MAIL_RECENT_KEEP);
+  await withOfficeKey(null, async () => assert.equal(await seedRecentMail(s), null));
 })));
 
 test('the mailbox’s counts are numbers only, sealed, replaced by the next, and a count not finished is not a number', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {

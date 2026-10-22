@@ -339,6 +339,9 @@ def check_mail(lib):
         problems.append(f"{LIB.name}: officeMailIn must put on the dashboard's newest email only its id, when, subject, whether we sent it and its contacts.")
     if "dropRecentMail([k], null, s)" not in code_of(fn(lib, "removeEmail")) or "dropRecentMail(gone, cid, s)" not in code_of((re.search(r"async function forgetContactMail\(.*?\n\}", lib, re.S) or [""])[0]):
         problems.append(f"{LIB.name}: an email deleted from the office, or let go with its contact, must leave the dashboard's newest email too.")
+    seed = code_of(fn(lib, "seedRecentMail"))
+    if "byId[x.id] = { id: x.id, at: x.at, subject: x.subject, out: !!x.out, contacts: [cid] };" not in seed or seed.count("byId[x.id] =") != 1:
+        problems.append(f"{LIB.name}: seedRecentMail must put on the dashboard's newest email only its id, when, subject, whether we sent it and its contacts.")
     mcount = code_of(fn(lib, "officeMailCounts"))
     if "updateSealed(MAIL_COUNTS, () => ({ read: now, counts }), s)" not in mcount or re.search(r"counts = \{[^}]*\b(?!mailCount|mailPair)\w+\(c\.", mcount) \
             or re.search(r"\b(?:from|to|subject|text|email|address|mailbox)\b", mcount):

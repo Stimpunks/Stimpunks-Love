@@ -9877,6 +9877,37 @@ async function dropRecentMail(ids, cid, s) {
   }, s);
 }
 
+/* The email filed before the list existed was on no list but its contacts',
+   so the newest of those are put on it, merged with what it holds, whose
+   entries are never older than the ones read here. The dashboard does this
+   when the list is missing, and the office does it each night as a repair.
+   Returns the list. */
+const MAIL_INDEX = 'office-mail-of/';
+export async function seedRecentMail(s = store()) {
+  if (!officeReady()) return null;
+  const { blobs } = await s.list({ prefix: MAIL_INDEX });
+  // Keyed by Gmail's id, which is hex, so no id can be an object's own name.
+  const byId = Object.create(null);
+  for (let i = 0; i < blobs.length; i += 25) {
+    const part = await Promise.all(blobs.slice(i, i + 25).map(async (b) => [b.key.slice(MAIL_INDEX.length), await readSealed(b.key, s)]));
+    for (const [cid, idx] of part) {
+      for (const x of (idx && idx.mail) || []) {
+        const had = byId[x.id];
+        if (had) { if (!had.contacts.includes(cid)) had.contacts.push(cid); }
+        else byId[x.id] = { id: x.id, at: x.at, subject: x.subject, out: !!x.out, contacts: [cid] };
+      }
+    }
+  }
+  const saved = await updateSealed(MAIL_RECENT, (was) => {
+    const list = was && Array.isArray(was.mail) ? was.mail : [];
+    const all = { ...byId };
+    for (const x of list) all[x.id] = x;
+    const next = Object.values(all).sort((a, b) => b.at - a.at).slice(0, MAIL_RECENT_KEEP);
+    return JSON.stringify(next) === JSON.stringify(list) ? null : { mail: next };
+  }, s);
+  return saved || { mail: [] };
+}
+
 const mailCount = (n) => (Number.isInteger(n) && n >= 0 && n <= MAIL_COUNT_MAX ? n : null);
 const mailPair = (v) => (Array.isArray(v) && v.length === 2 && v.every((n) => mailCount(n) !== null) ? [v[0], v[1]] : null);
 
@@ -10387,8 +10418,9 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   // was added can be years after it was submitted, for one brought over from EspoCRM in a batch (Ryan's report,
   // 2026-10-22: 2023's requests at the top of Newest).
   const cameFirst = (list, n) => list.slice().sort((a, b) => (came(a) < came(b) ? 1 : came(a) > came(b) ? -1 : (b.t || 0) - (a.t || 0))).slice(0, n);
-  const [quickbooks, givebutter, latest, recentMail, mailCounts] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now),
+  const [quickbooks, givebutter, latest, recentKept, mailCounts] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now),
     readSealed(MAIL_RECENT, s), readSealed(MAIL_COUNTS, s)]);
+  const recentMail = recentKept || await seedRecentMail(s);
   // A topic's category by its path, as the forums name it: Team Docs › Notes.
   const catPath = (slug) => { const names = []; for (let c = forumCat(slug, now); c; c = c.parent ? forumCat(c.parent, now) : null) names.unshift(c.name); return names.join(' › '); };
   return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks, givebutter,

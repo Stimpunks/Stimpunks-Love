@@ -5565,7 +5565,9 @@ person's choice of who belongs in the office.
 mail the office does not keep"** for the dashboard alone). `office-mail-recent` (`noteRecentMail`, `dropRecentMail`) is a
 sealed list of the `MAIL_RECENT_KEEP` newest emails filed, by when each was sent: Gmail's id, when, the subject, whether we
 sent it and its contacts, never an address or its text. An email deleted here or let go with its contact leaves it, and a
-backfill of older mail leaves a full list alone. Once an hour the script counts the mailbox (`counts_`, `COUNTED` in its
+backfill of older mail leaves a full list alone. **It shipped empty**, because only mail filed after it went on it, and a
+quiet mailbox left Newest Email saying none; `seedRecentMail` fills it from every contact's own list, merged with what it
+holds, when the dashboard finds it missing and each night as a repair. Once an hour the script counts the mailbox (`counts_`, `COUNTED` in its
 Script properties) and sends `{ action: 'counts' }` to `officeMailCounts`: unread conversations in the inbox, and the
 emails in, out and with a contact in the seven days before it counted and the seven before. A pair is `null` when two weeks
 hold more than `COUNT_THREADS` threads, so the dashboard says *not counted* rather than showing a smaller number. It needed
