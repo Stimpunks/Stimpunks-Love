@@ -298,3 +298,13 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-linked { display: grid; gap: 6px; }
 .of-linked__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .of-linked__what, .of-linked__about { color: var(--cb-amber-2); }
+
+/* AN @MENTION (links.js): a name, set like the forums', that opens the
+   person's profile on the radio. Yours carries the amber edge. */
+.of-at {
+  font: inherit; font-weight: 700; color: var(--cb-steel);
+  background: none; border: 0; padding: 0 1px; cursor: pointer;
+  text-decoration: underline dotted; text-underline-offset: 3px;
+}
+.of-at--me { border-bottom: 2px solid var(--cb-amber); text-decoration: none; }
+.of-peek .of-at { cursor: default; }

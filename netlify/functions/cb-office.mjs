@@ -74,7 +74,7 @@ import { readPass, forumReader, officeAllow, officeReady, officeContacts, office
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
   stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
-  parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo,
+  parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
 
@@ -97,7 +97,8 @@ export default async (req) => {
   }
   if (!officeReady()) return json(503, { error: 'The office is shut: its key is not set, so nothing in it can be opened.' }, QUIET);
   // An administrator may delete anybody's comment, so the page offers it.
-  const me = { handle: who.handle, admin: who.roles.has('administrator') };
+  // people: who a comment can @mention, the office's own readers, for the page's @ list and drawing.
+  const me = { handle: who.handle, admin: who.roles.has('administrator'), people: taskPeople() };
   // Every answer's links to tasks, topics and the office named for this reader, last.
   const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   const url = new URL(req.url);

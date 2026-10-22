@@ -22,8 +22,9 @@
   /* The box to write a comment in: its words, how Markdown works there, a
      preview, and Comment or Save, with Cancel where there is something to go
      back to. Ctrl or Cmd and Enter sends it too.
-     o: { p (prefix), id, label, value, goText, max, hint, ask, why, send(text, done), cancel, said }
-     Typing [[ in it offers links (links.js), asked of the page's own function. */
+     o: { p (prefix), id, label, value, goText, max, hint, ask, why, send(text, done), cancel, said, people, me, mark }
+     Typing [[ in it offers links (links.js), asked of the page's own function,
+     and @ the page's people (o.people(), never o.me); o.mark draws mentions. */
   function box(o) {
     var p = o.p;
     var form = el('form', p + '-cform');
@@ -44,10 +45,14 @@
     }
     var answer = el('p', p + '-answer'); answer.setAttribute('role', 'status');
     [lab, text, hint, preview, row, answer].forEach(function (x) { form.appendChild(x); });
-    // [[ links a task, a topic or a record of the office, asked of the page's own function (links.js).
-    if (window.loveLinks) window.loveLinks.attach(text, { said: o.said, ask: function (q) {
-      return o.ask({ action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; });
-    } });
+    // [[ links a task, a topic or a record of the office, asked of the page's own function, and
+    // @ mentions somebody the page names, from its own list (links.js).
+    if (window.loveLinks) {
+      window.loveLinks.attach(text, { said: o.said, ask: function (q) {
+        return o.ask({ action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; });
+      } });
+      if (o.people) window.loveLinks.people(text, { people: o.people, me: o.me, said: o.said });
+    }
     function unlook() { preview.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; }
     look.addEventListener('click', function () {
       if (!preview.hidden) { unlook(); return; }
@@ -56,6 +61,7 @@
         if (r.status !== 200) { answer.textContent = o.why(r, 'The preview could not be made just now.'); return; }
         preview.textContent = '';
         window.loveMarkdown.blocks(r.body.blocks, preview, { top: 4, prefix: p });
+        if (o.mark) o.mark(preview);
         preview.hidden = false;
         look.setAttribute('aria-pressed', 'true');
         look.textContent = 'Hide the preview';
@@ -93,6 +99,7 @@
   function words(o, c) {
     var body = el('div', o.p + '-body ' + o.p + '-comment__body');
     window.loveMarkdown.blocks(c.blocks || [], body, { top: 4, prefix: o.p });
+    if (o.mark) o.mark(body);
     return body;
   }
 
@@ -108,7 +115,7 @@
     talk.appendChild(h);
     var ol = el('ol', p + '-comments');
     talk.appendChild(ol);
-    var write = box({ p: p, id: p + '-say', label: 'Write a comment', goText: 'Comment', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say,
+    var write = box({ p: p, id: p + '-say', label: 'Write a comment', goText: 'Comment', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, me: o.me, mark: o.mark,
       send: function (text, done) {
         o.ask({ action: 'comment', id: o.id, body: text }).then(function (r) {
           if (r.status !== 200) { done(false, o.why(r, 'That did not post. Nothing was changed.')); return; }
@@ -148,7 +155,7 @@
         ed.addEventListener('click', function () {
           // The words are changed where they stand, and Cancel puts them back.
           body.hidden = true; tools.hidden = true;
-          var b = box({ p: p, id: p + '-edit-' + c.id, label: 'Your comment', value: c.body, goText: 'Save', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say,
+          var b = box({ p: p, id: p + '-edit-' + c.id, label: 'Your comment', value: c.body, goText: 'Save', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, me: o.me, mark: o.mark,
             cancel: function () { b.form.remove(); body.hidden = false; tools.hidden = false; ed.focus(); },
             send: function (text, done) {
               o.ask({ action: 'comment-edit', id: o.id, c: c.id, body: text }).then(function (r) {

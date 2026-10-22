@@ -634,7 +634,7 @@
           c.appendChild(body);
           if (blocks.length > FEW) c.appendChild(quiet('The rest of it is on its page.'));
         }
-        if (got && got.said) c.appendChild(window.loveComments.latest({ p: 'of', when: when, href: function () { return null; } }, got.comments || [], got.said));
+        if (got && got.said) c.appendChild(window.loveComments.latest({ p: 'of', mark: marked, when: when, href: function () { return null; } }, got.comments || [], got.said));
       }
     };
   }
@@ -1638,10 +1638,16 @@
     return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
+      people: people, me: me ? me.handle : '', mark: marked,
       kept: function (list) { talked = { id: id, list: list }; } };
   }
   /* The Comments part at the foot of a record's page. Answers the comment the
      address named, brought into view, when it is there. */
+  /* An @mention in a comment, of somebody who can open the office, drawn as
+     their name, which opens their profile (links.js): the people a comment
+     tells. A description or notes tell nobody, so theirs stay words. */
+  function people() { return (me && me.people) || []; }
+  function marked(into) { window.loveLinks.mentions(into, people(), { p: 'of', me: me ? me.handle : '', said: say }); return into; }
   // What [[ offers, asked of /cb/office by POST (links.js).
   function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
   // Where the record on the page is linked from, kept while it is redrawn.
@@ -2975,11 +2981,11 @@
       if (body) li.appendChild(body);
       // Its latest comments, to read where the card stands; they are edited on the record's own page.
       var talk = whole && got[x.id] && got[x.id].whole === whole ? got[x.id] : null;
-      if (talk && talk.said) li.appendChild(window.loveComments.latest({ p: 'of', when: when, href: function (c) { return recordHref(it.kind, x.id, c.id); } }, talk.comments || [], talk.said));
+      if (talk && talk.said) li.appendChild(window.loveComments.latest({ p: 'of', mark: marked, when: when, href: function (c) { return recordHref(it.kind, x.id, c.id); } }, talk.comments || [], talk.said));
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'of', said: say, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'of', said: say, people: people, me: me ? me.handle : '', mark: marked, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; card(li, it, whole); },
           send: function (text, done) {

@@ -113,8 +113,15 @@ def check_pages():
             problems.append(f"links.js: {bad}. The menu is built from nodes.")
     if re.search(r"localStorage|sessionStorage|indexedDB|\bfetch\(|XMLHttpRequest|sendBeacon", links):
         problems.append("links.js: it keeps something or talks to a server itself. It asks through the page's own o.ask.")
-    if "var put = '[[' + x.kind + ':' + x.id + ']] '" not in links:
+    if "put: function (x) { return '[[' + x.kind + ':' + x.id + ']] '; }" not in links:
         problems.append("links.js: a pick puts something other than [[kind:id]] in the words. A link never carries a name.")
+    if "put: function (h) { return '@' + h + ' '; }" not in links or "fold(h) !== fold(o.me)" not in links:
+        problems.append("links.js: the @ list puts something other than @ and a name, or offers you yourself.")
+    if "window.loveRadioPeek(who, btn, null)" not in links:
+        problems.append("links.js: a mention does not open the person's profile on the radio.")
+    for page in ("tasks.js", "office.js", "forum.js"):
+        if "window.loveLinks.mentions(" not in code((ROOT / page).read_text()):
+            problems.append(f"{page}: it does not draw @mentions with links.js.")
     md = code((ROOT / "markdown.js").read_text())
     if "n.t === 'ref'" not in md:
         problems.append("markdown.js: it does not draw a link to a task, a topic or a record.")

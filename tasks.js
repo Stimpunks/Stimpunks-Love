@@ -1124,10 +1124,11 @@
         else {
           var FEW = 3, body = el('div', 'tk-body tk-peek__body');
           window.loveMarkdown.blocks(whole.blocks.slice(0, FEW), body, { top: 4, prefix: 'tk' });
+          marked(body);
           c.appendChild(body);
           if (whole.blocks.length > FEW) c.appendChild(quiet('The rest of it is on its page.'));
         }
-        if (got && got.said) c.appendChild(window.loveComments.latest({ p: 'tk', when: when, href: function () { return null; } }, got.comments || [], got.said));
+        if (got && got.said) c.appendChild(window.loveComments.latest({ p: 'tk', mark: marked, when: when, href: function () { return null; } }, got.comments || [], got.said));
       }
     };
     function drawFeed(focusFrom) {
@@ -1215,6 +1216,7 @@
           });
         };
         window.loveMarkdown.blocks(some, body, md);
+        marked(body);
         if (all.length > FEW) {
           var mo = el('button', 'cb-btn tk-small tk-post__more', open ? 'Less' : 'More'); mo.type = 'button';
           mo.setAttribute('aria-expanded', String(open)); mo.setAttribute('data-keep', 'more');
@@ -1224,11 +1226,11 @@
       }
       if (body) li.appendChild(body);
       // Its latest comments, to read where the card stands; they are edited on the task's own page.
-      if (got && got.said) li.appendChild(window.loveComments.latest({ p: 'tk', when: when, href: function (c) { return taskHref(t.id, c.id); } }, got.comments || [], got.said));
+      if (got && got.said) li.appendChild(window.loveComments.latest({ p: 'tk', mark: marked, when: when, href: function (c) { return taskHref(t.id, c.id); } }, got.comments || [], got.said));
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'tk', said: say, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'tk', said: say, people: function () { return people; }, me: me ? me.handle : '', mark: marked, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; feedCard(li, t, got); },
           send: function (text, done) {
@@ -1367,7 +1369,7 @@
         });
       });
     };
-    if (t.blocks && t.blocks.length) window.loveMarkdown.blocks(t.blocks, body, md);
+    if (t.blocks && t.blocks.length) { window.loveMarkdown.blocks(t.blocks, body, md); marked(body); }
     else body.appendChild(quiet('No description.'));
     view.appendChild(body);
     if (!t.ticks && body.querySelector('input[type="checkbox"]')) view.appendChild(quiet('These boxes are ticked by editing the description: here, they are not where the description says they are.'));
@@ -1427,12 +1429,17 @@
      classes and way of asking /cb/tasks. */
   var talkNow = null;
   var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  /* An @mention of somebody tasks can be assigned to, drawn as their name,
+     which opens their profile (links.js): the people a description or a
+     comment tells. */
+  function marked(into) { window.loveLinks.mentions(into, people, { p: 'tk', me: me ? me.handle : '', said: say }); return into; }
   // What [[ offers, asked of /cb/tasks by POST (links.js).
   function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
   function commentsFor(id, landOn, posted) {
     return { p: 'tk', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
+      people: function () { return people; }, me: me ? me.handle : '', mark: marked,
       kept: function (list) { talked = { id: id, list: list }; }, posted: posted };
   }
   function fillActivity(into, list) {
@@ -1678,7 +1685,8 @@
       field('tk-body', 'Description', text);
       text.setAttribute('aria-describedby', 'tk-body-hint');
       window.loveLinks.attach(text, { ask: findLinks, said: say });
-      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+      window.loveLinks.people(text, { people: function () { return people; }, me: me ? me.handle : '', said: say });
+      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, and [[ and part of a name to link a task, a forum topic or a record of the office.');
       hint.id = 'tk-body-hint';
       form.appendChild(hint);
       var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;
@@ -1698,6 +1706,7 @@
           if (r.status !== 200) { answer.textContent = why(r, 'The preview could not be made just now.'); return; }
           preview.textContent = '';
           window.loveMarkdown.blocks(r.body.blocks, preview, { top: 2, prefix: 'tk' });
+          marked(preview);
           preview.hidden = false;
           look.setAttribute('aria-pressed', 'true');
           look.textContent = 'Hide the preview';
@@ -1868,7 +1877,7 @@
     view.appendChild(ul);
 
     var body = el('div', 'tk-body');
-    if (r.blocks && r.blocks.length) window.loveMarkdown.blocks(r.blocks, body, { top: 3, prefix: 'tk' });
+    if (r.blocks && r.blocks.length) { window.loveMarkdown.blocks(r.blocks, body, { top: 3, prefix: 'tk' }); marked(body); }
     else body.appendChild(quiet('No description.'));
     view.appendChild(heading(3, 'Each task’s description'));
     view.appendChild(body);

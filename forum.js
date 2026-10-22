@@ -772,47 +772,10 @@
      every name in the forums does: only for the handles the server kept with
      the post and the topic's own people, matched as the server's mentions()
      matches, so a word after an @ that is nobody stays a word. Answers
-     whether the reader was one of them. */
+     whether the reader was one of them. Drawn by links.js, which Tasks and the
+     office draw theirs with too. */
   function markMentions(into, handles) {
-    var list = [];
-    handles.forEach(function (h) { if (h && list.every(function (x) { return fold(x) !== fold(h); })) list.push(h); });
-    if (!list.length) return false;
-    list.sort(function (a, b) { return b.length - a.length; });
-    var escd = list.map(function (h) { return h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+'); });
-    var re;
-    try { re = new RegExp('(^|[^\\p{L}\\p{N}_@])@(' + escd.join('|') + ')(?![\\p{L}\\p{N}_]|:\\d)', 'giu'); } catch (e) { return false; }
-    var texts = [];
-    var walk = document.createTreeWalker(into, NodeFilter.SHOW_TEXT, {
-      acceptNode: function (n) { return n.parentNode && n.parentNode.closest('a, code, pre, button') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT; },
-    });
-    while (walk.nextNode()) texts.push(walk.currentNode);
-    var mineToo = false;
-    texts.forEach(function (n) {
-      var text = n.nodeValue, last = 0, m, frag = null;
-      re.lastIndex = 0;
-      while ((m = re.exec(text))) {
-        frag = frag || document.createDocumentFragment();
-        var at = m.index + m[1].length;
-        frag.appendChild(document.createTextNode(text.slice(last, at)));
-        var named = m[2].replace(/\s+/g, ' ');
-        var h = list.filter(function (x) { return fold(x) === fold(named); })[0] || named;
-        var mine = !!me && fold(h) === fold(me.handle);
-        if (mine) mineToo = true;
-        var b = el('button', 'fm-at' + (mine ? ' fm-at--me' : ''), '@' + m[2]);
-        b.type = 'button';
-        b.setAttribute('aria-label', mine ? '@' + h + ', you. Opens your profile.' : '@' + h + '. Opens their profile.');
-        (function (who2, btn) {
-          btn.addEventListener('click', function () {
-            if (window.loveRadioPeek) window.loveRadioPeek(who2, btn, null);
-            else say('Open the radio, in the corner, to see ' + who2 + '’s profile.');
-          });
-        })(h, b);
-        frag.appendChild(b);
-        last = at + 1 + m[2].length;
-      }
-      if (frag) { frag.appendChild(document.createTextNode(text.slice(last))); n.parentNode.replaceChild(frag, n); }
-    });
-    return mineToo;
+    return window.loveLinks.mentions(into, handles, { p: 'fm', me: me && me.handle, said: say });
   }
 
   function reactions(t, p) {
