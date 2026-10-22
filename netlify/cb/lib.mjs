@@ -5534,7 +5534,7 @@ export const FORUM_CATEGORIES = [
 ];
 /* forum:categories:end */
 
-const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on the radio, then come back.';
+const CLAIM = 'The forums are for claimed usernames. Claim yours under Account on the radio, then come back.';
 const GONE = 'That topic has gone, or is not one you can read.';
 
 /* Every category there is now: the listed ones, each followed by the

@@ -69,9 +69,12 @@
   var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
   var navMailings = el('a', 'cb-btn of-navlink', 'Mailings'); navMailings.href = '#/mailings';
   // Tasks, the office's other half for the same people (Ryan's ask, 2026-10-21),
-  // last and set a little apart, because it is another page; Tasks' bar has Office.
+  // set a little apart, because it is another page; Tasks' bar has Office and
+  // the forums' has both.
   var navTasks = el('a', 'cb-btn of-navlink of-navlink--other', 'Tasks'); navTasks.href = '/tasks.html#/';
-  [navDash, navFeed, navContacts, navGrants, navCases, navMailings, navTasks].forEach(function (a) { nav.appendChild(a); });
+  // And the forums, where the team's documents and the rest of the conversation are.
+  var navForums = el('a', 'cb-btn of-navlink', 'Forums'); navForums.href = '/forum.html#/';
+  [navDash, navFeed, navContacts, navGrants, navCases, navMailings, navTasks, navForums].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -80,6 +83,8 @@
   backRow.hidden = true;
   box.appendChild(backRow);
   var view = el('div', 'of-view');
+  // A grant request's or a case's preview beside its name in its list, on hover or focus (preview.js).
+  var peek = window.lovePreview({ p: 'of', box: box });
   box.appendChild(view);
   var said = el('p', 'of-said');
   said.setAttribute('role', 'status');
@@ -589,6 +594,51 @@
   var GSORTS = [['name', 'Name'], ['contact', 'Contact'], ['pipeline', 'Pipeline'], ['stage', 'Stage'], ['amount', 'Amount'],
     ['submitted', 'Submitted'], ['closed', 'Decided']];
   var gSearched = '';
+  /* What happened to a record last, in words, for its card and its preview. */
+  function happened(x) {
+    return x.edited ? 'Changed' + (x.editedBy ? ' by ' + x.editedBy : '') + ', ' + when(x.edited)
+      : 'Added' + (x.by ? ' by ' + x.by : '') + (x.espo ? ', in EspoCRM' : '') + ', ' + when(x.t);
+  }
+  /* A GRANT REQUEST'S OR A CASE'S PREVIEW in its list (Norah's ask,
+     2026-10-21): what happened to it last, the first parts of its description
+     and its latest comments, read as the feed reads a card. The row has the
+     rest. What has been read is kept while the page is open, by when the
+     record last changed, and never in the browser. */
+  var peekGot = {};
+  function peekWays(find) {
+    function lastAt(x) { return Math.max(x.t || 0, x.edited || 0, x.talk || 0); }
+    return {
+      read: function (id) {
+        var x = find(id);
+        if (!x) return Promise.resolve(null);
+        if (peekGot[id] && peekGot[id].at === lastAt(x)) return Promise.resolve(peekGot[id]);
+        return call('view=feed&ids=' + encodeURIComponent(id)).then(function (r) {
+          var y = r.status === 200 && (r.body.feed || [])[0];
+          if (!y) return null;
+          return (peekGot[id] = { at: lastAt(x), whole: y[y.kind], comments: y.comments || [], said: y.said || 0 });
+        });
+      },
+      draw: function (c, id, got) {
+        var x = find(id);
+        if (!x) return;
+        c.appendChild(el('p', 'of-peek__name', x.name || 'No name'));
+        c.appendChild(el('p', 'of-peek__what', happened(x)));
+        var blocks = got ? got.whole.blocks || [] : null;
+        if (x.words === 0 || (got && !blocks.length)) c.appendChild(quiet('No description.'));
+        else if (!got) c.appendChild(quiet('Reading…'));
+        else {
+          var FEW = 3, body = el('div', 'of-body of-peek__body');
+          window.loveMarkdown.blocks(blocks.slice(0, FEW), body, { top: 4, prefix: 'of' });
+          c.appendChild(body);
+          if (blocks.length > FEW) c.appendChild(quiet('The rest of it is on its page.'));
+        }
+        if (got && got.said) c.appendChild(window.loveComments.latest({ p: 'of', when: when, href: function () { return null; } }, got.comments || [], got.said));
+      }
+    };
+  }
+  var grantPeek = peekWays(function (id) { return grants.filter(function (g) { return g.id === id; })[0]; });
+  var casePeek = peekWays(function (id) { return cases.filter(function (k) { return k.id === id; })[0]; });
+
   function readGrantQuery() {
     var q = {};
     (String(location.hash).split('?')[1] || '').split('&').forEach(function (kv) {
@@ -743,6 +793,7 @@
     qBox.addEventListener('input', function () { f.q = gSearched = qBox.value; showing = PAGE; step.keep('showing', PAGE); drawFilters(); drawTable(); });
 
     function drawTable(focusSort, focusRow) {
+      peek.hide();
       var list = grantsOrdered(grants.filter(function (g) { return passes(g); }), f);
       var sum = list.reduce(function (t, g) { return t + (g.amount || 0); }, 0);
       shown.textContent = list.length + ' of ' + grants.length + ' grant requests · ' + money(sum);
@@ -774,6 +825,7 @@
         var tr = el('tr');
         var td = el('td', 'of-title');
         var a = el('a', null, g.name); a.href = '#/g/' + g.id;
+        peek.watch(a, g.id, grantPeek);
         if (i === focusRow) a.setAttribute('data-first-new', '');
         td.appendChild(a);
         tr.appendChild(td);
@@ -1232,6 +1284,7 @@
     qBox.addEventListener('input', function () { f.q = kSearched = qBox.value; showing = PAGE; step.keep('showing', PAGE); drawFilters(); drawTable(); });
 
     function drawTable(focusSort, focusRow) {
+      peek.hide();
       var list = casesOrdered(cases.filter(function (k) { return passes(k); }), f);
       shown.textContent = list.length + ' of ' + cases.length + ' cases';
       out.textContent = '';
@@ -1263,6 +1316,7 @@
         tr.appendChild(el('td', 'of-day', '#' + k.number));
         var td = el('td', 'of-title');
         var a = el('a', null, k.name); a.href = '#/k/' + k.id;
+        peek.watch(a, k.id, casePeek);
         if (i === focusRow) a.setAttribute('data-first-new', '');
         td.appendChild(a);
         tr.appendChild(td);
@@ -2862,8 +2916,7 @@
       a.setAttribute('data-keep', 'name');
       head.appendChild(a);
       li.appendChild(head);
-      li.appendChild(el('p', 'of-post__what', x.edited ? 'Changed' + (x.editedBy ? ' by ' + x.editedBy : '') + ', ' + when(x.edited)
-        : 'Added' + (x.by ? ' by ' + x.by : '') + (x.espo ? ', in EspoCRM' : '') + ', ' + when(x.t)));
+      li.appendChild(el('p', 'of-post__what', happened(x)));
       var facts = el('p', 'of-post__facts'), bits = [];
       if (it.kind === 'grant') {
         bits.push(x.pipeline, x.stage);

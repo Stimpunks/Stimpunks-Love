@@ -276,3 +276,14 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-cform .of-cform__text { min-height: 5em; }
 .of-post__talk { display: grid; gap: 6px; padding-top: 8px; border-top: 2px solid var(--cb-bar); }
 .of-post__said { font-size: 14px; color: var(--cb-amber-2); }
+
+/* A GRANT REQUEST'S OR A CASE'S PREVIEW (preview.js): a card beside a name in
+   its list, on the case with an amber edge, so it reads as something laid
+   over the list. Never taller than it needs to be; the record's page has the rest. */
+.of-peek { position: absolute; z-index: 6; display: grid; gap: 8px; align-content: start;
+  width: min(24rem, calc(100% - 16px)); max-height: min(24rem, 70vh); overflow: hidden;
+  padding: 10px 14px; background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-amber); border-radius: 8px; font-size: 15px; }
+.of-peek__name { font-weight: 700; color: var(--cb-steel-2); }
+.of-peek__what { font-size: 14px; color: var(--cb-amber-2); }
+.of-peek .of-body { padding-top: 8px; }

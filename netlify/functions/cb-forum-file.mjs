@@ -10,7 +10,7 @@
 import { readPass, forumReader, putForumUpload, forumFile, json, sameSite, FORUM_FILE_MAX } from '../cb/lib.mjs';
 
 const QUIET = { 'x-robots-tag': 'noindex' };
-const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on the radio, then come back.';
+const CLAIM = 'The forums are for claimed usernames. Claim yours under Account on the radio, then come back.';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The forums only answer stimpunks.world.' }, QUIET);

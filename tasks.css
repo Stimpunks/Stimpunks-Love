@@ -37,6 +37,7 @@
 /* BACK ONE STEP, or the view's own way up, above it: steps.js fills it. */
 .tk-back { padding: 14px 18px 0; }
 .tk-back:not([hidden]) + .tk-view { padding-top: 10px; }
+
 @media (max-width: 759px) { .tk-back { padding: 12px 12px 0; } }
 
 .tk-view { display: grid; gap: 12px; padding: 18px 18px 8px; min-width: 0; }
@@ -294,3 +295,15 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-cform .tk-cform__text { min-height: 5em; }
 .tk-post__talk { display: grid; gap: 6px; padding-top: 8px; border-top: 2px solid var(--cb-bar); }
 .tk-post__said { font-size: 14px; color: var(--cb-amber-2); }
+
+/* A TASK'S PREVIEW (preview.js): a card beside a name in the list, on the
+   case with an amber edge, so it reads as something laid over the list. Never
+   taller than it needs to be; the task's page has the rest. */
+.tk { position: relative; }
+.tk-peek { position: absolute; z-index: 6; display: grid; gap: 8px; align-content: start;
+  width: min(24rem, calc(100% - 16px)); max-height: min(24rem, 70vh); overflow: hidden;
+  padding: 10px 14px; background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-amber); border-radius: 8px; font-size: 15px; }
+.tk-peek__name { font-weight: 700; color: var(--cb-steel-2); }
+.tk-peek__what { font-size: 14px; color: var(--cb-amber-2); }
+.tk-peek .tk-body { padding-top: 8px; }

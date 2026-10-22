@@ -21,7 +21,7 @@
      { action: 'preview', body, pics? }              how the words will set; pics: the composer's pictures, placed where the words say
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { readPass, forumReader, tasksAllow, officeAllow, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, moderateTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -29,7 +29,7 @@ import { readPass, forumReader, forumNav, forumHome, forumLatest, forumCategory,
 // Never for search engines, and never cached anywhere: the forums are for
 // claimed usernames, and a cached answer is a copy.
 const QUIET = { 'x-robots-tag': 'noindex' };
-const CLAIM = 'The forums are for claimed usernames. Claim yours from Profile on the radio, then come back.';
+const CLAIM = 'The forums are for claimed usernames. Claim yours under Account on the radio, then come back.';
 
 // The quick row of reactions, so the page keeps no copy of the list.
 const quick = REACTIONS.map(([emoji, name]) => ({ emoji, name }));
@@ -43,7 +43,8 @@ export default async (req, context) => {
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' }, QUIET);
   if (!forumReader(who)) return json(403, { error: CLAIM, claim: true }, QUIET);
-  const me = { handle: who.handle, mod: who.role === 'base' };
+  // tasks and office say whether the bar offers them, a press away for the people who can open them.
+  const me = { handle: who.handle, mod: who.role === 'base', tasks: tasksAllow(who), office: officeAllow(who) };
   const cats = forumNav(who);
   const url = new URL(req.url);
   try {

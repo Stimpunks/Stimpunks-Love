@@ -298,9 +298,9 @@ def check_js():
     if re.search(r"localStorage\.(?:setItem|removeItem|clear)|sessionStorage|indexedDB", js):
         problems.append(f"{JS.name}: it keeps something in the browser. privacy.html says tasks keep nothing there.")
     # Pages it links to are on the list beside the one thing it calls; the office
-    # is one press away in the bar (Ryan, 2026-10-21), for the same people.
+    # and the forums are one press away in the bar (Ryan, 2026-10-21).
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/tasks", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html"):
+        if url not in ("/cb/tasks", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html", "/forum.html"):
             problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks and nothing else.")
 
 
@@ -324,6 +324,37 @@ def check_comments_js():
         problems.append("comments.js: it talks to a server itself. It asks only through the page's own function (o.ask).")
     if re.search(r"--cb-|#[0-9a-fA-F]{3,8}\b|style\.", js):
         problems.append("comments.js: it sets a colour or a style. Each page dresses its comments in its own stylesheet.")
+
+
+def check_preview_js():
+    """preview.js shows a task's, a grant request's or a case's preview on hover
+    or focus (Norah's ask, 2026-10-21), and keeps WCAG 1.4.13: Escape puts it
+    away, nothing on it can be pressed or reached, it is aria-hidden because
+    the record's page has all of it, and a touch shows nothing. Built from the
+    page's own drawing; asking only through the page's own read; keeping
+    nothing in the browser; setting no colour, only where it stands."""
+    f = ROOT / "preview.js"
+    if not f.exists():
+        problems.append("preview.js: missing. Tasks and the office show their previews with it.")
+        return
+    js = code_of(f)
+    for bad in ("innerHTML", "outerHTML", "insertAdjacentHTML", "document.write", "DOMParser", "createContextualFragment"):
+        if bad in js:
+            problems.append(f"preview.js: {bad}. A preview is built from nodes, never as HTML.")
+    if re.search(r"localStorage|sessionStorage|indexedDB", js):
+        problems.append("preview.js: it keeps something in the browser. privacy.html says neither Tasks nor the office keep anything there.")
+    if re.search(r"\bfetch\(|XMLHttpRequest|EventSource|WebSocket|sendBeacon", js):
+        problems.append("preview.js: it talks to a server itself. It reads only through the page's own read(id).")
+    if re.search(r"--cb-|#[0-9a-fA-F]{3,8}\b", js) or set(re.findall(r"\.style\.(\w+)", js)) - {"left", "top"}:
+        problems.append("preview.js: it sets a colour or a style beyond where the card stands. Each page dresses its preview in its own stylesheet.")
+    if "setAttribute('aria-hidden', 'true')" not in js:
+        problems.append("preview.js: the card is not aria-hidden. Its record's page has all of it, and a screen reader would hear a description at every row.")
+    if "'Escape'" not in js:
+        problems.append("preview.js: Escape does not put it away. WCAG 1.4.13 asks that content on hover or focus can be dismissed without moving.")
+    if "pointerType === 'touch'" not in js:
+        problems.append("preview.js: a touch shows a preview. A tap opens the record.")
+    if not re.search(r"querySelectorAll\('a'\)", js) or "disabled = true" not in js:
+        problems.append("preview.js: what markdown.js builds to be pressed stays pressable on the card. Nothing on a preview can be pressed or reached.")
 
 
 def check_colours(data):
@@ -364,9 +395,9 @@ def check_page():
         problems.append(f"{PAGE.name}: missing.")
         return
     page = PAGE.read_text()
-    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "comments.js", "tasks.js")]
+    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "comments.js", "preview.js", "tasks.js")]
     if min(at) < 0 or at != sorted(at):
-        problems.append(f"{PAGE.name}: it must load markdown.js, then comments.js, then tasks.js.")
+        problems.append(f"{PAGE.name}: it must load markdown.js, then comments.js, then preview.js, then tasks.js.")
     if 'href="privacy.html#tasks"' not in page:
         problems.append(f"{PAGE.name}: the page must link what tasks keep, privacy.html#tasks.")
     if 'id="tasks"' not in PRIVACY.read_text():
@@ -390,6 +421,7 @@ def main():
     check_recur()
     check_js()
     check_comments_js()
+    check_preview_js()
     check_css()
     check_page()
     if problems:

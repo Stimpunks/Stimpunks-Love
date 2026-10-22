@@ -38,6 +38,8 @@
 .fm-navlink { display: inline-flex; align-items: center; text-decoration: none; }
 .fm .fm-navlink { color: var(--cb-steel); }
 .fm-navlink[aria-current="page"] { border-color: var(--cb-amber); }
+/* Tasks and the office are other pages, so they stand a little apart. */
+.fm-navlink--other { margin-left: 10px; }
 .fm-find { display: flex; gap: 6px; flex: 1 1 260px; max-width: 420px; }
 .fm-q { flex: 1 1 auto; }
 .fm-trim { margin: 0; }

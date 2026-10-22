@@ -105,7 +105,12 @@
   var navLatest = el('a', 'cb-btn fm-navlink', 'Latest'); navLatest.href = '#/latest';
   var navAt = el('a', 'cb-btn fm-navlink', 'Mentions'); navAt.href = '#/mentions';
   var navNew = el('a', 'cb-btn fm-navlink', 'New topic'); navNew.href = '#/new';
-  nav.appendChild(navHome); nav.appendChild(navLatest); nav.appendChild(navAt); nav.appendChild(navNew);
+  // Tasks and the office, a press away for the directors and administrators who
+  // can open them (Ryan's ask, 2026-10-21), set a little apart because they are
+  // other pages, and shown only once the server says this pass reaches them.
+  var navTasks = el('a', 'cb-btn fm-navlink fm-navlink--other', 'Tasks'); navTasks.href = '/tasks.html#/'; navTasks.hidden = true;
+  var navOffice = el('a', 'cb-btn fm-navlink', 'Office'); navOffice.href = '/office.html#/dashboard'; navOffice.hidden = true;
+  [navHome, navLatest, navAt, navNew, navTasks, navOffice].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   var find = el('form', 'fm-find');
   find.setAttribute('role', 'search');
@@ -1530,6 +1535,8 @@
     if (r.body.cats) cats = r.body.cats;
     if (r.body.me) me = r.body.me;
     if (r.body.takes) takes = r.body.takes;
+    navTasks.hidden = !(me && me.tasks);
+    navOffice.hidden = !(me && me.office);
     placeRadio(here || null);
     navNew.hidden = !cats.some(function (c) { return c.start; });
     // New topic starts in the category you are in, where you can start one.

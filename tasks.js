@@ -73,9 +73,12 @@
   inboxCount.hidden = true;
   navInbox.appendChild(inboxCount);
   // The office, Tasks' other half for the same people (Ryan's ask, 2026-10-21),
-  // last and set a little apart, because it is another page; the office's bar has Tasks.
+  // set a little apart, because it is another page; the office's bar has Tasks
+  // and the forums' has both.
   var navOffice = el('a', 'cb-btn tk-navlink tk-navlink--other', 'Office'); navOffice.href = '/office.html#/dashboard';
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox); nav.appendChild(navOffice);
+  // And the forums, where the team's documents and the rest of the conversation are.
+  var navForums = el('a', 'cb-btn tk-navlink', 'Forums'); navForums.href = '/forum.html#/';
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox); nav.appendChild(navOffice); nav.appendChild(navForums);
   function setUnread(n) {
     inboxCount.textContent = n ? ' ' + n : '';
     inboxCount.hidden = !n;
@@ -89,6 +92,8 @@
   backRow.hidden = true;
   box.appendChild(backRow);
   var view = el('div', 'tk-view');
+  // A task's preview beside its name in the list, on hover or focus (preview.js).
+  var peek = window.lovePreview({ p: 'tk', box: box });
   box.appendChild(view);
   var said = el('p', 'tk-said');
   said.setAttribute('role', 'status');
@@ -475,7 +480,7 @@
       drawFilters();
       drawOut(focusSort);
     }
-    function drawOut(focus) { if (mode === 'board') drawBoard(focus); else if (mode === 'timeline') drawTimeline(); else if (mode === 'feed') drawFeed(); else drawTable(focus); }
+    function drawOut(focus) { peek.hide(); if (mode === 'board') drawBoard(focus); else if (mode === 'timeline') drawTimeline(); else if (mode === 'feed') drawFeed(); else drawTable(focus); }
 
     /* SAVED FILTERS, each yours, kept under your username: what it shows, and
        how many tasks it shows now. */
@@ -705,6 +710,7 @@
        is kept nowhere. */
     var shut = {};
     function drawTable(focusSort, focusGroup) {
+      peek.hide();
       var list = ordered(tasks.filter(function (t) { return passes(t, f, null, mode); }), f);
       shown.textContent = list.length + ' of ' + tasks.length + ' tasks';
       out.textContent = '';
@@ -800,6 +806,7 @@
         if (isDone(x)) tr.className = 'tk-done';
         var td = el('td', 'tk-title');
         var a = el('a', null, x.name); a.href = '#/t/' + x.id;
+        peek.watch(a, x.id, peekWays);
         td.appendChild(a);
         tr.appendChild(td);
         var st = el('td'); st.appendChild(statusPill(x.status)); tr.appendChild(st);
@@ -1084,6 +1091,45 @@
     // How many cards are open is kept for coming back here, so Back finds the card you left by.
     var feedShown = step.kept('feed') || settings.feedPage || 20, feedGot = {};
     function lastAt(t) { return Math.max(t.t || 0, t.edited || 0, t.done || 0, t.talk || 0); }
+    function readCard(id) {
+      var t = tasks.filter(function (y) { return y.id === id; })[0];
+      if (!t) return Promise.resolve(null);
+      if (feedGot[id] && feedGot[id].at === lastAt(t)) return Promise.resolve(feedGot[id]);
+      return call('view=feed&ids=' + encodeURIComponent(id)).then(function (r) {
+        var x = r.status === 200 && (r.body.feed || [])[0];
+        if (!x) return null;
+        return (feedGot[id] = { at: lastAt(t), task: x.task, acts: x.acts, comments: x.comments || [], said: x.said || 0 });
+      });
+    }
+    /* What happened to a task last, in words, for its card and its preview. */
+    function happened(t, got) {
+      var ev = got && got.acts && got.acts[0];
+      return (ev ? actWords(ev) : t.recur ? 'Its recurring task made this task.' : t.by ? whoWords(t.by, true) + ' made this task.'
+        : t.espo ? 'Brought over from EspoCRM.' : t.notion ? 'Brought over from Notion.' : 'Made.')
+        + ' ' + when(ev ? ev.t : t.t);
+    }
+    /* A TASK'S PREVIEW in the list (Norah's ask, 2026-10-21): what happened to
+       it last, the first parts of its description and its latest comments, read
+       as the feed reads a card, and kept with the feed's. The row has the rest. */
+    var peekWays = {
+      read: readCard,
+      draw: function (c, id, got) {
+        var t = tasks.filter(function (y) { return y.id === id; })[0];
+        if (!t) return;
+        c.appendChild(el('p', 'tk-peek__name', t.name));
+        if (got) c.appendChild(el('p', 'tk-peek__what', happened(t, got)));
+        var whole = got ? got.task : null;
+        if (t.words === 0 || (whole && (!whole.blocks || !whole.blocks.length))) c.appendChild(quiet('No description.'));
+        else if (!got) c.appendChild(quiet('Reading…'));
+        else {
+          var FEW = 3, body = el('div', 'tk-body tk-peek__body');
+          window.loveMarkdown.blocks(whole.blocks.slice(0, FEW), body, { top: 4, prefix: 'tk' });
+          c.appendChild(body);
+          if (whole.blocks.length > FEW) c.appendChild(quiet('The rest of it is on its page.'));
+        }
+        if (got && got.said) c.appendChild(window.loveComments.latest({ p: 'tk', when: when, href: function () { return null; } }, got.comments || [], got.said));
+      }
+    };
     function drawFeed(focusFrom) {
       var list = tasks.filter(function (t) { return passes(t, f, null, mode); })
         .sort(function (a, b) { return lastAt(b) - lastAt(a) || a.name.localeCompare(b.name); });
@@ -1133,12 +1179,7 @@
       var a = el('a', 'tk-post__name', t.name); a.href = '#/t/' + t.id; a.setAttribute('data-keep', 'name');
       head.appendChild(a);
       li.appendChild(head);
-      var ev = got && got.acts && got.acts[0];
-      var what = el('p', 'tk-post__what');
-      what.textContent = (ev ? actWords(ev) : t.recur ? 'Its recurring task made this task.' : t.by ? whoWords(t.by, true) + ' made this task.'
-        : t.espo ? 'Brought over from EspoCRM.' : t.notion ? 'Brought over from Notion.' : 'Made.')
-        + ' ' + when(ev ? ev.t : t.t);
-      li.appendChild(what);
+      li.appendChild(el('p', 'tk-post__what', happened(t, got)));
       var facts = el('p', 'tk-post__facts');
       facts.appendChild(statusPill(t.status));
       var bits = [''];
