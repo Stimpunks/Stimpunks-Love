@@ -16,10 +16,13 @@
                                go: the one answer here with anybody's address in it
      { action: 'sent', id, failed? }
                                one of those sent, or Google would not send it
+     { action: 'counts', counts: { unread, received, sent, withContacts } }
+                               the mailbox's hourly count for the dashboard:
+                               numbers only, each pair this week and the one before
      { test: true }            whether the way in is open, and nothing else
    The answer says only whether an email was kept or a contact made. Nothing about an email is
    ever logged. See ../cb/lib.mjs, email. */
-import { mailReady, mailSigned, mailAddresses, officeMailIn, officeMailContact, mailOutbox, mailSentFor, json } from '../cb/lib.mjs';
+import { mailReady, mailSigned, mailAddresses, officeMailIn, officeMailContact, mailOutbox, mailSentFor, officeMailCounts, json } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere.
 const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
@@ -45,6 +48,11 @@ export default async (req) => {
       const r = await officeMailContact(b.contact);
       if (r.error) return json(r.status || 400, { error: r.error }, QUIET);
       return json(200, { ok: true, made: !!r.made }, QUIET);
+    }
+    if (b && b.action === 'counts') {
+      const r = await officeMailCounts(b.counts);
+      if (r.error) return json(r.status || 400, { error: r.error }, QUIET);
+      return json(200, { ok: true }, QUIET);
     }
     if (b && b.action === 'email') {
       const r = await officeMailIn(b.email);

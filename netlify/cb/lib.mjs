@@ -9715,7 +9715,7 @@ export async function officeMailIn(m, s = store(), now = Date.now()) {
   // An email kept before somebody on it became a contact gains them, so the
   // email goes only when the last contact it is filed on goes.
   let made = false;
-  await updateSealed(mailKeyOf(id), (was) => {
+  const saved = await updateSealed(mailKeyOf(id), (was) => {
     made = !was;
     if (!was) return record;
     const had = Array.isArray(was.contacts) ? was.contacts : [];
@@ -9733,6 +9733,7 @@ export async function officeMailIn(m, s = store(), now = Date.now()) {
       return { mail: next };
     }, s);
   }
+  await noteRecentMail({ id, at, subject: saved.subject, out, contacts: saved.contacts }, s);
   await updateSealed(MAILBOX, (was) => (was && was.address === mailbox ? null : { address: mailbox }), s);
   return { kept: true, made, contacts: contacts.length };
 }
@@ -9808,6 +9809,7 @@ export async function removeEmail(who, id, s = store()) {
   }
   await s.delete(mailKeyOf(k));
   await dropOfficeComments('email-' + k, s);
+  await dropRecentMail([k], null, s);
   await updateList(MAIL_GONE, 'ids', (ids) => (ids.includes(k) ? null : [...ids, k]), s);
   return { gone: true };
 }
@@ -9816,6 +9818,7 @@ export async function removeEmail(who, id, s = store()) {
    with nobody else in the office. */
 async function forgetContactMail(cid, s) {
   const idx = await readSealed(mailIndexKey(cid), s);
+  const gone = [];
   for (const x of (idx && idx.mail) || []) {
     let empty = false;
     await updateSealed(mailKeyOf(x.id), (was) => {
@@ -9824,9 +9827,67 @@ async function forgetContactMail(cid, s) {
       empty = !rest.length;
       return empty ? null : { ...was, contacts: rest };
     }, s);
-    if (empty) { await s.delete(mailKeyOf(x.id)); await dropOfficeComments('email-' + x.id, s); }
+    if (empty) { await s.delete(mailKeyOf(x.id)); await dropOfficeComments('email-' + x.id, s); gone.push(x.id); }
   }
+  await dropRecentMail(gone, cid, s);
   await s.delete(mailIndexKey(cid));
+}
+
+/* THE NEWEST EMAIL AND THE MAILBOX'S COUNTS, for the dashboard (Ryan's ask,
+   2026-10-22). Until then the office kept no list of recent mail, only each
+   contact's own, which is why email is not in the feed; MAIL_RECENT reverses
+   that for the dashboard alone. It is a sealed list of the MAIL_RECENT_KEEP
+   newest emails filed, by when each was sent: Gmail's id, when, its subject,
+   whether the team sent it, and the contacts it is filed on, never an address
+   or a word of its text. Every email filed, deleted here or let go with a
+   contact changes it, and one deleted leaves the list shorter until the next
+   arrives. A backfill of older mail leaves it alone.
+
+   MAIL_COUNTS is what the mailbox's script counts once an hour
+   (officeMailCounts): unread conversations in the inbox, and the emails that
+   came in and went out, and how many of those were with a contact, in the
+   seven days before it counted and the seven before that. Numbers only, kept
+   whole and replaced by the next count: nothing about anybody leaves Gmail for
+   them. A count the script could not finish is sent as null and shown as not
+   counted, never as a smaller number. */
+const MAIL_RECENT = 'office-mail-recent';
+export const MAIL_RECENT_KEEP = 20;
+export const MAIL_RECENT_SHOWN = 6;
+const MAIL_COUNTS = 'office-mailbox-counts';
+export const MAIL_COUNT_MAX = 10000000;
+
+async function noteRecentMail(entry, s) {
+  await updateSealed(MAIL_RECENT, (was) => {
+    const list = was && Array.isArray(was.mail) ? was.mail : [];
+    const had = list.find((x) => x.id === entry.id);
+    if (had && had.contacts.join() === entry.contacts.join()) return null;
+    if (!had && list.length >= MAIL_RECENT_KEEP && entry.at <= list[list.length - 1].at) return null;
+    return { mail: [entry, ...list.filter((x) => x.id !== entry.id)].sort((a, b) => b.at - a.at).slice(0, MAIL_RECENT_KEEP) };
+  }, s);
+}
+
+/* Emails gone from the office leave the list, and a contact let go leaves the
+   ones that stay. */
+async function dropRecentMail(ids, cid, s) {
+  await updateSealed(MAIL_RECENT, (was) => {
+    const list = was && Array.isArray(was.mail) ? was.mail : [];
+    const next = list.filter((x) => !ids.includes(x.id))
+      .map((x) => (cid && x.contacts.includes(cid) ? { ...x, contacts: x.contacts.filter((c) => c !== cid) } : x));
+    return JSON.stringify(next) === JSON.stringify(list) ? null : { mail: next };
+  }, s);
+}
+
+const mailCount = (n) => (Number.isInteger(n) && n >= 0 && n <= MAIL_COUNT_MAX ? n : null);
+const mailPair = (v) => (Array.isArray(v) && v.length === 2 && v.every((n) => mailCount(n) !== null) ? [v[0], v[1]] : null);
+
+/* The mailbox script's hourly count. Returns { ok } or { error }. */
+export async function officeMailCounts(c, s = store(), now = Date.now()) {
+  if (!officeReady()) return { error: 'The office is shut.', status: 503 };
+  c = c && typeof c === 'object' ? c : {};
+  const counts = { unread: mailCount(c.unread), received: mailPair(c.received), sent: mailPair(c.sent), withContacts: mailPair(c.withContacts) };
+  if (Object.values(counts).every((v) => v === null)) return { error: 'Those are not counts.' };
+  await updateSealed(MAIL_COUNTS, () => ({ read: now, counts }), s);
+  return { ok: true };
 }
 
 /* MAILINGS: an email from a template to everybody at one stage of a grant
@@ -10326,11 +10387,15 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   // was added can be years after it was submitted, for one brought over from EspoCRM in a batch (Ryan's report,
   // 2026-10-22: 2023's requests at the top of Newest).
   const cameFirst = (list, n) => list.slice().sort((a, b) => (came(a) < came(b) ? 1 : came(a) > came(b) ? -1 : (b.t || 0) - (a.t || 0))).slice(0, n);
-  const [quickbooks, givebutter, latest] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now)]);
+  const [quickbooks, givebutter, latest, recentMail, mailCounts] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now),
+    readSealed(MAIL_RECENT, s), readSealed(MAIL_COUNTS, s)]);
   // A topic's category by its path, as the forums name it: Team Docs › Notes.
   const catPath = (slug) => { const names = []; for (let c = forumCat(slug, now); c; c = c.parent ? forumCat(c.parent, now) : null) names.unshift(c.name); return names.join(' › '); };
   return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks, givebutter,
+    mailbox: { ready: mailReady(), counted: mailCounts ? { read: mailCounts.read, counts: mailCounts.counts } : null },
     recent: {
+      mail: ((recentMail && recentMail.mail) || []).slice(0, MAIL_RECENT_SHOWN).map((x) => ({ id: x.id, at: x.at, subject: x.subject, out: !!x.out,
+        contacts: x.contacts.map(nameOf).filter(Boolean) })),
       grants: cameFirst(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
       cases: cameFirst(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
       tasks: newest(tasks, 5).map((x) => ({ id: x.id, name: x.name, who: x.who || null, due: x.due || null, status: x.status })),

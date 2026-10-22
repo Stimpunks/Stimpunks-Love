@@ -2117,6 +2117,40 @@
     f.appendChild(tools);
     return f;
   }
+  /* The team mailbox, as its script last counted it (Ryan, 2026-10-22): unread
+     conversations in the inbox, and the emails in and out in the seven days
+     before it counted, against the seven before. A count the script could not
+     finish is said to be not counted, never shown as a smaller number. */
+  var MAILBOX_STALE = 3 * 60 * 60 * 1000;
+  function mailboxFigure(mb) {
+    var f = el('figure', 'of-fig');
+    f.appendChild(el('figcaption', 'of-fig__title', 'The team mailbox'));
+    if (!mb.ready) {
+      f.appendChild(quiet('The team mailbox is not connected: the office needs the mailbox’s key in Netlify’s settings.'));
+      return f;
+    }
+    var m = mb.counted;
+    if (!m) {
+      f.appendChild(quiet('The team mailbox has not sent its counts yet. Its script counts once an hour, from the version that does.'));
+      return f;
+    }
+    var c = m.counts, said = el('ul', 'of-theirs of-said-list');
+    function weeks(pair, did) {
+      return plural(pair[0], 'email') + ' ' + did + ' in the seven days before it counted, ' + (pair[0] === pair[1] ? 'the same as' : Math.abs(pair[0] - pair[1]) + (pair[0] > pair[1] ? ' more than' : ' fewer than')) + ' the seven before.';
+    }
+    said.appendChild(el('li', null, c.unread == null ? 'Unread mail was not counted.' : plural(c.unread, 'unread conversation') + ' in the inbox.'));
+    said.appendChild(el('li', null, c.received ? weeks(c.received, 'arrived') : 'Mail coming in was not counted: there was too much to count in one go.'));
+    said.appendChild(el('li', null, c.sent ? weeks(c.sent, 'went out') : 'Mail going out was not counted.'));
+    if (c.withContacts && c.received && c.sent) {
+      var all = c.received[0] + c.sent[0];
+      said.appendChild(el('li', null, all ? 'Of those ' + all + ', ' + c.withContacts[0] + (c.withContacts[0] === 1 ? ' was' : ' were') + ' with one of our contacts, and so ' + (c.withContacts[0] === 1 ? 'is' : 'are') + ' filed here.' : 'None of it was with one of our contacts.'));
+    }
+    f.appendChild(said);
+    var late = Date.now() - m.read > MAILBOX_STALE;
+    f.appendChild(quiet('Counted by the mailbox’s script ' + when(m.read) + (late ? ', more than three hours ago, so the script may have stopped: its Executions in Apps Script say why.' : '.') +
+      ' Numbers only: nothing about anybody leaves Gmail for these.'));
+    return f;
+  }
   function dayBack(v, n) {
     var p = v.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] - n));
     return d.toISOString().slice(0, 10);
@@ -2159,8 +2193,8 @@
     function list(title, href, items, draw) {
       var f = el('section', 'of-fig');
       var head = el('h4', 'of-fig__title');
-      var go = el('a', null, title); go.href = href;
-      head.appendChild(go);
+      if (href) { var go = el('a', null, title); go.href = href; head.appendChild(go); }
+      else head.textContent = title;
       f.appendChild(head);
       if (!items.length) { f.appendChild(quiet('None yet.')); return f; }
       var ul = el('ul', 'of-theirs');
@@ -2175,6 +2209,12 @@
     newest.appendChild(list('Cases', '#/cases', d.recent.cases, function (li, x) {
       var a = el('a', null, '#' + x.number + ' ' + x.name); a.href = '#/k/' + x.id; li.appendChild(a);
       li.appendChild(document.createTextNode(' · ' + x.status + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
+    }));
+    // The emails filed last, with the contacts they are filed on. There is no
+    // list of every email to open: each is on its contacts' pages.
+    newest.appendChild(list('Email', null, d.recent.mail, function (li, x) {
+      var a = el('a', null, x.subject || '(no subject)'); a.href = '#/m/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + (x.out ? 'to ' : 'from ') + (x.contacts.join(', ') || 'a contact since deleted') + ', ' + when(x.at)));
     }));
     newest.appendChild(list('Tasks', '/tasks.html#/?who=all', d.recent.tasks, function (li, x) {
       var a = el('a', null, x.name); a.href = '/tasks.html#/t/' + x.id; li.appendChild(a);
@@ -2273,6 +2313,8 @@
       nf.appendChild(el('p', 'cb-quiet', 'Counted late each evening in Colorado, since ' + dayWords(d.firstNight) + (nights.length < 2 ? '. A line needs two nights.' : '; the last ' + nights.length + ' nights are shown.')));
     }
     grid.appendChild(nf);
+    // The team mailbox, as its script counted it: numbers only, once an hour.
+    grid.appendChild(mailboxFigure(d.mailbox));
     // QuickBooks: read late each evening and on a press; nothing here writes to our books.
     grid.appendChild(quickBooksFigure(d.quickbooks));
     // Givebutter: read late each evening and on a press; nobody who gave is named.

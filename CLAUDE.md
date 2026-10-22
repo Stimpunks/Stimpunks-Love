@@ -5442,8 +5442,8 @@ under the hand that changed it, and keeps the keyboard by a name its parts carry
 while it saves takes the focus away. A description shows its first few blocks with **More** for the rest, never the rest
 hidden under the first, where a box could be reached and not seen. The friendly edits are **a feed of everybody's
 activity kept as its own record** (the activity is per task already, and an office log of who changed what is a record
-about people that privacy.html does not mention), and **email in the office's feed**, which needs an index of recent mail
-the office does not keep.
+about people that privacy.html does not mention), and **email in the office's feed**: the office keeps only the
+dashboard's newest twenty (`office-mail-recent`, 2026-10-22), which is not a feed's worth, and a longer index is Ryan's call.
 
 **A TASK HAS COMMENTS, AFTER ESPOCRM'S STREAM POSTS AND NOTION'S COMMENTS, AND THEIR WORDS STAY IN THEM.** Ryan's ask,
 2026-10-21. `task-comments/<task id>` (`commentTask`, `editTaskComment`, `removeTaskComment`, `taskComments` in `lib.mjs`),
@@ -5561,6 +5561,18 @@ contact; `make-office.py` holds all three. **An email already kept gains a conta
 (`officeMailIn` merges `contacts`), so deleting the first contact cannot leave the second pointing at nothing. The
 friendly edit is **adding everybody who writes in**, which files newsletters and strangers' mail; the label is the
 person's choice of who belongs in the office.
+**The dashboard shows the newest email and the mailbox's counts** (Ryan's ask, 2026-10-22, **reversing "an index of recent
+mail the office does not keep"** for the dashboard alone). `office-mail-recent` (`noteRecentMail`, `dropRecentMail`) is a
+sealed list of the `MAIL_RECENT_KEEP` newest emails filed, by when each was sent: Gmail's id, when, the subject, whether we
+sent it and its contacts, never an address or its text. An email deleted here or let go with its contact leaves it, and a
+backfill of older mail leaves a full list alone. Once an hour the script counts the mailbox (`counts_`, `COUNTED` in its
+Script properties) and sends `{ action: 'counts' }` to `officeMailCounts`: unread conversations in the inbox, and the
+emails in, out and with a contact in the seven days before it counted and the seven before. A pair is `null` when two weeks
+hold more than `COUNT_THREADS` threads, so the dashboard says *not counted* rather than showing a smaller number. It needed
+no new Google permission, and the script's log says only that it counted. `make-office.py` holds the list's fields, both
+forgettings and the counts as whole numbers. The friendly edits are **the newest email from anybody, not just contacts**,
+which is strangers' mail leaving Gmail, **an address on the dashboard "to save a click"**, and **counts per person on the
+team** ("who answered most"), which is a record kept against a person.
 
 **THE DASHBOARD AND REPORTS ARE WORKED OUT FROM THE RECORDS EVERY TIME, AND KEEP NOTHING.** Ryan's brief, 2026-10-21:
 `officeDashboard` and `officeReports` in `lib.mjs` (`view=dashboard`, `view=reports`), EspoCRM's nine reports by their own
@@ -5581,7 +5593,8 @@ direct messages**; each is Ryan's call and `privacy.html#day-counts` first. Each
 know open it, and `dashboardView` writes `#/dashboard` into the address so it has one; **the contacts are at `#/contacts`**,
 so a link meaning the contacts list says that, never `#/`. **Its Newest includes the forum topics posted to last** (the same
 day), from `forumLatest` for whoever is reading, so a category they cannot read is never there; `make-office.py` refuses
-the dashboard reading the forums any other way.
+the dashboard reading the forums any other way. **And the newest email filed**, from `office-mail-recent` (the team
+mailbox's paragraph, above).
 
 **QUICKBOOKS IS READ AND NEVER WRITTEN, AND ITS TOKENS NEVER LEAVE THE SERVER.** Ryan's choice, 2026-10-21: an Intuit app
 of ours (`CB_QB_CLIENT_ID`, `CB_QB_CLIENT_SECRET` in Netlify), connected from the dashboard by a director. `qbConnect` keeps a

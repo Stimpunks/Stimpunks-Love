@@ -315,7 +315,7 @@ def check_mail(lib):
     f = code_of(MAILFN.read_text())
     ready, signed = f.find("if (!mailReady())"), f.find("if (!mailSigned(")
     parsed, used = f.find("JSON.parse("), min([i for i in (f.find("officeMailIn("), f.find("mailAddresses("), f.find("officeMailContact("),
-                                                     f.find("mailOutbox("), f.find("mailSentFor(")) if i >= 0] or [-1])
+                                                     f.find("mailOutbox("), f.find("mailSentFor("), f.find("officeMailCounts(")) if i >= 0] or [-1])
     if min(ready, signed, parsed, used) < 0 or not ready < signed < parsed < used:
         problems.append(f"{MAILFN.name}: it must be shut without its key, and check the signature before it reads the body or answers anything.")
     if "console." in f:
@@ -332,6 +332,17 @@ def check_mail(lib):
         problems.append(f"{LIB.name}: an email keeps {', '.join(sorted(keys - MAIL_KEEPS)) or 'something unreadable'}, which privacy.html#office does not list.")
     if "if (!contacts.length) return { kept: false };" not in mi or mi.find("if (!contacts.length)") > mi.find("updateSealed("):
         problems.append(f"{LIB.name}: officeMailIn must keep nothing of an email that is with nobody in the office.")
+    # The dashboard's newest email keeps Gmail's id, when, the subject, whether we
+    # sent it and its contacts, never an address or its text, and forgets an
+    # email or a contact the office lets go; the mailbox's counts are numbers.
+    if "await noteRecentMail({ id, at, subject: saved.subject, out, contacts: saved.contacts }, s);" not in mi or mi.count("noteRecentMail(") != 1:
+        problems.append(f"{LIB.name}: officeMailIn must put on the dashboard's newest email only its id, when, subject, whether we sent it and its contacts.")
+    if "dropRecentMail([k], null, s)" not in code_of(fn(lib, "removeEmail")) or "dropRecentMail(gone, cid, s)" not in code_of((re.search(r"async function forgetContactMail\(.*?\n\}", lib, re.S) or [""])[0]):
+        problems.append(f"{LIB.name}: an email deleted from the office, or let go with its contact, must leave the dashboard's newest email too.")
+    mcount = code_of(fn(lib, "officeMailCounts"))
+    if "updateSealed(MAIL_COUNTS, () => ({ read: now, counts }), s)" not in mcount or re.search(r"counts = \{[^}]*\b(?!mailCount|mailPair)\w+\(c\.", mcount) \
+            or re.search(r"\b(?:from|to|subject|text|email|address|mailbox)\b", mcount):
+        problems.append(f"{LIB.name}: officeMailCounts keeps the mailbox's counts sealed, as whole numbers and nothing else.")
     if "mailHash(" not in (re.search(r"export async function mailAddresses\(.*?\n\}", lib, re.S) or [""])[0]:
         problems.append(f"{LIB.name}: mailAddresses must answer keyed hashes, never addresses.")
     # A contact from the mailbox is a name and an address off an email, and the

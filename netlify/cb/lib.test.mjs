@@ -3900,7 +3900,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
-  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail,
+  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
@@ -4653,6 +4653,56 @@ test('an email kept before somebody on it was a contact is theirs too once they 
   assert.deepEqual((await officeContact(TRYAN, cy.id, s)).mail.map((x) => x.id), [both.id]);
 })));
 
+test('the dashboard’s newest email is a sealed list of the latest filed, which forgets what the office lets go', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
+  const bo = (await saveContact(TRYAN, { first: 'Bo', last: 'Peep', email: 'bo@example.org' }, s, T0)).contact;
+  assert.deepEqual((await officeDashboard(TRYAN, s, T0)).recent.mail, []);
+  // Filed oldest first, as a backfill would: the list keeps the newest by when each was sent.
+  for (let i = 25; i >= 1; i--) await officeMailIn(mailFrom(i), s, T0);
+  const raw = await s.get('office-mail-recent', { type: 'json' });
+  assertSealed(raw, ['About the grant', 'Lovelace']);
+  const list = unseal(raw).mail;
+  assert.deepEqual(list.map((x) => x.id), Array.from({ length: MAIL_RECENT_KEEP }, (_, i) => mailFrom(i + 1).id));
+  for (const x of list) assert.deepEqual(Object.keys(x).sort(), ['at', 'contacts', 'id', 'out', 'subject'], 'the list keeps more than privacy.html#office says');
+  // An older email arriving late leaves a full list alone.
+  await officeMailIn(mailFrom(40), s, T0);
+  assert.ok(!unseal(await s.get('office-mail-recent', { type: 'json' })).mail.some((x) => x.id === mailFrom(40).id));
+  let d = await officeDashboard(TRYAN, s, T0);
+  assert.equal(d.recent.mail.length, MAIL_RECENT_SHOWN);
+  assert.deepEqual([d.recent.mail[0].subject, d.recent.mail[0].out, d.recent.mail[0].contacts], ['About the grant 1', false, ['Ada Lovelace']]);
+  assert.ok(!JSON.stringify(d.recent.mail).includes('@'), 'an address reached the dashboard');
+  // One the team sent to Ada and Bo, then one to Bo alone; deleting Bo takes his own and leaves the shared one on Ada.
+  await officeMailIn(mailFrom(0, { at: T0 + 2000, from: 'team@example.org', to: ['ada@example.org', 'bo@example.org'], subject: 'To you both' }), s, T0);
+  await officeMailIn(mailFrom(-1, { at: T0 + 3000, from: 'bo@example.org', subject: 'Only Bo' }), s, T0);
+  d = await officeDashboard(TRYAN, s, T0);
+  assert.deepEqual(d.recent.mail.slice(0, 2).map((x) => [x.subject, x.out, x.contacts]), [['Only Bo', false, ['Bo Peep']], ['To you both', true, ['Ada Lovelace', 'Bo Peep']]]);
+  await removeContact(TRYAN, bo.id, s);
+  d = await officeDashboard(TRYAN, s, T0);
+  assert.deepEqual(d.recent.mail[0].contacts, ['Ada Lovelace']);
+  assert.equal(d.recent.mail[0].subject, 'To you both');
+  assert.ok(!unseal(await s.get('office-mail-recent', { type: 'json' })).mail.some((x) => x.contacts.includes(bo.id)), 'a deleted contact stayed on the list');
+  // Deleted from the office: off the list too.
+  await removeEmail(TRYAN, mailFrom(0).id, s);
+  assert.equal((await officeDashboard(TRYAN, s, T0)).recent.mail[0].subject, 'About the grant 1');
+})));
+
+test('the mailbox’s counts are numbers only, sealed, replaced by the next, and a count not finished is not a number', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  let d = await officeDashboard(TRYAN, s, T0);
+  assert.deepEqual(d.mailbox, { ready: true, counted: null });
+  assert.deepEqual(await officeMailCounts({ unread: 3, received: [10, 8], sent: [4, 5], withContacts: [6, 7] }, s, T0), { ok: true });
+  assertSealed(await s.get('office-mailbox-counts', { type: 'json' }), ['unread', 'received']);
+  d = await officeDashboard(TRYAN, s, T0 + 1);
+  assert.deepEqual(d.mailbox.counted, { read: T0, counts: { unread: 3, received: [10, 8], sent: [4, 5], withContacts: [6, 7] } });
+  // Anything that is not a whole number, or a pair that is not two, is not counted, and words are not kept.
+  assert.deepEqual(await officeMailCounts({ unread: 2, received: [1], sent: [1.5, 2], withContacts: ['a', 1], from: 'ada@example.org' }, s, T0 + 2), { ok: true });
+  assert.deepEqual((await officeDashboard(TRYAN, s, T0 + 3)).mailbox.counted, { read: T0 + 2, counts: { unread: 2, received: null, sent: null, withContacts: null } });
+  for (const bad of [null, {}, { unread: -1 }, { unread: 'lots', received: 'x' }]) assert.ok((await officeMailCounts(bad, s, T0)).error, JSON.stringify(bad));
+  await withOfficeKey(null, async () => assert.equal((await officeMailCounts({ unread: 1 }, s, T0)).status, 503));
+  await withMailKey(null, async () => assert.equal((await officeDashboard(TRYAN, s, T0)).mailbox.ready, false));
+})));
+
 test('the dashboard works its figures out from the records: EspoCRM’s four reports, this week and last, and tasks', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });
   const ada = (await saveContact(TRYAN, { first: 'Ada', last: 'Lovelace', email: 'ada@example.org' }, s, T0)).contact;
@@ -4905,6 +4955,7 @@ test('fifteen emails to one contact at once: every one kept on their list', () =
   const kept = told.filter((r) => r.status === 'fulfilled' && r.value.kept).length;
   assert.equal((await officeContact(TRYAN, ada.id, s)).mail.length, kept, 'an email told it was kept is missing from its contact');
   assert.equal(kept, 15);
+  assert.equal(unseal(await s.get('office-mail-recent', { type: 'json' })).mail.length, 15, 'an email told it was kept is missing from the dashboard’s newest');
 })));
 
 /* QuickBooks against a fake Intuit: the tokens endpoint, the query and report
