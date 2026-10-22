@@ -1,7 +1,7 @@
 {
  "_what": "Chimera Obscura's shelf: every animal a chimera can be made from, as parts, and the chimeras the room opens on. tools/make-chimera-obscura.py writes the shelf into chimera.js between its chimera:data markers and the keys into netlify/cb/lib.mjs between its chimera:keys markers, and builds the room's generated parts. Never hand-edit between those markers.",
  "_brief": "Ryan, 2026-10-18: a builder for combining two animals, after Norah asked for an otteraccoon (otter and raccoon), modelled on the chimeras on stimpunks.org's About page, which take features and colouring from one animal onto another's body. Named and kept in a CB Profile and sent as stickers. Missing animals are asked for in the suggestion box and drawn in a later session; nothing calls an AI.",
- "_how_to_add_an_animal": "One entry under animals with every part below, drawn for the shared rig in chimera.js: a body (width w, height h, shoulders top, arms, feet), a head (r, sx, sy, shape, muz, nose, eyes, and whiskers or pads if it has them), ears, a mouth, a tail, a back or null, colours (fur, light, dark, skin, nose as hexes) and markings. The tool refuses an animal missing any of them, and tools/chimera.test.mjs draws it with every other animal before it can go up. Say parts give the suggested name: [the name as the body comes first, the name as the second animal, optionally a short form used before a vowel]. Answer the request in the suggestion box done once it is on the shelf.",
+ "_how_to_add_an_animal": "One entry under animals with every part below, drawn for the shared rig in chimera.js: a body (width w, height h, shoulders top, arms, feet), a head (r, sx, sy, shape, muz, nose, eyes, and whiskers or pads if it has them), ears, a mouth, a tail, a back or null, colours (fur, light, dark, skin, nose as hexes) and markings. The tool refuses an animal missing any of them, and tools/chimera.test.mjs draws it with every other animal before it can go up. Say parts give the suggested name: [the name as the body comes first, the name as the second animal, optionally a short form used before a vowel]. A key is lowercase letters only, because it goes into an address; an animal whose name is not its key carries word (a Highland cow). A part an animal does not have is drawn as nothing and says so: arms or feet of none, a tail of {\"none\": true}. A body may carry a neck, which holds whatever head it is given higher. Answer the request in the suggestion box done once it is on the shelf.",
  "_arms_and_feet": "Arms and feet became parts of their own on 2026-10-18, after chimeras were already being kept and linked. A part with defaults_to may be missing from a chimera, and then takes that part's animal (the body's), in chimera.js's clean() and in cleanChimera() on the CB, so nothing kept or linked before then stops working. An animal's arms and feet are still written in its body.",
  "slots": [
   {"key": "body",     "legend": "Body",     "word": "body"},
@@ -235,6 +235,237 @@
    "tail": {"d": "M-6,0 C30,8 62,-4 64,-40 C66,-70 40,-82 32,-62 C26,-48 42,-40 50,-52", "whip": [14, 9], "fill": "skin", "end": [50, -52]},
    "back": null,
    "markings": {"lightHead": true, "darkEars": true, "darkLimbs": true}
+  },
+  "raven": {
+   "a": "a", "say": ["Raven", "raven"],
+   "colours": {"fur": "#2E3140", "light": "#7C83A0", "dark": "#16171D", "skin": "#3A3A42", "nose": "#1B1C22"},
+   "body": {"w": 168, "h": 178, "top": 0.74, "arms": "wings", "feet": "talons"},
+   "head": {"r": 70, "sx": 1.00, "sy": 0.96, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "bill", "eyes": {"x": 0.36, "y": -0.10}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "none",
+   "tail": {"d": "M-8,-8 C20,4 44,24 62,52 L40,56 L46,66 L24,58 L-8,16 Z", "fill": "dark"},
+   "back": null,
+   "markings": {}
+  },
+  "dolphin": {
+   "a": "a", "say": ["Dolphin", "dolphin"],
+   "colours": {"fur": "#7F93A8", "light": "#E4EAF0", "dark": "#4D6074", "skin": "#F0B6BF", "nose": "#3E4F61"},
+   "body": {"w": 162, "h": 196, "top": 0.64, "arms": "flippers", "feet": "fins"},
+   "head": {"r": 72, "sx": 1.00, "sy": 0.94, "shape": "round", "muz": {"y": 0.44, "rx": 0.32, "ry": 0.22}, "nose": "blowhole", "eyes": {"x": 0.38, "y": -0.06}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "smile",
+   "tail": {"d": "M-6,-14 C24,-18 50,-34 64,-52 C58,-66 56,-78 58,-88 C70,-74 78,-60 80,-50 C92,-44 104,-36 106,-20 C92,-22 80,-26 72,-36 C52,-10 26,8 -6,14 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"chest": true}
+  },
+  "jellyfish": {
+   "a": "a", "say": ["Jellyfish", "jelly"],
+   "colours": {"fur": "#F2A7CB", "light": "#FCDDEB", "dark": "#C2639A", "skin": "#F7C8DE", "nose": "#B65290"},
+   "body": {"w": 136, "h": 140, "top": 0.92, "arms": "none", "feet": "streamers"},
+   "head": {"r": 82, "sx": 1.22, "sy": 0.92, "shape": "bell", "muz": {"none": true, "y": 0.12, "rx": 0.20, "ry": 0.16}, "nose": "none", "eyes": {"x": 0.32, "y": -0.12}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "smile",
+   "tail": {"d": "M-6,0 C14,10 24,-8 40,2 C56,12 64,-8 80,2 C92,10 98,0 104,-6", "whip": [9, 5], "fill": "light", "end": [104, -6]},
+   "back": null,
+   "markings": {"ribbons": true}
+  },
+  "narwhal": {
+   "a": "a", "say": ["Narwhal", "whal"],
+   "colours": {"fur": "#8E99A6", "light": "#E9EDF0", "dark": "#4B5563", "skin": "#C9CFD6", "nose": "#3E4652"},
+   "body": {"w": 178, "h": 188, "top": 0.70, "arms": "flippers", "feet": "fins"},
+   "head": {"r": 74, "sx": 1.04, "sy": 0.94, "shape": "round", "muz": {"none": true, "y": 0.40, "rx": 0.30, "ry": 0.20}, "nose": "blowhole", "eyes": {"x": 0.40, "y": -0.04}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "spiral",
+   "tail": {"d": "M-6,-14 C24,-18 50,-34 64,-52 C58,-66 56,-78 58,-88 C70,-74 78,-60 80,-50 C92,-44 104,-36 106,-20 C92,-22 80,-26 72,-36 C52,-10 26,8 -6,14 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"spots": true, "chest": true}
+  },
+  "swan": {
+   "a": "a", "say": ["Swan", "swan"],
+   "colours": {"fur": "#F7F6F2", "light": "#FFFFFF", "dark": "#A9ADB3", "skin": "#2B2B2F", "nose": "#EE7F2D"},
+   "body": {"w": 194, "h": 168, "top": 0.56, "neck": 28, "arms": "wings", "feet": "paddles"},
+   "head": {"r": 58, "sx": 0.95, "sy": 0.92, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "duckbill", "eyes": {"x": 0.36, "y": -0.08}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "none",
+   "tail": {"d": "M-8,-12 C16,-20 36,-34 48,-50 C50,-30 40,-6 -8,14 Z", "fill": "fur"},
+   "back": null,
+   "markings": {}
+  },
+  "chicken": {
+   "a": "a", "say": ["Chicken", "chicken"],
+   "colours": {"fur": "#C2662E", "light": "#F0C38E", "dark": "#7A3A18", "skin": "#F2B33A", "nose": "#F0A830"},
+   "body": {"w": 178, "h": 170, "top": 0.74, "arms": "wings", "feet": "talons"},
+   "head": {"r": 60, "sx": 0.98, "sy": 1.00, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "beak", "eyes": {"x": 0.36, "y": -0.08}},
+   "ears": {"a": 0, "type": "comb", "s": 0.50},
+   "mouth": "wattle",
+   "tail": {"d": "M-8,-14 C10,-40 30,-74 52,-84 C46,-62 48,-46 60,-36 C70,-60 84,-72 98,-72 C84,-50 78,-24 60,-8 C40,8 16,14 -8,14 Z", "fill": "dark"},
+   "back": null,
+   "markings": {"chevrons": true, "belly": true}
+  },
+  "turkey": {
+   "a": "a", "say": ["Turkey", "turkey"],
+   "colours": {"fur": "#6E4B33", "light": "#C9A07A", "dark": "#2F2018", "skin": "#E6A39C", "nose": "#D8B67C"},
+   "body": {"w": 192, "h": 172, "top": 0.76, "neck": 14, "arms": "wings", "feet": "talons"},
+   "head": {"r": 56, "sx": 0.92, "sy": 1.00, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "beak", "eyes": {"x": 0.36, "y": -0.10}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "wattle",
+   "tail": {"d": "M-8,-8 C8,-10 20,-4 26,6 C14,12 2,14 -8,10 Z", "fill": "dark"},
+   "back": {"kind": "fan", "word": "a turkey's fan", "quill": "#7A5232", "band": "#2A1C14", "tip": "#E6D3B3"},
+   "markings": {"bareHead": true, "chevrons": true}
+  },
+  "parrot": {
+   "a": "a", "say": ["Parrot", "parrot"],
+   "colours": {"fur": "#D7372F", "light": "#F4C63A", "dark": "#2D5FB3", "skin": "#7C7A80", "nose": "#F1EADB"},
+   "body": {"w": 160, "h": 176, "top": 0.72, "arms": "wings", "feet": "talons"},
+   "head": {"r": 66, "sx": 1.00, "sy": 1.00, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "hook", "eyes": {"x": 0.36, "y": -0.10}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "none",
+   "tail": {"d": "M-8,-14 C20,-34 50,-80 72,-120 C78,-104 78,-90 72,-76 C84,-90 92,-96 100,-98 C88,-66 60,-24 -8,16 Z", "fill": "dark"},
+   "back": null,
+   "markings": {"darkLimbs": true, "facePatch": true}
+  },
+  "snake": {
+   "a": "a", "say": ["Snake", "snake"],
+   "colours": {"fur": "#6FA33C", "light": "#E3DE8C", "dark": "#3B6222", "skin": "#5E8C32", "nose": "#26391A"},
+   "body": {"w": 150, "h": 178, "top": 0.62, "arms": "none", "feet": "none"},
+   "head": {"r": 62, "sx": 1.12, "sy": 0.84, "shape": "wedge", "muz": {"none": true, "y": 0.40, "rx": 0.30, "ry": 0.20}, "nose": "nostrils", "eyes": {"x": 0.42, "y": -0.12, "big": "slit"}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "tongue",
+   "tail": {"d": "M-6,-14 C30,-10 54,30 90,34 C106,36 118,30 126,18 C122,38 106,48 88,48 C50,46 30,24 -6,14 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"coils": true}
+  },
+  "chameleon": {
+   "a": "a", "say": ["Chameleon", "meleon"],
+   "colours": {"fur": "#69B04A", "light": "#D9EA8A", "dark": "#2E6A2E", "skin": "#4E8F3A", "nose": "#2A4A22"},
+   "body": {"w": 160, "h": 168, "top": 0.72, "arms": "thin", "feet": "claws"},
+   "head": {"r": 66, "sx": 0.96, "sy": 1.00, "shape": "wedge", "muz": {"none": true, "y": 0.42, "rx": 0.30, "ry": 0.20}, "nose": "small", "eyes": {"x": 0.46, "y": -0.04, "big": "turret"}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "smile",
+   "tail": {"d": "M-6,0 C30,6 66,-4 70,-38 C74,-66 48,-80 34,-66 C22,-54 30,-36 44,-40 C54,-44 52,-56 46,-56", "whip": [16, 10], "fill": "fur", "end": [46, -56]},
+   "back": {"kind": "crest", "word": "a chameleon's casque", "plate": "#4E9A3C", "band": "#2E6A2E"},
+   "markings": {"stripes": "tabby", "belly": true}
+  },
+  "frog": {
+   "a": "a", "say": ["Frog", "frog"],
+   "colours": {"fur": "#5FA64A", "light": "#E8EFA6", "dark": "#2F6A2A", "skin": "#E79A9A", "nose": "#2A4F22"},
+   "body": {"w": 196, "h": 146, "top": 0.92, "arms": "thin", "feet": "webbed"},
+   "head": {"r": 78, "sx": 1.26, "sy": 0.78, "shape": "round", "muz": {"none": true, "y": 0.20, "rx": 0.30, "ry": 0.20}, "nose": "nostrils", "eyes": {"x": 0.46, "y": -0.66, "big": "bulge"}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "grin",
+   "tail": {"none": true},
+   "back": null,
+   "markings": {"belly": true, "spots": true}
+  },
+  "axolotl": {
+   "a": "an", "say": ["Axolotl", "lotl"],
+   "colours": {"fur": "#F3B3C3", "light": "#FCE1E7", "dark": "#D27891", "skin": "#E2557F", "nose": "#B9476A"},
+   "body": {"w": 150, "h": 168, "top": 0.72, "arms": "thin", "feet": "small"},
+   "head": {"r": 74, "sx": 1.22, "sy": 0.86, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "none", "eyes": {"x": 0.52, "y": -0.06}},
+   "ears": {"a": 74, "type": "gills", "s": 0.42},
+   "mouth": "grin",
+   "tail": {"d": "M-6,-14 C30,-30 70,-30 110,-50 C116,-52 120,-46 114,-40 C80,-6 40,14 -6,16 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "platypus": {
+   "a": "a", "say": ["Platypus", "platypus", "Platy"],
+   "colours": {"fur": "#7A5134", "light": "#C79C74", "dark": "#43291A", "skin": "#3C3C3E", "nose": "#46494E"},
+   "body": {"w": 176, "h": 162, "top": 0.74, "arms": "thin", "feet": "webbed"},
+   "head": {"r": 66, "sx": 1.06, "sy": 0.92, "shape": "round", "muz": {"none": true, "y": 0.42, "rx": 0.30, "ry": 0.20}, "nose": "flatbill", "eyes": {"x": 0.38, "y": -0.16}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "none",
+   "tail": {"d": "M-6,-16 C30,-24 70,-28 96,-16 C110,-10 110,8 96,14 C70,24 30,20 -6,16 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "beaver": {
+   "a": "a", "say": ["Beaver", "beaver"],
+   "colours": {"fur": "#7D4F2C", "light": "#B88660", "dark": "#43281A", "skin": "#3A2A22", "nose": "#1E1510"},
+   "body": {"w": 198, "h": 176, "top": 0.78, "arms": "hands", "feet": "webbed"},
+   "head": {"r": 74, "sx": 1.04, "sy": 0.96, "shape": "round", "muz": {"y": 0.40, "rx": 0.38, "ry": 0.26}, "nose": "wide", "eyes": {"x": 0.38, "y": -0.08}, "whiskers": true},
+   "ears": {"a": 62, "type": "round", "s": 0.18},
+   "mouth": "chisel",
+   "tail": {"d": "M-6,-10 C20,-12 40,-16 60,-20 C100,-30 128,-12 124,6 C120,24 92,28 60,20 C40,16 20,14 -6,12 Z", "fill": "skin", "hatch": true},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "squirrel": {
+   "a": "a", "say": ["Squirrel", "squirrel"],
+   "colours": {"fur": "#B8642E", "light": "#F4E7D4", "dark": "#6E3416", "skin": "#E7A08A", "nose": "#3B2216"},
+   "body": {"w": 150, "h": 160, "top": 0.72, "arms": "hands", "feet": "small"},
+   "head": {"r": 66, "sx": 1.00, "sy": 0.96, "shape": "round", "muz": {"y": 0.40, "rx": 0.30, "ry": 0.22}, "nose": "tri", "eyes": {"x": 0.38, "y": -0.06}, "whiskers": true},
+   "ears": {"a": 30, "type": "tufts", "s": 0.48},
+   "mouth": "buck",
+   "tail": {"d": "M-10,-10 C20,-30 30,-80 10,-130 C0,-160 30,-196 70,-180 C100,-168 96,-130 72,-124 C90,-110 96,-80 84,-50 C70,-14 30,10 -10,16 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"belly": true}
+  },
+  "capybara": {
+   "a": "a", "say": ["Capybara", "bara", "Capy"],
+   "colours": {"fur": "#9C6D47", "light": "#BE9068", "dark": "#5C3D25", "skin": "#6E4B33", "nose": "#2B1F17"},
+   "body": {"w": 214, "h": 168, "top": 0.84, "arms": "thick", "feet": "pads"},
+   "head": {"r": 74, "sx": 0.96, "sy": 0.94, "shape": "block", "muz": {"y": 0.54, "rx": 0.44, "ry": 0.32}, "nose": "wide", "eyes": {"x": 0.44, "y": -0.28}},
+   "ears": {"a": 46, "type": "round", "s": 0.17},
+   "mouth": "smile",
+   "tail": {"d": "@circle 8 -4 8", "fill": "fur", "at": 0.44},
+   "back": null,
+   "markings": {}
+  },
+  "highlandcow": {
+   "a": "a", "word": "Highland cow", "say": ["Coo", "coo"],
+   "colours": {"fur": "#B8652A", "light": "#E3B585", "dark": "#7A3C15", "skin": "#D99A80", "nose": "#4A2E22"},
+   "body": {"w": 212, "h": 180, "top": 0.84, "arms": "thick", "feet": "hooves"},
+   "head": {"r": 78, "sx": 1.10, "sy": 0.96, "shape": "round", "muz": {"y": 0.50, "rx": 0.50, "ry": 0.30}, "nose": "nostrils", "eyes": {"x": 0.38, "y": -0.06}},
+   "ears": {"a": 62, "type": "horns", "s": 0.62},
+   "mouth": "tiny",
+   "tail": {"d": "M-6,4 C20,14 38,30 44,60", "whip": [9, 5], "fill": "fur", "tuft": [44, 64, -10]},
+   "back": {"kind": "shag", "word": "a Highland cow's shaggy coat", "plate": "#C9763A", "band": "#8A4A1E"},
+   "markings": {}
+  },
+  "roadrunner": {
+   "a": "a", "say": ["Roadrunner", "roadrunner"],
+   "colours": {"fur": "#8A6B4C", "light": "#EDE4D3", "dark": "#3A2C20", "skin": "#7D96B3", "nose": "#2E2620"},
+   "body": {"w": 150, "h": 168, "top": 0.64, "neck": 16, "arms": "wings", "feet": "talons"},
+   "head": {"r": 60, "sx": 0.96, "sy": 1.00, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "bill", "eyes": {"x": 0.36, "y": -0.10}},
+   "ears": {"a": 0, "type": "crest", "s": 0.62},
+   "mouth": "none",
+   "tail": {"d": "M-8,-16 C20,-40 50,-100 68,-150 C78,-148 84,-142 84,-132 C70,-90 44,-30 -8,16 Z", "fill": "dark"},
+   "back": null,
+   "markings": {"chevrons": true, "belly": true}
+  },
+  "peacock": {
+   "a": "a", "say": ["Peacock", "peacock"],
+   "colours": {"fur": "#1E62A8", "light": "#4FA6D1", "dark": "#123F70", "skin": "#9A9086", "nose": "#8E847A"},
+   "body": {"w": 158, "h": 176, "top": 0.62, "neck": 24, "arms": "wings", "feet": "talons"},
+   "head": {"r": 56, "sx": 0.96, "sy": 1.02, "shape": "round", "muz": {"none": true, "y": 0.30, "rx": 0.20, "ry": 0.20}, "nose": "beak", "eyes": {"x": 0.36, "y": -0.06}},
+   "ears": {"a": 0, "type": "plume", "s": 0.70},
+   "mouth": "none",
+   "tail": {"d": "M-8,-10 C10,-12 26,-8 36,0 C24,10 8,14 -8,12 Z", "fill": "dark"},
+   "back": {"kind": "train", "word": "a peacock's train", "plate": "#2F7D4A", "ring": "#D8B23A", "eye": "#1C3E86"},
+   "markings": {"facePatch": true}
+  },
+  "koi": {
+   "a": "a", "say": ["Koi", "koi"],
+   "colours": {"fur": "#F7F2EA", "light": "#FFFFFF", "dark": "#E0562A", "skin": "#F4B8A6", "nose": "#C8461F"},
+   "body": {"w": 156, "h": 184, "top": 0.62, "arms": "flippers", "feet": "fins"},
+   "head": {"r": 64, "sx": 0.94, "sy": 1.04, "shape": "round", "muz": {"none": true, "y": 0.50, "rx": 0.30, "ry": 0.20}, "nose": "none", "eyes": {"x": 0.42, "y": -0.04}, "barbels": true},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "pout",
+   "tail": {"d": "M-6,-12 C20,-14 40,-24 56,-40 C64,-70 84,-90 104,-96 C92,-70 90,-50 96,-30 C108,-20 124,-8 132,8 C108,6 84,4 60,2 C40,8 20,14 -6,14 Z", "fill": "fur"},
+   "back": null,
+   "markings": {"blotches": true}
+  },
+  "octopus": {
+   "a": "an", "say": ["Octopus", "topus"],
+   "colours": {"fur": "#DB6A44", "light": "#F4A88A", "dark": "#9A3620", "skin": "#F8D2C0", "nose": "#9A3620"},
+   "body": {"w": 152, "h": 136, "top": 0.86, "arms": "tentacles", "feet": "tentacles"},
+   "head": {"r": 84, "sx": 0.96, "sy": 1.16, "shape": "round", "muz": {"none": true, "y": 0.34, "rx": 0.30, "ry": 0.20}, "nose": "none", "eyes": {"x": 0.34, "y": 0.12}},
+   "ears": {"a": 40, "type": "none", "s": 0.20},
+   "mouth": "pout",
+   "tail": {"d": "M-6,0 C30,8 62,-8 64,-40 C66,-64 44,-74 36,-58 C30,-46 44,-38 50,-48", "whip": [16, 10], "fill": "fur", "end": [50, -48]},
+   "back": null,
+   "markings": {"spots": true}
   }
  },
  "known": {

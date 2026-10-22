@@ -99,7 +99,7 @@
   function fillSelect(sel, val) {
     sel.textContent = '';
     C.animals.forEach(function (an) {
-      var o = el('option', null, an);
+      var o = el('option', null, C.word(an));
       o.value = an;
       if (an === val) o.selected = true;
       sel.appendChild(o);
@@ -126,7 +126,7 @@
         if (state.parts[s.key] === an) r.checked = true;
         lab.setAttribute('for', r.id);
         lab.appendChild(r);
-        lab.appendChild(document.createTextNode(' ' + (an === 'none' ? 'none' : an)));
+        lab.appendChild(document.createTextNode(' ' + (an === 'none' ? 'none' : C.word(an))));
         row.appendChild(lab);
       });
       set.appendChild(row);
@@ -190,7 +190,7 @@
     state.a = a; state.b = b; state.any = false; state.edited = false;
     state.parts = C.clean(p);
     sync(true);
-    say('Tossed: ' + C.suggest(state.parts) + ', out of ' + C.article(a) + ' ' + a + ' and ' + C.article(b) + ' ' + b + '.');
+    say('Tossed: ' + C.suggest(state.parts) + ', out of ' + C.article(a) + ' ' + C.word(a) + ' and ' + C.article(b) + ' ' + C.word(b) + '.');
   });
 
   bench.addEventListener('click', function (e) {

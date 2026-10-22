@@ -114,20 +114,30 @@ SLOTS = ["body", "head", "ears", "mouth", "arms", "feet", "tail", "back", "colou
 # A part that may be missing from a chimera kept or linked before it was a
 # part of its own, and the part whose animal it then takes.
 DEFAULTS = {"arms": "body", "feet": "body"}
-ARMS = {"thick", "thin", "hands", "wings", "flippers"}
-FEET = {"pads", "small", "claws", "big", "webbed", "hooves", "toes", "talons", "paddles"}
-SHAPES = {"round", "wedge"}
-NOSES = {"round", "tri", "small", "y", "wide", "snout", "beak", "nostrils", "trunk"}
-EARS = {"round", "semi", "long", "oval", "tri", "none", "flop", "fan", "tufts", "leaf"}
-MOUTHS = {"smile", "buck", "bunny", "w", "tiny", "fierce", "open", "smirk", "none", "tusks"}
+# Every kind of part chimera.js has a drawing for. A new kind is a drawing
+# there and a word here, in the same commit.
+ARMS = {"thick", "thin", "hands", "wings", "flippers", "tentacles", "none"}
+FEET = {"pads", "small", "claws", "big", "webbed", "hooves", "toes", "talons", "paddles", "fins", "tentacles",
+        "streamers", "none"}
+SHAPES = {"round", "wedge", "block", "bell"}
+NOSES = {"round", "tri", "small", "y", "wide", "snout", "beak", "nostrils", "trunk", "bill", "hook", "duckbill",
+         "flatbill", "blowhole", "none"}
+EYES = (False, True, "dark", "slit", "turret", "bulge")
+EARS = {"round", "semi", "long", "oval", "tri", "none", "flop", "fan", "tufts", "leaf", "comb", "crest", "plume",
+        "gills", "horns"}
+MOUTHS = {"smile", "buck", "bunny", "w", "tiny", "fierce", "open", "smirk", "none", "tusks", "chisel", "grin",
+          "pout", "wattle", "tongue", "spiral"}
 FILLS = {"fur", "light", "skin", "dark"}
 MARKS = {"belly", "chest", "band", "patches", "darkEars", "darkLimbs", "darkPaws", "rimEars",
          "lightHead", "lowerFace", "bands", "mask", "rings", "tailTip", "tux", "stripes", "chevrons",
-         "disc", "eyePatch", "darkMuzzle"}
+         "disc", "eyePatch", "darkMuzzle", "spots", "blotches", "coils", "facePatch", "bareHead", "ribbons"}
 STRIPES = {"bold", "tabby"}
 # What each kind of back is drawn in.
 BACKS = {"shell": ("plate", "band", "speck"), "scutes": ("plate", "band", "speck"),
-         "quills": ("quill", "tip"), "mane": ("plate", "band")}
+         "quills": ("quill", "tip"), "mane": ("plate", "band"), "fan": ("quill", "band", "tip"),
+         "train": ("plate", "ring", "eye"), "shag": ("plate", "band"), "crest": ("plate", "band")}
+# A neck holds the head up; any longer and a tall pair of ears leaves the rig.
+NECK_MAX = 40
 COLOURS = {"fur", "light", "dark", "skin", "nose"}
 NAME_MAX = 24
 
@@ -221,7 +231,12 @@ def check_shelf(d):
         where = f"animal {key!r}"
         if not re.fullmatch(r"[a-z]+", key):
             refuse(f"{where}: a key is lowercase letters only, because it goes into an address after the #.")
-        if a.get("a") != ("an" if key[0] in "aeiou" else "a"):
+        said = a.get("word", key)
+        if not (isinstance(said, str) and re.fullmatch(r"[A-Za-z][a-z]*(?: [a-z]+)*", said)):
+            refuse(f"{where}: its word, what it is called where its key is not, is words of letters.")
+        elif "word" in a and said == key:
+            refuse(f"{where}: its word is its key; leave word out.")
+        elif a.get("a") != ("an" if said[0].lower() in "aeiou" else "a"):
             refuse(f"{where}: its article is {a.get('a')!r}, which does not go with the word.")
         say = a.get("say")
         if not (isinstance(say, list) and 2 <= len(say) <= 3 and all(isinstance(x, str) and x for x in say)):
@@ -246,11 +261,13 @@ def check_shelf(d):
             refuse(f"{where}: the body needs w, h, top (0.5 to 1), arms in {sorted(ARMS)} and feet in {sorted(FEET)}.")
         elif not (120 <= b["w"] <= 230 and 130 <= b["h"] <= 215):
             refuse(f"{where}: a body {b['w']} wide and {b['h']} high falls off the rig, which is 400 by 460.")
+        elif not (isinstance(b.get("neck", 0), (int, float)) and 0 <= b.get("neck", 0) <= NECK_MAX):
+            refuse(f"{where}: a neck is up to {NECK_MAX} high, or the head it holds leaves the rig.")
         h = a.get("head", {})
         muz = h.get("muz", {})
         if not (isinstance(h.get("r"), (int, float)) and 55 <= h["r"] <= 90 and h.get("shape") in SHAPES and
                 h.get("nose") in NOSES and isinstance(h.get("eyes"), dict) and {"y", "rx", "ry"} <= set(muz)
-                and h["eyes"].get("big", False) in (False, True, "dark")):
+                and h["eyes"].get("big", False) in EYES and h.get("barbels", False) in (False, True)):
             refuse(f"{where}: the head needs r (55 to 90), sx, sy, a shape in {sorted(SHAPES)}, a nose in "
                    f"{sorted(NOSES)}, eyes and a muzzle.")
         e = a.get("ears", {})
@@ -259,8 +276,10 @@ def check_shelf(d):
         if a.get("mouth") not in MOUTHS:
             refuse(f"{where}: the mouth must be one of {sorted(MOUTHS)}.")
         t = a.get("tail", {})
-        if not (isinstance(t.get("d"), str) and t.get("fill") in FILLS):
-            refuse(f"{where}: the tail needs a shape d and a fill in {sorted(FILLS)}.")
+        if t == {"none": True}:
+            pass
+        elif not (isinstance(t.get("d"), str) and t.get("fill") in FILLS):
+            refuse(f"{where}: the tail needs a shape d and a fill in {sorted(FILLS)}, or is {{\"none\": true}} and nothing else.")
         elif t["d"].startswith("@") and not re.fullmatch(r"@circle -?[\d.]+ -?[\d.]+ [\d.]+", t["d"]):
             refuse(f"{where}: a round tail is written \"@circle cx cy r\".")
         elif t.get("whip") is not None and not (isinstance(t["whip"], list) and len(t["whip"]) == 2 and
@@ -465,7 +484,7 @@ def starts(d, drawn):
 
 
 def shelf_words(d):
-    items = "".join(f'<li>{esc(a["a"])} {esc(k)}</li>' for k, a in d["animals"].items())
+    items = "".join(f'<li>{esc(a["a"])} {esc(a.get("word", k))}</li>' for k, a in d["animals"].items())
     return (f'    <p>On the shelf now, with every part each one has:</p>\n'
             f'    <ul class="chm-shelf">{items}</ul>')
 

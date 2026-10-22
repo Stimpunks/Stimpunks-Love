@@ -48,9 +48,14 @@ test('the shelf has animals and parts', () => {
 });
 
 test('every pair of animals, with every part from either of the two', () => {
-  // Arms and feet are each fitted to the body and to nothing else, so here
-  // they come from the same animal; the random chimeras below take them apart.
-  const others = SLOTS.filter((k) => k !== 'body' && k !== 'back' && k !== 'feet');
+  // Parts that never shape each other travel in pairs, so the test stays
+  // every pair of animals as the shelf grows: arms and feet are each fitted
+  // to the body and to nothing else, a mouth and the ears each hang off the
+  // head and never touch, and colours change no shape at all, only what it
+  // is filled with, so they come with the markings. The random chimeras
+  // below take every pair apart.
+  const others = ['head', 'ears', 'arms', 'tail', 'markings'];
+  const partner = { ears: 'mouth', arms: 'feet', markings: 'colours' };
   let drawn = 0;
   for (const a of C.animals) for (const b of C.animals) {
     if (a === b) continue;
@@ -58,8 +63,7 @@ test('every pair of animals, with every part from either of the two', () => {
     for (let mask = 0; mask < (1 << others.length); mask++) {
       for (const back of backs) {
         const c = { body: a, back };
-        others.forEach((k, i) => { c[k] = (mask >> i) & 1 ? b : a; });
-        c.feet = c.arms;
+        others.forEach((k, i) => { c[k] = (mask >> i) & 1 ? b : a; if (partner[k]) c[partner[k]] = c[k]; });
         drawnWell(c, `${a} with ${b} (${mask}, ${back})`);
         drawn++;
       }
@@ -73,7 +77,7 @@ test('random chimeras out of the whole shelf', () => {
   const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
   const pick = (arr) => arr[Math.floor(rnd() * arr.length)];
   const backs = ['none', ...C.animals.filter((x) => C.hasBack(x))];
-  for (let i = 0; i < 2000; i++) {
+  for (let i = 0; i < 4000; i++) {
     const c = {};
     for (const k of SLOTS) c[k] = k === 'back' ? pick(backs) : pick(C.animals);
     drawnWell(c, `random ${i}`);
