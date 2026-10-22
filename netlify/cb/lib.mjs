@@ -3802,9 +3802,12 @@ export function forumPlace(tag) {
 /* Every category's room a pass may enter, for the radio to name them by: they
    are not in cb-rooms.json, which is public, and a category somebody cannot
    read is never named to them. In the forums' order. */
+/* `locked` says the category has roles, so the chat page can list its room
+   under Staff; it is only ever told to somebody who may read it already. */
 export function forumRooms(who, now = Date.now()) {
   return forumCategories(now).filter((c) => !c.parent && forumAllows(who, c))
-    .map((c) => ({ tag: FORUM_ROOM + c.slug, name: forumRoomName(c), path: `/forum.html#/c/${c.slug}`, about: c.about }));
+    .map((c) => ({ tag: FORUM_ROOM + c.slug, name: forumRoomName(c), path: `/forum.html#/c/${c.slug}`, about: c.about,
+      ...(c.see && c.see.length ? { locked: true } : {}) }));
 }
 // The room a category's topics are read in: its own, or its top category's.
 export function forumRoomOf(slug, now = Date.now()) {

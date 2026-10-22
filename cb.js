@@ -131,6 +131,31 @@
   var CB_WINDOW_NAME = 'stimpunks-cb'; // one such window, found again by its name
   var popLine = typeof BroadcastChannel === 'function' ? new BroadcastChannel('love-cb-window') : null;
   function inWindow() { return !!(document.body && document.body.hasAttribute('data-cb-window')); }
+  /* THE CHAT PAGE (Ryan's ask, 2026-10-22: "a /chat page with a Discord style
+     interface for our room chat channels"). chat.html is the radio on a page
+     of its own, docked into the page rather than floating over it, at Full,
+     with every room's channel listed down the left in three groups: Community
+     (World, the Community Center, Dead Tired Society and every room at
+     Cavendish Coworking), Staff (the Town Hall's private rooms and the forums'
+     locked categories, each listed only for the people who can go in) and
+     World (every other room, in walking order). It
+     is the same radio, so a channel there is the room's own channel, as This
+     room hears it in the room, and everything the radio does it does for the
+     channel picked: messages, replies, reactions, Be seen here and the room's
+     call. The channel picked is in the address, after the #, so Back goes to
+     the one before and a link can name one, and it is kept nowhere else.
+       · IT CHANGES NOTHING FOR THE RADIO ON EVERY OTHER PAGE. Its size,
+         whether it is folded, where it sits, World or This room, and whether
+         it is popped out are love-cb's for those pages, and save() here writes
+         back whatever they are there (CHAT_OWN), never this page's.
+       · OPEN IS STILL ON: it listens while the page is in front of somebody,
+         to the one channel picked and to nothing else. The marks on the other
+         channels are Unreads' (newsTick), which asks nothing new.
+     tools/make-chat.py writes the groups onto the page, out of
+     data/coworking.json and MOD_ROOMS, and holds the rest. See chatMake. */
+  function chatDock() { return document.querySelector('[data-cb-dock]'); }
+  function inChat() { return !inWindow() && !!(document.body && document.body.hasAttribute('data-cb-chat') && chatDock()); }
+  var CHAT_OWN = ['folded', 'size', 'small', 'popped', 'band', 'x', 'y'];
   var streetWin = null;
   // The window this one came from, or the one it last opened a room in, while
   // it is open and on this site.
@@ -168,7 +193,17 @@
     try { var v = JSON.parse(localStorage.getItem(KEY) || 'null'); return v && v.pass ? v : null; }
     catch (e) { return null; }
   }
-  function save(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) { /* private window */ } }
+  function save(v) {
+    try {
+      // The chat page leaves the radio on every other page as it found it.
+      if (inChat()) {
+        var was = load() || {};
+        v = Object.assign({}, v);
+        CHAT_OWN.forEach(function (k) { if (k in was) v[k] = was[k]; else delete v[k]; });
+      }
+      localStorage.setItem(KEY, JSON.stringify(v));
+    } catch (e) { /* private window */ }
+  }
   function forget() { try { localStorage.removeItem(KEY); } catch (e) { /* nothing to forget */ } }
 
   /* Redraw a picture on a canvas: at most 1600 pixels on its long side, the
@@ -763,7 +798,7 @@
       var r = list[i];
       if (r && typeof r.tag === 'string' && FORUMTAG.test(r.tag) && typeof r.name === 'string' &&
           typeof r.path === 'string' && FORUMPATH.test(r.path) && r.path.slice(r.path.lastIndexOf('/') + 1) === r.tag.slice(FORUM_ROOM.length)) {
-        ok.push({ tag: r.tag, name: r.name, path: r.path, about: typeof r.about === 'string' ? r.about : '', forum: true });
+        ok.push({ tag: r.tag, name: r.name, path: r.path, about: typeof r.about === 'string' ? r.about : '', forum: true, locked: r.locked === true });
       }
     }
     forumRooms = ok;
@@ -801,7 +836,7 @@
       var spot = tagAt[off + m.index];
       // A room named by a spot carries the spot, in the fragment, which no
       // browser sends to any server. See arrive.
-      a.href = roomHref(room, spot ? '#spot=' + (spot.secs == null ? 'live' : spot.secs) + '&film=' + encodeURIComponent(spot.film) : '');
+      a.href = spot ? roomHref(room, '#spot=' + (spot.secs == null ? 'live' : spot.secs) + '&film=' + encodeURIComponent(spot.film)) : chatHref(room) || roomHref(room, '');
       var hash = el('span', null, '#');
       hash.setAttribute('aria-hidden', 'true');
       a.appendChild(hash);
@@ -1030,7 +1065,8 @@
     // replaced it; a browser that remembered it forgets it here.
     if ('findable' in state) { delete state.findable; save(state); }
 
-    var box = this.box = el('section', 'cb-radio' + (inWindow() ? ' cb-radio--window' : ''));
+    var chat = inChat();
+    var box = this.box = el('section', 'cb-radio' + (inWindow() ? ' cb-radio--window' : '') + (chat ? ' cb-radio--chat' : ''));
     box.setAttribute('aria-label', 'CB radio');
     // In its own window it is out, and says so for any page opened meanwhile.
     if (inWindow() && !state.popped) { state.popped = true; save(state); }
@@ -1179,8 +1215,12 @@
       cols[col].appendChild(sec);
       return sec;
     }
-    var hereSec = part('cb-sec--here', 'Where you are', 0);
-    var aroundSec = part('cb-sec--around', 'Who\u2019s around', 0);
+    /* ON THE CHAT PAGE the channels come first, down the left, and what is
+       about the channel picked and who is around stand on the right, after
+       the channel, the way chat lays them out. See chatMake. */
+    var chansSec = chat ? part('cb-sec--chans', 'Channels', 0) : null;
+    var hereSec = part('cb-sec--here', chat ? 'In this channel' : 'Where you are', chat ? 2 : 0);
+    var aroundSec = part('cb-sec--around', 'Who\u2019s around', chat ? 2 : 0);
     /* UNREADS (Ryan's proposal, 2026-10-20): World, the rooms you follow and
        your conversations, each listed while something has been said there
        since you last read it, and never how much. See newsShown. */
@@ -1217,6 +1257,7 @@
     /* MESSAGES, between Channel and Watching together (Ryan, 2026-10-18): one
        person to another, for claimed usernames. See dmMake. */
     this.dmMake(dmSec);
+    if (chat) this.chatMake(chansSec, chanSec);
 
     /* WHERE YOU ARE, in words, at the top. Ryan, 2026-10-13: some people could
        not tell where they were. "Tuned to World" is the channel and not the
@@ -1612,7 +1653,8 @@
        radio out that the pages cannot hear about would be a second radio. */
     var popBtn = this.popBtn = el('button', 'cb-btn cb-pop-btn', inWindow() ? 'Back into the page' : 'Pop out');
     popBtn.type = 'button';
-    popBtn.hidden = !popLine;
+    // The chat page is the radio's page already, and keeps it.
+    popBtn.hidden = !popLine || chat;
     var popHow = el('span', 'sr', inWindow()
       ? 'Closes this window and puts the radio back on the page you came from.'
       : 'Moves the radio into a window of its own, at the size it is now, which stays open while you go from room to room.');
@@ -1961,7 +2003,7 @@
     });
     // At Full the radio fills the window, so there is nowhere to move it to.
     // In its own window it is the window, and the window is what moves.
-    this.mover.still = function () { return inWindow() || (me.state.size === 'full' && !me.state.folded); };
+    this.mover.still = function () { return inWindow() || chat || (me.state.size === 'full' && !me.state.folded); };
     // A theme's sides hang outside the box, so the radio keeps that much further in.
     this.mover.margin = function () {
       if (!me.sidesShown()) return 0;
@@ -2003,7 +2045,13 @@
     sheet.addEventListener('error', shown);
     root.appendChild(sheet);
     root.appendChild(box);
-    document.body.appendChild(host);
+    if (chat) {
+      // Into the page, where the page's own words about the chat were.
+      var dock = chatDock();
+      dock.textContent = '';
+      host.classList.add('cb-host--chat');
+      dock.appendChild(host);
+    } else document.body.appendChild(host);
     if (inWindow()) {
       /* A link to a page of this site opens in the window you came from, so
          this window keeps the radio: the channel's, the teleporter's, a
@@ -2026,6 +2074,7 @@
     this.setSize(state.size || (state.small ? 'small' : 'normal'), true);
     this.setFolded(!!state.folded, true);
     this.place();
+    if (chat) this.chatShown();
   }
 
   Radio.prototype.aloud = function () { return this.state.aloud !== false; };
@@ -2290,6 +2339,8 @@
   var SIZE_SAYS = { icon: 'an icon, still on', small: 'Small, the bar and the newest message', normal: 'Normal', large: 'Large, wider and taller', full: 'Full, the whole window' };
   Radio.prototype.setSize = function (size, quiet) {
     if (SIZES.indexOf(size) < 0) size = 'normal';
+    // The chat page is the radio at Full, in the page, and has no other size.
+    if (inChat()) size = 'full';
     var small = size === 'small', tiny = small || size === 'icon';
     var had = this.box.contains(document.activeElement) || (this.host && this.host.shadowRoot && this.host.shadowRoot.activeElement);
     this.state.size = size;
@@ -2774,6 +2825,8 @@
   };
 
   Radio.prototype.setFolded = function (folded, quiet) {
+    // The chat page is the radio switched on; leaving the page is switching it off.
+    if (inChat()) folded = false;
     this.state.folded = folded;
     this.box.classList.toggle('cb-radio--folded', folded);
     this.set.hidden = folded;
@@ -2814,6 +2867,8 @@
     var me = this;
     if (this.whereNow()) return;
     this.loadRooms();
+    // The chat page hears nothing until it knows which channels there are.
+    if (inChat() && !this.chatSure) { this.chatWait(); return; }
     /* Tuned to a room, the first listen waits for the street's list, so that
        a page that is no room (the 404 answers any address) never sends its
        address to us as if it were one: it hears World instead. */
@@ -3431,7 +3486,7 @@
     if (this.askedRooms) return;
     this.askedRooms = true;
     if (forumPass(this.state.pass)) {
-      call('/cb/rooms', null, this.state.pass).then(function (r) {
+      this.forumReady = call('/cb/rooms', null, this.state.pass).then(function (r) {
         if (r.status !== 200 || !r.body || !Array.isArray(r.body.rooms)) return;
         takeForumRooms(r.body.rooms);
         if (!rooms) return;
@@ -3657,7 +3712,9 @@
   }
 
   // Where this page is, as the room list writes it, so the list can say so.
+  // On the chat page, the channel picked is where the radio is.
   function herePath() {
+    if (inChat()) return chatRoom().path;
     var d = streetDoc();
     var p = (d ? d.location : location).pathname.replace(/\/index(?:\.html)?$/, '/');
     return p === '/' ? '/' : p.replace(/\.html$/, '') + '.html';
@@ -3668,6 +3725,345 @@
      split people between. Told by its address, so it holds before the list of
      rooms arrives. make-sitemap.py holds the page and this to each other. */
   function worldHere() { return herePath() === '/' + WORLD_CALL + '.html'; }
+
+  /* ── The chat page's channels ─────────────────────────────────────────── */
+
+  /* The channel picked on the chat page (inChat), World until another is.
+     The address says which, after the #, and nothing else keeps it. */
+  var chatTag = WORLD_CALL, chatSpecs = null;
+  var CHAT_PAGE = 'chat';   // the chat page's own name, which is no channel on itself (make-chat.py)
+  var CHAT_WIDE = window.matchMedia ? window.matchMedia('(min-width: 1000px)') : null;
+
+  function chatRoom() {
+    if (chatTag !== WORLD_CALL && byTag[chatTag]) return byTag[chatTag];
+    return byTag[WORLD_CALL] || { tag: WORLD_CALL, name: 'World', path: '/' + WORLD_CALL + '.html' };
+  }
+
+  /* The groups make-chat.py wrote on the chat page: Community's rooms, World
+     first, in its order, and Staff's, each with the roles that open it, as
+     its Town Hall page carries them. Read once. */
+  function chatSpec() {
+    if (chatSpecs) return chatSpecs;
+    var g = null, dock = chatDock();
+    try { g = JSON.parse((dock && dock.getAttribute('data-chat-groups')) || 'null'); } catch (e) { g = null; }
+    chatSpecs = {
+      community: g && Array.isArray(g.community) ? g.community.filter(function (t) { return typeof t === 'string'; }) : [WORLD_CALL],
+      staff: g && Array.isArray(g.staff) ? g.staff.filter(function (x) { return x && typeof x.tag === 'string' && Array.isArray(x.roles); }) : []
+    };
+    return chatSpecs;
+  }
+
+  // A Town Hall room this pass may listen in: the page keeping quiet, as
+  // mayHere does, while the server refuses its channel to anybody else.
+  function mayStaff(s, x) {
+    var roles = (s && s.roles) || [];
+    var key = !x.strict && roles.indexOf('administrator') >= 0;
+    return !!(s && s.base) && (key || x.roles.some(function (r) { return roles.indexOf(r) >= 0; }));
+  }
+
+  /* THE THREE GROUPS, Ryan's: Community is World, the Community Center, Dead
+     Tired Society and Cavendish Coworking's rooms; Staff is the Town Hall's private rooms and the forums' locked
+     categories, each only for a pass that can go in (the server named the
+     categories to their readers only); World is every other room on the
+     street in walking order, with the forums' other categories after The
+     forums, as everywhere on the radio. Never a room that keeps to itself,
+     which the street's list does not name; never this page, which is no
+     channel; and the World room once, as World, whose channel it is. */
+  function chatChannels(s) {
+    var spec = chatSpec(), taken = {}, community = [], staff = [], world = [];
+    taken[CHAT_PAGE] = true;
+    spec.community.forEach(function (t) {
+      taken[t] = true;
+      if (t === WORLD_CALL) community.push(byTag[WORLD_CALL] || { tag: WORLD_CALL, name: 'World', path: '/' + WORLD_CALL + '.html' });
+      else if (byTag[t]) community.push(byTag[t]);
+    });
+    spec.staff.forEach(function (x) {
+      taken[x.tag] = true;
+      if (byTag[x.tag] && mayStaff(s, x)) staff.push(byTag[x.tag]);
+    });
+    (rooms || []).forEach(function (r) {
+      if (r.forum && r.locked) { taken[r.tag] = true; staff.push(r); }
+    });
+    (rooms || []).forEach(function (r) { if (!taken[r.tag] && !r.quiet) world.push(r); });
+    return [
+      { key: 'community', name: 'Community', rooms: community },
+      { key: 'staff', name: 'Staff', rooms: staff },
+      { key: 'world', name: 'World', rooms: world }
+    ].filter(function (g) { return g.rooms.length; });
+  }
+
+  // On the chat page, a link to a room that is a channel there is a link to
+  // the channel; anywhere else, and for anything that is not, null.
+  function chatHref(room) {
+    return room && inChat() && radio && radio.chatHas(room.tag) ? '#' + room.tag : null;
+  }
+
+  // The tag the address names, if it is shaped like one.
+  function chatFromHash() {
+    var t = '';
+    try { t = decodeURIComponent(location.hash.slice(1)); } catch (e) { t = ''; }
+    return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(t) ? t : '';
+  }
+
+  // Going to a channel is going to its address, so Back comes back.
+  function chatGo(tag) {
+    if (location.hash.slice(1) === tag) { chatTake(); return; }
+    location.hash = tag;
+  }
+
+  /* The address has changed, or the lists have arrived: the channel it names,
+     if this pass can hear it. A # that names nothing (the page's own #top
+     and #main) leaves the channel where it is; no # at all is World, where
+     the page starts. */
+  function chatTake(first) {
+    if (!radio || !radio.chatSure) return false;
+    var t = chatFromHash(), said = '';
+    if (!t) t = WORLD_CALL;
+    else if (!radio.chatHas(t)) {
+      if (!first) return false;
+      if (byTag[t] || FORUMTAG.test(t)) {
+        said = 'That channel is not one you can listen to here, so the chat is on World.';
+        // The address says World too, rather than naming a channel it is not on.
+        try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) { /* it says what it says */ }
+      }
+      t = WORLD_CALL;
+    }
+    if (t === chatTag && !first) return false;
+    chatTag = t;
+    var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
+    if (said) radio.tell(said);
+    return moved;
+  }
+
+  /* THE CHANNEL LIST, the left of the chat page: a box to find a channel by
+     its name or what its room is about (the teleporter's search, findRooms),
+     and the groups, each folding under a button, each channel a link to its
+     address. One channel at a time is in the Tab order, the one picked, and
+     the arrow keys move between them, so the list is one stop on the way to
+     the message box rather than a hundred. What is new in a channel since you
+     last read it is marked as everywhere on the radio, a dot and the words,
+     never a number. On a narrow screen the list folds under one button that
+     names the channel picked, and picking one folds it again. */
+  Radio.prototype.chatMake = function (sec, chanSec) {
+    var me = this;
+    this.chatSec = sec;
+    this.chatFolded = {};
+    this.chatLinks = [];
+    var t = this.chatToggle = el('button', 'cb-btn cb-chans-toggle');
+    t.type = 'button';
+    t.setAttribute('aria-expanded', 'false');
+    t.setAttribute('aria-controls', 'cb-chans-body');
+    sec.appendChild(t);
+    var body = el('div', 'cb-chans-body');
+    body.id = 'cb-chans-body';
+    var lab = el('label', 'cb-lab', 'Find a channel');
+    lab.htmlFor = 'cb-chans-find';
+    var find = this.chatFind = el('input', 'cb-say cb-chans-find');
+    find.id = 'cb-chans-find';
+    find.type = 'search';
+    find.autocomplete = 'off';
+    find.spellcheck = false;
+    find.setAttribute('aria-controls', 'cb-chans-groups');
+    var groups = this.chatGroupsBox = el('nav', 'cb-chans-groups');
+    groups.id = 'cb-chans-groups';
+    groups.setAttribute('aria-label', 'Channels');
+    groups.appendChild(el('p', 'cb-quiet', 'Finding the channels…'));
+    this.chatNone = el('p', 'cb-quiet');
+    this.chatNone.hidden = true;
+    body.appendChild(lab);
+    body.appendChild(find);
+    body.appendChild(groups);
+    body.appendChild(this.chatNone);
+    sec.appendChild(body);
+    find.addEventListener('input', function () { me.chatFilter(); });
+    find.addEventListener('keydown', function (e) {
+      // Down from the box goes into the list, to the first channel it shows.
+      if (e.key === 'ArrowDown') { var a = me.chatVisible()[0]; if (a) { e.preventDefault(); a.focus(); } }
+    });
+    t.addEventListener('click', function () { me.chatOpen(t.getAttribute('aria-expanded') !== 'true'); });
+    groups.addEventListener('keydown', function (e) { me.chatKey(e); });
+    groups.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a.cb-chan');
+      if (!a) return;
+      // The channel already picked: nothing to go to, so the address is left alone.
+      if (a.getAttribute('aria-current') === 'page') e.preventDefault();
+      if (!me.chatWide()) { me.chatOpen(false); me.chatAfterPick = true; }
+    });
+    /* THE CHANNEL'S OWN HEAD, under its name: what its room is about, in the
+       room's own words, and the way into the room itself. The name is the
+       Channel part's heading, which the keyboard is put on when a pick on a
+       narrow screen folds the list away. */
+    var h = this.chanH = chanSec.querySelector(':scope > .cb-h');
+    h.tabIndex = -1;
+    var head = el('div', 'cb-chat-head');
+    this.chatAbout = el('p', 'cb-chat-about');
+    var go = el('p', 'cb-chat-go');
+    this.chatGoLink = el('a');
+    go.appendChild(this.chatGoLink);
+    head.appendChild(this.chatAbout);
+    head.appendChild(go);
+    h.insertAdjacentElement('afterend', head);
+    if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.chatOpen(false); });
+    this.chatOpen(false);
+  };
+
+  Radio.prototype.chatWide = function () { return !CHAT_WIDE || CHAT_WIDE.matches; };
+
+  // The list open or folded under its button, which only a narrow screen shows.
+  Radio.prototype.chatOpen = function (open) {
+    this.chatSec.classList.toggle('cb-sec--chans-open', !!open);
+    this.chatToggle.setAttribute('aria-expanded', String(!!open));
+  };
+
+  // Waits for the street's rooms and the forums' categories, then hears the
+  // channel the address names.
+  Radio.prototype.chatWait = function () {
+    var me = this;
+    if (this.chatWaiting) return;
+    this.chatWaiting = true;
+    function settled(p) { return p ? p.then(null, function () {}) : null; }
+    Promise.all([settled(this.roomsReady), settled(this.forumReady)]).then(function () {
+      if (radio !== me) return;
+      me.chatSure = true;
+      // The list first, because it is what says which channels there are;
+      // then the one the address names, and retuned to it, it is listening.
+      me.chatShown();
+      var moved = chatTake(true);
+      if (!moved) me.tune();
+    });
+  };
+
+  Radio.prototype.chatHas = function (tag) {
+    for (var i = 0; i < this.chatLinks.length; i++) if (this.chatLinks[i].tag === tag) return true;
+    return false;
+  };
+
+  /* Drawn again only when which channels there are changes; the channel
+     picked, the marks and the channel's head every time it is asked. */
+  Radio.prototype.chatShown = function () {
+    if (!this.chatGroupsBox || !this.chatSure) return;
+    var groups = chatChannels(this.state);
+    var sig = JSON.stringify(groups.map(function (g) { return [g.key, g.rooms.map(function (r) { return r.tag + '|' + r.name; })]; }));
+    if (sig !== this.chatSig) { this.chatSig = sig; this.chatBuild(groups); }
+    var room = chatRoom(), tuned = room.tag, n = this.news, focus = null;
+    this.chatLinks.forEach(function (x) {
+      var on = x.tag === tuned;
+      if (on) { x.a.setAttribute('aria-current', 'page'); focus = x.a; } else x.a.removeAttribute('aria-current');
+      var t = n && n.latest && n.latest[x.tag];
+      var fresh = !on && !!t && t > ((n.read && n.read[x.tag]) || 0);
+      if (fresh !== x.a.classList.contains('cb-chan--new')) { markNew(x.a, fresh); x.a.classList.toggle('cb-chan--new', fresh); }
+    });
+    this.chatRove(focus);
+    var world = tuned === WORLD_CALL;
+    this.chanH.textContent = '';
+    if (!world) { var hash = el('span', 'cb-chan-hash', '#'); hash.setAttribute('aria-hidden', 'true'); this.chanH.appendChild(hash); }
+    this.chanH.appendChild(document.createTextNode(world ? 'World' : room.name));
+    this.chatAbout.textContent = world
+      ? 'The whole street’s channel, heard by everybody tuned to World, whichever room they are in.'
+      : room.about || (room.forum ? 'A category in the forums, and its channel.' : '');
+    this.chatAbout.hidden = !this.chatAbout.textContent;
+    this.chatGoLink.href = room.path;
+    this.chatGoLink.textContent = world ? 'Go to the World room' : room.forum ? 'Go to ' + room.name + ' in the forums' : 'Go to ' + room.name;
+    this.chatToggle.textContent = 'Channels: ' + (world ? 'World' : '#' + room.name);
+    if (this.chatAfterPick) {
+      this.chatAfterPick = false;
+      this.chanH.focus();
+    }
+  };
+
+  Radio.prototype.chatBuild = function (groups) {
+    var me = this, box = this.chatGroupsBox;
+    var on = this.box.getRootNode().activeElement, keep = on && on.classList && on.classList.contains('cb-chan') ? on.dataset.tag : null;
+    box.textContent = '';
+    this.chatLinks = [];
+    this.chatGroupEls = [];
+    groups.forEach(function (g) {
+      var wrap = el('div', 'cb-chan-group');
+      var h = el('h3', 'cb-h3 cb-chan-h');
+      var b = el('button', 'cb-chan-fold', g.name);
+      b.type = 'button';
+      var ul = el('ul', 'cb-chan-list');
+      ul.id = 'cb-chans-' + g.key;
+      b.setAttribute('aria-controls', ul.id);
+      h.appendChild(b);
+      wrap.appendChild(h);
+      g.rooms.forEach(function (r) {
+        var li = el('li');
+        var a = el('a', 'cb-chan');
+        a.href = '#' + r.tag;
+        a.dataset.tag = r.tag;
+        a.tabIndex = -1;
+        var hash = el('span', 'cb-chan-hash', r.tag === WORLD_CALL ? '' : '#');
+        hash.setAttribute('aria-hidden', 'true');
+        a.appendChild(hash);
+        a.appendChild(el('span', 'cb-chan-name', r.tag === WORLD_CALL ? 'World' : r.name));
+        li.appendChild(a);
+        ul.appendChild(li);
+        me.chatLinks.push({ tag: r.tag, a: a, li: li, room: r });
+      });
+      wrap.appendChild(ul);
+      box.appendChild(wrap);
+      var ge = { key: g.key, wrap: wrap, ul: ul, button: b };
+      me.chatGroupEls.push(ge);
+      b.addEventListener('click', function () {
+        me.chatFolded[g.key] = !me.chatFolded[g.key];
+        me.chatFilter();
+      });
+    });
+    this.chatFilter();
+    if (keep) { var again = box.querySelector('a.cb-chan[data-tag="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
+  };
+
+  /* What the box finds, in each group's own order. A folded group opens
+     while something is being looked for, and folds again when it is not. */
+  Radio.prototype.chatFilter = function () {
+    var me = this, q = this.chatFind.value.trim(), hit = null, any = false;
+    if (q && rooms) { hit = {}; findRooms(q).forEach(function (x) { hit[x.room.tag] = true; }); }
+    (this.chatGroupEls || []).forEach(function (g) {
+      var shown = 0;
+      me.chatLinks.forEach(function (x) {
+        if (!g.ul.contains(x.li)) return;
+        x.li.hidden = !!hit && !hit[x.tag];
+        if (!x.li.hidden) shown++;
+      });
+      any = any || shown > 0;
+      g.wrap.hidden = !!hit && !shown;
+      var open = !!hit || !me.chatFolded[g.key];
+      g.ul.hidden = !open;
+      g.button.setAttribute('aria-expanded', String(open));
+      g.button.disabled = !!hit;
+    });
+    this.chatNone.hidden = !hit || any;
+    this.chatNone.textContent = hit && !any ? 'No channel’s name, or what its room is about, has ' + (q.split(/\s+/).length > 1 ? 'those words' : 'that word') + '.' : '';
+    this.chatRove();
+  };
+
+  // The channel links shown now, in order.
+  Radio.prototype.chatVisible = function () {
+    return this.chatLinks.filter(function (x) { return !x.li.hidden && !x.li.parentNode.hidden && !x.li.parentNode.parentNode.hidden; }).map(function (x) { return x.a; });
+  };
+
+  // One channel in the Tab order: the one picked, or the first shown.
+  Radio.prototype.chatRove = function (want) {
+    var shown = this.chatVisible(), cur = this.chatGroupsBox.querySelector('a.cb-chan[aria-current]');
+    var stop = want && shown.indexOf(want) >= 0 ? want : cur && shown.indexOf(cur) >= 0 ? cur : shown[0];
+    this.chatLinks.forEach(function (x) { x.a.tabIndex = x.a === stop ? 0 : -1; });
+  };
+
+  Radio.prototype.chatKey = function (e) {
+    var a = e.target.closest && e.target.closest('a.cb-chan');
+    if (!a) return;
+    var shown = this.chatVisible(), i = shown.indexOf(a), j = -1;
+    if (e.key === 'ArrowDown') j = Math.min(shown.length - 1, i + 1);
+    else if (e.key === 'ArrowUp') { if (i === 0) { e.preventDefault(); this.chatFind.focus(); return; } j = i - 1; }
+    else if (e.key === 'Home') j = 0;
+    else if (e.key === 'End') j = shown.length - 1;
+    else return;
+    e.preventDefault();
+    if (j < 0 || !shown[j]) return;
+    this.chatRove(shown[j]);
+    shown[j].focus();
+  };
 
   /* ── The Profile ─────────────────────────────────────────────────────── */
   /* A pet in a few words, for a sticker's caption and somebody's pets: its
@@ -5985,6 +6381,7 @@
 
   Radio.prototype.newsShown = function () {
     if (!this.newList) return;
+    if (inChat()) this.chatShown();
     var me = this, n = this.news, claimed = forumPass(this.state.pass);
     var tuned = this.tunedRoom() || WORLD_CALL, here = followable();
     function fresh(tag) {
@@ -6015,7 +6412,7 @@
       var li = el('li'), b;
       if (x.room && !(here && x.room.tag === here.tag)) {
         b = el('a', 'cb-room');
-        b.href = x.room.path;
+        b.href = chatHref(x.room) || x.room.path;
         var hash = el('span', null, '#');
         hash.setAttribute('aria-hidden', 'true');
         b.appendChild(hash);
@@ -7980,7 +8377,7 @@
         if (i) li.appendChild(document.createTextNode(', '));
         if (isHere(r)) { li.appendChild(el('span', null, r.name + ' (this room)')); return; }
         var a = el('a', 'cb-online-room', r.name);
-        a.href = r.path;
+        a.href = chatHref(r) || r.path;
         a.dataset.at = p.handle + '|' + r.tag;
         li.appendChild(a);
         back(a);
@@ -8013,7 +8410,7 @@
       if (isHere(r)) { li.appendChild(el('span', null, r.name + ' (this room)')); }
       else {
         var a = el('a', 'cb-online-room', r.name);
-        a.href = r.path;
+        a.href = chatHref(r) || r.path;
         a.dataset.at = 'call|' + r.tag;
         li.appendChild(a);
         back(a);
@@ -8426,6 +8823,7 @@
 
   // The room this page is, out of the street's own list, or null.
   function hereRoom() {
+    if (inChat()) return chatRoom();
     if (offList()) return quietHere();
     var f = forumHere();
     if (f) return f;
@@ -8473,6 +8871,11 @@
      World. Retuning starts the log afresh, and what is already on the other
      channel is not read out as news. */
   Radio.prototype.tunedRoom = function () {
+    // On the chat page, the channel picked, World's being no room's.
+    if (inChat()) {
+      var c = chatRoom().tag;
+      return c !== WORLD_CALL && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(c) ? c : null;
+    }
     // In a room that keeps to itself the radio opens on its channel, and a
     // press of World or This room there is the visitor's and is kept as usual.
     var band = offList() && !this.bandPressed ? 'room' : this.state.band;
@@ -8483,6 +8886,8 @@
   };
 
   Radio.prototype.setBand = function (band) {
+    // On the chat page World is a channel in the list, picked like any other.
+    if (inChat()) { if (band === 'world') chatGo(WORLD_CALL); return; }
     var was = this.tunedRoom();
     this.bandPressed = true;
     this.state.band = band === 'room' ? 'room' : 'world';
@@ -8551,6 +8956,7 @@
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
     this.bandNow.textContent = room ? 'Tuned to ' + name : worldHere() ? 'Tuned to World, which is this room\u2019s own channel' : 'Tuned to World';
     this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', the last 48 hours');
+    if (inChat()) this.chatShown();
     this.hereShown();
     this.presenceShown();
     this.followShown();
@@ -9380,7 +9786,8 @@
        or a browser that closed it), and then the radio is back here. A radio
        that has started here and then hears a window open steps aside (see
        popLine). */
-    if (!inWindow() && popLine) {
+    // The chat page has the radio whether or not it is out in its own window.
+    if (!inWindow() && !inChat() && popLine) {
       if (s.popped) {
         showStub(s, '');
         askWindow(function (alive) {
@@ -9695,6 +10102,8 @@
       if (d.arrived && radio) radio.whereNow();
       return;
     }
+    // The chat page's radio is the page, and never steps aside for the window.
+    if (inChat()) return;
     if (d.window === 'open') {
       if (windowAnswered) windowAnswered();
       if (radio) stepAside('');
@@ -10117,6 +10526,8 @@
     tuneIn();
     // Following a spot to the room you are already in changes only the hash.
     window.addEventListener('hashchange', arrive);
+    // On the chat page the hash is the channel.
+    if (inChat()) window.addEventListener('hashchange', function () { chatTake(false); });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();

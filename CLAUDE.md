@@ -3864,6 +3864,19 @@ the first two are the receive lamp the radio refuses, and the third is a record 
 the redrawn blob, which is exactly what is sent, above the box with the file's name, for the channel and
 for Messages alike. It is a `blob:` address that goes with the picture.
 
+**THE CHAT PAGE IS THE RADIO DOCKED INTO A PAGE, AND IT CHANGES NOTHING FOR THE RADIO ANYWHERE ELSE.** Ryan's ask,
+2026-10-22: a Discord-style page for the rooms' channels. `chat.html` says `data-cb-chat`, and `cb.js` (`inChat`) puts the
+radio into `[data-cb-dock]` at Full rather than over the page, adds a Channels part down the left (`chatMake`), and makes
+the channel picked the radio's room (`chatRoom`, through `hereRoom`, `herePath` and `tunedRoom`), so Be seen here and the
+call follow it. The pick lives only in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
+World or This room, popped) as they are stored, so the chat page never resizes or retunes the radio on another page. The
+groups: Community (World, the Community Center, Dead Tired Society and Cavendish's rooms out of `data/coworking.json`),
+Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`) and World (every other room).
+`tools/make-chat.py` writes them onto the page and refuses a quiet room there, because the page is public. **The friendly
+edits are a second chat in a file of its own** (two copies of the message log, which drift), **saving the chat page's
+layout into `love-cb`**, and **listening to every channel at once for live dots**: the dots are Unreads', which asks
+nothing new, and a listen per channel would tell us where everybody is reading.
+
 **THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
 2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under
 Your radio, opens it as big as the radio is and at its size; − and + there resize the window

@@ -5277,6 +5277,8 @@ test('a pass is named only the categories\' rooms it may enter', () => {
       assert.ok(roomAllows(who, r.tag), `${who.handle} was named ${r.tag}, which they may not enter`);
       assert.equal(r.path, '/forum.html#/c/' + r.tag.slice(FORUM_ROOM.length));
       assert.ok(r.name.startsWith('The forums: '));
+      // The chat page lists a locked category under Staff, and only a locked one.
+      assert.equal(r.locked === true, lockedRoom(r.tag) !== null, `${r.tag} said the wrong thing about being locked`);
     }
     assert.ok(!tags(who).some((t) => forumRoom(t) === null), 'a subcategory was named as a room');
   }

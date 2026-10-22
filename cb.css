@@ -1665,6 +1665,84 @@ ol.cb-md-list { list-style: decimal; }
 .cb-away-said { margin: 8px; }
 .cb-away-said[hidden] { display: none; }
 
+/* THE CHAT PAGE (chat.html; cb.js, inChat and chatMake): the radio at Full,
+   docked into the page where the page's words about the chat were, so it is
+   part of the page rather than over it. It does not move, change size or
+   fold, so none of those is on the bar, and no theme's sides hang off it. Its
+   parts stand the way chat lays them out: the channels down the left, the
+   channel picked in the middle with its name and what its room is about over
+   the messages, and what is about that channel, who is around and the rest of
+   the radio on the right. Every pair in here is one CB_ROLES in
+   check-contrast.py already holds: steel on the case and on the bar, amber on
+   the readout and on the case. These come after Full's and the window's rules,
+   and outrank them. */
+:host(.cb-host--chat) { display: block; }
+.cb-radio--chat, .cb-radio--chat.cb-radio--full:not(.cb-radio--folded) {
+  position: relative; top: auto; left: auto; right: auto; bottom: auto; z-index: auto;
+  width: 100%; max-height: none; box-shadow: none;
+}
+.cb-radio--chat .cb-move, .cb-radio--chat .cb-sizer, .cb-radio--chat .cb-fold, .cb-radio--chat .cb-side,
+.cb-radio--chat .cb-band-btn, .cb-radio--chat .cb-band-now, .cb-radio--chat .cb-here-name { display: none; }
+/* The channel's own head: its name is the part's heading, a size up. */
+.cb-radio--chat .cb-sec--channel > .cb-h { font-size: min(calc(19px * var(--cb-display-scale, 1)), 24px); overflow-wrap: anywhere; }
+.cb-radio--chat .cb-sec--channel > .cb-h:focus { outline: none; }
+.cb-radio--chat .cb-sec--channel > .cb-h:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-chan-hash { margin-right: .15em; }
+.cb-chat-head { display: grid; gap: 2px; font-size: 14px; }
+/* What the room is about, which can be a paragraph: three lines at most here,
+   and all of it to a screen reader, which is never clamped. */
+.cb-chat-about {
+  overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+}
+.cb-chat-about[hidden] { display: none; }
+/* THE CHANNELS. Each a link in the case's steel; the one picked in the
+   readout's amber on its black, as a pressed button is the other way round;
+   one with something new in bold, beside its dot. A group's name is a button
+   that folds it. */
+.cb-chans-toggle { justify-self: stretch; text-align: left; }
+.cb-chans-body { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); }
+.cb-chans-find { width: 100%; }
+.cb-chans-groups { display: grid; gap: 10px; }
+.cb-chan-group { display: grid; gap: 2px; }
+.cb-chan-group[hidden] { display: none; }
+.cb-chan-h { margin: 0; }
+.cb-chan-fold {
+  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 32px; padding: 2px 4px;
+  font: 700 12px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--cb-steel); background: none; border: 0; border-radius: 4px; cursor: pointer; text-align: left;
+}
+.cb-chan-fold::before { content: '\25BE'; display: inline-block; width: 1em; text-align: center; }
+.cb-chan-fold[aria-expanded="false"]::before { content: '\25B8'; }
+.cb-chan-fold:disabled { cursor: default; }
+.cb-chan-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.cb-chan-list[hidden], .cb-chan-list > li[hidden] { display: none; }
+.cb-chan-list > li { margin: 0; }
+.cb-radio a.cb-chan {
+  display: flex; align-items: baseline; gap: 2px; min-height: 32px; padding: 5px 8px; border-radius: 6px;
+  color: var(--cb-steel); text-decoration: none; overflow-wrap: anywhere; font-size: 15px; line-height: 1.3;
+}
+.cb-radio a.cb-chan:hover { background: var(--cb-bar); }
+.cb-radio a.cb-chan[aria-current="page"] { background: var(--cb-lcd); color: var(--cb-amber); }
+.cb-chan-name { flex: 1 1 auto; min-width: 0; }
+.cb-chan--new .cb-chan-name { font-weight: 700; }
+.cb-chan > .cb-new { flex: none; align-self: center; }
+/* NARROW, the list folds under one button naming the channel picked, so the
+   messages are not a hundred links down the page; WIDE, it is always out and
+   the button is not there. */
+@media (max-width: 999.98px) {
+  .cb-sec--chans:not(.cb-sec--chans-open) .cb-chans-body { display: none; }
+  .cb-sec--chans .cb-chans-groups { max-height: 60vh; max-height: 60dvh; overflow-y: auto; overscroll-behavior: contain; padding: 4px; margin: -4px; }
+}
+@media (min-width: 1000px) {
+  .cb-radio--chat .cb-chans-toggle { display: none; }
+  /* As tall as the window, less a little, so the page's heading scrolls off
+     and the chat is the whole screen, the message box always on it. */
+  .cb-radio--chat.cb-radio--full:not(.cb-radio--folded) { height: calc(100vh - 24px); height: calc(100dvh - 24px); min-height: 34rem; }
+  .cb-radio--chat.cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
+    grid-template-columns: minmax(14rem, .85fr) minmax(0, 2.6fr) minmax(16rem, 1.05fr);
+  }
+}
+
 /* A ROOM'S CALL: a window of its own at the foot of the page, bottom left
    where the radio is bottom right, one step under it so the radio can always
    be reached. Its clothes are the radio's, because it is the radio's. The

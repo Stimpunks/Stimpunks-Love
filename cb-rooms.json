@@ -764,6 +764,12 @@
    "about": "The joining page for the CB, the street’s radio: an invite from a moderator becomes a username of your own, with a password of your own and, if you like, an email address for the day you forget it. Then you are on, on every page of the street."
   },
   {
+   "tag": "chat",
+   "name": "Chat",
+   "path": "/chat.html",
+   "about": "The chat: every room’s channel on the CB on one page, the way chat lays them out, with the channels down the left in three groups, Community, Staff and World, the channel you pick in the middle and who is around on the right. For anybody signed on to the CB, which you join with an invite."
+  },
+  {
    "tag": "forum",
    "name": "The forums",
    "path": "/forum.html",
