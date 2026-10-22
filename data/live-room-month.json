@@ -302,54 +302,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "AIq0Q87k9pM",
-   "source": "kexp",
-   "form": "long",
-   "title": "Austin TV - Full Performance (Live on KEXP)",
-   "published": "2026-09-21T15:00:11Z",
+   "id": "1mduroEONKE",
+   "source": "acl",
+   "form": "short",
+   "title": "BTS at ACL TV - Camera Color Matching",
+   "published": "2026-10-20T17:01:45Z",
    "state": "screen",
-   "runs": 2001,
-   "channel": "KEXP"
-  },
-  {
-   "id": "XWIf9eonTeg",
-   "source": "kexp",
-   "form": "long",
-   "title": "WU LYF - Wave (Live on KEXP)",
-   "published": "2026-09-22T11:00:00Z",
-   "state": "screen",
-   "runs": 468,
-   "channel": "KEXP"
-  },
-  {
-   "id": "2aHgnsDamdE",
-   "source": "kexp",
-   "form": "long",
-   "title": "WU LYF - Cave Song (Live on KEXP)",
-   "published": "2026-09-22T11:00:03Z",
-   "state": "screen",
-   "runs": 217,
-   "channel": "KEXP"
-  },
-  {
-   "id": "z1LBdRFwQc0",
-   "source": "kexp",
-   "form": "long",
-   "title": "WU LYF - At The End Of The Day (It Is What It Is) (Live on KEXP)",
-   "published": "2026-09-22T11:00:13Z",
-   "state": "screen",
-   "runs": 363,
-   "channel": "KEXP"
-  },
-  {
-   "id": "LBWH13KxgHk",
-   "source": "kexp",
-   "form": "long",
-   "title": "WU LYF - Love Your Fate (Live on KEXP)",
-   "published": "2026-09-22T11:00:26Z",
-   "state": "screen",
-   "runs": 309,
-   "channel": "KEXP"
+   "runs": 29,
+   "channel": "Austin City Limits"
   },
   {
    "id": "0upOI9f37hc",
@@ -1392,13 +1352,63 @@
    "channel": "KEXP"
   },
   {
-   "id": "_tGMeFjl0HM",
+   "id": "iHomzK3fgTg",
    "source": "kexp",
-   "form": "short",
-   "title": "Austin TV performs \"MA\" & more Live on KEXP",
-   "published": "2026-09-21T17:04:54Z",
+   "form": "long",
+   "title": "Numeron - My Eternity (Live on KEXP)",
+   "published": "2026-10-21T13:00:23Z",
    "state": "screen",
-   "runs": 59,
+   "runs": 302,
+   "channel": "KEXP"
+  },
+  {
+   "id": "988NAhJ13Kw",
+   "source": "kexp",
+   "form": "long",
+   "title": "Numeron - Full Performance (Live on KEXP)",
+   "published": "2026-10-21T15:00:21Z",
+   "state": "screen",
+   "runs": 1796,
+   "channel": "KEXP"
+  },
+  {
+   "id": "xSH9jOxWyGI",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Panturas - Khodam Buntut Lutung (Live on KEXP)",
+   "published": "2026-10-22T11:00:02Z",
+   "state": "screen",
+   "runs": 230,
+   "channel": "KEXP"
+  },
+  {
+   "id": "w0PeRHynku8",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Panturas - Tafsir Mistik (Live on KEXP)",
+   "published": "2026-10-22T11:00:04Z",
+   "state": "screen",
+   "runs": 275,
+   "channel": "KEXP"
+  },
+  {
+   "id": "77ZvW6ZUbxM",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Panturas - Soma Gospel (Live on KEXP)",
+   "published": "2026-10-22T11:00:27Z",
+   "state": "screen",
+   "runs": 220,
+   "channel": "KEXP"
+  },
+  {
+   "id": "gPurTCYl8yY",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Panturas - Fisherman Slut (Live on KEXP)",
+   "published": "2026-10-22T11:00:36Z",
+   "state": "screen",
+   "runs": 160,
    "channel": "KEXP"
   },
   {
@@ -1582,6 +1592,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "Nww_-z1P60A",
+   "source": "kexp",
+   "form": "short",
+   "title": "Numeron performs \"Blood In My Vein\" & more Live on KEXP",
+   "published": "2026-10-21T17:03:54Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "NzPCpOI0Ws8",
    "source": "kcrw",
    "form": "long",
@@ -1727,13 +1747,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-21T11:30:14Z"
+     "2026-10-22T11:29:25Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-21T11:30:14Z"
+     "2026-10-22T11:29:25Z"
     ]
    ]
   },
@@ -1741,13 +1761,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-21T11:30:14Z"
+     "2026-10-22T11:29:25Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-21T11:30:14Z"
+     "2026-10-22T11:29:25Z"
     ]
    ]
   },
@@ -1755,16 +1775,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-21T11:30:14Z"
+     "2026-10-22T11:29:25Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-21T11:30:14Z"
+     "2026-10-22T11:29:25Z"
     ]
    ]
   }
  },
- "set": "2026-10-21T11:30Z"
+ "set": "2026-10-22T11:29Z"
 }
