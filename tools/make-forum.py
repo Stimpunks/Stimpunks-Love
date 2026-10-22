@@ -128,7 +128,10 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
     a sealed vote only after a second press. The friendly edits are a running
     count on a sealed ballot "so people can see the turnout", letting a sealed
     vote be changed by keeping who picked what, results sorted with the winner
-    on top, and a list of who has not voted yet.
+    on top, and a list of who has not voted yet. A poll can be added to a
+    topic later (Ryan's ask, the same day) by whoever may change its tags,
+    and addPoll never puts one over a poll that is there, which would throw
+    its votes away.
   · privacy.html without the forums' section and love-forum, and the page
     without its link to them.
 
@@ -293,14 +296,14 @@ def check_lib(lib):
     if "console." in code:
         problems.append(f"{LIB.name}: the forums' section writes to the console. Nothing anybody types is ever logged.")
     for name in ("forumHome", "forumLatest", "forumCategory", "forumTopic", "searchForum", "forumMentions", "cbTranscript",
-                 "startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "votePoll", "closePoll",
+                 "startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "votePoll", "closePoll", "addPoll",
                  "removeTopic", "moderateTopic", "retagTopic", "importTopic", "forumFile", "putForumUpload", "forumTemplates"):
         body = fn(sec, name)
         if not body:
             problems.append(f"{LIB.name}: {name} is missing.")
         elif "forumReader(who)" not in body and "forumAllows(who" not in body and "forumCatsFor(who" not in body:
             problems.append(f"{LIB.name}: {name} no longer asks whether the reader is a claimed username who may see the category.")
-    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "votePoll", "closePoll", "removeTopic", "moderateTopic", "retagTopic", "importTopic", "putForumUpload"):
+    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "votePoll", "closePoll", "addPoll", "removeTopic", "moderateTopic", "retagTopic", "importTopic", "putForumUpload"):
         if "if (!forumReader(who)) return { error: CLAIM };" not in fn(sec, name):
             problems.append(f"{LIB.name}: {name} must refuse anybody but a claimed username first.")
     if "who.account && typeof who.since === 'number'" not in fn(sec, "forumReader"):
@@ -404,10 +407,12 @@ def check_polls(sec):
     def body(name):
         m = re.search(rf"function {name}\(.*?\n\}}", sec, re.S)
         return m.group(0) if m else ""
-    shape, seal, vote, close, ballot = (body(n) for n in ("shapePoll", "sealVote", "votePoll", "closePoll", "ballotOf"))
-    if not all((shape, seal, vote, close, ballot)):
-        problems.append(f"{LIB.name}: shapePoll, sealVote, votePoll, closePoll and ballotOf must all be there.")
+    shape, seal, vote, close, ballot, add = (body(n) for n in ("shapePoll", "sealVote", "votePoll", "closePoll", "ballotOf", "addPoll"))
+    if not all((shape, seal, vote, close, ballot, add)):
+        problems.append(f"{LIB.name}: shapePoll, sealVote, votePoll, closePoll, ballotOf and addPoll must all be there.")
         return
+    if "if (t.poll) return { why:" not in add or "t.by !== mark && !forumEditor(who, cat) && who.role !== 'base'" not in add:
+        problems.append(f"{LIB.name}: addPoll must refuse a topic that has a poll, whose votes it would throw away, and anybody who may not change the topic's tags.")
     gate = shape.find("if (sealedOpen) return out;")
     if "const sealedOpen = !shut;" not in shape or gate < 0 or any(shape.find(x) < gate for x in ("poll.tally", "poll.cast.length")):
         problems.append(f"{LIB.name}: shapePoll must return before it reads a sealed ballot's tally or counts its ballots while the poll is open.")

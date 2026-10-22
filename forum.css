@@ -153,6 +153,8 @@
 .fm-poll__n { font-size: 15px; }
 .fm-poll__done { font-size: 15px; font-weight: 700; }
 .fm-poll__tools { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fm-addpoll { display: grid; gap: 6px; justify-items: start; flex: 1 1 100%; }
+.fm-addpoll__form { display: grid; gap: 6px; width: 100%; }
 .fm-pollset { display: grid; gap: 6px; margin: 0; padding: 10px 12px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; width: 100%; min-width: 0; }
 .fm-pollset legend { padding: 0 4px; }
 .fm-pollset__kinds { display: grid; gap: 8px; margin-bottom: 4px; }

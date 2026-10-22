@@ -24,6 +24,7 @@
      { action: 'tag', t, tags }                      a topic's tags, by its starter, a wiki's editors or a moderator
      { action: 'vote', t, picks }                    a vote in the topic's poll; [] takes a show of hands' vote back
      { action: 'poll', t, open? }                    its starter or a moderator closing the poll, or opening a show of hands again
+     { action: 'addPoll', t, poll }                  a poll on a topic that has none, by whoever may change its tags
      { action: 'import', notion, cat, title, body, t, by, tags? }   a moderator bringing a page in from Notion,
                                                      at the time it was made and under the username that made it
                                                      (importTopic); it tells nobody
@@ -34,7 +35,7 @@
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
 import { readPass, forumReader, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
-  reactPost, votePoll, closePoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
+  reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere: the forums are for
@@ -107,6 +108,7 @@ export default async (req, context) => {
     else if (b.action === 'tag') r = await retagTopic(who, t, b);
     else if (b.action === 'vote') r = await votePoll(who, t, b.picks);
     else if (b.action === 'poll') r = await closePoll(who, t, b.open === true);
+    else if (b.action === 'addPoll') r = await addPoll(who, t, b.poll);
     else if (b.action === 'import') {
       r = await importTopic(who, b);
       // What happened, for the importer, which reads no topic back and tells nobody.

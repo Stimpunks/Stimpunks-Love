@@ -6254,6 +6254,8 @@ export function shapeTopic(t, cat, who, now = Date.now()) {
   if (t.pinned) out.pinned = true;
   if (t.closed) out.closed = true;
   if (t.poll) out.poll = shapePoll(t, who, mark, now);
+  // A poll can be added to a topic that has none by whoever may change its tags.
+  else if (!t.closed && (t.by === mark || editor || mod)) out.addPoll = true;
   return out;
 }
 
@@ -6468,7 +6470,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   const topic = { id: newTopicId(), v: 1, cat: cat.slug, title, handle: who.handle, by: authorMark(who), t: now, last: now, lastBy: who.handle, posts: [post] };
   if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
   if (tags.length) topic.tags = tags;
-  if (poll) topic.poll = poll.poll;
+  if (poll) topic.poll = { ...poll.poll, by: authorMark(who), handle: who.handle };
   // The files go under the topic before the topic does, so no post ever
   // holds one that is not there; the uploads go only once the topic is.
   await keepUploads(topic.id, att.fresh, s);
@@ -6675,7 +6677,15 @@ export async function reactPost(who, id, pid, emoji, s = store(), now = Date.now
    Polls are the one place the forums count, Ryan's call: how many picked each
    choice, in the poll's own order, never sorted by it and with no winner
    marked. A vote moves nothing else: not the topic's clock, and nobody is
-   told. */
+   told.
+
+   A POLL CAN BE ADDED TO A TOPIC LATER (Ryan's ask, the same day, for a round
+   in Grantmaking), by whoever may change the topic's tags: its starter, in a
+   wiki the wiki's editors, or a moderator. Never over a poll that is there,
+   which would throw its votes away, and never to a closed topic, which takes
+   no votes. It keeps who added it (its mark, never sent, and its handle), and
+   they can close it as well as the topic's starter and a moderator. Adding
+   one is not a post, so it moves nothing either. */
 export function cleanPoll(v, now = Date.now()) {
   if (!v || typeof v !== 'object' || Array.isArray(v)) return { error: 'That is not a poll the forums can hold.' };
   if (!POLL_KINDS.includes(v.kind)) return { error: 'A poll is a show of hands or a sealed ballot.' };
@@ -6711,8 +6721,8 @@ function sealVote(poll, ballot, picks) {
 function shapePoll(t, who, mark, now) {
   const poll = t.poll;
   const shut = pollShut(poll, now);
-  const may = t.by === mark || who.role === 'base';
-  const out = { kind: poll.kind, q: poll.q || '', many: !!poll.many, shut, close: !shut && may,
+  const may = poll.by === mark || t.by === mark || who.role === 'base';
+  const out = { kind: poll.kind, q: poll.q || '', handle: poll.handle || t.handle, many: !!poll.many, shut, close: !shut && may,
     reopen: shut && poll.kind === 'hands' && may, choices: poll.choices.map((c) => ({ id: c.id, text: c.text })) };
   if (typeof poll.closes === 'number') out.closes = poll.closes;
   if (typeof poll.shut === 'number') out.shutAt = poll.shut;
@@ -6763,15 +6773,31 @@ export async function votePoll(who, id, picks, s = store(), now = Date.now()) {
   });
 }
 
-/* Whoever started the topic, or a moderator, closing its poll, or opening a
-   show of hands again. A sealed ballot, once its results are out, stays shut. */
+/* A poll put on a topic that has none, by whoever may change its tags. */
+export async function addPoll(who, id, f, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const poll = cleanPoll(f, now);
+  if (poll.error) return poll;
+  const mark = authorMark(who);
+  return changeTopic(who, id, now, s, (t, cat) => {
+    if (t.by !== mark && !forumEditor(who, cat) && who.role !== 'base') return { why: 'Only whoever started a topic, or a moderator, can add a poll to it.' };
+    if (t.poll) return { why: 'This topic has a poll already, and its votes stay with it.' };
+    if (t.closed) return { why: 'This topic is closed, so a poll in it could take no votes.' };
+    t.poll = { ...poll.poll, by: mark, handle: who.handle };
+    return t;
+  });
+}
+
+/* Whoever added the poll, whoever started the topic, or a moderator, closing
+   it, or opening a show of hands again. A sealed ballot, once its results are
+   out, stays shut. */
 export async function closePoll(who, id, open = false, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
   const mark = authorMark(who);
   return changeTopic(who, id, now, s, (t) => {
     const poll = t.poll;
     if (!poll) return { why: 'This topic has no poll.' };
-    if (t.by !== mark && who.role !== 'base') return { why: 'Only whoever started the topic, or a moderator, can close its poll.' };
+    if (poll.by !== mark && t.by !== mark && who.role !== 'base') return { why: 'Only whoever added the poll, whoever started the topic, or a moderator, can close it.' };
     if (!open) {
       if (pollShut(poll, now)) return null;
       poll.shut = now;

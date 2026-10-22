@@ -5666,7 +5666,8 @@ slash and a star as one; a refusal from that tool about code that is plainly the
 **A POLL IS THE ONE PLACE THE FORUMS COUNT, AND A SEALED BALLOT KEEPS NOBODY'S PICK.** Norah's ask, Ryan's calls,
 2026-10-22, reversing the forums' tally rule for polls alone (the Mission says the street counts people in two places
 now). A topic can open with a poll (`cleanPoll` in `startTopic`; `votePoll`, `closePoll`, `shapePoll` in `lib.mjs`),
-of a kind chosen then and never changed. **A show of hands** keeps each voter's mark, handle and picks and names who
+or have one added later by whoever may change its tags (`addPoll`, Ryan's ask the same day, never over a poll that is
+there, whose votes it would throw away), of a kind chosen then and never changed. **A show of hands** keeps each voter's mark, handle and picks and names who
 picked what, live; a vote can be changed or taken back. **A sealed ballot** keeps a tally and, apart from it, the
 ballots cast (`ballotOf`, a hash of the topic and the voter's mark, so different in every poll), sorted, and nothing
 else (`sealVote`): so a sealed vote is never changed, goes after a second press in `forum.js`, **sends nobody a number,

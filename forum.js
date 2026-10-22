@@ -870,6 +870,63 @@
   }
 
   /* poll:begin */
+  /* A POLL'S FIELDS, for a new topic and for a topic that has none: its kind,
+     chosen here and never after, its question, its choices, whether several
+     can be picked, and the day it closes. `had` fills them; `changed` hears
+     every change. */
+  function pollFields(had, changed) {
+    var pset = el('fieldset', 'fm-pollset');
+    pset.id = 'fm-pollset';
+    pset.appendChild(el('legend', 'cb-lab', 'The poll'));
+    var kinds = el('div', 'fm-pollset__kinds');
+    kinds.setAttribute('role', 'radiogroup');
+    kinds.setAttribute('aria-label', 'What kind of poll');
+    var kindIn = {};
+    [['hands', 'A show of hands', 'Everybody who can read the topic sees who picked what, as the votes come in. A vote can be changed or taken back while the poll is open.'],
+      ['sealed', 'A sealed ballot', 'Nothing we keep says who picked what, so nobody can see it, moderators included, and a vote cannot be changed or taken back. Nobody sees a number until the poll closes, and then everybody does. With only a few votes, the results can still say who picked what.']].forEach(function (k) {
+      var lab = el('label', 'fm-pollset__kind');
+      var r = el('input');
+      r.type = 'radio'; r.name = 'fm-poll-kind'; r.value = k[0];
+      r.checked = had ? had.kind === k[0] : k[0] === 'hands';
+      r.addEventListener('change', changed);
+      kindIn[k[0]] = r;
+      lab.appendChild(r);
+      var words = el('span');
+      words.appendChild(el('strong', null, k[1]));
+      words.appendChild(document.createTextNode('. ' + k[2]));
+      lab.appendChild(words);
+      kinds.appendChild(lab);
+    });
+    pset.appendChild(kinds);
+    var pql = el('label', 'cb-lab', 'The question (you can leave this empty, and the title is the question)'); pql.htmlFor = 'fm-poll-q';
+    var pq = el('input', 'cb-say fm-field'); pq.id = 'fm-poll-q'; pq.maxLength = takes.q || 300;
+    pq.value = had && had.q ? had.q : '';
+    var pcl = el('label', 'cb-lab', 'The choices, one to a line'); pcl.htmlFor = 'fm-poll-c';
+    var pc = el('textarea', 'cb-say fm-text fm-pollset__choices'); pc.id = 'fm-poll-c'; pc.rows = 4;
+    pc.value = had && had.choices ? had.choices.join('\n') : '';
+    pc.setAttribute('aria-describedby', 'fm-poll-c-hint');
+    var pch = el('p', 'cb-quiet fm-hint', 'Between two and ' + (takes.choices || 20) + ' choices, each up to ' + (takes.choice || 200) + ' characters. They are shown in this order, and so are the results.');
+    pch.id = 'fm-poll-c-hint';
+    var pml = el('label', 'fm-pollset__many');
+    var pm = el('input'); pm.type = 'checkbox'; pm.checked = !!(had && had.many);
+    pml.appendChild(pm);
+    pml.appendChild(document.createTextNode(' People can pick more than one'));
+    var pdl = el('label', 'cb-lab', 'It closes at the end of (you can leave this empty, and close it yourself)'); pdl.htmlFor = 'fm-poll-d';
+    var pd = el('input', 'cb-say fm-field fm-pollset__day'); pd.id = 'fm-poll-d'; pd.type = 'date';
+    pd.value = had && had.day ? had.day : '';
+    [pq, pc, pd].forEach(function (x) { x.addEventListener('input', changed); });
+    pm.addEventListener('change', changed);
+    [pql, pq, pcl, pc, pch, pml, pdl, pd].forEach(function (x) { pset.appendChild(x); });
+    var value = function () {
+      var kind = kindIn.sealed.checked ? 'sealed' : 'hands';
+      var closes = null, m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(pd.value);
+      // The end of that day where whoever sets it is, as the date was meant.
+      if (m) closes = new Date(+m[1], +m[2] - 1, +m[3], 23, 59, 0).getTime();
+      return { kind: kind, q: pq.value, choices: pc.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean),
+        many: pm.checked, closes: closes, day: pd.value };
+    };
+    return { set: pset, value: value, first: function () { kindIn[kindIn.sealed.checked ? 'sealed' : 'hands'].focus(); } };
+  }
   /* A TOPIC'S POLL, the one place in the forums with numbers in it (Ryan's
      call, 2026-10-22): how many picked each choice, in the poll's own order,
      never sorted by it, and no winner marked. A show of hands names who picked
@@ -976,7 +1033,7 @@
     var then = sealed ? ', and then everybody sees the results.' : '.';
     box.appendChild(quiet(poll.shut ? 'Closed ' + when(poll.shutAt || poll.closes) + '.'
       : poll.closes ? 'Closes ' + when(poll.closes) + then
-      : 'Open until ' + t.handle + ' or a moderator closes it' + then));
+      : 'Open until ' + (poll.handle || t.handle) + ' or a moderator closes it' + then));
     box.appendChild(open ? pollForm(t, poll) : pollResults(poll));
     if (!poll.shut && t.closed) box.appendChild(quiet('This topic is closed, so its poll takes no more votes.'));
     if (sealed && poll.voted && !poll.shut) box.appendChild(el('p', 'fm-poll__done', 'You have voted. Nothing we keep says what you picked, so it cannot be changed. The results show when the poll closes.'));
@@ -1215,73 +1272,24 @@
     attach.appendChild(attNote);
     form.appendChild(attach);
 
-    /* A POLL, only when a topic is started, and of the kind its starter
-       chooses here and never after: a show of hands, or a sealed ballot. */
+    /* A POLL, when a topic is started (pollFields, below). */
     var pollOn = false, pollIn = null, pollToggle = null;
     if (o.poll) {
-      var had = fresh && fresh.poll;
+      var pf = pollFields(fresh && fresh.poll, saveDraft);
+      pollIn = pf.value;
       pollToggle = el('button', 'cb-btn fm-small', 'Add a poll'); pollToggle.type = 'button';
       pollToggle.setAttribute('aria-expanded', 'false');
       pollToggle.setAttribute('aria-controls', 'fm-pollset');
-      var pset = el('fieldset', 'fm-pollset');
-      pset.id = 'fm-pollset';
+      var pset = pf.set;
       pset.hidden = true;
-      pset.appendChild(el('legend', 'cb-lab', 'The poll'));
-      var kinds = el('div', 'fm-pollset__kinds');
-      kinds.setAttribute('role', 'radiogroup');
-      kinds.setAttribute('aria-label', 'What kind of poll');
-      var kindIn = {};
-      [['hands', 'A show of hands', 'Everybody who can read the topic sees who picked what, as the votes come in. A vote can be changed or taken back while the poll is open.'],
-        ['sealed', 'A sealed ballot', 'Nothing we keep says who picked what, so nobody can see it, moderators included, and a vote cannot be changed or taken back. Nobody sees a number until the poll closes, and then everybody does. With only a few votes, the results can still say who picked what.']].forEach(function (k) {
-        var lab = el('label', 'fm-pollset__kind');
-        var r = el('input');
-        r.type = 'radio'; r.name = 'fm-poll-kind'; r.value = k[0];
-        r.checked = had ? had.kind === k[0] : k[0] === 'hands';
-        r.addEventListener('change', saveDraft);
-        kindIn[k[0]] = r;
-        lab.appendChild(r);
-        var words = el('span');
-        words.appendChild(el('strong', null, k[1]));
-        words.appendChild(document.createTextNode('. ' + k[2]));
-        lab.appendChild(words);
-        kinds.appendChild(lab);
-      });
-      pset.appendChild(kinds);
-      var pql = el('label', 'cb-lab', 'The question (you can leave this empty, and the title is the question)'); pql.htmlFor = 'fm-poll-q';
-      var pq = el('input', 'cb-say fm-field'); pq.id = 'fm-poll-q'; pq.maxLength = takes.q || 300;
-      pq.value = had && had.q ? had.q : '';
-      var pcl = el('label', 'cb-lab', 'The choices, one to a line'); pcl.htmlFor = 'fm-poll-c';
-      var pc = el('textarea', 'cb-say fm-text fm-pollset__choices'); pc.id = 'fm-poll-c'; pc.rows = 4;
-      pc.value = had && had.choices ? had.choices.join('\n') : '';
-      pc.setAttribute('aria-describedby', 'fm-poll-c-hint');
-      var pch = el('p', 'cb-quiet fm-hint', 'Between two and ' + (takes.choices || 20) + ' choices, each up to ' + (takes.choice || 200) + ' characters. They are shown in this order, and so are the results.');
-      pch.id = 'fm-poll-c-hint';
-      var pml = el('label', 'fm-pollset__many');
-      var pm = el('input'); pm.type = 'checkbox'; pm.checked = !!(had && had.many);
-      pml.appendChild(pm);
-      pml.appendChild(document.createTextNode(' People can pick more than one'));
-      var pdl = el('label', 'cb-lab', 'It closes at the end of (you can leave this empty, and close it yourself)'); pdl.htmlFor = 'fm-poll-d';
-      var pd = el('input', 'cb-say fm-field fm-pollset__day'); pd.id = 'fm-poll-d'; pd.type = 'date';
-      pd.value = had && had.day ? had.day : '';
-      [pq, pc, pd].forEach(function (x) { x.addEventListener('input', saveDraft); });
-      pm.addEventListener('change', saveDraft);
-      [pql, pq, pcl, pc, pch, pml, pdl, pd].forEach(function (x) { pset.appendChild(x); });
-      pollIn = function () {
-        var kind = kindIn.sealed.checked ? 'sealed' : 'hands';
-        var closes = null, m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(pd.value);
-        // The end of that day where the starter is, as the date was meant.
-        if (m) closes = new Date(+m[1], +m[2] - 1, +m[3], 23, 59, 0).getTime();
-        return { kind: kind, q: pq.value, choices: pc.value.split('\n').map(function (x) { return x.trim(); }).filter(Boolean),
-          many: pm.checked, closes: closes, day: pd.value };
-      };
       var setPoll = function (on) {
         pollOn = on;
         pset.hidden = !on;
         pollToggle.textContent = on ? 'Take the poll off' : 'Add a poll';
         pollToggle.setAttribute('aria-expanded', String(on));
       };
-      pollToggle.addEventListener('click', function () { setPoll(!pollOn); if (pollOn) kindIn[kindIn.sealed.checked ? 'sealed' : 'hands'].focus(); saveDraft(); });
-      if (had) setPoll(true);
+      pollToggle.addEventListener('click', function () { setPoll(!pollOn); if (pollOn) pf.first(); saveDraft(); });
+      if (fresh && fresh.poll) setPoll(true);
       var prow = el('div', 'fm-attach');
       prow.appendChild(pollToggle);
       prow.appendChild(pset);
@@ -1979,7 +1987,7 @@
     var tl = tagLine(t);
     if (tl) view.appendChild(tl);
     view.appendChild(quiet(goesWords(t)));
-    if (t.mod || t.takeDown || t.retag) view.appendChild(topicTools(t));
+    if (t.mod || t.takeDown || t.retag || t.addPoll) view.appendChild(topicTools(t));
     // A poll stands under the post that opens the topic, or alone when that has been taken down.
     t.posts.forEach(function (p, i) { view.appendChild(postOf(t, p, i)); if (i === 0 && t.poll) view.appendChild(pollOf(t)); });
     if (!t.posts.length && t.poll) view.appendChild(pollOf(t));
@@ -2054,6 +2062,7 @@
       rt.appendChild(rl); rt.appendChild(rrow); rt.appendChild(rh);
       box2.appendChild(rt);
     }
+    if (t.addPoll) box2.appendChild(addPollOf(t));
     if (t.takeDown) {
       var down = el('button', 'cb-btn fm-small', 'Take the topic down'); down.type = 'button';
       down.addEventListener('click', function () {
@@ -2063,6 +2072,53 @@
       box2.appendChild(down);
     }
     return box2;
+  }
+
+  /* ADD A POLL to a topic that has none, for whoever may change its tags.
+     It stands under the post that opens the topic, as one made with it does. */
+  function addPollOf(t) {
+    var wrap = el('div', 'fm-addpoll');
+    var open = el('button', 'cb-btn fm-small', 'Add a poll'); open.type = 'button';
+    open.setAttribute('aria-expanded', 'false');
+    open.setAttribute('aria-controls', 'fm-addpoll-form');
+    var form = null;
+    function shut(back) { if (form) form.remove(); form = null; open.setAttribute('aria-expanded', 'false'); if (back) open.focus(); }
+    open.addEventListener('click', function () {
+      if (form) { shut(true); return; }
+      form = el('form', 'fm-addpoll__form');
+      form.id = 'fm-addpoll-form';
+      form.noValidate = true;
+      var pf = pollFields(null, function () {});
+      form.appendChild(pf.set);
+      var row = el('div', 'fm-compose__row');
+      var go = el('button', 'cb-btn fm-small', 'Add the poll'); go.type = 'submit';
+      var no = el('button', 'cb-btn fm-small', 'Cancel'); no.type = 'button';
+      row.appendChild(go); row.appendChild(no);
+      form.appendChild(row);
+      var answer = el('p', 'fm-answer');
+      answer.setAttribute('role', 'status');
+      form.appendChild(answer);
+      no.addEventListener('click', function () { shut(true); });
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var v = pf.value();
+        go.disabled = true;
+        answer.textContent = 'Adding it…';
+        call(null, { action: 'addPoll', t: t.id, poll: { kind: v.kind, q: v.q, choices: v.choices, many: v.many, closes: v.closes } }).then(function (r) {
+          go.disabled = false;
+          if (r.status !== 200 || !r.body.topic) { answer.textContent = why(r, 'The poll was not added. Nothing was changed.'); return; }
+          drawTopic(r.body, null, true);
+          var at = view.querySelector('.fm-poll');
+          if (at) { at.focus(); }
+          say('The poll is added, under the post that opens the topic. Adding it posts nothing, so reply if you want people to know.');
+        });
+      });
+      wrap.appendChild(form);
+      open.setAttribute('aria-expanded', 'true');
+      pf.first();
+    });
+    wrap.insertBefore(open, wrap.firstChild);
+    return wrap;
   }
 
   function topic(id, focusPost) {

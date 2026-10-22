@@ -6103,7 +6103,7 @@ test('the dashboard\'s newest grant requests and cases are the latest submitted,
 }));
 
 /* ── Polls in the forums ── */
-import { cleanPoll, votePoll, closePoll, POLL_CHOICES_MAX } from './lib.mjs';
+import { cleanPoll, votePoll, closePoll, addPoll, POLL_CHOICES_MAX } from './lib.mjs';
 
 const POLL = (kind, extra = {}) => ({ kind, q: 'Which day?', choices: ['Monday', 'Tuesday', 'Wednesday'], ...extra });
 
@@ -6141,7 +6141,7 @@ test('a show of hands names who picked what, takes changes and takes back, and i
   assert.deepEqual(seen.choices[1].who, ['Ada'], 'a changed vote stayed under its old choice');
   await votePoll(BO, t.id, [], s, T0 + 7);
   assert.equal((await forumTopic(BO, t.id, s, T0 + 8)).poll.n, 1, 'a vote taken back was still counted');
-  assert.match((await closePoll(BO, t.id, false, s, T0 + 9)).error, /Only whoever started/);
+  assert.match((await closePoll(BO, t.id, false, s, T0 + 9)).error, /Only whoever added the poll/);
   await closePoll(ADA, t.id, false, s, T0 + 9);
   assert.match((await votePoll(BO, t.id, ['c1'], s, T0 + 10)).error, /closed/);
   assert.deepEqual((await forumTopic(BO, t.id, s, T0 + 10)).poll.choices[1].who, ['Ada'], 'a closed show of hands stopped naming who picked what');
@@ -6169,7 +6169,8 @@ test('a sealed ballot keeps nothing that says who picked what, shows nobody a nu
   const kept = (await readTopic(t.id, s)).poll;
   const stored = JSON.stringify(kept);
   for (const x of ['Ada', 'Cy', authorMark(ADA), authorMark(fw('Cy', 700))]) assert.ok(!stored.includes(x), `a sealed ballot kept ${x}`);
-  assert.deepEqual(Object.keys(kept).sort(), ['cast', 'choices', 'closes', 'kind', 'many', 'q', 'tally']);
+  assert.deepEqual(Object.keys(kept).sort(), ['by', 'cast', 'choices', 'closes', 'handle', 'kind', 'many', 'q', 'tally']);
+  assert.equal(kept.by, authorMark(BO), 'a sealed ballot keeps who added it and nothing else about anybody');
   assert.deepEqual(kept.cast, kept.cast.slice().sort(), 'the ballots are kept in the order they were cast');
   const shut = (await forumTopic(ADA, t.id, s, T0 + DAYS(2))).poll;
   assert.equal(shut.shut, true, 'a sealed ballot past its date did not close');
@@ -6198,6 +6199,30 @@ for (const etagOnRead of [true, false]) {
     });
   }
 }
+
+test('a poll can be added to a topic later by whoever may change its tags, never over one, and they can close it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const FDIR = fw('Di', 600, ['director']);
+  const t = (await startTopic(FBOARD, { cat: 'grantmaking', title: 'Round 9', body: 'Applicants.' }, s, T0, NO_NET)).topic;
+  assert.equal((await forumTopic(FBOARD, t.id, s, T0)).addPoll, true, 'the starter was not offered to add a poll');
+  assert.equal((await forumTopic(FDIR, t.id, s, T0)).addPoll, true, 'a wiki editor was not offered to add a poll');
+  const other = (await startTopic(ADA, { cat: 'infodumps', title: 'Moths', body: 'Flutter.' }, s, T0, NO_NET)).topic;
+  assert.equal((await forumTopic(BO, other.id, s, T0)).addPoll, undefined, 'somebody who may not change the tags was offered to add a poll');
+  assert.match((await addPoll(BO, other.id, POLL('hands'), s, T0)).error, /Only whoever started/);
+  assert.match((await addPoll(FDIR, t.id, { kind: 'hands', choices: ['Yes'] }, s, T0)).error, /between 2/);
+  const r = await addPoll(FDIR, t.id, POLL('sealed'), s, T0 + 1);
+  assert.equal(r.topic.poll.handle, 'Di');
+  assert.equal((await readTopic(t.id, s)).last, T0, 'adding a poll moved the topic\'s clock');
+  await votePoll(FBOARD, t.id, ['c1'], s, T0 + 2);
+  assert.match((await addPoll(FADMIN, t.id, POLL('hands'), s, T0 + 3)).error, /poll already/, 'a poll was put over one with votes in it');
+  assert.equal((await readTopic(t.id, s)).poll.cast.length, 1, 'adding a poll threw away the votes of the one there');
+  const seen = (await forumTopic(FDIR, t.id, s, T0 + 4));
+  assert.equal(seen.poll.close, true, 'whoever added a poll could not close it');
+  assert.equal(seen.addPoll, undefined, 'a topic with a poll offered another');
+  assert.ok(!JSON.stringify(seen).includes(authorMark(FDIR)), 'who added the poll was sent as their mark');
+  await moderateTopic(FMOD, other.id, { close: true }, s, T0 + 5);
+  assert.match((await addPoll(FMOD, other.id, POLL('hands'), s, T0 + 6)).error, /closed/);
+});
 
 test('a search finds a poll by its choices, and never by its votes', async () => {
   const s = memoryStore({ etagOnRead: true });
