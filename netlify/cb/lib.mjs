@@ -10175,13 +10175,17 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   const sumOf = (from, to) => Object.entries(perDay).filter(([d]) => d >= from && d <= to).reduce((n, [, c]) => n + DAY_KINDS.reduce((a, kind) => a + (Number.isInteger(plain(c)[kind]) ? plain(c)[kind] : 0), 0), 0);
   const cb = { days: cbDays, week: { now: sumOf(weekFrom, day), before: sumOf(lastFrom, dayBefore(weekFrom, 1)) }, since: Object.keys(perDay).filter(isDay).sort()[0] || null };
   const newest = (list, n) => list.slice().sort((a, b) => (b.t || 0) - (a.t || 0)).slice(0, n);
+  // A grant request or a case by the day it was submitted, or added when it has none, the latest first: when it
+  // was added can be years after it was submitted, for one brought over from EspoCRM in a batch (Ryan's report,
+  // 2026-10-22: 2023's requests at the top of Newest).
+  const cameFirst = (list, n) => list.slice().sort((a, b) => (came(a) < came(b) ? 1 : came(a) > came(b) ? -1 : (b.t || 0) - (a.t || 0))).slice(0, n);
   const [quickbooks, givebutter, latest] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now)]);
   // A topic's category by its path, as the forums name it: Team Docs › Notes.
   const catPath = (slug) => { const names = []; for (let c = forumCat(slug, now); c; c = c.parent ? forumCat(c.parent, now) : null) names.unshift(c.name); return names.join(' › '); };
   return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks, givebutter,
     recent: {
-      grants: newest(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
-      cases: newest(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
+      grants: cameFirst(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
+      cases: cameFirst(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
       tasks: newest(tasks, 5).map((x) => ({ id: x.id, name: x.name, who: x.who || null, due: x.due || null, status: x.status })),
       forum: latest.topics.slice(0, 5).map((x) => ({ id: x.id, title: x.title, cat: catPath(x.cat), last: x.last, lastBy: x.lastBy })),
     } };

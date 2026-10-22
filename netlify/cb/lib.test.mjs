@@ -5947,3 +5947,16 @@ test('the forums\' @ list offers whoever started or last posted in a topic the r
   assert.ok(!(await forumPeople(BO, s, T0 + 3)).includes('Dee'), 'somebody who only posted in a staff category was offered to somebody who cannot read it');
   assert.deepEqual(await forumPeople({ role: 'mobile', handle: 'Typed', roles: new Set() }, s, T0 + 3), [], 'an unclaimed handle was told anybody');
 });
+
+test('the dashboard\'s newest grant requests and cases are the latest submitted, not the latest added (2026-10-22)', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  // Brought over in a batch after the new ones: added later, submitted years before.
+  await saveGrant(TRYAN, { name: 'This week', pipeline: 'Mutual Aid', stage: 'Received', submitted: '2026-10-15' }, s, T0);
+  await saveGrant(TRYAN, { name: 'No day given', pipeline: 'Mutual Aid', stage: 'Received' }, s, T0 - 86400000 * 30);
+  await saveGrant(TRYAN, { name: 'From 2023', pipeline: 'Mutual Aid', stage: 'Granted', submitted: '2023-02-18', closed: '2023-02-20' }, s, T0 + 10);
+  await saveCase(TRYAN, { name: 'New case', submitted: '2026-10-17' }, s, T0);
+  await saveCase(TRYAN, { name: 'Old case', submitted: '2023-01-02' }, s, T0 + 10);
+  const d = await officeDashboard(TRYAN, s, T0 + 20);
+  assert.deepEqual(d.recent.grants.map((x) => x.name), ['This week', 'No day given', 'From 2023'], 'the latest added came first, not the latest submitted');
+  assert.deepEqual(d.recent.cases.map((x) => x.name), ['New case', 'Old case']);
+}));
