@@ -72,7 +72,10 @@
   var inboxCount = el('span', 'tk-n tk-unread');
   inboxCount.hidden = true;
   navInbox.appendChild(inboxCount);
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox);
+  // The office, Tasks' other half for the same people (Ryan's ask, 2026-10-21),
+  // last and set a little apart, because it is another page; the office's bar has Tasks.
+  var navOffice = el('a', 'cb-btn tk-navlink tk-navlink--other', 'Office'); navOffice.href = '/office.html#/dashboard';
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox); nav.appendChild(navOffice);
   function setUnread(n) {
     inboxCount.textContent = n ? ' ' + n : '';
     inboxCount.hidden = !n;

@@ -31,6 +31,8 @@
 .tk-navlink { display: inline-flex; align-items: center; text-decoration: none; }
 .tk .tk-navlink { color: var(--cb-steel); }
 .tk-navlink[aria-current="page"] { border-color: var(--cb-amber); }
+/* The office, another page, a little apart from Tasks' own parts. */
+.tk-navlink--other { margin-left: 10px; }
 
 /* BACK ONE STEP, or the view's own way up, above it: steps.js fills it. */
 .tk-back { padding: 14px 18px 0; }

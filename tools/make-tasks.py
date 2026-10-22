@@ -289,8 +289,10 @@ def check_js():
         problems.append(f"{JS.name}: it builds a description some way other than markdown.js, the street's one builder.")
     if re.search(r"localStorage\.(?:setItem|removeItem|clear)|sessionStorage|indexedDB", js):
         problems.append(f"{JS.name}: it keeps something in the browser. privacy.html says tasks keep nothing there.")
+    # Pages it links to are on the list beside the one thing it calls; the office
+    # is one press away in the bar (Ryan, 2026-10-21), for the same people.
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/tasks", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html"):
+        if url not in ("/cb/tasks", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html"):
             problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks and nothing else.")
 
 

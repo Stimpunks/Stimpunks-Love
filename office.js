@@ -68,7 +68,10 @@
   var navGrants = el('a', 'cb-btn of-navlink', 'Grant requests'); navGrants.href = '#/grants';
   var navCases = el('a', 'cb-btn of-navlink', 'Cases'); navCases.href = '#/cases';
   var navMailings = el('a', 'cb-btn of-navlink', 'Mailings'); navMailings.href = '#/mailings';
-  [navDash, navFeed, navContacts, navGrants, navCases, navMailings].forEach(function (a) { nav.appendChild(a); });
+  // Tasks, the office's other half for the same people (Ryan's ask, 2026-10-21),
+  // last and set a little apart, because it is another page; Tasks' bar has Office.
+  var navTasks = el('a', 'cb-btn of-navlink of-navlink--other', 'Tasks'); navTasks.href = '/tasks.html#/';
+  [navDash, navFeed, navContacts, navGrants, navCases, navMailings, navTasks].forEach(function (a) { nav.appendChild(a); });
   bar.appendChild(nav);
   box.appendChild(bar);
 
@@ -2072,6 +2075,52 @@
     view.appendChild(viewLinks([['#/dashboard', 'Dashboard', true], ['#/reports', 'Reports']]));
     var g = d.grants, k = d.cases, t = d.tasks, m = d.mailings;
 
+    /* FIRST, WHAT CAME IN LAST AND WHO HAS WHAT OPEN (Ryan's ask, 2026-10-21,
+       moved up from the foot): each list's heading is a link to its own page,
+       so the dashboard is a way into the rest of the office and Tasks. */
+    view.appendChild(el('h3', null, 'Newest'));
+    var newest = el('div', 'of-dash');
+    function list(title, href, items, draw) {
+      var f = el('section', 'of-fig');
+      var head = el('h4', 'of-fig__title');
+      var go = el('a', null, title); go.href = href;
+      head.appendChild(go);
+      f.appendChild(head);
+      if (!items.length) { f.appendChild(quiet('None yet.')); return f; }
+      var ul = el('ul', 'of-theirs');
+      items.forEach(function (x) { var li = el('li'); draw(li, x); ul.appendChild(li); });
+      f.appendChild(ul);
+      return f;
+    }
+    newest.appendChild(list('Grant requests', '#/grants', d.recent.grants, function (li, x) {
+      var a = el('a', null, x.name); a.href = '#/g/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.pipeline + ', ' + x.stage + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
+    }));
+    newest.appendChild(list('Cases', '#/cases', d.recent.cases, function (li, x) {
+      var a = el('a', null, '#' + x.number + ' ' + x.name); a.href = '#/k/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.status + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
+    }));
+    newest.appendChild(list('Tasks', '/tasks.html#/?who=all', d.recent.tasks, function (li, x) {
+      var a = el('a', null, x.name); a.href = '/tasks.html#/t/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.status + (x.who ? ', ' + x.who : '') + (x.due ? ', due ' + dayWords(x.due) : '')));
+    }));
+    // The forum topics posted to last, of the ones you may read.
+    newest.appendChild(list('Forum posts', '/forum.html#/latest', d.recent.forum, function (li, x) {
+      var a = el('a', null, x.title); a.href = '/forum.html#/t/' + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + x.cat + ', latest from ' + x.lastBy + ', ' + when(x.last)));
+    }));
+    view.appendChild(newest);
+
+    // Tasks, by who they are assigned to.
+    view.appendChild(el('h3', null, 'Open tasks by person'));
+    var tf = el('section', 'of-fig of-fig--lone');
+    tf.appendChild(numbersTable(['Assigned to', 'Open', 'Overdue'], t.byPerson.map(function (x) { return [x.who, x.open, x.overdue]; }).concat(t.unassigned ? [['Nobody yet', t.unassigned, '']] : [])));
+    var tl = el('p'); var ta = el('a', null, 'Open everybody\u2019s tasks'); ta.href = '/tasks.html#/?who=all'; tl.appendChild(ta); tf.appendChild(tl);
+    view.appendChild(tf);
+
+    // Then how it stands: the sentences, the tiles and the charts.
+    view.appendChild(el('h3', null, 'How it stands'));
+
     // What it comes to, in sentences built from the same numbers.
     var said = el('ul', 'of-theirs of-said-list');
     function line(text) { said.appendChild(el('li', null, text)); }
@@ -2152,44 +2201,8 @@
     grid.appendChild(quickBooksFigure(d.quickbooks));
     // Givebutter: read late each evening and on a press; nobody who gave is named.
     grid.appendChild(givebutterFigure(d.givebutter, d.day));
-    // Tasks, by who they are assigned to.
-    var tf = el('figure', 'of-fig');
-    tf.appendChild(el('figcaption', 'of-fig__title', 'Open tasks by person'));
-    tf.appendChild(numbersTable(['Assigned to', 'Open', 'Overdue'], t.byPerson.map(function (x) { return [x.who, x.open, x.overdue]; }).concat(t.unassigned ? [['Nobody yet', t.unassigned, '']] : [])));
-    var tl = el('p'); var ta = el('a', null, 'Open the tasks'); ta.href = '/tasks.html#/'; tl.appendChild(ta); tf.appendChild(tl);
-    grid.appendChild(tf);
     view.appendChild(grid);
 
-    // What came in last, of each.
-    view.appendChild(el('h3', null, 'Newest'));
-    var newest = el('div', 'of-dash');
-    function list(title, items, draw) {
-      var f = el('section', 'of-fig');
-      f.appendChild(el('h4', 'of-fig__title', title));
-      if (!items.length) { f.appendChild(quiet('None yet.')); return f; }
-      var ul = el('ul', 'of-theirs');
-      items.forEach(function (x) { var li = el('li'); draw(li, x); ul.appendChild(li); });
-      f.appendChild(ul);
-      return f;
-    }
-    newest.appendChild(list('Grant requests', d.recent.grants, function (li, x) {
-      var a = el('a', null, x.name); a.href = '#/g/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.pipeline + ', ' + x.stage + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
-    }));
-    newest.appendChild(list('Cases', d.recent.cases, function (li, x) {
-      var a = el('a', null, '#' + x.number + ' ' + x.name); a.href = '#/k/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.status + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
-    }));
-    newest.appendChild(list('Tasks', d.recent.tasks, function (li, x) {
-      var a = el('a', null, x.name); a.href = '/tasks.html#/t/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.status + (x.who ? ', ' + x.who : '') + (x.due ? ', due ' + dayWords(x.due) : '')));
-    }));
-    // The forum topics posted to last, of the ones you may read.
-    newest.appendChild(list('Forum posts', d.recent.forum, function (li, x) {
-      var a = el('a', null, x.title); a.href = '/forum.html#/t/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.cat + ', latest from ' + x.lastBy + ', ' + when(x.last)));
-    }));
-    view.appendChild(newest);
     return h;
   }
 

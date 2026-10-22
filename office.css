@@ -32,6 +32,8 @@
 .of-navlink { display: inline-flex; align-items: center; text-decoration: none; }
 .of .of-navlink { color: var(--cb-steel); }
 .of-navlink[aria-current] { border-color: var(--cb-amber); }
+/* Tasks, another page, a little apart from the office's own parts. */
+.of-navlink--other { margin-left: 10px; }
 
 /* BACK ONE STEP, or the view's own way up, above it: steps.js fills it. */
 .of-back { padding: 14px 18px 0; }
@@ -167,6 +169,8 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-swatch.of-c4, .of-key.of-c4 { background: var(--cb-task-yellow); }
 :host([data-tone="dark"]) .of-swatch.of-c4, :host([data-tone="dark"]) .of-key.of-c4 { background: var(--cb-task-yellow-dark); }
 .of-fig--wide { grid-column: 1 / -1; }
+/* A figure standing on its own, under a heading of its own, as wide as its table needs. */
+.of-fig--lone { max-width: 560px; }
 :host([data-tone="dark"]) .of-c1 { fill: var(--cb-task-blue-dark); }
 :host([data-tone="dark"]) .of-c2 { fill: var(--cb-task-orange-dark); }
 :host([data-tone="dark"]) .of-c3 { fill: var(--cb-task-aqua-dark); }
