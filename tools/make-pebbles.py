@@ -126,9 +126,9 @@ def bowl(room, r):
         '        <p class="pebbles__said" id="pebbles-said" role="status"></p>',
         '      </form>',
         '    </div>',
-        '    <p class="pebbles__signon" id="pebbles-signon" hidden>Leaving a pebble takes a CB handle and '
-        'the community password: <a href="community-center.html">sign on at the Community Center</a>, '
-        'then come back. Taking one takes nothing.</p>',
+        '    <p class="pebbles__signon" id="pebbles-signon" hidden>Leaving a pebble takes a username on the CB, '
+        'which you join with an invite: <a href="community-center.html#getting-started">get started or sign on '
+        'at the Community Center</a>, then come back. Taking one takes nothing.</p>',
         '    <ul class="pebbles__rules">',
         f'      <li><strong>Anybody can see the {vessel}, and only people signed on to the CB can leave a '
         f'pebble in it.</strong> A handle is whatever somebody typed, so a name in the {vessel} is not '
