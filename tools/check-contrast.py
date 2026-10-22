@@ -974,6 +974,13 @@ PAIRS = [
     ("#000000", "#c98500", False, "tasks: on a yellow bar (dark)"),
     ("#000000", "#d55181", False, "tasks: on a magenta bar (dark)"),
     ("#000000", "#9085e9", False, "tasks: on a violet bar (dark)"),
+    # TASKS' STATUSES (2026-10-21): each a pill of Notion's pale fill with its
+    # dark ink, the same in every theme; Started is the light blue.
+    ("#32302C", "#E3E2E0", False, "tasks: Not Started on its gray pill"),
+    ("#183347", "#D3E5EF", False, "tasks: Started on its light blue pill (Notion's In progress)"),
+    ("#1C3829", "#DBEDDB", False, "tasks: Completed on its green pill"),
+    ("#442A1E", "#EEE0DA", False, "tasks: Canceled on its brown pill"),
+    ("#402C1B", "#FDECC8", False, "tasks: Deferred on its yellow pill"),
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
     (GREEN,   INK,  True,  "street: tagline 'Divergent and proud' 21px bold display"),
@@ -3910,6 +3917,11 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#91918e": "tasks: --cb-status-gray-dot, the dot before Not Started on its pill, 2.44 on the fill; the word carries the status, the dot is Notion's ornament.",
+    "#2383e2": "tasks: --cb-status-blue-dot, the dot before Started on its light blue pill, 3.00 on the fill; the word carries the status.",
+    "#448361": "tasks: --cb-status-green-dot, the dot before Completed on its pill, 3.68 on the fill; the word carries the status.",
+    "#9f6b53": "tasks: --cb-status-brown-dot, the dot before Canceled on its pill, 3.47 on the fill; the word carries the status.",
+    "#cb912f": "tasks: --cb-status-yellow-dot, the dot before Deferred on its pill, 2.36 on the fill; the word carries the status.",
     "#4b567f": "world: --www-thread, the silk the dawn has not reached and a quiet room's bead, 2.47 on the sky; it carries no word.",
     "#f0cfae": "world: --www-glint, the silk the dawn has reached and the ring round an active room's bead, 11.96 on the sky; it carries no word.",
     "#ffe6c4": "world: --www-bead, a drop of dew the dawn has lit and an active room's bead, 14.58 on the sky; it carries no word.",

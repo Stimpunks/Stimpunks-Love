@@ -136,6 +136,23 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 :host([data-tone="dark"]) .tk-c--violet { --cb-tk-fill: var(--cb-task-violet-dark); --cb-tk-ink: var(--cb-task-black); }
 .tk-dot { display: inline-block; width: .72em; height: .72em; border-radius: 50%; border: 1px solid var(--cb-steel-2); background: var(--cb-tk-fill, transparent); margin-right: .35em; vertical-align: -.06em; flex: none; }
 .tk-dot--none { border-style: dashed; }
+/* A STATUS IS A PILL, after Notion's (Ryan, 2026-10-21): its pale fill and dark
+   ink, the same in every theme, so Started is the light blue the team knows
+   from Notion's In progress. Its name is always on it. The colours are
+   love.css's --cb-status-*, and the pairs are in check-contrast.py. */
+.tk-s--gray { --cb-tk-fill: var(--cb-status-gray); --cb-tk-ink: var(--cb-status-gray-ink); --cb-tk-dot: var(--cb-status-gray-dot); }
+.tk-s--blue { --cb-tk-fill: var(--cb-status-blue); --cb-tk-ink: var(--cb-status-blue-ink); --cb-tk-dot: var(--cb-status-blue-dot); }
+.tk-s--green { --cb-tk-fill: var(--cb-status-green); --cb-tk-ink: var(--cb-status-green-ink); --cb-tk-dot: var(--cb-status-green-dot); }
+.tk-s--brown { --cb-tk-fill: var(--cb-status-brown); --cb-tk-ink: var(--cb-status-brown-ink); --cb-tk-dot: var(--cb-status-brown-dot); }
+.tk-s--yellow { --cb-tk-fill: var(--cb-status-yellow); --cb-tk-ink: var(--cb-status-yellow-ink); --cb-tk-dot: var(--cb-status-yellow-dot); }
+.tk-status {
+  display: inline-flex; align-items: center; gap: .4em; padding: 0 .65em 0 .55em; border-radius: 999px; white-space: nowrap;
+  background: var(--cb-tk-fill); color: var(--cb-tk-ink); font-size: .92em; line-height: 1.6;
+}
+.tk-status::before { content: ""; flex: none; width: .5em; height: .5em; border-radius: 50%; background: var(--cb-tk-dot); }
+/* A status's dot in the filter is its fill, ringed in its dot's shade. */
+.tk-dot.tk-dot--status { border-color: var(--cb-tk-dot); }
+.tk-col__h .tk-status { font-size: inherit; }
 .tk-tagname { white-space: nowrap; }
 .tk .tk-tl__bar.tk-filled { background: var(--cb-tk-fill); color: var(--cb-tk-ink); }
 .tk-tl__stripes { display: flex; gap: 2px; flex: 1 1 100%; height: 6px; }

@@ -1354,6 +1354,17 @@
   --cb-task-blue-dark: #3987e5; --cb-task-orange-dark: #d95926; --cb-task-aqua-dark: #199e70; --cb-task-yellow-dark: #c98500;
   --cb-task-magenta-dark: #d55181; --cb-task-green-dark: #008300; --cb-task-violet-dark: #9085e9;
   --cb-task-black: #000000; --cb-task-white: #ffffff;
+  /* TASKS' STATUS COLOURS (Ryan, 2026-10-21): a status is a pill after Notion's,
+     a round pale fill with a dot in the colour's stronger shade before the
+     dark ink of its name, as Notion's light mode draws them, one
+     step for every radio theme so Started is the same light blue Norah and
+     Chelsea know from Notion's In progress. Which status wears which is
+     data/tasks.json's; every pair is in check-contrast.py. */
+  --cb-status-gray: #E3E2E0; --cb-status-gray-ink: #32302C; --cb-status-gray-dot: #91918E;
+  --cb-status-blue: #D3E5EF; --cb-status-blue-ink: #183347; --cb-status-blue-dot: #2383E2;
+  --cb-status-green: #DBEDDB; --cb-status-green-ink: #1C3829; --cb-status-green-dot: #448361;
+  --cb-status-brown: #EEE0DA; --cb-status-brown-ink: #442A1E; --cb-status-brown-dot: #9F6B53;
+  --cb-status-yellow: #FDECC8; --cb-status-yellow-ink: #402C1B; --cb-status-yellow-dot: #CB912F;
   /* ITS OTHER COLOUR SCHEMES (Ryan, 2026-10-17, from a request): the same
      seven parts in other clothes, which somebody picks for their own radio
      under Your radio, so the radio still keeps its own clothes in every room

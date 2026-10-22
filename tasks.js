@@ -215,6 +215,16 @@
     d.setAttribute('aria-hidden', 'true');
     return d;
   }
+  /* A STATUS IS A PILL, after Notion's (Ryan's ask, 2026-10-21): data/tasks.json
+     says which colour each wears, and Started is Notion's light blue for In
+     progress, which Norah and Chelsea key off. The name is always on it. */
+  function statusColour(s) { return (settings && settings.statusColours && settings.statusColours[s]) || 'gray'; }
+  function statusPill(s) { return el('span', 'tk-status tk-s--' + statusColour(s), s); }
+  function statusDot(s) {
+    var d = el('span', 'tk-dot tk-dot--status tk-s--' + statusColour(s));
+    d.setAttribute('aria-hidden', 'true');
+    return d;
+  }
   function tagWords(tags, cls) {
     var w = el('span', cls || null);
     tags.forEach(function (x, i) {
@@ -256,7 +266,8 @@
 
   /* ── The list and the board: filters and order, kept in the address ──── */
 
-  var COLUMNS = [['name', 'Task'], ['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to'], ['with', 'Also on it'], ['start', 'Starts'], ['due', 'Due'], ['tags', 'Tags']];
+  // WHOSE (Ryan's ask, 2026-10-21) is Assigned to and Also on it together, to sort on.
+  var COLUMNS = [['name', 'Task'], ['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to'], ['with', 'Also on it'], ['whose', 'Whose'], ['start', 'Starts'], ['due', 'Due'], ['tags', 'Tags']];
   var DUES = [['', 'Any time'], ['overdue', 'Overdue'], ['today', 'Due today'], ['week', 'Due in the next 7 days'], ['month', 'Due this month'], ['none', 'No due date']];
   // What a board's columns can be, and the field a move between them changes.
   var GROUPS = [['status', 'Status'], ['priority', 'Priority'], ['who', 'Assigned to']];
@@ -339,6 +350,14 @@
   function whoOf(f) { return !f.who || f.who === '@me' ? '@me' : f.who; }
   // Who else is on a task, beside whoever it is assigned to.
   function alsoOn(t) { return (t.with || []).filter(function (x) { return fold(x) !== fold(t.who); }); }
+  /* Everybody whose a task is, the one it is assigned to and everybody also on
+     it, in alphabetical order: the Whose column, and what it sorts by, so a
+     task's place in the sort is what its cell says. */
+  function whoseOf(t) {
+    var all = (t.who ? [t.who] : []).concat(alsoOn(t));
+    return all.filter(function (x, i) { return all.map(fold).indexOf(fold(x)) === i; })
+      .sort(function (a, b) { return fold(a) < fold(b) ? -1 : fold(a) > fold(b) ? 1 : 0; });
+  }
   function owns(t, h) { return !!h && (fold(t.who) === fold(h) || (t.with || []).some(function (x) { return fold(x) === fold(h); })); }
   function counted(f, skip, key, mode) {
     var n = {};
@@ -355,6 +374,7 @@
       var v = t[f.sort];
       if (rank[f.sort]) return rank[f.sort].indexOf(v);
       if (f.sort === 'tags' || f.sort === 'with') return (v || []).join(', ').toLowerCase() || null;
+      if (f.sort === 'whose') return whoseOf(t).join(', ').toLowerCase() || null;
       return v == null ? null : String(v).toLowerCase();
     };
     var s = f.dir === 'desc' ? -1 : 1;
@@ -641,6 +661,7 @@
         var l = el('label', 'tk-check'); l.htmlFor = id;
         l.appendChild(c);
         if (key === 'tags') { l.appendChild(document.createTextNode(' ')); l.appendChild(tagDot(v)); l.appendChild(document.createTextNode(v + ' ')); }
+        else if (key === 'status') { l.appendChild(document.createTextNode(' ')); l.appendChild(statusDot(v)); l.appendChild(document.createTextNode(v + ' ')); }
         else l.appendChild(document.createTextNode(' ' + v + ' '));
         l.appendChild(el('span', 'tk-n', String(n[v] || 0)));
         c.addEventListener('change', function () {
@@ -695,12 +716,13 @@
         var a = el('a', null, x.name); a.href = '#/t/' + x.id;
         td.appendChild(a);
         tr.appendChild(td);
-        tr.appendChild(el('td', null, x.status));
+        var st = el('td'); st.appendChild(statusPill(x.status)); tr.appendChild(st);
         var pr = el('td', null, x.priority);
         if (x.priority === 'High' || x.priority === 'Urgent') pr.className = 'tk-high';
         tr.appendChild(pr);
         tr.appendChild(el('td', null, x.who || '—'));
         tr.appendChild(el('td', 'tk-withcell', (x.with || []).join(', ') || '—'));
+        tr.appendChild(el('td', 'tk-withcell', whoseOf(x).join(', ') || '—'));
         tr.appendChild(el('td', 'tk-day', dayWords(x.start)));
         var due = el('td', 'tk-day', dayWords(x.due));
         if (overdue(x)) due.appendChild(tag('OVERDUE', 'tk-late'));
@@ -770,7 +792,9 @@
         col.setAttribute('aria-labelledby', hid);
         var hd = el('h3', 'tk-col__h');
         hd.id = hid;
-        hd.appendChild(document.createTextNode(c[1] + ' '));
+        if (f.cols === 'status') hd.appendChild(statusPill(c[1]));
+        else hd.appendChild(document.createTextNode(c[1]));
+        hd.appendChild(document.createTextNode(' '));
         hd.appendChild(el('span', 'tk-n', String(mine.length)));
         col.appendChild(hd);
         var ul = el('ul', 'tk-cards');
@@ -805,13 +829,13 @@
       li.appendChild(a);
       var facts = el('p', 'tk-card__facts');
       var bits = [];
-      if (f.cols !== 'status') bits.push(t.status);
       if (f.cols !== 'priority' && t.priority !== settings.priority) bits.push(t.priority);
       if (f.cols !== 'who') bits.push(t.who || 'Nobody');
       var others = alsoOn(t);
       if (others.length) bits.push('with ' + others.join(', '));
       if (t.due) bits.push('due ' + dayWords(t.due));
-      facts.textContent = bits.join(' · ');
+      if (f.cols !== 'status') { facts.appendChild(statusPill(t.status)); if (bits.length) facts.appendChild(document.createTextNode(' · ')); }
+      facts.appendChild(document.createTextNode(bits.join(' · ')));
       if (overdue(t)) facts.appendChild(tag('OVERDUE', 'tk-late'));
       if ((t.priority === 'High' || t.priority === 'Urgent') && f.cols !== 'priority') facts.classList.add('tk-high');
       li.appendChild(facts);
@@ -1031,14 +1055,15 @@
         + ' ' + when(ev ? ev.t : t.t);
       li.appendChild(what);
       var facts = el('p', 'tk-post__facts');
-      var bits = [t.status];
+      facts.appendChild(statusPill(t.status));
+      var bits = [''];
       if (t.priority !== settings.priority) bits.push(t.priority);
       bits.push(t.who ? 'assigned to ' + t.who : 'assigned to nobody');
       var others = alsoOn(t);
       if (others.length) bits.push('with ' + others.join(', '));
       if (t.start && t.due && t.start !== t.due) bits.push('starts ' + dayWords(t.start));
       if (t.due) bits.push('due ' + dayWords(t.due));
-      facts.textContent = bits.join(' · ');
+      facts.appendChild(document.createTextNode(bits.join(' · ')));
       if (overdue(t)) facts.appendChild(tag('OVERDUE', 'tk-late'));
       li.appendChild(facts);
       if (t.tags.length) { var tp = el('p', 'tk-post__tags'); tp.appendChild(tagWords(t.tags)); li.appendChild(tp); }
@@ -1170,7 +1195,7 @@
     view.appendChild(h);
     var dl = el('dl', 'tk-facts');
     function fact(k, v) { if (v == null || v === '') return; dl.appendChild(el('dt', null, k)); var dd = el('dd'); if (typeof v === 'string') dd.textContent = v; else dd.appendChild(v); dl.appendChild(dd); }
-    fact('Status', t.status);
+    fact('Status', statusPill(t.status));
     fact('Priority', t.priority);
     fact('Assigned to', t.who || 'Nobody');
     if (t.with.length) fact('Also on it', t.with.join(', '));

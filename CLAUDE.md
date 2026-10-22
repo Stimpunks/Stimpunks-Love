@@ -5331,7 +5331,12 @@ own tasks. **Tags have colours by family** (Ryan's ask, the same evening): `colo
 `tasks.js` measures the reader's radio case to pick the light or dark steps (`toneNow`, `data-tone`). A timeline bar is
 filled with its first coloured tag and striped along its foot when it has more than one colour, and a legend says
 which tags wear which. **The friendly edit is a colour for every tag**: past eight, nobody can tell them apart, and
-`make-tasks.py` refuses a ninth.
+`make-tasks.py` refuses a ninth. **A status is a pill after Notion's** (Ryan's ask, 2026-10-21): `status_colours` in
+`data/tasks.json`, Notion's pale fill, its dark ink and a dot in its stronger shade, `--cb-status-<colour>`, `-ink` and
+`-dot` in `love.css`, one step for every theme, the ink pairs in `check-contrast.py` and the dots in `ORNAMENT`.
+**Started is Notion's light blue for In progress, because Norah and Chelsea key off it**, and `make-tasks.py` refuses
+Started in any other colour: the friendly edit is a tidier palette. The list's **Whose** column is Assigned to and Also on
+it together, alphabetical, and sorts by what the cell says (`whoseOf`).
 
 **A TASK'S CHANGES ARE ITS ACTIVITY, AND NEWS TO WHOEVER THEY CONCERN BUT WHOEVER MADE THEM.** Ryan's ask,
 2026-10-21, after EspoCRM's stream and notifications and Notion's inbox. `noteTask` in `lib.mjs`, called after

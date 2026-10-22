@@ -7605,6 +7605,7 @@ export const TASK_BOARD_HIDES = ["Canceled"];
 export const TASK_REPEATS = {"Weekly": {"days": 7}, "Every 2 Weeks": {"days": 14}, "Monthly": {"months": 1}};
 export const TASK_COLOURS = ["blue", "orange", "aqua", "yellow", "magenta", "green", "violet"];
 export const TASK_TAG_COLOURS = {"Operations": "blue", "Systems": "blue", "Business Papers": "blue", "Finance": "orange", "Fundraising": "orange", "Outside Grants": "orange", "Grantmaking": "orange", "Community": "aqua", "Connection Requests": "aqua", "Networking/Social": "aqua", "Volunteering": "aqua", "Meetings": "yellow", "Events": "yellow", "Editorial": "magenta", "Learning Center": "magenta", "Resource Research": "magenta", "Shop": "green", "Merch": "green", "Professional Development": "violet", "Coping": "violet", "Time Off": "violet"};
+export const TASK_STATUS_COLOURS = {"Not Started": "gray", "Started": "blue", "Completed": "green", "Canceled": "brown", "Deferred": "yellow"};
 export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];

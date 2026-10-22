@@ -93,6 +93,13 @@ def settings(data, roles):
     tc = data.get("tag_colours")
     if not isinstance(tc, dict) or any(t not in (data.get("tags") or []) or c not in (colours or []) for t, c in tc.items()):
         problems.append(f"{DATA.name}: tag_colours gives a tag one of the colours, and names only tags there are.")
+    sc = data.get("status_colours")
+    if not isinstance(sc, dict) or sorted(sc) != sorted(data.get("statuses") or []) or any(not re.fullmatch(r"[a-z]+", c) for c in sc.values()):
+        problems.append(f"{DATA.name}: status_colours gives every status a colour, by name, and names only statuses there are.")
+    # STARTED IS NOTION'S LIGHT BLUE (Ryan, 2026-10-21): Norah and Chelsea key off
+    # it, from Notion's In progress. The friendly edit is a tidier palette.
+    elif "Started" in sc and sc["Started"] != "blue":
+        problems.append(f"{DATA.name}: Started is {sc['Started']}; it is blue, Notion's light blue for In progress, which Norah and Chelsea key off.")
     hides = data.get("board_hides")
     if not isinstance(hides, list) or any(x not in (data.get("statuses") or []) for x in hides) or len(hides) >= len(data.get("statuses") or []):
         problems.append(f"{DATA.name}: board_hides is a list of statuses, and leaves a board at least one.")
@@ -116,6 +123,7 @@ def write(lib, data):
              + f"export const TASK_REPEATS = {j(data['repeats'])};\n"
              + f"export const TASK_COLOURS = {j(data['colours'])};\n"
              + f"export const TASK_TAG_COLOURS = {j(data['tag_colours'])};\n"
+             + f"export const TASK_STATUS_COLOURS = {j(data['status_colours'])};\n"
              + f"export const TASK_PRIORITIES = {j(data['priorities'])};\n"
              + f"export const TASK_DEFAULT_PRIORITY = {j(data['default_priority'])};\n"
              + f"export const TASK_TAGS = {j(data['tags'])};\n"
@@ -329,6 +337,14 @@ def check_colours(data):
                 problems.append(f"love.css: {name} is not declared. Every tag colour has a light and a dark step.")
         if not re.search(rf"\.tk-c--{c}\s*\{{[^}}]*var\(--cb-task-{c}\)", css) or not re.search(rf"\.tk-c--{c}\s*\{{[^}}]*var\(--cb-task-{c}-dark\)", css):
             problems.append(f"{CSS.name}: .tk-c--{c} is not dressed for light and dark themes.")
+    # A status's colour: its fill and its ink declared in love.css, and tasks.css
+    # dressing .tk-s--<colour> in both.
+    for c in sorted(set((data.get("status_colours") or {}).values())):
+        for name in (f"--cb-status-{c}", f"--cb-status-{c}-ink", f"--cb-status-{c}-dot"):
+            if not re.search(rf"{re.escape(name)}\s*:\s*#[0-9a-fA-F]{{6}}", root):
+                problems.append(f"love.css: {name} is not declared. Every status colour has a fill, an ink and a dot.")
+        if not re.search(rf"\.tk-s--{c}\s*\{{[^}}]*var\(--cb-status-{c}\)[^}}]*var\(--cb-status-{c}-ink\)", css):
+            problems.append(f"{CSS.name}: .tk-s--{c} does not wear --cb-status-{c} and its ink.")
 
 
 def check_css():
