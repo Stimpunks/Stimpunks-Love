@@ -2,7 +2,7 @@
    pass's roles do not reach is never in any answer. GET, with ?view=:
      home                    every category the reader may see, with its latest topics
      latest   &before=       every topic in them, the latest post first
-     cat      &c= &before=   one category's topics, pinned ones first
+     cat      &c= &before= &tag=   one category's topics, pinned ones first; tag: only those carrying it
      topic    &t=            one topic, every post in it
      search   &q=            topics whose title or posts hold every word
      mentions                topics where somebody else has @mentioned you, worked out now
@@ -11,7 +11,7 @@
      templates               what a new topic can start from: the templates you may read
      cb       &room= &ids=   the messages that would be copied off a channel
    POST, with the same pass:
-     { action: 'start', cat, title, body, from?, files?, at? }   a new topic; from: { room, ids } copies messages off the CB
+     { action: 'start', cat, title, body, tags?, from?, files?, at? }   a new topic; from: { room, ids } copies messages off the CB
      { action: 'reply', t, body, reply?, files?, at? }          a reply, to the topic or to one post in it
      { action: 'edit', t, p, body, title?, files?, at? }        your own post, and the title if you started it
        files: [{ id, alt? }], uploads from /cb/forum/file, and the post's own; at: the handles picked to @mention
@@ -20,6 +20,10 @@
      { action: 'uncopy', t, p, m }                   a message of yours copied in from the CB, back out
      { action: 'react', t, p, emoji }                a reaction on, or off again
      { action: 'moderate', t, pin?, close?, move? }  a moderator pinning, closing or moving a topic
+     { action: 'tag', t, tags }                      a topic's tags, by its starter, a wiki's editors or a moderator
+     { action: 'import', notion, cat, title, body, t, by, tags? }   a moderator bringing a page in from Notion,
+                                                     at the time it was made and under the username that made it
+                                                     (importTopic); it tells nobody
      { action: 'preview', body, pics? }              how the words will set; pics: the composer's pictures, placed where the words say
      { action: 'links', q }                          what [[ offers for q: the topics, and for staff the tasks and
                                                      the office's records, the reader can open (findLinks), by POST
@@ -27,7 +31,7 @@
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
 import { readPass, forumReader, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
-  reactPost, moderateTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
+  reactPost, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere: the forums are for
@@ -60,7 +64,7 @@ export default async (req, context) => {
       if (view === 'latest') return answer(200, { me, cats, ...(await forumLatest(who, num(url.searchParams.get('before')))) }, QUIET);
       if (view === 'people') return answer(200, { people: await forumPeople(who) }, QUIET);
       if (view === 'cat') {
-        const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')));
+        const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')), undefined, undefined, url.searchParams.get('tag'));
         return r ? answer(200, { me, cats, ...r }, QUIET) : json(404, { me, cats, error: 'There is no such category.' }, QUIET);
       }
       if (view === 'topic') {
@@ -97,6 +101,12 @@ export default async (req, context) => {
     else if (b.action === 'uncopy') r = await uncopyMessage(who, t, p, String(b.m || ''));
     else if (b.action === 'react') r = await reactPost(who, t, p, b.emoji);
     else if (b.action === 'moderate') r = await moderateTopic(who, t, b);
+    else if (b.action === 'tag') r = await retagTopic(who, t, b);
+    else if (b.action === 'import') {
+      r = await importTopic(who, b);
+      // What happened, for the importer, which reads no topic back and tells nobody.
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { id: r.topic.id, made: r.made, state: r.state }, QUIET);
+    }
     else return json(400, { error: 'Do what with it?' }, QUIET);
     if (r.error) return json(400, { error: r.error }, QUIET);
     if (r.gone) return answer(200, { me, cats, gone: true }, QUIET);

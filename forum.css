@@ -97,6 +97,15 @@
 .fm-row__meta { font-size: 14px; color: var(--cb-amber-2); }
 .fm-row__meta a { color: var(--cb-amber); }
 .fm-row__match { font-size: 14px; }
+
+/* TAGS: links edged like the radio's buttons, in the case's own link ink; the
+   one a category's page is showing is the one ringed in amber. */
+.fm-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.fm-tagchip { display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border: 2px solid var(--cb-steel-2); border-radius: 999px; font-size: 14px; text-decoration: none; }
+.fm-tagchip:hover { text-decoration: underline; }
+.fm-tagchip[aria-current="page"] { border-color: var(--cb-amber); font-weight: 700; }
+.fm-tagfilter { display: grid; gap: 4px; }
+.fm-retag { display: grid; gap: 4px; flex: 1 1 100%; }
 .fm-start { display: inline-flex; align-items: center; text-decoration: none; }
 .fm .fm-start { color: var(--cb-steel); }
 

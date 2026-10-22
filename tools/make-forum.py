@@ -101,6 +101,15 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
     too long to be a room. A category that says it is `as` one of the Town
     Hall's rooms takes exactly that room's roles and strictness, so the two
     lists cannot drift apart.
+  · A TAG THAT COUNTS OR A PAGE BROUGHT IN THAT SPEAKS. Ryan's ask, 2026-10-22,
+    moving Notion's Grants table into Grantmaking: tags on a topic, which a
+    category's page filters by and lists, never with how many topics carry
+    each (forumCategory's tags come from tagsOf, a list of words); and pages
+    brought from Notion by importTopic, which only a moderator may use, which
+    tells nobody (the function never sends an import to notifyForum), and
+    which keeps the page's own time and maker, so a topic says when and by
+    whom it was really written. The friendly edits are a number beside each
+    tag, and announcing the import "so people know the rounds are here".
   · privacy.html without the forums' section and love-forum, and the page
     without its link to them.
 
@@ -264,13 +273,13 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: the forums' section writes to the console. Nothing anybody types is ever logged.")
     for name in ("forumHome", "forumLatest", "forumCategory", "forumTopic", "searchForum", "forumMentions", "cbTranscript",
                  "startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost",
-                 "removeTopic", "moderateTopic", "forumFile", "putForumUpload", "forumTemplates"):
+                 "removeTopic", "moderateTopic", "retagTopic", "importTopic", "forumFile", "putForumUpload", "forumTemplates"):
         body = fn(sec, name)
         if not body:
             problems.append(f"{LIB.name}: {name} is missing.")
         elif "forumReader(who)" not in body and "forumAllows(who" not in body and "forumCatsFor(who" not in body:
             problems.append(f"{LIB.name}: {name} no longer asks whether the reader is a claimed username who may see the category.")
-    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "removeTopic", "moderateTopic", "putForumUpload"):
+    for name in ("startTopic", "replyTopic", "editPost", "removePost", "uncopyMessage", "reactPost", "removeTopic", "moderateTopic", "retagTopic", "importTopic", "putForumUpload"):
         if "if (!forumReader(who)) return { error: CLAIM };" not in fn(sec, name):
             problems.append(f"{LIB.name}: {name} must refuse anybody but a claimed username first.")
     if "who.account && typeof who.since === 'number'" not in fn(sec, "forumReader"):
@@ -290,7 +299,7 @@ def check_lib(lib):
                 problems.append(f"{LIB.name}: {name} sends `{word}`. Nothing about reading is kept, and nothing is counted.")
     m = re.search(r"function summaryOf\(t\) \{.*?\n\}", sec, re.S)
     keys = set(re.findall(r"\b(\w+):", m.group(0))) | set(re.findall(r"sum\.(\w+) =", m.group(0))) if m else set()
-    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "pinned", "closed", "unpinned"}:
+    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "pinned", "closed", "unpinned", "tags", "notion"}:
         problems.append(f"{LIB.name}: a topic's summary holds {sorted(keys)}; it holds what a list shows and nothing else.")
     get = fn(sec, "safeGet")
     if "lookup: safeLookup" not in get or "publicAddress(host)" not in get:
@@ -332,6 +341,13 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: forumTemplates must offer only the templates the reader may see, and never a templates category's pinned read-me.")
     if "pics.has(m[2])" not in fn(sec, "placePictures") or "placePictures(withPreviews(parseBrass(p.body || '', { refs: true }), p.links), pics, placed)" not in sec:
         problems.append(f"{LIB.name}: a picture in the words must be one of the post's own, placed by placePictures in shapePost; anything else written that way stays words, so no picture from elsewhere is ever shown.")
+    it = fn(sec, "importTopic")
+    if "if (who.role !== 'base')" not in it or "forumAllows(who, cat, 'start')" not in it:
+        problems.append(f"{LIB.name}: importTopic must refuse anybody but a moderator who may start topics in the category.")
+    if "notifyForum" in it or "makePost(" in it:
+        problems.append(f"{LIB.name}: importTopic tells nobody and makes no post in the importer's name: a page keeps its own time and maker.")
+    if "tags: tagsOf(all)" not in fn(sec, "forumCategory") or not re.search(r"function tagsOf\(list\) \{ return \[\.\.\.new Set\(list\.flatMap\(\(x\) => x\.tags \|\| \[\]\)\)\]\.sort\(\); \}", sec):
+        problems.append(f"{LIB.name}: a category's tags must be the words its topics carry, from tagsOf, never with how many carry each.")
     if "canTakeOff(who, m)" not in fn(sec, "uncopyMessage"):
         problems.append(f"{LIB.name}: a copied message no longer comes out under the channel's own rule, canTakeOff.")
     if "readTuned(room, s)" not in fn(sec, "cbTranscript") or "quietRoom(room)" not in fn(sec, "cbTranscript"):
@@ -370,6 +386,9 @@ def check_function():
         problems.append(f"{FN.name}: it must refuse anybody but a claimed username before it reads or does anything.")
     if "'x-robots-tag': 'noindex'" not in f:
         problems.append(f"{FN.name}: its answers must ask search engines not to keep them.")
+    m = re.search(r"\[([^\]]*)\]\.includes\(b\.action\)", f)
+    if not m or "import" in m.group(1):
+        problems.append(f"{FN.name}: a page brought in from Notion tells nobody, so 'import' is never among the actions that notify.")
     if "path: '/cb/forum'" not in f:
         problems.append(f"{FN.name}: it no longer answers at /cb/forum, where forum.js asks.")
     if not FILES.exists():

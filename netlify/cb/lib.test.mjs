@@ -2625,7 +2625,8 @@ for (const etagOnRead of [true, false]) {
 /* ── The forums ──────────────────────────────────────────────────────────── */
 import { FORUM_CATEGORIES, forumCat, forumAllows, forumNav, forumHome, forumLatest, forumCategory, forumTopic, readTopic,
   readForumIndex, searchForum, cbTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
-  reactPost, moderateTopic, sweepForum, goesAt, publicAddress, previewFor, metaOf, playerInfo, loneLinks, authorMark, forumEditor } from './lib.mjs';
+  reactPost, moderateTopic, sweepForum, goesAt, publicAddress, previewFor, metaOf, playerInfo, loneLinks, authorMark, forumEditor,
+  retagTopic, importTopic, cleanForumTags } from './lib.mjs';
 
 const fw = (handle, since, roles = null) => ({ role: roles ? 'base' : 'mobile', handle, since, account: true,
   roles: new Set(roles ? ['moderator', ...roles] : []) });
@@ -2774,6 +2775,69 @@ test('a wiki\'s documents are edited by its roles whoever wrote them, its replie
   assert.equal(moved.posts[0].edit, false, 'a moderator kept the edit of a post outside the wiki');
   assert.equal(moved.posts[0].editedBy, 'Mo');
   assert.equal(JSON.stringify(moved).includes(authorMark(FMOD)), false, 'an author\'s mark was sent');
+});
+
+test('tags are set when a topic starts, changed by its starter or a moderator, filter a category, and are never counted', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.deepEqual(cleanForumTags(['Grant Round', '#grant-round', 'aid']), ['aid', 'grant-round']);
+  assert.equal(cleanForumTags(['not a tag!']), null);
+  assert.equal(cleanForumTags(['a', 'b', 'c', 'd', 'e', 'f']), null);
+  assert.match((await startTopic(BO, { cat: 'infodumps', title: 'Owls', body: 'Hoo.', tags: ['what?'] }, s, T0, NO_NET)).error, /Up to 5 tags/);
+  const t = (await startTopic(BO, { cat: 'infodumps', title: 'Owls', body: 'Hoo.', tags: ['Night Birds', 'owls'] }, s, T0, NO_NET)).topic;
+  assert.deepEqual(t.tags, ['night-birds', 'owls']);
+  const u = (await startTopic(ADA, { cat: 'infodumps', title: 'Moths', body: 'Flutter.' }, s, T0 + 1, NO_NET)).topic;
+  const all = await forumCategory(ADA, 'infodumps', null, s, T0 + 2);
+  assert.deepEqual(all.tags, ['night-birds', 'owls'], 'a category did not say which tags its topics carry, or said it some other way');
+  assert.deepEqual(all.topics.map((x) => x.id).sort(), [t.id, u.id].sort());
+  const owls = await forumCategory(ADA, 'infodumps', null, s, T0 + 2, 'owls');
+  assert.deepEqual(owls.topics.map((x) => x.id), [t.id]);
+  assert.equal(owls.tag, 'owls');
+  assert.deepEqual(owls.tags, all.tags, 'filtering by a tag hid the other tags');
+  assert.deepEqual(owls.topics[0].tags, ['night-birds', 'owls']);
+  assert.deepEqual((await forumCategory(ADA, 'infodumps', null, s, T0 + 2, 'bats')).topics, []);
+  assert.equal(JSON.stringify(all).includes('notion'), false);
+  assert.equal((await searchForum(ADA, 'night-birds', s, T0 + 2))[0].id, t.id, 'a search did not find a topic by its tag');
+  assert.match((await retagTopic(ADA, t.id, { tags: ['mine'] }, s, T0 + 3)).error, /Only whoever started/);
+  assert.equal((await forumTopic(ADA, t.id, s, T0 + 3)).retag, false);
+  assert.equal((await forumTopic(FMOD, t.id, s, T0 + 3)).retag, true, 'a moderator was not offered the tags');
+  assert.ok((await retagTopic(FMOD, t.id, { tags: ['owls'] }, s, T0 + 3)).topic);
+  const after = await forumTopic(BO, t.id, s, T0 + 4);
+  assert.deepEqual([after.tags, after.last, after.posts[0].edited], [['owls'], T0, undefined], 'retagging moved the clock or marked the post edited');
+  assert.ok((await retagTopic(BO, t.id, { tags: [] }, s, T0 + 5)).topic, 'a starter could not take their tags off');
+  assert.deepEqual((await forumCategory(ADA, 'infodumps', null, s, T0 + 6)).tags, []);
+});
+
+test('a page brought from Notion keeps its time and its maker, comes again as the same topic, and stays down once taken down', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  const ADA_C = fw('Ada', 9), DIR = fw('Di', 700, ['director']);
+  const page = '0123456789abcdef0123456789abcdef', made = Date.UTC(2024, 9, 16, 14, 50);
+  const f = { notion: page, cat: 'grantmaking', title: 'October 2024 Aid Grant Round', body: '- **Approvals:** Ada', t: made, by: 'ada', tags: ['grant-round'] };
+  assert.match((await importTopic(ADA_C, f, s, T0)).error, /Only a moderator/);
+  assert.match((await importTopic(FBOARD, { ...f, cat: 'directors' }, s, T0)).error, /no such category/);
+  assert.match((await importTopic(DIR, { ...f, t: T0 + 1 }, s, T0)).error, /no later than now/);
+  assert.match((await importTopic(DIR, { ...f, cat: 'directors' }, s, T0)).error, /would go at once/, 'a page older than its category keeps topics was brought in to go at once');
+  const r = await importTopic(DIR, f, s, T0);
+  assert.deepEqual([r.made, r.state], [true, 'made']);
+  const t = await forumTopic(DIR, r.topic.id, s, T0 + 1);
+  assert.deepEqual([t.t, t.last, t.handle, t.posts[0].handle, t.posts[0].t, t.posts[0].notion, t.tags], [made, made, 'Ada', 'Ada', made, page, ['grant-round']]);
+  assert.equal(t.posts[0].base, false);
+  assert.equal(JSON.stringify(t).includes(authorMark(ADA_C)), false, 'an author\'s mark was sent');
+  // Its maker's username edits it, under the mark of their claim.
+  assert.equal((await forumTopic(fw('Ada', 9, ['director']), t.id, s, T0 + 1)).posts[0].edit, true, 'the page\'s maker could not edit it');
+  assert.equal((await importTopic(DIR, f, s, T0 + 2)).state, 'the same');
+  const r2 = await importTopic(DIR, { ...f, body: '- **Approvals:** Ada, Di' }, s, T0 + 3);
+  assert.deepEqual([r2.made, r2.state, r2.topic.id], [false, 'changed', r.topic.id]);
+  assert.equal((await readForumIndex('grantmaking', s)).length, 1, 'bringing a page again started a second topic');
+  assert.equal((await readTopic(r.topic.id, s)).posts[0].body, '- **Approvals:** Ada, Di');
+  // Edited here, it is left as it is.
+  assert.ok((await editPost(DIR, t.id, t.posts[0].id, { body: '- **Approvals:** Ada, Di, Bea' }, s, T0 + 4, NO_NET)).topic, 'a director could not add their name in Grantmaking');
+  assert.equal((await importTopic(DIR, f, s, T0 + 5)).state, 'edited here');
+  assert.equal((await readTopic(r.topic.id, s)).posts[0].body, '- **Approvals:** Ada, Di, Bea');
+  // Taken down here, it stays down.
+  assert.ok((await removeTopic(DIR, r.topic.id, s, T0 + 6)).gone);
+  assert.match((await importTopic(DIR, f, s, T0 + 7)).error, /stays down/);
+  assert.equal((await readForumIndex('grantmaking', s)).length, 0);
 });
 
 test('messages are copied off the channel exactly as sent, and only their sender or a moderator takes one out', async () => {
@@ -3296,11 +3360,11 @@ test('templates are offered to the people who can read them, without their pictu
   const s = memoryStore({ etagOnRead: true });
   const pic = await putForumUpload(FMOD, { kind: 'pic' }, JPEG(), s, T0);
   const tpl = (await startTopic(FMOD, { cat: 'templates', title: 'Weekly Operations Meeting for Week xx',
-    body: `## Agenda\n\n![The board](pic:${pic.id})\n\n- One`, files: [{ id: pic.id }] }, s, T0, NO_NET)).topic;
+    body: `## Agenda\n\n![The board](pic:${pic.id})\n\n- One`, files: [{ id: pic.id }], tags: ['operations'] }, s, T0, NO_NET)).topic;
   const readme = (await startTopic(FMOD, { cat: 'templates', title: 'Read Me: Using These Templates', body: 'Pick one.' }, s, T0 + 1, NO_NET)).topic;
   await moderateTopic(FMOD, readme.id, { pin: true }, s, T0 + 2);
   await startTopic(FMOD, { cat: 'field-guide', title: 'Not a template', body: 'Words.' }, s, T0 + 3, NO_NET);
-  assert.deepEqual(await forumTemplates(FMOD, s, T0 + 4), [{ id: tpl.id, cat: 'templates', title: 'Weekly Operations Meeting for Week xx', body: '## Agenda\n\n- One' }]);
+  assert.deepEqual(await forumTemplates(FMOD, s, T0 + 4), [{ id: tpl.id, cat: 'templates', title: 'Weekly Operations Meeting for Week xx', body: '## Agenda\n\n- One', tags: ['operations'] }]);
   assert.deepEqual(await forumTemplates(ADA, s, T0 + 4), [], 'a template was offered to somebody who cannot read it');
   assert.equal(withoutPictures(`a ![x](pic:${pic.id}) b`), 'a  b');
 });

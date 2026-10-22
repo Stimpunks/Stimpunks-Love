@@ -5616,7 +5616,10 @@ export const FORUM_FILE_MAX = 5000000;  // bytes in a file; a picture is IMG_MAX
 export const FORUM_NAME_MAX = 120;      // characters of a file's name
 export const FORUM_ALT_MAX = 600;       // characters of a picture's description, which is offered and never required
 export const FORUM_AT_MAX = 10;         // handles one post keeps as mentioned
+export const FORUM_TAGS_MAX = 5;        // tags on one topic
+export const FORUM_TAG_MAX = 30;        // characters in one tag
 const FORUM_CAT = 'forum/c/';
+const FORUM_GONE = 'forum-gone';        // Notion's ids of pages brought over and taken down here, so a later import leaves them down
 const FORUM_TOPIC = 'forum/t/';
 const FORUM_UP = 'forum-up/';           // an upload no post has taken yet
 const FORUM_FILE = 'forum-file/';       // forum-file/<topic>/<id>, a post's own
@@ -5673,7 +5676,7 @@ export const FORUM_CATEGORIES = [
   {"slug": "directors", "name": "Directors", "about": "For our directors, as the Directors' room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["director"], "start": null},
   {"slug": "board", "name": "Board", "about": "For the board, and the directors who join its meetings, as the Board room off the Town Hall is.", "group": "Staff", "keep": "6 months", "see": ["board", "director"], "start": null},
   {"slug": "back-office-operations", "name": "Back Office Operations", "about": "For our moderators, the directors and the board: the paperwork, systems, filings and contracts that keep Stimpunks running behind the scenes.", "group": "Staff", "keep": "6 months", "see": ["moderator"], "start": null},
-  {"slug": "grantmaking", "name": "Grantmaking", "about": "For the directors and the board: the grants we make, the requests that come in, and how they are decided.", "group": "Staff", "keep": "6 months", "see": ["director", "board"], "start": null},
+  {"slug": "grantmaking", "name": "Grantmaking", "about": "For the directors and the board: the grants we make, the requests that come in, and how they are decided. Every grant round is a topic tagged grant-round, kept for good. Start one from the Grant Round template, and any director or board member can add their name to its Approvals.", "group": "Staff", "keep": "never", "see": ["director", "board"], "start": null, "wiki": ["director", "board"]},
   {"slug": "finance", "name": "Finance", "about": "For the directors and the board: money in, money out, budgets, banking and the books.", "group": "Staff", "keep": "6 months", "see": ["director", "board"], "start": null},
 ];
 /* forum:categories:end */
@@ -5765,6 +5768,31 @@ export function topicGoes(sum, cat) { return sum.pinned ? null : goesAt(clockOf(
 export function topicLive(sum, cat, now = Date.now()) { const g = topicGoes(sum, cat); return g === null || g > now; }
 
 export function cleanForumTitle(v) { const t = tidy(v); return t && [...t].length <= FORUM_TITLE_MAX ? t : null; }
+
+/* TAGS (Ryan's ask, 2026-10-22, so the grant rounds brought from Notion's
+   Grants table can be found together in Grantmaking): up to FORUM_TAGS_MAX on
+   a topic, each in lower case, letters, digits and hyphens, a space typed as a
+   hyphen. Whoever may change a topic's title changes its tags, and so does a
+   moderator. A category's page filters by one and says which tags its topics
+   carry, never how many. A tag is one word or more joined, never a sentence,
+   so the list stays a way to find things rather than a second place to post. */
+export function cleanForumTag(v) {
+  if (typeof v !== 'string') return null;
+  const t = v.normalize('NFKC').toLowerCase().trim().replace(/^#/, '').replace(/[\s_]+/g, '-');
+  return t.length <= FORUM_TAG_MAX && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(t) ? t : null;
+}
+export function cleanForumTags(v) {
+  if (v == null) return [];
+  if (!Array.isArray(v)) return null;
+  const out = [];
+  for (const x of v) {
+    const t = cleanForumTag(x);
+    if (!t) return null;
+    if (!out.includes(t)) out.push(t);
+  }
+  return out.length <= FORUM_TAGS_MAX ? out.sort() : null;
+}
+const TAGS_WHY = `Up to ${FORUM_TAGS_MAX} tags, each up to ${FORUM_TAG_MAX} letters, numbers and hyphens, like grant-round.`;
 export function cleanForumBody(v, max = FORUM_BODY_MAX) {
   return cleanBrassBody(v, max);
 }
@@ -5976,6 +6004,9 @@ function summaryOf(t) {
   if (t.pinned) sum.pinned = true;
   if (t.closed) sum.closed = true;
   if (t.unpinned) sum.unpinned = t.unpinned;
+  if (t.tags && t.tags.length) sum.tags = t.tags.slice();
+  // Which Notion page it was brought from, so bringing it again finds it; never sent.
+  if (t.notion) sum.notion = t.notion;
   return sum;
 }
 
@@ -6014,9 +6045,12 @@ function shapeSummary(sum, cat) {
     last: sum.last, lastBy: sum.lastBy, lastBase: !!sum.lastBase, goes: topicGoes(sum, cat) };
   if (sum.pinned) out.pinned = true;
   if (sum.closed) out.closed = true;
+  if (sum.tags && sum.tags.length) out.tags = sum.tags.slice();
   return out;
 }
 const byLast = (a, b) => b.last - a.last;
+/* The tags a list's topics carry, in order, and never how many carry each. */
+function tagsOf(list) { return [...new Set(list.flatMap((x) => x.tags || []))].sort(); }
 
 /* The live topics of a category and of every one under it that the reader
    may see, each summary shaped with the category it is in. */
@@ -6057,18 +6091,23 @@ export async function forumLatest(who, before = null, s = store(), now = Date.no
 }
 
 /* One category's topics, and those of every category under it: pinned ones
-   first, then the latest post first; and the categories directly under it. */
-export async function forumCategory(who, slug, before = null, s = store(), now = Date.now()) {
+   first, then the latest post first; and the categories directly under it.
+   `tag`: only the topics that carry it; `tags` says which tags its topics
+   carry, whichever is picked, so the page can offer the others. */
+export async function forumCategory(who, slug, before = null, s = store(), now = Date.now(), tag = null) {
   const cat = forumCat(slug, now);
   if (!forumAllows(who, cat)) return null;
-  const live = await treeTopics(who, cat, s, now);
+  const all = await treeTopics(who, cat, s, now);
+  const picked = tag == null || tag === '' ? null : cleanForumTag(tag);
+  const live = tag == null || tag === '' ? all : all.filter((x) => picked && (x.tags || []).includes(picked));
   // Its own pinned topics first, on the first page only; one pinned in a
   // category under it is in that category's place at the top, not this one's.
   const own = (x) => x.pinned && x.cat === cat.slug;
   const pinned = before == null ? live.filter(own).sort(byLast) : [];
   let rest = live.filter((x) => !own(x)).sort(byLast);
   if (typeof before === 'number') rest = rest.filter((x) => x.last < before);
-  const out = { cat: shapeForumCat(cat, who), topics: pinned.concat(rest.slice(0, FORUM_LATEST)), more: rest.length > FORUM_LATEST };
+  const out = { cat: shapeForumCat(cat, who), topics: pinned.concat(rest.slice(0, FORUM_LATEST)), more: rest.length > FORUM_LATEST, tags: tagsOf(all) };
+  if (picked) out.tag = picked;
   const subs = subsOf(who, cat, now);
   if (subs.length) out.subs = subs;
   return out;
@@ -6174,6 +6213,8 @@ function shapePost(p, who, mark, doc = false, editor = false) {
   // never shown as only its starter's.
   if (p.editedBy) { out.editedBy = p.editedBy; if (p.editedBase) out.editedBase = true; }
   if (p.reply) out.reply = p.reply;
+  // Brought from Notion: the page it came from, so a reader can see it was written there, at its time.
+  if (p.notion) out.notion = p.notion;
   const rx = shapeReactions(p.reactions);
   if (rx) out.reactions = rx;
   if (p.cb && p.cb.messages && p.cb.messages.length) out.cb = shapeCopied(p.cb, who);
@@ -6195,7 +6236,7 @@ function topicAlone(t, mark) { return t.posts.every((p) => p.by === mark); }
 export function shapeTopic(t, cat, who) {
   const mark = authorMark(who), mod = who.role === 'base', editor = forumEditor(who, cat), wiki = !!cat.wiki;
   const out = { id: t.id, cat: shapeForumCat(cat, who), title: t.title, handle: t.handle, base: !!t.base, t: t.t, last: t.last,
-    goes: topicGoes(summaryOf(t), cat), retitle: t.by === mark || editor, mod,
+    goes: topicGoes(summaryOf(t), cat), retitle: t.by === mark || editor, retag: t.by === mark || editor || mod, tags: (t.tags || []).slice(), mod,
     takeDown: mod || (t.by === mark && topicAlone(t, mark)),
     reply: !t.closed || mod, full: t.posts.length >= FORUM_POSTS_MAX,
     posts: t.posts.map((p, i) => shapePost(p, who, mark, wiki && i === 0, editor)) };
@@ -6226,7 +6267,8 @@ export async function forumTemplates(who, s = store(), now = Date.now()) {
     const ts = await Promise.all(live.slice(0, FORUM_TEMPLATES_MAX).map((x) => readTopic(x.id, s)));
     for (const t of ts) {
       const body = t && t.cat === c.slug && t.posts[0] ? withoutPictures(t.posts[0].body) : '';
-      if (body) out.push({ id: t.id, cat: c.slug, title: t.title, body });
+      // A template's tags come with it, so every grant round started from one is tagged alike.
+      if (body) out.push({ id: t.id, cat: c.slug, title: t.title, body, tags: (t.tags || []).slice() });
     }
   }
   return out.sort((a, b) => a.title.localeCompare(b.title)).slice(0, FORUM_TEMPLATES_MAX);
@@ -6261,6 +6303,7 @@ export async function searchForum(who, q, s = store(), now = Date.now()) {
   for (const { t, x, c } of await readableTopics(who, s, now)) {
     if (out.length >= 30) break;
     const texts = [{ post: null, handle: t.handle, text: t.title }];
+    if (t.tags && t.tags.length) texts.push({ post: null, handle: t.handle, text: t.tags.join(' ') });
     t.posts.forEach((p) => {
       if (p.body) texts.push({ post: p.id, handle: p.handle, text: p.body });
       if (p.cb) p.cb.messages.forEach((m) => texts.push({ post: p.id, handle: m.handle, text: m.text }));
@@ -6388,6 +6431,8 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   if (!forumAllows(who, cat, 'start')) return { error: `Only moderators start topics in ${cat.name}. You can reply to any of them.` };
   const title = cleanForumTitle(f.title);
   if (!title) return { error: `Give the topic a title, up to ${FORUM_TITLE_MAX} characters.` };
+  const tags = cleanForumTags(f.tags);
+  if (tags === null) return { error: TAGS_WHY };
   let cb = null;
   if (f.from) {
     const r = await cbTranscript(who, f.from, s, cat);
@@ -6406,6 +6451,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   if (cb) post.cb = cb;
   const topic = { id: newTopicId(), v: 1, cat: cat.slug, title, handle: who.handle, by: authorMark(who), t: now, last: now, lastBy: who.handle, posts: [post] };
   if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
+  if (tags.length) topic.tags = tags;
   // The files go under the topic before the topic does, so no post ever
   // holds one that is not there; the uploads go only once the topic is.
   await keepUploads(topic.id, att.fresh, s);
@@ -6596,10 +6642,19 @@ export async function reactPost(who, id, pid, emoji, s = store(), now = Date.now
 export async function removeTopic(who, id, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
   const mark = authorMark(who);
-  return changeTopic(who, id, now, s, (t) => {
+  let from = null;
+  const r = await changeTopic(who, id, now, s, (t) => {
+    from = t.notion || null;
     if (who.role === 'base' || (t.by === mark && topicAlone(t, mark))) return false;
     return { why: 'Only a moderator can take down a topic other people have posted in. You can take down your own posts.' };
   });
+  // One brought from Notion and taken down here stays down when pages are brought again.
+  if (r.gone && from) await updateList(FORUM_GONE, 'ids', (ids) => (ids.includes(from) ? null : [...ids, from]), s);
+  return r;
+}
+async function readForumGone(s) {
+  const d = await s.get(FORUM_GONE, { type: 'json' });
+  return d && Array.isArray(d.ids) ? d.ids : [];
 }
 
 /* A moderator pinning or unpinning, closing or opening, or moving a topic to
@@ -6628,6 +6683,95 @@ export async function moderateTopic(who, id, f, s = store(), now = Date.now()) {
     }
     return t;
   });
+}
+
+/* A topic's tags, changed by whoever may change its title (its starter, or in
+   a wiki the wiki's editors), or by a moderator. Neither its posts nor its
+   clock move. */
+export async function retagTopic(who, id, f, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  const tags = cleanForumTags(f && f.tags);
+  if (tags === null) return { error: TAGS_WHY };
+  const mark = authorMark(who);
+  return changeTopic(who, id, now, s, (t, cat) => {
+    if (t.by !== mark && !forumEditor(who, cat) && who.role !== 'base') return { why: 'Only whoever started a topic, or a moderator, can change its tags.' };
+    if ((t.tags || []).join(' ') === tags.join(' ')) return null;
+    if (tags.length) t.tags = tags; else delete t.tags;
+    return t;
+  });
+}
+
+/* PAGES BROUGHT FROM NOTION (Ryan's ask, 2026-10-22, for the rounds in
+   Notion's Grants table): a page brought in as a topic whose one post is the
+   page, kept with Notion's id for it, so bringing it again changes that topic
+   rather than starting a second, leaves alone one whose post was edited here,
+   and leaves one taken down here down (its id goes in FORUM_GONE). It keeps
+   the time the page was made, as the topic's and its post's, and who made it,
+   as the CB username the importer names; its mark is that username's as it is
+   claimed now, so they can edit it here, and none when it is not claimed, when
+   only a wiki's editors can. A moderator who may start topics in the category
+   brings it, and refuses a page the category would let go of at once because
+   it is older than the category keeps topics. An import is nobody's news: it
+   tells nobody, and a post that says it came from Notion is shown that way. */
+export async function importTopic(who, f, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: CLAIM };
+  if (who.role !== 'base') return { error: 'Only a moderator brings pages in from Notion.' };
+  f = f || {};
+  const notion = typeof f.notion === 'string' && /^[0-9a-f]{32}$/.test(f.notion) ? f.notion : null;
+  if (!notion) return { error: 'That is not a Notion page id.' };
+  const cat = forumCat(f.cat, now);
+  if (!forumAllows(who, cat)) return { error: 'There is no such category.' };
+  if (cat.shelf || !forumAllows(who, cat, 'start')) return { error: `You cannot start topics in ${cat.name}.` };
+  const title = cleanForumTitle(f.title);
+  if (!title) return { error: `A title is between one and ${FORUM_TITLE_MAX} characters.` };
+  const body = cleanForumBody(f.body, bodyMost(cat, true));
+  if (!body) return { error: `${cat.wiki ? 'A page' : 'A post'} is between one and ${bodyMost(cat, true)} characters.` };
+  const tags = cleanForumTags(f.tags);
+  if (tags === null) return { error: TAGS_WHY };
+  const at = typeof f.t === 'number' && f.t > 0 && f.t <= now ? f.t : null;
+  if (!at) return { error: 'Say when the page was made, no later than now.' };
+  if (!topicLive({ last: at }, cat, now)) return { error: `${cat.name} keeps a topic ${keepOf(cat)} after its last post, so a page made then would go at once.` };
+  const named = cleanHandle(f.by);
+  if (!named) return { error: 'Say who made it, as their username.' };
+  if ((await readForumGone(s)).includes(notion)) return { error: 'That page was brought over and taken down here, so it stays down.' };
+  const acct = await readAccount(named, s);
+  const handle = acct ? acct.handle : named;
+  const mark = acct && acct.since ? authorMark({ handle: acct.handle, since: acct.since }) : null;
+  const mine = (o) => { if (mark) o.by = mark; else delete o.by; return o; };
+  // Brought before: in whichever category it is in now.
+  let found = null;
+  for (const c of forumCatsFor(who, now)) {
+    const x = (await readForumIndex(c.slug, s)).find((y) => y.notion === notion);
+    if (x) { found = x.id; break; }
+  }
+  if (found) {
+    let state = 'changed';
+    const r = await changeTopic(who, found, now, s, (t) => {
+      const p = t.posts[0];
+      if (!p || p.notion !== notion || t.notion !== notion) { state = 'changed here'; return null; }
+      if (p.edited) { state = 'edited here'; return null; }
+      if (t.title === title && p.body === body && p.t === at && t.t === at && p.handle === handle
+        && (t.tags || []).join(' ') === tags.join(' ') && (p.by || null) === mark) { state = 'the same'; return null; }
+      state = 'changed';
+      t.title = title; t.t = at; t.handle = handle; mine(t);
+      p.body = body; p.t = at; p.handle = handle; mine(p);
+      if (tags.length) t.tags = tags; else delete t.tags;
+      return settle(t);
+    });
+    if (r.error) return r;
+    return { topic: r.topic, made: false, state };
+  }
+  if ((await readForumIndex(cat.slug, s)).length >= FORUM_TOPICS_MAX) {
+    return { error: `${cat.name} is full. A moderator has to take some topics down before another fits.` };
+  }
+  const post = mine({ id: newPostId(), handle, t: at, body, notion });
+  const topic = mine({ id: newTopicId(), v: 1, cat: cat.slug, title, handle, t: at, last: at, lastBy: handle, posts: [post], notion });
+  if (tags.length) topic.tags = tags;
+  let clash = false;
+  await updateDoc(topicKey(topic.id), (cur) => { clash = !!cur; return cur ? null : topic; }, s);
+  if (clash) return { error: 'That did not work. Try again.' };
+  await indexTopic(topic, s);
+  return { topic, made: true, state: 'made' };
 }
 
 /* ── The sweep, hourly ──

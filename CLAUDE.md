@@ -5300,6 +5300,22 @@ templates, the other two break the forums' oldest promises. **A wiki's page may 
 20,000** (`bodyMost`, Ryan's call the same day, so board minutes with their transcript go up whole); a reply is never a
 page, and `make-forum.py` refuses `replyTopic` reaching the long limit.
 
+**GRANTMAKING IS NOTION'S GRANTS TABLE, AS TAGGED TOPICS IN A WIKI, NOT A DATABASE.** Ryan's ask, 2026-10-22, after
+"replicating Notion's databases and tables is a big build": every grant round is a topic tagged `grant-round`, Grantmaking
+keeps topics for good and is a wiki for the directors and board (`data/forum.json`), so each can add their name to a
+round's Approvals line as the table's multi-select let them, and a **Grant Round** template in Templates carries the tag.
+**Tags** are `tags` on a topic (`cleanForumTags`, five at most, lower case and hyphens), set when it starts, by a
+template, or by `retagTopic` (its starter, a wiki's editors, a moderator), and `forumCategory(…, tag)` filters by one;
+`tagsOf` lists a category's tags and **never how many carry each**, which `make-forum.py` holds. **`importTopic`** brought
+the table's pages in (`~/Documents/GitHub/Stimpunks-Work/notion-grants-import/`): moderators only, at the page's own time
+and under the username that made it (its mark that account's as claimed now, as `importTaskComment`'s is), the page id kept
+on the topic so a re-run changes it rather than doubling it, one edited here left alone, one taken down here kept down
+(`forum-gone`), refused where the category's keep would let it go at once, and **telling nobody**, so the function never
+sends `import` to `notifyForum`. The friendly edits are **a count beside each tag**, **a structured Approvals field with an
+Approve button**, which is the database build Ryan chose not to make, and **announcing the import**. **Grantmaking names
+applicants and is not sealed the way the office is**: `privacy.html#forums` says so, and a later round could link its
+people's grant requests with `[[grant:…]]` instead of naming them, which is Ryan's call.
+
 **TASKS ARE THE TEAM'S TO-DO LIST, MOVED FROM ESPOCRM IN STAGES, AND NUMBERS BESIDE THINGS ARE FINE IN THEM.** Ryan's
 brief, 2026-10-20: EspoCRM costs $45 a month and is not part of the street, so its tasks come here, iteratively: the
 tasks and their list first, then a board and saved filters, then recurring tasks, then a timeline, all done. `tasks.html` (paperwork

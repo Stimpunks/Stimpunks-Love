@@ -473,6 +473,25 @@
 
   function quiet(text) { return el('p', 'cb-quiet', text); }
 
+  /* A topic's tags, each a link to its category's topics that carry it. */
+  function tagLine(x) {
+    if (!x.tags || !x.tags.length) return null;
+    var slug = x.cat && x.cat.slug ? x.cat.slug : x.cat;
+    var ul = el('ul', 'fm-tags');
+    ul.setAttribute('aria-label', 'Tags');
+    x.tags.forEach(function (t) {
+      var li = el('li');
+      var a = el('a', 'fm-tagchip', t);
+      a.href = '#/c/' + slug + '?tag=' + encodeURIComponent(t);
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+  /* What was typed in a box of tags: commas between them; the server makes the rest lower case and hyphened. */
+  function tagsFrom(v) { return String(v || '').split(/[,\n]+/).map(function (x) { return x.trim(); }).filter(Boolean); }
+  var TAGS_HINT = 'Separate tags with commas. Each is lower case letters, numbers and hyphens, like grant-round; a space becomes a hyphen.';
+
   /* The path to a category, each a link, after `lead`. */
   function crumbs(lead, path, cls) {
     var p = el('p', cls || 'fm-crumbs');
@@ -509,6 +528,8 @@
     if (x.last !== x.t || x.lastBy !== x.handle) meta.appendChild(document.createTextNode(' · latest from ' + x.lastBy + ', ' + when(x.last)));
     else meta.appendChild(document.createTextNode(', ' + when(x.t)));
     li.appendChild(meta);
+    var tl = tagLine(x);
+    if (tl) li.appendChild(tl);
     return li;
   }
   function topicList(list, empty) {
@@ -862,6 +883,14 @@
     link.href = '#/t/' + t.id + '/' + p.id;
     link.setAttribute('aria-label', 'Posted ' + when(p.t) + '. Link to this post.');
     head.appendChild(link);
+    if (p.notion) {
+      var from = el('span', 'fm-post__edited', 'brought from ');
+      var na = el('a', null, 'Notion');
+      na.href = 'https://www.notion.so/' + p.notion;
+      na.setAttribute('aria-label', 'Brought from Notion. Its page there.');
+      from.appendChild(na);
+      head.appendChild(from);
+    }
     if (p.edited && p.editedBy && p.editedBy !== p.handle) {
       var eby = el('span', 'fm-post__edited', 'edited by ');
       eby.appendChild(who(p.editedBy, p.editedBase));
@@ -946,6 +975,17 @@
       title.maxLength = 120;
       title.value = (fresh && fresh.title != null) ? fresh.title : (o.title || '');
       form.appendChild(tl); form.appendChild(title);
+    }
+    var tagsIn = null;
+    if (o.tags !== undefined) {
+      var tgl = el('label', 'cb-lab', 'Tags (you can leave this empty)'); tgl.htmlFor = 'fm-tags';
+      tagsIn = el('input', 'cb-say fm-field');
+      tagsIn.id = 'fm-tags';
+      tagsIn.value = (fresh && fresh.tags != null) ? fresh.tags : (o.tags || []).join(', ');
+      tagsIn.setAttribute('aria-describedby', 'fm-tags-hint');
+      var tgh = el('p', 'cb-quiet fm-hint', TAGS_HINT);
+      tgh.id = 'fm-tags-hint';
+      form.appendChild(tgl); form.appendChild(tagsIn); form.appendChild(tgh);
     }
     if (o.templates && o.templates.length) form.insertBefore(templateRow(), title ? title.previousSibling : null);
     if (o.above) form.appendChild(o.above);
@@ -1282,13 +1322,14 @@
       timer = setTimeout(function () {
         var m = mine();
         if (!text.value.trim() && !(title && title.value.trim())) { if (m.draft && m.draft.key === key) { delete m.draft; keepMine(m); } return; }
-        m.draft = { key: key, body: text.value, title: title ? title.value : null, cat: catSel ? catSel.value : null };
+        m.draft = { key: key, body: text.value, title: title ? title.value : null, cat: catSel ? catSel.value : null, tags: tagsIn ? tagsIn.value : null };
         keepMine(m);
       }, 400);
     }
     function clearDraft() { clearTimeout(timer); var m = mine(); if (m.draft && m.draft.key === key) { delete m.draft; keepMine(m); } }
     text.addEventListener('input', saveDraft);
     if (title) title.addEventListener('input', saveDraft);
+    if (tagsIn) tagsIn.addEventListener('input', saveDraft);
 
     look.addEventListener('click', function () {
       if (!shown.hidden) { shown.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; return; }
@@ -1320,6 +1361,7 @@
       go.disabled = true;
       answer.textContent = o.sending || 'Posting…';
       var v = { body: text.value, title: title ? title.value : undefined, cat: catSel ? catSel.value : undefined, at: mentioned(),
+        tags: tagsIn ? tagsFrom(tagsIn.value) : undefined,
         files: files.map(function (f) { return f.kind === 'pic' && f.alt && f.alt.trim() ? { id: f.id, alt: f.alt.trim() } : { id: f.id }; }) };
       o.send(v).then(function (msg) {
         go.disabled = false;
@@ -1347,6 +1389,8 @@
       function useIt(x) {
         if (title) title.value = x.title;
         text.value = x.body;
+        // Its tags come with it, so every topic started from it is tagged alike.
+        if (tagsIn && x.tags && x.tags.length) tagsIn.value = x.tags.join(', ');
         saveDraft();
         said2.textContent = 'The title and words of “' + x.title + '” are in. Change the title, and fill in the words.';
         if (title) { title.focus(); title.select(); } else text.focus();
@@ -1633,9 +1677,10 @@
     });
   }
 
-  function category(slug) {
+  function category(slug, tagged) {
     blank(null, 'Looking…');
-    return call('view=cat&c=' + encodeURIComponent(slug)).then(function (r) {
+    var tagQ = tagged ? '&tag=' + encodeURIComponent(tagged) : '';
+    return call('view=cat&c=' + encodeURIComponent(slug) + tagQ).then(function (r) {
       if (r.status !== 200) {
         if (r.status === 404) { took(r); drawSide(null); var h0 = heading(2, 'No such category'); blank(h0, why(r, 'There is no such category.')); return h0; }
         return refused(r);
@@ -1675,11 +1720,30 @@
         view.appendChild(ul);
         view.appendChild(el('h3', 'cb-h fm-group', 'Topics in all of it'));
       }
-      view.appendChild(topicList(r.body.topics, 'Nothing here yet.'));
+      // The tags its topics carry, to show only the ones carrying one; never how many.
+      if (r.body.tags && r.body.tags.length) {
+        var tf = el('nav', 'fm-tagfilter');
+        tf.setAttribute('aria-label', 'Tags');
+        tf.appendChild(el('p', 'cb-lab', 'Tags'));
+        var tu = el('ul', 'fm-tags');
+        [''].concat(r.body.tags).forEach(function (x) {
+          var li = el('li');
+          var a = el('a', 'fm-tagchip', x || 'Every topic');
+          a.href = '#/c/' + c.slug + (x ? '?tag=' + encodeURIComponent(x) : '');
+          if ((r.body.tag || '') === x) a.setAttribute('aria-current', 'page');
+          li.appendChild(a);
+          tu.appendChild(li);
+        });
+        tf.appendChild(tu);
+        view.appendChild(tf);
+      }
+      if (r.body.tag) view.appendChild(el('p', 'fm-lede', 'Only the topics tagged ' + r.body.tag + '.'));
+      else if (tagged) view.appendChild(el('p', 'fm-lede', 'No topic here is tagged ' + tagged + '.'));
+      view.appendChild(topicList(r.body.topics, r.body.tag ? 'No topic here carries that tag.' : 'Nothing here yet.'));
       var older = null;
       if (r.body.more) {
         var rest = r.body.topics.filter(function (x) { return !(x.pinned && x.cat === c.slug); });
-        if (rest.length) older = more(view, 'view=cat&c=' + encodeURIComponent(c.slug), rest[rest.length - 1].last, c.slug, step.kept('older'));
+        if (rest.length) older = more(view, 'view=cat&c=' + encodeURIComponent(c.slug) + tagQ, rest[rest.length - 1].last, c.slug, step.kept('older'));
       }
       return Promise.resolve(older).then(function () { return h; });
     });
@@ -1700,8 +1764,10 @@
     if (t.pinned) meta.appendChild(tag('PINNED', true));
     if (t.closed) meta.appendChild(tag('CLOSED', true));
     view.appendChild(meta);
+    var tl = tagLine(t);
+    if (tl) view.appendChild(tl);
     view.appendChild(quiet(goesWords(t)));
-    if (t.mod || t.takeDown) view.appendChild(topicTools(t));
+    if (t.mod || t.takeDown || t.retag) view.appendChild(topicTools(t));
     t.posts.forEach(function (p, i) { view.appendChild(postOf(t, p, i)); });
     if (!t.posts.length) view.appendChild(quiet('Every post in this topic has been taken down.'));
     // Linked from: the topics, and for staff the tasks and the office's records, that link here (links.js).
@@ -1757,6 +1823,22 @@
       var mv = el('button', 'cb-btn fm-small', 'Move'); mv.type = 'button';
       mv.addEventListener('click', function () { act({ action: 'moderate', t: t.id, move: ms.value }, 'Moved.'); });
       if (ms.children.length) { box2.appendChild(ml); box2.appendChild(ms); box2.appendChild(mv); }
+    }
+    if (t.retag) {
+      var rt = el('div', 'fm-retag');
+      var rl = el('label', 'cb-lab', 'Tags'); rl.htmlFor = 'fm-retag';
+      var ri = el('input', 'cb-say fm-field');
+      ri.id = 'fm-retag';
+      ri.value = (t.tags || []).join(', ');
+      ri.setAttribute('aria-describedby', 'fm-retag-hint');
+      var rb = el('button', 'cb-btn fm-small', 'Save the tags'); rb.type = 'button';
+      rb.addEventListener('click', function () { act({ action: 'tag', t: t.id, tags: tagsFrom(ri.value) }, 'Tags saved.'); });
+      var rh = el('p', 'cb-quiet fm-hint', TAGS_HINT);
+      rh.id = 'fm-retag-hint';
+      var rrow = el('div', 'fm-tpl__row');
+      rrow.appendChild(ri); rrow.appendChild(rb);
+      rt.appendChild(rl); rt.appendChild(rrow); rt.appendChild(rh);
+      box2.appendChild(rt);
     }
     if (t.takeDown) {
       var down = el('button', 'cb-btn fm-small', 'Take the topic down'); down.type = 'button';
@@ -1873,11 +1955,11 @@
       }
       var f = composer({
         key: 'new:' + (q.from || '') + ':' + (q.ids || ''), cats: startable, cat: inCat && startIn(catOf(inCat)) ? startIn(catOf(inCat)).slug : inCat, title: '', above: above,
-        templates: templates,
+        templates: templates, tags: [],
         people: from && rs[3].status === 200 ? rs[3].body.cb.messages.map(function (m) { return m.handle; }) : [],
         label: from ? 'Anything you want to add (you can leave this empty)' : 'Your post', go: 'Start the topic', sending: 'Starting it…',
         send: function (v) {
-          var b = { action: 'start', cat: v.cat, title: v.title, body: v.body, files: v.files, at: v.at };
+          var b = { action: 'start', cat: v.cat, title: v.title, body: v.body, files: v.files, at: v.at, tags: v.tags };
           if (from) b.from = from;
           return call(null, b).then(function (r2) {
             if (r2.status !== 200) return why(r2, 'That did not post. Nothing was changed.');
@@ -1914,7 +1996,7 @@
     if (!cbState()) done = Promise.resolve(guest());
     else if (!parts.length) done = home();
     else if (parts[0] === 'latest') done = latest();
-    else if (parts[0] === 'c' && parts[1]) done = category(parts[1]);
+    else if (parts[0] === 'c' && parts[1]) done = category(parts[1], q.tag || null);
     else if (parts[0] === 't' && parts[1]) done = topic(parts[1], parts[2] || null);
     else if (parts[0] === 'new') done = newTopic(q);
     else if (parts[0] === 'search' && q.q) done = search(q.q);
