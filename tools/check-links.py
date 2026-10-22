@@ -122,6 +122,23 @@ def check_pages():
     for page in ("tasks.js", "office.js", "forum.js"):
         if "window.loveLinks.mentions(" not in code((ROOT / page).read_text()):
             problems.append(f"{page}: it does not draw @mentions with links.js.")
+    # THE FORMATTING TOOLBAR (2026-10-22): the box stays plain text, nothing is built from a string or kept or sent,
+    # a link is only ever an address a link may go to, and every page with a Markdown box loads it.
+    fm = code((ROOT / "format.js").read_text()) if (ROOT / "format.js").exists() else ""
+    for bad in ("innerHTML", "outerHTML", "insertAdjacentHTML", "contenteditable", "contentEditable", "DOMParser"):
+        if bad in fm:
+            problems.append(f"format.js: {bad}. The box stays a plain text box, and nothing is built from a string.")
+    if re.search(r"localStorage|sessionStorage|indexedDB|\bfetch\(|XMLHttpRequest|sendBeacon", fm):
+        problems.append("format.js: it keeps something or talks to a server.")
+    if "execCommand('insertText'" not in fm or "setAttribute('role', 'toolbar')" not in fm:
+        problems.append("format.js: it is not a toolbar, or its changes do not go through the browser's own undo.")
+    if "if (!to) {" not in fm:
+        problems.append("format.js: a link is made without asking whether its address is one a link may go to.")
+    for page, app in (("tasks.html", "tasks.js"), ("office.html", "office.js"), ("forum.html", "forum.js")):
+        html = (ROOT / page).read_text()
+        at = [html.find(f'<script src="{x}" defer></script>') for x in ("format.js", app)]
+        if min(at) < 0 or at != sorted(at):
+            problems.append(f"{page}: it must load format.js before {app}.")
     md = code((ROOT / "markdown.js").read_text())
     if "n.t === 'ref'" not in md:
         problems.append("markdown.js: it does not draw a link to a task, a topic or a record.")

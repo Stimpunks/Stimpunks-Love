@@ -537,8 +537,9 @@
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.notesMax; text.value = c ? c.notes : '';
     field('of-notes', 'Notes', text);
     window.loveLinks.attach(text, { ask: findLinks, said: say });
+    window.loveFormat.toolbar(text, { p: 'of', said: say, checklist: true });
     text.setAttribute('aria-describedby', 'of-notes-hint');
-    var hint = el('p', 'cb-quiet of-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    var hint = el('p', 'cb-quiet of-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
     hint.id = 'of-notes-hint';
     form.appendChild(hint);
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
@@ -1104,8 +1105,9 @@
     var formNo = el('input', 'cb-say of-input'); formNo.type = 'number'; formNo.min = '1'; formNo.step = '1'; formNo.value = g && g.form ? String(g.form) : '';
     field('of-gform', 'Form entry', formNo, 'Its number on stimpunks.org, if it came in through a form.');
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.grantBodyMax; text.value = g ? g.body : '';
-    field('of-gbody', 'Description', text, 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    field('of-gbody', 'Description', text, 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
     window.loveLinks.attach(text, { ask: findLinks, said: say });
+    window.loveFormat.toolbar(text, { p: 'of', said: say });
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
     form.appendChild(preview);
     var row = el('div', 'of-row');
@@ -1515,8 +1517,9 @@
     var formNo = el('input', 'cb-say of-input'); formNo.type = 'number'; formNo.min = '1'; formNo.step = '1'; formNo.value = k && k.form ? String(k.form) : '';
     field('of-kform', 'Form entry', formNo, 'Its number on stimpunks.org, if it came in through a form.');
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.caseBodyMax; text.value = k ? k.body : '';
-    field('of-kbody', 'Description', text, 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    field('of-kbody', 'Description', text, 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
     window.loveLinks.attach(text, { ask: findLinks, said: say });
+    window.loveFormat.toolbar(text, { p: 'of', said: say });
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
     form.appendChild(preview);
     var row = el('div', 'of-row');
@@ -1633,7 +1636,7 @@
 
   // The comments of the record on the page, kept while it is redrawn by Move to.
   var talked = { id: null, list: null };
-  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
   function commentsFor(id, landOn) {
     return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,

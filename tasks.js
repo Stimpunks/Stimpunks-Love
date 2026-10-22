@@ -1428,7 +1428,7 @@
   /* What comments.js needs for this task's comments: tasks.js's own words,
      classes and way of asking /cb/tasks. */
   var talkNow = null;
-  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
   /* An @mention of somebody tasks can be assigned to, drawn as their name,
      which opens their profile (links.js): the people a description or a
      comment tells. */
@@ -1686,7 +1686,8 @@
       text.setAttribute('aria-describedby', 'tk-body-hint');
       window.loveLinks.attach(text, { ask: findLinks, said: say });
       window.loveLinks.people(text, { people: function () { return people; }, me: me ? me.handle : '', said: say });
-      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, and [[ and part of a name to link a task, a forum topic or a record of the office.');
+      window.loveFormat.toolbar(text, { p: 'tk', said: say, checklist: true });
+      var hint = el('p', 'cb-quiet tk-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, and [[ and part of a name to link a task, a forum topic or a record of the office.');
       hint.id = 'tk-body-hint';
       form.appendChild(hint);
       var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;

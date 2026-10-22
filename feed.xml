@@ -9,31 +9,38 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Thu, 22 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Buttons for formatting, and links without Markdown</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-22-formatting-buttons</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-formatting-buttons</guid>
+      <pubDate>Thu, 22 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Every Markdown box in the forums, Tasks and the office has buttons over it, for the many of us who would rather not write Markdown: Bold, Italic, Link, List, Numbered, Checklist where it fits, Quote, Heading and Code, with Ctrl or Cmd and B, I or K. To make a link, highlight the words and press Link, then give the address; or paste an address over the highlighted words. The CB guide has the rest.</description>
+    </item>
+    <item>
       <title>The office’s Newest, by the day they were submitted</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-dashboard-newest-by-submitted</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-dashboard-newest-by-submitted</guid>
-      <pubDate>Thu, 22 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:59:00 GMT</pubDate>
       <description>The grant requests and cases under Newest on the office’s dashboard are the ones submitted last. They were the ones added last, and a batch brought over from EspoCRM had put requests from 2023 at the top.</description>
     </item>
     <item>
       <title>The forums’ @ list offers more people</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-forum-mentions-offer-more</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-forum-mentions-offer-more</guid>
-      <pubDate>Thu, 22 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:58:00 GMT</pubDate>
       <description>Typing @ in the forums offers anybody who started or last posted in a topic you can read, as well as the topic’s own people and anybody on Who’s online, so a new topic, or one only you have posted in, offers names too. If you can open Tasks, it offers everybody Tasks can assign. They are names you can already see on Latest; there is still no list of every username.</description>
     </item>
     <item>
       <title>Tasks and the office, for the board too</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-tasks-and-office-for-the-board</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-tasks-and-office-for-the-board</guid>
-      <pubDate>Thu, 22 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:57:00 GMT</pubDate>
       <description>Everybody on the board can open the office and Tasks, as our directors and administrators could, and can be given a task. They share one rule, so the one change opens both. Privacy and the CB guide say so.</description>
     </item>
     <item>
       <title>Moderator, shown as a role on the desk</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-moderator-on-the-desk</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-22-moderator-on-the-desk</guid>
-      <pubDate>Thu, 22 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Thu, 22 Oct 2026 11:56:00 GMT</pubDate>
       <description>The roles on the desk in the Moderators’ room start with Moderator, ticked for everybody on the list, and the button puts somebody on the list as a moderator, so a moderator who is not a director, on the board or an administrator is one press: their username, nothing else ticked.</description>
     </item>
     <item>

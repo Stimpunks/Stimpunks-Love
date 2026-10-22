@@ -328,3 +328,16 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 }
 .tk-at--me { border-bottom: 2px solid var(--cb-amber); text-decoration: none; }
 .tk-peek .tk-at { cursor: default; }
+
+/* THE FORMATTING TOOLBAR (format.js): a row of word buttons over the box, in
+   the radio's own button, and the link form under it on the case's own
+   ground; nothing here brings a colour the radio has not measured. */
+.tk-fmt { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
+.tk .cb-btn.tk-fmt__btn { min-height: 36px; padding: 4px 10px; }
+.tk-fmtlink { display: grid; gap: 8px; margin: 0 0 8px; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
+.tk-fmtlink__field { display: grid; gap: 2px; }
+.tk-fmtlink__in { display: block; width: 100%; }
+.tk-fmtlink__row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tk-fmtlink__note { font-size: 14px; }
+.tk-fmtlink__wrong:empty { display: none; }
+.tk-fmtlink__wrong { font-weight: 700; }

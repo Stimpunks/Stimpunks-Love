@@ -53,6 +53,8 @@
       } });
       if (o.people) window.loveLinks.people(text, { people: o.people, me: o.me, said: o.said });
     }
+    // Buttons for Bold, Italic, Link and the rest, over the box (format.js).
+    if (window.loveFormat) window.loveFormat.toolbar(text, { p: p, said: o.said });
     function unlook() { preview.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; }
     look.addEventListener('click', function () {
       if (!preview.hidden) { unlook(); return; }

@@ -973,7 +973,9 @@
     form.appendChild(pick);
     // [[ links a forum topic, and for staff a task or a record of the office (links.js).
     window.loveLinks.attach(text, { ask: findLinks, said: say, after: function () { saveDraft(); } });
-    var hint = el('p', 'cb-quiet fm-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A link on a line of its own becomes a preview, which our server makes by reading that page once. Paste a screenshot into the box, or drop a picture on it, to have it stand right there in the words. Type @ and a name to mention somebody: if they asked to be told, they are. Type [[ and part of a title to link another topic: everybody who can read it sees its title.');
+    // Buttons for Bold, Italic, Link and the rest, over the box (format.js).
+    window.loveFormat.toolbar(text, { p: 'fm', said: say });
+    var hint = el('p', 'cb-quiet fm-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A link on a line of its own becomes a preview, which our server makes by reading that page once. Paste a screenshot into the box, or drop a picture on it, to have it stand right there in the words. Type @ and a name to mention somebody: if they asked to be told, they are. Type [[ and part of a title to link another topic: everybody who can read it sees its title.');
     hint.id = tid + '-hint';
     form.appendChild(hint);
 

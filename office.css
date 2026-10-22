@@ -308,3 +308,16 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 }
 .of-at--me { border-bottom: 2px solid var(--cb-amber); text-decoration: none; }
 .of-peek .of-at { cursor: default; }
+
+/* THE FORMATTING TOOLBAR (format.js): a row of word buttons over the box, in
+   the radio's own button, and the link form under it on the case's own
+   ground; nothing here brings a colour the radio has not measured. */
+.of-fmt { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 6px; }
+.of .cb-btn.of-fmt__btn { min-height: 36px; padding: 4px 10px; }
+.of-fmtlink { display: grid; gap: 8px; margin: 0 0 8px; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
+.of-fmtlink__field { display: grid; gap: 2px; }
+.of-fmtlink__in { display: block; width: 100%; }
+.of-fmtlink__row { display: flex; flex-wrap: wrap; gap: 6px; }
+.of-fmtlink__note { font-size: 14px; }
+.of-fmtlink__wrong:empty { display: none; }
+.of-fmtlink__wrong { font-weight: 700; }
