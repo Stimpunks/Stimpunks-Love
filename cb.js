@@ -495,9 +495,83 @@
     b.href = l.to.path;
     return b;
   }
+  /* LINKS TO TASKS, TOPICS AND THE OFFICE'S RECORDS (Ryan's ask, 2026-10-21,
+     after Notion's): [[task:<id>]], typed by picking from the [[ menu
+     (links.js), is drawn with the name /cb/links gives this reader, linked, or
+     as words saying it is one they can't open. The words never carry the name,
+     so nobody who can't open it is told it; each name is asked once and kept
+     while the page is open. A chat leaves no backlink (lib.mjs, links). */
+  var LINK_TOKEN = /\[\[(task|topic|grant|case|contact):([A-Za-z0-9_-]{13})\]\]/g;
+  var LINK_KIND = { task: 'Task', topic: 'Forum topic', grant: 'Grant request', 'case': 'Case', contact: 'Contact' };
+  var LINK_WORDS = { task: 'a task', topic: 'a forum topic', grant: 'a grant request', 'case': 'a case', contact: 'a contact' };
+  var linkNames = {}, linkEls = [], linkWant = {}, linkTimer = 0;
+  function linkEl(kind, id) {
+    var e = el('span', 'cb-ref'), key = kind + ':' + id;
+    e.setAttribute('data-ref', key);
+    fillLink(e);
+    linkEls.push(e);
+    if (!(key in linkNames)) { linkWant[key] = 1; clearTimeout(linkTimer); linkTimer = setTimeout(askLinks, 60); }
+    return e;
+  }
+  function fillLink(e) {
+    var key = e.getAttribute('data-ref'), kind = key.split(':')[0], n = linkNames[key], words = LINK_WORDS[kind];
+    e.textContent = '';
+    e.className = 'cb-ref';
+    if (n && n.name && typeof n.href === 'string' && /^\/[a-z-]+\.html#\//.test(n.href)) {
+      var a = el('a', 'cb-md-a cb-ref__a');
+      a.href = n.href;
+      a.appendChild(el('span', 'cb-ref__kind', LINK_KIND[kind] + ': '));
+      a.appendChild(document.createTextNode(n.name));
+      e.appendChild(a);
+    } else {
+      e.className = 'cb-ref cb-ref--shut';
+      e.textContent = n && n.gone ? words + (kind === 'topic' ? ' that has gone' : ' since deleted') : n && n.shut ? words + ' you can’t open' : words;
+    }
+  }
+  function askLinks() {
+    var keys = Object.keys(linkWant).slice(0, 50), s = load();
+    linkWant = {};
+    if (!keys.length || !s) return;
+    call('/cb/links', { body: { action: 'names', refs: keys } }, s.pass).then(function (r) {
+      var names = r.status === 200 && r.body && r.body.names ? r.body.names : null;
+      keys.forEach(function (k) { linkNames[k] = names ? (names[k] || { shut: true }) : null; });
+      linkEls = linkEls.filter(function (e) { return e.isConnected; });
+      linkEls.forEach(function (e) { if (keys.indexOf(e.getAttribute('data-ref')) >= 0) fillLink(e); });
+    }, function () {});
+  }
+  /* The [[ menu on a message box, once links.js is here; it asks /cb/links. */
+  var linksAsked = false;
+  function withLinks(then) {
+    if (window.loveLinks) { then(); return; }
+    var s = document.createElement('script');
+    s.src = '/links.js';
+    s.addEventListener('load', function () { if (window.loveLinks) then(); });
+    if (!linksAsked) { linksAsked = true; document.head.appendChild(s); }
+    else setTimeout(function () { withLinks(then); }, 200);
+  }
+  function linkBox(box, said) {
+    withLinks(function () {
+      window.loveLinks.attach(box, { above: true, said: said, ask: function (q) {
+        var st = load();
+        if (!st) return Promise.resolve([]);
+        return call('/cb/links', { body: { action: 'find', q: q } }, st.pass).then(function (r) { return r.status === 200 && r.body ? r.body.found || [] : []; });
+      } });
+    });
+  }
+
   // Text with any [words](address) links in it; everything between them goes
-  // on to streetLinks as it always did.
+  // on to streetLinks as it always did. A [[link]] to a task, a topic or a
+  // record is taken out first.
   function mdLinks(parent, text) {
+    var at = 0, m, re = new RegExp(LINK_TOKEN.source, 'g');
+    while ((m = re.exec(text))) {
+      if (m.index > at) wordLinks(parent, text.slice(at, m.index));
+      parent.appendChild(linkEl(m[1], m[2]));
+      at = m.index + m[0].length;
+    }
+    if (at < text.length) wordLinks(parent, text.slice(at));
+  }
+  function wordLinks(parent, text) {
     var links = mdLinksIn(text), at = 0;
     for (var i = 0; i < links.length; i++) {
       if (links[i].at > at) streetLinks(parent, text.slice(at, links[i].at));
@@ -572,7 +646,8 @@
   function kept(text) {
     var out = awayAt(text).map(function (w) { return [w.at, w.end]; })
       .concat(mdLinksIn(text).map(function (l) { return [l.at, l.end]; }));
-    var m, re = new RegExp(STREET.source, 'gi'), st = new RegExp(STAMP.source, 'g');
+    var m, re = new RegExp(STREET.source, 'gi'), st = new RegExp(STAMP.source, 'g'), lk = new RegExp(LINK_TOKEN.source, 'g');
+    while ((m = lk.exec(text))) out.push([m.index, m.index + m[0].length]);
     while ((m = re.exec(text))) out.push([m.index, m.index + m[0].length]);
     while ((m = st.exec(text))) {
       var end = m.index + m[0].length, n = text.slice(end).match(NAMED);
@@ -1417,7 +1492,7 @@
     // In the form, hidden: a file input outside the document is one some
     // browsers will not open a picker for.
     form.appendChild(picFile);
-    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, or # and a room. Paste a picture to add it.');
+    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, # and a room, or [[ and part of a name to link a forum topic, or for staff a task or a record of the office. Paste a picture to add it.');
     hint.id = 'cb-say-hint';
     /* The picture waiting to go is above the box, where Discord puts one:
        you see it, say what is in it, write the message and send, in that
@@ -1431,6 +1506,7 @@
     form.appendChild(row);
     form.appendChild(stickBox);
     chanSec.appendChild(form);
+    linkBox(say, function (t) { me.tell(t); });
 
     var film = el('div', 'cb-tools cb-film');
     var tools = el('div', 'cb-tools');
@@ -6075,7 +6151,7 @@
     say.autocomplete = 'off';
     sendBox(say, 'send');
     say.setAttribute('aria-describedby', 'cb-dm-hint');
-    var hint = el('p', 'cb-hint', enterHint('Send', 'sends') + ' Markdown works, as on the channel. Once you are both talking, paste a picture to add it.');
+    var hint = el('p', 'cb-hint', enterHint('Send', 'sends') + ' Markdown works, as on the channel, and so does [[ for a link. Once you are both talking, paste a picture to add it.');
     hint.id = 'cb-dm-hint';
     var send = el('button', 'cb-btn cb-send', 'Send');
     send.type = 'submit';
@@ -6144,6 +6220,7 @@
     form.appendChild(frow);
     form.appendChild(stickBox);
     talk.appendChild(form);
+    linkBox(say, function (t) { if (me.dmSaid) me.dmSaid.textContent = t; });
     this.dmBlockRow = el('div', 'cb-dm-block');
     talk.appendChild(this.dmBlockRow);
     box.appendChild(talk);
@@ -8195,6 +8272,7 @@
     if (said) { said.hidden = true; said.after(box); }
     else li.appendChild(box);
     this.editing = { id: id, li: li, box: box, say: t };
+    linkBox(t, function (w) { me.tell(w); });
     t.focus();
     t.setSelectionRange(t.value.length, t.value.length);
     this.grow(t);

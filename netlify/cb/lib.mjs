@@ -889,11 +889,12 @@ async function updateList(key, field, change, s, tries = 12) {
   for (let attempt = 0; attempt < tries; attempt++) {
     const cur = await versioned(s, key);
     const list = ((cur.exists && cur.data && cur.data[field]) || []).slice();
+    const was = linksBefore(key, list);
     const next = change(list);
     if (next === null) return list;
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
     const res = await s.setJSON(key, { [field]: next }, opts);
-    if (res.modified) return next;
+    if (res.modified) { await linksAfter(key, was, next, s); return next; }
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
@@ -4884,8 +4885,10 @@ export function brassHref(u) {
   return v;                                                   // /a-room.html, #a-post, a-room.html
 }
 
-/* Inline Markdown into nodes: text, b, i, s, code, a, br. */
-function brassInline(src, depth = 0) {
+/* Inline Markdown into nodes: text, b, i, s, code, a, br, and, where the
+   caller asks (ctx.refs), ref: a link to a task, a topic or a record of the
+   office, [[task:<id>]], which a page draws with the name its reader may see. */
+function brassInline(src, depth = 0, ctx = null) {
   const out = [];
   let buf = '';
   const flush = () => { if (buf) { out.push({ t: 'text', v: buf }); buf = ''; } };
@@ -4902,6 +4905,10 @@ function brassInline(src, depth = 0) {
       buf += run; i += run.length; continue;
     }
     if (c === '!' && src[i + 1] === '[') { buf += '!'; i++; continue; }  // no pictures from elsewhere: the link stays
+    if (c === '[' && src[i + 1] === '[' && ctx && ctx.refs) {
+      const r = LINK_AT.exec(src.slice(i));
+      if (r && LINK_KINDS[r[1]].ok(r[2])) { push({ t: 'ref', kind: r[1], id: r[2] }); i += r[0].length; continue; }
+    }
     if (c === '[' && depth < 4) {
       const close = matchBracket(src, i);
       if (close > 0 && src[close + 1] === '(') {
@@ -4909,7 +4916,7 @@ function brassInline(src, depth = 0) {
         if (pe > 0) {
           const target = src.slice(close + 2, pe).trim().replace(/\s+"[^"]*"$/, '');
           const href = brassHref(target.replace(/^<(.*)>$/, '$1'));
-          if (href) { push({ t: 'a', href, c: brassInline(src.slice(i + 1, close), depth + 1) }); i = pe + 1; continue; }
+          if (href) { push({ t: 'a', href, c: brassInline(src.slice(i + 1, close), depth + 1, ctx) }); i = pe + 1; continue; }
         }
       }
     }
@@ -4934,7 +4941,7 @@ function brassInline(src, depth = 0) {
       if (delim && !intraword && src[i + delim.length] && !/\s/.test(src[i + delim.length])) {
         let j = src.indexOf(delim, i + delim.length + 1);
         while (j > 0 && (/\s/.test(src[j - 1]) || (kind === 'i' && src[j + 1] === c) || (c === '_' && /\w/.test(src[j + delim.length] || '')))) j = src.indexOf(delim, j + 1);
-        if (j > 0) { push({ t: kind, c: brassInline(src.slice(i + delim.length, j), depth + 1) }); i = j + delim.length; continue; }
+        if (j > 0) { push({ t: kind, c: brassInline(src.slice(i + delim.length, j), depth + 1, ctx) }); i = j + delim.length; continue; }
       }
     }
     buf += c; i++;
@@ -4979,7 +4986,7 @@ function brassBlocks(lines, depth = 0, ctx = null) {
       continue;
     }
     if ((m = /^ {0,3}(#{1,6})\s+(.*?)\s*#*\s*$/.exec(line)) || (m = /^ {0,3}(#{1,6})$/.exec(line))) {
-      out.push({ t: 'h', level: m[1].length, c: brassInline(m[2] || '', 0) });
+      out.push({ t: 'h', level: m[1].length, c: brassInline(m[2] || '', 0, ctx) });
       i++; continue;
     }
     if (/^ {0,3}([-*_])( *\1){2,} *$/.test(line)) { out.push({ t: 'hr' }); i++; continue; }
@@ -4989,7 +4996,7 @@ function brassBlocks(lines, depth = 0, ctx = null) {
         body.push(lines[i].replace(/^ {0,3}> ?/, ''));
         i++;
       }
-      out.push({ t: 'quote', c: depth < 8 ? brassBlocks(body, depth + 1, ctx) : [{ t: 'p', c: brassInline(body.join('\n')) }] });
+      out.push({ t: 'quote', c: depth < 8 ? brassBlocks(body, depth + 1, ctx) : [{ t: 'p', c: brassInline(body.join('\n'), 0, ctx) }] });
       continue;
     }
     if (line.includes('|') && i + 1 < lines.length && /^\s*\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?\s*$/.test(lines[i + 1]) && lines[i + 1].includes('-')) {
@@ -4999,7 +5006,7 @@ function brassBlocks(lines, depth = 0, ctx = null) {
       const rows = [];
       while (i < lines.length && lines[i].trim() && lines[i].includes('|')) rows.push(tableCells(lines[i++]));
       out.push({ t: 'table', align: head.map((_, k) => align[k] || ''),
-        head: head.map((c) => brassInline(c)), rows: rows.map((r) => head.map((_, k) => brassInline(r[k] || ''))) });
+        head: head.map((c) => brassInline(c, 0, ctx)), rows: rows.map((r) => head.map((_, k) => brassInline(r[k] || '', 0, ctx))) });
       continue;
     }
     if ((m = LIST_ITEM.exec(line))) {
@@ -5012,7 +5019,7 @@ function brassBlocks(lines, depth = 0, ctx = null) {
         const indent = it[1].length + it[2].length + it[3].length;
         const body = [it[4]];
         // A checkbox, "- [ ]" or "- [x]", where the caller asks for them (tasks): numbered in the order it is met.
-        const bx = ctx && /^\[([ xX])\](?: +(.*)|$)/.exec(it[4]);
+        const bx = ctx && ctx.boxes && /^\[([ xX])\](?: +(.*)|$)/.exec(it[4]);
         if (bx) { body[0] = bx[2] || ''; boxes.push({ n: ctx.boxes.length, on: bx[1] !== ' ', raw: (bx[2] || '').trim() }); ctx.boxes.push((bx[2] || '').trim()); }
         else boxes.push(null);
         i++;
@@ -5027,7 +5034,7 @@ function brassBlocks(lines, depth = 0, ctx = null) {
           if (LIST_ITEM.test(next) || isBlockStart(next)) break;
           body.push(next); i++;                                   // a lazy continuation line
         }
-        items.push(depth < 8 ? brassBlocks(body, depth + 1, ctx) : [{ t: 'p', c: brassInline(body.join('\n')) }]);
+        items.push(depth < 8 ? brassBlocks(body, depth + 1, ctx) : [{ t: 'p', c: brassInline(body.join('\n'), 0, ctx) }]);
         while (i < lines.length && !lines[i].trim() && i + 1 < lines.length && LIST_ITEM.test(lines[i + 1])) i++;
       }
       const list = ordered ? { t: 'ol', start, items } : { t: 'ul', items };
@@ -5037,13 +5044,16 @@ function brassBlocks(lines, depth = 0, ctx = null) {
     }
     const para = [];
     while (i < lines.length && lines[i].trim() && !(para.length && isBlockStart(lines[i]))) para.push(lines[i++].trim());
-    out.push({ t: 'p', c: brassInline(para.join('\n')) });
+    out.push({ t: 'p', c: brassInline(para.join('\n'), 0, ctx) });
   }
   return out;
 }
 
+/* opts: { boxes } for a task's checkboxes, { refs } for links to tasks,
+   topics and the office's records, which every page with them names per reader. */
 export function parseBrass(body, opts = null) {
-  return brassBlocks(String(body || '').split('\n'), 0, opts && opts.boxes ? { boxes: [] } : null);
+  const ctx = opts && (opts.boxes || opts.refs) ? { boxes: opts.boxes ? [] : null, refs: !!opts.refs } : null;
+  return brassBlocks(String(body || '').split('\n'), 0, ctx);
 }
 
 /* A task's checkboxes, two ways: the reader's, in the order they are drawn,
@@ -5810,12 +5820,13 @@ function updateForumIndex(slug, change, s) { return updateList(catKey(slug), 'to
 async function updateDoc(key, change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
     const cur = await versioned(s, key);
+    const was = linksBefore(key, cur.exists ? cur.data : null);
     const next = change(cur.exists ? cur.data : null);
     if (next === null) return cur.exists ? cur.data : null;
-    if (next === false) { if (cur.exists) await s.delete(key); return null; }
+    if (next === false) { if (cur.exists) { await s.delete(key); await linksAfter(key, was, null, s); } return null; }
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
     const res = await s.setJSON(key, next, opts);
-    if (res.modified) return next;
+    if (res.modified) { await linksAfter(key, was, next, s); return next; }
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
@@ -5969,7 +5980,7 @@ function shapeCopied(cb, who) {
   return { room: cb.room || null, day: cb.day,
     messages: cb.messages.map((m) => {
       const out = { id: m.id, handle: m.handle, base: !!m.base, claimed: !!m.claimed && !m.base, t: m.t,
-        blocks: parseBrass(m.text), takeOut: canTakeOff(who, m) };
+        blocks: parseBrass(m.text, { refs: true }), takeOut: canTakeOff(who, m) };
       if (typeof m.edited === 'number') out.edited = m.edited;
       return out;
     }) };
@@ -6021,7 +6032,7 @@ function shapePost(p, who, mark, doc = false, editor = false) {
   const placed = new Set();
   const pics = new Map((p.files || []).filter((f) => f.kind === 'pic').map((f) => [f.id, f.alt || '']));
   const out = { id: p.id, handle: p.handle, base: !!p.base, t: p.t, body: p.body || '',
-    blocks: placePictures(withPreviews(parseBrass(p.body || ''), p.links), pics, placed), edit: p.by === mark || (doc && editor),
+    blocks: placePictures(withPreviews(parseBrass(p.body || '', { refs: true }), p.links), pics, placed), edit: p.by === mark || (doc && editor),
     takeDown: !doc && (p.by === mark || who.role === 'base') };
   if (doc) out.wiki = true;
   if (typeof p.edited === 'number') out.edited = p.edited;
@@ -6493,6 +6504,7 @@ export async function sweepForum(s = store(), now = Date.now()) {
       if (t && t.cat !== c.slug) { drop.add(x.id); continue; }
       await s.delete(topicKey(x.id));
       await dropTopicFiles(x.id, s);
+      await dropLinksFrom(`post:${x.id}/`, false, s);
       drop.add(x.id);
     }
     if (drop.size) await updateForumIndex(c.slug, (l) => (l.some((x) => drop.has(x.id)) ? l.filter((x) => !drop.has(x.id)) : null), s);
@@ -6503,7 +6515,7 @@ export async function sweepForum(s = store(), now = Date.now()) {
     if (!t) continue;
     const c = forumCat(t.cat, now);
     if (topicLive(summaryOf(t), c, now)) { if (c) await indexTopic(t, s); }
-    else { await s.delete(topicKey(id)); await dropTopicFiles(id, s); }
+    else { await s.delete(topicKey(id)); await dropTopicFiles(id, s); await dropLinksFrom(`post:${id}/`, false, s); }
   }
   await sweepForumFiles(there, s, now);
 }
@@ -7173,7 +7185,7 @@ async function tellDevices(msg, room, before, s, mods, send, to = null) {
     if (!followed && !named && !answered) continue;
     let text = '';
     if (w.words !== false) {
-      text = String(msg.text || '').replace(/\s+/g, ' ').trim();
+      text = linkWords(msg.text).replace(/\s+/g, ' ').trim();
       if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.chimera || msg.patch || msg.jacket) ? 'sticker' : '';
@@ -7211,7 +7223,7 @@ export async function notifyForum(topic, post, before = '', s = store(), mods = 
     if (!forumAllows(who, cat)) continue;
     let text = '', title = '';
     if (d.want.words !== false) {
-      text = String(post.body).replace(/\s+/g, ' ').trim();
+      text = linkWords(post.body).replace(/\s+/g, ' ').trim();
       if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
       title = [...String(topic.title || '')].slice(0, FORUM_TITLE_MAX).join('');
     }
@@ -7244,7 +7256,7 @@ export async function notifyProps(handle, writer, text, s = store(), mods = read
     if (!who.account || foldHandle(who.handle) !== to) continue;
     let words = '';
     if (d.want.words !== false) {
-      words = String(text || '').replace(/\s+/g, ' ').trim();
+      words = linkWords(text).replace(/\s+/g, ' ').trim();
       if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     sends.push({ id, d, payload: { kind: 'props', handle: String(writer || ''), text: words }, opts: {} });
@@ -7275,7 +7287,7 @@ export async function notifyDm(handle, sender, said, asked, s = store(), mods = 
     if (!forumReader(who) || foldHandle(who.handle) !== to) continue;
     let words = '';
     if (d.want.words !== false) {
-      words = String(text || '').replace(/\s+/g, ' ').trim();
+      words = linkWords(text).replace(/\s+/g, ' ').trim();
       if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     const payload = { kind: 'dm', handle: String(sender || ''), asked: !!asked, text: words };
@@ -7697,7 +7709,7 @@ export function shapeTask(t, whole = false) {
   if (t.recur) { out.recur = t.recur; out.on = t.on; }
   if (whole) {
     out.body = t.body || '';
-    out.blocks = parseBrass(t.body || '', { boxes: true });
+    out.blocks = parseBrass(t.body || '', { boxes: true, refs: true });
     out.ticks = taskBoxes(t.body || '').agree;
   } else out.words = [...(t.body || '')].length;
   return out;
@@ -7820,6 +7832,7 @@ export async function removeTask(who, id, s = store(), now = Date.now(), mods = 
   if (was) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(was) ? null : [...ids, was]), s);
   // Its comments go with it, as its activity does.
   await s.delete(taskCommentsBlob(gone.id));
+  await dropLinksFrom(`taskc:${gone.id}/`, false, s);
   await noteTask('deleted', who.handle, gone, null, s, now, mods).catch(() => null);
   return { gone: true };
 }
@@ -8034,7 +8047,7 @@ export function commentId(v) { return typeof v === 'string' && /^m[A-Za-z0-9_-]{
 const newCommentId = () => 'm' + randomBytes(9).toString('base64url');
 
 function shapeComment(c, who) {
-  const out = { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body),
+  const out = { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body, { refs: true }),
     mine: !!who && !!who.since && !!c.mark && c.mark === authorMark(who) };
   // One brought from Notion says so, and never sends Notion's id for it.
   if (c.notion) out.from = 'notion';
@@ -8072,7 +8085,7 @@ export async function commentTask(who, id, text, s = store(), now = Date.now(), 
     if (gone || (list[k].talk || 0) >= now) return null;
     const copy = list.slice(); copy[k] = { ...list[k], talk: now }; return copy;
   }, s);
-  if (gone) { await s.delete(taskCommentsBlob(tid)); return { error: 'That task has been deleted.' }; }
+  if (gone) { await s.delete(taskCommentsBlob(tid)); await dropLinksFrom(`taskc:${tid}/`, false, s); return { error: 'That task has been deleted.' }; }
   await noteTask('commented', who.handle, task, task, s, now, mods, { comment: c, earlier }).catch(() => null);
   return { comment: shapeComment(c, who) };
 }
@@ -8381,7 +8394,7 @@ export function shapeRecur(r, whole = false) {
     coming.push({ on: d, name: recurName(r.name, d), start: addDays(d, r.startAfter || 0), due: addDays(d, r.dueAfter || 0) });
   }
   out.coming = coming;
-  if (whole) { out.body = r.body || ''; out.blocks = parseBrass(r.body || '', { boxes: true }); } else out.words = [...(r.body || '')].length;
+  if (whole) { out.body = r.body || ''; out.blocks = parseBrass(r.body || '', { boxes: true, refs: true }); } else out.words = [...(r.body || '')].length;
   return out;
 }
 
@@ -8545,11 +8558,12 @@ async function updateSealed(key, change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
     const cur = await versioned(s, key);
     const was = cur.exists && cur.data ? unseal(cur.data) : null;
+    const linked = linksBefore(key, was);
     const next = change(was);
     if (next === null) return was;
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
     const res = await s.setJSON(key, seal(next), opts);
-    if (res.modified) return next;
+    if (res.modified) { await linksAfter(key, linked, next, s); return next; }
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
@@ -8612,7 +8626,7 @@ export function shapeContact(c, whole = false) {
     email: c.email || '', phone: c.phone || '', noEmail: !!c.noEmail, noCall: !!c.noCall,
     t: c.t, by: c.by || null, edited: c.edited || null, editedBy: c.editedBy || null, talk: c.talk || null };
   if (c.espo) out.espo = c.espo;
-  if (whole) { out.notes = c.notes || ''; out.blocks = parseBrass(c.notes || '', { boxes: true }); } else out.words = [...(c.notes || '')].length;
+  if (whole) { out.notes = c.notes || ''; out.blocks = parseBrass(c.notes || '', { boxes: true, refs: true }); } else out.words = [...(c.notes || '')].length;
   return out;
 }
 
@@ -8722,7 +8736,7 @@ export async function removeContact(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That contact has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
-  await s.delete(officeCommentsKey(gone.id));
+  await dropOfficeComments(gone.id, s);
   await forgetContactMail(gone.id, s);
   await forgetContactMailings(gone.id, s);
   return { gone: true };
@@ -8831,7 +8845,7 @@ export function shapeGrant(g, contacts, whole = false) {
     contactName: c ? [c.first, c.last].filter(Boolean).join(' ') : null, contactEmail: c ? c.email || '' : null, contactGone: !!(g.contact && !c),
     form: g.form || null, t: g.t, by: g.by || null, edited: g.edited || null, editedBy: g.editedBy || null, talk: g.talk || null };
   if (g.espo) out.espo = g.espo;
-  if (whole) { out.body = g.body || ''; out.blocks = parseBrass(g.body || ''); } else out.words = [...(g.body || '')].length;
+  if (whole) { out.body = g.body || ''; out.blocks = parseBrass(g.body || '', { refs: true }); } else out.words = [...(g.body || '')].length;
   return out;
 }
 const contactMap = (list) => new Map(list.map((c) => [c.id, c]));
@@ -8939,7 +8953,7 @@ export async function removeGrant(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That grant request has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
-  await s.delete(officeCommentsKey(gone.id));
+  await dropOfficeComments(gone.id, s);
   return { gone: true };
 }
 
@@ -9030,7 +9044,7 @@ export function shapeCase(k, contacts, whole = false) {
     contactName: c ? [c.first, c.last].filter(Boolean).join(' ') : null, contactEmail: c ? c.email || '' : null, contactGone: !!(k.contact && !c),
     form: k.form || null, t: k.t, by: k.by || null, edited: k.edited || null, editedBy: k.editedBy || null, talk: k.talk || null };
   if (k.espo) out.espo = k.espo;
-  if (whole) { out.body = k.body || ''; out.blocks = parseBrass(k.body || ''); } else out.words = [...(k.body || '')].length;
+  if (whole) { out.body = k.body || ''; out.blocks = parseBrass(k.body || '', { refs: true }); } else out.words = [...(k.body || '')].length;
   return out;
 }
 
@@ -9177,7 +9191,7 @@ export async function removeCase(who, id, s = store()) {
   }, s);
   if (!gone) return { error: 'That case has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
-  await s.delete(officeCommentsKey(gone.id));
+  await dropOfficeComments(gone.id, s);
   return { gone: true };
 }
 
@@ -9480,7 +9494,7 @@ export async function removeEmail(who, id, s = store()) {
     }, s);
   }
   await s.delete(mailKeyOf(k));
-  await s.delete(officeCommentsKey('email-' + k));
+  await dropOfficeComments('email-' + k, s);
   await updateList(MAIL_GONE, 'ids', (ids) => (ids.includes(k) ? null : [...ids, k]), s);
   return { gone: true };
 }
@@ -9497,7 +9511,7 @@ async function forgetContactMail(cid, s) {
       empty = !rest.length;
       return empty ? null : { ...was, contacts: rest };
     }, s);
-    if (empty) { await s.delete(mailKeyOf(x.id)); await s.delete(officeCommentsKey('email-' + x.id)); }
+    if (empty) { await s.delete(mailKeyOf(x.id)); await dropOfficeComments('email-' + x.id, s); }
   }
   await s.delete(mailIndexKey(cid));
 }
@@ -9602,7 +9616,7 @@ export async function removeTemplate(who, id, s = store()) {
     return gone ? { templates: list.filter((x) => x.id !== templateId(id)) } : null;
   }, s);
   if (!gone) return { error: 'That template has already been deleted.' };
-  await s.delete(officeCommentsKey(templateId(id)));
+  await dropOfficeComments(templateId(id), s);
   return { gone: true };
 }
 /* One template, for its own page. */
@@ -9726,7 +9740,7 @@ export async function removeMailing(who, id, s = store()) {
     return { mailings: list.filter((x) => x !== m) };
   }, s);
   if (why) return { error: why };
-  await s.delete(officeCommentsKey(mailingId(id)));
+  await dropOfficeComments(mailingId(id), s);
   return { gone: true };
 }
 /* A deleted contact's emails not yet sent are taken back with them. */
@@ -9760,6 +9774,8 @@ async function forgetContactMailings(cid, s) {
 export const OFFICE_COMMENT_MAX = TASK_COMMENT_MAX;
 export const OFFICE_COMMENTS_KEEP = TASK_COMMENTS_KEEP;
 const officeCommentsKey = (id) => `office-comments/${id}`;
+/* A record's comments deleted with it, and their links with them. */
+async function dropOfficeComments(id, s) { await s.delete(officeCommentsKey(id)); await dropLinksFrom(`officec:${id}/`, true, s); }
 /* What a comment can be on, told apart by its id: which sealed blob holds it,
    and whether the Feed shows it. An email's id is Gmail's, which says nothing
    about what it is, so its comments go by `email-` and the Gmail id. */
@@ -9816,7 +9832,7 @@ export async function commentOffice(who, id, text, s = store(), now = Date.now()
     const copy = list.slice(); copy[k] = { ...list[k], talk: now };
     return { ...was, [r.field]: copy };
   }, s);
-  if (gone) { await s.delete(officeCommentsKey(r.id)); return { error: NO_RECORD }; }
+  if (gone) { await dropOfficeComments(r.id, s); return { error: NO_RECORD }; }
   await noteOfficeComment(r.what, r.id, who.handle, c, { maker: rec.by, earlier }, s, now, mods).catch(() => null);
   return { comment: shapeComment(c, who) };
 }
@@ -10352,4 +10368,280 @@ export async function gbStatus(who, s = store()) {
   if (!officeAllow(who)) return null;
   const books = await readSealed(GB_BOOKS, s);
   return { ready: gbReady(), books: books ? { ...books, monthly: gbMonthly(books.plans || []) } : null };
+}
+
+/* ── Links and backlinks ───────────────────────────────────────────────────
+
+   Ryan's ask, 2026-10-21, after Notion's links and backlinks: typing [[ in
+   any box that takes words (a task, a comment, a forum post, a record in the
+   office, a message on the CB) finds a task, a forum topic, a grant request,
+   a case or a contact, and puts a link to it in the words; and every one of
+   those says, under Linked from, where it is linked from.
+
+   A LINK IS A TOKEN, [[task:<id>]], AND NEVER A NAME (Ryan's call, the same
+   day). The name is filled in when the words are read, by the server, for
+   the reader (nameRefs, resolveLinks), so a task linked from a public topic
+   shows its name to the directors who can open it and "a task you can't open"
+   to everybody else, and no copy, search or feed of the words carries it.
+   A reader who could not open a kind is never told whether one exists.
+
+   BACKLINKS COME FROM WHAT KEEPS, NEVER FROM CHATS (Ryan's call): a task, a
+   task's comment, a forum post, a contact's notes, a grant request, a case
+   and an office comment. A message on the channel or between two people can
+   hold a link, and leaves no trace of it here, because the CB promises its
+   words 48 hours. The index is which source links to which, and when it last
+   changed: `backlinks` for tasks, their comments and the forums, and
+   `office-backlinks`, sealed like everything else in the office, for the
+   office's records and comments. It is kept by the store writers themselves
+   (linksAfter, called from updateList, updateDoc and updateSealed with what a
+   source said before and after), so no write path can forget it, and a source
+   deleted outside them is dropped by dropLinksFrom. What a reader is shown of
+   it is only what they could open (backlinksTo). Nothing is counted. */
+export const LINK_KINDS = {
+  task: { ok: (v) => taskId(v), words: 'a task', href: (id) => `/tasks.html#/t/${id}` },
+  topic: { ok: (v) => topicId(v), words: 'a forum topic', href: (id) => `/forum.html#/t/${id}` },
+  grant: { ok: (v) => grantId(v), words: 'a grant request', href: (id) => `/office.html#/g/${id}` },
+  case: { ok: (v) => caseId(v), words: 'a case', href: (id) => `/office.html#/k/${id}` },
+  contact: { ok: (v) => contactId(v), words: 'a contact', href: (id) => `/office.html#/c/${id}` },
+};
+const LINK_AT = /^\[\[(task|topic|grant|case|contact):([A-Za-z0-9_-]{13})\]\]/;
+const LINK_ALL = /\[\[(task|topic|grant|case|contact):([A-Za-z0-9_-]{13})\]\]/g;
+export const LINKS_MAX = 50;        // the links one source keeps in the index, and names one answer fills
+export const LINK_FIND_EACH = 6;    // results of each kind the [[ menu is offered
+export const BACKLINKS_MAX = 40;    // sources shown under Linked from, the latest changed first
+const BACKLINKS = 'backlinks';
+const OFFICE_BACKLINKS = 'office-backlinks';
+
+const linkKey = (kind, id) => `${kind}:${id}`;
+function linkOk(key) {
+  const m = /^(task|topic|grant|case|contact):([A-Za-z0-9_-]{13})$/.exec(String(key || ''));
+  return !!m && !!LINK_KINDS[m[1]].ok(m[2]);
+}
+
+/* The links in some words, as kind:id, in the order they come, each once. A
+   token inside code is code, as the reader draws it, so it links nowhere. */
+export function linksIn(text) {
+  const plain = String(text || '')
+    .replace(/^ {0,3}(```|~~~)[^\n]*\n[\s\S]*?(?:\n {0,3}\1[^\n]*(?=\n|$)|$)/gm, ' ')
+    .replace(/(`+)[^`][\s\S]*?\1/g, ' ');
+  const out = [];
+  for (const m of plain.matchAll(LINK_ALL)) {
+    const k = linkKey(m[1], m[2]);
+    if (LINK_KINDS[m[1]].ok(m[2]) && !out.includes(k)) out.push(k);
+    if (out.length >= LINKS_MAX) break;
+  }
+  return out;
+}
+
+/* A link in words that go somewhere nobody's pass is asked, a notification's:
+   what it is, never its name. */
+export function linkWords(text) { return String(text || '').replace(LINK_ALL, (m, k) => LINK_KINDS[k].words); }
+
+/* What each link is to this reader: { name, href } for one they can open,
+   { gone } for one of a kind they can open that is not there any more, and
+   { shut } for everything else, whether or not it exists. */
+export async function resolveLinks(who, keys, s = store(), now = Date.now()) {
+  const want = [...new Set(keys || [])].filter(linkOk).slice(0, LINKS_MAX);
+  const out = {};
+  const ids = (kind) => want.filter((k) => k.startsWith(kind + ':')).map((k) => k.slice(kind.length + 1));
+  const shut = (kind) => ids(kind).forEach((id) => { out[linkKey(kind, id)] = { shut: true }; });
+  const put = (kind, id, name) => { out[linkKey(kind, id)] = name ? { name, href: LINK_KINDS[kind].href(id) } : { gone: true }; };
+  if (ids('task').length) {
+    if (!tasksAllow(who)) shut('task');
+    else { const m = new Map((await readTasks(s)).map((t) => [t.id, t])); ids('task').forEach((id) => put('task', id, m.get(id) && m.get(id).name)); }
+  }
+  if (ids('topic').length) {
+    if (!forumReader(who)) shut('topic');
+    else {
+      const ts = await Promise.all(ids('topic').map((id) => readTopic(id, s)));
+      ids('topic').forEach((id, i) => {
+        const t = ts[i], cat = t && forumCat(t.cat, now);
+        if (t && !forumAllows(who, cat)) out[linkKey('topic', id)] = { shut: true };
+        else put('topic', id, t && topicLive(summaryOf(t), cat, now) ? t.title : null);
+      });
+    }
+  }
+  const office = ['grant', 'case', 'contact'].filter((k) => ids(k).length);
+  if (office.length) {
+    if (!officeAllow(who) || !officeReady()) office.forEach(shut);
+    else {
+      const [grants, cases, contacts] = await Promise.all([
+        ids('grant').length ? readGrants(s) : [], ids('case').length ? readCases(s) : [], ids('contact').length ? readContacts(s) : []]);
+      const find = (list, id) => list.find((x) => x.id === id);
+      ids('grant').forEach((id) => { const g = find(grants, id); put('grant', id, g && g.name); });
+      ids('case').forEach((id) => { const k = find(cases, id); put('case', id, k && `#${k.number} ${k.name}`); });
+      ids('contact').forEach((id) => { const c = find(contacts, id); put('contact', id, c && contactName(c)); });
+    }
+  }
+  return out;
+}
+const contactName = (c) => [c.first, c.last].filter(Boolean).join(' ') || c.email || 'A contact with no name';
+
+/* Every link in an answer named for its reader, wherever in it the words are.
+   Every function that answers with words from a source calls it last. */
+export async function nameRefs(x, who, s = store(), now = Date.now()) {
+  const nodes = [];
+  (function walk(v, d) {
+    if (!v || typeof v !== 'object' || d > 60) return;
+    if (Array.isArray(v)) { for (const y of v) walk(y, d + 1); return; }
+    if (v.t === 'ref' && typeof v.kind === 'string' && typeof v.id === 'string') { nodes.push(v); return; }
+    for (const k of Object.keys(v)) walk(v[k], d + 1);
+  })(x, 0);
+  if (!nodes.length) return x;
+  const names = await resolveLinks(who, nodes.map((n) => linkKey(n.kind, n.id)), s, now);
+  for (const n of nodes) {
+    delete n.name; delete n.href; delete n.gone; delete n.shut;
+    Object.assign(n, names[linkKey(n.kind, n.id)] || { shut: true });
+  }
+  return x;
+}
+
+/* What the [[ menu offers for some words: the tasks, forum topics, grant
+   requests, cases and contacts this reader can open whose names hold every
+   word, the latest changed first, a few of each. With no words, the latest.
+   Asked by POST, so what was typed is never in an address. */
+export async function findLinks(who, q, s = store(), now = Date.now()) {
+  if (!forumReader(who) || String(q || '').length > 120) return [];
+  const words = foldHandle(q || '').split(' ').filter(Boolean).slice(0, 6);
+  const hit = (name) => { const f = foldHandle(name || ''); return words.every((w) => f.includes(w)); };
+  const latest = (a, b) => (b.edited || b.t || 0) - (a.edited || a.t || 0);
+  const out = [];
+  if (tasksAllow(who)) {
+    (await readTasks(s)).filter((t) => hit(t.name)).sort(latest).slice(0, LINK_FIND_EACH)
+      .forEach((t) => out.push({ kind: 'task', id: t.id, name: t.name, about: t.status + (t.who ? ', ' + t.who : '') }));
+  }
+  const cats = forumCatsFor(who, now);
+  const lists = await Promise.all(cats.map((c) => readForumIndex(c.slug, s)));
+  const tops = [];
+  cats.forEach((c, i) => lists[i].forEach((x) => { if (topicLive(x, c, now) && hit(x.title)) tops.push({ x, c }); }));
+  tops.sort((a, b) => b.x.last - a.x.last).slice(0, LINK_FIND_EACH)
+    .forEach(({ x, c }) => out.push({ kind: 'topic', id: x.id, name: x.title, about: c.name }));
+  if (officeAllow(who) && officeReady()) {
+    const [grants, cases, contacts] = await Promise.all([readGrants(s), readCases(s), readContacts(s)]);
+    grants.filter((g) => hit(g.name)).sort(latest).slice(0, LINK_FIND_EACH)
+      .forEach((g) => out.push({ kind: 'grant', id: g.id, name: g.name, about: g.pipeline + ', ' + g.stage }));
+    cases.filter((k) => hit(`#${k.number} ${k.name}`)).sort(latest).slice(0, LINK_FIND_EACH)
+      .forEach((k) => out.push({ kind: 'case', id: k.id, name: `#${k.number} ${k.name}`, about: k.type + ', ' + k.status }));
+    contacts.filter((c) => hit(contactName(c) + ' ' + (c.email || ''))).sort(latest).slice(0, LINK_FIND_EACH)
+      .forEach((c) => out.push({ kind: 'contact', id: c.id, name: contactName(c), about: c.email || 'A contact' }));
+  }
+  return out;
+}
+
+/* THE INDEX. Each store that holds a source names its sources and their
+   words; a source is kind:record, or kind:record/part for a comment or a post. */
+const TASK_COMMENTS_AT = 'task-comments/';
+const OFFICE_COMMENTS_AT = 'office-comments/';
+function linkStore(key) {
+  if (key === TASKS || key.startsWith(TASK_COMMENTS_AT) || key.startsWith(FORUM_TOPIC)) return 'plain';
+  if (key === CONTACTS || key === GRANTS || key === CASES || key.startsWith(OFFICE_COMMENTS_AT)) return 'sealed';
+  return null;
+}
+function sourcesOf(key, v) {
+  const out = new Map();
+  if (!v) return out;
+  const each = (list, f) => { if (Array.isArray(list)) for (const x of list) if (x && x.id) f(x); };
+  if (key === TASKS) each(v, (t) => out.set('task:' + t.id, t.body || ''));
+  else if (key.startsWith(TASK_COMMENTS_AT)) { const tid = key.slice(TASK_COMMENTS_AT.length); each(v, (c) => out.set(`taskc:${tid}/${c.id}`, c.body || '')); }
+  else if (key.startsWith(FORUM_TOPIC)) each(v.posts, (p) => out.set(`post:${v.id}/${p.id}`, p.body || ''));
+  else if (key === CONTACTS) each(v.contacts, (c) => out.set('contact:' + c.id, c.notes || ''));
+  else if (key === GRANTS) each(v.grants, (g) => out.set('grant:' + g.id, g.body || ''));
+  else if (key === CASES) each(v.cases, (k) => out.set('case:' + k.id, k.body || ''));
+  else if (key.startsWith(OFFICE_COMMENTS_AT)) { const rid = key.slice(OFFICE_COMMENTS_AT.length); each(v.comments, (c) => out.set(`officec:${rid}/${c.id}`, c.body || '')); }
+  return out;
+}
+/* What a store's sources said before a write, taken before the write's own
+   change can touch the objects, or null for a store that holds none. */
+function linksBefore(key, v) { return linkStore(key) ? sourcesOf(key, v) : null; }
+async function linksAfter(key, was, after, s) {
+  if (!was) return;
+  const now = sourcesOf(key, after), changes = new Map();
+  for (const [src, text] of now) if (was.get(src) !== text) changes.set(src, linksIn(text));
+  for (const src of was.keys()) if (!now.has(src)) changes.set(src, []);
+  for (const [src, to] of changes) if (!to.length && !linksIn(was.get(src) || '').length) changes.delete(src);
+  if (changes.size) await setLinksFrom(changes, linkStore(key) === 'sealed', s);
+}
+async function setLinksFrom(changes, sealed, s, when = Date.now()) {
+  const change = (d) => {
+    const from = { ...((d && d.from) || {}) };
+    let moved = false;
+    for (const [src, to] of changes) {
+      const had = from[src];
+      if (!to.length) { if (had) { delete from[src]; moved = true; } }
+      else if (!had || had.to.join(' ') !== to.join(' ')) { from[src] = { to, t: when }; moved = true; }
+    }
+    return moved ? { from } : null;
+  };
+  // A backlink that could not be written catches up when its source is next written.
+  try { if (sealed) { if (officeReady()) await updateSealed(OFFICE_BACKLINKS, change, s); } else await updateDoc(BACKLINKS, change, s); }
+  catch (e) { /* busy */ }
+}
+/* Every source under a record or a topic, gone with it outside the store writers. */
+export async function dropLinksFrom(prefix, sealed, s = store()) {
+  const change = (d) => {
+    const from = { ...((d && d.from) || {}) };
+    const drop = Object.keys(from).filter((k) => k.startsWith(prefix));
+    drop.forEach((k) => delete from[k]);
+    return drop.length ? { from } : null;
+  };
+  try { if (sealed) { if (officeReady()) await updateSealed(OFFICE_BACKLINKS, change, s); } else await updateDoc(BACKLINKS, change, s); }
+  catch (e) { /* busy */ }
+}
+
+/* LINKED FROM: every source that links to kind:id which this reader could
+   open, the latest changed first, never the record itself or its own parts. */
+export async function backlinksTo(who, kind, id, s = store(), now = Date.now()) {
+  if (!LINK_KINDS[kind] || !LINK_KINDS[kind].ok(id)) return [];
+  const key = linkKey(kind, id);
+  const plain = await s.get(BACKLINKS, { type: 'json' });
+  let from = Object.entries((plain && plain.from) || {});
+  if (officeAllow(who) && officeReady()) { const d = await readSealed(OFFICE_BACKLINKS, s); from = from.concat(Object.entries((d && d.from) || {})); }
+  const self = (src) => {
+    const [k, rest] = [src.slice(0, src.indexOf(':')), src.slice(src.indexOf(':') + 1)];
+    const rec = rest.split('/')[0];
+    return rec === id && ((kind === 'task' && (k === 'task' || k === 'taskc')) || (kind === 'topic' && k === 'post')
+      || (['grant', 'case', 'contact'].includes(kind) && (k === kind || k === 'officec')));
+  };
+  const hits = from.filter(([src, v]) => v && Array.isArray(v.to) && v.to.includes(key) && !self(src))
+    .sort((a, b) => (b[1].t || 0) - (a[1].t || 0));
+  if (!hits.length) return [];
+  const need = (k) => hits.some(([src]) => src.startsWith(k + ':'));
+  const tasks = tasksAllow(who) && (need('task') || need('taskc')) ? new Map((await readTasks(s)).map((t) => [t.id, t])) : null;
+  const officeOn = officeAllow(who) && officeReady() && (need('grant') || need('case') || need('contact') || need('officec'));
+  const [grants, cases, contacts] = officeOn ? await Promise.all([readGrants(s), readCases(s), readContacts(s)]) : [[], [], []];
+  const topics = new Map();
+  for (const [src] of hits) if (src.startsWith('post:')) topics.set(src.slice(5).split('/')[0], null);
+  await Promise.all([...topics.keys()].map(async (tid) => { topics.set(tid, await readTopic(tid, s)); }));
+  const recName = (rid) => {
+    const g = grants.find((x) => x.id === rid); if (g) return { what: 'grant', name: g.name, at: 'g' };
+    const k = cases.find((x) => x.id === rid); if (k) return { what: 'case', name: `#${k.number} ${k.name}`, at: 'k' };
+    const c = contacts.find((x) => x.id === rid); if (c) return { what: 'contact', name: contactName(c), at: 'c' };
+    return null;
+  };
+  const out = [];
+  for (const [src, v] of hits) {
+    if (out.length >= BACKLINKS_MAX) break;
+    const k = src.slice(0, src.indexOf(':')), [rid, part] = src.slice(k.length + 1).split('/');
+    if (k === 'task' || k === 'taskc') {
+      const t = tasks && tasks.get(rid);
+      if (t) out.push({ from: k === 'task' ? 'task' : 'comment', on: 'task', name: t.name, href: `/tasks.html#/t/${rid}` + (part ? `/c/${part}` : ''), t: v.t });
+    } else if (k === 'post') {
+      const t = topics.get(rid), cat = t && forumCat(t.cat, now);
+      const p = t && t.posts.find((x) => x.id === part);
+      if (p && forumAllows(who, cat) && topicLive(summaryOf(t), cat, now)) {
+        out.push({ from: p === t.posts[0] ? 'topic' : 'post', on: 'topic', name: t.title, about: cat.name, href: `/forum.html#/t/${rid}/${part}`, t: v.t });
+      }
+    } else if (officeOn && (k === 'grant' || k === 'case' || k === 'contact')) {
+      const r = recName(rid);
+      if (r && r.what === k) out.push({ from: k, on: k, name: r.name, href: `/office.html#/${r.at}/${rid}`, t: v.t });
+    } else if (officeOn && k === 'officec') {
+      const r = recName(rid), c = !r && commentable(rid);
+      if (r) out.push({ from: 'comment', on: r.what, name: r.name, href: `/office.html#/${r.at}/${rid}/c/${part}`, t: v.t });
+      else if (c) {
+        const at = { mailing: 'mailings/' + rid, template: 'templates/' + rid, email: 'm/' + c.mail }[c.what];
+        if (at) out.push({ from: 'comment', on: c.what, name: null, href: `/office.html#/${at}/c/${part}`, t: v.t });
+      }
+    }
+  }
+  return out;
 }

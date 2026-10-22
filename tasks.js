@@ -1228,7 +1228,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'tk', id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'tk', said: say, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; feedCard(li, t, got); },
           send: function (text, done) {
@@ -1307,11 +1307,12 @@
         return refused(r);
       }
       took(r.body);
+      linked = { id: r.body.task.id, list: r.body.backlinks || [] };
       return drawTask(r.body.task, r.body.activity, r.body.comments, landOn);
     });
   }
-  // The comments of the task on the page, kept while it is redrawn by a tick or Mark it completed.
-  var talked = { id: null, list: null };
+  // The comments of the task on the page, kept while it is redrawn by a tick or Mark it completed; and where it is linked from.
+  var talked = { id: null, list: null }, linked = { id: null, list: [] };
   function drawTask(t, activity, comments, landOn) {
     if (comments) talked = { id: t.id, list: comments };
     else if (talked.id !== t.id) talked = { id: t.id, list: null };
@@ -1400,6 +1401,9 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
+    // Linked from: the tasks, comments, topics and office records that link here, which this reader can open (links.js).
+    var from = linked.id === t.id && window.loveLinks.backlinks(linked.list, { p: 'tk', heading: heading });
+    if (from) view.appendChild(from);
     // Comments: the conversation under the task, oldest first, with a box to add to it at the foot (comments.js).
     var talk = window.loveComments.section(commentsFor(t.id, landOn, function () { freshActivity(t.id); }));
     talkNow = talk;
@@ -1422,7 +1426,9 @@
   /* What comments.js needs for this task's comments: tasks.js's own words,
      classes and way of asking /cb/tasks. */
   var talkNow = null;
-  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  // What [[ offers, asked of /cb/tasks by POST (links.js).
+  function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
   function commentsFor(id, landOn, posted) {
     return { p: 'tk', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
@@ -1671,7 +1677,8 @@
       var text = el('textarea', 'cb-say tk-text'); text.rows = 9; text.maxLength = settings.bodyMax; text.value = value;
       field('tk-body', 'Description', text);
       text.setAttribute('aria-describedby', 'tk-body-hint');
-      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself.');
+      window.loveLinks.attach(text, { ask: findLinks, said: say });
+      var hint = el('p', 'cb-quiet tk-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
       hint.id = 'tk-body-hint';
       form.appendChild(hint);
       var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;

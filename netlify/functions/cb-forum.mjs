@@ -19,9 +19,11 @@
      { action: 'react', t, p, emoji }                a reaction on, or off again
      { action: 'moderate', t, pin?, close?, move? }  a moderator pinning, closing or moving a topic
      { action: 'preview', body, pics? }              how the words will set; pics: the composer's pictures, placed where the words say
+     { action: 'links', q }                          what [[ offers for q: the topics, and for staff the tasks and
+                                                     the office's records, the reader can open (findLinks), by POST
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, tasksAllow, officeAllow, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { readPass, forumReader, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, moderateTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -45,29 +47,31 @@ export default async (req, context) => {
   if (!forumReader(who)) return json(403, { error: CLAIM, claim: true }, QUIET);
   // tasks and office say whether the bar offers them, a press away for the people who can open them.
   const me = { handle: who.handle, mod: who.role === 'base', tasks: tasksAllow(who), office: officeAllow(who) };
+  // Every answer's links to tasks, topics and the office named for this reader, last.
+  const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   const cats = forumNav(who);
   const url = new URL(req.url);
   try {
     if (req.method === 'GET') {
       const view = url.searchParams.get('view') || 'home';
-      if (view === 'home') return json(200, { me, cats, takes, home: await forumHome(who) }, QUIET);
-      if (view === 'latest') return json(200, { me, cats, ...(await forumLatest(who, num(url.searchParams.get('before')))) }, QUIET);
+      if (view === 'home') return answer(200, { me, cats, takes, home: await forumHome(who) }, QUIET);
+      if (view === 'latest') return answer(200, { me, cats, ...(await forumLatest(who, num(url.searchParams.get('before')))) }, QUIET);
       if (view === 'cat') {
         const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')));
-        return r ? json(200, { me, cats, ...r }, QUIET) : json(404, { me, cats, error: 'There is no such category.' }, QUIET);
+        return r ? answer(200, { me, cats, ...r }, QUIET) : json(404, { me, cats, error: 'There is no such category.' }, QUIET);
       }
       if (view === 'topic') {
         const t = await forumTopic(who, url.searchParams.get('t'));
-        return t ? json(200, { me, cats, topic: t, quick, takes }, QUIET) : json(404, { me, cats, error: 'That topic has gone, or is not one you can read.' }, QUIET);
+        return t ? answer(200, { me, cats, topic: t, quick, takes, backlinks: await backlinksTo(who, 'topic', t.id) }, QUIET) : json(404, { me, cats, error: 'That topic has gone, or is not one you can read.' }, QUIET);
       }
-      if (view === 'search') return json(200, { me, cats, results: await searchForum(who, url.searchParams.get('q') || '') }, QUIET);
-      if (view === 'mentions') return json(200, { me, cats, results: await forumMentions(who) }, QUIET);
-      if (view === 'templates') return json(200, { me, cats, templates: await forumTemplates(who) }, QUIET);
+      if (view === 'search') return answer(200, { me, cats, results: await searchForum(who, url.searchParams.get('q') || '') }, QUIET);
+      if (view === 'mentions') return answer(200, { me, cats, results: await forumMentions(who) }, QUIET);
+      if (view === 'templates') return answer(200, { me, cats, templates: await forumTemplates(who) }, QUIET);
       if (view === 'cb') {
         const ids = String(url.searchParams.get('ids') || '').split(',').filter(Boolean);
         const r = await cbTranscript(who, { room: url.searchParams.get('room') || null, ids });
         if (r.error) return json(400, { me, cats, error: r.error }, QUIET);
-        return json(200, { me, cats, cb: shapeTranscript(r.cb, who), short: r.short }, QUIET);
+        return answer(200, { me, cats, cb: shapeTranscript(r.cb, who), short: r.short }, QUIET);
       }
       return json(400, { error: 'Show what?' }, QUIET);
     }
@@ -77,8 +81,9 @@ export default async (req, context) => {
       const text = cleanForumBody(b.body, FORUM_DOC_BODY_MAX);
       if (!text) return json(400, { error: `Between one and ${FORUM_DOC_BODY_MAX} characters.` }, QUIET);
       const pics = new Map((Array.isArray(b.pics) ? b.pics : []).slice(0, FORUM_DOC_ATTACH_MAX).map(imageId).filter(Boolean).map((id) => [id, '']));
-      return json(200, { blocks: placePictures(parseBrass(text), pics) }, QUIET);
+      return answer(200, { blocks: placePictures(parseBrass(text, { refs: true }), pics) }, QUIET);
     }
+    if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
     let r;
     const t = String(b.t || ''), p = String(b.p || '');
     if (b.action === 'start') r = await startTopic(who, b);
@@ -91,14 +96,14 @@ export default async (req, context) => {
     else if (b.action === 'moderate') r = await moderateTopic(who, t, b);
     else return json(400, { error: 'Do what with it?' }, QUIET);
     if (r.error) return json(400, { error: r.error }, QUIET);
-    if (r.gone) return json(200, { me, cats, gone: true }, QUIET);
+    if (r.gone) return answer(200, { me, cats, gone: true }, QUIET);
     if (r.post && r.topic && ['start', 'reply', 'edit'].includes(b.action)) {
       const told = notifyForum(r.topic, r.post, r.before || '').catch(() => []);
       if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
     }
     const id = r.topic ? r.topic.id : t;
     const topic = await forumTopic(who, id);
-    return json(200, { me, cats, topic, quick, takes, post: r.post && b.action !== 'edit' ? r.post.id : null, gone: !topic }, QUIET);
+    return answer(200, { me, cats, topic, quick, takes, post: r.post && b.action !== 'edit' ? r.post.id : null, gone: !topic }, QUIET);
   } catch (e) {
     return json(503, { error: 'The forums are busy just now. Look again in a moment before trying again.' }, QUIET);
   }

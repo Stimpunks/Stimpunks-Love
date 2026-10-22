@@ -382,6 +382,7 @@
         return refused(r);
       }
       took(r.body);
+      linked = { id: r.body.contact.id, list: r.body.backlinks || [] };
       return drawContact(r.body.contact, r.body.comments, landOn);
     });
   }
@@ -535,8 +536,9 @@
 
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.notesMax; text.value = c ? c.notes : '';
     field('of-notes', 'Notes', text);
+    window.loveLinks.attach(text, { ask: findLinks, said: say });
     text.setAttribute('aria-describedby', 'of-notes-hint');
-    var hint = el('p', 'cb-quiet of-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables.');
+    var hint = el('p', 'cb-quiet of-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
     hint.id = 'of-notes-hint';
     form.appendChild(hint);
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
@@ -978,6 +980,7 @@
         return refused(r);
       }
       took(r.body);
+      linked = { id: r.body.grant.id, list: r.body.backlinks || [] };
       return drawGrant(r.body.grant, r.body.comments, landOn);
     });
   }
@@ -1101,7 +1104,8 @@
     var formNo = el('input', 'cb-say of-input'); formNo.type = 'number'; formNo.min = '1'; formNo.step = '1'; formNo.value = g && g.form ? String(g.form) : '';
     field('of-gform', 'Form entry', formNo, 'Its number on stimpunks.org, if it came in through a form.');
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.grantBodyMax; text.value = g ? g.body : '';
-    field('of-gbody', 'Description', text, 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables.');
+    field('of-gbody', 'Description', text, 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    window.loveLinks.attach(text, { ask: findLinks, said: say });
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
     form.appendChild(preview);
     var row = el('div', 'of-row');
@@ -1397,6 +1401,7 @@
         return refused(r);
       }
       took(r.body);
+      linked = { id: r.body.case.id, list: r.body.backlinks || [] };
       return drawCase(r.body.case, r.body.comments, landOn);
     });
   }
@@ -1510,7 +1515,8 @@
     var formNo = el('input', 'cb-say of-input'); formNo.type = 'number'; formNo.min = '1'; formNo.step = '1'; formNo.value = k && k.form ? String(k.form) : '';
     field('of-kform', 'Form entry', formNo, 'Its number on stimpunks.org, if it came in through a form.');
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.caseBodyMax; text.value = k ? k.body : '';
-    field('of-kbody', 'Description', text, 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables.');
+    field('of-kbody', 'Description', text, 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    window.loveLinks.attach(text, { ask: findLinks, said: say });
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
     form.appendChild(preview);
     var row = el('div', 'of-row');
@@ -1627,7 +1633,7 @@
 
   // The comments of the record on the page, kept while it is redrawn by Move to.
   var talked = { id: null, list: null };
-  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Markdown works: **bold**, _italic_, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
   function commentsFor(id, landOn) {
     return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
@@ -1636,7 +1642,14 @@
   }
   /* The Comments part at the foot of a record's page. Answers the comment the
      address named, brought into view, when it is there. */
+  // What [[ offers, asked of /cb/office by POST (links.js).
+  function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
+  // Where the record on the page is linked from, kept while it is redrawn.
+  var linked = { id: null, list: [] };
   function addComments(id, comments, landOn) {
+    // Linked from: the tasks, comments, topics and records that link here, which this reader can open (links.js).
+    var from = linked.id === id && window.loveLinks.backlinks(linked.list, { p: 'of', heading: heading });
+    if (from) view.appendChild(from);
     if (comments) talked = { id: id, list: comments };
     else if (talked.id !== id) talked = { id: id, list: null };
     var talk = window.loveComments.section(commentsFor(id, landOn));
@@ -2966,7 +2979,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'of', id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'of', said: say, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; card(li, it, whole); },
           send: function (text, done) {

@@ -31,6 +31,8 @@
          rather than adding it twice, and it tells nobody
      { action: 'inbox-read', ids | all: true }       the reader's notifications marked read: those ids, or all
      { action: 'preview', body, comment? }           how a description, or with comment: true a comment, will set
+     { action: 'links', q }                          what [[ offers for q: tasks, topics and the office's records
+                                                     the reader can open (findLinks), by POST so q is in no address
      { action: 'view-save', id?, name, address }     a saved filter: a name and the #/ or #/board
                                                      address of a list or a board, new or in place of `id`
      { action: 'view-remove', id }                   a saved filter deleted
@@ -40,7 +42,7 @@
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
-  removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass,
+  removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS, TASK_STATUS_COLOURS } from '../cb/lib.mjs';
 
@@ -68,6 +70,8 @@ export default async (req) => {
   }
   // An administrator may delete anybody's comment, so the page offers it.
   const me = { handle: who.handle, admin: who.roles.has('administrator') };
+  // Every answer's links to tasks, topics and the office named for this reader, last.
+  const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   const url = new URL(req.url);
   try {
     if (req.method === 'GET') {
@@ -76,23 +80,23 @@ export default async (req) => {
         // Whatever a recurring task owes is made before the list is read, so nobody waits for the hour.
         try { await makeRecurring(); } catch (e) { /* the hourly run makes it */ }
         const [tasks, views, recurs, inbox] = await Promise.all([tasksList(who), taskViews(who), taskRecurs(who), taskInbox(who)]);
-        return json(200, { me, settings, people: taskPeople(), tasks, views, recurs, unread: inbox.unread }, QUIET);
+        return answer(200, { me, settings, people: taskPeople(), tasks, views, recurs, unread: inbox.unread }, QUIET);
       }
       if (view === 'recur') {
         const r = await taskRecur(who, url.searchParams.get('id'));
         if (!r) return json(404, { error: 'That recurring task has been deleted.' }, QUIET);
         const made = (await tasksList(who)).filter((t) => t.recur === r.id);
-        return json(200, { me, settings, people: taskPeople(), recur: r, made }, QUIET);
+        return answer(200, { me, settings, people: taskPeople(), recur: r, made }, QUIET);
       }
       if (view === 'task') {
         const t = await taskOne(who, url.searchParams.get('id'));
         if (t) await withFrom(who, t);
         if (!t) return json(404, { error: 'That task has been deleted.' }, QUIET);
         const [activity, comments, inbox] = await Promise.all([taskActivity(who, t.id), taskComments(who, t.id), taskInbox(who)]);
-        return json(200, { me, settings, people: taskPeople(), task: t, comments, activity, unread: inbox.unread }, QUIET);
+        return answer(200, { me, settings, people: taskPeople(), task: t, comments, activity, unread: inbox.unread, backlinks: await backlinksTo(who, 'task', t.id) }, QUIET);
       }
-      if (view === 'inbox') return json(200, { me, settings, inbox: await taskInbox(who) }, QUIET);
-      if (view === 'feed') return json(200, { me, settings, feed: await taskFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
+      if (view === 'inbox') return answer(200, { me, settings, inbox: await taskInbox(who) }, QUIET);
+      if (view === 'feed') return answer(200, { me, settings, feed: await taskFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
       return json(400, { error: 'Show what?' }, QUIET);
     }
     const b = (await body(req)) || {};
@@ -101,55 +105,56 @@ export default async (req) => {
       const most = b.comment === true ? TASK_COMMENT_MAX : TASK_BODY_MAX;
       const text = cleanForumBody(b.body, most);
       if (!text) return json(400, { error: `Between one and ${most} characters.` }, QUIET);
-      return json(200, { blocks: b.comment === true ? parseBrass(text) : parseBrass(text, { boxes: true }) }, QUIET);
+      return answer(200, { blocks: b.comment === true ? parseBrass(text, { refs: true }) : parseBrass(text, { boxes: true, refs: true }) }, QUIET);
     }
+    if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
     if (b.action === 'save') {
       const r = await saveTask(who, b);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { task: await withFrom(who, r.task) }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { task: await withFrom(who, r.task) }, QUIET);
     }
     if (b.action === 'tick') {
       const r = await tickTask(who, String(b.id || ''), b.n, b.text, b.on);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { task: await withFrom(who, r.task) }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { task: await withFrom(who, r.task) }, QUIET);
     }
     if (b.action === 'remove') {
       const r = await removeTask(who, String(b.id || ''));
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
     }
     if (b.action === 'comment') {
       const r = await commentTask(who, String(b.id || ''), b.body);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);
     }
     if (b.action === 'comment-edit') {
       const r = await editTaskComment(who, String(b.id || ''), String(b.c || ''), b.body);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);
     }
     if (b.action === 'comment-remove') {
       const r = await removeTaskComment(who, String(b.id || ''), String(b.c || ''));
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
     }
     if (b.action === 'comment-import') {
       const r = await importTaskComment(who, b);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { comment: r.comment, made: r.made }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment, made: r.made }, QUIET);
     }
     if (b.action === 'inbox-read') {
       const r = await readTaskInbox(who, b.all === true ? 'all' : b.ids);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { unread: r.unread }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { unread: r.unread }, QUIET);
     }
     if (b.action === 'view-save') {
       const r = await saveTaskView(who, b);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { views: r.views }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { views: r.views }, QUIET);
     }
     if (b.action === 'view-remove') {
       const r = await removeTaskView(who, String(b.id || ''));
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { views: r.views }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { views: r.views }, QUIET);
     }
     if (b.action === 'recur-save') {
       const r = await saveRecur(who, b);
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { recur: r.recur }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { recur: r.recur }, QUIET);
     }
     if (b.action === 'recur-remove') {
       const r = await removeRecur(who, String(b.id || ''));
-      return r.error ? json(400, { error: r.error }, QUIET) : json(200, { gone: true }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
     }
     return json(400, { error: 'Do what with it?' }, QUIET);
   } catch (e) {

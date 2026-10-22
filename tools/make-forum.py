@@ -330,7 +330,7 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: a category's page lists the topics under it some other way than asking forumAllows of every category it reads.")
     if "forumCatsFor(who, now).filter((x) => x.templates)" not in fn(sec, "forumTemplates") or "!x.pinned" not in fn(sec, "forumTemplates"):
         problems.append(f"{LIB.name}: forumTemplates must offer only the templates the reader may see, and never a templates category's pinned read-me.")
-    if "pics.has(m[2])" not in fn(sec, "placePictures") or "placePictures(withPreviews(parseBrass(p.body || ''), p.links), pics, placed)" not in sec:
+    if "pics.has(m[2])" not in fn(sec, "placePictures") or "placePictures(withPreviews(parseBrass(p.body || '', { refs: true }), p.links), pics, placed)" not in sec:
         problems.append(f"{LIB.name}: a picture in the words must be one of the post's own, placed by placePictures in shapePost; anything else written that way stays words, so no picture from elsewhere is ever shown.")
     if "canTakeOff(who, m)" not in fn(sec, "uncopyMessage"):
         problems.append(f"{LIB.name}: a copied message no longer comes out under the channel's own rule, canTakeOff.")

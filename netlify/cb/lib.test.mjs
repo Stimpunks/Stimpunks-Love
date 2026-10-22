@@ -5757,3 +5757,63 @@ test('a reset code by email goes only to the address on the username, says the s
   await mailResetCode('Gus', 'gus@example.org', S, T + ACCT_MAIL_GAP * 3);
   assert.deepEqual(await mailOutbox(S, T + ACCT_MAIL_GAP * 3 + ACCT_MAIL_FOR), []);
 }))));
+
+/* LINKS, after Notion's (2026-10-21): a token in the words, named for each
+   reader by the server, and backlinks kept by the store writers themselves. */
+import { linksIn, resolveLinks, nameRefs, findLinks, backlinksTo } from './lib.mjs';
+
+test('a link is a token in the words, named for each reader, and a member is never told a name', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await saveTask(TCHELSEA, { name: 'Quarterly receipts' }, s, T0, TMODS)).task;
+  const g = (await saveGrant(TRYAN, { name: 'Mutual aid for rent', amount: 250 }, s, T0)).grant;
+  const top = (await startTopic(ADA, { cat: 'help-desk', title: 'How do I link?', body: `See [[task:${t.id}]] and [[grant:${g.id}]].` }, s, T0, NO_NET)).topic;
+  assert.deepEqual(parseBrass(`a [[task:${t.id}]] b`, { refs: true })[0].c[1], { t: 'ref', kind: 'task', id: t.id });
+  assert.equal(parseBrass(`a [[task:${t.id}]]`)[0].c[0].v, `a [[task:${t.id}]]`, 'a page that names no links drew one');
+  assert.deepEqual(linksIn(`x [[task:${t.id}]] \`[[grant:${g.id}]]\` [[task:${t.id}]] [[task:nope]]\n\`\`\`\n[[grant:${g.id}]]\n\`\`\``), ['task:' + t.id], 'code linked, or a link counted twice');
+  const asAda = await nameRefs(await forumTopic(ADA, top.id, s, T0), ADA, s, T0);
+  assert.deepEqual(asAda.posts[0].blocks[0].c.filter((n) => n.t === 'ref').map((n) => [n.kind, n.shut, n.name]), [['task', true, undefined], ['grant', true, undefined]]);
+  assert.ok(!/Quarterly|Mutual aid/.test(JSON.stringify(asAda)), 'a member was told a name');
+  const asCh = await nameRefs(await forumTopic(TCHELSEA, top.id, s, T0), TCHELSEA, s, T0);
+  assert.deepEqual(asCh.posts[0].blocks[0].c.filter((n) => n.t === 'ref').map((n) => n.name), ['Quarterly receipts', 'Mutual aid for rent']);
+  await removeTask(TRYAN, t.id, s);
+  const names = await resolveLinks(TCHELSEA, ['task:' + t.id, 'topic:' + top.id, 'grant:not-an-id'], s, T0);
+  assert.deepEqual(names['task:' + t.id], { gone: true });
+  assert.equal(names['topic:' + top.id].name, 'How do I link?');
+  assert.equal(names['grant:not-an-id'], undefined);
+  assert.deepEqual((await resolveLinks(ADA, ['task:' + t.id], s, T0))['task:' + t.id], { shut: true }, 'a member learned a task was deleted');
+  // Without the office's key a grant request is shut, never named from anywhere else.
+  await withOfficeKey(null, async () => assert.deepEqual((await resolveLinks(TCHELSEA, ['grant:' + g.id], s, T0))['grant:' + g.id], { shut: true }));
+  // The [[ menu offers only what the reader could open.
+  assert.deepEqual((await findLinks(ADA, 'rent', s, T0)).map((x) => x.kind), []);
+  assert.deepEqual((await findLinks(ADA, 'link', s, T0)).map((x) => [x.kind, x.name]), [['topic', 'How do I link?']]);
+  assert.deepEqual((await findLinks(TCHELSEA, 'rent', s, T0)).map((x) => [x.kind, x.name]), [['grant', 'Mutual aid for rent']]);
+}));
+
+test('backlinks follow every write and delete, come from what keeps, and show only what the reader could open', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await saveTask(TCHELSEA, { name: 'Pay invoices', body: `Myself: [[task:x]]` }, s, T0, TMODS)).task;
+  await saveTask(TCHELSEA, { id: t.id, body: `Myself: [[task:${t.id}]]` }, s, T0 + 1, TMODS);
+  const t2 = (await saveTask(TCHELSEA, { name: 'Before that', body: `After [[task:${t.id}]].` }, s, T0 + 2, TMODS)).task;
+  assert.ok((await commentTask(TCHELSEA, t2.id, `And [[task:${t.id}]]`, s, T0 + 3, TMODS)).comment);
+  const pub = (await startTopic(ADA, { cat: 'help-desk', title: 'Invoices', body: `[[task:${t.id}]] please` }, s, T0 + 4, NO_NET)).topic;
+  const priv = (await startTopic(TCHELSEA, { cat: 'directors', title: 'Between us', body: `[[task:${t.id}]]` }, s, T0 + 5, NO_NET)).topic;
+  const g = (await saveGrant(TRYAN, { name: 'A grant', body: `Paid from [[task:${t.id}]]` }, s, T0 + 6)).grant;
+  const from = async (who) => (await backlinksTo(who, 'task', t.id, s, T0 + 7)).map((b) => [b.from, b.name]);
+  assert.deepEqual(await from(TCHELSEA), [['grant', 'A grant'], ['topic', 'Between us'], ['topic', 'Invoices'], ['comment', 'Before that'], ['task', 'Before that']], 'not every source, in order, or the task itself');
+  assert.deepEqual(await from(ADA), [['topic', 'Invoices']], 'a member saw a source they could not open');
+  // The topic's backlinks: a member sees none, because a task is not theirs to open.
+  await saveTask(TCHELSEA, { id: t2.id, body: `See [[topic:${pub.id}]]` }, s, T0 + 8, TMODS);
+  assert.deepEqual((await backlinksTo(ADA, 'topic', pub.id, s, T0 + 9)), []);
+  assert.deepEqual((await backlinksTo(TCHELSEA, 'topic', pub.id, s, T0 + 9)).map((b) => b.from), ['task']);
+  // The office's sources are sealed, and never in the plain index.
+  const plain = await s.get('backlinks', { type: 'json' });
+  assert.ok(Object.keys(plain.from).every((k) => /^(task|taskc|post):/.test(k)), 'an office source was kept in the clear');
+  assertSealed(await s.get('office-backlinks', { type: 'json' }), ['grant:' + g.id]);
+  // An edit takes a link away, and a delete takes its sources away.
+  assert.deepEqual((await from(TCHELSEA)).map((x) => x[0]), ['grant', 'topic', 'topic', 'comment'], 'the edited task still linked');
+  await removeTask(TRYAN, t2.id, s);
+  await removeTopic(ADA, pub.id, s, T0 + 10);
+  await saveGrant(TRYAN, { id: g.id, body: 'Paid.' }, s, T0 + 11);
+  assert.deepEqual(await from(TCHELSEA), [['topic', 'Between us']]);
+  assert.ok(Object.keys((await s.get('backlinks', { type: 'json' })).from).every((k) => !k.includes(t2.id) && !k.includes(pub.id)), 'a deleted source stayed in the index');
+}));

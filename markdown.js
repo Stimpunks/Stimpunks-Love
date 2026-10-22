@@ -27,6 +27,12 @@
              box the server marked, { n, on, raw }, and its checkbox, which it
              makes tickable. Without one, a box is drawn ticked or not, and
              cannot be changed there. Each box is named by its item's words.
+
+   A LINK TO A TASK, A TOPIC OR A RECORD OF THE OFFICE (2026-10-21, links.js)
+   arrives named for its reader by the server: { name, href } is drawn as a
+   link, PREFIX-ref, with what it is before its name; { shut } as words saying
+   it is one they can't open, and { gone } as words saying it has gone. A name
+   is never guessed here: without one there is none.
    ============================================================================= */
 (function () {
   'use strict';
@@ -38,6 +44,21 @@
     return e;
   }
 
+  var KIND = { task: 'Task', topic: 'Forum topic', grant: 'Grant request', 'case': 'Case', contact: 'Contact' };
+  var WORDS = { task: 'a task', topic: 'a forum topic', grant: 'a grant request', 'case': 'a case', contact: 'a contact' };
+  function ref(n, o) {
+    var words = WORDS[n.kind] || 'a link';
+    if (n.name && typeof n.href === 'string' && /^\/[a-z-]+\.html#\//.test(n.href)) {
+      var a = el('a', o.prefix + '-ref');
+      a.href = n.href;
+      a.appendChild(el('span', o.prefix + '-ref__kind', (KIND[n.kind] || 'Link') + ': '));
+      a.appendChild(document.createTextNode(n.name));
+      return a;
+    }
+    return el('span', o.prefix + '-ref ' + o.prefix + '-ref--shut',
+      n.gone ? words + (n.kind === 'topic' ? ' that has gone' : ' since deleted') : n.shut ? words + ' you can’t open' : words);
+  }
+
   function inline(nodes, into, o) {
     nodes.forEach(function (n) {
       if (n.t === 'text') into.appendChild(document.createTextNode(n.v));
@@ -45,6 +66,7 @@
       else if (n.t === 'code') into.appendChild(el('code', null, n.v));
       else if (n.t === 'b' || n.t === 'i' || n.t === 's') { var w = el({ b: 'strong', i: 'em', s: 'del' }[n.t]); inline(n.c, w, o); into.appendChild(w); }
       else if (n.t === 'pic') into.appendChild(o.pic ? o.pic(n) : document.createTextNode(n.alt || ''));
+      else if (n.t === 'ref') into.appendChild(ref(n, o));
       else if (n.t === 'a') {
         var a = el('a'); a.href = n.href; inline(n.c, a, o);
         try {

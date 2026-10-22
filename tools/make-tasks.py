@@ -395,9 +395,9 @@ def check_page():
         problems.append(f"{PAGE.name}: missing.")
         return
     page = PAGE.read_text()
-    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "comments.js", "preview.js", "tasks.js")]
+    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "links.js", "comments.js", "preview.js", "tasks.js")]
     if min(at) < 0 or at != sorted(at):
-        problems.append(f"{PAGE.name}: it must load markdown.js, then comments.js, then preview.js, then tasks.js.")
+        problems.append(f"{PAGE.name}: it must load markdown.js, then links.js, then comments.js, then preview.js, then tasks.js.")
     if 'href="privacy.html#tasks"' not in page:
         problems.append(f"{PAGE.name}: the page must link what tasks keep, privacy.html#tasks.")
     if 'id="tasks"' not in PRIVACY.read_text():

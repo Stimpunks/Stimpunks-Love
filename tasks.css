@@ -307,3 +307,14 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-peek__name { font-weight: 700; color: var(--cb-steel-2); }
 .tk-peek__what { font-size: 14px; color: var(--cb-amber-2); }
 .tk-peek .tk-body { padding-top: 8px; }
+
+/* LINKS (links.js): a link to a task, a topic or a record of the office in
+   the words, with what it is before its name; one this reader can't open is
+   words, never its name. Linked from lists what links here, in the case's own
+   inks: the same pairs as every other link and quiet line. */
+.tk-ref { font-weight: 700; }
+.tk-ref__kind { font-weight: 400; color: var(--cb-amber-2); }
+.tk-ref--shut { font-weight: 400; font-style: italic; color: var(--cb-amber-2); }
+.tk-linked { display: grid; gap: 6px; }
+.tk-linked__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.tk-linked__what, .tk-linked__about { color: var(--cb-amber-2); }

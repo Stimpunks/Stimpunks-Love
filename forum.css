@@ -232,3 +232,14 @@ a.fm-card .fm-card__title { color: var(--cb-amber); text-decoration: underline; 
 .fm-scheme { max-width: 100%; }
 .fm-opts__why { flex: 1 1 100%; font-size: 13px; }
 .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* LINKS (links.js): a link to another topic, or for staff a task or a record
+   of the office, with what it is before its name; one this reader can't open
+   is words, never its name. Linked from, under a topic's posts, in the case's
+   own inks: the same pairs as every other link and quiet line. */
+.fm-ref { font-weight: 700; }
+.fm-ref__kind { font-weight: 400; color: var(--cb-amber-2); }
+.fm-ref--shut { font-weight: 400; font-style: italic; color: var(--cb-amber-2); }
+.fm-linked { display: grid; gap: 6px; padding: 12px 0; border-top: 2px solid var(--cb-bar); }
+.fm-linked__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.fm-linked__what, .fm-linked__about { color: var(--cb-amber-2); }

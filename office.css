@@ -287,3 +287,14 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 .of-peek__name { font-weight: 700; color: var(--cb-steel-2); }
 .of-peek__what { font-size: 14px; color: var(--cb-amber-2); }
 .of-peek .of-body { padding-top: 8px; }
+
+/* LINKS (links.js): a link to a task, a topic or a record of the office in
+   the words, with what it is before its name; one this reader can't open is
+   words, never its name. Linked from lists what links here, in the case's own
+   inks: the same pairs as every other link and quiet line. */
+.of-ref { font-weight: 700; }
+.of-ref__kind { font-weight: 400; color: var(--cb-amber-2); }
+.of-ref--shut { font-weight: 400; font-style: italic; color: var(--cb-amber-2); }
+.of-linked { display: grid; gap: 6px; }
+.of-linked__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.of-linked__what, .of-linked__about { color: var(--cb-amber-2); }

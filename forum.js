@@ -313,6 +313,10 @@
       return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b || {} }; });
     }, function () { return { status: 0, body: {} }; });
   }
+  // What [[ offers, asked of /cb/forum by POST, so nothing typed is in an address (links.js).
+  function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
+  // Where each topic read whole is linked from, kept while it is redrawn after a reply or an edit.
+  var linkedFrom = {};
   function why(r, otherwise) {
     if (r.body && typeof r.body.error === 'string' && r.body.error && r.status !== 404) return r.body.error;
     if (r.status === 404 && r.body && r.body.error) return r.body.error;
@@ -997,7 +1001,9 @@
     form.appendChild(bl);
     form.appendChild(text);
     form.appendChild(pick);
-    var hint = el('p', 'cb-quiet fm-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A link on a line of its own becomes a preview, which our server makes by reading that page once. Paste a screenshot into the box, or drop a picture on it, to have it stand right there in the words. Type @ and a name to mention somebody: if they asked to be told, they are.');
+    // [[ links a forum topic, and for staff a task or a record of the office (links.js).
+    window.loveLinks.attach(text, { ask: findLinks, said: say, after: function () { saveDraft(); } });
+    var hint = el('p', 'cb-quiet fm-hint', 'Markdown works: **bold**, _italic_, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A link on a line of its own becomes a preview, which our server makes by reading that page once. Paste a screenshot into the box, or drop a picture on it, to have it stand right there in the words. Type @ and a name to mention somebody: if they asked to be told, they are. Type [[ and part of a title to link another topic: everybody who can read it sees its title.');
     hint.id = tid + '-hint';
     form.appendChild(hint);
 
@@ -1724,6 +1730,10 @@
     if (t.mod || t.takeDown) view.appendChild(topicTools(t));
     t.posts.forEach(function (p, i) { view.appendChild(postOf(t, p, i)); });
     if (!t.posts.length) view.appendChild(quiet('Every post in this topic has been taken down.'));
+    // Linked from: the topics, and for staff the tasks and the office's records, that link here (links.js).
+    if (body.backlinks) linkedFrom[t.id] = body.backlinks;
+    var from = window.loveLinks.backlinks(linkedFrom[t.id], { p: 'fm', heading: function (l, w) { return heading(l, w); } });
+    if (from) view.appendChild(from);
     replyBox = null;
     if (t.full) view.appendChild(el('p', null, 'This topic is full. Start a new one, and link back to this one if it helps.'));
     else if (!t.reply) view.appendChild(el('p', null, 'This topic is closed, so nobody can reply to it.'));

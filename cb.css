@@ -627,6 +627,12 @@ ol.cb-md-list { list-style: decimal; }
 /* A HEADING in a message (# and a space) is weight and size and no colour of
    its own, and never as large as the radio's own parts' headings: it is a
    heading inside somebody's words. */
+/* A link to a task, a topic or a record of the office (links.js, 2026-10-21):
+   what it is before its name, in the tag's ink; one the reader can't open is
+   words, never its name. The same pairs as the completion list's. */
+.cb-ref__a { font-weight: 700; }
+.cb-ref__kind { font-weight: 400; color: var(--cb-amber-2); }
+.cb-ref--shut { font-style: italic; color: var(--cb-amber-2); }
 .cb-md-h { font: inherit; font-weight: 700; line-height: 1.25; }
 .cb-md-h1 { font-size: 1.22em; }
 .cb-md-h2 { font-size: 1.1em; }
