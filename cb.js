@@ -2843,6 +2843,7 @@
       // username or changing its password, is refused for the old pass: only a
       // refusal of the pass the radio holds now signs it off.
       if (r.status === 401) { if (sent === me.state.pass) me.lost(); return; }
+      if (r.body && r.body.swap && sent === me.state.pass) me.takeSwap(r.body.swap);
       // Retuned while this was on its way: it is the other channel's answer.
       if (r.status === 200 && (r.body.room || null) !== me.tunedRoom()) return;
       if (r.status === 200) {
@@ -9410,6 +9411,18 @@
      request, and every listen says what they are now. They are kept beside the
      pass only so love.js can keep the radio out of a Town Hall room this pass
      cannot use; the lock is on the server whatever is kept here. */
+  /* Given a role, or had one taken away, at the desk in the Moderators' room
+     (2026-10-21): the pass the server says this username holds now, kept in
+     place of the old one, so nobody has to sign off and on, and said. */
+  Radio.prototype.takeSwap = function (sw) {
+    if (!sw || typeof sw.pass !== 'string' || !/^cb2\.(acct|base)\./.test(sw.pass)) return;
+    this.state.pass = sw.pass;
+    if (typeof sw.handle === 'string') this.state.handle = sw.handle;
+    this.state.base = !!sw.base;
+    this.state.roles = Array.isArray(sw.roles) ? sw.roles.slice() : [];
+    save(this.state);
+    this.tell(sw.base ? 'You are a moderator now. Reload the page to see everything that opens.' : 'You are no longer a moderator. Reload the page to see the CB as it is for you now.');
+  };
   Radio.prototype.keepRoles = function (roles) {
     if (!Array.isArray(roles)) return;
     var now = roles.slice().sort().join(',');

@@ -129,6 +129,25 @@
     <p class="md-call__fine" id="md-invites-off">The invites open for a moderator signed on as the base, and the server refuses everybody else whatever this page shows.</p>
   </section>
 
+  <section class="md-part" aria-labelledby="md-roles-h">
+    <h2 id="md-roles-h">The desk: roles</h2>
+    <p><strong>Who is a moderator, and who also holds a role, is changed here by our administrators</strong> (since 21 October 2026). Being on the list makes somebody a moderator. <b>Board</b> opens the Board room and Executive Session, with their channels, calls and forum categories; <b>director</b> the Directors&rsquo; room, the Board room, Tasks and the office; <b>administrator</b> every private room except Executive Session, and Tasks, the office and this list. A username on the list that has not been claimed yet is claimed on <a href="join.html">the joining page</a> with the moderators&rsquo; password.</p>
+    <p><strong>A few names are on the break-glass list</strong>, kept in the site&rsquo;s settings rather than here, so nobody can be locked out of this desk: it shows them, and cannot change them. <strong>Board is given or taken only by somebody on the board or on the break-glass list</strong>, because Executive Session is the board without staff, and nobody can be left without an administrator. Each name keeps who changed it last and when, and nothing more. A change reaches every page within half a minute, and the person&rsquo;s radio picks up their new pass by itself the next time it listens.</p>
+    <div class="md-call md-desk" id="md-roles" hidden>
+      <p><button type="button" id="md-roles-load">Show the roles</button></p>
+      <div id="md-roles-list"></div>
+      <fieldset class="md-roles__add">
+        <legend>Add somebody, or change somebody&rsquo;s roles</legend>
+        <p><label class="md-desk__lab" for="md-roles-name">A username</label>
+        <input class="md-desk__in" id="md-roles-name" type="text" maxlength="24" autocomplete="off" spellcheck="false"></p>
+        <p class="md-roles__checks" id="md-roles-checks"></p>
+        <p><button type="button" id="md-roles-add">Put them on the list with these roles</button></p>
+      </fieldset>
+      <p class="md-call__said" id="md-roles-said" role="status"></p>
+    </div>
+    <p class="md-call__fine" id="md-roles-off">The roles open for an administrator, and the server refuses everybody else whatever this page shows.</p>
+  </section>
+
   <section class="md-part" aria-labelledby="md-desk-h">
     <h2 id="md-desk-h">The desk: usernames</h2>
     <p>Everybody on the CB has claimed their username, with a password of their own. When somebody has lost their password and their recovery code, and has no email address on their username or the reset code never came, a moderator can give them a way back in from here. <strong>There is no list of everybody&rsquo;s username</strong>, and the desk never shows anybody&rsquo;s email address: look up the one you were asked about, by name.</p>

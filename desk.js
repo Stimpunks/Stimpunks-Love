@@ -6,7 +6,8 @@
    moderators able to reset or delete, here; 2026-10-18, clearing one card that
    breaks the covenant without deleting the username it is on; and 2026-10-21,
    invites in place of the starter password, which the desk makes and deletes.
-   An invite counts its uses and never says who used it.
+   An invite counts its uses and never says who used it. And the same day,
+   roles: an administrator gives and takes them here (/cb/roles).
 
    IT OPENS ONLY FOR A BASE PASS, and the server refuses anybody else whatever
    this page shows: this file is the page keeping quiet, never the lock. It
@@ -348,4 +349,137 @@
       rLoad.textContent = 'Show them again';
     }, function () { rSay('The desk could not be reached just now.'); });
   });
+
+  /* ROLES (Ryan's ask and calls, 2026-10-21): an administrator sees everybody
+     with a role, ticks and unticks board, director and administrator, puts
+     somebody on the list or takes them off it. The break-glass list is shown
+     and cannot be changed here. Board is given or taken only by somebody on
+     the board or the break-glass list, which the server decides; the page
+     only says so. Fetched when an administrator presses for it, never on
+     arrival. Taking somebody off, taking away administrator and changing board
+     ask once more. */
+  (function () {
+    var box = document.getElementById('md-roles');
+    var rOff = document.getElementById('md-roles-off');
+    var list = document.getElementById('md-roles-list');
+    var rSaid = document.getElementById('md-roles-said');
+    var load = document.getElementById('md-roles-load');
+    var name = document.getElementById('md-roles-name');
+    var checks = document.getElementById('md-roles-checks');
+    var add = document.getElementById('md-roles-add');
+    if (!box || !list || !load || !add) return;
+    if ((me.roles || []).indexOf('administrator') < 0) return;
+    box.hidden = false;
+    if (rOff) rOff.hidden = true;
+    var GIVEN = [['board', 'Board'], ['director', 'Director'], ['administrator', 'Administrator']];
+    var mayBoard = true, people = [];
+    function rSay(t) { rSaid.textContent = t; }
+    function rolesCall(send) {
+      return fetch('/cb/roles', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+        body: JSON.stringify(send),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      });
+    }
+    function day(t) {
+      try { return new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return ''; }
+    }
+    function words(roles) {
+      var w = GIVEN.filter(function (g) { return roles.indexOf(g[0]) >= 0; }).map(function (g) { return g[1].toLowerCase(); });
+      return w.length ? 'Moderator, ' + w.join(', ') + '.' : 'Moderator.';
+    }
+    // A row of boxes, one for each role; board is shown and not changeable by somebody who may not give it.
+    function boxes(into, idBase, on) {
+      into.textContent = '';
+      GIVEN.forEach(function (g) {
+        var lab = el('label', null, 'md-role__check');
+        var c = el('input');
+        c.type = 'checkbox'; c.value = g[0]; c.id = idBase + '-' + g[0]; c.checked = on.indexOf(g[0]) >= 0;
+        if (g[0] === 'board' && !mayBoard) { c.disabled = true; lab.title = 'Only somebody on the board, or on the break-glass list, can give or take away board.'; }
+        lab.appendChild(c); lab.appendChild(document.createTextNode(g[1]));
+        into.appendChild(lab);
+      });
+    }
+    function ticked(into) {
+      return Array.prototype.filter.call(into.querySelectorAll('input'), function (c) { return c.checked; }).map(function (c) { return c.value; });
+    }
+    function send(handle, roles, remove, had, after) {
+      rSay(remove ? 'Taking ' + handle + ' off the list…' : 'Saving…');
+      rolesCall(remove ? { action: 'remove', handle: handle } : { action: 'set', handle: handle, roles: roles }).then(function (r) {
+        if (r.status !== 200) { rSay(why(r, 'That did not work. Nothing was changed.')); return; }
+        draw(r.body);
+        rSay(remove ? handle + ' is off the list, and an ordinary username again.' : had ? 'Saved. ' + handle + ': ' + words(roles) : handle + ' is on the list: ' + words(roles));
+        if (after) after();
+      }, function () { rSay('The desk could not be reached. Nothing was changed.'); });
+    }
+    // Ask once more before something that takes a key away.
+    function sure(into, sentence, yesText, act, back) {
+      var ask = el('div');
+      ask.appendChild(el('p', sentence));
+      var yes = button(yesText), no = button('Not now');
+      ask.appendChild(yes); ask.appendChild(no);
+      into.appendChild(ask);
+      no.focus();
+      no.addEventListener('click', function () { ask.remove(); if (back) back.focus(); });
+      yes.addEventListener('click', function () { ask.remove(); act(); });
+    }
+    function draw(b) {
+      people = b.people || [];
+      if (typeof b.mayBoard === 'boolean') mayBoard = b.mayBoard;
+      boxes(checks, 'md-roles-new', []);
+      list.textContent = '';
+      if (!mayBoard) list.appendChild(el('p', 'Board is greyed out for you: only somebody on the board, or on the break-glass list, can give or take it away.', 'md-call__fine'));
+      var ul = el('ul', null, 'md-roles');
+      people.forEach(function (x, i) {
+        var li = el('li', null, 'md-role' + (x.fixed ? ' md-role--fixed' : ''));
+        li.appendChild(el('p', x.handle, 'md-role__name'));
+        var about = x.fixed ? 'On the break-glass list, in the site’s settings: the desk cannot change it. ' + words(x.roles)
+          : (x.claimed ? 'Claimed.' : 'Not claimed yet: they claim it on the joining page with the moderators’ password.') + (x.by ? ' Changed last by ' + x.by + (x.t ? ' on ' + day(x.t) : '') + '.' : '');
+        li.appendChild(el('p', about, 'md-role__about'));
+        if (!x.fixed) {
+          var row = el('p', null, 'md-roles__checks');
+          boxes(row, 'md-role-' + i, x.roles);
+          li.appendChild(row);
+          var tools = el('p');
+          var save = button('Save ' + x.handle + '’s roles'), off = button('Take ' + x.handle + ' off the list');
+          tools.appendChild(save); tools.appendChild(off);
+          li.appendChild(tools);
+          save.addEventListener('click', function () {
+            var now = ticked(row);
+            var lostAdmin = x.roles.indexOf('administrator') >= 0 && now.indexOf('administrator') < 0;
+            var boardMoved = (x.roles.indexOf('board') >= 0) !== (now.indexOf('board') >= 0);
+            if (lostAdmin || boardMoved) {
+              sure(li, (lostAdmin ? x.handle + ' will no longer be an administrator. ' : '') + (boardMoved ? (now.indexOf('board') >= 0 ? x.handle + ' will be on the board, with Executive Session. ' : x.handle + ' will no longer be on the board. ') : '') + 'It reaches every page within half a minute.',
+                'Save it', function () { send(x.handle, now, false, true); }, save);
+            } else send(x.handle, now, false, true);
+          });
+          off.addEventListener('click', function () {
+            sure(li, x.handle + ' will no longer be a moderator, and keeps an ordinary username. It reaches every page within half a minute.', 'Take them off', function () { send(x.handle, [], true, true, function () { load.focus(); }); }, off);
+          });
+        }
+        ul.appendChild(li);
+      });
+      list.appendChild(ul);
+      load.textContent = 'Show them again';
+    }
+    load.addEventListener('click', function () {
+      rSay('Looking…');
+      rolesCall({ action: 'list' }).then(function (r) {
+        if (r.status !== 200) { rSay(why(r, 'The roles could not be fetched just now.')); return; }
+        rSay('');
+        draw(r.body);
+      }, function () { rSay('The desk could not be reached just now.'); });
+    });
+    boxes(checks, 'md-roles-new', []);
+    add.addEventListener('click', function () {
+      var h = name.value.trim();
+      if (!h) { rSay('Type the username first.'); name.focus(); return; }
+      var had = people.filter(function (x) { return x.handle.toLowerCase() === h.toLowerCase(); })[0];
+      var now = ticked(checks);
+      send(h, now, false, !!had, function () { name.value = ''; });
+    });
+    name.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); add.click(); } });
+  }());
 }());

@@ -4113,6 +4113,24 @@ pages carry `data-cb-role` and `data-call-mods`, each a space-separated list of 
 only the last ones `/cb/channel` told it, for the page to keep quiet by. **Never log `CB_MODS`**, and
 never put a real role list in a test or a doc: who holds which role is not ours to publish.
 
+**SINCE 2026-10-21 `CB_MODS` IS ONLY THE BREAK-GLASS LIST, AND ADMINISTRATORS KEEP EVERYBODY ELSE'S ROLES AT THE
+DESK.** Ryan's ask and calls: the roles a small system provisioned in the Moderators' room (the desk's Roles part,
+`desk.js`, `/cb/roles`) by administrators, with two names on the break-glass list in Netlify's settings so nobody can be
+locked out. The stored roles are one blob, `roles`: each name's handle, roles, who changed it last and when, and nothing
+more (Ryan's call). **`readMods()` reads `CB_MODS` first** (its entries `fixed`, never changed or outranked from the
+desk) and adds the stored roles as this instance last loaded them; `loadMods()` reads them at most every
+`MODS_FRESH` (30 seconds), and **every exported async function that takes `mods` loads them itself when it is not
+handed them**, so a request, a webhook and the hourly run never read half a list; the sync ones that rely on an earlier
+load are named in `tools/check-roles.py`. Fail closed both ways: an unreadable `CB_MODS` locks everything, as before;
+stored roles that cannot be read leave the break-glass list alone (`partial`). **Board is given or taken only by
+somebody on the board or the break-glass list** (`boardEditor`), because an administrator who could make themselves
+board would walk into Executive Session; nobody is left without an administrator. **A pass of the other kind from the
+list's is now an ordinary username's, never more, and carries `swap`** (`readPass`), the pass signing on again would
+give, which `/cb/channel` hands the radio (`takeSwap` in `cb.js`), so a role given or taken needs no signing off;
+it is never swapped while the list is `partial`. A new kind of role is still a change to `ROLES` and the code that reads
+it. The friendly edits are **a history of who changed whose roles**, which is the record of moderation kept against a
+person the street refuses, and **letting administrators give board "to save a step"**.
+
 **THE BRASS TACKS BOARD IS THE CB'S TOO, AND IT IS WHAT THE CB DOES NOT FORGET.** Ryan, 2026-09-30:
 posts meant to persist, read by anybody, posted only by a moderator with their username public on the
 post; the author edits, any moderator takes a post down (`addBrass`, `editBrass`, `removeBrass`); a feed

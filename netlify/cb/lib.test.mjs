@@ -1545,7 +1545,15 @@ test('a moderator moves onto their own password: it gives the base with the list
   assert.match(mine, /^cb2\.base\./);
   const who = await readPass(reqWith(mine), mods, S);
   assert.equal(who.role, 'base'); assert.equal(who.account, true); assert.deepEqual(rolesOf(who), ['board', 'moderator']);
-  assert.equal(await readPass(reqWith(issueAccountPass('Juniper', 1)), mods, S), null, 'an ordinary pass for a moderator\'s username');
+  // An ordinary pass for a moderator's username (they were given a role at the
+  // desk) opens no more than an ordinary username, and hands over the pass
+  // signing on again would give them (2026-10-21).
+  const asPlain = await readPass(reqWith(issueAccountPass('Juniper', 1)), mods, S);
+  assert.equal(asPlain.role, 'mobile', 'an ordinary pass for a moderator\'s username opened the base');
+  assert.equal(asPlain.roles.size, 0);
+  assert.equal(asPlain.swap.base, true); assert.match(asPlain.swap.pass, /^cb2\.base\./);
+  assert.equal((await readPass(reqWith(asPlain.swap.pass), mods, S)).role, 'base');
+  assert.equal((await readPass(reqWith(issueAccountPass('Juniper', 1)), null, S)).swap, undefined, 'a pass was swapped with no list to swap it by');
   // A base pass is signed with the moderators' password: a community-signed
   // forgery with the base label is refused.
   const forged = mine.replace(/\.[A-Za-z0-9_-]+$/, '.' + issueAccountPass('Juniper', 1).split('.').pop());
@@ -1558,13 +1566,18 @@ test('a moderator moves onto their own password: it gives the base with the list
   assert.equal(await readPass(reqWith(mine), mods, S), null);
   assert.equal((await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), mods, S)).role, 'base');
   // Off the list, the same account is an ordinary claimed username with the same
-  // password, and the base pass is refused.
+  // password.
   const off = readMods('{"Quill":[]}');
-  assert.equal(await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), off, S), null, 'a base pass outlived being taken off the list');
+  // Taken off the list, a base pass opens no more than an ordinary username, and hands over that pass.
+  const offList = await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), off, S);
+  assert.equal(offList.role, 'mobile', 'a base pass outlived being taken off the list');
+  assert.equal(offList.swap.base, false); assert.match(offList.swap.pass, /^cb2\.acct\./);
   const plain = await signOn('Juniper', 'a newer phrase too', off, S);
   assert.equal(plain.role, 'mobile'); assert.equal(plain.account, 2);
-  // An unreadable list gives nobody the base, a moderator on their own password included.
-  assert.equal(await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), null, S), null);
+  // An unreadable list gives nobody the base, a moderator on their own password
+  // included, and swaps no pass on the strength of it.
+  const blind = await readPass(reqWith(issueAccountPass('Juniper', 2, 'base')), null, S);
+  assert.equal(blind.role, 'mobile'); assert.equal(blind.swap, undefined);
   // Deleting it puts the handle back on the shared password, to be claimed again.
   await deleteAccount('Juniper', S);
   assert.equal((await signOn('Juniper', 'moderators-pw', mods, S)).claim, true);
@@ -5816,4 +5829,99 @@ test('backlinks follow every write and delete, come from what keeps, and show on
   await saveGrant(TRYAN, { id: g.id, body: 'Paid.' }, s, T0 + 11);
   assert.deepEqual(await from(TCHELSEA), [['topic', 'Between us']]);
   assert.ok(Object.keys((await s.get('backlinks', { type: 'json' })).from).every((k) => !k.includes(t2.id) && !k.includes(pub.id)), 'a deleted source stayed in the index');
+}));
+
+/* ROLES KEPT WITH THE CB (2026-10-21): CB_MODS is only the break-glass list,
+   everybody else's roles are stored and changed at the desk by administrators,
+   and board is given or taken only by the board or the break-glass list.
+   Placeholder names only: who holds which role is not ours to publish. */
+import { loadMods, unloadMods, rolesList, setRoles, rolesEditor, MODS_FRESH } from './lib.mjs';
+
+async function withBreakGlass(list, fn) {
+  const was = process.env.CB_MODS;
+  if (list == null) delete process.env.CB_MODS; else process.env.CB_MODS = list;
+  unloadMods();
+  try { await withPasswords(fn); } finally {
+    unloadMods();
+    if (was === undefined) delete process.env.CB_MODS; else process.env.CB_MODS = was;
+  }
+}
+const desk = (handle, roles, fixed = false) => ({ role: 'base', handle, roles: new Set(['moderator', ...roles]), account: true, since: 1, fixed });
+
+test('the break-glass list and the stored roles are read together, and the break-glass list wins', () => withBreakGlass('{"Juniper":["administrator","board"],"Quill":["administrator"]}', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const glass = desk('Juniper', ['administrator', 'board'], true);
+  assert.ok(rolesEditor(glass) && !rolesEditor(desk('Ada', ['director'])) && !rolesEditor({ role: 'mobile', handle: 'Ada', roles: new Set() }));
+  assert.ok((await setRoles(glass, 'Ada', ['director'], s, T0)).people);
+  assert.equal(readMods().get('ada').roles.has('director'), true, 'the instance that made a change did not have it at once');
+  unloadMods();
+  assert.equal(readMods().has('ada'), false, 'a stored role was there without being loaded');
+  assert.equal(readMods().partial, true);
+  await loadMods(s, T0);
+  const all = readMods();
+  assert.deepEqual([...all.get('ada').roles].sort(), ['director', 'moderator']);
+  assert.equal(all.get('juniper').fixed, true); assert.equal(!!all.get('ada').fixed, false); assert.equal(all.partial, false);
+  // A stored entry that folds like a break-glass one never overrides it, and the desk refuses to make one.
+  assert.match((await setRoles(glass, 'quill', [], s, T0)).error, /break-glass/);
+  const s2 = memoryStore({ etagOnRead: true });
+  await s2.setJSON('roles', { people: { quill: { handle: 'Quill', roles: [], by: 'x', t: 1 }, ada: { handle: 'Ada', roles: ['director'], by: 'Juniper', t: T0 } } }, { onlyIfNew: true });
+  await loadMods(s2, T0);
+  assert.equal(readMods().get('quill').roles.has('administrator'), true, 'a stored entry overrode the break-glass list');
+  // Stored roles that cannot be trusted leave only the break-glass list.
+  const s3 = memoryStore({ etagOnRead: true });
+  await s3.setJSON('roles', { people: { ada: { handle: 'Ada', roles: ['emperor'] } } }, { onlyIfNew: true });
+  await loadMods(s3, T0);
+  assert.equal(readMods().has('ada'), false); assert.equal(readMods().partial, true); assert.ok(readMods().has('juniper'));
+  // An unreadable break-glass list locks everything, as an unreadable CB_MODS always did.
+  process.env.CB_MODS = '{not json';
+  assert.equal(readMods(), null);
+}));
+
+test('the desk is for administrators, keeps who changed a name last and nothing more, and board needs the board', () => withBreakGlass('{"Juniper":["administrator","board"]}', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const glass = desk('Juniper', ['administrator', 'board'], true);
+  const admin = desk('Quill', ['administrator']);
+  const boardAdmin = desk('Bo', ['administrator', 'board']);
+  assert.match((await setRoles(desk('Ada', ['director']), 'Bo', [], s, T0)).error, /administrators/);
+  assert.equal(await rolesList(desk('Ada', ['director']), s), null);
+  await setRoles(glass, 'Quill', ['administrator'], s, T0);
+  await claimAccount('Bo', 'bo has a long phrase', s, T0);
+  const made = await setRoles(admin, 'bo', ['director'], s, T0 + 1);
+  const bo = made.people.find((x) => x.handle === 'Bo');
+  assert.deepEqual([bo.roles, bo.by, bo.t, bo.claimed], [['director'], 'Quill', T0 + 1, true], 'not the claimed spelling, or not who changed it and when');
+  const kept = (await s.get('roles', { type: 'json' })).people;
+  assert.deepEqual(Object.keys(kept.bo).sort(), ['by', 'handle', 'roles', 't'], 'the roles keep more than who changed them last and when');
+  // An administrator who is not on the board cannot give board, or take it away.
+  assert.match((await setRoles(admin, 'Bo', ['director', 'board'], s, T0 + 2)).error, /board/);
+  assert.ok((await setRoles(glass, 'Bo', ['administrator', 'board'], s, T0 + 3)).people, 'the break-glass list could not give board');
+  assert.match((await setRoles(admin, 'Bo', ['administrator'], s, T0 + 4)).error, /board/);
+  assert.match((await setRoles(admin, 'Bo', [], s, T0 + 4, true)).error, /board/, 'board went with taking somebody off the list');
+  assert.ok((await setRoles(boardAdmin, 'Bo', ['administrator'], s, T0 + 5)).people, 'the board could not take board away');
+  assert.match((await setRoles(admin, 'Bo', ['emperor'], s, T0)).error, /role is one of/);
+  assert.match((await setRoles(admin, 'Nobody', [], s, T0, true)).error, /not on the list/);
+  assert.ok((await setRoles(admin, 'Bo', [], s, T0 + 6, true)).people.every((x) => x.handle !== 'Bo'));
+  assert.equal((await rolesList(admin, s)).mayBoard, false);
+  assert.equal((await rolesList(glass, s)).mayBoard, true);
+}));
+
+test('nobody is left without an administrator', () => withBreakGlass('{"Juniper":["director"]}', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await s.setJSON('roles', { people: { quill: { handle: 'Quill', roles: ['administrator'], by: 'x', t: 1 } } }, { onlyIfNew: true });
+  const quill = desk('Quill', ['administrator']);
+  assert.match((await setRoles(quill, 'Quill', [], s, T0)).error, /nobody an administrator/);
+  assert.match((await setRoles(quill, 'Quill', [], s, T0, true)).error, /nobody an administrator/);
+  assert.ok((await setRoles(quill, 'Ada', ['administrator'], s, T0)).people);
+  assert.ok((await setRoles(quill, 'Quill', [], s, T0 + 1)).people, 'with another administrator, one could not step down');
+}));
+
+test('fifteen administrators changing fifteen names at once lose nothing', () => withBreakGlass('{"Juniper":["administrator","board"]}', async () => {
+  for (const etagOnRead of [true, false]) {
+    const s = memoryStore({ etagOnRead });
+    const glass = desk('Juniper', ['administrator', 'board'], true);
+    const results = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => setRoles(glass, `p${i}`, ['director'], s, T0)));
+    const said = results.filter((r) => r.status === 'fulfilled' && r.value.people).length;
+    const kept = Object.keys((await s.get('roles', { type: 'json' })).people);
+    results.forEach((r, i) => { if (r.status === 'fulfilled' && r.value.people) assert.ok(kept.includes(`p${i}`), `p${i} was told it worked and is not there`); });
+    if (etagOnRead) assert.equal(said, 15);
+  }
 }));

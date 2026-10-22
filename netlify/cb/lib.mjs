@@ -4091,9 +4091,17 @@ function same(a, b) {
 
 /* THE MODS' LIST. Ryan, 2026-09-29: a pre-approved list of MOD handles, which
    sign on only with the moderators' password and never with the community
-   one, each with roles. It lives in Netlify's environment as CB_MODS, never in
+   one, each with roles. It lived in Netlify's environment as CB_MODS, never in
    the repo, because who holds which role is not ours to publish, as one JSON
-   object from handle to roles:
+   object from handle to roles.
+
+   SINCE 2026-10-21 CB_MODS IS ONLY THE BREAK-GLASS LIST (Ryan's call: Ryan
+   and Helen), and everybody else's roles are kept with the CB (`roles`, below)
+   and changed by administrators at the desk in the Moderators' room. The two
+   are read together (readMods): a break-glass entry is `fixed`, cannot be
+   changed or removed from the desk, and wins over a stored one that folds
+   alike. If CB_MODS cannot be read, nothing works, as before; if the stored
+   roles cannot be read, only the break-glass list does. CB_MODS's shape:
 
      {"Ryan":["administrator","board","director"],"Helen":["administrator","director"]}
 
@@ -4113,7 +4121,22 @@ export function foldHandle(h) {
   return String(h == null ? '' : h).normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim();
 }
 
-export function readMods(raw = process.env.CB_MODS) {
+/* The roles everybody holds now: the break-glass list and the stored roles as
+   this instance last read them (loadMods, at most MODS_FRESH ago). Given a
+   string, only that string, read as CB_MODS is (the tests' way, and the
+   break-glass list's). A stored role that has not been loaded is not there,
+   which can only ever leave somebody with less than they hold. */
+export function readMods(raw) {
+  if (raw !== undefined) return parseMods(raw);
+  const fixed = parseMods(process.env.CB_MODS);
+  if (!fixed) return null;
+  for (const v of fixed.values()) v.fixed = true;
+  if (storedRoles.map) for (const [k, v] of storedRoles.map) if (!fixed.has(k)) fixed.set(k, v);
+  // partial: the stored roles could not be read, so a pass is not swapped for less on the strength of it.
+  fixed.partial = !storedRoles.map;
+  return fixed;
+}
+function parseMods(raw) {
   if (!raw) return null;
   let data;
   try { data = JSON.parse(raw); } catch (e) { return null; }
@@ -4139,7 +4162,8 @@ export function readMods(raw = process.env.CB_MODS) {
    password is answered { claim } and no pass: they claim it first, on the
    joining page, with the moderators' password (joinAccount). */
 export const STARTER_GONE = 'The starter password has been retired. You join the CB with an invite now: a link or a code from a moderator, or from the Stimpunks Community page when you join our community.';
-export async function signOn(handle, password, mods = readMods(), s = store(), now = Date.now()) {
+export async function signOn(handle, password, mods, s = store(), now = Date.now()) {
+  if (mods === undefined) mods = await loadMods();
   const mod = secretFor('base');
   if (mod && same(password, mod)) {
     if (!mods) return { error: 'Moderator sign-on is switched off until its list of handles can be read. Tell Ryan or Helen.' };
@@ -4194,7 +4218,8 @@ export function issuePass(role, handle) {
    username it is on (Ryan, 2026-10-21, "They must claim a username to retain
    access"). Only /cb/account asks for it, with { unclaimed: true }; to every
    other function it is no pass, and the radio says why and offers the claim. */
-export async function readPass(req, mods = readMods(), s = store(), { unclaimed = false } = {}) {
+export async function readPass(req, mods, s = store(), { unclaimed = false } = {}) {
+  if (mods === undefined) mods = await loadMods();
   const h = req.headers.get('authorization') || '';
   const a = /^Bearer cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.([A-Za-z0-9_-]+)$/.exec(h);
   if (a) {
@@ -4209,16 +4234,20 @@ export async function readPass(req, mods = readMods(), s = store(), { unclaimed 
     const got = Buffer.from(a[4], 'base64url');
     if (got.length !== want.length || !timingSafeEqual(got, want)) return null;
     const on = mods && mods.get(foldHandle(handle));
-    // A moderator's own pass is good only while they are on the list, and an
-    // ordinary claimed pass is refused once its username is on it.
-    if (kind === 'base' ? !on : on) return null;
     const acct = await readAccount(handle, s);
     if (!acct || acct.v !== v) return null;
     // since: when the username was claimed, which the forums fold into the
     // mark on every post (authorMark), so that a name claimed again after its
     // owner deleted it is a different author. It is never sent anywhere.
-    if (kind === 'base') return { role: 'base', handle: on.handle, roles: on.roles, account: true, since: acct.since };
-    return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since };
+    if (kind === 'base' && on) return { role: 'base', handle: on.handle, roles: on.roles, account: true, since: acct.since, fixed: !!on.fixed };
+    // A pass of the other kind from the one the list says, because somebody was
+    // given a role or had one taken away at the desk (2026-10-21): an ordinary
+    // username's, never more, and the pass it should hold now, which the radio
+    // takes from its next listen (swap), so nobody has to sign off and on. It is
+    // what signing on again with their own password would give them.
+    const now = { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since };
+    if ((kind === 'base' || on) && mods && !mods.partial) now.swap = accountAnswer(acct.handle, v, mods);
+    return now;
   }
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
   if (!m || !unclaimed) return null;
@@ -4275,6 +4304,108 @@ export function accountAnswer(handle, v, mods = readMods()) {
    onto passwords of their own in the first place. */
 export function isMod(handle, mods = readMods()) {
   return !!(mods && mods.has(foldHandle(handle)));
+}
+
+/* ── Roles kept with the CB, changed at the desk ─────────────────────────
+
+   Ryan's ask and calls, 2026-10-21: the roles become a small system that
+   administrators provision in the Moderators' room. One blob, `roles`, holds
+   each person's username, roles, and who changed them last and when (Ryan's
+   call: that much, and no history). It is read by loadMods at most every
+   MODS_FRESH per function instance, so a change reaches every request within
+   that; the instance that made it has it at once.
+
+   WHAT THE DESK CANNOT DO. Change or remove a break-glass entry (CB_MODS).
+   Leave nobody an administrator. And give or take away board, unless whoever
+   is at the desk is on the board or the break-glass list (Ryan's call):
+   Executive Session is the board without staff, and an administrator who
+   could make themselves board would walk into it. Roles are only ROLES; a new
+   kind of role is still a change to the code. Nothing here is ever logged. */
+const ROLES_KEY = 'roles';
+export const MODS_FRESH = 30 * 1000;
+export const ROLES_GIVEN = ['board', 'director', 'administrator'];   // moderator is being on the list
+let storedRoles = { map: null, at: 0 };
+
+/* The stored roles, read: a Map like CB_MODS's, empty when there are none,
+   or null when what is there cannot be trusted, which leaves the break-glass
+   list alone. */
+function parseStoredRoles(d) {
+  if (!d) return new Map();
+  if (typeof d !== 'object' || !d.people || typeof d.people !== 'object' || Array.isArray(d.people)) return null;
+  const map = new Map();
+  for (const [key, e] of Object.entries(d.people)) {
+    if (!e || typeof e.handle !== 'string' || cleanHandle(e.handle) !== e.handle || foldHandle(e.handle) !== key) return null;
+    if (!Array.isArray(e.roles) || !e.roles.every((r) => ROLES_GIVEN.includes(r))) return null;
+    map.set(key, { handle: e.handle, roles: new Set(['moderator', ...e.roles]), by: typeof e.by === 'string' ? e.by : null, t: typeof e.t === 'number' ? e.t : null });
+  }
+  return map;
+}
+/* The roles as they stand: the stored ones read again if this instance has
+   not read them for MODS_FRESH. `s`, the tests' store, is always read. */
+export async function loadMods(s = null, now = Date.now()) {
+  if (!s && storedRoles.at && now - storedRoles.at < MODS_FRESH) return readMods();
+  let map = null;
+  try { map = parseStoredRoles(await (s || store()).get(ROLES_KEY, { type: 'json' })); } catch (e) { map = null; }
+  storedRoles = { map, at: now };
+  return readMods();
+}
+/* Forget what was loaded, for the tests, which share one module. */
+export function unloadMods() { storedRoles = { map: null, at: 0 }; }
+
+export function rolesEditor(who) { return !!who && who.role === 'base' && !!who.roles && who.roles.has('administrator'); }
+const boardEditor = (who) => who.roles.has('board') || !!who.fixed;
+
+/* Everybody with a role, for an administrator at the desk: the break-glass
+   list (fixed) and the stored roles, read afresh, each with whether their
+   username has been claimed, alphabetical. */
+export async function rolesList(who, s = store()) {
+  if (!rolesEditor(who)) return null;
+  const fixed = parseMods(process.env.CB_MODS);
+  const stored = parseStoredRoles(await s.get(ROLES_KEY, { type: 'json' }));
+  if (!fixed || !stored) return { error: 'The list of roles cannot be read just now, so nothing can be changed. Tell Ryan or Helen.' };
+  const people = [];
+  for (const [, v] of fixed) people.push({ handle: v.handle, roles: [...v.roles].filter((r) => r !== 'moderator').sort(), fixed: true });
+  for (const [k, v] of stored) if (!fixed.has(k)) people.push({ handle: v.handle, roles: [...v.roles].filter((r) => r !== 'moderator').sort(), by: v.by, t: v.t });
+  const claimed = await Promise.all(people.map((x) => readAccount(x.handle, s)));
+  people.forEach((x, i) => { x.claimed = !!claimed[i]; });
+  // mayBoard: whether this administrator may give or take away board, for the page to say so.
+  return { people: people.sort((a, b) => foldHandle(a.handle).localeCompare(foldHandle(b.handle))), mayBoard: boardEditor(who) };
+}
+
+/* Somebody given roles, or their roles changed (roles: any of ROLES_GIVEN;
+   none leaves them a moderator), or with `remove`, taken off the list. */
+export async function setRoles(who, handle, roles, s = store(), now = Date.now(), remove = false) {
+  if (!rolesEditor(who)) return { error: 'Roles are changed by administrators.' };
+  const h = cleanHandle(handle);
+  if (!h) return { error: 'That is not a username.' };
+  const want = remove ? [] : (Array.isArray(roles) ? roles : []);
+  if (!want.every((r) => ROLES_GIVEN.includes(r))) return { error: `A role is one of ${ROLES_GIVEN.join(', ')}; being on the list makes somebody a moderator.` };
+  const fixed = parseMods(process.env.CB_MODS);
+  if (!fixed) return { error: 'The list of roles cannot be read just now, so nothing can be changed. Tell Ryan or Helen.' };
+  const key = foldHandle(h);
+  if (fixed.has(key)) return { error: `${fixed.get(key).handle} is on the break-glass list in Netlify's settings, which the desk cannot change.` };
+  const acct = await readAccount(h, s);
+  const spelling = acct ? acct.handle : h;
+  let why = null;
+  const next = await updateDoc(ROLES_KEY, (d) => {
+    why = null;
+    const map = parseStoredRoles(d);
+    if (!map) { why = 'The list of roles cannot be read just now, so nothing can be changed. Tell Ryan or Helen.'; return null; }
+    const had = map.get(key);
+    if (remove && !had) { why = `${h} is not on the list.`; return null; }
+    const before = had ? had.roles.has('board') : false, after = !remove && want.includes('board');
+    if (before !== after && !boardEditor(who)) { why = 'Only somebody on the board, or on the break-glass list, can give or take away board.'; return null; }
+    if (remove) map.delete(key);
+    else map.set(key, { handle: had ? had.handle : spelling, roles: new Set(['moderator', ...want]), by: who.handle, t: now });
+    const admins = [...fixed.values(), ...[...map].filter(([k]) => !fixed.has(k)).map(([, v]) => v)].filter((v) => v.roles.has('administrator')).length;
+    if (!admins) { why = 'That would leave nobody an administrator.'; return null; }
+    const people = {};
+    for (const [k, v] of map) people[k] = { handle: v.handle, roles: [...v.roles].filter((r) => r !== 'moderator').sort(), by: v.by || null, t: v.t || null };
+    return { people };
+  }, s);
+  if (why) return { error: why };
+  storedRoles = { map: parseStoredRoles(next), at: now };
+  return rolesList(who, s);
 }
 
 /* ── Accounts: a username you claim, with a password of your own ───────── */
@@ -4394,7 +4525,8 @@ async function updateAccount(handle, change, s) {
    is given. The first claim wins; a handle on the moderators' list cannot be
    claimed. Answers { v, recovery } with the code to be shown once, or
    { error }. */
-export async function claimAccount(handle, password, s = store(), now = Date.now(), mods = readMods(), asBase = false, email = null) {
+export async function claimAccount(handle, password, s = store(), now = Date.now(), mods, asBase = false, email = null) {
+  if (mods === undefined) mods = await loadMods();
   if (!asBase && mods && mods.has(foldHandle(handle))) return { error: 'That handle is a moderator\'s, and only they can move it onto a password of their own.' };
   const pw = ownPassword(password);
   if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not the community or the moderators' password. A few words you will remember is fine.` };
@@ -4779,7 +4911,8 @@ async function giveBackInvite(id, s) {
 /* What the joining page may know about a username before it is claimed:
    whether it is free, and whether it is a moderator's, so the page can ask for
    the moderators' password. Both are already plain on the CB. */
-export async function checkHandle(handle, mods = readMods(), s = store()) {
+export async function checkHandle(handle, mods, s = store()) {
+  if (mods === undefined) mods = await loadMods();
   const h = cleanHandle(handle);
   if (!h) return { ok: false, why: `A username is between one and ${HANDLE_MAX} characters.` };
   const m = mods && mods.get(foldHandle(h));
@@ -4791,7 +4924,8 @@ export async function checkHandle(handle, mods = readMods(), s = store()) {
    password), a username, a password of your own, and an email address if you
    want one for recovery. The answer is what signing on answers, and the
    recovery code, shown once. */
-export async function joinAccount({ invite, handle, modPassword, password, email } = {}, mods = readMods(), s = store(), now = Date.now()) {
+export async function joinAccount({ invite, handle, modPassword, password, email } = {}, mods, s = store(), now = Date.now()) {
+  if (mods === undefined) mods = await loadMods();
   const h = cleanHandle(handle);
   if (!h) return { error: `A username is between one and ${HANDLE_MAX} characters.` };
   // FAIL CLOSED: with no readable list, a moderator's username cannot be told
@@ -7204,7 +7338,8 @@ async function tellDevices(msg, room, before, s, mods, send, to = null) {
    and, after an edit, did not name before. Never the post's writer. A
    notification says who, which category, and, if the device wants the words,
    the topic's title and the post's first words. */
-export async function notifyForum(topic, post, before = '', s = store(), mods = readMods(), send = sendPush) {
+export async function notifyForum(topic, post, before = '', s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
   if (send === sendPush && !pushReady()) return [];
   if (!topic || !post || !post.body) return [];
   const cat = forumCat(topic.cat);
@@ -7243,7 +7378,8 @@ export async function notifyForum(topic, post, before = '', s = store(), mods = 
    waiting, and never anything to the writer. A prop waits until its person
    presses Confirm or Reject, so a notification that never arrives loses
    nothing. */
-export async function notifyProps(handle, writer, text, s = store(), mods = readMods(), send = sendPush) {
+export async function notifyProps(handle, writer, text, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
   if (send === sendPush && !pushReady()) return [];
   const to = foldHandle(handle), from = foldHandle(writer);
   if (!to || to === from) return [];
@@ -7271,7 +7407,8 @@ export async function notifyProps(handle, writer, text, s = store(), mods = read
    never how many are waiting, and never anything to the sender. A message
    stays on its conversation whether or not this arrives. `said` is its words,
    or the message itself. */
-export async function notifyDm(handle, sender, said, asked, s = store(), mods = readMods(), send = sendPush) {
+export async function notifyDm(handle, sender, said, asked, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
   const text = said && typeof said === 'object' ? said.text : said;
   const picture = !!(said && typeof said === 'object' && said.img);
   const stuck = !!(said && typeof said === 'object' && STICKER_KINDS.some((k) => said[k]));
@@ -7307,7 +7444,8 @@ export async function notifyDm(handle, sender, said, asked, s = store(), mods = 
    task. Never what changed in a description, never how many are unread, and
    never anything to the person who made the change, who is never in anybody's
    list for it. The notification is in their list whether or not this arrives. */
-export async function notifyTask(handle, item, s = store(), mods = readMods(), send = sendPush) {
+export async function notifyTask(handle, item, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
   if (send === sendPush && !pushReady()) return [];
   const to = foldHandle(handle);
   if (!to || !item || (item.by && foldHandle(item.by) === to)) return [];
@@ -7335,7 +7473,8 @@ export async function notifyTask(handle, item, s = store(), mods = readMods(), s
 /* Somebody has joined a call nobody was in: tell the devices that follow its
    room, every room included, or every device that asked about calls for the
    World call, once in CALL_QUIET at most. Never who joined. */
-export async function notifyCall(tag, s = store(), mods = readMods(), send = sendPush, now = Date.now()) {
+export async function notifyCall(tag, s = store(), mods, send = sendPush, now = Date.now()) {
+  if (mods === undefined) mods = await loadMods();
   if (send === sendPush && !pushReady()) return [];
   let fresh = false;
   await updateMap(CALL_TOLD, 'told', (told) => {
@@ -7740,8 +7879,9 @@ export async function taskOne(who, id, s = store()) {
    Notion's Tasks (Ryan, 2026-10-21). Notion says when a page was made and not
    who made it or when it was finished, so `by: null` and `done: null` say
    nobody knows rather than naming the importer and today. */
-export async function saveTask(who, f, s = store(), now = Date.now(), mods = readMods()) {
+export async function saveTask(who, f, s = store(), now = Date.now(), mods) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
   f = f || {};
   const espo = typeof f.espo === 'string' && /^[A-Za-z0-9]{6,40}$/.test(f.espo) ? f.espo : null;
   if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
@@ -7795,8 +7935,9 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods = rea
    now, so two people ticking different boxes at once both keep theirs; if the
    box has moved or its words changed since the page drew it, nothing changes
    and the answer says to look again. A tick is a change, so it says who. */
-export async function tickTask(who, id, n, text, on, s = store(), now = Date.now(), mods = readMods()) {
+export async function tickTask(who, id, n, text, on, s = store(), now = Date.now(), mods) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
   if (!Number.isInteger(n) || n < 0 || typeof text !== 'string' || typeof on !== 'boolean') return { error: 'Tick which box?' };
   let saved = null, why = null, before = null;
   await updateList(TASKS, 'tasks', (list) => {
@@ -7819,8 +7960,9 @@ export async function tickTask(who, id, n, text, on, s = store(), now = Date.now
   return { task: shapeTask(saved, true) };
 }
 
-export async function removeTask(who, id, s = store(), now = Date.now(), mods = readMods()) {
+export async function removeTask(who, id, s = store(), now = Date.now(), mods) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
   let gone = null;
   await updateList(TASKS, 'tasks', (list) => {
     const k = list.findIndex((x) => x.id === taskId(id));
@@ -7953,7 +8095,8 @@ async function tellTaskPeople(ev, told, s, now, mods, send) {
    and what it is, never its name, and never the comment's words. It concerns
    whoever added the record, anybody who commented on it before, and anybody
    the comment @mentions; an edit, only anybody it newly @mentions. */
-export async function noteOfficeComment(what, rec, by, comment, extra, s = store(), now = Date.now(), mods = readMods()) {
+export async function noteOfficeComment(what, rec, by, comment, extra, s = store(), now = Date.now(), mods) {
+  if (mods === undefined) mods = await loadMods();
   const ev = { id: 'e' + randomBytes(9).toString('base64url'), t: now, by, kind: 'office', what, rec, comment: comment.id };
   const record = { who: null, with: [], by: extra.maker || null };
   const told = taskConcerns('commented', by, record, record, taskPeople(mods), { comment, was: extra.was, edit: extra.edit, earlier: extra.earlier });
@@ -8062,8 +8205,9 @@ export async function taskComments(who, id, s = store()) {
   return (d && Array.isArray(d.comments) ? d.comments : []).map((c) => shapeComment(c, who));
 }
 
-export async function commentTask(who, id, text, s = store(), now = Date.now(), mods = readMods()) {
+export async function commentTask(who, id, text, s = store(), now = Date.now(), mods) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
   const tid = taskId(id);
   const words = cleanForumBody(text, TASK_COMMENT_MAX);
   if (!words) return { error: `A comment is between one and ${TASK_COMMENT_MAX} characters.` };
@@ -8090,8 +8234,9 @@ export async function commentTask(who, id, text, s = store(), now = Date.now(), 
   return { comment: shapeComment(c, who) };
 }
 
-export async function editTaskComment(who, id, cid, text, s = store(), now = Date.now(), mods = readMods()) {
+export async function editTaskComment(who, id, cid, text, s = store(), now = Date.now(), mods) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
   const tid = taskId(id), k0 = commentId(cid);
   if (!tid || !k0) return { error: 'Edit which comment?' };
   const words = cleanForumBody(text, TASK_COMMENT_MAX);
@@ -8349,7 +8494,8 @@ function recurTask(r, d, now) {
    move its next day on. { made } is how many tasks were made. Safe to run at
    any moment, any number of times at once: a task already there for that
    recurring task and that day is never made again. */
-export async function makeRecurring(s = store(), now = Date.now(), mods = readMods()) {
+export async function makeRecurring(s = store(), now = Date.now(), mods) {
+  if (mods === undefined) mods = await loadMods();
   const day = today(new Date(now));
   const due = (await readRecurs(s)).filter((r) => r.on && r.next && r.next <= day);
   if (!due.length) return { made: 0 };
@@ -8412,8 +8558,9 @@ export async function taskRecur(who, id, s = store()) {
    sent change, `espo` brings one over again rather than twice, and one brought
    over arrives switched off, so it makes nothing beside EspoCRM's until somebody
    switches it on. Its next day is a day; switched on, it is today or later. */
-export async function saveRecur(who, f, s = store(), now = Date.now(), mods = readMods()) {
+export async function saveRecur(who, f, s = store(), now = Date.now(), mods) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
   f = f || {};
   const espo = typeof f.espo === 'string' && /^[A-Za-z0-9]{6,40}$/.test(f.espo) ? f.espo : null;
   if (f.espo != null && !espo) return { error: 'That is not an EspoCRM id.' };
@@ -9805,8 +9952,9 @@ export async function officeComments(who, id, s = store()) {
   return (d && Array.isArray(d.comments) ? d.comments : []).map((c) => shapeComment(c, who));
 }
 
-export async function commentOffice(who, id, text, s = store(), now = Date.now(), mods = readMods()) {
+export async function commentOffice(who, id, text, s = store(), now = Date.now(), mods) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (mods === undefined) mods = await loadMods();
   const r = commentable(id);
   const words = cleanForumBody(text, OFFICE_COMMENT_MAX);
   if (!words) return { error: `A comment is between one and ${OFFICE_COMMENT_MAX} characters.` };
@@ -9837,8 +9985,9 @@ export async function commentOffice(who, id, text, s = store(), now = Date.now()
   return { comment: shapeComment(c, who) };
 }
 
-export async function editOfficeComment(who, id, cid, text, s = store(), now = Date.now(), mods = readMods()) {
+export async function editOfficeComment(who, id, cid, text, s = store(), now = Date.now(), mods) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (mods === undefined) mods = await loadMods();
   const r = commentable(id), k0 = commentId(cid);
   if (!r || !k0) return { error: 'Edit which comment?' };
   const words = cleanForumBody(text, OFFICE_COMMENT_MAX);
