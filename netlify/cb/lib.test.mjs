@@ -6168,7 +6168,17 @@ test('a sealed ballot keeps nothing that says who picked what, shows nobody a nu
   assert.equal((await forumTopic(BO, t.id, s, T0 + 4)).poll.voted, false);
   const kept = (await readTopic(t.id, s)).poll;
   const stored = JSON.stringify(kept);
-  for (const x of ['Ada', 'Cy', authorMark(ADA), authorMark(fw('Cy', 700))]) assert.ok(!stored.includes(x), `a sealed ballot kept ${x}`);
+  // A name is looked for in the words the poll keeps and never in its hashes: a ballot and `by` are base64url, and
+  // one in thirty runs or so a random hash spelled "Cy" or "Ada" and failed this test with nothing kept.
+  const words = [];
+  (function walk(v, key) {
+    if (typeof v === 'string') { if (key !== 'by' && key !== 'cast') words.push(v); }
+    else if (Array.isArray(v)) v.forEach((x) => walk(x, key));
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) { words.push(k); walk(x, k); }
+  })(kept);
+  for (const x of ['Ada', 'Cy']) assert.ok(!words.some((w) => w.includes(x)), `a sealed ballot kept ${x}`);
+  for (const x of [authorMark(ADA), authorMark(fw('Cy', 700))]) assert.ok(!stored.includes(x), `a sealed ballot kept ${x}`);
+  assert.ok(kept.cast.every((b) => /^[A-Za-z0-9_-]{43}$/.test(b)), 'a sealed ballot kept a ballot that is not a hash');
   assert.deepEqual(Object.keys(kept).sort(), ['by', 'cast', 'choices', 'closes', 'handle', 'kind', 'many', 'q', 'tally']);
   assert.equal(kept.by, authorMark(BO), 'a sealed ballot keeps who added it and nothing else about anybody');
   assert.deepEqual(kept.cast, kept.cast.slice().sort(), 'the ballots are kept in the order they were cast');
