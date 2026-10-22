@@ -1831,7 +1831,10 @@ body.cb-callwin :focus-visible, body.cb-cbwin :focus-visible { outline: 3px soli
    the case; a conversation is the channel's own amber readout, and every
    button inside it the readout's Copy, so no pair here is new. */
 .cb-dm-btn:hover, .cb-dm-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
-.cb-dm, .cb-dm-inbox, .cb-dm-talk, .cb-dm-lists, .cb-dm-start { display: grid; gap: 6px; min-width: 0; }
+/* The capped column every part has (.cb-sec): with no column of its own, a grid
+   grows its one column to the widest thing's own width, so Write to a
+   username's box and Open ran past a narrow column at Full (Ryan, 2026-10-22). */
+.cb-dm, .cb-dm-inbox, .cb-dm-talk, .cb-dm-lists, .cb-dm-start { display: grid; gap: 6px; min-width: 0; grid-template-columns: minmax(0, 1fr); }
 .cb-dm-open { justify-self: start; }
 .cb-dm-open[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-dm-start .cb-acct__row { flex-wrap: nowrap; }
