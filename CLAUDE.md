@@ -3843,7 +3843,9 @@ ask, reversing "a Markdown `[text](url)` stays as typed"**, and the old reason s
 `[words](address)` link off the street is `awayLink` with those words, so `↗ host` is after them, and
 one on the street is a path checked as `streetLinks` checks one. **Words that are an address, or
 shaped like one (`paypal.com`), are not made a link** (`addressy` in `cb.js`): it stays as typed and its
-address is linked as a bare one is. The friendly edit is to drop the host after the words "because the
+address is linked as a bare one is. **Unless every site the words name is the link's own** (Ryan, 2026-10-22, after
+`[Chat — Stimpunks.World](https://stimpunks.world/chat)` stayed raw): naming the site a link goes to disguises nothing,
+and a word naming any other site still keeps the whole link as typed. The friendly edit is to drop the host after the words "because the
 words say where it goes"; the host is the only thing a stranger cannot dress up. The house norms and
 the privacy page say so. And **the log never
 scrolls under a reader**: it used to jump to the bottom on every listen, so scrolling up was undone
@@ -3868,7 +3870,12 @@ for Messages alike. It is a `blob:` address that goes with the picture.
 2026-10-22: a Discord-style page for the rooms' channels. `chat.html` says `data-cb-chat`, and `cb.js` (`inChat`) puts the
 radio into `[data-cb-dock]` at Full rather than over the page, adds a Channels part down the left (`chatMake`), and makes
 the channel picked the radio's room (`chatRoom`, through `hereRoom`, `herePath` and `tunedRoom`), so Be seen here and the
-call follow it. The pick lives only in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
+call follow it. **Conversations are in the list too, under Direct messages, and the one picked takes the channel's place in
+the middle** (Ryan's ask, the same day): the Messages part stands after the channel in the middle column, shown only while a
+conversation is picked (`chatViewDm`), the channel's messages are not marked read while it is covered (`readTick`), and the
+list of conversations is asked from `listen()` at most every `NEWS_EVERY` (`chatDmTick`), never on a timer of its own. A
+conversation is never in the address, because the address goes into the browser's history. The channel's pick lives only
+in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
 World or This room, popped) as they are stored, so the chat page never resizes or retunes the radio on another page. The
 groups: Community (World, the Community Center, Dead Tired Society and Cavendish's rooms out of `data/coworking.json`),
 Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`) and World (every other room).

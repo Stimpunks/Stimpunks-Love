@@ -504,18 +504,29 @@
     var u = awayUrl(said);
     return u ? { away: u } : null;
   }
-  // Words that name a site: an address, or one word shaped like host.tld.
-  function addressy(words) {
-    var w = words.trim();
-    return /:\/\/|^www\./i.test(w) || /stimpunks\.world/i.test(w) ||
-      /^[^\s]*[A-Za-z0-9-]\.[A-Za-z]{2,}(?:[\/:?#][^\s]*)?$/.test(w);
+  /* Words that name a site other than the one the link goes to: an address,
+     a word with www. or stimpunks.world in it, or words that are one word
+     shaped like host.tld. Naming the link's own site disguises nothing, so
+     [Chat — Stimpunks.World](https://stimpunks.world/chat) is a link (Ryan,
+     2026-10-22, after it stayed raw on the channel), and so is
+     [paypal.com](https://paypal.com/), while [paypal.com](https://elsewhere/)
+     stays as typed. A link on the street's own site is stimpunks.world's. */
+  function siteOf(t) {
+    return t.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9\/]+$/g, '').replace(/^[a-z][a-z0-9+.-]*:\/\//i, '')
+      .replace(/^www\./i, '').split(/[\/:?#]/)[0].toLowerCase();
+  }
+  function addressy(words, to) {
+    var w = words.trim(), own = (to && to.away ? to.away.hostname : 'stimpunks.world').replace(/^www\./i, '').toLowerCase();
+    var named = w.split(/\s+/).filter(function (t) { return /:\/\/|^\W*www\.|stimpunks\.world/i.test(t); });
+    if (/^[^\s]*[A-Za-z0-9-]\.[A-Za-z]{2,}(?:[\/:?#][^\s]*)?$/.test(w)) named.push(w);
+    return named.some(function (t) { return siteOf(t) !== own; });
   }
   function mdLinksIn(text) {
     var out = [], m, re = new RegExp(MD_LINK.source, 'g');
     while ((m = re.exec(text))) {
       if (m.index && text.charAt(m.index - 1) === '!') continue;
       var to = mdTarget(m[2]);
-      if (!to || addressy(m[1]) || !m[1].trim()) continue;
+      if (!to || addressy(m[1], to) || !m[1].trim()) continue;
       out.push({ at: m.index, end: m.index + m[0].length, words: m[1].trim(), to: to });
     }
     return out;
@@ -1257,7 +1268,7 @@
     /* MESSAGES, between Channel and Watching together (Ryan, 2026-10-18): one
        person to another, for claimed usernames. See dmMake. */
     this.dmMake(dmSec);
-    if (chat) this.chatMake(chansSec, chanSec);
+    if (chat) this.chatMake(chansSec, chanSec, dmSec);
 
     /* WHERE YOU ARE, in words, at the top. Ryan, 2026-10-13: some people could
        not tell where they were. "Tuned to World" is the channel and not the
@@ -2892,6 +2903,7 @@
     if (!this.online.hidden) this.onlineTick();
     if (this.dmBox && !this.dmBox.hidden) this.dmTick();
     this.newsTick();
+    if (inChat()) this.chatDmTick();
     var room = this.tunedRoom(), sent = this.state.pass;
     call('/cb/channel' + (room ? '?room=' + room : ''), null, sent).then(function (r) {
       // A listen that left just before the pass changed, by claiming the
@@ -3785,8 +3797,15 @@
       if (r.forum && r.locked) { taken[r.tag] = true; staff.push(r); }
     });
     (rooms || []).forEach(function (r) { if (!taken[r.tag] && !r.quiet) world.push(r); });
+    var dms = [];
+    if (radio && radio.dmBox) {
+      dms.push({ dm: '', name: 'All messages' });
+      var b = radio.dmInboxBody, convs = b && Array.isArray(b.conversations) ? b.conversations : [];
+      convs.forEach(function (c) { if (c && typeof c.handle === 'string') dms.push({ dm: c.handle, name: c.handle, asking: c.state === 'asking' }); });
+    }
     return [
       { key: 'community', name: 'Community', rooms: community },
+      { key: 'dm', name: 'Direct messages', rooms: dms },
       { key: 'staff', name: 'Staff', rooms: staff },
       { key: 'world', name: 'World', rooms: world }
     ].filter(function (g) { return g.rooms.length; });
@@ -3828,6 +3847,7 @@
       }
       t = WORLD_CALL;
     }
+    if (!first && radio.chatView === 'dm') radio.chatViewChannel();
     if (t === chatTag && !first) return false;
     chatTag = t;
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
@@ -3844,9 +3864,18 @@
      last read it is marked as everywhere on the radio, a dot and the words,
      never a number. On a narrow screen the list folds under one button that
      names the channel picked, and picking one folds it again. */
-  Radio.prototype.chatMake = function (sec, chanSec) {
+  Radio.prototype.chatMake = function (sec, chanSec, dmSec) {
     var me = this;
     this.chatSec = sec;
+    /* MESSAGES IN THE MIDDLE (Ryan's ask, 2026-10-22, so a conversation gets
+       the room a channel has): on the chat page your conversations are listed
+       with the channels, and the one picked takes the channel's place in the
+       middle. The Messages part stands there, after the channel, shown only
+       while a conversation or All messages is picked, and the right-hand
+       column has no Messages of its own. See chatViewDm. */
+    this.chatChan = chanSec;
+    this.chatView = 'channel';
+    if (dmSec && this.dmBox) { chanSec.parentNode.insertBefore(dmSec, chanSec.nextSibling); dmSec.hidden = true; }
     this.chatFolded = {};
     this.chatLinks = [];
     var t = this.chatToggle = el('button', 'cb-btn cb-chans-toggle');
@@ -3883,11 +3912,25 @@
     t.addEventListener('click', function () { me.chatOpen(t.getAttribute('aria-expanded') !== 'true'); });
     groups.addEventListener('keydown', function (e) { me.chatKey(e); });
     groups.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a.cb-chan');
+      var a = e.target.closest && e.target.closest('.cb-chan');
       if (!a) return;
-      // The channel already picked: nothing to go to, so the address is left alone.
-      if (a.getAttribute('aria-current') === 'page') e.preventDefault();
-      if (!me.chatWide()) { me.chatOpen(false); me.chatAfterPick = true; }
+      var narrow = !me.chatWide();
+      if (narrow) me.chatOpen(false);
+      // A conversation, or All messages, which are not in the address.
+      if (a.dataset.dm != null) {
+        e.preventDefault();
+        if (a.dataset.dm) me.dmOpen(a.dataset.dm);
+        else { me.chatViewDm(); if (me.dmWith) me.dmShowInbox(); if (me.dmBox.hidden) me.setDm(true); else me.dmTick(); me.chatShown(); var to = me.dmInbox.querySelector('#cb-dm-to'); if (narrow && to) to.focus(); }
+        return;
+      }
+      // The channel the address already names: back to it from a
+      // conversation, and otherwise nothing to go to.
+      if (a.dataset.tag === chatRoom().tag) {
+        e.preventDefault();
+        if (me.chatView === 'dm') { me.chatViewChannel(); if (narrow) me.chanH.focus(); }
+        return;
+      }
+      if (narrow) me.chatAfterPick = true;
     });
     /* THE CHANNEL'S OWN HEAD, under its name: what its room is about, in the
        room's own words, and the way into the room itself. The name is the
@@ -3934,8 +3977,46 @@
   };
 
   Radio.prototype.chatHas = function (tag) {
-    for (var i = 0; i < this.chatLinks.length; i++) if (this.chatLinks[i].tag === tag) return true;
+    for (var i = 0; i < this.chatLinks.length; i++) if (this.chatLinks[i].tag === tag && this.chatLinks[i].dm == null) return true;
     return false;
+  };
+
+  /* A conversation, or All messages, in the middle: the channel steps out of
+     the way and the Messages part takes its place. The channel's radio goes
+     on listening, as it does with Messages open anywhere, and its messages are
+     not counted as read while you are not looking at them (readTick). */
+  Radio.prototype.chatViewDm = function () {
+    if (!this.dmBox || this.chatView === 'dm') return;
+    this.chatView = 'dm';
+    this.chatChan.hidden = true;
+    this.dmSec.hidden = false;
+    this.chatShown();
+  };
+  Radio.prototype.chatViewChannel = function () {
+    if (this.chatView !== 'dm') return;
+    this.chatView = 'channel';
+    if (this.dmWith) this.dmShowInbox();
+    this.setDm(false);
+    this.dmSec.hidden = true;
+    this.chatChan.hidden = false;
+    this.chatShown();
+  };
+
+  /* YOUR CONVERSATIONS, for the list: asked from listen() and nowhere else,
+     at most every NEWS_EVERY, or sooner when Unreads says somebody new has
+     written, and not while Messages is asking for the list itself. */
+  Radio.prototype.chatDmTick = function () {
+    var me = this;
+    if (!this.dmBox || this.chatDmBusy || (!this.dmBox.hidden && !this.dmWith)) return;
+    var known = (this.chatDmSeen || []), fresh = (this.news && this.news.dms) || [];
+    var due = !this.chatDmAt || Date.now() - this.chatDmAt >= NEWS_EVERY || fresh.some(function (h) { return known.indexOf(fold(h)) < 0; });
+    if (!due) return;
+    this.chatDmBusy = true;
+    call('/cb/dm', { body: {} }, this.state.pass).then(function (r) {
+      me.chatDmAt = Date.now();
+      if (r.status === 401) return me.lost();
+      if (r.status === 200 && r.body && Array.isArray(r.body.conversations)) me.dmDrawInbox(r.body);
+    }, function () { me.chatDmAt = Date.now(); }).then(function () { me.chatDmBusy = false; });
   };
 
   /* Drawn again only when which channels there are changes; the channel
@@ -3943,14 +4024,16 @@
   Radio.prototype.chatShown = function () {
     if (!this.chatGroupsBox || !this.chatSure) return;
     var groups = chatChannels(this.state);
-    var sig = JSON.stringify(groups.map(function (g) { return [g.key, g.rooms.map(function (r) { return r.tag + '|' + r.name; })]; }));
+    var sig = JSON.stringify(groups.map(function (g) { return [g.key, g.rooms.map(function (r) { return r.dm != null ? 'dm|' + r.dm + '|' + !!r.asking : r.tag + '|' + r.name; })]; }));
     if (sig !== this.chatSig) { this.chatSig = sig; this.chatBuild(groups); }
-    var room = chatRoom(), tuned = room.tag, n = this.news, focus = null;
+    var room = chatRoom(), tuned = room.tag, n = this.news, focus = null, dmView = this.chatView === 'dm', with_ = this.dmWith || '';
+    var dmsNew = ((n && n.dms) || []).map(fold);
+    this.chatDmSeen = this.chatLinks.filter(function (x) { return x.dm; }).map(function (x) { return fold(x.dm); });
     this.chatLinks.forEach(function (x) {
-      var on = x.tag === tuned;
-      if (on) { x.a.setAttribute('aria-current', 'page'); focus = x.a; } else x.a.removeAttribute('aria-current');
-      var t = n && n.latest && n.latest[x.tag];
-      var fresh = !on && !!t && t > ((n.read && n.read[x.tag]) || 0);
+      var on = x.dm != null ? dmView && fold(x.dm) === fold(with_) : !dmView && x.tag === tuned;
+      if (on) { x.a.setAttribute('aria-current', x.dm != null ? 'true' : 'page'); focus = x.a; } else x.a.removeAttribute('aria-current');
+      var t = x.dm == null && n && n.latest && n.latest[x.tag];
+      var fresh = x.dm != null ? !!x.dm && !on && dmsNew.indexOf(fold(x.dm)) >= 0 : !on && !!t && t > ((n.read && n.read[x.tag]) || 0);
       if (fresh !== x.a.classList.contains('cb-chan--new')) { markNew(x.a, fresh); x.a.classList.toggle('cb-chan--new', fresh); }
     });
     this.chatRove(focus);
@@ -3964,7 +4047,7 @@
     this.chatAbout.hidden = !this.chatAbout.textContent;
     this.chatGoLink.href = room.path;
     this.chatGoLink.textContent = world ? 'Go to the World room' : room.forum ? 'Go to ' + room.name + ' in the forums' : 'Go to ' + room.name;
-    this.chatToggle.textContent = 'Channels: ' + (world ? 'World' : '#' + room.name);
+    this.chatToggle.textContent = 'Channels: ' + (dmView ? (with_ ? 'messages with ' + with_ : 'All messages') : world ? 'World' : '#' + room.name);
     if (this.chatAfterPick) {
       this.chatAfterPick = false;
       this.chanH.focus();
@@ -3974,6 +4057,7 @@
   Radio.prototype.chatBuild = function (groups) {
     var me = this, box = this.chatGroupsBox;
     var on = this.box.getRootNode().activeElement, keep = on && on.classList && on.classList.contains('cb-chan') ? on.dataset.tag : null;
+    this.chatDmAll = null;
     box.textContent = '';
     this.chatLinks = [];
     this.chatGroupEls = [];
@@ -3988,18 +4072,30 @@
       h.appendChild(b);
       wrap.appendChild(h);
       g.rooms.forEach(function (r) {
-        var li = el('li');
-        var a = el('a', 'cb-chan');
-        a.href = '#' + r.tag;
-        a.dataset.tag = r.tag;
+        var li = el('li'), a;
+        if (r.dm != null) {
+          // A conversation is no address, so it is a button, and says whose.
+          a = el('button', 'cb-chan cb-chan--dm');
+          a.type = 'button';
+          a.dataset.tag = 'dm|' + fold(r.dm);
+          a.dataset.dm = r.dm;
+          // Named in full, and markNew adds "something new" to the name.
+          if (r.dm) { a.dataset.label = r.asking ? r.dm + ', asking to message you' : 'Your conversation with ' + r.dm; a.setAttribute('aria-label', a.dataset.label); }
+          a.appendChild(el('span', 'cb-chan-name', r.name));
+          if (r.asking) a.appendChild(el('span', 'cb-chan-note', 'asking'));
+        } else {
+          a = el('a', 'cb-chan');
+          a.href = '#' + r.tag;
+          a.dataset.tag = r.tag;
+          var hash = el('span', 'cb-chan-hash', r.tag === WORLD_CALL ? '' : '#');
+          hash.setAttribute('aria-hidden', 'true');
+          a.appendChild(hash);
+          a.appendChild(el('span', 'cb-chan-name', r.tag === WORLD_CALL ? 'World' : r.name));
+        }
         a.tabIndex = -1;
-        var hash = el('span', 'cb-chan-hash', r.tag === WORLD_CALL ? '' : '#');
-        hash.setAttribute('aria-hidden', 'true');
-        a.appendChild(hash);
-        a.appendChild(el('span', 'cb-chan-name', r.tag === WORLD_CALL ? 'World' : r.name));
         li.appendChild(a);
         ul.appendChild(li);
-        me.chatLinks.push({ tag: r.tag, a: a, li: li, room: r });
+        me.chatLinks.push({ tag: a.dataset.tag, a: a, li: li, room: r, dm: r.dm });
       });
       wrap.appendChild(ul);
       box.appendChild(wrap);
@@ -4011,14 +4107,20 @@
       });
     });
     this.chatFilter();
-    if (keep) { var again = box.querySelector('a.cb-chan[data-tag="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
+    this.chatLinks.forEach(function (x) { if (x.dm === '') me.chatDmAll = x.a; });
+    if (keep) { var again = box.querySelector('.cb-chan[data-tag="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
   };
 
   /* What the box finds, in each group's own order. A folded group opens
      while something is being looked for, and folds again when it is not. */
   Radio.prototype.chatFilter = function () {
     var me = this, q = this.chatFind.value.trim(), hit = null, any = false;
-    if (q && rooms) { hit = {}; findRooms(q).forEach(function (x) { hit[x.room.tag] = true; }); }
+    if (q && rooms) {
+      hit = {};
+      findRooms(q).forEach(function (x) { hit[x.room.tag] = true; });
+      var fq = fold(q);
+      this.chatLinks.forEach(function (x) { if (x.dm != null && fold(x.dm || 'all messages').indexOf(fq) >= 0) hit[x.tag] = true; });
+    }
     (this.chatGroupEls || []).forEach(function (g) {
       var shown = 0;
       me.chatLinks.forEach(function (x) {
@@ -4045,13 +4147,13 @@
 
   // One channel in the Tab order: the one picked, or the first shown.
   Radio.prototype.chatRove = function (want) {
-    var shown = this.chatVisible(), cur = this.chatGroupsBox.querySelector('a.cb-chan[aria-current]');
+    var shown = this.chatVisible(), cur = this.chatGroupsBox.querySelector('.cb-chan[aria-current]');
     var stop = want && shown.indexOf(want) >= 0 ? want : cur && shown.indexOf(cur) >= 0 ? cur : shown[0];
     this.chatLinks.forEach(function (x) { x.a.tabIndex = x.a === stop ? 0 : -1; });
   };
 
   Radio.prototype.chatKey = function (e) {
-    var a = e.target.closest && e.target.closest('a.cb-chan');
+    var a = e.target.closest && e.target.closest('.cb-chan');
     if (!a) return;
     var shown = this.chatVisible(), i = shown.indexOf(a), j = -1;
     if (e.key === 'ArrowDown') j = Math.min(shown.length - 1, i + 1);
@@ -6309,6 +6411,7 @@
   // that message is on the screen.
   Radio.prototype.readTick = function (messages) {
     if (!forumPass(this.state.pass) || this.state.folded || this.state.size === 'icon' || offList()) return;
+    if (this.chatView === 'dm') return;
     var log = this.log;
     if (!log.hidden && log.scrollHeight - log.scrollTop - log.clientHeight >= 24) return;
     var tag = this.tunedRoom() || WORLD_CALL, newest = 0;
@@ -6730,6 +6833,7 @@
     this.dmInbox.hidden = false;
     this.dmSig = null;
     this.place();
+    if (inChat()) this.chatShown();
   };
 
   /* The list: who has asked to message you, then everybody you are talking
@@ -6746,6 +6850,7 @@
     var blocked = Array.isArray(b.blocked) ? b.blocked : [];
     this.dmInboxBody = b;
     var fresh = (this.news && this.news.dms) || [];
+    if (inChat()) this.chatShown();
     var sig = JSON.stringify([convs, blocked, fresh]);
     if (sig === this.dmSig) return;
     this.dmSig = sig;
@@ -6823,6 +6928,7 @@
   /* Open the conversation with `handle`: its own view, the keyboard on its
      heading, and the first answer drawn without reading every message out. */
   Radio.prototype.dmOpen = function (handle) {
+    if (inChat()) this.chatViewDm();
     this.dmReplyStop();
     this.dmWith = String(handle);
     this.dmStateSig = null;
@@ -6842,6 +6948,7 @@
     if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
     this.dmHead.focus();
     this.place();
+    if (inChat()) this.chatShown();
   };
 
   Radio.prototype.dmBack = function () {
@@ -6849,7 +6956,7 @@
     this.dmShowInbox();
     this.dmTick();
     var row = was ? this.dmLists.querySelector('[data-dm-key="c|' + CSS.escape(was) + '"], [data-dm-key="a|' + CSS.escape(was) + '"]') : null;
-    (row || this.dmBtn).focus();
+    (row || (inChat() ? this.dmInbox.querySelector('#cb-dm-to') : this.dmBtn)).focus();
   };
 
   /* From a profile's Message button, or anywhere else that names somebody:
@@ -6875,9 +6982,10 @@
     if (!this.dmBox) return;
     if (this.state.folded) this.setFolded(false, true);
     if (this.tiny()) this.setSize('normal', true);
+    if (inChat()) this.chatViewDm();
     if (this.dmWith) this.dmShowInbox();
     if (this.dmBox.hidden) this.setDm(true); else this.dmTick();
-    function go() { me.dmSec.scrollIntoView({ block: 'start' }); me.dmBtn.focus(); }
+    function go() { me.dmSec.scrollIntoView({ block: 'start' }); ((inChat() && me.chatDmAll) || me.dmBtn).focus(); }
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
   };
 
