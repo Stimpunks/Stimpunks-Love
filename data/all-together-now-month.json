@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-22T11:28Z",
+ "set": "2026-10-23T11:28Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-22T11:28:38Z"
+     "2026-10-23T11:28:17Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-22T11:28:38Z"
+     "2026-10-23T11:28:17Z"
     ]
    ]
   }
@@ -115,16 +115,6 @@
    "published": "2026-10-22T01:01:42Z",
    "state": "screen",
    "runs": 229,
-   "channel": "Farming While Beige"
-  },
-  {
-   "id": "r6vxYA6OhLI",
-   "source": "farming-while-beige",
-   "form": "short",
-   "title": "So we’re just making up numbers now 😂",
-   "published": "2026-09-22T13:40:44Z",
-   "state": "screen",
-   "runs": 160,
    "channel": "Farming While Beige"
   },
   {
@@ -485,6 +475,26 @@
    "published": "2026-10-21T18:24:54Z",
    "state": "screen",
    "runs": 41,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "KIyddrJIqtg",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "You do not want to grow all your own food, fiber, and medicine 😂",
+   "published": "2026-10-22T13:06:59Z",
+   "state": "screen",
+   "runs": 144,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "rvGAzPr33CY",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Pointing fingers in rural America",
+   "published": "2026-10-22T20:30:56Z",
+   "state": "screen",
+   "runs": 178,
    "channel": "Farming While Beige"
   }
  ]
