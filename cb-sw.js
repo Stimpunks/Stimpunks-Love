@@ -18,7 +18,9 @@
    or Tasks' Notifications when the task has been deleted (2026-10-21). A
    forum category's room (forum-coping) is in no public list, so the street
    sends its name and its address with it, and the address is a category's in
-   the forums and nothing else (2026-10-21). */
+   the forums and nothing else (2026-10-21). An event (2026-10-23) opens the
+   chat page at Events, on that event, which is the one place every event a
+   pass can see is listed. */
 'use strict';
 
 var ROOMS = null;
@@ -39,6 +41,7 @@ function safePath(p) {
   if (/^\/tasks\.html#\/(?:t\/k[A-Za-z0-9_-]{12}(?:\/c\/m[A-Za-z0-9_-]{12})?|inbox)$/.test(p)) return p;
   if (/^\/office\.html#\/(?:(?:c|g|k|mailings|templates)\/[cgknt][A-Za-z0-9_-]{12}|m\/[0-9a-f]{8,32})(?:\/c\/m[A-Za-z0-9_-]{12})?$/.test(p)) return p;
   if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
+  if (/^\/chat\.html#events(?:\/e[A-Za-z0-9_-]{12})?$/.test(p)) return p;
   return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
 }
 // A forum category's room, as the street named it in the notification.
@@ -81,6 +84,31 @@ function taskSays(d) {
   return { title: title, body: body, url: safePath(task ? '/tasks.html#/t/' + task + said : '/tasks.html#/inbox'), tag: 'cb-task-' + (task || 'gone') };
 }
 
+/* An event's notification: starting, for somebody who said they are
+   interested, or new, for somebody who follows where it is. Its title only if
+   the street sent it (the words switch), its place by the street's own list,
+   and when, in this device's own clock. Never who else is interested. */
+function eventSays(d, list) {
+  var tag = typeof d.room === 'string' ? d.room : '';
+  var place = tag && tag !== 'world' ? placeOf(list, tag) || forumPlace(d, tag) : null;
+  var where = tag === 'world' ? 'on World' : place ? 'in ' + place.name : tag ? 'in #' + tag : 'on the CB';
+  var title = typeof d.title === 'string' && d.title ? '\u201c' + d.title.slice(0, 180) + '\u201d' : '';
+  var at = typeof d.at === 'number' ? new Date(d.at) : null;
+  var when = at && !isNaN(at) ? at.toLocaleString(undefined, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : '';
+  var id = typeof d.id === 'string' && /^e[A-Za-z0-9_-]{12}$/.test(d.id) ? d.id : '';
+  var url = safePath('/chat.html#events' + (id ? '/' + id : ''));
+  if (d.why === 'new') {
+    var by = String(d.handle || 'Somebody').slice(0, 40);
+    var bits = [];
+    if (title) bits.push(title);
+    if (when) bits.push((title ? 'first on ' : 'First on ') + when);
+    return { title: by + ' scheduled an event ' + where, body: (bits.length ? bits.join(', ') + '. ' : '') + 'Open Events on the CB to see it.',
+      url: url, tag: 'cb-event-' + (id || 'new') };
+  }
+  return { title: (title ? title + ' is starting ' : 'An event you are interested in is starting ') + where,
+    body: (when ? 'On ' + when + '. ' : '') + 'Open Events on the CB to go to it.', url: url, tag: 'cb-event-' + (id || 'start') };
+}
+
 function say(d) {
   if (!d || typeof d !== 'object') return Promise.resolve(null);
   if (d.kind === 'forum') {
@@ -105,6 +133,7 @@ function say(d) {
       url: '/#cb=messages', tag: 'cb-dm-' + sender });
   }
   if (d.kind === 'task') return Promise.resolve(taskSays(d));
+  if (d.kind === 'event') return rooms().then(function (list) { return eventSays(d, list); });
   if (d.kind === 'test') {
     return Promise.resolve({ title: 'Notifications are on', body: 'This is how a notification from the CB looks on this device.', url: '/', tag: 'cb-test' });
   }

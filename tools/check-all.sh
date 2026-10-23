@@ -54,7 +54,7 @@ STEPS=(
   # The checkers, against what was just written.
   check-contrast check-headings check-counts check-ids check-classes
   check-quests check-faces check-print check-gentle check-contrast-live
-  check-focus check-weights check-teleport check-unlisted check-push check-props check-messages check-steps check-links check-roles
+  check-focus check-weights check-teleport check-unlisted check-push check-props check-events check-messages check-steps check-links check-roles
 )
 
 # The CB's one invariant, first, because it needs nothing but Node: no write

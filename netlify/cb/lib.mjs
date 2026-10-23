@@ -111,6 +111,12 @@
        files, each fetched with the pass by readers of its topic only and gone
        with its post; and @mentions, which tell only a device that asked.
        Nothing about who reads is kept. See the forums section below.
+     · EVENTS ARE SCHEDULED BY ANYBODY SIGNED ON, AND NAME WHO IS INTERESTED
+       AND NEVER HOW MANY. Ryan's calls, 2026-10-23, after Discord's Scheduled
+       Events: an event in a room's channel is seen by whoever may go into the
+       room, one on World by everybody signed on; its maker or a moderator
+       changes or cancels it; one that does not repeat is gone when it ends.
+       See the events section below.
      · A PASS IS CHECKED AND NOT KEPT. It is an HMAC of the handle keyed by the
        current password, so changing the password in Netlify's environment and
        redeploying signs everybody off at once, and there is no list of passes
@@ -4626,7 +4632,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its props and its messages. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its props, its events and its messages. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -4640,6 +4646,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetTaskViews(petKey(handle), s);
   await forgetTaskInbox(petKey(handle), s);
   await forgetProps(petKey(handle), s);
+  await forgetEvents(acct.handle, acct.since, s);
   await forgetDms(acct.handle, acct.since, s);
   await forgetReads(acct.handle, acct.since, s);
   await dropDevicesOf(handle, s);
@@ -5630,6 +5637,433 @@ export async function removeSuggestion(who, id, s = store()) {
     return list.filter((x) => x.id !== id);
   }, s);
   return gone ? { removed: true } : { error: why };
+}
+
+/* ── Events ───────────────────────────────────────────────────────────────
+
+   Ryan's ask and calls, 2026-10-23, after Discord's Scheduled Events: anybody
+   signed on schedules an event in a room they can go into, on World, or at a
+   link off the street; its maker or any moderator changes it or cancels it;
+   anybody who can see it says they are interested. AN EVENT NAMES WHO IS
+   INTERESTED, ALPHABETICAL, AND NEVER HOW MANY, the reactions' rule (a
+   reaction names who and never says how many), where Discord prints "12
+   Interested" on every event. Two notifications, each off until a device
+   switches it on: an event you are interested in starting, and a new event
+   on World or in a room you follow. An event can repeat, every week, every
+   other week, every month on the same weekday, or every weekday, and keeps
+   to its maker's own clock across a change of summer time, so a coworking
+   hour at seven in Colorado is at seven in Colorado in December too.
+
+   EVERY EVENT IS IN A CHANNEL, World or a room, and the channel decides who
+   sees it: roomAllows(), as for listening, so an event in the board room is
+   the board's and an event in a forum category's room is that category's
+   readers'. NEVER A ROOM THAT KEEPS TO ITSELF: an event is announced outside
+   its room, in a list and a notification, which would name the address the
+   room exists not to have. Where in the channel it happens is the room's call
+   (the World call, on World), the room itself (on World, its channel), or a
+   link off the street.
+
+   ONE BLOB HOLDS EVERY EVENT (`events`), the Brass Tacks Board's arrangement,
+   with the conditional write. An event is its id, its title, its words, the
+   channel and where in it, the link if it is off the street, when it first
+   starts as its maker's clock reads it and in which time zone, how long it
+   runs, how it repeats, the starts of any times it has been cancelled, its
+   maker's handle and whether they were the base, the mark of the claimed
+   username that made it (authorMark, the forums', so a name deleted and
+   claimed again is somebody else), and who is interested, each a handle and
+   that mark. THE MARK NEVER LEAVES THE SERVER. Nothing else about when: not
+   when it was made or changed, and not when anybody said they were
+   interested. An event that does not repeat is shown to nobody once it ends
+   and leaves the blob with the hourly sweep; a repeating one stays until its
+   maker or a moderator cancels it. Forget me and deleting the username delete
+   the events somebody made and take them off every list of the interested.
+
+   A TIME IS SAID IN EACH READER'S OWN CLOCK by the radio; this answers instants
+   (milliseconds since 1970), and the maker's date and time and zone only so
+   that a change starts from what they typed. */
+export const EVENT_TITLE_MAX = 100;
+export const EVENT_ABOUT_MAX = MESSAGE_MAX;      // an event's words are a message's, Markdown and all
+export const EVENTS_MAX = 300;                   // events on the street at once
+export const EVENTS_PER = 20;                    // events one username has scheduled at once
+export const EVENT_KEEN_MAX = 500;               // people interested in one event
+export const EVENT_MINS_MIN = 5;                 // the shortest an event runs, in minutes
+export const EVENT_MINS_MAX = 24 * 60;           // and the longest: a day
+export const EVENT_AHEAD = 366 * 24 * 60 * 60 * 1000;   // an event first starts within the coming year
+export const EVENT_REPEATS = ['', 'weekly', 'fortnightly', 'monthly', 'weekdays'];
+export const EVENT_AT = ['call', 'here', 'away'];
+export const EVENT_SKIPS = 20;                   // single times of a repeating event cancelled at once
+export const EVENT_SOON = 5 * 60 * 1000;         // a start is told up to five minutes before it
+export const EVENT_LATE = 15 * 60 * 1000;        // and up to fifteen after, if a run was missed
+const EVENTS = 'events';
+const EVENTS_TOLD = 'events-told';
+const newEventId = () => 'e' + randomBytes(9).toString('base64url');
+export function eventId(v) { return typeof v === 'string' && /^e[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+
+/* A time zone as the maker's browser names it, if this server knows it too. */
+export function cleanZone(z) {
+  if (typeof z !== 'string' || z.length > 64 || !/^[A-Za-z][A-Za-z0-9_+-]*(?:\/[A-Za-z0-9_+-]+){0,2}$/.test(z)) return null;
+  try { return new Intl.DateTimeFormat('en-US', { timeZone: z }).resolvedOptions().timeZone; } catch (e) { return null; }
+}
+
+/* What a clock in `zone` reads at instant `t`: the date, the time and the
+   day of the week (0 for Sunday). */
+const ZONE_FMT = new Map();
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+export function zoneParts(t, zone) {
+  let f = ZONE_FMT.get(zone);
+  if (!f) {
+    f = new Intl.DateTimeFormat('en-US', { timeZone: zone, hourCycle: 'h23', weekday: 'short',
+      year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+    ZONE_FMT.set(zone, f);
+  }
+  const p = {};
+  for (const x of f.formatToParts(new Date(t))) p[x.type] = x.value;
+  return { y: +p.year, mo: +p.month, d: +p.day, h: +p.hour % 24, mi: +p.minute, s: +p.second, dow: WEEKDAYS.indexOf(p.weekday) };
+}
+function zoneOffset(t, zone) {
+  const p = zoneParts(t, zone);
+  return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi, p.s) - Math.floor(t / 1000) * 1000;
+}
+
+/* The instant a clock in `zone` reads this date and time. In the hour a clock
+   goes forward, a time that never happens is taken an hour on; in the hour it
+   goes back, it is the first of the two. */
+export function wallToUtc(y, mo, d, h, mi, zone) {
+  const guess = Date.UTC(y, mo - 1, d, h, mi);
+  let t = guess - zoneOffset(guess, zone);
+  const o = zoneOffset(t, zone);
+  if (guess - o !== t && zoneOffset(guess - o, zone) === o) t = guess - o;
+  return t;
+}
+
+// Calendar dates as whole days since 1970, for counting days between dates.
+const dayNo = (y, mo, d) => Math.round(Date.UTC(y, mo - 1, d) / DAY);
+function fromDayNo(n) {
+  const x = new Date(n * DAY);
+  return { y: x.getUTCFullYear(), mo: x.getUTCMonth() + 1, d: x.getUTCDate(), dow: x.getUTCDay() };
+}
+/* Which of its weekday a date is in its month: the first to the fourth, or 5
+   for the last, which is what a fifth always is. */
+export function nthOf(d) { return Math.min(5, Math.ceil(d / 7)); }
+function nthDay(y, mo, dow, n) {
+  if (n === 5) {
+    const last = new Date(Date.UTC(y, mo, 0));
+    return last.getUTCDate() - ((last.getUTCDay() - dow + 7) % 7);
+  }
+  return 1 + ((dow - new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 7) % 7) + (n - 1) * 7;
+}
+
+/* EVERY START OF AN EVENT that has not ended by `from`, the one going on at
+   `from` included, up to `n` of them, in order. A repeating event's times are
+   its first start's time of day on its maker's clock, on every date its rule
+   gives, and never before its first start; a time cancelled is left out. */
+export function eventStarts(ev, from, n = 1) {
+  const len = ev.mins * 60000, skip = new Set(ev.skip || []), out = [];
+  if (!ev.repeat) {
+    if (ev.start + len > from && !skip.has(ev.start)) out.push(ev.start);
+    return out;
+  }
+  const w = zoneParts(ev.start, ev.zone);
+  const take = (date) => {
+    const t = wallToUtc(date.y, date.mo, date.d, w.h, w.mi, ev.zone);
+    if (t >= ev.start && t + len > from && !skip.has(t)) out.push(t);
+    return out.length >= n;
+  };
+  const day0 = dayNo(w.y, w.mo, w.d);
+  // Two days back from `from` covers every zone and an event a day long.
+  const back = Math.max(day0, Math.floor(from / DAY) - 2);
+  if (ev.repeat === 'weekly' || ev.repeat === 'fortnightly') {
+    const step = ev.repeat === 'weekly' ? 7 : 14;
+    for (let k = Math.floor((back - day0) / step), i = 0; i < 60; k++, i++) if (take(fromDayNo(day0 + k * step))) break;
+  } else if (ev.repeat === 'weekdays') {
+    for (let dn = back, i = 0; i < 120; dn++, i++) { const x = fromDayNo(dn); if (x.dow >= 1 && x.dow <= 5 && take(x)) break; }
+  } else if (ev.repeat === 'monthly') {
+    const nth = nthOf(w.d), b = fromDayNo(back);
+    let y = b.y, mo = b.mo - 1;
+    if (mo < 1) { mo = 12; y--; }
+    if (y < w.y || (y === w.y && mo < w.mo)) { y = w.y; mo = w.mo; }
+    for (let i = 0; i < 60; i++) {
+      if (take({ y, mo, d: nthDay(y, mo, w.dow, nth) })) break;
+      if (++mo > 12) { mo = 1; y++; }
+    }
+  }
+  return out;
+}
+
+/* Who sees an event: a claimed username that may go into its channel. */
+export function seesEvent(who, ev) {
+  if (!forumReader(who) || !ev) return false;
+  if (ev.room === WORLD_CALL) return true;
+  return !!roomTag(ev.room) && !quietRoom(ev.room) && roomAllows(who, ev.room);
+}
+/* Who changes one: whoever made it, by the mark of their claimed username,
+   or any moderator who can see it. */
+export function mayChangeEvent(who, ev) {
+  if (!seesEvent(who, ev)) return false;
+  return who.role === 'base' || authorMark(who) === ev.by;
+}
+
+/* A link off the street, as an event's place: http or https, a dotted host, no
+   name or password in it. Anything else is no place. */
+export function cleanEventLink(v) {
+  const s = String(v == null ? '' : v).trim();
+  if (!s || s.length > 500 || /\s/.test(s)) return null;
+  let u;
+  try { u = new URL(s); } catch (e) { return null; }
+  if (!/^https?:$/.test(u.protocol) || u.username || u.password || !/\./.test(u.hostname)) return null;
+  return u.href;
+}
+
+/* What somebody sent for an event, checked: { ev } with exactly the parts an
+   event is made of from what was typed, or { error } in words to show them. */
+export function cleanEvent(b, who, now = Date.now()) {
+  b = b && typeof b === 'object' ? b : {};
+  const title = tidy(b.title);
+  if (!title) return { error: 'An event needs a title.' };
+  if ([...title].length > EVENT_TITLE_MAX) return { error: `A title is at most ${EVENT_TITLE_MAX} characters.` };
+  let about = '';
+  if (b.about != null && String(b.about).trim() !== '') {
+    about = cleanMessage(b.about);
+    if (!about) return { error: `What it is about is at most ${EVENT_ABOUT_MAX} characters.` };
+  }
+  const room = b.room === WORLD_CALL ? WORLD_CALL : roomTag(b.room);
+  if (!room) return { error: 'Choose World or a room for it.' };
+  if (room !== WORLD_CALL && quietRoom(room)) return { error: 'A room that keeps to itself has no events: an event is announced outside it.' };
+  if (room !== WORLD_CALL && !roomAllows(who, room)) return { error: 'You can only schedule an event in a room you can go into.' };
+  const at = EVENT_AT.includes(b.at) ? b.at : null;
+  if (!at) return { error: 'Choose where it happens: in the call, in the room, or off the street.' };
+  const away = at === 'away' ? cleanEventLink(b.away) : null;
+  if (at === 'away' && !away) return { error: 'An event off the street needs its link, starting https://.' };
+  const zone = cleanZone(b.zone);
+  if (!zone) return { error: 'Your browser did not say which time zone it is in.' };
+  const dm = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(b.date || ''));
+  const tm = /^(\d{2}):(\d{2})$/.exec(String(b.time || ''));
+  if (!dm || !tm) return { error: 'An event needs a date and a time to start.' };
+  const [y, mo, d, h, mi] = [+dm[1], +dm[2], +dm[3], +tm[1], +tm[2]];
+  const check = new Date(Date.UTC(y, mo - 1, d));
+  if (check.getUTCFullYear() !== y || check.getUTCMonth() !== mo - 1 || check.getUTCDate() !== d || h > 23 || mi > 59) {
+    return { error: 'That is not a date and time a clock can read.' };
+  }
+  const mins = Number(b.mins);
+  if (!Number.isInteger(mins) || mins < EVENT_MINS_MIN || mins > EVENT_MINS_MAX) {
+    return { error: `An event runs between ${EVENT_MINS_MIN} minutes and a day.` };
+  }
+  const repeat = EVENT_REPEATS.includes(b.repeat || '') ? (b.repeat || '') : null;
+  if (repeat === null) return { error: 'That is not a way an event repeats.' };
+  const start = wallToUtc(y, mo, d, h, mi, zone);
+  if (repeat === 'weekdays') {
+    const dow = zoneParts(start, zone).dow;
+    if (dow === 0 || dow === 6) return { error: 'An event every weekday starts on a weekday.' };
+  }
+  if (start + mins * 60000 <= now) return { error: 'That time has already been and gone.' };
+  if (start > now + EVENT_AHEAD) return { error: 'An event starts within the coming year.' };
+  const ev = { title, about, room, at, start, mins, zone, repeat };
+  if (away) ev.away = away;
+  return { ev };
+}
+
+export async function readEvents(s = store()) {
+  const d = await s.get(EVENTS, { type: 'json' });
+  return d && Array.isArray(d.events) ? d.events : [];
+}
+
+/* An event as a reader is sent it, at its next time (the one going on now, if
+   it is), or null once it has none. Who is interested is their handles,
+   alphabetical, once each, and NEVER HOW MANY: the radio draws the names and
+   nothing counts them. `mine` says whether the reader is among them and `may`
+   whether they can change it. The mark is never sent. */
+export function shapeEvent(ev, who, now = Date.now()) {
+  const starts = eventStarts(ev, now, 4);
+  if (!starts.length) return null;
+  const start = starts[0], wall = zoneParts(start, ev.zone);
+  const mark = forumReader(who) ? authorMark(who) : null;
+  const pad = (v) => String(v).padStart(2, '0');
+  const names = [...new Map((ev.keen || []).map((k) => [foldHandle(k.handle), k.handle])).values()]
+    .sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' }));
+  const out = { id: ev.id, title: ev.title, about: ev.about || '', room: ev.room, at: ev.at,
+    start, end: start + ev.mins * 60000, on: start <= now, then: starts.slice(1),
+    mins: ev.mins, zone: ev.zone, repeat: ev.repeat || '',
+    wall: { date: `${wall.y}-${pad(wall.mo)}-${pad(wall.d)}`, time: `${pad(wall.h)}:${pad(wall.mi)}`, dow: wall.dow, nth: nthOf(wall.d) },
+    handle: ev.handle, keen: names, mine: !!mark && (ev.keen || []).some((k) => k.by === mark), may: mayChangeEvent(who, ev) };
+  if (ev.base) out.base = true;
+  if (ev.away) out.away = ev.away;
+  if (forumRoom(ev.room)) out.place = forumPlace(ev.room);
+  return out;
+}
+
+/* The rooms with a lock on them, for the radio's list of where an event can
+   be: every room of the base's that is not one that keeps to itself (those
+   are in no public list, and their tags are on the Town Hall's own pages), and
+   which of them this pass may go into. A forum category's room the radio is
+   told about only if its pass may read it, so none is here. */
+export function eventRooms(who) {
+  const locked = Object.keys(MOD_ROOMS).filter((t) => !quietRoom(t));
+  return { locked, may: locked.filter((t) => roomAllows(who, t)) };
+}
+
+/* Every event a reader can see, the soonest first. */
+export async function eventsFor(who, s = store(), now = Date.now()) {
+  return (await readEvents(s)).filter((e) => seesEvent(who, e)).map((e) => shapeEvent(e, who, now)).filter(Boolean)
+    .sort((a, b) => a.start - b.start || a.title.localeCompare(b.title));
+}
+
+// The events still to come or going on, which is all a write keeps.
+const liveEvents = (list, now) => list.filter((e) => eventStarts(e, now).length);
+
+/* Schedule one. Its maker is interested in it from the start, as on Discord. */
+export async function makeEvent(who, b, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: 'Only a claimed username schedules events.' };
+  const c = cleanEvent(b, who, now);
+  if (c.error) return c;
+  const mark = authorMark(who);
+  const ev = { id: newEventId(), ...c.ev, handle: who.handle, by: mark, keen: [{ handle: who.handle, by: mark }] };
+  if (who.role === 'base') ev.base = true;
+  let error = null;
+  await updateList(EVENTS, 'events', (list) => {
+    error = null;
+    const live = liveEvents(list, now);
+    if (live.length >= EVENTS_MAX) { error = 'The street has as many events as it holds just now. Try again once one has been.'; return null; }
+    if (live.filter((e) => e.by === mark).length >= EVENTS_PER) { error = `You have ${EVENTS_PER} events scheduled, which is as many as one person can at once.`; return null; }
+    return [...live, ev];
+  }, s);
+  return error ? { error } : { event: ev };
+}
+
+/* Change one: everything that was typed, and nothing of who made it or who is
+   interested. A change to when it starts, its time zone or how it repeats
+   brings back any single time that was cancelled. */
+export async function editEvent(who, id, b, s = store(), now = Date.now()) {
+  if (!eventId(id)) return { error: 'That event is not there any more.' };
+  const c = cleanEvent(b, who, now);
+  if (c.error) return c;
+  let error = null, event = null;
+  await updateList(EVENTS, 'events', (list) => {
+    error = null;
+    const i = list.findIndex((e) => e.id === id);
+    if (i < 0 || !eventStarts(list[i], now).length || !seesEvent(who, list[i])) { error = 'That event is not there any more.'; return null; }
+    if (!mayChangeEvent(who, list[i])) { error = 'Only whoever scheduled it, or a moderator, can change it.'; return null; }
+    const was = list[i];
+    const next = { ...was, ...c.ev };
+    if (!c.ev.away) delete next.away;
+    if (was.start !== next.start || was.zone !== next.zone || was.repeat !== next.repeat) delete next.skip;
+    event = next;
+    const copy = list.slice();
+    copy[i] = next;
+    return copy;
+  }, s);
+  return error ? { error } : { event };
+}
+
+/* Cancel it, every time it would have happened. */
+export async function removeEvent(who, id, s = store(), now = Date.now()) {
+  let error = 'That event is not there any more.';
+  await updateList(EVENTS, 'events', (list) => {
+    error = 'That event is not there any more.';
+    const ev = list.find((e) => e.id === id);
+    if (!ev || !seesEvent(who, ev)) return null;
+    if (!mayChangeEvent(who, ev)) { error = 'Only whoever scheduled it, or a moderator, can cancel it.'; return null; }
+    error = null;
+    return list.filter((e) => e.id !== id);
+  }, s);
+  return error ? { error } : { removed: true };
+}
+
+/* Cancel one time a repeating event would have happened, `at`, which must be
+   one of its next few. The rest go on. */
+export async function skipEvent(who, id, at, s = store(), now = Date.now()) {
+  let error = 'That event is not there any more.';
+  await updateList(EVENTS, 'events', (list) => {
+    error = 'That event is not there any more.';
+    const i = list.findIndex((e) => e.id === id);
+    if (i < 0 || !seesEvent(who, list[i])) return null;
+    const ev = list[i];
+    if (!mayChangeEvent(who, ev)) { error = 'Only whoever scheduled it, or a moderator, can cancel it.'; return null; }
+    if (!ev.repeat) { error = 'It happens once, so cancel the event.'; return null; }
+    if (!eventStarts(ev, now, 8).includes(at)) { error = 'That is not one of its next times.'; return null; }
+    const kept = (ev.skip || []).filter((t) => t + ev.mins * 60000 > now);
+    if (kept.length >= EVENT_SKIPS) { error = `At most ${EVENT_SKIPS} of its times can be cancelled at once.`; return null; }
+    error = null;
+    const copy = list.slice();
+    copy[i] = { ...ev, skip: [...kept, at].sort((a, b) => a - b) };
+    return copy;
+  }, s);
+  return error ? { error } : { skipped: at };
+}
+
+/* Say you are interested, or take it back. Your handle on its list, and the
+   mark that says it is you; nothing about when. */
+export async function keenEvent(who, id, on, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return { error: 'Only a claimed username can say it is interested.' };
+  const mark = authorMark(who);
+  let error = 'That event is not there any more.';
+  await updateList(EVENTS, 'events', (list) => {
+    error = 'That event is not there any more.';
+    const i = list.findIndex((e) => e.id === id);
+    if (i < 0 || !eventStarts(list[i], now).length || !seesEvent(who, list[i])) return null;
+    const ev = list[i], keen = ev.keen || [], has = keen.some((k) => k.by === mark);
+    error = null;
+    if (!!on === has) return null;
+    if (on && keen.length >= EVENT_KEEN_MAX) { error = 'That event has as many people interested as it can list.'; return null; }
+    const copy = list.slice();
+    copy[i] = { ...ev, keen: on ? [...keen, { handle: who.handle, by: mark }] : keen.filter((k) => k.by !== mark) };
+    return copy;
+  }, s);
+  return error ? { error } : { keen: !!on };
+}
+
+/* Hourly: every event with no time left goes, and so does what was told
+   more than a day ago. */
+export async function sweepEvents(s = store(), now = Date.now()) {
+  await updateList(EVENTS, 'events', (list) => {
+    const keep = liveEvents(list, now);
+    return keep.length === list.length ? null : keep;
+  }, s);
+  await updateMap(EVENTS_TOLD, 'told', (told) => {
+    let any = false;
+    for (const k of Object.keys(told)) if (now - told[k] > DAY) { delete told[k]; any = true; }
+    return any;
+  }, s);
+}
+
+/* FORGET ME, and deleting the username: the events they scheduled go, and
+   they come off every list of the interested. */
+export async function forgetEvents(handle, since, s = store()) {
+  const mark = authorMark({ handle, since });
+  await updateList(EVENTS, 'events', (list) => {
+    let any = false;
+    const next = [];
+    for (const e of list) {
+      if (e.by === mark) { any = true; continue; }
+      if ((e.keen || []).some((k) => k.by === mark)) { any = true; next.push({ ...e, keen: e.keen.filter((k) => k.by !== mark) }); }
+      else next.push(e);
+    }
+    return any ? next : null;
+  }, s);
+}
+
+/* Every five minutes (cb-events-start): each time an event starts in the
+   next five minutes, or started in the last fifteen and was missed, told
+   once to the devices that asked. Which times have been told is a map of the
+   event's id and that start to when it was told, kept a day. */
+export async function tellEventsStarting(s = store(), mods, send = sendPush, now = Date.now()) {
+  const due = [];
+  for (const e of await readEvents(s)) {
+    for (const t of eventStarts(e, now - EVENT_LATE, 3)) if (t > now - EVENT_LATE && t <= now + EVENT_SOON) due.push([e, t]);
+  }
+  if (!due.length) return [];
+  const fresh = [];
+  await updateMap(EVENTS_TOLD, 'told', (told) => {
+    fresh.length = 0;
+    for (const k of Object.keys(told)) if (now - told[k] > DAY) delete told[k];
+    for (const [e, t] of due) {
+      const k = `${e.id}@${t}`;
+      if (!own(told, k)) { told[k] = now; fresh.push([e, t]); }
+    }
+    return fresh.length > 0;
+  }, s);
+  const out = [];
+  for (const [e, t] of fresh) out.push(...await notifyEventStart(e, t, s, mods, send));
+  return out;
 }
 
 /* ── The forums ───────────────────────────────────────────────────────────
@@ -7454,7 +7888,10 @@ export function cleanMessage(s) {
    each off until switched on, for anybody signed on; and the message's words
    in it, which each device can turn off. A fifth came the same evening: props
    given to a claimed username (notifyProps); and a sixth, a direct message to
-   one (notifyDm).
+   one (notifyDm). Two more on 2026-10-23, with events (Ryan's ask, after
+   Discord's Scheduled Events): an event you are interested in starting
+   (notifyEventStart), and a new event on World or in a room you follow
+   (notifyEventNew).
 
    EVERYTHING, AND WHATEVER IS ADDED LATER (feedback from our community and
    Ryan's call, 2026-10-19, after somebody found new switches off the morning
@@ -7526,7 +7963,7 @@ export function cleanSubscription(sub) {
 /* What a device asked for: a switch per kind and one for every kind, all off
    until switched on, the words, on unless switched off, the rooms it follows,
    and whether it follows every room. null if it follows too many. */
-export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks'];
+export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks', 'events', 'scheduled'];
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
@@ -7965,6 +8402,60 @@ export async function notifyCall(tag, s = store(), mods, send = sendPush, now = 
     sends.push({ id, d, payload, opts: { ttl: 900, topic: topicFor(`call ${tag}`) } });
   }
   return deliver(sends, gone, s, send);
+}
+
+/* An event is starting (Ryan's ask, 2026-10-23, after Discord's Scheduled
+   Events): tell the devices that asked about events they are interested in,
+   switched on as somebody on its list of the interested, by the mark of their
+   claimed username, whose pass can still see it. Its title only if the device
+   wants the words, its channel, and when; never who else is interested, and
+   never how many. Each start is told once, by tellEventsStarting. */
+export async function notifyEventStart(ev, at, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
+  if (send === sendPush && !pushReady()) return [];
+  const keen = new Set((ev && ev.keen || []).map((k) => k.by));
+  if (!keen.size) return [];
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || !wants(d.want, 'events')) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!forumReader(who) || !keen.has(authorMark(who)) || !seesEvent(who, ev)) continue;
+    sends.push({ id, d, payload: eventPayload(ev, 'start', at, d.want), opts: { urgency: 'high', ttl: 1800, topic: topicFor(`event ${ev.id}`) } });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* A new event has been scheduled: tell the devices that asked about new
+   events, on World, which is everybody's channel, or in a room they follow
+   (followsRoom, so never a room that keeps to itself, which has no events
+   anyway). Never its maker. Who made it, its title only if the device wants
+   the words, its channel, and when it first starts. */
+export async function notifyEventNew(ev, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
+  if (send === sendPush && !pushReady()) return [];
+  if (!ev || !ev.start) return [];
+  const devs = await readDevices(s);
+  const from = foldHandle(ev.handle);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold === from || !wants(d.want, 'scheduled')) continue;
+    if (ev.room !== WORLD_CALL && !followsRoom(d.want, ev.room)) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!forumReader(who) || authorMark(who) === ev.by || !seesEvent(who, ev)) continue;
+    sends.push({ id, d, payload: eventPayload(ev, 'new', ev.start, d.want), opts: { topic: topicFor(`event ${ev.id}`) } });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+function eventPayload(ev, why, at, want) {
+  const p = { kind: 'event', why, id: ev.id, room: ev.room, at, title: '' };
+  if (want && want.words !== false) p.title = [...String(ev.title || '')].slice(0, PUSH_WORDS).join('');
+  if (why === 'new') p.handle = ev.handle;
+  if (forumRoom(ev.room)) p.place = forumPlace(ev.room);
+  return p;
 }
 
 /* ── Answers ───────────────────────────────────────────────────────────── */

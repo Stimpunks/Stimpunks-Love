@@ -3124,7 +3124,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   const offCurve = rnd(65); offCurve[0] = 4;
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
-  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [], everyRoom: false }, 'something started on');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, events: false, scheduled: false, words: true, rooms: [], everyRoom: false }, 'something started on');
   assert.equal(cleanWant({ everyRoom: 'yes' }).everyRoom, false, 'every room is on only when it is true');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
@@ -6773,3 +6773,238 @@ test('a search finds a poll by its choices, and never by its votes', async () =>
   assert.ok((await searchForum(ADA, 'grapes', s, T0 + 2)).some((x) => x.id === t.id), 'a poll\'s choices are not searched');
   assert.ok(!(await searchForum(ADA, 'bo', s, T0 + 2)).some((x) => x.id === t.id), 'a search found a topic by who voted in it');
 });
+
+/* ── Events ───────────────────────────────────────────────────────────────
+   Ryan's ask and calls, 2026-10-23, after Discord's Scheduled Events: anybody
+   signed on schedules one, its maker or a moderator changes it, an event names
+   who is interested and never how many, a repeating one keeps to its maker's
+   clock across summer time, and two notifications, each off until switched
+   on. */
+import { cleanEvent, eventStarts, wallToUtc, zoneParts, nthOf, cleanZone, cleanEventLink, seesEvent, mayChangeEvent, shapeEvent, eventsFor,
+  makeEvent, editEvent, removeEvent, skipEvent, keenEvent, readEvents, sweepEvents, forgetEvents, tellEventsStarting,
+  notifyEventStart, notifyEventNew, eventId, EVENTS_PER, EVENT_KEEN_MAX, EVENT_SOON } from './lib.mjs';
+
+const DEN = 'America/Denver';
+const evAt = (date, time, extra = {}) => ({ title: 'Coworking hour', room: 'world', at: 'call', date, time, zone: DEN, mins: 60, repeat: '', ...extra });
+const NOW = Date.UTC(2026, 9, 23, 12, 0);   // 2026-10-23, 06:00 in Colorado
+
+test('a clock time becomes the right instant, across the hours summer time skips and repeats', () => {
+  // 19:00 in Colorado is 01:00 the next day in summer and 02:00 in winter.
+  assert.equal(wallToUtc(2026, 10, 29, 19, 0, DEN), Date.UTC(2026, 9, 30, 1, 0));
+  assert.equal(wallToUtc(2026, 11, 5, 19, 0, DEN), Date.UTC(2026, 10, 6, 2, 0));
+  // 02:30 on 8 March 2026 never happens there: it is taken an hour on, at 03:30.
+  const gap = wallToUtc(2026, 3, 8, 2, 30, DEN);
+  assert.deepEqual([zoneParts(gap, DEN).h, zoneParts(gap, DEN).mi], [3, 30]);
+  // 01:30 on 1 November 2026 happens twice: the first.
+  assert.equal(wallToUtc(2026, 11, 1, 1, 30, DEN), Date.UTC(2026, 10, 1, 7, 30));
+  assert.equal(cleanZone('America/Denver'), DEN);
+  assert.equal(cleanZone('Mars/Olympus'), null);
+  assert.equal(cleanZone('<script>'), null);
+  assert.deepEqual([nthOf(1), nthOf(7), nthOf(8), nthOf(22), nthOf(29)], [1, 1, 2, 4, 5]);
+});
+
+test('a repeating event keeps to its maker\'s clock, every week, fortnight, month and weekday', () => {
+  const at = (t) => { const p = zoneParts(t, DEN); return `${p.y}-${p.mo}-${p.d} ${p.h}:${String(p.mi).padStart(2, '0')} ${['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][p.dow]}`; };
+  // Made on 1 October, so a first start before today is allowed.
+  const make = (date, repeat) => cleanEvent(evAt(date, '19:00', { repeat }), null, Date.UTC(2026, 9, 1)).ev;
+  // Weekly from Thursday 29 October: still 19:00 after the clocks go back on 1 November.
+  assert.deepEqual(eventStarts(make('2026-10-29', 'weekly'), NOW, 3).map(at), ['2026-10-29 19:00 Th', '2026-11-5 19:00 Th', '2026-11-12 19:00 Th']);
+  assert.deepEqual(eventStarts(make('2026-10-29', 'fortnightly'), NOW, 3).map(at), ['2026-10-29 19:00 Th', '2026-11-12 19:00 Th', '2026-11-26 19:00 Th']);
+  // The fourth Thursday of October, then of every month after it.
+  assert.deepEqual(eventStarts(make('2026-10-22', 'monthly'), NOW, 3).map(at), ['2026-11-26 19:00 Th', '2026-12-24 19:00 Th', '2027-1-28 19:00 Th']);
+  // The last Friday, which is what a fifth one always is.
+  assert.deepEqual(eventStarts(make('2026-10-30', 'monthly'), NOW, 3).map(at), ['2026-10-30 19:00 Fr', '2026-11-27 19:00 Fr', '2026-12-25 19:00 Fr']);
+  // Every weekday from a Friday: Monday comes next, never the weekend.
+  assert.deepEqual(eventStarts(make('2026-10-23', 'weekdays'), NOW, 3).map(at), ['2026-10-23 19:00 Fr', '2026-10-26 19:00 Mo', '2026-10-27 19:00 Tu']);
+  assert.match(cleanEvent(evAt('2026-10-24', '19:00', { repeat: 'weekdays' }), null, NOW).error, /weekday/);
+  // Long after it began, the next one is found without walking every week since.
+  const old = make('2026-10-29', 'weekly');
+  assert.equal(at(eventStarts(old, Date.UTC(2031, 0, 1), 1)[0]), '2031-1-2 19:00 Th');
+  // The one going on now is the first, until it ends.
+  const going = make('2026-10-29', 'weekly');
+  assert.equal(eventStarts(going, Date.UTC(2026, 9, 30, 1, 30), 1)[0], Date.UTC(2026, 9, 30, 1, 0));
+  assert.equal(eventStarts(going, Date.UTC(2026, 9, 30, 2, 0), 1)[0], Date.UTC(2026, 10, 6, 2, 0));
+  // A time cancelled is left out, and the rest go on.
+  const skipped = { ...going, skip: [Date.UTC(2026, 10, 6, 2, 0)] };
+  assert.deepEqual(eventStarts(skipped, NOW, 2).map(at), ['2026-10-29 19:00 Th', '2026-11-12 19:00 Th']);
+  // One that happens once is gone once it ends.
+  const once = make('2026-10-29', '');
+  assert.equal(eventStarts(once, Date.UTC(2026, 9, 30, 2, 0)).length, 0);
+});
+
+test('what is typed for an event is checked, and a room that keeps to itself has none', () => withPasswords(() => {
+  const ada = writer('Ada');
+  assert.ok(cleanEvent(evAt('2026-10-29', '19:00'), ada, NOW).ev);
+  assert.match(cleanEvent(evAt('2026-10-29', '19:00', { title: '  ' }), ada, NOW).error, /title/);
+  assert.match(cleanEvent(evAt('2026-10-29', '19:00', { room: QUIET_ROOMS[0] }), ada, NOW).error, /keeps to itself/);
+  assert.match(cleanEvent(evAt('2026-10-29', '19:00', { room: 'town-hall-board' }), ada, NOW).error, /go into/);
+  const board = { role: 'base', handle: 'Bo', roles: new Set(['board']), account: true, since: 3 };
+  assert.ok(cleanEvent(evAt('2026-10-29', '19:00', { room: 'town-hall-board' }), board, NOW).ev);
+  assert.match(cleanEvent(evAt('2026-10-29', '19:00', { at: 'away' }), ada, NOW).error, /link/);
+  assert.equal(cleanEvent(evAt('2026-10-29', '19:00', { at: 'away', away: 'https://example.org/meet' }), ada, NOW).ev.away, 'https://example.org/meet');
+  assert.equal(cleanEventLink('javascript:alert(1)'), null);
+  assert.equal(cleanEventLink('https://name:pw@example.org/'), null);
+  assert.match(cleanEvent(evAt('2026-10-22', '19:00'), ada, NOW).error, /been and gone/);
+  assert.match(cleanEvent(evAt('2028-10-22', '19:00'), ada, NOW).error, /coming year/);
+  assert.match(cleanEvent(evAt('2026-02-30', '19:00'), ada, NOW).error, /clock can read/);
+  assert.match(cleanEvent(evAt('2026-10-29', '19:00', { mins: 3 }), ada, NOW).error, /between/);
+  assert.match(cleanEvent(evAt('2026-10-29', '19:00', { zone: 'Nowhere/At_All' }), ada, NOW).error, /time zone/);
+  assert.match(cleanEvent(evAt('2026-10-29', '19:00', { repeat: 'hourly' }), ada, NOW).error, /repeats/);
+  // A forum category's room takes its readers, and a subcategory's tag is no room.
+  assert.ok(seesEvent(ada, { room: 'world' }));
+  assert.equal(seesEvent({ role: 'mobile', handle: 'Cy', roles: new Set() }, { room: 'world' }), false, 'an unclaimed handle saw an event');
+}));
+
+test('anybody claimed schedules one, sees only what their pass may, and the mark never leaves', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = writer('Ada', 1), bex = writer('Bex', 2), mo = writer('Mo', 4, 'base');
+  const board = { role: 'base', handle: 'Bo', roles: new Set(['board']), account: true, since: 5 };
+  assert.match((await makeEvent({ role: 'mobile', handle: 'Cy', roles: new Set() }, evAt('2026-10-29', '19:00'), s, NOW)).error, /claimed/);
+  const one = await makeEvent(ada, evAt('2026-10-29', '19:00', { about: 'Bring a **project**.' }), s, NOW);
+  assert.ok(eventId(one.event.id));
+  const priv = await makeEvent(board, evAt('2026-10-30', '18:00', { room: 'town-hall-board', title: 'Board meeting' }), s, NOW);
+  assert.ok(priv.event.base, 'a moderator\'s event was not marked as theirs');
+  const seen = await eventsFor(bex, s, NOW);
+  assert.deepEqual(seen.map((e) => e.title), ['Coworking hour'], 'somebody saw an event in a room they cannot go into');
+  assert.deepEqual((await eventsFor(board, s, NOW)).map((e) => e.title), ['Coworking hour', 'Board meeting']);
+  const e = seen[0];
+  assert.deepEqual(e.keen, ['Ada'], 'its maker was not interested in it from the start');
+  for (const k of ['by', 'skip', 'count', 'n']) assert.equal(e[k], undefined, `an event was sent its ${k}`);
+  assert.equal(JSON.stringify(seen).includes((await readEvents(s))[0].by), false, 'the maker\'s mark left the server');
+  assert.equal(e.may, false, 'somebody else could change it');
+  assert.equal((await eventsFor(ada, s, NOW))[0].may, true);
+  assert.equal((await eventsFor(mo, s, NOW))[0].may, true, 'a moderator could not change it');
+  assert.deepEqual(e.wall, { date: '2026-10-29', time: '19:00', dow: 4, nth: 5 });
+  // Only its maker or a moderator changes or cancels it.
+  assert.match((await editEvent(bex, e.id, evAt('2026-10-29', '20:00'), s, NOW)).error, /Only whoever/);
+  assert.match((await removeEvent(bex, e.id, s, NOW)).error, /Only whoever/);
+  const ch = await editEvent(mo, e.id, evAt('2026-10-29', '20:00', { title: 'Coworking, later' }), s, NOW);
+  assert.equal(ch.event.handle, 'Ada', 'a moderator\'s change made the event theirs');
+  assert.deepEqual(ch.event.keen.map((k) => k.handle), ['Ada'], 'a change lost who is interested');
+  // A name deleted and claimed again is somebody else, and cannot change it.
+  assert.match((await editEvent(writer('Ada', 99), e.id, evAt('2026-10-29', '20:00'), s, NOW)).error, /Only whoever/);
+  assert.match((await skipEvent(ada, e.id, ch.event.start, s, NOW)).error, /happens once/);
+  assert.deepEqual(await removeEvent(ada, e.id, s, NOW), { removed: true });
+  assert.deepEqual((await eventsFor(ada, s, NOW)).map((x) => x.title), []);
+  // Twenty at once each, and no more.
+  for (let i = 0; i < EVENTS_PER; i++) assert.ok((await makeEvent(bex, evAt('2026-11-02', '10:00', { title: `Mine ${i}` }), s, NOW)).event);
+  assert.match((await makeEvent(bex, evAt('2026-11-02', '10:00'), s, NOW)).error, /as many as one person/);
+}));
+
+test('interested is names, alphabetical, once each, and never a number; a name claimed again is not on it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { event } = await makeEvent(writer('Zed', 1), evAt('2026-10-29', '19:00'), s, NOW);
+  for (const [h, n] of [['bex', 2], ['Ada', 3], ['cy', 4]]) assert.deepEqual(await keenEvent(writer(h, n), event.id, true, s, NOW), { keen: true });
+  assert.deepEqual(await keenEvent(writer('Ada', 3), event.id, true, s, NOW), { keen: true }, 'saying it twice was not the same as once');
+  let e = (await eventsFor(writer('Ada', 3), s, NOW))[0];
+  assert.deepEqual(e.keen, ['Ada', 'bex', 'cy', 'Zed']);
+  assert.equal(e.mine, true);
+  assert.equal((await eventsFor(writer('Ada', 77), s, NOW))[0].mine, false, 'a name claimed again counted as interested');
+  assert.deepEqual(await keenEvent(writer('Ada', 3), event.id, false, s, NOW), { keen: false });
+  e = (await eventsFor(writer('Ada', 3), s, NOW))[0];
+  assert.deepEqual(e.keen, ['bex', 'cy', 'Zed']);
+  assert.equal(Object.values(e).some((v) => v === 3 || v === 4), false, 'an event carried a number of people');
+  assert.match((await keenEvent(writer('Bo', 9), 'e' + 'x'.repeat(12), true, s, NOW)).error, /not there/);
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen people saying they are interested at once, ${how}: none told it worked is missing`, () => withPasswords(async () => {
+    const s = memoryStore({ etagOnRead });
+    const { event } = await makeEvent(writer('Host', 1), evAt('2026-10-29', '19:00'), s, NOW);
+    const told = await Promise.allSettled(Array.from({ length: 15 }, (_, i) => keenEvent(writer(`P${i}`, i + 10), event.id, true, s, NOW)));
+    const ok = told.map((r, i) => (r.status === 'fulfilled' && r.value.keen ? `P${i}` : null)).filter(Boolean);
+    const names = (await readEvents(s))[0].keen.map((k) => k.handle);
+    for (const h of ok) assert.ok(names.includes(h), `${h} was told it worked and is not on the list`);
+    if (etagOnRead) assert.equal(ok.length, 15);
+  }));
+}
+
+test('a time cancelled is one of the next ones, and a change to when brings cancelled times back', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = writer('Ada', 1);
+  const { event } = await makeEvent(ada, evAt('2026-10-29', '19:00', { repeat: 'weekly' }), s, NOW);
+  const next = eventStarts(event, NOW, 3);
+  assert.match((await skipEvent(ada, event.id, next[0] + 1, s, NOW)).error, /next times/);
+  assert.deepEqual(await skipEvent(ada, event.id, next[1], s, NOW), { skipped: next[1] });
+  let e = (await eventsFor(ada, s, NOW))[0];
+  assert.deepEqual([e.start, e.then[0]], [next[0], next[2]], 'a cancelled time was still shown');
+  await editEvent(ada, event.id, evAt('2026-10-29', '19:00', { repeat: 'weekly', title: 'Renamed' }), s, NOW);
+  assert.deepEqual((await readEvents(s))[0].skip, [next[1]], 'renaming it brought a cancelled time back');
+  await editEvent(ada, event.id, evAt('2026-10-29', '19:30', { repeat: 'weekly' }), s, NOW);
+  assert.equal((await readEvents(s))[0].skip, undefined, 'a cancelled time outlived a change to when it starts');
+}));
+
+test('the sweep takes events that have been and gone, and Forget me takes yours and you off every list', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = writer('Ada', 1), bex = writer('Bex', 2);
+  await makeEvent(ada, evAt('2026-10-23', '07:00'), s, NOW);
+  await makeEvent(ada, evAt('2026-10-29', '19:00', { repeat: 'weekly', title: 'Weekly' }), s, NOW);
+  const { event } = await makeEvent(bex, evAt('2026-10-30', '19:00', { title: 'Bex\'s' }), s, NOW);
+  await keenEvent(ada, event.id, true, s, NOW);
+  await sweepEvents(s, Date.UTC(2026, 9, 23, 15, 0));
+  assert.deepEqual((await readEvents(s)).map((e) => e.title).sort(), ['Bex\'s', 'Weekly'], 'the sweep took the wrong events');
+  await forgetEvents('ada', 1, s);
+  const left = await readEvents(s);
+  assert.deepEqual(left.map((e) => e.title), ['Bex\'s'], 'Forget me left an event its person made');
+  assert.deepEqual(left[0].keen.map((k) => k.handle), ['Bex'], 'Forget me left its person on a list of the interested');
+  await forgetEvents('Bex', 99, s);
+  assert.equal((await readEvents(s)).length, 1, 'a name claimed again forgot its old owner\'s event');
+}));
+
+test('a start tells only the interested who asked, once, and a new event tells World\'s and a room\'s followers but not its maker', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const passOf = async (h) => { await claimAccount(h, `${h} has a long phrase`, s, 1, null); const a = await readAccount(h, s); return [issueAccountPass(h, a.v), a.since]; };
+  const [adaPass, adaSince] = await passOf('Ada');
+  const [bexPass, bexSince] = await passOf('Bex');
+  const [cyPass] = await passOf('Cy');
+  const ada = writer('Ada', adaSince), bex = writer('Bex', bexSince);
+  const aOn = aDevice(), aQuiet = aDevice(), bOn = aDevice(), cNew = aDevice(), cRoom = aDevice(), bOff = aDevice();
+  await keepDevice(aOn, adaPass, { events: true, scheduled: true }, s);
+  await keepDevice(aQuiet, adaPass, { events: true, words: false }, s);
+  await keepDevice(bOn, bexPass, { all: true }, s);
+  await keepDevice(cNew, cyPass, { scheduled: true }, s);
+  await keepDevice(cRoom, cyPass, { scheduled: true, rooms: ['the-den'] }, s);
+  await keepDevice(bOff, bexPass, { mentions: true }, s);
+  assert.equal(cleanWant({}).events, false, 'events notified before anybody switched them on');
+  assert.equal(cleanWant({}).scheduled, false);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const to = (d) => sent.filter((x) => x.to === d.endpoint).map((x) => x.payload);
+
+  const world = (await makeEvent(ada, evAt('2026-10-29', '19:00'), s, NOW)).event;
+  await notifyEventNew(world, s, readMods(''), send);
+  assert.equal(to(aOn).length, 0, 'the maker was told about their own event');
+  assert.deepEqual(to(cNew), [{ kind: 'event', why: 'new', id: world.id, room: 'world', at: world.start, title: 'Coworking hour', handle: 'Ada' }]);
+  assert.equal(to(bOn).length, 1, 'Everything missed a new event on World');
+  assert.equal(to(bOff).length, 0, 'a device that never asked was told');
+
+  sent.length = 0;
+  const den = (await makeEvent(bex, evAt('2026-10-30', '20:00', { room: 'the-den', title: 'Records' }), s, NOW)).event;
+  await notifyEventNew(den, s, readMods(''), send);
+  assert.equal(to(cRoom).length, 1, 'a follower of the room was not told');
+  assert.equal(to(cNew).length, 0, 'somebody who does not follow the room was told about an event in it');
+  assert.equal(to(aOn).length, 0, 'a new event in a room told somebody who does not follow it');
+
+  // Ada is interested in her own; Bex says so too. Five minutes before it starts, both are told, once.
+  sent.length = 0;
+  await keenEvent(bex, world.id, true, s, NOW);
+  const near = world.start - EVENT_SOON + 1000;
+  await tellEventsStarting(s, readMods(''), send, Date.UTC(2026, 9, 29, 12, 0));
+  assert.equal(sent.length, 0, 'a start was told hours early');
+  await tellEventsStarting(s, readMods(''), send, near);
+  await tellEventsStarting(s, readMods(''), send, near + 60000);
+  assert.deepEqual(to(aOn), [{ kind: 'event', why: 'start', id: world.id, room: 'world', at: world.start, title: 'Coworking hour' }]);
+  assert.deepEqual(to(aQuiet), [{ kind: 'event', why: 'start', id: world.id, room: 'world', at: world.start, title: '' }], 'the words went to a device that turned them off');
+  assert.equal(to(bOn).length, 1, 'somebody interested, with Everything on, was not told once');
+  assert.equal(to(cNew).length, 0, 'somebody not interested was told it started');
+  assert.equal(JSON.stringify(sent).includes('keen'), false, 'a notification carried who is interested');
+
+  // A device whose name was claimed again is not its old owner on any list.
+  sent.length = 0;
+  await notifyEventStart(world, world.start, s, readMods(''), send);
+  await deleteAccount('Bex', s);
+  sent.length = 0;
+  await notifyEventStart(world, world.start, s, readMods(''), send);
+  assert.equal(to(bOn).length, 0, 'a deleted username was still told');
+}));

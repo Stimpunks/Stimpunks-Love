@@ -41,6 +41,17 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-23-cb-events">2026-10-23 &mdash; Events on the CB, after Discord&rsquo;s</h2>
+  <ul>
+    <li><strong>Anybody signed on to the CB can schedule an event</strong> (Ryan&rsquo;s ask and calls, after Discord&rsquo;s scheduled events): on World or in a room they can go into, in its call, in the room itself, or at a link off the street, with a title, a date and time, how long it runs and what it is about. It can repeat every week, every other week, every month on the same weekday, or every weekday, and keeps to its maker&rsquo;s clock when summer time starts or ends. Whoever scheduled it, or a moderator, can change it, cancel one time, or cancel it.</li>
+    <li><strong>Events is a part of the radio now</strong>, after Unreads, with what is on now in the room you are in, and on <a href="chat.html">the chat page</a> it is at the top of the channels and opens in the middle, at <code>chat.html#events</code>. Every time is in your own clock.</li>
+    <li><strong>An event names who is interested and never how many</strong>, the way a reaction does, where Discord prints a number on every event. <b>I&rsquo;m interested</b> puts your username on its list, and <b>Add to my calendar</b> gives your device a calendar file of the next time, made in your browser and sent nowhere.</li>
+    <li><strong>Who sees one is who may go where it is</strong>: everybody on World, and in a room, whoever may go into the room, so an event in a Town Hall room or a staff category is only theirs. A room that keeps to itself has no events.</li>
+    <li><strong>Two more notifications, each off until switched on</strong>: <b>When an event I&rsquo;m interested in starts</b>, up to five minutes before, and <b>New events on World and in rooms I follow</b>. Pressing one opens the chat page on that event.</li>
+    <li><strong><a href="privacy.html#events">The privacy page</a> says what is kept first</strong>: the event, its maker&rsquo;s username and the usernames of everybody interested, and nothing about when anybody did anything. Forget me and deleting your username take your events and your name off every list.</li>
+    <li>New: <code>netlify/functions/cb-events.mjs</code>, <code>netlify/functions/cb-events-start.mjs</code>, which tells starts every five minutes, and <code>tools/check-events.py</code>. Changed: <code>netlify/cb/lib.mjs</code>, <code>cb.js</code>, <code>cb.css</code>, <code>cb-sw.js</code>, <code>privacy.html</code>, <code>cb-guide.html</code> and <code>tools/make-chat.py</code>.</li>
+  </ul>
+
   <h2 id="2026-10-23-forum-topic-controls">2026-10-23 &mdash; A topic&rsquo;s controls go to its foot</h2>
   <ul>
     <li><strong>In <a href="forum.html">the forums</a>, Pin, Close, Move, Tags, Add a poll and Take the topic down are at the foot of a topic now</strong>, under <b>Change this topic</b>, after the posts and the reply box. They used to sit between the title and the first post, and the list for moving a topic read as the category it was in, which confused people. Nothing stands between a topic&rsquo;s title and its words now, reading it or editing it.</li>

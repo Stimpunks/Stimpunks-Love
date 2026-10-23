@@ -1615,6 +1615,22 @@ rest. A reported picture is copied onto the desk, shown there only after **Show 
 The friendly edit is a picture in the request "so people can explain what they want"; it is the first contact the rule
 exists to keep words. The open questions, safeguarding first, are in `DECISIONS.md`.
 
+**EVENTS ARE THE CB'S, SCHEDULED BY ANYBODY SIGNED ON, AND AN EVENT NAMES WHO IS INTERESTED AND NEVER HOW MANY.**
+Ryan's ask and calls, 2026-10-23, after Discord's Scheduled Events: the Events part of `netlify/cb/lib.mjs` (one blob,
+`events`), `/cb/events`, `cb-events-start` every five minutes, an Events part on the radio after Unreads and Events at the
+top of the chat page's channels, which opens in the middle at `#events` (`evMake`, `chatViewEvents` in `cb.js`).
+**Every event is in a channel, World or a room, and `seesEvent` asks `roomAllows`**, so an event in a Town Hall room or a
+staff category is theirs; **a room that keeps to itself has none**, because an event is listed and announced outside it.
+Its maker (by `authorMark`, never sent) or any moderator changes or cancels it. **It starts and ends by the clock**, with no
+status kept, and a one-off goes from the blob within the hour after it ends; **a repeating one keeps to its maker's wall
+clock in its maker's zone** (`eventStarts`, `wallToUtc`), kept with it, across summer time, and every time on the radio is
+the reader's own. Two notifications, each off until switched on (`events`, an event you are interested in starting, and
+`scheduled`, a new one on World or in a room you follow), through `wants()` and `followsRoom()`. The chat page's `#events`
+means no room may be called `events.html`, which `make-chat.py` refuses. `tools/check-events.py` holds the rest. **The
+friendly edits are Discord's "12 Interested"**, the headcount the street refuses wearing an RSVP, **a time of when somebody
+said they were interested**, a record of somebody's days, **and an event in a quiet room "kept inside it"**, which names
+its address on a list; `DECISIONS.md` has what is still open, a cover picture first.
+
 **THE FANFARE FOLLOWS THE DIAL AND THE WORDS NEVER DO.** Gentle says its piece and adds nothing,
 Regular chimes, MAX chimes properly and throws sparks that rise once and fade. The sentences are
 identical at all three, because a fanfare is decoration and **Gentle takes away the wobble, never

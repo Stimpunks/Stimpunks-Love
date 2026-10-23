@@ -1765,6 +1765,40 @@ ol.cb-md-list { list-style: decimal; }
   .cb-radio--chat .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
 }
 
+/* EVENTS (cb.js, evMake; Ryan's ask, 2026-10-23, after Discord's Scheduled
+   Events): a card for each, and the form to schedule one, in the case's own
+   clothes and outlined in its groove, the pets tray's way, so every pair here
+   is one check-contrast.py's CB_ROLES already holds: steel words on the case,
+   amber links on it, and ON NOW in the BASE tag's own pair. Nothing on a card
+   moves or lights up as an event starts: its words say On now. */
+.cb-ev, .cb-ev-form { display: grid; gap: 8px; }
+.cb-ev[hidden], .cb-ev-form[hidden], .cb-ev-away[hidden], .cb-ev-now[hidden] { display: none; }
+.cb-ev-form, .cb-ev-card { padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; }
+.cb-ev-form .cb-lab { margin: 4px 0 0; }
+.cb-ev-form .cb-say { display: block; width: 100%; box-sizing: border-box; }
+.cb-ev-form .cb-hint, .cb-ev-zone { margin: 0; }
+.cb-ev-away { display: grid; gap: 4px; }
+.cb-ev-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cb-ev-card { display: grid; gap: 4px; font-size: 14px; overflow-wrap: anywhere; }
+.cb-ev-card > p { margin: 0; }
+.cb-ev-title { margin: 0; font-size: 16px; }
+.cb-ev-title:focus, .cb-sec--events > .cb-h:focus { outline: none; }
+.cb-ev-title:focus-visible, .cb-sec--events > .cb-h:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-ev-card .cb-ev-on { margin: 0 6px 0 0; }
+.cb-ev-acts { margin-top: 6px; }
+.cb-ev-ask { flex: 1 1 100%; margin: 0; }
+.cb-ev-now { margin: 0; font-size: 14px; }
+button.cb-ev-link {
+  font: inherit; color: var(--cb-amber); background: none; border: 0; padding: 0; margin: 0;
+  text-decoration: underline; cursor: pointer; text-align: left;
+}
+/* ON THE CHAT PAGE the list is the middle, opened from Events at the top of
+   the channels, so it has no button of its own to open it and no Close; the
+   middle column scrolls it. */
+.cb-radio--chat .cb-ev-open, .cb-radio--chat .cb-sec--events .cb-foot-close { display: none; }
+.cb-radio--chat .cb-col--b > .cb-sec--events { flex: none; }
+.cb-radio--chat .cb-sec--events > .cb-h { font-size: min(calc(19px * var(--cb-display-scale, 1)), 24px); }
+
 /* A ROOM'S CALL: a window of its own at the foot of the page, bottom left
    where the radio is bottom right, one step under it so the radio can always
    be reached. Its clothes are the radio's, because it is the radio's. The

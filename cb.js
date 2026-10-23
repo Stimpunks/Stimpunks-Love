@@ -1255,6 +1255,11 @@
     this.newsSaid = el('p', 'cb-said');
     this.newsSaid.setAttribute('role', 'status');
     newSec.appendChild(this.newsSaid);
+    /* EVENTS (Ryan's ask, 2026-10-23, after Discord's): what is on now in
+       this room, and the list of what is scheduled. On the chat page it is
+       the middle, under Events at the top of the channels. See evMake. */
+    var evSec = this.evSec = part('cb-sec--events', 'Events', 0);
+    this.evMake(evSec);
     var chanSec = part('cb-sec--channel', 'Channel', 1);
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
     var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', 2);
@@ -1418,6 +1423,7 @@
     present.appendChild(this.famNow);
     present.hidden = true;
     hereSec.appendChild(present);
+    if (chat) hereSec.appendChild(this.evNowLine);
 
     var lcd = this.lcd = el('div', 'cb-lcd');
     // Which channel this is, at every size, because small shows only the readout.
@@ -2548,7 +2554,10 @@
     ['calls', 'Calls starting in rooms I follow, and the World call'],
     // Tasks are for directors, board members and administrators, on the base pass, so only a base pass is offered the switch.
     ['tasks', 'Something new in my Notifications in Tasks', 'base'],
-    ['words', 'Show the words of a message, a post, props or a task'],
+    // Events (Ryan's ask, 2026-10-23): one you said you are interested in starting, and a new one.
+    ['events', 'When an event I\u2019m interested in starts'],
+    ['scheduled', 'New events on World and in rooms I follow'],
+    ['words', 'Show the words of a message, a post, props, a task or an event\u2019s title'],
   ];
   function pushable() { return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
   function ourReg() {
@@ -2631,7 +2640,7 @@
     var me = this, box = this.notifyBody;
     var on = !!(sub && want);
     if (want) this.notifyWant = want;
-    var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, words: true, rooms: [], everyRoom: false };
+    var w = this.notifyWant = this.notifyWant || { all: false, mentions: false, props: false, messages: false, world: false, calls: false, tasks: false, events: false, scheduled: false, words: true, rooms: [], everyRoom: false };
     box.textContent = '';
     box.appendChild(el('h3', 'cb-h3', 'Notifications on this device'));
     box.appendChild(el('p', null, on
@@ -2903,6 +2912,7 @@
     if (!this.online.hidden) this.onlineTick();
     if (this.dmBox && !this.dmBox.hidden) this.dmTick();
     this.newsTick();
+    this.evTick();
     if (inChat()) this.chatDmTick();
     var room = this.tunedRoom(), sent = this.state.pass;
     call('/cb/channel' + (room ? '?room=' + room : ''), null, sent).then(function (r) {
@@ -3836,6 +3846,8 @@
      the page starts. */
   function chatTake(first) {
     if (!radio || !radio.chatSure) return false;
+    var evAt = evFromHash();
+    if (evAt !== null && radio.evSec) { radio.chatViewEvents(evAt); return false; }
     var t = chatFromHash(), said = '';
     if (!t) t = WORLD_CALL;
     else if (!radio.chatHas(t)) {
@@ -3847,7 +3859,7 @@
       }
       t = WORLD_CALL;
     }
-    if (!first && radio.chatView === 'dm') radio.chatViewChannel();
+    if (!first && radio.chatView !== 'channel') radio.chatViewChannel();
     if (t === chatTag && !first) return false;
     chatTag = t;
     var moved = radio.wasPath !== undefined ? radio.whereNow() : (radio.bandShown(), false);
@@ -3876,6 +3888,10 @@
     this.chatChan = chanSec;
     this.chatView = 'channel';
     if (dmSec && this.dmBox) { chanSec.parentNode.insertBefore(dmSec, chanSec.nextSibling); dmSec.hidden = true; }
+    /* EVENTS IN THE MIDDLE TOO (2026-10-23): Events, at the top of the
+       channels, puts the list of events where the channel was, as tall as the
+       column, with its address #events, and an event's #events/<id>. */
+    if (this.evSec) { chanSec.parentNode.insertBefore(this.evSec, chanSec.nextSibling); this.evSec.hidden = true; }
     this.chatFolded = {};
     this.chatLinks = [];
     var t = this.chatToggle = el('button', 'cb-btn cb-chans-toggle');
@@ -3925,11 +3941,13 @@
       }
       // The channel the address already names: back to it from a
       // conversation, and otherwise nothing to go to.
-      if (a.dataset.tag === chatRoom().tag) {
+      if (a.dataset.tag === chatRoom().tag && me.chatView !== 'events') {
         e.preventDefault();
         if (me.chatView === 'dm') { me.chatViewChannel(); if (narrow) me.chanH.focus(); }
         return;
       }
+      // Events, already open: back to the top of the list.
+      if (a.dataset.tag === 'events' && evFromHash() === '') { e.preventDefault(); me.chatViewEvents(''); if (narrow) me.evH.focus(); return; }
       if (narrow) me.chatAfterPick = true;
     });
     /* THE CHANNEL'S OWN HEAD, under its name: what its room is about, in the
@@ -3977,7 +3995,7 @@
   };
 
   Radio.prototype.chatHas = function (tag) {
-    for (var i = 0; i < this.chatLinks.length; i++) if (this.chatLinks[i].tag === tag && this.chatLinks[i].dm == null) return true;
+    for (var i = 0; i < this.chatLinks.length; i++) if (this.chatLinks[i].tag === tag && this.chatLinks[i].dm == null && !this.chatLinks[i].ev) return true;
     return false;
   };
 
@@ -3987,19 +4005,51 @@
      not counted as read while you are not looking at them (readTick). */
   Radio.prototype.chatViewDm = function () {
     if (!this.dmBox || this.chatView === 'dm') return;
+    if (this.chatView === 'events') this.chatLeaveEvents(true);
     this.chatView = 'dm';
     this.chatChan.hidden = true;
     this.dmSec.hidden = false;
     this.chatShown();
   };
   Radio.prototype.chatViewChannel = function () {
-    if (this.chatView !== 'dm') return;
+    if (this.chatView === 'channel') return;
+    if (this.chatView === 'events') this.chatLeaveEvents(false);
+    else {
+      if (this.dmWith) this.dmShowInbox();
+      this.setDm(false);
+      this.dmSec.hidden = true;
+    }
     this.chatView = 'channel';
-    if (this.dmWith) this.dmShowInbox();
-    this.setDm(false);
-    this.dmSec.hidden = true;
     this.chatChan.hidden = false;
     this.chatShown();
+  };
+
+  /* EVENTS, in the middle: the channel steps out of the way for the list of
+     events, as it does for a conversation, and goes on listening. `id` opens
+     the list on that event. */
+  Radio.prototype.chatViewEvents = function (id) {
+    if (this.chatView === 'dm') {
+      if (this.dmWith) this.dmShowInbox();
+      this.setDm(false);
+      this.dmSec.hidden = true;
+    }
+    this.chatView = 'events';
+    this.chatChan.hidden = true;
+    this.evSec.hidden = false;
+    this.evFocus = id || '';
+    if (!this.evShown()) this.setEvents(true);
+    else { this.evKey = null; this.evDraw(); }
+    this.chatShown();
+  };
+  // Out of Events. Into a conversation, the address goes back to the channel,
+  // so a reload is not Events again.
+  Radio.prototype.chatLeaveEvents = function (toDm) {
+    this.setEvents(false);
+    this.evSec.hidden = true;
+    this.chatView = 'channel';
+    if (toDm && evFromHash() !== null) {
+      try { history.replaceState(history.state, '', location.pathname + location.search + (chatTag === WORLD_CALL ? '' : '#' + chatTag)); } catch (e) { /* it says what it says */ }
+    }
   };
 
   /* YOUR CONVERSATIONS, for the list: asked from listen() and nowhere else,
@@ -4026,11 +4076,15 @@
     var groups = chatChannels(this.state);
     var sig = JSON.stringify(groups.map(function (g) { return [g.key, g.rooms.map(function (r) { return r.dm != null ? 'dm|' + r.dm + '|' + !!r.asking : r.tag + '|' + r.name; })]; }));
     if (sig !== this.chatSig) { this.chatSig = sig; this.chatBuild(groups); }
-    var room = chatRoom(), tuned = room.tag, n = this.news, focus = null, dmView = this.chatView === 'dm', with_ = this.dmWith || '';
+    var room = chatRoom(), tuned = room.tag, n = this.news, focus = null, dmView = this.chatView === 'dm', evView = this.chatView === 'events', with_ = this.dmWith || '';
     var dmsNew = ((n && n.dms) || []).map(fold);
     this.chatDmSeen = this.chatLinks.filter(function (x) { return x.dm; }).map(function (x) { return fold(x.dm); });
     this.chatLinks.forEach(function (x) {
-      var on = x.dm != null ? dmView && fold(x.dm) === fold(with_) : !dmView && x.tag === tuned;
+      if (x.ev) {
+        if (evView) { x.a.setAttribute('aria-current', 'page'); focus = x.a; } else x.a.removeAttribute('aria-current');
+        return;
+      }
+      var on = x.dm != null ? dmView && fold(x.dm) === fold(with_) : !dmView && !evView && x.tag === tuned;
       if (on) { x.a.setAttribute('aria-current', x.dm != null ? 'true' : 'page'); focus = x.a; } else x.a.removeAttribute('aria-current');
       var t = x.dm == null && n && n.latest && n.latest[x.tag];
       var fresh = x.dm != null ? !!x.dm && !on && dmsNew.indexOf(fold(x.dm)) >= 0 : !on && !!t && t > ((n.read && n.read[x.tag]) || 0);
@@ -4047,10 +4101,10 @@
     this.chatAbout.hidden = !this.chatAbout.textContent;
     this.chatGoLink.href = room.path;
     this.chatGoLink.textContent = world ? 'Go to the World room' : room.forum ? 'Go to ' + room.name + ' in the forums' : 'Go to ' + room.name;
-    this.chatToggle.textContent = 'Channels: ' + (dmView ? (with_ ? 'messages with ' + with_ : 'All messages') : world ? 'World' : '#' + room.name);
+    this.chatToggle.textContent = 'Channels: ' + (evView ? 'Events' : dmView ? (with_ ? 'messages with ' + with_ : 'All messages') : world ? 'World' : '#' + room.name);
     if (this.chatAfterPick) {
       this.chatAfterPick = false;
-      this.chanH.focus();
+      (evView ? this.evH : this.chanH).focus();
     }
   };
 
@@ -4061,6 +4115,27 @@
     box.textContent = '';
     this.chatLinks = [];
     this.chatGroupEls = [];
+    /* EVENTS, at the top, as on Discord: no group of its own, and saying
+       "on now" while something you can see is. */
+    if (this.evSec) {
+      var ew = el('div', 'cb-chan-group cb-chan-group--events'), eul = el('ul', 'cb-chan-list'), eli = el('li');
+      var ea = el('a', 'cb-chan cb-chan--events');
+      ea.href = '#events';
+      ea.dataset.tag = 'events';
+      ea.tabIndex = -1;
+      ea.appendChild(el('span', 'cb-chan-name', 'Events'));
+      // A space between, so a screen reader says "Events on now" and not one word.
+      ea.appendChild(document.createTextNode(' '));
+      var note = this.chatEvNote = el('span', 'cb-chan-note', 'on now');
+      note.hidden = true;
+      ea.appendChild(note);
+      eli.appendChild(ea);
+      eul.appendChild(eli);
+      ew.appendChild(eul);
+      box.appendChild(ew);
+      this.chatLinks.push({ tag: 'events', a: ea, li: eli, ev: true });
+      this.evDraw();
+    }
     groups.forEach(function (g) {
       var wrap = el('div', 'cb-chan-group');
       var h = el('h3', 'cb-h3 cb-chan-h');
@@ -4165,6 +4240,611 @@
     if (j < 0 || !shown[j]) return;
     this.chatRove(shown[j]);
     shown[j].focus();
+  };
+
+  /* ── Events ──────────────────────────────────────────────────────────── */
+
+  /* EVENTS (Ryan's ask and calls, 2026-10-23, after Discord's Scheduled
+     Events): anybody signed on schedules one, on World, in a room they can go
+     into, or at a link off the street; its maker or a moderator changes it or
+     cancels it; anybody who can see it says they are interested. An event
+     NAMES WHO IS INTERESTED, ALPHABETICAL, AND NEVER HOW MANY, the reactions'
+     rule, where Discord prints a number on every event: nothing here counts
+     the names, and tools/check-events.py refuses a count in this code.
+     Every time is said in your own clock, the way the radio says every time;
+     a repeating event says its rule in its maker's, because that is the clock
+     it keeps to across summer time.
+
+     WHERE IT IS: a part of its own on the radio, under Unreads, with what is
+     on now in the room you are in and an Events button that opens the list;
+     on the chat page, Events at the top of the channels, which puts the list
+     where the channel was, the way a conversation does. It asks /cb/events
+     from listen() and nowhere else: every EV_EVERY while the list is open,
+     and every EV_QUIET while it is shut, for what is on now here. Nothing is
+     kept in the browser. */
+  var EV_EVERY = 60000;
+  var EV_QUIET = 5 * 60000;
+  var EV_LENGTHS = [15, 30, 45, 60, 90, 120, 180, 240, 360, 480, 720, 1440];
+  var EV_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var EV_NTH = ['', 'first', 'second', 'third', 'fourth', 'last'];
+  var EV_ID = /^e[A-Za-z0-9_-]{12}$/;
+
+  function myZone() { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } }
+  function zoneWords(z) { return String(z || '').replace(/_/g, ' '); }
+  function evDate(t) { return new Date(t).toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' }); }
+  function sameDay(a, b) { return new Date(a).toDateString() === new Date(b).toDateString(); }
+  // Today, Tomorrow, or the day and date, in your own clock.
+  function evDay(t, now) {
+    if (sameDay(t, now)) return 'Today';
+    if (sameDay(t, now + 864e5) && new Date(t) > new Date(now)) return 'Tomorrow';
+    return evDate(t);
+  }
+  function evLength(m) {
+    if (m === 1440) return 'a day';
+    var h = Math.floor(m / 60), r = m % 60, out = [];
+    if (h) out.push(h + (h === 1 ? ' hour' : ' hours'));
+    if (r) out.push(r + ' minutes');
+    return out.join(' ');
+  }
+  function evWhen(e, now) {
+    if (e.start <= now) return 'On now, until ' + hhmm(new Date(e.end)) + (sameDay(e.end, now) ? '' : ', ' + evDay(e.end, now).toLowerCase());
+    var day = evDay(e.start, now);
+    if (!sameDay(e.start, e.end - 1)) return day + ', ' + hhmm(new Date(e.start)) + ', until ' + evDay(e.end, now).toLowerCase() + ', ' + hhmm(new Date(e.end));
+    return day + ', ' + hhmm(new Date(e.start)) + ' to ' + hhmm(new Date(e.end));
+  }
+  // How it repeats, by its maker's clock, which is the clock it keeps to.
+  function evRule(e) {
+    if (!e.repeat || !e.wall) return '';
+    var day = EV_DAYS[e.wall.dow] || '', clock = ' at ' + e.wall.time + (e.zone === myZone() ? '' : ' in ' + zoneWords(e.zone));
+    if (e.repeat === 'weekly') return 'Every week on ' + day + clock;
+    if (e.repeat === 'fortnightly') return 'Every other week on ' + day + clock;
+    if (e.repeat === 'monthly') return 'Every month on the ' + EV_NTH[e.wall.nth] + ' ' + day + clock;
+    if (e.repeat === 'weekdays') return 'Every weekday, Monday to Friday,' + clock;
+    return '';
+  }
+  // The rule a date would make, for the box that chooses it.
+  function evRuleFor(repeat, date) {
+    var d = new Date(date + 'T12:00:00');
+    if (isNaN(d)) return '';
+    var day = EV_DAYS[d.getDay()], nth = Math.min(5, Math.ceil(d.getDate() / 7));
+    if (repeat === 'weekly') return 'Every week on ' + day;
+    if (repeat === 'fortnightly') return 'Every other week on ' + day;
+    if (repeat === 'monthly') return 'Every month on the ' + EV_NTH[nth] + ' ' + day;
+    if (repeat === 'weekdays') return 'Every weekday, Monday to Friday';
+    return 'Does not repeat';
+  }
+  function evRoom(e) {
+    if (e.room === WORLD_CALL) return null;
+    return byTag[e.room] || (e.place ? { tag: e.room, name: e.place.name, path: e.place.path, forum: true } : { tag: e.room, name: '#' + e.room, path: '/' + e.room + '.html' });
+  }
+  function evFromHash() {
+    var m = /^#events(?:\/(e[A-Za-z0-9_-]{12}))?$/.exec(location.hash);
+    return m ? (m[1] || '') : null;
+  }
+  function pad2(n) { return String(n).padStart(2, '0'); }
+  function localDate(t) { var d = new Date(t); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+
+  /* ADD TO MY CALENDAR: the next time it happens, as an .ics file made here
+     and handed to your device, which is yours rather than ours. It sends
+     nothing anywhere, and it is only the next time: a calendar app that is
+     told how an event repeats keeps it to its own idea of the time zone. */
+  function icsText(s) { return String(s || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n'); }
+  function icsTime(t) { return new Date(t).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+  function icsFold(line) {
+    var out = [], cur = '', n = 0;
+    for (var ch of line) {
+      var b = new TextEncoder().encode(ch).length;
+      if (n + b > (out.length ? 74 : 75)) { out.push(cur); cur = ''; n = 0; }
+      cur += ch; n += b;
+    }
+    out.push(cur);
+    return out.join('\r\n ');
+  }
+  function evIcs(e, where) {
+    var url = location.origin + '/chat.html#events/' + e.id;
+    var lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Stimpunks.World//The CB//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+      'UID:' + e.id + '-' + e.start + '@stimpunks.world', 'DTSTAMP:' + icsTime(Date.now()),
+      'DTSTART:' + icsTime(e.start), 'DTEND:' + icsTime(e.end), 'SUMMARY:' + icsText(e.title),
+      'DESCRIPTION:' + icsText((e.about ? e.about + '\n\n' : '') + where + '\n' + url), 'LOCATION:' + icsText(e.away || where), 'URL:' + (e.away || url),
+      'END:VEVENT', 'END:VCALENDAR'];
+    return lines.map(icsFold).join('\r\n') + '\r\n';
+  }
+  function evWhereWords(e) {
+    var r = evRoom(e), name = r ? r.name : 'World';
+    if (e.at === 'away') return 'Off the street, at ' + e.away + ', posted ' + (r ? 'in ' + name : 'on World');
+    if (e.at === 'call') return r ? 'In ' + name + '\u2019s call, on the CB at stimpunks.world' : 'On the World call, on the CB at stimpunks.world';
+    return r ? 'In ' + name + ', at stimpunks.world' : 'On World, the CB\u2019s channel for the whole street';
+  }
+
+  Radio.prototype.evMake = function (sec) {
+    var me = this;
+    this.evH = sec.querySelector(':scope > .cb-h');
+    this.evH.tabIndex = -1;
+    this.events = null;
+    this.evMe = { locked: [], may: [] };
+    /* What is on now in the room you are in, in a line of its own, so a call
+       or a watch-together going on here is seen without opening anything. */
+    var now = this.evNowLine = el('p', 'cb-ev-now');
+    now.hidden = true;
+    sec.appendChild(now);
+    var b = this.evBtn = el('button', 'cb-btn cb-ev-btn', 'Events');
+    b.type = 'button';
+    b.setAttribute('aria-expanded', 'false');
+    b.setAttribute('aria-controls', 'cb-ev-tray');
+    b.addEventListener('click', function () { me.setEvents(b.getAttribute('aria-expanded') !== 'true'); });
+    var row = el('div', 'cb-tools cb-ev-open');
+    row.appendChild(b);
+    sec.appendChild(row);
+    var tray = this.evTray = el('div', 'cb-ev');
+    tray.id = 'cb-ev-tray';
+    tray.hidden = true;
+    tray.appendChild(el('p', 'cb-hint cb-ev-zone', 'Times are in your own time' + (myZone() ? ', ' + zoneWords(myZone()) : '') + '.'));
+    var mk = this.evMakeBtn = el('button', 'cb-btn', 'Schedule an event');
+    mk.type = 'button';
+    mk.setAttribute('aria-expanded', 'false');
+    mk.setAttribute('aria-controls', 'cb-ev-form');
+    mk.addEventListener('click', function () { if (me.evForm.hidden) me.evFormOpen(null); else me.evFormShut(); });
+    var mrow = el('div', 'cb-tools');
+    mrow.appendChild(mk);
+    tray.appendChild(mrow);
+    var form = this.evForm = el('form', 'cb-ev-form');
+    form.id = 'cb-ev-form';
+    form.hidden = true;
+    form.noValidate = true;
+    tray.appendChild(form);
+    this.evSaid = el('p', 'cb-said');
+    this.evSaid.setAttribute('role', 'status');
+    tray.appendChild(this.evSaid);
+    var list = this.evList = el('ul', 'cb-ev-list');
+    list.setAttribute('aria-label', 'Events');
+    tray.appendChild(list);
+    this.evNone = el('p', 'cb-quiet', 'Looking\u2026');
+    tray.appendChild(this.evNone);
+    this.evFoot = this.footClose('Close Events', function () { me.setEvents(false); }, b);
+    tray.appendChild(this.evFoot);
+    sec.appendChild(tray);
+  };
+
+  Radio.prototype.evShown = function () { return !!this.evTray && !this.evTray.hidden; };
+
+  Radio.prototype.setEvents = function (open) {
+    this.evTray.hidden = !open;
+    this.evBtn.setAttribute('aria-expanded', String(!!open));
+    if (open) { this.loadRooms(); this.evKey = null; this.evDraw(); this.evLoad(); }
+    else this.evFormShut(true);
+    this.place();
+  };
+
+  // From listen(), and nowhere else.
+  Radio.prototype.evTick = function () {
+    if (!this.evTray) return;
+    var due = !this.evAt || Date.now() - this.evAt >= (this.evShown() ? EV_EVERY : EV_QUIET);
+    if (due) this.evLoad();
+    else this.evDraw();
+  };
+
+  Radio.prototype.evLoad = function () {
+    var me = this;
+    if (this.evBusy) return;
+    this.evBusy = true;
+    this.evAt = Date.now();
+    call('/cb/events', { body: {} }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.status === 200 && Array.isArray(r.body.events)) me.evTake(r.body);
+      else if (!me.events) { me.evFailed = true; me.evDraw(); }
+    }, function () { if (!me.events) { me.evFailed = true; me.evDraw(); } }).then(function () { me.evBusy = false; });
+  };
+
+  Radio.prototype.evTake = function (b) {
+    this.events = b.events.filter(function (e) { return e && EV_ID.test(e.id) && typeof e.start === 'number' && typeof e.end === 'number'; });
+    if (b.me && Array.isArray(b.me.locked) && Array.isArray(b.me.may)) this.evMe = b.me;
+    this.evFailed = false;
+    this.evDraw();
+  };
+
+  // A room the radio may list as somewhere for an event to be.
+  Radio.prototype.evMayRoom = function (r) {
+    if (!r || r.quiet || r.tag === WORLD_CALL || r.tag === CHAT_PAGE) return false;
+    return this.evMe.locked.indexOf(r.tag) < 0 || this.evMe.may.indexOf(r.tag) >= 0;
+  };
+
+  /* Drawn again only when what it says changes, which includes the minute,
+     because On now and Today change with the clock; the keyboard is put back
+     on the same control afterwards. An event past its end is left off until
+     the next answer brings its next time. */
+  Radio.prototype.evDraw = function () {
+    var me = this, now = Date.now();
+    var live = (this.events || []).filter(function (e) { return e.end > now; });
+    this.evNowShown(live, now);
+    if (inChat() && this.chatEvNote) this.chatEvNote.hidden = !live.some(function (e) { return e.start <= now; });
+    if (!this.evShown()) return;
+    var key = JSON.stringify([live, Math.floor(now / 60000), this.evFailed, this.events === null, rooms === null, this.evFocus || '']);
+    if (key === this.evKey) return;
+    this.evKey = key;
+    var focused = this.evTray.getRootNode().activeElement;
+    var again = focused && this.evList.contains(focused) && focused.dataset ? focused.dataset.at : null;
+    this.evList.textContent = '';
+    this.evNone.hidden = live.length > 0;
+    this.evNone.textContent = this.events === null ? (this.evFailed ? 'Events cannot be reached just now. Still trying.' : 'Looking\u2026')
+      : 'Nothing is scheduled. Schedule an event, and everybody who can go where it is can see it.';
+    live.forEach(function (e) { me.evList.appendChild(me.evCard(e, now)); });
+    if (again) {
+      var b = this.evList.querySelector('[data-at="' + CSS.escape(again) + '"]');
+      if (b) b.focus();
+    }
+    if (this.evFocus && this.events) {
+      var want = this.evFocus;
+      this.evFocus = '';
+      var card = this.evList.querySelector('.cb-ev-card[data-id="' + CSS.escape(want) + '"]');
+      if (card) { var h = card.querySelector('.cb-ev-title'); h.scrollIntoView({ block: 'start' }); h.focus({ preventScroll: true }); }
+      else this.evSaid.textContent = 'That event is not on the list: it has been and gone, been cancelled, or is somewhere you cannot go.';
+    }
+  };
+
+  // What is on now in the room you are in, or in the channel picked.
+  Radio.prototype.evNowShown = function (live, now) {
+    var line = this.evNowLine, me = this;
+    var here = hereRoom(), tag = here && !here.quiet ? here.tag : (worldHere() ? WORLD_CALL : null);
+    var on = tag ? live.filter(function (e) { return e.room === tag && e.start <= now; }) : [];
+    var key = JSON.stringify([on.map(function (e) { return [e.id, e.title, e.end]; }), tag]);
+    if (key === this.evNowKey) return;
+    this.evNowKey = key;
+    line.textContent = '';
+    line.hidden = !on.length;
+    if (!on.length) return;
+    line.appendChild(document.createTextNode((inChat() ? 'On now in this channel: ' : 'On now in this room: ')));
+    on.forEach(function (e, i) {
+      if (i) line.appendChild(document.createTextNode('; '));
+      var b = el('button', 'cb-ev-link', e.title);
+      b.type = 'button';
+      b.addEventListener('click', function () { me.evGo(e.id); });
+      line.appendChild(b);
+      line.appendChild(document.createTextNode(', until ' + hhmm(new Date(e.end))));
+    });
+    line.appendChild(document.createTextNode('.'));
+  };
+
+  // Open the list on one event.
+  Radio.prototype.evGo = function (id) {
+    if (inChat()) { location.hash = 'events/' + id; return; }
+    this.evFocus = id;
+    if (!this.evShown()) this.setEvents(true);
+    else { this.evKey = null; this.evDraw(); }
+  };
+
+  Radio.prototype.evCard = function (e, now) {
+    var me = this, li = el('li', 'cb-ev-card');
+    li.dataset.id = e.id;
+    var h = el('h3', 'cb-h3 cb-ev-title', e.title);
+    h.tabIndex = -1;
+    li.appendChild(h);
+    var when = el('p', 'cb-ev-when');
+    if (e.start <= now) when.appendChild(el('span', 'cb-tag cb-ev-on', 'ON NOW'));
+    when.appendChild(document.createTextNode(evWhen(e, now).replace(/^On now, until/, 'Until') + '.'));
+    li.appendChild(when);
+    var rule = evRule(e);
+    if (rule) li.appendChild(el('p', 'cb-ev-rule', rule + '.'));
+    if (e.then && e.then.length) {
+      li.appendChild(el('p', 'cb-ev-then', 'Then ' + e.then.map(function (t) { return evDay(t, now).replace(/^Today|^Tomorrow/, function (w) { return w.toLowerCase(); }) + ' at ' + hhmm(new Date(t)); }).join('; ') + '.'));
+    }
+    li.appendChild(el('p', 'cb-ev-length', 'Runs ' + evLength(e.mins) + '.'));
+    li.appendChild(this.evWhere(e));
+    var by = el('p', 'cb-ev-by');
+    by.appendChild(document.createTextNode('Scheduled by '));
+    by.appendChild(this.evName(e.handle, e.id + '|by'));
+    if (e.base) by.appendChild(el('span', 'cb-tag', 'BASE'));
+    by.appendChild(document.createTextNode('.'));
+    li.appendChild(by);
+    if (e.about) {
+      var ab = el('div', 'cb-text cb-ev-about');
+      md(ab, e.about);
+      li.appendChild(ab);
+    }
+    /* WHO IS INTERESTED: their names, each opening their profile, and never
+       how many. */
+    var keen = el('p', 'cb-ev-keen');
+    if (e.keen && e.keen.length) {
+      keen.appendChild(document.createTextNode('Interested: '));
+      e.keen.forEach(function (k, i) {
+        if (i) keen.appendChild(document.createTextNode(', '));
+        keen.appendChild(me.evName(k, e.id + '|keen|' + k));
+      });
+      keen.appendChild(document.createTextNode('.'));
+    } else keen.appendChild(document.createTextNode('Nobody has said they are interested yet.'));
+    li.appendChild(keen);
+    var acts = el('div', 'cb-acct__row cb-ev-acts');
+    var ib = el('button', 'cb-btn', 'I\u2019m interested: ' + (e.mine ? 'on' : 'off'));
+    ib.type = 'button';
+    ib.dataset.at = e.id + '|keen';
+    ib.setAttribute('aria-pressed', String(!!e.mine));
+    ib.addEventListener('click', function () {
+      me.evCall({ action: 'keen', id: e.id, on: !e.mine },
+        e.mine ? 'Taken back. You are not on its list now.' : 'You are on its list now. With When an event I\u2019m interested in starts switched on under Notifications, this device is told as it starts.');
+    });
+    acts.appendChild(ib);
+    var cal = el('button', 'cb-btn', 'Add to my calendar');
+    cal.type = 'button';
+    cal.dataset.at = e.id + '|cal';
+    cal.setAttribute('aria-describedby', 'cb-ev-cal-' + e.id);
+    cal.addEventListener('click', function () {
+      var name = (e.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'event') + '.ics';
+      handOver(new Blob([evIcs(e, evWhereWords(e))], { type: 'text/calendar' }), name);
+      me.evSaid.textContent = 'Your device has ' + name + ', for ' + evWhen(e, Date.now()).replace(/^On now, /, 'now, ') + '. Open it to put it in your calendar.';
+    });
+    acts.appendChild(cal);
+    var calSays = el('span', 'sr', 'The next time it happens, as a file for your calendar.');
+    calSays.id = 'cb-ev-cal-' + e.id;
+    acts.appendChild(calSays);
+    if (e.may) {
+      var ch = el('button', 'cb-btn', 'Change it');
+      ch.type = 'button';
+      ch.dataset.at = e.id + '|change';
+      ch.addEventListener('click', function () { me.evFormOpen(e); });
+      acts.appendChild(ch);
+      if (e.repeat) {
+        var one = el('button', 'cb-btn', 'Cancel just this time');
+        one.type = 'button';
+        one.dataset.at = e.id + '|skip';
+        one.addEventListener('click', function () {
+          me.evSure(acts, 'Cancel ' + evWhen(e, Date.now()).replace(/^On now, /, 'the one on now, ') + ' for everybody? The times after it go on.', 'Yes, cancel this time', function () {
+            me.evCall({ action: 'skip', id: e.id, at: e.start }, 'Cancelled this time. The times after it go on.');
+          });
+        });
+        acts.appendChild(one);
+      }
+      var x = el('button', 'cb-btn', e.repeat ? 'Cancel every time' : 'Cancel the event');
+      x.type = 'button';
+      x.dataset.at = e.id + '|cancel';
+      x.addEventListener('click', function () {
+        me.evSure(acts, 'Cancel \u201c' + e.title + '\u201d for everybody' + (e.repeat ? ', every time it would happen' : '') + '? It cannot be put back.', 'Yes, cancel it', function () {
+          me.evCall({ action: 'remove', id: e.id }, 'Cancelled. It is off the list for everybody.', true);
+        });
+      });
+      acts.appendChild(x);
+    }
+    li.appendChild(acts);
+    return li;
+  };
+
+  // A name on an event, which opens their profile, as one on Who's online does.
+  Radio.prototype.evName = function (handle, at) {
+    var me = this, b = el('button', 'cb-handle', handle);
+    b.type = 'button';
+    b.dataset.at = at;
+    b.setAttribute('aria-haspopup', 'dialog');
+    b.addEventListener('click', function () { me.peek(handle, b); });
+    return b;
+  };
+
+  // Where an event is, as words with the room's link in them.
+  Radio.prototype.evWhere = function (e) {
+    var p = el('p', 'cb-ev-where'), r = evRoom(e);
+    function room() {
+      var a = el('a', null, r.name);
+      a.href = chatHref(r) || r.path;
+      return a;
+    }
+    function add(x) { p.appendChild(typeof x === 'string' ? document.createTextNode(x) : x); }
+    if (e.at === 'away') {
+      var u = awayUrl(e.away);
+      add('Off the street, at ');
+      add(u ? awayLink(e.away, u) : e.away);
+      add('. Posted ');
+      if (r) { add('in '); add(room()); } else add('on World');
+      add('.');
+    } else if (!r) {
+      add(e.at === 'call' ? 'On the World call, which Join World call under Who\u2019s around takes you into.' : 'On World, the whole street\u2019s channel.');
+    } else if (e.at === 'call') {
+      add('In the call in '); add(room()); add(': Join this room\u2019s call is under Where you are, in the room.');
+    } else {
+      add('In '); add(room()); add('.');
+    }
+    return p;
+  };
+
+  // Asked once more, in the card, before anything is cancelled.
+  Radio.prototype.evSure = function (acts, ask, yes, then) {
+    var me = this, was = [].slice.call(acts.childNodes);
+    acts.textContent = '';
+    var q = el('p', 'cb-ev-ask', ask);
+    q.tabIndex = -1;
+    var y = el('button', 'cb-btn', yes), n = el('button', 'cb-btn', 'Keep it');
+    y.type = 'button'; n.type = 'button';
+    y.addEventListener('click', function () { y.disabled = true; then(); });
+    n.addEventListener('click', function () {
+      acts.textContent = '';
+      was.forEach(function (c) { acts.appendChild(c); });
+      var back = acts.querySelector('[data-at$="|cancel"], [data-at$="|skip"]');
+      if (back) back.focus();
+    });
+    acts.appendChild(q);
+    acts.appendChild(y);
+    acts.appendChild(n);
+    y.focus();
+  };
+
+  Radio.prototype.evCall = function (b, ok, gone) {
+    var me = this;
+    this.evSaid.textContent = 'Sending\u2026';
+    call('/cb/events', { body: b }, this.state.pass).then(function (r) {
+      if (r.status === 401) return me.lost();
+      if (r.body && Array.isArray(r.body.events)) me.evTake(r.body);
+      me.evSaid.textContent = r.status === 200 ? ok : (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
+      if (gone && r.status === 200) me.evMakeBtn.focus();
+    }, function () { me.evSaid.textContent = 'The street could not be reached just now. Nothing changed.'; });
+  };
+
+  /* SCHEDULE AN EVENT, or change one: a form in the tray, every field labelled,
+     every time in your own clock and zone, which is the clock a repeating
+     event keeps to from then on. */
+  Radio.prototype.evFormOpen = function (e) {
+    var me = this, f = this.evForm, editing = !!e;
+    f.textContent = '';
+    f.hidden = false;
+    this.evEditing = e ? e.id : null;
+    this.evMakeBtn.setAttribute('aria-expanded', 'true');
+    var h = el('h3', 'cb-h3', editing ? 'Change \u201c' + e.title + '\u201d' : 'Schedule an event');
+    h.tabIndex = -1;
+    f.appendChild(h);
+    function field(label, input, id, hint) {
+      var lab = el('label', 'cb-lab', label);
+      lab.htmlFor = id;
+      input.id = id;
+      f.appendChild(lab);
+      f.appendChild(input);
+      if (hint) { var p = el('p', 'cb-hint', hint); p.id = id + '-hint'; input.setAttribute('aria-describedby', p.id); f.appendChild(p); }
+      return input;
+    }
+    var title = el('input', 'cb-say cb-ev-in');
+    title.type = 'text';
+    title.maxLength = 100;
+    title.autocomplete = 'off';
+    title.value = editing ? e.title : '';
+    field('Title', title, 'cb-ev-f-title');
+    // Where: World, then the room you are in, then every room you can go into.
+    var where = el('select', 'cb-say cb-ev-in');
+    var here = hereRoom(), seen = {}, chosen = editing ? e.room : (here && this.evMayRoom(here) ? here.tag : WORLD_CALL);
+    function opt(box, tag, name) {
+      var o = el('option', null, name);
+      o.value = tag;
+      if (tag === chosen) o.selected = true;
+      box.appendChild(o);
+      seen[tag] = true;
+    }
+    opt(where, WORLD_CALL, 'World, the whole street');
+    if (here && this.evMayRoom(here)) opt(where, here.tag, here.name + (inChat() ? ' (this channel)' : ' (this room)'));
+    var grp = el('optgroup');
+    grp.label = 'Rooms';
+    (rooms || []).forEach(function (r) { if (!seen[r.tag] && me.evMayRoom(r)) opt(grp, r.tag, r.name); });
+    if (editing && !seen[e.room]) { var er = evRoom(e); opt(grp, e.room, er ? er.name : '#' + e.room); }
+    where.appendChild(grp);
+    field('Where', where, 'cb-ev-f-room', 'Whoever can go into the room can see it; on World, everybody on the CB can.');
+    // In what way: the call, the room itself, or a link off the street.
+    var how = editing ? e.at : 'call';
+    f.appendChild(el('p', 'cb-lab', 'How people join it'));
+    var hows = el('div', 'cb-tools cb-ev-how');
+    hows.setAttribute('role', 'group');
+    hows.setAttribute('aria-label', 'How people join it');
+    var away = el('input', 'cb-say cb-ev-in');
+    away.type = 'url';
+    away.placeholder = 'https://';
+    away.autocomplete = 'off';
+    away.value = editing && e.away ? e.away : '';
+    var awayBox = el('div', 'cb-ev-away');
+    var awayLab = el('label', 'cb-lab', 'Its link');
+    awayLab.htmlFor = 'cb-ev-f-away';
+    away.id = 'cb-ev-f-away';
+    awayBox.appendChild(awayLab);
+    awayBox.appendChild(away);
+    var hb = {};
+    function labels() {
+      var world = where.value === WORLD_CALL;
+      hb.call.textContent = world ? 'On the World call' : 'In the room\u2019s call';
+      hb.here.textContent = world ? 'On World\u2019s channel' : 'In the room itself';
+      hb.away.textContent = 'Off the street, at a link';
+    }
+    ['call', 'here', 'away'].forEach(function (k) {
+      var b = hb[k] = el('button', 'cb-btn');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(how === k));
+      b.addEventListener('click', function () {
+        how = k;
+        Object.keys(hb).forEach(function (x) { hb[x].setAttribute('aria-pressed', String(x === k)); });
+        awayBox.hidden = k !== 'away';
+        if (k === 'away') away.focus();
+      });
+      hows.appendChild(b);
+    });
+    labels();
+    where.addEventListener('change', labels);
+    f.appendChild(hows);
+    awayBox.hidden = how !== 'away';
+    f.appendChild(awayBox);
+    var start = editing ? new Date(e.start) : null;
+    var date = el('input', 'cb-say cb-ev-in');
+    date.type = 'date';
+    date.value = start ? localDate(e.start) : '';
+    field('Date', date, 'cb-ev-f-date');
+    var time = el('input', 'cb-say cb-ev-in');
+    time.type = 'time';
+    time.value = start ? pad2(start.getHours()) + ':' + pad2(start.getMinutes()) : '';
+    field('Starts at', time, 'cb-ev-f-time', 'In your own time' + (myZone() ? ', ' + zoneWords(myZone()) : '') + '. Everybody else sees it in theirs.');
+    var len = el('select', 'cb-say cb-ev-in');
+    var lens = EV_LENGTHS.slice(), m = editing ? e.mins : 60;
+    if (lens.indexOf(m) < 0) { lens.push(m); lens.sort(function (a, b) { return a - b; }); }
+    lens.forEach(function (n) { var o = el('option', null, evLength(n)); o.value = String(n); if (n === m) o.selected = true; len.appendChild(o); });
+    field('How long it runs', len, 'cb-ev-f-mins');
+    var rep = el('select', 'cb-say cb-ev-in');
+    var repNow = editing ? e.repeat : '';
+    rep.addEventListener('change', function () { repNow = rep.value; });
+    function repeats() {
+      var v = repNow, d = new Date(date.value + 'T12:00:00'), weekend = !isNaN(d) && (d.getDay() === 0 || d.getDay() === 6);
+      rep.textContent = '';
+      ['', 'weekly', 'fortnightly', 'monthly', 'weekdays'].forEach(function (k) {
+        var o = el('option', null, date.value ? evRuleFor(k, date.value) : (k ? evRuleFor(k, '2026-01-05').replace(/ on .*$/, '') : 'Does not repeat'));
+        o.value = k;
+        if (k === 'weekdays' && weekend) o.disabled = true;
+        if (k === v && !o.disabled) o.selected = true;
+        rep.appendChild(o);
+      });
+    }
+    repeats();
+    date.addEventListener('change', repeats);
+    field('Repeats', rep, 'cb-ev-f-repeat', 'A repeating event keeps to your clock, so it stays at the same time where you are when summer time starts or ends.');
+    var about = el('textarea', 'cb-say cb-say--msg cb-ev-in');
+    about.maxLength = 2000;
+    about.rows = 3;
+    about.value = editing ? e.about : '';
+    field('What it is (if you like)', about, 'cb-ev-f-about', 'Up to 2,000 characters, and Markdown works, as in a message.');
+    var said = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    var row = el('div', 'cb-acct__row');
+    var go = el('button', 'cb-btn', editing ? 'Save the change' : 'Schedule it');
+    go.type = 'submit';
+    var no = el('button', 'cb-btn', 'Cancel');
+    no.type = 'button';
+    no.addEventListener('click', function () { me.evFormShut(); });
+    row.appendChild(go);
+    row.appendChild(no);
+    f.appendChild(row);
+    f.appendChild(said);
+    f.onsubmit = function (ev) {
+      ev.preventDefault();
+      var b = { action: editing ? 'edit' : 'make', title: title.value, about: about.value, room: where.value, at: how,
+        away: how === 'away' ? away.value : '', date: date.value, time: time.value, zone: myZone(), mins: Number(len.value), repeat: rep.value };
+      if (editing) b.id = e.id;
+      if (!title.value.trim()) { said.textContent = 'An event needs a title.'; title.focus(); return; }
+      if (!date.value || !time.value) { said.textContent = 'An event needs a date and a time to start.'; (date.value ? time : date).focus(); return; }
+      go.disabled = true;
+      said.textContent = 'Sending\u2026';
+      call('/cb/events', { body: b }, me.state.pass).then(function (r) {
+        go.disabled = false;
+        if (r.status === 401) return me.lost();
+        if (r.body && Array.isArray(r.body.events)) me.evTake(r.body);
+        if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
+        me.evFormShut(true);
+        me.evSaid.textContent = editing ? 'Changed.' : 'Scheduled. You are interested in it, so with When an event I\u2019m interested in starts switched on under Notifications, this device is told as it starts.';
+        me.evFocus = r.body.id || (editing ? e.id : '');
+        me.evKey = null;
+        me.evDraw();
+      }, function () { go.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+    };
+    h.scrollIntoView({ block: 'nearest' });
+    title.focus();
+    this.place();
+  };
+
+  Radio.prototype.evFormShut = function (quiet) {
+    if (!this.evForm || this.evForm.hidden) return;
+    this.evForm.hidden = true;
+    this.evForm.textContent = '';
+    this.evMakeBtn.setAttribute('aria-expanded', 'false');
+    var was = this.evEditing;
+    this.evEditing = null;
+    if (quiet) return;
+    var back = was && this.evList.querySelector('[data-at="' + CSS.escape(was + '|change') + '"]');
+    (back || this.evMakeBtn).focus();
+    this.place();
   };
 
   /* ── The Profile ─────────────────────────────────────────────────────── */
@@ -6411,7 +7091,7 @@
   // that message is on the screen.
   Radio.prototype.readTick = function (messages) {
     if (!forumPass(this.state.pass) || this.state.folded || this.state.size === 'icon' || offList()) return;
-    if (this.chatView === 'dm') return;
+    if (this.chatView && this.chatView !== 'channel') return;
     var log = this.log;
     if (!log.hidden && log.scrollHeight - log.scrollTop - log.clientHeight >= 24) return;
     var tag = this.tunedRoom() || WORLD_CALL, newest = 0;

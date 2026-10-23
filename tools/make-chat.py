@@ -42,6 +42,10 @@ noticing:
     that resizes the radio on every other page.
   · forumRooms NOT SAYING WHICH CATEGORIES ARE LOCKED, so a staff category
     would sit under World.
+  · A ROOM CALLED events. The chat page's #events is its Events, the list of
+    scheduled events at the top of the channels (cb.js, evFromHash; Ryan's
+    ask, 2026-10-23), so a room with that tag would be a channel nobody could
+    pick there. And cb.js must still read #events before it reads a channel.
 
 IF THIS REFUSES: fix the cause. Do not widen a list to make it quiet.
 """
@@ -157,6 +161,10 @@ if not re.search(r"function save\(v\) \{[^}]*inChat\(\)", cb, re.S):
     refuse("cb.js: save() must write back CHAT_OWN's keys as they are stored when it is on the chat page.")
 if "data-chat-groups" not in cb:
     refuse("cb.js must read the groups this tool writes, data-chat-groups.")
+if "events" in order:
+    refuse("cb-rooms.json has a room called events, and the chat page's #events is its list of events: rename the room.")
+if "function evFromHash()" not in cb or "var evAt = evFromHash();" not in cb:
+    refuse("cb.js must read #events as the chat page's Events (evFromHash in chatTake) before it reads a channel.")
 fr = re.search(r"export function forumRooms\(.*?\n\}", lib, re.S)
 if not fr or "locked: true" not in fr.group(0):
     refuse(f"{LIB.name}: forumRooms must say which categories are locked, so the chat lists them under Staff.")
