@@ -5610,6 +5610,15 @@ tool runs the Python and the JS projection on the same points. `member-map.js` d
 **A place is looked up on Nominatim from the server, at a director's press, and only its words are sent** (`mapFind`); a
 place within `MAP_NEAR_KM` of one on the map joins it unless the director keeps it apart. The friendly edits are **map
 tiles** (a third party asked by every visitor), **a name or a link on a pin**, and **geocoding in the browser**.
+**It zooms** (Ryan's question, 2026-10-23: "Can I zoom in on this map?"): buttons under the sheet (Zoom in, Zoom out,
+Whole world, and West, North, South, East), a double press, a pinch, Ctrl or Cmd with the wheel, and a drag once zoomed.
+**The pins keep their size on the screen while the world grows under them**, which is what pulls a crowded place apart,
+and the closest is a unit of the map sixteen pixels wide on any screen. The first zoom asks for `member-map-detail.json`,
+our own file, which `make-member-map.py` projects from `data/world-detail.json` (the land finer with its holes, and Natural
+Earth's lakes, borders and state lines, from the same pull tool). **It jumps rather than glides, at every setting**: the
+tool refuses an animation frame, a timer or a transition moving it, and a zoom button or a way to move it lost from the
+page. The friendly edits are **a smooth glide** (motion the dial never asked for), **pins that grow as you zoom** (the
+crowding again), and **tiles for the close-up**.
 
 **THE TEAM MAILBOX FILES ITS EMAIL WITH OUR CONTACTS IN THE OFFICE, AND ONLY THAT EMAIL LEAVES GMAIL.** Ryan's choice,
 2026-10-20 (a script in the mailbox over a bookmarklet, and the whole email over a line about it): `/cb/office/mail`

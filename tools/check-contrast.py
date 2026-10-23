@@ -3620,6 +3620,12 @@ PAIRS = [
     (CTR_LINK,  CTR_LIT,    True,  "community: a member map pin against the sea, graphics threshold"),
     (CTR_LINK,  CTR_DESK,   True,  "community: a member map pin against the land, graphics threshold"),
     (CTR_EDGE,  CTR_LIT,    True,  "community: the member map's coast against the sea, which is what tells land from sea"),
+    # Zoomed in (2026-10-23): the buttons are the sorter's label-holder plate and the room's ink, and the
+    # borders, state lines and lake shores are the coast's edge brown, so no new ink arrives with them.
+    (CTR_INK,   CTR_PLATE,  False, "community: the words on the member map's zoom and move buttons"),
+    (CTR_INK,   CTR_LIT,    False, "community: a zoom button under the pointer"),
+    (CTR_STEEL, CTR_SHADE,  True,  "community: a zoom button's steel edge against the wall, which is what says it is a button"),
+    (CTR_EDGE,  CTR_DESK,   True,  "community: the member map zoomed in, a border or a state line across the land"),
     (CTR_INK,   CTR_LIT,    False, "community: the door on the street -- its name on the powder blue, "
                                    "where a slat catches the sun"),
 

@@ -15,6 +15,11 @@ domain, simplified by tools/pull-world-land.py):
     place with it, so a pin and the land are placed by the same arithmetic.
   · the map's <svg> in community-center.html, between the membermap:world
     markers, the land in the room's own classes; member-map.js adds the pins.
+  · member-map-detail.json, whole, from data/world-detail.json: the land
+    again, finer, and the lakes, the borders between countries and the lines
+    between states, projected the same way. The wall asks for it only when
+    somebody zooms in (Ryan's question, 2026-10-23: "Can I zoom in on this
+    map?"), so the map everybody sees first is no heavier for it.
 
 Never hand-edit either. The projection is written once here in Python, for
 the land, and once in world.mjs, for the pins; this tool runs both on the
@@ -35,8 +40,15 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · A LOOKUP THAT SENDS MORE THAN A PLACE'S WORDS, or goes anywhere but
     OpenStreetMap's Nominatim, from the server, at a director's press.
   · MAP TILES, or a page asking anybody but this site for anything:
-    member-map.js asks /cb/member-map and nothing else, and builds the pins
-    and the list from nodes, never from markup in a string.
+    member-map.js asks /cb/member-map and, once somebody zooms, the detail
+    file, and nothing else, and builds the pins, the list and the detail from
+    nodes, never from markup in a string.
+  · A MAP THAT MOVES BY ITSELF. It zooms and moves only when somebody presses
+    or drags it, and it jumps there rather than gliding, at every setting of
+    the dial: no animation, transition, timer or animation frame moves it.
+  · ZOOM WITHOUT A WAY BACK OR A WAY IN BY KEYBOARD: the buttons that zoom,
+    move and show the whole world again are on the page, words and all, and
+    nothing about zooming is only a gesture.
   · THE CREDITS GONE: Natural Earth's for the world and OpenStreetMap's for
     the places, on the map; privacy.html's member map section; and the
     Mission saying the street counts people here.
@@ -52,6 +64,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 LAND = ROOT / "data" / "world-land.json"
+DETAIL = ROOT / "data" / "world-detail.json"
+DETAIL_OUT = ROOT / "member-map-detail.json"
+DETAIL_URL = "/member-map-detail.json"
 WORLD = ROOT / "netlify" / "cb" / "world.mjs"
 PAGE = ROOT / "community-center.html"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
@@ -97,9 +112,10 @@ def num(v):
     return "0" if s in ("-0", "") else s
 
 
-def land_path(rings):
-    """Every ring as one subpath, relative after its first point, which keeps
-    the path short without losing the tenth of a unit it is drawn to."""
+def land_path(rings, close=True):
+    """Every ring (or line, unclosed) as one subpath, relative after its first
+    point, which keeps the path short without losing the tenth of a unit it is
+    drawn to."""
     out = []
     for ring in rings:
         pts = [project(lat, lon) for lon, lat in ring]
@@ -112,8 +128,22 @@ def land_path(rings):
                 continue
             parts.append(f"l{num(dx)} {num(dy)}")
             px, py = px + dx, py + dy
-        out.append("".join(parts) + "z")
+        if len(parts) > 1 or close:
+            out.append("".join(parts) + ("z" if close else ""))
     return "".join(out)
+
+
+def detail_module(d):
+    """The zoomed-in world as paths, for member-map.js to put in the map."""
+    land = [ring for poly in d.get("land", []) for ring in poly]
+    out = {
+        "_what": "Written by tools/make-member-map.py from data/world-detail.json. Do not hand-edit. The member map zoomed in: Natural Earth's 1:50m land, lakes, borders and state lines (public domain), as paths in the map's own frame, which the Community Center's wall asks for only when somebody zooms.",
+        "land": land_path(land),
+        "lakes": land_path(d.get("lakes", [])),
+        "borders": land_path(d.get("borders", []), close=False),
+        "states": land_path(d.get("states", []), close=False),
+    }
+    return json.dumps(out, separators=(",", ":"), ensure_ascii=False) + "\n"
 
 
 def world_module(path):
@@ -145,7 +175,8 @@ export const LAND = '{path}';
 def page_svg(path):
     return (BEGIN + "\n"
             + f'<svg class="ctr-map__world" viewBox="0 0 {num(WIDTH)} {num(HEIGHT)}" aria-hidden="true" focusable="false">'
-            + f'<path class="ctr-map__land" d="{path}"/><g class="ctr-map__pins" data-member-pins></g></svg>\n'
+            + f'<path class="ctr-map__land" d="{path}" data-member-land/><g class="ctr-map__fine" data-member-fine></g>'
+            + '<g class="ctr-map__pins" data-member-pins></g></svg>\n'
             + END)
 
 
@@ -238,8 +269,16 @@ def check_js():
         if bad in js:
             problems.append(f"{JS.name}: {bad}. The pins and the list are built from nodes, never from markup in a string.")
     urls = set(re.findall(r"fetch\(\s*['\"]([^'\"]+)['\"]", js))
-    if urls != {"/cb/member-map"} or re.search(r"https?://", js.replace("http://www.w3.org/2000/svg", "")):
-        problems.append(f"{JS.name}: it asks {sorted(urls) or 'nothing'}; it asks /cb/member-map and nothing else, and no other site.")
+    if urls != {"/cb/member-map", DETAIL_URL} or len(re.findall(r"\bfetch\(", js)) != 2 or re.search(r"https?://", js.replace("http://www.w3.org/2000/svg", "")):
+        problems.append(f"{JS.name}: it asks {sorted(urls) or 'nothing'}; it asks /cb/member-map and {DETAIL_URL}, once each, and nothing else, and no other site.")
+    for bad in ("requestAnimationFrame", "setInterval", "setTimeout", ".animate(", "scrollIntoView"):
+        if bad in js:
+            problems.append(f"{JS.name}: {bad}. The map moves only when somebody presses or drags it, and it jumps there rather than gliding.")
+    for need, what in (("z === 'in'", "Zoom in"), ("z === 'out'", "Zoom out"), ("z === 'world'", "Whole world"),
+                       ("addEventListener('dblclick'", "a double press"), ("addEventListener('wheel'", "Ctrl or Cmd with the scroll wheel"),
+                       ("addEventListener('pointerdown'", "a drag or a pinch")):
+        if need not in js:
+            problems.append(f"{JS.name}: it no longer answers {what}. The map zooms by its buttons, a double press, a pinch and Ctrl or Cmd with the scroll wheel.")
     if re.search(r"localStorage|sessionStorage|indexedDB|document\.cookie", js):
         problems.append(f"{JS.name}: it keeps something in the browser. The map keeps nothing there.")
 
@@ -247,6 +286,16 @@ def check_js():
 def check_page(text):
     if "data-member-list" not in text or 'src="member-map.js"' not in text:
         problems.append(f"{PAGE.name}: the member map needs its list of places and member-map.js.")
+    strip = re.search(r'<div class="ctr-map__zoom"[^>]*data-member-zoom[^>]*>(.*?)data-member-here', text, re.S)
+    if not strip or " hidden" not in strip.group(0).split(">")[0]:
+        problems.append(f"{PAGE.name}: the member map's zoom buttons (data-member-zoom) are missing, or not shipped hidden for a page without scripts.")
+    else:
+        for z, words in (('data-zoom="in"', "Zoom in"), ('data-zoom="out"', "Zoom out"), ('data-zoom="world"', "Whole world")):
+            if not re.search(rf'<button type="button"[^>]*{z}[^>]*>\s*{words}\s*</button>', strip.group(1)):
+                problems.append(f"{PAGE.name}: the member map's {words} button is missing or has lost its words.")
+        for d in ("west", "north", "south", "east"):
+            if f'data-pan="{d}"' not in strip.group(1):
+                problems.append(f"{PAGE.name}: the member map's button moving it {d} is missing; moving the map is not only a drag.")
     for need, what in (("Natural Earth", "Natural Earth's credit for the world"), ("OpenStreetMap contributors", "OpenStreetMap's credit for the places"),
                        ("privacy.html#member-map", "a link to what the map keeps")):
         if need not in text:
@@ -280,6 +329,12 @@ def main():
         if new != page:
             PAGE.write_text(new)
             page = new
+    if not DETAIL.exists():
+        problems.append(f"{DETAIL.name}: missing. Run tools/pull-world-land.py.")
+    else:
+        dm = detail_module(json.loads(DETAIL.read_text()))
+        if not DETAIL_OUT.exists() or DETAIL_OUT.read_text() != dm:
+            DETAIL_OUT.write_text(dm)
     check_projection()
     check_lib()
     check_function()
@@ -295,7 +350,7 @@ def report():
         for p in problems:
             print("  " + p)
         return 1
-    print("member map: the world drawn and projected one way, places and how many in each and no names, the office alone putting pins on it, and nothing fetched but our own.")
+    print("member map: the world drawn and projected one way, places and how many in each and no names, the office alone putting pins on it, zoom by buttons as well as hands, and nothing fetched but our own.")
     return 0
 
 

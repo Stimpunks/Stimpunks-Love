@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Thu, 22 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The member map zooms</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-23-member-map-zoom</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-member-map-zoom</guid>
+      <pubDate>Fri, 23 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The member map on the Community Center’s wall zooms now, after Ryan asked whether he could: with Zoom in, Zoom out and Whole world under it, and West, North, South and East to move it, so a keyboard can do all of it, and by hand with a double press, a pinch, Ctrl or Cmd and the scroll wheel, and a drag. The pins stay the same size while the world grows under them, so crowded places like the US east coast and Britain pull apart, and on a phone the numbers on the pins are as big as anywhere else. Pressing a pin says where it is. Zoomed in, the map shows Natural Earth’s lakes, the borders between countries and the lines between states and provinces, from our own site, asked for only the first time somebody zooms, so the map everybody sees first is no heavier. It jumps where you ask rather than gliding, at every setting of the dial. Changed: community-center.html, love.css, member-map.js, member-map-detail.json (new), data/world-detail.json (new), tools/pull-world-land.py, tools/make-member-map.py, tools/check-contrast.py and liner-notes.html.</description>
+    </item>
     <item>
       <title>The member map comes home</title>
       <link>https://stimpunks.world/changelog.html#2026-10-22-member-map</link>

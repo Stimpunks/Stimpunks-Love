@@ -15777,8 +15777,14 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
    are the rust of the links, the one colour in the building that is not
    painted over, with the number on a pin in the letterboard's white (measured
    in check-contrast.py). It is not cork: the Pebble Board owns cork. Nothing
-   on it moves at any setting, and nothing on it is a link, because the list
-   below the sheet says every place in words. */
+   on it is a link, because the list below the sheet says every place in words.
+   It zooms (Ryan's question, 2026-10-23): by the buttons under the sheet, in
+   the sorter's label-holder plate and the room's ink, and by hand. Nothing on
+   it moves by itself, and when somebody zooms or drags it, it jumps there
+   rather than gliding, at every setting, so there is no transition here. Every
+   line keeps its width on the screen as the world grows (non-scaling-stroke),
+   the pins keep their size (member-map.js), and zoomed in the borders and state
+   lines are the coast's edge brown, the lakes the sea's paint: no new ink. */
 .ctr-map__wall { margin: 22px 0 0; max-width: 980px; }
 .ctr-map__roller { height: 14px; margin: 0 -10px; background: var(--ctr-steel); border-radius: 7px; box-shadow: 0 3px 0 var(--ctr-well); }
 .ctr-map__world {
@@ -15787,10 +15793,30 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
   border: 2px solid var(--ctr-steel); border-top: 0;
   box-shadow: 0 6px 0 var(--ctr-mortar);
 }
-.ctr-map__land { fill: var(--ctr-desk); stroke: var(--ctr-edge); stroke-width: .6; stroke-linejoin: round; }
-.ctr-map__pin circle { fill: var(--ctr-link); stroke: var(--ctr-letter); stroke-width: 1; }
-.ctr-map__count { fill: var(--ctr-letter); font-family: 'Radio Canada', system-ui, sans-serif; font-weight: 700; font-size: 11px; }
-.ctr-map__pin--many.ctr-map__pin--wide .ctr-map__count { font-size: 10px; }
+.ctr-map__world { touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.ctr-map__world.is-zoomed { touch-action: none; cursor: grab; }
+.ctr-map__world.is-zoomed:active { cursor: grabbing; }
+.ctr-map__land { fill: var(--ctr-desk); fill-rule: evenodd; stroke: var(--ctr-edge); stroke-width: .6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__lake { fill: var(--ctr-lit); stroke: var(--ctr-edge); stroke-width: .6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__border { fill: none; stroke: var(--ctr-edge); stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__state { fill: none; stroke: var(--ctr-edge); stroke-width: .7; stroke-dasharray: 3 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__world:not(.is-zoomed) .ctr-map__fine { display: none; }
+.ctr-map__pin { cursor: pointer; }
+.ctr-map__pin circle { fill: var(--ctr-link); stroke: var(--ctr-letter); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ctr-map__pin.is-picked circle { stroke: var(--ctr-ink); stroke-width: 2; }
+.ctr-map__count { fill: var(--ctr-letter); font-family: 'Radio Canada', system-ui, sans-serif; font-weight: 700; pointer-events: none; }
+.ctr-map__zoom { margin: 14px 0 0; }
+.ctr-map__btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+.ctr-map__btn {
+  min-height: 44px; padding: 6px 14px; cursor: pointer;
+  font: 700 15px/1.2 'Radio Canada', system-ui, sans-serif; letter-spacing: .02em;
+  color: var(--ctr-ink); background: var(--ctr-plate);
+  border: 2px solid var(--ctr-steel); border-radius: 4px;
+}
+.ctr-map__btn:hover { background: var(--ctr-lit); }
+.ctr-map__btn[aria-disabled="true"] { cursor: default; border-style: dashed; background: var(--ctr-plate); }
+.community .ctr-map__how { margin: 4px 0 0; max-width: 72ch; font-size: 15px; color: var(--ctr-ink-2); }
+.community .ctr-map__here { margin: 6px 0 0; min-height: 1.4em; font-size: 16px; font-weight: 700; color: var(--ctr-ink); }
 .community .ctr-map__said { margin: 14px 0 0; font-size: 15.5px; color: var(--ctr-ink); }
 .ctr-map__list { margin: 16px 0 0; max-width: 72ch; }
 .ctr-map__list > summary { cursor: pointer; font-weight: 700; min-height: 32px; }
