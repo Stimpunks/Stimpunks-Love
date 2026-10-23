@@ -3985,7 +3985,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
-  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK, caseListing, listingLine, listingLook, listingAdd, membersList, LISTING_MAX,
+  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK, caseListing, listingLine, listingLook, listingAdd, membersList, LISTING_MAX, caseOrg, orgFields, orgHtml, orgsList, orgLook, orgAdd, bareImage,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
@@ -5559,6 +5559,145 @@ test('the Members page: a director looks, tidies and adds one line, and nothing 
   const red2 = fakeWordPress({ alters: true });
   const look2 = await listingLook(TRYAN, red.id, 'Red Two', s, red2.fetch);
   assert.equal((await listingAdd(TRYAN, red.id, { name: 'Red Two', words: 'Saucy.', modified: look2.modified }, s, T0 + 8, red2.fetch)).kept, false);
+})));
+
+/* ── The Organizations page, from a join request ─────────────────────────── */
+const pngChunk = (type, data) => { const d = Buffer.from(data), h = Buffer.alloc(8); h.writeUInt32BE(d.length, 0); h.write(type, 4, 'latin1'); return Buffer.concat([h, d, Buffer.alloc(4)]); };
+const TEST_PNG = Buffer.concat([Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), pngChunk('IHDR', Buffer.alloc(13, 1)),
+  pngChunk('tEXt', 'GPS\x0040.7,-74.0'), pngChunk('eXIf', 'MM\x00*camera'), pngChunk('IDAT', 'pixels'), pngChunk('IEND', '')]);
+const jpegSeg = (m, data) => { const d = Buffer.from(data, 'latin1'), h = Buffer.from([0xff, m, 0, 0]); h.writeUInt16BE(d.length + 2, 2); return Buffer.concat([h, d]); };
+const TEST_JPEG = Buffer.concat([Buffer.from([0xff, 0xd8]), jpegSeg(0xe0, 'JFIF\x00\x01\x02'), jpegSeg(0xe1, 'Exif\x00\x00GPS 40.7'), jpegSeg(0xe1, 'http://ns.adobe.com/xap/1.0/\x00<x/>'),
+  jpegSeg(0xed, 'Photoshop 3.0\x00IPTC city'), jpegSeg(0xfe, 'a comment'), jpegSeg(0xdb, 'quant'), Buffer.from([0xff, 0xda, 0, 2]), Buffer.from('scan\xff\x00data', 'latin1'), Buffer.from([0xff, 0xd9])]);
+const webpChunk = (type, data) => { const d = Buffer.from(data, 'latin1'), h = Buffer.alloc(8); h.write(type, 0, 'latin1'); h.writeUInt32LE(d.length, 4); return Buffer.concat([h, d, d.length & 1 ? Buffer.alloc(1) : Buffer.alloc(0)]); };
+const webpOf = (...chunks) => { const body = Buffer.concat([Buffer.from('WEBP'), ...chunks]), h = Buffer.alloc(8); h.write('RIFF', 0, 'latin1'); h.writeUInt32LE(body.length, 4); return Buffer.concat([h, body]); };
+const TEST_WEBP = webpOf(webpChunk('VP8X', '\x0c\x00\x00\x00\x01\x00\x00\x01\x00\x00'), webpChunk('VP8 ', 'frame'), webpChunk('EXIF', 'GPS 40.7'), webpChunk('XMP ', '<x/>'));
+const ORG_PAGE = '<!-- wp:paragraph -->\n<p>If your organization belongs in this web, tell us why when you&nbsp;<a href="https://stimpunks.org/community/join/">fill out the join form</a>.</p>\n<!-- /wp:paragraph -->\n\n'
+  + '<!-- wp:group {"style":{},"backgroundColor":"custom-color-6","layout":{"type":"constrained"}} -->\n<div class="wp-block-group has-custom-color-6-background-color has-background"><!-- wp:paragraph -->\n<p><a href="https://www.autisticrealms.com/">Autistic Realms</a> - Helen’s.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->\n\n'
+  + '<!-- wp:group {"style":{},"backgroundColor":"custom-color-2","layout":{"type":"constrained"}} -->\n<div class="wp-block-group has-custom-color-2-background-color has-background"><!-- wp:paragraph -->\n<p><a href="https://www.wearelewisham.com/organisations/stimmusicarts/">Stim Music Arts</a> - A collective &amp; a label.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->\n\n'
+  + '<!-- wp:paragraph -->\n<p></p>\n<!-- /wp:paragraph -->';
+const LOGO_AT = 'https://stimpunks.org/wp-content/uploads/wpforms/85366-0123456789abcdef0123456789abcdef/';
+function fakeOrgPress(o = {}) {
+  const wp = { raw: o.raw || ORG_PAGE, modified: '2026-10-23T06:00:00', sent: [], logos: o.logos || { 'kelp-logo-aa.png': TEST_PNG, 'kelp-photo-bb.jpg': TEST_JPEG },
+    caps: o.caps || { edit_pages: true, edit_published_pages: true, edit_others_pages: true, unfiltered_html: true, upload_files: true } };
+  wp.fetch = async (url, opts = {}) => {
+    const u = new URL(url), method = opts.method || 'GET';
+    wp.sent.push({ url, method, auth: opts.headers && opts.headers.authorization, headers: opts.headers || {}, body: opts.body || null, redirect: opts.redirect });
+    const res = (body, status = 200) => ({ ok: status < 300, status, headers: { get: () => null }, json: async () => body });
+    if (url.startsWith(LOGO_AT)) {
+      const b = wp.logos[url.slice(LOGO_AT.length)];
+      return b ? { ok: true, status: 200, headers: { get: (h) => (h === 'content-length' ? String(b.length) : null) }, arrayBuffer: async () => b.buffer.slice(b.byteOffset, b.byteOffset + b.length) } : res({}, 404);
+    }
+    if (u.pathname === '/wp-json/wp/v2/users/me') return res({ capabilities: wp.caps });
+    if (u.pathname === '/wp-json/wp/v2/pages/85410' && method === 'GET') return res({ content: { raw: wp.raw }, modified_gmt: wp.modified });
+    if (u.pathname === '/wp-json/wp/v2/pages/85410' && method === 'POST') { wp.raw = JSON.parse(opts.body).content; wp.modified = '2026-10-23T09:00:00'; return res({ content: { raw: wp.raw } }); }
+    if (u.pathname === '/wp-json/wp/v2/media' && method === 'POST') return res({ id: 4242, source_url: 'https://stimpunks.org/wp-content/uploads/2026/10/kelp-co-op-logo.png' }, 201);
+    return res({}, 404);
+  };
+  return wp;
+}
+
+test('the Organizations page: a logo goes nowhere with its camera data still on it', () => {
+  for (const [kind, b] of [['image/png', TEST_PNG], ['image/jpeg', TEST_JPEG], ['image/webp', TEST_WEBP]]) {
+    assert.equal(carriesMetadata(b, kind), true, `the ${kind} made for the test carries nothing to take off`);
+    const bare = bareImage(b, kind);
+    assert.ok(bare && !carriesMetadata(bare, kind), `${kind} kept its camera data`);
+    assert.equal(imageKind(bare), kind, `${kind} stopped being one`);
+    for (const w of ['GPS', 'IPTC', 'comment', 'camera']) assert.ok(!bare.toString('latin1').includes(w), `${kind} kept ${w}`);
+  }
+  assert.ok(bareImage(TEST_PNG, 'image/png').includes(Buffer.from('pixels')), 'the PNG lost its picture');
+  assert.ok(bareImage(TEST_JPEG, 'image/jpeg').toString('latin1').includes('JFIF') && bareImage(TEST_JPEG, 'image/jpeg').toString('latin1').includes('scan'), 'the JPEG lost what it is drawn from');
+  const w = bareImage(TEST_WEBP, 'image/webp');
+  assert.equal(w[20] & 0x0c, 0, 'the WebP still says it has Exif or XMP');
+  assert.equal(w.readUInt32LE(4), w.length - 8, 'the WebP’s size is wrong');
+  assert.equal(bareImage(TEST_JPEG.subarray(0, 30), 'image/jpeg'), null, 'a cut-off JPEG was taken as a picture');
+});
+
+test('the Organizations page: an entry is built from words alone, on one of the page’s grounds', () => {
+  const G = [['custom-color-2', 'pale teal'], ['custom-color-7', 'pale lavender']];
+  assert.ok(orgFields({ name: '', ground: 'custom-color-2' }, G, 0).error, 'an entry with no name');
+  assert.ok(orgFields({ name: 'Kelp', ground: 'custom-color-3' }, G, 0).error, 'a ground that is not one of the page’s');
+  assert.ok(orgFields({ name: 'Kelp', ground: 'custom-color-2"},"x":{"' }, G, 0).error, 'a ground that would break out of the block’s attributes');
+  assert.ok(orgFields({ name: 'Kelp', ground: 'custom-color-2', logo: 0 }, G, 1).error, 'a logo with no words for what it shows');
+  assert.ok(orgFields({ name: 'Kelp', ground: 'custom-color-2', logo: 1, alt: 'A frond' }, G, 1).error, 'a logo they did not send');
+  assert.ok(orgFields({ name: 'Kelp', ground: 'custom-color-2', link: 'javascript:alert(1)' }, G, 0).error, 'a script became a link');
+  const x = orgFields({ name: 'Kelp <b>Co-op</b>', link: 'kelp.example.org', words: 'We farm & share.\n\nAll <!-- /wp:group --> welcome.', ground: 'custom-color-7', logo: 0, alt: 'A "frond"' }, G, 1);
+  assert.equal(orgHtml(x, { id: 9, src: 'https://stimpunks.org/wp-content/uploads/2026/10/kelp.png' }),
+    '<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}},"border":{"radius":{"topLeft":"33px","topRight":"33px","bottomLeft":"33px","bottomRight":"33px"}}},"backgroundColor":"custom-color-7","layout":{"type":"constrained"}} -->\n'
+    + '<div class="wp-block-group has-custom-color-7-background-color has-background" style="border-top-left-radius:33px;border-top-right-radius:33px;border-bottom-left-radius:33px;border-bottom-right-radius:33px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)">'
+    + '<!-- wp:image {"id":9,"width":"200px","height":"auto","sizeSlug":"full","linkDestination":"none","align":"center"} -->\n<figure class="wp-block-image aligncenter size-full is-resized"><img src="https://stimpunks.org/wp-content/uploads/2026/10/kelp.png" alt="A &quot;frond&quot;" class="wp-image-9" style="width:200px;height:auto"/></figure>\n<!-- /wp:image -->\n\n'
+    + '<!-- wp:paragraph -->\n<p><a href="https://kelp.example.org/">Kelp &lt;b&gt;Co-op&lt;/b&gt;</a> - We farm &amp; share.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:paragraph -->\n<p>All &lt;!-- /wp:group --&gt; welcome.</p>\n<!-- /wp:paragraph --></div>\n<!-- /wp:group -->');
+  const list = orgsList(ORG_PAGE);
+  assert.deepEqual([list.grounds, list.after], [['custom-color-6', 'custom-color-2'], 'Stim Music Arts']);
+  assert.ok(list.hosts.includes('autisticrealms.com') && !list.hosts.includes('stimpunks.org'));
+  assert.ok(orgsList(ORG_PAGE + '\n\n<!-- wp:paragraph -->\n<p>Want to be listed?</p>\n<!-- /wp:paragraph -->').error, 'a page that no longer ends with its organizations was written into');
+});
+
+test('the Organizations page: a director looks, names, tidies and adds one entry and its logo, and nothing else of the join request goes', () => withOfficeKey(OFFICE_TEST_KEY, () => withWpKey('office', 'abcd efgh ijkl mnop', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const form = (org) => `**Tell us a bit about yourself and why you would like to join our community.**\nI like otters, and my phone is 5125550100.\n\n**City**\nAustin\n\n`
+    + `**Profile text for the Members page (optional)**\nI keep otters.\n\n${org}`;
+  const ours = `**Profile text for the Organizations page**\nWe farm kelp\nfor everybody.\n\nAnd we share it.\n\n**Organization Website or Blog**\nkelp.example.org\n\n`
+    + `**Organization Logo**\n${LOGO_AT}kelp-logo-aa.png\nhttps://evil.example/wp-content/uploads/wpforms/85366-0123456789abcdef0123456789abcdef/x.png\n${LOGO_AT}kelp-photo-bb.jpg`;
+  await officeIntake({ type: 'community', entry: 980, email: 'robin@example.org', name: 'Robin Hood', message: form(ours) }, s, T0, TMODS);
+  await officeIntake({ type: 'community', entry: 981, email: 'sam@example.org', name: 'Sam', message: form('') }, s, T0 + 1, TMODS);
+  await officeIntake({ type: 'community', entry: 982, email: 'dee@example.org', name: 'Dee', message: form(`**Organization Name**\nStim Music Arts\n\n**Profile text for the Organizations page**\nA collective.`) }, s, T0 + 2, TMODS);
+  const cases = await readCases(s);
+  const k = cases.find((x) => x.form === 980), none = cases.find((x) => x.form === 981), dee = cases.find((x) => x.form === 982);
+  assert.deepEqual(caseOrg(k).gave, { name: '', words: 'We farm kelp for everybody.\n\nAnd we share it.', link: 'kelp.example.org', logos: 2 },
+    'the entry was read from somewhere other than the Organizations page part of the form, or a logo from elsewhere was counted');
+  assert.equal(caseOrg(dee).gave.name, 'Stim Music Arts', 'the organization’s name the form asked for was not used');
+  assert.equal(caseOrg(none).asked, false);
+  assert.ok((await officeCase(TRYAN, k.id, s)).org.ready);
+
+  const wp = fakeOrgPress();
+  assert.ok((await orgLook(TSAM, k.id, 'Kelp Co-op', '', s, wp.fetch)).error, 'somebody the office does not let in read the page');
+  assert.ok((await orgAdd(TSAM, k.id, { name: 'Kelp Co-op', ground: 'custom-color-7', modified: wp.modified }, s, T0 + 3, wp.fetch)).error);
+  assert.ok((await orgLook(TRYAN, none.id, 'Sam', '', s, wp.fetch)).error, 'a join request that did not ask was looked at');
+  assert.equal(wp.sent.length, 0);
+
+  const look = await orgLook(TRYAN, k.id, 'Kelp Co-op', 'kelp.example.org', s, wp.fetch);
+  assert.deepEqual([look.modified, look.after, look.ground, look.there, look.hostThere], ['2026-10-23T06:00:00', 'Stim Music Arts', 'custom-color-4', false, false]);
+  assert.equal(look.logos.length, 2);
+  assert.deepEqual(look.logos.map((x) => x.kind), ['image/png', 'image/jpeg']);
+  for (const l of look.logos) assert.ok(!carriesMetadata(Buffer.from(l.data, 'base64'), l.kind), 'a logo came to the page with its camera data on');
+  assert.ok(wp.sent.every((x) => x.method === 'GET'), 'looking changed something');
+  assert.ok(!wp.sent.some((x) => x.url.includes('evil.example')), 'a logo was fetched from somewhere other than stimpunks.org');
+  const logoAsks = wp.sent.filter((x) => x.url.startsWith(LOGO_AT));
+  assert.ok(logoAsks.length === 2 && logoAsks.every((x) => x.redirect === 'error' && !x.auth), 'a logo was fetched following redirects, or with the application password');
+  assert.equal((await orgLook(TRYAN, dee.id, 'Stim Music Arts', '', s, wp.fetch)).there, true, 'an organization already on the page was not noticed');
+
+  const entry = { name: 'Kelp Co-op', link: 'kelp.example.org', words: 'We farm kelp for everybody.\n\nAnd we share it.', ground: 'custom-color-4', logo: 0, alt: 'A green frond in a circle' };
+  const stale = await orgAdd(TRYAN, k.id, { ...entry, modified: '2026-10-01T00:00:00' }, s, T0 + 4, wp.fetch);
+  assert.ok(stale.error && stale.changed && stale.changed.after === 'Stim Music Arts', 'a page changed since the look was written');
+  assert.ok((await orgAdd(TRYAN, dee.id, { name: 'Stim Music Arts', ground: 'custom-color-4', modified: look.modified }, s, T0 + 4, wp.fetch)).error, 'a second Stim Music Arts went on the page');
+  const weak = fakeOrgPress({ caps: { edit_pages: true, edit_published_pages: true, edit_others_pages: true, unfiltered_html: true, upload_files: false } });
+  assert.match((await orgAdd(TRYAN, k.id, { ...entry, modified: look.modified }, s, T0 + 4, weak.fetch)).error, /media library/);
+  assert.ok(wp.sent.every((x) => x.method === 'GET') && weak.sent.every((x) => x.method === 'GET'), 'a refused add wrote something');
+
+  const r = await orgAdd(TRYAN, k.id, { ...entry, modified: look.modified }, s, T0 + 5, wp.fetch);
+  assert.deepEqual(r, { added: { t: T0 + 5 }, address: 'https://stimpunks.org/community/organizations/', kept: true, gone: false, logo: true });
+  const posts = wp.sent.filter((x) => x.method === 'POST');
+  assert.equal(posts.length, 2, 'more or fewer than the logo and the page were written');
+  const [media, page] = posts;
+  assert.ok(media.url.startsWith('https://stimpunks.org/wp-json/wp/v2/media?'));
+  assert.deepEqual([new URL(media.url).searchParams.get('title'), new URL(media.url).searchParams.get('alt_text')], ['Kelp Co-op logo', 'A green frond in a circle']);
+  assert.deepEqual([media.headers['content-type'], media.headers['content-disposition']], ['image/png', 'attachment; filename="kelp-co-op-logo.png"']);
+  assert.ok(!carriesMetadata(media.body, 'image/png') && !Buffer.from(media.body).toString('latin1').includes('GPS'), 'the logo went into the media library with its camera data on');
+  assert.equal(page.url, 'https://stimpunks.org/wp-json/wp/v2/pages/85410?context=edit&_fields=content');
+  const put = JSON.parse(page.body);
+  assert.deepEqual(Object.keys(put), ['content']);
+  const end = ORG_PAGE.lastIndexOf('<!-- /wp:group -->') + '<!-- /wp:group -->'.length;
+  const want = orgHtml(orgFields(entry, [['custom-color-4', 'pale green']], 2), { id: 4242, src: 'https://stimpunks.org/wp-content/uploads/2026/10/kelp-co-op-logo.png' });
+  assert.equal(put.content, ORG_PAGE.slice(0, end) + '\n\n' + want + ORG_PAGE.slice(end), 'the page was changed anywhere but by one entry after its last organization');
+  for (const w of ['robin@example.org', 'Austin', '5125550100', 'like otters', 'keep otters', 'Robin', 'Ryan,']) assert.ok(!posts.some((x) => String(x.url + x.body).includes(w)), `stimpunks.org was sent ${w}`);
+  assert.deepEqual((await officeCase(TRYAN, k.id, s)).org.added, { t: T0 + 5 });
+  assertSealed(await s.get('office-cases', { type: 'json' }), ['Robin', 'kelp']);
+  assert.match((await orgAdd(TRYAN, k.id, { ...entry, modified: wp.modified }, s, T0 + 6, wp.fetch)).error, /already/, 'an organization already added was added again');
+  // Without a logo, nothing goes into the media library.
+  const plain = fakeOrgPress();
+  const look2 = await orgLook(TRYAN, dee.id, 'Stim Sounds', '', s, plain.fetch);
+  assert.ok((await orgAdd(TRYAN, dee.id, { name: 'Stim Sounds', words: 'A collective.', ground: look2.ground, logo: null, modified: look2.modified }, s, T0 + 7, plain.fetch)).added);
+  assert.ok(!plain.sent.some((x) => x.url.includes('/media')), 'the media library was written with no logo chosen');
 })));
 
 /* ── Tasks: activity and notifications ───────────────────────────────────── */

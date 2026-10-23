@@ -59,6 +59,13 @@
      { action: 'listing-add', id, name, link, words, modified }   that line added to the end of the Members page's
                                                      list on this press and never otherwise, refused if the page has
                                                      changed since modified, the time the look read
+     { action: 'org-look', id, name, link }          where join request id's organization would go on stimpunks.org's
+                                                     Organizations page, the ground the page has used least lately,
+                                                     whether the name or website is on it, and the logos the form kept,
+                                                     with their camera data off, read on this press
+     { action: 'org-add', id, name, link, words, ground, logo, alt, modified }   that logo into the media library
+                                                     and the entry after the page's last organization, on this press
+                                                     and never otherwise, refused if the page has changed since modified
      { action: 'map-take-one', lat, lon }            one pin that belongs to no join request taken off that place
      { action: 'map-import', rows: [...] }           the pins brought from Google My Maps, once each by key
      { action: 'template-save', id?, name, subject, body }
@@ -93,7 +100,7 @@ import { readPass, forumReader, officeAllow, officeReady, officeContacts, office
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
@@ -241,6 +248,15 @@ export default async (req) => {
       const r = await listingAdd(who, String(b.id || ''), { name: b.name, link: b.link, words: b.words, modified: b.modified });
       if (r.changed) return json(409, { error: r.error, changed: r.changed }, QUIET);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { added: r.added, address: r.address, kept: r.kept }, QUIET);
+    }
+    if (b.action === 'org-look') {
+      const r = await orgLook(who, String(b.id || ''), String(b.name || ''), String(b.link || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { modified: r.modified, after: r.after, ground: r.ground, there: r.there, hostThere: r.hostThere, logos: r.logos }, QUIET);
+    }
+    if (b.action === 'org-add') {
+      const r = await orgAdd(who, String(b.id || ''), { name: b.name, link: b.link, words: b.words, ground: b.ground, logo: b.logo, alt: b.alt, modified: b.modified });
+      if (r.changed) return json(409, { error: r.error, changed: r.changed }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { added: r.added, address: r.address, kept: r.kept, logo: r.logo }, QUIET);
     }
     if (b.action === 'map-take') {
       const r = await mapTake(who, String(b.id || ''));

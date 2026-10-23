@@ -154,15 +154,30 @@ def settings(data):
             # words and website: listingAdd writes that page and nothing else, on stimpunks.org alone.
             if isinstance(v, dict) and "members" in v:
                 m = v["members"]
-                ok = (v.get("record") == "case" and isinstance(m, dict) and set(m) == {"page", "address", "words", "link"}
+                ok = (v.get("record") == "case" and isinstance(m, dict) and set(m) == {"page", "address", "name", "words", "link"}
                       and isinstance(m["page"], int) and not isinstance(m["page"], bool) and m["page"] > 0
                       and isinstance(m["address"], str) and m["address"].startswith("https://stimpunks.org/")
-                      and all(isinstance(m[x], str) and m[x].strip() and "\n" not in m[x] for x in ("words", "link"))
-                      and m["words"] != m["link"])
+                      and all(isinstance(m[x], str) and m[x].strip() and "\n" not in m[x] for x in ("name", "words", "link"))
+                      and len({m["name"], m["words"], m["link"]}) == 3)
                 if not ok:
-                    problems.append(f"{DATA.name}: intake.{k}'s members names a page on stimpunks.org (its id and its https://stimpunks.org/ address) and the two questions asking for its words and link, and nothing else.")
-            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task", "lists", "members"}:
-                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task', 'lists', 'members'}))}, which the intake does not read.")
+                    problems.append(f"{DATA.name}: intake.{k}'s members names a page on stimpunks.org (its id and its https://stimpunks.org/ address) and the three questions asking for the name it shows, its words and its link, and nothing else.")
+            # And stimpunks.org's Organizations page, its questions for words, website and logo, and the
+            # grounds an entry may stand on, each a theme colour's slug and its name in words.
+            if isinstance(v, dict) and "organizations" in v:
+                o = v["organizations"]
+                ok = (v.get("record") == "case" and isinstance(o, dict) and set(o) == {"page", "address", "name", "words", "link", "logo", "grounds"}
+                      and isinstance(o["page"], int) and not isinstance(o["page"], bool) and o["page"] > 0
+                      and isinstance(o["address"], str) and o["address"].startswith("https://stimpunks.org/")
+                      and all(isinstance(o[x], str) and o[x].strip() and "\n" not in o[x] for x in ("name", "words", "link", "logo"))
+                      and len({o["name"], o["words"], o["link"], o["logo"]}) == 4
+                      and isinstance(o["grounds"], list) and o["grounds"] and all(
+                          isinstance(g, list) and len(g) == 2 and isinstance(g[0], str) and re.fullmatch(r"custom-color-\d{1,2}", g[0])
+                          and isinstance(g[1], str) and 0 < len(g[1].strip()) <= 40 for g in o["grounds"])
+                      and len({g[0] for g in o["grounds"]}) == len(o["grounds"]))
+                if not ok:
+                    problems.append(f"{DATA.name}: intake.{k}'s organizations names a page on stimpunks.org, the four questions for its name, words, link and logo, and its grounds, each a custom-color slug and its name in words, no slug twice.")
+            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task", "lists", "members", "organizations"}:
+                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task', 'lists', 'members', 'organizations'}))}, which the intake does not read.")
     cap = (data.get("dashboard") or {}).get("active_cap")
     if not isinstance(cap, int) or isinstance(cap, bool) or cap < 1:
         problems.append(f"{DATA.name}: dashboard.active_cap is a whole number of grant requests, 1 or more.")
@@ -555,9 +570,9 @@ def check_members(lib):
     page's list, with an application password read once in wpAuth, and asks
     stimpunks.org for that page and its own user's capabilities and nothing else."""
     at = lib.find("/* OUR MEMBERS PAGE")
-    to = lib.find("/* ── Links and backlinks", at)
+    to = lib.find("/* OUR ORGANIZATIONS PAGE", at)
     if at < 0 or to < at:
-        problems.append(f"{LIB.name}: the Members page part of the office is missing.")
+        problems.append(f"{LIB.name}: the Members page part of the office is missing, or the Organizations page part after it.")
         return
     sec = lib[at:to]
     code = code_of(sec)
@@ -598,6 +613,71 @@ def check_members(lib):
     js = code_of(JS.read_text()) if JS.exists() else ""
     if "action: 'listing-add'" not in js or not re.search(r"var href = /\^https\?:", js):
         problems.append(f"{JS.name}: the Members page's preview links only to an http or https address, because its link is filled from a public form.")
+
+
+def check_orgs(lib):
+    """The Organizations page is written in two steps on one press and nowhere else
+    (Ryan's ask, 2026-10-23): orgAdd puts the logo the Join form kept, fetched from
+    WPForms' uploads on stimpunks.org and with its camera data off, into the media
+    library, and writes one group block built from words alone after the page's
+    last organization. orgLook only reads. Both go through wpAsk, listingAdd's."""
+    at = lib.find("/* OUR ORGANIZATIONS PAGE")
+    to = lib.find("/* ── Links and backlinks", at)
+    if at < 0 or to < at:
+        problems.append(f"{LIB.name}: the Organizations page part of the office is missing.")
+        return
+    sec = lib[at:to]
+    code = code_of(sec)
+    if re.findall(r"['`\"](https?://[^'`\"]*)['`\"]", code):
+        problems.append(f"{LIB.name}: the Organizations page part names an address of its own; it asks stimpunks.org through wpAsk and fetches a logo only where ORG_LOGO allows.")
+    if r"const ORG_LOGO = /^https:\/\/stimpunks\.org\/wp-content\/uploads\/wpforms\/" not in code:
+        problems.append(f"{LIB.name}: a logo is fetched from WPForms' own uploads on stimpunks.org and nowhere else (ORG_LOGO).")
+    if code.count("fetchFn(") != 1 or "fetchFn(url, { redirect: 'error' })" not in fn_any(sec, "orgLogo") or "if (!ORG_LOGO.test(url))" not in fn_any(sec, "orgLogo"):
+        problems.append(f"{LIB.name}: the Organizations page part fetches only a logo ORG_LOGO allows, following no redirect, and asks everything else through wpAsk.")
+    paths = set(re.findall(r"wpAsk\(('[^']*'|`[^`]*`),", code))
+    if paths != {"`/wp-json/wp/v2/media?${new URLSearchParams({ title: x.name + ' logo', alt_text: x.alt })}`", "`/wp-json/wp/v2/pages/${got.page}?context=edit&_fields=content`"}:
+        problems.append(f"{LIB.name}: the Organizations page part writes a logo into the media library and the page, and nothing else (it asks {', '.join(sorted(paths)) or 'nothing readable'}).")
+    add = fn(sec, "orgAdd")
+    if len(re.findall(r"method:", code)) != 2 or add.count("method: 'POST'") != 2:
+        problems.append(f"{LIB.name}: the Organizations page is written in orgAdd only: one POST of the logo and one of the page.")
+    for name in ("orgAdd", "orgLook"):
+        first = re.search(r"\{\n\s*(.*)", fn(sec, name))
+        if not first or "if (!officeAllow(who))" not in first.group(1):
+            problems.append(f"{LIB.name}: {name} must refuse anybody the office does not let in, before it reads or sends anything.")
+    if "pg.modified !== f.modified" not in add or "await wpCanSave(" not in add or "await orgLogo(got.logos[x.logo], fetchFn)" not in add:
+        problems.append(f"{LIB.name}: orgAdd must refuse a page changed since the look and a user who cannot save it, and fetch the chosen logo itself rather than take one from the page.")
+    if not re.search(r"const next = pg\.raw\.slice\(0, list\.at\) \+ '\\n\\n' \+ orgHtml\(x, media\) \+ pg\.raw\.slice\(list\.at\);", add):
+        problems.append(f"{LIB.name}: orgAdd writes the page back as it was, with one entry added after its last organization, and nothing else changed.")
+    oh = fn(sec, "orgHtml")
+    for need in ("htmlText(x.name)", "htmlAttr(x.link)", "<p>${i ? htmlText(p) : who + (p ? ' - ' + htmlText(p) : '')}</p>", "htmlAttr(media.src)", "htmlAttr(x.alt)"):
+        if need not in oh:
+            problems.append(f"{LIB.name}: orgHtml builds the entry from words alone, escaped ({need} is missing).")
+    if re.search(r"\$\{(?!htmlText\(|htmlAttr\(|who\b|x\.ground\}|media\.id\}|ORG_STYLE\}|ORG_CSS\}|img\}|ps\.join|i \?)", oh):
+        problems.append(f"{LIB.name}: orgHtml puts something into the page that is not escaped words, a ground from the data, or the media library's number.")
+    of = fn(sec, "orgFields")
+    if "const ground = grounds.find((g) => g[0] === f.ground);" not in of:
+        problems.append(f"{LIB.name}: an entry's ground is one of the grounds in data/office.json and nothing typed.")
+    lg = fn_any(sec, "orgLogo")
+    if "carriesMetadata(bare, kind)" not in lg or "bareImage(bytes, kind)" not in lg:
+        problems.append(f"{LIB.name}: a logo goes nowhere until bareImage has taken its camera data off and carriesMetadata finds none left.")
+    if re.search(r"\bk\.body\b|\bc\.(?:email|phone|notes)\b", add + fn(sec, "orgLook")):
+        problems.append(f"{LIB.name}: the Organizations page's look or add reads more of the join request than the entry and its logo.")
+    if lib.count("orgAdd(") != 1 or lib.count("orgLook(") != 1:
+        problems.append(f"{LIB.name}: orgAdd or orgLook is called from somewhere in lib.mjs; they run only on a director's press, never when a form arrives.")
+    office_fn = (ROOT / "netlify" / "functions" / "cb-office.mjs").read_text()
+    if (office_fn.count("orgAdd(") != 1 or office_fn.count("orgLook(") != 1 or office_fn.count("b.action === 'org-add'") != 1
+            or "    if (b.action === 'org-add') {\n      const r = await orgAdd(" not in office_fn):
+        problems.append("cb-office.mjs: the Organizations page is looked at and written from the org-look and org-add actions, a director's press, and nowhere else.")
+    if 'id="organizations-page"' not in (ROOT / "privacy.html").read_text():
+        problems.append("privacy.html: the office writes to stimpunks.org's Organizations page and media library, and the privacy page's section on it (id organizations-page) is missing.")
+    js = code_of(JS.read_text()) if JS.exists() else ""
+    if "action: 'org-add'" not in js or js.count("var href = /^https?:") < 2:
+        problems.append(f"{JS.name}: the Organizations page's preview links only to an http or https address, because its link is filled from a public form.")
+
+
+def fn_any(src, name):
+    m = re.search(rf"(?:export )?(?:async )?function {name}\(.*?\n\}}", src, re.S)
+    return m.group(0) if m else ""
 
 
 def check_js():
@@ -683,6 +763,7 @@ def main():
     check_quickbooks(lib)
     check_givebutter(lib)
     check_members(lib)
+    check_orgs(lib)
     check_invite_fill(lib)
     check_js()
     check_css()

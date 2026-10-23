@@ -5756,8 +5756,22 @@ capabilities and nothing else; `listingLine` escapes every word, so nothing type
 stimpunks.org, and the panel's preview links only to http or https. `make-office.py`'s `check_members` holds all of it. The
 friendly edits are **adding on arrival** "to save a press", which publishes every spam entry, **rebuilding the page's list from
 the office's own records**, which overwrites every line somebody edited on stimpunks.org, **HTML in the words "so links work"**,
-and **taking somebody off the page from the office**, a second kind of write and Ryan's call first. The Organizations page, with
-its logo, is still to come.
+and **taking somebody off the page from the office**, a second kind of write and Ryan's call first. The name shown is the answer
+to the form's `name` question for that page (`Name for the Members page (optional)`, `Organization Name`), once the form asks it.
+
+**OUR ORGANIZATIONS PAGE IS THE MEMBERS PAGE'S PRESS WITH A LOGO, AND THE LOGO GOES WITH ITS CAMERA DATA OFF.** Ryan's ask,
+2026-10-23, `privacy.html#organizations-page` first. stimpunks.org's Organizations page (85410) holds one rounded group block per
+organization on a pale ground; `organizations` on the Join form's intake names the page, the questions for its words, website and
+logo, and the six grounds, by slug and in words. **Check the Organizations page** runs `orgLook` (`org-look`): it reads the page,
+picks the ground used least lately, says whether the name or website is on it, and fetches the logos the form kept, **only from
+WPForms' own uploads on stimpunks.org (`ORG_LOGO`), following no redirect and never with the application password**, each through
+`bareImage`, which takes off what a camera or phone writes (JPEG APPn but JFIF, ICC and Adobe, comments; PNG's text, time and Exif
+chunks; WebP's EXIF and XMP), checked again by `carriesMetadata`, and sent to the page as base64 to show from a `blob:`. **Add it to
+the Organizations page** runs `orgAdd` (`org-add`): the page's checks, then the chosen logo fetched and stripped again on the server
+(never bytes from the page) into the media library with its alt text, then one block from `orgHtml` after the page's last
+organization; the case keeps `orgListed`, when. `check_orgs` in `make-office.py` holds all of it. The friendly edits are **taking the
+logo from the page "since it already has it"**, which lets a page upload anything, **fetching a logo from wherever the form's answer
+points**, and **a colour picker for the ground**, which brings a colour nobody measured onto stimpunks.org.
 
 **A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
 2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one

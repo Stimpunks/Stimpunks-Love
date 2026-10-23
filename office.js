@@ -1519,6 +1519,7 @@
     if (k.type === 'Join Request' || k.map) view.appendChild(mapPanel(k));
     if (k.lists) view.appendChild(listsPanel(k));
     if (k.listing) view.appendChild(listingPanel(k));
+    if (k.org) view.appendChild(orgPanel(k));
     if (k.write && k.write.email) {
       var wbox = el('section', 'of-mapbox');
       wbox.setAttribute('aria-labelledby', 'of-write-h');
@@ -1731,6 +1732,166 @@
         var fresh = listingPanel(k2); box.replaceWith(fresh); fresh.querySelector('h3').focus();
         say(r.body.kept ? 'Added to the Members page. Tick it off on their onboarding task.'
           : 'Added to the Members page, but WordPress changed the page as it saved it. Look at the page on stimpunks.org, and its revisions.');
+      });
+    });
+    return box;
+  }
+  /* Our Organizations page on stimpunks.org: the entry they asked for, shown as it will look, for a director
+     to name and tidy; Check the Organizations page reads the page and brings their logos to look at, and only
+     then can the entry, and the logo chosen, be added. */
+  function orgPanel(k) {
+    var box = el('section', 'of-mapbox');
+    box.setAttribute('aria-labelledby', 'of-org-h');
+    var h3 = el('h3', null, 'Organizations page'); h3.id = 'of-org-h'; h3.tabIndex = -1;
+    box.appendChild(h3);
+    var O = k.org;
+    function pageLink(words) { var a = el('a', null, words); a.href = O.address; return a; }
+    if (O.added) {
+      var on = el('p', null, 'Their organization is on ');
+      on.appendChild(pageLink('our Organizations page'));
+      on.appendChild(document.createTextNode(' since ' + dayOf(O.added.t) + '.'));
+      box.appendChild(on);
+      box.appendChild(el('p', 'cb-quiet of-hint', 'Changing the entry, or taking it or its logo off, is done on stimpunks.org.'));
+      return box;
+    }
+    if (!O.asked) {
+      box.appendChild(el('p', null, 'They did not fill in the Organizations page part of the Join form, so they have not asked for their organization to be on it.'));
+      return box;
+    }
+    var gave = [O.gave.words ? 'a few words about it' : '', O.gave.link ? 'its website' : '', O.gave.logos ? (O.gave.logos > 1 ? 'two logos' : 'a logo') : ''].filter(Boolean);
+    var lead = el('p', null, 'On the Join form they asked for their organization to be on ');
+    lead.appendChild(pageLink('our Organizations page'));
+    lead.appendChild(document.createTextNode(', with ' + andWords(gave) + '.'));
+    box.appendChild(lead);
+    if (!O.ready) {
+      box.appendChild(el('p', 'cb-quiet', 'Adding to the Organizations page is not set up for the office yet, so it cannot be added from here.'));
+      return box;
+    }
+    var form = el('form', 'of-form');
+    form.noValidate = true;
+    function field(id, label, input, hintText) {
+      var w = el('div', 'of-field');
+      var l = el('label', 'cb-lab', label); l.htmlFor = id; input.id = id;
+      w.appendChild(l); w.appendChild(input);
+      if (hintText) { var hn = el('p', 'cb-quiet of-hint', hintText); hn.id = id + '-hint'; input.setAttribute('aria-describedby', hn.id); w.appendChild(hn); }
+      form.appendChild(w);
+      return input;
+    }
+    function line(value, max) { var i = el('input', 'cb-say of-input'); i.type = 'text'; i.value = value || ''; i.maxLength = max; i.autocomplete = 'off'; return i; }
+    var name = field('of-og-name', 'The organization’s name', line(O.gave.name, O.max.name),
+      O.gave.name ? 'The name they gave on the form.' : 'The Join form does not ask for it: take it from their words or their website.');
+    var link = field('of-og-link', 'Link', line(O.gave.link, O.max.link), 'Its website, if they gave one. Leave it empty for none.');
+    link.inputMode = 'url';
+    var words = el('textarea', 'cb-say of-text'); words.rows = 6; words.maxLength = O.max.words; words.value = O.gave.words || '';
+    field('of-og-words', 'Their words', words, 'What they wrote on the form. Tidy it if it needs it: it goes as plain words, and a blank line starts a new paragraph.');
+    var ground = el('select', 'cb-say of-input');
+    O.grounds.forEach(function (g) { var o = el('option', null, g.words); o.value = g.key; ground.appendChild(o); });
+    field('of-og-ground', 'Its ground', ground, 'The colour its box stands on. Checking the page picks the one used least lately, so no two side by side match.');
+    var logoBox = el('div', 'of-wide');
+    form.appendChild(logoBox);
+    var alt = line('', O.max.alt);
+    var altField = field('of-og-alt', 'What the logo shows', alt, 'In words, for anybody who cannot see it, as the page’s other logos have.');
+    altField.parentNode.hidden = true;
+    form.appendChild(el('h4', null, 'How it will look'));
+    var preview = el('div', 'of-preview');
+    form.appendChild(preview);
+    var urls = [], kinds = [], logo = null;
+    function chosen() { var r = logoBox.querySelector('input:checked'); return r && r.value !== '' ? +r.value : null; }
+    function draw() {
+      // As the page shows an organization: the logo over the name, linked if there is a link, a dash, then the words.
+      preview.textContent = '';
+      logo = chosen();
+      altField.parentNode.hidden = logo === null;
+      if (logo !== null && urls[logo]) {
+        var img = el('img'); img.src = urls[logo]; img.alt = alt.value.trim(); img.width = 120; preview.appendChild(img);
+      }
+      var paras = words.value.split(/\n[ \t]*\n/).map(function (p) { return p.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+      var first = el('p');
+      var n = name.value.replace(/\s+/g, ' ').trim() || '(the organization’s name)';
+      // A link only ever to the web: the field is filled from a public form, so nothing else becomes a link here.
+      var to = link.value.trim();
+      var href = /^https?:\/\//i.test(to) ? to : /^[a-z][a-z0-9+.-]*:/i.test(to) ? '' : to ? 'https://' + to : '';
+      if (href) { var a = el('a', null, n); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; first.appendChild(a); }
+      else first.appendChild(document.createTextNode(n));
+      if (paras[0]) first.appendChild(document.createTextNode(' – ' + paras[0]));
+      preview.appendChild(first);
+      paras.slice(1).forEach(function (p) { preview.appendChild(el('p', null, p)); });
+      var g = O.grounds.filter(function (x) { return x.key === ground.value; })[0];
+      preview.appendChild(el('p', 'cb-quiet of-hint', 'In a box with rounded corners on a ' + (g ? g.words : 'pale') + ' ground, after the page’s last organization.'));
+    }
+    [name, link, words, alt].forEach(function (x) { x.addEventListener('input', draw); });
+    ground.addEventListener('change', draw);
+    draw();
+    function showLogos(list) {
+      // Their logos, as the server fetched them and took their camera data off: shown here, kept nowhere.
+      urls.forEach(function (u) { if (u) URL.revokeObjectURL(u); });
+      urls = []; kinds = [];
+      logoBox.textContent = '';
+      if (!list.length) return;
+      var fs = el('fieldset', 'of-checks');
+      fs.appendChild(el('legend', 'cb-lab', 'Their logo'));
+      list.forEach(function (x, i) {
+        if (x.error) { urls.push(null); fs.appendChild(el('p', 'cb-quiet of-hint', (list.length > 1 ? 'Logo ' + (i + 1) + ': ' : '') + x.error)); return; }
+        var bin = atob(x.data), bytes = new Uint8Array(bin.length);
+        for (var j = 0; j < bin.length; j++) bytes[j] = bin.charCodeAt(j);
+        urls.push(URL.createObjectURL(new Blob([bytes], { type: x.kind })));
+        var c = el('input'); c.type = 'radio'; c.name = 'of-og-logo'; c.id = 'of-og-logo-' + i; c.value = String(i);
+        if (logoBox.querySelector('input') === null && fs.querySelector('input') === null) c.checked = true;
+        var l = el('label', 'of-check'); l.htmlFor = c.id;
+        var im = el('img'); im.src = urls[i]; im.alt = ''; im.height = 48;
+        l.appendChild(c); l.appendChild(im); l.appendChild(document.createTextNode(' Use ' + (list.length > 1 ? 'logo ' + (i + 1) : 'their logo')));
+        fs.appendChild(l);
+      });
+      var none = el('input'); none.type = 'radio'; none.name = 'of-og-logo'; none.id = 'of-og-logo-none'; none.value = '';
+      if (!fs.querySelector('input')) none.checked = true;
+      var nl = el('label', 'of-check'); nl.htmlFor = none.id; nl.appendChild(none); nl.appendChild(document.createTextNode(' No logo'));
+      fs.appendChild(nl);
+      fs.addEventListener('change', draw);
+      logoBox.appendChild(fs);
+      draw();
+    }
+    var where = el('p', 'of-answer');
+    var row = el('div', 'of-row');
+    var check = el('button', 'cb-btn of-small', 'Check the Organizations page'); check.type = 'button';
+    var add = el('button', 'cb-btn of-small', 'Add it to the Organizations page'); add.type = 'button'; add.hidden = true;
+    row.appendChild(check); row.appendChild(add);
+    var hint = el('p', 'cb-quiet of-hint', 'Checking reads the page and brings their logo here to look at, and changes nothing. Adding copies the logo you choose into stimpunks.org’s media library, with its camera data taken off, and writes this one entry at the end of the page, and nothing else of their join request.');
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    form.appendChild(where); form.appendChild(row); form.appendChild(hint); form.appendChild(answer);
+    box.appendChild(form);
+    var seen = null;
+    function placed(r) {
+      seen = r.modified;
+      if (r.ground) ground.value = r.ground;
+      where.textContent = (r.after ? 'It goes at the end of the page, after ' + r.after + '.' : 'It goes at the end of the page.')
+        + (r.there ? ' Something called ' + name.value.replace(/\s+/g, ' ').trim() + ' is on the page already.' : '')
+        + (r.hostThere ? ' A link to the same website is on the page already.' : '');
+      add.hidden = false;
+      draw();
+    }
+    check.addEventListener('click', function () {
+      check.disabled = true; answer.textContent = 'Reading the Organizations page…';
+      call(null, { action: 'org-look', id: k.id, name: name.value, link: link.value }).then(function (r) {
+        check.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'The Organizations page could not be read just now. Nothing was changed.'); return; }
+        showLogos(r.body.logos || []);
+        placed(r.body);
+        answer.textContent = 'Read. Nothing has been changed yet.';
+        add.focus();
+      });
+    });
+    add.addEventListener('click', function () {
+      add.disabled = true; answer.textContent = logo !== null ? 'Copying their logo and adding…' : 'Adding…';
+      call(null, { action: 'org-add', id: k.id, name: name.value, link: link.value, words: words.value, ground: ground.value, logo: logo, alt: alt.value, modified: seen }).then(function (r) {
+        add.disabled = false;
+        if (r.status === 409 && r.body && r.body.changed) { placed(r.body.changed); answer.textContent = why(r, 'The Organizations page has changed since you checked it.'); return; }
+        if (r.status !== 200) { answer.textContent = why(r, 'That did not reach stimpunks.org. Nothing was added.'); return; }
+        urls.forEach(function (u) { if (u) URL.revokeObjectURL(u); });
+        var k2 = {}; Object.keys(k).forEach(function (x) { k2[x] = k[x]; });
+        k2.org = { gave: O.gave, asked: O.asked, address: O.address, grounds: O.grounds, added: r.body.added, ready: O.ready, max: O.max };
+        var fresh = orgPanel(k2); box.replaceWith(fresh); fresh.querySelector('h3').focus();
+        say(r.body.kept ? 'Added to the Organizations page' + (r.body.logo ? ', with their logo' : '') + '. Tick it off on their onboarding task.'
+          : 'Added to the Organizations page, but WordPress changed the page as it saved it. Look at the page on stimpunks.org, and its revisions.');
       });
     });
     return box;

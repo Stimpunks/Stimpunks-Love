@@ -8228,7 +8228,7 @@ export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
 export const TASK_FILL_INS = ["name", "contact", "case", "grant"];
-export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them on their join request: Make their invite puts a one-use CB invite in it.\n- [ ] Add them to the mailing lists they asked for: Add them to Givebutter’s lists, on their join request.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the Members page, if they asked: Check the Members page, then Add them to the Members page, on their join request.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
+export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them on their join request: Make their invite puts a one-use CB invite in it.\n- [ ] Add them to the mailing lists they asked for: Add them to Givebutter’s lists, on their join request.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the Members page, if they asked: Check the Members page, then Add them to the Members page, on their join request.\n- [ ] Add their organization to the Organizations page, if they asked: Check the Organizations page, then Add it to the Organizations page, on their join request.\n- [ ] Close their join request in the office."}];
 /* tasks:settings:end */
 export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
@@ -9535,7 +9535,7 @@ export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
 export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application", "Join Request"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
-export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1", "lists": [{"asks": "Would you like to be added to our Members Only mailing list?", "tag": "Members"}, {"asks": "Would you like to be added to our Monthly Newsletter mailing list?", "tag": "Newsletter Mailing List"}], "members": {"page": 85372, "address": "https://stimpunks.org/community/individuals/", "words": "Profile text for the Members page (optional)", "link": "Website or Blog"}}};
+export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1", "lists": [{"asks": "Would you like to be added to our Members Only mailing list?", "tag": "Members"}, {"asks": "Would you like to be added to our Monthly Newsletter mailing list?", "tag": "Newsletter Mailing List"}], "members": {"page": 85372, "address": "https://stimpunks.org/community/individuals/", "name": "Name for the Members page (optional)", "words": "Profile text for the Members page (optional)", "link": "Website or Blog"}, "organizations": {"page": 85410, "address": "https://stimpunks.org/community/organizations/", "name": "Organization Name", "words": "Profile text for the Organizations page", "link": "Organization Website or Blog", "logo": "Organization Logo", "grounds": [["custom-color-2", "pale teal"], ["custom-color-4", "pale green"], ["custom-color-5", "pale yellow"], ["custom-color-6", "pale peach"], ["custom-color-7", "pale lavender"], ["custom-color-8", "pale pink"]]}}};
 export const OFFICE_DASHBOARD = {"active_cap": 100};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
@@ -10139,7 +10139,7 @@ export async function officeCase(who, id, s = store()) {
   }
   // And, for a join request, which of our mailing lists they asked for, and whether they have been sent to Givebutter.
   // And whether they asked to be on the Members page, and are.
-  return { ...shapeCase(k, contactMap(contacts), true), map: await casePin(who, k, s), lists: caseLists(k), listing: caseListing(k, c), write };
+  return { ...shapeCase(k, contactMap(contacts), true), map: await casePin(who, k, s), lists: caseLists(k), listing: caseListing(k, c), org: caseOrg(k), write };
 }
 
 /* THE OFFICE'S FEED (Ryan's ask, 2026-10-21, after Notion's Feed view, as
@@ -11709,7 +11709,8 @@ export function caseListing(k, c) {
   if (!kind) return null;
   const m = kind.members, full = String(k.name || '');
   const own = full.startsWith(kind.prefix) ? full.slice(kind.prefix.length).match(/^(?: \d+)?: (.+)$/) : null;
-  let name = flat(own ? own[1] : c ? [c.first, c.last].filter(Boolean).join(' ') : '');
+  // The name they asked to be shown by, once the form asks it, or else the one they gave the form.
+  let name = flat(formAnswer(k.body, m.name)) || flat(own ? own[1] : c ? [c.first, c.last].filter(Boolean).join(' ') : '');
   // The intake names somebody who gave no name by their email, which goes on no public page.
   if (/@/.test(name) || name === 'Unknown') name = '';
   const words = flat(formWords(k.body, m.words)), link = flat(formAnswer(k.body, m.link));
@@ -11739,10 +11740,11 @@ async function wpAsk(path, auth, fetchFn, init = {}) {
   const b = await r.json().catch(() => null);
   return b && typeof b === 'object' ? { b } : { error: 'stimpunks.org’s answer could not be read. Nothing was changed.' };
 }
-async function wpCanSave(auth, fetchFn) {
+async function wpCanSave(auth, fetchFn, upload = false) {
   const a = await wpAsk('/wp-json/wp/v2/users/me?context=edit&_fields=capabilities', auth, fetchFn);
   if (a.error) return a;
   const cap = a.b.capabilities || {};
+  if (upload && cap.upload_files !== true) return { error: 'The WordPress user the office writes as cannot put a logo in the media library. It needs to be an Editor or an Administrator on stimpunks.org.' };
   if (cap.edit_pages !== true || cap.edit_published_pages !== true || cap.edit_others_pages !== true) return { error: 'The WordPress user the office writes as cannot change that page. It needs to be an Editor or an Administrator on stimpunks.org.' };
   if (cap.unfiltered_html !== true) return { error: 'The WordPress user the office writes as cannot save the page without WordPress stripping parts of it, so nothing was changed. It needs to be an Editor or an Administrator on stimpunks.org.' };
   return {};
@@ -11816,6 +11818,265 @@ export async function listingAdd(who, id, f, s = store(), now = Date.now(), fetc
     return { cases: copy, top: topOf(was) };
   }, s);
   return { added: { t: now }, address: got.address, kept, gone };
+}
+
+/* OUR ORGANIZATIONS PAGE, FROM A JOIN REQUEST (Ryan's ask, 2026-10-23: "on the
+   join request, previewed and editable, with the logo they uploaded copied into
+   the media library", with privacy.html#organizations-page said first).
+   stimpunks.org's Organizations page holds one rounded, coloured group block for
+   each organization: a logo if there is one, then the name linked to its website,
+   a dash and its words. A form type in OFFICE_INTAKE that names `organizations`
+   says which page, which of the Join form's questions ask for the words, the
+   website and the logo, and the grounds an entry may stand on. The form asks no
+   name, so a director types it. orgLook, on a press, reads the page, says whose
+   entry this one goes after, which ground the page has used least lately, and
+   whether the name or the website is on it already, and fetches the logos the
+   form kept (WPForms' own uploads on WP_SITE, ORG_LOGO, never anywhere else),
+   each with its camera data taken off (bareImage), so the director can see one
+   and say what it shows; it keeps nothing. orgAdd, on a second press and nowhere
+   else, reads the page again, refuses it if it has changed since the look or the
+   name is on it, fetches the chosen logo again and takes its camera data off
+   again rather than trusting anything the page sends, puts it in stimpunks.org's
+   media library, and writes the page back with one group block added after its
+   last organization and every other byte as it was. It writes as listingAdd's
+   user, through wpAsk. The join request keeps when, sealed. */
+export const ORG_MAX = { name: 120, link: 300, words: 5000, alt: ALT_MAX, logo: 3000000 };
+const ORG_LOGO = /^https:\/\/stimpunks\.org\/wp-content\/uploads\/wpforms\/\d+-[0-9a-f]{32}\/[^/?#\s"<>]+$/;
+const ORG_EXT = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' };
+const ORG_STYLE = '{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}},"border":{"radius":{"topLeft":"33px","topRight":"33px","bottomLeft":"33px","bottomRight":"33px"}}}';
+const ORG_CSS = 'border-top-left-radius:33px;border-top-right-radius:33px;border-bottom-left-radius:33px;border-bottom-right-radius:33px;padding-top:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)';
+
+function orgKind(k) {
+  return Object.values(OFFICE_INTAKE).find((v) => v.record === 'case' && v.type === k.type && v.organizations) || null;
+}
+/* Words in paragraphs: a blank line between two starts a new one, and any other run of space is one space. */
+const orgParas = (v) => String(v == null ? '' : v).split(/\n[ \t]*\n/).map(flat).filter(Boolean);
+
+/* What a join request asked for on the Organizations page, and whether it is there yet. */
+export function caseOrg(k) {
+  const kind = k && orgKind(k);
+  if (!kind) return null;
+  const o = kind.organizations;
+  const words = orgParas(formWords(k.body, o.words)).join('\n\n'), link = flat(formAnswer(k.body, o.link));
+  const logos = formWords(k.body, o.logo).split(/\s+/).filter((u) => ORG_LOGO.test(u)).slice(0, 2);
+  // Its name, once the form asks it; until then a director types it.
+  let name = flat(formAnswer(k.body, o.name));
+  if (/@/.test(name)) name = '';
+  return { gave: { name, words, link, logos: logos.length }, asked: !!(words || link || logos.length), address: o.address,
+    grounds: o.grounds.map(([key, words]) => ({ key, words })), added: k.orgListed && k.orgListed.t ? { t: k.orgListed.t } : null,
+    ready: listingReady(), max: ORG_MAX };
+}
+
+/* The entry as a director has it: { name, link, paras, ground, logo, alt } or { error }. */
+export function orgFields(f, grounds, logos) {
+  f = f && typeof f === 'object' ? f : {};
+  const name = flat(f.name), link = listingLink(f.link), paras = orgParas(f.words), alt = flat(f.alt);
+  if (!name) return { error: 'An organization on the page needs a name. The Join form does not ask for one, so take it from their words or their website.' };
+  if ([...name].length > ORG_MAX.name) return { error: `A name is up to ${ORG_MAX.name} characters.` };
+  if (/\S+@\S+\.\S+/.test(name)) return { error: 'That name looks like an email address, which goes on no public page.' };
+  if ([...paras.join('')].length > ORG_MAX.words) return { error: `Their words are up to ${ORG_MAX.words} characters.` };
+  if (link === null) return { error: 'That link is not a web address. Leave it empty, or give one like https://example.org.' };
+  const ground = grounds.find((g) => g[0] === f.ground);
+  if (!ground) return { error: 'Choose one of the grounds the page’s organizations stand on.' };
+  let logo = null;
+  if (f.logo !== null && f.logo !== undefined && f.logo !== '') {
+    logo = Number(f.logo);
+    if (!Number.isInteger(logo) || logo < 0 || logo >= logos) return { error: 'That is not one of the logos they sent.' };
+    if (!alt) return { error: 'Say in words what the logo shows, for anybody who cannot see it.' };
+    if ([...alt].length > ORG_MAX.alt) return { error: `What the logo shows is up to ${ORG_MAX.alt} characters.` };
+  }
+  return { name, link, paras, ground: ground[0], logo, alt: logo === null ? '' : alt };
+}
+
+/* The entry as the page holds it, in the page's own group block, built from words alone. */
+export function orgHtml(x, media) {
+  const who = x.link ? `<a href="${htmlAttr(x.link)}">${htmlText(x.name)}</a>` : htmlText(x.name);
+  const ps = (x.paras.length ? x.paras : ['']).map((p, i) => `<!-- wp:paragraph -->\n<p>${i ? htmlText(p) : who + (p ? ' - ' + htmlText(p) : '')}</p>\n<!-- /wp:paragraph -->`);
+  const img = media ? `<!-- wp:image {"id":${media.id},"width":"200px","height":"auto","sizeSlug":"full","linkDestination":"none","align":"center"} -->\n`
+    + `<figure class="wp-block-image aligncenter size-full is-resized"><img src="${htmlAttr(media.src)}" alt="${htmlAttr(x.alt)}" class="wp-image-${media.id}" style="width:200px;height:auto"/></figure>\n<!-- /wp:image -->\n\n` : '';
+  return `<!-- wp:group {"style":${ORG_STYLE},"backgroundColor":"${x.ground}","layout":{"type":"constrained"}} -->\n`
+    + `<div class="wp-block-group has-${x.ground}-background-color has-background" style="${ORG_CSS}">${img}${ps.join('\n\n')}</div>\n<!-- /wp:group -->`;
+}
+
+/* The page's organizations: where an entry goes in, the grounds in order, the last one's name, and the names and websites on it. */
+const ORG_BLOCK = /<!-- wp:(?:group|columns) \{[^\n]*?"backgroundColor":"(custom-color-\d+)"[^\n]*\} -->/g;
+export function orgsList(raw) {
+  const g = raw.lastIndexOf('<!-- /wp:group -->'), c = raw.lastIndexOf('<!-- /wp:columns -->');
+  const at = Math.max(g < 0 ? -1 : g + '<!-- /wp:group -->'.length, c < 0 ? -1 : c + '<!-- /wp:columns -->'.length);
+  const blocks = [...raw.matchAll(ORG_BLOCK)];
+  const rest = at < 0 ? raw : raw.slice(at).replace(/<!-- wp:paragraph -->\s*<p><\/p>\s*<!-- \/wp:paragraph -->/g, '');
+  if (at < 0 || !blocks.length || rest.trim() || blocks[blocks.length - 1].index > at) return { error: 'The Organizations page no longer ends with its organizations as the office expects, so nothing was changed. Add it on stimpunks.org.' };
+  const p = raw.slice(blocks[blocks.length - 1].index, at).match(/<p>([\s\S]*?)<\/p>/);
+  const hosts = [...raw.matchAll(/href="(https?:\/\/[^"]+)"/g)].map((m) => { try { return new URL(m[1].replace(/&amp;/g, '&')).hostname.replace(/^www\./, ''); } catch { return ''; } })
+    .filter((h) => h && h !== 'stimpunks.org');
+  return { at, grounds: blocks.map((m) => m[1]), after: p ? plainHtml(p[1]).split(' - ')[0].slice(0, 80) || null : null,
+    names: [...raw.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/g)].map((m) => plainHtml(m[1])).filter(Boolean), hosts };
+}
+/* The ground the page has used least lately, so no two entries side by side match. */
+function freshGround(grounds, used) {
+  let best = null, at = Infinity;
+  for (const [key] of grounds) { const i = used.lastIndexOf(key); if (i < at) { best = key; at = i; } }
+  return best;
+}
+const hostOf = (link) => { try { return new URL(link).hostname.replace(/^www\./, ''); } catch { return ''; } };
+
+/* A picture with everything a camera or a phone writes into it taken off: JPEG
+   segments other than those the picture needs to be drawn, PNG chunks other than
+   those it is drawn from, and WebP's EXIF and XMP chunks. Null when it cannot be
+   read; carriesMetadata checks what comes out. */
+export function bareImage(bytes, kind) {
+  const b = Buffer.from(bytes);
+  if (kind === 'image/jpeg') {
+    const out = [b.subarray(0, 2)];
+    let i = 2;
+    while (i + 2 <= b.length) {
+      if (b[i] !== 0xff) return null;
+      const m = b[i + 1];
+      if (m === 0xff) { i++; continue; }
+      if (m === 0xda) { out.push(b.subarray(i)); return Buffer.concat(out); }
+      if (m === 0x01 || (m >= 0xd0 && m <= 0xd8)) { out.push(b.subarray(i, i + 2)); i += 2; continue; }
+      if (m === 0xd9 || i + 4 > b.length) return null;
+      const end = i + 2 + b.readUInt16BE(i + 2);
+      if (end > b.length || end < i + 4) return null;
+      // APP1 (Exif, XMP), APP13 (Photoshop, IPTC), the other APPn and comments go; APP0, ICC (APP2) and Adobe (APP14) stay.
+      if (!((m >= 0xe1 && m <= 0xef && m !== 0xe2 && m !== 0xee) || m === 0xfe)) out.push(b.subarray(i, end));
+      i = end;
+    }
+    return null;
+  }
+  if (kind === 'image/png') {
+    const keep = new Set(['IHDR', 'PLTE', 'IDAT', 'IEND', 'tRNS', 'gAMA', 'cHRM', 'sRGB', 'iCCP', 'sBIT', 'bKGD', 'pHYs', 'acTL', 'fcTL', 'fdAT']);
+    const out = [b.subarray(0, 8)];
+    let i = 8;
+    while (i + 12 <= b.length) {
+      const type = b.toString('latin1', i + 4, i + 8), end = i + 12 + b.readUInt32BE(i);
+      if (end > b.length) return null;
+      if (keep.has(type)) out.push(b.subarray(i, end));
+      if (type === 'IEND') return Buffer.concat(out);
+      i = end;
+    }
+    return null;
+  }
+  if (kind === 'image/webp') {
+    const out = [];
+    let i = 12;
+    while (i + 8 <= b.length) {
+      const type = b.toString('latin1', i, i + 4), len = b.readUInt32LE(i + 4);
+      if (i + 8 + len > b.length) return null;
+      const end = Math.min(b.length, i + 8 + len + (len & 1));
+      if (type !== 'EXIF' && type !== 'XMP ') {
+        const chunk = Buffer.from(b.subarray(i, end));
+        if (type === 'VP8X' && chunk.length > 8) chunk[8] &= ~0x0c;
+        out.push(chunk);
+      }
+      i = end;
+    }
+    const body = Buffer.concat(out), head = Buffer.alloc(12);
+    head.write('RIFF', 0, 'latin1'); head.writeUInt32LE(body.length + 4, 4); head.write('WEBP', 8, 'latin1');
+    return Buffer.concat([head, body]);
+  }
+  return null;
+}
+/* A logo the Join form kept, fetched from WP_SITE's WPForms uploads and nowhere else, with its camera data off. */
+async function orgLogo(url, fetchFn) {
+  if (!ORG_LOGO.test(url)) return { error: 'That logo is not one the Join form kept on stimpunks.org.' };
+  const big = `Their logo is over ${Math.round(ORG_MAX.logo / 1e6)} MB, so it is added by hand on stimpunks.org.`;
+  const r = await fetchFn(url, { redirect: 'error' }).catch(() => null);
+  if (!r || !r.ok) return { error: `stimpunks.org did not send their logo${r ? ` (it answered ${r.status})` : ''}.` };
+  const said = Number(r.headers && typeof r.headers.get === 'function' ? r.headers.get('content-length') : NaN);
+  if (said > ORG_MAX.logo) return { error: big };
+  const bytes = Buffer.from(await r.arrayBuffer());
+  if (bytes.length > ORG_MAX.logo) return { error: big };
+  const kind = imageKind(bytes);
+  if (!kind) return { error: 'Their logo is not a PNG, JPEG or WebP picture, so it is added by hand on stimpunks.org.' };
+  const bare = bareImage(bytes, kind);
+  if (!bare || carriesMetadata(bare, kind)) return { error: 'Their logo’s camera data could not be taken off, so it is added by hand on stimpunks.org.' };
+  return { bytes: bare, kind };
+}
+async function orgCase(id, s) {
+  const kid = caseId(id);
+  const k = (await readCases(s)).find((x) => x.id === kid);
+  if (!k) return { error: 'That case has been deleted.' };
+  const kind = orgKind(k), asked = caseOrg(k);
+  if (!kind || !asked) return { error: 'Only a join request can add an organization to the Organizations page.' };
+  if (asked.added) return { error: 'Their organization is on the Organizations page already, from this join request. Changing it is done on stimpunks.org.' };
+  if (!asked.asked) return { error: 'They did not fill in the Organizations page part of the Join form, so they have not asked for their organization to be on it.' };
+  const o = kind.organizations;
+  return { k, kid, page: o.page, address: o.address, grounds: o.grounds,
+    logos: formWords(k.body, o.logo).split(/\s+/).filter((u) => ORG_LOGO.test(u)).slice(0, 2) };
+}
+/* Where the entry would go, and their logos to look at, read on a press. */
+export async function orgLook(who, id, name, link, s = store(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const auth = wpAuth();
+  if (!auth || !officeReady()) return { error: 'Adding to the Organizations page is not set up for the office yet.' };
+  const got = await orgCase(id, s);
+  if (got.error) return got;
+  const can = await wpCanSave(auth, fetchFn, got.logos.length > 0);
+  if (can.error) return can;
+  const pg = await wpPage(got.page, auth, fetchFn);
+  if (pg.error) return pg;
+  const list = orgsList(pg.raw);
+  if (list.error) return list;
+  const logos = [];
+  for (const u of got.logos) {
+    const l = await orgLogo(u, fetchFn);
+    logos.push(l.error ? { error: l.error } : { kind: l.kind, data: l.bytes.toString('base64') });
+  }
+  const host = hostOf(listingLink(link) || '');
+  return { modified: pg.modified, after: list.after, ground: freshGround(got.grounds, list.grounds),
+    there: !!flat(name) && list.names.some((x) => foldName(x) === foldName(name)), hostThere: !!host && list.hosts.includes(host), logos };
+}
+/* The one write: the logo into the media library, then the entry after the page's last organization, on a director's second press. */
+export async function orgAdd(who, id, f, s = store(), now = Date.now(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const auth = wpAuth();
+  if (!auth || !officeReady()) return { error: 'Adding to the Organizations page is not set up for the office yet.' };
+  f = f && typeof f === 'object' ? f : {};
+  const got = await orgCase(id, s);
+  if (got.error) return got;
+  const x = orgFields(f, got.grounds, got.logos.length);
+  if (x.error) return x;
+  if (typeof f.modified !== 'string' || !f.modified) return { error: 'Check the Organizations page first, so you can see where the entry goes.' };
+  const can = await wpCanSave(auth, fetchFn, x.logo !== null);
+  if (can.error) return can;
+  const pg = await wpPage(got.page, auth, fetchFn);
+  if (pg.error) return pg;
+  const list = orgsList(pg.raw);
+  if (list.error) return list;
+  if (pg.modified !== f.modified) return { error: 'The Organizations page has changed since you checked it, so nothing was added. Look at where the entry goes now, then add it.',
+    changed: { modified: pg.modified, after: list.after, ground: freshGround(got.grounds, list.grounds), there: list.names.some((n) => foldName(n) === foldName(x.name)) } };
+  if (list.names.some((n) => foldName(n) === foldName(x.name))) return { error: `Something called ${x.name} is on the Organizations page already, so nothing was added. If it is another organization, give the entry a name that tells them apart.` };
+  let media = null;
+  if (x.logo !== null) {
+    const logo = await orgLogo(got.logos[x.logo], fetchFn);
+    if (logo.error) return { error: logo.error + ' Nothing was added. Choose no logo to add the entry without it.' };
+    const slug = x.name.normalize('NFKD').replace(/[^\w\s-]/g, '').trim().toLowerCase().replace(/[\s_-]+/g, '-').slice(0, 60) || 'organization';
+    const up = await wpAsk(`/wp-json/wp/v2/media?${new URLSearchParams({ title: x.name + ' logo', alt_text: x.alt })}`, auth, fetchFn, {
+      method: 'POST', headers: { 'content-type': logo.kind, 'content-disposition': `attachment; filename="${slug}-logo.${ORG_EXT[logo.kind]}"` }, body: logo.bytes,
+    });
+    if (up.error) return { error: up.error.replace('Nothing was changed.', 'Their logo did not go into the media library, and nothing was added.') };
+    if (!Number.isInteger(up.b.id) || up.b.id < 1 || typeof up.b.source_url !== 'string' || !up.b.source_url.startsWith(WP_SITE + '/wp-content/uploads/') || /["<>\s]/.test(up.b.source_url))
+      return { error: 'stimpunks.org took their logo but did not say where it put it, so nothing was added to the page. Look in its media library.' };
+    media = { id: up.b.id, src: up.b.source_url };
+  }
+  const next = pg.raw.slice(0, list.at) + '\n\n' + orgHtml(x, media) + pg.raw.slice(list.at);
+  const put = await wpAsk(`/wp-json/wp/v2/pages/${got.page}?context=edit&_fields=content`, auth, fetchFn, {
+    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ content: next }),
+  });
+  if (put.error) return { error: put.error.replace('Nothing was changed.', media ? `Their logo is in the media library (number ${media.id}), but nothing was added to the Organizations page.` : 'Nothing was added to the Organizations page.') };
+  const kept = put.b.content && put.b.content.raw === next;
+  let gone = false;
+  await updateSealed(CASES, (was) => {
+    const list2 = was && Array.isArray(was.cases) ? was.cases : [];
+    const i = list2.findIndex((y) => y.id === got.kid);
+    gone = i < 0;
+    if (gone) return null;
+    const copy = list2.slice();
+    copy[i] = { ...list2[i], orgListed: { t: now }, edited: now, editedBy: who.handle };
+    return { cases: copy, top: topOf(was) };
+  }, s);
+  return { added: { t: now }, address: got.address, kept, gone, logo: !!media };
 }
 
 /* ── Links and backlinks ───────────────────────────────────────────────────
