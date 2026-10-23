@@ -69,7 +69,9 @@
 }
 .fm-view > h2.fm-topic__title { font: 700 26px/1.25 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: 0; text-transform: none; }
 .fm-lede { font-size: 17px; }
-.cb-h.fm-group, .cb-h.fm-reply-h { font-size: calc(14px * var(--cb-display-scale, 1)); margin-top: 10px; }
+.cb-h.fm-group, .cb-h.fm-reply-h, .cb-h.fm-tools-h { font-size: calc(14px * var(--cb-display-scale, 1)); margin-top: 10px; }
+/* A topic's own controls, last on its page, ruled off from the reply above them. */
+.cb-h.fm-tools-h { margin-top: 18px; padding-top: 14px; border-top: 2px solid var(--cb-bar); }
 .fm .cb-tag { margin-left: 8px; }
 
 /* THE CATEGORIES, each a section of the case, edged like the radio's parts. */
@@ -105,7 +107,7 @@
 .fm-tagchip:hover { text-decoration: underline; }
 .fm-tagchip[aria-current="page"] { border-color: var(--cb-amber); font-weight: 700; }
 .fm-tagfilter { display: grid; gap: 4px; }
-.fm-retag { display: grid; gap: 4px; flex: 1 1 100%; }
+.fm-retag, .fm-moveto { display: grid; gap: 4px; flex: 1 1 100%; }
 .fm-start { display: inline-flex; align-items: center; text-decoration: none; }
 .fm .fm-start { color: var(--cb-steel); }
 
@@ -251,6 +253,7 @@ a.fm-card .fm-card__title { color: var(--cb-amber); text-decoration: underline; 
 
 /* WRITING: the radio's own fields. */
 .fm-compose { display: grid; gap: 6px; padding: 12px 0 4px; border-top: 2px solid var(--cb-bar); }
+.fm-tagsin { display: grid; gap: 6px; }
 .fm-field { width: 100%; }
 .fm-text { display: block; width: 100%; min-height: 9em; resize: vertical; font-size: 16px; line-height: 1.5; }
 .fm-hint { font-size: 13px; }

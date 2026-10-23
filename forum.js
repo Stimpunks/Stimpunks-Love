@@ -1170,8 +1170,11 @@
       title.value = (fresh && fresh.title != null) ? fresh.title : (o.title || '');
       form.appendChild(tl); form.appendChild(title);
     }
-    var tagsIn = null;
+    // Tags go under the words, with the pictures and the poll, so nothing
+    // stands between a topic's title and what it says.
+    var tagsIn = null, tagsRow = null;
     if (o.tags !== undefined) {
+      tagsRow = el('div', 'fm-tagsin');
       var tgl = el('label', 'cb-lab', 'Tags (you can leave this empty)'); tgl.htmlFor = 'fm-tags';
       tagsIn = el('input', 'cb-say fm-field');
       tagsIn.id = 'fm-tags';
@@ -1179,7 +1182,7 @@
       tagsIn.setAttribute('aria-describedby', 'fm-tags-hint');
       var tgh = el('p', 'cb-quiet fm-hint', TAGS_HINT);
       tgh.id = 'fm-tags-hint';
-      form.appendChild(tgl); form.appendChild(tagsIn); form.appendChild(tgh);
+      tagsRow.appendChild(tgl); tagsRow.appendChild(tagsIn); tagsRow.appendChild(tgh);
     }
     if (o.templates && o.templates.length) form.insertBefore(templateRow(), title ? title.previousSibling : null);
     if (o.above) form.appendChild(o.above);
@@ -1271,6 +1274,7 @@
     attach.appendChild(attWhy);
     attach.appendChild(attNote);
     form.appendChild(attach);
+    if (tagsRow) form.appendChild(tagsRow);
 
     /* A POLL, when a topic is started (pollFields, below). */
     var pollOn = false, pollIn = null, pollToggle = null;
@@ -1704,7 +1708,8 @@
       drawTopic(r.body, null, true);
       // The button pressed was redrawn with its post, so the keyboard goes back
       // to that post, or to the topic, where it was, without moving the page.
-      var back = (send.p && root.getElementById('fm-p-' + send.p)) || ((send.action === 'vote' || send.action === 'poll') && view.querySelector('.fm-poll')) || view.querySelector('h2');
+      var back = (send.p && root.getElementById('fm-p-' + send.p)) || ((send.action === 'vote' || send.action === 'poll') && view.querySelector('.fm-poll')) ||
+        ((send.action === 'moderate' || send.action === 'tag') && view.querySelector('.fm-tools-h')) || view.querySelector('h2');
       if (back) { back.tabIndex = -1; back.focus({ preventScroll: true }); }
       if (done) say(done);
     });
@@ -1987,7 +1992,6 @@
     var tl = tagLine(t);
     if (tl) view.appendChild(tl);
     view.appendChild(quiet(goesWords(t)));
-    if (t.mod || t.takeDown || t.retag || t.addPoll) view.appendChild(topicTools(t));
     // A poll stands under the post that opens the topic, or alone when that has been taken down.
     t.posts.forEach(function (p, i) { view.appendChild(postOf(t, p, i)); if (i === 0 && t.poll) view.appendChild(pollOf(t)); });
     if (!t.posts.length && t.poll) view.appendChild(pollOf(t));
@@ -2021,6 +2025,13 @@
       var stillReplying = replying && t.posts.filter(function (p) { return p.id === replying; })[0];
       if (stillReplying) drawReplying(stillReplying); else replying = null;
     }
+    // The topic's own controls come last, after everything in it, so nothing
+    // stands between its title and its words, and a list of other categories
+    // to move it to is never read as the one it is in.
+    if (t.mod || t.takeDown || t.retag || t.addPoll) {
+      view.appendChild(el('h3', 'cb-h fm-tools-h', 'Change this topic'));
+      view.appendChild(topicTools(t));
+    }
     if (keepPlace) { window.scrollTo(0, y); return null; }
     if (focusPost) {
       var a = root.getElementById('fm-p-' + focusPost);
@@ -2038,13 +2049,24 @@
       shut.addEventListener('click', function () { act({ action: 'moderate', t: t.id, close: !t.closed }, t.closed ? 'Open for replies again.' : 'Closed. Only moderators can reply now.'); });
       box2.appendChild(pin);
       box2.appendChild(shut);
-      var ml = el('label', 'sr', 'Move to'); ml.htmlFor = 'fm-move';
+      // Shown with its label, and naming no category until one is chosen.
+      var ml = el('label', 'cb-lab', 'Move it to another category'); ml.htmlFor = 'fm-move';
       var ms = el('select', 'cb-say fm-small');
       ms.id = 'fm-move';
+      var none = el('option', null, 'Choose a category'); none.value = ''; ms.appendChild(none);
       cats.forEach(function (c) { if (c.slug !== t.cat.slug && !c.shelf) { var o = el('option', null, label(c)); o.value = c.slug; ms.appendChild(o); } });
       var mv = el('button', 'cb-btn fm-small', 'Move'); mv.type = 'button';
-      mv.addEventListener('click', function () { act({ action: 'moderate', t: t.id, move: ms.value }, 'Moved.'); });
-      if (ms.children.length) { box2.appendChild(ml); box2.appendChild(ms); box2.appendChild(mv); }
+      mv.addEventListener('click', function () {
+        if (!ms.value) { say('Choose the category to move it to first.'); ms.focus(); return; }
+        act({ action: 'moderate', t: t.id, move: ms.value }, 'Moved.');
+      });
+      if (ms.children.length > 1) {
+        var mt = el('div', 'fm-moveto');
+        var mrow = el('div', 'fm-tpl__row');
+        mrow.appendChild(ms); mrow.appendChild(mv);
+        mt.appendChild(ml); mt.appendChild(mrow);
+        box2.appendChild(mt);
+      }
     }
     if (t.retag) {
       var rt = el('div', 'fm-retag');
