@@ -52,6 +52,8 @@
 .of-find { display: grid; gap: 10px 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
 .of-field { display: grid; gap: 4px; }
 .of-input { width: 100%; }
+/* Write to them in Gmail, with a template: the picker sits beside its label, as wide as its longest name. */
+.of-write .of-input { width: auto; max-width: 100%; }
 .of-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; grid-column: 1 / -1; }
 .of .cb-btn.of-small { min-height: 36px; padding: 4px 10px; display: inline-flex; align-items: center; text-decoration: none; }
 .of .of-row a.cb-btn { color: var(--cb-steel); }

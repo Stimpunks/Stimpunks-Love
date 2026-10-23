@@ -65,6 +65,7 @@ function taskSays(d) {
   }
   var name = typeof d.name === 'string' && d.name ? '“' + d.name + '”' : '';
   var title = d.did === 'recurred' ? (d.why === 'assigned' ? 'A recurring task came round for you' : 'A recurring task came round')
+    : d.did === 'formed' ? (d.why === 'assigned' ? 'A form made a task for you' : 'A form made a task')
     : d.why === 'assigned' ? by + ' assigned you a task'
     : d.why === 'added' ? by + ' put you on a task'
     : d.why === 'removed' ? by + ' took you off a task'

@@ -5577,6 +5577,24 @@ for, go in the description, so nothing sent is lost. **An import from EspoCRM le
 **a bearer token instead of the signature**, which puts the key in every request and every log that ever records one,
 **the plugin deciding names and amounts**, which is two places to change, and **a log line to debug an entry**.
 
+**A JOIN ENTRY MAKES ITS ONBOARDING TASK FROM A TASKS TEMPLATE, AND THE TASK CARRIES A NAME AND LINKS, NEVER ANSWERS.**
+Ryan's brief, 2026-10-22, to make onboarding a new community member less manual (the forum's Onboard Community Member
+guide was every step by hand). **Tasks has templates** (`task-templates`, `saveTaskTemplate` and its kin in `lib.mjs`,
+`#/templates` in `tasks.js`): a name and description that can hold `TASK_FILL_INS` (`{name}`, and `{contact}`, `{case}`
+and `{grant}`, which are links and so go in a description, never a name), priority, tags, who, and days after it is made.
+Tasks starts with `TASK_TEMPLATE_SEED`, written from `data/tasks.json` with fixed ids, read only while the blob does not
+exist, so a seeded template changed or deleted in Tasks stays as it was left. **A form type in `data/office.json`'s intake
+may name `task`**, a seeded template's id (`make-office.py` refuses any other): once `officeIntake` has made the record,
+`makeFromTemplate` makes the task under nobody's name (`by: null`, `tpl`, the `formed` event), filling `{name}` with the
+person's name and the link fill-ins with `[[contact:…]]` and `[[case:…]]`, so the contact and the record list it under
+Linked from. It is made only with the record, so a resend makes neither twice, and a deleted template is said on the
+record. **The Join form (`community`, WPForms 85366) makes a Join Request case**, the office's copy of the entry, which
+needs the plugin's 1.1.0 and the form in wp-config.php's list. The friendly edits are **putting their answers in the task
+"so it is all in one place"** (Tasks is not sealed; the guide already said keep their details out of the task), **making
+`makeFromTemplate` a page's to call**, and **a template naming somebody in the data** (who onboards is chosen in Tasks).
+**Write to them in Gmail takes a mailing template** (`contactWrites`, filled on the server for the contact, a grant
+request's fill-ins from their newest): Gmail opens with the words in its address, and the office still sends nothing.
+
 **THE TEAM MAILBOX FILES ITS EMAIL WITH OUR CONTACTS IN THE OFFICE, AND ONLY THAT EMAIL LEAVES GMAIL.** Ryan's choice,
 2026-10-20 (a script in the mailbox over a bookmarklet, and the whole email over a line about it): `/cb/office/mail`
 (`cb-office-mail.mjs`, the email part of the office section of `lib.mjs`) takes one email at a time from **Stimpunks Gmail

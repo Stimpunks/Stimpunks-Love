@@ -8,6 +8,22 @@
   "_colours": "colours: the tag colours, in the fixed order of the dataviz method's categorical palette (its first seven slots, which pass its colour-blindness and normal-vision checks for neighbours in both light and dark), each declared in love.css as --cb-task-<colour> and --cb-task-<colour>-dark, with the ink that reads on it held in check-contrast.py. Ryan's ask, 2026-10-20: colours on tags, and on the timeline's bars. tag_colours: which colour each tag wears. Twenty-three tags cannot each have a colour anybody could tell apart, so tags take a colour by what they are about, and the legend and every tag's name say which; Weekly and Monthly say how often, not what about, and wear none. Changing a tag's colour is a line here and a run of tools/check-all.sh.",
   "_status_colours": "status_colours: the colour each status wears as a pill, after Notion's, which the team used before Tasks. Ryan's ask, 2026-10-21: Notion shows In progress in light blue, and Started keeps that light blue because Norah and Chelsea key off it, so tools/make-tasks.py refuses Started in any other colour. Not Started is Notion's gray and Completed its green, as Notion's to-do and done; Canceled is brown and Deferred yellow, Notion's colours chosen here. Each is declared in love.css as --cb-status-<colour> with --cb-status-<colour>-ink, the pale fill and the dark ink Notion uses for it, one step for light and dark themes alike so the blue is the same light blue everywhere, and each pair is held in check-contrast.py. A status always shows its name; the colour is never alone.",
   "_lists": "statuses, priorities and tags are EspoCRM's own, word for word, so the tasks brought over keep theirs. done: the statuses that mean a task needs nothing more, which the list hides until asked. Adding a tag is a line here and a run of tools/check-all.sh, as it was an administrator's edit in EspoCRM.",
+  "_templates": "templates: the task templates Tasks starts with (Ryan's ask, 2026-10-22, to make onboarding a new community member less manual). A template is a task to start from: a name, a description, priority, tags, who it goes to and who else is on it, and startAfter and dueAfter, days after the day a task is made from it, or null for no day. tools/make-tasks.py writes these into lib.mjs as TASK_TEMPLATE_SEED, read only until Tasks saves a template, so a seeded template changed or deleted in Tasks stays as it was left; editing one here after that changes nothing there. Each keeps a fixed id (p and twelve letters), so data/office.json's intake can name the one its form's task is made from. The onboarding template's checklist is the forum's Onboard Community Member guide, with its first step now done by the intake.",
+  "_fill_ins": "fill_ins: the words a template's name or description can hold in braces. {name} is somebody's name; {contact}, {case} and {grant} are links to their records in the office, so they go in a description and never a name. Making a task from a template by hand leaves them for the director to replace; the office's intake fills them from the form.",
+  "fill_ins": ["name", "contact", "case", "grant"],
+  "templates": [
+    {
+      "id": "pJoinOnboard1",
+      "name": "Onboard {name} into Community",
+      "priority": "Normal",
+      "tags": ["Community"],
+      "who": null,
+      "with": [],
+      "startAfter": 0,
+      "dueAfter": null,
+      "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them in Gmail on their contact page.\n- [ ] Add them to the mailing lists in Givebutter, if they asked to join one.\n- [ ] Add them to the member map, if they gave a city.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."
+    }
+  ],
   "see": ["director", "board"],
   "statuses": ["Not Started", "Started", "Completed", "Canceled", "Deferred"],
   "done": ["Completed", "Canceled"],

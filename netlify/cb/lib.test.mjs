@@ -3987,7 +3987,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
-  TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment } from './lib.mjs';
+  TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
+  taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, readTaskTpls, TASK_TEMPLATE_SEED } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4571,17 +4572,17 @@ test('a form entry finds or adds its contact by email, makes its record once, an
   const s = memoryStore({ etagOnRead: true });
   const jane = { type: 'mutual_aid', entry: 101, submitted: '2026-10-01', email: 'Jane@Example.com', first: 'Jane', last: 'Doe', name: 'Jane Q Doe', phone: '(555) 555-0100',
     message: '**What do you need?**\nRent help.\n\nForm entry: https://stimpunks.org/wp-admin/admin.php?page=wpforms-entries&view=details&entry_id=101' };
-  assert.deepEqual(await officeIntake(jane, s, T0), { ok: true, record: 'grant', made: true });
+  assert.deepEqual(await officeIntake(jane, s, T0), { ok: true, record: 'grant', made: true, task: false });
   const [c] = await readContacts(s);
   assert.deepEqual([c.first, c.last, c.email, c.phone, c.by], ['Jane', 'Doe', 'jane@example.com', '(555) 555-0100', INTAKE_BY]);
   const [g] = await readGrants(s);
   assert.deepEqual([g.name, g.pipeline, g.stage, g.amount, g.submitted, g.form, g.contact, g.by], ['Aid Request 101: Jane Q Doe', 'Mutual Aid', 'Received', 500, '2026-10-01', 101, c.id, INTAKE_BY]);
   assert.match(g.body, /Rent help\./);
-  assert.deepEqual(await officeIntake(jane, s, T0 + 1), { ok: true, record: 'grant', made: false }, 'a resend made a second record');
+  assert.deepEqual(await officeIntake(jane, s, T0 + 1), { ok: true, record: 'grant', made: false, task: false }, 'a resend made a second record');
   assert.equal((await readGrants(s)).length, 1);
   // The same person again, on another form: name kept, the newest phone taken.
   assert.deepEqual(await officeIntake({ type: 'connection', entry: 102, email: 'JANE@example.com', first: 'Janie', last: 'Doe', phone: '555-0199', message: 'Hello' }, s, T0 + 2),
-    { ok: true, record: 'case', made: true });
+    { ok: true, record: 'case', made: true, task: false });
   const contacts = await readContacts(s);
   assert.deepEqual([contacts.length, contacts[0].first, contacts[0].phone, contacts[0].editedBy], [1, 'Jane', '555-0199', INTAKE_BY]);
   const [k] = await readCases(s);
@@ -4602,12 +4603,58 @@ test('a form entry finds or adds its contact by email, makes its record once, an
   assert.deepEqual([k5.contact, /\*\*Email\*\*\nnot an email/.test(k5.body), /\*\*Phone\*\*\n555-0123/.test(k5.body)], [null, true, true]);
   // An entry brought over from EspoCRM is found by its form entry and not made again.
   await importGrants(TRYAN, [{ espo: '68dd0000000000g77', name: 'Old', pipeline: 'Mutual Aid', stage: 'Denied', closed: '2025-01-01', form: 777, body: '' }], s, T0 + 6);
-  assert.deepEqual(await officeIntake({ type: 'mutual_aid', entry: 777, email: 'jane@example.com' }, s, T0 + 7), { ok: true, record: 'grant', made: false });
+  assert.deepEqual(await officeIntake({ type: 'mutual_aid', entry: 777, email: 'jane@example.com' }, s, T0 + 7), { ok: true, record: 'grant', made: false, task: false });
   // A very long answer is cut short and says so.
   await officeIntake({ type: 'connection', entry: 106, email: 'long@example.com', message: 'x'.repeat(50000) }, s, T0 + 8);
   assert.match((await readCases(s)).find((x) => x.form === 106).body, /Cut short here/);
   for (const bad of [{ type: 'nope' }, { type: '__proto__' }, { type: 'connection', entry: 'abc' }, null]) assert.ok((await officeIntake(bad, s, T0)).error);
   await withOfficeKey(null, async () => assert.equal((await officeIntake(jane, s, T0)).status, 503));
+}));
+
+test('templates: Tasks starts with the seeded ones, a save makes the blob the list, fill-ins are checked, and only task readers see them', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const seeded = await taskTemplates(TCHELSEA, s);
+  assert.deepEqual(seeded.map((x) => x.id), TASK_TEMPLATE_SEED.map((x) => x.id).sort());
+  assert.equal(await taskTemplates(TSAM, s), null);
+  assert.ok((await saveTaskTemplate(TSAM, { name: 'Nope' }, s, T0, TMODS)).error);
+  // A fill-in tasks do not know, and a link fill-in in a name, are refused.
+  assert.match((await saveTaskTemplate(TCHELSEA, { name: 'Hello {person}' }, s, T0, TMODS)).error, /no fill-in called \{person\}/);
+  assert.match((await saveTaskTemplate(TCHELSEA, { name: 'About {contact}' }, s, T0, TMODS)).error, /goes in the description/);
+  assert.match((await saveTaskTemplate(TCHELSEA, { name: 'Late', startAfter: 5, dueAfter: 2 }, s, T0, TMODS)).error, /due before it starts/);
+  const made = await saveTaskTemplate(TCHELSEA, { name: 'Welcome {name}', body: 'See {contact}', who: 'Norah', tags: ['Community'], dueAfter: 7 }, s, T0, TMODS);
+  assert.equal(made.template.by, 'Chelsea');
+  assert.deepEqual([made.template.startAfter, made.template.dueAfter], [null, 7]);
+  // The first save kept the seeded ones beside it; deleting a seeded one keeps it deleted.
+  assert.equal((await readTaskTpls(s)).length, TASK_TEMPLATE_SEED.length + 1);
+  assert.deepEqual(await removeTaskTemplate(TCHELSEA, TASK_TEMPLATE_SEED[0].id, s), { gone: true });
+  assert.equal((await readTaskTpls(s)).some((x) => x.id === TASK_TEMPLATE_SEED[0].id), false, 'a deleted seeded template came back');
+  const changed = await saveTaskTemplate(TRYAN, { id: made.template.id, priority: 'High' }, s, T0 + 1, TMODS);
+  assert.deepEqual([changed.template.priority, changed.template.name, changed.template.editedBy], ['High', 'Welcome {name}', 'Ryan']);
+  assert.equal((await taskTemplate(TCHELSEA, made.template.id, s)).body, 'See {contact}');
+  // A task made from one by hand keeps which.
+  const t = await saveTask(TCHELSEA, { name: 'Welcome Jo', tpl: made.template.id }, s, T0 + 2, TMODS);
+  assert.equal(t.task.tpl, made.template.id);
+});
+
+test('the Join form makes a Join Request case and an onboarding task from its template, linking both, once', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const join = { type: 'community', entry: 900, submitted: '2026-10-22', email: 'kit@example.org', name: 'Kit', message: '**Tell us a bit about yourself**\nHello.' };
+  assert.deepEqual(await officeIntake(join, s, T0, TMODS), { ok: true, record: 'case', made: true, task: true });
+  const [k] = await readCases(s);
+  const [c] = await readContacts(s);
+  assert.deepEqual([k.type, k.name, k.contact], ['Join Request', 'Join Request 900: Kit', c.id]);
+  const [t] = await readTasks(s);
+  assert.deepEqual([t.name, t.by, t.tpl, t.start, t.due, t.tags], ['Onboard Kit into Community', null, 'pJoinOnboard1', '2026-10-22', null, ['Community']]);
+  assert.ok(t.body.includes(`[[case:${k.id}]]`) && t.body.includes(`[[contact:${c.id}]]`), 'the task does not link the case and the contact');
+  assert.ok(!t.body.includes('kit@example.org'), 'the task carries their email');
+  // A resend makes neither twice.
+  assert.deepEqual(await officeIntake(join, s, T0 + 1, TMODS), { ok: true, record: 'case', made: false, task: false });
+  assert.equal((await readTasks(s)).length, 1);
+  // With its template deleted from Tasks, the case says so and no task is made.
+  await removeTaskTemplate(TCHELSEA, 'pJoinOnboard1', s);
+  assert.deepEqual(await officeIntake({ ...join, entry: 901, email: 'lee@example.org', name: 'Lee' }, s, T0 + 2, TMODS), { ok: true, record: 'case', made: true, task: false });
+  assert.match((await readCases(s)).find((x) => x.form === 901).body, /No task was made for this/);
+  assert.equal((await readTasks(s)).length, 1);
 }));
 
 test('fifteen form entries at once, one person: one contact and fifteen cases, none lost and no number twice; the same entry fifteen times makes one', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
@@ -4852,7 +4899,7 @@ test('the dashboard works its figures out from the records: EspoCRM’s four rep
   assert.deepEqual(r.awarded.map((x) => [x.year, x.counts, x.sums]), [['2026', [1, 0], [500, 0]]]);
   assert.deepEqual(r.grantees.map((x) => [x.name, x.contactName, x.closed, x.amount]), [['D', 'Ada Lovelace', '2026-03-02', 500]]);
   assert.deepEqual(r.casesByStatus.map((x) => [x.status, x.count]), [['New', 1], ['Assigned', 0], ['Replied', 0], ['Closed', 1], ['Spam', 0]]);
-  assert.deepEqual(r.casesByYear.map((x) => [x.year, x.counts]), [['2026', [2, 0]]]);
+  assert.deepEqual(r.casesByYear.map((x) => [x.year, x.counts]), [['2026', [2, 0, 0]]]);
   assert.equal(r.noSubmitted, 0);
 }));
 
@@ -4912,6 +4959,20 @@ test('each night the office keeps what was open, sealed, one line a night, and t
 }));
 
 const DEAR = { name: 'Holding note', subject: 'About {grant}', body: 'Dear {first},\n\nYour {amount} request is at {stage} in {pipeline}, sent {submitted}.\n\nStimpunks' };
+
+test('a contact\'s page has every mailing template filled in for them, and says which need a grant request they have not made', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await saveTemplate(TRYAN, { name: 'Welcome', subject: 'Welcome, {first}', body: 'Dear {name},\nYou are in.' }, s, T0);
+  await saveTemplate(TRYAN, { name: 'Granted', subject: 'Your {grant}', body: '{amount} is on its way.' }, s, T0);
+  const kit = (await saveContact(TRYAN, { first: 'Kit', last: 'Lee', email: 'kit@example.org' }, s, T0)).contact;
+  let w = (await officeContact(TRYAN, kit.id, s)).writes;
+  assert.deepEqual(w.map((x) => [x.name, x.subject || null, x.missing]), [['Granted', null, ['{grant}', '{amount}']], ['Welcome', 'Welcome, Kit', []]]);
+  assert.equal(w[1].body, 'Dear Kit Lee,\nYou are in.');
+  await saveGrant(TRYAN, { name: 'Aid Request 7: Kit Lee', pipeline: 'Mutual Aid', amount: 500, submitted: '2026-10-01', contact: kit.id }, s, T0 + 1);
+  w = (await officeContact(TRYAN, kit.id, s)).writes;
+  assert.deepEqual([w[0].subject, w[0].body, w[0].missing, w[0].from], ['Your Aid Request 7: Kit Lee', '$500 is on its way.', [], 'Aid Request 7: Kit Lee']);
+  assert.equal(await officeContact(TSAM, kit.id, s), null);
+}));
 
 test('a mailing template refuses a fill-in the office does not know', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });

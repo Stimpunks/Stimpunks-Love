@@ -1,5 +1,5 @@
 {
-  "_about": "The office's settings, written by tools/make-office.py between the office:settings markers in netlify/cb/lib.mjs, the only copy the server reads. The pipelines and their stages are EspoCRM's, word for word and in its order (read 2026-10-20): each stage says which status it puts a grant request in, and the first stage of each is where a new one starts. Statuses are EspoCRM's three. Amounts are whole dollars, as EspoCRM held every one. Cases are EspoCRM's too: its two types, its seven statuses in its order, each saying whether a case is still open, and its four priorities. The intake says what each of stimpunks.org's forms makes when the WPForms plugin posts an entry: its name's prefix, and a grant request's pipeline and amount or a case's type, as the plugin made them in EspoCRM.",
+  "_about": "The office's settings, written by tools/make-office.py between the office:settings markers in netlify/cb/lib.mjs, the only copy the server reads. The pipelines and their stages are EspoCRM's, word for word and in its order (read 2026-10-20): each stage says which status it puts a grant request in, and the first stage of each is where a new one starts. Statuses are EspoCRM's three. Amounts are whole dollars, as EspoCRM held every one. Cases are EspoCRM's too: its two types (and Join Request, added here on 2026-10-22 for the Join form, which EspoCRM never had), its seven statuses in its order, each saying whether a case is still open, and its four priorities. The intake says what each of stimpunks.org's forms makes when the WPForms plugin posts an entry: its name's prefix, and a grant request's pipeline and amount or a case's type, as the plugin made them in EspoCRM. Since 2026-10-22 a form type may also name `task`, the id of one of the task templates in data/tasks.json: once the intake has made the record, it makes a task from that template, its {name}, {contact} and {case} or {grant} filled from the form (Ryan's ask, to make onboarding a new community member less manual). The Join form (`community`) makes a Join Request case, which is the office's copy of the form entry, and an onboarding task linking it and the contact.",
   "statuses": [
     "Open",
     "Granted",
@@ -69,7 +69,8 @@
   "cases": {
     "types": [
       "Connection Request",
-      "Volunteer Application"
+      "Volunteer Application",
+      "Join Request"
     ],
     "statuses": [
       {
@@ -123,6 +124,12 @@
       "record": "case",
       "prefix": "Volunteer Application",
       "type": "Volunteer Application"
+    },
+    "community": {
+      "record": "case",
+      "prefix": "Join Request",
+      "type": "Join Request",
+      "task": "pJoinOnboard1"
     }
   },
   "_dashboard": "dashboard: the operations dashboard's settings. active_cap is EspoCRM's 'Active Grant Applications (100 cap)': how many open grant requests submitted this calendar year each pipeline is capped at (Ryan, 2026-10-21: 100 per pipeline). Changing it is a line here and a run of tools/check-all.sh.",

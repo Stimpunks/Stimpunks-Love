@@ -8221,6 +8221,8 @@ export const TASK_STATUS_COLOURS = {"Not Started": "gray", "Started": "blue", "C
 export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
+export const TASK_FILL_INS = ["name", "contact", "case", "grant"];
+export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them in Gmail on their contact page.\n- [ ] Add them to the mailing lists in Givebutter, if they asked to join one.\n- [ ] Add them to the member map, if they gave a city.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
 /* tasks:settings:end */
 export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
@@ -8307,6 +8309,7 @@ export function shapeTask(t, whole = false) {
   if (t.espo) out.espo = t.espo;
   if (t.notion) out.notion = t.notion;
   if (t.recur) { out.recur = t.recur; out.on = t.on; }
+  if (t.tpl) out.tpl = t.tpl;
   if (whole) {
     out.body = t.body || '';
     out.blocks = parseBrass(t.body || '', { boxes: true, refs: true });
@@ -8365,6 +8368,8 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods) {
     const next = had ? { ...had, ...r.fields } : { id: newTaskId(), name: null, status: TASK_STATUSES[0], priority: TASK_DEFAULT_PRIORITY,
       start: null, due: null, body: '', who: null, with: [], tags: [], t: now, by: who.handle, ...r.fields };
     if (!next.name) { why = 'Give the task a name.'; return null; }
+    // Made from a template by hand: which one, for the task's page to say.
+    if (!had && !from && taskTplId(f.tpl)) next.tpl = taskTplId(f.tpl);
     if (espo) next.espo = espo;
     if (notion) next.notion = notion;
     // Finished when it became Completed, and not finished when it stops being.
@@ -9098,6 +9103,161 @@ export async function removeRecur(who, id, s = store()) {
   return { gone: true };
 }
 
+/* TEMPLATES (Ryan's ask, 2026-10-22, to make onboarding a new community
+   member less manual): a task to start from, as a forum template is a topic
+   to start from. Every one is the team's, in one blob, task-templates, and
+   keeps a name, a description, who its tasks go to and who else is on them,
+   their priority and tags, `startAfter` and `dueAfter` (days after the day a
+   task is made from it, or null for no day), who made it and changed it and
+   when.
+
+   A NAME OR A DESCRIPTION CAN HOLD FILL-INS, TASK_FILL_INS from data/tasks.json:
+   {name}, somebody's name, and {contact}, {case} and {grant}, links to their
+   records in the office. Making a task from a template by hand puts those in
+   the form for the director to replace (tasks.js refuses to save one still
+   there); the office's intake fills them itself (makeFromTemplate), because a
+   form says who and makes the records. A link fill-in goes in the description
+   and never the name, because a name is plain words.
+
+   THE TEMPLATES TASKS STARTS WITH are TASK_TEMPLATE_SEED, written from
+   data/tasks.json, each with a fixed id so data/office.json's intake can name
+   one. They are read only while the blob does not exist: once anybody saves a
+   template, the blob is the list, so a seeded template changed or deleted in
+   Tasks stays as it was left. A task made from a template keeps `tpl`, which
+   one. Deleting a template leaves the tasks made from it. */
+export const TASK_TEMPLATES_KEEP = 200;
+const TASK_TEMPLATES = 'task-templates';
+export function taskTplId(v) { return typeof v === 'string' && /^p[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newTaskTplId = () => 'p' + randomBytes(9).toString('base64url');
+const TASK_FILL_LINK = { contact: 'contact', case: 'case', grant: 'grant' };
+
+/* The fill-ins in some words that tasks do not know, each once. */
+export function unknownTaskFills(text) {
+  const out = [];
+  for (const m of String(text || '').matchAll(/\{(\w+)\}/g)) if (!TASK_FILL_INS.includes(m[1]) && !out.includes(m[0])) out.push(m[0]);
+  return out;
+}
+
+export async function readTaskTpls(s = store()) {
+  const d = await s.get(TASK_TEMPLATES, { type: 'json' });
+  if (!d) return TASK_TEMPLATE_SEED.map((x) => ({ ...x, t: 0, by: null }));
+  return Array.isArray(d.templates) ? d.templates : [];
+}
+async function updateTaskTpls(change, s) {
+  let out = null;
+  await updateDoc(TASK_TEMPLATES, (cur) => {
+    const list = cur && Array.isArray(cur.templates) ? cur.templates.slice() : TASK_TEMPLATE_SEED.map((x) => ({ ...x, t: 0, by: null }));
+    const next = change(list);
+    out = next;
+    return next === null ? null : { templates: next };
+  }, s);
+  return out;
+}
+
+export function shapeTaskTpl(p, whole = false) {
+  const out = { id: p.id, name: p.name, priority: p.priority, who: p.who || null, with: p.with || [], tags: p.tags || [],
+    startAfter: p.startAfter == null ? null : p.startAfter, dueAfter: p.dueAfter == null ? null : p.dueAfter,
+    t: p.t || null, by: p.by || null, edited: p.edited || null, editedBy: p.editedBy || null };
+  if (whole) { out.body = p.body || ''; out.blocks = parseBrass(p.body || '', { boxes: true, refs: true }); } else out.words = [...(p.body || '')].length;
+  return out;
+}
+
+export async function taskTemplates(who, s = store()) {
+  if (!tasksAllow(who)) return null;
+  return (await readTaskTpls(s)).map((p) => shapeTaskTpl(p)).sort((a, b) => a.name.localeCompare(b.name));
+}
+export async function taskTemplate(who, id, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const p = (await readTaskTpls(s)).find((x) => x.id === taskTplId(id));
+  return p ? shapeTaskTpl(p, true) : null;
+}
+
+/* A template made, or changed, as saveRecur does a recurring task: only the
+   fields sent change. Its name is checked as a task's is, with room for what
+   {name} becomes. */
+export async function saveTaskTemplate(who, f, s = store(), now = Date.now(), mods) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
+  f = f || {};
+  const people = taskPeople(mods);
+  let saved = null, why = null;
+  await updateTaskTpls((list) => {
+    why = null; saved = null;
+    const k = f.id != null ? list.findIndex((x) => x.id === taskTplId(f.id)) : -1;
+    if (f.id != null && k < 0) { why = 'That template has been deleted.'; return null; }
+    const had = k >= 0 ? list[k] : null;
+    if (!had && list.length >= TASK_TEMPLATES_KEEP) { why = `There can be up to ${TASK_TEMPLATES_KEEP} templates. Delete one first.`; return null; }
+    const pick = {};
+    for (const key of ['name', 'priority', 'body', 'who', 'with', 'tags']) if (f[key] !== undefined) pick[key] = f[key];
+    const r = taskFields(pick, had, people);
+    if (r.error) { why = r.error; return null; }
+    const out = r.fields;
+    for (const [key, word] of [['startAfter', 'starts'], ['dueAfter', 'is due']]) {
+      if (f[key] === undefined) continue;
+      if (f[key] === null || f[key] === '') { out[key] = null; continue; }
+      if (!Number.isInteger(f[key]) || f[key] < 0 || f[key] > TASK_AFTER_MAX) { why = `Each task ${word} a whole number of days after it is made, from 0 to ${TASK_AFTER_MAX}, or on no day.`; return null; }
+      out[key] = f[key];
+    }
+    const next = had ? { ...had, ...out } : { id: newTaskTplId(), name: null, priority: TASK_DEFAULT_PRIORITY, body: '', who: null,
+      with: [], tags: [], startAfter: null, dueAfter: null, t: now, by: who.handle, ...out };
+    if (!next.name) { why = 'Give the template a name.'; return null; }
+    if (next.startAfter != null && next.dueAfter != null && next.dueAfter < next.startAfter) { why = 'A task cannot be due before it starts.'; return null; }
+    const unknown = unknownTaskFills(next.name + '\n' + next.body);
+    if (unknown.length) { why = `Tasks have no fill-in called ${unknown.join(', ')}. They know ${TASK_FILL_INS.map((x) => '{' + x + '}').join(', ')}.`; return null; }
+    const linked = Object.keys(TASK_FILL_LINK).filter((x) => next.name.includes('{' + x + '}'));
+    if (linked.length) { why = `${linked.map((x) => '{' + x + '}').join(' and ')} is a link, so it goes in the description, not the name.`; return null; }
+    if (had) { next.edited = now; next.editedBy = who.handle; }
+    saved = next;
+    const copy = list.slice();
+    if (had) copy[k] = next; else copy.push(next);
+    return copy;
+  }, s);
+  if (why) return { error: why };
+  return { template: shapeTaskTpl(saved, true) };
+}
+
+/* Deleting a template makes no more tasks from it; the ones made stay. */
+export async function removeTaskTemplate(who, id, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  let gone = false;
+  await updateTaskTpls((list) => {
+    gone = list.some((x) => x.id === taskTplId(id));
+    return gone ? list.filter((x) => x.id !== taskTplId(id)) : null;
+  }, s);
+  if (!gone) return { error: 'That template has already been deleted.' };
+  return { gone: true };
+}
+
+/* A task made from a template by the office's intake, never by a page: its
+   fill-ins filled from `fill` ({ name, contact, case, grant }, the last three
+   ids), starting and due so many days after `day`, under nobody's name, as a
+   recurring task's task is, keeping which template made it. A fill-in with
+   nothing to fill it says so in words rather than staying a fill-in. Answers
+   the task, or null when there is no such template. */
+async function makeFromTemplate(id, fill, day0, s, now, mods) {
+  const p = (await readTaskTpls(s)).find((x) => x.id === taskTplId(id));
+  if (!p) return null;
+  const words = { name: [...tidy(fill.name || '')].slice(0, 120).join('') || 'somebody' };
+  for (const [k, kind] of Object.entries(TASK_FILL_LINK)) {
+    const ok = fill[k] && LINK_KINDS[kind].ok(fill[k]);
+    words[k] = ok ? `[[${kind}:${fill[k]}]]` : `(no ${LINK_KINDS[kind].words.replace(/^an? /, '')})`;
+  }
+  const filled = (text) => String(text || '').replace(/\{(\w+)\}/g, (m, k) => (Object.hasOwn(words, k) ? words[k] : m));
+  const task = { id: newTaskId(), name: [...filled(p.name).replace(/\s+/g, ' ').trim()].slice(0, TASK_NAME_MAX).join(''),
+    status: TASK_STATUSES[0], priority: p.priority || TASK_DEFAULT_PRIORITY,
+    start: p.startAfter == null ? null : addDays(day0, p.startAfter), due: p.dueAfter == null ? null : addDays(day0, p.dueAfter),
+    body: [...filled(p.body)].slice(0, TASK_BODY_MAX).join(''), who: p.who || null, with: p.with || [], tags: p.tags || [],
+    t: now, by: null, tpl: p.id };
+  // Who it goes to is checked again, so a template naming somebody no longer on the list makes a task for nobody.
+  const people = taskPeople(mods);
+  const live = (h) => people.find((x) => foldHandle(x) === foldHandle(h)) || null;
+  task.who = task.who ? live(task.who) : null;
+  task.with = task.with.map(live).filter(Boolean);
+  await updateList(TASKS, 'tasks', (list) => list.concat([task]), s);
+  await noteTask('formed', null, null, task, s, now, mods).catch(() => null);
+  return task;
+}
+
 /* ── The office ───────────────────────────────────────────────────────────
 
    Ryan's brief, 2026-10-20: contacts, grant requests and cases, moved here
@@ -9121,8 +9281,8 @@ export async function removeRecur(who, id, s = store()) {
 export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
-export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
-export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}};
+export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application", "Join Request"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
+export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1"}};
 export const OFFICE_DASHBOARD = {"active_cap": 100};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
@@ -9247,11 +9407,36 @@ export async function officeContact(who, id, s = store()) {
   const c = (await readContacts(s)).find((x) => x.id === contactId(id));
   if (!c) return null;
   const one = new Map([[c.id, c]]);
-  const [grants, cases] = await Promise.all([readGrants(s), readCases(s)]);
+  const [grants, cases, templates] = await Promise.all([readGrants(s), readCases(s), readTemplates(s)]);
   const [mail, box] = await Promise.all([readSealed(mailIndexKey(c.id), s), readSealed(MAILBOX, s)]);
-  return { ...shapeContact(c, true), grants: grants.filter((g) => g.contact === c.id).map((g) => shapeGrant(g, one)),
+  const theirs = grants.filter((g) => g.contact === c.id);
+  return { ...shapeContact(c, true), grants: theirs.map((g) => shapeGrant(g, one)),
     cases: cases.filter((k) => k.contact === c.id).map((k) => shapeCase(k, one)),
-    mail: mail && Array.isArray(mail.mail) ? mail.mail : [], mailbox: box && box.address ? box.address : null };
+    mail: mail && Array.isArray(mail.mail) ? mail.mail : [], mailbox: box && box.address ? box.address : null,
+    writes: contactWrites(c, theirs, templates) };
+}
+
+/* WRITE TO THEM IN GMAIL, WITH A TEMPLATE (Ryan's ask, 2026-10-22): every
+   mailing template filled in for one contact, as a mailing fills it for each
+   person, so the contact's page can open Gmail's compose window with the
+   subject and words ready and a director reads them there before sending. A
+   grant request's fill-ins come from their newest grant request; a template
+   whose fill-ins nothing here can fill says which, and is not filled. The
+   office still sends nothing itself. */
+const GRANT_FILLS = ['grant', 'amount', 'pipeline', 'stage', 'submitted'];
+function contactWrites(c, grants, templates) {
+  const name = [c.first, c.last].filter(Boolean).join(' ');
+  const g = grants.slice().sort((a, b) => String(b.submitted || '').localeCompare(String(a.submitted || '')) || (b.t || 0) - (a.t || 0))[0] || null;
+  const values = { first: c.first || name, last: c.last || '', name };
+  if (g) Object.assign(values, { grant: g.name, amount: moneyWords(g.amount), pipeline: g.pipeline, stage: g.stage, submitted: dayWordsOf(g.submitted) });
+  return templates.map((t) => {
+    const used = [...new Set([...String(t.subject + '\n' + t.body).matchAll(/\{(\w+)\}/g)].map((m) => m[1]))];
+    const missing = used.filter((k) => GRANT_FILLS.includes(k) && !g).map((k) => '{' + k + '}');
+    const out = { id: t.id, name: t.name, missing };
+    if (!missing.length) { out.subject = fillIn(t.subject, values); out.body = fillIn(t.body, values); }
+    if (g && used.some((k) => GRANT_FILLS.includes(k))) out.from = g.name;
+    return out;
+  }).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /* One contact made or changed in a list already open: only the fields sent
@@ -9852,7 +10037,7 @@ function intakeBody(text, max) {
   return [...t].slice(0, max - 80).join('') + '\n\n(Cut short here: the whole answer is on the form entry.)';
 }
 
-export async function officeIntake(sub, s = store(), now = Date.now()) {
+export async function officeIntake(sub, s = store(), now = Date.now(), mods) {
   if (!officeReady()) return { error: 'The office is shut.', status: 503 };
   sub = sub && typeof sub === 'object' ? sub : {};
   const kind = typeof sub.type === 'string' && Object.prototype.hasOwnProperty.call(OFFICE_INTAKE, sub.type) ? OFFICE_INTAKE[sub.type] : null;
@@ -9887,10 +10072,14 @@ export async function officeIntake(sub, s = store(), now = Date.now()) {
     if (!contact) extra.push(['Contact', `${display} · ${email}${phone ? ' · ' + phone : ''}`]);
   } else if (phone) extra.push(['Phone', phone]);
 
+  // A form type that names a task template makes a task from it too, once its record is made; one whose
+  // template has been deleted from Tasks says so on the record, rather than making nothing in silence.
+  const tpl = kind.task ? (await readTaskTpls(s)).find((x) => x.id === kind.task) || null : null;
+  if (kind.task && !tpl) extra.push(['Task', `No task was made for this: Tasks no longer has the template this form's tasks are made from (${kind.task}). Make one by hand, or a template, in Tasks.`]);
   const lines = extra.map(([k, v]) => `**${k}**\n${v}`);
   const name = [...(entry ? `${kind.prefix} ${entry}: ${display}` : `${kind.prefix}: ${display}`)].slice(0, 200).join('');
   const contacts = await readContacts(s);
-  let made = false, why = null;
+  let made = false, why = null, rec = null;
   if (kind.record === 'grant') {
     const body = intakeBody([...lines, sub.message].filter(Boolean).join('\n\n'), GRANT_BODY_MAX);
     await updateSealed(GRANTS, (was) => {
@@ -9899,7 +10088,7 @@ export async function officeIntake(sub, s = store(), now = Date.now()) {
       if (entry && list.some((g) => g.form === entry)) return null;
       const r = applyGrant(list, { name, pipeline: kind.pipeline, amount: kind.amount, submitted, contact, form: entry, body }, INTAKE_WHO, now, contacts);
       if (r.error) { why = r.error; return null; }
-      made = true;
+      made = true; rec = r.saved.id;
       return { grants: r.list };
     }, s);
   } else {
@@ -9911,12 +10100,19 @@ export async function officeIntake(sub, s = store(), now = Date.now()) {
       const top = topOf(was);
       const r = applyCase(list, { name, type: kind.type, submitted, contact, form: entry, body }, INTAKE_WHO, now, contacts, top);
       if (r.error) { why = r.error; return null; }
-      made = true;
+      made = true; rec = r.saved.id;
       return { cases: r.list, top: Math.max(top, r.saved.number) };
     }, s);
   }
   if (why) return { error: why };
-  return { ok: true, record: kind.record, made };
+  // The task links the record the form made and the contact, so each of those lists it under Linked from;
+  // it is made only with the record, so a retry or a resend makes neither twice.
+  let task = null;
+  if (made && tpl) {
+    if (mods === undefined) mods = await loadMods();
+    task = await makeFromTemplate(tpl.id, { name: display, contact, [kind.record]: rec }, submitted, s, now, mods);
+  }
+  return { ok: true, record: kind.record, made, task: !!task };
 }
 
 /* EMAIL: the team mailbox's correspondence with our contacts, kept whole (Ryan's

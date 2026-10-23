@@ -2,9 +2,10 @@
    username holding one of TASK_SEE's roles, or administrator; everybody else
    is told nothing. GET, with ?view=:
      list                    every task, without its description, who a task can be assigned to,
-                             the reader's own saved filters, and every recurring task; any task a
-                             recurring task owes is made first
+                             the reader's own saved filters, every recurring task and every template;
+                             any task a recurring task owes is made first
      recur    &id=           one recurring task, its description as words and as nodes, and the tasks it made
+     template &id=           one template, its description as words and as nodes, and the tasks made from it
      task     &id=           one task, its description as words and as nodes, its comments, oldest
                              first, and its activity, newest first
      inbox                   the reader's own notifications, newest first, how many are unread, and the
@@ -39,23 +40,29 @@
      { action: 'recur-save', id?, espo?, name?, body?, who?, with?, tags?, priority?, repeats?, next?,
        startAfter?, dueAfter?, on? }                 a recurring task, new or changed; only the fields sent change
      { action: 'recur-remove', id }                  a recurring task deleted; the tasks it made stay
+     { action: 'template-save', id?, name?, body?, who?, with?, tags?, priority?, startAfter?, dueAfter? }
+                                                     a template, new or changed; only the fields sent change
+     { action: 'template-remove', id }               a template deleted; the tasks made from it stay
+   A task saved with tpl, a template's id, keeps which template it was made from.
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
-  removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, parseBrass, nameRefs, findLinks, backlinksTo,
+  removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
-  TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS, TASK_STATUS_COLOURS } from '../cb/lib.mjs';
+  TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_FILL_INS, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS, TASK_STATUS_COLOURS } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere.
 const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
   repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS, statusColours: TASK_STATUS_COLOURS, feedPage: FEED_PAGE,
-  commentMax: TASK_COMMENT_MAX };
+  commentMax: TASK_COMMENT_MAX, fillIns: TASK_FILL_INS };
 
-/* A task a recurring task made says which, while that recurring task is there. */
+/* A task a recurring task made says which, while that recurring task is there, and so does one made
+   from a template. */
 async function withFrom(who, t) {
   if (t && t.recur) { const r = await taskRecur(who, t.recur); t.from = r ? { id: r.id, name: r.name } : null; }
+  if (t && t.tpl) { const p = await taskTemplate(who, t.tpl); t.fromTpl = p ? { id: p.id, name: p.name } : null; }
   return t;
 }
 
@@ -79,14 +86,20 @@ export default async (req) => {
       if (view === 'list') {
         // Whatever a recurring task owes is made before the list is read, so nobody waits for the hour.
         try { await makeRecurring(); } catch (e) { /* the hourly run makes it */ }
-        const [tasks, views, recurs, inbox] = await Promise.all([tasksList(who), taskViews(who), taskRecurs(who), taskInbox(who)]);
-        return answer(200, { me, settings, people: taskPeople(), tasks, views, recurs, unread: inbox.unread }, QUIET);
+        const [tasks, views, recurs, templates, inbox] = await Promise.all([tasksList(who), taskViews(who), taskRecurs(who), taskTemplates(who), taskInbox(who)]);
+        return answer(200, { me, settings, people: taskPeople(), tasks, views, recurs, templates, unread: inbox.unread }, QUIET);
       }
       if (view === 'recur') {
         const r = await taskRecur(who, url.searchParams.get('id'));
         if (!r) return json(404, { error: 'That recurring task has been deleted.' }, QUIET);
         const made = (await tasksList(who)).filter((t) => t.recur === r.id);
         return answer(200, { me, settings, people: taskPeople(), recur: r, made }, QUIET);
+      }
+      if (view === 'template') {
+        const p = await taskTemplate(who, url.searchParams.get('id'));
+        if (!p) return json(404, { error: 'That template has been deleted.' }, QUIET);
+        const made = (await tasksList(who)).filter((t) => t.tpl === p.id);
+        return answer(200, { me, settings, people: taskPeople(), template: p, made }, QUIET);
       }
       if (view === 'task') {
         const t = await taskOne(who, url.searchParams.get('id'));
@@ -154,6 +167,14 @@ export default async (req) => {
     }
     if (b.action === 'recur-remove') {
       const r = await removeRecur(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'template-save') {
+      const r = await saveTaskTemplate(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { template: r.template }, QUIET);
+    }
+    if (b.action === 'template-remove') {
+      const r = await removeTaskTemplate(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
     }
     return json(400, { error: 'Do what with it?' }, QUIET);

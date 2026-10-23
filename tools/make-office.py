@@ -28,6 +28,9 @@ the code does):
   · AN INTAKE THAT TRUSTS WHAT IT IS SENT: /cb/office/intake checks the
     signature before it reads the body as anything, and is shut without its
     key; the key is read in one place, from the environment.
+  · A FORM TYPE NAMING A TASK TEMPLATE THAT IS NOT THERE: an intake type's
+    `task` is one of the templates Tasks starts with, in data/tasks.json, and
+    it holds nothing the intake does not read.
   · MAIL THAT IS NOT OURS TO KEEP: the mailbox script's endpoint checks its own
     key's signature first, an email that is with nobody in the office is kept
     nowhere, and the script is given keyed hashes of addresses, never addresses.
@@ -119,6 +122,7 @@ def settings(data):
     if not isinstance(cases.get("priorities"), list) or cases.get("default_priority") not in (cases.get("priorities") or []):
         problems.append(f"{DATA.name}: cases.priorities lists the priorities, and default_priority is one of them.")
     intake = data.get("intake")
+    seeded = [t.get("id") for t in (json.loads((ROOT / "data" / "tasks.json").read_text()).get("templates") or []) if isinstance(t, dict)]
     if not isinstance(intake, dict) or not intake:
         problems.append(f"{DATA.name}: intake says what each form type makes.")
     else:
@@ -133,6 +137,12 @@ def settings(data):
                     problems.append(f"{DATA.name}: intake.{k} makes a case, so it names one of the case types.")
             else:
                 problems.append(f"{DATA.name}: intake.{k} makes a grant request or a case (record: grant or case).")
+            # A form type may name the task template its task is made from: one Tasks starts with,
+            # in data/tasks.json, so a typo here is caught rather than making no task in silence.
+            if isinstance(v, dict) and "task" in v and v["task"] not in seeded:
+                problems.append(f"{DATA.name}: intake.{k}'s task names {v['task']!r}, which is not one of the templates in data/tasks.json.")
+            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task"}:
+                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task'}))}, which the intake does not read.")
     cap = (data.get("dashboard") or {}).get("active_cap")
     if not isinstance(cap, int) or isinstance(cap, bool) or cap < 1:
         problems.append(f"{DATA.name}: dashboard.active_cap is a whole number of grant requests, 1 or more.")

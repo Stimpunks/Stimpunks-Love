@@ -66,6 +66,7 @@
   var navTime = el('a', 'cb-btn tk-navlink', 'Timeline'); navTime.href = '#/timeline';
   var navFeed = el('a', 'cb-btn tk-navlink', 'Feed'); navFeed.href = '#/feed';
   var navRecur = el('a', 'cb-btn tk-navlink', 'Recurring'); navRecur.href = '#/recurring';
+  var navTpl = el('a', 'cb-btn tk-navlink', 'Templates'); navTpl.href = '#/templates';
   var navNew = el('a', 'cb-btn tk-navlink', 'New task'); navNew.href = '#/new';
   // Notifications, with how many are unread beside it (numbers are fine in tasks).
   var navInbox = el('a', 'cb-btn tk-navlink', 'Notifications'); navInbox.href = '#/inbox';
@@ -78,7 +79,7 @@
   var navOffice = el('a', 'cb-btn tk-navlink tk-navlink--other', 'Office'); navOffice.href = '/office.html#/dashboard';
   // And the forums, where the team's documents and the rest of the conversation are.
   var navForums = el('a', 'cb-btn tk-navlink', 'Forums'); navForums.href = '/forum.html#/';
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navNew); nav.appendChild(navInbox); nav.appendChild(navOffice); nav.appendChild(navForums);
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navTpl); nav.appendChild(navNew); nav.appendChild(navInbox); nav.appendChild(navOffice); nav.appendChild(navForums);
   function setUnread(n) {
     inboxCount.textContent = n ? ' ' + n : '';
     inboxCount.hidden = !n;
@@ -119,6 +120,12 @@
       if (p[1] === 'new') return 'the new recurring task';
       if (p[1] === 'edit') return 'changing the recurring task';
       return title ? '“' + title + '”' : 'the recurring task';
+    }
+    if (p[0] === 'templates') {
+      if (!p[1]) return 'the templates';
+      if (p[1] === 'new') return 'the new template';
+      if (p[1] === 'edit') return 'changing the template';
+      return title ? '“' + title + '”' : 'the template';
     }
     return title ? '“' + title + '”' : 'the task';
   }
@@ -177,12 +184,13 @@
     return otherwise;
   }
 
-  var settings = null, people = [], me = null, tasks = [], views = [], recurs = [];
+  var settings = null, people = [], me = null, tasks = [], views = [], recurs = [], templates = [];
   function took(b) {
     if (typeof b.unread === 'number') setUnread(b.unread);
     if (b.settings) settings = b.settings;
     if (b.people) people = b.people;
     if (b.me) me = b.me;
+    if (b.templates) templates = b.templates;
   }
 
   /* ── Words for days ────────────────────────────────────────────────────── */
@@ -1339,6 +1347,13 @@
       else made.appendChild(document.createTextNode('a recurring task since deleted'));
       made.appendChild(document.createTextNode(', for ' + dayWords(t.on) + ', ' + when(t.t)));
       fact('Made', made);
+    } else if (t.tpl) {
+      // From a template: by a director, or with nobody's name by a form, through the office's intake.
+      var fromT = el('span', null, (t.by ? t.by : 'By a form') + ', from ');
+      if (t.fromTpl) { var pa = el('a', null, 'the template “' + t.fromTpl.name + '”'); pa.href = '#/templates/' + t.fromTpl.id; fromT.appendChild(pa); }
+      else fromT.appendChild(document.createTextNode('a template since deleted'));
+      fromT.appendChild(document.createTextNode(', ' + when(t.t)));
+      fact('Made', fromT);
     } else fact('Made', (t.by ? t.by + ', ' : '') + when(t.t));
     if (t.notion) {
       // Brought from Notion's Tasks: its page there may say more than came over.
@@ -1499,6 +1514,7 @@
     var by = ev.by ? whoWords(ev.by, true) : 'Its recurring task';
     if (ev.kind === 'made') return by + ' made this task.';
     if (ev.kind === 'recurred') return 'Its recurring task made this task.';
+    if (ev.kind === 'formed') return 'A form made this task, from a template.';
     if (ev.kind === 'ticked') return by + ' ' + (ev.box && ev.box.on ? 'ticked' : 'unticked') + ' “' + (ev.box ? ev.box.text : '') + '”.';
     if (ev.kind === 'commented') return by + ' commented.';
     return by + ' ' + ev.changes.map(changeWords).filter(Boolean).join('; ') + '.';
@@ -1511,6 +1527,7 @@
     if (it.kind === 'office') return by + (it.why === 'mentioned' ? ' mentioned you in a comment on ' : it.why === 'commented' ? ' also commented on ' : ' commented on ')
       + (OFFICE_WHAT[it.what] || 'something') + ' in the office.';
     if (it.kind === 'recurred') return name + (it.why === 'assigned' ? ' came round, and is yours.' : it.why === 'added' ? ' came round, and you are on it.' : ' came round again.');
+    if (it.kind === 'formed') return name + (it.why === 'assigned' ? ' came in from a form, and is yours.' : it.why === 'added' ? ' came in from a form, and you are on it.' : ' came in from a form.');
     if (it.why === 'assigned') return by + (it.kind === 'made' ? ' made ' + name + ' and assigned it to you.' : ' assigned ' + name + ' to you.');
     if (it.why === 'added') return by + (it.kind === 'made' ? ' made ' + name + ' and put you on it.' : ' put you on ' + name + '.');
     if (it.why === 'removed') return by + ' took you off ' + name + '.';
@@ -1636,14 +1653,15 @@
 
   /* ── Making and changing a task ───────────────────────────────────────── */
 
-  function formView(id) {
+  function formView(id, from) {
     view.textContent = '';
     view.appendChild(quiet('Looking…'));
-    var ask = id ? call('view=task&id=' + encodeURIComponent(id)) : call('view=list');
+    var ask = id ? call('view=task&id=' + encodeURIComponent(id)) : from ? call('view=template&id=' + encodeURIComponent(from)) : call('view=list');
     return ask.then(function (r) {
+      if (!id && from && r.status === 404) { from = null; return formView(null); }
       if (r.status !== 200) return refused(r);
       took(r.body);
-      return drawForm(id ? r.body.task : null);
+      return drawForm(id ? r.body.task : null, from ? r.body.template : null);
     });
   }
 
@@ -1718,38 +1736,67 @@
     return { field: field, select: select, boxes: boxes, describe: describe };
   }
 
-  function drawForm(t) {
+  function drawForm(t, tpl) {
     view.textContent = '';
     if (t) step.up('#/t/' + t.id, '← ' + t.name); else step.up('#/', '← Back to the list');
-    var h = heading(2, t ? 'Changing “' + t.name + '”' : 'A new task');
+    var h = heading(2, t ? 'Changing “' + t.name + '”' : tpl ? 'A new task from “' + tpl.name + '”' : 'A new task');
     view.appendChild(h);
+    // A new task can start from a template, which fills the form; the fill-ins it holds are the director's to replace.
+    if (!t && templates.length) {
+      var pick = el('p', 'tk-row');
+      var pl = el('label', 'cb-lab', 'Start from a template'); pl.htmlFor = 'tk-fromtpl';
+      var ps = el('select', 'cb-say tk-input'); ps.id = 'tk-fromtpl';
+      var p0 = el('option', null, 'None: a blank task'); p0.value = ''; ps.appendChild(p0);
+      templates.forEach(function (x) { var o = el('option', null, x.name); o.value = x.id; ps.appendChild(o); });
+      ps.value = tpl ? tpl.id : '';
+      ps.addEventListener('change', function () {
+        var id = ps.value;
+        step.replace(id ? '#/new?from=' + encodeURIComponent(id) : '#/new');
+        if (!id) { drawForm(null, null); view.querySelector('#tk-fromtpl').focus(); return; }
+        call('view=template&id=' + encodeURIComponent(id)).then(function (r) {
+          if (r.status !== 200) { say(why(r, 'That template could not be read just now.')); return; }
+          took(r.body);
+          drawForm(null, r.body.template);
+          view.querySelector('#tk-fromtpl').focus();
+          say('The form is filled from “' + r.body.template.name + '”.');
+        });
+      });
+      pick.appendChild(pl); pick.appendChild(document.createTextNode(' ')); pick.appendChild(ps);
+      view.appendChild(pick);
+    }
+    var fills = tpl ? leftFills(tpl.name + '\n' + (tpl.body || '')) : [];
+    if (fills.length) view.appendChild(el('p', 'cb-quiet tk-hint', 'Replace ' + and(fills) + ' before making the task: '
+      + (fills.indexOf('{name}') >= 0 ? '{name} with their name, ' : '') + 'and a link fill-in with a link, by typing [[ and part of a name.'));
     var form = el('form', 'tk-form');
     form.noValidate = true;
     var kit = formKit(form), field = kit.field, select = kit.select, boxes = kit.boxes;
-    var name = el('input', 'cb-say tk-input'); name.maxLength = settings.nameMax; name.value = t ? t.name : '';
+    var name = el('input', 'cb-say tk-input'); name.maxLength = settings.nameMax; name.value = t ? t.name : tpl ? tpl.name : '';
     field('tk-name', 'Name', name);
     var status = field('tk-status', 'Status', select(settings.statuses, t ? t.status : settings.statuses[0]));
-    var priority = field('tk-priority', 'Priority', select(settings.priorities, t ? t.priority : settings.priority));
+    var priority = field('tk-priority', 'Priority', select(settings.priorities, t ? t.priority : tpl ? tpl.priority : settings.priority));
     var choices = people.slice();
     if (t && t.who && choices.every(function (p) { return fold(p) !== fold(t.who); })) choices.push(t.who);
-    var who = field('tk-whois', 'Assigned to', select(choices, t ? t.who : (me && choices.some(function (p) { return fold(p) === fold(me.handle); }) ? me.handle : ''), 'Nobody'));
-    var start = el('input', 'cb-say tk-input'); start.type = 'date'; start.value = t && t.start ? t.start : '';
+    var mine = me && choices.some(function (p) { return fold(p) === fold(me.handle); }) ? me.handle : '';
+    var who = field('tk-whois', 'Assigned to', select(choices, t ? t.who : tpl && tpl.who ? tpl.who : mine, 'Nobody'));
+    var start = el('input', 'cb-say tk-input'); start.type = 'date'; start.value = t && t.start ? t.start : tpl && tpl.startAfter != null ? plus(today(), tpl.startAfter) : '';
     field('tk-start', 'Starts', start);
-    var due = el('input', 'cb-say tk-input'); due.type = 'date'; due.value = t && t.due ? t.due : '';
+    var due = el('input', 'cb-say tk-input'); due.type = 'date'; due.value = t && t.due ? t.due : tpl && tpl.dueAfter != null ? plus(today(), tpl.dueAfter) : '';
     field('tk-duein', 'Due', due);
 
-    var withOn = t ? t.with : [];
+    var withOn = t ? t.with : tpl ? tpl.with : [];
     var withAll = people.concat(withOn.filter(function (h) { return people.every(function (p) { return fold(p) !== fold(h); }); }));
     var withOf = boxes('tk-with', 'Also on it', withAll, withOn);
-    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, t ? t.tags : [], true);
+    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, t ? t.tags : tpl ? tpl.tags : [], true);
 
-    var desc = kit.describe(t ? t.body : '', t ? 'Save' : 'Make the task', t ? '#/t/' + t.id : '#/');
+    var desc = kit.describe(t ? t.body : tpl ? tpl.body || '' : '', t ? 'Save' : 'Make the task', t ? '#/t/' + t.id : '#/');
     var text = desc.text, go = desc.go, answer = desc.answer;
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var v = { name: name.value, status: status.value, priority: priority.value, who: who.value || null,
         start: start.value || null, due: due.value || null, with: withOf(), tags: tagsOf(), body: text.value };
+      var left = tpl && !t ? leftFills(v.name + '\n' + v.body) : [];
+      if (left.length) { answer.textContent = 'Replace ' + and(left) + ' first: they are the template’s fill-ins, and this task is about somebody in particular.'; return; }
       // A change sends only what changed, so somebody else's change to another field stays.
       var send = { action: 'save' };
       if (t) {
@@ -1759,7 +1806,7 @@
           if (JSON.stringify(was) !== JSON.stringify(v[k])) send[k] = v[k];
         });
         if (Object.keys(send).length === 2) { step.go('#/t/' + t.id); return; }
-      } else Object.keys(v).forEach(function (k) { send[k] = v[k]; });
+      } else { Object.keys(v).forEach(function (k) { send[k] = v[k]; }); if (tpl) send.tpl = tpl.id; }
       go.disabled = true;
       answer.textContent = 'Saving…';
       call(null, send).then(function (r) {
@@ -2008,6 +2055,220 @@
     return h;
   }
 
+  /* ── Templates ─────────────────────────────────────────────────────────── */
+
+  /* A task to start from (Ryan's ask, 2026-10-22). Its name and description can
+     hold fill-ins: a task made from it here leaves them in the form for the
+     director to replace, and the office's intake fills them from a form, which
+     is how a join request's onboarding task is made. lib.mjs checks them; this
+     only shows them. */
+  function fillWords() { return and((settings.fillIns || []).map(function (x) { return '{' + x + '}'; })); }
+  function leftFills(text) {
+    var out = [];
+    String(text || '').replace(/\{(\w+)\}/g, function (m, k) { if ((settings.fillIns || []).indexOf(k) >= 0 && out.indexOf(m) < 0) out.push(m); return m; });
+    return out;
+  }
+  function tplDay(n) { return n == null ? 'on no day' : n === 0 ? 'the day it is made' : n === 1 ? 'a day after it is made' : n + ' days after it is made'; }
+
+  function tplList() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=list').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      tasks = r.body.tasks || [];
+      return drawTpls();
+    });
+  }
+
+  function drawTpls() {
+    view.textContent = '';
+    var h = heading(2, 'Templates');
+    view.appendChild(h);
+    view.appendChild(el('p', 'tk-shown', templates.length + (templates.length === 1 ? ' template' : ' templates')));
+    view.appendChild(el('p', null, 'A template is a task to start from: choose it under Start from a template when you make a new task. Its name and description can hold ' + fillWords()
+      + ', which you replace in the form. The office fills them itself when a form names a template, as the Join form does for each new community member’s onboarding task.'));
+    var row = el('p', 'tk-row');
+    var make = el('a', 'cb-btn tk-small', 'New template'); make.href = '#/templates/new';
+    row.appendChild(make);
+    view.appendChild(row);
+    if (!templates.length) { view.appendChild(quiet('There are no templates yet.')); return h; }
+    var box = el('div', 'tk-tablebox');
+    box.tabIndex = 0; box.setAttribute('role', 'region'); box.setAttribute('aria-label', 'Templates');
+    var tb0 = el('table', 'tk-list');
+    tb0.appendChild(el('caption', 'sr', 'Templates, by name.'));
+    var hr = el('tr');
+    ['Template', 'Each task', 'Assigned to', 'Tags'].forEach(function (c) { var th = el('th', null, c); th.scope = 'col'; hr.appendChild(th); });
+    var thead = el('thead'); thead.appendChild(hr); tb0.appendChild(thead);
+    var tb = el('tbody');
+    templates.forEach(function (p) {
+      var tr = el('tr');
+      var td = el('td', 'tk-title');
+      var a = el('a', null, p.name); a.href = '#/templates/' + p.id;
+      td.appendChild(a);
+      tr.appendChild(td);
+      tr.appendChild(el('td', null, (p.startAfter == null ? 'No start day' : 'Starts ' + tplDay(p.startAfter)) + ', ' + (p.dueAfter == null ? 'no due day' : 'due ' + tplDay(p.dueAfter))));
+      tr.appendChild(el('td', null, p.who || '—'));
+      var tg = el('td');
+      if (p.tags.length) tg.appendChild(tagWords(p.tags)); else tg.textContent = '—';
+      tr.appendChild(tg);
+      tb.appendChild(tr);
+    });
+    tb0.appendChild(tb);
+    box.appendChild(tb0);
+    view.appendChild(box);
+    return h;
+  }
+
+  function tplView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=template&id=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status !== 200) {
+        if (r.status === 404) { view.textContent = ''; var h0 = heading(2, 'That template has been deleted'); view.appendChild(h0); step.up('#/templates', '← All templates'); return h0; }
+        return refused(r);
+      }
+      took(r.body);
+      return drawTpl(r.body.template, r.body.made || []);
+    });
+  }
+
+  function drawTpl(p, made) {
+    view.textContent = '';
+    step.up('#/templates', '← All templates');
+    var h = heading(2, p.name);
+    view.appendChild(h);
+    var dl = el('dl', 'tk-facts');
+    function fact(k, v) { if (v == null || v === '') return; dl.appendChild(el('dt', null, k)); var dd = el('dd'); if (typeof v === 'string') dd.textContent = v; else dd.appendChild(v); dl.appendChild(dd); }
+    fact('Each task starts', tplDay(p.startAfter));
+    fact('Each task is due', tplDay(p.dueAfter));
+    fact('Assigned to', p.who || 'Nobody');
+    if (p.with.length) fact('Also on it', p.with.join(', '));
+    fact('Priority', p.priority);
+    if (p.tags.length) fact('Tags', tagWords(p.tags));
+    fact('Made', p.by ? p.by + ', ' + when(p.t) : 'One Tasks started with');
+    if (p.edited) fact('Changed', (p.editedBy ? p.editedBy + ', ' : '') + when(p.edited));
+    view.appendChild(dl);
+    var fills = leftFills(p.name + '\n' + (p.body || ''));
+    if (fills.length) view.appendChild(el('p', null, 'It holds ' + and(fills) + ', which you replace when you make a task from it, and a form’s intake fills in.'));
+
+    var body = el('div', 'tk-body');
+    if (p.blocks && p.blocks.length) { window.loveMarkdown.blocks(p.blocks, body, { top: 3, prefix: 'tk' }); marked(body); }
+    else body.appendChild(quiet('No description.'));
+    view.appendChild(heading(3, 'Each task’s description'));
+    view.appendChild(body);
+
+    var tools = el('div', 'tk-row');
+    var use = el('a', 'cb-btn tk-small', 'Make a task from it'); use.href = '#/new?from=' + encodeURIComponent(p.id);
+    tools.appendChild(use);
+    var edit = el('a', 'cb-btn tk-small', 'Edit'); edit.href = '#/templates/edit/' + p.id;
+    tools.appendChild(edit);
+    var del = el('button', 'cb-btn tk-small', 'Delete'); del.type = 'button';
+    del.addEventListener('click', function () {
+      var stay = made.length === 0 ? 'No task has been made from it.' : made.length === 1 ? 'The task made from it stays.' : 'The ' + made.length + ' tasks made from it stay.';
+      sure(tools, 'This deletes the template “' + p.name + '” for everybody. ' + stay + ' A form whose tasks are made from it makes none until it has a template again. It cannot be put back.', 'Delete it', function (done) {
+        call(null, { action: 'template-remove', id: p.id }).then(function (a) {
+          done();
+          if (a.status !== 200) { say(why(a, 'That did not delete. Nothing was changed.')); return; }
+          say('Deleted. The tasks made from it stay.');
+          step.go('#/templates');
+        });
+      }, del);
+    });
+    tools.appendChild(del);
+    view.appendChild(tools);
+
+    view.appendChild(heading(3, 'Tasks made from it (' + made.length + ')'));
+    if (!made.length) view.appendChild(quiet('None yet.'));
+    else {
+      var ml = el('ul', 'tk-made');
+      made.slice().sort(function (a, b) { return b.t - a.t; }).forEach(function (t) {
+        var li = el('li', isDone(t) ? 'tk-done' : null);
+        var a = el('a', null, t.name); a.href = '#/t/' + t.id;
+        li.appendChild(a);
+        li.appendChild(document.createTextNode(', ' + when(t.t) + ', ' + t.status));
+        if (overdue(t)) li.appendChild(tag('OVERDUE', 'tk-late'));
+        ml.appendChild(li);
+      });
+      view.appendChild(ml);
+    }
+    return h;
+  }
+
+  function tplFormView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    var ask = id ? call('view=template&id=' + encodeURIComponent(id)) : call('view=list');
+    return ask.then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawTplForm(id ? r.body.template : null);
+    });
+  }
+
+  function drawTplForm(p) {
+    view.textContent = '';
+    if (p) step.up('#/templates/' + p.id, '← ' + p.name); else step.up('#/templates', '← All templates');
+    var h = heading(2, p ? 'Changing “' + p.name + '”' : 'A new template');
+    view.appendChild(h);
+    var form = el('form', 'tk-form');
+    form.noValidate = true;
+    var kit = formKit(form), field = kit.field, select = kit.select, boxes = kit.boxes;
+    var name = el('input', 'cb-say tk-input'); name.maxLength = settings.nameMax; name.value = p ? p.name : '';
+    field('tk-name', 'Name', name);
+    name.setAttribute('aria-describedby', 'tk-name-hint');
+    var nameHint = el('p', 'cb-quiet tk-hint', 'A name or description can hold ' + fillWords() + ': “Onboard {name} into Community”. {name} is somebody’s name; the others are links to their records in the office, so they go in the description.');
+    nameHint.id = 'tk-name-hint';
+    form.appendChild(nameHint);
+    function days(id, label, value) {
+      var n = el('input', 'cb-say tk-input'); n.type = 'number'; n.min = '0'; n.max = String(settings.afterMax); n.step = '1'; n.inputMode = 'numeric';
+      n.value = value == null ? '' : String(value);
+      n.setAttribute('aria-describedby', 'tk-days-hint');
+      return field(id, label, n);
+    }
+    var startAfter = days('tk-startafter', 'Each task starts, days after it is made', p ? p.startAfter : 0);
+    var dueAfter = days('tk-dueafter', 'Each task is due, days after it is made', p ? p.dueAfter : null);
+    var daysHint = el('p', 'cb-quiet tk-hint', 'Leave one empty for no day.');
+    daysHint.id = 'tk-days-hint';
+    form.appendChild(daysHint);
+    var priority = field('tk-priority', 'Priority', select(settings.priorities, p ? p.priority : settings.priority));
+    var choices = people.slice();
+    if (p && p.who && choices.every(function (x) { return fold(x) !== fold(p.who); })) choices.push(p.who);
+    var who = field('tk-whois', 'Assigned to', select(choices, p ? p.who : '', 'Nobody'));
+    var withOn = p ? p.with : [];
+    var withAll = people.concat(withOn.filter(function (x) { return people.every(function (q) { return fold(q) !== fold(x); }); }));
+    var withOf = boxes('tk-with', 'Also on it', withAll, withOn);
+    var tagsOf = boxes('tk-tagbox', 'Tags', settings.tags, p ? p.tags : [], true);
+    var desc = kit.describe(p ? p.body : '', p ? 'Save' : 'Make the template', p ? '#/templates/' + p.id : '#/templates');
+    var text = desc.text, go = desc.go, answer = desc.answer;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var dayOf = function (x) { return x.value.trim() === '' ? null : Number(x.value); };
+      var v = { name: name.value, startAfter: dayOf(startAfter), dueAfter: dayOf(dueAfter),
+        priority: priority.value, who: who.value || null, with: withOf(), tags: tagsOf(), body: text.value };
+      var send = { action: 'template-save' };
+      if (p) {
+        send.id = p.id;
+        Object.keys(v).forEach(function (k) {
+          var was = p[k] == null ? (k === 'body' ? '' : null) : p[k];
+          if (JSON.stringify(was) !== JSON.stringify(v[k])) send[k] = v[k];
+        });
+        if (Object.keys(send).length === 2) { step.go('#/templates/' + p.id); return; }
+      } else Object.keys(v).forEach(function (k) { send[k] = v[k]; });
+      go.disabled = true;
+      answer.textContent = 'Saving…';
+      call(null, send).then(function (a) {
+        go.disabled = false;
+        if (a.status !== 200) { answer.textContent = why(a, 'That did not save. Nothing was changed.'); return; }
+        step.go('#/templates/' + a.body.template.id);
+        say(p ? 'Saved.' : 'Made.');
+      });
+    });
+    view.appendChild(form);
+    return h;
+  }
+
   /* ── Refusals ──────────────────────────────────────────────────────────── */
 
   function refused(r) {
@@ -2040,7 +2301,7 @@
     if (!cbState()) done = Promise.resolve(guest());
     else if (parts[0] === 'edit' && parts[1]) done = formView(parts[1]);
     else if (parts[0] === 't' && parts[1]) done = taskView(parts[1], parts[2] === 'c' ? parts[3] : null);
-    else if (parts[0] === 'new') done = formView(null);
+    else if (parts[0] === 'new') { var fromM = /[?&]from=(p[A-Za-z0-9_-]{12})(?:&|$)/.exec(hash); done = formView(null, fromM ? fromM[1] : null); }
     else if (parts[0] === 'board') done = tasksView('board');
     else if (parts[0] === 'timeline') done = tasksView('timeline');
     else if (parts[0] === 'feed') done = tasksView('feed');
@@ -2048,15 +2309,20 @@
     else if (parts[0] === 'recurring' && parts[1] === 'edit' && parts[2]) done = recurFormView(parts[2]);
     else if (parts[0] === 'recurring' && parts[1]) done = recurView(parts[1]);
     else if (parts[0] === 'recurring') done = recurList();
+    else if (parts[0] === 'templates' && parts[1] === 'new') done = tplFormView(null);
+    else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = tplFormView(parts[2]);
+    else if (parts[0] === 'templates' && parts[1]) done = tplView(parts[1]);
+    else if (parts[0] === 'templates') done = tplList();
     else if (parts[0] === 'inbox') done = inboxView();
     else done = tasksView('list');
-    [navList, navBoard, navTime, navFeed, navRecur, navNew, navInbox].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navList, navBoard, navTime, navFeed, navRecur, navTpl, navNew, navInbox].forEach(function (a) { a.removeAttribute('aria-current'); });
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
     else if (parts[0] === 'inbox') navInbox.setAttribute('aria-current', 'page');
     else if (parts[0] === 'board') navBoard.setAttribute('aria-current', 'page');
     else if (parts[0] === 'timeline') navTime.setAttribute('aria-current', 'page');
     else if (parts[0] === 'feed') navFeed.setAttribute('aria-current', 'page');
     else if (parts[0] === 'recurring' && !parts[1]) navRecur.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'templates' && !parts[1]) navTpl.setAttribute('aria-current', 'page');
     else if (!parts.length) navList.setAttribute('aria-current', 'page');
     // The keyboard goes to the new view's heading, or back where it was.
     step.land(done);

@@ -207,9 +207,12 @@
      opens them; the office fetches nothing from Google. */
   function gmailBase(mailbox) { return 'https://mail.google.com/mail/' + (mailbox ? 'u/' + encodeURIComponent(mailbox) + '/' : ''); }
   function gmailThread(mailbox, thread) { return gmailBase(mailbox) + '#all/' + encodeURIComponent(thread); }
-  function gmailCompose(mailbox, to, subject) {
-    return gmailBase(mailbox) + '?view=cm&fs=1&to=' + encodeURIComponent(to) + (subject ? '&su=' + encodeURIComponent(subject) : '');
+  function gmailCompose(mailbox, to, subject, words) {
+    return gmailBase(mailbox) + '?view=cm&fs=1&to=' + encodeURIComponent(to) + (subject ? '&su=' + encodeURIComponent(subject) : '')
+      + (words ? '&body=' + encodeURIComponent(words) : '');
   }
+  // Past this, an address may be too long for Gmail to take, so the page offers a copy instead.
+  var COMPOSE_MOST = 7500;
   function outLink(href, words) { var a = el('a', null, words); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; }
   function viewLinks(list) {
     var row = el('p', 'of-row');
@@ -387,6 +390,58 @@
     });
   }
 
+  /* WRITE TO THEM IN GMAIL, WITH A TEMPLATE (Ryan's ask, 2026-10-22): the
+     mailing templates, filled in for this contact by the server, open Gmail's
+     compose window with the subject and words ready, for a director to read
+     before sending from Gmail. A template whose fill-ins nothing here can fill
+     is offered as unavailable, saying why; one too long for an address is
+     offered to copy instead. Nothing is sent from here. */
+  function writeTo(c) {
+    var wrap = el('div', 'of-write');
+    var row = el('p', 'of-row');
+    var link = outLink(gmailCompose(c.mailbox, c.email, ''), 'Write to them in Gmail');
+    row.appendChild(link);
+    if (c.noEmail) row.appendChild(tag('THEY ASKED NOT TO BE EMAILED'));
+    wrap.appendChild(row);
+    var writes = c.writes || [];
+    if (!writes.length) return wrap;
+    var pick = el('p', 'of-row');
+    var lab = el('label', 'cb-lab', 'With a template'); lab.htmlFor = 'of-writewith';
+    var sel = el('select', 'cb-say of-input'); sel.id = 'of-writewith';
+    var none = el('option', null, 'None: a blank email'); none.value = ''; sel.appendChild(none);
+    writes.forEach(function (w) {
+      var o = el('option', null, w.name + (w.missing.length ? ' (needs a grant request for ' + w.missing.join(', ') + ')' : ''));
+      o.value = w.id; o.disabled = !!w.missing.length;
+      sel.appendChild(o);
+    });
+    pick.appendChild(lab); pick.appendChild(document.createTextNode(' ')); pick.appendChild(sel);
+    wrap.appendChild(pick);
+    var note = el('p', 'cb-quiet of-hint');
+    note.hidden = true;
+    wrap.appendChild(note);
+    var copy = el('button', 'cb-btn of-small', 'Copy the email'); copy.type = 'button'; copy.hidden = true;
+    row.appendChild(copy);
+    var chosen = null;
+    sel.addEventListener('change', function () {
+      chosen = writes.filter(function (w) { return w.id === sel.value; })[0] || null;
+      var href = chosen ? gmailCompose(c.mailbox, c.email, chosen.subject, chosen.body) : gmailCompose(c.mailbox, c.email, '');
+      var long = href.length > COMPOSE_MOST;
+      link.href = long ? gmailCompose(c.mailbox, c.email, chosen.subject) : href;
+      link.textContent = chosen ? 'Write to them in Gmail, with “' + chosen.name + '”' : 'Write to them in Gmail';
+      copy.hidden = !chosen;
+      note.hidden = !chosen;
+      note.textContent = !chosen ? '' : (long ? 'This email is too long to hand to Gmail whole, so Gmail opens with its subject only: copy the email and paste its words in. ' : 'Gmail opens with the subject and words ready. Read them there before you send. ')
+        + (chosen.from ? 'Its grant request’s fill-ins come from their newest, “' + chosen.from + '”.' : '');
+    });
+    copy.addEventListener('click', function () {
+      if (!chosen) return;
+      var text = 'Subject: ' + chosen.subject + '\n\n' + chosen.body;
+      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { say('Copied the email, its subject first.'); },
+        function () { say('It could not be copied here. Open it in Gmail instead.'); });
+    });
+    return wrap;
+  }
+
   function drawContact(c, comments, landOn) {
     view.textContent = '';
     step.up('#/contacts', '← All contacts');
@@ -431,12 +486,7 @@
     } else view.appendChild(quiet('None.'));
     view.appendChild(el('h3', null, 'Emails'));
     var mail = c.mail || [];
-    if (c.email) {
-      var wr = el('p', 'of-row');
-      wr.appendChild(outLink(gmailCompose(c.mailbox, c.email, ''), 'Write to them in Gmail'));
-      if (c.noEmail) wr.appendChild(tag('THEY ASKED NOT TO BE EMAILED'));
-      view.appendChild(wr);
-    }
+    if (c.email) view.appendChild(writeTo(c));
     if (mail.length) {
       view.appendChild(el('p', 'of-shown', mail.length + (mail.length === 1 ? ' email' : ' emails') + ' with the team mailbox'));
       var ml = el('ul', 'of-theirs');

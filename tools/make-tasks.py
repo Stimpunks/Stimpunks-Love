@@ -7,7 +7,8 @@ stages (the tasks and their list first, then a board and saved filters,
 then recurring tasks, then a timeline), for directors, board members and administrators
 only.
 
-WHAT IT WRITES: data/tasks.json's roles, statuses, priorities and tags,
+WHAT IT WRITES: data/tasks.json's roles, statuses, priorities, tags, fill-ins
+and the templates Tasks starts with,
 between the tasks:settings markers in netlify/cb/lib.mjs, which is the only
 copy the server reads. Never hand-edit between those markers.
 
@@ -31,6 +32,10 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · A RECURRING TASK'S TASK MADE UNDER SOMEBODY'S NAME, without where it came
     from, or twice for one day; one brought from EspoCRM arriving switched on
     beside EspoCRM's own; and cb-recur.mjs not running every hour.
+  · A TEMPLATE THAT IS NOT WHOLE: one Tasks starts with that has no fixed id,
+    a fill-in tasks do not know, a link fill-in in a name, or a person named in
+    the data; and a task the office's intake makes from a template under
+    somebody's name, without which template, or from anywhere but the intake.
   · A TICK THAT CAN LAND ON ANOTHER BOX: tickTask changes a box only where the
     reader and a scan of the lines agree, and only when its words are the ones
     the page saw.
@@ -111,6 +116,58 @@ def settings(data, roles):
         problems.append(f"{DATA.name}: repeats names each way a task can come round, as a number of days (1 to 366) or months (1 to 24).")
     if data.get("default_priority") not in (data.get("priorities") or []):
         problems.append(f"{DATA.name}: default_priority is one of the priorities.")
+    templates(data)
+
+
+LINK_FILLS = ("contact", "case", "grant")
+
+
+def templates(data):
+    """The templates Tasks starts with: whole, each with a fixed id, and every
+    fill-in one tasks know, a link fill-in only in a description."""
+    fills = data.get("fill_ins")
+    if not isinstance(fills, list) or "name" not in fills or any(not re.fullmatch(r"[a-z]+", str(x)) for x in fills) or len(set(fills)) != len(fills):
+        problems.append(f"{DATA.name}: fill_ins is a list of lower-case words, each once, with name among them.")
+        fills = fills if isinstance(fills, list) else []
+    if any(x not in fills for x in LINK_FILLS):
+        problems.append(f"{DATA.name}: fill_ins must hold {', '.join(LINK_FILLS)}, which the office's intake fills with links to the records a form makes.")
+    tpls = data.get("templates")
+    if not isinstance(tpls, list):
+        problems.append(f"{DATA.name}: templates is a list (it may be empty).")
+        return
+    ids = []
+    for t in tpls:
+        tid = t.get("id") if isinstance(t, dict) else None
+        if not isinstance(tid, str) or not re.fullmatch(r"p[A-Za-z0-9_-]{12}", tid):
+            problems.append(f"{DATA.name}: every template has an id of p and twelve letters, digits, _ or -, so the office can name it.")
+            continue
+        ids.append(tid)
+        if set(t) != {"id", "name", "priority", "tags", "who", "with", "startAfter", "dueAfter", "body"}:
+            problems.append(f"{DATA.name}: template {tid} holds id, name, priority, tags, who, with, startAfter, dueAfter and body, and nothing else.")
+        if not isinstance(t.get("name"), str) or not t["name"].strip() or len(t["name"]) > 200:
+            problems.append(f"{DATA.name}: template {tid} needs a name.")
+        if t.get("priority") not in (data.get("priorities") or []):
+            problems.append(f"{DATA.name}: template {tid}'s priority is one of the priorities.")
+        if not isinstance(t.get("tags"), list) or any(x not in (data.get("tags") or []) for x in t["tags"]):
+            problems.append(f"{DATA.name}: template {tid}'s tags are tags there are.")
+        # Nobody is named here: who a template's tasks go to is set in Tasks, where the list of people is.
+        if t.get("who") is not None or t.get("with") != []:
+            problems.append(f"{DATA.name}: template {tid} names somebody. Who its tasks go to is chosen in Tasks, from the people who can read them.")
+        for k in ("startAfter", "dueAfter"):
+            v = t.get(k)
+            if v is not None and (not isinstance(v, int) or isinstance(v, bool) or not 0 <= v <= 366):
+                problems.append(f"{DATA.name}: template {tid}'s {k} is a whole number of days from 0 to 366, or null.")
+        if not isinstance(t.get("body"), str):
+            problems.append(f"{DATA.name}: template {tid}'s body is words.")
+            continue
+        for m in re.finditer(r"\{(\w+)\}", t.get("name", "") + "\n" + t["body"]):
+            if m.group(1) not in fills:
+                problems.append(f"{DATA.name}: template {tid} has the fill-in {m.group(0)}, which tasks do not know.")
+        for x in LINK_FILLS:
+            if "{" + x + "}" in t.get("name", ""):
+                problems.append(f"{DATA.name}: template {tid}'s name has {{{x}}}, a link, which goes in the description.")
+    if len(set(ids)) != len(ids):
+        problems.append(f"{DATA.name}: two templates share an id.")
 
 
 def write(lib, data):
@@ -127,6 +184,8 @@ def write(lib, data):
              + f"export const TASK_PRIORITIES = {j(data['priorities'])};\n"
              + f"export const TASK_DEFAULT_PRIORITY = {j(data['default_priority'])};\n"
              + f"export const TASK_TAGS = {j(data['tags'])};\n"
+             + f"export const TASK_FILL_INS = {j(data['fill_ins'])};\n"
+             + f"export const TASK_TEMPLATE_SEED = {j(data['templates'])};\n"
              + END)
     pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
     if len(pat.findall(lib)) != 1:
@@ -146,7 +205,8 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
     for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
                  "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity", "taskFeed",
-                 "taskComments", "commentTask", "editTaskComment", "removeTaskComment", "importTaskComment"):
+                 "taskComments", "commentTask", "editTaskComment", "removeTaskComment", "importTaskComment",
+                 "taskTemplates", "taskTemplate", "saveTaskTemplate", "removeTaskTemplate"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
         if not body:
@@ -165,6 +225,15 @@ def check_lib(lib):
     rt = re.search(r"function recurTask\(.*?\n\}", sec, re.S)
     if not rt or "by: null" not in rt.group(0) or "recur: r.id" not in rt.group(0) or "on: d" not in rt.group(0):
         problems.append(f"{LIB.name}: a recurring task's task is made under nobody's name and keeps which recurring task and which day made it.")
+    # A task the intake makes from a template is made under nobody's name, keeps which template, and is
+    # never a page's to ask for: makeFromTemplate is not exported, and the office's intake is its one caller.
+    mf = (re.search(r"async function makeFromTemplate\(.*?\n\}", sec, re.S) or [""])[0]
+    if not mf or "by: null" not in mf or "tpl: p.id" not in mf or "noteTask('formed', null," not in mf:
+        problems.append(f"{LIB.name}: a task made from a template by the intake is made under nobody's name, keeps which template, and is news as one a form made (makeFromTemplate).")
+    if re.search(r"export\s+async\s+function\s+makeFromTemplate", lib) or len(re.findall(r"\bmakeFromTemplate\(", lib)) != 2:
+        problems.append(f"{LIB.name}: makeFromTemplate is the office's intake's alone: not exported, and called from officeIntake only.")
+    if "if (!d) return TASK_TEMPLATE_SEED" not in fn(sec, "readTaskTpls"):
+        problems.append(f"{LIB.name}: the seeded templates are read only while task-templates does not exist (readTaskTpls).")
     mk = fn(sec, "makeRecurring")
     if "there.has(" not in mk or "today(" not in mk:
         problems.append(f"{LIB.name}: makeRecurring must skip a task already made for that day, and count days on the street's clock.")
