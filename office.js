@@ -422,17 +422,49 @@
     wrap.appendChild(note);
     var copy = el('button', 'cb-btn of-small', 'Copy the email'); copy.type = 'button'; copy.hidden = true;
     row.appendChild(copy);
-    var chosen = null;
-    sel.addEventListener('change', function () {
-      chosen = writes.filter(function (w) { return w.id === sel.value; })[0] || null;
+    /* A template with {invite} in it waits for Make their invite, which makes one
+       invite on this press, once, and fills its link in; only then does Gmail open. */
+    var make = el('button', 'cb-btn of-small', 'Make their invite'); make.type = 'button'; make.hidden = true;
+    row.appendChild(make);
+    var chosen = null, waiting = false;
+    function show(madeUntil) {
+      waiting = !!(chosen && chosen.invite && !chosen.made);
+      make.hidden = !waiting;
+      if (waiting) {
+        link.removeAttribute('href'); link.setAttribute('aria-disabled', 'true');
+        link.textContent = 'Write to them in Gmail, with “' + chosen.name + '”, once their invite is made';
+        copy.hidden = true; note.hidden = false;
+        note.textContent = 'This template has an invite in it. Make their invite first: it works once and runs out after thirty days, its note says nothing about whom it is for, and each press makes a new one.'
+          + (chosen.from ? ' Its grant request’s fill-ins come from their newest, “' + chosen.from + '”.' : '');
+        return;
+      }
+      link.removeAttribute('aria-disabled');
       var href = chosen ? gmailCompose(c.mailbox, c.email, chosen.subject, chosen.body) : gmailCompose(c.mailbox, c.email, '');
       var long = href.length > COMPOSE_MOST;
       link.href = long ? gmailCompose(c.mailbox, c.email, chosen.subject) : href;
       link.textContent = chosen ? 'Write to them in Gmail, with “' + chosen.name + '”' : 'Write to them in Gmail';
       copy.hidden = !chosen;
       note.hidden = !chosen;
-      note.textContent = !chosen ? '' : (long ? 'This email is too long to hand to Gmail whole, so Gmail opens with its subject only: copy the email and paste its words in. ' : 'Gmail opens with the subject and words ready. Read them there before you send. ')
+      note.textContent = !chosen ? '' : (madeUntil ? 'Their invite is in the email, and works until ' + dayOf(madeUntil) + '. ' : '')
+        + (long ? 'This email is too long to hand to Gmail whole, so Gmail opens with its subject only: copy the email and paste its words in. ' : 'Gmail opens with the subject and words ready. Read them there before you send. ')
         + (chosen.from ? 'Its grant request’s fill-ins come from their newest, “' + chosen.from + '”.' : '');
+    }
+    sel.addEventListener('change', function () {
+      chosen = writes.filter(function (w) { return w.id === sel.value; })[0] || null;
+      show(chosen && chosen.made ? chosen.madeUntil : null);
+    });
+    link.addEventListener('click', function (e) { if (waiting) e.preventDefault(); });
+    make.addEventListener('click', function () {
+      if (!chosen) return;
+      var w = chosen;
+      make.disabled = true;
+      call(null, { action: 'write-invite', id: c.id, template: w.id }).then(function (r) {
+        make.disabled = false;
+        if (r.status !== 200) { say(why(r, 'Their invite could not be made just now. Nothing was made.')); return; }
+        w.subject = r.body.subject; w.body = r.body.body; w.made = true; w.madeUntil = r.body.until;
+        if (chosen === w) { show(w.madeUntil); link.focus(); }
+        say('Their invite is made and in the email. Open it in Gmail, read it, and send it from there.');
+      });
     });
     copy.addEventListener('click', function () {
       if (!chosen) return;
@@ -1486,6 +1518,14 @@
     view.appendChild(body);
     if (k.type === 'Join Request' || k.map) view.appendChild(mapPanel(k));
     if (k.lists) view.appendChild(listsPanel(k));
+    if (k.write && k.write.email) {
+      var wbox = el('section', 'of-mapbox');
+      wbox.setAttribute('aria-labelledby', 'of-write-h');
+      var wh = el('h3', null, 'Write to them'); wh.id = 'of-write-h';
+      wbox.appendChild(wh);
+      wbox.appendChild(writeTo(k.write));
+      view.appendChild(wbox);
+    }
     var tools = el('div', 'of-row');
     var mv = el('label', 'of-move');
     mv.appendChild(el('span', null, 'Move to '));
@@ -2688,7 +2728,8 @@
      mailbox's script sends it within ten minutes, one email to each person, and
      each is filed on its contact once the mailbox sees it go. */
   var FILL_WORDS = { first: 'their first name, or their whole name if they have none', last: 'their last name', name: 'their whole name',
-    grant: 'the grant request’s name', amount: 'its amount, as $500', pipeline: 'its pipeline', stage: 'its stage', submitted: 'the day it was submitted, as October 1, 2026' };
+    grant: 'the grant request’s name', amount: 'its amount, as $500', pipeline: 'its pipeline', stage: 'its stage', submitted: 'the day it was submitted, as October 1, 2026',
+    invite: 'a link to join the CB, made when you press Make their invite as you write to one person from their contact or join request: it works once and runs out after thirty days. A mailing cannot use it.' };
   function mailingLinks(here) {
     return viewLinks([['#/mailings', 'Mailings', here === 'mailings'], ['#/mailings/new', 'New mailing', here === 'new'], ['#/templates', 'Templates', here === 'templates']]);
   }

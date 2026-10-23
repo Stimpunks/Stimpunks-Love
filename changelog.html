@@ -41,6 +41,13 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-23-office-invites">2026-10-23 &mdash; A CB invite in the welcome email</h2>
+  <ul>
+    <li><strong>A mailing template in <a href="office.html">the office</a> can hold <code>{invite}</code></strong>, a link to join the CB. Writing to somebody with it, from their contact or now straight from their join request, the email waits for <b>Make their invite</b>: one press makes a CB invite that works once and runs out after thirty days, fills its link into the email, and then Gmail opens with it ready to read and send. Nobody has to visit the moderators&rsquo; desk and paste a code in.</li>
+    <li>Its note says only that it was made in the office for one person, and <a href="privacy.html#invites">nothing writes down whom it was for</a>, on the invite, the contact or the join request, the same rule every invite keeps. Looking at a page makes no invite, each press makes a new one, and a mailing, which goes to many people, refuses a template with <code>{invite}</code> in it.</li>
+    <li>Changed: <code>privacy.html</code>, <code>netlify/cb/lib.mjs</code> and its tests, <code>netlify/functions/cb-office.mjs</code>, <code>office.js</code>, <code>data/tasks.json</code>, <code>tools/make-accounts.py</code>, <code>tools/make-office.py</code> and <code>cb-guide.html</code>.</li>
+  </ul>
+
   <h2 id="2026-10-23-givebutter-lists">2026-10-23 &mdash; Join requests reach our mailing lists</h2>
   <ul>
     <li><strong>A join request in <a href="office.html">the office</a> now says which of our mailing lists they asked for</strong> on the Join form, the Members Only list and the Monthly Newsletter, and <b>Add them to Givebutter&rsquo;s lists</b> adds them, on a director&rsquo;s press. It sends Givebutter their name, their email address and the lists they said yes to, and nothing else of their join request. Givebutter finds somebody already there by their email and adds the lists without taking any away, and the join request then says which lists were sent and when.</li>

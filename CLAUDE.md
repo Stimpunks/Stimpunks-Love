@@ -5608,6 +5608,14 @@ mapped before it are still in wp-config.php, which wins a clash, and the key is 
 `makeFromTemplate` a page's to call**, and **a template naming somebody in the data** (who onboards is chosen in Tasks).
 **Write to them in Gmail takes a mailing template** (`contactWrites`, filled on the server for the contact, a grant
 request's fill-ins from their newest): Gmail opens with the words in its address, and the office still sends nothing.
+It is on the join request's page too (`officeCase`'s `write`), for its contact. **`{invite}` is a CB invite's link, made
+on a press** (Ryan's ask, 2026-10-23): a template with it is filled with everything else and waits, and **Make their
+invite** runs `writeInvite` (the `write-invite` action), which makes one `OFFICE_INVITE` (one use, thirty days, a note
+naming nobody) through `makeInvite` and fills its link in; only then does the Gmail link open. Each press makes a new one,
+**looking at a page makes none**, and **nothing writes down whom an invite was for**, on the invite, the contact or the join
+request, the invites' rule; a mailing refuses a template with `{invite}`. `make-accounts.py` holds that only the desk and
+`writeInvite` make invites, and `make-office.py` the mailing's refusal. The friendly edits are **reusing one invite per
+contact "to save invites"**, which writes down whom it was for, and **making the invite when the page opens**.
 
 **THE MEMBER MAP IS ON THE COMMUNITY CENTER'S WALL, AND IT COUNTS PEOPLE BY PLACE, NEVER BY NAME.** Ryan's brief,
 2026-10-22: move the member map off Google My Maps into Stimpunks.World. **Ryan's call over one pin per place: "We like

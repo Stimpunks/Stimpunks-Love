@@ -182,6 +182,20 @@ def main():
     if ikeys != sorted(["id", "code", "note", "by", "made", "until", "most", "used"]):
         problems.append(f"{LIB.name}: an invite is {ikeys}; it is its id, code, note, maker, when it was made, "
                         "when it runs out, how many uses it may have and how many it has had, and nothing else.")
+    # An invite is made at the desk (cb-invites.mjs), or in the office for one person when a director
+    # writes to them with {invite} (writeInvite, Ryan's ask, 2026-10-23), and nowhere else; the office's
+    # works once, and making it writes down nothing about whom it was for.
+    callers = [f.name for f in sorted(FUNCS.glob("*.mjs")) if "makeInvite(" in re.sub(r"/\*.*?\*/", " ", f.read_text(), flags=re.S)]
+    lib_calls = len(re.findall(r"(?<!function )makeInvite\(", re.sub(r"/\*.*?\*/", " ", lib, flags=re.S)))
+    wi = (re.search(r"export async function writeInvite\(.*?\n\}", lib, re.S) or [""])[0]
+    if callers != ["cb-invites.mjs"] or lib_calls != 1 or "makeInvite(who, OFFICE_INVITE," not in wi:
+        problems.append(f"{LIB.name}: an invite is made at the desk or by writeInvite for one person, and nowhere else.")
+    oi = re.search(r"export const OFFICE_INVITE = \{ note: '([^'{}]*)', most: 1, days: (\d+) \};", lib)
+    if not oi or int(oi.group(2)) not in (1, 7, 30):
+        problems.append(f"{LIB.name}: OFFICE_INVITE is an invite that works once, runs out, and has a note naming nobody.")
+    first = re.search(r"\{\n\s*(.*)", wi)
+    if not wi or not first or "if (!officeAllow(who))" not in first.group(1) or re.search(r"updateSealed\(|updateList\(|setJSON\(|updateDoc\(", wi):
+        problems.append(f"{LIB.name}: writeInvite asks officeAllow first and writes nothing but the invite: not on the contact, not on the join request.")
     m = re.search(r"async function useInvite\(.*?\n\}", lib, re.S)
     use = m.group(0) if m else ""
     if not use or re.search(r"handle|who\b|by:", use) or "{ ...i, used," not in use:

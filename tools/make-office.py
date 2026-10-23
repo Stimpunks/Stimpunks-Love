@@ -474,6 +474,17 @@ def check_quickbooks(lib):
         problems.append(f"{QBFN.name}: Intuit's way back keeps the tokens through qbCallback and sends the person to the dashboard with nothing in the address but whether it worked.")
 
 
+def check_invite_fill(lib):
+    """{invite} is filled for one person on a director's press (writeInvite), and a
+    mailing, which goes to many, refuses a template that has it."""
+    mp = (re.search(r"async function mailingParts\(.*?\n\}", lib, re.S) or [""])[0]
+    if not re.search(r"if \(/\\\{invite\\\}/\.test\(tmpl\.subject \+ '\\n' \+ tmpl\.body\)\) return \{ error:", mp):
+        problems.append(f"{LIB.name}: a mailing must refuse a template with {{invite}} in it; an invite is made for one person at a time.")
+    cw = (re.search(r"function contactWrites\(.*?\n\}", lib, re.S) or [""])[0]
+    if "makeInvite" in cw or "writeInvite" in cw:
+        problems.append(f"{LIB.name}: contactWrites makes an invite; looking at a page must never make one.")
+
+
 def check_givebutter(lib):
     """Givebutter is read from its own API and nowhere else, with each page asked
     for by number, and a gift keeps nothing about who gave; and it is written in
@@ -606,6 +617,7 @@ def main():
     check_nights(lib)
     check_quickbooks(lib)
     check_givebutter(lib)
+    check_invite_fill(lib)
     check_js()
     check_css()
     check_page()

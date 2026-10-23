@@ -3985,7 +3985,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
-  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists,
+  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
@@ -5036,6 +5036,40 @@ test('a contact\'s page has every mailing template filled in for them, and says 
   w = (await officeContact(TRYAN, kit.id, s)).writes;
   assert.deepEqual([w[0].subject, w[0].body, w[0].missing, w[0].from], ['Your Aid Request 7: Kit Lee', '$500 is on its way.', [], 'Aid Request 7: Kit Lee']);
   assert.equal(await officeContact(TSAM, kit.id, s), null);
+}));
+
+test('{invite}: a director\'s press makes one invite that works once, fills its link in, and nothing writes down whom it was for', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const tpl = (await saveTemplate(TRYAN, { name: 'Membership Confirmation', subject: 'Welcome, {first}', body: 'Dear {name},\nJoin the CB here: {invite}\nStimpunks' }, s, T0)).template;
+  const plain = (await saveTemplate(TRYAN, { name: 'Welcome', subject: 'Welcome, {first}', body: 'Dear {name},\nYou are in.' }, s, T0)).template;
+  await officeIntake({ type: 'community', entry: 970, email: 'robin@example.org', name: 'Robin Hood', first: 'Robin', last: 'Hood', message: '**City**\nSherwood' }, s, T0, TMODS);
+  const k = (await readCases(s)).find((x) => x.form === 970);
+  // The page is told the template waits for an invite, and is not given one.
+  const page = await officeCase(TRYAN, k.id, s);
+  const w = page.write.writes.find((x) => x.id === tpl.id);
+  assert.deepEqual([w.invite, w.subject, w.body], [true, 'Welcome, Robin', 'Dear Robin Hood,\nJoin the CB here: {invite}\nStimpunks']);
+  assert.equal(page.write.writes.find((x) => x.id === plain.id).invite, false);
+  assert.equal(page.write.id, k.contact);
+  assert.equal((await readInvites(s)).length, 0, 'looking at the page made an invite');
+  const before = [JSON.stringify(await s.get('office-contacts', { type: 'json' })), JSON.stringify(await s.get('office-cases', { type: 'json' }))];
+  assert.ok((await writeInvite(TSAM, k.contact, tpl.id, s, T0 + 1)).error, 'somebody the office does not let in made an invite');
+  assert.ok((await writeInvite(TRYAN, k.contact, plain.id, s, T0 + 1)).error, 'a template with no {invite} made one');
+  assert.equal((await readInvites(s)).length, 0);
+  const r = await writeInvite(TRYAN, k.contact, tpl.id, s, T0 + 2);
+  const invs = await readInvites(s);
+  assert.equal(invs.length, 1);
+  const inv = invs[0];
+  assert.deepEqual([inv.most, inv.until, inv.note, inv.by, inv.used], [1, T0 + 2 + 30 * 86400000, OFFICE_INVITE.note, 'Ryan', 0]);
+  assert.equal(r.subject, 'Welcome, Robin');
+  assert.equal(r.body, 'Dear Robin Hood,\nJoin the CB here: ' + INVITE_LINK + inv.code + '\nStimpunks');
+  assert.ok(!/Robin|robin/.test(JSON.stringify(invs)), 'the invite says whom it was for');
+  assert.deepEqual([JSON.stringify(await s.get('office-contacts', { type: 'json' })), JSON.stringify(await s.get('office-cases', { type: 'json' }))], before,
+    'making an invite wrote something onto the contact or the join request');
+  // Each press makes a new one.
+  await writeInvite(TRYAN, k.contact, tpl.id, s, T0 + 3);
+  assert.equal((await readInvites(s)).length, 2);
+  // A mailing cannot make one for everybody.
+  assert.match((await previewMailing(TRYAN, { pipeline: 'Mutual Aid', stage: (await import('./lib.mjs')).OFFICE_PIPELINES[0].stages[0].name, template: tpl.id }, s)).error, /\{invite\}/);
 }));
 
 test('a mailing template refuses a fill-in the office does not know', () => withOfficeKey(OFFICE_TEST_KEY, async () => {

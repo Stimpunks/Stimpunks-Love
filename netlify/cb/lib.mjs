@@ -4909,6 +4909,11 @@ export const INVITE_KEEP = 100;
 export const INVITE_NOTE_MAX = 80;
 export const INVITE_USES = [1, 5, 10, 25, 50, 100, 0];   // 0: no limit
 export const INVITE_DAYS = [1, 7, 30, 0];                // 0: never runs out
+export const INVITE_LINK = 'https://stimpunks.world/join.html#invite=';
+/* The invite a director makes from the office, writing to one person with a
+   template that has {invite} in it (writeInvite, Ryan's ask, 2026-10-23): it
+   works once, runs out in thirty days, and its note says nothing about whom. */
+export const OFFICE_INVITE = { note: 'Made in the office, for one person', most: 1, days: 30 };
 const INVITE_DROP = 30 * 24 * 60 * 60 * 1000;
 const INVITES = 'invites';
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -8223,7 +8228,7 @@ export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
 export const TASK_FILL_INS = ["name", "contact", "case", "grant"];
-export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them in Gmail on their contact page.\n- [ ] Add them to the mailing lists they asked for: Add them to Givebutter’s lists, on their join request.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
+export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them on their join request: Make their invite puts a one-use CB invite in it.\n- [ ] Add them to the mailing lists they asked for: Add them to Givebutter’s lists, on their join request.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
 /* tasks:settings:end */
 export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
@@ -9670,7 +9675,14 @@ export async function officeContact(who, id, s = store()) {
    subject and words ready and a director reads them there before sending. A
    grant request's fill-ins come from their newest grant request; a template
    whose fill-ins nothing here can fill says which, and is not filled. The
-   office still sends nothing itself. */
+   office still sends nothing itself.
+   A TEMPLATE WITH {invite} IN IT is filled with everything else and left
+   waiting (Ryan's ask, 2026-10-23): writeInvite, on a director's press, makes
+   one invite that works once (OFFICE_INVITE) and fills its link in, so an
+   invite is made only when somebody is really being written to, never when a
+   page is looked at. Each press makes a new one; nothing writes down whom an
+   invite was for, on the invite, the contact or the join request, the invites'
+   rule that nothing records who came in through which. */
 const GRANT_FILLS = ['grant', 'amount', 'pipeline', 'stage', 'submitted'];
 function contactWrites(c, grants, templates) {
   const name = [c.first, c.last].filter(Boolean).join(' ');
@@ -9680,11 +9692,27 @@ function contactWrites(c, grants, templates) {
   return templates.map((t) => {
     const used = [...new Set([...String(t.subject + '\n' + t.body).matchAll(/\{(\w+)\}/g)].map((m) => m[1]))];
     const missing = used.filter((k) => GRANT_FILLS.includes(k) && !g).map((k) => '{' + k + '}');
-    const out = { id: t.id, name: t.name, missing };
+    const out = { id: t.id, name: t.name, missing, invite: used.includes('invite') };
     if (!missing.length) { out.subject = fillIn(t.subject, values); out.body = fillIn(t.body, values); }
     if (g && used.some((k) => GRANT_FILLS.includes(k))) out.from = g.name;
     return out;
   }).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function writeInvite(who, id, tid, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const c = (await readContacts(s)).find((x) => x.id === contactId(id));
+  if (!c) return { error: 'That contact has been deleted.' };
+  if (!c.email) return { error: 'They have no email address to write to.' };
+  const tmpl = (await readTemplates(s)).find((x) => x.id === templateId(tid));
+  if (!tmpl) return { error: 'That template has been deleted.' };
+  const [w] = contactWrites(c, (await readGrants(s)).filter((g) => g.contact === c.id), [tmpl]);
+  if (!w.invite) return { error: 'That template has no {invite} in it, so it needs no invite made.' };
+  if (w.missing.length) return { error: 'It needs a grant request for ' + w.missing.join(', ') + ' first.' };
+  const made = await makeInvite(who, OFFICE_INVITE, s, now);
+  if (made.error) return { error: made.error };
+  const link = { invite: INVITE_LINK + made.invite.code };
+  return { subject: fillIn(w.subject, link), body: fillIn(w.body, link), until: made.invite.until };
 }
 
 /* One contact made or changed in a list already open: only the fields sent
@@ -10099,8 +10127,18 @@ export async function officeCase(who, id, s = store()) {
   if (!officeAllow(who)) return null;
   const k = (await readCases(s)).find((x) => x.id === caseId(id));
   // Where its member is on the member map, if they are.
+  if (!k) return null;
+  const contacts = await readContacts(s);
+  const c = k.contact ? contacts.find((x) => x.id === k.contact) : null;
+  // Write to them in Gmail, as their contact's page has it, so a join request can be answered from itself.
+  let write = null;
+  if (c) {
+    const [grants, templates, box] = await Promise.all([readGrants(s), readTemplates(s), readSealed(MAILBOX, s)]);
+    write = { id: c.id, email: c.email || '', noEmail: !!c.noEmail, mailbox: box && box.address ? box.address : null,
+      writes: contactWrites(c, grants.filter((g) => g.contact === c.id), templates) };
+  }
   // And, for a join request, which of our mailing lists they asked for, and whether they have been sent to Givebutter.
-  return k ? { ...shapeCase(k, contactMap(await readContacts(s)), true), map: await casePin(who, k, s), lists: caseLists(k) } : null;
+  return { ...shapeCase(k, contactMap(contacts), true), map: await casePin(who, k, s), lists: caseLists(k), write };
 }
 
 /* THE OFFICE'S FEED (Ryan's ask, 2026-10-21, after Notion's Feed view, as
@@ -10695,7 +10733,7 @@ export const TEMPLATE_SUBJECT_MAX = 200;
 export const TEMPLATE_BODY_MAX = 20000;
 export const MAILING_MAX = 300;        // emails in one mailing
 export const OUTBOX_BATCH = 50;        // emails one ask of the outbox hands over
-export const FILL_INS = ['first', 'last', 'name', 'grant', 'amount', 'pipeline', 'stage', 'submitted'];
+export const FILL_INS = ['first', 'last', 'name', 'grant', 'amount', 'pipeline', 'stage', 'submitted', 'invite'];
 export function templateId(v) { return typeof v === 'string' && /^t[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
 export function mailingId(v) { return typeof v === 'string' && /^n[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
 export function outboxId(v) { return typeof v === 'string' && /^e[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
@@ -10803,6 +10841,8 @@ async function mailingParts(f, s) {
   if (since === undefined) return { error: 'Submitted since is a day, as 2026-01-01.' };
   const tmpl = (await readTemplates(s)).find((x) => x.id === templateId(f.template));
   if (!tmpl) return { error: 'That template has been deleted.' };
+  // An invite is made for one person at a time, when a director writes to them (writeInvite).
+  if (/\{invite\}/.test(tmpl.subject + '\n' + tmpl.body)) return { error: 'That template has {invite} in it, which is made for one person when you write to them from their contact or join request. A mailing cannot make one for everybody.' };
   const { emails, left, before } = stageMail(pipe.name, stage.name, await readGrants(s), await readContacts(s), since);
   const filled = emails.map((e) => ({ ...e, subject: fillIn(tmpl.subject, e.values), body: fillIn(tmpl.body, e.values) }));
   return { pipe, stage, since, tmpl, filled, left, before };
