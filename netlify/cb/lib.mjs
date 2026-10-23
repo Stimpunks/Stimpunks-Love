@@ -8223,7 +8223,7 @@ export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
 export const TASK_FILL_INS = ["name", "contact", "case", "grant"];
-export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them in Gmail on their contact page.\n- [ ] Add them to the mailing lists in Givebutter, if they asked to join one.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
+export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them in Gmail on their contact page.\n- [ ] Add them to the mailing lists they asked for: Add them to Givebutter’s lists, on their join request.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
 /* tasks:settings:end */
 export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
@@ -9530,7 +9530,7 @@ export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
 export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application", "Join Request"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
-export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1"}};
+export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1", "lists": [{"asks": "Would you like to be added to our Members Only mailing list?", "tag": "Members"}, {"asks": "Would you like to be added to our Monthly Newsletter mailing list?", "tag": "Newsletter Mailing List"}]}};
 export const OFFICE_DASHBOARD = {"active_cap": 100};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
@@ -10099,7 +10099,8 @@ export async function officeCase(who, id, s = store()) {
   if (!officeAllow(who)) return null;
   const k = (await readCases(s)).find((x) => x.id === caseId(id));
   // Where its member is on the member map, if they are.
-  return k ? { ...shapeCase(k, contactMap(await readContacts(s)), true), map: await casePin(who, k, s) } : null;
+  // And, for a join request, which of our mailing lists they asked for, and whether they have been sent to Givebutter.
+  return k ? { ...shapeCase(k, contactMap(await readContacts(s)), true), map: await casePin(who, k, s), lists: caseLists(k) } : null;
 }
 
 /* THE OFFICE'S FEED (Ryan's ask, 2026-10-21, after Notion's Feed view, as
@@ -11432,7 +11433,9 @@ export async function officeQuickBooks(s = store(), now = Date.now(), fetchFn = 
 
 /* GIVEBUTTER (Ryan, 2026-10-21: add Givebutter to the dashboard). Our giving
    platform, read with an API key of ours, CB_GIVEBUTTER_KEY in Netlify, and
-   never written to: the office only asks GB_API for lists. Each night from
+   written to in ONE way only, gbJoin below, on a director's press (Ryan,
+   2026-10-23, reversing "never written"). Otherwise the office only asks
+   GB_API for lists. Each night from
    cb-office-daily.mjs, and on Read Givebutter now, officeGivebutter reads the
    last GB_MONTHS months of gifts, every recurring plan and every campaign, and
    keeps, sealed in GB_BOOKS and replacing the last read: for each gift its
@@ -11526,6 +11529,69 @@ export async function gbStatus(who, s = store()) {
   if (!officeAllow(who)) return null;
   const books = await readSealed(GB_BOOKS, s);
   return { ready: gbReady(), books: books ? { ...books, monthly: gbMonthly(books.plans || []) } : null };
+}
+
+/* THE ONE WRITE: OUR MAILING LISTS, FROM A JOIN REQUEST (Ryan, 2026-10-23:
+   "a director's press sends the name, email and the lists they said yes to",
+   reversing "never written", with privacy.html#givebutter-lists said first).
+   A form type in OFFICE_INTAKE that names `lists` says which of its questions
+   asks for which of our lists, and the tag Givebutter keeps that list under.
+   caseLists reads a join request's own answers to those questions, as the
+   intake wrote them into its body, and gbJoin, on a director's press and
+   nowhere else (never when a form arrives), sends Givebutter exactly four
+   things: their first and last name and their email address off their
+   contact, the tags of the lists they said yes to, and that they want our
+   emails. Nothing else of the join request goes, and nothing about who
+   pressed. Givebutter's POST /v1/contacts matches somebody already there by
+   email and ADDS the tags it is given, removing none (its Contact Tags page),
+   so a second press changes nothing there. The join request keeps which tags
+   were sent and when, sealed, and nothing of Givebutter's answer. */
+function joinKind(k) {
+  return Object.values(OFFICE_INTAKE).find((v) => v.record === 'case' && v.type === k.type && Array.isArray(v.lists)) || null;
+}
+/* An answer the intake wrote into a body as **question** and then the answer on the next line. */
+function formAnswer(body, label) {
+  const b = String(body || ''), at = b.indexOf('**' + label + '**\n');
+  return at < 0 ? '' : b.slice(at + label.length + 5).split('\n')[0].trim();
+}
+export function caseLists(k) {
+  const kind = k && joinKind(k);
+  if (!kind) return null;
+  return { lists: kind.lists.map((l) => ({ tag: l.tag, yes: /^yes$/i.test(formAnswer(k.body, l.asks)) })),
+    sent: k.gb && Array.isArray(k.gb.tags) ? { tags: k.gb.tags.slice(), t: k.gb.t || null } : null, ready: gbReady() };
+}
+export async function gbJoin(who, id, s = store(), now = Date.now(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const key = gbKey();
+  if (!key || !officeReady()) return { error: 'Givebutter is not set up for the office yet.' };
+  const kid = caseId(id);
+  const k = (await readCases(s)).find((x) => x.id === kid);
+  if (!k) return { error: 'That case has been deleted.' };
+  const asked = caseLists(k);
+  if (!asked) return { error: 'Only a join request can add somebody to our mailing lists.' };
+  const tags = asked.lists.filter((l) => l.yes).map((l) => l.tag);
+  if (!tags.length) return { error: 'They did not ask to join any of our mailing lists on the Join form.' };
+  const c = k.contact ? (await readContacts(s)).find((x) => x.id === k.contact) : null;
+  if (!c) return { error: 'This join request has no contact, so there is no name or email to send.' };
+  if (!c.email) return { error: 'Their contact has no email address to send.' };
+  if (c.noEmail) return { error: 'Their contact says not to email them. Ask them before adding them to a list.' };
+  const r = await fetchFn(GB_API + 'contacts', {
+    method: 'POST',
+    headers: { authorization: 'Bearer ' + key, accept: 'application/json', 'content-type': 'application/json' },
+    body: JSON.stringify({ first_name: c.first || null, last_name: c.last || null, emails: [c.email], tags, email_subscription: true }),
+  }).catch(() => null);
+  if (!r || !r.ok) return { error: 'Givebutter did not take it' + (r ? ` (it answered ${r.status})` : '') + '. Nothing was sent to the lists.' };
+  let gone = false;
+  await updateSealed(CASES, (was) => {
+    const list = was && Array.isArray(was.cases) ? was.cases : [];
+    const i = list.findIndex((x) => x.id === kid);
+    gone = i < 0;
+    if (gone) return null;
+    const copy = list.slice();
+    copy[i] = { ...list[i], gb: { tags, t: now }, edited: now, editedBy: who.handle };
+    return { cases: copy, top: topOf(was) };
+  }, s);
+  return { sent: { tags, t: now }, gone };
 }
 
 /* ── Links and backlinks ───────────────────────────────────────────────────

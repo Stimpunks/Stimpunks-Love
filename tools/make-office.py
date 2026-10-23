@@ -141,8 +141,17 @@ def settings(data):
             # in data/tasks.json, so a typo here is caught rather than making no task in silence.
             if isinstance(v, dict) and "task" in v and v["task"] not in seeded:
                 problems.append(f"{DATA.name}: intake.{k}'s task names {v['task']!r}, which is not one of the templates in data/tasks.json.")
-            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task"}:
-                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task'}))}, which the intake does not read.")
+            # A case's form type may name which of its questions asks for which of our mailing lists,
+            # and the tag Givebutter keeps it under: gbJoin sends those tags and nothing else.
+            if isinstance(v, dict) and "lists" in v:
+                ls = v["lists"]
+                ok = v.get("record") == "case" and isinstance(ls, list) and ls and all(
+                    isinstance(x, dict) and set(x) == {"asks", "tag"} and isinstance(x["asks"], str) and x["asks"].strip()
+                    and isinstance(x["tag"], str) and 0 < len(x["tag"].strip()) <= 64 for x in ls)
+                if not ok or len({x["tag"] for x in ls}) != len(ls):
+                    problems.append(f"{DATA.name}: intake.{k}'s lists are a case's questions asking for our mailing lists, each its asks and a tag of 64 characters at most, no tag twice.")
+            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task", "lists"}:
+                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task', 'lists'}))}, which the intake does not read.")
     cap = (data.get("dashboard") or {}).get("active_cap")
     if not isinstance(cap, int) or isinstance(cap, bool) or cap < 1:
         problems.append(f"{DATA.name}: dashboard.active_cap is a whole number of grant requests, 1 or more.")
@@ -466,8 +475,12 @@ def check_quickbooks(lib):
 
 
 def check_givebutter(lib):
-    """Givebutter is read and never written, from its own API and nowhere else,
-    with each page asked for by number; and a gift keeps nothing about who gave."""
+    """Givebutter is read from its own API and nowhere else, with each page asked
+    for by number, and a gift keeps nothing about who gave; and it is written in
+    one way only (Ryan, 2026-10-23, reversing "never written"): gbJoin, on a
+    director's press of the gb-join action, sends a join request's first and
+    last name, email, the tags of the lists they said yes to and that they want
+    our emails, and nothing else, to POST /v1/contacts."""
     at = lib.find("/* GIVEBUTTER")
     if at < 0:
         problems.append(f"{LIB.name}: the Givebutter part of the office is missing.")
@@ -476,8 +489,26 @@ def check_givebutter(lib):
     code = code_of(sec)
     if set(re.findall(r"'(https://[^']+)'", code)) != {"https://api.givebutter.com/v1/"}:
         problems.append(f"{LIB.name}: the office asks Givebutter's own API and nowhere else.")
-    if re.search(r"method:", code):
-        problems.append(f"{LIB.name}: the office only reads Givebutter; it sends nothing but GETs.")
+    gj = fn(sec, "gbJoin")
+    if len(re.findall(r"method:", code)) != 1 or "method: 'POST'" not in gj or "fetchFn(GB_API + 'contacts'" not in gj:
+        problems.append(f"{LIB.name}: the office writes to Givebutter in one place only, gbJoin's POST to contacts; everything else is a GET.")
+    first = re.search(r"\{\n\s*(.*)", gj)
+    if not first or "if (!officeAllow(who))" not in first.group(1):
+        problems.append(f"{LIB.name}: gbJoin must refuse anybody the office does not let in, before it reads or sends anything.")
+    body = re.search(r"body: JSON\.stringify\(\{ (.*?) \}\)", gj)
+    # Every key, written out or shorthand.
+    keys = (set(re.findall(r"(\w+):", body.group(1))) | set(re.findall(r"(?:^|, )(\w+)(?=,|$)", body.group(1)))) if body else set()
+    if keys != {"first_name", "last_name", "emails", "tags", "email_subscription"}:
+        problems.append(f"{LIB.name}: gbJoin sends Givebutter a name, an email, the tags of the lists they said yes to and that they want our emails, and nothing else (it sends {', '.join(sorted(keys)) or 'nothing readable'}).")
+    if re.search(r"\bk\.body\b|\bc\.notes\b|\bc\.phone\b", gj.replace("caseLists(k)", "")):
+        problems.append(f"{LIB.name}: gbJoin reads more of the join request than its answers to the lists' questions.")
+    if lib.count("gbJoin(") != 1:
+        problems.append(f"{LIB.name}: gbJoin is called from somewhere in lib.mjs; it runs only on a director's press, never when a form arrives.")
+    office_fn = (ROOT / "netlify" / "functions" / "cb-office.mjs").read_text()
+    if office_fn.count("gbJoin(") != 1 or "b.action === 'gb-join'" not in office_fn:
+        problems.append("cb-office.mjs: gbJoin runs from the gb-join action, a director's press, and nowhere else.")
+    if 'id="givebutter-lists"' not in (ROOT / "privacy.html").read_text():
+        problems.append("privacy.html: the office writes to Givebutter, and the privacy page's section on it (id givebutter-lists) is missing.")
     gl = (re.search(r"async function gbList\(.*?\n\}", sec, re.S) or [""])[0]
     if not gl or "links.next" in gl.replace("!(b.links && b.links.next)", "") or "'page=' + page" not in gl:
         problems.append(f"{LIB.name}: gbList asks for each page by number and never follows a link an answer gives.")

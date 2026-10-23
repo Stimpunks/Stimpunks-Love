@@ -1485,6 +1485,7 @@
     else body.appendChild(quiet('No description.'));
     view.appendChild(body);
     if (k.type === 'Join Request' || k.map) view.appendChild(mapPanel(k));
+    if (k.lists) view.appendChild(listsPanel(k));
     var tools = el('div', 'of-row');
     var mv = el('label', 'of-move');
     mv.appendChild(el('span', null, 'Move to '));
@@ -1537,6 +1538,53 @@
   }
   function placeWords(p) { return p.place + (p.country && p.country !== p.place ? ', ' + p.country : ''); }
   function hereWords(n) { return n === 1 ? 'the only one of us there' : n + ' of us there'; }
+  /* OUR MAILING LISTS, FROM A JOIN REQUEST'S OWN ANSWERS (Ryan, 2026-10-23): which
+     of our lists they said yes to on the Join form, as the server read them, and a
+     press that sends Givebutter their name, their email and those lists, and nothing
+     else of the join request (privacy.html#givebutter-lists). It is never sent
+     without that press. */
+  function andWords(xs) { return xs.length > 1 ? xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1] : xs[0] || ''; }
+  function listsPanel(k) {
+    var box = el('section', 'of-mapbox');
+    box.setAttribute('aria-labelledby', 'of-lists-h');
+    var h3 = el('h3', null, 'Mailing lists'); h3.id = 'of-lists-h'; h3.tabIndex = -1;
+    box.appendChild(h3);
+    var L = k.lists;
+    var yes = L.lists.filter(function (x) { return x.yes; }).map(function (x) { return x.tag; });
+    var no = L.lists.filter(function (x) { return !x.yes; }).map(function (x) { return x.tag; });
+    if (L.sent) {
+      box.appendChild(el('p', null, 'Added to Givebutter\u2019s lists: ' + andWords(L.sent.tags) + (L.sent.t ? ', on ' + dayOf(L.sent.t) : '') + '.'));
+      box.appendChild(el('p', 'cb-quiet of-hint', 'Taking them off a list, or out of Givebutter, is done in Givebutter.'));
+      return box;
+    }
+    if (!yes.length) {
+      box.appendChild(el('p', null, 'They said no to every mailing list on the Join form, so there is nothing to send to Givebutter.'));
+      return box;
+    }
+    box.appendChild(el('p', null, 'On the Join form they said yes to ' + andWords(yes) + (no.length ? ', and no to ' + andWords(no) : '') + '.'));
+    if (!L.ready) {
+      box.appendChild(el('p', 'cb-quiet', 'Givebutter is not set up for the office yet, so they cannot be added from here.'));
+      return box;
+    }
+    box.appendChild(el('p', 'cb-quiet of-hint', 'This sends Givebutter their name, their email address and ' + (yes.length === 1 ? 'that list' : 'those lists') + ', and nothing else of their join request.'));
+    var row = el('div', 'of-row');
+    var go = el('button', 'cb-btn of-small', 'Add them to Givebutter\u2019s lists'); go.type = 'button';
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    go.addEventListener('click', function () {
+      go.disabled = true; answer.textContent = 'Sending\u2026';
+      call(null, { action: 'gb-join', id: k.id }).then(function (r) {
+        go.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'That did not reach Givebutter. Nothing was sent.'); return; }
+        var k2 = {}; Object.keys(k).forEach(function (x) { k2[x] = k[x]; });
+        k2.lists = { lists: L.lists, sent: r.body.sent, ready: L.ready };
+        var fresh = listsPanel(k2); box.replaceWith(fresh); fresh.querySelector('h3').focus();
+        say('Added to Givebutter\u2019s lists: ' + andWords(r.body.sent.tags) + '. Tick it off on their onboarding task.');
+      });
+    });
+    row.appendChild(go);
+    box.appendChild(row); box.appendChild(answer);
+    return box;
+  }
   function mapPanel(k) {
     var box = el('section', 'of-mapbox');
     box.setAttribute('aria-labelledby', 'of-map-h');

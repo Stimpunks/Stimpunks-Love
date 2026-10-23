@@ -3985,7 +3985,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
-  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus,
+  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
@@ -5373,6 +5373,46 @@ test('Givebutter: without the key, or without the office key, nothing is asked',
   await withGbKey('gb-test-key', () => withOfficeKey(null, async () => assert.equal((await officeGivebutter(s, Date.now(), fakeGivebutter(seen))).error, 'not-set-up')));
   assert.equal(seen.length, 0, 'Givebutter was asked without a key');
 }));
+
+test('Givebutter: a director\'s press sends a join request\'s name, email and the lists they said yes to, and nothing else', () => withOfficeKey(OFFICE_TEST_KEY, () => withGbKey('gb-test-key', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const asks = (m, n) => `**Tell us a bit about yourself and why you would like to join our community.**\nI like otters, and my phone is 5125550100.\n\n`
+    + `**Would you like to be added to our Members Only mailing list?**\n${m}\n\n**Would you like to be added to our Monthly Newsletter mailing list?**\n${n}\n\n**City**\nAustin`;
+  await officeIntake({ type: 'community', entry: 960, email: 'robin@example.org', name: 'Robin Hood', first: 'Robin', last: 'Hood', message: asks('Yes', 'No') }, s, T0, TMODS);
+  await officeIntake({ type: 'community', entry: 961, email: 'sam@example.org', name: 'Sam', message: asks('No', 'No') }, s, T0 + 1, TMODS);
+  await officeIntake({ type: 'connection', entry: 962, email: 'lou@example.org', name: 'Lou', message: asks('Yes', 'Yes') }, s, T0 + 2);
+  const cases = await readCases(s);
+  const k = cases.find((x) => x.form === 960), none = cases.find((x) => x.form === 961), conn = cases.find((x) => x.form === 962);
+  assert.deepEqual(caseLists(k).lists, [{ tag: 'Members', yes: true }, { tag: 'Newsletter Mailing List', yes: false }]);
+  assert.equal(caseLists(conn), null, 'a case that is not a join request offered our lists');
+  const sent = [];
+  let ok = true;
+  const fake = async (url, opts = {}) => {
+    sent.push({ url, method: opts.method || 'GET', auth: opts.headers && opts.headers.authorization, body: opts.body ? JSON.parse(opts.body) : null });
+    return { ok, status: ok ? 200 : 422, json: async () => ({ id: 1, first_name: 'Robin' }) };
+  };
+  assert.ok((await gbJoin(TSAM, k.id, s, T0 + 3, fake)).error, 'somebody the office does not let in sent a join request to Givebutter');
+  assert.ok((await gbJoin(TRYAN, none.id, s, T0 + 3, fake)).error, 'a join request that said no to every list was sent');
+  assert.ok((await gbJoin(TRYAN, conn.id, s, T0 + 3, fake)).error, 'a case that is not a join request was sent');
+  await withGbKey(null, async () => assert.ok((await gbJoin(TRYAN, k.id, s, T0 + 3, fake)).error, 'sent without the key'));
+  assert.equal(sent.length, 0, 'Givebutter was asked when nothing should have been sent');
+  // Givebutter refusing changes nothing on the join request.
+  ok = false;
+  assert.match((await gbJoin(TRYAN, k.id, s, T0 + 4, fake)).error, /422/);
+  assert.equal((await officeCase(TRYAN, k.id, s)).lists.sent, null, 'a refused send was kept as sent');
+  ok = true;
+  const r = await gbJoin(TRYAN, k.id, s, T0 + 5, fake);
+  assert.deepEqual(r.sent, { tags: ['Members'], t: T0 + 5 });
+  const last = sent[sent.length - 1];
+  assert.deepEqual([last.url, last.method, last.auth], ['https://api.givebutter.com/v1/contacts', 'POST', 'Bearer gb-test-key']);
+  assert.deepEqual(last.body, { first_name: 'Robin', last_name: 'Hood', emails: ['robin@example.org'], tags: ['Members'], email_subscription: true },
+    'Givebutter was sent more, or other, than a name, an email, the lists said yes to and wanting our emails');
+  const said = JSON.stringify(sent);
+  for (const w of ['otters', '5125550100', 'Austin', 'Newsletter', 'Ryan']) assert.ok(!said.includes(w), `Givebutter was sent ${w}`);
+  // The join request keeps which lists were sent and when, sealed, and its page says so.
+  assertSealed(await s.get('office-cases', { type: 'json' }), ['Robin', 'Members']);
+  assert.deepEqual((await officeCase(TRYAN, k.id, s)).lists, { lists: [{ tag: 'Members', yes: true }, { tag: 'Newsletter Mailing List', yes: false }], sent: { tags: ['Members'], t: T0 + 5 }, ready: true });
+})));
 
 /* ── Tasks: activity and notifications ───────────────────────────────────── */
 const TNORAH = fw('Norah', 900, ['director']);

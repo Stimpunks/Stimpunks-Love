@@ -50,6 +50,8 @@
      { action: 'map-put', id, place, country, lat, lon, join? }   case id's member on the member map there,
                                                      joining the place near it unless join is false
      { action: 'map-take', id }                      case id's member taken off the member map
+     { action: 'gb-join', id }                       join request id's name, email and the lists they said yes to,
+                                                     sent to Givebutter on this press and never otherwise
      { action: 'map-take-one', lat, lon }            one pin that belongs to no join request taken off that place
      { action: 'map-import', rows: [...] }           the pins brought from Google My Maps, once each by key
      { action: 'template-save', id?, name, subject, body }
@@ -84,7 +86,7 @@ import { readPass, forumReader, officeAllow, officeReady, officeContacts, office
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
@@ -215,6 +217,10 @@ export default async (req) => {
     if (b.action === 'map-put') {
       const r = await mapPut(who, String(b.id || ''), b);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { pin: r.pin }, QUIET);
+    }
+    if (b.action === 'gb-join') {
+      const r = await gbJoin(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { sent: r.sent }, QUIET);
     }
     if (b.action === 'map-take') {
       const r = await mapTake(who, String(b.id || ''));

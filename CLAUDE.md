@@ -5707,7 +5707,7 @@ must be exactly `https://stimpunks.world/cb/office/quickbooks`**, so a deploy pr
 **a memo or an email kept "for context"**, **writing to the books** (an invoice from a grant request, say), and **a token in
 the page "to call Intuit from the browser"**; each is Ryan's call and `privacy.html#quickbooks` first. `make-office.py` holds it.
 
-**GIVEBUTTER IS READ WITH A KEY, NEVER WRITTEN, AND NOBODY WHO GAVE IS KEPT.** Ryan's ask, 2026-10-21:
+**GIVEBUTTER IS READ WITH A KEY, WRITTEN IN ONE WAY ON A DIRECTOR'S PRESS, AND NOBODY WHO GAVE IS KEPT.** Ryan's ask, 2026-10-21:
 `officeGivebutter` (each night from `cb-office-daily.mjs`, and on Read Givebutter now) reads the last `GB_MONTHS` of
 gifts, every recurring plan and every campaign from `api.givebutter.com` with `CB_GIVEBUTTER_KEY`, and keeps them sealed in
 `office-givebutter`, replacing the last read. **A gift keeps its day, amount, payout, campaign, whether recurring and
@@ -5715,11 +5715,22 @@ whether it went through (`gbGift`), and never a name, email, phone, address or m
 anonymously, its API does not say which gifts were, and the dashboard counts without names, so `make-office.py` refuses a
 gift kept with more and the part reading a donor field at all. **Each page is asked for by number with the same filters**
 (`gbList`), never by following `links.next`, which a paginator may write without the filters, and a list longer than
-`GB_PAGES` pages is refused rather than half read. A key Givebutter issues can also write, so it is secret in Netlify; the
-office only sends GETs, which the tool holds. The friendly edits are **donor names on the newest gifts** "like QuickBooks
-has", which names somebody who chose not to be, and **a donor leaderboard**; each is Ryan's call and
-`privacy.html#givebutter` first. The Givebutter connector in Claude is how its numbers were explored, never how the site
-reads them.
+`GB_PAGES` pages is refused rather than half read. A key Givebutter issues can also write, so it is secret in Netlify. The
+friendly edits are **donor names on the newest gifts** "like QuickBooks has", which names somebody who chose not to be, and
+**a donor leaderboard**; each is Ryan's call and `privacy.html#givebutter` first. The Givebutter connector in Claude is how
+its numbers were explored, never how the site reads them.
+**The one write is our mailing lists, from a join request** (Ryan, 2026-10-23: "a director's press sends the name, email
+and the lists they said yes to", reversing "never written", with `privacy.html#givebutter-lists` written first). A case's
+form type in `data/office.json`'s intake may name `lists`, each the Join form's question word for word and the Givebutter
+tag for that list (Members, Newsletter Mailing List, read off the account's own tags); `caseLists` reads the join request's
+own answers, and **Add them to Givebutter's lists** on its page runs `gbJoin` (the `gb-join` action), which sends `POST
+/v1/contacts` exactly the contact's first and last name, their email, the tags they said yes to and `email_subscription`,
+and nothing else. Givebutter matches somebody already there by email and **adds** tags, removing none (its Contact Tags
+page), so a second press changes nothing. The case keeps `gb`, which tags and when, sealed. `make-office.py` refuses a second
+write anywhere in the Givebutter part, `gbJoin` reading more of the case than its answers, a call to it from anywhere but that
+action (never when a form arrives), and the privacy section gone. The friendly edits are **sending on arrival** "to save a
+press", which puts every spam entry on our lists, **sending their profile or city "so Givebutter has the whole picture"**,
+and **taking somebody off a list from the office**, which is a second kind of write and Ryan's call first.
 
 **A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
 2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one
