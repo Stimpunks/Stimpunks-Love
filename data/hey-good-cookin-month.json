@@ -616,16 +616,6 @@
    "channel": "Binging with Babish"
   },
   {
-   "id": "7Picq_8d8CA",
-   "source": "epicurious",
-   "form": "long",
-   "title": "Butcher Explains Which Ground Beef to Buy | Ultimate Buying Guide | Epicurious",
-   "published": "2026-09-22T16:01:14Z",
-   "state": "screen",
-   "runs": 1429,
-   "channel": "Epicurious"
-  },
-  {
    "id": "wbVYrNwCh-4",
    "source": "epicurious",
    "form": "long",
@@ -766,14 +756,14 @@
    "channel": "Epicurious"
   },
   {
-   "id": "VVtvx2HeXrA",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "The Art of Jeon (Savory Korean Pancakes) | Eric Kim | NYT Cooking",
-   "published": "2026-09-22T18:00:32Z",
+   "id": "Hq0uMOYdJ28",
+   "source": "epicurious",
+   "form": "short",
+   "title": "You Can Always Count on Wegmans",
+   "published": "2026-10-22T16:00:13Z",
    "state": "screen",
-   "runs": 911,
-   "channel": "NYT Cooking"
+   "runs": 70,
+   "channel": "Epicurious"
   },
   {
    "id": "-FxrjVea0EY",
@@ -886,43 +876,13 @@
    "channel": "NYT Cooking"
   },
   {
-   "id": "vxPfQZ7-OAc",
+   "id": "c0olPJdMe64",
    "source": "nyt-cooking",
-   "form": "short",
-   "title": "Theo James and Kaya Scodelario, co-stars of #TheGentlemen, stopped by our kitchen studio #pasta",
-   "published": "2026-09-22T18:39:15Z",
+   "form": "long",
+   "title": "It’s Banana Bread Pancakes! | Justine Doiron | NYT Cooking",
+   "published": "2026-10-22T18:00:25Z",
    "state": "screen",
-   "runs": 21,
-   "channel": "NYT Cooking"
-  },
-  {
-   "id": "QfAVoql1jOE",
-   "source": "nyt-cooking",
-   "form": "short",
-   "title": "Here's Theo and Kaya feeding the World's Most Famous Sourdough Starter. And each other?",
-   "published": "2026-09-22T18:46:09Z",
-   "state": "screen",
-   "runs": 25,
-   "channel": "NYT Cooking"
-  },
-  {
-   "id": "k2Vvq_pEc90",
-   "source": "nyt-cooking",
-   "form": "short",
-   "title": "Just 30 seconds of chaos in the kitchen with Theo James and Kaya Scodelario",
-   "published": "2026-09-22T20:30:23Z",
-   "state": "screen",
-   "runs": 29,
-   "channel": "NYT Cooking"
-  },
-  {
-   "id": "vZoZkrCAA1Y",
-   "source": "nyt-cooking",
-   "form": "short",
-   "title": "Joe’s Pizza hive, rise! Theo James and Kaya Scodelario showed us the last food photos they took",
-   "published": "2026-09-22T23:00:22Z",
-   "state": "screen",
-   "runs": 19,
+   "runs": 439,
    "channel": "NYT Cooking"
   },
   {
@@ -1273,6 +1233,16 @@
    "published": "2026-10-21T10:00:27Z",
    "state": "screen",
    "runs": 72,
+   "channel": "Andy Cooks"
+  },
+  {
+   "id": "l7wv-O0ZdgQ",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Scrambled eggs 1 0 1 🥚￼",
+   "published": "2026-10-23T10:06:08Z",
+   "state": "screen",
+   "runs": 141,
    "channel": "Andy Cooks"
   },
   {
@@ -1976,6 +1946,26 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "7loxFYpafyE",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "100 Customers in 2.5 Hours! A 75-Year-Old Japanese Chef’s Hamburger Steak Lunch Rush",
+   "published": "2026-10-22T22:00:05Z",
+   "state": "screen",
+   "runs": 1715,
+   "channel": "Japanese Food Noodles"
+  },
+  {
+   "id": "GhWtKdDL9NM",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "7AM Ramen Rush! One Woman Runs This Tiny Osaka Shop Alone",
+   "published": "2026-10-23T00:00:35Z",
+   "state": "screen",
+   "runs": 1740,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "wz9jvH7zJbk",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -2024,16 +2014,6 @@
    "state": "screen",
    "runs": 3705,
    "channel": "FOOD☆STAR フードスター"
-  },
-  {
-   "id": "O3GWMBktYOk",
-   "source": "japanese-food-craftsman",
-   "form": "long",
-   "title": "Homemade Dishes Served Only on Sunday! At this Hidden Hiroshima Shop",
-   "published": "2026-09-23T09:50:34Z",
-   "state": "screen",
-   "runs": 1324,
-   "channel": "Japanese Food Craftsman"
   },
   {
    "id": "uDwCGbd9BX0",
@@ -2213,6 +2193,16 @@
    "published": "2026-10-21T16:00:22Z",
    "state": "screen",
    "runs": 1558,
+   "channel": "Bon Appétit"
+  },
+  {
+   "id": "vs9lfTZmOMw",
+   "source": "bon-appetit",
+   "form": "long",
+   "title": "How a French Chef Makes France's Most Famous Soup | French Fundamentals | Bon Appétit",
+   "published": "2026-10-22T16:00:10Z",
+   "state": "screen",
+   "runs": 819,
    "channel": "Bon Appétit"
   },
   {
@@ -2406,6 +2396,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "2sKjLZS2jAk",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "What Makes Char Siu Taste So Good",
+   "published": "2026-10-22T15:30:05Z",
+   "state": "screen",
+   "runs": 35,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "4K5o2RRxvcQ",
    "source": "insider-food",
    "form": "short",
@@ -2463,16 +2463,6 @@
    "published": "2026-10-21T17:00:35Z",
    "state": "screen",
    "runs": 896,
-   "channel": "Fallow"
-  },
-  {
-   "id": "7DRzTO0D0wA",
-   "source": "fallow",
-   "form": "short",
-   "title": "Probably the Best Chicken Dish in the World",
-   "published": "2026-09-22T19:07:38Z",
-   "state": "screen",
-   "runs": 120,
    "channel": "Fallow"
   },
   {
@@ -2696,16 +2686,6 @@
    "channel": "Guga"
   },
   {
-   "id": "8i_TFTyLzqo",
-   "source": "mrnigelng",
-   "form": "long",
-   "title": "Uncle Roger Hate Sushi Pizza (Kitchen Nightmares)",
-   "published": "2026-09-22T14:00:11Z",
-   "state": "screen",
-   "runs": 1376,
-   "channel": "mrnigelng"
-  },
-  {
    "id": "Ot3fvPPWSGM",
    "source": "mrnigelng",
    "form": "long",
@@ -2853,6 +2833,16 @@
    "published": "2026-10-20T13:00:10Z",
    "state": "screen",
    "runs": 154,
+   "channel": "Eater"
+  },
+  {
+   "id": "bzvldk4Bk98",
+   "source": "eater",
+   "form": "short",
+   "title": "Is this the best pizza in New York? 🍕🤔 #nyceats #pizza #shorts",
+   "published": "2026-10-22T13:00:33Z",
+   "state": "screen",
+   "runs": 106,
    "channel": "Eater"
   },
   {
@@ -3041,13 +3031,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3055,13 +3045,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3069,13 +3059,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3083,13 +3073,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3097,13 +3087,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3111,13 +3101,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3125,13 +3115,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3139,13 +3129,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3153,13 +3143,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3167,13 +3157,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3181,13 +3171,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3195,13 +3185,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3209,13 +3199,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3223,13 +3213,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3237,13 +3227,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3251,13 +3241,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3265,13 +3255,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3279,13 +3269,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3293,13 +3283,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3307,13 +3297,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3321,13 +3311,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3335,13 +3325,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   },
@@ -3349,16 +3339,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-22T11:24:24Z"
+     "2026-10-23T11:23:59Z"
     ]
    ]
   }
  },
- "set": "2026-10-22T11:24Z"
+ "set": "2026-10-23T11:23Z"
 }
