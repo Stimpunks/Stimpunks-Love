@@ -5588,8 +5588,10 @@ may name `task`**, a seeded template's id (`make-office.py` refuses any other): 
 `makeFromTemplate` makes the task under nobody's name (`by: null`, `tpl`, the `formed` event), filling `{name}` with the
 person's name and the link fill-ins with `[[contact:…]]` and `[[case:…]]`, so the contact and the record list it under
 Linked from. It is made only with the record, so a resend makes neither twice, and a deleted template is said on the
-record. **The Join form (`community`, WPForms 85366) makes a Join Request case**, the office's copy of the entry, which
-needs the plugin's 1.1.0 and the form in wp-config.php's list. The friendly edits are **putting their answers in the task
+record. **The Join form (`community`, WPForms 85366) makes a Join Request case**, the office's copy of the entry. It is
+mapped in the plugin's `stimpunks_office_forms` option on stimpunks.org (1.2.0, installed 2026-10-22 through WordPress.com's
+plugin upload, the option set through WPVibe), not in wp-config.php, which on WordPress.com needs SFTP; the forms
+mapped before it are still in wp-config.php, which wins a clash, and the key is only ever there. The friendly edits are **putting their answers in the task
 "so it is all in one place"** (Tasks is not sealed; the guide already said keep their details out of the task), **making
 `makeFromTemplate` a page's to call**, and **a template naming somebody in the data** (who onboards is chosen in Tasks).
 **Write to them in Gmail takes a mailing template** (`contactWrites`, filled on the server for the contact, a grant
