@@ -8395,8 +8395,8 @@ export function mentions(text, handle) {
    on Discord. A role is named by its own word in ROLES, singular, and nothing
    else: @moderators stays words.
 
-   WHO MAY CALL WHICH ROLE is ROLE_ANYBODY's: anybody with a claimed username
-   may call @moderator, because calling the moderators is how somebody asks
+   WHO MAY CALL WHICH ROLE is ROLE_ANYBODY's, and Ryan's call the same day:
+   anybody with a claimed username may call @moderator, because calling the moderators is how somebody asks
    for help; @director, @board and @administrator are for the base, every
    role on the list, so the people who run things are not a number anybody can
    ring. The server keeps on a message or a post only the roles its sender may

@@ -3921,8 +3921,8 @@ the first two are the receive lamp the radio refuses, and the third is a record 
 
 **A ROLE CAN BE CALLED WITH AN @, AND NOBODY IS EVER TOLD WHO HOLDS IT.** Ryan's ask, 2026-10-23: `@moderator`,
 `@director`, `@board` and `@administrator`, on a channel, in the forums, and in Tasks and the office. **Who may call
-which is `ROLE_ANYBODY` in `lib.mjs`**: anybody claimed calls @moderator (asking for help), the base calls all four
-(`mentionableRoles`). `roleMentions` keeps on a message, an edit or a post only what the sender's own pass may call and
+which is `ROLE_ANYBODY` in `lib.mjs`**, Ryan's call the same day: anybody claimed calls @moderator (asking for help),
+the base calls all four (`mentionableRoles`). `roleMentions` keeps on a message, an edit or a post only what the sender's own pass may call and
 the words name, as `roles`, never what a page sends; `tellDevices` and `notifyForum` tell a device only when its pass
 holds the role now and may go there (`roomAllows`, `forumAllows`, never a quiet room), with `as` naming the role, under
 When somebody @mentions me; Tasks and the office put it in the Notifications of everybody on Tasks who holds it
