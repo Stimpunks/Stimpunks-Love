@@ -2113,6 +2113,7 @@
     this.setSpeak(!!this.state.speak, true);
     this.setSize(state.size || (state.small ? 'small' : 'normal'), true);
     this.setFolded(!!state.folded, true);
+    if (state.online) this.setOnline(true, true);
     this.place();
     if (chat) this.chatShown();
   }
@@ -9143,10 +9144,16 @@
   };
 
   /* WHO'S ONLINE, the panel. Asked when it opens and on each listen while it
-     is open; the teleporter's @ asks too. */
-  Radio.prototype.setOnline = function (open) {
+     is open; the teleporter's @ asks too. Left open, it is open on the next
+     page (requests from our community, 2026-10-23): love-cb keeps `online`
+     while it is, and the radio opens it again at start-up without asking
+     anything, because asking is listen()'s, and a folded radio sends nothing. */
+  Radio.prototype.setOnline = function (open, quiet) {
     this.online.hidden = !open;
     this.onlineBtn.setAttribute('aria-expanded', String(open));
+    if (open) this.state.online = true; else delete this.state.online;
+    if (quiet) { if (open) { this.onlineKey = null; this.onlineShown(); } return; }
+    save(this.state);
     if (open) { this.onlineKey = null; this.loadRooms(); this.onlineShown(); this.onlineTick(); }
     this.place();
   };
