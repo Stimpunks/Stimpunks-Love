@@ -33,7 +33,7 @@
                                                      the office's records, the reader can open (findLinks), by POST
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -56,7 +56,8 @@ export default async (req, context) => {
   if (!who) return json(401, { error: 'signed off' }, QUIET);
   if (!forumReader(who)) return json(403, { error: CLAIM, claim: true }, QUIET);
   // tasks and office say whether the bar offers them, a press away for the people who can open them.
-  const me = { handle: who.handle, mod: who.role === 'base', tasks: tasksAllow(who), office: officeAllow(who) };
+  // mention: the roles this reader may call with an @ (mentionableRoles); roles: their own, so a call of one is marked.
+  const me = { handle: who.handle, mod: who.role === 'base', tasks: tasksAllow(who), office: officeAllow(who), mention: mentionableRoles(who), roles: rolesOf(who) };
   // Every answer's links to tasks, topics and the office named for this reader, last.
   const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   const cats = forumNav(who);

@@ -253,6 +253,8 @@ a.fm-card .fm-card__title { color: var(--cb-amber); text-decoration: underline; 
 }
 .fm-cb__words .fm-at { color: var(--cb-amber); }
 .fm-at--me { border-bottom: 2px solid var(--cb-amber); text-decoration: none; }
+/* A role called (@moderator and the rest): nothing to press, so no dotted line. */
+.fm-at--role { cursor: text; text-decoration: none; }
 
 /* WRITING: the radio's own fields. */
 .fm-compose { display: grid; gap: 6px; padding: 12px 0 4px; border-top: 2px solid var(--cb-bar); }

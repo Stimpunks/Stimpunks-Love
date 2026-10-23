@@ -260,7 +260,7 @@ def check_lib(lib):
     if evkeys != {"id", "t", "by", "task", "name", "kind", "changes"}:
         problems.append(f"{LIB.name}: an event keeps who, when, which task, its kind and what changed, and nothing else.")
     tell = (re.search(r"async function tellTaskPeople\(.*?\n\}", sec, re.S) or [""])[0]
-    if "{ ...ev, why, read: false }" not in tell or "tellTaskPeople(ev, taskConcerns(kind, by, had, next, taskPeople(mods), extra)" not in nt:
+    if "{ ...ev, why, read: false }" not in tell or "tellTaskPeople(ev, taskConcerns(kind, by, had, next, taskPeople(mods), extra, mods)" not in nt:
         problems.append(f"{LIB.name}: a notification is the event, why it is there and whether it is read, for somebody who could read tasks.")
     # An office comment's notification names the record by its id and what it is, never its name or the comment's words.
     noc = fn(sec, "noteOfficeComment")

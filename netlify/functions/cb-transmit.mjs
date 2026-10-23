@@ -10,7 +10,7 @@
    channel, so a slow push service never holds the radio up. */
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
-  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions,
+  imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions, roleMentions,
   noteLatest, countMessage, replyTo, WORLD_CALL } from '../cb/lib.mjs';
 
 export default async (req, context) => {
@@ -79,6 +79,10 @@ export default async (req, context) => {
   // if the words name them (channelMentions), for every radio to draw.
   const at = channelMentions(text, b.at);
   if (at.length) msg.at = at;
+  // The roles it calls (@moderator and the rest), only those this pass may
+  // call and the words name (roleMentions), never what the request says.
+  const roles = roleMentions(text, who);
+  if (roles.length) msg.roles = roles;
   if (img) { msg.img = img; msg.alt = cleanAlt(b.alt); }
   if (sticker) msg.sticker = sticker;
   if (avatar) msg.avatar = avatar;

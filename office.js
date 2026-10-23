@@ -2205,12 +2205,12 @@
 
   // The comments of the record on the page, kept while it is redrawn by Move to.
   var talked = { id: null, list: null };
-  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks, and @board, @director, @administrator or @moderator tells everybody who holds that role. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
   function commentsFor(id, landOn) {
     return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
-      people: people, me: me ? me.handle : '', mark: marked,
+      people: people, roles: roles, me: me ? me.handle : '', mark: marked,
       kept: function (list) { talked = { id: id, list: list }; } };
   }
   /* The Comments part at the foot of a record's page. Answers the comment the
@@ -2219,7 +2219,9 @@
      their name, which opens their profile (links.js): the people a comment
      tells. A description or notes tell nobody, so theirs stay words. */
   function people() { return (me && me.people) || []; }
-  function marked(into) { window.loveLinks.mentions(into, people(), { p: 'of', me: me ? me.handle : '', said: say }); return into; }
+  // The roles a comment can call with an @ (@board and the rest), as Tasks has them.
+  function roles() { return (me && me.mention) || []; }
+  function marked(into) { window.loveLinks.mentions(into, people(), { p: 'of', me: me ? me.handle : '', said: say, roles: roles(), mine: (me && me.roles) || [] }); return into; }
   // What [[ offers, asked of /cb/office by POST (links.js).
   function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
   // Where the record on the page is linked from, kept while it is redrawn.
@@ -3604,7 +3606,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'of', said: say, people: people, me: me ? me.handle : '', mark: marked, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'of', said: say, people: people, roles: roles, me: me ? me.handle : '', mark: marked, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; card(li, it, whole); },
           send: function (text, done) {

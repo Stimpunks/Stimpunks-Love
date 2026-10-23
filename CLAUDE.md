@@ -3919,6 +3919,20 @@ is not who gets told**: a notification still asks `mentions()` of each device's 
 edits are a highlight on the whole message, a sound when you are mentioned, and a list of your mentions;
 the first two are the receive lamp the radio refuses, and the third is a record kept against a person.
 
+**A ROLE CAN BE CALLED WITH AN @, AND NOBODY IS EVER TOLD WHO HOLDS IT.** Ryan's ask, 2026-10-23: `@moderator`,
+`@director`, `@board` and `@administrator`, on a channel, in the forums, and in Tasks and the office. **Who may call
+which is `ROLE_ANYBODY` in `lib.mjs`**: anybody claimed calls @moderator (asking for help), the base calls all four
+(`mentionableRoles`). `roleMentions` keeps on a message, an edit or a post only what the sender's own pass may call and
+the words name, as `roles`, never what a page sends; `tellDevices` and `notifyForum` tell a device only when its pass
+holds the role now and may go there (`roomAllows`, `forumAllows`, never a quiet room), with `as` naming the role, under
+When somebody @mentions me; Tasks and the office put it in the Notifications of everybody on Tasks who holds it
+(`taskConcerns`). The radio, `links.js` and `forum.js` offer the roles the server says (`mention`) first in the @ list
+and draw a called role with nothing to press. **A role's word is nobody's username** (`roleWord` in `checkHandle`,
+`joinAccount` and `claimAccount`), and `mentions()` never reads one as a handle. `tools/check-push.py` holds it. **The
+friendly edits are the role's people in the @ list "so you know who you are calling", a count of who was told, and
+`@moderators` as an alias**: the first two publish who holds which role, which is not ours to publish, and the third
+makes a word in a sentence ring people. `DECISIONS.md` has what is open.
+
 **A PICTURE IS SHOWN BEFORE IT GOES** (Ryan's ask, 2026-10-19): `picPending`/`picReady` in `cb.js` put
 the redrawn blob, which is exactly what is sent, above the box with the file's name, for the channel and
 for Messages alike. It is a `blob:` address that goes with the picture.

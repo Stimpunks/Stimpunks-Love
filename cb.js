@@ -951,6 +951,12 @@
      room whose tag, or any word of whose name, starts with it, in walking
      order and no other, and no more than PICK of them. */
   var PICK = 8;
+  /* The roles an @ can call (ROLES in netlify/cb/lib.mjs, which decides who
+     may call which: mentionableRoles), and what the @ list says each calls.
+     Never who holds one. */
+  var ROLE_SAYS = { administrator: 'Calls every administrator', board: 'Calls the board', director: 'Calls every director', moderator: 'Calls every moderator' };
+  var ROLE_OPT = {};
+  Object.keys(ROLE_SAYS).forEach(function (r) { ROLE_OPT[r] = { role: r }; });
   function roomsFor(q, most) {
     var out = [], flat = q.replace(/-/g, ''), cap = most || PICK;
     for (var i = 0; i < rooms.length && out.length < cap; i++) {
@@ -2952,6 +2958,8 @@
         me.calls = !!r.body.calls;
         me.callShown();
         me.keepRoles(r.body.roles);
+        // The roles this pass may call with an @ (mentionableRoles), for the @ list only: never kept.
+        me.mayRoles = Array.isArray(r.body.mention) ? r.body.mention.filter(function (x) { return ROLE_SAYS[x]; }) : [];
       }
       else me.signal(false);
     }).catch(function () { me.signal(false); })
@@ -3041,8 +3049,9 @@
       var said = el('div', 'cb-text');
       said.cbRaw = m.text || '';
       said.cbAt = m.at || [];
+      said.cbRoles = m.roles || [];
       li.appendChild(md(said, m.text));
-      this.markAt(said, said.cbAt);
+      this.markAt(said, said.cbAt, said.cbRoles);
       this.markEdited(li, m);
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
@@ -3180,9 +3189,10 @@
     this.markEdited(li, m);
     said.cbRaw = text;
     said.cbAt = m.at || [];
+    said.cbRoles = m.roles || [];
     said.textContent = '';
     md(said, text);
-    this.markAt(said, said.cbAt);
+    this.markAt(said, said.cbAt, said.cbRoles);
     if (had !== !!text) this.drawActs(li, m);
   };
 
@@ -3563,7 +3573,7 @@
       if (typeof ps[i].cbRaw !== 'string') continue;
       ps[i].textContent = '';
       md(ps[i], ps[i].cbRaw);
-      this.markAt(ps[i], ps[i].cbAt);
+      this.markAt(ps[i], ps[i].cbAt, ps[i].cbRoles);
     }
   };
 
@@ -3574,12 +3584,21 @@
      matches, so an @ followed by nobody stays words. Yours is filled, the BASE
      tag's pair the other way round, so you can see where you were named; it
      neither moves nor lights up when it lands, the radio's rule. Not inside a
-     link, code or another button. */
-  Radio.prototype.markAt = function (into, handles) {
+     link, code or another button.
+
+     A ROLE IT CALLS (Ryan's ask, 2026-10-23: @moderator, @director, @board
+     and @administrator) is drawn as words in a mention's ink with nothing to
+     press, because there is no profile behind a role and nobody is told who
+     holds one: only the roles the server kept with the message (roles,
+     roleMentions in netlify/cb/lib.mjs), so a role's word somebody may not
+     call stays words. One you hold is filled, as your name is. */
+  Radio.prototype.markAt = function (into, handles, roles) {
     var me = this, list = [];
+    var called = (roles || []).filter(function (r) { return ROLE_SAYS[r]; });
     (handles || []).concat(this.state.handle).forEach(function (h) {
-      if (typeof h === 'string' && h.trim() && list.every(function (x) { return fold(x) !== fold(h); })) list.push(h);
+      if (typeof h === 'string' && h.trim() && !ROLE_SAYS[fold(h)] && list.every(function (x) { return fold(x) !== fold(h); })) list.push(h);
     });
+    list = list.concat(called);
     list.sort(function (a, b) { return b.length - a.length; });
     var escd = list.map(function (h) { return h.normalize('NFKC').trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+'); });
     var re;
@@ -3597,6 +3616,14 @@
         var at = m.index + m[1].length;
         frag.appendChild(document.createTextNode(text.slice(last, at)));
         var named = m[2].replace(/\s+/g, ' ');
+        if (called.indexOf(fold(named)) >= 0) {
+          var held = (me.state.roles || []).indexOf(fold(named)) >= 0;
+          var r = el('span', 'cb-at cb-at--role' + (held ? ' cb-at--me' : ''), '@' + m[2]);
+          if (held) r.appendChild(el('span', 'sr', ', a role you hold'));
+          frag.appendChild(r);
+          last = at + 1 + m[2].length;
+          continue;
+        }
         var h = list.filter(function (x) { return fold(x) === fold(named); })[0] || named;
         var mine = fold(h) === fold(me.state.handle);
         var b = el('button', 'cb-at' + (mine ? ' cb-at--me' : ''), '@' + m[2]);
@@ -3643,13 +3670,15 @@
 
   Radio.prototype.peopleFor = function (t) {
     if (!this.people && !this.atAsked) { this.atAsked = true; this.atWants = true; this.onlineTick(); }
-    var q = t.q, all = this.atPeople();
+    var q = t.q, all = this.atPeople().filter(function (h) { return !ROLE_SAYS[fold(h)]; });
+    var roles = (this.mayRoles || []).filter(function (r) { return !q || r.indexOf(q) === 0; });
     // A name already typed out in full, and a space after it, is finished.
-    if (t.done && all.some(function (h) { return fold(h) === q; })) return [];
-    return all.filter(function (h) {
+    if (t.done && (all.some(function (h) { return fold(h) === q; }) || ROLE_SAYS[q])) return [];
+    // The roles this pass may call come first, being few, and each says it is a role.
+    return roles.map(function (r) { return ROLE_OPT[r]; }).concat(all.filter(function (h) {
       var f = fold(h);
       return !q || f.indexOf(q) === 0 || f.split(' ').some(function (w) { return w.indexOf(q) === 0; });
-    }).slice(0, PICK);
+    })).slice(0, PICK);
   };
 
   // Everybody the words might @mention, for the server to check against them
@@ -3672,11 +3701,15 @@
     this.offer = offer;
     this.offerKind = t.kind;
     this.pick.textContent = '';
-    this.pick.setAttribute('aria-label', person ? 'People to mention' : 'Rooms on the street');
+    this.pick.setAttribute('aria-label', person ? (offer[0] && offer[0].role ? 'Roles and people to mention' : 'People to mention') : 'Rooms on the street');
     for (var i = 0; i < offer.length; i++) {
       var li = el('li', 'cb-opt');
       li.setAttribute('role', 'option');
-      if (person) {
+      if (person && offer[i].role) {
+        li.id = 'cb-pick-at-' + i;
+        li.appendChild(el('span', 'cb-opt__name', '@' + offer[i].role));
+        li.appendChild(el('span', 'cb-opt__tag', ROLE_SAYS[offer[i].role]));
+      } else if (person) {
         li.id = 'cb-pick-at-' + i;
         li.appendChild(el('span', 'cb-opt__name', offer[i]));
       } else {
@@ -9376,10 +9409,11 @@
     var t = this.token(), pick = this.offer[n];
     if (!t || !pick || (t.kind === 'person') !== (this.offerKind === 'person')) { this.close(); return; }
     var v = this.say.value, after = v.slice(t.end);
-    var put = (t.kind === 'person' ? '@' + pick : '#' + pick.tag) + (after.charAt(0) === ' ' ? '' : ' ');
+    var put = (t.kind === 'person' ? '@' + (pick.role || pick) : '#' + pick.tag) + (after.charAt(0) === ' ' ? '' : ' ');
     var next = v.slice(0, t.start) + put + after;
     if (next.length > this.say.maxLength) { this.tell(t.kind === 'person' ? 'That name would not fit in the message.' : 'That room would not fit in the message.'); this.close(); return; }
-    if (t.kind === 'person') {
+    // A role is found in the words by the server, so it is not one of the people picked.
+    if (t.kind === 'person' && !pick.role) {
       this.atPicked = this.atPicked || [];
       if (this.atPicked.every(function (x) { return fold(x) !== fold(pick); })) this.atPicked.push(pick);
     }

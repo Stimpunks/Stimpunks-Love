@@ -109,13 +109,19 @@ function eventSays(d, list) {
     body: (when ? 'On ' + when + '. ' : '') + 'Open Events on the CB to go to it.', url: url, tag: 'cb-event-' + (id || 'start') };
 }
 
+/* Who a mention named: you, or a role you hold (Ryan's ask, 2026-10-23:
+   @moderator, @director, @board and @administrator), by the role's own word. */
+function called(d) {
+  return ['administrator', 'board', 'director', 'moderator'].indexOf(d.as) >= 0 ? '@' + d.as : 'you';
+}
+
 function say(d) {
   if (!d || typeof d !== 'object') return Promise.resolve(null);
   if (d.kind === 'forum') {
     var by = String(d.handle || 'Somebody').slice(0, 40);
     var cat = typeof d.cat === 'string' && d.cat ? d.cat.slice(0, 80) : 'the forums';
     var said = typeof d.title === 'string' && d.title ? '“' + d.title + '”' + (d.text ? ': ' + d.text : '') : 'A post in ' + cat + '.';
-    return Promise.resolve({ title: by + ' mentioned you in ' + cat, body: said,
+    return Promise.resolve({ title: by + ' mentioned ' + called(d) + ' in ' + cat, body: said,
       url: safePath('/forum.html#/t/' + String(d.t || '') + (d.p ? '/' + String(d.p) : '')), tag: 'cb-forum-' + String(d.p || d.t || '') });
   }
   if (d.kind === 'props') {
@@ -152,7 +158,7 @@ function say(d) {
     if (d.kind !== 'message') return null;
     var who = String(d.handle || 'Somebody').slice(0, 40);
     var title = d.why === 'mention'
-      ? who + ' mentioned you ' + (place || tag ? 'in ' + where : 'on World')
+      ? who + ' mentioned ' + called(d) + ' ' + (place || tag ? 'in ' + where : 'on World')
       : d.why === 'reply' ? who + ' replied to you ' + (place || tag ? 'in ' + where : 'on World')
         : who + (place || tag ? ' in ' + where : ' on World');
     var body = typeof d.text === 'string' && d.text ? d.text

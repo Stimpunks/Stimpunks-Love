@@ -31,6 +31,13 @@ is left of the old promise is checked here rather than remembered:
     one place a notifier asks whether it follows a room, so a room that keeps to
     itself is told only to a device that followed it there by name: every room
     taking it in would announce it to everybody who never knew its address.
+  · A ROLE IS CALLED ONLY AS THE SERVER SAYS, AND NOBODY IS TOLD WHO HOLDS ONE
+    (Ryan's ask, 2026-10-23: @moderator, @director, @board, @administrator). A
+    message's or a post's roles are only ever what roleMentions() in lib.mjs
+    found, from the sender's own pass and the words, never from the request; a
+    notification says which role (`as`) and nothing about who else holds it;
+    a role's word is refused as a username where one is claimed; the roles the
+    radio, links.js, forum.js and the service worker know by name are ROLES.
   · THE PRIVACY PAGE SAYS SO, under #notifications.
 """
 import re
@@ -44,6 +51,39 @@ problems = []
 def code(src):
     src = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
     return re.sub(r"(?m)^\s*//.*$", "", src)
+
+
+def roles_check(lib):
+    roles = re.search(r"export const ROLES = \[([^\]]*)\]", lib)
+    if not roles:
+        problems.append("lib.mjs has no ROLES.")
+        return
+    names = sorted(re.findall(r"'([a-z]+)'", roles.group(1)))
+    # What a message or a post keeps as its roles is roleMentions()'s, from the pass and the words.
+    files = [ROOT / "netlify" / "cb" / "lib.mjs"] + sorted((ROOT / "netlify" / "functions").glob("*.mjs"))
+    for f in files:
+        c = code(f.read_text())
+        for m in re.finditer(r"\b(?:msg|p|next\[i\]|post|m)\.roles\s*=\s*([^;]*);", c):
+            before = c[:m.start()]
+            made = before.rfind("const roles = ")
+            if m.group(1).strip() != "roles" or made < 0 or not before[made + len("const roles = "):].startswith("roleMentions("):
+                problems.append(f"{f.name} keeps roles on a message or post that roleMentions() did not find ({m.group(0).strip()}).")
+        # The desk's own roles function (cb-roles.mjs) gives people roles, and is not a message.
+        for m in re.finditer(r"\b(?:b|f|body)\.roles\b", "" if f.name == "cb-roles.mjs" else c):
+            problems.append(f"{f.name} reads roles off a request ({m.group(0)}): which roles are called is roleMentions()'s, from the pass.")
+    for fn in ("checkHandle", "joinAccount", "claimAccount"):
+        body = re.search(r"export async function " + fn + r"\(.*?\n}\n", lib, re.S)
+        if not body or "roleWord(" not in body.group(0):
+            problems.append(f"lib.mjs: {fn} does not refuse a role's word as a username, so @board could be somebody.")
+    for m in re.finditer(r"payload\.as\s*=\s*([^;]*);", code(lib)):
+        if m.group(1).strip() != "role":
+            problems.append(f"a notification says it called {m.group(1).strip()}: it says the one role, and never who else holds it.")
+    for name, pat in [("cb.js", r"var ROLE_SAYS = \{([^}]*)\}"), ("links.js", r"var ROLE_SAYS = \{([^}]*)\}"),
+                      ("forum.js", r"var ROLE_SAYS = \{([^}]*)\}"), ("cb-sw.js", r"function called\(d\) \{[^}]*\[([^\]]*)\]")]:
+        m = re.search(pat, (ROOT / name).read_text())
+        known = sorted(re.findall(r"'?([a-z]+)'?\s*:", m.group(1)) if "ROLE_SAYS" in pat else re.findall(r"'([a-z]+)'", m.group(1))) if m else None
+        if known != names:
+            problems.append(f"{name} knows the roles an @ can call as {known}, and ROLES in lib.mjs is {names}.")
 
 
 def main():
@@ -105,9 +145,12 @@ def main():
     if part:
         for m in re.finditer(r"\b(?:w|want|d\.want)\s*\??\.\s*(?:rooms|everyRoom)\b[^;\n]*", re.sub(r"export function (cleanWant|followsRoom)\(.*?\n}\n", "", code(part.group(0)), flags=re.S)):
             problems.append(f"lib.mjs reads the rooms a device follows itself ({m.group(0).strip()}): ask followsRoom(), which keeps every room off a room that keeps to itself.")
+    roles_check(lib)
     priv = (ROOT / "privacy.html").read_text()
     if 'id="notifications"' not in priv:
         problems.append("privacy.html has no #notifications section, and the radio and the service worker link to it.")
+    elif "@moderator" not in re.split(r"<h2\b", priv.split('id="notifications"', 1)[1], 1)[0]:
+        problems.append("privacy.html#notifications does not say who a role's @ (@moderator and the rest) tells.")
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)

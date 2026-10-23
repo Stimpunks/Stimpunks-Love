@@ -722,6 +722,9 @@ ol.cb-md-list { list-style: decimal; }
   text-decoration: underline dotted; text-underline-offset: 3px;
 }
 .cb-at--me { color: var(--cb-lcd); background: var(--cb-amber); padding: 0 3px; text-decoration: none; }
+/* A role called (@moderator and the rest) has nothing to press, so no dotted
+   line saying it does; one you hold is filled, as your name is. */
+.cb-at--role { cursor: text; text-decoration: none; }
 
 /* A PICTURE ON THE CHANNEL, under its words, in the readout's amber frame.
    It is kept small in the log so a screenshot does not push everything else

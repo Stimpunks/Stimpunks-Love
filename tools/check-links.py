@@ -115,8 +115,9 @@ def check_pages():
         problems.append("links.js: it keeps something or talks to a server itself. It asks through the page's own o.ask.")
     if "put: function (x) { return '[[' + x.kind + ':' + x.id + ']] '; }" not in links:
         problems.append("links.js: a pick puts something other than [[kind:id]] in the words. A link never carries a name.")
-    if "put: function (h) { return '@' + h + ' '; }" not in links or "fold(h) !== fold(o.me)" not in links:
-        problems.append("links.js: the @ list puts something other than @ and a name, or offers you yourself.")
+    # A pick is @ and a name, or @ and a role's word (@board), which carries nobody's name.
+    if "put: function (h) { return '@' + (h.role || h) + ' '; }" not in links or "fold(h) !== fold(o.me)" not in links:
+        problems.append("links.js: the @ list puts something other than @ and a name or a role's word, or offers you yourself.")
     if "window.loveRadioPeek(who, btn, null)" not in links:
         problems.append("links.js: a mention does not open the person's profile on the radio.")
     for page in ("tasks.js", "office.js", "forum.js"):

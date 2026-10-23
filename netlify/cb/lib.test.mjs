@@ -7232,3 +7232,117 @@ test('a start tells only the interested who asked, once, and a new event tells W
   await notifyEventStart(world, world.start, s, readMods(''), send);
   assert.equal(to(bOn).length, 0, 'a deleted username was still told');
 }));
+
+/* ── Role mentions ─────────────────────────────────────────────────────── */
+import { roleMentions, mentionableRoles, roleWord, ROLE_ANYBODY } from './lib.mjs';
+
+test('a role is called by its own word, only by somebody who may call it, and is nobody\'s username', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const member = fw('Ada', 100), base = fw('Mo', 300, []);
+  assert.deepEqual(ROLE_ANYBODY, ['moderator'], 'who may call which role changed without this test');
+  assert.deepEqual(mentionableRoles(member), ['moderator']);
+  assert.deepEqual(mentionableRoles(base), ['administrator', 'board', 'director', 'moderator']);
+  assert.deepEqual(mentionableRoles({ role: 'mobile', handle: 'Cy', roles: new Set() }), [], 'a username nobody has claimed could call a role');
+  assert.deepEqual(roleMentions('@moderator please, and @board, @director, @administrator', member), ['moderator'], 'a member called a role that is the base\'s');
+  assert.deepEqual(roleMentions('@Board and @MODERATOR', base), ['board', 'moderator']);
+  assert.deepEqual(roleMentions('@moderators, mods@board.example, @boardroom, the board', base), [], 'something that is not a role\'s word called one');
+  assert.ok(roleWord(' Moderator ') && !roleWord('Mod'));
+  assert.ok(!mentions('hi @board', 'Board'), 'a role\'s word was read as somebody\'s handle');
+  // A role's word is no username, however it is written.
+  for (const h of ['board', 'Moderator', ' DIRECTOR ']) {
+    assert.equal((await checkHandle(h, readMods(''), s)).ok, false, `${h} was free to claim`);
+    assert.match((await claimAccount(h, 'a long enough phrase', s, 1, null)).error, /role/);
+  }
+  assert.match((await joinAccount({ invite: 'nothing', handle: 'Administrator', password: 'a long enough phrase' }, readMods('{"Mo":[]}'), s)).error, /role/);
+  // An edit works the roles out again from its own sender's pass.
+  const list = [{ id: 'a', handle: 'Ada', text: 'hi', t: 1, claimed: true }, { id: 'b', handle: 'Mo', text: 'hi', t: 1, base: true }];
+  const AdaPass = { role: 'mobile', handle: 'Ada', account: 1, roles: new Set() }, MoPass = { role: 'base', handle: 'Mo', account: 1, roles: new Set(['moderator']) };
+  assert.deepEqual(editMessage(list, 'a', '@board @moderator', AdaPass).msg.roles, ['moderator']);
+  assert.deepEqual(editMessage(list, 'b', '@board @moderator', MoPass).msg.roles, ['board', 'moderator']);
+  assert.equal(editMessage(list, 'b', 'never mind', MoPass).msg.roles, undefined, 'a role no longer called was kept');
+  assert.deepEqual(shapeMessages([{ id: 'c', handle: 'Mo', text: '@board', t: 1, roles: ['board', 'nobody', 'board'] }])[0].roles, ['board'], 'a role that is no role was shown');
+}));
+
+test('a role called tells every device whose pass holds it and may hear the room, and nobody who sent it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Bex":["board"],"Cy":[],"Dee":["director"],"Ada":[]}');
+  const bexDev = aDevice(), cyDev = aDevice(), deeDev = aDevice(), eveDev = aDevice(), adaDev = aDevice();
+  await keepDevice(bexDev, await claimedPassFor('Bex', s, 'base'), { mentions: true }, s);
+  await keepDevice(cyDev, await claimedPassFor('Cy', s, 'base'), { mentions: true }, s);
+  await keepDevice(deeDev, await claimedPassFor('Dee', s, 'base'), { world: true }, s);
+  await keepDevice(eveDev, await claimedPassFor('Eve', s), { mentions: true }, s);
+  await keepDevice(adaDev, await claimedPassFor('Ada', s, 'base'), { mentions: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const told = () => sent.filter((x) => x.payload.why === 'mention').map((x) => [x.to, x.payload.as]).sort();
+  const from = (text, roles, extra = {}) => ({ id: 'm' + sent.length, handle: 'Ada', text, t: 1, ...(roles ? { roles } : {}), ...extra });
+
+  await notifyMessage(from('@moderator could somebody look at this?', ['moderator']), null, s, mods, send);
+  assert.deepEqual(told(), [[bexDev.endpoint, 'moderator'], [cyDev.endpoint, 'moderator']].sort(), 'calling the moderators missed one, or told somebody who is not one or did not ask');
+  assert.ok(!sent.some((x) => x.to === adaDev.endpoint), 'the sender was told about their own call');
+  sent.length = 0;
+  await notifyMessage(from('@board, the minutes', ['board']), null, s, mods, send);
+  assert.deepEqual(told(), [[bexDev.endpoint, 'board']]);
+  // Words the server did not keep as a role call nobody.
+  sent.length = 0;
+  await notifyMessage(from('@board, the minutes'), null, s, mods, send);
+  assert.deepEqual(told(), [], 'a role\'s word nobody may call told somebody');
+  // A locked room tells only the holders who may go in; a quiet room tells nobody.
+  sent.length = 0;
+  await notifyMessage(from('@moderator', ['moderator']), 'town-hall-board', s, mods, send);
+  assert.deepEqual(told(), [[bexDev.endpoint, 'moderator']], 'a moderator who cannot go into the board room was told what was said there');
+  sent.length = 0;
+  await notifyMessage(from('@moderator', ['moderator']), QUIET_ROOMS[0], s, readMods('{"Bex":["administrator"],"Cy":["administrator"],"Ada":["administrator"]}'), send);
+  assert.deepEqual(told(), [], 'a room that keeps to itself was announced by a role call');
+  // Called by name and as a role at once, it is the name.
+  sent.length = 0;
+  await notifyMessage(from('@Bex and @board', ['board']), null, s, mods, send);
+  assert.deepEqual(told(), [[bexDev.endpoint, undefined]]);
+  // An edit tells only the roles it newly calls.
+  sent.length = 0;
+  await notifyEdit(from('@board and now @moderator', ['board', 'moderator']), '@board', null, s, mods, send);
+  assert.deepEqual(told(), [[bexDev.endpoint, 'moderator'], [cyDev.endpoint, 'moderator']].sort());
+  // Taken off the list, a role is no longer theirs to be called by.
+  sent.length = 0;
+  await notifyMessage(from('@board', ['board']), null, s, readMods('{"Cy":[],"Ada":[]}'), send);
+  assert.deepEqual(told(), [], 'somebody no longer on the board was told the board was called');
+}));
+
+test('a post keeps the roles its writer may call, a holder is told and finds it under Mentions, and a reader of the category only', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Bex":["board"],"Cy":[]}');
+  const bexDev = aDevice(), cyDev = aDevice();
+  await keepDevice(bexDev, await claimedPassFor('Bex', s, 'base'), { mentions: true }, s);
+  await keepDevice(cyDev, await claimedPassFor('Cy', s, 'base'), { mentions: true }, s);
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const t = (await startTopic(ADA, { cat: 'nature', title: 'Moss', body: '@moderator and @board, is this all right?' }, s, T0, NO_NET)).topic;
+  assert.deepEqual(t.posts[0].roles, ['moderator'], 'a member\'s post called a role that is the base\'s');
+  const r = (await replyTopic(FMOD, t.id, { body: 'Asking @board as well.' }, s, T0 + 1, NO_NET)).post;
+  assert.deepEqual(r.roles, ['board']);
+  await notifyForum(t, t.posts[0], '', s, mods, send);
+  assert.deepEqual(sent.map((x) => [x.to, x.payload.as]).sort(), [[bexDev.endpoint, 'moderator'], [cyDev.endpoint, 'moderator']].sort());
+  sent.length = 0;
+  await notifyForum(t, t.posts[0], '@moderator', s, mods, send);
+  assert.equal(sent.length, 0, 'an edit called a role again that it had already called');
+  const secret = (await startTopic(FBOARD, { cat: 'grantmaking', title: 'A request', body: '@moderator, a look?' }, s, T0, NO_NET)).topic;
+  await notifyForum(secret, secret.posts[0], '', s, mods, send);
+  assert.deepEqual(sent.map((x) => x.to), [bexDev.endpoint], 'a moderator who cannot read the category was told what was posted in it');
+  const BEX = fw('Bex', 1, ['board']);
+  const found = await forumMentions(BEX, s, T0 + 2);
+  assert.ok(found.some((x) => x.id === t.id && x.match.handle === 'Ryan' && /@board/.test(x.match.words)), 'a role Bex holds, called in a post, was not under Mentions');
+  assert.ok(!(await forumMentions(fw('Cy', 1), s, T0 + 2)).length, 'somebody who holds no role found a role call under Mentions');
+}));
+
+test('a role called in a task or a comment tells everybody on Tasks who holds it, and only them', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Bea":["board"],"Sam":[]}');
+  const TBEA = fw('Bea', 400, ['board']);
+  const inbox = async (who) => (await taskInbox(who, s, T0 + 100)).items.map((x) => [x.kind, x.why]);
+  const t = (await saveTask(TCHELSEA, { name: 'The budget', who: 'Chelsea', body: '@board, this needs a vote' }, s, T0, mods)).task;
+  assert.deepEqual(await inbox(TBEA), [['made', 'mentioned']], 'the board was not told a task called it');
+  assert.deepEqual(await inbox(TNORAH), [], 'a director was told a task called the board');
+  await commentTask(TRYAN, t.id, 'And @director, please.', s, T0 + 1, mods);
+  assert.deepEqual((await inbox(TNORAH))[0], ['commented', 'mentioned']);
+  assert.deepEqual((await inbox(TBEA))[0], ['made', 'mentioned'], 'a comment calling the directors told the board');
+});

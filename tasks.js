@@ -1238,7 +1238,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'tk', said: say, people: function () { return people; }, me: me ? me.handle : '', mark: marked, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'tk', said: say, people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; feedCard(li, t, got); },
           send: function (text, done) {
@@ -1443,18 +1443,22 @@
   /* What comments.js needs for this task's comments: tasks.js's own words,
      classes and way of asking /cb/tasks. */
   var talkNow = null;
-  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, and @board, @director, @administrator or @moderator tells everybody on Tasks who holds that role. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
   /* An @mention of somebody tasks can be assigned to, drawn as their name,
      which opens their profile (links.js): the people a description or a
      comment tells. */
-  function marked(into) { window.loveLinks.mentions(into, people, { p: 'tk', me: me ? me.handle : '', said: say }); return into; }
+  function marked(into) { window.loveLinks.mentions(into, people, { p: 'tk', me: me ? me.handle : '', said: say, roles: roles(), mine: (me && me.roles) || [] }); return into; }
+  /* The roles a description or comment can call with an @ (@board and the
+     rest), which the server says (mentionableRoles): every reader of Tasks may
+     call every role, and everybody on Tasks holding it is told. Never who. */
+  function roles() { return (me && me.mention) || []; }
   // What [[ offers, asked of /cb/tasks by POST (links.js).
   function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
   function commentsFor(id, landOn, posted) {
     return { p: 'tk', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
-      people: function () { return people; }, me: me ? me.handle : '', mark: marked,
+      people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked,
       kept: function (list) { talked = { id: id, list: list }; }, posted: posted };
   }
   function fillActivity(into, list) {
@@ -1703,9 +1707,9 @@
       field('tk-body', 'Description', text);
       text.setAttribute('aria-describedby', 'tk-body-hint');
       window.loveLinks.attach(text, { ask: findLinks, said: say });
-      window.loveLinks.people(text, { people: function () { return people; }, me: me ? me.handle : '', said: say });
+      window.loveLinks.people(text, { people: function () { return people; }, roles: roles, me: me ? me.handle : '', said: say });
       window.loveFormat.toolbar(text, { p: 'tk', said: say, checklist: true });
-      var hint = el('p', 'cb-quiet tk-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, and [[ and part of a name to link a task, a forum topic or a record of the office.');
+      var hint = el('p', 'cb-quiet tk-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, or a role (@board, @director, @administrator, @moderator) to tell everybody on Tasks who holds it, and [[ and part of a name to link a task, a forum topic or a record of the office.');
       hint.id = 'tk-body-hint';
       form.appendChild(hint);
       var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;

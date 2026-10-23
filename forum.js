@@ -807,10 +807,15 @@
      the post and the topic's own people, matched as the server's mentions()
      matches, so a word after an @ that is nobody stays a word. Answers
      whether the reader was one of them. Drawn by links.js, which Tasks and the
-     office draw theirs with too. */
-  function markMentions(into, handles) {
-    return window.loveLinks.mentions(into, handles, { p: 'fm', me: me && me.handle, said: say });
+     office draw theirs with too. A role a post calls (@moderator and the rest)
+     is drawn only when the server kept it with the post (roles), and is the
+     reader's when they hold it. */
+  function markMentions(into, handles, roles) {
+    return window.loveLinks.mentions(into, handles, { p: 'fm', me: me && me.handle, said: say, roles: roles || [], mine: (me && me.roles) || [] });
   }
+  // The roles this reader may call with an @ (mentionableRoles), and what the @ list says each calls.
+  var ROLE_SAYS = { administrator: 'Calls every administrator', board: 'Calls the board', director: 'Calls every director', moderator: 'Calls every moderator' };
+  function mayCall() { return ((me && me.mention) || []).filter(function (r) { return ROLE_SAYS[r]; }); }
 
   function reactions(t, p) {
     var line = el('div', 'fm-rx');
@@ -1111,7 +1116,7 @@
     if (p.cb) art.appendChild(copied(t, p));
     var body = el('div', 'fm-body');
     blocks(p.blocks, body, function (n) { return picIn(t, p, n); });
-    if (markMentions(body, (p.at || []).concat(peopleOf(t)))) head.appendChild(tag('MENTIONS YOU', true));
+    if (markMentions(body, (p.at || []).concat(peopleOf(t)), p.roles)) head.appendChild(tag('MENTIONS YOU', true));
     if (body.children.length) art.appendChild(body);
     if (p.files && p.files.some(function (f) { return !f.placed; })) art.appendChild(attached(t, p));
     art.appendChild(reactions(t, p));
@@ -1426,7 +1431,7 @@
     }
     function people() {
       var out = [];
-      function add(h) { if (h && (!me || fold(h) !== fold(me.handle)) && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
+      function add(h) { if (h && (!me || fold(h) !== fold(me.handle)) && !ROLE_SAYS[fold(h)] && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
       (o.people || []).forEach(add);
       (online || []).forEach(add);
       (known || []).forEach(add);
@@ -1450,11 +1455,12 @@
       if (known === null) loadKnown().then(complete);
       var q = t.q;
       // A name already typed out in full, and a space after it, is finished.
-      if (t.done && people().some(function (h) { return fold(h) === q; })) { shut(); return; }
-      var list = people().filter(function (h) {
+      if (t.done && (people().some(function (h) { return fold(h) === q; }) || ROLE_SAYS[q])) { shut(); return; }
+      // The roles this reader may call come first, being few, each saying what it calls.
+      var list = mayCall().filter(function (r) { return !q || r.indexOf(q) === 0; }).map(function (r) { return '@' + r; }).concat(people().filter(function (h) {
         var f = fold(h);
         return !q || f.indexOf(q) === 0 || f.split(' ').some(function (w) { return w.indexOf(q) === 0; });
-      }).slice(0, 8);
+      })).slice(0, 8);
       if (!list.length) { shut(); return; }
       offer = list;
       pick.textContent = '';
@@ -1463,6 +1469,7 @@
         li.id = tid + '-at-' + i;
         li.setAttribute('role', 'option');
         li.appendChild(el('span', 'cb-opt__name', h));
+        if (h.charAt(0) === '@') li.appendChild(el('span', 'cb-opt__tag', ROLE_SAYS[h.slice(1)]));
         li.addEventListener('mousedown', function (e) { e.preventDefault(); });
         li.addEventListener('click', function () { choose(i); });
         pick.appendChild(li);
@@ -1474,11 +1481,14 @@
     function choose(n) {
       var t = token(), h = offer[n];
       if (!t || !h) { shut(); return; }
+      // A role is offered as its word with its @, and the server finds it in the words.
+      var role = h.charAt(0) === '@';
+      if (role) h = h.slice(1);
       var v = text.value;
       text.value = v.slice(0, t.start) + '@' + h + ' ' + v.slice(t.end);
       var c = t.start + h.length + 2;
       text.setSelectionRange(c, c);
-      if (picked.every(function (x) { return fold(x) !== fold(h); })) picked.push(h);
+      if (!role && picked.every(function (x) { return fold(x) !== fold(h); })) picked.push(h);
       shut();
       saveDraft();
       text.focus();
@@ -1576,7 +1586,7 @@
           else sp.appendChild(el('span', 'cb-quiet', said));
           return sp;
         });
-        markMentions(shown, mentioned().concat(o.people || []));
+        markMentions(shown, mentioned().concat(o.people || []), mayCall());
         shown.hidden = false;
         look.setAttribute('aria-pressed', 'true');
         look.textContent = 'Hide the preview';

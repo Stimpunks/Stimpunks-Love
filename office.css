@@ -317,6 +317,8 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
   text-decoration: underline dotted; text-underline-offset: 3px;
 }
 .of-at--me { border-bottom: 2px solid var(--cb-amber); text-decoration: none; }
+/* A role called (@moderator and the rest): nothing to press, so no dotted line. */
+.of-at--role { cursor: text; text-decoration: none; }
 .of-peek .of-at { cursor: default; }
 
 /* THE FORMATTING TOOLBAR (format.js): a row of word buttons over the box, in

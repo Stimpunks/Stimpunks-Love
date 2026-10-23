@@ -96,7 +96,7 @@
                                                      the reader can open (findLinks), by POST so q is in no address
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
-import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
+import { readPass, forumReader, mentionableRoles, rolesOf, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
@@ -125,7 +125,8 @@ export default async (req) => {
   if (!officeReady()) return json(503, { error: 'The office is shut: its key is not set, so nothing in it can be opened.' }, QUIET);
   // An administrator may delete anybody's comment, so the page offers it.
   // people: who a comment can @mention, the office's own readers, for the page's @ list and drawing.
-  const me = { handle: who.handle, admin: who.roles.has('administrator'), people: taskPeople() };
+  // mention and roles: the roles a comment can call with an @, and the reader's own, as Tasks has them.
+  const me = { handle: who.handle, admin: who.roles.has('administrator'), people: taskPeople(), mention: mentionableRoles(who), roles: rolesOf(who) };
   // Every answer's links to tasks, topics and the office named for this reader, last.
   const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   const url = new URL(req.url);

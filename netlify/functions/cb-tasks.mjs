@@ -45,7 +45,7 @@
      { action: 'template-remove', id }               a template deleted; the tasks made from it stay
    A task saved with tpl, a template's id, keeps which template it was made from.
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
-import { readPass, forumReader, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
+import { readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
@@ -76,7 +76,8 @@ export default async (req) => {
       : { error: 'Tasks are for our directors, board members and administrators, on a claimed username. Claim yours under Account on the radio.', claim: true }, QUIET);
   }
   // An administrator may delete anybody's comment, so the page offers it.
-  const me = { handle: who.handle, admin: who.roles.has('administrator') };
+  // mention: the roles a description or comment can call with an @; roles: the reader's own, so a call of one is marked.
+  const me = { handle: who.handle, admin: who.roles.has('administrator'), mention: mentionableRoles(who), roles: rolesOf(who) };
   // Every answer's links to tasks, topics and the office named for this reader, last.
   const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
   const url = new URL(req.url);

@@ -159,9 +159,14 @@
   /* @ and a few letters: the people the words can mention, the forums' and
      the radio's @ list for Tasks and the office (Ryan's ask, 2026-10-21). A
      handle can have spaces in it, so up to three words follow the @, as the
-     forums' list had it.
-     o: { people() (the handles to offer), me (your own, never offered), said(text)?, after()? } */
+     forums' list had it. The roles the page says its reader may call
+     (@moderator and the rest, Ryan's ask, 2026-10-23) come first, each saying
+     what it calls and never who holds it.
+     o: { people() (the handles to offer), roles()? (the roles), me (your own, never offered), said(text)?, after()? } */
   function fold(h) { return String(h || '').normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim(); }
+  var ROLE_SAYS = { administrator: 'Calls every administrator', board: 'Calls the board', director: 'Calls every director', moderator: 'Calls every moderator' };
+  var ROLE_OPT = {};
+  Object.keys(ROLE_SAYS).forEach(function (r) { ROLE_OPT[r] = { role: r }; });
   function people(text, o) {
     return menu(text, {
       label: 'People to mention', wait: 0,
@@ -171,16 +176,22 @@
         return { start: c - m[2].length - 1, end: c, q: fold(m[2]), done: / $/.test(m[2]) };
       },
       find: function (q) {
-        var all = (o.people() || []).filter(function (h) { return h && fold(h) !== fold(o.me); });
+        var all = (o.people() || []).filter(function (h) { return h && fold(h) !== fold(o.me) && !ROLE_SAYS[fold(h)]; });
+        var roles = ((o.roles && o.roles()) || []).filter(function (r) { return ROLE_SAYS[r]; });
         // A name typed out in full, with a space after it, is finished.
-        if (/ $/.test(q) && all.some(function (h) { return fold(h) === q.trim(); })) return null;
+        if (/ $/.test(q) && (all.some(function (h) { return fold(h) === q.trim(); }) || ROLE_SAYS[q.trim()])) return null;
         var qq = q.trim();
-        return all.filter(function (h) { var f = fold(h); return !qq || f.indexOf(qq) === 0 || f.split(' ').some(function (w) { return w.indexOf(qq) === 0; }); }).slice(0, 8);
+        return roles.filter(function (r) { return !qq || r.indexOf(qq) === 0; }).map(function (r) { return ROLE_OPT[r]; })
+          .concat(all.filter(function (h) { var f = fold(h); return !qq || f.indexOf(qq) === 0 || f.split(' ').some(function (w) { return w.indexOf(qq) === 0; }); })).slice(0, 8);
       },
       empty: function () { return 'Nobody here is called that.'; },
-      row: function (li, h) { li.appendChild(el('span', 'cb-opt__name', h)); },
-      put: function (h) { return '@' + h + ' '; },
-      told: function (h) { return 'Mentioned ' + h + '.'; },
+      row: function (li, h) {
+        if (!h.role) { li.appendChild(el('span', 'cb-opt__name', h)); return; }
+        li.appendChild(el('span', 'cb-opt__name', '@' + h.role));
+        li.appendChild(el('span', 'cb-opt__tag', ROLE_SAYS[h.role]));
+      },
+      put: function (h) { return '@' + (h.role || h) + ' '; },
+      told: function (h) { return h.role ? 'Mentioned @' + h.role + '.' : 'Mentioned ' + h + '.'; },
     }, o);
   }
 
@@ -189,10 +200,15 @@
      people the words could mention), matched as the server's mentions()
      matches, so an @ followed by nobody stays words. Yours is marked. Not
      inside a link, code or a button. Answers whether you were mentioned.
-     o: { p (prefix), me, said(text)? } */
+     A role the words call (o.roles: the ones the server kept with a post, or
+     every role a page's writers may call) is words in a mention's ink with
+     nothing to press, and marked when the reader holds it (o.mine).
+     o: { p (prefix), me, roles?, mine?, said(text)? } */
   function mentions(into, handles, o) {
     var list = [];
-    (handles || []).forEach(function (h) { if (typeof h === 'string' && h.trim() && list.every(function (x) { return fold(x) !== fold(h); })) list.push(h); });
+    var called = (o.roles || []).filter(function (r) { return ROLE_SAYS[r]; }), mine = o.mine || [];
+    (handles || []).forEach(function (h) { if (typeof h === 'string' && h.trim() && !ROLE_SAYS[fold(h)] && list.every(function (x) { return fold(x) !== fold(h); })) list.push(h); });
+    list = list.concat(called);
     if (!list.length) return false;
     list.sort(function (a, b) { return b.length - a.length; });
     var escd = list.map(function (h) { return h.normalize('NFKC').trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+'); });
@@ -211,13 +227,22 @@
         var at = m.index + m[1].length;
         frag.appendChild(document.createTextNode(words.slice(last, at)));
         var named = m[2].replace(/\s+/g, ' ');
+        if (called.indexOf(fold(named)) >= 0) {
+          var held = mine.indexOf(fold(named)) >= 0;
+          if (held) mineToo = true;
+          var r = el('span', o.p + '-at ' + o.p + '-at--role' + (held ? ' ' + o.p + '-at--me' : ''), '@' + m[2]);
+          if (held) r.appendChild(el('span', 'sr', ', a role you hold'));
+          frag.appendChild(r);
+          last = at + 1 + m[2].length;
+          continue;
+        }
         var h = list.filter(function (x) { return fold(x) === fold(named); })[0] || named;
-        var mine = !!o.me && fold(h) === fold(o.me);
-        if (mine) mineToo = true;
-        var b = el('button', o.p + '-at' + (mine ? ' ' + o.p + '-at--me' : ''), '@' + m[2]);
+        var isMe = !!o.me && fold(h) === fold(o.me);
+        if (isMe) mineToo = true;
+        var b = el('button', o.p + '-at' + (isMe ? ' ' + o.p + '-at--me' : ''), '@' + m[2]);
         b.type = 'button';
         b.setAttribute('aria-haspopup', 'dialog');
-        b.setAttribute('aria-label', mine ? '@' + h + ', you. Opens your profile.' : '@' + h + '. Opens their profile.');
+        b.setAttribute('aria-label', isMe ? '@' + h + ', you. Opens your profile.' : '@' + h + '. Opens their profile.');
         (function (who, btn) {
           btn.addEventListener('click', function () {
             if (window.loveRadioPeek) window.loveRadioPeek(who, btn, null);

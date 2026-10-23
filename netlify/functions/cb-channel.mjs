@@ -7,7 +7,7 @@
    heard only by a radio tuned to that room. A radio whose person was given a
    role or had one taken away at the desk is handed the pass they hold now
    (swap: readPass), which it keeps in place of the old one. */
-import { readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, shape, shapeBeacons, callsReady, json } from '../cb/lib.mjs';
+import { readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeBeacons, callsReady, json } from '../cb/lib.mjs';
 
 export default async (req) => {
   const who = await readPass(req);
@@ -19,7 +19,7 @@ export default async (req) => {
   const swap = who.swap ? { swap: who.swap } : {};
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.', roles: rolesOf(who), ...swap });
   const [ch, beacons] = await Promise.all([readTuned(room), readBeacons()]);
-  return json(200, { room: room || null, messages: shape(ch.messages), beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), roles: rolesOf(who), ...swap });
+  return json(200, { room: room || null, messages: shape(ch.messages), beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), roles: rolesOf(who), mention: mentionableRoles(who), ...swap });
 };
 
 export const config = {

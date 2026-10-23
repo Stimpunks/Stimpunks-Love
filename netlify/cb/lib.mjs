@@ -4741,6 +4741,9 @@ async function updateAccount(handle, change, s) {
   throw new Error('busy');
 }
 
+// A role's word is not a username (ROLE_ANYBODY, under Notifications).
+const ROLE_WORD = 'That is the name of a role on the CB: @moderator, @director, @board and @administrator call everybody who holds one, so nobody can have it as a username. Pick another.';
+
 /* Claim `handle` with `password`, and an email address for recovery if one
    is given. The first claim wins; a handle on the moderators' list cannot be
    claimed. Answers { v, recovery } with the code to be shown once, or
@@ -4748,6 +4751,7 @@ async function updateAccount(handle, change, s) {
 export async function claimAccount(handle, password, s = store(), now = Date.now(), mods, asBase = false, email = null) {
   if (mods === undefined) mods = await loadMods();
   if (!asBase && mods && mods.has(foldHandle(handle))) return { error: 'That handle is a moderator\'s, and only they can move it onto a password of their own.' };
+  if (roleWord(handle)) return { error: ROLE_WORD };
   const pw = ownPassword(password);
   if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not the community or the moderators' password. A few words you will remember is fine.` };
   const box = await recoveryBox(email);
@@ -5255,6 +5259,7 @@ export async function checkHandle(handle, mods, s = store()) {
   if (mods === undefined) mods = await loadMods();
   const h = cleanHandle(handle);
   if (!h) return { ok: false, why: `A username is between one and ${HANDLE_MAX} characters.` };
+  if (roleWord(h)) return { ok: false, taken: true, why: ROLE_WORD };
   const m = mods && mods.get(foldHandle(h));
   if (await readAccount(m ? m.handle : h, s)) return { ok: false, taken: true, mod: !!m, why: 'That username has been claimed already. Pick another.' };
   return { ok: true, mod: !!m, handle: m ? m.handle : h };
@@ -5268,6 +5273,7 @@ export async function joinAccount({ invite, handle, modPassword, password, email
   if (mods === undefined) mods = await loadMods();
   const h = cleanHandle(handle);
   if (!h) return { error: `A username is between one and ${HANDLE_MAX} characters.` };
+  if (roleWord(h)) return { error: ROLE_WORD, taken: true };
   // FAIL CLOSED: with no readable list, a moderator's username cannot be told
   // from anybody's, and an invite could claim one.
   if (!mods) return { error: 'Joining is switched off until the moderators\' list can be read, so that nobody claims a moderator\'s username by mistake. Tell Ryan or Helen.' };
@@ -7076,6 +7082,8 @@ function shapePost(p, who, mark, doc = false, editor = false) {
   if (p.cb && p.cb.messages && p.cb.messages.length) out.cb = shapeCopied(p.cb, who);
   if (p.files && p.files.length) out.files = p.files.map((f) => shapeFile(f, placed.has(f.id)));
   if (p.at && p.at.length) out.at = p.at.slice();
+  const roles = keptRoles(p.roles);
+  if (roles.length) out.roles = roles;
   return out;
 }
 /* `placed`: the picture stands in the words, so it is not shown again below. */
@@ -7198,9 +7206,15 @@ function snippet(text, from) {
   return (at ? '…' : '') + [...plain].slice(at, at + 180).join('') + (plain.length > at + 180 ? '…' : '');
 }
 
+/* The first role kept with a post that the reader holds, if any. */
+function calledAs(roles, who) {
+  if (!who || who.role !== 'base' || !who.roles) return null;
+  return keptRoles(roles).find((r) => who.roles.has(r)) || null;
+}
+
 /* Where the reader has been @mentioned, by somebody else, in the topics they
-   may see: worked out from the words every time it is asked, the latest
-   first, and kept nowhere. */
+   may see, by name or as a role they hold: worked out from the words every
+   time it is asked, the latest first, and kept nowhere. */
 export async function forumMentions(who, s = store(), now = Date.now()) {
   if (!forumReader(who)) return [];
   const me = foldHandle(who.handle), out = [];
@@ -7208,13 +7222,15 @@ export async function forumMentions(who, s = store(), now = Date.now()) {
     if (out.length >= 30) break;
     const texts = [];
     t.posts.forEach((p) => {
-      if (p.body && foldHandle(p.handle) !== me) texts.push({ post: p.id, handle: p.handle, text: p.body, t: p.t });
+      if (p.body && foldHandle(p.handle) !== me) texts.push({ post: p.id, handle: p.handle, text: p.body, t: p.t, roles: p.roles });
       if (p.cb) p.cb.messages.forEach((m) => { if (foldHandle(m.handle) !== me) texts.push({ post: p.id, handle: m.handle, text: m.text, t: m.t }); });
     });
-    const hit = texts.filter((y) => mentions(y.text, who.handle)).sort((a, b) => b.t - a.t)[0];
+    // By name, or as a role the reader holds that the post calls (roleMentions kept it).
+    const hit = texts.filter((y) => mentions(y.text, who.handle) || !!calledAs(y.roles, who)).sort((a, b) => b.t - a.t)[0];
     if (!hit) continue;
     const r = shapeSummary(x, c);
-    r.match = { post: hit.post, handle: hit.handle, words: snippet(hit.text, Math.max(0, foldHandle(tidy(hit.text)).indexOf('@' + me))) };
+    const as = mentions(hit.text, who.handle) ? me : calledAs(hit.roles, who);
+    r.match = { post: hit.post, handle: hit.handle, words: snippet(hit.text, Math.max(0, foldHandle(tidy(hit.text)).indexOf('@' + as))) };
     out.push(r);
   }
   return out;
@@ -7271,6 +7287,9 @@ function makePost(who, body, links, now, files = [], at = []) {
   if (links && links.length) p.links = links;
   if (files.length) p.files = files;
   if (at.length) p.at = at;
+  // The roles it calls, which only the writer's own pass decides (roleMentions).
+  const roles = roleMentions(body, who);
+  if (roles.length) p.roles = roles;
   return p;
 }
 
@@ -7436,6 +7455,9 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
     if (att.files.length) p.files = att.files; else delete p.files;
     const at = mentionedIn(body, f.at, t);
     if (at.length) p.at = at; else delete p.at;
+    // The roles are worked out again by whoever is editing: a wiki's editor calls only the roles they may.
+    const roles = roleMentions(body, who);
+    if (roles.length) p.roles = roles; else delete p.roles;
     if (title !== undefined) {
       if (k !== 0 || (t.by !== mark && !editor)) return { why: 'Only whoever started a topic can change its title.' };
       t.title = title;
@@ -8355,12 +8377,56 @@ export async function dropDevicesOf(handle, s = store()) {
   return true;
 }
 
-/* Whether a message names this handle with an @, the way somebody would. */
-export function mentions(text, handle) {
-  const h = String(handle || '').normalize('NFKC').trim();
+/* Whether words name this with an @, the way somebody would. */
+function atName(text, name) {
+  const h = String(name || '').normalize('NFKC').trim();
   if (!h || !text) return false;
   const esc = h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
   return new RegExp(`(^|[^\\p{L}\\p{N}_@])@${esc}(?![\\p{L}\\p{N}_]|:\\d)`, 'iu').test(String(text).normalize('NFKC'));
+}
+/* Whether a message names this handle with an @. A role's name is never a
+   person's (roleWord), so @board is the board and nobody's handle. */
+export function mentions(text, handle) {
+  return !roleWord(handle) && atName(text, handle);
+}
+
+/* ROLE MENTIONS. Ryan's ask, 2026-10-23: @moderator, @director, @board and
+   @administrator, which tell everybody who holds that role, the way @mods does
+   on Discord. A role is named by its own word in ROLES, singular, and nothing
+   else: @moderators stays words.
+
+   WHO MAY CALL WHICH ROLE is ROLE_ANYBODY's: anybody with a claimed username
+   may call @moderator, because calling the moderators is how somebody asks
+   for help; @director, @board and @administrator are for the base, every
+   role on the list, so the people who run things are not a number anybody can
+   ring. The server keeps on a message or a post only the roles its sender may
+   call and its words name (roleMentions), as it keeps only the handles the
+   words name, so a mention is never drawn as calling a role that nobody was
+   told about.
+
+   WHO IS TOLD is everybody holding the role, on their devices that asked to
+   hear When somebody @mentions me, whose pass may go where the words were
+   said (roomAllows, forumAllows), and never in a room that keeps to itself,
+   exactly as a mention of their handle. NOBODY IS EVER TOLD WHO HOLDS A
+   ROLE: not the sender, not the radio, not the @ list. The friendly edits are
+   the role's people in the @ list "so you know who you are calling" and a
+   count of who was told; who holds which role is not ours to publish.
+
+   A ROLE'S WORD IS NOBODY'S USERNAME: checkHandle, joinAccount and
+   claimAccount refuse one (roleWord), so @board can only ever be the board. */
+export const ROLE_ANYBODY = ['moderator'];
+export function roleWord(h) { return ROLES.includes(foldHandle(h)); }
+export function mentionableRoles(who) {
+  if (!who) return [];
+  if (who.role === 'base') return ROLES.slice().sort();
+  return who.account ? ROLE_ANYBODY.slice() : [];
+}
+export function roleMentions(text, who) {
+  return text ? mentionableRoles(who).filter((r) => atName(text, r)) : [];
+}
+// The roles a message kept, as they may be shown: only ROLES, each once.
+function keptRoles(list) {
+  return Array.isArray(list) ? ROLES.slice().sort().filter((r) => list.includes(r)) : [];
 }
 
 /* THE HANDLES A MESSAGE @MENTIONS, for every radio to draw as names (Ryan's
@@ -8486,6 +8552,8 @@ async function tellDevices(msg, room, before, s, mods, send, to = null) {
   if (send === sendPush && !pushReady()) return [];
   const devs = await readDevices(s);
   const from = foldHandle(msg.handle), quiet = !!(room && quietRoom(room));
+  // The roles it calls that it did not call before an edit (ROLE_ANYBODY).
+  const called = quiet ? [] : keptRoles(msg.roles).filter((r) => !(before && atName(before, r)));
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold === from) continue;
@@ -8494,22 +8562,28 @@ async function tellDevices(msg, room, before, s, mods, send, to = null) {
     const followed = before === null && (room ? followsRoom(w, room) : wants(w, 'world'));
     const named = wants(w, 'mentions') && !quiet && mentions(msg.text, h) && !(before && mentions(before, h));
     let answered = before === null && !!to && wants(w, 'replies') && !quiet && d.fold === foldHandle(to.handle);
-    if (!followed && !named && !answered) continue;
+    // Only a moderator's pass can hold a role, so no other device is read for one.
+    let role = called.length && wants(w, 'mentions') && d.pass && d.pass.kind === 'base' ? called : null;
+    if (!followed && !named && !answered && !role) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!roomAllows(who, room)) continue;
     // The message answered is this device's only if it is its sender's, the
     // way an edit would be (canEdit): a name somebody else holds now is not.
     if (answered && !canEdit(who, to)) answered = false;
-    if (!followed && !named && !answered) continue;
+    // A role it calls is this device's only if its pass holds that role now.
+    if (role) role = role.find((r) => who.role === 'base' && who.roles && who.roles.has(r)) || null;
+    if (!followed && !named && !answered && !role) continue;
     let text = '';
     if (w.words !== false) {
       text = linkWords(msg.text).replace(/\s+/g, ' ').trim();
       if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     const what = msg.img ? 'picture' : (msg.sticker || msg.avatar || msg.chimera || msg.patch || msg.jacket) ? 'sticker' : '';
-    const why = answered ? 'reply' : named ? 'mention' : 'channel';
+    const why = answered ? 'reply' : named || role ? 'mention' : 'channel';
     const payload = { kind: 'message', why, handle: msg.handle, room: room || '', text, what, id: msg.id };
+    // Called as a role and not by name: which role, so the notification can say so.
+    if (why === 'mention' && !named) payload.as = role;
     // A forum category's room is in no public list, so it says its own name.
     if (forumRoom(room)) payload.place = forumPlace(room);
     sends.push({ id, d, payload, opts: why !== 'channel' ? { urgency: 'high' } : { topic: topicFor(room || 'world') } });
@@ -8533,14 +8607,20 @@ export async function notifyForum(topic, post, before = '', s = store(), mods, s
   // A wiki's document says who edited it last, and an edit's mention is theirs.
   const writer = post.editedBy || post.handle;
   const from = foldHandle(writer);
+  // The roles it calls that it did not call before an edit (ROLE_ANYBODY).
+  const called = keptRoles(post.roles).filter((r) => !(before && atName(before, r)));
   const sends = [], gone = [];
   for (const [id, d] of Object.entries(devs)) {
     if (!d || d.fold === from || !wants(d.want, 'mentions')) continue;
     const h = d.pass && d.pass.handle;
-    if (!mentions(post.body, h) || (before && mentions(before, h))) continue;
+    const named = mentions(post.body, h) && !(before && mentions(before, h));
+    let role = called.length && d.pass && d.pass.kind === 'base' ? called : null;
+    if (!named && !role) continue;
     const who = await deviceWho(d, s, mods);
     if (!who) { gone.push(id); continue; }
     if (!forumAllows(who, cat)) continue;
+    if (role) role = role.find((r) => who.role === 'base' && who.roles && who.roles.has(r)) || null;
+    if (!named && !role) continue;
     let text = '', title = '';
     if (d.want.words !== false) {
       text = linkWords(post.body).replace(/\s+/g, ' ').trim();
@@ -8548,6 +8628,7 @@ export async function notifyForum(topic, post, before = '', s = store(), mods, s
       title = [...String(topic.title || '')].slice(0, FORUM_TITLE_MAX).join('');
     }
     const payload = { kind: 'forum', why: 'mention', handle: writer, cat: cat.name, title, text, t: topic.id, p: post.id };
+    if (!named) payload.as = role;
     sends.push({ id, d, payload, opts: { urgency: 'high' } });
   }
   return deliver(sends, gone, s, send);
@@ -8829,6 +8910,9 @@ export function editMessage(list, id, text, who, now = Date.now(), asked = null)
   // radio offered now, and the ones it named before, if they are still there.
   const named = channelMentions(words, [...(Array.isArray(asked) ? asked : []), ...(m.at || [])]);
   if (named.length) next[i].at = named; else delete next[i].at;
+  // And the roles it calls, which only the sender's own pass decides (roleMentions).
+  const roles = roleMentions(words, who);
+  if (roles.length) next[i].roles = roles; else delete next[i].roles;
   return { list: next, before: m.text || '', msg: next[i] };
 }
 
@@ -8933,6 +9017,8 @@ export function shape(messages) {
     const out = { id: m.id, handle: m.handle, text: m.text || '', t: m.t, base: !!m.base, claimed: !!m.claimed && !m.base };
     if (typeof m.edited === 'number') out.edited = m.edited;
     if (Array.isArray(m.at) && m.at.length) out.at = m.at.slice(0, MENTION_MAX);
+    const roles = keptRoles(m.roles);
+    if (roles.length) out.roles = roles;
     if (replyTo(m.re)) out.re = m.re;
     if (m.img) { out.img = m.img; out.alt = m.alt || ''; }
     const st = m.sticker && shapeSticker(m.sticker);
@@ -9273,8 +9359,11 @@ export function taskChanges(had, next) {
 /* Who an event concerns, and why, leaving out whoever made it. A comment
    concerns everybody on the task, whoever made it, anybody who commented on
    it before, and anybody it newly @mentions; an edited comment concerns only
-   the people it newly @mentions, as an edited forum post does. */
-function taskConcerns(kind, by, had, next, people, extra = {}) {
+   the people it newly @mentions, as an edited forum post does. A role it
+   newly calls (@board, say) mentions everybody on Tasks who holds it: every
+   reader of Tasks and the office is the base, so any of them may call any
+   role (mentionableRoles), and nobody is told who else holds it. */
+function taskConcerns(kind, by, had, next, people, extra = {}, mods = null) {
   const live = (h) => (h ? people.find((p) => foldHandle(p) === foldHandle(h)) : null);
   const onIt = (t) => (t ? [t.who, ...(t.with || [])].filter(Boolean) : []);
   const has = (list, h) => list.some((x) => foldHandle(x) === foldHandle(h));
@@ -9286,9 +9375,13 @@ function taskConcerns(kind, by, had, next, people, extra = {}) {
     if (!was || TASK_WHY.indexOf(why) < TASK_WHY.indexOf(was[1])) out.set(foldHandle(p), [p, why]);
   };
   const before = onIt(had), after = onIt(next), task = next || had;
+  const holds = (p, said, was) => {
+    const m = mods && mods.get(foldHandle(p));
+    return !!m && ROLES.some((r) => m.roles.has(r) && atName(said, r) && !atName(was, r));
+  };
   if (kind === 'commented') {
     const said = extra.comment ? extra.comment.body : '', was = extra.was || '';
-    for (const p of people) if (mentions(said, p) && !mentions(was, p)) add(p, 'mentioned');
+    for (const p of people) if ((mentions(said, p) && !mentions(was, p)) || holds(p, said, was)) add(p, 'mentioned');
     if (extra.edit) return [...out.values()];
     for (const h of after) add(h, 'yours');
     if (task.by) add(task.by, 'yours');
@@ -9299,7 +9392,10 @@ function taskConcerns(kind, by, had, next, people, extra = {}) {
   else {
     for (const h of after) add(h, has(before, h) ? 'yours' : (foldHandle(next.who || '') === foldHandle(h) ? 'assigned' : 'added'));
     for (const h of before) if (!has(after, h)) add(h, 'removed');
-    for (const p of people) if (mentions(next.body || '', p) && !mentions((had && had.body) || '', p)) add(p, 'mentioned');
+    for (const p of people) {
+      const said = next.body || '', was = (had && had.body) || '';
+      if ((mentions(said, p) && !mentions(was, p)) || holds(p, said, was)) add(p, 'mentioned');
+    }
   }
   if (task.by) add(task.by, 'yours');
   return [...out.values()];
@@ -9316,7 +9412,7 @@ async function noteTask(kind, by, had, next, s, now, mods, extra = {}) {
   if (kind === 'deleted') await s.delete(taskActivityBlob(task.id));
   // An edited comment is not a change to the task, so it is in nobody's activity; it only tells whoever it newly @mentions.
   else if (!extra.edit) await updateList(taskActivityBlob(task.id), 'events', (list) => [ev, ...list].slice(0, TASK_ACTIVITY_KEEP), s);
-  await tellTaskPeople(ev, taskConcerns(kind, by, had, next, taskPeople(mods), extra), s, now, mods, extra.send);
+  await tellTaskPeople(ev, taskConcerns(kind, by, had, next, taskPeople(mods), extra, mods), s, now, mods, extra.send);
 }
 
 /* Each person an event concerns gets it in their Notifications, and then their
@@ -9343,7 +9439,7 @@ export async function noteOfficeComment(what, rec, by, comment, extra, s = store
   if (mods === undefined) mods = await loadMods();
   const ev = { id: 'e' + randomBytes(9).toString('base64url'), t: now, by, kind: 'office', what, rec, comment: comment.id };
   const record = { who: null, with: [], by: extra.maker || null };
-  const told = taskConcerns('commented', by, record, record, taskPeople(mods), { comment, was: extra.was, edit: extra.edit, earlier: extra.earlier });
+  const told = taskConcerns('commented', by, record, record, taskPeople(mods), { comment, was: extra.was, edit: extra.edit, earlier: extra.earlier }, mods);
   await tellTaskPeople(ev, told, s, now, mods, extra.send);
 }
 
