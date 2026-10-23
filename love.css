@@ -4192,6 +4192,13 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
 }
 .pavement .signoff__fx { flex: 1 1 100%; margin: 0; font-size: 14px; color: var(--chalk); }
 
+/* THE NOTICE'S SLOT, at the top of <main> on the front page and the Community
+   Center: one line from our moderators, which notice.js draws in a shadow root
+   of its own, in the CB's clothes, notice.css (the forums and the office draw
+   it inside theirs). Layout and nothing else: the slot is empty and hidden
+   until there is a notice, and this is only the room under it. */
+[data-notice] { margin: 0 0 18px; }
+
 /* A PHOTOGRAPH IN A SPACE A ROOM LEFT FOR IT. An imported room cannot hold an
    <img>; it leaves an element with data-photo, and tools/import-room.py puts
    the photograph in once its consent record exists. Layout and nothing else:
@@ -19625,6 +19632,8 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .md-desk__code { font-family: ui-monospace, Menlo, monospace; font-size: 22px; letter-spacing: .08em; user-select: all; }
 .md-desk button { margin: 0 10px 8px 0; }
 .md-desk__in--wide { width: min(100%, 30em); }
+/* The notice as the pages will show it, drawn by notice.js in its own clothes; only the room under it is ours. */
+.md-notice-slot { margin: 0 0 14px; }
 /* The invites: each one's link to copy, what it is for and how far it has gone,
    on the panel, with a rule down its side like a reported message's. */
 .md-invites { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 18px; }
@@ -26192,6 +26201,8 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
      The radio is a control; controls never belong on paper. */
   .cb-host { display: none !important; }
   .fx-host { display: none !important; }
+  /* Nor the notice, which is for whoever opens the page today. */
+  [data-notice] { display: none !important; }
 
   /* Ink on paper, everywhere, with no exceptions by class.
      This used to reset backgrounds on a LIST of components, which meant every

@@ -9,66 +9,73 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Fri, 23 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A notice along the top of the street</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-23-notice</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-notice</guid>
+      <pubDate>Fri, 23 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Our moderators can put up one line along the top of the street’s front page, the Community Center, the forums and the office’s dashboard (Ryan’s ask), for everybody, signed on or not. The first is up already: our own Rando Calrissian launches Cloud Services. It is put up, changed and taken down at the desk in the Moderators’ room, which shows how it will look first and asks once more. One notice at a time, one line of up to 280 characters with bold, italic and links; a new one replaces the old, and the Brass Tacks Board is still where notices are kept. At MAX GLITTER it sparkles: stars twinkle along its rims, each on its own clock, and a fanfare plays once when it arrives or when the dial is turned up to MAX, two herald’s horns with notes rising out of their bells and a wave of sparks running along it. The fanfare makes no sound, because nothing on the street sounds until somebody presses something. Below MAX nothing on it moves, and at MAX nothing flashes and nothing crosses a word. It wears the CB’s clothes, because it is the CB’s: the radio’s colours, in the theme your radio wears on the page, or the forums’ and the office’s own. The privacy page says what it keeps: the words, and which moderator put it up or took it down last and when, shown only at the desk. Opening those pages asks for it once, with nothing of yours in the request. New: notice.js, notice.css, netlify/functions/cb-notice.mjs and tools/check-notice.py. Changed: netlify/cb/lib.mjs, desk.js, forum.js, office.js, forum.css, love.css, call.js, guest.js, the pages it is on, the Moderators’ room, privacy.html and cb-guide.html.</description>
+    </item>
+    <item>
       <title>The channel comes first on the radio</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-cb-parts-order</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-cb-parts-order</guid>
-      <pubDate>Fri, 23 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:59:00 GMT</pubDate>
       <description>The channel is straight under the room’s name now, rather than after Who’s around, Unreads and Events, which had pushed it too far down. Messages comes next. On the channel as and Be seen here have a part of their own, In this channel, as they do on the chat page, under Messages, with Bring my familiar, Join this room’s call and what is on now in the room. Where you are is the room’s name. Everything after that is in the order it was. At Full on a wide window the room’s name and the channel are the first column, wide, then Messages to Events, then the rest. The chat page is as it was. Changed: cb.js, cb.css and cb-guide.html.</description>
     </item>
     <item>
       <title>Events on the CB, after Discord’s</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-cb-events</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-cb-events</guid>
-      <pubDate>Fri, 23 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:58:00 GMT</pubDate>
       <description>Anybody signed on to the CB can schedule an event (Ryan’s ask and calls, after Discord’s scheduled events): on World or in a room they can go into, in its call, in the room itself, or at a link off the street, with a title, a date and time, how long it runs and what it is about. It can repeat every week, every other week, every month on the same weekday, or every weekday, and keeps to its maker’s clock when summer time starts or ends. Whoever scheduled it, or a moderator, can change it, cancel one time, or cancel it. Events is a part of the radio now, after Unreads, with what is on now in the room you are in, and on the chat page it is at the top of the channels and opens in the middle, at chat.html#events. Every time is in your own clock. An event names who is interested and never how many, the way a reaction does, where Discord prints a number on every event. I’m interested puts your username on its list, and Add to my calendar gives your device a calendar file of the next time, made in your browser and sent nowhere. Who sees one is who may go where it is: everybody on World, and in a room, whoever may go into the room, so an event in a Town Hall room or a staff category is only theirs. A room that keeps to itself has no events. Two more notifications, each off until switched on: When an event I’m interested in starts, up to five minutes before, and New events on World and in rooms I follow. Pressing one opens the chat page on that event. The privacy page says what is kept first: the event, its maker’s username and the usernames of everybody interested, and nothing about when anybody did anything. Forget me and deleting your username take your events and your name off every list. New: netlify/functions/cb-events.mjs, netlify/functions/cb-events-start.mjs, which tells starts every five minutes, and tools/check-events.py. Changed: netlify/cb/lib.mjs, cb.js, cb.css, cb-sw.js, privacy.html, cb-guide.html and tools/make-chat.py.</description>
     </item>
     <item>
       <title>A topic’s controls go to its foot</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-forum-topic-controls</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-forum-topic-controls</guid>
-      <pubDate>Fri, 23 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:57:00 GMT</pubDate>
       <description>In the forums, Pin, Close, Move, Tags, Add a poll and Take the topic down are at the foot of a topic now, under Change this topic, after the posts and the reply box. They used to sit between the title and the first post, and the list for moving a topic read as the category it was in, which confused people. Nothing stands between a topic’s title and its words now, reading it or editing it. Moving a topic names no category until one is chosen: the list starts on Choose a category, under the words Move it to another category, and Move with nothing chosen asks for one. On a new topic, Tags are under the words, with the pictures and the poll, rather than between the title and the words. Changed: forum.js, forum.css and cb-guide.html.</description>
     </item>
     <item>
       <title>Join requests reach our Organizations page</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-organizations-page</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-organizations-page</guid>
-      <pubDate>Fri, 23 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:56:00 GMT</pubDate>
       <description>A join request in the office can add an organization to our Organizations page on stimpunks.org, when they filled in that part of the Join form. A director names it (the form has not asked for the name), tidies its link and words, and chooses its ground. Check the Organizations page reads the page, says whose entry it goes after, and brings the logo they uploaded to look at; the director says in words what it shows. Add it to the Organizations page copies that logo into stimpunks.org’s media library and writes the entry at the end of the page. The logo goes with its camera data taken off: where it was taken, the device and the time, from a PNG, JPEG or WebP; anything else is added by hand. The privacy page said so first. Nothing else of their join request goes, and nothing is added if the page has changed since it was checked or something by that name is on it already. Both lines now take the name somebody asks to be shown by, once the Join form asks for it, and the Members page line falls back to the name they gave on the form. Changed: privacy.html, netlify/cb/lib.mjs and its tests, netlify/functions/cb-office.mjs, office.js, data/office.json, data/tasks.json, tools/make-office.py, architecture.html and cb-guide.html.</description>
     </item>
     <item>
       <title>Join requests reach our Members page</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-members-page</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-members-page</guid>
-      <pubDate>Fri, 23 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:55:00 GMT</pubDate>
       <description>A join request in the office can add somebody to our Members page on stimpunks.org, when they filled in that part of the Join form. It shows their line as it will look there, their name or pseudonym linked to their website and their words, in boxes a director can tidy first. Check the Members page reads the page and says whose line theirs goes after, and Add them to the Members page writes that one line at the end of its list. This is the first time the office writes to stimpunks.org, as one WordPress user with an application password: Ryan’s ask. The privacy page said so first. Nothing else of their join request goes, it never happens when a form arrives, and nothing is added if the page has changed since it was checked or somebody by that name is on it already. WordPress keeps the page as it was before as a revision. Changed: privacy.html, netlify/cb/lib.mjs and its tests, netlify/functions/cb-office.mjs, office.js, office.css, data/office.json, data/tasks.json, tools/make-office.py, architecture.html and cb-guide.html.</description>
     </item>
     <item>
       <title>A CB invite in the welcome email</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-office-invites</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-office-invites</guid>
-      <pubDate>Fri, 23 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:54:00 GMT</pubDate>
       <description>A mailing template in the office can hold {invite}, a link to join the CB. Writing to somebody with it, from their contact or now straight from their join request, the email waits for Make their invite: one press makes a CB invite that works once and runs out after thirty days, fills its link into the email, and then Gmail opens with it ready to read and send. Nobody has to visit the moderators’ desk and paste a code in. Its note says only that it was made in the office for one person, and nothing writes down whom it was for, on the invite, the contact or the join request, the same rule every invite keeps. Looking at a page makes no invite, each press makes a new one, and a mailing, which goes to many people, refuses a template with {invite} in it. Changed: privacy.html, netlify/cb/lib.mjs and its tests, netlify/functions/cb-office.mjs, office.js, data/tasks.json, tools/make-accounts.py, tools/make-office.py and cb-guide.html.</description>
     </item>
     <item>
       <title>Join requests reach our mailing lists</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-givebutter-lists</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-givebutter-lists</guid>
-      <pubDate>Fri, 23 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:53:00 GMT</pubDate>
       <description>A join request in the office now says which of our mailing lists they asked for on the Join form, the Members Only list and the Monthly Newsletter, and Add them to Givebutter’s lists adds them, on a director’s press. It sends Givebutter their name, their email address and the lists they said yes to, and nothing else of their join request. Givebutter finds somebody already there by their email and adds the lists without taking any away, and the join request then says which lists were sent and when. This is the first time the office writes to Givebutter, which until now it only read: Ryan’s call. The privacy page said so first. It is never sent when a form arrives, only on that press, so a spam entry never reaches a list. Changed: privacy.html, netlify/cb/lib.mjs and its tests, netlify/functions/cb-office.mjs, office.js, data/office.json, tools/make-office.py and cb-guide.html.</description>
     </item>
     <item>
       <title>A window seat in the Community Center</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-community-center-window-seat</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-community-center-window-seat</guid>
-      <pubDate>Fri, 23 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:52:00 GMT</pubDate>
       <description>The Community Center is a quiet room now, after somebody in our community asked for a softer look, in the biophilic, low-stimulation direction Ryan chose, with a sense of refuge. It is sage lime plaster with one big window facing north onto a hillside, so the light is soft and the same all day and no sun lands anywhere, and a deep seat is built into the bay under it, with a cushion, a throw and a plant on the sill. The stripes of sun behind every paragraph are gone, and so are the grid of the block wall over them, the black felt strips behind the headings and the orange stacking chairs. Every word sits on flat plaster now, the headings are the room’s rounded face in its own ink, and the front desk, the community service board’s pigeonholes and the member map are pale ash. It leans on 14 Patterns of Biophilic Design, by William Browning, Catherine Ryan and Joseph Clancy for Terrapin Bright Green (2014), credited in the room and in the liner notes: a view of a living hillside, a seat to look out from with the wall behind you, soft light, and lime, ash and wool. Nothing in the room moves at any setting. Its door on the street has a hill in its window, its share card is the window seat, and its job marker is a leaf fallen from the plant on the sill. The job is the same job, and anybody who had done it still has. Changed: community-center.html, love.css, index.html, design.html, liner-notes.html, README.md, fonts/_sources.json, data/quests.json, data/community.json, data/fractals.json, tools/make-og.py, tools/make-guild.py, tools/make-community.py and tools/check-contrast.py, and the notes in other rooms’ sections that described the old hall.</description>
     </item>
     <item>
       <title>The member map zooms</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-member-map-zoom</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-member-map-zoom</guid>
-      <pubDate>Fri, 23 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:51:00 GMT</pubDate>
       <description>The member map on the Community Center’s wall zooms now, after Ryan asked whether he could: with Zoom in, Zoom out and Whole world under it, and West, North, South and East to move it, so a keyboard can do all of it, and by hand with a double press, a pinch, Ctrl or Cmd and the scroll wheel, and a drag. The pins stay the same size while the world grows under them, so crowded places like the US east coast and Britain pull apart, and on a phone the numbers on the pins are as big as anywhere else. Pressing a pin says where it is. Zoomed in, the map shows Natural Earth’s lakes, the borders between countries and the lines between states and provinces, from our own site, asked for only the first time somebody zooms, so the map everybody sees first is no heavier. It jumps where you ask rather than gliding, at every setting of the dial. Changed: community-center.html, love.css, member-map.js, member-map-detail.json (new), data/world-detail.json (new), tools/pull-world-land.py, tools/make-member-map.py, tools/check-contrast.py and liner-notes.html.</description>
     </item>
     <item>

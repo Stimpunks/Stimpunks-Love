@@ -4189,6 +4189,28 @@ Garden skips because it plants one bed per site; it may be empty (`empty_ok`) an
 in the street's orange, and its own world is a verdigris wall of brass plates (§90). Plural Mural's
 chalkboard is the community's and forgets in a week; this is the moderators' and keeps.
 
+**THE NOTICE IS ONE LINE FROM OUR MODERATORS, AND IT IS THE CB'S TOO.** Ryan's ask, 2026-10-23: a
+public notice along the top of the street's front page, the Community Center, the forums and the
+office's dashboard, put up, changed and taken down at the desk in the Moderators' room (`/cb/notice`,
+the notice part of `lib.mjs`, `notice.js`, `notice.css`), with sparkle and a fanfare at MAX GLITTER.
+**One blob, one notice**: its words, and who put it up or took it down last and when, which only the
+desk is told (`shapeNotice` sends the pages the words). One line of the board's Markdown
+(`cleanNotice`, `NOTICE_MAX`), built by `markdown.js`. **The first notice came with the site**
+(`NOTICE_FIRST`, Ryan's words), served while the blob does not exist; any change at the desk writes
+the blob, and taking one down writes that there is none, so the first never comes back by itself.
+**It wears the CB's clothes in a shadow root of its own**, cb.css and notice.css, the seven `--cb-*`
+and no colour of its own: on a page of its own the radio's scheme, or call.js's, or the device's (a
+third copy of `schemeFor('auto')`, beside guest.js's), and inside the forums and the office theirs.
+**Nothing on it moves below MAX.** At MAX stars twinkle along its rims and a fanfare plays once, on
+arriving or when the dial is turned up, never in a hidden tab: herald's horns, notes out of their
+bells and a wave of sparks along the rims. **The fanfare makes no sound**, because a notice arrives
+unpressed. Nothing flashes, nothing turns, and nothing crosses a word: the banner clips what tries.
+`tools/check-notice.py` holds all of it, and refuses a slot or a `loveNotice.into` anywhere
+`privacy.html#notice` does not name. **The friendly edits are a sound with the fanfare, the sparkle
+at Regular "so it is not bare", and a notice on every page**: the first breaks the street's oldest
+promise, the second the dial, and the third is the floating thing that made every room narrow its
+promises. **Nothing puts it away yet**; `DECISIONS.md` has that as open.
+
 **PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
 idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
 pass writes on it, and a note stays seven days**, thirty at most. Those two differences from the channel

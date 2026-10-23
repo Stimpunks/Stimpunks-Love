@@ -5523,6 +5523,78 @@ ${items}
 `;
 }
 
+/* ── The notice ──────────────────────────────────────────────────────────────
+
+   Ryan's ask, 2026-10-23: a public notice along the top of the street's front
+   page, the Community Center, the forums and the office's dashboard, put up
+   from the desk in the Moderators' room, with sparkle and a fanfare at MAX
+   GLITTER (notice.js and notice.css draw it). The Brass Tacks Board is where
+   notices are kept; this is one line for everybody, at the top, for as long as
+   a moderator leaves it up.
+
+   ONE NOTICE AT A TIME, IN ONE BLOB (`notice`): its words, and which moderator
+   put it up or took it down last and when, which only the desk is told. A new
+   one replaces the old, and nothing is archived. Every page is sent the words
+   and nothing else (shapeNotice).
+
+   ONE LINE OF MARKDOWN, READ HERE ONCE by parseBrass, the board's reader:
+   bold, italic, code and links, and never a heading, a list, a quote or a
+   table, because a banner is a sentence or two and the pages draw it as one
+   paragraph on the readout. NOTICE_MAX counts the Markdown too.
+
+   THE FIRST NOTICE CAME WITH THE SITE (NOTICE_FIRST, Ryan's words). It is what
+   the pages are told while the blob does not exist, so it was up the moment
+   this shipped, with nobody signing on to put it there. Changing it or taking
+   it down at the desk writes the blob, and from then on the blob is the
+   notice: taking one down writes that there is none rather than deleting, so
+   the first notice never comes back by itself. */
+export const NOTICE_MAX = 280;
+export const NOTICE_SHAPE = `A notice is one line of up to ${NOTICE_MAX} characters, Markdown included: words, **bold**, *italic* and [links](https://example.org/), with no heading, list or quote.`;
+const NOTICE = 'notice';
+export const NOTICE_FIRST = Object.freeze({ text: 'Our own Rando Calrissian launches [Cloud Services](https://randocloud.cloud/).', by: null, t: null });
+
+export function cleanNotice(v) {
+  const t = cleanBrassBody(v, NOTICE_MAX);
+  if (!t || t.includes('\n')) return null;
+  const ast = parseBrass(t);
+  return ast.length === 1 && ast[0].t === 'p' ? t : null;
+}
+
+function noticeUp(d) { return !!(d && typeof d.text === 'string' && d.text); }
+
+/* The notice as kept: { text, by, t }, text null when none is up. */
+export async function readNotice(s = store()) {
+  const d = await s.get(NOTICE, { type: 'json' });
+  if (!d || typeof d !== 'object') return NOTICE_FIRST;
+  return { text: noticeUp(d) ? d.text : null, by: typeof d.by === 'string' ? d.by : null, t: typeof d.t === 'number' ? d.t : null };
+}
+
+/* What every page is told: the words, read into nodes, and nothing about who. */
+export function shapeNotice(d) {
+  return noticeUp(d) ? { text: d.text, ast: parseBrass(d.text) } : null;
+}
+
+/* A moderator putting a notice up, replacing the one up now. { notice } or { error }. */
+export async function setNotice(who, text, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can put up the notice.' };
+  const t = cleanNotice(text);
+  if (!t) return { error: NOTICE_SHAPE };
+  const next = { text: t, by: who.handle, t: now };
+  await updateDoc(NOTICE, () => next, s);
+  return { notice: next };
+}
+
+/* A moderator taking it down. { cleared } or { error }. */
+export async function clearNotice(who, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'Only a moderator can take the notice down.' };
+  let was = false;
+  await updateDoc(NOTICE, (cur) => {
+    was = noticeUp(cur || NOTICE_FIRST);
+    return was ? { text: null, by: who.handle, t: now } : null;
+  }, s);
+  return was ? { cleared: true } : { error: 'There is no notice up.' };
+}
+
 /* ── The suggestion box ───────────────────────────────────────────────────
 
    The Sandbox. Ryan's brief, 2026-10-13: in its suggestion box,

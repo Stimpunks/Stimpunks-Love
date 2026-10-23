@@ -162,7 +162,8 @@
      chosen means), High contrast where the device asks for more contrast,
      Daylight where it is set light, and Amber otherwise, followed as the
      device changes. guest.js keeps a copy of schemeFor('auto') for the guest
-     bar, which never loads this file: change both. */
+     bar, which never loads this file, and notice.js one for the notice: change
+     all three. */
   /* Each is [key, name, group, what it is after, its drawing: 'moves' for one
      that moves at MAX GLITTER or when let, 'still' for one that never does].
      The worlds are Ryan's list of 2026-10-17, for "a really personal and fun

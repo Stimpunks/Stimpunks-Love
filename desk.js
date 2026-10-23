@@ -7,7 +7,9 @@
    breaks the covenant without deleting the username it is on; and 2026-10-21,
    invites in place of the starter password, which the desk makes and deletes.
    An invite counts its uses and never says who used it. And the same day,
-   roles: an administrator gives and takes them here (/cb/roles).
+   roles: an administrator gives and takes them here (/cb/roles). And on
+   2026-10-23, the notice along the top of the street's front
+   page, the Community Center, the forums and the office's dashboard (/cb/notice).
 
    IT OPENS ONLY FOR A BASE PASS, and the server refuses anybody else whatever
    this page shows: this file is the page keeping quiet, never the lock. It
@@ -422,6 +424,117 @@
         if (at) at.focus();
       }, function () { make.disabled = false; iSay('The desk could not be reached. No invite was made.'); });
     });
+  }());
+
+  /* THE NOTICE (Ryan's ask, 2026-10-23): one line along the top of the street's
+     front page, the Community Center, the forums and the office's dashboard.
+     What is up now is asked for when the desk opens, because the same words are
+     on those pages for anybody; the desk is also told which moderator put it up
+     or took it down last, and when. Put it up shows how it will look first and
+     asks once more, because it replaces what every visitor sees; Take it down
+     asks once more. notice.js draws both, as the pages do. */
+  (function () {
+    var box = document.getElementById('md-notice');
+    var nOff = document.getElementById('md-notice-off');
+    var now = document.getElementById('md-notice-now');
+    var words = document.getElementById('md-notice-words');
+    var look = document.getElementById('md-notice-look');
+    var set = document.getElementById('md-notice-set');
+    var clear = document.getElementById('md-notice-clear');
+    var shown = document.getElementById('md-notice-preview');
+    var nSaid = document.getElementById('md-notice-said');
+    if (!box || !now || !words || !look || !set || !clear || !shown || !window.loveNotice) return;
+    box.hidden = false;
+    if (nOff) nOff.hidden = true;
+    function nSay(t) { nSaid.textContent = t; }
+    function noticeCall(send) {
+      return fetch('/cb/notice', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+        body: JSON.stringify(send),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      });
+    }
+    function day(t) {
+      try { return new Date(t).toLocaleString(undefined, { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: '2-digit' }); } catch (e) { return ''; }
+    }
+    // What is up now, and whose doing it was.
+    function drawNow(b) {
+      now.textContent = '';
+      var who = b.by ? b.by + ' on ' + day(b.t) : null;
+      if (b.notice) {
+        now.appendChild(el('p', 'Up now, ' + (who ? 'put up by ' + who : 'the first notice, which came with the site') + ':', 'md-desk__lab'));
+        var slot = el('div', null, 'md-notice-slot');
+        now.appendChild(slot);
+        window.loveNotice.draw(slot, b.notice);
+        words.value = b.notice.text;
+      } else {
+        now.appendChild(el('p', 'There is no notice up' + (who ? ': ' + b.by + ' took the last one down on ' + day(b.t) + '.' : '.')));
+      }
+      clear.disabled = !b.notice;
+    }
+    function refresh() {
+      noticeCall({ action: 'look' }).then(function (r) {
+        if (r.status !== 200) { nSay(why(r, 'The notice could not be fetched just now.')); return; }
+        drawNow(r.body);
+      }, function () { nSay('The desk could not be reached just now.'); });
+    }
+    // How the words will set, drawn the way the pages will draw them.
+    function preview(then) {
+      var text = words.value.trim();
+      if (!text) { nSay('Type the notice first.'); words.focus(); return; }
+      nSay('Setting it…');
+      noticeCall({ action: 'preview', text: text }).then(function (r) {
+        shown.textContent = '';
+        if (r.status !== 200) { nSay(why(r, 'That could not be set just now.')); return; }
+        shown.appendChild(el('p', 'It will look like this:', 'md-desk__lab'));
+        var slot = el('div', null, 'md-notice-slot');
+        shown.appendChild(slot);
+        window.loveNotice.draw(slot, r.body.notice);
+        nSay('');
+        if (then) then(text);
+      }, function () { nSay('The desk could not be reached just now.'); });
+    }
+    function ask(sentence, yesText, act) {
+      var q = el('div');
+      q.appendChild(el('p', sentence));
+      var yes = button(yesText), no = button('Not now');
+      q.appendChild(yes); q.appendChild(no);
+      shown.appendChild(q);
+      no.focus();
+      no.addEventListener('click', function () { q.remove(); });
+      yes.addEventListener('click', function () { q.remove(); act(); });
+    }
+    look.addEventListener('click', function () { preview(); });
+    words.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); preview(); } });
+    set.addEventListener('click', function () {
+      preview(function (text) {
+        ask('This goes up at once on the street’s front page, the Community Center, the forums and the office’s dashboard, for everybody, in place of what is up now.', 'Put it up now', function () {
+          nSay('Putting it up…');
+          noticeCall({ action: 'set', text: text }).then(function (r) {
+            if (r.status !== 200) { nSay(why(r, 'That did not work. Nothing was changed.')); return; }
+            shown.textContent = '';
+            drawNow(r.body);
+            nSay('It is up. Each page shows it the next time it is opened.');
+            set.focus();
+          }, function () { nSay('The desk could not be reached. Nothing was changed.'); });
+        });
+      });
+    });
+    clear.addEventListener('click', function () {
+      shown.textContent = '';
+      ask('This takes the notice off the street’s front page, the Community Center, the forums and the office’s dashboard at once.', 'Take it down', function () {
+        nSay('Taking it down…');
+        noticeCall({ action: 'clear' }).then(function (r) {
+          if (r.status !== 200) { nSay(why(r, 'That did not work. Nothing was changed.')); return; }
+          drawNow(r.body);
+          nSay('It is down. The words are still in the box, if you want to put them back.');
+          look.focus();
+        }, function () { nSay('The desk could not be reached. Nothing was changed.'); });
+      });
+    });
+    refresh();
   }());
 
   /* REPORTED MESSAGES (Ryan, 2026-10-18): the one way a direct message reaches

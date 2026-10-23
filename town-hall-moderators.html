@@ -98,6 +98,21 @@
     </ul>
   </section>
 
+  <section class="md-part" aria-labelledby="md-notice-h">
+    <h2 id="md-notice-h">The desk: the notice</h2>
+    <p><strong>One line along the top of the street&rsquo;s front page, the Community Center, the forums and the office&rsquo;s dashboard</strong>, for everybody who opens them, signed on or not (since 23 October 2026). Put one up here, change it, or take it down; each page shows it the next time it is opened. There is one notice at a time, and a new one replaces the old: <a href="brass-tacks-board.html">the Brass Tacks Board</a> is where notices are kept.</p>
+    <p><strong>Up to 280 characters on one line</strong>, the Markdown counted: <code>**bold**</code>, <code>*italic*</code> and links written <code>[the words](https://the.address/)</code>, with no heading, list or quote. A link off the street says where it goes after it. At MAX GLITTER it sparkles, and a fanfare plays once when it arrives, with no sound, because nothing on the street sounds until somebody presses something; below MAX nothing on it moves. The pages are told the words and nothing else. The desk shows which moderator put it up or took it down last, and when, and nothing records who reads it.</p>
+    <div class="md-call md-desk" id="md-notice" hidden>
+      <div id="md-notice-now"></div>
+      <p><label class="md-desk__lab" for="md-notice-words">The notice</label>
+      <input class="md-desk__in md-desk__in--wide" id="md-notice-words" type="text" maxlength="280" autocomplete="off"></p>
+      <p><button type="button" id="md-notice-look">Show how it will look</button> <button type="button" id="md-notice-set">Put it up</button> <button type="button" id="md-notice-clear">Take it down</button></p>
+      <div id="md-notice-preview"></div>
+      <p class="md-call__said" id="md-notice-said" role="status"></p>
+    </div>
+    <p class="md-call__fine" id="md-notice-off">The notice opens for a moderator signed on as the base, and the server refuses everybody else whatever this page shows.</p>
+  </section>
+
   <section class="md-part" aria-labelledby="md-invites-h">
     <h2 id="md-invites-h">The desk: invites</h2>
     <p><strong>Everybody joins the CB with an invite.</strong> The starter password was retired on 21 October 2026, and every username on the CB is claimed now, with a password of its own. Make an invite here and share its link: it opens <a href="join.html">the joining page</a> with the code filled in, where somebody chooses a username and a password of their own, and an email address for recovery if they want one. The code works typed into that page too.</p>
@@ -265,6 +280,7 @@
 
 <script src="love.js" defer></script>
 <script src="callroom.js" defer></script>
+<script src="notice.js" defer></script>
 <script src="desk.js" defer></script>
 <script src="quest.js" defer></script>
 </body>

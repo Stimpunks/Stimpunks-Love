@@ -32,6 +32,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
+  readNotice, shapeNotice, setNotice, clearNotice, cleanNotice, NOTICE_FIRST, NOTICE_MAX,
   readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
@@ -367,6 +368,36 @@ test('the board: only a moderator posts, the author edits, any moderator takes a
   assert.deepEqual(await readBrass(s), []);
   assert.ok((await addBrass(MOD, { title: '', body: 'x' }, s)).error, 'a post with no title');
   assert.ok((await addBrass(MOD, { title: 't', body: '   ' }, s)).error, 'a post with nothing in it');
+});
+
+// THE NOTICE.
+test('the notice: the first one is up until a moderator changes it, and only a moderator does', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.equal((await readNotice(s)).text, NOTICE_FIRST.text, 'the first notice is not up before anybody has touched it');
+  const pub = shapeNotice(await readNotice(s));
+  assert.deepEqual(Object.keys(pub).sort(), ['ast', 'text'], 'a page is told more than the words');
+  assert.equal(pub.ast.length, 1); assert.equal(pub.ast[0].t, 'p');
+  assert.ok(pub.ast[0].c.some((n) => n.t === 'a' && n.href === 'https://randocloud.cloud/'), 'the first notice lost its link');
+  assert.ok((await setNotice(ANY, 'Hello', s)).error, 'somebody who is not a moderator put a notice up');
+  assert.ok((await clearNotice(ANY, s)).error, 'somebody who is not a moderator took the notice down');
+  for (const bad of ['', '   ', '# A heading', '- a list', '> a quote', 'two\nlines', 'x'.repeat(NOTICE_MAX + 1)]) {
+    assert.ok((await setNotice(MOD, bad, s)).error, 'a notice that is not one line went up: ' + JSON.stringify(bad.slice(0, 20)));
+  }
+  assert.equal((await readNotice(s)).text, NOTICE_FIRST.text, 'a refused notice changed the one up');
+  const { notice } = await setNotice(MOD, 'Gathering on **Sunday**.', s, 30);
+  assert.equal(notice.by, 'Juniper'); assert.equal(notice.t, 30);
+  assert.equal(shapeNotice(await readNotice(s)).ast[0].c[1].t, 'b');
+  assert.equal((await clearNotice(MOD2, s, 40)).cleared, true, 'another moderator could not take it down');
+  const down = await readNotice(s);
+  assert.equal(down.text, null); assert.equal(down.by, 'Quill'); assert.equal(shapeNotice(down), null);
+  assert.ok((await clearNotice(MOD, s)).error, 'a notice that was not up was taken down');
+  assert.ok(cleanNotice('One line, with [a link](/map.html).'), 'a link on the street was refused');
+});
+
+test('the notice: taking the first one down keeps it down', async () => {
+  const s = memoryStore({ etagOnRead: false });
+  assert.equal((await clearNotice(MOD, s, 5)).cleared, true);
+  assert.equal(shapeNotice(await readNotice(s)), null, 'the first notice came back after it was taken down');
 });
 
 test('the board: a picture is redrawn, described, said yes to, and goes with its post', async () => {

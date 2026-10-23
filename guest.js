@@ -107,7 +107,8 @@
   /* ITS COLOURS FOLLOW THE DEVICE, the radio's Match my device: High contrast
      where the device asks for more contrast, Daylight where it is set light,
      Amber otherwise. Nobody here has a radio to choose one in yet. A copy of
-     schemeFor('auto') in call.js, which the guest bar never loads: change both. */
+     schemeFor('auto') in call.js, which the guest bar never loads, and notice.js
+     keeps a third: change all three. */
   function media(q) { try { return window.matchMedia(q).matches; } catch (e) { return false; } }
   function dress(host) {
     host.setAttribute('data-scheme', media('(prefers-contrast: more)') ? 'high' : media('(prefers-color-scheme: light)') ? 'day' : 'amber');

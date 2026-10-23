@@ -45,6 +45,9 @@
 .fm-trim { margin: 0; }
 
 /* BACK ONE STEP, or nothing, above the page: steps.js fills it. */
+/* The notice (notice.js), when there is one, under the bar. */
+.fm-notice { padding: 14px 18px 0; }
+@media (max-width: 759px) { .fm-notice { padding: 12px 12px 0; } }
 .fm-back { padding: 14px 18px 0; }
 .fm-back:not([hidden]) + .fm-main { padding-top: 10px; }
 @media (max-width: 759px) { .fm-back { padding: 12px 12px 0; } }

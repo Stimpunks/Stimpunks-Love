@@ -1,0 +1,116 @@
+/* =============================================================================
+   The notice, drawn inside its own shadow root by notice.js, after cb.css.
+
+   THE CB'S CLOTHES, because the notice is the CB's: our moderators put it up
+   from the desk in the Moderators' room. It names no colour of its own, only
+   the radio's seven --cb-*, whose every pair check-contrast.py already
+   measures in every theme: the word NOTICE is the bar's steel on the bar, the
+   words are the readout's amber on the readout, a link's host is the readout's
+   second amber, and the focus ring is the readout's amber. cb.css's schemes do
+   the rest: on a page of its own it wears the scheme notice.js puts on its
+   host, and inside the forums or the office it sets none and wears theirs.
+
+   NOTHING MOVES BELOW MAX GLITTER. The sparkle and the fanfare are written
+   only under :host([data-dial="max"]), which notice.js copies off the dial; at
+   Gentle and Regular the notice is a still line, and its words are the same at
+   all three. NOTHING FLASHES: every star takes seconds to come and go, none in
+   step with another, and everything moves by opacity, scale and translate,
+   never a rotation. NOTHING CROSSES A WORD: the stars keep to the rims above
+   and below the readout, and the fanfare's notes rise out of the horns' bells
+   and fade as they reach the top rim, which clips anything that tries to go
+   further. tools/check-notice.py holds all of this.
+   ============================================================================= */
+:host { display: block; }
+[hidden] { display: none !important; }
+.nt, .nt * { box-sizing: border-box; }
+.nt {
+  position: relative; overflow: hidden;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  padding: 10px 12px;
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  font: 15px/1.45 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left;
+}
+
+/* The herald: NOTICE between two horns, each drawn already tilted, so nothing
+   here is turned by a transform. */
+.nt-herald { position: relative; flex: none; display: flex; align-items: center; gap: 2px; }
+.nt-horn { display: block; flex: none; width: 42px; height: 30px; }
+.nt-horn__body { fill: var(--cb-amber); stroke: var(--cb-bar); stroke-width: 1.2; stroke-linejoin: round; }
+.nt-horn__flag { fill: var(--cb-steel-2); stroke: var(--cb-bar); stroke-width: 1; stroke-linejoin: round; }
+.nt-horn__rim { fill: none; stroke: var(--cb-steel); stroke-width: 1.4; stroke-linecap: round; }
+.nt-tag {
+  padding: 5px 9px; border-radius: 6px;
+  background: var(--cb-bar); color: var(--cb-steel);
+  font-family: var(--cb-display, 'Bungee'), system-ui, sans-serif;
+  font-size: calc(13px * min(var(--cb-display-scale, 1), 1.1)); line-height: 1.2;
+  letter-spacing: var(--cb-display-track, .08em); text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The words, on the readout. */
+.nt-words {
+  flex: 1 1 260px; min-width: 0;
+  padding: 8px 12px; border-radius: 6px;
+  background: var(--cb-lcd); color: var(--cb-amber);
+  font-size: 16px; overflow-wrap: anywhere;
+}
+.nt-words p { margin: 0; }
+.nt-words a { color: var(--cb-amber); text-underline-offset: 2px; }
+.nt-words code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: .92em; }
+/* A link off the street says where it goes, markdown.js's rule. */
+.nt-host { color: var(--cb-amber-2); font-size: .88em; white-space: nowrap; }
+.nt :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+
+/* ── MAX GLITTER ─────────────────────────────────────────────────────────────
+   The stars along the rims, each on its own clock. Shown at MAX only; below
+   it they are not drawn at all. */
+.nt-sky { display: none; position: absolute; inset: 0; pointer-events: none; }
+.nt-star, .nt-spark {
+  position: absolute; width: 8px; height: 8px; opacity: 0;
+  background: var(--cb-amber);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+}
+.nt-star--steel, .nt-spark { background: var(--cb-steel); }
+:host([data-dial="max"]) .nt-sky { display: block; }
+:host([data-dial="max"]) .nt-star { animation: nt-twinkle var(--tw, 3.6s) ease-in-out var(--td, 0s) infinite; }
+@keyframes nt-twinkle {
+  0%, 100% { opacity: 0; transform: scale(.35); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* The fanfare, once: the horns give a blast, a step outward and back; notes
+   rise out of both bells and drift up and away, with a few sparks off them;
+   and a wave of sparks runs along both rims from the horns to the far end.
+   notice.js puts the notes and sparks in and takes them out again. */
+.nt-fan { position: absolute; inset: 0; pointer-events: none; }
+.nt-note { position: absolute; width: 13px; height: 17px; color: var(--cb-amber); opacity: 0; }
+.nt-note svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+:host([data-dial="max"]) .nt-note { animation: nt-rise 1.9s ease-out var(--fd, 0s) forwards; }
+:host([data-dial="max"]) .nt-spark { animation: nt-fly 1.3s ease-out var(--fd, 0s) forwards; }
+:host([data-dial="max"]) .nt-spark--wave { animation: nt-wave 1.1s ease-out var(--fd, 0s) forwards; }
+:host([data-dial="max"]) .nt--fanfare .nt-horn--l { animation: nt-blow-l .5s ease-out 2; }
+:host([data-dial="max"]) .nt--fanfare .nt-horn--r { animation: nt-blow-r .5s ease-out 2; }
+:host([data-dial="max"]) .nt--fanfare .nt-tag { animation: nt-pop .7s ease-out 1; }
+@keyframes nt-rise {
+  0% { opacity: 0; transform: translate(0, 4px) scale(.6); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--fx, 0px), -30px) scale(1); }
+}
+@keyframes nt-fly {
+  0% { opacity: 0; transform: translate(0, 0) scale(.4); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--fx, 0px), var(--fy, -16px)) scale(1); }
+}
+@keyframes nt-wave {
+  0% { opacity: 0; transform: scale(.3); }
+  30% { opacity: 1; transform: scale(1.25); }
+  100% { opacity: 0; transform: translateY(var(--fy, 0px)) scale(.5); }
+}
+@keyframes nt-blow-l { 0%, 100% { transform: translateX(0); } 40% { transform: translateX(-3px); } }
+@keyframes nt-blow-r { 0%, 100% { transform: translateX(0); } 40% { transform: translateX(3px); } }
+@keyframes nt-pop { 0%, 100% { transform: scale(1); } 35% { transform: scale(1.08); } }
+
+/* It does not print, like the radio: a notice is for whoever opens the page today. */
+@media print { :host { display: none !important; } }

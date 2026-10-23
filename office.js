@@ -2748,6 +2748,10 @@
   }
   function drawDashboard(d) {
     view.textContent = '';
+    // The notice, when our moderators have one up (notice.js), at the top of the dashboard.
+    var notice = el('div');
+    view.appendChild(notice);
+    if (window.loveNotice) window.loveNotice.into(notice);
     var h = heading(2, 'Dashboard');
     view.appendChild(h);
     view.appendChild(el('p', 'cb-quiet', 'Worked out ' + when(d.asOf) + ' from the office’s own records. This week is the seven days to ' + dayWords(d.day) + '; the week before is the seven before that.'));

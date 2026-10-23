@@ -133,6 +133,11 @@
   [trimTop, trimFoot].forEach(function (t) { t.hidden = true; t.setAttribute('aria-hidden', 'true'); });
   box.appendChild(trimTop);
 
+  // The notice, when our moderators have one up (notice.js), above every view.
+  var noticeSlot = el('div', 'fm-notice');
+  box.appendChild(noticeSlot);
+  if (window.loveNotice) window.loveNotice.into(noticeSlot);
+
   // Back one step: steps.js fills it, above the categories and the view alike.
   var backRow = el('p', 'fm-back');
   backRow.hidden = true;
