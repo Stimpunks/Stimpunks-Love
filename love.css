@@ -21688,6 +21688,25 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   color: var(--pkp-link); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 24px;
 }
 .pkp-who__cat:hover { color: var(--pkp-ink); }
+
+/* YOUR OWN CAT: a card for each of the cats you adopted, on the café's paper
+   like the menu's, saying where they are, with the one button that lets them
+   out or takes them home. release.js draws them, by attribute. */
+.pkp-own__state { margin: 0 0 14px; max-width: 68ch; }
+.pkp-own__list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+.pkp-own__pet {
+  display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 6px 14px; align-items: center;
+  padding: 12px 14px 14px; background: var(--pkp-card); border: 2px solid var(--pkp-ink); border-radius: 14px;
+}
+.pkp-own__pic { grid-row: span 2; }
+.pkp-own__draw { display: block; width: 100%; height: auto; }
+.pkp-own__words { margin: 0; font-size: 16px; line-height: 1.45; }
+.pkp-own__name { overflow-wrap: anywhere; }
+.pkp-own__btn { justify-self: start; font-size: 16px; }
+.pkp-own__said {
+  margin: 12px 0 0; max-width: 68ch; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--pkp-card); color: var(--pkp-ink); border: 2px solid var(--pkp-ink); border-radius: 12px;
+}
 /* Said only where the room is wider than the screen. */
 .pkp-wide { display: none; margin: 0 0 10px; font-size: 15px; color: var(--pkp-dim); max-width: 60ch; }
 @media (max-width: 800px) { .pkp-wide { display: block; } }
@@ -22014,6 +22033,25 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
   color: var(--run-link); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 24px;
 }
 .run-who__dog:hover { color: var(--run-deep); }
+
+/* YOUR OWN DOG: a tag for each of the dogs you adopted, on the Run's paper,
+   saying where they are, with the one button that lets them off the lead or
+   takes them home. release.js draws them, by attribute. */
+.run-own__state { margin: 0 0 14px; max-width: 68ch; }
+.run-own__list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+.run-own__pet {
+  display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 6px 14px; align-items: center;
+  padding: 12px 14px 14px; background: var(--run-paper); border: 2px solid var(--run-ink); border-radius: 4px 4px 18px 18px;
+}
+.run-own__pic { grid-row: span 2; }
+.run-own__draw { display: block; width: 100%; height: auto; }
+.run-own__words { margin: 0; font-size: 17px; line-height: 1.45; }
+.run-own__name { overflow-wrap: anywhere; }
+.run-own__btn { justify-self: start; font-size: 16px; }
+.run-own__said {
+  margin: 12px 0 0; max-width: 68ch; padding: 7px 12px; font-size: 16px; line-height: 1.45;
+  background: var(--run-paper); color: var(--run-ink); border: 2px solid var(--run-ink); border-radius: 8px;
+}
 
 /* THE TREAT TIN: the treat truck's bags, on paper, each saying it is for dogs. */
 .run-tin { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }

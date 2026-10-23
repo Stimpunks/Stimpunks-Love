@@ -48,7 +48,7 @@
   <header class="run-head">
     <p class="run-over">A dog park</p>
     <h1>The Run</h1>
-    <p class="run-sub">An open field, a row of trees, a porch to sit on, and every dog from the shelter out for a run.</p>
+    <p class="run-sub">An open field, a row of trees, a porch to sit on, and every dog from the shelter out for a run, and any dog from a home whose person has let them off the lead.</p>
   </header>
 
   <p class="run-lede">A field of grass with a row of trees along the back of it, a fence all round, and a covered porch on the near side with two swings, two rocking chairs and plush beds on the boards. It is a bright day with clouds going over, and each cloud&rsquo;s shadow lies on the grass under it. <strong>The Run is painted in the colours a dog can see</strong>, which are blues and yellows and greys: there is no red here and no green, the grass is the yellow a dog sees it as, and the ball is blue.</p>
@@ -138,11 +138,23 @@
     <ul class="run-who" id="run-who" data-roam-who aria-labelledby="run-who-h" hidden></ul>
   </section>
 
+<!-- run:own:begin -->
+  <section class="run-part run-own" id="your-own-dog" data-release data-kind="dog" data-cls="run-own" data-btn="run-btn" aria-labelledby="run-own-h" data-let="Let {name} off the lead on the Run" data-take="Take {name} home" data-is-out="off the lead on the Run" data-is-gate="waiting at the gate until there is a place" data-is-home="at home" data-went-out="{Name} is off the lead and out on the Run, for anybody who comes by to meet." data-went-home="{Name} has gone home with you." data-full="Every place on the Run is taken just now, so {name} is staying at home. The dogs waiting for homes come first." data-each="Three of your dogs are out on the Run already. Take one of them home first, and then {name} can come out." data-signed-off="Since you signed on, this username has been signed off. Sign on again at the Community Center." data-trouble="That did not work just now. Nothing changed." hidden>
+    <h2 id="run-own-h">Your own dog</h2>
+    <p>If you adopted a dog at <a href="rescue-a-dog.html">Rescue A Dog</a>, you can let them off the lead on the Run for a while, among the dogs still waiting for homes, and anybody who comes by can meet them. <strong>They stay yours</strong>, and you can take them home whenever you like. Their card says they have a home, and never whose. Up to three of yours can be out at a time, and the dogs waiting for homes come first: when every place on the Run is taken, yours wait at home, or at the gate, until one is free.</p>
+    <p class="run-own__state" data-release-signon hidden>Sign on to the CB, at the <a href="community-center.html#getting-started">Community Center</a>, and the dogs you have adopted are here to let off the lead.</p>
+    <p class="run-own__state" data-release-none hidden>You have no dogs yet. Every dog at <a href="rescue-a-dog.html">Rescue A Dog</a> is waiting for a home, and adopting happens there.</p>
+    <p class="run-own__state" data-release-trouble hidden></p>
+    <ul class="run-own__list" data-release-list hidden></ul>
+    <p class="run-own__said" data-release-said aria-hidden="true" hidden></p>
+  </section>
+  <!-- run:own:end -->
+
   <section class="run-part" aria-labelledby="run-dogs-h">
     <h2 id="run-dogs-h">The dogs</h2>
-    <p><strong>Every dog on the Run came from <a href="rescue-a-dog.html">Rescue A Dog</a></strong>, the shelter on the street, and every one of them is waiting for a home. The Run keeps no list of its own: each time it opens it reads the shelter&rsquo;s, so a dog adopted this morning has already gone home, and a dog brought in an hour ago is already out on the grass.</p>
+    <p><strong>Every dog on the Run came from <a href="rescue-a-dog.html">Rescue A Dog</a></strong>, the shelter on the street. The shelter sends every dog still waiting for a home, and any dog out here who has one has been let off the lead for a while by their person, which you can do too (<a href="#your-own-dog">your own dog</a>, above). The Run keeps no list of its own: each time it opens it reads the shelter&rsquo;s, so a dog adopted this morning has already gone home, and a dog brought in an hour ago is already out on the grass.</p>
     <p>Where a dog goes is the shelter&rsquo;s word for its mood, and nothing else. A dog who wagged the whole way in is out on the grass waiting for the ball; a dog who leans on everybody is on the porch, near the chairs; a dog who went straight for the radiator is flat out in a patch of sun; a dog who fell asleep before the door shut is on a bed, or in the shade. <strong>A dog with three legs gets to the far end of the field like anybody else.</strong> And a dog who wants to be left alone is left alone: nobody calls that dog over, and there is no button for it.</p>
-    <p>Press a dog to meet them: their name, what they are like, where they were found and when they came in, all in the shelter&rsquo;s own words. <strong>Adopting happens at the shelter.</strong> Every dog&rsquo;s card has a link to that dog&rsquo;s own card there, where anybody signed on to the CB can adopt them, and the Run is not told who adopted whom.</p>
+    <p>Press a dog to meet them: their name, what they are like, where they were found and when they came in, all in the shelter&rsquo;s own words. <strong>Adopting happens at the shelter.</strong> Every waiting dog&rsquo;s card has a link to that dog&rsquo;s own card there, where anybody signed on to the CB can adopt them, and the Run is not told who adopted whom.</p>
     <p><strong>Nobody gives a command on the Run.</strong> Nobody is told to sit, nobody is trained, and nobody is a good boy or a bad dog. A dog who brings the ball back is playing, and a dog who does not is also playing.</p>
   </section>
 
@@ -318,15 +330,15 @@
   <section class="run-part" aria-labelledby="run-keeps-h">
     <h2 id="run-keeps-h">What the Run keeps</h2>
     <ul class="run-keeps">
-      <li><strong>Nothing about you.</strong> Who sat with you and which dogs you met live in this page and nowhere else, and are gone when you leave it. The Run&rsquo;s own scripts store nothing in your browser and send nothing anywhere; the one thing they ask for is the shelter&rsquo;s list. A film on the dog telly loads from YouTube only when you press it.</li>
-      <li><strong>Nothing about the dogs</strong> that the shelter did not write down, and nothing about who adopts them.</li>
+      <li><strong>Nothing about you.</strong> Who sat with you and which dogs you met live in this page and nowhere else, and are gone when you leave it. The Run&rsquo;s own scripts store nothing in your browser: they read the shelter&rsquo;s list when the Run opens, and send nothing anywhere unless you are signed on to the CB and have dogs of your own to let off the lead, when they ask which of yours are out and say which one you let out or take home. A film on the dog telly loads from YouTube only when you press it.</li>
+      <li><strong>Nothing about the dogs</strong> that the shelter did not write down, and nothing about who adopts them. A dog let off the lead here has a home, and the Run says so and never whose; <a href="privacy.html#pets-out">the privacy page</a> says what is kept while they are out.</li>
       <li><strong>Nothing plays until you press play</strong>, and every film says how long it runs first.</li>
     </ul>
   </section>
 
   <section class="run-part" aria-labelledby="run-credits-h">
     <h2 id="run-credits-h">Whose it is</h2>
-    <p>The brief is Ryan Boren&rsquo;s, of 2026-10-05, and so is the name. The dogs are <a href="rescue-a-dog.html">Rescue A Dog</a>&rsquo;s, drawn by the same file that draws them there. What a dog sees was read in Neitz, Geist and Jacobs&rsquo; paper, in Siniscalchi and his colleagues&rsquo;, and in Stanley Coren&rsquo;s account of them; the blue ball is Siniscalchi&rsquo;s, to Live Science; the list of foods to keep from a dog is the ASPCA&rsquo;s. The films on the rack are their channels&rsquo;, and Ryan&rsquo;s pick. The type is <strong>Lilita One</strong>, by Juan Montoreano, and <strong>Mukta</strong>, by Ek Type, both under the SIL Open Font Licence. Every source is in <a href="liner-notes.html#the-run">the liner notes</a>.</p>
+    <p>The brief is Ryan Boren&rsquo;s, of 2026-10-05, and so is the name. The dogs waiting for homes are <a href="rescue-a-dog.html">Rescue A Dog</a>&rsquo;s and the rest are their people&rsquo;s, all drawn by the same file that draws them there. What a dog sees was read in Neitz, Geist and Jacobs&rsquo; paper, in Siniscalchi and his colleagues&rsquo;, and in Stanley Coren&rsquo;s account of them; the blue ball is Siniscalchi&rsquo;s, to Live Science; the list of foods to keep from a dog is the ASPCA&rsquo;s. The films on the rack are their channels&rsquo;, and Ryan&rsquo;s pick. The type is <strong>Lilita One</strong>, by Juan Montoreano, and <strong>Mukta</strong>, by Ek Type, both under the SIL Open Font Licence. Every source is in <a href="liner-notes.html#the-run">the liner notes</a>.</p>
   </section>
 
 <!-- quest:run-ball:begin -->
@@ -395,6 +407,7 @@
 <script src="animals.js" defer></script>
 <script src="roam.js" defer></script>
 <script src="run.js" defer></script>
+<script src="release.js" defer></script>
 <script src="quest.js" defer></script>
 </body>
 </html>

@@ -39,15 +39,21 @@
       },
       left: function (Name, where) { return Name + ' hopped down and went ' + (where || 'off') + '.'; },
       gone: function (Name) { return Name + ' has been adopted while you were here, and has gone home.'; },
+      home: function (Name) { return Name + ' has been taken home by their person.'; },
       change: function () { if (window.loveTable) window.loveTable.redraw(); },
     },
     says: {
       looking: function () { return 'Looking in at the shelter to see who is visiting…'; },
-      some: function () { return ['Every cat in here is from ', shelter, ', waiting for a home. Press one to meet them.']; },
-      none: function (waiting) {
+      some: function (visiting) {
+        return visiting ? ['The cats in here are from ', shelter, ': some are still waiting for a home, and some have one and are out for a while. Press one to meet them.']
+          : ['Every cat in here is from ', shelter, ', waiting for a home. Press one to meet them.'];
+      },
+      none: function (waiting, visiting) {
         var out = ['No cats from the shelter are in today: every one of them has gone home. '];
+        if (visiting) out.push('The cats in here have homes, and are out for a while. ');
         return waiting ? out.concat(['There is a cat out on the street right now, waiting to be brought in at ', shelter, '.']) : out;
       },
+      home: function (Name) { return Name + ' has a home, and their person has let them out in the café for a while.'; },
       unreachable: function () {
         return ['The shelter could not be reached just now, so the cats are staying at ', shelter,
                 '. The café only reads their list on stimpunks.world itself.'];

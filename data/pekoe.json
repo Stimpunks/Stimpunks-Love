@@ -160,5 +160,24 @@
     {"key": "wand", "label": "Wave the feather wand", "went": "went up after the feather", "kinds": [], "levels": ["high"], "most": 3},
     {"key": "ball", "label": "Roll the crinkle ball", "went": "went after the ball", "kinds": ["floor", "chair", "basket"], "levels": [], "most": 3},
     {"key": "box", "label": "Put down an empty box", "went": "got into the box", "kinds": ["box"], "levels": [], "most": 1}
-  ]
+  ],
+  "_release": "Your own cat, let out in the café for a while (Ryan's ask, 2026-10-23). release.js, shared with The Run, draws the part from these words: `let` and `take` are its buttons, `is_out`, `is_gate` and `is_home` say where each of your cats is, and the rest are what it says when something happens, each naming the cat as {name} or {Name}. `lede`, `signon` and `none` go into the markup and may carry a link. {each} and {Each} are RELEASE_EACH out of netlify/cb/lib.mjs, as a word, and the tool fills them in.",
+  "release": {
+    "id": "your-own-cat",
+    "heading": "Your own cat",
+    "lede": "If you adopted a cat at <a href=\"rescue-a-cat.html\">Rescue A Cat</a>, you can let them out in the café for a while, among the cats still waiting for homes, and anybody who comes in can meet them. <strong>They stay yours</strong>, and you can take them home whenever you like. Their card says they have a home, and never whose. Up to {each} of yours can be out at a time, and the cats waiting for homes come first: when every place in the café is taken, yours wait at home, or at the door, until one is free.",
+    "signon": "Sign on to the CB, at the <a href=\"community-center.html#getting-started\">Community Center</a>, and the cats you have adopted are here to let out.",
+    "none": "You have no cats yet. Every cat at <a href=\"rescue-a-cat.html\">Rescue A Cat</a> is waiting for a home, and adopting happens there.",
+    "let": "Let {name} out in the café",
+    "take": "Take {name} home",
+    "is_out": "out in the café",
+    "is_gate": "waiting at the door until there is a place",
+    "is_home": "at home",
+    "went_out": "{Name} is out in the café, for anybody who comes in to meet.",
+    "went_home": "{Name} has gone home with you.",
+    "full": "Every place in the café is taken just now, so {name} is staying at home. The cats waiting for homes come first.",
+    "each": "{Each} of your cats are out in the café already. Take one of them home first, and then {name} can come out.",
+    "signed_off": "Since you signed on, this username has been signed off. Sign on again at the Community Center.",
+    "trouble": "That did not work just now. Nothing changed."
+  }
 }

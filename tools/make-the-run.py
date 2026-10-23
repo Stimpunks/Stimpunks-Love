@@ -28,6 +28,11 @@ This tool holds what the Run promises about its dogs:
   · A DOG WHO WANTS TO BE LEFT ALONE IS LEFT ALONE. Nobody calls that dog over.
   · ADOPTING IS THE SHELTER'S, AND A DOG IS ADOPTED, NEVER BOUGHT. Every card
     links to the dog's own card at Rescue A Dog, and run.js sends nothing.
+  · A DOG OF YOURS CAN BE LET OFF THE LEAD HERE, AND THE RUN NEVER SAYS WHOSE
+    (Ryan's ask, 2026-10-23). The part you do it in is written from the data's
+    `release` by make-pekoe.py's release_block, in the Run's words and classes,
+    and release.js, shared with the café, is held by make-pekoe.py's
+    check_release() from here too.
 
 IT IS PAINTED IN A DOG'S COLOURS, AND THAT IS ENFORCED BY READING THE PALETTE.
 Dogs have two kinds of cone where most people have three, so they see in blues
@@ -642,6 +647,7 @@ def liner_sources(d):
 
 def check_script():
     pekoe.check_roam(refuse)
+    pekoe.check_release(refuse)
     if not SCRIPT.exists():
         refuse(f"{SCRIPT.name} is missing, and the dogs' words with it.")
         return
@@ -675,7 +681,9 @@ def check_page():
                       ('href="truckin-food-court.html"', "it has no gate through to the Truck Stop next door"),
                       ('data-roam-says', "it has no live region for what the Run says"),
                       ('src="love-embed.js"', "it does not load love-embed.js, so every film would press and do nothing"),
-                      ('src="rack.js"', "it does not load rack.js, so no film could go up on the dog telly")):
+                      ('src="rack.js"', "it does not load rack.js, so no film could go up on the dog telly"),
+                      ('src="release.js"', "it does not load release.js, so nobody could let their own dog out"),
+                      ('data-release data-kind="dog"', "it has no part for letting your own dog off the lead")):
         if want not in src:
             refuse(f"{PAGE.name}: {why}.")
     plain = re.sub(r"<script\b.*?</script>", " ", src, flags=re.S)
@@ -707,8 +715,9 @@ def main():
     check_data(d, keep, moods)
     items = treats()
     palette()
-    for k in ("_what", "_spots", "_sources"):
+    for k in ("_what", "_spots", "_sources", "_release"):
         sweep(d.get(k, ""), f"{DATA.name} {k}")
+    sweep(" ".join(str(v) for v in (d.get("release") or {}).values()), f"{DATA.name} release")
     for s in d.get("spots") or []:
         sweep(s.get("where", ""), f"{DATA.name}, place {s.get('key')}")
     for t in d.get("toys") or []:
@@ -720,6 +729,7 @@ def main():
     swap(PAGE, "run:toys", toys_block(d), "      ")
     swap(PAGE, "run:tin", tin_block(items), "    ")
     swap(PAGE, "run:telly", telly_block(d), "    ")
+    swap(PAGE, "run:own", pekoe.release_block(d.get("release") or {}, "dog", "run", "run-btn", PAGE, refuse), "  ")
     swap(NOTES, "run-sources", liner_sources(d), "      ")
     check_script()
     check_page()

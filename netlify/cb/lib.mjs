@@ -987,6 +987,15 @@ export async function renamePet(pk, id, name, s = store()) {
   const pets = await updateList(petsBlob(pk), 'pets', rename, s);
   const kind = animalKind(pet.kind) || 'cat';
   await updateList(adoptedBlob(kind, today(new Date(pet.at)).slice(0, 7)), 'animals', rename, s);
+  if (releaseKind(kind)) {
+    await updateList(outBlob(kind), 'out', (list) => {
+      const i = list.findIndex(mineOut(pk, id));
+      if (i < 0 || list[i].pet.name === name) return null;
+      const next = list.slice();
+      next[i] = { ...list[i], pet: { ...list[i].pet, name } };
+      return next;
+    }, s);
+  }
   return { pet: pets.find((a) => a.id === id) };
 }
 
@@ -999,6 +1008,7 @@ export async function readPets(pk, s = store()) {
    their record. The animals stay on the forever list, which never knew them. */
 export async function forgetPets(pk, s = store()) {
   await finishAllAdoptions(s);
+  await callAllHome(pk, s);
   await s.delete(petsBlob(pk));
   await s.delete(shownBlob(pk));
   return true;
@@ -1037,6 +1047,10 @@ export async function unnameAnimal(kind, id, s = store()) {
   for (const m of await adoptedMonths(kind, s)) await updateList(adoptedBlob(kind, m), 'animals', clear, s);
   const pets = await s.list({ prefix: 'pets/' });
   for (const b of pets.blobs) await updateList(b.key, 'pets', clear, s);
+  if (releaseKind(kind)) {
+    await updateList(outBlob(kind), 'out', (list) => (list.some((e) => e.pet.id === id && e.pet.name)
+      ? list.map((e) => (e.pet.id === id ? { ...e, pet: { ...e.pet, name: '' } } : e)) : null), s);
+  }
   return (await readShelter(kind, s)).shelter;
 }
 export function unnameCat(id, s = store()) { return unnameAnimal('cat', id, s); }
@@ -1127,6 +1141,106 @@ export function shapeSticker(st) {
   if (!coats.some((c) => c[0] === st.coat) || !marks.some((m) => m[0] === st.mark)) return null;
   return { kind, coat: st.coat, mark: st.mark, name: typeof st.name === 'string' ? st.name : '',
     words: { coat: says(coats, st.coat), mark: says(marks, st.mark), noun: animalNoun(kind, st.coat) } };
+}
+
+/* ── Pets let out at the café and the Run ────────────────────────────────
+
+   Ryan's ask, 2026-10-23: let your adopted dogs out on the dog park and your
+   adopted cats into the cat café. A pet can go out at the room for its kind
+   (RELEASE_ROOMS: cats at Pekoe and Purrs, dogs on the Run, and a small animal
+   nowhere yet) and be there among the shelter's animals, for anybody who opens
+   the room, until its person calls it home. It stays theirs the whole time:
+   nothing changes in their pets or on the forever list.
+
+   THE ROOM SAYS A PET HAS A HOME AND NEVER WHOSE. One blob per kind (`out-cat`,
+   `out-dog`) holds, for each pet out, in the order they went out, a copy of
+   what it looks like and is called and the pet key it came from, and nothing
+   about when. The pet key never leaves the server (shapeOut): the room needs
+   no pass to open, like the shelter's own list, and a pet's name is already
+   on the forever list. A copy rather than a pointer, so opening a room reads
+   one blob and not everybody's pets; renaming a pet and the base taking a
+   name off change the copy as well.
+
+   THERE IS ALWAYS SOMEWHERE TO SIT. Each room is built with a place for every
+   animal the shelter can hold and three to spare (make-pekoe.py,
+   make-the-run.py), so the shelter's animals and the pets let out share
+   SHELTER_KEEP between them: letting one out is refused while the room is
+   full, and if the shelter fills up afterwards the pets let out last wait at
+   the gate (outIn) until there is room. An animal waiting for a home is never
+   the one left outside. RELEASE_EACH keeps a room from being one person's.
+
+   Calling a pet home, Forget me and deleting the username take it out. */
+export const RELEASE_ROOMS = { cat: 'pekoe-and-purrs.html', dog: 'the-run.html' };
+export const RELEASE_EACH = 3;
+const outBlob = (kind) => `out-${kind}`;
+export function releaseKind(k) { return Object.prototype.hasOwnProperty.call(RELEASE_ROOMS, k) ? k : null; }
+const isKind = (a, kind) => !!(a && typeof a.id === 'string' && a.id[0] === KINDS[kind].prefix);
+const mineOut = (pk, id) => (e) => e.by === pk && e.pet.id === id;
+
+export async function readOut(kind, s = store()) {
+  const d = await s.get(outBlob(kind), { type: 'json' });
+  return ((d && d.out) || []).filter((e) => e && typeof e.by === 'string' && isKind(e.pet, kind));
+}
+
+/* Let one of your own pets out. { out: true }, or { why } when it is not one
+   of yours ('mine'), RELEASE_EACH of yours are out already ('each'), or the
+   room has no space ('full'). Out already is out: nothing changes. */
+export async function letOut(kind, pk, id, s = store()) {
+  const pet = (await readPets(pk, s)).find((a) => a.id === id && isKind(a, kind));
+  if (!pet) return { why: 'mine' };
+  const inShelter = (await readShelter(kind, s)).shelter.length;
+  let why = null;
+  await updateList(outBlob(kind), 'out', (list) => {
+    why = null;
+    if (list.some(mineOut(pk, id))) return null;
+    if (list.filter((e) => e.by === pk).length >= RELEASE_EACH) { why = 'each'; return null; }
+    if (inShelter + list.length >= SHELTER_KEEP) { why = 'full'; return null; }
+    return [...list, { by: pk, pet: { id: pet.id, kind, coat: pet.coat, mark: pet.mark, place: pet.place, mood: pet.mood, name: pet.name || '' } }];
+  }, s);
+  return why ? { why } : { out: true };
+}
+
+/* Call one of your pets home. Home already is home. */
+export async function callHome(kind, pk, id, s = store()) {
+  await updateList(outBlob(kind), 'out', (list) => (list.some(mineOut(pk, id)) ? list.filter((e) => !mineOut(pk, id)(e)) : null), s);
+  return true;
+}
+
+/* Everything of one person's out, in every room: Forget me and deleting the
+   username, through forgetPets. */
+async function callAllHome(pk, s) {
+  for (const kind of Object.keys(RELEASE_ROOMS)) {
+    await updateList(outBlob(kind), 'out', (list) => (list.some((e) => e.by === pk) ? list.filter((e) => e.by !== pk) : null), s);
+  }
+}
+
+/* What the room is shown: the pets out, as many as there is space for beside
+   the shelter's animals, the first out first. Never whose. */
+export function shapeOut(pet) {
+  const out = shapeAnimal(pet);
+  out.name = typeof pet.name === 'string' ? pet.name : '';
+  out.out = true;
+  return out;
+}
+export async function outIn(kind, inShelter, s = store()) {
+  if (!releaseKind(kind)) return [];
+  const space = Math.max(0, SHELTER_KEEP - inShelter);
+  return (await readOut(kind, s)).slice(0, space).map((e) => shapeOut(e.pet));
+}
+
+/* Your own pets of a kind, for the room's tray: each says whether it is out,
+   and whether it is waiting at the gate for space. No dates. */
+export async function releaseTray(kind, pk, s = store()) {
+  const list = await readOut(kind, s);
+  const space = Math.max(0, SHELTER_KEEP - (await readShelter(kind, s)).shelter.length);
+  return (await readPets(pk, s)).filter((a) => isKind(a, kind)).map((a) => {
+    const out = shapeAnimal(a);
+    delete out.at; delete out.t;
+    const i = list.findIndex(mineOut(pk, a.id));
+    out.out = i >= 0;
+    if (i >= space) out.gate = true;
+    return out;
+  });
 }
 
 /* ── Avatars ──────────────────────────────────────────────────────────────

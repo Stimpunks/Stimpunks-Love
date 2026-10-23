@@ -3601,6 +3601,23 @@ chair (a kept perch, so nobody else is put there). `make-pekoe.py`'s `check_roam
 promises and `make-the-run.py` calls it too: one fetch, to `/cb/shelter?kind=` a kind that is cat or dog, nothing
 stored, nothing sent, markings never read. Checked in the browser with the live shelter list stubbed in.
 
+**A PET YOU ADOPTED CAN BE LET OUT IN ITS KIND'S ROOM, AND THE ROOM NEVER SAYS WHOSE.** Ryan's ask, 2026-10-23:
+your adopted cats into Pekoe and Purrs and your dogs onto the Run (`RELEASE_ROOMS` in `lib.mjs`; a small animal has no
+room yet). **`release.js` is the one file both rooms use**, written once because two rooms took it at once: each room's
+tool writes its part from the data's `release` through `make-pekoe.py`'s `release_block`, in the room's words and
+classes, and `check_release()` holds the file to one fetch, to `/cb/release`, `love-cb` read and never written, and
+roam.js told by a `love-released` event. **roam.js still asks for nothing else**: the pets out ride on the shelter's
+own public answer (`outIn`, each marked `out`), and their card says they have a home where a waiting animal's links to
+the shelter. The copy kept while a pet is out is one blob per kind (`out-cat`, `out-dog`): its looks, place, mood and
+name beside the pet key, in the order they went out, nothing about when; renaming and the base taking a name off reach
+it, and Forget me and deleting the username call every pet home through `forgetPets`. **The shelter's animals and the
+pets out share `SHELTER_KEEP`**, which is what keeps the perch promise true without new perches: letting one out is
+refused when the room is full, and if the shelter fills later the last pet out waits outside (`outIn` trims it), never
+an animal waiting for a home. `RELEASE_EACH` keeps a room from being one person's. `make-rescue.py` holds the server's
+half. **The friendly edits are the owner's name on the card "so people can say hello", a pet out for good "so the room
+is never empty"** (that is a house cat, which the café refuses), **and a count of pets out**; the first is a public
+link between a person and their pet that `privacy.html#pets-out` does not make, and Ryan's call first.
+
 **THE RUN'S TREAT TIN IS THE TRUCK STOP'S TREAT TRUCK, AND THE ASPCA'S LIST LIVES IN THE DOGS' ROOM.**
 `poisoned()` in `make-the-run.py` reads a treat's ingredients for every heading on the ASPCA's page of people foods
 to keep from pets, and `make-truckin-food-court.py` imports it. The page does not mention peanut butter or

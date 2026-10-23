@@ -1,16 +1,19 @@
 /* A shelter, Rescue A Cat's or Rescue A Dog's: looking. Anybody can, with no
    pass. ?kind=cat or dog. The answer is the animal waiting out on the street,
    if there is one, the shelter's animals, whether it is full, and nothing about
-   who rescued any of them. When the next animal is due is not in it: they turn
-   up at random, and a page that knew could camp. Search engines are asked not
-   to keep it. */
-import { animalKind, readShelter, shapeAnimal, json } from '../cb/lib.mjs';
+   who rescued any of them; and, for a kind with a room to be let out in (the
+   café's cats and the Run's dogs), the pets their people have let out there,
+   as many as there is space for, which never says whose. When the next
+   animal is due is not in it: they turn up at random, and a page that knew
+   could camp. Search engines are asked not to keep it. */
+import { animalKind, readShelter, shapeAnimal, outIn, json } from '../cb/lib.mjs';
 
 export default async (req) => {
   const kind = animalKind(new URL(req.url).searchParams.get('kind'));
   if (!kind) return json(404, { error: 'There is no shelter for that.' });
   const { waiting, shelter, full } = await readShelter(kind);
-  return json(200, { waiting: waiting ? shapeAnimal(waiting) : null, shelter: shelter.map(shapeAnimal), full },
+  const out = await outIn(kind, shelter.length);
+  return json(200, { waiting: waiting ? shapeAnimal(waiting) : null, shelter: shelter.map(shapeAnimal), full, out },
     { 'x-robots-tag': 'noindex, nofollow, noarchive' });
 };
 

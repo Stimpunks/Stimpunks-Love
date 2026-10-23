@@ -36,6 +36,12 @@ WHAT IT REFUSES:
     found among the sender's own pets and nothing pointing back at the pet or
     the list; a pet shown to somebody carries no dates; only a claimed
     username can switch showing on, and isShown asks for its account too.
+  · A PET LET OUT THAT SAYS WHOSE IT IS (Ryan's ask, 2026-10-23: your adopted
+    cats into Pekoe and Purrs and your dogs onto the Run). The room's list is
+    public, so shapeOut must send no pet key, outIn must send only shapeOut,
+    and the copy letOut keeps is exactly the pet's looks, mood, place and name
+    beside the pet key it came from, with nothing about when; and Forget me,
+    which deleting the username calls too, must call every pet home.
   · THE VOCABULARY OF A TALLY OR A RACE BETWEEN PEOPLE, with make-guild.py's
     negation window so the rooms can say they have none.
 
@@ -53,7 +59,8 @@ ANIMALS = ROOT / "animals.js"
 CB = ROOT / "cb.js"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 FUNCS = sorted((ROOT / "netlify" / "functions").glob("cb-shelter*.mjs")) + [
-    ROOT / "netlify" / "functions" / "cb-adopted.mjs", ROOT / "netlify" / "functions" / "cb-pets.mjs"]
+    ROOT / "netlify" / "functions" / "cb-adopted.mjs", ROOT / "netlify" / "functions" / "cb-pets.mjs",
+    ROOT / "netlify" / "functions" / "cb-release.mjs"]
 PRIVACY = ROOT / "privacy.html"
 
 NEGATION = (r"(?:no|not|nothing|never|neither|none|without|refuses?|refused|refusing|"
@@ -141,6 +148,20 @@ def main():
         problems.append(f"{LIB.name}: isShown no longer needs a claimed username. An unclaimed handle is anybody's.")
     if "delete out.at; delete out.t;" not in fn(lib, "shownPets"):
         problems.append(f"{LIB.name}: shownPets tells people when somebody's pets came in or were adopted.")
+    if re.search(r"\bby\b|\bpk\b|petKey", fn(lib, "shapeOut")):
+        problems.append(f"{LIB.name}: shapeOut sends whose a pet let out is. The room says they have a home, never whose.")
+    if "return (await readOut(kind, s)).slice(0, space).map((e) => shapeOut(e.pet));" not in fn(lib, "outIn"):
+        problems.append(f"{LIB.name}: outIn no longer sends only shapeOut of the pets out, as many as there is space for.")
+    if ("return [...list, { by: pk, pet: { id: pet.id, kind, coat: pet.coat, mark: pet.mark, place: pet.place, "
+            "mood: pet.mood, name: pet.name || '' } }];") not in fn(lib, "letOut") \
+            or "readPets(pk, s)" not in fn(lib, "letOut"):
+        problems.append(f"{LIB.name}: letOut keeps something other than one of the person's own pets' looks, mood, "
+                        "place and name beside their pet key.")
+    if "await callAllHome(pk, s);" not in fn(lib, "forgetPets"):
+        problems.append(f"{LIB.name}: Forget me no longer calls every pet let out back home.")
+    if "out: await outIn(" not in code_of(ROOT / "netlify" / "functions" / "cb-shelter.mjs") \
+            and "const out = await outIn(kind, shelter.length);" not in code_of(ROOT / "netlify" / "functions" / "cb-shelter.mjs"):
+        problems.append("cb-shelter.mjs: the pets let out no longer come from outIn.")
     pets_fn = code_of(ROOT / "netlify" / "functions" / "cb-pets.mjs")
     if not re.search(r"typeof b\.show === 'boolean'\) \{\s*if \(!who\.account\) return json\(403", pets_fn):
         problems.append("cb-pets.mjs: showing your pets no longer needs a claimed username.")
@@ -205,6 +226,8 @@ def main():
         problems.append(f"{PRIVACY.name}: love-rescues is not in the table of what your browser keeps.")
     if "Forget me" not in priv:
         problems.append(f"{PRIVACY.name}: it does not say how to delete your pets.")
+    if 'id="pets-out"' not in priv:
+        problems.append(f"{PRIVACY.name}: no section with id=\"pets-out\" saying what letting a pet out keeps.")
 
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))

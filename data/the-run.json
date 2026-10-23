@@ -484,5 +484,24 @@
    "read": "2026-10-05",
    "for": "What is never in the treat tin, and never on the treat truck at the Truck Stop next door"
   }
- }
+ },
+  "_release": "Your own dog, let off the lead on the Run for a while (Ryan's ask, 2026-10-23). release.js, shared with Pekoe and Purrs, draws the part from these words: `let` and `take` are its buttons, `is_out`, `is_gate` and `is_home` say where each of your dogs is, and the rest are what it says when something happens, each naming the dog as {name} or {Name}. `lede`, `signon` and `none` go into the markup and may carry a link. {each} and {Each} are RELEASE_EACH out of netlify/cb/lib.mjs, as a word, and the tool fills them in. Nobody is called, told or sent: a dog is let off the lead and taken home.",
+  "release": {
+    "id": "your-own-dog",
+    "heading": "Your own dog",
+    "lede": "If you adopted a dog at <a href=\"rescue-a-dog.html\">Rescue A Dog</a>, you can let them off the lead on the Run for a while, among the dogs still waiting for homes, and anybody who comes by can meet them. <strong>They stay yours</strong>, and you can take them home whenever you like. Their card says they have a home, and never whose. Up to {each} of yours can be out at a time, and the dogs waiting for homes come first: when every place on the Run is taken, yours wait at home, or at the gate, until one is free.",
+    "signon": "Sign on to the CB, at the <a href=\"community-center.html#getting-started\">Community Center</a>, and the dogs you have adopted are here to let off the lead.",
+    "none": "You have no dogs yet. Every dog at <a href=\"rescue-a-dog.html\">Rescue A Dog</a> is waiting for a home, and adopting happens there.",
+    "let": "Let {name} off the lead on the Run",
+    "take": "Take {name} home",
+    "is_out": "off the lead on the Run",
+    "is_gate": "waiting at the gate until there is a place",
+    "is_home": "at home",
+    "went_out": "{Name} is off the lead and out on the Run, for anybody who comes by to meet.",
+    "went_home": "{Name} has gone home with you.",
+    "full": "Every place on the Run is taken just now, so {name} is staying at home. The dogs waiting for homes come first.",
+    "each": "{Each} of your dogs are out on the Run already. Take one of them home first, and then {name} can come out.",
+    "signed_off": "Since you signed on, this username has been signed off. Sign on again at the Community Center.",
+    "trouble": "That did not work just now. Nothing changed."
+  }
 }

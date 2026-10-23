@@ -36,6 +36,16 @@ in its adopter's Profile. This tool holds what the café promises about them:
     purrs.js makes one fetch, a GET to the shelter's list, stores nothing,
     knows nothing about a CB pass and never posts. Picking a cat up happens in
     your browser and nowhere else.
+  · A CAT OF YOURS CAN COME OUT HERE, AND THE CAFÉ NEVER SAYS WHOSE (Ryan's ask,
+    2026-10-23). If you adopted a cat, you can let them out in the café for a
+    while and take them home again: release.js, shared with The Run, asks
+    /cb/release with your pass and only when you press, and roam.js reads the
+    cats let out on the shelter's own answer, marked as having a home. This
+    tool writes the part you do it in from data/pekoe.json's `release`, with
+    the street's RELEASE_EACH read out of lib.mjs, and holds release.js to its
+    promises (check_release): one fetch, to /cb/release; love-cb read and never
+    written; nothing else stored; no markup from a string; and roam.js told by
+    an event rather than asked for anything.
   · A CAT IS ADOPTED, NEVER BOUGHT. Buy, sell, price and fee are refused in the
     room's voice with the negation window, and so is the shelter's own list of
     prize words (make-rescue.py's): nothing rarer, nothing collected, nobody
@@ -973,8 +983,91 @@ def check_roam(say=None):
             "call, so check-gentle.py can see everything that moves.")
 
 
+RELEASE = ROOT / "release.js"
+RELEASE_WORDS = ("let", "take", "is_out", "is_gate", "is_home", "went_out", "went_home", "full", "each",
+                 "signed_off", "trouble")
+RELEASE_HTML = ("heading", "lede", "signon", "none")
+NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight"}
+
+
+def release_facts():
+    """What lib.mjs says about letting a pet out: how many of one person's at a
+    time, and which room each kind goes out in."""
+    lib = LIB.read_text()
+    m = re.search(r"export const RELEASE_EACH = (\d+);", lib)
+    r = re.search(r"export const RELEASE_ROOMS = \{([^}]*)\};", lib)
+    if not m or not r:
+        raise SystemExit(f"REFUSING: {LIB.name} has no RELEASE_EACH or RELEASE_ROOMS, so there is no telling "
+                         "where a pet can be let out, or how many of one person's at a time.")
+    return int(m.group(1)), dict(re.findall(r"(\w+): '([^']+)'", r.group(1)))
+
+
+def release_block(rel, kind, prefix, btn, page, say=None):
+    """The part where you let your own pet out and take them home, in a room's
+    own words and classes. The words release.js says go on data- attributes as
+    text, with {name} or {Name} for the pet; the sentences that can carry a link
+    go into the markup. Both may say {each} or {Each}, RELEASE_EACH as a word."""
+    say = say or refuse
+    each, rooms = release_facts()
+    if rooms.get(kind) != page.name:
+        say(f"{LIB.name}'s RELEASE_ROOMS does not send a {kind} to {page.name}, so its part would let a pet out "
+            "into a room the server will not take them in.")
+    for k in ("id",) + RELEASE_HTML + RELEASE_WORDS:
+        if not (rel.get(k) or "").strip():
+            say(f"{page.name}: the part for letting your own {kind} out has no {k!r}.")
+    for k in ("let", "take", "went_out", "went_home", "full", "each"):
+        if not re.search(r"\{[Nn]ame\}", rel.get(k) or ""):
+            say(f"{page.name}: {k!r} for letting your own {kind} out does not name the {kind}.")
+    word = NUMBER_WORDS.get(each, str(each))
+    def fill(t):
+        return t.replace("{each}", word).replace("{Each}", word.capitalize())
+    attrs = " ".join(f'data-{k.replace("_", "-")}="{attr(fill(rel[k]))}"' for k in RELEASE_WORDS if rel.get(k))
+    return (f'  <section class="{prefix}-part {prefix}-own" id="{attr(rel["id"])}" data-release data-kind="{kind}" '
+            f'data-cls="{prefix}-own" data-btn="{btn}" aria-labelledby="{prefix}-own-h" {attrs} hidden>\n'
+            f'    <h2 id="{prefix}-own-h">{esc(rel["heading"])}</h2>\n'
+            f'    <p>{fill(rel["lede"])}</p>\n'
+            f'    <p class="{prefix}-own__state" data-release-signon hidden>{fill(rel["signon"])}</p>\n'
+            f'    <p class="{prefix}-own__state" data-release-none hidden>{fill(rel["none"])}</p>\n'
+            f'    <p class="{prefix}-own__state" data-release-trouble hidden></p>\n'
+            f'    <ul class="{prefix}-own__list" data-release-list hidden></ul>\n'
+            f'    <p class="{prefix}-own__said" data-release-said aria-hidden="true" hidden></p>\n'
+            f'  </section>')
+
+
+def check_release(say=None):
+    """release.js, shared by the café and The Run from the day it was written:
+    the one file that lets your own pet out and takes them home."""
+    say = say or refuse
+    if not RELEASE.exists():
+        say(f"{RELEASE.name} is missing, and letting your own pet out with it.")
+        return
+    js = code_of(RELEASE)
+    if re.findall(r"localStorage\.(\w+)", js) != ["getItem"] or "localStorage.getItem('love-cb')" not in js \
+            or re.search(r"sessionStorage|indexedDB|document\.cookie", js):
+        say(f"{RELEASE.name} keeps something, or writes love-cb. It reads the radio's pass and keeps nothing.")
+    if js.count("fetch(") != 1 or "fetch('/cb/release'" not in js:
+        say(f"{RELEASE.name} must make exactly one fetch, to /cb/release.")
+    if WIRE.search(js):
+        say(f"{RELEASE.name} talks to a server some other way than the one fetch.")
+    if re.search(r"\bhandle\b", js):
+        say(f"{RELEASE.name} knows what a handle is. A pet's room never says whose a pet is.")
+    if re.search(r"\.mark\b", js):
+        say(f"{RELEASE.name} reads a pet's markings. A marking is only ever handed to animals.js to draw.")
+    if any(w in js for w in WRITES_HTML):
+        say(f"{RELEASE.name} writes HTML. A pet's name is somebody's words and goes in as text.")
+    if re.search(r"\btransform\b", js):
+        say(f"{RELEASE.name} moves something with a transform.")
+    if "new CustomEvent('love-released'" not in js or "addEventListener('love-released'" not in code_of(ROAM):
+        say(f"{RELEASE.name} and {ROAM.name} no longer meet over the love-released event, so a pet let out would "
+            "not arrive in the room until it was opened again.")
+    if "c.a.out" not in code_of(ROAM) or "said.home(" not in code_of(ROAM):
+        say(f"{ROAM.name} no longer tells a pet with a home from an animal waiting for one, so a pet let out "
+            "would be offered for adoption.")
+
+
 def check_script():
     check_roam()
+    check_release()
     if not SCRIPT.exists():
         refuse(f"{SCRIPT.name} is missing, and the cats' words with it.")
         return
@@ -1031,7 +1124,9 @@ def check_page():
                       ('id="pkp-says"', "it has no live region for what the café says"),
                       ('src="love-embed.js"', "it does not load love-embed.js, so every film on the rack would press "
                                               "and do nothing, which is Mycelium Munchies' first rack"),
-                      ('src="rack.js"', "it does not load rack.js, so no film could go up on the telly")):
+                      ('src="rack.js"', "it does not load rack.js, so no film could go up on the telly"),
+                      ('src="release.js"', "it does not load release.js, so nobody could let their own cat out"),
+                      ('data-release data-kind="cat"', "it has no part for letting your own cat out")):
         if want not in src:
             refuse(f"{PAGE.name}: {why}.")
     if 'data-cb="off"' in src:
@@ -1068,8 +1163,9 @@ def main():
     d = json.loads(DATA.read_text())
     keep, moods = shelter_facts()
     check_data(d, keep, moods)
-    for k in ("_what", "_menu"):
+    for k in ("_what", "_menu", "_release"):
         sweep(d.get(k, ""), f"{DATA.name} {k}")
+    sweep(" ".join(str(v) for v in (d.get("release") or {}).values()), f"{DATA.name} release")
     for sec in d.get("menu") or []:
         for x in sec.get("items") or []:
             sweep(" ".join(str(x.get(f, "")) for f in ("name", "what", "ask", "note")), f"{DATA.name}, {x.get('name')}")
@@ -1081,6 +1177,7 @@ def main():
     swap(PAGE, "pkp:toys", toys_block(d), "      ")
     swap(PAGE, "pkp:menu", menu_block(d), "    ")
     swap(PAGE, "pkp:telly", telly_block(d), "    ")
+    swap(PAGE, "pkp:own", release_block(d.get("release") or {}, "cat", "pkp", "pkp-btn", PAGE), "  ")
     swap(NOTES, "pekoe-sources", liner_sources(d), "      ")
     check_script()
     check_table()

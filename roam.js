@@ -22,6 +22,15 @@
    card there. make-pekoe.py and make-the-run.py both refuse this file if any
    of that changes.
 
+   THE SAME ANSWER CARRIES THE PETS LET OUT HERE (Ryan's ask, 2026-10-23):
+   animals somebody adopted and has let out in this room for a while, each
+   marked `out`, which the shelter's list says have a home and never whose.
+   They take a perch by their mood like anybody, and their card says they have
+   a home where a waiting animal's links to its shelter. Letting one out is
+   release.js's, which tells this file with a love-released event on the
+   document, and this file reads the list again; it still asks for nothing
+   else.
+
    WHERE AN ANIMAL GOES IS ITS MOOD'S BUSINESS AND NOTHING ELSE'S, the rule
    written on the room as data-moods. Markings are only ever handed to
    animals.js to draw: a cat with three legs gets to the top of the tree, and a
@@ -101,6 +110,7 @@
     var animals = [];   // { a, spot, btn }
     var withYou = null;
     var lastRead = 0;
+    var yours = null;   // a pet you just took home yourself, which release.js has already said
 
     /* ── Saying things ───────────────────────────────────────────────────── */
     function speak(text) {
@@ -130,7 +140,7 @@
     function intensity() { return document.documentElement.getAttribute('data-intensity') || 'regular'; }
 
     /* ── Who an animal is, in words ──────────────────────────────────────── */
-    function described(c) { return 'a ' + c.a.words.coat + ' ' + A.noun(c.a); }
+    function described(c) { return 'a ' + c.a.words.coat + ' ' + A.noun(c.a) + (c.a.out ? ' with a home' : ''); }
     function nameOf(c) { return c.a.name || 'the ' + c.a.words.coat + ' ' + A.noun(c.a); }
     function Name(c) { var n = nameOf(c); return n.charAt(0).toUpperCase() + n.slice(1); }
     function whereOf(c) { return c === withYou ? keep.where : (c.spot ? c.spot.where : opts.somewhere); }
@@ -211,7 +221,10 @@
       if (shown === c) closeCard(true);
     }
 
-    function settle(list, waiting) {
+    function settle(list, waiting, out) {
+      // The shelter's animals first and then the pets let out here, so a
+      // waiting animal is always given a perch before a visiting one.
+      list = list.concat((out || []).map(function (a) { return a && a.out ? a : null; }));
       var ids = {};
       list.forEach(function (a) { if (a && a.id && a.words && a.kind === KIND) ids[a.id] = a; });
       var gone = [];
@@ -222,20 +235,23 @@
         delete ids[c.a.id];
       });
       gone.forEach(function (c) {
-        if (c === withYou) speak(keep.gone(Name(c)));
+        if (c === withYou && c.a.id !== yours) speak(c.a.out ? keep.home(Name(c)) : keep.gone(Name(c)));
         leave(c);
       });
+      yours = null;
       // Newest last in the shelter's list; the order they came in is the order they arrive.
-      list.forEach(function (a) { if (ids[a.id]) arrive(a); });
+      list.forEach(function (a) { if (a && ids[a.id]) arrive(a); });
       drawWho(); changed(); refreshCard();
-      write(state, animals.length ? said.some() : said.none(!!waiting));
+      var waitingHere = animals.some(function (c) { return !c.a.out; });
+      var outHere = animals.some(function (c) { return c.a.out; });
+      write(state, waitingHere ? said.some(outHere) : said.none(!!waiting, outHere));
     }
 
     function read() {
       lastRead = Date.now();
       fetch('/cb/shelter?kind=' + KIND, { headers: { accept: 'application/json' }, credentials: 'omit', cache: 'no-store' })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-        .then(function (b) { settle(Array.isArray(b.shelter) ? b.shelter : [], b.waiting); },
+        .then(function (b) { settle(Array.isArray(b.shelter) ? b.shelter : [], b.waiting, Array.isArray(b.out) ? b.out : []); },
           function () { if (!animals.length) write(state, said.unreachable()); });
     }
 
@@ -244,6 +260,7 @@
       if (!who) return;
       var here = animals.slice().sort(function (p, q) {
         if (p === withYou || q === withYou) return p === withYou ? -1 : 1;
+        if (!p.spot || !q.spot) return p.spot ? -1 : (q.spot ? 1 : 0);
         return (p.spot.y - q.spot.y) || (p.spot.x - q.spot.x);
       });
       // Rows are updated in place, and only put back in order while the
@@ -285,7 +302,10 @@
       el.name.textContent = c.a.name || 'Not named yet';
       el.about.textContent = A.about(c.a);
       el.now.textContent = 'Right now: ' + whereOf(c) + '.';
-      el.came.textContent = c.a.t ? 'Came in to the shelter on ' + when(c.a.t) + '.' : '';
+      // A pet let out here has a home: its card says so where a waiting
+      // animal's points at its own card at the shelter.
+      el.came.textContent = c.a.out ? said.home(Name(c)) : (c.a.t ? 'Came in to the shelter on ' + when(c.a.t) + '.' : '');
+      el.adopt.parentNode.hidden = !!c.a.out;
       el.adopt.href = SHELTER + '#animal-' + encodeURIComponent(c.a.id);
       el.adopt.textContent = said.adopt(nameOf(c));
       if (leftAlone(c)) {
@@ -397,6 +417,8 @@
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'visible' && Date.now() - lastRead > 60000) read();
     });
+    // release.js let a pet of yours out, or called one home: read the list again.
+    document.addEventListener('love-released', function (e) { yours = e.detail && e.detail.id; read(); });
 
     write(state, [said.looking()]);
     read();

@@ -37,14 +37,20 @@
       },
       left: function (Name, where) { return Name + ' got up and went ' + (where || 'off') + '.'; },
       gone: function (Name) { return Name + ' has been adopted while you were here, and has gone home.'; },
+      home: function (Name) { return Name + ' has been taken home by their person.'; },
     },
     says: {
       looking: function () { return 'Looking in at the shelter to see who is out for a run…'; },
-      some: function () { return ['Every dog out here is from ', shelter, ', waiting for a home. Press one to meet them.']; },
-      none: function (waiting) {
+      some: function (visiting) {
+        return visiting ? ['The dogs out here are from ', shelter, ': some are still waiting for a home, and some have one and are off the lead for a while. Press one to meet them.']
+          : ['Every dog out here is from ', shelter, ', waiting for a home. Press one to meet them.'];
+      },
+      none: function (waiting, visiting) {
         var out = ['No dogs from the shelter are out today: every one of them has gone home. '];
+        if (visiting) out.push('The dogs out here have homes, and are off the lead for a while. ');
         return waiting ? out.concat(['There is a dog out on the street right now, waiting to be brought in at ', shelter, '.']) : out;
       },
+      home: function (Name) { return Name + ' has a home, and their person has let them off the lead on the Run for a while.'; },
       unreachable: function () {
         return ['The shelter could not be reached just now, so the dogs are staying at ', shelter,
                 '. The Run only reads their list on stimpunks.world itself.'];

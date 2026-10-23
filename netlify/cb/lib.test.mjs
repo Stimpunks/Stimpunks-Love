@@ -20,6 +20,7 @@ import assert from 'node:assert/strict';
 import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS,
   rescueAnimal, readShelter, animalAt, adoptAnimal, finishAdoptions, readPets, forgetPets, readAdopted, adoptedMonths,
   petKey, unnameAnimal, SHELTER_KEEP, KINDS, DOG_COATS, DOG_MARKS,
+  RELEASE_EACH, letOut, callHome, readOut, outIn, releaseTray, shapeOut,
   climb, readStair, cleanStep, putWord, readFridge, fileFridge, readDrawer, drawers, fridgeMark, strikeSentence, cleanWord, monthOf, FRIDGE_DOOR, FRIDGE_WORDS,
   updateChalk, readChalk, updateFence, readFence, waterTree, readTree, PANDO_SOAK, updatePebbles, readPebbles, cleanLink, PEBBLE_ROOMS,
   updateChannel, readChannel, updateTalk, readTalk, beHere, leaveSlake, seenAt, sweepSlake,
@@ -768,6 +769,110 @@ test('an adoption stopped halfway is finished once, and Forget Me leaves the ani
   assert.equal((await readPets('pkA', s)).length, 0, 'Forget Me left the pets');
   assert.equal((await readAdopted('cat', m, s)).length, 1, 'Forget Me took the animal off the forever list');
   assert.ok(!JSON.stringify(await readAdopted('cat', m, s)).includes('pkA'), 'the forever list knows who adopted');
+});
+
+/* PETS LET OUT AT THE CAFÉ AND THE RUN. Only your own pet goes out; the room
+   is told it has a home and never whose; three of yours at a time; the
+   shelter's animals and the pets out share SHELTER_KEEP, and the ones out last
+   wait at the gate when the shelter fills; renaming, the base taking a name
+   off, calling home, Forget me and deleting the username all reach the copy. */
+async function adoptMany(kind, pks, s, t0 = 5) {
+  let t = t0;
+  const ids = [];
+  for (const pk of pks) {
+    const w = (await readShelter(kind, s, t)).waiting;
+    await rescueAnimal(kind, w.id, `N${ids.length}`, s, t, () => 1);
+    await adoptAnimal(kind, w.id, pk, s, t + 1);
+    ids.push(w.id);
+    t += 2;
+  }
+  return { ids, t };
+}
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`pets let out fifteen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const pks = Array.from({ length: 15 }, (_, i) => `pk${i}`);
+    const { ids } = await adoptMany('dog', pks, s);
+    const told = await Promise.allSettled(pks.map((pk, i) => letOut('dog', pk, ids[i], s)));
+    const out = await readOut('dog', s);
+    told.forEach((r, i) => { if (r.status === 'fulfilled' && r.value.out) assert.ok(out.some((e) => e.by === pks[i] && e.pet.id === ids[i]), 'a pet told it was out is not there'); });
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    assert.equal(new Set(out.map((e) => e.pet.id)).size, out.length, 'a pet is out twice');
+    if (etagOnRead) assert.equal(out.length, 15);
+  });
+}
+
+test('only your own pet goes out, the room never says whose, and calling home, Forget me and deleting the username bring it in', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const ada = petKey('Ada'), bex = petKey('Bex');
+  const { ids: [cat] } = await adoptMany('cat', [ada], s);
+  const { ids: [dog], t } = await adoptMany('dog', [ada], s, 50);
+  assert.equal((await letOut('cat', bex, cat, s)).why, 'mine', 'somebody let out a cat that is not theirs');
+  assert.equal((await letOut('dog', ada, cat, s)).why, 'mine', 'a cat went out on the Run');
+  assert.deepEqual(await letOut('cat', ada, cat, s), { out: true });
+  assert.deepEqual(await letOut('cat', ada, cat, s), { out: true }, 'letting out a cat already out did not say so');
+  assert.equal((await readOut('cat', s)).length, 1, 'a cat went out twice');
+  // The room is shown the cat, its name and its looks, and never whose.
+  const shown = await outIn('cat', 0, s);
+  assert.equal(shown.length, 1); assert.equal(shown[0].name, 'N0'); assert.equal(shown[0].out, true);
+  assert.ok(!JSON.stringify(shown).includes(ada), 'the room is told whose the cat is');
+  assert.equal(shown[0].t, undefined); assert.equal(shown[0].at, undefined, 'the room is told when the cat came or was adopted');
+  assert.deepEqual(Object.keys((await readOut('cat', s))[0].pet).sort(), ['coat', 'id', 'kind', 'mark', 'mood', 'name', 'place'], 'the copy keeps something more');
+  assert.deepEqual(Object.keys((await readOut('cat', s))[0]).sort(), ['by', 'pet']);
+  assert.equal(shapeOut({ ...(await readOut('cat', s))[0].pet, by: ada }).by, undefined);
+  // A rename and the base taking a name off reach the copy.
+  await renamePet(ada, cat, 'Moth', s);
+  assert.equal((await outIn('cat', 0, s))[0].name, 'Moth', 'a rename did not reach the café');
+  await unnameAnimal('cat', cat, s);
+  assert.equal((await outIn('cat', 0, s))[0].name, '', 'the base took a name off and the café kept it');
+  // The tray says which of yours are out; another person's tray says nothing of them.
+  assert.equal((await releaseTray('cat', ada, s))[0].out, true);
+  assert.equal((await releaseTray('cat', bex, s)).length, 0);
+  await callHome('cat', ada, cat, s);
+  assert.equal((await readOut('cat', s)).length, 0, 'called home and still out');
+  await callHome('cat', ada, cat, s);
+  // Forget me calls every pet home, in every room.
+  await letOut('cat', ada, cat, s); await letOut('dog', ada, dog, s);
+  await forgetPets(ada, s);
+  assert.equal((await readOut('cat', s)).length + (await readOut('dog', s)).length, 0, 'Forget me left a pet out');
+  // And so does deleting the username.
+  const again = await adoptMany('dog', [petKey('Cy')], s, t + 10);
+  await claimAccount('Cy', 'a long enough phrase', s, t + 20, null);
+  await letOut('dog', petKey('Cy'), again.ids[0], s);
+  await deleteAccount('Cy', s);
+  assert.equal((await readOut('dog', s)).length, 0, 'a deleted username left a dog out');
+}));
+
+test('three of yours at a time, and the shelter and the pets out share its places, the newest out waiting at the gate', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const many = Array.from({ length: RELEASE_EACH + 1 }, () => 'pkA');
+  const { ids, t } = await adoptMany('dog', many, s);
+  for (const id of ids.slice(0, RELEASE_EACH)) assert.deepEqual(await letOut('dog', 'pkA', id, s), { out: true });
+  assert.equal((await letOut('dog', 'pkA', ids[RELEASE_EACH], s)).why, 'each', 'one person let out more than RELEASE_EACH');
+  // Fill the shelter until the room is full, and the next one out is refused.
+  let now = t;
+  while ((await readShelter('dog', s, now)).shelter.length + RELEASE_EACH < SHELTER_KEEP) {
+    const w = (await readShelter('dog', s, now)).waiting;
+    await rescueAnimal('dog', w.id, '', s, now, () => 1);
+    now += 2;
+  }
+  const b = await adoptMany('dog', ['pkB'], s, now);
+  assert.equal((await letOut('dog', 'pkB', b.ids[0], s)).why, 'full', 'a pet went out into a full room');
+  await callHome('dog', 'pkA', ids[0], s);
+  assert.deepEqual(await letOut('dog', 'pkB', b.ids[0], s), { out: true }, 'a place came free and nobody could use it');
+  // The shelter takes in one more: the last pet out waits at the gate, and the
+  // shelter's animals are never the ones left outside.
+  const w = (await readShelter('dog', s, b.t)).waiting;
+  assert.equal((await rescueAnimal('dog', w.id, '', s, b.t, () => 1)).rescued, true, 'the pets out kept an animal waiting outside the shelter');
+  const inShelter = (await readShelter('dog', s, b.t + 1)).shelter.length;
+  const room = await outIn('dog', inShelter, s);
+  assert.equal(inShelter + room.length, SHELTER_KEEP, 'the room holds more animals than it has places for');
+  assert.deepEqual(room.map((a) => a.id), ids.slice(1, RELEASE_EACH), 'the first out were not the ones in the room');
+  const tray = await releaseTray('dog', 'pkB', s);
+  assert.equal(tray[0].out, true); assert.equal(tray[0].gate, true, 'the tray does not say the pet is waiting at the gate');
+  assert.equal((await releaseTray('dog', 'pkA', s)).filter((a) => a.gate).length, 0);
 });
 
 test('pets are filed under a scrambled handle, the same however it is typed, and not the handle', () => {

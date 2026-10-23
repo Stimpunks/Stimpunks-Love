@@ -42,7 +42,7 @@
 
   <div class="pkp-topline">
     <a class="backlink" href="index.html">&larr; back to the street</a>
-    <p class="pkp-trail">on the street &middot; a cat café &middot; every cat waiting for a home</p>
+    <p class="pkp-trail">on the street &middot; a cat café &middot; cats waiting for a home, and cats out from theirs</p>
   </div>
 
   <header class="pkp-head">
@@ -153,10 +153,22 @@
     <ul class="pkp-who" id="pkp-who" data-roam-who aria-labelledby="pkp-who-h" hidden></ul>
   </section>
 
+<!-- pkp:own:begin -->
+  <section class="pkp-part pkp-own" id="your-own-cat" data-release data-kind="cat" data-cls="pkp-own" data-btn="pkp-btn" aria-labelledby="pkp-own-h" data-let="Let {name} out in the café" data-take="Take {name} home" data-is-out="out in the café" data-is-gate="waiting at the door until there is a place" data-is-home="at home" data-went-out="{Name} is out in the café, for anybody who comes in to meet." data-went-home="{Name} has gone home with you." data-full="Every place in the café is taken just now, so {name} is staying at home. The cats waiting for homes come first." data-each="Three of your cats are out in the café already. Take one of them home first, and then {name} can come out." data-signed-off="Since you signed on, this username has been signed off. Sign on again at the Community Center." data-trouble="That did not work just now. Nothing changed." hidden>
+    <h2 id="pkp-own-h">Your own cat</h2>
+    <p>If you adopted a cat at <a href="rescue-a-cat.html">Rescue A Cat</a>, you can let them out in the café for a while, among the cats still waiting for homes, and anybody who comes in can meet them. <strong>They stay yours</strong>, and you can take them home whenever you like. Their card says they have a home, and never whose. Up to three of yours can be out at a time, and the cats waiting for homes come first: when every place in the café is taken, yours wait at home, or at the door, until one is free.</p>
+    <p class="pkp-own__state" data-release-signon hidden>Sign on to the CB, at the <a href="community-center.html#getting-started">Community Center</a>, and the cats you have adopted are here to let out.</p>
+    <p class="pkp-own__state" data-release-none hidden>You have no cats yet. Every cat at <a href="rescue-a-cat.html">Rescue A Cat</a> is waiting for a home, and adopting happens there.</p>
+    <p class="pkp-own__state" data-release-trouble hidden></p>
+    <ul class="pkp-own__list" data-release-list hidden></ul>
+    <p class="pkp-own__said" data-release-said aria-hidden="true" hidden></p>
+  </section>
+  <!-- pkp:own:end -->
+
   <section class="pkp-part" aria-labelledby="pkp-cats-h">
     <h2 id="pkp-cats-h">The cats</h2>
-    <p><strong>Every cat in here came from <a href="rescue-a-cat.html">Rescue A Cat</a></strong>, the shelter on the street, and every one of them is waiting for a home. The café keeps no list of its own: each time it opens it reads the shelter&rsquo;s, so a cat adopted this morning has already gone home, and a cat brought in an hour ago is already here, finding somewhere to sit.</p>
-    <p>Press a cat to meet them: their name, what they are like, where they were found and when they came in, all in the shelter&rsquo;s own words. <strong>Adopting happens at the shelter.</strong> Every cat&rsquo;s card has a link to that cat&rsquo;s own card there, where anybody signed on to the CB can adopt them. The café is not told who adopted whom, and does not ask.</p>
+    <p><strong>Every cat in here came from <a href="rescue-a-cat.html">Rescue A Cat</a></strong>, the shelter on the street. The shelter sends every cat still waiting for a home, and any cat in here who has one has been let out for a while by their person, which you can do too (<a href="#your-own-cat">your own cat</a>, above). The café keeps no list of its own: each time it opens it reads the shelter&rsquo;s, so a cat adopted this morning has already gone home, and a cat brought in an hour ago is already here, finding somewhere to sit.</p>
+    <p>Press a cat to meet them: their name, what they are like, where they were found and when they came in, all in the shelter&rsquo;s own words. <strong>Adopting happens at the shelter.</strong> Every waiting cat&rsquo;s card has a link to that cat&rsquo;s own card there, where anybody signed on to the CB can adopt them. The café is not told who adopted whom, and does not ask.</p>
     <p><strong>Where a cat goes is up to the cat.</strong> The shelter wrote down each cat&rsquo;s mood when they came in, and that is all the café goes by: a cat who watches everything from the top of the cupboard stays up high, a cat who is only interested in food stays down on the floor and the chairs, where the crumbs are, a cat who went straight for a lap stays near the tables, and a cat who fell asleep before the door shut finds somewhere soft. Three legs, one eye, a kink in the tail: none of it decides where a cat may go. A cat with three legs gets to the top of the tree like anybody else.</p>
     <p><strong>You can pick a cat up and put them on your lap</strong>, unless they want to be left alone, which is allowed. The shelter wrote that down too, and the café keeps to it: those cats have no button for picking them up. Sit near them instead. One cat to a lap: picking up another means the first hops down and goes somewhere they like. Look down and you see your lap under the café&rsquo;s blanket, which it lends to anybody with a cat on them, because claws, and your table with whatever you asked for from the menu.</p>
     <p><strong>At MAX GLITTER the cats wander about by themselves</strong>, now and then, one at a time, the way cats do. At Gentle and Regular they stay where they are until something moves them: wave the feather wand, roll the crinkle ball or put down a box, and whoever is interested goes after it. A cat who is asleep, or wants to be left alone, is not interested, which is allowed as well. The words say who went where at every setting; only the moving changes.</p>
@@ -629,8 +641,9 @@
   <section class="pkp-part" aria-labelledby="pkp-keeps-h">
     <h2 id="pkp-keeps-h">What the café keeps</h2>
     <ul class="pkp-keeps">
-      <li><strong>Nothing about you.</strong> Your lap and your table live in this page and nowhere else, and are gone when you leave it. The café&rsquo;s own script stores nothing in your browser and sends nothing anywhere: it reads the shelter&rsquo;s list when it opens, and that is the only thing it asks for. A film on the telly loads from YouTube only when you press it.</li>
-      <li><strong>No list of cats of its own.</strong> Who is in the café is who is in the shelter, read fresh every time.</li>
+      <li><strong>Nothing about you.</strong> Your lap and your table live in this page and nowhere else, and are gone when you leave it. The café&rsquo;s own scripts store nothing in your browser: they read the shelter&rsquo;s list when the room opens, and send nothing anywhere unless you are signed on to the CB and have cats of your own to let out, when they ask which of yours are out and say which one you let out or take home. A film on the telly loads from YouTube only when you press it.</li>
+      <li><strong>No list of cats of its own.</strong> Who is in the café is who is in the shelter, and whoever their people have let out, read fresh every time.</li>
+      <li><strong>Never whose a cat is.</strong> A cat let out here has a home, and the café says so and nothing more. <a href="privacy.html#pets-out">The privacy page</a> says what is kept while they are out.</li>
       <li><strong>Nothing about who adopted whom.</strong> That is between the shelter and the person, and the shelter keeps it under a scrambled name.</li>
       <li><strong>Every item says what is in it</strong> before you ask for it, and every drink how much caffeine.</li>
       <li><strong>Nothing moves by itself</strong> except at MAX GLITTER, and nothing flashes at any setting. <strong>Nothing plays until you press play</strong>, and every film says how long it runs first.</li>
@@ -640,7 +653,7 @@
 
   <section class="pkp-part" aria-labelledby="pkp-credits-h">
     <h2 id="pkp-credits-h">Whose it is</h2>
-    <p>The brief is Ryan Boren&rsquo;s, of 2026-10-04, and so is the name. The cats are <a href="rescue-a-cat.html">Rescue A Cat</a>&rsquo;s, and they are drawn by the same file that draws them in the shelter and in the Profile of whoever adopts them, so a cat here looks exactly as it does there. What orange pekoe is was read on Wikipedia&rsquo;s article on tea leaf grading, and what carries caffeine on the FDA&rsquo;s page about it and Wikipedia&rsquo;s on herbal tea, each on 2026-10-04; the allergen line is worked out by the same engine as <a href="hey-good-cookin.html">Hey, Good Cookin&rsquo;</a>. The menu and every other word in the room were written for it. Set in Cherry Bomb One, by Satsuyako, and Gabarito, by Naipe Foundry (Leandro Assis, &Aacute;lvaro Franca and Felipe Casaprima), both under the SIL Open Font License. Every source is in <a href="liner-notes.html#pekoe-and-purrs">the liner notes</a>.</p>
+    <p>The brief is Ryan Boren&rsquo;s, of 2026-10-04, and so is the name. The cats waiting for homes are <a href="rescue-a-cat.html">Rescue A Cat</a>&rsquo;s and the rest are their people&rsquo;s, and they are all drawn by the same file that draws them in the shelter and in the Profile of whoever adopts them, so a cat here looks exactly as it does there. What orange pekoe is was read on Wikipedia&rsquo;s article on tea leaf grading, and what carries caffeine on the FDA&rsquo;s page about it and Wikipedia&rsquo;s on herbal tea, each on 2026-10-04; the allergen line is worked out by the same engine as <a href="hey-good-cookin.html">Hey, Good Cookin&rsquo;</a>. The menu and every other word in the room were written for it. Set in Cherry Bomb One, by Satsuyako, and Gabarito, by Naipe Foundry (Leandro Assis, &Aacute;lvaro Franca and Felipe Casaprima), both under the SIL Open Font License. Every source is in <a href="liner-notes.html#pekoe-and-purrs">the liner notes</a>.</p>
   </section>
 
 <!-- quest:pkp-mouse:begin -->
@@ -710,6 +723,7 @@
 <script src="table.js" defer></script>
 <script src="roam.js" defer></script>
 <script src="purrs.js" defer></script>
+<script src="release.js" defer></script>
 <script src="quest.js" defer></script>
 </body>
 </html>
