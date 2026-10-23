@@ -8228,7 +8228,7 @@ export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
 export const TASK_FILL_INS = ["name", "contact", "case", "grant"];
-export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them on their join request: Make their invite puts a one-use CB invite in it.\n- [ ] Add them to the mailing lists they asked for: Add them to Givebutter’s lists, on their join request.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
+export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them on their join request: Make their invite puts a one-use CB invite in it.\n- [ ] Add them to the mailing lists they asked for: Add them to Givebutter’s lists, on their join request.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the Members page, if they asked: Check the Members page, then Add them to the Members page, on their join request.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
 /* tasks:settings:end */
 export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
@@ -9535,7 +9535,7 @@ export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
 export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application", "Join Request"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
-export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1", "lists": [{"asks": "Would you like to be added to our Members Only mailing list?", "tag": "Members"}, {"asks": "Would you like to be added to our Monthly Newsletter mailing list?", "tag": "Newsletter Mailing List"}]}};
+export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1", "lists": [{"asks": "Would you like to be added to our Members Only mailing list?", "tag": "Members"}, {"asks": "Would you like to be added to our Monthly Newsletter mailing list?", "tag": "Newsletter Mailing List"}], "members": {"page": 85372, "address": "https://stimpunks.org/community/individuals/", "words": "Profile text for the Members page (optional)", "link": "Website or Blog"}}};
 export const OFFICE_DASHBOARD = {"active_cap": 100};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
@@ -10138,7 +10138,8 @@ export async function officeCase(who, id, s = store()) {
       writes: contactWrites(c, grants.filter((g) => g.contact === c.id), templates) };
   }
   // And, for a join request, which of our mailing lists they asked for, and whether they have been sent to Givebutter.
-  return { ...shapeCase(k, contactMap(contacts), true), map: await casePin(who, k, s), lists: caseLists(k), write };
+  // And whether they asked to be on the Members page, and are.
+  return { ...shapeCase(k, contactMap(contacts), true), map: await casePin(who, k, s), lists: caseLists(k), listing: caseListing(k, c), write };
 }
 
 /* THE OFFICE'S FEED (Ryan's ask, 2026-10-21, after Notion's Feed view, as
@@ -11632,6 +11633,189 @@ export async function gbJoin(who, id, s = store(), now = Date.now(), fetchFn = f
     return { cases: copy, top: topOf(was) };
   }, s);
   return { sent: { tags, t: now }, gone };
+}
+
+/* OUR MEMBERS PAGE, FROM A JOIN REQUEST (Ryan's ask, 2026-10-23: "Add to the
+   Members page on the join request, previewed and editable, written to
+   stimpunks.org with an application password", with privacy.html#members-page
+   said first). stimpunks.org's Individuals page lists our members in one
+   WordPress list block, a line each: the name in bold, linked to their website
+   if they gave one, then a dash and their words. A form type in OFFICE_INTAKE
+   that names `members` says which page, and which of its questions ask for the
+   words and the link; caseListing reads the join request's own answers, and the
+   office page shows the line as it will appear, for a director to tidy.
+   listingLook, on a press, reads the page and says where the line will go and
+   whether somebody by that name is on it already. listingAdd, on a second press
+   and nowhere else (never when a form arrives), reads it again, refuses if it
+   has changed since the look (WordPress takes no conditional write, so this
+   leaves a second or two between the read and the write), and writes the page
+   back with that one line added at the end of the list and every other byte as
+   it was. Nothing of the join request goes but the line, and nothing about who
+   pressed. The office writes as one WordPress user of WP_SITE, with an
+   application password in Netlify (CB_WP_USER, CB_WP_APP_PASSWORD) read once,
+   in wpAuth, and asks WP_SITE for that one page and that user's own
+   capabilities and nothing else. A user who cannot save unfiltered HTML is
+   refused, because WordPress would strip the rest of the page as it saved it.
+   WordPress keeps the page as it was as a revision. The join request keeps when
+   they were added, sealed, and nothing of WordPress's answer. */
+const WP_SITE = 'https://stimpunks.org';
+export const LISTING_MAX = { name: 100, link: 300, words: 5000 };
+
+function wpAuth() {
+  const u = process.env.CB_WP_USER, p = process.env.CB_WP_APP_PASSWORD;
+  return u && u.trim() && p && p.trim() ? 'Basic ' + Buffer.from(u.trim() + ':' + p.trim(), 'utf8').toString('base64') : null;
+}
+export function listingReady() { return !!wpAuth() && officeReady(); }
+
+function listingKind(k) {
+  return Object.values(OFFICE_INTAKE).find((v) => v.record === 'case' && v.type === k.type && v.members) || null;
+}
+const flat = (v) => String(v == null ? '' : v).replace(/\s+/g, ' ').trim();
+const foldName = (v) => flat(v).normalize('NFKC').toLowerCase().replace(/[‘’]/g, "'");
+/* A long answer: everything after **question** up to the next question, or the form entry's link. */
+function formWords(body, label) {
+  const b = String(body || ''), at = b.indexOf('**' + label + '**\n');
+  if (at < 0) return '';
+  const rest = b.slice(at + label.length + 5), end = rest.search(/\n\n(?:\*\*[^\n]+\*\*\n|Form entry: )/);
+  return (end < 0 ? rest : rest.slice(0, end)).trim();
+}
+/* A web address as the line links it, '' for none, or null for words that are not one. */
+export function listingLink(v) {
+  let t = flat(v);
+  if (!t) return '';
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(t)) t = 'https://' + t.replace(/^\/+/, '');
+  let u;
+  try { u = new URL(t); } catch { return null; }
+  if (!/^https?:$/.test(u.protocol) || u.username || u.password || !/\.[a-z]{2,}$/i.test(u.hostname)) return null;
+  return u.href.length <= LISTING_MAX.link ? u.href : null;
+}
+const htmlText = (v) => v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const htmlAttr = (v) => htmlText(v).replace(/"/g, '&quot;');
+/* The line as the page holds it, built from words alone, so nothing typed becomes markup. */
+export function listingLine(f) {
+  f = f && typeof f === 'object' ? f : {};
+  const name = flat(f.name), words = flat(f.words), link = listingLink(f.link);
+  if (!name) return { error: 'A line on the Members page needs a name.' };
+  if ([...name].length > LISTING_MAX.name) return { error: `A name is up to ${LISTING_MAX.name} characters.` };
+  if (/\S+@\S+\.\S+/.test(name)) return { error: 'That name looks like an email address, which goes on no public page. Give the name or pseudonym they go by.' };
+  if ([...words].length > LISTING_MAX.words) return { error: `Their words are up to ${LISTING_MAX.words} characters.` };
+  if (link === null) return { error: 'That link is not a web address. Leave it empty, or give one like https://example.com.' };
+  const who = link ? `<a href="${htmlAttr(link)}"><strong>${htmlText(name)}</strong></a>` : `<strong>${htmlText(name)}</strong>`;
+  return { name, link, words, html: `<li>${who}${words ? ' - ' + htmlText(words) : ''}</li>` };
+}
+/* What a join request asked for on the Members page, and whether it is there yet. */
+export function caseListing(k, c) {
+  const kind = k && listingKind(k);
+  if (!kind) return null;
+  const m = kind.members, full = String(k.name || '');
+  const own = full.startsWith(kind.prefix) ? full.slice(kind.prefix.length).match(/^(?: \d+)?: (.+)$/) : null;
+  let name = flat(own ? own[1] : c ? [c.first, c.last].filter(Boolean).join(' ') : '');
+  // The intake names somebody who gave no name by their email, which goes on no public page.
+  if (/@/.test(name) || name === 'Unknown') name = '';
+  const words = flat(formWords(k.body, m.words)), link = flat(formAnswer(k.body, m.link));
+  return { gave: { name, link, words }, asked: !!(words || link), address: m.address,
+    added: k.listed && k.listed.t ? { t: k.listed.t } : null, ready: listingReady(), max: LISTING_MAX };
+}
+/* The page's one list of members: where a line goes in, and the names already on it. */
+const WP_LIST = /<!-- wp:list(?= )/;
+const WP_LIST_END = '</ul>\n<!-- /wp:list -->';
+function plainHtml(h) {
+  return flat(String(h).replace(/<[^>]*>/g, '').replace(/&nbsp;|&#160;/g, ' ').replace(/&#8217;|&rsquo;/g, '’')
+    .replace(/&quot;/g, '"').replace(/&#0*39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&'));
+}
+export function membersList(raw) {
+  const opens = (raw.match(new RegExp(WP_LIST.source, 'g')) || []).length, ends = raw.split('<!-- /wp:list -->').length - 1;
+  const start = raw.search(WP_LIST), at = raw.indexOf(WP_LIST_END);
+  if (opens !== 1 || ends !== 1 || start < 0 || at < start) return { error: 'The Members page no longer has its one list of members as the office expects, so nothing was changed. Add them on stimpunks.org.' };
+  const names = [...raw.slice(start, at).matchAll(/<li>([\s\S]*?)<\/li>/g)]
+    .map((x) => { const b = x[1].match(/<strong>([\s\S]*?)<\/strong>/); return b ? plainHtml(b[1]) : ''; }).filter(Boolean);
+  return { at, names };
+}
+async function wpAsk(path, auth, fetchFn, init = {}) {
+  const r = await fetchFn(WP_SITE + path, { ...init, headers: { authorization: auth, accept: 'application/json', ...(init.headers || {}) } }).catch(() => null);
+  if (!r) return { error: 'stimpunks.org could not be reached just now. Nothing was changed.' };
+  if (r.status === 401) return { error: 'stimpunks.org did not take the office’s application password (it answered 401). CB_WP_USER and CB_WP_APP_PASSWORD in Netlify need a look. Nothing was changed.' };
+  if (!r.ok) return { error: `stimpunks.org answered ${r.status}. Nothing was changed.` };
+  const b = await r.json().catch(() => null);
+  return b && typeof b === 'object' ? { b } : { error: 'stimpunks.org’s answer could not be read. Nothing was changed.' };
+}
+async function wpCanSave(auth, fetchFn) {
+  const a = await wpAsk('/wp-json/wp/v2/users/me?context=edit&_fields=capabilities', auth, fetchFn);
+  if (a.error) return a;
+  const cap = a.b.capabilities || {};
+  if (cap.edit_pages !== true || cap.edit_published_pages !== true || cap.edit_others_pages !== true) return { error: 'The WordPress user the office writes as cannot change that page. It needs to be an Editor or an Administrator on stimpunks.org.' };
+  if (cap.unfiltered_html !== true) return { error: 'The WordPress user the office writes as cannot save the page without WordPress stripping parts of it, so nothing was changed. It needs to be an Editor or an Administrator on stimpunks.org.' };
+  return {};
+}
+async function wpPage(page, auth, fetchFn) {
+  const a = await wpAsk(`/wp-json/wp/v2/pages/${page}?context=edit&_fields=content,modified_gmt`, auth, fetchFn);
+  if (a.error) return a;
+  const raw = a.b.content && typeof a.b.content.raw === 'string' ? a.b.content.raw : null;
+  if (raw === null || typeof a.b.modified_gmt !== 'string') return { error: 'stimpunks.org did not send the Members page as it is kept. Nothing was changed.' };
+  return { raw, modified: a.b.modified_gmt };
+}
+async function listingCase(id, s) {
+  const kid = caseId(id);
+  const k = (await readCases(s)).find((x) => x.id === kid);
+  if (!k) return { error: 'That case has been deleted.' };
+  const kind = listingKind(k), asked = caseListing(k, null);
+  if (!kind || !asked) return { error: 'Only a join request can add somebody to the Members page.' };
+  if (asked.added) return { error: 'They are on the Members page already, from this join request. Changing their line is done on stimpunks.org.' };
+  if (!asked.asked) return { error: 'They did not fill in the Members page part of the Join form, so they have not asked to be on it.' };
+  return { k, kid, page: kind.members.page, address: kind.members.address };
+}
+/* Where the line would go, read from the page as it is now, on a press. */
+export async function listingLook(who, id, name, s = store(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const auth = wpAuth();
+  if (!auth || !officeReady()) return { error: 'Adding to the Members page is not set up for the office yet.' };
+  const got = await listingCase(id, s);
+  if (got.error) return got;
+  const can = await wpCanSave(auth, fetchFn);
+  if (can.error) return can;
+  const pg = await wpPage(got.page, auth, fetchFn);
+  if (pg.error) return pg;
+  const list = membersList(pg.raw);
+  if (list.error) return list;
+  return { modified: pg.modified, after: list.names[list.names.length - 1] || null, there: !!flat(name) && list.names.some((x) => foldName(x) === foldName(name)) };
+}
+/* The one write: that line, at the end of the page's list, on a director's second press. */
+export async function listingAdd(who, id, f, s = store(), now = Date.now(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const auth = wpAuth();
+  if (!auth || !officeReady()) return { error: 'Adding to the Members page is not set up for the office yet.' };
+  f = f && typeof f === 'object' ? f : {};
+  const line = listingLine(f);
+  if (line.error) return line;
+  if (typeof f.modified !== 'string' || !f.modified) return { error: 'Check the Members page first, so you can see where the line goes.' };
+  const got = await listingCase(id, s);
+  if (got.error) return got;
+  const can = await wpCanSave(auth, fetchFn);
+  if (can.error) return can;
+  const pg = await wpPage(got.page, auth, fetchFn);
+  if (pg.error) return pg;
+  const list = membersList(pg.raw);
+  if (list.error) return list;
+  if (pg.modified !== f.modified) return { error: 'The Members page has changed since you checked it, so nothing was added. Look at where the line goes now, then add it.',
+    changed: { modified: pg.modified, after: list.names[list.names.length - 1] || null, there: list.names.some((x) => foldName(x) === foldName(line.name)) } };
+  if (list.names.some((x) => foldName(x) === foldName(line.name))) return { error: `Somebody called ${line.name} is on the Members page already, so nothing was added. If they are somebody else, give the line a name that tells them apart.` };
+  const next = pg.raw.slice(0, list.at) + '\n\n<!-- wp:list-item -->\n' + line.html + '\n<!-- /wp:list-item -->' + pg.raw.slice(list.at);
+  const put = await wpAsk(`/wp-json/wp/v2/pages/${got.page}?context=edit&_fields=content`, auth, fetchFn, {
+    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ content: next }),
+  });
+  if (put.error) return { error: put.error.replace('Nothing was changed.', 'Nothing was added to the Members page.') };
+  const kept = put.b.content && put.b.content.raw === next;
+  let gone = false;
+  await updateSealed(CASES, (was) => {
+    const list2 = was && Array.isArray(was.cases) ? was.cases : [];
+    const i = list2.findIndex((x) => x.id === got.kid);
+    gone = i < 0;
+    if (gone) return null;
+    const copy = list2.slice();
+    copy[i] = { ...list2[i], listed: { t: now }, edited: now, editedBy: who.handle };
+    return { cases: copy, top: topOf(was) };
+  }, s);
+  return { added: { t: now }, address: got.address, kept, gone };
 }
 
 /* ── Links and backlinks ───────────────────────────────────────────────────

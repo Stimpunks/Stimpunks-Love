@@ -1518,6 +1518,7 @@
     view.appendChild(body);
     if (k.type === 'Join Request' || k.map) view.appendChild(mapPanel(k));
     if (k.lists) view.appendChild(listsPanel(k));
+    if (k.listing) view.appendChild(listingPanel(k));
     if (k.write && k.write.email) {
       var wbox = el('section', 'of-mapbox');
       wbox.setAttribute('aria-labelledby', 'of-write-h');
@@ -1623,6 +1624,115 @@
     });
     row.appendChild(go);
     box.appendChild(row); box.appendChild(answer);
+    return box;
+  }
+  /* Our Members page on stimpunks.org: the line they asked for, shown as it will look, for a director
+     to tidy; Check the Members page reads the page on a press, and only then can the line be added. */
+  function listingPanel(k) {
+    var box = el('section', 'of-mapbox');
+    box.setAttribute('aria-labelledby', 'of-listing-h');
+    var h3 = el('h3', null, 'Members page'); h3.id = 'of-listing-h'; h3.tabIndex = -1;
+    box.appendChild(h3);
+    var L = k.listing;
+    function pageLink(words) { var a = el('a', null, words); a.href = L.address; return a; }
+    if (L.added) {
+      var on = el('p', null, 'On ');
+      on.appendChild(pageLink('our Members page'));
+      on.appendChild(document.createTextNode(' since ' + dayOf(L.added.t) + '.'));
+      box.appendChild(on);
+      box.appendChild(el('p', 'cb-quiet of-hint', 'Changing their line, or taking it off the page, is done on stimpunks.org.'));
+      return box;
+    }
+    if (!L.asked) {
+      box.appendChild(el('p', null, 'They did not fill in the Members page part of the Join form, so they have not asked to be on it.'));
+      return box;
+    }
+    var gave = [L.gave.words ? 'a few words about themselves' : '', L.gave.link ? 'a website' : ''].filter(Boolean);
+    var lead = el('p', null, 'On the Join form they asked to be on ');
+    lead.appendChild(pageLink('our Members page'));
+    lead.appendChild(document.createTextNode(', with ' + andWords(gave) + '.'));
+    box.appendChild(lead);
+    if (!L.ready) {
+      box.appendChild(el('p', 'cb-quiet', 'Adding to the Members page is not set up for the office yet, so they cannot be added from here.'));
+      return box;
+    }
+    var form = el('form', 'of-form');
+    form.noValidate = true;
+    function field(id, label, input, hintText) {
+      var w = el('div', 'of-field');
+      var l = el('label', 'cb-lab', label); l.htmlFor = id; input.id = id;
+      w.appendChild(l); w.appendChild(input);
+      if (hintText) { var hn = el('p', 'cb-quiet of-hint', hintText); hn.id = id + '-hint'; input.setAttribute('aria-describedby', hn.id); w.appendChild(hn); }
+      form.appendChild(w);
+      return input;
+    }
+    function line(value, max) { var i = el('input', 'cb-say of-input'); i.type = 'text'; i.value = value || ''; i.maxLength = max; i.autocomplete = 'off'; return i; }
+    var name = field('of-ln-name', 'Name', line(L.gave.name, L.max.name), 'The name or pseudonym they gave on the form.');
+    var link = field('of-ln-link', 'Link', line(L.gave.link, L.max.link), 'Their website, if they gave one. Leave it empty for none.');
+    link.inputMode = 'url';
+    var words = el('textarea', 'cb-say of-text'); words.rows = 6; words.maxLength = L.max.words; words.value = L.gave.words || '';
+    field('of-ln-words', 'Their words', words, 'What they wrote on the form. Tidy it if it needs it: it goes as plain words, in one paragraph.');
+    var look = el('h4', null, 'How it will look');
+    form.appendChild(look);
+    var preview = el('div', 'of-preview');
+    form.appendChild(preview);
+    function draw() {
+      // As the page shows its lines: the name in bold, linked if there is a link, a dash, then the words.
+      preview.textContent = '';
+      var li = el('p');
+      var n = el('strong', null, name.value.replace(/\s+/g, ' ').trim() || '(a name)');
+      // A link only ever to the web: the field is filled from a public form, so nothing else becomes a link here.
+      var to = link.value.trim();
+      var href = /^https?:\/\//i.test(to) ? to : /^[a-z][a-z0-9+.-]*:/i.test(to) ? '' : to ? 'https://' + to : '';
+      if (href) {
+        var a = el('a'); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.appendChild(n); li.appendChild(a);
+      } else li.appendChild(n);
+      var w = words.value.replace(/\s+/g, ' ').trim();
+      if (w) li.appendChild(document.createTextNode(' – ' + w));
+      preview.appendChild(li);
+    }
+    [name, link, words].forEach(function (x) { x.addEventListener('input', draw); });
+    draw();
+    var where = el('p', 'of-answer');
+    var row = el('div', 'of-row');
+    var check = el('button', 'cb-btn of-small', 'Check the Members page'); check.type = 'button';
+    var add = el('button', 'cb-btn of-small', 'Add them to the Members page'); add.type = 'button'; add.hidden = true;
+    row.appendChild(check); row.appendChild(add);
+    var hint = el('p', 'cb-quiet of-hint', 'Checking reads the page on stimpunks.org and changes nothing. Adding writes this one line at the end of its list, and nothing else of their join request.');
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    form.appendChild(where); form.appendChild(row); form.appendChild(hint); form.appendChild(answer);
+    box.appendChild(form);
+    var seen = null;
+    function placed(r) {
+      seen = r.modified;
+      where.textContent = (r.after ? 'It goes at the end of the list, after ' + r.after + '’s line.' : 'It goes in the page’s list, which is empty.')
+        + (r.there ? ' Somebody called ' + name.value.replace(/\s+/g, ' ').trim() + ' is on the page already.' : '');
+      add.hidden = false;
+    }
+    check.addEventListener('click', function () {
+      check.disabled = true; answer.textContent = 'Reading the Members page…';
+      call(null, { action: 'listing-look', id: k.id, name: name.value }).then(function (r) {
+        check.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'The Members page could not be read just now. Nothing was changed.'); return; }
+        placed(r.body);
+        answer.textContent = 'Read. Nothing has been changed yet.';
+        add.focus();
+      });
+    });
+    add.addEventListener('click', function () {
+      add.disabled = true; answer.textContent = 'Adding…';
+      call(null, { action: 'listing-add', id: k.id, name: name.value, link: link.value, words: words.value, modified: seen }).then(function (r) {
+        add.disabled = false;
+        if (r.status === 409 && r.body && r.body.changed) { placed(r.body.changed); answer.textContent = why(r, 'The Members page has changed since you checked it.'); return; }
+        if (r.status !== 200) { answer.textContent = why(r, 'That did not reach stimpunks.org. Nothing was added.'); return; }
+        var k2 = {}; Object.keys(k).forEach(function (x) { k2[x] = k[x]; });
+        k2.listing = { gave: L.gave, asked: L.asked, address: L.address, added: r.body.added, ready: L.ready, max: L.max };
+        var fresh = listingPanel(k2); box.replaceWith(fresh); fresh.querySelector('h3').focus();
+        say(r.body.kept ? 'Added to the Members page. Tick it off on their onboarding task.'
+          : 'Added to the Members page, but WordPress changed the page as it saved it. Look at the page on stimpunks.org, and its revisions.');
+      });
+    });
     return box;
   }
   function mapPanel(k) {

@@ -5740,6 +5740,25 @@ action (never when a form arrives), and the privacy section gone. The friendly e
 press", which puts every spam entry on our lists, **sending their profile or city "so Givebutter has the whole picture"**,
 and **taking somebody off a list from the office**, which is a second kind of write and Ryan's call first.
 
+**OUR MEMBERS PAGE IS WRITTEN IN ONE WAY, ON A DIRECTOR'S SECOND PRESS, AND THE LINE IS BUILT FROM WORDS ALONE.** Ryan's
+ask, 2026-10-23: "Add to the Members page on the join request, previewed and editable, written to stimpunks.org with an
+application password", with `privacy.html#members-page` written first. stimpunks.org's Individuals page (85372) lists our
+members in one WordPress list block, a line each. A case's form type in `data/office.json`'s intake may name `members`: that
+page, its address and the Join form's two questions for the words and the website, word for word. `caseListing` reads the join
+request's answers (the name from its own name, never an email address) and the panel shows them in boxes to tidy, with How it
+will look under them. **Check the Members page** runs `listingLook` (`listing-look`), which reads the page and says whose line
+it goes after and whether that name is on it; **Add them to the Members page** runs `listingAdd` (`listing-add`), which reads it
+again, **refuses a page changed since the look**, a name already on it and a WordPress user who cannot save unfiltered HTML
+(WordPress would strip other blocks as it saved), and writes the page back with one `wp:list-item` added before the list's end
+and every other byte as it was. The case keeps `listed`, when. **It writes as one WordPress user of `WP_SITE`, with an
+application password in `CB_WP_USER` and `CB_WP_APP_PASSWORD`**, read once in `wpAuth`, and asks that page and its own user's
+capabilities and nothing else; `listingLine` escapes every word, so nothing typed on the public form becomes markup on
+stimpunks.org, and the panel's preview links only to http or https. `make-office.py`'s `check_members` holds all of it. The
+friendly edits are **adding on arrival** "to save a press", which publishes every spam entry, **rebuilding the page's list from
+the office's own records**, which overwrites every line somebody edited on stimpunks.org, **HTML in the words "so links work"**,
+and **taking somebody off the page from the office**, a second kind of write and Ryan's call first. The Organizations page, with
+its logo, is still to come.
+
 **A MAILING SENDS, AFTER A DIRECTOR HAS SEEN EVERY EMAIL, AND THE OFFICE STILL SENDS NOTHING ITSELF.** Ryan's choice,
 2026-10-20, over Gmail drafts read and sent by hand: templates (`office-templates`, fill-ins in `FILL_INS`, an unknown one
 refused by `unknownFillIns`), a preview of every email filled in and everybody left out with the reason (`stageMail`,

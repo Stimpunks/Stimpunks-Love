@@ -54,6 +54,11 @@
                                                      made on this press, for Write to them in Gmail
      { action: 'gb-join', id }                       join request id's name, email and the lists they said yes to,
                                                      sent to Givebutter on this press and never otherwise
+     { action: 'listing-look', id, name }            where join request id's line would go on stimpunks.org's Members
+                                                     page, and whether somebody called name is on it, read on this press
+     { action: 'listing-add', id, name, link, words, modified }   that line added to the end of the Members page's
+                                                     list on this press and never otherwise, refused if the page has
+                                                     changed since modified, the time the look read
      { action: 'map-take-one', lat, lon }            one pin that belongs to no join request taken off that place
      { action: 'map-import', rows: [...] }           the pins brought from Google My Maps, once each by key
      { action: 'template-save', id?, name, subject, body }
@@ -88,7 +93,7 @@ import { readPass, forumReader, officeAllow, officeReady, officeContacts, office
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
@@ -227,6 +232,15 @@ export default async (req) => {
     if (b.action === 'gb-join') {
       const r = await gbJoin(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { sent: r.sent }, QUIET);
+    }
+    if (b.action === 'listing-look') {
+      const r = await listingLook(who, String(b.id || ''), String(b.name || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { modified: r.modified, after: r.after, there: r.there }, QUIET);
+    }
+    if (b.action === 'listing-add') {
+      const r = await listingAdd(who, String(b.id || ''), { name: b.name, link: b.link, words: b.words, modified: b.modified });
+      if (r.changed) return json(409, { error: r.error, changed: r.changed }, QUIET);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { added: r.added, address: r.address, kept: r.kept }, QUIET);
     }
     if (b.action === 'map-take') {
       const r = await mapTake(who, String(b.id || ''));

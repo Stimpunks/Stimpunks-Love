@@ -3985,7 +3985,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
-  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK,
+  qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK, caseListing, listingLine, listingLook, listingAdd, membersList, LISTING_MAX,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
@@ -5446,6 +5446,119 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   // The join request keeps which lists were sent and when, sealed, and its page says so.
   assertSealed(await s.get('office-cases', { type: 'json' }), ['Robin', 'Members']);
   assert.deepEqual((await officeCase(TRYAN, k.id, s)).lists, { lists: [{ tag: 'Members', yes: true }, { tag: 'Newsletter Mailing List', yes: false }], sent: { tags: ['Members'], t: T0 + 5 }, ready: true });
+})));
+
+/* ── The Members page, from a join request ───────────────────────────────── */
+async function withWpKey(user, pass, fn) {
+  const was = [process.env.CB_WP_USER, process.env.CB_WP_APP_PASSWORD];
+  if (user == null) delete process.env.CB_WP_USER; else process.env.CB_WP_USER = user;
+  if (pass == null) delete process.env.CB_WP_APP_PASSWORD; else process.env.CB_WP_APP_PASSWORD = pass;
+  try { return await fn(); } finally {
+    if (was[0] == null) delete process.env.CB_WP_USER; else process.env.CB_WP_USER = was[0];
+    if (was[1] == null) delete process.env.CB_WP_APP_PASSWORD; else process.env.CB_WP_APP_PASSWORD = was[1];
+  }
+}
+const WP_PAGE = '<!-- wp:paragraph -->\n<p>Want to be listed?&nbsp;<a href="https://stimpunks.org/community/join/">Join our community.</a></p>\n<!-- /wp:paragraph -->\n\n'
+  + '<!-- wp:list -->\n<ul class="wp-block-list"><!-- wp:list-item -->\n<li><a href="https://stimpunks.org/about/"><strong>Ryan Boren</strong></a> - Ryan helped start WordPress.</li>\n<!-- /wp:list-item -->\n\n'
+  + '<!-- wp:list-item -->\n<li><strong>Red</strong> - A mama with 3 teens &amp; 2 doggos.</li>\n<!-- /wp:list-item --></ul>\n<!-- /wp:list -->\n\n'
+  + '<!-- wp:heading {"anchor":"h-member-map"} -->\n<h2 id="h-member-map" class="wp-block-heading">Member Map</h2>\n<!-- /wp:heading -->';
+function fakeWordPress(o = {}) {
+  const wp = { raw: o.raw || WP_PAGE, modified: '2026-10-23T06:33:23', sent: [], caps: o.caps || { edit_pages: true, edit_published_pages: true, edit_others_pages: true, unfiltered_html: true } };
+  wp.fetch = async (url, opts = {}) => {
+    const u = new URL(url), method = opts.method || 'GET';
+    wp.sent.push({ url, method, auth: opts.headers && opts.headers.authorization, body: opts.body || null });
+    const res = (body, status = 200) => ({ ok: status < 300, status, json: async () => body });
+    if (o.status) return res({}, o.status);
+    if (u.pathname === '/wp-json/wp/v2/users/me' && method === 'GET') return res({ capabilities: wp.caps });
+    if (u.pathname === '/wp-json/wp/v2/pages/85372' && method === 'GET') return res({ content: { raw: wp.raw }, modified_gmt: wp.modified });
+    if (u.pathname === '/wp-json/wp/v2/pages/85372' && method === 'POST') {
+      wp.raw = JSON.parse(opts.body).content + (o.alters ? '\n' : ''); wp.modified = '2026-10-23T09:00:00';
+      return res({ content: { raw: wp.raw } });
+    }
+    return res({}, 404);
+  };
+  return wp;
+}
+
+test('the Members page: a line is built from words alone, and a link is only ever to the web', () => {
+  const l = listingLine({ name: '  Robin   <img src=x onerror=alert(1)> ', link: 'robin.example.org/about', words: 'Otters &\nkelp <!-- /wp:list --> forever' });
+  assert.equal(l.html, '<li><a href="https://robin.example.org/about"><strong>Robin &lt;img src=x onerror=alert(1)&gt;</strong></a> - Otters &amp; kelp &lt;!-- /wp:list --&gt; forever</li>');
+  assert.equal(listingLine({ name: 'Sam' }).html, '<li><strong>Sam</strong></li>', 'a line with no link or words is the name alone');
+  assert.equal(listingLine({ name: 'Lou', link: 'https://lou.example.org/"><script>' }).html.includes('"><script>'), false, 'a link broke out of its attribute');
+  for (const bad of ['javascript:alert(1)', 'data:text/html,hi', 'ftp://lou.example.org/', 'https://me:pw@lou.example.org/', 'not a site', 'localhost'])
+    assert.ok(listingLine({ name: 'Lou', link: bad }).error, `${bad} became a link`);
+  assert.ok(listingLine({ name: 'lou@example.org' }).error, 'an email address went on the page as a name');
+  assert.ok(listingLine({ name: '' }).error, 'a line with no name');
+  assert.ok(listingLine({ name: 'Lou', words: 'x'.repeat(LISTING_MAX.words + 1) }).error, 'words over the limit');
+  const two = WP_PAGE + '\n\n<!-- wp:list -->\n<ul class="wp-block-list"><!-- wp:list-item -->\n<li>Another</li>\n<!-- /wp:list-item --></ul>\n<!-- /wp:list -->';
+  assert.ok(membersList(two).error, 'a page with two lists was written into');
+  assert.deepEqual(membersList(WP_PAGE).names, ['Ryan Boren', 'Red']);
+});
+
+test('the Members page: a director looks, tidies and adds one line, and nothing else of the join request goes', () => withOfficeKey(OFFICE_TEST_KEY, () => withWpKey('office', 'abcd efgh ijkl mnop', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const form = (words, link) => `**Tell us a bit about yourself and why you would like to join our community.**\nI like otters, and my phone is 5125550100.\n\n`
+    + `**Would you like to be added to our Members Only mailing list?**\nNo\n\n**City**\nAustin`
+    + (words ? `\n\n**Profile text for the Members page (optional)**\n${words}` : '') + (link ? `\n\n**Website or Blog**\n${link}` : '')
+    + `\n\n**Profile text for the Organizations page**\nWe run a kelp co-op.\n\n**Organization Website or Blog**\nhttps://kelp.example.org`;
+  await officeIntake({ type: 'community', entry: 970, email: 'robin@example.org', name: 'Robin Hood', first: 'Robin', last: 'Hood', message: form('I keep otters.\n\nAnd kelp.', 'robin.example.org') }, s, T0, TMODS);
+  await officeIntake({ type: 'community', entry: 971, email: 'sam@example.org', name: 'Sam', message: form('', '') }, s, T0 + 1, TMODS);
+  await officeIntake({ type: 'community', entry: 972, email: 'red@example.org', name: 'Red', message: form('Saucy.', '') }, s, T0 + 2, TMODS);
+  await officeIntake({ type: 'connection', entry: 973, email: 'lou@example.org', name: 'Lou', message: form('Hi.', '') }, s, T0 + 3);
+  const cases = await readCases(s);
+  const k = cases.find((x) => x.form === 970), none = cases.find((x) => x.form === 971), red = cases.find((x) => x.form === 972), conn = cases.find((x) => x.form === 973);
+  assert.deepEqual(caseListing(k).gave, { name: 'Robin Hood', link: 'robin.example.org', words: 'I keep otters. And kelp.' },
+    'the line was read from somewhere other than the Members page part of the form');
+  assert.equal(caseListing(none).asked, false, 'a join request that left the Members page part empty asked to be on it');
+  assert.equal(caseListing(conn), null, 'a case that is not a join request offered the Members page');
+  assert.equal((await officeCase(TRYAN, k.id, s)).listing.ready, true);
+
+  const wp = fakeWordPress();
+  assert.ok((await listingLook(TSAM, k.id, 'Robin Hood', s, wp.fetch)).error, 'somebody the office does not let in read the page');
+  assert.ok((await listingAdd(TSAM, k.id, { name: 'Robin Hood', modified: wp.modified }, s, T0 + 4, wp.fetch)).error, 'somebody the office does not let in wrote the page');
+  assert.ok((await listingLook(TRYAN, none.id, 'Sam', s, wp.fetch)).error, 'a join request that did not ask was looked at');
+  assert.ok((await listingLook(TRYAN, conn.id, 'Lou', s, wp.fetch)).error, 'a case that is not a join request was looked at');
+  await withWpKey(null, null, async () => assert.ok((await listingLook(TRYAN, k.id, 'Robin Hood', s, wp.fetch)).error, 'looked without the key'));
+  assert.equal(wp.sent.length, 0, 'stimpunks.org was asked when nothing should have been');
+
+  const look = await listingLook(TRYAN, k.id, 'Robin Hood', s, wp.fetch);
+  assert.deepEqual(look, { modified: '2026-10-23T06:33:23', after: 'Red', there: false });
+  assert.equal((await listingLook(TRYAN, red.id, ' red ', s, wp.fetch)).there, true, 'somebody already on the page was not noticed');
+  assert.ok(wp.sent.every((x) => x.method === 'GET'), 'looking changed something');
+  assert.equal(wp.sent[0].auth, 'Basic ' + Buffer.from('office:abcd efgh ijkl mnop').toString('base64'));
+  assert.ok(wp.sent.every((x) => x.url.startsWith('https://stimpunks.org/wp-json/wp/v2/')), 'the office asked somewhere other than stimpunks.org');
+
+  const line = { name: 'Robin Hood', link: 'https://robin.example.org/', words: 'I keep otters and kelp.' };
+  assert.ok((await listingAdd(TRYAN, k.id, line, s, T0 + 5, wp.fetch)).error, 'added without a look');
+  assert.ok((await listingAdd(TRYAN, red.id, { name: 'Red', words: 'Saucy.', modified: look.modified }, s, T0 + 5, wp.fetch)).error, 'a second Red went on the page');
+  const stale = await listingAdd(TRYAN, k.id, { ...line, modified: '2026-10-22T00:00:00' }, s, T0 + 5, wp.fetch);
+  assert.ok(stale.error && stale.changed && stale.changed.after === 'Red', 'a page changed since the look was written');
+  const weak = fakeWordPress({ caps: { edit_pages: true, edit_published_pages: true, edit_others_pages: true, unfiltered_html: false } });
+  assert.match((await listingAdd(TRYAN, k.id, { ...line, modified: look.modified }, s, T0 + 5, weak.fetch)).error, /stripping/);
+  assert.ok((await listingAdd(TRYAN, k.id, { ...line, modified: look.modified }, s, T0 + 5, fakeWordPress({ status: 401 }).fetch)).error.includes('401'));
+  assert.ok(wp.sent.every((x) => x.method === 'GET') && weak.sent.every((x) => x.method === 'GET'), 'a refused add wrote to the page');
+  assert.equal((await officeCase(TRYAN, k.id, s)).listing.added, null, 'a refused add was kept as added');
+
+  const r = await listingAdd(TRYAN, k.id, { ...line, modified: look.modified }, s, T0 + 6, wp.fetch);
+  assert.deepEqual(r, { added: { t: T0 + 6 }, address: 'https://stimpunks.org/community/individuals/', kept: true, gone: false });
+  const posts = wp.sent.filter((x) => x.method === 'POST');
+  assert.equal(posts.length, 1);
+  assert.equal(posts[0].url, 'https://stimpunks.org/wp-json/wp/v2/pages/85372?context=edit&_fields=content');
+  const put = JSON.parse(posts[0].body);
+  assert.deepEqual(Object.keys(put), ['content'], 'more than the page\'s content was sent');
+  const end = WP_PAGE.indexOf('</ul>\n<!-- /wp:list -->');
+  assert.equal(put.content, WP_PAGE.slice(0, end) + '\n\n<!-- wp:list-item -->\n<li><a href="https://robin.example.org/"><strong>Robin Hood</strong></a> - I keep otters and kelp.</li>\n<!-- /wp:list-item -->' + WP_PAGE.slice(end),
+    'the page was changed anywhere but by that one line at the end of its list');
+  for (const w of ['robin@example.org', 'Austin', '5125550100', 'like otters', 'kelp co-op', 'Ryan,']) assert.ok(!posts[0].body.includes(w), `stimpunks.org was sent ${w}`);
+  assertSealed(await s.get('office-cases', { type: 'json' }), ['Robin', 'otters']);
+  assert.deepEqual((await officeCase(TRYAN, k.id, s)).listing.added, { t: T0 + 6 });
+  const again = await listingAdd(TRYAN, k.id, { ...line, modified: wp.modified }, s, T0 + 7, wp.fetch);
+  assert.match(again.error, /already/, 'a join request already on the page was added again');
+  assert.equal(wp.sent.filter((x) => x.method === 'POST').length, 1);
+  // WordPress changing what it saves is said, and the line is still kept as added.
+  const red2 = fakeWordPress({ alters: true });
+  const look2 = await listingLook(TRYAN, red.id, 'Red Two', s, red2.fetch);
+  assert.equal((await listingAdd(TRYAN, red.id, { name: 'Red Two', words: 'Saucy.', modified: look2.modified }, s, T0 + 8, red2.fetch)).kept, false);
 })));
 
 /* ── Tasks: activity and notifications ───────────────────────────────────── */

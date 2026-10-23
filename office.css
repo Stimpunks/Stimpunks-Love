@@ -136,7 +136,8 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
 
 /* WRITING: the radio's own fields. */
 .of-form { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); align-items: start; }
-.of-form > .of-checks, .of-form > .of-wide, .of-form > .of-field:has(.of-text), .of-form > .of-hint, .of-form > .of-preview, .of-form > .of-answer, .of-form > .of-row { grid-column: 1 / -1; }
+.of-form > .of-checks, .of-form > .of-wide, .of-form > .of-field:has(.of-text), .of-form > .of-hint, .of-form > .of-preview, .of-form > .of-answer, .of-form > .of-row, .of-form > h4 { grid-column: 1 / -1; }
+.of-form > h4 { margin: 4px 0 0; }
 .of-checks { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
 .of-checks legend { padding: 0 0 4px; float: left; width: 100%; }
 .of-check { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 2px 10px 2px 8px; font-size: 15px; border: 2px solid var(--cb-bar); border-radius: 6px; }

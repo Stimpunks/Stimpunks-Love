@@ -150,8 +150,19 @@ def settings(data):
                     and isinstance(x["tag"], str) and 0 < len(x["tag"].strip()) <= 64 for x in ls)
                 if not ok or len({x["tag"] for x in ls}) != len(ls):
                     problems.append(f"{DATA.name}: intake.{k}'s lists are a case's questions asking for our mailing lists, each its asks and a tag of 64 characters at most, no tag twice.")
-            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task", "lists"}:
-                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task', 'lists'}))}, which the intake does not read.")
+            # A case's form type may name stimpunks.org's Members page and the questions asking for its
+            # words and website: listingAdd writes that page and nothing else, on stimpunks.org alone.
+            if isinstance(v, dict) and "members" in v:
+                m = v["members"]
+                ok = (v.get("record") == "case" and isinstance(m, dict) and set(m) == {"page", "address", "words", "link"}
+                      and isinstance(m["page"], int) and not isinstance(m["page"], bool) and m["page"] > 0
+                      and isinstance(m["address"], str) and m["address"].startswith("https://stimpunks.org/")
+                      and all(isinstance(m[x], str) and m[x].strip() and "\n" not in m[x] for x in ("words", "link"))
+                      and m["words"] != m["link"])
+                if not ok:
+                    problems.append(f"{DATA.name}: intake.{k}'s members names a page on stimpunks.org (its id and its https://stimpunks.org/ address) and the two questions asking for its words and link, and nothing else.")
+            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task", "lists", "members"}:
+                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task', 'lists', 'members'}))}, which the intake does not read.")
     cap = (data.get("dashboard") or {}).get("active_cap")
     if not isinstance(cap, int) or isinstance(cap, bool) or cap < 1:
         problems.append(f"{DATA.name}: dashboard.active_cap is a whole number of grant requests, 1 or more.")
@@ -496,7 +507,9 @@ def check_givebutter(lib):
     if at < 0:
         problems.append(f"{LIB.name}: the Givebutter part of the office is missing.")
         return
-    sec = lib[at:]
+    # Up to the Members page part, which writes to stimpunks.org and is checked by check_members.
+    to = lib.find("/* OUR MEMBERS PAGE", at)
+    sec = lib[at:to] if to > at else lib[at:]
     code = code_of(sec)
     if set(re.findall(r"'(https://[^']+)'", code)) != {"https://api.givebutter.com/v1/"}:
         problems.append(f"{LIB.name}: the office asks Givebutter's own API and nowhere else.")
@@ -533,6 +546,58 @@ def check_givebutter(lib):
         problems.append(f"{LIB.name}: the Givebutter part reads who gave; the office keeps nobody's name.")
     if "updateSealed(GB_BOOKS" not in fn(sec, "officeGivebutter"):
         problems.append(f"{LIB.name}: what the office reads from Givebutter is kept sealed.")
+
+
+def check_members(lib):
+    """The Members page is written in one way only (Ryan's ask, 2026-10-23):
+    listingAdd, on a director's press of the listing-add action, after a look,
+    puts one line built from words alone at the end of stimpunks.org's Members
+    page's list, with an application password read once in wpAuth, and asks
+    stimpunks.org for that page and its own user's capabilities and nothing else."""
+    at = lib.find("/* OUR MEMBERS PAGE")
+    to = lib.find("/* ── Links and backlinks", at)
+    if at < 0 or to < at:
+        problems.append(f"{LIB.name}: the Members page part of the office is missing.")
+        return
+    sec = lib[at:to]
+    code = code_of(sec)
+    if set(re.findall(r"'(https://[^']+)'", code)) != {"https://stimpunks.org"} or "const WP_SITE = 'https://stimpunks.org';" not in code:
+        problems.append(f"{LIB.name}: the Members page part asks stimpunks.org and nowhere else.")
+    paths = set(re.findall(r"wpAsk\(('[^']*'|`[^`]*`),", code))
+    if paths != {"'/wp-json/wp/v2/users/me?context=edit&_fields=capabilities'", "`/wp-json/wp/v2/pages/${page}?context=edit&_fields=content,modified_gmt`",
+                 "`/wp-json/wp/v2/pages/${got.page}?context=edit&_fields=content`"}:
+        problems.append(f"{LIB.name}: the Members page part asks stimpunks.org for its one page and its own user's capabilities, and nothing else (it asks {', '.join(sorted(paths)) or 'nothing readable'}).")
+    if code.count("fetchFn(") != 1 or "fetchFn(WP_SITE + path" not in code:
+        problems.append(f"{LIB.name}: the Members page part reaches stimpunks.org only through wpAsk, which adds WP_SITE to every path.")
+    add = fn(sec, "listingAdd")
+    if len(re.findall(r"method:", code)) != 1 or "method: 'POST'" not in add or "JSON.stringify({ content: next })" not in add:
+        problems.append(f"{LIB.name}: the Members page is written in one place only, listingAdd's POST of the page's content; everything else is a GET.")
+    for name in ("listingAdd", "listingLook"):
+        first = re.search(r"\{\n\s*(.*)", fn(sec, name))
+        if not first or "if (!officeAllow(who))" not in first.group(1):
+            problems.append(f"{LIB.name}: {name} must refuse anybody the office does not let in, before it reads or sends anything.")
+    if "pg.modified !== f.modified" not in add or "await wpCanSave(" not in add:
+        problems.append(f"{LIB.name}: listingAdd must refuse a page changed since the look, and a WordPress user who cannot save the page as it is.")
+    if not re.search(r"const next = pg\.raw\.slice\(0, list\.at\) \+ '\\n\\n<!-- wp:list-item -->\\n' \+ line\.html \+ '\\n<!-- /wp:list-item -->' \+ pg\.raw\.slice\(list\.at\);", add):
+        problems.append(f"{LIB.name}: listingAdd writes the page back as it was, with one line added at the end of its list, and nothing else changed.")
+    ln = fn(sec, "listingLine")
+    if "htmlText(name)" not in ln or "htmlText(words)" not in ln or "htmlAttr(link)" not in ln or re.search(r"\$\{(?!htmlText\(|htmlAttr\(|who\}|words \?)", ln.split("const who")[1] if "const who" in ln else ln):
+        problems.append(f"{LIB.name}: listingLine builds the line from words alone, escaped, so nothing typed becomes markup on stimpunks.org.")
+    if re.search(r"\bk\.body\b|\bc\.(?:email|phone|notes)\b", add + fn(sec, "listingLook")):
+        problems.append(f"{LIB.name}: the Members page's look or add reads more of the join request than the line.")
+    if lib.count("process.env.CB_WP_USER") != 1 or lib.count("process.env.CB_WP_APP_PASSWORD") != 1 or "process.env.CB_WP_APP_PASSWORD" not in (re.search(r"function wpAuth\(.*?\n\}", sec, re.S) or [""])[0]:
+        problems.append(f"{LIB.name}: CB_WP_USER and CB_WP_APP_PASSWORD are read once, in wpAuth, and nowhere else.")
+    if lib.count("listingAdd(") != 1 or lib.count("listingLook(") != 1:
+        problems.append(f"{LIB.name}: listingAdd or listingLook is called from somewhere in lib.mjs; they run only on a director's press, never when a form arrives.")
+    office_fn = (ROOT / "netlify" / "functions" / "cb-office.mjs").read_text()
+    if (office_fn.count("listingAdd(") != 1 or office_fn.count("listingLook(") != 1 or office_fn.count("b.action === 'listing-add'") != 1
+            or "    if (b.action === 'listing-add') {\n      const r = await listingAdd(" not in office_fn):
+        problems.append("cb-office.mjs: the Members page is looked at and written from the listing-look and listing-add actions, a director's press, and nowhere else.")
+    if 'id="members-page"' not in (ROOT / "privacy.html").read_text():
+        problems.append("privacy.html: the office writes to stimpunks.org's Members page, and the privacy page's section on it (id members-page) is missing.")
+    js = code_of(JS.read_text()) if JS.exists() else ""
+    if "action: 'listing-add'" not in js or not re.search(r"var href = /\^https\?:", js):
+        problems.append(f"{JS.name}: the Members page's preview links only to an http or https address, because its link is filled from a public form.")
 
 
 def check_js():
@@ -617,6 +682,7 @@ def main():
     check_nights(lib)
     check_quickbooks(lib)
     check_givebutter(lib)
+    check_members(lib)
     check_invite_fill(lib)
     check_js()
     check_css()
