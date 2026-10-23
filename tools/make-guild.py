@@ -348,17 +348,18 @@ DRAW = {
     # kitchen floor: a stem and three lobed leaflets in --vpl-leaf, 4.86 on the
     # turmeric wall, over the body threshold a marker is held to. The floor
     # line is --vpl-ink and carries nothing. It lies flat and does not move.
-    # A push-in letter fallen off the letterboard over the door, lying on the
-    # floor of the hall: a white plastic T with the two pins on its back that
-    # hold it in the felt, outlined in --ctr-ink at 9.63 on the shaded wall,
-    # over the body threshold a marker is held to. The white alone would be
-    # 1.3 against the paint, so the outline carries it, the way every chair in
-    # the Hermitage is carried. It lies flat and does not move.
+    # A leaf fallen from the plant on the Community Center's sill, lying on the
+    # floor under the window seat: a round-hearted leaf and its stalk, in
+    # --ctr-leaf, outlined in --ctr-ink at 10.38 on the plaster, over the body
+    # threshold a marker is held to; the leaf alone would be 3.40, so the
+    # outline carries it, the way every chair in the Hermitage is carried. It
+    # lies flat and does not move. (Until 2026-10-23 it was a push-in letter
+    # fallen off the room's letterboard; the job keeps its id.)
     # The World room's drop of dew, on a broken strand fallen to the floor: the
     # strand and the floor line are --www-silk, 15.28 on the sky, and the drop
     # --www-bead, 14.58, both over the body threshold a marker is held to.
     "world-dewdrop": """<path d="M3 29 H29" stroke="var(--www-silk)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 6 Q12 14 15 18 M19 15 Q24 9 28 4" stroke="var(--www-silk)" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M17 15.5 C19.5 19 21 21 21 23 A4 4 0 0 1 13 23 C13 21 14.5 19 17 15.5 Z" fill="var(--www-bead)" stroke="var(--www-silk)" stroke-width="1"/>""",
-    "community-letter": """<path d="M3 29 H29" stroke="var(--ctr-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 11 H26 V16 H19 V26 H13 V16 H6 Z" fill="var(--ctr-letter)" stroke="var(--ctr-ink)" stroke-width="2" stroke-linejoin="round"/><path d="M9 8 V11 M23 8 V11" stroke="var(--ctr-ink)" stroke-width="1.8" stroke-linecap="round"/>""",
+    "community-letter": """<path d="M3 29 H29" stroke="var(--ctr-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M15 25 C8 24 5 18 7 13 C9 9 13 9 15.5 11.5 C17 8 21.5 7 24.5 10 C27.5 13.5 25 19.5 20 23 C18.5 24.2 16.8 25 15 25 Z" fill="var(--ctr-leaf)" stroke="var(--ctr-ink)" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 24 C15.5 19 15.5 15 15.5 11.8" fill="none" stroke="var(--ctr-ink)" stroke-width="1.1" stroke-linecap="round"/><path d="M15 25 Q19 28 24 27" fill="none" stroke="var(--ctr-ink)" stroke-width="1.5" stroke-linecap="round"/>""",
     "vital-sprig": """<path d="M3 29 H29" stroke="var(--vpl-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M6 25 Q15 22 26 13" fill="none" stroke="var(--vpl-leaf)" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="20" r="3.6" fill="var(--vpl-leaf)"/><circle cx="18" cy="15" r="3.6" fill="var(--vpl-leaf)"/><circle cx="25" cy="9" r="3.8" fill="var(--vpl-leaf)"/><circle cx="21" cy="21" r="3.2" fill="var(--vpl-leaf)"/>""",
     "samefood-divider": """<path d="M3 29 H29" stroke="var(--sf-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M5 25 L7 13 L10 21 L13 8 L16 21 L19 9 L22 21 L25 12 L27 25 Z" fill="none" stroke="var(--sf-cress)" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 25 H27" stroke="var(--sf-cress)" stroke-width="2.6" stroke-linecap="round"/>""",
     # A luggage tag come off its string -- the kind tied to every thing in the

@@ -9,10 +9,17 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Fri, 23 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>A window seat in the Community Center</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-23-community-center-window-seat</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-community-center-window-seat</guid>
+      <pubDate>Fri, 23 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The Community Center is a quiet room now, after somebody in our community asked for a softer look, in the biophilic, low-stimulation direction Ryan chose, with a sense of refuge. It is sage lime plaster with one big window facing north onto a hillside, so the light is soft and the same all day and no sun lands anywhere, and a deep seat is built into the bay under it, with a cushion, a throw and a plant on the sill. The stripes of sun behind every paragraph are gone, and so are the grid of the block wall over them, the black felt strips behind the headings and the orange stacking chairs. Every word sits on flat plaster now, the headings are the room’s rounded face in its own ink, and the front desk, the community service board’s pigeonholes and the member map are pale ash. It leans on 14 Patterns of Biophilic Design, by William Browning, Catherine Ryan and Joseph Clancy for Terrapin Bright Green (2014), credited in the room and in the liner notes: a view of a living hillside, a seat to look out from with the wall behind you, soft light, and lime, ash and wool. Nothing in the room moves at any setting. Its door on the street has a hill in its window, its share card is the window seat, and its job marker is a leaf fallen from the plant on the sill. The job is the same job, and anybody who had done it still has. Changed: community-center.html, love.css, index.html, design.html, liner-notes.html, README.md, fonts/_sources.json, data/quests.json, data/community.json, data/fractals.json, tools/make-og.py, tools/make-guild.py, tools/make-community.py and tools/check-contrast.py, and the notes in other rooms’ sections that described the old hall.</description>
+    </item>
+    <item>
       <title>The member map zooms</title>
       <link>https://stimpunks.world/changelog.html#2026-10-23-member-map-zoom</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-23-member-map-zoom</guid>
-      <pubDate>Fri, 23 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 11:59:00 GMT</pubDate>
       <description>The member map on the Community Center’s wall zooms now, after Ryan asked whether he could: with Zoom in, Zoom out and Whole world under it, and West, North, South and East to move it, so a keyboard can do all of it, and by hand with a double press, a pinch, Ctrl or Cmd and the scroll wheel, and a drag. The pins stay the same size while the world grows under them, so crowded places like the US east coast and Britain pull apart, and on a phone the numbers on the pins are as big as anywhere else. Pressing a pin says where it is. Zoomed in, the map shows Natural Earth’s lakes, the borders between countries and the lines between states and provinces, from our own site, asked for only the first time somebody zooms, so the map everybody sees first is no heavier. It jumps where you ask rather than gliding, at every setting of the dial. Changed: community-center.html, love.css, member-map.js, member-map-detail.json (new), data/world-detail.json (new), tools/pull-world-land.py, tools/make-member-map.py, tools/check-contrast.py and liner-notes.html.</description>
     </item>
     <item>

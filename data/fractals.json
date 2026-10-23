@@ -191,12 +191,12 @@
         0.1127
       ],
       "depth": 40,
-      "ground": "--ctr-shade",
+      "ground": "--ctr-plaster",
       "inks": [
         "--ctr-ink",
-        "--ctr-ink-2",
-        "--ctr-mortar",
-        "--ctr-letter"
+        "--ctr-tree",
+        "--ctr-wool",
+        "--ctr-plate"
       ],
       "span": 1.4
     },

@@ -1078,21 +1078,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--world .www-tag {{ font-size: 28px; margin: 4px auto 0 !important; max-width: none; }}
 .og--world .og-lede {{ font-family: 'Inclusive Sans', sans-serif; color: var(--www-silk); text-align: center; font-size: 21px; line-height: 1.35; margin: 10px 0 0 !important; }}
 
-/* the community center — THE LETTERBOARD AND THE RADIO ON THE BLUE WALL.
-   The wall and its bars of sun come from the room's own body rule, so the card
-   is lit through the same blind as the hall. The letterboard is the page's own
-   three lines, in the felt and the push-in capitals, and the radio is lifted
-   off the front desk, so there is one drawing of it and not two. The lede is
-   dark ink on the wall, where the room sets every word. */
-.og--community {{ width: 100%; padding: 44px 60px 40px; gap: 18px; justify-content: flex-start; }}
-.og--community .og-row {{ display: flex; gap: 36px; align-items: flex-end; margin: 0 !important; }}
-.og--community .ctr-board {{ margin: 0 !important; flex: 1 1 auto; padding: 26px 34px 28px; }}
-.og--community .ctr-board p {{ margin: 0 !important; font-size: 20px; }}
-.og--community h1 {{ font-size: 84px; line-height: 1.02; margin: 14px 0 !important; }}
-.og--community .og-radio {{ flex: 0 0 300px; margin: 0 !important; line-height: 0; }}
-.og--community .og-radio svg {{ display: block; width: 100%; height: auto; }}
+/* the community center — THE NAME ON THE PLASTER AND THE WINDOW SEAT BESIDE IT.
+   The sage lime plaster comes from the room's own body rule, so the card is
+   the room's own wall. The three lines are the page's own, in the room's
+   rounded face and its ink, and the window, the hill and the seat are lifted
+   off the page, so there is one drawing of them and not two. The lede is dark
+   ink on the plaster, where the room sets every word. */
+.og--community {{ width: 100%; padding: 44px 56px 40px; gap: 18px; justify-content: center; }}
+.og--community .og-row {{ display: flex; gap: 34px; align-items: center; margin: 0 !important; }}
+.og--community .og-words {{ flex: 1 1 0; margin: 0 !important; }}
+.og--community .og-words p {{ margin: 0 !important; font-size: 22px; }}
+.og--community h1 {{ font-size: 76px; line-height: 1.04; margin: 10px 0 10px !important; }}
+.og--community .og-window {{ flex: 0 0 560px; margin: 0 !important; line-height: 0; }}
+.og--community .og-window svg {{ display: block; width: 100%; height: auto; margin: 0 !important; }}
 .og--community .og-lede {{ font-family: 'Radio Canada', sans-serif; color: var(--ctr-ink);
-  max-width: 1060px; font-size: 27px; line-height: 1.4; margin: 6px 0 0 !important; }}
+  max-width: 1080px; font-size: 25px; line-height: 1.4; margin: 4px 0 0 !important; }}
 
 /* community library — THE READING ROOM'S FAR WALL UNDER ITS LINTEL. The header is
    lifted whole, lintel and all, and the drawing is the page's own, cropped from
@@ -5173,34 +5173,35 @@ def card_nowplaying(p):
 
 
 def card_community(p):
-    # THE LETTERBOARD'S THREE LINES ARE LIFTED FROM THE PAGE, the radio is the
-    # front desk's own drawing, and the lede is the page's og:description, so
-    # the card cannot say what the room does not.
+    # THE THREE LINES ARE LIFTED FROM THE PAGE, the window seat is the page's own
+    # drawing, and the lede is the page's og:description, so the card cannot say
+    # what the room does not.
     over = re.search(r'<p class="ctr-over">(.*?)</p>', p["src"], re.S)
-    line = re.search(r'<p class="ctr-board__line">(.*?)</p>', p["src"], re.S)
-    if not over or not line:
+    line = re.search(r'<p class="ctr-head__line">(.*?)</p>', p["src"], re.S)
+    if not over or not line or not p.get("window"):
         raise SystemExit(
-            "REFUSING: community-center.html's letterboard has lost its line over the\n"
-            "name or its line under it, and the card is built around both. Redesign\n"
-            "the card on purpose.")
+            "REFUSING: community-center.html has lost the line over its name, the line\n"
+            "under it or its window seat, and the card is built around all three.\n"
+            "Redesign the card on purpose.")
     o_html, l_html = over.group(1).strip(), line.group(1).strip()
     plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
     return (
         "",
         f'<div class="og og--community" data-fit="card">'
         f'<div class="og-row">'
-        f'<header class="ctr-board"><p class="ctr-over">{o_html}</p>{p["h1"]}'
-        f'<p class="ctr-board__line">{l_html}</p></header>'
-        f'<div class="og-radio">{p["radio"]}</div>'
+        f'<div class="og-words"><p class="ctr-over">{o_html}</p>{p["h1"]}'
+        f'<p class="ctr-head__line">{l_html}</p></div>'
+        f'<div class="og-window">{p["window"]}</div>'
         f'</div>'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'</div>',
-        f"A powder-blue painted block wall with bars of morning sun falling across it at an "
-        f"angle, through a half-open blind. A black felt letterboard in an aluminium frame "
-        f"reads, in white push-in capitals: {plain(o_html)}, then \u201c{p['h1text']}\u201d, then "
-        f"{plain(l_html)}. Beside it, a drawing of a CB base station on a desk, with its aerial "
-        f"up and its microphone on a stand, the channel window reading 19. Under it, in dark "
-        f"ink on the wall: {p['desc_plain']}",
+        f"A wall of pale sage lime plaster. In dark rounded letters: {plain(o_html)}, then "
+        f"\u201c{p['h1text']}\u201d, then {plain(l_html)}. Beside them, a drawing of a deep window "
+        f"bay with a rounded top, its edge catching the light, and in it a big arched window with "
+        f"pale wooden frames looking out onto soft green hills under a pale sky, a few round trees "
+        f"and a path going over the hill. On the sill a plant in a terracotta pot trails down; "
+        f"under the window a deep built-in wooden seat with a moss-green cushion, two pillows, a "
+        f"folded throw and a book. Under it all, in dark ink on the plaster: {p['desc_plain']}",
     )
 
 
@@ -5622,7 +5623,7 @@ def main():
         ("doorway",  "dead-tired-society.html", r'(<svg class="dts-doorway".*?</svg>)'),
         ("table",    "samefood-cafe.html", r'(<svg class="sf-table-art".*?</svg>)'),
         ("shelf",    "vital-plant-living.html", r'(<svg class="vpl-shelf-art".*?</svg>)'),
-        ("radio",    "community-center.html", r'(<svg class="ctr-desk__radio".*?</svg>)'),
+        ("window",   "community-center.html", r'(<svg class="ctr-window".*?</svg>)'),
         ("stand",    "dopamine-dress-up-den.html", r'(<svg class="dd-stand".*?</svg>)'),
         ("booth",    "bodymind-booth.html", r'(<svg class="bmb-booth".*?</svg>)'),
         ("chmscene", "chimera-obscura.html", r'(<svg class="chm-scene__draw".*?</svg></g></svg>)'),

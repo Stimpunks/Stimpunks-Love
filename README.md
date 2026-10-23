@@ -109,7 +109,7 @@ town-hall-moderators.html Off the Town Hall: above the street at night, lit by t
 town-hall-board.html  Off the Town Hall: one long table with the same lamp at every seat. The board, and our Governance & Ethics section. The base's radio
 town-hall-directors.html Off the Town Hall: lit only through the frosted pane in its door. The directors, linked to our About page. The base's radio
 town-hall-fishbowl.html Off the Town Hall: a glass fishbowl on a sunny sill, lit by the sun bent through the water. Community fishbowl meetings on the CB
-community-center.html A painted block hall, blinds half open. Getting started in our community (the starter password, signing on, claiming a username), house norms and the front desk for the CB
+community-center.html A quiet room in sage lime plaster with a window seat looking north onto a hill. Getting started in our community (joining with an invite, signing on, your username), house norms and the front desk for the CB
 dopamine-dress-up-den.html  Helen's idea: a boutique for dopamine dressing. Mix an outfit on a valet stand; nobody's body is drawn
 the-open-notebook.html  A notebook open under a window since first light, every hour's sun on the page. Ryan's piece on bullet, junk and interstitial journaling in full, the Infodumplings questions, its videos and a month of journaling channels on the laptop, and a sticker drawer of day and month sheets for a PixCut S1; nowhere to write, on purpose
 learning-large.html     A glasshouse at night under red and blue grow lamps, where nothing is green. Learning, making and knowledge gardening with AI, from our own AI pages: spiky profiles complementing each other, this street's own sowing log, and a month of AI channels on the bench screen; no chat box, on purpose

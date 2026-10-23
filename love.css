@@ -644,17 +644,16 @@
 @font-face { font-family: 'Be Vietnam Pro'; src: url('fonts/be-vietnam-pro-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Be Vietnam Pro'; src: url('fonts/be-vietnam-pro-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
-/* The Community Center (§51). A LETTERBOARD AND A NOTICE. Varela Round sets the
-   letterboard and nothing else -- the room's name, the line over it, and the
-   felt strips every heading is pushed into -- in capitals, because push-in
-   plastic letters come in capitals, with rounded ends, because moulded letters
-   have them. It never sets a sentence: a letterboard says four words at a time.
-   Radio Canada carries every word that is read, a plain humanist sans for a
-   civic room; it was drawn for a broadcaster, which is the one joke this room
-   allows itself about the radio on its desk. It ships as a variable font, so
-   one file is declared at 400 and 700 against the weight axis, Space Grotesk's
-   call. No italic is shipped for either, so the room sets nothing italic. Both
-   read off their own records; see fonts/_sources.json. */
+/* The Community Center (§51). A ROUNDED LETTER AND A PLAIN ONE. Varela Round
+   sets the room's name and its headings, in the case they are written in, not
+   in capitals: its rounded ends are the softest thing a heading in this room
+   can wear, and it never sets a sentence. Radio Canada carries every word that
+   is read, a plain humanist sans for a civic room; it was drawn for a
+   broadcaster, which is the one joke this room allows itself about the radio
+   on its desk. It ships as a variable font, so one file is declared at 400 and
+   700 against the weight axis, Space Grotesk's call. No italic is shipped for
+   either, so the room sets nothing italic. Both read off their own records;
+   see fonts/_sources.json. */
 @font-face { font-family: 'Varela Round'; src: url('fonts/varela-round-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Radio Canada'; src: url('fonts/radio-canada-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Radio Canada'; src: url('fonts/radio-canada-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
@@ -2639,32 +2638,33 @@
   --vpl-f-plum:   #7A2C68;  --vpl-f-oil:    #E9CF72;  --vpl-f-paper:  #F4EEDF;
   --vpl-f-nori:   #1F2E24;
 
-  /* The Community Center (§51). MORNING SUN THROUGH HALF-OPEN VENETIAN BLINDS,
-     laid across a painted block wall in hard diagonal bars: --ctr-shade is the
-     wall where the slats' shadow falls, and the flat ground under every word,
-     because it is the darker of the two and so the worse case for dark type;
-     --ctr-lit is the same paint where a bar of sun lands, and --ctr-mortar the
-     joints of the block. It is POWDER BLUE, painted over, the colour of a
-     hundred school halls -- and it is the one pale ground on this street that
-     is cool: the Hermitage's plaster is warm, the Garden's light is green,
-     the Guild is manila and Covenstead's limewash is pink. If this wall ever
-     warms, it has become Covenstead with a noticeboard, and it is this room
-     that moves. --ctr-ink is every word, --ctr-ink-2 the fine print,
-     --ctr-link every link, a rust, because it is the colour of the one bit of
-     the building that is not painted over. --ctr-felt and --ctr-letter are the
-     letterboard, --ctr-desk the laminate of the front desk, --ctr-chair the
-     orange of the stacking chairs, which is ornament and carries nothing.
+  /* The Community Center (§51). NORTH LIGHT THROUGH ONE BIG WINDOW ONTO A
+     HILLSIDE, AND A DEEP SEAT BUILT INTO THE BAY UNDER IT (2026-10-23, after a
+     request for a softer, low-stimulation room with a sense of refuge). The
+     light is the same all day, soft and shadowless, from one side; it lands
+     nowhere in a patch or a bar. --ctr-plaster is the lime plaster every word
+     sits on, COOL SAGE, and flat on purpose: no stripe, no grid, no texture
+     behind a sentence. It is not the Garden's green-white, which is light down
+     through leaves, nor The Green's paper after rain, nor Covenstead's pink: if
+     this plaster ever warms towards pink or greys towards the Foundry's iron, it
+     has become one of them, and it is this room that moves. --ctr-ink is every
+     word, --ctr-ink-2 the fine print, --ctr-link every link, a terracotta, the
+     colour of the pot on the sill. --ctr-ash is the pale ash of the window's
+     frame, the seat, the front desk, the sorter and the map's roller, carried
+     against the plaster by --ctr-grain, its darker edge; --ctr-sky is the north
+     sky in the window and the map's sea. --ctr-hollow is the alcove's depth and
+     the inside of every pigeonhole; --ctr-plate the plaster's rounded edge where
+     the window's light catches it, and the label holders; --ctr-form the sheets
+     and the number on a pin. --ctr-ridge, --ctr-hill, --ctr-hill-2 and
+     --ctr-tree are the hillside, --ctr-wool the seat's cushion, --ctr-leaf and
+     --ctr-pot the plant on the sill: all of them drawing, carrying no word.
      CTR- PREFIXED because --cc- is The Collection Collection's. */
-  --ctr-shade: #B7CCD9;   --ctr-lit:   #DCE8EF;   --ctr-mortar: #A3BACA;
-  --ctr-ink:   #132238;   --ctr-ink-2: #2F4459;   --ctr-link:   #7E250A;
-  --ctr-felt:  #1C1D20;   --ctr-letter: #F3F1EA;  --ctr-rib:    #2A2B30;
-  --ctr-desk:  #EFE4CF;   --ctr-edge:  #6A553A;   --ctr-chair:  #E0662A;
-  /* The community service board: a painted steel sorter on the wall. --ctr-steel
-     is its frame and --ctr-well the dark inside of each slot, both ornament;
-     --ctr-plate is the label holder on each slot's lip and --ctr-form the sheet
-     standing in it, which is where every word on the board is set. */
-  --ctr-steel: #52667A;   --ctr-well:  #28323E;   --ctr-plate:  #E3E8EC;
-  --ctr-form:  #FBF8F1;
+  --ctr-plaster: #CFD8C6; --ctr-hollow: #BAC5B0;  --ctr-plate:  #F2F4EE;
+  --ctr-ink:     #1D2820; --ctr-ink-2:  #3B4A40;  --ctr-link:   #8A3418;
+  --ctr-ash:     #ECE3D0; --ctr-grain:  #6F5A3C;  --ctr-sky:    #E6ECEB;
+  --ctr-form:    #FBF8F1; --ctr-wool:   #7E9470;
+  --ctr-ridge:   #C3CEB6; --ctr-hill:   #A9BB93;  --ctr-hill-2: #8AA076;
+  --ctr-tree:    #5E7556; --ctr-leaf:   #4E7A4A;  --ctr-pot:    #B4643E;
 
   /* The Dopamine Dress-Up Den (§52). A LAVENDER WALL IN A SHOP WITH THE SUN
      COMING IN THE FRONT, AND A CRYSTAL HANGING IN THE WINDOW. --dd-wall is the
@@ -2680,7 +2680,7 @@
      by its own fill instead. --dd-f-black and --dd-f-coal are the all-black
      colourway, which make-dressup.py refuses to build without. It is COOL, and
      the only lavender ground on the street: Covenstead's limewash is pink, the
-     Community Center's block is powder blue, and Sithen's violet is a moonlit
+     Community Center's plaster is sage, and Sithen's violet is a moonlit
      grey you cannot read a label by. If this wall ever warms towards pink it
      has become Covenstead with a clothes rail, and it is this room that moves.
      DD- PREFIXED because --den- would read as The Den's, and that room is
@@ -4687,14 +4687,15 @@ div.facade--square { border: 0; background: none; }
 .door--vital .door__blurb { font-family: 'Be Vietnam Pro', var(--sans); color: var(--vpl-ink-2); }
 .door--vital .door__knock { font-family: 'Be Vietnam Pro', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--vpl-beet); }
 
-/* The Community Center (§51). THE ONE FRONT IN THE ROW WITH ITS BLINDS HALF
-   DOWN: the awning is the slats, pale where the sun catches them and shaded in
-   between, over the powder-blue block. The name is the letterboard's rounded
-   capitals and the knock is the rust of the one unpainted thing in the room.
-   Every ink here is on --ctr-shade and is measured in check-contrast.py. */
-.door--community { background: var(--ctr-shade); border-color: var(--ctr-ink); }
-.door--community .door__awning { background-color: var(--ctr-shade); background-image: repeating-linear-gradient(180deg, var(--ctr-lit) 0 5px, var(--ctr-mortar) 5px 7px, var(--ctr-shade) 7px 9px); border-bottom-color: var(--ctr-ink); }
-.door--community .door__name  { font-family: 'Varela Round', var(--sans); font-weight: 400; color: var(--ctr-ink); font-size: 25px; line-height: 1.12; letter-spacing: .06em; text-transform: uppercase; }
+/* The Community Center (§51). THE ONE FRONT IN THE ROW WITH A HILL IN ITS
+   WINDOW: the awning is the window's view, two soft slopes of the hillside
+   under a pale north sky, over the sage lime plaster. The name is the room's
+   rounded face in its ink, in the case it is written in, and the knock is the
+   terracotta of the pot on the sill. Every ink here is on --ctr-plaster and is
+   measured in check-contrast.py. */
+.door--community { background: var(--ctr-plaster); border-color: var(--ctr-ink); }
+.door--community .door__awning { background-color: var(--ctr-sky); background-image: radial-gradient(ellipse 62% 70% at 24% 112%, var(--ctr-hill-2) 0 97%, transparent 100%), radial-gradient(ellipse 80% 90% at 78% 125%, var(--ctr-hill) 0 97%, transparent 100%), radial-gradient(ellipse 120% 80% at 50% 150%, var(--ctr-ridge) 0 97%, transparent 100%); border-bottom-color: var(--ctr-grain); }
+.door--community .door__name  { font-family: 'Varela Round', var(--sans); font-weight: 400; color: var(--ctr-ink); font-size: 27px; line-height: 1.1; letter-spacing: .01em; }
 .door--community .door__blurb { font-family: 'Radio Canada', var(--sans); color: var(--ctr-ink-2); }
 .door--community .door__knock { font-family: 'Radio Canada', var(--sans); font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ctr-link); }
 
@@ -4921,7 +4922,7 @@ div.facade--square { border: 0; background: none; }
 .door--large .door__knock { font-family: 'Fira Sans', var(--sans); font-weight: 700; font-size: 13px; color: var(--ll-link); font-synthesis: none; }
 /* HEY, GOOD COOKIN'S DOOR IS ITS WINDOW FROM THE STREET: the awning is the
    fogged glass, with clear runs of different lengths down to the sill where
-   drops have slid, so they never line up into the Community Center's bars. */
+   drops have slid, so they never line up into bars, which would be a blind. */
 .door--cookin { background-color: var(--hgc-wall); border-color: var(--hgc-frame); }
 .door--cookin .door__awning {
   background-color: var(--hgc-fog);
@@ -15548,58 +15549,69 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 
 
 /* §51 ── ROOM: The Community Center (a shopfront on the street) ─────────────
-   THE STREET'S COMMUNITY CENTER, AND THE ONLY DOOR THE CB IS BEHIND. A painted
-   block hall at about ten in the morning with the blinds half open: stacking
-   chairs against the wall, a letterboard over the door, the house norms for
-   the radio, our covenant, and the front desk, where you sign on with a handle
-   and this week's password. The radio itself is cb.js and cb.css; it floats in
+   THE STREET'S COMMUNITY CENTER, AND THE ONLY DOOR THE CB IS BEHIND. A quiet
+   room in sage lime plaster with one big window facing north onto a hillside,
+   and a deep seat built into the bay under it: the house norms for the radio,
+   our covenant, the member map, the community service board, and the front
+   desk, where you sign on. The radio itself is cb.js and cb.css; it floats in
    every room once you are on, and this is where it is switched on.
 
-   THE LIGHT IS SUN CUT INTO BARS BY A VENETIAN BLIND, and no other room on the
-   street is lit that way. It arrives from one side, high, at an angle, and is
-   chopped into hard parallel stripes that lie across the wall, so the painted
-   block is half lit and half in the slats' shadow, in bands. What hangs on the
-   wall -- the letterboard, the desk, the sorter -- stands in front of the light
-   rather than having it painted on. THESE ARE THE COLLISIONS TO WATCH, and each is
-   structural:
-     · COVENSTEAD is the other daylit interior with light from one side, and
-       there it lands in ONE PATCH through one window, warm, on pink limewash
-       and the good china. Here it lands in STRIPES, cool, on painted block,
-       and the furniture is stacking chairs. A room people come back to and a
-       room that belongs to everybody are different buildings. If this light
-       ever pools into a single patch, or the paint ever warms, it has become
-       Covenstead with a noticeboard -- and it is this room that moves.
-     · DEAD TIRED SOCIETY is probably in a building like this one: a borrowed
-       room after hours with the big lights off and one hard wedge from the
-       corridor lying on the floor, and every word in the shade. This is the
-       same kind of building in the morning, and every word is on the lit wall.
-       Opposite ends of one day in one sort of room.
-     · THE ADVENTURER'S GUILD is the other civic, orderly pale room, and it is
-       lit from nowhere and made of ruled paper. This is lit from one very
-       particular place, and nothing in it is ruled but the blind.
-     · THE REPEATER is the other room with a radio in it: a mast on a ridge at
-       night, against skyglow, with nobody on the other end. The CB has people
-       on the other end, and it lives in a daylit hall.
+   IT WAS REPAINTED ON 2026-10-23, after a request from our community for a
+   softer look, in the biophilic, low-stimulation direction Ryan chose, with a
+   sense of refuge. It was a painted block hall in sun through a venetian blind:
+   hard diagonal bars behind every paragraph, a mortar grid over them, every
+   heading on a strip of black felt, orange stacking chairs. Stripes behind
+   words are a known strain on some readers, however soft, and they are gone;
+   so are the grid and the felt. It leans on Terrapin Bright Green's 14 Patterns
+   of Biophilic Design (Browning, Ryan and Clancy, 2014): a view of a living
+   hillside, prospect from the window, refuge in the seat with the wall behind
+   you and the bay over you, light that is soft and diffuse, and pale wood,
+   lime and wool that have barely been processed.
 
-   EVERY WORD SITS ON THE WALL, AND THE WALL IS STRIPED, so the flat ground
-   under every word is --ctr-shade, the darker of the two bands and so the
-   worse case for dark ink, and the stripes are laid over it as a lighter
-   paint. The Zibaldone's rule and The Rabbit Hole's: the flat colour is the
-   worst case for the type standing on it. The bars are soft on purpose, 1.33
-   between lit and shaded, because a hard stripe behind a paragraph is a thing
-   some readers cannot read through. NOTHING MOVES AT ANY SETTING: the sun does
-   not travel across the wall and the slats do not stir. And the bars scroll
-   with the wall rather than staying in the window, because a light that
-   follows the viewport is a veil in front of the reader -- the Foundry's
-   lesson. */
+   THE LIGHT IS NORTH LIGHT THROUGH ONE WINDOW: the same all day, cool, soft,
+   from one side, and it never lands anywhere as a patch or a bar, because no
+   sun comes in. It brightens the plaster's rounded edge round the window and
+   the seat in front of it, and nothing in the room casts a shadow you could
+   draw round. THE WINDOW IS THE PICTURE: the drawing at the top of the page is
+   the bay, the seat and the hill, and every word is on the plain plaster round
+   it. THESE ARE THE COLLISIONS TO WATCH, and each is structural:
+     · COVENSTEAD is the other daylit interior with one window, and there the
+       sun lands in ONE WARM PATCH on pink limewash and the good china. Here no
+       sun lands at all, and the plaster is cool sage. If a patch of sun ever
+       appears in here, or the plaster ever warms towards pink, it has become
+       Covenstead with a window seat -- and it is this room that moves.
+     · THE FOUNDRY is the other north-lit room, a grey iron workshop under a
+       sawtooth roof, where the light is for working by and the window shows
+       only sky. Here it is a sitting room, the window shows a hill, and there
+       is no grey and no metal anywhere.
+     · THE GARDEN is the other green daylit page, and there you stand outside
+       under leaves with the light coming down through them onto you. Here you
+       are inside, the leaves are out on the hill, and nothing is dappled.
+     · THE GREEN is outdoors on the lawn just after rain, where nothing casts a
+       shadow either; here the shadowless light is a room's, through glass.
+     · THE COMMUNITY LIBRARY is the other room with sky in its windows, which
+       are many and high over the shelving, with the light general and high.
+       Here there is one window, low enough to sit in, and the view is the land.
+     · THE LATIBULUM is the street's other refuge, a burrow lit by one lamp at
+       knee height with no daylight anywhere in it, brown earth and plaster.
+       Here the refuge is a seat looking out, in daylight, and nothing is brown.
+     · DEAD TIRED SOCIETY is a borrowed room after hours with the big lights off
+       and one hard wedge from the corridor on the floor, every word in the
+       shade. Here there is no wedge and no dark: soft light everywhere, and
+       every word on the plaster in it.
+
+   EVERY WORD SITS ON THE FLAT PLASTER, --ctr-plaster, with nothing laid over
+   it. The objects on the wall -- the desk, the sorter, the map -- are pale ash,
+   barely darker than the plaster, so each is carried by its --ctr-grain edge,
+   the Hermitage's rule for its chairs. Corners are rounded and nothing is
+   rotated. NOTHING MOVES AT ANY SETTING: the light does not travel, the grass
+   on the hill does not stir, and the plant on the sill does not sway. The
+   friendly edits are a sunbeam across the seat (Covenstead's patch), swaying
+   grass at MAX (movement this room was asked not to have), and putting the
+   blinds back "for character". */
 
 .community {
-  background-color: var(--ctr-shade);
-  background-image:
-    repeating-linear-gradient(-32deg, transparent 0 46px, rgba(236, 243, 247, .62) 46px 104px),
-    linear-gradient(0deg, var(--ctr-mortar) 0 2px, transparent 2px),
-    linear-gradient(90deg, var(--ctr-mortar) 0 2px, transparent 2px);
-  background-size: auto, 100% 44px, 92px 44px;
+  background-color: var(--ctr-plaster);
   color: var(--ctr-ink);
   font-family: 'Radio Canada', system-ui, sans-serif;
   font-synthesis: none;
@@ -15609,11 +15621,10 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .community a { color: var(--ctr-link); text-underline-offset: 3px; text-decoration-thickness: 2px; }
 .community a:hover { color: var(--ctr-ink); }
 /* THE RING IS THE ROOM'S OWN INK. §2's yellow was chosen for a near-black
-   street and on this wall it would be a yellow line on pale blue -- the
-   Guild's lesson, decided here at the room. On the letterboard, which is
-   black, it turns to the letters' white. */
+   street and on this plaster it would be a yellow line on pale sage -- the
+   Guild's lesson, decided here at the room. */
 .community :focus-visible { outline-color: var(--ctr-ink); }
-.community :where(p, li, dd) { font-size: 17px; line-height: 1.6; }
+.community :where(p, li, dd) { font-size: 17px; line-height: 1.65; }
 .community strong, .community b { font-weight: 700; }
 .community code { font-size: .9em; }
 .community .backlink { font-family: 'Radio Canada', system-ui, sans-serif; font-size: 15px; letter-spacing: 0; color: var(--ctr-link); }
@@ -15621,64 +15632,49 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .ctr-topline { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; }
 .ctr-trail { margin: 0; font-size: 14px; color: var(--ctr-ink-2); }
 
-/* THE LETTERBOARD. Black ribbed felt in an aluminium frame, white push-in
-   letters. The ribs are the felt's own grooves, a hairline apart, and the
-   letters sit in them; it is the only dark thing in the room. */
-.ctr-board {
-  margin: 28px 0 0; padding: 22px clamp(18px, 4vw, 38px) 24px;
-  background-color: var(--ctr-felt);
-  background-image: repeating-linear-gradient(180deg, var(--ctr-felt) 0 5px, var(--ctr-rib) 5px 6px);
-  border: 6px solid var(--ctr-mortar); border-radius: 4px;
-  box-shadow: 0 8px 0 -2px rgba(19, 34, 56, .18);
-  color: var(--ctr-letter);
-  font-family: 'Varela Round', system-ui, sans-serif;
-  text-transform: uppercase; letter-spacing: .12em;
-}
-.ctr-board :focus-visible { outline-color: var(--ctr-letter); }
-.community .ctr-over, .community .ctr-board__line { margin: 0; font-size: 15px; line-height: 1.5; }
+/* THE NAME, AND THE WINDOW UNDER IT. The words are on the plaster like every
+   other word in the room; the drawing is the bay, the window, the hill and the
+   seat, aria-hidden and described in words in the lede. */
+.ctr-head { margin: 30px 0 0; }
+.community .ctr-over, .community .ctr-head__line { margin: 0; font-size: 16px; line-height: 1.5; color: var(--ctr-ink-2); }
 .community h1 {
-  margin: 12px 0; font-family: 'Varela Round', system-ui, sans-serif; font-weight: 400;
-  font-size: clamp(36px, 7.4vw, 78px); line-height: 1.04; letter-spacing: .08em;
-  color: var(--ctr-letter);
+  margin: 8px 0 6px; font-family: 'Varela Round', system-ui, sans-serif; font-weight: 400;
+  font-size: clamp(38px, 7vw, 72px); line-height: 1.05; letter-spacing: .01em;
+  color: var(--ctr-ink);
 }
+.ctr-window { display: block; width: 100%; max-width: 880px; height: auto; margin: 26px 0 0; }
 
 .ctr-lede { margin: 30px 0 0; max-width: 64ch; }
 .community .ctr-lede { font-size: 20px; line-height: 1.6; }
 
-.ctr-part { margin: 58px 0 0; }
+.ctr-part { margin: 60px 0 0; }
 .ctr-part > :where(p, ul, ol) { max-width: 72ch; }
 .ctr-part > :where(p) { margin: 0 0 14px; }
-/* Every heading is a strip of the same felt, pushed into the wall: the
-   letterboard's own four words at a time. */
+/* Every heading is the rounded face in the room's ink, on the plaster, with a
+   line of the cushion's wool under it to say where a part begins. The wool is
+   2.25 on the plaster and carries no word. */
 .community h2 {
-  display: inline-block; margin: 0 0 16px; padding: 7px 14px 6px;
+  display: inline-block; margin: 0 0 18px; padding: 0 2px 6px;
   font-family: 'Varela Round', system-ui, sans-serif; font-weight: 400;
-  font-size: clamp(19px, 2.6vw, 24px); line-height: 1.2; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--ctr-letter);
-  background-color: var(--ctr-felt);
-  background-image: repeating-linear-gradient(180deg, var(--ctr-felt) 0 5px, var(--ctr-rib) 5px 6px);
-  border-radius: 3px;
+  font-size: clamp(22px, 3vw, 28px); line-height: 1.2; letter-spacing: .01em;
+  color: var(--ctr-ink);
+  border-bottom: 3px solid var(--ctr-wool); border-radius: 0 0 2px 2px;
 }
-/* The meeting hall's subheadings are the room's reading face in its own ink,
-   on the wall like every other word here: a letterboard strip is for a
-   heading you would read from the door, and three of them in one section
-   would turn the hall into a row of signs. */
 .community .ctr-h3 {
   margin: 26px 0 10px; font-family: 'Radio Canada', system-ui, sans-serif;
   font-size: 19px; font-weight: 700; line-height: 1.3; color: var(--ctr-ink);
 }
 
-/* THE FRONT DESK. A laminate top and a darker edge, standing on the floor
-   of the hall rather than floating in it, so the shadow is flat and short. The
-   radio on it is ours and is drawn in the room's own inks; it is the same
-   object that turns up in the corner of every other page once you are on. */
+/* THE FRONT DESK. Pale ash with a darker edge, standing on the floor of the
+   room, its corners rounded. The radio on it is ours and is drawn in the room's
+   own inks; it is the same object that turns up in the corner of every other
+   page once you are on. */
 .ctr-desk {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 240px); gap: 26px;
   align-items: start;
   padding: 24px clamp(18px, 3.4vw, 32px);
-  background: var(--ctr-desk);
-  border: 2px solid var(--ctr-edge); border-bottom-width: 10px; border-radius: 4px;
-  box-shadow: 0 6px 0 -1px rgba(19, 34, 56, .16);
+  background: var(--ctr-ash);
+  border: 2px solid var(--ctr-grain); border-bottom-width: 7px; border-radius: 12px;
 }
 .ctr-desk > :where(p) { margin: 0 0 12px; }
 .ctr-desk__radio { width: 100%; height: auto; display: block; }
@@ -15687,13 +15683,13 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .ctr-in {
   display: block; width: 100%; min-height: 46px; padding: 8px 12px;
   font: 17px/1.3 'Radio Canada', system-ui, sans-serif; color: var(--ctr-ink);
-  background: #fff; border: 2px solid var(--ctr-ink); border-radius: 4px;
+  background: #fff; border: 2px solid var(--ctr-ink); border-radius: 8px;
 }
 .ctr-go {
   justify-self: start; min-height: 46px; padding: 8px 22px; cursor: pointer;
-  font: 700 16px/1.2 'Radio Canada', system-ui, sans-serif; letter-spacing: .04em;
-  color: var(--ctr-desk); background: var(--ctr-ink);
-  border: 2px solid var(--ctr-ink); border-radius: 4px;
+  font: 700 16px/1.2 'Radio Canada', system-ui, sans-serif; letter-spacing: .02em;
+  color: var(--ctr-ash); background: var(--ctr-ink);
+  border: 2px solid var(--ctr-ink); border-radius: 10px;
 }
 .ctr-go:hover { background: var(--ctr-ink-2); border-color: var(--ctr-ink-2); }
 .ctr-go[disabled] { cursor: default; opacity: .7; }
@@ -15721,28 +15717,29 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
   .ctr-desk__art { max-width: 220px; }
 }
 
-/* THE COMMUNITY SERVICE BOARD, a painted steel sorter screwed to the block: a
-   slot for every room that takes something in, a label holder on each slot's
-   lip, and a sheet standing in each one saying what the room takes and how.
-   It is NOT A NOTICEBOARD, and that is on purpose: the Pebble Board is the
-   street's cork, lamplit and pinned, and a second corkboard would be the one
-   thing on this street two rooms must not share. A sorter is filed, square
-   and steel, and nothing on it is pinned, overlapping or at an angle. Every
-   word is on a pale sheet or a pale plate; the steel and the slots' dark
-   insides carry nothing. Generated by tools/make-community.py. */
+/* THE COMMUNITY SERVICE BOARD, a set of ash pigeonholes on the plaster: a hole
+   for every room that takes something in, a label holder on each hole's lip,
+   and a sheet standing in each one saying what the room takes and how. It is
+   NOT A NOTICEBOARD, and that is on purpose: the Pebble Board is the street's
+   cork, lamplit and pinned, and a second corkboard would be the one thing on
+   this street two rooms must not share. Pigeonholes are filed and square, and
+   nothing on them is pinned, overlapping or at an angle. Every word is on a
+   pale sheet or a pale plate; the wood and the holes' insides carry nothing.
+   Generated by tools/make-community.py. */
 .ctr-sorter {
   list-style: none; margin: 18px 0 0; padding: 12px;
   display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 10px;
-  background: var(--ctr-steel); border-radius: 3px;
-  box-shadow: 0 6px 0 -1px rgba(19, 34, 56, .2);
+  background: var(--ctr-ash); border: 2px solid var(--ctr-grain); border-radius: 12px;
 }
 .ctr-slot {
   display: flex; flex-direction: column; margin: 0;
-  padding: 0 8px 10px; background: var(--ctr-well); border-radius: 2px;
-  box-shadow: inset 0 8px 10px -6px rgba(0, 0, 0, .6);
+  padding: 0 8px 10px; background: var(--ctr-hollow); border-radius: 8px;
+  border: 1.5px solid var(--ctr-grain);
+  box-shadow: inset 0 6px 8px -6px rgba(29, 40, 32, .35);
 }
 .community .ctr-slot__label {
   margin: 0 -8px; padding: 8px 12px 2px; background: var(--ctr-plate);
+  border-radius: 8px 8px 0 0;
   font: 700 17px/1.25 'Radio Canada', system-ui, sans-serif; color: var(--ctr-ink);
 }
 .community .ctr-slot__room {
@@ -15752,7 +15749,7 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 }
 .ctr-slot__form {
   flex: 1 1 auto; padding: 12px 14px 14px; background: var(--ctr-form);
-  border-radius: 1px;
+  border-radius: 4px;
 }
 .community .ctr-slot__form :where(p, li) { font-size: 15.5px; line-height: 1.5; }
 .ctr-slot__form > p { margin: 0 0 10px; }
@@ -15769,51 +15766,47 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .community .ctr-slot__more { font-size: 15px; }
 
 /* WHERE WE ARE: THE MEMBER MAP, A PULL-DOWN WALL MAP (Ryan's brief, 2026-10-22,
-   moving it off Google). A school hall's roller map hung on the block wall: a
-   steel roller across the top and the sheet pulled down from it, standing in
-   front of the blind's bars like the letterboard and the sorter, so the sheet
-   is flat paint and the stripes stop at its edge. The sea is the lit paint,
-   the land the desk's laminate with a coast in its edge brown, and the pins
-   are the rust of the links, the one colour in the building that is not
-   painted over, with the number on a pin in the letterboard's white (measured
-   in check-contrast.py). It is not cork: the Pebble Board owns cork. Nothing
-   on it is a link, because the list below the sheet says every place in words.
-   It zooms (Ryan's question, 2026-10-23): by the buttons under the sheet, in
-   the sorter's label-holder plate and the room's ink, and by hand. Nothing on
-   it moves by itself, and when somebody zooms or drags it, it jumps there
-   rather than gliding, at every setting, so there is no transition here. Every
-   line keeps its width on the screen as the world grows (non-scaling-stroke),
-   the pins keep their size (member-map.js), and zoomed in the borders and state
-   lines are the coast's edge brown, the lakes the sea's paint: no new ink. */
+   moving it off Google). A roller map hung on the plaster: an ash roller across
+   the top and the sheet pulled down from it, carried by its grain edge. The sea
+   is the north sky's paint, the land the ash with a coast in its grain, and the
+   pins are the links' terracotta, with the number on a pin in the sheets' white
+   (measured in check-contrast.py). It is not cork: the Pebble Board owns cork.
+   Nothing on it is a link, because the list below the sheet says every place in
+   words. It zooms (Ryan's question, 2026-10-23): by the buttons under the sheet,
+   in the label holders' plate and the room's ink, and by hand. Nothing on it
+   moves by itself, and when somebody zooms or drags it, it jumps there rather
+   than gliding, at every setting, so there is no transition here. Every line
+   keeps its width on the screen as the world grows (non-scaling-stroke), the
+   pins keep their size (member-map.js), and zoomed in the borders and state
+   lines are the coast's grain, the lakes the sea's paint: no new ink. */
 .ctr-map__wall { margin: 22px 0 0; max-width: 980px; }
-.ctr-map__roller { height: 14px; margin: 0 -10px; background: var(--ctr-steel); border-radius: 7px; box-shadow: 0 3px 0 var(--ctr-well); }
+.ctr-map__roller { height: 14px; margin: 0 -10px; background: var(--ctr-ash); border: 2px solid var(--ctr-grain); border-radius: 9px; }
 .ctr-map__world {
   display: block; width: 100%; height: auto;
-  background: var(--ctr-lit);
-  border: 2px solid var(--ctr-steel); border-top: 0;
-  box-shadow: 0 6px 0 var(--ctr-mortar);
+  background: var(--ctr-sky);
+  border: 2px solid var(--ctr-grain); border-top: 0; border-radius: 0 0 6px 6px;
 }
 .ctr-map__world { touch-action: pan-y; -webkit-user-select: none; user-select: none; }
 .ctr-map__world.is-zoomed { touch-action: none; cursor: grab; }
 .ctr-map__world.is-zoomed:active { cursor: grabbing; }
-.ctr-map__land { fill: var(--ctr-desk); fill-rule: evenodd; stroke: var(--ctr-edge); stroke-width: .6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.ctr-map__lake { fill: var(--ctr-lit); stroke: var(--ctr-edge); stroke-width: .6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.ctr-map__border { fill: none; stroke: var(--ctr-edge); stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.ctr-map__state { fill: none; stroke: var(--ctr-edge); stroke-width: .7; stroke-dasharray: 3 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__land { fill: var(--ctr-ash); fill-rule: evenodd; stroke: var(--ctr-grain); stroke-width: .6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__lake { fill: var(--ctr-sky); stroke: var(--ctr-grain); stroke-width: .6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__border { fill: none; stroke: var(--ctr-grain); stroke-width: 1; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.ctr-map__state { fill: none; stroke: var(--ctr-grain); stroke-width: .7; stroke-dasharray: 3 2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .ctr-map__world:not(.is-zoomed) .ctr-map__fine { display: none; }
 .ctr-map__pin { cursor: pointer; }
-.ctr-map__pin circle { fill: var(--ctr-link); stroke: var(--ctr-letter); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.ctr-map__pin circle { fill: var(--ctr-link); stroke: var(--ctr-form); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .ctr-map__pin.is-picked circle { stroke: var(--ctr-ink); stroke-width: 2; }
-.ctr-map__count { fill: var(--ctr-letter); font-family: 'Radio Canada', system-ui, sans-serif; font-weight: 700; pointer-events: none; }
+.ctr-map__count { fill: var(--ctr-form); font-family: 'Radio Canada', system-ui, sans-serif; font-weight: 700; pointer-events: none; }
 .ctr-map__zoom { margin: 14px 0 0; }
 .ctr-map__btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
 .ctr-map__btn {
   min-height: 44px; padding: 6px 14px; cursor: pointer;
   font: 700 15px/1.2 'Radio Canada', system-ui, sans-serif; letter-spacing: .02em;
   color: var(--ctr-ink); background: var(--ctr-plate);
-  border: 2px solid var(--ctr-steel); border-radius: 4px;
+  border: 2px solid var(--ctr-grain); border-radius: 10px;
 }
-.ctr-map__btn:hover { background: var(--ctr-lit); }
+.ctr-map__btn:hover { background: var(--ctr-sky); }
 .ctr-map__btn[aria-disabled="true"] { cursor: default; border-style: dashed; background: var(--ctr-plate); }
 .community .ctr-map__how { margin: 4px 0 0; max-width: 72ch; font-size: 15px; color: var(--ctr-ink-2); }
 .community .ctr-map__here { margin: 6px 0 0; min-height: 1.4em; font-size: 16px; font-weight: 700; color: var(--ctr-ink); }
@@ -15827,7 +15820,7 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .community .ctr-map__credit { margin-top: 14px; font-size: 14px; color: var(--ctr-ink-2); }
 
 /* The job marker lying on the floor of this room. §4 supplies the behaviour;
-   the room supplies the ground it lies on, which is the wall's own paint. */
+   the room supplies the ground it lies on, which is the plaster's own paint. */
 .community .quest { margin-top: 40px; }
 
 
@@ -15846,8 +15839,8 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
    inks -- and some of it goes through the crystal and comes out the other side
    as every colour it was made of, in small rainbows about the wall. DISPERSION,
    and nobody else has it: the mirrorball throws white specks, the Chappell's
-   glass filters one colour per pane, the Community Center's blinds cut the sun
-   into bars, and the meadow, the Feed and Looming Rocks are all light going
+   glass filters one colour per pane, the Community Center's north window lets
+   no sun in at all, and the meadow, the Feed and Looming Rocks are all light going
    THROUGH something whole. THESE ARE THE COLLISIONS TO WATCH, and each is
    structural:
      · VITAL PLANT LIVING is the other mix-and-match room with a saturated
@@ -15860,10 +15853,11 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
        wardrobe in it.
      · COVENSTEAD AND THE COMMUNITY CENTER are the other daylit interiors lit
        from one side. Covenstead's sun lands in one warm patch on pink
-       limewash; the Community Center's is cut into parallel bars on powder
-       blue. Here it lands in PIECES, scattered, each one every colour, on a
-       cool lavender. If the rainbows ever line up into bars, or pool into a
-       patch, or the wall warms, it has turned into one of them.
+       limewash; the Community Center's north window lets no sun in, only an
+       even light on sage plaster. Here it lands in PIECES, scattered, each one
+       every colour, on a cool lavender. If the rainbows ever pool into a
+       patch, or fade into an even wash, or the wall warms, it has turned into
+       one of them.
      · ENID'S ROOM is the other room of many colours at once, and it is flat,
        black-walled and made of stickers. This is pale, lit, and made of cloth.
      · PINK PONY CLUB is where the drag rail would be tempted to go, and that
@@ -16444,9 +16438,10 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
    COVENSTEAD AND THE COMMUNITY CENTER ARE THE OTHER DAYLIT INTERIORS, and both
    are lit from one side: one window laying one warm patch on pink limewash, and
-   a venetian blind chopping the sun into bars on powder blue. Here nothing lands
-   in a patch or a bar, because the light comes from above the shelves on its
-   way across the whole room, and the wall is plain plaster.
+   one north window low enough to sit in, onto a hill, letting no sun onto sage
+   plaster. Here nothing lands in a patch, the windows are many and high with
+   the sky in every one, the light comes from above the shelves on its way
+   across the whole room, and the wall is plain plaster.
 
    THE ONLY RIOT IN IT IS THE SPINES. The ground is plaster, the ink is dark, the
    links are the purple of a date-due stamp, and every other colour in the room
@@ -19187,8 +19182,8 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
    Hermitage's cave is a textile reading nook lit evenly; The Latibulum is a brown
    burrow with a lamp at knee height; The Rabbit Hole is a slate shaft daylit from
    one end; The Mopery is blue-black stone the candles never reach. Nothing in
-   any of them glows. The Community Center is the street's cool pale ground, a
-   painted wall in sun through a blind; this is not pale, and nothing is painted.
+   any of them glows. The Community Center is a cool pale room too, sage lime
+   plaster in north light; this is not pale, and nothing is plastered.
    Its parent is green daylight through canvas. If a lamp ever appears in here,
    the ice has stopped being the light and it has become Stay Frosty with a view.
 
@@ -19285,11 +19280,11 @@ p.mud-company.mud-company__fine { margin: 0 !important; }
        from the hatch; that is a lamp room, glazed, at the top of a tower. This
        is the bottom of a dome, and nothing in it is glass.
      · THE COMMUNITY CENTER is the street's other civic building, and it is a
-       painted block hall in sun through a blind, pale, striped and full of
-       stacking chairs. This is stone, round, in shade, and empty in the middle.
-       Two civic rooms kept apart by the light, the paint and the shape of the
-       room; if this hall ever goes pale, or the disc ever turns to stripes, it
-       has become the Community Center with a dome on.
+       quiet room in sage lime plaster, pale, evenly lit by one north window,
+       with a seat built into the bay. This is stone, round, in shade, and empty
+       in the middle. Two civic rooms kept apart by the light, the plaster and
+       the shape of the room; if this hall ever goes pale, or a window ever opens
+       in it, it has become the Community Center with a dome on.
    If the disc ever softens into a glow, or a second light comes into the hall,
    it has stopped being a hole in the roof.
 
@@ -20528,9 +20523,6 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
        the floor: ONE wedge from a corridor, and every word stays out of it.
        Here the light comes from overhead in many strips, and the animals are
        only ever seen in them.
-     · THE COMMUNITY CENTER is the other room striped by light, and it is pale,
-       lit all over, the bars diagonal and soft on a wall. This is dark, the
-       strips straight down and hard, and they land on the ground.
      · THE LATIBULUM and THE RABBIT HOLE are the other places under the
        ground; one is brown and lamplit, the other a shaft daylit from one end.
        There is no brown in §89's clothes, only in the animals, and no lamp.
@@ -21318,11 +21310,12 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
      · THE SMALL HOURS is a diner seen from the car park at night, through one
        lit window. This is inside, by day, and you cannot see out at all except
        through the runs.
-     · THE COMMUNITY CENTER is the other civic hall by day, lit in hard
-       parallel BARS through a blind on powder-blue block. Here the light is
-       soft, the runs are few and of different lengths and never line up, and
-       the wall is a warm white. If the runs ever line up into bars, it has
-       become the Community Center with a steam table.
+     · THE COMMUNITY CENTER is the other civic room by day with soft light from
+       a window, and there the glass is clear: one north window onto a hill, the
+       view the whole point, on cool sage plaster. Here you cannot see out at
+       all except through the runs, and the wall is a warm white. If the glass
+       ever clears into a view, it has become the Community Center with a steam
+       table.
      · THE 404 is fog too, outdoors, lit from every side, with no distance.
        This fog is only on the glass; inside, the light comes from one wall.
      · NOTHING FOR SALE is the other place where nothing costs anything: a
@@ -22053,12 +22046,9 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    stripes along the top. Words never stand on the stripes: the board is paper.
 
    THE COLLISIONS, AND WHAT KEEPS THEM OFF:
-     · THE COMMUNITY CENTER is the other room whose light comes in stripes, and
-       it is the one to watch: sun through a venetian blind, white bars and
-       shade on powder-blue block, indoors. Here every stripe of light is a
-       colour, there is no dark between them, and it is outdoors. If the
-       awnings' light ever goes white, it has become the Community Center with
-       wheels on.
+     · THE STREET HAS NO OTHER STRIPES OF LIGHT since the Community Center's
+       blind came down, and these must stay a colour each with no dark between
+       them, outdoors: white bars on a wall would be that blind put back up.
      · CAVENDISH COWORKING's light comes through canvas too, the green lining of
        its blinds, the whole room one colour. Here the canvas is five colours
        in five places, and the lot between them is uncoloured.
@@ -23482,9 +23472,7 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    to watch: a pale landscape under a low morning sun, a warm plaster wall,
    sunflowers, shadows falling sideways. This is noon from straight above, cool
    deep glass, and shadows straight down; if the glass ever warms or pales it
-   has become the Hermitage with a field. The Community Center is powder blue
-   with soft diagonal bars of sun through a blind; this blue is deep, and its
-   light is one hard white line per panel, never a bar on a wall. The Run is a
+   has become the Hermitage with a field. The Run is a
    dog's two colours, blue ink on yellow grass and nothing else; here the blue
    is the ground and the yellow the ink, and the peppers bring red and green
    that a dog's palette refuses. */

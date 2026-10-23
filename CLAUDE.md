@@ -3366,7 +3366,7 @@ draws, and refuses a table drawn under the placard station.
 run down the glass; the line is heated from underneath, in hot water, so there is no lamp over the food.
 The collisions are in §93 and the ones to watch are the Directors' frosted pane (keep the runs), Samefood
 Cafe (no divided tray anywhere, because a cafeteria tray with compartments is Samefood's plate) and the
-Community Center's bars (the runs are few, of different lengths, and never line up). Nothing moves; the
+Community Center's clear north window (keep the glass fogged: a view out is that room's). Nothing moves; the
 friendly edit is steam rising off the drawing at MAX, which is Vital Plant Living's flourish.
 
 **EVERY MEASUREMENT OF THE LINE IS THE 2010 ADA STANDARDS', READ ON THE ACCESS BOARD'S PAGE**, each linked
@@ -3579,7 +3579,8 @@ gram**, and the tool refuses a card off Table 1's four figures; nobody at the ha
 word from Robert Crumb and the Grateful Dead, credited, and the song's famous line is refused with no negation
 window. Familjen Grotesk was cut here to Latin and Vietnamese in one file, because Google splits them and the
 bánh mì board needs đồ chua in the same face. The guild's marker asks what anything costs, so the sweep skips the
-marker. **Community Center is the collision to watch**: its stripes are white sun through a blind.
+marker. **Its awnings' stripes are the street's only stripes of light** since the Community Center's blind came
+down (2026-10-23): keep them a colour each, outdoors, with no dark between them.
 
 **THE GREEN (§98) IS JUST AFTER THE RAIN, AND NOTHING ON IT CASTS A SHADOW.** No sun, so no shadow anywhere, on
 the page or in the drawing, and `make-the-green.py` refuses `box-shadow`, a colour named for shade or the sun, and
@@ -4407,16 +4408,26 @@ microphone).
     waiting for her, under the rule about her room; its recipe is drawn only in her declared colours.
     If she changes her mind, it goes back to `off` with her reason.
 
-**THE COMMUNITY CENTER IS LIT BY SUN THROUGH A VENETIAN BLIND, AND IT IS THE ONLY COOL PALE GROUND.**
-§51: painted powder-blue block at ten in the morning, the light chopped into hard diagonal bars,
-stacking chairs, a letterboard over the door, the front desk. **Covenstead is the collision**: the other
-daylit interior with light from one side, where it lands in one warm patch on pink limewash. If this
-light ever pools into a patch, or the paint warms, it has become Covenstead with a noticeboard, and it is
-this room that moves. It is **Dead Tired Society's building in the morning** — there, one hard wedge from
-a corridor and every word in the shade; here, every word on the lit wall. The bars are soft (1.33
-between the bands) because a hard stripe behind a paragraph is something some readers cannot read
-through, and the flat ground under every word is `--ctr-shade`, the darker band. **Varela Round sets
-the letterboard and never a sentence; Radio Canada carries what is read.** The house norms are ours,
+**THE COMMUNITY CENTER IS A WINDOW SEAT IN NORTH LIGHT, AND NOTHING IS LAID OVER ITS WORDS.** Ryan's call,
+2026-10-23, after a request from our community for a softer look: biophilic, low-stimulation, a sense of
+refuge. §51 is sage lime plaster with one big window facing north onto a hillside and a deep seat built into
+the bay under it, drawn at the top of the page (the lede says it in words). **It replaced a painted
+block hall in sun through a venetian blind**: hard diagonal bars behind every paragraph, a mortar grid,
+every heading on a strip of black felt, orange stacking chairs. Stripes behind words strain some readers
+however soft, so **the ground under every word is flat `--ctr-plaster` with no stripe, grid or texture**,
+headings are the rounded face in the room's ink with a line of the cushion's wool under them, and the pale
+ash desk, pigeonholes and map are each carried by their `--ctr-grain` edge. It leans on Terrapin Bright
+Green's *14 Patterns of Biophilic Design* (Browning, Ryan and Clancy, 2014), credited in the room: a view of a
+living hillside, prospect, refuge, diffuse light, lime, ash and wool. **North light means no sun lands
+anywhere**, so **Covenstead is the collision** (one window, one warm patch on pink limewash): if a patch of
+sun or a warm plaster ever appears here, it is this room that moves. The Foundry is the other north light
+(grey iron, sky only), the Community Library the other sky in a window (many, high), the Garden the other
+green daylight (through leaves onto you), the Latibulum the other refuge (a burrow, one lamp, brown); the
+rest are in §51. **Nothing moves at any setting**, and the friendly edits are a sunbeam across the seat,
+swaying grass at MAX, and the blinds put back "for character". **The job marker is a leaf from the plant on
+the sill** and keeps its id, `community-letter`, because kept jobs and the board's stamps are filed under it.
+**Varela Round sets the name and headings, in the case they are written in, and never a sentence; Radio
+Canada carries what is read.** The house norms are ours,
 point at [our covenant](https://stimpunks.org/covenant/) rather than restating it, and say out loud that
 a handle proves nothing and BASE is the one mark that is checked.
 
@@ -4469,8 +4480,9 @@ reason for daylight over Ryan's inks. The rest lands on the wall as small rainbo
 and nobody else has it. **Vital Plant Living is the collision to watch**: the other saturated room you
 build something in. It is a *section* with no light and no pattern; this is a *front view* of clothes
 hung up, and pattern is the subject. If the clothes are ever drawn cut open, or the prints go flat, it has
-become the kitchen with a wardrobe. Covenstead (one warm patch) and the Community Center (bars on powder
-blue) are the other side-lit interiors; if the rainbows line up or pool, or the wall warms, it moves.
+become the kitchen with a wardrobe. Covenstead (one warm patch) and the Community Center (no sun at all,
+sage plaster) are the other side-lit interiors; if the rainbows pool or fade to an even wash, or the wall
+warms, it moves.
 **Its prefix is `dd-` and its copy never says "the Den" alone**, which the tool refuses unless the words
 link to the-den.html, because The Den is Graceland's.
 
@@ -4751,8 +4763,8 @@ you are let into after everybody has gone home, blue-black stone the candles nev
 institution's books; this is opening hours, every wall lit, everybody's books, **and no flame
 anywhere, the desk lamp not even drawn.** If a candle ever appears in §55 it has become the Mopery
 at lunchtime, and it is this room that moves. Covenstead and the Community Center are the other
-daylit interiors and both are lit from one side, into a patch or into bars; here the light is high
-and general and lands in neither. **The only riot is the spines**, which carry no word.
+daylit interiors and both are lit from one side, one into a warm patch and one by a low north window with
+a seat in it; here the windows are many and high and the light lands in no patch. **The only riot is the spines**, which carry no word.
 
 **L-SPACE HAS NOTHING STRAIGHT IN IT AND NOTHING LIT, AND OOOK IS NOT A LIBRARY.** §56 is behind the
 library, §57 behind that, and the map draws a room behind a room behind a room now (`make-map.py`'s

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the Community Center's community service board from data/community.json.
 
-The board is a painted steel sorter on the hall's wall with a slot for every room
+The board is a set of ash pigeonholes on the room's wall with a slot for every room
 on the street that takes something in from our community: a photograph, a yell,
 a quotation, a tray, an idea for a room. Each slot says what the room takes, what
 it asks of you, and how to send it, and links to the room's own words.

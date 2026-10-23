@@ -81,16 +81,13 @@ FAR = "#DCEBFF"      # the Mountain Cabin's one lit window, up among the stars, 
 # dangerous colours rather than the greys, and --bloom was darkened twice before
 # it passed on the noon ground.
 NOON, NOON2 = "#F7F3E6", "#ECE6D2"
-# The Community Center (love.css §51). Powder-blue block under bars of sun
-# through a blind. Every word is on the wall, and CTR_SHADE is the flat ground
-# under all of it: the darker band, and so the worse case for dark ink. CTR_LIT
-# is what a bar of sun makes of the same paint -- the rgba stripe composited over
-# the shade, and within a hair of --ctr-lit, which the door's slats use flat.
-CTR_SHADE, CTR_LIT, CTR_MORTAR = "#B7CCD9", "#DCE8EF", "#A3BACA"
-CTR_INK, CTR_INK2, CTR_LINK = "#132238", "#2F4459", "#7E250A"
-CTR_FELT, CTR_LETTER, CTR_RIB = "#1C1D20", "#F3F1EA", "#2A2B30"
-CTR_DESK, CTR_EDGE, CTR_CHAIR = "#EFE4CF", "#6A553A", "#E0662A"
-CTR_STEEL, CTR_WELL, CTR_PLATE, CTR_FORM = "#52667A", "#28323E", "#E3E8EC", "#FBF8F1"
+# The Community Center (love.css §51). Sage lime plaster in north light through
+# one window onto a hillside, with a window seat (repainted 2026-10-23 for a
+# softer, low-stimulation room). Every word is on the flat plaster, CTR_PLASTER,
+# with nothing laid over it; the pale ash objects on it are carried by CTR_GRAIN.
+CTR_PLASTER, CTR_HOLLOW, CTR_PLATE = "#CFD8C6", "#BAC5B0", "#F2F4EE"
+CTR_INK, CTR_INK2, CTR_LINK = "#1D2820", "#3B4A40", "#8A3418"
+CTR_ASH, CTR_GRAIN, CTR_SKY, CTR_FORM = "#ECE3D0", "#6F5A3C", "#E6ECEB", "#FBF8F1"
 # The CB radio, which floats in every room once somebody has signed on. Read the
 # note beside --cb-case in love.css §2.
 CB_CASE, CB_BAR, CB_STEEL, CB_STEEL2 = "#121315", "#24272B", "#D8DCE1", "#A3AAB3"
@@ -3582,52 +3579,45 @@ PAIRS = [
     (FFD_EDGE,    FFD_PANEL,   False, "fantasy fancy dress: the rim of a quiet button and of a print or colours list, on a plate (a control.s edge, held to the body threshold anyway)"),
 
     # ── The Community Center (§51) ───────────────────────────────────────────
-    (CTR_INK,   CTR_SHADE,  False, "community: the lede, every paragraph, the house norms and the "
-                                   "list of how the radio works, on the wall where the slats' shadow falls"),
-    (CTR_INK,   CTR_LIT,    False, "community: the same words where a bar of sun lands on them"),
-    (CTR_INK,   CTR_MORTAR, False, "community: any glyph that crosses a mortar joint in the block"),
-    (CTR_INK2,  CTR_SHADE,  False, "community: the trail, the fine print, the list numbers, the line "
-                                   "of credits"),
-    (CTR_INK2,  CTR_LIT,    False, "community: the fine print in a bar of sun"),
-    (CTR_INK2,  CTR_MORTAR, False, "community: the fine print across a mortar joint"),
-    (CTR_LINK,  CTR_SHADE,  False, "community: every link on the wall and the backlink"),
-    (CTR_LINK,  CTR_LIT,    False, "community: a link in a bar of sun"),
-    (CTR_LINK,  CTR_MORTAR, False, "community: a link across a mortar joint"),
-    (CTR_LETTER, CTR_FELT,  False, "community: every push-in letter on the letterboard and on the "
-                                   "felt strip each heading is set in, and the focus ring there"),
-    (CTR_LETTER, CTR_RIB,   False, "community: a letter where it crosses one of the felt's grooves"),
-    (CTR_INK,   CTR_DESK,   False, "community: every word on the front desk, the labels, what you type"),
-    (CTR_INK2,  CTR_DESK,   False, "community: the fine print under the counter"),
-    (CTR_LINK,  CTR_DESK,   False, "community: the links on the front desk"),
-    (CTR_DESK,  CTR_INK,    False, "community: Sign on and Sign off, desk-coloured on ink"),
-    (CTR_DESK,  CTR_INK2,   False, "community: a button under the pointer"),
-    (CTR_EDGE,  CTR_DESK,   False, "community: the desk's edge against its own top, held to the "
-                                   "body threshold so the counter reads as a thing standing there"),
-    (CTR_INK,   CTR_DESK,   False, "community: the outline carrying every part of the radio on the desk"),
-    (CTR_INK,   CTR_SHADE,  False, "community: the job marker, a push-in letter carried by its ink outline"),
+    (CTR_INK,   CTR_PLASTER, False, "community: the name, the lede, every heading, every paragraph, the "
+                                    "house norms and the list of how the radio works, on the lime plaster"),
+    (CTR_INK2,  CTR_PLASTER, False, "community: the trail, the lines over and under the name, the fine print, "
+                                    "the list numbers and the line of credits"),
+    (CTR_LINK,  CTR_PLASTER, False, "community: every link on the plaster and the backlink"),
+    (CTR_INK,   CTR_ASH,    False, "community: every word on the front desk, the labels, what you type"),
+    (CTR_INK2,  CTR_ASH,    False, "community: the fine print on the desk"),
+    (CTR_LINK,  CTR_ASH,    False, "community: the links on the front desk"),
+    (CTR_ASH,   CTR_INK,    False, "community: Sign on and Sign off, ash on ink"),
+    (CTR_ASH,   CTR_INK2,   False, "community: a button under the pointer"),
+    (CTR_GRAIN, CTR_ASH,    False, "community: the desk's edge against its own top, held to the "
+                                   "body threshold so the desk reads as a thing standing there"),
+    (CTR_GRAIN, CTR_PLASTER, True, "community: the grain edge carrying every pale ash thing against the "
+                                   "plaster -- the desk, the pigeonholes, the map and its roller, the zoom "
+                                   "buttons, the window's frame and the seat -- since ash on plaster is 1.15"),
+    (CTR_INK,   CTR_ASH,    False, "community: the outline carrying every part of the radio on the desk"),
+    (CTR_FORM,  CTR_INK,    False, "community: the radio's channel window reading 19"),
+    (CTR_INK,   CTR_PLASTER, False, "community: the job marker, a leaf from the sill carried by its ink outline"),
     (CTR_INK,   CTR_PLATE,  False, "community: the name on every slot's label holder on the board"),
     (CTR_INK2,  CTR_PLATE,  False, "community: the line under it saying which room the slot is for, "
                                    "and the rule along the plate's foot"),
     (CTR_INK,   CTR_FORM,   False, "community: every word on the sheet standing in a slot"),
     (CTR_INK2,  CTR_FORM,   False, "community: the rule above how to send it"),
     (CTR_LINK,  CTR_FORM,   False, "community: every link on a slot's sheet"),
-    (CTR_PLATE, CTR_STEEL,  True,  "community: the label holders against the painted steel, held at "
-                                   "the graphics threshold so each slot reads as a slot"),
-    (CTR_STEEL, CTR_SHADE,  True,  "community: the sorter's frame against the wall, graphics threshold"),
-    # The member map, a pull-down wall map (2026-10-22): the sea is the lit paint, the land the desk's
-    # laminate, the coast its edge brown, the pins the links' rust with how many in the letterboard's white.
-    (CTR_LETTER, CTR_LINK,  False, "community: the number on a member map pin, how many of us are there"),
-    (CTR_LINK,  CTR_LIT,    True,  "community: a member map pin against the sea, graphics threshold"),
-    (CTR_LINK,  CTR_DESK,   True,  "community: a member map pin against the land, graphics threshold"),
-    (CTR_EDGE,  CTR_LIT,    True,  "community: the member map's coast against the sea, which is what tells land from sea"),
-    # Zoomed in (2026-10-23): the buttons are the sorter's label-holder plate and the room's ink, and the
-    # borders, state lines and lake shores are the coast's edge brown, so no new ink arrives with them.
+    (CTR_GRAIN, CTR_ASH,    True,  "community: each pigeonhole's grain edge against the ash frame, so each "
+                                   "slot reads as a slot"),
+    (CTR_GRAIN, CTR_HOLLOW, True,  "community: the same edge against the hole's own shade"),
+    # The member map, a pull-down wall map: the sea is the north sky's paint, the land the ash, the coast
+    # its grain, the pins the links' terracotta with how many in the sheets' white.
+    (CTR_FORM,  CTR_LINK,   False, "community: the number on a member map pin, how many of us are there"),
+    (CTR_LINK,  CTR_SKY,    True,  "community: a member map pin against the sea, graphics threshold"),
+    (CTR_LINK,  CTR_ASH,    True,  "community: a member map pin against the land, graphics threshold"),
+    (CTR_GRAIN, CTR_SKY,    True,  "community: the member map's coast against the sea, which is what tells land from sea"),
     (CTR_INK,   CTR_PLATE,  False, "community: the words on the member map's zoom and move buttons"),
-    (CTR_INK,   CTR_LIT,    False, "community: a zoom button under the pointer"),
-    (CTR_STEEL, CTR_SHADE,  True,  "community: a zoom button's steel edge against the wall, which is what says it is a button"),
-    (CTR_EDGE,  CTR_DESK,   True,  "community: the member map zoomed in, a border or a state line across the land"),
-    (CTR_INK,   CTR_LIT,    False, "community: the door on the street -- its name on the powder blue, "
-                                   "where a slat catches the sun"),
+    (CTR_INK,   CTR_SKY,    False, "community: a zoom button under the pointer"),
+    (CTR_GRAIN, CTR_ASH,    True,  "community: the member map zoomed in, a border or a state line across the land"),
+    (CTR_INK,   CTR_PLASTER, False, "community: the door on the street -- its name on the sage plaster"),
+    (CTR_INK2,  CTR_PLASTER, False, "community: the door's blurb"),
+    (CTR_LINK,  CTR_PLASTER, False, "community: the door's knock, sign on"),
 
     # ── The CB radio (cb.css, tokens in love.css §2) ─────────────────────────
     # Furniture, not a room: it floats in every room once somebody has signed on,
@@ -4649,15 +4639,25 @@ ORNAMENT = {
     "#34343b": "dress-up den: the coal cloth on the rails, 7.66 on the wall; every garment is "
                "carried by its --dd-ink outline at 11.12, and a cloth this dark by its own "
                "fill as well. It carries no word; nothing is set on cloth.",
-    "#28323e": "community: the dark inside of each slot on the board, behind the sheet standing in "
-               "it. It carries no word; the sheet and the plate do, and are measured above.",
-    "#e0662a": "community: the orange of the stacking chairs, 2.07 on the shaded wall and 2.76 in "
-               "the sun. Named in the room's copy and in its palette and never drawn carrying a word.",
-    "#a3baca": "community: the mortar joints of the block and the letterboard's aluminium frame, "
-               "1.21 against the shaded paint. Texture only; every ink is measured against it above "
-               "as well, because a glyph can cross a joint.",
-    "#2a2b30": "community: the grooves in the letterboard's felt, 1.19 against the felt. Texture "
-               "only, and the letters are measured against it above.",
+    "#bac5b0": "community: --ctr-hollow, the window bay's depth in the drawing and the inside of every "
+               "pigeonhole on the board, 1.22 on the plaster and 1.41 against the ash. Every hole is carried by "
+               "its grain edge at 3.65; it carries no word, and the sheet and the plate in it are measured above.",
+    "#7e9470": "community: --ctr-wool, the seat's cushion, the throw's stripes, the radio's knobs and the "
+               "line under every heading, 2.25 on the plaster and 2.59 on the ash. It says where a part "
+               "begins, which the heading's words already say; it carries no word.",
+    "#c3ceb6": "community: --ctr-ridge, the far hill in the window, the path over it and the folded throw, "
+               "1.37 on the sky. Drawing in an aria-hidden picture the lede describes; it carries no word.",
+    "#a9bb93": "community: --ctr-hill, the hill in the window, a cushion and the door's awning, 1.72 on the "
+               "sky. Drawing; it carries no word.",
+    "#8aa076": "community: --ctr-hill-2, the near slope in the window and the door's awning, 2.38 on the "
+               "sky. Drawing; it carries no word.",
+    "#5e7556": "community: --ctr-tree, the trees on the hill and the grass on the near slope, 2.46 on the "
+               "hill. Drawing; it carries no word.",
+    "#4e7a4a": "community: --ctr-leaf, the plant on the sill and the job marker's leaf, 2.78 on the bay and "
+               "3.40 on the plaster. The marker's leaf is carried by its --ctr-ink outline at 10.38; it "
+               "carries no word.",
+    "#b4643e": "community: --ctr-pot, the terracotta pot on the sill, 3.41 on the ash, carried by its grain "
+               "outline. Drawing; it carries no word.",
     "#b5562c": "vital: the terracotta of every pot on the shelf, cut open, 2.56 on the wall and 2.95 "
                "against its own soil. Every pot is carried by its --vpl-ink outline at 3.56; it carries no word.",
     "#3a2618": "vital: the soil inside every pot, 7.54 on the wall. It carries no word; what grows in it "
