@@ -1617,13 +1617,17 @@ ol.cb-md-list { list-style: decimal; }
    channel, from its heading to Transmit, on the screen with it. */
 .cb-radio--full .cb-log { max-height: max(14rem, calc(100vh - 340px)); max-height: max(14rem, calc(100dvh - 340px)); }
 .cb-radio--full .cb-picture-img { max-height: 420px; }
-/* THREE ON A WIDE ONE, and each scrolls by itself: where you are and who is
-   around, then the channel, as tall as the window with the log taking what is
-   left of it, then messages, watching together and your radio. Left to right
-   is the order the parts come in, top to bottom, everywhere else, which is the
-   order the keyboard and a screen reader meet them in. The first part in a
-   column has no part above it, so no groove and no drawing, whatever a scheme
-   says; between the columns is the same groove, standing up. */
+/* THREE ON A WIDE ONE, and each scrolls by itself: where you are and the
+   channel, wide, as tall as the window with the log taking what is left of
+   it; then messages, this channel, who is around, Unreads and Events; then
+   watching together, you and your radio (Ryan's order, 2026-10-23, which put
+   the channel first). Left to right is the order the parts come in, top to
+   bottom, everywhere else, which is the order the keyboard and a screen
+   reader meet them in. A column with nothing in it is not drawn: the radio's
+   own has none down the left, which is the chat page's channels, and the
+   chat page has no fourth. The first part in a column has no part above it,
+   so no groove and no drawing, whatever a scheme says; between the columns
+   is the same groove, standing up. */
 @media (min-width: 1000px) {
   .cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
     grid-template-columns: minmax(15rem, 1fr) minmax(0, 2.6fr) minmax(17rem, 1.15fr);
@@ -1633,10 +1637,20 @@ ol.cb-md-list { list-style: decimal; }
     display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: max-content; align-content: start; gap: 16px;
     min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px 16px 16px;
   }
+  .cb-radio--full:not(.cb-radio--folded):not(.cb-radio--chat) .cb-set--parts {
+    grid-template-columns: minmax(0, 2.6fr) minmax(16rem, 1.15fr) minmax(15rem, 1fr);
+  }
   .cb-radio--full .cb-set--parts > .cb-col + .cb-col { border-left: 2px solid var(--cb-bar); }
+  .cb-radio--full .cb-set--parts > .cb-col:empty { display: none; }
+  .cb-radio--full .cb-set--parts > .cb-col:empty + .cb-col { border-left: 0; }
   .cb-radio--full .cb-set .cb-col > .cb-sec--after:first-child { padding-top: 0; border-top: 0; }
   .cb-radio--full .cb-set .cb-col > .cb-sec:first-child > .cb-divider { display: none; }
+  /* Watching together is often not there, and when it heads a column the
+     part under it is that column's first. */
+  .cb-radio--full .cb-set .cb-col > .cb-sec[hidden]:first-child + .cb-sec--after { padding-top: 0; border-top: 0; }
+  .cb-radio--full .cb-set .cb-col > .cb-sec[hidden]:first-child + .cb-sec > .cb-divider { display: none; }
   .cb-radio--full .cb-set--parts > .cb-col--b { display: flex; flex-direction: column; }
+  .cb-radio--full .cb-col--b > .cb-sec--where { flex: none; }
   .cb-radio--full .cb-col--b > .cb-sec--channel { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
   .cb-radio--full .cb-sec--channel > * { flex: none; }
   .cb-radio--full .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 12rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }

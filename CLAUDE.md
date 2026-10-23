@@ -907,9 +907,13 @@ has no radio (`data-cb="off"`), so no who-is-in-the-call line. The browser pane 
 in the same tab, so test the two sides in two tabs there, or in a real browser.
 
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
-they were): Where you are (the room's name in the largest words on the radio, `hereShown`), Who's around,
-Channel, Messages, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
+they were), **and since 2026-10-23 the channel comes straight after where you are** (Ryan's order, after Who's
+around, Unreads and Events had pushed it too far down): Where you are (the room's name in the largest words on
+the radio, `hereShown`, and nothing else), Channel, Messages, In this channel (On the channel as, Be seen here,
+Bring my familiar, the room's call and what is on now, under the heading the chat page uses), Who's around,
+Unreads, Events, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
 their trays and Sign off, Ryan's asks of 2026-10-19 after losing where an open Profile began) and Your radio.
+The chat page keeps its own arrangement, with its channels down the left and no Where you are.
 **PROFILE'S SECTIONS START FOLDED, AND EACH IS READ ONLY WHEN IT IS OPENED** (Ryan's choice, 2026-10-19,
 over a table of contents): `pfSection` makes each heading an h3 holding a button with `aria-expanded`,
 `pfOpen` runs that section's loader, `setPets` reloads only the open ones, and anything outside a section
@@ -4059,7 +4063,8 @@ bar holds the pointer and the button's own click never arrives. **Full** fills t
 `EDGE`, does not move (`mover.still`), hides Move and the theme's sides (there is no outside for them),
 and sits at z-index 88, **under** a room's call window, so a call is never lost behind it. On a window
 at least 1000px wide the parts stand in three columns, each scrolling by itself, left to right in the
-order they come top to bottom everywhere else: `part()` puts them in `.cb-col` wrappers that are
+order they come top to bottom everywhere else (where you are and the channel, wide; then Messages to Events;
+then the rest, since 2026-10-23, and a column with nothing in it is not drawn): `part()` puts them in `.cb-col` wrappers that are
 `display: contents` at every other size, and the groove is `.cb-sec--after` rather than
 `.cb-sec + .cb-sec`, because a part's neighbour may be in another column. **A scheme that styles the
 groove targets `.cb-sec.cb-sec--after`.** The Mover change also fixed a press on Move's own dots,

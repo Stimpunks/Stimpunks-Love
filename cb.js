@@ -1197,18 +1197,23 @@
        testing: the radio had grown one control at a time into one long column
        with nothing to say where one part ended and the next began, and people
        could not tell where they were. So it reads top to bottom as where you
-       are, who is around, the channel, messages, watching together, and your radio, with
-       space and a groove in the case between them. The headings are real ones,
+       are, the channel, messages, what is about this channel, who is around,
+       what is new and the events, watching together, you, and your radio
+       (Ryan's order, 2026-10-23, after the channel had been pushed too far
+       down), with space and a groove in the case between them. The headings are real ones,
        so a screen reader can move between the parts, and they are lettered on
        the case in the radio's own clothes. Small shows none of them. */
     /* THREE COLUMNS, which are only columns at Full on a wide window (Ryan,
-       2026-10-19): where you are and who is around, then the channel, then
-       messages, watching together and your radio, so left to right is still
-       top to bottom. At every other size cb.css makes them display: contents
-       and the parts stand in one column as they always did. The groove is
+       2026-10-19), left to right in the order the parts come top to bottom.
+       Since 2026-10-23 the radio's first column is where you are and the
+       channel, wide (b), then messages, this channel, who is around, Unreads
+       and Events (c), then watching together, you and your radio (d); the chat
+       page puts its channels down the left (a) and has no fourth. A column
+       with nothing in it is not drawn. At every other size cb.css makes them
+       display: contents and the parts stand in one column. The groove is
        above every part but the first (cb-sec--after), because a part's
-       neighbour may now be in another column. */
-    var cols = [el('div', 'cb-col cb-col--a'), el('div', 'cb-col cb-col--b'), el('div', 'cb-col cb-col--c')];
+       neighbour may be in another column. */
+    var cols = ['a', 'b', 'c', 'd'].map(function (k) { return el('div', 'cb-col cb-col--' + k); });
     cols.forEach(function (c) { set.appendChild(c); });
     var dividers = this.dividers = [], parts = 0;
     function part(cls, title, col) {
@@ -1230,12 +1235,20 @@
        about the channel picked and who is around stand on the right, after
        the channel, the way chat lays them out. See chatMake. */
     var chansSec = chat ? part('cb-sec--chans', 'Channels', 0) : null;
-    var hereSec = part('cb-sec--here', chat ? 'In this channel' : 'Where you are', chat ? 2 : 0);
-    var aroundSec = part('cb-sec--around', 'Who\u2019s around', chat ? 2 : 0);
+    /* WHERE YOU ARE, the room's name, and then straight away the channel
+       (Ryan, 2026-10-23: the channel was pushed too far down, under Who's
+       around, Unreads and Events). The chat page names the channel picked
+       over its messages instead, so it has no Where you are. */
+    var whereSec = chat ? null : part('cb-sec--where', 'Where you are', 1);
+    /* IN THIS CHANNEL, as the chat page has it (the same day): On the channel
+       as, Be seen here, Bring my familiar, the room's call and what is on now
+       here, under Messages. */
+    var hereSec = part('cb-sec--here', 'In this channel', 2);
+    var aroundSec = part('cb-sec--around', 'Who\u2019s around', 2);
     /* UNREADS (Ryan's proposal, 2026-10-20): World, the rooms you follow and
        your conversations, each listed while something has been said there
        since you last read it, and never how much. See newsShown. */
-    var newSec = this.newSec = part('cb-sec--new', 'Unreads', 0);
+    var newSec = this.newSec = part('cb-sec--new', 'Unreads', chat ? 0 : 2);
     this.newList = el('ul', 'cb-new-list');
     this.newList.hidden = true;
     this.newNone = el('p', 'cb-quiet');
@@ -1258,20 +1271,22 @@
     /* EVENTS (Ryan's ask, 2026-10-23, after Discord's): what is on now in
        this room, and the list of what is scheduled. On the chat page it is
        the middle, under Events at the top of the channels. See evMake. */
-    var evSec = this.evSec = part('cb-sec--events', 'Events', 0);
+    var evSec = this.evSec = part('cb-sec--events', 'Events', chat ? 0 : 2);
     this.evMake(evSec);
     var chanSec = part('cb-sec--channel', 'Channel', 1);
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
-    var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', 2);
+    // Messages comes straight after the channel, before In this channel.
+    if (!chat) cols[2].insertBefore(dmSec, hereSec);
+    var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', chat ? 2 : 3);
     filmSec.hidden = true;
     /* YOU, Profile and Sign off under a heading of their own (Ryan's ask,
        2026-10-19): with Profile open he lost where it started, and scrolled
        past its top looking for the button to close it. The tray opens under
        this heading, and Your radio, after it, is the radio's own switches. */
-    var youSec = part('cb-sec--you', 'You', 2);
-    var yourSec = part('cb-sec--yours', 'Your radio', 2);
-    /* MESSAGES, between Channel and Watching together (Ryan, 2026-10-18): one
-       person to another, for claimed usernames. See dmMake. */
+    var youSec = part('cb-sec--you', 'You', chat ? 2 : 3);
+    var yourSec = part('cb-sec--yours', 'Your radio', chat ? 2 : 3);
+    /* MESSAGES, straight after the channel (Ryan, 2026-10-18; under it since
+       2026-10-23): one person to another, for claimed usernames. See dmMake. */
     this.dmMake(dmSec);
     if (chat) this.chatMake(chansSec, chanSec, dmSec);
 
@@ -1280,7 +1295,7 @@
        place, so the room this page is gets a line of its own, the largest
        words on the radio. See hereShown. */
     this.hereName = el('p', 'cb-here-name');
-    hereSec.appendChild(this.hereName);
+    (whereSec || hereSec).appendChild(this.hereName);
 
     var who = el('p', 'cb-who');
     who.appendChild(document.createTextNode('On the channel as '));
@@ -1423,7 +1438,7 @@
     present.appendChild(this.famNow);
     present.hidden = true;
     hereSec.appendChild(present);
-    if (chat) hereSec.appendChild(this.evNowLine);
+    hereSec.appendChild(this.evNowLine);
 
     var lcd = this.lcd = el('div', 'cb-lcd');
     // Which channel this is, at every size, because small shows only the readout.
@@ -4255,8 +4270,9 @@
      a repeating event says its rule in its maker's, because that is the clock
      it keeps to across summer time.
 
-     WHERE IT IS: a part of its own on the radio, under Unreads, with what is
-     on now in the room you are in and an Events button that opens the list;
+     WHERE IT IS: a part of its own on the radio, under Unreads, with an
+     Events button that opens the list, and what is on now in the room you
+     are in under In this channel;
      on the chat page, Events at the top of the channels, which puts the list
      where the channel was, the way a conversation does. It asks /cb/events
      from listen() and nowhere else: every EV_EVERY while the list is open,
@@ -4363,10 +4379,10 @@
     this.events = null;
     this.evMe = { locked: [], may: [] };
     /* What is on now in the room you are in, in a line of its own, so a call
-       or a watch-together going on here is seen without opening anything. */
+       or a watch-together going on here is seen without opening anything. It
+       stands under In this channel (the constructor puts it there). */
     var now = this.evNowLine = el('p', 'cb-ev-now');
     now.hidden = true;
-    sec.appendChild(now);
     var b = this.evBtn = el('button', 'cb-btn cb-ev-btn', 'Events');
     b.type = 'button';
     b.setAttribute('aria-expanded', 'false');
@@ -4635,7 +4651,7 @@
     } else if (!r) {
       add(e.at === 'call' ? 'On the World call, which Join World call under Who\u2019s around takes you into.' : 'On World, the whole street\u2019s channel.');
     } else if (e.at === 'call') {
-      add('In the call in '); add(room()); add(': Join this room\u2019s call is under Where you are, in the room.');
+      add('In the call in '); add(room()); add(': Join this room\u2019s call is under In this channel, in the room.');
     } else {
       add('In '); add(room()); add('.');
     }
