@@ -3931,7 +3931,12 @@ and draw a called role with nothing to press. **A role's word is nobody's userna
 `joinAccount` and `claimAccount`), and `mentions()` never reads one as a handle. `tools/check-push.py` holds it. **The
 friendly edits are the role's people in the @ list "so you know who you are calling", a count of who was told, and
 `@moderators` as an alias**: the first two publish who holds which role, which is not ours to publish, and the third
-makes a word in a sentence ring people. `DECISIONS.md` has what is open.
+makes a word in a sentence ring people. **A member's @moderator also leaves a note on the desk** (Ryan's call, the
+same day): `noteModCall` in `lib.mjs`, from `cb-transmit`, `cb-edit` and `cb-forum`, keeps who, when, where and the
+words in one blob (`mod-calls`), never for the base, a quiet room or a room or category only some may enter, and
+`/cb/mod-calls` lets the base read and close them in `desk.js` (closing deletes, nothing records who closed it, thirty
+days at most), the reports' arrangement. The friendly edit is a note of who answered a call, which is a record of
+moderation kept against a person. `DECISIONS.md` has what is open.
 
 **A PICTURE IS SHOWN BEFORE IT GOES** (Ryan's ask, 2026-10-19): `picPending`/`picReady` in `cb.js` put
 the redrawn blob, which is exactly what is sent, above the box with the file's name, for the channel and

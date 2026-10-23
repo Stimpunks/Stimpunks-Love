@@ -195,6 +195,18 @@
     <p><strong>Your own password.</strong> The moderators&rsquo; password signs nobody on now: every moderator knows it, so while it did, any of us could sign on as any other. If your username on the moderators&rsquo; list is not claimed yet, claim it on <a href="join.html">the joining page</a> with the moderators&rsquo; password and one of your own; your roles stay on the list. <strong>The desk does not reset, delete, kick, time out or ban a moderator&rsquo;s username, or clear its card</strong>, because a reset code would let one of us sign on as another, roles and all, so keep your recovery code, and give an email address for recovery if you like. If you lose both, Ryan or Helen can move you back.</p>
   </section>
 
+  <section class="md-part" aria-labelledby="md-modcalls-h">
+    <h2 id="md-modcalls-h">The desk: calls for a moderator</h2>
+    <p>Anybody signed on can call <b>@moderator</b>, on a channel or in a forum post, and it tells every moderator who switched on <b>When somebody @mentions me</b>. <strong>When somebody who is not a moderator calls, a note comes here as well</strong>, so a call made while none of us was listening is still waiting: who called, when, where, linked, and the words they called with, as they were then. Nothing comes from a room that keeps to itself, which tells nobody, and our own calls to each other leave no note.</p>
+    <p>Close a note once somebody has answered the call, and it is deleted; nothing says who closed it, and one nobody closes goes after thirty days. A note stays if its caller takes the message off or deletes their username, because it was said to us.</p>
+    <div class="md-call md-desk" id="md-modcalls" hidden>
+      <p><button type="button" id="md-modcalls-load">Show the calls</button></p>
+      <div id="md-modcalls-list"></div>
+      <p class="md-call__said" id="md-modcalls-said" role="status"></p>
+    </div>
+    <p class="md-call__fine" id="md-modcalls-off">The calls open for a moderator signed on as the base, and the server refuses everybody else whatever this page shows.</p>
+  </section>
+
   <section class="md-part" aria-labelledby="md-reports-h">
     <h2 id="md-reports-h">The desk: reported messages</h2>
     <p>Direct messages on the CB are between two people with claimed usernames, and <strong>no moderator can read them</strong>. When one of them reports a message the other sent, a copy comes here: its words, its picture if it had one, who sent it and when, who reported it, and their note if they wrote one. A picture stays behind <b>Show the picture</b> until you press it. <strong>Nothing else about the conversation comes with it</strong>, and the person reported is not told.</p>

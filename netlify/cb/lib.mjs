@@ -3751,8 +3751,89 @@ export async function closeReport(who, id, s = store(), now = Date.now()) {
   return out;
 }
 
+/* ── A member's call for a moderator, a note on the desk ──
+
+   Ryan's call, 2026-10-23, the day role mentions came: when somebody who is not
+   a moderator calls @moderator, on a channel or in a forum post, a note goes on
+   the desk in the Moderators' room, so a call made while no moderator was
+   listening is still there to be answered. A note is who called, when, where
+   (a channel's room, or the forum topic and post) and the words they called
+   with, as they were then; only a call the server kept (roleMentions), and an
+   edit only when it newly calls. NEVER FROM A ROOM THAT KEEPS TO ITSELF, which
+   tells nobody, and never from a room or a category only some people may go
+   into, which a member cannot be in anyway. Base only, like the reports: a
+   moderator closes one, which deletes it, and one nobody closes goes after
+   MOD_CALL_DAYS. It stays if the caller takes the message off or deletes their
+   username, as a report does, because it was said to the moderators. Nothing
+   records who closed it. MOD_CALL_KEEP at most: past that, the oldest goes. The
+   friendly edits are a note for a moderator's own call (they can talk among
+   themselves), a note of who answered a call, and keeping a call past its
+   thirty days "in case it matters later", which is a record of who needed
+   help, kept against them. */
+export const MOD_CALL_KEEP = 200;
+export const MOD_CALL_DAYS = 30;
+export const MOD_CALL_TEXT = 2000;
+export const MOD_CALL_ID = /^c[A-Za-z0-9_-]{10}$/;
+const MOD_CALLS = 'mod-calls';
+const MOD_CALL_LIFE = MOD_CALL_DAYS * 24 * 60 * 60 * 1000;
+function modCallsDoc(d, now = Date.now()) {
+  const list = Array.isArray(plain(d).calls) ? plain(d).calls : [];
+  return { calls: list.filter((c) => c && typeof c.t === 'number' && now - c.t < MOD_CALL_LIFE) };
+}
+
+/* A message (with `where` { room }, null for World) or a post (with `where`
+   { topic }) that may call the moderators: a note on the desk if it is a
+   member's call, and newly so after an edit (`before`, the words it replaced). */
+export async function noteModCall(who, item, where, before = '', s = store(), now = Date.now()) {
+  if (!who || who.role === 'base' || !item || !where) return null;
+  if (!keptRoles(item.roles).includes('moderator') || (before && atName(before, 'moderator'))) return null;
+  let at;
+  if (where.topic) {
+    const cat = forumCat(where.topic.cat, now);
+    if (!cat || (cat.see && cat.see.length)) return null;
+    at = { topic: where.topic.id, post: item.id, cat: cat.name, title: [...String(where.topic.title || '')].slice(0, FORUM_TITLE_MAX).join('') };
+  } else {
+    const room = where.room || null;
+    if (room && (quietRoom(room) || lockedRoom(room))) return null;
+    at = { room: room || '' };
+  }
+  const words = String(item.text != null ? item.text : item.body || '');
+  const rec = { id: 'c' + randomBytes(8).toString('base64url').slice(0, 10), t: now, by: who.handle, msg: item.id,
+    text: [...words].length > MOD_CALL_TEXT ? [...words].slice(0, MOD_CALL_TEXT - 1).join('') + '…' : words, ...at };
+  const next = await updateDm(MOD_CALLS, (d) => modCallsDoc(d, now), (was) => {
+    if (was.calls.some((c) => c.msg === item.id)) return null;
+    return { calls: [...was.calls, rec].slice(-MOD_CALL_KEEP) };
+  }, s);
+  return next.calls && next.calls.some((c) => c.id === rec.id) ? rec.id : null;
+}
+
+/* Where a note's call was made, for the desk to link: a room's channel, World,
+   or a forum post. */
+function modCallPlace(c) {
+  if (c.topic) return { name: `the forums: ${c.cat}, “${c.title}”`, path: `/forum.html#/t/${c.topic}/${c.post}` };
+  if (!c.room) return { name: 'World', path: '/world.html' };
+  const f = forumPlace(c.room);
+  return f || { name: `#${c.room}`, path: `/${c.room}.html` };
+}
+
+/* The desk's notes, newest first, for the base and nobody else. */
+export async function readModCalls(who, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return null;
+  return modCallsDoc(await s.get(MOD_CALLS, { type: 'json' }), now).calls.slice().reverse()
+    .map((c) => ({ id: c.id, t: c.t, by: c.by, text: c.text, place: modCallPlace(c) }));
+}
+
+/* A moderator closes a note: it is deleted, and nothing says who closed it. */
+export async function closeModCall(who, id, s = store(), now = Date.now()) {
+  if (!who || who.role !== 'base') return { error: 'base' };
+  if (typeof id !== 'string' || !MOD_CALL_ID.test(id)) return { error: 'which' };
+  return updateDm(MOD_CALLS, (d) => modCallsDoc(d, now), (was) => (was.calls.some((c) => c.id === id)
+    ? { calls: was.calls.filter((c) => c.id !== id) } : { error: 'which' }), s);
+}
+
 /* Hourly: every conversation with nothing left in it, every marker with no
-   conversation behind it, and every report past its thirty days. */
+   conversation behind it, every report past its thirty days, and every note
+   of a call for a moderator past its own. */
 export async function sweepDms(s = store(), now = Date.now()) {
   let any = false;
   const live = new Set();
@@ -3772,6 +3853,11 @@ export async function sweepDms(s = store(), now = Date.now()) {
   const raw = await s.get(REPORTS, { type: 'json' });
   if (raw && reportsDoc(raw, now).reports.length !== (plain(raw).reports || []).length) {
     await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => was, s);
+    any = true;
+  }
+  const calls = await s.get(MOD_CALLS, { type: 'json' });
+  if (calls && modCallsDoc(calls, now).calls.length !== (plain(calls).calls || []).length) {
+    await updateDm(MOD_CALLS, (d) => modCallsDoc(d, now), (was) => was, s);
     any = true;
   }
   // A conversation's picture no live message holds, once past the hour an

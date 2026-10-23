@@ -4,7 +4,7 @@
    ../cb/lib.mjs decides, and says why the base cannot edit anybody else's.
    The words it replaces are not kept anywhere. An edit tells only somebody it
    newly @mentions (notifyEdit), after the message is on the channel. */
-import { readPass, updateTuned, roomTag, roomAllows, editMessage, shape, json, body, sameSite, MESSAGE_MAX, notifyEdit } from '../cb/lib.mjs';
+import { readPass, updateTuned, roomTag, roomAllows, editMessage, shape, json, body, sameSite, MESSAGE_MAX, notifyEdit, noteModCall } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -27,6 +27,8 @@ export default async (req, context) => {
     if (got.why === 'bad') return json(400, { error: `A message is between one and ${MESSAGE_MAX} characters.` });
     if (got.why === 'empty') return json(400, { error: 'A message needs some words, or a picture or a sticker. To take it off the air, use Take off instead.' });
     if (got.msg) {
+      // An edit that newly calls the moderators, from a member, leaves a note on the desk (noteModCall).
+      await noteModCall(who, got.msg, { room }, got.before).catch(() => null);
       const told = notifyEdit(got.msg, got.before, room).catch(() => []);
       if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
     }

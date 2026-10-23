@@ -38,6 +38,10 @@ is left of the old promise is checked here rather than remembered:
     notification says which role (`as`) and nothing about who else holds it;
     a role's word is refused as a username where one is claimed; the roles the
     radio, links.js, forum.js and the service worker know by name are ROLES.
+    A MEMBER'S CALL FOR A MODERATOR leaves a note on the desk (noteModCall,
+    Ryan's call the same day): never for a moderator's own call, never from a
+    room that keeps to itself or one only some may enter, read and closed by
+    the base only, written by nothing else, and privacy.html says so.
   · THE PRIVACY PAGE SAYS SO, under #notifications.
 """
 import re
@@ -78,6 +82,31 @@ def roles_check(lib):
     for m in re.finditer(r"payload\.as\s*=\s*([^;]*);", code(lib)):
         if m.group(1).strip() != "role":
             problems.append(f"a notification says it called {m.group(1).strip()}: it says the one role, and never who else holds it.")
+    note = re.search(r"export async function noteModCall\(.*?\n}\n", lib, re.S)
+    nc = code(note.group(0)) if note else ""
+    for need, why in [("who.role === 'base'", "leaves a note for a moderator's own call"),
+                      ("quietRoom(room)", "names a room that keeps to itself on the desk"),
+                      ("lockedRoom(room)", "names a room only some may enter on the desk"),
+                      ("cat.see && cat.see.length", "names a category only some may read on the desk"),
+                      ("includes('moderator')", "leaves a note for something other than a call of @moderator")]:
+        if need not in nc:
+            problems.append(f"lib.mjs: noteModCall {why}.")
+    for fn in ("readModCalls", "closeModCall"):
+        body = re.search(r"export async function " + fn + r"\(.*?\n}\n", lib, re.S)
+        if not body or "who.role !== 'base'" not in body.group(0):
+            problems.append(f"lib.mjs: {fn} is not the base's alone.")
+    writers = [m.start() for m in re.finditer(r"updateDm\(MOD_CALLS", code(lib))]
+    starts = [(m.start(), m.group(1)) for m in re.finditer(r"(?:async )?function (\w+)\(", code(lib))]
+    for w in writers:
+        owner = [n for (p, n) in starts if p < w][-1]
+        if owner not in ("noteModCall", "closeModCall", "sweepDms"):
+            problems.append(f"lib.mjs: {owner} writes the desk's calls; only noteModCall, closeModCall and the sweep may.")
+    desk = code((ROOT / "desk.js").read_text())
+    if re.search(r"innerHTML|outerHTML|insertAdjacentHTML", desk):
+        problems.append("desk.js: builds markup from a string, and a call's words are somebody's.")
+    priv = (ROOT / "privacy.html").read_text()
+    if "noteModCall" in lib and 'id="moderator-calls"' not in priv:
+        problems.append("privacy.html has no #moderator-calls saying a member's call leaves a note on the desk.")
     for name, pat in [("cb.js", r"var ROLE_SAYS = \{([^}]*)\}"), ("links.js", r"var ROLE_SAYS = \{([^}]*)\}"),
                       ("forum.js", r"var ROLE_SAYS = \{([^}]*)\}"), ("cb-sw.js", r"function called\(d\) \{[^}]*\[([^\]]*)\]")]:
         m = re.search(pat, (ROOT / name).read_text())

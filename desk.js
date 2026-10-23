@@ -1,8 +1,9 @@
 /* =============================================================================
    The moderators' desk in the Moderators' room: make and delete invites; look
    up one username by name, give it a reset code, delete it, or clear its
-   profile card; and read the direct messages people have reported, and close
-   them. Ryan's calls, 2026-09-30: accounts with no email, recovery codes, and
+   profile card; read the direct messages people have reported, and close
+   them; and read the calls for a moderator members made (2026-10-23), and
+   close them. Ryan's calls, 2026-09-30: accounts with no email, recovery codes, and
    moderators able to reset or delete, here; 2026-10-18, clearing one card that
    breaks the covenant without deleting the username it is on; and 2026-10-21,
    invites in place of the starter password, which the desk makes and deletes.
@@ -547,6 +548,85 @@
      desk has a picture somebody reported put in front of them unasked. It is
      fetched with the pass when pressed, shown from memory, and its
      description, if it had one, is said with it. */
+  /* A MEMBER'S CALL FOR A MODERATOR (Ryan's call, 2026-10-23): somebody who
+     is not a moderator called @moderator, and the server left a note here
+     (noteModCall in netlify/cb/lib.mjs): who, when, where, linked, and the
+     words, drawn as plain text. Fetched when a moderator presses Show the
+     calls, never on arrival. Closing one asks once more, because it deletes it. */
+  (function () {
+    var box = document.getElementById('md-modcalls');
+    var cOff = document.getElementById('md-modcalls-off');
+    var load = document.getElementById('md-modcalls-load');
+    var list = document.getElementById('md-modcalls-list');
+    var cSaid = document.getElementById('md-modcalls-said');
+    if (!box || !load) return;
+    box.hidden = false;
+    if (cOff) cOff.hidden = true;
+    function cSay(t) { cSaid.textContent = t; }
+    function ask(send) {
+      return fetch('/cb/mod-calls', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+        body: JSON.stringify(send),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      });
+    }
+    function at(t) {
+      try { return new Date(t).toLocaleString(undefined, { weekday: 'long', hour: 'numeric', minute: '2-digit', day: 'numeric', month: 'long' }); } catch (e) { return ''; }
+    }
+    function draw(calls) {
+      list.textContent = '';
+      if (!calls.length) { list.appendChild(el('p', 'Nobody is waiting on a call.')); return; }
+      var ul = el('ul', null, 'md-reports');
+      calls.forEach(function (c) {
+        var li = el('li', null, 'md-report');
+        var who = el('p', null, 'md-report__who');
+        who.appendChild(document.createTextNode(c.by + ' called @moderator on ' + at(c.t) + ', in '));
+        var place = c.place && typeof c.place.path === 'string' && /^\/[a-z0-9-]+\.html(#[A-Za-z0-9_\/-]*)?$/.test(c.place.path) ? c.place : null;
+        if (place) { var a = el('a', place.name); a.href = place.path; who.appendChild(a); }
+        else who.appendChild(document.createTextNode(c.place && c.place.name ? c.place.name : 'a place that has gone'));
+        who.appendChild(document.createTextNode(':'));
+        li.appendChild(who);
+        if (c.text) li.appendChild(el('p', c.text, 'md-report__words'));
+        var row = el('p');
+        var look = button('Look ' + c.by + ' up at the desk'), close = button('Close this call');
+        row.appendChild(look); row.appendChild(close);
+        li.appendChild(row);
+        look.addEventListener('click', function () { nameBox.value = c.by; lookUp(); nameBox.focus(); });
+        close.addEventListener('click', function () {
+          var sure = el('div');
+          sure.appendChild(el('p', 'This deletes the note. Nothing else changes, and nobody is told. It cannot be undone.'));
+          var yes = button('Close it'), no = button('Not now');
+          sure.appendChild(yes); sure.appendChild(no);
+          li.appendChild(sure);
+          no.focus();
+          no.addEventListener('click', function () { sure.remove(); close.focus(); });
+          yes.addEventListener('click', function () {
+            cSay('Closing\u2026');
+            ask({ close: c.id }).then(function (x) {
+              if (x.status !== 200) { cSay(why(x, 'That did not work. Nothing was closed.')); return; }
+              draw(x.body.calls || []);
+              cSay('Closed and deleted.');
+              load.focus();
+            }, function () { cSay('The desk could not be reached. Nothing was closed.'); });
+          });
+        });
+        ul.appendChild(li);
+      });
+      list.appendChild(ul);
+    }
+    load.addEventListener('click', function () {
+      cSay('Looking\u2026');
+      ask({}).then(function (x) {
+        if (x.status !== 200) { cSay(why(x, 'The calls could not be fetched just now.')); return; }
+        cSay('');
+        draw(x.body.calls || []);
+        load.textContent = 'Show them again';
+      }, function () { cSay('The desk could not be reached just now.'); });
+    });
+  }());
+
   var reports = document.getElementById('md-reports');
   var rOff = document.getElementById('md-reports-off');
   var rLoad = document.getElementById('md-reports-load');

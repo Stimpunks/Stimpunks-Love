@@ -11,7 +11,7 @@
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
   imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions, roleMentions,
-  noteLatest, countMessage, replyTo, WORLD_CALL } from '../cb/lib.mjs';
+  noteLatest, countMessage, replyTo, noteModCall, WORLD_CALL } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -109,6 +109,8 @@ export default async (req, context) => {
     await noteLatest(room || WORLD_CALL, msg.t).catch(() => false);
     // One more on its day, for the office's dashboard: a number, no name (countMessage).
     await countMessage(room).catch(() => null);
+    // A member's call for a moderator leaves a note on the desk too (noteModCall).
+    await noteModCall(who, msg, { room }).catch(() => null);
     const told = notifyMessage(msg, room, undefined, undefined, undefined, to).catch(() => []);
     if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
     return json(200, { messages: shape(messages) });

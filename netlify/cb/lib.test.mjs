@@ -7346,3 +7346,46 @@ test('a role called in a task or a comment tells everybody on Tasks who holds it
   assert.deepEqual((await inbox(TNORAH))[0], ['commented', 'mentioned']);
   assert.deepEqual((await inbox(TBEA))[0], ['made', 'mentioned'], 'a comment calling the directors told the board');
 });
+
+import { noteModCall, readModCalls, closeModCall, MOD_CALL_KEEP, MOD_CALL_DAYS } from './lib.mjs';
+
+test('a member\'s call for a moderator leaves a note on the desk, once, never from a moderator, a quiet room or a locked one', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const member = { role: 'mobile', handle: 'Ada', account: 1, roles: new Set() };
+  const mod = { role: 'base', handle: 'Mo', account: 1, roles: new Set(['moderator']) };
+  const call = (id, text, roles = ['moderator']) => ({ id, handle: 'Ada', text, t: T0, roles });
+  assert.ok(await noteModCall(member, call('m1', '@moderator somebody is being cruel in here'), { room: 'the-den' }, '', s, T0));
+  assert.equal(await noteModCall(member, call('m1', '@moderator somebody is being cruel in here'), { room: 'the-den' }, '', s, T0 + 1), null, 'one message left two notes');
+  assert.equal(await noteModCall(mod, { ...call('m2', '@moderator a hand?'), handle: 'Mo' }, { room: null }, '', s, T0), null, 'a moderator\'s own call left a note');
+  assert.equal(await noteModCall(member, call('m3', '@moderator', []), { room: null }, '', s, T0), null, 'words the server did not keep as a call left a note');
+  assert.equal(await noteModCall(member, call('m4', '@moderator'), { room: QUIET_ROOMS[0] }, '', s, T0), null, 'a room that keeps to itself was named on the desk');
+  assert.equal(await noteModCall(member, call('m5', '@moderator'), { room: 'town-hall-board' }, '', s, T0), null);
+  assert.equal(await noteModCall(member, call('m6', '@moderator again'), { room: null }, '@moderator', s, T0), null, 'an edit that called already left a note');
+  assert.ok(await noteModCall(member, call('m7', 'now @moderator'), { room: null }, 'now', s, T0 + 2), 'an edit that newly called left no note');
+  const t = (await startTopic(ADA, { cat: 'nature', title: 'Moss', body: '@moderator, is this post all right?' }, s, T0, NO_NET)).topic;
+  assert.ok(await noteModCall(ADA, t.posts[0], { topic: t }, '', s, T0 + 3));
+  const secret = (await startTopic(FBOARD, { cat: 'grantmaking', title: 'A request', body: '@moderator' }, s, T0, NO_NET)).topic;
+  assert.equal(await noteModCall({ ...ADA }, { ...secret.posts[0], roles: ['moderator'] }, { topic: secret }, '', s, T0 + 4), null, 'a category only some may read was named on the desk');
+
+  assert.equal(await readModCalls(member, s, T0 + 5), null, 'somebody who is not a moderator read the desk');
+  const calls = await readModCalls(mod, s, T0 + 5);
+  assert.deepEqual(calls.map((c) => [c.by, c.place.name, c.place.path]), [
+    ['Ada', 'the forums: Nature, “Moss”', `/forum.html#/t/${t.id}/${t.posts[0].id}`],
+    ['Ada', 'World', '/world.html'],
+    ['Ada', '#the-den', '/the-den.html']]);
+  assert.equal(calls[2].text, '@moderator somebody is being cruel in here');
+  assert.deepEqual(Object.keys(calls[0]).sort(), ['by', 'id', 'place', 't', 'text'], 'a note carries more than who, when, where and the words');
+  assert.ok((await closeModCall(member, calls[0].id, s, T0 + 6)).error, 'somebody who is not a moderator closed a note');
+  assert.ok(!(await closeModCall(mod, calls[0].id, s, T0 + 6)).error);
+  assert.equal((await readModCalls(mod, s, T0 + 7)).length, 2);
+  // Thirty days on, a note nobody closed is gone, and the sweep deletes it.
+  const later = T0 + MOD_CALL_DAYS * 24 * 60 * 60 * 1000 + 10;
+  assert.equal((await readModCalls(mod, s, later)).length, 0, 'a note outlived its thirty days');
+  await sweepDms(s, later);
+  assert.equal((await s.get('mod-calls', { type: 'json' })).calls.length, 0, 'the sweep left an old note behind');
+  // A full desk keeps the newest.
+  for (let i = 0; i < MOD_CALL_KEEP + 3; i++) await noteModCall(member, call('n' + i, '@moderator ' + i), { room: null }, '', s, later + i);
+  const full = await readModCalls(mod, s, later + MOD_CALL_KEEP + 5);
+  assert.equal(full.length, MOD_CALL_KEEP);
+  assert.equal(full[0].text, '@moderator ' + (MOD_CALL_KEEP + 2), 'the newest call was the one dropped');
+});

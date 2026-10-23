@@ -33,7 +33,7 @@
                                                      the office's records, the reader can open (findLinks), by POST
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -119,6 +119,8 @@ export default async (req, context) => {
     if (r.error) return json(400, { error: r.error }, QUIET);
     if (r.gone) return answer(200, { me, cats, gone: true }, QUIET);
     if (r.post && r.topic && ['start', 'reply', 'edit'].includes(b.action)) {
+      // A member's post that newly calls the moderators leaves a note on the desk (noteModCall).
+      await noteModCall(who, r.post, { topic: r.topic }, r.before || '').catch(() => null);
       const told = notifyForum(r.topic, r.post, r.before || '').catch(() => []);
       if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
     }
