@@ -143,6 +143,8 @@
   --cb-display: 'Fredoka'; --cb-display-scale: 1.1; --cb-display-track: .02em; --cb-display-case: none; }
 :host([data-scheme="fairy"]) { --cb-case: var(--cb-fairy-case); --cb-bar: var(--cb-fairy-bar); --cb-steel: var(--cb-fairy-steel); --cb-steel-2: var(--cb-fairy-steel-2); --cb-lcd: var(--cb-fairy-lcd); --cb-amber: var(--cb-fairy-amber); --cb-amber-2: var(--cb-fairy-amber-2);
   --cb-display: 'Leckerli One'; --cb-display-scale: 1.1; --cb-display-track: .01em; --cb-display-case: none; }
+:host([data-scheme="cloud"]) { --cb-case: var(--cb-cloud-case); --cb-bar: var(--cb-cloud-bar); --cb-steel: var(--cb-cloud-steel); --cb-steel-2: var(--cb-cloud-steel-2); --cb-lcd: var(--cb-cloud-lcd); --cb-amber: var(--cb-cloud-amber); --cb-amber-2: var(--cb-cloud-amber-2);
+  --cb-display: 'Jost'; --cb-display-scale: 1.15; --cb-display-track: .16em; --cb-display-case: uppercase; }
 :host([data-scheme="mordor"]) { --cb-case: var(--cb-mordor-case); --cb-bar: var(--cb-mordor-bar); --cb-steel: var(--cb-mordor-steel); --cb-steel-2: var(--cb-mordor-steel-2); --cb-lcd: var(--cb-mordor-lcd); --cb-amber: var(--cb-mordor-amber); --cb-amber-2: var(--cb-mordor-amber-2);
   --cb-display: 'Eczar'; --cb-display-scale: 1.15; --cb-display-track: .04em; --cb-display-case: none; }
 :host([data-scheme="crashers"]) .cb-radio { border: 3px solid var(--cb-steel); border-radius: 16px; }
@@ -164,6 +166,10 @@
 :host([data-scheme="lagoon"]) .cb-radio { border-color: var(--cb-amber); border-radius: 4px; }
 :host([data-scheme="kelp"]) .cb-radio { border-color: var(--cb-amber-2); border-radius: 18px; }
 :host([data-scheme="fairy"]) .cb-radio { border-color: var(--cb-amber); border-radius: 14px; }
+/* Cloud City is round like the city: a deck rounded over the top, its rim in
+   the sunset's peach, and buttons rounded like its corridors. */
+:host([data-scheme="cloud"]) .cb-radio { border-color: var(--cb-amber-2); border-radius: 30px 30px 12px 12px / 22px 22px 12px 12px; }
+:host([data-scheme="cloud"]) .cb-btn { border-radius: 12px; }
 /* A readout the case's own black has its edge drawn in the case's rim instead
    of the readout's black edge: High contrast's, LCARS', ASCII-Amp's and Paula's. */
 :host([data-scheme="high"]) .cb-lcd, :host([data-scheme="lcars"]) .cb-lcd, :host([data-scheme="ascii"]) .cb-lcd,
@@ -315,6 +321,9 @@
 :host([data-motion="on"]) .art-glow { animation: cb-art-glow var(--t, 4s) ease-in-out var(--d, 0s) infinite; }
 :host([data-motion="on"]) .art-flow { animation: cb-art-flow var(--t, 6s) linear var(--d, 0s) infinite; }
 :host([data-motion="on"]) .art-fall { animation: cb-art-fall var(--t, 7s) linear var(--d, 0s) infinite; }
+/* Cloud City's cloud cars hold station: a little way forward and back, and
+   never round a loop, so nothing jumps back to where it started. */
+:host([data-motion="on"]) .art-hover { animation: cb-art-hover var(--t, 7s) ease-in-out var(--d, 0s) infinite alternate; }
 :host([data-motion="on"][data-scheme="glitter"]) .cb-radio,
 :host([data-motion="on"][data-scheme="unicorn"]) .cb-radio { animation: cb-art-shine 14s linear infinite; }
 @keyframes cb-art-grow { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
@@ -326,6 +335,7 @@
 @keyframes cb-art-glow { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
 @keyframes cb-art-flow { from { transform: translateX(0); } to { transform: translateX(var(--run, 60px)); } }
 @keyframes cb-art-fall { from { transform: translateY(0); } to { transform: translateY(var(--run, 24px)); } }
+@keyframes cb-art-hover { from { transform: translate(-4px, 1px); } to { transform: translate(4px, -1px); } }
 @keyframes cb-art-shine { from { background-position: 0 0, 0 0; } to { background-position: 0 0, 150% 0; } }
 .sr {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -1312,6 +1322,33 @@ ol.cb-md-list { list-style: decimal; }
 @keyframes cb-mo-au-pile { 0%, 2.5% { transform: scaleY(.12); } 9.4%, 100% { transform: scaleY(1); } }
 @keyframes cb-mo-au-pop { 0%, 8.8% { transform: translateY(var(--sink, 40px)); } 9.8% { transform: translateY(-3px); } 10.4%, 13% { transform: translateY(0); } 15%, 100% { transform: translateY(var(--sink, 40px)); } }
 @keyframes cb-mo-au-toss { 0%, 9.2% { opacity: 0; transform: translate(0, 0) rotate(0); } 10% { opacity: 1; } 13.4%, 100% { opacity: 0; transform: translate(var(--tx, 0px), var(--ty, -40px)) rotate(240deg); } }
+/* CLOUD CITY. In the banner the cloud drifts, the two cloud cars hold station,
+   a little forward and back and never round a loop, and some windows come and
+   go. In the opening the sunset comes up over the profile with a sea of cloud
+   along its foot, the city rises out of the cloud at the right and its windows
+   light from the top down, each over a second, the sun sinks at the left, and
+   two cloud cars fly out from the city towards you, growing as they come. */
+:host([data-motion="on"]) .fx-cc-hold { animation: cb-fx-cc-hold var(--t, 7s) ease-in-out var(--d, 0s) infinite alternate; }
+@keyframes cb-fx-cc-hold { from { transform: translate(-5px, 1.5px); } to { transform: translate(5px, -1.5px); } }
+.pf-fx__cc-sky { position: absolute; inset: 0; display: block; width: 100%; height: 100%; opacity: 0; }
+.pf-fx__cc-sun { position: absolute; left: 3%; top: 18%; display: block; width: min(42cqw, 58cqh); height: auto; aspect-ratio: 1; overflow: visible; opacity: 0; }
+.pf-fx__cc-city { position: absolute; right: 0; bottom: 0; display: block; height: 92%; width: auto; aspect-ratio: 300 / 360; max-width: 100%; overflow: visible; opacity: 0; }
+.pf-fx__cc-sea { position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 42%; opacity: 0; }
+.pf-fx__cc-car { position: absolute; display: block; line-height: 0; opacity: 0; }
+:host([data-motion="on"]) .pf-fx__cc-sky, :host([data-motion="on"]) .pf-fx__cc-sea { animation: cb-mo-fx-wash 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__cc-sun { animation: cb-mo-cc-sun 60s ease-in-out infinite both; }
+:host([data-motion="on"]) .pf-fx__cc-city { animation: cb-mo-cc-city 60s ease-out infinite both; }
+:host([data-motion="on"]) .fx-mo-cc-win { animation: cb-mo-cc-win 60s ease-in-out var(--d, 0s) infinite both; }
+:host([data-motion="on"]) .pf-fx__cc-car { animation: cb-mo-cc-car 60s ease-in var(--d, 0s) infinite both; }
+@keyframes cb-mo-cc-sun { 0%, 1% { opacity: 0; transform: translateY(-6%); } 4%, 12.5% { opacity: 1; } 15.5%, 100% { opacity: 0; transform: translateY(16%); } }
+@keyframes cb-mo-cc-city { 0%, 1% { opacity: 0; transform: translateY(26%); } 5.5% { opacity: 1; transform: translateY(0); } 12.5% { opacity: 1; transform: translateY(-1%); } 15.5%, 100% { opacity: 0; transform: translateY(-2%); } }
+@keyframes cb-mo-cc-win { 0%, 5% { opacity: 0; } 7%, 100% { opacity: 1; } }
+@keyframes cb-mo-cc-car {
+  0%, 6.5% { opacity: 0; transform: translate(0, 0) scale(.5); }
+  7.8% { opacity: 1; }
+  13% { opacity: 1; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)) scale(1.8); }
+  14.8%, 100% { opacity: 0; transform: translate(calc(var(--px, 0) * 1cqw), calc(var(--py, 0) * 1cqh)) scale(2); }
+}
 /* An effect after somebody's work says whose, at the foot of the card. */
 .pf-credit { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--cb-amber-2); }
 

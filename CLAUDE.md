@@ -1534,7 +1534,11 @@ skins are colours no card's seven can be relied on for, and a starry night in th
 nobody else's work, so they need no credit. **Starward Dreaming's flames are held under the flash line**, the cabin's
 candles' rule: each sways on its own time out of `SW_FLICKER`, never under four tenths of a second a half-sway and no two
 alike, and `cb-fx-sw-flicker` dims a flame by a tenth at most. The friendly edit is a faster flicker "so the fire looks
-real"; the brief said flicker, and the sway is how this street says it. **A further such effect is a block of its own and
+real"; the brief said flicker, and the sway is how this street says it. **Cloud City** (Ryan, 2026-10-23, for the test
+user Rando Calrissian's profile) is drawn in the Cloud City theme's declared `--cb-cloud-*` inks, randocloud.cloud's
+palette and a sunset over a sea of cloud, and keeps the games' rule: the city, its cloud cars and its sunset, nobody from
+the films, its credit naming Lucasfilm, and `make-profile.py` refusing the films' people and things by name in its code,
+its credit and the theme's line; the friendly edit is a caped figure on the deck. **A further such effect is a block of its own and
 an entry in `EFFECT_INKS`**, never a widening of another's block, and
 everything outside the blocks stays in the card's seven. `make-profile.py` holds all of it, and refuses a literal colour
 anywhere in `profile.js`. A
@@ -3833,7 +3837,8 @@ title and address, never an email or anything about anybody's life, and nothing 
 them drawn, the child whose drawings fill mansnhomepage above all. **Ryan's favourite games** (the same day) are a
 sixth group: each a game's palette and the shapes of its world, with **no character, logo, emblem or symbol of
 any game drawn** (no Triforce, no Aperture logo, no wolf medallion, no Eye), its studio and its trade mark's owner
-named. Skyrim's snow falls with `art-fall`, a translate down, the one new motion. Shadow of Mordor's
+named. Skyrim's snow falls with `art-fall`, a translate down, and Cloud City's cloud cars hold station with `art-hover`,
+forward and back and never round a loop, the only new motions. Shadow of Mordor's
 **rune medallions** are after the game's runes (Ryan's ask) and every mark is assembled in `rune()` from a
 stave, branches, a crescent, prongs and dots, so none is the game's and none a Tengwar or Cirth letter;
 down a side each medallion is turned back upright about its own centre. The radio's name never draws past 1.1 of its size in a

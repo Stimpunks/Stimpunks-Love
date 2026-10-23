@@ -61,6 +61,7 @@
     ['Gravitas One', .95, .04, 'uppercase', 400],
     ['Inter', 1.05, .12, 'uppercase', 400],
     ['JetBrains Mono', 1.05, .02, 'none', 400],
+    ['Jost', 1.15, .16, 'uppercase', 500],
     ['Leckerli One', 1.1, .01, 'none', 400],
     ['Libre Franklin', 1.1, .04, 'none', 400],
     ['Lilita One', 1.25, .04, 'uppercase', 400],
@@ -98,7 +99,8 @@
     ['mushrooms', 'Mushrooms'], ['leaves', 'Autumn leaves'], ['hearts', 'Hearts'], ['gears', 'Gears'],
     ['bubbles', 'Bubbles'], ['snow', 'Snowflakes'], ['flames', 'Flames'], ['moons', 'Moons'],
     ['notes', 'Music notes'], ['paws', 'Paw prints'], ['halo', 'Halo'], ['circuit', 'Circuit'],
-    ['butterflies', 'Butterflies'], ['crystals', 'Crystals'], ['lanterns', 'Jack-o’-lanterns'], ['otterring', 'Otters in kelp']
+    ['butterflies', 'Butterflies'], ['crystals', 'Crystals'], ['lanterns', 'Jack-o’-lanterns'], ['otterring', 'Otters in kelp'],
+    ['cloudcars', 'Cloud cars']
   ];
   /* profile:decorations:end */
 
@@ -113,7 +115,8 @@
   var FRAMES = [
     ['briar', 'Briar'], ['ivy', 'Ivy'], ['brass', 'Brass and rivets'], ['lights', 'Fairy lights'],
     ['stitches', 'Stitched patch'], ['film', 'Film strip'], ['circuit', 'Circuit board'], ['crystals', 'Crystals'],
-    ['garland', 'Flower garland'], ['starry', 'Starry night'], ['gate', 'Graveyard gate'], ['fronds', 'Kelp fronds']
+    ['garland', 'Flower garland'], ['starry', 'Starry night'], ['gate', 'Graveyard gate'], ['fronds', 'Kelp fronds'],
+    ['portholes', 'Portholes']
   ];
   /* profile:frames:end */
   /* profile:effects:begin */
@@ -122,7 +125,7 @@
     ['snow', 'Snowfall'], ['bubbles', 'Bubbles'], ['sparkles', 'Sparkles'], ['shooting', 'Shooting stars'],
     ['notes', 'Music notes'], ['hearts', 'Hearts'], ['lagoon', 'Black Leather Lagoon'], ['otters', 'Otters in the kelp'],
     ['fairy', 'Flying Fairy'], ['wolf', 'Howling Wolf'], ['starward', 'Starward Dreaming'], ['dolphins', 'Leaping Dolphins'],
-    ['autumn', 'Autumn Falls']
+    ['autumn', 'Autumn Falls'], ['cloudcity', 'Cloud City']
   ];
   /* profile:effects:end */
   /* AN EFFECT AFTER SOMEBODY ELSE'S WORK SAYS WHOSE, on the card it is on and
@@ -130,6 +133,7 @@
   var EFFECT_CREDITS = {
     otters: 'Effect after the Arcade\u2019s Otterly Adorbs, which is built on Helen Edgar\u2019s Stimpunks Solidarity and Otters and Star Stuff\u2019s zine No. 58, The Stone You Keep. The kelp does the holding, and floating fills nothing: these otters float because they want to.',
     lagoon: 'Effect after the street\u2019s Black Leather Lagoon and The Cramps, the band of Lux Interior and Poison Ivy. Their world, not them: nobody real is drawn, the creature is our own, and the poison ivy round the edge is a nod to her name.',
+    cloudcity: 'Effect after Cloud City, the city in the clouds of Bespin in The Empire Strikes Back (1980). Star Wars is a trade mark of Lucasfilm. The city, its cloud cars and the sunset are drawn here, and nobody from the films is.',
     fairy: 'Effect after Helen Edgar\u2019s Faery Yurt: its faeries fly here as they fly there, no two dressed alike, dropping petals under its fairy lights. The big fairy with butterfly wings is drawn here, in roses and moss, after the look of Helen\u2019s own profile.'
   };
 
@@ -234,6 +238,20 @@
   function flame(h, w) {
     return 'M0 ' + f(-h) + 'C' + f(w) + ' ' + f(-h * .4) + ' ' + f(w * .8) + ' 0 0 0C' + f(-w * .8) + ' 0 ' + f(-w) + ' ' + f(-h * .4) + ' 0 ' + f(-h) + 'Z';
   }
+  // A slice of a circle centred cx cy, R across, between two heights, traced
+  // round its edge: a striped sun is its bars, and needs no clipping.
+  function slice(cx, cy, R, y0, y1) {
+    var n = Math.max(3, Math.ceil((y1 - y0) / R * 12)), L = [], Rt = [], i, y, dx;
+    for (i = 0; i <= n; i++) {
+      y = y0 + (y1 - y0) * i / n;
+      dx = Math.sqrt(Math.max(0, R * R - (y - cy) * (y - cy)));
+      L.push(f(cx - dx) + ' ' + f(y));
+      Rt.unshift(f(cx + dx) + ' ' + f(y));
+    }
+    return 'M' + L.concat(Rt).join('L') + 'Z';
+  }
+  // A striped sun's bars, [from, to] in radii down from its top.
+  var SUN_BARS = [[0, .62], [.7, .98], [1.08, 1.3], [1.42, 1.58], [1.72, 1.84]];
   function crescent(r) { return 'M0 ' + f(-r) + 'A' + f(r) + ' ' + f(r) + ' 0 1 1 0 ' + f(r) + 'A' + f(r * .7) + ' ' + f(r) + ' 0 1 0 0 ' + f(-r) + 'Z'; }
 
   var D = {};
@@ -504,6 +522,51 @@
       var p = polar(b[1], b[0]);
       g.appendChild(svgEl('circle', { cx: f(p[0]), cy: f(p[1]), r: b[2] }, { stroke: '--cb-steel', sw: .9, cls: 'art-twinkle', d: j * .9, t: 4 }));
     });
+  };
+
+  /* CLOUD CARS (2026-10-23), to pair with the Cloud City effect: a bank of
+     cloud round the foot of the avatar with a striped sun going down behind
+     it, and two cloud cars going round the top, holding station. Nobody from
+     the films is drawn. In the card's own inks, like every decoration: in the
+     Cloud City theme the sun is its gold and peach and the cars its peach. */
+  var CARD_SUN = ['--cb-amber', '--cb-amber', '--cb-amber-2', '--cb-amber-2', '--cb-amber-2'];
+  var CARD_PODS = ['--cb-steel-2', '--cb-amber-2'];
+  // A cloud car, two pods side by side joined amidships, facing right, about
+  // twenty long at k 1: the pod behind in shade, glass forward, engines aft.
+  function cardCar(g, x, y, rot, k, i) {
+    var hold = svgEl('g', {}, { cls: 'art-hover', d: i * 1.6, t: 7 });
+    hold.style.removeProperty('fill');
+    at(g, x, y, rot).appendChild(hold);
+    var c = group(hold, 'scale(' + k3(k) + ')');
+    function pod(py, ink) {
+      c.appendChild(svgEl('rect', { x: -9, y: f(py - 2.1), width: 18, height: 4.2, rx: 2.1 }, { fill: ink, stroke: '--cb-case', sw: .8 }));
+      c.appendChild(svgEl('ellipse', { cx: 5.6, cy: f(py - .4), rx: 2.6, ry: 1.5 }, { fill: '--cb-steel' }));
+      c.appendChild(svgEl('circle', { cx: -9.4, cy: f(py), r: 1.2 }, { fill: '--cb-amber' }));
+    }
+    pod(-2, CARD_PODS[0]);
+    c.appendChild(svgEl('rect', { x: -3.4, y: -1.6, width: 5.4, height: 3.2, rx: .8 }, { fill: '--cb-steel-2' }));
+    pod(1.8, CARD_PODS[1]);
+  }
+  D.cloudcars = function (g) {
+    SUN_BARS.forEach(function (b, i) {
+      g.appendChild(svgEl('path', { d: slice(70, 118, 14, 104 + b[0] * 14, 104 + b[1] * 14) }, { fill: CARD_SUN[i], cls: i ? '' : 'art-glow', t: 6 }));
+    });
+    // the cloud round the lower half: clouds of three puffs each, along the
+    // ring, in shade underneath and then lit on top
+    var puffs = [];
+    each(6, 116, 244, function (a, i) {
+      var p = polar(i % 2 ? 61 : 58, a), rad = a * Math.PI / 180, tx = Math.cos(rad), ty = Math.sin(rad), big = i % 2 ? 7 : 8.4;
+      puffs.push([p[0] - tx * big * .9, p[1] - ty * big * .9 + 1.4, big * .66]);
+      puffs.push([p[0] + Math.sin(rad) * 1.4, p[1] - Math.cos(rad) * 1.4, big]);
+      puffs.push([p[0] + tx * big * .95, p[1] + ty * big * .95 + 1.2, big * .7]);
+    });
+    puffs.forEach(function (q) { g.appendChild(svgEl('circle', { cx: f(q[0]), cy: f(q[1] + 2.4), r: f(q[2]) }, { fill: '--cb-steel-2' })); });
+    puffs.forEach(function (q, i) {
+      g.appendChild(svgEl('circle', { cx: f(q[0] - .5), cy: f(q[1] - .6), r: f(q[2] * .84) }, { fill: '--cb-steel', cls: i % 7 ? '' : 'art-breathe', d: i * .5, t: 8 }));
+    });
+    var c1 = polar(64, -32), c2 = polar(66, 28);
+    cardCar(g, c1[0], c1[1], -32, 1, 0);
+    cardCar(g, c2[0], c2[1], 28, .84, 1);
   };
 
   function decoration(key) {
@@ -791,6 +854,49 @@
     }
   };
 
+  /* PORTHOLES (2026-10-23), to pair with the Cloud City effect: the curved
+     white wall of a city in the clouds, round windows all the way round with a
+     striped sun going down in each over a line of cloud, fluting between them,
+     and a sunburst round a bigger window in every corner. Each window's view is
+     turned back upright on whichever side it is on, as Shadow of Mordor's
+     medallions are on the radio's sides. In the card's own inks. */
+  var HOLE_SUN = ['--cb-amber', '--cb-amber', '--cb-amber-2'];
+  var UPRIGHT = { bottom: '1 0 0 -1', left: '0 1 1 0', right: '0 -1 1 0', bl: '1 0 0 -1', br: '1 0 0 -1' };
+  function porthole(g, x, y, R, i, side) {
+    g.appendChild(svgEl('circle', { cx: f(x), cy: f(y), r: f(R) }, { fill: '--cb-case', stroke: '--cb-steel', sw: f(R * .2) }));
+    var turn = UPRIGHT[side];
+    var view = turn ? group(g, 'translate(' + f(x) + ' ' + f(y) + ') matrix(' + turn.split(' ').join(',') + ',0,0) translate(' + f(-x) + ' ' + f(-y) + ')') : g;
+    var sun = svgEl('g', {}, { cls: 'art-glow', d: (i || 0) * .55 % 5, t: 6 });
+    sun.style.removeProperty('fill');
+    var sr = R * .52, sy = y + R * .14;
+    [[0, .62], [.74, 1], [1.12, 1.3]].forEach(function (b, j) {
+      sun.appendChild(svgEl('path', { d: slice(x, sy, sr, sy - sr + b[0] * sr, sy - sr + b[1] * sr) }, { fill: HOLE_SUN[j] }));
+    });
+    view.appendChild(sun);
+    var cy = y + R * .5, q = R * .2;
+    view.appendChild(svgEl('path', { d: 'M' + f(x - R * .72) + ' ' + f(cy) + 'q' + f(q) + ' ' + f(-q * 1.3) + ' ' + f(q * 2) + ' 0q' + f(q) + ' ' + f(-q * 1.6) + ' ' + f(q * 2) + ' 0q' + f(q) + ' ' + f(-q * 1.3) + ' ' + f(q * 2) + ' 0' }, { stroke: '--cb-steel-2', sw: f(R * .14) }));
+  }
+  F.portholes = {
+    side: function (g, L, side) {
+      g.appendChild(svgEl('rect', { x: 0, y: 1, width: L, height: 16, rx: 3 }, { fill: '--cb-bar', stroke: '--cb-steel-2', sw: 1 }));
+      for (var x = 16, i = 0; x < L; x += 32, i++) {
+        g.appendChild(svgEl('path', { d: 'M' + (x - 16) + ' 4V14M' + (x - 13.4) + ' 5.4V12.6M' + (x + 13.4) + ' 5.4V12.6' }, { stroke: '--cb-steel-2', sw: .8 }));
+        porthole(g, x, 9, 5.4, i, side);
+      }
+    },
+    corner: function (g, which) {
+      // a sunburst fanning out from the corner round a bigger window
+      var rays = '', a, t;
+      for (a = 6; a <= 84; a += 13) {
+        t = a * Math.PI / 180;
+        rays += 'M' + f(3 + 14 * Math.cos(t)) + ' ' + f(3 + 14 * Math.sin(t)) + 'L' + f(3 + 26 * Math.cos(t)) + ' ' + f(3 + 26 * Math.sin(t));
+      }
+      g.appendChild(svgEl('path', { d: rays }, { stroke: '--cb-amber-2', sw: 1.1 }));
+      g.appendChild(svgEl('path', { d: 'M3 30A27 27 0 0 0 30 3' }, { stroke: '--cb-amber', sw: 1.3 }));
+      porthole(g, 13, 13, 9, 0, which);
+    }
+  };
+
   function stripLength() {
     var s = window.screen || {};
     return Math.max(1400, (s.width || 0) + 200, (s.height || 0) + 200);
@@ -805,7 +911,7 @@
       ['left', BAND, L, '0 1 1 0 0 0'], ['right', BAND, L, '0 1 -1 0 ' + BAND + ' 0']].forEach(function (sd) {
       var side = el('div', 'pf-frame__side pf-frame__' + sd[0]);
       var s = plainSvg(sd[1], sd[2]);
-      fr.side(group(s, 'matrix(' + sd[3].split(' ').join(',') + ')' + up), L / SCALE);
+      fr.side(group(s, 'matrix(' + sd[3].split(' ').join(',') + ')' + up), L / SCALE, sd[0]);
       side.appendChild(s);
       box.appendChild(side);
     });
@@ -2963,6 +3069,199 @@
     pass: { motif: 'aufall', from: 'top', n: 8, size: 15, t: 26, drift: 16 }
   };
   /* effect:autumn:end */
+
+  /* effect:cloudcity:begin */
+  /* CLOUD CITY (Ryan, 2026-10-23: "Create a new CB/profile theme called
+     Cloud City inspired by Cloud City in Star Wars. Create a profile effect for
+     Cloud City as well as the full complement of profile customizations"), after
+     the city in the clouds of Bespin in The Empire Strikes Back (1980). Drawn in
+     the Cloud City theme's declared --cb-cloud-* inks, and make-profile.py
+     holds this block to them: a sunset over a sea of cloud is a light no
+     card's seven inks can be relied on for. NOBODY FROM THE FILMS IS DRAWN and
+     no emblem of theirs: the city, its cloud cars and the sunset are drawn
+     here, and make-profile.py refuses the films' people by name in this block,
+     its credit and the theme's line. Nothing makes a sound and nothing flashes.
+
+     The still part is dusk over the banner's right-hand part: the sky going
+     from night through rose to gold, a few stars still out, a striped sun going
+     down behind a sea of cloud, the city standing out of it on its stalk with
+     its windows lit, and two cloud cars holding station beside it. Where
+     drawings move, the cloud drifts, the cars hold station, some windows come
+     and go and the sun's glow breathes. The opening, on the Lagoon's
+     sixty-second clock: the sunset comes up over the profile with a sea of
+     cloud along its foot, the city rises out of the cloud at the right, its
+     windows lighting from the top down, the sun sinks at the left, and a pair
+     of cloud cars flies out from the city towards you, about nine seconds of
+     every sixty. The pass is cloud cars crossing the profile. */
+  var CC_SUN = ['--cb-cloud-amber', '--cb-cloud-amber', '--cb-cloud-amber-2', '--cb-cloud-amber-2', '--cb-cloud-rose'];
+  // a cloud car's two pods, the one behind in shade
+  var CC_PODS = ['--cb-cloud-car-2', '--cb-cloud-car'];
+  // A STRIPED SUN centred cx cy, R across, its glow behind it.
+  function ccSun(g, cx, cy, R, defs, still) {
+    var halo = svgEl('g', {}, { cls: still ? '' : 'fx-breathe', t: 9 });
+    halo.style.removeProperty('fill');
+    if (defs) halo.style.setProperty('filter', fxBlur(defs, f(R * .25)));
+    halo.appendChild(svgEl('circle', { cx: f(cx), cy: f(cy), r: f(R * 1.7), 'fill-opacity': '.18' }, { fill: '--cb-cloud-amber-2' }));
+    halo.appendChild(svgEl('circle', { cx: f(cx), cy: f(cy), r: f(R * 1.3), 'fill-opacity': '.22' }, { fill: '--cb-cloud-amber' }));
+    g.appendChild(halo);
+    SUN_BARS.forEach(function (b, i) {
+      g.appendChild(svgEl('path', { d: slice(cx, cy, R, cy - R + b[0] * R, cy - R + b[1] * R) }, { fill: CC_SUN[i] }));
+    });
+  }
+  // A SEA OF CLOUD w across from top down to h: puffs in shade underneath,
+  // their bodies, and the sun on their tops, the light on some breathing.
+  function ccSea(g, w, top, h, k, seed) {
+    var puffs = [], x = -10 * k, i = 0;
+    while (x < w + 10 * k) {
+      var rr = (6 + rnd(seed + i) * 6) * k;
+      puffs.push([x, top + rr * (.7 + rnd(seed + i + 50) * .5), rr]);
+      x += rr * (1.1 + rnd(seed + i + 90) * .5);
+      i++;
+    }
+    g.appendChild(svgEl('rect', { x: -20, y: f(top + 10 * k), width: f(w + 40), height: f(h - top) }, { fill: '--cb-cloud-shade' }));
+    puffs.forEach(function (q) { g.appendChild(svgEl('circle', { cx: f(q[0]), cy: f(q[1] + q[2] * .4), r: f(q[2]) }, { fill: '--cb-cloud-shade' })); });
+    puffs.forEach(function (q) { g.appendChild(svgEl('circle', { cx: f(q[0]), cy: f(q[1]), r: f(q[2] * .92) }, { fill: '--cb-cloud-puff' })); });
+    puffs.forEach(function (q, j) {
+      g.appendChild(svgEl('ellipse', { cx: f(q[0] - q[2] * .1), cy: f(q[1] - q[2] * .44), rx: f(q[2] * .7), ry: f(q[2] * .34) }, { fill: '--cb-cloud-glow', cls: j % 4 ? '' : 'fx-breathe', d: j * .9 % 7, t: 9 }));
+    });
+  }
+  // [across from the middle, how tall, how wide] in sixteenths of the city's
+  // half-width: towers crowded on the deck, the highest near its middle.
+  var CC_TOWERS = [[-12, 2.6, 2.6], [-9.4, 4.6, 2.4], [-6.8, 7, 2.6], [-4.2, 9.6, 2.4], [-1.6, 12.2, 2.4], [.8, 15, 2],
+    [3.2, 11, 2.6], [5.8, 8.4, 2.4], [8.4, 6, 2.6], [11, 3.6, 2.4], [13.2, 2, 2.2]];
+  // THE CITY ON ITS STALK, its deck's middle at cx y and R from there to its
+  // rim: the underside narrowing into a stalk that goes down to base, the
+  // towers with their windows, the deck, the rim catching the sunset under it,
+  // and the windows round the rim. o.win is a window's class, and o.step how
+  // far apart in time the windows light, from the top down.
+  function ccCity(g, cx, y, R, base, o) {
+    o = o || {};
+    var s = R / 16, lw = Math.max(.4, .18 * s), top = y - 15 * s;
+    function lit(wx, wy) {
+      return o.step != null ? { fill: '--cb-cloud-window', cls: o.win, d: (wy - top) / (17 * s) * o.step * 20 } :
+        { fill: '--cb-cloud-window', cls: rnd(wx * 7 + wy) < .3 ? o.win : '', d: rnd(wx + wy * 3) * 6, t: 8 };
+    }
+    g.appendChild(svgEl('rect', { x: f(cx - 1.4 * s), y: f(y + 4 * s), width: f(2.8 * s), height: f(Math.max(0, base - y - 4 * s)) }, { fill: '--cb-cloud-stalk' }));
+    g.appendChild(svgEl('path', { d: 'M' + f(cx - R) + ' ' + f(y) + 'C' + f(cx - R * .7) + ' ' + f(y + 3 * s) + ' ' + f(cx - 3 * s) + ' ' + f(y + 3.4 * s) + ' ' + f(cx - 1.8 * s) + ' ' + f(y + 7 * s) +
+      'L' + f(cx + 1.8 * s) + ' ' + f(y + 7 * s) + 'C' + f(cx + 3 * s) + ' ' + f(y + 3.4 * s) + ' ' + f(cx + R * .7) + ' ' + f(y + 3 * s) + ' ' + f(cx + R) + ' ' + f(y) + 'Z' },
+      { fill: '--cb-cloud-tower-2', stroke: '--cb-cloud-line', sw: lw }));
+    // the sunset caught under the deck
+    g.appendChild(svgEl('path', { d: 'M' + f(cx - R * .9) + ' ' + f(y + 1.2 * s) + 'C' + f(cx - R * .5) + ' ' + f(y + 3 * s) + ' ' + f(cx - 4 * s) + ' ' + f(y + 3.4 * s) + ' ' + f(cx - 2 * s) + ' ' + f(y + 6 * s), 'stroke-opacity': '.7' }, { stroke: '--cb-cloud-amber-2', sw: lw * 1.6 }));
+    CC_TOWERS.forEach(function (t) {
+      var tx = cx + t[0] * s, tw = t[2] * s, th = t[1] * s, wy;
+      g.appendChild(svgEl('rect', { x: f(tx - tw / 2), y: f(y - th), width: f(tw), height: f(th + s), rx: f(Math.min(tw / 2, .8 * s)) }, { fill: '--cb-cloud-tower', stroke: '--cb-cloud-line', sw: lw }));
+      g.appendChild(svgEl('rect', { x: f(tx + tw * .1), y: f(y - th + .6 * s), width: f(tw * .34), height: f(th - .6 * s), 'fill-opacity': '.75' }, { fill: '--cb-cloud-tower-2' }));
+      for (wy = y - th + 1.4 * s; wy < y - s; wy += 1.8 * s) {
+        if (rnd(tx * 3 + wy) < .6) g.appendChild(svgEl('rect', { x: f(tx - tw * .3), y: f(wy), width: f(tw * .34), height: f(.7 * s) }, lit(tx, wy)));
+      }
+    });
+    g.appendChild(svgEl('ellipse', { cx: f(cx), cy: f(y), rx: f(R), ry: f(1.7 * s) }, { fill: '--cb-cloud-tower', stroke: '--cb-cloud-line', sw: lw }));
+    g.appendChild(svgEl('path', { d: 'M' + f(cx - R) + ' ' + f(y) + 'A' + f(R) + ' ' + f(1.7 * s) + ' 0 0 0 ' + f(cx + R) + ' ' + f(y) }, { stroke: '--cb-cloud-amber-2', sw: Math.max(.6, .5 * s) }));
+    for (var wx = cx - R + 2 * s; wx < cx + R - 1.6 * s; wx += 2.4 * s) {
+      g.appendChild(svgEl('circle', { cx: f(wx), cy: f(y + .2 * s), r: f(Math.max(.45, .42 * s)) }, lit(wx, y)));
+    }
+    // a light on the highest tower
+    g.appendChild(svgEl('circle', { cx: f(cx + .8 * s), cy: f(y - 15.9 * s), r: f(Math.max(.5, .55 * s)) }, { fill: '--cb-cloud-amber', cls: 'fx-breathe', t: 5 }));
+  }
+  // A CLOUD CAR, two pods side by side joined amidships, seen from a little
+  // above, facing right, about twenty long at k 1: the pod behind in shade,
+  // glass forward and the engines aft.
+  function ccCar(g, x, y, k) {
+    var c = scaled(g, x, y, k);
+    function pod(py, ink) {
+      c.appendChild(svgEl('rect', { x: -9, y: f(py - 2.1), width: 18, height: 4.2, rx: 2.1 }, { fill: ink, stroke: '--cb-cloud-line', sw: .5 }));
+      c.appendChild(svgEl('ellipse', { cx: 5.6, cy: f(py - .4), rx: 2.6, ry: 1.5 }, { fill: '--cb-cloud-glass' }));
+      c.appendChild(svgEl('circle', { cx: -9.4, cy: f(py), r: 1.2 }, { fill: '--cb-cloud-amber' }));
+    }
+    pod(-2, CC_PODS[0]);
+    c.appendChild(svgEl('rect', { x: -3.4, y: -1.6, width: 5.4, height: 3.2, rx: .8 }, { fill: '--cb-cloud-car-2' }));
+    pod(1.8, CC_PODS[1]);
+    return c;
+  }
+  function ccScene() {
+    var s = fxSvg(380, 112, 'pf-fx__scene'), defs = fxDefs(s), g = group(s), i;
+    g.setAttribute('mask', fxFade(defs, 132, 196, 380, 112));
+    g.appendChild(paint(svgEl('rect', { x: 130, y: 0, width: 250, height: 112 }, {}),
+      fxGrad(defs, [0, 0, 0, 1], [[0, 1, { stop: '--cb-cloud-bar' }], [.3, 1, { stop: '--cb-cloud-sky' }], [.52, 1, { stop: '--cb-cloud-dusk' }],
+        [.68, 1, { stop: '--cb-cloud-rose' }], [.82, 1, { stop: '--cb-cloud-amber-2' }], [.94, 1, { stop: '--cb-cloud-amber' }]])));
+    for (i = 0; i < 16; i++) {
+      var sx = 140 + rnd(i + 600) * 236, sy = 3 + rnd(i + 630) * 26;
+      g.appendChild(svgEl('circle', { cx: f(sx), cy: f(sy), r: f(.45 + rnd(i + 660) * .7) }, { fill: '--cb-cloud-steel', cls: i % 3 ? '' : 'art-twinkle', d: i * .6 % 5, t: 5 }));
+    }
+    ccSun(g, 330, 74, 22, defs);
+    // far cloud low on the horizon, in the dusk
+    var far = svgEl('g', {}, { cls: 'fx-drift', t: 46 });
+    far.style.removeProperty('fill');
+    [[180, 82, 30, 3.4], [228, 86, 26, 3], [300, 84, 34, 3.2], [362, 80, 22, 2.6]].forEach(function (c) {
+      far.appendChild(svgEl('ellipse', { cx: c[0], cy: c[1], rx: c[2], ry: c[3], 'fill-opacity': '.8' }, { fill: '--cb-cloud-deep' }));
+    });
+    g.appendChild(far);
+    ccCity(g, 236, 46, 36, 104, { win: 'art-twinkle' });
+    var sea = svgEl('g', {}, { cls: 'fx-drift', t: 38 });
+    sea.style.removeProperty('fill');
+    ccSea(group(sea, 'translate(120 0)'), 280, 88, 112, .8, 700);
+    g.appendChild(sea);
+    // two cloud cars holding station beside the city
+    [[312, 30, .62, 0], [350, 46, .46, 1.8]].forEach(function (c) {
+      var hold = svgEl('g', {}, { cls: 'fx-cc-hold', d: c[3], t: 7 });
+      hold.style.removeProperty('fill');
+      ccCar(hold, c[0], c[1], c[2]);
+      g.appendChild(hold);
+    });
+    return s;
+  }
+  function ccMoment() {
+    var box = el('div', 'pf-fx__moment');
+    var sky = fxSvg(100, 100, 'pf-fx__cc-sky', 'none'), sd = fxDefs(sky);
+    sky.appendChild(paint(svgEl('rect', { x: 0, y: 0, width: 100, height: 100 }, {}),
+      fxGrad(sd, [0, 0, 0, 1], [[0, .95, { stop: '--cb-cloud-bar' }], [.28, .92, { stop: '--cb-cloud-sky' }], [.5, .9, { stop: '--cb-cloud-dusk' }],
+        [.68, .9, { stop: '--cb-cloud-rose' }], [.84, .9, { stop: '--cb-cloud-amber-2' }], [1, .9, { stop: '--cb-cloud-amber' }]])));
+    box.appendChild(sky);
+    // the sun going down at the left
+    var sun = fxSvg(100, 100, 'pf-fx__cc-sun'), sunDefs = fxDefs(sun);
+    ccSun(group(sun), 50, 50, 34, sunDefs, true);
+    box.appendChild(sun);
+    // the city, rising out of the cloud at the right, its windows lighting
+    var big = fxSvg(300, 360, 'pf-fx__cc-city', 'xMaxYMax meet');
+    ccCity(group(big), 160, 150, 118, 360, { win: 'fx-mo-cc-win', step: .08 });
+    box.appendChild(big);
+    // the sea of cloud along the foot, a nearer bank in front of a farther
+    var sea = fxSvg(400, 120, 'pf-fx__cc-sea', 'xMidYMax slice');
+    ccSea(group(sea), 400, 40, 120, 1.2, 900);
+    ccSea(group(sea), 400, 74, 120, 1.6, 960);
+    box.appendChild(sea);
+    // a pair of cloud cars flying out from the city towards you
+    [[0, -46, -12, 46], [.45, -38, 4, 38]].forEach(function (c, j) {
+      var sp = fxSpan(box, 'pf-fx__cc-car', 66 + j * 4, 40 + j * 6, c[0]);
+      sp.style.setProperty('--px', f(c[1]));
+      sp.style.setProperty('--py', f(c[2]));
+      var t = tiny(c[3]);
+      ccCar(t, 0, 0, 1.1);
+      sp.appendChild(t);
+    });
+    return box;
+  }
+  M.ccloud = function (g) {
+    [[-6, 2, 5.4], [0, -1, 7], [6.4, 1.6, 5], [10, 3.4, 3.4], [-10, 3.6, 3.2]].forEach(function (q) { g.appendChild(svgEl('circle', { cx: q[0], cy: f(q[1] + 2), r: q[2] }, { fill: '--cb-cloud-shade' })); });
+    [[-6, 2, 5.4], [0, -1, 7], [6.4, 1.6, 5], [10, 3.4, 3.4], [-10, 3.6, 3.2]].forEach(function (q) { g.appendChild(svgEl('circle', { cx: q[0], cy: q[1], r: f(q[2] * .9) }, { fill: '--cb-cloud-puff' })); });
+    g.appendChild(svgEl('ellipse', { cx: -1, cy: -4, rx: 5, ry: 2.4 }, { fill: '--cb-cloud-glow' }));
+    g.appendChild(svgEl('ellipse', { cx: 6, cy: -.8, rx: 3, ry: 1.6 }, { fill: '--cb-cloud-glow' }));
+  };
+  M.ccar = function (g) { ccCar(g, 0, 0, .58); };
+  M.csun = function (g) {
+    ccSun(g, 0, -1, 8.4, null, true);
+    [[-6, 7, 4.4], [0, 8, 5.4], [6.4, 7.4, 4.2]].forEach(function (q) { g.appendChild(svgEl('circle', { cx: q[0], cy: q[1], r: q[2] }, { fill: '--cb-cloud-puff' })); });
+    g.appendChild(svgEl('ellipse', { cx: 0, cy: 4.4, rx: 4, ry: 1.6 }, { fill: '--cb-cloud-glow' }));
+  };
+  E.cloudcity = {
+    scene: function (box) {
+      box.appendChild(ccScene());
+      box.appendChild(ccMoment());
+    },
+    edge: [['ccloud', 'tl', 0, 22, 0, [16, 14]], ['ccar', 'top', .58, 16], ['ccloud', 'bl', 0, 20, 0, [16, -12]], ['csun', 'br', 0, 22, 0, [-16, -14]], ['ccar', 'right', .42, 13]],
+    pass: { motif: 'ccar', from: 'left', n: 3, size: 26, t: 32, drift: 10 }
+  };
+  /* effect:cloudcity:end */
 
   var EDGE_AT = {
     tl: function () { return [0, 0]; }, tr: function () { return [100, 0]; },

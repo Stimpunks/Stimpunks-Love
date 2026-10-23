@@ -201,6 +201,8 @@ CB_SCHEMES = {
                           lcd="#051820", amber="#F4C25A", amber2="#8EE3CF"),
     "Fairy Lights":   dict(case="#1D1029", bar="#140A1E", steel="#F8EEE4", steel2="#CDB6DF",
                           lcd="#0E0716", amber="#F7C96A", amber2="#F4A3C8"),
+    "Cloud City":     dict(case="#1C2452", bar="#141A3E", steel="#FFF6EA", steel2="#B9BEDA",
+                          lcd="#0E1330", amber="#FFD166", amber2="#FF8A5B"),
 }
 CB_HIGH = "High contrast"
 # What each part carries, as the amber set's pairs below say it.
@@ -5301,6 +5303,21 @@ CB_ORNAMENT = [
     ("Fairy Lights", "#F27BD6", "a sparkle, magenta"),
     ("Fairy Lights", "#F6EA7A", "a sparkle, yellow"),
     ("Fairy Lights", "#8FF0A8", "a sparkle, green"),
+    ("Cloud City", "#3A3577", "the evening sky high up, laid in a gradient, held low on purpose"),
+    ("Cloud City", "#8E4A8C", "the dusk in the sky, and the afterglow's highest lines"),
+    ("Cloud City", "#E8577A", "the rose in the sunset, and the striped sun's lowest bar"),
+    ("Cloud City", "#FFDCC8", "the sun on the tops of the cloud"),
+    ("Cloud City", "#E7A3AE", "the cloud"),
+    ("Cloud City", "#9A7BA8", "the cloud in shade underneath"),
+    ("Cloud City", "#5B4F8C", "far cloud low on the horizon, held low on purpose"),
+    ("Cloud City", "#F6EEE6", "the city's towers and deck in the sun"),
+    ("Cloud City", "#B7B3D3", "the city in shade, its underside"),
+    ("Cloud City", "#2A3263", "the city's outline and a cloud car's, held low on purpose"),
+    ("Cloud City", "#FFE7A0", "a lit window"),
+    ("Cloud City", "#6E6A9C", "the city's stalk"),
+    ("Cloud City", "#E06A3A", "a cloud car"),
+    ("Cloud City", "#A84A2A", "a cloud car's pod behind, in shade"),
+    ("Cloud City", "#A8D4F0", "a cloud car's glass"),
 ]
 for _theme, _hex, _what in CB_ORNAMENT:
     ORNAMENT.setdefault(_hex.lower(), f"cb, {_theme}: {_what}, "

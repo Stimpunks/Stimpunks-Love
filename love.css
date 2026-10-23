@@ -1595,6 +1595,19 @@
   --cb-fairy-wing-a: #B98BEA; --cb-fairy-wing-b: #F6A9D9; --cb-fairy-wing-c: #7FE0DE; --cb-fairy-vein: #3B1650;
   --cb-fairy-dusk: #5A1F72; --cb-fairy-glow: #FFD3E2;
   --cb-fairy-spark-1: #6FE6EE; --cb-fairy-spark-2: #F27BD6; --cb-fairy-spark-3: #F6EA7A; --cb-fairy-spark-4: #8FF0A8;
+  /* CLOUD CITY (2026-10-23), after the city in the clouds of Bespin in The
+     Empire Strikes Back, to pair with the profile effect of the same name:
+     the navy, cream, gold, peach and rose of randocloud.cloud, which the theme
+     was made for. Then the drawing's own inks, which the effect is drawn in
+     too: the sky from night to dusk, a sea of cloud lit on top and in shade
+     under, the city in sun and in shade with its outline and its lit windows,
+     its stalk, and cloud cars with their glass. None carries a word. */
+  --cb-cloud-case: #1C2452; --cb-cloud-bar: #141A3E; --cb-cloud-steel: #FFF6EA; --cb-cloud-steel-2: #B9BEDA;
+  --cb-cloud-lcd: #0E1330; --cb-cloud-amber: #FFD166; --cb-cloud-amber-2: #FF8A5B;
+  --cb-cloud-sky: #3A3577; --cb-cloud-dusk: #8E4A8C; --cb-cloud-rose: #E8577A;
+  --cb-cloud-glow: #FFDCC8; --cb-cloud-puff: #E7A3AE; --cb-cloud-shade: #9A7BA8; --cb-cloud-deep: #5B4F8C;
+  --cb-cloud-tower: #F6EEE6; --cb-cloud-tower-2: #B7B3D3; --cb-cloud-line: #2A3263; --cb-cloud-window: #FFE7A0;
+  --cb-cloud-stalk: #6E6A9C; --cb-cloud-car: #E06A3A; --cb-cloud-car-2: #A84A2A; --cb-cloud-glass: #A8D4F0;
   --cb-mordor-lava: #FF5A1E; --cb-mordor-glow: #FFB040; --cb-mordor-rock: #2A2626; --cb-mordor-ash: #6A625E; --cb-mordor-wraith: #CFE8FF; --cb-mordor-rune: #C9A54A; --cb-mordor-blue: #6FA8D8;
 
   /* PROFILE EFFECTS IN PALETTES OF THEIR OWN (Ryan, 2026-10-19): Howling
