@@ -10489,7 +10489,7 @@ export const OFFICE_STATUSES = ["Open", "Granted", "Denied"];
 export const OFFICE_CURRENCY = "USD";
 export const OFFICE_PIPELINES = [{"name": "Mutual Aid", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}, {"name": "Creator Grants", "stages": [{"name": "Received", "status": "Open"}, {"name": "Holding", "status": "Open"}, {"name": "Holding (No Updates)", "status": "Open"}, {"name": "Agreement Sent", "status": "Open"}, {"name": "Granted", "status": "Granted"}, {"name": "Denied", "status": "Denied"}]}];
 export const OFFICE_CASES = {"types": ["Connection Request", "Volunteer Application", "Join Request"], "statuses": [{"name": "New", "open": true}, {"name": "Assigned", "open": true}, {"name": "Replied", "open": true}, {"name": "Closed", "open": false}, {"name": "Spam", "open": false}], "priorities": ["Low", "Normal", "High", "Urgent"], "default_priority": "Normal"};
-export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1", "lists": [{"asks": "Would you like to be added to our Members Only mailing list?", "tag": "Members"}, {"asks": "Would you like to be added to our Monthly Newsletter mailing list?", "tag": "Newsletter Mailing List"}], "members": {"page": 85372, "address": "https://stimpunks.org/community/individuals/", "name": "Name for the Members page (optional)", "words": "Profile text for the Members page (optional)", "link": "Website or Blog"}, "organizations": {"page": 85410, "address": "https://stimpunks.org/community/organizations/", "name": "Organization Name", "words": "Profile text for the Organizations page", "link": "Organization Website or Blog", "logo": "Organization Logo", "grounds": [["custom-color-2", "pale teal"], ["custom-color-4", "pale green"], ["custom-color-5", "pale yellow"], ["custom-color-6", "pale peach"], ["custom-color-7", "pale lavender"], ["custom-color-8", "pale pink"]]}}};
+export const OFFICE_INTAKE = {"mutual_aid": {"record": "grant", "form": "Request Aid", "prefix": "Aid Request", "pipeline": "Mutual Aid", "amount": 500}, "creator_grant": {"record": "grant", "form": "Request Creator Grant", "prefix": "Creator Grant Request", "pipeline": "Creator Grants", "amount": 3000}, "connection": {"record": "case", "form": "Connect", "prefix": "Connection Request", "type": "Connection Request"}, "volunteer": {"record": "case", "form": "Volunteer", "prefix": "Volunteer Application", "type": "Volunteer Application"}, "community": {"record": "case", "form": "Join Our Community", "prefix": "Join Request", "type": "Join Request", "task": "pJoinOnboard1", "lists": [{"asks": "Would you like to be added to our Members Only mailing list?", "tag": "Members"}, {"asks": "Would you like to be added to our Monthly Newsletter mailing list?", "tag": "Newsletter Mailing List"}], "members": {"page": 85372, "address": "https://stimpunks.org/community/individuals/", "name": "Name for the Members page (optional)", "words": "Profile text for the Members page (optional)", "link": "Website or Blog"}, "organizations": {"page": 85410, "address": "https://stimpunks.org/community/organizations/", "name": "Organization Name", "words": "Profile text for the Organizations page", "link": "Organization Website or Blog", "logo": "Organization Logo", "grounds": [["custom-color-2", "pale teal"], ["custom-color-4", "pale green"], ["custom-color-5", "pale yellow"], ["custom-color-6", "pale peach"], ["custom-color-7", "pale lavender"], ["custom-color-8", "pale pink"]]}}};
 export const OFFICE_DASHBOARD = {"active_cap": 100};
 /* office:settings:end */
 const OFFICE_GONE = 'office-gone';     // EspoCRM's ids of records brought over and deleted here, so a later import leaves them deleted
@@ -12083,9 +12083,20 @@ export async function mailSentFor(p, s = store(), now = Date.now()) {
    topics posted to last that the reader may read, from the forums' own Latest
    (forumLatest), so a category the reader cannot see is never in it. Weeks are the
    last seven days by the street's clock, and the one before. The sentences are
-   built on the page from these numbers and nothing else. */
+   built on the page from these numbers and nothing else.
+
+   FORM ENTRIES (Ryan's ask, 2026-10-23: the latest WPForms entries from
+   stimpunks.org on the dashboard) are the grant requests and cases that carry a
+   WPForms entry number, the highest first, which is the order stimpunks.org's
+   forms took them in, whether they came through the intake or EspoCRM's import.
+   Each is named by its form (`form` in OFFICE_INTAKE): the type whose prefix and
+   entry number begin its name, as the intake and EspoCRM's plugin named it, or
+   else the type that makes its pipeline or case type. Beside them, how many came
+   from each form this week and the week before. An entry from a form the office
+   takes nothing from, or spam, never came here, so the numbers skip. */
 export const NIGHTS_SHOWN = 90;
 export const CB_DAYS_SHOWN = 30;
+export const FORM_ENTRIES_SHOWN = 8;
 const dayBefore = (d, n) => new Date(Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10) - n)).toISOString().slice(0, 10);
 export async function officeDashboard(who, s = store(), now = Date.now()) {
   if (!officeAllow(who)) return null;
@@ -12156,14 +12167,29 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   // was added can be years after it was submitted, for one brought over from EspoCRM in a batch (Ryan's report,
   // 2026-10-22: 2023's requests at the top of Newest).
   const cameFirst = (list, n) => list.slice().sort((a, b) => (came(a) < came(b) ? 1 : came(a) > came(b) ? -1 : (b.t || 0) - (a.t || 0))).slice(0, n);
+  const intakes = Object.values(OFFICE_INTAKE);
+  const formOf = (rec, x) => {
+    const v = intakes.find((y) => y.record === rec && String(x.name || '').startsWith(`${y.prefix} ${x.form}:`))
+      || intakes.find((y) => y.record === rec && (rec === 'grant' ? y.pipeline === x.pipeline : y.type === x.type));
+    return v ? v.form : null;
+  };
+  const entries = [...grants.map((x) => ['grant', x]), ...cases.map((x) => ['case', x])]
+    .filter(([, x]) => Number.isInteger(x.form) && x.form > 0)
+    .map(([rec, x]) => ({ rec, x, form: formOf(rec, x) }))
+    .sort((a, b) => b.x.form - a.x.form);
+  const forms = { week: intakes.map((v) => ({ form: v.form,
+    now: entries.filter((e) => e.form === v.form && inWeek(came(e.x))).length,
+    before: entries.filter((e) => e.form === v.form && inLast(came(e.x))).length })) };
   const [quickbooks, givebutter, latest, recentKept, mailCounts] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now),
     readSealed(MAIL_RECENT, s), readSealed(MAIL_COUNTS, s)]);
   const recentMail = recentKept || await seedRecentMail(s);
   // A topic's category by its path, as the forums name it: Team Docs › Notes.
   const catPath = (slug) => { const names = []; for (let c = forumCat(slug, now); c; c = c.parent ? forumCat(c.parent, now) : null) names.unshift(c.name); return names.join(' › '); };
-  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, nights, firstNight, cb, quickbooks, givebutter,
+  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, forms, nights, firstNight, cb, quickbooks, givebutter,
     mailbox: { ready: mailReady(), counted: mailCounts ? { read: mailCounts.read, counts: mailCounts.counts } : null },
     recent: {
+      forms: entries.slice(0, FORM_ENTRIES_SHOWN).map(({ rec, x, form }) => ({ entry: x.form, form, record: rec, id: x.id, name: x.name,
+        number: rec === 'case' ? x.number : null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
       mail: ((recentMail && recentMail.mail) || []).slice(0, MAIL_RECENT_SHOWN).map((x) => ({ id: x.id, at: x.at, subject: x.subject, out: !!x.out,
         contacts: x.contacts.map(nameOf).filter(Boolean) })),
       grants: cameFirst(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),

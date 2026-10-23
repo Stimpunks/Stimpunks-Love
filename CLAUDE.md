@@ -5804,7 +5804,10 @@ know open it, and `dashboardView` writes `#/dashboard` into the address so it ha
 so a link meaning the contacts list says that, never `#/`. **Its Newest includes the forum topics posted to last** (the same
 day), from `forumLatest` for whoever is reading, so a category they cannot read is never there; `make-office.py` refuses
 the dashboard reading the forums any other way. **And the newest email filed**, from `office-mail-recent` (the team
-mailbox's paragraph, above).
+mailbox's paragraph, above). **And, first, the latest form entries** (Ryan's ask, 2026-10-23): the grant requests and
+cases carrying a WPForms entry number, the highest first, each named by `form` in `data/office.json`'s intake (the
+form's title on stimpunks.org, which `make-office.py` requires of every type), worked out and kept nowhere. The friendly
+edit is calling a gap in the numbers a missed entry: spam and the forms the office takes nothing from skip numbers too.
 
 **QUICKBOOKS IS READ AND NEVER WRITTEN, AND ITS TOKENS NEVER LEAVE THE SERVER.** Ryan's choice, 2026-10-21: an Intuit app
 of ours (`CB_QB_CLIENT_ID`, `CB_QB_CLIENT_SECRET` in Netlify), connected from the dashboard by a director. `qbConnect` keeps a

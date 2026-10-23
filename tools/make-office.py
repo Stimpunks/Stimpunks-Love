@@ -176,8 +176,15 @@ def settings(data):
                       and len({g[0] for g in o["grounds"]}) == len(o["grounds"]))
                 if not ok:
                     problems.append(f"{DATA.name}: intake.{k}'s organizations names a page on stimpunks.org, the four questions for its name, words, link and logo, and its grounds, each a custom-color slug and its name in words, no slug twice.")
-            if isinstance(v, dict) and set(v) - {"record", "prefix", "pipeline", "amount", "type", "task", "lists", "members", "organizations"}:
-                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'prefix', 'pipeline', 'amount', 'type', 'task', 'lists', 'members', 'organizations'}))}, which the intake does not read.")
+            # Every form type names its form, as stimpunks.org titles it, which the dashboard's
+            # Form entries says beside each entry; two types naming one form would be one form twice.
+            if isinstance(v, dict) and not (isinstance(v.get("form"), str) and 0 < len(v["form"].strip()) <= 80 and "\n" not in v["form"]):
+                problems.append(f"{DATA.name}: intake.{k} names its form, the WPForms form's title on stimpunks.org, in 80 characters at most.")
+            if isinstance(v, dict) and set(v) - {"record", "form", "prefix", "pipeline", "amount", "type", "task", "lists", "members", "organizations"}:
+                problems.append(f"{DATA.name}: intake.{k} holds {', '.join(sorted(set(v) - {'record', 'form', 'prefix', 'pipeline', 'amount', 'type', 'task', 'lists', 'members', 'organizations'}))}, which the intake does not read.")
+        forms = [v.get("form") for v in intake.values() if isinstance(v, dict)]
+        if len(set(forms)) != len(forms):
+            problems.append(f"{DATA.name}: no two intake types name the same form.")
     cap = (data.get("dashboard") or {}).get("active_cap")
     if not isinstance(cap, int) or isinstance(cap, bool) or cap < 1:
         problems.append(f"{DATA.name}: dashboard.active_cap is a whole number of grant requests, 1 or more.")

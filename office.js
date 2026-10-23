@@ -2777,6 +2777,21 @@
       f.appendChild(ul);
       return f;
     }
+    // The latest of stimpunks.org's form entries, the highest entry number first, each with
+    // the form it came from and the record it made, and how many came from each form this week.
+    var fe = list('Form entries', null, d.recent.forms, function (li, x) {
+      var a = el('a', null, (x.form || 'A form') + ', entry ' + x.entry);
+      a.href = (x.record === 'grant' ? '#/g/' : '#/k/') + x.id; li.appendChild(a);
+      li.appendChild(document.createTextNode(' · ' + [x.contactName, x.submitted ? dayWords(x.submitted) : null,
+        x.record === 'grant' ? 'a grant request' : 'case #' + x.number].filter(Boolean).join(', ')));
+    });
+    function byForm(pick) {
+      var some = d.forms.week.filter(function (w) { return w[pick]; });
+      return some.length ? some.map(function (w) { return w.form + ' ' + w[pick]; }).join(', ') : 'none';
+    }
+    fe.appendChild(quiet('This week, by form: ' + byForm('now') + '. The week before: ' + byForm('before') + '.'));
+    fe.appendChild(quiet('Entries from forms the office takes nothing from, and spam, never come here, so the numbers skip.'));
+    newest.appendChild(fe);
     newest.appendChild(list('Grant requests', '#/grants', d.recent.grants, function (li, x) {
       var a = el('a', null, x.name); a.href = '#/g/' + x.id; li.appendChild(a);
       li.appendChild(document.createTextNode(' · ' + x.pipeline + ', ' + x.stage + (x.submitted ? ', ' + dayWords(x.submitted) : '')));

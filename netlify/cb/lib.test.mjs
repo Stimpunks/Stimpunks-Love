@@ -4206,7 +4206,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readContacts, officeContacts, officeContact, saveContact, removeContact, importContacts,
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
-  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail,
+  mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail, FORM_ENTRIES_SHOWN,
   officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK, caseListing, listingLine, listingLook, listingAdd, membersList, LISTING_MAX, caseOrg, orgFields, orgHtml, orgsList, orgLook, orgAdd, bareImage,
@@ -5126,6 +5126,34 @@ test('email filed before the list existed is put on it from its contacts’ own 
   assert.equal(again.length, MAIL_RECENT_KEEP);
   await withOfficeKey(null, async () => assert.equal(await seedRecentMail(s), null));
 })));
+
+test('the dashboard’s form entries are the records with an entry number, the highest first, each named by its form', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const before = new Date(T0 - 10 * 864e5).toISOString().slice(0, 10);
+  await officeIntake({ type: 'mutual_aid', entry: 101, submitted: before, email: 'jane@example.com', first: 'Jane', last: 'Doe' }, s, T0);
+  await officeIntake({ type: 'volunteer', entry: 104, email: 'solo@example.com' }, s, T0 + 1);
+  await officeIntake({ type: 'connection', entry: 103, name: 'No Mail' }, s, T0 + 2);
+  await officeIntake({ type: 'creator_grant', entry: 102, email: 'mary@example.com', first: 'Mary', last: 'Smith' }, s, T0 + 3);
+  // A case made by hand has no entry and is not one.
+  await saveCase(TRYAN, { name: 'By hand', type: 'Connection Request' }, s, T0 + 4);
+  // Renamed, a case is named by its type; moved to another pipeline, a grant request still by its name.
+  const k = (await readCases(s)).find((x) => x.form === 103);
+  await saveCase(TRYAN, { id: k.id, name: 'Somebody' }, s, T0 + 5);
+  const g = (await readGrants(s)).find((x) => x.form === 102);
+  await saveGrant(TRYAN, { id: g.id, pipeline: 'Mutual Aid' }, s, T0 + 6);
+  const d = await officeDashboard(TRYAN, s, T0 + 7);
+  assert.deepEqual(d.recent.forms.map((x) => [x.entry, x.form, x.record]),
+    [[104, 'Volunteer', 'case'], [103, 'Connect', 'case'], [102, 'Request Creator Grant', 'grant'], [101, 'Request Aid', 'grant']]);
+  assert.deepEqual([d.recent.forms[0].contactName, d.recent.forms[1].contactName, d.recent.forms[3].contactName], ['solo@example.com', null, 'Jane Doe']);
+  assert.equal(d.recent.forms[0].number, (await readCases(s)).find((x) => x.form === 104).number);
+  assert.equal(d.recent.forms[2].number, null);
+  assert.deepEqual(d.forms.week.map((w) => [w.form, w.now, w.before]),
+    [['Request Aid', 0, 1], ['Request Creator Grant', 1, 0], ['Connect', 1, 0], ['Volunteer', 1, 0], ['Join Our Community', 0, 0]]);
+  for (let i = 0; i < FORM_ENTRIES_SHOWN; i++) await officeIntake({ type: 'connection', entry: 200 + i, name: `More ${i}` }, s, T0 + 10 + i);
+  const more = (await officeDashboard(TRYAN, s, T0 + 30)).recent.forms;
+  assert.equal(more.length, FORM_ENTRIES_SHOWN);
+  assert.equal(more[0].entry, 200 + FORM_ENTRIES_SHOWN - 1);
+}));
 
 test('the mailbox’s counts are numbers only, sealed, replaced by the next, and a count not finished is not a number', () => withOfficeKey(OFFICE_TEST_KEY, () => withMailKey(MAIL_TEST_KEY, async () => {
   const s = memoryStore({ etagOnRead: true });

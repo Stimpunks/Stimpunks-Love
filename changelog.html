@@ -41,6 +41,12 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-23-form-entries-on-the-dashboard">2026-10-23 &mdash; stimpunks.org&rsquo;s form entries on the office&rsquo;s dashboard</h2>
+  <ul>
+    <li><strong>The office&rsquo;s dashboard lists the latest form entries from stimpunks.org</strong>, first under Newest (Ryan&rsquo;s ask): the highest WPForms entry number first, each with the form it came from (Request Aid, Request Creator Grant, Connect, Volunteer or Join Our Community), who sent it, the day, and the grant request or case it made, linked. Under them, how many came from each form this week and the week before.</li>
+    <li><strong>It is worked out from the office&rsquo;s own records</strong> each time the dashboard opens and keeps nothing new. An entry from a form the office takes nothing from, or spam, never reaches the office, so the numbers skip, and the list says so. Each form type in <code>data/office.json</code> now names its form as stimpunks.org titles it, and <code>tools/make-office.py</code> refuses one that does not, or two that name the same form. Changed: <code>netlify/cb/lib.mjs</code>, <code>office.js</code>, <code>data/office.json</code>, <code>tools/make-office.py</code>.</li>
+  </ul>
+
   <h2 id="2026-10-23-moderator-calls">2026-10-23 &mdash; A call for a moderator waits on the desk</h2>
   <ul>
     <li><strong>When somebody who is not a moderator calls <b>@moderator</b></strong>, on a channel or in a forum post, <strong>a note goes on the desk in the Moderators&rsquo; room</strong> as well as telling the moderators who asked to hear (Ryan&rsquo;s call). So a call made while none of them was listening is still waiting: who called, when, where, linked, and the words they called with. An edit leaves one only if it newly calls.</li>
