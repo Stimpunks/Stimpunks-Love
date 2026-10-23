@@ -511,8 +511,9 @@ def check_js():
     if not wq or re.search(r"\bq\b|searched", wq.group(0).replace("f.sort", "").replace("f.dir", "")):
         problems.append(f"{JS.name}: a search must not go into the address, which goes into the browser's history.")
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        # Pages it links to (tasks, the forums' topics, the privacy page) are not calls.
-        if url not in ("/cb/office", "/cb.css", "/office.css", "/privacy.html", "/tasks.html", "/forum.html"):
+        # Pages it links to (tasks, the forums' topics, the privacy page, the member map on the
+        # Community Center's wall) are not calls.
+        if url not in ("/cb/office", "/cb.css", "/office.css", "/privacy.html", "/tasks.html", "/forum.html", "/community-center.html"):
             problems.append(f"{JS.name}: it calls {url}. The office talks to /cb/office and nothing else.")
 
 

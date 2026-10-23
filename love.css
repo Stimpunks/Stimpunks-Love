@@ -15768,6 +15768,38 @@ html[data-intensity="max"] .vpl-steam path:nth-child(3) { animation-delay: -2.2s
 .community .ctr-slot__how { padding-top: 9px; border-top: 1px solid var(--ctr-ink-2); }
 .community .ctr-slot__more { font-size: 15px; }
 
+/* WHERE WE ARE: THE MEMBER MAP, A PULL-DOWN WALL MAP (Ryan's brief, 2026-10-22,
+   moving it off Google). A school hall's roller map hung on the block wall: a
+   steel roller across the top and the sheet pulled down from it, standing in
+   front of the blind's bars like the letterboard and the sorter, so the sheet
+   is flat paint and the stripes stop at its edge. The sea is the lit paint,
+   the land the desk's laminate with a coast in its edge brown, and the pins
+   are the rust of the links, the one colour in the building that is not
+   painted over, with the number on a pin in the letterboard's white (measured
+   in check-contrast.py). It is not cork: the Pebble Board owns cork. Nothing
+   on it moves at any setting, and nothing on it is a link, because the list
+   below the sheet says every place in words. */
+.ctr-map__wall { margin: 22px 0 0; max-width: 980px; }
+.ctr-map__roller { height: 14px; margin: 0 -10px; background: var(--ctr-steel); border-radius: 7px; box-shadow: 0 3px 0 var(--ctr-well); }
+.ctr-map__world {
+  display: block; width: 100%; height: auto;
+  background: var(--ctr-lit);
+  border: 2px solid var(--ctr-steel); border-top: 0;
+  box-shadow: 0 6px 0 var(--ctr-mortar);
+}
+.ctr-map__land { fill: var(--ctr-desk); stroke: var(--ctr-edge); stroke-width: .6; stroke-linejoin: round; }
+.ctr-map__pin circle { fill: var(--ctr-link); stroke: var(--ctr-letter); stroke-width: 1; }
+.ctr-map__count { fill: var(--ctr-letter); font-family: 'Radio Canada', system-ui, sans-serif; font-weight: 700; font-size: 11px; }
+.ctr-map__pin--many.ctr-map__pin--wide .ctr-map__count { font-size: 10px; }
+.community .ctr-map__said { margin: 14px 0 0; font-size: 15.5px; color: var(--ctr-ink); }
+.ctr-map__list { margin: 16px 0 0; max-width: 72ch; }
+.ctr-map__list > summary { cursor: pointer; font-weight: 700; min-height: 32px; }
+.ctr-map__countries { margin: 10px 0 0; padding: 0; list-style: none; columns: 2 18rem; column-gap: 28px; }
+.ctr-map__countries > li { break-inside: avoid; margin: 0 0 12px; }
+.ctr-map__places { margin: 4px 0 0; padding-left: 1.15em; }
+.community .ctr-map__places > li { font-size: 15.5px; line-height: 1.45; }
+.community .ctr-map__credit { margin-top: 14px; font-size: 14px; color: var(--ctr-ink-2); }
+
 /* The job marker lying on the floor of this room. §4 supplies the behaviour;
    the room supplies the ground it lies on, which is the wall's own paint. */
 .community .quest { margin-top: 40px; }

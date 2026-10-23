@@ -547,7 +547,8 @@ test('the fridge keeps words and sentences and one mark, and never a handle', as
   await putWord('hello.', fridgeMark('Ada', 'k'), s);
   const kept = await s.get('fridge');
   assert.deepEqual(Object.keys(kept).sort(), ['door', 'last', 'words']);
-  assert.ok(!JSON.stringify(kept).toLowerCase().includes('ada'));
+  // A sentence's id is random and can spell anything, so the handle is looked for everywhere but there.
+  assert.ok(!JSON.stringify({ ...kept, door: kept.door.map(({ id, ...rest }) => rest) }).toLowerCase().includes('ada'));
   assert.deepEqual(Object.keys(kept.door[0]).sort(), ['id', 't', 'text']);
   assert.equal(fridgeMark(' ADA ', 'k'), fridgeMark('ada', 'k'), 'one person is one mark however they type their handle');
   assert.notEqual(fridgeMark('Ada', 'k'), fridgeMark('Ada', 'another password'));
@@ -3988,7 +3989,8 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
-  taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, readTaskTpls, TASK_TEMPLATE_SEED } from './lib.mjs';
+  taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, readTaskTpls, TASK_TEMPLATE_SEED,
+  memberMap, readMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap, officeMemberMap, MAP_NEAR_KM } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
 const TRYAN = fw('Ryan', 300, ['administrator', 'director']), TCHELSEA = fw('Chelsea', 700, ['director']);
@@ -4655,6 +4657,68 @@ test('the Join form makes a Join Request case and an onboarding task from its te
   assert.deepEqual(await officeIntake({ ...join, entry: 901, email: 'lee@example.org', name: 'Lee' }, s, T0 + 2, TMODS), { ok: true, record: 'case', made: true, task: false });
   assert.match((await readCases(s)).find((x) => x.form === 901).body, /No task was made for this/);
   assert.equal((await readTasks(s)).length, 1);
+}));
+
+test('the member map: places and how many, no names, one place for a city, and only the office puts pins on it or takes them off', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  // The pins brought from Google, once each by key.
+  const rows = [{ key: 'google-1', place: 'Austin', country: 'United States', lat: 30.267153, lon: -97.7430608 },
+    { key: 'google-2', place: 'Austin', country: 'United States', lat: 30.267153, lon: -97.7430608 },
+    { key: 'google-3', place: 'Leeds', country: 'United Kingdom', lat: 53.8008, lon: -1.5491 }];
+  assert.deepEqual(await importMap(TRYAN, rows, s), { added: 3 });
+  assert.deepEqual(await importMap(TRYAN, rows, s), { added: 0 }, 'bringing them again doubled them');
+  assert.ok((await importMap(TSAM, rows, s)).error);
+  let m = await memberMap(s);
+  assert.deepEqual(m.places.map((p) => [p.place, p.country, p.n]), [['Leeds', 'United Kingdom', 1], ['Austin', 'United States', 2]]);
+  assert.deepEqual([m.total, m.countries], [3, [{ country: 'United Kingdom', n: 1 }, { country: 'United States', n: 2 }]]);
+  assert.ok(m.places.every((p) => p.x > 0 && p.x < 1000 && p.y > 0), 'a place has no point on the map');
+  assert.ok(!JSON.stringify(m).includes('google-') && !m.places.some((p) => 'id' in p), 'what anybody is shown carries an id or a key');
+  // A join request's member, put on at a place a few km from Austin, joins Austin.
+  await officeIntake({ type: 'community', entry: 950, email: 'pat@example.org', name: 'Pat', message: '**City**\nAustin\n\n**Country**\nUS' }, s, T0, TMODS);
+  const k = (await readCases(s)).find((x) => x.form === 950);
+  assert.ok((await mapPut(TSAM, k.id, { place: 'Austin', country: 'United States', lat: 30.2711, lon: -97.7437 }, s)).error);
+  const put = await mapPut(TRYAN, k.id, { place: 'Austin', country: 'United States', lat: 30.2711, lon: -97.7437 }, s, T0 + 1);
+  assert.deepEqual(put.pin, { place: 'Austin', country: 'United States', n: 3 });
+  assert.equal((await officeCase(TRYAN, k.id, s)).map.n, 3);
+  const pins = await readMemberMap(s);
+  assert.equal(new Set(pins.map((p) => `${p.lat},${p.lon}`)).size, 2, 'Austin became two places');
+  assert.ok(pins.every((p) => !('contact' in p) && !('case' in p) && !('email' in p)), 'a pin knows whose it is');
+  // A place of its own when asked; moving replaces the pin rather than adding one.
+  await mapPut(TRYAN, k.id, { place: 'Round Rock', country: 'United States', lat: 30.5083, lon: -97.6789, join: false }, s, T0 + 2);
+  m = await memberMap(s);
+  assert.deepEqual([m.total, m.places.find((p) => p.place === 'Austin').n, m.places.find((p) => p.place === 'Round Rock').n], [4, 2, 1]);
+  // Taken off: their pin goes, Austin stays for the others.
+  assert.deepEqual(await mapTake(TRYAN, k.id, s, T0 + 3), { gone: true });
+  assert.equal((await memberMap(s)).total, 3);
+  assert.ok((await mapTake(TRYAN, k.id, s)).error);
+  // One of Google's taken off a place by hand, never a join request's.
+  await mapPut(TRYAN, k.id, { place: 'Leeds', country: 'United Kingdom', lat: 53.8, lon: -1.55 }, s, T0 + 4);
+  assert.deepEqual((await officeMemberMap(TRYAN, s)).find((p) => p.place === 'Leeds'), { place: 'Leeds', country: 'United Kingdom', lat: 53.8008, lon: -1.5491, n: 2, loose: 1 });
+  assert.deepEqual(await mapTakeOne(TRYAN, { lat: 53.8008, lon: -1.5491 }, s), { gone: true });
+  assert.ok((await mapTakeOne(TRYAN, { lat: 53.8008, lon: -1.5491 }, s)).error, 'a join request\'s pin was taken off by hand');
+  // Deleting the case takes its pin.
+  await removeCase(TRYAN, k.id, s);
+  assert.deepEqual((await memberMap(s)).places.map((p) => [p.place, p.n]), [['Austin', 2]]);
+  assert.equal(await officeMemberMap(TSAM, s), null);
+}));
+
+test('looking a place up sends only its words to OpenStreetMap, and says which place on the map it would join', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await importMap(TRYAN, [{ key: 'google-1', place: 'Austin', country: 'United States', lat: 30.267153, lon: -97.7430608 }], s);
+  let asked = null, opts = null;
+  const fake = async (url, o) => { asked = url; opts = o; return { ok: true, json: async () => [
+    { lat: '30.2711286', lon: '-97.7436995', name: 'Austin', display_name: 'Austin, Travis County, Texas, United States', address: { city: 'Austin', country: 'United States' } },
+    { lat: '43.6666', lon: '-92.9746', name: 'Austin', display_name: 'Austin, Mower County, Minnesota, United States', address: { city: 'Austin', country: 'United States' } },
+    { lat: 'nonsense', lon: '1' }] }; };
+  const r = await mapFind(TRYAN, 'Austin, Texas', s, fake);
+  assert.ok(asked.startsWith('https://nominatim.openstreetmap.org/search?') && asked.endsWith('&q=Austin%2C%20Texas'));
+  assert.match(opts.headers['user-agent'], /Stimpunks\.World/);
+  assert.equal(r.found.length, 2);
+  assert.deepEqual([r.found[0].near.place, r.found[0].near.n, r.found[1].near], ['Austin', 1, null]);
+  assert.ok(r.found[0].near.km < MAP_NEAR_KM);
+  assert.ok((await mapFind(TSAM, 'Austin', s, fake)).error);
+  assert.ok((await mapFind(TRYAN, '  ', s, fake)).error);
+  assert.match((await mapFind(TRYAN, 'Austin', s, async () => ({ ok: false }))).error, /OpenStreetMap/);
 }));
 
 test('fifteen form entries at once, one person: one contact and fifteen cases, none lost and no number twice; the same entry fifteen times makes one', () => withOfficeKey(OFFICE_TEST_KEY, async () => {

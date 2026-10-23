@@ -107,6 +107,7 @@
     if (p[0] === 'g') return named('the grant request');
     if (p[0] === 'grants') return p[1] === 'board' ? 'the board of grant requests' : p[1] === 'new' ? 'the new grant request' : p[1] === 'edit' ? 'changing the grant request' : 'the grant requests';
     if (p[0] === 'k') return named('the case');
+    if (p[0] === 'map') return 'the member map';
     if (p[0] === 'cases') return p[1] === 'board' ? 'the board of cases' : p[1] === 'new' ? 'the new case' : p[1] === 'edit' ? 'changing the case' : 'the cases';
     if (p[0] === 'm') return named('the email');
     if (p[0] === 'dashboard') return 'the dashboard';
@@ -1280,7 +1281,7 @@
     view.textContent = '';
     var h = heading(2, 'Cases');
     view.appendChild(h);
-    view.appendChild(viewLinks([['#/cases', 'List', true], ['#/cases/board', 'Board'], ['#/cases/new', 'New case']]));
+    view.appendChild(viewLinks([['#/cases', 'List', true], ['#/cases/board', 'Board'], ['#/cases/new', 'New case'], ['#/map', 'The member map']]));
     var find = el('form', 'of-find');
     find.addEventListener('submit', function (e) { e.preventDefault(); });
     function field(id, label, input, hintText) {
@@ -1483,6 +1484,7 @@
     if (k.blocks && k.blocks.length) window.loveMarkdown.blocks(k.blocks, body, { top: 2, prefix: 'of' });
     else body.appendChild(quiet('No description.'));
     view.appendChild(body);
+    if (k.type === 'Join Request' || k.map) view.appendChild(mapPanel(k));
     var tools = el('div', 'of-row');
     var mv = el('label', 'of-move');
     mv.appendChild(el('span', null, 'Move to '));
@@ -1517,6 +1519,164 @@
     tools.appendChild(del);
     view.appendChild(tools);
     return addComments(k.id, comments, landOn) || h;
+  }
+
+  /* THE MEMBER MAP (Ryan's brief, 2026-10-22): a join request's member put on
+     the map on the Community Center's wall, or taken off it. The place they
+     gave on the Join form is read off the entry; Find it asks OpenStreetMap,
+     from the server, for the places those words could be; the director picks
+     one, and a place within a short way of one already on the map joins it.
+     The map shows how many of us are in each place, and never a name. */
+  function placeGiven(body) {
+    var pick = function (label) {
+      var at = String(body || '').indexOf('**' + label + '**\n');
+      if (at < 0) return '';
+      return String(body).slice(at + label.length + 5).split('\n')[0].trim();
+    };
+    return [pick('City'), pick('State / Province / Region'), pick('Country')].filter(Boolean).join(', ');
+  }
+  function placeWords(p) { return p.place + (p.country && p.country !== p.place ? ', ' + p.country : ''); }
+  function hereWords(n) { return n === 1 ? 'the only one of us there' : n + ' of us there'; }
+  function mapPanel(k) {
+    var box = el('section', 'of-mapbox');
+    box.setAttribute('aria-labelledby', 'of-map-h');
+    var h3 = el('h3', null, 'Member map'); h3.id = 'of-map-h'; h3.tabIndex = -1;
+    box.appendChild(h3);
+    function redraw(k2, said) { var fresh = mapPanel(k2); box.replaceWith(fresh); fresh.querySelector('h3').focus(); if (said) say(said); }
+    function withMap(m) { var k2 = {}; Object.keys(k).forEach(function (x) { k2[x] = k[x]; }); k2.map = m; return k2; }
+    if (k.map) {
+      box.appendChild(el('p', null, 'On the member map at ' + placeWords(k.map) + ', ' + hereWords(k.map.n) + '.'));
+      var tools = el('div', 'of-row');
+      var off = el('button', 'cb-btn of-small', 'Take them off the map'); off.type = 'button';
+      off.addEventListener('click', function () {
+        sure(tools, 'This takes them off the member map. ' + (k.map.n > 1 ? placeWords(k.map) + ' stays on it for the others there.' : placeWords(k.map) + ' goes from the map with them.'), 'Take them off', function (done) {
+          call(null, { action: 'map-take', id: k.id }).then(function (r) {
+            done();
+            if (r.status !== 200) { say(why(r, 'That did not change the map. Nothing was changed.')); return; }
+            redraw(withMap(null), 'Taken off the member map.');
+          });
+        }, off);
+      });
+      tools.appendChild(off);
+      var all = el('a', 'cb-btn of-small', 'The whole member map'); all.href = '#/map';
+      tools.appendChild(all);
+      box.appendChild(tools);
+      return box;
+    }
+    var gave = placeGiven(k.body);
+    box.appendChild(el('p', null, gave ? 'Not on the member map yet. They gave ' + gave + ' on the Join form.'
+      : 'Not on the member map. Their entry gives no place, so they did not ask to be on it: put them on only if they ask.'));
+    var form = el('form', 'of-mapfind');
+    form.noValidate = true;
+    var lab = el('label', 'cb-lab', 'Find a place'); lab.htmlFor = 'of-mapq';
+    var q = el('input', 'cb-say of-input'); q.id = 'of-mapq'; q.type = 'search'; q.autocomplete = 'off'; q.value = gave;
+    q.setAttribute('aria-describedby', 'of-mapq-hint');
+    var hint = el('p', 'cb-quiet of-hint', 'A city, a region, a country, or all three. Only these words go to OpenStreetMap, from our server, to look the place up.'); hint.id = 'of-mapq-hint';
+    var go = el('button', 'cb-btn of-small', 'Find it'); go.type = 'submit';
+    form.appendChild(lab); form.appendChild(q); form.appendChild(hint); form.appendChild(go);
+    var found = el('div', 'of-mapfound');
+    var answer = el('p', 'of-answer'); answer.setAttribute('role', 'status');
+    box.appendChild(form); box.appendChild(found); box.appendChild(answer);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!q.value.trim()) { answer.textContent = 'Type a place first.'; return; }
+      go.disabled = true; answer.textContent = 'Looking…'; found.textContent = '';
+      call(null, { action: 'map-find', q: q.value }).then(function (r) {
+        go.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'That place could not be looked up just now.'); return; }
+        var list = r.body.found || [];
+        if (!list.length) { answer.textContent = 'OpenStreetMap found nowhere called that. Try fewer words, or the nearest city.'; return; }
+        answer.textContent = list.length === 1 ? 'One place found. Check it is theirs.' : list.length + ' places found. Choose theirs.';
+        var fs = el('fieldset', 'of-checks of-mapwhich');
+        fs.appendChild(el('legend', 'cb-lab', 'Which place'));
+        list.forEach(function (x, i) {
+          var c = el('input'); c.type = 'radio'; c.name = 'of-mapwhich'; c.id = 'of-mapwhich-' + i; c.value = String(i); if (i === 0) c.checked = true;
+          var l = el('label', 'of-check'); l.htmlFor = c.id;
+          l.appendChild(c); l.appendChild(document.createTextNode(' ' + x.label));
+          if (x.near) l.appendChild(el('span', 'cb-quiet', ' · joins ' + placeWords(x.near) + (x.near.km ? ', ' + x.near.km + ' km away,' : ',') + ' where ' + (x.near.n === 1 ? 'one of us is' : x.near.n + ' of us are') + ' now'));
+          fs.appendChild(l);
+        });
+        found.appendChild(fs);
+        var own = el('label', 'of-check');
+        var ownBox = el('input'); ownBox.type = 'checkbox'; ownBox.id = 'of-mapown';
+        own.htmlFor = 'of-mapown'; own.appendChild(ownBox); own.appendChild(document.createTextNode(' Keep it a place of its own, rather than joining the place near it'));
+        if (list.some(function (x) { return x.near; })) found.appendChild(own);
+        var put = el('button', 'cb-btn of-small', 'Put it on the member map'); put.type = 'button';
+        found.appendChild(put);
+        put.addEventListener('click', function () {
+          var pick = fs.querySelector('input:checked');
+          var x = list[pick ? +pick.value : 0];
+          put.disabled = true;
+          call(null, { action: 'map-put', id: k.id, place: x.place, country: x.country, lat: x.lat, lon: x.lon, join: !ownBox.checked }).then(function (a) {
+            put.disabled = false;
+            if (a.status !== 200) { answer.textContent = why(a, 'That did not go on the map. Nothing was changed.'); return; }
+            redraw(withMap(a.body.pin), 'On the member map at ' + placeWords(a.body.pin) + '. Tick it off on their onboarding task.');
+          });
+        });
+      });
+    });
+    return box;
+  }
+
+  function memberMapView() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return call('view=map').then(function (r) {
+      if (r.status !== 200) return refused(r);
+      took(r.body);
+      return drawMemberMap(r.body.places || []);
+    });
+  }
+  function drawMemberMap(places) {
+    view.textContent = '';
+    step.up('#/cases', '← All cases');
+    var h = heading(2, 'The member map');
+    view.appendChild(h);
+    var total = places.reduce(function (a, p) { return a + p.n; }, 0);
+    view.appendChild(el('p', 'of-shown', total + (total === 1 ? ' member' : ' members') + ' in ' + places.length + (places.length === 1 ? ' place' : ' places')));
+    var intro = el('p', null, 'The map on ');
+    var wall = el('a', null, 'the Community Center’s wall'); wall.href = '/community-center.html#member-map';
+    intro.appendChild(wall);
+    intro.appendChild(document.createTextNode(' and on stimpunks.org shows each place and how many of us are there, never a name. Somebody goes on it from their join request. The ones brought from our Google map belong to no join request, so one of those is taken off a place here, when somebody asks.'));
+    view.appendChild(intro);
+    if (!places.length) { view.appendChild(quiet('Nobody is on the map yet.')); return h; }
+    var box = el('div', 'of-tablebox');
+    box.tabIndex = 0; box.setAttribute('role', 'region'); box.setAttribute('aria-label', 'The member map’s places');
+    var t = el('table', 'of-list');
+    t.appendChild(el('caption', 'sr', 'Every place on the member map, by country, with how many are there.'));
+    var hr = el('tr');
+    ['Place', 'Country', 'How many', 'From our Google map', 'Take one off'].forEach(function (c) { var th = el('th', null, c); th.scope = 'col'; hr.appendChild(th); });
+    var thead = el('thead'); thead.appendChild(hr); t.appendChild(thead);
+    var tb = el('tbody');
+    places.forEach(function (p) {
+      var tr = el('tr');
+      tr.appendChild(el('td', null, p.place));
+      tr.appendChild(el('td', null, p.country || '—'));
+      tr.appendChild(el('td', null, String(p.n)));
+      tr.appendChild(el('td', null, p.loose ? String(p.loose) : '—'));
+      var act = el('td');
+      if (p.loose) {
+        var b = el('button', 'cb-btn of-small', 'Take one off'); b.type = 'button';
+        b.setAttribute('aria-label', 'Take one off ' + placeWords(p));
+        b.addEventListener('click', function () {
+          sure(act, 'This takes one of the pins brought from our Google map off ' + placeWords(p) + '. ' + (p.n > 1 ? 'The place stays on the map for the others there.' : 'The place goes from the map.'), 'Take one off', function (done) {
+            call(null, { action: 'map-take-one', lat: p.lat, lon: p.lon }).then(function (a) {
+              done();
+              if (a.status !== 200) { say(why(a, 'That did not change the map. Nothing was changed.')); return; }
+              drawMemberMap(a.body.places || []).focus();
+              say('Taken one off ' + placeWords(p) + '.');
+            });
+          }, b);
+        });
+        act.appendChild(b);
+      } else act.textContent = '—';
+      tr.appendChild(act);
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    box.appendChild(t);
+    view.appendChild(box);
+    return h;
   }
 
   function caseFormView(id, contact) {
@@ -3169,6 +3329,7 @@
     else if (parts[0] === 'cases' && parts[1] === 'edit' && parts[2]) done = caseFormView(parts[2], null);
     else if (parts[0] === 'cases') done = casesView(false);
     else if (parts[0] === 'k' && parts[1]) done = caseView(parts[1], parts[2] === 'c' ? parts[3] : null);
+    else if (parts[0] === 'map') done = memberMapView();
     else if (parts[0] === 'm' && parts[1]) done = emailView(parts[1], parts[2] === 'c' ? parts[3] : null);
     else if (!parts.length || parts[0] === 'dashboard') done = dashboardView(parts[1] === 'quickbooks' ? parts[2] : null);
     else if (parts[0] === 'feed') done = feedView();
@@ -3184,7 +3345,7 @@
     else done = dashboardView(null);
     // The bar says which part of the office you are in.
     [navDash, navFeed, navContacts, navGrants, navCases, navMailings].forEach(function (a) { a.removeAttribute('aria-current'); });
-    var part = !parts.length || parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'feed' ? navFeed : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' ? navCases
+    var part = !parts.length || parts[0] === 'dashboard' || parts[0] === 'reports' ? navDash : parts[0] === 'feed' ? navFeed : parts[0] === 'grants' || parts[0] === 'g' ? navGrants : parts[0] === 'cases' || parts[0] === 'k' || parts[0] === 'map' ? navCases
       : parts[0] === 'mailings' || parts[0] === 'templates' ? navMailings : navContacts;
     part.setAttribute('aria-current', !parts[1] && (!parts.length || parts[0] === 'contacts' || parts[0] === 'grants' || parts[0] === 'cases' || parts[0] === 'mailings' || parts[0] === 'dashboard' || parts[0] === 'feed') ? 'page' : 'true');
     if (parts[0] === 'reports') navDash.setAttribute('aria-current', 'true');

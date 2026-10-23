@@ -10,7 +10,10 @@
      grants                  every grant request, without its description
      grant    &id=           one grant request, its description as words and as nodes, and its comments
      cases                   every case, without its description
-     case     &id=           one case, its description as words and as nodes, and its comments
+     case     &id=           one case, its description as words and as nodes, its comments, and where its
+                             member is on the member map, if they are
+     map                     the member map: every place, how many are there, and how many of those belong
+                             to no join request (brought from Google)
      feed     &ids=          up to OFFICE_FEED_PAGE grant requests, cases and contacts by their ids, each
                              whole, with its latest comments and how many it has: one page of the Feed,
                              whose order and filters the page works out
@@ -42,6 +45,13 @@
          that closes it, set here, sets the day it closed
      { action: 'case-remove', id }                   a case deleted
      { action: 'case-import', rows: [...] }          EspoCRM's cases, each keeping its number
+     { action: 'map-find', q }                       places OpenStreetMap finds for q, asked from here, by POST
+                                                     so q is in no address
+     { action: 'map-put', id, place, country, lat, lon, join? }   case id's member on the member map there,
+                                                     joining the place near it unless join is false
+     { action: 'map-take', id }                      case id's member taken off the member map
+     { action: 'map-take-one', lat, lon }            one pin that belongs to no join request taken off that place
+     { action: 'map-import', rows: [...] }           the pins brought from Google My Maps, once each by key
      { action: 'template-save', id?, name, subject, body }
          a mailing's template, or a change to one; an unknown {fill-in} is refused
      { action: 'template-remove', id }               a template deleted
@@ -72,6 +82,7 @@
    ../cb/lib.mjs, the office. */
 import { readPass, forumReader, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
+  officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
   stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople,
@@ -120,6 +131,7 @@ export default async (req) => {
         return m ? answer(200, { me, settings, email: m, comments: await officeComments(who, 'email-' + m.id) }, QUIET) : json(404, { error: 'That email has been deleted from the office.' }, QUIET);
       }
       if (view === 'cases') return answer(200, { me, settings, cases: await officeCases(who) }, QUIET);
+      if (view === 'map') return answer(200, { me, settings, places: await officeMemberMap(who) }, QUIET);
       if (view === 'feed') return answer(200, { me, settings, feed: await officeFeed(who, String(url.searchParams.get('ids') || '').split(',')) }, QUIET);
       if (view === 'case') {
         const k = await officeCase(who, url.searchParams.get('id'));
@@ -195,6 +207,26 @@ export default async (req) => {
     if (b.action === 'case-remove') {
       const r = await removeCase(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'map-find') {
+      const r = await mapFind(who, b.q);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { found: r.found }, QUIET);
+    }
+    if (b.action === 'map-put') {
+      const r = await mapPut(who, String(b.id || ''), b);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { pin: r.pin }, QUIET);
+    }
+    if (b.action === 'map-take') {
+      const r = await mapTake(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'map-take-one') {
+      const r = await mapTakeOne(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true, places: await officeMemberMap(who) }, QUIET);
+    }
+    if (b.action === 'map-import') {
+      const r = await importMap(who, b.rows);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { added: r.added }, QUIET);
     }
     if (b.action === 'template-save') {
       const r = await saveTemplate(who, b);

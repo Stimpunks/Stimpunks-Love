@@ -123,6 +123,7 @@ import { request as httpRequest } from 'node:http';
 import { request as httpsRequest } from 'node:https';
 import { lookup as dnsLookup } from 'node:dns';
 import { isIP } from 'node:net';
+import { project } from './world.mjs';
 
 export const KEEP = 50;             // messages on a channel at once (Ryan, 2026-10-18; ten until then)
 export const LIFE = 48 * 60 * 60 * 1000;   // how long a message stays on its channel (the same day)
@@ -8222,7 +8223,7 @@ export const TASK_PRIORITIES = ["Low", "Normal", "High", "Urgent"];
 export const TASK_DEFAULT_PRIORITY = "Normal";
 export const TASK_TAGS = ["Business Papers", "Operations", "Editorial", "Community", "Connection Requests", "Coping", "Events", "Finance", "Fundraising", "Grantmaking", "Learning Center", "Meetings", "Merch", "Monthly", "Networking/Social", "Outside Grants", "Professional Development", "Resource Research", "Shop", "Systems", "Time Off", "Volunteering", "Weekly"];
 export const TASK_FILL_INS = ["name", "contact", "case", "grant"];
-export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them in Gmail on their contact page.\n- [ ] Add them to the mailing lists in Givebutter, if they asked to join one.\n- [ ] Add them to the member map, if they gave a city.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
+export const TASK_TEMPLATE_SEED = [{"id": "pJoinOnboard1", "name": "Onboard {name} into Community", "priority": "Normal", "tags": ["Community"], "who": null, "with": [], "startAfter": 0, "dueAfter": null, "body": "Their join request: {case}\nTheir contact: {contact}\n\nKeep their details out of this task: they are on their join request and their contact in the office.\n\n- [ ] Look over their join request, and the contact it found or added in the office.\n- [ ] Email them the “Stimpunks Community Membership Confirmation invite” template, with Write to them in Gmail on their contact page.\n- [ ] Add them to the mailing lists in Givebutter, if they asked to join one.\n- [ ] Add them to the member map, if they gave a city: Put it on the member map, on their join request.\n- [ ] Add them to the member page, if they asked.\n- [ ] Add them to the organization page, if they asked.\n- [ ] Close their join request in the office."}];
 /* tasks:settings:end */
 export const TASK_NAME_MAX = 200;
 export const TASK_BODY_MAX = FORUM_BODY_MAX;
@@ -9258,6 +9259,253 @@ async function makeFromTemplate(id, fill, day0, s, now, mods) {
   return task;
 }
 
+/* ── The member map ─────────────────────────────────────────────────────
+
+   Beside the office and not in it: its pins are public, so they are not sealed,
+   and only which join request a pin came from is, on the case. */
+
+/* THE MEMBER MAP (Ryan's brief, 2026-10-22: "Let's move the member map off of
+   Google into S.W"). The map of where our community is, which was a Google My
+   Maps map embedded on stimpunks.org's Individuals page, hangs on the
+   Community Center's wall now, and stimpunks.org shows the same map as an
+   image served from here (/cb/member-map.svg). The Join form asks for a city
+   "to be added to our member map", and says a name will not be on it.
+
+   A PIN IS A PLACE, ONE FOR EACH MEMBER WHO GAVE ONE, AND THE MAP SAYS HOW MANY
+   ARE IN EACH PLACE (Ryan's call, the same evening, over one pin per place with
+   no numbers: "We like knowing how many folks are in each place"; the Mission
+   says the street counts people here). One blob, member-map, holds the pins,
+   each an id, a place's name, its country, a latitude and a longitude, and for
+   the pins brought from Google its key there; nothing about anybody. What
+   anybody is shown (memberMap) is every place once, with how many pins are
+   there, never an id. Which join request a pin came from is kept on the case,
+   sealed (`pin`), so taking somebody off the map takes theirs; deleting the case
+   takes it too. The pins brought from Google belong to no case, and a director
+   takes one of those off a place by hand (mapTakeOne).
+
+   A PLACE IS LOOKED UP ON OPENSTREETMAP, FROM THE SERVER, AT A DIRECTOR'S PRESS
+   (mapFind): the words of the place, and nothing else, go to Nominatim, which
+   answers with places to choose from; nothing reaches OpenStreetMap from a
+   visitor's browser. A place within MAP_NEAR_KM of one already on the map joins
+   it, its name and point the same, so a city is one place with how many are
+   there rather than a cluster of nearly-the-same points. Only the office's
+   readers put pins on the map or take them off. */
+export const MEMBER_MAP_MAX = 5000;
+export const MAP_NEAR_KM = 25;
+export const MAP_IMPORT_MAX = 500;
+const MEMBER_MAP = 'member-map';
+const MAP_SEARCH = 'https://nominatim.openstreetmap.org/search';
+const MAP_AGENT = 'Stimpunks.World office (https://stimpunks.world/privacy.html#member-map)';
+const PLACE_MAX = 80;
+export function pinId(v) { return typeof v === 'string' && /^w[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newPinId = () => 'w' + randomBytes(9).toString('base64url');
+const mapWords = (v, max = PLACE_MAX) => { const t = tidy(v == null ? '' : String(v)); return t ? [...t].slice(0, max).join('') : ''; };
+const mapCoord = (v, lim) => { const n = Number(v); return v !== null && v !== '' && Number.isFinite(n) && Math.abs(n) <= lim ? Math.round(n * 10000) / 10000 : null; };
+const placeKey = (p) => `${p.lat.toFixed(4)},${p.lon.toFixed(4)}`;
+function kmApart(a, b) {
+  const r = Math.PI / 180, dLat = (b.lat - a.lat) * r, dLon = (b.lon - a.lon) * r;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) ** 2;
+  return 12742 * Math.asin(Math.min(1, Math.sqrt(h)));
+}
+
+export async function readMemberMap(s = store()) {
+  const d = await s.get(MEMBER_MAP, { type: 'json' });
+  return d && Array.isArray(d.pins) ? d.pins : [];
+}
+
+/* Every place once, with how many pins are there. */
+export function groupPins(pins) {
+  const by = new Map();
+  for (const p of pins) {
+    const k = placeKey(p);
+    const g = by.get(k) || { place: p.place, country: p.country || '', lat: p.lat, lon: p.lon, n: 0 };
+    g.n++;
+    by.set(k, g);
+  }
+  return [...by.values()];
+}
+function nearestPlace(places, at) {
+  let best = null;
+  for (const g of places) { const d = kmApart(g, at); if (d <= MAP_NEAR_KM && (!best || d < best.d)) best = { g, d }; }
+  return best;
+}
+
+/* What anybody is shown, on the wall and in the image: every place, where it
+   is on the map, and how many of us are there; each country and how many; and
+   how many in all. */
+export async function memberMap(s = store()) {
+  const places = groupPins(await readMemberMap(s)).map((g) => ({ ...g, ...project(g.lat, g.lon) }))
+    .sort((a, b) => (a.country || '').localeCompare(b.country || '') || a.place.localeCompare(b.place));
+  const countries = new Map();
+  for (const p of places) countries.set(p.country, (countries.get(p.country) || 0) + p.n);
+  return { places, countries: [...countries].map(([country, n]) => ({ country, n })), total: places.reduce((a, p) => a + p.n, 0) };
+}
+async function dropPin(id, s) {
+  await updateList(MEMBER_MAP, 'pins', (list) => (list.some((x) => x.id === id) ? list.filter((x) => x.id !== id) : null), s);
+}
+
+/* The places Nominatim finds for some words, each with the place on the map
+   near it, if there is one, which a pin there would join. */
+export async function mapFind(who, q, s = store(), fetchFn = fetch) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const words = mapWords(q, 200);
+  if (!words) return { error: 'Find which place?' };
+  const url = `${MAP_SEARCH}?format=jsonv2&addressdetails=1&limit=5&accept-language=en&q=${encodeURIComponent(words)}`;
+  let list;
+  try {
+    const r = await fetchFn(url, { headers: { 'user-agent': MAP_AGENT, accept: 'application/json' }, signal: AbortSignal.timeout(8000) });
+    if (!r.ok) return { error: 'OpenStreetMap did not answer just now. Try again in a moment.' };
+    list = await r.json();
+  } catch (e) { return { error: 'OpenStreetMap could not be reached just now. Try again in a moment.' }; }
+  const places = groupPins(await readMemberMap(s));
+  const found = (Array.isArray(list) ? list : []).map((x) => {
+    const lat = mapCoord(x && x.lat, 90), lon = mapCoord(x && x.lon, 180);
+    if (lat == null || lon == null) return null;
+    const a = (x.address && typeof x.address === 'object') ? x.address : {};
+    const place = mapWords(x.name || a.city || a.town || a.village || a.hamlet || a.municipality || a.county || a.state || a.country);
+    if (!place) return null;
+    const near = nearestPlace(places, { lat, lon });
+    return { label: mapWords(x.display_name, 300), place, country: mapWords(a.country), lat, lon,
+      near: near ? { place: near.g.place, country: near.g.country, lat: near.g.lat, lon: near.g.lon, n: near.g.n, km: Math.round(near.d) } : null };
+  }).filter(Boolean);
+  return { found };
+}
+
+/* A case's member on the map: the place chosen, joining the place on the map
+   near it unless `join` is false, in place of any pin the case had. */
+export async function mapPut(who, id, f, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  f = f && typeof f === 'object' ? f : {};
+  const kid = caseId(id);
+  const lat = mapCoord(f.lat, 90), lon = mapCoord(f.lon, 180), place = mapWords(f.place), country = mapWords(f.country);
+  if (lat == null || lon == null || !place) return { error: 'Put which place on the map?' };
+  const k = (await readCases(s)).find((x) => x.id === kid);
+  if (!k) return { error: 'That case has been deleted.' };
+  const pin = newPinId();
+  let saved = null, why = null;
+  await updateList(MEMBER_MAP, 'pins', (list) => {
+    why = null; saved = null;
+    const rest = k.pin ? list.filter((x) => x.id !== k.pin) : list;
+    if (rest.length >= MEMBER_MAP_MAX) { why = `The map holds up to ${MEMBER_MAP_MAX} pins.`; return null; }
+    let at = { place, country, lat, lon };
+    const near = f.join === false ? null : nearestPlace(groupPins(rest), at);
+    if (near) at = { place: near.g.place, country: near.g.country, lat: near.g.lat, lon: near.g.lon };
+    saved = { id: pin, ...at };
+    return [...rest, saved];
+  }, s);
+  if (why) return { error: why };
+  let gone = false, old = null;
+  await updateSealed(CASES, (was) => {
+    const list = was && Array.isArray(was.cases) ? was.cases : [];
+    const i = list.findIndex((x) => x.id === kid);
+    gone = i < 0;
+    if (gone) return null;
+    old = list[i].pin && list[i].pin !== k.pin ? list[i].pin : null;
+    const copy = list.slice();
+    copy[i] = { ...list[i], pin, edited: now, editedBy: who.handle };
+    return { cases: copy, top: topOf(was) };
+  }, s);
+  if (gone) { await dropPin(pin, s); return { error: 'That case has been deleted.' }; }
+  if (old) await dropPin(old, s);
+  const n = groupPins(await readMemberMap(s)).find((g) => placeKey(g) === placeKey(saved));
+  return { pin: { place: saved.place, country: saved.country, n: n ? n.n : 1 } };
+}
+
+/* A case's member taken off the map. */
+export async function mapTake(who, id, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const kid = caseId(id);
+  let had = null;
+  await updateSealed(CASES, (was) => {
+    const list = was && Array.isArray(was.cases) ? was.cases : [];
+    const i = list.findIndex((x) => x.id === kid);
+    had = i >= 0 ? list[i].pin || null : null;
+    if (!had) return null;
+    const copy = list.slice();
+    const { pin, ...rest } = list[i];
+    copy[i] = { ...rest, edited: now, editedBy: who.handle };
+    return { cases: copy, top: topOf(was) };
+  }, s);
+  if (!had) return { error: 'They are not on the member map.' };
+  await dropPin(had, s);
+  return { gone: true };
+}
+
+/* One pin that belongs to no case (one brought from Google) taken off a place,
+   for somebody who asks to come off and has no join request here. */
+export async function mapTakeOne(who, f, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const lat = mapCoord(f && f.lat, 90), lon = mapCoord(f && f.lon, 180);
+  if (lat == null || lon == null) return { error: 'Take one off which place?' };
+  const held = new Set((await readCases(s)).map((k) => k.pin).filter(Boolean));
+  const key = placeKey({ lat, lon });
+  let took = false;
+  await updateList(MEMBER_MAP, 'pins', (list) => {
+    const i = list.findIndex((x) => placeKey(x) === key && !held.has(x.id));
+    took = i >= 0;
+    return took ? list.filter((_, j) => j !== i) : null;
+  }, s);
+  return took ? { gone: true } : { error: 'Every pin at that place belongs to a join request: take it off there.' };
+}
+
+/* The pins brought from Google My Maps, once: each a key (where it was in
+   Google's list), a place, a country and a point. Bringing them again adds
+   only the keys not already here, so it can be run again safely. */
+export async function importMap(who, rows, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!Array.isArray(rows) || !rows.length || rows.length > MAP_IMPORT_MAX) return { error: `Between one and ${MAP_IMPORT_MAX} pins at a time.` };
+  const clean = [];
+  for (const r of rows) {
+    const key = typeof (r && r.key) === 'string' && /^google-[0-9]{1,5}$/.test(r.key) ? r.key : null;
+    const lat = mapCoord(r && r.lat, 90), lon = mapCoord(r && r.lon, 180), place = mapWords(r && r.place), country = mapWords(r && r.country);
+    if (!key || lat == null || lon == null || !place) return { error: 'Each pin is a key, a place, a country and a point.' };
+    clean.push({ key, place, country, lat, lon });
+  }
+  let added = 0;
+  await updateList(MEMBER_MAP, 'pins', (list) => {
+    const have = new Set(list.map((x) => x.key).filter(Boolean));
+    const add = [];
+    for (const r of clean) {
+      if (have.has(r.key)) continue;
+      have.add(r.key);
+      // Google kept one city twice a hair apart now and then: a pin with the same name near a place joins it.
+      const near = nearestPlace(groupPins(list.concat(add)).filter((g) => g.place.toLowerCase() === r.place.toLowerCase()), r);
+      const at = near ? { place: near.g.place, country: near.g.country, lat: near.g.lat, lon: near.g.lon } : { place: r.place, country: r.country, lat: r.lat, lon: r.lon };
+      const saved = { id: newPinId(), key: r.key, from: 'google', place: at.place, country: at.country, lat: at.lat, lon: at.lon };
+      add.push(saved);
+    }
+    added = add.length;
+    if (list.length + add.length > MEMBER_MAP_MAX) { added = 0; return null; }
+    return add.length ? list.concat(add) : null;
+  }, s);
+  return { added };
+}
+
+/* The office's view of the map: every place with how many are there, and how
+   many of those belong to no join request (brought from Google), which is how
+   many can be taken off there by hand. */
+export async function officeMemberMap(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  const [pins, cases] = await Promise.all([readMemberMap(s), readCases(s)]);
+  const held = new Set(cases.map((k) => k.pin).filter(Boolean));
+  const loose = new Map();
+  for (const p of pins) if (!held.has(p.id)) loose.set(placeKey(p), (loose.get(placeKey(p)) || 0) + 1);
+  return groupPins(pins).map((g) => ({ ...g, loose: loose.get(placeKey(g)) || 0 }))
+    .sort((a, b) => (a.country || '').localeCompare(b.country || '') || a.place.localeCompare(b.place));
+}
+
+/* Where a case's member is on the map, for its page: the place, and how many
+   are there. */
+export async function casePin(who, k, s = store()) {
+  if (!officeAllow(who)) return null;
+  if (!k || !k.pin) return null;
+  const pins = await readMemberMap(s);
+  const p = pins.find((x) => x.id === k.pin);
+  if (!p) return null;
+  return { place: p.place, country: p.country, n: pins.filter((x) => placeKey(x) === placeKey(p)).length };
+}
+
+
 /* ── The office ───────────────────────────────────────────────────────────
 
    Ryan's brief, 2026-10-20: contacts, grant requests and cases, moved here
@@ -9850,7 +10098,8 @@ export async function officeCases(who, s = store()) {
 export async function officeCase(who, id, s = store()) {
   if (!officeAllow(who)) return null;
   const k = (await readCases(s)).find((x) => x.id === caseId(id));
-  return k ? shapeCase(k, contactMap(await readContacts(s)), true) : null;
+  // Where its member is on the member map, if they are.
+  return k ? { ...shapeCase(k, contactMap(await readContacts(s)), true), map: await casePin(who, k, s) } : null;
 }
 
 /* THE OFFICE'S FEED (Ryan's ask, 2026-10-21, after Notion's Feed view, as
@@ -9985,6 +10234,8 @@ export async function removeCase(who, id, s = store()) {
   if (!gone) return { error: 'That case has already been deleted.' };
   if (gone.espo) await updateList(OFFICE_GONE, 'ids', (ids) => (ids.includes(gone.espo) ? null : [...ids, gone.espo]), s);
   await dropOfficeComments(gone.id, s);
+  // Its pin goes with it: nothing would know whose it was any more.
+  if (gone.pin) await dropPin(gone.pin, s);
   return { gone: true };
 }
 

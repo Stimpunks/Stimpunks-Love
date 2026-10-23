@@ -3614,6 +3614,12 @@ PAIRS = [
     (CTR_PLATE, CTR_STEEL,  True,  "community: the label holders against the painted steel, held at "
                                    "the graphics threshold so each slot reads as a slot"),
     (CTR_STEEL, CTR_SHADE,  True,  "community: the sorter's frame against the wall, graphics threshold"),
+    # The member map, a pull-down wall map (2026-10-22): the sea is the lit paint, the land the desk's
+    # laminate, the coast its edge brown, the pins the links' rust with how many in the letterboard's white.
+    (CTR_LETTER, CTR_LINK,  False, "community: the number on a member map pin, how many of us are there"),
+    (CTR_LINK,  CTR_LIT,    True,  "community: a member map pin against the sea, graphics threshold"),
+    (CTR_LINK,  CTR_DESK,   True,  "community: a member map pin against the land, graphics threshold"),
+    (CTR_EDGE,  CTR_LIT,    True,  "community: the member map's coast against the sea, which is what tells land from sea"),
     (CTR_INK,   CTR_LIT,    False, "community: the door on the street -- its name on the powder blue, "
                                    "where a slat catches the sun"),
 

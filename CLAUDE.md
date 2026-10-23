@@ -5597,6 +5597,20 @@ mapped before it are still in wp-config.php, which wins a clash, and the key is 
 **Write to them in Gmail takes a mailing template** (`contactWrites`, filled on the server for the contact, a grant
 request's fill-ins from their newest): Gmail opens with the words in its address, and the office still sends nothing.
 
+**THE MEMBER MAP IS ON THE COMMUNITY CENTER'S WALL, AND IT COUNTS PEOPLE BY PLACE, NEVER BY NAME.** Ryan's brief,
+2026-10-22: move the member map off Google My Maps into Stimpunks.World. **Ryan's call over one pin per place: "We like
+knowing how many folks are in each place"**, so the map shows how many of us are in each place, and the Mission says the
+street counts people there too. One blob, `member-map`, holds one pin per member who gave a place (id, place, country,
+latitude, longitude, and for Google's a key), never a name; `memberMap` shows every place once with how many, never an id;
+which join request a pin came from is the case's `pin`, sealed. **The world is drawn, never fetched**: Natural Earth's land
+(`data/world-land.json`, written by `tools/pull-world-land.py`, kept out of `check-all.sh` because it needs the network),
+projected by `tools/make-member-map.py` into `netlify/cb/world.mjs` and the page's SVG (never hand-edit either), and the
+tool runs the Python and the JS projection on the same points. `member-map.js` draws the pins and the list from
+`/cb/member-map`; `/cb/member-map.svg` is the whole map as an image for stimpunks.org's Individuals page, in its own inks.
+**A place is looked up on Nominatim from the server, at a director's press, and only its words are sent** (`mapFind`); a
+place within `MAP_NEAR_KM` of one on the map joins it unless the director keeps it apart. The friendly edits are **map
+tiles** (a third party asked by every visitor), **a name or a link on a pin**, and **geocoding in the browser**.
+
 **THE TEAM MAILBOX FILES ITS EMAIL WITH OUR CONTACTS IN THE OFFICE, AND ONLY THAT EMAIL LEAVES GMAIL.** Ryan's choice,
 2026-10-20 (a script in the mailbox over a bookmarklet, and the whole email over a line about it): `/cb/office/mail`
 (`cb-office-mail.mjs`, the email part of the office section of `lib.mjs`) takes one email at a time from **Stimpunks Gmail

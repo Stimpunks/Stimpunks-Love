@@ -52,6 +52,13 @@
 .of-find { display: grid; gap: 10px 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
 .of-field { display: grid; gap: 4px; }
 .of-input { width: 100%; }
+/* The member map on a join request: a box of its own, and the places found in a column, each a whole line. */
+.of-mapbox { margin: 16px 0; padding: 12px 14px; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.of-mapbox h3 { margin-top: 0; }
+.of-mapfind { display: grid; gap: 6px; max-width: 40rem; justify-items: start; }
+.of-mapfind .of-input { width: 100%; }
+.of-mapfound { display: grid; gap: 8px; margin-top: 10px; justify-items: start; }
+.of-mapwhich { flex-direction: column; align-items: stretch; }
 /* Write to them in Gmail, with a template: the picker sits beside its label, as wide as its longest name. */
 .of-write .of-input { width: auto; max-width: 100%; }
 .of-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; grid-column: 1 / -1; }
