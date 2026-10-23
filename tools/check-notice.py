@@ -9,8 +9,11 @@ break without a test noticing:
 
   · NOTHING A MODERATOR TYPES BECOMES MARKUP. notice.js builds the words with
     markdown.js, the street's one builder, and has no innerHTML or relative.
-  · IT KEEPS NOTHING AND SENDS NOTHING. notice.js stores nothing in the browser
-    and asks for /cb/notice and its own files, and nothing else.
+  · IT KEEPS ONE THING AND SENDS NOTHING. notice.js asks for /cb/notice and its
+    own files, and nothing else. A visitor can put the notice away (Ryan's call,
+    2026-10-23), which keeps its id under love-notice, the one key it may write,
+    listed on privacy.html; it reads love-cb only for the radio's colours. The
+    desk's previews remember nothing.
   · IT MAKES NO SOUND. A notice arrives without being pressed, and nothing on
     the street sounds until somebody presses something.
   · NOTHING MOVES BELOW MAX, NOTHING FLASHES, AND IT NAMES NO COLOUR. Every
@@ -63,9 +66,19 @@ def check_script():
             problems.append(f"{JS.name}: {bad}. The words are built from nodes by markdown.js, never as HTML.")
     if "window.loveMarkdown.blocks" not in js:
         problems.append(f"{JS.name}: it builds the words some way other than markdown.js, the street's one builder.")
-    for bad in ("localStorage.setItem", "localStorage.removeItem", "sessionStorage", "indexedDB", "document.cookie"):
+    for bad in ("sessionStorage", "indexedDB", "document.cookie", "localStorage.clear", "localStorage["):
         if bad in js:
-            problems.append(f"{JS.name}: {bad}. The notice keeps nothing in the browser.")
+            problems.append(f"{JS.name}: {bad}. The notice keeps love-notice in the browser and nothing else.")
+    if "var KEY = 'love-notice';" not in js:
+        problems.append(f"{JS.name}: a notice put away is kept under love-notice, which privacy.html names.")
+    for m in re.finditer(r"localStorage\.(getItem|setItem|removeItem)\(\s*([^,)]+)", js):
+        what, key = m.group(1), m.group(2).strip()
+        if key != "KEY" and not (what == "getItem" and key == "'love-cb'"):
+            problems.append(f"{JS.name}: localStorage.{what}({key}). It writes love-notice and nothing else, and reads love-cb only for the colours.")
+    if "if (!preview) keep(notice.id);" not in js or "put(slot, notice, true)" not in js:
+        problems.append(f"{JS.name}: the desk's previews must remember nothing when they are put away.")
+    if "'Put it away'" not in js or "away.type = 'button'" not in js:
+        problems.append(f"{JS.name}: the notice has lost its Put it away button.")
     for bad in ("AudioContext", "new Audio", ".play(", "speechSynthesis"):
         if bad in js:
             problems.append(f"{JS.name}: {bad}. The fanfare makes no sound: a notice arrives without being pressed.")
@@ -124,8 +137,10 @@ def check_server():
         if "who.role !== 'base'" not in fn(lib, name):
             problems.append(f"{LIB.name}: {name} no longer refuses anybody but a moderator.")
     shape = fn(lib, "shapeNotice")
-    if not shape or re.search(r"\bby\b|\.t\b", shape):
-        problems.append(f"{LIB.name}: shapeNotice tells the pages more than the words. Who put it up is the desk's.")
+    if not shape or re.search(r"\bby\b|\.t\b", shape) or "id: noticeId(d.text)" not in shape:
+        problems.append(f"{LIB.name}: shapeNotice tells the pages the words and their id, and nothing about who or when.")
+    if "createHash('sha256').update(String(text))" not in fn(lib, "noticeId"):
+        problems.append(f"{LIB.name}: a notice's id is worked out from its words alone, so it says nothing about who or when.")
     clean = fn(lib, "cleanNotice")
     if "includes('\\n')" not in clean or "ast[0].t === 'p'" not in clean:
         problems.append(f"{LIB.name}: cleanNotice no longer keeps a notice to one line and one paragraph.")
@@ -182,6 +197,8 @@ def check_pages():
     if "'/cb/notice'" not in code_of(DESK):
         problems.append(f"{DESK.name}: the desk no longer puts the notice up.")
     priv = PRIVACY.read_text()
+    if "<td><code>love-notice</code></td>" not in priv:
+        problems.append(f"{PRIVACY.name}: love-notice is not in the table of what the browser keeps.")
     sec = re.search(r'<h2 id="notice">.*?(?=<h2)', priv, re.S)
     if not sec:
         problems.append(f"{PRIVACY.name}: it has no section on the notice (id=\"notice\").")

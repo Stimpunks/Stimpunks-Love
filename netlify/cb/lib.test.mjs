@@ -32,7 +32,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
-  readNotice, shapeNotice, setNotice, clearNotice, cleanNotice, NOTICE_FIRST, NOTICE_MAX,
+  readNotice, shapeNotice, setNotice, clearNotice, cleanNotice, noticeId, NOTICE_FIRST, NOTICE_MAX,
   readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
@@ -375,7 +375,9 @@ test('the notice: the first one is up until a moderator changes it, and only a m
   const s = memoryStore({ etagOnRead: true });
   assert.equal((await readNotice(s)).text, NOTICE_FIRST.text, 'the first notice is not up before anybody has touched it');
   const pub = shapeNotice(await readNotice(s));
-  assert.deepEqual(Object.keys(pub).sort(), ['ast', 'text'], 'a page is told more than the words');
+  assert.deepEqual(Object.keys(pub).sort(), ['ast', 'id', 'text'], 'a page is told more than the words and their id');
+  assert.equal(pub.id, noticeId(NOTICE_FIRST.text));
+  assert.match(pub.id, /^[0-9a-f]{16}$/);
   assert.equal(pub.ast.length, 1); assert.equal(pub.ast[0].t, 'p');
   assert.ok(pub.ast[0].c.some((n) => n.t === 'a' && n.href === 'https://randocloud.cloud/'), 'the first notice lost its link');
   assert.ok((await setNotice(ANY, 'Hello', s)).error, 'somebody who is not a moderator put a notice up');
@@ -387,6 +389,9 @@ test('the notice: the first one is up until a moderator changes it, and only a m
   const { notice } = await setNotice(MOD, 'Gathering on **Sunday**.', s, 30);
   assert.equal(notice.by, 'Juniper'); assert.equal(notice.t, 30);
   assert.equal(shapeNotice(await readNotice(s)).ast[0].c[1].t, 'b');
+  assert.notEqual(shapeNotice(await readNotice(s)).id, pub.id, 'a new notice kept the old one\'s id, so it would stay put away');
+  await setNotice(MOD2, 'Gathering on **Sunday**.', s, 35);
+  assert.equal(shapeNotice(await readNotice(s)).id, noticeId('Gathering on **Sunday**.'), 'the same words put up again by somebody else changed the id');
   assert.equal((await clearNotice(MOD2, s, 40)).cleared, true, 'another moderator could not take it down');
   const down = await readNotice(s);
   assert.equal(down.text, null); assert.equal(down.by, 'Quill'); assert.equal(shapeNotice(down), null);
@@ -3100,7 +3105,11 @@ test('a notification is encrypted exactly as RFC 8291\'s worked example says', (
 
 test('the VAPID header is ES256, signed by the street\'s key, for the push service it goes to, for an hour', () => {
   const was = process.env.CB_PUSH_KEY;
-  const e = createECDH('prime256v1'); e.generateKeys();
+  // Node drops a private key's leading zero bytes, about one key in 250, and a
+  // key that is not 32 bytes is refused: that made this test fail now and then
+  // (2026-10-23). A key in CB_PUSH_KEY is always 32 bytes, so the test makes one.
+  const e = createECDH('prime256v1');
+  do e.generateKeys(); while (e.getPrivateKey().length !== 32);
   process.env.CB_PUSH_KEY = e.getPrivateKey().toString('base64url');
   try {
     const pub = pushPublicKey();

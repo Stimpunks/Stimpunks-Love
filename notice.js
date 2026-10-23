@@ -6,9 +6,18 @@
 
    IT ASKS /cb/notice ONCE A PAGE, and the request carries nothing of anybody's:
    no pass, no cookie, nothing typed. The answer is the words, read into nodes
-   on the server; markdown.js, the street's one builder, makes them into
-   elements with textContent, and this file builds nothing that was typed any
-   other way. It keeps nothing in the browser and sends nothing anywhere.
+   on the server, and their id; markdown.js, the street's one builder, makes
+   them into elements with textContent, and this file builds nothing that was
+   typed any other way. It sends nothing anywhere.
+
+   A VISITOR CAN PUT IT AWAY (Ryan's call, the same day). Put it away keeps the
+   notice's id under love-notice in their own browser, which privacy.html
+   lists, and nothing else, so it stays away on every page it is on until a new
+   notice goes up. The id is the server's hash of the words, so changing a
+   letter is a new notice. The key clears itself once the notice it names is
+   no longer up. Putting it away says so to a screen reader, in the notice's
+   own status line, before the slot goes. The desk's drawings are previews:
+   their button puts away only that drawing and remembers nothing.
 
    WHERE IT GOES: every [data-notice] on a page, which ships hidden and empty,
    so a page with no script, or with no notice up, shows nothing; and whatever
@@ -35,6 +44,7 @@
   'use strict';
 
   var SVG = 'http://www.w3.org/2000/svg';
+  var KEY = 'love-notice';
   var STARS = 14, WAVE = 18;
   var asked = null, mdWait = null, banners = [];
 
@@ -72,6 +82,11 @@
     }
     return mdWait;
   }
+
+  // Which notice this browser put away, if any.
+  function putAway() { try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; } }
+  function keep(id) { try { localStorage.setItem(KEY, id); } catch (e) { /* a private window keeps nothing */ } }
+  function forget() { try { localStorage.removeItem(KEY); } catch (e) { /* nothing to clear */ } }
 
   function dial() { return document.documentElement.getAttribute('data-intensity') || 'regular'; }
   function looking() { return document.visibilityState !== 'hidden'; }
@@ -127,7 +142,7 @@
   /* ── The fanfare ──────────────────────────────────────────────────────── */
 
   function fanfare(b) {
-    if (dial() !== 'max' || b.playing || !b.box.isConnected) return;
+    if (dial() !== 'max' || b.playing || b.away || !b.box.isConnected) return;
     if (!looking()) { b.owed = true; return; }
     b.owed = false;
     b.playing = true;
@@ -178,8 +193,9 @@
 
   /* ── The banner ───────────────────────────────────────────────────────── */
 
-  // Draws a notice ({ text, ast }) into slot, replacing what was there. Answers false if it could not.
-  function put(slot, notice) {
+  // Draws a notice ({ id, text, ast }) into slot, replacing what was there. Answers false if
+  // it could not. A preview, the desk's, remembers nothing when it is put away.
+  function put(slot, notice, preview) {
     slot.textContent = '';
     if (!notice || !window.loveMarkdown) { slot.hidden = true; return false; }
     var host = el('div', 'nt-mount');
@@ -211,13 +227,39 @@
     var words = el('div', 'nt-words');
     window.loveMarkdown.blocks(notice.ast, words, { prefix: 'nt' });
     box.appendChild(words);
+    var away = null;
+    if (typeof notice.id === 'string' && notice.id) {
+      away = el('button', 'cb-btn nt-away', 'Put it away');
+      away.type = 'button';
+      box.appendChild(away);
+    }
     var stars = sky();
     stars.setAttribute('aria-hidden', 'true');
     box.appendChild(stars);
     root.appendChild(box);
+    // Where putting it away is said, there from the start so a screen reader hears the change.
+    var said = el('p', 'sr');
+    said.setAttribute('role', 'status');
+    root.appendChild(said);
     slot.appendChild(host);
     slot.hidden = false;
-    var b = { host: host, box: box, fan: fan, sky: stars, own: own, playing: false, owed: false };
+    var b = { host: host, box: box, fan: fan, sky: stars, own: own, playing: false, owed: false, away: false };
+    if (away) away.addEventListener('click', function () {
+      b.away = true;
+      if (!preview) keep(notice.id);
+      box.hidden = true;
+      said.textContent = preview ? 'Put away here only. This is a preview, and nothing is remembered.'
+        : 'The notice is put away. It comes back when a new one goes up.';
+      // The room it stood in closes at once; the slot goes once that has been said.
+      slot.style.margin = '0';
+      slot.style.padding = '0';
+      setTimeout(function () {
+        slot.hidden = true;
+        slot.textContent = '';
+        slot.style.margin = '';
+        slot.style.padding = '';
+      }, 5000);
+    });
     banners = banners.filter(function (x) { return x.box.isConnected; });
     banners.push(b);
     return true;
@@ -228,8 +270,10 @@
     if (!slot) return;
     slot.hidden = true;
     ask().then(function (notice) {
-      if (!notice) return;
-      return markdown().then(function () { put(slot, notice); });
+      var was = putAway();
+      if (was && (!notice || notice.id !== was)) forget();
+      if (!notice || (was && notice.id === was)) return;
+      return markdown().then(function () { put(slot, notice, false); });
     });
   }
 
@@ -261,7 +305,7 @@
     if (looking()) banners.forEach(function (b) { if (b.owed) fanfare(b); });
   });
 
-  window.loveNotice = { into: into, draw: function (slot, notice) { return markdown().then(function () { return put(slot, notice); }); } };
+  window.loveNotice = { into: into, draw: function (slot, notice) { return markdown().then(function () { return put(slot, notice, true); }); } };
 
   Array.prototype.forEach.call(document.querySelectorAll('[data-notice]'), into);
 }());

@@ -5535,7 +5535,13 @@ ${items}
    ONE NOTICE AT A TIME, IN ONE BLOB (`notice`): its words, and which moderator
    put it up or took it down last and when, which only the desk is told. A new
    one replaces the old, and nothing is archived. Every page is sent the words
-   and nothing else (shapeNotice).
+   and nothing else (shapeNotice), with an id worked out from the words alone.
+
+   A VISITOR CAN PUT IT AWAY (Ryan's call, the same day), and their browser
+   keeps the notice's id under love-notice until a new notice goes up. The id
+   is a hash of the words, so it needs nothing stored here and says nothing
+   about who or when; changing even a letter makes a new notice, which shows
+   again to everybody who put the old one away.
 
    ONE LINE OF MARKDOWN, READ HERE ONCE by parseBrass, the board's reader:
    bold, italic, code and links, and never a heading, a list, a quote or a
@@ -5569,9 +5575,12 @@ export async function readNotice(s = store()) {
   return { text: noticeUp(d) ? d.text : null, by: typeof d.by === 'string' ? d.by : null, t: typeof d.t === 'number' ? d.t : null };
 }
 
-/* What every page is told: the words, read into nodes, and nothing about who. */
+/* The id a browser keeps when somebody puts a notice away: the words' hash. */
+export function noticeId(text) { return createHash('sha256').update(String(text)).digest('hex').slice(0, 16); }
+
+/* What every page is told: the words, read into nodes, their id, and nothing about who. */
 export function shapeNotice(d) {
-  return noticeUp(d) ? { text: d.text, ast: parseBrass(d.text) } : null;
+  return noticeUp(d) ? { id: noticeId(d.text), text: d.text, ast: parseBrass(d.text) } : null;
 }
 
 /* A moderator putting a notice up, replacing the one up now. { notice } or { error }. */

@@ -4209,7 +4209,12 @@ unpressed. Nothing flashes, nothing turns, and nothing crosses a word: the banne
 `privacy.html#notice` does not name. **The friendly edits are a sound with the fanfare, the sparkle
 at Regular "so it is not bare", and a notice on every page**: the first breaks the street's oldest
 promise, the second the dial, and the third is the floating thing that made every room narrow its
-promises. **Nothing puts it away yet**; `DECISIONS.md` has that as open.
+promises. **A visitor can put it away** (Ryan's call, the same day): `love-notice` in their own
+browser holds the notice's id, `noticeId`, a hash of the words, so it stays away on every page until
+a new notice goes up, changing a letter counts as new, and the key clears itself once its notice is
+gone; the desk's drawings are previews and remember nothing. **The friendly edit is an id per press
+of Put it up, or a time in the id**, which would bring a notice back for everybody when a moderator
+puts the same words up again, and say when.
 
 **PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
 idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
