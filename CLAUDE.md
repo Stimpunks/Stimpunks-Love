@@ -4845,8 +4845,10 @@ door is our events page's, word for word**, re-read from the mirror on every bui
 order; when the events page changes, re-copy the line, never loosen the check. It also refuses the
 events page's own closing line (*open to Stimpunks Discord community members*), which was true until
 this room and is the friendly edit that will arrive. **The Events door opens the room our recurring
-events meet in**, confirmed by Ryan; the events page still says the meetings are for Discord members
-and is left that way on purpose while the calls are experimental. **The Hang Suites upstairs are
+events meet in**, confirmed by Ryan. **Since 2026-10-23 stimpunks.org's event pages name Stimpunks.World and
+no longer Discord** (Ryan's ask): the recurring events point to the Events Room and the meetings to the
+Operations and Editorial Rooms, still for community members, Ryan's call, though their calls take a guest
+through the lobby. None of the lines this tool copies onto the doors changed. **The Hang Suites upstairs are
 Ryan's words** (Cave, Campfire, Watering Hole, each with its norms), not the events page's, so they are
 not re-read against it; the tool refuses a suite with hours (that is a meeting), one with no norms, and
 the section without David Thornburg's name, because caves, campfires and watering holes are his.
