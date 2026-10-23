@@ -96,6 +96,18 @@ WHAT IT REFUSES, and why each one is here:
     wearing a set must leave as they are, and never a time, which the
     profile's part already refuses. Every set lib.mjs writes is built in
     exactly that shape, and Forget me and deleting the username delete them.
+  · THE COMMUNITY DIRECTORY BROKEN IN ANY OF THE WAYS IT PROMISES NOT TO BE
+    (Ryan's ask, 2026-10-23). A card is listed only when it says listed, in as
+    many words, so the switch starts off; the directory's blob keeps a line of
+    exactly the username, nameplate, tagline and pronouns, and forgetProfile
+    takes it out before the card goes, so Clear my card, a moderator clearing
+    it, Forget me and deleting the username all take somebody out of it; the
+    answer is the people and whether you are among them, and nothing that
+    counts them. directory.js asks /cb/directory and nowhere else, keeps
+    nothing, writes no markup from a string, and says nothing about how many
+    or since when; directory.css wears the CB's seven and no colour of its
+    own; and privacy.html says what it keeps. The friendly edits are a count at
+    the top, a "joined" date beside a name, and a switch that starts on.
 """
 import json
 import re
@@ -108,6 +120,11 @@ ART = ROOT / "cb-themes.js"
 PROFILE = ROOT / "profile.js"
 CSS = ROOT / "love.css"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
+DIR_JS = ROOT / "directory.js"
+DIR_CSS = ROOT / "directory.css"
+DIR_PAGE = ROOT / "directory.html"
+DIR_FN = ROOT / "netlify" / "functions" / "cb-directory.mjs"
+PRIVACY = ROOT / "privacy.html"
 PARTS = ["case", "bar", "steel", "steel-2", "lcd", "amber", "amber-2"]
 
 problems = []
@@ -369,7 +386,7 @@ def main():
         if len(built) < 2 or any(k not in (["avatar", "id", "look", "name"], ["name"]) for k in shapes):
             refuse(f"a profile set in lib.mjs is built with {shapes}: a set holds its id, its name, its look and its avatar, "
                    "and nothing else, so wearing one never puts words back on a card.")
-        if re.search(r"\b(?:bio|pronouns|links|why)\b", sets_code):
+        if re.search(r"\b(?:bio|pronouns|tagline|links|why|listed)\b", sets_code):
             refuse("the profile sets' code in lib.mjs names a part of the card's words: a set is the look, and wearing it keeps the words.")
         if not re.search(r"for \(const \[k, list\] of LOOK\)", sets_code):
             refuse("cardLook in lib.mjs no longer reads exactly LOOK, the seven drawn choices.")
@@ -379,6 +396,8 @@ def main():
     if "forgetProfileSets(pk)" not in (ROOT / "netlify/functions/cb-pets.mjs").read_text():
         refuse("Forget me (cb-pets.mjs) no longer deletes profile sets.")
 
+    check_directory(lib, part_code)
+
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)
@@ -387,6 +406,68 @@ def main():
     write_block(LIB, "/* profile:keys:begin */", "/* profile:keys:end */",
                 "export const PROFILE_KEYS = " + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + ";")
     print("profiles: the themes, drawings, decorations, frames, effects and faces written into lib.mjs")
+
+
+def strip_js(src):
+    code = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+    return re.sub(r"(?m)^\s*//.*$", "", code)
+
+
+def check_directory(lib, part_code):
+    """The community directory (Ryan's ask, 2026-10-23): opt-in, a line of
+    exactly what the card shows, out with the card, and no count or date."""
+    if "out.listed = p.listed === true;" not in part_code:
+        refuse("cleanProfile in lib.mjs no longer lists a card only when it says listed: true. The switch starts off.")
+    m = re.search(r"function directoryLine\(.*?\n\}", part_code, re.S)
+    built = re.findall(r"return \{([^}]*)\};", m.group(0)) if m else []
+    if not built or sorted(re.findall(r"(\w+)(?=[,:]|\s*\}|$)", built[-1].replace(" ", ""))) != ["handle", "plate", "pronouns", "tagline"]:
+        refuse("directoryLine in lib.mjs builds a line with something besides the username, nameplate, tagline and pronouns.")
+    m = re.search(r"export async function forgetProfile\(.*?\n\}", part_code, re.S)
+    body = m.group(0) if m else ""
+    i, j = body.find("showInDirectory(pk, null"), body.find("s.delete(profileBlob(pk))")
+    if i < 0 or j < 0 or i > j:
+        refuse("forgetProfile in lib.mjs no longer takes somebody out of the directory before the card goes.")
+    m = re.search(r"export async function communityDirectory\(.*?\n\}", part_code, re.S)
+    cd = m.group(0) if m else ""
+    ret = re.search(r"return \{(.*?)\};", cd, re.S)
+    if not ret or sorted(re.findall(r"^\s*(\w+):", ret.group(1), re.M)) != ["listed", "people"]:
+        refuse("communityDirectory in lib.mjs answers with something besides its people and whether you are among them.")
+    if re.search(r"\bcount\b|\btotal\b|\.length\b", cd):
+        refuse("communityDirectory in lib.mjs counts something: the directory says how many people are in it nowhere.")
+
+    fn = DIR_FN.read_text() if DIR_FN.exists() else ""
+    if not fn or "await readPass(req)" not in fn or "if (!who) return json(401" not in fn:
+        refuse(f"{DIR_FN.name} answers without a pass: the directory is for people signed on to the CB.")
+
+    js = strip_js(DIR_JS.read_text()) if DIR_JS.exists() else ""
+    if not js:
+        refuse("directory.js is missing.")
+    urls = sorted(set(re.findall(r"fetch\(\s*'([^']*)'", js)))
+    if urls != ["/cb/directory"] or re.search(r"XMLHttpRequest|sendBeacon|WebSocket|EventSource", js):
+        refuse(f"directory.js asks {urls}: it asks /cb/directory and nowhere else.")
+    for pat, why in [
+        (r"setItem|removeItem|sessionStorage|indexedDB|document\.cookie", "storage: the directory keeps nothing"),
+        (r"innerHTML|outerHTML|insertAdjacentHTML|DOMParser", "markup written from a string"),
+        (r"\bcount\b|\btotal\b|\.length\s*\+|\+\s*[\w.]+\.length", "a count: the directory never says how many"),
+        (r"\bjoined\b|member since|new Date|Date\.now|toLocale(?:Date)?String", "a date: nothing in the directory says when anybody joined"),
+    ]:
+        mm = re.search(pat, js)
+        if mm:
+            refuse(f"directory.js has {mm.group(0)!r}, {why}.")
+    css = DIR_CSS.read_text() if DIR_CSS.exists() else ""
+    css_code = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    mm = re.search(r"#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|oklch|lab|lch)\(|\b(?:white|black)\b", css_code)
+    if not css or mm:
+        refuse(f"directory.css has {mm.group(0) if mm else 'nothing'}: the directory wears the CB's seven and no colour of its own.")
+    if re.search(r"\b(?:transition|animation|@keyframes|transform)\b", css_code):
+        refuse("directory.css moves something: nothing in the directory moves.")
+    page = DIR_PAGE.read_text() if DIR_PAGE.exists() else ""
+    for want in ("data-directory", 'src="directory.js"', 'src="call.js"', 'href="privacy.html#community-directory"'):
+        if want not in page:
+            refuse(f"directory.html has no {want}.")
+    priv = PRIVACY.read_text()
+    if 'id="community-directory"' not in priv or "Show my profile in the community directory" not in priv:
+        refuse("privacy.html has no #community-directory section naming the switch, Show my profile in the community directory.")
 
 
 if __name__ == "__main__":

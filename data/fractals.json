@@ -594,6 +594,20 @@
         "--green"
       ]
     },
+    "directory.html": {
+      "kind": "julia",
+      "c": [
+        -0.835,
+        -0.2321
+      ],
+      "orbit": 0.015,
+      "ground": "--ink",
+      "inks": [
+        "--yellow",
+        "--green",
+        "--pink"
+      ]
+    },
     "forum.html": {
       "kind": "julia",
       "c": [

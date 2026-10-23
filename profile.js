@@ -3387,6 +3387,8 @@
     if (o.mark && o.mark.base) line.appendChild(el('span', 'cb-tag', 'BASE'));
     if (p.pronouns) line.appendChild(el('span', 'pf-pronouns', p.pronouns));
     if (line.childNodes.length) body.appendChild(line);
+    // The tagline, one line of their own under the name, as the directory shows it.
+    if (p.tagline) body.appendChild(el('p', 'pf-tagline', p.tagline));
     if (p.bio && o.md) {
       body.appendChild(el('h3', 'pf-sub', 'About'));
       var bio = el('div', 'pf-panel pf-bio');
@@ -3414,12 +3416,48 @@
     c.appendChild(body);
     return c;
   }
+  /* A LINE IN THE COMMUNITY DIRECTORY (Ryan's ask, 2026-10-23), as
+     directory.js lists it and the editor shows it before it is saved: the
+     avatar they wear, their name, BASE, pronouns, tagline and nameplate. o is
+     { handle, base, tagline, pronouns, avatar }; name is what carries the
+     name, a button in the directory and plain words otherwise; tag is the
+     element the line is. The nameplate is drawn by the caller once the line is
+     in the page, at the width it has: drawing(line.pfPlate, plate). */
+  function listing(o, name, tag) {
+    var row = el(tag || 'div', 'cb-dir-row');
+    var face = el('span', 'cb-dir-face');
+    var art = o.avatar && window.loveAvatar && window.loveAvatar.draw(o.avatar.look, { crop: 'bust', ground: true });
+    if (art) {
+      face.appendChild(art);
+      if (o.avatar.about) { face.setAttribute('role', 'img'); face.setAttribute('aria-label', o.handle + '\u2019s avatar: ' + o.avatar.about); }
+      else face.setAttribute('aria-hidden', 'true');
+    } else {
+      face.classList.add('cb-dir-face--none');
+      face.setAttribute('aria-hidden', 'true');
+    }
+    row.appendChild(face);
+    var words = el('div', 'cb-dir-words');
+    var line = el('p', 'cb-dir-line');
+    line.appendChild(name || el('b', 'cb-dir-name', o.handle));
+    if (o.base) line.appendChild(el('span', 'cb-tag', 'BASE'));
+    if (o.pronouns) line.appendChild(el('span', 'pf-pronouns', o.pronouns));
+    words.appendChild(line);
+    if (o.tagline) words.appendChild(el('p', 'cb-dir-tagline', o.tagline));
+    var plate = el('div', 'pf-plate');
+    plate.setAttribute('aria-hidden', 'true');
+    plate.hidden = true;
+    words.appendChild(plate);
+    row.pfPlate = plate;
+    row.appendChild(words);
+    return row;
+  }
+
   /* The banner is drawn once the card is in the page, at the width it has. */
   function drawCard(c, p) { drawing(c.pfBanner, p && p.banner); c.classList.toggle('pf-card--banner', !c.pfBanner.hidden); }
 
   window.loveProfile = {
     FACES: FACES, DECORATIONS: DECORATIONS, FRAMES: FRAMES, EFFECTS: EFFECTS, dress: dress, nameStyle: nameStyle, faceOf: faceOf,
     drawing: drawing, decoration: decoration, decorationName: decorationName, frameName: frameName, effectName: effectName, effectCredit: effectCredit,
-    card: card, drawCard: drawCard, surround: surround
+    card: card, drawCard: drawCard, surround: surround, listing: listing
   };
 })();

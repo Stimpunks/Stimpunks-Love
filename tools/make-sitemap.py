@@ -160,6 +160,10 @@ ORDER = ["index.html",
          # itself, docked into a page in the reader's own CB theme rather than a
          # world of its own, so it stands with the guide and the forums.
          "chat.html",
+         # The community directory (2026-10-23): everybody on the CB who chose
+         # to be listed. The CB's, in the reader's own CB theme rather than a
+         # world of its own, so it stands with the chat and the forums.
+         "directory.html",
          # The CB's forums, for what needs longer than the channel's two days. The
          # radio's, as its guide is, and in the reader's own CB theme rather
          # than a world of its own, so it stands beside the guide.
@@ -365,6 +369,7 @@ lines += [
     "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
     "- Joining the CB with an invite, which claims a username of your own: https://stimpunks.world/join.html",
     "- The chat, every room's channel on the CB on one page, for anybody signed on to the CB (nothing in it is public): https://stimpunks.world/chat.html",
+    "- The community directory, everybody on the CB who has chosen to be listed, for anybody signed on to the CB (nothing in it is public): https://stimpunks.world/directory.html",
     "- The CB's forums, for claimed usernames on the CB (nothing in them is public): https://stimpunks.world/forum.html",
     "- Tasks, the team's to-do list, for its directors, board members and administrators (nothing in it is public): https://stimpunks.world/tasks.html",
     "- The Office, the people and organisations Stimpunks is in touch with, for its directors, board members and administrators (nothing in it is public): https://stimpunks.world/office.html",

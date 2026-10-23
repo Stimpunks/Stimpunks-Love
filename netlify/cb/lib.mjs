@@ -1920,17 +1920,31 @@ export function shapeJacketSticker(st) {
    online reads one blob rather than one per person, and it is taken out of
    that blob FIRST when the profile goes. Forget me and deleting the username
    delete the profile, and a moderator can clear one card from the desk without
-   deleting the username (clearProfile, Ryan's call, 2026-10-18). */
+   deleting the username (clearProfile, Ryan's call, 2026-10-18).
+
+   A TAGLINE AND THE COMMUNITY DIRECTORY (Ryan's ask, 2026-10-23). A tagline is
+   one line of the person's own, under their name on the card. The directory,
+   on directory.html, lists everybody who switched on Show my profile in the
+   community directory, `listed` on the card, off until switched on: their
+   username, nameplate, tagline and pronouns, copied to one blob the way the
+   nameplate is, and taken out of it FIRST when the profile goes, so Clear my
+   card, a moderator clearing it, Forget me and deleting the username all take
+   somebody out of it. It is shown to anybody signed on to the CB, in
+   alphabetical order, and it says how many people are in it nowhere: the
+   friendly edits are a count at the top, a "joined" date beside a name and a
+   switch that starts on, and each is refused by tools/make-profile.py. */
 /* profile:keys:begin */
 export const PROFILE_KEYS = {"themes":["amber","day","high","soldark","sollight","green","red","teal","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","lagoon","kelp","fairy","cloud","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","mordor"],"banners":["soldark","sollight","biophilic","starstuff","lcars","glitter","solarpunk","biomech","greeble","cyborg","unicorn","wabi","zelda","microchip","ascii","sml","digdug","deviant","hp49g","mario","cube","pipboy","gameboy","ti82","louise","paula","shop","mansn","w","termites","greenroom","sarah","crashers","inquisition","metroid","megaman","fable","skyrim","doom","portal","witcher","gta","loz","kelp","fairy","cloud","lagoon","mordor"],"decorations":["wreath","vines","stars","sparkles","mushrooms","leaves","hearts","gears","bubbles","snow","flames","moons","notes","paws","halo","circuit","butterflies","crystals","lanterns","otterring","cloudcars"],"frames":["briar","ivy","brass","lights","stitches","film","circuit","crystals","garland","starry","gate","fronds","portholes"],"effects":["butterflies","fireflies","petals","leaves","snow","bubbles","sparkles","shooting","notes","hearts","lagoon","otters","fairy","wolf","starward","dolphins","autumn","cloudcity"],"faces":["Atkinson Hyperlegible","Abril Fatface","Amarante","Anton","B612","Bagel Fat One","Bowlby One SC","Bungee","Bungee Shade","Caveat","Chakra Petch","Cherry Bomb One","Cinzel","Courier Prime","Della Respira","Doto","DynaPuff","Eczar","Exo 2","Forum","Fraunces","Fredoka","Gloria Hallelujah","Gravitas One","Inter","JetBrains Mono","Jost","Leckerli One","Libre Franklin","Lilita One","Limelight","Macondo","Marcellus SC","Martian Mono","Michroma","Monoton","Oxanium","Permanent Marker","Playfair Display","Press Start 2P","Righteous","Rubik Dirt","Rye","Sansita","Shrikhand","Sour Gummy","Space Mono","Syncopate","Titan One","Unbounded","VT323","Yanone Kaffeesatz","Yellowtail"]};
 /* profile:keys:end */
 export const PRONOUNS_MAX = 40;
+export const TAGLINE_MAX = 100;
 export const BIO_MAX = 500;
 export const PROFILE_LINKS = 5;
 export const PROFILE_LINK_MAX = 300;
 export const ROOM_WHY_MAX = 200;
 const profileBlob = (k) => `profile/${k}`;
 const PLATES = 'profiles-plates';
+const DIRECTORY = 'profiles-directory';
 
 function inList(list, v) { return v === '' || v == null ? '' : (typeof v === 'string' && list.includes(v) ? v : null); }
 
@@ -1984,6 +1998,9 @@ export function cleanProfile(p) {
   const pronouns = cleanUpTo(p.pronouns, PRONOUNS_MAX);
   if (pronouns === null) return { error: `Pronouns are at most ${PRONOUNS_MAX} characters.` };
   out.pronouns = pronouns;
+  const tagline = cleanUpTo(p.tagline, TAGLINE_MAX);
+  if (tagline === null) return { error: `A tagline is one line of at most ${TAGLINE_MAX} characters.` };
+  out.tagline = tagline;
   const bio = cleanBio(p.bio);
   if (bio === null) return { error: `A bio is at most ${BIO_MAX} characters.` };
   out.bio = bio;
@@ -2006,6 +2023,8 @@ export function cleanProfile(p) {
   const why = cleanUpTo(p.why, ROOM_WHY_MAX);
   if (why === null) return { error: `Why it is your favourite is at most ${ROOM_WHY_MAX} characters.` };
   out.why = room ? why : '';
+  // In the community directory only when the person said yes in as many words.
+  out.listed = p.listed === true;
   return { profile: out };
 }
 
@@ -2043,9 +2062,52 @@ async function showPlate(pk, plate, s) {
   }, s);
 }
 
+async function updateDirectory(change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, DIRECTORY);
+    const people = { ...((cur.exists && cur.data && cur.data.people) || {}) };
+    if (change(people) === false) return people;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(DIRECTORY, { people }, opts);
+    if (res.modified) return people;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* One person's line in the directory, checked on the way in and on the way
+   out: exactly their username, nameplate, tagline and pronouns, or null. A line
+   filed under somebody else's pet key is nobody's. */
+function directoryLine(k, e) {
+  if (!e || typeof e !== 'object') return null;
+  const handle = cleanHandle(e.handle);
+  if (!handle || handle !== e.handle || petKey(handle) !== k) return null;
+  const plate = inList(PROFILE_KEYS.banners, e.plate);
+  const tagline = cleanUpTo(e.tagline, TAGLINE_MAX);
+  const pronouns = cleanUpTo(e.pronouns, PRONOUNS_MAX);
+  return { handle, plate: plate || '', tagline: tagline || '', pronouns: pronouns || '' };
+}
+
+/* In the directory, or taken out of it. A card that says listed is copied in
+   under the username the caller signed on as; one wearing a set, which is
+   saved without a username, keeps the one already there, and is not listed
+   from nothing. */
+async function showInDirectory(pk, p, handle, s) {
+  return updateDirectory((people) => {
+    if (!p || !p.listed) { if (!own(people, pk)) return false; delete people[pk]; return true; }
+    const name = handle || (own(people, pk) && people[pk] && people[pk].handle);
+    const line = name ? directoryLine(pk, { handle: name, plate: p.plate, tagline: p.tagline, pronouns: p.pronouns }) : null;
+    if (!line) return false;
+    if (own(people, pk) && JSON.stringify(people[pk]) === JSON.stringify(line)) return false;
+    people[pk] = line;
+    return true;
+  }, s);
+}
+
 /* Keep a profile, already checked by cleanProfile. The caller has checked the
-   username is claimed. One with nothing in it is forgotten instead. */
-export async function keepProfile(pk, p, s = store()) {
+   username is claimed, and says what it is, for the directory. One with
+   nothing in it is forgotten instead. */
+export async function keepProfile(pk, p, s = store(), handle = null) {
   if (emptyProfile(p)) { await forgetProfile(pk, s); return null; }
   const key = profileBlob(pk);
   for (let attempt = 0; ; attempt++) {
@@ -2057,15 +2119,39 @@ export async function keepProfile(pk, p, s = store()) {
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   await showPlate(pk, p.plate || '', s);
+  await showInDirectory(pk, p, handle, s);
   return p;
 }
 
 /* Clearing it, a moderator clearing it, Forget me and deleting the username:
-   off Who's online first, then the record. */
+   off Who's online and out of the directory first, then the record. */
 export async function forgetProfile(pk, s = store()) {
   await showPlate(pk, '', s);
+  await showInDirectory(pk, null, null, s);
   await s.delete(profileBlob(pk));
   return true;
+}
+
+/* THE COMMUNITY DIRECTORY as anybody signed on is shown it: everybody in it,
+   alphabetical, each with their username, BASE if they are a moderator,
+   nameplate, tagline, pronouns and the avatar they wear; and whether the asker
+   is in it. No number, and nothing about when anybody joined or was last
+   seen. */
+export async function communityDirectory(who, s = store(), mods) {
+  if (mods === undefined) mods = await loadMods();
+  const d = await s.get(DIRECTORY, { type: 'json' });
+  const listed = (d && d.people && typeof d.people === 'object') ? d.people : {};
+  const people = [];
+  for (const k of Object.keys(listed)) {
+    const line = directoryLine(k, listed[k]);
+    if (line) people.push({ ...line, base: !!(mods && mods.has(foldHandle(line.handle))), claimed: true });
+  }
+  people.sort((x, y) => x.handle.localeCompare(y.handle));
+  const worn = await withAvatars(people, s);
+  return {
+    people: worn.map(({ claimed, ...rest }) => rest),
+    listed: !!(who && who.handle && own(listed, petKey(who.handle)) && directoryLine(petKey(who.handle), listed[petKey(who.handle)])),
+  };
 }
 
 /* A moderator clearing somebody's card from the desk. Ryan's call,
@@ -2247,13 +2333,13 @@ export async function removeProfileSet(pk, id, s = store()) {
    avatar deleted since the set was saved leaves the one worn as it is, and
    says so. { profile, wearing, avatarGone } or { error }. The caller has
    checked the username is claimed. */
-export async function wearProfileSet(pk, id, s = store()) {
+export async function wearProfileSet(pk, id, s = store(), handle = null) {
   if (!setId(id)) return { error: 'which' };
   const set = (await readProfileSets(pk, s)).find((x) => x.id === id);
   if (!set) return { error: 'which' };
   const c = cleanProfile({ ...((await readProfile(pk, s)) || {}), ...cardLook(set.look) });
   if (c.error) return { error: 'look' };
-  const profile = await keepProfile(pk, c.profile, s);
+  const profile = await keepProfile(pk, c.profile, s, handle);
   const want = typeof set.avatar === 'string' && AVATAR_ID.test(set.avatar) ? set.avatar : null;
   const av = await readAvatars(pk, s);
   if (want && !av.avatars.some((a) => a.id === want)) return { profile, wearing: av.wearing, avatarGone: true };

@@ -1568,6 +1568,20 @@ street's own lists. **The friendly edits are a bio and pronouns in a set "so Hal
 words back on a card by a press, **a set shown on a profile**, and **sets switching by themselves by room or by date**, which
 changes somebody's card while they are not looking; `DECISIONS.md` has them as open, each Ryan's call first.
 
+**THE COMMUNITY DIRECTORY IS OPT-IN, AND IT NEVER COUNTS ANYBODY.** Ryan's ask, 2026-10-23: `directory.html` (paperwork
+beside the chat page and the forums, in the reader's own CB theme, `directory.js` and `directory.css`) lists everybody who
+ticked **Show my profile in the community directory** on their card (`listed`, off until ticked, saved with Save my card),
+for anybody signed on (`/cb/directory`, `communityDirectory` in `lib.mjs`): the worn avatar, the username, BASE from the
+moderators' list, pronouns, a **tagline** (one line of 100 characters, new on every card) and the nameplate, alphabetical,
+and a name opens the profile through `loveRadioPeek`. A line is copied into one blob, `profiles-directory` (`showInDirectory`,
+by pet key, the nameplates' arrangement), under the username the pass is for, and `forgetProfile` takes it out first, so
+Clear my card, a moderator's clearCard, Forget me and deleting the username all take somebody out. The line on the page and
+in the editor's preview is one function, `profile.js`'s `listing()`. `tools/make-profile.py` (`check_directory`) holds it.
+**The friendly edits are a count at the top, a joined date, a switch that starts on "so the directory is not empty", and
+setting each name in its card's face**: the first two are the headcount and the member-since ranking the street refuses on
+its public surfaces (the desk's directory is the backend, where Ryan said numbers are fine), the third lists people who
+never chose it, and the card's face is for the card and nothing else. `DECISIONS.md` has what is still open.
+
 **PROPS ARE THE SEVENTH THING KEPT UNDER A PERSON, AND NOTHING GOES UP UNTIL ITS PERSON SAYS YES.** Ryan, 2026-10-18,
 after the forums' Props & Gratitude: a **Props** tab in every profile (last of the tabs), where anybody signed on reads
 the props somebody confirmed and anybody with a **claimed** username (`forumReader`) writes them one, a sentence or a

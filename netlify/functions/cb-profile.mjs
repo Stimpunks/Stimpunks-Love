@@ -2,11 +2,12 @@
    it, with whether your username is claimed and the lists it chooses from.
    POST with a pass:
      { profile: { theme, banner, decoration, frame, effect, face, plate,
-                  pronouns, bio, links, room, why } }
+                  pronouns, tagline, bio, links, room, why, listed } }
                                          keeps it, every part checked by
                                          cleanProfile(); one with nothing in
                                          it is cleared instead
-     { clear: true }                     clears it, off Who's online first
+     { clear: true }                     clears it, off Who's online and out
+                                         of the community directory first
    and your PROFILE SETS (2026-10-19), each the card's look under a name and
    which avatar is worn, read off the card as it is saved:
      { setSave: name }                   the card as it is, as a new set
@@ -19,15 +20,17 @@
    Sets are never shown to anybody else.
    Only a claimed username has a profile, because an unclaimed handle is
    anybody's who signs on with it. Whatever is in it is shown to anybody signed
-   on to the CB, as privacy.html#profile says. It holds no date. FORGET ME,
+   on to the CB, as privacy.html#profile says, and listed: true puts its
+   username, nameplate, tagline and pronouns in the community directory
+   (privacy.html#community-directory), under the username this pass is for. It holds no date. FORGET ME,
    in /cb/pets, and deleting the username clear it too. */
 import { readPass, petKey, readProfile, keepProfile, forgetProfile, cleanProfile, PROFILE_KEYS,
-  PRONOUNS_MAX, BIO_MAX, PROFILE_LINKS, PROFILE_LINK_MAX, ROOM_WHY_MAX,
+  PRONOUNS_MAX, TAGLINE_MAX, BIO_MAX, PROFILE_LINKS, PROFILE_LINK_MAX, ROOM_WHY_MAX,
   readProfileSets, shapeProfileSet, saveProfileSet, wearProfileSet, refreshProfileSet, renameProfileSet, removeProfileSet,
   PROFILE_SET_NAME_MAX, readAvatars, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
-const LIMITS = { pronouns: PRONOUNS_MAX, bio: BIO_MAX, links: PROFILE_LINKS, link: PROFILE_LINK_MAX, why: ROOM_WHY_MAX, setName: PROFILE_SET_NAME_MAX };
+const LIMITS = { pronouns: PRONOUNS_MAX, tagline: TAGLINE_MAX, bio: BIO_MAX, links: PROFILE_LINKS, link: PROFILE_LINK_MAX, why: ROOM_WHY_MAX, setName: PROFILE_SET_NAME_MAX };
 const SET_SAID = {
   name: `A set needs a name, of at most ${PROFILE_SET_NAME_MAX} characters.`,
   taken: 'You already have a set with that name.',
@@ -60,7 +63,7 @@ export default async (req) => {
       return json(200, { claimed, profile: null }, NOINDEX);
     }
     const set = b.setSave !== undefined ? await saveProfileSet(pk, b.setSave)
-      : b.setWear !== undefined ? await wearProfileSet(pk, b.setWear)
+      : b.setWear !== undefined ? await wearProfileSet(pk, b.setWear, undefined, who.handle)
       : b.setUpdate !== undefined ? await refreshProfileSet(pk, b.setUpdate)
       : b.setRename !== undefined ? await renameProfileSet(pk, b.setRename, b.name)
       : b.setRemove !== undefined ? await removeProfileSet(pk, b.setRemove)
@@ -72,7 +75,7 @@ export default async (req) => {
     if (b.profile !== undefined) {
       const c = cleanProfile(b.profile);
       if (c.error) return json(400, { error: c.error });
-      return json(200, { claimed, profile: await keepProfile(pk, c.profile) }, NOINDEX);
+      return json(200, { claimed, profile: await keepProfile(pk, c.profile, undefined, who.handle) }, NOINDEX);
     }
   } catch (e) {
     return json(503, { error: 'That did not work just now. Nothing changed; try again in a moment.' });

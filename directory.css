@@ -1,0 +1,46 @@
+/* =============================================================================
+   The community directory, inside its own shadow root beside cb.css
+   (directory.js).
+
+   THE CB'S CLOTHES AND NONE OF ITS OWN, as the forums' and the joining desk's:
+   every colour here is one of the radio's seven, var(--cb-*), which cb.css
+   lays over with the theme the reader's radio wears, so the directory brings
+   no pair check-contrast.py has not already measured. Words on the case in
+   --cb-steel, quiet lines in --cb-amber-2, links and the focus ring in
+   --cb-amber. A line of the directory is cb.css's .cb-dir-row, the one the
+   card's editor shows too. tools/make-profile.py refuses a literal colour in
+   this file. Every sentence stays in Atkinson Hyperlegible.
+
+   NOTHING HERE MOVES. No transition, no animation, no transform.
+   ============================================================================= */
+:host { display: block; }
+.dr, .dr *, .dr *::before, .dr *::after { box-sizing: border-box; }
+.dr {
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  font: 16px/1.55 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left; overflow-wrap: anywhere;
+}
+.dr :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.dr a { color: var(--cb-amber); }
+.dr p { margin: 0; }
+
+.dr-bar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px 8px 0 0; cursor: default; user-select: auto; touch-action: auto; }
+.dr-name { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--cb-steel); }
+
+.dr-view { display: grid; gap: 16px; padding: 18px; }
+.dr-me { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; max-width: 46em; }
+.dr-me p { flex: 1 1 22em; }
+.dr-edit { flex: none; }
+.dr-find { display: grid; gap: 2px; max-width: 26em; }
+.dr-q { display: block; width: 100%; }
+.dr-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+.dr > .dr-view > .cb-btn { justify-self: start; }
+
+@media (max-width: 759px) {
+  .dr-view { padding: 14px 12px; }
+  .dr-q { font-size: 16px; }
+}

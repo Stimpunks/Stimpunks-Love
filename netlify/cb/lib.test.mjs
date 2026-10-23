@@ -46,6 +46,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
+  TAGLINE_MAX, communityDirectory,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
@@ -2526,14 +2527,19 @@ test('a jacket is shown only on a claimed username that says so, and a sticker i
 const fullProfile = (over = {}) => ({
   theme: 'lcars', banner: PROFILE_KEYS.banners[0], decoration: PROFILE_KEYS.decorations[0],
   frame: PROFILE_KEYS.frames[0], effect: PROFILE_KEYS.effects[0], face: PROFILE_KEYS.faces[1],
-  plate: PROFILE_KEYS.banners[1], pronouns: 'they/them', bio: 'Line one.\n\nLine two.', links: ['https://example.org/me'],
+  plate: PROFILE_KEYS.banners[1], pronouns: 'they/them', tagline: 'Otters, lichen and long walks.', bio: 'Line one.\n\nLine two.', links: ['https://example.org/me'],
   room: 'the-den', why: 'the carpet', ...over,
 });
 
 test('a profile holds only choices from the lists and words within their limits', () => {
   const ok = cleanProfile(fullProfile());
   assert.ok(ok.profile, ok.error);
-  assert.deepEqual(Object.keys(ok.profile).sort(), ['banner', 'bio', 'decoration', 'effect', 'face', 'frame', 'links', 'plate', 'pronouns', 'room', 'theme', 'why'].sort());
+  assert.deepEqual(Object.keys(ok.profile).sort(), ['banner', 'bio', 'decoration', 'effect', 'face', 'frame', 'links', 'listed', 'plate', 'pronouns', 'room', 'tagline', 'theme', 'why'].sort());
+  assert.equal(ok.profile.listed, false, 'a card was in the directory without being asked');
+  assert.equal(cleanProfile(fullProfile({ listed: 'yes' })).profile.listed, false, 'anything but true put a card in the directory');
+  assert.equal(cleanProfile(fullProfile({ tagline: '  Two\nlines  ' })).profile.tagline, 'Two lines', 'a tagline kept a line break');
+  assert.ok(cleanProfile(fullProfile({ tagline: 'x'.repeat(TAGLINE_MAX + 1) })).error, 'a tagline over its limit');
+  assert.ok(cleanProfile({ tagline: 'Only a tagline.' }).profile.tagline, 'a card with only a tagline');
   assert.ok(PROFILE_KEYS.frames.length && PROFILE_KEYS.effects.length, 'make-profile.py wrote no frames or no effects');
   assert.ok(cleanProfile(fullProfile({ frame: 'barbed-wire' })).error, 'a frame with no drawing');
   assert.ok(cleanProfile(fullProfile({ effect: 'strobe' })).error, 'an effect with no drawing');
@@ -2635,6 +2641,79 @@ for (const etagOnRead of [true, false]) {
   });
 }
 
+
+/* ── The community directory ─────────────────────────────────────────── */
+
+test('the directory lists only cards that say so, under their own usernames, alphabetical, with no number', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Ryan":["administrator"]}');
+  const p = cleanProfile(fullProfile()).profile;
+  const on = cleanProfile(fullProfile({ listed: true })).profile;
+  for (const n of ['zed', 'Ada', 'Ryan', 'Bex']) await claimAccount(n, 'a long enough phrase', s, 9, null);
+  await keepProfile(petKey('Bex'), p, s, 'Bex');
+  assert.deepEqual((await communityDirectory({ handle: 'Bex' }, s, mods)).people, [], 'a card that did not say so was listed');
+  for (const n of ['zed', 'Ada', 'Ryan']) await keepProfile(petKey(n), on, s, n);
+  let got = await communityDirectory({ handle: 'Bex' }, s, mods);
+  assert.deepEqual(got.people.map((x) => x.handle), ['Ada', 'Ryan', 'zed'], 'not in alphabetical order');
+  assert.equal(got.listed, false);
+  assert.equal((await communityDirectory({ handle: 'ada' }, s, mods)).listed, true);
+  assert.deepEqual(Object.keys(got).sort(), ['listed', 'people'], 'the directory answered with something besides its people');
+  assert.deepEqual(Object.keys(got.people[0]).sort(), ['base', 'handle', 'plate', 'pronouns', 'tagline'], 'a line held something besides what the card shows');
+  assert.equal(got.people[0].tagline, on.tagline);
+  assert.equal(got.people[0].plate, on.plate);
+  assert.equal(got.people[1].base, true, 'a moderator was not marked BASE');
+  assert.equal(got.people[0].base, false);
+  const raw = await s.get('profiles-directory', { type: 'json' });
+  assert.deepEqual(Object.keys(raw), ['people']);
+  for (const line of Object.values(raw.people)) assert.deepEqual(Object.keys(line).sort(), ['handle', 'plate', 'pronouns', 'tagline'], 'the directory kept something besides the line');
+
+  // The worn avatar comes along, as on Who's online.
+  const av = (await keepAvatar(petKey('Ada'), { look: lookOf(), name: 'Saloon' }, s)).kept;
+  await wearAvatar(petKey('Ada'), av.id, s);
+  assert.ok((await communityDirectory(null, s, mods)).people[0].avatar, 'the avatar worn was not shown');
+
+  // A change to the card changes the line; wearing a set keeps it listed.
+  await keepProfile(petKey('Ada'), { ...on, tagline: 'Changed.', plate: '' }, s, 'Ada');
+  got = await communityDirectory(null, s, mods);
+  assert.equal(got.people[0].tagline, 'Changed.');
+  assert.equal(got.people[0].plate, '', 'a nameplate taken off is still in the directory');
+  await keepProfile(petKey('Ada'), { ...on, plate: PROFILE_KEYS.banners[2] }, s);
+  assert.equal((await communityDirectory(null, s, mods)).people[0].plate, PROFILE_KEYS.banners[2], 'a card saved without a username lost its line');
+
+  // Switching it off, clearing the card, Forget me and deleting the username all take somebody out.
+  await keepProfile(petKey('zed'), { ...on, listed: false }, s, 'zed');
+  assert.deepEqual((await communityDirectory(null, s, mods)).people.map((x) => x.handle), ['Ada', 'Ryan'], 'switched off and still listed');
+  assert.equal((await readProfile(petKey('zed'), s)).tagline, on.tagline, 'switching it off cleared the card');
+  await clearProfile('Ryan', s);
+  assert.deepEqual((await communityDirectory(null, s, mods)).people.map((x) => x.handle), ['Ada'], 'a cleared card is still listed');
+  await keepProfile(petKey('Ryan'), on, s, 'Ryan');
+  await forgetProfile(petKey('Ryan'), s);
+  assert.deepEqual((await communityDirectory(null, s, mods)).people.map((x) => x.handle), ['Ada'], 'Forget me left somebody listed');
+  await deleteAccount('Ada', s);
+  assert.deepEqual((await communityDirectory(null, s, mods)).people, [], 'a deleted username is still listed');
+
+  // A card saved without a username is never listed from nothing, and a line filed under somebody else's key is nobody's.
+  await keepProfile(petKey('Bex'), on, s);
+  assert.deepEqual((await communityDirectory(null, s, mods)).people, [], 'listed with no username');
+  const cur = await s.getWithMetadata('profiles-directory');
+  await s.setJSON('profiles-directory', { people: { ...cur.data.people, [petKey('Bex')]: { handle: 'zed', plate: '', tagline: 'not mine', pronouns: '' } } }, { onlyIfMatch: cur.etag });
+  assert.deepEqual((await communityDirectory(null, s, mods)).people, [], 'a line under another person’s key was shown');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen people listed in the directory at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const names = Array.from({ length: 15 }, (_, i) => `P${i}`);
+    const on = cleanProfile(fullProfile({ listed: true })).profile;
+    const told = await Promise.allSettled(names.map((n) => keepProfile(petKey(n), on, s, n)));
+    const worked = names.filter((_, i) => told[i].status === 'fulfilled');
+    const shown = (await communityDirectory(null, s, null)).people.map((x) => x.handle);
+    assert.deepEqual(worked.filter((n) => !shown.includes(n)), [], 'somebody told they were listed is not in the directory');
+    for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
+    if (etagOnRead) assert.equal(worked.length, 15);
+  });
+}
 
 /* ── Profile sets ─────────────────────────────────────────────────────── */
 import { PROFILE_SETS_KEEP, PROFILE_SET_NAME_MAX, cardLook, readProfileSets, shapeProfileSet, saveProfileSet, wearProfileSet,

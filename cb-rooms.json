@@ -776,6 +776,12 @@
    "about": "The chat: every room’s channel on the CB on one page, the way chat lays them out, with the channels down the left in three groups, Community, Staff and World, the channel you pick in the middle and who is around on the right. For anybody signed on to the CB, which you join with an invite."
   },
   {
+   "tag": "directory",
+   "name": "The community directory",
+   "path": "/directory.html",
+   "about": "The CB’s community directory: everybody on the CB who has chosen to be listed, alphabetical, each with their username, nameplate, tagline, pronouns and the avatar they wear, and a press away from their profile card. For people signed on to the CB, opt-in, and with no count and no dates."
+  },
+  {
    "tag": "forum",
    "name": "The forums",
    "path": "/forum.html",

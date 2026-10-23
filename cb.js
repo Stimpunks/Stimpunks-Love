@@ -1395,6 +1395,14 @@
     online.appendChild(this.onlineNone);
     this.onlineMe = el('p', 'cb-seen-now');
     online.appendChild(this.onlineMe);
+    // Everybody who chose to be listed, seen or not (2026-10-23).
+    var dirLine = el('p', 'cb-seen-now');
+    dirLine.appendChild(document.createTextNode('Everybody who chose to be listed, seen in a room or not, is in '));
+    var dirLink = el('a', null, 'the community directory');
+    dirLink.href = '/directory.html';
+    dirLine.appendChild(dirLink);
+    dirLine.appendChild(document.createTextNode('.'));
+    online.appendChild(dirLine);
     // Shown only once the server says 8x8 is telling it, so no call is a guess.
     var calls = this.callsBox = el('div', 'cb-online-calls');
     calls.hidden = true;
@@ -5705,6 +5713,15 @@
     return s;
   }
 
+  /* A page showing cards, the community directory, hears that one was saved or
+     cleared, here or from the radio's own window, and asks again. */
+  function profileSaved() {
+    [document, streetDoc()].forEach(function (d, i) {
+      if (!d || (i && d === document)) return;
+      try { d.dispatchEvent(new d.defaultView.CustomEvent('love-profile-saved')); } catch (e) { /* an old browser, or a window gone */ }
+    });
+  }
+
   Radio.prototype.pfEdit = function (from) {
     var me = this;
     this.peekFrom = from;
@@ -5774,6 +5791,9 @@
     var pr = el('input', 'cb-say');
     pr.type = 'text'; pr.maxLength = lim.pronouns; pr.autocomplete = 'off';
     var fPron = pfField(form, 'Pronouns', 'pf-pron', pr, 'Up to ' + lim.pronouns + ' characters, as you write them.');
+    var tg = el('input', 'cb-say');
+    tg.type = 'text'; tg.maxLength = lim.tagline || 100; tg.autocomplete = 'off';
+    var fTag = pfField(form, 'Tagline', 'pf-tagline', tg, 'One line of your own under your name, on your card and in the community directory if you are in it. Up to ' + (lim.tagline || 100) + ' characters.');
     var bio = el('textarea', 'cb-say pf-bio-in');
     bio.rows = 5; bio.maxLength = lim.bio;
     var fBio = pfField(form, 'About you', 'pf-bio', bio, 'Up to ' + lim.bio + ' characters. Markdown works as it does on the channel.');
@@ -5789,10 +5809,32 @@
     var why = el('input', 'cb-say');
     why.type = 'text'; why.maxLength = lim.why; why.autocomplete = 'off';
     var fWhy = pfField(form, 'Why it is your favourite', 'pf-why', why, 'Up to ' + lim.why + ' characters.');
+    /* THE COMMUNITY DIRECTORY (Ryan's ask, 2026-10-23): off until ticked, and
+       saved with the card, so nothing is listed before Save my card. */
+    form.appendChild(el('h3', 'pf-edit__sub', 'Community directory'));
+    var dirWrap = el('div', 'pf-field');
+    var dirLab = el('label', 'pf-check');
+    var fListed = el('input');
+    fListed.type = 'checkbox';
+    fListed.id = 'pf-listed';
+    dirLab.appendChild(fListed);
+    dirLab.appendChild(el('span', null, 'Show my profile in the community directory'));
+    dirWrap.appendChild(dirLab);
+    var dirHint = el('p', 'cb-hint pf-hint');
+    dirHint.id = 'pf-listed-hint';
+    dirHint.appendChild(document.createTextNode('The directory lists everybody who has ticked this, for anybody signed on to the CB: your username, your nameplate, your tagline, your pronouns and the avatar you wear, and your name there opens this card. Nothing in it says when anybody joined, and nothing counts anybody. '));
+    var dirA = el('a', null, 'The community directory');
+    dirA.href = '/directory.html';
+    dirHint.appendChild(dirA);
+    dirHint.appendChild(document.createTextNode('.'));
+    fListed.setAttribute('aria-describedby', dirHint.id);
+    dirWrap.appendChild(dirHint);
+    form.appendChild(dirWrap);
 
     fTheme.value = p0.theme || ''; fBanner.value = p0.banner || ''; fDeco.value = p0.decoration || '';
     fFrame.value = p0.frame || ''; fEffect.value = p0.effect || '';
     fFace.value = p0.face || ''; fPlate.value = p0.plate || ''; fPron.value = p0.pronouns || '';
+    fTag.value = p0.tagline || ''; fListed.checked = !!p0.listed;
     fBio.value = p0.bio || ''; fRoom.value = p0.room || ''; fWhy.value = p0.why || '';
     (p0.links || []).forEach(function (l, j) { if (linkIns[j]) linkIns[j].value = l; });
 
@@ -5807,7 +5849,7 @@
     form.appendChild(row);
     var sure = el('div', 'cb-acct__row');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This clears everything on your card and takes your nameplate off Who’s online. Your profile sets, avatars, pets, jobs and jacket stay as they are.'));
+    sure.appendChild(el('p', null, 'This clears everything on your card, takes your nameplate off Who’s online and takes you out of the community directory. Your profile sets, avatars, pets, jobs and jacket stay as they are.'));
     var yes = el('button', 'cb-btn', 'Yes, clear my card'); yes.type = 'button';
     var keep = el('button', 'cb-btn', 'Keep it'); keep.type = 'button';
     sure.appendChild(yes); sure.appendChild(keep);
@@ -5840,6 +5882,11 @@
     var sample = el('div', 'pf-preview__online cb-online-row');
     sample.inert = true;
     prev.appendChild(sample);
+    var dirHead = el('h3', 'pf-edit__sub', 'In the community directory');
+    var dirSample = el('div', 'pf-preview__dir');
+    dirSample.inert = true;
+    prev.appendChild(dirHead);
+    prev.appendChild(dirSample);
     prev.appendChild(el('p', 'cb-hint', 'The card here is a picture of your choices; press your name on Who’s online, or See my card as others do, in Profile, for the card itself.'));
 
     sheet.appendChild(form);
@@ -5849,8 +5896,8 @@
     function current() {
       return {
         theme: fTheme.value, banner: fBanner.value, decoration: fDeco.value, frame: fFrame.value, effect: fEffect.value, face: fFace.value, plate: fPlate.value,
-        pronouns: fPron.value.trim(), bio: fBio.value, room: fRoom.value, why: fRoom.value ? fWhy.value.trim() : '',
-        links: linkIns.map(function (x) { return x.value.trim(); }).filter(Boolean),
+        pronouns: fPron.value.trim(), tagline: fTag.value.trim(), bio: fBio.value, room: fRoom.value, why: fRoom.value ? fWhy.value.trim() : '',
+        links: linkIns.map(function (x) { return x.value.trim(); }).filter(Boolean), listed: fListed.checked,
       };
     }
     // What the card was when it was opened or last saved: anything else is a
@@ -5890,6 +5937,13 @@
       plate.setAttribute('aria-hidden', 'true');
       sample.appendChild(plate);
       LP.drawing(plate, p.plate);
+      dirHead.hidden = dirSample.hidden = !p.listed;
+      dirSample.textContent = '';
+      if (p.listed) {
+        var line = LP.listing({ handle: me.state.handle, base: mk.base, tagline: p.tagline, pronouns: p.pronouns, avatar: wearing });
+        dirSample.appendChild(line);
+        LP.drawing(line.pfPlate, p.plate);
+      }
       fWhy.disabled = !fRoom.value;
       var credit = LP.effectCredit ? LP.effectCredit(p.effect) : '';
       fxCredit.textContent = credit;
@@ -5910,13 +5964,15 @@
         yes.disabled = false;
         if (r.status === 401) { d.close(); return me.lost(); }
         if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
-        [fTheme, fBanner, fDeco, fFrame, fEffect, fFace, fPlate, fPron, fBio, fRoom, fWhy].concat(linkIns).forEach(function (x) { x.value = ''; });
+        [fTheme, fBanner, fDeco, fFrame, fEffect, fFace, fPlate, fPron, fTag, fBio, fRoom, fWhy].concat(linkIns).forEach(function (x) { x.value = ''; });
+        fListed.checked = false;
         sure.hidden = true; clear.hidden = false; leave.hidden = true;
         saved = JSON.stringify(current());
         redraw();
-        said.textContent = 'Cleared. Your card has nothing on it, and your nameplate is off Who’s online.';
+        said.textContent = 'Cleared. Your card has nothing on it, your nameplate is off Who’s online, and you are not in the community directory.';
         clear.focus();
         me.loadProfileCard();
+        profileSaved();
       }, function () { yes.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
     });
     // Save, and then, if asked, close: a save that does not go through keeps
@@ -5931,10 +5987,13 @@
         if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
         saved = was;
         leave.hidden = true;
-        said.textContent = r.body.profile
-          ? 'Saved. Anybody signed on to the CB sees it when they press your name.'
-          : 'Saved, with nothing on it, so your card is empty.';
+        said.textContent = !r.body.profile
+          ? 'Saved, with nothing on it, so your card is empty, and you are not in the community directory.'
+          : r.body.profile.listed
+            ? 'Saved. Anybody signed on to the CB sees it when they press your name, and you are in the community directory.'
+            : 'Saved. Anybody signed on to the CB sees it when they press your name. You are not in the community directory.';
         me.loadProfileCard();
+        profileSaved();
         if (then) then();
       }, function () { save.disabled = false; leaveSave.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
     }
@@ -10610,6 +10669,9 @@
     /* The forums open a person's profile the way a handle on the channel does:
        their names are buttons, and this is what those buttons press. */
     window.loveRadioPeek = function (handle, from, mark) { if (radio) radio.peek(handle, from, mark || null); };
+    /* The community directory opens your own card's editor the way Profile
+       does, so the switch that lists you is a press away from the list. */
+    window.loveRadioEditCard = function (from) { if (radio) radio.pfEdit(from); };
     /* A spot in the address is read once the radio exists. On most pages
        call.js has to load first, and arrive() used to run from start() while
        the radio was still null, so a spot's room link did nothing there. */
@@ -10789,6 +10851,7 @@
     radio.host.remove();
     radio = null;
     window.loveRadioPeek = null;
+    window.loveRadioEditCard = null;
     showStub(s, said);
   }
 
