@@ -23,26 +23,6 @@
  ],
  "log": [
   {
-   "id": "2m-gxaGH3w0",
-   "source": "acl",
-   "form": "long",
-   "title": "FINNEAS - For Cryin' Out Loud! | Live on Austin City Limits TV",
-   "published": "2026-09-22T17:02:56Z",
-   "state": "screen",
-   "runs": 236,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "mltGNjzLEqc",
-   "source": "acl",
-   "form": "long",
-   "title": "Arlo Parks - Softly | Live on Austin City Limits TV",
-   "published": "2026-09-22T17:33:05Z",
-   "state": "screen",
-   "runs": 240,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "JHPIBNTOvpw",
    "source": "acl",
    "form": "long",
@@ -312,54 +292,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "0upOI9f37hc",
-   "source": "kexp",
-   "form": "long",
-   "title": "WU LYF - Full Performance (Live on KEXP)",
-   "published": "2026-09-22T15:00:06Z",
+   "id": "p2J-gB1SHII",
+   "source": "acl",
+   "form": "short",
+   "title": "Ari Lennox Season 52 Episode Recap | Live From Austin City Limits TV",
+   "published": "2026-10-23T01:39:48Z",
    "state": "screen",
-   "runs": 2102,
-   "channel": "KEXP"
-  },
-  {
-   "id": "YT0E3zzDx0Q",
-   "source": "kexp",
-   "form": "long",
-   "title": "Ak'chamel - The Forbidden Melody / Scalped Sands (Live on KEXP)",
-   "published": "2026-09-23T11:00:20Z",
-   "state": "screen",
-   "runs": 421,
-   "channel": "KEXP"
-  },
-  {
-   "id": "hQ9D8GIC1Is",
-   "source": "kexp",
-   "form": "long",
-   "title": "Ak'chamel - The Boar (Live on KEXP)",
-   "published": "2026-09-23T11:00:27Z",
-   "state": "screen",
-   "runs": 331,
-   "channel": "KEXP"
-  },
-  {
-   "id": "OpRUP-1pTzE",
-   "source": "kexp",
-   "form": "long",
-   "title": "Ak'chamel - HASH (Live on KEXP)",
-   "published": "2026-09-23T11:00:36Z",
-   "state": "screen",
-   "runs": 347,
-   "channel": "KEXP"
-  },
-  {
-   "id": "XoVQiWB20ZM",
-   "source": "kexp",
-   "form": "long",
-   "title": "Ak'chamel - Neon Jellyfish Inherits The Plastic Throne (Live on KEXP)",
-   "published": "2026-09-23T11:00:37Z",
-   "state": "screen",
-   "runs": 608,
-   "channel": "KEXP"
+   "runs": 86,
+   "channel": "Austin City Limits"
   },
   {
    "id": "SOLp13uAEIY",
@@ -1412,13 +1352,63 @@
    "channel": "KEXP"
   },
   {
-   "id": "jn_-SM5Yo8Q",
+   "id": "CjAVGCYwGsI",
    "source": "kexp",
-   "form": "short",
-   "title": "WU LYF performs \"Love Your Fate\" & more Live on KEXP",
-   "published": "2026-09-22T17:32:08Z",
+   "form": "long",
+   "title": "The Panturas - Bentang Sagara (Live on KEXP)",
+   "published": "2026-10-22T13:00:12Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 282,
+   "channel": "KEXP"
+  },
+  {
+   "id": "dicxqRQZmko",
+   "source": "kexp",
+   "form": "long",
+   "title": "The Panturas - Full Performance (Live on KEXP)",
+   "published": "2026-10-22T15:00:39Z",
+   "state": "screen",
+   "runs": 1165,
+   "channel": "KEXP"
+  },
+  {
+   "id": "mbJVMeqNBAc",
+   "source": "kexp",
+   "form": "long",
+   "title": "OSEES - Enemy Destruct (Live on KEXP)",
+   "published": "2026-10-23T11:00:10Z",
+   "state": "screen",
+   "runs": 190,
+   "channel": "KEXP"
+  },
+  {
+   "id": "lLspymqv1mk",
+   "source": "kexp",
+   "form": "long",
+   "title": "OSEES - Plastic Plants (Live on KEXP)",
+   "published": "2026-10-23T11:00:30Z",
+   "state": "screen",
+   "runs": 315,
+   "channel": "KEXP"
+  },
+  {
+   "id": "inoXeuoYx3A",
+   "source": "kexp",
+   "form": "long",
+   "title": "OSEES - I Was Denied (Live on KEXP)",
+   "published": "2026-10-23T11:00:31Z",
+   "state": "screen",
+   "runs": 235,
+   "channel": "KEXP"
+  },
+  {
+   "id": "ls0o1NwSJEQ",
+   "source": "kexp",
+   "form": "long",
+   "title": "OSEES - Meat Step Lively (Live on KEXP)",
+   "published": "2026-10-23T11:00:37Z",
+   "state": "screen",
+   "runs": 159,
    "channel": "KEXP"
   },
   {
@@ -1602,14 +1592,14 @@
    "channel": "KEXP"
   },
   {
-   "id": "NzPCpOI0Ws8",
-   "source": "kcrw",
-   "form": "long",
-   "title": "Alexis Taylor's (Hot Chip) Must-Listen Albums",
-   "published": "2026-09-22T14:00:03Z",
+   "id": "w8fY07nKdd8",
+   "source": "kexp",
+   "form": "short",
+   "title": "The Panturas perform \"Soma Gospel\" & more Live on KEXP",
+   "published": "2026-10-22T17:16:37Z",
    "state": "screen",
-   "runs": 569,
-   "channel": "KCRW"
+   "runs": 60,
+   "channel": "KEXP"
   },
   {
    "id": "EDsAcTOuUYI",
@@ -1747,13 +1737,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-22T11:29:25Z"
+     "2026-10-23T11:29:03Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-22T11:29:25Z"
+     "2026-10-23T11:29:03Z"
     ]
    ]
   },
@@ -1761,13 +1751,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-22T11:29:25Z"
+     "2026-10-23T11:29:03Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-22T11:29:25Z"
+     "2026-10-23T11:29:03Z"
     ]
    ]
   },
@@ -1775,16 +1765,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-22T11:29:25Z"
+     "2026-10-23T11:29:03Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-22T11:29:25Z"
+     "2026-10-23T11:29:03Z"
     ]
    ]
   }
  },
- "set": "2026-10-22T11:29Z"
+ "set": "2026-10-23T11:29Z"
 }
