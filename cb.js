@@ -1442,8 +1442,8 @@
     calls.appendChild(this.callNone);
     online.appendChild(calls);
     aroundSec.appendChild(online);
-    // YOUR CHAT STATUS (Ryan's ask, 2026-10-24), for a claimed username. See chatMake.
-    if (forumPass(this.state.pass)) this.chatMake(aroundSec);
+    // YOUR CHAT STATUS (Ryan's ask, 2026-10-24), for a claimed username. See chatStatusMake.
+    if (forumPass(this.state.pass)) this.chatStatusMake(aroundSec);
 
     /* BE SEEN HERE, the Slake's switch in every room. Ryan, 2026-09-29. One
        switch both ways: seen, the radio is told who else is seen in this room
@@ -7327,7 +7327,7 @@
       if (r.status === 401) return me.lost();
       if (r.status === 200 && r.body && r.body.latest) { me.news = r.body; me.newsShown(); }
       // Your own chat status rides on this ask, so another device's choice reaches here.
-      if (r.status === 200 && r.body && typeof r.body.chat === 'string') me.chatKnown(r.body.chat, asked);
+      if (r.status === 200 && r.body && typeof r.body.chat === 'string') me.chatStatusKnown(r.body.chat, asked);
     }, function () { me.newsAt = Date.now(); }).then(function () { me.newsBusy = false; });
   };
 
@@ -7338,9 +7338,9 @@
      arrows past a badge does not choose it, and read back from /cb/unread on
      the radio's own ask, never on a timer of its own. Nothing is chosen for
      anybody: none is where it starts. */
-  Radio.prototype.chatMake = function (sec) {
+  Radio.prototype.chatStatusMake = function (sec) {
     var me = this;
-    var box = this.chatBox = el('fieldset', 'cb-chatpick');
+    var box = this.chatStatusBox = el('fieldset', 'cb-chatpick');
     box.appendChild(el('legend', 'cb-h3', 'Your chat status'));
     var about = el('p', 'cb-online-about');
     about.appendChild(document.createTextNode('Whether you would like to be talked to, after the interaction badges. It is shown beside your name on Who\u2019s online and to people seen in the same room, on your profile, and to anybody about to write to you. It is a sign, not a lock: it stops nobody writing. Nothing is shown until you choose, and it stays until you change it. '));
@@ -7350,7 +7350,7 @@
     about.appendChild(document.createTextNode('.'));
     box.appendChild(about);
     var opts = [{ id: '', says: 'nothing is shown beside your name' }].concat(CHAT);
-    this.chatInputs = opts.map(function (c) {
+    this.chatStatusInputs = opts.map(function (c) {
       var lab = el('label', 'cb-chatpick__row');
       var r = el('input');
       r.type = 'radio';
@@ -7359,55 +7359,55 @@
       lab.appendChild(r);
       lab.appendChild(c.id ? chatBadge(c.id, true) : el('span', 'cb-chatpick__none', 'none'));
       lab.appendChild(el('span', 'cb-chatpick__says', c.says));
-      r.addEventListener('change', function () { if (r.checked) me.setChat(c.id); });
+      r.addEventListener('change', function () { if (r.checked) me.setChatStatus(c.id); });
       box.appendChild(lab);
       return r;
     });
-    var said = this.chatSaid = el('p', 'cb-said');
+    var said = this.chatStatusSaid = el('p', 'cb-said');
     said.setAttribute('role', 'status');
     box.appendChild(said);
     sec.appendChild(box);
-    this.chatShown();
+    this.chatStatusShown();
   };
 
-  Radio.prototype.setChat = function (id) {
+  Radio.prototype.setChatStatus = function (id) {
     var me = this;
-    clearTimeout(this.chatTimer);
+    clearTimeout(this.chatStatusTimer);
     // Anything read back before this is kept is older than it.
-    this.chatHold = Infinity;
-    var seq = this.chatSeq = (this.chatSeq || 0) + 1;
-    this.chatTimer = setTimeout(function () {
+    this.chatStatusHold = Infinity;
+    var seq = this.chatStatusSeq = (this.chatStatusSeq || 0) + 1;
+    this.chatStatusTimer = setTimeout(function () {
       call('/cb/chat-status', { body: { chat: id } }, me.state.pass).then(function (r) {
         if (r.status === 401) return me.lost();
-        if (seq !== me.chatSeq) return;
-        me.chatHold = Date.now();
+        if (seq !== me.chatStatusSeq) return;
+        me.chatStatusHold = Date.now();
         if (r.status === 200 && r.body && typeof r.body.chat === 'string') {
-          me.chatMine = r.body.chat;
+          me.chatStatusMine = r.body.chat;
           var c = chatOf(r.body.chat);
-          me.chatSaid.textContent = c ? 'Done. People see ' + c.name + ' beside your name.' : 'Done. Nothing is shown beside your name.';
-        } else me.chatSaid.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
-        me.chatShown();
+          me.chatStatusSaid.textContent = c ? 'Done. People see ' + c.name + ' beside your name.' : 'Done. Nothing is shown beside your name.';
+        } else me.chatStatusSaid.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
+        me.chatStatusShown();
       }, function () {
-        if (seq !== me.chatSeq) return;
-        me.chatHold = Date.now();
-        me.chatSaid.textContent = 'That did not work just now. Nothing changed.';
-        me.chatShown();
+        if (seq !== me.chatStatusSeq) return;
+        me.chatStatusHold = Date.now();
+        me.chatStatusSaid.textContent = 'That did not work just now. Nothing changed.';
+        me.chatStatusShown();
       });
     }, 500);
   };
 
   // What the server keeps, unless a choice has been made since it was asked.
-  Radio.prototype.chatKnown = function (v, asked) {
-    if (this.chatHold && asked < this.chatHold) return;
-    if (this.chatMine === v) return;
-    this.chatMine = v;
-    this.chatShown();
+  Radio.prototype.chatStatusKnown = function (v, asked) {
+    if (this.chatStatusHold && asked < this.chatStatusHold) return;
+    if (this.chatStatusMine === v) return;
+    this.chatStatusMine = v;
+    this.chatStatusShown();
   };
 
-  Radio.prototype.chatShown = function () {
-    if (!this.chatInputs) return;
-    var v = typeof this.chatMine === 'string' ? this.chatMine : null;
-    this.chatInputs.forEach(function (r) { r.checked = v !== null && r.value === v; });
+  Radio.prototype.chatStatusShown = function () {
+    if (!this.chatStatusInputs) return;
+    var v = typeof this.chatStatusMine === 'string' ? this.chatStatusMine : null;
+    this.chatStatusInputs.forEach(function (r) { r.checked = v !== null && r.value === v; });
   };
 
   // The channel being listened to has been read up to its newest message, if

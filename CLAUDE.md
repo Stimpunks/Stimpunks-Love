@@ -867,9 +867,13 @@ Project's cards' own words, which are CC0: chosen at the foot of Who's around (`
 on a profile, and at the top of a conversation before anybody writes; your own rides back on `/cb/unread`, so it needs no
 request of its own. **It is a sign and never a lock**, and **it starts as none**. `tools/check-chat-status.py` holds the
 cards' words, no default, no time, no idle and no lock. **The friendly edits are an Idle worked out from a quiet
-keyboard, a status that runs out, a default of come say hi, and refusing messages to somebody red**: the first two
+keyboard, a status that runs out, a default of come say hi, refusing messages to somebody red, and red holding
+your own notifications as Do Not Disturb does** (Ryan's call, the same day, keeping them separate): the first two
 publish somebody's attention, the third chooses for them, and the fourth turns a sign into a lock, which the cards say it
-is not (somebody red may still come to you, and you can answer). `DECISIONS.md` has what is open.
+is not (somebody red may still come to you, and you can answer); the fifth is the notification switches' job, device by
+device. **Its first deploy named the picker `chatMake` and its redraw `chatShown`**, which were the chat page's own
+Channels list: the later assignment won silently and /chat lost its channels until the rename (`chatStatusMake` and
+the rest), so `check-ids.py` now refuses a method assigned twice in any script. `DECISIONS.md` has what is open.
 
 **THE WORLD CALL IS THE WORLD ROOM'S CALL.** Ryan, 2026-10-13: **Join World call**,
 under Who's around, opens one call for the whole street from any page, for anybody signed on and never a

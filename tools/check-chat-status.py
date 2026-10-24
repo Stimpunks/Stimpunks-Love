@@ -28,6 +28,10 @@ WHAT IT REFUSES, and why each one is here:
     they never chose to show.
   · A LOCK. It is a sign: sendDm, pairOf and readDmWith never read it, and
     /cb/dm reads it only to show it in a conversation.
+  · NOTIFICATIONS THAT ASK IT. Ryan's call, the day it was built: not right now
+    does not hold your own notifications, as Discord's Do Not Disturb does.
+    The notification switches are device by device, and somebody red may
+    still want to hear a mention, so no part of the push code reads it.
   · AN UNCLAIMED HANDLE WEARING ONE, or a status shown anywhere but beside a
     claimed name: withChatStatus asks p.claimed, and /cb/chat-status asks
     forumReader first.
@@ -169,6 +173,15 @@ def main():
     talk = re.search(r"const talk = async .*?\n    \};", dm, re.S)
     if not talk or "chatStatusOf(" not in talk.group(0) or dm.count("chatStatusOf(") != 1:
         refuse("/cb/dm reads a chat status somewhere besides showing it in a conversation, or no longer shows it there.")
+
+    # Notifications stay separate (Ryan's call, 2026-10-24).
+    if "/* ── Notifications" in lib:
+        push = uncomment(lib[lib.index("/* ── Notifications"):])
+        for name in ("wants", "tellDevices", "notifyWire", "notifyForum", "notifyProps", "notifyDm", "notifyTask", "notifyCall"):
+            if re.search(r"chatStatus|withChatStatus|CHAT\b|'chat-status'", fn(push, name)):
+                refuse(f"{name} reads a chat status: notifications stay separate from it, Ryan's call.")
+    else:
+        refuse("lib.mjs has no Notifications part where this tool looks (/* ── Notifications).")
 
     # Forget me and deleting the username.
     if "await forgetChatStatus(petKey(handle), s);" not in fn(lib, "deleteAccount"):

@@ -27,6 +27,15 @@ which is exactly what the peng clash did.
 
 IF THIS REFUSES: rename one of them. Do not reach for querySelectorAll and take
 the first.
+
+AND A METHOD WITH TWO OWNERS IS THE SAME BUG IN A SCRIPT. On 2026-10-24 the
+chat status's picker was written as Radio.prototype.chatMake in cb.js, a name
+the chat page's Channels list already had, and a second chatShown with it. The
+later assignment wins and nothing says so: on the live chat page the picker
+stood where the channels belong and the channel would not load. So every
+script we serve is read for an object's method assigned twice
+(`X.prototype.name = ` or `X.name = function`), which is never what somebody
+meant. Rename the newcomer, after grepping the name.
 """
 import re
 import sys
@@ -38,6 +47,8 @@ ROOT = Path(__file__).resolve().parent.parent
 ID = re.compile(r'\sid="([^"]+)"')
 GET = re.compile(r"""getElementById\(\s*['"]([^'"]+)['"]\s*\)""")
 SCRIPTS = re.compile(r'<script src="([^"]+)"')
+# A method assigned on a prototype or an object, at the start of a line.
+METHOD = re.compile(r"(?m)^\s*([A-Za-z_$][\w$]*(?:\.prototype)?\.[A-Za-z_$][\w$]*)\s*=\s*function\b")
 
 
 def scripts(src):
@@ -79,15 +90,22 @@ def main():
                     if not holders:
                         bad.append(f"{js}: asks for id {want!r} and no page that loads it has one")
 
+    # A method assigned twice in one script: the later one silently wins.
+    for f in sorted(ROOT.glob("*.js")):
+        for name, n in sorted(Counter(METHOD.findall(f.read_text())).items()):
+            if n > 1:
+                bad.append(f"{f.name}: {name} is assigned {n} times, and only the last one is ever called")
+
     for line in sorted(set(bad)):
         print("REFUSING  " + line)
 
     if bad:
-        print("\ngetElementById returns the first match and never says anything, so a\n"
-              "duplicate is a silent bug that arrives somewhere else. Rename one of them.")
+        print("\ngetElementById returns the first match, and a method assigned twice keeps\n"
+              "the last, and neither says anything, so a duplicate is a silent bug that\n"
+              "arrives somewhere else. Rename one of them.")
         return 1
 
-    print(f"{len(pages)} pages checked, every id unique and every id a script asks for exists.")
+    print(f"{len(pages)} pages checked, every id unique and every id a script asks for exists, and no script assigns a method twice.")
     return 0
 
 
