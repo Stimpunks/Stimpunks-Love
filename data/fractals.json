@@ -2004,6 +2004,22 @@
         "--cmc-cobalt"
       ]
     },
+    "breaker-breaker.html": {
+      "kind": "orbit",
+      "trap": "point",
+      "radius": 0.35,
+      "c": [
+        -0.745,
+        0.113
+      ],
+      "orbit": 0.012,
+      "ground": "--bkb-night",
+      "inks": [
+        "--bkb-amber",
+        "--bkb-red",
+        "--bkb-dim"
+      ]
+    },
     "show-your-work.html": {
       "kind": "newton",
       "degree": 5,

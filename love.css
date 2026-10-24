@@ -1352,6 +1352,19 @@
 @font-face { font-family: 'Sen'; src: url('fonts/sen-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Sen'; src: url('fonts/sen-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Breaker Breaker. A NAME OFF THE SIDE OF A RIG, AND A VOICE OFF A FACEPLATE.
+   Racing Sans One, by Impallari Type, leans the way the chrome names on a
+   1970s CB set and on a dressed-up truck lean. It sets the room's name, its
+   headings and the name on its street door, and nothing at reading size. It is
+   the regular from google/fonts saved as WOFF2 and nothing else, every glyph
+   kept, because the family reserves the name Racing Sans. Titillium Web, by the
+   Accademia di Belle Arti di Urbino, carries every word that is read, plain and
+   square-shouldered, the face of the small print on a radio. Read off their own
+   records; see fonts/_sources.json. */
+@font-face { font-family: 'Racing Sans One'; src: url('fonts/racing-sans-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Titillium Web'; src: url('fonts/titillium-web-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Titillium Web'; src: url('fonts/titillium-web-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -4080,6 +4093,20 @@
   --syw-door: #D7D8D3;  --syw-steel: #6F757C;  --syw-outline: #E07A3C;
   --syw-tape: #E2D29E;  --syw-back: #3F6A8C;
 
+  /* Breaker Breaker (§126): the interstate at night from the driver's seat of
+     a rig in a convoy, lit by marker lamps and nothing else. --bkb-night is the
+     dark, the cab and the road and the sky alike, the ground every word on the
+     page stands on. --bkb-text is every word, --bkb-dim the quiet lines,
+     --bkb-amber every link, the focus ring and the lamps down the side of a
+     rig, and --bkb-red the lamps on the back of one and the radio's readout.
+     Amber and red are the law's colours for those lamps, not ours. The rest
+     carry no word: --bkb-line the shapes you can just make out in the dark,
+     the mirror, the dash and the radio, and --bkb-glass the screen in the cab
+     before anything is on it. */
+  --bkb-night: #0E0E10;  --bkb-text: #ECE6DA;  --bkb-dim: #A9A296;
+  --bkb-amber: #FFB224;  --bkb-red: #FF4130;  --bkb-line: #2E2C30;
+  --bkb-glass: #050506;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5493,6 +5520,28 @@ div.facade--square { border: 0; background: none; }
 .door--syw .door__name  { font-family: 'Cabin Sketch', var(--sans); font-weight: 700; color: var(--syw-text); font-size: 30px; line-height: 1.05; font-synthesis: none; }
 .door--syw .door__blurb { font-family: 'Sen', var(--sans); color: var(--syw-text); font-size: 15px; font-synthesis: none; }
 .door--syw .door__knock { font-family: 'Sen', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .04em; color: var(--syw-link); font-synthesis: none; }
+/* BREAKER BREAKER'S DOOR IS OUTLINED IN MARKER LAMPS: amber dots all the way
+   round it, the way a dressed-up rig is outlined at night, and its awning is
+   the top of a trailer seen from behind, a red lamp at each corner and three
+   red in a row at the middle. Dots, never stripes, which are the Truck Stop's
+   and the street's awnings'. Nothing on it blinks. */
+.door--bkb { background-color: var(--bkb-night); border-style: dotted; border-color: var(--bkb-amber); }
+.door--bkb .door__awning {
+  background-color: var(--bkb-night);
+  background-image:
+    radial-gradient(circle, var(--bkb-red) 0 4px, transparent 5px),
+    radial-gradient(circle, var(--bkb-red) 0 4px, transparent 5px),
+    radial-gradient(circle, var(--bkb-red) 0 4px, transparent 5px),
+    radial-gradient(circle, var(--bkb-red) 0 4px, transparent 5px),
+    radial-gradient(circle, var(--bkb-red) 0 4px, transparent 5px);
+  background-size: 12px 12px;
+  background-position: 10px 50%, calc(50% - 16px) 50%, 50% 50%, calc(50% + 16px) 50%, calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  border-bottom: 3px dotted var(--bkb-amber);
+}
+.door--bkb .door__name  { font-family: 'Racing Sans One', var(--sans); font-weight: 400; color: var(--bkb-amber); font-size: 30px; line-height: 1.05; font-synthesis: none; }
+.door--bkb .door__blurb { font-family: 'Titillium Web', var(--sans); color: var(--bkb-text); font-size: 15px; font-synthesis: none; }
+.door--bkb .door__knock { font-family: 'Titillium Web', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .06em; color: var(--bkb-amber); font-synthesis: none; }
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -17541,7 +17590,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §126
+   class on it is `bb-`, its sizes are in points and millimetres, and §127
    prints it and nothing else. */
 
 .room-broadside {
@@ -17602,7 +17651,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §126 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §127 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -26657,7 +26706,183 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .syw-bench { grid-template-columns: 1fr; }
 }
 
-/* §125 ── Small screens───────────────────────────────────────────────────────
+/* §125 ── ROOM: Breaker Breaker (a shopfront on the street) ────────────────
+   CB radios, CB slang, CB history and trucking, with Dale Watson's trucking
+   records and Convoy on a rack. Ryan's brief, 2026-10-24.
+   tools/make-breaker-breaker.py writes the convoy, what our CB took from the
+   citizens band, the quotations, the slang, the rack and the credits.
+
+   EVERY LIGHT IN THE ROOM IS A MARKER LAMP: A POINT THAT SHOWS WHERE THE EDGE
+   OF SOMETHING IS AND LIGHTS NOTHING ROUND IT. You are in the cab of a rig in
+   the middle of a convoy at night, and what you see of the road is the lamps
+   the law puts on every big rig, three in a row at the middle as high as they
+   will go and more at the corners and along the sides, amber at the front and
+   sides and red at the back. No surface in the room is lit by them. So the
+   page is the dark with words standing in it, and every box on it is outlined
+   in amber dots the way a dressed-up trailer is outlined in chicken lights,
+   with no fill: a lamp shows you where a thing ends and nothing of what is in
+   it. Its colours are the law's, not ours, and the tool refuses any other light
+   in the drawing.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE REPEATER is the street's other radio, and the one to watch: a mast on
+       a ridge, black against a sky lit from below by somewhere else, with two
+       steady red lamps. There everything is a silhouette, a dark shape on a lit
+       sky. Here the sky is as dark as the road and nothing has a silhouette:
+       every shape is drawn by its own lamps, dot to dot. If a glow ever comes
+       up behind the drawing, this has become the Repeater with traffic on it,
+       and it is this room that moves.
+     · STAY FROSTY is the other room of points of light: cool wet glints in a
+       cave, reflected, where nothing emits. These are lamps, warm and dry, in
+       straight rows, and every one of them is its own source.
+     · BREW AND STEW's foxfire lights nothing round it too, but it glows over
+       the logs themselves, soft, cool and green, inside a cabin. These are hard
+       points of a regulated colour, outdoors, on edges.
+     · NOTHING FOR SALE is lit by everybody's headlights, every thing on it
+       throwing one shadow per car. No headlight is drawn here and nothing casts
+       anything: the cars coming the other way are behind the median's hedge,
+       and only the lamps on their roofs show over it.
+     · THE FEED is the street's amber machine, lit through split flaps. Its
+       amber is a board's; this is a lamp's, and there are no boards here.
+     · THE TRUCK STOP is the street's trucks in the middle of the day under
+       striped awnings. This is the same trucks' night, and there is not a
+       stripe in it: rows of dots.
+     · DANCE, PUNKS is lit by what people wear, a glow at head height that
+       moves. These lamps are at the height of a trailer's roof, and they stand
+       still.
+
+   RACING SANS ONE SETS THE NAME AND THE HEADINGS AND NOTHING AT READING SIZE.
+   Titillium Web carries every word that is read. Every heading has a row of
+   amber lamps under it, on a pseudo-element, so no word stands on one.
+
+   NOTHING BLINKS AND NOTHING MOVES, at any setting. A hazard flasher or a turn
+   signal is the first thing a room of lamps would grow, and it is Club
+   Chronic's strobe by another name; make-breaker-breaker.py refuses a
+   keyframe, an animation or a transition here. */
+
+.breaker {
+  background: var(--bkb-night); color: var(--bkb-text);
+  font-family: 'Titillium Web', var(--sans); font-synthesis: none;
+}
+.breaker a { color: var(--bkb-amber); text-underline-offset: 3px; }
+.breaker a:hover { color: var(--bkb-text); }
+.breaker :focus-visible { outline-color: var(--bkb-amber); }
+.breaker :where(p, li, dd) { font-size: 19px; line-height: 1.6; }
+.breaker .backlink { font-family: 'Titillium Web', var(--sans); font-weight: 700; font-size: 16px; color: var(--bkb-amber); }
+.bkb-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.bkb-trail { margin: 0; font-size: 16px; color: var(--bkb-dim); }
+
+.bkb-head { margin: 30px 0 0; }
+.bkb-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: var(--bkb-dim); }
+.breaker h1 {
+  margin: 6px 0 10px; font-family: 'Racing Sans One', var(--sans); font-weight: 400; font-style: normal;
+  font-size: clamp(52px, 10.5vw, 108px); line-height: 1; color: var(--bkb-amber);
+}
+.bkb-sub { margin: 0; font-size: 23px; line-height: 1.4; max-width: 38ch; }
+
+.bkb-view { margin: 26px 0 0; }
+.bkb-cab { display: block; width: 100%; height: auto; }
+.bkb-view__words { margin: 12px 0 0; font-size: 16px; line-height: 1.55; color: var(--bkb-dim); max-width: 70ch; }
+
+.bkb-lede { margin: 32px 0 0; max-width: 64ch; }
+.bkb-lede p { margin: 0 0 16px; }
+
+.bkb-part { margin: 58px 0 0; max-width: 70ch; }
+.bkb-part > p { margin: 0 0 16px; }
+.bkb-part--wide { max-width: none; }
+.bkb-part--wide > p { max-width: 66ch; }
+.breaker h2 {
+  margin: 0 0 22px; font-family: 'Racing Sans One', var(--sans); font-weight: 400;
+  font-size: clamp(32px, 5vw, 44px); line-height: 1.1; color: var(--bkb-text);
+}
+/* THE LAMPS UNDER A HEADING: a red one at each end and amber between, the
+   side of a trailer seen in the next lane. */
+.breaker h2::after {
+  content: ""; display: block; height: 8px; margin-top: 12px; max-width: 280px;
+  background:
+    radial-gradient(circle at 4px 4px, var(--bkb-red) 3.5px, transparent 4px) 100% 0 / 8px 8px no-repeat,
+    radial-gradient(circle at 4px 4px, var(--bkb-amber) 3px, transparent 3.5px) 0 0 / 20px 8px repeat-x;
+}
+.breaker h3 { margin: 0 0 10px; font-family: 'Racing Sans One', var(--sans); font-weight: 400; font-size: 26px; line-height: 1.15; color: var(--bkb-text); }
+
+.bkb-quote { margin: 24px 0; padding: 2px 0 2px 20px; border-left: 4px dotted var(--bkb-amber); }
+.bkb-quote blockquote { margin: 0; }
+.bkb-quote blockquote p { margin: 0; font-size: 21px; line-height: 1.5; color: var(--bkb-text); }
+.breaker .bkb-quote__who { margin: 8px 0 0; font-size: 16px; line-height: 1.5; color: var(--bkb-dim); }
+
+.bkb-ours { margin: 22px 0 26px; display: grid; gap: 4px 0; }
+.bkb-ours dt { margin: 14px 0 0; font-weight: 700; font-size: 19px; color: var(--bkb-amber); }
+.bkb-ours dd { margin: 2px 0 0; }
+
+/* THE SLANG: one box for each kind, outlined in amber lamps and left dark
+   inside, a trailer at night. */
+.bkb-board { margin: 26px 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px; align-items: start; }
+.bkb-group { margin: 0; padding: 20px 22px 12px; border: 4px dotted var(--bkb-amber); border-radius: 6px; }
+.bkb-group dl { margin: 0; }
+.bkb-group dt { margin: 12px 0 0; font-weight: 700; font-size: 18px; color: var(--bkb-amber); }
+.bkb-group dt:first-child { margin-top: 0; }
+.breaker .bkb-group dd { margin: 2px 0 0; font-size: 17px; line-height: 1.5; }
+.breaker .bkb-source { margin: 18px 0 0; font-size: 16px; color: var(--bkb-dim); }
+
+/* THE SCREEN IN THE CAB has nothing of its own on it and ships hidden; rack.js
+   unhides it. The records are boxes outlined in lamps, like the slang. */
+.bkb-screen { max-width: 860px; margin: 22px 0 0; border: 3px solid var(--bkb-line); border-radius: 10px; background: var(--bkb-glass); }
+.breaker .bkb-screen__idle {
+  margin: 0; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
+  padding: 18px 22px; text-align: center; font-size: 17px; line-height: 1.55; color: var(--bkb-text);
+}
+.bkb-screen__idle span { max-width: 40ch; }
+.bkb-screen__idle b { color: var(--bkb-amber); }
+.bkb-screen .facade { border-color: var(--bkb-line); background: var(--bkb-glass); }
+.breaker .bkb-screen__now { margin: 12px 0 0; max-width: 860px; font-weight: 700; font-size: 17px; }
+.breaker .bkb-screen__back { margin: 8px 0 0; }
+.bkb-rack { margin: 26px 0 0; }
+.bkb-rack__sum { cursor: pointer; font-weight: 700; font-size: 19px; color: var(--bkb-amber); }
+.bkb-records {
+  list-style: none; margin: 22px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 26px; align-items: start;
+}
+.bkb-record { display: grid; gap: 10px; align-content: start; margin: 0; padding: 20px 22px; border: 4px dotted var(--bkb-amber); border-radius: 6px; }
+.bkb-record--single { border-color: var(--bkb-red); }
+.bkb-record h3 { margin: 0; }
+.breaker .bkb-record__by, .breaker .bkb-record__runs, .breaker .bkb-record__note { margin: 0; font-size: 16px; line-height: 1.5; color: var(--bkb-dim); }
+.breaker .bkb-record__runs { color: var(--bkb-text); }
+.breaker .bkb-record__out { margin: 0; font-size: 16px; }
+.bkb-put {
+  justify-self: start; min-height: 44px; padding: 8px 16px; cursor: pointer; text-align: left;
+  font: 700 16px/1.3 'Titillium Web', var(--sans); color: var(--bkb-night);
+  background: var(--bkb-amber); border: 2px solid var(--bkb-amber); border-radius: 6px;
+}
+.bkb-put:hover { background: var(--bkb-night); color: var(--bkb-amber); }
+.bkb-record .facade { border-color: var(--bkb-line); background: var(--bkb-glass); color: var(--bkb-text); }
+.bkb-record .facade__play { color: var(--bkb-amber); }
+.bkb-back summary { cursor: pointer; font-weight: 700; font-size: 16px; color: var(--bkb-amber); }
+.bkb-back ol { margin: 8px 0 0; padding-left: 1.6em; }
+.breaker .bkb-back li { margin: 0 0 10px; font-size: 16px; line-height: 1.5; }
+.bkb-t { color: var(--bkb-dim); font-variant-numeric: tabular-nums; }
+.breaker .bkb-plays { display: block; font-size: 14px; line-height: 1.45; color: var(--bkb-dim); }
+/* A song's own play button is a small plate on the back of the sleeve. The
+   BUTTON opts out of §4's 16:9 plate; the shell it becomes on the press keeps
+   it, dressed from the container, because a class on the button does not
+   survive the press. */
+.bkb-back button.facade {
+  display: block; width: auto; aspect-ratio: auto; min-height: 36px; margin: 4px 0 0; padding: 4px 12px;
+  font: 700 15px/1.3 'Titillium Web', var(--sans); color: var(--bkb-amber);
+  background: transparent; border: 2px solid var(--bkb-amber); border-radius: 6px;
+}
+.bkb-back button.facade:hover { background: var(--bkb-amber); color: var(--bkb-night); }
+.bkb-back div.facade { margin: 6px 0 0; }
+
+.bkb-rules, .bkb-credits { margin: 0 0 16px; padding: 0 0 0 1.2em; }
+.bkb-rules li, .bkb-credits li { margin: 0 0 12px; }
+.bkb-whose li { font-size: 17px; color: var(--bkb-dim); }
+.bkb-whose code { font-size: 15px; }
+
+@media (max-width: 600px) {
+  .bkb-board, .bkb-records { grid-template-columns: 1fr; }
+}
+
+/* §126 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -26761,7 +26986,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §125 says every
+   shipped with no rule here at all — which on a street whose §126 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -26885,7 +27110,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §126 ── Print ───────────────────────────────────────────────────────────────
+/* §127 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

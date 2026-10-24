@@ -1068,6 +1068,18 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--syw h1 {{ font-size: 104px; margin-top: 2px !important; }}
 .og--syw .syw-sub {{ font-size: 30px; margin-top: 8px !important; max-width: 1000px; }}
 
+/* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
+   than redrawn, cropped to the lamps, and every word below it on the dark, where
+   the room sets every word. No lamp is added for the card. */
+.og--bkb {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--bkb .og-cab {{ margin: 0 !important; line-height: 0; }}
+.og--bkb .og-cab svg {{ display: block; width: 1200px; height: auto; max-width: none; }}
+.og--bkb .og-words {{ padding: 6px 60px 0; }}
+.og--bkb .og-words > * {{ margin: 0 !important; }}
+.og--bkb .bkb-over {{ font-size: 18px; }}
+.og--bkb h1 {{ font-size: 100px; margin-top: 2px !important; }}
+.og--bkb .bkb-sub {{ font-size: 30px; margin-top: 8px !important; max-width: 1040px; }}
+
 /* fantasy fancy dress — THE BACK OF THE SHOP OVER THE SIGN. The sheers and the
    rail of stock are the page's own drawing, across the top; every word sits
    under them on the dark, where the room sets every word. */
@@ -4116,6 +4128,40 @@ def card_syw(p):
     )
 
 
+def card_bkb(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="bkb-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="bkb-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: breaker-breaker.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the lamps and leaves the dash off, cropped by the drawing's
+    # own viewBox rather than by a margin, so nothing runs off the card.
+    cab = p["bkbcab"].replace('viewBox="0 0 1200 460"', 'viewBox="0 30 1200 340"', 1)
+    if cab == p["bkbcab"]:
+        raise SystemExit(
+            "REFUSING: breaker-breaker.html's convoy is no longer 1200 by 460, and the card\n"
+            "crops it by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--bkb" data-fit="card">'
+        f'<div class="og-cab">{cab}</div>'
+        f'<div class="og-words"><p class="bkb-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="bkb-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card as dark as a road at night. Across the top, a convoy on the interstate seen from the "
+        f"driver's seat, drawn only by its marker lamps: three red lamps in a row high on the back of the "
+        f"trailer ahead with its red tail lamps under them, the same red smaller and smaller up the lane, "
+        f"a long row of amber lamps down the side of a rig in the next lane, small clusters of amber over "
+        f"the median where trucks come the other way, and three amber dots in the driver's mirror. Below, "
+        f"small grey capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large "
+        f"leaning amber letters, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_care(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE ROOF ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5572,6 +5618,7 @@ CARDS = {
     "chimera-obscura": card_chimera,
     "community-care": card_care,
     "show-your-work": card_syw,
+    "breaker": card_bkb,
     "fancy-dress": card_fancy,
     "collections":  card_collection,
     "mapping":      card_map,
@@ -5712,6 +5759,7 @@ def main():
         ("chmscene", "chimera-obscura.html", r'(<svg class="chm-scene__draw".*?</svg></g></svg>)'),
         ("cmcroof",  "community-care.html", r'(<svg class="cmc-canopy".*?</svg>)'),
         ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
+        ("bkbcab",   "breaker-breaker.html", r'(<svg class="bkb-cab".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),

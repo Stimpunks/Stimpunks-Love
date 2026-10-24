@@ -4110,6 +4110,39 @@
      "What is missing?"
     ]
    }
+  },
+  {
+   "id": "bkb-mic",
+   "page": "breaker-breaker.html",
+   "room": "Breaker Breaker",
+   "title": "Breaker one-nine",
+   "posted": "There is a shopfront on the street for CB radios, lit only by the marker lamps of a convoy at night. Somebody has dropped the microphone on the cab floor. Go and find out what you are called on the air.",
+   "rank": 1,
+   "takes": "about as long as it takes to climb up into a cab and find the microphone",
+   "target": "a CB microphone off its hook, lying on the cab floor on its coiled cord",
+   "code": "ONENINE",
+   "learned": "On the citizens band you go by a handle, a name you chose for yourself. When the band still wanted a licence and a call sign, a great many people on it made up a name instead, and this street's CB took the word.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, between Show Your Work and Your Room: the door outlined in amber dots.",
+    "Under the headings Citizens and The slang.",
+    "Right at the foot of the room, on the cab floor, where the microphone fell off its hook."
+   ],
+   "ask": {
+    "question": "On a CB, what do you call the name you go by on the air?",
+    "accept": [
+     "handle",
+     "a handle",
+     "handles",
+     "your handle"
+    ],
+    "answer": "A handle.",
+    "why": "When the citizens band still wanted a licence and a call sign, a great many people on it ignored all that and made up a name for themselves instead, a handle. On this street's CB, everybody goes by one they chose.",
+    "hints": [
+     "It is in the slang, under On the air.",
+     "What's your ... ? asks somebody theirs.",
+     "It is also what you hold a cup by."
+    ]
+   }
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none.",

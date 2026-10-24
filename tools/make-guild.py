@@ -346,6 +346,13 @@ DRAW = {
     # to, and the tape is --syw-tape, 10.86. The floor line is --syw-dim and
     # carries nothing. It lies still.
     "syw-blank": """<path d="M3 29.5 H29" stroke="var(--syw-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5.5 21.5 L23.5 17.5 L27 25.8 L9 29.2 Z" fill="var(--syw-card)"/><path d="M11 19.9 L19.6 18 L20.6 20.6 L12 22.4 Z" fill="var(--syw-tape)"/><path d="M8.6 24.6 L22.4 21.7 M9.8 27 L19 25.1" stroke="var(--syw-dim)" stroke-width="1" stroke-dasharray="2.4 2" stroke-linecap="round"/>""",
+    # Breaker Breaker: the CB microphone, off its hook and lying on the cab
+    # floor on its coiled cord, with its push-to-talk button up. The microphone
+    # and the cord are --bkb-dim, 7.62 on the night and over the body threshold a
+    # marker is held to, the button --bkb-amber, 10.69, and the grille across its
+    # face is the night itself. The floor line is --bkb-dim and carries nothing.
+    # It lies still, like every lamp in the room.
+    "bkb-mic": """<path d="M3 29.5 H29" stroke="var(--bkb-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 21.5 Q4.5 17 9 17 H16 Q20.5 17 20.5 21.5 V23.5 Q20.5 28 16 28 H9 Q4.5 28 4.5 23.5 Z" fill="var(--bkb-dim)"/><path d="M8 20.5 V24.5 M10.5 20 V25 M13 20 V25 M15.5 20.5 V24.5" stroke="var(--bkb-night)" stroke-width="1.2" stroke-linecap="round"/><rect x="7" y="14.6" width="6" height="2.8" rx="1.2" fill="var(--bkb-amber)"/><path d="M20.5 22.5 c2.6 0 2.6 3 0.8 3 c-1.8 0 -0.6 -3 1.8 -3 c2.6 0 2.6 3 0.8 3 c-1.8 0 -0.6 -3 1.8 -3 c2.4 0 2.8 2.4 3.6 4.6" fill="none" stroke="var(--bkb-dim)" stroke-width="1.3" stroke-linecap="round"/>""",
     "booth-strip": """<path d="M3 29.5 H29" stroke="var(--bmb-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M4 23.5 L27 17.5 L28.6 23.5 L5.6 29.5 Z" fill="var(--bmb-lamp)" stroke="var(--bmb-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 23.9 L10.6 23 L11.4 26.1 L7.8 27 Z M12.6 22.5 L16.2 21.6 L17 24.7 L13.4 25.6 Z M18.2 21.1 L21.8 20.2 L22.6 23.3 L19 24.2 Z M23.8 19.7 L27 18.9 L27.8 22 L24.6 22.8 Z" fill="var(--bmb-curtain)" stroke="var(--bmb-ink)" stroke-width=".8" stroke-linejoin="round"/>""",
     # Fantasy Fancy Dress: one faery wing come loose from its pair, lying on the
     # dark floor in front of the sheers. The wing is --ffd-rose outlined in

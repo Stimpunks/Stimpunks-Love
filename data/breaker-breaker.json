@@ -1,0 +1,740 @@
+{
+ "_what": "Breaker Breaker, a shopfront on the street for CB radios, CB slang, CB history and trucking. Ryan's brief, 2026-10-24. tools/make-breaker-breaker.py writes the cab, the slang, the quotations, the rack and the credits into breaker-breaker.html from this file, and refuses what this file's rules say.",
+ "_light": "Every light in the room is a marker lamp: it shows where the edge of something is and lights nothing round it. Amber at the front and sides, red at the back, which are the law's colours and not ours (Automotive lighting, below). The drawing is drawn in those two and the night, and the tool refuses any other light in it.",
+ "_left_off": "Wikipedia's list of CB slang is long and some of it names people unkindly: women, sex workers, people speaking another language, people crossing the border on foot, people who ride without a helmet, and the word idiot more than once. None of it is on the page, and the tool refuses each phrase in left_off anywhere in the room. The friendly edit is to fill the board out with the rest of the list.",
+ "_records": "Every record's year, label and own track lengths were read off MusicBrainz on 2026-10-24, the release named by its id, never the upload's Released on line, which gives the reissue's year (2014 for the first record). The labels are MusicBrainz's label entities written in ordinary case (KOCH is Koch, HYENA Records is Hyena Records). Every song was asked on its own watch page the same day: all of them OK, playableInEmbed true, on the artist's own channel (Dale Watson - Topic, C.W. McCall - Topic). seconds is what plays here; record is the record's.",
+ "_convoy_left_off": "Convoy had a second life in 2022 as the anthem of the Freedom Convoy protests in Canada (Wikipedia's Convoy and C. W. McCall articles). The room is about the record of 1975 and the craze around it, and says nothing about 2022. That is Claude's call on the day the room opened, and Ryan's to change.",
+ "measured": "2026-10-24",
+ "sources": {
+  "cb": {
+   "title": "Citizens band radio",
+   "url": "https://en.wikipedia.org/wiki/Citizens_band_radio",
+   "revision": 1374286582
+  },
+  "slang": {
+   "title": "List of CB slang",
+   "url": "https://en.wikipedia.org/wiki/List_of_CB_slang",
+   "revision": 1381092654
+  },
+  "lights": {
+   "title": "Automotive lighting",
+   "url": "https://en.wikipedia.org/wiki/Automotive_lighting",
+   "revision": 1378352439
+  },
+  "ham": {
+   "title": "Amateur radio licensing in the United States",
+   "url": "https://en.wikipedia.org/wiki/Amateur_radio_licensing_in_the_United_States",
+   "revision": 1380642313
+  },
+  "convoy": {
+   "title": "Convoy (song)",
+   "url": "https://en.wikipedia.org/wiki/Convoy_(song)",
+   "revision": 1369933437
+  },
+  "mccall": {
+   "title": "C. W. McCall",
+   "url": "https://en.wikipedia.org/wiki/C._W._McCall",
+   "revision": 1351231247
+  },
+  "country": {
+   "title": "Truck-driving country",
+   "url": "https://en.wikipedia.org/wiki/Truck-driving_country",
+   "revision": 1337628977
+  },
+  "watson": {
+   "title": "Dale Watson (singer)",
+   "url": "https://en.wikipedia.org/wiki/Dale_Watson_(singer)",
+   "revision": 1381698628
+  }
+ },
+ "sources_read": "2026-10-24",
+ "quote_cap": 80,
+ "_quote_cap": "Covenstead's reason rather than the Zibaldone's: this room quotes three named passages that its own words are about, and Silberman's two sentences run to seventy-two. Eighty fits them and refuses a page. Raise it here, on purpose, with the reason written down; never to fit one passage.",
+ "quotes": [
+  {
+   "id": "neurotribes",
+   "words": "Another community that enabled autistic people to make the most of their natural strengths in the early and mid-twentieth century was amateur radio. By routing around the face-to-face interactions they found so daunting, even people who found it nearly impossible to communicate through speech were able to reach out to kindred spirits, find potential mentors, and gain the skills and confidence they needed to become productive members of society.",
+   "who": "Steve Silberman",
+   "work": "NeuroTribes: The Legacy of Autism and the Future of Neurodiversity",
+   "year": 2015,
+   "pages": "223–224",
+   "link": "https://openlibrary.org/works/OL17203015W",
+   "read_on": "https://stimpunks.org/access/written-communication/",
+   "mirror": "pages/access__written-communication.md",
+   "checked": "Read on our page Written Communication Is the Great Social Equalizer, which quotes it from the Kindle edition, pages 223 to 224, and which Ryan read on his own Kindle copy; checked against our page word for word."
+  },
+  {
+   "id": "written",
+   "words": "Written communication isn’t a lesser substitute for speech. It’s a medium with its own power — one that neurodivergent people helped build, because they needed it.",
+   "who": "us",
+   "work": "Written Communication Is the Great Social Equalizer",
+   "link": "https://stimpunks.org/access/written-communication/",
+   "read_on": "https://stimpunks.org/access/written-communication/",
+   "mirror": "pages/access__written-communication.md",
+   "checked": "Our own page, checked against it word for word."
+  },
+  {
+   "id": "chatrooms",
+   "words": "Similar to Internet chat rooms a quarter-century later, CB allowed people to get to know one another in a quasi-anonymous manner.",
+   "who": "Wikipedia",
+   "work": "Citizens band radio",
+   "link": "https://en.wikipedia.org/wiki/Citizens_band_radio",
+   "source": "cb",
+   "checked": "Read on the article’s revision 1374286582 on 2026-10-24, under CC BY-SA 4.0."
+  }
+ ],
+ "slang": [
+  {
+   "group": "On the air",
+   "terms": [
+    {
+     "say": "Breaker",
+     "means": "I would like the channel. Often with its number: breaker one-nine. Then you wait for somebody to answer before you go on."
+    },
+    {
+     "say": "Handle",
+     "means": "The name you go by on the air, which you choose. What’s your handle? asks somebody theirs."
+    },
+    {
+     "say": "10-4",
+     "means": "Message received. Also yes, I agree: that’s a big 10-4. Four, or foe, for short."
+    },
+    {
+     "say": "Copy, copy that",
+     "means": "I heard you, and I understand."
+    },
+    {
+     "say": "Got your ears on?",
+     "means": "Is anybody listening? Or, with a handle in front of it, are you?"
+    },
+    {
+     "say": "10-20, your 20",
+     "means": "Where you are. What’s your 20? My 20 is the truck stop at the next exit."
+    },
+    {
+     "say": "Reading the mail",
+     "means": "Listening without saying anything, which is allowed."
+    },
+    {
+     "say": "10-10",
+     "means": "Going quiet but still listening: 10-10 on the side."
+    },
+    {
+     "say": "Wall to wall and treetop tall",
+     "means": "Coming in loud and clear. Five by five says it too."
+    },
+    {
+     "say": "Alligator station",
+     "means": "All mouth and no ears: somebody who talks and never listens. A hot mic keeps the channel to themselves."
+    },
+    {
+     "say": "10-36",
+     "means": "The right time, please."
+    },
+    {
+     "say": "10-100",
+     "means": "A restroom break."
+    },
+    {
+     "say": "3s and 8s",
+     "means": "Best wishes, borrowed from the 73 and 88 of the amateurs’ Morse code: best regards, and hugs and kisses."
+    },
+    {
+     "say": "Good buddy",
+     "means": "Somebody on the channel you are friendly with. The word of the 1970s."
+    },
+    {
+     "say": "10-7",
+     "means": "Signing off."
+    }
+   ]
+  },
+  {
+   "group": "On the road",
+   "terms": [
+    {
+     "say": "Front door, rocking chair, back door",
+     "means": "A group of trucks running together: the front door leads and watches ahead, the back door brings up the rear and watches behind, and the rocking chair is everybody between, who can ride easy."
+    },
+    {
+     "say": "Hammer down",
+     "means": "Foot on the gas pedal, all the way. The hammer lane is the fast lane."
+    },
+    {
+     "say": "Double nickels",
+     "means": "A 55 mph speed limit."
+    },
+    {
+     "say": "Chicken lights",
+     "means": "Marker lights beyond what the law asks for, on a truck dressed up with chrome to match."
+    },
+    {
+     "say": "Go-go juice",
+     "means": "Fuel. Hundred-mile coffee is very strong coffee."
+    },
+    {
+     "say": "Watering hole",
+     "means": "A truck stop. A nap trap is a rest area."
+    },
+    {
+     "say": "Gator",
+     "means": "A long strip of tyre on the road, which from a distance looks like an alligator lying in the sun."
+    },
+    {
+     "say": "Comedian",
+     "means": "The median, the strip down the middle of the highway."
+    },
+    {
+     "say": "Thick stuff",
+     "means": "Bad weather: fog, heavy rain or snow."
+    },
+    {
+     "say": "Yardstick",
+     "means": "A mile marker."
+    },
+    {
+     "say": "Bobtail",
+     "means": "A truck running without a trailer."
+    },
+    {
+     "say": "Flip-flop",
+     "means": "The trip back the other way, and going home."
+    },
+    {
+     "say": "Stack of bricks",
+     "means": "Home. I’m heading back to my stack of bricks."
+    }
+   ]
+  },
+  {
+   "group": "The bears",
+   "terms": [
+    {
+     "say": "Smokey, a bear",
+     "means": "A state trooper, after Smokey Bear’s hat, which looks like a highway patrol’s."
+    },
+    {
+     "say": "Bear in the air",
+     "means": "Police in a plane or a helicopter."
+    },
+    {
+     "say": "Kojak with a Kodak",
+     "means": "A police officer running radar."
+    },
+    {
+     "say": "Chicken coop",
+     "means": "A weigh station, where the scales are."
+    },
+    {
+     "say": "County mountie",
+     "means": "A county sheriff or deputy."
+    }
+   ]
+  },
+  {
+   "group": "Places",
+   "terms": [
+    {
+     "say": "Mile High",
+     "means": "Denver."
+    },
+    {
+     "say": "Shakeytown",
+     "means": "Los Angeles."
+    },
+    {
+     "say": "Flagtown",
+     "means": "Flagstaff."
+    },
+    {
+     "say": "Bat City",
+     "means": "Austin."
+    },
+    {
+     "say": "Guitar Town",
+     "means": "Nashville."
+    }
+   ]
+  }
+ ],
+ "left_off": [
+  "lot lizard",
+  "seat cover",
+  "party row",
+  "back row",
+  "pickle park",
+  "miss piggy",
+  "honey bear",
+  "mama bear",
+  "dung beetle",
+  "jabber",
+  "babbling idiot",
+  "jabbering idiot",
+  "idiot island",
+  "portable phone booth",
+  "organ donor",
+  "runners",
+  "taco stand",
+  "taco town",
+  "little cuba",
+  "cotton choppers",
+  "cotton-pickin",
+  "go-go girls",
+  "mud duck",
+  "cb rambo",
+  "convict wagon",
+  "dope dog",
+  "bucket mouth",
+  "potty mouth"
+ ],
+ "albums": [
+  {
+   "title": "The Truckin’ Sessions",
+   "released": "1998-08-18",
+   "label": "Koch",
+   "musicbrainz": "7e3c8738-5937-4762-9a2a-af5257ebf8d9",
+   "list": "OLAK5uy_kfA6w52Bx-SQmjGSGJCIndBuq3EOB_DCE",
+   "artist": "Dale Watson and His Lone Stars",
+   "channel": "Dale Watson",
+   "channel_id": "UCsy7tJvpOyCtqOm5uHD9o7g",
+   "tracks": [
+    {
+     "id": "_cXgsnE7pdk",
+     "title": "Good Luck ’n’ Good Truckin’ Tonite",
+     "seconds": 139,
+     "record": 139,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "xeV4vdj2tpk",
+     "title": "Big Wheels Keep Rollin’",
+     "seconds": 219,
+     "record": 221,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "dLohaDIhmNE",
+     "title": "Heaven in Baltimore",
+     "seconds": 94,
+     "record": 95,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "qYD4UWzsFq8",
+     "title": "Have You Got It On",
+     "seconds": 182,
+     "record": 184,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "8Es347vlWL8",
+     "title": "Makin’ Up Time",
+     "seconds": 143,
+     "record": 144,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "H-rE44dmGkg",
+     "title": "Flat Tire",
+     "seconds": 143,
+     "record": 146,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "5yI8mj1Q4tA",
+     "title": "Drag Along & Tag Along",
+     "seconds": 176,
+     "record": 177,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "4rzjTg30Xow",
+     "title": "Exit 109",
+     "seconds": 181,
+     "record": 183,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "gx-pu3tw9Ps",
+     "title": "Help Me Joe",
+     "seconds": 148,
+     "record": 151,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "5LqyaV4PW7I",
+     "title": "...Loose Nut Behind the Wheel",
+     "seconds": 196,
+     "record": 198,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "Bj-EeAh5Dbc",
+     "title": "You’ve Got a Long Way to Go",
+     "seconds": 134,
+     "record": 136,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "zrfcKyIs8FI",
+     "title": "Longhorn Suburban",
+     "seconds": 155,
+     "record": 157,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "YWxFfx-7oL8",
+     "title": "I’m Fixin to Have Me a Breakdown",
+     "seconds": 124,
+     "record": 125,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "JbboSw_FiQo",
+     "title": "I Gotta Get Home to My Baby",
+     "seconds": 151,
+     "record": 151,
+     "channel": "Dale Watson"
+    }
+   ],
+   "note": "Koch put it out in 1998, credited to Dale Watson and His Lone Stars. What plays here is Red River Entertainment’s reissue of 2014, from Dale Watson’s own channel."
+  },
+  {
+   "title": "The Truckin’ Sessions: Volume Two",
+   "released": "2009-04-21",
+   "label": "Hyena Records",
+   "musicbrainz": "db960e31-7fcb-4e8c-b9f7-58cde63c747c",
+   "list": "OLAK5uy_nyEe05jmu8o2-hoZsnnim3WghwELl3D5o",
+   "artist": "Dale Watson",
+   "channel": "Dale Watson",
+   "channel_id": "UCsy7tJvpOyCtqOm5uHD9o7g",
+   "tracks": [
+    {
+     "id": "Hh1oYDS_fOE",
+     "title": "Drag ’N’ Fly",
+     "seconds": 224,
+     "record": 224,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "vKoc3r5TdXM",
+     "title": "Jack’s Truck Stop & Cafe",
+     "seconds": 155,
+     "record": 155,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "f7IsUBhY7cg",
+     "title": "Truckstop In La Grange",
+     "seconds": 136,
+     "record": 136,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "5hZixP7HdWs",
+     "title": "10-4",
+     "seconds": 178,
+     "record": 178,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "pwZJhnnZhnk",
+     "title": "Yankee Doodle Jean",
+     "seconds": 168,
+     "record": 168,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "f6ruUC6xiNY",
+     "title": "Hey Driver",
+     "seconds": 163,
+     "record": 163,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "uRbk54oiyOs",
+     "title": "Hero",
+     "seconds": 191,
+     "record": 191,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "ZnabJg63POo",
+     "title": "I Got To Drive",
+     "seconds": 156,
+     "record": 156,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "JTJQNBzw_-Q",
+     "title": "Truckin’ Man",
+     "seconds": 165,
+     "record": 165,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "lQtXWrx9gGo",
+     "title": "Me and Freddie and Jake",
+     "seconds": 167,
+     "record": 167,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "6Kyf_M6bKrE",
+     "title": "Truckin’ Queen",
+     "seconds": 134,
+     "record": 134,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "__ZryIIry0Q",
+     "title": "Let This Trucker Go",
+     "seconds": 201,
+     "record": 201,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "MKunFV8REYw",
+     "title": "No Help Wanted",
+     "seconds": 163,
+     "record": 163,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "jvFf6bDcZA8",
+     "title": "Texas Boogie",
+     "seconds": 196,
+     "record": 196,
+     "channel": "Dale Watson"
+    }
+   ],
+   "note": "YouTube’s list calls the fourth song 41916. The record calls it 10-4. 41916 is the number a spreadsheet keeps for 4 October 2014, which is what 10-4 turns into when something reads it as a date."
+  },
+  {
+   "title": "Truckin’ Sessions Vol. 3",
+   "released": "2015-05-18",
+   "label": "Red River Entertainment",
+   "musicbrainz": "db73b794-4aa4-45a3-8882-cec08f813d5a",
+   "list": "OLAK5uy_lKauM2iL67UxselRTyk2yNHYa6ZG-4G8Q",
+   "artist": "Dale Watson",
+   "channel": "Dale Watson",
+   "channel_id": "UCsy7tJvpOyCtqOm5uHD9o7g",
+   "tracks": [
+    {
+     "id": "f-172Z22FJI",
+     "title": "It’s Been a Long Truckin Day",
+     "seconds": 249,
+     "record": 245,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "AdOzt2zmygc",
+     "title": "Suicide Sam",
+     "seconds": 136,
+     "record": 137,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "qa9SJ31s4ic",
+     "title": "Phillip at the Station",
+     "seconds": 154,
+     "record": 156,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "8_2Zs2PARIk",
+     "title": "Freewheelin",
+     "seconds": 178,
+     "record": 175,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "Pav4o4DnZ6E",
+     "title": "I Live on Truckin’ Time",
+     "seconds": 158,
+     "record": 159,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "7NpHxYQTUuk",
+     "title": "I Gotta Keep on Keeping on",
+     "seconds": 155,
+     "record": 149,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "KfYFUU3QxaQ",
+     "title": "Texas Armadillo",
+     "seconds": 176,
+     "record": 175,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "px4lSTbu1Lc",
+     "title": "Birmingham Breakdown",
+     "seconds": 165,
+     "record": 163,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "BHs9Kfu8E0Y",
+     "title": "I’m a Truckin",
+     "seconds": 154,
+     "record": 156,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "JxIvtnmbWmg",
+     "title": "Big T",
+     "seconds": 101,
+     "record": 102,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "2velaaiHfhs",
+     "title": "Lugnut Larry",
+     "seconds": 172,
+     "record": 174,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "NpGTYyC8SSE",
+     "title": "Kitty Liang",
+     "seconds": 147,
+     "record": 149,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "OWgUt3-vHiM",
+     "title": "We’re Truckin Along",
+     "seconds": 160,
+     "record": 161,
+     "channel": "Dale Watson"
+    },
+    {
+     "id": "sZleQdl-gJk",
+     "title": "10-100",
+     "seconds": 97,
+     "record": 114,
+     "channel": "Dale Watson",
+     "plays": "a shorter cut than the record’s, 1:37 here and 1:54 on the record"
+    }
+   ],
+   "note": "Fourteen of the record’s fifteen songs: YouTube’s list for it leaves out the tenth, Drive Drive Drive."
+  }
+ ],
+ "single": {
+  "title": "Convoy",
+  "released": "1975",
+  "label": "MGM Records",
+  "musicbrainz": "982aae1c-4099-3a77-9343-f7c53f4089c8",
+  "artist": "C. W. McCall",
+  "channel": "C.W. McCall",
+  "channel_id": "UCD3_MNIXuoCsc7VSok3f5Mw",
+  "id": "d9BWlGP_DJw",
+  "seconds": 231,
+  "record": 225,
+  "writers": "Bill Fries and Chip Davis",
+  "_writers": "Credited on its own upload as Composer Lyricist William Fries, and Composer Lyricist and Producer Chip Davis; Wikipedia’s Convoy article says written by McCall and Chip Davis. Bill Fries is C. W. McCall.",
+  "note": "Number one on the Billboard Hot 100 in January 1976, and six weeks at number one on the country chart: a story told almost all in CB talk, about a convoy of truckers driving from the West Coast to the East, whose front door goes by the handle Rubber Duck."
+ },
+ "_from_the_cb": "Each thing the street's CB took from the citizens band is a sentence about another part of the street, so each names, in holds, words its own guide or code still says. When the radio changes, the tool stops and this list changes with it; do not delete a holds to make the tool quiet. The Community Center's service-board rule.",
+ "from_the_cb": [
+  {
+   "name": "A handle",
+   "words": "You are on the channel as a name you chose, and everybody on it knows you by it.",
+   "holds": [
+    {
+     "file": "cb-guide.html",
+     "words": "On the channel as</b> and your handle"
+    }
+   ]
+  },
+  {
+   "name": "A channel everybody shares, and one of your own",
+   "words": "World is the channel the whole street shares, the way 19 is the one everybody on the interstate leaves on. Every room has a channel of its own too, this one included, the way a town on the CB used to keep a home channel, so people from there could find each other without crowding the calling channel.",
+   "holds": [
+    {
+     "file": "cb-guide.html",
+     "words": "The channel the whole street shares."
+    },
+    {
+     "file": "cb-guide.html",
+     "words": "The channel of the room you are standing in."
+    }
+   ]
+  },
+  {
+   "name": "Channel 19",
+   "words": "At its smallest, the radio is a drawing of a CB set on its own case with its readout on 19, and until 26 September 2026 the bar said CH 19 where Teleport is now.",
+   "holds": [
+    {
+     "file": "cb.js",
+     "words": "a CB set drawn on the"
+    },
+    {
+     "file": "cb.js",
+     "words": "THE TELEPORTER, where \"CH 19\" used to sit."
+    }
+   ]
+  },
+  {
+   "name": "The squelch",
+   "words": "Switch on Speak new messages aloud and every message keys up with a burst of static and lets go with a tail of it, which is the sound a CB makes. At the Gentle setting you get the words without the static.",
+   "holds": [
+    {
+     "file": "cb-guide.html",
+     "words": "with a burst of static before and after; at the Gentle setting, the words without the static"
+    }
+   ]
+  },
+  {
+   "name": "Off is off",
+   "words": "Open and in front of you, the radio listens. Fold it away and it sends nothing, like a set switched off.",
+   "holds": [
+    {
+     "file": "cb-guide.html",
+     "words": "Open is on, folded is off."
+    }
+   ]
+  },
+  {
+   "name": "On the air, then gone",
+   "words": "A CB keeps nothing: once something has been said, it has gone by. Ours keeps fifty messages, each for 48 hours, and Take off takes one off the air.",
+   "holds": [
+    {
+     "file": "cb-guide.html",
+     "words": "The channel keeps fifty messages, each for 48 hours."
+    },
+    {
+     "file": "cb-guide.html",
+     "words": "Takes the message off the air"
+    }
+   ]
+  },
+  {
+   "name": "Reading the mail",
+   "words": "Listening without saying anything is fine on ours as well. Nobody is counted, and you are on Who’s online only if you press Be seen here.",
+   "holds": [
+    {
+     "file": "cb-guide.html",
+     "words": "the only list of who is on is Who’s online, made from Be seen here"
+    }
+   ]
+  },
+  {
+   "name": "BASE",
+   "words": "BASE beside a name is one of our moderators, after the base station, the CB set at home rather than out on the road.",
+   "holds": [
+    {
+     "file": "cb-guide.html",
+     "words": "Sent by one of our moderators. Only the server can put this mark there."
+    },
+    {
+     "file": "netlify/cb/lib.mjs",
+     "words": "The base station taking"
+    }
+   ]
+  }
+ ]
+}

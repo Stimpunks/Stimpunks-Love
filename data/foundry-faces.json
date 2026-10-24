@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-23",
+ "_checked": "2026-10-24",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -3420,6 +3420,23 @@
     }
    ]
   },
+  "racing-sans-one": {
+   "family": "Racing Sans One",
+   "category": "Display",
+   "designer": "Impallari Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/racingsansone",
+   "copyright": "Copyright (c) 2012, Pablo Impallari (www.impallari.com|impallari@gmail.com) and Rodrigo Fuenzalida (www.rfuenzalida.com), with Reserved Font Name Racing Sans.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "racing-sans-one-400.woff2",
+     "sha": "357a8452eae94731"
+    }
+   ]
+  },
   "radio-canada": {
    "family": "Radio Canada",
    "category": "Sans Serif",
@@ -4224,6 +4241,29 @@
      "style": "normal",
      "file": "titan-one-400.woff2",
      "sha": "f5f3f60e9246f7e7"
+    }
+   ]
+  },
+  "titillium-web": {
+   "family": "Titillium Web",
+   "category": "Sans Serif",
+   "designer": "Accademia di Belle Arti di Urbino",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/titilliumweb",
+   "copyright": "Copyright (c) 2009-2011 by Accademia di Belle Arti di Urbino and students of MA course of Visual design. Some rights reserved.",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "titillium-web-400.woff2",
+     "sha": "eaceac41cb7be7db"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "titillium-web-700.woff2",
+     "sha": "97825fa0d8f23ab9"
     }
    ]
   },

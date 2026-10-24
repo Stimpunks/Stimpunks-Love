@@ -3153,5 +3153,33 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/sen/Sen%5Bwght%5D.ttf",
    "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
   }
+ ],
+ "racing-sans-one": [
+  {
+   "file": "racing-sans-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 42216,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/racingsansone/RacingSansOne-Regular.ttf",
+   "note": "Breaker Breaker (\u00a7125), the room's name, its headings and the name on its street door, and nothing at reading size. The family's own regular in google/fonts, saved as WOFF2 with fontTools and nothing else: every glyph is kept, because the family reserves the name Racing Sans, and a cut-down copy would be a modified one."
+  }
+ ],
+ "titillium-web": [
+  {
+   "file": "titillium-web-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 22144,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/titilliumweb/TitilliumWeb-Regular.ttf",
+   "note": "Breaker Breaker (\u00a7125), every word that is read. The family's own regular in google/fonts, saved as WOFF2 with fontTools, every glyph kept."
+  },
+  {
+   "file": "titillium-web-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 20836,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/titilliumweb/TitilliumWeb-Bold.ttf",
+   "note": "Breaker Breaker (\u00a7125), the bold: each piece of slang, the trail and the knock on the street door. The family's own bold in google/fonts, saved as WOFF2 with fontTools, every glyph kept."
+  }
  ]
 }

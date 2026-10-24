@@ -292,6 +292,7 @@ python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, a
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
 python3 tools/make-community-care.py # Community Care's roof, its quotations and its credits; refuses sorting, debt, a means test, a tally, a form, and a quotation not on our page word for word
 python3 tools/make-show-your-work.py # Show Your Work's garage, its quotations, its bench and its credits; refuses a piece nobody turned over, a ranking, a count, a pitch, a genius, and a quotation not on our page word for word
+python3 tools/make-breaker-breaker.py # Breaker Breaker's convoy, what our CB took from the citizens band, its quotations, slang, rack and credits; refuses a lamp in any colour but the law's, a blinking lamp, slang that names people unkindly, a song's words, a ranking, and a sentence about our CB its guide no longer says
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
@@ -703,6 +704,17 @@ checked against the mirror word for word. It sweeps the room's own words for **a
 genius and marking**, with the negation window and skipping blockquotes and a maker's own words, and refuses a
 form, an upload box or anything editable on the page. How long the channel and the forum keep things is read out
 of `lib.mjs` and `data/forum.json`, never typed.
+
+`make-breaker-breaker.py` builds Breaker Breaker out of `data/breaker-breaker.json`, a shopfront on the street for CB
+radios, CB slang, CB history and trucking. It **draws the convoy** at night from the driver's seat in perspective,
+every lamp where the law puts it on a real rig, in amber and red and nothing else, and refuses any other colour in
+the drawing and any keyframe, animation or transition in the room's section. It writes **what our CB took from the
+citizens band**, each line held to words `cb-guide.html`, `cb.js` or `lib.mjs` still say; **the slang**, from
+Wikipedia's list in our words, refusing every phrase in `left_off` anywhere in the room; the quotations, ours checked
+against the mirror word for word; and **the rack**: Dale Watson's Truckin' Sessions as whole albums, every song on
+the back of its sleeve with its own button and its length here and on the record (MusicBrainz's), and Convoy. It
+refuses verse-shaped values, Convoy's best-known line, a ranked rack, and a song whose length here is more than eight
+seconds off the record's without saying what plays instead. It also writes the records into the liner notes.
 
 `make-chimera-obscura.py` builds Chimera Obscura out of `data/chimera-obscura.json`, a camera obscura on the
 street where a chimera is made out of two animals, the body from one and every other part from either, and

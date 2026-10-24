@@ -4909,6 +4909,32 @@ other collisions are in §124. Cabin Sketch, a typeface drawn as its own working
 and nothing at reading size. The way in for the bench is however people already talk to us, the service board's
 route, and its slot holds the room's words.
 
+**BREAKER BREAKER (§125) IS LIT BY MARKER LAMPS ALONE, AND THE LAMPS ARE THE LAW'S COLOURS, NOT OURS.** Ryan's brief,
+2026-10-24: a room for CB radios, CB slang, CB history and trucking, with a rack of Dale Watson's trucking records and
+Convoy, saying how the CB shaped our CB chat and why the word citizen matters, with NeuroTribes on amateur radio.
+`tools/make-breaker-breaker.py` builds it out of `data/breaker-breaker.json`. **The world is night on the interstate
+from the driver's seat of a rig in a convoy**, drawn in perspective with every lamp where the law puts it on a real
+rig (three in a row at the middle as high as it goes, more at the corners and along the sides, amber at the front and
+sides, red at the back), and **the tool refuses any other colour in the drawing**; every box on the page is outlined
+in amber dots and left dark inside, the way a dressed-up trailer is outlined in chicken lights. **The Repeater is the
+one to watch**, the street's other radio: there everything is a silhouette against a sky lit from below; here the sky
+is as dark as the road and every shape is drawn dot to dot by its own lamps. If a glow ever comes up behind the
+convoy, it is this room that moves; the other collisions are in §125. **Nothing blinks**: the tool refuses a keyframe,
+an animation or a transition in §125, because a hazard flasher is the first thing a room of lamps would grow. **The
+slang is Wikipedia's list in our words, and the phrases on it that name people unkindly are in `left_off` and refused
+anywhere in the room**; the friendly edit is to fill the board out with the rest of the list. **The records are whole
+albums played as lists, every song on the back of its sleeve with its own button** (the cabin behind the door marked
+E's rule, so Follow and Catch up can find a song), each record's year, label and track lengths read off MusicBrainz,
+never the upload's Released on line (the first record plays Red River's 2014 reissue of Koch's 1998), and every song
+on the artist's own channel; `check-jukebox.py` knows the file by its `slang` key. **Not a line of any song is on the
+page**, Convoy above all, a story told in CB talk: the tool refuses verse-shaped values and the song's best-known line
+by pattern. **Every sentence about our CB is held** (`from_the_cb`'s `holds`, against `cb-guide.html`, `cb.js` and
+`lib.mjs`), the Community Center's service-board rule: when the radio changes, the tool stops until this room says
+what the radio now does. Silberman's passage is read on our Written Communication page and checked against it word
+for word. **Convoy's second life in 2022, as the anthem of the Freedom Convoy, is left off the page** on purpose
+(`_convoy_left_off` in the data): the room is about the record of 1975 and the craze round it, and saying so either
+way is Ryan's call. Racing Sans One sets the name and headings, Titillium Web everything read.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
@@ -5134,18 +5160,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §126 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §127 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§126 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§127 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §126 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §127 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

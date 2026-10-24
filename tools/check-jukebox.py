@@ -324,6 +324,12 @@ LISTS = [
     # Community Care's one talk, Vivian Ly's at Autscape 2020, on Autscape's own
     # channel: the source of the four things the room's channel is for.
     ("community care", "data/community-care.json", "community-care.html"),
+    # Breaker Breaker's rack: Dale Watson's Truckin' Sessions, every song on the
+    # back of each sleeve from his own channel, and Convoy from C. W. McCall's.
+    # An album played as a list fails if the song at the top of it has died, so
+    # every song is checked, the cabin's reason. Added in the commit that opened
+    # the room.
+    ("breaker breaker", "data/breaker-breaker.json", "breaker-breaker.html"),
     # The bodymind break's forest, on Relaxation Film's channel: in no room, on
     # the calm screen any page opens from its dial or its CB, and so the one
     # facade here somebody presses when they are least able to find out why it
@@ -369,6 +375,13 @@ def tracks_in(data):
     # its trucks, which are food rather than videos; keyed on 'trucks' because
     # that is the one thing no other file has. A film its channel will not let
     # other sites show is published as a door and is expected to refuse the frame.
+    # BREAKER BREAKER keeps its records beside its slang, which is words rather
+    # than videos, and is keyed on 'slang' because no other file has it. Every
+    # song on every record is a facade, and so is Convoy.
+    if "slang" in data:
+        return ([dict(t, artist=a["artist"]) for a in data["albums"] for t in a["tracks"]]
+                + [dict(id=data["single"]["id"], title=data["single"]["title"],
+                        artist=data["single"]["artist"], channel=data["single"]["channel"])])
     if "trucks" in data:
         return [dict(v, artist=v.get("channel"),
                      state="link" if v.get("state") == "door" else None)

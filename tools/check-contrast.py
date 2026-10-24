@@ -908,6 +908,12 @@ SRC_LINK, SRC_RUST = "#155E62", "#8A4519"
 SYW_SHADE, SYW_BOARD, SYW_TEXT, SYW_DIM = "#1D2024", "#282C31", "#F2EFE7", "#BFC3C7"
 SYW_LINK, SYW_CARD, SYW_INK, SYW_INK2 = "#93C8F0", "#F6F2E8", "#1C1F23", "#4B5157"
 SYW_PEN, SYW_TAPE = "#1B5C97", "#E2D29E"
+# Breaker Breaker (love.css §125). The interstate at night from the cab: every
+# word on the dark, or on the glass of the screen in the cab before anything is
+# on it; the lamps carry no word, and the one button with words on amber is the
+# rack's Put it on in the cab.
+BKB_NIGHT, BKB_TEXT, BKB_DIM, BKB_AMBER = "#0E0E10", "#ECE6DA", "#A9A296", "#FFB224"
+BKB_GLASS = "#050506"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3606,6 +3612,21 @@ PAIRS = [
     (SYW_CARD,  SYW_SHADE, False, "show your work: the job marker's blank card on the garage floor, held to the "
                                   "body threshold a marker is, and the blank card's dashed edge on the bench"),
     (SYW_TAPE,  SYW_SHADE, False, "show your work: the marker's strip of tape, and the rule beside every quotation"),
+    # ── Breaker Breaker (§125) ──────────────────────────────────────────────
+    # Every word on the dark, which is the cab, the road and the sky alike, or on
+    # the screen's glass; no word on a lamp.
+    (BKB_TEXT,  BKB_NIGHT, False, "breaker breaker: every paragraph, heading and quotation, the slang's meanings, "
+                                  "the records' runtimes and the blurb on the street door"),
+    (BKB_DIM,   BKB_NIGHT, False, "breaker breaker: the trail, the line over the name, the caption under the "
+                                  "convoy, whose each quotation is, the records' lines, each song's length, the "
+                                  "credits, and the job marker's microphone, held to the body threshold a marker is"),
+    (BKB_AMBER, BKB_NIGHT, False, "breaker breaker: the name, every link and the backlink, each piece of slang, "
+                                  "what our CB took, the focus ring, the songs' own buttons, the door's name and "
+                                  "knock, and the marker's push-to-talk button"),
+    (BKB_NIGHT, BKB_AMBER, False, "breaker breaker: Put it on in the cab, and a song's button under the pointer"),
+    (BKB_TEXT,  BKB_GLASS, False, "breaker breaker: the screen in the cab's own words, and a song's plate after "
+                                  "its press"),
+    (BKB_AMBER, BKB_GLASS, False, "breaker breaker: the screen's name on its glass, and PRESS PLAY on a plate"),
     # FANTASY FANCY DRESS: every word stands on the dark in front of the sheers
     # or on a plate a little lighter, never in the light; the gold sheer names
     # each rail and rings the focus, and a gold or rose button carries the dark.
@@ -4696,6 +4717,12 @@ ORNAMENT = {
                "and the side walls by the door, 2.31 on the wall and 3.25 on the door. It carries no word.",
     "#e07a3c": "show your work: the outline painted round every tool on the shadow board, 3.59 on the wall, "
                "which is what shows where each tool goes and that one is out. It carries no word.",
+    "#ff4130": "breaker breaker: the red lamps on the back of every rig in the drawing, the radio's readout, "
+               "the red lamps on the street door's awning, the last lamp under every heading and the dotted "
+               "edge round Convoy, 5.56 on the night. They are lamps, and carry no word.",
+    "#2e2c30": "breaker breaker: the shapes you can just make out in the dark, the mirror, the dash, the "
+               "radio, its knobs and the microphone's cord in the drawing, and the screen's frame, 1.40 on the "
+               "night, which is how a dash looks at night. It carries no word.",
     "#3f6a8c": "show your work: the backs of the cards nobody has turned over yet, in the box at the end of "
                "the bench, each edged in --syw-card at 5.14, 1.87 on the wall. It carries no word.",
     "#8c96a0": "community care: the rain sky over the roof in the drawing and on the street door's "
