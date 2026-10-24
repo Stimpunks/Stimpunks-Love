@@ -1838,6 +1838,11 @@ ol.cb-md-list { list-style: decimal; }
 .cb-chans-toggle { justify-self: stretch; text-align: left; }
 .cb-chans-body { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); }
 .cb-chans-find { width: 100%; }
+/* The order of the channels under tags, and Sort again beside it. */
+.cb-chans-sort { flex: 1 1 9em; }
+.cb-chans-again { flex: none; }
+.cb-chans-sorted { margin: 0; font-size: 13px; }
+.cb-chans-sorted:empty { display: none; }
 .cb-chans-groups { display: grid; gap: 10px; }
 .cb-chan-group { display: grid; gap: 2px; }
 .cb-chan-group[hidden] { display: none; }

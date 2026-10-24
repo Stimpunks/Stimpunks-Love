@@ -4059,6 +4059,17 @@ edits are a second chat in a file of its own** (two copies of the message log, w
 layout into `love-cb`**, and **listening to every channel at once for live dots**: the dots are Unreads', which asks
 nothing new, and a listen per channel would tell us where everybody is reading.
 
+**THE CHANNELS UNDER TAGS ARE A TO Z, OR IN AN ORDER BY ACTIVITY TAKEN ONLY WHEN ASKED.** Ryan's ask, 2026-10-24:
+`chatSorted` in `cb.js` puts every tag group and More rooms A to Z (a leading The, A or An passed over), or by the
+order the reader chose in **Sort the channels under tags** (kept in `love-cb` as `chatSort`): **Recently active**, newest
+message first, or **Most active**, most messages in the last 48 hours first, both from `/cb/chat-order`
+(`channelActivity` in `lib.mjs`), which reads the channels the asker can hear and sends **two orders and never a time or
+a count**, leaving out quiet rooms, rooms the asker may not enter, and the bot's messages. Community and Staff keep their
+own order. **The order is taken when the page opens (asked with the lists, so nothing jumps), when somebody chooses one
+and on Sort again, and never from `listen()`**: the friendly edit is to re-sort as messages arrive "so it is live", which
+moves a channel out from under somebody's pointer. A count beside a channel is the other friendly edit, and it is the
+number the order was worked out from.
+
 **THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
 2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under
 Your radio, opens it as big as the radio is and at its size; − and + there resize the window

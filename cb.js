@@ -139,7 +139,8 @@
      Your Work and every room at Cavendish Coworking), Staff (the Town Hall's
      private rooms and the forums' locked categories, each listed only for the
      people who can go in) and every other room under each of its tags (Ryan's
-     ask, 2026-10-24, out of data/room-tags.json), in walking order. It
+     ask, 2026-10-24, out of data/room-tags.json), A to Z unless the reader
+     chooses Recently active or Most active (chatSorted). It
      is the same radio, so a channel there is the room's own channel, as This
      room hears it in the room, and everything the radio does it does for the
      channel picked: messages, replies, reactions, Be seen here and the room's
@@ -4005,6 +4006,34 @@
   var CHAT_PAGE = 'chat';   // the chat page's own name, which is no channel on itself (make-chat.py)
   var CHAT_WIDE = window.matchMedia ? window.matchMedia('(min-width: 1000px)') : null;
 
+  /* The orders the channels under tags can be in, A to Z first, which is
+     where everybody starts. */
+  var CHAT_SORTS = [['az', 'A to Z'], ['recent', 'Recently active'], ['active', 'Most active']];
+  function chatSortOf(s) {
+    var by = s && s.chatSort;
+    return CHAT_SORTS.some(function (o) { return o[0] === by; }) ? by : 'az';
+  }
+  // A to Z the way a library files titles: a leading The, A or An is passed
+  // over, so The Den is with the Ds and The forums' categories stay together.
+  function chatNameKey(r) { return String(r.name || r.tag).replace(/^(?:the|an?)\s+/i, ''); }
+  function chatByName(a, b) {
+    return chatNameKey(a).localeCompare(chatNameKey(b), undefined, { sensitivity: 'base', numeric: true }) || a.tag.localeCompare(b.tag);
+  }
+  // The order a channel list takes: by activity as last asked, then A to Z for
+  // the channels with nothing said in them; or A to Z.
+  function chatSorted(list) {
+    var o = radio && radio.chatOrder, rank = {};
+    if (o && o.by === chatSortOf(radio.state)) o.tags.forEach(function (t, i) { rank[t] = i; });
+    else o = null;
+    return list.slice().sort(function (a, b) {
+      if (o) {
+        var ra = a.tag in rank ? rank[a.tag] : Infinity, rb = b.tag in rank ? rank[b.tag] : Infinity;
+        if (ra !== rb) return ra < rb ? -1 : 1;
+      }
+      return chatByName(a, b);
+    });
+  }
+
   function chatRoom() {
     if (chatTag !== WORLD_CALL && byTag[chatTag]) return byTag[chatTag];
     return byTag[WORLD_CALL] || { tag: WORLD_CALL, name: 'World', path: '/' + WORLD_CALL + '.html' };
@@ -4042,9 +4071,10 @@
      Staff is the Town Hall's private rooms and the forums' locked categories,
      each only for a pass that can go in (the server named the categories to
      their readers only); and every room but Staff's and World is under each
-     of its tags (Ryan's asks, 2026-10-24), Community's too, in walking order,
-     a tag's group in the order data/room-tags.json lists them, with the
-     forums' other categories after The forums, as everywhere on the radio. So
+     of its tags (Ryan's asks, 2026-10-24), Community's too, a tag's group in
+     the order data/room-tags.json lists them, its rooms A to Z or in the
+     order by activity the reader chose (chatSorted, Ryan's ask the same day),
+     A to Z keeping the forums' other categories after The forums. So
      a room can be in more than one group, and its link is in each. A staff
      room is never under a tag, so it is only ever listed for a pass that can
      go in. More rooms holds anything the page did
@@ -4077,7 +4107,7 @@
         seen[t] = true;
         if (t === FORUM_PAGE) cats.forEach(function (c) { list.push(c); seen[c.tag] = true; });
       });
-      tagged.push({ key: 'tag-' + g.key, name: g.name, rooms: list });
+      tagged.push({ key: 'tag-' + g.key, name: g.name, rooms: chatSorted(list) });
     });
     (rooms || []).forEach(function (r) { if (!taken[r.tag] && !seen[r.tag] && !r.quiet) more.push(r); });
     var dms = [];
@@ -4090,7 +4120,7 @@
       { key: 'community', name: 'Community', rooms: community },
       { key: 'dm', name: 'Direct messages', rooms: dms },
       { key: 'staff', name: 'Staff', rooms: staff }
-    ].concat(tagged, [{ key: 'more', name: 'More rooms', rooms: more }]).filter(function (g) { return g.rooms.length; });
+    ].concat(tagged, [{ key: 'more', name: 'More rooms', rooms: chatSorted(more) }]).filter(function (g) { return g.rooms.length; });
   }
 
   // On the chat page, a link to a room that is a channel there is a link to
@@ -4187,8 +4217,41 @@
     groups.appendChild(el('p', 'cb-quiet', 'Finding the channels…'));
     this.chatNone = el('p', 'cb-quiet');
     this.chatNone.hidden = true;
+    /* THE ORDER OF THE CHANNELS UNDER TAGS (Ryan's ask, 2026-10-24): A to Z,
+       or Recently active or Most active, which the server works out from the
+       channels when asked (/cb/chat-order) and sends as orders alone. An order
+       is taken when the page opens, when you choose one and when you press
+       Sort again, and never as messages come in, so nothing moves under your
+       pointer. Your choice is kept in love-cb as chatSort. See chatSortTake. */
+    var sortLab = el('label', 'cb-lab', 'Sort the channels under tags');
+    sortLab.htmlFor = 'cb-chans-sort';
+    var sortSel = this.chatSortSel = el('select', 'cb-say cb-chans-sort');
+    sortSel.id = 'cb-chans-sort';
+    CHAT_SORTS.forEach(function (o) {
+      var op = el('option', null, o[1]);
+      op.value = o[0];
+      sortSel.appendChild(op);
+    });
+    sortSel.value = chatSortOf(this.state);
+    var again = this.chatSortAgain = el('button', 'cb-btn cb-chans-again', 'Sort again');
+    again.type = 'button';
+    again.hidden = sortSel.value === 'az';
+    var sortRow = el('div', 'cb-tools cb-chans-sortrow');
+    sortRow.appendChild(sortSel);
+    sortRow.appendChild(again);
+    this.chatSortSaid = el('p', 'cb-quiet cb-chans-sorted');
+    this.chatSortSaid.setAttribute('role', 'status');
+    sortSel.addEventListener('change', function () {
+      me.state.chatSort = sortSel.value;
+      save(me.state);
+      me.chatSortTake();
+    });
+    again.addEventListener('click', function () { me.chatSortTake(); });
     body.appendChild(lab);
     body.appendChild(find);
+    body.appendChild(sortLab);
+    body.appendChild(sortRow);
+    body.appendChild(this.chatSortSaid);
     body.appendChild(groups);
     body.appendChild(this.chatNone);
     sec.appendChild(body);
@@ -4242,6 +4305,38 @@
 
   Radio.prototype.chatWide = function () { return !CHAT_WIDE || CHAT_WIDE.matches; };
 
+  /* Asks the server for the orders by activity, if one is chosen, and keeps
+     them until the next ask. A to Z asks nothing. What it answers is whether
+     there is an order to sort by: false when the street could not be reached. */
+  Radio.prototype.chatSortAsk = function () {
+    var me = this, by = chatSortOf(this.state);
+    if (by === 'az') { this.chatOrder = null; return Promise.resolve(true); }
+    return call('/cb/chat-order', null, this.state.pass).then(function (r) {
+      if (r.status === 401) { me.lost(); return false; }
+      var list = r.status === 200 && r.body && Array.isArray(r.body[by]) ? r.body[by].filter(function (t) { return typeof t === 'string'; }) : null;
+      if (!list) return false;
+      me.chatOrder = { by: by, tags: list, at: Date.now() };
+      return true;
+    }, function () { return false; }).then(function (ok) { me.chatSortTold(ok); return ok; });
+  };
+  // Sort now: on choosing an order, and on Sort again.
+  Radio.prototype.chatSortTake = function () {
+    var me = this;
+    this.chatSortAgain.hidden = chatSortOf(this.state) === 'az';
+    return this.chatSortAsk().then(function () { me.chatShown(); });
+  };
+  Radio.prototype.chatSortTold = function (ok) {
+    var by = chatSortOf(this.state), o = this.chatOrder, said = this.chatSortSaid;
+    if (!said) return;
+    if (by === 'az') { said.textContent = ''; return; }
+    if (!ok || !o || o.by !== by) {
+      said.textContent = 'The street could not be reached just now, so ' + (o ? 'the channels are in the order they had.' : 'the channels are A to Z.') + ' Try Sort again.';
+      return;
+    }
+    said.textContent = (by === 'recent' ? 'Newest message first' : 'Most messages in the last 48 hours first') +
+      ', as at ' + hhmm(new Date(o.at)) + '. New messages do not move them; Sort again does.';
+  };
+
   // The list open or folded under its button, which only a narrow screen shows.
   Radio.prototype.chatOpen = function (open) {
     this.chatSec.classList.toggle('cb-sec--chans-open', !!open);
@@ -4255,7 +4350,9 @@
     if (this.chatWaiting) return;
     this.chatWaiting = true;
     function settled(p) { return p ? p.then(null, function () {}) : null; }
-    Promise.all([settled(this.roomsReady), settled(this.forumReady)]).then(function () {
+    // An order by activity is asked for with the lists, so the channels open
+    // in it rather than moving once it arrives.
+    Promise.all([settled(this.roomsReady), settled(this.forumReady), settled(this.chatSortAsk())]).then(function () {
       if (radio !== me) return;
       me.chatSure = true;
       // The list first, because it is what says which channels there are;

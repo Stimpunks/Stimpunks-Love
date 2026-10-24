@@ -20,7 +20,8 @@ room chat channels", with the channels in groups:
     "Tag Community's rooms as well", so Community's are in Community and under
     their tags too). data/room-tags.json gives every room on
     the street's list its tags, says what each tag means and the order the
-    groups come in, and a room is under every tag it has, in walking order. Ryan's
+    groups come in, and a room is under every tag it has, A to Z unless the reader
+    chooses Recently active or Most active (cb.js, chatSorted, 2026-10-24). Ryan's
     come first, Music to Make/build; the rest were added so every room has one
     that is true of it. The forums' public categories follow The forums wherever it
     is, as everywhere on the radio.

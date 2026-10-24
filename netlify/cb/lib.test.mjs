@@ -3283,6 +3283,31 @@ test('a preview is fetched only from a public address, and a room on the street 
   assert.equal(playerInfo('nothing here'), null);
 });
 
+/* ── The chat page's orders by activity ─────────────────────────────────── */
+import { channelActivity } from './lib.mjs';
+
+test('the chat page is sent two orders by activity, without a time or a count, and never a quiet or a private room or the bot', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const mob = { role: 'mobile', handle: 'Zed', roles: new Set() };
+  const board = { role: 'base', handle: 'Bea', roles: new Set(['moderator', 'board']) };
+  const say = (tag, n, newest, extra = {}) => updateRoomTalk(tag, (l) => [...l, ...Array.from({ length: n }, (_, i) => ({ id: tag + i, handle: 'Ada', text: 'hi', t: newest - i * 1000, ...extra }))], s);
+  await say('the-den', 1, now - 1000);          // newest, one message
+  await say('the-garden', 3, now - 60000);      // most messages
+  await say('the-mopery', 2, now - 30000);
+  await say('the-feed', 9, now - 500, { feed: { wire: 'x' } });   // the bot alone
+  await say('the-secret-cabin', 5, now - 100);  // a room that keeps to itself
+  await say('town-hall-board', 5, now - 200);   // a private room
+  await updateChannel((l) => [...l, { id: 'w1', handle: 'Hal', text: 'hello', t: now - 50 }], s);
+  const r = await channelActivity(mob, s, now);
+  assert.deepEqual(r.recent, ['the-den', 'the-mopery', 'the-garden']);
+  assert.deepEqual(r.active, ['the-garden', 'the-mopery', 'the-den']);
+  assert.deepEqual(Object.keys(r).sort(), ['active', 'recent'], 'something but the two orders left');
+  const raw = JSON.stringify(r);
+  assert.equal(/\d/.test(raw), false, 'a time or a count left with the orders');
+  assert.ok((await channelActivity(board, s, now)).recent.includes('town-hall-board'), 'the board could not see its own room');
+});
+
 /* ── The World room's index ──────────────────────────────────────────────── */
 import { worldIndex } from './lib.mjs';
 

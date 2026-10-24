@@ -3146,6 +3146,29 @@ export async function worldIndex(who, s = store(), now = Date.now()) {
   return { rooms: list.map((r) => ({ tag: r.tag, people: r.people, call: r.call, last: r.last })), busiest };
 }
 
+/* THE CHAT PAGE'S ORDERS BY ACTIVITY (Ryan's ask, 2026-10-24): every room's
+   channel the asker can hear, in two orders, newest message first (recent) and
+   most messages on the channel first (active), worked out from the channels
+   themselves when the chat page asks, and kept nowhere. Only what a listener
+   could read off the channels: a room that keeps to itself is never in it, a
+   room the asker may not enter is left out, and World is no room's channel.
+   The street's own bot (the Feed's and the Source's arrivals, runFeedBot) is
+   nobody talking, so its messages count for neither order. Orders only, never
+   a time or a count: the page puts the channels in order and says nothing
+   about how busy any of them is. */
+export async function channelActivity(who, s = store(), now = Date.now()) {
+  const rows = [];
+  for (const b of (await s.list({ prefix: ROOM_TALK })).blobs || []) {
+    const tag = b.key.slice(ROOM_TALK.length);
+    if (!roomTag(tag) || tag === WORLD_CALL || quietRoom(tag) || !roomAllows(who, tag)) continue;
+    const said = (await readRoomTalk(tag, s, now)).messages.filter((m) => !m.feed && typeof m.t === 'number');
+    if (said.length) rows.push({ tag, last: Math.max(...said.map((m) => m.t)), n: said.length });
+  }
+  const recent = rows.slice().sort((a, b) => b.last - a.last || a.tag.localeCompare(b.tag)).map((r) => r.tag);
+  const active = rows.slice().sort((a, b) => b.n - a.n || b.last - a.last || a.tag.localeCompare(b.tag)).map((r) => r.tag);
+  return { recent, active };
+}
+
 export async function sweepCalls(s = store(), now = Date.now()) {
   let any = false;
   for (const r of await listed(s, IN_CALL, parseInCall)) if (now - r.t >= callStale()) { await s.delete(r.key); any = true; }
