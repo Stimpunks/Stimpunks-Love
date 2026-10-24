@@ -146,16 +146,6 @@
  ],
  "log": [
   {
-   "id": "gLY7ExP0WH0",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "Why This 1800s Southern Pie Recipe Never Fails | America's Test Kitchen",
-   "published": "2026-09-23T15:59:50Z",
-   "state": "screen",
-   "runs": 641,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "Q_HoXw5FV04",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -293,6 +283,16 @@
    "published": "2026-10-21T15:59:55Z",
    "state": "screen",
    "runs": 576,
+   "channel": "America's Test Kitchen"
+  },
+  {
+   "id": "Q06H5__o5a8",
+   "source": "americas-test-kitchen",
+   "form": "long",
+   "title": "How to Make Crispy Sweet Potato Fritters with Feta & Herbs | America's Test Kitchen",
+   "published": "2026-10-23T15:59:50Z",
+   "state": "screen",
+   "runs": 653,
    "channel": "America's Test Kitchen"
   },
   {
@@ -656,16 +656,6 @@
    "channel": "Epicurious"
   },
   {
-   "id": "nLesFIiNNKQ",
-   "source": "epicurious",
-   "form": "short",
-   "title": "The Better Way to Cut an Onion",
-   "published": "2026-09-23T16:00:26Z",
-   "state": "screen",
-   "runs": 40,
-   "channel": "Epicurious"
-  },
-  {
    "id": "97_1ca7g9qU",
    "source": "epicurious",
    "form": "short",
@@ -764,16 +754,6 @@
    "state": "screen",
    "runs": 70,
    "channel": "Epicurious"
-  },
-  {
-   "id": "-FxrjVea0EY",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "Lili Reinhart and Tom Bateman: The Pizza Interview | NYT Cooking",
-   "published": "2026-09-23T19:00:14Z",
-   "state": "screen",
-   "runs": 994,
-   "channel": "NYT Cooking"
   },
   {
    "id": "1Y8rXuLPC4E",
@@ -956,6 +936,16 @@
    "channel": "NYT Cooking"
   },
   {
+   "id": "qGrKsukTRqk",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "To know Marcella Hazan’s famous Bolognese Sauce is to love it. #bolognese #pasta #nytcooking",
+   "published": "2026-10-23T21:00:18Z",
+   "state": "screen",
+   "runs": 36,
+   "channel": "NYT Cooking"
+  },
+  {
    "id": "0ILk-TfcGrs",
    "source": "iron-chef-dad",
    "form": "long",
@@ -996,14 +986,14 @@
    "channel": "Iron Chef Dad"
   },
   {
-   "id": "m2zB9QBki1k",
-   "source": "andy-cooks",
-   "form": "long",
-   "title": "Restaurant Hacks I Still Use To Make Home Cooking Simple",
-   "published": "2026-09-24T07:00:02Z",
+   "id": "F4QFSnAaTRI",
+   "source": "iron-chef-dad",
+   "form": "short",
+   "title": "Mystery Ingredient Challenge",
+   "published": "2026-10-23T19:26:27Z",
    "state": "screen",
-   "runs": 1542,
-   "channel": "Andy Cooks"
+   "runs": 98,
+   "channel": "Iron Chef Dad"
   },
   {
    "id": "MNcu0JX_EMI",
@@ -1246,6 +1236,16 @@
    "channel": "Andy Cooks"
   },
   {
+   "id": "BDNGaZW2yDE",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Bitterballen 🇳🇱",
+   "published": "2026-10-24T09:54:13Z",
+   "state": "screen",
+   "runs": 70,
+   "channel": "Andy Cooks"
+  },
+  {
    "id": "IkGkEftotfM",
    "source": "back-of-house",
    "form": "long",
@@ -1323,16 +1323,6 @@
    "published": "2026-10-16T19:00:08Z",
    "state": "screen",
    "runs": 688,
-   "channel": "The Pasta Queen"
-  },
-  {
-   "id": "Rl6e0felioo",
-   "source": "the-pasta-queen",
-   "form": "short",
-   "title": "Making ITALIAN Fall Pasta with my Daughter🍁",
-   "published": "2026-09-23T19:19:17Z",
-   "state": "screen",
-   "runs": 86,
    "channel": "The Pasta Queen"
   },
   {
@@ -1463,6 +1453,16 @@
    "published": "2026-10-19T19:26:58Z",
    "state": "screen",
    "runs": 76,
+   "channel": "The Pasta Queen"
+  },
+  {
+   "id": "AjTPuypb27U",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "The REAL Aglio Olio & Peperoncino 🌶️",
+   "published": "2026-10-23T18:56:59Z",
+   "state": "screen",
+   "runs": 89,
    "channel": "The Pasta Queen"
   },
   {
@@ -1966,6 +1966,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "v7pVPxJgKgc",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Amazing Skills! This Japanese Chef Makes Sushi and Giant Udon at a Local Diner",
+   "published": "2026-10-23T22:00:16Z",
+   "state": "screen",
+   "runs": 2747,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "wz9jvH7zJbk",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -2106,6 +2116,16 @@
    "channel": "Japanese Food Craftsman"
   },
   {
+   "id": "omBbx9T5FtI",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "5歳で薪割り・火おこし・料理まで！？サバイバル幼稚園が凄い！",
+   "published": "2026-10-24T08:45:12Z",
+   "state": "screen",
+   "runs": 41,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
    "id": "YJpgGtF3egI",
    "source": "bon-appetit",
    "form": "long",
@@ -2203,16 +2223,6 @@
    "published": "2026-10-22T16:00:10Z",
    "state": "screen",
    "runs": 819,
-   "channel": "Bon Appétit"
-  },
-  {
-   "id": "DpB6I3NoU5I",
-   "source": "bon-appetit",
-   "form": "short",
-   "title": "This Restaurant Ghosted Us 34 Years Ago 😅",
-   "published": "2026-09-23T16:00:03Z",
-   "state": "screen",
-   "runs": 33,
    "channel": "Bon Appétit"
   },
   {
@@ -2416,16 +2426,6 @@
    "channel": "Insider Food"
   },
   {
-   "id": "nNO50oMLYHk",
-   "source": "fallow",
-   "form": "long",
-   "title": "Probably the Best Side Dish in the World",
-   "published": "2026-09-23T17:04:02Z",
-   "state": "screen",
-   "runs": 684,
-   "channel": "Fallow"
-  },
-  {
    "id": "u42FTExGFUs",
    "source": "fallow",
    "form": "long",
@@ -2439,7 +2439,7 @@
    "id": "mp4Il5rC7AQ",
    "source": "fallow",
    "form": "long",
-   "title": "We Cooked Michelin Roast Chickens to Find the Ultimate one",
+   "title": "We Cooked Michelin Roast Chickens to Find the Ultimate One",
    "published": "2026-10-07T18:00:03Z",
    "state": "screen",
    "runs": 1637,
@@ -2463,16 +2463,6 @@
    "published": "2026-10-21T17:00:35Z",
    "state": "screen",
    "runs": 896,
-   "channel": "Fallow"
-  },
-  {
-   "id": "Ji72TthpJ-Q",
-   "source": "fallow",
-   "form": "short",
-   "title": "The Ultimate Cartouche",
-   "published": "2026-09-23T14:56:08Z",
-   "state": "screen",
-   "runs": 62,
    "channel": "Fallow"
   },
   {
@@ -2626,6 +2616,16 @@
    "channel": "Fallow"
   },
   {
+   "id": "tTTCOUBcW_Q",
+   "source": "fallow",
+   "form": "short",
+   "title": "The Perfect Chicken Tenders",
+   "published": "2026-10-23T19:49:09Z",
+   "state": "screen",
+   "runs": 153,
+   "channel": "Fallow"
+  },
+  {
    "id": "yflmSoaq5WU",
    "source": "guga",
    "form": "long",
@@ -2663,6 +2663,16 @@
    "published": "2026-10-16T15:15:04Z",
    "state": "screen",
    "runs": 1076,
+   "channel": "Guga"
+  },
+  {
+   "id": "rINvUKx2d7A",
+   "source": "guga",
+   "form": "long",
+   "title": "I Tried the Trinidadian Food America IGNORES!",
+   "published": "2026-10-23T17:59:41Z",
+   "state": "screen",
+   "runs": 815,
    "channel": "Guga"
   },
   {
@@ -2846,14 +2856,14 @@
    "channel": "Eater"
   },
   {
-   "id": "Jvjl90Xm50o",
-   "source": "munchies",
-   "form": "long",
-   "title": "The Best White Wine You've Never Heard Of: Albariño | The Wine Show",
-   "published": "2026-09-23T15:00:04Z",
+   "id": "hz-2Vg36yGU",
+   "source": "eater",
+   "form": "short",
+   "title": "Could this be the best ragu recipe ever? #pasta #italianfood #recipe",
+   "published": "2026-10-23T13:00:38Z",
    "state": "screen",
-   "runs": 1025,
-   "channel": "Munchies"
+   "runs": 105,
+   "channel": "Eater"
   },
   {
    "id": "rvmJYzAfj74",
@@ -2934,16 +2944,6 @@
    "state": "screen",
    "runs": 24,
    "channel": "Joshua Weissman"
-  },
-  {
-   "id": "KZp9xDvHER4",
-   "source": "strictly-dumpling",
-   "form": "long",
-   "title": "I Found an All You Can Eat NOODLE BREAKFAST in Chinatown New York 🍜",
-   "published": "2026-09-23T19:50:19Z",
-   "state": "screen",
-   "runs": 1286,
-   "channel": "Strictly Dumpling"
   },
   {
    "id": "MgkBd2P0JCA",
@@ -3031,13 +3031,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3045,13 +3045,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3059,13 +3059,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3073,13 +3073,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3087,13 +3087,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3101,13 +3101,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3115,13 +3115,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3129,13 +3129,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3143,13 +3143,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3157,13 +3157,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3171,13 +3171,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3185,13 +3185,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3199,13 +3199,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3213,13 +3213,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3227,13 +3227,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3241,13 +3241,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3255,13 +3255,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3269,13 +3269,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3283,13 +3283,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3297,13 +3297,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3311,13 +3311,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3325,13 +3325,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   },
@@ -3339,16 +3339,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-23T11:23:59Z"
+     "2026-10-24T11:24:58Z"
     ]
    ]
   }
  },
- "set": "2026-10-23T11:23Z"
+ "set": "2026-10-24T11:24Z"
 }
