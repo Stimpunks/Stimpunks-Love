@@ -35,7 +35,13 @@ first. So:
   2. **Run `tools/check-all.sh` before every commit.** It runs every generator and every checker
      in the one order that works and stops at the first refusal. On a clean tree it changes
      nothing. If files change, they are generated files catching up with a source: commit them
-     with the change that caused them.
+     with the change that caused them. **When only notes have changed** (DECISIONS.md, README.md,
+     CLAUDE.md, SECURITY.md), it runs only the checkers that read them, in seconds, and says so;
+     it finds those readers by name in `tools/`, and runs everything if a generator is one of them
+     (Ryan, 2026-10-24). `--full` runs everything anyway. The full run prints how long every step
+     took and ends with the slowest, so a speed-up starts from a measurement. Do not add a file
+     to `NOTES` that any generator reads, and do not make the quick path guess about any other
+     change: a page, a data file or a stylesheet can change a room nobody touched.
   3. **Commit and push when you stop.** Work left uncommitted blocks the other person's turn, and
      it blocks the morning's arrivals task, which refuses to run over anybody's edits.
   4. **Never hand-merge a generated file.** If a pull conflicts in `feed.xml`, `sitemap.xml`,

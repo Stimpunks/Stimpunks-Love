@@ -31,8 +31,97 @@
 # generated line; edit its source and run this.
 #
 # When a tool refuses, fix the cause. Do not loosen the tool, and do not skip it.
+#
+# THE QUICK PATH, FOR NOTES (Ryan's ask, 2026-10-24, after a one-line change to
+# DECISIONS.md waited twelve minutes for the whole street to be rebuilt). When
+# every file changed since the last commit is one of NOTES below, this runs only
+# the checkers that read those files and stops. It is not a list of checkers kept
+# by hand: the readers are found by looking for the file's name in quotes in
+# tools/ and netlify/, and if anything that reads one is not a checker, this
+# says so and runs everything, because a generator reading a note is a page that
+# can change. Today the only reader is check-counts.py, which refuses a note
+# saying how many rooms there are. A new file in the tree, or any other change,
+# is the full run. `tools/check-all.sh --full` runs everything regardless.
+#
+# THE TIMINGS. Every step of the full run prints how long it took, and the run
+# ends with its total and its slowest steps, so what to make faster next is
+# measured rather than guessed. perl gives tenths of a second (the bash on a Mac
+# is 3.2, which has no clock of its own finer than a second); without perl it
+# counts whole seconds.
 set -uo pipefail
 cd "$(dirname "$0")/.."
+
+NOTES="DECISIONS.md README.md CLAUDE.md SECURITY.md"
+
+now() { perl -MTime::HiRes=time -e 'printf "%.1f", time' 2>/dev/null || date +%s; }
+since() { awk -v a="$1" -v b="$(now)" 'BEGIN { printf "%.1f", b - a }'; }
+START=$(now)
+TIMES=""
+
+# One step, timed: its heading, the command, how long it took.
+step() {
+  local name=$1; shift
+  printf '\n\033[1m== %s\033[0m\n' "$name"
+  local t0 rc dt
+  t0=$(now)
+  "$@"; rc=$?
+  dt=$(since "$t0")
+  TIMES="${TIMES}${dt}	${name}
+"
+  printf '\033[2m   (%ss)\033[0m\n' "$dt"
+  return $rc
+}
+
+# How long the run took, and the steps that took longest.
+report() {
+  local total
+  total=$(awk -v t="$(since "$START")" 'BEGIN { printf "%d", t + .5 }')
+  printf '\n\033[1mTook %dm %02ds.\033[0m The slowest steps:\n' $((total / 60)) $((total % 60))
+  printf '%s' "$TIMES" | sort -t "$(printf '\t')" -k1,1 -rn | head -12 | awk -F '\t' '{ printf "  %7.1fs  %s\n", $1, $2 }'
+}
+
+# ── The quick path ──────────────────────────────────────────────────────────
+full=""
+[ "${1:-}" = "--full" ] && full=1
+changed=$({ git diff --name-only --no-renames HEAD; git ls-files --others --exclude-standard; } | sort -u)
+quick=""
+if [ -z "$full" ] && [ -n "$changed" ]; then
+  quick=1
+  while IFS= read -r f; do
+    case " $NOTES " in *" $f "*) ;; *) quick=""; break ;; esac
+  done <<EOF_CHANGED
+$changed
+EOF_CHANGED
+fi
+if [ -n "$quick" ]; then
+  readers=""
+  for f in $changed; do
+    for t in tools/*.py tools/*.mjs tools/*.sh netlify/cb/*.mjs netlify/functions/*.mjs; do
+      [ -f "$t" ] && [ "$t" != tools/check-all.sh ] || continue
+      grep -qF "\"$f\"" "$t" || grep -qF "'$f'" "$t" || continue
+      case "$t" in
+        tools/check-*.py) case " $readers " in *" $t "*) ;; *) readers="$readers $t" ;; esac ;;
+        *) printf '%s reads %s, and it is not a checker, so this runs everything.\n' "$t" "$f"
+           quick=""; break 2 ;;
+      esac
+    done
+  done
+fi
+if [ -n "$quick" ]; then
+  printf '\033[1mOnly notes changed\033[0m (%s), so this runs only what reads them.\n' "$(echo $changed)"
+  printf 'Anything else changed would be the full run; tools/check-all.sh --full runs it anyway.\n'
+  for t in $readers; do
+    if ! step "$(basename "$t" .py)" python3 "$t"; then
+      printf '\n\033[1mSTOPPED at %s.\033[0m Fix what it says, then run this again.\n' "$(basename "$t" .py)"
+      exit 1
+    fi
+  done
+  [ -n "$readers" ] || printf '\nNothing here reads %s.\n' "$(echo $changed)"
+  printf '\n\033[1mEverything that reads them ran and nothing refused\033[0m, in %ss.\n' "$(since "$START")"
+  printf 'These files changed; commit them:\n'
+  git status --short
+  exit 0
+fi
 
 STEPS=(
   # Images first: the rooms and the cards reference what this decides.
@@ -59,55 +148,50 @@ STEPS=(
 
 # The CB's one invariant, first, because it needs nothing but Node: no write
 # that was told it worked is ever missing. See netlify/cb/lib.test.mjs.
-printf '\n\033[1m== the CB under load\033[0m\n'
-if ! node --test netlify/cb/lib.test.mjs; then
+if ! step "the CB under load" node --test netlify/cb/lib.test.mjs; then
   printf '\n\033[1mSTOPPED at the CB test.\033[0m A write the CB said worked can go missing.\n'
-  exit 1
+  report; exit 1
 fi
 
 # The fractal window's one invariant, also Node and nothing else: no room's
 # picture flashes at the quickest speed, counted in what it paints. See
 # tools/fractal.test.mjs.
-printf '\n\033[1m== the fractal window never flashes\033[0m\n'
-if ! node --test tools/fractal.test.mjs; then
+if ! step "the fractal window never flashes" node --test tools/fractal.test.mjs; then
   printf '\n\033[1mSTOPPED at the fractal test.\033[0m A room'"'"'s fractal can flash.\n'
-  exit 1
+  report; exit 1
 fi
 
 # Every avatar choice drawn in every pose, and the page's checker and the
 # server's agreeing about what a look may hold. Node and nothing else. See
 # tools/avatar.test.mjs. It reads the lists make-bodymind.py writes, so it runs
 # again after the generators, below, as well as here.
-printf '\n\033[1m== every avatar choice is drawn\033[0m\n'
-if ! node --test tools/avatar.test.mjs; then
+if ! step "every avatar choice is drawn" node --test tools/avatar.test.mjs; then
   printf '\n\033[1mSTOPPED at the avatar test.\033[0m A choice, a garment or a look cannot be drawn, or the page and the CB disagree about one.\n'
-  exit 1
+  report; exit 1
 fi
 
 for s in "${STEPS[@]}"; do
-  printf '\n\033[1m== %s\033[0m\n' "$s"
-  if ! python3 "tools/$s.py"; then
+  if ! step "$s" python3 "tools/$s.py"; then
     printf '\n\033[1mSTOPPED at %s.\033[0m Fix what it says, then run this again.\n' "$s"
     printf 'Nothing after it has run, so nothing after it has been checked.\n'
-    exit 1
+    report; exit 1
   fi
 done
 
 # Every chimera the shelf can make, drawn, against the shelf make-chimera-obscura.py
 # just wrote into chimera.js. Node and nothing else. See tools/chimera.test.mjs.
-printf '\n\033[1m== every chimera is drawn\033[0m\n'
-if ! node --test tools/chimera.test.mjs; then
+if ! step "every chimera is drawn" node --test tools/chimera.test.mjs; then
   printf '\n\033[1mSTOPPED at the chimera test.\033[0m An animal on the shelf cannot be drawn with another, or a chimera holds what it should not.\n'
-  exit 1
+  report; exit 1
 fi
 
-printf '\n\033[1m== every avatar choice is drawn, against the lists just written\033[0m\n'
-if ! node --test tools/avatar.test.mjs; then
+if ! step "every avatar choice is drawn, against the lists just written" node --test tools/avatar.test.mjs; then
   printf '\n\033[1mSTOPPED at the avatar test.\033[0m make-bodymind.py wrote a list avatar.js cannot draw.\n'
-  exit 1
+  report; exit 1
 fi
 
 printf '\n\033[1mEverything ran and nothing refused.\033[0m\n'
+report
 if [ -n "$(git status --porcelain)" ]; then
   printf 'These files changed; commit them with the change that caused them:\n'
   git status --short
