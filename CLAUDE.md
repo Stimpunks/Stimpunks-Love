@@ -972,7 +972,10 @@ Account.
 messages), which closes it and puts the view and the keyboard back on the button that opened it; a tray
 drawn afresh on each opening (stickers, the Notifications body) draws its foot again too. `part()` in
 `cb.js` makes them, and `cb-guide.html#parts` lists them in order: **a new control goes into the part it
-belongs to, and a new part is a row in that table.** The headings are `h2`s in the shadow root, so a
+belongs to, and a new part is a row in that table.** Inside a part, controls that go together sit under a
+heading of their own (Ryan, 2026-10-24: "we like big headings and breaking things into sections"): a `.cb-sub` with
+an `h3.cb-h3`, as In this channel's Seen here, In this room's call, Your familiar and On now are, which `cb.css`
+hides while nothing under its heading shows. The friendly edit is to flatten them back to save height. The headings are `h2`s in the shadow root, so a
 screen reader moves between them; Small shows none of them. Do not flatten it back into one column to
 save height.
 

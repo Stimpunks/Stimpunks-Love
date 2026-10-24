@@ -491,11 +491,22 @@
   letter-spacing: var(--cb-display-track, .1em); text-transform: var(--cb-display-case, none); color: var(--cb-steel-2);
 }
 /* THE PARTS' HEADINGS ARE BIGGER (Ryan's ask, 2026-10-19): 15px where they
-   were 12, and a theme's scale is still followed, up to 19px, so the room's
-   name under Where you are (20px) stays the largest words on the radio. The
-   forums' headings wear .cb-h too and keep their own sizes in forum.css. */
-.cb-sec > .cb-h { font-size: min(calc(15px * var(--cb-display-scale, 1)), 19px); }
-.cb-h3 { margin-top: 4px; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .02em; color: var(--cb-steel); }
+   were 12, and 18px since the subsections under them grew to 17 (2026-10-24),
+   so a part still reads above its subsections. A theme's scale is still
+   followed, up to 19px, so the room's name under Where you are (20px) stays
+   the largest words on the radio. The forums' headings wear .cb-h too and
+   keep their own sizes in forum.css. */
+.cb-sec > .cb-h { font-size: min(calc(18px * var(--cb-display-scale, 1)), 19px); }
+/* A PART'S SUBSECTIONS ARE BIGGER TOO (Ryan's ask, 2026-10-24: "we like big
+   headings and breaking things into sections"): People, Calls going now, Your
+   chat status, Seen here and the rest, a size over the radio's 15px words and
+   under the room's name, still the largest words on the radio at 20px. */
+.cb-h3 { margin-top: 4px; font: 700 17px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .02em; color: var(--cb-steel); }
+/* A subsection: its heading and what is under it. One with nothing showing
+   under its heading is not shown, so no heading stands over nothing. */
+.cb-sub { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); justify-items: start; }
+.cb-sub > .cb-h3 { margin-top: 2px; }
+.cb-sub:not(:has(> :not(.cb-h3):not([hidden]))) { display: none; }
 .cb-sec > .cb-btn { justify-self: start; }
 /* WHERE YOU ARE: the room's name, the largest words on the radio, in the
    case's own steel. A page that is not a room says so, smaller. */
@@ -687,7 +698,6 @@ ol.cb-md-list { list-style: decimal; }
 /* BE SEEN HERE: a switch, filled when on, the Follow button's pair. Who else is
    seen, and who is in the call, in the radio's own steel on its case, the
    pair the name line above it already uses. */
-.cb-present { display: grid; gap: 4px; justify-items: start; }
 .cb-seen[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-seen-now { font-size: 14px; overflow-wrap: anywhere; }
 .cb-seen-now .cb-tag { margin-left: 4px; }
@@ -901,7 +911,7 @@ ol.cb-md-list { list-style: decimal; }
 .pf-pronouns { color: var(--cb-amber-2); }
 /* The tagline, one line of the person's own under their name (2026-10-23). */
 .pf-tagline { margin: 0; color: var(--cb-steel); overflow-wrap: anywhere; }
-.pf-sub { margin: 8px 0 0; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .04em; color: var(--cb-steel); }
+.pf-sub { margin: 8px 0 0; font: 700 17px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .04em; color: var(--cb-steel); }
 .pf-panel, .pf-links {
   margin: 0; padding: 10px 12px; overflow-wrap: anywhere;
   background: var(--cb-lcd); color: var(--cb-amber);
@@ -935,7 +945,7 @@ ol.cb-md-list { list-style: decimal; }
    each prop a box ruled in amber-2, its words first and who wrote it under
    them. No number anywhere: the friendly edit is a count on the tab. */
 .pf-props > * { margin: 0 0 10px; }
-.pf-props__h { display: block; margin: 0 0 8px; font: 700 15px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-amber); }
+.pf-props__h { display: block; margin: 0 0 8px; font: 700 17px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-amber); }
 .pf-props__list { list-style: none; padding: 0; display: grid; gap: 10px; }
 .pf-prop { padding: 8px 10px; border: 1px solid var(--cb-amber-2); border-radius: 6px; overflow-wrap: anywhere; }
 .pf-prop__words { display: grid; gap: 6px; }
@@ -955,7 +965,7 @@ ol.cb-md-list { list-style: decimal; }
 .pf-sheet--edit { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); }
 .pf-editor { display: grid; gap: 10px; align-content: start; padding: 18px; border-right: 2px solid var(--cb-steel-2); }
 .pf-edit__h { margin: 0; font: 700 20px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif; color: var(--cb-steel); }
-.pf-edit__sub { margin: 10px 0 0; font: 700 13px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .04em; color: var(--cb-steel); }
+.pf-edit__sub { margin: 10px 0 0; font: 700 17px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .04em; color: var(--cb-steel); }
 .pf-editor .cb-hint { margin: 0; }
 /* A link in the editor, the directory's in its hint: amber on the case, as on
    the radio, never the browser's own blue. */
@@ -1541,7 +1551,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-notify__kind { text-align: left; }
 .cb-notify__rooms { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
 .cb-notify__unfollow { min-height: 36px; padding: 4px 8px; font-size: 12px; }
-.cb-pets__h { margin: 0 0 6px; font-weight: 700; }
+.cb-pets__h { margin: 0 0 6px; font-size: 17px; font-weight: 700; }
 .cb-pets__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .cb-pet { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; align-items: center; }
 .cb-pet__art { display: block; width: 84px; height: auto; }
@@ -1656,7 +1666,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-pets .cb-pfsec__h { margin: 0; }
 .cb-pfsec__btn {
   display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; margin: 0; padding: 4px 0;
-  font: inherit; font-weight: 700; color: inherit; text-align: left;
+  font: inherit; font-size: 17px; font-weight: 700; color: inherit; text-align: left;
   background: none; border: 0; cursor: pointer;
 }
 .cb-pfsec__btn:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -1834,7 +1844,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-chan-h { margin: 0; }
 .cb-chan-fold {
   display: flex; align-items: center; gap: 6px; width: 100%; min-height: 32px; padding: 2px 4px;
-  font: 700 12px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase;
+  font: 700 15px/1.2 'Atkinson Hyperlegible', system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase;
   color: var(--cb-steel); background: none; border: 0; border-radius: 4px; cursor: pointer; text-align: left;
 }
 .cb-chan-fold::before { content: '\25BE'; display: inline-block; width: 1em; text-align: center; }

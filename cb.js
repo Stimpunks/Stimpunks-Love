@@ -1528,30 +1528,46 @@
        in a tab behind another, because listen() is the only thing that asks.
        Not a live region: it is redrawn on every listen, and somebody arriving
        is not an alert. */
-    var present = this.present = el('div', 'cb-present');
+    /* IN THIS CHANNEL IS IN SUBSECTIONS, each under a heading of its own
+       (Ryan's ask, 2026-10-24: "we like big headings and breaking things into
+       sections"): Seen here, In this room's call, Your familiar and On now. A
+       subsection with nothing showing under its heading is not shown (cb.css,
+       .cb-sub), so no heading ever stands over nothing. */
+    var present = this.present = el('div', 'cb-sub cb-present');
+    present.appendChild(el('h3', 'cb-h3', 'Seen here'));
     // It says whether it is on, as the switches under Your radio do (Ryan's ask, 2026-10-19).
     var seenBtn = this.seenBtn = el('button', 'cb-btn cb-seen', 'Be seen here: off');
     seenBtn.type = 'button';
     seenBtn.setAttribute('aria-pressed', 'false');
     this.seenNow = el('p', 'cb-seen-now');
-    this.inCallNow = el('p', 'cb-seen-now cb-in-call');
-    this.inCallNow.hidden = true;
     present.appendChild(seenBtn);
     present.appendChild(this.seenNow);
-    present.appendChild(this.inCallNow);
+    present.hidden = true;
+    hereSec.appendChild(present);
+    // The room's call: Join this room's call (callBtn, below) and who is in it.
+    var callSub = this.callSub = el('div', 'cb-sub cb-call-sub');
+    callSub.appendChild(el('h3', 'cb-h3', 'In this room\u2019s call'));
+    this.inCallNow = el('p', 'cb-seen-now cb-in-call');
+    this.inCallNow.hidden = true;
+    callSub.appendChild(this.inCallNow);
+    hereSec.appendChild(callSub);
     /* BRING MY FAMILIAR (Ryan, 2026-10-19): only for a claimed username with
        a familiar following it, off until pressed; see familiarShown(). */
+    var famSub = el('div', 'cb-sub cb-fam-sub');
+    famSub.appendChild(el('h3', 'cb-h3', 'Your familiar'));
     var famBtn = this.famBtn = el('button', 'cb-btn cb-seen', 'Bring my familiar: off');
     famBtn.type = 'button';
     famBtn.setAttribute('aria-pressed', 'false');
     famBtn.hidden = true;
     this.famNow = el('p', 'cb-seen-now');
     this.famNow.hidden = true;
-    present.appendChild(famBtn);
-    present.appendChild(this.famNow);
-    present.hidden = true;
-    hereSec.appendChild(present);
-    hereSec.appendChild(this.evNowLine);
+    famSub.appendChild(famBtn);
+    famSub.appendChild(this.famNow);
+    hereSec.appendChild(famSub);
+    var nowSub = el('div', 'cb-sub cb-now-sub');
+    nowSub.appendChild(el('h3', 'cb-h3', 'On now'));
+    nowSub.appendChild(this.evNowLine);
+    hereSec.appendChild(nowSub);
 
     var lcd = this.lcd = el('div', 'cb-lcd');
     // Which channel this is, at every size, because small shows only the readout.
@@ -1734,7 +1750,7 @@
     callBtn.type = 'button';
     callBtn.hidden = true;
     callBtn.setAttribute('aria-pressed', 'false');
-    hereSec.appendChild(callBtn);
+    this.callSub.insertBefore(callBtn, this.inCallNow);
     this.calls = false;
     var aloud = this.aloudBtn = el('button', 'cb-btn cb-aloud');
     aloud.type = 'button';
@@ -10441,11 +10457,13 @@
     var seenA = tag && this.seenFrom === tag ? this.seenAnswer : null;
     this.visitorsShown(this.state.seen && !this.state.folded && seenA && !seenA.refused ? seenA.others : []);
     this.familiarShown();
+    // Who is in the call is told only to a radio seen here; it is outside the
+    // Seen here subsection, so it is put away here rather than with it.
+    this.inCallNow.hidden = true;
     if (!tag) return;
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
     this.seenBtn.textContent = on ? 'Be seen here: on' : 'Be seen here: off';
-    this.inCallNow.hidden = true;
     if (!on) {
       this.seenNow.textContent = offList()
         ? 'Switch it on to see who else here has, and who is in this room\u2019s call. This room keeps to itself: being seen here shows you only to people seen here, and never on Who\u2019s online.'
