@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-23T11:19Z",
+ "set": "2026-10-24T11:20Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   },
@@ -218,28 +218,18 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-23T11:19:20Z"
+     "2026-10-24T11:20:00Z"
     ]
    ]
   }
  },
  "telly": [
-  {
-   "id": "H8p8xj0bqew",
-   "source": "derek-sarno",
-   "form": "long",
-   "title": "A Can of Beans and Three Easy Steps, Will Change How You Snack Forever",
-   "published": "2026-09-23T17:25:28Z",
-   "state": "screen",
-   "runs": 452,
-   "channel": "Derek Sarno"
-  },
   {
    "id": "kpGsJFehkts",
    "source": "derek-sarno",
@@ -421,13 +411,13 @@
    "channel": "Sarah's Vegan Kitchen"
   },
   {
-   "id": "b0Lz-6tYsw0",
+   "id": "O3mNNBvc7Yo",
    "source": "ahmad-noori",
-   "form": "short",
-   "title": "Creamy Udon Noodles with Tofu — How to get this texture without dairy #vegan #cooking #foodie",
-   "published": "2026-09-23T16:00:08Z",
+   "form": "long",
+   "title": "3 Crispy Potato Recipes You’ll Want to Make Again",
+   "published": "2026-10-23T16:30:26Z",
    "state": "screen",
-   "runs": 23,
+   "runs": 84,
    "channel": "Ahmad Noori"
   },
   {
@@ -591,16 +581,6 @@
    "channel": "VeganProteins"
   },
   {
-   "id": "653x38TwGRE",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "Transform Your Meals with These 5 Easy and Versatile Spice Blends",
-   "published": "2026-09-23T15:00:07Z",
-   "state": "screen",
-   "runs": 1208,
-   "channel": "PB with J"
-  },
-  {
    "id": "hMc98Y_aI3g",
    "source": "pb-with-j",
    "form": "long",
@@ -669,6 +649,15 @@
    "state": "screen",
    "runs": 755,
    "channel": "PB with J"
+  },
+  {
+   "id": "olKg1tKadHk",
+   "source": "pb-with-j",
+   "form": "long",
+   "title": "My Daughter’s Favourite Brownies Have Avocado in Them",
+   "published": "2026-10-20T15:46:59Z",
+   "state": "pending",
+   "why": "live, or not out yet"
   },
   {
    "id": "tGZqrTLsXXQ",
@@ -798,6 +787,16 @@
    "published": "2026-10-18T12:40:29Z",
    "state": "screen",
    "runs": 34,
+   "channel": "PB with J"
+  },
+  {
+   "id": "G5DxPQtVllg",
+   "source": "pb-with-j",
+   "form": "short",
+   "title": "Carleigh Bodrug's REAL Food Secrets: Brutal Feedback & Mom Hacks #shorts",
+   "published": "2026-10-23T12:47:23Z",
+   "state": "screen",
+   "runs": 40,
    "channel": "PB with J"
   },
   {
@@ -959,16 +958,6 @@
    "state": "screen",
    "runs": 111,
    "channel": "Yeung Man Cooking"
-  },
-  {
-   "id": "NjbWYBSxe98",
-   "source": "merle-oneal",
-   "form": "long",
-   "title": "These Chickpea Recipes Have MILLIONS of Views - Are They Any Good?",
-   "published": "2026-09-23T18:22:19Z",
-   "state": "screen",
-   "runs": 855,
-   "channel": "Merle O'Neal"
   },
   {
    "id": "znIQX79weos",
