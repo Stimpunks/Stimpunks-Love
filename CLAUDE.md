@@ -4932,8 +4932,8 @@ by pattern. **Every sentence about our CB is held** (`from_the_cb`'s `holds`, ag
 `lib.mjs`), the Community Center's service-board rule: when the radio changes, the tool stops until this room says
 what the radio now does. Silberman's passage is read on our Written Communication page and checked against it word
 for word. **Convoy's second life in 2022, as the anthem of the Freedom Convoy, is left off the page** on purpose
-(`_convoy_left_off` in the data): the room is about the record of 1975 and the craze round it, and saying so either
-way is Ryan's call. Racing Sans One sets the name and headings, Titillium Web everything read.
+(`_convoy_left_off` in the data): the room is about the record of 1975 and the craze round it, and Ryan's call the
+same day was to leave it off. The friendly edit is a line about it "for completeness", which reverses that call. Racing Sans One sets the name and headings, Titillium Web everything read.
 
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
