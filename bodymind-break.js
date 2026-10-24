@@ -221,6 +221,39 @@
       quietRooms.appendChild(document.createTextNode(i === all.length - 1 ? '.' : i === all.length - 2 ? ' or ' : ', '));
     });
 
+    /* THE LOW-STIMULATION MODES (love.css §3), the dial's, offered here too,
+       because this is where somebody overwhelmed already is. love.js's
+       loveLow switches them and keeps the choice; this file keeps nothing. Not
+       in the radio's own window, which has no love.js and no rooms to recolour. */
+    var lowWrap = null;
+    var L = window.loveLow;
+    if (L && L.modes) {
+      lowWrap = el('div', 'bbr-help');
+      lowWrap.appendChild(el('p', 'bbr-quiet', 'Or put the whole street in a low-stimulation mode, every room in a few quiet colours and nothing moving:'));
+      var lowRow = el('div', 'bbr-row');
+      lowRow.setAttribute('role', 'group');
+      lowRow.setAttribute('aria-label', 'Low-stimulation modes');
+      var lowBtns = L.modes.map(function (low) {
+        var b = el('button', 'bbr-btn', L.names[low]);
+        b.type = 'button';
+        b.addEventListener('click', function () { L.set(L.now() === low ? null : low); });
+        lowRow.appendChild(b);
+        return { low: low, b: b };
+      });
+      var lowOff = el('button', 'bbr-btn', 'The rooms’ own colours');
+      lowOff.type = 'button';
+      lowOff.addEventListener('click', function () { L.set(null); });
+      lowRow.appendChild(lowOff);
+      lowWrap.appendChild(lowRow);
+      var lowShown = function () {
+        var now = L.now();
+        lowBtns.forEach(function (x) { x.b.setAttribute('aria-pressed', String(x.low === now)); });
+        lowOff.hidden = !now;
+      };
+      lowShown();
+      document.addEventListener('love-low', lowShown);
+    }
+
     var more = el('p', 'bbr-quiet');
     more.appendChild(document.createTextNode('More, with ocean waves to breathe along with, on our '));
     var a = el('a', null, 'Bodymind Break');
@@ -239,6 +272,7 @@
     col.appendChild(pauseRow);
     col.appendChild(wood);
     col.appendChild(quietRooms);
+    if (lowWrap) col.appendChild(lowWrap);
     col.appendChild(more);
     col.appendChild(back);
     page.appendChild(col);

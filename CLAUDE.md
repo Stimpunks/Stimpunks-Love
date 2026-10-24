@@ -4332,6 +4332,26 @@ the page automatically, the break in the room's colours, and a sentence saying w
 (its description sells it for sleep and focus); Helen asked for a blank screen, and a break that decided for you
 is not one.
 
+**A LOW-STIMULATION MODE IS THE ONE TIME EVERY ROOM LOOKS ALIKE, AND ONLY BECAUSE THE VISITOR ASKED.** The proposal of
+2026-10-24: "Feeling overwhelmed? Escape to a low-stimulation mode." Warm Light, Cool Dark, Plant Green and Red Light,
+four buttons love.js puts in the dial's box (and the bodymind break offers), laid over every room's colours and the CB's
+themes. **It does not reverse "do not tidy this site"; it is the dial's argument again**: the rooms stay unrelated
+worlds, and a visitor who has had enough can hold all of them at once in a few quiet colours, the way the dial makes
+loudness a thing the visitor holds. A mode is `html[data-low]`, kept under `love-low` and put on **before the first
+paint by the snippet in every page's head** (so `make-csp.py` rehashes it; a mode that arrived after paint would flash a
+room at the person who asked not to see one), and a mode is Gentle too, without touching `love-intensity`. love.css §3
+does the rest: each mode's six colours (§2's `--lsm-*`, every pair in `check-contrast.py`), a generated remap pointing
+every `--cb-*`, `--bbr-*`, `--fx-*`, `--bj-*` and `--pfx-*` at them so every shadow root follows with no script (Tasks'
+tag and status colours left alone), and **the street's one cascade layer**, `low-stimulation`, whose `!important`
+outranks every room's: ground, ink, link, line, no background picture, nothing moving, drawings and players through
+`--low-filter`, **and a picture (`<img>`) never filtered**, the polaroid wall's promise, which `make-polaroids.py` held against the first build. `call.js` puts `data-low` on the
+radio's host so cb.css puts the theme's drawing away; a familiar stands still. `tools/make-low-stimulation.py` writes
+the remap and holds all of it. **The friendly edits are a mode as a room's own look "since it looks so calm", a mode
+switched on by itself for a device that asks for reduced motion, a fifth mode that is a theme rather than an escape,
+and fonts swapped in a mode** (the proposal was colours; that is Ryan's call). A room whose argument is a colour (the
+Picture House's "nothing in this building is blue") is overridden too, by the visitor's choice, and `DECISIONS.md` has
+that open.
+
 **PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
 idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
 pass writes on it, and a note stays seven days**, thirty at most. Those two differences from the channel

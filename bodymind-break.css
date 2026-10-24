@@ -85,6 +85,8 @@
 }
 .bbr-link-btn { display: inline-block; text-decoration: none; color: var(--ink); }
 .bbr-back { justify-self: start; color: var(--g); background: var(--leaf); }
+/* A low-stimulation mode that is on: the plate, and a heavier edge. */
+.bbr-btn[aria-pressed="true"] { background: var(--plate); border-width: 3px; }
 
 /* The forest's plate, before the press: what it is and how long it runs. */
 .bbr-play {

@@ -304,6 +304,10 @@
 }
 .cb-divider svg { display: block; width: 100%; height: 100%; }
 .cb-radio--small .cb-divider, .cb-radio--folded .cb-divider { display: none; }
+/* IN A LOW-STIMULATION MODE (love.css §3) the colours are the mode's already,
+   through the custom properties; call.js puts data-low on the host, and the
+   theme's drawing goes, so the radio is the mode's plain case. */
+:host([data-low]) .cb-trim, :host([data-low]) .cb-side, :host([data-low]) .cb-divider { display: none !important; }
 
 /* THE DRAWINGS MOVE ONLY WHERE data-motion IS ON: at MAX GLITTER, or after Let
    my theme move. Otherwise every drawing stands as it is when it has finished

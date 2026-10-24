@@ -31,21 +31,120 @@
     var btns = box.querySelectorAll('.dial__btn');
     var note = box.querySelector('.dial__note');
 
-    function apply(level, remember) {
-      if (LEVELS.indexOf(level) < 0) level = 'regular';
-      root.setAttribute('data-intensity', level);
+    function show(level) {
       for (var i = 0; i < btns.length; i++) {
         btns[i].setAttribute('aria-pressed', String(btns[i].dataset.level === level));
       }
-      if (note) note.textContent = NOTES[level];
+      var low = lowNow();
+      if (note) note.textContent = low ? LOW_NOTES[low] : NOTES[level];
+    }
+    function apply(level, remember) {
+      if (LEVELS.indexOf(level) < 0) level = 'regular';
+      root.setAttribute('data-intensity', level);
+      show(level);
       if (remember) store(KEY, level);
     }
 
     for (var i = 0; i < btns.length; i++) {
-      btns[i].addEventListener('click', function () { apply(this.dataset.level, true); });
+      btns[i].addEventListener('click', function () {
+        // A level is the rooms' own colours: pressed in a mode, it leaves the mode.
+        if (lowNow()) setLow(null, true);
+        apply(this.dataset.level, true);
+      });
     }
     apply(root.getAttribute('data-intensity') || 'regular', false);
+    lowButtons(box);
+    document.addEventListener('love-low', function () { show(root.getAttribute('data-intensity')); });
     breakButton(box);
+  }
+
+  /* ── The low-stimulation modes ────────────────────────────────────────────
+     A proposal of 2026-10-24, "Feeling overwhelmed? Escape to a low-stimulation
+     mode": Warm Light, Cool Dark, Plant Green and Red Light, in the dial, laid
+     over every room's colours and the CB's themes (love.css §3). Every room is
+     its own world, and a mode is the one time they all look alike, because
+     the visitor asked: the dial's own argument, that loudness is a thing the
+     visitor holds. It is kept under love-low, in this browser only, and the
+     snippet in every page's <head> puts it on before the first paint, so
+     nobody in a mode is flashed a room's colours on the way in. A mode is
+     Gentle too, without changing the level kept under love-intensity, which
+     comes back when the mode is left. The words never change. */
+  var LOWS = ['warm', 'cool', 'green', 'red'];
+  var LOW_KEY = 'love-low';
+  var LOW_NAMES = { warm: 'Warm Light', cool: 'Cool Dark', green: 'Plant Green', red: 'Red Light' };
+  var LOW_NOTES = {
+    warm:  'Warm Light: every room on warm paper in soft brown ink, every drawing in sepia, and nothing moving. Same rooms, same words. Press it again, or a level, for the rooms\u2019 own colours.',
+    cool:  'Cool Dark: every room in dim slate and soft grey, every drawing in grey, and nothing moving. Same rooms, same words. Press it again, or a level, for the rooms\u2019 own colours.',
+    green: 'Plant Green: every room in pale sage and deep green, every drawing in green, and nothing moving. Same rooms, same words. Press it again, or a level, for the rooms\u2019 own colours.',
+    red:   'Red Light: every room in red on near-black and no other colour, every drawing in red, and nothing moving. Same rooms, same words. Press it again, or a level, for the rooms\u2019 own colours.'
+  };
+  function lowNow() {
+    var l = document.documentElement.getAttribute('data-low');
+    return LOWS.indexOf(l) >= 0 ? l : null;
+  }
+  // The level somebody chose, or their device's, for when a mode is left.
+  function ownLevel() {
+    var s = null;
+    try { s = localStorage.getItem(KEY); } catch (e) { /* private window */ }
+    if (LEVELS.indexOf(s) >= 0) return s;
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'gentle' : 'regular'; }
+    catch (e) { return 'regular'; }
+  }
+  function setLow(low, quiet) {
+    var root = document.documentElement;
+    if (LOWS.indexOf(low) >= 0) {
+      root.setAttribute('data-low', low);
+      root.setAttribute('data-intensity', 'gentle');
+      store(LOW_KEY, low);
+    } else {
+      low = null;
+      root.removeAttribute('data-low');
+      try { localStorage.removeItem(LOW_KEY); } catch (e) { /* private window */ }
+      if (!quiet) root.setAttribute('data-intensity', ownLevel());
+    }
+    try { document.dispatchEvent(new CustomEvent('love-low', { detail: { low: low } })); } catch (e) { /* an old browser */ }
+  }
+  // The bodymind break offers the modes too, through this.
+  window.loveLow = { modes: LOWS, names: LOW_NAMES, now: lowNow, set: setLow };
+
+  function lowButtons(box) {
+    var wrap = document.createElement('div');
+    wrap.className = 'dial__low';
+    var label = document.createElement('p');
+    label.className = 'dial__low-label';
+    label.id = 'dial-low-label';
+    label.textContent = 'Feeling overwhelmed? Escape to a low-stimulation mode.';
+    var row = document.createElement('div');
+    row.className = 'dial__low-row';
+    row.setAttribute('role', 'group');
+    row.setAttribute('aria-labelledby', 'dial-low-label');
+    var mine = [];
+    LOWS.forEach(function (low) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'dial__low-btn';
+      b.setAttribute('data-low', low);
+      b.textContent = LOW_NAMES[low];
+      b.addEventListener('click', function () { setLow(lowNow() === low ? null : low); });
+      row.appendChild(b);
+      mine.push(b);
+    });
+    var off = document.createElement('button');
+    off.type = 'button';
+    off.className = 'dial__low-off';
+    off.textContent = 'Back to the rooms\u2019 own colours';
+    off.addEventListener('click', function () { setLow(null); });
+    function shown() {
+      var now = lowNow();
+      mine.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-low') === now)); });
+      off.hidden = !now;
+    }
+    wrap.appendChild(label);
+    wrap.appendChild(row);
+    wrap.appendChild(off);
+    box.appendChild(wrap);
+    shown();
+    document.addEventListener('love-low', shown);
   }
 
   /* ── The bodymind break ──────────────────────────────────────────────────

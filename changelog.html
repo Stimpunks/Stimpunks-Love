@@ -25,7 +25,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
 <link rel="stylesheet" href="love.css">
-<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}var l=localStorage.getItem('love-low');if(l==='warm'||l==='cool'||l==='green'||l==='red'){d.setAttribute('data-low',l);v='gentle';}}catch(e){}d.setAttribute('data-intensity',v);</script>
 <!-- structured-data:begin -->
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"CollectionPage","@id":"https://stimpunks.world/changelog.html#webpage","url":"https://stimpunks.world/changelog.html","name":"Changelog — Stimpunks.World","description":"What changed on the street, and when. Every Stimpunks site publishes one of these.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
 <!-- structured-data:end -->
@@ -40,6 +40,14 @@
   <h1>Changelog</h1>
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
+
+  <h2 id="2026-10-24-low-stimulation">2026-10-24 &mdash; Feeling overwhelmed? Escape to a low-stimulation mode</h2>
+  <ul>
+    <li><strong>Four low-stimulation modes in the dial&rsquo;s box</strong>, under the levels: <b>Warm Light</b>, <b>Cool Dark</b>, <b>Plant Green</b> and <b>Red Light</b>. Each lays a few quiet colours over every room on the street and over the CB&rsquo;s themes, for when the street is too much even at Gentle. Each button wears its own mode, so you can see what it does before you press it. The bodymind break offers them too.</li>
+    <li><strong>Every room is its own world, and a mode is the one time they all look alike, because you asked.</strong> It is the dial&rsquo;s own idea: how loud the street is belongs to you. The rooms are untouched; leave the mode and every one is as it was.</li>
+    <li><strong>The same rooms and the same words</strong>: a word on the mode&rsquo;s ground in its ink, every link underlined, every edge the mode&rsquo;s line, no glow, no gradient and no picture behind the words, and nothing moving, so a mode is Gentle as well. Drawings, games, videos and players keep their shapes in the mode&rsquo;s one colour. <strong>Pictures keep their own colours</strong>, for the polaroid wall&rsquo;s promise that we do not filter anybody. Red Light is red and nothing else.</li>
+    <li><strong>It is on before a page appears</strong>, so nobody in a mode is shown a room&rsquo;s colours on the way in, and it stays on every page until you leave it: press the mode again, <b>Back to the rooms&rsquo; own colours</b>, or a level. It is kept in your own browser as <code>love-low</code> and sent nowhere (<a href="privacy.html">the privacy page</a>).</li>
+  </ul>
 
   <h2 id="2026-10-24-bodymind-break">2026-10-24 &mdash; I need a bodymind break, from the dial and the CB</h2>
   <ul>

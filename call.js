@@ -260,7 +260,12 @@
     host.cbScheme = choice || 'auto';
     if (dressed.indexOf(host) < 0) dressed.push(host);
     host.setAttribute('data-scheme', schemeFor(host.cbScheme));
-    host.setAttribute('data-motion', dial() === 'max' || letMove() ? 'on' : 'off');
+    /* A LOW-STIMULATION MODE (love.css §3) recolours every theme without a
+       script, through the custom properties; data-low here only tells cb.css
+       to put the theme's drawing away, and nothing moves while one is on. */
+    var low = document.documentElement.getAttribute('data-low');
+    if (low) host.setAttribute('data-low', low); else host.removeAttribute('data-low');
+    host.setAttribute('data-motion', !low && (dial() === 'max' || letMove()) ? 'on' : 'off');
   }
   function redress(choice) {
     dressed = dressed.filter(function (h) { return h.isConnected; });
@@ -271,7 +276,7 @@
   });
   try {
     new MutationObserver(function () { redress(); })
-      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-intensity'] });
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-intensity', 'data-low'] });
   } catch (e) { /* the drawing keeps the motion it opened with */ }
 
   /* how.whole: this is the call's own window, so the call fills it, and

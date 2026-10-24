@@ -28,7 +28,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
 <link rel="stylesheet" href="/love.css">
-<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}var l=localStorage.getItem('love-low');if(l==='warm'||l==='cool'||l==='green'||l==='red'){d.setAttribute('data-low',l);v='gentle';}}catch(e){}d.setAttribute('data-intensity',v);</script>
 </head>
 <body class="room-fog" id="top">
 <a class="skip" href="#main">Skip to the content</a>

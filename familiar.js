@@ -94,7 +94,8 @@
 
   function intensity() { return document.documentElement.getAttribute('data-intensity') || 'regular'; }
   // Moving by itself: at MAX GLITTER, or once somebody has said theirs may.
-  function mayMove() { return intensity() === 'max' || !!(mine && mine.state.moves); }
+  // A low-stimulation mode is still: nothing walks about while one is on.
+  function mayMove() { return !document.documentElement.hasAttribute('data-low') && (intensity() === 'max' || !!(mine && mine.state.moves)); }
   // A walk glides, and a bubble shows, only where a move may glide at all.
   function mayGlide() { return mayMove() && intensity() !== 'gentle'; }
 
