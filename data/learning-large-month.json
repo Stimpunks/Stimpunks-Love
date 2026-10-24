@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-23T11:22Z",
+ "set": "2026-10-24T11:23Z",
  "log": [
   {
    "id": "rPGJhrunbxo",
@@ -321,13 +321,13 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "nsA_HeY3idE",
+   "id": "TVRCcMlvR10",
    "source": "matt-wolfe",
-   "form": "short",
-   "title": "I hate it when they do this!",
-   "published": "2026-09-23T16:41:20Z",
+   "form": "long",
+   "title": "AI News: 24 Things You Need To Know This Week",
+   "published": "2026-10-23T17:40:19Z",
    "state": "screen",
-   "runs": 51,
+   "runs": 1618,
    "channel": "Matt Wolfe"
   },
   {
@@ -438,6 +438,26 @@
    "published": "2026-10-22T03:06:41Z",
    "state": "screen",
    "runs": 65,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "WSHEBdmahHY",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "These ChatGPT Prompts Are Game-Changers!",
+   "published": "2026-10-23T21:15:47Z",
+   "state": "screen",
+   "runs": 51,
+   "channel": "Matt Wolfe"
+  },
+  {
+   "id": "FiyUagHO37Y",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Old Phones Are Becoming Robots?!?",
+   "published": "2026-10-24T00:23:07Z",
+   "state": "screen",
+   "runs": 64,
    "channel": "Matt Wolfe"
   },
   {
@@ -761,16 +781,6 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "jDG7L5HuBnk",
-   "source": "less-bitter",
-   "form": "long",
-   "title": "I talked to 50 people building with AI. It’s a mess.",
-   "published": "2026-09-23T18:58:46Z",
-   "state": "screen",
-   "runs": 1755,
-   "channel": "Less Bitter"
-  },
-  {
    "id": "dyEpDobnkmA",
    "source": "less-bitter",
    "form": "long",
@@ -809,16 +819,6 @@
    "state": "screen",
    "runs": 795,
    "channel": "Less Bitter"
-  },
-  {
-   "id": "jgGyX7MPPVg",
-   "source": "theo",
-   "form": "long",
-   "title": "My new favorite model.",
-   "published": "2026-09-23T17:03:05Z",
-   "state": "screen",
-   "runs": 2414,
-   "channel": "Theo - t3․gg"
   },
   {
    "id": "ejjBbaq9RmY",
@@ -1021,6 +1021,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "nXpoU99pTho",
+   "source": "theo",
+   "form": "short",
+   "title": "Even The NSA Got Involved",
+   "published": "2026-10-23T21:00:31Z",
+   "state": "screen",
+   "runs": 43,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "Q6uuvZmb0t8",
    "source": "paul-j-lipsky",
    "form": "long",
@@ -1171,6 +1181,16 @@
    "channel": "Paul J Lipsky"
   },
   {
+   "id": "vDYqh1FGrgQ",
+   "source": "paul-j-lipsky",
+   "form": "long",
+   "title": "AI News: Claude Duet Crushes; Amazing Grok Bot Updates; and NotebookLM Upgrade",
+   "published": "2026-10-23T13:00:11Z",
+   "state": "screen",
+   "runs": 1338,
+   "channel": "Paul J Lipsky"
+  },
+  {
    "id": "douQXfdYGmA",
    "source": "austin-marchese",
    "form": "long",
@@ -1238,6 +1258,16 @@
    "published": "2026-10-21T13:45:10Z",
    "state": "screen",
    "runs": 1214,
+   "channel": "Austin Marchese"
+  },
+  {
+   "id": "BZluE67z1MA",
+   "source": "austin-marchese",
+   "form": "long",
+   "title": "Use Claude Models & Effort Level Better Than 97% of People",
+   "published": "2026-10-23T13:45:37Z",
+   "state": "screen",
+   "runs": 1178,
    "channel": "Austin Marchese"
   },
   {
@@ -1361,6 +1391,16 @@
    "channel": "Riley Brown"
   },
   {
+   "id": "ZIBI6FiLxgQ",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "How I’m Actually Using Claude Duet (After 10 Hours of Testing)",
+   "published": "2026-10-23T20:50:23Z",
+   "state": "screen",
+   "runs": 1464,
+   "channel": "Riley Brown"
+  },
+  {
    "id": "PoP1L296Du8",
    "source": "riley-brown",
    "form": "short",
@@ -1409,16 +1449,6 @@
    "state": "screen",
    "runs": 104,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "GmLcJVzkxPA",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "I Tested Opus 5.5 vs. GPT-6 Astra on 12 Real Use Cases",
-   "published": "2026-09-23T23:33:40Z",
-   "state": "screen",
-   "runs": 2574,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "QCkHIyEPIYo",
@@ -2151,14 +2181,14 @@
    "channel": "Chase AI"
   },
   {
-   "id": "e7s7jRgHWsg",
-   "source": "greg-isenberg",
-   "form": "long",
-   "title": "Take Upwork jobs, let AI do them (Astra etc). It's absurd.",
-   "published": "2026-09-23T18:27:51Z",
+   "id": "UDwC-fT3dZs",
+   "source": "chase-ai",
+   "form": "short",
+   "title": "a chinese open weight model just beat opus 5.5",
+   "published": "2026-10-23T22:00:20Z",
    "state": "screen",
-   "runs": 2885,
-   "channel": "Greg Isenberg"
+   "runs": 47,
+   "channel": "Chase AI"
   },
   {
    "id": "84q4WA3kA8Q",
@@ -2256,13 +2286,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2270,13 +2300,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2284,13 +2314,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2298,13 +2328,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2312,13 +2342,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2326,13 +2356,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2340,13 +2370,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2354,13 +2384,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2368,13 +2398,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2382,13 +2412,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2396,13 +2426,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   },
@@ -2410,13 +2440,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-23T11:22:34Z"
+     "2026-10-24T11:23:28Z"
     ]
    ]
   }
