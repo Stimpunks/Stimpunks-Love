@@ -3,8 +3,10 @@
    is tuned to, and marks it edited. Only whoever sent it: canEdit in
    ../cb/lib.mjs decides, and says why the base cannot edit anybody else's.
    The words it replaces are not kept anywhere. An edit tells only somebody it
-   newly @mentions (notifyEdit), after the message is on the channel. */
-import { readPass, updateTuned, roomTag, roomAllows, editMessage, shape, json, body, sameSite, MESSAGE_MAX, notifyEdit, noteModCall } from '../cb/lib.mjs';
+   newly @mentions (notifyEdit), after the message is on the channel. A card
+   whose link has gone goes with the edit, and a new link's card comes after
+   it (unfurlMessage), as a new message's does. */
+import { readPass, updateTuned, roomTag, roomAllows, editMessage, shape, json, body, sameSite, MESSAGE_MAX, notifyEdit, noteModCall, chatLinks, unfurlMessage } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -31,6 +33,12 @@ export default async (req, context) => {
       await noteModCall(who, got.msg, { room }, got.before).catch(() => null);
       const told = notifyEdit(got.msg, got.before, room).catch(() => []);
       if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
+      // A link new in the words gets its card after, as a new message's does.
+      const had = got.msg.links || [];
+      if (got.msg.text && chatLinks(got.msg.text).some((src) => !had.some((l) => l && l.src === src))) {
+        const cards = unfurlMessage(room, got.msg.id, got.msg.text, had).catch(() => []);
+        if (context && typeof context.waitUntil === 'function') context.waitUntil(cards); else await cards;
+      }
     }
     return json(200, { messages: shape(messages), same: !!got.same });
   } catch (e) {

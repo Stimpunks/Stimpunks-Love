@@ -3283,6 +3283,60 @@ test('a preview is fetched only from a public address, and a room on the street 
   assert.equal(playerInfo('nothing here'), null);
 });
 
+/* ── Link cards on the CB ────────────────────────────────────────────────── */
+import { chatLinks, unfurlMessage, oembedOf, oembedLink } from './lib.mjs';
+
+test('the CB reads its bare links once, for words, and plays only YouTube and Vimeo, never a picture or a stranger\'s markup', async () => {
+  // Which links: bare ones, three at most, not in code, not with their own words, not <in brackets>, not the street.
+  assert.deepEqual(chatLinks('see https://example.org/a, and (https://en.wikipedia.org/wiki/Spoon_(tool)) too!'),
+    ['https://example.org/a', 'https://en.wikipedia.org/wiki/Spoon_(tool)']);
+  assert.deepEqual(chatLinks('`https://code.example` [words](https://words.example) <https://quiet.example> https://stimpunks.world/the-den'), []);
+  assert.equal(chatLinks('https://a.example/1 https://a.example/2 https://a.example/3 https://a.example/4').length, 3);
+  assert.equal(oembedLink('<link rel="alternate" type="application/json+oembed" href="/oembed?u=1&amp;f=json">', 'https://ex.example/p'),
+    'https://ex.example/oembed?u=1&f=json');
+  const tweet = { type: 'rich', author_name: 'jack', provider_name: 'X',
+    html: '<blockquote class="twitter-tweet"><p lang="en">just setting up my <b>twttr</b></p>&mdash; jack</blockquote><script src="https://platform.twitter.com/widgets.js"></script>',
+    thumbnail_url: 'https://pbs.example/pic.jpg' };
+  const o = oembedOf(tweet);
+  assert.equal(o.said, 'just setting up my twttr');
+  assert.equal(JSON.stringify(o).includes('script') || JSON.stringify(o).includes('pic.jpg'), false, 'a stranger\'s markup or picture was kept');
+  const pages = {
+    ['https://publish.twitter.com/oembed?omit_script=1&dnt=true&url=' + encodeURIComponent('https://x.com/jack/status/20')]: ['application/json', JSON.stringify(tweet)],
+    ['https://vimeo.com/api/oembed.json?url=' + encodeURIComponent('https://vimeo.com/1084537')]: ['application/json', JSON.stringify({ type: 'video', title: 'Big Buck Bunny', author_name: 'Blender', provider_name: 'Vimeo', duration: 597,
+      html: '<iframe src="https://player.vimeo.com/video/1084537?app_id=122963&evil=1"></iframe>', thumbnail_url: 'https://i.vimeocdn.example/x.jpg' })],
+    'https://www.youtube.com/watch?v=dQw4w9WgXcQ': ['text/html', '<script>var ytInitialPlayerResponse = {"playabilityStatus":{"status":"OK","playableInEmbed":true},"videoDetails":{"title":"A song","author":"A channel","lengthSeconds":"213","isLive":false}};</script>'],
+    'https://ex.example/post': ['text/html', '<head><meta property="og:site_name" content="Example"><title>A post</title><link rel="alternate" type="application/json+oembed" href="https://ex.example/oembed"></head>'],
+    'https://ex.example/oembed': ['application/json', JSON.stringify({ type: 'rich', author_name: 'Somebody', html: '<p>the words</p>' })],
+  };
+  const get = async (url) => { const p = pages[url]; return p ? { status: 200, type: p[0], text: p[1], url } : { status: 404, type: '', text: '', url }; };
+  const s = memoryStore({ etagOnRead: true });
+  const text = 'look https://x.com/jack/status/20 https://vimeo.com/1084537 https://youtu.be/dQw4w9WgXcQ';
+  await updateRoomTalk('the-den', (l) => [...l, { id: 'm1', handle: 'Ada', text, t: Date.now() }], s);
+  await unfurlMessage('the-den', 'm1', text, [], s, get);
+  const [m] = shape((await readRoomTalk('the-den', s)).messages);
+  assert.deepEqual(m.links.map((l) => l.kind), ['page', 'player', 'video']);
+  assert.equal(m.links[0].about, 'just setting up my twttr');
+  assert.equal(m.links[0].title, 'jack');
+  assert.equal(m.links[1].src, 'https://player.vimeo.com/video/1084537', 'a Vimeo player kept more than its number');
+  assert.equal(m.links[1].length, 597);
+  assert.equal(m.links[2].id, 'dQw4w9WgXcQ');
+  assert.equal(m.links[2].length, 213);
+  const raw = JSON.stringify(m);
+  assert.equal(/thumbnail|\.jpg|<iframe|<script|blockquote/.test(raw), false, 'a picture or somebody else\'s markup reached the radio');
+  // A page that names its own oEmbed endpoint is read through it too.
+  const p = await unfurlMessage('the-den', 'm2', 'https://ex.example/post', [], s, get);
+  assert.equal(p.length, 1);
+  assert.equal(p[0].about, 'the words');
+  // Words changed since: nothing is written over them.
+  await updateRoomTalk('the-den', (l) => l.map((x) => (x.id === 'm1' ? { ...x, text: 'changed' } : x)), s);
+  await unfurlMessage('the-den', 'm1', text, [], s, get);
+  assert.equal((await readRoomTalk('the-den', s)).messages[0].text, 'changed');
+  // An edit that takes a link out takes its card at once.
+  const list = [{ id: 'e1', handle: 'Ada', text, t: 1, links: [{ src: 'https://x.com/jack/status/20', href: 'https://x.com/jack/status/20', kind: 'page', title: 'jack' }] }];
+  const ed = editMessage(list, 'e1', 'no link now', { role: 'mobile', handle: 'Ada', roles: new Set() });
+  assert.equal(ed.msg.links, undefined, 'an edit kept the card of a link it took out');
+});
+
 /* ── My own order for the chat page ───────────────────────────────────────── */
 import { readChatOrder, keepChatOrder, cleanChatOrder } from './lib.mjs';
 

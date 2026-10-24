@@ -3178,7 +3178,7 @@
         // Already on the log: only its words, if its sender edited it, and
         // its reactions can have changed.
         var was = this.msgLi(m.id);
-        if (was) { this.drawWords(was, m); this.drawReactions(was, m); this.drawRe(was, m, messages, this.log, RE_GONE); }
+        if (was) { this.drawWords(was, m); this.drawReactions(was, m); this.drawRe(was, m, messages, this.log, RE_GONE); this.drawUnfurls(was, m); }
         continue;
       }
       this.seen[m.id] = true;
@@ -3229,6 +3229,7 @@
       rx.setAttribute('aria-live', 'off');
       li.appendChild(rx);
       this.drawReactions(li, m);
+      this.drawUnfurls(li, m);
       added++;
       /* Drawn on the message's own name-and-time line by cb.css, but kept
          AFTER the words in the markup: the log is a live region, and a new
@@ -3247,6 +3248,84 @@
     this.log.hidden = messages.length === 0;
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
   };
+
+  /* LINK CARDS (a request from our community, Ryan's ask, 2026-10-24): what
+     our server read of each bare link in a message, once, after it went out
+     (unfurlMessage in lib.mjs). Words only, never a picture: who made it, the
+     site's name, a title as a link that says where it goes (awayLink), and a
+     description or the post it quotes. A YouTube or Vimeo video plays in place
+     behind a press that says how long it runs, and nothing from either loads
+     until then; the frame is love-embed.js's, built as a frame apart, so the
+     CB's Host this film, Follow and @times leave it alone, as they leave the
+     bodymind break's forest. Anything else that plays is a door off the
+     street. The cards are their own region with politeness off, the
+     reactions' rule, so one arriving a moment after its message is not read
+     out as a message, and they are drawn again only when they change, so a
+     film playing in one carries on while the channel moves around it. */
+  Radio.prototype.drawUnfurls = function (li, m) {
+    var links = m.links || [], sig = JSON.stringify(links);
+    if (li.cbLinks === sig) return;
+    li.cbLinks = sig;
+    var was = li.querySelector(':scope > .cb-unfurls');
+    if (was) was.remove();
+    if (!links.length) return;
+    var box = el('div', 'cb-unfurls');
+    box.setAttribute('aria-live', 'off');
+    links.forEach(function (l) { var c = unfurlCard(l); if (c) box.appendChild(c); });
+    if (box.firstChild) li.insertBefore(box, li.querySelector(':scope > .cb-rx'));
+  };
+  function withEmbed(then) {
+    if (window.loveEmbed) then();
+    else if (window.loveCall && window.loveCall.withEmbed) window.loveCall.withEmbed(then);
+    else then();
+  }
+  function unfurlCard(l) {
+    var u = awayUrl(l.href);
+    if (!u) return null;
+    var card = el('div', 'cb-unfurl'), title = el('p', 'cb-unfurl__title');
+    if (l.kind === 'page') {
+      var site = [l.site, l.author].filter(Boolean).join(' \u00b7 ');
+      if (site) card.appendChild(el('p', 'cb-unfurl__site', site));
+      title.appendChild(awayLink(l.title, u));
+      card.appendChild(title);
+      if (l.about) card.appendChild(el('p', 'cb-unfurl__about', l.about));
+      if (l.host && l.host !== u.host) card.appendChild(el('p', 'cb-unfurl__note', 'It goes on to ' + l.host + '.'));
+      return card;
+    }
+    var yt = l.kind === 'video', where = yt ? 'YouTube' : (l.site || 'Vimeo'), from = yt ? l.channel : l.author;
+    card.appendChild(el('p', 'cb-unfurl__site', where + (from ? ' \u00b7 ' + from : '')));
+    var playable = yt ? l.embed && (l.length || l.live) : !!(l.src && l.length);
+    if (!playable) {
+      title.appendChild(awayLink('Watch \u201c' + l.title + '\u201d on ' + where, u));
+      card.appendChild(title);
+      card.appendChild(el('p', 'cb-unfurl__note', yt && l.length
+        ? 'Its maker does not let it play on other sites, so it opens on YouTube.'
+        : 'How long it runs could not be found out, so it opens on ' + where + ' rather than playing here.'));
+      return card;
+    }
+    var play = el('button', 'cb-btn cb-unfurl__play');
+    play.type = 'button';
+    play.textContent = 'Play \u201c' + l.title + '\u201d' + (l.live ? ', which is live and runs until you close it' : ' (' + place(l.length) + ')');
+    var note = el('p', 'cb-unfurl__note', 'Nothing from ' + where + ' loads until you press it.');
+    play.addEventListener('click', function () {
+      withEmbed(function () {
+        var E = window.loveEmbed, f = null;
+        if (E) f = yt ? E.frame(l.id, l.title, null, true)
+          : E.frameUrl(l.src + (l.src.indexOf('?') < 0 ? '?' : '&') + 'autoplay=1', l.title, true);
+        if (!f) { note.textContent = 'The player could not be opened here. The link above it still goes to ' + where + '.'; return; }
+        var shell = el('div', 'cb-unfurl__screen');
+        shell.appendChild(f);
+        play.replaceWith(shell);
+        note.textContent = 'Playing here. It stops when this message goes off the air or you leave the page.';
+        f.focus();
+      });
+    });
+    title.appendChild(awayLink(l.title, u));
+    card.appendChild(title);
+    card.appendChild(play);
+    card.appendChild(note);
+    return card;
+  }
 
   /* A NEW ARRIVAL, said by The Feed or The Source on its own channel (Ryan's
      ask, 2026-10-23, after Discord's feed bots; runFeedBot in lib.mjs): the

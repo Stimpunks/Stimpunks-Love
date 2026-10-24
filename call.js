@@ -555,5 +555,7 @@
     // popOut: the radio's own window, where the radio is the whole window,
     // sends a call straight into a window of its own (cb.js, setCall).
     away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway, popOut: popOut,
-    schemes: SCHEMES, schemeFor: schemeFor, dress: dress, redress: redress };
+    schemes: SCHEMES, schemeFor: schemeFor, dress: dress, redress: redress,
+    // love-embed.js, loaded once on the first press that needs it (the CB's link cards too).
+    withEmbed: withEmbed };
 })();

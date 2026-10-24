@@ -4118,6 +4118,22 @@ username delete the record. **The friendly edits are a number beside the dot, a 
 and the tab's title changing**; each is the count or the alert the street still refuses. DECISIONS.md has
 what is still open.
 
+**A LINK IN A MESSAGE IS A CARD OF WORDS, AND ONLY WHAT THE STREET ALREADY FRAMES PLAYS IN ONE.** A request from our
+community, Ryan's ask, 2026-10-24, after Discord's embeds: up to `CHAT_PREVIEWS` bare links in a channel message
+(`chatLinks`; not `[words](address)`, not code, not the street, not `<https://…>`, which is how somebody asks for no card)
+are read by our server once, **after the message has gone out** (`unfurlMessage` from `cb-transmit` and `cb-edit`, through
+`waitUntil`, so sending never waits on a stranger's site), with the forums' `previewFor` and `safeGet`, and kept on the
+message, so they go when it does. `previewFor` now reads oEmbed (`OEMBED_AT` for X, Bluesky, Vimeo, TikTok, Spotify and
+SoundCloud, and any page that names its own endpoint), **for words only**: `oembedOf` keeps a title, who made it, the
+site's name, a post's first paragraph as text, a runtime and a player's address, **never the site's `html` and never a
+thumbnail**, because their markup is a script `script-src` refuses and a picture is a fetch the forums already refuse.
+**A player is YouTube's or Vimeo's**, the hosts `ORIGINS` already frames, with its runtime on the press, built by
+`love-embed.js` as a frame apart, so Host this film and Follow never see it (`drawUnfurls`, `unfurlCard` in `cb.js`); every
+other player is a door. `make-forum.py` (`check_cards`) holds it. **The friendly edits are thumbnails, a site's own embed
+markup "so tweets look right", and a new framed origin per site that asks**: the first two break the policy, and each of
+the third is a decision (playing is not the same permission as embedding, and each origin is a third party every reader
+who presses talks to), one edit in `ORIGINS` and a re-run of `make-csp.py`. Direct messages do not unfurl yet.
+
 **A REPLY POINTS AT A MESSAGE AND KEEPS NOTHING OF IT.** Ryan's ask, 2026-10-21: **Reply**, a curved arrow between
 React and the dots, on the channel's messages and an accepted conversation's, opens a bar above the box (`reBar`,
 `replyStart`, `dmReplyStart` in `cb.js`) with whose message and its first words; Cancel reply or Escape lets it go and

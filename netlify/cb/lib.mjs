@@ -7507,6 +7507,11 @@ function shapePreview(l) {
   const out = { t: 'preview', kind: l.kind, href: l.href };
   if (l.kind === 'street') out.path = l.path;
   if (l.kind === 'page') { out.title = l.title; out.about = l.about || null; out.site = l.site || null; out.host = l.host || null; }
+  // A Vimeo video the CB plays in place is a card in the forums, which play YouTube's alone.
+  if (l.kind === 'player') {
+    out.kind = 'page'; out.title = l.title; out.about = null; out.site = l.site || null;
+    try { out.host = new URL(l.href).host; } catch (e) { out.host = null; }
+  }
   if (l.kind === 'video') {
     out.id = l.id; out.title = l.title; out.channel = l.channel || null;
     out.length = typeof l.length === 'number' ? l.length : null; out.live = !!l.live; out.embed = !!l.embed;
@@ -8611,6 +8616,92 @@ export function youtubeId(u) {
   return cleanVideo(id);
 }
 
+/* OEMBED (2026-10-24, for the CB's link cards, and the forums' previews with
+   them). oEmbed is a site saying, as JSON, what a link is: its title, who made
+   it, the site's name, and for a video how long it runs. It is read for WORDS
+   AND NOTHING ELSE. Its `html` is somebody else's markup, usually their script
+   (a post on X, Bluesky or Instagram is a blockquote and a script tag), and it
+   is NEVER put on a page of ours: this site's policy refuses any script but its
+   own, and markup from a stranger's server is the one thing the CB never draws.
+   Out of that markup only two things are read, as text: the words of the post
+   it quotes (its first paragraph, tags stripped), and the address of a player
+   in it, which becomes a press-to-play player only on a host love-embed.js's
+   ORIGINS already frames and only with its runtime (Vimeo's, for now); every
+   other player is a door. Its `thumbnail_url` is never read: no picture is
+   fetched from anywhere, the forums' rule. A site's own endpoint is used for
+   the sites whose pages say little to a server (X, Bluesky) and the ones the
+   CB plays or names (Vimeo, TikTok, Spotify, SoundCloud); any other site is
+   asked only if its page names its own endpoint, the way oEmbed says a page
+   should, and that address goes through safeGet like every other. */
+const OEMBED_AT = [
+  [/^(?:www\.|mobile\.)?(?:twitter|x)\.com$/, 'https://publish.twitter.com/oembed?omit_script=1&dnt=true&url='],
+  [/^bsky\.app$/, 'https://embed.bsky.app/oembed?url='],
+  [/^(?:www\.)?vimeo\.com$/, 'https://vimeo.com/api/oembed.json?url='],
+  [/^(?:www\.|m\.)?tiktok\.com$/, 'https://www.tiktok.com/oembed?url='],
+  [/^open\.spotify\.com$/, 'https://open.spotify.com/oembed?url='],
+  [/^(?:www\.|m\.)?soundcloud\.com$/, 'https://soundcloud.com/oembed?format=json&url='],
+];
+const OEMBED_TYPES = ['application/json', 'application/json+oembed', 'text/json', 'text/javascript', 'text/plain'];
+// The address of the page's own oEmbed endpoint, if it names one.
+export function oembedLink(html, base) {
+  const head = String(html || '').slice(0, 400000);
+  for (const m of head.matchAll(/<link\b([^>]*)>/gi)) {
+    const at = m[1];
+    if (!/type\s*=\s*["']?application\/json\+oembed/i.test(at) || !/rel\s*=\s*["']?alternate/i.test(at)) continue;
+    const h = /href\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/i.exec(at);
+    if (!h) continue;
+    try { return new URL(unentity(h[1] || h[2] || h[3]), base).href; } catch (e) { return null; }
+  }
+  return null;
+}
+// What an oEmbed answer says, as words, and a player's address if it has one.
+export function oembedOf(j) {
+  if (!j || typeof j !== 'object' || Array.isArray(j)) return null;
+  const html = typeof j.html === 'string' ? j.html.slice(0, 20000) : '';
+  const p = /<p\b[^>]*>([\s\S]*?)<\/p>/i.exec(html);
+  const fr = /<iframe\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/i.exec(html);
+  const n = Number(j.duration);
+  return {
+    type: typeof j.type === 'string' ? j.type : '',
+    title: clip(j.title, 200),
+    author: clip(j.author_name, 100),
+    site: clip(j.provider_name, 80),
+    said: p ? clip(p[1].replace(/<br\s*\/?>/gi, ' '), 300) : '',
+    about: clip(j.description, 300),
+    length: Number.isFinite(n) && n > 0 && n < 86400 ? Math.round(n) : null,
+    player: fr ? unentity(fr[1]) : (typeof j.iframe_url === 'string' ? j.iframe_url : ''),
+  };
+}
+async function oembedGet(url, get) {
+  try {
+    const r = await get(url, { max: 60000, types: OEMBED_TYPES });
+    if (!r || r.status !== 200) return null;
+    return oembedOf(JSON.parse(r.text));
+  } catch (e) { return null; }
+}
+/* A Vimeo player, from the address in Vimeo's own oEmbed: player.vimeo.com,
+   /video/ and its number, and the unlisted hash if it has one, nothing more. */
+function vimeoPlayer(src) {
+  let u;
+  try { u = new URL(src); } catch (e) { return null; }
+  const m = /^\/video\/(\d{1,12})$/.exec(u.pathname);
+  if (u.protocol !== 'https:' || u.hostname !== 'player.vimeo.com' || !m) return null;
+  const h = u.searchParams.get('h');
+  return 'https://player.vimeo.com/video/' + m[1] + (h && /^[0-9a-f]{6,20}$/.test(h) ? '?h=' + h : '');
+}
+// A card from an oEmbed answer, a player only where the CB can play it.
+function oembedPreview(src, href, o, host) {
+  if (!o) return null;
+  const vimeo = o.type === 'video' && o.length ? vimeoPlayer(o.player) : null;
+  if (vimeo && o.title) {
+    return { src, href, kind: 'player', site: o.site || 'Vimeo', src_player: vimeo, title: o.title, author: o.author || null, length: o.length };
+  }
+  const title = o.title || o.author;
+  if (!title) return null;
+  return { src, href, kind: 'page', title, about: o.said || o.about || null, site: o.site || null, host,
+    author: o.title && o.author ? o.author : null };
+}
+
 /* The preview for one lone link, or null to leave it a plain link. */
 export async function previewFor(src, get = safeGet) {
   const href = brassHref(src);
@@ -8643,13 +8734,113 @@ export async function previewFor(src, get = safeGet) {
     return { src, href, kind: 'video', id, title: clip(info.title, 200), channel: clip(info.channel, 100) || null,
       length: info.length, live: info.live, embed: info.status === 'OK' && info.embed };
   }
+  // A site whose own oEmbed endpoint is known is asked first.
+  const at = OEMBED_AT.find(([re]) => re.test(host));
+  if (at) {
+    const known = oembedPreview(src, href, await oembedGet(at[1] + encodeURIComponent(href), get), u.host);
+    if (known) return known;
+  }
   const r = await get(href, { max: 600000, types: ['text/html', 'application/xhtml+xml'] });
   if (!r || r.status !== 200) return null;
   const m = metaOf(r.text);
-  if (!m.title) return null;
   let to = null;
   try { to = new URL(r.url).host; } catch (e) { to = null; }
+  // A page that names its own oEmbed endpoint says what it is there, too.
+  const named = !at && oembedLink(r.text, r.url);
+  const o = named ? await oembedGet(named, get) : null;
+  if (o) {
+    const p = oembedPreview(src, href, o, to);
+    if (p && p.kind === 'player') return p;
+    if (p && !m.title) return p;
+    if (p) return { src, href, kind: 'page', title: m.title, about: m.about || p.about || null, site: m.site || p.site || null, host: to, author: p.author || null };
+  }
+  if (!m.title) return null;
   return { src, href, kind: 'page', title: m.title, about: m.about || null, site: m.site || null, host: to };
+}
+
+/* ── Link cards on the CB ──────────────────────────────────────────────────
+
+   A request from our community, Ryan's ask, 2026-10-24: a link in a message
+   on the CB unfurls into a card, and a video plays in place, as on Discord.
+   It is the forums' previews, for a message: OUR SERVER READS EACH LINK ONCE,
+   after the message has gone out (cb-transmit, through waitUntil, so sending
+   never waits on a stranger's site), with previewFor and safeGet, and keeps
+   what it read with the message, so it goes when the message goes. Nobody
+   reading the channel fetches anything from anybody until they press play:
+   the site sees Netlify, never a reader. A card is words (a title, who made
+   it, the site's name, a description or the post it quotes) and NEVER A
+   PICTURE, and a player is YouTube's or Vimeo's, built by love-embed.js on
+   the press like every other on the street, with its runtime on the button;
+   anything else that plays is a door. The links read are the bare ones, at
+   most CHAT_PREVIEWS of them: not one with its own words ([words](address)),
+   not one in code, not one on the street (a room is already a link), and not
+   one written in angle brackets, <https://…>, which is how somebody says
+   "do not unfurl this", as on Discord. */
+export const CHAT_PREVIEWS = 3;
+export function chatLinks(text) {
+  const t = String(text || '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`[^`\n]*`/g, ' ')
+    .replace(/\[[^\]\n]*\]\([^)\s]*\)/g, ' ')
+    .replace(/<https?:\/\/[^\s>]+>/gi, ' ');
+  const out = [];
+  for (const m of t.matchAll(/https?:\/\/[^\s<>]+/gi)) {
+    let src = m[0];
+    // Trailing punctuation is the sentence's, and a closing bracket is the
+    // link's only if it closes one the link opened.
+    for (;;) {
+      const last = src.slice(-1);
+      if (/[.,!?;:'"*_~]/.test(last)) { src = src.slice(0, -1); continue; }
+      if (last === ')' && (src.match(/\(/g) || []).length < (src.match(/\)/g) || []).length) { src = src.slice(0, -1); continue; }
+      break;
+    }
+    let u;
+    try { u = new URL(src); } catch (e) { continue; }
+    if (/^(?:www\.)?stimpunks\.world$/i.test(u.hostname)) continue;
+    if (!out.includes(src)) out.push(src);
+    if (out.length >= CHAT_PREVIEWS) break;
+  }
+  return out;
+}
+// The cards for a message's words, reusing any it already had for the same link.
+export async function chatPreviews(text, had = [], get = safeGet) {
+  const out = await Promise.all(chatLinks(text).map((src) => {
+    const old = (had || []).find((l) => l && l.src === src);
+    return old || previewFor(src, get).catch(() => null);
+  }));
+  return out.filter((l) => l && (l.kind === 'page' || l.kind === 'video' || l.kind === 'player'));
+}
+/* After a message has gone out, or been edited: its cards, written onto it
+   only if its words are still the words they were read for. */
+export async function unfurlMessage(room, id, text, had = [], s = store(), get = safeGet) {
+  const links = await chatPreviews(text, had, get);
+  const same = (a, b) => JSON.stringify(a || []) === JSON.stringify(b || []);
+  await updateTuned(room, (list) => {
+    const i = list.findIndex((m) => m.id === id);
+    if (i < 0 || (list[i].text || '') !== text || same(list[i].links, links)) return null;
+    const next = list.slice();
+    next[i] = { ...list[i] };
+    if (links.length) next[i].links = links; else delete next[i].links;
+    return next;
+  }, s);
+  return links;
+}
+// What a reader is sent of a card.
+function shapeChatPreview(l) {
+  if (!l || typeof l !== 'object' || typeof l.href !== 'string') return null;
+  const str = (v) => (typeof v === 'string' && v ? v : null);
+  if (l.kind === 'video' && cleanVideo(l.id)) {
+    return { kind: 'video', href: l.href, id: l.id, title: str(l.title) || '', channel: str(l.channel),
+      length: typeof l.length === 'number' ? l.length : null, live: !!l.live, embed: !!l.embed };
+  }
+  if (l.kind === 'player' && vimeoPlayer(l.src_player)) {
+    return { kind: 'player', href: l.href, src: l.src_player, site: str(l.site), title: str(l.title) || '', author: str(l.author),
+      length: typeof l.length === 'number' ? l.length : null };
+  }
+  if (l.kind === 'page' && str(l.title)) {
+    return { kind: 'page', href: l.href, title: l.title, about: str(l.about), site: str(l.site), author: str(l.author), host: str(l.host) };
+  }
+  return null;
 }
 
 /* ── What people type ──────────────────────────────────────────────────── */
@@ -9446,6 +9637,13 @@ export function editMessage(list, id, text, who, now = Date.now(), asked = null)
   if (words === (m.text || '')) return { same: true, list };
   const next = list.slice();
   next[i] = { ...m, text: words, edited: now };
+  // A card whose link is no longer in the words goes at once; a new link's
+  // card comes after (unfurlMessage, from cb-edit).
+  if (Array.isArray(m.links)) {
+    const still = chatLinks(words);
+    const kept = m.links.filter((l) => l && still.includes(l.src));
+    if (kept.length) next[i].links = kept; else delete next[i].links;
+  }
   // Who it @mentions is worked out again from the new words: the names the
   // radio offered now, and the ones it named before, if they are still there.
   const named = channelMentions(words, [...(Array.isArray(asked) ? asked : []), ...(m.at || [])]);
@@ -9576,6 +9774,9 @@ export function shape(messages) {
     // Said by a room's feed bot (above), which every radio marks BOT.
     const fd = m.feed && shapeFeed(m.feed);
     if (fd) out.feed = fd;
+    // The cards its links unfurled into (unfurlMessage).
+    const links = Array.isArray(m.links) ? m.links.map(shapeChatPreview).filter(Boolean) : [];
+    if (links.length) out.links = links;
     return out;
   });
 }

@@ -11,7 +11,7 @@
 import { randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
   imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions, roleMentions,
-  noteLatest, countMessage, replyTo, noteModCall, WORLD_CALL } from '../cb/lib.mjs';
+  noteLatest, countMessage, replyTo, noteModCall, chatLinks, unfurlMessage, WORLD_CALL } from '../cb/lib.mjs';
 
 export default async (req, context) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -113,6 +113,12 @@ export default async (req, context) => {
     await noteModCall(who, msg, { room }).catch(() => null);
     const told = notifyMessage(msg, room, undefined, undefined, undefined, to).catch(() => []);
     if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
+    // Its links' cards, read after it has gone out, so sending never waits on
+    // somebody else's site; every radio sees them on its next listen.
+    if (text && chatLinks(text).length) {
+      const cards = unfurlMessage(room, msg.id, text).catch(() => []);
+      if (context && typeof context.waitUntil === 'function') context.waitUntil(cards); else await cards;
+    }
     return json(200, { messages: shape(messages) });
   } catch (e) {
     return json(503, { error: 'The channel is busy. Try again in a moment.' });

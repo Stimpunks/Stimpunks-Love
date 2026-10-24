@@ -58,6 +58,10 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · THE AUTHOR'S MARK LEAVING THE SERVER. It is how only a post's author edits
     it, and no shape a reader is sent may carry it.
   · A PREVIEW FETCH THAT COULD BE TALKED INTO ASKING THIS MACHINE OR A PRIVATE
+    LINK CARDS on the CB (2026-10-24) and the oEmbed both read: words and a
+    checked player address, never a picture or a site's own markup, read after
+    a message goes out, drawn as elements, a player only love-embed.js's as a
+    frame apart (check_cards).
     NETWORK: safeGet must look addresses up through safeLookup, which refuses
     anything publicAddress does not, and must never follow a redirect any other
     way.
@@ -328,6 +332,7 @@ def check_lib(lib):
     if m and "poll" in keys and "if (t.poll) sum.poll = true;" not in m.group(0):
         problems.append(f"{LIB.name}: a topic's summary says only that the topic has a poll, never anything about its votes.")
     check_polls(sec)
+    check_cards(sec)
     get = fn(sec, "safeGet")
     if "lookup: safeLookup" not in get or "publicAddress(host)" not in get:
         problems.append(f"{LIB.name}: safeGet no longer checks the address it connects to through safeLookup and publicAddress.")
@@ -400,6 +405,43 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: notifyForum must tell only a device that asked about mentions, whose pass can read the category now.")
     if "sweepForum" not in MIDNIGHT.read_text():
         problems.append(f"{MIDNIGHT.name}: the hourly sweep no longer sweeps the forums, so a topic past its date would stay stored.")
+
+
+def check_cards(sec):
+    """The CB's link cards (2026-10-24) and the oEmbed they read: words and a
+    checked player address, never a picture and never anybody else's markup;
+    read after a message goes out; drawn as elements; a player only through
+    love-embed.js, as a frame apart."""
+    oe = re.search(r"export function oembedOf\(.*?\n\}", sec, re.S)
+    ret = re.search(r"\n  return \{(.*?)\n  \};", oe.group(0), re.S) if oe else None
+    keys = set(re.findall(r"^\s{4}(\w+)\s*[:,]", ret.group(1) + ",", re.M)) if ret else set()
+    if not oe or keys != {"type", "title", "author", "site", "said", "about", "length", "player"}:
+        problems.append(f"{LIB.name}: oembedOf answers {sorted(keys)}: words, a runtime and a player's address, and never "
+                        "a site's own html or a thumbnail, which no page of ours ever draws.")
+    part = re.search(r"/\* OEMBED \(2026-10-24.*?\n// What a reader is sent of a card\.\nfunction shapeChatPreview\(l\) \{.*?\n\}", sec, re.S)
+    if not part:
+        problems.append(f"{LIB.name}: the oEmbed and link-card part (OEMBED to shapeChatPreview) has gone, so this tool cannot hold it.")
+    else:
+        code = code_of_text(part.group(0))
+        if re.search(r"thumbnail|innerHTML|outerHTML", code):
+            problems.append(f"{LIB.name}: the link cards read a thumbnail or keep a site's own markup. A card is words.")
+    tx = (ROOT / "netlify/functions/cb-transmit.mjs").read_text()
+    if tx.find("unfurlMessage(room, msg.id, text)") < tx.find("notifyMessage(msg"):
+        problems.append("cb-transmit.mjs: a message's links must be read after it has gone out, so sending never waits on somebody else's site.")
+    cb = code_of(CB)
+    draw = re.search(r"Radio\.prototype\.drawUnfurls = .*?\n  function unfurlCard\(l\) \{.*?\n  \}", cb, re.S)
+    if not draw:
+        problems.append(f"{CB.name}: drawUnfurls and unfurlCard have gone, so this tool cannot hold the link cards.")
+    else:
+        d = draw.group(0)
+        if re.search(r"innerHTML|insertAdjacentHTML|el\('img'|createElement\('img'|new Image|createElement\('iframe'", d):
+            problems.append(f"{CB.name}: a link card draws a picture, a frame of its own or markup from a string. A card is "
+                            "elements built from words, and a player comes from love-embed.js.")
+        if "E.frame(l.id, l.title, null, true)" not in d or not re.search(r"E\.frameUrl\([^;]*, l\.title, true\)", d):
+            problems.append(f"{CB.name}: a link card's player must be love-embed.js's, built as a frame apart, so Host this "
+                            "film and Follow never hear about a video playing in a message.")
+    if 'id="link-cards"' not in PRIVACY.read_text():
+        problems.append("privacy.html has no #link-cards saying what our server reads of a link in a CB message.")
 
 
 def check_polls(sec):
