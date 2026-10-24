@@ -39,7 +39,10 @@ first. So:
      CLAUDE.md, SECURITY.md), it runs only the checkers that read them, in seconds, and says so;
      it finds those readers by name in `tools/`, and runs everything if a generator is one of them
      (Ryan, 2026-10-24). `--full` runs everything anyway. The full run prints how long every step
-     took and ends with the slowest, so a speed-up starts from a measurement. Do not add a file
+     took and ends with the slowest, so a speed-up starts from a measurement. check-gentle,
+     check-contrast-live and check-focus run side by side (a `+` joins them in `STEPS`), because
+     each only reads and keeps its own probe file and Chrome profile; never join a step that
+     writes, and a new checker that renders pages lists them without dotfiles, as those three do. Do not add a file
      to `NOTES` that any generator reads, and do not make the quick path guess about any other
      change: a page, a data file or a stylesheet can change a room nobody touched.
   3. **Commit and push when you stop.** Work left uncommitted blocks the other person's turn, and

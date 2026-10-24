@@ -34,16 +34,23 @@ the way the fog does in §39. Do not change §2's yellow -- it is right on the
 dark street, which is most of the street.
 """
 import html as H
+import atexit
 import json
 import os
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PROBE = ROOT / ".check-focus-probe.html"
+# A Chrome profile of this tool's own, removed when it exits: check-all.sh runs
+# this beside check-gentle.py and check-contrast-live.py, and three headless Chromes
+# must never share one.
+PROFILE = tempfile.mkdtemp(prefix="check-focus-chrome-")
+atexit.register(shutil.rmtree, PROFILE, True)
 NEED = 3.0
 VERBOSE = "-v" in sys.argv
 
@@ -236,7 +243,7 @@ def probe(browser, page: Path):
     PROBE.write_text(src.replace("</body>", JS + "</body>", 1))
     try:
         proc = subprocess.run(
-            [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
+            [browser, "--headless=new", "--disable-gpu", "--no-sandbox", f"--user-data-dir={PROFILE}",
              "--virtual-time-budget=4000", "--dump-dom", PROBE.as_uri()],
             capture_output=True, timeout=120,
         )
@@ -256,7 +263,12 @@ def main():
     browser = find_browser()
     PROBE.unlink(missing_ok=True)
     only = {a for a in sys.argv[1:] if not a.startswith("-")}
-    pages = [p for p in sorted(ROOT.glob("*.html")) if not only or p.name in only]
+    # NEVER A DOTFILE: Python 3.9's glob("*.html") lists hidden files, and the
+    # other two checkers check-all.sh runs beside this one each leave a
+    # .check-...-probe.html in the root while they work. Listed, it is a page
+    # that vanishes or carries somebody else's probe.
+    pages = [p for p in sorted(ROOT.glob("*.html"))
+             if not p.name.startswith(".") and (not only or p.name in only)]
     if not pages:
         raise SystemExit("REFUSING: no pages found to check.")
 

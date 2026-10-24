@@ -457,7 +457,8 @@ and `now-playing.html` under `daily sanctuary refill` and `daily farm refill`.
 refusal**; it is the command to run before every commit, and on a clean tree it changes nothing.
 When the only files changed are notes (DECISIONS.md, README.md, CLAUDE.md, SECURITY.md) it runs
 just the checkers that read them, in a few seconds; `tools/check-all.sh --full` runs everything
-anyway. The full run prints how long each step took, and its slowest steps at the end.
+anyway. The full run prints how long each step took, and its slowest steps at the end; the three
+checkers that render every page in Chrome run side by side.
 The list above is for reading, and it was five tools behind the directory when the script was
 written, which is why the script is the list. Run them all before a deploy. They **refuse** rather than guess: `make-sitemap.py` stops if a page
 is missing a canonical or if an HTML file exists that is not in its page order, `make-csp.py`

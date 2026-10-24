@@ -45,7 +45,10 @@
 #
 # THE TIMINGS. Every step of the full run prints how long it took, and the run
 # ends with its total and its slowest steps, so what to make faster next is
-# measured rather than guessed. perl gives tenths of a second (the bash on a Mac
+# measured rather than guessed. The first measured run (2026-10-24) took 15m 19s,
+# nine minutes of it check-gentle, check-focus and check-contrast-live one after
+# another; those three now run side by side (a + in STEPS joins them), because
+# each only reads, and each keeps its own probe file and Chrome profile. perl gives tenths of a second (the bash on a Mac
 # is 3.2, which has no clock of its own finer than a second); without perl it
 # counts whole seconds.
 set -uo pipefail
@@ -70,6 +73,39 @@ step() {
 "
   printf '\033[2m   (%ss)\033[0m\n' "$dt"
   return $rc
+}
+
+# Steps joined by + run side by side, each into a log of its own, printed in turn
+# once all of them are done so their output never interleaves. Each still says
+# how long it took on its own; the run's list counts the time they took together.
+# Only for steps that read and never write: two writers side by side is a race.
+together() {
+  local dir t0 name dt rc bad="" names
+  names=$(echo "$*" | sed 's/ /, /g')
+  dir=$(mktemp -d "${TMPDIR:-/tmp}/check-all.XXXXXX")
+  t0=$(now)
+  printf '\n\033[1m== %s, side by side\033[0m\n' "$names"
+  for name in "$@"; do
+    ( s0=$(now); python3 "tools/$name.py" > "$dir/$name.log" 2>&1; rc=$?
+      echo "$(since "$s0") $rc" > "$dir/$name.done" ) &
+  done
+  wait
+  for name in "$@"; do
+    read -r dt rc < "$dir/$name.done"
+    printf '\n\033[1m== %s\033[0m\n' "$name"
+    cat "$dir/$name.log"
+    printf '\033[2m   (%ss, beside the others)\033[0m\n' "$dt"
+    [ "$rc" = 0 ] || bad="$bad $name"
+  done
+  dt=$(since "$t0")
+  printf '\033[2m   (%ss for all of them, side by side)\033[0m\n' "$dt"
+  TIMES="${TIMES}${dt}	${names}, side by side
+"
+  rm -rf "$dir"
+  if [ -n "$bad" ]; then
+    STOPPED_AT=$(echo $bad | sed 's/ /, /g')
+    return 1
+  fi
 }
 
 # How long the run took, and the steps that took longest.
@@ -142,8 +178,11 @@ STEPS=(
   make-low-stimulation make-feed make-csp make-agent-files make-og make-icons make-security
   # The checkers, against what was just written.
   check-contrast check-headings check-counts check-ids check-classes
-  check-quests check-faces check-print check-gentle check-contrast-live
-  check-focus check-weights check-teleport check-unlisted check-push check-props check-events check-messages check-steps check-links check-roles check-notice check-chat-status check-call-links
+  check-quests check-faces check-print
+  # Side by side (a + joins them): each renders every page in Chrome, only
+  # reads, and keeps its own probe file and its own Chrome profile.
+  check-gentle+check-contrast-live+check-focus
+  check-weights check-teleport check-unlisted check-push check-props check-events check-messages check-steps check-links check-roles check-notice check-chat-status check-call-links
 )
 
 # The CB's one invariant, first, because it needs nothing but Node: no write
@@ -171,8 +210,12 @@ if ! step "every avatar choice is drawn" node --test tools/avatar.test.mjs; then
 fi
 
 for s in "${STEPS[@]}"; do
-  if ! step "$s" python3 "tools/$s.py"; then
-    printf '\n\033[1mSTOPPED at %s.\033[0m Fix what it says, then run this again.\n' "$s"
+  case "$s" in
+    *+*) STOPPED_AT="$s"; together $(echo "$s" | tr '+' ' '); rc=$? ;;
+    *) STOPPED_AT="$s"; step "$s" python3 "tools/$s.py"; rc=$? ;;
+  esac
+  if [ "$rc" != 0 ]; then
+    printf '\n\033[1mSTOPPED at %s.\033[0m Fix what it says, then run this again.\n' "$STOPPED_AT"
     printf 'Nothing after it has run, so nothing after it has been checked.\n'
     report; exit 1
   fi

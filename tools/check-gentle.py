@@ -65,12 +65,14 @@ reset belongs beside the rule that set the tilt, at a specificity that cannot
 lose. :where() is how you scope one without raising it.
 """
 import html as H
+import atexit
 import json
 import os
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -81,6 +83,11 @@ ROOT = Path(__file__).resolve().parent.parent
 # It is deleted in a finally; a leftover is swept at startup and would anyway
 # be caught by make-sitemap.py, which refuses an HTML file it has no entry for.
 PROBE = ROOT / ".check-gentle-probe.html"
+# A Chrome profile of this tool's own, removed when it exits: check-all.sh runs
+# this beside check-focus.py and check-contrast-live.py, and three headless Chromes
+# must never share one.
+PROFILE = tempfile.mkdtemp(prefix="check-gentle-chrome-")
+atexit.register(shutil.rmtree, PROFILE, True)
 
 CANDIDATES = [
     os.environ.get("CHECK_GENTLE_BROWSER"),
@@ -169,7 +176,7 @@ def probe(browser, page: Path):
     PROBE.write_text(src.replace("</body>", JS + "</body>", 1))
     try:
         proc = subprocess.run(
-            [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
+            [browser, "--headless=new", "--disable-gpu", "--no-sandbox", f"--user-data-dir={PROFILE}",
              "--virtual-time-budget=4000", "--dump-dom", PROBE.as_uri()],
             capture_output=True, timeout=120,
         )
@@ -189,7 +196,11 @@ def probe(browser, page: Path):
 def main():
     browser = find_browser()
     PROBE.unlink(missing_ok=True)  # a stale one from an interrupted run
-    pages = sorted(ROOT.glob("*.html"))
+    # NEVER A DOTFILE: Python 3.9's glob("*.html") lists hidden files, and the
+    # other two checkers check-all.sh runs beside this one each leave a
+    # .check-...-probe.html in the root while they work. Listed, it is a page
+    # that vanishes or carries somebody else's probe.
+    pages = [p for p in sorted(ROOT.glob("*.html")) if not p.name.startswith(".")]
     if not pages:
         raise SystemExit("REFUSING: no pages found to check.")
 
