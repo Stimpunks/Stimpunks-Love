@@ -9,34 +9,24 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-23T11:28Z",
+ "set": "2026-10-24T11:29Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-23T11:28:17Z"
+     "2026-10-24T11:29:37Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-23T11:28:17Z"
+     "2026-10-24T11:29:37Z"
     ]
    ]
   }
  },
  "log": [
-  {
-   "id": "uNlQNSBNKR4",
-   "source": "farming-while-beige",
-   "form": "long",
-   "title": "There is no technical fix for spiritual bankruptcy",
-   "published": "2026-09-23T22:50:22Z",
-   "state": "screen",
-   "runs": 1028,
-   "channel": "Farming While Beige"
-  },
   {
    "id": "-mS7jb_hBrs",
    "source": "farming-while-beige",
@@ -495,6 +485,16 @@
    "published": "2026-10-22T20:30:56Z",
    "state": "screen",
    "runs": 178,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "aQSfAYtVJqM",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Pig insanity.",
+   "published": "2026-10-23T12:44:48Z",
+   "state": "screen",
+   "runs": 171,
    "channel": "Farming While Beige"
   }
  ]
