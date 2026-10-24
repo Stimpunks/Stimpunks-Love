@@ -180,12 +180,56 @@
     if (b.getAttribute('data-cb') === 'mods' && !mayHere(load(), b)) return null;
     return w.document;
   }
+  /* A CALL STAYS UP WHEN YOU FOLLOW A LINK (Ryan's ask, 2026-10-24). Every
+     room is a page, and a page that goes takes its call with it, so following
+     a #tag on the channel hung up the call you were in. While a call is open
+     in the page a link would leave, anything in the radio that would leave it
+     opens in a new tab instead, and the radio says so (tabTold); with no call
+     up, links walk you from room to room as they always have. A link that
+     stays on the page (the chat page's channels, a spot in this room) is not
+     leaving, and a link to elsewhere already opens in a new tab. A call in a
+     window of its own (Pop out) is in no page, so it changes nothing. Every
+     other way off the page asks Leave site? first (call.js, guarding). The
+     friendly edit is a new tab for every link "to be safe", which piles up
+     tabs, each with its own radio, for everybody who was never in a call. */
+  function callUp(w) {
+    try { var c = (w || window).loveCall; return !!(c && c.isOpen && c.isOpen()); } catch (e) { return false; }
+  }
+  // Whether going to href would take the page w is showing away.
+  function leavesPage(href, w) {
+    var at, u;
+    try { at = (w || window).location; u = new URL(href, at.href); } catch (e) { return false; }
+    return u.origin === at.origin && (u.pathname !== at.pathname || u.search !== at.search);
+  }
+  // A new tab with nothing pointing back at this page, or null when the
+  // browser would not open one.
+  function newTab(href) {
+    var t = null;
+    try { t = window.open(href, '_blank'); } catch (e) { t = null; }
+    if (t) { try { t.opener = null; } catch (e) { /* the browser decides */ } }
+    return t;
+  }
+  /* Going somewhere from this page: 'tab' when a call here sent it to a new
+     tab, 'kept' when the browser would not open one, so nothing moved, and
+     nothing at all when it went. */
+  function goPage(href) {
+    if (callUp() && leavesPage(href)) return newTab(href) ? 'tab' : 'kept';
+    location.href = href;
+  }
+
   // An address on the street: opened here, or from the radio's own window, in
-  // the window it came from, or a new one if that has gone.
+  // the window it came from, or a new one if that has gone. What it answers is
+  // goPage's, for tabTold.
   function goStreet(href) {
-    if (!inWindow()) { location.href = href; return; }
+    if (!inWindow()) return goPage(href);
     var w = streetWindow();
     if (!w) { try { w = window.opener && !window.opener.closed ? window.opener : null; } catch (e) { w = null; } }
+    if (w && callUp(w) && leavesPage(href, w)) {
+      var t = newTab(href);
+      if (!t) return 'kept';
+      streetWin = t;
+      return 'tab';
+    }
     if (w) { try { w.location.href = href; w.focus(); return; } catch (e) { /* gone */ } }
     streetWin = window.open(href, '_blank');
   }
@@ -1442,6 +1486,10 @@
     calls.appendChild(this.callNone);
     online.appendChild(calls);
     aroundSec.appendChild(online);
+    // Where a room's link here says it opened in a new tab (tabTold).
+    var aroundSaid = this.aroundSaid = el('p', 'cb-said');
+    aroundSaid.setAttribute('role', 'status');
+    aroundSec.appendChild(aroundSaid);
     // YOUR CHAT STATUS (Ryan's ask, 2026-10-24), for a claimed username. See chatStatusMake.
     if (forumPass(this.state.pass)) this.chatStatusMake(aroundSec);
 
@@ -2133,10 +2181,23 @@
         try { u = new URL(a.getAttribute('href'), location.href); } catch (x) { return; }
         if (u.origin !== location.origin) return;
         e.preventDefault();
-        goStreet(u.href);
+        me.tabTold(goStreet(u.href), a);
       });
       window.addEventListener('focus', function () { if (me.whereNow() === false) me.bandShown(); });
       this.whereNow();
+    } else {
+      /* While a call is open on this page, a link in the radio that would
+         leave the page opens in a new tab, so the call stays up (callUp). A
+         press with a key held, or on a link that already says where it opens,
+         is the browser's. */
+      root.addEventListener('click', function (e) {
+        if (!callUp()) return;
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a || a.target || a.hasAttribute('download') || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (!leavesPage(a.href)) return;
+        e.preventDefault();
+        me.tabTold(newTab(a.href) ? 'tab' : 'kept', a);
+      });
     }
     this.bandShown();
     this.setAloud(this.aloud(), true);
@@ -3447,7 +3508,7 @@
       if (!ids.length) { me.tell('Tick at least one message first.'); return; }
       box.remove();
       me.forumPick = null;
-      location.href = '/forum.html#/new?from=' + encodeURIComponent(me.tunedRoom() || 'world') + '&ids=' + encodeURIComponent(ids.join(','));
+      me.tabTold(goPage('/forum.html#/new?from=' + encodeURIComponent(me.tunedRoom() || 'world') + '&ids=' + encodeURIComponent(ids.join(','))), null);
     });
     no.addEventListener('click', function () { box.remove(); me.forumPick = null; me.tell(''); });
     box.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); no.click(); } });
@@ -9662,7 +9723,7 @@
   Radio.prototype.go = function (room) {
     if (!room) return;
     this.setTeleport(false);
-    goStreet(room.path);
+    this.tabTold(goStreet(room.path), null);
   };
 
   Radio.prototype.close = function () {
@@ -10887,6 +10948,33 @@
      tellNews() under Unreads, for Follow every room. Small and the icon show
      the channel and nothing else, so while the radio is either, or that part
      is shut, they answer under the readout, where the answer can be seen. */
+  /* What a link the call kept in a new tab says (callUp), beside where it was
+     pressed: in the profile it was in, under Messages, Watching together,
+     Unreads or Who's around, or under the channel. */
+  Radio.prototype.tabTold = function (how, near) {
+    if (!how) return;
+    var s = how === 'tab'
+      ? 'That opened in a new tab, so your call stays up where it is. Pop out, on the call, takes the call with you from room to room instead.'
+      : 'Your browser would not open a new tab, so you are still here and so is your call. Hold Ctrl or Cmd as you press the link, or pop the call out first.';
+    var dlg = near && near.closest ? near.closest('dialog') : null;
+    if (dlg) {
+      var p = dlg.querySelector('.cb-said--tab');
+      if (!p) {
+        p = el('p', 'cb-said cb-said--tab');
+        p.setAttribute('role', 'status');
+        (dlg.querySelector('.pf-left') || dlg).appendChild(p);
+      }
+      p.textContent = s;
+      return;
+    }
+    var sec = near && near.closest ? near.closest('.cb-sec') : null;
+    if (sec && sec === this.dmSec && this.dmSaid) this.dmTold(s);
+    else if (sec && sec === this.filmSec) this.tellFilm(s);
+    else if (sec && sec === this.newSec) this.tellNews(s);
+    else if (sec && this.aroundSaid && sec.contains(this.aroundSaid)) this.aroundSaid.textContent = s;
+    else this.tell(s);
+  };
+
   Radio.prototype.tell = function (s) {
     this.said.textContent = s;
     if (this.filmSaid) this.filmSaid.textContent = '';

@@ -401,6 +401,21 @@
 
   var current = null;
 
+  /* LEAVE SITE? WHILE A CALL IS UP (Ryan's ask, 2026-10-24): every room is a
+     page, and a page that goes takes its call with it, so while a call is open
+     in this page the browser asks before any way off it, a link in the room,
+     Back or closing the tab. Its words are the browser's own. Links in the
+     radio never ask, because while a call is up they open in a new tab
+     instead (cb.js, callUp). Not in the call's own window, where closing is
+     the way out and a second Pop out replaces what is in it; and listened for
+     only while a call is up, because a page that listens for leaving is kept
+     out of the browser's back-forward cache. */
+  function guard(e) { e.preventDefault(); e.returnValue = ''; return ''; }
+  function guarding(on) {
+    if (on) window.addEventListener('beforeunload', guard);
+    else window.removeEventListener('beforeunload', guard);
+  }
+
   /* why: nothing when somebody pressed Leave, 'switch' when another call is
      taking this one's place, 'away' when it has popped out into its own
      window. Whatever opened it is told which. */
@@ -408,6 +423,7 @@
     if (!current) return;
     var c = current;
     current = null;
+    guarding(false);
     c.off();
     c.host.remove();
     if (isWindow) say();
@@ -518,6 +534,7 @@
               pop: pass && !opts.whole && line ? function () { return popOut(room); } : null
             });
             current.left = opts.left;
+            if (!opts.whole) guarding(true);
             holding = room;
             say();
             done({ ok: true, said: (hungUp ? 'The call in its own window has been hung up. ' : '') + 'The call is open at the foot of the page. Your browser may ask about your camera and microphone so its first screen can show a preview; both start off, and nothing goes to the call until you join there.' });

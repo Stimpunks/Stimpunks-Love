@@ -875,6 +875,18 @@ device. **Its first deploy named the picker `chatMake` and its redraw `chatShown
 Channels list: the later assignment won silently and /chat lost its channels until the rename (`chatStatusMake` and
 the rest), so `check-ids.py` now refuses a method assigned twice in any script. `DECISIONS.md` has what is open.
 
+**FOLLOWING A LINK NO LONGER HANGS UP YOUR CALL.** Ryan's ask and choice, 2026-10-24: every room is a page and a page
+that goes takes its call, so a #tag on the channel hung up the call you were in. **While a call is open in the page,
+anything in the radio that would leave it opens in a new tab and says so** (`callUp`, `leavesPage`, `goPage` and
+`tabTold` in `cb.js`: a link anywhere in the radio's shadow root, the teleporter, Take to the forums, and from the radio's
+own window the page it came from), and the guest bar's teleporter does the same for a guest; **every other way off the
+page asks the browser's Leave site? first** (`guarding` in `call.js`, listened for only between a call opening in a page
+and its leaving, never in the call's own window, because a page that listens for leaving is kept out of the
+back-forward cache). A link that stays on the page is not leaving. `tools/check-call-links.py` holds it, and refuses a
+`location.href` in `cb.js` outside `goPage` and a `beforeunload` anywhere but `call.js`. **The friendly edit is a new tab
+for every link "to be safe"**, which piles up tabs, each with its own radio, for everybody never in a call, and leaves
+the room's own links and Back still hanging up.
+
 **THE WORLD CALL IS THE WORLD ROOM'S CALL.** Ryan, 2026-10-13: **Join World call**,
 under Who's around, opens one call for the whole street from any page, for anybody signed on and never a
 guest. `WORLD_CALL` in `lib.mjs` is the name (`stimpunks-world` at 8x8), `cb.js` keeps a copy, and
