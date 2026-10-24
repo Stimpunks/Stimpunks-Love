@@ -1,0 +1,379 @@
+{
+  "_what": "Pets (love.css §127): a shopfront on the street, down on the floor with the animals at the end of the day. Ryan's brief, 2026-10-24: a Pets room, its channel on the CB in the Community section of the chat page, saying how important co-regulating with pets is for many Autistic people and for humans in general, because mammalian co-regulation is a thing, and linking every Pets room, presented as doors. Read by tools/make-pets.py, which writes the floor, every section, the pet flaps, your own animals, what is not on the floor, who reads the channel and the credits into pets.html, and the table of quotations into liner-notes.html.",
+  "_quotes": "EVERY QUOTATION WAS READ OFF ONE OF OUR OWN PAGES, named in `read_on`, and is checked against the Knowledge System mirror's copy of that page word for word on every build where the mirror is on the machine: the Town Hall's rule. When our page changes, re-copy the quotation; never loosen the check. Most of these are other people's words that our glossary quotes, so each names who wrote it (`who`) and where (`work`) and says it was read on our page rather than in the original, the Community Library's rule: nobody read the originals for this room. A quotation with no `who` is ours. Helen Edgar's words are credited to her by name and never folded into our \"we\".",
+  "_cap": "A QUOTATION IS AT MOST `words` WORDS, and the number is printed in the room. Covenstead's reason rather than the Zibaldone's: the room quotes lines its own words are about, and the pages are linked for everything else. Raise it on purpose, here, with the reason written down, never to fit one passage.",
+  "_ours": "EVERYTHING THAT IS NOT A QUOTATION IS OURS, written for this room, and swept for its refusals; the quotations are not swept, because they are other people's words.",
+  "_not_clinical": "NOTHING HERE IS CLINICAL. An animal is company, not a treatment, and the friendly edit to a pets room is a sentence about what a pet does for your health: lower blood pressure, cortisol, oxytocin, therapy. Each is a study claim nobody here has read, said in our voice, so the room refuses therapy, treatment, cure, symptoms, disorders, cortisol, oxytocin, blood pressure and 'good for your health' in its own words, with the negation window. It says it is not a vet either.",
+  "_no_best": "NO BEST PET. The friendly edit is the listicle: the best pets for Autistic people, the best breeds, which animal to get. Nobody here is told which animal to get, and no animal, kind or breed is ranked, the otter cabinet's rule that there is no standard otter. The tool refuses the vocabulary of ranking and recommending in our words, with the negation window.",
+  "_no_tally": "NOBODY IS COUNTED. Nothing here counts anybody's animals, and the shelters never say who rescued or adopted anybody, so neither does this room. No count of pets, no how many people have one, no tally.",
+  "_no_sale": "NOTHING IS FOR SALE. No animal on this street has a price on it; the tool refuses a price, a breeder and a pet shop in our words.",
+  "_no_motion": "NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED, AND THE LAMP IS NEVER SWITCHED ON. Everybody on the floor is asleep, and being still with an animal is the whole room. The friendly edits are a tail that wags at MAX, breathing that rises and falls, and the lamp lit 'so it is cosy'; the last makes this one more lamplit room, which is the collision §127 is built to stay out of. The tool refuses a keyframe, an animation or a transition in §127, and a lit lamp in the drawing.",
+  "_doors": "THE DOORS ARE PET FLAPS, AND THEY ARE THIS ROOM'S DRAWINGS, NEVER THE ROOMS'. Ryan asked for the Pets rooms presented as doors, and on a floor at an animal's height a door is a flap in the skirting. Each is drawn in this room's dusk, told apart by its form (the campground board's rule), and sized for whoever uses it. Each says, in this room's words, what that room is, and `holds` names the words on that room's published page that carry it, the Community Center's service-board rule. EVERY ROOM TAGGED pets IN data/room-tags.json HAS A FLAP, and the tool refuses a missing one, so a new pets room needs a flap before the build will run. No flap to a room that keeps to itself, and none to this room.",
+  "_yours": "YOUR OWN ANIMALS ON THE STREET are sentences about other rooms and about the CB, so each carries `holds`, words on the named pages that carry it, and the forums line reads its keep out of data/forum.json.",
+  "words": 40,
+  "read": "2026-10-24",
+  "pages": {
+    "coreg": {
+      "title": "Co-regulation",
+      "url": "https://stimpunks.org/glossary/co-regulation/",
+      "mirror": "glossary/co-regulation.md"
+    },
+    "pvt": {
+      "title": "Polyvagal Theory",
+      "url": "https://stimpunks.org/glossary/polyvagal-theory/",
+      "mirror": "glossary/polyvagal-theory.md"
+    },
+    "body": {
+      "title": "Body Doubling",
+      "url": "https://stimpunks.org/glossary/body-doubling/",
+      "mirror": "glossary/body-doubling.md"
+    },
+    "glimmers": {
+      "title": "Glimmers",
+      "url": "https://stimpunks.org/glossary/glimmers/",
+      "mirror": "glossary/glimmers.md"
+    },
+    "access": {
+      "title": "Event Access Guide",
+      "url": "https://stimpunks.org/fieldguide/events/access/",
+      "mirror": "pages/fieldguide__events__access.md"
+    },
+    "campfire": {
+      "title": "Campfire Learn Together",
+      "url": "https://stimpunks.org/events/campfire-learn-together/",
+      "mirror": "pages/events__campfire-learn-together.md"
+    },
+    "seeds": {
+      "title": "Seeds of Cope",
+      "url": "https://stimpunks.org/fieldguide/coping/seeds-of-cope/",
+      "mirror": "pages/fieldguide__coping__seeds-of-cope.md",
+      "holds": [
+        "grounding, containment, co-regulation, safe person / safe place"
+      ]
+    }
+  },
+  "glossary": [
+    "co-regulation",
+    "polyvagal-theory",
+    "body-doubling",
+    "glimmers",
+    "stimming",
+    "masking",
+    "deep-pressure"
+  ],
+  "quotes": {
+    "coreg_def": {
+      "read_on": "coreg",
+      "who": "Trauma Geek",
+      "work": "The Neuroscience of Community",
+      "text": "Co-regulation is when we complete the stress cycle with the support of a safe enough person."
+    },
+    "mammals": {
+      "read_on": "pvt",
+      "who": "NDConnection",
+      "work": "A neurodiversity paradigm lens on polyvagal theory",
+      "text": "Co-regulation (the subconscious process of syncing up with a coherent nervous system) is the strongest safety cue for mammals."
+    },
+    "cats_dogs": {
+      "read_on": "pvt",
+      "who": "NDConnection",
+      "work": "A neurodiversity paradigm lens on polyvagal theory",
+      "text": "The polyvagal understanding of the nervous system seems to be observable in all humans, and all mammals for that matter, including cats, dogs, and horses."
+    },
+    "safe_enough": {
+      "read_on": "coreg",
+      "who": "Trauma Geek",
+      "work": "The Neuroscience of Community",
+      "text": "A safe enough person is a person in safe & social mode. They have deep belly breathing, expressive face, soft gaze, calm heart rate, prosodic voice, and the ability to enjoy safe touch or closeness."
+    },
+    "dens": {
+      "read_on": "coreg",
+      "who": "Helen Edgar",
+      "work": "Neurodivergent Co-Regulation",
+      "text": "For example, joining an online game, sharing music in a chat room or knowing you are each happy being in your own dens/spaces in your house can all be meaningful ways of co-regulating.",
+      "site": "Autistic Realms"
+    },
+    "body_double": {
+      "read_on": "body",
+      "video": true,
+      "work": "What is a “body double,” and how does it help?",
+      "text": "A “body double” (n.) is a person or even pet who is present with us while we work."
+    },
+    "glimmer": {
+      "read_on": "glimmers",
+      "who": "Julie Bjelland",
+      "work": "Finding Light in the Dark: The Power of Glimmers",
+      "text": "Watching your pet’s excitement over something small"
+    },
+    "service_dog": {
+      "read_on": "access",
+      "who": "Midwest FurFest",
+      "work": "Accessibility Services",
+      "text": "Do not pet, feed, or otherwise distract a service dog. Please approach their handler before interacting."
+    },
+    "campfire": {
+      "read_on": "campfire",
+      "text": "Come as you are. Bring your pets, your fidgets, your safe snacks."
+    }
+  },
+  "lede": [
+    {
+      "p": "This room is the floor at the end of the day. The dog is asleep on the rug, the cat has curled up beside the dog, a rabbit is loafing by the skirting board, and the light in the window is going. Nobody has switched the lamp on, because getting up would mean moving somebody, and nobody wants to. That is the whole room: being still with an animal until you are as settled as they are."
+    },
+    {
+      "p": "Its channel on the CB is for your animals: pictures, stories, worries and questions, the ones who are gone, and the ones still waiting at the shelters. Sign on and tune the radio to **This room** while you are in here, or open [Pets on the chat page](chat.html#pets), under Community. If you are not on the CB yet, [the Community Center](community-center.html#getting-started) says how to get an invite. Our campfires have always said the same thing:"
+    },
+    {
+      "q": "campfire"
+    }
+  ],
+  "coreg": [
+    {
+      "p": "[Co-regulation](https://stimpunks.org/glossary/co-regulation/) is how one nervous system steadies another. Our entry for it opens with Trauma Geek’s definition:"
+    },
+    {
+      "q": "coreg_def"
+    },
+    {
+      "p": "Most of what gets written about it is about people: a parent and a baby, a teacher and a child, a friend who sits with you while it passes. It is not only people. Mammals do it with each other, with their own kind and with other kinds, and the lines our [Polyvagal Theory](https://stimpunks.org/glossary/polyvagal-theory/) entry quotes say so in as many words:"
+    },
+    {
+      "q": "mammals"
+    },
+    {
+      "q": "cats_dogs"
+    },
+    {
+      "p": "The same definition says what a safe enough person is like:"
+    },
+    {
+      "q": "safe_enough"
+    },
+    {
+      "p": "Leave out the face and the voice, and that is a dog asleep against your legs, or a cat purring on your chest: breathing slow and deep, eyes half shut, heart steady, and glad of you close. Lie still beside that for long enough and your own body starts to keep time with it."
+    }
+  ],
+  "autistic": [
+    {
+      "p": "For a lot of Autistic people an animal is the easiest company there is, and the most settling. An animal does not want eye contact or small talk, does not take a [stim](https://stimpunks.org/glossary/stimming/) for something wrong with you, and never needs anybody to [mask](https://stimpunks.org/glossary/masking/). It says plainly what it wants, its day has the same shape every day, and you can be with it without doing anything at all."
+    },
+    {
+      "p": "Being with somebody does not have to mean doing something together, or even being in the same room. Helen Edgar writes about co-regulating in ways that suit each person’s physical, social and sensory needs:"
+    },
+    {
+      "q": "dens"
+    },
+    {
+      "p": "A cat asleep in the next room counts. So does a dog who follows you from room to room and lies down wherever you stop, which our [Body Doubling](https://stimpunks.org/glossary/body-doubling/) entry has a word for, and which leaves room for a pet:"
+    },
+    {
+      "q": "body_double"
+    },
+    {
+      "p": "An animal is sensory company too. A dog leaning its whole weight on your legs is [deep pressure](https://stimpunks.org/glossary/deep-pressure/), stroking fur is a stim, and a purr is a sound with no words in it to work out. Our [Seeds of Cope](https://stimpunks.org/fieldguide/coping/seeds-of-cope/) puts co-regulation in its cope map, among what helps when fear, shame or trauma comes up, and our [Glimmers](https://stimpunks.org/glossary/glimmers/) entry has this among the small moments that bring peace, joy or connection:"
+    },
+    {
+      "q": "glimmer"
+    }
+  ],
+  "everybody": [
+    {
+      "p": "It is not only Autistic people. Plenty of people talk to the dog when they cannot talk to anybody, get up in the morning because the cat wants feeding, and go outside because the dog does. People have lived alongside animals for far longer than anybody has been writing it down, and a body that settles with a warm animal against it is one of the oldest kinds of company there is."
+    },
+    {
+      "p": "Not everybody can live with an animal: allergies, rent, money, a body that cannot manage the walks, or an animal who died and is still missed. The animals on this street need none of that. Anybody can visit them, nothing about them costs anything, and none of them will ever need walking at six in the morning."
+    },
+    {
+      "p": "And a dog in a harness may be working. Our [Event Access Guide](https://stimpunks.org/fieldguide/events/access/) passes on Midwest FurFest’s line about that:"
+    },
+    {
+      "q": "service_dog"
+    }
+  ],
+  "doors_line": "Every room on the street with animals in it has a pet flap here, set into the skirting board at the height of whoever uses it. They are this room’s flaps, drawn in its dusk, and each one opens onto a room that is its own world. Go through any of them; the floor will still be here when you come back, and so will everybody asleep on it.",
+  "doors": [
+    {
+      "name": "Waiting for a home",
+      "line": "Animals turn up out on the street and under it, somebody signed on to the CB brings them in and names them, and anybody can adopt one.",
+      "doors": [
+        {
+          "page": "rescue-a-cat.html",
+          "form": "catflap",
+          "line": "a street with the lights out and a torch in your hand, and now and then a cat in the dark who needs bringing in.",
+          "holds": [
+            "the only light is the torch in your hand",
+            "a cat turns up in the dark that needs bringing in"
+          ]
+        },
+        {
+          "page": "rescue-a-dog.html",
+          "form": "dogdoor",
+          "line": "the park the morning after snow, and a dog out there who needs bringing in. Follow the prints.",
+          "holds": [
+            "the morning after snow",
+            "Follow the prints"
+          ]
+        },
+        {
+          "page": "rescue-small-animals.html",
+          "form": "mousehole",
+          "line": "under the floorboards of a shop, where a rabbit, a rat, a mouse, a hamster, a gerbil, a guinea pig, a chinchilla, a ferret or a hedgehog turns up in a strip of daylight.",
+          "holds": [
+            "under the floorboards of the shop",
+            "lying on the dust in long pale strips"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Somewhere to go with them",
+      "line": "Where the shelters’ cats and dogs come out, and where the ones you adopted can be let out for a while among them.",
+      "doors": [
+        {
+          "page": "pekoe-and-purrs.html",
+          "form": "porthole",
+          "line": "a cat café with a window at every height cut to the size of a cat, every cat from the shelter in it, and one on your lap if they want to be.",
+          "holds": [
+            "a window at every height",
+            "unless they want to be left alone, which is allowed"
+          ]
+        },
+        {
+          "page": "the-run.html",
+          "form": "propped",
+          "line": "a dog park painted in the colours a dog can see, with a porch, a blue ball and every dog from the shelter out for a run.",
+          "holds": [
+            "painted in the colours a dog can see",
+            "every dog from the shelter out for a run"
+          ]
+        },
+        {
+          "page": "truckin-food-court.html",
+          "form": "hatch",
+          "line": "the Truck Stop, where one of the five trucks makes nothing but treats for dogs, and every bag says so.",
+          "holds": [
+            "Everything on this truck is for a dog, and it says so on every bag."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Animals of another kind",
+      "line": "A home for good for animals nobody else could keep, and a creature of your own making to keep you company.",
+      "doors": [
+        {
+          "page": "all-needs-met.html",
+          "form": "barn",
+          "line": "a sanctuary for animals who are disabled or were abandoned, seen on the keepers’ night round by their own warmth.",
+          "holds": [
+            "a home for good for animals who are disabled or were abandoned",
+            "They do not carry a torch"
+          ]
+        },
+        {
+          "page": "chimera-obscura.html",
+          "form": "lens",
+          "line": "two animals made into one creature on a round white table, which can follow you round the street as your familiar.",
+          "holds": [
+            "it follows you from room to room as your familiar"
+          ]
+        }
+      ]
+    }
+  ],
+  "yours": [
+    {
+      "name": "Adopt one.",
+      "line": "Adopt an animal at one of the shelters and they come home to Profile on your CB radio, where you can give them a name, show them to anybody who presses your handle, and send one to the channel as a sticker.",
+      "holds": {
+        "cb-guide.html": [
+          "Every pet you have adopted, with its drawing, its name",
+          "Show my pets on the CB lets anybody on the CB press your handle",
+          "A drawing of one of the sender’s avatars, pets or patches"
+        ]
+      }
+    },
+    {
+      "name": "Let them out.",
+      "line": "A cat you adopted can be let out in [Pekoe and Purrs](pekoe-and-purrs.html), and a dog off the lead on [the Run](the-run.html), among the animals still waiting for homes, until you take them home again. Their card says they have a home, and never whose.",
+      "holds": {
+        "pekoe-and-purrs.html": [
+          "you can let them out in the café for a while",
+          "Their card says they have a home, and never whose."
+        ],
+        "the-run.html": [
+          "you can let them off the lead on the Run for a while",
+          "Their card says they have a home, and never whose."
+        ]
+      }
+    },
+    {
+      "name": "Badges.",
+      "line": "The [Adventurer’s Guild](adventurers-guild.html) has one for bringing an animal in, Rescue Ranger, and one for adopting one, Pet Parent. Nothing on the street knows who rescued which animal, so the first is only ever in your own browser.",
+      "holds": {
+        "adventurers-guild.html": [
+          "Rescue Ranger",
+          "Pet Parent",
+          "Nothing on the street knows who rescued which animal"
+        ]
+      }
+    },
+    {
+      "name": "A familiar.",
+      "line": "A chimera you make at [Chimera Obscura](chimera-obscura.html) can follow you from room to room, sitting wherever there are no words, the way a cat does.",
+      "holds": {
+        "chimera-obscura.html": [
+          "it follows you from room to room as your familiar, sitting wherever there are no words"
+        ]
+      }
+    }
+  ],
+  "not_here": [
+    {
+      "name": "Nothing clinical.",
+      "line": "An animal is company, not a treatment, and nothing here says what one will do for your health. This room is not a vet either: an animal who is ill or hurt needs one."
+    },
+    {
+      "name": "No best pet.",
+      "line": "Nobody here is told which animal to get, and no animal, kind or breed is ranked above another. There is no standard pet."
+    },
+    {
+      "name": "Nobody counted.",
+      "line": "Nothing here counts anybody’s animals. The shelters never say who rescued or adopted anybody, and nor does this room."
+    },
+    {
+      "name": "Nothing for sale.",
+      "line": "No animal on this street has a price on it, and none ever will."
+    },
+    {
+      "name": "Nothing moves.",
+      "line": "Everybody is asleep, so nothing in this room moves at any setting, MAX GLITTER included, and the lamp is never switched on. The fractal window at the foot of the page moves only when you switch it on, in a window of its own."
+    }
+  ],
+  "channel": {
+    "pictures": {
+      "holds": {
+        "privacy.html": [
+          "is redrawn in your own browser before it leaves it, which takes off everything a camera or a phone writes into the file, where it was taken first of all"
+        ]
+      }
+    },
+    "care": {
+      "holds": {
+        "community-care.html": [
+          "This is the room where you ask."
+        ]
+      }
+    }
+  },
+  "floor": {
+    "seed": 2024,
+    "flaps": [
+      70,
+      680,
+      470,
+      935,
+      1160
+    ]
+  }
+}

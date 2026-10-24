@@ -1368,6 +1368,18 @@
 @font-face { font-family: 'Funnel Sans'; src: url('fonts/funnel-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Funnel Sans'; src: url('fonts/funnel-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Pets. A NAME ON A BOWL, AND A VOICE WITH NOTHING SHARP IN IT. Coiny, by
+   Marcelo Magalhães, is round and heavy, the letters on a pet's bowl or a tag
+   on a collar. It sets the room's name, its headings and the name on its
+   street door, and nothing at reading size. Zen Maru Gothic, by Yoshimichi
+   Ohira, carries every word that is read: a rounded sans for a room where
+   everybody has settled. Both are cut down to the Latin letters and saved as
+   WOFF2; neither reserves its name. Read off their own records; see
+   fonts/_sources.json. */
+@font-face { font-family: 'Coiny'; src: url('fonts/coiny-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Zen Maru Gothic'; src: url('fonts/zen-maru-gothic-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Zen Maru Gothic'; src: url('fonts/zen-maru-gothic-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -4139,6 +4151,26 @@
   --cop-foot: #5F6B78;  --cop-storm: #27313C;  --cop-rain: #7E8A97;
   --cop-shade: #C9D1D7;  --cop-sun: #F1B53A;
 
+  /* Pets (§127): down on the floor with the animals at the end of the day,
+     the lamp not on. --pts-dusk is the room going dark, the ground every word
+     on the page stands on; --pts-ink is every word, --pts-ink-2 the quiet
+     lines, and --pts-link every link and the focus ring, in the colour of the
+     last light. --pts-card is the slips and flaps' cards lying on the floor.
+     The rest carry no word: --pts-wall the far wall, --pts-skirting the
+     skirting board and the flaps' frames, --pts-floor the boards, --pts-rug
+     the rug, --pts-sheen the last light lying on the floor and on the smoky
+     plastic of a flap, --pts-sky and --pts-zenith the sky in the window,
+     --pts-glow the last of the light low in it and on the window side of
+     everything, --pts-night the trees outside and every outline, --pts-flap
+     a flap and the unlit lamp, and --pts-dog and --pts-cat the two warm
+     things on the floor, which are asleep. */
+  --pts-dusk: #2A2C45;  --pts-card: #343655;  --pts-ink: #EFE7D7;
+  --pts-ink-2: #C3BFD5;  --pts-link: #F4CD8E;  --pts-wall: #383A5B;
+  --pts-skirting: #1E1F34;  --pts-floor: #403A56;  --pts-rug: #533F5B;
+  --pts-sheen: #6E6A8C;  --pts-sky: #8EA2CF;  --pts-zenith: #56679C;
+  --pts-glow: #E9B983;  --pts-night: #14152A;  --pts-flap: #5E6286;
+  --pts-dog: #A68567;  --pts-cat: #C08758;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5589,6 +5621,19 @@ div.facade--square { border: 0; background: none; }
 .door--cop .door__name  { font-family: 'Funnel Display', var(--sans); font-weight: 800; color: var(--cop-ink); font-size: 30px; line-height: 1.05; font-synthesis: none; }
 .door--cop .door__blurb { font-family: 'Funnel Sans', var(--sans); color: var(--cop-ink); font-size: 15px; font-synthesis: none; }
 .door--cop .door__knock { font-family: 'Funnel Sans', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .04em; color: var(--cop-link); font-synthesis: none; }
+/* PETS' AWNING IS THE SKY THROUGH ITS WINDOW AT DUSK: the last light low at
+   the left, where the window is, going up and across into blue. The door under
+   it is the room going dark, with the last light on its window side and a pet
+   flap's worth of skirting board along its foot. No stripes. */
+.door--pts { background-color: var(--pts-dusk); border-color: var(--pts-night); box-shadow: inset 4px 0 0 var(--pts-glow), inset 0 -10px 0 var(--pts-skirting); }
+.door--pts .door__awning {
+  background-color: var(--pts-zenith);
+  background-image: linear-gradient(to top right, var(--pts-glow) 0, var(--pts-sky) 38%, var(--pts-zenith) 82%);
+  border-bottom: 4px solid var(--pts-night);
+}
+.door--pts .door__name  { font-family: 'Coiny', var(--sans); font-weight: 400; color: var(--pts-ink); font-size: 32px; line-height: 1.05; font-synthesis: none; }
+.door--pts .door__blurb { font-family: 'Zen Maru Gothic', var(--sans); color: var(--pts-ink); font-size: 15px; font-synthesis: none; }
+.door--pts .door__knock { font-family: 'Zen Maru Gothic', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .04em; color: var(--pts-link); font-synthesis: none; }
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -17637,7 +17682,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §128
+   class on it is `bb-`, its sizes are in points and millimetres, and §129
    prints it and nothing else. */
 
 .room-broadside {
@@ -17698,7 +17743,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §128 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §129 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -27147,7 +27192,154 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .cop-seeds, .cop-scripts { grid-template-columns: 1fr; }
 }
 
-/* §127 ── Small screens───────────────────────────────────────────────────────
+/* §127 ── ROOM: Pets (a shopfront on the street) ────────────────────────────
+   Down on the floor with the animals at the end of the day. Ryan's brief,
+   2026-10-24: a Pets room, its channel under Community on the chat page,
+   saying how important co-regulating with pets is for many Autistic people and
+   for humans in general, because mammalian co-regulation is a thing, with
+   doors to every Pets room. tools/make-pets.py writes the floor, every
+   section, the pet flaps and the credits.
+
+   THE ROOM IS STILLNESS, AND THE LAMP IS THE PROOF. The dog is asleep on the
+   rug, the cat has curled up beside the dog, a rabbit is loafing by the
+   skirting board, and the light in the window is going. Nobody has switched
+   the lamp on, because getting up would mean moving somebody. That is
+   co-regulation made into a room: being still with an animal until you are as
+   settled as they are. So the lamp is drawn, and its switch is drawn lying on
+   the floor where nobody reached for it, and it is never lit.
+
+   THE LIGHT IS THE SKY'S, GOING, THROUGH ONE LOW WINDOW. No sun is in it; the
+   sun has gone down behind the trees. What comes in is the sky itself, pale
+   at the bottom where the last of the day is and blue above, soft, with no
+   edge anywhere, lying level across the floor from the window side and
+   gone before it reaches the far corner. So everything has its window side
+   lit and the rest in the dusk: a line of the last light down the left of
+   every heading, slip and flap, and never on a top. Every word is on the
+   room's dusk or on a slip lying in it; nothing is set on the window.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · THE LAMPLIT ROOMS are the one to watch, every one: the Faery Yurt, the
+       Latibulum, the Den, the Hermitage's cave, the Mopery, Covenstead's
+       patch. Each is warm because something in it is lit. Here nothing is
+       lit, the only warm things are the animals and the last light in the
+       window, and if the lamp is ever switched on this has become one of them.
+     · DEAD TIRED SOCIETY is the other room with the big lights off. Its light
+       is a corridor's tubes through a door left ajar, one hard wedge on the
+       floor, and nobody sits in it. Here the light is the sky's, soft, from a
+       window, and everybody is lying in what is left of it.
+     · PEKOE AND PURRS is the other room with animals asleep in it, and the one
+       next door in spirit: day, a coral wall, a small square of sun under
+       every window cut for a cat, seen from your seat at a table. Here it is
+       the end of the day, one window, no sun, seen from the floor.
+     · RESCUE SMALL ANIMALS is under the floorboards, in strips of day through
+       the cracks. This is on top of the boards, in one soft wash.
+     · THE CAMPGROUNDS is night-blue under the open sky; THE MODERATORS' ROOM
+       is above the street at night with the shopfronts' colours on its
+       ceiling. This is indoors, at floor height, and no ceiling is ever seen.
+     · PANDO CALRISSIAN is the sky after sunset too, the pink band over the
+       earth's shadow, outdoors, facing east. This window faces the west where
+       the light went, and there is no pink in it.
+
+   THE DOORS ARE PET FLAPS, THIS ROOM'S DRAWINGS AND NEVER THE ROOMS'. Each is
+   set into a piece of this room's wall above its skirting board, sized for
+   whoever uses it and told apart by its form, the campground board's rule. A
+   flap in a room's own colours would bring a pair nobody measured here.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED. Everybody is asleep.
+   The friendly edits are a wagging tail at MAX and breathing that rises and
+   falls; the tool refuses a keyframe, an animation or a transition here. */
+
+.pets {
+  background-color: var(--pts-dusk); color: var(--pts-ink);
+  font-family: 'Zen Maru Gothic', var(--sans); font-synthesis: none;
+}
+/* THE WINDOW IS ON YOUR LEFT, at the edges of a wide window: the last light
+   lying along the floor at the left, and the room going dark at the right,
+   each ending before the column does, so no word is ever over either. A
+   window too narrow to have room beside the column has neither; the drawing
+   at the top of the page carries the light there. */
+.pets::before {
+  --pts-room: max(0px, calc(50vw - 512px));
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(to right,
+      var(--pts-sheen) 0, var(--pts-floor) calc(var(--pts-room) * .5), var(--pts-dusk) var(--pts-room),
+      var(--pts-dusk) calc(100% - var(--pts-room)),
+      var(--pts-skirting) calc(100% - var(--pts-room) * .4), var(--pts-night) 100%);
+}
+.pets .wrap { width: min(980px, 100% - 44px); }
+.pets a { color: var(--pts-link); text-underline-offset: 3px; }
+.pets a:hover { color: var(--pts-ink); }
+.pets :focus-visible { outline-color: var(--pts-link); }
+.pets :where(p, li) { font-size: 19px; line-height: 1.65; }
+.pets .backlink { font-family: 'Zen Maru Gothic', var(--sans); font-weight: 700; font-size: 16px; color: var(--pts-link); }
+.pts-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.pts-trail { margin: 0; font-size: 16px; color: var(--pts-ink-2); }
+
+.pts-head { margin: 30px 0 0; }
+.pts-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; color: var(--pts-ink-2); }
+.pets h1 {
+  margin: 6px 0 10px; font-family: 'Coiny', var(--sans); font-weight: 400; font-style: normal;
+  font-size: clamp(64px, 13vw, 132px); line-height: .95; color: var(--pts-ink);
+}
+.pts-sub { margin: 0; font-size: 23px; line-height: 1.45; max-width: 40ch; }
+
+.pts-room { margin: 28px 0 0; }
+.pts-floor { display: block; width: 100%; height: auto; border-radius: 10px; }
+.pts-room__words { margin: 12px 0 0; font-size: 16px; line-height: 1.55; color: var(--pts-ink-2); max-width: 64ch; }
+
+.pts-lede { margin: 32px 0 0; max-width: 66ch; }
+.pts-lede > p { margin: 0 0 16px; }
+
+.pts-part { margin: 56px 0 0; }
+.pts-part > p, .pts-part > .pts-quote, .pts-part > .pts-yours, .pts-part > .pts-rules, .pts-part > .pts-credits { max-width: 72ch; }
+.pts-part > p { margin: 0 0 16px; }
+/* EVERY HEADING HAS THE LAST LIGHT DOWN ITS WINDOW SIDE: a bar on a
+   pseudo-element, beside the words and never under them. */
+.pets h2 {
+  position: relative; margin: 0 0 20px; padding-left: 20px; font-family: 'Coiny', var(--sans); font-weight: 400;
+  font-size: clamp(30px, 5vw, 42px); line-height: 1.12; color: var(--pts-ink);
+}
+.pets h2::before { content: ""; position: absolute; left: 0; top: .12em; bottom: .12em; width: 6px; border-radius: 3px; background: var(--pts-glow); }
+.pets h3 { margin: 0 0 8px; font-family: 'Zen Maru Gothic', var(--sans); font-weight: 700; font-size: 22px; line-height: 1.25; color: var(--pts-ink); }
+
+.pts-quote { margin: 22px 0; padding: 2px 0 2px 20px; border-left: 4px solid var(--pts-sky); }
+.pts-quote p { margin: 0; font-size: 21px; line-height: 1.5; color: var(--pts-ink); }
+.pts-quote__who { margin: 8px 0 0; font-size: 16px; line-height: 1.5; color: var(--pts-ink-2); }
+.pts-quote__who cite { font-style: normal; }
+.pts-lede .pts-quote { margin: 4px 0 18px; }
+
+/* THE PET FLAPS, in groups, each group a moment's worth. Every flap is a slip
+   lying in the dusk with the last light down its window side. */
+.pts-groups { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 34px; }
+.pts-group > h3 { margin: 0 0 6px; }
+.pts-group > p { margin: 0 0 16px; max-width: 66ch; color: var(--pts-ink-2); }
+.pts-doors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+.pts-door, .pts-yours li, .pts-rules li {
+  position: relative; display: block; margin: 0; padding: 16px 18px 18px 22px; background: var(--pts-card);
+  border: 2px solid var(--pts-sheen); border-radius: 12px; box-shadow: inset 5px 0 0 var(--pts-glow);
+}
+.pts-door { height: 100%; text-decoration: none; color: var(--pts-ink); }
+.pts-door__art { display: block; width: 100%; height: auto; margin: 0 0 12px; border-radius: 8px; }
+.pts-door__name { display: block; font-weight: 700; font-size: 21px; line-height: 1.25; color: var(--pts-link); text-decoration: underline; text-underline-offset: 3px; }
+.pts-door__line { display: block; margin: 6px 0 0; font-size: 17px; line-height: 1.55; color: var(--pts-ink); }
+.pts-door:hover .pts-door__name { color: var(--pts-ink); }
+
+.pts-yours, .pts-rules { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 14px; }
+.pts-yours li, .pts-rules li { font-size: 18px; }
+.pts-yours strong, .pts-rules strong { font-weight: 700; color: var(--pts-ink); }
+
+.pts-whose .pts-credits { margin: 16px 0 0; padding-left: 22px; }
+.pts-credits li { margin: 0 0 12px; font-size: 17px; color: var(--pts-ink-2); }
+.pts-credits code { font-size: 15px; }
+
+@media (max-width: 720px) {
+  .pets .wrap { width: calc(100% - 32px); }
+  .pts-doors { grid-template-columns: 1fr; }
+  .pts-door__art { max-width: 220px; }
+}
+
+/* §128 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -27251,7 +27443,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §127 says every
+   shipped with no rule here at all — which on a street whose §128 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -27375,7 +27567,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §128 ── Print ───────────────────────────────────────────────────────────────
+/* §129 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

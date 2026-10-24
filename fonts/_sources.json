@@ -3209,5 +3209,33 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/funnelsans/FunnelSans%5Bwght%5D.ttf",
    "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
   }
+ ],
+ "coiny": [
+  {
+   "file": "coiny-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 15084,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/coiny/Coiny-Regular.ttf",
+   "note": "Pets (\u00a7127), the room's name, its headings and the name on its street door, and nothing at reading size: round, heavy letters like the name on a pet's bowl. The family's own static file in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2. Its copyright line reserves no font name."
+  }
+ ],
+ "zen-maru-gothic": [
+  {
+   "file": "zen-maru-gothic-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 15192,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/zenmarugothic/ZenMaruGothic-Regular.ttf",
+   "note": "Pets (\u00a7127), every word that is read: a rounded sans with nothing sharp in it, for a room where everybody has settled. The family's own static Regular in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2; the Japanese is left out because nothing here sets it. Its copyright line reserves no font name."
+  },
+  {
+   "file": "zen-maru-gothic-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 15512,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/zenmarugothic/ZenMaruGothic-Bold.ttf",
+   "note": "Pets (\u00a7127), the bold: each door's name, each thing that is not here, and the knock on the street door. The family's own static Bold in google/fonts, cut down the same way."
+  }
  ]
 }

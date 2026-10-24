@@ -427,6 +427,11 @@
    "room": "Coping"
   },
   {
+   "id": "pts-tag",
+   "title": "Who it is strongest for",
+   "room": "Pets"
+  },
+  {
    "id": "booth-strip",
    "title": "Only you describe you",
    "room": "The Bodymind Booth"

@@ -1060,6 +1060,23 @@
     }
    ]
   },
+  "coiny": {
+   "family": "Coiny",
+   "category": "Display",
+   "designer": "Marcelo Magalhães",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/coiny",
+   "copyright": "Copyright 2015 Marcelo Magalhaes (marcelommp@gmail.com @marcelommp)",
+   "repository": "https://github.com/marcelommp/Coiny",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "coiny-400.woff2",
+     "sha": "2afa595bfd8ffd2d"
+    }
+   ]
+  },
   "comfortaa": {
    "family": "Comfortaa",
    "category": "Display",
@@ -4549,6 +4566,29 @@
      "style": "normal",
      "file": "ysabeau-infant-400.woff2",
      "sha": "c3a2efde2191720c"
+    }
+   ]
+  },
+  "zen-maru-gothic": {
+   "family": "Zen Maru Gothic",
+   "category": "Sans Serif",
+   "designer": "Yoshimichi Ohira",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/zenmarugothic",
+   "copyright": "Copyright 2021 The Zen Maru Gothic Authors (https://github.com/googlefonts/zen-marugothic)",
+   "repository": "https://github.com/googlefonts/zen-marugothic",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "zen-maru-gothic-400.woff2",
+     "sha": "9b205ef7f16f2921"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "zen-maru-gothic-700.woff2",
+     "sha": "2f8b96e1da3f61b2"
     }
    ]
   },

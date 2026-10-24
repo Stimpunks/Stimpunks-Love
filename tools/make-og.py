@@ -1083,6 +1083,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cop h1 {{ font-size: 104px; margin-top: 2px !important; }}
 .og--cop .cop-sub {{ font-size: 28px; margin-top: 6px !important; max-width: 1060px; }}
 
+/* pets — THE FLOOR AT DUSK. The page's own drawing, lifted rather than
+   redrawn, cropped to the window, the skirting board and the animals asleep on
+   the rug, and every word below it in the room's dusk, where the room sets
+   every word. The light at the page's edges stays off the card, and the lamp
+   stays off everywhere. */
+.pets::before {{ display: none; }}
+.og--pts {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--pts .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--pts .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border-radius: 0; }}
+.og--pts .og-words {{ padding: 14px 60px 0; }}
+.og--pts .og-words > * {{ margin: 0 !important; }}
+.og--pts .pts-over {{ font-size: 18px; }}
+.og--pts h1 {{ font-size: 96px; margin-top: 4px !important; line-height: .95; }}
+.og--pts .pts-sub {{ font-size: 27px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4176,6 +4191,39 @@ def card_cop(p):
     )
 
 
+def card_pts(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE FLOOR ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="pts-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="pts-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: pets.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the window, the skirting board and the rug, cropped by the
+    # drawing's own viewBox rather than by a margin, so nothing runs off it.
+    floor = p["ptsfloor"].replace('viewBox="0 0 1200 440"', 'viewBox="0 48 1200 392"', 1)
+    if floor == p["ptsfloor"]:
+        raise SystemExit(
+            "REFUSING: pets.html's floor is no longer 1200 by 440, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--pts" data-fit="card">'
+        f'<div class="og-room">{floor}</div>'
+        f'<div class="og-words"><p class="pts-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="pts-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A dusky blue card. Across the top, the far wall of a room at the end of the day, seen from down on the "
+        f"floor: one low window with the sky going pale gold over dark trees and blue above, a floor lamp in the "
+        f"corner with its light off, pet flaps of different sizes along the skirting board, and on the rug a fawn "
+        f"dog curled up asleep with a ginger cat curled up beside it, and a grey rabbit by the wall. Below, small "
+        f"lilac capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large, round, heavy "
+        f"cream letters, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5666,6 +5714,7 @@ CARDS = {
     "chimera-obscura": card_chimera,
     "community-care": card_care,
     "coping": card_cop,
+    "pets": card_pts,
     "show-your-work": card_syw,
     "breaker": card_bkb,
     "fancy-dress": card_fancy,
@@ -5808,6 +5857,7 @@ def main():
         ("chmscene", "chimera-obscura.html", r'(<svg class="chm-scene__draw".*?</svg></g></svg>)'),
         ("cmcroof",  "community-care.html", r'(<svg class="cmc-canopy".*?</svg>)'),
         ("copeye",   "coping.html",       r'(<svg class="cop-eye".*?</svg>)'),
+        ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
         ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
         ("bkbcab",   "breaker-breaker.html", r'(<svg class="bkb-cab".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),

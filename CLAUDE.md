@@ -4027,7 +4027,7 @@ list of conversations is asked from `listen()` at most every `NEWS_EVERY` (`chat
 conversation is never in the address, because the address goes into the browser's history. The channel's pick lives only
 in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
 World or This room, popped) as they are stored, so the chat page never resizes or retunes the radio on another page. The
-groups: Community (World, the Community Center, Community Care, Coping, Show Your Work and Cavendish's rooms out of
+groups: Community (World, the Community Center, Community Care, Coping, Pets, Show Your Work and Cavendish's rooms out of
 `data/coworking.json`), Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`), and **every room
 but Staff's and World under each of its tags**, Community's too (Ryan's asks, 2026-10-24, replacing the one World group). `tools/make-chat.py` writes them onto
 the page and refuses a quiet room there, because the page is public. **ROOM TAGS ARE `data/room-tags.json`**: the tags in
@@ -5001,6 +5001,27 @@ the room keeps it in our page's voice and `DECISIONS.md` has it open, because th
 first. Funnel Display sets the name and headings, Funnel Sans everything read: one family, because a room for steadying
 yourself does not change its voice between the sign and the page.
 
+**PETS (§127) IS THE FLOOR AT THE END OF THE DAY, AND THE LAMP IS NEVER SWITCHED ON.** Ryan's brief, 2026-10-24: a Pets
+room, its channel under Community on the chat page (`COMMUNITY` in `tools/make-chat.py`), saying how important
+co-regulating with pets is for many Autistic people and for humans in general, because mammalian co-regulation is a
+thing, and linking every Pets room, presented as doors. `tools/make-pets.py` builds it out of `data/pets.json`. **The
+world is co-regulation made into a room**: down on the floor with a dog and a cat asleep on the rug and a rabbit by the
+skirting board, the window going dark, and nobody switching the lamp on, because getting up would mean moving somebody.
+So the lamp is drawn, its switch lies on the floor, and **the tool refuses the lamp wearing the light's or the words'
+inks**; the friendly edit is the lamp lit "so it is cosy", which makes this one more lamplit room, and every lamplit
+room is the collision §127 lists. **The light is the sky's, going**, through one low window, soft, level, from the
+left: a line of it down the window side of every heading, slip and flap, never on a top. **The doors are pet flaps**,
+this room's drawings and never the rooms', told apart by form and sized for whoever uses them, and **every room tagged
+`pets` in `data/room-tags.json` must have one**: a new pets room cannot build until it has a flap here. Each flap and
+every sentence about your own animals carries `holds` on the pages it describes. **Most quotations are other
+people's words our glossary quotes** (Trauma Geek, NDConnection, Helen Edgar, Julie Bjelland, Midwest FurFest, a video
+on body doubling), each credited to who wrote it and said to be read on our page, and checked against the mirror word
+for word; NDConnection's lines about mammals are Polyvagal Theory's, disputed, and kept in its voice as Coping keeps
+its own. **The friendly edits are a sentence about what a pet does for your health (oxytocin, cortisol, blood
+pressure, therapy), the best pets for Autistic people, a count of who has pets, and a wagging tail at MAX**; the tool
+sweeps our words for the first three with the negation window and refuses a keyframe, an animation or a transition in
+§127. Coiny sets the name and headings, Zen Maru Gothic everything read.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
@@ -5226,18 +5247,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §128 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §129 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§128 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§129 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §128 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §129 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

@@ -1667,6 +1667,20 @@
       "sections": [
         126
       ]
+    },
+    "coiny": {
+      "where": "Pets",
+      "page": "pets.html",
+      "sections": [
+        127
+      ]
+    },
+    "zen-maru-gothic": {
+      "where": "Pets",
+      "page": "pets.html",
+      "sections": [
+        127
+      ]
     }
   }
 }

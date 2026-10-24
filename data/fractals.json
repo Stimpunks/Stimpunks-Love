@@ -2022,6 +2022,24 @@
         "--cop-sun"
       ]
     },
+    "pets.html": {
+      "kind": "phoenix",
+      "c": [
+        0.5667,
+        0
+      ],
+      "p": -0.5,
+      "orbit": 0.008,
+      "spin": 0.04,
+      "span": 1.6,
+      "ground": "--pts-dusk",
+      "inks": [
+        "--pts-zenith",
+        "--pts-sky",
+        "--pts-glow",
+        "--pts-sheen"
+      ]
+    },
     "breaker-breaker.html": {
       "kind": "orbit",
       "trap": "point",

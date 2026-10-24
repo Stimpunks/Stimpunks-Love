@@ -2804,6 +2804,39 @@
    }
   },
   {
+   "id": "pts-tag",
+   "page": "pets.html",
+   "room": "Pets",
+   "title": "Who it is strongest for",
+   "posted": "There is a shopfront on the street where everybody is down on the floor at the end of the day with the animals asleep, and nobody has switched the lamp on. One of the lines quoted in there says which animals co-regulation is the strongest safety cue for. Go and find out.",
+   "rank": 1,
+   "takes": "about as long as a dog takes to turn round three times and lie down",
+   "target": "a collar tag come off on the floor by the skirting board, with a paw stamped on it",
+   "code": "COLLARTAG",
+   "learned": "Our Polyvagal Theory entry quotes NDConnection: co-regulation, the subconscious process of syncing up with a coherent nervous system, is the strongest safety cue for mammals, and that includes cats, dogs and horses as much as people.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, between Coping and Show Your Work: the one whose awning is the sky through a window at dusk.",
+    "It is under Co-regulation, and why it is not only people.",
+    "Right at the foot of the room, on the floor, where somebody's collar tag came off."
+   ],
+   "ask": {
+    "question": "Co-regulation is the strongest safety cue for which animals, in the line our Polyvagal Theory entry quotes?",
+    "accept": [
+     "mammals",
+     "mammal",
+     "all mammals",
+     "for mammals"
+    ],
+    "answer": "Mammals",
+    "why": "The line our Polyvagal Theory entry quotes says co-regulation, the subconscious process of syncing up with a coherent nervous system, is the strongest safety cue for mammals, and the next one says that includes cats, dogs and horses.",
+    "hints": [
+     "It is in the first quotation after the paragraph that says it is not only people.",
+     "Cats, dogs, horses and people are all one.",
+     "Mammals."
+    ]
+   }
+  },
+  {
    "id": "booth-strip",
    "page": "bodymind-booth.html",
    "room": "The Bodymind Booth",

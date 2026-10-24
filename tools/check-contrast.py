@@ -919,6 +919,10 @@ BKB_GLASS = "#050506"
 # the cloud, the storm or the sun.
 COP_FLOOR, COP_INK, COP_INK2, COP_LINK = "#EEF2F4", "#1C2530", "#44505D", "#0E5891"
 COP_CLOUD = "#FFFFFF"
+# Pets (love.css §127). Down on the floor at the end of the day, the lamp not
+# on: every word on the room's dusk, or on a slip lying in it; nothing set on
+# the window, the wall or the rug.
+PTS_DUSK, PTS_CARD, PTS_INK, PTS_INK2, PTS_LINK = "#2A2C45", "#343655", "#EFE7D7", "#C3BFD5", "#F4CD8E"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3639,6 +3643,18 @@ PAIRS = [
     (COP_INK2,  COP_CLOUD, False, "coping: whose a quotation is on a slip, the cope map's answers and arrows, and "
                                   "a borrowed line's dashed edge"),
     (COP_LINK,  COP_CLOUD, False, "coping: a link on a slip, and the focus ring there"),
+    # ── Pets (§127) ─────────────────────────────────────────────────────────
+    # Every word in the room's dusk, or on a slip lying in it: the flaps, your
+    # own animals, what is not on the floor and who reads the channel.
+    (PTS_INK,   PTS_DUSK, False, "pets: the name, every heading, the lede, every paragraph and quotation, the "
+                                 "street door's name and blurb"),
+    (PTS_INK2,  PTS_DUSK, False, "pets: the trail, the line over the name, the caption under the floor, whose "
+                                 "each quotation is, the line under each group of flaps, and the credits"),
+    (PTS_LINK,  PTS_DUSK, False, "pets: every link, the backlink, the street door's knock, the focus ring, and "
+                                 "the job marker's collar tag, held to the body threshold a marker is"),
+    (PTS_INK,   PTS_CARD, False, "pets: everything on a slip: each flap's line, your own animals, what is not "
+                                 "on the floor and who reads the channel"),
+    (PTS_LINK,  PTS_CARD, False, "pets: each flap's name and every link on a slip, and the focus ring there"),
     # ── Breaker Breaker (§125) ──────────────────────────────────────────────
     # Every word on the dark, which is the cab, the road and the sky alike, or on
     # the screen's glass; no word on a lamp.
@@ -4771,6 +4787,35 @@ ORNAMENT = {
     "#f1b53a": "coping: the sun on the top edge of everything, every heading's line, every slip's and every "
                "door's top, the star on one door and the marker's packet top, 1.63 on the floor and 8.41 "
                "against --cop-ink. It is light landing, and carries no word.",
+    "#383a5b": "pets: the far wall in the drawing and behind every flap, 1.25 against the dusk beside the "
+               "picture, which is how a wall looks at the end of the day. It carries no word.",
+    "#1e1f34": "pets: the skirting board, the window's frame and sill, the flaps' frames and the floorboards' "
+               "joins in the drawing, and the foot of the street door, 1.48 on the wall, carried by "
+               "--pts-night along its top. At the right edge of a wide window it is the room going dark, "
+               "beside the words and never under them. It carries no word.",
+    "#403a56": "pets: the floorboards in the drawing and under every flap, and the floor at the left edge of a "
+               "wide window, 1.27 against the dusk, a floor at dusk. It carries no word.",
+    "#533f5b": "pets: the rug the animals are asleep on in the drawing, 1.14 on the boards, carried by "
+               "--pts-night round its edge at 1.91 and a ring of --pts-flap inside it. It carries no word.",
+    "#6e6a8c": "pets: what is left of the light lying on the floor in the drawing and on every flap's floor, "
+               "the rabbit, the hinge bars, the sill's top, the edge of every slip at 2.66 on the dusk and "
+               "2.27 on a slip, and the window light at the left edge of a wide window. It carries no word.",
+    "#8ea2cf": "pets: the sky in the window, a flap's little windows and a lens, and the rule beside every "
+               "quotation, 5.32 on the dusk, which is what marks a quotation as one. It carries no word.",
+    "#56679c": "pets: the sky at the top of the window in the drawing, the ball on the Run's flap and the "
+               "street door's awning, 2.15 against the paler sky below it. It carries no word.",
+    "#e9b983": "pets: the last of the light, low in the window and down the window side of everything, every "
+               "heading's bar, every slip's and every flap's left edge, 7.60 on the dusk and 6.50 on a slip. "
+               "It is light landing, and carries no word.",
+    "#14152a": "pets: every outline in the drawing, the trees outside the window, the inside of a mouse hole, a "
+               "lens's ring and the street door's edge, 5.27 against the dog and 5.85 against the cat. It "
+               "carries no word.",
+    "#5e6286": "pets: every flap and the lamp, which is off, 1.85 on the wall and 2.74 in its frame, carried "
+               "by --pts-night round each. It carries no word.",
+    "#a68567": "pets: the dog asleep on the rug in the drawing, 2.77 on the rug and 5.27 against the outline "
+               "round it. It carries no word, and nobody in particular.",
+    "#c08758": "pets: the cat curled up beside the dog in the drawing, 3.07 on the rug and 5.85 against the "
+               "outline round it. It carries no word, and nobody in particular.",
     "#2e2c30": "breaker breaker: the shapes you can just make out in the dark, the mirror, the dash, the "
                "radio, its knobs and the microphone's cord in the drawing, and the screen's frame, 1.40 on the "
                "night, which is how a dash looks at night. It carries no word.",
