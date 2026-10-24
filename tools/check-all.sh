@@ -48,9 +48,12 @@
 # measured rather than guessed. The first measured run (2026-10-24) took 15m 19s,
 # nine minutes of it check-gentle, check-focus and check-contrast-live one after
 # another; those three now run side by side (a + in STEPS joins them), because
-# each only reads, and each keeps its own probe file and Chrome profile. perl gives tenths of a second (the bash on a Mac
-# is 3.2, which has no clock of its own finer than a second); without perl it
-# counts whole seconds.
+# each only reads and keeps its own probe file and Chrome profile (a profile of
+# its own starts Chrome much faster: the three took 177s together with one and
+# 275s without). make-og.py draws its cards several at a time inside itself,
+# WITHOUT a profile of its own, because a profile changes the height of the
+# viewport a card is laid out in, and that moved thirteen cards' prints. perl gives tenths of a second (the bash on a Mac is 3.2, which has no
+# clock of its own finer than a second); without perl it counts whole seconds.
 set -uo pipefail
 cd "$(dirname "$0")/.."
 

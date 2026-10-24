@@ -56,6 +56,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -65,6 +66,9 @@ OUT = ROOT / "og"
 from windows import WINDOWS
 NO_CARD = {"404.html"} | WINDOWS
 W, H = 1200, 630
+# How many cards Chrome draws at once: half the machine's cores, at most six. Each
+# is a Chrome of its own, and more than that only queues them. See main().
+RENDERERS = max(1, min(6, (os.cpu_count() or 2) // 2))
 
 CANDIDATES = [
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -6271,9 +6275,23 @@ def main():
     prints = json.loads(PRINTS.read_text()) if PRINTS.exists() else {}
     fresh, kept = {}, []
 
+    # SEVERAL CARDS AT A TIME (Ryan's ask, 2026-10-24, when this was the slowest
+    # step in check-all.sh at over three minutes). Each card is one Chrome call
+    # that knows nothing of the others, so RENDERERS of them run at once; then
+    # every card is decided -- whether it fits, what it was made from, keep or
+    # redraw -- in page order, exactly as when they ran one after another. Every
+    # print came out the same, measured against the one-at-a-time run.
+    # NEVER GIVE THESE CHROMES A --user-data-dir. A profile of its own changes the
+    # height of the viewport Chrome lays a card out in (one card's min-height came
+    # out 487px instead of 543px), which moved thirteen cards' prints and would
+    # have redrawn them all with nothing changed. Headless Chrome keeps a
+    # throwaway profile per run already, so side by side they never share one.
+    # (The checkers in check-all.sh do take a profile each, because it starts
+    # Chrome faster and they keep no prints.)
     with tempfile.TemporaryDirectory(dir=ROOT) as tmp:
         tmpdir = Path(tmp)
         (tmpdir / "card.css").write_text(CARD_CSS)
+        jobs = []
         for p in pages:
             p.update(lifted)
             ambient, card, alt = CARDS[p["room"]](p)
@@ -6288,65 +6306,89 @@ def main():
             html_path = tmpdir / f"{p['stem']}.html"
             html_path.write_text(doc)
             png = OUT / f"{p['stem']}.png"
+            jobs.append({"p": p, "alt": alt, "html": html_path, "png": png,
+                         "before": png.read_bytes() if png.exists() else None})
+
+        def render(job):
             # Out of the way first, so a picture left from an earlier run can
             # never pass for one Chrome has just made.
-            before = png.read_bytes() if png.exists() else None
-            png.unlink(missing_ok=True)
+            job["png"].unlink(missing_ok=True)
+            proc = subprocess.run(
+                [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
+                 "--hide-scrollbars", "--force-device-scale-factor=1",
+                 "--force-color-profile=srgb",
+                 f"--window-size={W},{H}",
+                 "--virtual-time-budget=5000",
+                 f"--screenshot={job['png']}", "--dump-dom", job["html"].as_uri()],
+                check=True, capture_output=True, timeout=180,
+            )
+            job["out"] = proc.stdout.decode("utf-8", "replace")
+            job["done"] = True
 
-            try:
-                proc = subprocess.run(
-                    [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
-                     "--hide-scrollbars", "--force-device-scale-factor=1",
-                     "--force-color-profile=srgb",
-                     f"--window-size={W},{H}",
-                     "--virtual-time-budget=5000",
-                     f"--screenshot={png}", "--dump-dom", html_path.as_uri()],
-                    check=True, capture_output=True, timeout=180,
-                )
-            except BaseException:
-                # A Chrome that hangs or crashes must not cost the card it was
-                # replacing: the committed picture goes back before stopping.
-                if before is not None:
+        pool = ThreadPoolExecutor(max_workers=RENDERERS)
+        try:
+            for f in [pool.submit(render, j) for j in jobs]:
+                f.result()
+        except BaseException:
+            # A Chrome that hangs or crashes, or a run stopped part way, must not
+            # cost the cards it was replacing: once the renders still going have
+            # finished, every committed picture whose new one is not done goes
+            # back before stopping.
+            pool.shutdown(wait=True, cancel_futures=True)
+            for j in jobs:
+                if not j.get("done") and j["before"] is not None:
+                    j["png"].write_bytes(j["before"])
+            raise
+        pool.shutdown(wait=True)
+
+        decided = 0
+        try:
+            for j in jobs:
+                p, alt, png, before = j["p"], j["alt"], j["png"], j["before"]
+                fit = field(j["out"], r'<meta id="og-fit" content="([^"]*)"')
+                if not png.exists():
+                    raise SystemExit(f"REFUSING: Chrome produced no image for {p['file']}.")
+                raw = png.read_bytes()
+                w, h = struct.unpack(">II", raw[16:24])
+                if (w, h) != (W, H):
+                    raise SystemExit(
+                        f"REFUSING: {png.name} came out {w}x{h}, not {W}x{H}. Every "
+                        "unfurler\ncrops to its own aspect ratio from the size it is given."
+                    )
+                if not fit:
+                    raise SystemExit(
+                        f"REFUSING: {p['file']}'s card did not report whether it fits.\n"
+                        "The measurement is the only reason to trust the picture; a card\n"
+                        "that skipped it is a card nobody checked."
+                    )
+                got = field(j["out"], r'<meta id="og-print" content="([^"]*)"')
+                if not got:
+                    raise SystemExit(
+                        f"REFUSING: {p['file']}'s card did not report what it was made from,\n"
+                        "so there is no telling a new card from the old one drawn by another Mac."
+                    )
+                made = made_from(got, faces)
+                note = ""
+                was = prints.get(p["stem"], {})
+                if (before is not None and before != raw and was.get("made_from") == made
+                        and was.get("png") == hashlib.sha256(before).hexdigest()):
                     png.write_bytes(before)
-                raise
-            fit = field(proc.stdout.decode("utf-8", "replace"),
-                        r'<meta id="og-fit" content="([^"]*)"')
-            if not png.exists():
-                raise SystemExit(f"REFUSING: Chrome produced no image for {p['file']}.")
-            raw = png.read_bytes()
-            w, h = struct.unpack(">II", raw[16:24])
-            if (w, h) != (W, H):
-                raise SystemExit(
-                    f"REFUSING: {png.name} came out {w}x{h}, not {W}x{H}. Every "
-                    "unfurler\ncrops to its own aspect ratio from the size it is given."
-                )
-            if not fit:
-                raise SystemExit(
-                    f"REFUSING: {p['file']}'s card did not report whether it fits.\n"
-                    "The measurement is the only reason to trust the picture; a card\n"
-                    "that skipped it is a card nobody checked."
-                )
-            got = field(proc.stdout.decode("utf-8", "replace"),
-                        r'<meta id="og-print" content="([^"]*)"')
-            if not got:
-                raise SystemExit(
-                    f"REFUSING: {p['file']}'s card did not report what it was made from,\n"
-                    "so there is no telling a new card from the old one drawn by another Mac."
-                )
-            made = made_from(got, faces)
-            note = ""
-            was = prints.get(p["stem"], {})
-            if (before is not None and before != raw and was.get("made_from") == made
-                    and was.get("png") == hashlib.sha256(before).hexdigest()):
-                png.write_bytes(before)
-                raw = before
-                kept.append(p["stem"])
-                note = "kept: same card, this Mac draws its edges differently"
-            fresh[p["stem"]] = {"made_from": made, "png": hashlib.sha256(raw).hexdigest()}
-            ok = fit == "ok"
-            (failed if not ok else built).append((p, alt, fit))
-            print(f"{'ok  ' if ok else 'FAIL'} {p['room']:<13} {png.name:<22} "
-                  f"{len(raw)//1024:>4} KB  {note if ok else fit}")
+                    raw = before
+                    kept.append(p["stem"])
+                    note = "kept: same card, this Mac draws its edges differently"
+                fresh[p["stem"]] = {"made_from": made, "png": hashlib.sha256(raw).hexdigest()}
+                ok = fit == "ok"
+                (failed if not ok else built).append((p, alt, fit))
+                print(f"{'ok  ' if ok else 'FAIL'} {p['room']:<13} {png.name:<22} "
+                      f"{len(raw)//1024:>4} KB  {note if ok else fit}")
+                decided += 1
+        except BaseException:
+            # Stopping part way through deciding puts back the committed picture
+            # of the card that refused and of every card not yet decided.
+            for j in jobs[decided:]:
+                if j["before"] is not None:
+                    j["png"].write_bytes(j["before"])
+            raise
 
     if failed:
         print(

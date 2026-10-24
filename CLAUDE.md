@@ -42,7 +42,10 @@ first. So:
      took and ends with the slowest, so a speed-up starts from a measurement. check-gentle,
      check-contrast-live and check-focus run side by side (a `+` joins them in `STEPS`), because
      each only reads and keeps its own probe file and Chrome profile; never join a step that
-     writes, and a new checker that renders pages lists them without dotfiles, as those three do. Do not add a file
+     writes, and a new checker that renders pages lists them without dotfiles, as those three do.
+     make-og.py draws its cards several at a time too, **and its Chromes must never get a
+     `--user-data-dir`**: a profile of its own changes the height of the viewport a card is laid
+     out in, which moved thirteen cards' prints (pictures unchanged) the first time it was tried. Do not add a file
      to `NOTES` that any generator reads, and do not make the quick path guess about any other
      change: a page, a data file or a stylesheet can change a room nobody touched.
   3. **Commit and push when you stop.** Work left uncommitted blocks the other person's turn, and
