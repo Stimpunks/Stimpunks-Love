@@ -26,8 +26,12 @@
    kept, and nothing is counted. A message sent tells the other person's
    devices that switched on When somebody messages me (notifyDm), after it is
    in the conversation, so a slow push service never holds the press up. The
-   moderators' list of reports is /cb/dm/reports. */
-import { readPass, forumReader, listDms, readDmWith, sendDm, acceptDm, rejectDm, takeDm, editDm, reactDm, setDmOpen, blockDm,
+   moderators' list of reports is /cb/dm/reports. A conversation answer
+   carries the other person's chat status (chatStatusOf, 2026-10-24), so it can
+   be checked before anybody writes, '' for none, and none while they are not
+   taking messages from you or you have blocked them. It is a sign and never a
+   lock: nothing here refuses a message because of it. */
+import { readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, editDm, reactDm, setDmOpen, blockDm,
   unblockDm, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it, as
@@ -57,7 +61,8 @@ export default async (req, context) => {
     const talk = async (extra = {}) => {
       const r = await readDmWith(who, handle);
       if (r.error === 'self') return json(400, { error: 'Messages are for somebody else.' });
-      return ok({ ...r, ...extra });
+      const chat = r.error || !r.handle || r.can === 'closed' || r.can === 'blocked' ? '' : await chatStatusOf(petKey(r.handle));
+      return ok({ ...r, chat, ...extra });
     };
     if (b.send !== undefined) {
       const kinds = ['sticker', 'avatar', 'chimera', 'patch', 'jacket'];

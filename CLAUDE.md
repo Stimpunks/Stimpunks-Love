@@ -857,6 +857,20 @@ an empty list is never a guess. **The friendly edit is to put the names in**, so
 in a call before they walk over; who is in a call is still shown only in its room, to radios seen there,
 and widening that is Ryan's call, written in `privacy.html#calls` first. No number either.
 
+**A CHAT STATUS SAYS WHETHER SOMEBODY WANTS TO BE TALKED TO, AND BE SEEN HERE STAYS WHAT IT IS.** Ryan's ask,
+2026-10-24, after Discord's Online, Idle, Do Not Disturb and Invisible: Be seen here is already Online and Invisible, a
+room at a time, so the radio did not grow Discord's selector. What it grew is the interaction badges, **come say hi** (a
+green circle), **people i know** (a yellow triangle) and **not right now** (a red square), in the Cavendish Space
+Project's cards' own words, which are CC0: chosen at the foot of Who's around (`chatMake` in `cb.js`), kept in one blob,
+`chat-status`, holding each claimed person's pet key and badge and nothing about when (`setChatStatus` in `lib.mjs`,
+`/cb/chat-status`), and shown beside a claimed name on Who's online and Also seen here (`withChatStatus`), under the name
+on a profile, and at the top of a conversation before anybody writes; your own rides back on `/cb/unread`, so it needs no
+request of its own. **It is a sign and never a lock**, and **it starts as none**. `tools/check-chat-status.py` holds the
+cards' words, no default, no time, no idle and no lock. **The friendly edits are an Idle worked out from a quiet
+keyboard, a status that runs out, a default of come say hi, and refusing messages to somebody red**: the first two
+publish somebody's attention, the third chooses for them, and the fourth turns a sign into a lock, which the cards say it
+is not (somebody red may still come to you, and you can answer). `DECISIONS.md` has what is open.
+
 **THE WORLD CALL IS THE WORLD ROOM'S CALL.** Ryan, 2026-10-13: **Join World call**,
 under Who's around, opens one call for the whole street from any page, for anybody signed on and never a
 guest. `WORLD_CALL` in `lib.mjs` is the name (`stimpunks-world` at 8x8), `cb.js` keeps a copy, and

@@ -10,8 +10,11 @@
      { read: { dm: handle }, t } you have read that conversation up to t
    The radio asks from inside listen() and nowhere else, and only while it is
    open. Marks, never numbers: nothing here is counted, and nobody but you is
-   ever sent what you have read. See newFor and markRead in ../cb/lib.mjs. */
-import { readPass, forumReader, newFor, markRead, json, body, sameSite } from '../cb/lib.mjs';
+   ever sent what you have read. See newFor and markRead in ../cb/lib.mjs.
+   The {} answer also carries your own chat status, `chat` (2026-10-24), so a
+   badge chosen on another device reaches this radio by its next ask without a
+   request of its own; it is chosen at /cb/chat-status. */
+import { readPass, forumReader, newFor, markRead, chatStatusOf, petKey, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it.
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
@@ -29,7 +32,7 @@ export default async (req) => {
       if (r.error) return json(400, { error: 'Which channel or conversation?' }, NOINDEX);
       return json(200, { read: true }, NOINDEX);
     }
-    return json(200, await newFor(who), NOINDEX);
+    return json(200, { ...(await newFor(who)), chat: await chatStatusOf(petKey(who.handle)) }, NOINDEX);
   } catch (e) {
     return json(503, { error: 'busy' }, NOINDEX);
   }

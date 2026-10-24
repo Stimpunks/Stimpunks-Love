@@ -2857,6 +2857,99 @@ export async function whoSeen(who, s = store(), now = Date.now()) {
     .sort((a, b) => a.handle.localeCompare(b.handle) || Number(b.claimed) - Number(a.claimed));
 }
 
+/* ── Chat status ─────────────────────────────────────────────────────────
+
+   Ryan's ask, 2026-10-24: Discord has Online, Idle, Do Not Disturb and
+   Invisible, and Be seen here is already Online and Invisible, a room at a
+   time. What nothing said was whether somebody wants to be talked to: even
+   seen, they may not be chatty. So a CHAT STATUS, after the interaction
+   badges, the colour communication badges Autism Network International
+   started at the first Autreat (Jim Sinclair, 1996), in the words and shapes
+   of the Cavendish Space Project's interaction cards, which are CC0: come say
+   hi, a green circle; people i know, a yellow triangle; not right now, a red
+   square. It is shown beside a claimed name on Who's online and to the people
+   seen in the same room, on the person's profile, and in a conversation with
+   them, so it can be checked before anybody writes.
+
+   IT IS A SIGN AND NOT A LOCK: nothing refuses a message because of it. The
+   cards say why: somebody showing not right now may still come to you, and
+   you can answer when they do.
+
+   IT IS NOBODY'S UNTIL THEY CHOOSE ONE: there is no default, and somebody who
+   has not chosen is shown as nothing at all, never as green. It is one blob,
+   chat-status, holding each claimed person's pet key and their badge and
+   nothing about when it was chosen or how often it changed; choosing none
+   takes them out of it. Nothing changes it but its person: no idle worked out
+   from a quiet keyboard and no time it runs out, which are the friendly edits,
+   and each would publish something about somebody's attention that they never
+   chose to show. Forget me and deleting the username take it out. */
+export const CHAT_STATUSES = ['come-say-hi', 'people-i-know', 'not-right-now'];
+const CHAT = 'chat-status';
+
+/* A badge's id as sent, '' for none, or null for one the street does not know. */
+export function cleanChatStatus(v) {
+  if (v === '' || v == null) return '';
+  return typeof v === 'string' && CHAT_STATUSES.includes(v) ? v : null;
+}
+
+async function updateChat(change, s) {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, CHAT);
+    const status = { ...((cur.exists && cur.data && cur.data.status) || {}) };
+    if (change(status) === false) return status;
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(CHAT, { status }, opts);
+    if (res.modified) return status;
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Choose a badge, or none. The caller has checked the username is claimed;
+   this does not know who is asking. { chat } or { error: 'which' }. */
+export async function setChatStatus(pk, v, s = store()) {
+  const chat = cleanChatStatus(v);
+  if (chat === null) return { error: 'which' };
+  await updateChat((all) => {
+    if (!chat) { if (!own(all, pk)) return false; delete all[pk]; return true; }
+    if (all[pk] === chat) return false;
+    all[pk] = chat;
+    return true;
+  }, s);
+  return { chat };
+}
+
+async function readChat(s) {
+  const d = await s.get(CHAT, { type: 'json' });
+  return (d && d.status && typeof d.status === 'object') ? d.status : {};
+}
+
+/* One person's badge, or '' for none. */
+export async function chatStatusOf(pk, s = store()) {
+  const all = await readChat(s);
+  return own(all, pk) ? (cleanChatStatus(all[pk]) || '') : '';
+}
+
+/* Who's online and the people seen in a room, with the badge each claimed
+   person chose. Nothing is added beside an unclaimed name, whatever the blob
+   holds, and nothing beside somebody who chose none. */
+export async function withChatStatus(people, s = store()) {
+  if (!people.some((p) => p.claimed)) return people;
+  const all = await readChat(s);
+  return people.map((p) => {
+    if (!p.claimed) return p;
+    const k = petKey(p.handle);
+    const chat = own(all, k) ? cleanChatStatus(all[k]) : null;
+    return chat ? { ...p, chat } : p;
+  });
+}
+
+/* Forget me, and deleting the username. */
+export async function forgetChatStatus(pk, s = store()) {
+  await setChatStatus(pk, '', s);
+  return true;
+}
+
 /* ── Who is in a room's call ─────────────────────────────────────────── */
 
 /* EVERYBODY IN A CALL, FROM 8x8. Ryan's call, 2026-09-29: who is in a room's
@@ -5176,7 +5269,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its props, its events and its messages. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its props, its chat status, its events and its messages. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -5190,6 +5283,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetTaskViews(petKey(handle), s);
   await forgetTaskInbox(petKey(handle), s);
   await forgetProps(petKey(handle), s);
+  await forgetChatStatus(petKey(handle), s);
   await forgetEvents(acct.handle, acct.since, s);
   await forgetDms(acct.handle, acct.since, s);
   await forgetReads(acct.handle, acct.since, s);

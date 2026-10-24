@@ -1442,6 +1442,8 @@
     calls.appendChild(this.callNone);
     online.appendChild(calls);
     aroundSec.appendChild(online);
+    // YOUR CHAT STATUS (Ryan's ask, 2026-10-24), for a claimed username. See chatMake.
+    if (forumPass(this.state.pass)) this.chatMake(aroundSec);
 
     /* BE SEEN HERE, the Slake's switch in every room. Ryan, 2026-09-29. One
        switch both ways: seen, the radio is told who else is seen in this room
@@ -1938,7 +1940,7 @@
     acctP.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your chat status, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -5212,6 +5214,16 @@
         });
         left.appendChild(card);
         window.loveProfile.drawCard(card, p);
+        /* THEIR CHAT STATUS (2026-10-24), under their name and the line of
+           their own, with what the badge asks in the card's own words. */
+        var chatNow = rs[0].status === 200 && rs[0].body ? chatOf(rs[0].body.chat) : null;
+        if (chatNow) {
+          var chatLine = el('p', 'pf-chat');
+          chatLine.appendChild(chatBadge(chatNow.id));
+          chatLine.appendChild(el('span', 'pf-chat__says', chatNow.says));
+          var after = card.querySelector('.pf-tagline') || card.querySelector('.pf-line') || card.querySelector('.pf-name');
+          if (after) after.parentNode.insertBefore(chatLine, after.nextSibling);
+        }
         var cardBody = card.querySelector('.pf-body');
         if (rs[0].status !== 200) cardBody.appendChild(el('p', 'cb-quiet pf-empty', 'Their profile card could not be fetched just now.'));
         else if (!p) cardBody.appendChild(el('p', 'cb-quiet pf-empty', mineP
@@ -7309,11 +7321,93 @@
     if (!forumPass(this.state.pass)) { this.news = null; this.newsShown(); return; }
     if (this.newsBusy || Date.now() - (this.newsAt || 0) < NEWS_EVERY) return;
     this.newsBusy = true;
+    var asked = Date.now();
     call('/cb/unread', { body: {} }, this.state.pass).then(function (r) {
       me.newsAt = Date.now();
       if (r.status === 401) return me.lost();
       if (r.status === 200 && r.body && r.body.latest) { me.news = r.body; me.newsShown(); }
+      // Your own chat status rides on this ask, so another device's choice reaches here.
+      if (r.status === 200 && r.body && typeof r.body.chat === 'string') me.chatKnown(r.body.chat, asked);
     }, function () { me.newsAt = Date.now(); }).then(function () { me.newsBusy = false; });
+  };
+
+  /* YOUR CHAT STATUS, under Who's around (Ryan's ask, 2026-10-24): none, or
+     one of the three badges, chosen with ordinary radio buttons, so arrows
+     move between them and a screen reader hears a group. It is sent to
+     /cb/chat-status half a second after the last change, so walking the
+     arrows past a badge does not choose it, and read back from /cb/unread on
+     the radio's own ask, never on a timer of its own. Nothing is chosen for
+     anybody: none is where it starts. */
+  Radio.prototype.chatMake = function (sec) {
+    var me = this;
+    var box = this.chatBox = el('fieldset', 'cb-chatpick');
+    box.appendChild(el('legend', 'cb-h3', 'Your chat status'));
+    var about = el('p', 'cb-online-about');
+    about.appendChild(document.createTextNode('Whether you would like to be talked to, after the interaction badges. It is shown beside your name on Who\u2019s online and to people seen in the same room, on your profile, and to anybody about to write to you. It is a sign, not a lock: it stops nobody writing. Nothing is shown until you choose, and it stays until you change it. '));
+    var more = el('a', null, 'More about it');
+    more.href = '/cb-guide.html#chat-status';
+    about.appendChild(more);
+    about.appendChild(document.createTextNode('.'));
+    box.appendChild(about);
+    var opts = [{ id: '', says: 'nothing is shown beside your name' }].concat(CHAT);
+    this.chatInputs = opts.map(function (c) {
+      var lab = el('label', 'cb-chatpick__row');
+      var r = el('input');
+      r.type = 'radio';
+      r.name = 'cb-chat';
+      r.value = c.id;
+      lab.appendChild(r);
+      lab.appendChild(c.id ? chatBadge(c.id, true) : el('span', 'cb-chatpick__none', 'none'));
+      lab.appendChild(el('span', 'cb-chatpick__says', c.says));
+      r.addEventListener('change', function () { if (r.checked) me.setChat(c.id); });
+      box.appendChild(lab);
+      return r;
+    });
+    var said = this.chatSaid = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    box.appendChild(said);
+    sec.appendChild(box);
+    this.chatShown();
+  };
+
+  Radio.prototype.setChat = function (id) {
+    var me = this;
+    clearTimeout(this.chatTimer);
+    // Anything read back before this is kept is older than it.
+    this.chatHold = Infinity;
+    var seq = this.chatSeq = (this.chatSeq || 0) + 1;
+    this.chatTimer = setTimeout(function () {
+      call('/cb/chat-status', { body: { chat: id } }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (seq !== me.chatSeq) return;
+        me.chatHold = Date.now();
+        if (r.status === 200 && r.body && typeof r.body.chat === 'string') {
+          me.chatMine = r.body.chat;
+          var c = chatOf(r.body.chat);
+          me.chatSaid.textContent = c ? 'Done. People see ' + c.name + ' beside your name.' : 'Done. Nothing is shown beside your name.';
+        } else me.chatSaid.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
+        me.chatShown();
+      }, function () {
+        if (seq !== me.chatSeq) return;
+        me.chatHold = Date.now();
+        me.chatSaid.textContent = 'That did not work just now. Nothing changed.';
+        me.chatShown();
+      });
+    }, 500);
+  };
+
+  // What the server keeps, unless a choice has been made since it was asked.
+  Radio.prototype.chatKnown = function (v, asked) {
+    if (this.chatHold && asked < this.chatHold) return;
+    if (this.chatMine === v) return;
+    this.chatMine = v;
+    this.chatShown();
+  };
+
+  Radio.prototype.chatShown = function () {
+    if (!this.chatInputs) return;
+    var v = typeof this.chatMine === 'string' ? this.chatMine : null;
+    this.chatInputs.forEach(function (r) { r.checked = v !== null && r.value === v; });
   };
 
   // The channel being listened to has been read up to its newest message, if
@@ -7913,7 +8007,7 @@
       this.dmHead.appendChild(hb);
       this.dmLab.textContent = 'Your message to ' + who;
     }
-    var sig = b.state + '|' + b.can;
+    var sig = b.state + '|' + b.can + '|' + (b.chat || '');
     if (this.dmStateSig !== sig) { this.dmStateSig = sig; this.dmDrawState(b); }
     this.dmForm.hidden = b.can !== 'yes';
     // A picture only once the conversation is accepted: a request is words only.
@@ -7943,6 +8037,17 @@
     if (b.can === 'closed') {
       box.appendChild(el('p', null, who + ' is not taking messages from you just now.'));
       return;
+    }
+    /* THEIR CHAT STATUS, before anything is written (Ryan's ask, 2026-10-24:
+       check it before messaging somebody), with what the badge asks and what
+       that means here. A sign and never a lock: the box is still there. */
+    var cs = chatOf(b.chat);
+    if (cs) {
+      var cl = el('p', 'cb-dm-chat');
+      cl.appendChild(document.createTextNode(who + ' shows '));
+      cl.appendChild(chatBadge(cs.id, true));
+      cl.appendChild(document.createTextNode(': ' + cs.says + ' ' + cs.then));
+      box.appendChild(cl);
     }
     if (b.state === 'asked') {
       box.appendChild(el('p', 'cb-seen-now', 'Waiting for ' + who + ' to answer. Until they do, only the two of you can read it and you can write nothing more, but you can edit it or take it back. If they reject it, it goes, and nobody is told.'));
@@ -9346,6 +9451,63 @@
     return out;
   }
 
+  /* CHAT STATUS (Ryan's ask, 2026-10-24): whether somebody wants to be talked
+     to, which Be seen here never said. The interaction badges, after the
+     colour communication badges Autism Network International started at the
+     first Autreat (Jim Sinclair, 1996), in the Cavendish Space Project's
+     interaction cards' own words and shapes, which are CC0 and copied word for
+     word; lib.mjs holds the ids (CHAT_STATUSES) and
+     tools/check-chat-status.py holds the two together. What follows each
+     card's prompt in a conversation (then) is ours, from the cards' notes. A
+     badge is its shape and its words and never its colour alone, and it
+     carries its own ground (--cb-chat-*), so it reads the same in every
+     theme. It is a sign and never a lock: nothing refuses a message for it. */
+  var CHAT = [
+    { id: 'come-say-hi', name: 'come say hi', shape: 'circle', says: 'i want to talk \u2014 you can start.',
+      then: 'Saying hello first is welcome.' },
+    { id: 'people-i-know', name: 'people i know', shape: 'triangle', says: 'only say hi if we\u2019ve met.',
+      then: 'If you have not met, let them say hello first. If they write to you, you are welcome to answer.' },
+    { id: 'not-right-now', name: 'not right now', shape: 'square', says: 'please don\u2019t start talking to me.',
+      then: 'Hold back from starting anything, and do not take it personally. If they write to you, you can answer.' },
+  ];
+  function chatOf(id) {
+    for (var i = 0; i < CHAT.length; i++) if (CHAT[i].id === id) return CHAT[i];
+    return null;
+  }
+  function chatMark(c) {
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 12 12');
+    svg.setAttribute('class', 'cb-chat__mark');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    var sh;
+    if (c.shape === 'circle') {
+      sh = document.createElementNS(NS, 'circle');
+      sh.setAttribute('cx', '6'); sh.setAttribute('cy', '6'); sh.setAttribute('r', '5');
+    } else if (c.shape === 'triangle') {
+      sh = document.createElementNS(NS, 'polygon');
+      sh.setAttribute('points', '6,0.4 11.8,11 0.2,11');
+    } else {
+      sh = document.createElementNS(NS, 'rect');
+      sh.setAttribute('x', '1.4'); sh.setAttribute('y', '1.4'); sh.setAttribute('width', '9.2'); sh.setAttribute('height', '9.2');
+    }
+    svg.appendChild(sh);
+    return svg;
+  }
+  /* A badge: its shape and its words on its own ground, heard as "chat
+     status: come say hi" beside a name, and as its words alone where a
+     heading already says what it is (bare). */
+  function chatBadge(id, bare) {
+    var c = chatOf(id);
+    if (!c) return null;
+    var b = el('span', 'cb-chat cb-chat--' + c.id);
+    b.appendChild(chatMark(c));
+    if (!bare) b.appendChild(el('span', 'sr', 'chat status: '));
+    b.appendChild(document.createTextNode(c.name));
+    return b;
+  }
+
   function personLine(li, p, mine, profile) {
     li.appendChild(profile || el('b', null, p.handle));
     if (p.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
@@ -9395,6 +9557,9 @@
          all. */
       if (p.avatar && window.loveAvatar) li.appendChild(avatarArt(p.avatar.look, p.avatar.about, 'cb-online-face', 'bust', p.handle + '\u2019s avatar'));
       personLine(li, p, p.handle === me.state.handle, who);
+      // THEIR CHAT STATUS, beside a claimed name only, as they chose it.
+      var chat = p.chat && chatBadge(p.chat);
+      if (chat) li.appendChild(chat);
       li.appendChild(document.createTextNode(' in '));
       roomsOf(p).forEach(function (r, i) {
         if (i) li.appendChild(document.createTextNode(', '));
@@ -10047,12 +10212,15 @@
     call('/cb/here/leave', { body: { visit: VISIT }, keepalive: true }, this.state.pass).catch(function () {});
   };
 
-  function whoList(p, people, key) {
+  // `chat`: draw each person's chat status, which only the radio's own lines do.
+  function whoList(p, people, key, chat) {
     p.textContent = '';
     people.forEach(function (x, i) {
       if (i) p.appendChild(document.createTextNode(', '));
       p.appendChild(el('b', null, x[key]));
       if (x.base) p.appendChild(el('span', 'cb-tag', 'BASE'));
+      var b = chat && x.chat && chatBadge(x.chat);
+      if (b) p.appendChild(b);
     });
   }
 
@@ -10112,7 +10280,7 @@
     if (others.length) {
       this.seenNow.textContent = '';
       this.seenNow.appendChild(document.createTextNode('Also seen here: '));
-      var span = el('span'); whoList(span, others, 'handle'); this.seenNow.appendChild(span);
+      var span = el('span'); whoList(span, others, 'handle', true); this.seenNow.appendChild(span);
     } else this.seenNow.textContent = 'Nobody else here is seen.';
     // Only once 8x8 is telling us, so an empty list is never a guess.
     if (a.callHeard) {

@@ -708,6 +708,29 @@ ol.cb-md-list { list-style: decimal; }
   max-height: 12em; overflow-y: auto; font-size: 14px; overflow-wrap: anywhere;
 }
 .cb-online-list .cb-tag { margin-left: 4px; }
+/* A CHAT STATUS (Ryan's ask, 2026-10-24): an interaction badge, its shape and
+   its words on a ground of its own, so it is the same badge in every theme and
+   on every profile card; every pair is in check-contrast.py. Its colour is
+   never alone: the shape and the words say it too. */
+.cb-chat {
+  display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; padding: 0 7px 0 5px;
+  border-radius: 999px; font: 700 12px/1.6 'Atkinson Hyperlegible', system-ui, sans-serif;
+  white-space: nowrap; vertical-align: baseline;
+}
+.cb-chat__mark { flex: none; width: 10px; height: 10px; fill: currentColor; }
+.cb-chat--come-say-hi { color: var(--cb-chat-hi-ink); background: var(--cb-chat-hi); }
+.cb-chat--people-i-know { color: var(--cb-chat-known-ink); background: var(--cb-chat-known); }
+.cb-chat--not-right-now { color: var(--cb-chat-not-ink); background: var(--cb-chat-not); }
+.cb-seen-now .cb-chat { margin-left: 4px; }
+.cb-chatpick { margin: 12px 0 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 4px; }
+.cb-chatpick legend { padding: 0; margin-bottom: 2px; }
+.cb-chatpick__row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-height: 32px; font-size: 14px; cursor: pointer; }
+.cb-chatpick__row input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--cb-amber); cursor: pointer; }
+.cb-chatpick__row .cb-chat { margin-left: 0; }
+.cb-chatpick__none { font-weight: 700; }
+.pf-chat { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; color: var(--cb-steel); }
+.pf-chat .cb-chat { margin-left: 0; }
+.cb-dm-chat .cb-chat { margin: 0 2px; }
 .cb-catch { justify-self: start; min-height: 44px; }
 .cb-take, .cb-catch {
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);

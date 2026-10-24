@@ -3,9 +3,10 @@
    channel. The answer is { handle, profile } for a claimed username, with
    profile null when there is nothing in it, and { handle, profile: null } for
    a handle that is not claimed, the same whether it is unclaimed or nobody at
-   all. Nothing about who asked is kept, and the handle travels in the body
+   all. A claimed username's answer carries its chat status too, '' for none
+   (chatStatusOf, 2026-10-24). Nothing about who asked is kept, and the handle travels in the body
    rather than the address, so it is in no request log. */
-import { readPass, shownProfile, cleanHandle, json, body, sameSite } from '../cb/lib.mjs';
+import { readPass, shownProfile, chatStatusOf, petKey, cleanHandle, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
@@ -16,7 +17,8 @@ export default async (req) => {
   const handle = cleanHandle(b.handle);
   if (!handle) return json(400, { error: 'Whose profile?' });
   const got = await shownProfile(handle);
-  return json(200, got || { handle, profile: null }, NOINDEX);
+  if (!got) return json(200, { handle, profile: null }, NOINDEX);
+  return json(200, { ...got, chat: await chatStatusOf(petKey(got.handle)) }, NOINDEX);
 };
 
 /* Netlify counts the tries per address and never tells us the address. */

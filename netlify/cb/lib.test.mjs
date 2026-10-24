@@ -48,6 +48,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
   TAGLINE_MAX, communityDirectory,
+  CHAT_STATUSES, cleanChatStatus, setChatStatus, chatStatusOf, withChatStatus, forgetChatStatus,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
@@ -2744,6 +2745,58 @@ for (const etagOnRead of [true, false]) {
     assert.deepEqual(worked.filter((n) => !shown.find((x) => x.handle === n).plate), [], 'a nameplate that was told it was kept is not on Who\'s online');
     for (const r of told) if (r.status === 'rejected') assert.equal(r.reason.message, 'busy');
     if (etagOnRead) assert.equal(worked.length, 15);
+  });
+}
+
+
+/* ── Chat status ─────────────────────────────────────────────────────── */
+
+test('a chat status is one of the three badges or none, nobody has one until they choose, and the record holds nothing about when', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.deepEqual(CHAT_STATUSES, ['come-say-hi', 'people-i-know', 'not-right-now']);
+  for (const v of ['', null, undefined]) assert.equal(cleanChatStatus(v), '');
+  for (const v of ['green', 'online', 'idle', 'dnd', 'invisible', 'COME-SAY-HI', 1, {}, ['come-say-hi']]) assert.equal(cleanChatStatus(v), null, `${JSON.stringify(v)} was taken`);
+  const pk = petKey('Ada');
+  assert.equal(await chatStatusOf(pk, s), '', 'somebody who never chose had a status');
+  assert.deepEqual(await setChatStatus(pk, 'idle', s), { error: 'which' });
+  assert.equal(s.keys().length, 0, 'a refused status wrote something');
+  assert.deepEqual(await setChatStatus(pk, 'people-i-know', s), { chat: 'people-i-know' });
+  assert.equal(await chatStatusOf(pk, s), 'people-i-know');
+  const raw = await s.get('chat-status', { type: 'json' });
+  assert.deepEqual(raw, { status: { [pk]: 'people-i-know' } }, 'the record holds something besides the badge');
+  const people = [{ handle: 'Ada', claimed: true, rooms: [] }, { handle: 'Bex', claimed: true, rooms: [] }];
+  let shown = await withChatStatus(people, s);
+  assert.equal(shown[0].chat, 'people-i-know');
+  assert.equal('chat' in shown[1], false, 'somebody who chose none was shown as something');
+  assert.equal('chat' in (await withChatStatus([{ handle: 'Ada', claimed: false, rooms: [] }], s))[0], false, 'an unclaimed name wore a chat status');
+  await setChatStatus(pk, '', s);
+  assert.deepEqual(await s.get('chat-status', { type: 'json' }), { status: {} }, 'choosing none left them in the record');
+  await setChatStatus(pk, 'not-right-now', s);
+  await forgetChatStatus(pk, s);
+  assert.equal(await chatStatusOf(pk, s), '', 'Forget me left the chat status');
+});
+
+test('deleting a username takes its chat status with it', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  await setChatStatus(petKey('Ada'), 'come-say-hi', s);
+  await deleteAccount('Ada', s);
+  assert.equal(await chatStatusOf(petKey('Ada'), s), '', 'a deleted username kept its chat status');
+}));
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`fifteen chat statuses chosen at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const names = Array.from({ length: 15 }, (_, i) => `P${i}`);
+    const pick = (i) => CHAT_STATUSES[i % CHAT_STATUSES.length];
+    const told = await Promise.allSettled(names.map((n, i) => setChatStatus(petKey(n), pick(i), s)));
+    const shown = await withChatStatus(names.map((handle) => ({ handle, claimed: true, rooms: [] })), s);
+    names.forEach((n, i) => {
+      if (told[i].status === 'fulfilled') assert.equal(shown[i].chat, pick(i), `${n} was told their status was kept and it is not shown`);
+      else assert.equal(told[i].reason.message, 'busy');
+    });
+    if (etagOnRead) assert.equal(told.filter((r) => r.status === 'fulfilled').length, 15);
   });
 }
 

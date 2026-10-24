@@ -1029,6 +1029,11 @@ PAIRS = [
     ("#1C3829", "#DBEDDB", False, "tasks: Completed on its green pill"),
     ("#442A1E", "#EEE0DA", False, "tasks: Canceled on its brown pill"),
     ("#402C1B", "#FDECC8", False, "tasks: Deferred on its yellow pill"),
+    # THE CB'S CHAT STATUS (2026-10-24): each interaction badge its words and
+    # its shape in its ink on its own ground, the same in every theme.
+    ("#FFFFFF", "#1E7B3B", False, "cb: come say hi, and its circle, on the green badge"),
+    ("#1A1A1A", "#EAB308", False, "cb: people i know, and its triangle, on the yellow badge"),
+    ("#FFFFFF", "#C33A33", False, "cb: not right now, and its square, on the red badge"),
     (PINK,    INK,  True,  "street: tagline 'Queer without fear' 25px Archivo Black"),
     (ORANGE,  INK,  True,  "street: tagline 'Interdependent and here' 25px"),
     (GREEN,   INK,  True,  "street: tagline 'Divergent and proud' 21px bold display"),

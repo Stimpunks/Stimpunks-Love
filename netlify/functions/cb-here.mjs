@@ -6,8 +6,9 @@
    on Who's online, for anybody signed on (whoSeen in lib.mjs). The people
    seen here come with the familiar each claimed one brought (withFamiliars),
    so a familiar is seen only where its person is seen, and only by people
-   seen there; never on Who's online. */
-import { readPass, sharedPass, roomTag, roomAllows, mudVisit, beSeen, withFamiliars, inCall, json, body, sameSite } from '../cb/lib.mjs';
+   seen there; never on Who's online. And with the chat status each claimed
+   one chose (withChatStatus), as Who's online shows it. */
+import { readPass, sharedPass, roomTag, roomAllows, mudVisit, beSeen, withFamiliars, withChatStatus, inCall, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
@@ -18,7 +19,7 @@ export default async (req) => {
   const visit = mudVisit(b.visit);
   if (!room || !visit) return json(400, { error: 'That is not a room on the street.' });
   if (!roomAllows(who, room)) return json(403, { error: 'That room is for the people it is for.' });
-  const others = await withFamiliars(await beSeen(who, room, visit));
+  const others = await withChatStatus(await withFamiliars(await beSeen(who, room, visit)));
   const call = await inCall(room);
   // callHeard: whether 8x8 is telling us at all, so an empty call is never a guess.
   return json(200, { room, others, call, callHeard: !!process.env.CB_JAAS_EVENTS_SECRET });
