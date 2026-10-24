@@ -26286,6 +26286,11 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 .syw-card__what { font-size: 18px; color: var(--syw-ink); }
 .syw-card__said { font-size: 14px; color: var(--syw-ink-2); }
 .syw-card__links { margin: 14px 0 0; }
+/* A PHOTOGRAPH ON A CARD IS SHOWN WHOLE: its own width and height, no
+   object-fit, no crop and no filter, the polaroid wall's promise. */
+.syw-card__picture { margin: 0 0 16px; }
+.syw-card__photo { display: block; width: 100%; height: auto; }
+.syw-card__picture .syw-card__said { margin: 8px 0 0; }
 .syw-host { font-size: 14px; color: var(--syw-ink-2); white-space: nowrap; }
 .syw-card--blank { background: transparent; color: var(--syw-text); border: 2px dashed var(--syw-card); }
 .syw-card--blank h3 { color: var(--syw-text); }

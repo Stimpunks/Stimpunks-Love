@@ -4855,9 +4855,13 @@ anybody else's work up**, however much they love it, and that includes Helen's w
 turn over. The bench started with two unfinished things of our own, Cavendish Cards and this street, the way our
 Infodumplings post put the deck on the table; a card's `checked` names words in the work's own repository under
 `~/Documents/GitHub/`, read there when present, so a card cannot go on calling a deck a starter draft after it stops
-being one. **No photographs on the bench**, and the tool refuses a `photo` or an `<img>`: a picture of somebody's
-work can carry their room, face, screen or address, and extending the polaroid wall's rules to it is Ryan's call
-(DECISIONS.md); a picture goes in the maker's forum topic, where the CB redraws it. **The tool refuses a ranking, a
+being one. **A card can carry a photograph under the polaroid wall's rules** (Ryan's call, the same evening): its
+`photo` names a record in `data/polaroids.json`, never a file, marked off Enid's wall with this page in `elsewhere`,
+so `make-polaroids.py` walks the bench like every other page and holds it to consent, alt text in the maker's words,
+no camera data, no filter and withdrawal as deletion; a photograph of a thing names the work as its `subject`, Isha
+Snow's collages' precedent. The tool refuses a `photo` with no record, a record that does not name this page, and an
+`<img>` that is no card's photograph. **Shown whole, never `object-fit: cover`**, which would be cropping somebody's
+work. **The tool refuses a ranking, a
 count, a pitch, calling anybody a genius, gifted or a savant, and marking** in the room's voice with the negation
 window, skipping blockquotes and a maker's own words; **the friendly edits are a featured piece or a work of the month,
 a heart under every card, and an upload box "so people can put their own work up"**, which is a stranger's file on a

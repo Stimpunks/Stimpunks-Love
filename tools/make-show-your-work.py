@@ -26,9 +26,8 @@ WHAT IT REFUSES, and the first three are the room:
   · A PIECE OF WORK ITS MAKER DID NOT TURN OVER. Every piece on the bench names
     whose it is as they asked to be named, who said yes and on what day, where
     it lives, and the state it is in in words; what it is carries `words`,
-    `maker` or `ours`, and the card says which. A `photo` or any key the bench
-    does not know is refused: there are no photographs on the bench until
-    Ryan says how the street's photograph rules reach it. Where a piece names
+    `maker` or `ours`, and the card says which. Any key the bench does not
+    know is refused. Where a piece names
     words in its own repository (`checked`) and that repository is on the
     machine, the words have to be there, and the maker's own words have to be
     there too, so a card cannot go on saying a deck is a starter draft after
@@ -52,6 +51,18 @@ WHAT IT REFUSES, and the first three are the room:
     room say nobody is one, and talk about the lone genius as a story.
   · MARKING. Grades, ratings, stars, critique: our post says the room is not
     there to audit a draft against a standard of done.
+  · A PHOTOGRAPH THE POLAROID WALL WOULD NOT HANG. Ryan's call, 2026-10-23: a
+    card can carry a photograph of the work under the wall's rules, so `photo`
+    names a record in data/polaroids.json, never a file, and the tool refuses
+    one with no record, a record that does not list this page in `elsewhere`
+    or is booked for Enid's wall as well, and a record with no file. Everything
+    else the wall promises (alt text, who is in it and who took it, the date
+    of the yes, no camera data, nothing filtered, and withdrawal as deletion on
+    every page) is make-polaroids.py's, which walks this page like every other;
+    the image wears class="photo" so that walk can see it, and its alt text is
+    the record's, never typed here. Withdrawal is deleting the record, the file
+    and the `photo` line, and make-polaroids.py refuses until all three are
+    gone.
 
   Each is swept in the room's own words with the negation window, and the
   sweep SKIPS BLOCKQUOTES and a maker's own words on the bench, Dead Tired
@@ -65,6 +76,8 @@ WHAT IT REFUSES, and the first three are the room:
     comparison exactly. Where the mirror is missing, it says so and carries on.
   · A NEXT-DOOR LINE WHOSE ROOM NO LONGER SAYS IT (`holds`, read off that room's
     published page), the Community Center's service-board rule.
+  · AN <img> ON THE PAGE THAT IS NOT A BENCH CARD'S PHOTOGRAPH, which would be
+    a picture with no card saying whose work it is.
   · A FORM, AN INPUT, A TEXTAREA OR ANYTHING EDITABLE outside the job marker,
     and any script but love.js and quest.js. Nothing in the garage takes words;
     the channel and the forum do. The friendly edit is an upload box "so people
@@ -79,7 +92,11 @@ The drawing pins one card for each and wraps them when the wall is full.
 import html
 import json
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import imgsize  # tools/imgsize.py: width and height read off the file, never typed
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/show-your-work.json"
@@ -88,6 +105,9 @@ NOTES = ROOT / "liner-notes.html"
 FORUM = ROOT / "data/forum.json"
 LIB = ROOT / "netlify/cb/lib.mjs"
 FACES = ROOT / "data/foundry-faces.json"
+POLAROIDS = ROOT / "data/polaroids.json"
+PHOTOS = ROOT / "photos"
+PHOTO_SUFFIXES = (".jpg", ".jpeg", ".png", ".webp")
 MIRROR = Path.home() / "Documents/Claude/Projects/Stimpunks Knowledge System/site/stimpunks.org"
 REPOS = Path.home() / "Documents/GitHub"
 FORUM_SLUG = "show-your-work"
@@ -130,7 +150,7 @@ SWEEPS = [(re.compile(rf"\b(?:{p})", re.I),
 
 SCRIPTS = {"love.js", "quest.js"}
 BENCH_KEYS = {"key", "title", "whose", "given", "link", "also", "what", "words", "from",
-              "state", "licence", "checked", "holds"}
+              "state", "licence", "checked", "holds", "photo"}
 
 problems = []
 
@@ -287,8 +307,8 @@ for i, w in enumerate(bench, 1):
     where = f"bench {i} ({w.get('key')})"
     for k in w:
         if k not in BENCH_KEYS:
-            refuse(f"{where}: {k!r} is not something the bench holds. No photographs on the bench until "
-                   "Ryan says how the street's photograph rules reach it; see _no_photo.")
+            refuse(f"{where}: {k!r} is not something the bench holds. A photograph is `photo`, the id of its "
+                   "record in data/polaroids.json; see _photo.")
     for need in ("key", "title", "whose", "given", "link", "state"):
         if not str(w.get(need, "")).strip():
             refuse(f"{where}: no {need}. A piece goes on the bench only with whose it is, who said yes and when, "
@@ -343,6 +363,33 @@ for i, w in enumerate(bench, 1):
         for h in holds:
             if fold(h).lower() not in t:
                 refuse(f"{where}: {pg} no longer says {h!r}, and the card says so on its behalf.")
+
+# A PHOTOGRAPH ON A CARD IS A POLAROID RECORD. The record is the consent; this
+# only checks that the card and the record agree about where it hangs.
+records = {r.get("id"): r for r in json.loads(POLAROIDS.read_text()).get("photos", [])}
+photo_file = {}
+for i, w in enumerate(bench, 1):
+    pid = w.get("photo")
+    if not pid:
+        continue
+    where = f"bench {i} ({w.get('key')})"
+    rec = records.get(pid)
+    if not rec:
+        refuse(f"{where}: photo {pid!r} has no record in data/polaroids.json. A photograph goes on a card only "
+               "under the polaroid wall's rules, and the record is where they are kept.")
+        continue
+    if rec.get("on_wall") is not False or ROOM.name not in (rec.get("elsewhere") or []):
+        refuse(f"{where}: the record for {pid!r} does not say it hangs on {ROOM.name} and nowhere on Enid's wall "
+               "(on_wall false, elsewhere naming this page), so withdrawing it would not find this card.")
+    for need in ("alt", "subject", "consent_on"):
+        if not str(rec.get(need, "")).strip():
+            refuse(f"{where}: the record for {pid!r} has no {need}.")
+    f = next((PHOTOS / f"{pid}{s}" for s in PHOTO_SUFFIXES if (PHOTOS / f"{pid}{s}").exists()), None)
+    if not f:
+        refuse(f"{where}: {pid!r} has a record and no file in photos/. If it was withdrawn, take the `photo` "
+               "line off the card too.")
+        continue
+    photo_file[pid] = f
 
 blank = d.get("blank") or {}
 for need in ("title", "line"):
@@ -547,6 +594,16 @@ for i in range(cards):
     if is_blank:
         parts.append(f'<rect x="{num(x)}" y="{num(y)}" width="{num(cw)}" height="{num(ch)}" fill="var(--syw-wall)" '
                      f'stroke="var(--syw-card)" stroke-width="1.8" stroke-dasharray="5 4"/>')
+    elif bench[i].get("photo"):
+        # A piece with a photograph on its card is pinned up with a picture of
+        # it, drawn as a print with a white border: what is in it is in words
+        # under the card on the page, never in this drawing.
+        parts.append(f'<rect x="{num(x)}" y="{num(y)}" width="{num(cw)}" height="{num(ch)}" fill="var(--syw-card)"/>')
+        parts.append(f'<rect x="{num(x + cw * 0.12)}" y="{num(y + ch * 0.14)}" width="{num(cw * 0.76)}" '
+                     f'height="{num(ch * 0.5)}" fill="var(--syw-steel)"/>')
+        for k in range(2):
+            ly = y + ch * (0.76 + k * 0.12)
+            parts.append(f'<path d="M{num(x + cw * 0.15)} {num(ly)} h{num(cw * (0.7 if k else 0.5))}" stroke="var(--syw-steel)" stroke-width="1.6" stroke-linecap="round"/>')
     else:
         parts.append(f'<rect x="{num(x)}" y="{num(y)}" width="{num(cw)}" height="{num(ch)}" fill="var(--syw-card)"/>')
         for k in range(4):
@@ -621,8 +678,25 @@ def away(url, words):
     return f'<a href="{attr(url)}">{esc(words)}</a>{tail}'
 
 
+def photo_html(w):
+    """The photograph, from its record: the record's alt text, the file's own
+    size, class="photo" so make-polaroids.py walks it, and nothing that crops
+    or filters it. Whose photograph it is goes under it in words."""
+    rec, f = records[w["photo"]], photo_file[w["photo"]]
+    wd, ht = imgsize.size(f)
+    shot = rec.get("photographer")
+    by = (f"Photograph by {esc(shot)}, used here with permission and outside this site&rsquo;s licence. "
+          f"It comes down the moment they ask." if shot else
+          "The photograph is used here with permission and outside this site&rsquo;s licence. It comes down "
+          "the moment its maker asks.")
+    return (f'        <figure class="syw-card__picture"><img class="photo syw-card__photo" src="photos/{attr(f.name)}" '
+            f'width="{wd}" height="{ht}" alt="{attr(rec["alt"])}" loading="lazy">'
+            f'<figcaption class="syw-card__said">{by}</figcaption></figure>')
+
+
 def card(w):
     lines = [f'      <li class="syw-card" id="work-{attr(w["key"])}">',
+             *([photo_html(w)] if w.get("photo") else []),
              f'        <h3>{esc(w["title"])}</h3>',
              f'        <p class="syw-card__whose">{esc(w["whose"])}</p>']
     if w.get("what"):
@@ -754,8 +828,11 @@ for s in re.findall(r'<script\b[^>]*\bsrc="([^"]+)"', src):
         refuse(f"{ROOM.name}: loads {s}, and the room runs {', '.join(sorted(SCRIPTS))} and nothing else.")
 if not re.search(r'href="forum\.html#/c/' + FORUM_SLUG + '"', src):
     refuse(f"{ROOM.name}: no link to the {FORUM_SLUG} forum, and the room is half of a pair with it.")
-if re.search(r"<img\b", body, re.I):
-    refuse(f"{ROOM.name}: an <img>. No photographs on the bench yet; see _no_photo.")
+bench_photos = {f"photos/{f.name}" for f in photo_file.values()}
+for src_ in re.findall(r'<img\b[^>]*\bsrc="([^"]+)"', body, re.I):
+    if src_ not in bench_photos:
+        refuse(f"{ROOM.name}: an <img> of {src_} that is no bench card's photograph, so no card says whose "
+               "work it is. A photograph goes on the page only through a card's `photo`.")
 
 text = re.sub(r"<(script|style)\b.*?</\1>", " ", body, flags=re.S)
 text = re.sub(r"<blockquote\b.*?</blockquote>", " ", text, flags=re.S)

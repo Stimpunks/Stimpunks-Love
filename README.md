@@ -695,7 +695,8 @@ anywhere on it, or with a line about another room that room no longer says.
 door rolled up where the work of folks in our community is shown before it is finished. It **draws the garage**
 from the driveway, with a card pinned over the bench for every piece of work on it and one blank, and **writes the
 bench**: every piece names whose it is as they asked to be named, who said yes and when, where it lives and what
-state it is in, and says whose words describe it, and the tool refuses a piece without them, a photograph, and,
+state it is in, and says whose words describe it, and the tool refuses a piece without them, a photograph that
+is not a record in `data/polaroids.json` hung on this page, and,
 where the work's own repository is on the machine, a card whose words that repository no longer says. **Every
 quotation was read on a page of ours** (Show Your Work, our Infodumplings post, Default to Open, Scenius) and is
 checked against the mirror word for word. It sweeps the room's own words for **a ranking, a count, a pitch, a
