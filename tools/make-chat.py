@@ -6,8 +6,9 @@ room chat channels", with the channels in three groups:
 
   · COMMUNITY: World, the Community Center and Dead Tired Society (Ryan's
     addition, the same day), Community Care (the street's room for asking for
-    mutual aid, peer support and other help, Ryan's, the same day), and every
-    room at Cavendish Coworking.
+    mutual aid, peer support and other help, Ryan's, the same day), Show Your
+    Work (where our community shows what it is making, Ryan's, 2026-10-23), and
+    every room at Cavendish Coworking.
   · STAFF: the Town Hall's private rooms.
   · WORLD: everything else.
 
@@ -63,7 +64,7 @@ LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 CB = ROOT / "cb.js"
 HOUSE = "cavendish-coworking.html"
 # Community's rooms beside World and Cavendish's, in this order (Ryan, 2026-10-22).
-COMMUNITY = ["community-center.html", "dead-tired-society.html", "community-care.html"]
+COMMUNITY = ["community-center.html", "dead-tired-society.html", "community-care.html", "show-your-work.html"]
 
 problems = []
 

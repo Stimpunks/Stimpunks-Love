@@ -786,6 +786,23 @@
     }
    ]
   },
+  "cabin-sketch": {
+   "family": "Cabin Sketch",
+   "category": "Display",
+   "designer": "Impallari Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/cabinsketch",
+   "copyright": "Copyright 2011 The Cabin Project Authors (impallari@gmail.com), with Reserved Font Name \"Cabin\", \"Cabin Sketch\".",
+   "repository": "https://github.com/impallari/CabinSketch",
+   "variants": [
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "cabin-sketch-700.woff2",
+     "sha": "daa7a89b2a232f0d"
+    }
+   ]
+  },
   "calistoga": {
    "family": "Calistoga",
    "category": "Display",
@@ -3726,6 +3743,29 @@
      "style": "normal",
      "file": "schibsted-grotesk-400.woff2",
      "sha": "e3b56e90510a84ac"
+    }
+   ]
+  },
+  "sen": {
+   "family": "Sen",
+   "category": "Sans Serif",
+   "designer": "Kosal Sen",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sen",
+   "copyright": "Copyright 2023 The Sen Project Authors (https://github.com/philatype/Sen/)",
+   "repository": "https://github.com/philatype/Sen/",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "sen-400.woff2",
+     "sha": "f127ff80fe66cfa2"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "sen-400.woff2",
+     "sha": "f127ff80fe66cfa2"
     }
    ]
   },

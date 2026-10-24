@@ -340,6 +340,12 @@ DRAW = {
     # to, and the strap, the handle and the tip are --cmc-tie, 12.75. The floor
     # line is --cmc-dim and carries nothing. It lies still.
     "cmc-spare": """<path d="M3 29.5 H29" stroke="var(--cmc-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 26.5 L20.5 21.2 Q22.6 22.4 22.6 24.8 L21.8 26.6 Z" fill="var(--cmc-teal)" stroke="var(--cmc-rib)" stroke-width="1.2" stroke-linejoin="round"/><path d="M14.4 23.2 L15.2 26.6" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M22.4 25 H26 q2.8 0 2.8 -2.8 q0 -2.2 -2.2 -2.2" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M4.5 26.5 L2.6 27.2" stroke="var(--cmc-tie)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # Show Your Work: a blank card fallen off the wall onto the garage floor,
+    # face up, with its strip of masking tape still on it. The card is
+    # --syw-card, 14.63 on the shade and over the body threshold a marker is held
+    # to, and the tape is --syw-tape, 10.86. The floor line is --syw-dim and
+    # carries nothing. It lies still.
+    "syw-blank": """<path d="M3 29.5 H29" stroke="var(--syw-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M5.5 21.5 L23.5 17.5 L27 25.8 L9 29.2 Z" fill="var(--syw-card)"/><path d="M11 19.9 L19.6 18 L20.6 20.6 L12 22.4 Z" fill="var(--syw-tape)"/><path d="M8.6 24.6 L22.4 21.7 M9.8 27 L19 25.1" stroke="var(--syw-dim)" stroke-width="1" stroke-dasharray="2.4 2" stroke-linecap="round"/>""",
     "booth-strip": """<path d="M3 29.5 H29" stroke="var(--bmb-ink)" stroke-width="1.6" stroke-linecap="round"/><path d="M4 23.5 L27 17.5 L28.6 23.5 L5.6 29.5 Z" fill="var(--bmb-lamp)" stroke="var(--bmb-ink)" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 23.9 L10.6 23 L11.4 26.1 L7.8 27 Z M12.6 22.5 L16.2 21.6 L17 24.7 L13.4 25.6 Z M18.2 21.1 L21.8 20.2 L22.6 23.3 L19 24.2 Z M23.8 19.7 L27 18.9 L27.8 22 L24.6 22.8 Z" fill="var(--bmb-curtain)" stroke="var(--bmb-ink)" stroke-width=".8" stroke-linejoin="round"/>""",
     # Fantasy Fancy Dress: one faery wing come loose from its pair, lying on the
     # dark floor in front of the sheers. The wing is --ffd-rose outlined in

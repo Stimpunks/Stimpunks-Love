@@ -4839,6 +4839,35 @@ lot), and if the sun ever comes out in here it is this room that moves; the othe
 draws the roof and refuses an umbrella untied, two alike touching and four in a rainbow's order, because the ties
 are the room. Its lines about the rooms next door carry `holds`, the service board's rule.
 
+**SHOW YOUR WORK (§124) IS A GARAGE WITH THE DOOR ROLLED UP, AND ITS BENCH HOLDS ONLY WHAT ITS MAKER TURNED OVER.**
+Ryan's brief, 2026-10-23: a room led by our show your work philosophy and how we practise it, its channel under
+Community on the chat page, used to show the work of folks in our community in public, with the forums' Show your
+work as the longer-term, longer-form place for it. `tools/make-show-your-work.py` builds it out of
+`data/show-your-work.json` from four pages of ours (Show Your Work, the Infodumplings post Show Your Work, One Card at
+a Time, Default to Open, Scenius), every quotation checked against the mirror word for word; Austin Kleon's book is in
+copyright, so its lines are short and the long passages stay on our page. **Three places, three lengths of time**: the
+channel for today, the forum for the write-up and the conversation (how long each keeps things is read out of
+`lib.mjs`'s `LIFE` and the category's `keep` in `data/forum.json`, never typed), and **the bench**, for as long as
+its maker likes. **Turning a card over is the consent**, our post's line: every piece on the bench names whose it is
+as they asked to be named, who said yes and on what day, where it lives and the state it is in, says whose words
+describe it (`maker` or `ours`), and comes down the moment its maker asks, deleted, not hidden. **Nobody puts
+anybody else's work up**, however much they love it, and that includes Helen's work and sites, which are hers to
+turn over. The bench started with two unfinished things of our own, Cavendish Cards and this street, the way our
+Infodumplings post put the deck on the table; a card's `checked` names words in the work's own repository under
+`~/Documents/GitHub/`, read there when present, so a card cannot go on calling a deck a starter draft after it stops
+being one. **No photographs on the bench**, and the tool refuses a `photo` or an `<img>`: a picture of somebody's
+work can carry their room, face, screen or address, and extending the polaroid wall's rules to it is Ryan's call
+(DECISIONS.md); a picture goes in the maker's forum topic, where the CB redraws it. **The tool refuses a ranking, a
+count, a pitch, calling anybody a genius, gifted or a savant, and marking** in the room's voice with the negation
+window, skipping blockquotes and a maker's own words; **the friendly edits are a featured piece or a work of the month,
+a heart under every card, and an upload box "so people can put their own work up"**, which is a stranger's file on a
+page everybody reads with nobody having said yes. **The light is the day coming in level off the street through a
+door as wide as the wall, from behind you**, running out before the back wall, so nothing on the page casts a shadow
+you can see; **Dead Tired Society is the one to watch** (a corridor's wedge through a gap, nobody in it), and the
+other collisions are in §124. Cabin Sketch, a typeface drawn as its own working drawing, sets the name and headings
+and nothing at reading size. The way in for the bench is however people already talk to us, the service board's
+route, and its slot holds the room's words.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
@@ -5064,18 +5093,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §125 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §126 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§125 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§126 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §125 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §126 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

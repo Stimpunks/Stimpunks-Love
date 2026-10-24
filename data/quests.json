@@ -4077,6 +4077,39 @@
      "Everything on it is whatever you say it is."
     ]
    }
+  },
+  {
+   "id": "syw-blank",
+   "page": "show-your-work.html",
+   "room": "Show Your Work",
+   "title": "The card that is not there yet",
+   "posted": "There is a garage on the street with its door rolled up, where people in our community show what they are making before it is finished. The last card on its bench is blank. Go and find out what it asks.",
+   "rank": 1,
+   "takes": "about as long as it takes to walk up a driveway and look in",
+   "target": "a blank card with a strip of tape on it, fallen face up on the garage floor",
+   "code": "BLANK",
+   "learned": "Show Your Work’s bench ends in a blank card that asks what is missing, the way Cavendish Cards ships with a blank card that asks it of the deck. The bench holds only what its maker turned over, and a card comes down the moment its maker asks.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, between Community Care and Your Room: the one whose awning is a garage door, rolled up.",
+    "Under the heading On the bench, after the cards.",
+    "Right at the foot of the room, on the garage floor, where a blank card fell off the wall."
+   ],
+   "ask": {
+    "question": "The last card on Show Your Work’s bench is blank. What does it ask?",
+    "accept": [
+     "what is missing",
+     "whats missing",
+     "what's missing",
+     "missing"
+    ],
+    "answer": "What is missing?",
+    "why": "The bench is not full, and the blank card at the end of it asks what is missing, the way Cavendish Cards ships with a blank card that asks the same thing of the deck.",
+    "hints": [
+     "It is the last card under On the bench, the one with a dashed edge.",
+     "Cavendish Cards’ blank card asks the same thing of the deck.",
+     "What is missing?"
+    ]
+   }
   }
  ],
  "_where": "EVERY MARKER IS ON THE FLOOR OF ITS ROOM, which on a web page means the bottom of it, and the guild says so out loud. Scattering them at a different depth in every room would have been more like a hunt and would have made finding one a test of eyesight and of a mouse -- on a Disabled people's site, where the hunt is meant to be the walk between rooms rather than the search within one. So the hints name the ROOM, the class says how far the walk is, and the last hint says where on the floor. What is never the same twice is the marker itself: one drawing per room, in that room's own colours, refused by make-guild.py if a room has none.",

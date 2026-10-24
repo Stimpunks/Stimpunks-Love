@@ -189,6 +189,28 @@
       "more": "How the Dress-Up Den takes a look"
     },
     {
+      "id": "work",
+      "label": "Your work",
+      "room": "Show Your Work",
+      "page": "show-your-work.html",
+      "anchor": "your-work",
+      "takes": "Something you are making, writing, learning or fixing, finished or not, for a card on the bench.",
+      "asks": [
+        "Where it lives, how you want to be named, and what state it is in. Your words go on the card exactly as you give them.",
+        "No photographs on the bench yet. In progress is welcome. Finished is not required.",
+        "It comes down the moment you ask."
+      ],
+      "holds": [
+        "Say how you want to be named",
+        "Your words go on the card exactly as you give them",
+        "No photographs on the bench yet",
+        "In progress is welcome. Finished is not required.",
+        "It comes down the moment you ask"
+      ],
+      "route": "however",
+      "more": "How Show Your Work takes a piece of work"
+    },
+    {
       "id": "mural",
       "label": "A mural",
       "room": "Plural Mural",

@@ -1625,6 +1625,20 @@
       "sections": [
         123
       ]
+    },
+    "cabin-sketch": {
+      "where": "Show Your Work",
+      "page": "show-your-work.html",
+      "sections": [
+        124
+      ]
+    },
+    "sen": {
+      "where": "Show Your Work",
+      "page": "show-your-work.html",
+      "sections": [
+        124
+      ]
     }
   }
 }

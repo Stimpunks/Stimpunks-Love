@@ -98,6 +98,7 @@ rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 186
 healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a bed with no terms on it
 dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
 community-care.html   The room for asking: mutual aid and peer support under everybody's umbrellas, tied together
+show-your-work.html   A garage with the door rolled up: our community's work, in progress, on a bench lit by the day
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
 lightbulb-picture-house.html  Neurodiversity films and every Campfire Learn Together film, racks of cards. House lights up; nothing is blue
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
@@ -224,6 +225,7 @@ data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyri
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
 data/community-care.json  The roof's umbrellas, the four things the channel is for, and every quotation, each read on a page of ours
+data/show-your-work.json  The bench, the three places to show work, and every quotation, each read on a page of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The screens, the rack and the campfire rack. Every card says who made it, how long, and what is in it
 data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
@@ -289,6 +291,7 @@ python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and t
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
 python3 tools/make-community-care.py # Community Care's roof, its quotations and its credits; refuses sorting, debt, a means test, a tally, a form, and a quotation not on our page word for word
+python3 tools/make-show-your-work.py # Show Your Work's garage, its quotations, its bench and its credits; refuses a piece nobody turned over, a ranking, a count, a pitch, a genius, and a quotation not on our page word for word
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
 python3 tools/make-samefood.py     # Samefood Cafe's table, menu, counter and trays, and the credits; refuses anything that touches
@@ -687,6 +690,18 @@ Knowledge System mirror's copy word for word when the mirror is on the machine. 
 **sorting the people who ask, debt, a means test, a tally, advice and pity**, with the negation window and skipping
 blockquotes, and refuses the page without its paragraph saying the channel is not a crisis line, with a form or a box
 anywhere on it, or with a line about another room that room no longer says.
+
+`make-show-your-work.py` builds Show Your Work out of `data/show-your-work.json`, a garage on the street with the
+door rolled up where the work of folks in our community is shown before it is finished. It **draws the garage**
+from the driveway, with a card pinned over the bench for every piece of work on it and one blank, and **writes the
+bench**: every piece names whose it is as they asked to be named, who said yes and when, where it lives and what
+state it is in, and says whose words describe it, and the tool refuses a piece without them, a photograph, and,
+where the work's own repository is on the machine, a card whose words that repository no longer says. **Every
+quotation was read on a page of ours** (Show Your Work, our Infodumplings post, Default to Open, Scenius) and is
+checked against the mirror word for word. It sweeps the room's own words for **a ranking, a count, a pitch, a
+genius and marking**, with the negation window and skipping blockquotes and a maker's own words, and refuses a
+form, an upload box or anything editable on the page. How long the channel and the forum keep things is read out
+of `lib.mjs` and `data/forum.json`, never typed.
 
 `make-chimera-obscura.py` builds Chimera Obscura out of `data/chimera-obscura.json`, a camera obscura on the
 street where a chimera is made out of two animals, the body from one and every other part from either, and

@@ -3125,5 +3125,33 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/splinesansmono/SplineSansMono%5Bwght%5D.ttf",
    "note": "The Source (\u00a7123), every commit's short id, every date and every plate, because those are what a repository writes for itself. The variable font from the family's own directory in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2, declared at 400 only."
   }
+ ],
+ "cabin-sketch": [
+  {
+   "file": "cabin-sketch-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 140712,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/cabinsketch/CabinSketch-Bold.ttf",
+   "note": "Show Your Work (\u00a7124), the room's name, its headings and the name on its street door, and nothing at reading size. The family's own bold in google/fonts, saved as WOFF2 with fontTools and nothing else: every glyph is kept, because the family reserves the names Cabin and Cabin Sketch, and a cut-down copy would be a modified one."
+  }
+ ],
+ "sen": [
+  {
+   "file": "sen-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 37668,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/sen/Sen%5Bwght%5D.ttf",
+   "note": "Show Your Work (\u00a7124), every word that is read. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin letters and saved as WOFF2. Declared at 400 and 700 against this one file."
+  },
+  {
+   "file": "sen-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 37668,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/sen/Sen%5Bwght%5D.ttf",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
+  }
  ]
 }

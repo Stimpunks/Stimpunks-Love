@@ -880,6 +880,12 @@ CMC_LINK, CMC_RIB, CMC_TIE, CMC_TEAL = "#F5C451", "#16141B", "#E9E2D6", "#2BA89C
 # a rim, a shadow or the stone faces between the pools.
 SRC_STONE, SRC_POOL, SRC_INK, SRC_DIM = "#F4EFE4", "#B4E1DA", "#25302E", "#4F5B58"
 SRC_LINK, SRC_RUST = "#155E62", "#8A4519"
+# Show Your Work (love.css §124). A garage with the door rolled up: every word in
+# the garage's shade, on a sheet of hardboard, or on the card stock the work is
+# pinned up on; nothing set on the day, the concrete or the door.
+SYW_SHADE, SYW_BOARD, SYW_TEXT, SYW_DIM = "#1D2024", "#282C31", "#F2EFE7", "#BFC3C7"
+SYW_LINK, SYW_CARD, SYW_INK, SYW_INK2 = "#93C8F0", "#F6F2E8", "#1C1F23", "#4B5157"
+SYW_PEN, SYW_TAPE = "#1B5C97", "#E2D29E"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3559,6 +3565,25 @@ PAIRS = [
     (SRC_RUST,  SRC_STONE, False, "the source: the line over the name, and the marker's drips, held to the body "
                                   "threshold a marker is"),
     (SRC_RUST,  SRC_POOL,  False, "the source: every deposit's short id"),
+    # ── Show Your Work (§124) ───────────────────────────────────────────────
+    # Every word in the garage's shade, on a sheet of hardboard, or on a card
+    # pinned over the bench; the day, the concrete, the door and the tools
+    # carry none.
+    (SYW_TEXT,  SYW_SHADE, False, "show your work: the name, every heading, the lede, every paragraph and "
+                                  "quotation, the rules, the blank card, and the name and blurb on the street door"),
+    (SYW_TEXT,  SYW_BOARD, False, "show your work: what each of the three places is for, on its hardboard"),
+    (SYW_DIM,   SYW_SHADE, False, "show your work: the trail, the line over the name, the caption under the "
+                                  "garage, whose each quotation is, and the credits"),
+    (SYW_DIM,   SYW_BOARD, False, "show your work: each place's terms, on its hardboard"),
+    (SYW_LINK,  SYW_SHADE, False, "show your work: every link, the backlink, the door's knock, the focus ring and "
+                                  "the chalk line under every heading"),
+    (SYW_LINK,  SYW_BOARD, False, "show your work: the links on the three places, and the focus ring there"),
+    (SYW_INK,   SYW_CARD,  False, "show your work: a card's title, what the work is, and where it is"),
+    (SYW_INK2,  SYW_CARD,  False, "show your work: whose the work is, whose words describe it, and where a link goes"),
+    (SYW_PEN,   SYW_CARD,  False, "show your work: every link on a card, and the focus ring on a card"),
+    (SYW_CARD,  SYW_SHADE, False, "show your work: the job marker's blank card on the garage floor, held to the "
+                                  "body threshold a marker is, and the blank card's dashed edge on the bench"),
+    (SYW_TAPE,  SYW_SHADE, False, "show your work: the marker's strip of tape, and the rule beside every quotation"),
     # FANTASY FANCY DRESS: every word stands on the dark in front of the sheers
     # or on a plate a little lighter, never in the light; the gold sheer names
     # each rail and rings the focus, and a gold or rose button carries the dark.
@@ -4571,6 +4596,20 @@ ORNAMENT = {
                "milky water. It carries no word.",
     "#c0703a": "the source: the rust streaks down the stone faces in the drawing, 2.77 on a face. The "
                "marker's drips use --src-rust instead, which is measured as text. It carries no word.",
+    "#eeebe3": "show your work: the street side of the drawing, the siding round the opening and the "
+               "driveway in the day, 2.11 against the concrete lines on it. It carries no word.",
+    "#a7a398": "show your work: the concrete floor where the day lands on it in the drawing, the siding's "
+               "lines, 4.27 on the inside walls. It carries no word.",
+    "#3a3e44": "show your work: the garage's back wall and the far end of the floor in the drawing, 1.52 on "
+               "the shade, which is how a wall out of the day looks. It carries no word.",
+    "#d7d8d3": "show your work: the door's panels rolled up under the header, in the drawing and on the street "
+               "door's awning, and the bench top, 7.50 on the wall. It carries no word.",
+    "#6f757c": "show your work: the tools, the bench's apron and legs, the door's tracks, seams and handle, "
+               "and the side walls by the door, 2.31 on the wall and 3.25 on the door. It carries no word.",
+    "#e07a3c": "show your work: the outline painted round every tool on the shadow board, 3.59 on the wall, "
+               "which is what shows where each tool goes and that one is out. It carries no word.",
+    "#3f6a8c": "show your work: the backs of the cards nobody has turned over yet, in the box at the end of "
+               "the bench, each edged in --syw-card at 5.14, 1.87 on the wall. It carries no word.",
     "#8c96a0": "community care: the rain sky over the roof in the drawing and on the street door's "
                "awning, and the umbrellas' poles under the roof, 5.46 on the paving. It carries no word.",
     "#c9d1d8": "community care: the rain falling on the roof, 1.95 on the sky, which is how rain looks. "

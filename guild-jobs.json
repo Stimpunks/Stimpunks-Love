@@ -605,6 +605,11 @@
    "id": "pil-tape",
    "title": "Who decides what a pallet is?",
    "room": "The Pile"
+  },
+  {
+   "id": "syw-blank",
+   "title": "The card that is not there yet",
+   "room": "Show Your Work"
   }
  ],
  "badges": [

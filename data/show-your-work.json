@@ -1,0 +1,247 @@
+{
+  "_what": "Show Your Work, a garage on the street with the door rolled up, where the work of folks in our community is shown before it is finished. tools/make-show-your-work.py builds the garage drawing, every section with a quotation in it, the bench, the three places to show your work, the rules, next door and the credits into show-your-work.html, and a table of the quotations into liner-notes.html. Do not hand-edit between the syw: markers.",
+  "_brief": "Ryan, 2026-10-23: a new room, Show Your Work, led by an explanation of the show your work philosophy and how we practise it at Stimpunks, from our Show Your Work page and our Infodumplings post Show Your Work, One Card at a Time; its CB channel in the Community section of the chat page; used to showcase the work of folks in our community in public; and linking the Show your work forum as the longer-term, longer-form place to capture and discuss it within the community.",
+  "_quotes": "EVERY QUOTATION WAS READ ON ONE OF OUR OWN PAGES in `pages`, and the tool checks each against the Knowledge System mirror's copy word for word when the mirror is on the machine. Somebody else's line says it was read on our page, the Community Library's rule. Where our page names nobody for a line, neither does this room: the created serendipity line is credited to the blog our page names, The Principal of Change, and to nobody's name, because our page gives none and this room does not fill it from memory. Austin Kleon's book is in copyright, so every line of it here is short and the long passage stays on our page, linked.",
+  "_bench": "THE BENCH HOLDS ONLY WHAT ITS MAKER TURNED OVER. Every piece of work carries who made it as they asked to be named (`whose`), who said yes and when (`given`), where it lives (`link`, an address anybody can open), the state it is in (`state`), and what it is, with `words` saying whose words those are: `maker` for the maker's own, `ours` for ours, which the card says out loud. It comes down the moment its maker asks, and coming down is deleting the entry, not hiding it. To start the bench the house put two unfinished things of its own on it, the way our Infodumplings post put Cavendish Cards on the table to anchor its show your work night. A `checked` block names words in the work's own repository that the card repeats, and the tool reads them there when that repository is on the machine, so a card cannot go on saying a deck is a starter draft after it stops being one.",
+  "_no_photo": "NO PHOTOGRAPHS ON THE BENCH YET. A picture of somebody's work can carry the room it was taken in, a face, a screen or an address, and the street's photograph rules (data/polaroids.json) have not been extended to the bench: Ryan's call, in DECISIONS.md. A picture belongs in the maker's forum topic for now, where the CB redraws it and takes off what a camera writes.",
+  "read": "2026-10-23",
+  "words": 40,
+  "pages": {
+    "syw": {
+      "title": "Show Your Work",
+      "url": "https://stimpunks.org/philosophy/show-your-work/",
+      "mirror": "pages/philosophy__show-your-work.md"
+    },
+    "infod": {
+      "title": "Infodumplings: Show Your Work, One Card at a Time",
+      "url": "https://stimpunks.org/2026/07/14/infodumplings-show-your-work-one-card-at-a-time/",
+      "mirror": "posts/infodumplings-show-your-work-one-card-at-a-time.md"
+    },
+    "open": {
+      "title": "Default to Open",
+      "url": "https://stimpunks.org/philosophy/default-to-open/",
+      "mirror": "pages/philosophy__default-to-open.md"
+    },
+    "scenius": {
+      "title": "Scenius",
+      "url": "https://stimpunks.org/glossary/scenius/",
+      "mirror": "glossary/scenius.md"
+    }
+  },
+  "quotes": {
+    "share": {
+      "text": "Share what you love, and the people who love the same things will find you.",
+      "who": "Austin Kleon", "work": "Show Your Work!",
+      "url": "https://openlibrary.org/works/OL16821630W/Show_Your_Work%21?edition=key%3A/books/OL25448816M",
+      "read_on": "syw"
+    },
+    "process": {
+      "text": "Show your work and your process. Showing your work creates serendipity and creates a scene.",
+      "who": "Stimpunks", "read_on": "syw"
+    },
+    "serendipity": {
+      "text": "created serendipity: the more connected you are, the more ideas seem to find you, not the other way around.",
+      "who": "The Principal of Change", "work": "3 Obvious Ways Twitter Promotes Literacy",
+      "url": "http://georgecouros.ca/blog/archives/6641",
+      "read_on": "syw"
+    },
+    "learn": {
+      "text": "The best way to get started on the path to sharing your work is to think about what you want to learn, and make a commitment to learning it in front of others.",
+      "who": "Austin Kleon", "work": "Show Your Work!",
+      "url": "https://openlibrary.org/works/OL16821630W/Show_Your_Work%21?edition=key%3A/books/OL25448816M",
+      "read_on": "syw"
+    },
+    "eno": {
+      "text": "Scenius stands for the intelligence and the intuition of a whole cultural scene. It is the communal form of the concept of the genius.",
+      "who": "Brian Eno", "work": "The Technium: Scenius, or Communal Genius",
+      "url": "https://kk.org/thetechnium/scenius-or-comm/",
+      "read_on": "scenius"
+    },
+    "ecology": {
+      "text": "great ideas are often birthed by a group of creative individuals—artists, curators, thinkers, theorists, and other tastemakers—who make up an “ecology of talent.”",
+      "who": "Austin Kleon", "work": "Show Your Work!",
+      "url": "https://openlibrary.org/works/OL16821630W/Show_Your_Work%21?edition=key%3A/books/OL25448816M",
+      "read_on": "syw"
+    },
+    "contribute": {
+      "text": "Being a valuable part of a scenius is not necessarily about how smart or talented you are, but about what you have to contribute—the ideas you share, the quality of the connections you make, and the conversations you start.",
+      "who": "Austin Kleon", "work": "Show Your Work!",
+      "url": "https://openlibrary.org/works/OL16821630W/Show_Your_Work%21?edition=key%3A/books/OL25448816M",
+      "read_on": "syw"
+    },
+    "notice": {
+      "text": "If you want to get, you have to give. If you want to be noticed, you have to notice.",
+      "who": "Austin Kleon", "work": "Show Your Work!",
+      "url": "https://openlibrary.org/works/OL16821630W/Show_Your_Work%21?edition=key%3A/books/OL25448816M",
+      "read_on": "syw"
+    },
+    "dark": {
+      "text": "Most of what we make, we make in the dark.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "theme": {
+      "text": "In progress is not just allowed. In progress is the theme.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "seams": {
+      "text": "That’s what showing your work actually looks like when you mean it. Not a highlight reel posted after the fact, but the draft left out where people can see the seams — and change them.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "humanizing": {
+      "text": "We are responsible for humanizing flow in the systems we inhabit. We do that best when we default to open.",
+      "who": "Stimpunks", "read_on": "open"
+    },
+    "facedown": {
+      "text": "A spread laid face-down stays private until the person turns it up.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "consent": {
+      "text": "The gesture of turning a card over is the consent.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "open": {
+      "text": "That’s the whole philosophy of a good sharing space, really: open by default, shared by consent, no one turned over against their will.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "pitch": {
+      "text": "A show-your-work night is not a pitch competition. The difference is where the value lives.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "audit": {
+      "text": "When someone shares the rough, in-progress, held-together-with-tape version of their thing, the room is not there to audit it against a standard of done. The room is there to receive a design brief.",
+      "who": "Stimpunks", "read_on": "infod"
+    },
+    "gap": {
+      "text": "The gap in your project isn’t a flaw in you — it’s just the next card nobody’s drawn yet.",
+      "who": "Stimpunks", "read_on": "infod"
+    }
+  },
+  "sections": {
+    "share": [
+      {"q": "share"},
+      {"p": "That is the whole of the idea, and it is Austin Kleon’s, from his book Show Your Work!, which our own [Show Your Work](https://stimpunks.org/philosophy/show-your-work/) page is built round. Showing your work is not showing off the finished thing. It is letting people see the making: the draft, the false start, the thing you are learning as you go."},
+      {"q": "process"},
+      {"p": "The serendipity is the point. Work kept in a drawer meets nobody. Work left out where people can see it meets the people who love the same things, and they turn up with the piece you were missing, or a question that sends you somewhere better, or just to say they have been making something like it too."},
+      {"q": "serendipity"},
+      {"p": "And it does not wait until you know what you are doing. Kleon’s way in is to learn out loud:"},
+      {"q": "learn"}
+    ],
+    "scenius": [
+      {"q": "eno"},
+      {"p": "A garage is where the story of the lone genius usually starts: one person, the door pulled down, coming out years later with the finished thing. Brian Eno’s word for what really happens is scenius, and Kleon took it up:"},
+      {"q": "ecology"},
+      {"q": "contribute"},
+      {"p": "So the door is up. Nobody in here is a genius, and nobody has to be: what makes a scene is people looking at each other’s work, borrowing, answering and adding, and that only happens when the work is out where the scene can get at it. It runs both ways:"},
+      {"q": "notice"},
+      {"p": "Showing your work is half of it. Looking at somebody else’s, and telling them what it set off in you, is the other half."}
+    ],
+    "practice": [
+      {"q": "dark"},
+      {"p": "Our Infodumplings post on a show your work night opens with that line, and the rest of how we do it at Stimpunks follows from refusing it. We default to open:"},
+      {"q": "humanizing"},
+      {"p": "So the work goes out before it is done. [Cavendish Cards](https://github.com/Stimpunks/Cavendish-Cards), our deck for naming sensory and interaction needs, says it is a starter draft on the tin, grows one card at a time in public, and ships with a blank card that asks what is missing. Our [Infodumplings show your work night](https://stimpunks.org/2026/07/14/infodumplings-show-your-work-one-card-at-a-time/) put that deck on the table to anchor it, seams and all, and made its open mic a show-and-tell for whatever anybody is building:"},
+      {"q": "theme"},
+      {"p": "This street shows its own the same way. Its source and its whole history are [on GitHub](https://github.com/Stimpunks/Stimpunks-Love), every change goes in [the changelog](changelog.html) the day it is made, mistakes and corrections included, and [How it’s made](design.html) says how it is built, by whom, and with what."},
+      {"q": "seams"}
+    ],
+    "consent": [
+      {"q": "facedown"},
+      {"q": "consent"},
+      {"p": "That is Cavendish Cards’ rule, and it is this garage’s too. The door is up because somebody rolled it up. Nothing goes on the bench unless the person who made it put it there, however much somebody else loves it, and it comes down the moment they ask, gone rather than hidden."},
+      {"q": "open"},
+      {"p": "Sharing a draft is something you do when you are ready, and not one second before. Plenty of work stays face down in the box at the end of the bench, and nobody here will turn it over for you."}
+    ],
+    "noticing": [
+      {"q": "pitch"},
+      {"p": "When work is being sold, the value is the finished thing, and everything unfinished is something to hide. Here the value is the making, so the unfinished parts are the interesting ones, and what somebody brings is not up for judging."},
+      {"q": "audit"},
+      {"q": "gap"},
+      {"p": "So when somebody shows a draft, the room notices it: says what it set off, asks how it was done, and offers what it knows when it is asked. If you want feedback on your own work, say so, and say what kind. Nobody gets marked here."}
+    ]
+  },
+  "bench": [
+    {
+      "key": "cavendish-cards",
+      "title": "Cavendish Cards",
+      "whose": "Stimpunks",
+      "given": "ours, put on the bench to start it, 2026-10-23",
+      "link": "https://github.com/Stimpunks/Cavendish-Cards",
+      "also": [
+        {"words": "Play it on the web", "url": "https://cavendish.space/"}
+      ],
+      "what": "Cavendish Cards is an open deck for naming sensory and interaction needs — you point at a card, or lay a few, and no reading is required to play.",
+      "words": "maker",
+      "from": "its README",
+      "state": "A starter draft, growing one card at a time in the open. Its pictures are still placeholders drawn in code, waiting on the real thing, and its call for art is open.",
+      "licence": "Public domain, under CC0",
+      "checked": {
+        "repo": "Cavendish-Cards",
+        "files": {
+          "README.md": [
+            "an open deck for naming sensory and interaction needs — you point at a card, or lay a few, and no reading is required to play",
+            "the deck's pictures are still placeholders, drawn in code and waiting on the real thing",
+            "Dedicated to the public domain under"
+          ],
+          "cavendish-cards-starter-deck.md": [
+            "Version: 0.1 (starter draft)",
+            "It grows in the open: one card, one file"
+          ]
+        }
+      }
+    },
+    {
+      "key": "stimpunks-world",
+      "title": "Stimpunks.World",
+      "whose": "Stimpunks",
+      "given": "ours, put on the bench to start it, 2026-10-23",
+      "link": "https://github.com/Stimpunks/Stimpunks-Love",
+      "also": [
+        {"words": "The changelog", "url": "changelog.html"},
+        {"words": "How it’s made", "url": "design.html"}
+      ],
+      "what": "This street, the one you are standing on. A room at a time, every one its own world, with the tools that build and check it in the same repository as the rooms.",
+      "words": "ours",
+      "state": "Never finished, on purpose. Every change goes in the changelog the day it is made.",
+      "licence": "Our words and design under CC BY-SA 4.0; the licence file says what keeps its own terms",
+      "holds": {
+        "design.html": ["The source and its whole history are", "on GitHub"]
+      }
+    }
+  ],
+  "blank": {
+    "title": "The bench is not full. What is missing?",
+    "line": "Cavendish Cards ships with a blank card that asks what the deck does not have yet. So does this bench. If you are making something, [put it out](#your-work)."
+  },
+  "places": {
+    "channel": "Show what you are making today: a picture, a link, a sentence about where you are stuck, and see what everybody else is making.",
+    "forum": "For the longer write-up and the conversation that comes after it: what you made, how, what went wrong, and what you are trying next. A topic there can carry pictures and files, and people can come back to it.",
+    "bench": "For work you want out on the street for as long as you like, where anybody can find it, signed on or not."
+  },
+  "ask": [
+    "**Where your work lives**: an address anybody can open, a repository, a page, a shop, a post.",
+    "**How you want to be named**: your name, a handle, or none at all. Say how you want to be named and that is how it goes on the card.",
+    "**What it is, in your own words**, if you like. Your words go on the card exactly as you give them; send none and we write a line and say we did.",
+    "**What state it is in**: a first draft, half done, abandoned and coming back, never finished. In progress is welcome. Finished is not required."
+  ],
+  "after": "Send it however you already talk to us: through [the contact page](https://stimpunks.org/contact/), in [our community](https://stimpunks.org/community/), by email or in a text message. It comes down the moment you ask, and coming down means gone, not hidden. No photographs on the bench yet: a picture of your work belongs in your forum topic, where the CB redraws it and takes off what a camera writes.",
+  "not_here": [
+    {"name": "Nothing ranked.", "line": "No featured work, no best of, no work of the month. The bench is in the order things arrived, and nothing on it is above anything else."},
+    {"name": "Nothing counted.", "line": "No likes, no views, no followers, and no number of anything on the bench."},
+    {"name": "Not a pitch.", "line": "Nobody is pitching to anybody, nobody is judging, and nothing has to be defended. A show your work night is a show-and-tell."},
+    {"name": "No marking.", "line": "Nobody’s draft is held up against a standard of done. If you want feedback, ask for it, and say what kind; if you did not ask, what you get is somebody noticing."},
+    {"name": "Nobody put up by somebody else.", "line": "Nothing goes on the bench unless the person who made it asked, however much somebody else loves it, and it comes down the moment they ask."},
+    {"name": "Nobody is a genius here.", "line": "Scenius, not genius: work gets better with people looking at it, and nobody in here is above anybody else."},
+    {"name": "Finished is not required.", "line": "A draft, a sketch, a broken thing, a thing you stopped and are coming back to. The seams can show."}
+  ],
+  "elsewhere": [
+    {"page": "the-open-notebook.html", "name": "The Open Notebook",
+     "line": "where Ryan Boren’s piece on keeping three journals in one notebook is in full, as he shared it at Infodumplings, with the questions our community asked of it.",
+     "holds": ["the day he shared it at Infodumplings"]},
+    {"page": "sandbox.html", "name": "The Sandbox",
+     "line": "a sandbox at dusk where nobody is waiting for you to finish anything: try things, break things, and say what you notice.",
+     "holds": ["Try things, break things, and tell us what you notice", "nobody is waiting for you to finish anything"]},
+    {"page": "learning-large.html", "name": "Learning Large",
+     "line": "whose sowing log is this street showing its own work: what came up wrong while it was built, and what caught it.",
+     "holds": ["A glasshouse keeps a log of what was sown and what came up wrong"]}
+  ]
+}

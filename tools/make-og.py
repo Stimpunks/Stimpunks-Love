@@ -1055,6 +1055,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--care h1 {{ font-size: 112px; margin-top: 4px !important; }}
 .og--care .cmc-sub {{ font-size: 32px; margin-top: 10px !important; max-width: 900px; }}
 
+/* show your work — THE GARAGE WITH THE DOOR UP. The page's own drawing, lifted
+   rather than redrawn, across the top from the header to the threshold, and every
+   word below it in the garage's shade, where the room sets every word. The
+   name in the room's own face; nothing is set on the day. */
+.og--syw {{ width: 100%; padding: 0 0 30px; gap: 0; justify-content: flex-start; }}
+.og--syw .og-garage {{ margin: 0 !important; line-height: 0; }}
+.og--syw .og-garage svg {{ display: block; width: 1200px; height: auto; max-width: none; border-radius: 0; }}
+.og--syw .og-words {{ padding: 18px 60px 0; }}
+.og--syw .og-words > * {{ margin: 0 !important; }}
+.og--syw .syw-over {{ font-size: 18px; }}
+.og--syw h1 {{ font-size: 104px; margin-top: 2px !important; }}
+.og--syw .syw-sub {{ font-size: 30px; margin-top: 8px !important; max-width: 1000px; }}
+
 /* fantasy fancy dress — THE BACK OF THE SHOP OVER THE SIGN. The sheers and the
    rail of stock are the page's own drawing, across the top; every word sits
    under them on the dark, where the room sets every word. */
@@ -4068,6 +4081,41 @@ def card_chimera(p):
         f"table, lying flat like a picture, a brown otter with a raccoon's mask, pointed ears and ringed tail.",
     )
 
+def card_syw(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE GARAGE ARE
+    # LIFTED FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="syw-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="syw-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: show-your-work.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the drawing from the header to the threshold, cropped by
+    # its own viewBox rather than by a margin, so nothing runs off the card.
+    garage = p["sywgarage"].replace('viewBox="0 0 1200 440"', 'viewBox="0 42 1200 340"', 1)
+    if garage == p["sywgarage"]:
+        raise SystemExit(
+            "REFUSING: show-your-work.html's garage is no longer 1200 by 440, and the card\n"
+            "crops it by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--syw" data-fit="card">'
+        f'<div class="og-garage">{garage}</div>'
+        f'<div class="og-words"><p class="syw-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="syw-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card in the dark grey of a garage out of the day. Across the top, a garage seen from the "
+        f"driveway with its white door rolled up under the header, daylight on the concrete floor by the "
+        f"door and the back wall in shade. On the back wall, tools hang on a board inside orange outlines "
+        f"painted round them, with one outline empty; over a long bench, cream cards are pinned up with "
+        f"masking tape, the last one blank with a dashed edge; and at the end of the bench a box of blue "
+        f"cards stands with their backs turned. Below, small grey capitals reading {plain(over.group(1))}, "
+        f"then \u201c{p['h1text']}\u201d in large sketched cream letters, hatched as if drawn in pencil, "
+        f"and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_care(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE ROOF ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5523,6 +5571,7 @@ CARDS = {
     "bodymind-booth": card_booth,
     "chimera-obscura": card_chimera,
     "community-care": card_care,
+    "show-your-work": card_syw,
     "fancy-dress": card_fancy,
     "collections":  card_collection,
     "mapping":      card_map,
@@ -5662,6 +5711,7 @@ def main():
         ("booth",    "bodymind-booth.html", r'(<svg class="bmb-booth".*?</svg>)'),
         ("chmscene", "chimera-obscura.html", r'(<svg class="chm-scene__draw".*?</svg></g></svg>)'),
         ("cmcroof",  "community-care.html", r'(<svg class="cmc-canopy".*?</svg>)'),
+        ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),
         ("gallery",  "collection-collection.html", r'(<svg class="cc-gallery".*?</svg>)'),
         ("stage",    "laughingstock.html", r'(<svg class="ls-stage".*?</svg>)'),
