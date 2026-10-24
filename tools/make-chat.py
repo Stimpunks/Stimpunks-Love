@@ -10,9 +10,11 @@ room chat channels", with the channels in groups:
     Work (where our community shows what it is making, Ryan's, 2026-10-23), and
     every room at Cavendish Coworking.
   · STAFF: the Town Hall's private rooms.
-  · EVERY OTHER ROOM, BY ITS TAGS (Ryan's ask, 2026-10-24, "Give rooms tags and
-    use those tags to group them in /chat", replacing the one group called
-    World that held everything else). data/room-tags.json gives every room on
+  · EVERY ROOM BUT STAFF'S AND WORLD, BY ITS TAGS (Ryan's ask, 2026-10-24,
+    "Give rooms tags and use those tags to group them in /chat", replacing the
+    one group called World that held everything else; and the same morning,
+    "Tag Community's rooms as well", so Community's are in Community and under
+    their tags too). data/room-tags.json gives every room on
     the street's list its tags, says what each tag means and the order the
     groups come in, and a room is under every tag it has, in walking order. Ryan's
     come first, Music to Make/build; the rest were added so every room has one
@@ -54,9 +56,10 @@ noticing:
   · A ROOM WITH NO TAG, A TAG ON NO ROOM, OR A TAG THE LIST DOES NOT HAVE. A
     new room on the street's list with no entry in data/room-tags.json would
     sit in no group but the radio's fallback, so this stops until it has one.
-    A room the chat already groups as Community or Staff is refused a tag,
-    because the chat lists it there and a tag on it would do nothing. A page
-    the street's list does not have is refused too.
+    A Staff room is refused a tag, because a tag group is listed for anybody
+    and the chat lists a Staff room only for a pass that can go in; so is
+    World, which is the whole street's channel and first in Community, and the
+    chat page itself. A page the street's list does not have is refused too.
   · MUSIC OR VIDEOS ON A ROOM WITH NOTHING TO PRESS AND PLAY, or a room on the
     Now Playing bill with neither. Those two tags are the only ones something
     else on the street can check, so they are checked against
@@ -196,7 +199,7 @@ for t in tagdoc.get("tags", []):
     names.add(n.casefold())
     vocab.append({"key": k, "name": n.strip()})
 known = {v["key"] for v in vocab}
-grouped = set(community) | set(mods)
+grouped = set(mods) | ({world} if world else set())
 tagged = {v["key"]: [] for v in vocab}
 given = tagdoc.get("rooms", {})
 for p, ts in given.items():
@@ -205,7 +208,7 @@ for p, ts in given.items():
         refuse(f"{TAGS.name} tags {p}, and the street's list (cb-rooms.json) has no such room.")
         continue
     if t in grouped or t == stem:
-        refuse(f"{TAGS.name} tags {p}, which the chat lists under Community or Staff, or is the chat itself: take its tags off.")
+        refuse(f"{TAGS.name} tags {p}, which is a Staff room, World or the chat itself, and those are never under a tag: take its tags off.")
         continue
     if not isinstance(ts, list) or not ts:
         refuse(f"{TAGS.name}: {p} has no tags.")

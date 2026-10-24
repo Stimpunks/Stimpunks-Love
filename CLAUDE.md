@@ -3998,13 +3998,15 @@ conversation is never in the address, because the address goes into the browser'
 in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
 World or This room, popped) as they are stored, so the chat page never resizes or retunes the radio on another page. The
 groups: Community (World, the Community Center, Dead Tired Society, Community Care, Show Your Work and Cavendish's rooms out of
-`data/coworking.json`), Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`), and **every other
-room under each of its tags** (Ryan's ask, 2026-10-24, replacing the one World group). `tools/make-chat.py` writes them onto
+`data/coworking.json`), Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`), and **every room
+but Staff's and World under each of its tags**, Community's too (Ryan's asks, 2026-10-24, replacing the one World group). `tools/make-chat.py` writes them onto
 the page and refuses a quiet room there, because the page is public. **ROOM TAGS ARE `data/room-tags.json`**: the tags in
 the order their groups come (Ryan's first, Music to Make/build, in his order and words; the rest added the same day so every
 room has one that is true of it), what each means, and every room's, keyed by filename. A room is in every group it is tagged, so
 `chatShown` marks the first of a room's links for the keyboard and `chatRove` takes the first shown. **A new room needs its
-tags before `make-chat.py` will run**, and a Community or Staff room is refused one, because the chat lists it there.
+tags before `make-chat.py` will run**, Community's rooms included (Ryan, the same morning: they are in Community and
+under their tags too); a Staff room is refused one, because a tag group is listed for anybody and a Staff room only for a
+pass that can go in, and so is World, the whole street's channel.
 **Music and videos are held to the Now Playing bill both ways**: tagged music or videos means something to press and play,
 and a room on the bill has one of the two. The friendly edits are tagging a room for what it is near rather than what it is,
 piling tags on a room "so more people find it", and a count beside a group. **The friendly

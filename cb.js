@@ -3935,25 +3935,27 @@
      Society, Community Care, Show Your Work and Cavendish Coworking's rooms;
      Staff is the Town Hall's private rooms and the forums' locked categories,
      each only for a pass that can go in (the server named the categories to
-     their readers only); and every other room is under each of its tags
-     (Ryan's ask, 2026-10-24), in walking order, a tag's group in the order
-     data/room-tags.json lists them, with the forums' other categories after
-     The forums, as everywhere on the radio. So a room can be in more than one
-     group, and its link is in each. More rooms holds anything the page did
+     their readers only); and every room but Staff's and World is under each
+     of its tags (Ryan's asks, 2026-10-24), Community's too, in walking order,
+     a tag's group in the order data/room-tags.json lists them, with the
+     forums' other categories after The forums, as everywhere on the radio. So
+     a room can be in more than one group, and its link is in each. A staff
+     room is never under a tag, so it is only ever listed for a pass that can
+     go in. More rooms holds anything the page did
      not tag, which make-chat.py refuses at the build, so it is only ever a
      page older than the street's list. Never a room that keeps to itself,
      which the street's list does not name; never this page, which is no
      channel; and the World room once, as World, whose channel it is. */
   function chatChannels(s) {
-    var spec = chatSpec(), taken = {}, community = [], staff = [], tagged = [], seen = {}, cats = [], more = [];
-    taken[CHAT_PAGE] = true;
+    var spec = chatSpec(), taken = {}, staffed = {}, community = [], staff = [], tagged = [], seen = {}, cats = [], more = [];
+    taken[CHAT_PAGE] = staffed[CHAT_PAGE] = staffed[WORLD_CALL] = true;
     spec.community.forEach(function (t) {
       taken[t] = true;
       if (t === WORLD_CALL) community.push(byTag[WORLD_CALL] || { tag: WORLD_CALL, name: 'World', path: '/' + WORLD_CALL + '.html' });
       else if (byTag[t]) community.push(byTag[t]);
     });
     spec.staff.forEach(function (x) {
-      taken[x.tag] = true;
+      taken[x.tag] = staffed[x.tag] = true;
       if (byTag[x.tag] && mayStaff(s, x)) staff.push(byTag[x.tag]);
     });
     (rooms || []).forEach(function (r) {
@@ -3964,7 +3966,7 @@
       var list = [];
       g.rooms.forEach(function (t) {
         var r = byTag[t];
-        if (!r || taken[t] || r.quiet || r.forum) return;
+        if (!r || staffed[t] || r.quiet || r.forum) return;
         list.push(r);
         seen[t] = true;
         if (t === FORUM_PAGE) cats.forEach(function (c) { list.push(c); seen[c.tag] = true; });
