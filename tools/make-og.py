@@ -6310,18 +6310,29 @@ def main():
                          "before": png.read_bytes() if png.exists() else None})
 
         def render(job):
-            # Out of the way first, so a picture left from an earlier run can
-            # never pass for one Chrome has just made.
-            job["png"].unlink(missing_ok=True)
-            proc = subprocess.run(
-                [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
-                 "--hide-scrollbars", "--force-device-scale-factor=1",
-                 "--force-color-profile=srgb",
-                 f"--window-size={W},{H}",
-                 "--virtual-time-budget=5000",
-                 f"--screenshot={job['png']}", "--dump-dom", job["html"].as_uri()],
-                check=True, capture_output=True, timeout=180,
-            )
+            # A CARD IS TRIED THREE TIMES. Headless Chrome now and then exits
+            # with status 2 having drawn nothing, six at a time or not (twice on
+            # 2026-10-24, both on gentle-help, in check-all.sh), and the same
+            # card draws at once on the next try. Only that is tried again: a
+            # hang is still the timeout, and still stops the run.
+            for attempt in range(3):
+                # Out of the way first, so a picture left from an earlier run
+                # can never pass for one Chrome has just made.
+                job["png"].unlink(missing_ok=True)
+                try:
+                    proc = subprocess.run(
+                        [browser, "--headless=new", "--disable-gpu", "--no-sandbox",
+                         "--hide-scrollbars", "--force-device-scale-factor=1",
+                         "--force-color-profile=srgb",
+                         f"--window-size={W},{H}",
+                         "--virtual-time-budget=5000",
+                         f"--screenshot={job['png']}", "--dump-dom", job["html"].as_uri()],
+                        check=True, capture_output=True, timeout=180,
+                    )
+                    break
+                except subprocess.CalledProcessError:
+                    if attempt == 2:
+                        raise
             job["out"] = proc.stdout.decode("utf-8", "replace")
             job["done"] = True
 
@@ -6332,11 +6343,13 @@ def main():
         except BaseException:
             # A Chrome that hangs or crashes, or a run stopped part way, must not
             # cost the cards it was replacing: once the renders still going have
-            # finished, every committed picture whose new one is not done goes
-            # back before stopping.
+            # finished, every committed picture goes back before stopping, the
+            # finished ones too, because nothing has been decided about any of
+            # them, and a finished card is drawn a few bytes differently every
+            # time (one was left changed in the tree that way on 2026-10-24).
             pool.shutdown(wait=True, cancel_futures=True)
             for j in jobs:
-                if not j.get("done") and j["before"] is not None:
+                if j["before"] is not None:
                     j["png"].write_bytes(j["before"])
             raise
         pool.shutdown(wait=True)
