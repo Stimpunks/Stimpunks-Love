@@ -3254,8 +3254,10 @@
      (unfurlMessage in lib.mjs). Words only, never a picture: who made it, the
      site's name, a title as a link that says where it goes (awayLink), and a
      description or the post it quotes. A YouTube or Vimeo video plays in place
-     behind a press that says how long it runs, and nothing from either loads
-     until then; the frame is love-embed.js's, built as a frame apart, so the
+     behind a press that says how long it runs when that could be found out,
+     and plays all the same when it could not (Ryan's call, 2026-10-24: the
+     player shows it as soon as it starts); nothing from either loads until
+     then; the frame is love-embed.js's, built as a frame apart, so the
      CB's Host this film, Follow and @times leave it alone, as they leave the
      bodymind break's forest. Anything else that plays is a door off the
      street. The cards are their own region with politeness off, the
@@ -3294,18 +3296,18 @@
     }
     var yt = l.kind === 'video', where = yt ? 'YouTube' : (l.site || 'Vimeo'), from = yt ? l.channel : l.author;
     card.appendChild(el('p', 'cb-unfurl__site', where + (from ? ' \u00b7 ' + from : '')));
-    var playable = yt ? l.embed && (l.length || l.live) : !!(l.src && l.length);
+    // Only a video YouTube said cannot play elsewhere is a door; one whose
+    // length is not known plays, and its player shows the length (Ryan's call).
+    var playable = yt ? l.embed !== false : !!l.src;
     if (!playable) {
       title.appendChild(awayLink('Watch \u201c' + l.title + '\u201d on ' + where, u));
       card.appendChild(title);
-      card.appendChild(el('p', 'cb-unfurl__note', yt && l.length
-        ? 'Its maker does not let it play on other sites, so it opens on YouTube.'
-        : 'How long it runs could not be found out, so it opens on ' + where + ' rather than playing here.'));
+      card.appendChild(el('p', 'cb-unfurl__note', 'It cannot play on other sites, so it opens on ' + where + '.'));
       return card;
     }
     var play = el('button', 'cb-btn cb-unfurl__play');
     play.type = 'button';
-    play.textContent = 'Play \u201c' + l.title + '\u201d' + (l.live ? ', which is live and runs until you close it' : ' (' + place(l.length) + ')');
+    play.textContent = 'Play \u201c' + l.title + '\u201d' + (l.live ? ', which is live and runs until you close it' : l.length ? ' (' + place(l.length) + ')' : '');
     var note = el('p', 'cb-unfurl__note', 'Nothing from ' + where + ' loads until you press it.');
     play.addEventListener('click', function () {
       withEmbed(function () {

@@ -623,11 +623,13 @@
     }
     if (b.kind === 'video') {
       var vc = el('div', 'fm-card fm-card--video');
-      if (b.embed && (b.length || b.live)) {
+      // A video whose length is not known plays too (Ryan's call, 2026-10-24);
+      // only one YouTube said cannot play elsewhere is a door.
+      if (b.embed !== false) {
         var play = el('button', 'cb-btn fm-play');
         play.type = 'button';
         play.textContent = 'Play “' + b.title + '”' + (b.channel ? ', from ' + b.channel : '') +
-          (b.live ? '. It is live, so it runs until you close it' : ' (' + runtime(b.length) + ')');
+          (b.live ? '. It is live, so it runs until you close it' : b.length ? ' (' + runtime(b.length) + ')' : '');
         play.addEventListener('click', function () {
           var f = window.loveEmbed && window.loveEmbed.frame(b.id, b.title);
           if (!f) { say('The player could not be opened on this page.'); return; }
@@ -644,8 +646,7 @@
         door.rel = 'noopener noreferrer';
         door.textContent = 'Watch “' + b.title + '”' + (b.channel ? ', from ' + b.channel : '') + ', on YouTube ↗';
         vc.appendChild(door);
-        vc.appendChild(el('p', 'fm-card__host', b.length ? 'Its maker does not let it play on other sites, so it opens on YouTube.'
-          : 'How long it runs could not be found out when it was posted, so it opens on YouTube rather than playing here.'));
+        vc.appendChild(el('p', 'fm-card__host', 'It cannot play on other sites, so it opens on YouTube.'));
       }
       return vc;
     }

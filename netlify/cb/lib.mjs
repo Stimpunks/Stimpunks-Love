@@ -7514,7 +7514,8 @@ function shapePreview(l) {
   }
   if (l.kind === 'video') {
     out.id = l.id; out.title = l.title; out.channel = l.channel || null;
-    out.length = typeof l.length === 'number' ? l.length : null; out.live = !!l.live; out.embed = !!l.embed;
+    out.length = typeof l.length === 'number' ? l.length : null; out.live = !!l.live;
+    out.embed = l.embed === true ? true : l.embed === false ? false : null;
   }
   return out;
 }
@@ -8738,7 +8739,7 @@ function vimeoPlayer(src) {
 // A card from an oEmbed answer, a player only where the CB can play it.
 function oembedPreview(src, href, o, host) {
   if (!o) return null;
-  const vimeo = o.type === 'video' && o.length ? vimeoPlayer(o.player) : null;
+  const vimeo = o.type === 'video' ? vimeoPlayer(o.player) : null;
   if (vimeo && o.title) {
     return { src, href, kind: 'player', site: o.site || 'Vimeo', src_player: vimeo, title: o.title, author: o.author || null, length: o.length };
   }
@@ -8780,8 +8781,13 @@ export async function previewFor(src, get = safeGet) {
       } catch (e) { /* no preview */ }
     }
     if (!info || !clip(info.title, 200)) return null;
+    /* Whether it may play here: yes or no when YouTube said (its Data API, or
+       its watch page), and null when only oEmbed answered, which says neither.
+       A video whose length is not known still plays (Ryan's call, 2026-10-24:
+       the player shows its length the moment it starts); only a no is a door. */
+    const embed = info.status === 'OK' ? !!info.embed : info.status == null ? null : false;
     return { src, href, kind: 'video', id, title: clip(info.title, 200), channel: clip(info.channel, 100) || null,
-      length: info.length, live: info.live, embed: info.status === 'OK' && info.embed };
+      length: info.length, live: info.live, embed };
   }
   // A site whose own oEmbed endpoint is known is asked first.
   const at = OEMBED_AT.find(([re]) => re.test(host));
@@ -8820,7 +8826,10 @@ export async function previewFor(src, get = safeGet) {
    it, the site's name, a description or the post it quotes) and NEVER A
    PICTURE, and a player is YouTube's or Vimeo's, built by love-embed.js on
    the press like every other on the street, with its runtime on the button;
-   anything else that plays is a door. The links read are the bare ones, at
+   anything else that plays is a door. A player's button says how long it runs
+   when that could be found out, and plays anyway when it could not (Ryan's
+   call, 2026-10-24: the player shows the length as soon as it starts); only
+   a video YouTube says cannot play elsewhere is a door. The links read are the bare ones, at
    most CHAT_PREVIEWS of them: not one with its own words ([words](address)),
    not one in code, not one on the street (a room is already a link), and not
    one written in angle brackets, <https://…>, which is how somebody says
@@ -8880,7 +8889,7 @@ function shapeChatPreview(l) {
   const str = (v) => (typeof v === 'string' && v ? v : null);
   if (l.kind === 'video' && cleanVideo(l.id)) {
     return { kind: 'video', href: l.href, id: l.id, title: str(l.title) || '', channel: str(l.channel),
-      length: typeof l.length === 'number' ? l.length : null, live: !!l.live, embed: !!l.embed };
+      length: typeof l.length === 'number' ? l.length : null, live: !!l.live, embed: l.embed === true ? true : l.embed === false ? false : null };
   }
   if (l.kind === 'player' && vimeoPlayer(l.src_player)) {
     return { kind: 'player', href: l.href, src: l.src_player, site: str(l.site), title: str(l.title) || '', author: str(l.author),

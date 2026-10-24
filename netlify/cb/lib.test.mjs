@@ -3275,7 +3275,9 @@ test('a preview is fetched only from a public address, and a room on the street 
   const door = await previewFor('https://www.youtube.com/watch?v=dQw4w9WgXcQ', async (u) => (u.includes('oembed')
     ? { status: 200, type: 'application/json', url: u, text: '{"title":"Walled","author_name":"Somebody"}' }
     : { status: 200, type: 'text/html', url: u, text: '<p>Sign in to confirm you are not a bot</p>' }));
-  assert.deepEqual([door.title, door.length, door.embed], ['Walled', null, false], 'a video nobody could measure was offered as a player');
+  // Ryan's call, 2026-10-24: a video nobody could measure plays all the same
+  // (its player shows the length), so only oEmbed's answer is no word either way.
+  assert.deepEqual([door.title, door.length, door.embed], ['Walled', null, null], 'a video behind the wall was taken for one that cannot play here');
   assert.deepEqual(loneLinks('Look:\n\nhttps://a.example/x\n\nand https://b.example/y inline\n\n> https://c.example/z'), ['https://a.example/x']);
   const t = await startTopic(ADA, { cat: 'nature', title: 'Links', body: 'https://stimpunks.world/the-den.html' }, memoryStore({ etagOnRead: true }), T0, NO_NET);
   assert.equal(t.topic.posts[0].links[0].kind, 'street');
@@ -3365,7 +3367,10 @@ test('with a key, YouTube\'s Data API says how long a video runs and whether it 
   try {
     delete process.env.CB_YOUTUBE_KEY;
     const door = await previewFor('https://youtu.be/2eew0eCg3qg?si=x', get);
-    assert.deepEqual([door.length, door.embed], [null, false], 'with no key and the bot wall, a video should be a door');
+    // With no key and the bot wall, only oEmbed answers: no length, and no word
+    // either way on embedding, so it plays and its player shows the length.
+    assert.deepEqual([door.kind, door.length, door.embed], ['video', null, null]);
+    assert.equal(shape([{ id: 'x', handle: 'A', text: '', t: 1, links: [door] }])[0].links[0].embed, null, 'not known became a no on its way to the radio');
     process.env.CB_YOUTUBE_KEY = KEY;
     asked.length = 0;
     const p = await previewFor('https://youtu.be/2eew0eCg3qg?si=x', get);

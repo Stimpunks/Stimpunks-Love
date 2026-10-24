@@ -4127,13 +4127,19 @@ message, so they go when it does. `previewFor` now reads oEmbed (`OEMBED_AT` for
 SoundCloud, and any page that names its own endpoint), **for words only**: `oembedOf` keeps a title, who made it, the
 site's name, a post's first paragraph as text, a runtime and a player's address, **never the site's `html` and never a
 thumbnail**, because their markup is a script `script-src` refuses and a picture is a fetch the forums already refuse.
-**A player is YouTube's or Vimeo's**, the hosts `ORIGINS` already frames, with its runtime on the press, built by
+**A player is YouTube's or Vimeo's**, the hosts `ORIGINS` already frames, with its runtime on the press when one could be
+found out, built by
 `love-embed.js` as a frame apart, so Host this film and Follow never see it (`drawUnfurls`, `unfurlCard` in `cb.js`); every
 other player is a door. **From Netlify's servers YouTube's watch page answers with its bot wall, which has no length**
 (measured the day it shipped: both of Ryan's first links were doors live and players from a home connection), so a
 video's length and permission come first from YouTube's Data API (`youtubeApi`, `videoFromApi`), with the key in
 `CB_YOUTUBE_KEY` in Netlify and nowhere else, sent only the video's id; with no key the watch page and oEmbed are asked as
-before, and a video is a door. Age-restricted, upcoming and unembeddable videos are doors either way.
+before. **A card plays without a known length** (Ryan's call, 2026-10-24, relaxing the street's runtime rule for embeds:
+"you can tell the length as soon as you play the embed"), so only a video YouTube says cannot play elsewhere (not
+embeddable, age-restricted, upcoming, private) is a door, and with no key only oEmbed answers, which says neither way, so
+it plays. The rooms' own generators still require a runtime, and every room's buttons still carry one; the four sentences
+that spoke for every button on the street (the Guild's Big Steep job, Big Steep, Breaker Breaker, Swaying Sweetgrass) now
+speak for the rooms' play buttons, because the CB's cards are on the street too. Relaxing the rooms' tools is Ryan's call.
 `make-forum.py` (`check_cards`) holds it. **The friendly edits are thumbnails, a site's own embed
 markup "so tweets look right", and a new framed origin per site that asks**: the first two break the policy, and each of
 the third is a decision (playing is not the same permission as embedding, and each origin is a third party every reader
