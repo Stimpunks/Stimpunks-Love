@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-10-24T00:44Z",
+  "set": "2026-10-24T11:17Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     },
     {
       "id": "cavendish",
@@ -154,6 +154,26 @@
       "feed": "https://github.com/Stimpunks/Cavendish-Cards/commits/main.atom",
       "note": "The Cavendish Cards deck and the site that holds it. The repository kept the deck's name.",
       "items": [
+        {
+          "title": "Add /cogens: hold a cogen with the deck",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/190aa5187a488df7add11cb3f384f7eb1eeef772",
+          "date": "2026-10-24T02:38:39Z",
+          "sha": "190aa51",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Say what CC0 does not cover: quoted material stays its writer's",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/82ac4b210c8383f2656c967169ccf88cfb63223d",
+          "date": "2026-10-24T02:28:58Z",
+          "sha": "82ac4b2",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
         {
           "title": "One list per section, not one list per bullet",
           "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/a701e9874c87807ced22a93555e949e944453174",
@@ -193,29 +213,9 @@
             "ryanboren",
             "Claude Opus 5"
           ]
-        },
-        {
-          "title": "Make the SPACE-TIME tiles readable with no stylesheet",
-          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/df56a1d7e5e86f1103cbd63b957df8b7a9195210",
-          "date": "2026-09-18T07:42:50Z",
-          "sha": "df56a1d",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
-        },
-        {
-          "title": "Two framework pages: SPACE-TIME, and the inclusion design layers",
-          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/51c1195ff03aaa448c93648da2d27779e0d04185",
-          "date": "2026-09-18T07:10:56Z",
-          "sha": "51c1195",
-          "by": [
-            "ryanboren",
-            "Claude Opus 5"
-          ]
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "A Solarpunk patch at Brighter Days Solar Farm",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/60a689bd390994cad68cf61460e5dcd8f78db61f",
-          "date": "2026-10-24T00:15:20Z",
-          "sha": "60a689b",
+          "title": "Jellies on the bodymind break, and then it is done",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6bf2dbc5cb39fd7ffa6a94fddfb58639d55a6a71",
+          "date": "2026-10-24T07:20:57Z",
+          "sha": "6bf2dbc",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Office: stimpunks.org's latest form entries on the dashboard",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6d2eadfd8aeafe8a21d2cb871afea86be33792e8",
-          "date": "2026-10-23T23:42:41Z",
-          "sha": "6d2eadf",
+          "title": "Low-stimulation modes: escape the street's colours from the dial",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/a7cc3782076240734c1cbf9b017e2c8657b1e525",
+          "date": "2026-10-24T06:53:23Z",
+          "sha": "a7cc378",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "CB: a member's @moderator leaves a note on the moderators' desk",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7d0ed39f64bdfb0b4e7e3e3558925b29cd9f2190",
-          "date": "2026-10-23T22:56:08Z",
-          "sha": "7d0ed39",
+          "title": "I need a bodymind break: a calm screen from the dial and the CB",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/20d75c5c10ee935c71573fc7a29c46f2c999fef5",
+          "date": "2026-10-24T06:10:04Z",
+          "sha": "20d75c5",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "CB: who may call which role is Ryan's call",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/4a6cfd5f017a171fec20969d38f7acda5b53cb34",
-          "date": "2026-10-23T22:38:04Z",
-          "sha": "4a6cfd5",
+          "title": "Show Your Work: the bench takes photographs, under the polaroid wall'…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8809615c689d68405144301da63a7416448fd8ca",
+          "date": "2026-10-24T04:39:16Z",
+          "sha": "8809615",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "CB: role @mentions for @moderator, @director, @board and @administrator",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c5d988f2222209a791a2e6a71416db59dfdeb16b",
-          "date": "2026-10-23T22:07:09Z",
-          "sha": "c5d988f",
+          "title": "Show Your Work: a garage with the door rolled up, and a bench for our…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/91598adfaa2090185e4ef062fee567aa3b121b95",
+          "date": "2026-10-24T04:16:00Z",
+          "sha": "91598ad",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Let your own cat out at Pekoe and Purrs and your own dog on the Run",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/e89d823424fbc7095ff16caaf354dbb7e52395ab",
-          "date": "2026-10-23T21:03:23Z",
-          "sha": "e89d823",
+          "title": "The Source, up the hill behind The Feed, and both rooms' channels hea…",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/03d87b393f4d13ecf5d883dbe1c539f231114e44",
+          "date": "2026-10-24T01:16:08Z",
+          "sha": "03d87b3",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-24T00:44Z"
+      "read": "2026-10-24T11:17Z"
     }
   ]
 }
