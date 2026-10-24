@@ -3283,6 +3283,36 @@ test('a preview is fetched only from a public address, and a room on the street 
   assert.equal(playerInfo('nothing here'), null);
 });
 
+/* ── My own order for the chat page ───────────────────────────────────────── */
+import { readChatOrder, keepChatOrder, cleanChatOrder } from './lib.mjs';
+
+test('my own order is kept for a claimed username alone, groups and channels and nothing else, never a quiet room, and goes with the username', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const cy = { role: 'mobile', handle: 'Cy', since: 20, account: true, roles: new Set() };
+  const anybody = { role: 'mobile', handle: 'Cy', roles: new Set() };
+  assert.deepEqual(await keepChatOrder(anybody, { 'tag-music': ['the-den'] }, s), { error: 'claimed' });
+  assert.equal(await readChatOrder(anybody, s), null, 'an unclaimed handle was given somebody\'s order');
+  const kept = await keepChatOrder(cy, {
+    'tag-music': ['the-den', 'club-chronic', 'the-den', 'the-secret-cabin', 'Not A Tag', 7],
+    more: ['the-sandbox'],
+    'tag-': ['the-den'], __proto__: ['the-den'], constructor: ['the-den'], when: Date.now(),
+  }, s);
+  assert.deepEqual(kept.groups, { 'tag-music': ['the-den', 'club-chronic'], more: ['the-sandbox'] });
+  assert.deepEqual(await readChatOrder(cy, s), kept.groups);
+  const raw = JSON.stringify(await s.get('chat-order/' + petKey('Cy'), { type: 'json' }));
+  assert.deepEqual(Object.keys(JSON.parse(raw)), ['groups'], 'my own order was kept with something besides its groups');
+  assert.equal(/\d{6,}/.test(raw), false, 'a time was kept with my own order');
+  assert.deepEqual(cleanChatOrder(null), {});
+  // An order with nothing in it is no order: the blob goes.
+  await keepChatOrder(cy, {}, s);
+  assert.equal(await s.get('chat-order/' + petKey('Cy'), { type: 'json' }), null);
+  // Deleting the username deletes it.
+  await keepChatOrder(cy, { 'tag-pets': ['the-run'] }, s);
+  await claimAccount('Cy', 'a long enough phrase', s, 20, null);
+  await deleteAccount('Cy', s);
+  assert.equal(await s.get('chat-order/' + petKey('Cy'), { type: 'json' }), null, 'a deleted username left its own order');
+});
+
 /* ── The chat page's orders by activity ─────────────────────────────────── */
 import { channelActivity } from './lib.mjs';
 

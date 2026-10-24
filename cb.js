@@ -4007,26 +4007,33 @@
   var CHAT_WIDE = window.matchMedia ? window.matchMedia('(min-width: 1000px)') : null;
 
   /* The orders the channels under tags can be in, A to Z first, which is
-     where everybody starts. */
-  var CHAT_SORTS = [['az', 'A to Z'], ['recent', 'Recently active'], ['active', 'Most active']];
+     where everybody starts. My own order is a claimed username's (forumPass),
+     kept on the server under it (/cb/chat-arrange, privacy.html#chat-order). */
+  var CHAT_SORTS = [['az', 'A to Z'], ['recent', 'Recently active'], ['active', 'Most active'], ['mine', 'My own order']];
   function chatSortOf(s) {
     var by = s && s.chatSort;
+    if (by === 'mine' && !forumPass(s.pass)) return 'az';
     return CHAT_SORTS.some(function (o) { return o[0] === by; }) ? by : 'az';
   }
+  // The groups whose channels can be put in an order: every tag's, and More rooms.
+  function chatSortable(key) { return key === 'more' || key.indexOf('tag-') === 0; }
   // A to Z the way a library files titles: a leading The, A or An is passed
   // over, so The Den is with the Ds and The forums' categories stay together.
   function chatNameKey(r) { return String(r.name || r.tag).replace(/^(?:the|an?)\s+/i, ''); }
   function chatByName(a, b) {
     return chatNameKey(a).localeCompare(chatNameKey(b), undefined, { sensitivity: 'base', numeric: true }) || a.tag.localeCompare(b.tag);
   }
-  // The order a channel list takes: by activity as last asked, then A to Z for
-  // the channels with nothing said in them; or A to Z.
-  function chatSorted(list) {
-    var o = radio && radio.chatOrder, rank = {};
-    if (o && o.by === chatSortOf(radio.state)) o.tags.forEach(function (t, i) { rank[t] = i; });
-    else o = null;
+  /* The order a group's channels take: by activity as last asked, or in your
+     own order for that group, and A to Z for whatever neither places (a
+     channel with nothing said in it, or a room that opened after you
+     arranged the group); or A to Z. */
+  function chatSorted(list, key) {
+    var by = radio ? chatSortOf(radio.state) : 'az', rank = {}, ranked = null;
+    if (by === 'mine') ranked = radio.chatMine && radio.chatMine[key];
+    else if (by !== 'az' && radio.chatOrder && radio.chatOrder.by === by) ranked = radio.chatOrder.tags;
+    if (ranked) ranked.forEach(function (t, i) { rank[t] = i; });
     return list.slice().sort(function (a, b) {
-      if (o) {
+      if (ranked) {
         var ra = a.tag in rank ? rank[a.tag] : Infinity, rb = b.tag in rank ? rank[b.tag] : Infinity;
         if (ra !== rb) return ra < rb ? -1 : 1;
       }
@@ -4107,7 +4114,7 @@
         seen[t] = true;
         if (t === FORUM_PAGE) cats.forEach(function (c) { list.push(c); seen[c.tag] = true; });
       });
-      tagged.push({ key: 'tag-' + g.key, name: g.name, rooms: chatSorted(list) });
+      tagged.push({ key: 'tag-' + g.key, name: g.name, rooms: chatSorted(list, 'tag-' + g.key) });
     });
     (rooms || []).forEach(function (r) { if (!taken[r.tag] && !seen[r.tag] && !r.quiet) more.push(r); });
     var dms = [];
@@ -4120,7 +4127,7 @@
       { key: 'community', name: 'Community', rooms: community },
       { key: 'dm', name: 'Direct messages', rooms: dms },
       { key: 'staff', name: 'Staff', rooms: staff }
-    ].concat(tagged, [{ key: 'more', name: 'More rooms', rooms: chatSorted(more) }]).filter(function (g) { return g.rooms.length; });
+    ].concat(tagged, [{ key: 'more', name: 'More rooms', rooms: chatSorted(more, 'more') }]).filter(function (g) { return g.rooms.length; });
   }
 
   // On the chat page, a link to a room that is a channel there is a link to
@@ -4228,6 +4235,7 @@
     var sortSel = this.chatSortSel = el('select', 'cb-say cb-chans-sort');
     sortSel.id = 'cb-chans-sort';
     CHAT_SORTS.forEach(function (o) {
+      if (o[0] === 'mine' && !forumPass(me.state.pass)) return;
       var op = el('option', null, o[1]);
       op.value = o[0];
       sortSel.appendChild(op);
@@ -4235,10 +4243,15 @@
     sortSel.value = chatSortOf(this.state);
     var again = this.chatSortAgain = el('button', 'cb-btn cb-chans-again', 'Sort again');
     again.type = 'button';
-    again.hidden = sortSel.value === 'az';
+    again.hidden = sortSel.value === 'az' || sortSel.value === 'mine';
+    var arrange = this.chatArrangeBtn = el('button', 'cb-btn cb-chans-again', 'Arrange');
+    arrange.type = 'button';
+    arrange.hidden = sortSel.value !== 'mine';
+    arrange.addEventListener('click', function () { me.chatArrange(!me.chatArranging); });
     var sortRow = el('div', 'cb-tools cb-chans-sortrow');
     sortRow.appendChild(sortSel);
     sortRow.appendChild(again);
+    sortRow.appendChild(arrange);
     this.chatSortSaid = el('p', 'cb-quiet cb-chans-sorted');
     this.chatSortSaid.setAttribute('role', 'status');
     sortSel.addEventListener('change', function () {
@@ -4310,7 +4323,20 @@
      there is an order to sort by: false when the street could not be reached. */
   Radio.prototype.chatSortAsk = function () {
     var me = this, by = chatSortOf(this.state);
-    if (by === 'az') { this.chatOrder = null; return Promise.resolve(true); }
+    if (by === 'az') { this.chatOrder = null; this.chatSortTold(true); return Promise.resolve(true); }
+    if (by === 'mine') {
+      return call('/cb/chat-arrange', null, this.state.pass).then(function (r) {
+        if (r.status === 401) { me.lost(); return false; }
+        var g = r.status === 200 && r.body && r.body.groups;
+        if (!g || typeof g !== 'object' || Array.isArray(g)) return false;
+        var mine = {};
+        Object.keys(g).forEach(function (k) {
+          if (chatSortable(k) && Array.isArray(g[k])) mine[k] = g[k].filter(function (t) { return typeof t === 'string'; });
+        });
+        me.chatMine = mine;
+        return true;
+      }, function () { return false; }).then(function (ok) { me.chatSortTold(ok); return ok; });
+    }
     return call('/cb/chat-order', null, this.state.pass).then(function (r) {
       if (r.status === 401) { me.lost(); return false; }
       var list = r.status === 200 && r.body && Array.isArray(r.body[by]) ? r.body[by].filter(function (t) { return typeof t === 'string'; }) : null;
@@ -4321,20 +4347,118 @@
   };
   // Sort now: on choosing an order, and on Sort again.
   Radio.prototype.chatSortTake = function () {
-    var me = this;
-    this.chatSortAgain.hidden = chatSortOf(this.state) === 'az';
+    var me = this, by = chatSortOf(this.state);
+    this.chatSortAgain.hidden = by === 'az' || by === 'mine';
+    this.chatArrangeBtn.hidden = by !== 'mine';
+    if (by !== 'mine') this.chatArrange(false);
     return this.chatSortAsk().then(function () { me.chatShown(); });
   };
   Radio.prototype.chatSortTold = function (ok) {
     var by = chatSortOf(this.state), o = this.chatOrder, said = this.chatSortSaid;
     if (!said) return;
     if (by === 'az') { said.textContent = ''; return; }
+    if (by === 'mine') {
+      said.textContent = ok
+        ? 'Your own order, kept under your username, so it is the same on every device you sign on with. Arrange to change it.'
+        : 'Your own order could not be fetched just now, so the channels are A to Z. Arrange tries again.';
+      return;
+    }
     if (!ok || !o || o.by !== by) {
       said.textContent = 'The street could not be reached just now, so ' + (o ? 'the channels are in the order they had.' : 'the channels are A to Z.') + ' Try Sort again.';
       return;
     }
     said.textContent = (by === 'recent' ? 'Newest message first' : 'Most messages in the last 48 hours first') +
       ', as at ' + hhmm(new Date(o.at)) + '. New messages do not move them; Sort again does.';
+  };
+
+  /* ARRANGING (My own order): a Move up and a Move down beside every channel
+     under a tag and in More rooms, the keyboard's Alt and an arrow on a
+     channel, and dragging, each moving one channel within its own group. The
+     friendly edit is dragging alone, which shuts out a keyboard, a screen
+     reader and a phone; the board in Tasks keeps the same rule. Arranging
+     never starts until your own order has been fetched, so a group you have
+     not touched here is never sent back empty. */
+  Radio.prototype.chatArrange = function (on) {
+    var me = this;
+    on = !!on;
+    if (on && !this.chatMine) {
+      this.chatSortAsk().then(function (ok) { if (ok) me.chatArrange(true); else me.chatShown(); });
+      return;
+    }
+    if (on === !!this.chatArranging) return;
+    this.chatArranging = on;
+    this.chatArrangeBtn.textContent = on ? 'Done arranging' : 'Arrange';
+    this.chatSec.classList.toggle('cb-sec--arranging', on);
+    if (on) this.chatSortSaid.textContent = 'Move up and Move down are beside each channel under a tag. On a channel, Alt and \u2191 or \u2193 moves it too, and so does dragging it. Every move is kept.';
+    else this.chatSortTold(true);
+    this.chatSig = null;
+    this.chatShown();
+  };
+
+  /* Puts a channel before or after another in its group, as the group is
+     shown now, and keeps the whole order. */
+  Radio.prototype.chatPlace = function (key, tag, ref, after) {
+    var g = (this.chatGroupEls || []).filter(function (x) { return x.key === key; })[0];
+    if (!g || tag === ref) return false;
+    var order = this.chatLinks.filter(function (x) { return g.ul.contains(x.li); }).map(function (x) { return x.tag; });
+    var i = order.indexOf(tag);
+    if (i < 0 || order.indexOf(ref) < 0) return false;
+    order.splice(i, 1);
+    order.splice(order.indexOf(ref) + (after ? 1 : 0), 0, tag);
+    this.chatMine = this.chatMine || {};
+    this.chatMine[key] = order;
+    this.chatSig = null;
+    this.chatShown();
+    this.chatSaveMine();
+    return true;
+  };
+
+  // One step up or down, past the next channel shown (a search can hide some).
+  Radio.prototype.chatStep = function (key, tag, dir, how) {
+    var g = (this.chatGroupEls || []).filter(function (x) { return x.key === key; })[0];
+    if (!g) return;
+    var shown = this.chatLinks.filter(function (x) { return g.ul.contains(x.li) && !x.li.hidden; }).map(function (x) { return x.tag; });
+    var i = shown.indexOf(tag), j = i + dir;
+    var name = function (t) { var r = byTag[t]; return r ? r.name : t; };
+    if (i < 0) return;
+    if (j < 0 || j >= shown.length) {
+      this.chatSortSaid.textContent = name(tag) + ' is already ' + (dir < 0 ? 'first' : 'last') + ' in ' + g.name + '.';
+      return;
+    }
+    this.chatPlace(key, tag, shown[j], dir > 0);
+    this.chatMoved(key, tag, how);
+  };
+
+  // After a move: the keyboard back where it was, and where the channel is now.
+  Radio.prototype.chatMoved = function (key, tag, how) {
+    var g = (this.chatGroupEls || []).filter(function (x) { return x.key === key; })[0];
+    if (!g) return;
+    var shown = this.chatLinks.filter(function (x) { return g.ul.contains(x.li) && !x.li.hidden; });
+    var at = -1;
+    shown.forEach(function (x, n) { if (x.tag === tag) at = n; });
+    if (at < 0) return;
+    var x = shown[at], name = function (y) { return y.room ? y.room.name : y.tag; };
+    this.chatRove(x.a);
+    var back = how === 'link' ? x.a : x.li.querySelector('[data-move="' + how + '"]');
+    if (back) back.focus();
+    this.chatSortSaid.textContent = name(x) + (shown.length === 1 ? ' is the only channel in ' + g.name + '.'
+      : at === 0 ? ' is first in ' + g.name + ', before ' + name(shown[1]) + '.'
+      : at === shown.length - 1 ? ' is last in ' + g.name + ', after ' + name(shown[at - 1]) + '.'
+      : ' is in ' + g.name + ' after ' + name(shown[at - 1]) + ' and before ' + name(shown[at + 1]) + '.');
+  };
+
+  // Kept a moment after the last move, so a run of moves is one write.
+  Radio.prototype.chatSaveMine = function () {
+    var me = this;
+    clearTimeout(this.chatSaveTimer);
+    this.chatSaveTimer = setTimeout(function () {
+      call('/cb/chat-arrange', { body: { groups: me.chatMine || {} } }, me.state.pass).then(function (r) {
+        if (r.status === 401) return me.lost();
+        if (r.status !== 200) me.chatSortSaid.textContent = 'Your order could not be kept just now. It stays on this page; move a channel again to try once more.';
+      }, function () {
+        me.chatSortSaid.textContent = 'The street could not be reached just now, so your order is not kept yet. It stays on this page; move a channel again to try once more.';
+      });
+    }, 700);
   };
 
   // The list open or folded under its button, which only a narrow screen shows.
@@ -4540,6 +4664,23 @@
         }
         a.tabIndex = -1;
         li.appendChild(a);
+        if (me.chatArranging && chatSortable(g.key) && r.dm == null) {
+          // Move up and Move down, named for the channel and its group.
+          li.className = 'cb-chan-arr';
+          li.draggable = true;
+          li.dataset.tag = r.tag;
+          a.draggable = false;
+          [['up', -1, '\u2191', 'up'], ['down', 1, '\u2193', 'down']].forEach(function (m) {
+            var mb = el('button', 'cb-btn cb-chan-move', m[2]);
+            mb.type = 'button';
+            mb.tabIndex = -1;
+            mb.dataset.move = m[0];
+            mb.setAttribute('aria-label', 'Move ' + r.name + ' ' + m[3] + ' in ' + g.name);
+            mb.title = 'Move ' + m[3];
+            mb.addEventListener('click', function () { me.chatStep(g.key, r.tag, m[1], m[0]); });
+            li.appendChild(mb);
+          });
+        }
         ul.appendChild(li);
         me.chatLinks.push({ tag: a.dataset.tag, a: a, li: li, room: r, dm: r.dm });
       });
@@ -4547,6 +4688,7 @@
       box.appendChild(wrap);
       var ge = { key: g.key, name: g.name, wrap: wrap, ul: ul, button: b };
       me.chatGroupEls.push(ge);
+      if (me.chatArranging && chatSortable(g.key)) me.chatDrags(ge);
       b.addEventListener('click', function () {
         me.chatFolded[g.key] = !me.chatFolded[g.key];
         me.chatFilter();
@@ -4604,12 +4746,23 @@
   Radio.prototype.chatRove = function (want) {
     var shown = this.chatVisible(), cur = shown.filter(function (a) { return a.hasAttribute('aria-current'); })[0];
     var stop = want && shown.indexOf(want) >= 0 ? want : cur || shown[0];
-    this.chatLinks.forEach(function (x) { x.a.tabIndex = x.a === stop ? 0 : -1; });
+    this.chatLinks.forEach(function (x) {
+      x.a.tabIndex = x.a === stop ? 0 : -1;
+      // While arranging, the channel's own Move buttons come next in the Tab order.
+      x.li.querySelectorAll('.cb-chan-move').forEach(function (b) { b.tabIndex = x.a === stop ? 0 : -1; });
+    });
   };
 
   Radio.prototype.chatKey = function (e) {
     var a = e.target.closest && e.target.closest('.cb-chan');
     if (!a) return;
+    if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+      var li = a.closest('.cb-chan-arr'), g = li && (this.chatGroupEls || []).filter(function (x) { return x.ul.contains(li); })[0];
+      if (!this.chatArranging || !g) return;
+      e.preventDefault();
+      this.chatStep(g.key, li.dataset.tag, e.key === 'ArrowUp' ? -1 : 1, 'link');
+      return;
+    }
     var shown = this.chatVisible(), i = shown.indexOf(a), j = -1;
     if (e.key === 'ArrowDown') j = Math.min(shown.length - 1, i + 1);
     else if (e.key === 'ArrowUp') { if (i === 0) { e.preventDefault(); this.chatFind.focus(); return; } j = i - 1; }
@@ -4620,6 +4773,42 @@
     if (j < 0 || !shown[j]) return;
     this.chatRove(shown[j]);
     shown[j].focus();
+  };
+
+  /* Dragging a channel within its group while arranging: dropped on the top
+     half of another it goes before it, on the bottom half after it. */
+  Radio.prototype.chatDrags = function (g) {
+    var me = this, dragged = null;
+    function clear() { g.ul.querySelectorAll('.cb-chan-arr').forEach(function (li) { li.classList.remove('cb-chan-drop-before', 'cb-chan-drop-after'); }); }
+    function where(e) {
+      var li = e.target.closest && e.target.closest('.cb-chan-arr');
+      if (!li || !g.ul.contains(li) || !dragged || li.dataset.tag === dragged) return null;
+      var r = li.getBoundingClientRect();
+      return { li: li, after: e.clientY > r.top + r.height / 2 };
+    }
+    g.ul.addEventListener('dragstart', function (e) {
+      var li = e.target.closest && e.target.closest('.cb-chan-arr');
+      if (!li) return;
+      dragged = li.dataset.tag;
+      try { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragged); } catch (x) { /* an old browser */ }
+    });
+    g.ul.addEventListener('dragover', function (e) {
+      var w = where(e);
+      clear();
+      if (!w) return;
+      e.preventDefault();
+      w.li.classList.add(w.after ? 'cb-chan-drop-after' : 'cb-chan-drop-before');
+    });
+    g.ul.addEventListener('dragleave', function (e) { if (!g.ul.contains(e.relatedTarget)) clear(); });
+    g.ul.addEventListener('drop', function (e) {
+      var w = where(e), tag = dragged;
+      clear();
+      dragged = null;
+      if (!w) return;
+      e.preventDefault();
+      if (me.chatPlace(g.key, tag, w.li.dataset.tag, w.after)) me.chatMoved(g.key, tag, 'link');
+    });
+    g.ul.addEventListener('dragend', function () { dragged = null; clear(); });
   };
 
   /* ── Events ──────────────────────────────────────────────────────────── */

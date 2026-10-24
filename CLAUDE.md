@@ -4070,7 +4070,13 @@ a count**, leaving out quiet rooms, rooms the asker may not enter, and the bot's
 own order. **The order is taken when the page opens (asked with the lists, so nothing jumps), when somebody chooses one
 and on Sort again, and never from `listen()`**: the friendly edit is to re-sort as messages arrive "so it is live", which
 moves a channel out from under somebody's pointer. A count beside a channel is the other friendly edit, and it is the
-number the order was worked out from.
+number the order was worked out from. **My own order** (Ryan's call, the same evening, kept on the server so it follows a
+claimed username across devices; `privacy.html#chat-order` was written first) is `chat-order/<pet key>`, holding each
+group's channels in order and nothing about when (`keepChatOrder`, `/cb/chat-arrange`), never a quiet room, shown to
+nobody else, deleted by Forget me and with the username; the page sends the whole of it after each run of moves.
+**Arrange** puts Move up and Move down beside each channel in a tag group or More rooms, Alt and an arrow on a channel
+moves it, and dragging does: `make-chat.py` holds all of it, and refuses arranging that is dragging alone. It never
+starts before the order has been fetched, so a failed fetch can never send an empty order back over a good one.
 
 **THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
 2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under

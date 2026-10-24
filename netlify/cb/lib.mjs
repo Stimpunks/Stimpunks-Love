@@ -3169,6 +3169,57 @@ export async function channelActivity(who, s = store(), now = Date.now()) {
   return { recent, active };
 }
 
+/* MY OWN ORDER FOR THE CHAT PAGE'S CHANNELS (Ryan's call, 2026-10-24: kept on
+   the server, under the claimed username, so it follows somebody from one
+   device to another; privacy.html#chat-order was written first). One blob per
+   person, chat-order/<pet key>, holding which channels, in which order, under
+   which group, and NOTHING ABOUT WHEN. A group is a tag group's key (tag-<the
+   tag>) or More rooms (more), the chat page's own keys; a channel is a room's
+   tag, and never one that keeps to itself, whose tag is its address. Claimed
+   usernames only (forumReader), because an unclaimed handle is anybody's who
+   signs on with it. Shown to nobody else, a moderator included, and nothing
+   records who arranged what. Forget me and deleting the username delete it. */
+export const CHAT_ORDER_GROUPS = 80;   // groups one order holds
+export const CHAT_ORDER_EACH = 400;    // channels in one group
+const chatOrderBlob = (k) => `chat-order/${k}`;
+const CHAT_GROUP = /^(?:tag-[a-z0-9]+(?:-[a-z0-9]+)*|more)$/;
+export function cleanChatOrder(v) {
+  const out = {};
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
+  for (const [g, list] of Object.entries(v)) {
+    if (Object.keys(out).length >= CHAT_ORDER_GROUPS) break;
+    if (g.length > 60 || !CHAT_GROUP.test(g) || !Array.isArray(list)) continue;
+    const seen = new Set(), tags = [];
+    for (const t of list) {
+      const tag = roomTag(t);
+      if (!tag || quietRoom(tag) || seen.has(tag)) continue;
+      seen.add(tag);
+      tags.push(tag);
+      if (tags.length >= CHAT_ORDER_EACH) break;
+    }
+    if (tags.length) out[g] = tags;
+  }
+  return out;
+}
+export async function readChatOrder(who, s = store()) {
+  if (!forumReader(who)) return null;
+  const d = await s.get(chatOrderBlob(petKey(who.handle)), { type: 'json' });
+  return cleanChatOrder(d && d.groups);
+}
+// The whole order, each time: arranging one group sends every group.
+export async function keepChatOrder(who, groups, s = store()) {
+  if (!forumReader(who)) return { error: 'claimed' };
+  const clean = cleanChatOrder(groups);
+  const empty = !Object.keys(clean).length;
+  await updateDoc(chatOrderBlob(petKey(who.handle)), () => (empty ? false : { groups: clean }), s);
+  return { groups: clean };
+}
+/* Forget me, and deleting the username. */
+export async function forgetChatOrder(pk, s = store()) {
+  await s.delete(chatOrderBlob(pk));
+  return true;
+}
+
 export async function sweepCalls(s = store(), now = Date.now()) {
   let any = false;
   for (const r of await listed(s, IN_CALL, parseInCall)) if (now - r.t >= callStale()) { await s.delete(r.key); any = true; }
@@ -5292,7 +5343,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its props, its chat status, its events and its messages. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its own order for the chat page, its props, its chat status, its events and its messages. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -5303,6 +5354,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetPatches(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
   await forgetProfileSets(petKey(handle), s);
+  await forgetChatOrder(petKey(handle), s);
   await forgetTaskViews(petKey(handle), s);
   await forgetTaskInbox(petKey(handle), s);
   await forgetProps(petKey(handle), s);

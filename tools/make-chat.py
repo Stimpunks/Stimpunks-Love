@@ -39,6 +39,12 @@ names a category only to its readers (forumRooms, `locked`). Every other room
 in cb-rooms.json is in the groups its tags name, out of data/room-tags.json.
 Never hand-edit between the markers.
 
+The channels under tags are A to Z, by activity (/cb/chat-order, two orders and
+never a time or a count) or in a claimed username's own order (/cb/chat-arrange,
+kept under the username with nothing about when, never a quiet room, deleted
+with it); this tool refuses each of those promises broken, and arranging that
+is dragging alone.
+
 WHAT IT REFUSES, because a friendly edit could break each without a test
 noticing:
 
@@ -280,6 +286,43 @@ if not re.search(r"<body[^>]*\bdata-cb-chat\b", src):
 begin, end = "<!-- chat:dock:begin -->", "<!-- chat:dock:end -->"
 if begin not in src or end not in src:
     refuse(f"{PAGE.name} has no chat:dock markers to write between.")
+
+# THE ORDERS (2026-10-24). By activity: two orders, never a time or a count.
+# My own order: kept under the claimed username, groups and channels and
+# nothing about when, never a room that keeps to itself, shown to nobody else,
+# deleted with the username and by Forget me, and arranged with Move buttons
+# and the keyboard as well as by dragging. privacy.html#chat-order says so.
+lib_src = LIB.read_text()
+def _code(t):
+    return re.sub(r"//[^\n]*", "", re.sub(r"/\*.*?\*/", "", t, flags=re.S))
+act = re.search(r"export async function channelActivity\(.*?\n\}", lib_src, re.S)
+if not act or "return { recent, active };" not in act.group(0):
+    refuse("channelActivity in lib.mjs must answer two orders, { recent, active }, and nothing else: never a time or a count.")
+own = re.search(r"export const CHAT_ORDER_GROUPS.*?export async function forgetChatOrder\(.*?\n\}", lib_src, re.S)
+if not own:
+    refuse("lib.mjs has no part for My own order (CHAT_ORDER_GROUPS to forgetChatOrder) for this tool to hold.")
+else:
+    oc = _code(own.group(0))
+    writes = re.findall(r"updateDoc\(chatOrderBlob\([^)]*\)\),\s*\(\)\s*=>\s*\(([^;]*)\),\s*s\)", oc)
+    if writes != ["empty ? false : { groups: clean }"]:
+        refuse(f"My own order is written as {writes}: it holds {{ groups }} and nothing else, so nothing about when is ever kept.")
+    if re.search(r"\bnow\b|Date\.now", oc):
+        refuse("My own order's code in lib.mjs reads the clock: it keeps nothing about when.")
+    if "quietRoom(tag)" not in oc:
+        refuse("cleanChatOrder in lib.mjs must leave out a room that keeps to itself, whose tag is its address.")
+    if oc.count("if (!forumReader(who))") < 2:
+        refuse("readChatOrder and keepChatOrder in lib.mjs must each refuse anything but a claimed username.")
+da = re.search(r"export async function deleteAccount\(.*?\n\}", lib_src, re.S)
+if not da or "await forgetChatOrder(petKey(handle), s);" not in da.group(0):
+    refuse("deleting a username (deleteAccount in lib.mjs) no longer deletes its own order for the chat page.")
+if "forgetChatOrder(pk)" not in (ROOT / "netlify/functions/cb-pets.mjs").read_text():
+    refuse("Forget me (cb-pets.mjs) no longer deletes the own order for the chat page.")
+if 'id="chat-order"' not in (ROOT / "privacy.html").read_text():
+    refuse("privacy.html has no #chat-order saying what My own order keeps, which it must say before the order is kept.")
+cb_code = _code(CB.read_text())
+if "cb-chan-move" not in cb_code or "e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')" not in cb_code:
+    refuse("cb.js: arranging must keep Move up and Move down beside each channel, and Alt and an arrow on one, "
+           "as well as dragging, which shuts out a keyboard, a screen reader and a phone.")
 
 if problems:
     print("make-chat.py refused:")
