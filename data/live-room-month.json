@@ -23,26 +23,6 @@
  ],
  "log": [
   {
-   "id": "JHPIBNTOvpw",
-   "source": "acl",
-   "form": "long",
-   "title": "ACLTV 📺 | Season 52",
-   "published": "2026-09-23T15:59:59Z",
-   "state": "screen",
-   "runs": 55,
-   "channel": "Austin City Limits"
-  },
-  {
-   "id": "jNbvTrNeTFg",
-   "source": "acl",
-   "form": "long",
-   "title": "Black Pumas - Ice Cream (Pay Phone) | Live on Austin City Limits TV",
-   "published": "2026-09-24T02:21:03Z",
-   "state": "screen",
-   "runs": 230,
-   "channel": "Austin City Limits"
-  },
-  {
    "id": "TCdXRmJBW4U",
    "source": "acl",
    "form": "long",
@@ -142,13 +122,13 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "ZSA_w66O4wk",
+   "id": "YT9YkJczxIc",
    "source": "acl",
-   "form": "short",
-   "title": "Season 52 Sneak Peek | ACLTV 📺",
-   "published": "2026-09-24T03:08:31Z",
+   "form": "long",
+   "title": "John Anderson - Swingin clip | Live From Austin City Limits TV",
+   "published": "2026-10-23T14:47:34Z",
    "state": "screen",
-   "runs": 55,
+   "runs": 83,
    "channel": "Austin City Limits"
   },
   {
@@ -302,54 +282,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "SOLp13uAEIY",
-   "source": "kexp",
-   "form": "long",
-   "title": "Ak'chamel - Full Performance (Live on KEXP)",
-   "published": "2026-09-23T15:00:36Z",
+   "id": "YoR2Bwntt04",
+   "source": "acl",
+   "form": "short",
+   "title": "The Red Clay Strays - 10/24 Episode DROP | Live on Austin City Limits TV",
+   "published": "2026-10-23T19:51:29Z",
    "state": "screen",
-   "runs": 1807,
-   "channel": "KEXP"
-  },
-  {
-   "id": "hu312slxDRg",
-   "source": "kexp",
-   "form": "long",
-   "title": "Sigh - The Soul Grave (Live on KEXP)",
-   "published": "2026-09-24T11:00:05Z",
-   "state": "screen",
-   "runs": 252,
-   "channel": "KEXP"
-  },
-  {
-   "id": "C9RRyekyslo",
-   "source": "kexp",
-   "form": "long",
-   "title": "Sigh - The Transfiguration Fear (Live on KEXP)",
-   "published": "2026-09-24T11:00:18Z",
-   "state": "screen",
-   "runs": 253,
-   "channel": "KEXP"
-  },
-  {
-   "id": "J8RjseG0hcs",
-   "source": "kexp",
-   "form": "long",
-   "title": "Sigh - Kuroi Kage (Live on KEXP)",
-   "published": "2026-09-24T11:00:24Z",
-   "state": "screen",
-   "runs": 473,
-   "channel": "KEXP"
-  },
-  {
-   "id": "pNbzrT9SDJs",
-   "source": "kexp",
-   "form": "long",
-   "title": "Sigh - Satsui (Live on KEXP)",
-   "published": "2026-09-24T11:00:31Z",
-   "state": "screen",
-   "runs": 280,
-   "channel": "KEXP"
+   "runs": 30,
+   "channel": "Austin City Limits"
   },
   {
    "id": "0Zc9piQukgM",
@@ -1412,13 +1352,33 @@
    "channel": "KEXP"
   },
   {
-   "id": "p5aVJ-pcNWY",
+   "id": "xzU6ENUDrL8",
    "source": "kexp",
-   "form": "short",
-   "title": "Ak’chamel, The Giver of Illness performs \"HASH\" & more Live on KEXP",
-   "published": "2026-09-23T19:27:21Z",
+   "form": "long",
+   "title": "OSEES - Block Of Ice (Live on KEXP)",
+   "published": "2026-10-23T13:00:34Z",
    "state": "screen",
-   "runs": 60,
+   "runs": 1097,
+   "channel": "KEXP"
+  },
+  {
+   "id": "HCBi8EoqEII",
+   "source": "kexp",
+   "form": "long",
+   "title": "OSEES - Plastic Plant (Live on KEXP)",
+   "published": "2026-10-23T15:22:58Z",
+   "state": "screen",
+   "runs": 315,
+   "channel": "KEXP"
+  },
+  {
+   "id": "fTmmYzD4QQk",
+   "source": "kexp",
+   "form": "long",
+   "title": "OSEES - Full Performance (Live on KEXP)",
+   "published": "2026-10-23T15:36:07Z",
+   "state": "screen",
+   "runs": 2119,
    "channel": "KEXP"
   },
   {
@@ -1602,6 +1562,16 @@
    "channel": "KEXP"
   },
   {
+   "id": "XkbhusyIRDY",
+   "source": "kexp",
+   "form": "short",
+   "title": "OSEES perform \"Block Of Ice\" & more Live on KEXP",
+   "published": "2026-10-23T17:09:02Z",
+   "state": "screen",
+   "runs": 60,
+   "channel": "KEXP"
+  },
+  {
    "id": "EDsAcTOuUYI",
    "source": "kcrw",
    "form": "long",
@@ -1712,16 +1682,6 @@
    "channel": "KCRW"
   },
   {
-   "id": "zdj_fXOs1UY",
-   "source": "kcrw",
-   "form": "short",
-   "title": "Alexis Taylor's (Hot Chip) Must-Listen Albums",
-   "published": "2026-09-23T14:00:14Z",
-   "state": "screen",
-   "runs": 133,
-   "channel": "KCRW"
-  },
-  {
    "id": "C5LQJwB4oCQ",
    "source": "kcrw",
    "form": "short",
@@ -1737,13 +1697,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-23T11:29:03Z"
+     "2026-10-24T11:30:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-23T11:29:03Z"
+     "2026-10-24T11:30:27Z"
     ]
    ]
   },
@@ -1751,13 +1711,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-23T11:29:03Z"
+     "2026-10-24T11:30:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-23T11:29:03Z"
+     "2026-10-24T11:30:27Z"
     ]
    ]
   },
@@ -1765,16 +1725,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-23T11:29:03Z"
+     "2026-10-24T11:30:27Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-23T11:29:03Z"
+     "2026-10-24T11:30:27Z"
     ]
    ]
   }
  },
- "set": "2026-10-23T11:29Z"
+ "set": "2026-10-24T11:30Z"
 }
