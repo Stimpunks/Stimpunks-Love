@@ -22,7 +22,7 @@
      · IT KEEPS NOTHING AND SENDS NOTHING. No storage of any kind, no request
        but its own stylesheet and, for the forest, love-embed.js, both from this
        site. tools/make-bodymind-break.py refuses this file otherwise.
-     · NOTHING REACHES YOUTUBE UNTIL THE FOREST IS PRESSED, and the frame is
+     · NOTHING REACHES YOUTUBE UNTIL A FILM IS PRESSED, and the frame is
        built by love-embed.js, the only thing on this site that builds one. It
        is a frame apart (frame()'s `apart`): the CB never takes it for the film
        on the page, so a host's beacon cannot start announcing the forest.
@@ -44,11 +44,13 @@
 (function () {
   'use strict';
 
-  /* What the forest is, written by tools/make-bodymind-break.py out of
-     data/bodymind-break.json. Never hand-edit between the markers. */
-  /* break:forest:begin */
-  var FOREST = {"id": "RzVvThhjAKw", "title": "Forest 4K • Nature Relaxation Film • Peaceful Relaxing Music", "channel": "Relaxation Film", "music": "Richard Nomad", "length": "3:00:52", "what": "a forest: streams, birdsong and soft piano"};
-  /* break:forest:end */
+  /* What there is to watch, written by tools/make-bodymind-break.py out of
+     data/bodymind-break.json: the forest Helen linked, and the jellies she
+     asked for beside it (2026-10-24), and then, in her words, done. Never
+     hand-edit between the markers. */
+  /* break:films:begin */
+  var FILMS = [{"id": "RzVvThhjAKw", "title": "Forest 4K • Nature Relaxation Film • Peaceful Relaxing Music", "channel": "Relaxation Film", "length": "3:00:52", "name": "Watch the forest", "what": "a forest, with streams, birdsong and soft piano", "cite": "Forest 4K", "by": "a nature film by Relaxation Film, with music by Richard Nomad"}, {"id": "eQ_foBERmzA", "title": "Live Jelly Cam", "channel": "Monterey Bay Aquarium", "live": true, "name": "Watch the jellies", "what": "jellies drifting in a tank at Monterey Bay Aquarium, live", "cite": "Live Jelly Cam", "by": "from Monterey Bay Aquarium's Open Sea exhibit"}];
+  /* break:films:end */
 
   var api = { open: false, take: take };
   var host = null, root = null, dlg = null, from = null, ready = false, waiting = null;
@@ -99,26 +101,31 @@
     return svg;
   }
 
-  /* THE FOREST'S PLATE, or the forest itself once pressed. The plate says what
-     is in it and how long it runs before the press, the street's rule for
-     every play button. */
+  /* THE PLATES, or the one film pressed. Each plate says how long it runs
+     before the press, the street's rule for every play button; a live camera
+     has no length to give, so it says it runs until you close it, the Jungle
+     Room's rule, where the jellies live too. */
   function plate() {
     slot.textContent = '';
     if (awayBtn) awayBtn.hidden = true;
-    var b = el('button', 'bbr-play');
-    b.type = 'button';
-    b.appendChild(el('span', 'bbr-play__mark', '▶')).setAttribute('aria-hidden', 'true');
-    var words = el('span', 'bbr-play__words');
-    words.appendChild(el('span', 'bbr-play__name', 'Watch the forest'));
-    words.appendChild(el('span', 'bbr-play__runs', 'Play — ' + FOREST.length));
-    b.appendChild(words);
-    b.addEventListener('click', function () { forest(b); });
-    slot.appendChild(b);
+    var row = el('div', 'bbr-row');
+    FILMS.forEach(function (f) {
+      var b = el('button', 'bbr-play');
+      b.type = 'button';
+      b.appendChild(el('span', 'bbr-play__mark', '▶')).setAttribute('aria-hidden', 'true');
+      var words = el('span', 'bbr-play__words');
+      words.appendChild(el('span', 'bbr-play__name', f.name));
+      words.appendChild(el('span', 'bbr-play__runs', f.live ? 'Live, runs until you close it' : 'Play — ' + f.length));
+      b.appendChild(words);
+      b.addEventListener('click', function () { film(f, b); });
+      row.appendChild(b);
+    });
+    slot.appendChild(row);
   }
-  function forest(b) {
+  function film(f, b) {
     b.disabled = true;
     withEmbed(function () {
-      var frame = window.loveEmbed && window.loveEmbed.frame(FOREST.id, FOREST.channel + ' — ' + FOREST.title, null, true);
+      var frame = window.loveEmbed && window.loveEmbed.frame(f.id, f.channel + ' — ' + f.title, null, true);
       if (!frame) { b.disabled = false; return; }
       var screen = el('div', 'bbr-screen');
       screen.appendChild(frame);
@@ -196,7 +203,7 @@
     pauseRow.appendChild(pauseBtn);
 
     var wood = el('div', 'bbr-forest');
-    wood.appendChild(el('p', 'bbr-quiet', 'If you would like something to look at, there is ' + FOREST.what + '.'));
+    wood.appendChild(el('p', 'bbr-quiet', 'If you would like something to look at, there is ' + FILMS.map(function (f) { return f.what; }).join(', or ') + '.'));
     slot = el('div', 'bbr-slot');
     wood.appendChild(slot);
     awayBtn = el('button', 'bbr-btn', 'Back to the quiet screen');
@@ -205,8 +212,11 @@
     awayBtn.addEventListener('click', function () { plate(); heading.focus(); });
     wood.appendChild(awayBtn);
     var credit = el('p', 'bbr-credit');
-    credit.appendChild(el('cite', null, 'Forest 4K'));
-    credit.appendChild(document.createTextNode(', a nature film by ' + FOREST.channel + ', with music by ' + FOREST.music + '. Nothing reaches YouTube until you press play.'));
+    FILMS.forEach(function (f, i) {
+      credit.appendChild(el('cite', null, f.cite));
+      credit.appendChild(document.createTextNode(', ' + f.by + (i < FILMS.length - 1 ? '; ' : '. ')));
+    });
+    credit.appendChild(document.createTextNode('Nothing reaches YouTube until you press play.'));
     wood.appendChild(credit);
 
     /* SOMEWHERE QUIET ON THE STREET (Helen's "a link to a relaxing place"):

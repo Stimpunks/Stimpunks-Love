@@ -4318,7 +4318,7 @@ puts the same words up again, and say when.
 **I NEED A BODYMIND BREAK IS FURNITURE, AND IT ASKS BEFORE IT STOPS ANYTHING.** Helen Edgar's idea and Ryan's
 answer, 2026-10-24, after Cavendish Space's button: a calm screen over any page (`bodymind-break.js`,
 `bodymind-break.css`, §2's `--bbr-*`), a far treeline in mist, a few words, crisis lines and the Help page (Helen's
-ask the same day), and a forest film on a plate. The button is in the dial's box (`love.js` builds it, never on a
+ask the same day), and a forest film and Monterey Bay Aquarium's live jelly cam on plates (the jellies Helen's ask, after which she called the break done: the friendly edit now is a third thing on it). The button is in the dial's box (`love.js` builds it, never on a
 `data-cb="off"` page or in a frame), under Where you are on the radio, and as **Break** on the folded radio's bar and the
 guest bar, where Bodymind break wrapped the row; `love.js` holds the loader and `cb.js` a copy for its own window. Its
 own colours, not a room's and not the radio's theme, because a room's colours are what somebody is getting away

@@ -9,14 +9,17 @@ answer: Cavendish Space's I need a bodymind break, on the CB and in the dial's
 How loud do you want it? box. bodymind-break.js is the screen; love.js (the
 dial), cb.js (the radio) and guest.js (the guest bar) each have its button.
 
-What this writes: the one film, out of data/bodymind-break.json, between the
-break:forest markers in bodymind-break.js. Never hand-edit between them.
+What this writes: the films, out of data/bodymind-break.json, between the
+break:films markers in bodymind-break.js: the forest, and the jellies Helen
+asked for beside it. Never hand-edit between them.
 
 What it refuses, because each is a sentence somebody may rely on while they are
 already having a hard time:
 
-  · A FILM WITH NO RUNTIME, or an id that is no YouTube id. The plate says how
-    long before the press, the street's rule for every play button.
+  · A FILM WITH NO RUNTIME, A LIVE CAMERA WITH ONE, or an id that is no
+    YouTube id. The plate says how long before the press, the street's rule
+    for every play button, and a live camera says it runs until you close it,
+    the Jungle Room's, because it has no length to give.
   · THE SCREEN KEEPING OR SENDING ANYTHING. No storage, no fetch or beacon or
     socket, no markup from a string, and no frame built anywhere but
     love-embed.js, and that frame apart, so the CB never takes the forest for
@@ -61,34 +64,41 @@ def code_of(text):
     return re.sub(r"(?m)^\s*//[^\n]*", " ", c)
 
 
-def forest_line():
+def films_line():
     data = json.loads(DATA.read_text())
     tracks = data.get("tracks") or []
-    if len(tracks) != 1:
-        problems.append(f"{DATA.name}: the break has one film, and this holds {len(tracks)}.")
+    if not tracks:
+        problems.append(f"{DATA.name}: the break has nothing to watch.")
         return None
-    t = tracks[0]
-    if not re.fullmatch(r"[A-Za-z0-9_-]{11}", t.get("id", "")):
-        problems.append(f"{DATA.name}: {t.get('id')!r} is no YouTube id, and love-embed.js would build nothing for it.")
-    if not re.fullmatch(r"(?:\d+:)?\d{1,2}:\d{2}", t.get("length", "")):
-        problems.append(f"{DATA.name}: the forest has no runtime, and its plate must say how long before the press.")
-    for k in ("title", "channel", "music", "what"):
-        if not t.get(k):
-            problems.append(f"{DATA.name}: the forest has no {k}, which its plate or its credit says.")
-    keep = {k: t.get(k) for k in ("id", "title", "channel", "music", "length", "what")}
-    return "  var FOREST = " + json.dumps(keep, ensure_ascii=False) + ";"
+    keep = []
+    for t in tracks:
+        name = t.get("name") or t.get("id")
+        if not re.fullmatch(r"[A-Za-z0-9_-]{11}", t.get("id", "")):
+            problems.append(f"{DATA.name}: {t.get('id')!r} is no YouTube id, and love-embed.js would build nothing for it.")
+        if t.get("live"):
+            # The Jungle Room's rule: a live camera has no length, and a number
+            # stored for today's stream is wrong tomorrow and looks certain.
+            if t.get("length"):
+                problems.append(f"{DATA.name}: {name} is live and has a runtime; a live camera has none to give.")
+        elif not re.fullmatch(r"(?:\d+:)?\d{1,2}:\d{2}", t.get("length", "")):
+            problems.append(f"{DATA.name}: {name} has no runtime, and its plate must say how long before the press.")
+        for k in ("title", "channel", "name", "what", "cite", "by"):
+            if not t.get(k):
+                problems.append(f"{DATA.name}: {name} has no {k}, which its plate or its credit says.")
+        keep.append({k: t[k] for k in ("id", "title", "channel", "live", "length", "name", "what", "cite", "by") if t.get(k)})
+    return "  var FILMS = " + json.dumps(keep, ensure_ascii=False) + ";"
 
 
 def write(line):
     src = JS.read_text()
-    m = re.search(r"(  /\* break:forest:begin \*/\n)(.*?)(\n  /\* break:forest:end \*/)", src, re.S)
+    m = re.search(r"(  /\* break:films:begin \*/\n)(.*?)(\n?  /\* break:films:end \*/)", src, re.S)
     if not m:
-        problems.append(f"{JS.name}: the break:forest markers are missing, so there is nowhere to write the forest.")
+        problems.append(f"{JS.name}: the break:films markers are missing, so there is nowhere to write the films.")
         return
-    out = src[:m.start(2)] + line + src[m.end(2):]
+    out = src[:m.start(2)] + line + "\n" + src[m.start(3):].lstrip("\n")
     if out != src:
         JS.write_text(out)
-        print(f"wrote the forest into {JS.name}")
+        print(f"wrote the films into {JS.name}")
 
 
 def check_script():
@@ -100,8 +110,8 @@ def check_script():
             problems.append(f"{JS.name}: {bad}. The break keeps nothing, sends nothing, and builds no markup from a string.")
     if re.search(r"createElement\(\s*['\"]iframe", js):
         problems.append(f"{JS.name}: it builds a frame itself. love-embed.js is the only thing on this site that builds one.")
-    if not re.search(r"loveEmbed\.frame\(FOREST\.id,[^;]*,\s*null,\s*true\)", js):
-        problems.append(f"{JS.name}: the forest is not built as a frame apart (loveEmbed.frame(..., null, true)), "
+    if not re.search(r"loveEmbed\.frame\(f\.id,[^;]*,\s*null,\s*true\)", js):
+        problems.append(f"{JS.name}: a film is not built as a frame apart (loveEmbed.frame(..., null, true)), "
                         "so the CB could take it for the film on the page.")
     if re.search(r"\bquiet\(\)", js) and not re.search(r"function pauseHere\(\)", js):
         problems.append(f"{JS.name}: it pauses the page some way other than the Pause it button.")
@@ -112,8 +122,8 @@ def check_script():
         problems.append(f"{JS.name}: the way to crisis lines ({CRISIS}) or the Help page has gone. A break is not always enough.")
     if "'I\u2019m back'" not in js or "'close'" not in js:
         problems.append(f"{JS.name}: I'm back, or the close that puts the keyboard back, has gone.")
-    if "'Play \u2014 ' + FOREST.length" not in js:
-        problems.append(f"{JS.name}: the forest's plate does not say how long it runs before the press.")
+    if "f.live ? 'Live, runs until you close it' : 'Play \u2014 ' + f.length" not in js:
+        problems.append(f"{JS.name}: a plate does not say how long it runs before the press, or that a live one runs until you close it.")
     rooms = re.findall(r"\['/([a-z0-9-]+\.html)'", js)
     if not rooms:
         problems.append(f"{JS.name}: the quiet rooms on the street (Helen's link to a relaxing place) have gone.")
@@ -174,7 +184,7 @@ def check_privacy():
             problems.append(f"{PRIVACY.name}#bodymind-break: it does not say {need!r}.")
 
 
-line = forest_line()
+line = films_line()
 if line and not problems:
     write(line)
 check_script()

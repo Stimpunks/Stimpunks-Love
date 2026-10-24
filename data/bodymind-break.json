@@ -1,5 +1,5 @@
 {
-  "_what": "The one film on the bodymind break: the calm screen the CB's I need a bodymind break opens over any page. tools/make-bodymind-break.py writes it into bodymind-break.js between the break:forest markers, and check-jukebox.py asks YouTube whether it still plays and embeds.",
+  "_what": "What there is to watch on the bodymind break, the calm screen the dial's and the CB's I need a bodymind break opens over any page: the forest Helen linked, and the jellies she asked for beside it, and then, in her words, done (2026-10-24). tools/make-bodymind-break.py writes them into bodymind-break.js between the break:films markers, and check-jukebox.py asks YouTube whether each still plays and embeds.",
   "_source": "Helen Edgar's idea, 2026-10-24: the street is busy even at Gentle, so a blank, cool screen to regulate in, saying breathe, it will be okay, with the choice of watching a forest; she linked this film. Ryan's answer the same day was Cavendish Space's I need a bodymind break button, in the CB, opening a simple, calming, biophilic overlay with this forest. The id, title, channel, runtime and the music's credit were read off the film's own watch page and description on 2026-10-24 (yt-dlp): playable, embeddable, not live, not age-limited.",
   "_licence": "NOTHING FILMED OR MUSICAL IS HOSTED HERE: the film stays on Relaxation Film's channel and is framed only when somebody presses it. Its description sells it for sleep, focus and relaxation and as 'Healing' music; none of that is repeated on the break, which says what is in it and how long it runs, and never what it will do for anybody.",
   "tracks": [
@@ -10,9 +10,25 @@
       "title": "Forest 4K • Nature Relaxation Film • Peaceful Relaxing Music",
       "channel": "Relaxation Film",
       "channel_verbatim": "Relaxation Film",
-      "music": "Richard Nomad",
       "length": "3:00:52",
-      "what": "a forest: streams, birdsong and soft piano"
+      "what": "a forest, with streams, birdsong and soft piano",
+      "name": "Watch the forest",
+      "cite": "Forest 4K",
+      "by": "a nature film by Relaxation Film, with music by Richard Nomad"
+    },
+    {
+      "slot": "jellies",
+      "id": "eQ_foBERmzA",
+      "artist": "Monterey Bay Aquarium",
+      "title": "Live Jelly Cam",
+      "channel": "Monterey Bay Aquarium",
+      "channel_verbatim": "Monterey Bay Aquarium",
+      "live": true,
+      "name": "Watch the jellies",
+      "what": "jellies drifting in a tank at Monterey Bay Aquarium, live",
+      "cite": "Live Jelly Cam",
+      "by": "from Monterey Bay Aquarium's Open Sea exhibit",
+      "_source": "Helen Edgar's ask, 2026-10-24: 'our jelly fish video'. It is ours already: the Jungle Room carries it off our Watering Hole Hangs events page (data/jungle.json). Read off its watch page the same day with yt-dlp: live, playable, embeddable, not age-limited, the channel Monterey Bay Aquarium, and its description naming the Open Sea exhibit. A live camera has no length, so the plate says it runs until you close it, the Jungle Room's rule; and like any live cam it can show an empty tank or nothing at all."
     }
   ]
 }
