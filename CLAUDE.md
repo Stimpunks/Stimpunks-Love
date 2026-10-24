@@ -4404,6 +4404,19 @@ and fonts swapped in a mode** (the proposal was colours; that is Ryan's call). A
 Picture House's "nothing in this building is blue") is overridden too, by the visitor's choice, and `DECISIONS.md` has
 that open.
 
+**THE GLITTER DIAL ON THE CB IS THE PAGE'S DIAL, NOT A SECOND ONE.** A request from our community, 2026-10-24: under
+Where you are on the radio, beside I need a bodymind break, **Glitter dial** opens the levels and the low-stimulation
+modes, and **Open in Chat** after it opens `chat.html#<the room you are in>` (World where the page is no room; not on
+the chat page and not in a quiet room, whose `#tag` is its address). The radio holds no dial of its own: every press
+goes to `window.loveLevel` and `window.loveLow` in `love.js` (`setLevel`, `setLow`), which fire `love-intensity` and
+`love-low`, and the page's dial and the radio's panel each redraw from those. **The radio's own window has no
+love.js**, so there `dialWin()` in `cb.js` turns the page it came from and `dialMirror` copies its two attributes onto
+the window, never storage, because `make-low-stimulation.py` holds that only `setLow` writes `love-low`. The friendly
+edit is a copy of the setter in `cb.js` "so the window does not need the page"; that is the second dial. **A name
+declared twice with `var` in one script's scope is the silent last-wins of `check-ids.py` without the check**: the
+dial's `NOTES` and the Playhouse's toys' `NOTES` shared love.js's scope from 2026-09-21, and the dial's line under
+its buttons was blank on every page until this change renamed the dial's to `LEVEL_NOTES`.
+
 **PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
 idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
 pass writes on it, and a note stays seven days**, thirty at most. Those two differences from the channel

@@ -14,7 +14,7 @@
   var LEVELS = ['gentle', 'regular', 'max'];
   var KEY = 'love-intensity';
 
-  var NOTES = {
+  var LEVEL_NOTES = {
     gentle:  'Gentle: no wobble, no sparkle, no drifting marquee. Same rooms, same colours, same words — nothing is hidden at this setting.',
     regular: 'Regular: full colour and full type play. Things move when you point at them and not before. Most people land here.',
     max:     'MAX GLITTER: every room turned all the way up — sparkle, marquee, the wobble on the toys. Nobody arrives here by accident.'
@@ -31,32 +31,45 @@
     var btns = box.querySelectorAll('.dial__btn');
     var note = box.querySelector('.dial__note');
 
-    function show(level) {
+    function show() {
+      var level = levelNow();
       for (var i = 0; i < btns.length; i++) {
         btns[i].setAttribute('aria-pressed', String(btns[i].dataset.level === level));
       }
-      var low = lowNow();
-      if (note) note.textContent = low ? LOW_NOTES[low] : NOTES[level];
-    }
-    function apply(level, remember) {
-      if (LEVELS.indexOf(level) < 0) level = 'regular';
-      root.setAttribute('data-intensity', level);
-      show(level);
-      if (remember) store(KEY, level);
+      if (note) note.textContent = noteNow();
     }
 
     for (var i = 0; i < btns.length; i++) {
-      btns[i].addEventListener('click', function () {
-        // A level is the rooms' own colours: pressed in a mode, it leaves the mode.
-        if (lowNow()) setLow(null, true);
-        apply(this.dataset.level, true);
-      });
+      btns[i].addEventListener('click', function () { setLevel(this.dataset.level); });
     }
-    apply(root.getAttribute('data-intensity') || 'regular', false);
+    if (LEVELS.indexOf(root.getAttribute('data-intensity')) < 0) root.setAttribute('data-intensity', 'regular');
+    show();
     lowButtons(box);
-    document.addEventListener('love-low', function () { show(root.getAttribute('data-intensity')); });
+    // A level or a mode set anywhere else on the page (the CB's Glitter dial,
+    // the bodymind break) shows here too.
+    document.addEventListener('love-low', show);
+    document.addEventListener('love-intensity', show);
     breakButton(box);
   }
+
+  /* A LEVEL, from the dial on the page or from the CB's Glitter dial (cb.js,
+     a request from our community, 2026-10-24). One setter, so the two are
+     the same dial: kept under love-intensity, and a level is the rooms' own
+     colours, so pressed in a mode it leaves the mode. */
+  var LEVEL_NAMES = { gentle: 'Gentle', regular: 'Regular', max: 'MAX GLITTER' };
+  function levelNow() {
+    var l = document.documentElement.getAttribute('data-intensity');
+    return LEVELS.indexOf(l) >= 0 ? l : 'regular';
+  }
+  function setLevel(level) {
+    if (LEVELS.indexOf(level) < 0) level = 'regular';
+    if (lowNow()) setLow(null, true);
+    document.documentElement.setAttribute('data-intensity', level);
+    store(KEY, level);
+    try { document.dispatchEvent(new CustomEvent('love-intensity', { detail: { level: level } })); } catch (e) { /* an old browser */ }
+  }
+  // What the setting now does, in the dial's own words.
+  function noteNow() { var low = lowNow(); return low ? LOW_NOTES[low] : LEVEL_NOTES[levelNow()]; }
 
   /* ── The low-stimulation modes ────────────────────────────────────────────
      A proposal of 2026-10-24, "Feeling overwhelmed? Escape to a low-stimulation
@@ -72,6 +85,7 @@
   var LOWS = ['warm', 'cool', 'green', 'red'];
   var LOW_KEY = 'love-low';
   var LOW_NAMES = { warm: 'Warm Light', cool: 'Cool Dark', green: 'Plant Green', red: 'Red Light' };
+  var LOW_ASK = 'Feeling overwhelmed? Escape to a low-stimulation mode.';
   var LOW_NOTES = {
     warm:  'Warm Light: every room on warm paper in soft brown ink, every drawing in sepia, and nothing moving. Same rooms, same words. Press it again, or a level, for the rooms\u2019 own colours.',
     cool:  'Cool Dark: every room in dim slate and soft grey, every drawing in grey, and nothing moving. Same rooms, same words. Press it again, or a level, for the rooms\u2019 own colours.',
@@ -104,8 +118,10 @@
     }
     try { document.dispatchEvent(new CustomEvent('love-low', { detail: { low: low } })); } catch (e) { /* an old browser */ }
   }
-  // The bodymind break offers the modes too, through this.
-  window.loveLow = { modes: LOWS, names: LOW_NAMES, now: lowNow, set: setLow };
+  // The bodymind break offers the modes too, through this, and the CB's
+  // Glitter dial offers the modes and the levels, through this and loveLevel.
+  window.loveLow = { modes: LOWS, names: LOW_NAMES, now: lowNow, set: setLow, ask: LOW_ASK };
+  window.loveLevel = { levels: LEVELS, names: LEVEL_NAMES, now: levelNow, set: setLevel, note: noteNow, ask: 'How loud do you want it?' };
 
   function lowButtons(box) {
     var wrap = document.createElement('div');
@@ -113,7 +129,7 @@
     var label = document.createElement('p');
     label.className = 'dial__low-label';
     label.id = 'dial-low-label';
-    label.textContent = 'Feeling overwhelmed? Escape to a low-stimulation mode.';
+    label.textContent = LOW_ASK;
     var row = document.createElement('div');
     row.className = 'dial__low-row';
     row.setAttribute('role', 'group');

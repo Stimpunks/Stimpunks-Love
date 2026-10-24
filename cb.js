@@ -1354,11 +1354,38 @@
        the size buttons step aside and leave it room. Not on the bar at Small,
        which is full; the dial's box has one too. Opening it sends nothing, and
        the radio says nothing aloud while it is up (see speak). */
+    var whereRow = el('div', 'cb-tools cb-where-tools');
     var brk = this.breakBtn = el('button', 'cb-btn cb-break', 'I need a bodymind break');
     brk.type = 'button';
     brk.setAttribute('aria-haspopup', 'dialog');
     brk.addEventListener('click', function () { me.hush(); takeBreak(brk); });
-    (whereSec || hereSec).appendChild(brk);
+    whereRow.appendChild(brk);
+    /* THE GLITTER DIAL, beside it (a request from our community, 2026-10-24):
+       the dial's levels and its low-stimulation modes, from any page the
+       radio is on, the pages with no dial of their own included. Its panel
+       opens straight after its button, on a line of its own. See dialMake. */
+    var dialBtn = this.dialBtn = el('button', 'cb-btn cb-dial-btn', 'Glitter dial');
+    dialBtn.type = 'button';
+    dialBtn.setAttribute('aria-expanded', 'false');
+    dialBtn.setAttribute('aria-controls', 'cb-dial');
+    dialBtn.addEventListener('click', function () { me.dialOpen(dialBtn.getAttribute('aria-expanded') !== 'true'); });
+    whereRow.appendChild(dialBtn);
+    var dialPanel = this.dialPanel = el('div', 'cb-dial');
+    dialPanel.id = 'cb-dial';
+    dialPanel.hidden = true;
+    whereRow.appendChild(dialPanel);
+    /* OPEN IN CHAT, after the dial (the same request): the chat page with the
+       room you are in picked, or World where this page is no room. Not on
+       the chat page, and not in a room that keeps to itself, whose name the
+       chat page never lists and whose #tag is its address. See hereShown. */
+    var toChat = this.toChatLink = el('a', 'cb-btn cb-to-chat', 'Open in Chat');
+    toChat.href = '/' + CHAT_PAGE + '.html';
+    toChat.hidden = true;
+    whereRow.appendChild(toChat);
+    (whereSec || hereSec).appendChild(whereRow);
+    // The page's own dial and the bodymind break turn the same dial.
+    document.addEventListener('love-low', function () { me.dialShown(); });
+    document.addEventListener('love-intensity', function () { me.dialShown(); });
     // Break on the bar, as on the guest bar; its name says the whole of it.
     var brkBar = this.breakBarBtn = el('button', 'cb-btn cb-break-bar', 'Break');
     brkBar.type = 'button';
@@ -10229,6 +10256,97 @@
     var known = !!(rooms && rooms.length);
     this.hereName.textContent = here ? here.name : inWindow() && !streetDoc() ? pageName() : known ? 'A page that is not a room on the street' : pageName();
     this.hereName.classList.toggle('cb-here-name--off', !here && known);
+    var tag = here && !here.quiet && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(here.tag) ? here.tag : WORLD_CALL;
+    this.toChatLink.href = '/' + CHAT_PAGE + '.html#' + tag;
+    this.toChatLink.hidden = inChat() || offList() || (inWindow() && !streetDoc());
+    this.dialShown();
+  };
+
+  /* THE GLITTER DIAL ON THE RADIO (a request from our community, 2026-10-24):
+     Gentle, Regular and MAX GLITTER, and the low-stimulation modes, as the
+     dial at the top of a page has them, under Where you are. The radio holds
+     no dial of its own: every press goes to love.js's loveLevel and loveLow,
+     which keep love-intensity and love-low exactly as the page's dial does
+     (make-low-stimulation.py holds that only setLow writes love-low), and the
+     page's own dial follows. From the radio's own window, which has no
+     love.js, it is the page the radio came from that turns, and this window
+     takes the same setting so the radio's colours follow; with that page
+     gone, the button is not offered. The words never change with it, and
+     nothing here is sent anywhere. */
+  function dialWin() {
+    if (window.loveLevel && window.loveLow) return window;
+    var w = inWindow() ? streetWindow() : null;
+    try { return w && w.loveLevel && w.loveLow ? w : null; } catch (e) { return null; }
+  }
+  // The radio's own window wears the setting of the page it came from.
+  function dialMirror(w) {
+    if (!w || w === window) return;
+    try {
+      var from = w.document.documentElement, to = document.documentElement, low = from.getAttribute('data-low');
+      to.setAttribute('data-intensity', from.getAttribute('data-intensity') || 'regular');
+      if (low) to.setAttribute('data-low', low); else to.removeAttribute('data-low');
+    } catch (e) { /* the page has gone */ }
+  }
+
+  Radio.prototype.dialMake = function (w) {
+    var me = this, p = this.dialPanel;
+    function group(ask, list, names, cls, press) {
+      p.appendChild(el('p', 'cb-h3', ask));
+      var row = el('div', 'cb-tools cb-dial-row');
+      row.setAttribute('role', 'group');
+      row.setAttribute('aria-label', ask);
+      list.forEach(function (k) {
+        var b = el('button', 'cb-btn ' + cls, names[k]);
+        b.type = 'button';
+        b.dataset.k = k;
+        b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', function () { press(k); });
+        row.appendChild(b);
+      });
+      p.appendChild(row);
+    }
+    group(w.loveLevel.ask, w.loveLevel.levels, w.loveLevel.names, 'cb-dial-level', function (k) {
+      me.dialSet(function (x) { x.loveLevel.set(k); });
+    });
+    group(w.loveLow.ask, w.loveLow.modes, w.loveLow.names, 'cb-dial-low', function (k) {
+      me.dialSet(function (x) { x.loveLow.set(x.loveLow.now() === k ? null : k); });
+    });
+    var off = this.dialOff = el('button', 'cb-btn cb-dial-off', 'Back to the rooms’ own colours');
+    off.type = 'button';
+    off.addEventListener('click', function () { me.dialSet(function (x) { x.loveLow.set(null); }); });
+    p.appendChild(off);
+    this.dialNote = el('p', 'cb-quiet cb-dial-note');
+    p.appendChild(this.dialNote);
+  };
+
+  Radio.prototype.dialSet = function (how) {
+    var w = dialWin();
+    if (w) { how(w); dialMirror(w); }
+    this.dialShown();
+  };
+
+  Radio.prototype.dialOpen = function (open) {
+    var w = dialWin();
+    if (open && !w) open = false;
+    if (open && !this.dialPanel.firstChild) this.dialMake(w);
+    this.dialPanel.hidden = !open;
+    this.dialBtn.setAttribute('aria-expanded', String(open));
+    this.dialShown();
+  };
+
+  // Which level and mode are on, read afresh, since the page's own dial and
+  // the bodymind break turn the same one.
+  Radio.prototype.dialShown = function () {
+    if (!this.dialBtn) return;
+    var w = dialWin();
+    this.dialBtn.hidden = !w;
+    if (!w && !this.dialPanel.hidden) { this.dialPanel.hidden = true; this.dialBtn.setAttribute('aria-expanded', 'false'); }
+    if (!w || this.dialPanel.hidden || !this.dialPanel.firstChild) return;
+    var level, low;
+    try { level = w.loveLevel.now(); low = w.loveLow.now(); this.dialNote.textContent = w.loveLevel.note(); } catch (e) { return; }
+    this.dialPanel.querySelectorAll('.cb-dial-level').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.k === level)); });
+    this.dialPanel.querySelectorAll('.cb-dial-low').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.k === low)); });
+    this.dialOff.hidden = !low;
   };
 
   // The room a page is, for being seen in: only once the street's list says so.

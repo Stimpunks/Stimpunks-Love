@@ -501,6 +501,18 @@
    case's own steel. A page that is not a room says so, smaller. */
 .cb-here-name { font-size: 20px; font-weight: 700; line-height: 1.25; color: var(--cb-steel); overflow-wrap: anywhere; }
 .cb-here-name--off { font-size: 16px; }
+/* I need a bodymind break, the Glitter dial and Open in Chat, in a row under
+   the room's name. The dial's panel opens straight after its button, on a
+   line of its own, so the keyboard meets it next; the level and the mode that
+   are on are filled, as Colours' scheme is, a pair already measured. */
+.cb-where-tools { align-items: flex-start; }
+.cb-dial-btn:hover, .cb-dial-btn[aria-expanded="true"] { border-color: var(--cb-amber); }
+.cb-dial { flex: 1 0 100%; display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr); }
+.cb-dial > .cb-h3 { margin-top: 2px; }
+.cb-dial > .cb-dial-off { justify-self: start; }
+.cb-dial .cb-btn[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
+.cb-dial-note { margin: 0; font-size: 13px; }
+a.cb-to-chat { display: inline-flex; align-items: center; text-decoration: none; }
 .cb-who { font-size: 14px; }
 /* World or this room: two buttons, the pressed one with the amber edge every
    pressed button on the radio has. */
