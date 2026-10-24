@@ -2741,8 +2741,11 @@
     evSays.id = 'cb-notify-every';
     box.appendChild(evSays);
     var room = hereRoom();
-    // Following every room, this one is followed already, unless it keeps to itself.
-    if (room && (!w.everyRoom || room.quiet)) {
+    // Following every room, this one is followed already, unless it keeps to
+    // itself, or has a feed bot, whose arrivals tell only a device that
+    // follows the room by name (notifyWire in lib.mjs).
+    var bot = !!room && BOT_ROOMS.indexOf(room.tag) >= 0;
+    if (room && (!w.everyRoom || room.quiet || bot)) {
       var follows = w.rooms.indexOf(room.tag) >= 0;
       var fb = el('button', 'cb-btn', 'Follow ' + room.name + ': ' + (follows ? 'on' : 'off'));
       fb.type = 'button';
@@ -2752,6 +2755,7 @@
         apply(n, 'follow');
       });
       box.appendChild(fb);
+      if (bot) box.appendChild(el('p', 'cb-hint', 'Following ' + room.name + ' here, by name, also tells you about every new arrival it says on its channel. Follow every room does not.'));
       if (focusKey === 'follow') setTimeout(function () { fb.focus(); }, 0);
     }
     if (w.rooms.length) {
@@ -3030,15 +3034,23 @@
         continue;
       }
       this.seen[m.id] = true;
-      var li = el('li', 'cb-msg' + (m.base ? ' cb-msg--base' : ''));
+      var bot = !!m.feed;
+      var li = el('li', 'cb-msg' + (m.base ? ' cb-msg--base' : '') + (bot ? ' cb-msg--bot' : ''));
       li.dataset.id = m.id;
       var head = el('p', 'cb-head');
-      var who = el('button', 'cb-handle', m.handle);
-      who.type = 'button';
-      who.setAttribute('aria-haspopup', 'dialog');
-      (function (h, b, mk) { b.addEventListener('click', function () { me.peek(h, b, mk); }); })(m.handle, who, m);
+      var who;
+      if (bot) {
+        // A room's feed bot (runFeedBot in lib.mjs) is nobody, so its name opens no profile.
+        who = el('span', 'cb-handle cb-handle--bot', m.handle);
+      } else {
+        who = el('button', 'cb-handle', m.handle);
+        who.type = 'button';
+        who.setAttribute('aria-haspopup', 'dialog');
+        (function (h, b, mk) { b.addEventListener('click', function () { me.peek(h, b, mk); }); })(m.handle, who, m);
+      }
       head.appendChild(who);
       if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
+      if (bot) head.appendChild(el('span', 'cb-tag', 'BOT'));
       var when = el('time', 'cb-time', clock(m.t));
       when.dateTime = new Date(m.t).toISOString();
       head.appendChild(when);
@@ -3046,12 +3058,15 @@
       // A reply says what it answers above the name, first in the markup too,
       // so the log's live region reads who it answers before what it says.
       this.drawRe(li, m, messages, this.log, RE_GONE);
-      var said = el('div', 'cb-text');
+      var said = el('div', 'cb-text' + (bot ? ' cb-feed' : ''));
       said.cbRaw = m.text || '';
       said.cbAt = m.at || [];
       said.cbRoles = m.roles || [];
-      li.appendChild(md(said, m.text));
-      this.markAt(said, said.cbAt, said.cbRoles);
+      if (bot) li.appendChild(feedCard(said, m.feed));
+      else {
+        li.appendChild(md(said, m.text));
+        this.markAt(said, said.cbAt, said.cbRoles);
+      }
       this.markEdited(li, m);
       if (m.img) li.appendChild(this.picture_(m));
       if (m.sticker) li.appendChild(sticker(m.sticker));
@@ -3084,6 +3099,35 @@
     this.log.hidden = messages.length === 0;
     if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
   };
+
+  /* A NEW ARRIVAL, said by The Feed or The Source on its own channel (Ryan's
+     ask, 2026-10-23, after Discord's feed bots; runFeedBot in lib.mjs): the
+     site, the item's name as a link that says where it goes, and for a commit
+     its short id, its day and whose hands. Built as elements from what the
+     server's shapeFeed checked, and nothing in it is read as Markdown, because
+     somebody else's title is not a message anybody here wrote. */
+  // The rooms with a feed bot: FEED_NAMES's tags in lib.mjs, which
+  // tools/make-the-source.py holds this copy to.
+  var BOT_ROOMS = ['the-feed', 'the-source'];
+  function feedCard(said, f) {
+    var p = el('p', 'cb-feed__item');
+    p.appendChild(el('span', 'cb-feed__site', f.site));
+    p.appendChild(document.createTextNode(': '));
+    var u = awayUrl(f.url);
+    if (u && onStreet(f.url)) {
+      var a = el('a', null, f.title);
+      a.href = u.pathname + u.search + u.hash;
+      p.appendChild(a);
+    } else p.appendChild(u ? awayLink(f.title, u) : document.createTextNode(f.title));
+    said.appendChild(p);
+    if (f.sha) {
+      var hands = (f.anon ? ['somebody GitHub does not name'] : []).concat(f.by || []);
+      var day = new Date(f.when).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' });
+      said.appendChild(el('p', 'cb-feed__how', f.sha + ' \u00b7 ' + day + ' \u00b7 ' +
+        (hands.length ? 'by ' + names(hands) : 'GitHub names nobody')));
+    }
+    return said;
+  }
 
   /* React and More, after everything else in the message (above for why).
      Drawn again only when an edit gives a message words or takes them all
@@ -3662,7 +3706,8 @@
   Radio.prototype.atPeople = function () {
     var me = this, out = [];
     function add(h) { if (h && fold(h) !== fold(me.state.handle) && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
-    (this.aired || []).forEach(function (m) { add(m.handle); (m.at || []).forEach(add); });
+    // A room's feed bot is nobody to @mention.
+    (this.aired || []).forEach(function (m) { if (!m.feed) add(m.handle); (m.at || []).forEach(add); });
     (this.people || []).forEach(function (p) { add(p.handle); });
     (this.atPicked || []).forEach(add);
     return out.sort(function (a, b) { return fold(a).localeCompare(fold(b)); });
@@ -9502,7 +9547,7 @@
      message came from a claimed username, a claimed pass. A BASE message is
      only ever the base's. */
   Radio.prototype.mine = function (m) {
-    if (m.base || fold(m.handle) !== fold(this.state.handle)) return false;
+    if (m.base || m.feed || fold(m.handle) !== fold(this.state.handle)) return false;
     return !m.claimed || claimedPass(this.state.pass);
   };
 
@@ -9510,7 +9555,7 @@
      claimed username's message only with a claimed pass; a BASE message only
      with the base's. Unlike Take off, the base gets no further than its own. */
   Radio.prototype.mayEdit = function (m) {
-    if (fold(m.handle) !== fold(this.state.handle)) return false;
+    if (m.feed || fold(m.handle) !== fold(this.state.handle)) return false;
     if (m.base) return !!this.state.base;
     return !m.claimed || claimedPass(this.state.pass);
   };

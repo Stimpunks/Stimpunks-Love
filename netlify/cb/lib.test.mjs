@@ -52,6 +52,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
   mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET, followsRoom } from './lib.mjs';
+import { readWireXml, runFeedBot, keepBot, feedRooms, FEED_KEEP, FEED_RUN, FEED_NAMES, botWord, shapeFeed } from './lib.mjs';
 import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
   reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, DM_KEEP, DM_WITH, REPORT_DAYS } from './lib.mjs';
 
@@ -7416,4 +7417,117 @@ test('a member\'s call for a moderator leaves a note on the desk, once, never fr
   const full = await readModCalls(mod, s, later + MOD_CALL_KEEP + 5);
   assert.equal(full.length, MOD_CALL_KEEP);
   assert.equal(full[0].text, '@moderator ' + (MOD_CALL_KEEP + 2), 'the newest call was the one dropped');
+});
+
+/* ── The feed bot ─────────────────────────────────────────────────────────
+   Ryan's ask, 2026-10-23: The Feed's and The Source's channels hear each new
+   item as it comes in. The invariant here is the CB's own, said for a bot:
+   NOTHING IS SAID TWICE, even with fifteen readings at once; nothing is said
+   the first time a wire is read; and a person's message is never pushed off
+   the channel by one of the bot's. */
+const RSS = (items) => `<?xml version="1.0"?><rss version="2.0"><channel><title>x</title>${items.map((i) =>
+  `<item><title>${i.title}</title><link>${i.link}</link><guid>${i.guid || i.link}</guid>${i.t ? `<pubDate>${new Date(i.t).toUTCString()}</pubDate>` : ''}</item>`).join('')}</channel></rss>`;
+const ATOM = (repo, entries) => `<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom">${entries.map((e) =>
+  `<entry><id>tag:github.com,2008:Grit::Commit/${e.sha}</id><link type="text/html" rel="alternate" href="https://github.com/${e.repo || repo}/commit/${e.sha}"/>` +
+  `<title>\n        ${e.title}\n    </title><updated>${new Date(e.t).toISOString()}</updated>` +
+  `<author><name>${e.by || ''}</name>${e.by ? '' : '<email>somebody@example.org</email>'}</author>` +
+  `<content type="html">&lt;pre&gt;${e.title}\n\nWhy, at length.\n\nCo-Authored-By: Claude Opus 5.5 &amp;lt;noreply@anthropic.com&amp;gt;&lt;/pre&gt;</content></entry>`).join('')}</feed>`;
+function fakeGet(feeds) {
+  return async (url) => {
+    const body = feeds[url];
+    if (!body) return { status: 404, headers: { get: () => null }, text: async () => '' };
+    return { status: 200, headers: { get: () => null }, text: async () => body() };
+  };
+}
+const sha = (c) => c.repeat(40);
+
+test('a wire is read for a name, an address and a time, and only on its own host or in its own repository', () => {
+  const w = feedRooms()['the-feed'][0], sp = feedRooms()['the-source'][0];
+  const T = Date.UTC(2026, 9, 23, 12);
+  const items = readWireXml(RSS([
+    { title: '<![CDATA[Tea & toast]]>', link: `https://${w.host}/tea/`, t: T },
+    { title: 'Fish &amp; chips', link: `https://www.${w.host}/fish/`, t: T - 1000 },
+    { title: 'Somewhere else', link: 'https://elsewhere.example/x', t: T },
+    { title: 'No time', link: `https://${w.host}/when/` },
+  ]), w);
+  assert.deepEqual(items.map((x) => x.title), ['Tea & toast', 'Fish & chips'], 'an off-host or undated item was read, or an entity left in');
+  const commits = readWireXml(ATOM(sp.repo, [
+    { sha: sha('a'), title: 'A change', by: 'ryanboren', t: T },
+    { sha: sha('b'), title: 'Made where GitHub names nobody', t: T - 5000 },
+    { sha: sha('c'), title: 'Somebody else\'s', by: 'x', t: T, repo: 'Elsewhere/Thing' },
+  ]), sp);
+  assert.deepEqual(commits.map((x) => [x.title, x.sha, x.by, x.anon]), [
+    ['A change', 'aaaaaaa', ['ryanboren', 'Claude Opus 5.5'], false],
+    ['Made where GitHub names nobody', 'bbbbbbb', ['Claude Opus 5.5'], true]], 'a commit was misread, or one from another repository kept');
+  assert.ok(!JSON.stringify(commits).includes('@'), 'an address was read');
+});
+
+for (const etagOnRead of [true, false]) {
+  const how = etagOnRead ? 'with an etag on reads' : 'with no etag on reads';
+  test(`the feed bot says nothing at first, then each new item once, fifteen readings at once, ${how}`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const T = Date.UTC(2026, 9, 23, 12), MIN = 60 * 1000;
+    const w = feedRooms()['the-feed'][0], sp = feedRooms()['the-source'][0];
+    let rss = [{ title: 'Old', link: `https://${w.host}/old/`, t: T - 60 * MIN }];
+    let atom = [{ sha: sha('a'), title: 'First', by: 'ryanboren', t: T - 60 * MIN }];
+    const get = fakeGet({ [w.feed]: () => RSS(rss), [sp.feed]: () => ATOM(sp.repo, atom) });
+    const told = [];
+    const notify = async (m, room) => { told.push([room, m.feed.title]); return []; };
+    assert.equal((await runFeedBot(s, get, T, notify)).said, 0, 'the first reading said what was already there');
+    assert.deepEqual((await readRoomTalk('the-feed', s, T)).messages, []);
+
+    rss = [{ title: 'Newest', link: `https://${w.host}/newest/`, t: T + 2 * MIN },
+      { title: 'Newer', link: `https://${w.host}/newer/`, t: T + MIN },
+      { title: 'Too old to say', link: `https://${w.host}/ancient/`, t: T - LIFE - MIN }, ...rss];
+    atom = [{ sha: sha('c'), title: 'A real change', t: T + 3 * MIN },
+      { sha: sha('b'), title: 'daily arrivals board reset', by: 'ryanboren', t: T + MIN }, ...atom];
+    await Promise.allSettled(Array.from({ length: 15 }, () => runFeedBot(s, get, T + 5 * MIN, notify)));
+    const said = (await readRoomTalk('the-feed', s, T + 6 * MIN)).messages;
+    assert.deepEqual(said.map((m) => m.feed.title), ['Newer', 'Newest'], 'an item was said twice, out of order, or not at all');
+    assert.ok(said.every((m) => m.handle === FEED_NAMES['the-feed'] && !m.base && !m.claimed));
+    const source = (await readRoomTalk('the-source', s, T + 6 * MIN)).messages;
+    assert.deepEqual(source.map((m) => m.feed.title), ['A real change'], 'a morning timer\'s commit was said');
+    assert.equal(source[0].handle, FEED_NAMES['the-source']);
+    assert.deepEqual([source[0].feed.anon, source[0].feed.by], [true, ['Claude Opus 5.5']]);
+    assert.equal(told.length, 3, 'somebody was told twice, or not told');
+    assert.equal((await runFeedBot(s, get, T + 20 * MIN, notify)).said, 0, 'a second reading said it again');
+
+    // A feed whose every id changed at once with nothing newer is a feed
+    // rewritten, and is remembered in silence; a burst of new ones is said,
+    // the newest FEED_RUN of them.
+    rss = rss.map((i) => ({ ...i, guid: 'renamed-' + i.link }));
+    assert.equal((await runFeedBot(s, get, T + 30 * MIN, notify)).said, 0, 'a rewritten feed was said all over again');
+    rss = Array.from({ length: FEED_RUN + 4 }, (_, i) => ({ title: 'Burst ' + i, link: `https://${w.host}/b${i}/`, t: T + (40 + i) * MIN }));
+    await runFeedBot(s, get, T + 60 * MIN, notify);
+    const burst = (await readRoomTalk('the-feed', s, T + 61 * MIN)).messages.filter((m) => /^Burst/.test(m.feed.title));
+    assert.equal(burst.length, FEED_RUN);
+    assert.equal(burst[burst.length - 1].feed.title, 'Burst ' + (FEED_RUN + 3), 'the burst said its oldest rather than its newest');
+  });
+}
+
+test('the feed bot never pushes a person off its channel', () => {
+  const person = (i) => ({ id: 'p' + i, handle: 'Ada', text: 'hi', t: i });
+  const bot = (i) => ({ id: 'b' + i, handle: 'The Feed', text: 'x', t: i, feed: { site: 's', title: 't', url: 'https://s/', when: i } });
+  const log = keepBot([...Array.from({ length: 30 }, (_, i) => person(i)), ...Array.from({ length: 40 }, (_, i) => bot(100 + i))]);
+  assert.equal(log.filter((m) => !m.feed).length, 30, 'a person\'s message went');
+  assert.ok(log.length <= KEEP && log.filter((m) => m.feed).length <= FEED_KEEP);
+  assert.equal(log[log.length - 1].id, 'b139', 'the newest arrival was the one dropped');
+  const full = keepBot([...Array.from({ length: KEEP }, (_, i) => person(i)), bot(999)]);
+  assert.deepEqual(full.map((m) => m.id), Array.from({ length: KEEP }, (_, i) => 'p' + i), 'an arrival pushed a person off a full channel');
+});
+
+test('what a feed bot says is nobody\'s: no username takes its name, nobody edits it, and only the base takes it off', async () => {
+  for (const n of Object.values(FEED_NAMES)) {
+    assert.ok(botWord(n) && botWord(` ${n.toUpperCase()} `));
+    assert.equal((await checkHandle(n, readMods(''), memoryStore({ etagOnRead: true }))).ok, false, `${n} could be claimed`);
+  }
+  assert.equal(botWord('Ada'), false);
+  const m = { id: 'x', handle: 'The Source', text: 'Star Stuff: a change', t: 1,
+    feed: { site: 'Star Stuff', title: 'a change', url: 'https://github.com/Stimpunks/Star-Stuff/commit/' + sha('a'), when: 1, sha: 'aaaaaaa', by: ['ryanboren'] } };
+  assert.equal(canEdit({ handle: 'The Source', role: 'base', account: true }, m), false);
+  assert.equal(canTakeOff({ handle: 'The Source', role: 'mobile', account: true }, m), false);
+  assert.equal(canTakeOff({ handle: 'Ryan', role: 'base' }, m), true);
+  assert.deepEqual(shapeMessages([m])[0].feed, m.feed);
+  assert.equal(shapeMessages([{ ...m, feed: { ...m.feed, url: 'javascript:alert(1)' } }])[0].feed, undefined, 'a feed message took an address that is not https');
+  assert.equal(shapeFeed({ ...m.feed, by: ['ryanboren', 7, 'x'.repeat(99)] }).by.length, 1);
 });

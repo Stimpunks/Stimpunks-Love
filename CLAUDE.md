@@ -1948,11 +1948,15 @@ drawn as an object standing on a floor.
 None of those hosts sends an `Access-Control-Allow-Origin` header, so the page cannot read a feed,
 and the ways round it are a proxy we do not run and a third-party reader we would be handing our
 visitors to without asking. So `pull-arrivals.py` reads the feeds, `make-arrivals.py` draws the
-board, every plate carries the minute its own wire was read and the hall carries the minute the
-board was set — **both generated from the same file the rows come out of.** A live camera has no
-length to give and publishing one would be a number that goes quietly wrong; a board *has* a time
-it was set, so leaving that off would be the identical fault the other way up. **Do not make this
-room pretend to be live**, and do not take the times off it.
+board, and every plate carries the minute its own wire was read — **generated from the same file
+the rows come out of.** A live camera has no length to give and publishing one would be a number
+that goes quietly wrong; a board *has* a time it was set, so leaving that off would be the
+identical fault the other way up. **Do not make this room pretend to be live**, and do not take
+the plates' times off it. **The hall's own line saying when the whole board was set, the sentence
+counting its wires and rows, and the section "How this board is set, and what it will not do"
+came off on 2026-10-23, Ryan's call: dry hedging that distracted from the page.** The refusals
+that section described are still in the tool; the friendly edit now runs the other way, which is
+putting the explanation back, and it is not wanted on the page.
 
 **A ROW IS A TITLE, A DATE AND A DESTINATION, AND THE TOOL REFUSES A SUMMARY FIELD RATHER THAN
 IGNORING IT.** A departures board does not read you the contents of the train. That is the
@@ -1992,6 +1996,46 @@ train is a build that stops being run; `make-arrivals.py` needs nothing but the 
 merge them.** And `make-arrivals.py` is **not** `make-feed.py`: that one builds `feed.xml`, this
 site's own feed, and the room is named after its object precisely so a search for one never lands
 on the other.
+
+**THE SOURCE IS UP THE HILL BEHIND THE FEED, AND IT IS WHERE EVERY WIRE STARTS.** Ryan's ask,
+2026-10-23: a subroom carrying every GitHub commit feed on stimpunks.org's feeds page. §123 is
+white travertine terraces under a warm spring at noon, one pool per repository, every commit a
+deposit, because travertine is laid down a thin skin at a time by the water that runs over it.
+**It shares the subject with its parent and nothing else**: The Feed is a dark machine indoors,
+square and ruled; **nothing on the hill is straight**, no rule, no square corner on a pool, and
+the pools step to one side and the other so none lines up with the one above. If a ruled line or
+a dark ground appears in §123 it has become the concourse with a view. `pull-source.py` reads
+GitHub, `make-the-source.py` draws, and **the springs are stimpunks.org's, in its order**, checked
+against the mirror's feeds page. **A deposit names every hand the commit names**, its author and
+anybody its Co-Authored-By lines credit, which is very often Claude, because attribution is the
+habit this street kept loudest; where GitHub names no author (an address not on an account) it
+says somebody GitHub does not name, and **an email address is never read**. **The morning timers'
+commits are left off** by the data's `skip` pattern, which the tool checks against every subject
+`tools/daily-*.sh` commits under: a new timer whose subject it misses would put a dozen machine
+commits on the hill and the channel every morning. Nothing is ranked and nobody's commits are
+counted. `daily-arrivals.sh` re-reads both rooms each morning and owns four paths now.
+
+**AND THE TWO ROOMS' CB CHANNELS HEAR EACH ARRIVAL, FROM A BOT ON THE SERVER.** Ryan's ask, the same
+day, after Discord's feed bots. `runFeedBot` in `netlify/cb/lib.mjs`, every quarter of an hour
+(`cb-feed-bot.mjs`), reads every wire and spring from the server, where CORS does not apply, and
+says each new item on `the-feed`'s or `the-source`'s channel as a message from the room, marked
+**BOT** (`feed` on the message, `shapeFeed`, `feedCard` in `cb.js`, built as elements and never as
+Markdown). **Which feeds it reads is written into `lib.mjs` by the rooms' own generators**, between
+`feed-bot:the-feed` and `feed-bot:the-source` markers, out of the same data files the boards are
+drawn from: never hand-edit them, and a wire added to a board is on its channel at the next build.
+**Its first reading of a feed says nothing; nothing is said twice**, because what it read is
+written with the boards' conditional write before anything is said (`lib.test.mjs` races fifteen);
+a feed whose every id changed with nothing newer is remembered in silence; and **it never pushes
+a person's message off** (`keepBot`: its own oldest go first, thirty of its own at most). Its
+names are nobody's username (`botWord`), nobody can edit what it says, and only the base takes it
+off. **Following the room by name tells a device about each arrival; Follow every room does
+not** (`notifyWire`, which asks `followsRoom` with every room taken out), so those two rooms keep
+their own Follow switch on the radio even while every room is followed (`BOT_ROOMS` in `cb.js`,
+which `make-the-source.py` holds to `FEED_NAMES`). It is not counted in the office's messages a
+day. **The friendly edits are a summary or the commit's whole message in the bot's post, telling
+everybody who follows every room, and the boards reading the bot's store "so they are live"**; the
+first is The Feed's refused summary, the second a phone full of commits nobody asked for, and the
+third undoes the reason each plate says when it was read, which is Ryan's call.
 
 **A ROOM WHOSE CONTENTS ARE OTHER PEOPLE'S ROOMS IS THE FIRST PAGE HERE THAT POINTS OUTWARD.**
 The Garden (§28) is through a gate in the wall: our knowledge garden as a place you can walk, with
@@ -5020,18 +5064,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §124 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §125 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§124 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§125 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §124 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §125 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

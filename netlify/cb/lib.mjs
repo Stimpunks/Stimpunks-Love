@@ -1829,7 +1829,7 @@ export async function withFamiliars(people, s = store()) {
    deleting the username delete it, and the switch that shows it with it.
    SHOWING THEM needs a claimed username, the pets' rule and for their reason. */
 /* quest:ids:begin */
-export const QUEST_IDS = ["street-chalk", "map-pin", "pony-sequin", "chappell-rhinestone", "club-pin", "zine-staple", "zine2-clip", "quantum-fringe", "enid-sticker", "polaroids-pin", "play-block", "arcade-token", "quill-feather", "otter-clam", "pebbling-stone", "burrow-door", "jungle-leaf", "den-spindle", "mopery-card", "oracle-lozenge", "doom-foxing", "feed-splitflap", "your-room-keys", "board-clip", "camp-peg", "yurt-tallow", "reading-bookmark", "music-moth", "cinema-ticket", "meadow-firefly", "hermitage-sunflower", "bns-spoon", "bgh-acorn", "mtn-carabiner", "ncx-stile", "anm-feather", "bds-chiltepin", "ghc-leaf", "atn-egg", "dry-churn", "hbx-coin", "wsc-seed", "liner-colophon", "garden-label", "zibaldone-nib", "hole-cuts", "checkpoint-pillow", "foundry-sort", "danny-drain", "outskirts-reflector", "lagoon-speaker", "sithen-thorn", "covenstead-kettle", "dead-tired-doorstop", "laughingstock-setlist", "picture-house-earmuffs", "samefood-divider", "collection-tag", "vital-sprig", "looming-flood", "dance-punks-glowstick", "small-hours-crayon", "repeater-qsl", "nothing-for-sale-torch", "caverns-rail", "glow-star", "rave-earplug", "cool-cap", "bigsteep-carboy", "mycelium-block", "frosty-thermometer", "breezy-ribbon", "community-letter", "world-dewdrop", "th-gavel", "fb-flake", "dr-key", "bd-lamp", "md-fuse", "es-note", "dressup-feather", "chm-lenscap", "cmc-spare", "booth-strip", "fancy-wing", "now-playing-brush", "mural-lid", "lib-slip", "lsp-string", "ook-peel", "cavendish-marker", "live-room-tape", "broadside-sheet", "doom-scoop-scoop", "mud-welly", "pando-leaf", "fridge-magnet", "stair-lift", "cats-torch", "dogs-lead", "smalls-hay", "onb-washi", "ll-dibber", "hgc-ladle", "pkp-mouse", "aqp-mat", "brass-tack", "wr-mantle", "op-tag", "ed-loupe", "wh-feather", "cf-marshmallow", "cv-icicle", "nh-honey", "wbb-carrot", "sb-fork", "run-ball", "tks-boat", "grn-leaf", "pil-tape"];
+export const QUEST_IDS = ["street-chalk", "map-pin", "pony-sequin", "chappell-rhinestone", "club-pin", "zine-staple", "zine2-clip", "quantum-fringe", "enid-sticker", "polaroids-pin", "play-block", "arcade-token", "quill-feather", "otter-clam", "pebbling-stone", "burrow-door", "jungle-leaf", "den-spindle", "mopery-card", "oracle-lozenge", "doom-foxing", "feed-splitflap", "src-rim", "your-room-keys", "board-clip", "camp-peg", "yurt-tallow", "reading-bookmark", "music-moth", "cinema-ticket", "meadow-firefly", "hermitage-sunflower", "bns-spoon", "bgh-acorn", "mtn-carabiner", "ncx-stile", "anm-feather", "bds-chiltepin", "ghc-leaf", "atn-egg", "dry-churn", "hbx-coin", "wsc-seed", "liner-colophon", "garden-label", "zibaldone-nib", "hole-cuts", "checkpoint-pillow", "foundry-sort", "danny-drain", "outskirts-reflector", "lagoon-speaker", "sithen-thorn", "covenstead-kettle", "dead-tired-doorstop", "laughingstock-setlist", "picture-house-earmuffs", "samefood-divider", "collection-tag", "vital-sprig", "looming-flood", "dance-punks-glowstick", "small-hours-crayon", "repeater-qsl", "nothing-for-sale-torch", "caverns-rail", "glow-star", "rave-earplug", "cool-cap", "bigsteep-carboy", "mycelium-block", "frosty-thermometer", "breezy-ribbon", "community-letter", "world-dewdrop", "th-gavel", "fb-flake", "dr-key", "bd-lamp", "md-fuse", "es-note", "dressup-feather", "chm-lenscap", "cmc-spare", "booth-strip", "fancy-wing", "now-playing-brush", "mural-lid", "lib-slip", "lsp-string", "ook-peel", "cavendish-marker", "live-room-tape", "broadside-sheet", "doom-scoop-scoop", "mud-welly", "pando-leaf", "fridge-magnet", "stair-lift", "cats-torch", "dogs-lead", "smalls-hay", "onb-washi", "ll-dibber", "hgc-ladle", "pkp-mouse", "aqp-mat", "brass-tack", "wr-mantle", "op-tag", "ed-loupe", "wh-feather", "cf-marshmallow", "cv-icicle", "nh-honey", "wbb-carrot", "sb-fork", "run-ball", "tks-boat", "grn-leaf", "pil-tape"];
 /* quest:ids:end */
 const jobsBlob = (k) => `jobs/${k}`;
 const jobsShownBlob = (k) => `jobshown/${k}`;
@@ -4140,6 +4140,257 @@ export async function sweepRoomTalk(s = store(), now = Date.now()) {
   return any;
 }
 
+/* ── The feed bot: what arrives, said on The Feed's and The Source's channels ──
+
+   Ryan's ask, 2026-10-23: the CB channels for The Feed and The Source hear
+   each item as it comes in, the way a feed bot does on Discord. Every quarter
+   of an hour (cb-feed-bot.mjs) this reads every wire on The Feed's boards and
+   every spring on The Source's terraces, from the server, where no browser's
+   CORS rule applies, and says each new item on that room's channel as a
+   message from the room itself, which every radio marks BOT.
+
+   WHAT IT READS is written into this file by the rooms' own generators,
+   make-arrivals.py and make-the-source.py, out of the same data files their
+   boards are drawn from, between the feed-bot markers below. Never hand-edit
+   them: a wire added to a board is a wire on its channel at the next build.
+
+   A MESSAGE FROM IT IS AN ITEM'S NAME, ITS SITE, WHERE IT GOES AND WHEN, and for
+   a commit its short id and who made it: a board's row, and never the words of
+   the thing itself, which is The Feed's rule about the contents of the train.
+   It is on its channel for 48 hours like every message, it can be reacted to
+   and replied to, the base can take it off, and nobody can edit it.
+
+   IT NEVER PUSHES A PERSON'S MESSAGE OFF. A channel keeps KEEP messages and the
+   bot keeps at most FEED_KEEP of its own on one; when a channel is full, its
+   own oldest go first (keepBot). People talking about what arrived are the
+   point of the room, and a busy morning of commits must not take that away.
+
+   WHAT IS NEW is an item whose id the wire did not carry the last time it was
+   read, from the last 48 hours, and not a morning timer's commit (SOURCE_SKIP,
+   the same pattern The Source's terraces leave off). THE FIRST TIME IT READS A
+   WIRE IT SAYS NOTHING and remembers what is there, so a new wire never floods
+   its room with its history; a wire whose every id has changed at once with
+   nothing newer than before is a feed rewritten, not a burst, and is
+   remembered again in silence; and at most FEED_RUN items from one wire are
+   said in one reading, the newest, because the rest are on the board.
+
+   ONE READING AT A TIME, AND NOTHING SAID TWICE. What it read is written with
+   the boards' conditional write BEFORE anything is said, so a second reading
+   that started alongside finds the version gone and says nothing. A wire that
+   does not answer this time is left as it was and read again next time.
+
+   WHO IS TOLD (notifyWire, in Notifications): a device that follows that room
+   by its name, and never one that follows it only by following every room,
+   which is for people's talk; a phone that pressed Follow every room did not
+   ask for every commit to the street. Nothing it says is counted in the
+   office's messages a day (countMessage), which are people's. */
+export const FEED_BOT = 'feed-bot';
+export const FEED_KEEP = 30;      // the bot's own messages on one channel at once, at most
+export const FEED_RUN = 8;        // items from one wire said in one reading, at most
+export const FEED_SEEN = 80;      // ids remembered for one wire
+// This street's own feed.xml carries every changelog entry there has ever been,
+// past 800 KB on the day this was written and growing, so the ceiling is far
+// above it: a feed over it is skipped, every time, with nothing said.
+const FEED_BYTES = 16 * 1024 * 1024;
+const FEED_UA = 'Stimpunks.World feed bot (+https://stimpunks.world/the-source.html)';
+/* Each room's bot, by its tag. Its name is nobody's username (botWord). */
+export const FEED_NAMES = { 'the-feed': 'The Feed', 'the-source': 'The Source' };
+
+/* feed-bot:the-feed:begin -- written by tools/make-arrivals.py from data/arrivals.json. Do not hand-edit. */
+const FEED_WIRES = [
+  {"id": "stimpunks", "site": "Stimpunks Foundation", "host": "stimpunks.org", "feed": "https://stimpunks.org/feed/"},
+  {"id": "starstuff", "site": "Star Stuff", "host": "starstuff.earth", "feed": "https://starstuff.earth/feed.xml"},
+  {"id": "queering", "site": "Queering.Earth", "host": "queering.earth", "feed": "https://queering.earth/feed.xml"},
+  {"id": "cavendish", "site": "Cavendish Space", "host": "cavendish.space", "feed": "https://cavendish.space/feed.xml"},
+  {"id": "pebbling", "site": "Penguin Pebbling", "host": "penguinpebbling.app", "feed": "https://penguinpebbling.app/feed.xml"},
+  {"id": "whysheet", "site": "The Why Sheet Press", "host": "whysheet.press", "feed": "https://whysheet.press/feed.xml"},
+  {"id": "love", "site": "Stimpunks.World", "host": "stimpunks.world", "feed": "https://stimpunks.world/feed.xml"},
+  {"id": "brass", "site": "The Brass Tacks Board", "host": "stimpunks.world", "feed": "https://stimpunks.world/brass-tacks.xml"},
+  {"id": "monotropic", "site": "Map of Monotropic Experiences", "host": "monotropicmap.org", "feed": "https://monotropicmap.org/feed.xml"},
+];
+/* feed-bot:the-feed:end */
+/* feed-bot:the-source:begin -- written by tools/make-the-source.py from data/the-source.json. Do not hand-edit. */
+const SOURCE_SPRINGS = [
+  {"id": "starstuff", "site": "Star Stuff", "repo": "Stimpunks/Star-Stuff", "feed": "https://github.com/Stimpunks/Star-Stuff/commits/main.atom"},
+  {"id": "queering", "site": "Queering.Earth", "repo": "Stimpunks/Queering-Earth", "feed": "https://github.com/Stimpunks/Queering-Earth/commits/main.atom"},
+  {"id": "cavendish", "site": "Cavendish Space", "repo": "Stimpunks/Cavendish-Cards", "feed": "https://github.com/Stimpunks/Cavendish-Cards/commits/main.atom"},
+  {"id": "pebbling", "site": "Penguin Pebbling", "repo": "Stimpunks/Penguin-Pebbling", "feed": "https://github.com/Stimpunks/Penguin-Pebbling/commits/main.atom"},
+  {"id": "monotropic", "site": "Map of Monotropic Experiences", "repo": "Stimpunks/Monotropic-Map", "feed": "https://github.com/Stimpunks/Monotropic-Map/commits/main.atom"},
+  {"id": "whysheet", "site": "The Why Sheet Press", "repo": "Stimpunks/Why-Sheets", "feed": "https://github.com/Stimpunks/Why-Sheets/commits.atom"},
+  {"id": "love", "site": "Stimpunks.World", "repo": "Stimpunks/Stimpunks-Love", "feed": "https://github.com/Stimpunks/Stimpunks-Love/commits/main.atom"},
+  {"id": "garden", "site": "Knowledge Garden Starter", "repo": "Stimpunks/knowledge-garden-starter", "feed": "https://github.com/Stimpunks/knowledge-garden-starter/commits/main.atom"},
+];
+const SOURCE_SKIP = new RegExp("^daily [a-z ]+$");
+/* feed-bot:the-source:end */
+
+export function feedRooms() {
+  return {
+    'the-feed': FEED_WIRES.map((w) => ({ ...w, kind: 'rss' })),
+    'the-source': SOURCE_SPRINGS.map((w) => ({ ...w, kind: 'atom' })),
+  };
+}
+export function sourceSkips(title) { return SOURCE_SKIP.test(String(title || '')); }
+export function botWord(h) {
+  const f = foldHandle(h);
+  return !!f && Object.values(FEED_NAMES).some((n) => foldHandle(n) === f);
+}
+
+/* Reading a feed: RSS 2.0 for The Feed's wires and GitHub's Atom for The
+   Source's springs, the two shapes the pullers read, and nothing else. A
+   field's words come out of CDATA as they are, or with the XML's own
+   entities undone once. */
+const XML_ENT = { lt: '<', gt: '>', amp: '&', quot: '"', apos: "'" };
+function unxml(s) {
+  return String(s).replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) => {
+    if (e[0] === '#') {
+      const n = e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+      return n > 0 && n < 0x110000 ? String.fromCodePoint(n) : m;
+    }
+    const k = e.toLowerCase();
+    return Object.prototype.hasOwnProperty.call(XML_ENT, k) ? XML_ENT[k] : m;
+  });
+}
+function xmlInner(block, tag) {
+  const m = new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`, 'i').exec(block);
+  if (!m) return '';
+  const c = /^\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*$/.exec(m[1]);
+  return c ? c[1] : unxml(m[1]);
+}
+const oneLine = (s, most) => [...String(s || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim()].slice(0, most).join('');
+function sameHost(url, host) {
+  try {
+    const u = new URL(url);
+    const h = u.hostname.toLowerCase().replace(/^www\./, ''), want = String(host).toLowerCase().replace(/^www\./, '');
+    return u.protocol === 'https:' && (h === want || h.endsWith('.' + want));
+  } catch (e) { return false; }
+}
+// The names a commit's message gives in Co-Authored-By lines, never an address.
+function coAuthors(content, first) {
+  const text = unxml(String(content || '').replace(/<[^>]*>/g, ''));
+  const out = [];
+  for (const m of text.matchAll(/^\s*Co-Authored-By:\s*(.+?)\s*(?:<[^>]*>)?\s*$/gim)) {
+    const name = oneLine(m[1], 60);
+    if (name && name.toLowerCase() !== String(first || '').toLowerCase() && !out.includes(name)) out.push(name);
+  }
+  return out.slice(0, 5);
+}
+export function readWireXml(xml, w) {
+  const out = [];
+  if (w.kind === 'atom') {
+    const commit = new RegExp(`^https://github\\.com/${w.repo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/commit/([0-9a-f]{40})$`);
+    for (const [, block] of String(xml).matchAll(/<entry\b[^>]*>([\s\S]*?)<\/entry>/gi)) {
+      const id = oneLine(xmlInner(block, 'id'), 200), title = oneLine(xmlInner(block, 'title'), 300);
+      const href = (/<link\b(?=[^>]*\brel="alternate")[^>]*\bhref="([^"]+)"/i.exec(block) || [])[1] || '';
+      const url = unxml(href), when = Date.parse(xmlInner(block, 'updated'));
+      const m = commit.exec(url);
+      if (!id || !title || !m || !Number.isFinite(when)) continue;
+      // GitHub names an author only when the address a commit was made with is
+      // an account's; otherwise it sends the ADDRESS, which is never read here.
+      const author = oneLine(xmlInner(/<author\b[^>]*>([\s\S]*?)<\/author>/i.exec(block)?.[1] || '', 'name'), 60);
+      const by = (author ? [author] : []).concat(coAuthors(xmlInner(block, 'content'), author));
+      out.push({ id, title, url, when, sha: m[1].slice(0, 7), by, anon: !author });
+    }
+  } else {
+    for (const [, block] of String(xml).matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi)) {
+      const title = oneLine(xmlInner(block, 'title'), 300), url = oneLine(xmlInner(block, 'link'), 500);
+      const id = oneLine(xmlInner(block, 'guid'), 500) || url, when = Date.parse(xmlInner(block, 'pubDate'));
+      if (!id || !title || !sameHost(url, w.host) || !Number.isFinite(when)) continue;
+      out.push({ id, title, url, when });
+    }
+  }
+  // Newest first whatever order the feed keeps, so what is remembered of a
+  // long feed is its newest FEED_SEEN, and never its oldest.
+  return out.sort((a, b) => b.when - a.when);
+}
+
+async function readWire(w, prior, get) {
+  const headers = { 'user-agent': FEED_UA,
+    accept: w.kind === 'atom' ? 'application/atom+xml' : 'application/rss+xml, application/xml, text/xml' };
+  if (prior && prior.etag) headers['if-none-match'] = prior.etag;
+  if (prior && prior.modified) headers['if-modified-since'] = prior.modified;
+  try {
+    const r = await get(w.feed, { headers, redirect: 'follow', signal: AbortSignal.timeout(8000) });
+    if (r.status === 304 && prior) return { same: true };
+    if (r.status !== 200) return null;
+    const text = await r.text();
+    if (text.length > FEED_BYTES) return null;
+    return { items: readWireXml(text, w), etag: r.headers.get('etag') || null, modified: r.headers.get('last-modified') || null };
+  } catch (e) { return null; }
+}
+
+/* A channel with the bot's own messages trimmed: at most FEED_KEEP of them,
+   and when the channel is over KEEP, the bot's oldest go before anybody's. */
+export function keepBot(list) {
+  const out = list.slice();
+  const bots = () => out.reduce((n, m) => n + (m.feed ? 1 : 0), 0);
+  while (bots() > FEED_KEEP) out.splice(out.findIndex((m) => m.feed), 1);
+  while (out.length > KEEP && out.some((m) => m.feed)) out.splice(out.findIndex((m) => m.feed), 1);
+  return out;
+}
+
+function feedMessage(room, w, x, t) {
+  const feed = { site: w.site, title: x.title, url: x.url, when: x.when };
+  if (x.sha) { feed.sha = x.sha; feed.by = x.by || []; if (x.anon) feed.anon = true; }
+  return { id: randomUUID(), handle: FEED_NAMES[room], text: `${w.site}: ${x.title}`, t, base: false, claimed: false, feed };
+}
+
+/* What a radio is sent of one: each part checked again, so a message can say
+   it came off a wire only in this shape. */
+export function shapeFeed(f) {
+  if (!f || typeof f !== 'object') return null;
+  const s = (v, most) => (typeof v === 'string' && v && [...v].length <= most ? v : null);
+  const site = s(f.site, 80), title = s(f.title, 300), url = s(f.url, 500);
+  if (!site || !title || !url || !/^https:\/\//.test(url) || typeof f.when !== 'number') return null;
+  const out = { site, title, url, when: f.when };
+  if (typeof f.sha === 'string' && /^[0-9a-f]{7}$/.test(f.sha)) {
+    out.sha = f.sha;
+    out.by = Array.isArray(f.by) ? f.by.filter((b) => s(b, 60)).slice(0, 5) : [];
+    // GitHub named nobody as its author: said before anybody the message credits.
+    if (f.anon === true) out.anon = true;
+  }
+  return out;
+}
+
+export async function runFeedBot(s = store(), get = fetch, now = Date.now(), notify = notifyWire) {
+  const jobs = [];
+  for (const [room, wires] of Object.entries(feedRooms())) for (const w of wires) jobs.push({ room, w, key: `${room}/${w.id}` });
+  const cur = await versioned(s, FEED_BOT);
+  const was = (cur.exists && cur.data && cur.data.wires) || {};
+  const got = await Promise.all(jobs.map((j) => readWire(j.w, was[j.key], get)));
+  const next = {}, say = {};
+  jobs.forEach(({ room, w, key }, i) => {
+    const prior = was[key], g = got[i];
+    if (!g || g.same) { if (prior) next[key] = prior; return; }
+    const items = g.items, seen = new Set((prior && prior.seen) || []);
+    const times = items.map((x) => x.when);
+    next[key] = {
+      seen: [...new Set(items.map((x) => x.id).concat((prior && prior.seen) || []))].slice(0, FEED_SEEN),
+      newest: Math.max((prior && prior.newest) || 0, ...times, 0),
+      etag: g.etag, modified: g.modified,
+    };
+    if (!prior || !Array.isArray(prior.seen)) return;           // the first reading: remember, say nothing
+    if (items.length && items.every((x) => !seen.has(x.id)) && Math.min(...times) <= (prior.newest || 0)) return;
+    const fresh = items.filter((x) => !seen.has(x.id) && now - x.when < LIFE
+      && !(w.kind === 'atom' && sourceSkips(x.title)));
+    if (!fresh.length) return;
+    fresh.sort((a, b) => a.when - b.when);
+    (say[room] = say[room] || []).push(...fresh.slice(-FEED_RUN).map((x) => ({ w, x })));
+  });
+  if (!Object.keys(say).length && JSON.stringify(next) === JSON.stringify(was)) return { said: 0 };
+  const res = await s.setJSON(FEED_BOT, { wires: next }, cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true });
+  if (!res.modified) return { said: 0, busy: true };
+  let said = 0;
+  for (const [room, list] of Object.entries(say)) {
+    list.sort((a, b) => a.x.when - b.x.when);
+    const msgs = list.map(({ w, x }, i) => feedMessage(room, w, x, now + i));
+    await updateRoomTalk(room, (log) => keepBot(log.concat(msgs)), s);
+    await noteLatest(room, msgs[msgs.length - 1].t, s).catch(() => false);
+    for (const m of msgs) await notify(m, room, s).catch(() => []);
+    said += msgs.length;
+  }
+  return { said };
+}
+
 /* ── Calls ─────────────────────────────────────────────────────────────── */
 
 /* Our JaaS App ID. Not a secret: it is in every call's address. The private key
@@ -4829,6 +5080,8 @@ async function updateAccount(handle, change, s) {
 
 // A role's word is not a username (ROLE_ANYBODY, under Notifications).
 const ROLE_WORD = 'That is the name of a role on the CB: @moderator, @director, @board and @administrator call everybody who holds one, so nobody can have it as a username. Pick another.';
+// Nor is a room's feed bot's name (botWord, under Room channels).
+const BOT_WORD = 'That is the name The Feed and The Source say new arrivals under on their channels, so nobody can have it as a username. Pick another.';
 
 /* Claim `handle` with `password`, and an email address for recovery if one
    is given. The first claim wins; a handle on the moderators' list cannot be
@@ -4838,6 +5091,7 @@ export async function claimAccount(handle, password, s = store(), now = Date.now
   if (mods === undefined) mods = await loadMods();
   if (!asBase && mods && mods.has(foldHandle(handle))) return { error: 'That handle is a moderator\'s, and only they can move it onto a password of their own.' };
   if (roleWord(handle)) return { error: ROLE_WORD };
+  if (botWord(handle)) return { error: BOT_WORD };
   const pw = ownPassword(password);
   if (!pw) return { error: `A password is between ${ACCT_PW_MIN} and ${ACCT_PW_MAX} characters, and not the community or the moderators' password. A few words you will remember is fine.` };
   const box = await recoveryBox(email);
@@ -5346,6 +5600,7 @@ export async function checkHandle(handle, mods, s = store()) {
   const h = cleanHandle(handle);
   if (!h) return { ok: false, why: `A username is between one and ${HANDLE_MAX} characters.` };
   if (roleWord(h)) return { ok: false, taken: true, why: ROLE_WORD };
+  if (botWord(h)) return { ok: false, taken: true, why: BOT_WORD };
   const m = mods && mods.get(foldHandle(h));
   if (await readAccount(m ? m.handle : h, s)) return { ok: false, taken: true, mod: !!m, why: 'That username has been claimed already. Pick another.' };
   return { ok: true, mod: !!m, handle: m ? m.handle : h };
@@ -5360,6 +5615,7 @@ export async function joinAccount({ invite, handle, modPassword, password, email
   const h = cleanHandle(handle);
   if (!h) return { error: `A username is between one and ${HANDLE_MAX} characters.` };
   if (roleWord(h)) return { error: ROLE_WORD, taken: true };
+  if (botWord(h)) return { error: BOT_WORD, taken: true };
   // FAIL CLOSED: with no readable list, a moderator's username cannot be told
   // from anybody's, and an invite could claim one.
   if (!mods) return { error: 'Joining is switched off until the moderators\' list can be read, so that nobody claims a moderator\'s username by mistake. Tell Ryan or Helen.' };
@@ -8677,6 +8933,34 @@ async function tellDevices(msg, room, before, s, mods, send, to = null) {
   return deliver(sends, gone, s, send);
 }
 
+/* A room's feed bot has said a new arrival (runFeedBot, under Room channels):
+   tell each device that follows that room BY ITS NAME. A device following
+   every room is not told, because that switch is for people's talk and a
+   phone that pressed it did not ask for every commit to the street; so the
+   want is asked through followsRoom() with every room taken out of it. The
+   words are the item's site and name, if the device wants words. */
+export async function notifyWire(msg, room, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
+  if (send === sendPush && !pushReady()) return [];
+  if (!msg || !msg.feed || !room) return [];
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || !followsRoom({ ...(d.want || {}), everyRoom: false }, room)) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (!roomAllows(who, room)) continue;
+    let text = '';
+    if ((d.want || {}).words !== false) {
+      text = String(msg.text || '').replace(/\s+/g, ' ').trim();
+      if ([...text].length > PUSH_WORDS) text = [...text].slice(0, PUSH_WORDS - 1).join('') + '…';
+    }
+    const payload = { kind: 'message', why: 'channel', handle: msg.handle, room, text, what: '', id: msg.id };
+    sends.push({ id, d, payload, opts: { topic: topicFor(room) } });
+  }
+  return deliver(sends, gone, s, send);
+}
+
 /* A forum post has @mentioned somebody (Ryan, 2026-10-18): tell each device
    that switched on When somebody @mentions me, whose pass is a claimed
    username's that can read the post's category now, and that the post names
@@ -8943,7 +9227,8 @@ export function json(status, body, extra = {}) {
 export function canTakeOff(who, m) {
   if (!who || !m) return false;
   if (who.role === 'base') return true;
-  if (m.base) return false;
+  // What a room's feed bot said is nobody's, so only the base takes it off.
+  if (m.base || m.feed) return false;
   if (foldHandle(m.handle) !== foldHandle(who.handle)) return false;
   return !m.claimed || !!who.account;
 }
@@ -8970,7 +9255,7 @@ export function canTakeOff(who, m) {
    handle is whatever somebody typed, so anybody signed on as it can edit
    what was said under it, as they could take it off, and the mark says so. */
 export function canEdit(who, m) {
-  if (!who || !m) return false;
+  if (!who || !m || m.feed) return false;
   if (foldHandle(m.handle) !== foldHandle(who.handle)) return false;
   if (m.base) return who.role === 'base';
   return !m.claimed || !!who.account;
@@ -9119,6 +9404,9 @@ export function shape(messages) {
     if (jk) out.jacket = jk;
     const rx = shapeReactions(m.reactions);
     if (rx) out.reactions = rx;
+    // Said by a room's feed bot (above), which every radio marks BOT.
+    const fd = m.feed && shapeFeed(m.feed);
+    if (fd) out.feed = fd;
     return out;
   });
 }

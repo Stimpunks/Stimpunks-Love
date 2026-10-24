@@ -3087,5 +3087,43 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/ysabeauinfant/YsabeauInfant%5Bwght%5D.ttf",
    "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
   }
+ ],
+ "philosopher": [
+  {
+   "file": "philosopher-700.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 21900,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/philosopher/Philosopher-Bold.ttf",
+   "note": "The Source (\u00a7123), the room's name, every pool's name and its headings, and nothing at reading size. The family's own bold in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2."
+  }
+ ],
+ "spline-sans": [
+  {
+   "file": "spline-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 57816,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/splinesans/SplineSans%5Bwght%5D.ttf",
+   "note": "The Source (\u00a7123), every word that is read. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin letters and saved as WOFF2. Declared at 400 and 700 against this one file."
+  },
+  {
+   "file": "spline-sans-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 57816,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/splinesans/SplineSans%5Bwght%5D.ttf",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
+  }
+ ],
+ "spline-sans-mono": [
+  {
+   "file": "spline-sans-mono-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 44084,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/splinesansmono/SplineSansMono%5Bwght%5D.ttf",
+   "note": "The Source (\u00a7123), every commit's short id, every date and every plate, because those are what a repository writes for itself. The variable font from the family's own directory in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2, declared at 400 only."
+  }
  ]
 }

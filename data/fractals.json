@@ -1133,6 +1133,19 @@
         "--fd-lamp"
       ]
     },
+    "the-source.html": {
+      "kind": "ifs",
+      "figure": "tree",
+      "sway": 0.03,
+      "ground": "--src-stone",
+      "inks": [
+        "--src-deep",
+        "--src-link",
+        "--src-iron",
+        "--src-shade",
+        "--src-rust"
+      ]
+    },
     "the-garden.html": {
       "kind": "ifs",
       "figure": "fern",

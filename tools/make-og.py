@@ -1303,6 +1303,16 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--dairy h1 {{ font-size: 56px; line-height: 1.04; margin: 0 0 16px !important; }}
 .og--dairy .og-lede {{ font-family: 'Oxygen', sans-serif; color: var(--dry-ink); font-size: 22px; line-height: 1.42; margin: 0; }}
 
+/* the source — THE HILL OF WHITE TERRACES, lifted whole, beside the name on the
+   sunlit stone. Its rounded top is the page's own; nothing on it is straight. */
+.og--source {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
+.og--source .og-words {{ flex: 0 0 420px; }}
+.og--source .og-view {{ flex: 0 0 660px; }}
+.og--source .og-view svg {{ display: block; width: 100%; height: auto; border-radius: 30px 30px 0 0; }}
+.og--source .src-over {{ font-size: 14px; margin: 0 0 10px !important; }}
+.og--source h1 {{ font-size: 66px; line-height: 1; margin: 0 0 16px !important; }}
+.og--source .og-lede {{ font-family: 'Spline Sans', sans-serif; color: var(--src-ink); font-size: 22px; line-height: 1.42; margin: 0; }}
+
 /* the honesty box — THE STAND UNDER ITS LAMP, lifted whole, beside the name on
    the dark street. */
 .og--honestybox {{ flex-direction: row; align-items: center; gap: 32px; padding: 40px 46px; }}
@@ -4723,6 +4733,29 @@ def card_dairy(p):
     )
 
 
+def card_source(p):
+    # THE HILLSIDE AND THE NAME ARE LIFTED WHOLE, so the card cannot show a hill
+    # the page does not, and the lede is the page's og:description.
+    draw = re.search(r'(<svg class="src-hill".*?</svg>)', p["src"], re.S)
+    over = re.search(r'<p class="src-over">(.*?)</p>', p["src"], re.S)
+    if not (draw and over and p["h1"]):
+        raise SystemExit(
+            "REFUSING: the-source.html has lost its hillside or its header, and the\n"
+            "card is those. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    return (
+        "",
+        f'<div class="og og--source" data-fit="card">'
+        f'<div class="og-words"><p class="src-over">{over.group(1)}</p>{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p></div>'
+        f'<div class="og-view">{draw.group(1)}</div>'
+        f'</div>',
+        f"A card the white of sunlit stone. On the right, a hillside of white terraces under a pale sky, a small spring at the top, and below it rows of scalloped pools of milky turquoise water stepping down the hill like scales, each rim bright white with a hard shadow under it, the stone between them streaked with rust and with water spilling over the lowest point of every rim. "
+        f"On the left, small rust capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"a smooth, slightly calligraphic teal bold, then: {p['desc_plain']}",
+    )
+
+
 def card_honestybox(p):
     # THE DRAWING AND THE NAME ARE LIFTED WHOLE, so the card cannot show a room
     # the page does not, and the lede is the page's og:description.
@@ -5517,6 +5550,7 @@ CARDS = {
     "room-doom":    card_doom,
     "room-guild":   card_guild,
     "room-feed":    card_feed,
+    "room-source":  card_source,
     "room-zibaldone": card_zibaldone,
     "room-rabbit-hole": card_hole,
     "room-checkpoint": card_checkpoint,

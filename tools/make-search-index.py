@@ -52,8 +52,8 @@ OUT = ROOT / "search-index.json"
 
 # Marker regions the morning timers rewrite (tools/daily-*.sh). A new timer that
 # rewrites part of a page adds its markers here, or the index goes stale daily.
-DAILY = ["ds-cabinet", "ds-set", "ds-counter", "arrivals:hall", "arrivals:set",
-         "arrivals:shape", "vpl:rack", "onb:month", "ll:month", "hgc:month",
+DAILY = ["ds-cabinet", "ds-set", "ds-counter", "arrivals:hall", "source:hall",
+         "vpl:rack", "onb:month", "ll:month", "hgc:month",
          "grn:latest", "np-bill", "lvr-month", "anm:month", "atn:month"]
 # Classes whose whole subtree is left out (see the docstring for each reason).
 # www-dir is the World room's directory of every room, which would make that

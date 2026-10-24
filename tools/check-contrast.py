@@ -875,6 +875,11 @@ CHM_LINK, CHM_PICK, CHM_TABLE, CHM_INK = "#EBC883", "#2E2819", "#F8F5EF", "#221E
 # nothing set on the sky or the umbrellas.
 CMC_UNDER, CMC_SLAB, CMC_TEXT, CMC_DIM = "#211E27", "#2C2833", "#F3EEE6", "#C2BAC8"
 CMC_LINK, CMC_RIB, CMC_TIE, CMC_TEAL = "#F5C451", "#16141B", "#E9E2D6", "#2BA89C"
+# The Source (love.css §123). White terraces under a warm spring at noon: every
+# word on the sunlit stone, or in a pool's milky water; nothing set on the sky,
+# a rim, a shadow or the stone faces between the pools.
+SRC_STONE, SRC_POOL, SRC_INK, SRC_DIM = "#F4EFE4", "#B4E1DA", "#25302E", "#4F5B58"
+SRC_LINK, SRC_RUST = "#155E62", "#8A4519"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3539,6 +3544,21 @@ PAIRS = [
                                   "body threshold a marker is"),
     (CMC_TIE,   CMC_UNDER, False, "community care: the marker's strap and handle, the cord beside every "
                                   "quotation, the box round the crisis line and the door's frame"),
+    # ── The Source (§123) ───────────────────────────────────────────────────
+    # Every word on the stone or in a pool's water; the rims, the shadows under
+    # them, the stone faces, the sky and the spring's deep water carry none.
+    (SRC_INK,   SRC_STONE, False, "the source: the lede, the channel's line, every paragraph, and the name "
+                                  "on The Feed's way up"),
+    (SRC_INK,   SRC_POOL,  False, "the source: a pool's name"),
+    (SRC_DIM,   SRC_STONE, False, "the source: the trail"),
+    (SRC_DIM,   SRC_POOL,  False, "the source: what a repository is for, a deposit's day and hands, and the plate"),
+    (SRC_LINK,  SRC_STONE, False, "the source: the name, every heading, every link, the backlink, the focus ring, "
+                                  "and the marker's rim, held to the body threshold a marker is"),
+    (SRC_LINK,  SRC_POOL,  False, "the source: every deposit's first line, the plate's links, and the focus ring "
+                                  "in a pool"),
+    (SRC_RUST,  SRC_STONE, False, "the source: the line over the name, and the marker's drips, held to the body "
+                                  "threshold a marker is"),
+    (SRC_RUST,  SRC_POOL,  False, "the source: every deposit's short id"),
     # FANTASY FANCY DRESS: every word stands on the dark in front of the sheers
     # or on a plate a little lighter, never in the light; the gold sheer names
     # each rail and rings the focus, and a gold or rose button carries the dark.
@@ -4537,6 +4557,20 @@ ORNAMENT = {
                "1.34 on the black. It carries no word.",
     "#3a3640": "chimera obscura: the rail round the table in the drawing, 1.64 on the black. It carries "
                "no word.",
+    "#fefcf5": "the source: the rim of every pool, the brightest stone, in the drawing and round each "
+               "pool on the page, 1.13 on the stone and 1.40 on the water: a rim is carried by the hard "
+               "shadow under it, not by its own edge. It carries no word.",
+    "#e6ddcb": "the source: the stone face below every rim in the drawing, and the hill behind it, "
+               "1.18 on the stone. It carries no word.",
+    "#c9bca3": "the source: the hard shadow under every rim, in the drawing and under each pool on the "
+               "page, the drips down the stone faces, and the marker's floor, 1.63 on the stone and 1.39 "
+               "on a stone face. It carries no word.",
+    "#cfe3ea": "the source: the sky over the hill in the drawing, 1.16 on the stone: the stone is "
+               "brighter than the sky, which is the room's light. It carries no word.",
+    "#5bb3ae": "the source: the deep water in every pool and the spring in the drawing, 1.73 on the "
+               "milky water. It carries no word.",
+    "#c0703a": "the source: the rust streaks down the stone faces in the drawing, 2.77 on a face. The "
+               "marker's drips use --src-rust instead, which is measured as text. It carries no word.",
     "#8c96a0": "community care: the rain sky over the roof in the drawing and on the street door's "
                "awning, and the umbrellas' poles under the roof, 5.46 on the paving. It carries no word.",
     "#c9d1d8": "community care: the rain falling on the roof, 1.95 on the sky, which is how rain looks. "

@@ -17,15 +17,20 @@ board can be re-set from the file on a train.
 
 WHAT THE ROOM IS CLAIMING, which is what this file is guarding:
 
-  · THE BOARD IS A SNAPSHOT AND SAYS SO. It cannot be anything else: none of
-    these hosts sends an Access-Control-Allow-Origin header, so the page cannot
-    read a feed, and the ways round it are a proxy we do not run or a reader we
-    would be handing our visitors to. So every plate carries the minute its wire
-    was read and the hall carries the minute the board was set, both GENERATED
-    rather than typed. This is make-jungle.py's refused runtime the other way
-    up: a live camera has no length to give and publishing one would be a number
-    that goes quietly wrong, and a board HAS a time it was set, so leaving that
-    off would be the identical fault upside down.
+  · THE BOARD IS A SNAPSHOT AND EVERY PLATE SAYS SO. It cannot be anything
+    else: none of these hosts sends an Access-Control-Allow-Origin header, so
+    the page cannot read a feed, and the ways round it are a proxy we do not run
+    or a reader we would be handing our visitors to. So every plate carries the
+    minute its wire was read, GENERATED rather than typed. This is
+    make-jungle.py's refused runtime the other way up: a live camera has no
+    length to give and publishing one would be a number that goes quietly
+    wrong, and a board HAS a time it was set, so leaving that off would be the
+    identical fault upside down. The hall's own line saying when the whole
+    board was set, and a sentence counting its wires and rows, came off on
+    2026-10-23 (Ryan: dry hedging that distracted from the page); the plates
+    keep their times, which is what keeps this promise. What arrives between
+    two settings is said on the room's CB channel, by the feed bot in
+    netlify/cb/lib.mjs, which reads the same wires this file writes there.
 
   · A ROW IS A NAME, A DATE AND A DESTINATION. Never a summary. A departures
     board does not read you the contents of the train, and that is not only the
@@ -48,13 +53,6 @@ WHAT THE ROOM IS CLAIMING, which is what this file is guarding:
     and checked again here, because the two tools are read by different people
     on different days and this one is the one that publishes.
 
-  · AND THE COUNTS IN THE ROOM'S OWN PROSE ARE WRITTEN BY THIS FILE, grammar
-    included. Two wires are shorter than the rest today because their feeds have
-    fewer items on them; that is a true thing to say and it stops being true the
-    week Penguin Pebbling ships twice. make-jungle.py's lesson exactly -- its
-    first version generated the number and left the tail plural, which is a
-    hand-typed count wearing a disguise.
-
 IF THIS REFUSES: fix the cause. Do not loosen the tool.
 """
 import html
@@ -68,13 +66,10 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "arrivals.json"
 PAGE = ROOT / "the-feed.html"
+LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 
 # Fields that must never reach a row. Refused rather than dropped -- see the top.
 BODY_FIELDS = ("summary", "description", "excerpt", "content", "body", "blurb", "extract")
-
-ONES = ("zero one two three four five six seven eight nine ten eleven twelve "
-        "thirteen fourteen fifteen sixteen seventeen eighteen nineteen").split()
-TENS = ("- - twenty thirty forty fifty sixty seventy eighty ninety").split()
 
 # The vocabulary of a league table. NEGATION window is wider than
 # make-guild.py's forty characters because the sentences this room needs to be
@@ -95,23 +90,6 @@ def die(msg):
 
 def e(s):
     return html.escape(str(s), quote=True)
-
-
-def word(n):
-    """Numbers in the room's prose are words, because the prose is prose. The
-    board's own date columns are digits, because a board's are."""
-    if n < 20:
-        return ONES[n]
-    if n < 100:
-        return TENS[n // 10] + (f"-{ONES[n % 10]}" if n % 10 else "")
-    return str(n)
-
-
-def listify(names):
-    """a, b and c — because a generated sentence has to be a sentence."""
-    if len(names) == 1:
-        return names[0]
-    return ", ".join(names[:-1]) + " and " + names[-1]
 
 
 def stamp(iso, with_time=True):
@@ -138,6 +116,25 @@ def slot(src, name, markup):
         )
     a, b = src.index(begin), src.index(end) + len(end)
     return src[:a] + begin + "\n" + markup + end + src[b:]
+
+
+def write_bot(wires):
+    """The wires the CB's feed bot reads for this room's channel, written into
+    netlify/cb/lib.mjs out of the same file the board is drawn from, so the
+    board and the channel can never be about different feeds. Only what the bot
+    needs: which wire, whose site, its host, and its feed."""
+    begin = ("/* feed-bot:the-feed:begin -- written by tools/make-arrivals.py from "
+             "data/arrivals.json. Do not hand-edit. */")
+    end = "/* feed-bot:the-feed:end */"
+    src = LIB.read_text()
+    if src.count(begin) != 1 or src.count(end) != 1:
+        die(f"{LIB.relative_to(ROOT)} has no single feed-bot:the-feed pair, so The Feed's "
+            "channel would not hear its own wires.")
+    rows = ",\n".join("  " + json.dumps({k: w[k] for k in ("id", "site", "host", "feed")},
+                                          ensure_ascii=False) for w in wires)
+    block = f"const FEED_WIRES = [\n{rows},\n];\n"
+    a, b = src.index(begin) + len(begin), src.index(end)
+    LIB.write_text(src[:a] + "\n" + block + src[b:])
 
 
 # ── The board for one wire ───────────────────────────────────────────────────
@@ -167,8 +164,8 @@ def indicator(w):
     return (
         f'  <section class="indicator" aria-labelledby="wire-{e(w["id"])}">\n'
         f'    <div class="indicator__head">\n'
-        f'      <h3 class="indicator__name" id="wire-{e(w["id"])}">'
-        f'<a href="{e(w["home"])}">{e(w["site"])}</a></h3>\n'
+        f'      <h2 class="indicator__name" id="wire-{e(w["id"])}">'
+        f'<a href="{e(w["home"])}">{e(w["site"])}</a></h2>\n'
         f'      <p class="indicator__what">{e(w["note"])}</p>\n'
         f'    </div>\n'
         + (f'    <ol class="flaps">\n' + "\n".join(rows) + "\n    </ol>\n" if rows else
@@ -224,40 +221,7 @@ def main():
         if dates != sorted(dates, reverse=True):
             die(f"wire {w['id']}: the rows are not newest-first.")
 
-    # ── The two generated sentences ──────────────────────────────────────────
-    # Both are in the room's prose and both go stale on their own. The plurals
-    # and the naming of the short wires are generated with them, because
-    # make-jungle.py's first version generated a number and left the tail
-    # plural, which is a hand-typed count in a disguise.
-    full = max(len(w["items"]) for w in wires)
-    # A board with nothing on it is said in its own words, never as a count of
-    # rows it does not have.
-    empty = [w for w in wires if not w["items"]]
-    short = [w for w in wires if 0 < len(w["items"]) < full]
     total = sum(len(w["items"]) for w in wires)
-
-    shape = (
-        f"{word(len(wires)).capitalize()} wires are strung down this hall, "
-        f"carrying {word(total)} rows between them."
-    )
-    if short:
-        by_len = {}
-        for w in short:
-            by_len.setdefault(len(w["items"]), []).append(w.get("prose") or w["site"])
-        bits = [f"{listify(names)} {'is' if len(names) == 1 else 'are'} showing "
-                f"{word(n)}" for n, names in sorted(by_len.items())]
-        shape += (
-            f" A board here holds {word(full)}, and {'; '.join(bits)} — "
-            f"because that is everything "
-            f"{'its feed has' if len(short) == 1 else 'their feeds have'} on "
-            f"{'it' if len(short) == 1 else 'them'}."
-        )
-    else:
-        shape += f" Every one of them is showing {word(full)}, which is as many as a board here holds."
-    if empty:
-        who = listify([w.get('prose') or w['site'] for w in empty])
-        shape += (f" {who[:1].upper()}{who[1:]} "
-                  f"{'has' if len(empty) == 1 else 'have'} nothing on {'it' if len(empty) == 1 else 'them'} just now.")
 
     src = PAGE.read_text()
 
@@ -275,17 +239,11 @@ def main():
                 "sites."
             )
 
-    src = slot(src, "set", (
-        f'<p class="hall__set">This board was set at <b>{stamp(data["set"])}</b>. '
-        f'Every wire on it was read at that minute and has not been read since. '
-        f'The board is not the railway.</p>\n'
-    ))
-    src = slot(src, "shape", f'<p class="hall__shape">{shape}</p>\n')
-
     boards = "".join(indicator(w) for w in wires)
     src = slot(src, "hall", boards)
 
     PAGE.write_text(src)
+    write_bot(wires)
     print(f"Set {PAGE.relative_to(ROOT)}: {len(wires)} wires, {total} rows, "
           f"board set at {data['set']}.")
     return 0

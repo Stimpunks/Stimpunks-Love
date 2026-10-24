@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
 #
-# Re-set The Feed's arrivals board and put it on the live site. The single
+# Re-set The Feed's arrivals board, and The Source's terraces up the hill
+# behind it, and put them on the live site. The single
 # command tools/daily-arrivals.sh exists for is a TIMER, which is why it is one
 # script rather than a list of steps in a prompt: a headless run that improvises
 # is a headless run that commits something nobody read.
 #
 # WHAT IT DOES, in order, stopping at the first refusal:
 #   1. refuses unless the tree is on main and the two files it owns are clean
-#   2. pull-arrivals.py   — reads every feed (the only step that needs network)
+#   2. pull-arrivals.py   — reads every feed (one of the two steps that need network)
 #   3. make-arrivals.py   — draws the board from what was read
-#   4. the fast offline checkers, as a gate on committing a broken page
-#   5. commits ONLY data/arrivals.json and the-feed.html, and pushes
+#   4. pull-source.py and make-the-source.py — the same for The Source's
+#      terraces, off GitHub's commit feeds for our repositories (2026-10-23)
+#   5. the fast offline checkers, as a gate on committing a broken page
+#   6. commits ONLY the two rooms' data files and pages, and pushes
 #
-# IT COMMITS TWO PATHS AND NOTHING ELSE. That is notes-backup-daily's lesson in
+# IT COMMITS FOUR PATHS AND NOTHING ELSE. That is notes-backup-daily's lesson in
 # the Knowledge System, learned the hard way over there: a timer that commits
 # whatever happens to be dirty will one day catch an interactive session's
 # half-finished work and land it under a message that says nothing. If anything
@@ -28,7 +31,7 @@
 set -uo pipefail
 
 REPO="/Users/ryan/Documents/GitHub/Stimpunks-Love"
-OWNED=("data/arrivals.json" "the-feed.html")
+OWNED=("data/arrivals.json" "the-feed.html" "data/the-source.json" "the-source.html")
 cd "$REPO" || { echo "error: cannot cd to $REPO"; exit 1; }
 
 refuse() { echo "REFUSED: $*"; exit 2; }
@@ -47,6 +50,13 @@ dirty_owned="$(git status --porcelain -- "${OWNED[@]}")"
 python3 tools/pull-arrivals.py || refuse "a feed did not answer, or answered with something this does not parse.
          Yesterday's board is still standing. See the output above."
 python3 tools/make-arrivals.py || refuse "the board would not draw from what was read."
+# The Source is read in the same run because it is the same concourse, and the
+# same refusal holds: a commit feed that does not answer leaves yesterday's
+# terraces standing. The Feed's board above is already drawn; nothing is
+# committed unless both are.
+python3 tools/pull-source.py || refuse "a repository's commit feed did not answer, or answered with something this does not parse.
+         Yesterday's terraces are still standing. See the output above."
+python3 tools/make-the-source.py || refuse "the terraces would not draw from what was read."
 
 # ── 4. The gate ──────────────────────────────────────────────────────────────
 # Fast, offline, and every one of them reads the published HTML. The four that
@@ -68,7 +78,9 @@ fi
 rows="$(python3 - <<'PY'
 import json
 d = json.load(open("data/arrivals.json"))
-print(f"{len(d['wires'])} wires, {sum(len(w['items']) for w in d['wires'])} rows, set {d['set']}")
+s = json.load(open("data/the-source.json"))
+print(f"{len(d['wires'])} wires, {sum(len(w['items']) for w in d['wires'])} rows, set {d['set']}; "
+      f"{len(s['springs'])} springs, read {s['set']}")
 PY
 )"
 
@@ -87,7 +99,8 @@ git add -- "${OWNED[@]}"
 git commit --quiet -m "daily arrivals board reset" -m "$rows
 
 Written by tools/daily-arrivals.sh on a timer. Nothing here is a decision:
-the board is a snapshot of eight feeds and this is the snapshot being retaken.
+the board and the terraces are snapshots of their feeds and this is the
+snapshot being retaken.
 See the-feed.html and DECISIONS.md for why it cannot read them live." \
   || { echo "error: commit failed"; exit 1; }
 
@@ -100,7 +113,7 @@ else
   echo "Not retried and not rebased; a session should look at it."
 fi
 
-stray="$(git status --porcelain | grep -v -F -e "data/arrivals.json" -e "the-feed.html" | wc -l | tr -d ' ')"
+stray="$(git status --porcelain | grep -v -F -e "data/arrivals.json" -e "the-feed.html" -e "data/the-source.json" -e "the-source.html" | wc -l | tr -d ' ')"
 [ "$stray" != "0" ] && echo "note: $stray path(s) dirty outside this script's scope, left untouched."
 
 exit 0

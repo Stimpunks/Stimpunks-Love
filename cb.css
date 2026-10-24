@@ -648,6 +648,13 @@ ol.cb-md-list { list-style: decimal; }
 .cb-md-h2 { font-size: 1.1em; }
 .cb-md-h3 { font-size: .92em; text-transform: uppercase; letter-spacing: .05em; }
 .cb-msg .cb-tag { margin-left: 0; }
+/* A NEW ARRIVAL said by The Feed or The Source (feedCard in cb.js): the site in
+   weight, the item's name as its link, and a commit's id, day and hands in the
+   time's quiet ink, so no pair here is one check-contrast.py has not measured.
+   The bot's name is words, not a button, because it opens no profile. */
+.cb-feed__site { font-weight: 700; }
+.cb-feed__how { font-size: 13px; color: var(--cb-amber-2); }
+.cb-handle--bot { font-weight: 700; }
 /* HOSTING NOW, first under Watching together (it was in the readout under the
    log until 2026-10-19, where a host read as the newest message). In the
    case's own ink, as Who's online's lists are, and the Catch up button keeps

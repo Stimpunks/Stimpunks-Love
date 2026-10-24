@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Source &mdash; Stimpunks.World</title>
+<meta name="description" content="Up the hill behind The Feed: white terraces under a warm spring, one pool for every repository we build our sites in, and every commit a deposit on it, with its first line, its id, its day and whose hands made it, off GitHub's own commit feeds. Its CB channel hears each new commit as it comes in.">
+<link rel="canonical" href="https://stimpunks.world/the-source.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F4EFE4">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="The Source &mdash; Stimpunks.World">
+<meta property="og:description" content="Where our sites come from: one pool for every repository, and every commit a deposit on it, laid down a thin skin of stone at a time.">
+<meta property="og:url" content="https://stimpunks.world/the-source.html">
+<meta property="og:image" content="https://stimpunks.world/og/the-source.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card the white of sunlit stone. On the right, a hillside of white terraces under a pale sky, a small spring at the top, and below it rows of scalloped pools of milky turquoise water stepping down the hill like scales, each rim bright white with a hard shadow under it, the stone between them streaked with rust and with water spilling over the lowest point of every rim. On the left, small rust capitals reading Up the hill from the concourse, then “The Source” in a smooth, slightly calligraphic teal bold, then: Where our sites come from: one pool for every repository, and every commit a deposit on it, laid down a thin skin of stone at a time.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
+<link rel="preload" href="fonts/spline-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/the-source.html#webpage","url":"https://stimpunks.world/the-source.html","name":"The Source — Stimpunks.World","description":"Up the hill behind The Feed: white terraces under a warm spring, one pool for every repository we build our sites in, and every commit a deposit on it, with its first line, its id, its day and whose hands made it, off GitHub's own commit feeds. Its CB channel hears each new commit as it comes in.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="room-source" id="top">
+<a class="skip" href="#main">Skip to the pools</a>
+
+<main id="main" class="terraces">
+
+  <div class="src-topline">
+    <a class="backlink" href="the-feed.html">&larr; back down to The Feed</a>
+    <p class="src-trail">Behind The Feed &middot; up the hill &middot; where it all comes from</p>
+  </div>
+
+  <header class="src-head">
+    <p class="src-over">Up the hill from the concourse</p>
+    <h1>The Source</h1>
+    <p class="src-sub">Every site on The Feed&rsquo;s boards starts up here, as a spring. The water lays down the stone it runs over, one thin skin of travertine at a time, and every terrace on this hill was built that way.</p>
+  </header>
+
+  <!-- THE HILLSIDE: white terraces stepping down under a warm spring, every
+       rim a scallop with a hard shadow under it and the stone face below that
+       streaked with rust, water spilling over the lowest point of each rim.
+       Drawn by tools/make-the-source.py from a fixed seed. Do not hand-edit. -->
+  <figure class="src-view">
+<!-- source:draw:begin -->
+<svg class="src-hill" viewBox="0 0 960 380" role="presentation" aria-hidden="true" focusable="false">
+<rect width="960" height="380" fill="var(--src-sky)"/>
+<path d="M-20 380 L-20 300 C 110 236 250 124 376 74 C 432 54 528 54 584 74 C 710 124 850 236 980 300 L980 380 Z" fill="var(--src-curtain)"/>
+<path d="M430 66 Q480 38 530 66 Q480 96 430 66 Z" fill="var(--src-pool)"/>
+<path d="M456 68 Q480 56 504 68 Q480 82 456 68 Z" fill="var(--src-deep)"/>
+<path d="M410 100 Q478.5 91 547 100 Q478.5 143.7 410 100 Z" fill="var(--src-pool)"/>
+<path d="M437.4 99 Q478.5 90 519.6 99 Q478.5 117.4 437.4 99 Z" fill="var(--src-deep)"/>
+<path d="M547 100 Q582.7 91.4 618.4 100 Q582.7 142.4 547 100 Z" fill="var(--src-pool)"/>
+<path d="M561.3 99 Q582.7 90.4 604.1 99 Q582.7 116.8 561.3 99 Z" fill="var(--src-deep)"/>
+<path d="M220.5 160 Q282.1 149.3 343.6 160 Q282.1 208.8 220.5 160 Z" fill="var(--src-pool)"/>
+<path d="M245.2 159 Q282.1 148.3 319 159 Q282.1 179.5 245.2 159 Z" fill="var(--src-deep)"/>
+<path d="M343.6 160 Q401.1 150.3 458.7 160 Q401.1 211.6 343.6 160 Z" fill="var(--src-pool)"/>
+<path d="M366.6 159 Q401.1 149.3 435.7 159 Q401.1 180.7 366.6 159 Z" fill="var(--src-deep)"/>
+<path d="M458.7 160 Q535.4 149.4 612.1 160 Q535.4 200.4 458.7 160 Z" fill="var(--src-pool)"/>
+<path d="M489.4 159 Q535.4 148.4 581.4 159 Q535.4 176 489.4 159 Z" fill="var(--src-deep)"/>
+<path d="M612.1 160 Q680.1 149.6 748.1 160 Q680.1 202.2 612.1 160 Z" fill="var(--src-pool)"/>
+<path d="M639.3 159 Q680.1 148.6 720.9 159 Q680.1 176.7 639.3 159 Z" fill="var(--src-deep)"/>
+<path d="M410 100 Q478.5 143.7 547 100 L547 155 L533.5 156.4 L524.7 160.7 L512.2 157 L503.2 157.8 L492.9 160.7 L480.3 159 L468.9 157.8 L459.4 157.3 L450.4 155.2 L439.8 158.4 L426.3 157.1 L414.2 155.2 L410 158.1 Z" fill="var(--src-curtain)"/>
+<path d="M497.6 128.2 V143.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M421.2 114.6 V134.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M478.5 125.9 V153" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M410 106 Q478.5 149.7 547 106" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M410 100 Q478.5 143.7 547 100" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M547 100 Q582.7 142.4 618.4 100 L618.4 155 L604.9 155.8 L592.3 155.5 L583.2 158.2 L570.8 155.8 L562.7 160.5 L550.1 157 L547 155.5 Z" fill="var(--src-curtain)"/>
+<path d="M583.4 129.2 V144.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M572.4 127.4 V149.1" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M594 127.1 V146.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M582.7 125.2 V153" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M547 106 Q582.7 148.4 618.4 106" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M547 100 Q582.7 142.4 618.4 100" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M170 220 Q225.7 210.7 281.5 220 Q225.7 266.3 170 220 Z" fill="var(--src-pool)"/>
+<path d="M192.3 219 Q225.7 209.7 259.2 219 Q225.7 238.4 192.3 219 Z" fill="var(--src-deep)"/>
+<path d="M281.5 220 Q335.3 208.7 389.1 220 Q335.3 262.7 281.5 220 Z" fill="var(--src-pool)"/>
+<path d="M303 219 Q335.3 207.7 367.6 219 Q335.3 236.9 303 219 Z" fill="var(--src-deep)"/>
+<path d="M389.1 220 Q458.9 209 528.7 220 Q458.9 271.1 389.1 220 Z" fill="var(--src-pool)"/>
+<path d="M417 219 Q458.9 208 500.8 219 Q458.9 240.4 417 219 Z" fill="var(--src-deep)"/>
+<path d="M528.7 220 Q600.7 209.8 672.7 220 Q600.7 271.3 528.7 220 Z" fill="var(--src-pool)"/>
+<path d="M557.5 219 Q600.7 208.8 643.9 219 Q600.7 240.5 557.5 219 Z" fill="var(--src-deep)"/>
+<path d="M672.7 220 Q730.3 211.7 787.9 220 Q730.3 270.1 672.7 220 Z" fill="var(--src-pool)"/>
+<path d="M695.7 219 Q730.3 210.7 764.8 219 Q730.3 240 695.7 219 Z" fill="var(--src-deep)"/>
+<path d="M787.9 220 Q820.8 211.3 853.8 220 Q820.8 271.1 787.9 220 Z" fill="var(--src-pool)"/>
+<path d="M801.1 219 Q820.8 210.3 840.6 219 Q820.8 240.4 801.1 219 Z" fill="var(--src-deep)"/>
+<path d="M220.5 160 Q282.1 208.8 343.6 160 L343.6 215 L335.6 218.2 L322.1 215.6 L310 216.4 L298.8 220.2 L288.4 217 L273.7 216.2 L259.2 219.3 L247.9 217 L236.1 219 L224.3 218.7 L220.5 219.2 Z" fill="var(--src-curtain)"/>
+<path d="M273.9 192 V202.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M332.7 175.9 V188" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M301.4 190 V205.3" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M302.5 189.7 V207.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M282.1 188.4 V213" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M220.5 166 Q282.1 214.8 343.6 166" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M220.5 160 Q282.1 208.8 343.6 160" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M343.6 160 Q401.1 211.6 458.7 160 L458.7 215 L447.1 219.3 L438.4 219.9 L429.4 216.3 L421.4 219.5 L413.2 217.1 L403.7 215.1 L393.3 218.2 L379 215.9 L366.2 217.5 L357.8 219.8 L348.7 220.9 L343.6 216.2 Z" fill="var(--src-curtain)"/>
+<path d="M425.5 189.2 V205.5" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M427.9 188.2 V205.5" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M401.1 189.8 V213" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M343.6 166 Q401.1 217.6 458.7 166" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M343.6 160 Q401.1 211.6 458.7 160" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M458.7 160 Q535.4 200.4 612.1 160 L612.1 215 L600.9 220.9 L589.4 221 L579.1 218.5 L568 221 L553.1 219.3 L542.5 219.2 L534.4 218.4 L521.3 216.4 L510.3 215.5 L501 220 L490.9 221 L482.5 217.8 L471.7 218.6 L463 215.1 L458.7 215.5 Z" fill="var(--src-curtain)"/>
+<path d="M479.1 177.3 V198.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M515.2 186.8 V198.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M568 180.5 Q571.8 195.8 566 212.2" fill="none" stroke="var(--src-iron)" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M535.4 184.2 V213" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M458.7 166 Q535.4 206.4 612.1 166" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M458.7 160 Q535.4 200.4 612.1 160" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M612.1 160 Q680.1 202.2 748.1 160 L748.1 215 L737.5 220.9 L726.7 215.1 L718.4 218 L709.5 219.4 L696.7 216.1 L688.7 220.7 L678.1 217.8 L665.3 219.7 L656.7 219.9 L647.6 220.7 L633.5 218.2 L623.8 220.7 L612.1 216 Z" fill="var(--src-curtain)"/>
+<path d="M643.8 183.1 V208.1" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M696.1 187.9 V196.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M710.6 184.9 V206.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M696.4 187.9 V198.3" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M680.1 185.1 V213" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M612.1 166 Q680.1 208.2 748.1 166" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M612.1 160 Q680.1 202.2 748.1 160" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M-19.7 280 Q44.1 271.3 107.9 280 Q44.1 325.3 -19.7 280 Z" fill="var(--src-pool)"/>
+<path d="M5.8 279 Q44.1 270.3 82.4 279 Q44.1 298 5.8 279 Z" fill="var(--src-deep)"/>
+<path d="M107.9 280 Q188.6 270.6 269.2 280 Q188.6 330.8 107.9 280 Z" fill="var(--src-pool)"/>
+<path d="M140.2 279 Q188.6 269.6 236.9 279 Q188.6 300.3 140.2 279 Z" fill="var(--src-deep)"/>
+<path d="M269.2 280 Q344.2 268.7 419.1 280 Q344.2 327.1 269.2 280 Z" fill="var(--src-pool)"/>
+<path d="M299.2 279 Q344.2 267.7 389.1 279 Q344.2 298.8 299.2 279 Z" fill="var(--src-deep)"/>
+<path d="M419.1 280 Q483.3 270.8 547.4 280 Q483.3 324.7 419.1 280 Z" fill="var(--src-pool)"/>
+<path d="M444.8 279 Q483.3 269.8 521.8 279 Q483.3 297.8 444.8 279 Z" fill="var(--src-deep)"/>
+<path d="M547.4 280 Q619.3 269.7 691.2 280 Q619.3 330.8 547.4 280 Z" fill="var(--src-pool)"/>
+<path d="M576.2 279 Q619.3 268.7 662.5 279 Q619.3 300.3 576.2 279 Z" fill="var(--src-deep)"/>
+<path d="M691.2 280 Q749.3 271.2 807.5 280 Q749.3 322.9 691.2 280 Z" fill="var(--src-pool)"/>
+<path d="M714.5 279 Q749.3 270.2 784.2 279 Q749.3 297 714.5 279 Z" fill="var(--src-deep)"/>
+<path d="M807.5 280 Q877.5 271.7 947.5 280 Q877.5 331.8 807.5 280 Z" fill="var(--src-pool)"/>
+<path d="M835.5 279 Q877.5 270.7 919.5 279 Q877.5 300.8 835.5 279 Z" fill="var(--src-deep)"/>
+<path d="M170 220 Q225.7 266.3 281.5 220 L281.5 275 L268.7 276.2 L257.9 275.6 L247.4 280 L234.2 277 L223.9 276.2 L212.7 280.7 L201.5 277.1 L191.1 276.3 L176.4 280.2 L170 280.7 Z" fill="var(--src-curtain)"/>
+<path d="M224.3 251.1 V258.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M183.9 238.1 V264.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M193.5 243.4 V254.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M225.7 247.1 V273" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M170 226 Q225.7 272.3 281.5 226" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M170 220 Q225.7 266.3 281.5 220" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M281.5 220 Q335.3 262.7 389.1 220 L389.1 275 L376.8 276.5 L366.1 280.7 L352.6 277.8 L344.4 276.2 L332.8 279.8 L317.8 278.3 L308.2 278.7 L295.2 278.8 L286.9 276.5 L281.5 277.6 Z" fill="var(--src-curtain)"/>
+<path d="M366.7 242.1 V254.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M313.5 245.8 V255.1" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M306.7 243.3 V267.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M370.8 240 V257.4" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M335.3 245.4 V273" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M281.5 226 Q335.3 268.7 389.1 226" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M281.5 220 Q335.3 262.7 389.1 220" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M389.1 220 Q458.9 271.1 528.7 220 L528.7 275 L517 279.5 L503.9 280.4 L490.4 276.9 L476.5 277.5 L462.4 276.2 L449.7 278.6 L441.3 275.5 L433.3 280.3 L419.4 280.6 L407.5 279.9 L398.1 276 L389.1 277.2 Z" fill="var(--src-curtain)"/>
+<path d="M501.5 244 V257.1" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M417.8 244.7 V255.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M494.2 247 V259" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M409.8 240.9 V262.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M458.9 249.5 V273" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M389.1 226 Q458.9 277.1 528.7 226" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M389.1 220 Q458.9 271.1 528.7 220" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M528.7 220 Q600.7 271.3 672.7 220 L672.7 275 L664.4 278.2 L650.2 278.7 L638.7 275.6 L624.3 275.1 L614.3 279.4 L600.5 278.2 L586.9 277.9 L574.7 278.6 L561.7 277.1 L551 275.4 L537.3 279 L528.7 275.1 Z" fill="var(--src-curtain)"/>
+<path d="M660.3 236.1 V262.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M635 247.8 V259.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M576.8 250.8 V269.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M600.7 249.6 V273" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M528.7 226 Q600.7 277.3 672.7 226" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M528.7 220 Q600.7 271.3 672.7 220" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M672.7 220 Q730.3 270.1 787.9 220 L787.9 275 L775.1 279.8 L763.6 276.2 L752.9 277 L744.6 278.5 L735.8 280.3 L725.9 275.9 L715.4 280 L704.4 279.1 L693.4 278.8 L682.7 275.9 L672.7 279.2 Z" fill="var(--src-curtain)"/>
+<path d="M742 252 V266" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M776.9 236.7 V257.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M723.3 252.7 V260" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M743.7 251.7 V265.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M730.3 249 V273" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M672.7 226 Q730.3 276.1 787.9 226" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M672.7 220 Q730.3 270.1 787.9 220" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M787.9 220 Q820.8 271.1 853.8 220 L853.8 275 L839 278.7 L827.9 275.9 L813.2 275.1 L798.8 279.1 L787.9 280.7 Z" fill="var(--src-curtain)"/>
+<path d="M802.8 245.9 V259.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M828.2 252.3 V261" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M817.4 253.2 V263" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M804.1 247 V268.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M820.8 249.5 V273" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M787.9 226 Q820.8 277.1 853.8 226" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M787.9 220 Q820.8 271.1 853.8 220" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M-80 340 Q-7 330.7 66 340 Q-7 383.7 -80 340 Z" fill="var(--src-pool)"/>
+<path d="M-50.8 339 Q-7 329.7 36.8 339 Q-7 357.4 -50.8 339 Z" fill="var(--src-deep)"/>
+<path d="M66 340 Q130.6 331 195.1 340 Q130.6 383.1 66 340 Z" fill="var(--src-pool)"/>
+<path d="M91.8 339 Q130.6 330 169.3 339 Q130.6 357.1 91.8 339 Z" fill="var(--src-deep)"/>
+<path d="M195.1 340 Q266.6 329.1 338.1 340 Q266.6 387.1 195.1 340 Z" fill="var(--src-pool)"/>
+<path d="M223.7 339 Q266.6 328.1 309.5 339 Q266.6 358.8 223.7 339 Z" fill="var(--src-deep)"/>
+<path d="M338.1 340 Q405.5 332 473 340 Q405.5 390.1 338.1 340 Z" fill="var(--src-pool)"/>
+<path d="M365.1 339 Q405.5 331 446 339 Q405.5 360.1 365.1 339 Z" fill="var(--src-deep)"/>
+<path d="M473 340 Q532.7 329.4 592.5 340 Q532.7 389.9 473 340 Z" fill="var(--src-pool)"/>
+<path d="M496.9 339 Q532.7 328.4 568.6 339 Q532.7 360 496.9 339 Z" fill="var(--src-deep)"/>
+<path d="M592.5 340 Q656.1 331.7 719.7 340 Q656.1 390.5 592.5 340 Z" fill="var(--src-pool)"/>
+<path d="M618 339 Q656.1 330.7 694.3 339 Q656.1 360.2 618 339 Z" fill="var(--src-deep)"/>
+<path d="M719.7 340 Q782.4 328.1 845.1 340 Q782.4 391.2 719.7 340 Z" fill="var(--src-pool)"/>
+<path d="M744.8 339 Q782.4 327.1 820 339 Q782.4 360.5 744.8 339 Z" fill="var(--src-deep)"/>
+<path d="M845.1 340 Q912.4 328.2 979.6 340 Q912.4 388.5 845.1 340 Z" fill="var(--src-pool)"/>
+<path d="M872 339 Q912.4 327.2 952.7 339 Q912.4 359.4 872 339 Z" fill="var(--src-deep)"/>
+<path d="M979.6 340 Q1046.7 330.6 1113.8 340 Q1046.7 380.1 979.6 340 Z" fill="var(--src-pool)"/>
+<path d="M1006.4 339 Q1046.7 329.6 1086.9 339 Q1046.7 355.9 1006.4 339 Z" fill="var(--src-deep)"/>
+<path d="M-19.7 280 Q44.1 325.3 107.9 280 L107.9 335 L99.6 335.8 L87.5 337.1 L73.9 338.2 L62.5 338.5 L50.1 337.6 L36.3 339 L26 340.1 L16 337.5 L4.3 338.6 L-6.9 339.1 L-19.7 339.3 Z" fill="var(--src-curtain)"/>
+<path d="M-2.8 298.4 V327" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M8.7 303.7 V320.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M68.8 307.2 V322.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M36 306.3 Q34.8 318.6 36.6 323.7" fill="none" stroke="var(--src-iron)" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M44.1 306.6 V333" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M-19.7 286 Q44.1 331.3 107.9 286" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M-19.7 280 Q44.1 325.3 107.9 280" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M107.9 280 Q188.6 330.8 269.2 280 L269.2 335 L259 338.7 L247.7 340.4 L235.1 338.4 L222.7 337.9 L208 338.7 L195.5 339.8 L183.6 335.6 L174.3 335.7 L162.2 338.6 L149.1 340.4 L137.4 335.5 L124.6 338.4 L114.3 336.1 L107.9 339.1 Z" fill="var(--src-curtain)"/>
+<path d="M139.6 304 V326.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M116.8 293.3 V322" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M140 300.2 Q140.4 315.6 139.8 323.7" fill="none" stroke="var(--src-iron)" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M188.6 309.4 V333" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M107.9 286 Q188.6 336.8 269.2 286" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M107.9 280 Q188.6 330.8 269.2 280" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M269.2 280 Q344.2 327.1 419.1 280 L419.1 335 L407.7 335.6 L393.5 340.1 L385.4 340.8 L375.5 337.8 L361.2 335.9 L352.4 338.3 L340.5 336.8 L326.5 337.6 L313.4 338.6 L302.8 336.3 L292.7 339.5 L279 338.5 L269.2 339.9 Z" fill="var(--src-curtain)"/>
+<path d="M344.1 311.5 V319.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M293.3 300.7 V327.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M348.1 307.5 Q348.4 319.2 348 325.7" fill="none" stroke="var(--src-iron)" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M344.2 307.5 V333" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M269.2 286 Q344.2 333.1 419.1 286" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M269.2 280 Q344.2 327.1 419.1 280" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M419.1 280 Q483.3 324.7 547.4 280 L547.4 335 L535.2 338.6 L522.3 335.7 L510.6 337.6 L501.8 336.9 L486.9 340.7 L474.4 338.5 L465.8 338.1 L451.1 338.8 L442.9 337.6 L431.2 336.1 L423.1 335.4 L419.1 336.4 Z" fill="var(--src-curtain)"/>
+<path d="M494.3 309.7 V324.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M532.6 297.2 V326.3" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M467.4 309 V318.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M444.2 302.1 V321.3" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M491.9 305.9 Q487.9 318.5 493.9 329.6" fill="none" stroke="var(--src-iron)" stroke-width="2.9" stroke-linecap="round"/>
+<path d="M483.3 306.4 V333" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M419.1 286 Q483.3 330.7 547.4 286" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M419.1 280 Q483.3 324.7 547.4 280" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M547.4 280 Q619.3 330.8 691.2 280 L691.2 335 L680.8 339.9 L667.5 340.3 L655.7 340.2 L641.3 340 L630.8 335.8 L617.4 336.5 L603.5 336.8 L593.3 336.7 L581.6 339.2 L572.9 339.1 L560.2 340.5 L547.4 340.4 Z" fill="var(--src-curtain)"/>
+<path d="M570.7 301.8 V326.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M680.6 294.9 V313.4" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M621.8 313.4 V325.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M619.3 309.4 V333" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M547.4 286 Q619.3 336.8 691.2 286" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M547.4 280 Q619.3 330.8 691.2 280" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M691.2 280 Q749.3 322.9 807.5 280 L807.5 335 L797.3 340 L785.1 335.8 L772.8 338.6 L760 338.3 L746.1 338.6 L734.7 340 L722.6 336.4 L711 340.1 L702.4 339.9 L691.2 337.7 Z" fill="var(--src-curtain)"/>
+<path d="M789.5 299.2 V321.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M752.6 309.4 V325.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M719.5 303.8 V320.3" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M750.5 309.5 V321.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M749.3 305.5 V333" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M691.2 286 Q749.3 328.9 807.5 286" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M691.2 280 Q749.3 322.9 807.5 280" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M807.5 280 Q877.5 331.8 947.5 280 L947.5 335 L935.9 340.8 L927.5 340.7 L917.5 337.6 L903.9 340.3 L889.7 339.6 L878.5 335 L869.4 337.8 L855.6 340.1 L844.5 336.4 L836.4 339.5 L824 339.5 L814.6 338.8 L807.5 339.5 Z" fill="var(--src-curtain)"/>
+<path d="M830.6 302.3 V321.1" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M870.1 313.6 V325.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M933.8 297.2 V310.3" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M921.2 303.8 V320.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M877.5 309.9 V333" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M807.5 286 Q877.5 337.8 947.5 286" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M807.5 280 Q877.5 331.8 947.5 280" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M-80 340 Q-7 383.7 66 340 L66 380 L57.6 384.4 L44.3 380.7 L31.4 386 L23.2 384.2 L15.1 381.2 L0.8 381.9 L-9.9 380.1 L-19.9 383.3 L-29.1 382.6 L-41.2 383.8 L-53.4 383.5 L-66.8 384.5 L-75.7 385.1 L-80 380.7 Z" fill="var(--src-curtain)"/>
+<path d="M-46.5 363.4 V371.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M54.4 354.4 V373.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M-28.4 368 V376.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M24.4 361.8 Q24.1 368.9 24.6 376.3" fill="none" stroke="var(--src-iron)" stroke-width="3.8" stroke-linecap="round"/>
+<path d="M-7 365.8 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M-80 346 Q-7 389.7 66 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M-80 340 Q-7 383.7 66 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M66 340 Q130.6 383.1 195.1 340 L195.1 380 L181.4 385.6 L169.2 380.1 L159.8 385.6 L145.8 385.1 L136.9 383.7 L125.3 385.2 L111.5 385 L101.3 384.5 L88.2 383.9 L77.7 383.3 L66 383.7 Z" fill="var(--src-curtain)"/>
+<path d="M149.3 367.8 V373.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M185 354.3 V370.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M162.8 364.2 V374.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M114.7 368.3 V375.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M130.6 365.6 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M66 346 Q130.6 389.1 195.1 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M66 340 Q130.6 383.1 195.1 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M195.1 340 Q266.6 387.1 338.1 340 L338.1 380 L326.4 380 L311.8 381.7 L299.3 382.2 L287.5 384.3 L277.3 382.8 L268 384.6 L259.5 384.8 L246.3 383 L233.3 385.5 L220.5 383.7 L209.7 385.6 L200 380.8 L195.1 380.5 Z" fill="var(--src-curtain)"/>
+<path d="M254.2 370.8 V373.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M253.7 370.8 V374.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M255.2 370.9 V377.5" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M225.6 363.8 V371.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M320.9 354 Q321.9 365 320.4 377.9" fill="none" stroke="var(--src-iron)" stroke-width="3.8" stroke-linecap="round"/>
+<path d="M266.6 367.5 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M195.1 346 Q266.6 393.1 338.1 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M195.1 340 Q266.6 387.1 338.1 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M338.1 340 Q405.5 390.1 473 340 L473 380 L462.3 384.2 L449.7 385.8 L441 381.3 L427.3 381.1 L417.6 381.1 L402.8 382.5 L389.3 381.4 L377.4 380.2 L362.6 383.3 L347.8 381.9 L338.1 385 Z" fill="var(--src-curtain)"/>
+<path d="M389.1 371.6 V377.4" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M417.2 372.3 V376.3" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M405.5 369.1 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M338.1 346 Q405.5 396.1 473 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M338.1 340 Q405.5 390.1 473 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M473 340 Q532.7 389.9 592.5 340 L592.5 380 L580 382.2 L565.2 381.3 L554.6 384.2 L543.1 384.3 L532 382.5 L523.4 385 L513.4 382.5 L502.6 385.3 L493 385 L481.4 384.7 L473 383.7 Z" fill="var(--src-curtain)"/>
+<path d="M536.4 372.8 V377.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M535.1 372.9 V375.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M493.3 362.1 V373.5" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M549 371.1 V378" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M568.7 359.9 Q566.6 368 569.7 374.1" fill="none" stroke="var(--src-iron)" stroke-width="3.9" stroke-linecap="round"/>
+<path d="M532.7 368.9 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M473 346 Q532.7 395.9 592.5 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M473 340 Q532.7 389.9 592.5 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M592.5 340 Q656.1 390.5 719.7 340 L719.7 380 L707.8 384.5 L693.6 384.6 L682.3 383.6 L669.9 385 L661.4 382.7 L647.2 382.1 L638.3 382.2 L628.1 381 L618.4 381.7 L607.4 383.3 L594.7 381.4 L592.5 381 Z" fill="var(--src-curtain)"/>
+<path d="M652.4 373.1 V376.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M688.6 366.7 V375.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M704.1 358.9 V368.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M658.9 373.2 V375.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M656.1 369.2 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M592.5 346 Q656.1 396.5 719.7 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M592.5 340 Q656.1 390.5 719.7 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M719.7 340 Q782.4 391.2 845.1 340 L845.1 380 L833 382.6 L823.7 383.4 L809.7 383.7 L797 384.6 L787.2 381.9 L779 382.7 L770.8 385.4 L757.1 380.6 L745.8 382.1 L732.1 383.4 L721.9 380.2 L719.7 382.3 Z" fill="var(--src-curtain)"/>
+<path d="M802.5 371 V376.4" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M807 369.7 V377.8" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M816.9 365.9 V371" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M825.6 357.5 Q827.4 366.7 824.6 378.1" fill="none" stroke="var(--src-iron)" stroke-width="3.9" stroke-linecap="round"/>
+<path d="M782.4 369.6 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M719.7 346 Q782.4 397.2 845.1 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M719.7 340 Q782.4 391.2 845.1 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M845.1 340 Q912.4 388.5 979.6 340 L979.6 380 L967.4 383.3 L954.7 383 L945.4 383.6 L935.9 382.2 L923.5 385.1 L913.6 385.4 L902.7 384.6 L890.3 381.4 L879 385.4 L869 382.2 L857.4 384.5 L845.1 381.9 Z" fill="var(--src-curtain)"/>
+<path d="M862.7 359 V366.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M947.7 365.6 V375.2" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M893.9 370.4 V376.9" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M891.5 369.9 V377.7" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M912.4 368.3 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M845.1 346 Q912.4 394.5 979.6 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M845.1 340 Q912.4 388.5 979.6 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M979.6 340 Q1046.7 380.1 1113.8 340 L1113.8 380 L1100.6 383.5 L1091.4 384.9 L1078.6 385.5 L1064.9 385.8 L1054.7 384.2 L1044.9 383.9 L1032.7 381.4 L1022.4 382.5 L1011.6 385.2 L998.5 380.6 L985.3 383.6 L979.6 381.5 Z" fill="var(--src-curtain)"/>
+<path d="M1057.5 367.5 V376.5" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M1068.1 366 V371.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M1089.5 359.9 V367.6" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M1050 364 Q1046.8 370 1051.6 377.1" fill="none" stroke="var(--src-iron)" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M1046.7 364.1 V378" stroke="var(--src-pool)" stroke-width="3" stroke-linecap="round"/>
+<path d="M979.6 346 Q1046.7 386.1 1113.8 346" fill="none" stroke="var(--src-shade)" stroke-width="7" stroke-linecap="round"/>
+<path d="M979.6 340 Q1046.7 380.1 1113.8 340" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+<path d="M430 66 Q480 96 530 66" fill="none" stroke="var(--src-lip)" stroke-width="5" stroke-linecap="round"/>
+</svg>
+<!-- source:draw:end -->
+  </figure>
+
+  <p class="src-lede">Each pool below is one of the repositories our sites are built in, on GitHub, and each deposit in it is a <b>commit</b>: one change, with a line saying what changed and whose hands made it. The newest lie at the top, nearest the spring. Press one and you are at the commit itself, with everything its message says. The sun is high up here and the stone is whiter than the sky, so every rim throws its shadow straight down into the pool below.</p>
+
+  <p class="src-cb"><b>This room&rsquo;s channel on the CB hears every new commit as it comes in</b>, a few minutes after it is pushed, said by The Source itself; The Feed&rsquo;s channel does the same for everything on its boards. Follow the room on the radio to be told, and say something back: they are there to be talked about.</p>
+
+<!-- source:hall:begin -->
+  <section class="pool" aria-labelledby="spring-starstuff">
+    <h2 class="pool__name" id="spring-starstuff"><a href="https://starstuff.earth/">Star Stuff</a></h2>
+    <p class="pool__what">Every zine, field guide, broadside and working paper on starstuff.earth, and the tools that check each one before it goes up.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Star-Stuff/commit/c29b3c69da81e9cea6e8ce6c34c5dcf0c740e518">Regenerate the derived files for Glimmer Wire edition nine</a><span class="deposit__how"><span class="deposit__id">c29b3c6</span> &middot; <time datetime="2026-10-23T13:01:15Z">23 October 2026</time> &middot; by claude and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Star-Stuff/commit/4a2948ad731560e7eadbdf755464308cbbafc5fe">Glimmer Wire, edition nine: eight filed, six held, and a measurement …</a><span class="deposit__how"><span class="deposit__id">4a2948a</span> &middot; <time datetime="2026-10-23T12:53:40Z">23 October 2026</time> &middot; by claude and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Star-Stuff/commit/508b76435c875b541c682d9a865056498edf774c">Regenerate the derived files for Glimmer Wire edition eight</a><span class="deposit__how"><span class="deposit__id">508b764</span> &middot; <time datetime="2026-10-16T13:04:02Z">16 October 2026</time> &middot; by somebody GitHub does not name and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Star-Stuff/commit/1959092cc848aa5d8461d6d40e902ed448adcc07">Glimmer Wire, edition eight: eight filed, eight held, nine papers rea…</a><span class="deposit__how"><span class="deposit__id">1959092</span> &middot; <time datetime="2026-10-16T12:54:35Z">16 October 2026</time> &middot; by somebody GitHub does not name and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Star-Stuff/commit/144a313757d613dc862abf9cc565f234552e2123">Regenerate the derived files for Glimmer Wire edition seven</a><span class="deposit__how"><span class="deposit__id">144a313</span> &middot; <time datetime="2026-10-09T13:05:19Z">9 October 2026</time> &middot; by somebody GitHub does not name and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Star-Stuff/commit/944396f385c849c40c9a6346f45c0174e42d807d">Glimmer Wire, edition seven: six filed, six held, five papers read en…</a><span class="deposit__how"><span class="deposit__id">944396f</span> &middot; <time datetime="2026-10-09T12:59:59Z">9 October 2026</time> &middot; by somebody GitHub does not name and Claude Opus 5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/Star-Stuff/commits/main.atom">github.com/Stimpunks/Star-Stuff/commits/main.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/Star-Stuff">the repository</a></span></p>
+  </section>
+  <section class="pool pool--far" aria-labelledby="spring-queering">
+    <h2 class="pool__name" id="spring-queering"><a href="https://queering.earth/">Queering.Earth</a></h2>
+    <p class="pool__what">The cabinet of sheets at queering.earth, a Stimpunks Foundation and More Realms collaboration with Helen Edgar.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Queering-Earth/commit/65a4dd45ab61757449a3b4237a586a005a844095">Sheet No. 15 corrected on its mounting day: it was still speaking as …</a><span class="deposit__how"><span class="deposit__id">65a4dd4</span> &middot; <time datetime="2026-09-24T01:03:31Z">24 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Queering-Earth/commit/990563cb3ad5b925d465d55f941e094bbd51fc02">Sheet No. 15: Metaphoray, and four words that were not his</a><span class="deposit__how"><span class="deposit__id">990563c</span> &middot; <time datetime="2026-09-23T10:40:20Z">23 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Queering-Earth/commit/7e05546b14b7c3f64e609e7fb1e07ccf0d9a7512">A way back to the front, and the four marks that were not it</a><span class="deposit__how"><span class="deposit__id">7e05546</span> &middot; <time datetime="2026-09-15T00:22:23Z">15 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Queering-Earth/commit/84c1a2a3d4ff05ccc2e4dbaf1c0c0c6bbb3d6b5d">A web app manifest, and the pin Android would have cropped off the mark</a><span class="deposit__how"><span class="deposit__id">84c1a2a</span> &middot; <time datetime="2026-09-14T21:24:27Z">14 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Queering-Earth/commit/19cea39a742f56bcd234e401c784acde359c8fb9">A sync skill, and what a one-line file actually does in a merge</a><span class="deposit__how"><span class="deposit__id">19cea39</span> &middot; <time datetime="2026-09-14T17:12:55Z">14 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Queering-Earth/commit/3e9b215102c988d5e006028243f1f7d9a0583d4d">What the search-index merge rule actually does, measured rather than …</a><span class="deposit__how"><span class="deposit__id">3e9b215</span> &middot; <time datetime="2026-09-14T17:00:34Z">14 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/Queering-Earth/commits/main.atom">github.com/Stimpunks/Queering-Earth/commits/main.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/Queering-Earth">the repository</a></span></p>
+  </section>
+  <section class="pool" aria-labelledby="spring-cavendish">
+    <h2 class="pool__name" id="spring-cavendish"><a href="https://cavendish.space/">Cavendish Space</a></h2>
+    <p class="pool__what">The Cavendish Cards deck and the site that holds it. The repository kept the deck&#x27;s name.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Cavendish-Cards/commit/a701e9874c87807ced22a93555e949e944453174">One list per section, not one list per bullet</a><span class="deposit__how"><span class="deposit__id">a701e98</span> &middot; <time datetime="2026-09-20T14:42:10Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Cavendish-Cards/commit/e3c5c2c67e6fef9045d723cb9bd2bc49ce239cff">Add an RSS feed for the changelog</a><span class="deposit__how"><span class="deposit__id">e3c5c2c</span> &middot; <time datetime="2026-09-20T12:12:56Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Cavendish-Cards/commit/422a17666b0e7d0e954438606f91d0bb8802ed22">Rewire the registry: the Pattern Library is complete at 56</a><span class="deposit__how"><span class="deposit__id">422a176</span> &middot; <time datetime="2026-09-18T19:26:05Z">18 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Cavendish-Cards/commit/ee85a83437e7bc137dd92af17f174ad2d16797cf">Wire Patterns 52–54: the anxiety cluster has a home</a><span class="deposit__how"><span class="deposit__id">ee85a83</span> &middot; <time datetime="2026-09-18T12:21:48Z">18 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Cavendish-Cards/commit/df56a1d7e5e86f1103cbd63b957df8b7a9195210">Make the SPACE-TIME tiles readable with no stylesheet</a><span class="deposit__how"><span class="deposit__id">df56a1d</span> &middot; <time datetime="2026-09-18T07:42:50Z">18 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Cavendish-Cards/commit/51c1195ff03aaa448c93648da2d27779e0d04185">Two framework pages: SPACE-TIME, and the inclusion design layers</a><span class="deposit__how"><span class="deposit__id">51c1195</span> &middot; <time datetime="2026-09-18T07:10:56Z">18 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/Cavendish-Cards/commits/main.atom">github.com/Stimpunks/Cavendish-Cards/commits/main.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/Cavendish-Cards">the repository</a></span></p>
+  </section>
+  <section class="pool pool--far" aria-labelledby="spring-pebbling">
+    <h2 class="pool__name" id="spring-pebbling"><a href="https://penguinpebbling.app/">Penguin Pebbling</a></h2>
+    <p class="pool__what">Helen Edgar and Ryan Boren&#x27;s card game about bringing somebody a small thing for no reason.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Penguin-Pebbling/commit/cb4a876040af192a9162aaefd9d7837d104d125b">Stop _headers claiming to be generated, and say what actually reads it</a><span class="deposit__how"><span class="deposit__id">cb4a876</span> &middot; <time datetime="2026-09-20T11:43:30Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Penguin-Pebbling/commit/8b01b8e7fe101be04d138b273e0088e92fd3ca50">Publish the changelog as RSS, out of the tool that already renders it</a><span class="deposit__how"><span class="deposit__id">8b01b8e</span> &middot; <time datetime="2026-09-20T11:39:35Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Penguin-Pebbling/commit/336ed40cee495de5c2deca1ebddff36d2bc2c9bf">Retire the thirty prompt-card WebPs the re-set orphaned</a><span class="deposit__how"><span class="deposit__id">336ed40</span> &middot; <time datetime="2026-09-15T11:36:12Z">15 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Penguin-Pebbling/commit/7c6ed65c815ad2d539c60fedc17867999cb3400d">Redraw the share card as the card the site actually draws</a><span class="deposit__how"><span class="deposit__id">7c6ed65</span> &middot; <time datetime="2026-09-15T11:31:46Z">15 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Penguin-Pebbling/commit/a2a4929afdb11e52fe7cb118324bba48e344d3f0">Hash _headers into the worker version, so a CSP fix actually reaches …</a><span class="deposit__how"><span class="deposit__id">a2a4929</span> &middot; <time datetime="2026-09-15T11:13:41Z">15 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Penguin-Pebbling/commit/827e98811154778996c03ea552d7663aed345f12">CSP: add connect-src &#x27;self&#x27;, without which the worker cached nothing</a><span class="deposit__how"><span class="deposit__id">827e988</span> &middot; <time datetime="2026-09-15T11:11:59Z">15 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/Penguin-Pebbling/commits/main.atom">github.com/Stimpunks/Penguin-Pebbling/commits/main.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/Penguin-Pebbling">the repository</a></span></p>
+  </section>
+  <section class="pool" aria-labelledby="spring-monotropic">
+    <h2 class="pool__name" id="spring-monotropic"><a href="https://monotropicmap.org/">Map of Monotropic Experiences</a></h2>
+    <p class="pool__what">The map you can walk and the tool for drawing your own, with Helen Edgar of Autistic Realms.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Monotropic-Map/commit/44f677fda1d21b0b0cae27c22ae1ed8acf317c46">Publish Helen&#x27;s Mapping Monotropism in Education</a><span class="deposit__how"><span class="deposit__id">44f677f</span> &middot; <time datetime="2026-09-26T18:12:44Z">26 September 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Monotropic-Map/commit/549cbcf8e997f72bf934d4e979b25727c0429325">Give the changelog a feed, built from the same file the page is</a><span class="deposit__how"><span class="deposit__id">549cbcf</span> &middot; <time datetime="2026-09-20T11:35:33Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Monotropic-Map/commit/0747d430b604ddc09bc4415b800881c2c90a3551">Update Helen&#x27;s review packet: version two is built</a><span class="deposit__how"><span class="deposit__id">0747d43</span> &middot; <time datetime="2026-09-16T21:29:33Z">16 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Monotropic-Map/commit/0d01f4d814e56b4bd8908ea0857339215096654d">Put land and islands first in the tray, where they can be found</a><span class="deposit__how"><span class="deposit__id">0d01f4d</span> &middot; <time datetime="2026-09-16T21:15:01Z">16 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Monotropic-Map/commit/691a6ab227a225d3efea2956ad9ba8073f3e9cf5">Keep the map on screen on ordinary windows, not only tall ones</a><span class="deposit__how"><span class="deposit__id">691a6ab</span> &middot; <time datetime="2026-09-16T21:06:28Z">16 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Monotropic-Map/commit/c3cb442db7ac3591ddcd67407f19bdecabb3ccfe">Drag shapes out of the tray, and download the map</a><span class="deposit__how"><span class="deposit__id">c3cb442</span> &middot; <time datetime="2026-09-16T20:56:14Z">16 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/Monotropic-Map/commits/main.atom">github.com/Stimpunks/Monotropic-Map/commits/main.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/Monotropic-Map">the repository</a></span></p>
+  </section>
+  <section class="pool pool--far" aria-labelledby="spring-whysheet">
+    <h2 class="pool__name" id="spring-whysheet"><a href="https://whysheet.press/">The Why Sheet Press</a></h2>
+    <p class="pool__what">One-page arguments made to be printed, and the gates that measure every sheet before it reaches the press.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Why-Sheets/commit/0ba3c4910e2e8c83c941daa44bf286c5e683ebe8">The broadside gets its own changelog entry, and the policy says why</a><span class="deposit__how"><span class="deposit__id">0ba3c49</span> &middot; <time datetime="2026-09-21T00:31:27Z">21 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Why-Sheets/commit/47e16e183ccea4d399c8ea1907a22cc3109b3dca">The Demand Avoidance broadside on the press</a><span class="deposit__how"><span class="deposit__id">47e16e1</span> &middot; <time datetime="2026-09-21T00:27:48Z">21 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Why-Sheets/commit/d59b5ec30528a22efa8bd58196030dbd095bf70c">Demand Avoidance is published</a><span class="deposit__how"><span class="deposit__id">d59b5ec</span> &middot; <time datetime="2026-09-21T00:03:25Z">21 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Why-Sheets/commit/9b283b9387c2f006162620c68e5256f089083e4a">to-wordpress: decode entities before slugifying a heading</a><span class="deposit__how"><span class="deposit__id">9b283b9</span> &middot; <time datetime="2026-09-20T23:55:24Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Why-Sheets/commit/1f13756d0af24dd708c44403aeff83056ead9d21">CLAUDE.md: do not amend a commit that contains a sheet endpoint</a><span class="deposit__how"><span class="deposit__id">1f13756</span> &middot; <time datetime="2026-09-20T23:50:57Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Why-Sheets/commit/7f07a2dd73d5dfd9eb9d0eb76b0780858c157426">A new sheet is a release: policy, and the AAC backfill it exposed</a><span class="deposit__how"><span class="deposit__id">7f07a2d</span> &middot; <time datetime="2026-09-20T23:48:12Z">20 September 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/Why-Sheets/commits.atom">github.com/Stimpunks/Why-Sheets/commits.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/Why-Sheets">the repository</a></span></p>
+  </section>
+  <section class="pool" aria-labelledby="spring-love">
+    <h2 class="pool__name" id="spring-love"><a href="https://stimpunks.world/">Stimpunks.World</a></h2>
+    <p class="pool__what">This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Stimpunks-Love/commit/60a689bd390994cad68cf61460e5dcd8f78db61f">A Solarpunk patch at Brighter Days Solar Farm</a><span class="deposit__how"><span class="deposit__id">60a689b</span> &middot; <time datetime="2026-10-24T00:15:20Z">24 October 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Stimpunks-Love/commit/6d2eadfd8aeafe8a21d2cb871afea86be33792e8">Office: stimpunks.org&#x27;s latest form entries on the dashboard</a><span class="deposit__how"><span class="deposit__id">6d2eadf</span> &middot; <time datetime="2026-10-23T23:42:41Z">23 October 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Stimpunks-Love/commit/7d0ed39f64bdfb0b4e7e3e3558925b29cd9f2190">CB: a member&#x27;s @moderator leaves a note on the moderators&#x27; desk</a><span class="deposit__how"><span class="deposit__id">7d0ed39</span> &middot; <time datetime="2026-10-23T22:56:08Z">23 October 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Stimpunks-Love/commit/4a6cfd5f017a171fec20969d38f7acda5b53cb34">CB: who may call which role is Ryan&#x27;s call</a><span class="deposit__how"><span class="deposit__id">4a6cfd5</span> &middot; <time datetime="2026-10-23T22:38:04Z">23 October 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Stimpunks-Love/commit/c5d988f2222209a791a2e6a71416db59dfdeb16b">CB: role @mentions for @moderator, @director, @board and @administrator</a><span class="deposit__how"><span class="deposit__id">c5d988f</span> &middot; <time datetime="2026-10-23T22:07:09Z">23 October 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/Stimpunks-Love/commit/e89d823424fbc7095ff16caaf354dbb7e52395ab">Let your own cat out at Pekoe and Purrs and your own dog on the Run</a><span class="deposit__how"><span class="deposit__id">e89d823</span> &middot; <time datetime="2026-10-23T21:03:23Z">23 October 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/Stimpunks-Love/commits/main.atom">github.com/Stimpunks/Stimpunks-Love/commits/main.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/Stimpunks-Love">the repository</a></span></p>
+  </section>
+  <section class="pool pool--far" aria-labelledby="spring-garden">
+    <h2 class="pool__name" id="spring-garden"><a href="https://github.com/Stimpunks/knowledge-garden-starter">Knowledge Garden Starter</a></h2>
+    <p class="pool__what">A template for keeping everything you read, save and write in one place: the pattern behind the Stimpunks Knowledge System, with nothing of ours left in it, to copy and make your own.</p>
+    <ol class="deposits">
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/knowledge-garden-starter/commit/13d855a36b6cada1d6be4bbd158b6cee6c18d746">Fix four silent failures, add reindex, pull-garden and process-inbox</a><span class="deposit__how"><span class="deposit__id">13d855a</span> &middot; <time datetime="2026-10-15T01:15:11Z">15 October 2026</time> &middot; by ryanboren and Claude Opus 5.5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/knowledge-garden-starter/commit/7f19a9bcbd8409247fb401f3ae70671a5d87317a">Port six lessons from the upstream system: guards, and the traps that…</a><span class="deposit__how"><span class="deposit__id">7f19a9b</span> &middot; <time datetime="2026-08-06T23:26:30Z">6 August 2026</time> &middot; by ryanboren</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/knowledge-garden-starter/commit/c1208b9b3951d05846a05dfd12af071ceea16736">A real sentence about what changed here</a><span class="deposit__how"><span class="deposit__id">c1208b9</span> &middot; <time datetime="2026-08-06T23:13:07Z">6 August 2026</time> &middot; by ryanboren</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/knowledge-garden-starter/commit/a12eb4d11e6be44294eb23ecc5bf269f2d7443be">CC0 the starter, and say why it isn&#x27;t CC BY-SA like everything else</a><span class="deposit__how"><span class="deposit__id">a12eb4d</span> &middot; <time datetime="2026-08-06T14:09:23Z">6 August 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/knowledge-garden-starter/commit/2062654189fb395f4a1f9cf04f1afa40c271e92a">Correct the git init warning: confusing, not destructive</a><span class="deposit__how"><span class="deposit__id">2062654</span> &middot; <time datetime="2026-08-05T19:22:58Z">5 August 2026</time> &middot; by ryanboren and Claude Opus 5</span></li>
+      <li class="deposit"><a class="deposit__what" href="https://github.com/Stimpunks/knowledge-garden-starter/commit/247924855beeacebd3a19a873c8beae32a91dd5d">Ship the Claude layer: five skills, the overrides file, and a working…</a><span class="deposit__how"><span class="deposit__id">2479248</span> &middot; <time datetime="2026-08-05T17:26:47Z">5 August 2026</time> &middot; by somebody GitHub does not name and Claude Opus 5</span></li>
+    </ol>
+    <p class="pool__plate"><span>Spring: <a href="https://github.com/Stimpunks/knowledge-garden-starter/commits/main.atom">github.com/Stimpunks/knowledge-garden-starter/commits/main.atom</a></span><span>Read at 00:44 UTC on 24 October 2026</span><span><a href="https://github.com/Stimpunks/knowledge-garden-starter">the repository</a></span></p>
+  </section>
+<!-- source:hall:end -->
+
+  <section class="src-part" aria-labelledby="src-up">
+    <h2 id="src-up">Go up to the springs</h2>
+    <p>Every one of these repositories is public. Its commit feed is on its plate: put it in a reader and the commits come to you, on your own time. stimpunks.org&rsquo;s <a href="https://stimpunks.org/feeds/">feeds page</a> lists them all, in this order, beside the socials and the sites&rsquo; own feeds, which are on <a href="the-feed.html">The Feed</a>&rsquo;s boards.</p>
+  </section>
+
+  <section class="src-part" aria-labelledby="src-hands">
+    <h2 id="src-hands">Whose hands</h2>
+    <p>Every deposit names whoever its commit names: the person who made it, and anybody its message credits in a Co-Authored-By line, which on these repositories is very often Claude, working with Ryan Boren or Helen Edgar. Where GitHub names nobody, the deposit says so rather than guessing. The morning timers&rsquo; own commits are left off: those are a machine reading feeds, not anybody&rsquo;s work.</p>
+    <p>The repositories are <a href="https://stimpunks.org/">Stimpunks Foundation</a>&rsquo;s, several of them made with <b>Helen Edgar</b> of Autistic Realms and More Realms. They are kept on GitHub, which is not affiliated with this street. Every commit&rsquo;s words belong to whoever wrote them, and this room holds only their first lines. The credits are in the <a href="liner-notes.html">liner notes</a>.</p>
+  </section>
+
+  <section class="src-part src-part--dial" aria-labelledby="src-moves">
+    <div>
+      <h2 id="src-moves">What moves in here</h2>
+      <p>Nothing, at any setting. The water is always moving and the stone it leaves never is, and the stone is what is drawn.</p>
+    </div>
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and on the terraces, nothing moves even then.</p>
+    </div>
+  </section>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:src-rim:begin -->
+  <details class="quest" data-quest="src-rim" data-code="TRAVERTINE" data-accept="runningwater|spring|springwater|thespring|thespringwater|thewarmspring|thewater|thewaterthatrunsoverit|thewaterthatrunsoverthem|warmwater|water">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 28 Q16 25.5 29 28" stroke="var(--src-shade)" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M5 11 Q16 7 27 11 Q16 29 5 11 Z" fill="var(--src-pool)"/><path d="M5 11 Q16 27 27 11" fill="none" stroke="var(--src-link)" stroke-width="2.6" stroke-linecap="round"/><path d="M5 11 Q16 7 27 11" fill="none" stroke="var(--src-link)" stroke-width="1.6" stroke-linecap="round"/><path d="M12.5 20.5 Q11.8 23 12.6 25 M19.5 20.5 Q20.2 22.6 19.4 24.4" fill="none" stroke="var(--src-rust)" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="quest__label">Job marker &mdash; a chip of rim stone off the lowest pool</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> What built the terraces?</p>
+      <p class="quest__ask"><b>Before the code:</b> Every terrace on that hill was laid down a thin skin of stone at a time. By what?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="src-rim-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="src-rim-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the line right under the room&#x27;s name.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It comes up out of the spring at the top of the hill.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>W...</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>The water that runs over it</b>. The water: a warm spring lays down the stone it carries on everything it runs over, which is how every terrace on that hill was built.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">TRAVERTINE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=TRAVERTINE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>The water: a warm spring lays down the stone it carries on everything it runs over, which is how every terrace on that hill was built.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">TRAVERTINE</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=TRAVERTINE">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:src-rim:end -->
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-the-source">Where am I?</a> &middot; <a href="about.html">About</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;ifs&quot;,&quot;figure&quot;:&quot;tree&quot;,&quot;sway&quot;:0.03,&quot;ground&quot;:&quot;--src-stone&quot;,&quot;inks&quot;:[&quot;--src-deep&quot;,&quot;--src-link&quot;,&quot;--src-iron&quot;,&quot;--src-shade&quot;,&quot;--src-rust&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+</body>
+</html>

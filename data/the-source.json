@@ -1,0 +1,574 @@
+{
+  "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
+  "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
+  "skip": "^daily [a-z ]+$",
+  "set": "2026-10-24T00:44Z",
+  "springs": [
+    {
+      "id": "starstuff",
+      "site": "Star Stuff",
+      "repo": "Stimpunks/Star-Stuff",
+      "home": "https://starstuff.earth/",
+      "feed": "https://github.com/Stimpunks/Star-Stuff/commits/main.atom",
+      "note": "Every zine, field guide, broadside and working paper on starstuff.earth, and the tools that check each one before it goes up.",
+      "items": [
+        {
+          "title": "Regenerate the derived files for Glimmer Wire edition nine",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/c29b3c69da81e9cea6e8ce6c34c5dcf0c740e518",
+          "date": "2026-10-23T13:01:15Z",
+          "sha": "c29b3c6",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Glimmer Wire, edition nine: eight filed, six held, and a measurement …",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/4a2948ad731560e7eadbdf755464308cbbafc5fe",
+          "date": "2026-10-23T12:53:40Z",
+          "sha": "4a2948a",
+          "by": [
+            "claude",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Regenerate the derived files for Glimmer Wire edition eight",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/508b76435c875b541c682d9a865056498edf774c",
+          "date": "2026-10-16T13:04:02Z",
+          "sha": "508b764",
+          "by": [
+            "Claude Opus 5"
+          ],
+          "anon": true
+        },
+        {
+          "title": "Glimmer Wire, edition eight: eight filed, eight held, nine papers rea…",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/1959092cc848aa5d8461d6d40e902ed448adcc07",
+          "date": "2026-10-16T12:54:35Z",
+          "sha": "1959092",
+          "by": [
+            "Claude Opus 5"
+          ],
+          "anon": true
+        },
+        {
+          "title": "Regenerate the derived files for Glimmer Wire edition seven",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/144a313757d613dc862abf9cc565f234552e2123",
+          "date": "2026-10-09T13:05:19Z",
+          "sha": "144a313",
+          "by": [
+            "Claude Opus 5"
+          ],
+          "anon": true
+        },
+        {
+          "title": "Glimmer Wire, edition seven: six filed, six held, five papers read en…",
+          "url": "https://github.com/Stimpunks/Star-Stuff/commit/944396f385c849c40c9a6346f45c0174e42d807d",
+          "date": "2026-10-09T12:59:59Z",
+          "sha": "944396f",
+          "by": [
+            "Claude Opus 5"
+          ],
+          "anon": true
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    },
+    {
+      "id": "queering",
+      "site": "Queering.Earth",
+      "repo": "Stimpunks/Queering-Earth",
+      "home": "https://queering.earth/",
+      "feed": "https://github.com/Stimpunks/Queering-Earth/commits/main.atom",
+      "note": "The cabinet of sheets at queering.earth, a Stimpunks Foundation and More Realms collaboration with Helen Edgar.",
+      "items": [
+        {
+          "title": "Sheet No. 15 corrected on its mounting day: it was still speaking as …",
+          "url": "https://github.com/Stimpunks/Queering-Earth/commit/65a4dd45ab61757449a3b4237a586a005a844095",
+          "date": "2026-09-24T01:03:31Z",
+          "sha": "65a4dd4",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Sheet No. 15: Metaphoray, and four words that were not his",
+          "url": "https://github.com/Stimpunks/Queering-Earth/commit/990563cb3ad5b925d465d55f941e094bbd51fc02",
+          "date": "2026-09-23T10:40:20Z",
+          "sha": "990563c",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "A way back to the front, and the four marks that were not it",
+          "url": "https://github.com/Stimpunks/Queering-Earth/commit/7e05546b14b7c3f64e609e7fb1e07ccf0d9a7512",
+          "date": "2026-09-15T00:22:23Z",
+          "sha": "7e05546",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "A web app manifest, and the pin Android would have cropped off the mark",
+          "url": "https://github.com/Stimpunks/Queering-Earth/commit/84c1a2a3d4ff05ccc2e4dbaf1c0c0c6bbb3d6b5d",
+          "date": "2026-09-14T21:24:27Z",
+          "sha": "84c1a2a",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "A sync skill, and what a one-line file actually does in a merge",
+          "url": "https://github.com/Stimpunks/Queering-Earth/commit/19cea39a742f56bcd234e401c784acde359c8fb9",
+          "date": "2026-09-14T17:12:55Z",
+          "sha": "19cea39",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "What the search-index merge rule actually does, measured rather than …",
+          "url": "https://github.com/Stimpunks/Queering-Earth/commit/3e9b215102c988d5e006028243f1f7d9a0583d4d",
+          "date": "2026-09-14T17:00:34Z",
+          "sha": "3e9b215",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    },
+    {
+      "id": "cavendish",
+      "site": "Cavendish Space",
+      "repo": "Stimpunks/Cavendish-Cards",
+      "home": "https://cavendish.space/",
+      "feed": "https://github.com/Stimpunks/Cavendish-Cards/commits/main.atom",
+      "note": "The Cavendish Cards deck and the site that holds it. The repository kept the deck's name.",
+      "items": [
+        {
+          "title": "One list per section, not one list per bullet",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/a701e9874c87807ced22a93555e949e944453174",
+          "date": "2026-09-20T14:42:10Z",
+          "sha": "a701e98",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Add an RSS feed for the changelog",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/e3c5c2c67e6fef9045d723cb9bd2bc49ce239cff",
+          "date": "2026-09-20T12:12:56Z",
+          "sha": "e3c5c2c",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Rewire the registry: the Pattern Library is complete at 56",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/422a17666b0e7d0e954438606f91d0bb8802ed22",
+          "date": "2026-09-18T19:26:05Z",
+          "sha": "422a176",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Wire Patterns 52–54: the anxiety cluster has a home",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/ee85a83437e7bc137dd92af17f174ad2d16797cf",
+          "date": "2026-09-18T12:21:48Z",
+          "sha": "ee85a83",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Make the SPACE-TIME tiles readable with no stylesheet",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/df56a1d7e5e86f1103cbd63b957df8b7a9195210",
+          "date": "2026-09-18T07:42:50Z",
+          "sha": "df56a1d",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Two framework pages: SPACE-TIME, and the inclusion design layers",
+          "url": "https://github.com/Stimpunks/Cavendish-Cards/commit/51c1195ff03aaa448c93648da2d27779e0d04185",
+          "date": "2026-09-18T07:10:56Z",
+          "sha": "51c1195",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    },
+    {
+      "id": "pebbling",
+      "site": "Penguin Pebbling",
+      "repo": "Stimpunks/Penguin-Pebbling",
+      "home": "https://penguinpebbling.app/",
+      "feed": "https://github.com/Stimpunks/Penguin-Pebbling/commits/main.atom",
+      "note": "Helen Edgar and Ryan Boren's card game about bringing somebody a small thing for no reason.",
+      "items": [
+        {
+          "title": "Stop _headers claiming to be generated, and say what actually reads it",
+          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/cb4a876040af192a9162aaefd9d7837d104d125b",
+          "date": "2026-09-20T11:43:30Z",
+          "sha": "cb4a876",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Publish the changelog as RSS, out of the tool that already renders it",
+          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/8b01b8e7fe101be04d138b273e0088e92fd3ca50",
+          "date": "2026-09-20T11:39:35Z",
+          "sha": "8b01b8e",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Retire the thirty prompt-card WebPs the re-set orphaned",
+          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/336ed40cee495de5c2deca1ebddff36d2bc2c9bf",
+          "date": "2026-09-15T11:36:12Z",
+          "sha": "336ed40",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Redraw the share card as the card the site actually draws",
+          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/7c6ed65c815ad2d539c60fedc17867999cb3400d",
+          "date": "2026-09-15T11:31:46Z",
+          "sha": "7c6ed65",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Hash _headers into the worker version, so a CSP fix actually reaches …",
+          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/a2a4929afdb11e52fe7cb118324bba48e344d3f0",
+          "date": "2026-09-15T11:13:41Z",
+          "sha": "a2a4929",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "CSP: add connect-src 'self', without which the worker cached nothing",
+          "url": "https://github.com/Stimpunks/Penguin-Pebbling/commit/827e98811154778996c03ea552d7663aed345f12",
+          "date": "2026-09-15T11:11:59Z",
+          "sha": "827e988",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    },
+    {
+      "id": "monotropic",
+      "site": "Map of Monotropic Experiences",
+      "repo": "Stimpunks/Monotropic-Map",
+      "home": "https://monotropicmap.org/",
+      "feed": "https://github.com/Stimpunks/Monotropic-Map/commits/main.atom",
+      "note": "The map you can walk and the tool for drawing your own, with Helen Edgar of Autistic Realms.",
+      "items": [
+        {
+          "title": "Publish Helen's Mapping Monotropism in Education",
+          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/44f677fda1d21b0b0cae27c22ae1ed8acf317c46",
+          "date": "2026-09-26T18:12:44Z",
+          "sha": "44f677f",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Give the changelog a feed, built from the same file the page is",
+          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/549cbcf8e997f72bf934d4e979b25727c0429325",
+          "date": "2026-09-20T11:35:33Z",
+          "sha": "549cbcf",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Update Helen's review packet: version two is built",
+          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/0747d430b604ddc09bc4415b800881c2c90a3551",
+          "date": "2026-09-16T21:29:33Z",
+          "sha": "0747d43",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Put land and islands first in the tray, where they can be found",
+          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/0d01f4d814e56b4bd8908ea0857339215096654d",
+          "date": "2026-09-16T21:15:01Z",
+          "sha": "0d01f4d",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Keep the map on screen on ordinary windows, not only tall ones",
+          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/691a6ab227a225d3efea2956ad9ba8073f3e9cf5",
+          "date": "2026-09-16T21:06:28Z",
+          "sha": "691a6ab",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Drag shapes out of the tray, and download the map",
+          "url": "https://github.com/Stimpunks/Monotropic-Map/commit/c3cb442db7ac3591ddcd67407f19bdecabb3ccfe",
+          "date": "2026-09-16T20:56:14Z",
+          "sha": "c3cb442",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    },
+    {
+      "id": "whysheet",
+      "site": "The Why Sheet Press",
+      "repo": "Stimpunks/Why-Sheets",
+      "home": "https://whysheet.press/",
+      "feed": "https://github.com/Stimpunks/Why-Sheets/commits.atom",
+      "note": "One-page arguments made to be printed, and the gates that measure every sheet before it reaches the press.",
+      "items": [
+        {
+          "title": "The broadside gets its own changelog entry, and the policy says why",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/0ba3c4910e2e8c83c941daa44bf286c5e683ebe8",
+          "date": "2026-09-21T00:31:27Z",
+          "sha": "0ba3c49",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "The Demand Avoidance broadside on the press",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/47e16e183ccea4d399c8ea1907a22cc3109b3dca",
+          "date": "2026-09-21T00:27:48Z",
+          "sha": "47e16e1",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Demand Avoidance is published",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/d59b5ec30528a22efa8bd58196030dbd095bf70c",
+          "date": "2026-09-21T00:03:25Z",
+          "sha": "d59b5ec",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "to-wordpress: decode entities before slugifying a heading",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/9b283b9387c2f006162620c68e5256f089083e4a",
+          "date": "2026-09-20T23:55:24Z",
+          "sha": "9b283b9",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "CLAUDE.md: do not amend a commit that contains a sheet endpoint",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/1f13756d0af24dd708c44403aeff83056ead9d21",
+          "date": "2026-09-20T23:50:57Z",
+          "sha": "1f13756",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "A new sheet is a release: policy, and the AAC backfill it exposed",
+          "url": "https://github.com/Stimpunks/Why-Sheets/commit/7f07a2dd73d5dfd9eb9d0eb76b0780858c157426",
+          "date": "2026-09-20T23:48:12Z",
+          "sha": "7f07a2d",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    },
+    {
+      "id": "love",
+      "site": "Stimpunks.World",
+      "repo": "Stimpunks/Stimpunks-Love",
+      "home": "https://stimpunks.world/",
+      "feed": "https://github.com/Stimpunks/Stimpunks-Love/commits/main.atom",
+      "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
+      "items": [
+        {
+          "title": "A Solarpunk patch at Brighter Days Solar Farm",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/60a689bd390994cad68cf61460e5dcd8f78db61f",
+          "date": "2026-10-24T00:15:20Z",
+          "sha": "60a689b",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Office: stimpunks.org's latest form entries on the dashboard",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6d2eadfd8aeafe8a21d2cb871afea86be33792e8",
+          "date": "2026-10-23T23:42:41Z",
+          "sha": "6d2eadf",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "CB: a member's @moderator leaves a note on the moderators' desk",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/7d0ed39f64bdfb0b4e7e3e3558925b29cd9f2190",
+          "date": "2026-10-23T22:56:08Z",
+          "sha": "7d0ed39",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "CB: who may call which role is Ryan's call",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/4a6cfd5f017a171fec20969d38f7acda5b53cb34",
+          "date": "2026-10-23T22:38:04Z",
+          "sha": "4a6cfd5",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "CB: role @mentions for @moderator, @director, @board and @administrator",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/c5d988f2222209a791a2e6a71416db59dfdeb16b",
+          "date": "2026-10-23T22:07:09Z",
+          "sha": "c5d988f",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Let your own cat out at Pekoe and Purrs and your own dog on the Run",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/e89d823424fbc7095ff16caaf354dbb7e52395ab",
+          "date": "2026-10-23T21:03:23Z",
+          "sha": "e89d823",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    },
+    {
+      "id": "garden",
+      "site": "Knowledge Garden Starter",
+      "repo": "Stimpunks/knowledge-garden-starter",
+      "home": "https://github.com/Stimpunks/knowledge-garden-starter",
+      "feed": "https://github.com/Stimpunks/knowledge-garden-starter/commits/main.atom",
+      "note": "A template for keeping everything you read, save and write in one place: the pattern behind the Stimpunks Knowledge System, with nothing of ours left in it, to copy and make your own.",
+      "items": [
+        {
+          "title": "Fix four silent failures, add reindex, pull-garden and process-inbox",
+          "url": "https://github.com/Stimpunks/knowledge-garden-starter/commit/13d855a36b6cada1d6be4bbd158b6cee6c18d746",
+          "date": "2026-10-15T01:15:11Z",
+          "sha": "13d855a",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5.5"
+          ]
+        },
+        {
+          "title": "Port six lessons from the upstream system: guards, and the traps that…",
+          "url": "https://github.com/Stimpunks/knowledge-garden-starter/commit/7f19a9bcbd8409247fb401f3ae70671a5d87317a",
+          "date": "2026-08-06T23:26:30Z",
+          "sha": "7f19a9b",
+          "by": [
+            "ryanboren"
+          ]
+        },
+        {
+          "title": "A real sentence about what changed here",
+          "url": "https://github.com/Stimpunks/knowledge-garden-starter/commit/c1208b9b3951d05846a05dfd12af071ceea16736",
+          "date": "2026-08-06T23:13:07Z",
+          "sha": "c1208b9",
+          "by": [
+            "ryanboren"
+          ]
+        },
+        {
+          "title": "CC0 the starter, and say why it isn't CC BY-SA like everything else",
+          "url": "https://github.com/Stimpunks/knowledge-garden-starter/commit/a12eb4d11e6be44294eb23ecc5bf269f2d7443be",
+          "date": "2026-08-06T14:09:23Z",
+          "sha": "a12eb4d",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Correct the git init warning: confusing, not destructive",
+          "url": "https://github.com/Stimpunks/knowledge-garden-starter/commit/2062654189fb395f4a1f9cf04f1afa40c271e92a",
+          "date": "2026-08-05T19:22:58Z",
+          "sha": "2062654",
+          "by": [
+            "ryanboren",
+            "Claude Opus 5"
+          ]
+        },
+        {
+          "title": "Ship the Claude layer: five skills, the overrides file, and a working…",
+          "url": "https://github.com/Stimpunks/knowledge-garden-starter/commit/247924855beeacebd3a19a873c8beae32a91dd5d",
+          "date": "2026-08-05T17:26:47Z",
+          "sha": "2479248",
+          "by": [
+            "Claude Opus 5"
+          ],
+          "anon": true
+        }
+      ],
+      "read": "2026-10-24T00:44Z"
+    }
+  ]
+}

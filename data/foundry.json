@@ -1604,6 +1604,27 @@
       "sections": [
         122
       ]
+    },
+    "philosopher": {
+      "where": "The Source",
+      "page": "the-source.html",
+      "sections": [
+        123
+      ]
+    },
+    "spline-sans": {
+      "where": "The Source",
+      "page": "the-source.html",
+      "sections": [
+        123
+      ]
+    },
+    "spline-sans-mono": {
+      "where": "The Source",
+      "page": "the-source.html",
+      "sections": [
+        123
+      ]
     }
   }
 }

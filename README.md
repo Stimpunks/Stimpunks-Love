@@ -218,6 +218,7 @@ data/doomscroll.json  Thirteen poems, newest first, each naming the printing it 
 data/quests.json      Every job on the board, and the marker it sends you to
 data/map.json         The rooms behind rooms, and nothing else the map cannot read off the street
 data/garden.json      What grows on each site. The roster is read out of arrivals.json
+data/the-source.json  The Source's springs, one per repository, and their latest commits
 data/zibaldone.json   The quote bank. Every line names its printing and how it was checked
 data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyrics, refused
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
@@ -281,6 +282,7 @@ python3 tools/make-pebble-board.py # the Pebble Board's current edition, and its
 python3 tools/make-map.py          # the model on map.html, from the doors, the board and the signs; refuses an unmapped page
 python3 tools/make-guild.py        # the job board, a marker in every room, and the credits
 python3 tools/make-arrivals.py     # The Feed's arrival boards; draws what pull-arrivals.py read
+python3 tools/make-the-source.py   # The Source's terraces, and the springs the CB's feed bot reads
 python3 tools/make-garden.py       # The Garden's beds and credits; roster and order from arrivals.json
 python3 tools/make-zibaldone.py    # The Zibaldone's leaves and its attribution slip, and the credits
 python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and trail, and the credits
@@ -405,6 +407,7 @@ network — a checker that fails on a train either blocks a deploy or teaches ev
 ```bash
 python3 tools/check-jukebox.py     # presses nothing; asks YouTube whether every facade still plays
 python3 tools/pull-arrivals.py     # reads the sibling sites' RSS feeds into data/arrivals.json
+python3 tools/pull-source.py       # reads GitHub's commit feed for each of our repositories into data/the-source.json
 python3 tools/pull-doom-scoop.py   # reads The Doom Scoop's sources' YouTube feeds, and each new video's watch page, into data/doom-scoop.json
 python3 tools/pull-vital-rack.py   # the same for the cooks on Vital Plant Living's telly, into data/vital-rack.json
 python3 tools/pull-notebook-month.py # the same for the journaling channels in The Open Notebook's monthly log, into data/open-notebook-month.json
@@ -500,8 +503,9 @@ is named after, on a row with no date, on a wire with no feed URL or no note, an
 vocabulary of a league table in the room's own copy &mdash; **nothing there is ranked and no
 site's activity is added up**, because a board showing which of our sites had been busiest would
 turn publishing into a race between our own people. The timer that keeps that board current,
-`tools/daily-arrivals.sh`, commits **only** `data/arrivals.json` and `the-feed.html`, and refuses
-unless the tree is on main and those two files are already clean &mdash; so it can never catch a
+`tools/daily-arrivals.sh`, commits **only** `data/arrivals.json`, `the-feed.html` and, since
+2026-10-23, The Source's `data/the-source.json` and `the-source.html`, and refuses unless the
+tree is on main and those four files are already clean &mdash; so it can never catch a
 session mid-edit, which is the lesson `notes-backup-daily` learned the hard way in the Knowledge
 System. A failed push is non-fatal and reported: the commit stays local and a session sorts it out,
 because a timer that rebases unattended is a timer resolving conflicts nobody is watching.

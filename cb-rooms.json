@@ -146,6 +146,12 @@
    "about": "A split-flap arrivals board in a dark concourse, one wire per feed, carrying the latest from stimpunks.org, every one of its sibling sites and this street’s Brass Tacks Board off their own RSS feeds. A title, a date and where it goes — never the words themselves. The board says the minute it was set, because a board is not the railway."
   },
   {
+   "tag": "the-source",
+   "name": "The Source",
+   "path": "/the-source.html",
+   "about": "Up the hill behind The Feed: white terraces under a warm spring, one pool for every repository we build our sites in, and every commit a deposit on it, with its first line, its id, its day and whose hands made it, off GitHub's own commit feeds. Its CB channel hears each new commit as it comes in."
+  },
+  {
    "tag": "zibaldone",
    "name": "The Zibaldone",
    "path": "/zibaldone.html",
