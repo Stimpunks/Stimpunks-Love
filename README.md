@@ -98,6 +98,7 @@ rabbit-hole.html      Not a room: a shaft. Rabbit holing, seven presses, six 186
 healing-checkpoint.html  Room 429. A save room lit from the floor. Rest, and a bed with no terms on it
 dead-tired-society.html  Peer support for the burnt out. Big lights off, door ajar, nobody sitting in the light
 community-care.html   The room for asking: mutual aid and peer support under everybody's umbrellas, tied together
+coping.html           The eye of the storm: seeds of cope, the science of cope, and cope is not an insult, with doors to the rooms that help
 show-your-work.html   A garage with the door rolled up: our community's work, in progress, on a bench lit by the day
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
 lightbulb-picture-house.html  Neurodiversity films and every Campfire Learn Together film, racks of cards. House lights up; nothing is blue
@@ -225,6 +226,7 @@ data/rabbit-hole.json The shaft's presses, its engravings and its trail. No lyri
 data/checkpoint.json  Room 429's quotations, its Retry-After slips and its way out
 data/dead-tired.json  The pegs by the door: what wore us out, one line from somebody who wrote about it, one of ours
 data/community-care.json  The roof's umbrellas, the four things the channel is for, and every quotation, each read on a page of ours
+data/coping.json      The eye, the seeds, the words to borrow, the science, the doors, and every quotation, each read on a page of ours
 data/show-your-work.json  The bench, the three places to show work, and every quotation, each read on a page of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The screens, the rack and the campfire rack. Every card says who made it, how long, and what is in it
@@ -291,6 +293,7 @@ python3 tools/make-rabbit-hole.py  # The Rabbit Hole's presses, engravings and t
 python3 tools/make-checkpoint.py   # Room 429's quotations, slips and way out, and the credits
 python3 tools/make-dead-tired.py   # Dead Tired Society's pegs by the door, and the credits
 python3 tools/make-community-care.py # Community Care's roof, its quotations and its credits; refuses sorting, debt, a means test, a tally, a form, and a quotation not on our page word for word
+python3 tools/make-coping.py # Coping's eye, its sections, its doors and its credits; refuses grit, a sneer, anything clinical, a tally, toxic positivity, a door to a room that no longer says what the door says, and a quotation not on our page word for word
 python3 tools/make-show-your-work.py # Show Your Work's garage, its quotations, its bench and its credits; refuses a piece nobody turned over, a ranking, a count, a pitch, a genius, and a quotation not on our page word for word
 python3 tools/make-breaker-breaker.py # Breaker Breaker's convoy, what our CB took from the citizens band, its quotations, slang, rack and credits; refuses a lamp in any colour but the law's, a blinking lamp, slang that names people unkindly, a song's words, a ranking, and a sentence about our CB its guide no longer says
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
@@ -691,6 +694,19 @@ Knowledge System mirror's copy word for word when the mirror is on the machine. 
 **sorting the people who ask, debt, a means test, a tally, advice and pity**, with the negation window and skipping
 blockquotes, and refuses the page without its paragraph saying the channel is not a crisis line, with a form or a box
 anywhere on it, or with a line about another room that room no longer says.
+
+`make-coping.py` builds Coping out of `data/coping.json`, a shopfront on the street in the eye of the storm that
+summarises three pages of our Regulation and Coping hub: Seeds of Cope, The Science of Cope and Cope Is Not an Insult.
+It **draws the eye** from a fixed seed, a wall of storm cloud all the way round the clear sky and the dry floor of
+the eye, and **draws the doors**, one to each room on the street for coping, regulation and peer support, in this
+room's inks and told apart by form, refusing two doors alike, a door to a room that keeps to itself, and a door whose
+room no longer says what the door says about it. **Every quotation was read on one of those three pages**, and so
+were the cope map, the words to borrow, the groups the doors stand in and the works our science page names; each is
+checked against the mirror word for word. It sweeps the room's own words for **grit, the sneer, misreading,
+anything clinical, a tally, toxic positivity, advice and pity**, with the negation window and skipping our pages'
+own words, refuses the page without its paragraph saying it is not clinical advice and not a crisis line, refuses a
+form or anything editable, and refuses a keyframe, an animation or a transition in §126: nothing in the eye moves
+by itself at any setting.
 
 `make-show-your-work.py` builds Show Your Work out of `data/show-your-work.json`, a garage on the street with the
 door rolled up where the work of folks in our community is shown before it is finished. It **draws the garage**

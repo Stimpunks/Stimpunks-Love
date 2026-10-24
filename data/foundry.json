@@ -1653,6 +1653,20 @@
       "sections": [
         125
       ]
+    },
+    "funnel-display": {
+      "where": "Coping",
+      "page": "coping.html",
+      "sections": [
+        126
+      ]
+    },
+    "funnel-sans": {
+      "where": "Coping",
+      "page": "coping.html",
+      "sections": [
+        126
+      ]
     }
   }
 }

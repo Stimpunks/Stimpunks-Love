@@ -1364,6 +1364,9 @@
 @font-face { font-family: 'Racing Sans One'; src: url('fonts/racing-sans-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Titillium Web'; src: url('fonts/titillium-web-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Titillium Web'; src: url('fonts/titillium-web-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Funnel Display'; src: url('fonts/funnel-display-800.woff2') format('woff2'); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Funnel Sans'; src: url('fonts/funnel-sans-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Funnel Sans'; src: url('fonts/funnel-sans-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -4093,7 +4096,7 @@
   --syw-door: #D7D8D3;  --syw-steel: #6F757C;  --syw-outline: #E07A3C;
   --syw-tape: #E2D29E;  --syw-back: #3F6A8C;
 
-  /* Breaker Breaker (§126): the interstate at night from the driver's seat of
+  /* Breaker Breaker (§125): the interstate at night from the driver's seat of
      a rig in a convoy, lit by marker lamps and nothing else. --bkb-night is the
      dark, the cab and the road and the sky alike, the ground every word on the
      page stands on. --bkb-text is every word, --bkb-dim the quiet lines,
@@ -4106,6 +4109,24 @@
   --bkb-night: #0E0E10;  --bkb-text: #ECE6DA;  --bkb-dim: #A9A296;
   --bkb-amber: #FFB224;  --bkb-red: #FF4130;  --bkb-line: #2E2C30;
   --bkb-glass: #050506;
+
+  /* Coping (§126): the eye of the storm, seen from its floor at midday.
+     --cop-floor is the dry floor of the eye in the sun, the ground every word
+     on the page stands on; --cop-ink is every word, the storm's own slate on
+     its calm; --cop-ink-2 the quiet lines and --cop-link every link and the
+     focus ring, the deep blue of the sky straight up. --cop-cloud is the lit
+     face of a cloud and of every door, and the slips the borrowed words are
+     written on. The rest carry no word: --cop-sky and --cop-zenith the sky in
+     the eye, --cop-billow the cloud wall's body, --cop-tower its towers
+     further down, --cop-foot and --cop-storm its foot where the rain hangs
+     and the storm at the edges of the page, --cop-rain the rain, --cop-shade
+     the floor out of the sun, and --cop-sun the sun on the top edge of
+     everything, never under a word. */
+  --cop-floor: #EEF2F4;  --cop-ink: #1C2530;  --cop-ink-2: #44505D;
+  --cop-link: #0E5891;  --cop-cloud: #FFFFFF;  --cop-sky: #4F8ECB;
+  --cop-zenith: #2F6FB0;  --cop-billow: #DCE3E9;  --cop-tower: #A8B3BE;
+  --cop-foot: #5F6B78;  --cop-storm: #27313C;  --cop-rain: #7E8A97;
+  --cop-shade: #C9D1D7;  --cop-sun: #F1B53A;
 
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
@@ -5542,6 +5563,19 @@ div.facade--square { border: 0; background: none; }
 .door--bkb .door__name  { font-family: 'Racing Sans One', var(--sans); font-weight: 400; color: var(--bkb-amber); font-size: 30px; line-height: 1.05; font-synthesis: none; }
 .door--bkb .door__blurb { font-family: 'Titillium Web', var(--sans); color: var(--bkb-text); font-size: 15px; font-synthesis: none; }
 .door--bkb .door__knock { font-family: 'Titillium Web', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .06em; color: var(--bkb-amber); font-synthesis: none; }
+/* COPING'S AWNING IS THE EYE OF THE STORM seen from under it: clear sky in the
+   middle, the cloud wall white round it, and the storm's slate at both ends;
+   the door under it is the dry floor of the eye, with the sun on its top edge.
+   No stripes, which are the Truck Stop's and the street's awnings'. */
+.door--cop { background-color: var(--cop-floor); border-color: var(--cop-storm); }
+.door--cop .door__awning {
+  background-color: var(--cop-storm);
+  background-image: radial-gradient(ellipse 34% 120% at 50% 100%, var(--cop-sky) 0 46%, var(--cop-billow) 58%, var(--cop-cloud) 66%, var(--cop-tower) 80%, transparent 96%);
+  border-bottom: 4px solid var(--cop-sun);
+}
+.door--cop .door__name  { font-family: 'Funnel Display', var(--sans); font-weight: 800; color: var(--cop-ink); font-size: 30px; line-height: 1.05; font-synthesis: none; }
+.door--cop .door__blurb { font-family: 'Funnel Sans', var(--sans); color: var(--cop-ink); font-size: 15px; font-synthesis: none; }
+.door--cop .door__knock { font-family: 'Funnel Sans', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .04em; color: var(--cop-link); font-synthesis: none; }
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -17590,7 +17624,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §127
+   class on it is `bb-`, its sizes are in points and millimetres, and §128
    prints it and nothing else. */
 
 .room-broadside {
@@ -17651,7 +17685,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §127 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §128 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -26882,7 +26916,225 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .bkb-board, .bkb-records { grid-template-columns: 1fr; }
 }
 
-/* §126 ── Small screens───────────────────────────────────────────────────────
+/* §126 ── ROOM: Coping (a shopfront on the street) ─────────────────────────
+   The eye of the storm. Ryan's brief, 2026-10-24: a room that synthesizes and
+   summarizes three pages from our Regulation and Coping hub, Seeds of Cope,
+   The Science of Cope and Cope Is Not an Insult, with its channel under
+   Community on the chat page and doors to the rooms on the street for coping,
+   regulation and peer support. tools/make-coping.py writes the eye, every
+   section, the doors and the credits.
+
+   THE ROOM IS THE EYE OF A STORM, BECAUSE OUR PAGES SAY BOTH HALVES OF IT.
+   Seeds of Cope's seeds are things you plant ahead of time or grab in a storm,
+   and Cope Is Not an Insult calls coping micro-worlds of safety inside hostile
+   terrain. So the storm is here, all the way round, in plain sight: that is
+   the difference between coping and denial, and it is why the storm's slate
+   stands at both edges of the page beside every word you read, on the body's
+   ::before and never under a word. In the middle there is still air and the
+   sun is out.
+
+   THE LIGHT IS THE SUN STRAIGHT DOWN A WELL OF CLOUD. Nothing stands between
+   the floor of the eye and the sun, so the light has no pattern in it, and its
+   edge is the wall of cloud: the floor is lit in the middle and in the wall's
+   shade at the rim. The brightest thing in the room is not the floor but the
+   wall's tops, lit full on. And because the sun is overhead, it lands on the
+   top edge of everything: a gold line along the top of every heading, card
+   and door, and never a lit side. Every word stands on the dry floor of the
+   eye or on a white slip lying on it; nothing is set on the sky, the cloud or
+   the storm.
+
+   THE COLLISIONS, AND WHAT KEEPS THEM OFF:
+     · COMMUNITY CARE is the one to watch, the other weather room and the room
+       next door: there it is raining, there is no sun anywhere, and everybody
+       is under one roof of umbrellas tied together. Here no rain falls inside
+       the wall at all, and the sun is out. The two rooms are each other's
+       answer, and if a drop of rain ever falls on the floor of the eye, this
+       has become Community Care with the umbrellas down.
+     · THE GARDEN is the other midday from overhead, and its sun comes down
+       through leaves, so its light is dappled and green. Nothing in the eye is
+       green, and nothing stands between the floor and the sun.
+     · LAUGHINGSTOCK is one hard-edged pool of light with darkness round it,
+       and only the comics' lines stand in it. Here the pool is the size of a
+       storm, the dark round it is weather, and every word on the page is in it.
+     · DEAD TIRED SOCIETY is a wedge of corridor light with nobody in it. Here
+       everybody is in the light, and the light is the sky's, not a building's.
+     · SITHEN is a ring under the moon straight overhead, one object you walk
+       round at night. This is a ring you stand inside, by day, and the ring is
+       a wall of weather miles high.
+     · CHIMERA OBSCURA is a black room with a lens in its roof throwing the day
+       onto a round table. Here the walls are the brightest thing in the room,
+       and the opening in the roof is sky, with no picture in it.
+     · THE PLAYHOUSE is saturated primary blue indoors, with bunting. The blue
+       here is the sky's, in the drawing and on the links, and never a ground.
+     · STAY FROSTY and THE COOLDOWN ROOM are behind two of the doors, and both
+       are rooms for coming down in, underground and lit by reflections or a
+       vending machine. This one is in the open air with the sun on it.
+
+   THE DOORS ARE THIS ROOM'S DRAWINGS, NEVER THE ROOMS'. Each stands on its own
+   on the floor of the eye with nothing round it, in this room's inks, told
+   apart by its form, the campground board's rule: a sign is not the room it
+   points at. A door in a room's own colours would bring a pair nobody measured
+   here, and would make the eye a swatch book of the street.
+
+   NOTHING IN THE EYE MOVES BY ITSELF, AT ANY SETTING, MAX GLITTER INCLUDED. A
+   room for coming down is not the place for the street's loudest setting, and
+   the tool refuses a keyframe, an animation or a transition in this section.
+   The friendly edit is a breathing circle that grows and shrinks; our page
+   gives the count in words, and the room leaves the breathing to you. */
+
+.coping {
+  background-color: var(--cop-floor); color: var(--cop-ink);
+  font-family: 'Funnel Sans', var(--sans); font-synthesis: none;
+}
+/* THE STORM AT THE EDGES of a wide window: the wall's slate at the very edge,
+   its foot, and its lit cloud, in that order going in, ending before the
+   column does, so no word is ever over it. No rain is drawn out here, and
+   nothing moves: a pattern in the corner of your eye is the last thing a
+   coping room should be reading beside. A window too narrow to have room
+   beside the column has no band at all; the eye at the top of the page
+   carries the storm there. */
+.coping::before {
+  --cop-room: max(0px, calc(50vw - 512px));
+  --cop-band: calc(var(--cop-room) * .55);
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(to right,
+      var(--cop-storm) 0, var(--cop-storm) calc(var(--cop-band) * .5), var(--cop-foot) var(--cop-band),
+      var(--cop-tower) calc(var(--cop-band) + (var(--cop-room) - var(--cop-band)) * .45), var(--cop-floor) var(--cop-room),
+      var(--cop-floor) calc(100% - var(--cop-room)),
+      var(--cop-tower) calc(100% - var(--cop-band) - (var(--cop-room) - var(--cop-band)) * .45), var(--cop-foot) calc(100% - var(--cop-band)),
+      var(--cop-storm) calc(100% - var(--cop-band) * .5), var(--cop-storm) 100%);
+}
+.coping .wrap { width: min(980px, 100% - 44px); }
+.coping a { color: var(--cop-link); text-underline-offset: 3px; }
+.coping a:hover { color: var(--cop-ink); }
+.coping :focus-visible { outline-color: var(--cop-link); }
+.coping :where(p, li) { font-size: 19px; line-height: 1.6; }
+.coping .backlink { font-family: 'Funnel Sans', var(--sans); font-weight: 700; font-size: 16px; color: var(--cop-link); }
+.cop-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.cop-trail { margin: 0; font-size: 16px; color: var(--cop-ink-2); }
+
+.cop-head { margin: 30px 0 0; }
+.cop-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; color: var(--cop-ink-2); }
+.coping h1 {
+  margin: 6px 0 10px; font-family: 'Funnel Display', var(--sans); font-weight: 800; font-style: normal;
+  font-size: clamp(56px, 11vw, 120px); line-height: 1; letter-spacing: -.01em; color: var(--cop-ink);
+}
+.cop-sub { margin: 0; font-size: 23px; line-height: 1.4; max-width: 40ch; }
+
+.cop-sky { margin: 28px 0 0; }
+.cop-eye { display: block; width: 100%; height: auto; border-radius: 8px; }
+.cop-sky__words { margin: 12px 0 0; font-size: 16px; line-height: 1.5; color: var(--cop-ink-2); max-width: 64ch; }
+
+.cop-lede { margin: 32px 0 0; max-width: 66ch; }
+.cop-lede > p { margin: 0 0 16px; }
+.cop-crisis { padding: 12px 16px; border: 2px solid var(--cop-ink); border-radius: 10px; background: var(--cop-cloud); }
+
+.cop-part { margin: 56px 0 0; }
+.cop-part > p, .cop-part > h3, .cop-part > .cop-quote, .cop-part > .cop-map, .cop-part > .cop-sources,
+.cop-part > .cop-rules, .cop-part > .cop-credits { max-width: 72ch; }
+.cop-part > p, .cop-part > ul > li > p { margin: 0 0 16px; }
+/* EVERY HEADING HAS THE SUN ON ITS TOP EDGE, because the sun is overhead: a
+   short gold line above it, on a pseudo-element, so no word stands on it. */
+.coping h2 {
+  margin: 0 0 20px; font-family: 'Funnel Display', var(--sans); font-weight: 800;
+  font-size: clamp(32px, 5vw, 44px); line-height: 1.08; color: var(--cop-ink);
+}
+.coping h2::before { content: ""; display: block; width: 72px; height: 5px; margin: 0 0 14px; border-radius: 3px; background: var(--cop-sun); }
+.coping h3 { margin: 0 0 8px; font-family: 'Funnel Sans', var(--sans); font-weight: 700; font-size: 23px; line-height: 1.2; color: var(--cop-ink); }
+.cop-part > h3 { margin-top: 30px; }
+
+.cop-quote { margin: 22px 0; padding: 2px 0 2px 20px; border-left: 4px solid var(--cop-sky); }
+.cop-quote p { margin: 0; font-size: 21px; line-height: 1.5; color: var(--cop-ink); }
+.cop-quote__who { margin: 8px 0 0; font-size: 16px; line-height: 1.5; color: var(--cop-ink-2); }
+.cop-quote--seed p, .cop-quote--point p { font-size: 19px; }
+.cop-lede .cop-quote { margin: 0 0 18px; }
+
+/* RIGHT NOW: three things, each a slip with the sun on its top edge. */
+.cop-now { list-style: none; margin: 22px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+.cop-now__item, .cop-seed, .cop-point, .cop-scripts__group {
+  position: relative; margin: 0; padding: 22px 20px 18px; background: var(--cop-cloud);
+  border: 2px solid var(--cop-ink); border-radius: 12px;
+}
+.cop-now__item::before, .cop-seed::before, .cop-point::before, .cop-scripts__group::before {
+  content: ""; position: absolute; left: 18px; right: 18px; top: -2px; height: 5px; border-radius: 0 0 3px 3px; background: var(--cop-sun);
+}
+.cop-now__item p { margin: 0; font-size: 18px; }
+
+/* THE COPE MAP, as our page draws it: one question, then the five it splits
+   into, each with what helps. A tree in hairlines, which carry no word. */
+.cop-map { margin: 22px 0 0; padding: 20px 22px; border: 2px solid var(--cop-ink); border-radius: 12px; background: var(--cop-cloud); }
+.cop-map__root { margin: 0 0 10px; font-weight: 700; font-size: 21px; }
+.cop-map__branches { list-style: none; margin: 0 0 0 10px; padding: 0 0 0 20px; border-left: 2px solid var(--cop-tower); }
+.cop-map__branches li { position: relative; margin: 0 0 12px; }
+.cop-map__branches li::before { content: ""; position: absolute; left: -20px; top: .8em; width: 14px; border-top: 2px solid var(--cop-tower); }
+.cop-map__q { display: block; font-weight: 700; }
+.cop-map__a { display: block; color: var(--cop-ink-2); }
+.cop-map__to { color: var(--cop-ink-2); }
+.cop-map .cop-quote__who { margin-top: 4px; }
+
+.cop-seeds { list-style: none; margin: 22px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+.cop-seed > p { margin: 0 0 6px; font-size: 18px; }
+.cop-seed .cop-quote { margin: 14px 0 0; }
+
+.cop-scripts { list-style: none; margin: 22px 0 10px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+.cop-script { margin: 10px 0 0; padding: 10px 14px; border: 2px dashed var(--cop-ink-2); border-radius: 8px; }
+.cop-script p { margin: 0; font-size: 18px; line-height: 1.5; user-select: all; }
+
+.cop-points { list-style: none; counter-reset: cop-point; margin: 22px 0 6px; padding: 0; display: grid; gap: 18px; }
+.cop-point { counter-increment: cop-point; padding-left: 74px; }
+.cop-point::after {
+  content: counter(cop-point); position: absolute; left: 20px; top: 16px;
+  font-family: 'Funnel Display', var(--sans); font-weight: 800; font-size: 40px; line-height: 1; color: var(--cop-ink);
+}
+.cop-point > p { margin: 0 0 6px; font-size: 18px; }
+.cop-point .cop-quote { margin: 12px 0 0; }
+.cop-sources { margin: 18px 0 0; }
+.cop-sources figcaption { font-size: 16px; color: var(--cop-ink-2); }
+.cop-sources ul { margin: 6px 0 0; padding-left: 1.2em; }
+.cop-sources li { font-size: 16px; margin: 0 0 4px; }
+
+/* THE LADDER widens as it goes, the way our manifesto draws coping: from
+   breath to revolution. Each step a little wider than the one before. */
+.cop-ladder { list-style: none; margin: 18px 0; padding: 0; display: grid; gap: 8px; }
+.cop-ladder__step { margin: 0; }
+.cop-ladder__step span {
+  display: block; padding: 8px 16px; border: 2px solid var(--cop-ink); border-radius: 999px; background: var(--cop-cloud);
+  font-family: 'Funnel Display', var(--sans); font-weight: 800; font-size: 22px; line-height: 1.2;
+}
+.cop-ladder__step:nth-child(1) span { width: min(100%, 12ch); }
+.cop-ladder__step:nth-child(2) span { width: min(100%, 17ch); }
+.cop-ladder__step:nth-child(3) span { width: min(100%, 22ch); }
+.cop-ladder__step:nth-child(4) span { width: min(100%, 27ch); }
+
+/* THE DOORS, standing on the floor of the eye. The whole of each is the link:
+   its drawing, its name and what it opens onto. */
+.cop-moments { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 34px; }
+.cop-moment { margin: 0; }
+.cop-moment > p { max-width: 70ch; }
+.cop-moment__seed { color: var(--cop-ink-2); }
+.cop-doors { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px 26px; }
+.cop-doors li { margin: 0; }
+.cop-door { display: grid; grid-template-columns: 72px 1fr; gap: 0 14px; align-items: start; text-decoration: none; color: var(--cop-ink); border-radius: 8px; padding: 4px; }
+.coping .cop-door { color: var(--cop-ink); }
+.cop-door__art { grid-row: span 2; display: block; width: 72px; height: auto; }
+.cop-door__name { font-weight: 700; font-size: 19px; line-height: 1.25; color: var(--cop-link); text-decoration: underline; text-underline-offset: 3px; }
+.cop-door__line { font-size: 16px; line-height: 1.45; color: var(--cop-ink); }
+.cop-door:hover .cop-door__name { color: var(--cop-ink); }
+
+.cop-rules, .cop-credits { margin: 0; padding: 0 0 0 1.2em; }
+.cop-rules li, .cop-credits li { margin: 0 0 12px; }
+.cop-whose li { font-size: 17px; color: var(--cop-ink-2); }
+.cop-whose code { font-size: 15px; }
+
+@media (max-width: 720px) {
+  .coping .wrap { width: calc(100% - 32px); }
+  .cop-point { padding-left: 20px; padding-top: 58px; }
+  .cop-point::after { top: 14px; font-size: 34px; }
+  .cop-seeds, .cop-scripts { grid-template-columns: 1fr; }
+}
+
+/* §127 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -26986,7 +27238,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §126 says every
+   shipped with no rule here at all — which on a street whose §127 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -27110,7 +27362,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §127 ── Print ───────────────────────────────────────────────────────────────
+/* §128 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

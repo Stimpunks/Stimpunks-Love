@@ -422,6 +422,11 @@
    "room": "Community Care"
   },
   {
+   "id": "cop-packet",
+   "title": "If you only do one thing",
+   "room": "Coping"
+  },
+  {
    "id": "booth-strip",
    "title": "Only you describe you",
    "room": "The Bodymind Booth"

@@ -267,6 +267,15 @@
   ],
   "elsewhere": [
     {
+      "page": "coping.html",
+      "name": "Coping",
+      "line": "the eye of the storm next door: small things to reach for in a hard moment, why they work, and doors to the rooms that help.",
+      "holds": [
+        "This room is the eye of the storm",
+        "Pick one. Do it imperfectly. Tiny is valid."
+      ]
+    },
+    {
       "page": "dead-tired-society.html",
       "name": "Dead Tired Society",
       "line": "peer support by and for the burnt out, in a borrowed room with the big lights off, where nobody has to talk.",

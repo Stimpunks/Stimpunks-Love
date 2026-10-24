@@ -4,11 +4,14 @@
 Ryan's ask, 2026-10-22: "a /chat page with a Discord style interface for our
 room chat channels", with the channels in groups:
 
-  · COMMUNITY: World, the Community Center and Dead Tired Society (Ryan's
-    addition, the same day), Community Care (the street's room for asking for
-    mutual aid, peer support and other help, Ryan's, the same day), Show Your
-    Work (where our community shows what it is making, Ryan's, 2026-10-23), and
-    every room at Cavendish Coworking.
+  · COMMUNITY: World, the Community Center, Community Care (the street's room
+    for asking for mutual aid, peer support and other help, Ryan's, the same
+    day), Coping (the eye of the storm, for talking about coping, Ryan's,
+    2026-10-24), Show Your Work (where our community shows what it is making,
+    Ryan's, 2026-10-23), and every room at Cavendish Coworking. Dead Tired
+    Society was in Community from 2026-10-22 and came out of it on 2026-10-24,
+    Ryan's call, so that it does not compete with Coping; it is still under its
+    tags, Coping and Calm, like every other room.
   · STAFF: the Town Hall's private rooms.
   · EVERY ROOM BUT STAFF'S AND WORLD, BY ITS TAGS (Ryan's ask, 2026-10-24,
     "Give rooms tags and use those tags to group them in /chat", replacing the
@@ -87,8 +90,9 @@ PLAYING = ROOT / "data" / "now-playing.json"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 CB = ROOT / "cb.js"
 HOUSE = "cavendish-coworking.html"
-# Community's rooms beside World and Cavendish's, in this order (Ryan, 2026-10-22).
-COMMUNITY = ["community-center.html", "dead-tired-society.html", "community-care.html", "show-your-work.html"]
+# Community's rooms beside World and Cavendish's, in this order (Ryan, 2026-10-22;
+# Coping in and Dead Tired Society out, 2026-10-24).
+COMMUNITY = ["community-center.html", "community-care.html", "coping.html", "show-your-work.html"]
 
 problems = []
 

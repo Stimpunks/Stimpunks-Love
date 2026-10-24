@@ -1,0 +1,308 @@
+{
+  "_what": "Coping (love.css §126): a shopfront on the street in the eye of the storm. Ryan's brief, 2026-10-24: a room that synthesizes and summarizes three pages from our Regulation and Coping hub on stimpunks.org, Seeds of Cope, The Science of Cope and Cope Is Not an Insult, with its channel on the CB under Community on the chat page, and doors to the other rooms on the street for coping, regulation and peer support. Read by tools/make-coping.py, which writes the eye, every section, the doors, who reads the channel, what is not in the eye and the credits into coping.html, and the table of quotations into liner-notes.html.",
+  "_quotes": "EVERY QUOTATION WAS READ OFF ONE OF OUR OWN PAGES, named in `read_on`, and is checked against the Knowledge System mirror's copy of that page word for word on every build where the mirror is on the machine: the Town Hall's rule. When our page changes, re-copy the quotation; never loosen the check. All three pages are ours, so every quotation is credited to Stimpunks and the page it is on. The cope map's questions and answers, the scripts, the group names over the doors and the works our science page names are held the same way, because each one is our page's words in this room's mouth.",
+  "_cap": "A QUOTATION IS AT MOST `words` WORDS, and the number is printed in the room. Covenstead's reason rather than the Zibaldone's: the room quotes lines its own words are about, and the pages are linked for everything else. Raise it on purpose, here, with the reason written down, never to fit one passage.",
+  "_ours": "EVERYTHING THAT IS NOT A QUOTATION IS OURS, written for this room as a summary of the three pages, and it says so: the room is a way into the pages, never a replacement for them. Our summary is swept for the room's refusals; the quotations are not, because a page arguing against a word has to be allowed to contain it.",
+  "_no_grit": "NO GRIT. Our manifesto takes cope back from neoliberal grit narratives, so the room refuses resilience, toughening up, pushing or powering through, bouncing back and sucking it up in its own words, with the negation window.",
+  "_no_sneer": "NO SNEER. Cope and seethe, cope harder: the internet's sneer is the thing Cope Is Not an Insult was written against, and the room cannot carry it even as a joke.",
+  "_no_misreading": "NOBODY IS MISREAD. The Science of Cope says coping is regulation and not malfunction; the room refuses maladaptive, malfunctioning, attention-seeking, manipulative, noncompliant, defiant, lazy, weak, fragile and overreacting in its own words, with the negation window.",
+  "_not_clinical": "NOTHING HERE IS CLINICAL. Our page says it is not clinical advice, and the room says so before its first heading. It refuses cure, treatment, therapy, diagnosis, prescription, symptoms and disorder in its own words, with the negation window, so nobody reads a summary as a doctor's.",
+  "_no_tally": "NOTHING IS COUNTED AND NOTHING IS KEPT. No mood tracker, no streak, no check-in that remembers you, no days since. A coping room is exactly where a tracker would arrive as a kindness, and it would turn a hard day into a number somebody else can see.",
+  "_no_positivity": "NOBODY IS TOLD TO CALM DOWN. Calm down, cheer up, look on the bright side, stay positive, everything happens for a reason: the friendly edit to a coping room is toxic positivity, and every one of those is the frame our pages refuse.",
+  "_no_motion": "NOTHING IN THE EYE MOVES BY ITSELF, AT ANY SETTING, MAX GLITTER INCLUDED. A room for coming down is not the place for the street's loudest setting. The fractal window moves only when somebody switches it on, in a window of its own, the Arcade's rule; the tool refuses a keyframe, an animation or a transition in §126.",
+  "_crisis": "THE ROOM SAYS IT IS NOT CLINICAL ADVICE AND NOT A CRISIS LINE before its first heading, says what our page says to do in danger, and links our Help page and the crisis lines on Coping. A room about hard moments is exactly where somebody in danger might be reading.",
+  "_doors": "THE DOORS ARE THIS ROOM'S DRAWINGS, NEVER THE ROOMS'. Every door stands on the floor of the eye in this room's own inks, told apart by its form, the campground board's rule: a sign is not the room it points at. Each says, in this room's words, what that room is for, and `holds` names the words on that room's published page that carry it, the Community Center's service-board rule; when a room changes what it says, change the door with it. The groups follow our page's own way of not getting lost, and each group's name is our page's words. No two doors share a form, no door goes to a room that keeps to itself, and no door goes to this room.",
+  "words": 30,
+  "read": "2026-10-24",
+  "pages": {
+    "seeds": {
+      "title": "Seeds of Cope",
+      "url": "https://stimpunks.org/fieldguide/coping/seeds-of-cope/",
+      "mirror": "pages/fieldguide__coping__seeds-of-cope.md",
+      "holds": ["Coping scales from breath to policy."]
+    },
+    "science": {
+      "title": "The Science of Cope",
+      "url": "https://stimpunks.org/fieldguide/coping/the-science-of-cope/",
+      "mirror": "pages/fieldguide__coping__the-science-of-cope.md"
+    },
+    "insult": {
+      "title": "Cope Is Not an Insult",
+      "url": "https://stimpunks.org/fieldguide/coping/cope-is-not-an-insult/",
+      "mirror": "pages/fieldguide__coping__cope-is-not-an-insult.md",
+      "holds": ["From breath → to boundary → to redesign → to revolution."]
+    },
+    "hub": {
+      "title": "Coping",
+      "url": "https://stimpunks.org/fieldguide/coping/",
+      "mirror": "pages/fieldguide__coping.md",
+      "holds": ["Crisis Hotlines"]
+    },
+    "help": {
+      "title": "Get Help",
+      "url": "https://stimpunks.org/help/",
+      "mirror": "pages/help.md"
+    }
+  },
+  "glossary": ["lily-pad", "neuroception", "co-regulation", "access-intimacy", "parallel-play", "monotropic-spiral", "monotropism", "masking"],
+  "quotes": {
+    "kit": {"read_on": "seeds", "text": "This is a coping toolkit for getting through hard moments in a hard world."},
+    "system_not_you": {"read_on": "seeds", "text": "Struggling in unjust conditions is not a personal failure. You are not broken. The system is."},
+    "pick": {"read_on": "seeds", "text": "Pick one. Do it imperfectly. Tiny is valid."},
+    "one_thing": {"read_on": "seeds", "text": "If you only do one thing: reduce inputs. Lower sensory load first. Everything is harder when your nervous system is on fire."},
+    "not_psych": {"read_on": "seeds", "text": "Not everything is psychological. A lot of it is sensory, social, and systemic."},
+    "plant": {"read_on": "seeds", "text": "These are small, repeatable interventions. You can plant them ahead of time, or grab them in a storm."},
+    "stim": {"read_on": "seeds", "text": "Stim is regulation. Let your body do its job."},
+    "leave": {"read_on": "seeds", "text": "Permission to leave. You don’t need to justify your nervous system."},
+    "loop": {"read_on": "seeds", "text": "Sometimes you’re not “overthinking.” You’re stuck in a loop because your attention won’t release and your body won’t downshift."},
+    "pressure": {"read_on": "seeds", "text": "Pressure: weighted blanket, tight hoodie, firm hug (if wanted)."},
+    "abnormal": {"read_on": "seeds", "text": "If your life is being squeezed by paperwork, punishment, sorting, surveillance, and “standards,” you may be reacting normally to abnormal conditions."},
+    "aftercare": {"read_on": "seeds", "text": "After a meltdown/shutdown/panic spike, your job is gentle recovery — not “getting back to normal.”"},
+    "lily": {"read_on": "seeds", "text": "Plan one lily pad. What makes the next transition safer?"},
+    "scripts": {"read_on": "seeds", "text": "Use these as-is. Edit them. Make them yours. The point is to reduce effort in the moment."},
+    "share": {"read_on": "seeds", "text": "Small distribution is care infrastructure."},
+    "neuro": {"read_on": "science", "text": "Coping is not imaginary. It is neurobiological."},
+    "adaptive": {"read_on": "science", "text": "These are not personality flaws. They are adaptive responses."},
+    "physiology": {"read_on": "science", "text": "That is physiology, not weakness."},
+    "trauma": {"read_on": "science", "text": "Trauma symptoms are not random. They are adaptations that once increased survival probability."},
+    "allostatic": {"read_on": "science", "text": "Coping behaviors often emerge to lower allostatic load."},
+    "regulating": {"read_on": "science", "text": "They are not “malfunctioning.” They are regulating."},
+    "lighting": {"read_on": "science", "text": "If removing fluorescent lights reduces shutdown, the problem was lighting — not character."},
+    "phone": {"read_on": "science", "text": "If written communication reduces panic, the problem was phone culture — not fragility."},
+    "flaws": {"read_on": "science", "text": "Coping behaviors frequently expose structural flaws."},
+    "prerequisite": {"read_on": "science", "text": "Coping is not delusion. It is prerequisite to change."},
+    "alive": {"read_on": "science", "text": "Coping is not the enemy of change. It is what keeps people alive long enough to build it."},
+    "sneer": {"read_on": "insult", "text": "They turned cope into a sneer."},
+    "three_nots": {"read_on": "insult", "text": "Cope is not denial. Cope is not fantasy. Cope is not failure."},
+    "living": {"read_on": "insult", "text": "Cope is what living nervous systems do under pressure."},
+    "intelligence": {"read_on": "insult", "text": "Stimming? Cope. Parallel play? Cope. Mutual aid? Cope. Lowering the lights? Cope. Leaving the room? Cope. Naming the harm? Cope."},
+    "applied": {"read_on": "insult", "text": "Coping is applied knowledge of reality."},
+    "submission": {"read_on": "insult", "text": "That is not coping. That is submission."},
+    "we_cope": {"read_on": "insult", "text": "We cope to reduce harm. We cope to stay alive. We cope so we can build something better."},
+    "micro": {"read_on": "insult", "text": "Creating micro-worlds of safety inside hostile terrain"},
+    "inhale": {"read_on": "insult", "text": "Then yes. We inhale that."},
+    "erase": {"read_on": "insult", "text": "You are not escaping reality. You are refusing to let reality erase you."},
+    "scaled": {"read_on": "insult", "text": "Coping is resistance scaled to the nervous system."},
+    "strain": {"read_on": "insult", "text": "Coping is not evidence of weakness. It is evidence of strain. And strain tells the truth about the structure."},
+    "reclaim": {"read_on": "insult", "text": "We reclaim cope from mockery. We reclaim cope from neoliberal grit narratives. We reclaim cope from shame."},
+    "care": {"read_on": "insult", "text": "Cope is survival. Cope is intelligence. Cope is resistance. Cope is care."},
+    "ashamed": {"read_on": "insult", "text": "And we are not ashamed of surviving."},
+    "policy": {"read_on": "insult", "text": "Coping scales from breath to policy."}
+  },
+  "now": {
+    "groups": [
+      {
+        "name": "Lower sensory load",
+        "line": "Dim the lights, or switch the overheads off. Headphones or earplugs. A different position: sitting, lying down, leaning, on the floor. Fewer tabs, fewer voices, fewer tasks."
+      },
+      {
+        "name": "Breathe and downshift",
+        "line": "In for four seconds and out for six, six times over, the breath out longer than the breath in. A hum, a sigh or a yawn. Cold water on your face or your wrists."
+      },
+      {
+        "name": "One body move",
+        "line": "Hands pressed together hard for ten seconds. A blanket wrapped round you, or deep pressure. Rock, pace, flap, stim, which our page grants permission for in as many words. A stretch of the jaw, the shoulders, the hands."
+      }
+    ],
+    "after": [
+      {"q": "one_thing"},
+      {"p": "Every page on this street has two things in its dial for exactly that. **I need a bodymind break** lays a calm screen over whatever page you are on, with nothing moving on it, and the crisis lines on it. **Feeling overwhelmed? Escape to a low-stimulation mode** lays a few quiet colours over every room on the street at once and stops everything moving, until you press it again. Both are at the foot of this page."}
+    ]
+  },
+  "map": {
+    "root": "Feeling bad / stuck / flooded?",
+    "branches": [
+      {"q": "Is this sensory load?", "a": "reduce input, change environment, add pressure, step outside"},
+      {"q": "Is this transition / task-switching pain?", "a": "smaller steps, timers, “good enough,” one task only"},
+      {"q": "Is this social strain?", "a": "boundaries, scripts, exit cues, written communication"},
+      {"q": "Is this fear / shame / trauma activation?", "a": "grounding, containment, co-regulation, safe person / safe place"},
+      {"q": "Is this a bad system doing what bad systems do?", "a": "“not broken people,” name the power, ask for support, refuse harm"}
+    ]
+  },
+  "seeds": [
+    {
+      "id": "sensory",
+      "name": "Sensory safety",
+      "q": "stim",
+      "line": "Change the room: another chair, another corner, another light. Fewer sounds, fewer things to look at, fewer obligations. Somewhere to go without having to explain, and a small kit to carry, with earplugs, sunglasses, gum, something to fidget with and water."
+    },
+    {
+      "id": "social",
+      "name": "Boundaries, exits and social load",
+      "q": "leave",
+      "line": "Writing instead of talking, which our page says is often the great social equalizer. Less performing: drop the eye contact, the small talk, the [masking](https://stimpunks.org/glossary/masking/). Being together without talking, which our page calls parallel presence. And an exit line written ahead of time, from the words further down."
+    },
+    {
+      "id": "spiral",
+      "name": "Monotropic spiral breaks",
+      "q": "loop",
+      "line": "One small change in the body: stand up, drink water, open a window. Write the thought down once and park it. Walk to a beat, tap, rock, count steps. Give the thought seven minutes on a timer, and then stop. Or move over to a safe special interest, a softer focus that can bring you back. Our page reads the loop through [monotropism](https://stimpunks.org/glossary/monotropism/), and our glossary has a word for it, the [monotropic spiral](https://stimpunks.org/glossary/monotropic-spiral/)."
+    },
+    {
+      "id": "grounding",
+      "name": "Body-based grounding",
+      "q": "pressure",
+      "line": "Temperature: cold water, a warm drink, a heating pad. Orientation: five things you can see, four you can feel, three you can hear. Breath: a long breath out, humming, sighing. Hands: something to squeeze, palms pressed together, lotion rubbed in slowly."
+    },
+    {
+      "id": "system",
+      "name": "When it is the system",
+      "q": "abnormal",
+      "line": "Our page’s reframe is that this is a mismatch, not a moral failure. Ask who benefits from the rule as it is written. Broken systems, not broken people. Ask for support, which you deserve without humiliation rituals, and remember that refusing can be a way of protecting yourself."
+    },
+    {
+      "id": "after",
+      "name": "Aftercare, after a crash",
+      "q": "aftercare",
+      "line": "Fewer demands: cancel what you can, put off what you can. Water, food and rest, which are not optional. Quiet and predictability, because our page says routine is medicine. Repair the shame, in our page’s words: my nervous system did what it had to do."
+    }
+  ],
+  "seeds_after": [{"q": "lily"}, {"p": "A [lily pad](https://stimpunks.org/glossary/lily-pad/) is our glossary’s word for a place to land between one thing and the next."}],
+  "scripts": [
+    {"group": "Exit, or a pause", "lines": ["I need a moment to regulate. I’ll return when I’m able.", "I’m hitting sensory overload. I’m going to step out."]},
+    {"group": "Asking for support", "lines": ["I’m not okay right now. Can you stay nearby and be quiet with me?", "I need fewer questions. Please give me time and space."]},
+    {"group": "At work or school", "lines": ["I work/learn better with breaks. I’m taking one so I can come back regulated.", "Written is easier for me than verbal. Can we switch to text/email?"]}
+  ],
+  "science": {
+    "open": [{"q": "neuro"}],
+    "points": [
+      {
+        "name": "The body notices threat before thinking does",
+        "line": "Our page starts from Stephen Porges’ Polyvagal Theory and his word for it, [neuroception](https://stimpunks.org/glossary/neuroception/): the body moves into survival before reasoning has caught up. Fight, flight, freeze, fawn. Withdrawing, stimming, pacing, shutting down, seeking comfort and seeking connection are all, on our page, ways of steadying the autonomic nervous system.",
+        "q": ["adaptive", "physiology"]
+      },
+      {
+        "name": "Trauma is the body adapting",
+        "line": "After Bessel van der Kolk and Judith Herman, our page reads trauma as a body-level answer to overwhelming stress. Hypervigilance is adaptive under threat, dissociation protective under overwhelm, and avoidance saves energy under danger.",
+        "q": ["trauma"]
+      },
+      {
+        "name": "The load adds up",
+        "line": "Bruce McEwen’s allostatic load is the wear chronic stress leaves on a body. Sleep changes, sensory tolerance narrows, emotional bandwidth shrinks, executive function declines. Reducing light, seeking sameness, limiting social demand and controlling the environment are, our page says, attempts to rebalance.",
+        "q": ["allostatic"]
+      },
+      {
+        "name": "Neurodivergent coping gets misread",
+        "line": "Repetitive movement, eating the same food, avoiding eye contact, needing parallel presence. Our page says autistic burnout research increasingly frames burnout as a stress injury, built out of masking, overextension and sensory overload, and coping as protection against it.",
+        "q": ["regulating"]
+      },
+      {
+        "name": "The environment matters",
+        "line": "The social model of disability says difficulty does not come from impairment alone. When an environment overloads a body, the body adapts, and coping is often an answer to inaccessible design.",
+        "q": ["lighting", "phone", "flaws"]
+      },
+      {
+        "name": "Regulation comes first",
+        "line": "Internet culture uses copium to mean fooling yourself. Our page answers that regulation is the first step towards higher-order thinking: without it, learning declines, reasoning narrows and social capacity collapses. Regulation is what makes agency possible.",
+        "q": ["prerequisite"]
+      }
+    ],
+    "close": [{"q": "alive"}],
+    "sources_line": "The works our page names, as it names them. This room has not read them; it summarises our page, which is the place to start.",
+    "sources": [
+      "Porges, S. (2011). The Polyvagal Theory",
+      "Herman, J. (1992). Trauma and Recovery",
+      "van der Kolk, B. (2014). The Body Keeps the Score",
+      "McEwen, B. (Allostatic Load Research)",
+      "Murray, Lesser & Lawson (2005). Monotropism",
+      "Social Model of Disability (Oliver, 1983)"
+    ]
+  },
+  "insult": [
+    {"h3": "A reclamation"},
+    {"q": "sneer"},
+    {"p": "“Cope” and “copium” get thrown at people as a sneer, as if surviving were something to be embarrassed about and adapting were a delusion. Our manifesto rejects that frame."},
+    {"q": "three_nots"},
+    {"q": "living"},
+    {"h3": "Cope is intelligence"},
+    {"p": "When the ground shifts, organisms adapt, and when systems turn hostile, people improvise. Our manifesto calls that evolutionary brilliance, and names it everywhere it turns up."},
+    {"q": "intelligence"},
+    {"q": "applied"},
+    {"h3": "Not “just cope”"},
+    {"p": "When somebody says “just cope”, they usually mean stop complaining, accept the harm, adjust to it quietly. Real coping is not passive acceptance; our page calls it strategic survival."},
+    {"q": "submission"},
+    {"q": "we_cope"},
+    {"h3": "Copium? Fine."},
+    {"p": "If copium means finding ways to breathe in broken systems, protecting your nervous system, refusing to take structural harm inside, and making small safe places where the ground is against you, then our manifesto’s answer is short:"},
+    {"q": "inhale"},
+    {"p": "That last one, in our page’s words, is the reason this room is the eye of a storm:"},
+    {"q": "micro"},
+    {"h3": "Cope is resistance"},
+    {"p": "Removing a demand. Refusing an unreasonable expectation. Stimming without apologising. Asking for written communication. Making a space sensory-safe. Resting instead of collapsing."},
+    {"q": "erase"},
+    {"q": "scaled"},
+    {"h3": "We cope because systems harm"},
+    {"p": "Burnout is not a personality trait, overwhelm is not a moral defect, and shutdown is not laziness. When systems overload bodies, bodies respond."},
+    {"q": "strain"},
+    {"h3": "Cope is collective"},
+    {"p": "Not only breathwork and weighted blankets: [mutual aid](community-care.html), parallel presence, [access intimacy](https://stimpunks.org/glossary/access-intimacy/), environmental redesign and policy change. Our manifesto draws it as a line that widens as it goes:"},
+    {"ladder": ["breath", "boundary", "redesign", "revolution"]},
+    {"q": "policy"},
+    {"h3": "We reclaim cope"},
+    {"q": "reclaim"},
+    {"q": "care"},
+    {"q": "ashamed"}
+  ],
+  "doors_line": "Our page ends in doors to more help, each for the moment you are in, after its own way of not getting lost. This room does the same with the street. On the floor of the eye, doors stand on their own with nothing round them, and each opens onto a room on this street that keeps somebody going. They are grouped under our page’s words for the moment you are in. This room will still be here when you come back.",
+  "doors": [
+    {
+      "moment": "If you’re overloaded",
+      "seed": "sensory",
+      "line": "Too much coming in. These rooms have less of it.",
+      "doors": [
+        {"page": "stay-frosty.html", "form": "lift", "line": "the bottom of the caverns, where nothing moves, nothing makes a sound and there is nothing to press.", "holds": ["There is nothing to press", "Nothing moves, at any setting"]},
+        {"page": "cooldown-room.html", "form": "padded", "line": "a small, soft room to come down in, with couches, cold water and the doors shut on the noise.", "holds": ["Somewhere small and soft to come down in", "the doors shut on the noise"]}
+      ]
+    },
+    {
+      "moment": "If you’re socially fried",
+      "seed": "social",
+      "line": "Too many people, or the wrong amount of them. These rooms are for being alone, or together without talking.",
+      "doors": [
+        {"page": "latibulum.html", "form": "round", "line": "a burrow under the hill for when you have had enough of being findable, with a shelf of things to do with a bodymind.", "holds": ["A burrow of belonging for burnouts", "had enough of being findable"]},
+        {"page": "solarpunk-hermitage.html", "form": "cabin", "line": "the pitch furthest from the street, for being alone well, where nothing will ask you to say hello.", "holds": ["being alone well", "Nothing in here will ask you to say hello"]},
+        {"page": "cavendish-cave.html", "form": "panelled", "line": "the quiet room at Cavendish Coworking, for being together with nobody talking.", "holds": ["quiet co-presence", "No spoken chat"]}
+      ]
+    },
+    {
+      "moment": "If you’re spiraling",
+      "seed": "spiral",
+      "line": "Stuck in a loop. These rooms have a rhythm in them, or a softer focus.",
+      "doors": [
+        {"page": "jungle-room.html", "form": "leafy", "line": "somebody else’s cameras on waterholes and forests, with nobody presenting, for somewhere to rest your attention.", "holds": ["A room with the cameras on and nobody presenting"]},
+        {"page": "stay-breezy.html", "form": "louvred", "line": "a hall full of fans, for anybody who loves moving air and the steady noise it makes.", "holds": ["A hall full of fans, for anybody who loves moving air and the noise it makes"]},
+        {"page": "glow-go-gee-gaws.html", "form": "starlit", "line": "toys that drink the light in and give it back slowly, in every colour glow comes in.", "holds": ["the toy gives it back, slowly", "in every colour glow comes in"]},
+        {"page": "playhouse.html", "form": "stable", "line": "a stim box and a sound board, where you can press one thing forty times and nobody is counting.", "holds": ["Press it forty times. Nobody is counting."]}
+      ]
+    },
+    {
+      "moment": "If you’re post-crash",
+      "seed": "after",
+      "line": "After a meltdown, a shutdown or a panic spike. These rooms are quiet, and the same as last time.",
+      "doors": [
+        {"page": "healing-checkpoint.html", "form": "numbered", "line": "room 429, a save room with a bed in it, where rest is owed rather than earned.", "holds": ["rest is owed"]},
+        {"page": "samefood-cafe.html", "form": "glazed", "line": "the same table as last time and your samefood the way you have it, where nobody is a picky eater.", "holds": ["the same table as last time", "Nobody in here is a picky eater"]}
+      ]
+    },
+    {
+      "moment": "Is this a bad system doing what bad systems do?",
+      "seed": "system",
+      "line": "Our page’s answer starts with asking for support. These rooms have people in them.",
+      "doors": [
+        {"page": "community-care.html", "form": "sheltered", "line": "the street’s room for asking, for mutual aid, peer support and any other help, and for offering it.", "holds": ["This is the room where you ask"]},
+        {"page": "dead-tired-society.html", "form": "ajar", "line": "peer support by and for people in burnout, with the big lights off and the door left ajar, where passing is a whole turn.", "holds": ["Peer support, by and for people who are burnt out", "Passing is a whole turn"]}
+      ]
+    }
+  ],
+  "not_here": [
+    {"name": "No grit.", "line": "Nobody here is told to toughen up, push through or bounce back. Our manifesto takes cope back from all of that, and this room keeps it."},
+    {"name": "Nothing clinical.", "line": "This room is not clinical advice. Nothing in it tells you what you have or what will fix it, and nobody here is your doctor."},
+    {"name": "No tally.", "line": "No mood tracker, no streak, no check-in that remembers you, no count of good days or bad ones. Nothing on this page keeps anything about you."},
+    {"name": "No calm down.", "line": "Nobody here tells you to calm down, cheer up or look on the bright side. A storm is a storm."},
+    {"name": "Nothing moves by itself.", "line": "Nothing in the eye moves by itself at any setting, MAX GLITTER included. The fractal window at the foot of the page moves only when you switch it on, in a window of its own."}
+  ],
+  "eye": {
+    "seed": 1979,
+    "doors": [190, 395, 640, 860, 1030]
+  }
+}

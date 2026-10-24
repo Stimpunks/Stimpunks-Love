@@ -1575,6 +1575,46 @@
     }
    ]
   },
+  "funnel-display": {
+   "family": "Funnel Display",
+   "category": "Display",
+   "designer": "NORD ID, Kristian Möller",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/funneldisplay",
+   "copyright": "Copyright 2023 The Funnel Project Authors (https://github.com/Dicotype/Funnel)",
+   "repository": "https://github.com/Dicotype/Funnel",
+   "variants": [
+    {
+     "weight": "800",
+     "style": "normal",
+     "file": "funnel-display-800.woff2",
+     "sha": "4eddaa0bcd7f8ede"
+    }
+   ]
+  },
+  "funnel-sans": {
+   "family": "Funnel Sans",
+   "category": "Sans Serif",
+   "designer": "NORD ID, Kristian Möller",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/funnelsans",
+   "copyright": "Copyright 2023 The Funnel Project Authors (https://github.com/Dicotype/Funnel)",
+   "repository": "https://github.com/Dicotype/Funnel",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "funnel-sans-400.woff2",
+     "sha": "d4a16c6a7574c96d"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "funnel-sans-400.woff2",
+     "sha": "d4a16c6a7574c96d"
+    }
+   ]
+  },
   "fuzzy-bubbles": {
    "family": "Fuzzy Bubbles",
    "category": "Handwriting",

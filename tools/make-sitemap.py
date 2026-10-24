@@ -77,6 +77,7 @@ ORDER = ["index.html",
          "sandbox.html",  # brought in by tools/import-room.py
          "chimera-obscura.html",
          "community-care.html",
+         "coping.html",
          "show-your-work.html",
          "breaker-breaker.html",
          "your-room.html",

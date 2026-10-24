@@ -1068,6 +1068,21 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--syw h1 {{ font-size: 104px; margin-top: 2px !important; }}
 .og--syw .syw-sub {{ font-size: 30px; margin-top: 8px !important; max-width: 1000px; }}
 
+/* coping — THE EYE OF THE STORM. The page's own drawing, lifted rather than
+   redrawn, cropped to the wall of cloud and the floor of the eye, and every word
+   below it on the dry floor in the sun, which is where the room sets every word.
+   The storm at the page's edges stays off the card: at the card's width it
+   would stand where the words are. */
+.coping::before {{ display: none; }}
+.og--cop {{ width: 100%; padding: 0 0 28px; gap: 0; justify-content: flex-start; }}
+.og--cop .og-eye {{ margin: 0 !important; line-height: 0; }}
+.og--cop .og-eye svg {{ display: block; width: 1200px; height: auto; max-width: none; border-radius: 0; }}
+.og--cop .og-words {{ padding: 16px 60px 0; }}
+.og--cop .og-words > * {{ margin: 0 !important; }}
+.og--cop .cop-over {{ font-size: 18px; }}
+.og--cop h1 {{ font-size: 104px; margin-top: 2px !important; }}
+.og--cop .cop-sub {{ font-size: 28px; margin-top: 6px !important; max-width: 1060px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4128,6 +4143,39 @@ def card_syw(p):
     )
 
 
+def card_cop(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE EYE ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="cop-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="cop-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: coping.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the wall of cloud and the floor of the eye, cropped by the
+    # drawing's own viewBox rather than by a margin, so nothing runs off the card.
+    eye = p["copeye"].replace('viewBox="0 0 1200 420"', 'viewBox="0 60 1200 360"', 1)
+    if eye == p["copeye"]:
+        raise SystemExit(
+            "REFUSING: coping.html's eye is no longer 1200 by 420, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--cop" data-fit="card">'
+        f'<div class="og-eye">{eye}</div>'
+        f'<div class="og-words"><p class="cop-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="cop-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A pale, sunlit card. Across the top, the eye of a storm seen from its floor: a wall of cloud "
+        f"standing all the way round, its tops white in the sun and its foot dark slate with rain slanting "
+        f"out of it, and clear blue sky hanging down into the middle between them. On the dry floor of the "
+        f"eye a few plain white doors stand on their own, each with a gold line of sun along its top. "
+        f"Below, small grey capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in "
+        f"large, wide, heavy slate letters, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5617,6 +5665,7 @@ CARDS = {
     "bodymind-booth": card_booth,
     "chimera-obscura": card_chimera,
     "community-care": card_care,
+    "coping": card_cop,
     "show-your-work": card_syw,
     "breaker": card_bkb,
     "fancy-dress": card_fancy,
@@ -5758,6 +5807,7 @@ def main():
         ("booth",    "bodymind-booth.html", r'(<svg class="bmb-booth".*?</svg>)'),
         ("chmscene", "chimera-obscura.html", r'(<svg class="chm-scene__draw".*?</svg></g></svg>)'),
         ("cmcroof",  "community-care.html", r'(<svg class="cmc-canopy".*?</svg>)'),
+        ("copeye",   "coping.html",       r'(<svg class="cop-eye".*?</svg>)'),
         ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
         ("bkbcab",   "breaker-breaker.html", r'(<svg class="bkb-cab".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),

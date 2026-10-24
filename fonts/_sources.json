@@ -3181,5 +3181,33 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/titilliumweb/TitilliumWeb-Bold.ttf",
    "note": "Breaker Breaker (\u00a7125), the bold: each piece of slang, the trail and the knock on the street door. The family's own bold in google/fonts, saved as WOFF2 with fontTools, every glyph kept."
   }
+ ],
+ "funnel-display": [
+  {
+   "file": "funnel-display-800.woff2",
+   "weight": "800",
+   "style": "normal",
+   "bytes": 17480,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/funneldisplay/FunnelDisplay%5Bwght%5D.ttf",
+   "note": "Coping (\u00a7126), the room's name, its headings and the name on its street door, and nothing at reading size. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin letters and saved as WOFF2. Declared at 800 only. Its copyright line reserves no font name."
+  }
+ ],
+ "funnel-sans": [
+  {
+   "file": "funnel-sans-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 17096,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/funnelsans/FunnelSans%5Bwght%5D.ttf",
+   "note": "Coping (\u00a7126), every word that is read: the same family as the room's name, at reading size, because a room for steadying yourself does not change its voice between the sign and the page. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin letters and saved as WOFF2. Declared at 400 and 700 against this one file. Its copyright line reserves no font name."
+  },
+  {
+   "file": "funnel-sans-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 17096,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/funnelsans/FunnelSans%5Bwght%5D.ttf",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
+  }
  ]
 }

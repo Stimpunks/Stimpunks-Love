@@ -2768,6 +2768,42 @@
    }
   },
   {
+   "id": "cop-packet",
+   "page": "coping.html",
+   "room": "Coping",
+   "title": "If you only do one thing",
+   "posted": "There is a shopfront on the street in the eye of a storm, built out of our pages about coping. One of them says what to do if you can only do one thing. Go and find out what it is.",
+   "rank": 1,
+   "takes": "about as long as six slow breaths, in for four and out for six",
+   "target": "a packet of seeds dropped on the dry floor of the eye, with a few of them spilled out",
+   "code": "SEEDPACKET",
+   "learned": "Our Seeds of Cope page says that if you only do one thing, reduce inputs: lower sensory load first, because everything is harder when your nervous system is on fire.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, between Community Care and Show Your Work: the one whose awning is a patch of blue sky in a wall of storm cloud.",
+    "It is under Right now, after the three small things to reach for.",
+    "Right at the foot of the room, on the dry floor of the eye, where somebody dropped a packet of seeds."
+   ],
+   "ask": {
+    "question": "Seeds of Cope says what to do if you can only do one thing. What is it?",
+    "accept": [
+     "reduce inputs",
+     "reduce input",
+     "reduce your inputs",
+     "fewer inputs",
+     "lower sensory load",
+     "lower your sensory load",
+     "lower the sensory load"
+    ],
+    "answer": "Reduce inputs",
+    "why": "If you only do one thing, our page says, reduce inputs: lower sensory load first. Everything is harder when your nervous system is on fire.",
+    "hints": [
+     "It is in the quotation under the three things in Right now.",
+     "It is about how much is coming in at once.",
+     "Reduce inputs."
+    ]
+   }
+  },
+  {
    "id": "booth-strip",
    "page": "bodymind-booth.html",
    "room": "The Bodymind Booth",

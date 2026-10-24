@@ -340,6 +340,14 @@ DRAW = {
     # to, and the strap, the handle and the tip are --cmc-tie, 12.75. The floor
     # line is --cmc-dim and carries nothing. It lies still.
     "cmc-spare": """<path d="M3 29.5 H29" stroke="var(--cmc-dim)" stroke-width="1.6" stroke-linecap="round"/><path d="M4.5 26.5 L20.5 21.2 Q22.6 22.4 22.6 24.8 L21.8 26.6 Z" fill="var(--cmc-teal)" stroke="var(--cmc-rib)" stroke-width="1.2" stroke-linejoin="round"/><path d="M14.4 23.2 L15.2 26.6" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M22.4 25 H26 q2.8 0 2.8 -2.8 q0 -2.2 -2.2 -2.2" fill="none" stroke="var(--cmc-tie)" stroke-width="1.8" stroke-linecap="round"/><path d="M4.5 26.5 L2.6 27.2" stroke="var(--cmc-tie)" stroke-width="1.4" stroke-linecap="round"/>""",
+    # Coping: a packet of seeds dropped on the dry floor of the eye, after our
+    # page's seeds you can plant ahead of time or grab in a storm, with a few
+    # spilled out of it. The packet is --cop-cloud outlined in --cop-ink, 13.74
+    # on the floor and over the body threshold a marker is held to; its window is
+    # --cop-sky, and its top edge --cop-sun, because the sun is overhead and lands
+    # on the top of everything in that room. The seeds are --cop-ink. The floor
+    # line is --cop-ink-2 and carries nothing. It lies still.
+    "cop-packet": """<path d="M3 29.5 H29" stroke="var(--cop-ink-2)" stroke-width="1.6" stroke-linecap="round"/><path d="M4.6 23.8 L20.8 19.4 L23.2 27.4 L7 29 Z" fill="var(--cop-cloud)" stroke="var(--cop-ink)" stroke-width="1.3" stroke-linejoin="round"/><path d="M4.6 23.8 L20.8 19.4 L21.4 21.5 L5.2 25.9 Z" fill="var(--cop-sun)" stroke="var(--cop-ink)" stroke-width="1" stroke-linejoin="round"/><path d="M9.4 25.6 L15.4 24 L16.3 27 L10.3 28.3 Z" fill="var(--cop-sky)"/><circle cx="25.6" cy="27.6" r="1" fill="var(--cop-ink)"/><circle cx="27.6" cy="26.4" r=".85" fill="var(--cop-ink)"/><circle cx="26.9" cy="28.7" r=".75" fill="var(--cop-ink)"/>""",
     # Show Your Work: a blank card fallen off the wall onto the garage floor,
     # face up, with its strip of masking tape still on it. The card is
     # --syw-card, 14.63 on the shade and over the body threshold a marker is held

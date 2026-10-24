@@ -3997,7 +3997,7 @@ list of conversations is asked from `listen()` at most every `NEWS_EVERY` (`chat
 conversation is never in the address, because the address goes into the browser's history. The channel's pick lives only
 in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
 World or This room, popped) as they are stored, so the chat page never resizes or retunes the radio on another page. The
-groups: Community (World, the Community Center, Dead Tired Society, Community Care, Show Your Work and Cavendish's rooms out of
+groups: Community (World, the Community Center, Community Care, Coping, Show Your Work and Cavendish's rooms out of
 `data/coworking.json`), Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`), and **every room
 but Staff's and World under each of its tags**, Community's too (Ryan's asks, 2026-10-24, replacing the one World group). `tools/make-chat.py` writes them onto
 the page and refuses a quiet room there, because the page is public. **ROOM TAGS ARE `data/room-tags.json`**: the tags in
@@ -4945,6 +4945,32 @@ for word. **Convoy's second life in 2022, as the anthem of the Freedom Convoy, i
 (`_convoy_left_off` in the data): the room is about the record of 1975 and the craze round it, and Ryan's call the
 same day was to leave it off. The friendly edit is a line about it "for completeness", which reverses that call. Racing Sans One sets the name and headings, Titillium Web everything read.
 
+**COPING (§126) IS THE EYE OF THE STORM, AND THE STORM STAYS IN SIGHT.** Ryan's brief, 2026-10-24: a room that synthesizes
+and summarizes three pages of our Regulation and Coping hub, Seeds of Cope, The Science of Cope and Cope Is Not an Insult,
+its channel under Community on the chat page, and **Dead Tired Society out of Community** so the two do not compete (it is
+still under its tags, Coping and Calm). `tools/make-coping.py` builds it out of `data/coping.json`. **The world is our
+pages' own words**: seeds you can plant ahead of time or grab in a storm, and micro-worlds of safety inside hostile
+terrain. Clear sky straight up, a wall of cloud all the way round, the dry floor of the eye in the sun, and the storm's
+slate at both edges of a wide window, on the body's `::before` and never under a word, because coping is not denial: the
+storm is still there. **Community Care is the one to watch**, the other weather room and next door: rain, no sun, one
+roof of umbrellas. If rain ever falls on the floor of the eye, it is this room that moves; the rest are in §126. **The sun
+is overhead, so it lands on the top edge of everything**: a gold line on every heading, slip and door, never a lit side.
+**Every word that is not a quotation is our summary**, and every quotation, the cope map, the words to borrow, the doors'
+group names and the works the science page names are held against the mirror word for word. The tool sweeps our words
+for **grit, the sneer, misreading, anything clinical, a tally and toxic positivity**, skipping blockquotes, the
+`cop-quoted` figures and anything in curly quotes, and refuses the page without its paragraph, before the first heading,
+saying it is not clinical advice and not a crisis line, with our page's line about danger. **The doors are this room's
+drawings, never the rooms'**: each stands alone on the floor of the eye in `--cop-*` inks, told apart by its form (the
+campground board's rule), grouped under Seeds of Cope's own "If you're …" words, and each carries `holds`, words that
+room's page still says. A new door is one data entry and, if it needs a new form, one drawing in `DOORS`. **Nothing in
+the eye moves by itself at any setting, MAX GLITTER included**, and the tool refuses a keyframe, an animation or a
+transition in §126. **The friendly edits are a breathing circle, a mood tracker or check-in that remembers you, a
+streak, a "you've got this", and the doors painted in their rooms' colours**; the last brings colours nobody measured
+here and makes the eye a swatch book of the street. The Science of Cope leans on Polyvagal Theory, which is disputed;
+the room keeps it in our page's voice and `DECISIONS.md` has it open, because the correction is stimpunks.org's to make
+first. Funnel Display sets the name and headings, Funnel Sans everything read: one family, because a room for steadying
+yourself does not change its voice between the sign and the page.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
@@ -5170,18 +5196,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §127 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §128 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§127 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§128 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §127 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §128 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

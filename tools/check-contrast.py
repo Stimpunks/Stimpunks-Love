@@ -914,6 +914,11 @@ SYW_PEN, SYW_TAPE = "#1B5C97", "#E2D29E"
 # rack's Put it on in the cab.
 BKB_NIGHT, BKB_TEXT, BKB_DIM, BKB_AMBER = "#0E0E10", "#ECE6DA", "#A9A296", "#FFB224"
 BKB_GLASS = "#050506"
+# Coping (love.css §126). The eye of the storm: every word on the dry floor of
+# the eye in the sun, or on a white slip lying on it; nothing set on the sky,
+# the cloud, the storm or the sun.
+COP_FLOOR, COP_INK, COP_INK2, COP_LINK = "#EEF2F4", "#1C2530", "#44505D", "#0E5891"
+COP_CLOUD = "#FFFFFF"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3612,6 +3617,23 @@ PAIRS = [
     (SYW_CARD,  SYW_SHADE, False, "show your work: the job marker's blank card on the garage floor, held to the "
                                   "body threshold a marker is, and the blank card's dashed edge on the bench"),
     (SYW_TAPE,  SYW_SHADE, False, "show your work: the marker's strip of tape, and the rule beside every quotation"),
+    # ── Coping (§126) ───────────────────────────────────────────────────────
+    # Every word on the dry floor of the eye in the sun, or on a white slip lying
+    # on it: the quick things, the cope map, the seeds, the borrowed words, the
+    # science's six, the crisis paragraph and the ladder.
+    (COP_INK,   COP_FLOOR, False, "coping: the name, every heading, the lede, every paragraph and quotation, "
+                                  "every door's line, the rules, the street door's name and blurb, and the job "
+                                  "marker's seed packet outline, held to the body threshold a marker is"),
+    (COP_INK2,  COP_FLOOR, False, "coping: the trail, the line over the name, the caption under the eye, whose "
+                                  "each quotation is, the seeds under each group of doors, and the credits"),
+    (COP_LINK,  COP_FLOOR, False, "coping: every link, the backlink, every door's name, the street door's knock "
+                                  "and the focus ring"),
+    (COP_INK,   COP_CLOUD, False, "coping: everything on a slip: the three things, the cope map, each seed, each "
+                                  "of the science's six and its numeral, the borrowed words, the crisis paragraph "
+                                  "and the ladder's steps"),
+    (COP_INK2,  COP_CLOUD, False, "coping: whose a quotation is on a slip, the cope map's answers and arrows, and "
+                                  "a borrowed line's dashed edge"),
+    (COP_LINK,  COP_CLOUD, False, "coping: a link on a slip, and the focus ring there"),
     # ── Breaker Breaker (§125) ──────────────────────────────────────────────
     # Every word on the dark, which is the cab, the road and the sky alike, or on
     # the screen's glass; no word on a lamp.
@@ -4720,6 +4742,30 @@ ORNAMENT = {
     "#ff4130": "breaker breaker: the red lamps on the back of every rig in the drawing, the radio's readout, "
                "the red lamps on the street door's awning, the last lamp under every heading and the dotted "
                "edge round Convoy, 5.56 on the night. They are lamps, and carry no word.",
+    "#4f8ecb": "coping: the clear sky in the eye in the drawing and on the street door's awning, the "
+               "windows of two doors, and the rule beside every quotation, 3.07 on the floor and 3.46 on a "
+               "slip, which is what marks a quotation as one beside its words. It carries no word.",
+    "#2f6fb0": "coping: the sky straight up at the top of the drawing, the deep end of the sky's gradient, "
+               "5.22 against the cloud tops. It carries no word.",
+    "#dce3e9": "coping: the body of the cloud wall in the drawing, every door's frame and panels, and the "
+               "street door's awning, 2.67 on the sky and 1.15 on the floor, carried by --cop-ink round every "
+               "door at 11.95. It carries no word.",
+    "#a8b3be": "coping: the cloud wall's towers further down in the drawing and at the edges of a wide window, "
+               "the planks and slats on the "
+               "doors, the padded door's lattice, and the cope map's branches, 1.89 on the floor and 2.13 on "
+               "a slip: a hairline that shows which answer is whose. It carries no word.",
+    "#5f6b78": "coping: the foot of the cloud wall in the drawing, where the rain starts, and the same foot at "
+               "the edges of a wide window, 2.55 against the towers above it. It carries no word.",
+    "#27313c": "coping: the storm at the very foot of the wall in the drawing, the storm at both edges of a "
+               "wide window, and the street door's awning and border, 11.72 against the floor beside it. It "
+               "stands beside the words and never under them, and carries no word.",
+    "#7e8a97": "coping: the rain slanting out of the storm at the foot of the cloud wall in the drawing, "
+               "3.75 on the storm, which is how rain looks. It carries no word.",
+    "#c9d1d7": "coping: the floor of the eye out of the sun in the drawing, and the shadow straight under "
+               "every door, 1.37 on the floor, which is how a shadow at noon looks. It carries no word.",
+    "#f1b53a": "coping: the sun on the top edge of everything, every heading's line, every slip's and every "
+               "door's top, the star on one door and the marker's packet top, 1.63 on the floor and 8.41 "
+               "against --cop-ink. It is light landing, and carries no word.",
     "#2e2c30": "breaker breaker: the shapes you can just make out in the dark, the mirror, the dash, the "
                "radio, its knobs and the microphone's cord in the drawing, and the screen's frame, 1.40 on the "
                "night, which is how a dash looks at night. It carries no word.",
