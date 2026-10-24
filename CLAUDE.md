@@ -4129,7 +4129,12 @@ site's name, a post's first paragraph as text, a runtime and a player's address,
 thumbnail**, because their markup is a script `script-src` refuses and a picture is a fetch the forums already refuse.
 **A player is YouTube's or Vimeo's**, the hosts `ORIGINS` already frames, with its runtime on the press, built by
 `love-embed.js` as a frame apart, so Host this film and Follow never see it (`drawUnfurls`, `unfurlCard` in `cb.js`); every
-other player is a door. `make-forum.py` (`check_cards`) holds it. **The friendly edits are thumbnails, a site's own embed
+other player is a door. **From Netlify's servers YouTube's watch page answers with its bot wall, which has no length**
+(measured the day it shipped: both of Ryan's first links were doors live and players from a home connection), so a
+video's length and permission come first from YouTube's Data API (`youtubeApi`, `videoFromApi`), with the key in
+`CB_YOUTUBE_KEY` in Netlify and nowhere else, sent only the video's id; with no key the watch page and oEmbed are asked as
+before, and a video is a door. Age-restricted, upcoming and unembeddable videos are doors either way.
+`make-forum.py` (`check_cards`) holds it. **The friendly edits are thumbnails, a site's own embed
 markup "so tweets look right", and a new framed origin per site that asks**: the first two break the policy, and each of
 the third is a decision (playing is not the same permission as embedding, and each origin is a third party every reader
 who presses talks to), one edit in `ORIGINS` and a re-run of `make-csp.py`. Direct messages do not unfurl yet.

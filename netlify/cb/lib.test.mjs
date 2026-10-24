@@ -3337,6 +3337,47 @@ test('the CB reads its bare links once, for words, and plays only YouTube and Vi
   assert.equal(ed.msg.links, undefined, 'an edit kept the card of a link it took out');
 });
 
+import { isoSeconds, videoFromApi } from './lib.mjs';
+
+test('with a key, YouTube\'s Data API says how long a video runs and whether it may play here, and the key goes nowhere else', async () => {
+  assert.equal(isoSeconds('PT5M24S'), 324);
+  assert.equal(isoSeconds('PT1H2M3S'), 3723);
+  assert.equal(isoSeconds('P0D'), null);
+  const item = (over) => ({ items: [{ snippet: { title: 'All Hail Open Doors', channelTitle: 'Swamburger - Topic', liveBroadcastContent: 'none', ...(over.snippet || {}) },
+    contentDetails: { duration: 'PT5M24S', ...(over.contentDetails || {}) }, status: { privacyStatus: 'public', uploadStatus: 'processed', embeddable: true, ...(over.status || {}) } }] });
+  assert.deepEqual(videoFromApi(item({})), { status: 'OK', embed: true, title: 'All Hail Open Doors', channel: 'Swamburger - Topic', length: 324, live: false });
+  assert.equal(videoFromApi(item({ contentDetails: { contentRating: { ytRating: 'ytAgeRestricted' } } })).embed, false, 'an age-restricted video was given a player');
+  assert.equal(videoFromApi(item({ status: { embeddable: false } })).embed, false);
+  assert.equal(videoFromApi(item({ snippet: { liveBroadcastContent: 'upcoming' } })).embed, false, 'a video not yet live was given a player');
+  assert.deepEqual([videoFromApi(item({ snippet: { liveBroadcastContent: 'live' } })).live, videoFromApi(item({ snippet: { liveBroadcastContent: 'live' } })).length], [true, null]);
+  assert.equal(videoFromApi({ items: [] }).status, 'ERROR');
+  const KEY = 'AIzaFakeKeyForTheTestsOnly_123456789';
+  const asked = [];
+  // The watch page answers with the bot wall, as it does to Netlify's servers.
+  const get = async (url) => {
+    asked.push(url);
+    if (url.startsWith('https://www.googleapis.com/youtube/v3/videos?')) return { status: 200, type: 'application/json', text: JSON.stringify(item({})), url };
+    if (url.startsWith('https://www.youtube.com/watch')) return { status: 200, type: 'text/html', text: '<script>var ytInitialPlayerResponse = {"playabilityStatus":{"status":"LOGIN_REQUIRED","reason":"Sign in to confirm you are not a bot"}};</script>', url };
+    if (url.startsWith('https://www.youtube.com/oembed')) return { status: 200, type: 'application/json', text: JSON.stringify({ title: 'All Hail Open Doors', author_name: 'Swamburger - Topic' }), url };
+    return { status: 404, type: '', text: '', url };
+  };
+  const was = process.env.CB_YOUTUBE_KEY;
+  try {
+    delete process.env.CB_YOUTUBE_KEY;
+    const door = await previewFor('https://youtu.be/2eew0eCg3qg?si=x', get);
+    assert.deepEqual([door.length, door.embed], [null, false], 'with no key and the bot wall, a video should be a door');
+    process.env.CB_YOUTUBE_KEY = KEY;
+    asked.length = 0;
+    const p = await previewFor('https://youtu.be/2eew0eCg3qg?si=x', get);
+    assert.deepEqual([p.kind, p.length, p.embed, p.title], ['video', 324, true, 'All Hail Open Doors']);
+    assert.equal(asked.length, 1, 'with a key and an answer, nothing but the API was asked');
+    assert.ok(asked[0].includes('id=2eew0eCg3qg&'), 'something besides the video\'s id was sent to the API');
+    assert.equal(JSON.stringify(p).includes(KEY), false, 'the key went into a card');
+  } finally {
+    if (was === undefined) delete process.env.CB_YOUTUBE_KEY; else process.env.CB_YOUTUBE_KEY = was;
+  }
+});
+
 /* ── My own order for the chat page ───────────────────────────────────────── */
 import { readChatOrder, keepChatOrder, cleanChatOrder } from './lib.mjs';
 

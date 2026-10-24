@@ -41,6 +41,11 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-24-youtube-length">2026-10-24 &mdash; YouTube cards ask YouTube how long a video runs</h2>
+  <ul>
+    <li><strong>On the live site, YouTube links on the CB were coming out as links to YouTube rather than players.</strong> A card plays a video only when it can say how long it runs, and from our host&rsquo;s servers YouTube&rsquo;s pages would not say. Our server can now ask YouTube&rsquo;s own Data API instead, sending it only the video&rsquo;s id, and YouTube cards play once that is switched on. The forums&rsquo; previews ask it too. An age-restricted video, one not yet live and one its maker keeps off other sites stay links to YouTube.</li>
+  </ul>
+
   <h2 id="2026-10-24-link-cards">2026-10-24 &mdash; Links on the CB become cards, and videos play in them</h2>
   <ul>
     <li><strong>A link in a message on the CB gets a card</strong> a moment after the message goes out, by request: the site&rsquo;s name, who made it, its title as a link that says where it goes, and its description, or for a post on X or Bluesky the words of the post. Up to three in a message.</li>

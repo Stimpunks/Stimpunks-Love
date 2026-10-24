@@ -8605,6 +8605,52 @@ export function playerInfo(html) {
     length: n > 0 ? n : null, live: !!vd.isLive };
 }
 
+/* YOUTUBE'S DATA API, for a video's length and whether it may play here
+   (2026-10-24, when the CB's first link cards on the live site came out as
+   doors: from Netlify's servers YouTube's watch page answers with its "confirm
+   you're not a bot" wall, which carries no length, and the embed page answers
+   a server with a configuration error, while the same code read both videos
+   at once from a home connection). The Data API is YouTube's own answer to a
+   server: videos.list, one unit of the day's quota a call, with the key in
+   CB_YOUTUBE_KEY in Netlify and nowhere else, sent only to googleapis.com and
+   never to a page. It is asked FIRST when the key is there, and the watch page
+   and oEmbed are still asked after it, so with no key nothing changes. Only
+   the video's id is sent. Live is said to be live; upcoming, private, not yet
+   processed, not embeddable or age-restricted (which plays only for somebody
+   signed in to YouTube, the third permission the Lagoon found) is a door. */
+function youtubeKey() {
+  const k = String(process.env.CB_YOUTUBE_KEY || '').trim();
+  return /^[A-Za-z0-9_-]{20,80}$/.test(k) ? k : null;
+}
+// "PT5M24S" -> 324; anything else -> null.
+export function isoSeconds(d) {
+  const m = /^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/.exec(String(d || ''));
+  if (!m || !(m[1] || m[2] || m[3] || m[4])) return null;
+  const n = ((+m[1] || 0) * 24 + (+m[2] || 0)) * 3600 + (+m[3] || 0) * 60 + (+m[4] || 0);
+  return n > 0 ? n : null;
+}
+// What videos.list says, in playerInfo's shape, or null when it said nothing.
+export function videoFromApi(j) {
+  if (!j || !Array.isArray(j.items)) return null;
+  const v = j.items[0];
+  if (!v) return { status: 'ERROR', embed: false, title: '', channel: '', length: null, live: false };   // gone or private
+  const sn = v.snippet || {}, cd = v.contentDetails || {}, st = v.status || {};
+  const live = sn.liveBroadcastContent === 'live';
+  const ok = st.privacyStatus !== 'private' && st.uploadStatus === 'processed' && sn.liveBroadcastContent !== 'upcoming'
+    && !(cd.contentRating && cd.contentRating.ytRating === 'ytAgeRestricted');
+  return { status: ok ? 'OK' : 'UNPLAYABLE', embed: ok && st.embeddable === true, title: sn.title || '', channel: sn.channelTitle || '',
+    length: live ? null : isoSeconds(cd.duration), live };
+}
+async function youtubeApi(id, get) {
+  const key = youtubeKey();
+  if (!key) return null;
+  try {
+    const r = await get('https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,status&id=' + id + '&key=' + encodeURIComponent(key),
+      { max: 60000, types: ['application/json'] });
+    return r && r.status === 200 ? videoFromApi(JSON.parse(r.text)) : null;
+  } catch (e) { return null; }
+}
+
 export function youtubeId(u) {
   const h = u.hostname.toLowerCase();
   let id = null;
@@ -8716,11 +8762,14 @@ export async function previewFor(src, get = safeGet) {
   const id = youtubeId(u);
   if (id) {
     const watch = 'https://www.youtube.com/watch?v=' + id;
-    let info = null;
-    try {
-      const r = await get(watch, { max: 1500000, types: ['text/html'] });
-      if (r && r.status === 200) info = playerInfo(r.text);
-    } catch (e) { info = null; }
+    // YouTube's Data API first, when there is a key; the watch page if it said nothing.
+    let info = await youtubeApi(id, get);
+    if (!info) {
+      try {
+        const r = await get(watch, { max: 1500000, types: ['text/html'] });
+        if (r && r.status === 200) info = playerInfo(r.text);
+      } catch (e) { info = null; }
+    }
     if (info && info.status === 'ERROR') return null;         // gone: a plain link says less that is wrong
     if (!info || !info.title) {
       // A watch page that did not say (a sign-in wall, a consent page): YouTube's
