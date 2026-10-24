@@ -1922,7 +1922,7 @@ export async function shownJobs(handle, s = store()) {
    the pets' rule and for their reason. A sticker of a patch is only ever one
    of the sender's own, found here, carrying nothing but which patch. */
 /* patch:ids:begin */
-export const PATCH_IDS = ["stimpunks-world", "pink-pony-peep", "wand-and-rabbit", "interdependence", "kindness-is-punk", "plant-powered", "intermittently-social-lone-wolf", "synapse-of-the-soil"];
+export const PATCH_IDS = ["stimpunks-world", "pink-pony-peep", "wand-and-rabbit", "interdependence", "kindness-is-punk", "plant-powered", "intermittently-social-lone-wolf", "solarpunk", "synapse-of-the-soil"];
 /* patch:ids:end */
 const patchesBlob = (k) => `patches/${k}`;
 const patchesShownBlob = (k) => `patchshown/${k}`;

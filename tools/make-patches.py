@@ -284,7 +284,13 @@ def main():
         "<b>Lone wolfing</b>, on the Cave&rsquo;s patch, is "
         '<a href="https://stimpunks.org/2023/06/18/lone-wolfing-the-joys-of-autistic-solitude/">Betsy '
         "Selvam&rsquo;s</a> word for being alone well, and <b>Kindness Is Punk</b>, on Club Chronic&rsquo;s, "
-        'is from our own <a href="https://stimpunks.org/philosophy/rules-of-punk/">Rules of Punk</a>. A battle '
+        'is from our own <a href="https://stimpunks.org/philosophy/rules-of-punk/">Rules of Punk</a>. '
+        "<b>A future with dirt behind our ears</b>, on Brighter Days&rsquo; Solarpunk patch, is after Adam "
+        "Flynn&rsquo;s "
+        '<a href="https://hieroglyph.asu.edu/2014/09/solarpunk-notes-toward-a-manifesto/">&ldquo;Solarpunk: '
+        "Notes toward a manifesto&rdquo;</a> (Project Hieroglyph, 2014): &ldquo;Solarpunk is a future with a "
+        "human face and dirt behind its ears.&rdquo; Our glossary credits the line to a video; Star "
+        "Stuff&rsquo;s Shared Air zine traced it to Flynn, and the line was read in his piece for this patch. A battle "
         "jacket is a punk and metal tradition that belongs to nobody, and nothing of anybody else&rsquo;s "
         "patches is copied here.</p>",
         "  "])
