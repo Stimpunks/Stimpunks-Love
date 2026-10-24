@@ -134,11 +134,12 @@
   /* THE CHAT PAGE (Ryan's ask, 2026-10-22: "a /chat page with a Discord style
      interface for our room chat channels"). chat.html is the radio on a page
      of its own, docked into the page rather than floating over it, at Full,
-     with every room's channel listed down the left in three groups: Community
-     (World, the Community Center, Dead Tired Society and every room at
-     Cavendish Coworking), Staff (the Town Hall's private rooms and the forums'
-     locked categories, each listed only for the people who can go in) and
-     World (every other room, in walking order). It
+     with every room's channel listed down the left in groups: Community
+     (World, the Community Center, Dead Tired Society, Community Care, Show
+     Your Work and every room at Cavendish Coworking), Staff (the Town Hall's
+     private rooms and the forums' locked categories, each listed only for the
+     people who can go in) and every other room under each of its tags (Ryan's
+     ask, 2026-10-24, out of data/room-tags.json), in walking order. It
      is the same radio, so a channel there is the room's own channel, as This
      room hears it in the room, and everything the radio does it does for the
      channel picked: messages, replies, reactions, Be seen here and the room's
@@ -3904,15 +3905,20 @@
   }
 
   /* The groups make-chat.py wrote on the chat page: Community's rooms, World
-     first, in its order, and Staff's, each with the roles that open it, as
-     its Town Hall page carries them. Read once. */
+     first, in its order; Staff's, each with the roles that open it, as its
+     Town Hall page carries them; and every other room by its tags, out of
+     data/room-tags.json, each tag with its name and its rooms in walking
+     order. Read once. */
   function chatSpec() {
     if (chatSpecs) return chatSpecs;
     var g = null, dock = chatDock();
     try { g = JSON.parse((dock && dock.getAttribute('data-chat-groups')) || 'null'); } catch (e) { g = null; }
     chatSpecs = {
       community: g && Array.isArray(g.community) ? g.community.filter(function (t) { return typeof t === 'string'; }) : [WORLD_CALL],
-      staff: g && Array.isArray(g.staff) ? g.staff.filter(function (x) { return x && typeof x.tag === 'string' && Array.isArray(x.roles); }) : []
+      staff: g && Array.isArray(g.staff) ? g.staff.filter(function (x) { return x && typeof x.tag === 'string' && Array.isArray(x.roles); }) : [],
+      tagged: g && Array.isArray(g.tagged) ? g.tagged.filter(function (x) {
+        return x && typeof x.key === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(x.key) && typeof x.name === 'string' && Array.isArray(x.rooms);
+      }) : []
     };
     return chatSpecs;
   }
@@ -3925,16 +3931,21 @@
     return !!(s && s.base) && (key || x.roles.some(function (r) { return roles.indexOf(r) >= 0; }));
   }
 
-  /* THE THREE GROUPS, Ryan's: Community is World, the Community Center, Dead
-     Tired Society and Cavendish Coworking's rooms; Staff is the Town Hall's private rooms and the forums' locked
-     categories, each only for a pass that can go in (the server named the
-     categories to their readers only); World is every other room on the
-     street in walking order, with the forums' other categories after The
-     forums, as everywhere on the radio. Never a room that keeps to itself,
+  /* THE GROUPS, Ryan's: Community is World, the Community Center, Dead Tired
+     Society, Community Care, Show Your Work and Cavendish Coworking's rooms;
+     Staff is the Town Hall's private rooms and the forums' locked categories,
+     each only for a pass that can go in (the server named the categories to
+     their readers only); and every other room is under each of its tags
+     (Ryan's ask, 2026-10-24), in walking order, a tag's group in the order
+     data/room-tags.json lists them, with the forums' other categories after
+     The forums, as everywhere on the radio. So a room can be in more than one
+     group, and its link is in each. More rooms holds anything the page did
+     not tag, which make-chat.py refuses at the build, so it is only ever a
+     page older than the street's list. Never a room that keeps to itself,
      which the street's list does not name; never this page, which is no
      channel; and the World room once, as World, whose channel it is. */
   function chatChannels(s) {
-    var spec = chatSpec(), taken = {}, community = [], staff = [], world = [];
+    var spec = chatSpec(), taken = {}, community = [], staff = [], tagged = [], seen = {}, cats = [], more = [];
     taken[CHAT_PAGE] = true;
     spec.community.forEach(function (t) {
       taken[t] = true;
@@ -3947,8 +3958,20 @@
     });
     (rooms || []).forEach(function (r) {
       if (r.forum && r.locked) { taken[r.tag] = true; staff.push(r); }
+      else if (r.forum) cats.push(r);
     });
-    (rooms || []).forEach(function (r) { if (!taken[r.tag] && !r.quiet) world.push(r); });
+    spec.tagged.forEach(function (g) {
+      var list = [];
+      g.rooms.forEach(function (t) {
+        var r = byTag[t];
+        if (!r || taken[t] || r.quiet || r.forum) return;
+        list.push(r);
+        seen[t] = true;
+        if (t === FORUM_PAGE) cats.forEach(function (c) { list.push(c); seen[c.tag] = true; });
+      });
+      tagged.push({ key: 'tag-' + g.key, name: g.name, rooms: list });
+    });
+    (rooms || []).forEach(function (r) { if (!taken[r.tag] && !seen[r.tag] && !r.quiet) more.push(r); });
     var dms = [];
     if (radio && radio.dmBox) {
       dms.push({ dm: '', name: 'All messages' });
@@ -3958,9 +3981,8 @@
     return [
       { key: 'community', name: 'Community', rooms: community },
       { key: 'dm', name: 'Direct messages', rooms: dms },
-      { key: 'staff', name: 'Staff', rooms: staff },
-      { key: 'world', name: 'World', rooms: world }
-    ].filter(function (g) { return g.rooms.length; });
+      { key: 'staff', name: 'Staff', rooms: staff }
+    ].concat(tagged, [{ key: 'more', name: 'More rooms', rooms: more }]).filter(function (g) { return g.rooms.length; });
   }
 
   // On the chat page, a link to a room that is a channel there is a link to
@@ -4227,7 +4249,7 @@
         return;
       }
       var on = x.dm != null ? dmView && fold(x.dm) === fold(with_) : !dmView && !evView && x.tag === tuned;
-      if (on) { x.a.setAttribute('aria-current', x.dm != null ? 'true' : 'page'); focus = x.a; } else x.a.removeAttribute('aria-current');
+      if (on) { x.a.setAttribute('aria-current', x.dm != null ? 'true' : 'page'); focus = focus || x.a; } else x.a.removeAttribute('aria-current');
       var t = x.dm == null && n && n.latest && n.latest[x.tag];
       var fresh = x.dm != null ? !!x.dm && !on && dmsNew.indexOf(fold(x.dm)) >= 0 : !on && !!t && t > ((n.read && n.read[x.tag]) || 0);
       if (fresh !== x.a.classList.contains('cb-chan--new')) { markNew(x.a, fresh); x.a.classList.toggle('cb-chan--new', fresh); }
@@ -4253,6 +4275,8 @@
   Radio.prototype.chatBuild = function (groups) {
     var me = this, box = this.chatGroupsBox;
     var on = this.box.getRootNode().activeElement, keep = on && on.classList && on.classList.contains('cb-chan') ? on.dataset.tag : null;
+    // A room under several tags has a link in each: come back to the same one.
+    var keepIn = keep && on.closest('.cb-chan-list') ? on.closest('.cb-chan-list').id : '';
     this.chatDmAll = null;
     box.textContent = '';
     this.chatLinks = [];
@@ -4316,7 +4340,7 @@
       });
       wrap.appendChild(ul);
       box.appendChild(wrap);
-      var ge = { key: g.key, wrap: wrap, ul: ul, button: b };
+      var ge = { key: g.key, name: g.name, wrap: wrap, ul: ul, button: b };
       me.chatGroupEls.push(ge);
       b.addEventListener('click', function () {
         me.chatFolded[g.key] = !me.chatFolded[g.key];
@@ -4325,7 +4349,11 @@
     });
     this.chatFilter();
     this.chatLinks.forEach(function (x) { if (x.dm === '') me.chatDmAll = x.a; });
-    if (keep) { var again = box.querySelector('.cb-chan[data-tag="' + CSS.escape(keep) + '"]'); if (again) again.focus(); }
+    if (keep) {
+      var sel = '.cb-chan[data-tag="' + CSS.escape(keep) + '"]';
+      var again = (keepIn && box.querySelector('#' + CSS.escape(keepIn) + ' ' + sel)) || box.querySelector(sel);
+      if (again) again.focus();
+    }
   };
 
   /* What the box finds, in each group's own order. A folded group opens
@@ -4337,6 +4365,11 @@
       findRooms(q).forEach(function (x) { hit[x.room.tag] = true; });
       var fq = fold(q);
       this.chatLinks.forEach(function (x) { if (x.dm != null && fold(x.dm || 'all messages').indexOf(fq) >= 0) hit[x.tag] = true; });
+      // A tag's name finds the channels under it: "pets" finds the Pets group whole.
+      (this.chatGroupEls || []).forEach(function (g) {
+        if (g.key.indexOf('tag-') !== 0 || fold(g.name).indexOf(fq) < 0) return;
+        me.chatLinks.forEach(function (x) { if (g.ul.contains(x.li)) hit[x.tag] = true; });
+      });
     }
     (this.chatGroupEls || []).forEach(function (g) {
       var shown = 0;
@@ -4353,7 +4386,7 @@
       g.button.disabled = !!hit;
     });
     this.chatNone.hidden = !hit || any;
-    this.chatNone.textContent = hit && !any ? 'No channel’s name, or what its room is about, has ' + (q.split(/\s+/).length > 1 ? 'those words' : 'that word') + '.' : '';
+    this.chatNone.textContent = hit && !any ? 'No channel’s name, its tags, or what its room is about, has ' + (q.split(/\s+/).length > 1 ? 'those words' : 'that word') + '.' : '';
     this.chatRove();
   };
 
@@ -4364,8 +4397,8 @@
 
   // One channel in the Tab order: the one picked, or the first shown.
   Radio.prototype.chatRove = function (want) {
-    var shown = this.chatVisible(), cur = this.chatGroupsBox.querySelector('.cb-chan[aria-current]');
-    var stop = want && shown.indexOf(want) >= 0 ? want : cur && shown.indexOf(cur) >= 0 ? cur : shown[0];
+    var shown = this.chatVisible(), cur = shown.filter(function (a) { return a.hasAttribute('aria-current'); })[0];
+    var stop = want && shown.indexOf(want) >= 0 ? want : cur || shown[0];
     this.chatLinks.forEach(function (x) { x.a.tabIndex = x.a === stop ? 0 : -1; });
   };
 

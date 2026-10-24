@@ -2,7 +2,7 @@
 """Write the chat page's channel groups, and hold the chat page to what it says.
 
 Ryan's ask, 2026-10-22: "a /chat page with a Discord style interface for our
-room chat channels", with the channels in three groups:
+room chat channels", with the channels in groups:
 
   · COMMUNITY: World, the Community Center and Dead Tired Society (Ryan's
     addition, the same day), Community Care (the street's room for asking for
@@ -10,7 +10,14 @@ room chat channels", with the channels in three groups:
     Work (where our community shows what it is making, Ryan's, 2026-10-23), and
     every room at Cavendish Coworking.
   · STAFF: the Town Hall's private rooms.
-  · WORLD: everything else.
+  · EVERY OTHER ROOM, BY ITS TAGS (Ryan's ask, 2026-10-24, "Give rooms tags and
+    use those tags to group them in /chat", replacing the one group called
+    World that held everything else). data/room-tags.json gives every room on
+    the street's list its tags, says what each tag means and the order the
+    groups come in, and a room is under every tag it has, in walking order. Ryan's
+    come first, Music to Make/build; the rest were added so every room has one
+    that is true of it. The forums' public categories follow The forums wherever it
+    is, as everywhere on the radio.
 
 chat.html is the radio on a page of its own (cb.js, inChat): docked into the
 page at Full, with every room's channel down its left. This tool writes the
@@ -22,7 +29,8 @@ the roles each takes and whether the administrator key opens it, as the Town
 Hall pages carry them, so the page lists a room only for a pass that can go in.
 The forums' locked categories join Staff on the page itself, because the server
 names a category only to its readers (forumRooms, `locked`). Every other room
-in cb-rooms.json is World's. Never hand-edit between the markers.
+in cb-rooms.json is in the groups its tags name, out of data/room-tags.json.
+Never hand-edit between the markers.
 
 WHAT IT REFUSES, because a friendly edit could break each without a test
 noticing:
@@ -43,6 +51,17 @@ noticing:
     that resizes the radio on every other page.
   · forumRooms NOT SAYING WHICH CATEGORIES ARE LOCKED, so a staff category
     would sit under World.
+  · A ROOM WITH NO TAG, A TAG ON NO ROOM, OR A TAG THE LIST DOES NOT HAVE. A
+    new room on the street's list with no entry in data/room-tags.json would
+    sit in no group but the radio's fallback, so this stops until it has one.
+    A room the chat already groups as Community or Staff is refused a tag,
+    because the chat lists it there and a tag on it would do nothing. A page
+    the street's list does not have is refused too.
+  · MUSIC OR VIDEOS ON A ROOM WITH NOTHING TO PRESS AND PLAY, or a room on the
+    Now Playing bill with neither. Those two tags are the only ones something
+    else on the street can check, so they are checked against
+    data/now-playing.json both ways: a tag is a claim about a room, and this
+    one is a claim somebody pressing will test.
   · A ROOM CALLED events. The chat page's #events is its Events, the list of
     scheduled events at the top of the channels (cb.js, evFromHash; Ryan's
     ask, 2026-10-23), so a room with that tag would be a channel nobody could
@@ -60,6 +79,8 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGE = ROOT / "chat.html"
 ROOMS = ROOT / "cb-rooms.json"
 COWORKING = ROOT / "data" / "coworking.json"
+TAGS = ROOT / "data" / "room-tags.json"
+PLAYING = ROOT / "data" / "now-playing.json"
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 CB = ROOT / "cb.js"
 HOUSE = "cavendish-coworking.html"
@@ -148,8 +169,82 @@ for t in community + [x["tag"] for x in staff]:
     if t in quiet:
         refuse(f"{t} keeps to itself (QUIET_ROOMS), and this page is public: it cannot be listed here.")
 
-# cb.js keeps its promises about this page.
 stem = PAGE.stem
+
+# EVERY OTHER ROOM, BY ITS TAGS. A room is a page on the street's list, named by
+# its file (the street's own page is index.html, whose #tag is street).
+def page_of(room):
+    return "index.html" if room["path"] == "/" else room["path"].lstrip("/")
+
+
+tagdoc = json.loads(TAGS.read_text())
+by_page = {page_of(r): r["tag"] for r in rooms}
+vocab, names = [], set()
+for t in tagdoc.get("tags", []):
+    k, n = t.get("key"), t.get("name")
+    if not isinstance(k, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", k):
+        refuse(f"{TAGS.name}: a tag's key must be lower case letters, digits and hyphens, and {k!r} is not.")
+        continue
+    if not isinstance(n, str) or not n.strip():
+        refuse(f"{TAGS.name}: the tag {k} has no name to show on the chat.")
+        continue
+    if not isinstance(t.get("means"), str) or not t["means"].strip():
+        refuse(f"{TAGS.name}: the tag {k} does not say what it means, so the next room cannot be tagged by it.")
+    if k in [v["key"] for v in vocab] or n.casefold() in names:
+        refuse(f"{TAGS.name}: the tag {k} ({n}) is listed twice.")
+        continue
+    names.add(n.casefold())
+    vocab.append({"key": k, "name": n.strip()})
+known = {v["key"] for v in vocab}
+grouped = set(community) | set(mods)
+tagged = {v["key"]: [] for v in vocab}
+given = tagdoc.get("rooms", {})
+for p, ts in given.items():
+    t = by_page.get(p)
+    if t is None:
+        refuse(f"{TAGS.name} tags {p}, and the street's list (cb-rooms.json) has no such room.")
+        continue
+    if t in grouped or t == stem:
+        refuse(f"{TAGS.name} tags {p}, which the chat lists under Community or Staff, or is the chat itself: take its tags off.")
+        continue
+    if not isinstance(ts, list) or not ts:
+        refuse(f"{TAGS.name}: {p} has no tags.")
+        continue
+    if len(set(ts)) != len(ts):
+        refuse(f"{TAGS.name}: {p} has a tag twice.")
+    for k in ts:
+        if k not in known:
+            refuse(f"{TAGS.name}: {p} has the tag {k!r}, which its list of tags does not have.")
+for r in rooms:
+    p, t = page_of(r), r["tag"]
+    if t in grouped or t == stem:
+        continue
+    if p not in given:
+        refuse(f"{p} is on the street's list and has no tags in {TAGS.name}, so the chat has no group for it. Give it the tags that are true of it.")
+for r in rooms:
+    for k in given.get(page_of(r)) or []:
+        if k in tagged and r["tag"] not in tagged[k]:
+            tagged[k].append(r["tag"])
+for v in vocab:
+    if not tagged[v["key"]]:
+        refuse(f"{TAGS.name}: no room has the tag {v['key']}, so the chat would show an empty group. Use it or take it off the list.")
+
+# MUSIC AND VIDEOS ARE THINGS TO PRESS AND PLAY, AND NOW PLAYING KNOWS WHICH ROOMS HAVE THEM.
+venues = {v.get("page") for v in json.loads(PLAYING.read_text()).get("venues", [])}
+for p, ts in given.items():
+    if not isinstance(ts, list) or p not in by_page:
+        continue
+    plays = [k for k in ("music", "videos") if k in ts]
+    if plays and p not in venues:
+        refuse(f"{TAGS.name}: {p} is tagged {' and '.join(plays)}, and Now Playing says it has nothing to press and play.")
+for p in sorted(venues):
+    t = by_page.get(p)
+    if t is None or t in grouped:
+        continue
+    if not any(k in (given.get(p) or []) for k in ("music", "videos")):
+        refuse(f"{TAGS.name}: {p} is on the Now Playing bill, so it has something to press and play, and it is tagged neither music nor videos.")
+
+# cb.js keeps its promises about this page.
 m = re.search(r"var CHAT_PAGE = '([a-z0-9-]+)'", cb)
 if not m or m.group(1) != stem:
     refuse(f"cb.js must say CHAT_PAGE = '{stem}', the chat page's own name, so the page is never a channel on itself.")
@@ -183,7 +278,9 @@ if problems:
         print("  · " + p)
     sys.exit(1)
 
-groups = json.dumps({"community": community, "staff": staff}, separators=(",", ":"))
+groups = json.dumps({"community": community, "staff": staff,
+                     "tagged": [dict(v, rooms=tagged[v["key"]]) for v in vocab]},
+                    ensure_ascii=False, separators=(",", ":"))
 block = (
     f'  <div data-cb-dock data-chat-groups="{html.escape(groups, quote=True)}" style="margin-top:24px;">\n'
     '    <p>The chat opens here for anybody signed on to the CB in this browser. Not on the CB yet? It is by invite: '
@@ -197,4 +294,4 @@ new = re.sub(re.escape(begin) + r".*?" + re.escape(end),
 if new != src:
     PAGE.write_text(new)
     print(f"make-chat.py: wrote the channel groups into {PAGE.name}.")
-print("make-chat.py: the chat's groups agree with the street's rooms, Cavendish Coworking's and MOD_ROOMS.")
+print("make-chat.py: the chat's groups agree with the street's rooms, Cavendish Coworking's, MOD_ROOMS and every room's tags.")

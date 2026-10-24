@@ -791,7 +791,7 @@
    "tag": "chat",
    "name": "Chat",
    "path": "/chat.html",
-   "about": "The chat: every room’s channel on the CB on one page, the way chat lays them out, with the channels down the left in three groups, Community, Staff and World, the channel you pick in the middle and who is around on the right. For anybody signed on to the CB, which you join with an invite."
+   "about": "The chat: every room’s channel on the CB on one page, the way chat lays them out, with the channels down the left in Community, Staff and every other room under its tags, from music and pets to calm and homes, the channel you pick in the middle and who is around on the right. For anybody signed on to the CB, which you join with an invite."
   },
   {
    "tag": "directory",
