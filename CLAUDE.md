@@ -4315,6 +4315,23 @@ gone; the desk's drawings are previews and remember nothing. **The friendly edit
 of Put it up, or a time in the id**, which would bring a notice back for everybody when a moderator
 puts the same words up again, and say when.
 
+**I NEED A BODYMIND BREAK IS FURNITURE, AND IT ASKS BEFORE IT STOPS ANYTHING.** Helen Edgar's idea and Ryan's
+answer, 2026-10-24, after Cavendish Space's button: a calm screen over any page (`bodymind-break.js`,
+`bodymind-break.css`, §2's `--bbr-*`), a far treeline in mist, a few words, crisis lines and the Help page (Helen's
+ask the same day), and a forest film on a plate. The button is in the dial's box (`love.js` builds it, never on a
+`data-cb="off"` page or in a frame), under Where you are on the radio, and as **Break** on the folded radio's bar and the
+guest bar, where Bodymind break wrapped the row; `love.js` holds the loader and `cb.js` a copy for its own window. Its
+own colours, not a room's and not the radio's theme, because a room's colours are what somebody is getting away
+from. **Nothing on it moves at any setting, MAX GLITTER included; it keeps and sends nothing; the forest is a frame
+apart** (`loveEmbed.frame(id, title, null, true)`: no enablejsapi, untracked, so a host's beacon never announces it);
+**and it pauses nothing by itself**: it offers Pause it (`loveEmbed.quiet()`, and any `<audio>`/`<video>`), because
+somebody may have the Latibulum's ocean waves on on purpose. The radio reads nothing aloud while it is up
+(`breakUp()` in `speak`). `tools/make-bodymind-break.py` writes the film out of `data/bodymind-break.json` and holds
+every one of those. **The friendly edits are a breathing circle or drifting leaves "so it is not so empty", pausing
+the page automatically, the break in the room's colours, and a sentence saying what the forest will do for you**
+(its description sells it for sleep and focus); Helen asked for a blank screen, and a break that decided for you
+is not one.
+
 **PLURAL MURAL'S CHALKBOARD IS THE CB'S, AND IT IS THE ONE PUBLIC THING THE CB HOLDS.** Helen Edgar's
 idea, after the board at her floatation tank place. Ryan's call, 2026-09-25: **anybody reads it, only a CB
 pass writes on it, and a note stays seven days**, thirty at most. Those two differences from the channel

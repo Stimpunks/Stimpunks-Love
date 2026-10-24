@@ -1303,6 +1303,27 @@
     this.hereName = el('p', 'cb-here-name');
     (whereSec || hereSec).appendChild(this.hereName);
 
+    /* I NEED A BODYMIND BREAK (Helen Edgar's idea and Ryan's answer,
+       2026-10-24): the calm screen in bodymind-break.js, straight under where
+       you are, and on the bar while the radio is folded, where Teleport and
+       the size buttons step aside and leave it room. Not on the bar at Small,
+       which is full; the dial's box has one too. Opening it sends nothing, and
+       the radio says nothing aloud while it is up (see speak). */
+    var brk = this.breakBtn = el('button', 'cb-btn cb-break', 'I need a bodymind break');
+    brk.type = 'button';
+    brk.setAttribute('aria-haspopup', 'dialog');
+    brk.addEventListener('click', function () { me.hush(); takeBreak(brk); });
+    (whereSec || hereSec).appendChild(brk);
+    // Break on the bar, as on the guest bar; its name says the whole of it.
+    var brkBar = this.breakBarBtn = el('button', 'cb-btn cb-break-bar', 'Break');
+    brkBar.type = 'button';
+    brkBar.hidden = true;
+    brkBar.setAttribute('aria-label', 'I need a bodymind break');
+    brkBar.title = 'I need a bodymind break';
+    brkBar.setAttribute('aria-haspopup', 'dialog');
+    brkBar.addEventListener('click', function () { me.hush(); takeBreak(brkBar); });
+    bar.insertBefore(brkBar, move);
+
     var who = el('p', 'cb-who');
     who.appendChild(document.createTextNode('On the channel as '));
     who.appendChild(el('b', null, state.handle));
@@ -2217,6 +2238,23 @@
     return !ua || ua.hasBeenActive;
   }
 
+  /* THE BODYMIND BREAK's loader: love.js's, and a copy of it for the radio's
+     own window (cb-window.html), which has no love.js. bodymind-break.js is
+     downloaded on the first press and on no page before. */
+  function takeBreak(from) {
+    if (window.loveTakeBreak) { window.loveTakeBreak(from); return; }
+    if (window.loveBreak) { window.loveBreak.take(from); return; }
+    var s = document.querySelector('script[data-love-break]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/bodymind-break.js';
+      s.setAttribute('data-love-break', '');
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.loveBreak) window.loveBreak.take(from); });
+  }
+  function breakUp() { return !!(window.loveBreak && window.loveBreak.open); }
+
   Radio.prototype.hush = function () {
     this.air = [];
     this.onAir = false;
@@ -2281,7 +2319,8 @@
   }
 
   Radio.prototype.speak = function (li) {
-    if (!this.state.speak || this.state.folded) return;
+    // Nothing aloud during a bodymind break; it is on the channel afterwards.
+    if (!this.state.speak || this.state.folded || breakUp()) return;
     (this.air = this.air || []).push(spokenText(li));
     if (!this.onAir) this.transmitNext();
   };
@@ -2886,6 +2925,7 @@
     this.set.hidden = folded;
     this.sizer.hidden = folded;
     this.tpBtn.hidden = folded;
+    this.breakBarBtn.hidden = !folded;
     if (folded && !this.tpPanel.hidden) this.setTeleport(false);
     if (folded && !this.petsPanel.hidden) this.setPets(false);
     if (folded && !this.acctPanel.hidden) this.setAccount(false);

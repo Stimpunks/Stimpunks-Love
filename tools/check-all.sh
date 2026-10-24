@@ -47,7 +47,7 @@ STEPS=(
   make-collection make-vital make-open-notebook make-learning-large make-hey-good-cookin make-pekoe make-a-quiet-pint make-brew-and-stew make-mountain-cabin make-natures-contribution make-all-needs-met make-brighter-days make-gentle-help make-all-together-now make-the-dairy make-the-honesty-box make-wide-spread-chaos make-the-run make-truckin-food-court make-the-green make-the-pile make-your-room make-sandbox make-community make-member-map make-dressup make-bodymind make-fancy-dress make-chimera-obscura make-cozies make-mural make-pando make-fridge make-stair make-rescue make-accounts make-brass make-forum make-tasks make-office make-profile
   make-coworking make-town-hall make-live-room make-broadside make-doom-scoop make-library make-dance-punks
   make-small-hours make-repeater make-nothing-for-sale make-covenstead
-  make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry
+  make-lagoon make-looming make-sithen make-stay-frosty make-stay-breezy make-mycelium make-big-steep make-glow make-rave make-cooldown make-mud make-secret-cabin make-foundry make-bodymind-break
   # Things that read the rooms, after the rooms.
   make-now-playing make-map make-signoff make-structured make-sitemap make-chat make-world make-search-index
   make-feed make-csp make-agent-files make-og make-icons make-security

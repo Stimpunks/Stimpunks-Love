@@ -1684,6 +1684,18 @@
   --fx-case: #121216;  --fx-bar: #1F1F26;  --fx-text: #ECEAF2;  --fx-dim: #ADA8BA;
   --fx-lit: #C6F36B;   --fx-on: #16180F;
 
+  /* The bodymind break (bodymind-break.js, bodymind-break.css). NOT A ROOM'S
+     PALETTE: a calm screen laid over whichever room somebody is in when they
+     ask for a break, so it keeps its own clothes, the fractal window's way.
+     Helen Edgar asked for a blank, cool screen and Ryan for a biophilic one, so
+     it is a far treeline in mist: dusk where the device is dark, mist where it
+     is light, and the trees barely there in either (ornament, measured in
+     check-contrast.py). Every word stands on the flat ground or the plate. */
+  --bbr-dusk: #16211C;  --bbr-dusk-plate: #1F2D27;  --bbr-dusk-ink: #DCE6DD;  --bbr-dusk-quiet: #A9BCAE;
+  --bbr-dusk-leaf: #9BCFAE;  --bbr-dusk-far: #1A2722;  --bbr-dusk-near: #1F2E28;
+  --bbr-mist: #E3EBE5;  --bbr-mist-plate: #D3DFD7;  --bbr-mist-ink: #1B2922;  --bbr-mist-quiet: #3D5146;
+  --bbr-mist-leaf: #2B5D44;  --bbr-mist-far: #D6E1D9;  --bbr-mist-near: #C9D7CD;
+
   /* The Chappell (§12). Its own five, because a subroom that borrowed the
      dancefloor's palette would be the harmonising instinct getting in through
      the side door it was told not to use. --nave is the ground; the glass
@@ -4227,6 +4239,19 @@ html[data-intensity="max"]     .door:hover { transform: translateY(-6px) rotate(
   margin-top: 9px; padding-top: 9px; font-size: 12px; color: var(--chalk);
   border-top: 1px solid var(--ink-3);
 }
+/* I NEED A BODYMIND BREAK (2026-10-24), built into the box by love.js and
+   opening bodymind-break.js's calm screen. In the dial's own clothes, a whole
+   row under the fine print, and in the radio's plain face rather than Bungee,
+   because the one button here for somebody who has had enough of the noise
+   should not shout. Its edge is the Gentle setting's green. (0,2,0) so a room's
+   own button rules do not reach it, and the yellow ring for the dial's reason. */
+.dial .dial__break {
+  display: block; width: 100%; margin-top: 11px; min-height: 44px; padding: 9px 10px; cursor: pointer;
+  font: 700 14px/1.25 'Atkinson Hyperlegible', var(--sans); letter-spacing: 0; text-transform: none; text-align: center;
+  border-radius: 9px; border: 3px solid var(--green); background: var(--ink); color: var(--chalk);
+}
+.dial .dial__break:hover { border-color: #fff; color: #fff; }
+.dial .dial__break:focus-visible { outline-color: var(--yellow) !important; }
 
 
 /* §4 ── Shared furniture ─────────────────────────────────────────────────────

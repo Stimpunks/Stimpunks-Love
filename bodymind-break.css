@@ -1,0 +1,102 @@
+/* =============================================================================
+   The bodymind break's screen, inside its own shadow root (bodymind-break.js).
+
+   A far treeline in mist, and nothing else: Helen Edgar asked for a blank,
+   cool screen and Ryan for a biophilic one. Dusk where the device is dark,
+   mist where it is light, and where the device asks for more contrast the
+   quiet words go to full ink and the trees go. Every colour is one of §2's
+   --bbr-*, measured in check-contrast.py, and every word stands on the flat
+   ground or the forest's plate; tools/make-bodymind-break.py refuses a colour
+   written here any other way.
+
+   NOTHING HERE MOVES, AT ANY SETTING: no animation, no transition and no
+   transform, which the same tool refuses. The dial is for the rooms, and this
+   is where somebody goes to get away from them.
+   ============================================================================= */
+:host {
+  --g: var(--bbr-dusk); --plate: var(--bbr-dusk-plate); --ink: var(--bbr-dusk-ink);
+  --quiet: var(--bbr-dusk-quiet); --leaf: var(--bbr-dusk-leaf);
+  --far: var(--bbr-dusk-far); --near: var(--bbr-dusk-near);
+}
+@media (prefers-color-scheme: light) {
+  :host {
+    --g: var(--bbr-mist); --plate: var(--bbr-mist-plate); --ink: var(--bbr-mist-ink);
+    --quiet: var(--bbr-mist-quiet); --leaf: var(--bbr-mist-leaf);
+    --far: var(--bbr-mist-far); --near: var(--bbr-mist-near);
+  }
+}
+@media (prefers-contrast: more) {
+  :host { --quiet: var(--ink); --leaf: var(--ink); }
+  .bbr-trees { display: none; }
+}
+
+[hidden] { display: none !important; }
+*, *::before, *::after { box-sizing: border-box; }
+
+.bbr {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0; overflow: hidden;
+  background: var(--g); color: var(--ink);
+  font: 18px/1.6 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left;
+}
+.bbr::backdrop { background: var(--g); }
+
+.bbr-trees {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  width: 100%; height: min(30vh, 240px);
+  pointer-events: none;
+}
+.bbr-far { fill: var(--far); }
+.bbr-near { fill: var(--near); }
+
+.bbr-page {
+  position: relative; height: 100%;
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.bbr-col {
+  max-width: 34rem; margin: 0 auto;
+  padding: clamp(24px, 6vh, 72px) 24px calc(min(30vh, 240px) * 0.5 + 32px);
+  display: grid; gap: 18px;
+}
+.bbr p { margin: 0; }
+.bbr a { color: var(--leaf); text-underline-offset: 3px; }
+.bbr :focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; }
+
+.bbr-h {
+  margin: 0; font-size: clamp(28px, 6vw, 38px); line-height: 1.15; font-weight: 700;
+}
+.bbr-h:focus { outline: none; }
+.bbr-h:focus-visible { outline: 3px solid var(--leaf); }
+.bbr-lead { display: grid; gap: 4px; font-size: clamp(21px, 4.2vw, 25px); line-height: 1.4; }
+.bbr-quiet, .bbr-credit { color: var(--quiet); font-size: 16px; }
+.bbr-credit { font-size: 14.5px; }
+.bbr-credit cite { font-style: italic; }
+
+.bbr-help, .bbr-pause, .bbr-forest { display: grid; gap: 10px; justify-items: start; }
+.bbr-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.bbr-btn, .bbr-link-btn, .bbr-play {
+  min-height: 44px; padding: 9px 20px; cursor: pointer;
+  font: 700 17px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif;
+  color: var(--ink); background: transparent;
+  border: 2px solid var(--leaf); border-radius: 999px;
+}
+.bbr-link-btn { display: inline-block; text-decoration: none; color: var(--ink); }
+.bbr-back { justify-self: start; color: var(--g); background: var(--leaf); }
+
+/* The forest's plate, before the press: what it is and how long it runs. */
+.bbr-play {
+  display: inline-flex; align-items: center; gap: 14px; text-align: left;
+  padding: 12px 22px 12px 16px; border-radius: 14px; background: var(--plate);
+}
+.bbr-play__mark { color: var(--leaf); font-size: 20px; line-height: 1; }
+.bbr-play__words { display: grid; }
+.bbr-play__runs { color: var(--quiet); font-size: 15px; font-weight: 400; }
+.bbr-play:disabled { cursor: progress; }
+
+/* The forest, pressed: a 16:9 screen, the full width of the column. */
+.bbr-slot { width: 100%; }
+.bbr-screen { position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--plate); border-radius: 12px; }
+.bbr-screen iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 12px; }

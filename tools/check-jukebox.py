@@ -324,6 +324,11 @@ LISTS = [
     # Community Care's one talk, Vivian Ly's at Autscape 2020, on Autscape's own
     # channel: the source of the four things the room's channel is for.
     ("community care", "data/community-care.json", "community-care.html"),
+    # The bodymind break's forest, on Relaxation Film's channel: in no room, on
+    # the calm screen any page opens from its dial or its CB, and so the one
+    # facade here somebody presses when they are least able to find out why it
+    # will not play.
+    ("the bodymind break", "data/bodymind-break.json", "bodymind-break.js"),
 ]
 
 

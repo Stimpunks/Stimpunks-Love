@@ -45,6 +45,42 @@
       btns[i].addEventListener('click', function () { apply(this.dataset.level, true); });
     }
     apply(root.getAttribute('data-intensity') || 'regular', false);
+    breakButton(box);
+  }
+
+  /* ── The bodymind break ──────────────────────────────────────────────────
+     Helen Edgar's ask and Ryan's answer, 2026-10-24: I need a bodymind break,
+     in the dial's box as well as on the CB, opening a calm screen over the
+     page (bodymind-break.js). The button is built here, so a page with no
+     script shows no dead control, and the file is not downloaded until it is
+     pressed. Wherever the radio or the guest bar may come: not inside a frame,
+     and not on a page whose <body> says data-cb="off", which are the pages
+     already promising quiet (the Healing Checkpoint, Stay Frosty) and the
+     call's own window. guest.js presses it through window.loveTakeBreak; cb.js
+     keeps a copy of the loader, because the radio's own window has no love.js. */
+  function takeBreak(from) {
+    if (window.loveBreak) { window.loveBreak.take(from); return; }
+    var s = document.querySelector('script[data-love-break]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/bodymind-break.js';
+      s.setAttribute('data-love-break', '');
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.loveBreak) window.loveBreak.take(from); });
+  }
+  window.loveTakeBreak = takeBreak;
+  function breakButton(box) {
+    var b = document.body;
+    if (!b || b.getAttribute('data-cb') === 'off') return;
+    try { if (window.top !== window.self) return; } catch (e) { return; }
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'dial__break';
+    btn.setAttribute('aria-haspopup', 'dialog');
+    btn.textContent = 'I need a bodymind break';
+    btn.addEventListener('click', function () { takeBreak(btn); });
+    box.appendChild(btn);
   }
 
   /* ── The Stim Box ────────────────────────────────────────────────────────

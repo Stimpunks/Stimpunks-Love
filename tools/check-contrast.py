@@ -221,6 +221,17 @@ CB_ROLES = [
 # carries no words and is the room's own colours, limited so it cannot flash.
 FX_CASE, FX_BAR, FX_TEXT, FX_DIM = "#121216", "#1F1F26", "#ECEAF2", "#ADA8BA"
 FX_LIT, FX_ON = "#C6F36B", "#16180F"
+# The bodymind break (bodymind-break.css), furniture again: a calm screen over any
+# page, dusk on a dark device and mist on a light one. Read the note beside
+# --bbr-dusk in love.css §2. Every word is on the flat ground or the forest's
+# plate; the treeline at the foot of the screen is ornament, below, and the
+# words are held against it too, because on a short screen they scroll over it.
+BBR = {
+    "dusk": dict(g="#16211C", plate="#1F2D27", ink="#DCE6DD", quiet="#A9BCAE", leaf="#9BCFAE",
+                 far="#1A2722", near="#1F2E28"),
+    "mist": dict(g="#E3EBE5", plate="#D3DFD7", ink="#1B2922", quiet="#3D5146", leaf="#2B5D44",
+                 far="#D6E1D9", near="#C9D7CD"),
+}
 SKY_H, SKY_2 = "#BCDDEA", "#E4F0F1"   # --daysky, --daysky-2
 FURROW, FURROW2 = "#16291C", "#34483A"
 SPROUT, SPROUT2, BLOOM = "#2C6B45", "#1D4D30", "#B5760A"   # --sprout, --sprout-2
@@ -3693,6 +3704,32 @@ PAIRS = [
     (FX_LIT,  FX_CASE, False, "fractal window: the focus ring, and the pressed speed's edge"),
     (FX_LIT,  FX_BAR,  False, "fractal window: the focus ring on the bar's buttons"),
     (FX_ON,   FX_LIT,  False, "fractal window: the pressed speed's word, dark on lime"),
+    (BBR["dusk"]["ink"], BBR["dusk"]["g"], False, "bodymind break (dark devices): every word, on the ground"),
+    (BBR["dusk"]["quiet"], BBR["dusk"]["g"], False, "bodymind break (dark devices): the quiet lines, the credit and the runtime, on the ground"),
+    (BBR["dusk"]["leaf"], BBR["dusk"]["g"], False, "bodymind break (dark devices): the links, the focus ring and every button's edge, on the ground"),
+    (BBR["dusk"]["ink"], BBR["dusk"]["plate"], False, "bodymind break (dark devices): every word, on the forest's plate"),
+    (BBR["dusk"]["quiet"], BBR["dusk"]["plate"], False, "bodymind break (dark devices): the quiet lines, the credit and the runtime, on the forest's plate"),
+    (BBR["dusk"]["leaf"], BBR["dusk"]["plate"], False, "bodymind break (dark devices): the links, the focus ring and every button's edge, on the forest's plate"),
+    (BBR["dusk"]["ink"], BBR["dusk"]["far"], False, "bodymind break (dark devices): every word, on the far trees"),
+    (BBR["dusk"]["quiet"], BBR["dusk"]["far"], False, "bodymind break (dark devices): the quiet lines, the credit and the runtime, on the far trees"),
+    (BBR["dusk"]["leaf"], BBR["dusk"]["far"], False, "bodymind break (dark devices): the links, the focus ring and every button's edge, on the far trees"),
+    (BBR["dusk"]["ink"], BBR["dusk"]["near"], False, "bodymind break (dark devices): every word, on the near trees"),
+    (BBR["dusk"]["quiet"], BBR["dusk"]["near"], False, "bodymind break (dark devices): the quiet lines, the credit and the runtime, on the near trees"),
+    (BBR["dusk"]["leaf"], BBR["dusk"]["near"], False, "bodymind break (dark devices): the links, the focus ring and every button's edge, on the near trees"),
+    (BBR["dusk"]["g"], BBR["dusk"]["leaf"], False, "bodymind break (dark devices): I'm back, the ground on a leaf button"),
+    (BBR["mist"]["ink"], BBR["mist"]["g"], False, "bodymind break (light devices): every word, on the ground"),
+    (BBR["mist"]["quiet"], BBR["mist"]["g"], False, "bodymind break (light devices): the quiet lines, the credit and the runtime, on the ground"),
+    (BBR["mist"]["leaf"], BBR["mist"]["g"], False, "bodymind break (light devices): the links, the focus ring and every button's edge, on the ground"),
+    (BBR["mist"]["ink"], BBR["mist"]["plate"], False, "bodymind break (light devices): every word, on the forest's plate"),
+    (BBR["mist"]["quiet"], BBR["mist"]["plate"], False, "bodymind break (light devices): the quiet lines, the credit and the runtime, on the forest's plate"),
+    (BBR["mist"]["leaf"], BBR["mist"]["plate"], False, "bodymind break (light devices): the links, the focus ring and every button's edge, on the forest's plate"),
+    (BBR["mist"]["ink"], BBR["mist"]["far"], False, "bodymind break (light devices): every word, on the far trees"),
+    (BBR["mist"]["quiet"], BBR["mist"]["far"], False, "bodymind break (light devices): the quiet lines, the credit and the runtime, on the far trees"),
+    (BBR["mist"]["leaf"], BBR["mist"]["far"], False, "bodymind break (light devices): the links, the focus ring and every button's edge, on the far trees"),
+    (BBR["mist"]["ink"], BBR["mist"]["near"], False, "bodymind break (light devices): every word, on the near trees"),
+    (BBR["mist"]["quiet"], BBR["mist"]["near"], False, "bodymind break (light devices): the quiet lines, the credit and the runtime, on the near trees"),
+    (BBR["mist"]["leaf"], BBR["mist"]["near"], False, "bodymind break (light devices): the links, the focus ring and every button's edge, on the near trees"),
+    (BBR["mist"]["g"], BBR["mist"]["leaf"], False, "bodymind break (light devices): I'm back, the ground on a leaf button"),
     (CB_STEEL2, CB_CASE,  False, "cb: every button's border and the case's rim, held to the body "
                                  "threshold because a button you cannot find the edge of is a "
                                  "button you cannot find; and the heading over each part of the "
@@ -3988,6 +4025,10 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#1a2722": "bodymind break: --bbr-dusk-far, the far treeline in the dusk, 1.07 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
+    "#1f2e28": "bodymind break: --bbr-dusk-near, the near treeline in the dusk, 1.17 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
+    "#d6e1d9": "bodymind break: --bbr-mist-far, the far treeline in the mist, 1.11 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
+    "#c9d7cd": "bodymind break: --bbr-mist-near, the near treeline in the mist, 1.23 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
     "#91918e": "tasks: --cb-status-gray-dot, the dot before Not Started on its pill, 2.44 on the fill; the word carries the status, the dot is Notion's ornament.",
     "#2383e2": "tasks: --cb-status-blue-dot, the dot before Started on its light blue pill, 3.00 on the fill; the word carries the status.",
     "#448361": "tasks: --cb-status-green-dot, the dot before Completed on its pill, 3.68 on the fill; the word carries the status.",

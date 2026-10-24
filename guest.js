@@ -143,6 +143,18 @@
     tp.setAttribute('aria-controls', 'cb-guest-tp');
     name.appendChild(tp);
     bar.appendChild(name);
+    /* I NEED A BODYMIND BREAK (2026-10-24): the calm screen in
+       bodymind-break.js, for everybody, signed on or not, through love.js's
+       loader, which downloads it on the first press. It sends nothing. On the
+       bar it says Break, because Bodymind break wrapped the row by forty
+       pixels; its name and its tooltip say the whole of it. */
+    var brk = el('button', 'cb-btn cb-break-bar', 'Break');
+    brk.type = 'button';
+    brk.setAttribute('aria-label', 'I need a bodymind break');
+    brk.title = 'I need a bodymind break';
+    brk.setAttribute('aria-haspopup', 'dialog');
+    brk.addEventListener('click', function () { if (window.loveTakeBreak) window.loveTakeBreak(brk); });
+    bar.appendChild(brk);
     var on = el('button', 'cb-btn cb-guest-on', 'Get on the CB');
     on.type = 'button';
     on.setAttribute('aria-controls', 'cb-guest-set');

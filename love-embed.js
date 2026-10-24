@@ -268,6 +268,21 @@
   function play() { return command('playVideo'); }
   function pause() { return command('pauseVideo'); }
 
+  /* EVERY FILM PLAYING ON THE PAGE, for the bodymind break (2026-10-24), live
+     ones too: playing() says whether any is, and quiet() pauses each one, and
+     only when somebody pressed Pause it on the break. Nothing here plays any
+     of them again; whoever wants one back presses play on it. */
+  function busy() {
+    players = players.filter(function (q) { return q.el.isConnected; });
+    return players.filter(function (q) { return q.state === 1 || q.state === 3; });
+  }
+  function playing() { return busy().length > 0; }
+  function quiet() {
+    busy().forEach(function (q) {
+      q.el.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [], id: 1, channel: 'widget' }), YT);
+    });
+  }
+
   /* A FILM IN A LIST, for the CB's Follow and Catch up when the host's film
      is another film of a list this page is playing: the list goes to that
      film and that place in it in one message, YouTube's own loadPlaylist,
@@ -292,9 +307,14 @@
     return { index: at };
   }
 
-  function frameUrl(src, title) {
+  /* A FRAME APART is one the CB never hears about: no enablejsapi, so the
+     player says nothing to this page, and not tracked, so where(), Host this
+     film, Follow and the break's Pause it all leave it alone. The bodymind
+     break's forest is one, so that a host who takes a break and watches the
+     forest does not start telling the room they are watching it. */
+  function frameUrl(src, title, apart) {
     if (!src || !ORIGINS.some(function (o) { return src.indexOf(o) === 0; })) return null;
-    var yt = src.indexOf(YT + '/') === 0;
+    var yt = src.indexOf(YT + '/') === 0 && !apart;
     if (yt && !/[?&]enablejsapi=/.test(src)) {
       src += (src.indexOf('?') < 0 ? '?' : '&') + 'enablejsapi=1&origin=' + encodeURIComponent(location.origin);
     }
@@ -341,9 +361,9 @@
     return src.replace(/^([^?]*\/embed\/)[^/?]+/, '$1' + id);
   }
 
-  function frame(id, title, start) {
+  function frame(id, title, start, apart) {
     if (!id || !/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
-    var el = frameUrl(withStart('https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0', start), title);
+    var el = frameUrl(withStart('https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0', start), title, apart);
     if (!el) return null;
     el.title = title || 'Embedded video';
     return el;
@@ -395,7 +415,7 @@
     return el;
   }
 
-  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, play: play, pause: pause, toEntry: toEntry, withStart: withStart };
+  window.loveEmbed = { frame: frame, frameUrl: frameUrl, audio: audio, where: where, seek: seek, play: play, pause: pause, toEntry: toEntry, withStart: withStart, playing: playing, quiet: quiet };
 
   function swap(btn) {
     /* Named player, not `frame`: `var frame` here would be hoisted over the

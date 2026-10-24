@@ -1,0 +1,18 @@
+{
+  "_what": "The one film on the bodymind break: the calm screen the CB's I need a bodymind break opens over any page. tools/make-bodymind-break.py writes it into bodymind-break.js between the break:forest markers, and check-jukebox.py asks YouTube whether it still plays and embeds.",
+  "_source": "Helen Edgar's idea, 2026-10-24: the street is busy even at Gentle, so a blank, cool screen to regulate in, saying breathe, it will be okay, with the choice of watching a forest; she linked this film. Ryan's answer the same day was Cavendish Space's I need a bodymind break button, in the CB, opening a simple, calming, biophilic overlay with this forest. The id, title, channel, runtime and the music's credit were read off the film's own watch page and description on 2026-10-24 (yt-dlp): playable, embeddable, not live, not age-limited.",
+  "_licence": "NOTHING FILMED OR MUSICAL IS HOSTED HERE: the film stays on Relaxation Film's channel and is framed only when somebody presses it. Its description sells it for sleep, focus and relaxation and as 'Healing' music; none of that is repeated on the break, which says what is in it and how long it runs, and never what it will do for anybody.",
+  "tracks": [
+    {
+      "slot": "forest",
+      "id": "RzVvThhjAKw",
+      "artist": "Relaxation Film",
+      "title": "Forest 4K • Nature Relaxation Film • Peaceful Relaxing Music",
+      "channel": "Relaxation Film",
+      "channel_verbatim": "Relaxation Film",
+      "music": "Richard Nomad",
+      "length": "3:00:52",
+      "what": "a forest: streams, birdsong and soft piano"
+    }
+  ]
+}
