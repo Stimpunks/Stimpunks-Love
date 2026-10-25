@@ -24920,6 +24920,11 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
    bar and all; and every command is its screen. Classes are sbs-, so a name of
    the room's can never meet one of ours. Nothing here moves at any setting. Its
    maker is named in its credits only, at their ask: do not name them here. */
+/* The dial comes after the room's title, under the laptop, and is centred on
+   it as the laptop is (Ryan, 2026-10-25: at the top and left it read as the
+   page's first thing). Where it sits is the maker's artifact's, moved there;
+   centring it beats the importer's own inline margin, hence !important. */
+.room-sandbox main > div:has(> .dial) { margin-left: auto !important; margin-right: auto !important; }
 .room-sandbox .sbs-list-h { font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 1.35rem; line-height: 1.2; margin: 1.6rem 0 .6rem; }
 .room-sandbox .sbs-signed, .room-sandbox .sbs-signon { font-weight: 500; }
 .room-sandbox .sbs-board .sbs-said:empty { margin: 0; }

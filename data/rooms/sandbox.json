@@ -26,7 +26,7 @@
   ],
   "imported": "2026-10-13",
   "artifact": "the-sandbox.html",
-  "artifact_sha256": "7a6ec9181884fecee3e71c69e111cec8bd07f0322685c2603535c104f6f4844e",
+  "artifact_sha256": "6ed0313b1990d70a8c79f26cc62a6f4e0814cb54e65d6db06b23a9fe0bda1eff",
   "clothes": {
     "ground": "--sb-dusk",
     "text": "--sb-sandlit",
@@ -117,10 +117,10 @@
     }
   ],
   "ornament": {
-    "#b8925a": "The Sandbox: --sb-sand carried no text when tools/import-room.py rendered the room on 2026-10-13; 5.82 against the room's ground. Measured by the import, not chosen by a person.",
-    "#7a5a38": "The Sandbox: --sb-sanddeep carried no text when tools/import-room.py rendered the room on 2026-10-13; 2.67 against the room's ground. Measured by the import, not chosen by a person.",
-    "#4a5566": "The Sandbox: --sb-metal carried no text when tools/import-room.py rendered the room on 2026-10-13; 2.22 against the room's ground. Measured by the import, not chosen by a person.",
-    "#ec7a3c": "The Sandbox: --sb-ember carried no text when tools/import-room.py rendered the room on 2026-10-13; 5.92 against the room's ground. Measured by the import, not chosen by a person.",
-    "#a8431f": "The Sandbox: --sb-emberdeep carried no text when tools/import-room.py rendered the room on 2026-10-13; 2.78 against the room's ground. Measured by the import, not chosen by a person."
+    "#b8925a": "The Sandbox: --sb-sand carried no text when tools/import-room.py rendered the room on 2026-10-25; 5.82 against the room's ground. Measured by the import, not chosen by a person.",
+    "#7a5a38": "The Sandbox: --sb-sanddeep carried no text when tools/import-room.py rendered the room on 2026-10-25; 2.67 against the room's ground. Measured by the import, not chosen by a person.",
+    "#4a5566": "The Sandbox: --sb-metal carried no text when tools/import-room.py rendered the room on 2026-10-25; 2.22 against the room's ground. Measured by the import, not chosen by a person.",
+    "#ec7a3c": "The Sandbox: --sb-ember carried no text when tools/import-room.py rendered the room on 2026-10-25; 5.92 against the room's ground. Measured by the import, not chosen by a person.",
+    "#a8431f": "The Sandbox: --sb-emberdeep carried no text when tools/import-room.py rendered the room on 2026-10-25; 2.78 against the room's ground. Measured by the import, not chosen by a person."
   }
 }

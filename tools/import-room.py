@@ -813,11 +813,16 @@ def main():
     page_path = ROOT / page_name
     data_path = ROOMS / f"{slug}.json"
     again = page_path.exists()
+    first_in = TODAY
     if again:
         if not data_path.exists() or f"<!-- import:{slug}:begin -->" not in page_path.read_text():
             refuse([f"{page_name} is already on the street and was not brought in by this tool. "
                     "Pick another slug."], "the slug is taken.")
         prior = json.loads(data_path.read_text())
+        # When it was first brought onto the street, which a new version does
+        # not change: the liner notes say when the room arrived, not when it
+        # was last imported.
+        first_in = prior.get("imported") or first_in
         if notes["named"] is None and prior.get("named") == "credits":
             notes["named"] = "credits"
             warnings.append("FOR THE STREET says nothing about where they are named, and the last version "
@@ -1497,7 +1502,7 @@ def main():
         "photographs": None, "words": notes["words"], "built_with": notes["built with"],
         "could_not_do": notes["could not do"], "named": notes["named"],
         "street_spaces": list(street_found),
-        "imported": TODAY, "artifact": args.artifact.name,
+        "imported": first_in, "artifact": args.artifact.name,
         "artifact_sha256": hashlib.sha256(src.encode()).hexdigest(),
         "clothes": {k: clothes[k] for k in ("ground", "text", "heading", "link", "heading_face", "text_face")},
         "fractal_from": recipe_from or "kept from the previous import",
@@ -1618,7 +1623,7 @@ def main():
         f'    <div><dt>{H.escape(title)} &mdash; {H.escape(notes["name"])}</dt><dd><a href="{page_name}">'
         f"{H.escape(title)}</a> is {who}&rsquo;s{(' (' + '; '.join(extra) + ')') if extra else ''}, the design and "
         f"the words. It was built in conversation with {H.escape(notes['built with'])}{an_ai}, and brought onto "
-        f"the street on {TODAY}. What they say about the words: &ldquo;{H.escape(notes['words'])}&rdquo; Its "
+        f"the street on {first_in}. What they say about the words: &ldquo;{H.escape(notes['words'])}&rdquo; Its "
         f"light, in their words: &ldquo;{H.escape(notes['light'])}&rdquo; Everything it quotes or borrows is "
         "credited at the foot of the room.</dd></div>",
         f"    <!-- import:{slug}:credit:end -->",
