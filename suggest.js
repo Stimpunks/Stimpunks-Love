@@ -153,8 +153,10 @@
     if (p.answer) {
       var ans = el('div', 'sbs-answer');
       var head = el('p', 'sbs-answer__head');
-      head.appendChild(el('b', null, STATUS[p.answer.status] || ''));
-      head.appendChild(document.createTextNode(', answered by '));
+      // A reply that leaves it open is a comment, not an answer.
+      var still = p.answer.status === 'open';
+      head.appendChild(el('b', null, still ? 'Still open' : STATUS[p.answer.status] || ''));
+      head.appendChild(document.createTextNode(still ? ', a reply from ' : ', answered by '));
       who(head, p.answer.handle, { base: true });
       head.appendChild(document.createTextNode(', ' + day(p.answer.t)));
       ans.appendChild(head);
@@ -439,12 +441,12 @@
     if (old) { old.remove(); opener.focus(); return; }
     var form = el('form', 'sbs-form');
     form.noValidate = true;
-    var status = choices('Your answer', 'status', [['done', 'Done'], ['denied', 'Not doing'], ['open', 'Still open (takes any answer off)']],
+    var status = choices('Your answer', 'status', [['done', 'Done'], ['denied', 'Not doing'], ['open', 'Still open']],
       p.answer ? p.answer.status : 'done');
     var reply = el('textarea', 'sbs-in sbs-in--body'); reply.rows = 5; reply.maxLength = 2000;
     if (p.answer) reply.value = p.answer.body;
     form.appendChild(status);
-    form.appendChild(field('Your reply', reply, 'Needed for done and not doing: whoever asked reads it, with your username on it. Markdown works. Still open takes the reply and its pictures off.'));
+    form.appendChild(field('Your reply', reply, 'Whoever asked reads it, with your username on it. Needed for done and not doing. With still open, a reply stays on it and it stays open, for a question or where it has got to; with still open and no reply, any answer comes off, pictures and all. Markdown works.'));
     var buttons = row();
     var go = button('Save the answer', 'submit'), stop = button('Leave it');
     buttons.appendChild(go); buttons.appendChild(stop);
@@ -452,22 +454,26 @@
     var pics = picsField(p.answer ? p.answer.pics : [], here);
     picturesFrom(reply, pics);
     form.appendChild(pics.el);
-    // Still open takes the answer off, pictures and all, so it asks for none.
-    function openNow() { pics.el.hidden = status.value() === 'open'; }
-    status.addEventListener('change', openNow); openNow();
     form.appendChild(buttons);
     form.appendChild(here);
     stop.addEventListener('click', function () { pics.done(); form.remove(); opener.focus(); });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var open = status.value() === 'open';
-      if (!open && !pics.check()) return;
+      // Still open with no reply takes any answer off, and asks for no pictures.
+      var open = status.value() === 'open', off = open && !reply.value.trim();
+      if (off && pics.list().length) { say('A picture goes with a reply. Say something with it, or take it off.', here); reply.focus(); return; }
+      if (off && !p.answer) { say('Write a reply to leave one while it stays open. There is no answer to take off.', here); reply.focus(); return; }
+      if (!off && !pics.check()) return;
       go.disabled = true;
       say('Saving…', here);
       call({ action: 'answer', id: p.id, status: status.value(), reply: reply.value,
-        pics: open ? [] : pics.list(), yes: open ? false : pics.yes() }).then(function (r) {
+        pics: off ? [] : pics.list(), yes: off ? false : pics.yes() }).then(function (r) {
         go.disabled = false;
-        if (r.status === 200) { all = r.body.items || []; pics.done(); draw(p.id); say('Answered, with your username on it.'); return; }
+        if (r.status === 200) {
+          all = r.body.items || []; pics.done(); draw(p.id);
+          say(off ? 'The answer is off, and it is still open.' : open ? 'Replied, with your username on it. It is still open.' : 'Answered, with your username on it.');
+          return;
+        }
         say(why(r, 'That did not work. The answer was not changed.'), here);
       }, function () { go.disabled = false; say('The box could not be reached just now. The answer was not changed.', here); });
     });

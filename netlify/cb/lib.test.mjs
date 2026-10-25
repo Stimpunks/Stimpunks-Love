@@ -522,6 +522,29 @@ test('the suggestion box: only a moderator answers, always with a reply, and can
   assert.equal(shown.status, 'open'); assert.equal(shown.answer, undefined, 'opening it again left the old answer on');
 });
 
+test('the suggestion box: a moderator can reply and leave it open', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { item } = await addSuggestion(ANY, { kind: 'bug', title: 'The kite', body: 'It will not fly.' }, s);
+  assert.ok((await answerSuggestion(ANY, item.id, { status: 'open', reply: 'Mine' }, s)).error, 'somebody who is not a moderator replied');
+  assert.ok((await answerSuggestion(MOD, item.id, { status: 'open', reply: 'x'.repeat(SUGGEST_BODY_MAX) }, s)).error, 'a reply too long');
+  const { id: pic } = await putSuggestImage(MOD, jpeg(), s, 0);
+  assert.ok((await answerSuggestion(MOD, item.id, { status: 'open', reply: ' ', pics: [{ id: pic, alt: 'x' }], yes: true }, s)).error, 'a picture with no reply');
+  await answerSuggestion(MOD, item.id, { status: 'open', reply: 'Which **browser**?' }, s, 70);
+  let shown = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.equal(shown.status, 'open', 'a reply closed it');
+  assert.deepEqual([shown.answer.status, shown.answer.handle, shown.answer.t, shown.answer.body], ['open', 'Juniper', 70, 'Which **browser**?'], 'the reply was not kept');
+  await answerSuggestion(MOD2, item.id, { status: 'open', reply: 'Found it.', pics: [{ id: pic, alt: 'x' }], yes: true }, s, 80);
+  assert.ok((await answerSuggestion(MOD2, item.id, { status: 'open', reply: 'Found it.', pics: [{ id: (await putSuggestImage(MOD2, jpeg(), s, 0)).id, alt: 'y' }], yes: true }, s, 80)).item);
+  await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Flying now.' }, s, 90);
+  shown = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.deepEqual([shown.status, shown.answer.body], ['done', 'Flying now.'], 'a reply could not become an answer');
+  await answerSuggestion(MOD, item.id, { status: 'open', reply: 'Opened again: it fell.' }, s, 100);
+  shown = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.deepEqual([shown.status, shown.answer.status], ['open', 'open'], 'opening it again with a reply did not keep the reply');
+  await answerSuggestion(MOD, item.id, { status: 'open', reply: '' }, s);
+  assert.equal(shapeSuggestion((await readSuggestions(s))[0]).answer, undefined, 'still open with no reply left the reply on');
+});
+
 test('the suggestion box: whoever posted it takes it down, a claimed one only with its password, and any moderator any', async () => {
   const s = memoryStore({ etagOnRead: true });
   const asAdaClaimed = { ...ANY, account: true };

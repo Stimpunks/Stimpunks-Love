@@ -2,7 +2,7 @@
    newest first, for anybody: the box is read by whoever walks past, like the
    Brass Tacks Board. POST, with a pass:
      { action: 'suggest', kind, title, body, pics, yes }   drop one in (anybody signed on)
-     { action: 'answer', id, status, reply, pics, yes }    done, not doing, or open again (a moderator)
+     { action: 'answer', id, status, reply, pics, yes }    done, not doing, or still open (a moderator)
      { action: 'remove', id }                   take one down (whoever posted it, or a moderator)
      { action: 'preview', body }                how the words will set
    pics is a list of { id, alt }, pictures already added at /cb/suggestions/image

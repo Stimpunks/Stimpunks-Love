@@ -5758,7 +5758,8 @@ writes there anyway, is no longer refused.
 **THE SUGGESTION BOX IS THE BRASS TACKS BOARD TURNED ROUND.** Ryan, 2026-10-13: anybody reads it,
 anybody signed on to the CB drops in a suggestion, a feature request or a bug report with their
 handle on it, and a moderator answers, done or not doing, **always with a reply** and their own
-username. `addSuggestion`, `answerSuggestion` and `removeSuggestion` in `lib.mjs`, `/cb/suggestions`;
+username, or replies and leaves it open (an answer whose status is `open`, Ryan's ask of 2026-10-25,
+so a moderator can ask something without closing it); still open with no reply takes any answer off. `addSuggestion`, `answerSuggestion` and `removeSuggestion` in `lib.mjs`, `/cb/suggestions`;
 the BASE and CLAIMED marks come from the pass, and taking one down is `canTakeOff`, the CB's rule for
 a message. The Markdown is `parseBrass`'s, built on the page by **`markdown.js`, which moved out of
 `brass.js` when the box became its second user** (the rack.js rule), and `make-brass.py` and

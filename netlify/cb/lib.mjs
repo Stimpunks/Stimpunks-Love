@@ -6343,7 +6343,9 @@ export async function clearNotice(who, s = store(), now = Date.now()) {
    anybody signed on to the CB can post a suggestion, a feature request or a bug
    report, and a moderator marks it done or not doing, with a reply. It is the
    Brass Tacks Board turned round: anybody reads it, anybody signed on writes on
-   it, and the moderators answer.
+   it, and the moderators answer. A moderator can also reply and leave it open,
+   to ask something or say where it has got to (Ryan's ask, 2026-10-25): an
+   answer whose status is open, which the box shows as still open.
 
    ONE BLOB HOLDS EVERY SUGGESTION (`suggestions`, newest first), written with
    the boards' conditional write, and SUGGEST_KEEP at most: a full box refuses
@@ -6480,16 +6482,19 @@ export async function addSuggestion(who, f, s = store(), now = Date.now()) {
   return { item };
 }
 
-/* A moderator answering: done or not doing, with a reply; or open again,
-   which takes the answer off. Answering again replaces the answer. */
+/* A moderator answering: done or not doing, always with a reply; or still
+   open, with a reply, which stays on it as a comment and leaves it open, or
+   with none, which takes any answer off. Answering again replaces the answer. */
 export async function answerSuggestion(who, id, f, s = store(), now = Date.now()) {
   if (!who || who.role !== 'base') return { error: 'Only a moderator can answer a suggestion.' };
   const status = f && ['done', 'denied', 'open'].includes(f.status) ? f.status : null;
   if (!status) return { error: 'Mark it done, not doing, or still open.' };
   let reply = null, got = { pics: [], fresh: [] };
-  if (status !== 'open') {
+  const wrote = !!String((f && f.reply) || '').trim();
+  if (status === 'open' && !wrote && Array.isArray(f.pics) && f.pics.length) return { error: 'A picture goes with a reply. Say something with it, or take it off.' };
+  if (status !== 'open' || wrote) {
     reply = cleanSuggestBody(f.reply, SUGGEST_REPLY_MAX);
-    if (!reply) return { error: `Say why, in a reply of up to ${SUGGEST_REPLY_MAX} characters: whoever asked will read it.` };
+    if (!reply) return { error: status === 'open' ? `A reply is up to ${SUGGEST_REPLY_MAX} characters.` : `Say why, in a reply of up to ${SUGGEST_REPLY_MAX} characters: whoever asked will read it.` };
     const now0 = (await readSuggestions(s)).find((p) => p.id === id);
     const had = ((now0 && now0.answer && now0.answer.pics) || []).map((x) => x.id);
     got = await suggestPics(who, f, had, s);
@@ -6506,7 +6511,7 @@ export async function answerSuggestion(who, id, f, s = store(), now = Date.now()
     if (got.pics.some((x) => !got.fresh.includes(x.id) && !was.includes(x.id))) { why = 'The answer changed while you were writing. Look at it again.'; return null; }
     if (heldElsewhere(list, got.fresh, null)) { why = 'One of those pictures is already in the box. Add it again.'; return null; }
     const next = { ...list[k] };
-    if (status === 'open') delete next.answer;
+    if (!reply) delete next.answer;
     else {
       next.answer = { status, body: reply, handle: who.handle, t: now };
       if (got.pics.length) next.answer.pics = got.pics;
