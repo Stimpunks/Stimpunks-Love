@@ -1014,6 +1014,7 @@ OOK_COAT, OOK_CREAM, OOK_DIM, OOK_BANANA = "#4B1B07", "#FCEBD3", "#F1CBA6", "#F7
 # word, so every ink is measured on the flat wall and on the panel.
 RDR_WALL, RDR_PANEL, RDR_INK, RDR_INK2 = "#22101A", "#30171F", "#F3E5D8", "#CDB4AC"
 RDR_FLAME, RDR_FLAME2, RDR_BRASS = "#F2994F", "#FFC76E", "#D6B06A"
+MYTH_AMBER = "#D98A2B"
 
 PAIRS = [
     # TASKS' TAG COLOURS (2026-10-20): a timeline bar is filled with its tag's
@@ -1501,6 +1502,9 @@ PAIRS = [
     # it. The velvet, the stone and the brass in the drawings carry no word. The
     # ticket stub on the guild's board is RDR_BRASS on the wall, 7.53.
     (RDR_BRASS,  RDR_WALL,  False, "cinema: the ticket stub on the guild's board, lying on the claret"),
+    # Myths & Legends' job marker is a piece of amber with a beetle in it, MYTH_AMBER
+    # on the wall, 6.59.
+    (MYTH_AMBER, RDR_WALL,  False, "myths and legends: the piece of amber on the guild's board, lying on the claret"),
     # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat
@@ -4143,6 +4147,11 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#7e4fa8": "myths and legends: --myth-amethyst, the crystals in the Alchemist's Arch, the dawn sky and the shelf's spines, 3.09 on the wall. It carries no word; every drawing is described in its aria-label or is aria-hidden.",
+    "#c9a2ec": "myths and legends: --myth-amethyst-2, the crystals' facets and glints, 8.52 on the wall. It carries no word.",
+    "#d98a2b": "myths and legends: --myth-amber, the amber stones in the arch, the panels' left edges and the dawn, 6.59 on the wall. It carries no word; the job marker drawn in it has its own pair.",
+    "#f6c46a": "myths and legends: --myth-amber-2, the sun and the light through the amber, 11.26 on the wall. It carries no word.",
+    "#cfc6b4": "myths and legends: --myth-chalk, the stone of the arch and its keystone, drawn at under half strength over the wall. It carries no word.",
     "#1a2722": "bodymind break: --bbr-dusk-far, the far treeline in the dusk, 1.07 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
     "#1f2e28": "bodymind break: --bbr-dusk-near, the near treeline in the dusk, 1.17 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",
     "#d6e1d9": "bodymind break: --bbr-mist-far, the far treeline in the mist, 1.11 on its ground; barely there on purpose, aria-hidden, and it carries no word (the words are held against it in PAIRS).",

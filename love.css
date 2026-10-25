@@ -1805,6 +1805,11 @@
   --rdr-wall: #22101A;  --rdr-panel: #30171F;  --rdr-ink: #F3E5D8;  --rdr-ink-2: #CDB4AC;
   --rdr-flame: #F2994F; --rdr-flame-2: #FFC76E; --rdr-brass: #D6B06A;
   --rdr-velvet: #6A2A3E; --rdr-leather: #7A4530; --rdr-timber: #3E2318; --rdr-stone: #15100F; --rdr-ember: #B8481E;
+  /* Myths & Legends (§128), Helen's, through the Alchemist's Arch in the yurt:
+     the Reading Room's house, lit by the stones set in it, the amethyst and the
+     amber she asked for. Each colour here is a stone or the light through one
+     and carries no word; every one is in check-contrast.py's ORNAMENT. */
+  --myth-amethyst: #7E4FA8; --myth-amethyst-2: #C9A2EC; --myth-amber: #D98A2B; --myth-amber-2: #F6C46A; --myth-chalk: #CFC6B4;
 
   /* The Arcade (§15). Coin-op at midnight, and the only room here lit by a
      screen rather than by a sky, a candle or a strip light. --crt-lit is not a
@@ -7266,6 +7271,22 @@ html[data-intensity="max"] .yurt-portal__check:checked + .yurt-portal__frame .yu
 .yurt-door__words { display: flex; flex-direction: column; gap: 6px; }
 .yurt-door__go { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 30px; line-height: 1.2; text-decoration: underline; text-decoration-color: rgba(224,144,74,.45); text-underline-offset: 4px; }
 .yurt-door__say { font-size: 17px; color: var(--tallow-2); }
+
+/* THE ALCHEMIST'S ARCH, Helen's ask, 2026-10-25: "an alchemist archway into
+   myths and legends made of amythest crystal and amber stones". Not a portal
+   with doors: an open arch you walk straight through, old stone set with
+   amethyst up both sides and amber round the curve, the four elements carved in
+   the keystone, and dawn over a stone circle seen through it. The whole arch is
+   the link. Its stones are §128's colours and carry no word; the words are
+   under it, in the yurt's own door. At MAX GLITTER the amber glows slowly and
+   the amethyst glints, and at every other setting it stands still. */
+.yurt-arch { display: block; width: min(100%, 340px); margin: 22px auto 0; border-radius: 12px; }
+.yurt-arch svg { display: block; width: 100%; height: auto; }
+.room-yurt .yurt-arch:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }
+html[data-intensity="max"] .yurt-arch__glow { animation: myth-glow 5s ease-in-out infinite alternate; }
+html[data-intensity="max"] .yurt-arch__glint { animation: myth-glint 3.4s ease-in-out infinite; }
+.yurt-arch__glint:nth-of-type(2n) { animation-delay: -1.1s; }
+.yurt-arch__glint:nth-of-type(3n) { animation-delay: -2.3s; }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
    everywhere, hung small on the wall in a thin gilt, and pressed off the wall
@@ -17749,7 +17770,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §129
+   class on it is `bb-`, its sizes are in points and millimetres, and §130
    prints it and nothing else. */
 
 .room-broadside {
@@ -17810,7 +17831,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §129 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §130 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -27447,7 +27468,133 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .pts-door__art { max-width: 220px; }
 }
 
-/* §128 ── Small screens───────────────────────────────────────────────────────
+/* §128 ── SUBROOM: Myths & Legends (behind the Faery Yurt, through the Alchemist's Arch)
+   HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, and asked for at the keyboard on
+   2026-10-25: "more faery and myths and legends", The Golden Bough, English
+   folklore, King Arthur and Merlin, Stonehenge made more magical, and "an
+   alchemist archway into myths and legends made of amythest crystal and amber
+   stones". The facts, the creatures, the cards, the wheel and the shelf are
+   written by tools/make-yurt-myths.py from data/yurt-myths.json; this section
+   dresses them in the room's own class names (myth-).
+
+   IT IS THE READING ROOM'S HOUSE, LIKE THE MUSIC ROOM AND THE CINEMA, so every
+   word stands in §114's declared inks on §114's grounds, in pairs
+   check-contrast.py already holds. The amethyst and the amber are the stones
+   in the arch and carry no word. What keeps it off its three neighbours is the
+   LIGHT: the Reading Room is lit by a fire from the floor, the Music Room by
+   candles with a window on the night, the Cinema by one still beam from the
+   back; here the light comes THROUGH STONE, amber and amethyst set in the
+   walls, so every panel has a warm edge on one side and a violet one on the
+   other and nothing in the room is a flame.
+
+   SITHEN (§36) IS THE OTHER FAERY PLACE, and it is out on the Outskirts: a
+   fairy fort under a full moon, grey-violet, with no inside you can go into.
+   This room is an inside, and warm. If its violet ever spreads over a whole
+   wall, it has become the fort with a roof on.
+
+   NOTHING MOVES BUT THE STONES, AT MAX GLITTER AND NOWHERE ELSE: the amber in
+   the scene and on the arch glows slowly, the amethyst glints. Neither flashes,
+   and the sun over the stones changes only when somebody presses a season,
+   with no animation, because a sun sliding across a page is motion nobody
+   asked for. */
+
+.room-myths { background: var(--rdr-wall); color: var(--rdr-ink); font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; line-height: 1.7; }
+.room-myths a { color: var(--rdr-flame); text-decoration-color: rgba(242,153,79,.45); text-underline-offset: 3px; }
+.room-myths a:hover { color: var(--rdr-flame-2); }
+.room-myths .backlink { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: .06em; color: var(--rdr-ink-2); }
+.myth { width: min(880px, 100% - 40px); margin-inline: auto; padding: 0 0 70px; }
+.room-myths h1, .room-myths h2, .room-myths h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600;
+  color: var(--rdr-ink); text-wrap: balance; letter-spacing: .01em;
+}
+.room-myths h1 { font-size: clamp(42px, 7vw, 67px); font-style: italic; margin: 0 0 14px; }
+.room-myths h2 { font-size: 30px; font-style: italic; margin: 0 0 6px; }
+.room-myths h3 { font-size: 22px; margin: 0 0 4px; }
+.room-myths section { padding: 30px 0; }
+.myth-top { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+.myth-top__note { margin: 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); }
+.myth-head { text-align: center; padding: 22px 0 10px; }
+.myth-scene { display: block; width: min(100%, 600px); height: auto; margin: 0 auto 26px; border-radius: 8px; box-shadow: 0 18px 40px -22px rgba(0,0,0,.8), inset 0 0 0 1px rgba(214,176,106,.18); }
+.myth-eyebrow { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 0 16px; }
+.myth-tagline { font-size: 19.5px; font-style: italic; color: var(--rdr-ink-2); max-width: 48ch; margin: 0 auto 18px; }
+.myth-lede { max-width: 64ch; margin: 0 auto; text-align: left; }
+.room-myths .myth-intro { color: var(--rdr-ink-2); max-width: 66ch; margin: 10px 0 18px; }
+.myth-src { font-size: 14.5px; color: var(--rdr-ink-2); }
+.myth-src a { white-space: normal; }
+
+/* A panel is lit through stone: amber along its left edge, amethyst along its
+   right. The edges are drawn, the words never stand on them. */
+.myth-panel {
+  background: var(--rdr-panel); border-radius: 8px; padding: 16px 20px;
+  border-left: 4px solid var(--myth-amber); border-right: 4px solid var(--myth-amethyst);
+}
+.myth-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+.myth-grid > li { margin: 0; }
+.myth-grid p { margin: 6px 0 0; }
+.myth-where { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 !important; }
+.myth-list { margin: 0; padding-left: 1.2em; }
+.myth-list li { margin: 0 0 10px; }
+
+/* Stonehenge: press a season and the sun moves; no script, no animation. */
+.myth-sun { margin: 0 0 18px; }
+.myth-sun__pick { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; border: 0; margin: 0 0 14px; padding: 0; }
+.myth-sun__pick legend { width: 100%; text-align: center; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 0 8px; }
+.myth-sun__pick input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.myth-sun__pick label {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px; cursor: pointer;
+  background: var(--rdr-panel); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.35); border-radius: 6px;
+}
+.myth-sun__pick input:checked + label { border-color: var(--rdr-brass); box-shadow: inset 0 0 0 1px var(--rdr-brass); }
+.myth-sun__pick input:focus-visible + label { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+.myth-circle { display: block; width: min(100%, 600px); height: auto; margin: 0 auto 12px; border-radius: 8px; }
+.myth-circle .myth-sun--winter, .myth-circle .myth-sky--winter { display: none; }
+.myth-sun:has(#myth-sun-winter:checked) .myth-sun--summer,
+.myth-sun:has(#myth-sun-winter:checked) .myth-sky--summer { display: none; }
+.myth-sun:has(#myth-sun-winter:checked) .myth-sun--winter,
+.myth-sun:has(#myth-sun-winter:checked) .myth-sky--winter { display: inline; }
+.myth-sun__says--winter { display: none; }
+.myth-sun:has(#myth-sun-winter:checked) .myth-sun__says--summer { display: none; }
+.myth-sun:has(#myth-sun-winter:checked) .myth-sun__says--winter { display: block; }
+.myth-sun__says { max-width: 62ch; margin: 0 auto; }
+
+/* Story or fact? Each card is a <details>, so it turns over with no script. */
+.myth-cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.myth-card > details { height: 100%; }
+.myth-card summary { cursor: pointer; list-style: none; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 20px; line-height: 1.35; }
+.myth-card summary::-webkit-details-marker { display: none; }
+.myth-card summary::after { content: "Turn it over \2192"; display: block; margin-top: 8px; font-family: 'Crimson Pro', Georgia, serif; font-weight: 400; font-size: 15px; font-style: italic; color: var(--rdr-flame); }
+.myth-card details[open] summary::after { content: "Turn it back"; }
+.myth-card summary:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 4px; border-radius: 4px; }
+.myth-card__story, .myth-card__fact { margin: 10px 0 0; }
+.myth-card b.myth-tag { font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: .1em; text-transform: uppercase; font-size: 13.5px; color: var(--rdr-brass); }
+
+/* The Wheel of the Year: a drawn wheel, and the festivals in words beside it. */
+.myth-wheel { display: grid; gap: 22px; grid-template-columns: minmax(0, 260px) 1fr; align-items: start; }
+.myth-wheel__draw { width: 100%; height: auto; }
+@media (max-width: 640px) { .myth-wheel { grid-template-columns: 1fr; } .myth-wheel__draw { max-width: 240px; margin: 0 auto; } }
+
+/* The shelf of old books: spines in the stones' colours, the words on the panel. */
+.myth-books { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.myth-book { background: var(--rdr-panel); border-radius: 4px 8px 8px 4px; padding: 12px 16px 12px 22px; position: relative; }
+.myth-book::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px; border-radius: 4px 0 0 4px; background: var(--spine, var(--myth-amber)); }
+.myth-book:nth-child(even) { --spine: var(--myth-amethyst); }
+.myth-book:nth-child(3n) { --spine: var(--rdr-velvet); }
+.myth-book__title { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 19px; line-height: 1.3; margin: 0; }
+.myth-book p { margin: 6px 0 0; font-size: 15.5px; }
+.myth-book__care { color: var(--rdr-ink-2); font-style: italic; }
+
+.myth-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
+
+/* The stones glow at MAX GLITTER and nowhere else: the amber slowly, the
+   amethyst in glints. Opacity only, never under a word. */
+html[data-intensity="max"] .myth-glow { animation: myth-glow 5s ease-in-out infinite alternate; }
+html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out infinite; }
+.myth-glint:nth-of-type(2n) { animation-delay: -1.1s; }
+.myth-glint:nth-of-type(3n) { animation-delay: -2.3s; }
+@keyframes myth-glow { from { opacity: .55; } to { opacity: 1; } }
+@keyframes myth-glint { 0%, 70%, 100% { opacity: .25; } 85% { opacity: 1; } }
+
+/* §129 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -27551,7 +27698,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §128 says every
+   shipped with no rule here at all — which on a street whose §129 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -27675,7 +27822,7 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §129 ── Print ───────────────────────────────────────────────────────────────
+/* §130 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

@@ -1762,6 +1762,13 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--cinema h1 {{ font-size: 92px; margin: 0 !important; }}
 .og--cinema .og-lede {{ font-size: 26px; }}
 .og--cinema .cin-strip {{ margin: 0; height: 30px; }}
+.og--myths {{ width: 100%; padding: 40px 60px; }}
+.og--myths .og-head {{ display: flex; align-items: center; gap: 40px; }}
+.og--myths .myth-scene {{ flex: 0 0 auto; width: 480px; margin: 0; }}
+.og--myths .og-words {{ display: flex; flex-direction: column; gap: 14px; }}
+.og--myths .myth-eyebrow {{ margin: 0; }}
+.og--myths h1 {{ font-size: 80px; margin: 0 !important; }}
+.og--myths .og-lede {{ font-size: 25px; }}
 .og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
   letter-spacing: 0; font-size: 30px; }}
@@ -2812,6 +2819,28 @@ def card_cinema(p):
         f"behind the faery yurt, through the cinema door, then "
         f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
         f"{p['desc_plain']} Along the bottom, a strip of film with its sprocket holes.",
+    )
+
+
+def card_myths(p):
+    return (
+        "",
+        f'<div class="myth og og--myths" data-fit="card">'
+        f'<div class="og-head">{p["myscene"]}<div class="og-words">'
+        f'<p class="myth-eyebrow">behind the faery yurt &middot; through the alchemist&rsquo;s arch</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div></div>'
+        f'</div>',
+        f"A claret card. On the left, a drawing looking out through an old stone "
+        f"arch set with purple amethyst crystals up both sides and round amber "
+        f"stones round its curve, four small triangles carved in the keystone. "
+        f"Through it, a stone circle stands dark on chalk downland at dawn, under a "
+        f"sky running from deep amethyst to amber, with the sun coming up beside a "
+        f"single standing stone. Beside it, small cream capitals reading behind the "
+        f"faery yurt, through the alchemist\u2019s arch, then "
+        f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
+        f"{p['desc_plain']}",
     )
 
 
@@ -5737,6 +5766,7 @@ CARDS = {
     "room-reading": card_reading,
     "room-music":   card_music,
     "room-cinema":  card_cinema,
+    "room-myths":   card_myths,
     "hermitage":    card_herm,
     "club":         card_club,
     "room-latibulum": card_latibulum,
@@ -5844,6 +5874,7 @@ def main():
         ("mscene",   "faery-music-room.html", r'(<svg class="mus-scene".*?</svg>)'),
         ("cscene",   "faery-cinema-room.html", r'(<svg class="cin-scene".*?</svg>)'),
         ("cstrip",   "faery-cinema-room.html", r'(<svg class="cin-strip".*?</svg>)'),
+        ("myscene",  "faery-myths-room.html", r'(<svg class="myth-scene".*?</svg>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),

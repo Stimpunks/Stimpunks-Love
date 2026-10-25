@@ -2150,6 +2150,18 @@
         "--rdr-flame-2"
       ]
     },
+    "faery-myths-room.html": {
+      "kind": "newton",
+      "degree": 6,
+      "relax": 0.32,
+      "ground": "--rdr-wall",
+      "inks": [
+        "--myth-amethyst",
+        "--myth-amber",
+        "--myth-amethyst-2",
+        "--myth-amber-2"
+      ]
+    },
     "faery-reading-room.html": {
       "kind": "orbit",
       "trap": "ring",

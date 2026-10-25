@@ -152,6 +152,11 @@
    "room": "The Cinema"
   },
   {
+   "id": "myths-amber",
+   "title": "Something caught in amber",
+   "room": "Myths & Legends"
+  },
+  {
    "id": "meadow-firefly",
    "title": "The book this room lends",
    "room": "Swaying Sweetgrass"

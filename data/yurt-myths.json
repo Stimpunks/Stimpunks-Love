@@ -1,0 +1,492 @@
+{
+  "_source": "Helen Edgar's Myths & Legends, behind her Faery Yurt through the Alchemist's Arch, asked for on 2026-10-25: more faery and myth, The Golden Bough, English folklore, King Arthur and Merlin, and Stonehenge made more magical. Every fact here was read on the page its source names, on the day in _checked, and the words are ours, never copied: English Heritage for the stones, the British Library and the old texts on Project Gutenberg where they say it, Aberystwyth University and Nature for the Altar Stone, and Wikipedia for the rest. Where sources disagree the wording says so or takes the safer figure. Edit this, then run tools/make-yurt-myths.py, which writes it into faery-myths-room.html and refuses a fact with no source.",
+  "_checked": "2026-10-25",
+  "stones": {
+    "sun": {
+      "summer": {
+        "says": "At midsummer, standing in the middle of the circle, you see the sun rise just to the left of the Heel Stone, the big stone outside the circle, along the line of the Avenue.",
+        "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/things-to-do/stone-circle/celestial-stonehenge/",
+        "source_name": "English Heritage, Celestial Stonehenge"
+      },
+      "winter": {
+        "says": "At midwinter, looking the other way, the sun would once have set between the two uprights of the tallest trilithon. Half of that trilithon has fallen, so the view is gone, but the line is still the same.",
+        "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/things-to-do/stone-circle/celestial-stonehenge/",
+        "source_name": "English Heritage, Celestial Stonehenge"
+      }
+    },
+    "facts": [
+      {
+        "says": "It was built in stages: first a round ditch with banks inside and out, about 3000 BC, and the great stones put up about 2500 BC.",
+        "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/history-and-stories/building-stonehenge/",
+        "source_name": "English Heritage, Building Stonehenge"
+      },
+      {
+        "says": "Most of the big sarsen stones came from West Woods, on the Marlborough Downs, about 15 miles to the north. That was found in 2020 by matching their chemistry.",
+        "source": "https://www.english-heritage.org.uk/about-us/search-news/research-reveals-origin-of-stonehenge-stones/",
+        "source_name": "English Heritage, 2020"
+      },
+      {
+        "says": "The smaller bluestones came about 150 miles, from the Preseli Hills in south-west Wales.",
+        "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/history-and-stories/building-stonehenge/",
+        "source_name": "English Heritage, Building Stonehenge"
+      },
+      {
+        "says": "The Altar Stone came further still: in 2024 it was traced to north-east Scotland, at least 700 km (about 435 miles) away.",
+        "source": "https://aber.ac.uk/en/news/archive/2024/08/title-274690-en.html",
+        "source_name": "Aberystwyth University, on Clarke et al. in Nature, 2024"
+      },
+      {
+        "says": "The druids did not build it. It is more than 2,000 years older than anything written about druids. John Aubrey in the 1600s and William Stukeley in the 1700s were the ones who linked it to them.",
+        "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/history-and-stories/archaeologists-of-stonehenge/",
+        "source_name": "English Heritage, Archaeologists of Stonehenge"
+      },
+      {
+        "says": "On the summer solstice English Heritage lets everybody in to the stones for free, and streams the sunset and the sunrise online.",
+        "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/things-to-do/solstice/summer-solstice-2026/",
+        "source_name": "English Heritage, Summer Solstice 2026"
+      }
+    ],
+    "nearby": [
+      {
+        "name": "Avebury",
+        "where": "Wiltshire",
+        "says": "The largest stone circle in Britain, with a village built partly inside it.",
+        "source": "https://www.english-heritage.org.uk/visit/places/avebury/",
+        "source_name": "English Heritage"
+      },
+      {
+        "name": "Silbury Hill",
+        "where": "Wiltshire, near Avebury",
+        "says": "The largest artificial mound in Europe, probably finished around 2400 BC, and nobody is sure what it was for.",
+        "source": "https://www.english-heritage.org.uk/visit/places/silbury-hill/",
+        "source_name": "English Heritage"
+      },
+      {
+        "name": "Wayland's Smithy",
+        "where": "the Ridgeway, Oxfordshire",
+        "says": "A Neolithic long barrow, a tomb older than Stonehenge's stones. The story, written down in 1738, is that if you left your horse there with a coin, you came back to find the coin gone and the horse new shod, by Wayland the smith.",
+        "source": "https://en.wikipedia.org/wiki/Wayland%27s_Smithy",
+        "source_name": "Wikipedia, citing Francis Wise"
+      },
+      {
+        "name": "The Uffington White Horse",
+        "where": "the Ridgeway, Oxfordshire",
+        "says": "A horse cut into the chalk hillside about 3,000 years ago, in the late Bronze Age or early Iron Age.",
+        "source": "https://en.wikipedia.org/wiki/Uffington_White_Horse",
+        "source_name": "Wikipedia"
+      }
+    ]
+  },
+  "arthur": {
+    "layers": [
+      {
+        "when": "About 829",
+        "says": "The Historia Brittonum, a history of the Britons traditionally said to be by Nennius, lists twelve battles fought by Arthur, the last on Mount Badon.",
+        "source": "https://en.wikipedia.org/wiki/Historia_Brittonum",
+        "source_name": "Wikipedia"
+      },
+      {
+        "when": "Mid-900s",
+        "says": "The Welsh Annals give one line to Camlann, the strife “in which Arthur and Medraut fell”.",
+        "source": "https://en.wikipedia.org/wiki/Annales_Cambriae",
+        "source_name": "Wikipedia"
+      },
+      {
+        "when": "About 1136–38",
+        "says": "Geoffrey of Monmouth writes the first full life of Arthur: Uther Pendragon, Arthur's birth at Tintagel, Merlin, the last battle, and Arthur carried away to the isle of Avalon. Most of it seems to be his own invention.",
+        "source": "https://en.wikipedia.org/wiki/King_Arthur",
+        "source_name": "Wikipedia"
+      },
+      {
+        "when": "About 1170–90",
+        "says": "In France, Chrétien de Troyes brings in Lancelot, and is the first writer to tell of the Holy Grail.",
+        "source": "https://en.wikipedia.org/wiki/Chr%C3%A9tien_de_Troyes",
+        "source_name": "Wikipedia"
+      },
+      {
+        "when": "1485",
+        "says": "William Caxton prints Thomas Malory's Le Morte d'Arthur, the great English telling that most later versions grow from.",
+        "source": "https://www.gutenberg.org/ebooks/1251",
+        "source_name": "Project Gutenberg, Caxton's note"
+      },
+      {
+        "when": "Today",
+        "says": "Most historians do not think Arthur was a real person; he is a figure of story and folklore, and a very long-lived one.",
+        "source": "https://en.wikipedia.org/wiki/King_Arthur",
+        "source_name": "Wikipedia"
+      }
+    ],
+    "people": [
+      {
+        "name": "Merlin",
+        "says": "The enchanter, who in Geoffrey's story brings the stones of Stonehenge over from Ireland, and arranges Arthur's birth.",
+        "source": "https://www.gutenberg.org/ebooks/37848",
+        "source_name": "Geoffrey of Monmouth, in Giles's Old English Chronicles"
+      },
+      {
+        "name": "The Lady of the Lake",
+        "says": "In Malory an arm clothed in white samite rises from the lake holding Excalibur. Malory has two swords: the one Arthur pulls from the stone, which breaks in a fight, and Excalibur from the lake. (He calls Arthur's sword Excalibur once before the lake too.)",
+        "source": "https://www.gutenberg.org/ebooks/1251",
+        "source_name": "Malory, Le Morte d'Arthur, Book I"
+      },
+      {
+        "name": "Nimue",
+        "says": "A lady of the lake whom Merlin falls for, and who shuts him under a great stone from which he never comes out. Malory gave her the name Nimue; the French romances called her Viviane.",
+        "source": "https://en.wikipedia.org/wiki/Lady_of_the_Lake",
+        "source_name": "Wikipedia, and Malory, Book IV"
+      },
+      {
+        "name": "Sir Gawain and the Green Knight",
+        "says": "A late-1300s poem by an unknown writer: a green giant walks into Camelot at Christmas and asks for a beheading game. It survives in only one manuscript, now in the British Library.",
+        "source": "https://blogs.bl.uk/digitisedmanuscripts/2012/05/sir-gawain-back-in-london.html",
+        "source_name": "British Library"
+      }
+    ],
+    "places": [
+      {
+        "name": "Tintagel",
+        "where": "Cornwall",
+        "says": "Geoffrey set Arthur's birth here. In the 1230s Richard, Earl of Cornwall built a castle on the island, very likely to make Geoffrey's scene real.",
+        "source": "https://www.english-heritage.org.uk/visit/places/tintagel-castle/history-and-legend/richard-of-cornwall/",
+        "source_name": "English Heritage"
+      },
+      {
+        "name": "Glastonbury",
+        "where": "Somerset",
+        "says": "After a great fire at the abbey in 1184, the monks said in 1191 that they had found the grave of Arthur and Guinevere. Historians mostly see it as a way of raising money.",
+        "source": "https://en.wikipedia.org/wiki/Glastonbury_Abbey",
+        "source_name": "Wikipedia"
+      },
+      {
+        "name": "Cadbury Castle",
+        "where": "Somerset",
+        "says": "A great hill fort, lived in from the Neolithic to the Iron Age, that John Leland wrote down in 1542 as Camelot, from what local people said.",
+        "source": "https://en.wikipedia.org/wiki/Cadbury_Castle,_Somerset",
+        "source_name": "Wikipedia"
+      },
+      {
+        "name": "The Round Table",
+        "where": "the Great Hall, Winchester",
+        "says": "A real round table hangs on the wall, but tree rings date it to the late 1200s, probably made for Edward I. Henry VIII had it painted as it is now.",
+        "source": "https://en.wikipedia.org/wiki/Winchester_Round_Table",
+        "source_name": "Wikipedia"
+      }
+    ]
+  },
+  "creatures": [
+    {
+      "name": "Puck, or Robin Goodfellow",
+      "where": "all over England",
+      "says": "A mischief-making household spirit who leads travellers astray and cards the wool while people sleep. Shakespeare put him in A Midsummer Night's Dream.",
+      "source": "https://en.wikipedia.org/wiki/Robin_Goodfellow",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Boggarts",
+      "where": "Lancashire, Yorkshire and the north",
+      "says": "Spirits that can be a helpful house spirit gone sour, or something lurking in a field, a marsh or a lane. One old Lancashire belief: never give a boggart a name, or it can no longer be reasoned with.",
+      "source": "https://en.wikipedia.org/wiki/Boggart",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Hobs",
+      "where": "northern England, the Midlands and the Borders",
+      "says": "Small hairy helpers who do the farm's work at night. One lived in Hob Hole at Runswick Bay in North Yorkshire.",
+      "source": "https://en.wikipedia.org/wiki/Hob_(folklore)",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Brownies",
+      "where": "Scotland and the north of England",
+      "says": "Household spirits who work in the house while everybody sleeps, and vanish for good if you give them clothes.",
+      "source": "https://en.wikipedia.org/wiki/Brownie_(folklore)",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Black Shuck",
+      "where": "Norfolk, Suffolk, Essex and the Fens",
+      "says": "A great black ghost dog with burning eyes. On 4 August 1577, in a storm, a black dog was said to have burst into the churches at Bungay and Blythburgh; the door at Blythburgh still has scorch marks people call the devil's fingerprints.",
+      "source": "https://en.wikipedia.org/wiki/Black_Shuck",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "The Lambton Worm",
+      "where": "the River Wear, County Durham",
+      "says": "John Lambton, heir to the estate, fished a small worm out of the river and threw it down a well. It grew into a monster that wrapped itself round a hill, and he came home from the Crusades to kill it, and brought a curse on his family.",
+      "source": "https://en.wikipedia.org/wiki/Lambton_Worm",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Herne the Hunter",
+      "where": "Windsor Great Park",
+      "says": "A ghostly huntsman with antlers who walks round an old oak in Windsor Forest. The first written telling is in Shakespeare's The Merry Wives of Windsor.",
+      "source": "https://en.wikipedia.org/wiki/Herne_the_Hunter",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "The Green Man",
+      "where": "carved in churches all over England",
+      "says": "A face made of leaves, or with leaves growing from its mouth, carved in churches mostly from the 1200s to the 1400s. The name was given by Lady Raglan in 1939; what the carvings meant is still argued about.",
+      "source": "https://en.wikipedia.org/wiki/Green_Man",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Will-o'-the-wisp",
+      "where": "marshes and bogs",
+      "says": "A strange light over the marsh at night that leads travellers off the path. It has many names: jack-o'-lantern, friar's lantern, hobby lantern and hinkypunk.",
+      "source": "https://en.wikipedia.org/wiki/Will-o%27-the-wisp",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Pixies",
+      "where": "Devon and Cornwall, on the moors",
+      "says": "Small folk of Dartmoor and the West Country. If they lead you round in circles you are pixy-led, and the old remedy is to turn your coat inside out.",
+      "source": "https://en.wikipedia.org/wiki/Pixie",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Knockers",
+      "where": "the Cornish tin mines",
+      "says": "Little people underground who knock on the rock, to warn of a fall or to show the miners where the tin is.",
+      "source": "https://en.wikipedia.org/wiki/Knocker_(folklore)",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Jenny Greenteeth",
+      "where": "Lancashire, Cheshire, Shropshire and Staffordshire",
+      "says": "A river hag hiding under the green weed on a pond, told of to keep children back from the water. Round Liverpool her name is also a word for duckweed.",
+      "source": "https://en.wikipedia.org/wiki/Jenny_Greenteeth",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "The Wild Hunt",
+      "where": "the sky on stormy nights, all over Europe",
+      "says": "Phantom huntsmen and hounds riding through the sky. In England they were seen in 1127, written down in the Peterborough Chronicle, and Devon has its own Wisht Hounds.",
+      "source": "https://en.wikipedia.org/wiki/Wild_Hunt",
+      "source_name": "Wikipedia"
+    },
+    {
+      "name": "Tom Tit Tot",
+      "where": "Suffolk",
+      "says": "A small little black thing with a long tail who spins five skeins a day for a girl, and will have her for himself unless she can guess his name: England's own Rumpelstiltskin, first in Joseph Jacobs' English Fairy Tales.",
+      "source": "https://www.gutenberg.org/ebooks/7439",
+      "source_name": "Jacobs, English Fairy Tales"
+    }
+  ],
+  "cards": [
+    {
+      "story": "Merlin brought the stones of Stonehenge over from Ireland.",
+      "fact": "That is Geoffrey of Monmouth's story, written in the 1130s. But stones really did travel a long way: the bluestones about 150 miles from Wales, and the Altar Stone more than 400 miles from Scotland.",
+      "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/history-and-stories/building-stonehenge/",
+      "source_name": "English Heritage"
+    },
+    {
+      "story": "The druids built Stonehenge.",
+      "fact": "No. It is more than 2,000 years older than any written mention of druids. The idea comes from John Aubrey and William Stukeley, in the 1600s and 1700s.",
+      "source": "https://www.english-heritage.org.uk/visit/places/stonehenge/history-and-stories/archaeologists-of-stonehenge/",
+      "source_name": "English Heritage"
+    },
+    {
+      "story": "King Arthur's Round Table hangs in Winchester.",
+      "fact": "A round table hangs there, but tree rings date it to the late 1200s, hundreds of years after any Arthur could have lived.",
+      "source": "https://en.wikipedia.org/wiki/Winchester_Round_Table",
+      "source_name": "Wikipedia"
+    },
+    {
+      "story": "Arthur and Guinevere are buried at Glastonbury.",
+      "fact": "The monks said they found the grave in 1191, seven years after a fire had burnt their abbey and they needed money to rebuild. Most historians think that was the point.",
+      "source": "https://en.wikipedia.org/wiki/Glastonbury_Abbey",
+      "source_name": "Wikipedia"
+    },
+    {
+      "story": "The Green Man is an ancient pagan god hidden in Christian churches.",
+      "fact": "The carvings are real and lovely, but the name and the pagan god idea came from Lady Raglan in 1939, and the evidence for it has since been taken apart.",
+      "source": "https://en.wikipedia.org/wiki/Green_Man",
+      "source_name": "Wikipedia"
+    },
+    {
+      "story": "Black Shuck burst into Bungay church in 1577.",
+      "fact": "A pamphlet of 1577 does tell of a black dog in the storm at Bungay. The name Black Shuck is not in it; it was first printed in 1850.",
+      "source": "https://en.wikipedia.org/wiki/Black_Shuck",
+      "source_name": "Wikipedia"
+    },
+    {
+      "story": "Amethyst keeps you from getting drunk.",
+      "fact": "That is where its name comes from: Greek amethystos means “not drunken”, and people really did believe it. It does not work.",
+      "source": "https://en.wikipedia.org/wiki/Amethyst",
+      "source_name": "Wikipedia"
+    },
+    {
+      "story": "Amber is the tears of the sun's daughters.",
+      "fact": "In Ovid, Phaethon's sisters weep until they turn into trees, and amber drips from the branches and hardens in the sun. Amber is really fossilised tree resin, sometimes with tiny insects caught inside it, so the story was nearly right about the trees.",
+      "source": "https://www.gutenberg.org/ebooks/21765",
+      "source_name": "Ovid, Metamorphoses, Book II, in Riley's translation"
+    }
+  ],
+  "wheel": {
+    "note": "Eight festivals round the year: four old Gaelic ones on the quarter days between, and the two solstices and two equinoxes. They are old, but gathering all eight into one wheel is modern, from Gerald Gardner and Ross Nichols in the 1950s and 60s, and the names Litha, Ostara and Mabon were given by Aidan Kelly in the early 1970s.",
+    "source": "https://en.wikipedia.org/wiki/Wheel_of_the_Year",
+    "source_name": "Wikipedia",
+    "festivals": [
+      {
+        "name": "Samhain",
+        "when": "around 31 October",
+        "says": "Summer's end, when the old stories say the door to the other world stands open."
+      },
+      {
+        "name": "Yule",
+        "when": "the winter solstice",
+        "says": "The longest night, and the sun's turn back towards spring."
+      },
+      {
+        "name": "Imbolc",
+        "when": "around 1 February",
+        "says": "The coming of spring, and the ewes in lamb."
+      },
+      {
+        "name": "Ostara",
+        "when": "the spring equinox",
+        "says": "Day and night of equal length."
+      },
+      {
+        "name": "Beltane",
+        "when": "around 1 May",
+        "says": "May Day and the start of summer, with bonfires."
+      },
+      {
+        "name": "Litha, or Midsummer",
+        "when": "the summer solstice",
+        "says": "The longest day, and the sunrise over the Heel Stone."
+      },
+      {
+        "name": "Lughnasadh, or Lammas",
+        "when": "around 1 August",
+        "says": "The start of the harvest. In England it was Lammas."
+      },
+      {
+        "name": "Mabon",
+        "when": "the autumn equinox",
+        "says": "Day and night equal again, and the harvest in."
+      }
+    ]
+  },
+  "books": [
+    {
+      "title": "The Golden Bough",
+      "by": "James George Frazer",
+      "died": 1941,
+      "year": "1890, cut to one volume in 1922",
+      "says": "An enormous gathering of magic, ritual and myth from all over the world, starting from a sacred grove in Italy where a priest-king guarded a golden bough.",
+      "care": "A famous and fascinating book, but Frazer's big theories, of a dying and rising god behind every myth, are now largely set aside by scholars. Read it as an old book, not as fact.",
+      "care_source": "https://en.wikipedia.org/wiki/The_Golden_Bough",
+      "care_source_name": "Wikipedia",
+      "read": "https://www.gutenberg.org/ebooks/3623",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "English Fairy Tales",
+      "by": "Joseph Jacobs",
+      "died": 1916,
+      "year": "1890",
+      "says": "Tom Tit Tot, Jack and the Beanstalk, Mr Fox and the rest, gathered from all over England.",
+      "read": "https://www.gutenberg.org/ebooks/7439",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "More English Fairy Tales",
+      "by": "Joseph Jacobs",
+      "died": 1916,
+      "year": "1894",
+      "says": "The second gathering.",
+      "read": "https://www.gutenberg.org/ebooks/14241",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "The Fairy Mythology",
+      "by": "Thomas Keightley",
+      "died": 1872,
+      "year": "1828, revised 1850",
+      "says": "Fairies, elves and dwarfs across Europe and beyond, with a long chapter on England's.",
+      "read": "https://www.gutenberg.org/ebooks/41006",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "British Goblins",
+      "by": "Wirt Sikes",
+      "died": 1883,
+      "year": "1880",
+      "says": "Welsh fairies, ghosts and spirits, written by an American journalist living in Cardiff.",
+      "read": "https://www.gutenberg.org/ebooks/34704",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "The Secret Commonwealth",
+      "by": "Robert Kirk, edited by Andrew Lang",
+      "died": 1912,
+      "year": "written 1691, Lang's edition 1893",
+      "says": "A Scottish minister's book of the fairies who live in the hills: the Rev. Robert Kirk of Aberfoyle, a seventh son.",
+      "read": "https://www.gutenberg.org/ebooks/75485",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "Fairy and Folk Tales of the Irish Peasantry",
+      "by": "W. B. Yeats, editor",
+      "died": 1939,
+      "year": "1888",
+      "says": "The trooping fairies, the solitary fairies, changelings, the banshee and the pooka, gathered by Yeats.",
+      "read": "https://www.gutenberg.org/ebooks/33887",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "Le Morte d'Arthur",
+      "by": "Thomas Malory",
+      "died": 1471,
+      "year": "printed by Caxton in 1485",
+      "says": "The whole story of Arthur in English, from the sword in the stone to Avalon.",
+      "read": "https://www.gutenberg.org/ebooks/1251",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "Sir Gawain and the Green Knight",
+      "by": "an unknown poet",
+      "translator": "Jessie L. Weston",
+      "translator_died": 1928,
+      "died": 1400,
+      "year": "late 1300s, Weston's prose 1898",
+      "says": "The Green Knight's Christmas game, told in modern prose.",
+      "read": "https://www.gutenberg.org/ebooks/66084",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "Idylls of the King",
+      "by": "Alfred Tennyson",
+      "died": 1892,
+      "year": "1859–85",
+      "says": "Arthur, Guinevere, Lancelot and the Lady of Shalott's Camelot, told by a Victorian poet.",
+      "read": "https://www.gutenberg.org/ebooks/610",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "The History of the Kings of Britain",
+      "by": "Geoffrey of Monmouth",
+      "translator": "Aaron Thompson, revised by J. A. Giles",
+      "translator_died": 1884,
+      "died": 1155,
+      "year": "about 1136–38",
+      "says": "Where Merlin and Arthur's life story first appear, and where Merlin brings the Giants' Dance from Ireland. In Giles's Old English Chronicles.",
+      "read": "https://www.gutenberg.org/ebooks/37848",
+      "read_name": "Project Gutenberg"
+    },
+    {
+      "title": "The Mabinogion",
+      "by": "Welsh tales of the Middle Ages",
+      "translator": "Lady Charlotte Guest",
+      "translator_died": 1895,
+      "died": 1400,
+      "year": "Guest's translation 1838–45",
+      "says": "The great Welsh stories, with some of the oldest tales of Arthur in them.",
+      "read": "https://www.gutenberg.org/ebooks/5160",
+      "read_name": "Project Gutenberg"
+    }
+  ]
+}
