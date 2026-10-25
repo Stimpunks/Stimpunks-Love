@@ -544,7 +544,7 @@ def check_givebutter(lib):
     body = re.search(r"body: JSON\.stringify\(\{ (.*?) \}\)", gj)
     # Every key, written out or shorthand.
     keys = (set(re.findall(r"(\w+):", body.group(1))) | set(re.findall(r"(?:^|, )(\w+)(?=,|$)", body.group(1)))) if body else set()
-    if keys != {"first_name", "last_name", "emails", "tags", "email_subscription"}:
+    if keys != {"first_name", "last_name", "primary_email", "tags", "email_subscription"}:
         problems.append(f"{LIB.name}: gbJoin sends Givebutter a name, an email, the tags of the lists they said yes to and that they want our emails, and nothing else (it sends {', '.join(sorted(keys)) or 'nothing readable'}).")
     if re.search(r"\bk\.body\b|\bc\.notes\b|\bc\.phone\b", gj.replace("caseLists(k)", "")):
         problems.append(f"{LIB.name}: gbJoin reads more of the join request than its answers to the lists' questions.")

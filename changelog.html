@@ -41,6 +41,11 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-25-givebutter-email">2026-10-25 &mdash; Join requests reach our mailing lists, now for real</h2>
+  <ul>
+    <li><strong>The reason Givebutter refused was the email address, not a name.</strong> The entry below gave one name as the likeliest reason, and it was not: with Givebutter now saying why, it answered &ldquo;The emails.0 must be an array.&rdquo; Givebutter&rsquo;s API reference lists a contact&rsquo;s emails as plain addresses, and its server wants each one as an object, so <b>Add them to Givebutter&rsquo;s lists</b> had failed on every press since it arrived on 2026-10-23. The office sends the address as Givebutter&rsquo;s primary email now, a plain address, which its reference and its server agree on. What is sent is unchanged: their email address, their first and last name when they have both, and the lists they said yes to. Changed: <code>netlify/cb/lib.mjs</code>.</li>
+  </ul>
+
   <h2 id="2026-10-25-givebutter-one-name">2026-10-25 &mdash; Mailing lists for somebody with one name</h2>
   <ul>
     <li><strong>Adding somebody from a join request to our mailing lists failed with &ldquo;Givebutter did not take it (it answered 422)&rdquo;.</strong> The likeliest reason: the office sent Givebutter whatever name their contact had, and a one-word name on the Join form is filed as a last name with no first. Givebutter keeps a contact by a first and a last name together, or by an email address with no name, so the office now sends the two names together or neither, and somebody with one name goes to Givebutter by their email address alone, which the office says when it happens. Their name can be added in Givebutter. <a href="privacy.html#givebutter-lists">The privacy page</a> says so too. Changed: <code>netlify/cb/lib.mjs</code>, <code>office.js</code> and <code>privacy.html</code>.</li>

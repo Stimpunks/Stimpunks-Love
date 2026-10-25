@@ -6214,8 +6214,10 @@ tag for that list (Members, Newsletter Mailing List, read off the account's own 
 own answers, and **Add them to Givebutter's lists** on its page runs `gbJoin` (the `gb-join` action), which sends `POST
 /v1/contacts` exactly the contact's first and last name, their email, the tags they said yes to and `email_subscription`,
 and nothing else. **The names go as a pair or not at all** (`named`): Givebutter keeps a contact by both names or
-by an email with none, and the Join form files a one-word name as a last name alone; a join request came back 422 on 2026-10-25
-when they went as they were, and a refusal now carries Givebutter's own reasons (`gbRefusal`), shown to the director and never kept. Givebutter
+by an email with none, and the Join form files a one-word name as a last name alone. **The address goes as
+`primary_email`, a string**: Givebutter's reference lists `emails` as strings and its server refused one, "The
+emails.0 must be an array" (2026-10-25), which every press of the button had hit since it shipped. A refusal now carries Givebutter's own reasons (`gbRefusal`),
+shown to the director and never kept; when its reference and its answer disagree, believe the answer. Givebutter
 matches somebody already there by email and **adds** tags, removing none (its Contact Tags page), so a second press
 changes nothing. The case keeps `gb`, which tags and when, sealed. `make-office.py` refuses a second
 write anywhere in the Givebutter part, `gbJoin` reading more of the case than its answers, a call to it from anywhere but that

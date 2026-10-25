@@ -13643,13 +13643,15 @@ export async function gbJoin(who, id, s = store(), now = Date.now(), fetchFn = f
   // Givebutter keeps a contact by a first and a last name, or by an email address with no name
   // (its help center's partial contacts), and one name alone is neither. The Join form files a
   // one-word name as a last name alone, and a contact who gave no name is named by their
-  // address, so the names go as a pair or not at all; a 422 came back for a join request on
-  // 2026-10-25 when they went as they were.
+  // address, so the names go as a pair or not at all.
   const named = !!(c.first && c.last) && !/@/.test(c.first + c.last);
+  // The address goes as primary_email, a string. Givebutter's reference gives `emails` as a list
+  // of strings, and its server answered 422, "The emails.0 must be an array" (2026-10-25): it
+  // wants each one as { type, value }, which the reference shows only in what it sends back.
   const r = await fetchFn(GB_API + 'contacts', {
     method: 'POST',
     headers: { authorization: 'Bearer ' + key, accept: 'application/json', 'content-type': 'application/json' },
-    body: JSON.stringify({ ...(named ? { first_name: c.first, last_name: c.last } : {}), emails: [c.email], tags, email_subscription: true }),
+    body: JSON.stringify({ ...(named ? { first_name: c.first, last_name: c.last } : {}), primary_email: c.email, tags, email_subscription: true }),
   }).catch(() => null);
   if (!r || !r.ok) return { error: 'Givebutter did not take it' + (r ? ` (it answered ${r.status}${await gbRefusal(r)})` : '') + '. Nothing was sent to the lists.' };
   let gone = false;

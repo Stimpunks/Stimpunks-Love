@@ -6034,7 +6034,7 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   assert.equal(r.named, true);
   const last = sent[sent.length - 1];
   assert.deepEqual([last.url, last.method, last.auth], ['https://api.givebutter.com/v1/contacts', 'POST', 'Bearer gb-test-key']);
-  assert.deepEqual(last.body, { first_name: 'Robin', last_name: 'Hood', emails: ['robin@example.org'], tags: ['Members'], email_subscription: true },
+  assert.deepEqual(last.body, { first_name: 'Robin', last_name: 'Hood', primary_email: 'robin@example.org', tags: ['Members'], email_subscription: true },
     'Givebutter was sent more, or other, than a name, an email, the lists said yes to and wanting our emails');
   const said = JSON.stringify(sent);
   for (const w of ['otters', '5125550100', 'Austin', 'Newsletter', 'Ryan']) assert.ok(!said.includes(w), `Givebutter was sent ${w}`);
@@ -6049,7 +6049,7 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
     const one = (await readCases(s)).find((x) => x.form === entry);
     const r1 = await gbJoin(TRYAN, one.id, s, T0 + 8, fake);
     assert.equal(r1.named, false, `entry ${entry} was sent as named`);
-    assert.deepEqual(sent[sent.length - 1].body, { emails: [email], tags, email_subscription: true }, `entry ${entry} sent a name Givebutter would refuse alone`);
+    assert.deepEqual(sent[sent.length - 1].body, { primary_email: email, tags, email_subscription: true }, `entry ${entry} sent a name Givebutter would refuse alone`);
   }
 })));
 
