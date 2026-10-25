@@ -154,16 +154,26 @@
     render(fresh);
   }
 
-  selA.addEventListener('change', function () { state.a = selA.value; state.parts.body = state.a; sync(true); });
-  selB.addEventListener('change', function () { state.b = selB.value; sync(true); });
+  /* Changing the first or second animal changes the parts that came from the
+     animal it replaces, and nothing else: a part chosen from the other one,
+     the body included, stays where it was put. When both were the same
+     animal, its parts belong to the other one and stay. */
+  function replaceAnimal(was, now, other) {
+    if (was === now || was === other) return;
+    C.slots.forEach(function (s) { if (state.parts[s.key] === was) state.parts[s.key] = now; });
+  }
+  selA.addEventListener('change', function () { var was = state.a; state.a = selA.value; replaceAnimal(was, state.a, state.b); sync(true); });
+  selB.addEventListener('change', function () { var was = state.b; state.b = selB.value; replaceAnimal(was, state.b, state.a); sync(true); });
   any.addEventListener('change', function () { state.any = any.checked; sync(false); });
   slots.addEventListener('change', function (e) {
     var t = e.target;
     if (!t || !t.name || t.name.indexOf('chm-') !== 0) return;
     var slot = t.name.slice(4);
     if (state.parts[slot] === undefined) return;
+    // Choosing a part changes that part and nothing else: picking the second
+    // animal's body leaves both animals on the bench and every other part
+    // as it was.
     state.parts[slot] = t.value;
-    if (slot === 'body' && !state.any) { state.a = t.value; sync(true); return; }
     render(true);
   });
   nameIn.addEventListener('input', function () {

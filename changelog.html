@@ -41,6 +41,20 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-25-chimera-bench-keeps-parts">2026-10-25 &mdash; Choosing a body on the bench keeps everything else</h2>
+  <ul>
+    <li><strong>In <a href="chimera-obscura.html">Chimera Obscura</a>, choosing the second animal&rsquo;s body changes the body and nothing else.</strong> It used to make the second animal the first one too, so both selectors named the same animal, the second one dropped out of every part, and every part chosen so far went back to it. Reported by our community.</li>
+    <li>Changing the first or second animal now changes only the parts that came from the animal it replaces. A part chosen from the other animal, the body included, stays where it was put. Changed: <code>chimera-obscura.js</code>.</li>
+  </ul>
+
+  <h2 id="2026-10-25-chimera-shelf-savanna">2026-10-25 &mdash; A bat, a crow, a meerkat, a lion, a tiger, a rhino, a camel and a hippo on Chimera Obscura&rsquo;s shelf</h2>
+  <ul>
+    <li><strong>New on the shelf in <a href="chimera-obscura.html">Chimera Obscura</a></strong>, from Ryan&rsquo;s list: a bat, a crow, a meerkat, a lion, a tiger, a rhino, a camel and a hippo. The zebra on the list was already there. Every part of each goes with every part of every other animal, as before.</li>
+    <li><strong>They brought parts nothing on the shelf had</strong>, and each goes on any animal: a lion&rsquo;s mane and a camel&rsquo;s humps under <b>Back</b>; a bat&rsquo;s wings both ways, spread under <b>Back</b> and folded down its sides under <b>Arms</b>; a rhino&rsquo;s horns on the nose; a camel&rsquo;s eyelashes; a bat&rsquo;s fangs and a hippo&rsquo;s tusks; and among the markings a tiger&rsquo;s stripes, a rhino&rsquo;s folds and a crow&rsquo;s blue gloss.</li>
+    <li>A lion with a tiger&rsquo;s parts is suggested as a <b>Liger</b> and a tiger with a lion&rsquo;s as a <b>Tigon</b>, the names English already has for the two together. A crow before an animal whose name starts with a vowel is a <b>Cro</b>, so a crow with an opossum&rsquo;s parts is a Croopossum: the room checks every name it can suggest, and the plain join had a slur in the middle of it.</li>
+    <li><strong>Every list of animals is in alphabetical order now</strong>: the first and second animal, every part&rsquo;s choices, and the list of what is on the shelf at the foot of the page. Changed: <code>chimera.js</code>, <code>data/chimera-obscura.json</code> and <code>tools/make-chimera-obscura.py</code>.</li>
+  </ul>
+
   <h2 id="2026-10-25-call-sizes">2026-10-25 &mdash; A call&rsquo;s window has the radio&rsquo;s grip and its &minus; and +</h2>
   <ul>
     <li><strong>A room&rsquo;s call moves and sizes the way the radio does.</strong> <b>Move</b> is the six dots, and <b>Small</b> and <b>Large</b> are <b>&minus;</b> and <b>+</b>, which go one size at a time between Large, the whole window, Regular, where a call opens, Small, a tile in the corner, and Stamp, which is new: the size of a postage stamp, the picture and the bar and nothing else. Each says which size it goes to, and says so when the call is already as small or as large as it goes. The call carries on through every change. <a href="cb-guide.html#calls">The CB guide</a> has the rest.</li>
