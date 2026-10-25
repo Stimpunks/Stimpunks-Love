@@ -2,7 +2,7 @@
   "_what": "The Source's springs: one per repository whose commit feed stimpunks.org's feeds page lists under Latest Commits to Our Repositories, in that page's order (https://stimpunks.org/feeds/). The order is that page's, decided there, and is not re-sorted here. tools/pull-source.py fills `items` and `read` off each feed and `set` for the whole terrace; tools/make-the-source.py draws the pools out of it and writes the springs into netlify/cb/lib.mjs for the feed bot. Hand-kept: id, site, repo, home, feed and note, the last of which is our own line about what the repository is for.",
   "_skip": "The morning timers' own commits, left off the pools and off the room's channel: a machine re-reading feeds is not anybody's work, and the Knowledge System's update-logs skips the same subjects. make-the-source.py refuses this pattern unless it matches every subject tools/daily-*.sh commits under, so a new timer cannot quietly flood the terraces.",
   "skip": "^daily [a-z ]+$",
-  "set": "2026-10-24T11:17Z",
+  "set": "2026-10-25T11:16Z",
   "springs": [
     {
       "id": "starstuff",
@@ -73,7 +73,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     },
     {
       "id": "queering",
@@ -144,7 +144,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     },
     {
       "id": "cavendish",
@@ -215,7 +215,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     },
     {
       "id": "pebbling",
@@ -286,7 +286,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     },
     {
       "id": "monotropic",
@@ -357,7 +357,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     },
     {
       "id": "whysheet",
@@ -428,7 +428,7 @@
           ]
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     },
     {
       "id": "love",
@@ -439,67 +439,67 @@
       "note": "This street, this room included. The repository kept the name Stimpunks-Love from before the street moved to stimpunks.world.",
       "items": [
         {
-          "title": "Jellies on the bodymind break, and then it is done",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/6bf2dbc5cb39fd7ffa6a94fddfb58639d55a6a71",
-          "date": "2026-10-24T07:20:57Z",
-          "sha": "6bf2dbc",
+          "title": "The Sandbox: notifications from the suggestion box",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/f6c6e776f9a5bea64d77eedc844ab07077292d25",
+          "date": "2026-10-25T11:01:21Z",
+          "sha": "f6c6e77",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Low-stimulation modes: escape the street's colours from the dial",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/a7cc3782076240734c1cbf9b017e2c8657b1e525",
-          "date": "2026-10-24T06:53:23Z",
-          "sha": "a7cc378",
+          "title": "The Sandbox: a thread of replies, and Me too, in the suggestion box",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b89a4ca2abe765c492eef53d08bf4f020250be57",
+          "date": "2026-10-25T10:42:01Z",
+          "sha": "b89a4ca",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "I need a bodymind break: a calm screen from the dial and the CB",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/20d75c5c10ee935c71573fc7a29c46f2c999fef5",
-          "date": "2026-10-24T06:10:04Z",
-          "sha": "20d75c5",
+          "title": "The Sandbox: a moderator can reply and leave a suggestion open",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/dde0a992aee2b2aed0cc5aced9b849fa261d786c",
+          "date": "2026-10-25T10:14:54Z",
+          "sha": "dde0a99",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Show Your Work: the bench takes photographs, under the polaroid wall'…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/8809615c689d68405144301da63a7416448fd8ca",
-          "date": "2026-10-24T04:39:16Z",
-          "sha": "8809615",
+          "title": "The Sandbox: screenshots in the suggestion box, and in answers",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/13db390cc8c737cd87b5f3753bb93ea3d1051ad7",
+          "date": "2026-10-25T09:59:33Z",
+          "sha": "13db390",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "Show Your Work: a garage with the door rolled up, and a bench for our…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/91598adfaa2090185e4ef062fee567aa3b121b95",
-          "date": "2026-10-24T04:16:00Z",
-          "sha": "91598ad",
+          "title": "Chimera Obscura: animals by class, and bring more animals to the bench",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/99009dbec5d80bb39d6b8102683674213486ef14",
+          "date": "2026-10-25T09:29:52Z",
+          "sha": "99009db",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         },
         {
-          "title": "The Source, up the hill behind The Feed, and both rooms' channels hea…",
-          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/03d87b393f4d13ecf5d883dbe1c539f231114e44",
-          "date": "2026-10-24T01:16:08Z",
-          "sha": "03d87b3",
+          "title": "Chimera Obscura: eight more animals, alphabetical lists, and a bench fix",
+          "url": "https://github.com/Stimpunks/Stimpunks-Love/commit/b552a6f300c9b075050607b9f9ceb7be75e74460",
+          "date": "2026-10-25T09:08:26Z",
+          "sha": "b552a6f",
           "by": [
             "ryanboren",
             "Claude Opus 5.5"
           ]
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     },
     {
       "id": "garden",
@@ -568,7 +568,7 @@
           "anon": true
         }
       ],
-      "read": "2026-10-24T11:17Z"
+      "read": "2026-10-25T11:16Z"
     }
   ]
 }
