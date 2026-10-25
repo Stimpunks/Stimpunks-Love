@@ -608,6 +608,20 @@
         "--pink"
       ]
     },
+    "you.html": {
+      "kind": "julia",
+      "c": [
+        -0.70176,
+        -0.3842
+      ],
+      "orbit": 0.014,
+      "ground": "--ink",
+      "inks": [
+        "--pink",
+        "--cyan",
+        "--yellow"
+      ]
+    },
     "forum.html": {
       "kind": "julia",
       "c": [

@@ -531,7 +531,7 @@
 .cb-dial > .cb-dial-off { justify-self: start; }
 .cb-dial .cb-btn[aria-pressed="true"] { color: var(--cb-lcd); background: var(--cb-amber); border-color: var(--cb-amber); }
 .cb-dial-note { margin: 0; font-size: 13px; }
-a.cb-to-chat { display: inline-flex; align-items: center; text-decoration: none; }
+a.cb-to-chat, a.cb-to-you { display: inline-flex; align-items: center; text-decoration: none; }
 .cb-who { font-size: 14px; }
 /* World or this room: two buttons, the pressed one with the amber edge every
    pressed button on the radio has. */
@@ -1970,6 +1970,36 @@ button.cb-ev-link {
 .cb-radio--chat .cb-ev-open, .cb-radio--chat .cb-sec--events .cb-foot-close { display: none; }
 .cb-radio--chat .cb-col--b > .cb-sec--events { flex: none; }
 .cb-radio--chat .cb-sec--events > .cb-h { font-size: min(calc(19px * var(--cb-display-scale, 1)), 24px); }
+
+/* YOUR PAGE (you.html; cb.js, inYou and noticesMake): the radio at Full,
+   docked into the page as the chat page docks it, with nothing to move, size,
+   fold or hang off it. You is the wide column, Past notifications beside it,
+   and Unreads, Messages and Your radio after them. The parts about a room
+   are made as on any page and not shown, because the page is about you. Every
+   pair in here is one CB_ROLES in check-contrast.py already holds: amber on
+   the case, and the case's own quieter amber. */
+:host(.cb-host--you) { display: block; }
+.cb-radio--you, .cb-radio--you.cb-radio--full:not(.cb-radio--folded) {
+  position: relative; top: auto; left: auto; right: auto; bottom: auto; z-index: auto;
+  width: 100%; max-height: none; box-shadow: none;
+}
+.cb-radio--you .cb-move, .cb-radio--you .cb-sizer, .cb-radio--you .cb-fold, .cb-radio--you .cb-side { display: none; }
+.cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--where, .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--channel,
+.cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--here, .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--around,
+.cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--events, .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--film { display: none; }
+.cb-radio--you .cb-sec--you > .cb-h { font-size: min(calc(19px * var(--cb-display-scale, 1)), 24px); }
+.cb-notices { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cb-notice { margin: 0; padding: 0 0 10px; border-bottom: 1px solid var(--cb-bar); }
+.cb-notice:last-child { border-bottom: 0; padding-bottom: 0; }
+.cb-notice__go { font-weight: 700; overflow-wrap: anywhere; }
+.cb-notice__body { margin: 4px 0 0; font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
+.cb-notice__when { margin: 4px 0 0; font-size: 13px; color: var(--cb-amber-2); }
+@media (min-width: 1000px) {
+  .cb-radio--you.cb-radio--full:not(.cb-radio--folded) { height: calc(100vh - 24px); height: calc(100dvh - 24px); min-height: 34rem; }
+  .cb-radio--you.cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
+    grid-template-columns: minmax(0, 2fr) minmax(16rem, 1.3fr) minmax(16rem, 1fr);
+  }
+}
 
 /* A ROOM'S CALL: a window of its own at the foot of the page, bottom left
    where the radio is bottom right, one step under it so the radio can always

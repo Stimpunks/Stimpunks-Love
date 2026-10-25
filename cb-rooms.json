@@ -812,6 +812,12 @@
    "about": "The CB’s community directory: everybody on the CB who has chosen to be listed, alphabetical, each with their username, nameplate, tagline, pronouns and the avatar they wear, and a press away from their profile card. For people signed on to the CB, opt-in, and with no count and no dates."
   },
   {
+   "tag": "you",
+   "name": "You",
+   "path": "/you.html",
+   "about": "Your page on the CB: the radio’s You part, Profile and Account, docked into a page, with your past notifications beside it, everything your devices were told in the last 30 days, and your unreads and messages. For you alone, signed on to the CB."
+  },
+  {
    "tag": "forum",
    "name": "The forums",
    "path": "/forum.html",

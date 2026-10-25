@@ -52,7 +52,8 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
 import { encryptPush, vapidAuth, pushPublicKey, cleanSubscription, cleanWant, keepDevice, readDevices, readDevice, dropDevice, dropDevicesOf,
-  mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET, followsRoom } from './lib.mjs';
+  mentions, notifyMessage, notifyEdit, notifyCall, pushDeviceId, PUSH_PER_HANDLE, CALL_QUIET, followsRoom,
+  noticeArchive, noticeOf, forgetNotices, NOTICE_KEEP } from './lib.mjs';
 import { readWireXml, runFeedBot, keepBot, feedRooms, FEED_KEEP, FEED_RUN, FEED_NAMES, botWord, shapeFeed } from './lib.mjs';
 import { dmKey, sendDm, readDmWith, listDms, acceptDm, rejectDm, takeDm, editDm, setDmOpen, blockDm, unblockDm, forgetDms,
   reportDm, readReports, closeReport, sweepDms, shapeDm, notifyDm, readDmSet, DM_KEEP, DM_WITH, REPORT_DAYS } from './lib.mjs';
@@ -3737,6 +3738,53 @@ test('a message tells the devices that asked, as their pass now allows, and nobo
   await notifyMessage(msg('Dee', 'hello @bex'), null, s, readMods(''), send);
   assert.equal(sent.length, 0, 'a device was told after its password changed');
   assert.deepEqual(Object.keys(await readDevices(s)), [], 'devices whose pass has gone are still kept');
+}));
+
+test('what a device was told is kept for its person once, with no words, and the words are read again from the channel', () => withPasswords(async () => {
+  for (const etagOnRead of [true, false]) {
+    const s = memoryStore({ etagOnRead });
+    const mods = readMods('');
+    const bex = await claimedPassFor('Bex', s), cy = await claimedPassFor('Cy', s);
+    const phone = aDevice(), laptop = aDevice(), cyDev = aDevice();
+    await keepDevice(phone, bex, { mentions: true }, s);
+    await keepDevice(laptop, bex, { mentions: true, words: false }, s);
+    await keepDevice(cyDev, cy, { world: true }, s);
+    const whoIs = (pass) => readPass({ headers: { get: (k) => (String(k).toLowerCase() === 'authorization' ? `Bearer ${pass}` : null) } }, mods, s);
+    const said = { id: 'mhello', handle: 'Ada', text: 'hello @bex, see you at 3', t: Date.now() };
+    await updateChannel((list) => [...list, said], s);
+    // Cy's push service says the device has gone, so nothing was told and nothing is kept.
+    await notifyMessage(said, null, s, mods, async (sub) => (sub.endpoint === cyDev.endpoint ? 410 : 201));
+    const kept = await s.get(`notices/${petKey('Bex')}`, { type: 'json' });
+    assert.equal(kept.items.length, 1, 'two devices told the same thing filed it twice');
+    assert.ok(!JSON.stringify(kept).includes('see you at 3'), 'a message\'s words were kept in the archive');
+    assert.deepEqual(Object.keys(kept.items[0].d).sort(), ['handle', 'id', 'kind', 'room', 'what', 'why']);
+    assert.equal(await s.get(`notices/${petKey('Cy')}`, { type: 'json' }), null, 'a notification nobody received was kept');
+
+    const bexWho = await whoIs(bex);
+    let seen = await noticeArchive(bexWho, s);
+    assert.equal(seen[0].d.text, 'hello @bex, see you at 3', 'the words were not read again from the channel');
+    assert.equal(seen[0].fresh, true);
+    seen = await noticeArchive(bexWho, s);
+    assert.equal(seen[0].fresh, false, 'looking did not mark it seen');
+
+    // Taken off, the words go from the archive too, and that there was one stays.
+    await updateChannel((list) => list.filter((m) => m.id !== said.id), s);
+    seen = await noticeArchive(bexWho, s);
+    assert.equal(seen.length, 1);
+    assert.equal(seen[0].d.text, undefined, 'the words outlived the message');
+
+    // Fifteen at once: none is lost.
+    await Promise.all(Array.from({ length: 15 }, (_, i) => notifyMessage({ id: `m${i}`, handle: `p${i}`, text: `@bex ${i}`, t: Date.now() }, null, s, mods, async () => 201)));
+    seen = await noticeArchive(bexWho, s);
+    // With no etag on a read (the emulator) a write may be told busy, which is allowed; with one, none is lost.
+    if (etagOnRead) assert.equal(seen.length, 16, 'a notification told to a device was lost from the archive');
+    else assert.ok(seen.length >= 2 && seen.length <= 16);
+    assert.ok(seen.length <= NOTICE_KEEP);
+
+    await forgetNotices(petKey('Bex'), s);
+    assert.deepEqual(await noticeArchive(bexWho, s), []);
+  }
+  assert.deepEqual(noticeOf({ kind: 'forum', t: 'tx', p: 'py', title: 'Hi', text: 'words', cat: 'Coping' }), { kind: 'forum', t: 'tx', p: 'py', cat: 'Coping' });
 }));
 
 test('a room that keeps to itself tells only the devices that follow it, never a mention elsewhere', () => withPasswords(async () => {

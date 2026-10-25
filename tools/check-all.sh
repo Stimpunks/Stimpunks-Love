@@ -185,7 +185,7 @@ STEPS=(
   # Side by side (a + joins them): each renders every page in Chrome, only
   # reads, and keeps its own probe file and its own Chrome profile.
   check-gentle+check-contrast-live+check-focus
-  check-weights check-teleport check-unlisted check-push check-props check-events check-messages check-steps check-links check-roles check-notice check-chat-status check-call-links
+  check-weights check-teleport check-unlisted check-push check-props check-events check-messages check-steps check-links check-roles check-notice check-chat-status check-call-links check-notices
 )
 
 # The CB's one invariant, first, because it needs nothing but Node: no write

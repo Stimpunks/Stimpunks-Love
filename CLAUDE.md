@@ -4319,6 +4319,22 @@ into, later ones included, and **every notifier asks `followsRoom()`, never `w.r
 because `followsRoom()` is what keeps a room that keeps to itself out of every room: announcing one to everybody would
 name its address. The friendly edits are folding it into Everything, and letting it take in the quiet rooms.
 
+**YOUR PAST NOTIFICATIONS KEEP WHAT A DEVICE WAS TOLD AND NEVER ITS WORDS, ON YOUR PAGE.** Ryan's ask, 2026-10-25
+("Desktop notifications come and go"), reversing the privacy page's "nothing about what was sent to it". `deliver()` in
+`lib.mjs`, which every notifier goes through, files each notification a push service accepted (2xx) under
+`notices/<pet key>` (`fileNotices`), once however many of a person's devices got it, for a claimed username's pass only,
+**through `noticeOf`, which drops every field that holds words** (`NOTICE_WORDS`: text, title, name, box), 30 days and 500
+at most. `noticeArchive` (`/cb/notices`) reads the words again from wherever they still are, as the pass may read them now
+(the channel while the message is on the air, the forums, Tasks, the suggestion box, events), never a direct message's or
+props', and marks them seen; a gone message is said as gone. **`you.html` is the radio docked** (`data-cb-you`, `inYou()`
+and `docked()` in `cb.js`, the chat page's `CHAT_OWN` rule): You, with Profile open, then Past notifications
+(`noticesMake`), Unreads, Messages and Your radio; the parts about a room are made and hidden by `cb.css`. **How a
+notification is said is one block, `noticeWords`, between `notice-words` markers in `cb-sw.js` and copied into `cb.js`**:
+change both, and keep everything it uses inside it (it shipped once reaching `placeOf` outside, which works in the worker
+and throws on Your page). `tools/check-notices.py` holds all of it and runs the block. **The friendly edits are keeping the
+words "so the archive reads well", an unread count, and filing everything that would have notified you with no device
+switched on**; Forget me, deleting the username and Clear my past notifications delete it.
+
 **THE MANIFEST'S DISPLAY IS `minimal-ui`, SO AN iPHONE NOTIFIES ONLY FROM iOS 26.** Ryan's call, 2026-10-20, when people
 began adding the street to their Docks and Home Screens. An iPhone or iPad notifies only as a Home Screen web app, and iOS
 ignores `minimal-ui`, so before iOS 26 the street is saved as a Safari bookmark; from iOS 26 every site added to the Home

@@ -268,7 +268,9 @@ kept = set(re.findall(r"'([a-z]+)'", own.group(1))) if own else set()
 for k in ("folded", "size", "small", "popped", "band", "x", "y"):
     if k not in kept:
         refuse(f"cb.js: CHAT_OWN must keep '{k}' as the other pages left it; without it the chat page changes the radio everywhere.")
-if not re.search(r"function save\(v\) \{[^}]*inChat\(\)", cb, re.S):
+# Your page (2026-10-25) is docked the same way, so save() may ask docked(), which must take in the chat page.
+if not (re.search(r"function save\(v\) \{[^}]*inChat\(\)", cb, re.S)
+        or (re.search(r"function save\(v\) \{[^}]*docked\(\)", cb, re.S) and re.search(r"function docked\(\) \{ return inChat\(\) \|\|", cb))):
     refuse("cb.js: save() must write back CHAT_OWN's keys as they are stored when it is on the chat page.")
 if "data-chat-groups" not in cb:
     refuse("cb.js must read the groups this tool writes, data-chat-groups.")

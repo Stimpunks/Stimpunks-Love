@@ -5373,6 +5373,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetChatOrder(petKey(handle), s);
   await forgetTaskViews(petKey(handle), s);
   await forgetTaskInbox(petKey(handle), s);
+  await forgetNotices(petKey(handle), s);
   await forgetProps(petKey(handle), s);
   await forgetChatStatus(petKey(handle), s);
   await forgetEvents(acct.handle, acct.since, s);
@@ -9559,7 +9560,131 @@ async function deliver(sends, gone, s, send) {
       return any;
     }, s);
   }
+  // Kept after it is sent, and never in its way: a busy archive loses one entry, never the notification.
+  await fileNotices(sends, answers, s).catch(() => null);
   return sends.map((x) => ({ id: x.id, payload: x.payload }));
+}
+
+/* ── YOUR PAST NOTIFICATIONS (Ryan's ask, 2026-10-25) ─────────────────────
+   "Desktop notifications come and go. Tasks saves my task notifications for
+   30 days. I want that for all notifications." Every notification one of
+   your devices is sent is also kept for you, once however many of your
+   devices it went to, under notices/<pet key>, and you.html shows them.
+
+   IT KEEPS NO WORDS. What a device was sent carries a message's first words,
+   a topic's title or a task's name if the device wanted the words; the
+   archive keeps what it was, why, who from, where and which, and when, and
+   drops every field that holds words (NOTICE_WORDS). Copying them would keep
+   a message's words past its 48 hours and past Take off, which is the copy
+   the street refuses a reply's quote and a comment's notification.
+
+   THE WORDS ARE READ AGAIN WHEN YOU LOOK (noticeArchive), from wherever they
+   still are and only where your pass can still read them: a message on its
+   channel while it is on the air, a post in the forums, a task's name, a
+   suggestion's or an event's title. Direct messages and props never: they
+   have their own places, and a page listing them would be a second copy.
+
+   Only a notification actually delivered (the push service answered 2xx) is
+   kept, so the device switches decide what is in it, and only for a claimed
+   username's pass. Marked seen when you look, never counted to you. Nobody
+   else is shown it, a moderator included. Clear my past notifications,
+   Forget me and deleting the username delete it. The friendly edits are
+   keeping the words "so the archive reads well when the message has gone", an
+   unread count, and filing everything that would have notified you even
+   with no device switched on, which is a record of everything said about you
+   that nobody asked to be kept. tools/check-notices.py holds it. */
+export const NOTICE_KEEP = 500;
+export const NOTICE_DAYS = 30;
+const NOTICE_TRIES = 40;
+const NOTICE_WORDS = ['text', 'title', 'name', 'box'];
+const noticeBlob = (pk) => `notices/${pk}`;
+
+// What a notification was, without a word of what it said.
+export function noticeOf(payload) {
+  const out = {};
+  for (const [k, v] of Object.entries(payload || {})) if (!NOTICE_WORDS.includes(k)) out[k] = v;
+  return out;
+}
+
+async function fileNotices(sends, answers, s, now = Date.now()) {
+  const by = new Map();
+  sends.forEach((x, i) => {
+    const a = answers[i], p = x.d && x.d.pass;
+    if (!a || a.status !== 'fulfilled' || !(a.value >= 200 && a.value < 300)) return;
+    if (!p || p.gen !== 2 || typeof p.handle !== 'string' || !x.payload || x.payload.kind === 'test') return;
+    const pk = petKey(p.handle), d = noticeOf(x.payload);
+    if (!by.has(pk)) by.set(pk, new Map());
+    by.get(pk).set(JSON.stringify(d), d);
+  });
+  const since = now - NOTICE_DAYS * 86400000;
+  for (const [pk, kept] of by) {
+    const add = [...kept.values()].map((d) => ({ n: 'n' + randomBytes(9).toString('base64url'), sent: now, seen: false, d }));
+    // A person's list is the one blob many notifications can race for at once, as a task inbox is.
+    await updateList(noticeBlob(pk), 'items', (list) => [...add, ...list.filter((x) => x.sent >= since)].slice(0, NOTICE_KEEP), s, NOTICE_TRIES);
+  }
+}
+
+const noticeCut = (t) => {
+  const w = linkWords(t).replace(/\s+/g, ' ').trim();
+  return [...w].length > PUSH_WORDS ? [...w].slice(0, PUSH_WORDS - 1).join('') + '\u2026' : w;
+};
+
+/* Your past notifications, newest first, each with its words read again from
+   wherever they still are (above), and `fresh` on the ones you had not seen,
+   which this look marks seen. */
+export async function noticeArchive(who, s = store(), now = Date.now()) {
+  if (!forumReader(who)) return null;
+  const since = now - NOTICE_DAYS * 86400000;
+  let items = [];
+  await updateList(noticeBlob(petKey(who.handle)), 'items', (list) => {
+    items = list.filter((x) => x && x.sent >= since && x.d && typeof x.d === 'object');
+    const next = items.map((x) => (x.seen ? x : { ...x, seen: true }));
+    return items.length !== list.length || items.some((x) => !x.seen) ? next : null;
+  }, s);
+  const logs = new Map(), topics = new Map();
+  let tasks = null, box = null, evs = null;
+  const out = [];
+  for (const x of items) {
+    const d = { ...x.d };
+    try {
+      if (d.kind === 'message' && typeof d.id === 'string') {
+        const room = typeof d.room === 'string' && d.room ? d.room : '';
+        if (!room || roomAllows(who, room)) {
+          if (!logs.has(room)) logs.set(room, readTuned(room || null, s).then((l) => l.messages, () => []));
+          const m = (await logs.get(room)).find((y) => y.id === d.id);
+          if (m && m.text) d.text = noticeCut(m.text);
+        } else delete d.place;
+      } else if (d.kind === 'forum' && typeof d.t === 'string') {
+        if (!topics.has(d.t)) topics.set(d.t, readTopic(d.t, s).catch(() => null));
+        const topic = await topics.get(d.t), cat = topic && forumCat(topic.cat, now);
+        if (cat && forumAllows(who, cat)) {
+          d.title = [...String(topic.title || '')].slice(0, FORUM_TITLE_MAX).join('');
+          const post = topic.posts.find((y) => y.id === d.p);
+          if (post && post.body) d.text = noticeCut(post.body);
+        } else delete d.cat;
+      } else if (d.kind === 'task' && typeof d.task === 'string' && d.task && tasksAllow(who)) {
+        if (!tasks) tasks = readTasks(s).catch(() => []);
+        const t = (await tasks).find((y) => y.id === d.task);
+        if (t && t.name) d.name = [...String(t.name)].slice(0, PUSH_WORDS).join('');
+      } else if (d.kind === 'suggestion' && typeof d.id === 'string') {
+        if (!box) box = readSuggestions(s).catch(() => []);
+        const it = (await box).find((y) => y.id === d.id);
+        if (it && it.title) d.title = [...String(it.title)].slice(0, PUSH_WORDS).join('');
+      } else if (d.kind === 'event' && typeof d.id === 'string') {
+        if (!evs) evs = readEvents(s).catch(() => []);
+        const ev = (await evs).find((y) => y.id === d.id);
+        if (ev && seesEvent(who, ev) && ev.title) d.title = [...String(ev.title)].slice(0, PUSH_WORDS).join('');
+      }
+    } catch (e) { /* the words stay unread, and the notification is still there */ }
+    out.push({ n: x.n, sent: x.sent, fresh: !x.seen, d });
+  }
+  return out;
+}
+
+/* Clear my past notifications, Forget me and deleting the username. */
+export async function forgetNotices(pk, s = store()) {
+  await s.delete(noticeBlob(pk));
+  return true;
 }
 const topicFor = (k) => createHash('sha256').update(`stimpunks-topic\0${k}`).digest('base64url').slice(0, 32);
 

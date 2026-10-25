@@ -158,6 +158,16 @@
   function chatDock() { return document.querySelector('[data-cb-dock]'); }
   function inChat() { return !inWindow() && !!(document.body && document.body.hasAttribute('data-cb-chat') && chatDock()); }
   var CHAT_OWN = ['folded', 'size', 'small', 'popped', 'band', 'x', 'y'];
+  /* YOUR PAGE (you.html, Ryan's ask, 2026-10-25): the radio's You part docked
+     into a page the way the chat page docks the radio, with Past notifications
+     beside it, everything your devices were told in the last 30 days (see
+     noticesMake), and Unreads, Messages and Your radio after them. Docked, it
+     is the radio at Full that does not move, fold or pop out, and it leaves
+     the radio on every other page as it found it (CHAT_OWN). It is the same
+     radio, so it listens while the page is in front of somebody, as on any
+     page; its channel is simply not shown. */
+  function inYou() { return !inWindow() && !!(document.body && document.body.hasAttribute('data-cb-you') && chatDock()); }
+  function docked() { return inChat() || inYou(); }
   var streetWin = null;
   // The window this one came from, or the one it last opened a room in, while
   // it is open and on this site.
@@ -241,8 +251,8 @@
   }
   function save(v) {
     try {
-      // The chat page leaves the radio on every other page as it found it.
-      if (inChat()) {
+      // The chat page and Your page leave the radio on every other page as they found it.
+      if (docked()) {
         var was = load() || {};
         v = Object.assign({}, v);
         CHAT_OWN.forEach(function (k) { if (k in was) v[k] = was[k]; else delete v[k]; });
@@ -1151,8 +1161,8 @@
     // replaced it; a browser that remembered it forgets it here.
     if ('findable' in state) { delete state.findable; save(state); }
 
-    var chat = inChat();
-    var box = this.box = el('section', 'cb-radio' + (inWindow() ? ' cb-radio--window' : '') + (chat ? ' cb-radio--chat' : ''));
+    var chat = inChat(), you = inYou();
+    var box = this.box = el('section', 'cb-radio' + (inWindow() ? ' cb-radio--window' : '') + (chat ? ' cb-radio--chat' : you ? ' cb-radio--you' : ''));
     box.setAttribute('aria-label', 'CB radio');
     // In its own window it is out, and says so for any page opened meanwhile.
     if (inWindow() && !state.popped) { state.popped = true; save(state); }
@@ -1313,6 +1323,13 @@
        chatMake. Unreads is made first there, so the groove is under it. */
     var newSec = this.newSec = chat ? part('cb-sec--new', 'Unreads', 0) : null;
     var chansSec = chat ? part('cb-sec--chans', 'Channels', 0) : null;
+    /* ON YOUR PAGE You is the wide column, Past notifications beside it, and
+       Unreads, Messages and Your radio after them. Where you are, the channel,
+       what is about it, who is around, Events and Watching together are made
+       as on any page and not shown (cb.css), because the page is about you
+       and not about a room. */
+    var youFirst = you ? part('cb-sec--you', 'You', 1) : null;
+    var noticeSec = you ? part('cb-sec--notices', 'Past notifications', 2) : null;
     /* WHERE YOU ARE, the room's name, and then straight away the channel
        (Ryan, 2026-10-23: the channel was pushed too far down, under Who's
        around, Unreads and Events). The chat page names the channel picked
@@ -1326,7 +1343,7 @@
     /* UNREADS (Ryan's proposal, 2026-10-20): World, the rooms you follow and
        your conversations, each listed while something has been said there
        since you last read it, and never how much. See newsShown. */
-    if (!chat) newSec = this.newSec = part('cb-sec--new', 'Unreads', 2);
+    if (!chat) newSec = this.newSec = part('cb-sec--new', 'Unreads', you ? 3 : 2);
     this.newList = el('ul', 'cb-new-list');
     this.newList.hidden = true;
     this.newNone = el('p', 'cb-quiet');
@@ -1354,19 +1371,21 @@
     var chanSec = part('cb-sec--channel', 'Channel', 1);
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
     // Messages comes straight after the channel, before In this channel.
-    if (!chat) cols[2].insertBefore(dmSec, hereSec);
+    if (you) cols[3].appendChild(dmSec);
+    else if (!chat) cols[2].insertBefore(dmSec, hereSec);
     var filmSec = this.filmSec = part('cb-sec--film', 'Watching together', chat ? 2 : 3);
     filmSec.hidden = true;
     /* YOU, Profile and Sign off under a heading of their own (Ryan's ask,
        2026-10-19): with Profile open he lost where it started, and scrolled
        past its top looking for the button to close it. The tray opens under
        this heading, and Your radio, after it, is the radio's own switches. */
-    var youSec = part('cb-sec--you', 'You', chat ? 2 : 3);
+    var youSec = youFirst || part('cb-sec--you', 'You', chat ? 2 : 3);
     var yourSec = part('cb-sec--yours', 'Your radio', chat ? 2 : 3);
     /* MESSAGES, straight after the channel (Ryan, 2026-10-18; under it since
        2026-10-23): one person to another, for claimed usernames. See dmMake. */
     this.dmMake(dmSec);
     if (chat) this.chatMake(chansSec, chanSec, dmSec);
+    if (noticeSec) this.noticesMake(noticeSec);
 
     /* WHERE YOU ARE, in words, at the top. Ryan, 2026-10-13: some people could
        not tell where they were. "Tuned to World" is the channel and not the
@@ -1841,8 +1860,8 @@
        radio out that the pages cannot hear about would be a second radio. */
     var popBtn = this.popBtn = el('button', 'cb-btn cb-pop-btn', inWindow() ? 'Back into the page' : 'Pop out');
     popBtn.type = 'button';
-    // The chat page is the radio's page already, and keeps it.
-    popBtn.hidden = !popLine || chat;
+    // The chat page and Your page are the radio's pages already, and keep it.
+    popBtn.hidden = !popLine || chat || you;
     var popHow = el('span', 'sr', inWindow()
       ? 'Closes this window and puts the radio back on the page you came from.'
       : 'Moves the radio into a window of its own, at the size it is now, which stays open while you go from room to room.');
@@ -1851,6 +1870,12 @@
     popBtn.addEventListener('click', function () { if (inWindow()) closeWindow(); else me.popOut(); });
     tools.appendChild(popBtn);
     tools.appendChild(popHow);
+    /* YOUR PAGE (2026-10-25): this part docked into a page of its own, with
+       your past notifications beside it. A link, not on that page. */
+    var toYou = el('a', 'cb-btn cb-to-you', 'Your page');
+    toYou.href = '/you.html';
+    toYou.hidden = you;
+    youTools.appendChild(toYou);
     var off = el('button', 'cb-btn cb-off', 'Sign off');
     off.type = 'button';
     off.addEventListener('click', function () { signOff(); });
@@ -2062,7 +2087,7 @@
     acctP.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your chat status, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your chat status, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle and your past notifications, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -2092,6 +2117,8 @@
     notifyBtn.addEventListener('click', function () { me.setNotify(ntf.hidden); });
     petsBtn.addEventListener('click', function () { me.setPets(pets.hidden); });
     acctBtn.addEventListener('click', function () { me.setAccount(acctP.hidden); });
+    // Your page opens on Profile, whose sections stay folded and unread until opened.
+    if (you) this.setPets(true);
     forgetBtn.addEventListener('click', function () { sure.hidden = false; forgetBtn.hidden = true; no.focus(); });
     no.addEventListener('click', function () { sure.hidden = true; forgetBtn.hidden = false; forgetBtn.focus(); });
     yes.addEventListener('click', function () { me.forgetMe(); });
@@ -2195,7 +2222,7 @@
     });
     // At Full the radio fills the window, so there is nowhere to move it to.
     // In its own window it is the window, and the window is what moves.
-    this.mover.still = function () { return inWindow() || chat || (me.state.size === 'full' && !me.state.folded); };
+    this.mover.still = function () { return inWindow() || chat || you || (me.state.size === 'full' && !me.state.folded); };
     // A theme's sides hang outside the box, so the radio keeps that much further in.
     this.mover.margin = function () {
       if (!me.sidesShown()) return 0;
@@ -2237,11 +2264,11 @@
     sheet.addEventListener('error', shown);
     root.appendChild(sheet);
     root.appendChild(box);
-    if (chat) {
-      // Into the page, where the page's own words about the chat were.
+    if (chat || you) {
+      // Into the page, where the page's own words about the chat, or about you, were.
       var dock = chatDock();
       dock.textContent = '';
-      host.classList.add('cb-host--chat');
+      host.classList.add(chat ? 'cb-host--chat' : 'cb-host--you');
       dock.appendChild(host);
     } else document.body.appendChild(host);
     if (inWindow()) {
@@ -2563,8 +2590,8 @@
   var SIZE_SAYS = { icon: 'an icon, still on', small: 'Small, the bar and the newest message', normal: 'Normal', large: 'Large, wider and taller', full: 'Full, the whole window' };
   Radio.prototype.setSize = function (size, quiet) {
     if (SIZES.indexOf(size) < 0) size = 'normal';
-    // The chat page is the radio at Full, in the page, and has no other size.
-    if (inChat()) size = 'full';
+    // The chat page and Your page are the radio at Full, in the page, and have no other size.
+    if (docked()) size = 'full';
     var small = size === 'small', tiny = small || size === 'icon';
     var had = this.box.contains(document.activeElement) || (this.host && this.host.shadowRoot && this.host.shadowRoot.activeElement);
     this.state.size = size;
@@ -3060,8 +3087,8 @@
   };
 
   Radio.prototype.setFolded = function (folded, quiet) {
-    // The chat page is the radio switched on; leaving the page is switching it off.
-    if (inChat()) folded = false;
+    // The chat page and Your page are the radio switched on; leaving the page is switching it off.
+    if (docked()) folded = false;
     this.state.folded = folded;
     this.box.classList.toggle('cb-radio--folded', folded);
     this.set.hidden = folded;
@@ -3130,6 +3157,7 @@
     this.newsTick();
     this.evTick();
     if (inChat()) this.chatDmTick();
+    if (inYou()) this.noticesTick();
     var room = this.tunedRoom(), sent = this.state.pass;
     call('/cb/channel' + (room ? '?room=' + room : ''), null, sent).then(function (r) {
       // A listen that left just before the pass changed, by claiming the
@@ -7807,6 +7835,299 @@
     if (base) btn.setAttribute('aria-label', base + (on ? ', something new' : ''));
   }
 
+  /* notice-words:begin
+     HOW EACH NOTIFICATION IS SAID, in a factory that takes how to get the
+     street's list of rooms. It is in cb.js character for character, so Your
+     page (you.html) says each past notification the way the notification said
+     it; tools/check-notices.py refuses the two apart. Change both. */
+  function noticeWords(rooms) {
+    function placeOf(list, tag) {
+      for (var i = 0; i < list.length; i++) if (list[i].tag === tag) return list[i];
+      return null;
+    }
+    function safePath(p) {
+      if (typeof p !== 'string') return '/';
+      if (/^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?(?:#cb=(?:props|messages))?$/.test(p)) return p;
+      if (/^\/tasks\.html#\/(?:t\/k[A-Za-z0-9_-]{12}(?:\/c\/m[A-Za-z0-9_-]{12})?|inbox)$/.test(p)) return p;
+      if (/^\/office\.html#\/(?:(?:c|g|k|mailings|templates)\/[cgknt][A-Za-z0-9_-]{12}|m\/[0-9a-f]{8,32})(?:\/c\/m[A-Za-z0-9_-]{12})?$/.test(p)) return p;
+      if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
+      if (/^\/chat\.html#events(?:\/e[A-Za-z0-9_-]{12})?$/.test(p)) return p;
+      if (/^\/sandbox\.html#suggestion-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(p)) return p;
+      return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
+    }
+    // A forum category's room, as the street named it in the notification.
+    function forumPlace(d, tag) {
+      var p = d.place;
+      if (!/^forum-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag) || !p || typeof p.name !== 'string' || typeof p.path !== 'string') return null;
+      var path = safePath(p.path);
+      return path === '/' ? null : { name: p.name.slice(0, 120), path: path };
+    }
+
+    /* A task's notification, in the words Tasks' own list uses. */
+    function taskSays(d) {
+      var by = d.handle ? String(d.handle).slice(0, 40) : '';
+      if (d.did === 'office') {
+        // A comment in the office: what it is on, never its name, which is sealed.
+        var what = { contact: 'a contact', grant: 'a grant request', 'case': 'a case', mailing: 'a mailing', template: 'a template', email: 'an email' }[d.what] || 'something';
+        var at = { contact: 'c', grant: 'g', 'case': 'k', mailing: 'mailings', template: 'templates', email: 'm' }[d.what];
+        // An email's comments go by email- and its Gmail id, and its page by the Gmail id alone.
+        var rec = typeof d.rec !== 'string' ? '' : d.what === 'email' ? ((/^email-([0-9a-f]{8,32})$/.exec(d.rec) || [])[1] || '')
+          : /^[cgknt][A-Za-z0-9_-]{12}$/.test(d.rec) ? d.rec : '';
+        var on = rec && typeof d.comment === 'string' && /^m[A-Za-z0-9_-]{12}$/.test(d.comment) ? '/c/' + d.comment : '';
+        return { title: by + (d.why === 'mentioned' ? ' mentioned you in a comment on ' : d.why === 'commented' ? ' also commented on ' : ' commented on ') + what + ' in the office',
+          body: 'Open it in the office.', url: safePath(rec && at ? '/office.html#/' + at + '/' + rec + on : '/tasks.html#/inbox'), tag: 'cb-office-' + (rec || 'gone') };
+      }
+      var name = typeof d.name === 'string' && d.name ? '“' + d.name + '”' : '';
+      var title = d.did === 'recurred' ? (d.why === 'assigned' ? 'A recurring task came round for you' : 'A recurring task came round')
+        : d.did === 'formed' ? (d.why === 'assigned' ? 'A form made a task for you' : 'A form made a task')
+        : d.why === 'assigned' ? by + ' assigned you a task'
+        : d.why === 'added' ? by + ' put you on a task'
+        : d.why === 'removed' ? by + ' took you off a task'
+        : d.why === 'mentioned' ? by + (d.did === 'commented' ? ' mentioned you in a comment on a task' : ' mentioned you in a task')
+        : d.did === 'commented' ? by + (d.why === 'commented' ? ' also commented on a task' : ' commented on a task')
+        : d.did === 'made' ? by + ' made a task'
+        : d.did === 'deleted' ? by + ' deleted a task'
+        : d.did === 'ticked' ? by + ' ticked a box on a task' : by + ' changed a task';
+      var body = name ? name + (d.box ? ': “' + d.box + '”' : '') : 'Open Notifications in Tasks to see it.';
+      var task = typeof d.task === 'string' && /^k[A-Za-z0-9_-]{12}$/.test(d.task) ? d.task : '';
+      // A comment opens on itself.
+      var said = task && typeof d.comment === 'string' && /^m[A-Za-z0-9_-]{12}$/.test(d.comment) ? '/c/' + d.comment : '';
+      return { title: title, body: body, url: safePath(task ? '/tasks.html#/t/' + task + said : '/tasks.html#/inbox'), tag: 'cb-task-' + (task || 'gone') };
+    }
+
+    /* An event's notification: starting, for somebody who said they are
+       interested, or new, for somebody who follows where it is. Its title only if
+       the street sent it (the words switch), its place by the street's own list,
+       and when, in this device's own clock. Never who else is interested. */
+    function eventSays(d, list) {
+      var tag = typeof d.room === 'string' ? d.room : '';
+      var place = tag && tag !== 'world' ? placeOf(list, tag) || forumPlace(d, tag) : null;
+      var where = tag === 'world' ? 'on World' : place ? 'in ' + place.name : tag ? 'in #' + tag : 'on the CB';
+      var title = typeof d.title === 'string' && d.title ? '\u201c' + d.title.slice(0, 180) + '\u201d' : '';
+      var at = typeof d.at === 'number' ? new Date(d.at) : null;
+      var when = at && !isNaN(at) ? at.toLocaleString(undefined, { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) : '';
+      var id = typeof d.id === 'string' && /^e[A-Za-z0-9_-]{12}$/.test(d.id) ? d.id : '';
+      var url = safePath('/chat.html#events' + (id ? '/' + id : ''));
+      if (d.why === 'new') {
+        var by = String(d.handle || 'Somebody').slice(0, 40);
+        var bits = [];
+        if (title) bits.push(title);
+        if (when) bits.push((title ? 'first on ' : 'First on ') + when);
+        return { title: by + ' scheduled an event ' + where, body: (bits.length ? bits.join(', ') + '. ' : '') + 'Open Events on the CB to see it.',
+          url: url, tag: 'cb-event-' + (id || 'new') };
+      }
+      return { title: (title ? title + ' is starting ' : 'An event you are interested in is starting ') + where,
+        body: (when ? 'On ' + when + '. ' : '') + 'Open Events on the CB to go to it.', url: url, tag: 'cb-event-' + (id || 'start') };
+    }
+
+    /* Who a mention named: you, or a role you hold (Ryan's ask, 2026-10-23:
+       @moderator, @director, @board and @administrator), by the role's own word. */
+    function called(d) {
+      return ['administrator', 'board', 'director', 'moderator'].indexOf(d.as) >= 0 ? '@' + d.as : 'you';
+    }
+
+    /* Something new in the suggestion box (2026-10-25): for a moderator, a
+       suggestion dropped in or a reply from whoever asked; for whoever asked, a
+       moderator's reply, and whether it marked the suggestion. Its title and
+       words only if the device wants the words. Pressing it opens the box on it. */
+    function suggestionSays(d) {
+      var by = String(d.handle || 'Somebody').slice(0, 40);
+      var title = typeof d.title === 'string' && d.title ? '\u201c' + d.title.slice(0, 180) + '\u201d' : '';
+      var did = d.made ? ' dropped a suggestion in the box'
+        : d.mark === 'done' ? ' marked your suggestion done'
+        : d.mark === 'denied' ? ' marked your suggestion not doing'
+        : d.mark === 'open' ? ' opened your suggestion again'
+        : d.to === 'mods' ? ' replied to their suggestion' : ' replied to your suggestion';
+      var id = typeof d.id === 'string' ? d.id : '';
+      return { title: by + did, body: title ? title + (d.text ? ': ' + d.text : '') : 'Open the suggestion box in The Sandbox to see it.',
+        url: safePath('/sandbox.html#suggestion-' + id), tag: 'cb-suggestion-' + (id || 'box') };
+    }
+
+    function say(d) {
+      if (!d || typeof d !== 'object') return Promise.resolve(null);
+      if (d.kind === 'suggestion') return Promise.resolve(suggestionSays(d));
+      if (d.kind === 'forum') {
+        var by = String(d.handle || 'Somebody').slice(0, 40);
+        var cat = typeof d.cat === 'string' && d.cat ? d.cat.slice(0, 80) : 'the forums';
+        var said = typeof d.title === 'string' && d.title ? '“' + d.title + '”' + (d.text ? ': ' + d.text : '') : 'A post in ' + cat + '.';
+        return Promise.resolve({ title: by + ' mentioned ' + called(d) + ' in ' + cat, body: said,
+          url: safePath('/forum.html#/t/' + String(d.t || '') + (d.p ? '/' + String(d.p) : '')), tag: 'cb-forum-' + String(d.p || d.t || '') });
+      }
+      if (d.kind === 'props') {
+        var from = String(d.handle || 'Somebody').slice(0, 40);
+        return Promise.resolve({ title: from + ' gave you props',
+          body: typeof d.text === 'string' && d.text ? d.text : 'They wait in Profile on the CB for you to Confirm or Reject.',
+          url: '/#cb=props', tag: 'cb-props-' + from });
+      }
+      if (d.kind === 'dm') {
+        var sender = String(d.handle || 'Somebody').slice(0, 40);
+        return Promise.resolve({ title: d.asked ? sender + ' asks to message you' : sender + ' sent you a message',
+          body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.'
+            : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.'
+            : d.what === 'sticker' ? 'A sticker. Open Messages on the CB to see it.' : 'Open Messages on the CB to read it.',
+          url: '/#cb=messages', tag: 'cb-dm-' + sender });
+      }
+      if (d.kind === 'task') return Promise.resolve(taskSays(d));
+      if (d.kind === 'event') return rooms().then(function (list) { return eventSays(d, list); });
+      if (d.kind === 'test') {
+        return Promise.resolve({ title: 'Notifications are on', body: 'This is how a notification from the CB looks on this device.', url: '/', tag: 'cb-test' });
+      }
+      return rooms().then(function (list) {
+        var tag = typeof d.room === 'string' ? d.room : '';
+        var place = tag && tag !== 'world' ? placeOf(list, tag) || forumPlace(d, tag) : null;
+        var where = place ? place.name : (tag && tag !== 'world' ? '#' + tag : 'World');
+        // World's channel is the World room's, so a World notification opens that
+        // room when the street's list has it.
+        var world = placeOf(list, 'world');
+        var url = place ? safePath(place.path) : (tag && tag !== 'world' ? safePath('/' + tag + '.html') : (world ? safePath(world.path) : '/'));
+        if (d.kind === 'call') {
+          return { title: tag === 'world' ? 'The World call has started' : 'A call has started in ' + where,
+            body: 'Open the CB to join it.', url: url, tag: 'cb-call-' + (tag || 'world') };
+        }
+        if (d.kind !== 'message') return null;
+        var who = String(d.handle || 'Somebody').slice(0, 40);
+        var title = d.why === 'mention'
+          ? who + ' mentioned ' + called(d) + ' ' + (place || tag ? 'in ' + where : 'on World')
+          : d.why === 'reply' ? who + ' replied to you ' + (place || tag ? 'in ' + where : 'on World')
+            : who + (place || tag ? ' in ' + where : ' on World');
+        var body = typeof d.text === 'string' && d.text ? d.text
+          : d.what === 'picture' ? 'Sent a picture.' : d.what === 'sticker' ? 'Sent a sticker.' : 'Sent a message.';
+        return { title: title, body: body, url: url, tag: d.why === 'mention' || d.why === 'reply' ? 'cb-' + d.why + '-' + String(d.id || '') : 'cb-' + (tag || 'world') };
+      });
+    }
+
+    return { say: say, safePath: safePath };
+  }
+  /* notice-words:end */
+
+  /* PAST NOTIFICATIONS, on Your page (Ryan's ask, 2026-10-25: "Desktop
+     notifications come and go."): everything your devices were told in the
+     last 30 days, newest first, said the way each notification said it
+     (noticeWords, above, which is the service worker's), with its words read
+     again by the server from wherever they still are. Asked when the page
+     opens and from listen() at most every NOTICE_EVERY, never on a timer of
+     its own. A new one is marked and never counted, and it stays marked for
+     as long as the page is open, although the server marks it seen at once.
+     The list is not a live region, and it is redrawn only when it changes,
+     with the keyboard kept on the notification it was on. */
+  var NOTICE_EVERY = 60000;
+  var noticeSay = null;
+  function noticeSays() {
+    if (noticeSay) return noticeSay;
+    var list = null;
+    noticeSay = noticeWords(function () {
+      if (list) return Promise.resolve(list);
+      return fetch('/cb-rooms.json', { credentials: 'omit' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { list = (d && d.rooms) || []; return list; }, function () { return []; });
+    }).say;
+    return noticeSay;
+  }
+  Radio.prototype.noticesMake = function (sec) {
+    var me = this;
+    this.noticeFresh = {};
+    var about = el('p', 'cb-online-about');
+    about.appendChild(document.createTextNode('What the CB\u2019s notifications told your devices in the last 30 days, newest first. Only what was actually sent to a device is here, so what you switch on under Notifications decides it. The words are read again from wherever they still are, so a message gone at its 48 hours, or taken off, is here only as that there was one. Nobody else is shown this. '));
+    var more = el('a', null, 'What it keeps');
+    more.href = '/privacy.html#notification-archive';
+    about.appendChild(more);
+    sec.appendChild(about);
+    var list = this.noticeList = el('ul', 'cb-notices');
+    list.hidden = true;
+    sec.appendChild(list);
+    this.noticeNone = el('p', 'cb-quiet', 'Looking for your past notifications\u2026');
+    sec.appendChild(this.noticeNone);
+    var row = el('div', 'cb-tools');
+    var clear = this.noticeClear = el('button', 'cb-btn', 'Clear my past notifications');
+    clear.type = 'button';
+    clear.hidden = true;
+    row.appendChild(clear);
+    sec.appendChild(row);
+    var sure = el('div', 'cb-forget-sure');
+    sure.hidden = true;
+    sure.appendChild(el('p', null, 'This deletes every past notification kept for you, on every device. The notifications already on your devices stay there. It cannot be undone.'));
+    var yes = el('button', 'cb-btn', 'Yes, clear them');
+    yes.type = 'button';
+    var no = el('button', 'cb-btn', 'Keep them');
+    no.type = 'button';
+    sure.appendChild(yes); sure.appendChild(no);
+    sec.appendChild(sure);
+    var said = this.noticeSaid = el('p', 'cb-said');
+    said.setAttribute('role', 'status');
+    sec.appendChild(said);
+    clear.addEventListener('click', function () { sure.hidden = false; clear.hidden = true; no.focus(); });
+    no.addEventListener('click', function () { sure.hidden = true; clear.hidden = false; clear.focus(); });
+    yes.addEventListener('click', function () {
+      yes.disabled = true;
+      call('/cb/notices', { body: { clear: true } }, me.state.pass).then(function (r) {
+        yes.disabled = false;
+        if (r.status === 401) return me.lost();
+        sure.hidden = true;
+        if (r.status !== 200) { clear.hidden = false; clear.focus(); said.textContent = 'They could not be cleared just now. Try again in a moment.'; return; }
+        said.textContent = 'Your past notifications are cleared.';
+        me.noticesShown([]).then(function () {
+          me.noticeNone.setAttribute('tabindex', '-1');
+          me.noticeNone.focus();
+        });
+      }, function () { yes.disabled = false; said.textContent = 'They could not be cleared just now. Try again in a moment.'; });
+    });
+    this.noticesTick(true);
+  };
+  Radio.prototype.noticesTick = function (now) {
+    var me = this;
+    if (!this.noticeList) return;
+    if (!forumPass(this.state.pass)) { this.noticeNone.textContent = 'Your past notifications are kept for a claimed username.'; return; }
+    if (this.noticeBusy || (!now && Date.now() - (this.noticeAt || 0) < NOTICE_EVERY)) return;
+    this.noticeBusy = true;
+    call('/cb/notices', { body: {} }, this.state.pass).then(function (r) {
+      me.noticeAt = Date.now();
+      if (r.status === 401) return me.lost();
+      if (r.status === 200 && r.body && Array.isArray(r.body.notices)) return me.noticesShown(r.body.notices);
+      if (!me.noticeDrawn) me.noticeNone.textContent = 'Your past notifications could not be read just now. They are asked for again in a minute.';
+    }, function () { me.noticeAt = Date.now(); }).then(function () { me.noticeBusy = false; });
+  };
+  Radio.prototype.noticesShown = function (notices) {
+    var me = this, say = noticeSays();
+    notices.forEach(function (n) { if (n.fresh) me.noticeFresh[n.n] = true; });
+    return Promise.all(notices.map(function (n) {
+      return say(n.d).then(function (w) {
+        if (!w) return null;
+        // A message whose words the server could not find again has gone from its channel.
+        if (n.d.kind === 'message' && !n.d.text && !n.d.what) w = { title: w.title, url: w.url, body: 'No longer on the channel: gone at its 48 hours, or taken off.' };
+        return { n: n.n, sent: n.sent, w: w };
+      }, function () { return null; });
+    })).then(function (said) {
+      said = said.filter(Boolean);
+      var key = JSON.stringify(said.map(function (x) { return [x.n, x.w.title, x.w.body, x.w.url, !!me.noticeFresh[x.n]]; }));
+      if (key === me.noticeKey) return;
+      me.noticeKey = key;
+      me.noticeDrawn = true;
+      var list = me.noticeList, root = me.host && me.host.shadowRoot;
+      var had = root && root.activeElement && list.contains(root.activeElement) ? root.activeElement.getAttribute('data-n') : null;
+      list.textContent = '';
+      said.forEach(function (x) {
+        var li = el('li', 'cb-notice');
+        var a = el('a', 'cb-notice__go', x.w.title);
+        a.href = x.w.url;
+        a.setAttribute('data-n', x.n);
+        markNew(a, !!me.noticeFresh[x.n]);
+        li.appendChild(a);
+        if (x.w.body) li.appendChild(el('p', 'cb-notice__body', x.w.body));
+        // Thirty days back, a weekday is not enough to say which day: past a week it says the date.
+        var d = new Date(x.sent), wk = Date.now() - x.sent < 6 * 86400000;
+        var day = dayAgo(x.sent);
+        var when = el('p', 'cb-notice__when', 'Sent ' + (!wk ? 'on ' + d.toLocaleDateString(undefined, { day: 'numeric', month: 'long' }) : !day ? 'today' : day === 'yesterday' ? day : 'on ' + day) + ' at ' + hhmm(d));
+        li.appendChild(when);
+        list.appendChild(li);
+      });
+      list.hidden = !said.length;
+      me.noticeClear.hidden = !said.length;
+      me.noticeNone.hidden = !!said.length;
+      me.noticeNone.textContent = said.length ? '' : 'Nothing yet. This keeps what your devices are told from now on, so a device has to be switched on under Notifications, in Your radio, for anything to be here.';
+      if (had) { var back = list.querySelector('[data-n="' + had + '"]'); if (back) back.focus(); }
+    });
+  };
+
   Radio.prototype.newsTick = function () {
     var me = this;
     if (!forumPass(this.state.pass)) { this.news = null; this.newsShown(); return; }
@@ -11590,8 +11911,8 @@
        or a browser that closed it), and then the radio is back here. A radio
        that has started here and then hears a window open steps aside (see
        popLine). */
-    // The chat page has the radio whether or not it is out in its own window.
-    if (!inWindow() && !inChat() && popLine) {
+    // The chat page and Your page have the radio whether or not it is out in its own window.
+    if (!inWindow() && !docked() && popLine) {
       if (s.popped) {
         showStub(s, '');
         askWindow(function (alive) {
@@ -11910,8 +12231,8 @@
       if (d.arrived && radio) radio.whereNow();
       return;
     }
-    // The chat page's radio is the page, and never steps aside for the window.
-    if (inChat()) return;
+    // The chat page's radio, and Your page's, is the page, and never steps aside for the window.
+    if (docked()) return;
     if (d.window === 'open') {
       if (windowAnswered) windowAnswered();
       if (radio) stepAside('');

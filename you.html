@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You — Stimpunks.World</title>
+<meta name="description" content="Your page on the CB: the radio’s You part, Profile and Account, docked into a page, with your past notifications beside it, everything your devices were told in the last 30 days, and your unreads and messages. For you alone, signed on to the CB.">
+<link rel="canonical" href="https://stimpunks.world/you.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="You — Stimpunks.World">
+<meta property="og:description" content="Your page on the CB: Profile, Account and every notification your devices were told in the last 30 days, for you alone.">
+<meta property="og:url" content="https://stimpunks.world/you.html">
+<meta property="og:image" content="https://stimpunks.world/og/you.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark indigo card, deliberately quiet. Small cyan capitals reading stimpunks.world above a short pink rule, then “You” in yellow block capitals, and the line: Your page on the CB: Profile, Account and every notification your devices were told in the last 30 days, for you alone.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
+<link rel="stylesheet" href="love.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}var l=localStorage.getItem('love-low');if(l==='warm'||l==='cool'||l==='green'||l==='red'){d.setAttribute('data-low',l);v='gentle';}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/you.html#webpage","url":"https://stimpunks.world/you.html","name":"You — Stimpunks.World","description":"Your page on the CB: the radio’s You part, Profile and Account, docked into a page, with your past notifications beside it, everything your devices were told in the last 30 days, and your unreads and messages. For you alone, signed on to the CB.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="room-plain" id="top" data-cb-you>
+<!-- YOUR PAGE (Ryan's ask, 2026-10-25: "Desktop notifications come and go.
+     I find myself wanting an archive of notifications."). Not a room with a
+     world of its own: the CB's, as the chat page is, so the page is paperwork
+     and what is in it is the radio itself, docked into the page in the
+     reader's own CB theme.
+       · THE RADIO IS THE PAGE. cb.js sees data-cb-you and puts the radio in
+         [data-cb-dock] at Full rather than over the page: You, with Profile
+         open, is the wide column, Past notifications beside it, and Unreads,
+         Messages and Your radio after them. Nothing here builds a second
+         radio. See cb.js, inYou and noticesMake.
+       · PAST NOTIFICATIONS keep what a device was told and never its words,
+         which are read again from wherever they still are. Nobody else is
+         shown them; nothing counts them.
+     See privacy.html#notification-archive, cb-guide.html#you and
+     tools/check-notices.py, which holds all of it. -->
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="wrap" style="padding-bottom:56px;max-width:1600px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <h1>You</h1>
+  <p class="lede">The radio&rsquo;s <b>You</b> part on a page of its own: your profile and your account, and beside them <b>your past notifications</b>, everything the CB&rsquo;s notifications told your devices in the last 30 days, with your unreads and your messages after them. <strong>For you alone</strong>, signed on to the CB. It is the radio, so everything the radio does it does here. <a href="cb-guide.html#you">How it works</a> &middot; <a href="privacy.html#notification-archive">What it keeps</a>.</p>
+
+  <div data-cb-dock style="margin-top:24px;">
+    <p>Your page opens here for anybody signed on to the CB in this browser. Not on the CB yet? It is by invite: <a href="community-center.html#getting-started">Getting started</a> says how to ask for one, and an invite&rsquo;s link brings you to <a href="join.html">Join the CB</a>, where you choose a username and a password of your own.</p>
+    <noscript><p>Your page is the CB&rsquo;s, and it needs JavaScript to be read at all.</p></noscript>
+  </div>
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-you">Where am I?</a> &middot; <a href="about.html">About</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;julia&quot;,&quot;c&quot;:[-0.70176,-0.3842],&quot;orbit&quot;:0.014,&quot;ground&quot;:&quot;--ink&quot;,&quot;inks&quot;:[&quot;--pink&quot;,&quot;--cyan&quot;,&quot;--yellow&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+</body>
+</html>
