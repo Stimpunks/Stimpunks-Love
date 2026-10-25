@@ -9,7 +9,9 @@
    here and nowhere else:
 
      · signed on to the CB (a pass in this browser's love-cb, READ and never
-       written: signing on is the radio's job) -- "Join the call as <handle>";
+       written: signing on is the radio's job) -- "Join the call as <handle>",
+       and in a public room that walks straight in, as one of its moderators
+       (since 2026-10-24: the lobby is for guests);
      · not signed on, in a public room -- a name box and "Knock on the door",
        because a public call's lobby is on and a moderator lets you in;
      · not signed on, in one of the suites -- the way to get CB access, at the

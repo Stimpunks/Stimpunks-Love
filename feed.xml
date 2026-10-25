@@ -9,150 +9,157 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sat, 24 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Anybody signed on walks straight into Cavendish’s open meetings</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-24-calls-walk-in</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-calls-walk-in</guid>
+      <pubDate>Sat, 24 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The lobby is for guests now. In the calls in the Events Room, the Operations Room and the Editorial Room, anybody signed on to the CB comes straight in, and only somebody joining without an account knocks and waits. You come in as one of the call’s moderators, because 8x8 lets nobody else past its lobby. So anybody signed on in those three calls can let a guest in, and can also mute or remove people, end the meeting for everybody and switch the lobby off. This changes our earlier rule that the base station is the only moderator, for those three calls only; every other room’s call is as it was, and recording and transcription are still the base station’s alone. Each room’s call panel, Cavendish Coworking and the privacy page say so.</description>
+    </item>
+    <item>
       <title>A room’s page can be named on the CB, as well as its channel</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-room-pages</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-room-pages</guid>
-      <pubDate>Sat, 24 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:59:00 GMT</pubDate>
       <description>Type / and the start of a room’s name in the message box and the radio offers the rooms’ pages, the way # offers rooms. The message carries /the-den, and every radio shows it as /The Den, linked to the room’s page. On the chat page a #the-den opens The Den’s channel there, so /the-den is how to send somebody to the room itself. Anywhere else both go to the room, as a #tag always has. Only a room is a link: a / after a space or at the start of a line, in lower case, naming a room on the street. and/or, /usr/bin and /the-den/somewhere stay words. The CB guide says so. The teleporter shows each room as /the-den now, on the radio and on the guest bar, because it takes you to the room’s page. Typing #the-den or /the-den into it still finds The Den.</description>
     </item>
     <item>
       <title>The Adventurer’s Guild reads in a low-stimulation mode again</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-low-see-through</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-low-see-through</guid>
-      <pubDate>Sat, 24 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:58:00 GMT</pubDate>
       <description>The Adventurer’s Guild went blank in every low-stimulation mode, since the modes arrived this morning. A mode gives every box on a page its quiet ground, and the layer the guild’s fanfare throws its sparks into covers the whole window, see-through until a fanfare, so the mode turned it into a sheet over every word. Decoration takes no ground in a mode now, so it stays see-through. The same fix brought back words in other rooms that were partly hidden in a mode: the keys on the Playhouse’s sound board, lines under the pool of light in the Healing Checkpoint, and lines under a vine, the notebook’s highlighter and the pebble stones in the Faery Yurt. Maintenance in the Faery Yurt, which changes nothing you can see outside a mode: its two vines are marked as decoration, as the drawings inside them already were, and its shutters are marked as covering their windows on purpose, so in a mode they stay shut rather than turning see-through. The check that Gentle never takes away the words now renders every page in a mode as well, and stops the build if anything the mode filled in lies over a word.</description>
     </item>
     <item>
       <title>The low-stimulation modes are CB themes too</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-low-themes</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-low-themes</guid>
-      <pubDate>Sat, 24 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:57:00 GMT</pubDate>
       <description>A new group under the radio’s Themes: Low stimulation, by request: Warm Light, Cool Dark, Plant Green and Red Light, the dial’s four modes, for the radio alone. The room keeps its own colours and only the radio goes quiet. Each is the radio exactly as it is in that mode, the same colours by name, with no drawing and nothing that moves, and every word clears 4.5 to 1. The dial’s modes still lay one over the whole page. The CB guide has them. They are themes everywhere the CB’s themes are: for the call window, for your profile card, and for the forums when you give them a theme of their own. The CB guide’s paragraph on the Glitter dial reads properly again: a sentence about the radio’s own window had been pasted into itself.</description>
     </item>
     <item>
       <title>Video cards play even when their length is not known</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-cards-play</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-cards-play</guid>
-      <pubDate>Sat, 24 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:56:00 GMT</pubDate>
       <description>A YouTube or Vimeo card on the CB, or a video preview in the forums, plays now even when our server could not find out how long the video runs, Ryan’s call: the player shows its length the moment it starts. Its button says the length when it is known. So YouTube links on the live site play, key or no key. Only a video that cannot play on other sites is a link to YouTube instead: one its maker keeps off other sites, an age-restricted one, one not yet live, or a private one. The rooms’ own play buttons all still say how long they run, and four sentences that spoke for every button on the street now speak for the rooms’: in the Adventurer’s Guild, Big Steep Fermentables, Breaker Breaker and Swaying Sweetgrass.</description>
     </item>
     <item>
       <title>YouTube cards ask YouTube how long a video runs</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-youtube-length</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-youtube-length</guid>
-      <pubDate>Sat, 24 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:55:00 GMT</pubDate>
       <description>On the live site, YouTube links on the CB were coming out as links to YouTube rather than players. A card plays a video only when it can say how long it runs, and from our host’s servers YouTube’s pages would not say. Our server can now ask YouTube’s own Data API instead, sending it only the video’s id, and YouTube cards play once that is switched on. The forums’ previews ask it too. An age-restricted video, one not yet live and one its maker keeps off other sites stay links to YouTube.</description>
     </item>
     <item>
       <title>Links on the CB become cards, and videos play in them</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-link-cards</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-link-cards</guid>
-      <pubDate>Sat, 24 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:54:00 GMT</pubDate>
       <description>A link in a message on the CB gets a card a moment after the message goes out, by request: the site’s name, who made it, its title as a link that says where it goes, and its description, or for a post on X or Bluesky the words of the post. Up to three in a message. A YouTube or Vimeo video plays right in the card, behind a press that says how long it runs. Nothing from YouTube or Vimeo loads until somebody presses it. Our server reads each link once, just after the message goes out, so the site sees our host and never you or anybody reading. A card never has a picture, and nothing a site sends to put on a page is put on ours. Any site that publishes an oEmbed endpoint is read for its words; the ones that play here are the ones the street already plays. Write a link in angle brackets, &lt;https://…&gt;, to send it without a card. The CB guide and the privacy page have the rest. A link in the forums reads the same oEmbed answers, so a post on X or Bluesky there now shows its words.</description>
     </item>
     <item>
       <title>My own order for the chat page’s channels</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-chat-own-order</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-chat-own-order</guid>
-      <pubDate>Sat, 24 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:53:00 GMT</pubDate>
       <description>My own order is a fourth way to sort the channels under tags on the chat page, by request. Arrange puts Move up and Move down beside every channel, each group on its own; Alt and an arrow on a channel moves it too, and so does dragging. A line says where each one went. It follows you from one device to another, because it is kept on our server under your username: which channels, in which order, under which group, and nothing about when. Nobody else is shown it, and Forget me and deleting your username delete it. The privacy page says so, and the CB guide says how. Going back to A to Z takes the line about the last order away, which it had been leaving behind.</description>
     </item>
     <item>
       <title>The chat page’s channels, A to Z or by activity</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-chat-sort</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-chat-sort</guid>
-      <pubDate>Sat, 24 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:52:00 GMT</pubDate>
       <description>On the chat page, the channels under each tag are A to Z now, passing over a leading The, A or An, so The Den is with the Ds. Community and Staff keep their own order. Sort the channels under tags can put them in another order: Recently active, newest message first, or Most active, most messages in the last 48 hours first. They are sorted only when the page opens, when you choose an order and when you press Sort again, never as messages come in, so nothing moves while you are reaching for it. The server sends the order and never a time or a number, leaves out any room that keeps to itself or that you cannot go into, and does not count the bot that says The Feed’s and The Source’s arrivals. Your browser remembers the order you chose. The CB guide and the privacy page have the rest.</description>
     </item>
     <item>
       <title>Bigger headings on the CB, and In this channel in parts</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-cb-headings</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-cb-headings</guid>
-      <pubDate>Sat, 24 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:51:00 GMT</pubDate>
       <description>Every heading inside a part of the radio is bigger, on every page and on the chat page: People, Calls going now and Your chat status under Who’s around, the Themes groups, Profile’s sections and the rest. The parts’ own headings went up a size with them, so a part still reads above what is in it, and the room’s name under Where you are is still the largest words on the radio. On the chat page, the groups of channels down the left are bigger: Community, Direct messages, Staff, Music and every other. In this channel is in smaller parts now, each under its own heading: Seen here (Be seen here, and who else is seen), In this room’s call (Join this room’s call, and who is in it), Your familiar (Bring my familiar, or where to find one) and On now. A heading with nothing under it just now is not shown. The CB guide says what is where.</description>
     </item>
     <item>
       <title>The Glitter dial and Open in Chat, on the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-glitter-dial</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-glitter-dial</guid>
-      <pubDate>Sat, 24 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:50:00 GMT</pubDate>
       <description>The dial is on the radio now, by request: Glitter dial, beside I need a bodymind break under Where you are, opens Gentle, Regular and MAX GLITTER and the low-stimulation modes, so you can turn the dial or escape into a mode from any page the radio is on, the pages with no dial of their own included. It is the same dial, not a second one: turn either and the other follows. From the radio’s own window it turns the page you came from. Open in Chat comes after it and takes you to the chat page with the room you are in picked, or World on a page that is not a room. The CB guide has both. The dial at the top of a page says what Gentle, Regular and MAX GLITTER do again. Its line under the buttons had been blank since 2026-09-21, when the Playhouse’s toys took the same name in the street’s script and silently replaced the dial’s words; only the low-stimulation modes’ lines, added this morning, were showing.</description>
     </item>
     <item>
       <title>Pets: down on the floor with the animals</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-pets</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-pets</guid>
-      <pubDate>Sat, 24 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:49:00 GMT</pubDate>
       <description>Pets is a shopfront on the street, between Coping and Show Your Work: the floor at the end of the day, a dog and a cat asleep on the rug and a rabbit by the skirting board, the light in the window going, and nobody switching the lamp on, because getting up would mean moving somebody. Nothing in it moves, at any setting. It says why co-regulating with an animal matters so much to so many Autistic people, and to everybody else: an animal wants no eye contact, no small talk and no mask, and being with one can be enough. Mammals settle one another, and the room quotes the lines on our own pages that say so, from our Co-regulation and Polyvagal Theory entries, with Helen Edgar on being with somebody and our Body Doubling and Glimmers entries, each credited to whoever wrote it. Every room on the street with animals in it has a pet flap there, set into the skirting board at the height of whoever uses it: the three shelters, Pekoe and Purrs, the Run, the Truck Stop’s treat truck, the sanctuary at All Needs Met and Chimera Obscura. A new pets room on the street gets one too. Its channel on the CB is under Community on the chat page, for your animals: pictures, stories, worries and questions, and the ones who are gone. It is not a vet, says nothing about what an animal will do for your health, ranks no animal above another and counts nobody’s.</description>
     </item>
     <item>
       <title>Following a link no longer hangs up your call</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-call-links</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-call-links</guid>
-      <pubDate>Sat, 24 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:48:00 GMT</pubDate>
       <description>While you are in a call, anything on the CB that would take you off the page opens in a new tab instead, and the radio says so: a room’s #tag or a link on the channel or in a conversation, a room on Who’s online or Unreads, a room on somebody’s profile, the teleporter and Take to the forums. Following a link used to leave the page, and a page that goes takes its call with it. Every other way off the page asks first while a call is up: a link in the room itself, Back, or closing the tab brings up your browser’s own Leave site?. With no call up, links take you there as they always have. The CB guide has the rest, and Pop out still takes a call with you from room to room.</description>
     </item>
     <item>
       <title>The chat page has its channels again</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-chat-page-channels</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-chat-page-channels</guid>
-      <pubDate>Sat, 24 Oct 2026 11:48:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:47:00 GMT</pubDate>
       <description>For a while after the chat status went up, the chat page showed the chat status where its channels belong, and the channel would not load: the new part had been given the same name in the radio’s code as the chat page’s list of channels, and replaced it. The channels are back, the chat status is under Who’s around where it should be, and the street’s checks now refuse two parts of a script sharing a name. Not right now does not hold your notifications, the way Discord’s Do Not Disturb does: those stay with the notification switches, device by device, because somebody showing red may still want to hear a mention.</description>
     </item>
     <item>
       <title>Your chat status: come say hi, people i know, not right now</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-chat-status</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-chat-status</guid>
-      <pubDate>Sat, 24 Oct 2026 11:47:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:46:00 GMT</pubDate>
       <description>The CB has a chat status, at the foot of Who’s around on the radio: whether you would like to be talked to, because somebody can be about and still not be chatty. It is one of the interaction badges, in the words and shapes of the Cavendish Space Project’s interaction cards, after the colour communication badges Autism Network International started at the first Autreat: come say hi, a green circle; people i know, a yellow triangle; not right now, a red square. People see it beside your name on Who’s online and on Also seen here, on your profile under your name, and at the top of a conversation with you under Messages, with what the badge asks, so it can be checked before anybody writes. Each badge is its shape and its words as well as its colour, and looks the same in every theme. It is a sign, not a lock: it stops nobody writing to you. It starts as none, nothing changes it but you (no idle, nothing that runs out), and we keep which badge and nothing about when. The CB guide says why the street did not copy Discord’s Online, Idle, Do Not Disturb and Invisible: Be seen here is already Online and Invisible. The privacy page has the rest.</description>
     </item>
     <item>
       <title>Coping: the eye of the storm</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-coping</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-coping</guid>
-      <pubDate>Sat, 24 Oct 2026 11:46:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:45:00 GMT</pubDate>
       <description>Coping is a shopfront on the street, between Community Care and Show Your Work: three pages from our Regulation and Coping hub on stimpunks.org, Seeds of Cope, The Science of Cope and Cope Is Not an Insult, summarised in one room in our own words, with their lines quoted where they say it best. Small things to reach for right now, the cope map, the seeds, words you can borrow, why coping works, and why cope is not an insult. It is the eye of the storm: clear sky straight up, a wall of storm cloud all the way round, and the dry floor of the eye in the sun. The storm stays in plain sight, all the way round and at the edges of a wide window, because the difference between coping and denial is that the storm is still there. Nothing in the eye moves by itself at any setting, MAX GLITTER included. Doors stand on the floor of the eye, each opening onto a room on the street for coping, regulation or peer support, grouped by the moment you are in, after our page’s own way of not getting lost: overloaded, socially fried, spiraling, post-crash, and when it is the system and you want people. Its channel on the CB is under Community on the chat page, for talking about coping. Dead Tired Society’s channel is no longer in Community, so the two do not compete; it is still under Coping and Calm with the rest of the street’s rooms. Community Care names Coping next door. It is not clinical advice and not a crisis line, and says so before its first heading, with the crisis lines. Nothing in it is grit, a sneer, clinical, counted or cheerful at you, and nothing on the page keeps anything about you.</description>
     </item>
     <item>
       <title>Community’s rooms are under their tags too</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-community-tags</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-community-tags</guid>
-      <pubDate>Sat, 24 Oct 2026 11:45:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:44:00 GMT</pubDate>
       <description>On the chat page, the rooms in Community are now also under their tags, as every other room is: Dead Tired Society and Community Care under Coping, the Cave and the Community Center under Calm, the house at Cavendish and its meeting rooms under Meetings, the rooms with something to watch under Videos, and Show Your Work under Make/build and Art. They stay in Community as well. The Town Hall’s private rooms and World are not under any tag: the private rooms are only ever listed for the people who can go in, and World is the whole street’s channel, first in Community.</description>
     </item>
     <item>
       <title>Rooms have tags, and the chat is grouped by them</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-room-tags</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-room-tags</guid>
-      <pubDate>Sat, 24 Oct 2026 11:44:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:43:00 GMT</pubDate>
       <description>Rooms have tags now, saying what each is for: Music, Videos, Pets, Pubs and restaurants, Games, Calm, Coping, Homes and Make/build, and, so that every room has one that is true of it, Reading, Art, Outdoors, Areas, Meetings, News and notices, Forums and Paperwork. The rooms in Community and Staff keep their own groups. On the chat page, the channels after Community and Staff are grouped by those tags, in place of the one long list called World. A room with more than one tag is under each, so the Latibulum is in Music, Videos, Calm and Coping. The forums’ categories follow The forums, under Forums. Find a channel finds a tag too: type pets and the whole Pets group comes up. The CB guide says so. Music and Videos mean something to press and play, so a room tagged either is held to Now Playing, and a room on that bill is tagged one of them. A new room on the street needs its tags before the chat will build.</description>
     </item>
     <item>
       <title>Breaker Breaker: CB radios, CB slang and the long haul</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-breaker-breaker</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-breaker-breaker</guid>
-      <pubDate>Sat, 24 Oct 2026 11:43:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:42:00 GMT</pubDate>
       <description>Breaker Breaker is a new shopfront on the street, between Show Your Work and Your Room, for the citizens band: the radios, the way people talk on them, where the band came from, and the truckers who kept their sets on. It has a channel of its own on the CB. It is lit the way a convoy is at night: every light in it is a marker lamp, which shows where the edge of a rig is and lights nothing round it, amber at the front and sides and red at the back, because those are the law’s colours. Across the top, the interstate from the driver’s seat, drawn lamp by lamp, with the radio on the dash on 19. Nothing blinks and nothing moves at any setting. Why it is called the citizens band, and why this street took the word: a band for anybody, with no exam to pass and, from 1983, no licence, where people chose their own names. And what this street’s CB took from it: handles, a channel everybody shares and one for every room, 19, the squelch, off being off, nothing kept for long, and BASE. Steve Silberman on amateur radio, from NeuroTribes, read on our page about written communication, beside that page’s own line on text as a medium neurodivergent people helped build because they needed it. The slang, from breaker to the back door, in our words from Wikipedia’s list. The parts of that list that name people unkindly are left off. On the rack, Dale Watson’s three Truckin’ Sessions records, every song on the back of its sleeve with its own button, and C. W. McCall’s Convoy, each from its makers’ own channel. Not a line of any song is on the page. A job for the Adventurer’s Guild: the microphone has come off its hook. Racing Sans One and Titillium Web join the faces.</description>
     </item>
     <item>
       <title>Jellies on the bodymind break</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-break-jellies</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-break-jellies</guid>
-      <pubDate>Sat, 24 Oct 2026 11:42:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:41:00 GMT</pubDate>
       <description>The bodymind break has jellies beside the forest, at Helen Edgar’s ask: Monterey Bay Aquarium’s Live Jelly Cam, the one on our Watering Hole Hangs list that the Jungle Room carries too. It is live, so its button says it runs until you close it rather than how long; like any live camera it can show an empty tank or nothing at all. Nothing reaches YouTube until you press it, and closing the break stops it. And then the break is done, in Helen’s words, so it stays a quiet screen and does not end up as busy as the rooms.</description>
     </item>
     <item>
       <title>Feeling overwhelmed? Escape to a low-stimulation mode</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-low-stimulation</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-low-stimulation</guid>
-      <pubDate>Sat, 24 Oct 2026 11:41:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:40:00 GMT</pubDate>
       <description>Four low-stimulation modes in the dial’s box, under the levels: Warm Light, Cool Dark, Plant Green and Red Light. Each lays a few quiet colours over every room on the street and over the CB’s themes, for when the street is too much even at Gentle. Each button wears its own mode, so you can see what it does before you press it. The bodymind break offers them too. Every room is its own world, and a mode is the one time they all look alike, because you asked. It is the dial’s own idea: how loud the street is belongs to you. The rooms are untouched; leave the mode and every one is as it was. The same rooms and the same words: a word on the mode’s ground in its ink, every link underlined, every edge the mode’s line, no glow, no gradient and no picture behind the words, and nothing moving, so a mode is Gentle as well. Drawings, games, videos and players keep their shapes in the mode’s one colour. Pictures keep their own colours, for the polaroid wall’s promise that we do not filter anybody. Red Light is red and nothing else. It is on before a page appears, so nobody in a mode is shown a room’s colours on the way in, and it stays on every page until you leave it: press the mode again, Back to the rooms’ own colours, or a level. It is kept in your own browser as love-low and sent nowhere (the privacy page).</description>
     </item>
     <item>
       <title>I need a bodymind break, from the dial and the CB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-bodymind-break</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-24-bodymind-break</guid>
-      <pubDate>Sat, 24 Oct 2026 11:40:00 GMT</pubDate>
+      <pubDate>Sat, 24 Oct 2026 11:39:00 GMT</pubDate>
       <description>A calm screen over whatever page you are on, from I need a bodymind break: in the How loud do you want it? box at the top of a page, under Where you are on the CB’s radio, and as Break on the radio’s bar while it is folded and on the CB bar for anybody not signed on. Helen Edgar’s idea, because the street is busy even at Gentle: somewhere that is just a blank, cool screen to regulate in, saying breathe, it will be okay. Ryan’s answer was Cavendish Space’s button of the same name, put in the CB, and then in the dial’s box too, which Helen said yes to. A far treeline in mist, and a few words: dusk on a device set dark, mist on one set light, with every word measured on both. Nothing on it moves, at any setting, MAX GLITTER included. For when a break is not enough (Helen’s ask the same day): crisis lines and warmlines and our Help page, as buttons, near the top, and, lower down, somewhere quiet on the street: Stay Frosty, the Healing Checkpoint or the Latibulum. A forest to watch, if you like, the one Helen linked: Forest 4K, a nature film by Relaxation Film with music by Richard Nomad, three hours of streams, birdsong and soft piano, which says how long it runs before you press it and fetches nothing from YouTube until you do. Back to the quiet screen puts it away, and closing the break stops it. It asks before it stops anything. If a film or a recording on the page is playing, the break says so and offers Pause it; it pauses nothing by itself, because somebody may have the Latibulum’s ocean waves on because they want them. While it is up the radio reads nothing aloud, and what was said meanwhile is on the channel when you come back. It keeps nothing and sends nothing, and its own script is not downloaded until the first press. The privacy page says so, and the CB guide says where the buttons are. I’m back, or Escape, closes it and puts you back where you were.</description>
     </item>
     <item>

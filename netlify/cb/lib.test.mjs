@@ -1379,7 +1379,7 @@ test('the World call is one call for anybody signed on, and never a guest\'s', a
   assert.deepEqual(await callsOn(bex, s, now + 1), [WORLD_CALL], 'Who\'s online names it for anybody signed on');
 });
 
-test('only the base moderates, records or transcribes; nobody streams or dials out', () => {
+test('only the base moderates a room\'s call, records or transcribes; nobody streams or dials out', () => {
   const who = (role) => open(callToken({ role, handle: 'Same' }, 'the-den', Date.now(), key)).body.context;
   const mobile = who('mobile'), base = who('base');
   assert.equal(mobile.user.moderator, 'false'); assert.equal(base.user.moderator, 'true');
@@ -1445,6 +1445,25 @@ test('a guest gets a token for a public call only, and never as a moderator', ()
   assert.equal(publicCall('the-den'), null);
   const base = open(callToken({ role: 'base', handle: 'Mod' }, PUBLIC_CALLS[0], Date.now(), key)).body.context.user;
   assert.equal(base.moderator, 'true', 'the base moderates the public calls too');
+});
+
+/* Ryan's call, 2026-10-24: in the public calls only guests knock. 8x8 lets
+   nobody but a moderator past the lobby, so every account is one there, and
+   only there, and gets no recording or transcription for it. */
+test('every account moderates the public calls, and only those, so only guests wait in the lobby', () => {
+  const member = { role: 'mobile', handle: 'Ada', roles: new Set(), account: true };
+  for (const room of PUBLIC_CALLS) {
+    const c = open(callToken(member, room, Date.now(), key)).body.context;
+    assert.equal(c.user.moderator, 'true', `${room}: an account walks straight in`);
+    assert.equal(c.features.recording, false, 'moderating is not recording');
+    assert.equal(c.features.transcription, false, 'or transcribing');
+  }
+  for (const room of ['the-den', WORLD_CALL])
+    assert.equal(open(callToken(member, room, Date.now(), key)).body.context.user.moderator, 'false', `${room}: still the base's to moderate`);
+  const noAccount = { role: 'mobile', handle: 'Ada', roles: new Set() };
+  assert.equal(open(callToken(noAccount, PUBLIC_CALLS[0], Date.now(), key)).body.context.user.moderator, 'false', 'no account, no moderator');
+  const guest = { role: 'guest', handle: 'Ada', account: true };
+  assert.equal(open(callToken(guest, PUBLIC_CALLS[0], Date.now(), key)).body.context.user.moderator, 'false', 'a guest knocks, whatever it carries');
 });
 
 test('the settings webhook puts a lobby on the public calls and only them', () => {

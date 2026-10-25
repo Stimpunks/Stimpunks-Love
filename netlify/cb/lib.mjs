@@ -81,8 +81,9 @@
        JaaS lets nobody in without a token signed with our private key, so
        this signs one for a signed-on handle and one room, and nothing else:
        the handle as the name shown in the call, a stable id made from it so
-       8x8 does not count one person twice, moderator only for the base, and
-       recording and transcription only for the base, who is who starts them.
+       8x8 does not count one person twice, moderator only for the base (and
+       for every account in the three public calls, below), and recording and
+       transcription only for the base, who is who starts them.
        We keep nothing about a call. What 8x8 keeps is 8x8's, and
        privacy.html says so and links its policy.
      · THREE CALLS ARE PUBLIC, AND THE LOBBY IS WHAT KEEPS THEM SAFE. Ryan,
@@ -93,6 +94,13 @@
        settings webhook before each meeting, and for those three we answer
        with the lobby on, so a guest knocks and waits for a moderator, which
        keeps strangers and bots out of the room and off our monthly-user bill.
+       SINCE 2026-10-24 ANYBODY WITH AN ACCOUNT WALKS STRAIGHT IN, AS A
+       MODERATOR. Ryan's call: only guests knock. 8x8 lets nobody but a
+       moderator past the lobby (no claim in the token, no setting in the
+       webhook), so in those three calls every account is a moderator, and
+       can let guests in, mute or remove people, end the meeting for
+       everybody and switch the lobby off; recording and transcription stay
+       the base's. Every other room's call is unchanged.
      · A USERNAME CAN BE CLAIMED, AND THAT IS THE ONLY ACCOUNT; A MODERATOR
        CAN CLAIM THEIRS TOO, AND KEEPS THEIR ROLES FROM THE LIST. Ryan's calls,
        2026-09-30: from Profile on the radio, with a password of your own and
@@ -4579,14 +4587,17 @@ export const WORLD_CALL = 'world';
 
 /* The only calls a guest with no CB pass can get a token for. Each is a page
    on the street, by its filename, and each one's meeting starts with the lobby
-   on (callSettings). Add a room here and it is open to the world. */
+   on (callSettings), which only guests wait in, because every account joins
+   these as a moderator (callToken). Add a room here and it is open to the
+   world, and every account moderates it. */
 export const PUBLIC_CALLS = ['cavendish-events', 'cavendish-operations', 'cavendish-editorial'];
 export function publicCall(tag) { return PUBLIC_CALLS.includes(tag) ? tag : null; }
 
 /* JaaS's SETTINGS_PROVISIONING webhook: asked before every meeting, with the
    meeting's "AppID/roomName". A public call starts with the lobby on and every
-   non-moderator knocking; every other call starts without one, because only
-   people signed on to the CB can get into those at all. */
+   non-moderator knocking, which there means every guest; every other call
+   starts without one, because only people signed on to the CB can get into
+   those at all. */
 export function callSettings(fqn) {
   const m = /^([^/]+)\/stimpunks-([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(String(fqn || ''));
   if (!m || m[1] !== JAAS_APP) return { lobbyEnabled: false };
@@ -4629,6 +4640,11 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
   // A private room's call is the base's, whatever else asks for it.
   if (!roomAllows(who, tag)) return null;
   const base = who.role === 'base';
+  // THE LOBBY IS FOR GUESTS. Ryan's call, 2026-10-24: anybody with an account
+  // comes straight into the public calls, and 8x8 lets only a moderator past
+  // its lobby, so in those three every account is one. It moderates, and no
+  // more: recording and transcription stay the base's.
+  const moderator = base || (!!publicCall(tag) && who.role !== 'guest' && who.account === true);
   const t = Math.floor(now / 1000);
   const header = { alg: 'RS256', typ: 'JWT', kid: key.kid };
   const payload = {
@@ -4638,7 +4654,7 @@ export function callToken(who, tag, now = Date.now(), key = jaasKey()) {
       user: {
         id: createHash('sha256').update(`stimpunks-call\0${who.role}\0${who.handle}`).digest('base64url').slice(0, 22),
         name: who.handle,
-        moderator: base ? 'true' : 'false',
+        moderator: moderator ? 'true' : 'false',
       },
       features: {
         recording: base, transcription: base,
