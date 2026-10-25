@@ -71,6 +71,7 @@ ASKS = [
     ("theatre", "looming-rocks", None),          # inside a name and nowhere in its description,
     ("bowl", "town-hall-fishbowl", None),        # so only the inside-a-name match can find these
     ("#the-den", "the-den", None),               # a #tag still goes where it always went
+    ("/the-den", "the-den", None),               # and so does a /tag, which the list now shows
     ("autism films", "lightbulb-picture-house", None),  # only in its description, and a plural
     ("dogs", "rescue-a-dog", None),
     ("f", None, "lightbulb-picture-house"),      # one letter does not reach into descriptions

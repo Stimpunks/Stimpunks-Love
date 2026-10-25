@@ -3976,7 +3976,11 @@ message carries `#the-den` and every radio shows "#The Den", linked, out of `/cb
 day it is in ORDER and a room's tag is its filename. **Renaming a file breaks the tag in every
 message still on the channel that day**, which is one reason to rename rarely. The list is fetched
 once, on the radio's first listen, never while folded; until it arrives a #tag is the words somebody
-typed, and a #word that is no room stays a word. The completion list is the ARIA combobox pattern:
+typed, and a #word that is no room stays a word. **`/the-den` is the room's page, everywhere** (Ryan's ask,
+2026-10-24), because on the chat page a #tag is the room's channel there: `hashRooms` takes it only lower case,
+after a space or a line's start and with no more address after it, and `/` opens the same completion list. If the
+radio ever grows commands, one is picked at the start of a message and runs rather than being sent, so `/` in a message
+stays a page; what must never happen is a command named like a room's tag. The completion list is the ARIA combobox pattern:
 Enter picks while it is open and transmits while it is shut, Escape leaves that # alone, and the
 screen reader hears the room under the arrow and never how many there are. `streetLinks` in `cb.js` turns only this street's
 own addresses into paths, checked character by character and never as HTML. **Every other

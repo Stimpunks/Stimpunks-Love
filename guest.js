@@ -363,7 +363,7 @@
         var nm = el('span', 'cb-opt__name', offer[i].name);
         if (found[i].why) nm.appendChild(el('span', 'cb-opt__why', found[i].why));
         li.appendChild(nm);
-        li.appendChild(el('span', 'cb-opt__tag', offer[i].path === here ? 'you are here' : '#' + offer[i].tag));
+        li.appendChild(el('span', 'cb-opt__tag', offer[i].path === here ? 'you are here' : '/' + offer[i].tag));
         li.addEventListener('mousedown', function (e) { e.preventDefault(); });
         (function (room) { li.addEventListener('click', function () { go(room); }); })(offer[i]);
         list.appendChild(li);

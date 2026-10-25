@@ -817,9 +817,14 @@
      while it is folded, because folded means it sends nothing -- and until it
      arrives, or if it cannot, a #tag is shown as the words somebody typed. A
      #word that is not a room is a word: #1, #metoo and #tbt stay what they
-     were. Nothing about the list is counted, and it is in walking order. */
+     were. Nothing about the list is counted, and it is in walking order.
+     /THE-DEN IS ALWAYS THE ROOM'S PAGE (Ryan's ask, 2026-10-24): on the chat
+     page a #tag is the room's channel there, so a room's page needs a way to
+     be named too. It is the tag with a slash in front, lower case, after a
+     space or the start of the line as a path is written, and .html after it
+     is taken with it; "and/or" and /usr stay words. */
   var rooms = null, byTag = {};
-  var TAG = /#([a-z0-9]+(?:-[a-z0-9]+)*)/gi;
+  var TAG = /#([a-z0-9]+(?:-[a-z0-9]+)*)|\/([a-z0-9]+(?:-[a-z0-9]+)*)(\.html)?/gi;
   var ROOMPATH = /^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\.html)?$/;
 
   /* EVERY FORUM CATEGORY IS A ROOM, AND ONLY ITS READERS KNOW ITS NAME. Ryan's
@@ -884,9 +889,27 @@
     var at = 0, m;
     TAG.lastIndex = 0;
     while ((m = TAG.exec(text))) {
-      var room = byTag[m[1].toLowerCase()];
+      var page = m[2] != null;
+      var room = byTag[(page ? m[2] : m[1]).toLowerCase()];
       var prev = m.index ? text.charAt(m.index - 1) : ' ';
       var next = text.charAt(m.index + m[0].length);
+      if (page) {
+        // A path, not a room: a capital, something before the slash, or more
+        // address after it (/the-den/x, /the-den#top, /the-den.css).
+        if (!room || m[2] !== m[2].toLowerCase() || !/[\s(\[“‘"']/.test(prev) ||
+            /[A-Za-z0-9_\/#?]/.test(next) || /^\.[A-Za-z0-9]/.test(text.slice(m.index + m[0].length))) continue;
+        if (m.index > at) stamps(parent, text.slice(at, m.index), off + at);
+        var p = el('a', 'cb-room cb-room--page');
+        p.href = room.path;
+        var slash = el('span', null, '/');
+        slash.setAttribute('aria-hidden', 'true');
+        p.appendChild(slash);
+        p.appendChild(document.createTextNode(room.name));
+        p.appendChild(el('span', 'sr', ', the room’s page'));
+        parent.appendChild(p);
+        at = m.index + m[0].length;
+        continue;
+      }
       if (!room || /[A-Za-z0-9_&#\/-]/.test(prev) || /[A-Za-z0-9_]/.test(next)) continue;
       if (m.index > at) stamps(parent, text.slice(at, m.index), off + at);
       var a = el('a', 'cb-room');
@@ -3915,8 +3938,8 @@
     });
   };
 
-  /* The # or @ being typed at the caret, if any: which, where it starts and
-     what follows. A # is a room. An @ is a person, with up to three words
+  /* The #, / or @ being typed at the caret, if any: which, where it starts and
+     what follows. A # is a room, a / after a space a room's page. An @ is a person, with up to three words
      after it, because a handle can have spaces in it; never a place in a film
      (@34:12), which is digits, and never the middle of an address
      (ada@example.org), which has a letter before it. */
@@ -3926,6 +3949,8 @@
     var before = v.slice(0, c);
     var m = before.match(/(^|[\s(\[])#([a-z][a-z0-9-]*)$/i);
     if (m) return { kind: 'room', start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
+    m = before.match(/(^|[\s(\[])\/([a-z][a-z0-9-]*)$/i);
+    if (m) return { kind: 'page', start: c - m[2].length - 1, end: c, q: m[2].toLowerCase() };
     m = before.match(/(^|[^\p{L}\p{N}_@.\/])@([^\s@][^\n@]{0,23})$/u) || before.match(/(^|[^\p{L}\p{N}_@.\/])@()$/u);
     if (!m || (m[2].match(/ /g) || []).length > 3 || / {2}$/.test(m[2]) || /^\d{1,3}(?::\d{0,2}){0,2}$/.test(m[2])) return null;
     return { kind: 'person', start: c - m[2].length - 1, end: c, q: fold(m[2]), done: / $/.test(m[2]) };
@@ -3970,7 +3995,7 @@
 
   Radio.prototype.complete = function () {
     var t = this.say.getRootNode().activeElement === this.say && this.token();
-    if (t && t.kind === 'room' && !rooms) t = null;
+    if (t && t.kind !== 'person' && !rooms) t = null;
     if (!t || t.start === this.dismissed) { if (!t) this.dismissed = -1; this.close(); return; }
     var person = t.kind === 'person';
     var offer = person ? this.peopleFor(t) : roomsFor(t.q);
@@ -3979,7 +4004,7 @@
     this.offer = offer;
     this.offerKind = t.kind;
     this.pick.textContent = '';
-    this.pick.setAttribute('aria-label', person ? (offer[0] && offer[0].role ? 'Roles and people to mention' : 'People to mention') : 'Rooms on the street');
+    this.pick.setAttribute('aria-label', person ? (offer[0] && offer[0].role ? 'Roles and people to mention' : 'People to mention') : t.kind === 'page' ? 'Rooms\u2019 pages on the street' : 'Rooms on the street');
     for (var i = 0; i < offer.length; i++) {
       var li = el('li', 'cb-opt');
       li.setAttribute('role', 'option');
@@ -3991,9 +4016,9 @@
         li.id = 'cb-pick-at-' + i;
         li.appendChild(el('span', 'cb-opt__name', offer[i]));
       } else {
-        li.id = 'cb-pick-' + offer[i].tag;
+        li.id = (t.kind === 'page' ? 'cb-pick-page-' : 'cb-pick-') + offer[i].tag;
         li.appendChild(el('span', 'cb-opt__name', offer[i].name));
-        li.appendChild(el('span', 'cb-opt__tag', '#' + offer[i].tag));
+        li.appendChild(el('span', 'cb-opt__tag', (t.kind === 'page' ? '/' : '#') + offer[i].tag));
       }
       li.addEventListener('mousedown', function (e) { e.preventDefault(); });
       (function (n, me) { li.addEventListener('click', function () { me.choose(n); }); })(i, this);
@@ -9854,7 +9879,7 @@
       var nm = el('span', 'cb-opt__name', offer[i].name);
       if (found[i].why) nm.appendChild(el('span', 'cb-opt__why', found[i].why));
       li.appendChild(nm);
-      li.appendChild(el('span', 'cb-opt__tag', isHere(offer[i]) ? 'you are here' : '#' + offer[i].tag));
+      li.appendChild(el('span', 'cb-opt__tag', isHere(offer[i]) ? 'you are here' : '/' + offer[i].tag));
       li.addEventListener('mousedown', function (e) { e.preventDefault(); });
       (function (room, me) { li.addEventListener('click', function () { me.go(room); }); })(offer[i], this);
       list.appendChild(li);
@@ -10114,7 +10139,7 @@
         personLine(nm, p, false);
         nm.appendChild(el('span', 'cb-opt__why', 'in ' + r.name));
         li.appendChild(nm);
-        li.appendChild(el('span', 'cb-opt__tag', isHere(r) ? 'this room' : '#' + r.tag));
+        li.appendChild(el('span', 'cb-opt__tag', isHere(r) ? 'this room' : '/' + r.tag));
         li.addEventListener('mousedown', function (e) { e.preventDefault(); });
         li.addEventListener('click', function () { me.go(r); });
         list.appendChild(li);
@@ -10163,13 +10188,13 @@
     }
   };
 
-  // Put the chosen room's #tag in place of what was typed after the #, or
-  // the chosen person's handle in place of what was typed after the @.
+  // Put the chosen room's #tag in place of what was typed after the #, its
+  // /tag after a /, or the chosen person's handle after the @.
   Radio.prototype.choose = function (n) {
     var t = this.token(), pick = this.offer[n];
-    if (!t || !pick || (t.kind === 'person') !== (this.offerKind === 'person')) { this.close(); return; }
+    if (!t || !pick || t.kind !== this.offerKind) { this.close(); return; }
     var v = this.say.value, after = v.slice(t.end);
-    var put = (t.kind === 'person' ? '@' + (pick.role || pick) : '#' + pick.tag) + (after.charAt(0) === ' ' ? '' : ' ');
+    var put = (t.kind === 'person' ? '@' + (pick.role || pick) : (t.kind === 'page' ? '/' : '#') + pick.tag) + (after.charAt(0) === ' ' ? '' : ' ');
     var next = v.slice(0, t.start) + put + after;
     if (next.length > this.say.maxLength) { this.tell(t.kind === 'person' ? 'That name would not fit in the message.' : 'That room would not fit in the message.'); this.close(); return; }
     // A role is found in the words by the server, so it is not one of the people picked.
