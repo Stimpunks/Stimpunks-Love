@@ -43,6 +43,31 @@
     return e;
   }
 
+  /* THE BAR'S ICONS: a grip of six dots for Move, and minus and plus for the
+     size, in currentColor, aria-hidden, because each button carries its name.
+     Here rather than in cb.js because a call's window has them too and a
+     guest in a call never loads cb.js; the radio draws its own from here, as
+     loveCall.barIcon, so the two bars cannot drift apart. */
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function barIcon(kind) {
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', 'cb-icon-btn__art');
+    function add(tag, at) {
+      var e = document.createElementNS(SVGNS, tag);
+      for (var k in at) e.setAttribute(k, at[k]);
+      svg.appendChild(e);
+    }
+    if (kind === 'grip') {
+      [6, 10, 14].forEach(function (y) { [7, 13].forEach(function (x) { add('circle', { cx: String(x), cy: String(y), r: '1.7', fill: 'currentColor' }); }); });
+    } else {
+      add('path', { d: kind === 'plus' ? 'M4 10H16M10 4V16' : 'M4 10H16', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.6', 'stroke-linecap': 'round' });
+    }
+    return svg;
+  }
+
   /* MOVING, for the radio and a room's call alike: drag the bar, or put the
      keyboard on Move and use the arrows, and Home puts it back in its corner.
      One copy, so the two cannot drift apart. The radio is anchored by its
@@ -286,6 +311,10 @@
       .observe(document.documentElement, { attributes: true, attributeFilter: ['data-intensity', 'data-low'] });
   } catch (e) { /* the drawing keeps the motion it opened with */ }
 
+  // A call's sizes, smallest first, and what minus and plus call each one.
+  var CALL_SIZES = ['stamp', 'small', 'regular', 'large'];
+  var CALL_SAYS = { stamp: 'Stamp, the picture and the bar', small: 'Small, a tile in the corner', regular: 'Regular', large: 'Large, the whole window' };
+
   /* how.whole: this is the call's own window, so the call fills it, and
      there is nothing to move or size (the window itself is moved and sized).
      how.pop: Pop out, offered to somebody signed on, which answers false if
@@ -307,37 +336,61 @@
     name.appendChild(el('span', 'cb-brand', 'CALL'));
     name.appendChild(document.createTextNode(' ' + here.name));
     bar.appendChild(name);
-    /* THREE SIZES, and the frame is only ever resized, never rebuilt, so the
-       call carries on through every change. Small is a tile in the corner, so
-       a film on the page can be watched beside the people in the call (Ryan,
-       2026-09-28); Large is the whole window. Small and Large each toggle back
-       to the middle size, the radio's Small button's pattern. Not remembered:
+    /* FOUR SIZES, and the frame is only ever resized, never rebuilt, so the
+       call carries on through every change. Stamp is a postage stamp in the
+       corner, the picture and the bar and nothing else (Ryan, 2026-10-25);
+       Small is a tile, so a film on the page can be watched beside the people
+       in the call (Ryan, 2026-09-28); Regular is where a call opens; Large is
+       the whole window. MOVE IS A GRIP AND THE SIZE IS MINUS AND PLUS, the
+       radio's own buttons (Ryan, 2026-10-25, after the radio's of 2026-10-17):
+       each of minus and plus is named for the size it goes to, and at either
+       end the one with nowhere to go stays where it is, focusable, and says
+       so, so the keyboard is never dropped off the bar. Not remembered:
        nothing about a call is kept, in the browser either. */
     // Moves like the radio, with the radio's own Mover. Not remembered either.
-    var move = el('button', 'cb-btn cb-move', 'Move');
+    var move = el('button', 'cb-btn cb-icon-btn cb-move');
     move.type = 'button';
+    move.setAttribute('aria-label', 'Move');
+    move.appendChild(barIcon('grip'));
     move.setAttribute('aria-describedby', 'cb-call-move-how');
-    var moveHow = el('span', 'sr', 'Arrow keys move the call. Home puts it back in the corner.');
+    var moveHow = el('span', 'sr', 'Drag to move the call, or press and use the arrow keys. Home puts it back in the corner.');
     moveHow.id = 'cb-call-move-how';
-    var small = el('button', 'cb-btn', 'Small');
-    var big = el('button', 'cb-btn', 'Large');
+    var sizer = el('span', 'cb-sizer');
+    sizer.setAttribute('role', 'group');
+    sizer.setAttribute('aria-label', 'Call size');
+    var smaller = el('button', 'cb-btn cb-icon-btn cb-smaller');
+    smaller.appendChild(barIcon('minus'));
+    var larger = el('button', 'cb-btn cb-icon-btn cb-larger');
+    larger.appendChild(barIcon('plus'));
+    sizer.appendChild(smaller);
+    sizer.appendChild(larger);
     var leave = el('button', 'cb-btn cb-call-leave', 'Leave the call');
-    var mover = null;
+    var mover = null, now = 'regular';
     function size(to) {
-      box.classList.toggle('cb-call--small', to === 'small');
-      box.classList.toggle('cb-call--large', to === 'large');
-      small.setAttribute('aria-pressed', String(to === 'small'));
-      big.setAttribute('aria-pressed', String(to === 'large'));
-      leave.textContent = to === 'small' ? 'Leave' : 'Leave the call';
+      var top = CALL_SIZES.length - 1, i = CALL_SIZES.indexOf(to);
+      now = to;
+      CALL_SIZES.forEach(function (s) { box.classList.toggle('cb-call--' + s, s === to && s !== 'regular'); });
+      smaller.setAttribute('aria-label', i > 0 ? 'Smaller: ' + CALL_SAYS[CALL_SIZES[i - 1]] : 'Smaller: already a stamp');
+      larger.setAttribute('aria-label', i < top ? 'Larger: ' + CALL_SAYS[CALL_SIZES[i + 1]] : 'Larger: already the whole window');
+      smaller.setAttribute('aria-disabled', String(i === 0));
+      larger.setAttribute('aria-disabled', String(i === top));
+      leave.textContent = to === 'stamp' || to === 'small' ? 'Leave' : 'Leave the call';
       // Placed again at once, not only when the ResizeObserver gets round to
       // it: a call moved to a corner and made Large hung off the screen until
       // then, and a hidden tab never gets round to it at all.
       if (mover) mover.place();
     }
-    small.type = big.type = leave.type = 'button';
+    // One size down or up; at either end, the button with nowhere to go says so.
+    function step(by) {
+      var i = CALL_SIZES.indexOf(now), j = Math.max(0, Math.min(CALL_SIZES.length - 1, i + by));
+      if (j === i) { note(by < 0 ? 'The call is as small as it goes.' : 'The call is as large as it goes.'); return; }
+      unsay();
+      size(CALL_SIZES[j]);
+    }
+    smaller.type = larger.type = leave.type = 'button';
     leave.setAttribute('aria-label', 'Leave the call');
-    small.addEventListener('click', function () { size(box.classList.contains('cb-call--small') ? 'regular' : 'small'); });
-    big.addEventListener('click', function () { size(box.classList.contains('cb-call--large') ? 'regular' : 'large'); });
+    smaller.addEventListener('click', function () { step(-1); });
+    larger.addEventListener('click', function () { step(1); });
     leave.addEventListener('click', function () { leaveIt(); });
     // What Move or Pop out says when pressed; it goes again after a while.
     var moveSaid = el('p', 'cb-call-note cb-call-said');
@@ -350,11 +403,12 @@
       clearTimeout(moveSaidFor);
       moveSaidFor = setTimeout(function () { moveSaid.hidden = true; }, 8000);
     }
+    function unsay() { clearTimeout(moveSaidFor); moveSaid.hidden = true; }
     /* POP OUT moves the call into a window of its own, which stays open while
        you go from room to room in this one. The call here hangs up and the
        new window asks for it afresh, on 8x8's first screen again, because a
        frame cannot be carried from one window to another without starting
-       over. Not at Small, where the bar has no room for it. */
+       over. Not at Small or Stamp, where the bar has no room for it. */
     var pop = null;
     if (how.pop) {
       pop = el('button', 'cb-btn cb-call-pop', 'Pop out');
@@ -368,7 +422,7 @@
     }
     if (!whole) { bar.appendChild(move); bar.appendChild(moveHow); }
     if (pop) { bar.appendChild(pop); bar.appendChild(popHow); }
-    if (!whole) { bar.appendChild(small); bar.appendChild(big); }
+    if (!whole) bar.appendChild(sizer);
     bar.appendChild(leave);
     size('regular');
     box.appendChild(bar);
@@ -398,7 +452,7 @@
     });
     function put() { mover.place(); }
     window.addEventListener('resize', put);
-    // Small and Large change its size, so it is placed again to keep it on the screen.
+    // Minus and plus change its size, so it is placed again to keep it on the screen.
     var watch = window.ResizeObserver ? new ResizeObserver(put) : null;
     if (watch) watch.observe(box);
     put();
@@ -563,6 +617,8 @@
     // sends a call straight into a window of its own (cb.js, setCall).
     away: function () { return away; }, onAway: onAway, showAway: showAway, leaveAway: leaveAway, popOut: popOut,
     schemes: SCHEMES, schemeFor: schemeFor, dress: dress, redress: redress,
+    // The grip, minus and plus, for the radio's bar as well as a call's.
+    barIcon: barIcon,
     // love-embed.js, loaded once on the first press that needs it (the CB's link cards too).
     withEmbed: withEmbed };
 })();

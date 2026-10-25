@@ -7055,25 +7055,9 @@
   }
 
   /* THE BAR'S ICONS: a grip of six dots for Move, and minus and plus for the
-     size, in currentColor, aria-hidden, because each button carries its name. */
-  function barIcon(kind) {
-    var svg = document.createElementNS(SVGNS, 'svg');
-    svg.setAttribute('viewBox', '0 0 20 20');
-    svg.setAttribute('aria-hidden', 'true');
-    svg.setAttribute('focusable', 'false');
-    svg.setAttribute('class', 'cb-icon-btn__art');
-    function add(tag, at) {
-      var e = document.createElementNS(SVGNS, tag);
-      for (var k in at) e.setAttribute(k, at[k]);
-      svg.appendChild(e);
-    }
-    if (kind === 'grip') {
-      [6, 10, 14].forEach(function (y) { [7, 13].forEach(function (x) { add('circle', { cx: String(x), cy: String(y), r: '1.7', fill: 'currentColor' }); }); });
-    } else {
-      add('path', { d: kind === 'plus' ? 'M4 10H16M10 4V16' : 'M4 10H16', fill: 'none', stroke: 'currentColor', 'stroke-width': '2.6', 'stroke-linecap': 'round' });
-    }
-    return svg;
-  }
+     size. Drawn by call.js, which every radio loads before it builds, because
+     a call's window has the same three and a guest in a call has no cb.js. */
+  function barIcon(kind) { return window.loveCall.barIcon(kind); }
 
   /* A MESSAGE'S TWO ICONS, drawn in currentColor so each takes its button's
      amber: React is a face with a plus by it, Discord's mark for adding a
