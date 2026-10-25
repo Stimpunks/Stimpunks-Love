@@ -177,7 +177,18 @@ for i, pl in enumerate(pls):
                         "would be wrong the day she did.")
     if pl.get("room") not in ROOMS:
         problems.append(f"playlists[{i}].room: must name the room it plays in, one of {sorted(ROOMS)}.")
-lists = [pl.get("list") for pl in pls]
+    # Something to read with a playlist (Helen, 2026-10-25): a piece of writing
+    # linked at the top of its shelf, with whoever wrote it named, because a link
+    # with nobody's name on it is the credit this street keeps.
+    rd = pl.get("read")
+    if rd is not None:
+        for k in ("href", "title", "by", "on"):
+            if not (isinstance(rd, dict) and rd.get(k)):
+                problems.append(f"playlists[{i}].read.{k} is missing: a piece to read with a playlist "
+                                "says its address, its title, who wrote it and where it is published.")
+        if isinstance(rd, dict) and rd.get("href") and not str(rd["href"]).startswith("https://"):
+            problems.append(f"playlists[{i}].read.href: not an https address.")
+lists =[pl.get("list") for pl in pls]
 if len(set(lists)) != len(lists):
     problems.append("playlists: one is listed twice.")
 if not tracks:
@@ -531,9 +542,13 @@ for room, R in ROOMS.items():
     for pl in mine_lists:
         mine = [t for t in tracks if t.get("on") == pl["list"]]
         cards = [card(i, t, SCREEN) for i, t in enumerate(mine)]
+        rd = pl.get("read")
+        read = (f'      <p class="yurt-rack__read">To read with it: <a href="{attr(rd["href"])}">{esc(rd["title"])}</a>, '
+                f'by {esc(rd["by"])}, on {esc(rd["on"])}.</p>\n') if rd else ""
         cases.append(
             '    <details class="yurt-rack" open>\n'
             f'      <summary class="yurt-rack__sum">Every song on {esc(pl["title"])}, as records on a shelf</summary>\n'
+            + read +
             '      <div class="yurt-lp-case">\n'
             '      <ol class="yurt-lp">\n' + "\n".join(cards) + '\n      </ol>\n'
             '      </div>\n'

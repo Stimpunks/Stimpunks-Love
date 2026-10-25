@@ -1,6 +1,6 @@
 {
-  "_source": "Helen Edgar's own three playlists on her AutisticRealms channel: Faery Yurt’s Yarn (49 rows on 2026-10-18) and Strange things will happen (15 rows, which she asked for in the Music Room the same day), both of which play in the Music Room, and Library Music (18 rows, the same day), which plays on the gramophone in the Reading Room. Each was read off its own page on 2026-10-18, in the playlist's own order (YouTube serves a playlist's rows as lockupViewModel now, which yt-dlp is not installed here to read; each header's count matched the rows served, so nothing was hidden). Every id was then opened on its own watch page that day: all answered OK, family-safe and not live; all but one answered playableInEmbed true, and that one is a door. Each runtime is that page's lengthSeconds. The artist and title are written out of the upload's own title; where a channel's compilation carries only the channel's words for a name, those are kept and `what` says whose they are. Every playlist says which room it plays in (`room`) and every track which list it is on (`on`), and the rooms keep them apart: a plate and a case each in their room, and in the yurt a songbook each for the Music Room's lists. Helen asked on 2026-10-18, at the keyboard, for the yarn to be read again and to play only in the Music Room, with a songbook of it in the yurt, then for the second playlist in the Music Room too; the first read was 2026-10-13, through Ryan, when the rack and the phonograph arrived.",
-  "_checked": "2026-10-18",
+  "_source": "Helen Edgar's own playlists on her AutisticRealms channel: Faery Yurt’s Yarn (49 rows on 2026-10-25), Strange things will happen (17 rows, which she asked for in the Music Room on 2026-10-18) and Symphrenia Chill (7 rows, which she asked for in the Music Room on 2026-10-25, with her and David Gray-Hammond's post on The Wider Existence to read with it), all of which play in the Music Room, and Library Music (18 rows), which plays on the gramophone in the Reading Room. All four were read again on 2026-10-25 by the same method: Faery Yurt’s Yarn and Library Music had not changed, and Strange things will happen had two songs at its end that Helen had added since. Each was read off its own page on 2026-10-18, in the playlist's own order (YouTube serves a playlist's rows as lockupViewModel now, which yt-dlp is not installed here to read; each header's count matched the rows served, so nothing was hidden). Every id was then opened on its own watch page that day: all answered OK, family-safe and not live; all but one answered playableInEmbed true, and that one is a door. Each runtime is that page's lengthSeconds. The artist and title are written out of the upload's own title; where a channel's compilation carries only the channel's words for a name, those are kept and `what` says whose they are. Every playlist says which room it plays in (`room`) and every track which list it is on (`on`), and the rooms keep them apart: a plate and a case each in their room, and in the yurt a songbook each for the Music Room's lists. Helen asked on 2026-10-18, at the keyboard, for the yarn to be read again and to play only in the Music Room, with a songbook of it in the yurt, then for the second playlist in the Music Room too; the first read was 2026-10-13, through Ryan, when the rack and the phonograph arrived.",
+  "_checked": "2026-10-25",
   "playlists": [
     {
       "list": "PLcqUkWhAK86w",
@@ -11,6 +11,17 @@
       "list": "PLE5U-hsMzpzU",
       "title": "Strange things will happen",
       "room": "music"
+    },
+    {
+      "list": "PLHXu4yfwL6eE",
+      "title": "Symphrenia Chill",
+      "room": "music",
+      "read": {
+        "href": "https://www.thewiderexistence.co.uk/p/existential-diversity-the-symphrenic",
+        "title": "Existential Diversity, the Symphrenic Bodymind and Wider Existence",
+        "by": "Helen Edgar and David Gray-Hammond",
+        "on": "The Wider Existence"
+      }
     },
     {
       "list": "PLLBxNBh2rMKw",
@@ -588,6 +599,86 @@
       "title": "Sea Swallow Me",
       "runtime": "3:17",
       "channel": "Dean Andrews"
+    },
+    {
+      "id": "hz3ly6nH3Ms",
+      "on": "PLE5U-hsMzpzU",
+      "artist": "Big Thief",
+      "title": "Velvet Ring",
+      "what": "the official audio",
+      "runtime": "2:36",
+      "channel": "Big Thief"
+    },
+    {
+      "id": "qrcH55Ukjks",
+      "on": "PLE5U-hsMzpzU",
+      "artist": "betram",
+      "title": "songs like velvet ring by big thief",
+      "what": "a mix put together by the channel, under its own title",
+      "runtime": "26:31",
+      "channel": "betram"
+    },
+    {
+      "id": "yon2v5I2BUU",
+      "on": "PLHXu4yfwL6eE",
+      "artist": "Zbigniew Preisner",
+      "title": "Nostalgia",
+      "runtime": "2:16",
+      "channel": "stef2012bg"
+    },
+    {
+      "id": "qNr9DsOL20Y",
+      "on": "PLHXu4yfwL6eE",
+      "artist": "Zbigniew Preisner",
+      "title": "When a Man Loves a Woman",
+      "what": "the name of the film, which is the only title the upload gives",
+      "runtime": "7:23",
+      "channel": "Suhair"
+    },
+    {
+      "id": "Jk2akmigU5c",
+      "on": "PLHXu4yfwL6eE",
+      "artist": "Zbigniew Preisner",
+      "title": "L’Aurore (Dawn)",
+      "runtime": "4:19",
+      "channel": "HiddenContext"
+    },
+    {
+      "id": "FP0wQxWifBY",
+      "on": "PLHXu4yfwL6eE",
+      "artist": "Zbigniew Preisner",
+      "title": "The best of Zbigniew Preisner",
+      "what": "a concert of his music, under the channel’s own title",
+      "runtime": "51:53",
+      "channel": "Marek Witkowski"
+    },
+    {
+      "id": "Y6qxaTSVIoA",
+      "on": "PLHXu4yfwL6eE",
+      "artist": "Brian Eno",
+      "title": "Lightness: Music for the Marble Palace",
+      "what": "the whole installation album",
+      "runtime": "55:40",
+      "channel": "Mehdi Moussaoui"
+    },
+    {
+      "id": "3Uy_Ag7ETA4",
+      "on": "PLHXu4yfwL6eE",
+      "artist": "Philip Glass",
+      "title": "Music With Changing Parts",
+      "what": "the whole album",
+      "runtime": "1:01:40",
+      "channel": "transcendence 313"
+    },
+    {
+      "id": "FS6o3qFimsc",
+      "on": "PLHXu4yfwL6eE",
+      "artist": "Erik Satie",
+      "title": "Gymnopédies 1, 2, 3",
+      "what": "an hour of them, as the upload has it",
+      "runtime": "1:05:29",
+      "channel": "HQ Classical Music",
+      "channel_verbatim": "♫HQ Classical Music♫"
     },
     {
       "id": "Nj0dbnkk_D4",

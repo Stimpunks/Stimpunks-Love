@@ -25580,6 +25580,9 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
   font-size: 21px; color: var(--rdr-ink); padding: 4px 0;
 }
 .room-music .mus-rack__sum::marker { color: var(--rdr-ink-2); }
+/* Something to read with a playlist, at the top of its shelf (Helen, 2026-10-25),
+   in the room's own second ink and link colour. */
+.room-music .mus-rack__read { margin: 6px 0 14px; font-size: 17px; color: var(--rdr-ink-2); max-width: 64ch; }
 
 /* THE RECORD CASE: the yurt's (§14), in this room's timber, under an arch
    drawn up to a point like the Reading Room's bookcases. Every song on the
