@@ -1482,7 +1482,63 @@
     });
   }
 
-  function go() { dial(); sectionLinks(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); patches(); familiar(); }
+  /* ── Back the way you came, to where you were ─────────────────────────────
+     Ryan's ask, 2026-10-24: every way back to the street from a room, or from
+     a room behind one, opened the page at the top, and you scrolled all the way
+     down to your door again. Now a room's way back (.backlink: back to the
+     street, through the leaves, out to the Outskirts, up to the Town Hall's
+     door) and any other link to the whole street go back through this tab's
+     own history to the last time you were on that page, and the browser opens
+     it where you left it, as its own Back button does, with the keyboard on
+     the door you went through if it was there. From a room behind a room that
+     is more than one step back, and the browser's Forward walks you in again.
+     It is the forums' one step back (steps.js), for pages rather than views.
+
+     IT KEEPS NOTHING. The history is the browser's, read with the Navigation
+     API (Baseline in every current browser since January 2026), and nothing
+     is stored or sent for it. With no visit to that page in this tab's history
+     (you came in from somewhere else, or the history went through another site
+     on the way) or no Navigation API, the link is the ordinary link it always
+     was. A link to a part of the street, with a #, goes there, and a door is
+     never taken back: only a way back is. tools/check-steps.py holds it. */
+  function wayBack() {
+    var nav = window.navigation;
+    if (!nav || typeof nav.entries !== 'function' || typeof nav.traverseTo !== 'function') return;
+    // One page however its address is written: jungle-room.html or /jungle-room, and / for the street.
+    function page(path) { return path.replace(/\.html$/, '').replace(/\/index$/, '/'); }
+    function lastVisit(to) {
+      var here = nav.currentEntry, best = null, all;
+      try { all = nav.entries(); } catch (e) { return null; }
+      if (!here) return null;
+      all.forEach(function (e) {
+        if (e.index >= here.index || !e.url || (best && best.index > e.index)) return;
+        var u;
+        try { u = new URL(e.url); } catch (x) { return; }
+        if (u.origin === location.origin && page(u.pathname) === to) best = e;
+      });
+      return best;
+    }
+    document.addEventListener('click', function (ev) {
+      if (ev.defaultPrevented || ev.button || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+      var a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
+      if (!a || a.hasAttribute('download') || (a.target && a.target !== '_self')) return;
+      var u;
+      try { u = new URL(a.href); } catch (e) { return; }
+      if (u.origin !== location.origin || u.search) return;
+      var to = page(u.pathname);
+      if (to === page(location.pathname)) return;
+      if (!a.classList.contains('backlink') && (to !== '/' || u.hash)) return;
+      var visit = lastVisit(to);
+      if (!visit) return;
+      ev.preventDefault();
+      var t = nav.traverseTo(visit.key);
+      // Stay, on a Leave site? question, is an answer; anything else that stops it follows the link instead.
+      t.committed.catch(function (x) { if (!x || x.name !== 'AbortError') location.assign(a.href); });
+      t.finished.catch(function () { /* answered above */ });
+    });
+  }
+
+  function go() { dial(); sectionLinks(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); patches(); familiar(); wayBack(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

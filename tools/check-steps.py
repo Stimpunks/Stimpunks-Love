@@ -21,6 +21,22 @@ rather than remembered:
     next view has nowhere to put you.
   · EVERY PAGE LOADS IT FIRST, before the app's own script.
   · THE PRIVACY PAGE SAYS SO, under each app's own section.
+
+And the same between pages (Ryan's ask, 2026-10-24): a room's way back
+(.backlink) and any link to the whole street go back through the tab's own
+history to the last time you were on that page, which the browser opens where
+you left it. wayBack() in love.js does it, and it is held here because it is
+this file's promise arriving between pages:
+
+  · IT KEEPS AND SENDS NOTHING, and moves nothing itself: the browser's own
+    history and the browser's own way of putting a page back where it was.
+    No storage, no request, no scroll, no history written.
+  · IT GOES BACK, it never goes forward: traverseTo an entry already there.
+  · ONLY A PLAIN PRESS ON A WAY BACK: a room's .backlink, or a link to the
+    whole street from another page. A door is never taken back, and a new
+    tab, a link to a part of the street and a link on its own page are left
+    alone.
+  · EVERY PAGE RUNS IT, from love.js's go().
 """
 import re
 import sys
@@ -90,13 +106,43 @@ def check_apps():
             problems.append(f"privacy.html#{section}: it must say the tab's history keeps how far down each view was.")
 
 
+def check_way_back():
+    love = code((ROOT / "love.js").read_text())
+    m = re.search(r"\n  function wayBack\(\) \{\n(.*?)\n  \}\n", love, re.S)
+    if not m:
+        problems.append("love.js: no wayBack(), so a way back opens its page at the top.")
+        return
+    body = m.group(1)
+    for pat, why in [
+        (r"localStorage|sessionStorage|indexedDB|document\.cookie|caches\.", "it keeps nothing: the place is in the browser's own history"),
+        (r"\bfetch\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource", "it sends nothing anywhere"),
+        (r"scrollTo|scrollBy|scrollIntoView|scrollTop|smooth", "it moves nothing itself: the browser puts the page back where it was"),
+        (r"pushState|replaceState|navigation\.navigate|\.navigate\(|\.back\(|\.forward\(", "it only goes back to a visit already in the history, by traverseTo"),
+    ]:
+        for x in re.finditer(pat, body):
+            problems.append(f"love.js wayBack(): {x.group(0)}. {why[0].upper() + why[1:]}.")
+    for need, why in [
+        (r"nav\.traverseTo\(visit\.key\)", "does not go back to the last visit to the page"),
+        (r"if \(to === page\(location\.pathname\)\) return;", "takes over a link on its own page"),
+        (r"if \(!a\.classList\.contains\('backlink'\) && \(to !== '/' \|\| u\.hash\)\) return;", "takes over a link that is not a way back: a door goes forward, and a link to a part of the street goes there"),
+        (r"ev\.defaultPrevented \|\| ev\.button \|\| ev\.metaKey \|\| ev\.ctrlKey \|\| ev\.shiftKey \|\| ev\.altKey", "takes over a press that opens a new tab or that a page already answered"),
+        (r"e\.index >= here\.index", "could go forward"),
+    ]:
+        if not re.search(need, body):
+            problems.append(f"love.js wayBack(): {why}.")
+    go = re.search(r"function go\(\) \{([^}]*)\}", love)
+    if not go or "wayBack();" not in go.group(1):
+        problems.append("love.js: go() does not run wayBack(), so no way back puts anybody where they were.")
+
+
 def main():
     check_steps()
     check_apps()
+    check_way_back()
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)
-    print("going back: a number and an address in the tab's history, nothing else kept or sent, every app through steps.js")
+    print("going back: a number and an address in the tab's history, nothing else kept or sent, every app through steps.js, and every way back through the tab's own history")
 
 
 if __name__ == "__main__":

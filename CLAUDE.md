@@ -6317,6 +6317,17 @@ place, so Back never lands on a finished form. A list that pages (`Show more`, O
 followed are in the page's memory. `tools/check-steps.py` holds it. The friendly edits are smooth scrolling, a view's
 title kept in the history "so the link back can say it after a reload", and a back link that always goes to the list.
 
+**A ROOM'S WAY BACK GOES BACK THROUGH THE TAB'S HISTORY, AND KEEPS NOTHING.** Ryan's ask, 2026-10-24: back to the street
+opened it at the top every time. `wayBack()` in `love.js` takes a plain press on a `.backlink` (to the street, a parent
+room, an area, a door's `#`) or on any link to the whole street, finds the last visit to that page earlier in this tab's
+history with the Navigation API (Baseline since January 2026), and `traverseTo`s it, so the browser puts the page back
+where it was, as its own Back does; with no such visit, or no API, the link is ordinary. **A door is never taken back**
+(a link that is not a way back goes forward and opens at the top), nor a link to a part of the street, a new tab or a
+link on its own page. `check-steps.py` holds it. The friendly edits are **remembering the street's scroll in storage "so
+it works with no history"**, which is a record of where somebody was kept outside the history the browser already
+keeps, and **taking every link to a page already visited back**, which turns a door into Back. A new room's way back
+needs only the `backlink` class it already wears.
+
 ## What this site is FOR, so you know what you are protecting
 
 Ryan's brief, 2026-09-19: *"All of our sites are so careful. Careful color palettes, careful
