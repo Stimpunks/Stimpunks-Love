@@ -5758,24 +5758,32 @@ writes there anyway, is no longer refused.
 **THE SUGGESTION BOX IS THE BRASS TACKS BOARD TURNED ROUND.** Ryan, 2026-10-13: anybody reads it,
 anybody signed on to the CB drops in a suggestion, a feature request or a bug report with their
 handle on it, and a moderator answers, done or not doing, **always with a reply** and their own
-username, or replies and leaves it open (an answer whose status is `open`, Ryan's ask of 2026-10-25,
-so a moderator can ask something without closing it); still open with no reply takes any answer off. `addSuggestion`, `answerSuggestion` and `removeSuggestion` in `lib.mjs`, `/cb/suggestions`;
+username. **Since 2026-10-25 every suggestion has a thread of replies** (Ryan's ask), from our moderators
+and from whoever dropped it in (`replySuggestion`, canTakeOff on the suggestion, which is exactly those
+two), as many as `SUGGEST_REPLIES`; only a moderator's reply marks it done, not doing or open again, and
+**where it stands is never kept apart from the replies** (`suggestStatus`, the newest reply that marked
+it), so taking that reply down takes the mark with it and no mark is ever without the words that made
+it. A reply is edited by whoever wrote it (`canEdit`) and taken down by them or a moderator. An answer
+from before is read as the first reply (`threadOf`). **Me too** (`meTooSuggestion`, Ryan's ask the same
+day) says a suggestion affects you too, and is the reactions' rule: it names who, alphabetically, and
+never how many, nothing sorts by it, and whoever dropped it in has none to press. `addSuggestion`, `answerSuggestion` and `removeSuggestion` in `lib.mjs`, `/cb/suggestions`;
 the BASE and CLAIMED marks come from the pass, and taking one down is `canTakeOff`, the CB's rule for
 a message. The Markdown is `parseBrass`'s, built on the page by **`markdown.js`, which moved out of
 `brass.js` when the box became its second user** (the rack.js rule), and `make-brass.py` and
 `make-sandbox.py` both refuse innerHTML in it. A full box refuses rather than pushing the oldest
-out. No feed; `noindex` on every answer; nothing counted. **The friendly edits are a vote button and a count
-of what is open**, and each needs a decision of Ryan's written into `privacy.html#suggestions` first.
+out. No feed; `noindex` on every answer; nothing counted. **The friendly edits are a vote button, a count
+of what is open, a number beside Me too and an order by it** ("most affected first"), each the upvote Ryan
+asked the box not to be; `make-sandbox.py` refuses the last two.
 **A security problem is not for the box**, which says so and points at SECURITY.md.
 
-**A SUGGESTION AND AN ANSWER CAN EACH CARRY PICTURES, AND THEY ARE AS PUBLIC AS THE WORDS.** Ryan's
+**A SUGGESTION AND A REPLY CAN EACH CARRY PICTURES, AND THEY ARE AS PUBLIC AS THE WORDS.** Ryan's
 call, 2026-10-25, reversing words only, so a bug can come with its screenshot; `privacy.html#suggestion-pictures`
 was written first. The board's pipeline opened to anybody signed on: each picture goes through
 `window.loveRedraw` (suggest.js draws on no canvas of its own), `putSuggestImage` refuses camera data,
 an upload waits under `suggest-img/` marked with its sender's mark (`suggestMark`) so nobody else can put it
 in, each needs a description, and the form's tick says the sender looked at all of it, because a
 screenshot can hold other people's messages, a call's faces, other tabs. **`getSuggestImage` serves a
-picture only while a suggestion or an answer in the box holds it**, so an upload never dropped in is never
+picture only while a suggestion or a reply in the box holds it**, so an upload never dropped in is never
 public and one taken down stops at once; `cache-control` is `private`, so no shared cache keeps one.
 `SUGGEST_PICS` each, deleted with what let go of them, swept hourly a day after an orphan was added.
 `make-sandbox.py` holds all of it. **The friendly edits are a picture with no description "so a quick

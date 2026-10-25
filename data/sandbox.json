@@ -10,9 +10,10 @@
     "how": [
       {"list": [
         "**Anybody signed on to the CB can drop something in**: a suggestion, a feature request, or a bug report, about this room or anywhere on the street, the CB included. Your handle goes on it, for everybody to see.",
-        "**A picture can go with it**, a screenshot of a bug most of all, and with a moderator’s answer too. Each is redrawn in your browser, which takes off anything a camera or a phone wrote into it, each needs a sentence saying what it shows, and anybody can see it in the box, so look at all of it first.",
+        "**A picture can go with it**, a screenshot of a bug most of all, and with any reply too. Each is redrawn in your browser, which takes off anything a camera or a phone wrote into it, each needs a sentence saying what it shows, and anybody can see it in the box, so look at all of it first.",
         "**Anybody can read what is in the box**, signed on or not.",
-        "**Our moderators answer each one**: done, or not doing, and why, with their own username on the reply. They can also reply and leave it open, to ask you something or say where it has got to. An answer can change, and a not yet can become a yes.",
+        "**Our moderators answer each one**, in replies under it with their own username on each: done, or not doing, and why, or a question while it stays open. **Whoever dropped it in can reply too**, as often as it takes, and edit or take down their own replies. A not yet can become a yes.",
+        "**Me too says it affects you too.** Anybody signed on can press it on somebody else’s suggestion, to put their handle beside it, and press it again to take it back. It is not a vote: the box names who a suggestion affects, and never says how many.",
         "**It stays until it is taken down**, by whoever dropped it in or by any moderator. Nothing in the box is counted, ranked or voted on. [What the box keeps](site:privacy.html#suggestions).",
         "**A security problem is not for the box**, where everybody can read it. Report it privately: [SECURITY.md](repo:SECURITY.md) says how."
       ]}

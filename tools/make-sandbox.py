@@ -38,9 +38,17 @@ IT REFUSES, RATHER THAN WRITING SOMETHING THAT WOULD BE UNTRUE:
     somebody else's upload; a picture shown while nothing in the box holds it;
     one outliving what held it; its answer leaving out noindex; or the privacy
     page losing the section that says all of that.
-  · the server's rules going soft: anybody signed on drops one in, only a
-    moderator answers, an answer to done or not doing always has a reply, and
-    taking one down goes through canTakeOff, the CB's own rule for a message.
+  · the server's rules going soft: anybody signed on drops one in; only
+    whoever dropped it in and our moderators reply (canTakeOff on the
+    suggestion), every reply has words, and only a moderator's marks it; WHERE
+    IT STANDS IS WORKED OUT FROM THE REPLIES, never kept apart, so no mark is
+    left without the reply that made it; a reply is edited by whoever wrote it
+    (canEdit) and taken down by them or a moderator (canTakeOff); and taking a
+    suggestion down goes through canTakeOff, the CB's own rule for a message.
+  · ME TOO BECOMING A VOTE (Ryan's ask, 2026-10-25): it names who, never how
+    many. The server sends names, alphabetically, and the box is never sorted
+    by them; suggest.js never reads how long the list is; and whoever dropped
+    it in cannot say Me too to their own.
   · the page's write section not shipping hidden, its scripts out of order, or
     the link to privacy.html#suggestions going nowhere.
   · the street's CSS for the box using any colour that is not the room's own: a
@@ -342,10 +350,28 @@ if "window.loveMarkdown.blocks" not in js:
 lib = LIB.read_text()
 if "if (!who) return" not in fn(lib, "addSuggestion"):
     problems.append("lib.mjs: addSuggestion no longer refuses somebody who is not signed on.")
-if "who.role !== 'base'" not in fn(lib, "answerSuggestion"):
-    problems.append("lib.mjs: answerSuggestion no longer refuses anybody but a moderator.")
-if "if (!reply) return" not in fn(lib, "answerSuggestion"):
-    problems.append("lib.mjs: an answer of done or not doing no longer needs a reply.")
+reply_fn, edit_fn, down_fn = fn(lib, "replySuggestion"), fn(lib, "editSuggestionReply"), fn(lib, "removeSuggestionReply")
+if "canTakeOff(who, was)" not in reply_fn or "canTakeOff(who, list[k])" not in reply_fn:
+    problems.append("lib.mjs: replySuggestion lets somebody reply who neither dropped it in nor is a moderator.")
+if "if (who.role !== 'base') return" not in reply_fn:
+    problems.append("lib.mjs: replySuggestion lets somebody but a moderator mark a suggestion.")
+if "if (!body) return" not in reply_fn or "if (!body) return" not in edit_fn:
+    problems.append("lib.mjs: a reply can go in, or be edited down, with no words, so a mark could have no reply saying why.")
+if "if (!canEdit(who, old)) return" not in edit_fn or "if (!canEdit(who, thread[j]))" not in edit_fn:
+    problems.append("lib.mjs: editSuggestionReply no longer asks canEdit, so somebody could rewrite another's reply.")
+if "canTakeOff(who, r)" not in down_fn:
+    problems.append("lib.mjs: removeSuggestionReply no longer asks canTakeOff, the CB's one rule for taking a thing down.")
+if "status: suggestStatus(replies)" not in fn(lib, "shapeSuggestion") or re.search(r"\b(?:item|next|done)\.status\s*=", reply_fn + fn(lib, "addSuggestion")):
+    problems.append("lib.mjs: where a suggestion stands is kept apart from its replies, not worked out from them.")
+shape = fn(lib, "shapeSuggestion")
+if "out.metoo = [...p.metoo].sort(" not in shape or re.search(r"metoo\.length\s*[;,)}]", shape.replace("p.metoo.length) out.metoo", "")):
+    problems.append("lib.mjs: Me too is not sent as names alone, alphabetically. It names who, never how many.")
+if "foldHandle(list[k].handle) === foldHandle(who.handle)" not in fn(lib, "meTooSuggestion"):
+    problems.append("lib.mjs: whoever dropped a suggestion in can say Me too to their own.")
+if re.search(r"metoo\.length|metoo\)\.length|\.sort\([^)]*metoo", js):
+    problems.append("suggest.js: it reads how many said Me too, or sorts by it. Me too names who, never how many.")
+if re.search(r"\.sort\(", code_of(FN)):
+    problems.append("cb-suggest.mjs: it sorts the box. It is newest first, and nothing in it is ranked.")
 if "canTakeOff(who, p)" not in fn(lib, "removeSuggestion"):
     problems.append("lib.mjs: removeSuggestion no longer asks canTakeOff, the CB's one rule for taking a thing down.")
 if "who.role === 'base'" not in fn(lib, "addSuggestion") or "who.account" not in fn(lib, "addSuggestion"):
@@ -373,8 +399,8 @@ if "if (!alt) return" not in pics or "f.yes !== true" not in pics:
     problems.append("lib.mjs: a picture goes in the box with no description, or with nobody saying they looked at all of it.")
 if "suggestionPics(p).includes(id)" not in get:
     problems.append("lib.mjs: getSuggestImage shows a picture nothing in the box holds.")
-if "SUGGEST_IMG + x" not in fn(lib, "removeSuggestion") or "SUGGEST_IMG + x" not in fn(lib, "answerSuggestion"):
-    problems.append("lib.mjs: a picture outlives the suggestion or the answer that let go of it.")
+if any("SUGGEST_IMG + x" not in fn(lib, f) for f in ("removeSuggestion", "editSuggestionReply", "removeSuggestionReply")):
+    problems.append("lib.mjs: a picture outlives the suggestion or the reply that let go of it.")
 if "sweepSuggestImages()" not in SWEEP.read_text():
     problems.append("cb-midnight.mjs: nothing sweeps a picture added to the box and never dropped in.")
 g = code_of(FN_IMG)
@@ -442,4 +468,5 @@ if not CONTRIB.exists() or CONTRIB.read_text() != contributing:
 print(f"the sandbox: the box and the steps in {data['page']}, and CONTRIBUTING.md from the same steps; "
       "the box built from nodes and never HTML, anybody signed on writes, only moderators answer, always "
       "with a reply, nothing is taken down but by its poster or a moderator, and a picture goes in only redrawn, "
-      "described and looked at, and is shown only while the box holds it.")
+      "described and looked at, and is shown only while the box holds it; whoever asked and our moderators reply, "
+      "only a moderator marks it, and Me too names who and never how many.")

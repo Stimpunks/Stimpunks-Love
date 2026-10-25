@@ -415,7 +415,8 @@
       "takes": "A suggestion, a feature request or a bug report, about any room on the street, the CB included.",
       "asks": [
         "Half an idea is fine, and so is a bug you cannot quite describe.",
-        "Your handle goes on it, anybody can read it, and a moderator answers it: done, or not doing, and why.",
+        "Your handle goes on it, anybody can read it, and a moderator answers it in replies under it: done, or not doing, and why. You can reply too.",
+        "Somebody else’s already there? Press Me too on it: the box names who a suggestion affects, never how many.",
         "A screenshot can go with it, with a sentence saying what it shows. Anybody can see it, so look at all of it first.",
         "A security problem does not go in the box, where everybody can read it: send it privately."
       ],
@@ -423,6 +424,7 @@
         "Anybody signed on to the CB can drop something in",
         "Anybody can read what is in the box",
         "A picture can go with it",
+        "Me too says it affects you too",
         "Our moderators answer each one",
         "A security problem is not for the box"
       ],

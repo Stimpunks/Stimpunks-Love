@@ -18,6 +18,14 @@
    and goes in only with a tick saying the sender has looked at all of it,
    because a screenshot is a picture of somebody's screen and the box is public.
 
+   EVERY SUGGESTION HAS A THREAD OF REPLIES (Ryan's ask, 2026-10-25), from our
+   moderators and from whoever dropped it in; a moderator's can mark it done,
+   not doing or open again, and where it stands is the newest one that did.
+
+   ME TOO SAYS A SUGGESTION AFFECTS YOU TOO (Ryan's ask, 2026-10-25), and it is
+   not a vote: it names who, alphabetically, and never how many, the CB's rule
+   for a reaction, and nothing in the box is sorted by it.
+
    NOTHING IS COUNTED. The filters say what is showing, never how many there
    are: a number beside a box of other people's requests is a league table of
    what the street has not done yet.
@@ -57,7 +65,7 @@
   }
   function words(nodes, into) { window.loveMarkdown.blocks(nodes, into, { top: 4, prefix: 'sbs' }); }
   function picUrl(id) { return '/cb/suggestions/image?id=' + encodeURIComponent(id); }
-  // The pictures on a suggestion or an answer, each whole, each opening at its
+  // The pictures on a suggestion or a reply, each whole, each opening at its
   // full size, each with its description as its words.
   function shots(list, into) {
     if (!list || !list.length) return;
@@ -81,6 +89,13 @@
     if (p.base || fold(p.handle) !== fold(me.handle)) return false;
     return !p.claimed || /^cb2\.acct\./.test(me.pass);
   }
+  // And for editing a reply, canEdit in lib.mjs (Radio.prototype.mayEdit in
+  // cb.js): whoever wrote it, and a moderator's reply is not another's to rewrite.
+  function mayEdit(r) {
+    if (!me || fold(r.handle) !== fold(me.handle)) return false;
+    if (r.base) return base;
+    return !r.claimed || /^cb2\.acct\./.test(me.pass);
+  }
 
   function call(send) {
     var headers = { 'accept': 'application/json' };
@@ -103,7 +118,7 @@
   /* ── The box ───────────────────────────────────────────────────────────── */
   var all = [], showing = 'all';
 
-  function draw(focusId) {
+  function draw(focusId, replyFocus) {
     items.textContent = '';
     var list = all.filter(function (p) { return showing === 'all' || p.status === showing; });
     if (!all.length) {
@@ -119,7 +134,9 @@
     state.hidden = true; items.hidden = false;
     list.forEach(function (p) { items.appendChild(card(p)); });
     var go = focusId || (location.hash.indexOf('#suggestion-') === 0 ? location.hash.slice(12) : null);
-    if (go) {
+    var at = replyFocus && document.getElementById('reply-' + replyFocus);
+    if (at) { at.tabIndex = -1; at.focus(); }
+    else if (go) {
       var h = document.getElementById('suggestion-' + go + '-h');
       if (h) { h.tabIndex = -1; h.focus(); }
     }
@@ -150,54 +167,126 @@
     words(p.ast || [], body);
     art.appendChild(body);
     shots(p.pics, art);
-    if (p.answer) {
-      var ans = el('div', 'sbs-answer');
-      var head = el('p', 'sbs-answer__head');
-      // A reply that leaves it open is a comment, not an answer.
-      var still = p.answer.status === 'open';
-      head.appendChild(el('b', null, still ? 'Still open' : STATUS[p.answer.status] || ''));
-      head.appendChild(document.createTextNode(still ? ', a reply from ' : ', answered by '));
-      who(head, p.answer.handle, { base: true });
-      head.appendChild(document.createTextNode(', ' + day(p.answer.t)));
-      ans.appendChild(head);
-      var reply = el('div', 'sbs-answer__body');
-      words(p.answer.ast || [], reply);
-      shots(p.answer.pics, reply);
-      ans.appendChild(reply);
-      art.appendChild(ans);
+    meToo(p, art);
+    var replies = p.replies || [];
+    if (replies.length) {
+      var thread = el('ol', 'sbs-thread');
+      thread.setAttribute('aria-label', 'Replies to “' + p.title + '”');
+      replies.forEach(function (r) { thread.appendChild(replyItem(p, r)); });
+      art.appendChild(thread);
     }
-    if (base || mine(p)) {
+    if (mine(p)) {
       var tools = el('p', 'sbs-item__tools');
-      if (base) {
-        var answer = el('button', 'sbs-btn sbs-btn--small', p.answer ? 'Change the answer' : 'Answer this'); answer.type = 'button';
-        answer.addEventListener('click', function () { answerForm(p, art, answer); });
-        tools.appendChild(answer);
-      }
+      var talk = el('button', 'sbs-btn sbs-btn--small', 'Reply'); talk.type = 'button';
+      talk.addEventListener('click', function () { replyForm(p, art, talk); });
+      tools.appendChild(talk);
       var down = el('button', 'sbs-btn sbs-btn--small', 'Take this down'); down.type = 'button';
-      down.addEventListener('click', function () { confirmDown(p, tools, down); });
+      down.addEventListener('click', function () {
+        sure(tools, down, 'This takes “' + p.title + '” out of the box for everybody, with all its replies and pictures. It cannot be put back.',
+          'Yes, take it down', 'Leave it in', { action: 'remove', id: p.id }, function () {
+            say('“' + p.title + '” is out of the box.');
+            var top = document.getElementById('suggest-list-h'); if (top) { top.tabIndex = -1; top.focus(); }
+          });
+      });
       tools.appendChild(down);
       art.appendChild(tools);
     }
     return art;
   }
 
-  function confirmDown(p, tools, down) {
+  /* Me too: who else a suggestion affects, by name, and never how many.
+     Whoever dropped it in has none to press, because it is theirs already. */
+  function andList(xs) { return xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1]; }
+  function meToo(p, art) {
+    var names = p.metoo || [];
+    var mineToo = !!me && names.some(function (h) { return fold(h) === fold(me.handle); });
+    var others = names.filter(function (h) { return !me || fold(h) !== fold(me.handle); });
+    var can = !!me && fold(p.handle) !== fold(me.handle);
+    if (!names[0] && !can) return;
+    var box = el('div', 'sbs-metoo');
+    var line = el('p', 'sbs-metoo__who', names[0]
+      ? 'This affects ' + andList((mineToo ? ['you'] : []).concat(others)) + ' too.'
+      : 'Does this affect you too?');
+    line.id = 'suggestion-' + p.id + '-metoo';
+    if (can) {
+      var b = el('button', 'sbs-btn sbs-btn--small', 'Me too'); b.type = 'button';
+      b.setAttribute('aria-pressed', String(mineToo));
+      b.setAttribute('aria-describedby', line.id);
+      b.addEventListener('click', function () {
+        b.disabled = true;
+        call({ action: 'metoo', id: p.id }).then(function (r) {
+          b.disabled = false;
+          if (r.status !== 200) { say(why(r, 'That did not work. Nothing was changed.')); return; }
+          all = r.body.items || []; draw();
+          var again = document.querySelector('#suggestion-' + p.id + ' .sbs-metoo button');
+          if (again) again.focus();
+          say(r.body.on ? 'It says this affects you too, with your handle on it, for everybody to see. Press Me too again to take that back.'
+            : 'Your Me too is off it.');
+        }, function () { b.disabled = false; say('The box could not be reached just now. Nothing was changed.'); });
+      });
+      box.appendChild(b);
+    }
+    box.appendChild(line);
+    art.appendChild(box);
+  }
+
+  /* One reply: a moderator's is a little window off the laptop, as the
+     answer always was; whoever asked writes on the sand. Where a moderator's
+     reply marked it, the head says so, because where it stands is the
+     newest reply that marked it, worked out on the server, never kept apart. */
+  var MARKED = { done: ['marked it ', 'done'], denied: ['marked it ', 'not doing'], open: ['', 'opened it again'] };
+  function replyItem(p, r) {
+    var li = el('li', 'sbs-answer' + (r.base ? '' : ' sbs-answer--asker'));
+    li.id = 'reply-' + r.id;
+    var head = el('p', 'sbs-answer__head');
+    who(head, r.handle, { base: r.base });
+    var did = MARKED[r.status] || ['replied', null];
+    head.appendChild(document.createTextNode(' ' + did[0]));
+    if (did[1]) head.appendChild(el('b', null, did[1]));
+    head.appendChild(document.createTextNode(', ' + day(r.t) + (r.edited ? ', edited' : '')));
+    li.appendChild(head);
+    var body = el('div', 'sbs-answer__body');
+    words(r.ast || [], body);
+    shots(r.pics, body);
+    li.appendChild(body);
+    if (mine(r) || mayEdit(r)) {
+      var tools = el('p', 'sbs-reply__tools');
+      if (mayEdit(r)) {
+        var edit = el('button', 'sbs-btn sbs-btn--small', 'Edit'); edit.type = 'button';
+        edit.addEventListener('click', function () { editForm(p, r, li, edit); });
+        tools.appendChild(edit);
+      }
+      if (mine(r)) {
+        var down = el('button', 'sbs-btn sbs-btn--small', 'Take this reply down'); down.type = 'button';
+        down.addEventListener('click', function () {
+          sure(tools, down, (fold(r.handle) === fold(me.handle) ? 'This takes your reply' : 'This takes ' + r.handle + '’s reply') +
+            ' down for everybody' + (r.pics && r.pics[0] ? ', with its pictures' : '') + (r.status ? ', and its mark goes with it' : '') + '. It cannot be put back.',
+            'Yes, take it down', 'Leave it', { action: 'remove-reply', id: p.id, reply: r.id }, function () {
+              say('That reply is down.');
+              var h = document.getElementById('suggestion-' + p.id + '-h'); if (h) { h.tabIndex = -1; h.focus(); }
+            });
+        });
+        tools.appendChild(down);
+      }
+      body.appendChild(tools);
+    }
+    return li;
+  }
+
+  // Are you sure, for taking a suggestion or a reply down.
+  function sure(tools, down, words1, yesWords, noWords, send, after) {
     var box = el('div', 'sbs-sure');
-    box.appendChild(el('p', null, 'This takes “' + p.title + '” out of the box for everybody, with its answer and its pictures. It cannot be put back.'));
-    var yes = el('button', 'sbs-btn sbs-btn--small', 'Yes, take it down'); yes.type = 'button';
-    var no = el('button', 'sbs-btn sbs-btn--small', 'Leave it in'); no.type = 'button';
+    box.appendChild(el('p', null, words1));
+    var yes = el('button', 'sbs-btn sbs-btn--small', yesWords); yes.type = 'button';
+    var no = el('button', 'sbs-btn sbs-btn--small', noWords); no.type = 'button';
     box.appendChild(yes); box.appendChild(no);
     var here = el('p', 'sbs-said'); here.setAttribute('role', 'status'); box.appendChild(here);
     tools.appendChild(box); down.hidden = true; no.focus();
     no.addEventListener('click', function () { box.remove(); down.hidden = false; down.focus(); });
     yes.addEventListener('click', function () {
       yes.disabled = true;
-      call({ action: 'remove', id: p.id }).then(function (r) {
-        if (r.status === 200) {
-          all = r.body.items || []; draw(); say('“' + p.title + '” is out of the box.');
-          var top = document.getElementById('suggest-list-h'); if (top) { top.tabIndex = -1; top.focus(); }
-          return;
-        }
+      call(send).then(function (r) {
+        if (r.status === 200) { all = r.body.items || []; draw(); after(); return; }
         yes.disabled = false; say(why(r, 'That did not work. Nothing was taken down.'), here);
       }, function () { yes.disabled = false; say('The box could not be reached just now. Nothing was taken down.', here); });
     });
@@ -234,7 +323,7 @@
   function button(text, type) { var b = el('button', 'sbs-btn', text); b.type = type || 'button'; return b; }
 
   /* ── Pictures ──────────────────────────────────────────────────────────
-     had is the pictures already on what is being written (an answer being
+     had is the pictures already on what is being written (a reply being
      changed); here is the form's own readout. Answers the field, with what
      to send (list), whether the sender ticked (yes), whether it is ready to
      go (check), a way in for a pasted or dropped one (take), and what to do
@@ -436,49 +525,94 @@
     else kind.querySelector('input').focus();
   }
 
-  function answerForm(p, art, opener) {
+  /* A reply, from a moderator or whoever dropped it in. A moderator also says
+     where it stands: left as it is, or marked; marking it done or not doing
+     is a reply that says why, so there is no mark without words. */
+  function replyForm(p, art, opener) {
     var old = art.querySelector(':scope > .sbs-form');
     if (old) { old.remove(); opener.focus(); return; }
     var form = el('form', 'sbs-form');
     form.noValidate = true;
-    var status = choices('Your answer', 'status', [['done', 'Done'], ['denied', 'Not doing'], ['open', 'Still open']],
-      p.answer ? p.answer.status : 'done');
+    var status = null, now = p.status || 'open';
+    if (base) {
+      var opts = [['', now === 'open' ? 'Leave it open' : now === 'done' ? 'Leave it done' : 'Leave it not doing']];
+      if (now !== 'done') opts.push(['done', 'Mark it done']);
+      if (now !== 'denied') opts.push(['denied', 'Mark it not doing']);
+      if (now !== 'open') opts.push(['open', 'Open it again']);
+      status = choices('Where it stands', 'status', opts, '');
+      form.appendChild(status);
+    }
     var reply = el('textarea', 'sbs-in sbs-in--body'); reply.rows = 5; reply.maxLength = 2000;
-    if (p.answer) reply.value = p.answer.body;
-    form.appendChild(status);
-    form.appendChild(field('Your reply', reply, 'Whoever asked reads it, with your username on it. Needed for done and not doing. With still open, a reply stays on it and it stays open, for a question or where it has got to; with still open and no reply, any answer comes off, pictures and all. Markdown works.'));
-    var buttons = row();
-    var go = button('Save the answer', 'submit'), stop = button('Leave it');
-    buttons.appendChild(go); buttons.appendChild(stop);
+    form.appendChild(field('Your reply', reply, base
+      ? 'Everybody reads it, with your username on it. Marking it done or not doing, say why. Markdown works.'
+      : 'Our moderators read it, and so can anybody, with your handle on it. Markdown works.'));
     var here = readout();
-    var pics = picsField(p.answer ? p.answer.pics : [], here);
+    var pics = picsField([], here);
     picturesFrom(reply, pics);
     form.appendChild(pics.el);
+    var buttons = row();
+    var go = button('Send the reply', 'submit'), stop = button('Leave it');
+    buttons.appendChild(go); buttons.appendChild(stop);
     form.appendChild(buttons);
     form.appendChild(here);
     stop.addEventListener('click', function () { pics.done(); form.remove(); opener.focus(); });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      // Still open with no reply takes any answer off, and asks for no pictures.
-      var open = status.value() === 'open', off = open && !reply.value.trim();
-      if (off && pics.list().length) { say('A picture goes with a reply. Say something with it, or take it off.', here); reply.focus(); return; }
-      if (off && !p.answer) { say('Write a reply to leave one while it stays open. There is no answer to take off.', here); reply.focus(); return; }
-      if (!off && !pics.check()) return;
+      if (!reply.value.trim()) { say('Write your reply first.', here); reply.focus(); return; }
+      if (!pics.check()) return;
+      var mark = status ? status.value() : '';
       go.disabled = true;
-      say('Saving…', here);
-      call({ action: 'answer', id: p.id, status: status.value(), reply: reply.value,
-        pics: off ? [] : pics.list(), yes: off ? false : pics.yes() }).then(function (r) {
+      say('Sending…', here);
+      call({ action: 'reply', id: p.id, body: reply.value, status: mark, pics: pics.list(), yes: pics.yes() }).then(function (r) {
         go.disabled = false;
         if (r.status === 200) {
-          all = r.body.items || []; pics.done(); draw(p.id);
-          say(off ? 'The answer is off, and it is still open.' : open ? 'Replied, with your username on it. It is still open.' : 'Answered, with your username on it.');
+          all = r.body.items || []; pics.done(); draw(p.id, r.body.reply);
+          say(mark === 'done' ? 'Replied and marked it done, with your username on it.' :
+            mark === 'denied' ? 'Replied and marked it not doing, with your username on it.' :
+            mark === 'open' ? 'Replied and opened it again, with your username on it.' :
+            'Replied, with your ' + (base ? 'username' : 'handle') + ' on it.');
           return;
         }
-        say(why(r, 'That did not work. The answer was not changed.'), here);
-      }, function () { go.disabled = false; say('The box could not be reached just now. The answer was not changed.', here); });
+        say(why(r, 'That did not work. The reply did not go.'), here);
+      }, function () { go.disabled = false; say('The box could not be reached just now. The reply did not go.', here); });
     });
     art.appendChild(form);
-    status.querySelector('input:checked').focus();
+    (status ? status.querySelector('input:checked') : reply).focus();
+  }
+
+  /* Whoever wrote a reply, changing its words and pictures. A mark it made
+     stays, because that happened. */
+  function editForm(p, r, li, opener) {
+    var old = li.querySelector('.sbs-form');
+    if (old) { old.remove(); opener.focus(); return; }
+    var form = el('form', 'sbs-form');
+    form.noValidate = true;
+    var reply = el('textarea', 'sbs-in sbs-in--body'); reply.rows = 5; reply.maxLength = 2000; reply.value = r.body;
+    form.appendChild(field('Your reply', reply, 'The words you change are not kept anywhere; the reply says it was edited. Markdown works.'));
+    var here = readout();
+    var pics = picsField(r.pics || [], here);
+    picturesFrom(reply, pics);
+    form.appendChild(pics.el);
+    var buttons = row();
+    var go = button('Save the reply', 'submit'), stop = button('Leave it as it was');
+    buttons.appendChild(go); buttons.appendChild(stop);
+    form.appendChild(buttons);
+    form.appendChild(here);
+    stop.addEventListener('click', function () { pics.done(); form.remove(); opener.focus(); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!reply.value.trim()) { say('A reply needs words. To take it down, use Take this reply down.', here); reply.focus(); return; }
+      if (!pics.check()) return;
+      go.disabled = true;
+      say('Saving…', here);
+      call({ action: 'edit-reply', id: p.id, reply: r.id, body: reply.value, pics: pics.list(), yes: pics.yes() }).then(function (res) {
+        go.disabled = false;
+        if (res.status === 200) { all = res.body.items || []; pics.done(); draw(p.id, r.id); say('Your reply is changed.'); return; }
+        say(why(res, 'That did not work. The reply was not changed.'), here);
+      }, function () { go.disabled = false; say('The box could not be reached just now. The reply was not changed.', here); });
+    });
+    li.querySelector('.sbs-answer__body').appendChild(form);
+    reply.focus();
   }
 
   /* ── What is showing ───────────────────────────────────────────────────── */

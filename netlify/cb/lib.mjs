@@ -6343,9 +6343,19 @@ export async function clearNotice(who, s = store(), now = Date.now()) {
    anybody signed on to the CB can post a suggestion, a feature request or a bug
    report, and a moderator marks it done or not doing, with a reply. It is the
    Brass Tacks Board turned round: anybody reads it, anybody signed on writes on
-   it, and the moderators answer. A moderator can also reply and leave it open,
-   to ask something or say where it has got to (Ryan's ask, 2026-10-25): an
-   answer whose status is open, which the box shows as still open.
+   it, and the moderators answer.
+
+   EVERY SUGGESTION HAS A THREAD OF REPLIES (Ryan's ask, 2026-10-25), from our
+   moderators and from whoever dropped it in, as many as it takes, up to
+   SUGGEST_REPLIES: who may reply is canTakeOff's rule on the suggestion, which
+   is exactly those two. Only a moderator's reply can mark it done, not doing
+   or open again, and THE STATUS IS NEVER KEPT APART FROM THE REPLIES: it is
+   the newest reply that marked it, or open, worked out on every read, so
+   taking that reply down takes its mark with it and nothing can say done
+   without the reply that says why. A reply is edited only by whoever wrote it
+   (canEdit) and taken down by them or any moderator (canTakeOff). Until then a
+   suggestion had one answer, which a new one replaced; threadOf() reads an old
+   one as the first reply, and the next write keeps it that way.
 
    ONE BLOB HOLDS EVERY SUGGESTION (`suggestions`, newest first), written with
    the boards' conditional write, and SUGGEST_KEEP at most: a full box refuses
@@ -6353,15 +6363,25 @@ export async function clearNotice(who, s = store(), now = Date.now()) {
    suggestion is kept until it is taken down, by whoever posted it (the CB's own
    rule for a message, canTakeOff) or by any moderator. There is no other copy.
 
-   THE HANDLE IS ON THE SUGGESTION, PUBLIC, and so is the moderator's on the
-   reply, so anybody can see who asked and who answered. The marks beside them
+   THE HANDLE IS ON THE SUGGESTION, PUBLIC, and so is every reply's, so anybody
+   can see who asked and who answered.
+
+   ME TOO SAYS A SUGGESTION AFFECTS YOU TOO, AND IT IS NOT A VOTE (Ryan's ask,
+   2026-10-25: most suggestion software offers upvoting, and this box will not
+   be a vote or a count). It is the reactions' rule: a Me too names who,
+   alphabetically, and never says how many, so the box shows people a
+   suggestion reaches, not a score. Anybody signed on presses it, and presses
+   it again to take it back; whoever dropped it in has no Me too, because it is
+   theirs already. Nothing sorts by it and nothing adds it up: the friendly
+   edits are a number beside it and an order by it, and either makes the box
+   the league table it refuses. The marks beside them
    come from the pass, as on the channel: BASE for a moderator, CLAIMED for a
    claimed username, and nobody can set either on a suggestion themselves.
 
    THE WORDS ARE THE BOARD'S MARKDOWN, read here once into nodes by parseBrass,
    never into HTML, and built on the page with textContent.
 
-   A SUGGESTION AND AN ANSWER CAN EACH CARRY PICTURES (Ryan's call, 2026-10-25,
+   A SUGGESTION AND A REPLY CAN EACH CARRY PICTURES (Ryan's call, 2026-10-25,
    reversing words only, so a bug can come with its screenshot). The board's
    pipeline with one difference: anybody signed on adds them, not only a
    moderator. Each is redrawn in the sender's browser (window.loveRedraw in
@@ -6370,7 +6390,7 @@ export async function clearNotice(who, s = store(), now = Date.now()) {
    it, because a screenshot is a picture of somebody's screen, other people's
    messages included. An upload waits under suggest-img/, marked with its
    sender's mark so nobody else can put it in the box, and is served to anybody
-   ONLY WHILE A SUGGESTION OR AN ANSWER HOLDS IT, so a picture added and never
+   ONLY WHILE A SUGGESTION OR A REPLY HOLDS IT, so a picture added and never
    dropped in is never public, and one taken down stops being served at once.
    It goes when what holds it goes; one nothing holds is swept after a day. */
 export const SUGGEST_KINDS = ['suggestion', 'feature', 'bug'];
@@ -6378,7 +6398,10 @@ export const SUGGEST_TITLE_MAX = 120;
 export const SUGGEST_BODY_MAX = 4000;
 export const SUGGEST_REPLY_MAX = 2000;
 export const SUGGEST_KEEP = 300;
-export const SUGGEST_PICS = 4;           // pictures on a suggestion, and on an answer
+export const SUGGEST_REPLIES = 50;       // replies under one suggestion
+export const SUGGEST_METOO = 300;        // handles a Me too can hold
+export const SUGGEST_STATUSES = ['open', 'done', 'denied'];
+export const SUGGEST_PICS = 4;           // pictures on a suggestion, and on a reply
 export const SUGGEST_ALT_MAX = 600;      // characters of a picture's description, which is needed
 const SUGGEST = 'suggestions';
 const SUGGEST_IMG = 'suggest-img/';
@@ -6397,23 +6420,53 @@ export async function readSuggestions(s = store()) {
 
 const shapePics = (list) => list.map((x) => ({ id: x.id, alt: x.alt }));
 
+/* A suggestion's replies, oldest first. One from before the thread had a
+   single answer from a moderator, which is read as its first reply. */
+function threadOf(p) {
+  if (Array.isArray(p.replies)) return p.replies;
+  if (!p.answer) return [];
+  const a = p.answer;
+  const r = { id: 'a' + p.id, body: a.body, handle: a.handle, t: a.t, base: true };
+  if (a.status === 'done' || a.status === 'denied') r.status = a.status;
+  if (Array.isArray(a.pics) && a.pics.length) r.pics = a.pics;
+  return [r];
+}
+function threaded(p, replies) {
+  const next = { ...p, replies };
+  delete next.answer;
+  return next;
+}
+/* Where it stands: the newest reply that marked it, or open. */
+export function suggestStatus(replies) {
+  for (let i = replies.length - 1; i >= 0; i--) if (replies[i].status) return replies[i].status;
+  return 'open';
+}
+function replyId(v) { return typeof v === 'string' && /^a?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v) ? v : null; }
+
 export function shapeSuggestion(p) {
+  const replies = threadOf(p);
   const out = { id: p.id, kind: p.kind, title: p.title, body: p.body, ast: parseBrass(p.body),
-    handle: p.handle, t: p.t, status: p.answer ? p.answer.status : 'open' };
+    handle: p.handle, t: p.t, status: suggestStatus(replies) };
   if (p.base) out.base = true;
   else if (p.claimed) out.claimed = true;
   if (Array.isArray(p.pics) && p.pics.length) out.pics = shapePics(p.pics);
-  if (p.answer) {
-    out.answer = { status: p.answer.status, body: p.answer.body, ast: parseBrass(p.answer.body),
-      handle: p.answer.handle, t: p.answer.t };
-    if (Array.isArray(p.answer.pics) && p.answer.pics.length) out.answer.pics = shapePics(p.answer.pics);
-  }
+  // Who says it affects them too, alphabetically. Names, never how many.
+  if (Array.isArray(p.metoo) && p.metoo.length) out.metoo = [...p.metoo].sort((a, b) => foldHandle(a).localeCompare(foldHandle(b)));
+  out.replies = replies.map((r) => {
+    const o = { id: r.id, body: r.body, ast: parseBrass(r.body), handle: r.handle, t: r.t };
+    if (r.base) o.base = true;
+    else if (r.claimed) o.claimed = true;
+    if (r.status) o.status = r.status;
+    if (typeof r.edited === 'number') o.edited = r.edited;
+    if (Array.isArray(r.pics) && r.pics.length) o.pics = shapePics(r.pics);
+    return o;
+  });
   return out;
 }
 
-/* Every picture a suggestion holds, its answer's included. */
+/* Every picture a suggestion holds, its replies' included. */
 function suggestionPics(p) {
-  return [...(p.pics || []), ...((p.answer && p.answer.pics) || [])].map((x) => x.id);
+  return [...(p.pics || []), ...threadOf(p).flatMap((r) => r.pics || [])].map((x) => x.id);
 }
 
 /* Whose an upload is: the folded name and when it was claimed. Never sent. */
@@ -6421,7 +6474,7 @@ function suggestMark(who) {
   return createHash('sha256').update(`suggest-pic|${foldHandle(who.handle)}|${who.since || ''}`).digest('base64url');
 }
 
-/* The pictures a suggestion or an answer asks for (a list of { id, alt }):
+/* The pictures a suggestion or a reply asks for (a list of { id, alt }):
    the ones it already had, kept, and this sender's own uploads. { pics, fresh }
    or { error }; fresh is the ids that were not there before, which the write
    checks nothing else in the box holds. */
@@ -6482,49 +6535,106 @@ export async function addSuggestion(who, f, s = store(), now = Date.now()) {
   return { item };
 }
 
-/* A moderator answering: done or not doing, always with a reply; or still
-   open, with a reply, which stays on it as a comment and leaves it open, or
-   with none, which takes any answer off. Answering again replaces the answer. */
-export async function answerSuggestion(who, id, f, s = store(), now = Date.now()) {
-  if (!who || who.role !== 'base') return { error: 'Only a moderator can answer a suggestion.' };
-  const status = f && ['done', 'denied', 'open'].includes(f.status) ? f.status : null;
-  if (!status) return { error: 'Mark it done, not doing, or still open.' };
-  let reply = null, got = { pics: [], fresh: [] };
-  const wrote = !!String((f && f.reply) || '').trim();
-  if (status === 'open' && !wrote && Array.isArray(f.pics) && f.pics.length) return { error: 'A picture goes with a reply. Say something with it, or take it off.' };
-  if (status !== 'open' || wrote) {
-    reply = cleanSuggestBody(f.reply, SUGGEST_REPLY_MAX);
-    if (!reply) return { error: status === 'open' ? `A reply is up to ${SUGGEST_REPLY_MAX} characters.` : `Say why, in a reply of up to ${SUGGEST_REPLY_MAX} characters: whoever asked will read it.` };
-    const now0 = (await readSuggestions(s)).find((p) => p.id === id);
-    const had = ((now0 && now0.answer && now0.answer.pics) || []).map((x) => x.id);
-    got = await suggestPics(who, f, had, s);
-    if (got.error) return got;
+/* A reply, from a moderator or whoever dropped it in (canTakeOff on the
+   suggestion), always with words. A moderator's can mark it done, not doing
+   or open again; a mark that is where it stands already is left off.
+   { item, reply } or { error }. */
+export async function replySuggestion(who, id, f, s = store(), now = Date.now()) {
+  if (!who) return { error: 'Sign on to the CB to reply.' };
+  const body = cleanSuggestBody(f && f.body, SUGGEST_REPLY_MAX);
+  if (!body) return { error: `Say something, in a reply of up to ${SUGGEST_REPLY_MAX} characters.` };
+  let mark = null;
+  if (f.status != null && f.status !== '') {
+    if (!SUGGEST_STATUSES.includes(f.status)) return { error: 'Mark it done, not doing, or open.' };
+    if (who.role !== 'base') return { error: 'Only a moderator can mark it done, not doing or open.' };
+    mark = f.status;
   }
-  let found = false, done = null, why = null, dropped = [];
+  const was = (await readSuggestions(s)).find((p) => p.id === id);
+  if (!was) return { error: 'That suggestion has been taken down.' };
+  if (!canTakeOff(who, was)) return { error: 'Only whoever dropped it in, or a moderator, can reply to it.' };
+  const got = await suggestPics(who, f, [], s);
+  if (got.error) return got;
+  const reply = { id: randomUUID(), body, handle: who.handle, t: now };
+  if (who.role === 'base') reply.base = true;
+  else if (who.account) reply.claimed = true;
+  if (got.pics.length) reply.pics = got.pics;
+  let why = null, done = null;
   await updateList(SUGGEST, 'items', (list) => {
-    found = false; done = null; why = null; dropped = [];
+    why = null; done = null;
     const k = list.findIndex((p) => p.id === id);
-    if (k < 0) return null;
-    found = true;
-    const was = ((list[k].answer && list[k].answer.pics) || []).map((x) => x.id);
-    // A picture kept from the answer as it was read must still be on it.
-    if (got.pics.some((x) => !got.fresh.includes(x.id) && !was.includes(x.id))) { why = 'The answer changed while you were writing. Look at it again.'; return null; }
+    if (k < 0) { why = 'That suggestion has been taken down.'; return null; }
+    if (!canTakeOff(who, list[k])) { why = 'Only whoever dropped it in, or a moderator, can reply to it.'; return null; }
+    const thread = threadOf(list[k]);
+    if (thread.length >= SUGGEST_REPLIES) { why = `A suggestion holds ${SUGGEST_REPLIES} replies. Drop a new one in to go on.`; return null; }
     if (heldElsewhere(list, got.fresh, null)) { why = 'One of those pictures is already in the box. Add it again.'; return null; }
-    const next = { ...list[k] };
-    if (!reply) delete next.answer;
-    else {
-      next.answer = { status, body: reply, handle: who.handle, t: now };
-      if (got.pics.length) next.answer.pics = got.pics;
-    }
-    const keep = new Set(got.pics.map((x) => x.id));
-    dropped = was.filter((x) => !keep.has(x));
-    done = next;
-    const copy = list.slice(); copy[k] = next; return copy;
+    const r = { ...reply };
+    if (mark && mark !== suggestStatus(thread)) r.status = mark;
+    done = threaded(list[k], [...thread, r]);
+    const copy = list.slice(); copy[k] = done; return copy;
   }, s);
-  if (!found) return { error: 'That suggestion has been taken down.' };
+  if (why) return { error: why };
+  return { item: done, reply: done.replies[done.replies.length - 1] };
+}
+
+/* Whoever wrote a reply, changing its words and its pictures (canEdit: a
+   moderator's reply is not another moderator's to rewrite). A mark it made
+   stays: that is something that happened. A picture let go of is deleted. */
+export async function editSuggestionReply(who, id, rid, f, s = store(), now = Date.now()) {
+  if (!who) return { error: 'Sign on to the CB to edit a reply.' };
+  rid = replyId(rid);
+  const body = cleanSuggestBody(f && f.body, SUGGEST_REPLY_MAX);
+  if (!body) return { error: `Say something, in a reply of up to ${SUGGEST_REPLY_MAX} characters.` };
+  const was = (await readSuggestions(s)).find((p) => p.id === id);
+  const old = was && threadOf(was).find((r) => r.id === rid);
+  if (!old) return { error: 'That reply has been taken down.' };
+  if (!canEdit(who, old)) return { error: 'Only whoever wrote a reply can edit it.' };
+  const got = await suggestPics(who, f, (old.pics || []).map((x) => x.id), s);
+  if (got.error) return got;
+  let why = null, done = null, dropped = [];
+  await updateList(SUGGEST, 'items', (list) => {
+    why = null; done = null; dropped = [];
+    const k = list.findIndex((p) => p.id === id);
+    const thread = k < 0 ? [] : threadOf(list[k]);
+    const j = thread.findIndex((r) => r.id === rid);
+    if (j < 0) { why = 'That reply has been taken down.'; return null; }
+    if (!canEdit(who, thread[j])) { why = 'Only whoever wrote a reply can edit it.'; return null; }
+    const had = (thread[j].pics || []).map((x) => x.id);
+    // A picture kept from the reply as it was read must still be on it.
+    if (got.pics.some((x) => !got.fresh.includes(x.id) && !had.includes(x.id))) { why = 'The reply changed while you were writing. Look at it again.'; return null; }
+    if (heldElsewhere(list, got.fresh, null)) { why = 'One of those pictures is already in the box. Add it again.'; return null; }
+    const r = { ...thread[j], body, edited: now };
+    delete r.pics;
+    if (got.pics.length) r.pics = got.pics;
+    const keep = new Set(got.pics.map((x) => x.id));
+    dropped = had.filter((x) => !keep.has(x));
+    const replies = thread.slice(); replies[j] = r;
+    done = threaded(list[k], replies);
+    const copy = list.slice(); copy[k] = done; return copy;
+  }, s);
   if (why) return { error: why };
   for (const x of dropped) await s.delete(SUGGEST_IMG + x);
   return { item: done };
+}
+
+/* Taking a reply down: whoever wrote it, or any moderator (canTakeOff). A mark
+   it made goes with it, and where it stands is the reply before's again. */
+export async function removeSuggestionReply(who, id, rid, s = store()) {
+  if (!who) return { error: 'Sign on to the CB to take a reply down.' };
+  rid = replyId(rid);
+  let why = null, gone = null;
+  await updateList(SUGGEST, 'items', (list) => {
+    why = null; gone = null;
+    const k = list.findIndex((p) => p.id === id);
+    const thread = k < 0 ? [] : threadOf(list[k]);
+    const r = thread.find((x) => x.id === rid);
+    if (!r) { why = 'That reply has already been taken down.'; return null; }
+    if (!canTakeOff(who, r)) { why = 'Only whoever wrote it, or a moderator, can take a reply down.'; return null; }
+    gone = r;
+    const copy = list.slice(); copy[k] = threaded(list[k], thread.filter((x) => x.id !== rid)); return copy;
+  }, s);
+  if (!gone) return { error: why };
+  for (const x of (gone.pics || []).map((y) => y.id)) await s.delete(SUGGEST_IMG + x);
+  return { removed: true };
 }
 
 /* Taking one down: whoever posted it, under canTakeOff's rule, or any moderator. */
@@ -6542,6 +6652,30 @@ export async function removeSuggestion(who, id, s = store()) {
   if (!gone) return { error: why };
   for (const x of suggestionPics(gone)) await s.delete(SUGGEST_IMG + x);
   return { removed: true };
+}
+
+/* Me too: anybody signed on but whoever dropped it in, on if it was off and off
+   if it was on, by the folded handle, as a reaction is. { on } or { error }. */
+export async function meTooSuggestion(who, id, s = store()) {
+  if (!who) return { error: 'Sign on to the CB to say this affects you too.' };
+  let why = null, on = null;
+  await updateList(SUGGEST, 'items', (list) => {
+    why = null; on = null;
+    const k = list.findIndex((p) => p.id === id);
+    if (k < 0) { why = 'That suggestion has been taken down.'; return null; }
+    if (foldHandle(list[k].handle) === foldHandle(who.handle)) { why = 'It is yours already, so it says it affects you.'; return null; }
+    const names = (list[k].metoo || []).slice();
+    const at = names.findIndex((h) => foldHandle(h) === foldHandle(who.handle));
+    if (at >= 0) { names.splice(at, 1); on = false; }
+    else {
+      if (names.length >= SUGGEST_METOO) { why = 'No more names fit on this one. Reply to it instead, if you can.'; return null; }
+      names.push(who.handle); on = true;
+    }
+    const next = { ...list[k] };
+    if (names.length) next.metoo = names; else delete next.metoo;
+    const copy = list.slice(); copy[k] = next; return copy;
+  }, s);
+  return why ? { error: why } : { on };
 }
 
 /* Anybody signed on, adding a picture, already redrawn in their browser. It

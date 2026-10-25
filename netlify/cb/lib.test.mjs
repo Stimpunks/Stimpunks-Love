@@ -34,7 +34,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
   readNotice, shapeNotice, setNotice, clearNotice, cleanNotice, noticeId, NOTICE_FIRST, NOTICE_MAX,
-  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, putSuggestImage, getSuggestImage, sweepSuggestImages, SUGGEST_PICS, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  readSuggestions, shapeSuggestion, addSuggestion, replySuggestion, editSuggestionReply, removeSuggestionReply, meTooSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, putSuggestImage, getSuggestImage, sweepSuggestImages, SUGGEST_PICS, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
@@ -501,48 +501,89 @@ test('the suggestion box: anybody signed on drops one in, with the marks their p
   assert.equal(castle.ast[0].c[1].t, 'b', 'the words were not read into nodes');
 });
 
-test('the suggestion box: only a moderator answers, always with a reply, and can open it again', async () => {
+test('the suggestion box: whoever asked and any moderator reply, as often as it takes, and only a moderator marks it', async () => {
   const s = memoryStore({ etagOnRead: true });
+  const BO = { ...ANY, handle: 'Bo' };
   const { item } = await addSuggestion(ANY, { kind: 'feature', title: 'A kite', body: 'Please.' }, s);
-  assert.ok((await answerSuggestion(ANY, item.id, { status: 'done', reply: 'Mine' }, s)).error, 'somebody who is not a moderator answered');
-  assert.ok((await answerSuggestion(MOD, item.id, { status: 'denied' }, s)).error, 'not doing it, with no reason given');
-  assert.ok((await answerSuggestion(MOD, item.id, { status: 'done', reply: ' ' }, s)).error, 'done, with an empty reply');
-  assert.ok((await answerSuggestion(MOD, item.id, { status: 'maybe', reply: 'x' }, s)).error, 'a status that is not one of the three');
-  assert.ok((await answerSuggestion(MOD, 'gone', { status: 'done', reply: 'x' }, s)).error, 'an answer to nothing');
-  await answerSuggestion(MOD, item.id, { status: 'denied', reply: 'Not **yet**.' }, s, 50);
-  let shown = shapeSuggestion((await readSuggestions(s))[0]);
-  assert.equal(shown.status, 'denied');
-  assert.deepEqual([shown.answer.handle, shown.answer.t, shown.answer.body], ['Juniper', 50, 'Not **yet**.']);
-  assert.equal(shown.answer.ast[0].c[1].t, 'b');
-  await answerSuggestion(MOD2, item.id, { status: 'done', reply: 'Up now.' }, s, 60);
-  shown = shapeSuggestion((await readSuggestions(s))[0]);
-  assert.deepEqual([shown.status, shown.answer.handle], ['done', 'Quill'], 'answering again did not replace the answer');
-  await answerSuggestion(MOD, item.id, { status: 'open' }, s);
-  shown = shapeSuggestion((await readSuggestions(s))[0]);
-  assert.equal(shown.status, 'open'); assert.equal(shown.answer, undefined, 'opening it again left the old answer on');
+  const shown = async () => shapeSuggestion((await readSuggestions(s))[0]);
+  assert.ok((await replySuggestion(null, item.id, { body: 'x' }, s)).error, 'somebody signed off replied');
+  assert.ok((await replySuggestion(BO, item.id, { body: 'Me too' }, s)).error, 'somebody who is neither the asker nor a moderator replied');
+  assert.ok((await replySuggestion(MOD, item.id, { body: ' ' }, s)).error, 'a reply with nothing in it');
+  assert.ok((await replySuggestion(MOD, item.id, { body: 'x', status: 'maybe' }, s)).error, 'a mark that is not one of the three');
+  assert.ok((await replySuggestion(ANY, item.id, { body: 'Done, surely', status: 'done' }, s)).error, 'whoever asked marked it');
+  assert.ok((await replySuggestion(MOD, 'gone', { body: 'x' }, s)).error, 'a reply to nothing');
+  await replySuggestion(MOD, item.id, { body: 'Which **colour**?' }, s, 50);
+  await replySuggestion({ ...ANY, handle: ' ada ' }, item.id, { body: 'Red, please.' }, s, 60);
+  let r = await shown();
+  assert.equal(r.status, 'open', 'a reply with no mark closed it');
+  assert.deepEqual(r.replies.map((x) => [x.handle, x.t, x.body, !!x.base]), [['Juniper', 50, 'Which **colour**?', true], [' ada ', 60, 'Red, please.', false]], 'the thread is not both replies, oldest first');
+  assert.equal(r.replies[0].ast[0].c[1].t, 'b');
+  const { reply: marked } = await replySuggestion(MOD2, item.id, { body: 'Up now.', status: 'done' }, s, 70);
+  r = await shown();
+  assert.deepEqual([r.status, r.replies[2].status], ['done', 'done'], 'a moderator could not mark it done');
+  await replySuggestion(ANY, item.id, { body: 'Thank you!' }, s, 80);
+  assert.equal((await shown()).status, 'done', 'a reply after the mark changed where it stands');
+  await replySuggestion(MOD, item.id, { body: 'Still done.', status: 'done' }, s, 90);
+  assert.equal((await shown()).replies[4].status, undefined, 'a mark that changed nothing was kept');
+  // Taking the reply that marked it down takes the mark with it.
+  assert.ok((await removeSuggestionReply(ANY, item.id, marked.id, s)).error, 'whoever asked took a moderator\'s reply down');
+  assert.equal((await removeSuggestionReply(MOD, item.id, marked.id, s)).removed, true);
+  assert.equal((await shown()).status, 'open', 'the mark outlived the reply that made it');
+  await replySuggestion(MOD, item.id, { body: 'Not this year.', status: 'denied' }, s, 100);
+  await replySuggestion(MOD, item.id, { body: 'Opened again.', status: 'open' }, s, 110);
+  assert.equal((await shown()).status, 'open', 'opening it again did not open it');
 });
 
-test('the suggestion box: a moderator can reply and leave it open', async () => {
+test('the suggestion box: a reply is edited only by whoever wrote it, and taken down by them or a moderator', async () => {
   const s = memoryStore({ etagOnRead: true });
   const { item } = await addSuggestion(ANY, { kind: 'bug', title: 'The kite', body: 'It will not fly.' }, s);
-  assert.ok((await answerSuggestion(ANY, item.id, { status: 'open', reply: 'Mine' }, s)).error, 'somebody who is not a moderator replied');
-  assert.ok((await answerSuggestion(MOD, item.id, { status: 'open', reply: 'x'.repeat(SUGGEST_BODY_MAX) }, s)).error, 'a reply too long');
-  const { id: pic } = await putSuggestImage(MOD, jpeg(), s, 0);
-  assert.ok((await answerSuggestion(MOD, item.id, { status: 'open', reply: ' ', pics: [{ id: pic, alt: 'x' }], yes: true }, s)).error, 'a picture with no reply');
-  await answerSuggestion(MOD, item.id, { status: 'open', reply: 'Which **browser**?' }, s, 70);
-  let shown = shapeSuggestion((await readSuggestions(s))[0]);
-  assert.equal(shown.status, 'open', 'a reply closed it');
-  assert.deepEqual([shown.answer.status, shown.answer.handle, shown.answer.t, shown.answer.body], ['open', 'Juniper', 70, 'Which **browser**?'], 'the reply was not kept');
-  await answerSuggestion(MOD2, item.id, { status: 'open', reply: 'Found it.', pics: [{ id: pic, alt: 'x' }], yes: true }, s, 80);
-  assert.ok((await answerSuggestion(MOD2, item.id, { status: 'open', reply: 'Found it.', pics: [{ id: (await putSuggestImage(MOD2, jpeg(), s, 0)).id, alt: 'y' }], yes: true }, s, 80)).item);
-  await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Flying now.' }, s, 90);
-  shown = shapeSuggestion((await readSuggestions(s))[0]);
-  assert.deepEqual([shown.status, shown.answer.body], ['done', 'Flying now.'], 'a reply could not become an answer');
-  await answerSuggestion(MOD, item.id, { status: 'open', reply: 'Opened again: it fell.' }, s, 100);
-  shown = shapeSuggestion((await readSuggestions(s))[0]);
-  assert.deepEqual([shown.status, shown.answer.status], ['open', 'open'], 'opening it again with a reply did not keep the reply');
-  await answerSuggestion(MOD, item.id, { status: 'open', reply: '' }, s);
-  assert.equal(shapeSuggestion((await readSuggestions(s))[0]).answer, undefined, 'still open with no reply left the reply on');
+  const { reply: mine } = await replySuggestion(ANY, item.id, { body: 'In Firefox.' }, s, 10);
+  const { reply: mods } = await replySuggestion(MOD, item.id, { body: 'Fixed.', status: 'done' }, s, 20);
+  assert.ok((await editSuggestionReply(MOD, item.id, mine.id, { body: 'Chrome.' }, s)).error, 'a moderator rewrote somebody\'s reply');
+  assert.ok((await editSuggestionReply(MOD2, item.id, mods.id, { body: 'Not fixed.' }, s)).error, 'one moderator rewrote another\'s reply');
+  assert.ok((await editSuggestionReply(ANY, item.id, mine.id, { body: '  ' }, s)).error, 'a reply edited down to nothing');
+  await editSuggestionReply(ANY, item.id, mine.id, { body: 'In Firefox 140.' }, s, 30);
+  await editSuggestionReply(MOD, item.id, mods.id, { body: 'Fixed, really.' }, s, 40);
+  const r = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.deepEqual(r.replies.map((x) => [x.body, x.edited]), [['In Firefox 140.', 30], ['Fixed, really.', 40]]);
+  assert.equal(r.status, 'done', 'editing a reply took its mark off');
+  assert.ok((await removeSuggestionReply({ ...ANY, handle: 'Bo' }, item.id, mine.id, s)).error, 'somebody else took a reply down');
+  assert.equal((await removeSuggestionReply(ANY, item.id, mine.id, s)).removed, true, 'whoever wrote it could not take it down');
+  assert.ok((await removeSuggestionReply(ANY, item.id, mine.id, s)).error, 'taken down twice');
+});
+
+test('the suggestion box: an answer from before the thread is its first reply', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const item = { id: '0b5e3c1a-1111-4222-8333-444455556666', kind: 'bug', title: 'Old', body: 'From before.', handle: 'Ada', t: 1,
+    answer: { status: 'denied', body: 'Not yet.', handle: 'Juniper', t: 5 } };
+  await s.setJSON('suggestions', { items: [item] }, { onlyIfNew: true });
+  let r = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.deepEqual([r.status, r.replies.length, r.replies[0].body, r.replies[0].status, r.replies[0].base], ['denied', 1, 'Not yet.', 'denied', true]);
+  await replySuggestion(ANY, item.id, { body: 'Please?' }, s, 6);
+  const raw = (await readSuggestions(s))[0];
+  assert.equal(raw.answer, undefined, 'the old answer was kept beside the thread');
+  r = shapeSuggestion(raw);
+  assert.deepEqual(r.replies.map((x) => x.body), ['Not yet.', 'Please?']);
+  assert.equal((await editSuggestionReply(MOD, item.id, r.replies[0].id, { body: 'Not this year.' }, s)).item.replies[0].body, 'Not this year.', 'the old answer could not be edited as a reply');
+});
+
+test('the suggestion box: Me too names who it affects, never how many, and takes back', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const { item } = await addSuggestion(ANY, { kind: 'feature', title: 'Ramps', body: 'Everywhere.' }, s);
+  assert.ok((await meTooSuggestion(null, item.id, s)).error, 'somebody signed off said me too');
+  assert.ok((await meTooSuggestion(ANY, item.id, s)).error, 'whoever asked said me too');
+  assert.ok((await meTooSuggestion(MOD, 'gone', s)).error, 'me too on nothing');
+  assert.equal((await meTooSuggestion({ ...ANY, handle: 'Zed' }, item.id, s)).on, true);
+  assert.equal((await meTooSuggestion({ ...ANY, handle: 'bo' }, item.id, s)).on, true);
+  assert.equal((await meTooSuggestion(MOD, item.id, s)).on, true);
+  let r = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.deepEqual(r.metoo, ['bo', 'Juniper', 'Zed'], 'Me too is not by name, alphabetically');
+  assert.ok(!Object.values(r).some((v) => typeof v === 'number' && v === 3), 'Me too sent a count');
+  assert.equal((await meTooSuggestion({ ...ANY, handle: ' BO ' }, item.id, s)).on, false, 'pressing again did not take it back');
+  r = shapeSuggestion((await readSuggestions(s))[0]);
+  assert.deepEqual(r.metoo, ['Juniper', 'Zed']);
+  await meTooSuggestion({ ...ANY, handle: 'Zed' }, item.id, s); await meTooSuggestion(MOD, item.id, s);
+  assert.equal(shapeSuggestion((await readSuggestions(s))[0]).metoo, undefined, 'an empty Me too was sent');
 });
 
 test('the suggestion box: whoever posted it takes it down, a claimed one only with its password, and any moderator any', async () => {
@@ -581,23 +622,27 @@ test('the suggestion box: a picture is redrawn, described, looked at, and shown 
   assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).pics, [{ id, alt: 'The castle, fallen' }]);
   assert.ok(await getSuggestImage(id, s), 'a picture in the box was not shown');
   assert.ok((await addSuggestion(ANY, ask([{ id, alt: 'Again' }], { yes: true }), s)).error, 'one picture went in the box twice');
-  // A moderator's answer carries pictures too, and lets go of them when it changes.
+  // A reply carries pictures too, and lets go of them when it is edited or taken down.
   const { id: a1 } = await putSuggestImage(MOD, jpeg(), s, 0);
-  assert.ok((await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }] }, s)).error, 'an answer\'s picture nobody said they had looked at');
-  assert.ok((await answerSuggestion(MOD2, item.id, { status: 'done', reply: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }], yes: true }, s)).error, 'a moderator put another moderator\'s upload in');
-  await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }], yes: true }, s);
-  assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).answer.pics, [{ id: a1, alt: 'Standing' }]);
-  const { id: a2 } = await putSuggestImage(MOD2, jpeg(), s, 0);
-  await answerSuggestion(MOD2, item.id, { status: 'done', reply: 'Fixed again.', pics: [{ id: a1, alt: 'Standing up' }, { id: a2, alt: 'Closer' }], yes: true }, s);
-  assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).answer.pics.map((x) => x.alt), ['Standing up', 'Closer'], 'a kept picture was not kept');
-  await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Just words.', pics: [{ id: a2, alt: 'Closer' }], yes: true }, s);
-  assert.equal(await raw(a1), null, 'a picture outlived the answer that let go of it');
-  await answerSuggestion(MOD, item.id, { status: 'open' }, s);
-  assert.equal(await raw(a2), null, 'a picture outlived the answer taken off');
-  assert.ok(await getSuggestImage(id, s), 'opening it again took the suggestion\'s own picture');
+  assert.ok((await replySuggestion(MOD, item.id, { body: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }] }, s)).error, 'a reply\'s picture nobody said they had looked at');
+  assert.ok((await replySuggestion(MOD2, item.id, { body: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }], yes: true }, s)).error, 'a moderator put another moderator\'s upload in');
+  const { reply } = await replySuggestion(MOD, item.id, { body: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }], yes: true }, s);
+  assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).replies[0].pics, [{ id: a1, alt: 'Standing' }]);
+  assert.ok(await getSuggestImage(a1, s), 'a reply\'s picture was not shown');
+  const { id: a2 } = await putSuggestImage(MOD, jpeg(), s, 0);
+  await editSuggestionReply(MOD, item.id, reply.id, { body: 'Fixed again.', pics: [{ id: a1, alt: 'Standing up' }, { id: a2, alt: 'Closer' }], yes: true }, s);
+  assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).replies[0].pics.map((x) => x.alt), ['Standing up', 'Closer'], 'a kept picture was not kept');
+  await editSuggestionReply(MOD, item.id, reply.id, { body: 'Just words.', pics: [{ id: a2, alt: 'Closer' }], yes: true }, s);
+  assert.equal(await raw(a1), null, 'a picture outlived the edit that let go of it');
+  await removeSuggestionReply(MOD, item.id, reply.id, s);
+  assert.equal(await raw(a2), null, 'a picture outlived the reply taken down');
+  assert.ok(await getSuggestImage(id, s), 'taking a reply down took the suggestion\'s own picture');
+  const { id: a3 } = await putSuggestImage(ANY, jpeg(), s, 0);
+  await replySuggestion(ANY, item.id, { body: 'Here it is again.', pics: [{ id: a3, alt: 'Fallen again' }], yes: true }, s);
   await removeSuggestion(ANY, item.id, s);
   assert.equal(await getSuggestImage(id, s), null, 'a picture was shown after its suggestion was taken down');
   assert.equal(await raw(id), null, 'a picture outlived its suggestion');
+  assert.equal(await raw(a3), null, 'a reply\'s picture outlived its suggestion');
   // An upload nothing takes is swept after its day, and never before.
   const { id: stray } = await putSuggestImage(ANY, jpeg(), s, 0);
   await sweepSuggestImages(s, 1000);
