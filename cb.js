@@ -1803,7 +1803,8 @@
     tools.appendChild(aloud);
     var speak = this.speakBtn = el('button', 'cb-btn cb-speak');
     speak.type = 'button';
-    speak.hidden = !VOICE;
+    // Not on Your page, whose channel is not shown: it would read out a channel you cannot see.
+    speak.hidden = !VOICE || you;
     tools.appendChild(speak);
     // Not on Your page, whose channel is not shown: it would clear one you cannot see.
     if (state.base && !you) {
@@ -2486,7 +2487,8 @@
 
   Radio.prototype.speak = function (li) {
     // Nothing aloud during a bodymind break; it is on the channel afterwards.
-    if (!this.state.speak || this.state.folded || breakUp()) return;
+    // Nor on Your page, whose channel is not shown; the switch stays as it is for every other page.
+    if (!this.state.speak || this.state.folded || breakUp() || inYou()) return;
     (this.air = this.air || []).push(spokenText(li));
     if (!this.onAir) this.transmitNext();
   };
