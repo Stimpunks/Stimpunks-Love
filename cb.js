@@ -1805,7 +1805,8 @@
     speak.type = 'button';
     speak.hidden = !VOICE;
     tools.appendChild(speak);
-    if (state.base) {
+    // Not on Your page, whose channel is not shown: it would clear one you cannot see.
+    if (state.base && !you) {
       var clear = el('button', 'cb-btn cb-clear', 'Clear the channel');
       clear.type = 'button';
       clear.addEventListener('click', function () { me.moderate({ clear: true }); });
