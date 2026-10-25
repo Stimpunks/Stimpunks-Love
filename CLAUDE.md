@@ -4455,7 +4455,12 @@ that open. **The same four are the radio's themes too** (by request, the same da
 for somebody who wants the radio quiet and the room as it is: `--cb-<key>-<part>` in §2 are each mode's `--lsm-*` by name,
 part for part as the remap lays them, so a theme is the radio exactly as it is in its mode, and `make-low-stimulation.py`
 refuses a theme that differs from its mode, has a drawing, or is missing from any list of theme groups. A fifth mode is a
-fifth theme. The friendly edit is a low theme a shade brighter, or with a drawing.
+fifth theme. The friendly edit is a low theme a shade brighter, or with a drawing. **In a mode, decoration takes no
+ground**: a pseudo-element and anything `aria-hidden` stays see-through, because a ground on every box turned the layers
+rooms lay over their words into sheets (the Adventurer's Guild's sparks layer is the whole window, and the page went blank
+in every mode until the evening it was fixed). Decoration that covers something on purpose says `data-low-cover` (the
+Faery Yurt's shutters). `check-gentle.py` renders every page in a mode and refuses words under anything the mode filled
+in; the fix is marking the layer `aria-hidden`, never an exception for the room.
 
 **THE GLITTER DIAL ON THE CB IS THE PAGE'S DIAL, NOT A SECOND ONE.** A request from our community, 2026-10-24: under
 Where you are on the radio, beside I need a bodymind break, **Glitter dial** opens the levels and the low-stimulation

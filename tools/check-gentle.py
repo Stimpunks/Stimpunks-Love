@@ -58,6 +58,17 @@ a paragraph would be a worse site wearing a politer name. This passes today on
 all fourteen pages, which is the point of writing it down now rather than after
 somebody has something they would rather hide at the quiet setting.
 
+A LOW-STIMULATION MODE IS GENTLE TOO, and its own promise is "same rooms, same
+words". It lays the mode's ground on every box, and on 2026-10-24 that made the
+Adventurer's Guild a blank page in every mode: the layer the fanfare throws its
+sparks into is the whole window, see-through until then, and the mode filled it
+in, over every word. So the probe also notes which positioned boxes and pseudo-
+elements let the page through at Regular, puts a mode on, and walks every run of
+text: anything above it that the mode filled in is a word the mode hid, and the
+words in a mode must be the words at Regular. One mode is enough, because every
+mode lays its ground the same way. The fix is never an exception for the room:
+mark the layer aria-hidden, as decoration is, which takes no ground in a mode.
+
 IF THIS REFUSES, add the missing reset. Do not add the element to an exception
 list, do not lower the threshold, and above all do not reach for !important to
 win the fight -- the next rule would need it too, and the one after that. The
@@ -139,6 +150,69 @@ JS = r"""
   }
   var res = {where: where};
   ['regular', 'max', 'gentle'].forEach(function(l){ res[l] = level(l); });
+
+  // A LOW-STIMULATION MODE IS GENTLE, AND NEVER HIDES A WORD. Every box gets
+  // the mode's ground, so a positioned layer that was see-through at Regular
+  // can come out as a sheet over the words (the Adventurer's Guild went blank).
+  // Note what each positioned box and pseudo-element lets through at Regular,
+  // put a mode on, make everything hittable, and walk every run of text: a
+  // layer above it that the mode filled in is a word the mode hid.
+  function alpha(c){
+    var m = /rgba?\(([^)]+)\)/.exec(c || ''); if (!m) return 1;
+    var p = m[1].split(/[\s,\/]+/).filter(Boolean); return p.length > 3 ? parseFloat(p[3]) : 1;
+  }
+  function layer(e, p){
+    var s = getComputedStyle(e, p);
+    if (p && (s.content === 'none' || s.content === 'normal')) return null;
+    if (s.position !== 'absolute' && s.position !== 'fixed') return null;
+    return alpha(s.backgroundColor);
+  }
+  d.setAttribute('data-intensity', 'regular');
+  var was = new Map();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].shadowRoot) continue;
+    was.set(all[i], [layer(all[i], null), layer(all[i], '::before'), layer(all[i], '::after')]);
+  }
+  d.setAttribute('data-intensity', 'gentle');
+  d.setAttribute('data-low', 'warm');
+  var lowText = document.body.innerText.replace(/\s+/g, ' ').trim();
+  var hit = document.createElement('style');
+  hit.textContent = '*,*::before,*::after{pointer-events:auto!important}';
+  document.head.appendChild(hit);
+  function filled(e, k, p){
+    var w = was.get(e); if (!w || w[k] === null || w[k] >= 1) return false;
+    var now = layer(e, p); return now !== null && now >= 1;
+  }
+  function tag(e){ var c = e.getAttribute('class'); return e.tagName.toLowerCase() + (c ? '.' + c.trim().split(/\s+/).join('.') : ''); }
+  var spots = [], tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  for (var n = tw.nextNode(); n; n = tw.nextNode()) {
+    var t = n.parentElement;
+    if (!n.nodeValue.trim() || !t || t.closest('script,style,noscript,svg,head')) continue;
+    // checkVisibility, not visibility: a closed <details> still gives its
+    // contents boxes where the summary is, and they are not on the screen.
+    if (!t.checkVisibility({visibilityProperty: true})) continue;
+    var rg = document.createRange(); rg.selectNodeContents(n);
+    var r = rg.getClientRects()[0];
+    if (!r || r.width < 2 || r.height < 2) continue;
+    spots.push([t, r.left + scrollX + Math.min(r.width / 2, 8), r.top + scrollY + r.height / 2, n.nodeValue.trim().slice(0, 40)]);
+  }
+  spots.sort(function(a, b){ return a[2] - b[2]; });
+  var hidden = [], vh = innerHeight, vw = innerWidth;
+  spots.forEach(function(s){
+    if (s[2] < scrollY || s[2] >= scrollY + vh - 1) window.scrollTo(0, Math.max(0, s[2] - vh / 3));
+    var x = s[1] - scrollX, y = s[2] - scrollY;
+    if (x < 0 || x >= vw || y < 0 || y >= vh) return;
+    var stack = document.elementsFromPoint(x, y);
+    for (var j = 0; j < stack.length; j++) {
+      var e = stack[j];
+      if (e === s[0] || s[0].contains(e)) break;      // reached the words
+      var who = (!e.contains(s[0]) && filled(e, 0, null)) ? tag(e)
+              : filled(e, 1, '::before') ? tag(e) + '::before'
+              : filled(e, 2, '::after') ? tag(e) + '::after' : null;
+      if (who) { hidden.push([who, s[3]]); break; }
+    }
+  });
+  res.low = {text: lowText, hidden: hidden};
   var m = document.createElement('meta');
   m.id = 'gentle-result';
   m.setAttribute('content', JSON.stringify(res));
@@ -204,7 +278,7 @@ def main():
     if not pages:
         raise SystemExit("REFUSING: no pages found to check.")
 
-    tilt_bad, quiet_bad, word_bad, checked = [], [], [], 0
+    tilt_bad, quiet_bad, word_bad, low_bad, checked = [], [], [], [], 0
 
     for page in pages:
         res = probe(browser, page)
@@ -225,11 +299,22 @@ def main():
                 quiets.append((place["tag"], gentle[i][2], gentle[i][5]))
 
         words = res["regular"]["text"] != res["gentle"]["text"]
-        ok = not (tilts or quiets or words)
+        hidden = res["low"]["hidden"]
+        low_words = res["regular"]["text"] != res["low"]["text"]
+        ok = not (tilts or quiets or words or hidden or low_words)
         print(f"{'ok  ' if ok else 'FAIL'} {page.name:<24} {len(where):>4} elements"
               + ("" if ok else
                  f"   {len(tilts)} still tilted, {len(quiets)} still moving"
-                 + (", words differ" if words else "")))
+                 + (", words differ" if words else "")
+                 + (f", {len(hidden)} runs of words hidden in a mode" if hidden else "")
+                 + (", words differ in a mode" if low_words else "")))
+        layers = {}
+        for who, words_at in hidden:
+            layers.setdefault(who, []).append(words_at)
+        for who, at in list(layers.items())[:8]:
+            print(f"       hidden in a mode under:   {who}  ({len(at)}, first {at[0]!r})")
+        if hidden or low_words:
+            low_bad.append(page.name)
         for tag, t in tilts[:8]:
             print(f"       still rotated at Gentle:  {tag}\n"
                   f"                                 {t}")
@@ -245,8 +330,9 @@ def main():
                   f"Regular is {len(res['regular']['text'])}")
 
     print(f"\n{len(pages)} pages, {checked} elements, measured at Gentle, Regular and "
-          f"MAX GLITTER.\n{len(tilt_bad)} still tilting, {len(quiet_bad)} still moving, "
-          f"{len(word_bad)} changing their words.")
+          f"MAX GLITTER and in a low-stimulation mode.\n{len(tilt_bad)} still tilting, "
+          f"{len(quiet_bad)} still moving, {len(word_bad)} changing their words, "
+          f"{len(low_bad)} hiding words in a mode.")
 
     if tilt_bad:
         print(
@@ -263,7 +349,16 @@ def main():
             "intensity level -- the dial takes away the wobble, never the words. Put it\n"
             "back; a quiet version that says less is not the quiet version."
         )
-    sys.exit(1 if (tilt_bad or quiet_bad or word_bad) else 0)
+    if low_bad:
+        print(
+            "\nA low-stimulation mode hides words. Every box takes the mode's ground, so\n"
+            "a layer a room lays over its words, see-through at Regular, comes out as\n"
+            "a sheet. Decoration takes no ground in a mode: mark the layer\n"
+            'aria-hidden="true", as decoration is, or make it a pseudo-element. Only\n'
+            "decoration that covers something on purpose says data-low-cover. Do not\n"
+            "give the mode an exception for the room."
+        )
+    sys.exit(1 if (tilt_bad or quiet_bad or word_bad or low_bad) else 0)
 
 
 if __name__ == "__main__":

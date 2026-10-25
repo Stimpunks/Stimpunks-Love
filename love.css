@@ -4676,6 +4676,22 @@ html[data-low] {
   }
   /* What the page draws with is not a box: inside a drawing nothing gets a ground. */
   html[data-low] body svg *, html[data-low] body svg { background-color: transparent !important; }
+  /* SEE-THROUGH DECORATION STAYS SEE-THROUGH. A ground on every box is what
+     turns a room's panels into the mode's, and it also turned the layers a room
+     lays OVER its words into sheets: the Adventurer's Guild's sparks layer is
+     the whole window, transparent until a fanfare, and the page went blank in
+     every mode; the Playhouse's flourishes covered the sound board's keys, and
+     glows and a vine covered lines elsewhere. A stylesheet cannot ask what a
+     box's ground was, so the mode asks what it is FOR: a pseudo-element, and
+     anything aria-hidden, is decoration, and decoration gets no ground, only
+     its edges. Decoration that covers something on purpose, the Faery Yurt's
+     shutters, says data-low-cover and keeps it. tools/check-gentle.py renders
+     every page in a mode and refuses words hidden under anything the mode
+     filled in. */
+  html[data-low] body *::before, html[data-low] body *::after,
+  html[data-low] body::before, html[data-low] body::after,
+  html[data-low] body [aria-hidden="true"]:not([data-low-cover]),
+  html[data-low] body [aria-hidden="true"] :not([data-low-cover]) { background-color: transparent !important; }
   html[data-low] body :is(svg, video, canvas, iframe):not(svg svg) { filter: var(--low-filter) !important; }
   html[data-low] body a, html[data-low] body a * { color: var(--low-link) !important; }
   html[data-low] body a { text-decoration-line: underline !important; }

@@ -169,6 +169,11 @@ else:
                       ("background-image: none !important", "no room's picture or gradient stays behind the words"),
                       ("color: var(--low-ink) !important", "every word is the mode's ink"),
                       (":focus-visible { outline: 3px solid var(--low-link) !important", "the keyboard can always be seen"),
+                      ('html[data-low] body [aria-hidden="true"]:not([data-low-cover])',
+                       "decoration takes no ground, so a layer laid over the words never becomes a sheet "
+                       "(the Adventurer's Guild went blank; check-gentle.py renders it)"),
+                      ("html[data-low] body *::before, html[data-low] body *::after",
+                       "a pseudo-element is decoration and takes no ground either"),
                       ):
         if need not in lay:
             problems.append(f"love.css: the layer has lost {need!r}: {why}.")
