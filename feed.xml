@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sat, 24 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Reading Room points at where you can borrow a book</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-25-reading-room-borrow</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-reading-room-borrow</guid>
+      <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Helen’s Reading Room now says where to borrow a book, at her ask: its spines open their authors’ pages, and a line under the bookcases’ introduction sends anybody who wants the book itself across the campgrounds to Ryan’s shelves in the cave at the Solarpunk Hermitage, where every book has a link to borrow it or read it.</description>
+    </item>
     <item>
       <title>Back to the street puts you where you were on it</title>
       <link>https://stimpunks.world/changelog.html#2026-10-24-way-back</link>
