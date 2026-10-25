@@ -6013,10 +6013,10 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   assert.deepEqual(caseLists(k).lists, [{ tag: 'Members', yes: true }, { tag: 'Newsletter Mailing List', yes: false }]);
   assert.equal(caseLists(conn), null, 'a case that is not a join request offered our lists');
   const sent = [];
-  let ok = true;
+  let ok = true, made = new Date(T0 + 5).toISOString();
   const fake = async (url, opts = {}) => {
     sent.push({ url, method: opts.method || 'GET', auth: opts.headers && opts.headers.authorization, body: opts.body ? JSON.parse(opts.body) : null });
-    return { ok, status: ok ? 200 : 422, json: async () => (ok ? { id: 1, first_name: 'Robin' }
+    return { ok, status: ok ? 200 : 422, json: async () => (ok ? { id: 1, first_name: 'Robin', created_at: made }
       : { message: 'The given data was invalid.', errors: { first_name: ['The first name field is required when last name is present.'] } }) };
   };
   assert.ok((await gbJoin(TSAM, k.id, s, T0 + 3, fake)).error, 'somebody the office does not let in sent a join request to Givebutter');
@@ -6032,6 +6032,7 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   const r = await gbJoin(TRYAN, k.id, s, T0 + 5, fake);
   assert.deepEqual(r.sent, { tags: ['Members'], t: T0 + 5 });
   assert.equal(r.named, true);
+  assert.equal(r.already, false, 'a contact Givebutter made on the press was called already there');
   const last = sent[sent.length - 1];
   assert.deepEqual([last.url, last.method, last.auth], ['https://api.givebutter.com/v1/contacts', 'POST', 'Bearer gb-test-key']);
   assert.deepEqual(last.body, { first_name: 'Robin', last_name: 'Hood', primary_email: 'robin@example.org', tags: ['Members'], email_subscription: true },
@@ -6045,10 +6046,13 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   // their address: Givebutter keeps a contact by both names or by an email with none, so neither name goes.
   await officeIntake({ type: 'community', entry: 963, email: 'jo@example.org', name: 'Jo', first: '', last: 'Jo', message: asks('Yes', 'Yes') }, s, T0 + 6, TMODS);
   await officeIntake({ type: 'community', entry: 964, email: 'kim@example.org', message: asks('Yes', 'No') }, s, T0 + 7, TMODS);
+  // Somebody added to Givebutter by hand the day before: Givebutter answers with that contact.
+  made = new Date(T0 + 8 - 86400000).toISOString();
   for (const [entry, email, tags] of [[963, 'jo@example.org', ['Members', 'Newsletter Mailing List']], [964, 'kim@example.org', ['Members']]]) {
     const one = (await readCases(s)).find((x) => x.form === entry);
     const r1 = await gbJoin(TRYAN, one.id, s, T0 + 8, fake);
     assert.equal(r1.named, false, `entry ${entry} was sent as named`);
+    assert.equal(r1.already, true, `entry ${entry}: a contact Givebutter already had was not called already there`);
     assert.deepEqual(sent[sent.length - 1].body, { primary_email: email, tags, email_subscription: true }, `entry ${entry} sent a name Givebutter would refuse alone`);
   }
 })));

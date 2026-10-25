@@ -13517,6 +13517,8 @@ export const GB_MONTHS = 12;
 const GB_API = 'https://api.givebutter.com/v1/';
 const GB_BOOKS = 'office-givebutter';
 const GB_PAGES = 50;
+// A contact Givebutter says it made longer ago than this was there before the press (clocks drift).
+const GB_FRESH = 10 * 60 * 1000;
 const GB_A_MONTH = { weekly: 52 / 12, monthly: 1, quarterly: 1 / 3, yearly: 1 / 12, annually: 1 / 12 };
 
 function gbKey() {
@@ -13610,7 +13612,9 @@ export async function gbStatus(who, s = store()) {
    pressed. Givebutter's POST /v1/contacts matches somebody already there by
    email and ADDS the tags it is given, removing none (its Contact Tags page),
    so a second press changes nothing there. The join request keeps which tags
-   were sent and when, sealed, and nothing of Givebutter's answer. */
+   were sent and when, sealed, and nothing of Givebutter's answer, which is read
+   only for when its contact was made, to tell the director who pressed whether
+   Givebutter had them already. */
 function joinKind(k) {
   return Object.values(OFFICE_INTAKE).find((v) => v.record === 'case' && v.type === k.type && Array.isArray(v.lists)) || null;
 }
@@ -13654,6 +13658,10 @@ export async function gbJoin(who, id, s = store(), now = Date.now(), fetchFn = f
     body: JSON.stringify({ ...(named ? { first_name: c.first, last_name: c.last } : {}), primary_email: c.email, tags, email_subscription: true }),
   }).catch(() => null);
   if (!r || !r.ok) return { error: 'Givebutter did not take it' + (r ? ` (it answered ${r.status}${await gbRefusal(r)})` : '') + '. Nothing was sent to the lists.' };
+  // Givebutter answers a match with the contact it already had, so its age says which happened.
+  const back = await r.json().catch(() => null);
+  const made = back && typeof back.created_at === 'string' ? Date.parse(back.created_at) : NaN;
+  const already = Number.isFinite(made) ? made < now - GB_FRESH : null;
   let gone = false;
   await updateSealed(CASES, (was) => {
     const list = was && Array.isArray(was.cases) ? was.cases : [];
@@ -13664,7 +13672,7 @@ export async function gbJoin(who, id, s = store(), now = Date.now(), fetchFn = f
     copy[i] = { ...list[i], gb: { tags, t: now }, edited: now, editedBy: who.handle };
     return { cases: copy, top: topOf(was) };
   }, s);
-  return { sent: { tags, t: now }, named, gone };
+  return { sent: { tags, t: now }, named, already, gone };
 }
 /* What Givebutter said was wrong, in its own words, for the director who pressed and nobody
    else: never kept and never logged. A 422's errors name each field and its rule. */

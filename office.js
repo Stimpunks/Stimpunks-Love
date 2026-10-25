@@ -1586,7 +1586,7 @@
      contact has both, and those lists, and nothing else of the join request (privacy.html#givebutter-lists). It is never sent
      without that press. */
   function andWords(xs) { return xs.length > 1 ? xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1] : xs[0] || ''; }
-  function listsPanel(k, note) {
+  function listsPanel(k, done) {
     var box = el('section', 'of-mapbox');
     box.setAttribute('aria-labelledby', 'of-lists-h');
     var h3 = el('h3', null, 'Mailing lists'); h3.id = 'of-lists-h'; h3.tabIndex = -1;
@@ -1595,9 +1595,10 @@
     var yes = L.lists.filter(function (x) { return x.yes; }).map(function (x) { return x.tag; });
     var no = L.lists.filter(function (x) { return !x.yes; }).map(function (x) { return x.tag; });
     if (L.sent) {
+      // Straight after the press, the answer to it and nothing else; later, the record and where changes go.
+      if (done) { box.appendChild(el('p', null, done)); return box; }
       box.appendChild(el('p', null, 'Added to Givebutter\u2019s lists: ' + andWords(L.sent.tags) + (L.sent.t ? ', on ' + dayOf(L.sent.t) : '') + '.'));
-      if (note) box.appendChild(el('p', null, note));
-      box.appendChild(el('p', 'cb-quiet of-hint', 'Taking them off a list, or out of Givebutter, is done in Givebutter.'));
+      box.appendChild(el('p', 'cb-quiet of-hint', 'To take them off a list later, or out of Givebutter, do it in Givebutter; the office cannot.'));
       return box;
     }
     if (!yes.length) {
@@ -1620,10 +1621,16 @@
         if (r.status !== 200) { answer.textContent = why(r, 'That did not reach Givebutter. Nothing was sent.'); return; }
         var k2 = {}; Object.keys(k).forEach(function (x) { k2[x] = k[x]; });
         k2.lists = { lists: L.lists, sent: r.body.sent, ready: L.ready };
-        // Said once, on the press: the join request keeps which lists and when, not how they were named.
-        var unnamed = r.body.named === false ? 'Givebutter has them by their email address alone, because their contact does not have both a first and a last name, and Givebutter takes the two together or no name. Their name can be added in Givebutter.' : '';
-        var fresh = listsPanel(k2, unnamed); box.replaceWith(fresh); fresh.querySelector('h3').focus();
-        say('Added to Givebutter\u2019s lists: ' + andWords(r.body.sent.tags) + '.' + (unnamed ? ' ' + unnamed : '') + ' Tick it off on their onboarding task.');
+        // Said once, on the press, in place of the button: what Givebutter has now and whether it had
+        // them before. The join request keeps only which lists and when.
+        var tags = r.body.sent.tags, one = tags.length === 1;
+        var done = 'Done. Givebutter has them on ' + andWords(tags) + ' now.'
+          + (r.body.already === true ? ' They were already in Givebutter, so ' + (one ? 'that list was' : 'those lists were') + ' added to their contact there, and nothing was taken away.'
+            : r.body.already === false ? ' They were not in Givebutter before, so it made a contact for them.' : '')
+          + (r.body.named === false ? ' It has them by their email address alone, because their contact does not have both a first and a last name, and Givebutter takes the two together or no name; their name can be added in Givebutter.' : '')
+          + ' Tick it off on their onboarding task.';
+        var fresh = listsPanel(k2, done); box.replaceWith(fresh); fresh.querySelector('h3').focus();
+        say(done);
       });
     });
     row.appendChild(go);
