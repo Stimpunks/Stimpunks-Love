@@ -26258,15 +26258,17 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .chimera-obscura .chm-start:focus-visible { outline-offset: 3px; }
 .chm-start__draw { display: block; width: 86px; height: auto; }
 .chm-start__whose { font-weight: 400; font-size: 13.5px; }
-.chm-two { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin: 0 0 10px; }
-.chm-two__pick { display: flex; flex-direction: column; gap: 3px; font-weight: 700; font-size: 15px; }
-.chm-two select { font: 600 16px/1.2 'Gantari', var(--sans); padding: 6px 8px; border-radius: 8px; border: 2px solid var(--chm-line); background: var(--chm-panel); color: var(--chm-text); }
+.chm-pickers { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; margin: 0 0 10px; }
+.chm-picker { display: flex; flex-direction: column; gap: 3px; }
+.chm-picker__lab { font-weight: 700; font-size: 15px; }
+.chm-picker__sel { font: 600 16px/1.2 'Gantari', var(--sans); padding: 6px 8px; border-radius: 8px; border: 2px solid var(--chm-line); background: var(--chm-panel); color: var(--chm-text); }
+.chm-picker__off { margin-top: 3px; padding: 4px 10px; font-size: 14px; }
+.chm-bench__btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 14px; }
 .chm-btn { font: 700 15px/1.2 'Gantari', var(--sans); padding: 8px 14px; border-radius: 999px; border: 2px solid var(--chm-link); background: var(--chm-link); color: var(--chm-room); cursor: pointer; }
 .chm-btn:hover { background: var(--chm-table); border-color: var(--chm-table); }
 .chm-btn--quiet { background: var(--chm-panel); color: var(--chm-text); border-color: var(--chm-line); }
 .chm-btn--quiet:hover { background: var(--chm-pick); color: var(--chm-text); border-color: var(--chm-link); }
-.chm-any { display: inline-flex; gap: 8px; align-items: center; margin: 2px 0 12px; font-size: 16px; }
-.chm-any input, .chm-opt input { accent-color: var(--chm-link); }
+.chm-opt input { accent-color: var(--chm-link); }
 .chm-slot { margin: 0 0 8px; padding: 6px 12px 10px; border: 1px solid var(--chm-line); border-radius: 12px; background: var(--chm-panel); min-width: 0; }
 .chm-slot__name { padding: 0 4px; font-weight: 700; font-size: 15px; }
 .chm-slot__opts { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -26294,6 +26296,7 @@ html[data-intensity="max"] .mus-phono__disc { animation: mus-spin 6s linear infi
 .chm-frame img { display: block; width: 100%; height: auto; max-width: 100%; background: var(--chm-table); border: 8px solid var(--chm-table); border-radius: 4px; }
 .chm-frame__name { margin: 8px 0 0; font-family: 'Gilda Display', Georgia, serif; font-size: 22px; color: var(--chm-table); }
 .chm-frame__whose { margin: 2px 0 0; font-size: 14.5px; color: var(--chm-dim); }
+.chimera-obscura .chm-shelf__h { margin: 14px 0 0; font-family: 'Gantari', var(--sans); font-weight: 700; font-size: 16px; color: var(--chm-text); }
 .chm-shelf { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 8px; margin: 8px 0 14px; padding: 0; }
 .chm-shelf li { padding: 3px 12px; border: 1px solid var(--chm-line); border-radius: 999px; font-size: 15.5px; }
 .chm-ask { font-weight: 700; font-size: 18px; }

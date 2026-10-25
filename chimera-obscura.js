@@ -1,7 +1,7 @@
 /* =============================================================================
-   Chimera Obscura's bench: pick two animals, choose which one each part comes
-   from, and the chimera appears on the table. chimera.js draws it; this only
-   asks it to.
+   Chimera Obscura's bench: pick two animals, or bring more, choose which one
+   each part comes from, and the chimera appears on the table. chimera.js
+   draws it; this only asks it to.
 
    IT SENDS NOTHING UNLESS YOU PRESS KEEP IT IN MY PROFILE, signed on to the CB,
    and then only the chimera's parts and its name, to /cb/chimeras. Otherwise a
@@ -32,9 +32,8 @@
 
   var named = document.getElementById('chm-named');
   var spoken = document.getElementById('chm-words');
-  var selA = document.getElementById('chm-a');
-  var selB = document.getElementById('chm-b');
-  var any = document.getElementById('chm-any');
+  var pickBox = document.getElementById('chm-pickers');
+  var moreBtn = document.getElementById('chm-more');
   var slots = document.getElementById('chm-slots');
   var nameIn = document.getElementById('chm-name');
   var saysIn = document.getElementById('chm-says');
@@ -54,7 +53,7 @@
   var said = document.getElementById('chm-said');
   var noscript = document.getElementById('chm-noscript');
 
-  var state = { a: '', b: '', any: false, parts: null, name: '', edited: false };
+  var state = { bench: [], parts: null, name: '', edited: false };
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -73,49 +72,97 @@
     for (var i = 0; i < C.presets.length; i++) if (C.presets[i].id === C.opensOn) return C.presets[i].parts;
     return null;
   }
+  /* THE BENCH IS THE ANIMALS A CHIMERA CAN TAKE PARTS FROM: two to start
+     with, and one more for every press of Bring another animal, up to one
+     for every part. Each part's choices are the animals on the bench, so they
+     stay short however long the shelf gets, and finding an animal is the
+     pickers' job, each filed by class. A chimera opened from a link or a
+     starting one puts every animal it was made from on the bench. */
+  var ORDINAL = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth'];
+  var MOST = Math.min(C.slots.length, ORDINAL.length);
+  function onBench() {
+    return state.bench.filter(function (x, i, all) { return all.indexOf(x) === i; });
+  }
   function adopt(parts) {
     state.parts = C.clean(parts);
-    state.a = state.parts.body;
-    state.b = C.second(state.parts) || state.a;
-    state.any = false;
-    // A chimera made from more than two animals opens with every animal offered.
+    var body = state.parts.body;
+    state.bench = [body, C.second(state.parts) || body];
     C.slots.forEach(function (s) {
       var v = state.parts[s.key];
-      if (v !== 'none' && v !== state.a && v !== state.b) state.any = true;
+      if (v !== 'none' && state.bench.indexOf(v) === -1) state.bench.push(v);
     });
   }
 
   function optionsFor(slot) {
-    var pool = state.any ? C.animals.slice() : (state.a === state.b ? [state.a] : [state.a, state.b]);
+    var pool = onBench();
     if (slot === 'back') return pool.filter(function (x) { return C.hasBack(x); }).concat(['none']);
     return pool;
   }
   function settle() {
     C.slots.forEach(function (s) {
-      if (optionsFor(s.key).indexOf(state.parts[s.key]) === -1) state.parts[s.key] = s.key === 'back' ? 'none' : state.a;
+      if (optionsFor(s.key).indexOf(state.parts[s.key]) === -1) state.parts[s.key] = s.key === 'back' ? 'none' : state.bench[0];
     });
   }
 
-  function fillSelect(sel, val) {
-    sel.textContent = '';
-    C.animals.forEach(function (an) {
-      var o = el('option', null, C.word(an));
-      o.value = an;
-      if (an === val) o.selected = true;
-      sel.appendChild(o);
+  /* A picker's choices, once: every animal on the shelf, under its class. */
+  function fillSelect(sel) {
+    C.groups.forEach(function (g) {
+      var og = null;
+      C.animals.forEach(function (an) {
+        if (C.group(an) !== g.key) return;
+        if (!og) { og = el('optgroup'); og.label = g.legend; sel.appendChild(og); }
+        var o = el('option', null, C.word(an));
+        o.value = an;
+        og.appendChild(o);
+      });
+    });
+  }
+
+  /* The pickers stay where they are while you use them, so the keyboard is
+     never taken off one: a picker is only made when the bench grows and only
+     taken away when it shrinks, and the rest are set to what they hold. */
+  var pickers = [];
+  function makePicker(i) {
+    var wrap = el('div', 'chm-picker');
+    var sel = el('select', 'chm-picker__sel');
+    sel.id = 'chm-pick-' + i;
+    var lab = el('label', 'chm-picker__lab', ORDINAL[i] + ' animal');
+    lab.setAttribute('for', sel.id);
+    fillSelect(sel);
+    sel.addEventListener('change', function () { changeAnimal(i, sel.value); });
+    wrap.appendChild(lab);
+    wrap.appendChild(sel);
+    var off = null;
+    if (i >= 2) {
+      off = el('button', 'chm-btn chm-btn--quiet chm-picker__off');
+      off.type = 'button';
+      off.addEventListener('click', function () { takeOff(i); });
+      wrap.appendChild(off);
+    }
+    pickBox.appendChild(wrap);
+    return { wrap: wrap, sel: sel, off: off };
+  }
+  function showPickers() {
+    while (pickers.length < state.bench.length) pickers.push(makePicker(pickers.length));
+    while (pickers.length > state.bench.length) pickBox.removeChild(pickers.pop().wrap);
+    pickers.forEach(function (pk, i) {
+      pk.sel.value = state.bench[i];
+      if (pk.off) pk.off.textContent = 'Take the ' + C.word(state.bench[i]) + ' off';
     });
   }
 
   function buildSlots() {
     slots.textContent = '';
+    var pool = onBench();
     C.slots.forEach(function (s) {
       var set = el('fieldset', 'chm-slot');
       set.appendChild(el('legend', 'chm-slot__name', s.legend));
       var row = el('div', 'chm-slot__opts');
       var opts = optionsFor(s.key);
       if (s.key === 'back' && opts.length === 1) {
-        row.appendChild(el('p', 'chm-slot__none', state.any ? 'No animal on the shelf has a back of its own yet.' :
-          'Neither animal has a back of its own, so there is nothing to put here.'));
+        row.appendChild(el('p', 'chm-slot__none', pool.length === 1 ? 'The ' + C.word(pool[0]) + ' has no back of its own, so there is nothing to put here.' :
+          pool.length === 2 ? 'Neither animal has a back of its own, so there is nothing to put here.' :
+          'No animal on the bench has a back of its own, so there is nothing to put here.'));
       }
       opts.forEach(function (an) {
         if (s.key === 'back' && opts.length === 1) return;
@@ -146,25 +193,51 @@
   }
 
   function sync(fresh) {
-    fillSelect(selA, state.a);
-    fillSelect(selB, state.b);
-    any.checked = state.any;
+    showPickers();
     settle();
     buildSlots();
     render(fresh);
   }
 
-  /* Changing the first or second animal changes the parts that came from the
-     animal it replaces, and nothing else: a part chosen from the other one,
-     the body included, stays where it was put. When both were the same
-     animal, its parts belong to the other one and stay. */
-  function replaceAnimal(was, now, other) {
-    if (was === now || was === other) return;
-    C.slots.forEach(function (s) { if (state.parts[s.key] === was) state.parts[s.key] = now; });
+  /* Changing an animal on the bench changes the parts that came from the one
+     it replaces, and nothing else: a part chosen from another animal, the
+     body included, stays where it was put. If the animal it replaces is still
+     on the bench in another picker, its parts belong there and stay. */
+  function changeAnimal(i, now) {
+    var was = state.bench[i];
+    state.bench[i] = now;
+    if (was !== now && state.bench.indexOf(was) === -1) {
+      C.slots.forEach(function (s) { if (state.parts[s.key] === was) state.parts[s.key] = now; });
+    }
+    sync(true);
   }
-  selA.addEventListener('change', function () { var was = state.a; state.a = selA.value; replaceAnimal(was, state.a, state.b); sync(true); });
-  selB.addEventListener('change', function () { var was = state.b; state.b = selB.value; replaceAnimal(was, state.b, state.a); sync(true); });
-  any.addEventListener('change', function () { state.any = any.checked; sync(false); });
+  function takeOff(i) {
+    var was = state.bench[i];
+    if (i < 2 || !was) return;
+    state.bench.splice(i, 1);
+    var gone = state.bench.indexOf(was) === -1;
+    var gave = gone && C.slots.some(function (s) { return s.key !== 'back' && state.parts[s.key] === was; });
+    var back = gone && state.parts.back === was;
+    sync(true);
+    say('The ' + C.word(was) + ' is off the bench.' + (gave ? ' The parts that came from it are the ' + C.word(state.bench[0]) + '\u2019s now.' : '') +
+      (back ? ' It gave the back, so the back is none now.' : ''));
+    var next = pickers[i] || null;
+    (next ? next.sel : moreBtn).focus();
+  }
+  moreBtn.addEventListener('click', function () {
+    if (state.bench.length >= MOST) {
+      say('The bench holds one animal for every part, and it is full. Take one off to bring another.');
+      return;
+    }
+    var free = C.animals.filter(function (x) { return state.bench.indexOf(x) === -1; });
+    var an = free.length ? free[Math.floor(Math.random() * free.length)] : C.animals[0];
+    state.bench.push(an);
+    sync(false);
+    var i = state.bench.length - 1;
+    say(C.article(an).charAt(0).toUpperCase() + C.article(an).slice(1) + ' ' + C.word(an) + ' is on the bench too, as the ' + ORDINAL[i].toLowerCase() +
+      ' animal. Change it there, and choose which parts come from it.');
+    pickers[i].sel.focus();
+  });
   slots.addEventListener('change', function (e) {
     var t = e.target;
     if (!t || !t.name || t.name.indexOf('chm-') !== 0) return;
@@ -197,7 +270,7 @@
     // At least two parts from the second animal, or it is hardly a chimera.
     var fromB = C.slots.filter(function (s) { return p[s.key] === b; }).length;
     if (fromB < 2) { p.tail = b; p.markings = b; }
-    state.a = a; state.b = b; state.any = false; state.edited = false;
+    state.bench = [a, b]; state.edited = false;
     state.parts = C.clean(p);
     sync(true);
     say('Tossed: ' + C.suggest(state.parts) + ', out of ' + C.article(a) + ' ' + C.word(a) + ' and ' + C.article(b) + ' ' + C.word(b) + '.');

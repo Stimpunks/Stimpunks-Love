@@ -227,7 +227,16 @@ def check_shelf(d):
     for s in d.get("slots", []):
         if not s.get("legend") or not s.get("word"):
             refuse(f"slot {s.get('key')!r} has no legend or no word, and a part that cannot be said cannot be chosen.")
+    groups = d.get("groups", [])
+    gkeys = [g.get("key") for g in groups]
+    if not groups or len(set(gkeys)) != len(gkeys) or not all(
+            isinstance(k, str) and re.fullmatch(r"[a-z]+", k) and g.get("legend") for k, g in zip(gkeys, groups)):
+        refuse("groups is a list of classes, each a key of lowercase letters, used once, and a legend the pickers show.")
     animals = d.get("animals", {})
+    for key, a in animals.items():
+        if a.get("group") not in gkeys:
+            refuse(f"animal {key!r}: its group is {a.get('group')!r}, and it has to be one of {gkeys}, so the bench's "
+                   "pickers and the list on the page can file it.")
     if len(animals) < 2:
         refuse("a shelf needs at least two animals to make anything out of.")
     for key, a in animals.items():
@@ -351,6 +360,7 @@ def shelf_js(d):
         return o
     out = {
         "slots": strip(d["slots"]),
+        "groups": strip(d["groups"]),
         "animals": strip(by_name(d["animals"])),
         "known": strip(d.get("known", {})),
         "presets": strip(d.get("presets", [])),
@@ -495,9 +505,17 @@ def starts(d, drawn):
 
 
 def shelf_words(d):
-    items = "".join(f'<li>{esc(a["a"])} {esc(a.get("word", k))}</li>' for k, a in by_name(d["animals"]).items())
-    return (f'    <p>On the shelf now, with every part each one has:</p>\n'
-            f'    <ul class="chm-shelf">{items}</ul>')
+    """What is on the shelf, by class, each class in the order the data gives
+    and the animals in it in alphabetical order, as in the bench's pickers."""
+    out = ['    <p>On the shelf now, with every part each one has:</p>']
+    shelf = by_name(d["animals"])
+    for g in d["groups"]:
+        items = "".join(f'<li>{esc(a["a"])} {esc(a.get("word", k))}</li>'
+                        for k, a in shelf.items() if a["group"] == g["key"])
+        if items:
+            out.append(f'    <h3 class="chm-shelf__h" id="shelf-{attr(g["key"])}">{esc(g["legend"])}</h3>\n'
+                       f'    <ul class="chm-shelf">{items}</ul>')
+    return "\n".join(out)
 
 
 def wall(d):
