@@ -1283,7 +1283,7 @@
        Since 2026-10-23 the radio's first column is where you are and the
        channel, wide (b), then messages, this channel, who is around, Unreads
        and Events (c), then watching together, you and your radio (d); the chat
-       page puts its channels down the left (a) and has no fourth. A column
+       page puts Unreads and its channels down the left (a) and has no fourth. A column
        with nothing in it is not drawn. At every other size cb.css makes them
        display: contents and the parts stand in one column. The groove is
        above every part but the first (cb-sec--after), because a part's
@@ -1306,9 +1306,12 @@
       cols[col].appendChild(sec);
       return sec;
     }
-    /* ON THE CHAT PAGE the channels come first, down the left, and what is
-       about the channel picked and who is around stand on the right, after
-       the channel, the way chat lays them out. See chatMake. */
+    /* ON THE CHAT PAGE the channels are down the left, under Unreads (Ryan,
+       2026-10-24: under the whole list of channels, it took a lot of scrolling
+       to reach), and what is about the channel picked and who is around stand
+       on the right, after the channel, the way chat lays them out. See
+       chatMake. Unreads is made first there, so the groove is under it. */
+    var newSec = this.newSec = chat ? part('cb-sec--new', 'Unreads', 0) : null;
     var chansSec = chat ? part('cb-sec--chans', 'Channels', 0) : null;
     /* WHERE YOU ARE, the room's name, and then straight away the channel
        (Ryan, 2026-10-23: the channel was pushed too far down, under Who's
@@ -1323,7 +1326,7 @@
     /* UNREADS (Ryan's proposal, 2026-10-20): World, the rooms you follow and
        your conversations, each listed while something has been said there
        since you last read it, and never how much. See newsShown. */
-    var newSec = this.newSec = part('cb-sec--new', 'Unreads', chat ? 0 : 2);
+    if (!chat) newSec = this.newSec = part('cb-sec--new', 'Unreads', 2);
     this.newList = el('ul', 'cb-new-list');
     this.newList.hidden = true;
     this.newNone = el('p', 'cb-quiet');
