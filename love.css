@@ -1747,6 +1747,25 @@
   --lsm-green-ground: #DCE5D5;  --lsm-green-plate: #CEDAC6;  --lsm-green-ink: #1F311F;  --lsm-green-quiet: #3A5038;
   --lsm-green-link: #2F5C27;  --lsm-green-line: #5F7659;
   --lsm-red-ground: #120000;  --lsm-red-plate: #1E0302;  --lsm-red-ink: #FF3B2E;  --lsm-red-line: #D2281C;
+  /* AND THE SAME FOUR AS THE RADIO'S THEMES (2026-10-24, by request), under
+     Low stimulation in its Themes, for somebody who wants the radio quiet and
+     the room as it is. Each is the radio exactly as it is in that mode, so its
+     seven are the mode's colours by name and never a copy: the case the
+     ground, the bar and the readout the plate, every word the ink, the quiet
+     lines the quiet ink. tools/make-low-stimulation.py holds them to the
+     modes' remap, and check-contrast.py measures them as a theme. */
+  --cb-warmlight-case: var(--lsm-warm-ground); --cb-warmlight-bar: var(--lsm-warm-plate); --cb-warmlight-steel: var(--lsm-warm-ink);
+  --cb-warmlight-steel-2: var(--lsm-warm-quiet); --cb-warmlight-lcd: var(--lsm-warm-plate); --cb-warmlight-amber: var(--lsm-warm-ink);
+  --cb-warmlight-amber-2: var(--lsm-warm-quiet);
+  --cb-cooldark-case: var(--lsm-cool-ground); --cb-cooldark-bar: var(--lsm-cool-plate); --cb-cooldark-steel: var(--lsm-cool-ink);
+  --cb-cooldark-steel-2: var(--lsm-cool-quiet); --cb-cooldark-lcd: var(--lsm-cool-plate); --cb-cooldark-amber: var(--lsm-cool-ink);
+  --cb-cooldark-amber-2: var(--lsm-cool-quiet);
+  --cb-plantgreen-case: var(--lsm-green-ground); --cb-plantgreen-bar: var(--lsm-green-plate); --cb-plantgreen-steel: var(--lsm-green-ink);
+  --cb-plantgreen-steel-2: var(--lsm-green-quiet); --cb-plantgreen-lcd: var(--lsm-green-plate); --cb-plantgreen-amber: var(--lsm-green-ink);
+  --cb-plantgreen-amber-2: var(--lsm-green-quiet);
+  --cb-redlight-case: var(--lsm-red-ground); --cb-redlight-bar: var(--lsm-red-plate); --cb-redlight-steel: var(--lsm-red-ink);
+  --cb-redlight-steel-2: var(--lsm-red-ink); --cb-redlight-lcd: var(--lsm-red-plate); --cb-redlight-amber: var(--lsm-red-ink);
+  --cb-redlight-amber-2: var(--lsm-red-ink);
 
   /* The Chappell (§12). Its own five, because a subroom that borrowed the
      dancefloor's palette would be the harmonising instinct getting in through
@@ -4608,7 +4627,14 @@ html[data-low] {
   --bbr-dusk-plate: var(--low-plate); --bbr-dusk-ink: var(--low-ink); --bbr-dusk-quiet: var(--low-quiet); --bbr-dusk-leaf: var(--low-link);
   --bbr-dusk-far: var(--low-plate); --bbr-dusk-near: var(--low-plate); --bbr-mist: var(--low-g); --bbr-mist-plate: var(--low-plate);
   --bbr-mist-ink: var(--low-ink); --bbr-mist-quiet: var(--low-quiet); --bbr-mist-leaf: var(--low-link); --bbr-mist-far: var(--low-plate);
-  --bbr-mist-near: var(--low-plate);
+  --bbr-mist-near: var(--low-plate); --cb-warmlight-case: var(--low-g); --cb-warmlight-bar: var(--low-plate); --cb-warmlight-steel: var(--low-ink);
+  --cb-warmlight-steel-2: var(--low-quiet); --cb-warmlight-lcd: var(--low-plate); --cb-warmlight-amber: var(--low-ink); --cb-warmlight-amber-2: var(--low-quiet);
+  --cb-cooldark-case: var(--low-g); --cb-cooldark-bar: var(--low-plate); --cb-cooldark-steel: var(--low-ink); --cb-cooldark-steel-2: var(--low-quiet);
+  --cb-cooldark-lcd: var(--low-plate); --cb-cooldark-amber: var(--low-ink); --cb-cooldark-amber-2: var(--low-quiet); --cb-plantgreen-case: var(--low-g);
+  --cb-plantgreen-bar: var(--low-plate); --cb-plantgreen-steel: var(--low-ink); --cb-plantgreen-steel-2: var(--low-quiet); --cb-plantgreen-lcd: var(--low-plate);
+  --cb-plantgreen-amber: var(--low-ink); --cb-plantgreen-amber-2: var(--low-quiet); --cb-redlight-case: var(--low-g); --cb-redlight-bar: var(--low-plate);
+  --cb-redlight-steel: var(--low-ink); --cb-redlight-steel-2: var(--low-quiet); --cb-redlight-lcd: var(--low-plate); --cb-redlight-amber: var(--low-ink);
+  --cb-redlight-amber-2: var(--low-quiet);
 }
 /* low:remap:end */
 

@@ -175,6 +175,13 @@
     ['high', 'High contrast', 'every'],
     ['soldark', 'Solarized dark', 'every', 'Ethan Schoonover\u2019s Solarized palette, with a darker bar so every word clears 4.5 to 1', 'still'],
     ['sollight', 'Solarized light', 'every', 'Ethan Schoonover\u2019s Solarized palette, its accents darkened for words so they clear 4.5 to 1', 'still'],
+    /* THE LOW-STIMULATION MODES (2026-10-24, by request): the dial's four on
+       the radio alone, each its mode's colours by name in love.css §2, with no
+       drawing, which tools/make-low-stimulation.py holds. */
+    ['warmlight', 'Warm Light', 'low', 'the dial’s low-stimulation mode of the same name, on the radio alone'],
+    ['cooldark', 'Cool Dark', 'low', 'the dial’s low-stimulation mode of the same name, on the radio alone'],
+    ['plantgreen', 'Plant Green', 'low', 'the dial’s low-stimulation mode of the same name, on the radio alone'],
+    ['redlight', 'Red Light', 'low', 'the dial’s low-stimulation mode of the same name, on the radio alone'],
     ['green', 'Green screen', 'radio'], ['red', 'Red readout', 'radio'], ['teal', 'Teal glow', 'radio'],
     ['biophilic', 'Biophilic', 'world', 'queering.earth\u2019s paper, moss and rust, with ivy and mushrooms growing after Helen Edgar\u2019s garden in the Faery Yurt', 'moves'],
     ['starstuff', 'Star Stuff', 'world', 'starstuff.earth, our sister site, and its night', 'moves'],

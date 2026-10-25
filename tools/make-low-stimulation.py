@@ -34,6 +34,14 @@ hard time:
     anything but a mode's name; or privacy.html not listing it.
   · The radio keeping its theme's drawing or its motion in a mode, or a
     familiar walking about in one.
+  · THE MODES AS THE RADIO'S THEMES (2026-10-24, by request) drifting from the
+    modes: under Low stimulation in its Themes, each mode is a theme named as
+    the dial names it, whose seven colours in love.css §2 are that mode's own
+    by name, part for part as the remap lays them, so the theme is the radio
+    exactly as it is in the mode; with no drawing, a block in cb.css, and the
+    group in every list that offers themes (the radio's, the profile editor's
+    and the forums'). The friendly edit is a theme a shade brighter "so it is
+    not so dull", or one with a drawing; a mode has neither.
 
 IF THIS REFUSES: fix the cause. Do not loosen it.
 """
@@ -46,6 +54,9 @@ CSS = ROOT / "love.css"
 LOVE = ROOT / "love.js"
 CALL = ROOT / "call.js"
 CBCSS = ROOT / "cb.css"
+CBJS = ROOT / "cb.js"
+FORUM = ROOT / "forum.js"
+ART = ROOT / "cb-themes.js"
 FAM = ROOT / "familiar.js"
 PRIVACY = ROOT / "privacy.html"
 INDEX = ROOT / "index.html"
@@ -184,6 +195,44 @@ if ":host([data-low]) .cb-trim" not in CBCSS.read_text():
     problems.append("cb.css: the radio keeps its theme's drawing in a mode.")
 if "hasAttribute('data-low')" not in code_of(FAM.read_text()):
     problems.append("familiar.js: a familiar walks about in a mode.")
+
+# THE MODES AS THE RADIO'S THEMES. Each mode's own --lsm-* for each of its six,
+# read off its block in §3, and each theme's seven read off §2's :root.
+lnames = re.search(r"var LOW_NAMES = \{([^}]*)\};", love)
+low_names = dict(re.findall(r"(\w+): '([^']+)'", lnames.group(1))) if lnames else {}
+schemes_src = CALL.read_text()
+sch = schemes_src[schemes_src.index("var SCHEMES = ["):schemes_src.index("];", schemes_src.index("var SCHEMES = ["))]
+low_themes = re.findall(r"\['([a-z0-9]+)', '([^']+)', 'low'((?:, '[^']*')*)\]", sch)
+root_src = re.sub(r"/\*.*?\*/", " ", css[css.index(":root {"):css.index("\n}", css.index(":root {"))], flags=re.S)
+art = set(re.findall(r"^\s*T\.([a-z0-9]+) = ", ART.read_text(), flags=re.M))
+cbcss = CBCSS.read_text()
+by_name = {name: key for key, name, _ in low_themes}
+if len(low_themes) != len(lows):
+    problems.append(f"call.js: {len(low_themes)} themes under Low stimulation for {len(lows)} modes; each mode is one theme.")
+for low in lows:
+    want = low_names.get(low)
+    key = by_name.get(want)
+    if not key:
+        problems.append(f"call.js: no theme under Low stimulation named {want!r}, as the dial names the {low} mode.")
+        continue
+    mode = dict(re.findall(r"--low-(\w+):\s*(var\(--lsm-[a-z0-9-]+\))",
+                           re.search(rf'html\[data-low="{low}"\] \{{(.*?)\}}', css, re.S).group(1)))
+    for suffix, role in CB_ROLES:
+        got = re.search(rf"--cb-{key}-{re.escape(suffix)}\s*:\s*([^;]+);", root_src)
+        if not got or got.group(1).strip() != mode.get(role):
+            problems.append(f"love.css: --cb-{key}-{suffix} must be {mode.get(role)}, the {low} mode's own, "
+                            f"so the theme is the radio as it is in the mode (it is {got.group(1).strip() if got else 'not declared'}).")
+    if f':host([data-scheme="{key}"])' not in cbcss:
+        problems.append(f"cb.css: no block puts {want} on the radio's host.")
+    if key in art:
+        problems.append(f"cb-themes.js draws {want}; a mode has no drawing, so its theme has none.")
+for key, name, extra in low_themes:
+    if re.search(r", '(?:moves|still)'", extra):
+        problems.append(f"call.js: {name} is given a drawing; a mode has none.")
+for path in (CBJS, FORUM):
+    lists = re.findall(r"\[\['every', 'Everyday'\](.*?)\]\]", path.read_text(), re.S)
+    if not lists or any("['low', 'Low stimulation']" not in g for g in lists):
+        problems.append(f"{path.name}: a list of theme groups has no Low stimulation, so the modes' themes are not offered there.")
 
 if problems:
     print("REFUSING:")

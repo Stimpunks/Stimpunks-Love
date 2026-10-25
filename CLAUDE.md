@@ -4451,7 +4451,11 @@ the remap and holds all of it. **The friendly edits are a mode as a room's own l
 switched on by itself for a device that asks for reduced motion, a fifth mode that is a theme rather than an escape,
 and fonts swapped in a mode** (the proposal was colours; that is Ryan's call). A room whose argument is a colour (the
 Picture House's "nothing in this building is blue") is overridden too, by the visitor's choice, and `DECISIONS.md` has
-that open.
+that open. **The same four are the radio's themes too** (by request, the same day), under Low stimulation in its Themes,
+for somebody who wants the radio quiet and the room as it is: `--cb-<key>-<part>` in §2 are each mode's `--lsm-*` by name,
+part for part as the remap lays them, so a theme is the radio exactly as it is in its mode, and `make-low-stimulation.py`
+refuses a theme that differs from its mode, has a drawing, or is missing from any list of theme groups. A fifth mode is a
+fifth theme. The friendly edit is a low theme a shade brighter, or with a drawing.
 
 **THE GLITTER DIAL ON THE CB IS THE PAGE'S DIAL, NOT A SECOND ONE.** A request from our community, 2026-10-24: under
 Where you are on the radio, beside I need a bodymind break, **Glitter dial** opens the levels and the low-stimulation

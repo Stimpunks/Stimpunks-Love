@@ -237,6 +237,13 @@ LSM = {
     "green": dict(g="#DCE5D5", plate="#CEDAC6", ink="#1F311F", quiet="#3A5038", link="#2F5C27", line="#5F7659"),
     "red":   dict(g="#120000", plate="#1E0302", ink="#FF3B2E", quiet="#FF3B2E", link="#FF3B2E", line="#D2281C"),
 }
+# AND THE SAME FOUR AS THE RADIO'S THEMES (2026-10-24, by request), the radio
+# exactly as it is in each mode, so measured here as a theme out of the mode's
+# own six, as love.css §2 names them, rather than as a second copy.
+for _low, _name in (("warm", "Warm Light"), ("cool", "Cool Dark"), ("green", "Plant Green"), ("red", "Red Light")):
+    _m = LSM[_low]
+    CB_SCHEMES[_name] = dict(case=_m["g"], bar=_m["plate"], steel=_m["ink"], steel2=_m["quiet"],
+                             lcd=_m["plate"], amber=_m["ink"], amber2=_m["quiet"])
 BBR = {
     "dusk": dict(g="#16211C", plate="#1F2D27", ink="#DCE6DD", quiet="#A9BCAE", leaf="#9BCFAE",
                  far="#1A2722", near="#1F2E28"),

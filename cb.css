@@ -37,6 +37,13 @@
 :host([data-scheme="green"]) { --cb-case: var(--cb-green-case); --cb-bar: var(--cb-green-bar); --cb-steel: var(--cb-green-steel); --cb-steel-2: var(--cb-green-steel-2); --cb-lcd: var(--cb-green-lcd); --cb-amber: var(--cb-green-amber); --cb-amber-2: var(--cb-green-amber-2); }
 :host([data-scheme="red"]) { --cb-case: var(--cb-red-case); --cb-bar: var(--cb-red-bar); --cb-steel: var(--cb-red-steel); --cb-steel-2: var(--cb-red-steel-2); --cb-lcd: var(--cb-red-lcd); --cb-amber: var(--cb-red-amber); --cb-amber-2: var(--cb-red-amber-2); }
 :host([data-scheme="teal"]) { --cb-case: var(--cb-teal-case); --cb-bar: var(--cb-teal-bar); --cb-steel: var(--cb-teal-steel); --cb-steel-2: var(--cb-teal-steel-2); --cb-lcd: var(--cb-teal-lcd); --cb-amber: var(--cb-teal-amber); --cb-amber-2: var(--cb-teal-amber-2); }
+/* THE LOW-STIMULATION MODES AS THEMES (2026-10-24, by request): the dial's four,
+   on the radio alone. No drawing, no face of their own and nothing that moves,
+   because a mode has none; their seven are the modes' own (love.css §2). */
+:host([data-scheme="warmlight"]) { --cb-case: var(--cb-warmlight-case); --cb-bar: var(--cb-warmlight-bar); --cb-steel: var(--cb-warmlight-steel); --cb-steel-2: var(--cb-warmlight-steel-2); --cb-lcd: var(--cb-warmlight-lcd); --cb-amber: var(--cb-warmlight-amber); --cb-amber-2: var(--cb-warmlight-amber-2); }
+:host([data-scheme="cooldark"]) { --cb-case: var(--cb-cooldark-case); --cb-bar: var(--cb-cooldark-bar); --cb-steel: var(--cb-cooldark-steel); --cb-steel-2: var(--cb-cooldark-steel-2); --cb-lcd: var(--cb-cooldark-lcd); --cb-amber: var(--cb-cooldark-amber); --cb-amber-2: var(--cb-cooldark-amber-2); }
+:host([data-scheme="plantgreen"]) { --cb-case: var(--cb-plantgreen-case); --cb-bar: var(--cb-plantgreen-bar); --cb-steel: var(--cb-plantgreen-steel); --cb-steel-2: var(--cb-plantgreen-steel-2); --cb-lcd: var(--cb-plantgreen-lcd); --cb-amber: var(--cb-plantgreen-amber); --cb-amber-2: var(--cb-plantgreen-amber-2); }
+:host([data-scheme="redlight"]) { --cb-case: var(--cb-redlight-case); --cb-bar: var(--cb-redlight-bar); --cb-steel: var(--cb-redlight-steel); --cb-steel-2: var(--cb-redlight-steel-2); --cb-lcd: var(--cb-redlight-lcd); --cb-amber: var(--cb-redlight-amber); --cb-amber-2: var(--cb-redlight-amber-2); }
 /* THE WORLDS AND SOLARIZED (Ryan, 2026-10-17). The same seven parts again, and
    a display face of their own for the radio's name and the headings over its
    parts, and nowhere else: every sentence stays in Atkinson Hyperlegible,
