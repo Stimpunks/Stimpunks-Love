@@ -73,15 +73,6 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "uRizbw49v7c",
-   "source": "acl",
-   "form": "long",
-   "title": "The Red Clay Strays - Full Episode | Live on Austin City Limits TV",
-   "published": "2026-10-13T12:55:47Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "RV_Xs3NbPiY",
    "source": "acl",
    "form": "long",
@@ -129,6 +120,16 @@
    "published": "2026-10-23T14:47:34Z",
    "state": "screen",
    "runs": 83,
+   "channel": "Austin City Limits"
+  },
+  {
+   "id": "uRizbw49v7c",
+   "source": "acl",
+   "form": "long",
+   "title": "The Red Clay Strays - Full Episode | Live on Austin City Limits TV",
+   "published": "2026-10-25T01:00:10Z",
+   "state": "screen",
+   "runs": 3200,
    "channel": "Austin City Limits"
   },
   {
@@ -292,54 +293,14 @@
    "channel": "Austin City Limits"
   },
   {
-   "id": "0Zc9piQukgM",
-   "source": "kexp",
-   "form": "long",
-   "title": "Sigh - Full Performance (Live on KEXP)",
-   "published": "2026-09-24T15:00:13Z",
+   "id": "-QMAoj7NFzU",
+   "source": "acl",
+   "form": "short",
+   "title": "The Red Clay Strays - Demons In Your Choir | Live on Austin City Limits TV",
+   "published": "2026-10-25T01:01:30Z",
    "state": "screen",
-   "runs": 1463,
-   "channel": "KEXP"
-  },
-  {
-   "id": "f47BT5TCX_M",
-   "source": "kexp",
-   "form": "long",
-   "title": "Widowspeak - The Hook (Live on KEXP)",
-   "published": "2026-09-25T11:00:13Z",
-   "state": "screen",
-   "runs": 272,
-   "channel": "KEXP"
-  },
-  {
-   "id": "Run68PtdQWY",
-   "source": "kexp",
-   "form": "long",
-   "title": "Widowspeak - No Driver (Live on KEXP)",
-   "published": "2026-09-25T11:00:18Z",
-   "state": "screen",
-   "runs": 222,
-   "channel": "KEXP"
-  },
-  {
-   "id": "Uicblr3VVVA",
-   "source": "kexp",
-   "form": "long",
-   "title": "Widowspeak - Roses (Live on KEXP)",
-   "published": "2026-09-25T11:00:21Z",
-   "state": "screen",
-   "runs": 185,
-   "channel": "KEXP"
-  },
-  {
-   "id": "W8kF9B9t1Jw",
-   "source": "kexp",
-   "form": "long",
-   "title": "Widowspeak - If You Change (Live on KEXP)",
-   "published": "2026-09-25T11:00:30Z",
-   "state": "screen",
-   "runs": 272,
-   "channel": "KEXP"
+   "runs": 60,
+   "channel": "Austin City Limits"
   },
   {
    "id": "NIQgcVwMfog",
@@ -1382,16 +1343,6 @@
    "channel": "KEXP"
   },
   {
-   "id": "7-ZLnjdGGWs",
-   "source": "kexp",
-   "form": "short",
-   "title": "Sigh performs \"The Transfiguration Fear\" & more Live on KEXP",
-   "published": "2026-09-24T17:09:02Z",
-   "state": "screen",
-   "runs": 60,
-   "channel": "KEXP"
-  },
-  {
    "id": "1aYIpygmUiM",
    "source": "kexp",
    "form": "short",
@@ -1697,13 +1648,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-24T11:30:27Z"
+     "2026-10-25T11:31:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-24T11:30:27Z"
+     "2026-10-25T11:31:29Z"
     ]
    ]
   },
@@ -1711,13 +1662,13 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-24T11:30:27Z"
+     "2026-10-25T11:31:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-24T11:30:27Z"
+     "2026-10-25T11:31:29Z"
     ]
    ]
   },
@@ -1725,16 +1676,16 @@
    "long": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-24T11:30:27Z"
+     "2026-10-25T11:31:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-15T05:09:03Z",
-     "2026-10-24T11:30:27Z"
+     "2026-10-25T11:31:29Z"
     ]
    ]
   }
  },
- "set": "2026-10-24T11:30Z"
+ "set": "2026-10-25T11:31Z"
 }
