@@ -577,9 +577,9 @@
   /* ── Posts: words, previews, copied messages ─────────────────────────── */
 
   // `pic` draws a picture the server placed in the words (markdown.js's hook).
-  function blocks(nodes, into, pic) {
+  function blocks(nodes, into, pic, head) {
     var run = [];
-    function flush() { if (run.length) { window.loveMarkdown.blocks(run, into, { top: 3, prefix: 'fm', pic: pic || null }); run = []; } }
+    function flush() { if (run.length) { window.loveMarkdown.blocks(run, into, { top: 3, prefix: 'fm', pic: pic || null, head: head || null }); run = []; } }
     (nodes || []).forEach(function (b) {
       if (b.t === 'preview') { flush(); into.appendChild(previewOf(b)); }
       else run.push(b);
@@ -1073,6 +1073,53 @@
   }
   /* poll:end */
 
+  /* A LINK TO A HEADING IN A POST (Ryan's ask, 2026-10-24), the street's
+     .hlink in the forums' clothes: every heading somebody wrote in a post gets
+     an id and a # after its words, which copies the forums' address for that
+     heading, #/t/<topic>/<post>/<heading>. The heading's part is a hash of its
+     words and never the words, because the forums' addresses carry ids and
+     nothing anybody wrote: a heading in Grantmaking can name somebody, and an
+     address goes into a browser's history. Reword the heading and a link to it
+     lands on its post instead. Copying changes nothing in the address. The
+     heading keeps its own name (aria-label), as love.js's do, and the # is
+     generated content (forum.css). */
+  function headKey(words) {
+    var h = 0x811c9dc5;
+    for (var i = 0; i < words.length; i++) { h ^= words.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+    return 's' + h.toString(36);
+  }
+  function headLinks(t, p) {
+    var seen = {};
+    var page = document.querySelector('link[rel="canonical"]');
+    var base = page ? page.href.split('#')[0] : location.href.split('#')[0];
+    return function (h) {
+      var words = h.textContent.replace(/\s+/g, ' ').trim();
+      if (!words) return;
+      var key = headKey(words.toLowerCase());
+      seen[key] = (seen[key] || 0) + 1;
+      if (seen[key] > 1) key += '-' + seen[key];
+      h.id = 'fm-p-' + p.id + '-' + key;
+      h.setAttribute('aria-label', words);
+      var a = el('a', 'fm-hlink');
+      a.href = '#/t/' + t.id + '/' + p.id + '/' + key;
+      a.setAttribute('aria-label', 'Copy a link to “' + words + '”');
+      a.addEventListener('click', function (ev) {
+        if (ev.button || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+        ev.preventDefault();
+        var url = base + a.getAttribute('href');
+        (navigator.clipboard && window.isSecureContext ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () {
+          a.setAttribute('data-said', 'Link copied');
+          say('Link to “' + words + '” copied.');
+        }, function () {
+          a.setAttribute('data-said', 'Could not copy');
+          say('This browser would not copy the link. Right-click the # beside the heading and copy the link from there.');
+        });
+        setTimeout(function () { a.removeAttribute('data-said'); }, 4000);
+      });
+      h.appendChild(a);
+    };
+  }
+
   function postOf(t, p, i) {
     var art = el('article', 'fm-post');
     art.id = 'fm-p-' + p.id;
@@ -1116,7 +1163,7 @@
     }
     if (p.cb) art.appendChild(copied(t, p));
     var body = el('div', 'fm-body');
-    blocks(p.blocks, body, function (n) { return picIn(t, p, n); });
+    blocks(p.blocks, body, function (n) { return picIn(t, p, n); }, headLinks(t, p));
     if (markMentions(body, (p.at || []).concat(peopleOf(t)), p.roles)) head.appendChild(tag('MENTIONS YOU', true));
     if (body.children.length) art.appendChild(body);
     if (p.files && p.files.some(function (f) { return !f.placed; })) art.appendChild(attached(t, p));
@@ -1990,7 +2037,7 @@
     });
   }
 
-  function drawTopic(body, focusPost, keepPlace) {
+  function drawTopic(body, focusPost, keepPlace, focusHead) {
     took({ body: body }, body.topic && body.topic.cat.slug);
     var t = current = body.topic;
     if (body.quick) quick = body.quick;
@@ -2050,7 +2097,7 @@
     }
     if (keepPlace) { window.scrollTo(0, y); return null; }
     if (focusPost) {
-      var a = root.getElementById('fm-p-' + focusPost);
+      var a = (focusHead && root.getElementById('fm-p-' + focusPost + '-' + focusHead)) || root.getElementById('fm-p-' + focusPost);
       if (a) { a.tabIndex = -1; a.focus(); return null; }
     }
     return h;
@@ -2159,7 +2206,7 @@
     return wrap;
   }
 
-  function topic(id, focusPost) {
+  function topic(id, focusPost, focusHead) {
     blank(null, 'Looking…');
     return Promise.all([call('view=topic&t=' + encodeURIComponent(id)), loadRooms()]).then(function (rs) {
       var r = rs[0];
@@ -2167,7 +2214,7 @@
         if (r.status === 404) { unsee(id); took(r); drawSide(null); var h0 = heading(2, 'That topic has gone'); blank(h0, why(r, 'That topic has gone, or is not one you can read.')); return h0; }
         return refused(r);
       }
-      return drawTopic(r.body, focusPost);
+      return drawTopic(r.body, focusPost, false, focusHead);
     });
   }
 
@@ -2306,7 +2353,7 @@
     else if (!parts.length) done = home();
     else if (parts[0] === 'latest') done = latest();
     else if (parts[0] === 'c' && parts[1]) done = category(parts[1], q.tag || null);
-    else if (parts[0] === 't' && parts[1]) done = topic(parts[1], parts[2] || null);
+    else if (parts[0] === 't' && parts[1]) done = topic(parts[1], parts[2] || null, parts[3] || null);
     else if (parts[0] === 'new') done = newTopic(q);
     else if (parts[0] === 'search' && q.q) done = search(q.q);
     else if (parts[0] === 'mentions') done = mentionsView();

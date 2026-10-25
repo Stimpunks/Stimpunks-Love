@@ -301,7 +301,7 @@ def rackwall(racks):
         out.append(
             f'    <section class="rack">\n'
             f'      <p class="rack__no">Rack {esc(r["n"])}</p>\n'
-            f'      <h2>{esc(r["title"])}</h2>\n'
+            f'      <h2 id="rack-{esc(r["n"].lower())}">{esc(r["title"])}</h2>\n'
             f'      <p class="rack__intro">{esc(r["intro"])}</p>\n'
             f'      <details class="rack__fold" open>\n'
             f'        <summary class="rack__sum">The records in Rack {esc(r["n"])}</summary>\n'

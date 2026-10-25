@@ -1395,7 +1395,94 @@
     document.head.appendChild(tag);
   }
 
-  function go() { dial(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); patches(); familiar(); }
+  /* ── A link to a section ─────────────────────────────────────────────────
+     Ryan's ask, 2026-10-24: a way to send somebody straight to one part of a
+     room or a document. Every section heading in <main> that has an id (and
+     tools/make-heading-ids.py makes sure the section headings do) gets a mark
+     after its words, §4's .hlink: a real link to #its-id, so with scripts off,
+     right-click and a new tab still work, and pressed here it copies the
+     page's own address with the section on the end, from the canonical link,
+     so a link copied on a test copy of the street is still the street's.
+
+     NOT ON A CARD: a heading in an <li>, <article> or <figure> is a video's or
+     a dish's title, and a mark beside every one is a mark on every video. Not
+     on a heading that is itself inside a control (a <summary>, a link, a
+     button), and not on one that is only there for a screen reader.
+
+     THE HEADING KEEPS ITS OWN NAME. The mark is inside the heading, and a
+     heading is named by everything inside it, so without aria-label every
+     heading on the street would be "Who we are Copy a link" in the list of
+     headings a screen reader walks. The # is generated content for the other
+     half of that: a script that reads a heading's words (glow.js names a tile
+     by its h3) never reads it.
+
+     It answers where the hand is, the Playhouse's rule, one readout at a time,
+     and to a screen reader through a status line made on the first press.
+     Nothing is stored, and the address is not changed unless copying fails. */
+  function sectionLinks() {
+    var main = document.querySelector('main');
+    var canon = document.querySelector('link[rel="canonical"]');
+    if (!main || !canon) return;
+    var base = canon.href.split('#')[0];
+    var heads = main.querySelectorAll('h2[id], h3[id], h4[id]');
+    var shown = null, timer = 0, status = null;
+    function words(h) {
+      var c = h.cloneNode(true);
+      var drop = c.querySelectorAll('[aria-hidden="true"], svg, script, style, .hlink');
+      for (var i = 0; i < drop.length; i++) drop[i].parentNode.removeChild(drop[i]);
+      return c.textContent.replace(/\s+/g, ' ').trim();
+    }
+    function hidden(h) {
+      var cs = getComputedStyle(h);
+      return h.closest('.sr') || (cs.clip && cs.clip !== 'auto') || cs.clipPath !== 'none';
+    }
+    function tell(a, local, text) {
+      if (shown && shown !== a) shown.removeAttribute('data-said');
+      shown = a;
+      a.setAttribute('data-said', local);
+      window.clearTimeout(timer);
+      timer = window.setTimeout(function () { a.removeAttribute('data-said'); shown = null; }, 4000);
+      if (!status) {
+        status = document.createElement('p');
+        status.className = 'sr';
+        status.setAttribute('role', 'status');
+        document.body.appendChild(status);
+      }
+      status.textContent = '';
+      window.setTimeout(function () { status.textContent = text; }, 60);
+    }
+    function copy(text) {
+      if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+      return Promise.reject(new Error('no clipboard'));
+    }
+    Array.prototype.forEach.call(heads, function (h) {
+      if (h.closest('li, article, figure, summary, a, button, label, [aria-hidden="true"], [data-hlink="off"]')) return;
+      if (h.querySelector('.hlink') || hidden(h)) return;
+      var name = words(h);
+      if (!name) return;
+      if (!h.hasAttribute('aria-label') && !h.hasAttribute('aria-labelledby')) h.setAttribute('aria-label', name);
+      var a = document.createElement('a');
+      a.className = 'hlink';
+      a.href = '#' + h.id;
+      a.setAttribute('aria-label', 'Copy a link to “' + name + '”');
+      a.addEventListener('click', function (ev) {
+        if (ev.button || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+        ev.preventDefault();
+        copy(base + '#' + h.id).then(function () {
+          tell(a, 'Link copied', 'Link to “' + name + '” copied.');
+        }, function () {
+          var framed = true;
+          try { framed = window.top !== window.self; } catch (e) { /* framed by somebody else */ }
+          if (framed) { tell(a, 'Could not copy', 'This browser would not copy the link.'); return; }
+          location.hash = h.id;
+          tell(a, 'Copy it from the address bar', 'Could not copy. The link to “' + name + '” is in the address bar.');
+        });
+      });
+      h.appendChild(a);
+    });
+  }
+
+  function go() { dial(); sectionLinks(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); patches(); familiar(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

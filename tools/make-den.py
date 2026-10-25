@@ -138,7 +138,7 @@ for s in sessions:
         rows.append(track(t, n))
     swap(ROOM, f"den:{s['slug']}", f'''    <div class="session">
       <p class="session__when">{e(s["dates"])}</p>
-      <h2>{e(s["name"])}</h2>
+      <h2 id="session-{e(s["slug"])}">{e(s["name"])}</h2>
       <p class="session__sub">{e(s["sub"])}</p>
     </div>
       <ul class="cuts">

@@ -5642,6 +5642,30 @@ are rubric for paper and it lies on a dark desk, 1.07 before it was given the pa
 It does not print. **Do not style `.signoff` in §4 to make it look nicer**; the moment it has a
 colour of its own it is the pavement again.
 
+**EVERY SECTION HEADING CAN BE LINKED TO, AND ITS ID IS WRITTEN ONCE.** Ryan's ask, 2026-10-24, to
+send people straight to one part of a room or a document. `tools/make-heading-ids.py` gives every
+h2–h4 in `<main>` that heads a section (not a card's title in an `<li>`, `<article>` or `<figure>`,
+not one in a `<summary>`) an id from its words, **once**: reword the heading and the id stays,
+because somebody may have sent a link to it. **Never re-slug an id that is there.** It skips the
+morning timers' regions (`make-search-index.py`'s `DAILY`, read with `ast`), and it refuses an h2
+a generator writes with no id, which the generator then gives one from its data
+(`gallery-<slug>`, `rack-<n>`, `session-<slug>`). love.js's `sectionLinks` puts §4's `.hlink`
+after every such heading's words: a real link to `#the-id`, which a press turns into copying the
+page's canonical address with the section on the end, saying so beside the mark and on a status
+line, without changing the address. **The heading keeps its own name** (`aria-label` of its words),
+or every heading on the street reads "Who we are Copy a link" in a screen reader's list, **and the
+`#` is generated content**, because scripts read headings' words (`glow.js` names a tile by its
+h3). It wears the heading's ink and face, shows on hover, on keyboard focus and **always where
+nothing can hover**, never fades and never prints. **The forums do the same inside a post**
+(`headLinks` in `forum.js`, markdown.js's `head` option, `#/t/<topic>/<post>/<heading>`), and
+there the heading's part is **a hash of its words, never the words**, because the forums'
+addresses carry ids and a heading in Grantmaking can name somebody. The tool holds all of it. The
+friendly edits are **ids made fresh from the words on every run "so they match the headings"**,
+which breaks every link already sent, **a mark on every card**, **the heading itself as the link**,
+which puts the room's link colour on every heading, and **readable words in the forums' links**.
+**A room that closes `<main>` early has no marks after it**: Swaying Sweetgrass did, with its
+sign-off sitting under the header, until this.
+
 **THE MACHINE-READABLE FILES ARE CLAIMS, SO THEY ARE GENERATED FROM WHAT THEY DESCRIBE.** Each
 page's JSON-LD is built by `tools/structured.py` from that page's own title, description and
 canonical — structured data is what an agent quotes without checking, and it must never say what

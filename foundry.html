@@ -489,7 +489,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
   </section>
 
   <section class="fo-notes">
-    <h2>What is on the bench, and where it came from</h2>
+    <h2 id="what-is-on-the-bench-and-where-it-came-from">What is on the bench, and where it came from</h2>
     <p>Four passages and a proof of the characters. Every one of them is either ours and already published on this street, or out of copyright and already checked in another room&rsquo;s data file &mdash; and the two that are written out in this room&rsquo;s own data are <b>checked word for word against the page they came from</b> every time this room is built, so it cannot end up quoting a neighbour that has since been rewritten. The other two are not stored here at all; they are read out of <a href="the-mopery.html">The Mopery</a>&rsquo;s and <a href="zibaldone.html">The Zibaldone</a>&rsquo;s own files when the page is made.</p>
     <ul class="fo-from">
         <li><b>The street’s own line</b> &mdash; Stimpunks.World. Ours. It is the masthead of the street outside this door.</li>
@@ -500,31 +500,31 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
     </ul>
     <p>A specimen room needs something to set, and the friendly edit that will arrive here is somebody quietly adding a paragraph of a book because the bench looked bare. That is <a href="the-feed.html">The Feed</a>&rsquo;s refused summary field wearing a type sample. The bench is for your words; ours are here so it is not empty when you arrive.</p>
 
-    <h2>Why this room is set in a stencil</h2>
+    <h2 id="why-this-room-is-set-in-a-stencil">Why this room is set in a stencil</h2>
     <p>Every other world on this street chose a display face for how it sounds. This one chose one for what it <i>is</i>. A stencil letter is <b>a hole rather than a mark</b> &mdash; a shape cut out of a sheet of metal so that it can be used again and again and come out the same every time &mdash; which is the whole idea of type, arriving about four hundred years early and in the wrong material. It is also what actually gets painted on a workshop&rsquo;s crates and machinery, which is the other reason it is over the door.</p>
     <p>The bridges you can see holding the middle of an <b>o</b> in place are not a decorative flourish. Without them the counter &mdash; the enclosed space inside a letter &mdash; would fall out of the sheet, and there is no way round that in a stencil. Nobody drawing type in metal or on a screen has that problem, which is why nothing else here looks like this.</p>
 
-    <h2>Why nothing here describes a typeface</h2>
+    <h2 id="why-nothing-here-describes-a-typeface">Why nothing here describes a typeface</h2>
     <p>There is no sentence beside any face saying what it looks like, what it is good for or what century it is pretending to be from, and that is a refusal rather than an omission. Writing a line of appreciation for every family on this street would mean inventing type history at scale, in the one format most likely to be believed &mdash; which is the same reason <a href="solarpunk-hermitage.html">the herbarium two rooms over</a> refuses to name a pressed plant to species. What this room can say truthfully is <b>who drew it</b>, <b>what licence it travels under</b> and <b>which room here sets it</b>, and all three are read off records rather than remembered. The specimen is the description.</p>
 
-    <h2>An italic is not a slant</h2>
+    <h2 id="an-italic-is-not-a-slant">An italic is not a slant</h2>
     <p>A real italic is a second alphabet. It was cut separately, it has different letters in it &mdash; look at a single-storey <i>a</i>, or at the way an <i>f</i> descends &mdash; and it was never made by leaning the roman over. A machine slant is exactly that leaning: the upright letters pushed sideways by a machine that has no idea what they are. Both are offered here and both are labelled, because the difference is the kind of thing this room exists to show you rather than to tell you.</p>
     <p>Where this site holds no italic file, the italic option says so and stops being offered. An italic control on a family with no italic is not an error anywhere: the browser answers by inventing one, nothing looks broken, and the room has quietly told you a lie about somebody&rsquo;s typeface. And <b>the slant is a font setting and never a transform</b> &mdash; <code>check-gentle.py</code> reads rotation and skew out of the computed matrix and cannot be asked to take this room&rsquo;s word for the difference between a tilted page and a slanted letter.</p>
 
-    <h2>Every face here is self-hosted, and none of it is ours</h2>
+    <h2 id="every-face-here-is-self-hosted-and-none-of-it-is-ours">Every face here is self-hosted, and none of it is ours</h2>
     <p>Reading any page on this street makes no request to anybody&rsquo;s font service. The files are in this repository, subsetted to Latin, and a face is downloaded only when something actually sets it &mdash; which in this room means <b>when you pick it</b>. Nobody who never opens the picker pays for a single one.</p>
     <p>None of these typefaces belongs to Stimpunks. Every one of them is somebody&rsquo;s work, released under a licence that asks to be named, and the name beside each face here is <b>verbatim from that family&rsquo;s own record</b> rather than typed from memory &mdash; including where the record credits a studio rather than a person, and including where it disagrees with the fuller credit in our <a href="liner-notes.html">liner notes</a>. Most are under the SIL Open Font License; a few are under the Apache License 2.0, and the shelves below say which is which face by face, because &ldquo;they are all OFL&rdquo; is the sort of thing a site says once and stops checking.</p>
 
-    <h2>Nothing here is counted</h2>
+    <h2 id="nothing-here-is-counted">Nothing here is counted</h2>
     <p>Not the faces, not the proofs pulled, not the sizes tried. This is the room on the street most likely to want to boast about how much type it holds, and a number in the window would be out of date the next time somebody adds a face and wrong in a way nobody would notice. There is also no favourite, no most popular and no ranking of one designer&rsquo;s work against another&rsquo;s.</p>
 
-    <h2>The nook next door is not this room</h2>
+    <h2 id="the-nook-next-door-is-not-this-room">The nook next door is not this room</h2>
     <p><a href="the-mopery.html">The Mopery</a> has a reading nook where <i>The Raven</i> can be set in any face on the street, and it stays exactly as it is. That is one poem in one face inside a library, where borrowing all of them is the joke. This is a bench where any words go into any face at any size in any ink and come out on paper. The two rooms have one list between them and <code>tools/check-faces.py</code> now makes sure of it &mdash; before that tool existed, adding a typeface to this site quietly made the library&rsquo;s claim to hold every one of them false, with nothing anywhere saying so.</p>
   </section>
 
   <div class="fo-desk">
     <div class="fo-desk__half">
-      <h2>Who made these letters</h2>
+      <h2 id="who-made-these-letters">Who made these letters</h2>
       <p class="fo-note">Everybody named on the shelves below, and nobody here. The family name, the designer, the licence and the classification of every face on this street are read out of that family&rsquo;s own record in <a href="https://github.com/google/fonts">github.com/google/fonts</a> by <code>tools/pull-foundry.py</code> and are not typed by us. This room itself sets <b>Stardos Stencil</b> and <b>Work Sans</b>, both under the SIL Open Font License, credited with everything else in the <a href="liner-notes.html">liner notes</a>.</p>
       <p class="fo-note"><a href="index.html">The street</a> &middot; <a href="the-mopery.html">The Mopery</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="changelog.html">Changelog</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
     </div>
@@ -545,7 +545,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
   <section class="fo-cases" aria-labelledby="fo-cases-h">
     <h2 id="fo-cases-h">The cases</h2>
     <p class="fo-cases__fine">Every face this site holds, on the shelf it is filed under in its own record, set in itself, with the person or studio who drew it, the licence it travels under, and the room on this street that sets it.</p>
-      <h3 class="fo-shelf">Serif</h3>
+      <h3 id="serif" class="fo-shelf">Serif</h3>
       <ul class="fo-sorts">
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Alegreya';" lang="en">Alegreya</p>
@@ -773,7 +773,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
           <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/zillaslab">SIL Open Font License 1.1</a> &middot; sets <a href="big-steep-fermentables.html">Big Steep Fermentables</a></p>
         </li>
       </ul>
-      <h3 class="fo-shelf">Sans Serif</h3>
+      <h3 id="sans-serif" class="fo-shelf">Sans Serif</h3>
       <ul class="fo-sorts">
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Albert Sans';" lang="en">Albert Sans</p>
@@ -1296,7 +1296,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
           <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/zenmarugothic">SIL Open Font License 1.1</a> &middot; sets <a href="pets.html">Pets</a></p>
         </li>
       </ul>
-      <h3 class="fo-shelf">Display</h3>
+      <h3 id="display" class="fo-shelf">Display</h3>
       <ul class="fo-sorts">
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Abril Fatface';" lang="en">Abril Fatface</p>
@@ -1589,7 +1589,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
           <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/ofl/yesevaone">SIL Open Font License 1.1</a> &middot; sets <a href="jungle-room.html">The Jungle Room</a></p>
         </li>
       </ul>
-      <h3 class="fo-shelf">Handwriting</h3>
+      <h3 id="handwriting" class="fo-shelf">Handwriting</h3>
       <ul class="fo-sorts">
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Architects Daughter';" lang="en">Architects Daughter</p>
@@ -1652,7 +1652,7 @@ Sphinx of black quartz, judge my vow.">A proof of the whole alphabet</option>
           <p class="fo-sort__meta"><a href="https://github.com/google/fonts/tree/main/apache/yellowtail">Apache License 2.0</a> &middot; sets <a href="laughingstock.html">Laughingstock</a></p>
         </li>
       </ul>
-      <h3 class="fo-shelf">Monospace</h3>
+      <h3 id="monospace" class="fo-shelf">Monospace</h3>
       <ul class="fo-sorts">
         <li class="fo-sort">
           <p class="fo-sort__show" style="font-family:'Courier Prime';" lang="en">Courier Prime</p>

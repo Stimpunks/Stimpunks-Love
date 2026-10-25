@@ -4747,6 +4747,31 @@ html[data-low] {
 }
 .pavement .signoff__fx { flex: 1 1 100%; margin: 0; font-size: 14px; color: var(--chalk); }
 
+/* A LINK TO A SECTION, after the words of every section heading that has an id,
+   put there by love.js (sectionLinks) and pressed to copy the address of that
+   section. Layout and nothing else, the sign-off's rule: the # is the heading's
+   own ink in the heading's own face, so it arrives in each room's clothes and is
+   legible wherever the heading is. `!important` on the few things a room's own
+   `a` rules reach by accident (colour, underline, ground, border), for the skip
+   link's reason: furniture every room out-specifies without meaning to.
+   SHOWN on hover over the heading and whenever it has the keyboard, and ALWAYS
+   where nothing can hover: a phone has no hover, and a control only a mouse can
+   find is The Den's door rule broken. Its target reaches past the # with padding
+   the margins take back, so no line of a heading moves when it is pressed.
+   Nothing fades, at any setting. It does not print. */
+.hlink {
+  font-style: normal; letter-spacing: normal; white-space: nowrap;
+  color: inherit !important; text-decoration: none !important;
+  background: none !important; border: 0 !important; box-shadow: none !important;
+  padding: 10px 8px 10px 2px; margin: -10px -8px -10px calc(.35em - 2px);
+  opacity: 0; cursor: pointer;
+}
+.hlink::before { content: '#'; }
+.hlink[data-said]::after { content: '\00a0' attr(data-said); font-size: max(13px, .5em); }
+:is(h2, h3, h4):hover > .hlink, .hlink:focus, .hlink[data-said] { opacity: 1; }
+@media (hover: none) { .hlink { opacity: 1; } }
+@media print { .hlink { display: none !important; } }
+
 /* THE NOTICE'S SLOT, at the top of <main> on the front page and the Community
    Center: one line from our moderators, which notice.js draws in a shadow root
    of its own, in the CB's clothes, notice.css (the forums and the office draw

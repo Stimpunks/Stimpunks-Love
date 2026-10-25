@@ -41,7 +41,7 @@
   <p class="lede">What this site knows about you is very little, and this page is all of it. <strong>Last updated 2026-10-24.</strong> Every change to it is dated in <a href="changelog.html">the changelog</a>.</p>
 
   <section class="card card--call">
-    <h2 style="margin-top:0;">THE SHORT VERSION</h2>
+    <h2 id="the-short-version" style="margin-top:0;">THE SHORT VERSION</h2>
     <ul>
       <li><strong>No cookies.</strong> This site sets none, on any page.</li>
       <li><strong>No advertising, no trackers, nothing sold, and no email unless you give us an address.</strong> There is nobody to sell anything to. <strong>The CB takes an invite</strong>, from a moderator or from our community&rsquo;s join form, and joining with one claims a username of your own with a password of your own. That username is your account: the username, its password, and an email address only if you give one, which is used for nothing but sending you a reset code you ask for. <strong>Moderators can see a list of every username</strong>, how many there are and who is seen in a room now, and nothing else about anybody. <a href="#accounts">More below.</a></li>
@@ -69,11 +69,11 @@
     </ul>
   </section>
 
-  <h2>Who we are</h2>
+  <h2 id="who-we-are">Who we are</h2>
   <p>stimpunks.world is published by <strong>Stimpunks Foundation</strong>, a 501(c)(3) nonprofit run by and for neurodivergent and disabled people. Our mailing address is Stimpunks Foundation, Box #620611, Littleton CO 80162, USA. For anything on this page, <a href="https://stimpunks.org/contact/">contact us through stimpunks.org</a> and say it is about privacy on stimpunks.world.</p>
   <p>This page covers this site only. Our contact form lives on stimpunks.org, so what happens to a message you send is covered by <a href="https://stimpunks.org/privacy/">stimpunks.org&rsquo;s privacy policy</a> and <a href="https://stimpunks.org/cookie-policy-eu/">its cookie policy</a>.</p>
 
-  <h2>What your browser keeps</h2>
+  <h2 id="what-your-browser-keeps">What your browser keeps</h2>
   <p>These are stored with <code>localStorage</code> in your own browser. All but <code>love-cb</code> are never sent to us or to anybody else, and we cannot read them. <code>love-cb</code> only exists once you have signed on to the CB, and it is sent to us, and only to us, each time the radio checks the channel, when you write on the chalkboard, leave a pebble, drop something in the suggestion box or answer it, water Pando Calrissian&rsquo;s tree, pin a note to its fence, put a word up on the Fridge of Sighs, take a step on Count Me In&rsquo;s stair, rescue or adopt an animal, open Profile or Account, read or write in the forums or tasks or look at the World room, and every few seconds while you have chosen to be seen on the Slake. Each one only remembers something you asked this site to remember, which is why there is no consent banner here: there is nothing a banner would be asking about.</p>
   <table>
     <caption class="sr">What this site stores in your browser, why, and how to clear it</caption>
@@ -94,14 +94,14 @@
   </table>
   <p>Nothing else on this site stores anything: no session storage, no IndexedDB, no service worker. The site&rsquo;s own security policy lets its pages send data to this site and nowhere else (<code>connect-src &rsquo;self&rsquo;</code>) and never lets them submit a form (<code>form-action &rsquo;none&rsquo;</code>), and the only thing on any page that sends anything at all is the CB, with its chalkboard, its pebble bowls, the suggestion box, Pando Calrissian&rsquo;s tree, the Fridge of Sighs, Count Me In&rsquo;s stair, the shelters and Profile, the forums, tasks, and the Slake. Opening Plural Mural asks this site for what is on the board, once, opening Pando Calrissian asks for the tree and its fence, once, opening The Sandbox asks for what is in the suggestion box, once, and opening the street&rsquo;s front page, the Community Center, the forums or the office&rsquo;s dashboard asks for <a href="#notice">the notice</a>, once; none of those requests carries anything of yours.</p>
 
-  <h2>What our host sees</h2>
+  <h2 id="what-our-host-sees">What our host sees</h2>
   <p>This site is served by <strong>Netlify</strong>. Like any web server, it receives what every browser sends with every request &mdash; your IP address, your browser&rsquo;s user-agent string, the address you asked for and the time &mdash; and it keeps logs of that under <a href="https://www.netlify.com/privacy/">Netlify&rsquo;s own privacy policy</a>, which also says how long. We need that to run and secure a website, which is the legal basis for it (legitimate interests). We have not switched on Netlify&rsquo;s analytics, we do not add anything to those logs, and we do not use them to find out who anybody is.</p>
   <p>Every typeface, script, stylesheet and image on this site is served from this site, so opening a page makes no request to anybody but Netlify.</p>
 
   <h2 id="search">Searching the street</h2>
   <p>The search box on <a href="index.html">the street</a> and on <a href="map.html">the Map</a> does its searching in your browser. The first time you type in it, it fetches two files from this site, the list of rooms and the words on every page, and nothing else. <strong>What you type is never sent anywhere</strong>, to us or to anybody, and it is not kept: not in your browser and not in the address. Following a result is an ordinary link on this site.</p>
 
-  <h2>When you press play</h2>
+  <h2 id="when-you-press-play">When you press play</h2>
   <p>The jukeboxes, screens and players on the street are <strong>press-to-play</strong>: until you press one, this site has made no request to that service on your behalf. When you press, your browser loads that service&rsquo;s player, and from then on the service receives what any website receives from you &mdash; your IP address, your browser details, and that you came from stimpunks.world (the site&rsquo;s address only, not the page) &mdash; and may set its own cookies. What it does with that is covered by its own policy, not ours:</p>
   <table>
     <caption class="sr">The services a press-to-play control loads, and their privacy policies</caption>
@@ -123,10 +123,10 @@
   <h2 id="bodymind-break">The bodymind break</h2>
   <p><b>I need a bodymind break</b>, in the dial&rsquo;s box at the top of a page, on the CB&rsquo;s radio, and on the CB bar for anybody not signed on, opens a calm screen over the page you are on. <strong>It keeps nothing and sends nothing</strong>: the first press fetches its own script and stylesheet from this site, and that is all. The forest and the jellies on it are YouTube&rsquo;s, and like every player on the street, <strong>nothing reaches YouTube until you press one</strong>; closing the break stops it. If something on the page is playing, the break offers to pause it, and pauses nothing by itself. While it is up, the radio reads nothing aloud. Its links to our Help page and to crisis lines and warmlines are ordinary links to stimpunks.org.</p>
 
-  <h2>When you follow a link away</h2>
+  <h2 id="when-you-follow-a-link-away">When you follow a link away</h2>
   <p>A lot of this site is links to other places. When you follow one, the site you arrive at learns that you came from stimpunks.world &mdash; the address of the site, never the page you were on &mdash; and from then on you are covered by that site&rsquo;s policy.</p>
 
-  <h2>People on these pages</h2>
+  <h2 id="people-on-these-pages">People on these pages</h2>
   <p>Some pages carry photographs of people, recordings of people&rsquo;s voices, and the names of the people we credit. Every photograph of somebody, and every recording of somebody&rsquo;s voice, is published with that person&rsquo;s consent, recorded in our files with a date &mdash; the readings in <a href="hear-queer-here.html">Hear Queer Here</a> included &mdash; and <strong>it comes down when the person in it says so</strong>: one message, no reason needed. A young person who is doing the work and has said yes themselves is published and credited like anybody else; a parent&rsquo;s yes does not stand in for theirs, and a child too young to give that consent is not published at all. The whole of that is on <a href="polaroids.html">the Polaroid Wall&rsquo;s page</a>. The photographs are excluded from this site&rsquo;s CC BY-SA licence precisely so that taking one down is something we can actually do.</p>
 
   <h2 id="cb">The CB</h2>
@@ -613,10 +613,10 @@
   </ul>
   <p>We keep that you are in a place because you chose to be seen there, and keeping it for as long as you are is what that takes. Pressing Be seen out here is your consent to it, and pressing it again takes that back. We keep what you say in a place for 48 hours because you said it to whoever is there, the same as on the radio, and you can ask us to delete it sooner.</p>
 
-  <h2>Things that look like forms</h2>
+  <h2 id="things-that-look-like-forms">Things that look like forms</h2>
   <p>A few rooms have boxes you can type into, and none of them sends anything. The Guild&rsquo;s hand-in box checks a code inside the page, and sends which job to us only once you have switched on keeping your jobs in your Profile. <a href="zibaldone.html">The Zibaldone</a>&rsquo;s attribution slip puts a block of text on your own clipboard, and you decide where it goes. <a href="foundry.html">The Foundry</a> sets the words you type in a typeface, in your browser. The MUD Room&rsquo;s command line plays the game inside the page and sends nothing, except what you <code>say</code> while you are seen on the Slake. <strong>The CB is the one exception</strong>: its boxes, the chalkboard&rsquo;s, the pebble bowls&rsquo;, the suggestion box&rsquo;s, the fence&rsquo;s on Pando Calrissian&rsquo;s hill, the Fridge of Sighs&rsquo; and what you say on the Slake included, send what you type, to us, as written up above.</p>
 
-  <h2>Your rights</h2>
+  <h2 id="your-rights">Your rights</h2>
   <p>Because we hold so little, most of what the law gives you a right to ask about is not here to ask about. What there is:</p>
   <ul>
     <li><strong>Your photograph, your recording or your name in a credit:</strong> ask us to see it, correct it or take it down, and we will.</li>
@@ -639,10 +639,10 @@
   </ul>
   <p>If you are in the EU or the UK, you also have the right to access, correct, erase, restrict, object to and move your personal data, and to complain to your data protection authority. We do not sell or share personal information for advertising, so a <strong>Global Privacy Control</strong> signal from your browser has nothing here to opt you out of &mdash; the answer is already no.</p>
 
-  <h2>Reporting a security problem</h2>
+  <h2 id="reporting-a-security-problem">Reporting a security problem</h2>
   <p>If you have found a hole in this site, <a href="https://github.com/Stimpunks/Stimpunks-Love/security/advisories/new">report it privately on GitHub</a>; the policy is in <a href="https://github.com/Stimpunks/Stimpunks-Love/blob/main/SECURITY.md">SECURITY.md</a> and <a href="/.well-known/security.txt">security.txt</a>. A report there is handled by GitHub under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub&rsquo;s privacy statement</a>.</p>
 
-  <h2>When this page changes</h2>
+  <h2 id="when-this-page-changes">When this page changes</h2>
   <p>If what this site does with your information changes, this page changes first, the date at the top moves, and the change is written up in <a href="changelog.html">the changelog</a> on the day, where the <a href="feed.xml">feed</a> will pick it up.</p>
 
   <div style="max-width:400px;margin-top:34px;">

@@ -241,7 +241,7 @@ def main():
             die(f"the section {s.get('id')!r} has no cards and would render as a tab over nothing.")
         tape = TAPE.get(s["id"]) or die(f"the section {s['id']!r} has no tape colour in TAPE.")
         parts.append(f'    <section class="pb-spread" id="pb-{s["id"]}" style="--pb-tape:{tape};">\n')
-        parts.append(f'      <h2 class="pb-tab">{esc(s["tab"])}</h2>\n')
+        parts.append(f'      <h2 class="pb-tab" id="{esc(s["id"])}">{esc(s["tab"])}</h2>\n')
         parts.append('      <ul class="pb-pins">\n')
         for c in s["cards"]:
             parts.append(card_html(c, cur, i, consented))
@@ -255,7 +255,7 @@ def main():
             '    <section class="pb-memory">\n      <div class="pb-memcard">\n'
             '        <span class="pb-tack" aria-hidden="true"></span>\n'
             f'        <p class="pb-memkicker">{esc(m["kicker"])}</p>\n'
-            f'        <h2>{esc(m["name"])}</h2>\n'
+            f'        <h2 id="in-memory">{esc(m["name"])}</h2>\n'
             f'        <p class="pb-memwho">{esc(m["credit"])}</p>\n'
             f'        <blockquote>\n{quote}'
             f'            <p>&mdash; {esc(m["closer"])}</p>\n        </blockquote>\n'

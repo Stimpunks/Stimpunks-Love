@@ -234,7 +234,7 @@ for g in groups:
     swap(ROOM, f"jungle:{g['slug']}", f'''    <div class="gallery__head">
       {LEAF}
       <div>
-        <h2>{e(g["name"])}</h2>
+        <h2 id="gallery-{e(g["slug"])}">{e(g["name"])}</h2>
         <p>{e(g["sub"])}</p>
       </div>
     </div>

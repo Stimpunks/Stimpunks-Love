@@ -173,6 +173,20 @@
 .fm-body { display: grid; gap: 10px; min-width: 0; }
 .fm-body > * { margin: 0; }
 .fm-body h4, .fm-body h5, .fm-body h6 { font-size: 17px; }
+/* A link to a heading in a post (forum.js, headLinks): the street's .hlink in
+   the forums' clothes, the heading's own ink, shown on hover over the heading,
+   whenever it has the keyboard, and always where nothing can hover. The # is
+   generated, so no script reading a heading's words reads it. */
+.fm-hlink {
+  color: inherit; text-decoration: none; font-weight: inherit; white-space: nowrap;
+  padding: 10px 8px 10px 2px; margin: -10px -8px -10px calc(.35em - 2px);
+  opacity: 0; cursor: pointer;
+}
+.fm-hlink::before { content: '#'; }
+.fm-hlink[data-said]::after { content: '\00a0' attr(data-said); font-size: 14px; font-weight: 400; }
+.fm-body :is(h4, h5, h6):hover > .fm-hlink, .fm-hlink:focus, .fm-hlink[data-said] { opacity: 1; }
+@media (hover: none) { .fm-hlink { opacity: 1; } }
+@media print { .fm-hlink { display: none; } }
 .fm-body ul, .fm-body ol { margin: 0; padding-left: 1.4em; }
 .fm-body li + li { margin-top: 4px; }
 .fm-body blockquote { margin: 0; padding: 2px 0 2px 12px; border-left: 3px solid var(--cb-steel-2); display: grid; gap: 8px; }

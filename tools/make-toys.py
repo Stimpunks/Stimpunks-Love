@@ -359,7 +359,7 @@ def sign(secret):
     rota = "\n".join(f'          <li><a href="{e(w["url"])}">{e(w["word"])}</a></li>'
                      for w in words)
     return f'''    <section class="secret" style="flex:0 1 320px;" data-words="{e("|".join(w["word"] for w in words))}" data-urls="{e("|".join(w["url"] for w in words))}">
-      <h2>TODAY&rsquo;S SECRET WORD</h2>
+      <h2 id="secret-word">TODAY&rsquo;S SECRET WORD</h2>
       <p class="secret__word">{e(first["word"].upper())}</p>
       <small class="secret__rule">When anybody in this room says it, everybody screams. You know what to do. (<a class="secret__means" href="{e(first["url"])}">what it means</a>)</small>
       <button type="button" class="secret__say" hidden>SAY IT OUT LOUD</button>

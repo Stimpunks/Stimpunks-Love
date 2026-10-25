@@ -27,6 +27,9 @@
              box the server marked, { n, on, raw }, and its checkbox, which it
              makes tickable. Without one, a box is drawn ticked or not, and
              cannot be changed there. Each box is named by its item's words.
+     head    for a page whose headings can be linked to (the forums,
+             2026-10-24): a function given each heading once its words are in
+             it, which may give it an id and a link to itself.
 
    A LINK TO A TASK, A TOPIC OR A RECORD OF THE OFFICE (2026-10-21, links.js)
    arrives named for its reader by the server: { name, href } is drawn as a
@@ -87,7 +90,7 @@
     nodes.forEach(function (b) {
       var e;
       if (b.t === 'p') { e = el('p'); inline(b.c, e, o); }
-      else if (b.t === 'h') { e = el('h' + Math.min(6, b.level + o.top)); inline(b.c, e, o); }
+      else if (b.t === 'h') { e = el('h' + Math.min(6, b.level + o.top)); inline(b.c, e, o); if (o.head) o.head(e); }
       else if (b.t === 'hr') e = el('hr');
       else if (b.t === 'code') { e = el('pre'); e.appendChild(el('code', null, b.v)); e.tabIndex = 0; }
       else if (b.t === 'quote') { e = el('blockquote'); blocks(b.c, e, o); }
@@ -129,7 +132,7 @@
 
   window.loveMarkdown = {
     blocks: function (nodes, into, opts) {
-      blocks(nodes || [], into, { top: (opts && opts.top) || 2, prefix: (opts && opts.prefix) || 'md', pic: (opts && opts.pic) || null, box: (opts && opts.box) || null });
+      blocks(nodes || [], into, { top: (opts && opts.top) || 2, prefix: (opts && opts.prefix) || 'md', pic: (opts && opts.pic) || null, box: (opts && opts.box) || null, head: (opts && opts.head) || null });
     },
   };
 }());

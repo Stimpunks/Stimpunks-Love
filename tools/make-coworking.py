@@ -311,7 +311,7 @@ if suites:
     src = swap(src, "cw-suites", "\n".join(suite(x) for x in suites))
 note = data.get("access_note")
 if note:
-    src = swap(src, "cw-access", f'    <h2>{e(note["title"])}</h2>\n    <p class="cw-access">{e(note["said"])}</p>')
+    src = swap(src, "cw-access", f'    <h2 id="communication-access">{e(note["title"])}</h2>\n    <p class="cw-access">{e(note["said"])}</p>')
 src = swap(src, "cw-doors", "\n".join(door(d) for d in doors))
 credits = (
     f'    <p><strong>Every line on a door is our events page&rsquo;s</strong>, word for word: '
