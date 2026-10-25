@@ -3689,7 +3689,7 @@ test('only a real push service\'s address, with keys the right size, is kept', (
   const offCurve = rnd(65); offCurve[0] = 4;
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: offCurve.toString('base64url') } }), null, 'a key that is not a point');
   assert.equal(cleanSubscription({ ...d, keys: { ...d.keys, p256dh: rnd(64).toString('base64url') } }), null, 'a key the wrong size');
-  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, events: false, scheduled: false, words: true, rooms: [], everyRoom: false }, 'something started on');
+  assert.deepEqual(cleanWant({}), { all: false, mentions: false, replies: false, props: false, messages: false, world: false, calls: false, tasks: false, events: false, scheduled: false, suggestions: false, answered: false, words: true, rooms: [], everyRoom: false }, 'something started on');
   assert.equal(cleanWant({ everyRoom: 'yes' }).everyRoom, false, 'every room is on only when it is true');
   assert.equal(cleanWant({ rooms: Array.from({ length: 61 }, (_, i) => `room-${i}`) }), null);
   assert.deepEqual(cleanWant({ rooms: ['the-den', 'The Den', 'the-den'] }).rooms, ['the-den']);
@@ -7871,3 +7871,58 @@ test('what a feed bot says is nobody\'s: no username takes its name, nobody edit
   assert.equal(shapeMessages([{ ...m, feed: { ...m.feed, url: 'javascript:alert(1)' } }])[0].feed, undefined, 'a feed message took an address that is not https');
   assert.equal(shapeFeed({ ...m.feed, by: ['ryanboren', 7, 'x'.repeat(99)] }).by.length, 1);
 });
+
+import { notifySuggestion } from './lib.mjs';
+
+test('the suggestion box tells moderators who switched it on about what is new, whoever asked about a moderator\'s reply, and never the writer', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Ryan":["administrator"],"Juniper":[]}');
+  for (const h of ['Ryan', 'Juniper', 'Ada', 'Bex']) await claimAccount(h, h.toLowerCase() + ' has a long phrase', s, 0, mods, true);
+  const ryan = aDevice(), juniper = aDevice(), juniperOff = aDevice(), ada = aDevice(), adaQuiet = aDevice(), adaOff = aDevice(), bex = aDevice(), every = aDevice(), ryanPlain = aDevice();
+  await keepDevice(ryan, issueAccountPass('Ryan', 1, 'base'), { suggestions: true }, s);
+  await keepDevice(juniper, issueAccountPass('Juniper', 1, 'base'), { suggestions: true, answered: true }, s);
+  await keepDevice(juniperOff, issueAccountPass('Juniper', 1, 'base'), { mentions: true }, s);
+  await keepDevice(ada, issueAccountPass('Ada', 1), { answered: true }, s);
+  await keepDevice(adaQuiet, issueAccountPass('Ada', 1), { answered: true, words: false }, s);
+  await keepDevice(adaOff, issueAccountPass('Ada', 1), { suggestions: true }, s);
+  await keepDevice(bex, issueAccountPass('Bex', 1), { suggestions: true, answered: true }, s);
+  await keepDevice(every, issueAccountPass('Bex', 1), { all: true }, s);
+  // Ryan's own username without the moderators' pass is not a moderator's device.
+  await keepDevice(ryanPlain, issueAccountPass('Ryan', 1), { suggestions: true }, s);
+  assert.equal(cleanWant({}).suggestions, false, 'the box was on before anybody switched it on');
+  assert.equal(cleanWant({}).answered, false, 'answers were on before anybody switched them on');
+  const sent = [];
+  const send = async (sub, payload) => { sent.push({ to: sub.endpoint, payload }); return 201; };
+  const to = (d) => sent.filter((x) => x.to === d.endpoint).map((x) => x.payload);
+
+  const ASK = { role: 'mobile', handle: 'Ada', roles: new Set(), account: true, since: 0 };
+  const JUN = { role: 'base', handle: 'Juniper', roles: new Set(['moderator']), account: true, since: 0 };
+  const { item } = await addSuggestion(ASK, { kind: 'bug', title: 'Ramps', body: 'On   every\ndoor.' }, s);
+  await notifySuggestion(item, null, s, mods, send);
+  assert.deepEqual(to(ryan), [{ kind: 'suggestion', to: 'mods', handle: 'Ada', id: item.id, made: true, title: 'Ramps', text: 'On every door.' }], 'a new suggestion was not said to a moderator, or said with more');
+  assert.equal(to(juniper).length, 1);
+  assert.equal(to(juniperOff).length, 0, 'a moderator who never switched the box on was told');
+  assert.equal(to(adaOff).length + to(ada).length, 0, 'whoever dropped it in was told about their own suggestion');
+  assert.equal(to(bex).length + to(every).length, 0, 'somebody who is not a moderator was told what is new in the box');
+  assert.equal(to(ryanPlain).length, 0, 'a moderator\'s username without the moderators\' pass was told');
+
+  sent.length = 0;
+  const mod = await replySuggestion(JUN, item.id, { body: 'Fixed.', status: 'done' }, s);
+  await notifySuggestion(mod.item, mod.reply, s, mods, send);
+  assert.deepEqual(to(ada), [{ kind: 'suggestion', to: 'asker', handle: 'Juniper', id: item.id, made: false, title: 'Ramps', text: 'Fixed.', mark: 'done' }], 'whoever asked was not told about a moderator\'s reply');
+  assert.deepEqual(to(adaQuiet), [{ kind: 'suggestion', to: 'asker', handle: 'Juniper', id: item.id, made: false, title: '', text: '', mark: 'done' }], 'the words went to a device that turned them off');
+  assert.equal(to(ryan).length + to(juniper).length, 0, 'a moderator\'s reply told the moderators, or the moderator who wrote it');
+  assert.equal(to(bex).length, 0, 'somebody else was told about a moderator\'s reply');
+
+  sent.length = 0;
+  const back = await replySuggestion(ASK, item.id, { body: 'Thank you!' }, s);
+  await notifySuggestion(back.item, back.reply, s, mods, send);
+  assert.deepEqual(to(ryan).map((x) => [x.to, x.made, x.text]), [['mods', false, 'Thank you!']], 'a reply from whoever asked did not tell the moderators');
+  assert.equal(to(ada).length + to(adaQuiet).length, 0, 'whoever asked was told about their own reply');
+
+  // A moderator's own suggestion: other moderators are told, and its writer never.
+  sent.length = 0;
+  const own = await addSuggestion(JUN, { kind: 'feature', title: 'Kites', body: 'Please.' }, s);
+  await notifySuggestion(own.item, null, s, mods, send);
+  assert.equal(to(ryan).length, 1); assert.equal(to(juniper).length, 0, 'a moderator was told about their own suggestion');
+}));

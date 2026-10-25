@@ -12,10 +12,14 @@
      { action: 'preview', body }                how the words will set
    pics is a list of { id, alt }, pictures already added at /cb/suggestions/image
    (cb-suggest-image.mjs), and yes says the sender has looked at all of them.
-   The handle goes on the suggestion and on every reply, for everybody to see. Nothing a person types is logged. See ../cb/lib.mjs, the
+   The handle goes on the suggestion and on every reply, for everybody to see.
+   A new suggestion, or a reply from whoever asked, tells the moderators who
+   switched that on, and a moderator's reply tells whoever asked
+   (notifySuggestion), after it is in the box, so a slow push service never
+   holds up the answer. Nothing a person types is logged. See ../cb/lib.mjs, the
    suggestion box. */
 import { readPass, readSuggestions, shapeSuggestion, addSuggestion, replySuggestion, editSuggestionReply,
-  removeSuggestionReply, meTooSuggestion, removeSuggestion,
+  removeSuggestionReply, meTooSuggestion, removeSuggestion, notifySuggestion,
   parseBrass, cleanBrassBody, json, body, sameSite, SUGGEST_BODY_MAX } from '../cb/lib.mjs';
 
 const items = async () => (await readSuggestions()).map(shapeSuggestion);
@@ -23,7 +27,7 @@ const items = async () => (await readSuggestions()).map(shapeSuggestion);
 // asking the street for something, not a page.
 const QUIET = { 'x-robots-tag': 'noindex' };
 
-export default async (req) => {
+export default async (req, context) => {
   if (req.method === 'GET') return json(200, { items: await items() }, QUIET);
   if (!sameSite(req)) return json(403, { error: 'This box only answers stimpunks.world.' });
   const who = await readPass(req);
@@ -46,6 +50,10 @@ export default async (req) => {
     else if (b.action === 'remove') r = await removeSuggestion(who, String(b.id || ''));
     else return json(400, { error: 'Do what with it?' });
     if (r.error) return json(400, { error: r.error });
+    if (b.action === 'suggest' || b.action === 'reply') {
+      const told = notifySuggestion(r.item, r.reply || null).catch(() => []);
+      if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;
+    }
     return json(200, { items: await items(), id: r.item ? r.item.id : null, reply: r.reply ? r.reply.id : null, on: r.on }, QUIET);
   } catch (e) {
     return json(503, { error: 'The box is busy. Try again in a moment. Nothing was changed.' });

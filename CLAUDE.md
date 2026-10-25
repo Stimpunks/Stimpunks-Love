@@ -5766,7 +5766,13 @@ it), so taking that reply down takes the mark with it and no mark is ever withou
 it. A reply is edited by whoever wrote it (`canEdit`) and taken down by them or a moderator. An answer
 from before is read as the first reply (`threadOf`). **Me too** (`meTooSuggestion`, Ryan's ask the same
 day) says a suggestion affects you too, and is the reactions' rule: it names who, alphabetically, and
-never how many, nothing sorts by it, and whoever dropped it in has none to press. `addSuggestion`, `answerSuggestion` and `removeSuggestion` in `lib.mjs`, `/cb/suggestions`;
+never how many, nothing sorts by it, and whoever dropped it in has none to press. **Notifications for the
+box** (`notifySuggestion`, Ryan's and Norah's asks, 2026-10-25, when nobody was told about a new
+suggestion): two kinds, each off until switched on, `suggestions`, offered only to a moderator's pass (a
+suggestion dropped in, or a reply from whoever asked), and `answered` (a moderator's reply, to whoever
+asked). Which moderators hear the box is each one's own switch; Ryan's question was who should, and the
+answer kept it a choice, since administrators do most of the work and moderators field some. The friendly
+edit is telling every moderator by default, which is a switch somebody did not switch on. `addSuggestion`, `answerSuggestion` and `removeSuggestion` in `lib.mjs`, `/cb/suggestions`;
 the BASE and CLAIMED marks come from the pass, and taking one down is `canTakeOff`, the CB's rule for
 a message. The Markdown is `parseBrass`'s, built on the page by **`markdown.js`, which moved out of
 `brass.js` when the box became its second user** (the rack.js rule), and `make-brass.py` and

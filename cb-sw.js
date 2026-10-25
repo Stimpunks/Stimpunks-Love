@@ -42,6 +42,7 @@ function safePath(p) {
   if (/^\/office\.html#\/(?:(?:c|g|k|mailings|templates)\/[cgknt][A-Za-z0-9_-]{12}|m\/[0-9a-f]{8,32})(?:\/c\/m[A-Za-z0-9_-]{12})?$/.test(p)) return p;
   if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
   if (/^\/chat\.html#events(?:\/e[A-Za-z0-9_-]{12})?$/.test(p)) return p;
+  if (/^\/sandbox\.html#suggestion-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(p)) return p;
   return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
 }
 // A forum category's room, as the street named it in the notification.
@@ -115,8 +116,26 @@ function called(d) {
   return ['administrator', 'board', 'director', 'moderator'].indexOf(d.as) >= 0 ? '@' + d.as : 'you';
 }
 
+/* Something new in the suggestion box (2026-10-25): for a moderator, a
+   suggestion dropped in or a reply from whoever asked; for whoever asked, a
+   moderator's reply, and whether it marked the suggestion. Its title and
+   words only if the device wants the words. Pressing it opens the box on it. */
+function suggestionSays(d) {
+  var by = String(d.handle || 'Somebody').slice(0, 40);
+  var title = typeof d.title === 'string' && d.title ? '\u201c' + d.title.slice(0, 180) + '\u201d' : '';
+  var did = d.made ? ' dropped a suggestion in the box'
+    : d.mark === 'done' ? ' marked your suggestion done'
+    : d.mark === 'denied' ? ' marked your suggestion not doing'
+    : d.mark === 'open' ? ' opened your suggestion again'
+    : d.to === 'mods' ? ' replied to their suggestion' : ' replied to your suggestion';
+  var id = typeof d.id === 'string' ? d.id : '';
+  return { title: by + did, body: title ? title + (d.text ? ': ' + d.text : '') : 'Open the suggestion box in The Sandbox to see it.',
+    url: safePath('/sandbox.html#suggestion-' + id), tag: 'cb-suggestion-' + (id || 'box') };
+}
+
 function say(d) {
   if (!d || typeof d !== 'object') return Promise.resolve(null);
+  if (d.kind === 'suggestion') return Promise.resolve(suggestionSays(d));
   if (d.kind === 'forum') {
     var by = String(d.handle || 'Somebody').slice(0, 40);
     var cat = typeof d.cat === 'string' && d.cat ? d.cat.slice(0, 80) : 'the forums';

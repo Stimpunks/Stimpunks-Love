@@ -9304,7 +9304,7 @@ export function cleanSubscription(sub) {
 /* What a device asked for: a switch per kind and one for every kind, all off
    until switched on, the words, on unless switched off, the rooms it follows,
    and whether it follows every room. null if it follows too many. */
-export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks', 'events', 'scheduled'];
+export const PUSH_KINDS = ['mentions', 'replies', 'props', 'messages', 'world', 'calls', 'tasks', 'events', 'scheduled', 'suggestions', 'answered'];
 export function cleanWant(w) {
   w = w && typeof w === 'object' && !Array.isArray(w) ? w : {};
   const rooms = Array.isArray(w.rooms) ? [...new Set(w.rooms.map(roomTag).filter(Boolean))] : [];
@@ -9728,6 +9728,56 @@ export async function notifyProps(handle, writer, text, s = store(), mods, send 
       if ([...words].length > PUSH_WORDS) words = [...words].slice(0, PUSH_WORDS - 1).join('') + '…';
     }
     sends.push({ id, d, payload: { kind: 'props', handle: String(writer || ''), text: words }, opts: {} });
+  }
+  return deliver(sends, gone, s, send);
+}
+
+/* Something new in the suggestion box in The Sandbox (Ryan's ask, and Norah's,
+   2026-10-25: until then nobody was told, so a suggestion waited until somebody
+   happened to look). Each is a switch of its own, off until switched on:
+
+   · `suggestions`, offered only to a moderator's pass: a suggestion dropped
+     in, or a reply from whoever dropped it in, tells every moderator's device
+     that switched it on, so the people who can act on it, administrators
+     first, know without watching the box. Which moderators is each one's own
+     choice, by switching it on.
+   · `answered`: a moderator's reply tells whoever dropped it in, on devices
+     switched on as them, under canTakeOff's rule for whose it is.
+
+   Never the person who wrote it, never how many are waiting, and the title and
+   words only where a device wants the words. The box is public, so nothing
+   here is a secret; the words switch is for somebody reading over a shoulder.
+   The suggestion stays in the box whether or not this arrives. */
+export async function notifySuggestion(item, reply, s = store(), mods, send = sendPush) {
+  if (mods === undefined) mods = await loadMods();
+  if (send === sendPush && !pushReady()) return [];
+  if (!item || !item.id) return [];
+  const writer = reply ? reply.handle : item.handle;
+  const from = foldHandle(writer), asker = foldHandle(item.handle);
+  // Whoever asked, dropping it in or replying, tells the moderators; anybody
+  // else who can reply is a moderator, and tells whoever asked.
+  const toMods = !reply || from === asker;
+  const kind = toMods ? 'suggestions' : 'answered';
+  const cut = (v) => {
+    const w = linkWords(v).replace(/\s+/g, ' ').trim();
+    return [...w].length > PUSH_WORDS ? [...w].slice(0, PUSH_WORDS - 1).join('') + '…' : w;
+  };
+  const devs = await readDevices(s);
+  const sends = [], gone = [];
+  for (const [id, d] of Object.entries(devs)) {
+    if (!d || d.fold === from || !wants(d.want, kind)) continue;
+    if (!toMods && d.fold !== asker) continue;
+    const who = await deviceWho(d, s, mods);
+    if (!who) { gone.push(id); continue; }
+    if (foldHandle(who.handle) === from) continue;
+    if (toMods ? who.role !== 'base' : (foldHandle(who.handle) !== asker || !canTakeOff(who, item))) continue;
+    const payload = { kind: 'suggestion', to: toMods ? 'mods' : 'asker', handle: String(writer || ''), id: item.id, made: !reply, title: '', text: '' };
+    if (reply && reply.status) payload.mark = reply.status;
+    if (d.want.words !== false) {
+      payload.title = [...String(item.title || '')].slice(0, PUSH_WORDS).join('');
+      payload.text = cut(reply ? reply.body : item.body);
+    }
+    sends.push({ id, d, payload, opts: {} });
   }
   return deliver(sends, gone, s, send);
 }

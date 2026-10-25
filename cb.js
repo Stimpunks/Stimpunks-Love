@@ -2764,7 +2764,11 @@
     // Events (Ryan's ask, 2026-10-23): one you said you are interested in starting, and a new one.
     ['events', 'When an event I\u2019m interested in starts'],
     ['scheduled', 'New events on World and in rooms I follow'],
-    ['words', 'Show the words of a message, a post, props, a task or an event\u2019s title'],
+    // The suggestion box in The Sandbox (2026-10-25): a moderator's reply to
+    // yours, for anybody; and, for a moderator's pass only, something new there.
+    ['answered', 'When a moderator replies to a suggestion of mine'],
+    ['suggestions', 'Something new in the suggestion box: a suggestion, or a reply from whoever dropped it in', 'base'],
+    ['words', 'Show the words of a message, a post, props, a task, a suggestion or an event\u2019s title'],
   ];
   function pushable() { return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
   function ourReg() {

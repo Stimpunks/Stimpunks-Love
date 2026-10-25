@@ -49,6 +49,10 @@ IT REFUSES, RATHER THAN WRITING SOMETHING THAT WOULD BE UNTRUE:
     many. The server sends names, alphabetically, and the box is never sorted
     by them; suggest.js never reads how long the list is; and whoever dropped
     it in cannot say Me too to their own.
+  · ITS NOTIFICATIONS GOING WIDER (2026-10-25): what is new in the box tells
+    only a moderator's pass that switched it on, a moderator's reply tells only
+    whoever asked, neither tells whoever wrote it, and the box's function still
+    sends them once a suggestion or a reply is in.
   · the page's write section not shipping hidden, its scripts out of order, or
     the link to privacy.html#suggestions going nowhere.
   · the street's CSS for the box using any colour that is not the room's own: a
@@ -370,6 +374,14 @@ if "foldHandle(list[k].handle) === foldHandle(who.handle)" not in fn(lib, "meToo
     problems.append("lib.mjs: whoever dropped a suggestion in can say Me too to their own.")
 if re.search(r"metoo\.length|metoo\)\.length|\.sort\([^)]*metoo", js):
     problems.append("suggest.js: it reads how many said Me too, or sorts by it. Me too names who, never how many.")
+note = re.search(r"export async function notifySuggestion\(.*?\n\}", lib, re.S)
+note = note.group(0) if note else ""
+if ("toMods ? who.role !== 'base'" not in note or "!canTakeOff(who, item)" not in note
+        or "d.fold === from" not in note or "!wants(d.want, kind)" not in note):
+    problems.append("lib.mjs: notifySuggestion tells somebody it should not: what is new goes only to a moderator's pass, "
+                    "a moderator's reply only to whoever asked, nothing to whoever wrote it, and only on a switch.")
+if "notifySuggestion(r.item" not in code_of(FN):
+    problems.append("cb-suggest.mjs: nothing tells anybody about a new suggestion or reply any more.")
 if re.search(r"\.sort\(", code_of(FN)):
     problems.append("cb-suggest.mjs: it sorts the box. It is newest first, and nothing in it is ranked.")
 if "canTakeOff(who, p)" not in fn(lib, "removeSuggestion"):
