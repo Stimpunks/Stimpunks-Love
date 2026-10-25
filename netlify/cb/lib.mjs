@@ -13640,12 +13640,18 @@ export async function gbJoin(who, id, s = store(), now = Date.now(), fetchFn = f
   if (!c) return { error: 'This join request has no contact, so there is no name or email to send.' };
   if (!c.email) return { error: 'Their contact has no email address to send.' };
   if (c.noEmail) return { error: 'Their contact says not to email them. Ask them before adding them to a list.' };
+  // Givebutter keeps a contact by a first and a last name, or by an email address with no name
+  // (its help center's partial contacts), and one name alone is neither. The Join form files a
+  // one-word name as a last name alone, and a contact who gave no name is named by their
+  // address, so the names go as a pair or not at all; a 422 came back for a join request on
+  // 2026-10-25 when they went as they were.
+  const named = !!(c.first && c.last) && !/@/.test(c.first + c.last);
   const r = await fetchFn(GB_API + 'contacts', {
     method: 'POST',
     headers: { authorization: 'Bearer ' + key, accept: 'application/json', 'content-type': 'application/json' },
-    body: JSON.stringify({ first_name: c.first || null, last_name: c.last || null, emails: [c.email], tags, email_subscription: true }),
+    body: JSON.stringify({ ...(named ? { first_name: c.first, last_name: c.last } : {}), emails: [c.email], tags, email_subscription: true }),
   }).catch(() => null);
-  if (!r || !r.ok) return { error: 'Givebutter did not take it' + (r ? ` (it answered ${r.status})` : '') + '. Nothing was sent to the lists.' };
+  if (!r || !r.ok) return { error: 'Givebutter did not take it' + (r ? ` (it answered ${r.status}${await gbRefusal(r)})` : '') + '. Nothing was sent to the lists.' };
   let gone = false;
   await updateSealed(CASES, (was) => {
     const list = was && Array.isArray(was.cases) ? was.cases : [];
@@ -13656,7 +13662,17 @@ export async function gbJoin(who, id, s = store(), now = Date.now(), fetchFn = f
     copy[i] = { ...list[i], gb: { tags, t: now }, edited: now, editedBy: who.handle };
     return { cases: copy, top: topOf(was) };
   }, s);
-  return { sent: { tags, t: now }, gone };
+  return { sent: { tags, t: now }, named, gone };
+}
+/* What Givebutter said was wrong, in its own words, for the director who pressed and nobody
+   else: never kept and never logged. A 422's errors name each field and its rule. */
+async function gbRefusal(r) {
+  const b = await r.json().catch(() => null);
+  const said = b && b.errors && typeof b.errors === 'object'
+    ? Object.values(b.errors).flat().filter((x) => typeof x === 'string')
+    : b && typeof b.message === 'string' ? [b.message] : [];
+  const words = [...said.join(' ').replace(/\s+/g, ' ').trim()];
+  return words.length ? ': ' + (words.length > 300 ? words.slice(0, 299).join('') + '…' : words.join('')) : '';
 }
 
 /* OUR MEMBERS PAGE, FROM A JOIN REQUEST (Ryan's ask, 2026-10-23: "Add to the

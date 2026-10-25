@@ -6016,7 +6016,8 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   let ok = true;
   const fake = async (url, opts = {}) => {
     sent.push({ url, method: opts.method || 'GET', auth: opts.headers && opts.headers.authorization, body: opts.body ? JSON.parse(opts.body) : null });
-    return { ok, status: ok ? 200 : 422, json: async () => ({ id: 1, first_name: 'Robin' }) };
+    return { ok, status: ok ? 200 : 422, json: async () => (ok ? { id: 1, first_name: 'Robin' }
+      : { message: 'The given data was invalid.', errors: { first_name: ['The first name field is required when last name is present.'] } }) };
   };
   assert.ok((await gbJoin(TSAM, k.id, s, T0 + 3, fake)).error, 'somebody the office does not let in sent a join request to Givebutter');
   assert.ok((await gbJoin(TRYAN, none.id, s, T0 + 3, fake)).error, 'a join request that said no to every list was sent');
@@ -6025,11 +6026,12 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   assert.equal(sent.length, 0, 'Givebutter was asked when nothing should have been sent');
   // Givebutter refusing changes nothing on the join request.
   ok = false;
-  assert.match((await gbJoin(TRYAN, k.id, s, T0 + 4, fake)).error, /422/);
+  assert.match((await gbJoin(TRYAN, k.id, s, T0 + 4, fake)).error, /422: The first name field is required when last name is present\./, 'Givebutter\'s own reason was not passed on');
   assert.equal((await officeCase(TRYAN, k.id, s)).lists.sent, null, 'a refused send was kept as sent');
   ok = true;
   const r = await gbJoin(TRYAN, k.id, s, T0 + 5, fake);
   assert.deepEqual(r.sent, { tags: ['Members'], t: T0 + 5 });
+  assert.equal(r.named, true);
   const last = sent[sent.length - 1];
   assert.deepEqual([last.url, last.method, last.auth], ['https://api.givebutter.com/v1/contacts', 'POST', 'Bearer gb-test-key']);
   assert.deepEqual(last.body, { first_name: 'Robin', last_name: 'Hood', emails: ['robin@example.org'], tags: ['Members'], email_subscription: true },
@@ -6039,6 +6041,16 @@ test('Givebutter: a director\'s press sends a join request\'s name, email and th
   // The join request keeps which lists were sent and when, sealed, and its page says so.
   assertSealed(await s.get('office-cases', { type: 'json' }), ['Robin', 'Members']);
   assert.deepEqual((await officeCase(TRYAN, k.id, s)).lists, { lists: [{ tag: 'Members', yes: true }, { tag: 'Newsletter Mailing List', yes: false }], sent: { tags: ['Members'], t: T0 + 5 }, ready: true });
+  // One name alone, which the Join form files as a last name, and no name, which names a contact by
+  // their address: Givebutter keeps a contact by both names or by an email with none, so neither name goes.
+  await officeIntake({ type: 'community', entry: 963, email: 'jo@example.org', name: 'Jo', first: '', last: 'Jo', message: asks('Yes', 'Yes') }, s, T0 + 6, TMODS);
+  await officeIntake({ type: 'community', entry: 964, email: 'kim@example.org', message: asks('Yes', 'No') }, s, T0 + 7, TMODS);
+  for (const [entry, email, tags] of [[963, 'jo@example.org', ['Members', 'Newsletter Mailing List']], [964, 'kim@example.org', ['Members']]]) {
+    const one = (await readCases(s)).find((x) => x.form === entry);
+    const r1 = await gbJoin(TRYAN, one.id, s, T0 + 8, fake);
+    assert.equal(r1.named, false, `entry ${entry} was sent as named`);
+    assert.deepEqual(sent[sent.length - 1].body, { emails: [email], tags, email_subscription: true }, `entry ${entry} sent a name Givebutter would refuse alone`);
+  }
 })));
 
 /* ── The Members page, from a join request ───────────────────────────────── */

@@ -523,7 +523,7 @@ def check_givebutter(lib):
     for by number, and a gift keeps nothing about who gave; and it is written in
     one way only (Ryan, 2026-10-23, reversing "never written"): gbJoin, on a
     director's press of the gb-join action, sends a join request's first and
-    last name, email, the tags of the lists they said yes to and that they want
+    last name (as a pair, or neither), email, the tags of the lists they said yes to and that they want
     our emails, and nothing else, to POST /v1/contacts."""
     at = lib.find("/* GIVEBUTTER")
     if at < 0:

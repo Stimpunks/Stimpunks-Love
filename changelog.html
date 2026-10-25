@@ -41,6 +41,12 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-25-givebutter-one-name">2026-10-25 &mdash; Mailing lists for somebody with one name</h2>
+  <ul>
+    <li><strong>Adding somebody from a join request to our mailing lists failed with &ldquo;Givebutter did not take it (it answered 422)&rdquo;.</strong> The likeliest reason: the office sent Givebutter whatever name their contact had, and a one-word name on the Join form is filed as a last name with no first. Givebutter keeps a contact by a first and a last name together, or by an email address with no name, so the office now sends the two names together or neither, and somebody with one name goes to Givebutter by their email address alone, which the office says when it happens. Their name can be added in Givebutter. <a href="privacy.html#givebutter-lists">The privacy page</a> says so too. Changed: <code>netlify/cb/lib.mjs</code>, <code>office.js</code> and <code>privacy.html</code>.</li>
+    <li><strong>When Givebutter refuses, the office now says why, in Givebutter&rsquo;s own words</strong>, beside the number, to the director who pressed, so a refusal for any other reason says what it is. Nothing of it is kept.</li>
+  </ul>
+
   <h2 id="2026-10-25-sandbox-dial-after-title">2026-10-25 &mdash; The Sandbox opens on its title</h2>
   <ul>
     <li><strong>In <a href="sandbox.html">The Sandbox</a>, the dial comes after the room&rsquo;s title now</strong>, under the laptop and centred on it, where it had stood first on the page and to the left. Every other room puts its title first. Ryan&rsquo;s ask. The dial stands where the room&rsquo;s artifact put its preview dial, so the copy the street imports was changed to put it under the laptop, and it was brought in again; nothing else in the room changed. Changed: <code>sandbox.html</code>, <code>love.css</code> and <code>data/rooms/sandbox.json</code>.</li>

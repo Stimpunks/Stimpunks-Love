@@ -6213,8 +6213,11 @@ form type in `data/office.json`'s intake may name `lists`, each the Join form's 
 tag for that list (Members, Newsletter Mailing List, read off the account's own tags); `caseLists` reads the join request's
 own answers, and **Add them to Givebutter's lists** on its page runs `gbJoin` (the `gb-join` action), which sends `POST
 /v1/contacts` exactly the contact's first and last name, their email, the tags they said yes to and `email_subscription`,
-and nothing else. Givebutter matches somebody already there by email and **adds** tags, removing none (its Contact Tags
-page), so a second press changes nothing. The case keeps `gb`, which tags and when, sealed. `make-office.py` refuses a second
+and nothing else. **The names go as a pair or not at all** (`named`): Givebutter keeps a contact by both names or
+by an email with none, and the Join form files a one-word name as a last name alone; a join request came back 422 on 2026-10-25
+when they went as they were, and a refusal now carries Givebutter's own reasons (`gbRefusal`), shown to the director and never kept. Givebutter
+matches somebody already there by email and **adds** tags, removing none (its Contact Tags page), so a second press
+changes nothing. The case keeps `gb`, which tags and when, sealed. `make-office.py` refuses a second
 write anywhere in the Givebutter part, `gbJoin` reading more of the case than its answers, a call to it from anywhere but that
 action (never when a form arrives), and the privacy section gone. The friendly edits are **sending on arrival** "to save a
 press", which puts every spam entry on our lists, **sending their profile or city "so Givebutter has the whole picture"**,
