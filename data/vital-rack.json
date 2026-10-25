@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-24T11:20Z",
+ "set": "2026-10-25T11:19Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-24T11:20:00Z"
+     "2026-10-25T11:19:10Z"
     ]
    ]
   }
@@ -258,6 +258,16 @@
    "published": "2026-10-17T15:00:26Z",
    "state": "screen",
    "runs": 460,
+   "channel": "Rainbow Plant Life"
+  },
+  {
+   "id": "GI4JojpYW_0",
+   "source": "rainbow-plant-life",
+   "form": "long",
+   "title": "The Cheap and Easy Soup you’ll make all winter long",
+   "published": "2026-10-24T15:00:23Z",
+   "state": "screen",
+   "runs": 425,
    "channel": "Rainbow Plant Life"
   },
   {
@@ -341,6 +351,16 @@
    "channel": "Sarah's Vegan Kitchen"
   },
   {
+   "id": "1mz94SwI0TQ",
+   "source": "sarahs-vegan-kitchen",
+   "form": "long",
+   "title": "When fall arrives, I make soup & bread 🍂",
+   "published": "2026-10-24T13:54:41Z",
+   "state": "screen",
+   "runs": 1670,
+   "channel": "Sarah's Vegan Kitchen"
+  },
+  {
    "id": "KokysFzLQlU",
    "source": "sarahs-vegan-kitchen",
    "form": "short",
@@ -416,6 +436,26 @@
    "form": "long",
    "title": "3 Crispy Potato Recipes You’ll Want to Make Again",
    "published": "2026-10-23T16:30:26Z",
+   "state": "screen",
+   "runs": 84,
+   "channel": "Ahmad Noori"
+  },
+  {
+   "id": "zhYLGxpUnPY",
+   "source": "ahmad-noori",
+   "form": "long",
+   "title": "3 Cozy Vegan Soups You'll Want on Repeat",
+   "published": "2026-10-24T16:30:09Z",
+   "state": "screen",
+   "runs": 86,
+   "channel": "Ahmad Noori"
+  },
+  {
+   "id": "p3JnUY9kiN4",
+   "source": "ahmad-noori",
+   "form": "long",
+   "title": "3 Crispy Vegan Snacks You Need to Try",
+   "published": "2026-10-25T01:30:34Z",
    "state": "screen",
    "runs": 84,
    "channel": "Ahmad Noori"
@@ -531,16 +571,6 @@
    "channel": "Ahmad Noori"
   },
   {
-   "id": "YUVZVb9VR6E",
-   "source": "veganproteins",
-   "form": "long",
-   "title": "Cheap, Vegan, Protein McMuffins Are My New Breakfast Staple",
-   "published": "2026-09-24T15:45:30Z",
-   "state": "screen",
-   "runs": 1042,
-   "channel": "VeganProteins"
-  },
-  {
    "id": "IHzjJ9c__go",
    "source": "veganproteins",
    "form": "long",
@@ -651,15 +681,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "olKg1tKadHk",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "My Daughter’s Favourite Brownies Have Avocado in Them",
-   "published": "2026-10-20T15:46:59Z",
-   "state": "pending",
-   "why": "live, or not out yet"
-  },
-  {
    "id": "tGZqrTLsXXQ",
    "source": "pb-with-j",
    "form": "long",
@@ -670,13 +691,13 @@
    "channel": "PB with J"
   },
   {
-   "id": "UanpylUCDi8",
+   "id": "olKg1tKadHk",
    "source": "pb-with-j",
-   "form": "short",
-   "title": "DIY Taco Seasoning: Easy Homemade Spice Blend! #shorts",
-   "published": "2026-09-24T12:16:26Z",
+   "form": "long",
+   "title": "Avocado Banana Brownies? Somehow, They’re Delicious",
+   "published": "2026-10-24T14:00:07Z",
    "state": "screen",
-   "runs": 44,
+   "runs": 572,
    "channel": "PB with J"
   },
   {
