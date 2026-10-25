@@ -13,7 +13,7 @@
    left in it, and a report on the moderators' desk past its thirty days.
    And every event with no time left to happen in, which a read never shows
    anyway, and the record of which starts were told, after a day. */
-import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls, sweepBrassImages, sweepForum, sweepDms, sweepEvents } from '../cb/lib.mjs';
+import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls, sweepBrassImages, sweepSuggestImages, sweepForum, sweepDms, sweepEvents } from '../cb/lib.mjs';
 
 export default async () => {
   await sweep();
@@ -27,6 +27,7 @@ export default async () => {
   await sweepBeacons(); // and every host's beacon nobody has heard from
   await sweepImages();  // and every picture no live message holds, after the channels
   await sweepBrassImages();  // and every board picture no post holds, a day after it was put up
+  await sweepSuggestImages(); // and every picture nothing in the suggestion box holds, a day after it was added
   await sweepSeen();    // and anybody still marked as seen in a room who has gone quiet
   await sweepCalls();   // and anybody 8x8 never said had left a call, once no token could still hold
   await sweepForum();   // and every forum topic past its category's keep, with everything in it

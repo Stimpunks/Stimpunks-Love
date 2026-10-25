@@ -6357,15 +6357,30 @@ export async function clearNotice(who, s = store(), now = Date.now()) {
    claimed username, and nobody can set either on a suggestion themselves.
 
    THE WORDS ARE THE BOARD'S MARKDOWN, read here once into nodes by parseBrass,
-   never into HTML, and built on the page with textContent. No pictures: a bug
-   report with a screenshot is a picture of somebody's screen, and that is a
-   consent question nobody has asked yet. */
+   never into HTML, and built on the page with textContent.
+
+   A SUGGESTION AND AN ANSWER CAN EACH CARRY PICTURES (Ryan's call, 2026-10-25,
+   reversing words only, so a bug can come with its screenshot). The board's
+   pipeline with one difference: anybody signed on adds them, not only a
+   moderator. Each is redrawn in the sender's browser (window.loveRedraw in
+   cb.js) and refused here if it still carries camera data; each needs a
+   description; and the form asks the sender to say they have looked at all of
+   it, because a screenshot is a picture of somebody's screen, other people's
+   messages included. An upload waits under suggest-img/, marked with its
+   sender's mark so nobody else can put it in the box, and is served to anybody
+   ONLY WHILE A SUGGESTION OR AN ANSWER HOLDS IT, so a picture added and never
+   dropped in is never public, and one taken down stops being served at once.
+   It goes when what holds it goes; one nothing holds is swept after a day. */
 export const SUGGEST_KINDS = ['suggestion', 'feature', 'bug'];
 export const SUGGEST_TITLE_MAX = 120;
 export const SUGGEST_BODY_MAX = 4000;
 export const SUGGEST_REPLY_MAX = 2000;
 export const SUGGEST_KEEP = 300;
+export const SUGGEST_PICS = 4;           // pictures on a suggestion, and on an answer
+export const SUGGEST_ALT_MAX = 600;      // characters of a picture's description, which is needed
 const SUGGEST = 'suggestions';
+const SUGGEST_IMG = 'suggest-img/';
+const SUGGEST_IMG_UNSENT = 24 * 60 * 60 * 1000;
 
 function cleanSuggestBody(v, max) {
   const t = cleanBrassBody(v);
@@ -6378,16 +6393,65 @@ export async function readSuggestions(s = store()) {
   return (d && Array.isArray(d.items)) ? d.items : [];
 }
 
+const shapePics = (list) => list.map((x) => ({ id: x.id, alt: x.alt }));
+
 export function shapeSuggestion(p) {
   const out = { id: p.id, kind: p.kind, title: p.title, body: p.body, ast: parseBrass(p.body),
     handle: p.handle, t: p.t, status: p.answer ? p.answer.status : 'open' };
   if (p.base) out.base = true;
   else if (p.claimed) out.claimed = true;
+  if (Array.isArray(p.pics) && p.pics.length) out.pics = shapePics(p.pics);
   if (p.answer) {
     out.answer = { status: p.answer.status, body: p.answer.body, ast: parseBrass(p.answer.body),
       handle: p.answer.handle, t: p.answer.t };
+    if (Array.isArray(p.answer.pics) && p.answer.pics.length) out.answer.pics = shapePics(p.answer.pics);
   }
   return out;
+}
+
+/* Every picture a suggestion holds, its answer's included. */
+function suggestionPics(p) {
+  return [...(p.pics || []), ...((p.answer && p.answer.pics) || [])].map((x) => x.id);
+}
+
+/* Whose an upload is: the folded name and when it was claimed. Never sent. */
+function suggestMark(who) {
+  return createHash('sha256').update(`suggest-pic|${foldHandle(who.handle)}|${who.since || ''}`).digest('base64url');
+}
+
+/* The pictures a suggestion or an answer asks for (a list of { id, alt }):
+   the ones it already had, kept, and this sender's own uploads. { pics, fresh }
+   or { error }; fresh is the ids that were not there before, which the write
+   checks nothing else in the box holds. */
+async function suggestPics(who, f, had, s) {
+  const asked = Array.isArray(f && f.pics) ? f.pics : [];
+  if (!asked.length) return { pics: [], fresh: [] };
+  if (asked.length > SUGGEST_PICS) return { error: `Up to ${SUGGEST_PICS} pictures go with each one.` };
+  const mark = suggestMark(who);
+  const pics = [], fresh = [], ids = new Set();
+  for (const a of asked) {
+    const id = imageId(a && a.id);
+    if (!id || ids.has(id)) return { error: 'One of those pictures is not ready. Take it off and add it again.' };
+    ids.add(id);
+    const t = tidy(a.alt);
+    const alt = t && [...t].length <= SUGGEST_ALT_MAX ? t : null;
+    if (!alt) return { error: `Say what every picture shows, in up to ${SUGGEST_ALT_MAX} characters: anybody reading the box with a screen reader hears that in its place.` };
+    if (!had.includes(id)) {
+      const got = await s.getWithMetadata(SUGGEST_IMG + id, { type: 'arrayBuffer' });
+      if (!got || !got.metadata || got.metadata.by !== mark) return { error: 'One of those pictures is not ready. Take it off and add it again.' };
+      fresh.push(id);
+    }
+    pics.push({ id, alt });
+  }
+  if (f.yes !== true) return { error: 'Say that you have looked at all of every picture, and that nothing in it is private: it goes in the box for anybody to see.' };
+  return { pics, fresh };
+}
+
+/* Whether any suggestion but `except` already holds one of these ids. */
+function heldElsewhere(list, ids, except) {
+  if (!ids.length) return false;
+  const want = new Set(ids);
+  return list.some((p) => p.id !== except && suggestionPics(p).some((id) => want.has(id)));
 }
 
 /* Anybody signed on, dropping one in. { item } or { error }. */
@@ -6399,14 +6463,19 @@ export async function addSuggestion(who, f, s = store(), now = Date.now()) {
   if (!title) return { error: `Give it a title, up to ${SUGGEST_TITLE_MAX} characters.` };
   const body = cleanSuggestBody(f.body, SUGGEST_BODY_MAX);
   if (!body) return { error: `Say a bit more about it, up to ${SUGGEST_BODY_MAX} characters.` };
+  const got = await suggestPics(who, f, [], s);
+  if (got.error) return got;
   const item = { id: randomUUID(), kind, title, body, handle: who.handle, t: now };
   if (who.role === 'base') item.base = true;
   else if (who.account) item.claimed = true;
-  let full = false;
+  if (got.pics.length) item.pics = got.pics;
+  let full = false, taken = false;
   await updateList(SUGGEST, 'items', (list) => {
     full = list.length >= SUGGEST_KEEP;
-    return full ? null : [item, ...list];
+    taken = heldElsewhere(list, got.fresh, item.id);
+    return full || taken ? null : [item, ...list];
   }, s);
+  if (taken) return { error: 'One of those pictures is already in the box. Add it again.' };
   if (full) return { error: 'The box is full. A moderator has to take some answered ones down before another fits.' };
   return { item };
 }
@@ -6417,40 +6486,94 @@ export async function answerSuggestion(who, id, f, s = store(), now = Date.now()
   if (!who || who.role !== 'base') return { error: 'Only a moderator can answer a suggestion.' };
   const status = f && ['done', 'denied', 'open'].includes(f.status) ? f.status : null;
   if (!status) return { error: 'Mark it done, not doing, or still open.' };
-  let reply = null;
+  let reply = null, got = { pics: [], fresh: [] };
   if (status !== 'open') {
     reply = cleanSuggestBody(f.reply, SUGGEST_REPLY_MAX);
     if (!reply) return { error: `Say why, in a reply of up to ${SUGGEST_REPLY_MAX} characters: whoever asked will read it.` };
+    const now0 = (await readSuggestions(s)).find((p) => p.id === id);
+    const had = ((now0 && now0.answer && now0.answer.pics) || []).map((x) => x.id);
+    got = await suggestPics(who, f, had, s);
+    if (got.error) return got;
   }
-  let found = false, done = null;
+  let found = false, done = null, why = null, dropped = [];
   await updateList(SUGGEST, 'items', (list) => {
-    found = false; done = null;
+    found = false; done = null; why = null; dropped = [];
     const k = list.findIndex((p) => p.id === id);
     if (k < 0) return null;
     found = true;
+    const was = ((list[k].answer && list[k].answer.pics) || []).map((x) => x.id);
+    // A picture kept from the answer as it was read must still be on it.
+    if (got.pics.some((x) => !got.fresh.includes(x.id) && !was.includes(x.id))) { why = 'The answer changed while you were writing. Look at it again.'; return null; }
+    if (heldElsewhere(list, got.fresh, null)) { why = 'One of those pictures is already in the box. Add it again.'; return null; }
     const next = { ...list[k] };
     if (status === 'open') delete next.answer;
-    else next.answer = { status, body: reply, handle: who.handle, t: now };
+    else {
+      next.answer = { status, body: reply, handle: who.handle, t: now };
+      if (got.pics.length) next.answer.pics = got.pics;
+    }
+    const keep = new Set(got.pics.map((x) => x.id));
+    dropped = was.filter((x) => !keep.has(x));
     done = next;
     const copy = list.slice(); copy[k] = next; return copy;
   }, s);
   if (!found) return { error: 'That suggestion has been taken down.' };
+  if (why) return { error: why };
+  for (const x of dropped) await s.delete(SUGGEST_IMG + x);
   return { item: done };
 }
 
 /* Taking one down: whoever posted it, under canTakeOff's rule, or any moderator. */
 export async function removeSuggestion(who, id, s = store()) {
   if (!who) return { error: 'Sign on to the CB to take a suggestion down.' };
-  let why = null, gone = false;
+  let why = null, gone = null;
   await updateList(SUGGEST, 'items', (list) => {
-    why = null; gone = false;
+    why = null; gone = null;
     const p = list.find((x) => x.id === id);
     if (!p) { why = 'That suggestion has already been taken down.'; return null; }
     if (!canTakeOff(who, p)) { why = 'Only whoever posted it, or a moderator, can take it down.'; return null; }
-    gone = true;
+    gone = p;
     return list.filter((x) => x.id !== id);
   }, s);
-  return gone ? { removed: true } : { error: why };
+  if (!gone) return { error: why };
+  for (const x of suggestionPics(gone)) await s.delete(SUGGEST_IMG + x);
+  return { removed: true };
+}
+
+/* Anybody signed on, adding a picture, already redrawn in their browser. It
+   waits, marked as theirs and shown to nobody, until a suggestion or an answer
+   of theirs takes it. { id } or { error }. */
+export async function putSuggestImage(who, bytes, s = store(), now = Date.now()) {
+  if (!who) return { error: 'Sign on to the CB to put a picture in the box.' };
+  if (!bytes || !bytes.length) return { error: 'There was no picture in that.' };
+  if (bytes.length > IMG_MAX) return { error: 'That picture is too big, even after your browser made it smaller.' };
+  const kind = imageKind(bytes);
+  if (!kind) return { error: 'That is not a picture the box can show.' };
+  if (carriesMetadata(bytes, kind)) return { error: 'That picture still carries its camera data. Add it again in the box, which takes that off.' };
+  const id = randomUUID();
+  await s.set(SUGGEST_IMG + id, bytes, { metadata: { t: now, type: kind, by: suggestMark(who) } });
+  return { id };
+}
+
+/* A picture, for anybody, but only while something in the box holds it. */
+export async function getSuggestImage(id, s = store()) {
+  if (!imageId(id)) return null;
+  if (!(await readSuggestions(s)).some((p) => suggestionPics(p).includes(id))) return null;
+  const got = await s.getWithMetadata(SUGGEST_IMG + id, { type: 'arrayBuffer' });
+  if (!got || !got.metadata) return null;
+  return { data: got.data, meta: { type: got.metadata.type } };
+}
+
+/* Hourly: every picture nothing in the box holds, once a day has passed since
+   it was added. */
+export async function sweepSuggestImages(s = store(), now = Date.now()) {
+  const held = new Set((await readSuggestions(s)).flatMap(suggestionPics));
+  for (const b of (await s.list({ prefix: SUGGEST_IMG })).blobs || []) {
+    if (held.has(b.key.slice(SUGGEST_IMG.length))) continue;
+    const got = await s.getWithMetadata(b.key, { type: 'arrayBuffer' });
+    const t = got && got.metadata && got.metadata.t;
+    if (typeof t === 'number' && now - t < SUGGEST_IMG_UNSENT) continue;
+    await s.delete(b.key);
+  }
 }
 
 /* ── Events ───────────────────────────────────────────────────────────────

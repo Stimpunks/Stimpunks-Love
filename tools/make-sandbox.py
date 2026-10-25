@@ -29,8 +29,15 @@ IT REFUSES, RATHER THAN WRITING SOMETHING THAT WOULD BE UNTRUE:
     either. The friendly edit is "just use innerHTML for the Markdown", and that
     is a script on a page anybody reads, written by anybody with the community
     password.
-  · suggest.js storing anything, or asking anywhere but /cb/suggestions; and
-    markdown.js asking anywhere at all.
+  · suggest.js storing anything, or asking anywhere but /cb/suggestions and
+    /cb/suggestions/image; and markdown.js asking anywhere at all.
+  · A PICTURE IN THE BOX (Ryan's call, 2026-10-25, reversing words only) going
+    any way but the CB's one redraw: suggest.js drawing on a canvas of its own;
+    the server taking one from somebody signed off, one still carrying camera
+    data, one with no description, one nobody said they had looked at, or
+    somebody else's upload; a picture shown while nothing in the box holds it;
+    one outliving what held it; its answer leaving out noindex; or the privacy
+    page losing the section that says all of that.
   · the server's rules going soft: anybody signed on drops one in, only a
     moderator answers, an answer to done or not doing always has a reply, and
     taking one down goes through canTakeOff, the CB's own rule for a message.
@@ -55,6 +62,8 @@ JS = ROOT / "suggest.js"
 MD = ROOT / "markdown.js"
 LIB = ROOT / "netlify/cb/lib.mjs"
 FN = ROOT / "netlify/functions/cb-suggest.mjs"
+FN_IMG = ROOT / "netlify/functions/cb-suggest-image.mjs"
+SWEEP = ROOT / "netlify/functions/cb-midnight.mjs"
 PRIVACY = ROOT / "privacy.html"
 SITE = "https://stimpunks.world/"
 
@@ -319,8 +328,14 @@ for name, src in (("suggest.js", js), ("markdown.js", md)):
 if re.search(r"\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|EventSource", md):
     problems.append("markdown.js: it asks somewhere for something. It builds nodes and nothing else.")
 for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-    if url != "/cb/suggestions":
-        problems.append(f"suggest.js: it calls {url}. The box talks to its own function and nothing else.")
+    if url not in ("/cb/suggestions", "/cb/suggestions/image"):
+        problems.append(f"suggest.js: it calls {url}. The box talks to its own functions and nothing else.")
+if re.search(r"getContext|toBlob|createImageBitmap|OffscreenCanvas|convertToBlob", js):
+    problems.append("suggest.js: it draws a picture itself. Every picture goes through window.loveRedraw, the CB's "
+                    "one redraw, because two copies of what takes a camera's GPS off is one that gets fixed and one "
+                    "that does not.")
+if "window.loveRedraw(" not in js:
+    problems.append("suggest.js: a picture no longer goes through window.loveRedraw before it is sent.")
 if "window.loveMarkdown.blocks" not in js:
     problems.append("suggest.js: it builds the box's words some way other than markdown.js.")
 
@@ -342,8 +357,34 @@ if read_at < 0 or act_at < 0 or read_at > act_at or "sameSite(req)" not in f:
     problems.append("cb-suggest.mjs: it must check the site and the pass before it does anything a POST asks.")
 if "'x-robots-tag': 'noindex'" not in f:
     problems.append("cb-suggest.mjs: what is in the box is not for search engines, and the answer no longer says so.")
-if 'id="suggestions"' not in PRIVACY.read_text():
+privacy = PRIVACY.read_text()
+if 'id="suggestions"' not in privacy:
     problems.append("privacy.html: no section with id=\"suggestions\", which the box links for what it keeps.")
+if 'id="suggestion-pictures"' not in privacy:
+    problems.append("privacy.html: no id=\"suggestion-pictures\", which says what a picture in the box is and how long it stays.")
+
+put, get, pics = fn(lib, "putSuggestImage"), fn(lib, "getSuggestImage"), re.search(r"async function suggestPics\(.*?\n\}", lib, re.S)
+pics = pics.group(0) if pics else ""
+if "if (!who) return" not in put or "carriesMetadata(bytes, kind)" not in put or "imageKind(bytes)" not in put:
+    problems.append("lib.mjs: putSuggestImage takes a picture from somebody signed off, or one still carrying camera data.")
+if "by: suggestMark(who)" not in put or "got.metadata.by !== mark" not in pics:
+    problems.append("lib.mjs: an upload is no longer marked as its sender's, so somebody else could put it in the box.")
+if "if (!alt) return" not in pics or "f.yes !== true" not in pics:
+    problems.append("lib.mjs: a picture goes in the box with no description, or with nobody saying they looked at all of it.")
+if "suggestionPics(p).includes(id)" not in get:
+    problems.append("lib.mjs: getSuggestImage shows a picture nothing in the box holds.")
+if "SUGGEST_IMG + x" not in fn(lib, "removeSuggestion") or "SUGGEST_IMG + x" not in fn(lib, "answerSuggestion"):
+    problems.append("lib.mjs: a picture outlives the suggestion or the answer that let go of it.")
+if "sweepSuggestImages()" not in SWEEP.read_text():
+    problems.append("cb-midnight.mjs: nothing sweeps a picture added to the box and never dropped in.")
+g = code_of(FN_IMG)
+put_at, pass_at = g.find("putSuggestImage(who"), g.find("await readPass(req)")
+if pass_at < 0 or put_at < 0 or pass_at > put_at or "sameSite(req)" not in g:
+    problems.append("cb-suggest-image.mjs: it must check the site and the pass before it takes a picture.")
+if "'x-robots-tag': 'noindex'" not in g:
+    problems.append("cb-suggest-image.mjs: a picture in the box is not for search engines, and the answer no longer says so.")
+if "public" in re.findall(r"'cache-control': '([^']*)'", g + "'cache-control': ''")[0]:
+    problems.append("cb-suggest-image.mjs: a picture may sit in a shared cache, where taking it down does not reach.")
 
 css = LOVE.read_text()
 m = re.search(r"/\* street:sandbox:board:begin \*/(.*?)/\* street:sandbox:board:end \*/", css, re.S)
@@ -400,4 +441,5 @@ if not CONTRIB.exists() or CONTRIB.read_text() != contributing:
     CONTRIB.write_text(contributing)
 print(f"the sandbox: the box and the steps in {data['page']}, and CONTRIBUTING.md from the same steps; "
       "the box built from nodes and never HTML, anybody signed on writes, only moderators answer, always "
-      "with a reply, and nothing is taken down but by its poster or a moderator.")
+      "with a reply, nothing is taken down but by its poster or a moderator, and a picture goes in only redrawn, "
+      "described and looked at, and is shown only while the box holds it.")

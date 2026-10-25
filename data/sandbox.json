@@ -10,13 +10,14 @@
     "how": [
       {"list": [
         "**Anybody signed on to the CB can drop something in**: a suggestion, a feature request, or a bug report, about this room or anywhere on the street, the CB included. Your handle goes on it, for everybody to see.",
+        "**A picture can go with it**, a screenshot of a bug most of all, and with a moderator’s answer too. Each is redrawn in your browser, which takes off anything a camera or a phone wrote into it, each needs a sentence saying what it shows, and anybody can see it in the box, so look at all of it first.",
         "**Anybody can read what is in the box**, signed on or not.",
         "**Our moderators answer each one**: done, or not doing, and why, with their own username on the reply. An answer can change, and a not yet can become a yes.",
         "**It stays until it is taken down**, by whoever dropped it in or by any moderator. Nothing in the box is counted, ranked or voted on. [What the box keeps](site:privacy.html#suggestions).",
         "**A security problem is not for the box**, where everybody can read it. Report it privately: [SECURITY.md](repo:SECURITY.md) says how."
       ]}
     ],
-    "signon": "**To drop one in, sign on to the CB**: press **Get on the CB** on the radio in the corner of your screen. You are given the starter password when you join our community, and [the Community Center](site:community-center.html#getting-started) says how. Not on the CB? [Write to us](https://stimpunks.org/contact/) instead, or [fix it yourself](#sbs-dig).",
+    "signon": "**To drop one in, sign on to the CB**: press **Get on the CB** on the radio in the corner of your screen. You join with an invite and a username of your own, and [the Community Center](site:community-center.html#getting-started) says how. Not on the CB? [Write to us](https://stimpunks.org/contact/) instead, or [fix it yourself](#sbs-dig).",
     "signed": "Signed on to the CB as",
     "signed_after": ". Your handle goes on whatever you drop in, for everybody to see.",
     "noscript": "Reading the box needs scripts. Without them, or without the CB, [write to us](https://stimpunks.org/contact/) instead."

@@ -5763,11 +5763,24 @@ the BASE and CLAIMED marks come from the pass, and taking one down is `canTakeOf
 a message. The Markdown is `parseBrass`'s, built on the page by **`markdown.js`, which moved out of
 `brass.js` when the box became its second user** (the rack.js rule), and `make-brass.py` and
 `make-sandbox.py` both refuse innerHTML in it. A full box refuses rather than pushing the oldest
-out. No pictures, because a screenshot of a bug is a picture of somebody's screen; no feed;
-`noindex` on every answer; nothing counted. **The friendly edits are a vote button, a count of what
-is open, and a screenshot upload**, and each needs a decision of Ryan's written into
-`privacy.html#suggestions` first. **A security problem is not for the box**, which says so and points
-at SECURITY.md.
+out. No feed; `noindex` on every answer; nothing counted. **The friendly edits are a vote button and a count
+of what is open**, and each needs a decision of Ryan's written into `privacy.html#suggestions` first.
+**A security problem is not for the box**, which says so and points at SECURITY.md.
+
+**A SUGGESTION AND AN ANSWER CAN EACH CARRY PICTURES, AND THEY ARE AS PUBLIC AS THE WORDS.** Ryan's
+call, 2026-10-25, reversing words only, so a bug can come with its screenshot; `privacy.html#suggestion-pictures`
+was written first. The board's pipeline opened to anybody signed on: each picture goes through
+`window.loveRedraw` (suggest.js draws on no canvas of its own), `putSuggestImage` refuses camera data,
+an upload waits under `suggest-img/` marked with its sender's mark (`suggestMark`) so nobody else can put it
+in, each needs a description, and the form's tick says the sender looked at all of it, because a
+screenshot can hold other people's messages, a call's faces, other tabs. **`getSuggestImage` serves a
+picture only while a suggestion or an answer in the box holds it**, so an upload never dropped in is never
+public and one taken down stops at once; `cache-control` is `private`, so no shared cache keeps one.
+`SUGGEST_PICS` each, deleted with what let go of them, swept hourly a day after an orphan was added.
+`make-sandbox.py` holds all of it. **The friendly edits are a picture with no description "so a quick
+bug report is quicker", serving uploads before they are dropped in "so the preview can use the real
+address", and a picture on the channel's or the forums' rules**: the box is public, which neither of those
+is.
 
 **THE FORUMS ARE THE CB'S, FOR WHAT NEEDS LONGER THAN TWO DAYS, AND ONLY A CLAIMED USERNAME READS THEM.** Ryan's
 brief, 2026-10-18, after Discourse, so the CB and the forums together are where our community is, for everything. `forum.html`

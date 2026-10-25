@@ -7,8 +7,16 @@
    WHAT IS IN THE BOX ARRIVES AS NODES, NOT HTML, and markdown.js builds it with
    createElement and textContent, so nothing anybody types becomes markup here.
    tools/make-sandbox.py refuses innerHTML and its relatives in this file,
-   refuses storage, and refuses a request anywhere but /cb/suggestions. This
-   file reads love-cb and never writes it.
+   refuses storage, and refuses a request anywhere but /cb/suggestions and its
+   pictures. This file reads love-cb and never writes it.
+
+   A SUGGESTION AND AN ANSWER CAN CARRY PICTURES (Ryan's call, 2026-10-25), a
+   screenshot of a bug most of all. Each goes through window.loveRedraw, the
+   CB's one redraw in cb.js, which takes off everything a camera or a phone
+   wrote into it before anything is sent; this file draws on no canvas of its
+   own. Each is shown as it was redrawn, needs a sentence saying what it shows,
+   and goes in only with a tick saying the sender has looked at all of it,
+   because a screenshot is a picture of somebody's screen and the box is public.
 
    NOTHING IS COUNTED. The filters say what is showing, never how many there
    are: a number beside a box of other people's requests is a league table of
@@ -48,6 +56,21 @@
     catch (e) { return ''; }
   }
   function words(nodes, into) { window.loveMarkdown.blocks(nodes, into, { top: 4, prefix: 'sbs' }); }
+  function picUrl(id) { return '/cb/suggestions/image?id=' + encodeURIComponent(id); }
+  // The pictures on a suggestion or an answer, each whole, each opening at its
+  // full size, each with its description as its words.
+  function shots(list, into) {
+    if (!list || !list.length) return;
+    var ul = el('ul', 'sbs-shots');
+    list.forEach(function (x) {
+      var li = el('li', 'sbs-shot');
+      var a = el('a'); a.href = picUrl(x.id);
+      var img = el('img'); img.src = picUrl(x.id); img.alt = x.alt || '';
+      img.loading = 'lazy'; img.decoding = 'async';
+      a.appendChild(img); li.appendChild(a); ul.appendChild(li);
+    });
+    into.appendChild(ul);
+  }
 
   // The CB's own rule for taking a message off (canTakeOff in lib.mjs, and
   // Radio.prototype.mine in cb.js), copied only to decide whether to draw the
@@ -126,6 +149,7 @@
     var body = el('div', 'sbs-item__body');
     words(p.ast || [], body);
     art.appendChild(body);
+    shots(p.pics, art);
     if (p.answer) {
       var ans = el('div', 'sbs-answer');
       var head = el('p', 'sbs-answer__head');
@@ -136,6 +160,7 @@
       ans.appendChild(head);
       var reply = el('div', 'sbs-answer__body');
       words(p.answer.ast || [], reply);
+      shots(p.answer.pics, reply);
       ans.appendChild(reply);
       art.appendChild(ans);
     }
@@ -156,7 +181,7 @@
 
   function confirmDown(p, tools, down) {
     var box = el('div', 'sbs-sure');
-    box.appendChild(el('p', null, 'This takes “' + p.title + '” out of the box for everybody, with its answer. It cannot be put back.'));
+    box.appendChild(el('p', null, 'This takes “' + p.title + '” out of the box for everybody, with its answer and its pictures. It cannot be put back.'));
     var yes = el('button', 'sbs-btn sbs-btn--small', 'Yes, take it down'); yes.type = 'button';
     var no = el('button', 'sbs-btn sbs-btn--small', 'Leave it in'); no.type = 'button';
     box.appendChild(yes); box.appendChild(no);
@@ -206,6 +231,147 @@
   function readout() { var p = el('p', 'sbs-said'); p.setAttribute('role', 'status'); return p; }
   function button(text, type) { var b = el('button', 'sbs-btn', text); b.type = type || 'button'; return b; }
 
+  /* ── Pictures ──────────────────────────────────────────────────────────
+     had is the pictures already on what is being written (an answer being
+     changed); here is the form's own readout. Answers the field, with what
+     to send (list), whether the sender ticked (yes), whether it is ready to
+     go (check), a way in for a pasted or dropped one (take), and what to do
+     once the form has gone (done). */
+  var PICS = 4;
+  function onlyPictures(files) {
+    return Array.prototype.slice.call(files || []).filter(function (f) { return /^image\//.test(f.type || '') && !/svg/i.test(f.type); });
+  }
+  function picsField(had, here) {
+    var set = el('fieldset', 'sbs-choices sbs-pics');
+    set.appendChild(el('legend', null, 'Pictures, if you like'));
+    var hint = el('p', 'sbs-hint', 'Up to ' + PICS + ', a screenshot of a bug most of all. You can paste one into the words, or drop one on them. Each is redrawn in your browser before it goes, which takes off anything a camera or a phone wrote into it, and anybody can see it in the box, so look at all of it first.');
+    hint.id = 'sbs-f' + (++n);
+    set.appendChild(hint);
+    var list = el('ul', 'sbs-pics__list');
+    set.appendChild(list);
+    // image/ and its star in two halves: the tools read a slash and a star as a comment.
+    var file = el('input'); file.type = 'file'; file.accept = 'image/' + '*'; file.multiple = true; file.hidden = true; file.tabIndex = -1;
+    var add = button('Add a picture');
+    add.setAttribute('aria-describedby', hint.id);
+    var addRow = row(); addRow.appendChild(add); addRow.appendChild(file);
+    set.appendChild(addRow);
+    var yes = el('input'); yes.type = 'checkbox';
+    var yesP = el('p', 'sbs-check');
+    var yesL = el('label'); yesL.appendChild(yes);
+    yesL.appendChild(document.createTextNode(' I have looked at all of every picture. Nothing in it is private: no messages but my own, no faces from a call, nothing from my other tabs, emails or notifications, and anybody recognisable in it has said yes to it being in the box, where anybody can see it.'));
+    yesP.appendChild(yesL);
+    set.appendChild(yesP);
+
+    var pics = [], pending = 0;
+    function lay() {
+      list.textContent = '';
+      pics.forEach(function (x, k) {
+        var li = el('li', 'sbs-pic');
+        var img = el('img', 'sbs-pic__thumb'); img.alt = ''; img.src = x.url;
+        li.appendChild(img);
+        var right = el('div', 'sbs-pic__about');
+        right.appendChild(el('p', 'sbs-pic__name', x.name ? x.name + ', as it will go in' : 'Picture ' + (k + 1) + ', as it is now'));
+        var alt = el('textarea', 'sbs-in'); alt.rows = 2; alt.maxLength = 600; alt.value = x.alt;
+        alt.addEventListener('input', function () { x.alt = alt.value; });
+        x.box = alt;
+        right.appendChild(field('What picture ' + (k + 1) + ' shows', alt, 'Needed: a screen reader says this in its place.'));
+        var off = button('Take picture ' + (k + 1) + ' off');
+        off.classList.add('sbs-btn--small');
+        off.addEventListener('click', function () {
+          pics.splice(k, 1);
+          if (x.mine) URL.revokeObjectURL(x.url);
+          lay();
+          say('Picture ' + (k + 1) + ' is off. Nothing of it goes in the box.', here);
+          var next = list.querySelectorAll('textarea')[Math.min(k, pics.length - 1)];
+          (next || add).focus();
+        });
+        right.appendChild(off);
+        li.appendChild(right);
+        list.appendChild(li);
+      });
+      list.hidden = !pics.length;
+      yesP.hidden = !pics.length;
+      add.textContent = pics.length ? 'Add another picture' : 'Add a picture';
+    }
+    (had || []).forEach(function (x) { pics.push({ id: x.id, alt: x.alt || '', url: picUrl(x.id) }); });
+    lay();
+
+    function take(files) {
+      var room = PICS - pics.length - pending;
+      if (files.length > room) say('Up to ' + PICS + ' pictures go with each one, so ' + (room > 0 ? 'only the first ' + (room === 1 ? 'one' : room) + ' will go.' : 'none of those will go.'), here);
+      files.slice(0, Math.max(0, room)).forEach(send);
+    }
+    function send(f) {
+      if (!window.loveRedraw) { say('The radio is still tuning in, and every picture goes through it. Try again in a moment.', here); return; }
+      var name = f.name || 'the picture';
+      pending++; lay();
+      say('Getting ' + name + ' ready…', here);
+      window.loveRedraw(f).then(function (blob) {
+        return fetch('/cb/suggestions/image', {
+          method: 'POST', body: blob, credentials: 'omit', cache: 'no-store',
+          headers: { 'content-type': 'image/jpeg', 'authorization': 'Bearer ' + me.pass, 'accept': 'application/json' },
+        }).then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b, blob: blob }; });
+        }, function () { return { away: true }; });
+      }, function (e) { return { bad: e && e.message === 'big' ? 'big' : 'read' }; }).then(function (r) {
+        pending--;
+        if (r.bad || r.away || r.status !== 200 || !r.body.id) {
+          lay();
+          say(r.bad === 'big' ? name + ' is too big, even made smaller. Try a smaller one.' :
+            r.bad ? name + ' could not be read as a picture. Try another.' :
+            r.away ? name + ' did not go in: the box could not be reached just now.' :
+            why(r, name + ' did not go in. Try another.'), here);
+          return;
+        }
+        var x = { id: r.body.id, alt: '', url: URL.createObjectURL(r.blob), name: f.name || '', mine: true };
+        pics.push(x); yes.checked = false; lay();
+        say(name + ' is ready, redrawn as it will go in. Say what it shows.', here);
+        x.box.focus();
+      });
+    }
+    add.addEventListener('click', function () {
+      if (pics.length + pending >= PICS) { say('Up to ' + PICS + ' pictures go with each one. Take one off to add another.', here); return; }
+      file.click();
+    });
+    file.addEventListener('change', function () { take(onlyPictures(file.files)); file.value = ''; });
+
+    return {
+      el: set,
+      take: take,
+      list: function () { return pics.map(function (x) { return { id: x.id, alt: x.alt }; }); },
+      yes: function () { return pics.length ? yes.checked : false; },
+      // The first thing still to do before it can go, put where the hand is.
+      check: function () {
+        if (pending) { say('A picture is still getting ready. Wait a moment, then send it.', here); return false; }
+        for (var k = 0; k < pics.length; k++) {
+          if (!pics[k].alt.trim()) { say('Say what picture ' + (k + 1) + ' shows first.', here); pics[k].box.focus(); return false; }
+        }
+        if (pics.length && !yes.checked) { say('Look at all of every picture, then tick the box under them.', here); yes.focus(); return false; }
+        return true;
+      },
+      done: function () { pics.forEach(function (x) { if (x.mine) URL.revokeObjectURL(x.url); }); },
+    };
+  }
+  // A screenshot pasted into the words, or a picture dropped on them, joins
+  // the pictures. Words pasted stay words.
+  function picturesFrom(box, pics) {
+    box.addEventListener('paste', function (e) {
+      var f = onlyPictures(e.clipboardData && e.clipboardData.files);
+      if (!f.length) return;
+      if (!(e.clipboardData.getData('text/plain'))) e.preventDefault();
+      pics.take(f);
+    });
+    box.addEventListener('dragover', function (e) {
+      if (e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], 'Files') >= 0) e.preventDefault();
+    });
+    box.addEventListener('drop', function (e) {
+      var f = onlyPictures(e.dataTransfer && e.dataTransfer.files);
+      if (!f.length) return;
+      e.preventDefault();
+      pics.take(f);
+    });
+  }
+
   /* preset fills the form for a room that sends people here with something
      particular to ask: Chimera Obscura's "ask for an animal" arrives at
      #suggest-chimera. The words are still theirs to change or send. */
@@ -220,12 +386,15 @@
     if (preset) { title.value = preset.title || ''; body.value = preset.body || ''; }
     form.appendChild(kind);
     form.appendChild(field('A title', title));
-    form.appendChild(field('Say more', body, 'Half an idea is fine. For a bug: which room, what you pressed, what happened, what you expected, and which browser. Markdown works: **bold**, *italic*, `code`, [a link](https://…), - lists, > quotes and ``` code blocks ```.'));
+    form.appendChild(field('Say more', body, 'Half an idea is fine. For a bug: which room, what you pressed, what happened, what you expected, and which browser. A screenshot can go with it, below. Markdown works: **bold**, *italic*, `code`, [a link](https://…), - lists, > quotes and ``` code blocks ```.'));
     var preview = el('div', 'sbs-preview'); preview.hidden = true;
     var buttons = row();
     var look = button('Preview'), go = button('Drop it in', 'submit'), stop = button('Not now');
     buttons.appendChild(look); buttons.appendChild(go); buttons.appendChild(stop);
     var here = readout();
+    var pics = picsField([], here);
+    picturesFrom(body, pics);
+    form.appendChild(pics.el);
     form.appendChild(buttons);
     form.appendChild(here);
     form.appendChild(preview);
@@ -240,15 +409,17 @@
         say('The preview is under the buttons.', here);
       }, function () { say('The box could not be reached just now.', here); });
     });
-    stop.addEventListener('click', function () { form.remove(); opener.focus(); });
+    stop.addEventListener('click', function () { pics.done(); form.remove(); opener.focus(); });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (!pics.check()) return;
       go.disabled = true;
       say('Dropping it in…', here);
-      call({ action: 'suggest', kind: kind.value(), title: title.value, body: body.value }).then(function (r) {
+      call({ action: 'suggest', kind: kind.value(), title: title.value, body: body.value, pics: pics.list(), yes: pics.yes() }).then(function (r) {
         go.disabled = false;
         if (r.status === 200) {
           all = r.body.items || [];
+          pics.done();
           form.remove();
           showing = 'all'; pressFilter();
           draw(r.body.id);
@@ -273,21 +444,30 @@
     var reply = el('textarea', 'sbs-in sbs-in--body'); reply.rows = 5; reply.maxLength = 2000;
     if (p.answer) reply.value = p.answer.body;
     form.appendChild(status);
-    form.appendChild(field('Your reply', reply, 'Needed for done and not doing: whoever asked reads it, with your username on it. Markdown works.'));
+    form.appendChild(field('Your reply', reply, 'Needed for done and not doing: whoever asked reads it, with your username on it. Markdown works. Still open takes the reply and its pictures off.'));
     var buttons = row();
     var go = button('Save the answer', 'submit'), stop = button('Leave it');
     buttons.appendChild(go); buttons.appendChild(stop);
     var here = readout();
+    var pics = picsField(p.answer ? p.answer.pics : [], here);
+    picturesFrom(reply, pics);
+    form.appendChild(pics.el);
+    // Still open takes the answer off, pictures and all, so it asks for none.
+    function openNow() { pics.el.hidden = status.value() === 'open'; }
+    status.addEventListener('change', openNow); openNow();
     form.appendChild(buttons);
     form.appendChild(here);
-    stop.addEventListener('click', function () { form.remove(); opener.focus(); });
+    stop.addEventListener('click', function () { pics.done(); form.remove(); opener.focus(); });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      var open = status.value() === 'open';
+      if (!open && !pics.check()) return;
       go.disabled = true;
       say('Saving…', here);
-      call({ action: 'answer', id: p.id, status: status.value(), reply: reply.value }).then(function (r) {
+      call({ action: 'answer', id: p.id, status: status.value(), reply: reply.value,
+        pics: open ? [] : pics.list(), yes: open ? false : pics.yes() }).then(function (r) {
         go.disabled = false;
-        if (r.status === 200) { all = r.body.items || []; draw(p.id); say('Answered, with your username on it.'); return; }
+        if (r.status === 200) { all = r.body.items || []; pics.done(); draw(p.id); say('Answered, with your username on it.'); return; }
         say(why(r, 'That did not work. The answer was not changed.'), here);
       }, function () { go.disabled = false; say('The box could not be reached just now. The answer was not changed.', here); });
     });

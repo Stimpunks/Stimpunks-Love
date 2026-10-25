@@ -9,45 +9,52 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Sun, 25 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Screenshots in the suggestion box</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-25-suggestion-box-pictures</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-suggestion-box-pictures</guid>
+      <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A suggestion, a feature request or a bug report in The Sandbox’s suggestion box can carry pictures now, up to four, a screenshot of a bug most of all, and so can a moderator’s answer. Add one with Add a picture, or paste or drop one into the words. This reverses the box’s words only, which it had because a screenshot is a picture of somebody’s screen: Ryan’s call, written into the privacy page first. Each picture is redrawn in your browser before it goes, by the CB’s own redraw, which takes off everything a camera or a phone wrote into it; each needs a sentence saying what it shows; and the form asks you to tick that you have looked at all of it and it shows nothing private, because a picture in the box is as public as its words. A picture is shown only while the box holds it, and goes with the suggestion, or with the answer that lets go of it. Changed: suggest.js, love.css, sandbox.html, privacy.html, community-center.html, data/sandbox.json, data/community.json, netlify/cb/lib.mjs, netlify/functions/cb-suggest-image.mjs, netlify/functions/cb-midnight.mjs and tools/make-sandbox.py. The box’s line for somebody not signed on said you are given the starter password when you join our community. It says you join with an invite and a username of your own, as everywhere else since 2026-10-21.</description>
+    </item>
+    <item>
       <title>Bring another animal to Chimera Obscura’s bench</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-chimera-bench-more-animals</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-chimera-bench-more-animals</guid>
-      <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:59:00 GMT</pubDate>
       <description>In Chimera Obscura, the animals are filed by class: mammals, birds, reptiles, amphibians, fish and invertebrates, each class alphabetical, in every animal picker on the bench and in the list of what is on the shelf at the foot of the page. A picker still jumps to an animal when you type its first letter. Bring another animal takes the place of Let any part come from any animal, which put every animal on the shelf under every part. The bench starts with two animals; each press brings one more, with a picker of its own, up to one for every part, and every part’s choices are only the animals on the bench, so they stay one press each however long the shelf gets. The button under each picker after the second takes that animal off again, and the parts that came from it go to the first animal. A chimera opened from a link puts every animal it was made from on the bench. Ryan’s call. Changed: chimera-obscura.html, chimera-obscura.js, chimera.js, love.css, data/chimera-obscura.json and tools/make-chimera-obscura.py.</description>
     </item>
     <item>
       <title>Choosing a body on the bench keeps everything else</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-chimera-bench-keeps-parts</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-chimera-bench-keeps-parts</guid>
-      <pubDate>Sun, 25 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:58:00 GMT</pubDate>
       <description>In Chimera Obscura, choosing the second animal’s body changes the body and nothing else. It used to make the second animal the first one too, so both selectors named the same animal, the second one dropped out of every part, and every part chosen so far went back to it. Reported by our community. Changing the first or second animal now changes only the parts that came from the animal it replaces. A part chosen from the other animal, the body included, stays where it was put. Changed: chimera-obscura.js.</description>
     </item>
     <item>
       <title>A bat, a crow, a meerkat, a lion, a tiger, a rhino, a camel and a hippo on Chimera Obscura’s shelf</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-chimera-shelf-savanna</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-chimera-shelf-savanna</guid>
-      <pubDate>Sun, 25 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:57:00 GMT</pubDate>
       <description>New on the shelf in Chimera Obscura, from Ryan’s list: a bat, a crow, a meerkat, a lion, a tiger, a rhino, a camel and a hippo. The zebra on the list was already there. Every part of each goes with every part of every other animal, as before. They brought parts nothing on the shelf had, and each goes on any animal: a lion’s mane and a camel’s humps under Back; a bat’s wings both ways, spread under Back and folded down its sides under Arms; a rhino’s horns on the nose; a camel’s eyelashes; a bat’s fangs and a hippo’s tusks; and among the markings a tiger’s stripes, a rhino’s folds and a crow’s blue gloss. A lion with a tiger’s parts is suggested as a Liger and a tiger with a lion’s as a Tigon, the names English already has for the two together. A crow before an animal whose name starts with a vowel is a Cro, so a crow with an opossum’s parts is a Croopossum: the room checks every name it can suggest, and the plain join had a slur in the middle of it. Every list of animals is in alphabetical order now: the first and second animal, every part’s choices, and the list of what is on the shelf at the foot of the page. Changed: chimera.js, data/chimera-obscura.json and tools/make-chimera-obscura.py.</description>
     </item>
     <item>
       <title>A call’s window has the radio’s grip and its − and +</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-call-sizes</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-call-sizes</guid>
-      <pubDate>Sun, 25 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:56:00 GMT</pubDate>
       <description>A room’s call moves and sizes the way the radio does. Move is the six dots, and Small and Large are − and +, which go one size at a time between Large, the whole window, Regular, where a call opens, Small, a tile in the corner, and Stamp, which is new: the size of a postage stamp, the picture and the bar and nothing else. Each says which size it goes to, and says so when the call is already as small or as large as it goes. The call carries on through every change. The CB guide has the rest.</description>
     </item>
     <item>
       <title>Symphrenia Chill in the Music Room</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-symphrenia-chill</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-symphrenia-chill</guid>
-      <pubDate>Sun, 25 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:55:00 GMT</pubDate>
       <description>A third playlist on Helen’s phonograph, at her ask: the Music Room plays Symphrenia Chill, Zbigniew Preisner, Brian Eno, Philip Glass and Erik Satie, whole or a record at a time off a shelf of its own, and the yurt has a songbook of it like the others. Its shelf opens with something to read alongside it: Existential Diversity, the Symphrenic Bodymind and Wider Existence, by Helen Edgar and David Gray-Hammond, on The Wider Existence. Any of her playlists can carry a link like that now, with the writers named beside it. Every playlist in her rooms was read again the same day. Strange things will happen has two more songs on its shelf, Big Thief’s “Velvet Ring” and a mix of songs like it, which she had added since; the others had not changed.</description>
     </item>
     <item>
       <title>The Reading Room points at where you can borrow a book</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-reading-room-borrow</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-reading-room-borrow</guid>
-      <pubDate>Sun, 25 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:54:00 GMT</pubDate>
       <description>Helen’s Reading Room now says where to borrow a book, at her ask: its spines open their authors’ pages, and a line under the bookcases’ introduction sends anybody who wants the book itself across the campgrounds to Ryan’s shelves in the cave at the Solarpunk Hermitage, where every book has a link to borrow it or read it.</description>
     </item>
     <item>

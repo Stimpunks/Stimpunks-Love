@@ -34,7 +34,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
   readNotice, shapeNotice, setNotice, clearNotice, cleanNotice, noticeId, NOTICE_FIRST, NOTICE_MAX,
-  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
+  readSuggestions, shapeSuggestion, addSuggestion, answerSuggestion, removeSuggestion, SUGGEST_KEEP, SUGGEST_BODY_MAX, putSuggestImage, getSuggestImage, sweepSuggestImages, SUGGEST_PICS, REACTIONS, reactionOf, toggleReaction, canTakeOff, canEdit, editMessage, channelMentions, MENTION_MAX, SMALL_SPECIES, SMALL_COATS, SMALL_MARKS, animalNoun, ANIMAL_ID, setShown, isShown, shownPets, stickerOf, shapeSticker, issueAccountPass, accountAnswer, isMod, claimAccount, checkPassword, changePassword, recoverAccount, resetAccount, deleteAccount,
   readAccount, acctKey, cleanCode, ACCT_TRIES, ACCT_LOCK, ACCT_RESET_FOR,
   kickAccount, barAccount, liftBar, barredNow, barWords, shapeBar, accountDirectory, BAR_FOR,
   imageKind, carriesMetadata, putImage, getImage, droppedImages, sweepImages, shape, IMG_MAX,
@@ -84,7 +84,7 @@ function memoryStore({ etagOnRead }) {
     async set(key, value, opts = {}) {
       await tick();
       // A picture's or a forum upload's key is a fresh random id, so writing it can race nothing.
-      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|forum-up|forum-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
+      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|suggest-img|forum-up|forum-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -536,6 +536,51 @@ test('the suggestion box: whoever posted it takes it down, a claimed one only wi
   assert.equal((await removeSuggestion(MOD, other.id, s)).removed, true, 'a moderator could not take one down');
   assert.deepEqual(await readSuggestions(s), []);
   assert.ok((await removeSuggestion(MOD, other.id, s)).error, 'taken down twice');
+});
+
+test('the suggestion box: a picture is redrawn, described, looked at, and shown only while the box holds it', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const raw = async (id) => s.get('suggest-img/' + id, { type: 'arrayBuffer' });
+  assert.ok((await putSuggestImage(null, jpeg(), s)).error, 'somebody signed off added a picture');
+  const withExif = Buffer.concat([Buffer.from([0xff, 0xd8, 0xff, 0xe1, 0x00, 0x10]), Buffer.from('Exif\u0000\u0000'), Buffer.alloc(64)]);
+  assert.ok((await putSuggestImage(ANY, new Uint8Array(withExif), s)).error, 'a picture still carrying camera data went in');
+  assert.ok((await putSuggestImage(ANY, new Uint8Array(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>')), s)).error, 'an SVG went in');
+  const { id } = await putSuggestImage(ANY, jpeg(), s, 0);
+  assert.equal(await getSuggestImage(id, s), null, 'a picture nothing in the box holds was shown');
+  const ask = (pics, more) => ({ kind: 'bug', title: 'The castle', body: 'It fell.', pics, ...more });
+  assert.ok((await addSuggestion(ANY, ask([{ id }]), s)).error, 'a picture with no description');
+  assert.ok((await addSuggestion(ANY, ask([{ id, alt: 'The castle, fallen' }]), s)).error, 'a picture nobody said they had looked at');
+  assert.ok((await addSuggestion({ ...ANY, handle: 'Bo' }, ask([{ id, alt: 'x' }], { yes: true }), s)).error, 'somebody put somebody else\'s picture in the box');
+  const many = [];
+  for (let i = 0; i <= SUGGEST_PICS; i++) many.push({ id: (await putSuggestImage(ANY, jpeg(), s, 0)).id, alt: 'x' });
+  assert.ok((await addSuggestion(ANY, ask(many, { yes: true }), s)).error, 'more pictures than a suggestion holds');
+  const { item } = await addSuggestion(ANY, ask([{ id, alt: 'The castle, fallen' }], { yes: true }), s);
+  assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).pics, [{ id, alt: 'The castle, fallen' }]);
+  assert.ok(await getSuggestImage(id, s), 'a picture in the box was not shown');
+  assert.ok((await addSuggestion(ANY, ask([{ id, alt: 'Again' }], { yes: true }), s)).error, 'one picture went in the box twice');
+  // A moderator's answer carries pictures too, and lets go of them when it changes.
+  const { id: a1 } = await putSuggestImage(MOD, jpeg(), s, 0);
+  assert.ok((await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }] }, s)).error, 'an answer\'s picture nobody said they had looked at');
+  assert.ok((await answerSuggestion(MOD2, item.id, { status: 'done', reply: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }], yes: true }, s)).error, 'a moderator put another moderator\'s upload in');
+  await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Fixed.', pics: [{ id: a1, alt: 'Standing' }], yes: true }, s);
+  assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).answer.pics, [{ id: a1, alt: 'Standing' }]);
+  const { id: a2 } = await putSuggestImage(MOD2, jpeg(), s, 0);
+  await answerSuggestion(MOD2, item.id, { status: 'done', reply: 'Fixed again.', pics: [{ id: a1, alt: 'Standing up' }, { id: a2, alt: 'Closer' }], yes: true }, s);
+  assert.deepEqual(shapeSuggestion((await readSuggestions(s))[0]).answer.pics.map((x) => x.alt), ['Standing up', 'Closer'], 'a kept picture was not kept');
+  await answerSuggestion(MOD, item.id, { status: 'done', reply: 'Just words.', pics: [{ id: a2, alt: 'Closer' }], yes: true }, s);
+  assert.equal(await raw(a1), null, 'a picture outlived the answer that let go of it');
+  await answerSuggestion(MOD, item.id, { status: 'open' }, s);
+  assert.equal(await raw(a2), null, 'a picture outlived the answer taken off');
+  assert.ok(await getSuggestImage(id, s), 'opening it again took the suggestion\'s own picture');
+  await removeSuggestion(ANY, item.id, s);
+  assert.equal(await getSuggestImage(id, s), null, 'a picture was shown after its suggestion was taken down');
+  assert.equal(await raw(id), null, 'a picture outlived its suggestion');
+  // An upload nothing takes is swept after its day, and never before.
+  const { id: stray } = await putSuggestImage(ANY, jpeg(), s, 0);
+  await sweepSuggestImages(s, 1000);
+  assert.ok(await raw(stray), 'an upload was swept before its day was up');
+  await sweepSuggestImages(s, 2 * 24 * 60 * 60 * 1000);
+  assert.equal(await raw(stray), null, 'an upload nothing holds was never swept');
 });
 
 test('the suggestion box: a full box refuses the next one and pushes nothing out', async () => {

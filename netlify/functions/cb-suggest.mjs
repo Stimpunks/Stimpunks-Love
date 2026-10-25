@@ -1,10 +1,12 @@
 /* The suggestion box in The Sandbox. GET, with no pass, is every suggestion,
    newest first, for anybody: the box is read by whoever walks past, like the
    Brass Tacks Board. POST, with a pass:
-     { action: 'suggest', kind, title, body }   drop one in (anybody signed on)
-     { action: 'answer', id, status, reply }    done, not doing, or open again (a moderator)
+     { action: 'suggest', kind, title, body, pics, yes }   drop one in (anybody signed on)
+     { action: 'answer', id, status, reply, pics, yes }    done, not doing, or open again (a moderator)
      { action: 'remove', id }                   take one down (whoever posted it, or a moderator)
      { action: 'preview', body }                how the words will set
+   pics is a list of { id, alt }, pictures already added at /cb/suggestions/image
+   (cb-suggest-image.mjs), and yes says the sender has looked at all of them.
    The handle goes on the suggestion and the moderator's on the reply, for
    everybody to see. Nothing a person types is logged. See ../cb/lib.mjs, the
    suggestion box. */

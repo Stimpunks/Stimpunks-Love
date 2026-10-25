@@ -24978,6 +24978,26 @@ a.th-door__way:hover { border-color: var(--th-sun); color: var(--th-text); }
 .room-sandbox .sbs-choice { display: flex; align-items: center; gap: .45rem; min-height: 2.25rem; }
 .room-sandbox .sbs-choice input { width: 1.15rem; height: 1.15rem; accent-color: var(--sb-dusk); margin: 0; }
 .room-sandbox .sbs-preview { margin-top: .5rem; padding: .75rem 1rem; border: 2px dashed var(--sb-sanddeep); border-radius: .4rem; }
+/* Pictures on a suggestion or an answer: each whole, never cropped, framed in
+   the room's dusk, in a row that wraps. On the form each waits beside its
+   description as it was redrawn, with the tick that says it was looked at. */
+.room-sandbox .sbs-board .sbs-shots { list-style: none; display: flex; flex-wrap: wrap; gap: .75rem; margin: .8rem 0 1rem; padding: 0; }
+.room-sandbox .sbs-board .sbs-shot { margin: 0; max-width: 100%; }
+.room-sandbox .sbs-shot a { display: block; border-radius: .35rem; }
+.room-sandbox .sbs-shot img, .room-sandbox .sbs-pic__thumb {
+  display: block; max-width: 100%; width: auto; height: auto; max-height: 26rem;
+  border: 2px solid var(--sb-dusk); border-radius: .35rem; background-color: var(--sb-sandlit);
+}
+.room-sandbox .sbs-answer .sbs-shot img { border-color: var(--sb-ink); }
+.room-sandbox .sbs-board .sbs-pics__list { list-style: none; margin: .5rem 0 .75rem; padding: 0; }
+.room-sandbox .sbs-board .sbs-pic { display: flex; flex-wrap: wrap; gap: .75rem 1rem; align-items: flex-start; margin: 0 0 1rem; }
+.room-sandbox .sbs-pic__thumb { max-width: min(12rem, 100%); max-height: 12rem; }
+.room-sandbox .sbs-pic__about { flex: 1 1 16rem; min-width: 0; }
+.room-sandbox .sbs-board .sbs-pic__name { margin: 0 0 .4rem; font-size: .92rem; overflow-wrap: anywhere; }
+.room-sandbox .sbs-board .sbs-pic__about .sbs-field { margin: 0 0 .75rem; }
+.room-sandbox .sbs-board .sbs-check { margin: 0 0 1rem; }
+.room-sandbox .sbs-check label { display: flex; gap: .55rem; align-items: flex-start; font-weight: 500; }
+.room-sandbox .sbs-check input { flex: none; width: 1.15rem; height: 1.15rem; margin: .2rem 0 0; accent-color: var(--sb-dusk); }
 .room-sandbox .sbs-board .sbs-preview__label { font-size: .9rem; font-weight: 600; }
 /* The steps stand on the dusk itself, with the room's own links and headings. */
 .room-sandbox .sbs-steps { padding-left: 1.6rem; margin: 1.5rem 0 0; max-width: 40rem; }
