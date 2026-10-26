@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-25T11:30Z",
+ "set": "2026-10-26T12:10Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-25T11:30:40Z"
+     "2026-10-26T12:10:05Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-25T11:30:40Z"
+     "2026-10-26T12:10:05Z"
     ]
    ]
   }
@@ -118,13 +118,13 @@
    "channel": "Farming While Beige"
   },
   {
-   "id": "SW8Jhoo-k5k",
+   "id": "aJe-_8nDBJ0",
    "source": "farming-while-beige",
-   "form": "short",
-   "title": "Millennial dads… this lady knows too much.",
-   "published": "2026-09-25T13:40:12Z",
+   "form": "long",
+   "title": "First Generation Farming!",
+   "published": "2026-10-25T18:27:15Z",
    "state": "screen",
-   "runs": 159,
+   "runs": 456,
    "channel": "Farming While Beige"
   },
   {
@@ -505,6 +505,26 @@
    "published": "2026-10-24T12:02:44Z",
    "state": "screen",
    "runs": 178,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "tT8-O_tgpes",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Scary soup with you know who",
+   "published": "2026-10-25T13:22:43Z",
+   "state": "screen",
+   "runs": 122,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "h_xGSRtQpxk",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "No matter how insignificant it seems… keep going. One day you’ll wake up 100X bigger :-)",
+   "published": "2026-10-26T11:33:29Z",
+   "state": "screen",
+   "runs": 62,
    "channel": "Farming While Beige"
   }
  ]
