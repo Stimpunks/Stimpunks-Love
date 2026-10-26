@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-25T11:22Z",
+ "set": "2026-10-26T12:02Z",
  "log": [
   {
    "id": "rPGJhrunbxo",
@@ -241,14 +241,14 @@
    "channel": "AI LABS"
   },
   {
-   "id": "aDpIra7NFuE",
-   "source": "matt-wolfe",
+   "id": "xxf6D9jynFw",
+   "source": "ai-labs",
    "form": "long",
-   "title": "AI News: Opus 5.5, GPT-6 Sol, Jev, Muse and More!",
-   "published": "2026-09-26T02:37:49Z",
+   "title": "EGM: Google's New Way To Use Claude Code Is Insane",
+   "published": "2026-10-25T15:01:21Z",
    "state": "screen",
-   "runs": 2077,
-   "channel": "Matt Wolfe"
+   "runs": 954,
+   "channel": "AI LABS"
   },
   {
    "id": "dDgncbBAA0c",
@@ -441,14 +441,14 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "Risal7sjYms",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "How To Use ChatGPT Work: The Complete Beginner's Guide (2026)",
-   "published": "2026-09-25T15:30:23Z",
+   "id": "B8YFkYY20OY",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "The Robot Butler Will Clean Up After You",
+   "published": "2026-10-26T05:18:59Z",
    "state": "screen",
-   "runs": 4074,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 79,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "2IAYFgAqX6g",
@@ -601,13 +601,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "V2LM98zJlko",
+   "id": "RvnQZQAHUDc",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "Is your AI smart? Use this simple trick to find out #AI #ChatGPT #taxes #money #personalfinance",
-   "published": "2026-09-26T03:00:29Z",
+   "form": "long",
+   "title": "Enterprise AI Pricing: Why Everything You Know Is Wrong",
+   "published": "2026-10-25T16:00:17Z",
    "state": "screen",
-   "runs": 104,
+   "runs": 1351,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -961,6 +961,16 @@
    "channel": "Theo - t3․gg"
   },
   {
+   "id": "5Bmp9cz1JN8",
+   "source": "theo",
+   "form": "long",
+   "title": "These 3 skills changed my life",
+   "published": "2026-10-26T07:16:35Z",
+   "state": "screen",
+   "runs": 1837,
+   "channel": "Theo - t3․gg"
+  },
+  {
    "id": "KqLXX0Wv6NU",
    "source": "theo",
    "form": "short",
@@ -989,16 +999,6 @@
    "state": "screen",
    "runs": 43,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "Q6uuvZmb0t8",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "Big AI News: Opus 5.5 vs GPT-6 Sol, NotebookLM Updates, Muse Charm & More!",
-   "published": "2026-09-25T13:00:31Z",
-   "state": "screen",
-   "runs": 1575,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "lC_-9TD3TfA",
@@ -1231,16 +1231,6 @@
    "channel": "Austin Marchese"
   },
   {
-   "id": "_NRuT_d1PZE",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "Claude Opus 5.5 Is Insane… But Muse is EVEN Bigger",
-   "published": "2026-09-25T17:00:16Z",
-   "state": "screen",
-   "runs": 1521,
-   "channel": "Riley Brown"
-  },
-  {
    "id": "959RFRspIIc",
    "source": "riley-brown",
    "form": "long",
@@ -1334,7 +1324,7 @@
    "id": "1d7P3ewd9AA",
    "source": "riley-brown",
    "form": "long",
-   "title": "Gemini 4 is HERE… But Fable 5.5 Is TERRIFYING",
+   "title": "The Truth About Gemini 4 and Muse Wonder (Full Testing)",
    "published": "2026-10-16T17:30:21Z",
    "state": "screen",
    "runs": 1572,
@@ -1399,16 +1389,6 @@
    "state": "screen",
    "runs": 104,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "7jHXoPGnA4c",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "Opus 5.5 Just Changed Video Editing Forever (free skills)",
-   "published": "2026-09-25T23:54:59Z",
-   "state": "screen",
-   "runs": 1162,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "Ktnwygcnd8U",
@@ -1961,16 +1941,6 @@
    "channel": "Chase AI"
   },
   {
-   "id": "-_S3KD0ZIfI",
-   "source": "chase-ai",
-   "form": "short",
-   "title": "GPT 6 Astra Turned Me Into A Blender Expert (Ive Never Used Blender)",
-   "published": "2026-09-25T22:04:00Z",
-   "state": "screen",
-   "runs": 54,
-   "channel": "Chase AI"
-  },
-  {
    "id": "WK--kz63hlQ",
    "source": "chase-ai",
    "form": "short",
@@ -2196,13 +2166,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2210,13 +2180,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2224,13 +2194,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2238,13 +2208,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2252,13 +2222,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2266,13 +2236,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2280,13 +2250,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2294,13 +2264,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2308,13 +2278,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2322,13 +2292,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2336,13 +2306,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   },
@@ -2350,13 +2320,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-25T11:22:40Z"
+     "2026-10-26T12:02:29Z"
     ]
    ]
   }
