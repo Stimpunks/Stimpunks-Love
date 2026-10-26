@@ -180,7 +180,91 @@ export function today(now = new Date()) {
 /* Strong consistency, because the default is eventual and an eventually
    consistent channel is one where your own message takes a minute to appear. */
 export function store() {
-  return getStore({ name: 'cb', consistency: 'strong' });
+  return sealingStore(getStore({ name: 'cb', consistency: 'strong' }));
+}
+
+/* SEALED BY NAME (Ryan's call, 2026-10-25, Tasks first, the staff forums to
+   follow). Every blob whose name is in STAFF_SEALED is sealed at rest under
+   CB_STAFF_KEY, a key of its own, never the office's or the direct messages'
+   (32 bytes as base64url, in Netlify and nowhere else), by the store itself:
+   store() hands every caller sealingStore, which seals a JSON write to such a
+   name and opens a read, so no code that reads or writes Tasks has to remember
+   to. AES-256-GCM, a fresh nonce each time, and the blob's own name as
+   associated data, so a sealed blob cannot be read under another name. NOT
+   END-TO-END: the server opens them for whoever may read Tasks. Without the
+   key Tasks are shut (staffReady), never written in the clear; a blob from
+   before the key is read as it is and sealed on its next write or by the
+   hourly sweep (sealStaffLeftovers). A new staff store is a name added here,
+   and its blobs must be JSON, because a sealed blob is. Losing the key loses
+   what it sealed, so Ryan keeps a copy of it. */
+const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-(?:comments|activity|inbox|views)\//];
+export const staffSealed = (key) => typeof key === 'string' && STAFF_SEALED.some((r) => r.test(key));
+function staffCipherKey() {
+  const v = process.env.CB_STAFF_KEY;
+  if (!v) return null;
+  try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
+}
+export function staffReady() { return !!staffCipherKey(); }
+/* JSON sealed under `key` with its blob's `name` as associated data, marked
+   with whose key it is (`tag`). The direct messages' sealing uses it too. */
+function sealJsonWith(key, tag, name, obj) {
+  if (!key) throw new Error('shut');
+  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
+  c.setAAD(Buffer.from(name, 'utf8'));
+  const data = Buffer.concat([c.update(JSON.stringify(obj), 'utf8'), c.final()]);
+  return { sealed: 1, k: tag, iv: iv.toString('base64url'), tag: c.getAuthTag().toString('base64url'), data: data.toString('base64url') };
+}
+function openJsonWith(key, tag, name, d) {
+  if (!d || d.sealed !== 1 || d.k !== tag) return d;
+  if (!key) throw new Error('shut');
+  const c = createDecipheriv('aes-256-gcm', key, Buffer.from(d.iv, 'base64url'));
+  c.setAAD(Buffer.from(name, 'utf8'));
+  c.setAuthTag(Buffer.from(d.tag, 'base64url'));
+  return JSON.parse(Buffer.concat([c.update(Buffer.from(d.data, 'base64url')), c.final()]).toString('utf8'));
+}
+const isSealedStaff = (d) => !!d && d.sealed === 1 && d.k === 'staff';
+/* The store, sealing every name STAFF_SEALED lists. `raw` is the store as it
+   is, for the sweep that seals what came before the key. */
+export function sealingStore(s) {
+  if (!s || s.sealing) return s;
+  return new Proxy(s, {
+    get(t, p) {
+      if (p === 'sealing') return true;
+      if (p === 'raw') return t;
+      if (p === 'get') return async (key, o) => { const d = await t.get(key, o); return staffSealed(key) ? openJsonWith(staffCipherKey(), 'staff', key, d) : d; };
+      if (p === 'getWithMetadata') return async (key, o) => {
+        const g = await t.getWithMetadata(key, o);
+        return g && staffSealed(key) ? { ...g, data: openJsonWith(staffCipherKey(), 'staff', key, g.data) } : g;
+      };
+      if (p === 'setJSON') return (key, v, o) => t.setJSON(key, staffSealed(key) ? sealJsonWith(staffCipherKey(), 'staff', key, v) : v, o);
+      if (p === 'set') return (key, v, o) => { if (staffSealed(key)) throw new Error('a sealed blob is written with setJSON'); return t.set(key, v, o); };
+      const v = t[p];
+      return typeof v === 'function' ? v.bind(t) : v;
+    },
+  });
+}
+/* Hourly: every staff blob written before the key, sealed now with the same
+   conditional write as any other change. */
+export async function sealStaffLeftovers(s = store()) {
+  s = sealingStore(s);
+  if (!staffReady()) return false;
+  const keys = ['tasks', 'task-recurs', 'task-templates'];
+  for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/', 'task-views/']) {
+    for (const b of (await s.list({ prefix })).blobs || []) keys.push(b.key);
+  }
+  let any = false;
+  for (const key of keys.filter(staffSealed)) {
+    const raw = await s.raw.get(key, { type: 'json' });
+    if (!raw || isSealedStaff(raw)) continue;
+    for (let attempt = 0; attempt < 12; attempt++) {
+      const cur = await versioned(s, key);
+      if (!cur.exists) break;
+      const res = await s.setJSON(key, cur.data, { onlyIfMatch: cur.etag });
+      if (res.modified) { any = true; break; }
+      await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+    }
+  }
+  return any;
 }
 
 /* The channel as it stands: no message past its time, whether or not the
@@ -3713,24 +3797,9 @@ function dmCipherKey() {
   try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
 }
 export function dmReady() { return !!dmCipherKey(); }
-function sealDm(name, obj) {
-  const key = dmCipherKey();
-  if (!key) throw new Error('shut');
-  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
-  c.setAAD(Buffer.from(name, 'utf8'));
-  const data = Buffer.concat([c.update(JSON.stringify(obj), 'utf8'), c.final()]);
-  return { sealed: 1, k: 'dm', iv: iv.toString('base64url'), tag: c.getAuthTag().toString('base64url'), data: data.toString('base64url') };
-}
+function sealDm(name, obj) { return sealJsonWith(dmCipherKey(), 'dm', name, obj); }
 const isSealedDm = (d) => !!d && d.sealed === 1 && d.k === 'dm';
-function openDm(name, d) {
-  if (!isSealedDm(d)) return d;
-  const key = dmCipherKey();
-  if (!key) throw new Error('shut');
-  const c = createDecipheriv('aes-256-gcm', key, Buffer.from(d.iv, 'base64url'));
-  c.setAAD(Buffer.from(name, 'utf8'));
-  c.setAuthTag(Buffer.from(d.tag, 'base64url'));
-  return JSON.parse(Buffer.concat([c.update(Buffer.from(d.data, 'base64url')), c.final()]).toString('utf8'));
-}
+function openDm(name, d) { return openJsonWith(dmCipherKey(), 'dm', name, d); }
 async function getDm(name, s) { return openDm(name, await s.get(name, { type: 'json' })); }
 /* A picture's bytes: SDM1, the nonce, the tag, then the sealed bytes. */
 const SEALED_BYTES = Buffer.from('SDM1');

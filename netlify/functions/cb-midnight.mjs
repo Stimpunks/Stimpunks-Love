@@ -12,8 +12,9 @@
    and direct messages: each past its two weeks, a conversation once nothing is
    left in it, and a report on the moderators' desk past its thirty days.
    And every event with no time left to happen in, which a read never shows
-   anyway, and the record of which starts were told, after a day. */
-import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls, sweepBrassImages, sweepSuggestImages, sweepForum, sweepDms, sweepEvents } from '../cb/lib.mjs';
+   anyway, and the record of which starts were told, after a day.
+   And every Tasks blob written before the staff key, sealed. */
+import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls, sweepBrassImages, sweepSuggestImages, sweepForum, sweepDms, sweepEvents, sealStaffLeftovers } from '../cb/lib.mjs';
 
 export default async () => {
   await sweep();
@@ -33,6 +34,7 @@ export default async () => {
   await sweepForum();   // and every forum topic past its category's keep, with everything in it
   await sweepDms();     // and every direct message past its two weeks, its conversation once empty, and old reports
   await sweepEvents();  // and every event that has been and gone, and which starts were told, after a day
+  await sealStaffLeftovers(); // and every Tasks blob written before the staff key, sealed now
 };
 
 export const config = { schedule: '@hourly' };

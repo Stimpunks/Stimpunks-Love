@@ -8316,3 +8316,69 @@ test('a card is private, the community\'s or open to the public, and a profile\'
   assert.equal(mine.profile.reach, 'private', 'its owner was not told who may open their card');
   assert.equal(mine.private, false);
 }));
+
+/* ── Tasks sealed at rest with the staff key (2026-10-25) ── */
+import { sealingStore, sealStaffLeftovers, staffReady, staffSealed } from './lib.mjs';
+
+{
+  const withStaffKey = async (fn) => {
+    const was = process.env.CB_STAFF_KEY;
+    process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+    try { await fn(); } finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+  };
+  const clear = (raw) => JSON.stringify(raw);
+
+  test('tasks, their comments, change history and Notifications are sealed by name, and open only under their own names', () => withStaffKey(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    assert.ok(staffReady());
+    assert.ok(['tasks', 'task-recurs', 'task-templates', 'task-comments/x', 'task-activity/x', 'task-inbox/x', 'task-views/x'].every(staffSealed));
+    assert.ok(!['tasks-gone', 'channel', 'dm/x', 'backlinks', 'task-commentsx'].some(staffSealed), 'a name outside Tasks was sealed with the staff key');
+    const made = await saveTask(TCHELSEA, { name: 'Pay the grantee Juniper', who: 'norah', body: 'Juniper\'s address is on file.' }, s, T0, TMODS);
+    assert.ok(made.task, made.error);
+    const raw = await s.raw.get('tasks', { type: 'json' });
+    assert.equal(raw.sealed, 1); assert.equal(raw.k, 'staff');
+    assert.ok(!clear(raw).includes('Juniper'), 'a task was written in the clear');
+    assert.equal((await readTasks(s))[0].name, 'Pay the grantee Juniper');
+    assert.ok((await commentTask(TRYAN, made.task.id, 'Paid Juniper today.', s, T0 + 1, TMODS)).comment);
+    for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/']) {
+      const listed = (await s.list({ prefix })).blobs.map((b) => b.key);
+      assert.ok(listed.length, `nothing under ${prefix}`);
+      for (const k of listed) {
+        const r = await s.raw.get(k, { type: 'json' });
+        assert.equal(r.sealed, 1, `${k} was written in the clear`);
+        assert.ok(!clear(r).includes('Juniper'), `${k} carries a name in the clear`);
+      }
+    }
+    assert.match(JSON.stringify(await taskComments(TRYAN, made.task.id, s)), /Paid Juniper today/, 'a sealed comment did not read');
+    // Copied under another task's name, it does not open.
+    const other = 'task-comments/' + 'zzzzzzzzzz';
+    const from = (await s.list({ prefix: 'task-comments/' })).blobs[0].key;
+    await s.raw.setJSON(other, await s.raw.get(from, { type: 'json' }), { onlyIfNew: true });
+    await assert.rejects(() => s.get(other, { type: 'json' }), 'a sealed blob opened under another name');
+  }));
+
+  test('a Tasks blob from before the key is read as it is, and the sweep seals it', () => withStaffKey(async () => {
+    const plain = memoryStore({ etagOnRead: true });
+    const t = await saveTask(TCHELSEA, { name: 'Written before the key' }, plain, T0, TMODS);
+    assert.ok(t.task);
+    assert.equal((await plain.get('tasks')).sealed, undefined);
+    const s = sealingStore(plain);
+    assert.equal((await readTasks(s))[0].name, 'Written before the key', 'a blob from before the key did not read');
+    assert.equal(await sealStaffLeftovers(s), true, 'the sweep left a Tasks blob in the clear');
+    assert.equal((await plain.get('tasks')).sealed, 1);
+    assert.equal(await sealStaffLeftovers(s), false, 'the sweep had more to do');
+    assert.equal((await readTasks(s))[0].name, 'Written before the key');
+  }));
+
+  test('without the staff key, Tasks are shut and nothing is written in the clear', async () => {
+    const was = process.env.CB_STAFF_KEY;
+    delete process.env.CB_STAFF_KEY;
+    try {
+      const s = sealingStore(memoryStore({ etagOnRead: true }));
+      assert.equal(staffReady(), false);
+      await assert.rejects(() => saveTask(TCHELSEA, { name: 'Sneak' }, s, T0, TMODS), /shut/);
+      assert.equal(await s.raw.get('tasks'), null, 'a task was written without the key');
+      assert.equal(await sealStaffLeftovers(s), false);
+    } finally { if (was !== undefined) process.env.CB_STAFF_KEY = was; }
+  });
+}

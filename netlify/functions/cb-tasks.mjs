@@ -45,7 +45,7 @@
      { action: 'template-remove', id }               a template deleted; the tasks made from it stay
    A task saved with tpl, a template's id, keeps which template it was made from.
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
-import { readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
+import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
@@ -67,6 +67,8 @@ async function withFrom(who, t) {
 }
 
 export default async (req) => {
+  // Sealed at rest with CB_STAFF_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!staffReady()) return json(503, { error: 'Tasks are shut just now. Nothing was read or changed.' });
   if (!sameSite(req)) return json(403, { error: 'Tasks only answer stimpunks.world.' }, QUIET);
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' }, QUIET);

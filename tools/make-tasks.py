@@ -42,6 +42,13 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · A SAVED FILTER KEPT WITH MORE THAN ITS ID, NAME AND ADDRESS, or left
     behind when its person uses Forget me or deletes the username.
   · privacy.html without its tasks section, and the page without its link to it.
+  · ANYTHING OF TASKS WRITTEN IN THE CLEAR (Ryan's call, 2026-10-25): every
+    Tasks blob is sealed by name at the store (STAFF_SEALED, sealingStore,
+    under CB_STAFF_KEY, a key of its own read only by staffCipherKey), store()
+    hands every caller the sealing store and nothing else calls getStore, the
+    Tasks functions shut without the key, the hourly sweep seals what came
+    before it, and privacy.html#tasks says sealed at rest and not end-to-end.
+    The friendly edit is a fallback to the clear "so Tasks keep working".
   · THE OFFICE'S OR TASKS' CHANNEL WIDER OR NARROWER THAN THEIR PAGES. Both are
     rooms on the CB, listed under Staff on the chat page (Ryan's ask,
     2026-10-26), so MOD_ROOMS in lib.mjs must give each exactly TASK_SEE's
@@ -478,6 +485,31 @@ def check_page():
         problems.append(f"{PRIVACY.name}: it has no tasks section (id=\"tasks\").")
 
 
+def check_sealed(lib):
+    names = ["/^tasks$/", "/^task-recurs$/", "/^task-templates$/", "comments", "activity", "inbox", "views"]
+    m = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", lib)
+    if not m or not all(n in m.group(1) for n in names):
+        problems.append("lib.mjs: STAFF_SEALED no longer names every Tasks store, so one is written in the clear.")
+    if "return sealingStore(getStore(" not in fn(lib, "store") or lib.count("getStore(") != 1:
+        problems.append("lib.mjs: something gets the store without the sealing store, so Tasks could be written in the clear.")
+    key_fn = re.search(r"\nfunction staffCipherKey\(\) \{.*?\n\}", lib, re.S)
+    key_fn = key_fn.group(0) if key_fn else ""
+    if lib.count("process.env.CB_STAFF_KEY") != 1 or "process.env.CB_STAFF_KEY" not in key_fn:
+        problems.append("lib.mjs: CB_STAFF_KEY is read somewhere other than staffCipherKey.")
+    if "CB_OFFICE_KEY" in key_fn or "CB_DM_KEY" in key_fn:
+        problems.append("lib.mjs: Tasks are sealed with another store's key, not a key of their own.")
+    for f in ("cb-tasks", "cb-recur"):
+        if "if (!staffReady())" not in (ROOT / "netlify" / "functions" / f"{f}.mjs").read_text():
+            problems.append(f"netlify/functions/{f}.mjs: it does not shut without the staff key.")
+    if "sealStaffLeftovers()" not in (ROOT / "netlify" / "functions" / "cb-midnight.mjs").read_text():
+        problems.append("cb-midnight.mjs: the hourly sweep no longer seals Tasks written before the key.")
+    priv = PRIVACY.read_text()
+    i = priv.find('id="tasks"')
+    sec = priv[i:priv.find("<h2", i + 10)] if i >= 0 else ""
+    if "sealed at rest" not in sec or "not end-to-end" not in sec:
+        problems.append(f"{PRIVACY.name}: the tasks section does not say Tasks are sealed at rest and not end-to-end.")
+
+
 def check_rooms(lib, data):
     m = re.search(r"export const MOD_ROOMS = \{(.*?)\n\};", lib, re.S)
     mods = {k: re.findall(r"'([a-z]+)'", v) for k, v in re.findall(r"^\s*'([a-z0-9-]+)':\s*\[([^\]]*)\]", m.group(1), re.M)} if m else {}
@@ -518,6 +550,7 @@ def main():
     check_css()
     check_page()
     check_rooms(lib, data)
+    check_sealed(lib)
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
