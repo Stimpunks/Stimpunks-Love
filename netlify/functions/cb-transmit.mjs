@@ -8,8 +8,8 @@
    And it tells the devices that asked to hear it (Ryan,
    2026-10-18, notifyMessage in lib.mjs), after the message is on the
    channel, so a slow push service never holds the radio up. */
-import { staffShut, randomUUID } from 'node:crypto';
-import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
+import { randomUUID } from 'node:crypto';
+import { staffShut, readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
   imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions, roleMentions,
   noteLatest, countMessage, replyTo, noteModCall, chatLinks, unfurlMessage, WORLD_CALL } from '../cb/lib.mjs';
 

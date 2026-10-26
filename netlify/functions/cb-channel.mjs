@@ -15,8 +15,8 @@
    `v` is a hash of what would be sent, so a radio that sends back the `v` it
    has is told `same` and sent no messages. `rule` is how many messages this
    channel keeps and for how long, which the radio says under the channel. */
-import { staffShut, createHash } from 'node:crypto';
-import { readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, WINDOW, json } from '../cb/lib.mjs';
+import { createHash } from 'node:crypto';
+import { staffShut, readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, WINDOW, json } from '../cb/lib.mjs';
 
 export default async (req) => {
   const who = await readPass(req);
