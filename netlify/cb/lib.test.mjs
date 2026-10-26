@@ -49,7 +49,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
-  TAGLINE_MAX, communityDirectory,
+  TAGLINE_MAX, communityDirectory, profilePage,
   CHAT_STATUSES, cleanChatStatus, setChatStatus, chatStatusOf, withChatStatus, forgetChatStatus,
   PROP_MAX, PROPS_KEEP, PROPS_WAITING, cleanProp, readProps, giveProp, confirmProp, rejectProp, dropProp, setPropsOpen, forgetProps, ownProps, shownProps } from './lib.mjs';
 import { generateKeyPairSync, createVerify, createECDH, randomBytes as rnd, verify as cryptoVerify, createPublicKey, createHmac } from 'node:crypto';
@@ -2887,7 +2887,7 @@ const fullProfile = (over = {}) => ({
 test('a profile holds only choices from the lists and words within their limits', () => {
   const ok = cleanProfile(fullProfile());
   assert.ok(ok.profile, ok.error);
-  assert.deepEqual(Object.keys(ok.profile).sort(), ['banner', 'bio', 'decoration', 'effect', 'face', 'frame', 'links', 'listed', 'plate', 'pronouns', 'room', 'tagline', 'theme', 'why'].sort());
+  assert.deepEqual(Object.keys(ok.profile).sort(), ['banner', 'bio', 'decoration', 'effect', 'face', 'frame', 'links', 'listed', 'plate', 'pronouns', 'reach', 'room', 'tagline', 'theme', 'why'].sort());
   assert.equal(ok.profile.listed, false, 'a card was in the directory without being asked');
   assert.equal(cleanProfile(fullProfile({ listed: 'yes' })).profile.listed, false, 'anything but true put a card in the directory');
   assert.equal(cleanProfile(fullProfile({ tagline: '  Two\nlines  ' })).profile.tagline, 'Two lines', 'a tagline kept a line break');
@@ -8271,4 +8271,46 @@ test('without the key, direct messages are shut and nothing is written in the cl
     await assert.rejects(() => setDmOpen(bex, true, s), /shut/);
     assert.deepEqual(s.keys().filter((k) => k.startsWith('dm')), [], 'something was written without the key');
   } finally { process.env.CB_DM_KEY = was; }
+}));
+
+test('a card is private, the community\'s or open to the public, and a profile\'s page shows only what its owner chose', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Ryan":["administrator"]}');
+  for (const n of ['Ada', 'Bex', 'Cy']) await claimAccount(n, 'a long enough phrase', s, 9, null);
+  assert.ok(cleanProfile(fullProfile({ reach: 'everybody' })).error, 'a reach the street does not know was kept');
+  const community = cleanProfile(fullProfile({ listed: true })).profile;
+  assert.equal(community.reach, '', 'a card did not start as the community\'s');
+  const priv = cleanProfile(fullProfile({ listed: true, reach: 'private' })).profile;
+  assert.equal(priv.listed, false, 'a private card was listed in the directory');
+  const pub = cleanProfile(fullProfile({ reach: 'public' })).profile;
+  await keepProfile(petKey('Ada'), community, s, 'Ada');
+  await keepProfile(petKey('Bex'), priv, s, 'Bex');
+  await keepProfile(petKey('Cy'), pub, s, 'Cy');
+  const bex = { handle: 'Bex' }, ada = { handle: 'Ada' };
+
+  // On the radio: a private card is its owner's alone, and off Who's online.
+  assert.deepEqual(await shownProfile('Bex', s, 'Ada'), { handle: 'Bex', profile: null, private: true });
+  assert.deepEqual((await shownProfile('bex', s, 'Bex')).profile, priv, 'its owner could not see their own private card');
+  assert.equal((await withPlates([{ handle: 'Bex', claimed: true, rooms: [] }], s))[0].plate, undefined, 'a private card\'s nameplate was on Who\'s online');
+  assert.deepEqual((await communityDirectory(ada, s, mods)).people.map((x) => x.handle), ['Ada'], 'a private card was in the directory');
+
+  // Signed off: only a public card, and every other name answered alike.
+  for (const n of ['Ada', 'Bex', 'Nobody']) assert.equal(await profilePage(n, null, s, mods), null, `${n} was shown to somebody signed off`);
+  const open = await profilePage('cy', null, s, mods);
+  assert.equal(open.handle, 'Cy');
+  assert.equal(open.profile.tagline, pub.tagline);
+  assert.equal(open.profile.listed, undefined, 'a card\'s listed went to somebody signed off');
+  assert.equal(open.profile.reach, undefined, 'a card\'s reach went to somebody who is not its owner');
+  assert.equal(open.base, undefined, 'BASE went to somebody signed off');
+  for (const k of Object.keys(open)) assert.ok(!/prop|chat|dm|message/i.test(k), `a public page carried ${k}`);
+
+  // Signed on: the community's, and a private card only to its owner.
+  assert.equal((await profilePage('Ada', bex, s, mods)).profile.tagline, community.tagline);
+  const shut = await profilePage('Bex', ada, s, mods);
+  assert.equal(shut.profile, null);
+  assert.equal(shut.private, true);
+  const mine = await profilePage('Bex', bex, s, mods);
+  assert.equal(mine.mine, true);
+  assert.equal(mine.profile.reach, 'private', 'its owner was not told who may open their card');
+  assert.equal(mine.private, false);
 }));

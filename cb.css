@@ -948,6 +948,8 @@ ol.cb-md-list { list-style: decimal; }
 .pf-bio { display: grid; gap: 8px; }
 .pf-bio > * { margin: 0; }
 .pf-room__name { font-weight: 700; }
+.pf-page { margin: 4px 0 0; }
+.pf-page a { color: var(--cb-amber); }
 .pf-room__why { margin: 4px 0 0; color: var(--cb-amber-2); }
 .pf-links { list-style: none; display: grid; gap: 6px; }
 
@@ -1012,6 +1014,11 @@ ol.cb-md-list { list-style: decimal; }
    on directory.html, whose shadow root takes this sheet: the avatar worn, the
    name, BASE and pronouns, the tagline, and the nameplate under them, in the
    radio's seven and nothing else. */
+/* Who may open the card (2026-10-26): three choices, the browser's own group
+   with its own border taken off, so no colour nobody chose. */
+.pf-reach { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 8px; }
+.pf-reach legend { padding: 0; margin: 0 0 2px; }
+.pf-check:has(input:disabled) { cursor: default; }
 .pf-check { display: flex; align-items: flex-start; gap: 10px; font-weight: 700; cursor: pointer; }
 .pf-check input { flex: none; width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--cb-amber); cursor: pointer; }
 .cb-dir-row {

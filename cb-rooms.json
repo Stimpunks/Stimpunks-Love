@@ -818,6 +818,12 @@
    "about": "The CB’s community directory: everybody on the CB who has chosen to be listed, alphabetical, each with their username, nameplate, tagline, pronouns and the avatar they wear, and a press away from their profile card. For people signed on to the CB, opt-in, and with no count and no dates."
   },
   {
+   "tag": "profile",
+   "name": "A profile",
+   "path": "/profile.html",
+   "about": "A profile on the CB, at its own address: the card and whatever its owner shows beside it, for whoever its owner lets open it, only themselves, the community signed on to the CB, or anybody with the link. No props, no chat status and no messages, which stay on the radio."
+  },
+  {
    "tag": "you",
    "name": "You",
    "path": "/you.html",

@@ -1647,6 +1647,20 @@ street's own lists. **The friendly edits are a bio and pronouns in a set "so Hal
 words back on a card by a press, **a set shown on a profile**, and **sets switching by themselves by room or by date**, which
 changes somebody's card while they are not looking; `DECISIONS.md` has them as open, each Ryan's call first.
 
+**A PROFILE HAS A PAGE OF ITS OWN, AND ITS OWNER CHOOSES WHO MAY OPEN THE CARD.** Helen Edgar's question and Ryan's
+calls, 2026-10-26, reversing "whatever is filled in is shown, with no switch": `profile.html#<username>` (paperwork, in
+the reader's CB theme, `profile-page.js`, `profile-page.css`) draws the card and every tab its owner shows on the CB, from
+one answer, `/cb/profile/page` (`profilePage` in `lib.mjs`). A card's `reach` is `''`, the community, which every card
+starts as and was; `private`, its owner alone, which takes the nameplate off Who's online (`keepProfile`) and the card out
+of the directory (`cleanProfile`); or `public`, anybody with the link. **Signed off, only a public card is answered, and
+every other name gets the same answer**, so the page cannot find usernames. **Props, a chat status and messages never
+reach the page** (Ryan's ask): signed-on readers get buttons that open them on the radio (`loveRadioPeek` with `'props'`,
+`loveRadioMessage`). The username is after the #, so it reaches no server in an address and a search engine reads every
+profile as the one page; the page is in the sitemap as paperwork and no profile is. **Every customization is drawn there, animations included** (Ryan, the same day: a big part of what folks want to show off): they move at MAX GLITTER or after **Let it move** on the card, for that visit only, the candles' rule, because moving at Regular unasked would change what Regular means. `tools/make-profile.py`
+(`check_public_page`) holds it. **The friendly edits are a Props tab on the page "so it is complete", a card that starts
+public "so sharing is easy", and a list of public profiles**; the tab drawers in `profile-page.js` are thin copies of
+`cb.js`'s, so a change to how a tab draws there is a change here too.
+
 **THE COMMUNITY DIRECTORY IS OPT-IN, AND IT NEVER COUNTS ANYBODY.** Ryan's ask, 2026-10-23: `directory.html` (paperwork
 beside the chat page and the forums, in the reader's own CB theme, `directory.js` and `directory.css`) lists everybody who
 ticked **Show my profile in the community directory** on their card (`listed`, off until ticked, saved with Save my card),

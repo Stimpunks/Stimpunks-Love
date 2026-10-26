@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A profile — Stimpunks.World</title>
+<meta name="description" content="A profile on the CB, at its own address: the card and whatever its owner shows beside it, for whoever its owner lets open it, only themselves, the community signed on to the CB, or anybody with the link. No props, no chat status and no messages, which stay on the radio.">
+<link rel="canonical" href="https://stimpunks.world/profile.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#15121f">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="A profile — Stimpunks.World">
+<meta property="og:description" content="Somebody’s profile on the CB, for whoever they let open it.">
+<meta property="og:url" content="https://stimpunks.world/profile.html">
+<meta property="og:image" content="https://stimpunks.world/og/profile.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A dark indigo card, deliberately quiet. Small cyan capitals reading stimpunks.world above a short pink rule, then “A profile” in yellow block capitals, and the line: Somebody’s profile on the CB, for whoever they let open it.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World — what changed on the street">
+<link rel="stylesheet" href="love.css">
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}var l=localStorage.getItem('love-low');if(l==='warm'||l==='cool'||l==='green'||l==='red'){d.setAttribute('data-low',l);v='gentle';}}catch(e){}d.setAttribute('data-intensity',v);</script>
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/profile.html#webpage","url":"https://stimpunks.world/profile.html","name":"A profile — Stimpunks.World","description":"A profile on the CB, at its own address: the card and whatever its owner shows beside it, for whoever its owner lets open it, only themselves, the community signed on to the CB, or anybody with the link. No props, no chat status and no messages, which stay on the radio.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="room-plain" id="top">
+<!-- A PROFILE'S OWN PAGE (Helen Edgar's question, Ryan's calls, 2026-10-26).
+     Not a room with a world of its own: the CB's, as the directory is, so the
+     page is paperwork and the profile inside it wears the reader's own CB
+     theme, in a shadow root profile-page.js draws.
+       · THE USERNAME IS AFTER THE #, profile.html#helen, so it never reaches
+         a server in the address, and a search engine reads every one of them
+         as this one page: no profile is ever indexed or listed.
+       · ITS OWNER CHOOSES WHO MAY OPEN IT, on their card: only themselves,
+         the community signed on to the CB (as every card was before), or
+         anybody with the link. The server decides, in profilePage in
+         netlify/cb/lib.mjs, and tells somebody signed off the same thing for
+         every name it will not show.
+       · NO PROPS, NO CHAT STATUS, NO MESSAGES. They are the community's and
+         stay on the radio.
+     privacy.html#public-profiles; tools/make-profile.py holds all of it. -->
+<a class="skip" href="#main">Skip to the content</a>
+
+<main id="main" class="wrap" style="padding-bottom:56px;max-width:1180px;">
+
+  <a class="backlink" href="index.html">← BACK TO THE STREET</a>
+
+  <h1>A profile</h1>
+  <p class="lede">Somebody’s profile on the CB, at an address of its own that ends in # and their username. <strong>Its owner chooses who may open it</strong>: only themselves, the community signed on to the CB, or anybody with the link. Props, chat statuses and messages are never on this page; they stay on the radio, for people signed on. <a href="privacy.html#public-profiles">What it shows and keeps</a> &middot; <a href="cb-guide.html#profile-link">How to share yours</a>.</p>
+
+  <div data-profile-page>
+    <p>Opening the profile&hellip;</p>
+    <noscript><p>A profile needs JavaScript to be read. <a href="community-center.html#getting-started">The Community Center</a> says how to get on the CB.</p></noscript>
+  </div>
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-profile">Where am I?</a> &middot; <a href="about.html">About</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;julia&quot;,&quot;c&quot;:[-0.4,0.6],&quot;orbit&quot;:0.013,&quot;ground&quot;:&quot;--ink&quot;,&quot;inks&quot;:[&quot;--cyan&quot;,&quot;--yellow&quot;,&quot;--pink&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="call.js" defer></script>
+<script src="profile-page.js" defer></script>
+<script src="love.js" defer></script>
+</body>
+</html>

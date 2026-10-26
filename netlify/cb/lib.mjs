@@ -2356,6 +2356,7 @@ export const BIO_MAX = 500;
 export const PROFILE_LINKS = 5;
 export const PROFILE_LINK_MAX = 300;
 export const ROOM_WHY_MAX = 200;
+export const PROFILE_REACHES = ['private', 'public'];
 const profileBlob = (k) => `profile/${k}`;
 const PLATES = 'profiles-plates';
 const DIRECTORY = 'profiles-directory';
@@ -2439,6 +2440,15 @@ export function cleanProfile(p) {
   out.why = room ? why : '';
   // In the community directory only when the person said yes in as many words.
   out.listed = p.listed === true;
+  /* WHO MAY OPEN THE CARD (Helen Edgar's question, Ryan's call, 2026-10-26):
+     '' is the community, anybody signed on, as every card was before and as
+     every card still is until its owner chooses; 'private' is its owner alone,
+     which takes the nameplate off Who's online and the card out of the
+     directory; 'public' is anybody with its link, on profile.html. */
+  const reach = p.reach == null || p.reach === '' ? '' : (PROFILE_REACHES.includes(p.reach) ? p.reach : null);
+  if (reach === null) return { error: 'A card is private, for the community, or open to the public.' };
+  out.reach = reach;
+  if (reach === 'private') out.listed = false;
   return { profile: out };
 }
 
@@ -2532,7 +2542,7 @@ export async function keepProfile(pk, p, s = store(), handle = null) {
     if (res.modified) break;
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
-  await showPlate(pk, p.plate || '', s);
+  await showPlate(pk, p.reach === 'private' ? '' : (p.plate || ''), s);
   await showInDirectory(pk, p, handle, s);
   return p;
 }
@@ -2587,11 +2597,69 @@ export async function clearProfile(handle, s = store()) {
 
 /* Somebody's profile as anybody signed on is shown it: { handle, profile }
    for a claimed username, with profile null when there is nothing in it, and
-   null for a handle that is not claimed, whatever the reason. */
-export async function shownProfile(handle, s = store()) {
+   null for a handle that is not claimed, whatever the reason. A private card
+   is shown to its owner, the handle `asker` names, and to nobody else, who is
+   told { handle, profile: null, private: true }. */
+export async function shownProfile(handle, s = store(), asker = null) {
   const acct = await readAccount(handle, s);
   if (!acct) return null;
-  return { handle: acct.handle, profile: await readProfile(petKey(handle), s) };
+  const profile = await readProfile(petKey(handle), s);
+  if (profile && profile.reach === 'private' && !(asker && foldHandle(asker) === foldHandle(acct.handle))) {
+    return { handle: acct.handle, profile: null, private: true };
+  }
+  return { handle: acct.handle, profile };
+}
+
+/* A PROFILE'S OWN PAGE, profile.html#<username> (Helen Edgar's question, Ryan's
+   calls, 2026-10-26): one answer with everything the page draws, for `who`, a
+   pass read by readPass, or null for somebody signed off.
+     · Signed off, it answers only for a card its owner opened to the public,
+       and null for every other handle, whatever the reason: private, for the
+       community, no card, not claimed or nobody at all. So the page cannot
+       tell anybody which usernames exist.
+     · Signed on, it answers as the radio's profile does: the card, unless it
+       is private and not yours, then the avatar worn and each tab its owner
+       shows on the CB, and BASE from the moderators' list.
+     · NEVER PROPS, A CHAT STATUS OR A WAY TO MESSAGE THEM, which are the
+       community's and stay on the radio: a prop carries somebody else's words,
+       and a status and a conversation are between people signed on.
+   The card goes without `listed`, and with `reach` only to its owner. Nothing
+   about who asked is kept. */
+export async function profilePage(handle, who, s = store(), mods) {
+  const acct = await readAccount(handle, s);
+  if (!acct) return null;
+  const name = acct.handle, pk = petKey(name);
+  const mine = !!(who && foldHandle(who.handle) === foldHandle(name));
+  const card = await readProfile(pk, s);
+  const reach = (card && card.reach) || '';
+  if (!who && reach !== 'public') return null;
+  const [av, pets, jobs, patches, chimeras, crystals, herbs] = await Promise.all([
+    shownAvatars(name, s), shownPets(name, s), shownJobs(name, s), shownPatches(name, s),
+    shownChimeras(name, s), shownCrystals(name, s), shownHerbs(name, s)]);
+  let profile = null;
+  if (card && (reach !== 'private' || mine)) {
+    const { listed, reach: r, ...rest } = card;
+    profile = mine ? { ...rest, reach: r } : rest;
+  }
+  // The bio read once, here, into nodes markdown.js builds: a page with no
+  // radio has no Markdown reader of its own, and should never need one.
+  const bio = profile && profile.bio ? parseBrass(profile.bio) : null;
+  const out = {
+    handle: name, mine, profile, bio, private: reach === 'private' && !mine,
+    wearing: av ? av.wearing : null,
+    avatars: av && av.shown ? av.avatars : null,
+    pets: pets ? pets.pets : null,
+    jobs: jobs ? jobs.jobs : null,
+    patches: patches ? patches.patches : null,
+    chimeras: chimeras && chimeras.shown ? chimeras.chimeras : null,
+    crystals: crystals ? crystals.crystals : null,
+    herbs: herbs ? herbs.herbs : null,
+  };
+  if (who) {
+    if (mods === undefined) mods = await loadMods();
+    out.base = !!(mods && mods.has(foldHandle(name)));
+  }
+  return out;
 }
 
 /* Who's online, with the nameplate each claimed person chose. Nothing is

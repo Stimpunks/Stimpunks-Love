@@ -168,6 +168,12 @@ ORDER = ["index.html",
          # to be listed. The CB's, in the reader's own CB theme rather than a
          # world of its own, so it stands with the chat and the forums.
          "directory.html",
+         # A profile's own page (2026-10-26), profile.html#<username>: the
+         # card and the tabs its owner shows, for whoever its owner lets open
+         # it. The CB's, in the reader's own CB theme, beside the directory.
+         # The username is after the #, which a search engine reads as this one
+         # page, so no profile is ever listed here or anywhere else.
+         "profile.html",
          # Your page (2026-10-25): the radio's You part docked into a page,
          # with your past notifications beside it. The CB's, in the reader's
          # own CB theme, so it stands with the chat and the directory.

@@ -1,0 +1,68 @@
+/* =============================================================================
+   A profile's own page, inside its own shadow root beside cb.css
+   (profile-page.js, 2026-10-26).
+
+   THE CB'S CLOTHES AND NONE OF ITS OWN, as the community directory's: every
+   colour here is one of the radio's seven, var(--cb-*), so the page brings no
+   pair check-contrast.py has not measured. The card and its tabs are cb.css's
+   own .pf-* rules, the ones the radio's profile wears; this file only lays
+   them on a page instead of in a dialog. tools/make-profile.py refuses a
+   literal colour in this file. Every sentence stays in Atkinson Hyperlegible.
+
+   NOTHING HERE MOVES. No transition, no animation, no transform: a card's
+   effect is profile.js's, and passes only where cb.css lets it.
+   ============================================================================= */
+:host { display: block; }
+.pp, .pp *, .pp *::before, .pp *::after { box-sizing: border-box; }
+.pp {
+  color: var(--cb-steel);
+  font: 16px/1.55 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left; overflow-wrap: anywhere;
+}
+.pp :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.pp p { margin: 0; }
+.pp-view { display: grid; gap: 18px; }
+.pp-view > p, .pp-h, .pp-share, .pp-said {
+  max-width: 46em;
+}
+.pp-view > p, .pp-h { padding: 14px 18px; background: var(--cb-case); border: 2px solid var(--cb-steel-2); border-radius: 10px; }
+.pp-view > .pp-said { padding: 0; background: none; border: 0; }
+.pp-view > p a, .pp-share a, .pp-h a { color: var(--cb-amber); }
+.pp-h { margin: 0; font: 700 22px/1.25 'Atkinson Hyperlegible', system-ui, sans-serif; }
+
+/* The radio's profile sheet, on the page: no dialog round it, so no height of
+   its own, and no Close to leave room for. */
+.pp .pf-stage > .pf-sheet { max-height: none; height: auto; overflow: visible; }
+.pp .pf-right { padding: 18px; }
+.pp .pf-right > .cb-quiet, .pp .pp-note { margin: 0 0 10px; }
+.pp .pp-note { margin-top: 12px; }
+.pp-community { margin: 6px 0 0; }
+.pp .pp-plate { height: 28px; margin: 2px 0 0; border-radius: 6px; overflow: hidden; }
+.pp-move { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 6px 0 0; }
+.pp-move__hint { margin: 0; }
+
+/* A link off the street in a bio, as on the radio: the host after it. */
+.pp-host { color: var(--cb-amber-2); }
+
+.pp-share { display: grid; gap: 8px; padding: 14px 18px; background: var(--cb-case); border: 2px solid var(--cb-steel-2); border-radius: 10px; justify-items: start; }
+.pp-share__line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.pp-share__addr { word-break: break-all; }
+
+/* An avatar larger. */
+.pp-lbox {
+  width: min(92vw, 420px); padding: 18px; display: none; gap: 10px;
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 12px;
+  font: 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif;
+}
+.pp-lbox[open] { display: grid; }
+.pp-lbox :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.pp-lbox__art { display: block; width: 100%; height: auto; border: 2px solid var(--cb-steel-2); border-radius: 8px; }
+.pp-lbox__whose { margin: 0; font-weight: 700; }
+.pp-lbox__about { margin: 0; color: var(--cb-amber-2); }
+.pp-lbox .cb-btn { justify-self: start; }
+
+@media (max-width: 720px) {
+  .pp .pf-stage > .pf-sheet { border-radius: 12px; }
+  .pp-view > p, .pp-h, .pp-share { padding: 12px; }
+}

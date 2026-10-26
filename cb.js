@@ -5861,9 +5861,19 @@
         }
         var cardBody = card.querySelector('.pf-body');
         if (rs[0].status !== 200) cardBody.appendChild(el('p', 'cb-quiet pf-empty', 'Their profile card could not be fetched just now.'));
+        else if (rs[0].body.private) cardBody.appendChild(el('p', 'cb-quiet pf-empty', whose + ' keeps their card private.'));
         else if (!p) cardBody.appendChild(el('p', 'cb-quiet pf-empty', mineP
           ? (me.state.claimed ? 'Your card has nothing on it yet. Edit my profile card, in Profile on this radio, is where you fill it in.' : 'Claim your username, under Account on this radio, and you can fill in a profile card.')
           : whose + ' has nothing on their card.'));
+        /* ITS OWN PAGE (2026-10-26), profile.html#<username>, a link to share:
+           who may open it there is its owner's choice, and the page says so. */
+        if (rs[0].status === 200) {
+          var pageRow = el('p', 'pf-page');
+          var pageA = el('a', null, mineP ? 'Your profile’s own page, to share' : whose + '’s profile page');
+          pageA.href = '/profile.html#' + encodeURIComponent(whose);
+          pageRow.appendChild(pageA);
+          cardBody.appendChild(pageRow);
+        }
         /* MESSAGE THEM (Ryan, 2026-10-18), for a claimed username looking at
            somebody else's. Whether they take messages is said once their
            conversation opens, never here: the answer is the same words for a
@@ -6660,6 +6670,38 @@
     var why = el('input', 'cb-say');
     why.type = 'text'; why.maxLength = lim.why; why.autocomplete = 'off';
     var fWhy = pfField(form, 'Why it is your favourite', 'pf-why', why, 'Up to ' + lim.why + ' characters.');
+    /* WHO MAY OPEN THE CARD (Helen Edgar's question, Ryan's calls,
+       2026-10-26): the community, as every card always was and still is until
+       its owner chooses; only its owner; or anybody with the link to its own
+       page, profile.html#<username>. Saved with the card. Private takes the
+       nameplate off Who's online and the card out of the directory. */
+    form.appendChild(el('h3', 'pf-edit__sub', 'Who can open your card'));
+    var reachSet = el('fieldset', 'pf-field pf-reach');
+    var reachLeg = el('legend', 'cb-lab', 'Your card, and its own page');
+    reachSet.appendChild(reachLeg);
+    var reachIns = {};
+    [['', 'The community: anybody signed on to the CB'], ['private', 'Only me'], ['public', 'Anybody with the link, signed on or not']].forEach(function (o) {
+      var lab = el('label', 'pf-check');
+      var r = el('input');
+      r.type = 'radio'; r.name = 'pf-reach'; r.value = o[0];
+      reachIns[o[0]] = r;
+      lab.appendChild(r);
+      lab.appendChild(el('span', null, o[1]));
+      reachSet.appendChild(lab);
+    });
+    var reachHint = el('p', 'cb-hint pf-hint');
+    reachHint.id = 'pf-reach-hint';
+    var myPage = location.origin + '/profile.html#' + encodeURIComponent(me.state.handle || '');
+    reachHint.appendChild(document.createTextNode('Your profile has a page of its own, at '));
+    var myA = el('a', null, myPage);
+    myA.href = myPage;
+    reachHint.appendChild(myA);
+    reachHint.appendChild(document.createTextNode(', to share wherever you like. Only me keeps your card off it and off the radio for everybody else, takes your nameplate off Who’s online and takes you out of the community directory. Anybody with the link shows your card and the tabs you show on the CB to people who are not on it; never your props, your chat status or a way to message you. Whichever you choose, a search engine never lists it.'));
+    reachSet.setAttribute('aria-describedby', reachHint.id);
+    reachSet.appendChild(reachHint);
+    form.appendChild(reachSet);
+    function reachNow() { for (var k in reachIns) if (reachIns[k].checked) return k; return ''; }
+
     /* THE COMMUNITY DIRECTORY (Ryan's ask, 2026-10-23): off until ticked, and
        saved with the card, so nothing is listed before Save my card. */
     form.appendChild(el('h3', 'pf-edit__sub', 'Community directory'));
@@ -6686,6 +6728,7 @@
     fFrame.value = p0.frame || ''; fEffect.value = p0.effect || '';
     fFace.value = p0.face || ''; fPlate.value = p0.plate || ''; fPron.value = p0.pronouns || '';
     fTag.value = p0.tagline || ''; fListed.checked = !!p0.listed;
+    (reachIns[p0.reach || ''] || reachIns['']).checked = true;
     fBio.value = p0.bio || ''; fRoom.value = p0.room || ''; fWhy.value = p0.why || '';
     (p0.links || []).forEach(function (l, j) { if (linkIns[j]) linkIns[j].value = l; });
 
@@ -6748,7 +6791,8 @@
       return {
         theme: fTheme.value, banner: fBanner.value, decoration: fDeco.value, frame: fFrame.value, effect: fEffect.value, face: fFace.value, plate: fPlate.value,
         pronouns: fPron.value.trim(), tagline: fTag.value.trim(), bio: fBio.value, room: fRoom.value, why: fRoom.value ? fWhy.value.trim() : '',
-        links: linkIns.map(function (x) { return x.value.trim(); }).filter(Boolean), listed: fListed.checked,
+        links: linkIns.map(function (x) { return x.value.trim(); }).filter(Boolean), listed: fListed.checked && reachNow() !== 'private',
+        reach: reachNow(),
       };
     }
     // What the card was when it was opened or last saved: anything else is a
@@ -6796,6 +6840,8 @@
         LP.drawing(line.pfPlate, p.plate);
       }
       fWhy.disabled = !fRoom.value;
+      // A private card is in no directory, so its switch rests while it is.
+      fListed.disabled = p.reach === 'private';
       var credit = LP.effectCredit ? LP.effectCredit(p.effect) : '';
       fxCredit.textContent = credit;
       fxCredit.hidden = !credit;
@@ -6817,6 +6863,7 @@
         if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
         [fTheme, fBanner, fDeco, fFrame, fEffect, fFace, fPlate, fPron, fTag, fBio, fRoom, fWhy].concat(linkIns).forEach(function (x) { x.value = ''; });
         fListed.checked = false;
+        reachIns[''].checked = true;
         sure.hidden = true; clear.hidden = false; leave.hidden = true;
         saved = JSON.stringify(current());
         redraw();
@@ -6838,11 +6885,12 @@
         if (r.status !== 200) { said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.'; return; }
         saved = was;
         leave.hidden = true;
-        said.textContent = !r.body.profile
+        var pr = r.body.profile, who = pr && pr.reach === 'private' ? 'Only you see it.'
+          : pr && pr.reach === 'public' ? 'Anybody with the link to your page sees it, and anybody signed on to the CB when they press your name.'
+          : 'Anybody signed on to the CB sees it when they press your name.';
+        said.textContent = !pr
           ? 'Saved, with nothing on it, so your card is empty, and you are not in the community directory.'
-          : r.body.profile.listed
-            ? 'Saved. Anybody signed on to the CB sees it when they press your name, and you are in the community directory.'
-            : 'Saved. Anybody signed on to the CB sees it when they press your name. You are not in the community directory.';
+          : 'Saved. ' + who + (pr.listed ? ' You are in the community directory.' : ' You are not in the community directory.');
         me.loadProfileCard();
         profileSaved();
         if (then) then();
@@ -12330,7 +12378,11 @@
     radio = new Radio(s);
     /* The forums open a person's profile the way a handle on the channel does:
        their names are buttons, and this is what those buttons press. */
-    window.loveRadioPeek = function (handle, from, mark) { if (radio) radio.peek(handle, from, mark || null); };
+    window.loveRadioPeek = function (handle, from, mark, tab) { if (radio) radio.peek(handle, from, mark || null, tab); };
+    /* A profile's own page (profile.html, 2026-10-26) opens a conversation
+       the way Message them on a profile does: the radio's Messages, never one
+       of its own. */
+    window.loveRadioMessage = function (handle) { if (radio && radio.dmBox) { radio.dmTo(handle); return true; } return false; };
     /* The community directory opens your own card's editor the way Profile
        does, so the switch that lists you is a press away from the list. */
     window.loveRadioEditCard = function (from) { if (radio) radio.pfEdit(from); };
@@ -12514,6 +12566,7 @@
     radio = null;
     window.loveRadioPeek = null;
     window.loveRadioEditCard = null;
+    window.loveRadioMessage = null;
     showStub(s, said);
   }
 

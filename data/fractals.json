@@ -608,6 +608,20 @@
         "--pink"
       ]
     },
+    "profile.html": {
+      "kind": "julia",
+      "c": [
+        -0.4,
+        0.6
+      ],
+      "orbit": 0.013,
+      "ground": "--ink",
+      "inks": [
+        "--cyan",
+        "--yellow",
+        "--pink"
+      ]
+    },
     "you.html": {
       "kind": "julia",
       "c": [

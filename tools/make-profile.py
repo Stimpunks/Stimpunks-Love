@@ -108,6 +108,18 @@ WHAT IT REFUSES, and why each one is here:
     or since when; directory.css wears the CB's seven and no colour of its
     own; and privacy.html says what it keeps. The friendly edits are a count at
     the top, a "joined" date beside a name, and a switch that starts on.
+  · A PROFILE'S OWN PAGE SHOWING WHAT ITS OWNER DID NOT CHOOSE (Helen Edgar's
+    question, Ryan's calls, 2026-10-26). A card is the community's unless its
+    owner says private or public in as many words; a private card is nobody
+    else's to read, and is in no directory and on no Who's online; somebody
+    signed off is answered only for a public card, and the same for every
+    other name; and profilePage never carries props, a chat status or a way to
+    message anybody, which stay on the radio. profile-page.js asks
+    /cb/profile/page and two of the street's own lists and nowhere else, keeps
+    nothing and writes no markup from a string; profile-page.css wears the CB's
+    seven; privacy.html says all of it. The friendly edits are a Props tab on
+    the page "so it is complete", a card that starts public "so sharing is
+    easy", and a list of public profiles.
 """
 import json
 import re
@@ -124,6 +136,10 @@ DIR_JS = ROOT / "directory.js"
 DIR_CSS = ROOT / "directory.css"
 DIR_PAGE = ROOT / "directory.html"
 DIR_FN = ROOT / "netlify" / "functions" / "cb-directory.mjs"
+PAGE_JS = ROOT / "profile-page.js"
+PAGE_CSS = ROOT / "profile-page.css"
+PAGE = ROOT / "profile.html"
+PAGE_FN = ROOT / "netlify" / "functions" / "cb-profile-page.mjs"
 PRIVACY = ROOT / "privacy.html"
 PARTS = ["case", "bar", "steel", "steel-2", "lcd", "amber", "amber-2"]
 
@@ -397,6 +413,7 @@ def main():
         refuse("Forget me (cb-pets.mjs) no longer deletes profile sets.")
 
     check_directory(lib, part_code)
+    check_public_page(part_code)
 
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
@@ -468,6 +485,64 @@ def check_directory(lib, part_code):
     priv = PRIVACY.read_text()
     if 'id="community-directory"' not in priv or "Show my profile in the community directory" not in priv:
         refuse("privacy.html has no #community-directory section naming the switch, Show my profile in the community directory.")
+
+
+def check_public_page(part_code):
+    """A profile's own page (2026-10-26): who may open a card is its owner's
+    choice, and the community's things never reach it."""
+    m = re.search(r"export function cleanProfile\(.*?\n\}", part_code, re.S)
+    cp = m.group(0) if m else ""
+    if "PROFILE_REACHES.includes(p.reach)" not in cp or "if (reach === 'private') out.listed = false;" not in cp:
+        refuse("cleanProfile in lib.mjs no longer keeps who may open a card to '', private or public, or lists a private card.")
+    if not re.search(r"PROFILE_REACHES = \['private', 'public'\];", part_code):
+        refuse("PROFILE_REACHES in lib.mjs is not exactly private and public: '' is the community, and every card starts there.")
+    m = re.search(r"export async function keepProfile\(.*?\n\}", part_code, re.S)
+    if not m or "p.reach === 'private' ? ''" not in m.group(0):
+        refuse("keepProfile in lib.mjs puts a private card's nameplate on Who's online.")
+    m = re.search(r"export async function shownProfile\(.*?\n\}", part_code, re.S)
+    if not m or "profile.reach === 'private'" not in m.group(0):
+        refuse("shownProfile in lib.mjs shows a private card to somebody who is not its owner.")
+    m = re.search(r"export async function profilePage\(.*?\n\}", part_code, re.S)
+    pp = m.group(0) if m else ""
+    if "if (!who && reach !== 'public') return null;" not in pp:
+        refuse("profilePage in lib.mjs answers somebody signed off for a card that is not open to the public.")
+    if re.search(r"Props|props|chatStatus|\bdm|Dm\b|message", pp):
+        refuse("profilePage in lib.mjs reaches props, a chat status or messages: those are the community's, on the radio.")
+    if "const { listed, reach: r, ...rest } = card;" not in pp:
+        refuse("profilePage in lib.mjs sends a card's listed, or its reach to somebody else.")
+    fn = PAGE_FN.read_text() if PAGE_FN.exists() else ""
+    if "{ handle, open: false, signedOn: !!who }" not in fn:
+        refuse(f"{PAGE_FN.name} answers a closed profile with more than the name it was asked: every closed name must look alike.")
+    js = strip_js(PAGE_JS.read_text()) if PAGE_JS.exists() else ""
+    if not js:
+        refuse("profile-page.js is missing.")
+    urls = sorted(set(re.findall(r"(?:fetch|getJSON)\(\s*'([^']*)'", js)))
+    if urls != ["/cb-rooms.json", "/cb/profile/page", "/guild-jobs.json"] or re.search(r"XMLHttpRequest|sendBeacon|WebSocket|EventSource", js):
+        refuse(f"profile-page.js asks {urls}: it asks /cb/profile/page and the street's own room and guild lists, and nowhere else.")
+    for pat, why in [
+        (r"setItem|removeItem|sessionStorage|indexedDB|document\.cookie", "storage: the page keeps nothing"),
+        (r"innerHTML|outerHTML|insertAdjacentHTML|DOMParser", "markup written from a string"),
+        (r"/cb/props|/cb/dm|/cb/chat|chatStatus|giveProp", "the community's props, chat status or messages, which stay on the radio"),
+        (r"\bcount\b|\btotal\b|\.length\s*\+|\+\s*[\w.]+\.length", "a count"),
+        (r"\bjoined\b|member since|new Date|Date\.now|toLocale(?:Date)?String", "a date: nothing on a profile says when"),
+    ]:
+        mm = re.search(pat, js)
+        if mm:
+            refuse(f"profile-page.js has {mm.group(0)!r}, {why}.")
+    css = PAGE_CSS.read_text() if PAGE_CSS.exists() else ""
+    css_code = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    mm = re.search(r"#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|oklch|lab|lch)\(|\b(?:white|black)\b", css_code)
+    if not css or mm:
+        refuse(f"profile-page.css has {mm.group(0) if mm else 'nothing'}: the page wears the CB's seven and no colour of its own.")
+    if re.search(r"\b(?:transition|animation|@keyframes|transform)\b", css_code):
+        refuse("profile-page.css moves something.")
+    page = PAGE.read_text() if PAGE.exists() else ""
+    for want in ("data-profile-page", 'src="profile-page.js"', 'src="call.js"', 'href="privacy.html#public-profiles"'):
+        if want not in page:
+            refuse(f"profile.html has no {want}.")
+    priv = PRIVACY.read_text()
+    if 'id="public-profiles"' not in priv or "never shows your props, your chat status or a way to message you" not in priv:
+        refuse("privacy.html has no #public-profiles section saying a page never shows props, a chat status or a way to message.")
 
 
 if __name__ == "__main__":
