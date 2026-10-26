@@ -195,6 +195,14 @@ if ! step "the CB under load" node --test netlify/cb/lib.test.mjs; then
   report; exit 1
 fi
 
+# Every function loads the way Netlify loads it: node --check passes an import
+# of a name its module does not export, and on 2026-10-25 that took the radio
+# down on the live site. See tools/check-functions-load.mjs.
+if ! step "every function loads" node tools/check-functions-load.mjs; then
+  printf '\n\033[1mSTOPPED at the functions.\033[0m One would fail to load on Netlify.\n'
+  report; exit 1
+fi
+
 # The fractal window's one invariant, also Node and nothing else: no room's
 # picture flashes at the quickest speed, counted in what it paints. See
 # tools/fractal.test.mjs.

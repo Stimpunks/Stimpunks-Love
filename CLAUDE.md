@@ -6028,6 +6028,13 @@ readable; only writes decide by name. `staffShut(room)` shuts a staff room's cha
 sealed and never shut by it. `make-tasks.py`, `make-forum.py` and `make-town-hall.py` hold it; the friendly edit
 is a fallback to the clear. Ryan keeps a copy of the key.
 
+**`node --check` IS NOT A LOAD CHECK, AND IT TOOK THE RADIO DOWN.** 2026-10-25: an edit put `staffShut` into the
+first import of `cb-channel` and `cb-transmit`, which is `node:crypto`; syntax was fine, the modules did not load,
+and the live site answered 502 until the next deploy, so the radio could neither listen nor send for a few
+minutes. The CB's tests import `lib.mjs` and never the functions. **`tools/check-functions-load.mjs` imports every
+function the way Netlify does**, right after the CB's tests in `check-all.sh`. When you add an import to a
+function, add it to the line that imports from `../cb/lib.mjs`, and never by a regex that picks "the first import".
+
 **A TASK'S CHANGES ARE ITS ACTIVITY, AND NEWS TO WHOEVER THEY CONCERN BUT WHOEVER MADE THEM.** Ryan's ask,
 2026-10-21, after EspoCRM's stream and notifications and Notion's inbox. `noteTask` in `lib.mjs`, called after
 `saveTask`, `tickTask`, `removeTask` and `makeRecurring` write, turns a change into an event (who, when, the task's id and
