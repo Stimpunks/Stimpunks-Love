@@ -1558,7 +1558,10 @@ worked out on the radio and kept nowhere. **The book is stories, never recipes**
 or drink, and `make-yurt-myths.py` refuses a measure, a dose, steep or boil in the Herbery's data. **The friendly edits are
 a real tea recipe "since it is a herbery", what a herb does for you, and a brew that needs a rare herb "to collect"**:
 the first two are the cure framing the Myths tool refuses, the third a rarity. Brew and Stew, on the Campgrounds, is the
-street's real tea room; the Herbery is a cauldron of words behind the Alchemist's Arch.
+street's real tea room; the Herbery is a cauldron of words behind the Alchemist's Arch. **Every herb and every crystal `brings` something out of its own
+story** (Helen's ask, the same day), and the cauldron and the pouch to fill under the Crystal Wheel make a possible
+outcome of a mix out of them, on the page, sending nothing; `make-yurt-myths.py` refuses one that brings nothing or
+anything about a body (`BODY`), because an outcome is a story and never an effect.
 
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a

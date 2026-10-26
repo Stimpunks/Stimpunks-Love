@@ -533,7 +533,8 @@
           "shape": "cluster",
           "ink": "--crys-amethyst",
           "shine": "--crys-amethyst-2"
-        }
+        },
+        "brings": "a clear head"
       },
       {
         "name": "Citrine",
@@ -573,7 +574,8 @@
           "shape": "point",
           "ink": "--crys-citrine",
           "shine": "--crys-citrine-2"
-        }
+        },
+        "brings": "a calm temper and a merchant's luck"
       },
       {
         "name": "Garnet",
@@ -613,7 +615,8 @@
           "shape": "gem",
           "ink": "--crys-garnet",
           "shine": "--crys-garnet-2"
-        }
+        },
+        "brings": "good fortune"
       },
       {
         "name": "Moonstone",
@@ -653,7 +656,8 @@
           "shape": "tumble",
           "ink": "--crys-moonstone",
           "shine": "--crys-moonstone-2"
-        }
+        },
+        "brings": "a moonbeam made solid"
       },
       {
         "name": "Labradorite",
@@ -693,7 +697,8 @@
           "shape": "flash",
           "ink": "--crys-labradorite",
           "shine": "--crys-labradorite-2"
-        }
+        },
+        "brings": "a flash of the northern lights"
       },
       {
         "name": "Lapis lazuli",
@@ -733,7 +738,8 @@
           "shape": "flecks",
           "ink": "--crys-lapis-lazuli",
           "shine": "--crys-lapis-lazuli-2"
-        }
+        },
+        "brings": "the old magic of Mesopotamia's stones"
       },
       {
         "name": "Turquoise",
@@ -773,7 +779,8 @@
           "shape": "veins",
           "ink": "--crys-turquoise",
           "shine": "--crys-turquoise-2"
-        }
+        },
+        "brings": "a steady seat on a horse"
       },
       {
         "name": "Rose quartz",
@@ -813,7 +820,8 @@
           "shape": "tumble",
           "ink": "--crys-rose-quartz",
           "shine": "--crys-rose-quartz-2"
-        }
+        },
+        "brings": "love"
       },
       {
         "name": "Clear quartz",
@@ -853,7 +861,8 @@
           "shape": "point",
           "ink": "--crys-clear-quartz",
           "shine": "--crys-clear-quartz-2"
-        }
+        },
+        "brings": "ice that never melts"
       },
       {
         "name": "Smoky quartz",
@@ -893,7 +902,8 @@
           "shape": "point",
           "ink": "--crys-smoky-quartz",
           "shine": "--crys-smoky-quartz-2"
-        }
+        },
+        "brings": "steady ground under your feet"
       },
       {
         "name": "Obsidian",
@@ -933,7 +943,8 @@
           "shape": "tumble",
           "ink": "--crys-obsidian",
           "shine": "--crys-obsidian-2"
-        }
+        },
+        "brings": "a vision in a smoking mirror"
       },
       {
         "name": "Tiger's eye",
@@ -973,9 +984,11 @@
           "shape": "band",
           "ink": "--crys-tigers-eye",
           "shine": "--crys-tigers-eye-2"
-        }
+        },
+        "brings": "a guard against the evil eye"
       }
-    ]
+    ],
+    "pouch_note": "Fill a pouch here, as many as three, and draw the string: it tells you what is in it and what it might bring, out of each stone's old belief or lore. A possible outcome, in this room's telling, and never a promise. It sends nothing and keeps nothing; to keep a crystal, take it with you from its card."
   },
   "green_shelf": {
     "_source": "Helen Edgar's ask, 2026-10-26: link The Green Witch and The Green Witch's Book of Seasons, and similar books, straight to the publisher and never to Amazon. Both are in Arin Murphy-Hiscock's Green Witch Witchcraft Series (Adams Media, Simon & Schuster), so the shelf is that series. Every title, subtitle and UK publication date was read off its own page at simonandschuster.co.uk on 2026-10-26.",
@@ -1093,7 +1106,8 @@
           "source": "https://en.wikipedia.org/wiki/Rosemary",
           "source_name": "Wikipedia"
         },
-        "draw": "needles"
+        "draw": "needles",
+        "brings": "remembering"
       },
       {
         "name": "Thyme",
@@ -1116,7 +1130,8 @@
           "source": "https://en.wikipedia.org/wiki/Thyme",
           "source_name": "Wikipedia"
         },
-        "draw": "tiny"
+        "draw": "tiny",
+        "brings": "courage"
       },
       {
         "name": "Mint",
@@ -1139,7 +1154,8 @@
           "source": "https://en.wikipedia.org/wiki/Minthe",
           "source_name": "Wikipedia"
         },
-        "draw": "pairs"
+        "draw": "pairs",
+        "brings": "the sweet smell of Minthe's garden"
       },
       {
         "name": "Basil",
@@ -1162,7 +1178,8 @@
           "source": "https://en.wikipedia.org/wiki/Basil",
           "source_name": "Wikipedia"
         },
-        "draw": "broad"
+        "draw": "broad",
+        "brings": "a pot of basil from a sweetheart"
       },
       {
         "name": "Bay",
@@ -1185,7 +1202,8 @@
           "source": "https://en.wikipedia.org/wiki/Laurus_nobilis",
           "source_name": "Wikipedia"
         },
-        "draw": "laurel"
+        "draw": "laurel",
+        "brings": "a winner's laurel wreath"
       },
       {
         "name": "Lavender",
@@ -1208,7 +1226,8 @@
           "source": "https://en.wikipedia.org/wiki/Lavandula",
           "source_name": "Wikipedia"
         },
-        "draw": "spike"
+        "draw": "spike",
+        "brings": "the smell of clean washing"
       },
       {
         "name": "Rose",
@@ -1231,7 +1250,8 @@
           "source": "https://en.wikipedia.org/wiki/Sub_rosa",
           "source_name": "Wikipedia"
         },
-        "draw": "bloom"
+        "draw": "bloom",
+        "brings": "a secret kept"
       },
       {
         "name": "Elder",
@@ -1254,7 +1274,8 @@
           "source": "https://en.wikipedia.org/wiki/Sambucus",
           "source_name": "Wikipedia"
         },
-        "draw": "umbel"
+        "draw": "umbel",
+        "brings": "the Elder Mother's goodwill"
       },
       {
         "name": "Yarrow",
@@ -1277,7 +1298,8 @@
           "source": "https://en.wikipedia.org/wiki/Achillea_millefolium",
           "source_name": "Wikipedia"
         },
-        "draw": "flat"
+        "draw": "flat",
+        "brings": "a lucky answer from the stalks"
       },
       {
         "name": "Hawthorn",
@@ -1300,7 +1322,8 @@
           "source": "https://en.wikipedia.org/wiki/Crataegus",
           "source_name": "Wikipedia"
         },
-        "draw": "haws"
+        "draw": "haws",
+        "brings": "a door to the fairies left open"
       }
     ],
     "book": [
@@ -1398,6 +1421,7 @@
         ],
         "says": "Pale flowers only, stirred after dark."
       }
-    ]
+    ],
+    "outcome_note": "Every herb brings something out of its own story, and the cauldron tells you what a mix might bring: a possible outcome, in this room's telling, and never a promise."
   }
 }

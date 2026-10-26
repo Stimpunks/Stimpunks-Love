@@ -13,7 +13,9 @@
    stews between the markers below out of data/yurt-myths.json.
 
    THE BOOK IS STORIES, NEVER RECIPES. A brew or a stew is a set of herbs and a
-   name and a line of this room's own; the cauldron says which one you stirred.
+   name and a line of this room's own; the cauldron says what you mixed, which
+   one it is if it is in the book, and a possible outcome made of what each herb
+   brings out of its own story (Helen's ask, 2026-10-26).
    Nothing it says is to eat or drink, and the room says so above it.
 
    IN THE HERBERY IT SENDS ONE THING, AND ONLY WHEN SOMEBODY PRESSES THE BUTTON
@@ -27,7 +29,7 @@
   'use strict';
 
   /* herbs:data:begin */
-  var DATA = {"room": "faery-myths-room.html", "herbs": [{"id": "rosemary", "name": "Rosemary", "draw": "needles", "ink": "--herb-rosemary", "shine": "--herb-rosemary-2"}, {"id": "thyme", "name": "Thyme", "draw": "tiny", "ink": "--herb-thyme", "shine": "--herb-thyme-2"}, {"id": "mint", "name": "Mint", "draw": "pairs", "ink": "--herb-mint", "shine": "--herb-mint-2"}, {"id": "basil", "name": "Basil", "draw": "broad", "ink": "--herb-basil", "shine": "--herb-basil-2"}, {"id": "bay", "name": "Bay", "draw": "laurel", "ink": "--herb-bay", "shine": "--herb-bay-2"}, {"id": "lavender", "name": "Lavender", "draw": "spike", "ink": "--herb-lavender", "shine": "--herb-lavender-2"}, {"id": "rose", "name": "Rose", "draw": "bloom", "ink": "--herb-rose", "shine": "--herb-rose-2"}, {"id": "elder", "name": "Elder", "draw": "umbel", "ink": "--herb-elder", "shine": "--herb-elder-2"}, {"id": "yarrow", "name": "Yarrow", "draw": "flat", "ink": "--herb-yarrow", "shine": "--herb-yarrow-2"}, {"id": "hawthorn", "name": "Hawthorn", "draw": "haws", "ink": "--herb-hawthorn", "shine": "--herb-hawthorn-2"}], "book": [{"name": "Brew of Remembering", "kind": "brew", "herbs": ["rosemary", "bay"], "says": "For an evening of telling old stories out loud, so nobody in them is forgotten."}, {"name": "Brew of Small Courage", "kind": "brew", "herbs": ["thyme", "basil"], "says": "For the moment before a door, a phone call, or the first word in a full room."}, {"name": "Under-the-Rose Brew", "kind": "brew", "herbs": ["rose", "mint"], "says": "For a secret kept kindly: the kind that is somebody else's to tell."}, {"name": "Elder Mother's Brew", "kind": "brew", "herbs": ["elder", "hawthorn"], "says": "Ask the Elder Mother first, and leave the lone thorn standing."}, {"name": "Sea-Dew Brew", "kind": "brew", "herbs": ["rosemary", "lavender"], "says": "Sea air and clean washing, for a room that wants airing."}, {"name": "Yarrow Stalk Brew", "kind": "brew", "herbs": ["yarrow", "thyme"], "says": "Stir it while you wonder, and let the stalks fall where they fall."}, {"name": "Underworld Stew", "kind": "stew", "herbs": ["mint", "rose", "bay"], "says": "Minthe, Daphne and the rose that kept a secret: three stories of plants and gods, simmered together."}, {"name": "Fair Folk Stew", "kind": "stew", "herbs": ["hawthorn", "elder", "yarrow"], "says": "Set out a bowl under the thorn, and do not wait up."}, {"name": "Windowsill Stew", "kind": "stew", "herbs": ["basil", "thyme", "rosemary"], "says": "Everything growing on the sill, for an ordinary Tuesday."}, {"name": "Moonlight Stew", "kind": "stew", "herbs": ["lavender", "rose", "elder"], "says": "Pale flowers only, stirred after dark."}]};
+  var DATA = {"room": "faery-myths-room.html", "herbs": [{"id": "rosemary", "name": "Rosemary", "draw": "needles", "ink": "--herb-rosemary", "shine": "--herb-rosemary-2", "brings": "remembering"}, {"id": "thyme", "name": "Thyme", "draw": "tiny", "ink": "--herb-thyme", "shine": "--herb-thyme-2", "brings": "courage"}, {"id": "mint", "name": "Mint", "draw": "pairs", "ink": "--herb-mint", "shine": "--herb-mint-2", "brings": "the sweet smell of Minthe's garden"}, {"id": "basil", "name": "Basil", "draw": "broad", "ink": "--herb-basil", "shine": "--herb-basil-2", "brings": "a pot of basil from a sweetheart"}, {"id": "bay", "name": "Bay", "draw": "laurel", "ink": "--herb-bay", "shine": "--herb-bay-2", "brings": "a winner's laurel wreath"}, {"id": "lavender", "name": "Lavender", "draw": "spike", "ink": "--herb-lavender", "shine": "--herb-lavender-2", "brings": "the smell of clean washing"}, {"id": "rose", "name": "Rose", "draw": "bloom", "ink": "--herb-rose", "shine": "--herb-rose-2", "brings": "a secret kept"}, {"id": "elder", "name": "Elder", "draw": "umbel", "ink": "--herb-elder", "shine": "--herb-elder-2", "brings": "the Elder Mother's goodwill"}, {"id": "yarrow", "name": "Yarrow", "draw": "flat", "ink": "--herb-yarrow", "shine": "--herb-yarrow-2", "brings": "a lucky answer from the stalks"}, {"id": "hawthorn", "name": "Hawthorn", "draw": "haws", "ink": "--herb-hawthorn", "shine": "--herb-hawthorn-2", "brings": "a door to the fairies left open"}], "book": [{"name": "Brew of Remembering", "kind": "brew", "herbs": ["rosemary", "bay"], "says": "For an evening of telling old stories out loud, so nobody in them is forgotten."}, {"name": "Brew of Small Courage", "kind": "brew", "herbs": ["thyme", "basil"], "says": "For the moment before a door, a phone call, or the first word in a full room."}, {"name": "Under-the-Rose Brew", "kind": "brew", "herbs": ["rose", "mint"], "says": "For a secret kept kindly: the kind that is somebody else's to tell."}, {"name": "Elder Mother's Brew", "kind": "brew", "herbs": ["elder", "hawthorn"], "says": "Ask the Elder Mother first, and leave the lone thorn standing."}, {"name": "Sea-Dew Brew", "kind": "brew", "herbs": ["rosemary", "lavender"], "says": "Sea air and clean washing, for a room that wants airing."}, {"name": "Yarrow Stalk Brew", "kind": "brew", "herbs": ["yarrow", "thyme"], "says": "Stir it while you wonder, and let the stalks fall where they fall."}, {"name": "Underworld Stew", "kind": "stew", "herbs": ["mint", "rose", "bay"], "says": "Minthe, Daphne and the rose that kept a secret: three stories of plants and gods, simmered together."}, {"name": "Fair Folk Stew", "kind": "stew", "herbs": ["hawthorn", "elder", "yarrow"], "says": "Set out a bowl under the thorn, and do not wait up."}, {"name": "Windowsill Stew", "kind": "stew", "herbs": ["basil", "thyme", "rosemary"], "says": "Everything growing on the sill, for an ordinary Tuesday."}, {"name": "Moonlight Stew", "kind": "stew", "herbs": ["lavender", "rose", "elder"], "says": "Pale flowers only, stirred after dark."}]};
   /* herbs:data:end */
 
   var PASS_KEY = 'love-cb';
@@ -200,6 +202,11 @@
     var key = ids.slice().sort().join(' ');
     return DATA.book.filter(function (b) { return b.herbs.slice().sort().join(' ') === key; })[0] || null;
   }
+  /* What a mix might bring: what each herb in it brings out of its own story,
+     in the Herbery's order. A story, never a promise. */
+  function brings(ids) {
+    return said(DATA.herbs.filter(function (h) { return ids.indexOf(h.id) >= 0; }).map(function (h) { return h.brings; }));
+  }
   function herbNames(ids) {
     return said(DATA.herbs.filter(function (h) { return ids.indexOf(h.id) >= 0; }).map(function (h) { return h.name; }));
   }
@@ -217,7 +224,7 @@
 
   /* ── The cauldron ─────────────────────────────────────────────────────── */
   function cauldron(ids) {
-    var svg = shape('svg', { viewBox: '0 0 200 172', class: 'myth-cauldron__art', 'aria-hidden': 'true', focusable: 'false' });
+    var svg = shape('svg', { viewBox: '0 0 200 172', class: 'myth-mix__art', 'aria-hidden': 'true', focusable: 'false' });
     var inIt = DATA.herbs.filter(function (h) { return ids.indexOf(h.id) >= 0; });
     svg.appendChild(lined('path', { d: 'M58 140 L46 166 M142 140 L154 166 M100 150 V168', fill: 'none', stroke: ink('--herb-iron'), 'stroke-width': '7', 'stroke-linecap': 'round' }));
     svg.appendChild(lined('path', { d: 'M38 66 C32 118 58 154 100 154 C142 154 168 118 162 66 Z', fill: ink('--herb-iron'), 'stroke-width': '2' }));
@@ -258,9 +265,10 @@
       var ids = chosen();
       if (ids.length < 2) { out.textContent = 'Tip in two or three herbs, then stir.'; return; }
       var b = bookFor(ids);
-      out.textContent = b
-        ? 'You stirred the ' + b.name + ', a ' + b.kind + ' of ' + herbNames(b.herbs) + '. ' + b.says
-        : 'A ' + (ids.length === 3 ? 'stew' : 'brew') + ' of ' + herbNames(ids) + ': it is not in the book, so it is yours to name.';
+      out.textContent = 'You mixed ' + herbNames(ids) + '. ' +
+        (b ? 'That is the ' + b.name + ', a ' + b.kind + ' in the book. ' + b.says + ' '
+           : 'That ' + (ids.length === 3 ? 'stew' : 'brew') + ' is not in the book, so it is yours to name. ') +
+        'A possible outcome, in this cauldron\u2019s telling: ' + brings(ids) + '.';
     });
     empty.addEventListener('click', function () {
       for (var i = 0; i < picks.length; i++) picks[i].checked = false;

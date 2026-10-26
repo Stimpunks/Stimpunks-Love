@@ -27656,19 +27656,19 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 .myth-herb__frame { display: block; width: 120px; height: 120px; margin: 0 auto 10px; }
 .myth-herb__art { display: block; width: 100%; height: 100%; }
 .myth-herbery__h { margin: 26px 0 10px !important; scroll-margin-top: 20px; }
-.myth-cauldron { display: grid; gap: 12px; justify-items: center; text-align: center; }
-.myth-cauldron__art-box { width: min(260px, 100%); }
-.myth-cauldron__art { display: block; width: 100%; height: auto; }
-.myth-cauldron__picks { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.myth-cauldron__picks legend { width: 100%; text-align: center; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 0 8px; }
-.myth-cauldron__pick { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px; cursor: pointer;
+.myth-mix { display: grid; gap: 12px; justify-items: center; text-align: center; }
+.myth-mix__art-box { width: min(260px, 100%); }
+.myth-mix__art { display: block; width: 100%; height: auto; }
+.myth-mix__picks { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.myth-mix__picks legend { width: 100%; text-align: center; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 0 8px; }
+.myth-mix__pick { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px; cursor: pointer;
   background: var(--rdr-wall); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.35); border-radius: 6px; }
-.myth-cauldron__pick input { width: 18px; height: 18px; accent-color: var(--rdr-brass); }
-.myth-cauldron__pick input:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
-.myth-cauldron__pick:has(input:checked) { border-color: var(--rdr-brass); box-shadow: inset 0 0 0 1px var(--rdr-brass); }
-.myth-cauldron__go { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 0 !important; }
-.myth-cauldron__said { max-width: 60ch; margin: 0 !important; color: var(--rdr-ink); }
-.myth-cauldron__said:empty { display: none; }
+.myth-mix__pick input { width: 18px; height: 18px; accent-color: var(--rdr-brass); }
+.myth-mix__pick input:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+.myth-mix__pick:has(input:checked) { border-color: var(--rdr-brass); box-shadow: inset 0 0 0 1px var(--rdr-brass); }
+.myth-mix__go { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 0 !important; }
+.myth-mix__said { max-width: 60ch; margin: 0 !important; color: var(--rdr-ink); }
+.myth-mix__said:empty { display: none; }
 .myth-brewbook li { margin: 6px 0; }
 
 .myth-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }

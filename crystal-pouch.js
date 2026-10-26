@@ -23,7 +23,7 @@
   'use strict';
 
   /* crystals:data:begin */
-  var DATA = {"room": "faery-myths-room.html", "crystals": [{"id": "amethyst", "name": "Amethyst", "shape": "cluster", "ink": "--crys-amethyst", "shine": "--crys-amethyst-2"}, {"id": "citrine", "name": "Citrine", "shape": "point", "ink": "--crys-citrine", "shine": "--crys-citrine-2"}, {"id": "garnet", "name": "Garnet", "shape": "gem", "ink": "--crys-garnet", "shine": "--crys-garnet-2"}, {"id": "moonstone", "name": "Moonstone", "shape": "tumble", "ink": "--crys-moonstone", "shine": "--crys-moonstone-2"}, {"id": "labradorite", "name": "Labradorite", "shape": "flash", "ink": "--crys-labradorite", "shine": "--crys-labradorite-2"}, {"id": "lapis-lazuli", "name": "Lapis lazuli", "shape": "flecks", "ink": "--crys-lapis-lazuli", "shine": "--crys-lapis-lazuli-2"}, {"id": "turquoise", "name": "Turquoise", "shape": "veins", "ink": "--crys-turquoise", "shine": "--crys-turquoise-2"}, {"id": "rose-quartz", "name": "Rose quartz", "shape": "tumble", "ink": "--crys-rose-quartz", "shine": "--crys-rose-quartz-2"}, {"id": "clear-quartz", "name": "Clear quartz", "shape": "point", "ink": "--crys-clear-quartz", "shine": "--crys-clear-quartz-2"}, {"id": "smoky-quartz", "name": "Smoky quartz", "shape": "point", "ink": "--crys-smoky-quartz", "shine": "--crys-smoky-quartz-2"}, {"id": "obsidian", "name": "Obsidian", "shape": "tumble", "ink": "--crys-obsidian", "shine": "--crys-obsidian-2"}, {"id": "tigers-eye", "name": "Tiger's eye", "shape": "band", "ink": "--crys-tigers-eye", "shine": "--crys-tigers-eye-2"}]};
+  var DATA = {"room": "faery-myths-room.html", "crystals": [{"id": "amethyst", "name": "Amethyst", "shape": "cluster", "ink": "--crys-amethyst", "shine": "--crys-amethyst-2", "brings": "a clear head"}, {"id": "citrine", "name": "Citrine", "shape": "point", "ink": "--crys-citrine", "shine": "--crys-citrine-2", "brings": "a calm temper and a merchant's luck"}, {"id": "garnet", "name": "Garnet", "shape": "gem", "ink": "--crys-garnet", "shine": "--crys-garnet-2", "brings": "good fortune"}, {"id": "moonstone", "name": "Moonstone", "shape": "tumble", "ink": "--crys-moonstone", "shine": "--crys-moonstone-2", "brings": "a moonbeam made solid"}, {"id": "labradorite", "name": "Labradorite", "shape": "flash", "ink": "--crys-labradorite", "shine": "--crys-labradorite-2", "brings": "a flash of the northern lights"}, {"id": "lapis-lazuli", "name": "Lapis lazuli", "shape": "flecks", "ink": "--crys-lapis-lazuli", "shine": "--crys-lapis-lazuli-2", "brings": "the old magic of Mesopotamia's stones"}, {"id": "turquoise", "name": "Turquoise", "shape": "veins", "ink": "--crys-turquoise", "shine": "--crys-turquoise-2", "brings": "a steady seat on a horse"}, {"id": "rose-quartz", "name": "Rose quartz", "shape": "tumble", "ink": "--crys-rose-quartz", "shine": "--crys-rose-quartz-2", "brings": "love"}, {"id": "clear-quartz", "name": "Clear quartz", "shape": "point", "ink": "--crys-clear-quartz", "shine": "--crys-clear-quartz-2", "brings": "ice that never melts"}, {"id": "smoky-quartz", "name": "Smoky quartz", "shape": "point", "ink": "--crys-smoky-quartz", "shine": "--crys-smoky-quartz-2", "brings": "steady ground under your feet"}, {"id": "obsidian", "name": "Obsidian", "shape": "tumble", "ink": "--crys-obsidian", "shine": "--crys-obsidian-2", "brings": "a vision in a smoking mirror"}, {"id": "tigers-eye", "name": "Tiger's eye", "shape": "band", "ink": "--crys-tigers-eye", "shine": "--crys-tigers-eye-2", "brings": "a guard against the evil eye"}]};
   /* crystals:data:end */
 
   var PASS_KEY = 'love-cb';
@@ -117,6 +117,8 @@
     ['circle', { cx: '143.6', cy: '120', r: '3.6', fill: ink('--crys-cord') }, true]
   ];
 
+  function said(xs) { return xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' and ' + xs[xs.length - 1]; }
+
   function crystalAt(c, x, y, size) {
     var g = shape('g', { transform: 'translate(' + (x - size / 2).toFixed(1) + ' ' + (y - size / 2).toFixed(1) + ') scale(' + (size / 48).toFixed(3) + ')' });
     DRAW[c.shape](g, c);
@@ -158,6 +160,47 @@
   /* ── Take it with you, on the wheel ────────────────────────────────────── */
   if (typeof document === 'undefined') return;
 
+  /* ── Fill a pouch, under the wheel (Helen's ask, 2026-10-26) ──────────────
+     Up to three crystals into a pouch drawn on the page, and Draw the string
+     says what is in it and a possible outcome, made of what each crystal
+     brings out of its own belief or lore. It sends nothing and keeps nothing. */
+  function pouchRoom() {
+    var box = document.querySelector('[data-pouch]');
+    if (!box) return;
+    var art = box.querySelector('[data-pouch-art]');
+    var picks = box.querySelectorAll('input[type="checkbox"][data-crystal]');
+    var go = box.querySelector('[data-pouch-draw]');
+    var empty = box.querySelector('[data-pouch-empty]');
+    var out = box.querySelector('[data-pouch-said]');
+    if (!art || !go || !empty || !out || !picks.length) return;
+    box.hidden = false;
+    function chosen() {
+      var ids = [];
+      for (var i = 0; i < picks.length; i++) if (picks[i].checked) ids.push(picks[i].getAttribute('data-crystal'));
+      return ids;
+    }
+    function paint() { art.textContent = ''; var p = pouch(chosen(), { cls: 'myth-mix__art' }); if (p) art.appendChild(p); }
+    function list(key, ids) {
+      return said(DATA.crystals.filter(function (c) { return ids.indexOf(c.id) >= 0; }).map(function (c) { return c[key]; }));
+    }
+    for (var i = 0; i < picks.length; i++) picks[i].addEventListener('change', function (e) {
+      if (chosen().length > 3) { e.target.checked = false; out.textContent = 'The pouch holds three crystals at most. Take one out first.'; return; }
+      out.textContent = '';
+      paint();
+    });
+    go.addEventListener('click', function () {
+      var ids = chosen();
+      if (!ids.length) { out.textContent = 'Put a crystal or two in first, then draw the string.'; return; }
+      out.textContent = 'You drew the string on ' + list('name', ids) + '. A possible outcome, if the old beliefs hold: ' + list('brings', ids) + '.';
+    });
+    empty.addEventListener('click', function () {
+      for (var i = 0; i < picks.length; i++) picks[i].checked = false;
+      out.textContent = 'You tipped the pouch out. It is empty again.';
+      paint();
+    });
+    paint();
+  }
+
   function pass() {
     try { var v = JSON.parse(localStorage.getItem(PASS_KEY) || 'null'); return v && v.pass ? v.pass : null; }
     catch (e) { return null; }
@@ -177,6 +220,7 @@
   }
 
   function cards() {
+    pouchRoom();
     var takes = document.querySelectorAll('[data-crystal-take]');
     if (!takes.length || !pass()) return;
     for (var i = 0; i < takes.length; i++) (function (row) {

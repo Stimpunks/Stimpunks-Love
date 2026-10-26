@@ -392,6 +392,19 @@ wheel_cw = (
     '<g stroke="var(--rdr-brass)" stroke-width=".25" opacity=".45">' + "".join(spokes_cw) + '</g></svg>\n'
     '      <p class="myth-cw__hub"><span>The Crystal Wheel</span><small>press a stone</small></p>\n'
     '      <ul class="myth-cw__stones">\n' + "\n".join(items_cw) + '\n      </ul>\n'
+    '    </div>\n'
+    # Helen's ask, 2026-10-26: a pouch to fill under the wheel, like the
+    # Herbery's cauldron. It is played on the page and sends nothing.
+    '    <h3 id="fill-a-pouch" class="myth-herbery__h">Fill a pouch</h3>\n'
+    f'    <p class="myth-intro">{esc(cw["pouch_note"])}</p>\n'
+    '    <div class="myth-mix myth-panel" data-pouch hidden>\n'
+    '      <div class="myth-mix__art-box" data-pouch-art></div>\n'
+    '      <fieldset class="myth-mix__picks"><legend>Put in up to three crystals</legend>' +
+    "".join(f'<label class="myth-mix__pick"><input type="checkbox" data-crystal="{esc(c["slug"])}"> {esc(c["name"])}</label>' for c in stones_cw) +
+    '</fieldset>\n'
+    '      <p class="myth-mix__go"><button type="button" class="myth-crystal__btn" data-pouch-draw>Draw the string</button> '
+    '<button type="button" class="myth-crystal__btn" data-pouch-empty>Tip it out</button></p>\n'
+    '      <p class="myth-mix__said" data-pouch-said role="status"></p>\n'
     '    </div>'
 )
 
@@ -440,7 +453,7 @@ for c in stones_cw:
     for k in ("ink", "shine"):
         if pc.get(k) not in declared:
             refuse(f"crystals {c.get('name')}: pouch.{k} {pc.get(k)} is not declared in love.css :root.")
-    pouch_data.append({"id": c["slug"], "name": c["name"], "shape": pc.get("shape"), "ink": pc.get("ink"), "shine": pc.get("shine")})
+    pouch_data.append({"id": c["slug"], "name": c["name"], "shape": pc.get("shape"), "ink": pc.get("ink"), "shine": pc.get("shine"), "brings": c.get("brings")})
 psrc = re.sub(r"/\*.*?\*/", " ", pjs, flags=re.S)
 psrc = re.sub(r"(?m)^\s*//.*$", " ", psrc)
 for m in re.finditer(r"localStorage\.(\w+)\(\s*([^,)]+)", psrc):
@@ -525,6 +538,23 @@ for b in HB["book"]:
     if not b.get("says"):
         refuse(f"herbery book {b.get('name')}: no line of its own.")
 by_slug = {h["slug"]: h["name"] for h in HB["herbs"]}
+# WHAT A HERB OR A CRYSTAL BRINGS (Helen's ask, 2026-10-26): the cauldron and the
+# pouch under the wheel tell you a possible outcome of a mix, made out of what
+# each one brings in its own story. It is a story, never a promise or an
+# effect on a body, and the notes above both say so.
+BODY = r"\b(health|healthy|medic\w*|ill(ness)?|pain|ache|anxi\w*|depress\w*|sleep\w*|stress|immun\w*|energy|detox\w*|cleans(e|ing)|calm(s|ing)? (your|the) (mind|nerves|body))\b"
+for k in ("outcome_note",):
+    if not HB.get(k):
+        refuse(f"herbery.{k}: the cauldron says once that its outcome is a story and never a promise.")
+if not cw.get("pouch_note"):
+    refuse("crystals.pouch_note: the pouch under the wheel says once that its outcome is a story, and that it sends nothing.")
+for what, items in (("herbery", HB["herbs"]), ("crystals", stones_cw)):
+    for it in items:
+        b = it.get("brings")
+        if not b:
+            refuse(f"{what} {it.get('name')}: brings nothing; every one brings something out of its own story.")
+        elif re.search(BODY, b, re.I):
+            refuse(f"{what} {it.get('name')}: brings '{b}', which is about a body. What it brings is a story, never an effect.")
 
 
 def and_list(xs):
@@ -547,7 +577,7 @@ def herb_card(h):
 
 
 picks = "".join(
-    f'<label class="myth-cauldron__pick"><input type="checkbox" data-herb="{esc(h["slug"])}"> {esc(h["name"])}</label>'
+    f'<label class="myth-mix__pick"><input type="checkbox" data-herb="{esc(h["slug"])}"> {esc(h["name"])}</label>'
     for h in HB["herbs"])
 book_items = "\n".join(
     f'        <li><b>{esc(b["name"])}</b>, a {esc(b["kind"])} of {esc(and_list([by_slug[x] for x in b["herbs"]]))}. {esc(b["says"])}</li>'
@@ -557,18 +587,19 @@ herbery = (
     f'    <p class="myth-herbery__note">{esc(HB["note"])}</p>\n'
     '    <ul class="myth-herbs">\n' + "\n".join(herb_card(h) for h in HB["herbs"]) + '\n    </ul>\n'
     '    <h3 id="cauldron" class="myth-herbery__h">The cauldron</h3>\n'
-    '    <div class="myth-cauldron myth-panel" data-cauldron hidden>\n'
-    '      <div class="myth-cauldron__art-box" data-cauldron-art></div>\n'
-    '      <fieldset class="myth-cauldron__picks"><legend>Tip in two or three herbs</legend>' + picks + '</fieldset>\n'
-    '      <p class="myth-cauldron__go"><button type="button" class="myth-crystal__btn" data-cauldron-stir>Stir</button> '
+    f'    <p class="myth-intro">{esc(HB["outcome_note"])}</p>\n'
+    '    <div class="myth-mix myth-panel" data-cauldron hidden>\n'
+    '      <div class="myth-mix__art-box" data-cauldron-art></div>\n'
+    '      <fieldset class="myth-mix__picks"><legend>Tip in two or three herbs</legend>' + picks + '</fieldset>\n'
+    '      <p class="myth-mix__go"><button type="button" class="myth-crystal__btn" data-cauldron-stir>Stir</button> '
     '<button type="button" class="myth-crystal__btn" data-cauldron-empty>Empty it</button></p>\n'
-    '      <p class="myth-cauldron__said" data-cauldron-said role="status"></p>\n'
+    '      <p class="myth-mix__said" data-cauldron-said role="status"></p>\n'
     '    </div>\n'
     '    <h3 id="book-of-brews" class="myth-herbery__h">The book of brews and stews</h3>\n'
     '    <ul class="myth-list myth-brewbook">\n' + book_items + '\n    </ul>\n'
     f'    <p class="myth-src">Every fact and story about a herb was read on the page it links to, on {esc(d["_checked"])}; the book is this room&rsquo;s own.</p>')
 herb_data = {"room": PAGE.name,
-             "herbs": [{"id": h["slug"], "name": h["name"], "draw": h["draw"], "ink": herb_tokens[h["slug"]][0], "shine": herb_tokens[h["slug"]][1]} for h in HB["herbs"]],
+             "herbs": [{"id": h["slug"], "name": h["name"], "draw": h["draw"], "ink": herb_tokens[h["slug"]][0], "shine": herb_tokens[h["slug"]][1], "brings": h.get("brings")} for h in HB["herbs"]],
              "book": [{"name": b["name"], "kind": b["kind"], "herbs": b["herbs"], "says": b["says"]} for b in HB["book"]]}
 bsrc = re.sub(r"/\*.*?\*/", " ", bjs, flags=re.S)
 bsrc = re.sub(r"(?m)^\s*//.*$", " ", bsrc)
