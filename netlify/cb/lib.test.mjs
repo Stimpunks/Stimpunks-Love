@@ -8397,7 +8397,7 @@ import { staffBytes } from './lib.mjs';
   test('every forum topic, category list, file and upload is sealed by name, and a file opens only as bytes', () => withStaffKey(async () => {
     const s = sealingStore(memoryStore({ etagOnRead: true }));
     assert.ok(staffSealed('forum/t/x') && staffSealed('forum/c/finance') && staffBytes('forum-file/t/x') && staffBytes('forum-up/x'));
-    assert.ok(!staffSealed('forum-gone') && !staffBytes('img/x') && !staffBytes('dm-img/x'));
+    assert.ok(!staffSealed('forum-gone') && !staffBytes('dm-img/x') && !staffBytes('brass-img/x'));
     const bytes = PDF('grant to Juniper');
     const doc = await putForumUpload(FADMIN, { kind: 'file', name: 'Grant.pdf' }, bytes, s, T0);
     assert.ok(doc.id, doc.error);
@@ -8438,4 +8438,50 @@ import { staffBytes } from './lib.mjs';
     await plain.setJSON('forum/t/tPLAINPLAIN1', { title: 'sneaked in' }, { onlyIfNew: true });
     assert.equal(await sealStaffLeftovers(s), false, 'the sweep looked again after it said it was done');
   }));
+}
+
+/* ── The staff rooms' channels, every channel picture and the calls for a moderator, sealed (2026-10-25) ── */
+import { staffShut, lockedRoom as lockedRoomOf, MOD_ROOMS as STAFF_ROOMS } from './lib.mjs';
+
+{
+  const withStaffKey = async (fn) => {
+    const was = process.env.CB_STAFF_KEY;
+    process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+    try { await fn(); } finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+  };
+  const staffRoom = Object.keys(STAFF_ROOMS)[0];
+
+  test('a staff room\'s channel is sealed and a public room\'s is not, every channel picture is sealed, and so are the calls for a moderator', () => withStaffKey(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    assert.ok(lockedRoomOf(staffRoom) && staffSealed('room-talk-' + staffRoom));
+    assert.ok(!staffSealed('room-talk-the-den') && !staffSealed('channel'), 'a public channel was sealed');
+    assert.ok(staffSealed('mod-calls') && staffBytes('img/x'));
+    await updateRoomTalk(staffRoom, (l) => [...l, { id: 'm1', handle: 'Mo', text: 'the grant for Juniper', t: Date.now() }], s);
+    await updateRoomTalk('the-den', (l) => [...l, { id: 'm2', handle: 'Ada', text: 'hello all', t: Date.now() }], s);
+    const sealed = await s.raw.get('room-talk-' + staffRoom, { type: 'json' });
+    assert.equal(sealed.sealed, 1); assert.ok(!JSON.stringify(sealed).includes('Juniper'), 'a staff room\'s channel was written in the clear');
+    assert.equal((await s.raw.get('room-talk-the-den', { type: 'json' })).messages[0].text, 'hello all', 'a public room\'s channel was sealed');
+    assert.equal((await readRoomTalk(staffRoom, s)).messages[0].text, 'the grant for Juniper');
+    const pic = jpeg(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33);
+    const { id } = await putImage({ handle: 'Ada' }, 'the-den', pic, s);
+    assert.equal(Buffer.from(await s.raw.get('img/' + id, { type: 'arrayBuffer' })).subarray(0, 4).toString(), 'SST1', 'a channel picture was written in the clear');
+    assert.deepEqual(Buffer.from((await getImage(id, s)).data), Buffer.from(pic));
+    await s.setJSON('mod-calls', { calls: [{ id: 'c1', text: 'help with Juniper' }] }, { onlyIfNew: true });
+    assert.equal((await s.raw.get('mod-calls', { type: 'json' })).sealed, 1, 'the calls for a moderator were written in the clear');
+    // Copied under a public room's name, a sealed log is still opened as sealed
+    // (so a room taken off the staff list keeps its history readable), and under
+    // another name it does not open at all.
+    await s.raw.setJSON('room-talk-the-garden', sealed, { onlyIfNew: true });
+    await assert.rejects(() => s.get('room-talk-the-garden', { type: 'json' }), 'a sealed log opened under another name');
+  }));
+
+  test('without the staff key a staff room\'s channel is shut, and a public one is not', async () => {
+    const was = process.env.CB_STAFF_KEY;
+    delete process.env.CB_STAFF_KEY;
+    try {
+      assert.equal(staffShut(staffRoom), true);
+      assert.equal(staffShut('the-den'), false);
+      assert.equal(staffShut(null), false, 'World was shut without the staff key');
+    } finally { if (was !== undefined) process.env.CB_STAFF_KEY = was; }
+  });
 }

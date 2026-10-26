@@ -198,15 +198,22 @@ export function store() {
    and its blobs must be JSON, because a sealed blob is. Losing the key loses
    what it sealed, so Ryan keeps a copy of it. */
 const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-(?:comments|activity|inbox|views)\//,
-  /^forum\/[ct]\//];
+  /^forum\/[ct]\//, /^mod-calls$/];
 /* Names whose blobs are bytes, not JSON: a forum post's files and the uploads
    waiting for a post (2026-10-25). Sealed whole, SST1 and the nonce and tag
    before them. EVERY forum topic, list and file, not only the staff
    categories': a topic's name does not say its category, and a topic moved out
    of a staff category keeps its name, so sealing by category would leave a
    moved one in the clear. */
-const STAFF_BYTES = [/^forum-file\//, /^forum-up\//];
-export const staffSealed = (key) => typeof key === 'string' && STAFF_SEALED.some((r) => r.test(key));
+const STAFF_BYTES = [/^forum-file\//, /^forum-up\//, /^img\//];
+/* AND EVERY STAFF ROOM'S CHANNEL (the same day): a room's log is named by its
+   room, so lockedRoom picks out exactly the base's rooms and the categories
+   with roles. Every channel picture is sealed (img/ above), because a
+   picture's name does not say its room. A room that stops being a staff room
+   keeps its sealed log readable: sealingStore opens anything sealed with the
+   staff key whatever its name, and decides by name only when writing. */
+export const staffSealed = (key) => typeof key === 'string'
+  && (STAFF_SEALED.some((r) => r.test(key)) || (key.startsWith(ROOM_TALK) && !!lockedRoom(key.slice(ROOM_TALK.length))));
 export const staffBytes = (key) => typeof key === 'string' && STAFF_BYTES.some((r) => r.test(key));
 function staffCipherKey() {
   const v = process.env.CB_STAFF_KEY;
@@ -214,6 +221,8 @@ function staffCipherKey() {
   try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
 }
 export function staffReady() { return !!staffCipherKey(); }
+/* A staff room's channel without the key: shut, never written in the clear. */
+export function staffShut(room) { return !!room && !!lockedRoom(room) && !staffReady(); }
 /* JSON sealed under `key` with its blob's `name` as associated data, marked
    with whose key it is (`tag`). The direct messages' sealing uses it too. */
 function sealJsonWith(key, tag, name, obj) {
@@ -262,17 +271,10 @@ export function sealingStore(s) {
     get(t, p) {
       if (p === 'sealing') return true;
       if (p === 'raw') return t;
-      if (p === 'get') return async (key, o) => {
-        const d = await t.get(key, o);
-        if (staffSealed(key)) return openJsonWith(staffCipherKey(), 'staff', key, d);
-        if (staffBytes(key)) { bytesRead(key, o); return openStaffBytes(key, d); }
-        return d;
-      };
+      if (p === 'get') return async (key, o) => opened(key, o, await t.get(key, o));
       if (p === 'getWithMetadata') return async (key, o) => {
         const g = await t.getWithMetadata(key, o);
-        if (g && staffSealed(key)) return { ...g, data: openJsonWith(staffCipherKey(), 'staff', key, g.data) };
-        if (g && staffBytes(key)) { bytesRead(key, o); return { ...g, data: openStaffBytes(key, g.data) }; }
-        return g;
+        return g ? { ...g, data: opened(key, o, g.data) } : g;
       };
       if (p === 'setJSON') return async (key, v, o) => {
         if (staffBytes(key)) throw new Error('a sealed file is written with set');
@@ -287,6 +289,15 @@ export function sealingStore(s) {
     },
   });
 }
+/* What a read hands back: anything sealed with the staff key opened, under its
+   own name, whether or not the name is sealed now; a sealed name's file read
+   only as bytes. */
+function opened(key, o, d) {
+  if (isSealedStaff(d)) return openJsonWith(staffCipherKey(), 'staff', key, d);
+  if (staffBytes(key)) { bytesRead(key, o); return openStaffBytes(key, d); }
+  if (o && o.type === 'arrayBuffer' && bytesSealedAs('SST1', d)) return openStaffBytes(key, d);
+  return d;
+}
 /* A sealed file is read whole, as bytes, or not at all. */
 function bytesRead(key, o) { if (!o || o.type !== 'arrayBuffer') throw new Error(`a sealed file is read as an arrayBuffer: ${key}`); }
 
@@ -296,7 +307,7 @@ function bytesRead(key, o) { if (!o || o.type !== 'arrayBuffer') throw new Error
    nothing is ever written in the clear again (and without it the staff stores
    are shut). A name added to STAFF_SEALED or STAFF_BYTES needs SEAL_PASS
    moved on, so the sweep looks again. */
-const SEAL_PASS = 'tasks+forum-1';
+const SEAL_PASS = 'tasks+forum+rooms-1';
 const SEAL_MARK = 'staff-sealed';
 export async function sealStaffLeftovers(s = store()) {
   s = sealingStore(s);
@@ -304,12 +315,13 @@ export async function sealStaffLeftovers(s = store()) {
   const mark = await s.raw.get(SEAL_MARK, { type: 'json' });
   if (mark && mark.pass === SEAL_PASS) return false;
   const keys = ['tasks', 'task-recurs', 'task-templates'];
-  for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/', 'task-views/', 'forum/t/', 'forum/c/']) {
+  keys.push('mod-calls');
+  for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/', 'task-views/', 'forum/t/', 'forum/c/', ROOM_TALK]) {
     for (const b of (await s.list({ prefix })).blobs || []) keys.push(b.key);
   }
   let any = false;
   // A file: its bytes and metadata written again, sealed, under its own name.
-  for (const prefix of ['forum-file/', 'forum-up/']) {
+  for (const prefix of ['forum-file/', 'forum-up/', 'img/']) {
     for (const b of (await s.list({ prefix })).blobs || []) {
       const raw = await s.raw.getWithMetadata(b.key, { type: 'arrayBuffer' });
       if (!raw || bytesSealedAs('SST1', raw.data)) continue;

@@ -2,7 +2,7 @@
    presses that reaction on that message as you, or takes yours back if it was
    there. It is part of the message and goes with it. See ../cb/lib.mjs for why
    a reaction names who and never says how many. */
-import { readPass, updateTuned, roomTag, roomAllows, reactionOf, toggleReaction, shape, json, body, sameSite } from '../cb/lib.mjs';
+import { staffShut, readPass, updateTuned, roomTag, roomAllows, reactionOf, toggleReaction, shape, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This radio only answers stimpunks.world.' });
@@ -12,6 +12,8 @@ export default async (req) => {
   const room = b.room == null ? null : roomTag(b.room);
   if (b.room != null && !room) return json(400, { error: 'That is not a room on the street.' });
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.' });
+  // A staff room's channel is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
+  if (staffShut(room)) return json(503, { error: 'This room\'s channel is shut just now. Nothing was read or sent.' });
   if (typeof b.id !== 'string' || b.id.length > 64) return json(400, { error: 'Which message?' });
   if (!reactionOf(b.emoji)) return json(400, { error: 'A reaction is one emoji, and only an emoji.' });
   try {

@@ -4,9 +4,11 @@
    one, with the pass, for anybody who can hear the channel it was sent on.
    Nothing about a picture is kept but the picture, whose handle sent it, which
    room it was for and when, and it goes when its message goes. */
-import { readPass, roomTag, roomAllows, putImage, getImage, imageId, json, sameSite, IMG_MAX } from '../cb/lib.mjs';
+import { staffReady, readPass, roomTag, roomAllows, putImage, getImage, imageId, json, sameSite, IMG_MAX } from '../cb/lib.mjs';
 
 export default async (req) => {
+  // Every channel picture is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
+  if (!staffReady()) return json(503, { error: 'Pictures are shut just now. Nothing was read or sent.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   const url = new URL(req.url);

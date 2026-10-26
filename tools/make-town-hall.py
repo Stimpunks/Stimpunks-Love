@@ -366,5 +366,38 @@ for r in rooms:
         refuse(f"{r['page']} has a call panel and does not load callroom.js, so nothing would ever unhide it.")
     page.write_text(src)
 
+# EVERY STAFF ROOM'S CHANNEL, EVERY CHANNEL PICTURE AND THE CALLS FOR A MODERATOR
+# ARE SEALED AT REST (Ryan's call, 2026-10-25) under CB_STAFF_KEY, by name at the
+# store: a room's log is named by its room, so lockedRoom picks out every room
+# MOD_ROOMS names and every forum category with roles, and nothing on this list
+# has to be kept by hand. Without the key those channels are shut, never written
+# in the clear. The friendly edit is a fallback to the clear.
+def check_sealed():
+    lib = LIB.read_text()
+    fns = ROOT / "netlify" / "functions"
+    sealed_fn = re.search(r"export const staffSealed = .*?;\n", lib, re.S)
+    if not sealed_fn or "key.startsWith(ROOM_TALK) && !!lockedRoom(" not in sealed_fn.group(0):
+        refuse("staffSealed in netlify/cb/lib.mjs no longer seals every staff room's channel by lockedRoom.")
+    staff = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", lib, re.S)
+    if not staff or "mod-calls" not in staff.group(1):
+        refuse("STAFF_SEALED in netlify/cb/lib.mjs no longer seals the calls for a moderator.")
+    byts = re.search(r"const STAFF_BYTES = \[(.*?)\];\n", lib, re.S)
+    if not byts or "img" not in byts.group(1):
+        refuse("STAFF_BYTES in netlify/cb/lib.mjs no longer seals every channel picture.")
+    if "rooms" not in (re.search(r"const SEAL_PASS = '([^']*)'", lib) or [None, ""])[1]:
+        refuse("SEAL_PASS in netlify/cb/lib.mjs does not cover the staff rooms, so the sweep never seals what came before the key.")
+    for f in ("cb-channel", "cb-transmit", "cb-edit", "cb-react", "cb-moderate"):
+        if "if (staffShut(room))" not in (fns / f"{f}.mjs").read_text():
+            refuse(f"netlify/functions/{f}.mjs does not shut a staff room's channel without the staff key.")
+    for f in ("cb-image", "cb-mod-calls"):
+        if "if (!staffReady())" not in (fns / f"{f}.mjs").read_text():
+            refuse(f"netlify/functions/{f}.mjs does not shut without the staff key.")
+    priv = (ROOT / "privacy.html").read_text()
+    if 'id="staff-channels-sealed"' not in priv:
+        refuse("privacy.html does not say the staff rooms' channels and every channel picture are sealed at rest (id=\"staff-channels-sealed\").")
+
+
+check_sealed()
+
 print(f"town hall: {len(rooms) - built} door(s) not open yet, {built} room(s) written; "
       "every room agrees with MOD_ROOMS in netlify/cb/lib.mjs.")

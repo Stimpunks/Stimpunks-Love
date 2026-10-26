@@ -6,11 +6,13 @@
    2026-10-23): who called, when, where, and the words they called with. It is
    deleted when a moderator closes it, or after thirty days, and nothing says
    who closed it. */
-import { readPass, readModCalls, closeModCall, MOD_CALL_DAYS, json, body, sameSite } from '../cb/lib.mjs';
+import { staffReady, readPass, readModCalls, closeModCall, MOD_CALL_DAYS, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
 export default async (req) => {
+  // The calls are sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
+  if (!staffReady()) return json(503, { error: 'The calls are shut just now. Nothing was read or changed.' });
   if (!sameSite(req)) return json(403, { error: 'The desk only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });

@@ -6003,7 +6003,7 @@ person**, so the list has **Group by** (`group=` in the address and in saved fil
 assignee, Ryan's ask the same day): Whose and Tags put a task under each person or tag it has, the rest once, Nobody and
 No tags last. The friendly edit is a Whose column on the board; a card in several columns has no single Move to.
 
-**TASKS AND THE FORUMS ARE SEALED AT REST BY NAME, AT THE STORE, WITH A STAFF KEY OF THEIR OWN.** Ryan's call, 2026-10-25, after
+**TASKS, THE FORUMS AND THE STAFF ROOMS' CHANNELS ARE SEALED AT REST BY NAME, AT THE STORE, WITH A STAFF KEY OF THEIR OWN.** Ryan's call, 2026-10-25, after
 direct messages, Tasks first and the staff forums to follow. `store()` returns `sealingStore(getStore(...))`, a
 Proxy that seals a JSON write to any name in `STAFF_SEALED` and opens a read, so no Tasks code has to remember to:
 `tasks`, `task-recurs`, `task-templates`, and everything under `task-comments/`, `task-activity/`, `task-inbox/`
@@ -6018,8 +6018,15 @@ only the staff ones**: a topic's name does not say its category and a moved topi
 category would leave a topic moved out of a staff category in the clear; the friendly edit is to seal "only what
 needs it". `cb-forum` and `cb-forum-file` shut without the key. The sweep stops looking once a whole pass finds
 nothing in the clear (`SEAL_PASS` in the `staff-sealed` blob): **a name added to either list needs `SEAL_PASS`
-moved on**, or what was written before is never sealed. `make-tasks.py` and `make-forum.py` hold it; the friendly
-edit is a fallback to the clear. Ryan keeps a copy of the key.
+moved on**, or what was written before is never sealed. **Then the staff rooms' channels** (the same day): a
+room's log is named by its room, so `staffSealed` seals `room-talk-<tag>` whenever `lockedRoom(tag)` (every
+`MOD_ROOMS` room and every forum category with roles, so a new staff room is sealed with no edit), plus
+`mod-calls` and **every channel picture** (`img/`, whose name does not say its room). **A read opens anything
+sealed with the staff key whatever its name** (`opened`), so a room taken off the staff list keeps its history
+readable; only writes decide by name. `staffShut(room)` shuts a staff room's channel in `cb-channel`,
+`cb-transmit`, `cb-edit`, `cb-react` and `cb-moderate` without the key; World and the public rooms are never
+sealed and never shut by it. `make-tasks.py`, `make-forum.py` and `make-town-hall.py` hold it; the friendly edit
+is a fallback to the clear. Ryan keeps a copy of the key.
 
 **A TASK'S CHANGES ARE ITS ACTIVITY, AND NEWS TO WHOEVER THEY CONCERN BUT WHOEVER MADE THEM.** Ryan's ask,
 2026-10-21, after EspoCRM's stream and notifications and Notion's inbox. `noteTask` in `lib.mjs`, called after

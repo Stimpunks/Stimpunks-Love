@@ -15,7 +15,7 @@
    `v` is a hash of what would be sent, so a radio that sends back the `v` it
    has is told `same` and sent no messages. `rule` is how many messages this
    channel keeps and for how long, which the radio says under the channel. */
-import { createHash } from 'node:crypto';
+import { staffShut, createHash } from 'node:crypto';
 import { readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, WINDOW, json } from '../cb/lib.mjs';
 
 export default async (req) => {
@@ -28,6 +28,8 @@ export default async (req) => {
   if (asked !== null && !room) return json(400, { error: 'That is not a room on the street.' });
   const swap = who.swap ? { swap: who.swap } : {};
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.', roles: rolesOf(who), ...swap });
+  // A staff room's channel is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
+  if (staffShut(room)) return json(503, { error: 'This room\'s channel is shut just now. Nothing was read or sent.' });
   const [ch, beacons] = await Promise.all([readTuned(room), readBeacons()]);
   const n = Math.max(WINDOW, Math.min(ch.rule.keep, Math.ceil((Number(q.get('n')) || WINDOW) / WINDOW) * WINDOW));
   const messages = shape(ch.messages.slice(-n));

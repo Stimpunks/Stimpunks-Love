@@ -8,7 +8,7 @@
    And it tells the devices that asked to hear it (Ryan,
    2026-10-18, notifyMessage in lib.mjs), after the message is on the
    channel, so a slow push service never holds the radio up. */
-import { randomUUID } from 'node:crypto';
+import { staffShut, randomUUID } from 'node:crypto';
 import { readPass, updateTuned, roomTag, roomAllows, cleanMessage, cleanAlt, shape, json, body, sameSite, MESSAGE_MAX,
   imageId, getImage, dropImages, droppedImages, stickerOf, avatarSticker, chimeraSticker, patchSticker, jacketSticker, notifyMessage, channelMentions, roleMentions,
   noteLatest, countMessage, replyTo, noteModCall, chatLinks, unfurlMessage, WORLD_CALL } from '../cb/lib.mjs';
@@ -22,6 +22,8 @@ export default async (req, context) => {
   const room = b.room == null ? null : roomTag(b.room);
   if (b.room != null && !room) return json(400, { error: 'That is not a room on the street.' });
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.' });
+  // A staff room's channel is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
+  if (staffShut(room)) return json(503, { error: 'This room\'s channel is shut just now. Nothing was read or sent.' });
   // A picture must be one this handle sent, for this channel, a moment ago.
   let img = null;
   if (b.img != null) {
