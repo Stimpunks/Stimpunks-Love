@@ -68,8 +68,72 @@
   }
  ],
  "_rules": "What goes on the rack, all of it worked out by tools/pull-green-latest.py and refused otherwise by tools/make-the-green.py: a video put up in the last week, whose title carries its search's words, that plays here (not a door, not age-gated, not live, not gone), and that its own channel did not file under Gaming or Music, because a game called Solarpunk and a song are not places. One per channel and no title twice, because a channel that put up five in a morning, or a broadcast three stations carried, would otherwise be the rack. Each search takes a turn, newest first, until the rack holds twenty, and then the rack is shown newest first. A short is not told apart from a video: YouTube's search does not say which is which.",
- "set": "2026-10-25T11:26Z",
+ "set": "2026-10-26T12:06Z",
  "latest": [
+  {
+   "id": "NJQlHYKePIw",
+   "title": "Driving Sustainability: Green Economy Forum & Green Building Awards 2026",
+   "channel": "Green Building Council of Sri Lanka",
+   "published": "2026-10-26T11:30:02Z",
+   "runs": 881,
+   "search": "green-building"
+  },
+  {
+   "id": "wrAtNwwZ-5k",
+   "title": "How can green building certification help shape a more resilient future?, E. Bricchetto, BRE",
+   "channel": "Polish Green Building Council PLGBC",
+   "published": "2026-10-26T10:51:19Z",
+   "runs": 88,
+   "search": "green-building"
+  },
+  {
+   "id": "DA5XNi759fc",
+   "title": "Missoula's city trees in full fall color, urban forester gives NBC Montana tour",
+   "channel": "NBC Montana",
+   "published": "2026-10-26T04:53:01Z",
+   "runs": 305,
+   "search": "urban-forests"
+  },
+  {
+   "id": "nOHbp4M6KhM",
+   "title": "Urban Forestry (Chapter 14) - ISA Arborist Certification Study Guide [NO MUSIC] | Tree Talk",
+   "channel": "Tree Talk",
+   "published": "2026-10-26T02:35:25Z",
+   "runs": 761,
+   "search": "urban-forests"
+  },
+  {
+   "id": "X0L5PPQcLpQ",
+   "title": "Solarpunk Tribute Airship - Storytelling",
+   "channel": "Little Lilith",
+   "published": "2026-10-25T23:52:32Z",
+   "runs": 220,
+   "search": "solarpunk"
+  },
+  {
+   "id": "7E4iot8mSgs",
+   "title": "I Built a Mango Food Forest in Spring Valley CA, Here's What Grew",
+   "channel": "Tropicali Food Forest",
+   "published": "2026-10-25T23:25:50Z",
+   "runs": 3315,
+   "search": "edibles"
+  },
+  {
+   "id": "MyNQsW4_3cY",
+   "title": "Green Building Revolution",
+   "channel": "GreenTechUpdate",
+   "published": "2026-10-25T18:15:37Z",
+   "runs": 535,
+   "search": "green-building"
+  },
+  {
+   "id": "1pwh13vbwPM",
+   "title": "The Simple Life Most People Forgot #Solarpunk",
+   "channel": "Alex Jurj SolarPunk",
+   "published": "2026-10-25T18:00:38Z",
+   "runs": 265,
+   "search": "solarpunk"
+  },
   {
    "id": "Mzo3Qsemzz4",
    "title": "We Found a Hidden Jungle in Karachi! 😱 Urban Forest Karachi Vlog",
@@ -85,14 +149,6 @@
    "published": "2026-10-25T05:50:36Z",
    "runs": 1267,
    "search": "edibles"
-  },
-  {
-   "id": "ZMqW0bIZnxo",
-   "title": "Volunteers help plant trees to expand Evansville's urban forest",
-   "channel": "Eyewitness News WEHT WTVW",
-   "published": "2026-10-25T04:38:00Z",
-   "runs": 117,
-   "search": "urban-forests"
   },
   {
    "id": "oEQdtKt8XkI",
@@ -111,36 +167,12 @@
    "search": "urban-farms"
   },
   {
-   "id": "r5MQYpDi-AI",
-   "title": "From Luxury to Lifeline: How Green Buildings Can Serve Under‑Resourced Communities",
-   "channel": "GreenCE Education",
-   "published": "2026-10-23T21:05:05Z",
-   "runs": 100,
-   "search": "green-building"
-  },
-  {
-   "id": "pQo3jDh_arI",
-   "title": "Regular Meeting of the Urban Forest Advisory Committee 10/22/2026",
-   "channel": "City of Encinitas",
-   "published": "2026-10-23T16:12:29Z",
-   "runs": 5868,
-   "search": "urban-forests"
-  },
-  {
    "id": "dlwl0sYk9IU",
    "title": "Karachi Farmhouse Promotes Urban Farming and Food Security | Asia One Diaries",
    "channel": "Asia One News",
    "published": "2026-10-23T15:27:29Z",
    "runs": 1914,
    "search": "urban-farms"
-  },
-  {
-   "id": "9wEBDDxcM6Q",
-   "title": "Artistic Small Cabin on SolarPunk Eco-village",
-   "channel": "Alex Jurj SolarPunk",
-   "published": "2026-10-22T18:14:31Z",
-   "runs": 951,
-   "search": "solarpunk"
   },
   {
    "id": "uLkKCmOw9QM",
@@ -183,44 +215,12 @@
    "search": "renewable-energy"
   },
   {
-   "id": "PBqN6vN6k7Q",
-   "title": "How Gujarat Is Transforming Childcare and Urban Green Spaces | Latest News",
-   "channel": "MyNation",
-   "published": "2026-10-22T08:02:26Z",
-   "runs": 357,
-   "search": "green-spaces"
-  },
-  {
    "id": "TNeBqaiTpIk",
    "title": "Urban Farm with Cats",
    "channel": "Cayman LIFE",
    "published": "2026-10-22T05:00:21Z",
    "runs": 731,
    "search": "urban-farms"
-  },
-  {
-   "id": "vj9hHmqEtkM",
-   "title": "Natural gas lobby pushes back on Portland's green building plan",
-   "channel": "The Oregonian",
-   "published": "2026-10-22T02:53:58Z",
-   "runs": 54,
-   "search": "green-building"
-  },
-  {
-   "id": "OYBbmtXdh5Y",
-   "title": "Solarpunk vs Cyberpunk",
-   "channel": "ArkenXiel",
-   "published": "2026-10-21T19:00:03Z",
-   "runs": 14,
-   "search": "solarpunk"
-  },
-  {
-   "id": "U510n280dv8",
-   "title": "Green building @SMARTCO_BUILDTECH #smart #green #tech #building #engineering #interior #smarthome",
-   "channel": "SMARTCO BUILD TECH",
-   "published": "2026-10-21T16:40:27Z",
-   "runs": 10,
-   "search": "green-building"
   },
   {
    "id": "_zthUhNqSlQ",
@@ -297,15 +297,6 @@
    "state": "screen"
   },
   {
-   "id": "62qMOIdts8k",
-   "search": "green-building",
-   "title": "He Built the Green Building Movement. Then His Life Fell Apart | David Gottfried",
-   "channel": "The Midlife Chrysalis Podcast",
-   "published": "2026-10-19T10:00:28Z",
-   "runs": 2901,
-   "state": "screen"
-  },
-  {
    "id": "eUAfXGnMlMQ",
    "search": "green-building",
    "title": "Progress on the “Green Building” project - Morning, Wiesbaden!",
@@ -369,14 +360,31 @@
    "state": "screen"
   },
   {
-   "id": "QS131Nykfl4",
-   "search": "urban-forests",
-   "title": "Urban Forest Breathes Always",
-   "channel": "Hana Almera - Topic",
-   "published": "2026-10-18T17:02:49Z",
-   "runs": 178,
-   "state": "left",
-   "why": "filed under Music"
+   "id": "MyNQsW4_3cY",
+   "search": "green-building",
+   "title": "Green Building Revolution",
+   "channel": "GreenTechUpdate",
+   "published": "2026-10-25T18:15:37Z",
+   "runs": 535,
+   "state": "screen"
+  },
+  {
+   "id": "wrAtNwwZ-5k",
+   "search": "green-building",
+   "title": "How can green building certification help shape a more resilient future?, E. Bricchetto, BRE",
+   "channel": "Polish Green Building Council PLGBC",
+   "published": "2026-10-26T10:51:19Z",
+   "runs": 88,
+   "state": "screen"
+  },
+  {
+   "id": "NJQlHYKePIw",
+   "search": "green-building",
+   "title": "Driving Sustainability: Green Economy Forum & Green Building Awards 2026",
+   "channel": "Green Building Council of Sri Lanka",
+   "published": "2026-10-26T11:30:02Z",
+   "runs": 881,
+   "state": "screen"
   },
   {
    "id": "rhKceCxJTx0",
@@ -487,6 +495,15 @@
    "state": "screen"
   },
   {
+   "id": "EY8qNmjVW7k",
+   "search": "urban-forests",
+   "title": "Planting a Future: How I Turned Betrayal into a Thriving Urban Forest Against All Odds",
+   "channel": "Seasoned Solutions Advisor",
+   "published": "2026-10-22T10:04:59Z",
+   "runs": 226,
+   "state": "screen"
+  },
+  {
    "id": "OQqZLsc85ZY",
    "search": "urban-forests",
    "title": "Bee Keeping In An Urban Forest",
@@ -551,6 +568,24 @@
    "state": "screen"
   },
   {
+   "id": "nOHbp4M6KhM",
+   "search": "urban-forests",
+   "title": "Urban Forestry (Chapter 14) - ISA Arborist Certification Study Guide [NO MUSIC] | Tree Talk",
+   "channel": "Tree Talk",
+   "published": "2026-10-26T02:35:25Z",
+   "runs": 761,
+   "state": "screen"
+  },
+  {
+   "id": "DA5XNi759fc",
+   "search": "urban-forests",
+   "title": "Missoula's city trees in full fall color, urban forester gives NBC Montana tour",
+   "channel": "NBC Montana",
+   "published": "2026-10-26T04:53:01Z",
+   "runs": 305,
+   "state": "screen"
+  },
+  {
    "id": "iYwZeE4QSss",
    "search": "urban-farms",
    "title": "How an Urban Farm in Technology Park Is Building Skills, Confidence and Community",
@@ -605,70 +640,20 @@
    "state": "screen"
   },
   {
-   "id": "YX1XniTfSRY",
+   "id": "7E4iot8mSgs",
+   "search": "edibles",
+   "title": "I Built a Mango Food Forest in Spring Valley CA, Here's What Grew",
+   "channel": "Tropicali Food Forest",
+   "published": "2026-10-25T23:25:50Z",
+   "runs": 3315,
+   "state": "screen"
+  },
+  {
+   "id": "1L1abENHBZs",
    "search": "solarpunk",
    "title": "Solarpunk Ambient LIVESTREAM",
    "state": "pending",
    "why": "live, or not out yet"
-  },
-  {
-   "id": "MwBvd9TgZzs",
-   "search": "solarpunk",
-   "title": "I Created My Own Dream World In Solarpunk 😱",
-   "channel": "Raxion Plays",
-   "published": "2026-10-18T16:20:07Z",
-   "runs": 752,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "z-hsvDkcfus",
-   "search": "solarpunk",
-   "title": "Solarpunk / Checking Out the Latest Update (30th Sep)",
-   "channel": "The Gaming Spirit",
-   "published": "2026-10-18T17:30:37Z",
-   "runs": 1305,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "Lj0xoX86wmw",
-   "search": "solarpunk",
-   "title": "Open Veins Part I — Solarpunk Future Western Miniseries",
-   "channel": "Shadow Circuits",
-   "published": "2026-10-18T17:53:22Z",
-   "runs": 203,
-   "state": "screen"
-  },
-  {
-   "id": "2qU5iOAWVsU",
-   "search": "solarpunk",
-   "title": "[CHILL STREAM] Kinda sick of farming at this point... - Solarpunk Playthrough (Part 6)",
-   "channel": "The Quiet Part",
-   "published": "2026-10-19T01:04:20Z",
-   "runs": 11866,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "pCBwTJOV6Ss",
-   "search": "solarpunk",
-   "title": "SolarPunk I Researched Sprinklers! Part 4",
-   "channel": "vSuperDuke",
-   "published": "2026-10-19T02:22:15Z",
-   "runs": 1615,
-   "state": "left",
-   "why": "filed under Gaming"
-  },
-  {
-   "id": "rlCKuorXOfY",
-   "search": "solarpunk",
-   "title": "Big Rooms Are Tough | Part 68 | Solarpunk",
-   "channel": "True Blue",
-   "published": "2026-10-19T10:55:48Z",
-   "runs": 3713,
-   "state": "left",
-   "why": "filed under Gaming"
   },
   {
    "id": "dDbTXg8G7oU",
@@ -839,6 +824,34 @@
    "state": "screen"
   },
   {
+   "id": "KRDmcpgaBi4",
+   "search": "solarpunk",
+   "title": "Solarpunk! | E9 ☁️ Cozy Gaming [No Commentary]✨",
+   "channel": "CocoaBeanz",
+   "published": "2026-10-21T22:00:37Z",
+   "runs": 5044,
+   "state": "door",
+   "why": "no embedding"
+  },
+  {
+   "id": "lv6pb5gTa2c",
+   "search": "solarpunk",
+   "title": "Day 1 Solarpunk",
+   "channel": "ICWinter",
+   "published": "2026-10-22T01:15:37Z",
+   "runs": 333,
+   "state": "screen"
+  },
+  {
+   "id": "wvjMRjW79j8",
+   "search": "solarpunk",
+   "title": "I Built My Dream Home in Solarpunk! 🏡",
+   "channel": "AkaRi",
+   "published": "2026-10-22T08:10:35Z",
+   "runs": 240,
+   "state": "screen"
+  },
+  {
    "id": "9wEBDDxcM6Q",
    "search": "solarpunk",
    "title": "Artistic Small Cabin on SolarPunk Eco-village",
@@ -885,6 +898,112 @@
    "runs": 3677,
    "state": "left",
    "why": "filed under Gaming"
+  },
+  {
+   "id": "1pwh13vbwPM",
+   "search": "solarpunk",
+   "title": "The Simple Life Most People Forgot #Solarpunk",
+   "channel": "Alex Jurj SolarPunk",
+   "published": "2026-10-25T18:00:38Z",
+   "runs": 265,
+   "state": "screen"
+  },
+  {
+   "id": "PkcfkhnQzFI",
+   "search": "solarpunk",
+   "title": "[GAMING] The FINALE! - Solarpunk Playthrough (Part 9)",
+   "channel": "The Quiet Part",
+   "published": "2026-10-25T20:08:39Z",
+   "runs": 11138,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "3LcjLkwDmvQ",
+   "search": "solarpunk",
+   "title": "Solarpunk Haven Property Listing",
+   "channel": "The Hermit",
+   "published": "2026-10-25T23:47:42Z",
+   "runs": 176,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "X0L5PPQcLpQ",
+   "search": "solarpunk",
+   "title": "Solarpunk Tribute Airship - Storytelling",
+   "channel": "Little Lilith",
+   "published": "2026-10-25T23:52:32Z",
+   "runs": 220,
+   "state": "screen"
+  },
+  {
+   "id": "JkdZF2Xssog",
+   "search": "solarpunk",
+   "title": "SolarPunk: The Final Island on our Final Episode! Episode 20",
+   "channel": "Jade Arcade - Gaming",
+   "published": "2026-10-26T04:00:04Z",
+   "runs": 4503,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "bvgWVTLaTLk",
+   "search": "solarpunk",
+   "title": "Solarpunk 🌿 Relaxing Gameplay for Sleep, Study & Stress Relief",
+   "channel": "Juniper Wren",
+   "published": "2026-10-26T04:04:31Z",
+   "runs": 7418,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "Y4l3VLUcDho",
+   "search": "solarpunk",
+   "title": "Solarpunk Borneo Dawn to Dusk | Coding Music for Night Owl Builders | 2 Hours Deep Focus",
+   "channel": "ENCHAZON",
+   "published": "2026-10-26T08:57:19Z",
+   "runs": 7357,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
+   "id": "pf_mfdKr5yI",
+   "search": "solarpunk",
+   "title": "A Cheeky Little Library | Part 71 | Solarpunk",
+   "channel": "True Blue",
+   "published": "2026-10-26T11:21:38Z",
+   "runs": 3628,
+   "state": "left",
+   "why": "filed under Gaming"
+  },
+  {
+   "id": "5Waqd8J0BBQ",
+   "search": "solarpunk",
+   "title": "Solarpunk Freiburg | Coding Music for SaaS Builders | 2 Hours Deep Focus",
+   "channel": "ENCHAZON",
+   "published": "2026-10-26T11:47:42Z",
+   "runs": 7361,
+   "state": "left",
+   "why": "filed under Music"
+  },
+  {
+   "id": "Hlt3tV_MxO8",
+   "search": "renewable-energy",
+   "title": "Renewable Energy: How Installers Can Build Better Home Systems | Pete Toth",
+   "channel": "Blue Ocean Solutions Podcast",
+   "published": "2026-10-19T16:00:23Z",
+   "runs": 1781,
+   "state": "screen"
+  },
+  {
+   "id": "kHC39XeCeP4",
+   "search": "renewable-energy",
+   "title": "Financing the Energy Transition: 20 Years of Renewable Investing | Raphael Haselberger | TEDxFS",
+   "channel": "TEDx Talks",
+   "published": "2026-10-19T16:42:47Z",
+   "runs": 805,
+   "state": "screen"
   },
   {
    "id": "_zthUhNqSlQ",
