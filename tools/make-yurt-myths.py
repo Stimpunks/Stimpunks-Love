@@ -432,6 +432,42 @@ def crystal_card(c):
 cards_cw = '<ul class="myth-crystals">\n' + "\n".join(crystal_card(c) for c in stones_cw) + '\n    </ul>'
 
 
+# ── The arch's crystals ─────────────────────────────────────────────────────
+# Helen's ask, 2026-10-26: the wheel's own photographs round the Alchemist's
+# Arch in the Faery Yurt, every one of them, each a way to its card. They are
+# spaced evenly along a squared arch drawn round the doorway (a superellipse,
+# walked by its length so no gap is wider than another), and credited under it
+# the way the cards credit them.
+YURT = ROOT / "faery-yurt.html"
+_curve = []
+for k in range(2401):
+    t = _m.radians(212 - k * 244 / 2400)
+    co, si = _m.cos(t), _m.sin(t)
+    _curve.append((50 + 31 * _m.copysign(abs(co) ** (2 / 3), co), 60 - 44 * _m.copysign(abs(si) ** (2 / 3), si)))
+_run = [0.0]
+for (ax, ay), (bx, by) in zip(_curve, _curve[1:]):
+    _run.append(_run[-1] + _m.hypot(bx - ax, (by - ay) * 0.9))
+ring_items = []
+for i, c in enumerate(stones_cw):
+    want = _run[-1] * i / max(n_cw - 1, 1)
+    x, y = _curve[min(range(len(_run)), key=lambda j: abs(_run[j] - want))]
+    ring_items.append(
+        f'        <li class="yurt-ring__stone" style="left:{x:.2f}%;top:{y:.2f}%">'
+        f'<a href="{PAGE.name}#crystal-{esc(c["slug"])}" aria-label="{esc(c["name"])}, on the Crystal Wheel">'
+        f'<img src="{esc(c["file"])}" {imgsize.attrs(ROOT / c["file"])} alt="" loading="lazy" decoding="async"></a></li>')
+arch_ring = '\n      <ul class="yurt-ring__stones">\n' + "\n".join(ring_items) + '\n      </ul>\n      '
+
+
+def _ring_credit(c):
+    lic = src_link(c["licence_url"], c["licence"]) if c.get("licence_url") else esc(c["licence"])
+    return f'{esc(c["name"])} by {src_link(c["commons"], c["photo_by"])} ({lic})'
+
+
+arch_credit = ('\n    <p class="yurt-ring__credit">Round the arch are the Crystal Wheel&rsquo;s own photographs, each a way to its card: '
+               + "; ".join(_ring_credit(c) for c in stones_cw)
+               + '. All from Wikimedia Commons, resized and cropped to a circle.</p>\n    ')
+
+
 # ── The crystal pouch ───────────────────────────────────────────────────────
 LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 POUCH = ROOT / "crystal-pouch.js"
@@ -686,4 +722,9 @@ if new_bjs != bjs:
 old = PAGE.read_text(encoding="utf-8")
 if page != old:
     PAGE.write_text(page, encoding="utf-8")
+yurt = YURT.read_text(encoding="utf-8")
+new_yurt = swap(yurt, "<!-- yurt-myths:arch-crystals:begin -->", "<!-- yurt-myths:arch-crystals:end -->", arch_ring, YURT.name)
+new_yurt = swap(new_yurt, "<!-- yurt-myths:arch-credit:begin -->", "<!-- yurt-myths:arch-credit:end -->", arch_credit, YURT.name)
+if new_yurt != yurt:
+    YURT.write_text(new_yurt, encoding="utf-8")
 print("make-yurt-myths: the stones, Arthur, the folk, the cards, the wheel, the crystals and their pouch, the herbs, their basket and the cauldron, the old shelf and the Green Witch shelf written; every one of them sourced, every photograph credited.")
