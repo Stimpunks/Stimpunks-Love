@@ -35,8 +35,8 @@ direct messages, their pictures and the reports copied from them, sealed at rest
 with AES-256-GCM under a key of their own (`CB_DM_KEY`), and shut without it;
 Tasks, their comments, activity, notifications, saved filters, recurring tasks
 and templates, every forum topic, category list, file and upload, every staff
-room's channel, every channel picture and the calls for a moderator, sealed the
-same way under `CB_STAFF_KEY`;
+room's channel, every channel picture, the calls for a moderator, every push
+device and the stored roles, sealed the same way under `CB_STAFF_KEY`;
 the chalkboard and the pebble bowls, a week; the Brass Tacks Board, until a
 moderator takes a post down; the suggestion box in The Sandbox, until whoever dropped a
 suggestion in or a moderator takes it down; a few shared games that keep a count or finished

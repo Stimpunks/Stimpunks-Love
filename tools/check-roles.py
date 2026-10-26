@@ -99,6 +99,15 @@ if "(me.roles || []).indexOf('administrator') < 0" not in dk or "fetch('/cb/role
 page = (ROOT / "town-hall-moderators.html").read_text()
 if 'id="md-roles"' not in page or 'id="md-roles-off"' not in page:
     problems.append("town-hall-moderators.html: no roles part on the desk.")
+# Sealed at rest under CB_STAFF_KEY by name at the store (2026-10-25), and the
+# function shut without the key; the privacy page says so.
+_staff = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", LIB.read_text(), re.S)
+if not _staff or "/^roles$/" not in _staff.group(1):
+    problems.append("lib.mjs: STAFF_SEALED no longer seals the stored roles, so it is written in the clear.")
+if "if (!staffReady())" not in (ROOT / "netlify" / "functions" / "cb-roles.mjs").read_text():
+    problems.append("netlify/functions/cb-roles.mjs does not shut without the staff key.")
+if 'id="roles-sealed"' not in (ROOT / "privacy.html").read_text():
+    problems.append("privacy.html has no #roles-sealed saying the stored roles are sealed at rest.")
 if 'id="roles"' not in (ROOT / "privacy.html").read_text():
     problems.append("privacy.html: no #roles saying where the roles are kept and who sees them.")
 

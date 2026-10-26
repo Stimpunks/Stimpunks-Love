@@ -6025,8 +6025,11 @@ room's log is named by its room, so `staffSealed` seals `room-talk-<tag>` whenev
 sealed with the staff key whatever its name** (`opened`), so a room taken off the staff list keeps its history
 readable; only writes decide by name. `staffShut(room)` shuts a staff room's channel in `cb-channel`,
 `cb-transmit`, `cb-edit`, `cb-react` and `cb-moderate` without the key; World and the public rooms are never
-sealed and never shut by it. `make-tasks.py`, `make-forum.py` and `make-town-hall.py` hold it; the friendly edit
-is a fallback to the clear. Ryan keeps a copy of the key.
+sealed and never shut by it. **And the push devices and the stored roles** (`push-devices`, `roles`), the last on
+the list: `cb-push` and `cb-roles` shut without the key, and the roles fall back to the break-glass list alone,
+which `loadMods` already does for roles it cannot read. `make-tasks.py`, `make-forum.py`, `make-town-hall.py`,
+`check-push.py` and `check-roles.py` hold it; the friendly edit is a fallback to the clear. Ryan keeps a copy of
+the key.
 
 **`node --check` IS NOT A LOAD CHECK, AND IT TOOK THE RADIO DOWN.** 2026-10-25: an edit put `staffShut` into the
 first import of `cb-channel` and `cb-transmit`, which is `node:crypto`; syntax was fine, the modules did not load,

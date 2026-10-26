@@ -180,6 +180,15 @@ def main():
         problems.append("privacy.html has no #notifications section, and the radio and the service worker link to it.")
     elif "@moderator" not in re.split(r"<h2\b", priv.split('id="notifications"', 1)[1], 1)[0]:
         problems.append("privacy.html#notifications does not say who a role's @ (@moderator and the rest) tells.")
+    # Sealed at rest under CB_STAFF_KEY by name at the store (2026-10-25), and the
+    # function shut without the key; the privacy page says so.
+    _staff = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", lib, re.S)
+    if not _staff or "/^push-devices$/" not in _staff.group(1):
+        problems.append("lib.mjs: STAFF_SEALED no longer seals every notification device, so it is written in the clear.")
+    if "if (!staffReady())" not in (ROOT / "netlify" / "functions" / "cb-push.mjs").read_text():
+        problems.append("netlify/functions/cb-push.mjs does not shut without the staff key.")
+    if 'id="devices-sealed"' not in (ROOT / "privacy.html").read_text():
+        problems.append("privacy.html has no #devices-sealed saying every notification device is sealed at rest.")
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)

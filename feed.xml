@@ -65,171 +65,178 @@
       <description>At Helen Edgar’s ask, a Crystal Wheel in Myths &amp; Legends, behind her yurt: photographs of popular crystals round a circle, each one pressed to its card, with what the stone really is, the belief or story attached to it and whether that is old tradition or modern crystal lore, and its birthstone month where it has one. The yurt says so beside the Alchemist’s Arch. The photographs are other people’s, from Wikimedia Commons, each credited on its card with its licence, as those licences ask, and listed in the liner notes. tools/make-yurt-myths.py now refuses a crystal photograph without its photographer, its Commons page or a licence this site can use, and one still carrying camera data. The wheel says once, with its source, that the meanings are not medicine. Changed: faery-myths-room.html, faery-yurt.html, love.css (§128 and §14), data/yurt-myths.json, tools/make-yurt-myths.py, liner-notes.html, and the photographs in crystals/.</description>
     </item>
     <item>
+      <title>Notification devices and the roles list are sealed too</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-25-devices-roles-sealed</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-devices-roles-sealed</guid>
+      <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Every device switched on for notifications, its delivery address and keys included, and the list of who holds which role are now encrypted where they are kept at Netlify, with the staff key. A delivery address works like a password for sending that device a notification, and who holds which role is not ours to publish. Without the key, notifications cannot be switched on or off and the roles at the desk are shut, and only the break-glass list in the site’s settings counts. The privacy page says so. That is the last of what Ryan asked to have sealed. Changed: netlify/cb/lib.mjs, cb-push and cb-roles, privacy.html, tools/check-push.py and tools/check-roles.py.</description>
+    </item>
+    <item>
       <title>The radio could not listen or send for a few minutes</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-radio-down</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-radio-down</guid>
-      <pubDate>Sun, 25 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:59:00 GMT</pubDate>
       <description>For a few minutes this afternoon the CB could neither hear nor send messages, on every channel, after the change that sealed the staff rooms’ channels: two of the CB’s functions had a name imported from the wrong place, and failed to load. Nothing was lost; what was already on the channels was untouched. It was fixed in the next deploy, and a new check, tools/check-functions-load.mjs, now loads every function the way Netlify does before anything is published, so that mistake stops at our desk next time.</description>
     </item>
     <item>
       <title>The staff rooms’ channels are sealed where they are kept</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-staff-channels-sealed</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-staff-channels-sealed</guid>
-      <pubDate>Sun, 25 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:58:00 GMT</pubDate>
       <description>The CB channels of every room only some of us may enter, the words of every call for a moderator, and every picture sent on any channel are now encrypted where they are kept at Netlify, with the staff key Tasks and the forums use. Ryan’s call. That is the moderators’, directors’ and board rooms, Executive Session and every forum category with roles, and any staff room added later, with nothing to list by hand. Every picture is sealed because a picture’s stored name does not say its room. World and the public rooms are not sealed, because everybody signed on reads them. None of it is end-to-end. The privacy page says so. Changed: netlify/cb/lib.mjs, the channel, picture and moderator-call functions, privacy.html, and tools/make-town-hall.py, which now refuses any of it written in the clear.</description>
     </item>
     <item>
       <title>The forums are sealed where they are kept</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-forums-sealed</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-forums-sealed</guid>
-      <pubDate>Sun, 25 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:57:00 GMT</pubDate>
       <description>Every forum topic, every category’s list of topics, and every picture and file posted or waiting to be posted are now encrypted where they are kept at Netlify, with the same key of their own as Tasks. Ryan asked for the staff categories; every category is sealed, because a topic moved out of a staff category keeps the name it is stored under and must never be left in the clear. It is not end-to-end: our server opens them for whoever may read the category. Without the key the forums are shut rather than written in the clear. The privacy page says so. Changed: netlify/cb/lib.mjs, the forums’ two functions, privacy.html, and tools/make-forum.py, which now refuses anything of the forums written in the clear.</description>
     </item>
     <item>
       <title>Tasks are sealed where they are kept</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-tasks-sealed</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-tasks-sealed</guid>
-      <pubDate>Sun, 25 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:56:00 GMT</pubDate>
       <description>Every task, its comments, its activity, everybody’s Tasks notifications and saved filters, the recurring tasks and the templates are now encrypted where they are kept at Netlify, with a key of their own that neither the office nor direct messages use. Ryan’s call, after direct messages; the staff forum categories come next. It is done by the store itself for every name on its list, so nothing in Tasks had to change to be sealed. It is not end-to-end: our server opens them for whoever may read Tasks. Without the key Tasks are shut rather than written in the clear. The privacy page says so. Changed: netlify/cb/lib.mjs, the Tasks and hourly functions, privacy.html, and tools/make-tasks.py, which now refuses anything of Tasks written in the clear.</description>
     </item>
     <item>
       <title>Direct messages are sealed where they are kept</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-messages-sealed</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-messages-sealed</guid>
-      <pubDate>Sun, 25 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:55:00 GMT</pubDate>
       <description>Every conversation in Messages, every picture sent in one, your switch and your blocks, and any report copied from them are now encrypted where they are kept at Netlify, with a key of their own that nothing else on the street uses. Ryan’s call. Somebody who got at the stored files alone could not read them. It is still not end-to-end: our server opens them to show the two of you your conversation, and a report to our moderators. Without the key, Messages is shut rather than written in the clear. The privacy page says so. Changed: netlify/cb/lib.mjs, the three Messages functions, cb.js, privacy.html, cb-guide.html, and tools/check-messages.py, which now refuses anything of a conversation written in the clear.</description>
     </item>
     <item>
       <title>Every channel says what it keeps, and the desk sets it</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-channel-rules</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-channel-rules</guid>
-      <pubDate>Sun, 25 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:54:00 GMT</pubDate>
       <description>A channel now keeps its latest hundred messages, each for two weeks, unless our administrators set it otherwise at the desk in the Moderators’ room: World, any room’s channel, every channel at once, or direct messages, each from 50 to 1,000 messages and from a day to a year, or for good. Ryan’s call, after requests for more to scroll back through. The privacy page was rewritten first. A longer time never reaches what was already said. Every message is marked, when it is sent, with how long its channel kept messages then, and it is never kept longer than that. A shorter time, or fewer messages, reaches everything at once. The one exception is Pets, whose two writers, Ryan and Norah, both said yes to what they had already said there being kept as long as the channel now keeps it. The radio says what the channel you are on keeps, first under In this channel, and shows the latest hundred messages, with Earlier messages above them for a hundred more each time. It now asks the channel only for what has changed, so a long channel costs no more to listen to than a short one. The CB guide says how it works. Changed: netlify/cb/lib.mjs, netlify/functions/cb-channel.mjs, a new netlify/functions/cb-channel-rules.mjs, cb.js, cb.css, desk.js, town-hall-moderators.html, privacy.html, cb-guide.html, community-center.html, and the rooms that say how long a message stays.</description>
     </item>
     <item>
       <title>The CB keeps a message for two weeks</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-two-weeks</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-two-weeks</guid>
-      <pubDate>Sun, 25 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:53:00 GMT</pubDate>
       <description>Every message on the CB now stays two weeks from when it was sent, on World, in every room’s channel, between two people in Messages and on the Slake. Ryan’s call, after requests from our community for more to scroll back through, in channels like Pets above all; it was 48 hours. The privacy page was rewritten first. A message keeps the time it was sent under: anything sent on or before 2026-10-25, Colorado time, still goes at its 48 hours, and nothing is kept a minute longer for the change. A channel still holds fifty messages at most, so a busy one shows its latest fifty rather than a full two weeks. A time on the radio more than a week back says its date, because a day’s name could be either week. The forums’ Watering hole and Coping keep a topic a week after its last post, as they did. Changed: netlify/cb/lib.mjs, cb.js, world.js, forum.js, the rooms that say how long a message stays (Community Care, Coping, Pets, Show Your Work), privacy.html, cb-guide.html, community-center.html, forum.html and every other sentence that said 48 hours or two days.</description>
     </item>
     <item>
       <title>Myths &amp; Legends, through the Alchemist’s Arch in the Faery Yurt</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-yurt-myths</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-yurt-myths</guid>
-      <pubDate>Sun, 25 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:52:00 GMT</pubDate>
       <description>A new room behind Helen Edgar’s yurt, at her ask: Myths &amp; Legends, reached through the Alchemist’s Arch, an open stone arch set with amethyst crystals up both sides and amber stones round its curve, with the four elements carved in its keystone and dawn over a stone circle seen through it. At MAX GLITTER the amber glows and the amethyst glints, and at every other setting it stands still; the yurt’s dial line says so. Inside: Stonehenge, with a sun you turn between midsummer sunrise and midwinter sunset, and what is known about where its stones came from; King Arthur and Merlin, how the story grew from the 800s to Malory, and the places that claim him; the folk under the hill, from boggarts and hobs to Black Shuck and the Lambton Worm; story-or-fact cards you turn over; the Wheel of the Year; and a shelf of old books on fairies, myth and Arthur, every one free to read. It is the Reading Room’s house, lit through stone rather than by a flame. Every fact names the page it was read on, and tools/make-yurt-myths.py refuses one that does not, a story-or-fact card with only one side, and a book whose author or translator died less than seventy years ago. Where a source corrected the usual telling, the room follows the source: the midsummer sun rises just to the left of the Heel Stone, and the Altar Stone came from north-east Scotland. The Golden Bough carries a line saying its big theories have since been set aside. Four Tinker Bell films on Films I Love in the Cinema: The Great Fairy Rescue, Secret of the Wings, The Pirate Fairy and Legend of the NeverBeast, Disney UK’s own trailers. Changed: faery-myths-room.html, faery-yurt.html, love.css (§128, and Small screens and Print are now §129 and §130), data/yurt-myths.json, data/yurt-cinema.json, and the street’s lists: the sitemap, the map, the chat page’s tags, the fractal window, the Adventurer’s Guild (a piece of amber with a beetle in it) and a share card.</description>
     </item>
     <item>
       <title>Labyrinth, The NeverEnding Story and Studio Ghibli in the Cinema</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-yurt-cinema-80s</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-yurt-cinema-80s</guid>
-      <pubDate>Sun, 25 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:51:00 GMT</pubDate>
       <description>Ten more reels on Films I Love in the Cinema behind the Faery Yurt, at Helen Edgar’s ask: the trailers for The NeverEnding Story (1984), Labyrinth (1986), with David Bowie, and The Princess Bride (1987), from Rotten Tomatoes Classic Trailers like most of the shelf; Coraline (2009), from LAIKA, the studio that made it; and six of Studio Ghibli’s, from GKIDS Films, their distributor: Spirited Away, My Neighbor Totoro, Howl’s Moving Castle, Nausicaä of the Valley of the Wind, The Secret World of Arrietty and Whisper of the Heart. Every one answered OK and can be played here on its watch page. Changed: data/yurt-cinema.json, faery-cinema-room.html, and the Cinema’s book in faery-yurt.html.</description>
     </item>
     <item>
       <title>Your page, and every notification kept for 30 days</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-your-page</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-your-page</guid>
-      <pubDate>Sun, 25 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:50:00 GMT</pubDate>
       <description>Notifications come and go, so the CB keeps them for you now. Ryan’s ask: Tasks kept its own notifications for 30 days, and nothing else did. Every notification one of your devices is sent is also kept for you, once however many of your devices it went to, for 30 days. It reverses what the privacy page said, that nothing about what was sent to a device is kept, and the page was rewritten first. It keeps no words: what kind it was and why, who from, where, which message, post, task, suggestion or event, and when. The words are read again each time you look, from wherever they still are and only where your username can still read them, so a message gone at its 48 hours, or taken off, is there only as that there was one. Only what a device was actually sent is kept, so what you switch on under Notifications decides it. Nobody else is shown it, a moderator included, and nothing counts it. Clear my past notifications, Forget me and deleting your username delete it. Your page is where they are: the radio’s You part docked into a page of its own, the way the chat page docks the radio, with Profile open, Past notifications beside it, and Unreads, Messages and Your radio after them. Your page under You on the radio goes there. Each past notification is said the way the notification said it, because the service worker’s wording is now one block the radio carries an identical copy of. The CB guide says how it works. Changed: netlify/cb/lib.mjs, netlify/functions/cb-notices.mjs, cb.js, cb-sw.js, cb.css, you.html, privacy.html, cb-guide.html, and a new checker, tools/check-notices.py.</description>
     </item>
     <item>
       <title>Adding somebody to our mailing lists says it worked</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-givebutter-done</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-givebutter-done</guid>
-      <pubDate>Sun, 25 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:49:00 GMT</pubDate>
       <description>Pressing Add them to Givebutter’s lists in the office now answers with what happened: that Givebutter has them on those lists, and whether they were in Givebutter already, as somebody added there by hand is, or Givebutter made a new contact for them. Until now the panel was drawn again with a line about taking people off lists at its foot, which read as the answer to adding them. That line is kept for a later visit to the join request, where it says the office cannot take them off. The office learns whether they were there already from when Givebutter says it made their contact, and keeps nothing of Givebutter’s answer; the privacy page says so. Changed: netlify/cb/lib.mjs, office.js and privacy.html.</description>
     </item>
     <item>
       <title>Join requests reach our mailing lists, now for real</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-givebutter-email</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-givebutter-email</guid>
-      <pubDate>Sun, 25 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:48:00 GMT</pubDate>
       <description>The reason Givebutter refused was the email address, not a name. The entry below gave one name as the likeliest reason, and it was not: with Givebutter now saying why, it answered “The emails.0 must be an array.” Givebutter’s API reference lists a contact’s emails as plain addresses, and its server wants each one as an object, so Add them to Givebutter’s lists had failed on every press since it arrived on 2026-10-23. The office sends the address as Givebutter’s primary email now, a plain address, which its reference and its server agree on. What is sent is unchanged: their email address, their first and last name when they have both, and the lists they said yes to. Changed: netlify/cb/lib.mjs.</description>
     </item>
     <item>
       <title>Mailing lists for somebody with one name</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-givebutter-one-name</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-givebutter-one-name</guid>
-      <pubDate>Sun, 25 Oct 2026 11:48:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:47:00 GMT</pubDate>
       <description>Adding somebody from a join request to our mailing lists failed with “Givebutter did not take it (it answered 422)”. The likeliest reason: the office sent Givebutter whatever name their contact had, and a one-word name on the Join form is filed as a last name with no first. Givebutter keeps a contact by a first and a last name together, or by an email address with no name, so the office now sends the two names together or neither, and somebody with one name goes to Givebutter by their email address alone, which the office says when it happens. Their name can be added in Givebutter. The privacy page says so too. Changed: netlify/cb/lib.mjs, office.js and privacy.html. When Givebutter refuses, the office now says why, in Givebutter’s own words, beside the number, to the director who pressed, so a refusal for any other reason says what it is. Nothing of it is kept.</description>
     </item>
     <item>
       <title>The Sandbox opens on its title</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-sandbox-dial-after-title</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-sandbox-dial-after-title</guid>
-      <pubDate>Sun, 25 Oct 2026 11:47:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:46:00 GMT</pubDate>
       <description>In The Sandbox, the dial comes after the room’s title now, under the laptop and centred on it, where it had stood first on the page and to the left. Every other room puts its title first. Ryan’s ask. The dial stands where the room’s artifact put its preview dial, so the copy the street imports was changed to put it under the laptop, and it was brought in again; nothing else in the room changed. Changed: sandbox.html, love.css and data/rooms/sandbox.json. Bringing a room in again kept rewriting the date the liner notes say it arrived on the street. It keeps the day it first arrived now. Changed: tools/import-room.py.</description>
     </item>
     <item>
       <title>Notifications from the suggestion box</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-suggestion-box-notifications</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-suggestion-box-notifications</guid>
-      <pubDate>Sun, 25 Oct 2026 11:46:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:45:00 GMT</pubDate>
       <description>Two new switches under Notifications in Your radio on the CB, each off until you switch it on. When a moderator replies to a suggestion of mine tells you when a moderator replies to something you dropped in The Sandbox’s suggestion box, and whether they marked it done, not doing or open again. Something new in the suggestion box, offered only to our moderators, tells them when a suggestion is dropped in, or when whoever dropped it in replies, so whichever of them switch it on know without watching the box. Until now nobody was told about a new suggestion at all. Pressing the notification opens the box on that suggestion. Ryan’s ask, and Norah’s. Everything, and anything added later takes both in, as it says. A notification says who did it and what, and, unless you switched the words off, the suggestion’s title and the first words of what they wrote. It never says how many are waiting, and nobody is told about what they wrote themselves. Changed: cb.js, cb-sw.js, sandbox.html, privacy.html, data/sandbox.json, netlify/cb/lib.mjs and netlify/functions/cb-suggest.mjs.</description>
     </item>
     <item>
       <title>Replies and Me too in the suggestion box</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-suggestion-box-thread-me-too</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-suggestion-box-thread-me-too</guid>
-      <pubDate>Sun, 25 Oct 2026 11:45:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:44:00 GMT</pubDate>
       <description>Every suggestion in The Sandbox’s suggestion box has a thread of replies now, from our moderators and from whoever dropped it in, as many as it takes, each with its username, its date and pictures if you like. A moderator’s reply can mark it done, not doing, or open again, and where it stands is always the newest reply that marked it, so taking that reply down takes its mark with it. Whoever wrote a reply can edit it, and they or a moderator can take it down. The one answer a suggestion had before is its first reply. This replaces the reply that left a suggestion open, from earlier the same morning. Ryan’s ask. Me too says a suggestion affects you too. Anybody signed on can press it on somebody else’s suggestion and press it again to take it back. It is not a vote: the box names who a suggestion affects, alphabetically, and never says how many, the CB’s rule for a reaction, and nothing is sorted by it. Ryan’s ask, to keep the box away from upvoting. Changed: suggest.js, love.css, sandbox.html, privacy.html, community-center.html, data/sandbox.json, data/community.json, netlify/cb/lib.mjs, netlify/functions/cb-suggest.mjs and tools/make-sandbox.py.</description>
     </item>
     <item>
       <title>A moderator can reply in the suggestion box and leave it open</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-suggestion-box-open-replies</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-suggestion-box-open-replies</guid>
-      <pubDate>Sun, 25 Oct 2026 11:44:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:43:00 GMT</pubDate>
       <description>In The Sandbox’s suggestion box, a moderator’s reply can leave a suggestion open, to ask a question or say where it has got to, without marking it done or not doing. Choosing Still open used to throw away whatever the moderator wrote and take any answer off; now the reply stays on it, with its pictures, under Still open, a reply from and the moderator’s username, and it stays in the box’s Open filter. Still open with no reply still takes any answer off. Ryan’s ask. Changed: suggest.js, sandbox.html, privacy.html, data/sandbox.json, netlify/cb/lib.mjs and netlify/functions/cb-suggest.mjs.</description>
     </item>
     <item>
       <title>Screenshots in the suggestion box</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-suggestion-box-pictures</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-suggestion-box-pictures</guid>
-      <pubDate>Sun, 25 Oct 2026 11:43:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:42:00 GMT</pubDate>
       <description>A suggestion, a feature request or a bug report in The Sandbox’s suggestion box can carry pictures now, up to four, a screenshot of a bug most of all, and so can a moderator’s answer. Add one with Add a picture, or paste or drop one into the words. This reverses the box’s words only, which it had because a screenshot is a picture of somebody’s screen: Ryan’s call, written into the privacy page first. Each picture is redrawn in your browser before it goes, by the CB’s own redraw, which takes off everything a camera or a phone wrote into it; each needs a sentence saying what it shows; and the form asks you to tick that you have looked at all of it and it shows nothing private, because a picture in the box is as public as its words. A picture is shown only while the box holds it, and goes with the suggestion, or with the answer that lets go of it. Changed: suggest.js, love.css, sandbox.html, privacy.html, community-center.html, data/sandbox.json, data/community.json, netlify/cb/lib.mjs, netlify/functions/cb-suggest-image.mjs, netlify/functions/cb-midnight.mjs and tools/make-sandbox.py. The box’s line for somebody not signed on said you are given the starter password when you join our community. It says you join with an invite and a username of your own, as everywhere else since 2026-10-21.</description>
     </item>
     <item>
       <title>Bring another animal to Chimera Obscura’s bench</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-chimera-bench-more-animals</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-chimera-bench-more-animals</guid>
-      <pubDate>Sun, 25 Oct 2026 11:42:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:41:00 GMT</pubDate>
       <description>In Chimera Obscura, the animals are filed by class: mammals, birds, reptiles, amphibians, fish and invertebrates, each class alphabetical, in every animal picker on the bench and in the list of what is on the shelf at the foot of the page. A picker still jumps to an animal when you type its first letter. Bring another animal takes the place of Let any part come from any animal, which put every animal on the shelf under every part. The bench starts with two animals; each press brings one more, with a picker of its own, up to one for every part, and every part’s choices are only the animals on the bench, so they stay one press each however long the shelf gets. The button under each picker after the second takes that animal off again, and the parts that came from it go to the first animal. A chimera opened from a link puts every animal it was made from on the bench. Ryan’s call. Changed: chimera-obscura.html, chimera-obscura.js, chimera.js, love.css, data/chimera-obscura.json and tools/make-chimera-obscura.py.</description>
     </item>
     <item>
       <title>Choosing a body on the bench keeps everything else</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-chimera-bench-keeps-parts</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-chimera-bench-keeps-parts</guid>
-      <pubDate>Sun, 25 Oct 2026 11:41:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:40:00 GMT</pubDate>
       <description>In Chimera Obscura, choosing the second animal’s body changes the body and nothing else. It used to make the second animal the first one too, so both selectors named the same animal, the second one dropped out of every part, and every part chosen so far went back to it. Reported by our community. Changing the first or second animal now changes only the parts that came from the animal it replaces. A part chosen from the other animal, the body included, stays where it was put. Changed: chimera-obscura.js.</description>
     </item>
     <item>
       <title>A bat, a crow, a meerkat, a lion, a tiger, a rhino, a camel and a hippo on Chimera Obscura’s shelf</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-chimera-shelf-savanna</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-chimera-shelf-savanna</guid>
-      <pubDate>Sun, 25 Oct 2026 11:40:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:39:00 GMT</pubDate>
       <description>New on the shelf in Chimera Obscura, from Ryan’s list: a bat, a crow, a meerkat, a lion, a tiger, a rhino, a camel and a hippo. The zebra on the list was already there. Every part of each goes with every part of every other animal, as before. They brought parts nothing on the shelf had, and each goes on any animal: a lion’s mane and a camel’s humps under Back; a bat’s wings both ways, spread under Back and folded down its sides under Arms; a rhino’s horns on the nose; a camel’s eyelashes; a bat’s fangs and a hippo’s tusks; and among the markings a tiger’s stripes, a rhino’s folds and a crow’s blue gloss. A lion with a tiger’s parts is suggested as a Liger and a tiger with a lion’s as a Tigon, the names English already has for the two together. A crow before an animal whose name starts with a vowel is a Cro, so a crow with an opossum’s parts is a Croopossum: the room checks every name it can suggest, and the plain join had a slur in the middle of it. Every list of animals is in alphabetical order now: the first and second animal, every part’s choices, and the list of what is on the shelf at the foot of the page. Changed: chimera.js, data/chimera-obscura.json and tools/make-chimera-obscura.py.</description>
     </item>
     <item>
       <title>A call’s window has the radio’s grip and its − and +</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-call-sizes</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-call-sizes</guid>
-      <pubDate>Sun, 25 Oct 2026 11:39:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:38:00 GMT</pubDate>
       <description>A room’s call moves and sizes the way the radio does. Move is the six dots, and Small and Large are − and +, which go one size at a time between Large, the whole window, Regular, where a call opens, Small, a tile in the corner, and Stamp, which is new: the size of a postage stamp, the picture and the bar and nothing else. Each says which size it goes to, and says so when the call is already as small or as large as it goes. The call carries on through every change. The CB guide has the rest.</description>
     </item>
     <item>
       <title>Symphrenia Chill in the Music Room</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-symphrenia-chill</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-symphrenia-chill</guid>
-      <pubDate>Sun, 25 Oct 2026 11:38:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:37:00 GMT</pubDate>
       <description>A third playlist on Helen’s phonograph, at her ask: the Music Room plays Symphrenia Chill, Zbigniew Preisner, Brian Eno, Philip Glass and Erik Satie, whole or a record at a time off a shelf of its own, and the yurt has a songbook of it like the others. Its shelf opens with something to read alongside it: Existential Diversity, the Symphrenic Bodymind and Wider Existence, by Helen Edgar and David Gray-Hammond, on The Wider Existence. Any of her playlists can carry a link like that now, with the writers named beside it. Every playlist in her rooms was read again the same day. Strange things will happen has two more songs on its shelf, Big Thief’s “Velvet Ring” and a mix of songs like it, which she had added since; the others had not changed.</description>
     </item>
     <item>
       <title>The Reading Room points at where you can borrow a book</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-reading-room-borrow</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-25-reading-room-borrow</guid>
-      <pubDate>Sun, 25 Oct 2026 11:37:00 GMT</pubDate>
+      <pubDate>Sun, 25 Oct 2026 11:36:00 GMT</pubDate>
       <description>Helen’s Reading Room now says where to borrow a book, at her ask: its spines open their authors’ pages, and a line under the bookcases’ introduction sends anybody who wants the book itself across the campgrounds to Ryan’s shelves in the cave at the Solarpunk Hermitage, where every book has a link to borrow it or read it.</description>
     </item>
     <item>

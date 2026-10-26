@@ -194,11 +194,15 @@ export function store() {
    END-TO-END: the server opens them for whoever may read Tasks. Without the
    key Tasks are shut (staffReady), never written in the clear; a blob from
    before the key is read as it is and sealed on its next write or by the
-   hourly sweep (sealStaffLeftovers). A new staff store is a name added here,
+   hourly sweep (sealStaffLeftovers). Since the same day, also every push
+   device (a delivery address works like a password for sending that device
+   notifications) and the stored roles (who holds which role is not ours to
+   publish); without the key, the roles fall back to the break-glass list
+   alone, which loadMods already does for roles it cannot read. A new staff store is a name added here,
    and its blobs must be JSON, because a sealed blob is. Losing the key loses
    what it sealed, so Ryan keeps a copy of it. */
 const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-(?:comments|activity|inbox|views)\//,
-  /^forum\/[ct]\//, /^mod-calls$/];
+  /^forum\/[ct]\//, /^mod-calls$/, /^push-devices$/, /^roles$/];
 /* Names whose blobs are bytes, not JSON: a forum post's files and the uploads
    waiting for a post (2026-10-25). Sealed whole, SST1 and the nonce and tag
    before them. EVERY forum topic, list and file, not only the staff
@@ -307,7 +311,7 @@ function bytesRead(key, o) { if (!o || o.type !== 'arrayBuffer') throw new Error
    nothing is ever written in the clear again (and without it the staff stores
    are shut). A name added to STAFF_SEALED or STAFF_BYTES needs SEAL_PASS
    moved on, so the sweep looks again. */
-const SEAL_PASS = 'tasks+forum+rooms-1';
+const SEAL_PASS = 'tasks+forum+rooms+devices+roles-1';
 const SEAL_MARK = 'staff-sealed';
 export async function sealStaffLeftovers(s = store()) {
   s = sealingStore(s);
@@ -315,7 +319,7 @@ export async function sealStaffLeftovers(s = store()) {
   const mark = await s.raw.get(SEAL_MARK, { type: 'json' });
   if (mark && mark.pass === SEAL_PASS) return false;
   const keys = ['tasks', 'task-recurs', 'task-templates'];
-  keys.push('mod-calls');
+  keys.push('mod-calls', 'push-devices', 'roles');
   for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/', 'task-views/', 'forum/t/', 'forum/c/', ROOM_TALK]) {
     for (const b of (await s.list({ prefix })).blobs || []) keys.push(b.key);
   }

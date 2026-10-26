@@ -9,11 +9,13 @@
    Board is given or taken only by somebody on the board or the break-glass
    list, nobody is left without an administrator, and nothing is logged. See
    ../cb/lib.mjs, roles kept with the CB. */
-import { readPass, rolesEditor, rolesList, setRoles, json, body, sameSite } from '../cb/lib.mjs';
+import { staffReady, readPass, rolesEditor, rolesList, setRoles, json, body, sameSite } from '../cb/lib.mjs';
 
 const QUIET = { 'x-robots-tag': 'noindex', 'cache-control': 'no-store' };
 
 export default async (req) => {
+  // Sealed at rest with CB_STAFF_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!staffReady()) return json(503, { error: 'The roles are shut just now. Nothing was read or changed.' });
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' }, QUIET);
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' }, QUIET);

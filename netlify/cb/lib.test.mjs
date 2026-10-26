@@ -8485,3 +8485,44 @@ import { staffShut, lockedRoom as lockedRoomOf, MOD_ROOMS as STAFF_ROOMS } from 
     } finally { if (was !== undefined) process.env.CB_STAFF_KEY = was; }
   });
 }
+
+/* ── Notification devices and the stored roles, sealed (2026-10-25) ── */
+{
+  const withStaffKey = async (fn) => {
+    const was = process.env.CB_STAFF_KEY;
+    process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+    try { await fn(); } finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+  };
+
+  test('every notification device and the stored roles are sealed, and read back as they were', () => withStaffKey(() => withBreakGlass('{"Juniper":["administrator","board"]}', async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    assert.ok(staffSealed('push-devices') && staffSealed('roles'));
+    const glass = desk('Juniper', ['administrator', 'board'], true);
+    assert.ok((await setRoles(glass, 'Ada', ['director'], s, T0)).people);
+    const raw = await s.raw.get('roles', { type: 'json' });
+    assert.equal(raw.sealed, 1); assert.ok(!JSON.stringify(raw).includes('Ada') && !JSON.stringify(raw).includes('director'), 'the roles were written in the clear');
+    unloadMods();
+    await loadMods(s);
+    assert.equal(readMods().get('ada').roles.has('director'), true, 'sealed roles did not load');
+    const bex = await claimedPassFor('Bex', s);
+    const dev = aDevice();
+    assert.ok(!(await keepDevice(dev, bex, { mentions: true }, s)).error);
+    const devRaw = await s.raw.get('push-devices', { type: 'json' });
+    assert.equal(devRaw.sealed, 1);
+    assert.ok(!JSON.stringify(devRaw).includes(dev.endpoint), 'a device\'s address was written in the clear');
+    assert.ok(await readDevice(dev.endpoint, 'Bex', s), 'a sealed device did not read back');
+  })));
+
+  test('without the staff key the sealed roles cannot be read, and only the break-glass list counts', () => withStaffKey(() => withBreakGlass('{"Juniper":["administrator"]}', async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    await setRoles(desk('Juniper', ['administrator'], true), 'Ada', ['director'], s, T0);
+    const was = process.env.CB_STAFF_KEY;
+    delete process.env.CB_STAFF_KEY;
+    try {
+      unloadMods();
+      await loadMods(s);
+      assert.equal(readMods().has('ada'), false, 'a sealed role counted without the key');
+      assert.equal(readMods().has('juniper'), true, 'the break-glass list stopped counting');
+    } finally { process.env.CB_STAFF_KEY = was; unloadMods(); }
+  })));
+}

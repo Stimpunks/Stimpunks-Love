@@ -12,12 +12,14 @@
    and what it asked for; privacy.html#notifications says so. Nothing sent to
    it is kept or logged. FORGET ME, in /cb/pets, and deleting the username
    switch off every device switched on as that handle. */
-import { readPass, keepDevice, readDevice, dropDevice, cleanSubscription, pushPublicKey, sendPush,
+import { staffReady, readPass, keepDevice, readDevice, dropDevice, cleanSubscription, pushPublicKey, sendPush,
   PUSH_ROOMS_MAX, PUSH_PER_HANDLE, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
 export default async (req) => {
+  // Sealed at rest with CB_STAFF_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!staffReady()) return json(503, { error: 'Notifications are shut just now. Nothing was changed.' });
   if (!sameSite(req)) return json(403, { error: 'The CB only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
