@@ -1,6 +1,6 @@
 {
  "_about": "THE MONTHLY LOG IN THE OPEN NOTEBOOK, Ryan's brief, 2026-10-03: a rack with the last month's worth of journaling channels he listed, in his order. It is Vital Plant Living's telly in a notebook, and the reasons are that room's: the channels are his and the videos are not chosen one by one, so the room says nobody here watched them first. tools/pull-notebook-month.py reads each channel's own two feeds (UULF, its long-form uploads, and UUSH, its shorts) and asks each new video's watch page once, the morning it arrives; tools/make-open-notebook.py --month draws the log from this file; tools/daily-notebook.sh runs both on the morning timer and commits only this file and the-open-notebook.html. This file is the timer's: hand-edit `sources` on purpose and nothing else.",
- "_sources": "Each channel id was read off the channel's own page on 2026-10-03 (its externalId), the last two the same evening, at Ryan's ask, never typed from memory. `name` is the channel's own name as YouTube gives it, with a typographic apostrophe and its own capitals, heart and bars; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Bullet Journal was its shorts, for three others the featured tab and for four their videos. Both feeds are read for every channel whatever tab the link was on: the brief was the last month's worth of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
+ "_sources": "Each channel id was read off the channel's own page on 2026-10-03 (its externalId), the last two the same evening, The Desk Standard, The Goulet Pen Company and Doodlewithrachel on 2026-10-26, each at Ryan's ask, never typed from memory. `name` is the channel's own name as YouTube gives it, with a typographic apostrophe and its own capitals, heart and bars; `url` is the channel's front page without the tab Ryan's link happened to be on, which for Bullet Journal was its shorts, for three others the featured tab and for four their videos. Both feeds are read for every channel whatever tab the link was on: the brief was the last month's worth of each channel. A new channel is a new entry here with its id read the same way; the puller derives both feeds from the id.",
  "_window": "A MONTH IS THIRTY DAYS, counted back from the minute the log was filled. A video published before that goes off the end on the next fill; make-open-notebook.py refuses a file still holding one, because a log that keeps everything is an archive, and the brief was the last month.",
  "_log": "A VIDEO IS AN ID, A TITLE, A CHANNEL, A TIME AND A LENGTH, the Doom Scoop's rule: no description, no thumbnail, no count of views, likes or subscribers, and make-open-notebook.py refuses a row carrying any of them. `form` is long or short, by which of the channel's two feeds carried it; a short plays upright. `state` is what its watch page said: screen (plays here), door (plays on YouTube only: embedding off, or age-gated), pending (live, or not out yet, asked again tomorrow) or gone (not drawn). TITLES ARE QUOTED AS WRITTEN, capitals, emoji and all, and the room's sweeps skip them: they are the channels' words, and a title about productivity or about getting your life together is theirs to write, beside a house rule of ours that says this notebook is a companion and not a performance.",
  "_covered": "What the feeds have been read all the way through, per channel and per feed. A YouTube feed carries the latest fifteen, and a busy channel puts up more than that in a month; a channel whose coverage does not reach back to the start of the month says so on the page. Generated, never typed.",
@@ -154,9 +154,27 @@
    "name": "Mark Your Pages",
    "url": "https://www.youtube.com/@markyourpages",
    "channel_id": "UCXZWPgDGUZiEOBA0yz8UqFg"
+  },
+  {
+   "slug": "desk-standard",
+   "name": "The Desk Standard",
+   "url": "https://www.youtube.com/@deskstandard",
+   "channel_id": "UC8S1LAzRjvTE73nnvxllkig"
+  },
+  {
+   "slug": "goulet-pens",
+   "name": "The Goulet Pen Company",
+   "url": "https://www.youtube.com/@Gouletpens",
+   "channel_id": "UCPdFDFTd6P1a__tAr8CrpCQ"
+  },
+  {
+   "slug": "doodle-with-rachel",
+   "name": "Doodlewithrachel",
+   "url": "https://www.youtube.com/@Doodlewithrachel",
+   "channel_id": "UChl5ao9UL_LwHngOMSpkkmg"
   }
  ],
- "set": "2026-10-25T11:20Z",
+ "set": "2026-10-26T09:56Z",
  "log": [
   {
    "id": "suuhxydi6Kk",
@@ -176,16 +194,6 @@
    "published": "2026-10-16T11:00:25Z",
    "state": "screen",
    "runs": 454,
-   "channel": "Bullet Journal"
-  },
-  {
-   "id": "krHlodGA_0w",
-   "source": "bullet-journal",
-   "form": "short",
-   "title": "When's The Last Time You Journaled?",
-   "published": "2026-09-25T13:00:03Z",
-   "state": "screen",
-   "runs": 36,
    "channel": "Bullet Journal"
   },
   {
@@ -479,6 +487,16 @@
    "channel": "TheCoffeeMonsterzCO"
   },
   {
+   "id": "Oj_D-IXexdg",
+   "source": "coffee-monsterz",
+   "form": "long",
+   "title": "Work & Business Planner Setup 👩🏻‍💻 Hobonichi A6 Day Free Setup",
+   "published": "2026-10-25T15:00:26Z",
+   "state": "screen",
+   "runs": 874,
+   "channel": "TheCoffeeMonsterzCO"
+  },
+  {
    "id": "HzxKjVknKW8",
    "source": "amanda-close",
    "form": "long",
@@ -529,6 +547,16 @@
    "channel": "Rachelle in theory"
   },
   {
+   "id": "MnWIyTCmluI",
+   "source": "rachelle-in-theory",
+   "form": "long",
+   "title": "Plan your week without sacrificing your priorities",
+   "published": "2026-10-25T15:00:32Z",
+   "state": "screen",
+   "runs": 1240,
+   "channel": "Rachelle in theory"
+  },
+  {
    "id": "hB5gpLJpf5Q",
    "source": "rachelle-in-theory",
    "form": "short",
@@ -547,17 +575,6 @@
    "state": "screen",
    "runs": 1751,
    "channel": "ParkNotes"
-  },
-  {
-   "id": "BtLJhMHKoeU",
-   "source": "seaweed-kisses",
-   "form": "long",
-   "title": "Why I LOVE (and Dislike) The HOBONICHI Weeks Planner",
-   "published": "2026-09-26T00:32:31Z",
-   "state": "door",
-   "why": "no embedding",
-   "runs": 2143,
-   "channel": "Seaweed Kisses"
   },
   {
    "id": "OQUvdgUiyOM",
@@ -589,6 +606,16 @@
    "state": "door",
    "why": "no embedding",
    "runs": 1106,
+   "channel": "Seaweed Kisses"
+  },
+  {
+   "id": "oUrRY28sSkM",
+   "source": "seaweed-kisses",
+   "form": "long",
+   "title": "My 2027 Everyday Journal Setup | Planner, Memory Keeper & Book Log",
+   "published": "2026-10-25T15:15:11Z",
+   "state": "screen",
+   "runs": 2735,
    "channel": "Seaweed Kisses"
   },
   {
@@ -632,16 +659,6 @@
    "channel": "Seaweed Kisses"
   },
   {
-   "id": "pdyufJE8bus",
-   "source": "julia-here",
-   "form": "long",
-   "title": "Sit + Stare at Ink Swatches with Me 😌 · Cozy Fountain Pen Ink Swatch Party",
-   "published": "2026-09-25T15:00:16Z",
-   "state": "screen",
-   "runs": 585,
-   "channel": "julia here."
-  },
-  {
    "id": "Qg3hJTssgKQ",
    "source": "julia-here",
    "form": "long",
@@ -680,16 +697,6 @@
    "state": "screen",
    "runs": 1418,
    "channel": "julia here."
-  },
-  {
-   "id": "XoiHbY4XtQQ",
-   "source": "bookish-mandy",
-   "form": "long",
-   "title": "Covens of Midnight Ep. 5 | Solo Journal RPG Playthrough | Days Four and Five",
-   "published": "2026-09-26T00:23:31Z",
-   "state": "screen",
-   "runs": 2998,
-   "channel": "Bookish Artist | Mandy"
   },
   {
    "id": "8NmOi9lOtro",
@@ -1125,7 +1132,7 @@
    "id": "DjUuoGJIqSc",
    "source": "perry-daniels",
    "form": "long",
-   "title": "I Built a Museum-Worthy Display for One of Horror's Most Iconic Relics",
+   "title": "Foam and plastic shouldn't look this good",
    "published": "2026-10-23T07:58:05Z",
    "state": "screen",
    "runs": 1248,
@@ -1162,6 +1169,16 @@
    "channel": "Tess | Pixiedust Press"
   },
   {
+   "id": "BFn1tcEfiuQ",
+   "source": "pixiedust-press",
+   "form": "long",
+   "title": "More Autumn Inks to Fall in Love With 🍂✨ | Cozy Fountain Pen Ink Swatching",
+   "published": "2026-10-25T17:19:13Z",
+   "state": "screen",
+   "runs": 2804,
+   "channel": "Tess | Pixiedust Press"
+  },
+  {
    "id": "Bluo5dXWFlc",
    "source": "jobs-journal",
    "form": "long",
@@ -1189,6 +1206,16 @@
    "published": "2026-10-17T12:50:16Z",
    "state": "screen",
    "runs": 938,
+   "channel": "Job's Journal"
+  },
+  {
+   "id": "o0NcuWMCz7I",
+   "source": "jobs-journal",
+   "form": "long",
+   "title": "stationery shopping in nyc 🍎 vlog + life update",
+   "published": "2026-10-25T17:28:32Z",
+   "state": "screen",
+   "runs": 1215,
    "channel": "Job's Journal"
   },
   {
@@ -1382,16 +1409,6 @@
    "channel": "JetPens"
   },
   {
-   "id": "s6ui88aNI6w",
-   "source": "jetpens",
-   "form": "short",
-   "title": "Japanese Mechanical Pencils Do TOO Much! 🫩🔥",
-   "published": "2026-09-25T15:00:00Z",
-   "state": "screen",
-   "runs": 52,
-   "channel": "JetPens"
-  },
-  {
    "id": "nPAQiNH2MZQ",
    "source": "jetpens",
    "form": "short",
@@ -1550,6 +1567,376 @@
    "state": "screen",
    "runs": 64,
    "channel": "Mark Your Pages"
+  },
+  {
+   "id": "zetuPiqqPC4",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "7 Korean Stationery Legends Hiding on Amazon (All Under $30)",
+   "published": "2026-10-11T18:17:54Z",
+   "state": "screen",
+   "runs": 1003,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "diaKlww3L4U",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "10 Amazon Fountain Pen Inks Everyone Ignores (But They’re Absolute GOLDMINES)",
+   "published": "2026-10-12T18:36:35Z",
+   "state": "screen",
+   "runs": 1225,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "OjwkxtTWAqA",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "8 American Notebooks That Should Cost Way More (Hiding on Amazon!)",
+   "published": "2026-10-13T18:27:49Z",
+   "state": "screen",
+   "runs": 1244,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "p6HXpABW198",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "7 American Fountain Pen Legends Hiding on Amazon",
+   "published": "2026-10-14T18:37:30Z",
+   "state": "screen",
+   "runs": 1255,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "1-T8rE28AY8",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "7 American Notebooks That ABSOLUTELY DESTROY Moleskine (For a Fraction of the Price)",
+   "published": "2026-10-15T17:58:27Z",
+   "state": "screen",
+   "runs": 1213,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "tVdkHHb-Z_c",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "5 CHEAP Inks on Amazon EVERYONE IGNORES (But Writers Secretly Love)",
+   "published": "2026-10-16T18:20:22Z",
+   "state": "screen",
+   "runs": 1260,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "-I6Ob_wUDMQ",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "7 Walmart Ballpoint Pens Everyone Ignores (But They're Absolute GOLDMINES)",
+   "published": "2026-10-17T19:30:31Z",
+   "state": "screen",
+   "runs": 1177,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "X16WqH6Eeks",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "6 Fountain Pens Only Old Money Carry (And It's Never Montblanc)",
+   "published": "2026-10-18T18:30:07Z",
+   "state": "screen",
+   "runs": 1227,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "CMNln2bJx1Y",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "5 CHEAP Walmart Inks Everyone Ignores (But They're Absolute Goldmines)",
+   "published": "2026-10-19T18:05:24Z",
+   "state": "screen",
+   "runs": 1240,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "FQ_DSWaOlDo",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "7 Costco Ballpoint Pens Everyone Ignores (But They’re Absolute GOLDMINES)",
+   "published": "2026-10-20T18:32:18Z",
+   "state": "screen",
+   "runs": 1281,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "1NgiCBFb9CE",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "8 American Fountain Pens That Should Cost Way More (Hiding on Amazon!)",
+   "published": "2026-10-21T18:23:47Z",
+   "state": "screen",
+   "runs": 1132,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "K_8F9Kf-K2o",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "11 Fountain Pen Myths That NEED to Die (Big Money Mistake!)",
+   "published": "2026-10-22T18:02:58Z",
+   "state": "screen",
+   "runs": 1138,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "uAUxOsAD3dI",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "7 Amazon Ballpoint Pens Everyone Ignores (But They’re Absolute GOLDMINES)",
+   "published": "2026-10-23T18:43:08Z",
+   "state": "screen",
+   "runs": 1236,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "sKe2waa-g_I",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "6 Ballpoint Pens Only Old Money Carry (And It’s Never Montblanc)",
+   "published": "2026-10-24T18:12:21Z",
+   "state": "screen",
+   "runs": 1266,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "WRd5xEXEBPU",
+   "source": "desk-standard",
+   "form": "long",
+   "title": "6 Notebook Brands ROBBING You Blind (And 6 Worth Every Penny)",
+   "published": "2026-10-25T19:22:35Z",
+   "state": "screen",
+   "runs": 1246,
+   "channel": "The Desk Standard"
+  },
+  {
+   "id": "6ZxRIOk0tzE",
+   "source": "goulet-pens",
+   "form": "long",
+   "title": "The Truth About \"High Maintenance\" Inks",
+   "published": "2026-10-01T17:03:26Z",
+   "state": "screen",
+   "runs": 708,
+   "channel": "The Goulet Pen Company"
+  },
+  {
+   "id": "iHR4u4_wKMo",
+   "source": "goulet-pens",
+   "form": "long",
+   "title": "The Perfect Permanent Ink, Custom Stub Nib Grind + BENU Fall Bouquet Spotlight | Goulet Q&A Ep. 371",
+   "published": "2026-10-02T15:07:47Z",
+   "state": "screen",
+   "runs": 5566,
+   "channel": "The Goulet Pen Company"
+  },
+  {
+   "id": "QkFgvickblk",
+   "source": "goulet-pens",
+   "form": "long",
+   "title": "Top 7 Next Level Fountain Pens (2026)",
+   "published": "2026-10-14T18:31:43Z",
+   "state": "screen",
+   "runs": 809,
+   "channel": "The Goulet Pen Company"
+  },
+  {
+   "id": "rueRyLR50QE",
+   "source": "goulet-pens",
+   "form": "long",
+   "title": "Why Pens Aren't Plain Black, 3D Printing Parts + Delta Landscapes | Goulet Q&A Ep. 372",
+   "published": "2026-10-16T15:27:18Z",
+   "state": "screen",
+   "runs": 5291,
+   "channel": "The Goulet Pen Company"
+  },
+  {
+   "id": "_BvYDOA5GT0",
+   "source": "goulet-pens",
+   "form": "long",
+   "title": "The Most Popular Fountain Pen Inks: Bestsellers, Must-Haves & Top Colors (Compilation)",
+   "published": "2026-10-21T16:05:07Z",
+   "state": "screen",
+   "runs": 4614,
+   "channel": "The Goulet Pen Company"
+  },
+  {
+   "id": "mwx0jXHfVZM",
+   "source": "goulet-pens",
+   "form": "long",
+   "title": "Best Pens Under $20, Nib Mods & Magnetic Filling Systems + NEW LAMY scala | Goulet Q&A Ep. 373",
+   "published": "2026-10-23T15:24:43Z",
+   "state": "screen",
+   "runs": 4871,
+   "channel": "The Goulet Pen Company"
+  },
+  {
+   "id": "8p-3-PjgFcE",
+   "source": "doodle-with-rachel",
+   "form": "long",
+   "title": "Dumbing down doodles | art tutorial for everyone",
+   "published": "2026-10-01T20:01:58Z",
+   "state": "screen",
+   "runs": 270,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "QRCHMs5qADM",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "speedy 1 pen doodles #doodleart #tutorial pen from @writech",
+   "published": "2026-10-12T10:07:54Z",
+   "state": "screen",
+   "runs": 74,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "RSFtFmWVadA",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "the beginning cut off, no clue why 😕products in description ✨️ #doodleart #patternideas #funhobby",
+   "published": "2026-10-13T11:38:20Z",
+   "state": "screen",
+   "runs": 122,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "zpKbjfGcxYg",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "bridges and ladders, sounds like a game 🤣 products are in the description 🥰 #funhobby #doodleideas",
+   "published": "2026-10-14T12:11:22Z",
+   "state": "screen",
+   "runs": 111,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "j--kvvO10YQ",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "these fall colors I love 🍂🍃 #doodleart #sketchbook #fallvibes #doodleoftheday #createeveryday",
+   "published": "2026-10-15T11:12:14Z",
+   "state": "screen",
+   "runs": 100,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "pnQpW8z-sMo",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "this took me about 20 minutes in total 🤗 #doodleart #patternideas #pens #createeveryday #sketchbook",
+   "published": "2026-10-16T11:46:29Z",
+   "state": "screen",
+   "runs": 50,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "Wu0PAh5lzXY",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "3d effect doodle using only 1 pen. #funhobby #doodleart #tutorial #doodleideas",
+   "published": "2026-10-18T11:05:49Z",
+   "state": "screen",
+   "runs": 80,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "LxkttK2tNAk",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "sketchbook flip through 🤗 #sketchbook",
+   "published": "2026-10-18T17:40:03Z",
+   "state": "screen",
+   "runs": 61,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "oaaTuDj59P4",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "dumbing down doodles featuring circles and glitter  #doodleideas #tutorial #doodleart #funhobby",
+   "published": "2026-10-18T22:24:48Z",
+   "state": "screen",
+   "runs": 106,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "QFOgzthIcJk",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "rainbow doodle today because it's raining 🤗#doodleideas #tutorial #funhobby #doodlewithme",
+   "published": "2026-10-19T15:06:04Z",
+   "state": "screen",
+   "runs": 142,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "ho4mWeV6gLI",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "rainbow doodle 🤗  #doodlewithme #doodleart #relaxinghobby",
+   "published": "2026-10-19T23:16:17Z",
+   "state": "screen",
+   "runs": 56,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "P4eyKrNhxYI",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "todays doodle took less then 30 minutes and i used only 1 pen! give this one a try!#doodleideas",
+   "published": "2026-10-20T16:32:56Z",
+   "state": "screen",
+   "runs": 53,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "mj18cuarGvM",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "Dumbing down doodles with this grid of squares, perfect to practice shadows and highlights 🤗✨️",
+   "published": "2026-10-21T10:54:36Z",
+   "state": "screen",
+   "runs": 106,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "IIa8Y3-XRBM",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "Acrylic markers, who am I? Products in the description 🤗 #doodleart",
+   "published": "2026-10-22T11:24:46Z",
+   "state": "screen",
+   "runs": 96,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "qkCo0o13O-4",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "tracing an egg? browns are not fun for me 🤔",
+   "published": "2026-10-23T11:21:24Z",
+   "state": "screen",
+   "runs": 85,
+   "channel": "Doodlewithrachel"
+  },
+  {
+   "id": "IXS0QJ0gKNA",
+   "source": "doodle-with-rachel",
+   "form": "short",
+   "title": "the flower tutorial you all asked for 🌼🌸 #art #doodleideas",
+   "published": "2026-10-25T11:46:13Z",
+   "state": "screen",
+   "runs": 157,
+   "channel": "Doodlewithrachel"
   }
  ],
  "covered": {
@@ -1557,13 +1944,13 @@
    "long": [
     [
      "2026-02-25T12:01:38Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-05-23T13:01:11Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1571,13 +1958,13 @@
    "long": [
     [
      "2026-03-31T18:00:00Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2025-11-26T18:00:24Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1585,13 +1972,13 @@
    "long": [
     [
      "2025-04-23T20:59:59Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1599,13 +1986,13 @@
    "long": [
     [
      "2026-05-09T13:15:14Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-08-11T18:31:31Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1613,13 +2000,13 @@
    "long": [
     [
      "2025-12-23T01:30:17Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-06T18:30:31Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1627,13 +2014,13 @@
    "long": [
     [
      "2026-06-21T15:00:05Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1641,13 +2028,13 @@
    "long": [
     [
      "2026-01-13T17:46:02Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2025-07-05T01:57:47Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1655,13 +2042,13 @@
    "long": [
     [
      "2026-05-13T15:00:36Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2025-05-23T15:01:39Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1669,13 +2056,13 @@
    "long": [
     [
      "2025-12-16T18:34:18Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2025-12-28T22:47:07Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1683,13 +2070,13 @@
    "long": [
     [
      "2026-05-23T23:39:19Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-08T13:11:24Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1697,13 +2084,13 @@
    "long": [
     [
      "2026-06-26T15:00:10Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2025-06-03T14:46:05Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1711,13 +2098,13 @@
    "long": [
     [
      "2026-09-10T20:18:43Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-13T04:01:07Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1725,13 +2112,13 @@
    "long": [
     [
      "2026-05-30T11:30:33Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1739,13 +2126,13 @@
    "long": [
     [
      "2026-08-10T13:30:06Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2025-08-19T14:37:02Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1753,13 +2140,13 @@
    "long": [
     [
      "2026-03-30T13:14:26Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2023-12-04T02:58:57Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1767,13 +2154,13 @@
    "long": [
     [
      "2026-01-22T17:31:11Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2025-07-21T17:45:47Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1781,13 +2168,13 @@
    "long": [
     [
      "2026-02-19T00:28:45Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1795,13 +2182,13 @@
    "long": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2024-09-07T00:14:00Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1809,13 +2196,13 @@
    "long": [
     [
      "2025-08-02T00:06:33Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1823,13 +2210,13 @@
    "long": [
     [
      "2026-07-15T03:00:21Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T19:21:15Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1837,13 +2224,13 @@
    "long": [
     [
      "2026-03-03T07:32:57Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-04-30T04:08:40Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1851,13 +2238,13 @@
    "long": [
     [
      "2026-08-12T19:29:13Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T14:30:53Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1865,13 +2252,13 @@
    "long": [
     [
      "2026-06-04T23:00:22Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T15:00:22Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1879,13 +2266,13 @@
    "long": [
     [
      "2026-06-19T13:16:14Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T22:28:36Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ]
   },
@@ -1893,13 +2280,55 @@
    "long": [
     [
      "2026-07-03T14:00:00Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
     ]
    ],
    "short": [
     [
      "2026-07-21T22:16:43Z",
-     "2026-10-25T11:20:35Z"
+     "2026-10-26T09:56:33Z"
+    ]
+   ]
+  },
+  "desk-standard": {
+   "long": [
+    [
+     "2026-10-11T18:17:54Z",
+     "2026-10-26T09:56:33Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-09-26T09:56:33Z",
+     "2026-10-26T09:56:33Z"
+    ]
+   ]
+  },
+  "goulet-pens": {
+   "long": [
+    [
+     "2026-08-26T19:13:05Z",
+     "2026-10-26T09:56:33Z"
+    ]
+   ],
+   "short": [
+    [
+     "2025-10-29T12:41:34Z",
+     "2026-10-26T09:56:33Z"
+    ]
+   ]
+  },
+  "doodle-with-rachel": {
+   "long": [
+    [
+     "2025-02-09T13:41:25Z",
+     "2026-10-26T09:56:33Z"
+    ]
+   ],
+   "short": [
+    [
+     "2026-10-12T10:07:54Z",
+     "2026-10-26T09:56:33Z"
     ]
    ]
   }
