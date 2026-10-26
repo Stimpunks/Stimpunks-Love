@@ -7,12 +7,14 @@
    with the pass, and for nobody else: there is no public address. A file is
    always sent to be saved, never shown, and a picture only as a picture.
    Nothing a person sends is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, putForumUpload, forumFile, json, sameSite, FORUM_FILE_MAX } from '../cb/lib.mjs';
+import { staffReady, readPass, forumReader, putForumUpload, forumFile, json, sameSite, FORUM_FILE_MAX } from '../cb/lib.mjs';
 
 const QUIET = { 'x-robots-tag': 'noindex' };
 const CLAIM = 'The forums are for claimed usernames. Claim yours under Account on the radio, then come back.';
 
 export default async (req) => {
+  // Sealed at rest with CB_STAFF_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!staffReady()) return json(503, { error: 'The forums are shut just now. Nothing was read or changed.' });
   if (!sameSite(req)) return json(403, { error: 'The forums only answer stimpunks.world.' }, QUIET);
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' }, QUIET);

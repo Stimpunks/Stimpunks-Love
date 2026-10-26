@@ -33,7 +33,7 @@
                                                      the office's records, the reader can open (findLinks), by POST
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { staffReady, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -51,6 +51,8 @@ const takes = { most: FORUM_ATTACH_MAX, docMost: FORUM_DOC_ATTACH_MAX, body: FOR
 const num = (v) => (v != null && /^\d{1,15}$/.test(v) ? Number(v) : null);
 
 export default async (req, context) => {
+  // Sealed at rest with CB_STAFF_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!staffReady()) return json(503, { error: 'The forums are shut just now. Nothing was read or changed.' });
   if (!sameSite(req)) return json(403, { error: 'The forums only answer stimpunks.world.' }, QUIET);
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' }, QUIET);

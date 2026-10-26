@@ -470,6 +470,30 @@ def check_polls(sec):
         problems.append(f"{LIB.name}: closePoll must never open a sealed ballot again once its results are out.")
 
 
+def check_sealed(lib):
+    """EVERY TOPIC, LIST, FILE AND UPLOAD SEALED AT REST (Ryan's call, 2026-10-25),
+    by name at the store under CB_STAFF_KEY, all categories and not only the
+    staff ones, because a moved topic keeps its name. The friendly edits are
+    sealing only the staff categories, which leaves a topic moved out of one in
+    the clear, and a fallback to the clear "so the forums keep working"."""
+    m = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", lib, re.S)
+    if not m or "/^forum\\/[ct]\\//" not in m.group(1):
+        problems.append(f"{LIB.name}: STAFF_SEALED no longer names every forum topic and category list, so one is written in the clear.")
+    b = re.search(r"const STAFF_BYTES = \[(.*?)\];\n", lib, re.S)
+    if not b or "forum-file" not in b.group(1) or "forum-up" not in b.group(1):
+        problems.append(f"{LIB.name}: STAFF_BYTES no longer names the forums' files and uploads, so one is written in the clear.")
+    if "forum" not in (re.search(r"const SEAL_PASS = '([^']*)'", lib) or [None, ""])[1]:
+        problems.append(f"{LIB.name}: SEAL_PASS does not cover the forums, so the sweep never seals what came before the key.")
+    for f in ("cb-forum", "cb-forum-file"):
+        if "if (!staffReady())" not in (ROOT / "netlify" / "functions" / f"{f}.mjs").read_text():
+            problems.append(f"netlify/functions/{f}.mjs: it does not shut without the staff key.")
+    priv = (ROOT / "privacy.html").read_text()
+    i = priv.find('id="forums"')
+    sec = priv[i:priv.find("<h2", i + 10)] if i >= 0 else ""
+    if "sealed at rest" not in sec or "not end-to-end" not in sec:
+        problems.append("privacy.html: the forums section does not say the forums are sealed at rest and not end-to-end.")
+
+
 def check_function():
     if not FN.exists():
         problems.append(f"{FN.name}: missing.")
@@ -675,6 +699,7 @@ def main():
     check_css()
     check_page()
     check_cb()
+    check_sealed(lib)
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1

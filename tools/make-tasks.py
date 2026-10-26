@@ -487,7 +487,7 @@ def check_page():
 
 def check_sealed(lib):
     names = ["/^tasks$/", "/^task-recurs$/", "/^task-templates$/", "comments", "activity", "inbox", "views"]
-    m = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", lib)
+    m = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", lib, re.S)
     if not m or not all(n in m.group(1) for n in names):
         problems.append("lib.mjs: STAFF_SEALED no longer names every Tasks store, so one is written in the clear.")
     if "return sealingStore(getStore(" not in fn(lib, "store") or lib.count("getStore(") != 1:

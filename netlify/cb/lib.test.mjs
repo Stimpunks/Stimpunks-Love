@@ -8382,3 +8382,60 @@ import { sealingStore, sealStaffLeftovers, staffReady, staffSealed } from './lib
     } finally { if (was !== undefined) process.env.CB_STAFF_KEY = was; }
   });
 }
+
+/* ── The forums sealed at rest with the staff key (2026-10-25) ── */
+import { staffBytes } from './lib.mjs';
+
+{
+  const withStaffKey = async (fn) => {
+    const was = process.env.CB_STAFF_KEY;
+    process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+    try { await fn(); } finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+  };
+  const rawBytes = async (s, k) => Buffer.from(await s.raw.get(k, { type: 'arrayBuffer' }));
+
+  test('every forum topic, category list, file and upload is sealed by name, and a file opens only as bytes', () => withStaffKey(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    assert.ok(staffSealed('forum/t/x') && staffSealed('forum/c/finance') && staffBytes('forum-file/t/x') && staffBytes('forum-up/x'));
+    assert.ok(!staffSealed('forum-gone') && !staffBytes('img/x') && !staffBytes('dm-img/x'));
+    const bytes = PDF('grant to Juniper');
+    const doc = await putForumUpload(FADMIN, { kind: 'file', name: 'Grant.pdf' }, bytes, s, T0);
+    assert.ok(doc.id, doc.error);
+    assert.equal((await rawBytes(s, 'forum-up/' + doc.id)).subarray(0, 4).toString(), 'SST1', 'an upload was written in the clear');
+    const waiting = await putForumUpload(FADMIN, { kind: 'file', name: 'Draft.pdf' }, PDF('draft for Juniper'), s, T0);
+    assert.ok(!(await rawBytes(s, 'forum-up/' + waiting.id)).includes(Buffer.from('Juniper')), 'a waiting upload carries its words in the clear');
+    const r = await startTopic(FADMIN, { cat: 'finance', title: 'A grant for Juniper', body: 'Juniper asked for help with rent.', files: [{ id: doc.id }] }, s, T0, NO_NET);
+    assert.ok(r.topic, r.error);
+    for (const k of s.keys().filter((k) => k.startsWith('forum/'))) {
+      const raw = await s.raw.get(k, { type: 'json' });
+      assert.equal(raw.sealed, 1, `${k} was written in the clear`);
+      assert.ok(!JSON.stringify(raw).includes('Juniper'), `${k} carries a name in the clear`);
+    }
+    const fk = s.keys().find((k) => k.startsWith('forum-file/'));
+    const onShelf = await rawBytes(s, fk);
+    assert.equal(onShelf.subarray(0, 4).toString(), 'SST1');
+    assert.ok(!onShelf.includes(Buffer.from('Juniper')), 'a file was written in the clear');
+    assert.equal((await forumTopic(FADMIN, r.topic.id, s, T0)).title, 'A grant for Juniper');
+    assert.deepEqual(Buffer.from((await forumFile(FADMIN, r.topic.id, doc.id, s, T0)).data), bytes, 'a sealed file did not open as it was sent');
+    await assert.rejects(() => s.get(fk, { type: 'text' }), /arrayBuffer/, 'a sealed file was read as words');
+    await assert.rejects(() => s.setJSON(fk, {}, { onlyIfNew: true }), /with set/);
+  }));
+
+  test('forum topics and files from before the key are read as they are, the sweep seals them, and then stops looking', () => withStaffKey(async () => {
+    const plain = memoryStore({ etagOnRead: true });
+    const doc = await putForumUpload(FADMIN, { kind: 'file', name: 'Old.pdf' }, PDF('old'), plain, T0);
+    const r = await startTopic(FADMIN, { cat: 'finance', title: 'Written before the key', files: [{ id: doc.id }] }, plain, T0, NO_NET);
+    assert.ok(r.topic, r.error);
+    const s = sealingStore(plain);
+    assert.equal((await forumTopic(FADMIN, r.topic.id, s, T0)).title, 'Written before the key');
+    assert.equal(await sealStaffLeftovers(s), true);
+    for (const k of plain.keys().filter((k) => k.startsWith('forum/'))) assert.equal((await plain.get(k)).sealed, 1, `${k} left in the clear`);
+    const fk = plain.keys().find((k) => k.startsWith('forum-file/'));
+    assert.equal(Buffer.from(await plain.get(fk)).subarray(0, 4).toString(), 'SST1', 'a file left in the clear');
+    assert.ok(await forumFile(FADMIN, r.topic.id, doc.id, s, T0), 'a sealed file did not open');
+    assert.equal(await sealStaffLeftovers(s), false, 'the sweep had more to do');
+    assert.equal((await plain.get('staff-sealed')).pass.length > 0, true, 'the sweep did not say it was done');
+    await plain.setJSON('forum/t/tPLAINPLAIN1', { title: 'sneaked in' }, { onlyIfNew: true });
+    assert.equal(await sealStaffLeftovers(s), false, 'the sweep looked again after it said it was done');
+  }));
+}

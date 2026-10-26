@@ -6003,7 +6003,7 @@ person**, so the list has **Group by** (`group=` in the address and in saved fil
 assignee, Ryan's ask the same day): Whose and Tags put a task under each person or tag it has, the rest once, Nobody and
 No tags last. The friendly edit is a Whose column on the board; a card in several columns has no single Move to.
 
-**TASKS ARE SEALED AT REST BY NAME, AT THE STORE, WITH A STAFF KEY OF THEIR OWN.** Ryan's call, 2026-10-25, after
+**TASKS AND THE FORUMS ARE SEALED AT REST BY NAME, AT THE STORE, WITH A STAFF KEY OF THEIR OWN.** Ryan's call, 2026-10-25, after
 direct messages, Tasks first and the staff forums to follow. `store()` returns `sealingStore(getStore(...))`, a
 Proxy that seals a JSON write to any name in `STAFF_SEALED` and opens a read, so no Tasks code has to remember to:
 `tasks`, `task-recurs`, `task-templates`, and everything under `task-comments/`, `task-activity/`, `task-inbox/`
@@ -6011,9 +6011,15 @@ and `task-views/`. AES-256-GCM under `CB_STAFF_KEY` (never the office's or the D
 data, shared with direct messages through `sealJsonWith`/`openJsonWith`; `cb-tasks` and `cb-recur` shut without the
 key (`staffReady`), and `sealStaffLeftovers` in the hourly sweep seals what came before it. **A sealed name must be
 JSON** (the wrapper refuses `set` on one), and **a test that passes a bare `memoryStore` is not sealing**: wrap it
-in `sealingStore` to test sealing. **The staff forums are the next names in that list**, which is the point of
-doing it at the store. `make-tasks.py` holds it; the friendly edit is a fallback to the clear. Ryan keeps a copy
-of the key.
+in `sealingStore` to test sealing. **The forums followed the same day by adding names**: every topic and category
+list (`forum/t/`, `forum/c/`) in `STAFF_SEALED`, and every post's file and waiting upload (`forum-file/`,
+`forum-up/`) in `STAFF_BYTES`, sealed as bytes (SST1) and read only as an `arrayBuffer`. **Every category, not
+only the staff ones**: a topic's name does not say its category and a moved topic keeps its name, so sealing by
+category would leave a topic moved out of a staff category in the clear; the friendly edit is to seal "only what
+needs it". `cb-forum` and `cb-forum-file` shut without the key. The sweep stops looking once a whole pass finds
+nothing in the clear (`SEAL_PASS` in the `staff-sealed` blob): **a name added to either list needs `SEAL_PASS`
+moved on**, or what was written before is never sealed. `make-tasks.py` and `make-forum.py` hold it; the friendly
+edit is a fallback to the clear. Ryan keeps a copy of the key.
 
 **A TASK'S CHANGES ARE ITS ACTIVITY, AND NEWS TO WHOEVER THEY CONCERN BUT WHOEVER MADE THEM.** Ryan's ask,
 2026-10-21, after EspoCRM's stream and notifications and Notion's inbox. `noteTask` in `lib.mjs`, called after

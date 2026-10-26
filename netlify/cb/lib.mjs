@@ -197,8 +197,17 @@ export function store() {
    hourly sweep (sealStaffLeftovers). A new staff store is a name added here,
    and its blobs must be JSON, because a sealed blob is. Losing the key loses
    what it sealed, so Ryan keeps a copy of it. */
-const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-(?:comments|activity|inbox|views)\//];
+const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-(?:comments|activity|inbox|views)\//,
+  /^forum\/[ct]\//];
+/* Names whose blobs are bytes, not JSON: a forum post's files and the uploads
+   waiting for a post (2026-10-25). Sealed whole, SST1 and the nonce and tag
+   before them. EVERY forum topic, list and file, not only the staff
+   categories': a topic's name does not say its category, and a topic moved out
+   of a staff category keeps its name, so sealing by category would leave a
+   moved one in the clear. */
+const STAFF_BYTES = [/^forum-file\//, /^forum-up\//];
 export const staffSealed = (key) => typeof key === 'string' && STAFF_SEALED.some((r) => r.test(key));
+export const staffBytes = (key) => typeof key === 'string' && STAFF_BYTES.some((r) => r.test(key));
 function staffCipherKey() {
   const v = process.env.CB_STAFF_KEY;
   if (!v) return null;
@@ -223,6 +232,28 @@ function openJsonWith(key, tag, name, d) {
   return JSON.parse(Buffer.concat([c.update(Buffer.from(d.data, 'base64url')), c.final()]).toString('utf8'));
 }
 const isSealedStaff = (d) => !!d && d.sealed === 1 && d.k === 'staff';
+/* Bytes sealed under `key` with their blob's `name` as associated data:
+   `magic` (four letters saying whose key), the nonce, the tag, the bytes. */
+const toBuf = (v) => (Buffer.isBuffer(v) ? v : v instanceof ArrayBuffer ? Buffer.from(v) : Buffer.from(v.buffer, v.byteOffset, v.byteLength));
+const toArrayBuffer = (b) => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+const bytesSealedAs = (magic, v) => { if (v == null) return false; const b = toBuf(v); return b.length > 32 && b.subarray(0, 4).toString('latin1') === magic; };
+function sealBytesWith(key, magic, name, bytes) {
+  if (!key) throw new Error('shut');
+  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
+  c.setAAD(Buffer.from(name, 'utf8'));
+  const data = Buffer.concat([c.update(toBuf(bytes)), c.final()]);
+  return toArrayBuffer(Buffer.concat([Buffer.from(magic, 'latin1'), iv, c.getAuthTag(), data]));
+}
+function openBytesWith(key, magic, name, bytes) {
+  if (!bytesSealedAs(magic, bytes)) return bytes;
+  if (!key) throw new Error('shut');
+  const b = toBuf(bytes);
+  const c = createDecipheriv('aes-256-gcm', key, b.subarray(4, 16));
+  c.setAAD(Buffer.from(name, 'utf8'));
+  c.setAuthTag(b.subarray(16, 32));
+  return toArrayBuffer(Buffer.concat([c.update(b.subarray(32)), c.final()]));
+}
+const openStaffBytes = (key, d) => (d == null ? d : openBytesWith(staffCipherKey(), 'SST1', key, d));
 /* The store, sealing every name STAFF_SEALED lists. `raw` is the store as it
    is, for the sweep that seals what came before the key. */
 export function sealingStore(s) {
@@ -231,28 +262,61 @@ export function sealingStore(s) {
     get(t, p) {
       if (p === 'sealing') return true;
       if (p === 'raw') return t;
-      if (p === 'get') return async (key, o) => { const d = await t.get(key, o); return staffSealed(key) ? openJsonWith(staffCipherKey(), 'staff', key, d) : d; };
+      if (p === 'get') return async (key, o) => {
+        const d = await t.get(key, o);
+        if (staffSealed(key)) return openJsonWith(staffCipherKey(), 'staff', key, d);
+        if (staffBytes(key)) { bytesRead(key, o); return openStaffBytes(key, d); }
+        return d;
+      };
       if (p === 'getWithMetadata') return async (key, o) => {
         const g = await t.getWithMetadata(key, o);
-        return g && staffSealed(key) ? { ...g, data: openJsonWith(staffCipherKey(), 'staff', key, g.data) } : g;
+        if (g && staffSealed(key)) return { ...g, data: openJsonWith(staffCipherKey(), 'staff', key, g.data) };
+        if (g && staffBytes(key)) { bytesRead(key, o); return { ...g, data: openStaffBytes(key, g.data) }; }
+        return g;
       };
-      if (p === 'setJSON') return (key, v, o) => t.setJSON(key, staffSealed(key) ? sealJsonWith(staffCipherKey(), 'staff', key, v) : v, o);
-      if (p === 'set') return (key, v, o) => { if (staffSealed(key)) throw new Error('a sealed blob is written with setJSON'); return t.set(key, v, o); };
+      if (p === 'setJSON') return async (key, v, o) => {
+        if (staffBytes(key)) throw new Error('a sealed file is written with set');
+        return t.setJSON(key, staffSealed(key) ? sealJsonWith(staffCipherKey(), 'staff', key, v) : v, o);
+      };
+      if (p === 'set') return async (key, v, o) => {
+        if (staffSealed(key)) throw new Error('a sealed blob is written with setJSON');
+        return t.set(key, staffBytes(key) ? sealBytesWith(staffCipherKey(), 'SST1', key, v) : v, o);
+      };
       const v = t[p];
       return typeof v === 'function' ? v.bind(t) : v;
     },
   });
 }
+/* A sealed file is read whole, as bytes, or not at all. */
+function bytesRead(key, o) { if (!o || o.type !== 'arrayBuffer') throw new Error(`a sealed file is read as an arrayBuffer: ${key}`); }
+
 /* Hourly: every staff blob written before the key, sealed now with the same
-   conditional write as any other change. */
+   conditional write as any other change. Once a whole pass finds nothing left
+   in the clear it writes SEAL_PASS and stops looking, because with the key
+   nothing is ever written in the clear again (and without it the staff stores
+   are shut). A name added to STAFF_SEALED or STAFF_BYTES needs SEAL_PASS
+   moved on, so the sweep looks again. */
+const SEAL_PASS = 'tasks+forum-1';
+const SEAL_MARK = 'staff-sealed';
 export async function sealStaffLeftovers(s = store()) {
   s = sealingStore(s);
   if (!staffReady()) return false;
+  const mark = await s.raw.get(SEAL_MARK, { type: 'json' });
+  if (mark && mark.pass === SEAL_PASS) return false;
   const keys = ['tasks', 'task-recurs', 'task-templates'];
-  for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/', 'task-views/']) {
+  for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/', 'task-views/', 'forum/t/', 'forum/c/']) {
     for (const b of (await s.list({ prefix })).blobs || []) keys.push(b.key);
   }
   let any = false;
+  // A file: its bytes and metadata written again, sealed, under its own name.
+  for (const prefix of ['forum-file/', 'forum-up/']) {
+    for (const b of (await s.list({ prefix })).blobs || []) {
+      const raw = await s.raw.getWithMetadata(b.key, { type: 'arrayBuffer' });
+      if (!raw || bytesSealedAs('SST1', raw.data)) continue;
+      await s.set(b.key, raw.data, { metadata: raw.metadata || {} });
+      any = true;
+    }
+  }
   for (const key of keys.filter(staffSealed)) {
     const raw = await s.raw.get(key, { type: 'json' });
     if (!raw || isSealedStaff(raw)) continue;
@@ -263,6 +327,11 @@ export async function sealStaffLeftovers(s = store()) {
       if (res.modified) { any = true; break; }
       await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
     }
+  }
+  // Nothing left: say so, and the next hour does not look.
+  if (!any) {
+    const cur = await versioned(s, SEAL_MARK);
+    await s.setJSON(SEAL_MARK, { pass: SEAL_PASS }, cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true });
   }
   return any;
 }
@@ -3802,28 +3871,9 @@ const isSealedDm = (d) => !!d && d.sealed === 1 && d.k === 'dm';
 function openDm(name, d) { return openJsonWith(dmCipherKey(), 'dm', name, d); }
 async function getDm(name, s) { return openDm(name, await s.get(name, { type: 'json' })); }
 /* A picture's bytes: SDM1, the nonce, the tag, then the sealed bytes. */
-const SEALED_BYTES = Buffer.from('SDM1');
-const toBuf = (v) => (Buffer.isBuffer(v) ? v : v instanceof ArrayBuffer ? Buffer.from(v) : Buffer.from(v.buffer, v.byteOffset, v.byteLength));
-const toArrayBuffer = (b) => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
-const bytesSealed = (v) => { const b = toBuf(v); return b.length > 32 && b.subarray(0, 4).equals(SEALED_BYTES); };
-function sealDmBytes(name, bytes) {
-  const key = dmCipherKey();
-  if (!key) throw new Error('shut');
-  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
-  c.setAAD(Buffer.from(name, 'utf8'));
-  const data = Buffer.concat([c.update(toBuf(bytes)), c.final()]);
-  return toArrayBuffer(Buffer.concat([SEALED_BYTES, iv, c.getAuthTag(), data]));
-}
-function openDmBytes(name, bytes) {
-  const b = toBuf(bytes);
-  if (!bytesSealed(b)) return bytes;
-  const key = dmCipherKey();
-  if (!key) throw new Error('shut');
-  const c = createDecipheriv('aes-256-gcm', key, b.subarray(4, 16));
-  c.setAAD(Buffer.from(name, 'utf8'));
-  c.setAuthTag(b.subarray(16, 32));
-  return toArrayBuffer(Buffer.concat([c.update(b.subarray(32)), c.final()]));
-}
+const bytesSealed = (v) => bytesSealedAs('SDM1', v);
+function sealDmBytes(name, bytes) { return sealBytesWith(dmCipherKey(), 'SDM1', name, bytes); }
+function openDmBytes(name, bytes) { return openBytesWith(dmCipherKey(), 'SDM1', name, bytes); }
 
 /* Who somebody is to their messages: the folded name and when it was claimed.
    Never sent anywhere. */
