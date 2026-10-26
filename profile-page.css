@@ -37,6 +37,7 @@
 .pp .pf-right > .cb-quiet, .pp .pp-note { margin: 0 0 10px; }
 .pp .pp-note { margin-top: 12px; }
 .pp-community { margin: 6px 0 0; }
+.pp-view > .pp-glitter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
 .pp .pp-plate { height: 28px; margin: 2px 0 0; border-radius: 6px; overflow: hidden; }
 .pp-move { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 6px 0 0; }
 .pp-move__hint { margin: 0; }

@@ -88,6 +88,9 @@
     var max = document.documentElement.getAttribute('data-intensity') === 'max';
     var low = document.documentElement.hasAttribute('data-low');
     host.setAttribute('data-motion', !low && (max || letMove || (s && s.motion)) ? 'on' : 'off');
+    // The note above the card, Ryan's ask: nobody should miss the whimsy. It
+    // is not shown once it is all moving, nor to somebody who asked for quiet.
+    if (glitterNote) glitterNote.hidden = low || max;
     if (moveBtn) {
       moveBtn.hidden = low || max;
       moveBtn.setAttribute('aria-pressed', String(letMove));
@@ -100,7 +103,7 @@
      this press, the candles' rule: moving at Regular unasked would change what
      Regular means. It lasts for this visit and is kept nowhere, and a
      low-stimulation mode holds everything still whatever is pressed. */
-  var letMove = false, moveBtn = null;
+  var letMove = false, moveBtn = null, glitterNote = null;
   dressNow();
   try {
     var watched = null;
@@ -538,6 +541,22 @@
     var LP = window.loveProfile, whose = b.handle, mark = b.signedOn ? { base: !!b.base, claimed: !b.base } : null;
     document.title = whose + ' — Stimpunks.World';
     view.textContent = '';
+    var p = b.profile;
+    glitterNote = null;
+    if (p && (p.effect || p.frame || p.banner || p.decoration || p.plate || p.theme)) {
+      glitterNote = el('p', 'pp-glitter');
+      glitterNote.appendChild(document.createTextNode('For fun animations, turn on MAX GLITTER below, or press Let it move on the card. '));
+      var toDial = el('button', 'cb-btn', 'Take me to the dial');
+      toDial.type = 'button';
+      toDial.addEventListener('click', function () {
+        var max = document.querySelector('.dial__btn[data-level="max"]');
+        if (!max) return;
+        max.scrollIntoView({ block: 'center' });
+        max.focus();
+      });
+      glitterNote.appendChild(toDial);
+      view.appendChild(glitterNote);
+    }
     var stage = el('div', 'pf-stage');
     var sheet = el('div', 'pf-sheet pp-sheet');
     var left = el('div', 'pf-left');
@@ -546,7 +565,6 @@
     sheet.appendChild(right);
     stage.appendChild(sheet);
     view.appendChild(stage);
-    var p = b.profile;
     LP.surround(stage, p);
     var card = LP.card(p || {}, {
       handle: whose, mark: mark, mine: !!b.mine, wearing: b.wearing, nameId: 'pp-name',
