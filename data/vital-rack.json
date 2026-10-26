@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-25T11:19Z",
+ "set": "2026-10-26T11:58Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-25T11:19:10Z"
+     "2026-10-26T11:58:05Z"
     ]
    ]
   }
@@ -311,13 +311,13 @@
    "channel": "Andrew Bernard | The Nard Dog Cooks"
   },
   {
-   "id": "sQwQVoXN2QM",
+   "id": "8icHGAeH5q8",
    "source": "nard-dog-cooks",
-   "form": "short",
-   "title": "Do this for the kids! 🙌🏾",
-   "published": "2026-09-25T20:51:59Z",
+   "form": "long",
+   "title": "If you aren't doing this with your brownies, you're missing out! | Vegan Swirl Brownies",
+   "published": "2026-10-25T13:04:48Z",
    "state": "screen",
-   "runs": 27,
+   "runs": 502,
    "channel": "Andrew Bernard | The Nard Dog Cooks"
   },
   {
@@ -461,13 +461,13 @@
    "channel": "Ahmad Noori"
   },
   {
-   "id": "tJ1tAsABXfc",
+   "id": "y5Ba6WMH9bU",
    "source": "ahmad-noori",
-   "form": "short",
-   "title": "Crispy Rice Paper Sandwich — No Bread, Just Crunch",
-   "published": "2026-09-25T18:26:39Z",
+   "form": "long",
+   "title": "3 Creamy Vegan Pasta Recipes You’ll Want on Repeat",
+   "published": "2026-10-26T01:30:33Z",
    "state": "screen",
-   "runs": 22,
+   "runs": 58,
    "channel": "Ahmad Noori"
   },
   {
@@ -701,16 +701,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "J7GG2q5Kj9o",
-   "source": "pb-with-j",
-   "form": "short",
-   "title": "Creamy Herby Potato Salad: Best Recipe Ever! #shorts",
-   "published": "2026-09-25T12:12:25Z",
-   "state": "screen",
-   "runs": 53,
-   "channel": "PB with J"
-  },
-  {
    "id": "Nlnc47ZwHok",
    "source": "pb-with-j",
    "form": "short",
@@ -819,16 +809,6 @@
    "state": "screen",
    "runs": 40,
    "channel": "PB with J"
-  },
-  {
-   "id": "GIKssHS5bmg",
-   "source": "carleigh-bodrug",
-   "form": "short",
-   "title": "my cookbook is here in 3 days #cookbook",
-   "published": "2026-09-25T17:31:17Z",
-   "state": "screen",
-   "runs": 16,
-   "channel": "Carleigh Bodrug"
   },
   {
    "id": "5YzYPOITfho",
@@ -958,6 +938,16 @@
    "published": "2026-10-04T16:00:24Z",
    "state": "screen",
    "runs": 549,
+   "channel": "Yeung Man Cooking"
+  },
+  {
+   "id": "5mCJQNM1VtU",
+   "source": "yeung-man-cooking",
+   "form": "long",
+   "title": "Not your Typical Creamy Mushroom Udon Noodles Recipe!",
+   "published": "2026-10-25T16:00:13Z",
+   "state": "screen",
+   "runs": 430,
    "channel": "Yeung Man Cooking"
   },
   {
