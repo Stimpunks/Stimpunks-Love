@@ -13,7 +13,8 @@ room chat channels", with the channels in groups:
     Society was in Community from 2026-10-22 and came out of it on 2026-10-24,
     Ryan's call, so that it does not compete with Coping; it is still under its
     tags, Coping and Calm, like every other room.
-  · STAFF: the Town Hall's private rooms.
+  · STAFF: the Town Hall's private rooms, and Tasks and the Office (Ryan's
+    ask, 2026-10-26), whose channels are their pages' readers'.
   · EVERY ROOM BUT STAFF'S AND WORLD, BY ITS TAGS (Ryan's ask, 2026-10-24,
     "Give rooms tags and use those tags to group them in /chat", replacing the
     one group called World that held everything else; and the same morning,
@@ -164,7 +165,7 @@ for p in COMMUNITY:
         named.append(t)
 community = [world] + named + sorted(cav, key=lambda t: order[t]) if world else []
 
-# STAFF: the Town Hall's private rooms, never one that keeps to itself.
+# STAFF: MOD_ROOMS, the Town Hall's private rooms and Tasks' and the Office's, never one that keeps to itself.
 mods = lib_rolemap(lib, "MOD_ROOMS")
 strict = set(lib_array(lib, "STRICT_ROOMS"))
 quiet = set(lib_array(lib, "QUIET_ROOMS"))

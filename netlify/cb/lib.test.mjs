@@ -1616,7 +1616,9 @@ test('each private room takes its own role, an administrator takes them all, and
   const want = { 'town-hall-directors': ['Ryan', 'Chelsea'], 'town-hall-board': ['Ryan', 'Chelsea', 'Becky'],
     'town-hall-moderators': ['Ryan', 'Chelsea', 'Becky', 'Sam'], 'town-hall-executive-session': ['Ryan', 'Becky'],
     // The cabin behind the door marked E: administrators, and no other role.
-    'the-secret-cabin': ['Ryan'], 'lydtyss': ['Ryan'] };
+    'the-secret-cabin': ['Ryan'], 'lydtyss': ['Ryan'],
+    // Tasks and the Office: their readers, TASK_SEE's roles and an administrator.
+    'office': ['Ryan', 'Chelsea', 'Becky'], 'tasks': ['Ryan', 'Chelsea', 'Becky'] };
   for (const room of rooms) {
     const who = [admin, director, boardie, plainMod].filter((w) => roomAllows(w, room)).map((w) => w.handle);
     assert.deepEqual(who, want[room], room);

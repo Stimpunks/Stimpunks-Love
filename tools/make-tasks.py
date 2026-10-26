@@ -42,6 +42,11 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
   · A SAVED FILTER KEPT WITH MORE THAN ITS ID, NAME AND ADDRESS, or left
     behind when its person uses Forget me or deletes the username.
   · privacy.html without its tasks section, and the page without its link to it.
+  · THE OFFICE'S OR TASKS' CHANNEL WIDER OR NARROWER THAN THEIR PAGES. Both are
+    rooms on the CB, listed under Staff on the chat page (Ryan's ask,
+    2026-10-26), so MOD_ROOMS in lib.mjs must give each exactly TASK_SEE's
+    roles (officeAllow is tasksAllow), neither may be strict, and each page
+    must say data-cb="mods" with those roles, as a Town Hall room does.
 
 NUMBERS ARE FINE HERE. Ryan's call, 2026-10-20: the street's rule against
 numbers beside things does not apply to tasks or to backend tools, so this
@@ -473,6 +478,25 @@ def check_page():
         problems.append(f"{PRIVACY.name}: it has no tasks section (id=\"tasks\").")
 
 
+def check_rooms(lib, data):
+    m = re.search(r"export const MOD_ROOMS = \{(.*?)\n\};", lib, re.S)
+    mods = {k: re.findall(r"'([a-z]+)'", v) for k, v in re.findall(r"^\s*'([a-z0-9-]+)':\s*\[([^\]]*)\]", m.group(1), re.M)} if m else {}
+    st = re.search(r"export const STRICT_ROOMS = \[([^\]]*)\]", lib)
+    strict = re.findall(r"'([a-z0-9-]+)'", st.group(1)) if st else []
+    see = sorted(data.get("see") or [])
+    for tag, page in (("tasks", PAGE), ("office", ROOT / "office.html")):
+        if sorted(mods.get(tag) or []) != see:
+            problems.append(f"{LIB.name}: MOD_ROOMS gives {tag} {mods.get(tag)!r}; it takes TASK_SEE's roles, {see}, so its channel is for the people who can open the page.")
+        if tag in strict:
+            problems.append(f"{LIB.name}: {tag} is in STRICT_ROOMS, and an administrator can open the page, so the key opens its channel too.")
+        body = re.search(r"<body[^>]*>", page.read_text()) if page.exists() else None
+        b = body.group(0) if body else ""
+        role = re.search(r'data-cb-role="([^"]*)"', b)
+        if 'data-cb="mods"' not in b or not role or sorted(role.group(1).split()) != see or "data-cb-strict" in b:
+            problems.append(f"{page.name}: its <body> must say data-cb=\"mods\" data-cb-role=\"{' '.join(data.get('see') or [])}\", "
+                            "so the radio comes there only for the people its channel is for.")
+
+
 def main():
     data = json.loads(DATA.read_text())
     lib = LIB.read_text()
@@ -493,6 +517,7 @@ def main():
     check_preview_js()
     check_css()
     check_page()
+    check_rooms(lib, data)
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1

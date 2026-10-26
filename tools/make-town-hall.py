@@ -101,8 +101,10 @@ PUBLIC = array("PUBLIC_CALLS")
 # A room that keeps to itself (QUIET_ROOMS) may be locked too, and is not this
 # tool's: the cabin behind the door marked E is held to MOD_ROOMS by
 # tools/make-secret-cabin.py, which refuses its pages if they disagree. Every
-# other name in MOD_ROOMS still has to be a room here.
+# other name in MOD_ROOMS still has to be a room here, but for the office's and
+# Tasks' rooms (2026-10-26), which tools/make-tasks.py holds to TASK_SEE.
 QUIET = array("QUIET_ROOMS")
+ELSEWHERE = {"office", "tasks"}
 data = json.loads(DATA.read_text())
 rooms = data["rooms"]
 
@@ -136,7 +138,7 @@ for r in rooms:
     if tag in PUBLIC:
         refuse(f"{where}: {tag} is in PUBLIC_CALLS, and no Town Hall room takes guests with no pass.")
 for tag in MODS:
-    if not any(r["tag"] == tag for r in rooms) and tag not in QUIET:
+    if not any(r["tag"] == tag for r in rooms) and tag not in QUIET and tag not in ELSEWHERE:
         refuse(f"MOD_ROOMS names {tag}, and data/town-hall.json has no room with that page.")
 
 

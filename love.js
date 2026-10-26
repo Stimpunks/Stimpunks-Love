@@ -1292,7 +1292,7 @@
      room that promises it writes nothing down about you is not a room with a
      radio in it; make-checkpoint.py refuses that page without the attribute.
      The Community Center loads cb.js itself, so this skips that page too.
-     data-cb="mods" is the Town Hall's private rooms: anybody may walk in, and
+     data-cb="mods" is the Town Hall's private rooms, Tasks and the Office: anybody may walk in, and
      the radio only comes with them if they signed on as the base with the role
      the room names in data-cb-role (an administrator goes anywhere). That is
      the page keeping quiet, not the lock: netlify/cb/lib.mjs refuses those

@@ -155,8 +155,6 @@
     "profile.html": ["paperwork"],
     "you.html": ["paperwork"],
     "forum.html": ["forums"],
-    "tasks.html": ["paperwork"],
-    "office.html": ["paperwork"],
     "changelog.html": ["paperwork", "news"]
   }
 }

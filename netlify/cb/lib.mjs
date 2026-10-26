@@ -4658,6 +4658,15 @@ export const MOD_ROOMS = {
   'town-hall-board': ['board', 'director'],
   'town-hall-moderators': ['moderator'],
   'town-hall-executive-session': ['board'],
+  /* THE OFFICE'S AND TASKS' CHANNELS ARE THEIR READERS'. Ryan's ask,
+     2026-10-26: The Office and Tasks under Staff on the chat page. Their
+     rooms take TASK_SEE's roles (officeAllow is tasksAllow), so the people who
+     can open the pages are the only people who hear their channels, and the
+     administrator key opens both. tools/make-tasks.py holds these two lines
+     to TASK_SEE and the pages to data-cb="mods", as make-town-hall.py holds
+     the Town Hall's. */
+  'office': ['director', 'board'],
+  'tasks': ['director', 'board'],
   /* A room that keeps to itself (QUIET_ROOMS, below) can be locked as well, and
      the cabin behind the door marked E is: Ryan, 2026-10-07, "Restrict the CB in
      the cabin to admins." Its door and its inside take the administrator role
