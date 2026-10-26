@@ -2154,6 +2154,81 @@ export function shapeJacketSticker(st) {
   return patches.length ? { patches } : null;
 }
 
+/* ── A crystal pouch ─────────────────────────────────────────────────────────
+
+   Helen Edgar's ask, 2026-10-26: take a crystal with you from the Crystal Wheel
+   in Myths & Legends, behind her Faery Yurt, and have it in your Profile.
+
+   THE POUCH IS THE EIGHTH THING THE STREET KEEPS UNDER A PERSON, after pets,
+   avatars, jobs, patches, profile cards, chimeras and props, and only when
+   somebody presses a crystal's own Take it with you. It is the battle jacket's
+   arrangement exactly: filed under `petKey`, holding WHICH CRYSTALS, SORTED, AND
+   NOTHING ABOUT WHEN, every id checked against CRYSTAL_IDS, which
+   tools/make-yurt-myths.py writes out of data/yurt-myths.json. NOTHING COUNTS
+   WHO HAS A CRYSTAL. A crystal can be put back, and nothing remembers it was
+   there. Forget me and deleting the username empty it; SHOWING IT needs a
+   claimed username, the pets' rule and for their reason. */
+/* crystal:ids:begin */
+export const CRYSTAL_IDS = ["amethyst", "citrine", "garnet", "moonstone", "labradorite", "lapis-lazuli", "turquoise", "rose-quartz", "clear-quartz", "smoky-quartz", "obsidian", "tigers-eye"];
+/* crystal:ids:end */
+const crystalsBlob = (k) => `crystals/${k}`;
+const crystalsShownBlob = (k) => `crshown/${k}`;
+
+export function crystalId(v) { return typeof v === 'string' && CRYSTAL_IDS.includes(v) ? v : null; }
+
+export async function readCrystals(pk, s = store()) {
+  const d = await s.get(crystalsBlob(pk), { type: 'json' });
+  return ((d && Array.isArray(d.crystals)) ? d.crystals : []).filter((id) => CRYSTAL_IDS.includes(id)).sort();
+}
+
+/* Put one crystal in the pouch (`put` true) or take it back out (`put` false).
+   { changed, crystals }: changed is false when it was already in, or already
+   out. */
+export async function pouchCrystal(pk, id, put, s = store()) {
+  const key = crystalsBlob(pk);
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, key);
+    const had = ((cur.exists && cur.data && Array.isArray(cur.data.crystals)) ? cur.data.crystals : []).filter((x) => CRYSTAL_IDS.includes(x));
+    if (had.includes(id) === put) return { changed: false, crystals: [...had].sort() };
+    const next = (put ? [...had, id] : had.filter((x) => x !== id)).sort();
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(key, { crystals: next }, opts);
+    if (res.modified) return { changed: true, crystals: next };
+    await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* Forget me, and deleting the username: the switch that shows it first,
+   then the pouch. */
+export async function forgetCrystals(pk, s = store()) {
+  await s.delete(crystalsShownBlob(pk));
+  await s.delete(crystalsBlob(pk));
+  return true;
+}
+
+export async function setCrystalsShown(handle, on, s = store(), now = Date.now()) {
+  const k = crystalsShownBlob(petKey(handle));
+  if (!on) { await s.delete(k); return false; }
+  const cur = await versioned(s, k);
+  if (!cur.exists) await s.setJSON(k, { since: now }, { onlyIfNew: true });
+  return true;
+}
+
+export async function crystalsShown(handle, s = store()) {
+  if (!(await readAccount(handle, s))) return false;
+  const d = await s.get(crystalsShownBlob(petKey(handle)), { type: 'json' });
+  return !!(d && typeof d.since === 'number');
+}
+
+/* Somebody's crystal pouch, as a person on the CB is shown it: { handle,
+   crystals } when it is shown, and null otherwise, whatever the reason. */
+export async function shownCrystals(handle, s = store()) {
+  if (!(await crystalsShown(handle, s))) return null;
+  const acct = await readAccount(handle, s);
+  return { handle: acct.handle, crystals: await readCrystals(petKey(handle), s) };
+}
+
 /* ── Profiles ────────────────────────────────────────────────────────────
 
    Ryan, 2026-10-17, after requests for profiles more like Discord's: a theme
@@ -5583,7 +5658,7 @@ export async function resetAccount(handle, s = store(), now = Date.now()) {
   return next ? { code, until: now + ACCT_RESET_FOR } : { error: 'That username has not been claimed.' };
 }
 
-/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its profile and its sets, its own order for the chat page, its props, its chat status, its events and its messages. The username is free again. */
+/* Delete an account, its pets, its avatars, its chimeras, its jobs, its patches, its crystals, its profile and its sets, its own order for the chat page, its props, its chat status, its events and its messages. The username is free again. */
 export async function deleteAccount(handle, s = store()) {
   const acct = await readAccount(handle, s);
   if (!acct) return { error: 'That username has not been claimed.' };
@@ -5592,6 +5667,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetChimeras(petKey(handle), s);
   await forgetJobs(petKey(handle), s);
   await forgetPatches(petKey(handle), s);
+  await forgetCrystals(petKey(handle), s);
   await forgetProfile(petKey(handle), s);
   await forgetProfileSets(petKey(handle), s);
   await forgetChatOrder(petKey(handle), s);

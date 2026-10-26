@@ -2107,6 +2107,20 @@
     this.patchWhere = el('p', 'cb-pets__where');
     pfJacket.appendChild(this.patchWhere);
 
+    /* YOUR CRYSTAL POUCH (Helen Edgar's ask, 2026-10-26): the crystals taken
+       from the Crystal Wheel in Myths & Legends, drawn by crystal-pouch.js,
+       loaded on the first. Read when its section opens, never polled. */
+    var pfPouch = this.pfSection(pets, 'crystals', 'Your crystal pouch', function () { this.loadCrystals(); });
+    this.crysState = el('p', 'cb-quiet', '');
+    pfPouch.appendChild(this.crysState);
+    this.crysBox = el('div', 'cb-pouch');
+    this.crysBox.hidden = true;
+    pfPouch.appendChild(this.crysBox);
+    this.crysShow = el('div', 'cb-pets__show');
+    pfPouch.appendChild(this.crysShow);
+    this.crysWhere = el('p', 'cb-pets__where');
+    pfPouch.appendChild(this.crysWhere);
+
     acctP.appendChild(el('p', 'cb-pets__h', 'Forget me'));
     acctP.appendChild(el('p', 'cb-pets__where', 'Deletes everything the street keeps under this handle, from your avatars to your messages. It asks once more first.'));
     var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
@@ -2114,7 +2128,7 @@
     acctP.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your profile card and its sets, the props on it and waiting for you, your chat status, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle and your past notifications, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your crystal pouch, your profile card and its sets, the props on it and waiting for you, your chat status, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle and your past notifications, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -2153,6 +2167,7 @@
     window.addEventListener('love-avatars', function () { if (me.pfShown('avatars')) me.loadAvatars(); });
     window.addEventListener('love-chimeras', function () { if (me.pfShown('chimeras')) me.loadChimeras(); });
     window.addEventListener('love-patches', function () { if (me.pfShown('jacket')) me.loadPatches(); });
+    window.addEventListener('love-crystals', function () { if (me.pfShown('crystals')) me.loadCrystals(); });
 
     var norms = el('p', 'cb-norms');
     var a = el('a', null, 'House norms at the Community Center');
@@ -5798,8 +5813,8 @@
       if (!d.open) d.showModal();
       close.focus();
       var mineP = String(handle).toLowerCase() === String(me.state.handle || '').toLowerCase();
-      var panels = tabsInto(right, handle + '’s avatars, pets, badges, battle jacket, chimeras and props',
-        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket', 'Chimeras', 'Props'], tab === 'props' ? 5 : 0);
+      var panels = tabsInto(right, handle + '’s avatars, pets, badges, battle jacket, chimeras, crystals and props',
+        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket', 'Chimeras', 'Crystals', 'Props'], tab === 'props' ? 6 : 0);
       // The card waits for both its profile and the avatar its owner wears.
       var prof = call('/cb/profile/of', { body: { handle: handle } }, me.state.pass);
       var avs = call('/cb/avatars/of', { body: { handle: handle } }, me.state.pass);
@@ -5985,7 +6000,32 @@
           });
         }, function () { pSaid.textContent = 'Their pets could not be fetched just now.'; badgesNow(); });
       });
-      me.peekProps(panels[5], handle, mineP, peekN);
+      /* THEIR CRYSTAL POUCH (Helen Edgar's ask, 2026-10-26), only if they have
+         chosen to show it, which needs a claimed username: each crystal drawn,
+         by name, linked to its card on the Crystal Wheel, and nothing counted. */
+      var crSaid = el('p', 'cb-quiet', 'Looking…');
+      panels[5].appendChild(crSaid);
+      var crBox = el('div', 'cb-pouch');
+      crBox.hidden = true;
+      panels[5].appendChild(crBox);
+      withCrystals(function () {
+        call('/cb/crystals/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+          if (peekN !== me.peekN) return;
+          if (r.status === 401) return me.lost();
+          if (r.status !== 200 || !r.body) { crSaid.textContent = 'Their crystal pouch could not be fetched just now.'; return; }
+          if (!r.body.shown) {
+            crSaid.textContent = mineP
+              ? 'You have not made your crystal pouch public. Profile, on this radio, is where you switch that on.'
+              : handle + ' has not made their crystal pouch public.';
+            return;
+          }
+          if (!(r.body.crystals || []).length) { crSaid.textContent = r.body.handle + '’s crystal pouch is empty.'; return; }
+          crSaid.hidden = true;
+          crBox.hidden = false;
+          pouchInto(crBox, r.body.crystals, mineP ? 'In your pouch' : 'In ' + r.body.handle + '’s pouch');
+        }, function () { crSaid.textContent = 'Their crystal pouch could not be fetched just now.'; });
+      });
+      me.peekProps(panels[6], handle, mineP, peekN);
     });
   };
 
@@ -7353,6 +7393,48 @@
       document.head.appendChild(s);
     }
     s.addEventListener('load', function () { if (window.lovePatches) then(); });
+  }
+
+  /* crystal-pouch.js, loaded on the first crystal the radio has to draw. The
+     Crystal Wheel has loaded it already, under the same mark. */
+  function withCrystals(then) {
+    if (window.loveCrystals) { then(); return; }
+    var s = document.querySelector('script[data-cb-crystals], script[src="crystal-pouch.js"]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/crystal-pouch.js';
+      s.setAttribute('data-cb-crystals', '');
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.loveCrystals) then(); });
+  }
+
+  /* A crystal pouch into a box: the pouch, drawn as a leather bag with a
+     drawstring and the crystals spilled at its foot, as the jacket is drawn;
+     then every crystal in it drawn on its own, by name,
+     linked to its card on the wheel, in the wheel's own order and with nothing
+     counted. A press on a name in Profile can also put that crystal back. */
+  function pouchInto(box, ids, heading, back) {
+    box.textContent = '';
+    var bag = window.loveCrystals.pouch(ids, { cls: 'cb-jacket__art' });
+    if (bag) box.appendChild(bag);
+    box.appendChild(el('h3', 'pf-sub', heading));
+    var ul = el('ul', 'cb-patchlist');
+    window.loveCrystals.list.forEach(function (c) {
+      if (ids.indexOf(c.id) < 0) return;
+      var li = el('li', 'cb-patchlist__one');
+      var art = window.loveCrystals.draw(c.id, { cls: 'cb-patchlist__art' });
+      if (art) li.appendChild(art);
+      li.appendChild(el('span', 'cb-patchlist__name', c.name));
+      var from = el('span', 'cb-patchlist__from', '');
+      var a = el('a', null, 'Its card on the Crystal Wheel');
+      a.href = c.href;
+      from.appendChild(a);
+      if (back) from.appendChild(back(c));
+      li.appendChild(from);
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
   }
 
   /* "A, B and C", for the patches sewn on, in the street's own order. */
@@ -10133,6 +10215,83 @@
       'Nothing counts who else has one. Sticker, on the radio, sends one to the channel, or the whole jacket, and Forget me takes them all off.';
   };
 
+  /* ── Your crystal pouch ────────────────────────────────────────────────── */
+  Radio.prototype.loadCrystals = function () {
+    var me = this;
+    me.crysState.hidden = false;
+    me.crysState.textContent = 'Looking in your pouch\u2026';
+    withCrystals(function () {
+      call('/cb/crystals', null, me.state.pass).then(function (r) {
+        if (r.status === 200 && r.body && Array.isArray(r.body.crystals)) { me.drawCrystals(r.body); return; }
+        me.crysState.textContent = r.status === 401
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
+          : 'Your crystal pouch could not be fetched just now.';
+      }, function () { me.crysState.textContent = 'Your crystal pouch could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.drawCrystals = function (b, focus) {
+    var me = this, box = this.crysBox, show = this.crysShow;
+    show.textContent = '';
+    if (!window.loveCrystals) { withCrystals(function () { me.drawCrystals(b, focus); }); return; }
+    var ids = b.crystals || [];
+    var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+    if (!ids.length) {
+      box.hidden = true;
+      this.crysState.hidden = false;
+      this.crysState.textContent = 'Your pouch is empty. Every card on the Crystal Wheel, in Myths & Legends behind the Faery Yurt, has Take it with you.';
+    } else {
+      this.crysState.hidden = true;
+      box.hidden = false;
+      pouchInto(box, ids, 'In your pouch', function (c) {
+        var back = el('button', 'cb-btn', 'Put ' + c.name + ' back');
+        back.type = 'button';
+        back.addEventListener('click', function () {
+          back.disabled = true;
+          call('/cb/crystals', { body: { back: c.id } }, me.state.pass).then(function (r) {
+            if (r.status === 200 && Array.isArray(r.body.crystals)) {
+              me.drawCrystals({ crystals: r.body.crystals, claimed: b.claimed, shown: b.shown });
+              me.crysWhere.textContent = c.name + ' is back on the wheel. ' + me.crysWhere.textContent;
+              return;
+            }
+            back.disabled = false;
+            said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+          }, function () { back.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+        });
+        return back;
+      });
+      box.appendChild(said);
+    }
+    var claimed = !!b.claimed;
+    if (!claimed) {
+      show.appendChild(el('p', 'cb-quiet', 'Claim your username under Account and you can let people on the CB see your crystal pouch in your profile.'));
+    } else {
+      var on = !!b.shown;
+      var t = el('button', 'cb-btn cb-pets-show', 'Show my crystal pouch on the CB: ' + (on ? 'on' : 'off'));
+      t.type = 'button';
+      t.setAttribute('aria-pressed', String(on));
+      show.appendChild(t);
+      show.appendChild(el('p', 'cb-quiet', on
+        ? 'Anybody signed on to the CB who opens your profile, from your handle on the channel or your name on Who\u2019s online, sees the crystals in your pouch.'
+        : 'Off: your profile says you have not made your crystal pouch public. Switch it on to show it there.'));
+      var tSaid = el('p', 'cb-quiet', ''); tSaid.setAttribute('role', 'status');
+      show.appendChild(tSaid);
+      if (focus) t.focus();
+      t.addEventListener('click', function () {
+        t.disabled = true;
+        call('/cb/crystals', { body: { show: !on } }, me.state.pass).then(function (r) {
+          t.disabled = false;
+          if (r.status === 200 && typeof r.body.shown === 'boolean') { me.drawCrystals({ crystals: ids, claimed: true, shown: r.body.shown }, true); return; }
+          tSaid.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+        }, function () { t.disabled = false; tSaid.textContent = 'The street could not be reached just now. Nothing changed.'; });
+      });
+    }
+    this.crysWhere.textContent = (claimed
+      ? 'Your crystals are kept under your username, scrambled: which crystals, and nothing about when. '
+      : 'Your crystals are kept under the handle ' + this.state.handle + ', scrambled: which crystals, and nothing about when. A handle is not an account: anybody who signs on with it has this pouch too, until you claim it under Account. ') +
+      'Nothing counts who else has one. Put one back here, or Forget me empties the pouch.';
+  };
+
   /* ── Your jobs ─────────────────────────────────────────────────────────── */
   Radio.prototype.loadJobs = function () {
     var me = this;
@@ -10214,7 +10373,7 @@
     me.forgetSaid.textContent = 'Forgetting\u2026';
     call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.drawPatches({ patches: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); me.forgetSaid.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.drawPatches({ patches: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); if (me.crysBox) me.drawCrystals({ crystals: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); me.forgetSaid.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
       me.forgetSaid.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
     }, function () {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;

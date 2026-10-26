@@ -41,6 +41,21 @@ WHAT IT REFUSES, AND WHY:
     a JPEG with no camera data left in it. And every meaning says whether it is
     old tradition or modern crystal lore; the wheel says once, with a source,
     that none of it is medicine.
+  - A NEW BOOK LINKED ANYWHERE BUT ITS PUBLISHER. Helen's ask, 2026-10-26: the
+    Green Witch shelf links every book to its own page at its publisher and
+    never to Amazon, so the tool refuses a link off PUBLISHERS, an Amazon
+    address anywhere in the data or the page, and a book with no ISBN in its
+    address. A book not out yet says the day it is out, worked out against
+    today, rather than passing for one you can have now.
+  - A CRYSTAL POUCH THAT KEEPS MORE THAN WHICH CRYSTALS. Helen's ask,
+    2026-10-26: Take it with you on every card puts that crystal in a pouch in
+    your Profile on the radio. This tool writes CRYSTAL_IDS into
+    netlify/cb/lib.mjs and the drawings' list into crystal-pouch.js, and
+    refuses: a stone with no drawing or with inks love.css does not declare;
+    the pouch keeping anything but which crystals (nothing about when);
+    deleting a username or Forget me leaving it; crystal-pouch.js reading
+    anything but love-cb, writing anything, sending anywhere but /cb/crystals or
+    writing markup from a string; and privacy.html without its section.
   - ANYTHING IN §128 THAT MAKES A LIGHT FLASH. The amber glows slowly and the
     amethyst glints at MAX GLITTER only; the tool refuses an animation outside
     an html[data-intensity="max"] rule, a keyframe faster than two seconds, and
@@ -238,6 +253,43 @@ def book(b):
 books = '<ul class="myth-books">\n' + "\n".join(book(b) for b in d["books"]) + "\n    </ul>\n" + \
     f'    <p class="myth-src">Every fact in this room was read on the page it links to, on {esc(d["_checked"])}.</p>'
 
+
+# ── The Green Witch shelf ───────────────────────────────────────────────────
+# Helen's ask, 2026-10-26: these books and similar, straight from the publisher,
+# never Amazon. New books are not free, so each links to its publisher's page.
+PUBLISHERS = ("https://www.simonandschuster.co.uk/books/",)
+if re.search(r"(amazon|amzn)\.[a-z]", raw, re.I):
+    refuse("data/yurt-myths.json: an Amazon link. Books on this street link to their publisher.")
+gs = d["green_shelf"]
+for k in ("by", "imprint", "publisher", "intro", "checked"):
+    if not gs.get(k):
+        refuse(f"green_shelf.{k}: missing.")
+for i, b in enumerate(gs["books"]):
+    if not str(b.get("url", "")).startswith(PUBLISHERS):
+        refuse(f"green_shelf.books[{i}] {b.get('title')}: not linked to its publisher's own page.")
+    if not re.fullmatch(r"97[89]\d{10}", str(b.get("isbn", ""))) or not str(b.get("url", "")).endswith(str(b.get("isbn"))):
+        refuse(f"green_shelf.books[{i}] {b.get('title')}: no ISBN, or the address is not that ISBN's page.")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(b.get("out", ""))):
+        refuse(f"green_shelf.books[{i}] {b.get('title')}: no day it came out (out, YYYY-MM-DD).")
+TODAY = datetime.date.today()
+
+
+def when(day):
+    t = datetime.date.fromisoformat(day)
+    return f"out on {t.day} {t.strftime('%B %Y')}" if t > TODAY else str(t.year)
+
+
+def green_book(b):
+    return (f'      <li class="myth-book"><p class="myth-book__title">{esc(b["title"])}</p>'
+            f'<p>{esc(b["subtitle"])}.</p>'
+            f'<p>A {esc(b["kind"])}, {esc(gs["imprint"])}, {esc(when(b["out"]))}.</p>'
+            f'<p><a href="{esc(b["url"])}">{esc(b["title"])} at {esc(gs["publisher"])}</a></p></li>')
+
+
+green = (f'<p class="myth-intro">{esc(gs["intro"])}</p>\n'
+         '    <ul class="myth-books">\n' + "\n".join(green_book(b) for b in sorted(gs["books"], key=lambda b: b["out"])) + "\n    </ul>\n" +
+         f'    <p class="myth-src">Every title and date was read on its page at {esc(gs["publisher"])}, on {esc(gs["checked"])}. By {esc(gs["by"])}.</p>')
+
 # ── The Crystal Wheel ───────────────────────────────────────────────────────
 # Helen's ask, 2026-10-26: the main popular crystals, with photographs, in a
 # circle, with their meanings. Every photograph is somebody's, shared on
@@ -348,10 +400,60 @@ def crystal_card(c):
         f'<p>{says_with_src(c["lore"])}</p>'
         f'<p class="myth-crystal__credit">Photograph by {esc(c["photo_by"])}, {lic}, '
         f'{src_link(c["commons"], "via Wikimedia Commons")}; resized, and cropped to a circle on the wheel.</p>'
+        f'<p class="myth-crystal__take" data-crystal-take="{esc(c["slug"])}" hidden>'
+        f'<button type="button" class="myth-crystal__btn">Take it with you</button>'
+        f'<span class="myth-crystal__said" data-crystal-said role="status"></span></p>'
         f'<p class="myth-crystal__back"><a href="#crystals">Back to the wheel</a></p></li>')
 
 
 cards_cw = '<ul class="myth-crystals">\n' + "\n".join(crystal_card(c) for c in stones_cw) + '\n    </ul>'
+
+
+# ── The crystal pouch ───────────────────────────────────────────────────────
+LIB = ROOT / "netlify" / "cb" / "lib.mjs"
+POUCH = ROOT / "crystal-pouch.js"
+pjs = POUCH.read_text(encoding="utf-8")
+dm = re.search(r"var DRAW = \{(.*?)\n  \};", pjs, re.S)
+SHAPES = set(re.findall(r"(?m)^    (\w+): function", dm.group(1))) if dm else set()
+if not SHAPES:
+    refuse("crystal-pouch.js: no DRAW to read the shapes from.")
+root_css = re.search(r":root\s*\{(.*?)\n\}", CSS.read_text(encoding="utf-8"), re.S)
+declared = set(re.findall(r"(--[\w-]+)\s*:", root_css.group(1))) if root_css else set()
+for t in ("--crys-cloth", "--crys-line", "--crys-bag", "--crys-bag-2", "--crys-cord"):
+    if t not in declared:
+        refuse(f"love.css :root does not declare {t}, which every crystal in the pouch is drawn on.")
+pouch_data = []
+for c in stones_cw:
+    pc = c.get("pouch") or {}
+    if pc.get("shape") not in SHAPES:
+        refuse(f"crystals {c.get('name')}: no drawing for the pouch (pouch.shape one of {sorted(SHAPES)}).")
+    for k in ("ink", "shine"):
+        if pc.get(k) not in declared:
+            refuse(f"crystals {c.get('name')}: pouch.{k} {pc.get(k)} is not declared in love.css :root.")
+    pouch_data.append({"id": c["slug"], "name": c["name"], "shape": pc.get("shape"), "ink": pc.get("ink"), "shine": pc.get("shine")})
+psrc = re.sub(r"/\*.*?\*/", " ", pjs, flags=re.S)
+psrc = re.sub(r"(?m)^\s*//.*$", " ", psrc)
+for m in re.finditer(r"localStorage\.(\w+)\(\s*([^,)]+)", psrc):
+    if m.group(1) != "getItem" or m.group(2).strip() != "PASS_KEY":
+        refuse(f"crystal-pouch.js {m.group(1)}s {m.group(2).strip()}. It reads love-cb and nothing else, and writes nothing.")
+if "var PASS_KEY = 'love-cb';" not in psrc or "var CRYSTALS = '/cb/crystals';" not in psrc:
+    refuse("crystal-pouch.js no longer names love-cb and /cb/crystals as the two things it touches.")
+if psrc.count("fetch(") != 1 or "fetch(CRYSTALS," not in psrc:
+    refuse("crystal-pouch.js sends somewhere other than /cb/crystals, or not through its one call().")
+if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|DOMParser|document\.write|sessionStorage|indexedDB|"
+             r"document\.cookie|sendBeacon|WebSocket|EventSource|XMLHttpRequest", psrc):
+    refuse("crystal-pouch.js writes markup from a string, or keeps or sends something some other way.")
+lib = LIB.read_text(encoding="utf-8")
+pc_fn = re.search(r"export async function pouchCrystal\(.*?\n\}", lib, re.S)
+if not pc_fn or "s.setJSON(key, { crystals: next }" not in pc_fn.group(0) or re.search(r"\bnow\b|Date|\bt:", pc_fn.group(0)):
+    refuse("lib.mjs: pouchCrystal keeps something other than which crystals. It keeps nothing about when.")
+da = re.search(r"export async function deleteAccount\(.*?\n\}", lib, re.S)
+if not da or "await forgetCrystals(petKey(handle), s);" not in da.group(0):
+    refuse("lib.mjs: deleting a username no longer empties the crystal pouch kept under it.")
+if "forgetCrystals(pk)" not in (ROOT / "netlify" / "functions" / "cb-pets.mjs").read_text(encoding="utf-8"):
+    refuse("cb-pets.mjs: Forget me no longer empties the crystal pouch.")
+if 'id="crystals"' not in (ROOT / "privacy.html").read_text(encoding="utf-8"):
+    refuse("privacy.html has no section on the crystal pouch (#crystals). It was written first; it stays.")
 
 # ── §128 stays still but for the stones ─────────────────────────────────────
 css = CSS.read_text(encoding="utf-8")
@@ -376,16 +478,35 @@ if problems:
 
 # ── Write ───────────────────────────────────────────────────────────────────
 page = PAGE.read_text(encoding="utf-8")
+if re.search(r"(amazon|amzn)\.[a-z]", page, re.I):
+    raise SystemExit("REFUSING: faery-myths-room.html links to Amazon. Link the publisher.")
 for part, block in (("summer", summer), ("winter", winter), ("stones", stones), ("arthur", arthur),
                     ("creatures", creatures), ("cards", cards), ("wheel", wheel), ("crystal-wheel", wheel_cw),
-                    ("crystal-cards", cards_cw), ("books", books)):
+                    ("crystal-cards", cards_cw), ("books", books), ("green-shelf", green)):
     b, e = f"<!-- yurt-myths:{part}:begin -->", f"<!-- yurt-myths:{part}:end -->"
     if page.count(b) != 1 or page.count(e) != 1:
         raise SystemExit(f"REFUSING: faery-myths-room.html must hold one {b} and one {e}.")
     inline = part in ("summer", "winter")
     a, z = page.index(b) + len(b), page.index(e)
     page = page[:a] + (block if inline else "\n    " + block + "\n    ") + page[z:]
+
+def swap(text, b, e, block, name):
+    if text.count(b) != 1 or text.count(e) != 1:
+        raise SystemExit(f"REFUSING: {name} must hold one {b} and one {e}.")
+    return text[:text.index(b) + len(b)] + block + text[text.index(e):]
+
+
+if '<script src="crystal-pouch.js" defer></script>' not in page:
+    raise SystemExit("REFUSING: faery-myths-room.html does not load crystal-pouch.js, so no crystal can be taken.")
+ids_line = "\nexport const CRYSTAL_IDS = " + json.dumps([c["slug"] for c in stones_cw]) + ";\n"
+new_lib = swap(lib, "/* crystal:ids:begin */", "/* crystal:ids:end */", ids_line, "lib.mjs")
+if new_lib != lib:
+    LIB.write_text(new_lib, encoding="utf-8")
+data_line = "\n  var DATA = " + json.dumps({"room": PAGE.name, "crystals": pouch_data}, ensure_ascii=False) + ";\n  "
+new_pjs = swap(pjs, "/* crystals:data:begin */", "/* crystals:data:end */", data_line, "crystal-pouch.js")
+if new_pjs != pjs:
+    POUCH.write_text(new_pjs, encoding="utf-8")
 old = PAGE.read_text(encoding="utf-8")
 if page != old:
     PAGE.write_text(page, encoding="utf-8")
-print("make-yurt-myths: the stones, Arthur, the folk, the cards, the wheel, the crystals and the shelf written; every one of them sourced, every photograph credited.")
+print("make-yurt-myths: the stones, Arthur, the folk, the cards, the wheel, the crystals and their pouch, the old shelf and the Green Witch shelf written; every one of them sourced, every photograph credited.")

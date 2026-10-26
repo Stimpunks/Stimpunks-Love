@@ -528,7 +528,12 @@
           "source_name": "GIA"
         },
         "birthstone": "February",
-        "birthstone_source": "https://www.gia.edu/birthstones/february-birthstones"
+        "birthstone_source": "https://www.gia.edu/birthstones/february-birthstones",
+        "pouch": {
+          "shape": "cluster",
+          "ink": "--crys-amethyst",
+          "shine": "--crys-amethyst-2"
+        }
       },
       {
         "name": "Citrine",
@@ -563,7 +568,12 @@
           "source_name": "GIA"
         },
         "birthstone": "November",
-        "birthstone_source": "https://www.gia.edu/birthstones/november-birthstones"
+        "birthstone_source": "https://www.gia.edu/birthstones/november-birthstones",
+        "pouch": {
+          "shape": "point",
+          "ink": "--crys-citrine",
+          "shine": "--crys-citrine-2"
+        }
       },
       {
         "name": "Garnet",
@@ -598,7 +608,12 @@
           "source_name": "GIA"
         },
         "birthstone": "January",
-        "birthstone_source": "https://www.gia.edu/birthstones/january-birthstones"
+        "birthstone_source": "https://www.gia.edu/birthstones/january-birthstones",
+        "pouch": {
+          "shape": "gem",
+          "ink": "--crys-garnet",
+          "shine": "--crys-garnet-2"
+        }
       },
       {
         "name": "Moonstone",
@@ -633,7 +648,12 @@
           "source_name": "GIA"
         },
         "birthstone": "June",
-        "birthstone_source": "https://www.gia.edu/birthstones/june-birthstones"
+        "birthstone_source": "https://www.gia.edu/birthstones/june-birthstones",
+        "pouch": {
+          "shape": "tumble",
+          "ink": "--crys-moonstone",
+          "shine": "--crys-moonstone-2"
+        }
       },
       {
         "name": "Labradorite",
@@ -668,7 +688,12 @@
           "source_name": "Inuit Tapiriit Kanatami, Inuktitut Magazine"
         },
         "birthstone": null,
-        "birthstone_source": null
+        "birthstone_source": null,
+        "pouch": {
+          "shape": "flash",
+          "ink": "--crys-labradorite",
+          "shine": "--crys-labradorite-2"
+        }
       },
       {
         "name": "Lapis lazuli",
@@ -703,7 +728,12 @@
           "source_name": "Wikipedia"
         },
         "birthstone": null,
-        "birthstone_source": null
+        "birthstone_source": null,
+        "pouch": {
+          "shape": "flecks",
+          "ink": "--crys-lapis-lazuli",
+          "shine": "--crys-lapis-lazuli-2"
+        }
       },
       {
         "name": "Turquoise",
@@ -738,7 +768,12 @@
           "source_name": "GIA"
         },
         "birthstone": "December",
-        "birthstone_source": "https://www.gia.edu/birthstones/december-birthstones"
+        "birthstone_source": "https://www.gia.edu/birthstones/december-birthstones",
+        "pouch": {
+          "shape": "veins",
+          "ink": "--crys-turquoise",
+          "shine": "--crys-turquoise-2"
+        }
       },
       {
         "name": "Rose quartz",
@@ -773,7 +808,12 @@
           "source_name": "a crystal seller's page"
         },
         "birthstone": null,
-        "birthstone_source": null
+        "birthstone_source": null,
+        "pouch": {
+          "shape": "tumble",
+          "ink": "--crys-rose-quartz",
+          "shine": "--crys-rose-quartz-2"
+        }
       },
       {
         "name": "Clear quartz",
@@ -808,7 +848,12 @@
           "source_name": "Wikipedia"
         },
         "birthstone": null,
-        "birthstone_source": null
+        "birthstone_source": null,
+        "pouch": {
+          "shape": "point",
+          "ink": "--crys-clear-quartz",
+          "shine": "--crys-clear-quartz-2"
+        }
       },
       {
         "name": "Smoky quartz",
@@ -843,7 +888,12 @@
           "source_name": "a crystal seller's page"
         },
         "birthstone": null,
-        "birthstone_source": null
+        "birthstone_source": null,
+        "pouch": {
+          "shape": "point",
+          "ink": "--crys-smoky-quartz",
+          "shine": "--crys-smoky-quartz-2"
+        }
       },
       {
         "name": "Obsidian",
@@ -878,7 +928,12 @@
           "source_name": "Wikipedia"
         },
         "birthstone": null,
-        "birthstone_source": null
+        "birthstone_source": null,
+        "pouch": {
+          "shape": "tumble",
+          "ink": "--crys-obsidian",
+          "shine": "--crys-obsidian-2"
+        }
       },
       {
         "name": "Tiger's eye",
@@ -913,7 +968,102 @@
           "source_name": "Wikipedia"
         },
         "birthstone": null,
-        "birthstone_source": null
+        "birthstone_source": null,
+        "pouch": {
+          "shape": "band",
+          "ink": "--crys-tigers-eye",
+          "shine": "--crys-tigers-eye-2"
+        }
+      }
+    ]
+  },
+  "green_shelf": {
+    "_source": "Helen Edgar's ask, 2026-10-26: link The Green Witch and The Green Witch's Book of Seasons, and similar books, straight to the publisher and never to Amazon. Both are in Arin Murphy-Hiscock's Green Witch Witchcraft Series (Adams Media, Simon & Schuster), so the shelf is that series. Every title, subtitle and UK publication date was read off its own page at simonandschuster.co.uk on 2026-10-26.",
+    "by": "Arin Murphy-Hiscock",
+    "imprint": "Adams Media",
+    "publisher": "Simon & Schuster UK",
+    "intro": "Arin Murphy-Hiscock's Green Witch books, about herbs, gardens, the seasons and the natural magic of every day. These are new books and not free: each one links to its own page at its publisher, Simon & Schuster UK, and nowhere else.",
+    "checked": "2026-10-26",
+    "books": [
+      {
+        "title": "The Green Witch",
+        "subtitle": "Your Complete Guide to the Natural Magic of Herbs, Flowers, Essential Oils, and More",
+        "kind": "book",
+        "out": "2017-10-19",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witch/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507204719",
+        "isbn": "9781507204719"
+      },
+      {
+        "title": "The Green Witch's Grimoire",
+        "subtitle": "Your Complete Guide to Creating Your Own Book of Natural Magic",
+        "kind": "book",
+        "out": "2020-09-03",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Grimoire/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507213544",
+        "isbn": "9781507213544"
+      },
+      {
+        "title": "The Green Witch's Garden",
+        "subtitle": "Your Complete Guide to Creating and Cultivating a Magical Garden Space",
+        "kind": "book",
+        "out": "2022-02-03",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Garden/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507215876",
+        "isbn": "9781507215876"
+      },
+      {
+        "title": "The Green Witch's Garden Journal",
+        "subtitle": "From Herbs and Flowers to Mushrooms and Vegetables, Your Planner and Logbook for a Magical Garden",
+        "kind": "journal",
+        "out": "2023-04-13",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Garden-Journal/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507220061",
+        "isbn": "9781507220061"
+      },
+      {
+        "title": "The Green Witch's Coloring Book",
+        "subtitle": "From Enchanting Forest Scenes to Intricate Herb Gardens, Conjure the Colorful World of Natural Magic",
+        "kind": "colouring book",
+        "out": "2023-10-12",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Coloring-Book/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507221068",
+        "isbn": "9781507221068"
+      },
+      {
+        "title": "The Green Witch's Oracle Deck",
+        "subtitle": "Embrace the Wisdom and Insight of Natural Magic",
+        "kind": "card deck",
+        "out": "2023-12-07",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Oracle-Deck/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507221136",
+        "isbn": "9781507221136"
+      },
+      {
+        "title": "The Green Witch's Sticker Book",
+        "subtitle": "600+ Enchanting Stickers Inspired by Green Magic",
+        "kind": "sticker book",
+        "out": "2024-09-26",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Sticker-Book/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507222942",
+        "isbn": "9781507222942"
+      },
+      {
+        "title": "The Green Witch Illustrated",
+        "subtitle": "An Enchanting Immersion Into the Magic of Natural Witchcraft",
+        "kind": "book",
+        "out": "2024-12-19",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witch-Illustrated/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507223192",
+        "isbn": "9781507223192"
+      },
+      {
+        "title": "The Green Witch's Deck of Magical Herbalism",
+        "subtitle": "50 of the Most Magical Plants, Herbs, and Flowers to Empower Your Craft",
+        "kind": "card deck",
+        "out": "2025-09-11",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Deck-of-Magical-Herbalism/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507223949",
+        "isbn": "9781507223949"
+      },
+      {
+        "title": "The Green Witch's Book of Seasons",
+        "subtitle": "A Seasonal Guide to the Power of Natural Magic",
+        "kind": "book",
+        "out": "2027-03-25",
+        "url": "https://www.simonandschuster.co.uk/books/The-Green-Witchs-Book-of-Seasons/Arin-Murphy-Hiscock/Green-Witch-Witchcraft-Series/9781507226575",
+        "isbn": "9781507226575"
       }
     ]
   }

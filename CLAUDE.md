@@ -1537,6 +1537,19 @@ the pets' rule. The board asks `/cb/jobs` once on arrival when signed on, to kno
 `DECISIONS.md` leaves open whether that should wait for a press. The filter (Every job, Not done, Done) hides
 rows and never says how many.
 
+**A CRYSTAL POUCH IS THE EIGHTH THING KEPT UNDER A PERSON, AND IT IS THE BATTLE JACKET'S ARRANGEMENT.** Helen Edgar's
+ask, 2026-10-26: Take it with you on every card of the Crystal Wheel in Myths & Legends puts that crystal in a pouch in
+Profile (`crystals/<pet key>`, which crystals, sorted, nothing about when; `pouchCrystal` puts one in or back; Show my
+crystal pouch on the CB is claimed only, `crshown/<pet key>`), and a Crystals tab on a profile. **The pouch is drawn as a medieval leather
+bag with a drawstring (Helen's ask), its crystals spilled onto a cloth at its foot, and it holds
+`crystal-pouch.js`'s drawings, never the photographs**, which are their photographers' and stay on the cards; each
+stone is drawn in its own `--crys-*` inks on a disc of the pouch's cloth, outlined at 12.51:1, so it carries its own
+ground on every theme. `tools/make-yurt-myths.py` writes `CRYSTAL_IDS` into `lib.mjs` and the list into
+`crystal-pouch.js` between markers (never hand-edit them) and refuses what the jacket's tool refuses. **The friendly
+edits are a count ("5 of 12 crystals") and a crystal's powers in the pouch**: the first is the Mission's progress bar,
+the second takes a belief off the card where it says whose belief it is. Helen's herbery is planned to work the same
+way; a herb is where "remedy" creeps in, and the Myths tool already refuses it.
+
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a
 `<dialog>` (`peek()` in `cb.js`, `.pf-*` in `cb.css`): the card on the left, drawn by `profile.js`, and on the right,

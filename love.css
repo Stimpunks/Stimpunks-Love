@@ -1810,6 +1810,20 @@
      amber she asked for. Each colour here is a stone or the light through one
      and carries no word; every one is in check-contrast.py's ORNAMENT. */
   --myth-amethyst: #7E4FA8; --myth-amethyst-2: #C9A2EC; --myth-amber: #D98A2B; --myth-amber-2: #F6C46A; --myth-chalk: #CFC6B4;
+  /* The crystal pouch (crystal-pouch.js): every stone on a disc of its own cloth, outlined in the line, so it carries its own ground on the radio. */
+  --crys-cloth: #EDE6F2; --crys-line: #2A2233; --crys-bag: #B98A55; --crys-bag-2: #7E5530; --crys-cord: #9E3328;
+  --crys-amethyst: #8A55C0; --crys-amethyst-2: #D3B4F0;
+  --crys-citrine: #E3A02E; --crys-citrine-2: #FBE08A;
+  --crys-garnet: #8C1C2C; --crys-garnet-2: #D9566A;
+  --crys-moonstone: #C3D2E2; --crys-moonstone-2: #F4F8FC;
+  --crys-labradorite: #46545F; --crys-labradorite-2: #5FC0D8;
+  --crys-lapis-lazuli: #22408F; --crys-lapis-lazuli-2: #E2BE4A;
+  --crys-turquoise: #38B3A8; --crys-turquoise-2: #1E5E58;
+  --crys-rose-quartz: #F0B0C2; --crys-rose-quartz-2: #FCE3EA;
+  --crys-clear-quartz: #DDEAF0; --crys-clear-quartz-2: #FBFDFF;
+  --crys-smoky-quartz: #6A5244; --crys-smoky-quartz-2: #A88E7D;
+  --crys-obsidian: #16121B; --crys-obsidian-2: #6E6878;
+  --crys-tigers-eye: #A35F1A; --crys-tigers-eye-2: #EDB55A;
 
   /* The Arcade (§15). Coin-op at midnight, and the only room here lit by a
      screen rather than by a sky, a candle or a strip light. --crt-lit is not a
@@ -27612,6 +27626,16 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 .myth-crystal__h { margin: 12px 0 2px !important; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--rdr-brass); }
 .myth-crystal__credit { font-size: 14px; color: var(--rdr-ink-2); }
 .myth-crystal__back { font-size: 15px; }
+/* Take it with you (crystal-pouch.js): ships hidden and only shows signed on. Panel ground, brass edge, the
+   room's ink, like the sun's season buttons; its answer sits beside it, on the card it was pressed on. */
+.myth-crystal__take { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 12px 0 0 !important; }
+.myth-crystal__btn { font: 600 16px/1.2 'Cormorant Garamond', Georgia, serif; letter-spacing: .04em; color: var(--rdr-ink);
+  background: var(--rdr-panel); border: 1px solid var(--rdr-brass); border-radius: 999px; padding: 8px 16px; min-height: 44px; cursor: pointer; }
+.myth-crystal__btn:hover { border-color: var(--rdr-flame-2); }
+.myth-crystal__btn:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+.myth-crystal__btn:disabled { cursor: progress; }
+.myth-crystal__said { font-size: 15px; color: var(--rdr-ink-2); }
+.myth-crystal__said:empty { display: none; }
 
 .myth-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
 

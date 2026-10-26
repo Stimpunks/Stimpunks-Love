@@ -44,6 +44,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   CHIMERA, CHIMERA_KEEP, cleanChimera, readChimeras, keepChimera, editChimera, removeChimera, forgetChimeras, setChimerasShown, chimerasShown, shownChimeras, chimeraSticker, shapeChimeraSticker, shape as shapeMessages,
   CHIMERA_SAYINGS, CHIMERA_SAYING_MAX, cleanChimeraSayings, cleanFamiliar, showFamiliar, familiarOut, withFamiliars, shapeChimera,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
+  CRYSTAL_IDS, crystalId, readCrystals, pouchCrystal, forgetCrystals, setCrystalsShown, crystalsShown, shownCrystals,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
@@ -2773,6 +2774,55 @@ test('a jacket is shown only on a claimed username that says so, and a sticker i
   await deleteAccount('Ada', s);
   assert.deepEqual(await readPatches(pk, s), [], 'a deleted username kept its patches');
   assert.equal(await s.get(`patchshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
+}));
+
+test('a crystal pouch keeps which crystals, sorted, and nothing about when; one put back leaves no trace', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [a, b] = CRYSTAL_IDS;
+  assert.equal(crystalId('not-a-stone'), null);
+  assert.equal((await pouchCrystal('pkC', b, true, s)).changed, true);
+  assert.deepEqual((await pouchCrystal('pkC', a, true, s)).crystals, [a, b].sort());
+  assert.equal((await pouchCrystal('pkC', a, true, s)).changed, false, 'the same crystal taken twice');
+  const raw = await s.get('crystals/pkC', { type: 'json' });
+  assert.deepEqual(Object.keys(raw), ['crystals'], 'the pouch holds something besides which crystals');
+  assert.deepEqual((await pouchCrystal('pkC', a, false, s)).crystals, [b], 'a crystal put back stayed in');
+  assert.equal((await pouchCrystal('pkC', a, false, s)).changed, false, 'a crystal put back twice');
+  assert.deepEqual(await s.get('crystals/pkC', { type: 'json' }), { crystals: [b] });
+  await forgetCrystals('pkC', s);
+  assert.deepEqual(await readCrystals('pkC', s), []);
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen crystals taken at once all land in the pouch (etag on read: ${etagOnRead})`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const ids = Array.from({ length: 15 }, (_, i) => CRYSTAL_IDS[i % CRYSTAL_IDS.length]);
+    const told = await Promise.allSettled(ids.map((id) => pouchCrystal('pkR', id, true, s)));
+    const inPouch = new Set(await readCrystals('pkR', s));
+    told.forEach((r, i) => {
+      if (r.status === 'fulfilled') assert.ok(inPouch.has(ids[i]), `${ids[i]} was told it was taken and is not in the pouch`);
+      else assert.equal(r.reason.message, 'busy');
+    });
+  });
+}
+
+test('a pouch is shown only on a claimed username that says so, and goes with Forget me and the username', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  await pouchCrystal(pk, CRYSTAL_IDS[0], true, s);
+  await setCrystalsShown('Ada', true, s, 1);
+  assert.equal(await shownCrystals('Ada', s), null, 'an unclaimed handle showed its pouch');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  assert.deepEqual(await shownCrystals('ada', s), { handle: 'Ada', crystals: [CRYSTAL_IDS[0]] });
+  await setCrystalsShown('Ada', false, s);
+  assert.equal(await shownCrystals('Ada', s), null, 'shown with the switch off');
+  await setCrystalsShown('Ada', true, s, 2);
+  await forgetCrystals(pk, s);
+  assert.equal(await crystalsShown('Ada', s), false, 'Forget me left the switch on');
+  await pouchCrystal(pk, CRYSTAL_IDS[1], true, s);
+  await setCrystalsShown('Ada', true, s, 3);
+  await deleteAccount('Ada', s);
+  assert.deepEqual(await readCrystals(pk, s), [], 'a deleted username kept its crystals');
+  assert.equal(await s.get(`crshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
 }));
 
 /* ── Profiles ─────────────────────────────────────────────────────────── */
