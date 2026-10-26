@@ -7514,6 +7514,26 @@ for (const etagOnRead of [true, false]) {
   }
 }
 
+test('a change that landed in its topic is never told it failed because the category\'s list was busy, and the sweep mends the list', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await startTopic(ADA, { cat: 'help-desk', title: 'Busy', poll: POLL('hands') }, s, T0, NO_NET)).topic;
+  const real = s.setJSON.bind(s);
+  s.setJSON = async (k, v, o) => (k.startsWith('forum/c/') ? { modified: false } : real(k, v, o));
+  const vote = await votePoll(fw('V1', 1), t.id, ['c1'], s, T0 + 1);
+  assert.ok(vote.topic, 'a vote that went in was told it failed');
+  assert.equal((await readTopic(t.id, s)).poll.hands.length, 1);
+  const reply = await replyTopic(BO, t.id, { body: 'Once only.' }, s, T0 + 2, NO_NET);
+  assert.ok(reply.post, 'a reply that went up was told it failed, so it would be posted twice');
+  assert.equal((await readTopic(t.id, s)).posts.length, 2);
+  assert.ok(s.keys().includes('forum-stale/help-desk'), 'a busy list was not marked for the sweep');
+  s.setJSON = real;
+  const before = (await readForumIndex('help-desk', s)).find((x) => x.id === t.id);
+  assert.ok(before.v < (await readTopic(t.id, s)).v, 'the list was not stale to begin with, so this proves nothing');
+  await sweepForum(s, T0 + 3);
+  assert.equal((await readForumIndex('help-desk', s)).find((x) => x.id === t.id).v, (await readTopic(t.id, s)).v, 'the sweep did not bring the list up to date');
+  assert.ok(!s.keys().includes('forum-stale/help-desk'), 'the sweep left its mark behind');
+});
+
 test('a poll can be added to a topic later by whoever may change its tags, never over one, and they can close it', async () => {
   const s = memoryStore({ etagOnRead: true });
   const FDIR = fw('Di', 600, ['director']);

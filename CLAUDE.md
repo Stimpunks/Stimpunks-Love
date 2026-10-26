@@ -5899,6 +5899,15 @@ only into a category no wider than it. Ryan's call: anybody's messages, under th
 friendly edits are a reply count, a view count, unread numbers, a fetched preview image, and the radio sending the
 messages' words itself**; each is refused by `make-forum.py` or by the privacy page. `DECISIONS.md` has what is still open.
 
+**A CATEGORY'S LIST IS A CACHE AND THE TOPIC IS THE RECORD, SO A BUSY LIST NEVER FAILS A CHANGE THAT LANDED.**
+2026-10-25: a vote, a reply or any change goes into its topic first and then into its category's list
+(`forum/c/<slug>`), and when the list's conditional write ran out of tries the whole call threw `busy` with the
+change already made. A voter was told their vote failed with it counted, and a reply could have been posted twice.
+That was the poll race tests failing now and then under check-all's load. `listQuietly` now leaves
+`forum-stale/<slug>` instead, and `sweepForum` brings every topic on a stale list up to date and clears the mark.
+Any error but `busy` is still an error. **A new write to a list goes through `listQuietly`**; the friendly edit is
+to retry the list harder, which only makes the window rarer.
+
 **A WIKI IS THE ONE PLACE A MODERATOR EDITS SOMEBODY ELSE'S WORDS, AND ONLY THE PAGE.** Ryan, 2026-10-19: support
 docs as living documents, in a Wiki category kept for good, where moderators and above edit any of them. A category's
 `wiki` in `data/forum.json` names the roles; `forumEditor` in `lib.mjs` is the only way `editPost` reaches past a post's

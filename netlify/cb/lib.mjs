@@ -8262,6 +8262,20 @@ async function indexTopic(t, s) {
 async function unindexTopic(slug, id, s) {
   await updateForumIndex(slug, (list) => (list.some((x) => x.id === id) ? list.filter((x) => x.id !== id) : null), s);
 }
+/* A CATEGORY'S LIST IS A CACHE AND THE TOPIC IS THE RECORD (2026-10-25). A
+   change that has landed in its topic is never reported as failed because the
+   list behind it was busy: that told a voter "busy" with their vote counted,
+   and could have told somebody their reply failed when it had gone up, so
+   they posted it twice. A busy list instead leaves forum-stale/<slug>, and the
+   hourly sweep brings every topic on that list up to date (sweepForum). Any
+   other error is still an error. */
+const FORUM_STALE = 'forum-stale/';
+async function listQuietly(slug, write, s) {
+  try { await write(); } catch (e) {
+    if (!e || e.message !== 'busy') throw e;
+    try { await s.setJSON(FORUM_STALE + slug, { t: Date.now() }, { onlyIfNew: true }); } catch (x) { /* marked already, or the sweep finds it missing */ }
+  }
+}
 
 /* ── What a reader is sent ── */
 
@@ -8726,7 +8740,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   await updateDoc(topicKey(topic.id), (cur) => { clash = !!cur; return cur ? null : topic; }, s);
   if (clash) return { error: 'That did not work. Try again.' };
   await doneUploads(att.fresh, s);
-  await indexTopic(topic, s);
+  await listQuietly(topic.cat, () => indexTopic(topic, s), s);
   return { topic, post };
 }
 
@@ -8748,9 +8762,9 @@ async function changeTopic(who, id, now, s, change) {
     return r;
   }, s);
   if (why) return { error: why };
-  if (gone) { await unindexTopic(cat0, id, s); await dropTopicFiles(id, s); return { gone: true }; }
-  if (next && next.cat !== cat0) await unindexTopic(cat0, id, s);
-  if (next) await indexTopic(next, s);
+  if (gone) { await listQuietly(cat0, () => unindexTopic(cat0, id, s), s); await dropTopicFiles(id, s); return { gone: true }; }
+  if (next && next.cat !== cat0) await listQuietly(cat0, () => unindexTopic(cat0, id, s), s);
+  if (next) await listQuietly(next.cat, () => indexTopic(next, s), s);
   return { topic: next };
 }
 
@@ -9195,7 +9209,7 @@ export async function importTopic(who, f, s = store(), now = Date.now()) {
   let clash = false;
   await updateDoc(topicKey(topic.id), (cur) => { clash = !!cur; return cur ? null : topic; }, s);
   if (clash) return { error: 'That did not work. Try again.' };
-  await indexTopic(topic, s);
+  await listQuietly(topic.cat, () => indexTopic(topic, s), s);
   return { topic, made: true, state: 'made' };
 }
 
@@ -9212,7 +9226,17 @@ export async function sweepForum(s = store(), now = Date.now()) {
   const listed = await s.list({ prefix: FORUM_TOPIC });
   const there = new Set((listed.blobs || []).map((b) => b.key.slice(FORUM_TOPIC.length)));
   const indexed = new Set();
+  const stale = new Set(((await s.list({ prefix: FORUM_STALE })).blobs || []).map((b) => b.key.slice(FORUM_STALE.length)));
   for (const c of forumCategories(now)) {
+    // A list a busy write left behind: every live topic on it brought up to date.
+    if (stale.has(c.slug)) {
+      for (const x of await readForumIndex(c.slug, s)) {
+        if (!there.has(x.id)) continue;
+        const t = await readTopic(x.id, s);
+        if (t && t.cat === c.slug && (t.v || 0) !== (x.v || 0)) await indexTopic(t, s);
+      }
+      await s.delete(FORUM_STALE + c.slug);
+    }
     const list = await readForumIndex(c.slug, s);
     const drop = new Set();
     for (const x of list) {
