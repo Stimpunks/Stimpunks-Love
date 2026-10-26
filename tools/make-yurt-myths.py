@@ -34,6 +34,13 @@ WHAT IT REFUSES, AND WHY:
   - A CLAIM OF CURE, OR ADVICE TO GO FORAGING. The stones are not said to heal,
     and a fairy ring is never a guide to a mushroom: Mycelium Munchies' rule,
     in the room where a fairy ring turns up.
+  - A CRYSTAL PHOTOGRAPH NOBODY CAN CREDIT. Every stone on the Crystal Wheel is
+    somebody's photograph from Wikimedia Commons: it must name its photographer,
+    its Commons page and a licence this site can use (no NC, no ND), with a link
+    to the licence, and the card credits it as the licence asks. The file must be
+    a JPEG with no camera data left in it. And every meaning says whether it is
+    old tradition or modern crystal lore; the wheel says once, with a source,
+    that none of it is medicine.
   - ANYTHING IN §128 THAT MAKES A LIGHT FLASH. The amber glows slowly and the
     amethyst glints at MAX GLITTER only; the tool refuses an animation outside
     an html[data-intensity="max"] rule, a keyframe faster than two seconds, and
@@ -70,8 +77,9 @@ d = json.loads(DATA.read_text(encoding="utf-8"))
 raw = DATA.read_text(encoding="utf-8")
 if re.search(r"&[a-zA-Z]+;|&#\d+;", raw):
     refuse("data/yurt-myths.json: an HTML entity in the data. Write the character itself.")
-for word in (r"\bheals?\b", r"\bhealing\b", r"\bcures?\b", r"\bforag\w*", r"\bsafe to eat\b"):
-    if re.search(word, raw, re.I):
+swept = re.sub(r"crystal[ _]healing", "", raw, flags=re.I)
+for word in (r"\bheals?\b", r"\bhealing\b", r"\bcures?\b", r"\bremed\w*", r"\bforag\w*", r"\bsafe to eat\b"):
+    if re.search(word, swept, re.I):
         refuse(f"data/yurt-myths.json: '{word}' in the data. The stones heal nothing and a fairy ring is no guide to a mushroom.")
 
 
@@ -230,6 +238,121 @@ def book(b):
 books = '<ul class="myth-books">\n' + "\n".join(book(b) for b in d["books"]) + "\n    </ul>\n" + \
     f'    <p class="myth-src">Every fact in this room was read on the page it links to, on {esc(d["_checked"])}.</p>'
 
+# ── The Crystal Wheel ───────────────────────────────────────────────────────
+# Helen's ask, 2026-10-26: the main popular crystals, with photographs, in a
+# circle, with their meanings. Every photograph is somebody's, shared on
+# Wikimedia Commons under a licence that lets this site use it, and is credited
+# on its card as that licence asks. Every meaning is a belief or a story and
+# says which kind; the room says once, at the top, that none of it is medicine.
+import sys
+sys.path.insert(0, str(ROOT / "tools"))
+import imgsize  # noqa: E402
+
+FREE = {"CC BY 2.0", "CC BY 2.5", "CC BY 3.0", "CC BY 4.0", "CC BY-SA 2.0", "CC BY-SA 2.5",
+        "CC BY-SA 3.0", "CC BY-SA 4.0", "CC0", "Public domain"}
+KINDS = {"old tradition": "Old tradition", "modern crystal lore": "Modern crystal lore"}
+cw = d["crystals"]
+for k in ("note", "note_says", "note_source", "note_source_name"):
+    if not cw.get(k):
+        refuse(f"crystals.{k}: the wheel says once, with its source, that the meanings are not medicine.")
+stones_cw = cw["stones"]
+
+
+def jpeg_exif(path):
+    b = path.read_bytes()
+    if b[:2] != b"\xff\xd8":
+        return None
+    i = 2
+    while i + 4 < len(b) and b[i] == 0xFF:
+        m, n = b[i + 1], int.from_bytes(b[i + 2:i + 4], "big")
+        if m == 0xE1 and (b[i + 4:i + 8] == b"Exif" or b[i + 4:i + 9] == b"http:"):
+            return True
+        if m == 0xDA:
+            break
+        i += 2 + n
+    return False
+
+
+seen = set()
+for i, c in enumerate(stones_cw):
+    w = f"crystals.stones[{i}] {c.get('name')}"
+    if c.get("slug") in seen:
+        refuse(f"{w}: on the wheel twice.")
+    seen.add(c.get("slug"))
+    f = ROOT / c.get("file", "")
+    if not f.is_file():
+        refuse(f"{w}: no photograph at {c.get('file')}.")
+    else:
+        ex = jpeg_exif(f)
+        if ex is None:
+            refuse(f"{w}: {c['file']} is not a JPEG.")
+        elif ex:
+            refuse(f"{w}: {c['file']} still carries camera data. Save it again without.")
+    if c.get("licence") not in FREE:
+        refuse(f"{w}: licence {c.get('licence')!r} is not one this site can use (no NC, no ND).")
+    if c.get("licence") != "Public domain" and not str(c.get("licence_url", "")).startswith("https://creativecommons.org/"):
+        refuse(f"{w}: no link to its licence, which crediting it needs.")
+    if not str(c.get("commons", "")).startswith("https://commons.wikimedia.org/wiki/File:"):
+        refuse(f"{w}: no Commons file page, where its licence lives.")
+    if not c.get("photo_by"):
+        refuse(f"{w}: no photographer to credit.")
+    if not c.get("shows"):
+        refuse(f"{w}: no `shows`, the words for the photograph.")
+    if not c.get("facts"):
+        refuse(f"{w}: no facts about what it is.")
+    for j, fa in enumerate(c.get("facts", [])):
+        need_src(f"{w} facts[{j}]", fa)
+    need_src(f"{w} lore", c.get("lore", {}))
+    if c.get("lore", {}).get("kind") not in KINDS:
+        refuse(f"{w}: lore must say whether it is old tradition or modern crystal lore.")
+    if c.get("birthstone") and not str(c.get("birthstone_source", "")).startswith("https://"):
+        refuse(f"{w}: a birthstone month with no source.")
+
+import math as _m
+n_cw = len(stones_cw)
+spokes_cw, items_cw = [], []
+for i, c in enumerate(stones_cw):
+    a = _m.radians(-90 + i * 360 / max(n_cw, 1))
+    x, y = 50 + 39 * _m.cos(a), 50 + 39 * _m.sin(a)
+    spokes_cw.append(f'<line x1="50" y1="50" x2="{x:.2f}" y2="{y:.2f}"/>')
+    items_cw.append(
+        f'      <li class="myth-cw__stone" style="left:{x:.2f}%;top:{y:.2f}%">'
+        f'<a href="#crystal-{esc(c["slug"])}" aria-label="{esc(c["name"])}">'
+        f'<img src="{esc(c["file"])}" {imgsize.attrs(ROOT / c["file"])} alt="" loading="lazy" decoding="async">'
+        f'<span class="myth-cw__name" aria-hidden="true">{esc(c["name"])}</span></a></li>')
+wheel_cw = (
+    f'<p class="myth-intro">{esc(cw["note"])} <span class="myth-src">(&ldquo;{esc(cw["note_says"])}&rdquo;: '
+    f'{src_link(cw["note_source"], cw["note_source_name"])})</span></p>\n'
+    '    <div class="myth-cw">\n'
+    '      <svg class="myth-cw__ring" viewBox="0 0 100 100" aria-hidden="true" focusable="false">'
+    '<circle cx="50" cy="50" r="39" fill="none" stroke="var(--rdr-brass)" stroke-width=".5" opacity=".7"/>'
+    '<circle cx="50" cy="50" r="47" fill="none" stroke="var(--myth-amethyst)" stroke-width=".4" opacity=".8"/>'
+    '<g stroke="var(--rdr-brass)" stroke-width=".25" opacity=".45">' + "".join(spokes_cw) + '</g></svg>\n'
+    '      <p class="myth-cw__hub"><span>The Crystal Wheel</span><small>press a stone</small></p>\n'
+    '      <ul class="myth-cw__stones">\n' + "\n".join(items_cw) + '\n      </ul>\n'
+    '    </div>'
+)
+
+
+def crystal_card(c):
+    birth = (f'<p class="myth-where">Birthstone for {esc(c["birthstone"])} '
+             f'<span class="myth-src">({src_link(c["birthstone_source"], "GIA")})</span></p>') if c.get("birthstone") else ""
+    facts = "".join(f'<li>{says_with_src(fa)}</li>' for fa in c["facts"])
+    lic = (f'{src_link(c["licence_url"], c["licence"])}' if c.get("licence_url") else esc(c["licence"]))
+    return (
+        f'      <li class="myth-crystal myth-panel" id="crystal-{esc(c["slug"])}">'
+        f'<img class="myth-crystal__photo" src="{esc(c["file"])}" {imgsize.attrs(ROOT / c["file"])} alt="{esc(c["shows"])}" loading="lazy" decoding="async">'
+        f'<h3>{esc(c["name"])}</h3>{birth}'
+        f'<p class="myth-crystal__h">What it is</p><ul class="myth-list">{facts}</ul>'
+        f'<p class="myth-crystal__h">{KINDS[c["lore"]["kind"]]}</p>'
+        f'<p>{says_with_src(c["lore"])}</p>'
+        f'<p class="myth-crystal__credit">Photograph by {esc(c["photo_by"])}, {lic}, '
+        f'{src_link(c["commons"], "via Wikimedia Commons")}; resized, and cropped to a circle on the wheel.</p>'
+        f'<p class="myth-crystal__back"><a href="#crystals">Back to the wheel</a></p></li>')
+
+
+cards_cw = '<ul class="myth-crystals">\n' + "\n".join(crystal_card(c) for c in stones_cw) + '\n    </ul>'
+
 # ── §128 stays still but for the stones ─────────────────────────────────────
 css = CSS.read_text(encoding="utf-8")
 m = re.search(r"/\* §128 ── SUBROOM: Myths & Legends.*?(?=/\* §129 )", css, re.S)
@@ -254,7 +377,8 @@ if problems:
 # ── Write ───────────────────────────────────────────────────────────────────
 page = PAGE.read_text(encoding="utf-8")
 for part, block in (("summer", summer), ("winter", winter), ("stones", stones), ("arthur", arthur),
-                    ("creatures", creatures), ("cards", cards), ("wheel", wheel), ("books", books)):
+                    ("creatures", creatures), ("cards", cards), ("wheel", wheel), ("crystal-wheel", wheel_cw),
+                    ("crystal-cards", cards_cw), ("books", books)):
     b, e = f"<!-- yurt-myths:{part}:begin -->", f"<!-- yurt-myths:{part}:end -->"
     if page.count(b) != 1 or page.count(e) != 1:
         raise SystemExit(f"REFUSING: faery-myths-room.html must hold one {b} and one {e}.")
@@ -264,5 +388,4 @@ for part, block in (("summer", summer), ("winter", winter), ("stones", stones), 
 old = PAGE.read_text(encoding="utf-8")
 if page != old:
     PAGE.write_text(page, encoding="utf-8")
-n = len(st["facts"]) + len(ar["layers"]) + len(d["creatures"]) + len(d["cards"])
-print(f"make-yurt-myths: the stones, Arthur, the folk, the cards, the wheel and the shelf written; every one of them sourced.")
+print("make-yurt-myths: the stones, Arthur, the folk, the cards, the wheel, the crystals and the shelf written; every one of them sourced, every photograph credited.")

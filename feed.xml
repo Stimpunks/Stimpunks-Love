@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Sun, 25 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>The Crystal Wheel, in Myths &amp; Legends</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-26-crystal-wheel</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-26-crystal-wheel</guid>
+      <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
+      <description>At Helen Edgar’s ask, a Crystal Wheel in Myths &amp; Legends, behind her yurt: photographs of popular crystals round a circle, each one pressed to its card, with what the stone really is, the belief or story attached to it and whether that is old tradition or modern crystal lore, and its birthstone month where it has one. The yurt says so beside the Alchemist’s Arch. The photographs are other people’s, from Wikimedia Commons, each credited on its card with its licence, as those licences ask, and listed in the liner notes. tools/make-yurt-myths.py now refuses a crystal photograph without its photographer, its Commons page or a licence this site can use, and one still carrying camera data. The wheel says once, with its source, that the meanings are not medicine. Changed: faery-myths-room.html, faery-yurt.html, love.css (§128 and §14), data/yurt-myths.json, tools/make-yurt-myths.py, liner-notes.html, and the photographs in crystals/.</description>
+    </item>
     <item>
       <title>Direct messages are sealed where they are kept</title>
       <link>https://stimpunks.world/changelog.html#2026-10-25-messages-sealed</link>

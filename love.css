@@ -7287,6 +7287,7 @@ html[data-intensity="max"] .yurt-arch__glow { animation: myth-glow 5s ease-in-ou
 html[data-intensity="max"] .yurt-arch__glint { animation: myth-glint 3.4s ease-in-out infinite; }
 .yurt-arch__glint:nth-of-type(2n) { animation-delay: -1.1s; }
 .yurt-arch__glint:nth-of-type(3n) { animation-delay: -2.3s; }
+.room-yurt .yurt-arch__also { max-width: 520px; margin: 12px auto 0; text-align: center; font-size: 16px; font-style: italic; color: var(--tallow-2); }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
    everywhere, hung small on the wall in a thin gilt, and pressed off the wall
@@ -27582,6 +27583,35 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 .myth-book__title { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 19px; line-height: 1.3; margin: 0; }
 .myth-book p { margin: 6px 0 0; font-size: 15.5px; }
 .myth-book__care { color: var(--rdr-ink-2); font-style: italic; }
+
+/* The Crystal Wheel: twelve photographs round a ring, each a link down to its
+   card. The photographs are somebody else's: on the wheel each is cropped to a
+   circle, which its card's credit says, and on the card it is shown whole. No
+   filter ever touches one. Placed by left and top, never a transform. */
+.myth-cw { position: relative; width: min(100%, 640px); aspect-ratio: 1; margin: 6px auto 26px; }
+.myth-cw__ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.myth-cw__hub {
+  position: absolute; left: 50%; top: 50%; width: 30%; aspect-ratio: 1; margin: -15% 0 0 -15%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  background: var(--rdr-panel); border: 2px solid var(--rdr-brass); border-radius: 50%;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: clamp(14px, 3.2vw, 22px); line-height: 1.15; color: var(--rdr-ink);
+}
+.myth-cw__hub small { font-family: 'Crimson Pro', Georgia, serif; font-style: italic; font-weight: 400; font-size: clamp(11px, 2.2vw, 14px); color: var(--rdr-ink-2); margin-top: 4px; }
+.myth-cw__stones { list-style: none; margin: 0; padding: 0; }
+.myth-cw__stone { position: absolute; width: 17%; margin: -8.5% 0 0 -8.5%; text-align: center; }
+.myth-cw__stone a { display: block; text-decoration: none; color: var(--rdr-ink); border-radius: 50%; }
+.myth-cw__stone img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 3px solid var(--myth-amber); background: var(--rdr-stone); }
+.myth-cw__stone:nth-child(even) img { border-color: var(--myth-amethyst-2); }
+.myth-cw__stone a:hover img { border-color: var(--rdr-flame-2); }
+.myth-cw__stone a:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+.myth-cw__name { display: block; margin-top: 3px; font-size: 13px; line-height: 1.15; color: var(--rdr-ink); }
+@media (max-width: 560px) { .myth-cw__name { display: none; } }
+.myth-crystals { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); }
+.myth-crystal { scroll-margin-top: 20px; }
+.myth-crystal__photo { display: block; width: 100%; height: auto; border-radius: 6px; margin: 0 0 10px; background: var(--rdr-stone); }
+.myth-crystal__h { margin: 12px 0 2px !important; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--rdr-brass); }
+.myth-crystal__credit { font-size: 14px; color: var(--rdr-ink-2); }
+.myth-crystal__back { font-size: 15px; }
 
 .myth-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
 

@@ -240,7 +240,7 @@
     {
       "name": "Pixies",
       "where": "Devon and Cornwall, on the moors",
-      "says": "Small folk of Dartmoor and the West Country. If they lead you round in circles you are pixy-led, and the old remedy is to turn your coat inside out.",
+      "says": "Small folk of Dartmoor and the West Country. If they lead you round in circles you are pixy-led, and the old answer is to turn your coat inside out.",
       "source": "https://en.wikipedia.org/wiki/Pixie",
       "source_name": "Wikipedia"
     },
@@ -488,5 +488,433 @@
       "read": "https://www.gutenberg.org/ebooks/5160",
       "read_name": "Project Gutenberg"
     }
-  ]
+  ],
+  "crystals": {
+    "note": "Every stone below is a real one, photographed by somebody who shared the picture, and every meaning is an old belief or a story people tell, not medicine.",
+    "note_says": "There is no peer-reviewed scientific evidence that crystal healing has any effect",
+    "note_source": "https://en.wikipedia.org/wiki/Crystal_healing",
+    "note_source_name": "Wikipedia, Crystal healing",
+    "stones": [
+      {
+        "name": "Amethyst",
+        "slug": "amethyst",
+        "file": "crystals/amethyst.jpg",
+        "shows": "A cluster of purple amethyst crystals from Uruguay, on white.",
+        "photo_by": "Gonzalo Devia",
+        "licence": "CC BY-SA 4.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Amatista_Laye_2.jpg",
+        "facts": [
+          {
+            "says": "A violet variety of quartz, coloured by iron impurities and natural irradiation.",
+            "source": "https://en.wikipedia.org/wiki/Amethyst",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Big producers include Brazil (Rio Grande do Sul), Artigas in Uruguay, Zambia and Thunder Bay, Ontario.",
+            "source": "https://en.wikipedia.org/wiki/Amethyst",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Heated, amethyst turns yellow-orange or brown and can pass for citrine.",
+            "source": "https://en.wikipedia.org/wiki/Amethyst",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "Its Greek name, amethystos, means not drunken: people believed it kept the wearer sober, clear-headed and quick-witted.",
+          "kind": "old tradition",
+          "source": "https://www.gia.edu/birthstones/february-birthstones",
+          "source_name": "GIA"
+        },
+        "birthstone": "February",
+        "birthstone_source": "https://www.gia.edu/birthstones/february-birthstones"
+      },
+      {
+        "name": "Citrine",
+        "slug": "citrine",
+        "file": "crystals/citrine.jpg",
+        "shows": "A faceted golden-yellow citrine from Brazil, on a warm ground.",
+        "photo_by": "Didier Descouens",
+        "licence": "CC BY-SA 4.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Citrine_taillee.jpg",
+        "facts": [
+          {
+            "says": "A transparent yellow variety of quartz; the name comes from citrus, by way of French citron (lemon).",
+            "source": "https://en.wikipedia.org/wiki/Citrine",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Natural citrine is rare: most 'citrine' sold is heated amethyst or smoky quartz.",
+            "source": "https://en.wikipedia.org/wiki/Citrine",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Most citrine, natural or heated, comes from Brazil.",
+            "source": "https://en.wikipedia.org/wiki/Citrine",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "People believed citrine could soothe tempers and calm the wearer; it has also been called the 'merchant's stone' or 'money stone' from a superstition that it brought prosperity.",
+          "kind": "old tradition",
+          "source": "https://www.gia.edu/birthstones/november-birthstones",
+          "source_name": "GIA"
+        },
+        "birthstone": "November",
+        "birthstone_source": "https://www.gia.edu/birthstones/november-birthstones"
+      },
+      {
+        "name": "Garnet",
+        "slug": "garnet",
+        "file": "crystals/garnet.jpg",
+        "shows": "A red-brown garnet crystal sitting on rock.",
+        "photo_by": "Moha112100",
+        "licence": "CC BY-SA 3.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Garnet_Andradite20.jpg",
+        "facts": [
+          {
+            "says": "Not one mineral but a group of silicate minerals (almandine, pyrope, spessartine, grossular, andradite, uvarovite).",
+            "source": "https://en.wikipedia.org/wiki/Garnet",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Used since the Bronze Age as gemstones and abrasives.",
+            "source": "https://en.wikipedia.org/wiki/Garnet",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "The name likely comes from Latin granatum, pomegranate, whose red seeds look like garnet crystals.",
+            "source": "https://en.wikipedia.org/wiki/Garnet",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "Some believe garnet brings the wearer good health, wealth and happiness.",
+          "kind": "old tradition",
+          "source": "https://www.gia.edu/birthstones/january-birthstones",
+          "source_name": "GIA"
+        },
+        "birthstone": "January",
+        "birthstone_source": "https://www.gia.edu/birthstones/january-birthstones"
+      },
+      {
+        "name": "Moonstone",
+        "slug": "moonstone",
+        "file": "crystals/moonstone.jpg",
+        "shows": "A pale moonstone crystal from Switzerland, with a soft blue sheen, on black.",
+        "photo_by": "Didier Descouens",
+        "licence": "CC BY-SA 3.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:AdulaireSuisse2.jpg",
+        "facts": [
+          {
+            "says": "A feldspar whose milky blue glow (adularescence) comes from light scattered by thin alternating layers of orthoclase and albite.",
+            "source": "https://en.wikipedia.org/wiki/Moonstone_(gemstone)",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "The commonest moonstone is adularia, named for Mt Adular in Switzerland, where this specimen comes from.",
+            "source": "https://en.wikipedia.org/wiki/Moonstone_(gemstone)",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Most commercial moonstone today comes from Sri Lanka; the most valuable blue ones historically came from Myanmar.",
+            "source": "https://en.wikipedia.org/wiki/Moonstone_(gemstone)",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "The Romans believed it was made of solidified rays of the Moon; Hindu mythology says solidified moonbeams, and it was linked with Roman and Greek lunar deities.",
+          "kind": "old tradition",
+          "source": "https://www.gia.edu/birthstones/june-birthstones",
+          "source_name": "GIA"
+        },
+        "birthstone": "June",
+        "birthstone_source": "https://www.gia.edu/birthstones/june-birthstones"
+      },
+      {
+        "name": "Labradorite",
+        "slug": "labradorite",
+        "file": "crystals/labradorite.jpg",
+        "shows": "A polished piece of labradorite from Madagascar, flashing blue, on black.",
+        "photo_by": "Parent Géry",
+        "licence": "Public domain",
+        "licence_url": null,
+        "commons": "https://commons.wikimedia.org/wiki/File:Labradorite_polie_3(Madagascar).jpg",
+        "facts": [
+          {
+            "says": "A calcium-rich plagioclase feldspar, first identified in Labrador, Canada (type area Paul's Island near Nain).",
+            "source": "https://en.wikipedia.org/wiki/Labradorite",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Its play of colour is called labradorescence, from very thin layers that form only when the rock cools very slowly.",
+            "source": "https://en.wikipedia.org/wiki/Labradorite",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Spectrolite is a richly coloured kind found at Ylämaa, Finland, in 1940 while fortifications were being built.",
+            "source": "https://en.wikipedia.org/wiki/Labradorite",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "A story told in Nunatsiavut, on the Labrador coast: an angakok trapped the northern lights in the rocks, and a hunter's harpoon set some of them free. The colours left behind in the stone are labradorite. Told by Jason Sikoak.",
+          "kind": "old tradition",
+          "source": "https://itk.ca/the-northern-lights-of-nunatsiavut/",
+          "source_name": "Inuit Tapiriit Kanatami, Inuktitut Magazine"
+        },
+        "birthstone": null,
+        "birthstone_source": null
+      },
+      {
+        "name": "Lapis lazuli",
+        "slug": "lapis-lazuli",
+        "file": "crystals/lapis-lazuli.jpg",
+        "shows": "Deep blue lapis lazuli flecked with gold-coloured pyrite, from Afghanistan.",
+        "photo_by": "Hannes Grobe",
+        "licence": "CC BY-SA 2.5",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/2.5",
+        "commons": "https://commons.wikimedia.org/wiki/File:Lapis-lazuli_hg.jpg",
+        "facts": [
+          {
+            "says": "A rock, not a single mineral: mostly lazurite, with pyrite, diopside and calcite.",
+            "source": "https://en.wikipedia.org/wiki/Lapis_lazuli",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Mined at Sar-i Sang in Badakhshan, Afghanistan, for more than 6,000 years.",
+            "source": "https://en.wikipedia.org/wiki/Lapis_lazuli",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Ground into ultramarine, the blue Renaissance painters such as Titian and Vermeer used.",
+            "source": "https://en.wikipedia.org/wiki/Lapis_lazuli",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "In Mesopotamia it became the chief material for magic stones; it was used in Tutankhamun's funeral mask.",
+          "kind": "old tradition",
+          "source": "https://en.wikipedia.org/wiki/Lapis_lazuli",
+          "source_name": "Wikipedia"
+        },
+        "birthstone": null,
+        "birthstone_source": null
+      },
+      {
+        "name": "Turquoise",
+        "slug": "turquoise",
+        "file": "crystals/turquoise.jpg",
+        "shows": "A round, knobbly nodule of sky-blue turquoise from Arizona, on white.",
+        "photo_by": "Robert M. Lavinsky",
+        "licence": "CC BY-SA 3.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Turquoise-40031.jpg",
+        "facts": [
+          {
+            "says": "A blue-to-green hydrous phosphate of copper and aluminium; copper gives the blue.",
+            "source": "https://en.wikipedia.org/wiki/Turquoise",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "The name is Old French for 'Turkish': it reached Europe through the Ottoman Empire, though it came from Persia.",
+            "source": "https://en.wikipedia.org/wiki/Turquoise",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "It almost never forms single crystals; it fills veins and nodules in rock.",
+            "source": "https://en.wikipedia.org/wiki/Turquoise",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "From the 1200s it was believed to keep the wearer from falling, especially off a horse. In Tibet it is believed to bring good fortune and protection.",
+          "kind": "old tradition",
+          "source": "https://www.gia.edu/birthstones/december-birthstones",
+          "source_name": "GIA"
+        },
+        "birthstone": "December",
+        "birthstone_source": "https://www.gia.edu/birthstones/december-birthstones"
+      },
+      {
+        "name": "Rose quartz",
+        "slug": "rose-quartz",
+        "file": "crystals/rose-quartz.jpg",
+        "shows": "A rough lump of pale pink rose quartz, on white.",
+        "photo_by": "James St. John",
+        "licence": "CC BY 2.0",
+        "licence_url": "https://creativecommons.org/licenses/by/2.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Rose_quartz_12.jpg",
+        "facts": [
+          {
+            "says": "A pink, translucent variety of quartz that grows as masses, never as well-formed crystals.",
+            "source": "https://en.wikipedia.org/wiki/Rose_quartz",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Its pink comes from microscopic fibres of a silicate related to dumortierite; it used to be blamed on rutile.",
+            "source": "https://en.wikipedia.org/wiki/Rose_quartz",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "It formed at 400-700 °C in the quartz cores of pegmatites.",
+            "source": "https://en.wikipedia.org/wiki/Rose_quartz",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "No older tradition about it was found. Crystal sellers today call it the stone of love.",
+          "kind": "modern crystal lore",
+          "source": "https://www.crystalvaults.com/crystal-encyclopedia/rose-quartz/",
+          "source_name": "a crystal seller's page"
+        },
+        "birthstone": null,
+        "birthstone_source": null
+      },
+      {
+        "name": "Clear quartz",
+        "slug": "clear-quartz",
+        "file": "crystals/clear-quartz.jpg",
+        "shows": "A cluster of clear quartz points from Brazil, on black.",
+        "photo_by": "Didier Descouens",
+        "licence": "CC BY-SA 4.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Quartz_Br%C3%A9sil.jpg",
+        "facts": [
+          {
+            "says": "Pure quartz, traditionally called rock crystal or clear quartz, is colourless silicon dioxide.",
+            "source": "https://en.wikipedia.org/wiki/Quartz",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Quartz is the second most common mineral in the Earth's crust, about 12% by mass.",
+            "source": "https://en.wikipedia.org/wiki/Quartz",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "A quartz crystal keeps time in quartz clocks and watches (the crystal oscillator, 1920s).",
+            "source": "https://en.wikipedia.org/wiki/Quartz",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "The Greeks called it krustallos, from kruos 'icy cold': some believed it was supercooled ice, and Pliny the Elder thought it was ice frozen for ages. The idea lasted until the 17th century.",
+          "kind": "old tradition",
+          "source": "https://en.wikipedia.org/wiki/Quartz",
+          "source_name": "Wikipedia"
+        },
+        "birthstone": null,
+        "birthstone_source": null
+      },
+      {
+        "name": "Smoky quartz",
+        "slug": "smoky-quartz",
+        "file": "crystals/smoky-quartz.jpg",
+        "shows": "A tall brown smoky quartz crystal on its rock, from New Mexico, on white.",
+        "photo_by": "Rob Lavinsky",
+        "licence": "CC BY 3.0",
+        "licence_url": "https://creativecommons.org/licenses/by/3.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Smoky-quartz-TUCQTZ09-03-arkenstone-irocks.png",
+        "facts": [
+          {
+            "says": "Brown to black quartz, coloured when natural gamma radiation from surrounding rock activates aluminium colour centres.",
+            "source": "https://en.wikipedia.org/wiki/Smoky_quartz",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Cairngorm is a smoky quartz from the Cairngorm Mountains of Scotland, used in Scottish jewellery and kilt pins.",
+            "source": "https://en.wikipedia.org/wiki/Smoky_quartz",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Flat panes of smoky quartz were used as sunglasses in 12th-century China.",
+            "source": "https://en.wikipedia.org/wiki/Smoky_quartz",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "It was not important in older tradition. Crystal sellers today call it a stone for grounding and cleansing.",
+          "kind": "modern crystal lore",
+          "source": "https://www.crystalvaults.com/crystal-encyclopedia/smoky-quartz/",
+          "source_name": "a crystal seller's page"
+        },
+        "birthstone": null,
+        "birthstone_source": null
+      },
+      {
+        "name": "Obsidian",
+        "slug": "obsidian",
+        "file": "crystals/obsidian.jpg",
+        "shows": "A glossy black piece of obsidian from Lipari in Sicily, on grey.",
+        "photo_by": "Ji-Elle",
+        "licence": "CC BY-SA 3.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Lipari-Obsidienne_(5).jpg",
+        "facts": [
+          {
+            "says": "Volcanic glass, formed when silica-rich lava cools too fast for crystals to grow.",
+            "source": "https://en.wikipedia.org/wiki/Obsidian",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Not a true mineral, because a glass is not crystalline; sometimes called a mineraloid.",
+            "source": "https://en.wikipedia.org/wiki/Obsidian",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "It breaks to edges sharper than steel scalpels; Lipari, where this piece comes from, was a Neolithic source of obsidian blades traded widely.",
+            "source": "https://en.wikipedia.org/wiki/Obsidian",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "Some Aztec priests used obsidian mirrors to conjure visions and make prophecies; they were linked with Tezcatlipoca, 'Smoking Mirror'.",
+          "kind": "old tradition",
+          "source": "https://en.wikipedia.org/wiki/Obsidian",
+          "source_name": "Wikipedia"
+        },
+        "birthstone": null,
+        "birthstone_source": null
+      },
+      {
+        "name": "Tiger's eye",
+        "slug": "tigers-eye",
+        "file": "crystals/tigers-eye.jpg",
+        "shows": "A rough and a polished piece of tiger's eye, banded gold and brown, reflected in the surface they stand on.",
+        "photo_by": "Marek Novotnak",
+        "licence": "CC BY-SA 4.0",
+        "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commons": "https://commons.wikimedia.org/wiki/File:Tiger%27s_eye.jpg",
+        "facts": [
+          {
+            "says": "Quartz grown in parallel with altered amphibole fibres, mostly turned to limonite; that gives the silky shifting band (chatoyancy).",
+            "source": "https://en.wikipedia.org/wiki/Tiger%27s_eye",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "It forms by the alteration of crocidolite; sources include South Africa, Australia, India, Namibia and Brazil.",
+            "source": "https://en.wikipedia.org/wiki/Tiger%27s_eye",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Usually cut as a cabochon (a smooth dome) to show the shifting light.",
+            "source": "https://en.wikipedia.org/wiki/Tiger%27s_eye",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "says": "In some parts of the world it is believed to ward off the evil eye.",
+          "kind": "old tradition",
+          "source": "https://en.wikipedia.org/wiki/Tiger%27s_eye",
+          "source_name": "Wikipedia"
+        },
+        "birthstone": null,
+        "birthstone_source": null
+      }
+    ]
+  }
 }
