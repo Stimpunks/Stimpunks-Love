@@ -41,6 +41,11 @@
   <p class="lede">What changed on the street, and when. Every Stimpunks site publishes one of these.</p>
   <p style="margin-top:-6px;"><a href="feed.xml">Subscribe to this page</a> &mdash; the feed is generated from it, so the two cannot disagree.</p>
 
+  <h2 id="2026-10-25-messages-sealed">2026-10-25 &mdash; Direct messages are sealed where they are kept</h2>
+  <ul>
+    <li><strong>Every conversation in Messages, every picture sent in one, your switch and your blocks, and any report copied from them are now encrypted where they are kept at Netlify</strong>, with a key of their own that nothing else on the street uses. Ryan&rsquo;s call. Somebody who got at the stored files alone could not read them. <strong>It is still not end-to-end</strong>: our server opens them to show the two of you your conversation, and a report to our moderators. Without the key, Messages is shut rather than written in the clear. <a href="privacy.html#messages">The privacy page</a> says so. Changed: <code>netlify/cb/lib.mjs</code>, the three Messages functions, <code>cb.js</code>, <code>privacy.html</code>, <code>cb-guide.html</code>, and <code>tools/check-messages.py</code>, which now refuses anything of a conversation written in the clear.</li>
+  </ul>
+
   <h2 id="2026-10-25-channel-rules">2026-10-25 &mdash; Every channel says what it keeps, and the desk sets it</h2>
   <ul>
     <li><strong>A channel now keeps its latest hundred messages</strong>, each for two weeks, unless our administrators set it otherwise at the desk in <a href="town-hall-moderators.html">the Moderators&rsquo; room</a>: World, any room&rsquo;s channel, every channel at once, or direct messages, each from 50 to 1,000 messages and from a day to a year, or for good. Ryan&rsquo;s call, after requests for more to scroll back through. <a href="privacy.html#channel-rules">The privacy page</a> was rewritten first.</li>

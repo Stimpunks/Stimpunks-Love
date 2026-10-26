@@ -8,11 +8,13 @@
    else. Only an accepted conversation takes a picture: a request is words
    only. Nothing about a picture is kept but the picture, whose it is, which
    conversation it is for and when, and it goes when its message goes. */
-import { readPass, forumReader, putDmImage, getDmImage, cleanHandle, json, sameSite, IMG_MAX } from '../cb/lib.mjs';
+import { dmReady, readPass, forumReader, putDmImage, getDmImage, cleanHandle, json, sameSite, IMG_MAX } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
 export default async (req) => {
+  // Sealed at rest with CB_DM_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!dmReady()) return json(503, { error: 'Direct messages are shut just now. Nothing was sent or read.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });
   if (!forumReader(who)) return json(403, { error: 'Claim your username first: messages are for claimed usernames only.' });

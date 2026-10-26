@@ -37,7 +37,16 @@ WHAT IT REFUSES, and why each one is here:
     rest. They live under dm-img/, which the channel's own sweep never lists. A
     reported picture's copy goes when its report does, and the desk shows it
     only when a moderator presses for it.
-  · A MESSAGE KEPT PAST ITS 48 HOURS, and the sweep not deleting what is left.
+  · A MESSAGE KEPT PAST ITS TIME, and the sweep not deleting what is left.
+  · ANYTHING OF A CONVERSATION WRITTEN IN THE CLEAR (Ryan's call, 2026-10-25):
+    a conversation, the switches and blocks and the reports are written only
+    through updateDm with sealed true, a picture and a reported picture only
+    through sealDmBytes, under CB_DM_KEY, which only dmCipherKey reads, never
+    the office's key; every DM function shuts without it (dmReady); and the
+    privacy page says sealed at rest and not end-to-end, both. The friendly
+    edit is falling back to the clear when the key is missing "so messages
+    keep working", which writes the most private words on the CB in the open
+    the one time nobody is looking.
   · FORGET ME OR DELETING THE USERNAME LEAVING A CONVERSATION BEHIND.
   · A COUNT, A RECEIPT OR A TIMER in the radio's Messages code: no unread
     number (a conversation is MARKED when something new is in it, Ryan's call,
@@ -196,18 +205,40 @@ def main():
     if "d.kind === 'dm'" not in sw or "'/#cb=messages'" not in sw:
         refuse("cb-sw.js no longer shows a message's notification, or opens Messages from it.")
 
+    # Sealed at rest (2026-10-25).
+    for name, why in [("updateConv", "a conversation"), ("reportDm", "the reports"), ("closeReport", "the reports")]:
+        if ", s, true)" not in fn(part, name):
+            refuse(f"{name} writes {why} without sealing it.")
+    if "updateDm(DM_SET + me, dmSetDoc, change, s, true)" not in part:
+        refuse("somebody's switch and blocks are written without sealing them.")
+    if "sealDmBytes(DM_IMG + id, bytes)" not in fn(part, "putDmImage"):
+        refuse("putDmImage writes a picture without sealing it.")
+    if "sealDmBytes(REPORT_IMG + rec.id" not in fn(part, "reportDm"):
+        refuse("reportDm copies a picture onto the desk without sealing it.")
+    if re.search(r"s\.setJSON\((?:p\.key|key|pairBlob|REPORTS|DM_SET)[^,]*, next", part):
+        refuse("a conversation, a switch or the reports are written with setJSON and no seal.")
+    if lib.count("process.env.CB_DM_KEY") != 1 or "process.env.CB_DM_KEY" not in fn(lib, "dmCipherKey"):
+        refuse("CB_DM_KEY is read somewhere other than dmCipherKey.")
+    if "CB_OFFICE_KEY" in fn(lib, "dmCipherKey"):
+        refuse("direct messages are sealed with the office's key, not a key of their own.")
+    for f in ("cb-dm", "cb-dm-image", "cb-dm-reports"):
+        if "if (!dmReady()) return json(503" not in (ROOT / "netlify" / "functions" / f"{f}.mjs").read_text():
+            refuse(f"netlify/functions/{f}.mjs does not shut without the key.")
+
     priv = (ROOT / "privacy.html").read_text()
     if 'id="messages"' not in priv:
         refuse("the privacy page (privacy.html) has no section on direct messages (id=\"messages\").")
     elif "not end-to-end encrypted" not in priv:
         refuse("the privacy page no longer says direct messages are not end-to-end encrypted.")
+    elif "sealed at rest" not in priv:
+        refuse("the privacy page does not say direct messages are sealed at rest.")
     if 'id="messages"' not in (ROOT / "cb-guide.html").read_text():
         refuse("the CB guide (cb-guide.html) has no section on messages (id=\"messages\").")
 
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)
-    print("messages: claimed at both ends, a block that says nothing, two weeks, moderators only through a report, never counted")
+    print("messages: claimed at both ends, a block that says nothing, sealed at rest, moderators only through a report, never counted")
 
 
 if __name__ == "__main__":

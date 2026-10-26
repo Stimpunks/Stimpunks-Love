@@ -197,6 +197,10 @@ for (const etagOnRead of [true, false]) {
   });
 }
 
+// Direct messages are sealed at rest and shut without a key (CB_DM_KEY), so
+// every test runs with a test key; one test below takes it away.
+process.env.CB_DM_KEY = Buffer.alloc(32, 7).toString('base64url');
+
 test('the radio offers exactly the reactions the server takes', async () => {
   const { readFileSync } = await import('node:fs');
   const src = readFileSync(new URL('../../cb.js', import.meta.url), 'utf8');
@@ -8090,3 +8094,81 @@ import { setRule, rulesList, ruleOf, loadRules, KEEP_CHOICES, LIFE_CHOICES, WIND
     assert.equal(WINDOW, 100);
   });
 }
+
+
+/* ── Direct messages sealed at rest with a key of their own (2026-10-25) ── */
+import { dmReady } from './lib.mjs';
+
+test('a conversation, its pictures, the switches and blocks, and the reports are sealed, and open only under their own names', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  assert.ok(dmReady());
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'a secret about the otters', s);
+  await acceptDm(bex, 'Ada', s);
+  const key = s.keys().find((k) => k.startsWith('dm/'));
+  const raw = await s.get(key, { type: 'json' });
+  assert.equal(raw.sealed, 1); assert.equal(raw.k, 'dm');
+  assert.ok(!JSON.stringify(raw).includes('otters') && !JSON.stringify(raw).includes('Ada'), 'a conversation was written in the clear');
+  assert.equal((await readDmWith(bex, 'Ada', s)).messages[0].text, 'a secret about the otters');
+  const set = await s.get(s.keys().find((k) => k.startsWith('dm-set/')), { type: 'json' });
+  assert.equal(set.sealed, 1, 'somebody\'s switch and blocks were written in the clear');
+  // Copied under another conversation's name, it does not open.
+  await claimAccount('Cy', 'a long enough phrase', s, 33, null);
+  const other = 'dm/' + [dmKey('Ada', 11), dmKey('Cy', 33)].sort().join('.');
+  await s.setJSON(other, raw, { onlyIfNew: true });
+  await assert.rejects(() => readDmWith(person('Cy', 33), 'Ada', s), 'a sealed conversation opened under another name');
+  // A picture: sealed bytes on the shelf, the picture itself to the two people.
+  const pic = jpeg(9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9);
+  const { id } = await putDmImage(ada, 'Bex', pic, s);
+  const shelf = Buffer.from(await s.get('dm-img/' + id, { type: 'arrayBuffer' }));
+  assert.equal(shelf.subarray(0, 4).toString(), 'SDM1', 'a picture was written in the clear');
+  assert.ok(!shelf.includes(Buffer.from([0xff, 0xd8, 0xff, 0xdb])), 'the sealed picture still carries its JPEG bytes');
+  await sendDm(ada, 'Bex', { text: 'look', img: id }, s);
+  assert.deepEqual(Buffer.from((await getDmImage(bex, id, s)).data), Buffer.from(pic), 'the picture did not open as it was sent');
+  // A report and its picture, sealed on the desk, open for the base.
+  const mo = { role: 'base', handle: 'Mo', roles: new Set(['moderator']) };
+  const msgId = (await readDmWith(bex, 'Ada', s)).messages.find((m) => m.img).id;
+  assert.ok((await reportDm(bex, 'Ada', msgId, 'not ok', s)).reported);
+  const desk = await s.get('dm-reports', { type: 'json' });
+  assert.equal(desk.sealed, 1, 'the reports were written in the clear');
+  const r = (await readReports(mo, s))[0];
+  assert.equal(r.text, 'look');
+  const copy = Buffer.from(await s.get('dm-report-img/' + r.id, { type: 'arrayBuffer' }));
+  assert.equal(copy.subarray(0, 4).toString(), 'SDM1', 'a reported picture was copied in the clear');
+  assert.deepEqual(Buffer.from((await reportImage(mo, r.id, s)).data), Buffer.from(pic));
+}));
+
+test('a conversation and a picture from before the key are read as they are, and the sweep seals them', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  await setDmOpen(bex, true, s);
+  await sendDm(ada, 'Bex', 'hello', s);
+  await acceptDm(bex, 'Ada', s);
+  const key = s.keys().find((k) => k.startsWith('dm/'));
+  const sealed = await s.get(key, { type: 'json' });
+  // Put the same conversation back as it would have been written before the key.
+  const plainConv = (await readDmWith(ada, 'Bex', s));
+  assert.ok(plainConv.messages.length);
+  const lib = await import('./lib.mjs');
+  const opened = JSON.parse(JSON.stringify(sealed));
+  await s.delete(key);
+  const now = Date.now();
+  await s.setJSON(key, { people: {}, from: null, open: true, messages: [{ id: 'dOLDOLDOLD1', handle: 'Ada', by: lib.dmKey('Ada', 11), text: 'from before', t: now }] }, { onlyIfNew: true });
+  assert.equal((await s.get(key, { type: 'json' })).sealed, undefined);
+  assert.equal(await lib.sweepDms(s), true, 'the sweep left an unsealed conversation');
+  assert.equal((await s.get(key, { type: 'json' })).sealed, 1, 'the sweep did not seal it');
+  assert.ok(opened.sealed === 1);
+}));
+
+test('without the key, direct messages are shut and nothing is written in the clear', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [ada, bex] = await twoPeople(s);
+  const was = process.env.CB_DM_KEY;
+  delete process.env.CB_DM_KEY;
+  try {
+    assert.equal(dmReady(), false);
+    await assert.rejects(() => setDmOpen(bex, true, s), /shut/);
+    assert.deepEqual(s.keys().filter((k) => k.startsWith('dm')), [], 'something was written without the key');
+  } finally { process.env.CB_DM_KEY = was; }
+}));

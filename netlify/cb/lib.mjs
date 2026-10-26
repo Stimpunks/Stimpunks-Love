@@ -3477,6 +3477,67 @@ const REPORTS = 'dm-reports';
 const pairBlob = (a, b) => DM + [a, b].sort().join('.');
 const markBlob = (me, them) => `${DM_MARK}${me}/${them}`;
 
+/* SEALED AT REST (Ryan's call, 2026-10-25): every conversation, every picture
+   sent in one, each person's switch and blocks, and the reports copied from
+   them with their pictures, sealed with CB_DM_KEY, a key of their own and
+   never the office's (32 bytes as base64url, in Netlify and nowhere else).
+   AES-256-GCM, a fresh nonce each time, and the blob's own name as associated
+   data, so a sealed blob cannot be read, altered or moved under another name
+   without the key. NOT END-TO-END: the server opens them to show the two people
+   in a conversation (and a report to the desk), and privacy.html#messages says
+   so in those words. WITHOUT THE KEY DIRECT MESSAGES ARE SHUT (dmReady), never
+   written in the clear. A blob written before the key was read as it is and
+   sealed the next time it is written; the hourly sweep seals what is left.
+   Losing the key loses every conversation, so Ryan keeps a copy of it. */
+function dmCipherKey() {
+  const v = process.env.CB_DM_KEY;
+  if (!v) return null;
+  try { const k = Buffer.from(v.trim(), 'base64url'); return k.length === 32 ? k : null; } catch (e) { return null; }
+}
+export function dmReady() { return !!dmCipherKey(); }
+function sealDm(name, obj) {
+  const key = dmCipherKey();
+  if (!key) throw new Error('shut');
+  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
+  c.setAAD(Buffer.from(name, 'utf8'));
+  const data = Buffer.concat([c.update(JSON.stringify(obj), 'utf8'), c.final()]);
+  return { sealed: 1, k: 'dm', iv: iv.toString('base64url'), tag: c.getAuthTag().toString('base64url'), data: data.toString('base64url') };
+}
+const isSealedDm = (d) => !!d && d.sealed === 1 && d.k === 'dm';
+function openDm(name, d) {
+  if (!isSealedDm(d)) return d;
+  const key = dmCipherKey();
+  if (!key) throw new Error('shut');
+  const c = createDecipheriv('aes-256-gcm', key, Buffer.from(d.iv, 'base64url'));
+  c.setAAD(Buffer.from(name, 'utf8'));
+  c.setAuthTag(Buffer.from(d.tag, 'base64url'));
+  return JSON.parse(Buffer.concat([c.update(Buffer.from(d.data, 'base64url')), c.final()]).toString('utf8'));
+}
+async function getDm(name, s) { return openDm(name, await s.get(name, { type: 'json' })); }
+/* A picture's bytes: SDM1, the nonce, the tag, then the sealed bytes. */
+const SEALED_BYTES = Buffer.from('SDM1');
+const toBuf = (v) => (Buffer.isBuffer(v) ? v : v instanceof ArrayBuffer ? Buffer.from(v) : Buffer.from(v.buffer, v.byteOffset, v.byteLength));
+const toArrayBuffer = (b) => b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+const bytesSealed = (v) => { const b = toBuf(v); return b.length > 32 && b.subarray(0, 4).equals(SEALED_BYTES); };
+function sealDmBytes(name, bytes) {
+  const key = dmCipherKey();
+  if (!key) throw new Error('shut');
+  const iv = randomBytes(12), c = createCipheriv('aes-256-gcm', key, iv);
+  c.setAAD(Buffer.from(name, 'utf8'));
+  const data = Buffer.concat([c.update(toBuf(bytes)), c.final()]);
+  return toArrayBuffer(Buffer.concat([SEALED_BYTES, iv, c.getAuthTag(), data]));
+}
+function openDmBytes(name, bytes) {
+  const b = toBuf(bytes);
+  if (!bytesSealed(b)) return bytes;
+  const key = dmCipherKey();
+  if (!key) throw new Error('shut');
+  const c = createDecipheriv('aes-256-gcm', key, b.subarray(4, 16));
+  c.setAAD(Buffer.from(name, 'utf8'));
+  c.setAuthTag(b.subarray(16, 32));
+  return toArrayBuffer(Buffer.concat([c.update(b.subarray(32)), c.final()]));
+}
+
 /* Who somebody is to their messages: the folded name and when it was claimed.
    Never sent anywhere. */
 export function dmKey(handle, since) {
@@ -3508,23 +3569,23 @@ function reportsDoc(d, now = Date.now()) {
 /* One record changed without losing a change made at the same moment: the
    props' write. change() returns the next record, null for no change, or
    { error }. */
-async function updateDm(key, norm, change, s) {
+async function updateDm(key, norm, change, s, sealed = false) {
   for (let attempt = 0; attempt < 12; attempt++) {
     const cur = await versioned(s, key);
-    const was = norm(cur.exists ? cur.data : null);
+    const was = norm(cur.exists ? (sealed ? openDm(key, cur.data) : cur.data) : null);
     const next = change(was);
     if (next === null) return was;
     if (next.error) return next;
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
-    const res = await s.setJSON(key, next, opts);
+    const res = await s.setJSON(key, sealed ? sealDm(key, next) : next, opts);
     if (res.modified) return next;
     await new Promise((r) => setTimeout(r, 20 + Math.random() * 60 * (attempt + 1)));
   }
   throw new Error('busy');
 }
 
-export async function readDmSet(me, s = store()) { return dmSetDoc(await s.get(DM_SET + me, { type: 'json' })); }
-const updateDmSet = (me, change, s) => updateDm(DM_SET + me, dmSetDoc, change, s);
+export async function readDmSet(me, s = store()) { return dmSetDoc(await getDm(DM_SET + me, s)); }
+const updateDmSet = (me, change, s) => updateDm(DM_SET + me, dmSetDoc, change, s, true);
 const blocks = (set, handle) => set.blocked.some((b) => b.k === petKey(handle));
 
 /* Every write to a conversation goes through here, and a picture its write
@@ -3539,7 +3600,7 @@ async function updateConv(key, change, s, now) {
     before = was;
     after = { people: next.people, from: next.from, open: next.open === true, messages: stampNew(was.messages, next.messages, rule).slice(-rule.keep) };
     return after;
-  }, s);
+  }, s, true);
   if (after && out === after) await dropDmImages(droppedImages(before.messages, after.messages), s);
   return out;
 }
@@ -3630,7 +3691,7 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { error: 'blocked' };
   if (blocks(theirs, who.handle)) return { error: 'closed' };
-  const was = convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s));
+  const was = convDoc(await getDm(p.key, s), now, await ruleOf(RULE_DM, s));
   // A sticker is not for a request either.
   if (stick && !was.open) return { error: 'accepted' };
   if (img) {
@@ -3686,11 +3747,11 @@ export async function putDmImage(who, handle, bytes, s = store(), now = Date.now
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { error: 'blocked' };
   if (blocks(theirs, who.handle)) return { error: 'closed' };
-  if (!convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s)).open) return { error: 'accepted' };
+  if (!convDoc(await getDm(p.key, s), now, await ruleOf(RULE_DM, s)).open) return { error: 'accepted' };
   const k = pictureCheck(bytes);
   if (k.error) return { error: 'bad', why: k.error };
   const id = randomUUID();
-  await s.set(DM_IMG + id, bytes, { metadata: { by: p.me, pair: p.key, t: now, type: k.kind } });
+  await s.set(DM_IMG + id, sealDmBytes(DM_IMG + id, bytes), { metadata: { by: p.me, pair: p.key, t: now, type: k.kind } });
   return { id };
 }
 
@@ -3702,9 +3763,9 @@ export async function getDmImage(who, id, s = store(), now = Date.now()) {
   const meta = got && got.metadata;
   if (!meta || typeof meta.pair !== 'string' || !meta.pair.startsWith(DM)) return null;
   if (!meta.pair.slice(DM.length).split('.').includes(dmKey(who.handle, who.since))) return null;
-  const c = convDoc(await s.get(meta.pair, { type: 'json' }), now, await ruleOf(RULE_DM, s));
+  const c = convDoc(await getDm(meta.pair, s), now, await ruleOf(RULE_DM, s));
   if (!c.messages.some((m) => m.img === id)) return null;
-  return { data: got.data, type: meta.type };
+  return { data: openDmBytes(DM_IMG + id, got.data), type: meta.type };
 }
 
 /* The conversation with `handle`, as the person asking is shown it:
@@ -3718,7 +3779,7 @@ export async function readDmWith(who, handle, s = store(), now = Date.now()) {
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { handle: p.handle, state: 'new', can: 'blocked', messages: [] };
   if (blocks(theirs, who.handle)) return { handle: p.handle, state: 'new', can: 'closed', messages: [] };
-  const c = convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s));
+  const c = convDoc(await getDm(p.key, s), now, await ruleOf(RULE_DM, s));
   const state = stateOf(c, p.me);
   const can = state === 'asked' ? 'waiting' : state === 'new' && !theirs.open ? 'closed' : 'yes';
   return { handle: p.handle, state, can, messages: c.messages.map((m) => shapeDm(m, p.me)) };
@@ -3736,7 +3797,7 @@ export async function listDms(who, s = store(), now = Date.now()) {
   const out = [];
   for (const b of (await s.list({ prefix })).blobs || []) {
     const them = b.key.slice(prefix.length);
-    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now, await ruleOf(RULE_DM, s));
+    const c = convDoc(await getDm(pairBlob(me, them), s), now, await ruleOf(RULE_DM, s));
     const handle = c.people[them];
     if (!c.messages.length || typeof handle !== 'string' || blocks(set, handle)) continue;
     const last = c.messages[c.messages.length - 1];
@@ -3853,7 +3914,8 @@ export async function forgetDms(handle, since, s = store()) {
   const prefix = DM_MARK + me + '/';
   for (const b of (await s.list({ prefix })).blobs || []) {
     const them = b.key.slice(prefix.length);
-    const c = await s.get(pairBlob(me, them), { type: 'json' });
+    let c = null;
+    try { c = await getDm(pairBlob(me, them), s); } catch (e) { c = null; }
     await s.delete(pairBlob(me, them));
     await dropDmImages(stored(plain(c)).map((m) => m && m.img).filter(Boolean), s);
     await s.delete(markBlob(them, me));
@@ -3960,7 +4022,7 @@ export async function newFor(who, s = store(), now = Date.now()) {
   let asking = false;
   for (const b of (await s.list({ prefix })).blobs || []) {
     const them = b.key.slice(prefix.length);
-    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now, await ruleOf(RULE_DM, s));
+    const c = convDoc(await getDm(pairBlob(me, them), s), now, await ruleOf(RULE_DM, s));
     const handle = c.people[them];
     if (!c.messages.length || typeof handle !== 'string' || blocks(set, handle)) continue;
     const state = stateOf(c, me);
@@ -4016,7 +4078,7 @@ export async function reportDm(who, handle, id, note, s = store(), now = Date.no
   if (n === null) return { error: 'long' };
   const p = await pairOf(who, handle, s);
   if (p.error) return { error: 'which' };
-  const c = convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s));
+  const c = convDoc(await getDm(p.key, s), now, await ruleOf(RULE_DM, s));
   const m = c.messages.find((x) => x.id === id);
   if (!m || m.by === p.me) return { error: 'which' };
   const rec = { id: 'k' + randomBytes(8).toString('base64url').slice(0, 10), t: now, by: who.handle, of: m.handle,
@@ -4026,7 +4088,7 @@ export async function reportDm(who, handle, id, note, s = store(), now = Date.no
   if (m.img) {
     const got = await s.getWithMetadata(DM_IMG + m.img, { type: 'arrayBuffer' });
     if (got && got.metadata) {
-      await s.set(REPORT_IMG + rec.id, got.data, { metadata: { t: now, type: got.metadata.type } });
+      await s.set(REPORT_IMG + rec.id, sealDmBytes(REPORT_IMG + rec.id, openDmBytes(DM_IMG + m.img, got.data)), { metadata: { t: now, type: got.metadata.type } });
       rec.img = true;
       rec.alt = m.alt || '';
     }
@@ -4035,7 +4097,7 @@ export async function reportDm(who, handle, id, note, s = store(), now = Date.no
     if (was.reports.some((r) => r.msg === m.id && foldHandle(r.by) === foldHandle(who.handle))) return { error: 'again' };
     if (was.reports.length >= REPORT_KEEP) return { error: 'full' };
     return { reports: [...was.reports, rec] };
-  }, s);
+  }, s, true);
   if (next.error && rec.img) await s.delete(REPORT_IMG + rec.id);
   return next.error ? next : { reported: rec.id };
 }
@@ -4045,15 +4107,15 @@ export async function reportDm(who, handle, id, note, s = store(), now = Date.no
 export async function reportImage(who, id, s = store(), now = Date.now()) {
   if (!who || who.role !== 'base') return null;
   if (typeof id !== 'string' || !REPORT_ID.test(id)) return null;
-  if (!reportsDoc(await s.get(REPORTS, { type: 'json' }), now).reports.some((r) => r.id === id && r.img)) return null;
+  if (!reportsDoc(await getDm(REPORTS, s), now).reports.some((r) => r.id === id && r.img)) return null;
   const got = await s.getWithMetadata(REPORT_IMG + id, { type: 'arrayBuffer' });
-  return got && got.metadata ? { data: got.data, type: got.metadata.type } : null;
+  return got && got.metadata ? { data: openDmBytes(REPORT_IMG + id, got.data), type: got.metadata.type } : null;
 }
 
 /* The desk's list, newest first, for the base and nobody else. */
 export async function readReports(who, s = store(), now = Date.now()) {
   if (!who || who.role !== 'base') return null;
-  const d = reportsDoc(await s.get(REPORTS, { type: 'json' }), now);
+  const d = reportsDoc(await getDm(REPORTS, s), now);
   return d.reports.slice().reverse().map((r) => ({ id: r.id, t: r.t, by: r.by, of: r.of, text: r.text, sent: r.sent, note: r.note || '',
     ...(r.img ? { img: true, alt: r.alt || '' } : {}) }));
 }
@@ -4063,7 +4125,7 @@ export async function closeReport(who, id, s = store(), now = Date.now()) {
   if (!who || who.role !== 'base') return { error: 'base' };
   if (typeof id !== 'string' || !REPORT_ID.test(id)) return { error: 'which' };
   const out = await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => (was.reports.some((r) => r.id === id)
-    ? { reports: was.reports.filter((r) => r.id !== id) } : { error: 'which' }), s);
+    ? { reports: was.reports.filter((r) => r.id !== id) } : { error: 'which' }), s, true);
   if (!out.error) await s.delete(REPORT_IMG + id);
   return out;
 }
@@ -4154,9 +4216,21 @@ export async function closeModCall(who, id, s = store(), now = Date.now()) {
 export async function sweepDms(s = store(), now = Date.now()) {
   let any = false;
   const live = new Set();
+  const rule = await ruleOf(RULE_DM, s);
   for (const b of (await s.list({ prefix: DM })).blobs || []) {
-    if (convDoc(await s.get(b.key, { type: 'json' }), now, await ruleOf(RULE_DM, s)).messages.length) { live.add(b.key); continue; }
+    const raw = await s.get(b.key, { type: 'json' });
+    if (convDoc(openDm(b.key, raw), now, rule).messages.length) {
+      live.add(b.key);
+      // Written before the key: sealed now.
+      if (!isSealedDm(raw)) { await updateDm(b.key, (d) => convDoc(d, now, rule), (was) => was, s, true); any = true; }
+      continue;
+    }
     await s.delete(b.key);
+    any = true;
+  }
+  for (const b of (await s.list({ prefix: DM_SET })).blobs || []) {
+    if (isSealedDm(await s.get(b.key, { type: 'json' }))) continue;
+    await updateDm(b.key, dmSetDoc, (was) => was, s, true);
     any = true;
   }
   for (const b of (await s.list({ prefix: DM_MARK })).blobs || []) {
@@ -4168,8 +4242,9 @@ export async function sweepDms(s = store(), now = Date.now()) {
     any = true;
   }
   const raw = await s.get(REPORTS, { type: 'json' });
-  if (raw && reportsDoc(raw, now).reports.length !== (plain(raw).reports || []).length) {
-    await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => was, s);
+  const reps = openDm(REPORTS, raw);
+  if (raw && (!isSealedDm(raw) || reportsDoc(reps, now).reports.length !== (plain(reps).reports || []).length)) {
+    await updateDm(REPORTS, (d) => reportsDoc(d, now), (was) => was, s, true);
     any = true;
   }
   const calls = await s.get(MOD_CALLS, { type: 'json' });
@@ -4186,16 +4261,22 @@ export async function sweepDms(s = store(), now = Date.now()) {
     const meta = (got && got.metadata) || {};
     if (typeof meta.t === 'number' && now - meta.t < IMG_UNSENT) continue;
     if (typeof meta.pair === 'string' && meta.pair.startsWith(DM)) {
-      if (!held.has(meta.pair)) held.set(meta.pair, new Set(convDoc(await s.get(meta.pair, { type: 'json' }), now, await ruleOf(RULE_DM, s)).messages.map((m) => m.img).filter(Boolean)));
-      if (held.get(meta.pair).has(id)) continue;
+      if (!held.has(meta.pair)) held.set(meta.pair, new Set(convDoc(await getDm(meta.pair, s), now, await ruleOf(RULE_DM, s)).messages.map((m) => m.img).filter(Boolean)));
+      if (held.get(meta.pair).has(id)) {
+        if (!bytesSealed(got.data)) { await s.set(b.key, sealDmBytes(b.key, got.data), { metadata: meta }); any = true; }
+        continue;
+      }
     }
     await s.delete(b.key);
     any = true;
   }
-  const onDesk = new Set(reportsDoc(await s.get(REPORTS, { type: 'json' }), now).reports.filter((r) => r.img).map((r) => r.id));
+  const onDesk = new Set(reportsDoc(await getDm(REPORTS, s), now).reports.filter((r) => r.img).map((r) => r.id));
   for (const b of (await s.list({ prefix: REPORT_IMG })).blobs || []) {
-    if (onDesk.has(b.key.slice(REPORT_IMG.length))) continue;
     const got = await s.getWithMetadata(b.key, { type: 'arrayBuffer' });
+    if (onDesk.has(b.key.slice(REPORT_IMG.length))) {
+      if (got && !bytesSealed(got.data)) { await s.set(b.key, sealDmBytes(b.key, got.data), { metadata: got.metadata || {} }); any = true; }
+      continue;
+    }
     const t = got && got.metadata && got.metadata.t;
     if (typeof t === 'number' && now - t < IMG_UNSENT) continue;
     await s.delete(b.key);

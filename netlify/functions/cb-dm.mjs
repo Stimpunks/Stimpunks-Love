@@ -31,7 +31,7 @@
    be checked before anybody writes, '' for none, and none while they are not
    taking messages from you or you have blocked them. It is a sign and never a
    lock: nothing here refuses a message because of it. */
-import { readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, editDm, reactDm, setDmOpen, blockDm,
+import { dmReady, readPass, forumReader, listDms, readDmWith, chatStatusOf, petKey, sendDm, acceptDm, rejectDm, takeDm, editDm, reactDm, setDmOpen, blockDm,
   unblockDm, reportDm, notifyDm, cleanHandle, MESSAGE_MAX, REPORT_NOTE_MAX, DM_WITH, json, body, sameSite } from '../cb/lib.mjs';
 
 // Every answer asks search engines not to index or archive it, as
@@ -40,6 +40,8 @@ const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 const ok = (b) => json(200, { ...b, max: MESSAGE_MAX }, NOINDEX);
 
 export default async (req, context) => {
+  // Sealed at rest with CB_DM_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!dmReady()) return json(503, { error: 'Direct messages are shut just now. Nothing was sent or read.' });
   if (!sameSite(req)) return json(403, { error: 'Messages only answer stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });

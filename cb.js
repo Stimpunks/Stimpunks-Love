@@ -8475,7 +8475,7 @@
     // THE LIST: the switch, a way to write to a username, and the conversations.
     var inbox = this.dmInbox = el('div', 'cb-dm-inbox');
     var about = el('p', 'cb-online-about');
-    about.appendChild(document.createTextNode('Between you and one other person, both with claimed usernames. Each message goes two weeks after it was sent. Nobody else can read them, moderators included, unless one of you reports a message to them. They are not end-to-end encrypted: '));
+    about.appendChild(document.createTextNode('Between you and one other person, both with claimed usernames. Unless our administrators set it otherwise, each message goes two weeks after it was sent. Nobody else can read them, moderators included, unless one of you reports a message to them. They are sealed where they are kept, and not end-to-end encrypted: '));
     var pa = el('a', null, 'what that means');
     pa.href = '/privacy.html#messages';
     about.appendChild(pa);

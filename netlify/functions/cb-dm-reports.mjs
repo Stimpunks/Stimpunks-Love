@@ -8,11 +8,13 @@
    an optional note. Nothing else about any conversation is ever shown to
    anybody but the two people in it, and no moderator can read one. A report is
    deleted when a moderator closes it, or after thirty days. */
-import { readPass, readReports, closeReport, reportImage, REPORT_DAYS, json, body, sameSite } from '../cb/lib.mjs';
+import { dmReady, readPass, readReports, closeReport, reportImage, REPORT_DAYS, json, body, sameSite } from '../cb/lib.mjs';
 
 const NOINDEX = { 'x-robots-tag': 'noindex, nofollow, noarchive' };
 
 export default async (req) => {
+  // Sealed at rest with CB_DM_KEY (lib.mjs): without it, shut rather than written in the clear.
+  if (!dmReady()) return json(503, { error: 'Direct messages are shut just now. Nothing was sent or read.' });
   if (!sameSite(req)) return json(403, { error: 'The desk only answers stimpunks.world.' });
   const who = await readPass(req);
   if (!who) return json(401, { error: 'signed off' });

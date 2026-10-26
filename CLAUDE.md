@@ -1669,7 +1669,14 @@ A conversation already going goes on whatever the switch says. **Every message g
 asks again. **A block is the blocker's own record, by the name blocked (`petKey`)**, so it holds through a re-claim;
 it empties the conversation for both and answers the blocked person `'closed'`, the same words as a switch that is
 off, so nothing ever says "blocked". **Not end-to-end encrypted**, and `privacy.html#messages` says so in those
-words. **A report is the one way a message reaches a moderator**: one message, copied with who reported it and a
+words. **Sealed at rest since 2026-10-25** (Ryan's call): every conversation, each person's switch and blocks
+(`dm-set/`), the reports and every picture and reported picture, AES-256-GCM under `CB_DM_KEY`, a key of their
+own and never the office's, with the blob's name as associated data so a sealed conversation cannot be read under
+another conversation's name. `updateDm(…, true)` and `sealDmBytes` are the only ways in, `getDm` and
+`openDmBytes` the only ways out, and **without the key every DM function is shut** (`dmReady`), never falling
+back to the clear; a blob from before the key is read as it is and sealed on its next write or by the hourly
+sweep. `tools/check-messages.py` holds all of it. **Losing the key loses every conversation**, so Ryan keeps a
+copy of it, as of the office's. The friendly edit is a fallback to the clear "so messages keep working". **A report is the one way a message reaches a moderator**: one message, copied with who reported it and a
 note onto the desk in the Moderators' room (`desk.js`), kept until closed or thirty days, even if either username
 is deleted. Forget me and deleting the username delete everything else, for both people. `tools/check-messages.py`
 holds all of it, and refuses a count, a receipt, "seen", "typing", a timer or browser storage in the radio's
