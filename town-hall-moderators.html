@@ -164,6 +164,25 @@
     <p class="md-call__fine" id="md-roles-off">The roles open for an administrator, and the server refuses everybody else whatever this page shows.</p>
   </section>
 
+  <section class="md-part" aria-labelledby="md-chan-h">
+    <h2 id="md-chan-h">The desk: channels</h2>
+    <p><strong>How many messages each channel keeps, and for how long, is set here by our administrators</strong> (since 25 October 2026): World, any room&rsquo;s channel, every channel not set otherwise (the Slake&rsquo;s places too), and direct messages, each on its own. Unless somebody sets it otherwise, a channel keeps its latest 100 messages, each for two weeks from when it was sent. The radio says what each channel keeps, under <b>In this channel</b>, so nobody has to take a page&rsquo;s word for it.</p>
+    <p><strong>A longer time reaches only messages sent after it is set</strong>, because everything else was said under the time it was sent under; a channel&rsquo;s whole history is kept longer only when everybody who wrote in it has said yes, which is a change to the code rather than to this desk. <strong>A shorter time, or fewer messages, reaches everything at once</strong>: what no longer fits is deleted. Each channel set keeps who changed it last and when, and nothing more. A change reaches every radio within half a minute.</p>
+    <div class="md-call md-desk" id="md-chan" hidden>
+      <p><button type="button" id="md-chan-load">Show the channels</button></p>
+      <div id="md-chan-list"></div>
+      <fieldset class="md-roles__add">
+        <legend>Set a room&rsquo;s channel</legend>
+        <p><label class="md-desk__lab" for="md-chan-room">A room</label>
+        <select class="md-desk__in" id="md-chan-room"></select></p>
+        <p class="md-roles__checks" id="md-chan-new"></p>
+        <p><button type="button" id="md-chan-add">Set it</button></p>
+      </fieldset>
+      <p class="md-call__said" id="md-chan-said" role="status"></p>
+    </div>
+    <p class="md-call__fine" id="md-chan-off">The channels open for an administrator, and the server refuses everybody else whatever this page shows.</p>
+  </section>
+
   <section class="md-part" aria-labelledby="md-everybody-h">
     <h2 id="md-everybody-h">The desk: everybody</h2>
     <p><strong>Every username on the CB, how many there are, and who is seen in a room now</strong>, so that we know what we could tell at a glance if we were all in one room together. Moderators asked for it for safeguarding, and it is Ryan&rsquo;s call of 22 October 2026, which reverses the street&rsquo;s old rule that there was no list of everybody. It is here and nowhere else: the street&rsquo;s rule against counting people is about its public surfaces, and this is not one.</p>

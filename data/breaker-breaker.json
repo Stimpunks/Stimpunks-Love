@@ -700,11 +700,11 @@
   },
   {
    "name": "On the air, then gone",
-   "words": "A CB keeps nothing: once something has been said, it has gone by. Ours keeps fifty messages, each for two weeks, and Take off takes one off the air.",
+   "words": "A CB keeps nothing: once something has been said, it has gone by. Ours keeps a hundred messages, each for two weeks, unless our administrators set a channel otherwise, and Take off takes one off the air.",
    "holds": [
     {
      "file": "cb-guide.html",
-     "words": "The channel keeps fifty messages, each for two weeks."
+     "words": "it keeps a hundred messages, each for two weeks."
     },
     {
      "file": "cb-guide.html",

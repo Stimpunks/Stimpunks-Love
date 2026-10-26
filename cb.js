@@ -92,6 +92,7 @@
   })();
   var MESSAGE_MAX = 2000;  // characters, as netlify/cb/lib.mjs takes them
   var EVERY = 4000;       // ms between listens while open and in front
+  var WINDOW = 100;       // messages a listen asks for at first, and each Earlier messages more: lib.mjs's WINDOW
   var BEAT = 30000;       // ms a host's beacon goes unsent at most, while nothing changes
   var FILM_MAX = 120;     // characters of a film's title on a beacon, as the server takes it
   var DRIFT = 3;          // seconds a follower may drift from the host before it is moved
@@ -1447,6 +1448,12 @@
     brkBar.addEventListener('click', function () { me.hush(); takeBreak(brkBar); });
     bar.insertBefore(brkBar, move);
 
+    /* WHAT THIS CHANNEL KEEPS (2026-10-25): how many messages and for how long,
+       which administrators set at the desk channel by channel, as the server
+       says it in every listen. Nothing is claimed until it has been heard. */
+    this.keepsLine = el('p', 'cb-quiet cb-keeps');
+    this.keepsLine.hidden = true;
+    hereSec.appendChild(this.keepsLine);
     var who = el('p', 'cb-who');
     who.appendChild(document.createTextNode('On the channel as '));
     who.appendChild(el('b', null, state.handle));
@@ -1624,6 +1631,19 @@
     // Which channel this is, at every size, because small shows only the readout.
     this.bandNow = el('p', 'cb-band-now');
     lcd.appendChild(this.bandNow);
+    /* EARLIER MESSAGES: a listen sends the latest WINDOW, and this asks for
+       WINDOW more each time, up to all the channel keeps. Shown only while the
+       server says there is more. */
+    this.pages = 1;
+    var earlier = this.earlier = el('button', 'cb-btn cb-earlier', 'Earlier messages');
+    earlier.type = 'button';
+    earlier.hidden = true;
+    earlier.addEventListener('click', function () {
+      me.pages++; me.chanV = null; me.backfill = true;
+      clearTimeout(me.timer);
+      me.listen();
+    });
+    lcd.appendChild(earlier);
     var log = this.log = el('ol', 'cb-log');
     log.setAttribute('role', 'log');
     lcd.appendChild(log);
@@ -3167,7 +3187,14 @@
     if (inChat()) this.chatDmTick();
     if (inYou()) this.noticesTick();
     var room = this.tunedRoom(), sent = this.state.pass;
-    call('/cb/channel' + (room ? '?room=' + room : ''), null, sent).then(function (r) {
+    // A new channel starts at its latest WINDOW, with nothing assumed heard.
+    if (room !== this.chanRoom) { this.chanRoom = room; this.pages = 1; this.chanV = null; this.rule = null; }
+    var qs = [];
+    if (room) qs.push('room=' + room);
+    if (this.pages > 1) qs.push('n=' + WINDOW * this.pages);
+    // What it last heard, so a channel nothing has happened on sends nothing back.
+    if (this.chanV) qs.push('v=' + encodeURIComponent(this.chanV));
+    call('/cb/channel' + (qs.length ? '?' + qs.join('&') : ''), null, sent).then(function (r) {
       // A listen that left just before the pass changed, by claiming the
       // username or changing its password, is refused for the old pass: only a
       // refusal of the pass the radio holds now signs it off.
@@ -3176,7 +3203,10 @@
       // Retuned while this was on its way: it is the other channel's answer.
       if (r.status === 200 && (r.body.room || null) !== me.tunedRoom()) return;
       if (r.status === 200) {
-        me.signal(true); me.show(r.body.messages || []); me.readTick(r.body.messages || []); me.showBeacons(r.body.beacons, r.body.now);
+        me.signal(true);
+        me.channelRule(r.body.rule, r.body.older);
+        if (!r.body.same) { me.chanV = r.body.v || null; me.show(r.body.messages || []); me.readTick(r.body.messages || []); }
+        me.showBeacons(r.body.beacons, r.body.now);
         me.calls = !!r.body.calls;
         me.callShown();
         me.keepRoles(r.body.roles);
@@ -3209,8 +3239,10 @@
     this.aired = messages;
     var log = this.log;
     var atEnd = log.hidden || log.scrollHeight - log.scrollTop - log.clientHeight < 24;
-    // The first hearing is what was already said; only what comes after is news.
-    var news = this.heard;
+    var fromEnd = log.scrollHeight - log.scrollTop;
+    // The first hearing is what was already said; only what comes after is
+    // news. Earlier messages are never news.
+    var news = this.heard && !this.backfill;
     this.heard = true;
     for (i = 0; i < messages.length; i++) want[messages[i].id] = true;
     // Gone from the channel: pushed off by a newer one, taken off, or past its
@@ -3242,13 +3274,16 @@
         lis[i].remove();
       }
     }
+    // A new message goes in its place among the ones already drawn, so
+    // earlier messages land above them and the newest below.
+    var pos = log.firstElementChild;
     for (i = 0; i < messages.length; i++) {
       var m = messages[i];
       if (this.seen[m.id]) {
         // Already on the log: only its words, if its sender edited it, and
         // its reactions can have changed.
         var was = this.msgLi(m.id);
-        if (was) { this.drawWords(was, m); this.drawReactions(was, m); this.drawRe(was, m, messages, this.log, RE_GONE); this.drawUnfurls(was, m); }
+        if (was) { this.drawWords(was, m); this.drawReactions(was, m); this.drawRe(was, m, messages, this.log, RE_GONE); this.drawUnfurls(was, m); pos = was.nextElementSibling; }
         continue;
       }
       this.seen[m.id] = true;
@@ -3310,13 +3345,39 @@
          look at). cb.css shows them while a message is pointed at or has the
          keyboard in it, and always where nothing can point. */
       this.drawActs(li, m);
-      this.log.appendChild(li);
+      this.log.insertBefore(li, pos);
       if (news && !(mine && m.handle === this.state.handle)) this.speak(li);
     }
     this.quiet.textContent = this.quietText();
     this.quiet.hidden = messages.length > 0;
     this.log.hidden = messages.length === 0;
-    if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
+    // Earlier messages keep the reader where they were, above what they read.
+    if (this.backfill) { this.backfill = false; log.scrollTop = log.scrollHeight - fromEnd; }
+    else if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
+  };
+
+  /* A write (transmit, react, edit, take off) answers with everything on the
+     channel: the log keeps showing as many as it was, and the next listen
+     hears it afresh. */
+  Radio.prototype.showFrom = function (messages, mine) {
+    var n = WINDOW * (this.pages || 1);
+    this.chanV = null;
+    if (this.earlier) this.earlier.hidden = messages.length <= n;
+    this.show(messages.slice(-n), mine);
+  };
+
+  /* What the channel keeps, said under In this channel and wherever the radio
+     says how far back it reaches. */
+  var LAST = { 1: 'day', 2: 'two days', 7: 'week', 14: 'two weeks', 30: '30 days', 90: '90 days', 365: 'year' };
+  var FOR = { 1: 'a day', 2: 'two days', 7: 'a week', 14: 'two weeks', 30: '30 days', 90: '90 days', 365: 'a year' };
+  Radio.prototype.channelRule = function (rule, older) {
+    if (rule && typeof rule.keep === 'number' && typeof rule.days === 'number') this.rule = rule;
+    this.earlier.hidden = !older;
+    var r = this.rule;
+    this.keepsLine.hidden = !r;
+    if (r) this.keepsLine.textContent = 'This channel keeps its latest ' + r.keep + ' messages, ' +
+      (r.days === 0 ? 'for good.' : 'each for ' + (FOR[r.days] || r.days + ' days') + ' from when it was sent.');
+    this.bandShown();
   };
 
   /* LINK CARDS (a request from our community, Ryan's ask, 2026-10-24): what
@@ -6892,7 +6953,7 @@
         me.setStickers(false);
         me.tell('');
         me.stickBtn.focus();
-        if (room === me.tunedRoom()) me.show(r.body.messages || [], true);
+        if (room === me.tunedRoom()) me.showFrom(r.body.messages || [], true);
         return;
       }
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
@@ -7027,7 +7088,7 @@
     if (room) b.room = room;
     call('/cb/react', { body: b }, this.state.pass).then(function (r) {
       if (r.status === 401) return me.lost();
-      if (r.body && r.body.messages && room === me.tunedRoom()) me.show(r.body.messages);
+      if (r.body && r.body.messages && room === me.tunedRoom()) me.showFrom(r.body.messages);
       if (r.status === 200) return;
       if (r.status === 429) { me.tell('Easy on the reactions: too many in a minute. Try again shortly.'); return; }
       me.tell(why(r, 'That reaction did not go out. Try again.'));
@@ -10590,14 +10651,14 @@
         if (picture) me.dropPicture();
         if (me.replying === re) me.replyStop();
         me.tell('');
-        if (room === me.tunedRoom()) { me.show(r.body.messages || [], true); me.readTick(r.body.messages || []); }
+        if (room === me.tunedRoom()) { me.showFrom(r.body.messages || [], true); me.readTick(r.body.messages || []); }
         return;
       }
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
       // The message it answered went first: the bar goes, the words stay.
       if (r.status === 409 && r.body && r.body.gone === 're') {
         if (me.replying === re) me.replyStop();
-        if (room === me.tunedRoom() && r.body.messages) me.show(r.body.messages);
+        if (room === me.tunedRoom() && r.body.messages) me.showFrom(r.body.messages);
       }
       me.tell(why(r, 'That did not go out. Try again.'));
     }).catch(function () { me.tell('No signal. That did not go out.'); });
@@ -10715,12 +10776,12 @@
       var here = room === me.tunedRoom();
       if (r.status === 200) {
         if (me.editing === ed) me.editStop(true);
-        if (here) me.show(r.body.messages || []);
+        if (here) me.showFrom(r.body.messages || []);
         me.tell(r.body.same ? 'Nothing changed: those are the words it already had.' : 'Your message is edited.');
         return;
       }
       // Gone, or not yours after all: the answer carries the channel.
-      if (here && r.body && r.body.messages) me.show(r.body.messages);
+      if (here && r.body && r.body.messages) me.showFrom(r.body.messages);
       if (r.status === 429) { me.tell('Easy on the mic: too many in a minute. Try again shortly.'); return; }
       me.tell(why(r, 'That edit did not go out. Try again.'));
     }).catch(function () { ed.busy = false; me.tell('No signal. That edit did not go out.'); });
@@ -10734,7 +10795,7 @@
       if (r.status === 401) return me.lost();
       var here = room === me.tunedRoom();
       if (r.status === 200 && here) {
-        me.show(r.body.messages || []);
+        me.showFrom(r.body.messages || []);
         me.tell(what.clear ? 'Channel cleared.' : own ? 'Your message is off the air.' : 'Taken off the air.');
         /* The button that had the keyboard went with its message, so the
            keyboard goes to the message box rather than to nowhere. */
@@ -10742,7 +10803,7 @@
         return;
       }
       // Already gone, or not yours after all: the answer carries the channel.
-      if (here && r.body && r.body.messages) me.show(r.body.messages);
+      if (here && r.body && r.body.messages) me.showFrom(r.body.messages);
       me.tell(why(r, 'That did not work.'));
     }).catch(function () { me.tell('No signal.'); });
   };
@@ -10964,7 +11025,8 @@
     this.roomBtn.dataset.label = 'This room: ' + name;
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
     this.bandNow.textContent = room ? 'Tuned to ' + name : worldHere() ? 'Tuned to World, which is this room\u2019s own channel' : 'Tuned to World';
-    this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', the last two weeks');
+    var r = this.rule;
+    this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + (r && r.days ? ', the last ' + (LAST[r.days] || r.days + ' days') : ''));
     if (inChat()) this.chatShown();
     this.hereShown();
     this.presenceShown();
@@ -11302,7 +11364,8 @@
   };
 
   Radio.prototype.quietText = function () {
-    return this.tunedRoom() ? 'Nobody has said anything in this room in the last two weeks.' : 'Nobody has said anything in the last two weeks.';
+    var r = this.rule, when = !r ? '' : r.days === 0 ? ' yet' : ' in the last ' + (LAST[r.days] || r.days + ' days');
+    return (this.tunedRoom() ? 'Nobody has said anything in this room' : 'Nobody has said anything') + when + '.';
   };
 
   /* A ROOM'S CALL. Ryan, 2026-09-28: voice and video through 8x8's Jitsi as a

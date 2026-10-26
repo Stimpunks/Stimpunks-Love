@@ -28,8 +28,9 @@ Functions in [`netlify/functions/`](netlify/functions/), every one sharing
 [`netlify/cb/lib.mjs`](netlify/cb/lib.mjs), and they keep their state as JSON in
 one Netlify Blobs store. There is no database. What the store holds, and for how
 long, is on [the privacy page](https://stimpunks.world/privacy.html): the latest
-fifty messages on each channel (the World channel, and one per room), each
-deleted two weeks after it was sent; pictures sent on a channel, deleted with their message;
+hundred messages on each channel (the World channel, and one per room), each
+deleted two weeks after it was sent unless an administrator sets the channel
+otherwise at the desk; pictures sent on a channel, deleted with their message;
 the chalkboard and the pebble bowls, a week; the Brass Tacks Board, until a
 moderator takes a post down; the suggestion box in The Sandbox, until whoever dropped a
 suggestion in or a moderator takes it down; a few shared games that keep a count or finished

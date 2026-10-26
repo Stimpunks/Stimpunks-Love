@@ -7,12 +7,13 @@
    it keeps. Every promise on that page is enforced here or in the functions
    beside it, so read that page before changing anything in this directory.
 
-     · FIFTY MESSAGES AT MOST, EACH GONE 48 HOURS AFTER IT WAS SENT. Ryan,
-       2026-10-18: "Since we have people in timezones all over the world" --
-       until then it was ten messages and gone at midnight in Colorado, which
-       was the middle of somebody's afternoon, and people asleep through a
-       conversation never saw it. The whole channel is one JSON blob holding the
-       latest fifty messages. A read leaves out every message past its two weeks,
+     · A HUNDRED MESSAGES AT MOST, EACH GONE TWO WEEKS AFTER IT WAS SENT, UNLESS
+       THE DESK SETS A CHANNEL OTHERWISE. Ryan, 2026-10-25, after requests for
+       more back history; fifty for 48 hours from 2026-10-18 ("Since we have
+       people in timezones all over the world"), and ten gone at midnight in
+       Colorado before that, which was the middle of somebody's afternoon. The
+       whole channel is one JSON blob holding the latest messages, as many as
+       its rule keeps. A read leaves out every message past its time,
        and the hourly sweep takes them out of the blob, and deletes a blob with
        none left. Nothing is archived or backed up, and the only copy is one
        somebody makes of a few messages into a forum topic (below).
@@ -55,13 +56,13 @@
        rules. So presence is one tiny blob per visit, keyed so that a single
        listing says who is where, and it is shown to nobody thirty seconds after
        its last check and deleted by the next sweep at the latest; a place's talk
-       is the channel's own blob shape, fifty messages, each gone after two weeks. There
+       is the channel's own blob shape, under the rule for every channel. There
        is no list of everybody out there and no count of them, anywhere, and the
        places a visit has been are replaced rather than added to.
      · EVERY ROOM HAS A CHANNEL OF ITS OWN, BESIDE THE WORLD ONE. Ryan,
        2026-09-28: the radio tunes to World, the channel it always had, or to
        the room it is in, and a room's channel is the World channel's shape
-       exactly, fifty messages, each gone two weeks after it was sent, in a blob
+       exactly, under its own rule from the desk, in a blob
        of its own. Tuned to a room, the radio has to say which room it wants,
        every time it listens; tuned to World it says nothing about where it
        is. That difference is written on privacy.html, and it is why World is
@@ -139,8 +140,8 @@ import { lookup as dnsLookup } from 'node:dns';
 import { isIP } from 'node:net';
 import { project } from './world.mjs';
 
-export const KEEP = 50;             // messages on a channel at once (Ryan, 2026-10-18; ten until then)
-export const LIFE_DAYS = 14;        // how long a message stays on its channel (Ryan, 2026-10-25; 48 hours from 2026-10-18)
+export const KEEP = 100;            // messages on a channel at once, unless the desk says otherwise (Ryan, 2026-10-25; fifty from 2026-10-18, ten before)
+export const LIFE_DAYS = 14;        // how long a message stays, unless the desk says otherwise (Ryan, 2026-10-25; 48 hours from 2026-10-18)
 export const LIFE = LIFE_DAYS * 24 * 60 * 60 * 1000;
 export const HANDLE_MAX = 24;       // characters
 export const TEXT_MAX = 280;        // characters of a line on the Slake, the chalkboard or a bowl
@@ -233,30 +234,162 @@ export function updateChannel(change, s = store()) { return updateLog(KEY, chang
 const LIFE_FROM = Date.UTC(2026, 9, 19, 6, 0);   // 2026-10-19 00:00 in Colorado
 const LONG_FROM = Date.UTC(2026, 9, 26, 6, 0);   // 2026-10-26 00:00 in Colorado
 const SHORT_LIFE = 48 * 60 * 60 * 1000;
-export function onAir(m, now = Date.now()) {
+/* `life` is how long its channel keeps a message NOW, in milliseconds, 0 for
+   good. A message stamped when it was sent (stampLog, below) is kept for the
+   shorter of its stamp and that: a longer setting reaches only what is sent
+   after it, and a shorter one reaches everything at once. */
+export function onAir(m, now = Date.now(), life = LIFE) {
   if (!m || typeof m.t !== 'number') return false;
+  const cap = life === 0 ? Infinity : life;
+  if (typeof m.life === 'number') return now - m.t < Math.min(m.life === 0 ? Infinity : m.life, cap);
   if (m.t < LIFE_FROM) return today(new Date(m.t)) === today(new Date(now));
-  return now - m.t < (m.t < LONG_FROM ? SHORT_LIFE : LIFE);
+  return now - m.t < Math.min(m.t < LONG_FROM ? SHORT_LIFE : LIFE, cap);
 }
 function stored(data) { return data && Array.isArray(data.messages) ? data.messages : []; }
 
-/* The latest messages in one blob, fifty at most: the channel, each room's,
-   and each place on the Slake. Written once so a place cannot drift from the
-   channel's rules about how long a message stays or how a write that loses a
-   race tries again. */
+/* ── How many messages each channel keeps, and for how long ──────────────
+   PROVISIONED AT THE DESK IN THE MODERATORS' ROOM (Ryan's ask and calls,
+   2026-10-25): an administrator sets, for World, for any room's channel, for
+   every channel not set otherwise, and for direct messages, how many messages
+   it keeps (KEEP_CHOICES) and for how long (LIFE_CHOICES, in days, 0 for
+   good). One blob, `channel-rules`: each entry its keep, its days, who changed
+   it last and when, and nothing more, the roles' arrangement. Without the
+   blob, or for a channel it does not name, KEEP and LIFE_DAYS decide.
+
+   A MESSAGE IS STAMPED WITH ITS CHANNEL'S TIME WHEN IT IS SENT (`life`, by
+   stampLog and stampConv), so a longer setting never keeps anybody's words a
+   minute longer than the channel promised when they were said; onAir() keeps
+   a message for the shorter of its stamp and its channel's time now, so a
+   shorter setting reaches everything at once. A shorter keep trims at once
+   too, on every read. The Slake's places follow the setting for every
+   channel; direct messages only their own.
+
+   AGREED: a log whose everybody agreed to their messages from before the
+   stamp being kept as long as the channel now keeps them. Pets, 2026-10-25:
+   Ryan and Norah, the only two who had written there, both said yes. Nothing
+   else is in it, and nothing goes in it without everybody who wrote there
+   saying yes. */
+export const KEEP_CHOICES = [50, 100, 200, 500, 1000];
+export const LIFE_CHOICES = [1, 2, 7, 14, 30, 90, 365, 0];
+export const WINDOW = 100;                // messages a listen sends at first; Earlier messages asks for more
+const RULES = 'channel-rules';
+const RULES_FRESH = 30 * 1000;
+const RULE_ALL = 'every';                 // every channel not set otherwise, and the Slake
+const RULE_DM = 'dm';                     // direct messages
+const AGREED = new Set(['room-talk-pets']);
+const rulesSeen = new WeakMap();          // per store: { at, rooms }
+
+function cleanRule(r) {
+  if (!r || typeof r !== 'object') return null;
+  if (!KEEP_CHOICES.includes(r.keep) || !LIFE_CHOICES.includes(r.days)) return null;
+  const out = { keep: r.keep, days: r.days };
+  if (typeof r.by === 'string') out.by = r.by;
+  if (typeof r.t === 'number') out.t = r.t;
+  return out;
+}
+function rulesDoc(d) {
+  const rooms = {};
+  const src = d && typeof d === 'object' && d.rooms && typeof d.rooms === 'object' ? d.rooms : {};
+  for (const [k, v] of Object.entries(src)) { const r = cleanRule(v); if (r && ruleName(k)) rooms[k] = r; }
+  return { rooms };
+}
+/* A name the rules can hold: World, every, dm, or a room's tag. */
+function ruleName(k) { return k === 'world' || k === RULE_ALL || k === RULE_DM || !!roomTag(k); }
+/* The rules as this instance last read them, at most RULES_FRESH old. */
+export async function loadRules(s = store(), now = Date.now()) {
+  const seen = rulesSeen.get(s);
+  if (seen && now - seen.at < RULES_FRESH) return seen.rooms;
+  let rooms = {};
+  try { rooms = rulesDoc(await s.get(RULES, { type: 'json' })).rooms; } catch (e) { rooms = seen ? seen.rooms : {}; }
+  rulesSeen.set(s, { at: now, rooms });
+  return rooms;
+}
+function ruleNameOf(key) {
+  if (key === KEY) return 'world';
+  if (key.startsWith(ROOM_TALK)) return key.slice(ROOM_TALK.length);
+  return RULE_ALL;
+}
+/* A channel's rule: keep, days, and life in milliseconds (0 for good). */
+function ruleFrom(rooms, name) {
+  const r = rooms[name] || (name === RULE_DM ? null : rooms[RULE_ALL]) || { keep: KEEP, days: LIFE_DAYS };
+  return { keep: r.keep, days: r.days, life: r.days === 0 ? 0 : r.days * 24 * 60 * 60 * 1000 };
+}
+export async function ruleOf(name, s = store()) { return ruleFrom(await loadRules(s), name); }
+const ruleOfKey = async (key, s) => ruleFrom(await loadRules(s), ruleNameOf(key));
+/* What a channel's rule says to a radio: never who set it. */
+export const shapeRule = (r) => ({ keep: r.keep, days: r.days });
+
+/* On air in this log, under this rule. */
+function liveIn(key, m, now, rule) {
+  if (AGREED.has(key) && m && typeof m.life !== 'number' && typeof m.t === 'number' && m.t >= LIFE_FROM) m = { ...m, life: 0 };
+  return onAir(m, now, rule.life);
+}
+const liveOf = (key, list, now, rule) => list.filter((m) => liveIn(key, m, now, rule)).slice(-rule.keep);
+/* Every message new to this write takes its channel's time now. */
+function stampNew(before, next, rule) {
+  const had = new Set(before.map((m) => m && m.id));
+  return next.map((m) => (m && !had.has(m.id) && typeof m.life !== 'number' ? { ...m, life: rule.life } : m));
+}
+
+/* What a change no longer lets a channel keep is deleted at once, not at the
+   next write or the hourly sweep: otherwise fewer and then more again would
+   bring back messages the desk had been told were gone. */
+async function trimFor(name, s) {
+  if (name === RULE_DM) return sweepDms(s);
+  if (name === 'world' || name === RULE_ALL) await sweepLog(KEY, s);
+  if (name === RULE_ALL) return sweepRoomTalk(s);
+  if (name !== 'world') return sweepLog(ROOM_TALK + name, s);
+}
+
+/* The desk's view: every entry, with who changed it last, and the defaults. */
+export function rulesEditor(who) { return rolesEditor(who); }
+export async function rulesList(who, s = store()) {
+  if (!rulesEditor(who)) return { error: 'Channels are set by administrators.' };
+  const rooms = rulesDoc(await s.get(RULES, { type: 'json' })).rooms;
+  rulesSeen.set(s, { at: Date.now(), rooms });
+  return { rules: rooms, defaults: { keep: KEEP, days: LIFE_DAYS }, keeps: KEEP_CHOICES, days: LIFE_CHOICES };
+}
+/* Set one entry, or with `clear` take it back to what it follows. */
+export async function setRule(who, name, rule, s = store(), now = Date.now(), clear = false) {
+  if (!rulesEditor(who)) return { error: 'Channels are set by administrators.' };
+  if (typeof name !== 'string' || !ruleName(name) || quietRoom(name)) return { error: 'That is not a channel the desk can set.' };
+  const r = clear ? null : cleanRule({ keep: Number(rule && rule.keep), days: Number(rule && rule.days) });
+  if (!clear && !r) return { error: 'Choose how many messages and for how long from the lists.' };
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, RULES);
+    const rooms = rulesDoc(cur.exists ? cur.data : null).rooms;
+    if (clear) delete rooms[name];
+    else rooms[name] = { ...r, by: who.handle, t: now };
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(RULES, { rooms }, opts);
+    if (res.modified) {
+      rulesSeen.set(s, { at: now, rooms });
+      await trimFor(name, s);
+      return { rules: rooms, defaults: { keep: KEEP, days: LIFE_DAYS }, keeps: KEEP_CHOICES, days: LIFE_CHOICES };
+    }
+    await new Promise((x) => setTimeout(x, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
+
+/* The latest messages in one blob, as many as its rule keeps: the channel,
+   each room's, and each place on the Slake. Written once so a place cannot
+   drift from the channel's rules about how long a message stays or how a
+   write that loses a race tries again. */
 async function readLog(key, s, now = Date.now()) {
-  const data = await s.get(key, { type: 'json' });
-  return { messages: stored(data).filter((m) => onAir(m, now)) };
+  const [data, rule] = await Promise.all([s.get(key, { type: 'json' }), ruleOfKey(key, s)]);
+  return { messages: liveOf(key, stored(data), now, rule), rule };
 }
 
 async function updateLog(key, change, s) {
   for (let attempt = 0; attempt < 12; attempt++) {
     const cur = await versioned(s, key);
     const now = Date.now();
-    const live = cur.exists ? stored(cur.data).filter((m) => onAir(m, now)) : [];
+    const rule = await ruleOfKey(key, s);
+    const live = cur.exists ? liveOf(key, stored(cur.data), now, rule) : [];
     const next = change(live.slice());
     if (next === null) return live;
-    const body = { messages: next.slice(-KEEP) };
+    const body = { messages: stampNew(live, next, rule).slice(-rule.keep) };
     const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
     const res = await s.setJSON(key, body, opts);
     if (res.modified) return body.messages;
@@ -275,7 +408,7 @@ async function sweepLog(key, s, now = Date.now()) {
     const cur = await versioned(s, key);
     if (!cur.exists) return false;
     const all = stored(cur.data);
-    const live = all.filter((m) => onAir(m, now));
+    const live = liveOf(key, all, now, await ruleOfKey(key, s));
     if (!live.length) { await s.delete(key); return true; }
     if (live.length === all.length) return false;
     const res = await s.setJSON(key, { messages: live }, { onlyIfMatch: cur.etag });
@@ -3267,7 +3400,7 @@ export async function sweepCalls(s = store(), now = Date.now()) {
 
    EVERY MESSAGE GOES TWO WEEKS AFTER IT WAS SENT, the channel's onAir(),
    checked on every read, so one sent before LONG_FROM keeps its 48 hours, and
-   fifty in a conversation at most. A conversation with nothing left in it is
+   as many in a conversation as the rule for direct messages keeps. A conversation with nothing left in it is
    no conversation: who talked to whom is not kept a minute past the last
    message between them, so the next message after a quiet two weeks asks
    again. The hourly sweep deletes what is left.
@@ -3325,7 +3458,7 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    the conversation, so a listing finds somebody's
    conversations without anybody keeping a list of them. Forget me and deleting
    the username delete all of it. */
-export const DM_KEEP = KEEP;                   // messages in one conversation at once, the channel's fifty
+export const DM_KEEP = KEEP;                   // messages in one conversation at once, unless the desk says otherwise
 export const DM_WITH = 40;                     // conversations one person can be in at once
 export const DM_BLOCKS = 200;                  // people one person can block
 export const REPORT_KEEP = 200;                // reports waiting on the desk at once
@@ -3360,9 +3493,9 @@ function dmSetDoc(d) {
 
 /* A conversation as it stands now: no message past its time, and one with
    nothing left in it is nobody's. */
-function convDoc(d, now = Date.now()) {
+function convDoc(d, now = Date.now(), rule = ruleFrom({}, RULE_DM)) {
   d = plain(d);
-  const messages = stored(d).filter((m) => onAir(m, now));
+  const messages = stored(d).filter((m) => onAir(m, now, rule.life)).slice(-rule.keep);
   if (!messages.length) return { people: {}, from: null, open: false, messages: [] };
   return { people: { ...plain(d.people) }, from: typeof d.from === 'string' ? d.from : null, open: d.open === true, messages };
 }
@@ -3399,11 +3532,12 @@ const blocks = (set, handle) => set.blocked.some((b) => b.k === petKey(handle));
    has landed. One past its two weeks is held by nothing and goes in the sweep. */
 async function updateConv(key, change, s, now) {
   let before = null, after = null;
-  const out = await updateDm(key, (d) => convDoc(d, now), (was) => {
+  const rule = await ruleOf(RULE_DM, s);
+  const out = await updateDm(key, (d) => convDoc(d, now, rule), (was) => {
     const next = change(was);
     if (!next || next.error) return next;
     before = was;
-    after = { people: next.people, from: next.from, open: next.open === true, messages: next.messages.slice(-DM_KEEP) };
+    after = { people: next.people, from: next.from, open: next.open === true, messages: stampNew(was.messages, next.messages, rule).slice(-rule.keep) };
     return after;
   }, s);
   if (after && out === after) await dropDmImages(droppedImages(before.messages, after.messages), s);
@@ -3496,7 +3630,7 @@ export async function sendDm(who, handle, said, s = store(), now = Date.now()) {
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { error: 'blocked' };
   if (blocks(theirs, who.handle)) return { error: 'closed' };
-  const was = convDoc(await s.get(p.key, { type: 'json' }), now);
+  const was = convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s));
   // A sticker is not for a request either.
   if (stick && !was.open) return { error: 'accepted' };
   if (img) {
@@ -3552,7 +3686,7 @@ export async function putDmImage(who, handle, bytes, s = store(), now = Date.now
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { error: 'blocked' };
   if (blocks(theirs, who.handle)) return { error: 'closed' };
-  if (!convDoc(await s.get(p.key, { type: 'json' }), now).open) return { error: 'accepted' };
+  if (!convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s)).open) return { error: 'accepted' };
   const k = pictureCheck(bytes);
   if (k.error) return { error: 'bad', why: k.error };
   const id = randomUUID();
@@ -3568,7 +3702,7 @@ export async function getDmImage(who, id, s = store(), now = Date.now()) {
   const meta = got && got.metadata;
   if (!meta || typeof meta.pair !== 'string' || !meta.pair.startsWith(DM)) return null;
   if (!meta.pair.slice(DM.length).split('.').includes(dmKey(who.handle, who.since))) return null;
-  const c = convDoc(await s.get(meta.pair, { type: 'json' }), now);
+  const c = convDoc(await s.get(meta.pair, { type: 'json' }), now, await ruleOf(RULE_DM, s));
   if (!c.messages.some((m) => m.img === id)) return null;
   return { data: got.data, type: meta.type };
 }
@@ -3584,7 +3718,7 @@ export async function readDmWith(who, handle, s = store(), now = Date.now()) {
   const mine = await readDmSet(p.me, s), theirs = await readDmSet(p.them, s);
   if (blocks(mine, p.handle)) return { handle: p.handle, state: 'new', can: 'blocked', messages: [] };
   if (blocks(theirs, who.handle)) return { handle: p.handle, state: 'new', can: 'closed', messages: [] };
-  const c = convDoc(await s.get(p.key, { type: 'json' }), now);
+  const c = convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s));
   const state = stateOf(c, p.me);
   const can = state === 'asked' ? 'waiting' : state === 'new' && !theirs.open ? 'closed' : 'yes';
   return { handle: p.handle, state, can, messages: c.messages.map((m) => shapeDm(m, p.me)) };
@@ -3602,7 +3736,7 @@ export async function listDms(who, s = store(), now = Date.now()) {
   const out = [];
   for (const b of (await s.list({ prefix })).blobs || []) {
     const them = b.key.slice(prefix.length);
-    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now);
+    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now, await ruleOf(RULE_DM, s));
     const handle = c.people[them];
     if (!c.messages.length || typeof handle !== 'string' || blocks(set, handle)) continue;
     const last = c.messages[c.messages.length - 1];
@@ -3826,7 +3960,7 @@ export async function newFor(who, s = store(), now = Date.now()) {
   let asking = false;
   for (const b of (await s.list({ prefix })).blobs || []) {
     const them = b.key.slice(prefix.length);
-    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now);
+    const c = convDoc(await s.get(pairBlob(me, them), { type: 'json' }), now, await ruleOf(RULE_DM, s));
     const handle = c.people[them];
     if (!c.messages.length || typeof handle !== 'string' || blocks(set, handle)) continue;
     const state = stateOf(c, me);
@@ -3882,7 +4016,7 @@ export async function reportDm(who, handle, id, note, s = store(), now = Date.no
   if (n === null) return { error: 'long' };
   const p = await pairOf(who, handle, s);
   if (p.error) return { error: 'which' };
-  const c = convDoc(await s.get(p.key, { type: 'json' }), now);
+  const c = convDoc(await s.get(p.key, { type: 'json' }), now, await ruleOf(RULE_DM, s));
   const m = c.messages.find((x) => x.id === id);
   if (!m || m.by === p.me) return { error: 'which' };
   const rec = { id: 'k' + randomBytes(8).toString('base64url').slice(0, 10), t: now, by: who.handle, of: m.handle,
@@ -4021,7 +4155,7 @@ export async function sweepDms(s = store(), now = Date.now()) {
   let any = false;
   const live = new Set();
   for (const b of (await s.list({ prefix: DM })).blobs || []) {
-    if (convDoc(await s.get(b.key, { type: 'json' }), now).messages.length) { live.add(b.key); continue; }
+    if (convDoc(await s.get(b.key, { type: 'json' }), now, await ruleOf(RULE_DM, s)).messages.length) { live.add(b.key); continue; }
     await s.delete(b.key);
     any = true;
   }
@@ -4052,7 +4186,7 @@ export async function sweepDms(s = store(), now = Date.now()) {
     const meta = (got && got.metadata) || {};
     if (typeof meta.t === 'number' && now - meta.t < IMG_UNSENT) continue;
     if (typeof meta.pair === 'string' && meta.pair.startsWith(DM)) {
-      if (!held.has(meta.pair)) held.set(meta.pair, new Set(convDoc(await s.get(meta.pair, { type: 'json' }), now).messages.map((m) => m.img).filter(Boolean)));
+      if (!held.has(meta.pair)) held.set(meta.pair, new Set(convDoc(await s.get(meta.pair, { type: 'json' }), now, await ruleOf(RULE_DM, s)).messages.map((m) => m.img).filter(Boolean)));
       if (held.get(meta.pair).has(id)) continue;
     }
     await s.delete(b.key);
@@ -4502,12 +4636,12 @@ async function readWire(w, prior, get) {
 }
 
 /* A channel with the bot's own messages trimmed: at most FEED_KEEP of them,
-   and when the channel is over KEEP, the bot's oldest go before anybody's. */
-export function keepBot(list) {
+   and when the channel is over its keep, the bot's oldest go before anybody's. */
+export function keepBot(list, keep = KEEP) {
   const out = list.slice();
   const bots = () => out.reduce((n, m) => n + (m.feed ? 1 : 0), 0);
   while (bots() > FEED_KEEP) out.splice(out.findIndex((m) => m.feed), 1);
-  while (out.length > KEEP && out.some((m) => m.feed)) out.splice(out.findIndex((m) => m.feed), 1);
+  while (out.length > keep && out.some((m) => m.feed)) out.splice(out.findIndex((m) => m.feed), 1);
   return out;
 }
 
@@ -4566,7 +4700,8 @@ export async function runFeedBot(s = store(), get = fetch, now = Date.now(), not
   for (const [room, list] of Object.entries(say)) {
     list.sort((a, b) => a.x.when - b.x.when);
     const msgs = list.map(({ w, x }, i) => feedMessage(room, w, x, now + i));
-    await updateRoomTalk(room, (log) => keepBot(log.concat(msgs)), s);
+    const keep = (await ruleOf(room, s)).keep;
+    await updateRoomTalk(room, (log) => keepBot(log.concat(msgs), keep), s);
     await noteLatest(room, msgs[msgs.length - 1].t, s).catch(() => false);
     for (const m of msgs) await notify(m, room, s).catch(() => []);
     said += msgs.length;

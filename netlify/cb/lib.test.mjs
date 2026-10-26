@@ -1152,7 +1152,7 @@ for (const etagOnRead of [true, false]) {
   // NEVER MORE AT ONCE THAN A LOG KEEPS: while a channel kept ten, an
   // eleventh pushing the first off was the rule working, not a lost write, and
   // the first run here raced fifteen and reported the five it had pushed off as
-  // missing. A channel keeps fifty since 2026-10-18, so it races fifteen, like
+  // missing. A channel keeps fifty or more since 2026-10-18, so it races fifteen, like
   // the boards.
   const AT_ONCE = Math.min(15, KEEP);
 
@@ -1438,9 +1438,9 @@ test('a message stays two weeks from when it was sent, and one sent before a cha
   assert.equal(onAir({ id: 'no-time' }, after), false, 'a message with no time is on nobody\'s channel');
 });
 
-test('a channel keeps fifty, and the fifty-first pushes the oldest off', async () => {
+test('a channel keeps a hundred unless the desk says otherwise, and the hundred-and-first pushes the oldest off', async () => {
   const s = memoryStore({ etagOnRead: true });
-  assert.equal(KEEP, 50);
+  assert.equal(KEEP, 100);
   assert.equal(LIFE, 14 * 24 * 60 * 60 * 1000);
   for (let i = 0; i <= KEEP; i++) await updateChannel((l) => [...l, { id: `m${i}`, t: Date.now() }], s);
   const ids = (await readChannel(s)).messages.map((m) => m.id);
@@ -4326,7 +4326,7 @@ test('every message goes two weeks after it was sent, and the conversation with 
   assert.deepEqual((await listDms(bex, s, t0 + LIFE)).conversations, []);
   await sweepDms(s, t0 + LIFE + 2 * 60 * 60 * 1000);
   assert.deepEqual(s.keys().filter((k) => k.startsWith('dm/') || k.startsWith('dm-with/')), [], 'the sweep left a conversation or a marker behind');
-  // Fifty at most.
+  // DM_KEEP at most.
   await sendDm(ada, 'Bex', 'again', s);
   await acceptDm(bex, 'Ada', s);
   for (let i = 0; i < DM_KEEP + 5; i++) await sendDm(ada, 'Bex', `n${i}`, s);
@@ -7999,3 +7999,94 @@ test('the suggestion box tells moderators who switched it on about what is new, 
   await notifySuggestion(own.item, null, s, mods, send);
   assert.equal(to(ryan).length, 1); assert.equal(to(juniper).length, 0, 'a moderator was told about their own suggestion');
 }));
+
+
+/* ── How many messages each channel keeps, and for how long, set at the desk (2026-10-25) ── */
+import { setRule, rulesList, ruleOf, loadRules, KEEP_CHOICES, LIFE_CHOICES, WINDOW } from './lib.mjs';
+
+{
+  const ADMIN = { role: 'base', handle: 'Ada', roles: new Set(['moderator', 'administrator']) };
+  const MOD = { role: 'base', handle: 'Bo', roles: new Set(['moderator']) };
+  const DAY = 24 * 60 * 60 * 1000;
+  const say = (room, id, s, t = Date.now()) => updateRoomTalk(room, (l) => [...l, { id, t }], s);
+  const ids = async (room, s, now) => (await readRoomTalk(room, s, now)).messages.map((m) => m.id);
+
+  test('only an administrator sets a channel, only from the lists, and never a room that keeps to itself', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    assert.match((await setRule(MOD, 'the-den', { keep: 200, days: 30 }, s)).error, /administrators/);
+    assert.match((await setRule(ADMIN, 'the-den', { keep: 123, days: 30 }, s)).error, /lists/);
+    assert.match((await setRule(ADMIN, 'the-den', { keep: 200, days: 5 }, s)).error, /lists/);
+    assert.match((await setRule(ADMIN, '../channel', { keep: 200, days: 30 }, s)).error, /not a channel/);
+    assert.match((await setRule(ADMIN, 'the-secret-cabin', { keep: 200, days: 30 }, s)).error, /not a channel/);
+    assert.match((await rulesList(MOD, s)).error, /administrators/);
+    const r = await setRule(ADMIN, 'the-den', { keep: 200, days: 30 }, s, 1234);
+    assert.deepEqual(r.rules['the-den'], { keep: 200, days: 30, by: 'Ada', t: 1234 }, 'an entry keeps more than its keep, days, who and when');
+    assert.deepEqual(r.keeps, KEEP_CHOICES); assert.deepEqual(r.days, LIFE_CHOICES);
+    assert.deepEqual(await ruleOf('the-den', s), { keep: 200, days: 30, life: 30 * DAY });
+    assert.deepEqual(await ruleOf('the-garden', s), { keep: KEEP, days: 14, life: LIFE }, 'a room not set follows the default');
+    assert.ok(!('the-den' in (await setRule(ADMIN, 'the-den', null, s, 1, true)).rules), 'put back, it is no longer set');
+    assert.deepEqual(Object.keys((await s.get('channel-rules')).rooms), [], 'the blob kept what was put back');
+  });
+
+  test('a message takes its channel\'s time when it is sent: a longer time reaches only what is sent after it, a shorter one everything', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    await say('the-den', 'before', s);
+    assert.equal((await s.get('room-talk-the-den')).messages[0].life, LIFE, 'a message was not stamped with its channel\'s time');
+    await setRule(ADMIN, 'the-den', { keep: 100, days: 0 }, s);
+    await say('the-den', 'after', s);
+    assert.equal((await s.get('room-talk-the-den')).messages[1].life, 0);
+    assert.deepEqual(await ids('the-den', s, Date.now() + LIFE + 1000), ['after'], 'a longer time kept a message sent before it');
+    assert.deepEqual(await ids('the-den', s, Date.now() + 400 * DAY), ['after'], 'for good is for good');
+    await setRule(ADMIN, 'the-den', { keep: 100, days: 1 }, s);
+    assert.deepEqual(await ids('the-den', s, Date.now() + DAY + 1000), [], 'a shorter time did not reach a message stamped for good');
+    assert.equal(await sweepRoomTalk(s, Date.now() + DAY + 1000), true, 'the sweep did not take what the shorter time let go');
+  });
+
+  test('fewer messages reach everything at once, and more only make room for what comes', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    for (let i = 0; i < 60; i++) await say('the-den', `m${i}`, s);
+    await setRule(ADMIN, 'the-den', { keep: 50, days: 14 }, s);
+    const fifty = await ids('the-den', s);
+    assert.equal(fifty.length, 50); assert.equal(fifty[0], 'm10', 'fewer did not take the oldest first');
+    await setRule(ADMIN, 'the-den', { keep: 200, days: 14 }, s);
+    assert.equal((await ids('the-den', s)).length, 50, 'more brought back what fewer had let go');
+    await say('the-den', 'next', s);
+    assert.equal((await ids('the-den', s)).length, 51, 'more did not make room for what came');
+  });
+
+  test('every channel not set otherwise follows Every channel, World included, and direct messages only their own', () => withPasswords(async () => {
+    const s = memoryStore({ etagOnRead: true });
+    await setRule(ADMIN, 'every', { keep: 50, days: 2 }, s);
+    assert.deepEqual(await ruleOf('world', s), { keep: 50, days: 2, life: 2 * DAY });
+    assert.deepEqual(await ruleOf('the-den', s), { keep: 50, days: 2, life: 2 * DAY });
+    assert.deepEqual(await ruleOf('dm', s), { keep: KEEP, days: 14, life: LIFE }, 'direct messages followed Every channel');
+    await setRule(ADMIN, 'dm', { keep: 50, days: 7 }, s);
+    const [ada, bex] = await twoPeople(s);
+    await setDmOpen(bex, true, s);
+    await sendDm(ada, 'Bex', 'hi', s);
+    await acceptDm(bex, 'Ada', s);
+    for (let i = 0; i < 55; i++) await sendDm(ada, 'Bex', `n${i}`, s);
+    assert.equal((await readDmWith(ada, 'Bex', s)).messages.length, 50, 'a conversation kept more than its rule');
+    assert.ok((await readDmWith(ada, 'Bex', s)).messages.every((m) => m.life === 7 * DAY || m.life === undefined), 'a direct message was not stamped');
+  }));
+
+  test('the old messages in a room whose everybody agreed keep the channel\'s time now, and nobody else\'s do', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    const t = Date.UTC(2026, 9, 25, 1, 0);   // sent under the 48 hours
+    await s.setJSON('room-talk-pets', { messages: [{ id: 'pet', t }] }, { onlyIfNew: true });
+    await s.setJSON('room-talk-the-den', { messages: [{ id: 'den', t }] }, { onlyIfNew: true });
+    assert.deepEqual(await ids('pets', s, t + 3 * DAY), ['pet'], 'Pets, whose two writers both agreed, went at its 48 hours');
+    assert.deepEqual(await ids('the-den', s, t + 3 * DAY), [], 'a room nobody agreed for kept a message past the 48 hours it was sent under');
+    await setRule(ADMIN, 'pets', { keep: 1000, days: 0 }, s);
+    assert.deepEqual(await ids('pets', s, t + 400 * DAY), ['pet'], 'Pets set for good did not keep its agreed messages');
+  });
+
+  test('the rules are read again after a while, and an unreadable blob leaves the defaults', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    assert.deepEqual(await loadRules(s, 1000), {});
+    await s.setJSON('channel-rules', { rooms: { 'the-den': { keep: 50, days: 1 }, 'bad': { keep: 7, days: 1 } } }, { onlyIfNew: true });
+    assert.deepEqual(await loadRules(s, 2000), {}, 'read again before it was stale');
+    assert.deepEqual(Object.keys(await loadRules(s, 1000 + 31 * 1000)), ['the-den'], 'a stale read did not pick up the change, or kept a bad entry');
+    assert.equal(WINDOW, 100);
+  });
+}

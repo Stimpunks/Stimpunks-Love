@@ -141,10 +141,10 @@ def main():
         refuse("closeReport leaves a reported picture behind.")
     if "pictureCheck(bytes)" not in fn(part, "putDmImage"):
         refuse("putDmImage no longer checks a picture the channel's way, so one could carry its camera data.")
-    if "onAir(m, now)" not in fn(part, "convDoc"):
+    if "onAir(m, now, rule.life)" not in fn(part, "convDoc"):
         refuse("a conversation no longer drops every message past its two weeks on every read.")
-    if "slice(-DM_KEEP)" not in code:
-        refuse("a conversation keeps more than DM_KEEP messages.")
+    if "slice(-rule.keep)" not in fn(part, "convDoc") or "slice(-rule.keep)" not in fn(part, "updateConv"):
+        refuse("a conversation keeps more messages than its rule (the desk's setting for direct messages).")
 
     da = re.search(r"export async function deleteAccount\(.*?\n\}", lib, re.S)
     if not da or "await forgetDms(acct.handle, acct.since, s);" not in da.group(0):

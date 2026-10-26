@@ -541,8 +541,8 @@ channel = [
     "      <li><strong>Everybody signed on to the CB can read this room&rsquo;s channel</strong>, so say only what "
     "you would say in a room with all of them in it. It keeps "
     '<a href="community-center.html#cb-norms">the house norms</a>, like every channel.</li>',
-    f"      <li><strong>Every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, like every "
-    "channel on the CB. For an ask that needs longer, "
+    f"      <li><strong>Unless our administrators set this channel otherwise, every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, "
+    "and the radio says what it keeps, first under <b>In this channel</b>. For an ask that needs longer, "
     f'<a href="forum.html#/c/mutual-aid">Mutual aid</a> in the forums keeps a topic {esc(cats["mutual-aid"]["keep"])} '
     f'after its last post, and <a href="forum.html#/c/coping">Coping</a> keeps one {esc(cats["coping"]["keep"])}.</li>',
     "      <li><strong>A direct message is between two people</strong>, and it is not end-to-end encrypted. "

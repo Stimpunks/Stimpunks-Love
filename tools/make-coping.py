@@ -846,8 +846,8 @@ channel = [
     "      <li><strong>Everybody signed on to the CB can read this room&rsquo;s channel</strong>, so say only what "
     "you would say in a room with all of them in it. It keeps "
     '<a href="community-center.html#cb-norms">the house norms</a>, like every channel.</li>',
-    f"      <li><strong>Every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, like every "
-    "channel on the CB. For a conversation of its own, "
+    f"      <li><strong>Unless our administrators set this channel otherwise, every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, "
+    "and the radio says what it keeps, first under <b>In this channel</b>. For a conversation of its own, "
     f'<a href="forum.html#/c/coping">Coping</a> in the forums keeps a topic {esc(cats["coping"]["keep"])} after its '
     "last post.</li>",
     "      <li><strong>Nobody on it is a professional</strong>, and nobody has to fix anything or answer. If you "

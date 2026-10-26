@@ -856,4 +856,159 @@
     });
     name.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); add.click(); } });
   }());
+
+  /* CHANNELS (Ryan's ask and calls, 2026-10-25): an administrator sets how
+     many messages a channel keeps and for how long, for every channel not set
+     otherwise, World, direct messages and any room. A longer time reaches only
+     what is sent after it, which the server decides by stamping each message
+     as it is sent; a shorter time or fewer messages reaches everything at
+     once, so those ask once more. Fetched when an administrator presses for
+     it, never on arrival. */
+  (function () {
+    var box = document.getElementById('md-chan');
+    var cOff = document.getElementById('md-chan-off');
+    var list = document.getElementById('md-chan-list');
+    var cSaid = document.getElementById('md-chan-said');
+    var load = document.getElementById('md-chan-load');
+    var pick = document.getElementById('md-chan-room');
+    var fresh = document.getElementById('md-chan-new');
+    var add = document.getElementById('md-chan-add');
+    if (!box || !list || !load || !add || !pick) return;
+    if ((me.roles || []).indexOf('administrator') < 0) return;
+    box.hidden = false;
+    if (cOff) cOff.hidden = true;
+    var FOR = { 1: 'a day', 2: 'two days', 7: 'a week', 14: 'two weeks', 30: '30 days', 90: '90 days', 365: 'a year', 0: 'for good' };
+    var FIXED = [['every', 'Every channel not set otherwise', 'Every channel that is not set on its own, World included, and the Slake’s places.'],
+      ['world', 'World', 'The channel the whole street shares.'],
+      ['dm', 'Direct messages', 'Every conversation between two people. It does not follow Every channel.']];
+    var keeps = [50, 100, 200, 500, 1000], days = [1, 2, 7, 14, 30, 90, 365, 0], defaults = { keep: 100, days: 14 }, rules = {}, names = {}, loaded = false;
+    function cSay(t) { cSaid.textContent = t; }
+    function chanCall(send) {
+      return fetch('/cb/channel-rules', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+        body: JSON.stringify(send),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      });
+    }
+    function day(t) {
+      try { return new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return ''; }
+    }
+    function says(r) { return 'Its latest ' + r.keep + ' messages, ' + (r.days === 0 ? 'for good.' : 'each for ' + FOR[r.days] + '.'); }
+    // What a name follows when it is not set: dm and every the code's defaults,
+    // anything else every.
+    function follows(n) { return n === 'dm' || n === 'every' ? defaults : rules.every || defaults; }
+    // Two choosers, how many and how long, with a label each.
+    function choosers(into, idBase, r) {
+      into.textContent = '';
+      var a = el('label', 'How many', 'md-desk__lab'), k = el('select', null, 'md-desk__in');
+      k.id = idBase + '-keep'; a.htmlFor = k.id;
+      keeps.forEach(function (n) { var o = el('option', n + ' messages'); o.value = String(n); o.selected = n === r.keep; k.appendChild(o); });
+      var b = el('label', 'For how long', 'md-desk__lab'), d = el('select', null, 'md-desk__in');
+      d.id = idBase + '-days'; b.htmlFor = d.id;
+      days.forEach(function (n) { var o = el('option', n === 0 ? 'For good' : 'Each for ' + FOR[n]); o.value = String(n); o.selected = n === r.days; d.appendChild(o); });
+      var p1 = el('span'), p2 = el('span');
+      p1.appendChild(a); p1.appendChild(k); p2.appendChild(b); p2.appendChild(d);
+      into.appendChild(p1); into.appendChild(p2);
+      return function () { return { keep: Number(k.value), days: Number(d.value) }; };
+    }
+    function send(name, label, r, clear, back) {
+      cSay(clear ? 'Putting ' + label + ' back…' : 'Saving…');
+      chanCall(clear ? { action: 'clear', name: name } : { action: 'set', name: name, keep: r.keep, days: r.days }).then(function (x) {
+        if (x.status !== 200) { cSay(why(x, 'That did not work. Nothing was changed.')); return; }
+        draw(x.body);
+        cSay(clear ? label + ' follows ' + (name === 'dm' || name === 'every' ? 'the street’s default' : 'Every channel') + ' again: ' + says(follows(name)) : 'Saved. ' + label + ': ' + says(r));
+        if (back) back.focus();
+      }, function () { cSay('The desk could not be reached. Nothing was changed.'); });
+    }
+    function sure(into, sentence, yesText, act, back) {
+      var ask = el('div');
+      ask.appendChild(el('p', sentence));
+      var yes = button(yesText), no = button('Not now');
+      ask.appendChild(yes); ask.appendChild(no);
+      into.appendChild(ask);
+      no.focus();
+      no.addEventListener('click', function () { ask.remove(); if (back) back.focus(); });
+      yes.addEventListener('click', function () { ask.remove(); act(); });
+    }
+    // What a change does, said before it is made.
+    function warn(was, now) {
+      var w = [];
+      var wasLife = was.days === 0 ? Infinity : was.days, nowLife = now.days === 0 ? Infinity : now.days;
+      if (now.keep < was.keep) w.push('Only the latest ' + now.keep + ' messages stay: anything older is deleted now.');
+      if (nowLife < wasLife) w.push('Every message older than ' + FOR[now.days] + ' is deleted now.');
+      if (nowLife > wasLife) w.push('Only messages sent from now on are kept ' + (now.days === 0 ? 'for good' : 'for ' + FOR[now.days]) + '; what was already said keeps the time it was sent under.');
+      return w.join(' ');
+    }
+    function row(ul, name, label, about) {
+      var set = rules[name], r = set || follows(name);
+      var li = el('li', null, 'md-role');
+      li.appendChild(el('p', label, 'md-role__name'));
+      li.appendChild(el('p', (about ? about + ' ' : '') + (set ? says(r) + (set.by ? ' Set by ' + set.by + (set.t ? ' on ' + day(set.t) : '') + '.' : '') : 'Not set on its own: ' + says(r)), 'md-role__about'));
+      var line = el('p', null, 'md-roles__checks');
+      var read = choosers(line, 'md-chan-' + name, r);
+      li.appendChild(line);
+      var tools = el('p');
+      var save = button('Save ' + label);
+      tools.appendChild(save);
+      if (set) {
+        var back = button('Put ' + label + ' back');
+        tools.appendChild(back);
+        back.addEventListener('click', function () {
+          var t = follows(name), sentence = warn(r, t);
+          if (sentence) sure(li, sentence, 'Put it back', function () { send(name, label, null, true, load); }, back);
+          else send(name, label, null, true, load);
+        });
+      }
+      li.appendChild(tools);
+      save.addEventListener('click', function () {
+        var now = read(), sentence = warn(r, now);
+        if (now.keep === r.keep && now.days === r.days && set) { cSay('Nothing to change.'); return; }
+        if (sentence) sure(li, sentence, 'Save it', function () { send(name, label, now, false, save); }, save);
+        else send(name, label, now, false, save);
+      });
+      ul.appendChild(li);
+    }
+    function draw(b) {
+      loaded = true;
+      rules = b.rules || {};
+      if (b.defaults) defaults = b.defaults;
+      if (Array.isArray(b.keeps)) keeps = b.keeps;
+      if (Array.isArray(b.days)) days = b.days;
+      list.textContent = '';
+      var ul = el('ul', null, 'md-roles');
+      FIXED.forEach(function (f) { row(ul, f[0], f[1], f[2]); });
+      Object.keys(rules).filter(function (n) { return !FIXED.some(function (f) { return f[0] === n; }); }).sort().forEach(function (n) {
+        row(ul, n, names[n] ? '#' + names[n] : '#' + n, null);
+      });
+      list.appendChild(ul);
+      load.textContent = 'Show them again';
+    }
+    var readNew = choosers(fresh, 'md-chan-new', defaults);
+    // The rooms by name, from the street's own list; a room that keeps to itself is never on it.
+    fetch('/cb-rooms.json', { credentials: 'omit' }).then(function (r) { return r.json(); }).then(function (j) {
+      (j.rooms || []).forEach(function (x) {
+        if (!x || !x.tag || x.tag === 'world') return;
+        names[x.tag] = x.name;
+        var o = el('option', x.name); o.value = x.tag; pick.appendChild(o);
+      });
+    }).catch(function () { cSay('The list of rooms could not be fetched just now.'); });
+    load.addEventListener('click', function () {
+      cSay('Looking…');
+      chanCall({ action: 'list' }).then(function (x) {
+        if (x.status !== 200) { cSay(why(x, 'The channels could not be fetched just now.')); return; }
+        cSay('');
+        draw(x.body);
+      }, function () { cSay('The desk could not be reached just now.'); });
+    });
+    add.addEventListener('click', function () {
+      var n = pick.value;
+      if (!loaded) { cSay('Show the channels first, so the desk can say what a change would do.'); load.focus(); return; }
+      if (!n) { cSay('Choose a room first.'); pick.focus(); return; }
+      var now = readNew(), was = rules[n] || follows(n), sentence = warn(was, now), label = '#' + (names[n] || n);
+      if (sentence) sure(fresh.parentNode, sentence, 'Set it', function () { send(n, label, now, false, add); }, add);
+      else send(n, label, now, false, add);
+    });
+  }());
 }());

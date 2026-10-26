@@ -554,6 +554,8 @@ a.cb-to-chat, a.cb-to-you { display: inline-flex; align-items: center; text-deco
   border: 2px solid #000; border-radius: 6px;
   padding: 8px 10px;
 }
+.cb-earlier { display: block; margin: 0 auto 6px; }
+.cb-radio--small .cb-earlier, .cb-radio--icon .cb-earlier { display: none; }
 .cb-log {
   /* A scroll box clips whatever is drawn outside it, focus rings included, and
      a message fills the log edge to edge: so the log reaches 5px into the

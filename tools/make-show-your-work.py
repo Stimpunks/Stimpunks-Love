@@ -736,8 +736,8 @@ places_html = [
     f'        <p>{linked(places["channel"])}</p>',
     f'        <p class="syw-place__terms">Tune the radio to <b>This room</b> while you are in here, or open '
     f'<a href="chat.html#show-your-work">Show Your Work on the chat page</a>, under Community. Everybody signed '
-    f'on to the CB can read it, and every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + " days")} after it was sent, like every '
-    f'channel. Not on the CB yet? <a href="community-center.html#getting-started">Getting started</a> says how '
+    f'on to the CB can read it, and unless our administrators set this channel otherwise, every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + " days")} after it was sent; the radio says what it keeps, first under <b>In this channel</b>.'
+    f' Not on the CB yet? <a href="community-center.html#getting-started">Getting started</a> says how '
     f'to get an invite.</p>',
     '      </li>',
     '      <li class="syw-place">',

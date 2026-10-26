@@ -785,8 +785,8 @@ channel = [
     "      <li><strong>Everybody signed on to the CB can read this room&rsquo;s channel</strong>, so say only what "
     "you would say in a room with all of them in it. It keeps "
     '<a href="community-center.html#cb-norms">the house norms</a>, like every channel.</li>',
-    f"      <li><strong>Every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, like every "
-    "channel on the CB. For something that needs longer, "
+    f"      <li><strong>Unless our administrators set this channel otherwise, every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, "
+    "and the radio says what it keeps, first under <b>In this channel</b>. For something that needs longer, "
     f'<a href="forum.html#/c/pets">Pets</a> in the forums keeps a topic {keep} after its last post.</li>',
     "      <li><strong>Pictures of your animals are welcome</strong>, and a picture goes when its message does. "
     "It is redrawn in your own browser before it leaves, which takes off where it was taken, as "

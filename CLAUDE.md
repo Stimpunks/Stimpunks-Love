@@ -3122,8 +3122,8 @@ on the CB built the same day. What was settled and what is open is in `DECISIONS
     who is where with no reads and no shared blob to race on; its write is the one unconditional write
     the test store allows. Moving REPLACES the record, so where somebody has been is never a trail.
     **Others are never on the map**, the answer has no count in it, names come alphabetically, and the
-    tide stays each player's own. Each place's talk is the channel's own `updateLog`, fifty and each gone
-    after two weeks. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
+    tide stays each player's own. Each place's talk is the channel's own `updateLog`, under the rule for
+    every channel. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
     the map**: each is the list of who is out there that the room refuses. The street's radio has a
     Who's online now (Ryan, 2026-10-07); the Slake does not, and nobody on it appears there. `mud.js` may read `love-cb`
     and never write it, and send to `/cb/mud/` through one `call()`; the tool reads the file for
@@ -3883,7 +3883,7 @@ some doors and counts none**, and must not.
 **THE CB IS THE ONLY SERVER-SIDE CODE ON THIS SITE, AND IT GOT IN ON NARROW TERMS.** A chat
 channel patterned after citizens band radio (Ryan's brief, 2026-09-24): five Netlify Functions in
 `netlify/functions/` sharing `netlify/cb/lib.mjs`, one JSON blob in Netlify Blobs holding the latest
-fifty messages, each deleted two weeks after it was sent. **`privacy.html` was rewritten before a line of it
+messages, as many and for as long as the desk sets (a hundred for two weeks unless it says otherwise). **`privacy.html` was rewritten before a line of it
 was built**, and every sentence there is enforced in `lib.mjs`: no IP address stored (Netlify's own
 `rateLimit` in each function's config counts addresses and never hands them over, so do not "improve"
 it by keeping a list), **nothing a person types is ever logged** — no `console.log` of a handle,
@@ -3893,26 +3893,35 @@ anywhere. `connect-src` is `'self'` and must not go further: a realtime service 
 third party every signed-on visitor talked to on every page. Both passwords live in Netlify's
 environment, never in the repo.
 
-**FIFTY MESSAGES, EACH FOR TWO WEEKS FROM WHEN IT WAS SENT, AND NO MIDNIGHT ANY MORE.** Ryan,
-2026-10-25, after requests for more back history to scroll through, the Pets channel above all,
-reversing 48 hours, which Ryan chose on 2026-10-18 ("Since we have people in timezones all over the
-world") over ten messages gone at midnight in Colorado. `KEEP`, `LIFE_DAYS` and `LIFE` in `lib.mjs`,
-and `onAir()` decides on every read and every write, so a message is gone at its time whether or not
-the sweep has run; the sweep (`sweepLog`, still in `cb-midnight.mjs`, whose name is older than the
-rule) rewrites a log with the same conditional write a message goes out with, and deletes it only
-once nothing in it is left. World, every room's channel, every place on the Slake **and every direct
-message** (`convDoc` asks `onAir()`) share it. **A message keeps the time it was sent under, never a
-minute longer for a change made after it**: what was sent before `LIFE_FROM` (2026-10-19 00:00 in
-Colorado) went at that midnight, and what was sent before `LONG_FROM` (2026-10-26 00:00 in Colorado)
-goes at its 48 hours; each test can come out a few days after its date. **`KEEP` is still fifty**, so
-a busy channel holds fifty messages and not two weeks: a listen sends the whole log every few seconds
-to every open radio, so raising it makes every listen bigger, and it is Ryan's call with that cost
-measured. **The rooms that say how long a message stays read `LIFE_DAYS`** (Community Care, Coping,
-Pets, Show Your Work), so never write the time into those generators. **The radio's times say the
-day** (`dayAgo`, `clock`, `sentAt` in `cb.js`), in the reader's own day: yesterday, a day's name this
-week, the date before that, because a day's name could be either week; so do the World room's last
-busy time and a forum copy that spans days. The friendly edit is a midnight "so the channel starts
-the day clean", which is the timezone problem again.
+**HOW MANY MESSAGES A CHANNEL KEEPS, AND FOR HOW LONG, IS SET AT THE DESK, AND EVERY MESSAGE IS STAMPED.**
+Ryan, 2026-10-25, after requests for more back history to scroll through (Pets above all): a hundred
+messages, each for two weeks, unless an administrator sets a channel otherwise in the Moderators'
+room (`/cb/channel-rules`, the Channels part of `desk.js`). That reversed fifty for 48 hours
+(2026-10-18, "Since we have people in timezones all over the world"), which reversed ten gone at
+midnight in Colorado. **One blob, `channel-rules`**: World, any room's tag, `every` (every channel not
+set otherwise, World and the Slake included) and `dm` (direct messages only, which never follow
+`every`), each its `keep` (`KEEP_CHOICES`), its `days` (`LIFE_CHOICES`, 0 for good), who set it last
+and when, and nothing more; `loadRules` rereads it every `RULES_FRESH`; without it `KEEP` and
+`LIFE_DAYS` decide. **Every message is stamped with its channel's time when it is sent** (`life`, by
+`stampNew` in `updateLog` and `updateConv`), and `onAir()` keeps it for the shorter of its stamp and
+its channel's time now: **a longer setting never keeps anybody's words longer than they were said
+under; a shorter one, and a smaller keep, reach everything at once** (`trimFor` sweeps the channel
+when the desk saves). What was sent before the stamp keeps its own promise: before `LIFE_FROM` it went
+at midnight, before `LONG_FROM` (2026-10-26 00:00 in Colorado) at its 48 hours, after that two weeks.
+**`AGREED` is the one exception** (`room-talk-pets`: Ryan and Norah, its only two writers, both said
+yes): its unstamped messages keep the channel's time now. Nothing goes in it without everybody who
+wrote in a channel saying yes, and never from the desk. **A listen sends the latest `WINDOW`**
+(`/cb/channel?n=` asks for more, which **Earlier messages** on the radio does) **and nothing when
+nothing has changed** (`v`, a hash, and `same`), so a channel kept at a thousand costs a radio no more
+than a quiet one; a write's answer is trimmed to what the radio already shows (`showFrom`). **The
+radio says what each channel keeps** (`channelRule`, `keepsLine`, first under In this channel), so
+the pages that used to state the time say "unless our administrators set this channel otherwise",
+and the rooms whose generators state it read `LIFE_DAYS`. The friendly edits are **a desk setting that
+reaches back** "so the history is there when we lengthen it", which keeps words longer than their
+writers agreed, **a midnight** "so the channel starts the day clean", the timezone problem again, and
+**a listen that sends the whole log again** "because it is simpler". **The radio's times say the
+day** (`dayAgo`, `clock`, `sentAt` in `cb.js`): yesterday, a day's name this week, the date before
+that.
 
 **NOBODY WHO HAS NOT SIGNED ON EVER DOWNLOADS `cb.js`, AND THEY GET `guest.js` INSTEAD.** Ryan,
 2026-09-30: a guest CB for everybody not signed on, to bring people into the community and remind a
