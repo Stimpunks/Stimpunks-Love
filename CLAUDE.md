@@ -1550,6 +1550,16 @@ edits are a count ("5 of 12 crystals") and a crystal's powers in the pouch**: th
 the second takes a belief off the card where it says whose belief it is. Helen's herbery is planned to work the same
 way; a herb is where "remedy" creeps in, and the Myths tool already refuses it.
 
+**THE HERBERY'S BASKET IS THE NINTH THING KEPT UNDER A PERSON, AND ITS BREWS ARE WORDS.** Helen's ask, the same day:
+herbs in Myths & Legends to Gather it into a basket in Profile (`herbs/<pet key>`, `basketHerb`, `hbshown/<pet key>`), the
+pouch's arrangement exactly, drawn by `herb-basket.js` as a wicker basket, and a cauldron on the page that names the brew
+(two herbs) or stew (three) from the room's own book, sending and keeping nothing; the brews a basket could make are
+worked out on the radio and kept nowhere. **The book is stories, never recipes**: the room says nothing in it is to eat
+or drink, and `make-yurt-myths.py` refuses a measure, a dose, steep or boil in the Herbery's data. **The friendly edits are
+a real tea recipe "since it is a herbery", what a herb does for you, and a brew that needs a rare herb "to collect"**:
+the first two are the cure framing the Myths tool refuses, the third a rarity. Brew and Stew, on the Campgrounds, is the
+street's real tea room; the Herbery is a cauldron of words behind the Alchemist's Arch.
+
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a
 `<dialog>` (`peek()` in `cb.js`, `.pf-*` in `cb.css`): the card on the left, drawn by `profile.js`, and on the right,

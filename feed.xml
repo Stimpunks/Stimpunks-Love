@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Mon, 26 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>The Herbery, a herb basket and a cauldron</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-26-herbery</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-26-herbery</guid>
+      <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
+      <description>At Helen Edgar’s ask, the Herbery, in Myths &amp; Legends after the Crystal Wheel: rosemary, thyme, mint, basil, bay, lavender, rose, elder, yarrow and hawthorn, each drawn, with what it is and its myth or folklore, every line with its source. The yurt says so beside the Alchemist’s Arch. Gather it, signed on to the CB, puts a herb in your herb basket in Profile on the radio, drawn as a wicker basket with the herbs standing in it, with Put it back beside each and the brews and stews it could make. It is the crystal pouch’s arrangement: which herbs and nothing about when, nothing counted, Show my herb basket on the CB off until switched on, and Forget me empties it. The privacy page said so first. The cauldron takes two or three herbs and names the brew or stew you stirred from the room’s own book, or tells you it is yours to name. It sends nothing and keeps nothing. The brews and stews are stories made of words, never recipes, and the room says nothing in it is to eat or drink; tools/make-yurt-myths.py refuses a measure or a dose in the Herbery. Changed: faery-myths-room.html, faery-yurt.html, herb-basket.js (new), netlify/cb/lib.mjs, netlify/cb/lib.test.mjs, netlify/functions/cb-herbs.mjs and cb-herbs-of.mjs (new), netlify/functions/cb-pets.mjs, cb.js, love.css (the herbs’ inks in §2, the Herbery in §128), privacy.html, data/yurt-myths.json, tools/make-yurt-myths.py and tools/check-contrast.py.</description>
+    </item>
+    <item>
       <title>A crystal pouch, and the Green Witch’s shelf</title>
       <link>https://stimpunks.world/changelog.html#2026-10-26-crystal-pouch</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-26-crystal-pouch</guid>
-      <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Mon, 26 Oct 2026 11:59:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, every card on the Crystal Wheel has Take it with you, signed on to the CB, and the crystal goes into your crystal pouch, in Profile on the radio, drawn as a medieval leather pouch with a drawstring tied in a bow and your crystals spilled onto a cloth at its foot, at Helen’s ask; under it, a small drawing of each stone in its own colours, never anybody’s photograph, each linked back to its card, and Put it back beside it. Show my crystal pouch on the CB, off until switched on and only for a claimed username, puts a Crystals tab in your profile. The pouch keeps which crystals and nothing about when, nothing counts who has which, and Forget me and deleting the username empty it. The privacy page said so before the pouch was built. The Green Witch’s Shelf, in Myths &amp; Legends: Arin Murphy-Hiscock’s Green Witch books, each linked to its own page at its publisher, Simon &amp; Schuster UK, and never to Amazon, which tools/make-yurt-myths.py now refuses. The Green Witch’s Book of Seasons says the day it is out. Changed: faery-myths-room.html, crystal-pouch.js (new), netlify/cb/lib.mjs, netlify/cb/lib.test.mjs, netlify/functions/cb-crystals.mjs and cb-crystals-of.mjs (new), netlify/functions/cb-pets.mjs, cb.js, love.css (the pouch’s inks in §2, the button in §128), privacy.html, data/yurt-myths.json, tools/make-yurt-myths.py and tools/check-contrast.py.</description>
     </item>
     <item>
       <title>The Crystal Wheel, in Myths &amp; Legends</title>
       <link>https://stimpunks.world/changelog.html#2026-10-26-crystal-wheel</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-26-crystal-wheel</guid>
-      <pubDate>Mon, 26 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Mon, 26 Oct 2026 11:58:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, a Crystal Wheel in Myths &amp; Legends, behind her yurt: photographs of popular crystals round a circle, each one pressed to its card, with what the stone really is, the belief or story attached to it and whether that is old tradition or modern crystal lore, and its birthstone month where it has one. The yurt says so beside the Alchemist’s Arch. The photographs are other people’s, from Wikimedia Commons, each credited on its card with its licence, as those licences ask, and listed in the liner notes. tools/make-yurt-myths.py now refuses a crystal photograph without its photographer, its Commons page or a licence this site can use, and one still carrying camera data. The wheel says once, with its source, that the meanings are not medicine. Changed: faery-myths-room.html, faery-yurt.html, love.css (§128 and §14), data/yurt-myths.json, tools/make-yurt-myths.py, liner-notes.html, and the photographs in crystals/.</description>
     </item>
     <item>

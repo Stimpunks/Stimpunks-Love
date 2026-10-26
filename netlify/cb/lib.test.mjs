@@ -45,6 +45,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   CHIMERA_SAYINGS, CHIMERA_SAYING_MAX, cleanChimeraSayings, cleanFamiliar, showFamiliar, familiarOut, withFamiliars, shapeChimera,
   QUEST_IDS, questIds, readJobs, keepJobs, forgetJobs, setJobsShown, jobsShown, shownJobs,
   CRYSTAL_IDS, crystalId, readCrystals, pouchCrystal, forgetCrystals, setCrystalsShown, crystalsShown, shownCrystals,
+  HERB_IDS, herbId, readHerbs, basketHerb, forgetHerbs, setHerbsShown, herbsShown, shownHerbs,
   PATCH_IDS, patchId, readPatches, takePatch, forgetPatches, setPatchesShown, patchesShown, shownPatches, patchSticker, shapePatchSticker, jacketSticker, shapeJacketSticker,
   cleanVideo, beSeen, unseen, sweepSeen, whoSeen, ROOM_FRESH, jaasSigned, callEventRoom, callEvent, inCall, callsOn, sweepCalls,
   PROFILE_KEYS, cleanProfile, cleanProfileLink, cleanBio, readProfile, keepProfile, forgetProfile, clearProfile, shownProfile, withPlates, BIO_MAX, PROFILE_LINKS,
@@ -2823,6 +2824,55 @@ test('a pouch is shown only on a claimed username that says so, and goes with Fo
   await deleteAccount('Ada', s);
   assert.deepEqual(await readCrystals(pk, s), [], 'a deleted username kept its crystals');
   assert.equal(await s.get(`crshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
+}));
+
+test('a herb basket keeps which herbs, sorted, and nothing about when; one put back leaves no trace', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const [a, b] = HERB_IDS;
+  assert.equal(herbId('not-a-stone'), null);
+  assert.equal((await basketHerb('pkH', b, true, s)).changed, true);
+  assert.deepEqual((await basketHerb('pkH', a, true, s)).herbs, [a, b].sort());
+  assert.equal((await basketHerb('pkH', a, true, s)).changed, false, 'the same herb taken twice');
+  const raw = await s.get('herbs/pkH', { type: 'json' });
+  assert.deepEqual(Object.keys(raw), ['herbs'], 'the basket holds something besides which herbs');
+  assert.deepEqual((await basketHerb('pkH', a, false, s)).herbs, [b], 'a herb put back stayed in');
+  assert.equal((await basketHerb('pkH', a, false, s)).changed, false, 'a herb put back twice');
+  assert.deepEqual(await s.get('herbs/pkH', { type: 'json' }), { herbs: [b] });
+  await forgetHerbs('pkH', s);
+  assert.deepEqual(await readHerbs('pkH', s), []);
+});
+
+for (const etagOnRead of [true, false]) {
+  test(`fifteen herbs taken at once all land in the basket (etag on read: ${etagOnRead})`, async () => {
+    const s = memoryStore({ etagOnRead });
+    const ids = Array.from({ length: 15 }, (_, i) => HERB_IDS[i % HERB_IDS.length]);
+    const told = await Promise.allSettled(ids.map((id) => basketHerb('pkS', id, true, s)));
+    const inPouch = new Set(await readHerbs('pkS', s));
+    told.forEach((r, i) => {
+      if (r.status === 'fulfilled') assert.ok(inPouch.has(ids[i]), `${ids[i]} was told it was taken and is not in the basket`);
+      else assert.equal(r.reason.message, 'busy');
+    });
+  });
+}
+
+test('a basket is shown only on a claimed username that says so, and goes with Forget me and the username', () => withPasswords(async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const pk = petKey('Ada');
+  await basketHerb(pk, HERB_IDS[0], true, s);
+  await setHerbsShown('Ada', true, s, 1);
+  assert.equal(await shownHerbs('Ada', s), null, 'an unclaimed handle showed its basket');
+  await claimAccount('Ada', 'a long enough phrase', s, 9, null);
+  assert.deepEqual(await shownHerbs('ada', s), { handle: 'Ada', herbs: [HERB_IDS[0]] });
+  await setHerbsShown('Ada', false, s);
+  assert.equal(await shownHerbs('Ada', s), null, 'shown with the switch off');
+  await setHerbsShown('Ada', true, s, 2);
+  await forgetHerbs(pk, s);
+  assert.equal(await herbsShown('Ada', s), false, 'Forget me left the switch on');
+  await basketHerb(pk, HERB_IDS[1], true, s);
+  await setHerbsShown('Ada', true, s, 3);
+  await deleteAccount('Ada', s);
+  assert.deepEqual(await readHerbs(pk, s), [], 'a deleted username kept its herbs');
+  assert.equal(await s.get(`hbshown/${pk}`, { type: 'json' }), null, 'a deleted username left its switch');
 }));
 
 /* ── Profiles ─────────────────────────────────────────────────────────── */

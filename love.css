@@ -1824,6 +1824,18 @@
   --crys-smoky-quartz: #6A5244; --crys-smoky-quartz-2: #A88E7D;
   --crys-obsidian: #16121B; --crys-obsidian-2: #6E6878;
   --crys-tigers-eye: #A35F1A; --crys-tigers-eye-2: #EDB55A;
+  /* The herb basket (herb-basket.js): every herb on a disc of the basket's linen, outlined in the line; the wicker basket; the iron cauldron. */
+  --herb-cloth: #EFF1E3; --herb-line: #22301E; --herb-wicker: #C69552; --herb-wicker-2: #8A5E2E; --herb-iron: #2B2A30; --herb-iron-2: #5A5662;
+  --herb-rosemary: #4A6A4E; --herb-rosemary-2: #8EA2DC;
+  --herb-thyme: #657A44; --herb-thyme-2: #D69BC6;
+  --herb-mint: #3A9A58; --herb-mint-2: #C8EBCB;
+  --herb-basil: #2E8A3C; --herb-basil-2: #B9E2B5;
+  --herb-bay: #2C573A; --herb-bay-2: #A9C9AE;
+  --herb-lavender: #6D8A58; --herb-lavender-2: #8A63C6;
+  --herb-rose: #C7385A; --herb-rose-2: #4C7D44;
+  --herb-elder: #557540; --herb-elder-2: #F2E8C2;
+  --herb-yarrow: #6B8C56; --herb-yarrow-2: #F6F2E4;
+  --herb-hawthorn: #4A7A3A; --herb-hawthorn-2: #B5262F;
 
   /* The Arcade (§15). Coin-op at midnight, and the only room here lit by a
      screen rather than by a sky, a candle or a strip light. --crt-lit is not a
@@ -27636,6 +27648,28 @@ html[data-intensity="max"] .cmc-rain { animation: cmc-rain 1.2s linear infinite;
 .myth-crystal__btn:disabled { cursor: progress; }
 .myth-crystal__said { font-size: 15px; color: var(--rdr-ink-2); }
 .myth-crystal__said:empty { display: none; }
+/* The Herbery (herb-basket.js draws every herb and the cauldron): the crystals' cards' build, a herb on its linen
+   disc where a photograph stands there. Its note sits in the brass edge of a panel, said once and plainly. */
+.myth-herbery__note { max-width: 66ch; margin: 0 0 18px; padding: 10px 14px; border-left: 3px solid var(--rdr-brass); background: var(--rdr-panel); }
+.myth-herbs { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.myth-herb { scroll-margin-top: 20px; }
+.myth-herb__frame { display: block; width: 120px; height: 120px; margin: 0 auto 10px; }
+.myth-herb__art { display: block; width: 100%; height: 100%; }
+.myth-herbery__h { margin: 26px 0 10px !important; scroll-margin-top: 20px; }
+.myth-cauldron { display: grid; gap: 12px; justify-items: center; text-align: center; }
+.myth-cauldron__art-box { width: min(260px, 100%); }
+.myth-cauldron__art { display: block; width: 100%; height: auto; }
+.myth-cauldron__picks { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.myth-cauldron__picks legend { width: 100%; text-align: center; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--rdr-ink-2); margin: 0 0 8px; }
+.myth-cauldron__pick { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 14px; cursor: pointer;
+  background: var(--rdr-wall); color: var(--rdr-ink); border: 1px solid rgba(214,176,106,.35); border-radius: 6px; }
+.myth-cauldron__pick input { width: 18px; height: 18px; accent-color: var(--rdr-brass); }
+.myth-cauldron__pick input:focus-visible { outline: 3px solid var(--rdr-flame-2); outline-offset: 3px; }
+.myth-cauldron__pick:has(input:checked) { border-color: var(--rdr-brass); box-shadow: inset 0 0 0 1px var(--rdr-brass); }
+.myth-cauldron__go { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 0 !important; }
+.myth-cauldron__said { max-width: 60ch; margin: 0 !important; color: var(--rdr-ink); }
+.myth-cauldron__said:empty { display: none; }
+.myth-brewbook li { margin: 6px 0; }
 
 .myth-door { margin: 26px 0 0; font-size: 15px; font-style: italic; color: var(--rdr-ink-2); text-align: center; }
 

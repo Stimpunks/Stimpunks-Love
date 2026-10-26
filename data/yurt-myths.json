@@ -1066,5 +1066,338 @@
         "isbn": "9781507226575"
       }
     ]
+  },
+  "herbery": {
+    "_source": "Helen Edgar's ask, 2026-10-26: a herbery, to gather herbs and combine them into brews and magical stews, the way the crystal pouch works. Every fact and every piece of lore was read on the Wikipedia page it names on 2026-10-26, and the words are ours. The book of brews and stews is this room's own: made-up names and lines, and never a recipe.",
+    "intro": "Herbs that have been hung, strewn, given and told about for a very long time, each with what it is and the story that comes with it. Gather one and it goes in the herb basket in your Profile, on the radio; tip two or three into the cauldron and the book will tell you what you have stirred.",
+    "note": "The brews and stews in this room are stories, stirred out of words. None of them is a recipe, and nothing on this page is to eat or drink.",
+    "herbs": [
+      {
+        "name": "Rosemary",
+        "slug": "rosemary",
+        "facts": [
+          {
+            "says": "An evergreen shrub of the mint family, with needle-like leaves and small pale flowers, from the Mediterranean.",
+            "source": "https://en.wikipedia.org/wiki/Rosemary",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Its old Latin name, ros marinus, means sea-dew: Elizabeth Kent wrote in 1823 that it grows best by the sea.",
+            "source": "https://en.wikipedia.org/wiki/Rosemary",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "old tradition",
+          "says": "Rosemary stands for remembrance. Ophelia says so in Hamlet, mourners have tossed it into graves, and in Australia sprigs of it are worn on Anzac Day.",
+          "source": "https://en.wikipedia.org/wiki/Rosemary",
+          "source_name": "Wikipedia"
+        },
+        "draw": "needles"
+      },
+      {
+        "name": "Thyme",
+        "slug": "thyme",
+        "facts": [
+          {
+            "says": "A small culinary herb of the mint family from around the Mediterranean, perhaps first grown in the Levant.",
+            "source": "https://en.wikipedia.org/wiki/Thyme",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "The grayling, a fish, was given the name Thymallus for the faint smell of thyme on it.",
+            "source": "https://en.wikipedia.org/wiki/Thyme",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "old tradition",
+          "says": "The ancient Greeks burnt thyme in their temples, believing it a source of courage. In the Middle Ages it went under pillows to keep nightmares away, and into gifts for knights, for courage.",
+          "source": "https://en.wikipedia.org/wiki/Thyme",
+          "source_name": "Wikipedia"
+        },
+        "draw": "tiny"
+      },
+      {
+        "name": "Mint",
+        "slug": "mint",
+        "facts": [
+          {
+            "says": "Mints have square stems and leaves in opposite pairs, and spread by runners above and below the ground, so far that some are counted invasive.",
+            "source": "https://en.wikipedia.org/wiki/Mentha",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "The whole mint family is named after it, and takes in basil, rosemary, sage and oregano.",
+            "source": "https://en.wikipedia.org/wiki/Mentha",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "myth",
+          "says": "In Greek myth the nymph Minthe, of the underworld river Cocytus, was turned into the garden mint by Persephone, or by her mother Demeter. Its other old name, hedyosmos, means sweet-smelling.",
+          "source": "https://en.wikipedia.org/wiki/Minthe",
+          "source_name": "Wikipedia"
+        },
+        "draw": "pairs"
+      },
+      {
+        "name": "Basil",
+        "slug": "basil",
+        "facts": [
+          {
+            "says": "A tender herb of the mint family, from tropical Asia and Australasia, grown as an annual where winters are cold.",
+            "source": "https://en.wikipedia.org/wiki/Basil",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Its name comes from the Greek for the royal plant, perhaps because it went into royal perfumes.",
+            "source": "https://en.wikipedia.org/wiki/Basil",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "folklore",
+          "says": "In Portugal a pot of bush basil, with a poem and a paper carnation, is given to a sweetheart on the feasts of Saint John and Saint Anthony.",
+          "source": "https://en.wikipedia.org/wiki/Basil",
+          "source_name": "Wikipedia"
+        },
+        "draw": "broad"
+      },
+      {
+        "name": "Bay",
+        "slug": "bay",
+        "facts": [
+          {
+            "says": "Bay laurel is an evergreen tree or large shrub of the Mediterranean, with smooth, scented leaves used in cooking.",
+            "source": "https://en.wikipedia.org/wiki/Laurus_nobilis",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Many other plants are called bay or laurel because their leaves look or smell like it.",
+            "source": "https://en.wikipedia.org/wiki/Laurus_nobilis",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "myth",
+          "says": "Its Greek name is daphne, after the nymph who escaped Apollo; in Ovid's telling she became a laurel tree. A wreath of bay was the prize at the Pythian Games, held for Apollo.",
+          "source": "https://en.wikipedia.org/wiki/Laurus_nobilis",
+          "source_name": "Wikipedia"
+        },
+        "draw": "laurel"
+      },
+      {
+        "name": "Lavender",
+        "slug": "lavender",
+        "facts": [
+          {
+            "says": "A group of 47 species of the mint family, from Spain and the Mediterranean east to India.",
+            "source": "https://en.wikipedia.org/wiki/Lavandula",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Its name probably comes, by way of Old French, from Latin lavare, to wash, after the blue infusions of it used for bathing.",
+            "source": "https://en.wikipedia.org/wiki/Lavandula",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "history",
+          "says": "In Roman times its flowers sold for 100 denarii a pound, about a month's wages for a farm labourer. Queen Elizabeth I is said to have prized a lavender jam at her table.",
+          "source": "https://en.wikipedia.org/wiki/Lavandula",
+          "source_name": "Wikipedia"
+        },
+        "draw": "spike"
+      },
+      {
+        "name": "Rose",
+        "slug": "rose",
+        "facts": [
+          {
+            "says": "There are over three hundred species of rose and tens of thousands of cultivars, most of the species native to Asia.",
+            "source": "https://en.wikipedia.org/wiki/Rose",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "The sharp points on a rose stem are commonly called thorns but are prickles, hooks that help it climb over other plants.",
+            "source": "https://en.wikipedia.org/wiki/Rose",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "myth",
+          "says": "Sub rosa, under the rose, means in secret: in Roman myth Cupid gave a rose to Harpocrates, god of silence, so he would keep Venus's secrets, and banquet rooms were carved with roses as a reminder.",
+          "source": "https://en.wikipedia.org/wiki/Sub_rosa",
+          "source_name": "Wikipedia"
+        },
+        "draw": "bloom"
+      },
+      {
+        "name": "Elder",
+        "slug": "elder",
+        "facts": [
+          {
+            "says": "Elders are fast-growing shrubs and small trees, with wide flat clusters of small cream flowers, elderflower, and then berries, elderberry.",
+            "source": "https://en.wikipedia.org/wiki/Sambucus",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Watchmakers have used elder pith to clean their tools before fine work.",
+            "source": "https://en.wikipedia.org/wiki/Sambucus",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "folklore",
+          "says": "Cut an elder down and the Elder Mother, a spirit in it, would take her revenge; it could only safely be cut while chanting a rhyme to her. Some say elder keeps witches away, others that witches gather under it.",
+          "source": "https://en.wikipedia.org/wiki/Sambucus",
+          "source_name": "Wikipedia"
+        },
+        "draw": "umbel"
+      },
+      {
+        "name": "Yarrow",
+        "slug": "yarrow",
+        "facts": [
+          {
+            "says": "A plant up to a metre tall with small whitish flowers and feathery leaves; millefolium, its old name, means thousand-leaved.",
+            "source": "https://en.wikipedia.org/wiki/Achillea_millefolium",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "Yarrow has been found with Neanderthal burials, which suggests people have had it near for 60,000 years.",
+            "source": "https://en.wikipedia.org/wiki/Achillea_millefolium",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "old tradition",
+          "says": "In China dried yarrow stalks are used in I Ching divination, and yarrow and tortoiseshell are counted lucky.",
+          "source": "https://en.wikipedia.org/wiki/Achillea_millefolium",
+          "source_name": "Wikipedia"
+        },
+        "draw": "flat"
+      },
+      {
+        "name": "Hawthorn",
+        "slug": "hawthorn",
+        "facts": [
+          {
+            "says": "Hundreds of species of thorny shrubs and small trees of the rose family, also called the May-tree, whitethorn and quickthorn.",
+            "source": "https://en.wikipedia.org/wiki/Crataegus",
+            "source_name": "Wikipedia"
+          },
+          {
+            "says": "The Glastonbury thorn, in Somerset, flowers twice a year.",
+            "source": "https://en.wikipedia.org/wiki/Crataegus",
+            "source_name": "Wikipedia"
+          }
+        ],
+        "lore": {
+          "kind": "folklore",
+          "says": "In Gaelic folklore the hawthorn marks the entrance to the otherworld and belongs to the fairies. A lone thorn is unlucky to cut, except in bloom, when it is cut and dressed as a May bush.",
+          "source": "https://en.wikipedia.org/wiki/Crataegus",
+          "source_name": "Wikipedia"
+        },
+        "draw": "haws"
+      }
+    ],
+    "book": [
+      {
+        "name": "Brew of Remembering",
+        "kind": "brew",
+        "herbs": [
+          "rosemary",
+          "bay"
+        ],
+        "says": "For an evening of telling old stories out loud, so nobody in them is forgotten."
+      },
+      {
+        "name": "Brew of Small Courage",
+        "kind": "brew",
+        "herbs": [
+          "thyme",
+          "basil"
+        ],
+        "says": "For the moment before a door, a phone call, or the first word in a full room."
+      },
+      {
+        "name": "Under-the-Rose Brew",
+        "kind": "brew",
+        "herbs": [
+          "rose",
+          "mint"
+        ],
+        "says": "For a secret kept kindly: the kind that is somebody else's to tell."
+      },
+      {
+        "name": "Elder Mother's Brew",
+        "kind": "brew",
+        "herbs": [
+          "elder",
+          "hawthorn"
+        ],
+        "says": "Ask the Elder Mother first, and leave the lone thorn standing."
+      },
+      {
+        "name": "Sea-Dew Brew",
+        "kind": "brew",
+        "herbs": [
+          "rosemary",
+          "lavender"
+        ],
+        "says": "Sea air and clean washing, for a room that wants airing."
+      },
+      {
+        "name": "Yarrow Stalk Brew",
+        "kind": "brew",
+        "herbs": [
+          "yarrow",
+          "thyme"
+        ],
+        "says": "Stir it while you wonder, and let the stalks fall where they fall."
+      },
+      {
+        "name": "Underworld Stew",
+        "kind": "stew",
+        "herbs": [
+          "mint",
+          "rose",
+          "bay"
+        ],
+        "says": "Minthe, Daphne and the rose that kept a secret: three stories of plants and gods, simmered together."
+      },
+      {
+        "name": "Fair Folk Stew",
+        "kind": "stew",
+        "herbs": [
+          "hawthorn",
+          "elder",
+          "yarrow"
+        ],
+        "says": "Set out a bowl under the thorn, and do not wait up."
+      },
+      {
+        "name": "Windowsill Stew",
+        "kind": "stew",
+        "herbs": [
+          "basil",
+          "thyme",
+          "rosemary"
+        ],
+        "says": "Everything growing on the sill, for an ordinary Tuesday."
+      },
+      {
+        "name": "Moonlight Stew",
+        "kind": "stew",
+        "herbs": [
+          "lavender",
+          "rose",
+          "elder"
+        ],
+        "says": "Pale flowers only, stirred after dark."
+      }
+    ]
   }
 }

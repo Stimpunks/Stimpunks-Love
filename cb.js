@@ -2121,6 +2121,21 @@
     this.crysWhere = el('p', 'cb-pets__where');
     pfPouch.appendChild(this.crysWhere);
 
+    /* YOUR HERB BASKET (Helen Edgar's ask, 2026-10-26): the herbs gathered in
+       the Herbery in Myths & Legends, drawn by herb-basket.js, loaded on the
+       first, with the brews and stews they could make worked out here and kept
+       nowhere. Read when its section opens, never polled. */
+    var pfBasket = this.pfSection(pets, 'herbs', 'Your herb basket', function () { this.loadHerbs(); });
+    this.herbState = el('p', 'cb-quiet', '');
+    pfBasket.appendChild(this.herbState);
+    this.herbBox = el('div', 'cb-pouch');
+    this.herbBox.hidden = true;
+    pfBasket.appendChild(this.herbBox);
+    this.herbShow = el('div', 'cb-pets__show');
+    pfBasket.appendChild(this.herbShow);
+    this.herbWhere = el('p', 'cb-pets__where');
+    pfBasket.appendChild(this.herbWhere);
+
     acctP.appendChild(el('p', 'cb-pets__h', 'Forget me'));
     acctP.appendChild(el('p', 'cb-pets__where', 'Deletes everything the street keeps under this handle, from your avatars to your messages. It asks once more first.'));
     var forgetBtn = this.forgetBtn = el('button', 'cb-btn cb-forget', 'Forget me');
@@ -2128,7 +2143,7 @@
     acctP.appendChild(forgetBtn);
     var sure = this.forgetSure = el('div', 'cb-forget-sure');
     sure.hidden = true;
-    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your crystal pouch, your profile card and its sets, the props on it and waiting for you, your chat status, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle and your past notifications, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
+    sure.appendChild(el('p', null, 'This deletes everything the street keeps under this handle, which is your avatars, your chimeras, your pets, the jobs kept from the Adventurer\u2019s Guild, your battle jacket, your crystal pouch, your herb basket, your profile card and its sets, the props on it and waiting for you, your chat status, your direct messages and every conversation you are in, for both of you, when you last read each channel and conversation, notifications on every device switched on as this handle and your past notifications, and whether any of them are shown. Your pets stay on the list of everybody adopted, with nothing connecting them to you. It cannot be undone.'));
     var yes = el('button', 'cb-btn cb-forget-yes', 'Yes, forget me');
     yes.type = 'button';
     var no = el('button', 'cb-btn', 'Keep them');
@@ -2168,6 +2183,7 @@
     window.addEventListener('love-chimeras', function () { if (me.pfShown('chimeras')) me.loadChimeras(); });
     window.addEventListener('love-patches', function () { if (me.pfShown('jacket')) me.loadPatches(); });
     window.addEventListener('love-crystals', function () { if (me.pfShown('crystals')) me.loadCrystals(); });
+    window.addEventListener('love-herbs', function () { if (me.pfShown('herbs')) me.loadHerbs(); });
 
     var norms = el('p', 'cb-norms');
     var a = el('a', null, 'House norms at the Community Center');
@@ -5813,8 +5829,8 @@
       if (!d.open) d.showModal();
       close.focus();
       var mineP = String(handle).toLowerCase() === String(me.state.handle || '').toLowerCase();
-      var panels = tabsInto(right, handle + '’s avatars, pets, badges, battle jacket, chimeras, crystals and props',
-        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket', 'Chimeras', 'Crystals', 'Props'], tab === 'props' ? 6 : 0);
+      var panels = tabsInto(right, handle + '’s avatars, pets, badges, battle jacket, chimeras, crystals, herbs and props',
+        ['Avatars', 'Pets', 'Badges and jobs', 'Battle jacket', 'Chimeras', 'Crystals', 'Herbs', 'Props'], tab === 'props' ? 7 : 0);
       // The card waits for both its profile and the avatar its owner wears.
       var prof = call('/cb/profile/of', { body: { handle: handle } }, me.state.pass);
       var avs = call('/cb/avatars/of', { body: { handle: handle } }, me.state.pass);
@@ -6025,7 +6041,32 @@
           pouchInto(crBox, r.body.crystals, mineP ? 'In your pouch' : 'In ' + r.body.handle + '’s pouch');
         }, function () { crSaid.textContent = 'Their crystal pouch could not be fetched just now.'; });
       });
-      me.peekProps(panels[6], handle, mineP, peekN);
+      /* THEIR HERB BASKET (Helen Edgar's ask, 2026-10-26), only if they have
+         chosen to show it: each herb drawn, by name, linked to its card in the
+         Herbery, and nothing counted. */
+      var hbSaid = el('p', 'cb-quiet', 'Looking…');
+      panels[6].appendChild(hbSaid);
+      var hbBox = el('div', 'cb-pouch');
+      hbBox.hidden = true;
+      panels[6].appendChild(hbBox);
+      withHerbs(function () {
+        call('/cb/herbs/of', { body: { handle: handle } }, me.state.pass).then(function (r) {
+          if (peekN !== me.peekN) return;
+          if (r.status === 401) return me.lost();
+          if (r.status !== 200 || !r.body) { hbSaid.textContent = 'Their herb basket could not be fetched just now.'; return; }
+          if (!r.body.shown) {
+            hbSaid.textContent = mineP
+              ? 'You have not made your herb basket public. Profile, on this radio, is where you switch that on.'
+              : handle + ' has not made their herb basket public.';
+            return;
+          }
+          if (!(r.body.herbs || []).length) { hbSaid.textContent = r.body.handle + '’s herb basket is empty.'; return; }
+          hbSaid.hidden = true;
+          hbBox.hidden = false;
+          basketInto(hbBox, r.body.herbs, mineP ? 'In your basket' : 'In ' + r.body.handle + '’s basket');
+        }, function () { hbSaid.textContent = 'Their herb basket could not be fetched just now.'; });
+      });
+      me.peekProps(panels[7], handle, mineP, peekN);
     });
   };
 
@@ -7435,6 +7476,59 @@
       ul.appendChild(li);
     });
     box.appendChild(ul);
+  }
+
+  /* herb-basket.js, loaded on the first herb the radio has to draw. The
+     Herbery has loaded it already. */
+  function withHerbs(then) {
+    if (window.loveHerbs) { then(); return; }
+    var s = document.querySelector('script[data-cb-herbs], script[src="herb-basket.js"]');
+    if (!s) {
+      s = document.createElement('script');
+      s.src = '/herb-basket.js';
+      s.setAttribute('data-cb-herbs', '');
+      document.head.appendChild(s);
+    }
+    s.addEventListener('load', function () { if (window.loveHerbs) then(); });
+  }
+
+  /* A herb basket into a box: the basket, drawn as a wicker basket with the
+     herbs standing in it, then every herb in it by name, linked to its card in
+     the Herbery, then the brews and stews in the room's book they could make,
+     worked out here and kept nowhere. Nothing is counted. */
+  function basketInto(box, ids, heading, back) {
+    box.textContent = '';
+    var art = window.loveHerbs.basket(ids, { cls: 'cb-jacket__art' });
+    if (art) box.appendChild(art);
+    box.appendChild(el('h3', 'pf-sub', heading));
+    var ul = el('ul', 'cb-patchlist');
+    window.loveHerbs.list.forEach(function (h) {
+      if (ids.indexOf(h.id) < 0) return;
+      var li = el('li', 'cb-patchlist__one');
+      var one = window.loveHerbs.draw(h.id, { cls: 'cb-patchlist__art' });
+      if (one) li.appendChild(one);
+      li.appendChild(el('span', 'cb-patchlist__name', h.name));
+      var from = el('span', 'cb-patchlist__from', '');
+      var a = el('a', null, 'Its card in the Herbery');
+      a.href = h.href;
+      from.appendChild(a);
+      if (back) from.appendChild(back(h));
+      li.appendChild(from);
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+    var brews = window.loveHerbs.brewsFor(ids);
+    if (brews.length) {
+      box.appendChild(el('h3', 'pf-sub', 'Brews and stews ' + (back ? 'you' : 'they') + ' could stir'));
+      var bl = el('ul', 'cb-jobs__list');
+      brews.forEach(function (b) {
+        var li = el('li');
+        li.appendChild(el('b', null, b.name));
+        li.appendChild(document.createTextNode(', a ' + b.kind + ' of ' + window.loveHerbs.names(b.herbs) + '. ' + b.says));
+        bl.appendChild(li);
+      });
+      box.appendChild(bl);
+    }
   }
 
   /* "A, B and C", for the patches sewn on, in the street's own order. */
@@ -10292,6 +10386,83 @@
       'Nothing counts who else has one. Put one back here, or Forget me empties the pouch.';
   };
 
+  /* ── Your herb basket ──────────────────────────────────────────────────── */
+  Radio.prototype.loadHerbs = function () {
+    var me = this;
+    me.herbState.hidden = false;
+    me.herbState.textContent = 'Looking in your basket\u2026';
+    withHerbs(function () {
+      call('/cb/herbs', null, me.state.pass).then(function (r) {
+        if (r.status === 200 && r.body && Array.isArray(r.body.herbs)) { me.drawHerbs(r.body); return; }
+        me.herbState.textContent = r.status === 401
+          ? 'Since you signed on, this username has been signed off. Sign on again at the Community Center.'
+          : 'Your herb basket could not be fetched just now.';
+      }, function () { me.herbState.textContent = 'Your herb basket could not be fetched just now.'; });
+    });
+  };
+
+  Radio.prototype.drawHerbs = function (b, focus) {
+    var me = this, box = this.herbBox, show = this.herbShow;
+    show.textContent = '';
+    if (!window.loveHerbs) { withHerbs(function () { me.drawHerbs(b, focus); }); return; }
+    var ids = b.herbs || [];
+    var said = el('p', 'cb-quiet', ''); said.setAttribute('role', 'status');
+    if (!ids.length) {
+      box.hidden = true;
+      this.herbState.hidden = false;
+      this.herbState.textContent = 'Your basket is empty. Every herb in the Herbery, in Myths & Legends behind the Faery Yurt, has Gather it.';
+    } else {
+      this.herbState.hidden = true;
+      box.hidden = false;
+      basketInto(box, ids, 'In your basket', function (h) {
+        var back = el('button', 'cb-btn', 'Put ' + h.name + ' back');
+        back.type = 'button';
+        back.addEventListener('click', function () {
+          back.disabled = true;
+          call('/cb/herbs', { body: { back: h.id } }, me.state.pass).then(function (r) {
+            if (r.status === 200 && Array.isArray(r.body.herbs)) {
+              me.drawHerbs({ herbs: r.body.herbs, claimed: b.claimed, shown: b.shown });
+              me.herbWhere.textContent = h.name + ' is back in the Herbery. ' + me.herbWhere.textContent;
+              return;
+            }
+            back.disabled = false;
+            said.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+          }, function () { back.disabled = false; said.textContent = 'The street could not be reached just now. Nothing changed.'; });
+        });
+        return back;
+      });
+      box.appendChild(said);
+    }
+    var claimed = !!b.claimed;
+    if (!claimed) {
+      show.appendChild(el('p', 'cb-quiet', 'Claim your username under Account and you can let people on the CB see your herb basket in your profile.'));
+    } else {
+      var on = !!b.shown;
+      var t = el('button', 'cb-btn cb-pets-show', 'Show my herb basket on the CB: ' + (on ? 'on' : 'off'));
+      t.type = 'button';
+      t.setAttribute('aria-pressed', String(on));
+      show.appendChild(t);
+      show.appendChild(el('p', 'cb-quiet', on
+        ? 'Anybody signed on to the CB who opens your profile, from your handle on the channel or your name on Who\u2019s online, sees the herbs in your basket.'
+        : 'Off: your profile says you have not made your herb basket public. Switch it on to show it there.'));
+      var tSaid = el('p', 'cb-quiet', ''); tSaid.setAttribute('role', 'status');
+      show.appendChild(tSaid);
+      if (focus) t.focus();
+      t.addEventListener('click', function () {
+        t.disabled = true;
+        call('/cb/herbs', { body: { show: !on } }, me.state.pass).then(function (r) {
+          t.disabled = false;
+          if (r.status === 200 && typeof r.body.shown === 'boolean') { me.drawHerbs({ herbs: ids, claimed: true, shown: r.body.shown }, true); return; }
+          tSaid.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing changed.';
+        }, function () { t.disabled = false; tSaid.textContent = 'The street could not be reached just now. Nothing changed.'; });
+      });
+    }
+    this.herbWhere.textContent = (claimed
+      ? 'Your herbs are kept under your username, scrambled: which herbs, and nothing about when. '
+      : 'Your herbs are kept under the handle ' + this.state.handle + ', scrambled: which herbs, and nothing about when. A handle is not an account: anybody who signs on with it has this basket too, until you claim it under Account. ') +
+      'Nothing counts who else has one, and the brews are worked out here and kept nowhere. Put one back here, or Forget me empties the basket.';
+  };
+
   /* ── Your jobs ─────────────────────────────────────────────────────────── */
   Radio.prototype.loadJobs = function () {
     var me = this;
@@ -10373,7 +10544,7 @@
     me.forgetSaid.textContent = 'Forgetting\u2026';
     call('/cb/pets', { body: { forget: true } }, me.state.pass).then(function (r) {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;
-      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.drawPatches({ patches: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); if (me.crysBox) me.drawCrystals({ crystals: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); me.forgetSaid.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
+      if (r.status === 200 && r.body.forgotten) { me.drawPets([]); me.drawShow({ claimed: /^cb2\./.test(me.state.pass), shown: false }); me.drawAvatars({ avatars: [], wearing: null, claimed: /^cb2\./.test(me.state.pass) }); me.drawJobs({ keeping: false, jobs: [], claimed: /^cb2\./.test(me.state.pass) }, GUILD); me.drawPatches({ patches: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); if (me.crysBox) me.drawCrystals({ crystals: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); if (me.herbBox) me.drawHerbs({ herbs: [], shown: false, claimed: /^cb2\./.test(me.state.pass) }); me.forgetSaid.textContent = 'Forgotten. The street keeps nothing under this handle now.'; me.forgetBtn.focus(); return; }
       me.forgetSaid.textContent = (r.body && typeof r.body.error === 'string') ? r.body.error : 'That did not work just now. Nothing was forgotten.';
     }, function () {
       me.forgetSure.hidden = true; me.forgetBtn.hidden = false;

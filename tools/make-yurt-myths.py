@@ -56,6 +56,16 @@ WHAT IT REFUSES, AND WHY:
     deleting a username or Forget me leaving it; crystal-pouch.js reading
     anything but love-cb, writing anything, sending anywhere but /cb/crystals or
     writing markup from a string; and privacy.html without its section.
+  - A HERB BASKET OR A BOOK OF BREWS THAT IS ANYTHING BUT STORIES. Helen's ask,
+    2026-10-26: the Herbery, where Gather it puts a herb in a basket in your
+    Profile, the pouch's arrangement, and a cauldron that names the brew or
+    stew you stirred from the room's own book. The tool refuses: a herb with
+    no drawing, no inks love.css declares, or a fact or a piece of lore with no
+    source; a brew in the book naming a herb not in the Herbery, two brews of
+    the same herbs, a brew of anything but two herbs or a stew of anything but
+    three; a measure or a dose anywhere in the Herbery's data, because the brews
+    are words and never recipes, and the room without its note saying so; and
+    herb-basket.js or the basket breaking any promise the pouch keeps.
   - ANYTHING IN §128 THAT MAKES A LIGHT FLASH. The amber glows slowly and the
     amethyst glints at MAX GLITTER only; the tool refuses an animation outside
     an html[data-intensity="max"] rule, a keyframe faster than two seconds, and
@@ -455,6 +465,133 @@ if "forgetCrystals(pk)" not in (ROOT / "netlify" / "functions" / "cb-pets.mjs").
 if 'id="crystals"' not in (ROOT / "privacy.html").read_text(encoding="utf-8"):
     refuse("privacy.html has no section on the crystal pouch (#crystals). It was written first; it stays.")
 
+
+# ── The Herbery ─────────────────────────────────────────────────────────────
+# Helen's ask, 2026-10-26: herbs to gather into a basket in your Profile, and a
+# cauldron that names the brew or stew you stirred from the room's own book.
+HB = d["herbery"]
+HERB_KINDS = {"myth": "Myth", "folklore": "Folklore", "old tradition": "Old tradition", "history": "History"}
+BASKET = ROOT / "herb-basket.js"
+bjs = BASKET.read_text(encoding="utf-8")
+hdm = re.search(r"var DRAW = \{(.*?)\n  \};", bjs, re.S)
+HERB_SHAPES = set(re.findall(r"(?m)^    (\w+): function", hdm.group(1))) if hdm else set()
+if not HERB_SHAPES:
+    refuse("herb-basket.js: no DRAW to read the herbs' drawings from.")
+for k in ("intro", "note"):
+    if not HB.get(k):
+        refuse(f"herbery.{k}: missing; the room says once, plainly, that the brews are stories and not recipes.")
+hb_raw = json.dumps(HB, ensure_ascii=False)
+for word in (r"\bdos(e|es|age)\b", r"\bteaspoons?\b", r"\btablespoons?\b", r"\btsp\b", r"\btbsp\b", r"\b\d+\s?(g|ml|mg|grams?)\b",
+             r"\bsteep\b", r"\bboil\b", r"\btake (it|this|them)\b", r"\bsafe to\b"):
+    if re.search(word, hb_raw, re.I):
+        refuse(f"herbery: '{word}' in the data. The brews and stews are words, never a recipe or a measure.")
+hslugs = []
+for h in HB["herbs"]:
+    hslugs.append(h["slug"])
+    if h.get("draw") not in HERB_SHAPES:
+        refuse(f"herbery {h.get('name')}: no drawing (draw one of {sorted(HERB_SHAPES)}).")
+    for i, fa in enumerate(h.get("facts") or []):
+        need_src(f"herbery {h.get('name')} facts[{i}]", fa)
+    if not h.get("facts"):
+        refuse(f"herbery {h.get('name')}: no facts.")
+    lo = h.get("lore") or {}
+    need_src(f"herbery {h.get('name')} lore", lo)
+    if lo.get("kind") not in HERB_KINDS:
+        refuse(f"herbery {h.get('name')}: lore.kind must be one of {sorted(HERB_KINDS)}.")
+if len(set(hslugs)) != len(hslugs):
+    refuse("herbery: two herbs with one slug.")
+herb_tokens = {}
+for h in HB["herbs"]:
+    herb_tokens[h["slug"]] = (f"--herb-{h['slug']}", f"--herb-{h['slug']}-2")
+    for t in herb_tokens[h["slug"]]:
+        if t not in declared:
+            refuse(f"herbery {h['name']}: love.css :root does not declare {t}.")
+for t in ("--herb-cloth", "--herb-line", "--herb-wicker", "--herb-wicker-2", "--herb-iron", "--herb-iron-2"):
+    if t not in declared:
+        refuse(f"love.css :root does not declare {t}, which the basket and the cauldron are drawn in.")
+seen_sets = set()
+for b in HB["book"]:
+    hs = b.get("herbs") or []
+    for x in hs:
+        if x not in hslugs:
+            refuse(f"herbery book {b.get('name')}: {x} is not a herb in the Herbery.")
+    want = {"brew": 2, "stew": 3}.get(b.get("kind"))
+    if want is None or len(set(hs)) != want or len(hs) != want:
+        refuse(f"herbery book {b.get('name')}: a brew is two herbs and a stew is three.")
+    key = tuple(sorted(hs))
+    if key in seen_sets:
+        refuse(f"herbery book {b.get('name')}: another brew in the book is made of the same herbs.")
+    seen_sets.add(key)
+    if not b.get("says"):
+        refuse(f"herbery book {b.get('name')}: no line of its own.")
+by_slug = {h["slug"]: h["name"] for h in HB["herbs"]}
+
+
+def and_list(xs):
+    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+
+def herb_card(h):
+    facts = "".join(f'<li>{says_with_src(fa)}</li>' for fa in h["facts"])
+    return (
+        f'      <li class="myth-herb myth-panel" id="herb-{esc(h["slug"])}">'
+        f'<span class="myth-herb__frame" data-herb-art="{esc(h["slug"])}"></span>'
+        f'<h3>{esc(h["name"])}</h3>'
+        f'<p class="myth-crystal__h">What it is</p><ul class="myth-list">{facts}</ul>'
+        f'<p class="myth-crystal__h">{HERB_KINDS[h["lore"]["kind"]]}</p>'
+        f'<p>{says_with_src(h["lore"])}</p>'
+        f'<p class="myth-crystal__take" data-herb-take="{esc(h["slug"])}" hidden>'
+        f'<button type="button" class="myth-crystal__btn">Gather it</button>'
+        f'<span class="myth-crystal__said" data-herb-said role="status"></span></p>'
+        f'<p class="myth-crystal__back"><a href="#cauldron">To the cauldron</a></p></li>')
+
+
+picks = "".join(
+    f'<label class="myth-cauldron__pick"><input type="checkbox" data-herb="{esc(h["slug"])}"> {esc(h["name"])}</label>'
+    for h in HB["herbs"])
+book_items = "\n".join(
+    f'        <li><b>{esc(b["name"])}</b>, a {esc(b["kind"])} of {esc(and_list([by_slug[x] for x in b["herbs"]]))}. {esc(b["says"])}</li>'
+    for b in HB["book"])
+herbery = (
+    f'<p class="myth-intro">{esc(HB["intro"])}</p>\n'
+    f'    <p class="myth-herbery__note">{esc(HB["note"])}</p>\n'
+    '    <ul class="myth-herbs">\n' + "\n".join(herb_card(h) for h in HB["herbs"]) + '\n    </ul>\n'
+    '    <h3 id="cauldron" class="myth-herbery__h">The cauldron</h3>\n'
+    '    <div class="myth-cauldron myth-panel" data-cauldron hidden>\n'
+    '      <div class="myth-cauldron__art-box" data-cauldron-art></div>\n'
+    '      <fieldset class="myth-cauldron__picks"><legend>Tip in two or three herbs</legend>' + picks + '</fieldset>\n'
+    '      <p class="myth-cauldron__go"><button type="button" class="myth-crystal__btn" data-cauldron-stir>Stir</button> '
+    '<button type="button" class="myth-crystal__btn" data-cauldron-empty>Empty it</button></p>\n'
+    '      <p class="myth-cauldron__said" data-cauldron-said role="status"></p>\n'
+    '    </div>\n'
+    '    <h3 id="book-of-brews" class="myth-herbery__h">The book of brews and stews</h3>\n'
+    '    <ul class="myth-list myth-brewbook">\n' + book_items + '\n    </ul>\n'
+    f'    <p class="myth-src">Every fact and story about a herb was read on the page it links to, on {esc(d["_checked"])}; the book is this room&rsquo;s own.</p>')
+herb_data = {"room": PAGE.name,
+             "herbs": [{"id": h["slug"], "name": h["name"], "draw": h["draw"], "ink": herb_tokens[h["slug"]][0], "shine": herb_tokens[h["slug"]][1]} for h in HB["herbs"]],
+             "book": [{"name": b["name"], "kind": b["kind"], "herbs": b["herbs"], "says": b["says"]} for b in HB["book"]]}
+bsrc = re.sub(r"/\*.*?\*/", " ", bjs, flags=re.S)
+bsrc = re.sub(r"(?m)^\s*//.*$", " ", bsrc)
+for m in re.finditer(r"localStorage\.(\w+)\(\s*([^,)]+)", bsrc):
+    if m.group(1) != "getItem" or m.group(2).strip() != "PASS_KEY":
+        refuse(f"herb-basket.js {m.group(1)}s {m.group(2).strip()}. It reads love-cb and nothing else, and writes nothing.")
+if "var PASS_KEY = 'love-cb';" not in bsrc or "var HERBS = '/cb/herbs';" not in bsrc:
+    refuse("herb-basket.js no longer names love-cb and /cb/herbs as the two things it touches.")
+if bsrc.count("fetch(") != 1 or "fetch(HERBS," not in bsrc:
+    refuse("herb-basket.js sends somewhere other than /cb/herbs, or not through its one call(); the cauldron sends nothing.")
+if re.search(r"innerHTML|outerHTML|insertAdjacentHTML|DOMParser|document\.write|sessionStorage|indexedDB|"
+             r"document\.cookie|sendBeacon|WebSocket|EventSource|XMLHttpRequest", bsrc):
+    refuse("herb-basket.js writes markup from a string, or keeps or sends something some other way.")
+bh_fn = re.search(r"export async function basketHerb\(.*?\n\}", lib, re.S)
+if not bh_fn or "s.setJSON(key, { herbs: next }" not in bh_fn.group(0) or re.search(r"\bnow\b|Date|\bt:", bh_fn.group(0)):
+    refuse("lib.mjs: basketHerb keeps something other than which herbs. It keeps nothing about when.")
+if not da or "await forgetHerbs(petKey(handle), s);" not in da.group(0):
+    refuse("lib.mjs: deleting a username no longer empties the herb basket kept under it.")
+if "forgetHerbs(pk)" not in (ROOT / "netlify" / "functions" / "cb-pets.mjs").read_text(encoding="utf-8"):
+    refuse("cb-pets.mjs: Forget me no longer empties the herb basket.")
+if 'id="herbs"' not in (ROOT / "privacy.html").read_text(encoding="utf-8"):
+    refuse("privacy.html has no section on the herb basket (#herbs). It was written first; it stays.")
+
 # ── §128 stays still but for the stones ─────────────────────────────────────
 css = CSS.read_text(encoding="utf-8")
 m = re.search(r"/\* §128 ── SUBROOM: Myths & Legends.*?(?=/\* §129 )", css, re.S)
@@ -482,7 +619,7 @@ if re.search(r"(amazon|amzn)\.[a-z]", page, re.I):
     raise SystemExit("REFUSING: faery-myths-room.html links to Amazon. Link the publisher.")
 for part, block in (("summer", summer), ("winter", winter), ("stones", stones), ("arthur", arthur),
                     ("creatures", creatures), ("cards", cards), ("wheel", wheel), ("crystal-wheel", wheel_cw),
-                    ("crystal-cards", cards_cw), ("books", books), ("green-shelf", green)):
+                    ("crystal-cards", cards_cw), ("herbery", herbery), ("books", books), ("green-shelf", green)):
     b, e = f"<!-- yurt-myths:{part}:begin -->", f"<!-- yurt-myths:{part}:end -->"
     if page.count(b) != 1 or page.count(e) != 1:
         raise SystemExit(f"REFUSING: faery-myths-room.html must hold one {b} and one {e}.")
@@ -506,7 +643,16 @@ data_line = "\n  var DATA = " + json.dumps({"room": PAGE.name, "crystals": pouch
 new_pjs = swap(pjs, "/* crystals:data:begin */", "/* crystals:data:end */", data_line, "crystal-pouch.js")
 if new_pjs != pjs:
     POUCH.write_text(new_pjs, encoding="utf-8")
+if '<script src="herb-basket.js" defer></script>' not in page:
+    raise SystemExit("REFUSING: faery-myths-room.html does not load herb-basket.js, so no herb can be gathered and the cauldron is cold.")
+new_lib2 = swap(new_lib, "/* herb:ids:begin */", "/* herb:ids:end */", "\nexport const HERB_IDS = " + json.dumps(hslugs) + ";\n", "lib.mjs")
+if new_lib2 != new_lib:
+    LIB.write_text(new_lib2, encoding="utf-8")
+hb_line = "\n  var DATA = " + json.dumps(herb_data, ensure_ascii=False) + ";\n  "
+new_bjs = swap(bjs, "/* herbs:data:begin */", "/* herbs:data:end */", hb_line, "herb-basket.js")
+if new_bjs != bjs:
+    BASKET.write_text(new_bjs, encoding="utf-8")
 old = PAGE.read_text(encoding="utf-8")
 if page != old:
     PAGE.write_text(page, encoding="utf-8")
-print("make-yurt-myths: the stones, Arthur, the folk, the cards, the wheel, the crystals and their pouch, the old shelf and the Green Witch shelf written; every one of them sourced, every photograph credited.")
+print("make-yurt-myths: the stones, Arthur, the folk, the cards, the wheel, the crystals and their pouch, the herbs, their basket and the cauldron, the old shelf and the Green Witch shelf written; every one of them sourced, every photograph credited.")
