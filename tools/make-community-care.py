@@ -526,12 +526,13 @@ for name in sections:
 rules = [f'      <li><strong>{esc(r["name"])}</strong> {linked(r["line"])}</li>' for r in d["not_here"]]
 swap(ROOM, "cmc:rules", '    <ul class="cmc-rules">\n' + "\n".join(rules) + "\n    </ul>", "    ")
 
-# WHO READS THE CHANNEL AND FOR HOW LONG, read rather than typed: the 48 hours
+# WHO READS THE CHANNEL AND FOR HOW LONG, read rather than typed: the two weeks
 # out of lib.mjs's LIFE, and how long the forums keep a topic out of
 # data/forum.json, so neither goes quietly wrong when somebody changes it there.
-life = re.search(r"export const LIFE = (\d+) \* 60 \* 60 \* 1000;", LIB.read_text())
+life = re.search(r"export const LIFE_DAYS = (\d+);", LIB.read_text())
 if not life:
-    raise SystemExit("REFUSING: netlify/cb/lib.mjs has no LIFE in hours, and the room says how long a message stays.")
+    raise SystemExit("REFUSING: netlify/cb/lib.mjs has no LIFE_DAYS, and the room says how long a message stays.")
+LIFE_WORDS = {7: "a week", 14: "two weeks", 21: "three weeks", 28: "four weeks"}
 cats = {c["slug"]: c for c in json.loads(FORUM.read_text())["categories"]}
 for slug in ("mutual-aid", "coping"):
     if slug not in cats or not cats[slug].get("keep"):
@@ -540,7 +541,7 @@ channel = [
     "      <li><strong>Everybody signed on to the CB can read this room&rsquo;s channel</strong>, so say only what "
     "you would say in a room with all of them in it. It keeps "
     '<a href="community-center.html#cb-norms">the house norms</a>, like every channel.</li>',
-    f"      <li><strong>Every message on it goes {life.group(1)} hours after it was sent</strong>, like every "
+    f"      <li><strong>Every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, like every "
     "channel on the CB. For an ask that needs longer, "
     f'<a href="forum.html#/c/mutual-aid">Mutual aid</a> in the forums keeps a topic {esc(cats["mutual-aid"]["keep"])} '
     f'after its last post, and <a href="forum.html#/c/coping">Coping</a> keeps one {esc(cats["coping"]["keep"])}.</li>',

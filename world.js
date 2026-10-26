@@ -4,7 +4,7 @@
    THE LIST IS THE PAGE'S OWN, written by tools/make-world.py, so it reads with
    no script and for anybody. This adds, for somebody signed on to the CB, who is
    in each room, whether its call has somebody in it, and when it was last busy
-   in the last 48 hours, out of /cb/world, which answers by Who's online's rules; and it shows,
+   in the last two weeks, out of /cb/world, which answers by Who's online's rules; and it shows,
    filters and orders the list in the reader's own browser.
 
    NOTHING HERE PUTS A NUMBER BESIDE ANYTHING. Most active is the order the
@@ -52,15 +52,15 @@
     try { return new Date(t).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' }); }
     catch (e) { return ''; }
   }
-  /* A channel keeps 48 hours (Ryan, 2026-10-18), so a room's last busy time
-     can be yesterday or the day before, said in the reader's own day. */
+  /* A channel keeps two weeks (Ryan, 2026-10-25), so a room's last busy time
+     can be yesterday, a day this week, or a date, said in the reader's own day. */
   function lastBusy(t) {
     var d = new Date(t), now = new Date();
     var start = function (x) { return new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime(); };
     var n = Math.round((start(now) - start(d)) / 86400000);
     if (n <= 0) return clock(t) + ' today';
     if (n === 1) return clock(t) + ' yesterday';
-    try { return clock(t) + ' on ' + d.toLocaleDateString(undefined, { weekday: 'long' }); }
+    try { return clock(t) + ' on ' + d.toLocaleDateString(undefined, n < 7 ? { weekday: 'long' } : { month: 'long', day: 'numeric' }); }
     catch (e) { return clock(t); }
   }
 

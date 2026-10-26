@@ -539,7 +539,7 @@
     var messages = b.messages || [];
     if (metAt !== place) {
       // ARRIVING somewhere: who else is seen here, and what has been said here
-      // in the last 48 hours, once. After that only what changes.
+      // in the last two weeks, once. After that only what changes.
       metAt = place;
       heard = {};
       if (names.length) { say('Also here: ' + names.join(', ') + '.'); }

@@ -777,14 +777,15 @@ swap(ROOM, "pts:rules", '    <ul class="pts-rules">\n' + "\n".join(rules) + "\n 
 
 # WHO READS THE CHANNEL AND FOR HOW LONG, read rather than typed: the hours out
 # of lib.mjs's LIFE, and the forums' keep, as above.
-life = re.search(r"export const LIFE = (\d+) \* 60 \* 60 \* 1000;", LIB.read_text())
+life = re.search(r"export const LIFE_DAYS = (\d+);", LIB.read_text())
 if not life:
-    raise SystemExit("REFUSING: netlify/cb/lib.mjs has no LIFE in hours, and the room says how long a message stays.")
+    raise SystemExit("REFUSING: netlify/cb/lib.mjs has no LIFE_DAYS, and the room says how long a message stays.")
+LIFE_WORDS = {7: "a week", 14: "two weeks", 21: "three weeks", 28: "four weeks"}
 channel = [
     "      <li><strong>Everybody signed on to the CB can read this room&rsquo;s channel</strong>, so say only what "
     "you would say in a room with all of them in it. It keeps "
     '<a href="community-center.html#cb-norms">the house norms</a>, like every channel.</li>',
-    f"      <li><strong>Every message on it goes {life.group(1)} hours after it was sent</strong>, like every "
+    f"      <li><strong>Every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, like every "
     "channel on the CB. For something that needs longer, "
     f'<a href="forum.html#/c/pets">Pets</a> in the forums keeps a topic {keep} after its last post.</li>',
     "      <li><strong>Pictures of your animals are welcome</strong>, and a picture goes when its message does. "

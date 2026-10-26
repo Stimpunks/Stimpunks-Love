@@ -1229,7 +1229,7 @@ test('leaving is immediate, and only somebody seen in a place can speak there', 
   assert.deepEqual(await beHere(bex, 'hide', V('b'), s, now + 2), []);
 });
 
-test('the sweep takes stale presence and talk past its 48 hours, and leaves the rest', async () => {
+test('the sweep takes stale presence and talk past its time, and leaves the rest', async () => {
   const s = memoryStore({ etagOnRead: true });
   const now = Date.now();
   await beHere(ada, 'hide', V('a'), s, now - MUD_FRESH - 1);
@@ -1415,13 +1415,22 @@ test('a room channel with nothing left on air is not heard and is swept; one wit
 /* ── How long a message stays ── */
 
 // 2026-10-19 00:00 in Colorado: what was sent before it keeps the promise it
-// was sent under, gone at that midnight; what was sent after it stays 48 hours.
+// was sent under, gone at that midnight; what was sent after it stays 48 hours,
+// until 2026-10-26 00:00 in Colorado (LONG), after which it stays two weeks.
 const CHANGE = Date.UTC(2026, 9, 19, 6, 0);
+const LONG = Date.UTC(2026, 9, 26, 6, 0);
+const H48 = 48 * 60 * 60 * 1000;
 
-test('a message stays 48 hours from when it was sent, and one sent before the change goes at its midnight', () => {
+test('a message stays two weeks from when it was sent, and one sent before a change keeps the time it was sent under', () => {
+  const later = LONG + 3 * 60 * 60 * 1000;
+  assert.equal(onAir({ t: later }, later + LIFE - 1), true, 'a message is on air until its two weeks are up');
+  assert.equal(onAir({ t: later }, later + LIFE), false, 'and not a moment after');
+  assert.equal(onAir({ t: later }, later + H48 + 1), true, '48 hours no longer clears it');
   const after = CHANGE + 3 * 60 * 60 * 1000;
-  assert.equal(onAir({ t: after }, after + LIFE - 1), true, 'a message is on air until its 48 hours are up');
-  assert.equal(onAir({ t: after }, after + LIFE), false, 'and not a moment after');
+  assert.equal(onAir({ t: after }, after + H48 - 1), true, 'sent under the 48 hours, it is on air until they are up');
+  assert.equal(onAir({ t: after }, after + H48), false, 'and kept not a moment longer for the two weeks');
+  const eve = LONG - 60 * 1000;   // a minute before midnight on 2026-10-25, in Colorado
+  assert.equal(onAir({ t: eve }, eve + H48), false, 'the last minute before the change still went at its 48 hours');
   assert.equal(onAir({ t: after }, after + 30 * 60 * 60 * 1000), true, 'midnight in Colorado no longer clears it');
   const evening = CHANGE - 60 * 60 * 1000;   // 23:00 on 2026-10-18, in Colorado
   assert.equal(onAir({ t: evening }, CHANGE - 1), true, 'sent before the change, it is there until midnight');
@@ -1432,7 +1441,7 @@ test('a message stays 48 hours from when it was sent, and one sent before the ch
 test('a channel keeps fifty, and the fifty-first pushes the oldest off', async () => {
   const s = memoryStore({ etagOnRead: true });
   assert.equal(KEEP, 50);
-  assert.equal(LIFE, 48 * 60 * 60 * 1000);
+  assert.equal(LIFE, 14 * 24 * 60 * 60 * 1000);
   for (let i = 0; i <= KEEP; i++) await updateChannel((l) => [...l, { id: `m${i}`, t: Date.now() }], s);
   const ids = (await readChannel(s)).messages.map((m) => m.id);
   assert.equal(ids.length, KEEP);
@@ -1440,7 +1449,7 @@ test('a channel keeps fifty, and the fifty-first pushes the oldest off', async (
   assert.equal(ids[ids.length - 1], `m${KEEP}`);
 });
 
-test('the sweep takes what is past its 48 hours out of a channel and keeps the rest', async () => {
+test('the sweep takes what is past its time out of a channel and keeps the rest', async () => {
   const s = memoryStore({ etagOnRead: true });
   const now = CHANGE + 5 * 24 * 60 * 60 * 1000;
   const hour = 60 * 60 * 1000;
@@ -1453,7 +1462,7 @@ test('the sweep takes what is past its 48 hours out of a channel and keeps the r
   assert.ok(!s.keys().includes('channel'), 'a channel with nothing left on air is deleted');
   await s.setJSON('room-talk-the-den', { messages: [{ id: 'old', t: now - LIFE }, { id: 'new', t: now - hour }] }, { onlyIfNew: true });
   assert.equal(await sweepRoomTalk(s, now), true);
-  assert.deepEqual((await readRoomTalk('the-den', s, now)).messages.map((m) => m.id), ['new'], 'a room\'s channel keeps the same 48 hours');
+  assert.deepEqual((await readRoomTalk('the-den', s, now)).messages.map((m) => m.id), ['new'], 'a room\'s channel keeps the same time');
 });
 
 /* ── Calls ── */
@@ -4188,7 +4197,7 @@ test('props given tell only their person, with the switch on, as the claimed use
 /* ── Direct messages ──────────────────────────────────────────────────────
    Claimed usernames only, at both ends; nobody new until switched on; the
    first message waits; a block refuses both ways and says nothing; every
-   message gone 48 hours after it was sent; a moderator reads only what was
+   message gone two weeks after it was sent; a moderator reads only what was
    reported to them; nothing counted and the sender's key never sent; gone with
    Forget me and with the username, and a name claimed again is somebody
    else. */
@@ -4306,14 +4315,14 @@ test('a block refuses both ways, says nothing, empties the conversation and hold
   assert.ok((await sendDm(person('ADA', 55), 'Bex', 'hi again', s)).sent);
 }));
 
-test('every message goes 48 hours after it was sent, and the conversation with it', () => withPasswords(async () => {
+test('every message goes two weeks after it was sent, and the conversation with it', () => withPasswords(async () => {
   const s = memoryStore({ etagOnRead: true });
   const [ada, bex] = await twoPeople(s);
   await setDmOpen(bex, true, s);
-  const t0 = Date.now();
+  const t0 = Math.max(Date.now(), LONG);
   await sendDm(ada, 'Bex', 'hi', s, t0);
   assert.equal((await readDmWith(bex, 'Ada', s, t0 + LIFE - 1)).messages.length, 1);
-  assert.equal((await readDmWith(bex, 'Ada', s, t0 + LIFE)).messages.length, 0, 'a message outlived its 48 hours');
+  assert.equal((await readDmWith(bex, 'Ada', s, t0 + LIFE)).messages.length, 0, 'a message outlived its two weeks');
   assert.deepEqual((await listDms(bex, s, t0 + LIFE)).conversations, []);
   await sweepDms(s, t0 + LIFE + 2 * 60 * 60 * 1000);
   assert.deepEqual(s.keys().filter((k) => k.startsWith('dm/') || k.startsWith('dm-with/')), [], 'the sweep left a conversation or a marker behind');
@@ -4462,7 +4471,7 @@ test('a conversation takes a picture only once accepted, shows it only to the tw
   assert.ok(await reportImage(mo, desk[0].id, s), 'taking a message back took its picture off the desk');
   await closeReport(mo, desk[0].id, s);
   assert.deepEqual(s.keys().filter((k) => k.startsWith('dm-report-img/')), [], 'closing a report left its picture');
-  // The sweep: a picture past its message's 48 hours, and one never sent.
+  // The sweep: a picture past its message's time, and one never sent.
   const t0 = Date.now();
   const late = (await putDmImage(ada, 'Bex', jpeg(), s, t0)).id;
   await sendDm(ada, 'Bex', { text: 'later', img: late }, s, t0);

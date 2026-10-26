@@ -1126,22 +1126,27 @@
   // A pass the forums take: any claimed username's, a moderator's own included.
   function forumPass(pass) { return /^cb2\./.test(pass || ''); }
 
-  /* A MESSAGE CAN BE TWO DAYS OLD (Ryan, 2026-10-18: 48 hours on the channel,
-     for the people asleep while it was said), so a time that is not today says
-     which day, in the reader's own day: yesterday, or the day's name before
-     that. clock() is what the log shows; sentAt() is the same for a label, read
+  /* A MESSAGE CAN BE TWO WEEKS OLD (Ryan, 2026-10-25: two weeks on the channel,
+     after requests for more to scroll back through), so a time that is not
+     today says which day, in the reader's own day: yesterday, the day's name
+     this week, or the date before that. clock() is what the log shows; sentAt() is the same for a label, read
      after "message". */
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   function hhmm(d) { return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
-  function dayAgo(t) {
-    var d = new Date(t), now = new Date();
+  function daysAgo(t) {
     var start = function (x) { return new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime(); };
-    var n = Math.round((start(now) - start(d)) / 86400000);
-    return n <= 0 ? '' : n === 1 ? 'yesterday' : DAYS[d.getDay()];
+    return Math.round((start(new Date()) - start(new Date(t))) / 86400000);
+  }
+  // A week or more back, a day's name could be either week, so it says the date.
+  function dayAgo(t) {
+    var d = new Date(t), n = daysAgo(t);
+    return n <= 0 ? '' : n === 1 ? 'yesterday' : n < 7 ? DAYS[d.getDay()] : MONTHS[d.getMonth()] + ' ' + d.getDate();
   }
   function clock(t) {
-    var day = dayAgo(t), hm = hhmm(new Date(t));
-    return day === 'yesterday' ? 'yesterday ' + hm : day ? day.slice(0, 3) + ' ' + hm : hm;
+    var d = new Date(t), n = daysAgo(t), hm = hhmm(d);
+    return n <= 0 ? hm : n === 1 ? 'yesterday ' + hm : n < 7 ? DAYS[d.getDay()].slice(0, 3) + ' ' + hm
+      : MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getDate() + ' ' + hm;
   }
   function sentAt(t) {
     var day = dayAgo(t), hm = hhmm(new Date(t));
@@ -1474,7 +1479,7 @@
        day, for claimed usernames. A link, and Take to the forums under a
        message's More; the radio never sends anything to them itself. */
     var forumLine = el('p', 'cb-quiet cb-forum-line');
-    forumLine.appendChild(document.createTextNode('For what needs longer than two days: '));
+    forumLine.appendChild(document.createTextNode('For what needs longer than two weeks: '));
     var forumLink = el('a', null, 'the forums');
     forumLink.href = '/forum.html';
     forumLine.appendChild(forumLink);
@@ -3209,7 +3214,7 @@
     this.heard = true;
     for (i = 0; i < messages.length; i++) want[messages[i].id] = true;
     // Gone from the channel: pushed off by a newer one, taken off, or past its
-    // 48 hours.
+    // two weeks.
     // The log's own children only: a message's Markdown list has li in it too.
     var lis = this.log.querySelectorAll(':scope > li');
     for (i = 0; i < lis.length; i++) {
@@ -4515,7 +4520,7 @@
       said.textContent = 'The street could not be reached just now, so ' + (o ? 'the channels are in the order they had.' : 'the channels are A to Z.') + ' Try Sort again.';
       return;
     }
-    said.textContent = (by === 'recent' ? 'Newest message first' : 'Most messages in the last 48 hours first') +
+    said.textContent = (by === 'recent' ? 'Newest message first' : 'Most messages in the last two weeks first') +
       ', as at ' + hhmm(new Date(o.at)) + '. New messages do not move them; Sort again does.';
   };
 
@@ -8030,7 +8035,7 @@
     var me = this;
     this.noticeFresh = {};
     var about = el('p', 'cb-online-about');
-    about.appendChild(document.createTextNode('What the CB\u2019s notifications told your devices in the last 30 days, newest first. Only what was actually sent to a device is here, so what you switch on under Notifications decides it. The words are read again from wherever they still are, so a message gone at its 48 hours, or taken off, is here only as that there was one. Nobody else is shown this. '));
+    about.appendChild(document.createTextNode('What the CB\u2019s notifications told your devices in the last 30 days, newest first. Only what was actually sent to a device is here, so what you switch on under Notifications decides it. The words are read again from wherever they still are, so a message gone at its two weeks, or taken off, is here only as that there was one. Nobody else is shown this. '));
     var more = el('a', null, 'What it keeps');
     more.href = '/privacy.html#notification-archive';
     about.appendChild(more);
@@ -8096,7 +8101,7 @@
       return say(n.d).then(function (w) {
         if (!w) return null;
         // A message whose words the server could not find again has gone from its channel.
-        if (n.d.kind === 'message' && !n.d.text && !n.d.what) w = { title: w.title, url: w.url, body: 'No longer on the channel: gone at its 48 hours, or taken off.' };
+        if (n.d.kind === 'message' && !n.d.text && !n.d.what) w = { title: w.title, url: w.url, body: 'No longer on the channel: gone at its two weeks, or taken off.' };
         return { n: n.n, sent: n.sent, w: w };
       }, function () { return null; });
     })).then(function (said) {
@@ -8366,7 +8371,7 @@
      between two people, with a claimed username at both ends. Nobody new can
      start one with you until you switch on Let people message me; their first
      message waits for you to answer it, accept it or reject it; each message
-     goes 48 hours after it was sent; a block says nothing to the person
+     goes two weeks after it was sent; a block says nothing to the person
      blocked; and the only way a message reaches the moderators is a report.
      The server is the Direct messages part of lib.mjs and /cb/dm.
 
@@ -8391,7 +8396,7 @@
     this.dmWith = null;
     this.dmBusy = null;
     if (!forumPass(this.state.pass)) {
-      sec.appendChild(el('p', 'cb-quiet', 'Claim your username, under Account in You on this radio, and you can send direct messages and get them: one person to another, each gone 48 hours after it was sent.'));
+      sec.appendChild(el('p', 'cb-quiet', 'Claim your username, under Account in You on this radio, and you can send direct messages and get them: one person to another, each gone two weeks after it was sent.'));
       return;
     }
     var btn = this.dmBtn = el('button', 'cb-btn cb-dm-btn', 'Your messages');
@@ -8409,7 +8414,7 @@
     // THE LIST: the switch, a way to write to a username, and the conversations.
     var inbox = this.dmInbox = el('div', 'cb-dm-inbox');
     var about = el('p', 'cb-online-about');
-    about.appendChild(document.createTextNode('Between you and one other person, both with claimed usernames. Each message goes 48 hours after it was sent. Nobody else can read them, moderators included, unless one of you reports a message to them. They are not end-to-end encrypted: '));
+    about.appendChild(document.createTextNode('Between you and one other person, both with claimed usernames. Each message goes two weeks after it was sent. Nobody else can read them, moderators included, unless one of you reports a message to them. They are not end-to-end encrypted: '));
     var pa = el('a', null, 'what that means');
     pa.href = '/privacy.html#messages';
     about.appendChild(pa);
@@ -9085,7 +9090,7 @@
   };
 
   /* EDIT, in the words' place: the channel's rule, the old words kept
-     nowhere, and the message still gone 48 hours after it was sent. */
+     nowhere, and the message still gone two weeks after it was sent. */
   Radio.prototype.dmEdit = function (li, id) {
     if (li.dmEditing) return;
     li.dmEditing = true;
@@ -10959,7 +10964,7 @@
     this.roomBtn.dataset.label = 'This room: ' + name;
     this.roomBtn.setAttribute('aria-label', 'This room: ' + name);
     this.bandNow.textContent = room ? 'Tuned to ' + name : worldHere() ? 'Tuned to World, which is this room\u2019s own channel' : 'Tuned to World';
-    this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', the last 48 hours');
+    this.log.setAttribute('aria-label', (room ? name + '\u2019s channel' : 'The World channel') + ', the last two weeks');
     if (inChat()) this.chatShown();
     this.hereShown();
     this.presenceShown();
@@ -11297,7 +11302,7 @@
   };
 
   Radio.prototype.quietText = function () {
-    return this.tunedRoom() ? 'Nobody has said anything in this room in the last 48 hours.' : 'Nobody has said anything in the last 48 hours.';
+    return this.tunedRoom() ? 'Nobody has said anything in this room in the last two weeks.' : 'Nobody has said anything in the last two weeks.';
   };
 
   /* A ROOM'S CALL. Ryan, 2026-09-28: voice and video through 8x8's Jitsi as a

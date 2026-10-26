@@ -1,5 +1,5 @@
 /* =============================================================================
-   The forums, the CB's place for conversations that need longer than two days.
+   The forums, the CB's place for conversations that need longer than two weeks.
    Ryan's brief, 2026-10-18, after Discourse. See netlify/cb/lib.mjs, the
    forums, and privacy.html#forums for what they keep.
 
@@ -658,8 +658,8 @@
     var wrap = el('div', 'cb-lcd fm-cb');
     var room = c.room ? roomByTag(c.room) : null;
     var from = c.room ? (room ? '#' + room.name : 'a room on the street') : 'World';
-    /* A channel keeps 48 hours since 2026-10-18, so what was copied can span
-       two days or three: the heading names the day only when there is one,
+    /* A channel keeps two weeks since 2026-10-25, so what was copied can span
+       several days: the heading names the day only when there is one,
        and otherwise every message says its own. */
     var days = {};
     c.messages.forEach(function (m) { days[dayOf(m.t)] = true; });
@@ -1865,7 +1865,7 @@
       view.textContent = '';
       var h = heading(2, 'Categories');
       view.appendChild(h);
-      view.appendChild(el('p', 'fm-lede', 'Topics in categories, for conversations that need longer than two days. Everything here is for claimed usernames on the CB, and nothing about who reads anything is kept.'));
+      view.appendChild(el('p', 'fm-lede', 'Topics in categories, for conversations that need longer than two weeks. Everything here is for claimed usernames on the CB, and nothing about who reads anything is kept.'));
       var groups = [];
       r.body.home.forEach(function (c) { if (groups.indexOf(c.group) < 0) groups.push(c.group); });
       groups.forEach(function (g) {

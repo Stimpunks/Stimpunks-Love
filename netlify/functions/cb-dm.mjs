@@ -81,7 +81,7 @@ export default async (req, context) => {
       if (r.error === 'closed') return json(403, { error: `${handle} is not taking messages from you just now.` });
       if (r.error === 'blocked') return json(403, { error: `You have blocked ${handle}. Unblock them, under Messages, to write to them.` });
       if (r.error === 'waiting') return json(409, { error: `Your first message is waiting for ${handle} to answer. You can write more once they do.` });
-      if (r.error === 'many') return json(409, { error: `You are in ${DM_WITH} conversations already. One goes when nothing has been said in it for two days.` });
+      if (r.error === 'many') return json(409, { error: `You are in ${DM_WITH} conversations already. One goes when nothing has been said in it for two weeks.` });
       if (r.error) return json(400, { error: 'That did not send.' });
       const told = notifyDm(r.handle, who.handle, r.sent, r.asked).catch(() => []);
       if (context && typeof context.waitUntil === 'function') context.waitUntil(told); else await told;

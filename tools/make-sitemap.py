@@ -172,7 +172,7 @@ ORDER = ["index.html",
          # with your past notifications beside it. The CB's, in the reader's
          # own CB theme, so it stands with the chat and the directory.
          "you.html",
-         # The CB's forums, for what needs longer than the channel's two days. The
+         # The CB's forums, for what needs longer than the channel's two weeks. The
          # radio's, as its guide is, and in the reader's own CB theme rather
          # than a world of its own, so it stands beside the guide.
          "forum.html",

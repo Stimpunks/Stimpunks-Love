@@ -199,7 +199,7 @@
        2026-10-21: everybody joins by claiming a username, with an invite. */
     var set = el('div', 'cb-set cb-guest-set');
     set.id = 'cb-guest-set';
-    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call, watch a film together, and write in the forums. The channel keeps nothing past 48 hours; the forums are for what needs longer.');
+    var p1 = el('p', null, 'The CB is the street’s radio. Signed on, you can talk on World and in every room, share a picture, see who else is here, join a room’s call, watch a film together, and write in the forums. The channel keeps nothing past two weeks; the forums are for what needs longer.');
     var p2 = el('p');
     p2.appendChild(el('b', null, 'New here? '));
     p2.appendChild(document.createTextNode('You join with an invite, a link or a code from a moderator, or from the Stimpunks Community page when you join our community: '));

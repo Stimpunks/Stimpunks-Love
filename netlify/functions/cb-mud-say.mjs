@@ -1,6 +1,6 @@
 /* The Slake: saying something in the place you are, to whoever else is seen
    there. The place's own channel, on the radio's rules: fifty messages, each
-   gone 48 hours after it was said. Only a visit that is seen at that place may speak. */
+   gone two weeks after it was said. Only a visit that is seen at that place may speak. */
 import { randomUUID } from 'node:crypto';
 import { readPass, mudPlace, mudVisit, seenAt, updateTalk, cleanText, shape, json, body, sameSite, TEXT_MAX }
   from '../cb/lib.mjs';

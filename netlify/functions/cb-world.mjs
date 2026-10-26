@@ -1,5 +1,5 @@
 /* The World room's index: every room with somebody seen in it, a call going, or
-   a message on its channel in the last 48 hours, for anybody signed on. Ryan, 2026-10-18. The
+   a message on its channel in the last two weeks, for anybody signed on. Ryan, 2026-10-18. The
    rules are worldIndex()'s in ../cb/lib.mjs: names by whoSeen's rules, a call
    as on or off and never who, the latest message's time and never its words,
    and the most-active order without the numbers it was worked out from. Nothing

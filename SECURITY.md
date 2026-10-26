@@ -29,7 +29,7 @@ Functions in [`netlify/functions/`](netlify/functions/), every one sharing
 one Netlify Blobs store. There is no database. What the store holds, and for how
 long, is on [the privacy page](https://stimpunks.world/privacy.html): the latest
 fifty messages on each channel (the World channel, and one per room), each
-deleted 48 hours after it was sent; pictures sent on a channel, deleted with their message;
+deleted two weeks after it was sent; pictures sent on a channel, deleted with their message;
 the chalkboard and the pebble bowls, a week; the Brass Tacks Board, until a
 moderator takes a post down; the suggestion box in The Sandbox, until whoever dropped a
 suggestion in or a moderator takes it down; a few shared games that keep a count or finished
@@ -101,7 +101,7 @@ What that shape rules out, and what it does not:
 - **Anything in the CB.** Reading or writing a channel without a valid pass,
   forging a pass or the BASE or CLAIMED mark, reading a Town Hall room's channel,
   call or host beacon without the role it takes, reading what anybody said more
-  than 48 hours after they said it, resetting or deleting a username without being a
+  than two weeks after they said it, resetting or deleting a username without being a
   moderator, fetching a channel's picture without a pass or finding one that
   still carries its location, getting 8x8's webhooks to accept a request without
   a good signature, getting a stranger's words onto a page (or into

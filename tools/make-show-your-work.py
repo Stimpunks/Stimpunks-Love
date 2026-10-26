@@ -433,9 +433,10 @@ for i, e in enumerate(d.get("elsewhere") or [], 1):
 # WHO READS THE CHANNEL, AND FOR HOW LONG; HOW LONG THE FORUM KEEPS A TOPIC.
 # Read rather than typed, make-community-care.py's arrangement, so neither goes
 # quietly wrong when somebody changes it where it lives.
-life = re.search(r"export const LIFE = (\d+) \* 60 \* 60 \* 1000;", LIB.read_text())
+life = re.search(r"export const LIFE_DAYS = (\d+);", LIB.read_text())
 if not life:
-    refuse("netlify/cb/lib.mjs has no LIFE in hours, and the room says how long a message stays.")
+    refuse("netlify/cb/lib.mjs has no LIFE_DAYS, and the room says how long a message stays.")
+LIFE_WORDS = {7: "a week", 14: "two weeks", 21: "three weeks", 28: "four weeks"}
 cats = {c["slug"]: c for c in json.loads(FORUM.read_text())["categories"]}
 cat = cats.get(FORUM_SLUG)
 if not cat or not cat.get("keep") or cat.get("see") or cat.get("start"):
@@ -735,7 +736,7 @@ places_html = [
     f'        <p>{linked(places["channel"])}</p>',
     f'        <p class="syw-place__terms">Tune the radio to <b>This room</b> while you are in here, or open '
     f'<a href="chat.html#show-your-work">Show Your Work on the chat page</a>, under Community. Everybody signed '
-    f'on to the CB can read it, and every message on it goes {life.group(1)} hours after it was sent, like every '
+    f'on to the CB can read it, and every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + " days")} after it was sent, like every '
     f'channel. Not on the CB yet? <a href="community-center.html#getting-started">Getting started</a> says how '
     f'to get an invite.</p>',
     '      </li>',

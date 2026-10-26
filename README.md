@@ -859,7 +859,7 @@ eight characters. **A room's call needs two more**, from an API key made in the 
 slash, and `CB_JAAS_KEY`, the private key's PEM. Without both, `/cb/call` answers that calls are
 not switched on and the radio shows no call button. **Rotating the password is changing `CB_PASSWORD` and redeploying**: every
 pass is an HMAC keyed by it, so the redeploy signs everybody off at once and there is nothing
-else to clear. Nothing on the channel survives 48 hours from when it was sent, whatever you do.
+else to clear. Nothing on the channel survives two weeks from when it was sent, whatever you do.
 **The chalkboard on Plural Mural is the one exception, and it is public**: Helen Edgar's idea,
 and Ryan's call on 2026-09-25 that anybody can read it and a note stays seven days. A pass is
 needed to write. `privacy.html` has its own section on it, and every read asks search engines

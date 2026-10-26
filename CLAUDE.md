@@ -777,7 +777,7 @@ and listen, transmit and moderate each take an optional room. World sends no roo
 where a radio starts. **A room listen waits for `cb-rooms.json`**, because the 404 answers every
 address, and its first build sent `?room=no-such-room` before the list said it was no room. The
 server only checks a tag's shape, so a tag that is no room is a channel nobody can reach, swept once
-its 48 hours are up. The choice is remembered in `love-cb` as `band`. A room with a promise about sending
+its two weeks are up. The choice is remembered in `love-cb` as `band`. A room with a promise about sending
 nothing already sets `data-cb="off"`, so no new opt-out is needed.
 
 **A ROOM'S CALL IS 8x8's JITSI AS A SERVICE, AND THE CB IS THE ONLY WAY IN.** Ryan, 2026-09-28:
@@ -1663,9 +1663,9 @@ Watching together (`dmMake` in `cb.js`), the Direct messages part of `lib.mjs`, 
 `dmKey`, the folded name and when it was claimed, so a name claimed again after its owner deleted it reaches nothing
 of theirs. **Let people message me is off until switched on**, and **the first message waits**, its sender able to
 write nothing more until it is answered (which accepts it), accepted, or rejected (emptied, nobody told): props' rule.
-A conversation already going goes on whatever the switch says. **Every message goes 48 hours after it was sent**, by
-`LIFE` and not by `onAir()`, which still keeps the channel's old midnight for what was sent before `LIFE_FROM`;
-**who talked to whom is not kept past the last message between them**, so the next message after two quiet days
+A conversation already going goes on whatever the switch says. **Every message goes two weeks after it was sent**, by
+`onAir()`, the channel's rule, so one sent before `LONG_FROM` keeps its 48 hours;
+**who talked to whom is not kept past the last message between them**, so the next message after two quiet weeks
 asks again. **A block is the blocker's own record, by the name blocked (`petKey`)**, so it holds through a re-claim;
 it empties the conversation for both and answers the blocked person `'closed'`, the same words as a switch that is
 off, so nothing ever says "blocked". **Not end-to-end encrypted**, and `privacy.html#messages` says so in those
@@ -3123,7 +3123,7 @@ on the CB built the same day. What was settled and what is open is in `DECISIONS
     the test store allows. Moving REPLACES the record, so where somebody has been is never a trail.
     **Others are never on the map**, the answer has no count in it, names come alphabetically, and the
     tide stays each player's own. Each place's talk is the channel's own `updateLog`, fifty and each gone
-    after 48 hours. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
+    after two weeks. **The friendly edits are a who's-online list, a headcount, and everybody's footprints on
     the map**: each is the list of who is out there that the room refuses. The street's radio has a
     Who's online now (Ryan, 2026-10-07); the Slake does not, and nobody on it appears there. `mud.js` may read `love-cb`
     and never write it, and send to `/cb/mud/` through one `call()`; the tool reads the file for
@@ -3883,7 +3883,7 @@ some doors and counts none**, and must not.
 **THE CB IS THE ONLY SERVER-SIDE CODE ON THIS SITE, AND IT GOT IN ON NARROW TERMS.** A chat
 channel patterned after citizens band radio (Ryan's brief, 2026-09-24): five Netlify Functions in
 `netlify/functions/` sharing `netlify/cb/lib.mjs`, one JSON blob in Netlify Blobs holding the latest
-fifty messages, each deleted 48 hours after it was sent. **`privacy.html` was rewritten before a line of it
+fifty messages, each deleted two weeks after it was sent. **`privacy.html` was rewritten before a line of it
 was built**, and every sentence there is enforced in `lib.mjs`: no IP address stored (Netlify's own
 `rateLimit` in each function's config counts addresses and never hands them over, so do not "improve"
 it by keeping a list), **nothing a person types is ever logged** — no `console.log` of a handle,
@@ -3893,19 +3893,26 @@ anywhere. `connect-src` is `'self'` and must not go further: a realtime service 
 third party every signed-on visitor talked to on every page. Both passwords live in Netlify's
 environment, never in the repo.
 
-**FIFTY MESSAGES, EACH FOR 48 HOURS FROM WHEN IT WAS SENT, AND NO MIDNIGHT ANY MORE.** Ryan,
-2026-10-18: "Since we have people in timezones all over the world", reversing ten messages gone at
-midnight in Colorado, which cleared the channel in the middle of somebody's afternoon. `KEEP` and
-`LIFE` in `lib.mjs`, and `onAir()` decides on every read and every write, so a message is gone at
-48 hours whether or not the sweep has run; the sweep (`sweepLog`, still in `cb-midnight.mjs`, whose
-name is older than the rule) rewrites a log with the same conditional write a message goes out
-with, and deletes it only once nothing in it is left. World, every room's channel and every place
-on the Slake share it, as they always shared the day. **Everything sent before `LIFE_FROM`
-(2026-10-19 00:00 in Colorado) went at that midnight**, the promise it was sent under; the test for
-it can come out any time after that date. **The radio's times say the day** (`dayAgo`, `clock`,
-`sentAt` in `cb.js`) because a message can be two days old, in the reader's own day, and so do the
-World room's last busy time and a forum copy that spans days. The friendly edit is a midnight
-"so the channel starts the day clean", which is the timezone problem again.
+**FIFTY MESSAGES, EACH FOR TWO WEEKS FROM WHEN IT WAS SENT, AND NO MIDNIGHT ANY MORE.** Ryan,
+2026-10-25, after requests for more back history to scroll through, the Pets channel above all,
+reversing 48 hours, which Ryan chose on 2026-10-18 ("Since we have people in timezones all over the
+world") over ten messages gone at midnight in Colorado. `KEEP`, `LIFE_DAYS` and `LIFE` in `lib.mjs`,
+and `onAir()` decides on every read and every write, so a message is gone at its time whether or not
+the sweep has run; the sweep (`sweepLog`, still in `cb-midnight.mjs`, whose name is older than the
+rule) rewrites a log with the same conditional write a message goes out with, and deletes it only
+once nothing in it is left. World, every room's channel, every place on the Slake **and every direct
+message** (`convDoc` asks `onAir()`) share it. **A message keeps the time it was sent under, never a
+minute longer for a change made after it**: what was sent before `LIFE_FROM` (2026-10-19 00:00 in
+Colorado) went at that midnight, and what was sent before `LONG_FROM` (2026-10-26 00:00 in Colorado)
+goes at its 48 hours; each test can come out a few days after its date. **`KEEP` is still fifty**, so
+a busy channel holds fifty messages and not two weeks: a listen sends the whole log every few seconds
+to every open radio, so raising it makes every listen bigger, and it is Ryan's call with that cost
+measured. **The rooms that say how long a message stays read `LIFE_DAYS`** (Community Care, Coping,
+Pets, Show Your Work), so never write the time into those generators. **The radio's times say the
+day** (`dayAgo`, `clock`, `sentAt` in `cb.js`), in the reader's own day: yesterday, a day's name this
+week, the date before that, because a day's name could be either week; so do the World room's last
+busy time and a forum copy that spans days. The friendly edit is a midnight "so the channel starts
+the day clean", which is the timezone problem again.
 
 **NOBODY WHO HAS NOT SIGNED ON EVER DOWNLOADS `cb.js`, AND THEY GET `guest.js` INSTEAD.** Ryan,
 2026-09-30: a guest CB for everybody not signed on, to bring people into the community and remind a
@@ -4074,7 +4081,7 @@ nothing new, and a listen per channel would tell us where everybody is reading.
 **THE CHANNELS UNDER TAGS ARE A TO Z, OR IN AN ORDER BY ACTIVITY TAKEN ONLY WHEN ASKED.** Ryan's ask, 2026-10-24:
 `chatSorted` in `cb.js` puts every tag group and More rooms A to Z (a leading The, A or An passed over), or by the
 order the reader chose in **Sort the channels under tags** (kept in `love-cb` as `chatSort`): **Recently active**, newest
-message first, or **Most active**, most messages in the last 48 hours first, both from `/cb/chat-order`
+message first, or **Most active**, most messages in the last two weeks first, both from `/cb/chat-order`
 (`channelActivity` in `lib.mjs`), which reads the channels the asker can hear and sends **two orders and never a time or
 a count**, leaving out quiet rooms, rooms the asker may not enter, and the bot's messages. Community and Staff keep their
 own order. **The order is taken when the page opens (asked with the lists, so nothing jumps), when somebody chooses one
@@ -4116,7 +4123,7 @@ first, and `hush()` moves `this.gen` on, so an utterance cut off can never end t
 a dot in the button's own ink (`markNew`, "something new" to a screen reader) on World, This room, Your
 messages and a conversation, and the **Unreads** part (`newsShown`) listing World, the rooms followed and
 conversations. **What you read is on the server, per claimed username** (`newFor`, `markRead`, `reads/` under
-the dmKey, a time per channel and conversation, dropped at 48 hours), Ryan's choice over each browser keeping
+the dmKey, a time per channel and conversation, dropped at two weeks), Ryan's choice over each browser keeping
 its own; **Follow this room is in love-cb**, and so is **Follow every room** (`followAll`, Norah's ask, 2026-10-21):
 every room `cb-rooms.json` and the forums give the radio, later ones included and never a quiet room, with the rooms
 followed one by one kept for when it goes off. The friendly edit is to write every tag into `follow`, which misses
@@ -4161,7 +4168,7 @@ React and the dots, on the channel's messages and an accepted conversation's, op
 keeps the words. A message carries `re`, the id of the one it answers (`replyTo` in `lib.mjs`), which `cb-transmit`
 looks for inside the same conditional write the reply goes out with, and `sendDm` inside the conversation's, and
 refuses with `gone: 're'` when it has gone. **Nothing else of the message answered is kept**: every radio draws the
-quote (`drawRe`, `reWords`) from what is on the channel now, so an edit changes it, Take off takes it, and its 48 hours
+quote (`drawRe`, `reWords`) from what is on the channel now, so an edit changes it, Take off takes it, and its two weeks
 end it, after which the reply says it answered a message no longer on the channel. The quote sits on row 1 of the
 message's grid, above the name, and first in its markup, so the live region reads who it answers first. **When somebody
 replies to me** is the `replies` push kind: `notifyMessage` takes the message answered as `to`, found by transmit and
@@ -4188,11 +4195,11 @@ the message, folded, with no record of who sent what kept for it. **A CLAIMED me
 claimed pass and a BASE message only for the base**, so a deleted username signed on as again with the
 community password cannot reach back to the morning. Clear stays the base's, and the function asks
 `roomAllows` now, which it never did. `Radio.prototype.mine` in `cb.js` copies the rule only to draw the
-button; change both. Nothing marks where a message was, as with the base's: it goes as if its 48 hours were up.
+button; change both. Nothing marks where a message was, as with the base's: it goes as if its two weeks were up.
 
 **EDIT IS ON YOUR OWN MESSAGES, AND THE BASE GETS NO FURTHER THAN ITS OWN.** Ryan, 2026-10-18. `/cb/edit`
 (`editMessage` in `lib.mjs`) replaces a message's words and adds `edited`, the time of the latest edit; the
-handle, marks, `t`, picture, sticker and reactions stay, so it still goes 48 hours after it was SENT.
+handle, marks, `t`, picture, sticker and reactions stay, so it still goes two weeks after it was SENT.
 **`canEdit` is `canTakeOff` without the base's reach**: taking any message down is the base's, putting words in
 somebody's mouth is nobody's. `Radio.prototype.mayEdit` in `cb.js` copies it to draw the button; change both.
 **The words it replaces are not kept anywhere**, and the friendly edit is an edit history "for transparency":
@@ -4773,7 +4780,7 @@ recovery code, then quests. **The steps name the joining page's own labels and b
 somebody still on the starter password names the radio's (Claim and the username), so a change to those
 labels in `join.js` or `claimFirst` is a change to that list. **Other pages send people to `community-center.html#getting-started`**, never to a
 meeting hall: the guest bar, the CB guide, the Sandbox's box and the Fishbowl's call panel. The channel is
-still for what forgets in 48 hours and the forums for what needs longer. stoat.chat stays out of
+still for what forgets in two weeks and the forums for what needs longer. stoat.chat stays out of
 `ORIGINS`: it sends `X-Frame-Options: SAMEORIGIN`.
 
 **THE COMMUNITY SERVICE BOARD IS A ROOM FULL OF SENTENCES ABOUT OTHER ROOMS, SO EVERY ONE IS HELD.**
@@ -5813,7 +5820,7 @@ bug report is quicker", serving uploads before they are dropped in "so the previ
 address", and a picture on the channel's or the forums' rules**: the box is public, which neither of those
 is.
 
-**THE FORUMS ARE THE CB'S, FOR WHAT NEEDS LONGER THAN TWO DAYS, AND ONLY A CLAIMED USERNAME READS THEM.** Ryan's
+**THE FORUMS ARE THE CB'S, FOR WHAT NEEDS LONGER THAN TWO WEEKS, AND ONLY A CLAIMED USERNAME READS THEM.** Ryan's
 brief, 2026-10-18, after Discourse, so the CB and the forums together are where our community is, for everything. `forum.html`
 is paperwork beside the CB guide (pinned on the map, no job marker), and the forums are drawn by `forum.js` in a shadow
 root with `cb.css` and `forum.css`, so they **wear the reader's own radio theme, or one chosen for the forums alone**
@@ -6018,7 +6025,7 @@ asks no server itself; each page passes its prefix, its words and its own `ask`.
 The friendly edit is **a record's name in its office notification** "so you know which grant request", which carries
 sealed data into an unsealed list.
 
-**[[ LINKS A TOPIC, A TASK OR A RECORD OF THE OFFICE, AND A LINK NEVER CARRIES A NAME.** Ryan's ask, 2026-10-21, after Notion's links and backlinks: `links.js` is the `[[` menu on every box that takes words (Tasks' descriptions and comments via `comments.js`, the office's notes and descriptions, the forums' composer, and the radio's message, DM and edit boxes, which load it on demand), each page asking its own function by POST (`action: 'links'`; the radio's `/cb/links`), and a pick puts `[[kind:id]]` in the words: task, topic, grant, case or contact. **Ryan's calls: linking is allowed everywhere and the name is shown only to people who could open it**, so `parseBrass(…, { refs: true })` reads a token into a `ref` node and `nameRefs` names every one in an answer for its reader (`resolveLinks`: `tasksAllow`, `forumAllows`, `officeAllow`, otherwise `{ shut }`, never whether it exists), and Tasks', the office's and the forums' functions answer through `answer()`, never `json(200, …)`; the radio draws chat tokens itself and asks `/cb/links` for names. **Chats leave no backlink, and a chat message is not a link target**: Linked from is kept by the store writers (`linksBefore`/`linksAfter` in `updateList`, `updateDoc` and `updateSealed`, `dropLinksFrom` for deletes outside them), from tasks, their comments, forum posts, contacts, grant requests, cases and office comments only, the office's in the sealed `office-backlinks`, and `backlinksTo` shows a reader only sources they could open. `tools/check-links.py` holds it. The friendly edits are **the name in the token "so the words read well when copied"**, which puts a grantee's name in a public topic, **backlinks from the channel**, which keeps a trace of a chat past its 48 hours, and **a backlink count**, which the forums refuse. `DECISIONS.md` has what is still open. **`links.js` also holds the @ list (`loveLinks.people`) and the drawing of a mention (`loveLinks.mentions`)** for Tasks and the office (Ryan's ask, the same evening), which had neither, and the forums' drawing moved there with them; the radio keeps its own (`markAt` in `cb.js`), in its own file. Tasks offer and draw `taskPeople()`, the office the same list sent as `me.people`, and **the office draws mentions only in comments**, because a description or notes tell nobody and a drawn name would say they were told. A mention opens the profile through `window.loveRadioPeek`.
+**[[ LINKS A TOPIC, A TASK OR A RECORD OF THE OFFICE, AND A LINK NEVER CARRIES A NAME.** Ryan's ask, 2026-10-21, after Notion's links and backlinks: `links.js` is the `[[` menu on every box that takes words (Tasks' descriptions and comments via `comments.js`, the office's notes and descriptions, the forums' composer, and the radio's message, DM and edit boxes, which load it on demand), each page asking its own function by POST (`action: 'links'`; the radio's `/cb/links`), and a pick puts `[[kind:id]]` in the words: task, topic, grant, case or contact. **Ryan's calls: linking is allowed everywhere and the name is shown only to people who could open it**, so `parseBrass(…, { refs: true })` reads a token into a `ref` node and `nameRefs` names every one in an answer for its reader (`resolveLinks`: `tasksAllow`, `forumAllows`, `officeAllow`, otherwise `{ shut }`, never whether it exists), and Tasks', the office's and the forums' functions answer through `answer()`, never `json(200, …)`; the radio draws chat tokens itself and asks `/cb/links` for names. **Chats leave no backlink, and a chat message is not a link target**: Linked from is kept by the store writers (`linksBefore`/`linksAfter` in `updateList`, `updateDoc` and `updateSealed`, `dropLinksFrom` for deletes outside them), from tasks, their comments, forum posts, contacts, grant requests, cases and office comments only, the office's in the sealed `office-backlinks`, and `backlinksTo` shows a reader only sources they could open. `tools/check-links.py` holds it. The friendly edits are **the name in the token "so the words read well when copied"**, which puts a grantee's name in a public topic, **backlinks from the channel**, which keeps a trace of a chat past its two weeks, and **a backlink count**, which the forums refuse. `DECISIONS.md` has what is still open. **`links.js` also holds the @ list (`loveLinks.people`) and the drawing of a mention (`loveLinks.mentions`)** for Tasks and the office (Ryan's ask, the same evening), which had neither, and the forums' drawing moved there with them; the radio keeps its own (`markAt` in `cb.js`), in its own file. Tasks offer and draw `taskPeople()`, the office the same list sent as `me.people`, and **the office draws mentions only in comments**, because a description or notes tell nobody and a drawn name would say they were told. A mention opens the profile through `window.loveRadioPeek`.
 
 **EVERY MARKDOWN BOX IN THE FORUMS, TASKS AND THE OFFICE HAS A FORMATTING TOOLBAR, AND THE BOX STAYS PLAIN TEXT.**
 Requests from our community, 2026-10-22, most of whom are uncomfortable with Markdown and with link syntax above all; Ryan

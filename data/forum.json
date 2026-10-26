@@ -24,7 +24,7 @@
       "about": "How to do things on the street, the CB and the forums, one thing to a page. Every page is a living document that our moderators keep up to date, whoever started it. Something wrong or missing? Reply on the page, or ask in the Help desk.",
       "keep": "never", "see": null, "start": ["moderator"], "wiki": ["moderator"] },
     { "slug": "watering-hole", "name": "The watering hole", "group": "Community",
-      "about": "Chat about anything, share penguin pebbles, pass the time. The CB for the things that need longer than two days, but not much longer.",
+      "about": "Chat about anything, share penguin pebbles, pass the time. Topics here go a week after their last post.",
       "keep": "1 week", "see": null, "start": null },
     { "slug": "coping", "name": "Coping", "group": "Community",
       "about": "For the hard days, and for getting through them together. Say what is going on and be met where you are; nobody has to fix anything, and nobody has to answer. What is said here stays here.",

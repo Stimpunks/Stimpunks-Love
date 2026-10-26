@@ -12,7 +12,7 @@
        until then it was ten messages and gone at midnight in Colorado, which
        was the middle of somebody's afternoon, and people asleep through a
        conversation never saw it. The whole channel is one JSON blob holding the
-       latest fifty messages. A read leaves out every message past its 48 hours,
+       latest fifty messages. A read leaves out every message past its two weeks,
        and the hourly sweep takes them out of the blob, and deletes a blob with
        none left. Nothing is archived or backed up, and the only copy is one
        somebody makes of a few messages into a forum topic (below).
@@ -55,13 +55,13 @@
        rules. So presence is one tiny blob per visit, keyed so that a single
        listing says who is where, and it is shown to nobody thirty seconds after
        its last check and deleted by the next sweep at the latest; a place's talk
-       is the channel's own blob shape, fifty messages, each gone after 48 hours. There
+       is the channel's own blob shape, fifty messages, each gone after two weeks. There
        is no list of everybody out there and no count of them, anywhere, and the
        places a visit has been are replaced rather than added to.
      · EVERY ROOM HAS A CHANNEL OF ITS OWN, BESIDE THE WORLD ONE. Ryan,
        2026-09-28: the radio tunes to World, the channel it always had, or to
        the room it is in, and a room's channel is the World channel's shape
-       exactly, fifty messages, each gone 48 hours after it was sent, in a blob
+       exactly, fifty messages, each gone two weeks after it was sent, in a blob
        of its own. Tuned to a room, the radio has to say which room it wants,
        every time it listens; tuned to World it says nothing about where it
        is. That difference is written on privacy.html, and it is why World is
@@ -140,7 +140,8 @@ import { isIP } from 'node:net';
 import { project } from './world.mjs';
 
 export const KEEP = 50;             // messages on a channel at once (Ryan, 2026-10-18; ten until then)
-export const LIFE = 48 * 60 * 60 * 1000;   // how long a message stays on its channel (the same day)
+export const LIFE_DAYS = 14;        // how long a message stays on its channel (Ryan, 2026-10-25; 48 hours from 2026-10-18)
+export const LIFE = LIFE_DAYS * 24 * 60 * 60 * 1000;
 export const HANDLE_MAX = 24;       // characters
 export const TEXT_MAX = 280;        // characters of a line on the Slake, the chalkboard or a bowl
 export const MESSAGE_MAX = 2000;    // characters of a message on the CB's channels (Ryan, 2026-09-29)
@@ -181,7 +182,7 @@ export function store() {
   return getStore({ name: 'cb', consistency: 'strong' });
 }
 
-/* The channel as it stands: no message past its 48 hours, whether or not the
+/* The channel as it stands: no message past its time, whether or not the
    sweep has reached it yet. */
 export function readChannel(s = store(), now = Date.now()) { return readLog(KEY, s, now); }
 
@@ -214,20 +215,28 @@ async function versioned(s, key = KEY) {
    them in silence. Conditional writes make the second one read again. */
 export function updateChannel(change, s = store()) { return updateLog(KEY, change, s); }
 
-/* A MESSAGE IS ON ITS CHANNEL FOR 48 HOURS FROM WHEN IT WAS SENT, worked out
-   on every read and every write, so it is gone at 48 hours whether or not the
-   hourly sweep has got to it: the chalkboard's rule, in hours rather than days.
+/* A MESSAGE IS ON ITS CHANNEL FOR TWO WEEKS FROM WHEN IT WAS SENT (LIFE),
+   worked out on every read and every write, so it is gone at its time whether
+   or not the hourly sweep has got to it: the chalkboard's rule. Ryan,
+   2026-10-25, after requests for more to scroll back through, the Pets channel
+   above all; 48 hours from 2026-10-18, and the latest ten cleared at midnight
+   before that.
 
-   EVERYTHING SENT BEFORE LIFE_FROM KEEPS THE PROMISE IT WAS SENT UNDER: gone
-   at midnight in Colorado. LIFE_FROM is that midnight, the first after Ryan's
-   call, so nothing anybody said before the change is kept a minute longer for
-   it. Every message this applies to is gone by then, so the test can come out
-   any time after 2026-10-19 without changing what anybody sees. */
+   EVERYTHING IS KEPT FOR THE PROMISE IT WAS SENT UNDER, and never a minute
+   longer for a change made after it was sent. What was sent before LIFE_FROM
+   went at midnight in Colorado; what was sent before LONG_FROM goes at its
+   48 hours. Each is the first midnight after Ryan's call, so a message sent
+   the day the privacy page still said the shorter time keeps it. Every message
+   either applies to is gone by then, so its test can come out any time after
+   (LIFE_FROM's after 2026-10-19, LONG_FROM's after 2026-10-28) without
+   changing what anybody sees. */
 const LIFE_FROM = Date.UTC(2026, 9, 19, 6, 0);   // 2026-10-19 00:00 in Colorado
+const LONG_FROM = Date.UTC(2026, 9, 26, 6, 0);   // 2026-10-26 00:00 in Colorado
+const SHORT_LIFE = 48 * 60 * 60 * 1000;
 export function onAir(m, now = Date.now()) {
   if (!m || typeof m.t !== 'number') return false;
   if (m.t < LIFE_FROM) return today(new Date(m.t)) === today(new Date(now));
-  return now - m.t < LIFE;
+  return now - m.t < (m.t < LONG_FROM ? SHORT_LIFE : LIFE);
 }
 function stored(data) { return data && Array.isArray(data.messages) ? data.messages : []; }
 
@@ -258,7 +267,7 @@ async function updateLog(key, change, s) {
   throw new Error('busy');
 }
 
-/* Hourly: take every message past its 48 hours out of one log, with the same
+/* Hourly: take every message past its two weeks out of one log, with the same
    conditional write a message goes out with, and delete the log once nothing
    in it is left. */
 async function sweepLog(key, s, now = Date.now()) {
@@ -283,7 +292,7 @@ export function sweep(s = store(), now = Date.now()) { return sweepLog(KEY, s, n
 /* A note is on the board for seven days from the moment it was chalked. The
    check is made on every read, so a note is gone at seven days whether or not
    the hourly sweep has reached it -- the channel's own rule, with a week
-   in it instead of 48 hours. */
+   in it instead of two weeks. */
 function fresh(n, now = Date.now()) { return n && typeof n.t === 'number' && now - n.t < WEEK; }
 
 /* A board of notes that each last a week, kept in one blob: the chalkboard,
@@ -2753,7 +2762,7 @@ export function readTalk(place, s = store()) { return readLog(talkKey(place), s)
 export function updateTalk(place, change, s = store()) { return updateLog(talkKey(place), change, s); }
 
 /* Hourly, with the channel's sweep: every stale presence record, and
-   everything said at a place more than 48 hours ago. */
+   everything said at a place more than two weeks ago. */
 export async function sweepSlake(s = store(), now = Date.now()) {
   let any = false;
   for (const r of await everyHere(s)) {
@@ -3104,7 +3113,7 @@ export async function callsOn(who, s = store(), now = Date.now()) {
    a room the asker may not enter left out, and a room that keeps to itself
    never in it. Whether a room's call has somebody in it, and never who
    (callsOn's rule). And the time of the latest message on each room's channel,
-   which is never more than 48 hours ago, and never its words: the one thing this shows that was not shown before,
+   which is never more than two weeks ago, and never its words: the one thing this shows that was not shown before,
    and privacy.html#world says so. The World channel's latest is the World
    room's, because its channel is World. A forum category's room is The
    forums' line in the directory (2026-10-21), which lists pages: whoever is
@@ -3256,13 +3265,12 @@ export async function sweepCalls(s = store(), now = Date.now()) {
    has claimed and nobody at all all answer 'closed', the same words, so the
    answer never tells which.
 
-   EVERY MESSAGE GOES 48 HOURS AFTER IT WAS SENT, the channel's LIFE, checked on
-   every read, and fifty in a conversation at most. (Not onAir() itself, which
-   still keeps the channel's old midnight for what was sent before LIFE_FROM:
-   messages began after the change, and owe no midnight.) A conversation with
-   nothing left in it is no conversation: who talked to whom is not kept a
-   minute past the last message between them, so the next message after a
-   quiet two days asks again. The hourly sweep deletes what is left.
+   EVERY MESSAGE GOES TWO WEEKS AFTER IT WAS SENT, the channel's onAir(),
+   checked on every read, so one sent before LONG_FROM keeps its 48 hours, and
+   fifty in a conversation at most. A conversation with nothing left in it is
+   no conversation: who talked to whom is not kept a minute past the last
+   message between them, so the next message after a quiet two weeks asks
+   again. The hourly sweep deletes what is left.
 
    BLOCKING is kept in the blocker's own record, by a hash of the name blocked
    (petKey), so it holds if that name is deleted and claimed again; it empties
@@ -3350,11 +3358,11 @@ function dmSetDoc(d) {
   return { open: d.open === true, blocked };
 }
 
-/* A conversation as it stands now: no message past its 48 hours, and one with
+/* A conversation as it stands now: no message past its time, and one with
    nothing left in it is nobody's. */
 function convDoc(d, now = Date.now()) {
   d = plain(d);
-  const messages = stored(d).filter((m) => m && typeof m.t === 'number' && now - m.t < LIFE);
+  const messages = stored(d).filter((m) => onAir(m, now));
   if (!messages.length) return { people: {}, from: null, open: false, messages: [] };
   return { people: { ...plain(d.people) }, from: typeof d.from === 'string' ? d.from : null, open: d.open === true, messages };
 }
@@ -3388,7 +3396,7 @@ const blocks = (set, handle) => set.blocked.some((b) => b.k === petKey(handle));
 
 /* Every write to a conversation goes through here, and a picture its write
    let go of (taken back, pushed off, emptied) is deleted as soon as the write
-   has landed. One past its 48 hours is held by nothing and goes in the sweep. */
+   has landed. One past its two weeks is held by nothing and goes in the sweep. */
 async function updateConv(key, change, s, now) {
   let before = null, after = null;
   const out = await updateDm(key, (d) => convDoc(d, now), (was) => {
@@ -3635,7 +3643,7 @@ export async function takeDm(who, handle, id, s = store(), now = Date.now()) {
 }
 
 /* Edit one of your own messages: the channel's rule, the words replaced and
-   `edited` set, the old words kept nowhere, and still gone 48 hours after it
+   `edited` set, the old words kept nowhere, and still gone two weeks after it
    was SENT. */
 export async function editDm(who, handle, id, text, s = store(), now = Date.now()) {
   if (typeof id !== 'string' || !DM_ID.test(id)) return { error: 'which' };
@@ -4069,7 +4077,7 @@ export async function sweepDms(s = store(), now = Date.now()) {
    never go onto the street, so none of the street's rules for published
    photographs apply to them. What does apply is the channel's own promise:
    a picture is deleted the moment its message leaves, whether it was pushed off
-   by a newer one, taken off, or swept at its 48 hours, and one that was
+   by a newer one, taken off, or swept at its two weeks, and one that was
    uploaded and never sent is swept within the hour.
 
    IT IS REDRAWN IN THE SENDER'S BROWSER BEFORE IT IS SENT, which drops
@@ -4175,7 +4183,7 @@ const ROOM_TALK = 'room-talk-';
 
 /* A room is named by its tag, the filename the street's own list uses. The
    server only checks its shape: a tag that is no room is a channel nobody's
-   radio can tune to, and what is said on it goes after 48 hours like every
+   radio can tune to, and what is said on it goes after two weeks like every
    other. */
 export function roomTag(r) {
   return typeof r === 'string' && r.length <= 80 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r) ? r : null;
@@ -4308,7 +4316,7 @@ export function readTuned(room, s = store()) { return room && room !== WORLD_CAL
 export function updateTuned(room, change, s = store()) { return room && room !== WORLD_CALL ? updateRoomTalk(room, change, s) : updateChannel(change, s); }
 
 /* Hourly, with the World channel's sweep: everything said on a room's channel
-   more than 48 hours ago, and the room's blob once nothing is left in it. */
+   more than two weeks ago, and the room's blob once nothing is left in it. */
 export async function sweepRoomTalk(s = store(), now = Date.now()) {
   let any = false;
   for (const b of (await s.list({ prefix: ROOM_TALK })).blobs || []) any = (await sweepLog(b.key, s, now)) || any;
@@ -4332,7 +4340,7 @@ export async function sweepRoomTalk(s = store(), now = Date.now()) {
    A MESSAGE FROM IT IS AN ITEM'S NAME, ITS SITE, WHERE IT GOES AND WHEN, and for
    a commit its short id and who made it: a board's row, and never the words of
    the thing itself, which is The Feed's rule about the contents of the train.
-   It is on its channel for 48 hours like every message, it can be reacted to
+   It is on its channel for two weeks like every message, it can be reacted to
    and replied to, the base can take it off, and nobody can edit it.
 
    IT NEVER PUSHES A PERSON'S MESSAGE OFF. A channel keeps KEEP messages and the
@@ -4341,7 +4349,7 @@ export async function sweepRoomTalk(s = store(), now = Date.now()) {
    point of the room, and a busy morning of commits must not take that away.
 
    WHAT IS NEW is an item whose id the wire did not carry the last time it was
-   read, from the last 48 hours, and not a morning timer's commit (SOURCE_SKIP,
+   read, from the last two weeks, and not a morning timer's commit (SOURCE_SKIP,
    the same pattern The Source's terraces leave off). THE FIRST TIME IT READS A
    WIRE IT SAYS NOTHING and remembers what is there, so a new wire never floods
    its room with its history; a wire whose every id has changed at once with
@@ -7146,7 +7154,7 @@ export async function tellEventsStarting(s = store(), mods, send = sendPush, now
 /* ── The forums ───────────────────────────────────────────────────────────
 
    Ryan's brief, 2026-10-18: a bulletin board after Discourse, for discussions
-   that need to last longer than the CB's two days, in categories after the channels
+   that need to last longer than the CB's two weeks, in categories after the channels
    of our Stoat and Discord, so that the CB and the forums together can let us
    leave both. Ryan's calls the same day: a topic stays three months after its
    last post unless its category says a week, six months or never; only a
@@ -7299,7 +7307,7 @@ export const FORUM_CATEGORIES = [
   {"slug": "introductions", "name": "Introductions", "about": "Say hello, if you like, and say as much or as little as you want to. Reading along is a fine way to belong too.", "group": "Information", "keep": "6 months", "see": null, "start": null},
   {"slug": "help-desk", "name": "Help desk", "about": "When something on the street, the CB or the forums does not work, or you cannot find your way.", "group": "Information", "keep": "3 months", "see": null, "start": null},
   {"slug": "wiki", "name": "Wiki", "about": "How to do things on the street, the CB and the forums, one thing to a page. Every page is a living document that our moderators keep up to date, whoever started it. Something wrong or missing? Reply on the page, or ask in the Help desk.", "group": "Information", "keep": "never", "see": null, "start": ["moderator"], "wiki": ["moderator"]},
-  {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time. The CB for the things that need longer than two days, but not much longer.", "group": "Community", "keep": "1 week", "see": null, "start": null},
+  {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time. Topics here go a week after their last post.", "group": "Community", "keep": "1 week", "see": null, "start": null},
   {"slug": "coping", "name": "Coping", "about": "For the hard days, and for getting through them together. Say what is going on and be met where you are; nobody has to fix anything, and nobody has to answer. What is said here stays here.", "group": "Community", "keep": "1 week", "see": null, "start": null},
   {"slug": "events", "name": "Events", "about": "What is coming up, and what happened: our calls, campfires, watch-togethers and anything else worth turning up for.", "group": "Community", "keep": "3 months", "see": null, "start": null},
   {"slug": "mutual-aid", "name": "Mutual aid", "about": "To give help and to get it. Nobody owes anybody here.", "group": "Community", "keep": "3 months", "see": null, "start": null},
@@ -9575,7 +9583,7 @@ async function deliver(sends, gone, s, send) {
    a topic's title or a task's name if the device wanted the words; the
    archive keeps what it was, why, who from, where and which, and when, and
    drops every field that holds words (NOTICE_WORDS). Copying them would keep
-   a message's words past its 48 hours and past Take off, which is the copy
+   a message's words past its two weeks and past Take off, which is the copy
    the street refuses a reply's quote and a comment's notification.
 
    THE WORDS ARE READ AGAIN WHEN YOU LOOK (noticeArchive), from wherever they
@@ -10109,7 +10117,7 @@ export function canTakeOff(who, m) {
    Ryan, 2026-10-18: anybody can edit their own messages on the CB. The words
    are replaced and nothing else is: the handle, the marks, the time it was
    sent, its picture or sticker and its reactions stay as they were, and it
-   still goes 48 hours after it was SENT, because onAir reads `t` and an edit
+   still goes two weeks after it was SENT, because onAir reads `t` and an edit
    never touches it. What it adds is `edited`, the time of the latest edit,
    which every radio shows beside the message.
 
@@ -10172,7 +10180,7 @@ export function editMessage(list, id, text, who, now = Date.now(), asked = null)
    says which by `re`, the other message's id, AND NOTHING ELSE OF IT: not its
    words, not its sender. Every radio draws the quote out of what is on the
    channel now, so an edit to the message answered changes the quote, taking it
-   off takes the quote with it, and when its 48 hours are up the reply says it
+   off takes the quote with it, and when its two weeks are up the reply says it
    answered a message no longer on the channel. The friendly edit is a copy of
    the words "so the quote survives", which would keep words past the message
    they were said in, and past somebody taking them back.
@@ -10188,7 +10196,7 @@ export function replyTo(id) {
 
    Ryan's brief, 2026-09-30: reactions on CB messages. A reaction is one of a
    fixed set, pressed on a message, and pressed again to take it back. It is
-   part of its message: it goes when the message goes, 48 hours after it was
+   part of its message: it goes when the message goes, two weeks after it was
    sent at the latest, and taking a message off the air takes its reactions
    with it.
 
@@ -14273,7 +14281,7 @@ export async function orgAdd(who, id, f, s = store(), now = Date.now(), fetchFn 
    task's comment, a forum post, a contact's notes, a grant request, a case
    and an office comment. A message on the channel or between two people can
    hold a link, and leaves no trace of it here, because the CB promises its
-   words 48 hours. The index is which source links to which, and when it last
+   words two weeks. The index is which source links to which, and when it last
    changed: `backlinks` for tasks, their comments and the forums, and
    `office-backlinks`, sealed like everything else in the office, for the
    office's records and comments. It is kept by the store writers themselves

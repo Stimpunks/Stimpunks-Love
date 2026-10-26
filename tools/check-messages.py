@@ -3,7 +3,7 @@
 
 Ryan's calls, 2026-10-18, as our community moves off Discord: messages between
 two people, claimed usernames only, off until switched on, the first message
-waiting for its person to answer it, blocking, 48 hours, not end-to-end
+waiting for its person to answer it, blocking, two weeks, not end-to-end
 encrypted, a report the only way a message reaches the moderators, and no
 counts or receipts. The server is the Direct messages part of
 netlify/cb/lib.mjs, /cb/dm and /cb/dm/reports; the radio's half is the
@@ -141,8 +141,8 @@ def main():
         refuse("closeReport leaves a reported picture behind.")
     if "pictureCheck(bytes)" not in fn(part, "putDmImage"):
         refuse("putDmImage no longer checks a picture the channel's way, so one could carry its camera data.")
-    if "now - m.t < LIFE" not in fn(part, "convDoc"):
-        refuse("a conversation no longer drops every message past its 48 hours on every read.")
+    if "onAir(m, now)" not in fn(part, "convDoc"):
+        refuse("a conversation no longer drops every message past its two weeks on every read.")
     if "slice(-DM_KEEP)" not in code:
         refuse("a conversation keeps more than DM_KEEP messages.")
 
@@ -207,7 +207,7 @@ def main():
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         sys.exit(1)
-    print("messages: claimed at both ends, a block that says nothing, 48 hours, moderators only through a report, never counted")
+    print("messages: claimed at both ends, a block that says nothing, two weeks, moderators only through a report, never counted")
 
 
 if __name__ == "__main__":
