@@ -1978,6 +1978,7 @@
       }
       took(r, r.body.cat && r.body.cat.slug);
       var c = r.body.cat;
+      placeTitle(c, c.name);
       drawSide(c.slug);
       view.textContent = '';
       var h = heading(2, c.name);
@@ -2043,6 +2044,7 @@
   function drawTopic(body, focusPost, keepPlace, focusHead) {
     took({ body: body }, body.topic && body.topic.cat.slug);
     var t = current = body.topic;
+    placeTitle(t.cat, t.title);
     if (body.quick) quick = body.quick;
     markSeen(t);
     drawSide(t.cat.slug);
@@ -2335,6 +2337,16 @@
 
   /* ── Where in the forums an address is ───────────────────────────────── */
 
+  /* THE TAB'S TITLE (Ryan's ask and call, 2026-10-26): the topic's or the
+     category's name, so a row of tabs and the browser's history say which is
+     which, and only "Staff" for a staff category, whose topics can name
+     somebody (Grantmaking's applicants) and would otherwise land in the
+     history, on a shared computer too, and in history synced to other devices.
+     A search's words never go into it. */
+  var TAB = 'The forums \u2014 Stimpunks.World';
+  function tabTitle(words) { document.title = words ? words + ' \u2014 ' + TAB : TAB; }
+  function placeTitle(cat, words) { tabTitle(cat && cat.staff ? 'Staff' : words); }
+
   function route() {
     step.arrive();
     fillSchemes();
@@ -2351,6 +2363,8 @@
       try { q[decodeURIComponent(i < 0 ? kv : kv.slice(0, i))] = i < 0 ? '' : decodeURIComponent(kv.slice(i + 1).replace(/\+/g, ' ')); } catch (e) { /* a broken address */ }
     });
     var parts = path.split('/').filter(Boolean);
+    // Until a category or a topic has loaded and says its own, the view's kind.
+    tabTitle({ latest: 'Latest', mentions: 'Mentions', 'new': 'New topic', search: 'Search' }[parts[0]] || '');
     var done;
     if (!cbState()) done = Promise.resolve(guest());
     else if (!parts.length) done = home();

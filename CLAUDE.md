@@ -6461,6 +6461,14 @@ records kept against a person, the third a count, the fourth a request on somebo
 **And `image/*` is written in two halves in forum.js**, because `make-forum.py` strips comments with a regex that reads a
 slash and a star as one; a refusal from that tool about code that is plainly there is that.
 
+**THE FORUMS' TAB SAYS WHICH TOPIC OR CATEGORY, AND ONLY "STAFF" FOR A STAFF ONE.** Ryan's ask and call, 2026-10-26:
+every tab said "The forums". `tabTitle` in `forum.js` is the one place `document.title` is set, and `placeTitle` puts a
+topic's or category's name there, or "Staff" when its category is a staff one (`cat.staff`, any `see` roles, Team Docs'
+subcategories included), because a page's title goes into the browser's history, synced and on shared computers, and a
+Grantmaking topic can name an applicant; Latest, Mentions, New topic and Search say only that, never a search's words.
+`make-forum.py` (`check_tab`) holds it. The friendly edit is the staff topic's title "since only staff can open it": the
+history is the browser's, not the forums'.
+
 **CLAUDE CAN KEEP THE WIKI AND TEAM DOCS UP TO DATE, THROUGH A KEY OF ITS OWN AND NEVER AS ANYBODY.** Ryan's choice,
 2026-10-26, over Claude forging a pass for his username (which would have got past his two-step sign-in) and over driving
 his browser: `/cb/forum/bot` (`cb-forum-bot.mjs`, `forumBot` in `lib.mjs`) takes a request signed with `CB_FORUM_BOT_KEY`

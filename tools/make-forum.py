@@ -723,6 +723,23 @@ def check_bot(lib):
         problems.append("privacy.html: the Wiki's bot needs its section (#forum-bot) saying what its key can read and write.")
 
 
+def check_tab():
+    """THE TAB'S TITLE (2026-10-26): a topic's or a category's name, and only
+    "Staff" for a staff category, whose topics can name somebody and would land
+    in the browser's history. A search's words never go into it."""
+    js = (ROOT / "forum.js").read_text()
+    code = code_of_text(js)
+    if "function placeTitle(cat, words) { tabTitle(cat && cat.staff ? 'Staff' : words); }" not in code:
+        problems.append("forum.js: placeTitle must say only Staff for a staff category's topics and pages.")
+    sets = re.findall(r"document\.title\s*=", code)
+    if len(sets) != 1 or "function tabTitle(words) { document.title =" not in code:
+        problems.append("forum.js: the tab's title is set by tabTitle and nowhere else, so placeTitle's rule cannot be skipped.")
+    for m in re.finditer(r"\btabTitle\(([^)]*)\)", code):
+        arg = m.group(1)
+        if re.search(r"\b(t|c|topic|cat)\.(title|name)\b|\bq\b|\bq\.q\b", arg):
+            problems.append(f"forum.js: tabTitle({arg}) puts a name or a search's words in the tab without placeTitle's staff rule.")
+
+
 def main():
     data = json.loads(DATA.read_text())
     lib = LIB.read_text()
@@ -744,6 +761,7 @@ def main():
     check_cb()
     check_sealed(lib)
     check_bot(lib)
+    check_tab()
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
