@@ -2002,6 +2002,53 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--chat .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
 }
 
+/* ENLARGED (cb.js, setBig; Ryan's ask, 2026-10-27): the radio lifted out of
+   the page into a box over it, a lightbox's, at every width: the bar and the
+   middle column and nothing else, the search box only while a search is held,
+   as wide as reads well and as tall as the window less a margin, the page
+   dimmed behind. Enlarge the chat is on the bar only on the chat page and
+   there it wears the bar's own buttons' clothes, so no pair here is new; the
+   dim is black over the page, carries nothing and is aria-hidden. Level with
+   the chat page's own rules above, and after them, so these win. The middle
+   column's rules are the wide chat page's, again, so they hold on a phone. */
+.cb-big-btn, .cb-big-dim { display: none; }
+.cb-radio--chat .cb-big-btn { display: inline-flex; }
+.cb-radio--chat.cb-radio--big, .cb-radio--chat.cb-radio--big.cb-radio--full:not(.cb-radio--folded) {
+  position: fixed; z-index: 88; top: 12px; bottom: 12px; left: 12px; right: 12px;
+  width: min(calc(100% - 24px), 72rem); height: auto; min-height: 0; max-height: none; margin: 0 auto;
+}
+.cb-big-dim--on { display: block; position: fixed; inset: 0; z-index: 87; background: rgb(0 0 0 / .7); }
+.cb-radio--big .cb-set--parts > .cb-col--a, .cb-radio--big .cb-set--parts > .cb-col--c,
+.cb-radio--big .cb-set--parts > .cb-col--d, .cb-radio--big .cb-sec--search:not(.cb-sec--searching) { display: none; }
+.cb-radio--chat.cb-radio--big.cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 0; padding: 0; overflow: hidden;
+}
+.cb-radio--chat.cb-radio--big .cb-set--parts > .cb-col--b {
+  display: flex; flex-direction: column; gap: 16px; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px 16px 16px;
+}
+.cb-radio--big .cb-col--b > .cb-sec--search, .cb-radio--big .cb-col--b > .cb-sec--events { flex: none; }
+.cb-radio--big .cb-col--b > .cb-sec--channel,
+.cb-radio--big .cb-col--b > .cb-sec--dm,
+.cb-radio--big .cb-col--b > .cb-sec--search.cb-sec--searching { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.cb-radio--big .cb-sec--channel > *, .cb-radio--big .cb-lcd > *, .cb-radio--big .cb-sec--dm > *, .cb-radio--big .cb-dm > *,
+.cb-radio--big .cb-dm-talk > *, .cb-radio--big .cb-sec--searching > *, .cb-radio--big .cb-search-res > * { flex: none; }
+.cb-radio--big .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 12rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.cb-radio--big .cb-lcd > .cb-log { flex: 1 1 0; min-height: 8rem; max-height: none; }
+.cb-radio--big .cb-sec--dm > .cb-dm { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+.cb-radio--big .cb-dm > .cb-dm-inbox { flex: 1 1 0; min-height: 0; overflow-y: auto; align-content: start; }
+.cb-radio--big .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.cb-radio--big .cb-dm-talk > .cb-dm-state, .cb-radio--big .cb-dm-talk > .cb-dm-tx, .cb-radio--big .cb-dm-talk > .cb-dm-block { align-self: stretch; }
+.cb-radio--big .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 10rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
+.cb-radio--big .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
+.cb-radio--big .cb-sec--searching > .cb-search-res { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.cb-radio--big .cb-search-res > .cb-hits { flex: 1 1 0; min-height: 10rem; overflow-y: auto; }
+@media (max-width: 599.98px) {
+  .cb-radio--chat.cb-radio--big, .cb-radio--chat.cb-radio--big.cb-radio--full:not(.cb-radio--folded) {
+    top: 0; bottom: 0; left: 0; right: 0; width: 100%; border-width: 0; border-radius: 0;
+  }
+  .cb-radio--big .cb-bar { border-radius: 0; }
+}
+
 /* EVENTS (cb.js, evMake; Ryan's ask, 2026-10-23, after Discord's Scheduled
    Events): a card for each, and the form to schedule one, in the case's own
    clothes and outlined in its groove, the pets tray's way, so every pair here

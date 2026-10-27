@@ -1306,6 +1306,31 @@
     fold.type = 'button';
     fold.setAttribute('aria-controls', 'cb-set');
     bar.appendChild(fold);
+    /* ENLARGE THE CHAT (Ryan's ask, 2026-10-27, once Search had made the
+       messages short): on the chat page only, where the bar has room because
+       nothing moves, sizes or folds there. It lifts the radio out of the page
+       into a box over it, the page dimmed behind, with only the middle column
+       in it: the channel, a conversation, Events or a search's results, and
+       the search box only while a search is held. Back into the page, Escape
+       or a press on the dim puts it back. Nothing is kept: CHAT_OWN's rule,
+       the chat page writes no layout of its own into love-cb. See setBig. */
+    if (chat) {
+      var big = this.bigBtn = el('button', 'cb-btn cb-big-btn', 'Enlarge the chat');
+      big.type = 'button';
+      big.addEventListener('click', function () { me.setBig(!me.big); });
+      bar.appendChild(big);
+      var dim = this.bigDim = el('div', 'cb-big-dim');
+      dim.setAttribute('aria-hidden', 'true');
+      dim.addEventListener('click', function () { me.setBig(false); me.bigBtn.focus(); });
+      box.addEventListener('keydown', function (e) {
+        if (!me.big || e.key !== 'Escape' || e.defaultPrevented || e.isComposing) return;
+        // A field's own Escape (a search box clears itself) is the field's.
+        if (e.target && e.target.matches && e.target.matches('input, select')) return;
+        e.preventDefault();
+        me.setBig(false);
+        me.bigBtn.focus();
+      });
+    }
     box.appendChild(bar);
     /* THE TRIMS: a band under the bar and one at the foot, where a theme with a
        drawing draws it (cb-themes.js). Empty and hidden for every other theme,
@@ -4856,6 +4881,27 @@
   Radio.prototype.chatHas = function (tag) {
     for (var i = 0; i < this.chatLinks.length; i++) if (this.chatLinks[i].tag === tag && this.chatLinks[i].dm == null && !this.chatLinks[i].ev) return true;
     return false;
+  };
+
+  /* ENLARGED OR IN THE PAGE (see the bar's Enlarge the chat). The host keeps
+     the height the radio had, so the page does not close up under it while
+     it is out and is where it was when it comes back; a log that was at its
+     newest message is at its newest message again at the new size. */
+  Radio.prototype.setBig = function (on) {
+    if (!this.bigBtn || !!on === !!this.big) return;
+    var logs = [this.log, this.dmLog].filter(function (l) {
+      return l && !l.hidden && l.scrollHeight - l.scrollTop - l.clientHeight < 24;
+    });
+    if (on) this.host.style.minHeight = this.box.offsetHeight + 'px';
+    else this.host.style.minHeight = '';
+    // The dim stands behind the box rather than in it, so the box's own
+    // ground is never under it and a press on the box never reaches it.
+    if (!this.bigDim.parentNode) this.box.parentNode.insertBefore(this.bigDim, this.box);
+    this.big = !!on;
+    this.box.classList.toggle('cb-radio--big', this.big);
+    this.bigDim.classList.toggle('cb-big-dim--on', this.big);
+    this.bigBtn.textContent = this.big ? 'Back into the page' : 'Enlarge the chat';
+    logs.forEach(function (l) { l.scrollTop = l.scrollHeight; });
   };
 
   /* A conversation, or All messages, in the middle: the channel steps out of
