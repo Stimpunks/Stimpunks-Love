@@ -72,19 +72,19 @@
    "channel_id": "UCle9AaDvd89jq8qWT1QiWkw"
   }
  ],
- "set": "2026-10-26T11:58Z",
+ "set": "2026-10-27T11:20Z",
  "covered": {
   "derek-sarno": {
    "long": [
     [
      "2026-05-13T01:51:37Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2023-12-17T13:50:49Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -92,13 +92,13 @@
    "long": [
     [
      "2026-01-21T17:01:34Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2024-06-25T17:41:47Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -106,13 +106,13 @@
    "long": [
     [
      "2026-06-21T13:12:12Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2023-11-17T18:22:08Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -120,13 +120,13 @@
    "long": [
     [
      "2025-05-17T16:11:03Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-29T21:55:18Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -134,13 +134,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T17:51:42Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -148,13 +148,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2026-03-27T16:41:33Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -162,13 +162,13 @@
    "long": [
     [
      "2026-06-10T16:00:02Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2025-03-17T14:24:38Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -176,13 +176,13 @@
    "long": [
     [
      "2026-08-08T14:00:06Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2026-09-07T13:15:29Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -190,13 +190,13 @@
    "long": [
     [
      "2026-09-01T10:16:40Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2026-08-28T18:16:47Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -204,13 +204,13 @@
    "long": [
     [
      "2026-03-29T16:00:59Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2026-04-02T16:01:06Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   },
@@ -218,13 +218,13 @@
    "long": [
     [
      "2026-06-17T16:06:03Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ],
    "short": [
     [
      "2025-11-15T01:00:09Z",
-     "2026-10-26T11:58:05Z"
+     "2026-10-27T11:20:36Z"
     ]
    ]
   }
@@ -354,7 +354,7 @@
    "id": "1mz94SwI0TQ",
    "source": "sarahs-vegan-kitchen",
    "form": "long",
-   "title": "When fall arrives, I make soup & bread 🍂",
+   "title": "Soup & bread season is finally here 🍂",
    "published": "2026-10-24T13:54:41Z",
    "state": "screen",
    "runs": 1670,
@@ -611,16 +611,6 @@
    "channel": "VeganProteins"
   },
   {
-   "id": "hMc98Y_aI3g",
-   "source": "pb-with-j",
-   "form": "long",
-   "title": "Carleigh Bodrug Gets Honest About Oil, Shortcuts & Plant-Based Perfection | Plant You Quickies",
-   "published": "2026-09-26T14:00:05Z",
-   "state": "screen",
-   "runs": 3507,
-   "channel": "PB with J"
-  },
-  {
    "id": "3dpIAegoG0U",
    "source": "pb-with-j",
    "form": "long",
@@ -698,16 +688,6 @@
    "published": "2026-10-24T14:00:07Z",
    "state": "screen",
    "runs": 572,
-   "channel": "PB with J"
-  },
-  {
-   "id": "Nlnc47ZwHok",
-   "source": "pb-with-j",
-   "form": "short",
-   "title": "Delicious Tofu Gyro Wraps: Easy Recipe! #shorts",
-   "published": "2026-09-27T11:14:32Z",
-   "state": "screen",
-   "runs": 58,
    "channel": "PB with J"
   },
   {
@@ -811,16 +791,6 @@
    "channel": "PB with J"
   },
   {
-   "id": "5YzYPOITfho",
-   "source": "carleigh-bodrug",
-   "form": "short",
-   "title": "tofu shawarma from quickies :) #recipe",
-   "published": "2026-09-26T19:27:21Z",
-   "state": "screen",
-   "runs": 20,
-   "channel": "Carleigh Bodrug"
-  },
-  {
    "id": "BDkl4ZLEkLw",
    "source": "carleigh-bodrug",
    "form": "short",
@@ -919,16 +889,6 @@
    "state": "screen",
    "runs": 19,
    "channel": "Carleigh Bodrug"
-  },
-  {
-   "id": "cOVmB3XuxFs",
-   "source": "yeung-man-cooking",
-   "form": "long",
-   "title": "You may not have been seeing me for a while, Here's Why!",
-   "published": "2026-09-26T16:00:08Z",
-   "state": "screen",
-   "runs": 549,
-   "channel": "Yeung Man Cooking"
   },
   {
    "id": "u3yaUPmLt_E",
