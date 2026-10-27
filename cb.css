@@ -1570,6 +1570,21 @@ ol.cb-md-list { list-style: decimal; }
 }
 .cb-send-row { justify-content: flex-end; margin-top: 8px; }
 .cb-hint { margin: 4px 0 0; font-size: 12px; color: var(--cb-steel); }
+/* HELP UNDER ITS OWN NAME (cb.js, helpFold): what the box needs every time
+   in sight, and a button saying what else there is, which opens it in place
+   under it. The button is a link's amber on the case, the pair every link on
+   the radio already is, with a triangle that turns as a group's name does on
+   the chat page, and it is the hint's size so it sits in the line. */
+.cb-help-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.cb-help-more { margin-top: 2px; }
+.cb-help-more[hidden] { display: none; }
+button.cb-help-btn {
+  font: inherit; color: var(--cb-amber); background: none; border: 0; padding: 2px 0; margin: 0; min-height: 24px;
+  text-decoration: underline; text-underline-offset: 2px; cursor: pointer; text-align: left;
+}
+button.cb-help-btn::before { content: '\25B8\00a0'; display: inline-block; text-decoration: none; }
+button.cb-help-btn[aria-expanded="true"]::before { content: '\25BE\00a0'; }
+button.cb-help-btn[hidden] { display: none; }
 .cb-said:empty { display: none; }
 .cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-norms { font-size: 13px; }
@@ -1874,9 +1889,11 @@ ol.cb-md-list { list-style: decimal; }
 /* What the room is about, which can be a paragraph: three lines at most here,
    and all of it to a screen reader, which is never clamped. */
 .cb-chat-about {
-  overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+  overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1;
 }
+.cb-chat-about--open { display: block; -webkit-line-clamp: none; line-clamp: none; }
 .cb-chat-about[hidden] { display: none; }
+.cb-chat-go { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
 /* THE CHANNELS. Each a link in the case's steel; the one picked in the
    readout's amber on its black, as a pressed button is the other way round;
    one with something new in bold, beside its dot. A group's name is a button
