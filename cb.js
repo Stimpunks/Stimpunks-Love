@@ -642,6 +642,16 @@
       linkEls.forEach(function (e) { if (keys.indexOf(e.getAttribute('data-ref')) >= 0) fillLink(e); });
     }, function () {});
   }
+  /* TWO-STEP SIGN-IN (2026-10-26): twostep.js, loaded only when somebody's
+     second step is asked for, or they set one up under Account. */
+  function withTwoStep(then, failed) {
+    if (window.loveTwoStep) { then(); return; }
+    var s = document.createElement('script');
+    s.src = '/twostep.js';
+    s.addEventListener('load', function () { if (window.loveTwoStep) then(); });
+    s.addEventListener('error', function () { if (failed) failed(); });
+    document.head.appendChild(s);
+  }
   /* The [[ menu on a message box, once links.js is here; it asks /cb/links. */
   var linksAsked = false;
   function withLinks(then) {
@@ -1907,6 +1917,12 @@
     off.type = 'button';
     off.addEventListener('click', function () { signOff(); });
     youTools.appendChild(off);
+    /* A staff username without two-step sign-in is told so here, from the
+       listen's `twostep`: before 2 November that it will be needed, after it
+       that they are on as a member until it is on. Account sets it up. */
+    this.twostepNote = el('p', 'cb-twostep-note');
+    this.twostepNote.hidden = true;
+    youSec.appendChild(this.twostepNote);
     youSec.appendChild(youTools);
     yourSec.appendChild(tools);
     var scp = this.schemePanel = el('div', 'cb-scheme-panel');
@@ -3241,6 +3257,7 @@
         me.calls = !!r.body.calls;
         me.callShown();
         me.keepRoles(r.body.roles);
+        me.twostepShown(r.body.twostep);
         // The roles this pass may call with an @ (mentionableRoles), for the @ list only: never kept.
         me.mayRoles = Array.isArray(r.body.mention) ? r.body.mention.filter(function (x) { return ROLE_SAYS[x]; }) : [];
       }
@@ -9970,7 +9987,7 @@
     this.acctPanel.hidden = !open;
     this.acctBtn.setAttribute('aria-expanded', String(!!open));
     if (open) { this.loadAccount(); this.forgetSaid.textContent = ''; }
-    else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; }
+    else { this.forgetSure.hidden = true; this.forgetBtn.hidden = false; if (this.codesShown) { this.codesShown.remove(); this.codesShown = null; } }
     this.place();
   };
 
@@ -10010,6 +10027,184 @@
     this.state.pass = pass;
     this.state.claimed = !!claimed;
     save(this.state);
+  };
+
+  /* TWO-STEP SIGN-IN (Ryan's ask and calls, 2026-10-26): an authenticator app
+     or a passkey after the password, with backup codes; required for staff
+     from 2 November, offered to everybody. Every change answers a new pass,
+     because it signed every other device off. Taking a step off, and new
+     backup codes, ask for the password. */
+  function showCodes(into, codes, me) {
+    var wrap = el('div', 'cb-twostep__codes');
+    wrap.appendChild(el('p', null, 'Your backup codes. Each one signs you on once if you cannot use your app or passkey. Keep them somewhere safe, like a password manager or on paper. They will not be shown again:'));
+    var list = el('ul', 'cb-twostep__list');
+    codes.forEach(function (c) { list.appendChild(el('li', 'cb-code', c)); });
+    wrap.appendChild(list);
+    var copy = el('button', 'cb-btn', 'Copy them'); copy.type = 'button';
+    copy.addEventListener('click', function () {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(codes.join('\n')).then(function () { me.acctSay('Copied.'); }, function () { me.acctSay('They could not be copied. Write them down instead.'); });
+    });
+    wrap.appendChild(copy);
+    into.appendChild(wrap);
+  }
+  Radio.prototype.twostepShown = function (t) {
+    var n = this.twostepNote;
+    if (!n) return;
+    n.hidden = !t;
+    if (t) n.textContent = t === 'needed'
+      ? 'You are on as an ordinary member until you set up two-step sign-in, under Account: then your staff rooms, the desk, Tasks and the office come back.'
+      : 'From 2 November, moderators and staff need two-step sign-in. Set it up under Account.';
+  };
+  Radio.prototype.drawTwoStep = function (box, t) {
+    var me = this;
+    var sec = el('div', 'cb-sub cb-twostep');
+    sec.appendChild(el('h3', 'cb-h3', 'Two-step sign-in'));
+    var on = t.app || t.passkeys.length;
+    var when = '';
+    try { when = new Date(t.from).toLocaleDateString(undefined, { day: 'numeric', month: 'long' }); } catch (e) {}
+    if (t.staff && !on) sec.appendChild(el('p', 'cb-twostep__staff', t.needed
+      ? 'Moderators and staff need two-step sign-in now. Until you set it up, you are on the CB as an ordinary member: your staff rooms, the desk, Tasks and the office come back as soon as it is on.'
+      : 'From ' + when + ', moderators and staff need two-step sign-in. Set it up now and nothing changes for you on the day.'));
+    sec.appendChild(el('p', null, on
+      ? 'On. Signing on asks for your password and then one of the steps below.'
+      : 'Off. With it on, signing on asks for your password and then a code from an app on your phone, or a passkey: your fingerprint, face or the screen lock on your device. Somebody who learns your password still cannot get in.'));
+    var form = el('div', 'cb-acct__form'); form.hidden = true;
+    var fresh = function (r, said) {
+      if (me.codesShown) { me.codesShown.remove(); me.codesShown = null; }
+      me.takePass(r.pass, true);
+      if (typeof r.base === 'boolean') { me.state.base = r.base; me.state.roles = r.roles || []; save(me.state); }
+      me.acctSay(said);
+      me.loadAccount();
+      if (r.codes) { var keep = el('div', 'cb-acct__form'); showCodes(keep, r.codes, me); me.acctBox.after(keep); me.codesShown = keep; }
+    };
+    var post = function (body, then, btn) {
+      if (btn) btn.disabled = true;
+      return call('/cb/account', { body: body }, me.state.pass).then(function (r) {
+        if (btn) btn.disabled = false;
+        if (r.status === 200) { then(r.body); return; }
+        me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was changed.');
+      }, function () { if (btn) btn.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was changed.'); });
+    };
+    var askPassword = function (sentence, yesText, go, back) {
+      form.textContent = ''; form.hidden = false;
+      form.appendChild(el('p', null, sentence));
+      var pw = field('Your password, to be sure it is you', 'cb-twostep-pw', 'password');
+      pw.input.autocomplete = 'current-password';
+      form.appendChild(pw.wrap);
+      var yes = el('button', 'cb-btn', yesText); yes.type = 'button';
+      var no = el('button', 'cb-btn', 'Not now'); no.type = 'button';
+      form.appendChild(yes); form.appendChild(no);
+      pw.input.focus();
+      no.addEventListener('click', function () { form.hidden = true; if (back) back.focus(); });
+      yes.addEventListener('click', function () { go(pw.input.value, yes); });
+    };
+    // The authenticator app.
+    var appRow = el('p', 'cb-acct__row');
+    appRow.appendChild(el('span', null, 'Authenticator app: ' + (t.app ? 'on.' : 'off.') + ' '));
+    if (!t.app && t.appReady) {
+      var appOn = el('button', 'cb-btn', 'Set up an authenticator app'); appOn.type = 'button';
+      appRow.appendChild(appOn);
+      appOn.addEventListener('click', function () {
+        form.textContent = ''; form.hidden = false;
+        form.appendChild(el('p', 'cb-quiet', 'Getting a key for your app…'));
+        post({ action: 'app-start' }, function (b) {
+          withTwoStep(function () {
+            form.textContent = '';
+            form.appendChild(el('p', null, 'Open your authenticator app (any one: Google Authenticator, Microsoft Authenticator, Aegis, 2FAS, a password manager) and add an account by scanning this code:'));
+            var pic = window.loveTwoStep.qr(b.uri, 'A QR code for your authenticator app. Its key is written out below.');
+            if (pic) form.appendChild(pic);
+            var key = el('p', null, 'Or type this key into the app: ');
+            key.appendChild(el('code', 'cb-code', b.secret.match(/.{1,4}/g).join(' ')));
+            form.appendChild(key);
+            var link = el('a', null, 'Or open it in an authenticator app on this device');
+            link.href = b.uri;
+            var lp = el('p'); lp.appendChild(link); form.appendChild(lp);
+            var code = field('Then the six-digit code it shows', 'cb-twostep-code', 'text');
+            code.input.autocomplete = 'one-time-code'; code.input.inputMode = 'numeric';
+            form.appendChild(code.wrap);
+            var ok = el('button', 'cb-btn', 'Turn it on'); ok.type = 'button';
+            form.appendChild(ok);
+            code.input.focus();
+            ok.addEventListener('click', function () {
+              post({ action: 'app-confirm', setup: b.setup, code: code.input.value }, function (r) {
+                form.hidden = true;
+                fresh(r, 'Your authenticator app is on. Every other device signed on as you has been signed off.');
+              }, ok);
+            });
+          }, function () { me.acctSay('That could not be loaded just now.'); });
+        }, appOn);
+      });
+    } else if (!t.app) {
+      appRow.appendChild(el('span', 'cb-quiet', 'An authenticator app cannot be set up just now; a passkey can.'));
+    } else {
+      var appOff = el('button', 'cb-btn', 'Take it off'); appOff.type = 'button';
+      appRow.appendChild(appOff);
+      appOff.addEventListener('click', function () {
+        askPassword('This takes your authenticator app off.' + (t.passkeys.length ? '' : ' With no other step, signing on will ask for your password alone.') + (t.staff && !t.passkeys.length ? ' As staff, you would be an ordinary member until you set one up again.' : ''), 'Take it off', function (pw, btn) {
+          post({ action: 'second-off', password: pw, what: 'app' }, function (r) { form.hidden = true; fresh(r, 'Taken off. Every other device signed on as you has been signed off.'); }, btn);
+        }, appOff);
+      });
+    }
+    sec.appendChild(appRow);
+    // Passkeys.
+    sec.appendChild(el('p', null, t.passkeys.length ? 'Passkeys:' : 'Passkeys: none yet.'));
+    if (t.passkeys.length) {
+      var keys = el('ul', 'cb-twostep__list');
+      t.passkeys.forEach(function (k) {
+        var li = el('li', null, k.name + ' ');
+        var off = el('button', 'cb-btn', 'Take ' + k.name + ' off'); off.type = 'button';
+        li.appendChild(off);
+        off.addEventListener('click', function () {
+          askPassword('This takes the passkey ' + k.name + ' off.', 'Take it off', function (pw, btn) {
+            post({ action: 'second-off', password: pw, what: k.id }, function (r) { form.hidden = true; fresh(r, 'Taken off. Every other device signed on as you has been signed off.'); }, btn);
+          }, off);
+        });
+        keys.appendChild(li);
+      });
+      sec.appendChild(keys);
+    }
+    var addRow = el('p', 'cb-acct__row');
+    var name = field('A name for a new passkey, like My phone (you can leave it empty)', 'cb-twostep-name', 'text');
+    name.input.maxLength = 40;
+    var add = el('button', 'cb-btn', 'Add a passkey'); add.type = 'button';
+    addRow.appendChild(add);
+    sec.appendChild(name.wrap); sec.appendChild(addRow);
+    add.addEventListener('click', function () {
+      withTwoStep(function () {
+        if (!window.loveTwoStep.canPasskey) { me.acctSay('This browser cannot make a passkey. Try another, or use an authenticator app.'); return; }
+        post({ action: 'key-start' }, function (b) {
+          me.acctSay('Your device asks you now.');
+          window.loveTwoStep.create(b.options).then(function (cred) {
+            post({ action: 'key-add', setup: b.setup, cred: cred, name: name.input.value }, function (r) {
+              name.input.value = '';
+              fresh(r, 'Your passkey is on. Every other device signed on as you has been signed off.');
+            }, add);
+          }, function () { me.acctSay('No passkey was made. Nothing was changed.'); });
+        }, add);
+      }, function () { me.acctSay('That could not be loaded just now.'); });
+    });
+    // Backup codes.
+    if (on) {
+      var codesRow = el('p', 'cb-acct__row');
+      codesRow.appendChild(el('span', null, 'Backup codes left: ' + t.codesLeft + '. '));
+      var newCodes = el('button', 'cb-btn', 'Make new backup codes'); newCodes.type = 'button';
+      codesRow.appendChild(newCodes);
+      sec.appendChild(codesRow);
+      newCodes.addEventListener('click', function () {
+        askPassword('This makes ten new backup codes. The ones you have now stop working.', 'Make them', function (pw, btn) {
+          post({ action: 'second-codes', password: pw }, function (r) { form.textContent = ''; showCodes(form, r.codes, me); }, btn);
+        }, newCodes);
+      });
+      var allOff = el('button', 'cb-btn', 'Turn two-step sign-in off'); allOff.type = 'button';
+      var allRow = el('p', 'cb-acct__row'); allRow.appendChild(allOff); sec.appendChild(allRow);
+      allOff.addEventListener('click', function () {
+        askPassword('This takes every step off, and your backup codes: signing on will ask for your password alone.' + (t.staff ? ' As staff, you would be an ordinary member until you set one up again.' : ''), 'Turn it off', function (pw, btn) {
+          post({ action: 'second-off', password: pw, what: 'all' }, function (r) { form.hidden = true; fresh(r, 'Two-step sign-in is off. Every other device signed on as you has been signed off.'); }, btn);
+        }, allOff);
+      });
+    }
+    sec.appendChild(form);
+    box.appendChild(sec);
   };
 
   Radio.prototype.drawAccount = function (a) {
@@ -10092,6 +10287,7 @@
       mailSet.addEventListener('click', function () { mailGo(false); });
       if (mailOff) mailOff.addEventListener('click', function () { mailGo(true); });
     }
+    if (a.second) me.drawTwoStep(box, a.second);
     change.addEventListener('click', function () {
       form.textContent = ''; form.hidden = false;
       var old = field('Your password now', 'cb-acct-old', 'password'), pw = field('A new password', 'cb-acct-new'), again = field('The same again', 'cb-acct-new2');
@@ -12729,13 +12925,42 @@
     if (!form) return;
     var said = document.getElementById('cb-signon-said');
     var btn = form.querySelector('button[type="submit"]');
+    var secondBox = null;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var handle = form.elements.handle.value, password = form.elements.password.value;
       said.textContent = 'Checking…';
       btn.disabled = true;
+      // Signed on, with the password alone or after the second step.
+      var took = function (b) {
+        form.elements.password.value = '';
+        said.textContent = '';
+        save({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true });
+        counter();
+        tuneIn();
+        var hello = document.getElementById('cb-on-said');
+        if (hello) hello.textContent = 'You are on. The radio is in the bottom right corner of the screen.';
+      };
       call('/cb/signon', { body: { handle: handle, password: password } }).then(function (r) {
         btn.disabled = false;
+        /* A SECOND STEP (two-step sign-in, 2026-10-26): asked for here, under
+           the form, by twostep.js. */
+        if (r.status === 200 && r.body.second) {
+          form.elements.password.value = '';
+          said.textContent = '';
+          // One box for the step, made here and kept, never looked up by an id.
+          if (secondBox) secondBox.remove();
+          var box = secondBox = document.createElement('div');
+          box.className = 'cb-signon-second';
+          form.after(box);
+          form.hidden = true;
+          withTwoStep(function () {
+            window.loveTwoStep.run(box, r.body.second, function (payload) { return call('/cb/signon', { body: payload }); }, { id: 'cb-desk-second' }).then(function (b) {
+              box.remove(); took(b);
+            }, function () { box.remove(); form.hidden = false; said.textContent = 'That sign-on ran out. Sign on again with your password.'; });
+          }, function () { form.hidden = false; said.textContent = 'The second step could not be loaded just now. Try again in a moment.'; });
+          return;
+        }
         /* A MODERATOR'S USERNAME NOT CLAIMED YET (2026-10-21): the moderators'
            password signs nobody on now, and sends its moderator to claim the
            username on the joining page, where it is asked for again. */
@@ -12749,16 +12974,7 @@
           said.appendChild(document.createTextNode(', with the moderators\u2019 password and one of your own.'));
           return;
         }
-        if (r.status === 200 && r.body.pass) {
-          form.elements.password.value = '';
-          said.textContent = '';
-          save({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], claimed: true, folded: false, aloud: true });
-          counter();
-          tuneIn();
-          var hello = document.getElementById('cb-on-said');
-          if (hello) hello.textContent = 'You are on. The radio is in the bottom right corner of the screen.';
-          return;
-        }
+        if (r.status === 200 && r.body.pass) { took(r.body); return; }
         if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }
         said.textContent = why(r, 'That did not work. Try again.');
       }).catch(function () {
@@ -12789,15 +13005,26 @@
       btn.disabled = true;
       call('/cb/account/recover', { body: { handle: form.elements.handle.value, code: form.elements.code.value, password: form.elements.password.value } }).then(function (r) {
         btn.disabled = false;
-        if (r.status === 200 && r.body.pass) {
+        if (r.status === 200 && (r.body.pass || r.body.second)) {
           form.elements.password.value = ''; form.elements.again.value = ''; form.elements.code.value = '';
-          save({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], claimed: true, folded: false, aloud: true });
           said.textContent = '';
-          var p1 = document.createElement('p'); p1.textContent = 'You are back in, with your new password. Here is your NEW recovery code. The old one no longer works, and this one will not be shown again:';
+          var p1 = document.createElement('p'); p1.textContent = 'Your password is changed. Here is your NEW recovery code. The old one no longer works, and this one will not be shown again:';
           var p2 = document.createElement('p'); p2.className = 'ctr-code'; p2.textContent = r.body.recovery;
           form.replaceWith(p1); p1.after(p2);
-          counter();
-          tuneIn();
+          var signedIn = function (b) {
+            save({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true });
+            counter();
+            tuneIn();
+          };
+          if (r.body.pass) { signedIn(r.body); return; }
+          // A recovery code changes the password and still asks for the second step.
+          var box = document.createElement('div');
+          p2.after(box);
+          withTwoStep(function () {
+            window.loveTwoStep.run(box, r.body.second, function (payload) { return call('/cb/signon', { body: payload }); }, { id: 'cb-recover-second' }).then(function (b) {
+              box.textContent = ''; box.appendChild(document.createTextNode('You are back in.')); signedIn(b);
+            }, function () { box.textContent = 'That ran out. Sign on with your new password and your second step.'; });
+          }, function () { box.textContent = 'The second step could not be loaded. Sign on with your new password and your second step.'; });
           return;
         }
         if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }

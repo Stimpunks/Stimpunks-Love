@@ -1711,6 +1711,16 @@ ol.cb-md-list { list-style: decimal; }
 .cb-acct__row { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-acct__form { margin: 8px 0 0; }
 .cb-acct__form .cb-btn { margin: 0 8px 6px 0; }
+/* TWO-STEP SIGN-IN (2026-10-26): the staff note in You, and under Account the
+   QR code an app is set up from (always dark on white, as a QR code must be to
+   be read, in a frame of the radio's own line), the key and the backup codes. */
+.cb-twostep-note { margin: 0 0 8px; padding: 6px 8px; border: 2px solid var(--cb-amber); border-radius: 6px; }
+.cb-twostep__staff { font-weight: 700; }
+.cb-twostep__list { margin: 4px 0 8px; padding-left: 20px; }
+.cb-twostep__list li { margin: 0 0 4px; }
+.cb-code { font-family: ui-monospace, 'Courier Prime', monospace; letter-spacing: 0.04em; }
+.twostep__qr { display: block; width: 200px; max-width: 100%; height: auto; margin: 6px 0 8px; border: 2px solid var(--cb-amber); border-radius: 4px; }
+.cb-second .twostep p { margin: 0 0 8px; }
 /* SCREEN A VIDEO, the base's tray, under the tools in the pets tray's clothes:
    one address, one button, and the answer. */
 .cb-screen { margin: 0; padding: 10px 12px; border: 2px solid var(--cb-steel-2); border-radius: 6px; display: grid; gap: 6px; }

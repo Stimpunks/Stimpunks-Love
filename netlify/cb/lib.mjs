@@ -131,8 +131,8 @@
        redeploying signs everybody off at once, and there is no list of passes
        anywhere to go stale or leak.
    ============================================================================= */
-import { createHmac, createHash, createSign, createPrivateKey, timingSafeEqual, randomUUID, randomBytes, scryptSync,
-  createECDH, ECDH, createCipheriv, createDecipheriv, hkdfSync, sign as cryptoSign } from 'node:crypto';
+import { createHmac, createHash, createSign, createPrivateKey, createPublicKey, timingSafeEqual, randomUUID, randomBytes, scryptSync,
+  createECDH, ECDH, createCipheriv, createDecipheriv, hkdfSync, sign as cryptoSign, verify as cryptoVerify } from 'node:crypto';
 import { getStore } from '@netlify/blobs';
 import { request as httpRequest } from 'node:http';
 import { request as httpsRequest } from 'node:https';
@@ -5511,7 +5511,10 @@ export async function signOn(handle, password, mods, s = store(), now = Date.now
     // Its roles still come from the moderators' list, read now, never from the
     // account: taking somebody off the list leaves them an ordinary claimed
     // username with the same password.
+    // A SECOND STEP, if the account has one: no pass yet, a ticket for it.
+    if (hasSecond(acct)) return { second: true, acct };
     const on = mods && mods.get(foldHandle(handle));
+    if (on && staffNeedsSecond(acct, now)) return { role: 'mobile', handle: acct.handle, roles: new Set(), account: r.v, twostep: 'needed' };
     if (on) return { role: 'base', handle: on.handle, roles: on.roles, account: r.v };
     return { role: 'mobile', handle: acct.handle, roles: new Set(), account: r.v };
   }
@@ -5539,7 +5542,7 @@ export function issuePass(role, handle) {
    username it is on (Ryan, 2026-10-21, "They must claim a username to retain
    access"). Only /cb/account asks for it, with { unclaimed: true }; to every
    other function it is no pass, and the radio says why and offers the claim. */
-export async function readPass(req, mods, s = store(), { unclaimed = false } = {}) {
+export async function readPass(req, mods, s = store(), { unclaimed = false, now = Date.now() } = {}) {
   if (mods === undefined) mods = await loadMods();
   const h = req.headers.get('authorization') || '';
   const a = /^Bearer cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.([A-Za-z0-9_-]+)$/.exec(h);
@@ -5564,15 +5567,19 @@ export async function readPass(req, mods, s = store(), { unclaimed = false } = {
     // since: when the username was claimed, which the forums fold into the
     // mark on every post (authorMark), so that a name claimed again after its
     // owner deleted it is a different author. It is never sent anywhere.
-    if (kind === 'base' && on) return { role: 'base', handle: on.handle, roles: on.roles, account: true, since: acct.since, fixed: !!on.fixed };
+    // STAFF NEED A SECOND STEP FROM TWOFA_FROM (two-step sign-in, below): without
+    // one, a staff pass is read as an ordinary member's, with nothing to swap to
+    // until it is set up, and `twostep` says so to the radio.
+    if (on && staffNeedsSecond(acct, now)) return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since, twostep: 'needed' };
+    if (kind === 'base' && on) return { role: 'base', handle: on.handle, roles: on.roles, account: true, since: acct.since, fixed: !!on.fixed, ...(hasSecond(acct) ? {} : { twostep: 'soon' }) };
     // A pass of the other kind from the one the list says, because somebody was
     // given a role or had one taken away at the desk (2026-10-21): an ordinary
     // username's, never more, and the pass it should hold now, which the radio
     // takes from its next listen (swap), so nobody has to sign off and on. It is
     // what signing on again with their own password would give them.
-    const now = { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since };
-    if ((kind === 'base' || on) && mods && !mods.partial) now.swap = accountAnswer(acct.handle, v, mods);
-    return now;
+    const member = { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since };
+    if ((kind === 'base' || on) && mods && !mods.partial) member.swap = accountAnswer(acct.handle, v, mods, acct, now);
+    return member;
   }
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
   if (!m || !unclaimed) return null;
@@ -5617,8 +5624,11 @@ export function issueAccountPass(handle, v, role = 'mobile') {
 /* The pass and what the radio is told, for a claimed username that has just
    signed on, claimed, changed its password or recovered: a moderator's if the
    username is on the list now, an ordinary one otherwise. */
-export function accountAnswer(handle, v, mods = readMods()) {
+export function accountAnswer(handle, v, mods = readMods(), acct = null, now = Date.now()) {
   const on = mods && mods.get(foldHandle(handle));
+  // A staff username with no second step after TWOFA_FROM answers as a member,
+  // and says what would bring its roles back (two-step sign-in, below).
+  if (on && acct && staffNeedsSecond(acct, now)) return { pass: issueAccountPass(handle, v), handle, base: false, roles: [], claimed: true, twostep: 'needed' };
   if (on) return { pass: issueAccountPass(on.handle, v, 'base'), handle: on.handle, base: true, roles: [...on.roles].sort(), claimed: true };
   return { pass: issueAccountPass(handle, v), handle, base: false, roles: [], claimed: true };
 }
@@ -5930,9 +5940,14 @@ export async function recoverAccount(handle, code, password, s = store(), now = 
     const n = { ...a, hash: scrypt(pw, ps), salt: ps, rhash: scrypt(cleanCode(recovery), rs), rsalt: rs, v: a.v + 1, fails: 0, lockUntil: 0 };
     delete n.reset;
     delete n.mailed;
+    // A moderator's reset code takes the second step off: it is the way back
+    // for somebody who has lost every step, and the moderator made sure who
+    // they were talking to. A recovery code or an emailed one does not.
+    if (byReset && !byCode && !byMail) delete n.mfa;
     return n;
   }, s);
-  return next ? { v: next.v, recovery, handle: next.handle } : { error: 'That username has not been claimed.' };
+  if (!next) return { error: 'That username has not been claimed.' };
+  return { v: next.v, recovery, handle: next.handle, acct: next, second: hasSecond(next) };
 }
 
 /* A moderator's reset: a one-time code good for a day, and everybody signed
@@ -5975,6 +5990,387 @@ export async function deleteAccount(handle, s = store()) {
 /* What a person, or a moderator looking them up, is told about an account:
    whether it is claimed, as what, and since when. Never a hash. */
 export function shapeAccount(a) { return a ? { claimed: true, handle: a.handle, since: a.since } : { claimed: false }; }
+
+/* ── Two-step sign-in ─────────────────────────────────────────────────────
+
+   Ryan's ask and calls, 2026-10-26: a second step after the password, by an
+   authenticator app (TOTP, RFC 6238) or a passkey (WebAuthn), required for
+   everybody on the moderators' list from TWOFA_FROM and offered to everybody
+   else. A staff username without it after that date is read as an ordinary
+   member's (readPass), with nothing shut, until they set it up: nobody is
+   shut out of the community for it. The week before, the radio says so.
+
+   WHAT IS KEPT, on the account record as `mfa` and nowhere else: the
+   authenticator app's secret, sealed with the staff key under its own name
+   (so the account blob alone does not give it away), and the last thirty
+   seconds' step a code was used in, so a code works once; each passkey's
+   credential id, public key, algorithm, signature counter and the name its
+   owner gave it; and the backup codes, each a salted hash, each good once.
+   Nothing about when. Adding or taking off a step moves the account's
+   version, which signs every other device off, and answers this device a new
+   pass.
+
+   SIGNING ON IS STATELESS: a right password on an account with a second step
+   answers `second`, a ticket good for five minutes (handle, version, a random
+   challenge, signed with a key made from the community password), and the
+   step is checked against the ticket. Wrong codes count as wrong passwords
+   and lock the account the same way. A recovery code or an emailed reset code
+   changes the password and still asks for the second step; a moderator's
+   reset code takes the second step off, because a moderator who gave one has
+   made sure who they were talking to and it is the way back for somebody who
+   has lost every step. Without the staff key no authenticator app can be set
+   up or used (its secret cannot be opened), and passkeys and backup codes
+   still work. */
+export const TWOFA_FROM = Date.UTC(2026, 10, 2, 7, 0);   // 2026-11-02 00:00 in Colorado: staff need a second step from here
+export const TOTP_STEP = 30;
+export const TICKET_FOR = 5 * 60 * 1000;
+export const PASSKEYS_MAX = 10;
+export const BACKUP_CODES = 10;
+const B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+const ISSUER = 'Stimpunks.World';
+
+export function hasSecond(acct) {
+  const m = acct && acct.mfa;
+  return !!(m && (m.totp || (Array.isArray(m.keys) && m.keys.length)));
+}
+/* Whether a staff username is held back for want of a second step now. */
+export function staffNeedsSecond(acct, now = Date.now()) { return now >= TWOFA_FROM && !hasSecond(acct); }
+
+export function base32(buf) {
+  let bits = 0, value = 0, out = '';
+  for (const byte of buf) {
+    value = (value << 8) | byte; bits += 8;
+    while (bits >= 5) { out += B32[(value >>> (bits - 5)) & 31]; bits -= 5; }
+  }
+  if (bits > 0) out += B32[(value << (5 - bits)) & 31];
+  return out;
+}
+export function unbase32(s) {
+  const clean = String(s).toUpperCase().replace(/[^A-Z2-7]/g, '');
+  let bits = 0, value = 0;
+  const out = [];
+  for (const ch of clean) {
+    value = (value << 5) | B32.indexOf(ch); bits += 5;
+    if (bits >= 8) { out.push((value >>> (bits - 8)) & 255); bits -= 8; }
+  }
+  return Buffer.from(out);
+}
+/* RFC 6238's code for a secret at a step: six digits, HMAC-SHA1. */
+export function totpAt(secret, step) {
+  const msg = Buffer.alloc(8);
+  msg.writeBigUInt64BE(BigInt(step));
+  const h = createHmac('sha1', secret).update(msg).digest();
+  const o = h[h.length - 1] & 15;
+  const n = ((h[o] & 127) << 24) | (h[o + 1] << 16) | (h[o + 2] << 8) | h[o + 3];
+  return String(n % 1000000).padStart(6, '0');
+}
+/* The step a code is good at, one step either side of now, or null. */
+function totpStep(secret, code, now) {
+  const c = String(code == null ? '' : code).replace(/\D/g, '');
+  if (c.length !== 6) return null;
+  const at = Math.floor(now / 1000 / TOTP_STEP);
+  for (const st of [at, at - 1, at + 1]) {
+    const want = Buffer.from(totpAt(secret, st)), got = Buffer.from(c);
+    if (timingSafeEqual(want, got)) return st;
+  }
+  return null;
+}
+const totpName = (handle) => `acct-totp/${acctKey(handle)}`;
+function totpSecretOf(acct) {
+  const box = acct && acct.mfa && acct.mfa.totp;
+  if (!box) return null;
+  const k = staffCipherKey();
+  if (!k) return null;
+  try { return unbase32(openJsonWith(k, 'staff', totpName(acct.handle), box).s); } catch (e) { return null; }
+}
+
+/* A signed, short-lived token: what it carries, and when it ends. */
+function ticketKey() {
+  const s = secretFor('mobile');
+  return s ? createHash('sha256').update(`stimpunks-2fa|${s}`).digest() : null;
+}
+function makeTicket(kind, data, now) {
+  const k = ticketKey();
+  if (!k) return null;
+  const body = Buffer.from(JSON.stringify({ k: kind, ...data, exp: now + TICKET_FOR })).toString('base64url');
+  return `${body}.${createHmac('sha256', k).update(body).digest('base64url')}`;
+}
+function readTicket(kind, t, now) {
+  const k = ticketKey();
+  if (!k || typeof t !== 'string' || t.length > 4000) return null;
+  const [body, sig] = t.split('.');
+  if (!body || !sig) return null;
+  const want = Buffer.from(createHmac('sha256', k).update(body).digest('base64url')), got = Buffer.from(sig);
+  if (want.length !== got.length || !timingSafeEqual(want, got)) return null;
+  let d;
+  try { d = JSON.parse(Buffer.from(body, 'base64url').toString('utf8')); } catch (e) { return null; }
+  return d && d.k === kind && typeof d.exp === 'number' && d.exp > now ? d : null;
+}
+
+/* What the person and the page are told about their steps: never a secret,
+   never a public key. */
+export function shapeSecond(acct, now = Date.now(), staff = false) {
+  const m = (acct && acct.mfa) || {};
+  return {
+    app: !!m.totp,
+    passkeys: (m.keys || []).map((x) => ({ id: x.id, name: x.name })),
+    codesLeft: (m.codes || []).length,
+    appReady: staffReady(),
+    ...(staff ? { staff: true, from: TWOFA_FROM, needed: staffNeedsSecond(acct, now) } : {}),
+  };
+}
+
+/* ── Backup codes ── */
+function backupCode() {
+  const b = randomBytes(12);
+  let out = '';
+  for (let i = 0; i < 12; i++) out += CODE_ALPHABET[b[i] % CODE_ALPHABET.length];
+  return out.match(/.{4}/g).join('-');
+}
+const codeHash = (csalt, c) => createHash('sha256').update(`${csalt}|${cleanCode(c)}`).digest('base64url');
+function freshCodes() {
+  const csalt = salt();
+  const codes = Array.from({ length: BACKUP_CODES }, backupCode);
+  return { csalt, codes, hashes: codes.map((c) => codeHash(csalt, c)) };
+}
+
+/* ── WebAuthn: the little of CBOR a passkey speaks ── */
+function cbor(buf, at = 0) {
+  const b = buf[at], major = b >> 5, info = b & 31;
+  let n = info, p = at + 1;
+  if (info === 24) { n = buf[p]; p += 1; }
+  else if (info === 25) { n = buf.readUInt16BE(p); p += 2; }
+  else if (info === 26) { n = buf.readUInt32BE(p); p += 4; }
+  else if (info === 27) { n = Number(buf.readBigUInt64BE(p)); p += 8; }
+  else if (info > 27) throw new Error('cbor');
+  if (major === 0) return [n, p];
+  if (major === 1) return [-1 - n, p];
+  if (major === 2) return [buf.subarray(p, p + n), p + n];
+  if (major === 3) return [buf.subarray(p, p + n).toString('utf8'), p + n];
+  if (major === 4) { const a = []; for (let i = 0; i < n; i++) { const [v, q] = cbor(buf, p); a.push(v); p = q; } return [a, p]; }
+  if (major === 5) { const m = new Map(); for (let i = 0; i < n; i++) { const [k, q] = cbor(buf, p); const [v, r] = cbor(buf, q); m.set(k, v); p = r; } return [m, p]; }
+  if (major === 7) return [info === 20 ? false : info === 21 ? true : null, p];
+  throw new Error('cbor');
+}
+/* A COSE public key as a JWK node:crypto reads, and its algorithm. */
+function coseKey(m) {
+  const kty = m.get(1), alg = m.get(3);
+  const u = (x) => Buffer.from(x).toString('base64url');
+  if (kty === 2 && alg === -7 && m.get(-1) === 1) return { alg, jwk: { kty: 'EC', crv: 'P-256', x: u(m.get(-2)), y: u(m.get(-3)) } };
+  if (kty === 1 && alg === -8 && m.get(-1) === 6) return { alg, jwk: { kty: 'OKP', crv: 'Ed25519', x: u(m.get(-2)) } };
+  if (kty === 3 && alg === -257) return { alg, jwk: { kty: 'RSA', n: u(m.get(-1)), e: u(m.get(-2)) } };
+  return null;
+}
+function authData(buf) {
+  if (!Buffer.isBuffer(buf) || buf.length < 37) return null;
+  const out = { rpIdHash: buf.subarray(0, 32), flags: buf[32], count: buf.readUInt32BE(33) };
+  if (out.flags & 0x40) {
+    const len = buf.readUInt16BE(53);
+    out.credId = buf.subarray(55, 55 + len);
+    const [key] = cbor(buf, 55 + len);
+    out.key = key;
+  }
+  return out;
+}
+const fromB64 = (s) => { try { return typeof s === 'string' && s.length < 20000 ? Buffer.from(s, 'base64url') : null; } catch (e) { return null; } };
+/* The page's origin and the relying party's id, from the request's own
+   Origin header, which sameSite has already held to this site's host. */
+export function webauthnSite(req) {
+  try { const o = new URL(req.headers.get('origin')); return { origin: o.origin, rpId: o.hostname }; } catch (e) { return null; }
+}
+function clientData(b64, type, challenge, site) {
+  const raw = fromB64(b64);
+  if (!raw) return null;
+  let d;
+  try { d = JSON.parse(raw.toString('utf8')); } catch (e) { return null; }
+  if (!d || d.type !== type || d.challenge !== challenge || d.origin !== site.origin) return null;
+  return raw;
+}
+
+/* ── Setting up a step, signed on ── */
+async function readSigned(who, s) {
+  if (!who || !who.account) return null;
+  return readAccount(who.handle, s);
+}
+/* The authenticator app: a fresh secret, to be confirmed with a code from it. */
+export async function totpStart(who, s = store(), now = Date.now()) {
+  const acct = await readSigned(who, s);
+  if (!acct) return { error: 'Claim your username first.' };
+  const k = staffCipherKey();
+  if (!k) return { error: 'An authenticator app cannot be set up just now. A passkey can.' };
+  const secret = base32(randomBytes(20));
+  const setup = makeTicket('totp-setup', { h: acct.handle, v: acct.v, box: sealJsonWith(k, 'staff', `totp-setup/${acctKey(acct.handle)}`, { s: secret }) }, now);
+  if (!setup) return { error: 'Two-step sign-in is switched off just now.' };
+  const label = encodeURIComponent(`${ISSUER}:${acct.handle}`);
+  return { setup, secret, uri: `otpauth://totp/${label}?secret=${secret}&issuer=${encodeURIComponent(ISSUER)}&algorithm=SHA1&digits=6&period=${TOTP_STEP}` };
+}
+/* A step added: the version moves, the backup codes are made if this is the
+   first step, and this device is answered a new pass. */
+async function addStep(acct, change, s, now) {
+  let codes = null;
+  const next = await updateAccount(acct.handle, (a) => {
+    if (a.v !== acct.v) return null;
+    const m = { keys: [], codes: [], ...(a.mfa || {}) };
+    const first = !hasSecond(a);
+    const r = change(m);
+    if (!r) return null;
+    if (first || !m.codes.length) { const f = freshCodes(); m.codes = f.hashes; m.csalt = f.csalt; codes = f.codes; }
+    return { ...a, mfa: m, v: a.v + 1, fails: 0, lockUntil: 0 };
+  }, s);
+  if (!next || next.v === acct.v) return { error: 'Your account changed while you were doing that. Start again.' };
+  return { v: next.v, codes, acct: next };
+}
+export async function totpConfirm(who, setup, code, s = store(), now = Date.now()) {
+  const acct = await readSigned(who, s);
+  if (!acct) return { error: 'Claim your username first.' };
+  const t = readTicket('totp-setup', setup, now);
+  if (!t || t.h !== acct.handle || t.v !== acct.v) return { error: 'That set-up has run out. Start again.' };
+  const k = staffCipherKey();
+  if (!k) return { error: 'An authenticator app cannot be set up just now. A passkey can.' };
+  let secret;
+  try { secret = openJsonWith(k, 'staff', `totp-setup/${acctKey(acct.handle)}`, t.box).s; } catch (e) { return { error: 'That set-up has run out. Start again.' }; }
+  const st = totpStep(unbase32(secret), code, now);
+  if (st === null) return { error: 'That is not the code your app shows. Check its clock is right, and type the six digits it shows now.' };
+  return addStep(acct, (m) => { m.totp = sealJsonWith(k, 'staff', totpName(acct.handle), { s: secret }); m.last = st; return m; }, s, now);
+}
+/* A passkey: the options the browser makes one with. */
+export async function passkeyStart(who, site, s = store(), now = Date.now()) {
+  const acct = await readSigned(who, s);
+  if (!acct) return { error: 'Claim your username first.' };
+  if (!site) return { error: 'That did not come from this site.' };
+  if (((acct.mfa && acct.mfa.keys) || []).length >= PASSKEYS_MAX) return { error: `You have ${PASSKEYS_MAX} passkeys already. Take one off first.` };
+  const ch = randomBytes(32).toString('base64url');
+  const setup = makeTicket('key-setup', { h: acct.handle, v: acct.v, ch }, now);
+  if (!setup) return { error: 'Two-step sign-in is switched off just now.' };
+  return {
+    setup,
+    options: {
+      challenge: ch,
+      rp: { id: site.rpId, name: ISSUER },
+      user: { id: acctKey(acct.handle), name: acct.handle, displayName: acct.handle },
+      pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -8 }, { type: 'public-key', alg: -257 }],
+      timeout: TICKET_FOR,
+      attestation: 'none',
+      authenticatorSelection: { residentKey: 'preferred', userVerification: 'preferred' },
+      excludeCredentials: ((acct.mfa && acct.mfa.keys) || []).map((x) => ({ type: 'public-key', id: x.id })),
+    },
+  };
+}
+export async function passkeyAdd(who, setup, cred, name, site, s = store(), now = Date.now()) {
+  const acct = await readSigned(who, s);
+  if (!acct) return { error: 'Claim your username first.' };
+  const t = readTicket('key-setup', setup, now);
+  if (!t || t.h !== acct.handle || t.v !== acct.v || !site) return { error: 'That set-up has run out. Start again.' };
+  const c = cred && typeof cred === 'object' ? cred : {};
+  if (!clientData(c.clientDataJSON, 'webauthn.create', t.ch, site)) return { error: 'That passkey was not made for this site. Start again.' };
+  let att;
+  try { [att] = cbor(fromB64(c.attestationObject) || Buffer.alloc(0)); } catch (e) { att = null; }
+  const ad = att instanceof Map ? authData(att.get('authData')) : null;
+  if (!ad || !ad.credId || !(ad.flags & 0x01) || !ad.rpIdHash.equals(createHash('sha256').update(site.rpId).digest())) return { error: 'That passkey could not be read. Start again.' };
+  const key = ad.key instanceof Map ? coseKey(ad.key) : null;
+  if (!key) return { error: 'That kind of passkey is not one the CB can check. Try another device or an authenticator app.' };
+  try { createPublicKey({ key: key.jwk, format: 'jwk' }); } catch (e) { return { error: 'That passkey could not be read. Start again.' }; }
+  const id = ad.credId.toString('base64url');
+  const label = tidy(typeof name === 'string' ? name : '').slice(0, 40) || 'Passkey';
+  return addStep(acct, (m) => {
+    if (m.keys.some((x) => x.id === id) || m.keys.length >= PASSKEYS_MAX) return null;
+    m.keys = [...m.keys, { id, jwk: key.jwk, alg: key.alg, n: ad.count, name: label }];
+    return m;
+  }, s, now);
+}
+/* A step taken off, or new backup codes, with the password again. */
+export async function secondRemove(who, password, what, s = store(), now = Date.now()) {
+  const acct = await readSigned(who, s);
+  if (!acct) return { error: 'Claim your username first.' };
+  const ok = await checkPassword(acct.handle, password, s, now);
+  if (ok.error) return ok;
+  const next = await updateAccount(acct.handle, (a) => {
+    const m = { keys: [], codes: [], ...(a.mfa || {}) };
+    if (what === 'app') { if (!m.totp) return null; delete m.totp; delete m.last; }
+    else if (what === 'all') { return { ...a, mfa: undefined, v: a.v + 1 }; }
+    else { const k = m.keys.filter((x) => x.id !== what); if (k.length === m.keys.length) return null; m.keys = k; }
+    if (!m.totp && !m.keys.length) return { ...a, mfa: undefined, v: a.v + 1 };
+    return { ...a, mfa: m, v: a.v + 1 };
+  }, s);
+  if (!next || next.v === acct.v) return { error: 'That step is not on your account.' };
+  return { v: next.v, acct: next };
+}
+export async function secondCodes(who, password, s = store(), now = Date.now()) {
+  const acct = await readSigned(who, s);
+  if (!acct) return { error: 'Claim your username first.' };
+  if (!hasSecond(acct)) return { error: 'Set up an authenticator app or a passkey first.' };
+  const ok = await checkPassword(acct.handle, password, s, now);
+  if (ok.error) return ok;
+  const f = freshCodes();
+  const next = await updateAccount(acct.handle, (a) => (hasSecond(a) ? { ...a, mfa: { ...a.mfa, codes: f.hashes, csalt: f.csalt } } : null), s);
+  return next && next.mfa ? { codes: f.codes } : { error: 'Set up an authenticator app or a passkey first.' };
+}
+
+/* ── The second step at sign-on ── */
+/* After the right password or recovery code: a ticket, and what the page
+   may ask for. The passkeys' ids are sent so the browser offers the right one;
+   they name a credential, not a person. */
+export function secondTicket(acct, site, now = Date.now()) {
+  const ch = randomBytes(32).toString('base64url');
+  const ticket = makeTicket('second', { h: acct.handle, v: acct.v, ch }, now);
+  if (!ticket) return null;
+  const keys = (acct.mfa && acct.mfa.keys) || [];
+  return {
+    ticket,
+    app: !!(acct.mfa && acct.mfa.totp) && staffReady(),
+    codes: !!(acct.mfa && acct.mfa.codes && acct.mfa.codes.length),
+    passkey: keys.length && site ? { challenge: ch, rpId: site.rpId, timeout: TICKET_FOR, userVerification: 'preferred', allowCredentials: keys.map((x) => ({ type: 'public-key', id: x.id })) } : null,
+  };
+}
+/* The step checked: { handle, v } and the account, or { error }. A wrong one
+   counts as a wrong password. */
+export async function secondCheck(ticket, f, site, s = store(), now = Date.now()) {
+  const t = readTicket('second', ticket, now);
+  if (!t) return { error: 'That sign-on has run out. Start again with your password.' };
+  const acct = await readAccount(t.h, s);
+  if (!acct || acct.v !== t.v) return { error: 'That sign-on has run out. Start again with your password.' };
+  if (acct.lockUntil > now) return { error: 'That username is locked for a few minutes after too many wrong tries. Try again soon, or ask a moderator.', locked: true };
+  const m = acct.mfa || {};
+  const ff = f && typeof f === 'object' ? f : {};
+  let change = null;
+  if (typeof ff.code === 'string' && /^\s*\d{3}\s?\d{3}\s*$/.test(ff.code)) {
+    if (!m.totp) return { error: 'This username has no authenticator app set up. Use a passkey or a backup code.' };
+    const secret = totpSecretOf(acct);
+    const st = secret ? totpStep(secret, ff.code, now) : null;
+    if (st !== null && st > (m.last || 0)) change = (a) => ({ ...a, mfa: { ...a.mfa, last: st }, fails: 0 });
+  } else if (typeof ff.code === 'string' && Array.isArray(m.codes) && m.codes.length) {
+    const h = codeHash(m.csalt, ff.code);
+    if (m.codes.includes(h)) change = (a) => ({ ...a, mfa: { ...a.mfa, codes: a.mfa.codes.filter((x) => x !== h) }, fails: 0 });
+  } else if (ff.assertion && site && Array.isArray(m.keys)) {
+    const a = ff.assertion;
+    const key = m.keys.find((x) => x.id === a.id);
+    const cd = key && clientData(a.clientDataJSON, 'webauthn.get', t.ch, site);
+    const adRaw = cd && fromB64(a.authenticatorData);
+    const ad = adRaw && authData(adRaw);
+    const sig = fromB64(a.signature);
+    if (key && cd && ad && sig && (ad.flags & 0x01) && ad.rpIdHash.equals(createHash('sha256').update(site.rpId).digest())) {
+      const data = Buffer.concat([adRaw, createHash('sha256').update(cd).digest()]);
+      let ok = false;
+      try {
+        const pk = createPublicKey({ key: key.jwk, format: 'jwk' });
+        ok = key.alg === -8 ? cryptoVerify(null, data, pk, sig) : cryptoVerify('sha256', data, pk, sig);
+      } catch (e) { ok = false; }
+      const counted = !(key.n > 0 || ad.count > 0) || ad.count > key.n;
+      if (ok && counted) change = (x) => ({ ...x, mfa: { ...x.mfa, keys: x.mfa.keys.map((k) => (k.id === key.id ? { ...k, n: ad.count } : k)) }, fails: 0 });
+    }
+  }
+  if (!change) {
+    const after = await updateAccount(acct.handle, (a) => {
+      const fails = (a.lockUntil > now ? 0 : a.fails || 0) + 1;
+      return fails >= ACCT_TRIES ? { ...a, fails: 0, lockUntil: now + ACCT_LOCK } : { ...a, fails };
+    }, s);
+    return after && after.lockUntil > now ? { error: 'That was not it, and that was the last try for now: it is locked for fifteen minutes.', locked: true } : { error: 'That was not it. Try again, or use another step.' };
+  }
+  if (barredNow(acct, now)) return { error: barWords(acct.bar, now), barred: true };
+  const next = await updateAccount(acct.handle, (a) => (a.v === acct.v ? change(a) : null), s);
+  if (!next || next.v !== acct.v) return { error: 'That sign-on has run out. Start again with your password.' };
+  return { handle: next.handle, v: next.v, acct: next };
+}
 
 /* ── Kick, time out, ban: the desk's three ways to keep somebody off ─────
 

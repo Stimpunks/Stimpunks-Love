@@ -8546,3 +8546,170 @@ import { staffShut, lockedRoom as lockedRoomOf, MOD_ROOMS as STAFF_ROOMS } from 
     } finally { process.env.CB_STAFF_KEY = was; unloadMods(); }
   })));
 }
+
+/* ── Two-step sign-in (2026-10-26) ── */
+import { totpAt, base32, unbase32, totpStart, totpConfirm, passkeyStart, passkeyAdd, secondRemove, secondCodes, secondTicket, secondCheck,
+  hasSecond, staffNeedsSecond, shapeSecond, TWOFA_FROM, TOTP_STEP, BACKUP_CODES } from './lib.mjs';
+import { sign as nodeSign, createHash as hashOf, randomBytes as rb } from 'node:crypto';
+
+{
+  const SITE = { origin: 'https://stimpunks.world', rpId: 'stimpunks.world' };
+  const withKeys = async (fn) => {
+    const was = process.env.CB_STAFF_KEY;
+    process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+    try { await withPasswords(fn); } finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+  };
+  const who = (h) => ({ role: 'mobile', handle: h, roles: new Set(), account: true, since: 1 });
+  const codeNow = (secret, now) => totpAt(unbase32(secret), Math.floor(now / 1000 / TOTP_STEP));
+  // The little of CBOR a test authenticator needs to write.
+  const cb = (v) => {
+    const head = (major, n) => (n < 24 ? Buffer.from([(major << 5) | n]) : n < 256 ? Buffer.from([(major << 5) | 24, n]) : Buffer.from([(major << 5) | 25, n >> 8, n & 255]));
+    if (typeof v === 'number') return v >= 0 ? head(0, v) : head(1, -1 - v);
+    if (Buffer.isBuffer(v)) return Buffer.concat([head(2, v.length), v]);
+    if (typeof v === 'string') { const b = Buffer.from(v); return Buffer.concat([head(3, b.length), b]); }
+    if (v instanceof Map) return Buffer.concat([head(5, v.size), ...[...v].flatMap(([k, x]) => [cb(k), cb(x)])]);
+    throw new Error('cbor');
+  };
+  const rpHash = (rpId) => hashOf('sha256').update(rpId).digest();
+  function authenticator() {
+    const { privateKey, publicKey } = generateKeyPairSync('ec', { namedCurve: 'P-256' });
+    const jwk = publicKey.export({ format: 'jwk' });
+    const credId = rb(16);
+    const cose = new Map([[1, 2], [3, -7], [-1, 1], [-2, Buffer.from(jwk.x, 'base64url')], [-3, Buffer.from(jwk.y, 'base64url')]]);
+    let count = 0;
+    return {
+      id: credId.toString('base64url'),
+      create(options, site = SITE) {
+        const cd = Buffer.from(JSON.stringify({ type: 'webauthn.create', challenge: options.challenge, origin: site.origin }));
+        const flags = Buffer.from([0x41]);
+        const ad = Buffer.concat([rpHash(site.rpId), flags, Buffer.alloc(4), Buffer.alloc(16), Buffer.from([0, credId.length]), credId, cb(cose)]);
+        const att = cb(new Map([['fmt', 'none'], ['attStmt', new Map()], ['authData', ad]]));
+        return { clientDataJSON: cd.toString('base64url'), attestationObject: att.toString('base64url') };
+      },
+      get(options, site = SITE, n = ++count) {
+        const cd = Buffer.from(JSON.stringify({ type: 'webauthn.get', challenge: options.challenge, origin: site.origin }));
+        const c4 = Buffer.alloc(4); c4.writeUInt32BE(n);
+        const ad = Buffer.concat([rpHash(site.rpId), Buffer.from([0x05]), c4]);
+        const sig = nodeSign('sha256', Buffer.concat([ad, hashOf('sha256').update(cd).digest()]), privateKey);
+        return { id: credId.toString('base64url'), clientDataJSON: cd.toString('base64url'), authenticatorData: ad.toString('base64url'), signature: sig.toString('base64url') };
+      },
+    };
+  }
+
+  test('an authenticator app: set up with a code from it, asked for at sign-on, each code good once, and backup codes once each', () => withKeys(async () => {
+    const s = memoryStore({ etagOnRead: true });
+    await claimAccount('Ada', 'a long enough phrase', s, 1, null);
+    const start = await totpStart(who('Ada'), s, T0);
+    assert.ok(start.secret && start.uri.startsWith('otpauth://totp/Stimpunks.World%3AAda?secret='), 'the app was not given its secret');
+    assert.match((await totpConfirm(who('Ada'), start.setup, '000000', s, T0)).error, /not the code/);
+    const done = await totpConfirm(who('Ada'), start.setup, codeNow(start.secret, T0), s, T0);
+    assert.equal(done.codes.length, BACKUP_CODES, 'the first step came without its backup codes');
+    assert.equal(done.v, 2, 'adding a step did not sign the other devices off');
+    const acct = await readAccount('Ada', s);
+    assert.ok(hasSecond(acct) && !JSON.stringify(acct).includes(start.secret), 'the app\'s secret was kept in the clear');
+    const on = await signOn('Ada', 'a long enough phrase', new Map(), s, T0 + 60000);
+    assert.ok(on.second && !on.pass, 'a right password gave a pass without the second step');
+    const tk = secondTicket(on.acct, SITE, T0 + 60000);
+    assert.equal(tk.app, true);
+    const code = codeNow(start.secret, T0 + 60000);
+    const ok = await secondCheck(tk.ticket, { code }, SITE, s, T0 + 60000);
+    assert.equal(ok.handle, 'Ada', ok.error);
+    const tk2 = secondTicket(await readAccount('Ada', s), SITE, T0 + 61000);
+    assert.ok((await secondCheck(tk2.ticket, { code }, SITE, s, T0 + 61000)).error, 'one code worked twice');
+    const backup = done.codes[3];
+    assert.equal((await secondCheck(tk2.ticket, { code: backup.toLowerCase() }, SITE, s, T0 + 62000)).handle, 'Ada', 'a backup code did not work');
+    const tk3 = secondTicket(await readAccount('Ada', s), SITE, T0 + 63000);
+    assert.ok((await secondCheck(tk3.ticket, { code: backup }, SITE, s, T0 + 63000)).error, 'a backup code worked twice');
+    assert.ok((await secondCheck(tk3.ticket, { code: '123456' }, SITE, s, T0 + 63000 + 6 * 60000)).error, 'a ticket worked after it ran out');
+  }));
+
+  test('a passkey: made for this site only, its signature checked, its counter never going back', () => withKeys(async () => {
+    const s = memoryStore({ etagOnRead: true });
+    await claimAccount('Bex', 'a long enough phrase', s, 1, null);
+    const dev = authenticator();
+    const start = await passkeyStart(who('Bex'), SITE, s, T0);
+    assert.equal(start.options.rp.id, 'stimpunks.world');
+    const elsewhere = { origin: 'https://stimpunks.world.evil.example', rpId: 'evil.example' };
+    assert.ok((await passkeyAdd(who('Bex'), start.setup, dev.create(start.options, elsewhere), 'Phone', SITE, s, T0)).error, 'a passkey made for another site was taken');
+    const added = await passkeyAdd(who('Bex'), start.setup, dev.create(start.options), 'My phone', SITE, s, T0);
+    assert.ok(added.v, added.error);
+    assert.deepEqual(shapeSecond(added.acct).passkeys, [{ id: dev.id, name: 'My phone' }]);
+    assert.ok(!JSON.stringify(shapeSecond(added.acct)).includes('"x"'), 'a public key was sent to a page');
+    const on = await signOn('Bex', 'a long enough phrase', new Map(), s, T0 + 1000);
+    const tk = secondTicket(on.acct, SITE, T0 + 1000);
+    assert.deepEqual(tk.passkey.allowCredentials.map((x) => x.id), [dev.id]);
+    assert.ok((await secondCheck(tk.ticket, { assertion: dev.get(tk.passkey, elsewhere) }, SITE, s, T0 + 1000)).error, 'an answer for another site was taken');
+    assert.equal((await secondCheck(tk.ticket, { assertion: dev.get(tk.passkey, SITE, 5) }, SITE, s, T0 + 1000)).handle, 'Bex');
+    const tk2 = secondTicket(await readAccount('Bex', s), SITE, T0 + 2000);
+    assert.ok((await secondCheck(tk2.ticket, { assertion: dev.get(tk2.passkey, SITE, 4) }, SITE, s, T0 + 2000)).error, 'a passkey\'s counter went back and was taken');
+    const forged = dev.get(tk2.passkey, SITE, 9);
+    forged.signature = Buffer.alloc(70, 1).toString('base64url');
+    assert.ok((await secondCheck(tk2.ticket, { assertion: forged }, SITE, s, T0 + 2000)).error, 'a bad signature was taken');
+    // Taking it off needs the password, signs other devices off, and leaves no step.
+    assert.ok((await secondRemove(who('Bex'), 'wrong', dev.id, s, T0 + 3000)).error);
+    const off = await secondRemove(who('Bex'), 'a long enough phrase', dev.id, s, T0 + 3000);
+    assert.ok(off.v && !hasSecond(off.acct), off.error);
+    assert.ok((await signOn('Bex', 'a long enough phrase', new Map(), s, T0 + 4000)).account, 'with no step left, the password alone did not sign on');
+  }));
+
+  test('wrong second steps count as wrong passwords, and lock the username', () => withKeys(async () => {
+    const s = memoryStore({ etagOnRead: true });
+    await claimAccount('Cy', 'a long enough phrase', s, 1, null);
+    const start = await totpStart(who('Cy'), s, T0);
+    await totpConfirm(who('Cy'), start.setup, codeNow(start.secret, T0), s, T0);
+    const tk = secondTicket(await readAccount('Cy', s), SITE, T0 + 1000);
+    let last;
+    for (let i = 0; i < 5; i++) last = await secondCheck(tk.ticket, { code: '000001' }, SITE, s, T0 + 1000 + i);
+    assert.equal(last.locked, true, 'five wrong codes did not lock the username');
+    assert.match((await secondCheck(tk.ticket, { code: codeNow(start.secret, T0 + 2000) }, SITE, s, T0 + 2000)).error, /locked/, 'a right code got through a lock');
+  }));
+
+  test('a recovery code still asks for the second step; a moderator\'s reset code takes it off', () => withKeys(async () => {
+    const s = memoryStore({ etagOnRead: true });
+    const made = await claimAccount('Di', 'a long enough phrase', s, 1, null);
+    const start = await totpStart(who('Di'), s, T0);
+    await totpConfirm(who('Di'), start.setup, codeNow(start.secret, T0), s, T0);
+    const rec = await recoverAccount('Di', made.recovery, 'a brand new phrase', s, T0 + 1000);
+    assert.equal(rec.second, true, 'a recovery code got round the second step');
+    assert.ok(hasSecond(await readAccount('Di', s)));
+    const reset = await resetAccount('Di', s, T0 + 2000);
+    const back = await recoverAccount('Di', reset.code, 'another new phrase', s, T0 + 3000);
+    assert.equal(back.second, false, 'a moderator\'s reset left the second step on');
+    assert.ok(!hasSecond(await readAccount('Di', s)));
+  }));
+
+  test('staff need a second step from TWOFA_FROM: before it they are staff, after it a member until they set one up', () => withKeys(async () => {
+    const s = memoryStore({ etagOnRead: true });
+    const mods = readMods('{"Mo":["administrator"]}');
+    assert.ok((await claimAccount('Mo', 'a long enough phrase', s, 1, mods, true)).v);
+    const pass = issueAccountPass('Mo', 1, 'base');
+    const before = await readPass(reqWith(pass), mods, s, { now: TWOFA_FROM - 1000 });
+    assert.equal(before.role, 'base'); assert.equal(before.twostep, 'soon');
+    const after = await readPass(reqWith(pass), mods, s, { now: TWOFA_FROM + 1000 });
+    assert.equal(after.role, 'mobile', 'a staff pass with no second step was staff after the date');
+    assert.equal(after.twostep, 'needed'); assert.equal(after.swap, undefined, 'a member held back was handed a staff pass to swap to');
+    const signed = await signOn('Mo', 'a long enough phrase', mods, s, TWOFA_FROM + 1000);
+    assert.equal(signed.role, 'mobile'); assert.equal(signed.twostep, 'needed');
+    assert.equal(staffNeedsSecond(await readAccount('Mo', s), TWOFA_FROM + 1000), true);
+    // With a step, staff again.
+    const start = await totpStart(who('Mo'), s, T0);
+    const done = await totpConfirm(who('Mo'), start.setup, codeNow(start.secret, T0), s, T0);
+    const again = await readPass(reqWith(issueAccountPass('Mo', done.v, 'base')), mods, s, { now: TWOFA_FROM + 2000 });
+    assert.equal(again.role, 'base', 'a staff username with a second step was not staff');
+    assert.equal(again.twostep, undefined);
+  }));
+
+  test('without the staff key an authenticator app cannot be set up, and a passkey can', () => withPasswords(async () => {
+    const was = process.env.CB_STAFF_KEY;
+    delete process.env.CB_STAFF_KEY;
+    try {
+      const s = memoryStore({ etagOnRead: true });
+      await claimAccount('Eve', 'a long enough phrase', s, 1, null);
+      assert.match((await totpStart(who('Eve'), s, T0)).error, /cannot be set up just now/);
+      const dev = authenticator();
+      const start = await passkeyStart(who('Eve'), SITE, s, T0);
+      assert.ok((await passkeyAdd(who('Eve'), start.setup, dev.create(start.options), '', SITE, s, T0)).v);
+      assert.equal(shapeSecond(await readAccount('Eve', s)).passkeys[0].name, 'Passkey');
+    } finally { if (was !== undefined) process.env.CB_STAFF_KEY = was; }
+  }));
+}

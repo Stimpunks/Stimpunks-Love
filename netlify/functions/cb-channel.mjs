@@ -36,7 +36,7 @@ export default async (req) => {
   const rule = shapeRule(ch.rule), older = ch.messages.length > n;
   const v = createHash('sha256').update(JSON.stringify([messages, rule, older])).digest('base64url').slice(0, 22);
   const said = q.get('v') === v ? { same: true } : { messages };
-  return json(200, { room: room || null, ...said, v, older, rule, beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), roles: rolesOf(who), mention: mentionableRoles(who), ...swap });
+  return json(200, { room: room || null, ...said, v, older, rule, beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), roles: rolesOf(who), mention: mentionableRoles(who), ...(who.twostep ? { twostep: who.twostep } : {}), ...swap });
 };
 
 export const config = {

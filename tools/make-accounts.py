@@ -163,6 +163,33 @@ def main():
         problems.append(f"{LIB.name}: claiming writes {keys}; an account is the username, two hashes with "
                         "their salts, when it was claimed, a version and its lock, and an email address only "
                         "as recoveryBox sealed it, and nothing else.")
+    # TWO-STEP SIGN-IN (Ryan's calls, 2026-10-26): the app's secret only sealed,
+    # a passkey only its id, public key, algorithm, counter and name, nothing
+    # secret to a page, a wrong step counted as a wrong password, and staff
+    # without a step a member from TWOFA_FROM. The friendly edits are an app
+    # secret kept in the clear "so it can be shown again", and staff let through
+    # without a step "for a few more days".
+    def fn_of(name):
+        m2 = re.search(r"(?:export )?(?:async )?function " + name + r"\(.*?\n\}", lib, re.S)
+        return m2.group(0) if m2 else ""
+    if "m.totp = sealJsonWith(k, 'staff', totpName(acct.handle)" not in fn_of("totpConfirm"):
+        problems.append(f"{LIB.name}: totpConfirm keeps the authenticator app's secret without sealing it.")
+    if "m.keys = [...m.keys, { id, jwk: key.jwk, alg: key.alg, n: ad.count, name: label }]" not in fn_of("passkeyAdd"):
+        problems.append(f"{LIB.name}: passkeyAdd keeps more about a passkey than its id, public key, algorithm, counter and name.")
+    shape = fn_of("shapeSecond")
+    # Only whether the app is on, the passkeys' ids and names, and how many backup codes are left.
+    if re.search(r"jwk|totp|csalt|codes|secret", shape.replace("!!m.totp", "").replace("(m.codes || []).length", "").replace("codesLeft", "")):
+        problems.append(f"{LIB.name}: shapeSecond sends a page something secret about the second step.")
+    if "ACCT_TRIES" not in fn_of("secondCheck"):
+        problems.append(f"{LIB.name}: a wrong second step does not count as a wrong password.")
+    if "staffNeedsSecond(acct, now)" not in fn_of("readPass") or not re.search(r"export const TWOFA_FROM = Date\.UTC\(", lib):
+        problems.append(f"{LIB.name}: readPass no longer holds staff without a second step to a member's pass after TWOFA_FROM.")
+    if "if (hasSecond(acct)) return { second: true, acct };" not in fn_of("signOn"):
+        problems.append(f"{LIB.name}: signOn gives a pass to an account with a second step on its password alone.")
+    if "if (byReset && !byCode && !byMail) delete n.mfa;" not in fn_of("recoverAccount") or "second: hasSecond(next)" not in fn_of("recoverAccount"):
+        problems.append(f"{LIB.name}: recovery gets round the second step, or a moderator's reset no longer takes it off.")
+    if 'id="two-step"' not in (ROOT / "privacy.html").read_text():
+        problems.append("privacy.html has no #two-step saying what two-step sign-in keeps.")
     m = re.search(r"async function recoveryBox\(.*?\n\}", lib, re.S)
     if not m or "seal({ email: to })" not in m.group(0):
         problems.append(f"{LIB.name}: recoveryBox does not seal the address. An email address is kept only sealed.")

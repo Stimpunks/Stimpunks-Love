@@ -457,6 +457,16 @@
   </ul>
   <p>We keep your account because you asked us to, so that your username is yours; joining is your consent, giving an address is your consent to that too, and deleting your username takes both back.</p>
 
+  <h2 id="two-step">Two-step sign-in</h2>
+  <p>Since 2026-10-26, Ryan&rsquo;s call, <strong>anybody with a username can turn on two-step sign-in</strong> under <b>Account</b>: after your password, signing on asks for a six-digit code from an authenticator app on your phone, or a passkey (your fingerprint, your face or the screen lock on your device). <strong>From 2 November 2026 it is required for our moderators and staff</strong>; a staff username without it is on the CB as an ordinary member, with nothing else shut, until it is set up. Somebody who learns your password still cannot sign on as you.</p>
+  <ul>
+    <li><strong>What we keep, on your username&rsquo;s record and nowhere else.</strong> For an authenticator app, its secret, sealed at rest with the staff key, and the last half-minute a code was used in, so each code works once. For each passkey, its credential&rsquo;s id, its public key, which kind it is, its signature counter and the name you gave it; never your fingerprint or your face, which never leave your device, and nothing that could sign on as you. Your backup codes, each kept only as a scrambled form of it, each good once. Nothing about when any of it was added.</li>
+    <li><strong>The QR code is drawn in your browser</strong>, from the key, so the key never goes to anybody else to be turned into a picture. The key is shown to you once, to put into your app, and not again.</li>
+    <li><strong>Signing on.</strong> Your password earns a ticket good for five minutes, and the second step is checked against it; nothing is stored for it. A wrong code counts as a wrong password, and five lock the username for fifteen minutes.</li>
+    <li><strong>Adding or taking off a step signs every other device off.</strong> Taking one off, and new backup codes, ask for your password.</li>
+    <li><strong>If you lose your steps.</strong> A backup code signs you on once. Your recovery code, or a reset code we email you, changes your password and still asks for the second step. A reset code from a moderator takes the second step off, because the moderator has made sure who they are talking to.</li>
+  </ul>
+
   <h2 id="the-shelter">The shelters, and your pets</h2>
   <p><a href="rescue-a-cat.html">Rescue A Cat</a>, <a href="rescue-a-dog.html">Rescue A Dog</a> and <a href="rescue-small-animals.html">Rescue Small Animals</a> are shelters where animals turn up at random, and the first person signed on to the CB to press brings one in and can name them. Anybody signed on can adopt one, who then lives in the <strong>Profile</strong> on their radio. Both are part of the CB.</p>
   <ul>

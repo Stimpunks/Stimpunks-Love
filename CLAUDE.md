@@ -4649,6 +4649,25 @@ server still keeps `claimed` on a message, because Take off and Edit read it: `c
 read the pass once when they load**, so a room left open while somebody claims says *this username has
 been signed off* on its next press, and a reload fixes it.
 
+**TWO-STEP SIGN-IN: ANYBODY MAY, STAFF MUST FROM 2 NOVEMBER 2026, AND A STAFF USERNAME WITHOUT IT IS A MEMBER, NOT
+SHUT OUT.** Ryan's ask and calls, 2026-10-26: an authenticator app (TOTP, RFC 6238) or a passkey (WebAuthn) after
+the password, with ten backup codes; `TWOFA_FROM` in `lib.mjs`, a week's grace. `readPass`, `signOn` and
+`accountAnswer` read a staff username with no step after that date as an ordinary member (`twostep: 'needed'`, no
+swap), and the radio says so in You (`twostepShown`); before it, `twostep: 'soon'`. The record is `mfa` on the
+account: the app's secret sealed with the staff key under its own name (`totpName`), the last step used (each code
+once), each passkey's id, public key (a JWK), algorithm, counter and the name its owner gave it, and the backup codes
+as salted hashes; nothing about when. **Signing on is stateless**: a right password on an account with a step
+answers `second`, a ticket good for five minutes signed with a key made from the community password, checked by
+`secondCheck`, where a wrong step counts as a wrong password. A recovery code or an emailed code changes the
+password and still asks the step; **a moderator's reset code takes the step off**, the way back for somebody who has
+lost every step. Adding or taking off a step moves the version. `twostep.js` is the browser's half, loaded only when
+needed by `cb.js` and `guest.js`: the second step at sign-on, making and using passkeys (`make-csp.py` lets only it
+ask the browser, and the Permissions-Policy gives `publickey-credentials-*` to self alone), and **a QR code drawn in
+the browser** from the otpauth address, written for this file and checked with the browser's own BarcodeDetector,
+so the secret never goes anywhere to be drawn. `make-accounts.py` holds the record and the rules. The friendly edits
+are an app secret kept in the clear "so it can be shown again", SMS codes, staff let through without a step "for a
+few more days", and a QR code from a web service.
+
 **THE MODERATORS' DESK LISTS EVERYBODY, AND CAN KICK, TIME OUT AND BAN.** Ryan's ask and calls,
 2026-10-22, after moderators asked for it for safeguarding: what we could tell at a glance if we were
 all in one room, the way Discord lists a server's members. **It reverses "there is no list of

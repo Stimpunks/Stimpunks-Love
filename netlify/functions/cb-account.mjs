@@ -15,8 +15,17 @@
      { action: 'email', password, email }   set, change or take off (empty)
                                          the address for recovery
      { action: 'delete', password }      delete the account and its pets
+   Two-step sign-in (lib.mjs), each answering a new pass for this device, and
+   backup codes shown once when the first step goes on:
+     { action: 'app-start' }              a secret for an authenticator app
+     { action: 'app-confirm', setup, code }   it goes on, with a code from the app
+     { action: 'key-start' }              the options a browser makes a passkey with
+     { action: 'key-add', setup, cred, name }  it goes on
+     { action: 'second-off', password, what }  'app', a passkey's id, or 'all'
+     { action: 'second-codes', password }      new backup codes, the old ones gone
    Nothing a person types is ever logged, passwords and addresses above all. */
 import { readPass, readAccount, claimAccount, changePassword, checkPassword, deleteAccount, accountAnswer,
+  shapeSecond, totpStart, totpConfirm, passkeyStart, passkeyAdd, secondRemove, secondCodes, webauthnSite,
   shapeAccount, accountEmail, setAccountEmail, emailOn, readMods, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
@@ -25,7 +34,9 @@ export default async (req) => {
   if (!who) return json(401, { error: 'signed off' });
   if (req.method === 'GET') {
     const a = await readAccount(who.handle);
-    return json(200, { ...shapeAccount(a), base: who.role === 'base', email: who.account ? accountEmail(a) : null, emailOn: emailOn() });
+    const staff = who.role === 'base' || who.twostep === 'needed';
+    return json(200, { ...shapeAccount(a), base: who.role === 'base', email: who.account ? accountEmail(a) : null, emailOn: emailOn(),
+      ...(a ? { second: shapeSecond(a, Date.now(), staff) } : {}) });
   }
   const b = (await body(req)) || {};
   try {
@@ -46,6 +57,33 @@ export default async (req) => {
       const r = await changePassword(who.handle, b.old, b.password);
       if (r.error) return json(r.locked ? 423 : 400, { error: r.error });
       return json(200, accountAnswer(who.handle, r.v));
+    }
+    // Two-step sign-in: each change answers this device a new pass, because it
+    // moved the account's version and signed every other device off.
+    const stepped = (r) => json(200, { ...accountAnswer(who.handle, r.v, undefined, r.acct), second: shapeSecond(r.acct, Date.now(), true), ...(r.codes ? { codes: r.codes } : {}) });
+    if (b.action === 'app-start') {
+      const r = await totpStart(who);
+      return r.error ? json(400, r) : json(200, r);
+    }
+    if (b.action === 'app-confirm') {
+      const r = await totpConfirm(who, b.setup, b.code);
+      return r.error ? json(400, r) : stepped(r);
+    }
+    if (b.action === 'key-start') {
+      const r = await passkeyStart(who, webauthnSite(req));
+      return r.error ? json(400, r) : json(200, r);
+    }
+    if (b.action === 'key-add') {
+      const r = await passkeyAdd(who, b.setup, b.cred, b.name, webauthnSite(req));
+      return r.error ? json(400, r) : stepped(r);
+    }
+    if (b.action === 'second-off') {
+      const r = await secondRemove(who, b.password, typeof b.what === 'string' ? b.what : '');
+      return r.error ? json(r.locked ? 423 : 400, r) : stepped(r);
+    }
+    if (b.action === 'second-codes') {
+      const r = await secondCodes(who, b.password);
+      return r.error ? json(r.locked ? 423 : 400, r) : json(200, r);
     }
     if (b.action === 'delete') {
       const ok = await checkPassword(who.handle, b.password);

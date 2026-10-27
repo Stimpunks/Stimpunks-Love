@@ -7,7 +7,7 @@
    { action: 'email', handle, email } asks for a reset code by email, and is
    answered the same whether or not that username has that address on it
    (mailResetCode), so it tells nobody anything about anybody's address. */
-import { recoverAccount, mailResetCode, accountAnswer, cleanHandle, json, body, sameSite } from '../cb/lib.mjs';
+import { recoverAccount, mailResetCode, accountAnswer, secondTicket, webauthnSite, cleanHandle, json, body, sameSite } from '../cb/lib.mjs';
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'This desk only answers stimpunks.world.' });
@@ -22,9 +22,12 @@ export default async (req) => {
     }
     const r = await recoverAccount(handle, b.code, b.password);
     if (r.error) return json(r.locked ? 423 : 400, { error: r.error });
+    // An account with a second step still asks for it: the password changed,
+    // and the pass comes after the step (two-step sign-in in lib.mjs).
+    if (r.second) return json(200, { recovery: r.recovery, second: secondTicket(r.acct, webauthnSite(req)), handle: r.handle });
     // A moderator who recovers comes back as the base, with the roles the list
     // gives them now.
-    return json(200, { ...accountAnswer(r.handle, r.v), recovery: r.recovery });
+    return json(200, { ...accountAnswer(r.handle, r.v, undefined, r.acct), recovery: r.recovery });
   } catch (e) {
     return json(503, { error: 'The desk is busy. Try again in a moment. Nothing was changed.' });
   }

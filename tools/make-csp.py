@@ -207,6 +207,23 @@ if set(sharers) - SHARERS:
     print("web-share was turned on for the sticker drawer. Add the script to SHARERS on")
     print("purpose, with its reason beside it, if another room really needs it.")
     sys.exit(2)
+# PASSKEYS ARE SELF'S AND ONE SCRIPT'S (two-step sign-in, 2026-10-26): making
+# and using a passkey is given to this site and to no frame, and only
+# twostep.js asks the browser for one, so a second use is a decision here.
+PASSKEYERS = {"twostep.js"}
+for feat in ("publickey-credentials-create", "publickey-credentials-get"):
+    m = re.search(r"(?:^|, )" + feat + r"=\(([^)]*)\)", pp.group(1))
+    if not m or m.group(1).split() != ["self"]:
+        print(f"REFUSING: {feat} in the Permissions-Policy is ({m.group(1) if m else 'missing'}).")
+        print("It is self and nothing else: two-step sign-in makes and uses passkeys on this")
+        print("site, and no frame of anybody else's is given it.")
+        sys.exit(2)
+keyers = sorted(str(p.relative_to(ROOT)) for p in ROOT.rglob("*.js")
+                if p.relative_to(ROOT).parts[0] not in SKIP and re.search(r"navigator\.credentials\.(?:create|get)\b", p.read_text(errors="replace")))
+if set(keyers) - PASSKEYERS:
+    print("REFUSING: a script of ours asks the browser for a passkey that is not in PASSKEYERS:")
+    for a2 in sorted(set(keyers) - PASSKEYERS): print("  " + a2)
+    sys.exit(2)
 hdr.write_text(new)
 print(f"csp: sha256-{digest}  ({len(pages)} pages, 1 snippet)\n     frame-src 'self' blob: " + origins + "  (read from love-embed.js)"
       + "\n     media-src 'self' " + media + "  (read from love-embed.js)")

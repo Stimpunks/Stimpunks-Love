@@ -255,18 +255,55 @@
     p4.appendChild(link('/privacy.html#cb', 'what the CB keeps'));
     p4.appendChild(document.createTextNode('. Until you sign on, this bar sends nothing and knows nothing about the channel.'));
 
+    function signon(payload) {
+      return fetch('/cb/signon', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      });
+    }
+    // Signed on: the pass kept, and the radio in place of this bar.
+    function took(b) {
+      try {
+        localStorage.setItem('love-cb', JSON.stringify({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true }));
+      } catch (x) { said.textContent = 'This browser will not keep the pass, so the radio cannot stay on. A private window does that.'; return; }
+      keep(false);
+      host.remove();
+      if (window.loveRadio) window.loveRadio();
+    }
+    /* TWO-STEP SIGN-IN (2026-10-26): a username with a second step answers its
+       password with `second`, and twostep.js asks for the step here, loaded
+       only now. */
+    var secondBox = el('div', 'cb-second');
+    function secondStep(second) {
+      password.value = '';
+      said.textContent = '';
+      form.hidden = true;
+      form.after(secondBox);
+      var go = function () {
+        window.loveTwoStep.run(secondBox, second, signon, { id: 'cb-guest-second' }).then(took, function () {
+          secondBox.remove(); form.hidden = false;
+          said.textContent = 'That sign-on ran out. Sign on again with your password.';
+          password.focus();
+        });
+      };
+      if (window.loveTwoStep) { go(); return; }
+      var sc = document.createElement('script');
+      sc.src = '/twostep.js';
+      sc.addEventListener('load', go);
+      sc.addEventListener('error', function () { form.hidden = false; said.textContent = 'The second step could not be loaded just now. Try again in a moment.'; });
+      document.head.appendChild(sc);
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       said.textContent = 'Checking\u2026';
       send.disabled = true;
-      fetch('/cb/signon', {
-        method: 'POST', credentials: 'omit', cache: 'no-store',
-        headers: { 'accept': 'application/json', 'content-type': 'application/json' },
-        body: JSON.stringify({ handle: handle.value, password: password.value }),
-      }).then(function (r) {
-        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
-      }).then(function (r) {
+      signon({ handle: handle.value, password: password.value }).then(function (r) {
         send.disabled = false;
+        if (r.status === 200 && r.body.second) { secondStep(r.body.second); return; }
         if (r.status === 200 && r.body.claim) {
           password.value = '';
           said.textContent = r.body.handle + ' is a moderator\u2019s username, and has not been claimed yet. Claim it on ';
@@ -276,12 +313,7 @@
         }
         if (r.status === 200 && r.body.pass) {
           password.value = '';
-          try {
-            localStorage.setItem('love-cb', JSON.stringify({ handle: r.body.handle, pass: r.body.pass, base: !!r.body.base, roles: r.body.roles || [], claimed: true, folded: false, aloud: true }));
-          } catch (x) { said.textContent = 'This browser will not keep the pass, so the radio cannot stay on. A private window does that.'; return; }
-          keep(false);
-          host.remove();
-          if (window.loveRadio) window.loveRadio();
+          took(r.body);
           return;
         }
         if (r.status === 429) { said.textContent = 'Too many tries from here in a minute. Wait a moment and try again.'; return; }
