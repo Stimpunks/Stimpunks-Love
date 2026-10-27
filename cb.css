@@ -1570,6 +1570,21 @@ ol.cb-md-list { list-style: decimal; }
 }
 .cb-send-row { justify-content: flex-end; margin-top: 8px; }
 .cb-hint { margin: 4px 0 0; font-size: 12px; color: var(--cb-steel); }
+/* HELP UNDER ITS OWN NAME (cb.js, helpFold): what the box needs every time
+   in sight, and a button saying what else there is, which opens it in place
+   under it. The button is a link's amber on the case, the pair every link on
+   the radio already is, with a triangle that turns as a group's name does on
+   the chat page, and it is the hint's size so it sits in the line. */
+.cb-help-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.cb-help-more { margin-top: 2px; }
+.cb-help-more[hidden] { display: none; }
+button.cb-help-btn {
+  font: inherit; color: var(--cb-amber); background: none; border: 0; padding: 2px 0; margin: 0; min-height: 24px;
+  text-decoration: underline; text-underline-offset: 2px; cursor: pointer; text-align: left;
+}
+button.cb-help-btn::before { content: '\25B8\00a0'; display: inline-block; text-decoration: none; }
+button.cb-help-btn[aria-expanded="true"]::before { content: '\25BE\00a0'; }
+button.cb-help-btn[hidden] { display: none; }
 .cb-said:empty { display: none; }
 .cb-tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .cb-norms { font-size: 13px; }
@@ -1874,9 +1889,11 @@ ol.cb-md-list { list-style: decimal; }
 /* What the room is about, which can be a paragraph: three lines at most here,
    and all of it to a screen reader, which is never clamped. */
 .cb-chat-about {
-  overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3;
+  overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; line-clamp: 1;
 }
+.cb-chat-about--open { display: block; -webkit-line-clamp: none; line-clamp: none; }
 .cb-chat-about[hidden] { display: none; }
+.cb-chat-go { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
 /* THE CHANNELS. Each a link in the case's steel; the one picked in the
    readout's amber on its black, as a pressed button is the other way round;
    one with something new in bold, beside its dot. A group's name is a button
@@ -2000,6 +2017,53 @@ mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-deco
   .cb-radio--chat .cb-dm-talk > .cb-dm-state, .cb-radio--chat .cb-dm-talk > .cb-dm-tx, .cb-radio--chat .cb-dm-talk > .cb-dm-block { align-self: stretch; }
   .cb-radio--chat .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 10rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
   .cb-radio--chat .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
+}
+
+/* ENLARGED (cb.js, setBig; Ryan's ask, 2026-10-27): the radio lifted out of
+   the page into a box over it, a lightbox's, at every width: the bar and the
+   middle column and nothing else, the search box only while a search is held,
+   as wide as reads well and as tall as the window less a margin, the page
+   dimmed behind. Enlarge the chat is on the bar only on the chat page and
+   there it wears the bar's own buttons' clothes, so no pair here is new; the
+   dim is black over the page, carries nothing and is aria-hidden. Level with
+   the chat page's own rules above, and after them, so these win. The middle
+   column's rules are the wide chat page's, again, so they hold on a phone. */
+.cb-big-btn, .cb-big-dim { display: none; }
+.cb-radio--chat .cb-big-btn { display: inline-flex; }
+.cb-radio--chat.cb-radio--big, .cb-radio--chat.cb-radio--big.cb-radio--full:not(.cb-radio--folded) {
+  position: fixed; z-index: 88; top: 12px; bottom: 12px; left: 12px; right: 12px;
+  width: min(calc(100% - 24px), 72rem); height: auto; min-height: 0; max-height: none; margin: 0 auto;
+}
+.cb-big-dim--on { display: block; position: fixed; inset: 0; z-index: 87; background: rgb(0 0 0 / .7); }
+.cb-radio--big .cb-set--parts > .cb-col--a, .cb-radio--big .cb-set--parts > .cb-col--c,
+.cb-radio--big .cb-set--parts > .cb-col--d, .cb-radio--big .cb-sec--search:not(.cb-sec--searching) { display: none; }
+.cb-radio--chat.cb-radio--big.cb-radio--full:not(.cb-radio--folded) .cb-set--parts {
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 0; padding: 0; overflow: hidden;
+}
+.cb-radio--chat.cb-radio--big .cb-set--parts > .cb-col--b {
+  display: flex; flex-direction: column; gap: 16px; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 12px 16px 16px;
+}
+.cb-radio--big .cb-col--b > .cb-sec--search, .cb-radio--big .cb-col--b > .cb-sec--events { flex: none; }
+.cb-radio--big .cb-col--b > .cb-sec--channel,
+.cb-radio--big .cb-col--b > .cb-sec--dm,
+.cb-radio--big .cb-col--b > .cb-sec--search.cb-sec--searching { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.cb-radio--big .cb-sec--channel > *, .cb-radio--big .cb-lcd > *, .cb-radio--big .cb-sec--dm > *, .cb-radio--big .cb-dm > *,
+.cb-radio--big .cb-dm-talk > *, .cb-radio--big .cb-sec--searching > *, .cb-radio--big .cb-search-res > * { flex: none; }
+.cb-radio--big .cb-sec--channel > .cb-lcd { flex: 1 1 0; min-height: 12rem; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.cb-radio--big .cb-lcd > .cb-log { flex: 1 1 0; min-height: 8rem; max-height: none; }
+.cb-radio--big .cb-sec--dm > .cb-dm { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+.cb-radio--big .cb-dm > .cb-dm-inbox { flex: 1 1 0; min-height: 0; overflow-y: auto; align-content: start; }
+.cb-radio--big .cb-dm > .cb-dm-talk { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.cb-radio--big .cb-dm-talk > .cb-dm-state, .cb-radio--big .cb-dm-talk > .cb-dm-tx, .cb-radio--big .cb-dm-talk > .cb-dm-block { align-self: stretch; }
+.cb-radio--big .cb-dm-talk > .cb-dm-lcd { flex: 1 1 0; min-height: 10rem; align-self: stretch; display: flex; flex-direction: column; overflow-y: auto; }
+.cb-radio--big .cb-dm-lcd > .cb-dm-log { flex: 1 1 0; max-height: none; }
+.cb-radio--big .cb-sec--searching > .cb-search-res { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.cb-radio--big .cb-search-res > .cb-hits { flex: 1 1 0; min-height: 10rem; overflow-y: auto; }
+@media (max-width: 599.98px) {
+  .cb-radio--chat.cb-radio--big, .cb-radio--chat.cb-radio--big.cb-radio--full:not(.cb-radio--folded) {
+    top: 0; bottom: 0; left: 0; right: 0; width: 100%; border-width: 0; border-radius: 0;
+  }
+  .cb-radio--big .cb-bar { border-radius: 0; }
 }
 
 /* EVENTS (cb.js, evMake; Ryan's ask, 2026-10-23, after Discord's Scheduled

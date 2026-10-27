@@ -1306,6 +1306,31 @@
     fold.type = 'button';
     fold.setAttribute('aria-controls', 'cb-set');
     bar.appendChild(fold);
+    /* ENLARGE THE CHAT (Ryan's ask, 2026-10-27, once Search had made the
+       messages short): on the chat page only, where the bar has room because
+       nothing moves, sizes or folds there. It lifts the radio out of the page
+       into a box over it, the page dimmed behind, with only the middle column
+       in it: the channel, a conversation, Events or a search's results, and
+       the search box only while a search is held. Back into the page, Escape
+       or a press on the dim puts it back. Nothing is kept: CHAT_OWN's rule,
+       the chat page writes no layout of its own into love-cb. See setBig. */
+    if (chat) {
+      var big = this.bigBtn = el('button', 'cb-btn cb-big-btn', 'Enlarge the chat');
+      big.type = 'button';
+      big.addEventListener('click', function () { me.setBig(!me.big); });
+      bar.appendChild(big);
+      var dim = this.bigDim = el('div', 'cb-big-dim');
+      dim.setAttribute('aria-hidden', 'true');
+      dim.addEventListener('click', function () { me.setBig(false); me.bigBtn.focus(); });
+      box.addEventListener('keydown', function (e) {
+        if (!me.big || e.key !== 'Escape' || e.defaultPrevented || e.isComposing) return;
+        // A field's own Escape (a search box clears itself) is the field's.
+        if (e.target && e.target.matches && e.target.matches('input, select')) return;
+        e.preventDefault();
+        me.setBig(false);
+        me.bigBtn.focus();
+      });
+    }
     box.appendChild(bar);
     /* THE TRIMS: a band under the bar and one at the foot, where a theme with a
        drawing draws it (cb-themes.js). Empty and hidden for every other theme,
@@ -1757,7 +1782,8 @@
     var say = this.say = el('textarea', 'cb-say cb-say--msg');
     say.id = 'cb-say';
     say.maxLength = MESSAGE_MAX;
-    say.setAttribute('aria-describedby', 'cb-say-hint');
+    var hint = helpFold('cb-say-hint', enterHint('Transmit', 'sends'), 'Writing help', 'Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, # and a room, or [[ and part of a name to link a forum topic, or for staff a task or a record of the office. Paste a picture to add it.');
+    say.setAttribute('aria-describedby', hint.cbIds);
     say.autocomplete = 'off';
     sendBox(say, 'send');
     /* THE COMPLETION LIST, the ARIA combobox pattern. Typing # and a letter
@@ -1830,13 +1856,11 @@
     ready.appendChild(alt);
     ready.appendChild(drop);
     /* REPLYING TO, between the picture waiting to go and the box. */
-    var reB = this.reBar = reBar('cb-re-line', 'cb-say-hint', function () { me.replyStop(); say.focus(); });
+    var reB = this.reBar = reBar('cb-re-line', hint.cbIds, function () { me.replyStop(); say.focus(); });
     this.replying = null;
     // In the form, hidden: a file input outside the document is one some
     // browsers will not open a picker for.
     form.appendChild(picFile);
-    var hint = el('p', 'cb-hint', enterHint('Transmit', 'sends') + ' Markdown works: **bold**, *italic*, `code`, # headings, > quotes, - lists and [words](address). Type @ and a name to mention somebody, # and a room, or [[ and part of a name to link a forum topic, or for staff a task or a record of the office. Paste a picture to add it.');
-    hint.id = 'cb-say-hint';
     /* The picture waiting to go is above the box, where Discord puts one:
        you see it, say what is in it, write the message and send, in that
        order, top to bottom and in the keyboard's order too. */
@@ -4671,15 +4695,42 @@
     var h = this.chanH = chanSec.querySelector(':scope > .cb-h');
     h.tabIndex = -1;
     var head = el('div', 'cb-chat-head');
-    this.chatAbout = el('p', 'cb-chat-about');
+    var about = this.chatAbout = el('p', 'cb-chat-about');
+    about.id = 'cb-chat-about';
     var go = el('p', 'cb-chat-go');
     this.chatGoLink = el('a');
     go.appendChild(this.chatGoLink);
-    head.appendChild(this.chatAbout);
+    /* MORE (Ryan's ask, 2026-10-27): what the room is about is one line here,
+       and More, beside the way into the room, shows the rest, only while
+       there is more to show. A screen reader reads it all, clamped or not.
+       A new channel starts at one line again. See chatAboutFit. */
+    var more = this.chatAboutMore = el('button', 'cb-help-btn cb-chat-more', 'More');
+    more.type = 'button';
+    more.hidden = true;
+    more.setAttribute('aria-expanded', 'false');
+    more.setAttribute('aria-controls', 'cb-chat-about');
+    more.setAttribute('aria-label', 'More of what the room is about');
+    more.addEventListener('click', function () {
+      var open = !about.classList.contains('cb-chat-about--open');
+      about.classList.toggle('cb-chat-about--open', open);
+      more.setAttribute('aria-expanded', String(open));
+      more.textContent = open ? 'Less' : 'More';
+      more.setAttribute('aria-label', (open ? 'Less' : 'More') + ' of what the room is about');
+    });
+    go.appendChild(more);
+    head.appendChild(about);
     head.appendChild(go);
     h.insertAdjacentElement('afterend', head);
+    if (window.ResizeObserver) new ResizeObserver(function () { me.chatAboutFit(); }).observe(about);
     if (CHAT_WIDE && CHAT_WIDE.addEventListener) CHAT_WIDE.addEventListener('change', function () { me.chatOpen(false); });
     this.chatOpen(false);
+  };
+
+  // More is there only while the line is cut short, or open.
+  Radio.prototype.chatAboutFit = function () {
+    var a = this.chatAbout, more = this.chatAboutMore;
+    if (!more || a.classList.contains('cb-chat-about--open')) return;
+    more.hidden = a.hidden || a.scrollHeight <= a.clientHeight + 1;
   };
 
   Radio.prototype.chatWide = function () { return !CHAT_WIDE || CHAT_WIDE.matches; };
@@ -4858,6 +4909,27 @@
     return false;
   };
 
+  /* ENLARGED OR IN THE PAGE (see the bar's Enlarge the chat). The host keeps
+     the height the radio had, so the page does not close up under it while
+     it is out and is where it was when it comes back; a log that was at its
+     newest message is at its newest message again at the new size. */
+  Radio.prototype.setBig = function (on) {
+    if (!this.bigBtn || !!on === !!this.big) return;
+    var logs = [this.log, this.dmLog].filter(function (l) {
+      return l && !l.hidden && l.scrollHeight - l.scrollTop - l.clientHeight < 24;
+    });
+    if (on) this.host.style.minHeight = this.box.offsetHeight + 'px';
+    else this.host.style.minHeight = '';
+    // The dim stands behind the box rather than in it, so the box's own
+    // ground is never under it and a press on the box never reaches it.
+    if (!this.bigDim.parentNode) this.box.parentNode.insertBefore(this.bigDim, this.box);
+    this.big = !!on;
+    this.box.classList.toggle('cb-radio--big', this.big);
+    this.bigDim.classList.toggle('cb-big-dim--on', this.big);
+    this.bigBtn.textContent = this.big ? 'Back into the page' : 'Enlarge the chat';
+    logs.forEach(function (l) { l.scrollTop = l.scrollHeight; });
+  };
+
   /* A conversation, or All messages, in the middle: the channel steps out of
      the way and the Messages part takes its place. The channel's radio goes
      on listening, as it does with Messages open anywhere, and its messages are
@@ -4980,7 +5052,7 @@
     box.spellcheck = false;
     box.maxLength = 400;
     box.setAttribute('enterkeyhint', 'search');
-    box.setAttribute('aria-describedby', 'cb-search-hint');
+    box.setAttribute('aria-describedby', 'cb-search-hint-more');
     var go = el('button', 'cb-btn', 'Search');
     go.type = 'submit';
     var fb = this.searchFiltersBtn = el('button', 'cb-btn', 'Filters');
@@ -5009,8 +5081,8 @@
     row.appendChild(br);
     row.appendChild(cs);
     row.appendChild(fb);
-    var hint = el('p', 'cb-quiet cb-search-hint', SEARCH_HINT);
-    hint.id = 'cb-search-hint';
+    var hint = helpFold('cb-search-hint', '', 'How to search', SEARCH_HINT);
+    hint.classList.add('cb-search-hint');
     form.appendChild(lab);
     form.appendChild(row);
     form.appendChild(hint);
@@ -5401,10 +5473,15 @@
     this.chanH.textContent = '';
     if (!world) { var hash = el('span', 'cb-chan-hash', '#'); hash.setAttribute('aria-hidden', 'true'); this.chanH.appendChild(hash); }
     this.chanH.appendChild(document.createTextNode(world ? 'World' : room.name));
-    this.chatAbout.textContent = world
+    var aboutNow = world
       ? 'The whole street’s channel, heard by everybody tuned to World, whichever room they are in.'
       : room.about || (room.forum ? 'A category in the forums, and its channel.' : '');
-    this.chatAbout.hidden = !this.chatAbout.textContent;
+    if (aboutNow !== this.chatAbout.textContent) {
+      this.chatAbout.textContent = aboutNow;
+      this.chatAbout.hidden = !aboutNow;
+      if (this.chatAbout.classList.contains('cb-chat-about--open')) this.chatAboutMore.click();
+      this.chatAboutFit();
+    }
     this.chatGoLink.href = room.path;
     this.chatGoLink.textContent = world ? 'Go to the World room' : room.forum ? 'Go to ' + room.name + ' in the forums' : 'Go to ' + room.name;
     this.chatToggle.textContent = 'Channels: ' + (evView ? 'Events' : dmView ? (with_ ? 'messages with ' + with_ : 'All messages') : world ? 'World' : '#' + room.name);
@@ -7909,6 +7986,39 @@
   /* The bar above a message box while a reply is being written: whose message
      and its first words, and Cancel reply. The box's description names them
      too, so a screen reader hears who you are answering on the box itself. */
+  /* HELP FOLDED UNDER ITS OWN NAME (Ryan's ask, 2026-10-27, to give the
+     chat back its height): what a box needs every time stays in sight, `said`
+     (Enter sends), and the rest is under a button that says what it holds,
+     `label`, opening in place under it, not a tooltip and not an icon, so it
+     works on a phone, with a keyboard and with a screen reader. The box keeps
+     both in its description, `id` and `id`-more, which a screen reader reads
+     folded or not. Every load starts folded and nothing remembers it. */
+  function helpFold(id, said, label, more) {
+    var wrap = el('div', 'cb-help');
+    var line = el('p', 'cb-hint cb-help-line');
+    if (said) {
+      var s = el('span', null, said);
+      s.id = id;
+      line.appendChild(s);
+      line.appendChild(document.createTextNode(' '));
+    }
+    var b = el('button', 'cb-help-btn', label);
+    b.type = 'button';
+    b.setAttribute('aria-expanded', 'false');
+    b.setAttribute('aria-controls', id + '-more');
+    line.appendChild(b);
+    var m = el('p', 'cb-hint cb-help-more', more);
+    m.id = id + '-more';
+    m.hidden = true;
+    b.addEventListener('click', function () {
+      m.hidden = !m.hidden;
+      b.setAttribute('aria-expanded', String(!m.hidden));
+    });
+    wrap.appendChild(line);
+    wrap.appendChild(m);
+    wrap.cbIds = (said ? id + ' ' : '') + id + '-more';
+    return wrap;
+  }
   function reBar(id, hint, stop) {
     var bar = el('div', 'cb-re-bar');
     bar.hidden = true;
@@ -9327,9 +9437,8 @@
     say.maxLength = MESSAGE_MAX;
     say.autocomplete = 'off';
     sendBox(say, 'send');
-    say.setAttribute('aria-describedby', 'cb-dm-hint');
-    var hint = el('p', 'cb-hint', enterHint('Send', 'sends') + ' Markdown works, as on the channel, and so does [[ for a link. Once you are both talking, paste a picture to add it.');
-    hint.id = 'cb-dm-hint';
+    var hint = helpFold('cb-dm-hint', enterHint('Send', 'sends'), 'Writing help', 'Markdown works, as on the channel, and so does [[ for a link. Once you are both talking, paste a picture to add it.');
+    say.setAttribute('aria-describedby', hint.cbIds);
     var send = el('button', 'cb-btn cb-send', 'Send');
     send.type = 'submit';
     /* A PICTURE, once the conversation is accepted (Ryan's call, 2026-10-19):
@@ -9386,7 +9495,7 @@
     frow.appendChild(stickBtn);
     frow.appendChild(send);
     /* REPLYING TO, as on the channel, once the conversation is accepted. */
-    var reB = this.dmReBar = reBar('cb-dm-re-line', 'cb-dm-hint', function () { me.dmReplyStop(); say.focus(); });
+    var reB = this.dmReBar = reBar('cb-dm-re-line', hint.cbIds, function () { me.dmReplyStop(); say.focus(); });
     this.dmReplying = null;
     form.appendChild(picFile);
     form.appendChild(ready);
