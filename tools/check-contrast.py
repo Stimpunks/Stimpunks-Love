@@ -1015,6 +1015,10 @@ OOK_COAT, OOK_CREAM, OOK_DIM, OOK_BANANA = "#4B1B07", "#FCEBD3", "#F1CBA6", "#F7
 RDR_WALL, RDR_PANEL, RDR_INK, RDR_INK2 = "#22101A", "#30171F", "#F3E5D8", "#CDB4AC"
 RDR_FLAME, RDR_FLAME2, RDR_BRASS = "#F2994F", "#FFC76E", "#D6B06A"
 MYTH_AMBER = "#D98A2B"
+# Glow Wild Hollow (love.css §129): every word on the night or on the deep water
+# of a panel, in two inks, and links in the sea's blue. The living lights carry
+# no word; they are in ORNAMENT, and the glow-worm marker has its own pair.
+GWH_NIGHT, GWH_DEEP, GWH_INK, GWH_INK2, GWH_SEA, GWH_WORM = "#060E16", "#0C1A26", "#E2F2EE", "#A9C8C3", "#5CD6FF", "#D8F25E"
 
 PAIRS = [
     # TASKS' TAG COLOURS (2026-10-20): a timeline bar is filled with its tag's
@@ -1505,6 +1509,13 @@ PAIRS = [
     # Myths & Legends' job marker is a piece of amber with a beetle in it, MYTH_AMBER
     # on the wall, 6.59.
     (MYTH_AMBER, RDR_WALL,  False, "myths and legends: the piece of amber on the guild's board, lying on the claret"),
+    (GWH_INK,   GWH_NIGHT, False, "glow wild hollow: body text on the night"),
+    (GWH_INK,   GWH_DEEP,  False, "glow wild hollow: body text and the buttons' words on a panel's deep water"),
+    (GWH_INK2,  GWH_NIGHT, False, "glow wild hollow: the intros, sources, eyebrow and back link on the night"),
+    (GWH_INK2,  GWH_DEEP,  False, "glow wild hollow: what the sea and the jellyfish say, on a panel"),
+    (GWH_SEA,   GWH_NIGHT, False, "glow wild hollow: links, in the sea's blue, on the night"),
+    (GWH_SEA,   GWH_DEEP,  False, "glow wild hollow: a link on a panel, and the buttons' rims"),
+    (GWH_WORM,  GWH_NIGHT, False, "glow wild hollow: the glow-worm on the guild's board, lying on the night"),
     # THE ARCADE (love.css §15). The first room lit by a screen.
     # Three grounds the room declares and two it composites, and every ink is
     # held against the composite as well as the flat colour, because the flat
@@ -4147,6 +4158,9 @@ VIA_COMPOSITE = {
 }
 
 ORNAMENT = {
+    "#7cf2a8": "glow wild hollow: --gwh-fox, the foxfire on the log, the mushroom's gills and spots, and the crystal jelly's light, 13.98 on the night. A living light; it carries no word.",
+    "#14241e": "glow wild hollow: --gwh-hill, the dark slopes, the mushroom's cap and the ground, 1.20 on the night. Dark on dark on purpose, aria-hidden, and it carries no word.",
+    "#123049": "glow wild hollow: --gwh-wave, the sea's water and the grass stems, 1.43 on the night. The sea is dark until something moves it; it carries no word.",
     "#eff1e3": "the herb basket: --herb-cloth, the linen every herb is drawn on and that lines the basket, with the line round it at 12.16. It carries no word.",
     "#22301e": "the herb basket: --herb-line, the outline of every herb, the basket and the cauldron, 12.16 on the linen. It carries no word.",
     "#c69552": "the herb basket: --herb-wicker, the basket, outlined in the line at 5.18. It carries no word; the basket is described in its label.",

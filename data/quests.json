@@ -842,6 +842,23 @@
    "learned": "Myths & Legends is Helen Edgar's, behind her yurt, through an arch of amethyst and amber: Stonehenge and its sun, King Arthur and Merlin, the folk of English folklore, and a shelf of old books, where every story says whether it is a story or something known, and where it was read."
   },
   {
+   "id": "hollow-glowworm",
+   "page": "glow-wild-hollow.html",
+   "room": "Glow Wild Hollow",
+   "title": "A light in the grass",
+   "posted": "Somebody has seen a glow-worm shining at the top of a grass stem in Glow Wild Hollow, down through the glowing mushroom in the Faery Yurt. Find it and read what it says.",
+   "rank": 3,
+   "takes": "two minutes, and a dark hollow if you want one",
+   "target": "a glow-worm shining at the top of a grass stem",
+   "code": "GLOWWORM",
+   "hints": [
+    "It is not on the street. Go out past the treeline to the campgrounds, and into the yurt at pitch 01.",
+    "In the yurt, after the Alchemist's Arch, a great mushroom with glowing gills and a door in its stem. Go down through it.",
+    "At the very bottom of the hollow, under where the light was read."
+   ],
+   "learned": "Glow Wild Hollow is Helen Edgar's, down through a glowing mushroom in her yurt: a hollow at night with no moon and no lamp, where every light belongs to something alive, from foxfire in an old log to a sea that sparkles where you touch it. Glow-worms are beetles, and it is the females that glow."
+  },
+  {
    "id": "meadow-firefly",
    "page": "swaying-sweetgrass.html",
    "room": "Swaying Sweetgrass",

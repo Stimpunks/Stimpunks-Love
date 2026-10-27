@@ -1769,6 +1769,13 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--myths .myth-eyebrow {{ margin: 0; }}
 .og--myths h1 {{ font-size: 80px; margin: 0 !important; }}
 .og--myths .og-lede {{ font-size: 25px; }}
+.og--hollow {{ width: 100%; padding: 40px 60px; }}
+.og--hollow .og-head {{ display: flex; align-items: center; gap: 40px; }}
+.og--hollow .hollow-scene {{ flex: 0 0 auto; width: 500px; margin: 0; }}
+.og--hollow .og-words {{ display: flex; flex-direction: column; gap: 14px; }}
+.og--hollow .hollow-eyebrow {{ margin: 0; }}
+.og--hollow h1 {{ font-size: 78px; margin: 0 !important; }}
+.og--hollow .og-lede {{ font-size: 25px; color: var(--gwh-ink-2); }}
 .og--yurt .og-lede {{ font-family: 'Crimson Pro', serif; color: #C2AC91; max-width: 1000px; }}
 .og--yurt .og-foot {{ font-family: 'Caveat', cursive; color: #A4907B;
   letter-spacing: 0; font-size: 30px; }}
@@ -2841,6 +2848,27 @@ def card_myths(p):
         f"faery yurt, through the alchemist\u2019s arch, then "
         f"\u201c{p['h1text']}\u201d in large cream italic serif. Under that: "
         f"{p['desc_plain']}",
+    )
+
+
+def card_hollow(p):
+    return (
+        "",
+        f'<div class="hollow og og--hollow" data-fit="card">'
+        f'<div class="og-head">{p["hscene"]}<div class="og-words">'
+        f'<p class="hollow-eyebrow">behind the faery yurt &middot; down through the glowing mushroom</p>'
+        f'{p["h1"]}'
+        f'<p class="og-lede">{p["desc"]}</p>'
+        f'</div></div>'
+        f'</div>',
+        f"A card as dark as a night with no moon. On the left, a drawing looking out "
+        f"from under the glowing gills of a great mushroom into a hollow that runs down "
+        f"to the sea: an old log glowing green with little mushrooms on one slope, "
+        f"glow-worms shining yellow-green on grass stems on the other, the waves "
+        f"breaking in a line of blue sparkle, and a small jellyfish glowing green under "
+        f"the water. Beside it, small pale capitals reading behind the faery yurt, down "
+        f"through the glowing mushroom, then \u201c{p['h1text']}\u201d in large pale "
+        f"italic serif. Under that: {p['desc_plain']}",
     )
 
 
@@ -5767,6 +5795,7 @@ CARDS = {
     "room-music":   card_music,
     "room-cinema":  card_cinema,
     "room-myths":   card_myths,
+    "room-hollow":  card_hollow,
     "hermitage":    card_herm,
     "club":         card_club,
     "room-latibulum": card_latibulum,
@@ -5875,6 +5904,7 @@ def main():
         ("cscene",   "faery-cinema-room.html", r'(<svg class="cin-scene".*?</svg>)'),
         ("cstrip",   "faery-cinema-room.html", r'(<svg class="cin-strip".*?</svg>)'),
         ("myscene",  "faery-myths-room.html", r'(<svg class="myth-scene".*?</svg>)'),
+        ("hscene",   "glow-wild-hollow.html", r'(<svg class="hollow-scene".*?</svg>)'),
         ("crown",    "faery-yurt.html",   r'(<div class="crown".*?</svg>\s*</div>)'),
         ("cabin",    "solarpunk-hermitage.html", r'(<div class="cabin".*?</svg>\s*</div>)'),
         ("esmx",     "quill-drift.html",  r'(<svg class="sprite".*?</svg>)'),

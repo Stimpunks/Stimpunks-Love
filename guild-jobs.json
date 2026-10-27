@@ -157,6 +157,11 @@
    "room": "Myths & Legends"
   },
   {
+   "id": "hollow-glowworm",
+   "title": "A light in the grass",
+   "room": "Glow Wild Hollow"
+  },
+  {
    "id": "meadow-firefly",
    "title": "The book this room lends",
    "room": "Swaying Sweetgrass"

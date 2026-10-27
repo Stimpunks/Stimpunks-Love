@@ -1563,6 +1563,18 @@ story** (Helen's ask, the same day), and the cauldron and the pouch to fill unde
 outcome of a mix out of them, on the page, sending nothing; `make-yurt-myths.py` refuses one that brings nothing or
 anything about a body (`BODY`), because an outcome is a story and never an effect.
 
+**GLOW WILD HOLLOW (§129) IS HELEN'S, DOWN THROUGH A GLOWING MUSHROOM, AND EVERY LIGHT IN IT IS ALIVE.** Her ask,
+2026-10-27, after Kew's "How nature glows wild" (Chloe Agar, Grow Wild, credited by name and never copied): another portal
+out of the yurt, through a mushroom, and a jellyfish that lights up; she named it and chose a sea that glows where you touch
+it. `glow-wild-hollow.html` hangs off the yurt (the mushroom is just after the Alchemist's Arch), its facts are written by
+`tools/make-glow-wild.py` from `data/glow-wild.json`, and `glow-wild.js` is the sea and the jellyfish. **No moon, no star, no
+lamp and no flame**: the lights are points where something living is, and no word stands in one. Brew and Stew (lit by the
+foxfire in its own logs), the Healing Checkpoint (a wash from under water), Glow Go Gee Gaws (made toys that charge and
+fade) and Sithen and the campgrounds (the other nights) are the collisions, in §129. **Nothing flashes**: a light you make
+comes up over `RISE` and goes over `FADE`, which the tool holds to floors, and at Gentle it stays lit, still, until pressed
+again. The tool refuses a fact with no source, a Latin name, and eating, picking or curing in our words; the friendly edits
+are a field guide to finding glowing fungi, a faster sparkle "so it feels alive", and a moon "so it is not so dark".
+
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a
 `<dialog>` (`peek()` in `cb.js`, `.pf-*` in `cb.css`): the card on the left, drawn by `profile.js`, and on the right,
@@ -5478,18 +5490,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §130 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §131 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§130 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§131 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §130 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §131 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

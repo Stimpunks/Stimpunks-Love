@@ -1810,6 +1810,12 @@
      amber she asked for. Each colour here is a stone or the light through one
      and carries no word; every one is in check-contrast.py's ORNAMENT. */
   --myth-amethyst: #7E4FA8; --myth-amethyst-2: #C9A2EC; --myth-amber: #D98A2B; --myth-amber-2: #F6C46A; --myth-chalk: #CFC6B4;
+  /* Glow Wild Hollow (§129), down through the glowing mushroom in the yurt: a
+     night with no moon and no lamp. The night, the deep water of the panels and
+     the two inks carry every word; the sea, the foxfire and the glow-worm are
+     living lights and carry none, nor do the hills and the water drawn dark. */
+  --gwh-night: #060E16; --gwh-deep: #0C1A26; --gwh-ink: #E2F2EE; --gwh-ink-2: #A9C8C3;
+  --gwh-sea: #5CD6FF; --gwh-fox: #7CF2A8; --gwh-worm: #D8F25E; --gwh-hill: #14241E; --gwh-wave: #123049;
   /* The crystal pouch (crystal-pouch.js): every stone on a disc of its own cloth, outlined in the line, so it carries its own ground on the radio. */
   --crys-cloth: #EDE6F2; --crys-line: #2A2233; --crys-bag: #B98A55; --crys-bag-2: #7E5530; --crys-cord: #9E3328;
   --crys-amethyst: #8A55C0; --crys-amethyst-2: #D3B4F0;
@@ -7357,6 +7363,14 @@ html[data-intensity="max"] .yurt-arch__glint { animation: myth-glint 3.4s ease-i
 .room-yurt .yurt-ring__stone a:focus-visible { outline: 3px solid var(--candle); outline-offset: 3px; }
 .room-yurt .yurt-ring__credit { max-width: 560px; margin: 14px auto 0; text-align: center; font-size: 14px; color: var(--tallow-2); }
 .room-yurt .yurt-arch__also { max-width: 520px; margin: 12px auto 0; text-align: center; font-size: 16px; font-style: italic; color: var(--tallow-2); }
+/* THE GLOWING MUSHROOM, Helen's ask, 2026-10-27: "another portal through a
+   mushroom", down to Glow Wild Hollow (§129). A toadstool with glowing gills
+   and a door in its stem, drawn in §129's colours. At MAX GLITTER its glow
+   breathes slowly; it never flashes, and nothing on it is a word. */
+.yurt-shroom { display: block; width: min(100%, 320px); margin: 22px auto 0; border-radius: 12px; }
+.yurt-shroom svg { display: block; width: 100%; height: auto; }
+.room-yurt .yurt-shroom:focus-visible { outline: 3px solid var(--candle); outline-offset: 6px; }
+html[data-intensity="max"] .yurt-shroom__glow { animation: hollow-breathe 6s ease-in-out infinite alternate; }
 
 /* THE ART GALLERY, Helen's ask, 2026-10-15: paintings out of copyright
    everywhere, hung small on the wall in a thin gilt, and pressed off the wall
@@ -17840,7 +17854,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §130
+   class on it is `bb-`, its sizes are in points and millimetres, and §131
    prints it and nothing else. */
 
 .room-broadside {
@@ -17901,7 +17915,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §130 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §131 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -27725,7 +27739,84 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
 @keyframes myth-glow { from { opacity: .55; } to { opacity: 1; } }
 @keyframes myth-glint { 0%, 70%, 100% { opacity: .25; } 85% { opacity: 1; } }
 
-/* §129 ── Small screens───────────────────────────────────────────────────────
+/* §129 ── SUBROOM: Glow Wild Hollow (behind the Faery Yurt, down through the glowing mushroom)
+   HELEN'S, LIKE THE YURT AND ITS OTHER ROOMS, and asked for at the keyboard on
+   2026-10-27, after Kew's "How nature glows wild": something about how nature
+   glows, "another portal through a mushroom", and "a light up jelly fish". She
+   named it Glow Wild Hollow and chose a sea that glows where you touch it. The
+   facts are written by tools/make-glow-wild.py from data/glow-wild.json; the
+   sea and the jellyfish are glow-wild.js; this section dresses them (hollow-).
+
+   EVERY LIGHT IN THE HOLLOW BELONGS TO SOMETHING ALIVE. There is no moon, no
+   star, no lamp and no flame, and most of the page is dark: the lights are
+   points and lines where something living is, foxfire green, glow-worm
+   yellow-green, sea-sparkle blue, and none of them lights a word. Every word
+   stands on the night or on the deep water of a panel, in two inks. Its own
+   two faces are the yurt's, because the hollow is Helen's.
+
+   THE ROOMS IT COLLAPSES INTO, AND WHAT KEEPS IT OFF THEM:
+   · BREW AND STEW (§95), on the same field, is lit by foxfire in its own logs:
+     a cabin, inside, heather, the glow even along every joint. This is
+     outdoors, and the light is in a few places only, with dark between.
+   · THE HEALING CHECKPOINT (§31) is lit up out of water, soft, a wash that
+     fills the room. Here nothing washes: a light is a point, and the water is
+     dark until something moves it.
+   · GLOW GO GEE GAWS (§67) charges a toy and lets it fade, in every colour
+     glow comes in. Those are made things on shelves in a cave; these are alive,
+     and only the sea answers a touch, because sea sparkle does.
+   · SITHEN (§36) and THE CAMPGROUNDS (§13) are the other faery night and the
+     other dark field, one under a full moon and one lit by nothing. If a moon
+     or a star is ever drawn here, it has become one of them.
+
+   NOTHING MOVES BY ITSELF BELOW MAX GLITTER, AND NOTHING FLASHES. At MAX the
+   glows in the header breathe slowly and the jellyfish drifts. The lights you
+   make come up over RISE and go over FADE in glow-wild.js, which the tool
+   holds to floors, and at Gentle they stay lit, still, until pressed again. */
+
+.room-hollow { background: var(--gwh-night); color: var(--gwh-ink); font-family: 'Crimson Pro', Georgia, serif; font-size: 17px; line-height: 1.7; }
+.room-hollow a { color: var(--gwh-sea); text-decoration-color: rgba(92,214,255,.45); text-underline-offset: 3px; }
+.room-hollow a:hover { color: var(--gwh-ink); }
+.room-hollow :focus-visible { outline-color: var(--gwh-sea); }
+.room-hollow .backlink { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 15px; letter-spacing: .06em; color: var(--gwh-ink-2); }
+.hollow { width: min(880px, 100% - 40px); margin-inline: auto; padding: 0 0 70px; }
+.room-hollow h1, .room-hollow h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic;
+  color: var(--gwh-ink); text-wrap: balance; letter-spacing: .01em;
+}
+.room-hollow h1 { font-size: clamp(42px, 7vw, 67px); margin: 0 0 12px; }
+.room-hollow h2 { font-size: 30px; margin: 0 0 6px; }
+.room-hollow section { padding: 28px 0; }
+.hollow-top { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; align-items: baseline; padding-top: 10px; }
+.hollow-top__note { margin: 0; font-size: 15px; font-style: italic; color: var(--gwh-ink-2); }
+.hollow-head { text-align: center; padding: 22px 0 10px; }
+.hollow-scene { display: block; width: min(100%, 640px); height: auto; margin: 0 auto 26px; border-radius: 10px; }
+.hollow-eyebrow { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--gwh-ink-2); margin: 0 0 16px; }
+.hollow-tagline { font-size: 19.5px; font-style: italic; color: var(--gwh-ink-2); max-width: 48ch; margin: 0 auto 18px; }
+.hollow-lede { max-width: 64ch; margin: 0 auto; text-align: left; }
+.room-hollow .hollow-intro { color: var(--gwh-ink-2); max-width: 66ch; margin: 8px 0 16px; }
+.hollow-facts { margin: 0; padding-left: 1.2em; max-width: 68ch; }
+.hollow-facts li { margin: 0 0 8px; }
+.hollow-src { font-size: 14.5px; color: var(--gwh-ink-2); }
+.room-hollow .hollow-credit { color: var(--gwh-ink-2); max-width: 68ch; }
+
+/* A panel is deep water. Nothing on it glows behind a word. */
+.hollow-panel { background: var(--gwh-deep); border-radius: 10px; padding: 14px; margin: 0 0 18px; }
+.hollow-sea__water, .hollow-jelly__water { display: block; width: 100%; height: auto; border-radius: 6px; touch-action: pan-y; }
+.hollow-jelly__water { width: min(100%, 360px); margin-inline: auto; cursor: pointer; }
+.hollow-go { margin: 12px 0 0; }
+.hollow-btn {
+  font: inherit; font-size: 16px; color: var(--gwh-ink); background: var(--gwh-night);
+  border: 1px solid var(--gwh-sea); border-radius: 999px; padding: 8px 18px; cursor: pointer;
+}
+.hollow-btn:hover { border-color: var(--gwh-ink); }
+.room-hollow .hollow-said { margin: 8px 0 0; min-height: 1.7em; font-style: italic; color: var(--gwh-ink-2); }
+
+html[data-intensity="max"] .hollow-scene__glow { animation: hollow-breathe 6s ease-in-out infinite alternate; }
+html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease-in-out infinite alternate; }
+@keyframes hollow-breathe { from { opacity: .55; } to { opacity: 1; } }
+@keyframes hollow-drift { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+/* §130 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -27829,7 +27920,7 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §129 says every
+   shipped with no rule here at all — which on a street whose §130 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -27953,7 +28044,7 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §130 ── Print ───────────────────────────────────────────────────────────────
+/* §131 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

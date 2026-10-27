@@ -106,7 +106,7 @@ ORDER = ["index.html",
          # the Run, the Truck Stop between it and the Green, then the Pile.
          "the-run.html", "truckin-food-court.html", "the-green.html", "the-pile.html",
          "campgrounds.html", "faery-yurt.html", "faery-reading-room.html", "faery-music-room.html",
-         "faery-cinema-room.html", "faery-myths-room.html",
+         "faery-cinema-room.html", "faery-myths-room.html", "glow-wild-hollow.html",
          # Pitch 05, Jess's tree house, stands next to the Faery Yurt.
          "the-bough-house.html", "swaying-sweetgrass.html",
          "solarpunk-hermitage.html",

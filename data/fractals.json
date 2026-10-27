@@ -2176,6 +2176,19 @@
         "--myth-amber-2"
       ]
     },
+    "glow-wild-hollow.html": {
+      "kind": "julia",
+      "c": [0.32, 0.043],
+      "orbit": 0.02,
+      "bands": 0.06,
+      "ground": "--gwh-night",
+      "inks": [
+        "--gwh-sea",
+        "--gwh-fox",
+        "--gwh-worm",
+        "--gwh-ink-2"
+      ]
+    },
     "faery-reading-room.html": {
       "kind": "orbit",
       "trap": "ring",
