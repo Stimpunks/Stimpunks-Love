@@ -146,16 +146,6 @@
  ],
  "log": [
   {
-   "id": "_DCbJPt7EvE",
-   "source": "americas-test-kitchen",
-   "form": "long",
-   "title": "For the Best Salads, Use This 3-Step Flavor Formula | Flavor Forward",
-   "published": "2026-09-26T16:00:29Z",
-   "state": "screen",
-   "runs": 481,
-   "channel": "America's Test Kitchen"
-  },
-  {
    "id": "WdBkBw4jdb4",
    "source": "americas-test-kitchen",
    "form": "long",
@@ -586,14 +576,14 @@
    "channel": "America's Test Kitchen"
   },
   {
-   "id": "jZ7pMhgPky0",
-   "source": "alton-brown",
-   "form": "long",
-   "title": "Alton Brown Cooks Food | Episode 43: Spend Time, Not Money",
-   "published": "2026-09-26T13:00:28Z",
+   "id": "smNzHgIxcmw",
+   "source": "americas-test-kitchen",
+   "form": "short",
+   "title": "Our Secret To Perfect, Creamy Leftover Pasta Every Time",
+   "published": "2026-10-26T16:29:54Z",
    "state": "screen",
-   "runs": 2072,
-   "channel": "Alton Brown"
+   "runs": 75,
+   "channel": "America's Test Kitchen"
   },
   {
    "id": "5vk8ANhjoHQ",
@@ -754,16 +744,6 @@
    "state": "screen",
    "runs": 70,
    "channel": "Epicurious"
-  },
-  {
-   "id": "1Y8rXuLPC4E",
-   "source": "nyt-cooking",
-   "form": "long",
-   "title": "Opening Day With the Pitmaster of NYC’s Newest BBQ Joint | NYT Cooking",
-   "published": "2026-09-26T14:00:11Z",
-   "state": "screen",
-   "runs": 1164,
-   "channel": "NYT Cooking"
   },
   {
    "id": "wN1qltsJU-I",
@@ -936,14 +916,24 @@
    "channel": "NYT Cooking"
   },
   {
-   "id": "0ILk-TfcGrs",
-   "source": "iron-chef-dad",
-   "form": "long",
-   "title": "I Tested My Iron Chef Dad With Cheap vs Expensive Food",
-   "published": "2026-09-26T15:46:15Z",
+   "id": "cYo__Yh-Jkw",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "We challenged Zainab to host a dinner party in NYC on a $100 budget, with a few rules. How'd she do?",
+   "published": "2026-10-26T16:23:44Z",
    "state": "screen",
-   "runs": 690,
-   "channel": "Iron Chef Dad"
+   "runs": 57,
+   "channel": "NYT Cooking"
+  },
+  {
+   "id": "Crx6qgP8JP0",
+   "source": "nyt-cooking",
+   "form": "short",
+   "title": "A Night in the Life of a Restaurant Deep Cleaner #cleaning #restaurant #onthejob",
+   "published": "2026-10-27T00:00:32Z",
+   "state": "screen",
+   "runs": 28,
+   "channel": "NYT Cooking"
   },
   {
    "id": "N501Q3bAiC4",
@@ -1216,14 +1206,14 @@
    "channel": "Andy Cooks"
   },
   {
-   "id": "IkGkEftotfM",
-   "source": "back-of-house",
-   "form": "long",
-   "title": "Ultimate Comfort Dinner",
-   "published": "2026-09-27T07:00:13Z",
+   "id": "xB8ZSeGFKjo",
+   "source": "andy-cooks",
+   "form": "short",
+   "title": "Do fresh herbs really matter in cooking? 🌿￼",
+   "published": "2026-10-27T09:59:34Z",
    "state": "screen",
-   "runs": 849,
-   "channel": "Back of House"
+   "runs": 42,
+   "channel": "Andy Cooks"
   },
   {
    "id": "Ngrx3pU_fqk",
@@ -1426,14 +1416,14 @@
    "channel": "The Pasta Queen"
   },
   {
-   "id": "IrLaBiuK8qE",
-   "source": "japanese-food-noodles",
-   "form": "long",
-   "title": "Why 200 Bettors Rush to the Only Diner in a Japanese Bike-Racing Arena?",
-   "published": "2026-09-26T22:00:14Z",
+   "id": "cbIi1yRwDmk",
+   "source": "the-pasta-queen",
+   "form": "short",
+   "title": "20-Minutes One Pot Tomato Pasta",
+   "published": "2026-10-26T19:00:28Z",
    "state": "screen",
-   "runs": 2761,
-   "channel": "Japanese Food Noodles"
+   "runs": 86,
+   "channel": "The Pasta Queen"
   },
   {
    "id": "ACBa33-OzNs",
@@ -1956,6 +1946,16 @@
    "channel": "Japanese Food Noodles"
   },
   {
+   "id": "cEi7GnUCmJM",
+   "source": "japanese-food-noodles",
+   "form": "long",
+   "title": "Everything Is Just $3! 2kg Fried Chicken and 3kg Omurice at a Tokyo Diner",
+   "published": "2026-10-26T22:00:20Z",
+   "state": "screen",
+   "runs": 2140,
+   "channel": "Japanese Food Noodles"
+  },
+  {
    "id": "wz9jvH7zJbk",
    "source": "japanese-cooking-101",
    "form": "long",
@@ -2133,6 +2133,16 @@
    "published": "2026-10-26T09:15:34Z",
    "state": "screen",
    "runs": 16,
+   "channel": "Japanese Food Craftsman"
+  },
+  {
+   "id": "yAq4g-OSz7s",
+   "source": "japanese-food-craftsman",
+   "form": "short",
+   "title": "【幼稚園】5歳で薪割り・火おこし・料理まで！？サバイバル力が凄い！",
+   "published": "2026-10-27T09:15:19Z",
+   "state": "screen",
+   "runs": 31,
    "channel": "Japanese Food Craftsman"
   },
   {
@@ -2426,6 +2436,16 @@
    "channel": "Bon Appétit"
   },
   {
+   "id": "Y9wAtIiZjO8",
+   "source": "bon-appetit",
+   "form": "short",
+   "title": "It's Clear Why These Pork Buns Are So Popular",
+   "published": "2026-10-26T16:00:06Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "Bon Appétit"
+  },
+  {
    "id": "4K5o2RRxvcQ",
    "source": "insider-food",
    "form": "short",
@@ -2473,16 +2493,6 @@
    "published": "2026-10-21T17:00:35Z",
    "state": "screen",
    "runs": 896,
-   "channel": "Fallow"
-  },
-  {
-   "id": "i-p-WX0iRe0",
-   "source": "fallow",
-   "form": "short",
-   "title": "Probably the Best Side Dish in the World",
-   "published": "2026-09-26T18:42:11Z",
-   "state": "screen",
-   "runs": 110,
    "channel": "Fallow"
   },
   {
@@ -2626,6 +2636,16 @@
    "channel": "Fallow"
   },
   {
+   "id": "q4nsqiSFOVg",
+   "source": "fallow",
+   "form": "short",
+   "title": "One of the Simplest Michelin Techniques",
+   "published": "2026-10-26T19:02:22Z",
+   "state": "screen",
+   "runs": 58,
+   "channel": "Fallow"
+  },
+  {
    "id": "DHCt988eDco",
    "source": "guga",
    "form": "long",
@@ -2659,7 +2679,7 @@
    "id": "rINvUKx2d7A",
    "source": "guga",
    "form": "long",
-   "title": "I Tried the Trinidadian Food America IGNORES!",
+   "title": "Everyone Says this beats INDIAN Food, So I Tried It!",
    "published": "2026-10-23T17:59:41Z",
    "state": "screen",
    "runs": 815,
@@ -2783,6 +2803,16 @@
    "published": "2026-10-19T14:00:31Z",
    "state": "screen",
    "runs": 898,
+   "channel": "Eater"
+  },
+  {
+   "id": "LBRiMlBufP4",
+   "source": "eater",
+   "form": "long",
+   "title": "Why Alfie's in D.C. Is Serving Only Five Thai Curry Steak Frites a Night",
+   "published": "2026-10-26T14:00:00Z",
+   "state": "screen",
+   "runs": 1016,
    "channel": "Eater"
   },
   {
@@ -3041,13 +3071,13 @@
    "long": [
     [
      "2026-09-05T15:59:57Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-27T17:30:12Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3055,13 +3085,13 @@
    "long": [
     [
      "2026-06-20T13:00:19Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3069,13 +3099,13 @@
    "long": [
     [
      "2026-03-07T14:00:27Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-06-29T20:30:33Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3083,13 +3113,13 @@
    "long": [
     [
      "2026-07-01T16:00:18Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T16:00:17Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3097,13 +3127,13 @@
    "long": [
     [
      "2026-08-28T18:00:15Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T20:25:43Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3111,13 +3141,13 @@
    "long": [
     [
      "2025-09-27T15:00:50Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-04-01T16:50:32Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3125,13 +3155,13 @@
    "long": [
     [
      "2026-06-25T07:00:11Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-08T11:00:39Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3139,13 +3169,13 @@
    "long": [
     [
      "2026-06-28T07:00:20Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3153,13 +3183,13 @@
    "long": [
     [
      "2026-04-08T16:01:42Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T18:44:36Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3167,13 +3197,13 @@
    "long": [
     [
      "2026-09-25T22:00:24Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3181,13 +3211,13 @@
    "long": [
     [
      "2026-03-06T21:24:39Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-02-23T23:44:24Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3195,13 +3225,13 @@
    "long": [
     [
      "2026-02-07T08:37:09Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-04T07:02:17Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3209,13 +3239,13 @@
    "long": [
     [
      "2025-12-12T09:00:14Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2024-05-17T09:00:00Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3223,13 +3253,13 @@
    "long": [
     [
      "2026-08-20T09:50:19Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-08-03T10:23:40Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3237,13 +3267,13 @@
    "long": [
     [
      "2026-08-13T16:00:07Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-08-07T16:00:13Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3251,13 +3281,13 @@
    "long": [
     [
      "2025-11-16T14:01:23Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-07-07T16:01:39Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3265,13 +3295,13 @@
    "long": [
     [
      "2026-06-23T17:00:11Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-09-11T14:40:23Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3279,13 +3309,13 @@
    "long": [
     [
      "2026-06-26T14:15:21Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-03-10T15:05:00Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3293,13 +3323,13 @@
    "long": [
     [
      "2026-02-01T14:00:17Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-05-25T06:24:14Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3307,13 +3337,13 @@
    "long": [
     [
      "2026-07-13T14:00:05Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-08-12T13:00:14Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3321,13 +3351,13 @@
    "long": [
     [
      "2026-06-24T15:00:35Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2025-09-18T21:45:00Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3335,13 +3365,13 @@
    "long": [
     [
      "2026-03-22T14:30:31Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2026-04-17T14:30:18Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   },
@@ -3349,16 +3379,16 @@
    "long": [
     [
      "2026-08-08T17:03:29Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ],
    "short": [
     [
      "2025-10-15T20:26:40Z",
-     "2026-10-26T12:04:16Z"
+     "2026-10-27T11:25:47Z"
     ]
    ]
   }
  },
- "set": "2026-10-26T12:04Z"
+ "set": "2026-10-27T11:25Z"
 }
