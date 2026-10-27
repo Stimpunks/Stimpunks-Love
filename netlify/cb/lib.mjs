@@ -204,12 +204,12 @@ export function store() {
 const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-(?:comments|activity|inbox|views)\//,
   /^forum\/[ct]\//, /^mod-calls$/, /^push-devices$/, /^roles$/];
 /* Names whose blobs are bytes, not JSON: a forum post's files and the uploads
-   waiting for a post (2026-10-25). Sealed whole, SST1 and the nonce and tag
+   waiting for a post (2026-10-25), and a task's (2026-10-27). Sealed whole, SST1 and the nonce and tag
    before them. EVERY forum topic, list and file, not only the staff
    categories': a topic's name does not say its category, and a topic moved out
    of a staff category keeps its name, so sealing by category would leave a
    moved one in the clear. */
-const STAFF_BYTES = [/^forum-file\//, /^forum-up\//, /^img\//];
+const STAFF_BYTES = [/^forum-file\//, /^forum-up\//, /^img\//, /^task-file\//, /^task-up\//];
 /* AND EVERY STAFF ROOM'S CHANNEL (the same day): a room's log is named by its
    room, so lockedRoom picks out exactly the base's rooms and the categories
    with roles. Every channel picture is sealed (img/ above), because a
@@ -311,7 +311,7 @@ function bytesRead(key, o) { if (!o || o.type !== 'arrayBuffer') throw new Error
    nothing is ever written in the clear again (and without it the staff stores
    are shut). A name added to STAFF_SEALED or STAFF_BYTES needs SEAL_PASS
    moved on, so the sweep looks again. */
-const SEAL_PASS = 'tasks+forum+rooms+devices+roles-1';
+const SEAL_PASS = 'tasks+forum+rooms+devices+roles+task-files-1';
 const SEAL_MARK = 'staff-sealed';
 export async function sealStaffLeftovers(s = store()) {
   s = sealingStore(s);
@@ -325,7 +325,7 @@ export async function sealStaffLeftovers(s = store()) {
   }
   let any = false;
   // A file: its bytes and metadata written again, sealed, under its own name.
-  for (const prefix of ['forum-file/', 'forum-up/', 'img/']) {
+  for (const prefix of ['forum-file/', 'forum-up/', 'img/', 'task-file/', 'task-up/']) {
     for (const b of (await s.list({ prefix })).blobs || []) {
       const raw = await s.raw.getWithMetadata(b.key, { type: 'arrayBuffer' });
       if (!raw || bytesSealedAs('SST1', raw.data)) continue;
@@ -8570,21 +8570,21 @@ function picturish(b) {
 
 /* What a file is, checked by its first bytes against the end of its name.
    { type } or { error }. */
-export function fileKind(bytes, name) {
+export function fileKind(bytes, name, place = 'The forums') {
   const ext = String(name || '').split('.').pop().toLowerCase();
   const k = own(FORUM_FILE_TYPES, ext) ? FORUM_FILE_TYPES[ext] : null;
-  if (!k) return { error: `The forums take ${Object.keys(FORUM_FILE_TYPES).join(', ')} files, and pictures.` };
+  if (!k) return { error: `${place} take ${Object.keys(FORUM_FILE_TYPES).join(', ')} files, and pictures.` };
   if (picturish(bytes)) return { error: 'That is a picture. Add it as a picture, which takes its camera’s data off first.' };
   const buf = Buffer.from(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   const not = { error: `That file is not the kind of file its name says it is (.${ext}).` };
   if (k.is === 'pdf') {
     if (!buf.subarray(0, 5).equals(Buffer.from('%PDF-'))) return not;
-    if (buf.includes('/JavaScript') || buf.includes('/Launch')) return { error: 'That PDF carries a script, or something that starts a program. The forums do not take those.' };
+    if (buf.includes('/JavaScript') || buf.includes('/Launch')) return { error: `That PDF carries a script, or something that starts a program. ${place} do not take those.` };
   }
   if (k.is === 'rtf' && !buf.subarray(0, 5).equals(Buffer.from('{\\rtf'))) return not;
   if (k.is === 'zip') {
     if (!(buf[0] === 0x50 && buf[1] === 0x4b && buf[2] === 3 && buf[3] === 4)) return not;
-    if (buf.includes('vbaProject') || buf.includes('Basic/') || buf.includes('Scripts/')) return { error: 'That document has macros in it. The forums do not take those: save it again without them.' };
+    if (buf.includes('vbaProject') || buf.includes('Basic/') || buf.includes('Scripts/')) return { error: `That document has macros in it. ${place} do not take those: save it again without them.` };
   }
   if (k.is === 'text') {
     if (buf.includes(0)) return not;
@@ -8599,25 +8599,34 @@ export function fileKind(bytes, name) {
    and goes after a day if no post takes it. */
 export async function putForumUpload(who, f, bytes, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
-  if (!bytes || !bytes.length) return { error: 'There was nothing in that.' };
-  let meta;
-  if (f && f.kind === 'pic') {
-    if (bytes.length > IMG_MAX) return { error: 'That picture is too big, even after your browser made it smaller.' };
-    const type = imageKind(bytes);
-    if (!type) return { error: 'That is not a picture the forums can show.' };
-    if (carriesMetadata(bytes, type)) return { error: 'That picture still carries its camera data. Add it again in the forums, which take that off.' };
-    meta = { kind: 'pic', type, size: bytes.length };
-  } else if (f && f.kind === 'file') {
-    if (bytes.length > FORUM_FILE_MAX) return { error: `A file is ${FORUM_FILE_MAX / 1000000} MB at most.` };
-    const name = cleanFileName(f.name);
-    if (!name) return { error: `A file's name ends in .${Object.keys(FORUM_FILE_TYPES).join(', .')}, and is ${FORUM_NAME_MAX} characters at most.` };
-    const k = fileKind(bytes, name);
-    if (k.error) return k;
-    meta = { kind: 'file', type: k.type, name, size: bytes.length };
-  } else return { error: 'A picture or a file?' };
+  const meta = uploadMeta(f, bytes, 'the forums', 'The forums');
+  if (meta.error) return meta;
   const id = randomUUID();
   await s.set(FORUM_UP + id, bytes, { metadata: { ...meta, t: now, by: authorMark(who) } });
   return { id, ...meta };
+}
+/* What an upload is, checked: a picture already redrawn in the sender's
+   browser, carrying nothing a camera wrote, or a file of FORUM_FILE_TYPES,
+   checked by its first bytes. The forums' rules, and Tasks' (attachTask).
+   { kind, type, size, name? } or { error }. */
+function uploadMeta(f, bytes, place, Place) {
+  if (!bytes || !bytes.length) return { error: 'There was nothing in that.' };
+  if (f && f.kind === 'pic') {
+    if (bytes.length > IMG_MAX) return { error: 'That picture is too big, even after your browser made it smaller.' };
+    const type = imageKind(bytes);
+    if (!type) return { error: `That is not a picture ${place} can show.` };
+    if (carriesMetadata(bytes, type)) return { error: `That picture still carries its camera data. Add it again in ${place}, which take that off.` };
+    return { kind: 'pic', type, size: bytes.length };
+  }
+  if (f && f.kind === 'file') {
+    if (bytes.length > FORUM_FILE_MAX) return { error: `A file is ${FORUM_FILE_MAX / 1000000} MB at most.` };
+    const name = cleanFileName(f.name);
+    if (!name) return { error: `A file's name ends in .${Object.keys(FORUM_FILE_TYPES).join(', .')}, and is ${FORUM_NAME_MAX} characters at most.` };
+    const k = fileKind(bytes, name, Place);
+    if (k.error) return k;
+    return { kind: 'file', type: k.type, name, size: bytes.length };
+  }
+  return { error: 'A picture or a file?' };
 }
 
 /* The pictures and files a post asks for (`asked`, a list of { id, alt }):
@@ -11631,10 +11640,15 @@ export function shapeTask(t, whole = false) {
   if (t.recur) { out.recur = t.recur; out.on = t.on; }
   if (t.tpl) out.tpl = t.tpl;
   if (whole) {
+    out.files = (t.files || []).map(shapeTaskFile);
     out.body = t.body || '';
     out.blocks = parseBrass(t.body || '', { boxes: true, refs: true });
     out.ticks = taskBoxes(t.body || '').agree;
-  } else out.words = [...(t.body || '')].length;
+  } else {
+    out.words = [...(t.body || '')].length;
+    // How many pictures and files, for the list's paper clip: numbers are fine in Tasks.
+    if (t.files && t.files.length) out.attached = t.files.length;
+  }
   return out;
 }
 
@@ -11758,8 +11772,9 @@ export async function removeTask(who, id, s = store(), now = Date.now(), mods) {
   if (!gone) return { error: 'That task has already been deleted.' };
   const was = gone.espo || gone.notion;
   if (was) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(was) ? null : [...ids, was]), s);
-  // Its comments go with it, as its activity does.
+  // Its comments go with it, as its activity and its pictures and files do.
   await s.delete(taskCommentsBlob(gone.id));
+  await dropTaskFiles(gone.id, s);
   await dropLinksFrom(`taskc:${gone.id}/`, false, s);
   await noteTask('deleted', who.handle, gone, null, s, now, mods).catch(() => null);
   return { gone: true };
@@ -11767,6 +11782,181 @@ export async function removeTask(who, id, s = store(), now = Date.now(), mods) {
 async function readTaskGone(s) {
   const d = await s.get(TASKS_GONE, { type: 'json' });
   return d && Array.isArray(d.ids) ? d.ids : [];
+}
+
+/* PICTURES AND FILES ON A TASK (Ryan's ask, 2026-10-27, after EspoCRM's
+   Attachments and Notion's Files & media). The forums' rules exactly
+   (uploadMeta): a picture is redrawn in the browser before it is sent, which
+   takes off what a camera wrote into it, and is refused here if it still
+   carries any of it; a file goes as it is, only as one of FORUM_FILE_TYPES,
+   checked by its first bytes, never a picture, a script, a page, an SVG or a
+   document with macros. An upload waits under task-up/, marked with its
+   sender's mark so only they can attach it, and goes after a day if no task
+   takes it (sweepTaskFiles); attached, it is copied to task-file/<task>/<id>
+   before the task is written, so no task ever holds a file that is not there,
+   and is deleted when it is taken off or its task is deleted. Both are sealed
+   with the staff key (STAFF_BYTES). There is no public address: taskFile
+   serves one only to a reader of Tasks, and only while its task holds it.
+
+   A task keeps each one's kind, type, size, its name or its description, who
+   attached it and when. Anybody on Tasks attaches to any task and takes any
+   off, as anybody changes any task, and the task's activity says how many
+   pictures and files went on or came off, never their names (taskChanges),
+   because a name can say whose papers they are. */
+export const TASK_ATTACH_MAX = 30;      // pictures and files on one task
+const TASK_UP = 'task-up/';             // an upload no task has taken yet
+const TASK_FILE = 'task-file/';         // task-file/<task>/<id>, a task's own
+const TASK_UNSENT = 24 * 60 * 60 * 1000;
+const taskFileKey = (task, id) => `${TASK_FILE}${task}/${id}`;
+async function dropTaskFiles(task, s) {
+  for (const b of (await s.list({ prefix: `${TASK_FILE}${task}/` })).blobs || []) await s.delete(b.key);
+}
+function shapeTaskFile(f) {
+  const out = { id: f.id, kind: f.kind, type: f.type, size: f.size, by: f.by || null, t: f.t || null };
+  if (f.kind === 'file') out.name = f.name;
+  if (f.kind === 'pic' && f.alt) out.alt = f.alt;
+  return out;
+}
+
+/* An upload, before any task holds it: { id, kind, type, size, name? } or { error }. */
+export async function putTaskUpload(who, f, bytes, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const meta = uploadMeta(f, bytes, 'Tasks', 'Tasks');
+  if (meta.error) return meta;
+  const id = randomUUID();
+  await s.set(TASK_UP + id, bytes, { metadata: { ...meta, t: now, by: authorMark(who) } });
+  return { id, ...meta };
+}
+
+/* This sender's own uploads (`asked`, a list of { id, alt }) attached to task
+   `id`. Answers { task } or { error }. */
+export async function attachTask(who, id, asked, s = store(), now = Date.now(), mods) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
+  const tid = taskId(id);
+  const list = Array.isArray(asked) ? asked : [];
+  if (!tid) return { error: 'That task has been deleted.' };
+  if (!list.length || list.length > TASK_ATTACH_MAX) return { error: `Attach between one and ${TASK_ATTACH_MAX} pictures and files.` };
+  const mark = authorMark(who), fresh = [], seen = new Set();
+  for (const a of list) {
+    const up = imageId(a && a.id);
+    if (!up || seen.has(up)) return { error: 'One of those pictures or files is not ready. Take it off and add it again.' };
+    seen.add(up);
+    const alt = cleanForumAlt(a.alt);
+    if (alt === null) return { error: `A picture's description is ${FORUM_ALT_MAX} characters at most.` };
+    const got = await s.getWithMetadata(TASK_UP + up, { type: 'arrayBuffer' });
+    const m = got && got.metadata;
+    if (!m || m.by !== mark || (m.kind !== 'pic' && m.kind !== 'file')) {
+      return { error: 'One of those pictures or files has gone, or is not yours. Take it off and add it again.' };
+    }
+    const file = { id: up, kind: m.kind, type: m.type, size: m.size, by: who.handle, t: now };
+    if (m.kind === 'file') file.name = m.name;
+    if (m.kind === 'pic' && alt) file.alt = alt;
+    fresh.push({ file, data: got.data });
+  }
+  // Under the task before the task is written, so no task ever holds a file that is not there.
+  for (const x of fresh) {
+    const f = x.file;
+    await s.set(taskFileKey(tid, f.id), x.data, { metadata: { kind: f.kind, type: f.type, size: f.size, ...(f.name ? { name: f.name } : {}), t: now } });
+  }
+  let saved = null, why = null, before = null;
+  await updateList(TASKS, 'tasks', (all) => {
+    saved = null; why = null;
+    const k = all.findIndex((x) => x.id === tid);
+    if (k < 0) { why = 'That task has been deleted.'; return null; }
+    before = all[k];
+    const had = before.files || [];
+    const adding = fresh.map((x) => x.file).filter((f) => !had.some((h) => h.id === f.id));
+    if (had.length + adding.length > TASK_ATTACH_MAX) { why = `A task holds ${TASK_ATTACH_MAX} pictures and files at most.`; return null; }
+    saved = { ...before, files: [...had, ...adding], edited: now, editedBy: who.handle };
+    const copy = all.slice(); copy[k] = saved; return copy;
+  }, s);
+  if (why) {
+    for (const x of fresh) await s.delete(taskFileKey(tid, x.file.id));
+    return { error: why };
+  }
+  for (const x of fresh) await s.delete(TASK_UP + x.file.id);
+  await noteTask('changed', who.handle, before, saved, s, now, mods).catch(() => null);
+  return { task: shapeTask(saved, true) };
+}
+
+/* A picture or file taken off task `id`, and deleted. */
+export async function detachTask(who, id, fid, s = store(), now = Date.now(), mods) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  if (mods === undefined) mods = await loadMods();
+  const tid = taskId(id), f = imageId(fid);
+  if (!tid) return { error: 'That task has been deleted.' };
+  let saved = null, why = null, before = null;
+  await updateList(TASKS, 'tasks', (all) => {
+    saved = null; why = null;
+    const k = all.findIndex((x) => x.id === tid);
+    if (k < 0) { why = 'That task has been deleted.'; return null; }
+    before = all[k];
+    const had = before.files || [];
+    if (!f || !had.some((x) => x.id === f)) { why = 'That picture or file has already been taken off.'; return null; }
+    saved = { ...before, files: had.filter((x) => x.id !== f), edited: now, editedBy: who.handle };
+    const copy = all.slice(); copy[k] = saved; return copy;
+  }, s);
+  if (why) return { error: why };
+  await s.delete(taskFileKey(tid, f));
+  await noteTask('changed', who.handle, before, saved, s, now, mods).catch(() => null);
+  return { task: shapeTask(saved, true) };
+}
+
+/* A picture's description on task `id`, written, changed or taken off. */
+export async function describeTaskFile(who, id, fid, alt, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const tid = taskId(id), f = imageId(fid);
+  const said = cleanForumAlt(alt);
+  if (said === null) return { error: `A picture's description is ${FORUM_ALT_MAX} characters at most.` };
+  let saved = null, why = null;
+  await updateList(TASKS, 'tasks', (all) => {
+    saved = null; why = null;
+    const k = all.findIndex((x) => x.id === tid);
+    if (k < 0) { why = 'That task has been deleted.'; return null; }
+    const had = all[k].files || [];
+    const j = had.findIndex((x) => x.id === f && x.kind === 'pic');
+    if (j < 0) { why = 'That picture has been taken off.'; return null; }
+    const pic = { ...had[j] };
+    if (said) pic.alt = said; else delete pic.alt;
+    if ((pic.alt || '') === (had[j].alt || '')) { saved = all[k]; return null; }
+    const files = had.slice(); files[j] = pic;
+    saved = { ...all[k], files, edited: now, editedBy: who.handle };
+    const copy = all.slice(); copy[k] = saved; return copy;
+  }, s);
+  if (why) return { error: why };
+  return { task: shapeTask(saved, true) };
+}
+
+/* One picture or file, for a reader of Tasks while its task holds it, and
+   for nobody else. { data, file } or null. */
+export async function taskFile(who, tid, fid, s = store()) {
+  if (!tasksAllow(who)) return null;
+  const t = (await readTasks(s)).find((x) => x.id === taskId(tid));
+  const id = imageId(fid);
+  const file = t && id && (t.files || []).find((x) => x.id === id);
+  if (!file) return null;
+  const got = await s.getWithMetadata(taskFileKey(t.id, id), { type: 'arrayBuffer' });
+  return got && got.data ? { data: got.data, file: shapeTaskFile(file) } : null;
+}
+
+/* Hourly: an upload no task took within a day, and a file whose task no
+   longer holds it, an hour after it was copied (a task being attached to
+   right now has its files before it holds them). */
+export async function sweepTaskFiles(s = store(), now = Date.now()) {
+  for (const b of (await s.list({ prefix: TASK_UP })).blobs || []) {
+    const m = await blobMeta(s, b.key);
+    if (!m || typeof m.t !== 'number' || now - m.t >= TASK_UNSENT) await s.delete(b.key);
+  }
+  const files = (await s.list({ prefix: TASK_FILE })).blobs || [];
+  if (!files.length) return;
+  const held = new Set();
+  for (const t of await readTasks(s)) for (const f of t.files || []) held.add(taskFileKey(t.id, f.id));
+  for (const b of files) {
+    if (held.has(b.key)) continue;
+    const m = await blobMeta(s, b.key);
+    if (!m || typeof m.t !== 'number' || now - m.t >= 60 * 60 * 1000) await s.delete(b.key);
+  }
 }
 
 /* ACTIVITY AND NOTIFICATIONS (Ryan's ask, 2026-10-21, after EspoCRM's stream
@@ -11809,6 +11999,15 @@ export function taskChanges(had, next) {
     if (Array.isArray(a) || Array.isArray(b) ? !sameList(a, b) : a !== b) out.push({ field: k, from: a, to: b });
   }
   if ((had.body || '') !== (next.body || '')) out.push({ field: 'body' });
+  // Pictures and files: how many of each went on and came off, never their names.
+  const was = had.files || [], is = next.files || [];
+  const count = (list, other) => {
+    const n = { pic: 0, file: 0 };
+    for (const f of list) if (!other.some((x) => x.id === f.id)) n[f.kind === 'pic' ? 'pic' : 'file']++;
+    return n;
+  };
+  const put = count(is, was), off = count(was, is);
+  if (put.pic + put.file + off.pic + off.file) out.push({ field: 'files', put, off });
   return out;
 }
 

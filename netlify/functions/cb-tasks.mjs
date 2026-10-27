@@ -23,6 +23,10 @@
      { action: 'tick', id, n, text, on }             checkbox n in a task's description ticked (on) or
                                                      not; text is the words the page saw beside it
      { action: 'remove', id }                        a task deleted
+     { action: 'attach', id, files: [{ id, alt? }] } pictures and files put up at /cb/tasks/file attached
+                                                     to a task; alt, a picture's description
+     { action: 'detach', id, f }                     picture or file f taken off a task, and deleted
+     { action: 'describe', id, f, alt }              picture f's description written, changed or taken off
      { action: 'comment', id, body }                 a comment on a task
      { action: 'comment-edit', id, c, body }         comment c changed, by whoever wrote it
      { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
@@ -46,6 +50,7 @@
    A task saved with tpl, a template's id, keeps which template it was made from.
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
+  attachTask, detachTask, describeTaskFile, TASK_ATTACH_MAX, FORUM_FILE_TYPES, FORUM_FILE_MAX, FORUM_ALT_MAX,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
@@ -56,7 +61,8 @@ const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
   repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS, statusColours: TASK_STATUS_COLOURS, feedPage: FEED_PAGE,
-  commentMax: TASK_COMMENT_MAX, fillIns: TASK_FILL_INS };
+  commentMax: TASK_COMMENT_MAX, fillIns: TASK_FILL_INS,
+  attachMax: TASK_ATTACH_MAX, fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES), altMax: FORUM_ALT_MAX };
 
 /* A task a recurring task made says which, while that recurring task is there, and so does one made
    from a template. */
@@ -135,6 +141,18 @@ export default async (req) => {
     if (b.action === 'remove') {
       const r = await removeTask(who, String(b.id || ''));
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { gone: true }, QUIET);
+    }
+    if (b.action === 'attach') {
+      const r = await attachTask(who, String(b.id || ''), b.files);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { task: await withFrom(who, r.task) }, QUIET);
+    }
+    if (b.action === 'detach') {
+      const r = await detachTask(who, String(b.id || ''), String(b.f || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { task: await withFrom(who, r.task) }, QUIET);
+    }
+    if (b.action === 'describe') {
+      const r = await describeTaskFile(who, String(b.id || ''), String(b.f || ''), b.alt);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { task: await withFrom(who, r.task) }, QUIET);
     }
     if (b.action === 'comment') {
       const r = await commentTask(who, String(b.id || ''), b.body);

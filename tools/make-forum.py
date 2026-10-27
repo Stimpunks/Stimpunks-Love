@@ -384,8 +384,11 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: a copied message no longer comes out under the channel's own rule, canTakeOff.")
     if "readTuned(room, s)" not in fn(sec, "cbTranscript") or "quietRoom(room)" not in fn(sec, "cbTranscript"):
         problems.append(f"{LIB.name}: cbTranscript must copy off the channel itself, and never out of a quiet room.")
+    # The checks are uploadMeta's, shared with Tasks' pictures and files (2026-10-27).
     up = fn(sec, "putForumUpload")
-    if "carriesMetadata(bytes, type)" not in up or "fileKind(bytes, name)" not in up:
+    meta = re.search(r"\nfunction uploadMeta\(.*?\n\}", sec, re.S)
+    meta = meta.group(0) if meta else ""
+    if "uploadMeta(" not in up or "carriesMetadata(bytes, type)" not in meta or "fileKind(bytes, name" not in meta:
         problems.append(f"{LIB.name}: putForumUpload no longer refuses a picture still carrying its camera's data, or a file that is not what it says.")
     if "picturish(bytes)" not in fn(sec, "fileKind"):
         problems.append(f"{LIB.name}: fileKind no longer refuses a picture sent as a file, which would keep its camera's data.")

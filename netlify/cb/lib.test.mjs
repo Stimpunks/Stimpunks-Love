@@ -87,7 +87,7 @@ function memoryStore({ etagOnRead }) {
     async set(key, value, opts = {}) {
       await tick();
       // A picture's or a forum upload's key is a fresh random id, so writing it can race nothing.
-      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|suggest-img|forum-up|forum-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
+      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|suggest-img|forum-up|forum-file|task-up|task-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -8887,3 +8887,77 @@ test('the Wiki’s bot answers only a request signed with its own key, recently'
     assert.ok(!forumBotSigned(sig('k'.repeat(40), t), raw, T0), 'a request was taken with no key set');
   } finally { if (was === undefined) delete process.env.CB_FORUM_BOT_KEY; else process.env.CB_FORUM_BOT_KEY = was; }
 });
+
+
+/* ── Tasks' pictures and files (2026-10-27) ── */
+import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, sweepTaskFiles, TASK_ATTACH_MAX } from './lib.mjs';
+
+{
+  const withStaffKey = async (fn) => {
+    const was = process.env.CB_STAFF_KEY;
+    process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+    try { await fn(); } finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+  };
+
+  test('a task takes pictures and files by the forums\' rules, sealed, served only to Tasks\' readers while it holds them', () => withStaffKey(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    assert.ok(staffBytes('task-file/k/x') && staffBytes('task-up/x'));
+    const t = (await saveTask(TCHELSEA, { name: 'Rent for Juniper', who: 'Norah' }, s, T0, TMODS)).task;
+    // The forums' checks, every one.
+    assert.match((await putTaskUpload(TSAM, { kind: 'pic' }, JPEG(), s, T0)).error, /directors, board members/);
+    assert.match((await putTaskUpload(TRYAN, { kind: 'pic' }, EXIF(), s, T0)).error, /camera data/);
+    assert.match((await putTaskUpload(TRYAN, { kind: 'file', name: 'photo.pdf' }, JPEG(), s, T0)).error, /That is a picture/);
+    assert.match((await putTaskUpload(TRYAN, { kind: 'file', name: 'run.pdf' }, PDF('/JavaScript (x)'), s, T0)).error, /script/);
+    assert.match((await putTaskUpload(TRYAN, { kind: 'file', name: 'page.html' }, Buffer.from('<p>'), s, T0)).error, /name ends in/);
+    assert.match((await putTaskUpload(TRYAN, { kind: 'file', name: 'macro.docx' }, ZIP('word/vbaProject.bin'), s, T0)).error, /macros/);
+    const pic = await putTaskUpload(TRYAN, { kind: 'pic' }, JPEG(), s, T0);
+    const doc = await putTaskUpload(TRYAN, { kind: 'file', name: 'Lease for Juniper.pdf' }, PDF('lease for Juniper'), s, T0);
+    assert.ok(pic.id && doc.id, pic.error || doc.error);
+    assert.ok(!Buffer.from(await s.raw.get('task-up/' + doc.id, { type: 'arrayBuffer' })).includes(Buffer.from('Juniper')), 'an upload was written in the clear');
+    // Only its sender attaches an upload.
+    assert.match((await attachTask(TCHELSEA, t.id, [{ id: doc.id }], s, T0 + 1, TMODS)).error, /not yours/);
+    assert.match((await attachTask(TRYAN, t.id, [{ id: pic.id, alt: 'x'.repeat(601) }], s, T0 + 1, TMODS)).error, /description/);
+    const r = await attachTask(TRYAN, t.id, [{ id: pic.id, alt: 'The lease, first page' }, { id: doc.id }], s, T0 + 1, TMODS);
+    assert.ok(r.task, r.error);
+    assert.deepEqual(r.task.files.map((f) => [f.kind, f.name || f.alt, f.by]), [['pic', 'The lease, first page', 'Ryan'], ['file', 'Lease for Juniper.pdf', 'Ryan']]);
+    assert.ok(!s.keys().some((k) => k.startsWith('task-up/')), 'an attached upload was left waiting');
+    const fk = s.keys().find((k) => k.startsWith('task-file/') && k.endsWith(doc.id));
+    assert.ok(!Buffer.from(await s.raw.get(fk, { type: 'arrayBuffer' })).includes(Buffer.from('Juniper')), 'a task\'s file was written in the clear');
+    assert.ok(!JSON.stringify(await s.raw.get('tasks', { type: 'json' })).includes('Juniper'), 'a file\'s name is on the tasks in the clear');
+    assert.deepEqual(Buffer.from((await taskFile(TCHELSEA, t.id, doc.id, s)).data), PDF('lease for Juniper'));
+    assert.equal(await taskFile(TSAM, t.id, doc.id, s), null, 'somebody off Tasks fetched a task\'s file');
+    assert.equal((await tasksList(TRYAN, s))[0].attached, 2);
+    // Its activity counts what went on, and never names it.
+    const act = await taskActivity(TRYAN, t.id, s);
+    assert.deepEqual(act[0].changes, [{ field: 'files', put: { pic: 1, file: 1 }, off: { pic: 0, file: 0 } }]);
+    assert.ok(!JSON.stringify(act).includes('Lease'), 'the activity names a file');
+    assert.ok((await taskInbox(fw('Norah', 900, ['director']), s, T0 + 2)).items.some((x) => x.changes && x.changes[0].field === 'files'), 'the assignee was not told');
+    // A picture's description changes; a file has none.
+    assert.equal((await describeTaskFile(TCHELSEA, t.id, pic.id, '', s, T0 + 3)).task.files[0].alt, undefined);
+    assert.match((await describeTaskFile(TCHELSEA, t.id, doc.id, 'words', s, T0 + 3)).error, /taken off/);
+    // Anybody on Tasks takes one off, and it is deleted.
+    assert.ok((await detachTask(TCHELSEA, t.id, doc.id, s, T0 + 4, TMODS)).task);
+    assert.equal(await taskFile(TRYAN, t.id, doc.id, s), null);
+    assert.ok(!s.keys().includes(fk), 'a file taken off was kept');
+    assert.match((await detachTask(TCHELSEA, t.id, doc.id, s, T0 + 4, TMODS)).error, /already/);
+    // Deleting the task deletes its files.
+    await removeTask(TRYAN, t.id, s, T0 + 5, TMODS);
+    assert.ok(!s.keys().some((k) => k.startsWith('task-file/')), 'a deleted task left its files');
+  }));
+
+  test('a task holds TASK_ATTACH_MAX at most, and the sweep takes uploads no task took and files no task holds', () => withStaffKey(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    const t = (await saveTask(TRYAN, { name: 'Many' }, s, T0, TMODS)).task;
+    const ups = [];
+    for (let i = 0; i <= TASK_ATTACH_MAX; i++) ups.push((await putTaskUpload(TRYAN, { kind: 'file', name: `n${i}.txt` }, Buffer.from('note ' + i), s, T0)).id);
+    assert.match((await attachTask(TRYAN, t.id, ups.map((id) => ({ id })), s, T0, TMODS)).error, /between one and/);
+    assert.ok((await attachTask(TRYAN, t.id, ups.slice(0, TASK_ATTACH_MAX).map((id) => ({ id })), s, T0, TMODS)).task);
+    assert.match((await attachTask(TRYAN, t.id, [{ id: ups[TASK_ATTACH_MAX] }], s, T0, TMODS)).error, /at most/);
+    assert.ok(s.keys().includes('task-up/' + ups[TASK_ATTACH_MAX]), 'a refused upload was dropped rather than left to try again');
+    // A file no task holds, an hour on, and an upload a day on, are swept; the task's own stay.
+    await s.set('task-file/' + t.id + '/' + ups[0].replace(/.$/, 'f'), Buffer.from('stray'), { metadata: { t: T0 } });
+    await sweepTaskFiles(s, T0 + DAYS(1));
+    assert.ok(!s.keys().some((k) => k.startsWith('task-up/')), 'an upload nobody attached was kept');
+    assert.equal(s.keys().filter((k) => k.startsWith('task-file/')).length, TASK_ATTACH_MAX, 'the sweep took a held file or left a stray');
+  }));
+}

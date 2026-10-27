@@ -389,8 +389,8 @@ def check_js():
     # Pages it links to are on the list beside the one thing it calls; the office
     # and the forums are one press away in the bar (Ryan, 2026-10-21).
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
-        if url not in ("/cb/tasks", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html", "/forum.html"):
-            problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks and nothing else.")
+        if url not in ("/cb/tasks", "/cb/tasks/file", "/cb.css", "/tasks.css", "/privacy.html", "/cb-guide.html", "/community-center.html", "/tasks.html", "/office.html", "/forum.html"):
+            problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks, and /cb/tasks/file for pictures and files, and nothing else.")
 
 
 def check_timeline():
@@ -544,6 +544,41 @@ def check_sealed(lib):
         problems.append(f"{PRIVACY.name}: the tasks section does not say Tasks are sealed at rest and not end-to-end.")
 
 
+def check_files(lib):
+    """Pictures and files on a task (2026-10-27): the forums' rules, sealed,
+    no public address, gone with their task, and never named in an activity."""
+    m = re.search(r"const STAFF_BYTES = \[(.*?)\];", lib, re.S)
+    if not m or "task-file" not in m.group(1) or "task-up" not in m.group(1):
+        problems.append(f"{LIB.name}: STAFF_BYTES no longer names task-file/ and task-up/, so a task's pictures and files could be written in the clear.")
+    if "uploadMeta(" not in fn(lib, "putTaskUpload"):
+        problems.append(f"{LIB.name}: putTaskUpload checks an upload some way other than uploadMeta, the forums' checks: camera data, file kinds by their first bytes, macros.")
+    if "dropTaskFiles(" not in fn(lib, "removeTask"):
+        problems.append(f"{LIB.name}: removeTask leaves a deleted task's pictures and files behind.")
+    if "tasksAllow(who)" not in fn(lib, "taskFile"):
+        problems.append(f"{LIB.name}: taskFile serves a task's file without asking tasksAllow.")
+    ch = fn(lib, "taskChanges")
+    files = ch[ch.find("field: 'files'") - 200:] if "field: 'files'" in ch else ""
+    if not files or re.search(r"\.name|\.alt", files):
+        problems.append(f"{LIB.name}: taskChanges must say how many pictures and files went on or came off, and never their names or descriptions: privacy.html#task-files says so.")
+    f = ROOT / "netlify" / "functions" / "cb-tasks-file.mjs"
+    code = code_of(f) if f.exists() else ""
+    for need, why in (("if (!staffReady())", "it does not shut without the staff key"),
+                      ("if (!tasksAllow(who))", "it does not refuse everybody tasksAllow does not let in"),
+                      ("'x-robots-tag': 'noindex'", "its answers do not ask search engines not to keep them"),
+                      ("content-disposition", "a file is not sent to be saved, never shown"),
+                      ("sandbox", "a file opened on its own is not sandboxed"),
+                      ("path: '/cb/tasks/file'", "it no longer answers at /cb/tasks/file, where tasks.js asks")):
+        if need not in code:
+            problems.append(f"netlify/functions/cb-tasks-file.mjs: {why}.")
+    if "sweepTaskFiles()" not in (ROOT / "netlify" / "functions" / "cb-midnight.mjs").read_text():
+        problems.append("cb-midnight.mjs: the hourly sweep no longer takes task uploads nobody attached.")
+    js = code_of(JS)
+    if "window.loveRedraw(" not in js or "getContext" in js:
+        problems.append(f"{JS.name}: a picture must go through the radio's one redraw, window.loveRedraw, which takes off its camera data, and tasks.js must draw on no canvas of its own.")
+    if 'id="task-files"' not in PRIVACY.read_text():
+        problems.append(f"{PRIVACY.name}: the tasks section does not say what a task keeps of its pictures and files (id=\"task-files\").")
+
+
 def check_rooms(lib, data):
     m = re.search(r"export const MOD_ROOMS = \{(.*?)\n\};", lib, re.S)
     mods = {k: re.findall(r"'([a-z]+)'", v) for k, v in re.findall(r"^\s*'([a-z0-9-]+)':\s*\[([^\]]*)\]", m.group(1), re.M)} if m else {}
@@ -586,6 +621,7 @@ def main():
     check_page()
     check_rooms(lib, data)
     check_sealed(lib)
+    check_files(lib)
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1

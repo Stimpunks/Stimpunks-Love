@@ -386,3 +386,29 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-fmtlink__note { font-size: 14px; }
 .tk-fmtlink__wrong:empty { display: none; }
 .tk-fmtlink__wrong { font-weight: 700; }
+
+/* PICTURES AND FILES on a task, after EspoCRM's Attachments: the forums'
+   frames, in the radio's own clothes. A picture grows when pressed; a file is
+   a button that saves it. A section with things dragged over it takes the
+   amber the radio marks things with. */
+.tk-files { display: grid; gap: 10px; }
+.tk-files--over { outline: 3px dashed var(--cb-amber); outline-offset: 6px; border-radius: 6px; }
+.tk-pics { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px; }
+.tk-pic { flex: 0 1 300px; max-width: 100%; display: grid; gap: 4px; align-content: start; }
+.tk-pic__btn { display: block; padding: 0; border: 2px solid var(--cb-steel-2); border-radius: 6px; background: var(--cb-bar); cursor: zoom-in; max-width: 100%; justify-self: start; }
+.tk-pic__btn[aria-pressed="true"] { cursor: zoom-out; border-color: var(--cb-amber); }
+.tk-pic__img { display: block; max-width: 100%; max-height: 220px; min-width: 64px; min-height: 64px; border-radius: 4px; object-fit: contain; }
+.tk-pic--large { flex-basis: 100%; }
+.tk-pic--large .tk-pic__img { max-height: none; width: auto; }
+.tk-pic__alt, .tk-pic .tk-when { margin: 0; }
+.tk-docs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.tk-doc { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.tk-attach { display: grid; gap: 8px; justify-items: start; }
+.tk-att { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; width: 100%; }
+.tk-att:empty { display: none; }
+.tk-att__item { display: grid; gap: 4px; padding: 8px 10px; border: 2px dashed var(--cb-steel-2); border-radius: 6px; justify-items: start; }
+.tk-att__thumb { display: block; max-width: 160px; max-height: 120px; border-radius: 4px; border: 2px solid var(--cb-steel-2); }
+.tk-alt { width: min(100%, 30rem); font-size: 16px; }
+.tk-describe { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; }
+.tk-describe label { flex: 1 1 100%; }
+.tk-attached { font-size: 14px; color: var(--cb-amber-2); white-space: nowrap; }

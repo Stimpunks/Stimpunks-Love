@@ -6183,6 +6183,20 @@ its page is found by name and due day (the nearest within three days for a name 
 `comments.mjs` takes our task id with each comment. **Leave out a comment naming an applicant or a member of the public**,
 as the descriptions do: Tasks is not sealed.
 
+**A TASK TAKES PICTURES AND FILES BY THE FORUMS' RULES, AND ITS ACTIVITY NEVER NAMES THEM.** Ryan's ask, 2026-10-27,
+after EspoCRM's attachments: a Pictures and files section on every task (`filesSection` in `tasks.js`), up to
+`TASK_ATTACH_MAX`. **One check for both places**: `uploadMeta` in `lib.mjs` is the forums' (camera data refused, a file
+one of `FORUM_FILE_TYPES` by its first bytes, no macros), and `putTaskUpload` and `putForumUpload` both call it; a picture
+goes through `window.loveRedraw`, never a canvas of `tasks.js`'s own. An upload waits under `task-up/`, marked with its
+sender's mark, and `attachTask` copies it to `task-file/<task>/<id>` before the task is written; both are in
+`STAFF_BYTES`, so sealed. `/cb/tasks/file` (`cb-tasks-file.mjs`) serves one only to `tasksAllow` while its task holds it,
+a file only as an attachment; anybody on Tasks attaches or takes one off, as anybody changes a task, and `removeTask` and
+the hourly `sweepTaskFiles` delete what nothing holds. **`taskChanges` says how many pictures and files went on or came
+off and never their names** (`{ field: 'files', put, off }`), because a name can say whose papers they are, and the
+activity and notifications are kept apart from the task. `make-tasks.py` (`check_files`) holds all of it. The friendly
+edits are **a file's name in the activity "so you know which"**, **a public link to a picture "to share it"**, and
+**comments with attachments** done by copying this code into `comments.js` rather than sharing it.
+
 **TASKS AND THE OFFICE EACH HAVE A FEED, AFTER NOTION'S, AND IT KEEPS NOTHING.** Ryan's ask, 2026-10-21: a
 reverse-chronological feed with previews you can act on. Tasks' is a fourth view (`#/feed`) beside the list, board and
 timeline, with their filters, saved filters and address; the office's (`#/feed`) shows grant requests and cases, and

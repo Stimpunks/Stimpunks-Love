@@ -974,6 +974,8 @@
         var a = el('a', null, x.name); a.href = '#/t/' + x.id;
         peek.watch(a, x.id, peekWays);
         td.appendChild(a);
+        // How many pictures and files it holds, after the name: numbers are fine in Tasks.
+        if (x.attached) td.appendChild(el('span', 'tk-attached', ' · ' + attachedWords(x.attached)));
         tr.appendChild(td);
         var st = el('td'); st.appendChild(statusPill(x.status)); tr.appendChild(st);
         var pr = el('td', null, x.priority);
@@ -1516,6 +1518,7 @@
       if (others.length) bits.push('with ' + others.join(', '));
       if (t.start && t.due && t.start !== t.due) bits.push('starts ' + dayWords(t.start));
       if (t.due) bits.push('due ' + dayWords(t.due));
+      if (t.attached) bits.push(attachedWords(t.attached));
       facts.appendChild(document.createTextNode(bits.join(' · ')));
       if (overdue(t)) facts.appendChild(tag('OVERDUE', 'tk-late'));
       li.appendChild(facts);
@@ -1736,6 +1739,8 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
+    // Pictures and files, after EspoCRM's Attachments: fetched with the pass, never from a public address.
+    view.appendChild(filesSection(t));
     // Linked from: the tasks, comments, topics and office records that link here, which this reader can open (links.js).
     var from = linked.id === t.id && window.loveLinks.backlinks(linked.list, { p: 'tk', heading: heading });
     if (from) view.appendChild(from);
@@ -1758,6 +1763,266 @@
     }
     return h;
   }
+  /* ── Pictures and files on a task ─────────────────────────────────────── */
+
+  /* The forums' rules (attachTask in lib.mjs): a picture is redrawn by the
+     radio's one redraw (window.loveRedraw) before it goes, which takes off what
+     a camera wrote into it; a file goes as it is, one of settings.kinds,
+     checked by its first bytes on the server. Each is fetched with the pass
+     from /cb/tasks/file, and a file is only ever saved, never opened here.
+     Anybody on Tasks attaches to a task and takes one off, as anybody changes
+     a task; the activity says how many went on or came off, never their names. */
+  var fetchedFiles = {};
+  function fileCall(q, bytes) {
+    var s = cbState();
+    var headers = { authorization: 'Bearer ' + (s ? s.pass : '') };
+    if (bytes) { headers['content-type'] = 'application/octet-stream'; headers.accept = 'application/json'; }
+    return fetch('/cb/tasks/file?' + q, { method: bytes ? 'POST' : 'GET', headers: headers, body: bytes || undefined, credentials: 'omit', cache: 'no-store' })
+      .then(function (r) { return r; }, function () { return { ok: false, status: 0, json: function () { return Promise.resolve({}); } }; });
+  }
+  function sizeWords(n) {
+    if (n >= 1000000) return (Math.round(n / 100000) / 10) + ' MB';
+    return Math.max(1, Math.round(n / 1000)) + ' KB';
+  }
+  function fileQuery(t, f) { return 't=' + encodeURIComponent(t.id) + '&f=' + encodeURIComponent(f.id); }
+  // Who attached it and when: "Chelsea, 2 hours ago".
+  function attachedWords(n) { return n === 1 ? 'a picture or file' : n + ' pictures and files'; }
+  function attachedBy(f) { return (f.by ? whoWords(f.by, true) + ', ' : '') + (f.t ? when(f.t) : ''); }
+  function filesSection(t) {
+    var sec = el('section', 'tk-files');
+    sec.appendChild(heading(3, 'Pictures and files'));
+    var files = t.files || [];
+    var pics = files.filter(function (f) { return f.kind === 'pic'; });
+    var docs = files.filter(function (f) { return f.kind === 'file'; });
+    if (!files.length) sec.appendChild(quiet('None yet.'));
+    if (pics.length) { var ul = el('ul', 'tk-pics'); pics.forEach(function (f) { ul.appendChild(picItem(t, f)); }); sec.appendChild(ul); }
+    if (docs.length) { var ul2 = el('ul', 'tk-docs'); docs.forEach(function (f) { ul2.appendChild(docItem(t, f)); }); sec.appendChild(ul2); }
+    sec.appendChild(attacher(t, files.length, sec));
+    return sec;
+  }
+  // After a change to the pictures and files, the task drawn again with the keyboard back on their heading.
+  function afterFiles(r, said) {
+    var h = drawTask(r.body.task);
+    var back = view.querySelector('.tk-files h3');
+    (back || h).focus();
+    freshActivity(r.body.task.id);
+    say(said);
+  }
+  function takeOff(t, f, row, btn) {
+    var name = f.kind === 'pic' ? (f.alt ? 'the picture “' + f.alt + '”' : 'this picture') : '“' + f.name + '”';
+    sure(row, 'This takes ' + name + ' off the task and deletes it for everybody. It cannot be put back.', 'Take it off', function (done) {
+      call(null, { action: 'detach', id: t.id, f: f.id }).then(function (r) {
+        done();
+        if (r.status !== 200) { say(why(r, 'That was not taken off. Nothing was changed.')); return; }
+        afterFiles(r, 'Taken off and deleted.');
+      });
+    }, btn);
+  }
+  function picItem(t, f) {
+    var li = el('li', 'tk-pic');
+    var said = f.alt || 'A picture with no description.';
+    var b = el('button', 'tk-pic__btn');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', 'false');
+    b.setAttribute('aria-label', 'Larger: ' + said);
+    var img = el('img', 'tk-pic__img');
+    img.alt = '';
+    b.appendChild(img);
+    li.appendChild(b);
+    b.addEventListener('click', function () {
+      var big = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', String(big));
+      li.classList.toggle('tk-pic--large', big);
+    });
+    var key = t.id + '/' + f.id;
+    if (fetchedFiles[key]) img.src = fetchedFiles[key];
+    else fileCall(fileQuery(t, f)).then(function (r) { return r.ok ? r.blob() : null; }, function () { return null; }).then(function (blob) {
+      if (!blob || !/^image\//.test(blob.type)) { b.replaceWith(el('p', 'cb-quiet', 'This picture could not be fetched just now.')); return; }
+      img.src = fetchedFiles[key] = URL.createObjectURL(blob);
+    });
+    li.appendChild(el('p', f.alt ? 'tk-pic__alt' : 'tk-pic__alt cb-quiet', f.alt || 'No description.'));
+    li.appendChild(el('p', 'tk-when', attachedBy(f)));
+    var row = el('div', 'tk-row');
+    var describe = el('button', 'cb-btn tk-small', f.alt ? 'Change its description' : 'Describe it');
+    describe.type = 'button';
+    describe.addEventListener('click', function () {
+      describe.hidden = true;
+      var form = el('div', 'tk-describe');
+      var id = 'tk-alt-' + f.id;
+      var lab = el('label', null, 'What is in it');
+      lab.htmlFor = id;
+      var input = el('input', 'tk-input tk-alt');
+      input.id = id;
+      input.type = 'text';
+      input.maxLength = settings.altMax || 600;
+      input.value = f.alt || '';
+      var save = el('button', 'cb-btn tk-small', 'Save it'); save.type = 'button';
+      var cancel = el('button', 'cb-btn tk-small', 'Cancel'); cancel.type = 'button';
+      form.appendChild(lab); form.appendChild(input); form.appendChild(save); form.appendChild(cancel);
+      row.appendChild(form);
+      input.focus();
+      cancel.addEventListener('click', function () { form.remove(); describe.hidden = false; describe.focus(); });
+      function send() {
+        save.disabled = true;
+        call(null, { action: 'describe', id: t.id, f: f.id, alt: input.value }).then(function (r) {
+          save.disabled = false;
+          if (r.status !== 200) { say(why(r, 'That did not save. Nothing was changed.')); return; }
+          afterFiles(r, input.value.trim() ? 'Its description is saved.' : 'Its description is taken off.');
+        });
+      }
+      save.addEventListener('click', send);
+      input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } if (e.key === 'Escape') { e.preventDefault(); cancel.click(); } });
+    });
+    var off = el('button', 'cb-btn tk-small', 'Take it off'); off.type = 'button';
+    off.addEventListener('click', function () { takeOff(t, f, row, off); });
+    row.appendChild(describe);
+    row.appendChild(off);
+    li.appendChild(row);
+    return li;
+  }
+  function docItem(t, f) {
+    var li = el('li', 'tk-doc');
+    var b = el('button', 'cb-btn tk-small', 'Save “' + f.name + '”');
+    b.type = 'button';
+    li.appendChild(b);
+    li.appendChild(el('span', 'tk-when', (f.name.split('.').pop() || '').toUpperCase() + ', ' + sizeWords(f.size) + '. ' + attachedBy(f)));
+    b.addEventListener('click', function () {
+      b.disabled = true;
+      fileCall(fileQuery(t, f)).then(function (r) { return r.ok ? r.arrayBuffer() : null; }, function () { return null; }).then(function (buf) {
+        b.disabled = false;
+        if (!buf) { say('That file could not be fetched just now.'); return; }
+        // Saved, never opened here: a type no browser shows as a page.
+        var url = URL.createObjectURL(new Blob([buf], { type: 'application/octet-stream' }));
+        var a = el('a');
+        a.href = url;
+        a.download = f.name;
+        a.hidden = true;
+        li.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+        say('Saving ' + f.name + '. It is exactly as it was attached: open it only with something you trust.');
+      });
+    });
+    var off = el('button', 'cb-btn tk-small', 'Take it off'); off.type = 'button';
+    off.addEventListener('click', function () { takeOff(t, f, li, off); });
+    li.appendChild(off);
+    return li;
+  }
+  /* Adding: pick pictures or files (or drop them on the section), each put up
+     as it is chosen, then attached together with a press, a picture with its
+     description if somebody writes one. Nothing is attached until that press;
+     an upload never attached goes from the server after a day. */
+  function attacher(t, have, sec) {
+    var most = settings.attachMax || 30, kinds = settings.kinds || [];
+    var wrap = el('div', 'tk-attach');
+    var add = el('button', 'cb-btn tk-small', 'Add pictures or files'); add.type = 'button';
+    var picker = el('input');
+    picker.type = 'file';
+    picker.multiple = true;
+    // Any picture: written in two halves, because a slash and a star together read as the start of a comment to the tools that check this file.
+    picker.accept = 'image/' + '*,' + kinds.map(function (k) { return '.' + k; }).join(',');
+    picker.hidden = true;
+    picker.tabIndex = -1;
+    add.addEventListener('click', function () { picker.click(); });
+    var note = el('p', 'cb-quiet tk-hint', 'Pictures are redrawn in your browser before they go, which takes off what a camera wrote into them, where it was taken included. A file goes exactly as it is, with anything written inside it, such as an author’s name. Files can be ' +
+      kinds.map(function (k) { return '.' + k; }).join(', ') + ', up to ' + sizeWords(settings.fileMax || 5000000) + ' each, and a task holds ' + most + ' pictures and files at most. Ask anybody recognisable in a picture before you attach it.');
+    var tray = el('ul', 'tk-att');
+    var go = el('button', 'cb-btn tk-small', 'Attach them'); go.type = 'button'; go.hidden = true;
+    var answer = el('p', 'tk-answer');
+    answer.setAttribute('role', 'status');
+    var ready = [], pending = 0;
+    function drawTray() {
+      tray.textContent = '';
+      ready.forEach(function (f, i) {
+        var li = el('li', 'tk-att__item');
+        if (f.kind === 'pic') {
+          var im = el('img', 'tk-att__thumb'); im.src = f.local; im.alt = ''; li.appendChild(im);
+          var id = 'tk-new-alt-' + f.id;
+          var lab = el('label', null, 'What is in it (if you like)'); lab.htmlFor = id;
+          var input = el('input', 'tk-input tk-alt'); input.id = id; input.type = 'text'; input.maxLength = settings.altMax || 600; input.value = f.alt;
+          input.addEventListener('input', function () { f.alt = input.value; });
+          li.appendChild(lab); li.appendChild(input);
+        } else li.appendChild(el('p', null, f.name + ', ' + sizeWords(f.size) + ', ready.'));
+        var drop = el('button', 'cb-btn tk-small', 'Leave it out'); drop.type = 'button';
+        drop.addEventListener('click', function () {
+          ready.splice(i, 1);
+          drawTray();
+          answer.textContent = 'Left out.';
+          (tray.querySelector('button') || add).focus();
+        });
+        li.appendChild(drop);
+        tray.appendChild(li);
+      });
+      go.hidden = !ready.length;
+      go.textContent = ready.length === 1 ? 'Attach it' : 'Attach them';
+    }
+    function upload(file) {
+      var ext = (String(file.name || '').split('.').pop() || '').toLowerCase();
+      var isPic = /^image\//.test(file.type || '') && !/svg/.test(file.type);
+      if (have + ready.length + pending >= most) return file.name + ' did not go: a task holds ' + most + ' pictures and files at most.';
+      if (!isPic && kinds.indexOf(ext) < 0) return (file.name || 'That') + ' is not a kind of file Tasks take. They take pictures, and ' + kinds.map(function (k) { return '.' + k; }).join(', ') + ' files.';
+      if (!isPic && file.size > (settings.fileMax || 5000000)) return file.name + ' is ' + sizeWords(file.size) + '. A file is ' + sizeWords(settings.fileMax || 5000000) + ' at most.';
+      if (isPic && !window.loveRedraw) return (file.name || 'The picture') + ' did not go: the radio, which redraws pictures, has not finished loading. Try again in a moment.';
+      pending++;
+      go.disabled = true;
+      answer.textContent = isPic ? 'Redrawing the picture…' : 'Sending ' + file.name + '…';
+      (isPic ? window.loveRedraw(file) : Promise.resolve(file)).then(function (blob) {
+        return fileCall(isPic ? 'kind=pic' : 'kind=file&name=' + encodeURIComponent(file.name), blob).then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (b) {
+            if (!r.ok) throw new Error((b && b.error) || 'it could not be sent just now.');
+            ready.push({ id: b.id, kind: b.kind, name: b.name, size: b.size, alt: '', local: isPic ? URL.createObjectURL(blob) : null });
+            drawTray();
+            answer.textContent = isPic ? 'The picture is ready. Say what is in it, if you like, then attach it.' : file.name + ' is ready to attach.';
+          });
+        });
+      }).catch(function (e) {
+        answer.textContent = (file.name || 'The picture') + ': ' + ((e && e.message && e.message !== 'big') ? e.message : (isPic ? 'it could not be read or made small enough here. Try a screenshot of it, or another picture.' : 'it could not be sent just now.'));
+      }).then(function () { pending--; if (!pending) go.disabled = false; });
+      return null;
+    }
+    function several(list) {
+      var refused = list.map(upload).filter(Boolean);
+      if (refused.length) answer.textContent = refused.join(' ');
+    }
+    picker.addEventListener('change', function () {
+      var list = Array.prototype.slice.call(picker.files || []);
+      picker.value = '';
+      several(list);
+    });
+    // Dropped on the section, as on EspoCRM's: the button does the same for a keyboard, a screen reader and a phone.
+    sec.addEventListener('dragover', function (e) { if (e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types || [], 'Files') >= 0) { e.preventDefault(); sec.classList.add('tk-files--over'); } });
+    sec.addEventListener('dragleave', function () { sec.classList.remove('tk-files--over'); });
+    sec.addEventListener('drop', function (e) {
+      if (!e.dataTransfer || !e.dataTransfer.files || !e.dataTransfer.files.length) return;
+      e.preventDefault();
+      sec.classList.remove('tk-files--over');
+      several(Array.prototype.slice.call(e.dataTransfer.files));
+    });
+    go.addEventListener('click', function () {
+      if (!ready.length || pending) return;
+      go.disabled = true;
+      answer.textContent = 'Attaching…';
+      call(null, { action: 'attach', id: t.id, files: ready.map(function (f) { return { id: f.id, alt: f.alt }; }) }).then(function (r) {
+        go.disabled = false;
+        if (r.status !== 200) { answer.textContent = why(r, 'Nothing was attached. Try again in a moment.'); return; }
+        // The pictures just sent are shown from what was redrawn here, with no second fetch.
+        ready.forEach(function (f) { if (f.local) fetchedFiles[t.id + '/' + f.id] = f.local; });
+        var n = ready.length;
+        afterFiles(r, n === 1 ? 'Attached.' : n + ' attached.');
+      });
+    });
+    var row = el('div', 'tk-row');
+    row.appendChild(add);
+    row.appendChild(go);
+    wrap.appendChild(row);
+    wrap.appendChild(picker);
+    wrap.appendChild(tray);
+    wrap.appendChild(answer);
+    wrap.appendChild(note);
+    return wrap;
+  }
+
   /* What comments.js needs for this task's comments: tasks.js's own words,
      classes and way of asking /cb/tasks. */
   var talkNow = null;
@@ -1810,6 +2075,12 @@
   function changeWords(c) {
     var f = c.field;
     if (f === 'body') return 'edited the description';
+    if (f === 'files') {
+      // How many pictures and files went on or came off, never their names (taskChanges).
+      var count = function (n) { var w = []; if (n && n.pic) w.push(n.pic === 1 ? 'a picture' : n.pic + ' pictures'); if (n && n.file) w.push(n.file === 1 ? 'a file' : n.file + ' files'); return and(w); };
+      var on = count(c.put), gone = count(c.off);
+      return [on ? 'attached ' + on : '', gone ? 'took ' + gone + ' off' : ''].filter(Boolean).join(' and ');
+    }
     if (f === 'status' || f === 'priority') return 'changed ' + FIELD[f] + ' from ' + (c.from || 'nothing') + ' to ' + (c.to || 'nothing');
     if (f === 'name') return 'renamed it from “' + c.from + '” to “' + c.to + '”';
     if (f === 'start' || f === 'due') {
