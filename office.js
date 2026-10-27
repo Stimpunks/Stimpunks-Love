@@ -2766,7 +2766,7 @@
      Buttons, never dragging alone, so a keyboard, a screen reader and a phone
      can do all of it. Only the part under the links is drawn again on a change,
      so the notice above it never arrives twice. */
-  var DASH_WORDS = { newest: 'Newest', people: 'Open tasks by person', stands: 'How it stands', charts: 'Charts', connected: 'Mail and money' };
+  var DASH_WORDS = { newest: 'Newest', people: 'Open tasks by person', stands: 'How it stands', charts: 'Charts', mailbox: 'Team mailbox', quickbooks: 'QuickBooks', givebutter: 'Givebutter' };
   var BOX_WORDS = { grants: 'Grant requests', cases: 'Cases', mail: 'Email', tasks: 'Tasks', forum: 'Forum posts', forms: 'Form entries' };
   var arranging = false;
   function drawDashboard(d) {
@@ -2852,6 +2852,11 @@
       });
       bar.appendChild(lab);
       return bar;
+    }
+    function uncaptioned(f) {
+      var c = f.firstChild;
+      if (c && c.tagName === 'FIGCAPTION') { f.setAttribute('aria-label', c.textContent); c.remove(); }
+      return f;
     }
     function ordinal(n) { return ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth'][n - 1] || ('number ' + n); }
 
@@ -3028,17 +3033,15 @@
         grid.appendChild(nf);
         sec.appendChild(grid);
       },
-      // The team mailbox, QuickBooks and Givebutter, each as it was last read.
-      connected: function (sec) {
-        var grid = el('div', 'of-dash');
-        // The team mailbox, as its script counted it: numbers only, once an hour.
-        grid.appendChild(mailboxFigure(d.mailbox));
-        // QuickBooks: read late each evening and on a press; nothing here writes to our books.
-        grid.appendChild(quickBooksFigure(d.quickbooks));
-        // Givebutter: read late each evening and on a press; nobody who gave is named.
-        grid.appendChild(givebutterFigure(d.givebutter, d.day));
-        sec.appendChild(grid);
-      },
+      /* The team mailbox, QuickBooks and Givebutter, each a section of its own
+         (2026-10-27), so each can be moved or hidden. The section's heading names
+         it, so the figure's own caption goes. */
+      // The team mailbox, as its script counted it: numbers only, once an hour.
+      mailbox: function (sec) { sec.appendChild(uncaptioned(mailboxFigure(d.mailbox))); },
+      // QuickBooks: read late each evening and on a press; nothing here writes to our books.
+      quickbooks: function (sec) { sec.appendChild(uncaptioned(quickBooksFigure(d.quickbooks))); },
+      // Givebutter: read late each evening and on a press; nobody who gave is named.
+      givebutter: function (sec) { sec.appendChild(uncaptioned(givebutterFigure(d.givebutter, d.day))); },
     };
     layout.sections.forEach(function (key) {
       var shut = layout.hide.indexOf(key) >= 0;

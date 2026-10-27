@@ -14578,13 +14578,17 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
    record, holding those four lists of keys and nothing about when. It follows a
    claimed username from one device to another, and nobody else is shown it.
    A key it does not know is dropped and one it lacks goes on the end, so a
-   section added later appears for everybody, after theirs. Put it back as it
+   section added later appears for everybody, after theirs. The team mailbox,
+   QuickBooks and Givebutter are a section each since the same afternoon, and a
+   layout that named them as one is read as all three in its place. Put it back as it
    was deletes it, and so do Forget me and deleting the username. */
-export const DASH_SECTIONS = ['newest', 'people', 'stands', 'charts', 'connected'];
+export const DASH_SECTIONS = ['newest', 'people', 'stands', 'charts', 'mailbox', 'quickbooks', 'givebutter'];
 export const DASH_BOXES = ['grants', 'cases', 'mail', 'tasks', 'forum', 'forms'];
 const officeDashBlob = (k) => `office-dash/${k}`;
+// 'connected' held the mailbox, QuickBooks and Givebutter for its first afternoon, and is read as those three.
+const dashSplit = (v) => (Array.isArray(v) ? v.flatMap((x) => (x === 'connected' ? ['mailbox', 'quickbooks', 'givebutter'] : [x])) : []);
 function dashList(v, keys, whole) {
-  const seen = (Array.isArray(v) ? v : []).filter((x, i, a) => keys.includes(x) && a.indexOf(x) === i);
+  const seen = dashSplit(v).filter((x, i, a) => keys.includes(x) && a.indexOf(x) === i);
   return whole ? seen.concat(keys.filter((x) => !seen.includes(x))) : seen;
 }
 export function cleanOfficeLayout(v) {

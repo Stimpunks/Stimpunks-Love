@@ -7485,7 +7485,10 @@ test('each reader arranges their own dashboard, sealed, and a key it does not kn
   assert.ok((await keepOfficeLayout(TSAM, {}, s)).error);
   // Unknown keys and repeats go; a key left out goes on the end, so a new section appears.
   const r = await keepOfficeLayout(TRYAN, { sections: ['charts', 'nope', 'charts', 'newest'], hide: ['people', 'people', 'x'], boxes: ['forms', 'grants'], hideBoxes: ['mail'], t: T0, who: 'x' }, s);
-  assert.deepEqual(r.layout, { sections: ['charts', 'newest', 'people', 'stands', 'connected'], hide: ['people'], boxes: ['forms', 'grants', 'cases', 'mail', 'tasks', 'forum'], hideBoxes: ['mail'] });
+  assert.deepEqual(r.layout, { sections: ['charts', 'newest', 'people', 'stands', 'mailbox', 'quickbooks', 'givebutter'], hide: ['people'], boxes: ['forms', 'grants', 'cases', 'mail', 'tasks', 'forum'], hideBoxes: ['mail'] });
+  // The first afternoon's one section for all three is read as the three, in its place and hidden alike.
+  assert.deepEqual(cleanOfficeLayout({ sections: ['connected', 'newest'], hide: ['connected'] }),
+    { sections: ['mailbox', 'quickbooks', 'givebutter', 'newest', 'people', 'stands', 'charts'], hide: ['mailbox', 'quickbooks', 'givebutter'], boxes: DASH_BOXES, hideBoxes: [] });
   assertSealed(await s.get(`office-dash/${petKey('Ryan')}`, { type: 'json' }), ['charts', 'forms']);
   assert.deepEqual((await officeDashboard(TRYAN, s, T0)).layout, r.layout);
   // Nobody else's.
