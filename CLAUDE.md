@@ -6201,6 +6201,15 @@ calls the same two only when the page passes `files`, so the office's comments s
 `taskUploads` is the one door for both, a comment's files live under the same `task-file/<task>/`, `taskFile` serves one
 a comment holds, an edit that sends `files` sends everything the comment is to hold, and deleting a comment deletes its
 files. The friendly edit is a second copy of the picture code in `comments.js` or `office.js`; offer `files` instead.
+**A FILE OVER 4 MB GOES UP, IS KEPT AND COMES BACK IN PARTS, BECAUSE NETLIFY REFUSES A REQUEST OVER ABOUT 6 MB.**
+Measured on the live site, 2026-10-27, after a 6.2 MB scanned PDF would not go: a 6.5 MB POST answered 413 before
+any function ran, while 4 MB reached the code. So `TASK_FILE_MAX` is 20 MB and `TASK_PART` is 4 MB: `attach.js`'s
+`inParts` sends the first part with the name and size (`startTaskParts`, which refuses a picture by its first bytes
+there and then), the rest one at a time (`putTaskPart`), and then done (`finishTaskParts`, which checks the whole with
+`uploadMeta`); the file stays in those parts under `<key>.<n>`, each sealed, and `taskFile` serves one part per answer,
+which `attach.js` puts back together. **The friendly edits are raising `FORUM_FILE_MAX` "so big files go"**, which
+Netlify refuses anyway, **and serving a file whole "since streaming allows 20 MB"**, which leaves no room for a part
+bigger than the limit; `make-tasks.py` refuses a `TASK_PART` over 5 MB and a whole-file answer. The forums keep 5 MB.
 
 **TASKS AND THE OFFICE EACH HAVE A FEED, AFTER NOTION'S, AND IT KEEPS NOTHING.** Ryan's ask, 2026-10-21: a
 reverse-chronological feed with previews you can act on. Tasks' is a fourth view (`#/feed`) beside the list, board and

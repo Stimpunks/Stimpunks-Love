@@ -8890,7 +8890,8 @@ test('the Wiki’s bot answers only a request signed with its own key, recently'
 
 
 /* ── Tasks' pictures and files (2026-10-27) ── */
-import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, sweepTaskFiles, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX } from './lib.mjs';
+import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, sweepTaskFiles, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX,
+  startTaskParts, putTaskPart, finishTaskParts, TASK_PART, TASK_FILE_MAX } from './lib.mjs';
 
 {
   const withStaffKey = async (fn) => {
@@ -8976,6 +8977,51 @@ import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, swee
     assert.equal(await taskFile(TRYAN, t.id, pic.id, s), null);
     assert.ok(!s.keys().some((k) => k.startsWith('task-file/')), 'a deleted comment left its files');
     assert.ok(!JSON.stringify(await taskActivity(TRYAN, t.id, s)).includes('Lease.pdf'));
+  }));
+
+  test('a file over a part goes up, is kept and comes back in parts, checked whole once it is all there', () => withStaffKey(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    const t = (await saveTask(TRYAN, { name: 'Scanned lease' }, s, T0, TMODS)).task;
+    // A two-page scan of 6.2 MB, the size that would not go.
+    const whole = Buffer.concat([PDF('scan of Juniper'), Buffer.alloc(6200000 - PDF('scan of Juniper').length, 7)]);
+    const parts = Math.ceil(whole.length / TASK_PART);
+    const cut = (n) => whole.subarray(n * TASK_PART, Math.min(whole.length, (n + 1) * TASK_PART));
+    assert.match((await startTaskParts(TSAM, { name: 'Lease.pdf', size: whole.length, parts }, cut(0), s, T0)).error, /directors/);
+    assert.match((await startTaskParts(TRYAN, { name: 'Lease.pdf', size: TASK_FILE_MAX + 1, parts: 6 }, cut(0), s, T0)).error, /20 MB at most/);
+    assert.match((await startTaskParts(TRYAN, { name: 'Lease.pdf', size: whole.length, parts: 3 }, cut(0), s, T0)).error, /did not arrive/);
+    assert.match((await startTaskParts(TRYAN, { name: 'photo.pdf', size: whole.length, parts }, Buffer.concat([JPEG(), Buffer.alloc(TASK_PART - JPEG().length)]), s, T0)).error, /That is a picture/);
+    const up = await startTaskParts(TRYAN, { name: 'Lease.pdf', size: whole.length, parts }, cut(0), s, T0);
+    assert.ok(up.id, up.error);
+    assert.match((await putTaskPart(TCHELSEA, up.id, 1, cut(1), s, T0)).error, /not yours/);
+    assert.match((await putTaskPart(TRYAN, up.id, 1, cut(1).subarray(1), s, T0)).error, /did not arrive/);
+    assert.match((await finishTaskParts(TRYAN, up.id, s, T0)).error, /did not arrive/, 'a file was finished with a part missing');
+    assert.ok((await putTaskPart(TRYAN, up.id, 1, cut(1), s, T0)).n);
+    const done = await finishTaskParts(TRYAN, up.id, s, T0);
+    assert.deepEqual([done.kind, done.name, done.size, done.parts], ['file', 'Lease.pdf', whole.length, parts]);
+    for (const k of s.keys().filter((k) => k.startsWith('task-up/'))) {
+      assert.ok(!Buffer.from(await s.raw.get(k, { type: 'arrayBuffer' })).includes(Buffer.from('Juniper')), `${k} was written in the clear`);
+    }
+    const r = await attachTask(TRYAN, t.id, [{ id: up.id }], s, T0 + 1, TMODS);
+    assert.ok(r.task, r.error);
+    assert.equal(r.task.files[0].parts, parts);
+    assert.ok(!s.keys().some((k) => k.startsWith('task-up/')), 'an attached file left its parts waiting');
+    // It comes back a part at a time, never whole, and the parts are the file.
+    assert.equal((await taskFile(TCHELSEA, t.id, up.id, s)).data, undefined, 'a file in parts was sent whole');
+    const back = [];
+    for (let n = 0; n < parts; n++) { const g = await taskFile(TCHELSEA, t.id, up.id, s, n); assert.ok(g.data.byteLength <= TASK_PART); back.push(Buffer.from(g.data)); }
+    assert.ok(Buffer.concat(back).equals(whole), 'the parts did not make the file');
+    assert.equal((await taskFile(TCHELSEA, t.id, up.id, s, parts)).data, undefined, 'a part past the end was sent');
+    // The sweep keeps every part a task holds; taking it off deletes them all.
+    await sweepTaskFiles(s, T0 + DAYS(2));
+    assert.equal(s.keys().filter((k) => k.startsWith('task-file/')).length, parts);
+    assert.ok((await detachTask(TRYAN, t.id, up.id, s, T0 + 2, TMODS)).task);
+    assert.ok(!s.keys().some((k) => k.startsWith('task-file/')), 'a file taken off left a part behind');
+    // A file whose whole carries a script is refused at the end, and its parts go.
+    const bad = Buffer.concat([PDF('/JavaScript (x)'), Buffer.alloc(5000000)]);
+    const b2 = await startTaskParts(TRYAN, { name: 'Run.pdf', size: bad.length, parts: 2 }, bad.subarray(0, TASK_PART), s, T0);
+    await putTaskPart(TRYAN, b2.id, 1, bad.subarray(TASK_PART), s, T0);
+    assert.match((await finishTaskParts(TRYAN, b2.id, s, T0)).error, /script/);
+    assert.ok(!s.keys().some((k) => k.startsWith('task-up/')), 'a refused file left its parts');
   }));
 
   test('a task holds TASK_ATTACH_MAX at most, and the sweep takes uploads no task took and files no task holds', () => withStaffKey(async () => {

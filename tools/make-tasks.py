@@ -590,7 +590,18 @@ def check_files(lib):
     for name in ("commentTask", "editTaskComment"):
         if "taskUploads(" not in fn(lib, name):
             problems.append(f"{LIB.name}: {name} takes pictures and files some way other than taskUploads, the task's own checks.")
-    if "taskFileKey(tid, f.id)" not in fn(lib, "removeTaskComment"):
+    # A big file in parts (2026-10-27): Netlify refuses a request over about 6 MB, so no part may near it,
+    # and the whole is checked as any file is before anything can attach it.
+    m = re.search(r"export const TASK_PART = (\d+);", lib)
+    if not m or int(m.group(1)) > 5000000:
+        problems.append(f"{LIB.name}: TASK_PART must be 5 MB or less: Netlify refuses a request over about 6 MB before any function sees it.")
+    if "uploadMeta(" not in fn(lib, "finishTaskParts"):
+        problems.append(f"{LIB.name}: finishTaskParts must check the whole file with uploadMeta, the same checks as any file, before it can be attached.")
+    if "partKey(key, n)" not in fn(lib, "taskFile"):
+        problems.append(f"{LIB.name}: taskFile must send a file in parts a part at a time, never whole, which could be bigger than an answer may be.")
+    if "inParts(" not in a or "o.part" not in a:
+        problems.append("attach.js: a file bigger than a part must go up a part at a time (inParts).")
+    if "dropTaskFile(tid, f, s)" not in fn(lib, "removeTaskComment"):
         problems.append(f"{LIB.name}: removeTaskComment leaves a deleted comment's pictures and files behind.")
     if 'id="task-files"' not in PRIVACY.read_text():
         problems.append(f"{PRIVACY.name}: the tasks section does not say what a task keeps of its pictures and files (id=\"task-files\").")

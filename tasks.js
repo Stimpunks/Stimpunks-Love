@@ -1777,14 +1777,15 @@
     return fetch('/cb/tasks/file?' + q, { method: bytes ? 'POST' : 'GET', headers: headers, body: bytes || undefined, credentials: 'omit', cache: 'no-store' })
       .then(function (r) { return r; }, function () { return { ok: false, status: 0, json: function () { return Promise.resolve({}); } }; });
   }
-  function fileOf(tid) { return function (f) { return fileCall('t=' + encodeURIComponent(tid) + '&f=' + encodeURIComponent(f.id)); }; }
+  // A file kept in parts (TASK_PART) is fetched a part at a time: attach.js asks for each.
+  function fileOf(tid) { return function (f, part) { return fileCall('t=' + encodeURIComponent(tid) + '&f=' + encodeURIComponent(f.id) + (part != null ? '&part=' + part : '')); }; }
   function keyOf(tid) { return function (f) { return 'task/' + tid + '/' + f.id; }; }
   function attachedWords(n) { return n === 1 ? 'a picture or file' : n + ' pictures and files'; }
   // Who attached it and when: "Chelsea, 2 hours ago".
   function attachedBy(f) { return (f.by ? whoWords(f.by, true) + ', ' : '') + (f.t ? when(f.t) : ''); }
   // What attach.js needs to put things up and to take them, here and under every comment.
   function trayFor(tid, id, have, most, drop) {
-    return { p: 'tk', id: id, kinds: settings.kinds || [], fileMax: settings.fileMax, altMax: settings.altMax, most: most, have: have,
+    return { p: 'tk', id: id, kinds: settings.kinds || [], fileMax: settings.fileMax, part: settings.part, altMax: settings.altMax, most: most, have: have,
       key: keyOf(tid), upload: function (q, blob) { return fileCall(q, blob); }, drop: drop };
   }
   function filesSection(t) {

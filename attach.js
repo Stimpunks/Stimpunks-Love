@@ -12,6 +12,10 @@
    radio's one redraw (window.loveRedraw) before it goes, which takes off what
    a camera wrote into it; a file goes as it is, one of o.kinds, checked by its
    first bytes on the server. A file is only ever saved, never opened here.
+   A file bigger than o.part goes up a part at a time and comes back the same
+   way (TASK_PART in lib.mjs), because Netlify refuses a request over about
+   6 MB before any function sees it; the caller's upload and fetch carry the
+   parts, and nothing here knows where they go.
    Nothing is kept in the browser, and every word is built with textContent. */
 (function () {
   'use strict';
@@ -32,7 +36,7 @@
   var fetched = {};
 
   /* The pictures and files on something, as two lists.
-     o: { p, files, key(f), fetch(f), say(text), meta(f) (a line under each, or ''), tools(f, li, row) (its buttons) } */
+     o: { p, files, key(f), fetch(f, part), say(text), meta(f) (a line under each, or ''), tools(f, li, row) (its buttons) } */
   function shown(o) {
     var p = o.p, wrap = el('div', p + '-files__list');
     var pics = (o.files || []).filter(function (f) { return f.kind === 'pic'; });
@@ -78,11 +82,22 @@
     li.appendChild(el('span', p + '-when', (f.name.split('.').pop() || '').toUpperCase() + ', ' + sizeWords(f.size) + (m ? '. ' + m : '')));
     b.addEventListener('click', function () {
       b.disabled = true;
-      o.fetch(f).then(function (r) { return r.ok ? r.arrayBuffer() : null; }, function () { return null; }).then(function (buf) {
+      if (f.parts > 1) o.say('Fetching ' + f.name + ', ' + sizeWords(f.size) + ', in ' + f.parts + ' parts…');
+      // A file in parts is fetched a part at a time, in order, and put back together here.
+      var got = [], n = 0, all = f.parts > 1 ? f.parts : 1;
+      function next() {
+        return o.fetch(f, all > 1 ? n : null).then(function (r) { return r.ok ? r.arrayBuffer() : null; }, function () { return null; }).then(function (buf) {
+          if (!buf) return null;
+          got.push(buf);
+          n++;
+          return n < all ? next() : got;
+        });
+      }
+      next().then(function (bufs) {
         b.disabled = false;
-        if (!buf) { o.say('That file could not be fetched just now.'); return; }
+        if (!bufs) { o.say('That file could not be fetched just now.'); return; }
         // Saved, never opened here: a type no browser shows as a page.
-        var url = URL.createObjectURL(new Blob([buf], { type: 'application/octet-stream' }));
+        var url = URL.createObjectURL(new Blob(bufs, { type: 'application/octet-stream' }));
         var a = el('a');
         a.href = url;
         a.download = f.name;
@@ -102,7 +117,7 @@
      it is chosen, waiting there with its description box until the caller
      sends them. Ones already on the thing (o.had) wait there too, so an edit
      can leave one out.
-     o: { p, id (unique among trays on the page), kinds, fileMax, altMax, most, have (how many it holds already),
+     o: { p, id (unique among trays on the page), kinds, fileMax, part, altMax, most, have (how many it holds already),
           upload(query, blob), drop (an element things can be dropped on), changed() }
      Answers { node, list() ([{ id, alt }], everything in the tray), busy(), clear(), keep(key, f) } */
   function tray(o) {
@@ -162,7 +177,9 @@
       changed();
       answer.textContent = isPic ? 'Redrawing the picture…' : 'Sending ' + file.name + '…';
       (isPic ? window.loveRedraw(file) : Promise.resolve(file)).then(function (blob) {
-        return o.upload(isPic ? 'kind=pic' : 'kind=file&name=' + encodeURIComponent(file.name), blob).then(function (r) {
+        var part = o.part || 0;
+        var sent = !isPic && part && blob.size > part ? inParts(file, blob, part) : o.upload(isPic ? 'kind=pic' : 'kind=file&name=' + encodeURIComponent(file.name), blob);
+        return sent.then(function (r) {
           return r.json().catch(function () { return {}; }).then(function (b) {
             if (!r.ok) throw new Error((b && b.error) || 'it could not be sent just now.');
             items.push({ id: b.id, kind: b.kind, name: b.name, size: b.size, alt: '', local: isPic ? URL.createObjectURL(blob) : null });
@@ -175,6 +192,31 @@
         answer.textContent = (file.name || 'The picture') + ': ' + ((e && e.message && e.message !== 'big') ? e.message : (isPic ? 'it could not be read or made small enough here. Try a screenshot of it, or another picture.' : 'it could not be sent just now.'));
       }).then(function () { pending--; changed(); });
       return null;
+    }
+    /* A file bigger than a part: the first part with its name, size and how
+       many parts, then the rest one at a time, then done, which is when the
+       server checks the whole of it. Answers the last response. */
+    function inParts(file, blob, part) {
+      var parts = Math.ceil(blob.size / part), id = null;
+      function said(r) {
+        return r.json().catch(function () { return {}; }).then(function (b) {
+          if (!r.ok) throw new Error((b && b.error) || 'it could not be sent just now.');
+          return b;
+        });
+      }
+      function one(n) {
+        answer.textContent = 'Sending ' + file.name + ', part ' + (n + 1) + ' of ' + parts + '…';
+        var piece = blob.slice(n * part, Math.min(blob.size, (n + 1) * part));
+        var q = n === 0 ? 'kind=file&name=' + encodeURIComponent(file.name) + '&size=' + blob.size + '&parts=' + parts : 'up=' + encodeURIComponent(id) + '&part=' + n;
+        return o.upload(q, piece).then(said).then(function (b) {
+          if (n === 0) id = b.id;
+          return n + 1 < parts ? one(n + 1) : null;
+        });
+      }
+      return one(0).then(function () {
+        answer.textContent = 'Checking ' + file.name + '…';
+        return o.upload('up=' + encodeURIComponent(id) + '&done=1', new Blob([]));
+      });
     }
     function several(list) {
       var refused = list.map(upload).filter(Boolean);

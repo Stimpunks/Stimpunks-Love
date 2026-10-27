@@ -8609,7 +8609,7 @@ export async function putForumUpload(who, f, bytes, s = store(), now = Date.now(
    browser, carrying nothing a camera wrote, or a file of FORUM_FILE_TYPES,
    checked by its first bytes. The forums' rules, and Tasks' (attachTask).
    { kind, type, size, name? } or { error }. */
-function uploadMeta(f, bytes, place, Place) {
+function uploadMeta(f, bytes, place, Place, max = FORUM_FILE_MAX) {
   if (!bytes || !bytes.length) return { error: 'There was nothing in that.' };
   if (f && f.kind === 'pic') {
     if (bytes.length > IMG_MAX) return { error: 'That picture is too big, even after your browser made it smaller.' };
@@ -8619,7 +8619,7 @@ function uploadMeta(f, bytes, place, Place) {
     return { kind: 'pic', type, size: bytes.length };
   }
   if (f && f.kind === 'file') {
-    if (bytes.length > FORUM_FILE_MAX) return { error: `A file is ${FORUM_FILE_MAX / 1000000} MB at most.` };
+    if (bytes.length > max) return { error: `A file is ${max / 1000000} MB at most.` };
     const name = cleanFileName(f.name);
     if (!name) return { error: `A file's name ends in .${Object.keys(FORUM_FILE_TYPES).join(', .')}, and is ${FORUM_NAME_MAX} characters at most.` };
     const k = fileKind(bytes, name, Place);
@@ -11808,11 +11808,28 @@ const TASK_UP = 'task-up/';             // an upload no task has taken yet
 const TASK_FILE = 'task-file/';         // task-file/<task>/<id>, a task's own
 const TASK_UNSENT = 24 * 60 * 60 * 1000;
 const taskFileKey = (task, id) => `${TASK_FILE}${task}/${id}`;
+/* A FILE OVER TASK_PART GOES UP, IS KEPT AND COMES BACK IN PARTS (Ryan's ask,
+   2026-10-27, after a two-page scanned PDF of 6.2 MB would not go): Netlify
+   refuses any request over about 6 MB before a function sees it (measured on
+   the live site the same day: 6.5 MB answered 413, 4 MB reached the code), so
+   one request can never carry such a file. The browser sends it TASK_PART at a
+   time (startTaskParts, putTaskPart), the server checks the whole of it once
+   every part is there (finishTaskParts, by uploadMeta, the same checks as any
+   file), and keeps it in those same parts, each sealed under <key>.<n>, so
+   no request or answer is ever bigger than a part. A file is TASK_FILE_MAX at
+   most. A picture is never in parts: it is IMG_MAX after it is redrawn. */
+export const TASK_FILE_MAX = 20000000;
+export const TASK_PART = 4000000;
+const partKey = (base, n) => `${base}.${n}`;
+const keysOf = (base, parts) => (parts > 1 ? Array.from({ length: parts }, (_, n) => partKey(base, n)) : [base]);
+const taskFileKeys = (task, f) => keysOf(taskFileKey(task, f.id), f.parts || 1);
+async function dropTaskFile(task, f, s) { for (const k of taskFileKeys(task, f)) await s.delete(k); }
 async function dropTaskFiles(task, s) {
   for (const b of (await s.list({ prefix: `${TASK_FILE}${task}/` })).blobs || []) await s.delete(b.key);
 }
 function shapeTaskFile(f) {
   const out = { id: f.id, kind: f.kind, type: f.type, size: f.size, by: f.by || null, t: f.t || null };
+  if (f.parts > 1) out.parts = f.parts;
   if (f.kind === 'file') out.name = f.name;
   if (f.kind === 'pic' && f.alt) out.alt = f.alt;
   return out;
@@ -11826,6 +11843,56 @@ export async function putTaskUpload(who, f, bytes, s = store(), now = Date.now()
   const id = randomUUID();
   await s.set(TASK_UP + id, bytes, { metadata: { ...meta, t: now, by: authorMark(who) } });
   return { id, ...meta };
+}
+
+/* A file over TASK_PART, begun: its name, its whole size, how many parts, and
+   the first part's bytes. Its name and its first bytes are checked now, so a
+   picture sent as a file or a kind Tasks do not take is refused before the
+   rest is sent; everything else is checked once it is all there. */
+export async function startTaskParts(who, f, bytes, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const size = Number(f && f.size), parts = Number(f && f.parts);
+  if (!Number.isInteger(size) || size <= TASK_PART || size > TASK_FILE_MAX) return { error: `A file is ${TASK_FILE_MAX / 1000000} MB at most.` };
+  if (parts !== Math.ceil(size / TASK_PART) || !bytes || bytes.length !== TASK_PART) return { error: 'That file did not arrive as it should. Add it again.' };
+  const name = cleanFileName(f.name);
+  if (!name) return { error: `A file's name ends in .${Object.keys(FORUM_FILE_TYPES).join(', .')}, and is ${FORUM_NAME_MAX} characters at most.` };
+  if (picturish(bytes)) return { error: 'That is a picture. Add it as a picture, which takes its camera’s data off first.' };
+  const id = randomUUID();
+  await s.set(partKey(TASK_UP + id, 0), bytes, { metadata: { kind: 'part', n: 0, name, size, parts, t: now, by: authorMark(who) } });
+  return { id, parts };
+}
+/* Part `n` of the sender's own file begun as `id`. */
+export async function putTaskPart(who, id, n, bytes, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const up = imageId(id), i = Number(n);
+  const m = up && await blobMeta(s, partKey(TASK_UP + up, 0));
+  if (!m || m.kind !== 'part' || m.by !== authorMark(who)) return { error: 'That file has gone, or is not yours. Add it again.' };
+  if (!Number.isInteger(i) || i < 1 || i >= m.parts) return { error: 'That file did not arrive as it should. Add it again.' };
+  const want = i === m.parts - 1 ? m.size - TASK_PART * (m.parts - 1) : TASK_PART;
+  if (!bytes || bytes.length !== want) return { error: 'That file did not arrive as it should. Add it again.' };
+  await s.set(partKey(TASK_UP + up, i), bytes, { metadata: { kind: 'part', n: i, t: now, by: m.by } });
+  return { id: up, n: i };
+}
+/* Every part there: the whole file checked as any file is (uploadMeta), and
+   then waiting as an upload like any other, still in its parts. */
+export async function finishTaskParts(who, id, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const up = imageId(id), mark = authorMark(who);
+  const m = up && await blobMeta(s, partKey(TASK_UP + up, 0));
+  if (!m || m.kind !== 'part' || m.by !== mark) return { error: 'That file has gone, or is not yours. Add it again.' };
+  const bufs = [];
+  for (const k of keysOf(TASK_UP + up, m.parts)) {
+    const got = await s.getWithMetadata(k, { type: 'arrayBuffer' });
+    if (!got || !got.data || !got.metadata || got.metadata.by !== mark) return { error: 'Part of that file did not arrive. Add it again.' };
+    bufs.push(Buffer.from(got.data));
+  }
+  const whole = Buffer.concat(bufs);
+  if (whole.length !== m.size) return { error: 'Part of that file did not arrive. Add it again.' };
+  const meta = uploadMeta({ kind: 'file', name: m.name }, new Uint8Array(whole.buffer, whole.byteOffset, whole.byteLength), 'Tasks', 'Tasks', TASK_FILE_MAX);
+  if (meta.error) { for (const k of keysOf(TASK_UP + up, m.parts)) await s.delete(k); return meta; }
+  // Where the upload is, as any upload is: its parts are beside it.
+  await s.set(TASK_UP + up, Buffer.from('parts'), { metadata: { ...meta, parts: m.parts, t: now, by: mark } });
+  return { id: up, ...meta, parts: m.parts };
 }
 
 /* The pictures and files something on task `tid` asks for (`asked`, a list
@@ -11861,17 +11928,35 @@ async function taskUploads(who, tid, asked, had, most, s, now) {
     const file = { id: up, kind: m.kind, type: m.type, size: m.size, by: who.handle, t: now };
     if (m.kind === 'file') file.name = m.name;
     if (m.kind === 'pic' && alt) file.alt = alt;
+    // A file in parts stays in its parts (TASK_PART).
+    let datas = [got.data];
+    if (m.kind === 'file' && m.parts > 1) {
+      file.parts = m.parts;
+      datas = [];
+      for (const k of keysOf(TASK_UP + up, m.parts)) {
+        const part = await s.getWithMetadata(k, { type: 'arrayBuffer' });
+        if (!part || !part.data) return { error: 'Part of one of those files has gone. Take it off and add it again.' };
+        datas.push(part.data);
+      }
+    }
     files.push(file);
-    fresh.push({ file, data: got.data });
+    fresh.push({ file, datas });
   }
   for (const x of fresh) {
-    const f = x.file;
-    await s.set(taskFileKey(tid, f.id), x.data, { metadata: { kind: f.kind, type: f.type, size: f.size, ...(f.name ? { name: f.name } : {}), t: now } });
+    const f = x.file, keys = taskFileKeys(tid, f);
+    for (let n = 0; n < keys.length; n++) {
+      await s.set(keys[n], x.datas[n], { metadata: { kind: f.kind, type: f.type, size: f.size, ...(f.name ? { name: f.name } : {}), ...(f.parts ? { parts: f.parts, n } : {}), t: now } });
+    }
   }
   return { files, fresh };
 }
-async function letGo(tid, fresh, s) { for (const x of fresh) await s.delete(taskFileKey(tid, x.file.id)); }
-async function doneUp(fresh, s) { for (const x of fresh) await s.delete(TASK_UP + x.file.id); }
+async function letGo(tid, fresh, s) { for (const x of fresh) await dropTaskFile(tid, x.file, s); }
+async function doneUp(fresh, s) {
+  for (const x of fresh) {
+    await s.delete(TASK_UP + x.file.id);
+    if (x.file.parts) for (const k of keysOf(TASK_UP + x.file.id, x.file.parts)) await s.delete(k);
+  }
+}
 
 /* This sender's own uploads (`asked`, a list of { id, alt }) attached to task
    `id`. Answers { task } or { error }. */
@@ -11920,7 +12005,7 @@ export async function detachTask(who, id, fid, s = store(), now = Date.now(), mo
     const copy = all.slice(); copy[k] = saved; return copy;
   }, s);
   if (why) return { error: why };
-  await s.delete(taskFileKey(tid, f));
+  await dropTaskFile(tid, (before.files || []).find((x) => x.id === f), s);
   await noteTask('changed', who.handle, before, saved, s, now, mods).catch(() => null);
   return { task: shapeTask(saved, true) };
 }
@@ -11952,7 +12037,7 @@ export async function describeTaskFile(who, id, fid, alt, s = store(), now = Dat
 
 /* One picture or file, for a reader of Tasks while its task holds it, and
    for nobody else. { data, file } or null. */
-export async function taskFile(who, tid, fid, s = store()) {
+export async function taskFile(who, tid, fid, s = store(), part = null) {
   if (!tasksAllow(who)) return null;
   const t = (await readTasks(s)).find((x) => x.id === taskId(tid));
   const id = imageId(fid);
@@ -11961,7 +12046,14 @@ export async function taskFile(who, tid, fid, s = store()) {
   // Or one a comment under it holds.
   if (!file) file = (await readTaskComments(t.id, s)).flatMap((c) => c.files || []).find((x) => x.id === id);
   if (!file) return null;
-  const got = await s.getWithMetadata(taskFileKey(t.id, id), { type: 'arrayBuffer' });
+  // A file in parts comes back a part at a time, so no answer is bigger than a part.
+  let key = taskFileKey(t.id, id);
+  if (file.parts > 1) {
+    const n = Number(part);
+    if (part == null || part === '' || !Number.isInteger(n) || n < 0 || n >= file.parts) return { file: shapeTaskFile(file), parts: file.parts };
+    key = partKey(key, n);
+  }
+  const got = await s.getWithMetadata(key, { type: 'arrayBuffer' });
   return got && got.data ? { data: got.data, file: shapeTaskFile(file) } : null;
 }
 
@@ -11976,14 +12068,14 @@ export async function sweepTaskFiles(s = store(), now = Date.now()) {
   const files = (await s.list({ prefix: TASK_FILE })).blobs || [];
   if (!files.length) return;
   const held = new Set(), tasks = await readTasks(s);
-  for (const t of tasks) for (const f of t.files || []) held.add(taskFileKey(t.id, f.id));
+  for (const t of tasks) for (const f of t.files || []) for (const k of taskFileKeys(t.id, f)) held.add(k);
   // A task's comments are read only when it has a file its own list does not hold.
   const asked = new Set();
   for (const b of files) {
     const tid = b.key.slice(TASK_FILE.length).split('/')[0];
     if (held.has(b.key) || asked.has(tid) || !tasks.some((t) => t.id === tid)) continue;
     asked.add(tid);
-    for (const c of await readTaskComments(tid, s)) for (const f of c.files || []) held.add(taskFileKey(tid, f.id));
+    for (const c of await readTaskComments(tid, s)) for (const f of c.files || []) for (const k of taskFileKeys(tid, f)) held.add(k);
   }
   for (const b of files) {
     if (held.has(b.key)) continue;
@@ -12317,7 +12409,7 @@ export async function editTaskComment(who, id, cid, text, s = store(), now = Dat
   }, s);
   if (why) { await letGo(tid, up.fresh, s); return { error: why }; }
   await doneUp(up.fresh, s);
-  for (const f of dropped) await s.delete(taskFileKey(tid, f.id));
+  for (const f of dropped) await dropTaskFile(tid, f, s);
   const task = was != null ? (await readTasks(s)).find((x) => x.id === tid) : null;
   if (task) await noteTask('commented', who.handle, task, task, s, now, mods, { comment: saved, was, edit: true }).catch(() => null);
   return { comment: shapeComment(saved, who) };
@@ -12338,7 +12430,7 @@ export async function removeTaskComment(who, id, cid, s = store()) {
   }, s);
   if (why) return { error: why };
   // Its pictures and files go with it.
-  for (const f of (gone && gone.files) || []) await s.delete(taskFileKey(tid, f.id));
+  for (const f of (gone && gone.files) || []) await dropTaskFile(tid, f, s);
   // One brought from Notion and deleted here stays deleted when comments are brought again.
   if (gone && gone.notion) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.notion) ? null : [...ids, gone.notion]), s);
   return { gone: true };

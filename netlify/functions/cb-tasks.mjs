@@ -52,7 +52,7 @@
    A task saved with tpl, a template's id, keeps which template it was made from.
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
-  attachTask, detachTask, describeTaskFile, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FORUM_FILE_TYPES, FORUM_FILE_MAX, FORUM_ALT_MAX,
+  attachTask, detachTask, describeTaskFile, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX, TASK_FILE_MAX, TASK_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
@@ -64,7 +64,7 @@ const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PR
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
   repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS, statusColours: TASK_STATUS_COLOURS, feedPage: FEED_PAGE,
   commentMax: TASK_COMMENT_MAX, fillIns: TASK_FILL_INS,
-  attachMax: TASK_ATTACH_MAX, commentFilesMax: TASK_COMMENT_FILES_MAX, fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES), altMax: FORUM_ALT_MAX };
+  attachMax: TASK_ATTACH_MAX, commentFilesMax: TASK_COMMENT_FILES_MAX, fileMax: TASK_FILE_MAX, part: TASK_PART, kinds: Object.keys(FORUM_FILE_TYPES), altMax: FORUM_ALT_MAX };
 
 /* A task a recurring task made says which, while that recurring task is there, and so does one made
    from a template. */
