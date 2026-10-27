@@ -1538,7 +1538,24 @@
     });
   }
 
-  function go() { dial(); sectionLinks(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); patches(); familiar(); wayBack(); }
+  /* ── The mural by the dial ────────────────────────────────────────────────
+     Ryan, 2026-10-26: one of Plural Mural's murals goes up in the space under
+     the front page's tagline, picked at random each time the page opens. Picked once and left: the wall that turns over by
+     itself is Plural Mural's, at MAX GLITTER only. Nothing is stored, so there
+     is no "last time" to avoid and no record of which anybody saw. */
+  function frontMural() {
+    var link = document.querySelector('.masthead__mural');
+    if (!link) return;
+    var paint = link.querySelectorAll('.masthead__paint');
+    if (!paint.length) return;
+    var up = paint[Math.floor(Math.random() * paint.length)];
+    up.classList.add('masthead__paint--up');
+    var name = link.querySelector('.masthead__mural-name');
+    if (name) name.textContent = up.getAttribute('data-title');
+    link.classList.add('masthead__mural--hung');
+  }
+
+  function go() { dial(); frontMural(); sectionLinks(); secretWord(); playhouse(); soundboard(); superposition(); sequences(); yurtEggs(); cb(); fractal(); patches(); familiar(); wayBack(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
 })();

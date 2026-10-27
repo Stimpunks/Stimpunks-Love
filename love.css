@@ -5072,6 +5072,35 @@ div.facade--square { border: 0; background: none; }
 .masthead__about { margin: 24px 0 0; font-family: 'Bungee', var(--sans); font-size: 17px; letter-spacing: .5px; line-height: 1.3; }
 .masthead__about a { color: var(--yellow); text-underline-offset: 4px; }
 
+/* A MURAL UNDER THE TAGLINE (Ryan, 2026-10-26). The dial grew taller than the
+   name and the tagline, and Plural Mural's murals are the tagline painted, so
+   one goes up in the space, picked by love.js when the page opens. It hangs
+   straight on the night ground, left-aligned with the words above it: a first
+   try put it on a stretch of §54's sunlit render, and on a dark page that was
+   the brightest thing on it, mostly bare wall round a smaller painting (Ryan,
+   the same day). The names column stretches to the dial's height and the
+   mural takes whatever is left, letterboxed (`meet`), never cropped, so every
+   painted word shows. Nothing here moves at any setting: the wall that
+   repaints itself is Plural Mural's, at MAX only.
+   Until the script picks, the space is empty and the caption is held back, so
+   nobody watches one mural swapped for another; index.html's <noscript> puts
+   up the first. HIDDEN BELOW 1040px, because there the dial wraps under the
+   name and there is nothing to fill: a mural would only push the dial down.
+   The wrap is set by the wordmark, which scales with the viewport, so the flex
+   bases do not predict it (they say 894). Measured 2026-10-26: wraps at 1000,
+   side by side from 1010; the rest is room for a scrollbar that takes up
+   width. Check it again if the wordmark or the dial changes size. */
+.masthead__names { display: flex; flex-direction: column; align-self: stretch; }
+.masthead__mural { display: flex; flex-direction: column; flex: 1 1 auto; margin: 26px 0 0; color: var(--chalk); text-decoration: none; }
+.masthead__wall { position: relative; flex: 1 1 auto; min-height: 140px; }
+.masthead__paint { display: none; position: absolute; inset: 0; width: 100%; height: 100%; }
+.masthead__paint--up { display: block; }
+.masthead__mural-say { margin: 10px 0 0; font-size: 13.5px; line-height: 1.5; visibility: hidden; }
+.masthead__mural--hung .masthead__mural-say { visibility: visible; }
+.masthead__mural-say b { color: #fff; }
+.masthead__mural:hover .masthead__mural-say, .masthead__mural:focus-visible .masthead__mural-say { color: var(--yellow); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 1039px) { .masthead__mural { display: none; } }
+
 .wordmark   { font-family: 'Bungee', var(--sans); font-size: clamp(46px, 8.5vw, 92px); line-height: .92; color: #fff; text-shadow: 4px 0 0 var(--pink), 8px 0 0 var(--cyan); letter-spacing: -1px; margin: 0; }
 .wordmark b { font-family: 'Shrikhand', var(--sans); font-weight: 400; color: var(--pink); text-shadow: none; display: block; font-size: .78em; margin-top: -.06em; }
 

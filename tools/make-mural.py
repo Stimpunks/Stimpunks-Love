@@ -36,6 +36,16 @@ WHAT IT REFUSES, and why each one is here:
     can say out loud that there is none. A wall that takes proposals is exactly
     the shape of thing that grows a poll, and a poll would turn somebody's idea
     into a contest with somebody else's.
+
+THE FRONT PAGE HANGS ONE TOO. Ryan, 2026-10-26: the glitter dial grew taller
+than the name and the tagline beside it, and the murals are the tagline painted,
+so one of them goes up in the space under the tagline, straight on the night
+ground and picked at random each time the page opens (love.js). The same drawings go into index.html
+between its home-mural markers, under a class of the street's own: a page
+wearing .pm-mural would be wearing another room's name, which check-classes.py
+refuses. They are letterboxed rather than cropped, left and low, so whatever shape
+the space is, every painted word shows and the mural lines up with the words
+above it.
 """
 import html
 import json
@@ -45,6 +55,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data/mural.json"
 PAGE = ROOT / "plural-mural.html"
+HOME = ROOT / "index.html"
 
 # Every mural is 1200 by 600. Each drawing is only its paint: the wall's render,
 # the lamppost's shadow and the dissolve belong to the room, in love.css §54.
@@ -280,6 +291,9 @@ src = PAGE.read_text()
 for mark in ("pm-stage", "pm-list"):
     if f"<!-- {mark}:begin -->" not in src:
         problems.append(f"{PAGE.name} has no {mark} markers, so there is nowhere to paint.")
+home = HOME.read_text()
+if "<!-- home-mural:begin -->" not in home:
+    problems.append(f"{HOME.name} has no home-mural markers, so the front page has nowhere to hang one.")
 outside = re.sub(r"<!-- (pm-stage|pm-list):begin -->.*?<!-- \1:end -->", " ", src, flags=re.S)
 sweep(re.sub(r"<head>.*?</head>", " ", outside, flags=re.S), PAGE.name)
 
@@ -325,5 +339,20 @@ src = re.sub(r'(<span class="pm-now__title" id="pm-now-title">).*?(</span>)',
 src = re.sub(r'(<span class="pm-now__shows" id="pm-now-shows">).*?(</span>)',
              lambda x: x.group(1) + esc(first["shows"]) + x.group(2), src, flags=re.S)
 PAGE.write_text(src)
-print(f"plural mural: painted into {PAGE.name}, every one with its words under the wall, and "
+
+# ── The front page ──────────────────────────────────────────────────────────
+# None is up in the markup: love.js picks one, so nobody sees the first mural
+# swapped for another as the script arrives. With scripts off, a <noscript>
+# style in index.html's head puts up the first.
+hung = []
+for m in murals:
+    hung.append(
+        f'<svg class="masthead__paint" data-title="{attr(m["title"])}" viewBox="0 0 1200 600" '
+        f'preserveAspectRatio="xMinYMax meet" aria-hidden="true" focusable="false">'
+        f'{DRAW[m["key"]]["paint"].strip()}</svg>')
+home = put("home-mural", "\n".join(hung), home)
+home = re.sub(r'(<b class="masthead__mural-name">).*?(</b>)',
+              lambda x: x.group(1) + esc(first["title"]) + x.group(2), home, flags=re.S)
+HOME.write_text(home)
+print(f"plural mural: painted into {PAGE.name} and {HOME.name}, every one with its words under the wall, and "
       "every painted word held to 4.5 against the paint it stands on")

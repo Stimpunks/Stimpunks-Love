@@ -5252,6 +5252,15 @@ over whichever is painted. **The Hermitage is the collision to watch** (low sun,
 shadows fall sideways; Laughingstock is lit from behind you onto a wall too and is one hard pool in a
 dark cellar. **Every word is on the road, never on the wall.** A new mural is an entry in
 `data/mural.json` and a drawing in `DRAW` with its `ground`, `letter` and `under`.
+**The front page hangs one too** (Ryan, 2026-10-26, because the dial grew taller than the tagline
+beside it). `make-mural.py` paints the same drawings into `index.html` between `home-mural` markers,
+letterboxed left and low (`xMinYMax meet`) so no painted word is cropped, straight on the night
+ground. A first try framed it in the room's sunlit render, and on a dark page that was the brightest
+thing on it, mostly bare wall round a smaller painting. It goes under the street's own `.masthead__paint`
+because a page wearing `.pm-mural` is wearing another room's name. `love.js` puts one up at random
+on arrival and never turns it over. It shows only from 1040px, where the dial stands beside the name.
+That width was **measured, not derived**: the wordmark scales with the viewport, so the flex bases
+say 894 and the dial actually wraps until 1010. Check it again if the wordmark or the dial changes size.
 
 **NOW PLAYING IS A PAGE OF SENTENCES ABOUT OTHER ROOMS, AND THE ONE CLAIM MOST LIKELY TO CHANGE IS
 READ, NEVER WRITTEN.** §53 is a screenprinted bill pasted round a poster column on the pavement beside
