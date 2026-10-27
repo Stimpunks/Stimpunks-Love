@@ -84,10 +84,17 @@ def root_vars(css):
     return re.findall(r"(--[a-z0-9-]+)\s*:", block)
 
 
-def role_of(name):
+def role_of(name, names=()):
     if name.startswith(LEFT_ALONE):
         return None
     if name.startswith("--cb-"):
+        # A colour with an ink of its own is a ground words stand on (a chat
+        # status badge): its ink is the mode's ink and its ground the mode's
+        # plate, never both the line, which put the words on their own colour.
+        if name.endswith("-ink") and name[:-4] in names:
+            return "ink"
+        if f"{name}-ink" in names:
+            return "plate"
         for suffix, role in CB_ROLES:
             if name == f"--cb-{suffix}" or name.endswith(f"-{suffix}"):
                 return role
@@ -105,8 +112,14 @@ def role_of(name):
 
 
 def remap(css):
-    pairs = [(n, role_of(n)) for n in dict.fromkeys(root_vars(css))]
+    names = list(dict.fromkeys(root_vars(css)))
+    pairs = [(n, role_of(n, set(names))) for n in names]
     pairs = [(n, r) for n, r in pairs if r]
+    got = dict(pairs)
+    for n, r in pairs:
+        if n.endswith("-ink") and got.get(n[:-4]) == r:
+            problems.append(f"love.css: the modes' remap gives {n} and {n[:-4]} the same colour, --low-{r}, "
+                            "so its words would vanish on their own ground.")
     lines = []
     for i in range(0, len(pairs), 4):
         lines.append("  " + " ".join(f"{n}: var(--low-{r});" for n, r in pairs[i:i + 4]))

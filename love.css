@@ -4472,8 +4472,8 @@ html[data-low] {
   --cb-case: var(--low-g); --cb-bar: var(--low-plate); --cb-steel: var(--low-ink); --cb-steel-2: var(--low-quiet);
   --cb-lcd: var(--low-plate); --cb-amber: var(--low-ink); --cb-amber-2: var(--low-quiet); --cb-amber-case: var(--low-g);
   --cb-amber-bar: var(--low-plate); --cb-amber-steel: var(--low-ink); --cb-amber-steel-2: var(--low-quiet); --cb-amber-lcd: var(--low-plate);
-  --cb-amber-amber: var(--low-ink); --cb-amber-amber-2: var(--low-quiet); --cb-chat-hi: var(--low-line); --cb-chat-hi-ink: var(--low-line);
-  --cb-chat-known: var(--low-line); --cb-chat-known-ink: var(--low-line); --cb-chat-not: var(--low-line); --cb-chat-not-ink: var(--low-line);
+  --cb-amber-amber: var(--low-ink); --cb-amber-amber-2: var(--low-quiet); --cb-chat-hi: var(--low-plate); --cb-chat-hi-ink: var(--low-ink);
+  --cb-chat-known: var(--low-plate); --cb-chat-known-ink: var(--low-ink); --cb-chat-not: var(--low-plate); --cb-chat-not-ink: var(--low-ink);
   --cb-day-case: var(--low-g); --cb-day-bar: var(--low-plate); --cb-day-steel: var(--low-ink); --cb-day-steel-2: var(--low-quiet);
   --cb-day-lcd: var(--low-plate); --cb-day-amber: var(--low-ink); --cb-day-amber-2: var(--low-quiet); --cb-high-case: var(--low-g);
   --cb-high-bar: var(--low-plate); --cb-high-steel: var(--low-ink); --cb-high-steel-2: var(--low-quiet); --cb-high-lcd: var(--low-plate);

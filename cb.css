@@ -748,6 +748,10 @@ ol.cb-md-list { list-style: decimal; }
   display: inline-flex; align-items: center; gap: 4px; margin-left: 6px; padding: 0 7px 0 5px;
   border-radius: 999px; font: 700 12px/1.6 'Atkinson Hyperlegible', system-ui, sans-serif;
   white-space: nowrap; vertical-align: baseline;
+  /* In a low-stimulation mode its ground is the mode's plate, the same as the
+     bar it sits on, so the mode's line draws its edge; --low-line is set only
+     while a mode is on, so otherwise there is none. */
+  box-shadow: inset 0 0 0 1px var(--low-line, transparent);
 }
 .cb-chat__mark { flex: none; width: 10px; height: 10px; fill: currentColor; }
 .cb-chat--come-say-hi { color: var(--cb-chat-hi-ink); background: var(--cb-chat-hi); }
