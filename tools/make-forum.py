@@ -388,7 +388,7 @@ def check_lib(lib):
     up = fn(sec, "putForumUpload")
     meta = re.search(r"\nfunction uploadMeta\(.*?\n\}", sec, re.S)
     meta = meta.group(0) if meta else ""
-    if "uploadMeta(" not in up or "carriesMetadata(bytes, type)" not in meta or "fileKind(bytes, name" not in meta:
+    if "putUploadTo('forum'" not in up or "uploadMeta(" not in fn(sec, "putUploadTo") or "carriesMetadata(bytes, type)" not in meta or "fileKind(bytes, name" not in meta:
         problems.append(f"{LIB.name}: putForumUpload no longer refuses a picture still carrying its camera's data, or a file that is not what it says.")
     if "picturish(bytes)" not in fn(sec, "fileKind"):
         problems.append(f"{LIB.name}: fileKind no longer refuses a picture sent as a file, which would keep its camera's data.")
@@ -518,16 +518,23 @@ def check_function():
         return
     g = code_of(FILES)
     gate = g.find("if (!forumReader(who))")
-    first = min([i for i in (g.find("forumFile("), g.find("putForumUpload(")) if i >= 0] or [-1])
+    first = min([i for i in (g.find("forumFile("), g.find("uploadRequest(")) if i >= 0] or [-1])
     if gate < 0 or first < 0 or gate > first:
         problems.append(f"{FILES.name}: it must refuse anybody but a claimed username before it reads or puts up anything.")
+    # How a file is answered is fileAnswer's in lib.mjs, the one answer Tasks and the office give too (2026-10-27).
+    lib = LIB.read_text()
+    m = re.search(r"\nexport function fileAnswer\(.*?\n\}", lib, re.S)
+    ans = m.group(0) if m else ""
+    if "fileAnswer(got" not in g:
+        problems.append(f"{FILES.name}: it answers with a file some way other than fileAnswer, the one answer every place gives.")
     for need, why in (("'application/octet-stream'", "a file is sent as nothing a browser would show"),
                       ("content-disposition", "a file is sent to be saved"),
                       ("'x-content-type-options': 'nosniff'", "nobody may guess a file is a page"),
-                      ("sandbox", "nothing in a file may run as a page of ours"),
-                      ("x-robots-tag", "no search engine keeps one")):
-        if need not in g:
-            problems.append(f"{FILES.name}: {need} is gone: {why}.")
+                      ("sandbox", "nothing in a file may run as a page of ours")):
+        if need not in ans:
+            problems.append(f"lib.mjs: fileAnswer: {need} is gone: {why}.")
+    if "x-robots-tag" not in g:
+        problems.append(f"{FILES.name}: x-robots-tag is gone: no search engine keeps one.")
 
 
 def check_js():
@@ -552,8 +559,11 @@ def check_js():
             problems.append(f"{JS.name}: it calls {url}. The forums talk to /cb/forum and /cb/forum/file, read the list of rooms and Who's online, and nothing else.")
     if "window.loveRedraw(file)" not in js or re.search(r"getContext\(|toBlob\(|OffscreenCanvas", js):
         problems.append(f"{JS.name}: a picture must be redrawn by window.loveRedraw, the radio's one redraw, and by no canvas of the forums' own.")
-    if "type: 'application/octet-stream'" not in js or re.search(r"window\.open\(|\.target\s*=", js):
-        problems.append(f"{JS.name}: a file is saved as application/octet-stream and never opened here.")
+    att = code_of(ROOT / "attach.js")
+    if "window.loveAttach.saveAs(" not in js or "type: 'application/octet-stream'" not in att or re.search(r"window\.open\(|\.target\s*=", js + att):
+        problems.append(f"{JS.name}: a file is saved by attach.js's saveAs, as application/octet-stream, and never opened here.")
+    if "window.loveAttach.send(" not in js:
+        problems.append(f"{JS.name}: a file must go up through attach.js's send, a part at a time when it is bigger than one, as Tasks and the office send one.")
     for m in re.finditer(r"""\+\s*['"]\s*(replies|reply|posts|post|topics|topic|views|likes|people|members|readers|new)\b""", js):
         problems.append(f"{JS.name}: '{m.group(0).strip()}' looks like a number beside {m.group(1)}. Nothing in the forums is counted.")
     if re.search(r"\bunread\b|\bviews\b|\bview count", js, re.I):

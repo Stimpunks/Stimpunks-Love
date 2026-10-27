@@ -1789,39 +1789,10 @@
       key: keyOf(tid), upload: function (q, blob) { return fileCall(q, blob); }, drop: drop };
   }
   function filesSection(t) {
-    var sec = el('section', 'tk-files');
-    sec.appendChild(heading(3, 'Pictures and files'));
-    var files = t.files || [];
-    if (!files.length) sec.appendChild(quiet('None yet.'));
-    else sec.appendChild(window.loveAttach.shown({ p: 'tk', files: files, key: keyOf(t.id), fetch: fileOf(t.id), say: say, meta: attachedBy,
-      tools: function (f, li, row) {
-        if (f.kind === 'pic') row.appendChild(describer(t, f, row));
-        var off = el('button', 'cb-btn tk-small', 'Take it off'); off.type = 'button';
-        off.addEventListener('click', function () { takeOff(t, f, row, off); });
-        row.appendChild(off);
-      } }));
-    // Nothing is attached until Attach them: the tray holds what is put up until then.
-    var go = el('button', 'cb-btn tk-small', 'Attach them'); go.type = 'button'; go.hidden = true;
-    // attach.js says when its tray changes, and the button follows it.
-    function sync() { go.hidden = !tr.count(); go.disabled = tr.busy(); go.textContent = tr.count() === 1 ? 'Attach it' : 'Attach them'; }
-    var o = trayFor(t.id, 'tk-task-' + t.id, files.length, settings.attachMax || 30, sec);
-    o.changed = sync;
-    var tr = window.loveAttach.tray(o);
-    tr.row.appendChild(go);
-    go.addEventListener('click', function () {
-      if (!tr.count() || tr.busy()) return;
-      go.disabled = true;
-      tr.say('Attaching…');
-      call(null, { action: 'attach', id: t.id, files: tr.list() }).then(function (r) {
-        go.disabled = false;
-        if (r.status !== 200) { tr.say(why(r, 'Nothing was attached. Try again in a moment.')); return; }
-        var n = tr.count();
-        tr.sent(o.key);
-        afterFiles(r, n === 1 ? 'Attached.' : n + ' attached.');
-      });
-    });
-    sec.appendChild(tr.node);
-    return sec;
+    return window.loveAttach.section({ p: 'tk', id: t.id, heading: heading, files: t.files || [], key: keyOf(t.id), fetch: fileOf(t.id),
+      upload: function (q, blob) { return fileCall(q, blob); }, ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
+      meta: attachedBy, kinds: settings.kinds || [], fileMax: settings.fileMax, part: settings.part, altMax: settings.altMax, most: settings.attachMax || 30,
+      after: afterFiles });
   }
   // After a change to the pictures and files, the task drawn again with the keyboard back on their heading.
   function afterFiles(r, said) {
@@ -1830,49 +1801,6 @@
     (back || h).focus();
     freshActivity(r.body.task.id);
     say(said);
-  }
-  function takeOff(t, f, row, btn) {
-    var name = f.kind === 'pic' ? (f.alt ? 'the picture “' + f.alt + '”' : 'this picture') : '“' + f.name + '”';
-    sure(row, 'This takes ' + name + ' off the task and deletes it for everybody. It cannot be put back.', 'Take it off', function (done) {
-      call(null, { action: 'detach', id: t.id, f: f.id }).then(function (r) {
-        done();
-        if (r.status !== 200) { say(why(r, 'That was not taken off. Nothing was changed.')); return; }
-        afterFiles(r, 'Taken off and deleted.');
-      });
-    }, btn);
-  }
-  function describer(t, f, row) {
-    var describe = el('button', 'cb-btn tk-small', f.alt ? 'Change its description' : 'Describe it');
-    describe.type = 'button';
-    describe.addEventListener('click', function () {
-      describe.hidden = true;
-      var form = el('div', 'tk-describe');
-      var id = 'tk-alt-' + f.id;
-      var lab = el('label', null, 'What is in it');
-      lab.htmlFor = id;
-      var input = el('input', 'tk-input tk-alt');
-      input.id = id;
-      input.type = 'text';
-      input.maxLength = settings.altMax || 600;
-      input.value = f.alt || '';
-      var save = el('button', 'cb-btn tk-small', 'Save it'); save.type = 'button';
-      var cancel = el('button', 'cb-btn tk-small', 'Cancel'); cancel.type = 'button';
-      form.appendChild(lab); form.appendChild(input); form.appendChild(save); form.appendChild(cancel);
-      row.appendChild(form);
-      input.focus();
-      cancel.addEventListener('click', function () { form.remove(); describe.hidden = false; describe.focus(); });
-      function send() {
-        save.disabled = true;
-        call(null, { action: 'describe', id: t.id, f: f.id, alt: input.value }).then(function (r) {
-          save.disabled = false;
-          if (r.status !== 200) { say(why(r, 'That did not save. Nothing was changed.')); return; }
-          afterFiles(r, input.value.trim() ? 'Its description is saved.' : 'Its description is taken off.');
-        });
-      }
-      save.addEventListener('click', send);
-      input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } if (e.key === 'Escape') { e.preventDefault(); cancel.click(); } });
-    });
-    return describe;
   }
 
   /* What comments.js needs for this task's comments: tasks.js's own words,

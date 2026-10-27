@@ -87,7 +87,7 @@ function memoryStore({ etagOnRead }) {
     async set(key, value, opts = {}) {
       await tick();
       // A picture's or a forum upload's key is a fresh random id, so writing it can race nothing.
-      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|suggest-img|forum-up|forum-file|task-up|task-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
+      if (!/^(mud-here|room-here|call-in|call-left|img|brass-img|suggest-img|forum-up|forum-file|task-up|task-file|office-up|office-file|dm-img|dm-report-img)\//.test(key)) throw new Error('an unconditional write outside presence: ' + key);
       blobs.set(key, { value, etag: `e${++n}`, metadata: opts.metadata });
       return { modified: true };
     },
@@ -8891,7 +8891,9 @@ test('the Wiki’s bot answers only a request signed with its own key, recently'
 
 /* ── Tasks' pictures and files (2026-10-27) ── */
 import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, sweepTaskFiles, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX,
-  startTaskParts, putTaskPart, finishTaskParts, TASK_PART, TASK_FILE_MAX } from './lib.mjs';
+  startUploadParts, putUploadPart, finishUploadParts, FILE_PART, FILE_MAX } from './lib.mjs';
+const startTaskParts = (...a) => startUploadParts('task', ...a), putTaskPart = (...a) => putUploadPart('task', ...a), finishTaskParts = (...a) => finishUploadParts('task', ...a);
+const TASK_PART = FILE_PART, TASK_FILE_MAX = FILE_MAX;
 
 {
   const withStaffKey = async (fn) => {
@@ -9038,5 +9040,94 @@ import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, swee
     await sweepTaskFiles(s, T0 + DAYS(1));
     assert.ok(!s.keys().some((k) => k.startsWith('task-up/')), 'an upload nobody attached was kept');
     assert.equal(s.keys().filter((k) => k.startsWith('task-file/')).length, TASK_ATTACH_MAX, 'the sweep took a held file or left a stray');
+  }));
+}
+
+
+/* ── Pictures and files in the forums and the office, one layer for all (2026-10-27) ── */
+import { putOfficeUpload, attachOffice, detachOffice, describeOfficeFile, officeFile, sweepOfficeFiles, OFFICE_ATTACH_MAX } from './lib.mjs';
+
+{
+  const withBothKeys = async (fn) => {
+    const was = process.env.CB_STAFF_KEY;
+    process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+    try { await withOfficeKey(OFFICE_TEST_KEY, fn); } finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+  };
+  const bigPdf = (words) => { const head = PDF(words); return Buffer.concat([head, Buffer.alloc(6200000 - head.length, 7)]); };
+  const send = async (place, who, whole, name, s) => {
+    const parts = Math.ceil(whole.length / FILE_PART);
+    const up = await startUploadParts(place, who, { name, size: whole.length, parts }, whole.subarray(0, FILE_PART), s, T0);
+    if (up.error) return up;
+    for (let n = 1; n < parts; n++) { const r = await putUploadPart(place, who, up.id, n, whole.subarray(n * FILE_PART, Math.min(whole.length, (n + 1) * FILE_PART)), s, T0); if (r.error) return r; }
+    return finishUploadParts(place, who, up.id, s, T0);
+  };
+
+  test('the forums take a file up to 20 MB in parts, served a part at a time, its name sealed with it', () => withBothKeys(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    const whole = bigPdf('minutes for Juniper');
+    const up = await send('forum', FADMIN, whole, 'Minutes for Juniper.pdf', s);
+    assert.ok(up.id, up.error);
+    assert.match((await send('forum', { role: 'mobile', handle: 'Cy', roles: new Set() }, whole, 'x.pdf', s)).error, /claimed usernames/);
+    const r = await startTopic(FADMIN, { cat: 'finance', title: 'Minutes', files: [{ id: up.id }] }, s, T0, NO_NET);
+    assert.ok(r.topic, r.error);
+    assert.equal(r.post.files[0].parts, 2);
+    // And its readers are told so, or their page asks for it whole and is refused.
+    assert.equal((await forumTopic(FADMIN, r.topic.id, s, T0)).posts[0].files[0].parts, 2, 'a reader was not told a file comes in parts');
+    for (const k of s.keys().filter((k) => k.startsWith('forum-file/'))) {
+      const raw = await s.raw.getWithMetadata(k, { type: 'arrayBuffer' });
+      assert.ok(!JSON.stringify(raw.metadata).includes('Juniper'), `${k}'s name is in the clear beside it`);
+    }
+    assert.equal((await forumFile(FADMIN, r.topic.id, up.id, s, T0)).data, undefined, 'a file in parts was sent whole');
+    const back = [];
+    for (let n = 0; n < 2; n++) back.push(Buffer.from((await forumFile(FADMIN, r.topic.id, up.id, s, T0, n)).data));
+    assert.ok(Buffer.concat(back).equals(whole));
+    await removeTopic(FADMIN, r.topic.id, s, T0);
+    assert.ok(!s.keys().some((k) => k.startsWith('forum-file/')), 'a topic taken down left a part');
+  }));
+
+  test('a contact, a grant request and a case take pictures and files, sealed with the office key, and go with them', () => withBothKeys(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    const g = (await saveGrant(TRYAN, { name: 'Rent for Juniper', amount: 500 }, s, T0)).grant;
+    const k = (await saveCase(TRYAN, { name: 'Connection Request: Bo' }, s, T0)).case;
+    const c = (await saveContact(TRYAN, { first: 'Bo', email: 'bo@example.org' }, s, T0)).contact;
+    assert.match((await putOfficeUpload(TSAM, { kind: 'pic' }, JPEG(), s, T0)).error, /directors, board members/);
+    const pic = await putOfficeUpload(TRYAN, { kind: 'pic' }, JPEG(), s, T0);
+    const lease = await send('office', TRYAN, bigPdf('lease for Juniper'), 'Lease for Juniper.pdf', s);
+    assert.ok(pic.id && lease.id, pic.error || lease.error);
+    for (const key of s.keys().filter((x) => x.startsWith('office-up/'))) {
+      const raw = await s.raw.getWithMetadata(key, { type: 'arrayBuffer' });
+      assert.equal(Buffer.from(raw.data).subarray(0, 4).toString(), 'SOF1', `${key} was not sealed with the office key`);
+      assert.ok(!JSON.stringify(raw.metadata).includes('Juniper'), `${key}'s name is in the clear`);
+    }
+    assert.match((await attachOffice(TCHELSEA, g.id, [{ id: lease.id }], s, T0)).error, /not yours/);
+    const r = await attachOffice(TRYAN, g.id, [{ id: lease.id }, { id: pic.id, alt: 'The lease' }], s, T0 + 1);
+    assert.ok(r.record, r.error);
+    assert.deepEqual(r.record.files.map((f) => f.name || f.alt), ['Lease for Juniper.pdf', 'The lease']);
+    assert.equal((await officeGrants(TRYAN, s)).find((x) => x.id === g.id).attached, 2);
+    assert.equal((await officeFile(TCHELSEA, g.id, lease.id, s)).parts, 2);
+    assert.ok((await officeFile(TCHELSEA, g.id, lease.id, s, 1)).data.byteLength > 0);
+    assert.equal(await officeFile(TSAM, g.id, pic.id, s), null, 'somebody off the office fetched a file');
+    assert.equal(await officeFile(TRYAN, k.id, pic.id, s), null, 'a file was served from a record that does not hold it');
+    assert.equal((await describeOfficeFile(TCHELSEA, g.id, pic.id, 'Page one', s, T0 + 2)).record.files[1].alt, 'Page one');
+    // A comment on a case carries one too, and the comment's going takes it.
+    const cpic = await putOfficeUpload(TRYAN, { kind: 'pic' }, JPEG(), s, T0);
+    const cm = (await commentOffice(TRYAN, k.id, '', s, T0 + 3, TMODS, [{ id: cpic.id }])).comment;
+    assert.ok(cm && cm.files.length === 1, 'a comment of only a picture was refused');
+    assert.ok((await officeFile(TRYAN, k.id, cpic.id, s)).data);
+    await removeOfficeComment(TRYAN, k.id, cm.id, s);
+    assert.equal(await officeFile(TRYAN, k.id, cpic.id, s), null);
+    // Taken off is deleted; a record deleted takes the rest.
+    assert.ok((await detachOffice(TRYAN, g.id, pic.id, s, T0 + 4)).record);
+    assert.ok(!s.keys().some((x) => x.endsWith(pic.id)));
+    const cfile = await putOfficeUpload(TRYAN, { kind: 'file', name: 'Note.txt' }, Buffer.from('a note'), s, T0);
+    assert.ok((await attachOffice(TRYAN, c.id, [{ id: cfile.id }], s, T0 + 5)).record);
+    await removeGrant(TRYAN, g.id, s);
+    await removeContact(TRYAN, c.id, s);
+    assert.ok(!s.keys().some((x) => x.startsWith('office-file/')), 'a deleted record left its files');
+    // The sweep takes an upload nothing took, a day on.
+    await putOfficeUpload(TRYAN, { kind: 'pic' }, JPEG(), s, T0);
+    await sweepOfficeFiles(s, T0 + DAYS(1));
+    assert.ok(!s.keys().some((x) => x.startsWith('office-up/')));
+    assert.ok(OFFICE_ATTACH_MAX >= 1);
   }));
 }

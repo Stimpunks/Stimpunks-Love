@@ -362,7 +362,7 @@
   }
 
   var cats = [], me = null, quick = [];
-  var takes = { most: 6, body: 20000, fileMax: 5000000, kinds: ['pdf', 'txt', 'md', 'csv', 'rtf', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp', 'epub'] };
+  var takes = { most: 6, body: 20000, fileMax: 20000000, part: 4000000, kinds: ['pdf', 'txt', 'md', 'csv', 'rtf', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp', 'epub'] };
   var rooms = null, roomsAsk = null;
   function loadRooms() {
     if (roomsAsk) return roomsAsk;
@@ -759,19 +759,13 @@
     li.appendChild(el('span', 'fm-doc__what', (f.name.split('.').pop() || '').toUpperCase() + ', ' + sizeWords(f.size)));
     b.addEventListener('click', function () {
       b.disabled = true;
-      fileCall(fileQuery(t, f)).then(function (r) { return r.ok ? r.arrayBuffer() : null; }, function () { return null; }).then(function (buf) {
+      if (f.parts > 1) say('Fetching ' + f.name + ', ' + sizeWords(f.size) + ', in ' + f.parts + ' parts…');
+      // A file kept in parts comes a part at a time and is put back together here (attach.js).
+      window.loveAttach.fetchWhole(function (x, part) { return fileCall(fileQuery(t, x) + (part != null ? '&part=' + part : '')); }, f).then(function (bufs) {
         b.disabled = false;
-        if (!buf) { say('That file could not be fetched just now.'); return; }
+        if (!bufs) { say('That file could not be fetched just now.'); return; }
         // Saved, never opened here: a type no browser shows as a page.
-        var url = URL.createObjectURL(new Blob([buf], { type: 'application/octet-stream' }));
-        var a = el('a');
-        a.href = url;
-        a.download = f.name;
-        a.hidden = true;
-        box.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+        window.loveAttach.saveAs(bufs, f.name, box);
         say('Saving ' + f.name + '. It is exactly as it was posted: open it only with something you trust.');
       });
     });
@@ -1452,7 +1446,9 @@
       answer.textContent = isPic ? 'Redrawing the picture…' : 'Sending ' + file.name + '…';
       var ready = isPic ? window.loveRedraw(file) : Promise.resolve(file);
       ready.then(function (blob) {
-        return fileCall(isPic ? 'kind=pic' : 'kind=file&name=' + encodeURIComponent(file.name), blob).then(function (r) {
+        // A file over a part goes a part at a time (attach.js, the one way Tasks and the office send one too).
+        var sent = isPic ? fileCall('kind=pic', blob) : window.loveAttach.send({ upload: fileCall, file: file, blob: blob, part: takes.part, say: function (t) { answer.textContent = t; } });
+        return sent.then(function (r) {
           return r.json().catch(function () { return {}; }).then(function (b) {
             if (!r.ok) throw new Error((b && b.error) || 'That could not be sent just now.');
             var f = { id: b.id, kind: b.kind, name: b.name, size: b.size, alt: '' };

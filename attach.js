@@ -32,6 +32,62 @@
   }
   function dots(kinds) { return kinds.map(function (k) { return '.' + k; }).join(', '); }
 
+  /* A file sent: in one request when it fits a part, and otherwise its first
+     part with its name, size and how many parts, the rest one at a time, and
+     then done, when the server checks the whole of it. o: { upload(query,
+     blob), file, blob, part, say(text) }. Answers the last response. The
+     forums call this as well as the tray. */
+  function send(o) {
+    var file = o.file, blob = o.blob, part = o.part || 0;
+    if (!part || blob.size <= part) return o.upload('kind=file&name=' + encodeURIComponent(file.name), blob);
+    var parts = Math.ceil(blob.size / part), id = null;
+    function said(r) {
+      return r.json().catch(function () { return {}; }).then(function (b) {
+        if (!r.ok) throw new Error((b && b.error) || 'it could not be sent just now.');
+        return b;
+      });
+    }
+    function one(n) {
+      o.say('Sending ' + file.name + ', part ' + (n + 1) + ' of ' + parts + '…');
+      var piece = blob.slice(n * part, Math.min(blob.size, (n + 1) * part));
+      var q = n === 0 ? 'kind=file&name=' + encodeURIComponent(file.name) + '&size=' + blob.size + '&parts=' + parts : 'up=' + encodeURIComponent(id) + '&part=' + n;
+      return o.upload(q, piece).then(said).then(function (b) {
+        if (n === 0) id = b.id;
+        return n + 1 < parts ? one(n + 1) : null;
+      });
+    }
+    return one(0).then(function () {
+      o.say('Checking ' + file.name + '…');
+      return o.upload('up=' + encodeURIComponent(id) + '&done=1', new Blob([]));
+    });
+  }
+  /* A file fetched whole: one request, or a part at a time, in order, for a
+     file kept in parts. Answers its buffers, or null. fetch(f, part). */
+  function fetchWhole(fetch1, f) {
+    var got = [], n = 0, all = f.parts > 1 ? f.parts : 1;
+    function next() {
+      return fetch1(f, all > 1 ? n : null).then(function (r) { return r.ok ? r.arrayBuffer() : null; }, function () { return null; }).then(function (buf) {
+        if (!buf) return null;
+        got.push(buf);
+        n++;
+        return n < all ? next() : got;
+      });
+    }
+    return next();
+  }
+  /* A file saved, never opened here: a type no browser shows as a page. */
+  function saveAs(bufs, name, into) {
+    var url = URL.createObjectURL(new Blob(bufs, { type: 'application/octet-stream' }));
+    var a = el('a');
+    a.href = url;
+    a.download = name;
+    a.hidden = true;
+    into.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+  }
+
   // Pictures already fetched, by whatever key the caller gives them, for the life of the page.
   var fetched = {};
 
@@ -84,28 +140,10 @@
       b.disabled = true;
       if (f.parts > 1) o.say('Fetching ' + f.name + ', ' + sizeWords(f.size) + ', in ' + f.parts + ' parts…');
       // A file in parts is fetched a part at a time, in order, and put back together here.
-      var got = [], n = 0, all = f.parts > 1 ? f.parts : 1;
-      function next() {
-        return o.fetch(f, all > 1 ? n : null).then(function (r) { return r.ok ? r.arrayBuffer() : null; }, function () { return null; }).then(function (buf) {
-          if (!buf) return null;
-          got.push(buf);
-          n++;
-          return n < all ? next() : got;
-        });
-      }
-      next().then(function (bufs) {
+      fetchWhole(o.fetch, f).then(function (bufs) {
         b.disabled = false;
         if (!bufs) { o.say('That file could not be fetched just now.'); return; }
-        // Saved, never opened here: a type no browser shows as a page.
-        var url = URL.createObjectURL(new Blob(bufs, { type: 'application/octet-stream' }));
-        var a = el('a');
-        a.href = url;
-        a.download = f.name;
-        a.hidden = true;
-        li.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+        saveAs(bufs, f.name, li);
         o.say('Saving ' + f.name + '. It is exactly as it was attached: open it only with something you trust.');
       });
     });
@@ -177,8 +215,7 @@
       changed();
       answer.textContent = isPic ? 'Redrawing the picture…' : 'Sending ' + file.name + '…';
       (isPic ? window.loveRedraw(file) : Promise.resolve(file)).then(function (blob) {
-        var part = o.part || 0;
-        var sent = !isPic && part && blob.size > part ? inParts(file, blob, part) : o.upload(isPic ? 'kind=pic' : 'kind=file&name=' + encodeURIComponent(file.name), blob);
+        var sent = isPic ? o.upload('kind=pic', blob) : send({ upload: o.upload, file: file, blob: blob, part: o.part, say: function (t) { answer.textContent = t; } });
         return sent.then(function (r) {
           return r.json().catch(function () { return {}; }).then(function (b) {
             if (!r.ok) throw new Error((b && b.error) || 'it could not be sent just now.');
@@ -192,31 +229,6 @@
         answer.textContent = (file.name || 'The picture') + ': ' + ((e && e.message && e.message !== 'big') ? e.message : (isPic ? 'it could not be read or made small enough here. Try a screenshot of it, or another picture.' : 'it could not be sent just now.'));
       }).then(function () { pending--; changed(); });
       return null;
-    }
-    /* A file bigger than a part: the first part with its name, size and how
-       many parts, then the rest one at a time, then done, which is when the
-       server checks the whole of it. Answers the last response. */
-    function inParts(file, blob, part) {
-      var parts = Math.ceil(blob.size / part), id = null;
-      function said(r) {
-        return r.json().catch(function () { return {}; }).then(function (b) {
-          if (!r.ok) throw new Error((b && b.error) || 'it could not be sent just now.');
-          return b;
-        });
-      }
-      function one(n) {
-        answer.textContent = 'Sending ' + file.name + ', part ' + (n + 1) + ' of ' + parts + '…';
-        var piece = blob.slice(n * part, Math.min(blob.size, (n + 1) * part));
-        var q = n === 0 ? 'kind=file&name=' + encodeURIComponent(file.name) + '&size=' + blob.size + '&parts=' + parts : 'up=' + encodeURIComponent(id) + '&part=' + n;
-        return o.upload(q, piece).then(said).then(function (b) {
-          if (n === 0) id = b.id;
-          return n + 1 < parts ? one(n + 1) : null;
-        });
-      }
-      return one(0).then(function () {
-        answer.textContent = 'Checking ' + file.name + '…';
-        return o.upload('up=' + encodeURIComponent(id) + '&done=1', new Blob([]));
-      });
     }
     function several(list) {
       var refused = list.map(upload).filter(Boolean);
@@ -260,5 +272,92 @@
     };
   }
 
-  window.loveAttach = { shown: shown, tray: tray, sizeWords: sizeWords };
+  /* A record's own Pictures and files part (a task's, a contact's, a grant
+     request's, a case's): its heading, what it holds with Describe it and
+     Take it off on each, and the tray with Attach them. Anybody who can open
+     the record attaches to it and takes one off, as anybody changes it.
+     o: { p, id (the record's), heading(level, text), files, key(f), fetch(f, part), upload(query, blob),
+          ask(send) (the page's own function, which knows attach, detach and describe), why(r, otherwise),
+          say(text), sure(into, text, yesText, yes, back), after(r, said) (the record drawn again, the
+          keyboard back on this part), meta(f), kinds, fileMax, part, altMax, most } */
+  function section(o) {
+    var p = o.p, sec = el('section', p + '-files');
+    sec.appendChild(o.heading(3, 'Pictures and files'));
+    var files = o.files || [];
+    if (!files.length) sec.appendChild(el('p', 'cb-quiet', 'None yet.'));
+    else sec.appendChild(shown({ p: p, files: files, key: o.key, fetch: o.fetch, say: o.say, meta: o.meta,
+      tools: function (f, li, row) {
+        if (f.kind === 'pic') row.appendChild(describer(o, f, row));
+        var off = el('button', 'cb-btn ' + p + '-small', 'Take it off'); off.type = 'button';
+        off.addEventListener('click', function () { takeOff(o, f, row, off); });
+        row.appendChild(off);
+      } }));
+    // Nothing is attached until Attach them: the tray holds what is put up until then.
+    var go = el('button', 'cb-btn ' + p + '-small', 'Attach them'); go.type = 'button'; go.hidden = true;
+    var tr = null;
+    function sync() { go.hidden = !tr.count(); go.disabled = tr.busy(); go.textContent = tr.count() === 1 ? 'Attach it' : 'Attach them'; }
+    tr = tray({ p: p, id: p + '-rec-' + o.id, kinds: o.kinds, fileMax: o.fileMax, part: o.part, altMax: o.altMax, most: o.most, have: files.length,
+      key: o.key, upload: o.upload, drop: sec, changed: function () { if (tr) sync(); } });
+    tr.row.appendChild(go);
+    go.addEventListener('click', function () {
+      if (!tr.count() || tr.busy()) return;
+      go.disabled = true;
+      tr.say('Attaching…');
+      o.ask({ action: 'attach', id: o.id, files: tr.list() }).then(function (r) {
+        go.disabled = false;
+        if (r.status !== 200) { tr.say(o.why(r, 'Nothing was attached. Try again in a moment.')); return; }
+        var n = tr.count();
+        tr.sent(o.key);
+        o.after(r, n === 1 ? 'Attached.' : n + ' attached.');
+      });
+    });
+    sec.appendChild(tr.node);
+    return sec;
+  }
+  function takeOff(o, f, row, btn) {
+    var name = f.kind === 'pic' ? (f.alt ? 'the picture “' + f.alt + '”' : 'this picture') : '“' + f.name + '”';
+    o.sure(row, 'This takes ' + name + ' off and deletes it for everybody. It cannot be put back.', 'Take it off', function (done) {
+      o.ask({ action: 'detach', id: o.id, f: f.id }).then(function (r) {
+        done();
+        if (r.status !== 200) { o.say(o.why(r, 'That was not taken off. Nothing was changed.')); return; }
+        o.after(r, 'Taken off and deleted.');
+      });
+    }, btn);
+  }
+  function describer(o, f, row) {
+    var p = o.p;
+    var describe = el('button', 'cb-btn ' + p + '-small', f.alt ? 'Change its description' : 'Describe it');
+    describe.type = 'button';
+    describe.addEventListener('click', function () {
+      describe.hidden = true;
+      var form = el('div', p + '-describe');
+      var id = p + '-alt-' + f.id;
+      var lab = el('label', null, 'What is in it');
+      lab.htmlFor = id;
+      var input = el('input', p + '-input ' + p + '-alt');
+      input.id = id;
+      input.type = 'text';
+      input.maxLength = o.altMax || 600;
+      input.value = f.alt || '';
+      var save = el('button', 'cb-btn ' + p + '-small', 'Save it'); save.type = 'button';
+      var cancel = el('button', 'cb-btn ' + p + '-small', 'Cancel'); cancel.type = 'button';
+      form.appendChild(lab); form.appendChild(input); form.appendChild(save); form.appendChild(cancel);
+      row.appendChild(form);
+      input.focus();
+      cancel.addEventListener('click', function () { form.remove(); describe.hidden = false; describe.focus(); });
+      function sendIt() {
+        save.disabled = true;
+        o.ask({ action: 'describe', id: o.id, f: f.id, alt: input.value }).then(function (r) {
+          save.disabled = false;
+          if (r.status !== 200) { o.say(o.why(r, 'That did not save. Nothing was changed.')); return; }
+          o.after(r, input.value.trim() ? 'Its description is saved.' : 'Its description is taken off.');
+        });
+      }
+      save.addEventListener('click', sendIt);
+      input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); sendIt(); } if (e.key === 'Escape') { e.preventDefault(); cancel.click(); } });
+    });
+    return describe;
+  }
+
+  window.loveAttach = { section: section, shown: shown, tray: tray, send: send, fetchWhole: fetchWhole, saveAs: saveAs, sizeWords: sizeWords };
 })();

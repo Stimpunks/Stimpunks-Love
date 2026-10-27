@@ -6196,20 +6196,30 @@ off and never their names** (`{ field: 'files', put, off }`), because a name can
 activity and notifications are kept apart from the task. `make-tasks.py` (`check_files`) holds all of it. The friendly
 edits are **a file's name in the activity "so you know which"** and **a public link to a picture "to share it"**.
 **A comment carries them too** (the same day, `TASK_COMMENT_FILES_MAX`), and **`attach.js` is the one file that draws
-and takes them**, the rack.js rule: the task's section calls `loveAttach.shown` and `loveAttach.tray`, and `comments.js`
-calls the same two only when the page passes `files`, so the office's comments stay words. On the server
-`taskUploads` is the one door for both, a comment's files live under the same `task-file/<task>/`, `taskFile` serves one
-a comment holds, an edit that sends `files` sends everything the comment is to hold, and deleting a comment deletes its
-files. The friendly edit is a second copy of the picture code in `comments.js` or `office.js`; offer `files` instead.
+and takes them**, the rack.js rule: a record's own part is `loveAttach.section` (Tasks' and the office's), and
+`comments.js` uses its tray and lists only when the page passes `files`. The friendly edit is a second copy of the
+picture code in a page's own script; pass `files`, or call the section.
+**THE FORUMS, TASKS AND THE OFFICE TAKE PICTURES AND FILES BY ONE LAYER, UNIFORMLY** (Ryan's ask, the same day:
+"uniformly across the Office"). In `lib.mjs`, `FILE_PLACES` names each place's `<place>-up/` and `<place>-file/`, and
+`putUploadTo`, `startUploadParts`, `putUploadPart`, `finishUploadParts`, `checkUploads`, `keepUploads`,
+`letGoUploads`, `doneUploads`, `dropHeld`, `dropOwner`, `readHeld` and `sweepUploads` do the work for all three, with
+`uploadRequest` and `fileAnswer` the one way each endpoint (`cb-forum-file`, `cb-tasks-file`, `cb-office-file`) takes
+and answers. **The office takes them on a contact, a grant request or a case (`attachOffice`) and on any office
+comment**; a mailing, a template and an email on their comments only, because a file on a template would read as one
+the mailing sends. **The store seals them by name with each place's own key**: `STAFF_BYTES` with the staff key,
+`OFFICE_BYTES` with the office's, **and their metadata too** (`sealMeta`, `openMeta`), because it holds a file's name;
+until this day the forums' and Tasks' file names sat in the clear beside sealed bytes, and the sweep's `SEAL_PASS` moved
+on to seal them. `make-tasks.py`, `make-forum.py` and `make-office.py` (`check_files`) hold each place to the layer.
 **A FILE OVER 4 MB GOES UP, IS KEPT AND COMES BACK IN PARTS, BECAUSE NETLIFY REFUSES A REQUEST OVER ABOUT 6 MB.**
 Measured on the live site, 2026-10-27, after a 6.2 MB scanned PDF would not go: a 6.5 MB POST answered 413 before
-any function ran, while 4 MB reached the code. So `TASK_FILE_MAX` is 20 MB and `TASK_PART` is 4 MB: `attach.js`'s
-`inParts` sends the first part with the name and size (`startTaskParts`, which refuses a picture by its first bytes
-there and then), the rest one at a time (`putTaskPart`), and then done (`finishTaskParts`, which checks the whole with
-`uploadMeta`); the file stays in those parts under `<key>.<n>`, each sealed, and `taskFile` serves one part per answer,
-which `attach.js` puts back together. **The friendly edits are raising `FORUM_FILE_MAX` "so big files go"**, which
-Netlify refuses anyway, **and serving a file whole "since streaming allows 20 MB"**, which leaves no room for a part
-bigger than the limit; `make-tasks.py` refuses a `TASK_PART` over 5 MB and a whole-file answer. The forums keep 5 MB.
+any function ran, while 4 MB reached the code. So `FILE_MAX` is 20 MB and `FILE_PART` is 4 MB, in every place:
+`attach.js`'s `send` sends the first part with the name and size (`startUploadParts`, which refuses a picture by its
+first bytes there and then), the rest one at a time (`putUploadPart`), and then done (`finishUploadParts`, which checks
+the whole with `uploadMeta`); the file stays in those parts under `<key>.<n>`, each sealed, `readHeld` serves one part
+per answer, and `fetchWhole` puts it back together. **The friendly edits are raising `FORUM_FILE_MAX` "so big files
+go"**, which stays the most one request carries and Netlify would refuse more anyway, **and serving a file whole "since
+streaming allows 20 MB"**, which leaves no room for a part bigger than the limit; `make-tasks.py` refuses a `FILE_PART`
+over 5 MB and a whole-file answer.
 
 **TASKS AND THE OFFICE EACH HAVE A FEED, AFTER NOTION'S, AND IT KEEPS NOTHING.** Ryan's ask, 2026-10-21: a
 reverse-chronological feed with previews you can act on. Tasks' is a fourth view (`#/feed`) beside the list, board and
@@ -6539,8 +6549,8 @@ emailed "just this once"**, and **the office keeping a Google login** to send by
 "words only" and "no notifications" for the forums. **A picture goes through `window.loveRedraw`, the radio's one
 redraw** (forum.js draws no canvas of its own), and `putForumUpload` refuses one still carrying camera data **and a
 picture sent as a file** (`picturish`), which would keep its GPS. A file is one of `FORUM_FILE_TYPES`, checked by its
-first bytes (`fileKind`), never a page, a script, an SVG, an archive or a document with macros, 5 MB at most, and goes
-as it is, which the privacy page says. An upload waits under `forum-up/`, marked with its writer's `authorMark` so only
+first bytes (`fileKind`), never a page, a script, an SVG, an archive or a document with macros, 20 MB at most in parts
+since 2026-10-27 (the one upload layer, below Tasks' attachments), and goes as it is, which the privacy page says. An upload waits under `forum-up/`, marked with its writer's `authorMark` so only
 they can attach it, and is swept after a day; a post's own are copied to `forum-file/<topic>/<id>` **before** the topic is
 written, so no post holds a file that is not there, and are deleted when the post, the topic or an edit lets go of
 them. **They have no public address**: `/cb/forum/file` serves one only to a reader `forumFile` finds can read the topic

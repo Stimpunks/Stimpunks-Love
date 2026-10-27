@@ -219,6 +219,26 @@ const STAFF_BYTES = [/^forum-file\//, /^forum-up\//, /^img\//, /^task-file\//, /
 export const staffSealed = (key) => typeof key === 'string'
   && (STAFF_SEALED.some((r) => r.test(key)) || (key.startsWith(ROOM_TALK) && !!lockedRoom(key.slice(ROOM_TALK.length))));
 export const staffBytes = (key) => typeof key === 'string' && STAFF_BYTES.some((r) => r.test(key));
+/* The office's pictures and files (2026-10-27) are sealed by name too, but
+   with the office's own key, never the staff key: the office is sealed apart
+   from everything else (CB_OFFICE_KEY, officeKey below). */
+const OFFICE_BYTES = [/^office-file\//, /^office-up\//];
+export const officeBytes = (key) => typeof key === 'string' && OFFICE_BYTES.some((r) => r.test(key));
+/* A sealed file's metadata is sealed too, under its name and '#meta': it can
+   hold a file's name, and a file's name can say whose papers it is. Only
+   `t`, when it was written, stays readable, for the hourly sweep. */
+function sealMeta(key, m) {
+  if (!m || typeof m !== 'object') return m;
+  const office = officeBytes(key);
+  const box = sealJsonWith(office ? officeKey() : staffCipherKey(), office ? 'office' : 'staff', key + '#meta', m);
+  return typeof m.t === 'number' ? { ...box, t: m.t } : box;
+}
+function openMeta(key, m) {
+  if (!m || m.sealed !== 1) return m;
+  const office = m.k === 'office';
+  const out = openJsonWith(office ? officeKey() : staffCipherKey(), office ? 'office' : 'staff', key + '#meta', m);
+  return out;
+}
 function staffCipherKey() {
   const v = process.env.CB_STAFF_KEY;
   if (!v) return null;
@@ -278,7 +298,11 @@ export function sealingStore(s) {
       if (p === 'get') return async (key, o) => opened(key, o, await t.get(key, o));
       if (p === 'getWithMetadata') return async (key, o) => {
         const g = await t.getWithMetadata(key, o);
-        return g ? { ...g, data: opened(key, o, g.data) } : g;
+        return g ? { ...g, data: opened(key, o, g.data), metadata: openMeta(key, g.metadata) } : g;
+      };
+      if (p === 'getMetadata' && typeof t.getMetadata === 'function') return async (key, o) => {
+        const g = await t.getMetadata(key, o);
+        return g ? { ...g, metadata: openMeta(key, g.metadata) } : g;
       };
       if (p === 'setJSON') return async (key, v, o) => {
         if (staffBytes(key)) throw new Error('a sealed file is written with set');
@@ -286,7 +310,9 @@ export function sealingStore(s) {
       };
       if (p === 'set') return async (key, v, o) => {
         if (staffSealed(key)) throw new Error('a sealed blob is written with setJSON');
-        return t.set(key, staffBytes(key) ? sealBytesWith(staffCipherKey(), 'SST1', key, v) : v, o);
+        if (officeBytes(key)) return t.set(key, sealBytesWith(officeKey(), 'SOF1', key, v), o && o.metadata ? { ...o, metadata: sealMeta(key, o.metadata) } : o);
+        if (staffBytes(key)) return t.set(key, sealBytesWith(staffCipherKey(), 'SST1', key, v), o && o.metadata ? { ...o, metadata: sealMeta(key, o.metadata) } : o);
+        return t.set(key, v, o);
       };
       const v = t[p];
       return typeof v === 'function' ? v.bind(t) : v;
@@ -299,6 +325,7 @@ export function sealingStore(s) {
 function opened(key, o, d) {
   if (isSealedStaff(d)) return openJsonWith(staffCipherKey(), 'staff', key, d);
   if (staffBytes(key)) { bytesRead(key, o); return openStaffBytes(key, d); }
+  if (officeBytes(key)) { bytesRead(key, o); return d == null ? d : openBytesWith(officeKey(), 'SOF1', key, d); }
   if (o && o.type === 'arrayBuffer' && bytesSealedAs('SST1', d)) return openStaffBytes(key, d);
   return d;
 }
@@ -311,7 +338,7 @@ function bytesRead(key, o) { if (!o || o.type !== 'arrayBuffer') throw new Error
    nothing is ever written in the clear again (and without it the staff stores
    are shut). A name added to STAFF_SEALED or STAFF_BYTES needs SEAL_PASS
    moved on, so the sweep looks again. */
-const SEAL_PASS = 'tasks+forum+rooms+devices+roles+task-files-1';
+const SEAL_PASS = 'tasks+forum+rooms+devices+roles+task-files+file-meta-1';
 const SEAL_MARK = 'staff-sealed';
 export async function sealStaffLeftovers(s = store()) {
   s = sealingStore(s);
@@ -328,8 +355,12 @@ export async function sealStaffLeftovers(s = store()) {
   for (const prefix of ['forum-file/', 'forum-up/', 'img/', 'task-file/', 'task-up/']) {
     for (const b of (await s.list({ prefix })).blobs || []) {
       const raw = await s.raw.getWithMetadata(b.key, { type: 'arrayBuffer' });
-      if (!raw || bytesSealedAs('SST1', raw.data)) continue;
-      await s.set(b.key, raw.data, { metadata: raw.metadata || {} });
+      if (!raw) continue;
+      const clearMeta = raw.metadata && raw.metadata.sealed !== 1 && Object.keys(raw.metadata).some((k) => k !== 't');
+      if (bytesSealedAs('SST1', raw.data) && !clearMeta) continue;
+      // Sealed already, its metadata still in the clear: opened, so it is not sealed twice, and written again.
+      const data = bytesSealedAs('SST1', raw.data) ? openStaffBytes(b.key, raw.data) : raw.data;
+      await s.set(b.key, data, { metadata: raw.metadata || {} });
       any = true;
     }
   }
@@ -8367,9 +8398,7 @@ export const POLL_AHEAD = 366 * 24 * 60 * 60 * 1000; // how far ahead a poll can
 const FORUM_CAT = 'forum/c/';
 const FORUM_GONE = 'forum-gone';        // Notion's ids of pages brought over and taken down here, so a later import leaves them down
 const FORUM_TOPIC = 'forum/t/';
-const FORUM_UP = 'forum-up/';           // an upload no post has taken yet
 const FORUM_FILE = 'forum-file/';       // forum-file/<topic>/<id>, a post's own
-const FORUM_UNSENT = 24 * 60 * 60 * 1000;
 const DAY = 24 * 60 * 60 * 1000;
 
 /* What a file may be, by the end of its name, and what its first bytes must
@@ -8599,11 +8628,7 @@ export function fileKind(bytes, name, place = 'The forums') {
    and goes after a day if no post takes it. */
 export async function putForumUpload(who, f, bytes, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
-  const meta = uploadMeta(f, bytes, 'the forums', 'The forums');
-  if (meta.error) return meta;
-  const id = randomUUID();
-  await s.set(FORUM_UP + id, bytes, { metadata: { ...meta, t: now, by: authorMark(who) } });
-  return { id, ...meta };
+  return putUploadTo('forum', who, f, bytes, s, now);
 }
 /* What an upload is, checked: a picture already redrawn in the sender's
    browser, carrying nothing a camera wrote, or a file of FORUM_FILE_TYPES,
@@ -8629,12 +8654,125 @@ function uploadMeta(f, bytes, place, Place, max = FORUM_FILE_MAX) {
   return { error: 'A picture or a file?' };
 }
 
-/* The pictures and files a post asks for (`asked`, a list of { id, alt }):
-   the ones it already had, kept, and this writer's own uploads. Answers
-   { files, fresh } or { error }; fresh is the uploads to copy under the topic. */
-async function attachments(who, asked, had, s, most = FORUM_ATTACH_MAX) {
+/* ── Pictures and files, one way for every place that takes them ─────────
+
+   Ryan's asks, 2026-10-27: Tasks first, then the forums and every record of
+   the office, uniformly. One layer here does it for all of them, so a place
+   cannot drift from the others: the checks (uploadMeta), the waiting upload
+   under <place>-up/, marked with its sender's mark so only they can put it
+   anywhere, the copy under <place>-file/<owner>/<id> made before anything
+   holds it, and every part.
+
+   A FILE OVER FILE_PART GOES UP, IS KEPT AND COMES BACK IN PARTS. Netlify
+   refuses any request over about 6 MB before a function sees it (measured on
+   the live site, 2026-10-27: 6.5 MB answered 413, 4 MB reached the code), so
+   one request can never carry such a file. The browser sends it FILE_PART at
+   a time (startUploadParts, putUploadPart), the whole is checked by uploadMeta
+   once every part is there (finishUploadParts), it is kept in those parts
+   under <key>.<n>, and readHeld sends one part per answer. A file is FILE_MAX
+   at most. A picture is never in parts: it is IMG_MAX after it is redrawn.
+
+   Every place's files are sealed by the store, by name: the forums' and
+   Tasks' with the staff key (STAFF_BYTES), the office's with the office's
+   own (OFFICE_BYTES), metadata included, because it can hold a file's name. */
+export const FILE_MAX = 20000000;
+export const FILE_PART = 4000000;
+const UPLOAD_UNSENT = 24 * 60 * 60 * 1000;
+const FILE_PLACES = {
+  forum: { up: 'forum-up/', file: 'forum-file/', words: 'the forums', Words: 'The forums' },
+  task: { up: 'task-up/', file: 'task-file/', words: 'Tasks', Words: 'Tasks' },
+  office: { up: 'office-up/', file: 'office-file/', words: 'the office', Words: 'The office' },
+};
+const FP = 'forum';                     // the forums' place
+const partKey = (base, n) => `${base}.${n}`;
+const keysOf = (base, parts) => (parts > 1 ? Array.from({ length: parts }, (_, n) => partKey(base, n)) : [base]);
+const heldKey = (pl, owner, id) => `${pl.file}${owner}/${id}`;
+const heldKeys = (pl, owner, f) => keysOf(heldKey(pl, owner, f.id), f.parts || 1);
+/* Who may put up for each place: whoever may write there. */
+function uploadAllowed(place, who) {
+  if (place === 'forum') return forumReader(who) ? null : CLAIM;
+  if (place === 'task') return tasksAllow(who) ? null : NO_TASKS;
+  if (place === 'office') return officeAllow(who) ? null : NO_OFFICE;
+  return 'Put it up where?';
+}
+
+/* One picture, or a file of FORUM_FILE_MAX or less, in one request. */
+export async function putUploadTo(place, who, f, bytes, s = store(), now = Date.now()) {
+  const no = uploadAllowed(place, who);
+  if (no) return { error: no };
+  const pl = FILE_PLACES[place];
+  const meta = uploadMeta(f, bytes, pl.words, pl.Words);
+  if (meta.error) return meta;
+  const id = randomUUID();
+  await s.set(pl.up + id, bytes, { metadata: { ...meta, t: now, by: authorMark(who) } });
+  return { id, ...meta };
+}
+/* A file over FILE_PART, begun: its name, its whole size, how many parts, and
+   the first part's bytes. Its name and its first bytes are checked now, so a
+   picture sent as a file or a kind not taken is refused before the rest is
+   sent; everything else is checked once it is all there. */
+export async function startUploadParts(place, who, f, bytes, s = store(), now = Date.now()) {
+  const no = uploadAllowed(place, who);
+  if (no) return { error: no };
+  const pl = FILE_PLACES[place];
+  const size = Number(f && f.size), parts = Number(f && f.parts);
+  if (!Number.isInteger(size) || size <= FILE_PART || size > FILE_MAX) return { error: `A file is ${FILE_MAX / 1000000} MB at most.` };
+  if (parts !== Math.ceil(size / FILE_PART) || !bytes || bytes.length !== FILE_PART) return { error: 'That file did not arrive as it should. Add it again.' };
+  const name = cleanFileName(f.name);
+  if (!name) return { error: `A file's name ends in .${Object.keys(FORUM_FILE_TYPES).join(', .')}, and is ${FORUM_NAME_MAX} characters at most.` };
+  if (picturish(bytes)) return { error: 'That is a picture. Add it as a picture, which takes its camera’s data off first.' };
+  const id = randomUUID();
+  await s.set(partKey(pl.up + id, 0), bytes, { metadata: { kind: 'part', n: 0, name, size, parts, t: now, by: authorMark(who) } });
+  return { id, parts };
+}
+/* Part `n` of the sender's own file begun as `id`. */
+export async function putUploadPart(place, who, id, n, bytes, s = store(), now = Date.now()) {
+  const no = uploadAllowed(place, who);
+  if (no) return { error: no };
+  const pl = FILE_PLACES[place];
+  const up = imageId(id), i = Number(n);
+  const m = up && await blobMeta(s, partKey(pl.up + up, 0));
+  if (!m || m.kind !== 'part' || m.by !== authorMark(who)) return { error: 'That file has gone, or is not yours. Add it again.' };
+  if (!Number.isInteger(i) || i < 1 || i >= m.parts) return { error: 'That file did not arrive as it should. Add it again.' };
+  const want = i === m.parts - 1 ? m.size - FILE_PART * (m.parts - 1) : FILE_PART;
+  if (!bytes || bytes.length !== want) return { error: 'That file did not arrive as it should. Add it again.' };
+  await s.set(partKey(pl.up + up, i), bytes, { metadata: { kind: 'part', n: i, t: now, by: m.by } });
+  return { id: up, n: i };
+}
+/* Every part there: the whole checked as any file is (uploadMeta), and then
+   waiting as an upload like any other, still in its parts. */
+export async function finishUploadParts(place, who, id, s = store(), now = Date.now()) {
+  const no = uploadAllowed(place, who);
+  if (no) return { error: no };
+  const pl = FILE_PLACES[place];
+  const up = imageId(id), mark = authorMark(who);
+  const m = up && await blobMeta(s, partKey(pl.up + up, 0));
+  if (!m || m.kind !== 'part' || m.by !== mark) return { error: 'That file has gone, or is not yours. Add it again.' };
+  const bufs = [];
+  for (const k of keysOf(pl.up + up, m.parts)) {
+    const got = await s.getWithMetadata(k, { type: 'arrayBuffer' });
+    if (!got || !got.data || !got.metadata || got.metadata.by !== mark) return { error: 'Part of that file did not arrive. Add it again.' };
+    bufs.push(Buffer.from(got.data));
+  }
+  const whole = Buffer.concat(bufs);
+  if (whole.length !== m.size) return { error: 'Part of that file did not arrive. Add it again.' };
+  const meta = uploadMeta({ kind: 'file', name: m.name }, new Uint8Array(whole.buffer, whole.byteOffset, whole.byteLength), pl.words, pl.Words, FILE_MAX);
+  if (meta.error) { for (const k of keysOf(pl.up + up, m.parts)) await s.delete(k); return meta; }
+  // Where the upload is, as any upload is: its parts are beside it.
+  await s.set(pl.up + up, Buffer.from('parts'), { metadata: { ...meta, parts: m.parts, t: now, by: mark } });
+  return { id: up, ...meta, parts: m.parts };
+}
+
+/* The pictures and files something asks for (`asked`, a list of { id, alt }):
+   the ones it already had (`had`), kept with any new description, and this
+   sender's own uploads, read. Answers { files, fresh } or { error }; `fresh`
+   is what keepUploads copies under its owner before anything holds it. With
+   `stamp`, each new one keeps who attached it and when. `what` says what
+   holds them ('A post'), for the refusal of too many. */
+async function checkUploads(place, who, asked, had, most, what, s, now, stamp) {
+  const pl = FILE_PLACES[place];
   const list = Array.isArray(asked) ? asked : [];
-  if (list.length > most) return { error: `${most === FORUM_ATTACH_MAX ? 'A post' : 'A document'} holds ${most} pictures and files at most.` };
+  if (list.length > most) return { error: `${what} holds ${most} pictures and files at most.` };
   const mark = authorMark(who);
   const files = [], fresh = [], ids = new Set();
   for (const a of list) {
@@ -8651,7 +8789,7 @@ async function attachments(who, asked, had, s, most = FORUM_ATTACH_MAX) {
       files.push(kept);
       continue;
     }
-    const got = await s.getWithMetadata(FORUM_UP + id, { type: 'arrayBuffer' });
+    const got = await s.getWithMetadata(pl.up + id, { type: 'arrayBuffer' });
     const m = got && got.metadata;
     if (!m || m.by !== mark || (m.kind !== 'pic' && m.kind !== 'file')) {
       return { error: 'One of those pictures or files has gone, or is not yours. Take it off and add it again.' };
@@ -8659,11 +8797,102 @@ async function attachments(who, asked, had, s, most = FORUM_ATTACH_MAX) {
     const file = { id, kind: m.kind, type: m.type, size: m.size };
     if (m.kind === 'file') file.name = m.name;
     if (m.kind === 'pic' && alt) file.alt = alt;
+    if (stamp) { file.by = who.handle; file.t = now; }
+    // A file in parts stays in its parts.
+    let datas = [got.data];
+    if (m.kind === 'file' && m.parts > 1) {
+      file.parts = m.parts;
+      datas = [];
+      for (const k of keysOf(pl.up + id, m.parts)) {
+        const part = await s.getWithMetadata(k, { type: 'arrayBuffer' });
+        if (!part || !part.data) return { error: 'Part of one of those files has gone. Take it off and add it again.' };
+        datas.push(part.data);
+      }
+    }
     files.push(file);
-    fresh.push({ id, data: got.data, meta: { kind: m.kind, type: m.type, size: m.size, ...(m.name ? { name: m.name } : {}) } });
+    fresh.push({ file, datas });
   }
   return { files, fresh };
 }
+/* The new ones copied under their owner, before anything holds them. */
+async function keepUploads(place, owner, fresh, s, now = Date.now()) {
+  const pl = FILE_PLACES[place];
+  for (const x of fresh) {
+    const f = x.file, keys = heldKeys(pl, owner, f);
+    for (let n = 0; n < keys.length; n++) {
+      await s.set(keys[n], x.datas[n], { metadata: { kind: f.kind, type: f.type, size: f.size, ...(f.name ? { name: f.name } : {}), ...(f.parts ? { parts: f.parts, n } : {}), t: now } });
+    }
+  }
+}
+/* The write that would have held them failed: the copies go. */
+async function letGoUploads(place, owner, fresh, s) { await dropHeld(place, owner, fresh.map((x) => x.file.id), s); }
+/* The write that holds them succeeded: the uploads go. */
+async function doneUploads(place, fresh, s) {
+  const pl = FILE_PLACES[place];
+  for (const x of fresh) for (const k of [pl.up + x.file.id, ...(x.file.parts ? keysOf(pl.up + x.file.id, x.file.parts) : [])]) await s.delete(k);
+}
+/* Files by id, every part of each: a uuid is fixed length, so its prefix is only itself and its parts. */
+async function dropHeld(place, owner, ids, s) {
+  const pl = FILE_PLACES[place];
+  for (const id of ids) for (const b of (await s.list({ prefix: heldKey(pl, owner, id) })).blobs || []) await s.delete(b.key);
+}
+async function dropOwner(place, owner, s) {
+  for (const b of (await s.list({ prefix: `${FILE_PLACES[place].file}${owner}/` })).blobs || []) await s.delete(b.key);
+}
+/* One held file, or one part of a file in parts, so no answer is bigger than
+   a part: { data, file }, or { file, parts } when it comes a part at a time
+   and no part was asked for, or null. */
+async function readHeld(place, owner, file, part, s) {
+  let key = heldKey(FILE_PLACES[place], owner, file.id);
+  if (file.parts > 1) {
+    const n = Number(part);
+    if (part == null || part === '' || !Number.isInteger(n) || n < 0 || n >= file.parts) return { file, parts: file.parts };
+    key = partKey(key, n);
+  }
+  const got = await s.getWithMetadata(key, { type: 'arrayBuffer' });
+  return got && got.data ? { data: got.data, file } : null;
+}
+/* What every place's file endpoint does with a POST, by its query:
+     kind=pic | kind=file&name=           one picture, or a file of FORUM_FILE_MAX or less
+     kind=file&name=&size=&parts=         a bigger file's first part, FILE_PART exactly
+     up=<id>&part=<n>                     its part n
+     up=<id>&done=1                       every part sent: the whole checked
+   Answers { status, body }: what the endpoint sends, nothing a person typed. */
+export async function uploadRequest(place, who, url, bytes, s = store()) {
+  const q = (k) => url.searchParams.get(k);
+  let r;
+  if (q('up') && q('done')) r = await finishUploadParts(place, who, q('up'), s);
+  else if (q('up')) r = await putUploadPart(place, who, q('up'), q('part'), bytes, s);
+  else if (q('parts')) r = await startUploadParts(place, who, { name: q('name'), size: q('size'), parts: q('parts') }, bytes, s);
+  else r = await putUploadTo(place, who, { kind: q('kind'), name: q('name') }, bytes, s);
+  if (r.error) return { status: 400, body: { error: r.error } };
+  const out = { id: r.id };
+  for (const k of ['kind', 'type', 'size', 'name', 'parts', 'n']) if (r[k] != null) out[k] = r[k];
+  return { status: 200, body: out };
+}
+/* A held file as an endpoint sends it: a picture only as a picture, a file
+   only to be saved, sandboxed even opened on its own, never cached. */
+export function fileAnswer(got, quiet) {
+  const pic = got.file.kind === 'pic';
+  const headers = {
+    ...quiet,
+    'content-type': pic ? got.file.type : 'application/octet-stream',
+    'cache-control': 'no-store',
+    'x-content-type-options': 'nosniff',
+    'content-security-policy': "default-src 'none'; sandbox",
+  };
+  if (!pic) headers['content-disposition'] = `attachment; filename*=UTF-8''${encodeURIComponent(got.file.name)}`;
+  return new Response(got.data, { status: 200, headers });
+}
+
+/* Hourly: an upload nothing took within a day, every part of it. */
+async function sweepUploads(place, s, now) {
+  for (const b of (await s.list({ prefix: FILE_PLACES[place].up })).blobs || []) {
+    const m = await blobMeta(s, b.key);
+    if (!m || typeof m.t !== 'number' || now - m.t >= UPLOAD_UNSENT) await s.delete(b.key);
+  }
+}
+
 /* How many pictures and files a post may hold: a wiki's document, the post
    that opens one of its topics, holds a screenshot for every step of a how-to
    (Ryan's ask, 2026-10-20, for the Field Guide); every other post, six. */
@@ -8673,18 +8902,11 @@ function attachMost(cat, first) { return cat && cat.wiki && first ? FORUM_DOC_AT
    call, 2026-10-20, moving Team Docs); every other post, a reply in a wiki
    included, 20,000 characters. */
 function bodyMost(cat, first) { return cat && cat.wiki && first ? FORUM_DOC_BODY_MAX : FORUM_BODY_MAX; }
-const fileKey = (topic, id) => `${FORUM_FILE}${topic}/${id}`;
-async function keepUploads(topic, fresh, s) { for (const x of fresh) await s.set(fileKey(topic, x.id), x.data, { metadata: { ...x.meta, t: Date.now() } }); }
-async function doneUploads(fresh, s) { for (const x of fresh) await s.delete(FORUM_UP + x.id); }
-async function dropFiles(topic, ids, s) { for (const id of ids) await s.delete(fileKey(topic, id)); }
-async function dropTopicFiles(topic, s) {
-  for (const b of (await s.list({ prefix: `${FORUM_FILE}${topic}/` })).blobs || []) await s.delete(b.key);
-}
 const filesOf = (posts) => posts.flatMap((p) => (p.files || []).map((f) => f.id));
 
 /* One picture or file, for a reader who can read the topic a post of which
    holds it now, and for nobody else. { data, file } or null. */
-export async function forumFile(who, tid, fid, s = store(), now = Date.now()) {
+export async function forumFile(who, tid, fid, s = store(), now = Date.now(), part = null) {
   if (!forumReader(who)) return null;
   const t = await readTopic(tid, s);
   if (!t) return null;
@@ -8693,8 +8915,8 @@ export async function forumFile(who, tid, fid, s = store(), now = Date.now()) {
   const id = imageId(fid);
   const file = id && t.posts.flatMap((p) => p.files || []).find((x) => x.id === id);
   if (!file) return null;
-  const got = await s.getWithMetadata(fileKey(t.id, id), { type: 'arrayBuffer' });
-  return got && got.data ? { data: got.data, file } : null;
+  // A file in parts comes a part at a time (readHeld).
+  return readHeld(FP, t.id, file, part, s);
 }
 
 /* The handles a post mentions, for a reader's page to draw: the ones its
@@ -9010,6 +9232,8 @@ function shapePost(p, who, mark, doc = false, editor = false) {
 /* `placed`: the picture stands in the words, so it is not shown again below. */
 function shapeFile(f, placed = false) {
   const out = { id: f.id, kind: f.kind, type: f.type, size: f.size };
+  // A file kept in parts comes a part at a time, so its page has to know how many (readHeld).
+  if (f.parts > 1) out.parts = f.parts;
   if (f.kind === 'file') out.name = f.name;
   if (f.kind === 'pic' && f.alt) out.alt = f.alt;
   if (placed) out.placed = true;
@@ -9244,7 +9468,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   if (body === null) return { error: `${cat.wiki ? 'A page' : 'A post'} is up to ${bodyMost(cat, true)} characters.` };
   const poll = f.poll == null ? null : cleanPoll(f.poll, now);
   if (poll && poll.error) return poll;
-  const att = await attachments(who, f.files, [], s, attachMost(cat, true));
+  const att = await checkUploads(FP, who, f.files, [], attachMost(cat, true), cat.wiki ? 'A document' : 'A post', s, now);
   if (att.error) return att;
   if (!body && !cb && !att.files.length && !poll) return { error: 'Say something to start the topic with, or add a picture, a file or a poll.' };
   if ((await readForumIndex(cat.slug, s)).length >= FORUM_TOPICS_MAX) {
@@ -9258,11 +9482,11 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   if (poll) topic.poll = { ...poll.poll, by: authorMark(who), handle: who.handle };
   // The files go under the topic before the topic does, so no post ever
   // holds one that is not there; the uploads go only once the topic is.
-  await keepUploads(topic.id, att.fresh, s);
+  await keepUploads(FP, topic.id, att.fresh, s, now);
   let clash = false;
   await updateDoc(topicKey(topic.id), (cur) => { clash = !!cur; return cur ? null : topic; }, s);
-  if (clash) return { error: 'That did not work. Try again.' };
-  await doneUploads(att.fresh, s);
+  if (clash) { await letGoUploads(FP, topic.id, att.fresh, s); return { error: 'That did not work. Try again.' }; }
+  await doneUploads(FP, att.fresh, s);
   await listQuietly(topic.cat, () => indexTopic(topic, s), s);
   return { topic, post };
 }
@@ -9285,7 +9509,7 @@ async function changeTopic(who, id, now, s, change) {
     return r;
   }, s);
   if (why) return { error: why };
-  if (gone) { await listQuietly(cat0, () => unindexTopic(cat0, id, s), s); await dropTopicFiles(id, s); return { gone: true }; }
+  if (gone) { await listQuietly(cat0, () => unindexTopic(cat0, id, s), s); await dropOwner(FP, id, s); return { gone: true }; }
   if (next && next.cat !== cat0) await listQuietly(cat0, () => unindexTopic(cat0, id, s), s);
   if (next) await listQuietly(next.cat, () => indexTopic(next, s), s);
   return { topic: next };
@@ -9310,12 +9534,12 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
   // Nothing is written under a topic the writer cannot read.
   const pre = await readTopic(id, s);
   if (!pre || !forumAllows(who, forumCat(pre.cat, now)) || !topicLive(summaryOf(pre), forumCat(pre.cat, now), now)) return { error: GONE };
-  const att = await attachments(who, f.files, [], s);
+  const att = await checkUploads(FP, who, f.files, [], FORUM_ATTACH_MAX, 'A post', s, now);
   if (att.error) return att;
   if (!body && !att.files.length) return { error: `A reply is between one and ${FORUM_BODY_MAX} characters, or a picture or a file.` };
   const links = await previewsOf(body, [], get);
   const to = postId(f.reply);
-  await keepUploads(id, att.fresh, s);
+  await keepUploads(FP, id, att.fresh, s, now);
   let made = null;
   const r = await changeTopic(who, id, now, s, (t) => {
     if (t.closed && who.role !== 'base') return { why: 'This topic is closed, so nobody can reply to it.' };
@@ -9328,8 +9552,8 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
     if (t.lastBy === who.handle && now >= t.last) { if (who.role === 'base') t.lastBase = true; else delete t.lastBase; delete t.lastBot; }
     return t;
   });
-  if (r.error) { await dropFiles(id, att.fresh.map((x) => x.id), s); return r; }
-  await doneUploads(att.fresh, s);
+  if (r.error) { await letGoUploads(FP, id, att.fresh, s); return r; }
+  await doneUploads(FP, att.fresh, s);
   return { post: made, topic: r.topic };
 }
 
@@ -9356,9 +9580,10 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
   if ([...body].length > most) return { error: `${most === FORUM_BODY_MAX ? 'A post' : 'A page'} is up to ${most} characters.` };
   const links = await previewsOf(body, was.links || [], get);
   // Left out, the post keeps the pictures and files it had; a list is the whole of them.
-  const att = await attachments(who, f.files === undefined ? (was.files || []) : f.files, was.files || [], s, attachMost(cat, pre.posts[0] === was));
+  const docMost = attachMost(cat, pre.posts[0] === was);
+  const att = await checkUploads(FP, who, f.files === undefined ? (was.files || []) : f.files, was.files || [], docMost, docMost === FORUM_ATTACH_MAX ? 'A post' : 'A document', s, now);
   if (att.error) return att;
-  await keepUploads(id, att.fresh, s);
+  await keepUploads(FP, id, att.fresh, s, now);
   let before = '', lost = [], made = null;
   const r = await changeTopic(who, id, now, s, (t, cat) => {
     const k = t.posts.findIndex((p) => p.id === pid);
@@ -9392,10 +9617,10 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
     made = p;
     return t;
   });
-  if (r.error) { await dropFiles(id, att.fresh.map((x) => x.id), s); return r; }
-  await doneUploads(att.fresh, s);
+  if (r.error) { await letGoUploads(FP, id, att.fresh, s); return r; }
+  await doneUploads(FP, att.fresh, s);
   const held = new Set(filesOf(r.topic.posts));
-  await dropFiles(id, lost.filter((x) => !held.has(x)), s);
+  await dropHeld(FP, id, lost.filter((x) => !held.has(x)), s);
   return { topic: r.topic, post: made, before };
 }
 
@@ -9416,7 +9641,7 @@ export async function removePost(who, id, pid, s = store(), now = Date.now()) {
     return settle(t);
   });
   // Its pictures and files go with it, unless another post here holds one.
-  if (r.topic) { const held = new Set(filesOf(r.topic.posts)); await dropFiles(id, lost.filter((x) => !held.has(x)), s); }
+  if (r.topic) { const held = new Set(filesOf(r.topic.posts)); await dropHeld(FP, id, lost.filter((x) => !held.has(x)), s); }
   return r;
 }
 
@@ -9847,7 +10072,7 @@ export async function sweepForum(s = store(), now = Date.now()) {
       if (t && t.cat === c.slug && topicLive(summaryOf(t), c, now)) { await indexTopic(t, s); continue; }
       if (t && t.cat !== c.slug) { drop.add(x.id); continue; }
       await s.delete(topicKey(x.id));
-      await dropTopicFiles(x.id, s);
+      await dropOwner(FP, x.id, s);
       await dropLinksFrom(`post:${x.id}/`, false, s);
       drop.add(x.id);
     }
@@ -9859,7 +10084,7 @@ export async function sweepForum(s = store(), now = Date.now()) {
     if (!t) continue;
     const c = forumCat(t.cat, now);
     if (topicLive(summaryOf(t), c, now)) { if (c) await indexTopic(t, s); }
-    else { await s.delete(topicKey(id)); await dropTopicFiles(id, s); await dropLinksFrom(`post:${id}/`, false, s); }
+    else { await s.delete(topicKey(id)); await dropOwner(FP, id, s); await dropLinksFrom(`post:${id}/`, false, s); }
   }
   await sweepForumFiles(there, s, now);
 }
@@ -9870,10 +10095,7 @@ async function blobMeta(s, key) {
   return got && got.metadata;
 }
 async function sweepForumFiles(there, s, now) {
-  for (const b of (await s.list({ prefix: FORUM_UP })).blobs || []) {
-    const m = await blobMeta(s, b.key);
-    if (!m || typeof m.t !== 'number' || now - m.t >= FORUM_UNSENT) await s.delete(b.key);
-  }
+  await sweepUploads(FP, s, now);
   for (const b of (await s.list({ prefix: FORUM_FILE })).blobs || []) {
     const topic = b.key.slice(FORUM_FILE.length).split('/')[0];
     if (there.has(topic)) continue;
@@ -11640,7 +11862,7 @@ export function shapeTask(t, whole = false) {
   if (t.recur) { out.recur = t.recur; out.on = t.on; }
   if (t.tpl) out.tpl = t.tpl;
   if (whole) {
-    out.files = (t.files || []).map(shapeTaskFile);
+    out.files = (t.files || []).map(shapeHeldFile);
     out.body = t.body || '';
     out.blocks = parseBrass(t.body || '', { boxes: true, refs: true });
     out.ticks = taskBoxes(t.body || '').agree;
@@ -11774,7 +11996,7 @@ export async function removeTask(who, id, s = store(), now = Date.now(), mods) {
   if (was) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(was) ? null : [...ids, was]), s);
   // Its comments go with it, as its activity and its pictures and files do.
   await s.delete(taskCommentsBlob(gone.id));
-  await dropTaskFiles(gone.id, s);
+  await dropOwner(TP, gone.id, s);
   await dropLinksFrom(`taskc:${gone.id}/`, false, s);
   await noteTask('deleted', who.handle, gone, null, s, now, mods).catch(() => null);
   return { gone: true };
@@ -11804,30 +12026,9 @@ async function readTaskGone(s) {
    pictures and files went on or came off, never their names (taskChanges),
    because a name can say whose papers they are. */
 export const TASK_ATTACH_MAX = 30;      // pictures and files on one task
-const TASK_UP = 'task-up/';             // an upload no task has taken yet
-const TASK_FILE = 'task-file/';         // task-file/<task>/<id>, a task's own
-const TASK_UNSENT = 24 * 60 * 60 * 1000;
-const taskFileKey = (task, id) => `${TASK_FILE}${task}/${id}`;
-/* A FILE OVER TASK_PART GOES UP, IS KEPT AND COMES BACK IN PARTS (Ryan's ask,
-   2026-10-27, after a two-page scanned PDF of 6.2 MB would not go): Netlify
-   refuses any request over about 6 MB before a function sees it (measured on
-   the live site the same day: 6.5 MB answered 413, 4 MB reached the code), so
-   one request can never carry such a file. The browser sends it TASK_PART at a
-   time (startTaskParts, putTaskPart), the server checks the whole of it once
-   every part is there (finishTaskParts, by uploadMeta, the same checks as any
-   file), and keeps it in those same parts, each sealed under <key>.<n>, so
-   no request or answer is ever bigger than a part. A file is TASK_FILE_MAX at
-   most. A picture is never in parts: it is IMG_MAX after it is redrawn. */
-export const TASK_FILE_MAX = 20000000;
-export const TASK_PART = 4000000;
-const partKey = (base, n) => `${base}.${n}`;
-const keysOf = (base, parts) => (parts > 1 ? Array.from({ length: parts }, (_, n) => partKey(base, n)) : [base]);
-const taskFileKeys = (task, f) => keysOf(taskFileKey(task, f.id), f.parts || 1);
-async function dropTaskFile(task, f, s) { for (const k of taskFileKeys(task, f)) await s.delete(k); }
-async function dropTaskFiles(task, s) {
-  for (const b of (await s.list({ prefix: `${TASK_FILE}${task}/` })).blobs || []) await s.delete(b.key);
-}
-function shapeTaskFile(f) {
+const TP = 'task';                      // its place in the one upload layer (FILE_PLACES)
+/* A held picture or file as a page is sent it: Tasks', and the office's. */
+function shapeHeldFile(f) {
   const out = { id: f.id, kind: f.kind, type: f.type, size: f.size, by: f.by || null, t: f.t || null };
   if (f.parts > 1) out.parts = f.parts;
   if (f.kind === 'file') out.name = f.name;
@@ -11838,124 +12039,7 @@ function shapeTaskFile(f) {
 /* An upload, before any task holds it: { id, kind, type, size, name? } or { error }. */
 export async function putTaskUpload(who, f, bytes, s = store(), now = Date.now()) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
-  const meta = uploadMeta(f, bytes, 'Tasks', 'Tasks');
-  if (meta.error) return meta;
-  const id = randomUUID();
-  await s.set(TASK_UP + id, bytes, { metadata: { ...meta, t: now, by: authorMark(who) } });
-  return { id, ...meta };
-}
-
-/* A file over TASK_PART, begun: its name, its whole size, how many parts, and
-   the first part's bytes. Its name and its first bytes are checked now, so a
-   picture sent as a file or a kind Tasks do not take is refused before the
-   rest is sent; everything else is checked once it is all there. */
-export async function startTaskParts(who, f, bytes, s = store(), now = Date.now()) {
-  if (!tasksAllow(who)) return { error: NO_TASKS };
-  const size = Number(f && f.size), parts = Number(f && f.parts);
-  if (!Number.isInteger(size) || size <= TASK_PART || size > TASK_FILE_MAX) return { error: `A file is ${TASK_FILE_MAX / 1000000} MB at most.` };
-  if (parts !== Math.ceil(size / TASK_PART) || !bytes || bytes.length !== TASK_PART) return { error: 'That file did not arrive as it should. Add it again.' };
-  const name = cleanFileName(f.name);
-  if (!name) return { error: `A file's name ends in .${Object.keys(FORUM_FILE_TYPES).join(', .')}, and is ${FORUM_NAME_MAX} characters at most.` };
-  if (picturish(bytes)) return { error: 'That is a picture. Add it as a picture, which takes its camera’s data off first.' };
-  const id = randomUUID();
-  await s.set(partKey(TASK_UP + id, 0), bytes, { metadata: { kind: 'part', n: 0, name, size, parts, t: now, by: authorMark(who) } });
-  return { id, parts };
-}
-/* Part `n` of the sender's own file begun as `id`. */
-export async function putTaskPart(who, id, n, bytes, s = store(), now = Date.now()) {
-  if (!tasksAllow(who)) return { error: NO_TASKS };
-  const up = imageId(id), i = Number(n);
-  const m = up && await blobMeta(s, partKey(TASK_UP + up, 0));
-  if (!m || m.kind !== 'part' || m.by !== authorMark(who)) return { error: 'That file has gone, or is not yours. Add it again.' };
-  if (!Number.isInteger(i) || i < 1 || i >= m.parts) return { error: 'That file did not arrive as it should. Add it again.' };
-  const want = i === m.parts - 1 ? m.size - TASK_PART * (m.parts - 1) : TASK_PART;
-  if (!bytes || bytes.length !== want) return { error: 'That file did not arrive as it should. Add it again.' };
-  await s.set(partKey(TASK_UP + up, i), bytes, { metadata: { kind: 'part', n: i, t: now, by: m.by } });
-  return { id: up, n: i };
-}
-/* Every part there: the whole file checked as any file is (uploadMeta), and
-   then waiting as an upload like any other, still in its parts. */
-export async function finishTaskParts(who, id, s = store(), now = Date.now()) {
-  if (!tasksAllow(who)) return { error: NO_TASKS };
-  const up = imageId(id), mark = authorMark(who);
-  const m = up && await blobMeta(s, partKey(TASK_UP + up, 0));
-  if (!m || m.kind !== 'part' || m.by !== mark) return { error: 'That file has gone, or is not yours. Add it again.' };
-  const bufs = [];
-  for (const k of keysOf(TASK_UP + up, m.parts)) {
-    const got = await s.getWithMetadata(k, { type: 'arrayBuffer' });
-    if (!got || !got.data || !got.metadata || got.metadata.by !== mark) return { error: 'Part of that file did not arrive. Add it again.' };
-    bufs.push(Buffer.from(got.data));
-  }
-  const whole = Buffer.concat(bufs);
-  if (whole.length !== m.size) return { error: 'Part of that file did not arrive. Add it again.' };
-  const meta = uploadMeta({ kind: 'file', name: m.name }, new Uint8Array(whole.buffer, whole.byteOffset, whole.byteLength), 'Tasks', 'Tasks', TASK_FILE_MAX);
-  if (meta.error) { for (const k of keysOf(TASK_UP + up, m.parts)) await s.delete(k); return meta; }
-  // Where the upload is, as any upload is: its parts are beside it.
-  await s.set(TASK_UP + up, Buffer.from('parts'), { metadata: { ...meta, parts: m.parts, t: now, by: mark } });
-  return { id: up, ...meta, parts: m.parts };
-}
-
-/* The pictures and files something on task `tid` asks for (`asked`, a list
-   of { id, alt }): the ones it already had (`had`), kept with any new
-   description, and this sender's own uploads, each copied under the task
-   before anything holds it, so nothing ever holds a file that is not there.
-   Answers { files, fresh } or { error }; `fresh` is what was copied, for
-   letGo when the write that would hold them fails, and for doneUp when it
-   succeeds. The task's own section and its comments both come here. */
-async function taskUploads(who, tid, asked, had, most, s, now) {
-  const list = Array.isArray(asked) ? asked : [];
-  if (list.length > most) return { error: `${most} pictures and files at most.` };
-  const mark = authorMark(who), files = [], fresh = [], seen = new Set();
-  for (const a of list) {
-    const up = imageId(a && a.id);
-    if (!up || seen.has(up)) return { error: 'One of those pictures or files is not ready. Take it off and add it again.' };
-    seen.add(up);
-    const alt = cleanForumAlt(a.alt);
-    if (alt === null) return { error: `A picture's description is ${FORUM_ALT_MAX} characters at most.` };
-    const old = had.find((x) => x.id === up);
-    if (old) {
-      const kept = { ...old };
-      delete kept.alt;
-      if (kept.kind === 'pic' && alt) kept.alt = alt;
-      files.push(kept);
-      continue;
-    }
-    const got = await s.getWithMetadata(TASK_UP + up, { type: 'arrayBuffer' });
-    const m = got && got.metadata;
-    if (!m || m.by !== mark || (m.kind !== 'pic' && m.kind !== 'file')) {
-      return { error: 'One of those pictures or files has gone, or is not yours. Take it off and add it again.' };
-    }
-    const file = { id: up, kind: m.kind, type: m.type, size: m.size, by: who.handle, t: now };
-    if (m.kind === 'file') file.name = m.name;
-    if (m.kind === 'pic' && alt) file.alt = alt;
-    // A file in parts stays in its parts (TASK_PART).
-    let datas = [got.data];
-    if (m.kind === 'file' && m.parts > 1) {
-      file.parts = m.parts;
-      datas = [];
-      for (const k of keysOf(TASK_UP + up, m.parts)) {
-        const part = await s.getWithMetadata(k, { type: 'arrayBuffer' });
-        if (!part || !part.data) return { error: 'Part of one of those files has gone. Take it off and add it again.' };
-        datas.push(part.data);
-      }
-    }
-    files.push(file);
-    fresh.push({ file, datas });
-  }
-  for (const x of fresh) {
-    const f = x.file, keys = taskFileKeys(tid, f);
-    for (let n = 0; n < keys.length; n++) {
-      await s.set(keys[n], x.datas[n], { metadata: { kind: f.kind, type: f.type, size: f.size, ...(f.name ? { name: f.name } : {}), ...(f.parts ? { parts: f.parts, n } : {}), t: now } });
-    }
-  }
-  return { files, fresh };
-}
-async function letGo(tid, fresh, s) { for (const x of fresh) await dropTaskFile(tid, x.file, s); }
-async function doneUp(fresh, s) {
-  for (const x of fresh) {
-    await s.delete(TASK_UP + x.file.id);
-    if (x.file.parts) for (const k of keysOf(TASK_UP + x.file.id, x.file.parts)) await s.delete(k);
-  }
+  return putUploadTo(TP, who, f, bytes, s, now);
 }
 
 /* This sender's own uploads (`asked`, a list of { id, alt }) attached to task
@@ -11967,8 +12051,9 @@ export async function attachTask(who, id, asked, s = store(), now = Date.now(), 
   const list = Array.isArray(asked) ? asked : [];
   if (!tid) return { error: 'That task has been deleted.' };
   if (!list.length || list.length > TASK_ATTACH_MAX) return { error: `Attach between one and ${TASK_ATTACH_MAX} pictures and files.` };
-  const up = await taskUploads(who, tid, list, [], TASK_ATTACH_MAX, s, now);
+  const up = await checkUploads(TP, who, list, [], TASK_ATTACH_MAX, 'A task', s, now, true);
   if (up.error) return up;
+  await keepUploads(TP, tid, up.fresh, s, now);
   let saved = null, why = null, before = null;
   await updateList(TASKS, 'tasks', (all) => {
     saved = null; why = null;
@@ -11981,8 +12066,8 @@ export async function attachTask(who, id, asked, s = store(), now = Date.now(), 
     saved = { ...before, files: [...had, ...adding], edited: now, editedBy: who.handle };
     const copy = all.slice(); copy[k] = saved; return copy;
   }, s);
-  if (why) { await letGo(tid, up.fresh, s); return { error: why }; }
-  await doneUp(up.fresh, s);
+  if (why) { await letGoUploads(TP, tid, up.fresh, s); return { error: why }; }
+  await doneUploads(TP, up.fresh, s);
   await noteTask('changed', who.handle, before, saved, s, now, mods).catch(() => null);
   return { task: shapeTask(saved, true) };
 }
@@ -12005,7 +12090,7 @@ export async function detachTask(who, id, fid, s = store(), now = Date.now(), mo
     const copy = all.slice(); copy[k] = saved; return copy;
   }, s);
   if (why) return { error: why };
-  await dropTaskFile(tid, (before.files || []).find((x) => x.id === f), s);
+  await dropHeld(TP, tid, [f], s);
   await noteTask('changed', who.handle, before, saved, s, now, mods).catch(() => null);
   return { task: shapeTask(saved, true) };
 }
@@ -12021,22 +12106,31 @@ export async function describeTaskFile(who, id, fid, alt, s = store(), now = Dat
     saved = null; why = null;
     const k = all.findIndex((x) => x.id === tid);
     if (k < 0) { why = 'That task has been deleted.'; return null; }
-    const had = all[k].files || [];
-    const j = had.findIndex((x) => x.id === f && x.kind === 'pic');
-    if (j < 0) { why = 'That picture has been taken off.'; return null; }
-    const pic = { ...had[j] };
-    if (said) pic.alt = said; else delete pic.alt;
-    if ((pic.alt || '') === (had[j].alt || '')) { saved = all[k]; return null; }
-    const files = had.slice(); files[j] = pic;
+    const files = describedIn(all[k].files, f, said);
+    if (!files) { why = 'That picture has been taken off.'; return null; }
+    if (files === all[k].files) { saved = all[k]; return null; }
     saved = { ...all[k], files, edited: now, editedBy: who.handle };
     const copy = all.slice(); copy[k] = saved; return copy;
   }, s);
   if (why) return { error: why };
   return { task: shapeTask(saved, true) };
 }
+/* A record's files with picture `f` described as `said`: the same list when
+   nothing changes, null when there is no such picture. The task's and the
+   office's records both describe this way. */
+function describedIn(files, f, said) {
+  const had = files || [];
+  const j = had.findIndex((x) => x.id === f && x.kind === 'pic');
+  if (j < 0) return null;
+  const pic = { ...had[j] };
+  if (said) pic.alt = said; else delete pic.alt;
+  if ((pic.alt || '') === (had[j].alt || '')) return files;
+  const out = had.slice(); out[j] = pic;
+  return out;
+}
 
-/* One picture or file, for a reader of Tasks while its task holds it, and
-   for nobody else. { data, file } or null. */
+/* One picture or file, or one part of a file in parts, for a reader of Tasks
+   while its task or a comment under it holds it, and for nobody else. */
 export async function taskFile(who, tid, fid, s = store(), part = null) {
   if (!tasksAllow(who)) return null;
   const t = (await readTasks(s)).find((x) => x.id === taskId(tid));
@@ -12046,36 +12140,27 @@ export async function taskFile(who, tid, fid, s = store(), part = null) {
   // Or one a comment under it holds.
   if (!file) file = (await readTaskComments(t.id, s)).flatMap((c) => c.files || []).find((x) => x.id === id);
   if (!file) return null;
-  // A file in parts comes back a part at a time, so no answer is bigger than a part.
-  let key = taskFileKey(t.id, id);
-  if (file.parts > 1) {
-    const n = Number(part);
-    if (part == null || part === '' || !Number.isInteger(n) || n < 0 || n >= file.parts) return { file: shapeTaskFile(file), parts: file.parts };
-    key = partKey(key, n);
-  }
-  const got = await s.getWithMetadata(key, { type: 'arrayBuffer' });
-  return got && got.data ? { data: got.data, file: shapeTaskFile(file) } : null;
+  const got = await readHeld(TP, t.id, file, part, s);
+  return got && { ...got, file: shapeHeldFile(file) };
 }
 
 /* Hourly: an upload no task took within a day, and a file whose task no
    longer holds it, an hour after it was copied (a task being attached to
    right now has its files before it holds them). */
 export async function sweepTaskFiles(s = store(), now = Date.now()) {
-  for (const b of (await s.list({ prefix: TASK_UP })).blobs || []) {
-    const m = await blobMeta(s, b.key);
-    if (!m || typeof m.t !== 'number' || now - m.t >= TASK_UNSENT) await s.delete(b.key);
-  }
-  const files = (await s.list({ prefix: TASK_FILE })).blobs || [];
+  await sweepUploads(TP, s, now);
+  const pl = FILE_PLACES[TP];
+  const files = (await s.list({ prefix: pl.file })).blobs || [];
   if (!files.length) return;
   const held = new Set(), tasks = await readTasks(s);
-  for (const t of tasks) for (const f of t.files || []) for (const k of taskFileKeys(t.id, f)) held.add(k);
+  for (const t of tasks) for (const f of t.files || []) for (const k of heldKeys(pl, t.id, f)) held.add(k);
   // A task's comments are read only when it has a file its own list does not hold.
   const asked = new Set();
   for (const b of files) {
-    const tid = b.key.slice(TASK_FILE.length).split('/')[0];
+    const tid = b.key.slice(pl.file.length).split('/')[0];
     if (held.has(b.key) || asked.has(tid) || !tasks.some((t) => t.id === tid)) continue;
     asked.add(tid);
-    for (const c of await readTaskComments(tid, s)) for (const f of c.files || []) for (const k of taskFileKeys(tid, f)) held.add(k);
+    for (const c of await readTaskComments(tid, s)) for (const f of c.files || []) for (const k of heldKeys(pl, tid, f)) held.add(k);
   }
   for (const b of files) {
     if (held.has(b.key)) continue;
@@ -12319,7 +12404,7 @@ function shapeComment(c, who) {
   const out = { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body, { refs: true }),
     mine: !!who && !!who.since && !!c.mark && c.mark === authorMark(who) };
   // Its pictures and files, when it has any (taskUploads).
-  if (c.files && c.files.length) out.files = c.files.map(shapeTaskFile);
+  if (c.files && c.files.length) out.files = c.files.map(shapeHeldFile);
   // One brought from Notion says so, and never sends Notion's id for it.
   if (c.notion) out.from = 'notion';
   return out;
@@ -12352,8 +12437,9 @@ export async function commentTask(who, id, text, s = store(), now = Date.now(), 
   if (words == null) return { error: WORDS_WHY };
   const task = tid ? (await readTasks(s)).find((x) => x.id === tid) : null;
   if (!task) return { error: 'That task has been deleted.' };
-  const up = await taskUploads(who, tid, asked, [], TASK_COMMENT_FILES_MAX, s, now);
-  if (up.error) return { error: up.error.replace(/^\d+ pictures/, `A comment holds ${TASK_COMMENT_FILES_MAX} pictures`) };
+  const up = await checkUploads(TP, who, asked, [], TASK_COMMENT_FILES_MAX, 'A comment', s, now, true);
+  if (up.error) return up;
+  await keepUploads(TP, tid, up.fresh, s, now);
   const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };
   if (up.files.length) c.files = up.files;
   let full = false, earlier = [];
@@ -12362,8 +12448,8 @@ export async function commentTask(who, id, text, s = store(), now = Date.now(), 
     earlier = list.map((x) => x.by);
     return full ? null : [...list, c];
   }, s);
-  if (full) { await letGo(tid, up.fresh, s); return { error: `This task has ${TASK_COMMENTS_KEEP} comments, as many as it keeps. Delete one, or carry on in a new task.` }; }
-  await doneUp(up.fresh, s);
+  if (full) { await letGoUploads(TP, tid, up.fresh, s); return { error: `This task has ${TASK_COMMENTS_KEEP} comments, as many as it keeps. Delete one, or carry on in a new task.` }; }
+  await doneUploads(TP, up.fresh, s);
   // When it was last talked about, for the Feed. A task deleted meanwhile takes the comment with it.
   let gone = false;
   await updateList(TASKS, 'tasks', (list) => {
@@ -12372,7 +12458,7 @@ export async function commentTask(who, id, text, s = store(), now = Date.now(), 
     if (gone || (list[k].talk || 0) >= now) return null;
     const copy = list.slice(); copy[k] = { ...list[k], talk: now }; return copy;
   }, s);
-  if (gone) { await s.delete(taskCommentsBlob(tid)); await dropTaskFiles(tid, s); await dropLinksFrom(`taskc:${tid}/`, false, s); return { error: 'That task has been deleted.' }; }
+  if (gone) { await s.delete(taskCommentsBlob(tid)); await dropOwner(TP, tid, s); await dropLinksFrom(`taskc:${tid}/`, false, s); return { error: 'That task has been deleted.' }; }
   await noteTask('commented', who.handle, task, task, s, now, mods, { comment: c, earlier }).catch(() => null);
   return { comment: shapeComment(c, who) };
 }
@@ -12390,8 +12476,9 @@ export async function editTaskComment(who, id, cid, text, s = store(), now = Dat
   const keep = asked === undefined;
   const words = commentWords(text, keep ? before.files : asked);
   if (words == null) return { error: WORDS_WHY };
-  const up = keep ? { files: before.files || [], fresh: [] } : await taskUploads(who, tid, asked, before.files || [], TASK_COMMENT_FILES_MAX, s, now);
-  if (up.error) return { error: up.error.replace(/^\d+ pictures/, `A comment holds ${TASK_COMMENT_FILES_MAX} pictures`) };
+  const up = keep ? { files: before.files || [], fresh: [] } : await checkUploads(TP, who, asked, before.files || [], TASK_COMMENT_FILES_MAX, 'A comment', s, now, true);
+  if (up.error) return up;
+  await keepUploads(TP, tid, up.fresh, s, now);
   let saved = null, was = null, why = null, dropped = [];
   await updateList(taskCommentsBlob(tid), 'comments', (list) => {
     saved = null; was = null; why = null; dropped = [];
@@ -12407,9 +12494,9 @@ export async function editTaskComment(who, id, cid, text, s = store(), now = Dat
     if (files.length) saved.files = files; else delete saved.files;
     const copy = list.slice(); copy[k] = saved; return copy;
   }, s);
-  if (why) { await letGo(tid, up.fresh, s); return { error: why }; }
-  await doneUp(up.fresh, s);
-  for (const f of dropped) await dropTaskFile(tid, f, s);
+  if (why) { await letGoUploads(TP, tid, up.fresh, s); return { error: why }; }
+  await doneUploads(TP, up.fresh, s);
+  await dropHeld(TP, tid, dropped.map((f) => f.id), s);
   const task = was != null ? (await readTasks(s)).find((x) => x.id === tid) : null;
   if (task) await noteTask('commented', who.handle, task, task, s, now, mods, { comment: saved, was, edit: true }).catch(() => null);
   return { comment: shapeComment(saved, who) };
@@ -12430,7 +12517,7 @@ export async function removeTaskComment(who, id, cid, s = store()) {
   }, s);
   if (why) return { error: why };
   // Its pictures and files go with it.
-  for (const f of (gone && gone.files) || []) await dropTaskFile(tid, f, s);
+  if (gone && gone.files) await dropHeld(TP, tid, gone.files.map((f) => f.id), s);
   // One brought from Notion and deleted here stays deleted when comments are brought again.
   if (gone && gone.notion) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.notion) ? null : [...ids, gone.notion]), s);
   return { gone: true };
@@ -13335,7 +13422,14 @@ export function shapeContact(c, whole = false) {
     t: c.t, by: c.by || null, edited: c.edited || null, editedBy: c.editedBy || null, talk: c.talk || null };
   if (c.espo) out.espo = c.espo;
   if (whole) { out.notes = c.notes || ''; out.blocks = parseBrass(c.notes || '', { boxes: true, refs: true }); } else out.words = [...(c.notes || '')].length;
+  heldOn(out, c.files, whole);
   return out;
+}
+/* A record's pictures and files (attachOffice), when it has any: every one on
+   its own page, and how many in a list. */
+function heldOn(out, files, whole) {
+  if (!files || !files.length) return;
+  if (whole) out.files = files.map(shapeHeldFile); else out.attached = files.length;
 }
 
 export async function officeContacts(who, s = store()) {
@@ -13602,6 +13696,7 @@ export function shapeGrant(g, contacts, whole = false) {
     form: g.form || null, t: g.t, by: g.by || null, edited: g.edited || null, editedBy: g.editedBy || null, talk: g.talk || null };
   if (g.espo) out.espo = g.espo;
   if (whole) { out.body = g.body || ''; out.blocks = parseBrass(g.body || '', { refs: true }); } else out.words = [...(g.body || '')].length;
+  heldOn(out, g.files, whole);
   return out;
 }
 const contactMap = (list) => new Map(list.map((c) => [c.id, c]));
@@ -13801,6 +13896,7 @@ export function shapeCase(k, contacts, whole = false) {
     form: k.form || null, t: k.t, by: k.by || null, edited: k.edited || null, editedBy: k.editedBy || null, talk: k.talk || null };
   if (k.espo) out.espo = k.espo;
   if (whole) { out.body = k.body || ''; out.blocks = parseBrass(k.body || '', { refs: true }); } else out.words = [...(k.body || '')].length;
+  heldOn(out, k.files, whole);
   return out;
 }
 
@@ -14651,7 +14747,7 @@ export const OFFICE_COMMENT_MAX = TASK_COMMENT_MAX;
 export const OFFICE_COMMENTS_KEEP = TASK_COMMENTS_KEEP;
 const officeCommentsKey = (id) => `office-comments/${id}`;
 /* A record's comments deleted with it, and their links with them. */
-async function dropOfficeComments(id, s) { await s.delete(officeCommentsKey(id)); await dropLinksFrom(`officec:${id}/`, true, s); }
+async function dropOfficeComments(id, s) { await s.delete(officeCommentsKey(id)); await dropLinksFrom(`officec:${id}/`, true, s); await dropOwner(OP, id, s); }
 /* What a comment can be on, told apart by its id: which sealed blob holds it,
    and whether the Feed shows it. An email's id is Gmail's, which says nothing
    about what it is, so its comments go by `email-` and the Gmail id. */
@@ -14681,15 +14777,20 @@ export async function officeComments(who, id, s = store()) {
   return (d && Array.isArray(d.comments) ? d.comments : []).map((c) => shapeComment(c, who));
 }
 
-export async function commentOffice(who, id, text, s = store(), now = Date.now(), mods) {
+export async function commentOffice(who, id, text, s = store(), now = Date.now(), mods, asked) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
   if (mods === undefined) mods = await loadMods();
   const r = commentable(id);
-  const words = cleanForumBody(text, OFFICE_COMMENT_MAX);
-  if (!words) return { error: `A comment is between one and ${OFFICE_COMMENT_MAX} characters.` };
+  const words = commentWords(text, asked);
+  if (words == null) return { error: WORDS_WHY };
   const rec = r ? await commentedOn(r, s) : null;
   if (!rec) return { error: NO_RECORD };
+  // Pictures and files on it, as on a task's comment, sealed with the office's key.
+  const up = await checkUploads(OP, who, asked, [], TASK_COMMENT_FILES_MAX, 'A comment', s, now, true);
+  if (up.error) return up;
+  await keepUploads(OP, r.id, up.fresh, s, now);
   const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };
+  if (up.files.length) c.files = up.files;
   let full = false, earlier = [];
   await updateSealed(officeCommentsKey(r.id), (was) => {
     const list = was && Array.isArray(was.comments) ? was.comments : [];
@@ -14697,7 +14798,8 @@ export async function commentOffice(who, id, text, s = store(), now = Date.now()
     earlier = list.map((x) => x.by);
     return full ? null : { comments: [...list, c] };
   }, s);
-  if (full) return { error: `This has ${OFFICE_COMMENTS_KEEP} comments, as many as it keeps. Delete one first.` };
+  if (full) { await letGoUploads(OP, r.id, up.fresh, s); return { error: `This has ${OFFICE_COMMENTS_KEEP} comments, as many as it keeps. Delete one first.` }; }
+  await doneUploads(OP, up.fresh, s);
   // A record deleted meanwhile takes the comment with it.
   let gone = !(await commentedOn(r, s));
   // When it was last talked about, for the Feed.
@@ -14714,27 +14816,41 @@ export async function commentOffice(who, id, text, s = store(), now = Date.now()
   return { comment: shapeComment(c, who) };
 }
 
-export async function editOfficeComment(who, id, cid, text, s = store(), now = Date.now(), mods) {
+/* `asked`, when sent, is everything the comment is to hold, as on a task's. */
+export async function editOfficeComment(who, id, cid, text, s = store(), now = Date.now(), mods, asked) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
   if (mods === undefined) mods = await loadMods();
   const r = commentable(id), k0 = commentId(cid);
   if (!r || !k0) return { error: 'Edit which comment?' };
-  const words = cleanForumBody(text, OFFICE_COMMENT_MAX);
-  if (!words) return { error: `A comment is between one and ${OFFICE_COMMENT_MAX} characters.` };
-  let saved = null, was = null, why = null;
+  const held0 = await readSealed(officeCommentsKey(r.id), s);
+  const before = (held0 && Array.isArray(held0.comments) ? held0.comments : []).find((x) => x.id === k0);
+  if (!before) return { error: 'That comment has been deleted.' };
+  if (before.mark !== authorMark(who)) return { error: 'Only whoever wrote a comment can change it.' };
+  const keep = asked === undefined;
+  const words = commentWords(text, keep ? before.files : asked);
+  if (words == null) return { error: WORDS_WHY };
+  const up = keep ? { files: before.files || [], fresh: [] } : await checkUploads(OP, who, asked, before.files || [], TASK_COMMENT_FILES_MAX, 'A comment', s, now, true);
+  if (up.error) return up;
+  await keepUploads(OP, r.id, up.fresh, s, now);
+  let saved = null, was = null, why = null, dropped = [];
   await updateSealed(officeCommentsKey(r.id), (held) => {
-    saved = null; was = null; why = null;
+    saved = null; was = null; why = null; dropped = [];
     const list = held && Array.isArray(held.comments) ? held.comments : [];
     const k = list.findIndex((x) => x.id === k0);
     if (k < 0) { why = 'That comment has been deleted.'; return null; }
     if (list[k].mark !== authorMark(who)) { why = 'Only whoever wrote a comment can change it.'; return null; }
-    if (list[k].body === words) { saved = list[k]; return null; }
+    const had = list[k].files || [], files = keep ? had : up.files;
+    dropped = had.filter((h) => !files.some((f) => f.id === h.id));
+    if (list[k].body === words && JSON.stringify(had) === JSON.stringify(files)) { saved = list[k]; return null; }
     was = list[k].body;
     saved = { ...list[k], body: words, edited: now };
+    if (files.length) saved.files = files; else delete saved.files;
     const copy = list.slice(); copy[k] = saved;
     return { comments: copy };
   }, s);
-  if (why) return { error: why };
+  if (why) { await letGoUploads(OP, r.id, up.fresh, s); return { error: why }; }
+  await doneUploads(OP, up.fresh, s);
+  await dropHeld(OP, r.id, dropped.map((f) => f.id), s);
   if (was != null) await noteOfficeComment(r.what, r.id, who.handle, saved, { was, edit: true }, s, now, mods).catch(() => null);
   return { comment: shapeComment(saved, who) };
 }
@@ -14743,16 +14859,160 @@ export async function removeOfficeComment(who, id, cid, s = store()) {
   if (!officeAllow(who)) return { error: NO_OFFICE };
   const r = commentable(id), k0 = commentId(cid);
   if (!r || !k0) return { error: 'Delete which comment?' };
-  let why = null;
+  let why = null, gone = null;
   await updateSealed(officeCommentsKey(r.id), (held) => {
-    why = null;
+    why = null; gone = null;
     const list = held && Array.isArray(held.comments) ? held.comments : [];
     const k = list.findIndex((x) => x.id === k0);
     if (k < 0) { why = 'That comment has already been deleted.'; return null; }
     if (list[k].mark !== authorMark(who) && !who.roles.has('administrator')) { why = 'Only whoever wrote a comment, or an administrator, can delete it.'; return null; }
+    gone = list[k];
     return { comments: list.filter((_, i) => i !== k) };
   }, s);
-  return why ? { error: why } : { gone: true };
+  if (why) return { error: why };
+  // Its pictures and files go with it.
+  if (gone && gone.files) await dropHeld(OP, r.id, gone.files.map((f) => f.id), s);
+  return { gone: true };
+}
+
+/* PICTURES AND FILES IN THE OFFICE (Ryan's ask, 2026-10-27: "uniformly
+   across the office"): on a contact, a grant request or a case, as on a task,
+   and on every comment here, as on a task's comment, by the one upload layer
+   (FILE_PLACES), up to FILE_MAX in parts. They are sealed with the office's
+   own key (OFFICE_BYTES), metadata and all, and kept under
+   office-file/<record>/<id>, so a record or an email deleted takes them all
+   with its comments (dropOfficeComments). officeFile serves one only to
+   somebody the office lets in, and only while a record or a comment holds it.
+   A mailing, a template and an email take them on their comments only: a
+   file on a template would read as one the mailing sends, and it is not. */
+export const OFFICE_ATTACH_MAX = TASK_ATTACH_MAX;
+const OP = 'office';                    // its place in the one upload layer
+/* The records that hold pictures and files of their own. */
+function fileRecord(id) {
+  if (contactId(id)) return { what: 'A contact', key: CONTACTS, field: 'contacts', id };
+  if (grantId(id)) return { what: 'A grant request', key: GRANTS, field: 'grants', id };
+  if (caseId(id)) return { what: 'A case', key: CASES, field: 'cases', id };
+  return null;
+}
+export async function putOfficeUpload(who, f, bytes, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  return putUploadTo(OP, who, f, bytes, s, now);
+}
+/* A record changed by `change(rec)`, which answers the record as it is to be,
+   the record as it was to change nothing, or { why }. { rec, before } or { error }. */
+async function changeRecord(r, change, s) {
+  let why = null, rec = null, before = null;
+  await updateSealed(r.key, (was) => {
+    why = null; rec = null; before = null;
+    const list = was && Array.isArray(was[r.field]) ? was[r.field] : [];
+    const k = list.findIndex((x) => x.id === r.id);
+    if (k < 0) { why = NO_RECORD; return null; }
+    before = list[k];
+    const next = change(list[k]);
+    if (next && next.why) { why = next.why; return null; }
+    rec = next;
+    if (next === list[k]) return null;
+    const copy = list.slice(); copy[k] = next;
+    return { ...was, [r.field]: copy };
+  }, s);
+  return why ? { error: why } : { rec, before };
+}
+async function shapedRecord(r, rec, s) {
+  if (r.field === 'contacts') return shapeContact(rec, true);
+  const m = contactMap(await readContacts(s));
+  return r.field === 'grants' ? shapeGrant(rec, m, true) : shapeCase(rec, m, true);
+}
+/* This sender's own uploads attached to a contact, a grant request or a case. */
+export async function attachOffice(who, id, asked, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = fileRecord(id);
+  const list = Array.isArray(asked) ? asked : [];
+  if (!r) return { error: NO_RECORD };
+  if (!list.length || list.length > OFFICE_ATTACH_MAX) return { error: `Attach between one and ${OFFICE_ATTACH_MAX} pictures and files.` };
+  const up = await checkUploads(OP, who, list, [], OFFICE_ATTACH_MAX, r.what, s, now, true);
+  if (up.error) return up;
+  await keepUploads(OP, r.id, up.fresh, s, now);
+  const got = await changeRecord(r, (rec) => {
+    const had = rec.files || [];
+    const adding = up.files.filter((f) => !had.some((h) => h.id === f.id));
+    if (had.length + adding.length > OFFICE_ATTACH_MAX) return { why: `${r.what} holds ${OFFICE_ATTACH_MAX} pictures and files at most.` };
+    return { ...rec, files: [...had, ...adding], edited: now, editedBy: who.handle };
+  }, s);
+  if (got.error) { await letGoUploads(OP, r.id, up.fresh, s); return got; }
+  await doneUploads(OP, up.fresh, s);
+  return { record: await shapedRecord(r, got.rec, s) };
+}
+/* A picture or file taken off a record, and deleted. */
+export async function detachOffice(who, id, fid, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = fileRecord(id), f = imageId(fid);
+  if (!r) return { error: NO_RECORD };
+  const got = await changeRecord(r, (rec) => {
+    const had = rec.files || [];
+    if (!f || !had.some((x) => x.id === f)) return { why: 'That picture or file has already been taken off.' };
+    return { ...rec, files: had.filter((x) => x.id !== f), edited: now, editedBy: who.handle };
+  }, s);
+  if (got.error) return got;
+  await dropHeld(OP, r.id, [f], s);
+  return { record: await shapedRecord(r, got.rec, s) };
+}
+/* A picture's description on a record, written, changed or taken off. */
+export async function describeOfficeFile(who, id, fid, alt, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = fileRecord(id), f = imageId(fid);
+  const said = cleanForumAlt(alt);
+  if (said === null) return { error: `A picture's description is ${FORUM_ALT_MAX} characters at most.` };
+  if (!r) return { error: NO_RECORD };
+  const got = await changeRecord(r, (rec) => {
+    const files = describedIn(rec.files, f, said);
+    if (!files) return { why: 'That picture has been taken off.' };
+    return files === rec.files ? rec : { ...rec, files, edited: now, editedBy: who.handle };
+  }, s);
+  if (got.error) return got;
+  return { record: await shapedRecord(r, got.rec, s) };
+}
+/* One picture or file, or a part of one, for somebody the office lets in,
+   while a record or a comment under `owner` holds it. */
+export async function officeFile(who, owner, fid, s = store(), part = null) {
+  if (!officeAllow(who)) return null;
+  const c = commentable(owner), id = imageId(fid);
+  if (!c || !id) return null;
+  let file = null;
+  const r = fileRecord(c.id);
+  if (r) { const rec = await commentedOn(c, s); file = rec && (rec.files || []).find((x) => x.id === id); }
+  if (!file) {
+    const d = await readSealed(officeCommentsKey(c.id), s);
+    file = (d && Array.isArray(d.comments) ? d.comments : []).flatMap((x) => x.files || []).find((x) => x.id === id) || null;
+  }
+  if (!file) return null;
+  const got = await readHeld(OP, c.id, file, part, s);
+  return got && { ...got, file: shapeHeldFile(file) };
+}
+/* Hourly: an upload nothing in the office took within a day, and a file no
+   record or comment holds an hour after it was copied. Never without the key. */
+export async function sweepOfficeFiles(s = store(), now = Date.now()) {
+  if (!officeReady()) return;
+  await sweepUploads(OP, s, now);
+  const pl = FILE_PLACES[OP];
+  const files = (await s.list({ prefix: pl.file })).blobs || [];
+  if (!files.length) return;
+  const held = new Set(), asked = new Set();
+  for (const b of files) {
+    const owner = b.key.slice(pl.file.length).split('/')[0];
+    if (asked.has(owner)) continue;
+    asked.add(owner);
+    const c = commentable(owner);
+    if (!c) continue;
+    const rec = fileRecord(c.id) ? await commentedOn(c, s) : null;
+    for (const f of (rec && rec.files) || []) for (const k of heldKeys(pl, c.id, f)) held.add(k);
+    const d = await readSealed(officeCommentsKey(c.id), s);
+    for (const x of (d && Array.isArray(d.comments) ? d.comments : [])) for (const f of x.files || []) for (const k of heldKeys(pl, c.id, f)) held.add(k);
+  }
+  for (const b of files) {
+    if (held.has(b.key)) continue;
+    const m = await blobMeta(s, b.key);
+    if (!m || typeof m.t !== 'number' || now - m.t >= 60 * 60 * 1000) await s.delete(b.key);
+  }
 }
 
 /* The mailbox script's half. The outbox: emails waiting, oldest mailing first,

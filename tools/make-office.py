@@ -687,6 +687,50 @@ def fn_any(src, name):
     return m.group(0) if m else ""
 
 
+def check_files(lib):
+    """Pictures and files in the office (2026-10-27): the one upload layer every
+    place uses, sealed with the office's own key, served only while held, gone
+    with what held them."""
+    m = re.search(r"const OFFICE_BYTES = \[(.*?)\];", lib, re.S)
+    if not m or "office-file" not in m.group(1) or "office-up" not in m.group(1):
+        problems.append(f"{LIB.name}: OFFICE_BYTES no longer names office-file/ and office-up/, so the office's pictures and files could be written in the clear.")
+    store = fn_any(lib, "sealingStore")
+    if "officeBytes(key)) return t.set(key, sealBytesWith(officeKey()" not in store:
+        problems.append(f"{LIB.name}: the store no longer seals the office's files with the office's own key.")
+    for name in ("attachOffice", "commentOffice", "editOfficeComment"):
+        if "checkUploads(OP" not in fn(lib, name):
+            problems.append(f"{LIB.name}: {name} takes pictures and files some way other than checkUploads, the one layer every place uses.")
+    if "officeAllow(who)" not in fn(lib, "officeFile") or "readHeld(OP" not in fn(lib, "officeFile"):
+        problems.append(f"{LIB.name}: officeFile must ask officeAllow, and send a file in parts a part at a time (readHeld).")
+    if "dropOwner(OP" not in fn_any(lib, "dropOfficeComments"):
+        problems.append(f"{LIB.name}: dropOfficeComments must take a record's pictures and files with its comments, or a deleted record leaves them behind.")
+    if "dropHeld(OP" not in fn(lib, "removeOfficeComment"):
+        problems.append(f"{LIB.name}: removeOfficeComment leaves a deleted comment's pictures and files behind.")
+    if "officeReady()" not in fn(lib, "sweepOfficeFiles"):
+        problems.append(f"{LIB.name}: sweepOfficeFiles must do nothing without the office's key.")
+    f = ROOT / "netlify" / "functions" / "cb-office-file.mjs"
+    code = code_of(f.read_text()) if f.exists() else ""
+    for need, why in (("if (!officeReady())", "it does not shut without the office's key"),
+                      ("if (!officeAllow(who))", "it does not refuse everybody the office does not let in"),
+                      ("'x-robots-tag': 'noindex'", "its answers do not ask search engines not to keep them"),
+                      ("fileAnswer(got", "a file is not answered by fileAnswer, the one answer every place gives"),
+                      ("uploadRequest('office'", "it takes uploads some way other than uploadRequest"),
+                      ("path: '/cb/office/file'", "it no longer answers at /cb/office/file, where office.js asks")):
+        if need not in code:
+            problems.append(f"netlify/functions/cb-office-file.mjs: {why}.")
+    if "sweepOfficeFiles()" not in (ROOT / "netlify" / "functions" / "cb-midnight.mjs").read_text():
+        problems.append("cb-midnight.mjs: the hourly sweep no longer takes the office's uploads nobody attached.")
+    js = code_of(JS.read_text())
+    if "window.loveAttach.section(" not in js or "files: commentFiles(" not in js or re.search(r"getContext\(|loveRedraw\(", js):
+        problems.append(f"{JS.name}: a record's pictures and files, and a comment's, are attach.js's, never a copy in the office's own code.")
+    page = (ROOT / "office.html").read_text()
+    at = [page.find(f'<script src="{x}" defer></script>') for x in ("attach.js", "comments.js", "office.js")]
+    if min(at) < 0 or at != sorted(at):
+        problems.append("office.html: it must load attach.js, then comments.js, then office.js.")
+    if 'id="office-files"' not in PRIVACY.read_text():
+        problems.append(f"{PRIVACY.name}: the office's section does not say what it keeps of pictures and files (id=\"office-files\").")
+
+
 def check_js():
     if not JS.exists():
         problems.append(f"{JS.name}: missing.")
@@ -707,8 +751,8 @@ def check_js():
     for url in set(re.findall(r"""['"](/[a-z][^'"?#]*)""", js)):
         # Pages it links to (tasks, the forums' topics, the privacy page, the member map on the
         # Community Center's wall) are not calls.
-        if url not in ("/cb/office", "/cb.css", "/office.css", "/privacy.html", "/tasks.html", "/forum.html", "/community-center.html"):
-            problems.append(f"{JS.name}: it calls {url}. The office talks to /cb/office and nothing else.")
+        if url not in ("/cb/office", "/cb/office/file", "/cb.css", "/office.css", "/privacy.html", "/tasks.html", "/forum.html", "/community-center.html"):
+            problems.append(f"{JS.name}: it calls {url}. The office talks to /cb/office, and /cb/office/file for pictures and files, and nothing else.")
 
 
 def check_css():
@@ -772,6 +816,7 @@ def main():
     check_members(lib)
     check_orgs(lib)
     check_invite_fill(lib)
+    check_files(lib)
     check_js()
     check_css()
     check_page()

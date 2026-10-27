@@ -550,9 +550,9 @@ def check_files(lib):
     m = re.search(r"const STAFF_BYTES = \[(.*?)\];", lib, re.S)
     if not m or "task-file" not in m.group(1) or "task-up" not in m.group(1):
         problems.append(f"{LIB.name}: STAFF_BYTES no longer names task-file/ and task-up/, so a task's pictures and files could be written in the clear.")
-    if "uploadMeta(" not in fn(lib, "putTaskUpload"):
-        problems.append(f"{LIB.name}: putTaskUpload checks an upload some way other than uploadMeta, the forums' checks: camera data, file kinds by their first bytes, macros.")
-    if "dropTaskFiles(" not in fn(lib, "removeTask"):
+    if "putUploadTo(TP" not in fn(lib, "putTaskUpload") or "uploadMeta(" not in fn(lib, "putUploadTo"):
+        problems.append(f"{LIB.name}: putTaskUpload checks an upload some way other than putUploadTo and uploadMeta, the one layer every place uses: camera data, file kinds by their first bytes, macros.")
+    if "dropOwner(TP" not in fn(lib, "removeTask"):
         problems.append(f"{LIB.name}: removeTask leaves a deleted task's pictures and files behind.")
     if "tasksAllow(who)" not in fn(lib, "taskFile"):
         problems.append(f"{LIB.name}: taskFile serves a task's file without asking tasksAllow.")
@@ -565,8 +565,7 @@ def check_files(lib):
     for need, why in (("if (!staffReady())", "it does not shut without the staff key"),
                       ("if (!tasksAllow(who))", "it does not refuse everybody tasksAllow does not let in"),
                       ("'x-robots-tag': 'noindex'", "its answers do not ask search engines not to keep them"),
-                      ("content-disposition", "a file is not sent to be saved, never shown"),
-                      ("sandbox", "a file opened on its own is not sandboxed"),
+                      ("fileAnswer(got", "a file is not answered by fileAnswer, the one answer every place gives: saved, never shown, sandboxed"),
                       ("path: '/cb/tasks/file'", "it no longer answers at /cb/tasks/file, where tasks.js asks")):
         if need not in code:
             problems.append(f"netlify/functions/cb-tasks-file.mjs: {why}.")
@@ -582,26 +581,27 @@ def check_files(lib):
         if (re.search(r"(?<![.\w])fetch\(", a) if bad == "fetch(" else bad in a):
             problems.append(f"attach.js: {bad}. It builds from nodes, keeps nothing in the browser, and talks to no server of its own: the page hands it its way of asking.")
     js = code_of(JS)
-    if "window.loveAttach.tray(" not in js or "getContext" in js or "loveRedraw(" in js:
+    if "window.loveAttach.section(" not in js or "getContext" in js or "loveRedraw(" in js:
         problems.append(f"{JS.name}: a task's pictures and files are drawn and taken by attach.js, not by tasks.js, which draws on no canvas of its own.")
     c = code_of(ROOT / "comments.js")
     if "window.loveAttach.tray(" not in c or "window.loveAttach.shown(" not in c:
         problems.append("comments.js: a comment's pictures and files must be attach.js's tray and lists, the task's own, never a copy.")
-    for name in ("commentTask", "editTaskComment"):
-        if "taskUploads(" not in fn(lib, name):
-            problems.append(f"{LIB.name}: {name} takes pictures and files some way other than taskUploads, the task's own checks.")
+    for name in ("attachTask", "commentTask", "editTaskComment"):
+        if "checkUploads(TP" not in fn(lib, name):
+            problems.append(f"{LIB.name}: {name} takes pictures and files some way other than checkUploads, the one layer every place uses.")
     # A big file in parts (2026-10-27): Netlify refuses a request over about 6 MB, so no part may near it,
     # and the whole is checked as any file is before anything can attach it.
-    m = re.search(r"export const TASK_PART = (\d+);", lib)
+    m = re.search(r"export const FILE_PART = (\d+);", lib)
     if not m or int(m.group(1)) > 5000000:
-        problems.append(f"{LIB.name}: TASK_PART must be 5 MB or less: Netlify refuses a request over about 6 MB before any function sees it.")
-    if "uploadMeta(" not in fn(lib, "finishTaskParts"):
-        problems.append(f"{LIB.name}: finishTaskParts must check the whole file with uploadMeta, the same checks as any file, before it can be attached.")
-    if "partKey(key, n)" not in fn(lib, "taskFile"):
-        problems.append(f"{LIB.name}: taskFile must send a file in parts a part at a time, never whole, which could be bigger than an answer may be.")
-    if "inParts(" not in a or "o.part" not in a:
-        problems.append("attach.js: a file bigger than a part must go up a part at a time (inParts).")
-    if "dropTaskFile(tid, f, s)" not in fn(lib, "removeTaskComment"):
+        problems.append(f"{LIB.name}: FILE_PART must be 5 MB or less: Netlify refuses a request over about 6 MB before any function sees it.")
+    if "uploadMeta(" not in fn(lib, "finishUploadParts"):
+        problems.append(f"{LIB.name}: finishUploadParts must check the whole file with uploadMeta, the same checks as any file, before it can be attached.")
+    held = re.search(r"\nasync function readHeld\(.*?\n\}", lib, re.S)
+    if "readHeld(TP" not in fn(lib, "taskFile") or not held or "partKey(key, n)" not in held.group(0):
+        problems.append(f"{LIB.name}: taskFile must send a file in parts a part at a time (readHeld), never whole, which could be bigger than an answer may be.")
+    if "function send(o)" not in a or "o.part" not in a:
+        problems.append("attach.js: a file bigger than a part must go up a part at a time (send).")
+    if "dropHeld(TP" not in fn(lib, "removeTaskComment"):
         problems.append(f"{LIB.name}: removeTaskComment leaves a deleted comment's pictures and files behind.")
     if 'id="task-files"' not in PRIVACY.read_text():
         problems.append(f"{PRIVACY.name}: the tasks section does not say what a task keeps of its pictures and files (id=\"task-files\").")

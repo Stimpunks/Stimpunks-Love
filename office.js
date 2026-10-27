@@ -345,6 +345,7 @@
         var a = el('a', null, nameOf(c)); a.href = '#/c/' + c.id;
         if (i === focusRow) a.setAttribute('data-first-new', '');
         td.appendChild(a);
+        if (c.attached) td.appendChild(attachedNote(c.attached));
         tr.appendChild(td);
         var em = el('td', 'of-mail', c.email || '—');
         if (c.noEmail) em.appendChild(tag('NO EMAIL'));
@@ -565,6 +566,7 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
+    addFiles('contact', c);
     return addComments(c.id, comments, landOn) || h;
   }
 
@@ -914,6 +916,7 @@
         peek.watch(a, g.id, grantPeek);
         if (i === focusRow) a.setAttribute('data-first-new', '');
         td.appendChild(a);
+        if (g.attached) td.appendChild(attachedNote(g.attached));
         tr.appendChild(td);
         var ct = el('td', 'of-mail');
         if (g.contact && !g.contactGone) { var ca = el('a', null, g.contactName || g.contactEmail); ca.href = '#/c/' + g.contact; ct.appendChild(ca); }
@@ -1128,6 +1131,7 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
+    addFiles('grant', g);
     return addComments(g.id, comments, landOn) || h;
   }
 
@@ -1408,6 +1412,7 @@
         peek.watch(a, k.id, casePeek);
         if (i === focusRow) a.setAttribute('data-first-new', '');
         td.appendChild(a);
+        if (k.attached) td.appendChild(attachedNote(k.attached));
         tr.appendChild(td);
         var ct = el('td', 'of-mail');
         if (k.contact && !k.contactGone) { var ca = el('a', null, k.contactName || k.contactEmail); ca.href = '#/c/' + k.contact; ct.appendChild(ca); }
@@ -1561,6 +1566,7 @@
     });
     tools.appendChild(del);
     view.appendChild(tools);
+    addFiles('case', k);
     return addComments(k.id, comments, landOn) || h;
   }
 
@@ -2221,7 +2227,47 @@
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
       people: people, roles: roles, me: me ? me.handle : '', mark: marked,
-      kept: function (list) { talked = { id: id, list: list }; } };
+      kept: function (list) { talked = { id: id, list: list }; }, files: commentFiles(id) };
+  }
+
+  /* ── Pictures and files (attach.js, the one way Tasks and the forums take them too) ── */
+
+  /* On a contact, a grant request or a case, and on any comment in the office,
+     each fetched with the pass from /cb/office/file, sealed with the office's
+     own key there. A file over a part goes and comes a part at a time. */
+  function fileCall(q, bytes) {
+    var s = cbState();
+    var headers = { authorization: 'Bearer ' + (s ? s.pass : '') };
+    if (bytes) { headers['content-type'] = 'application/octet-stream'; headers.accept = 'application/json'; }
+    return fetch('/cb/office/file?' + q, { method: bytes ? 'POST' : 'GET', headers: headers, body: bytes || undefined, credentials: 'omit', cache: 'no-store' })
+      .then(function (r) { return r; }, function () { return { ok: false, status: 0, json: function () { return Promise.resolve({}); } }; });
+  }
+  function fileOf(owner) { return function (f, part) { return fileCall('r=' + encodeURIComponent(owner) + '&f=' + encodeURIComponent(f.id) + (part != null ? '&part=' + part : '')); }; }
+  function fileKeyOf(owner) { return function (f) { return 'office/' + owner + '/' + f.id; }; }
+  // How many pictures and files, after a name in a list, as Tasks' list has it.
+  function attachedNote(n) { return el('span', 'of-attached', ' · ' + (n === 1 ? 'a picture or file' : n + ' pictures and files')); }
+  function attachedBy(f) { return (f.by ? f.by + ', ' : '') + (f.t ? when(f.t) : ''); }
+  function trayOpts(owner, id, most) {
+    return { p: 'of', id: id, kinds: settings.kinds || [], fileMax: settings.fileMax, part: settings.part, altMax: settings.altMax, most: most, have: 0,
+      key: fileKeyOf(owner), upload: function (q, blob) { return fileCall(q, blob); } };
+  }
+  // A comment's, under any record: the record's own tray and lists, at a comment's limit.
+  function commentFiles(owner) {
+    return {
+      key: fileKeyOf(owner),
+      tray: function (id, had) { var o = trayOpts(owner, id, settings.commentFilesMax || 6); o.had = had; return o; },
+      show: function (c) { return { p: 'of', files: c.files, key: fileKeyOf(owner), fetch: fileOf(owner), say: say }; },
+    };
+  }
+  // A record's own part, drawn again from its own page after any change, with the keyboard back on it.
+  function addFiles(kind, rec) {
+    var again = { contact: contactView, grant: grantView, 'case': caseView }[kind];
+    view.appendChild(window.loveAttach.section({ p: 'of', id: rec.id, heading: heading, files: rec.files || [], key: fileKeyOf(rec.id), fetch: fileOf(rec.id),
+      upload: function (q, blob) { return fileCall(q, blob); }, ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
+      meta: attachedBy, kinds: settings.kinds || [], fileMax: settings.fileMax, part: settings.part, altMax: settings.altMax, most: settings.attachMax || 30,
+      after: function (r, said) {
+        again(rec.id).then(function () { var back = view.querySelector('.of-files h3'); if (back) back.focus(); say(said); });
+      } }));
   }
   /* The Comments part at the foot of a record's page. Answers the comment the
      address named, brought into view, when it is there. */
@@ -3767,7 +3813,7 @@
       if (body) li.appendChild(body);
       // Its latest comments, to read where the card stands; they are edited on the record's own page.
       var talk = whole && got[x.id] && got[x.id].whole === whole ? got[x.id] : null;
-      if (talk && talk.said) li.appendChild(window.loveComments.latest({ p: 'of', mark: marked, when: when, href: function (c) { return recordHref(it.kind, x.id, c.id); } }, talk.comments || [], talk.said));
+      if (talk && talk.said) li.appendChild(window.loveComments.latest({ p: 'of', mark: marked, when: when, href: function (c) { return recordHref(it.kind, x.id, c.id); }, files: commentFiles(x.id) }, talk.comments || [], talk.said));
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.

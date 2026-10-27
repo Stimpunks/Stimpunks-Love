@@ -90,9 +90,15 @@
          what it last read deleted
      { action: 'dash-layout', layout }               this reader's dashboard: the order of its sections and of
          Newest's boxes, and which are hidden; { reset: true } puts it back as it was
-     { action: 'comment', id, body }                 a comment on the contact, grant request, case, mailing or template
-         `id` names, or on an email, whose id is `email-` and its Gmail id
-     { action: 'comment-edit', id, c, body }         comment c changed, by whoever wrote it
+     { action: 'comment', id, body, files? }         a comment on the contact, grant request, case, mailing or template
+         `id` names, or on an email, whose id is `email-` and its Gmail id; files: [{ id, alt? }],
+         uploads from /cb/office/file, and then body may be empty
+     { action: 'comment-edit', id, c, body, files? } comment c changed, by whoever wrote it; files, when sent,
+                                                     is everything it is to hold, the ones it had included
+     { action: 'attach', id, files: [{ id, alt? }] } pictures and files put up at /cb/office/file attached to
+                                                     the contact, grant request or case `id` names
+     { action: 'detach', id, f }                     picture or file f taken off it, and deleted
+     { action: 'describe', id, f, alt }              picture f's description written, changed or taken off
      { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
      { action: 'preview', body, comment? }           how notes or a description, or with comment: true a comment, will set
      { action: 'links', q }                          what [[ offers for q: tasks, topics and the office's records
@@ -105,6 +111,7 @@ import { readPass, forumReader, mentionableRoles, rolesOf, officeAllow, officeRe
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
   stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople,
+  attachOffice, detachOffice, describeOfficeFile, OFFICE_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
   OFFICE_CURRENCY, OFFICE_CASES, CASE_NAME_MAX, CASE_BODY_MAX } from '../cb/lib.mjs';
 
@@ -114,7 +121,8 @@ const settings = { nameMax: CONTACT_NAME_MAX, notesMax: CONTACT_NOTES_MAX, grant
   amountMax: GRANT_AMOUNT_MAX, pipelines: OFFICE_PIPELINES, statuses: OFFICE_STATUSES, currency: OFFICE_CURRENCY,
   cases: OFFICE_CASES, caseNameMax: CASE_NAME_MAX, caseBodyMax: CASE_BODY_MAX, fillIns: FILL_INS, templateNameMax: TEMPLATE_NAME_MAX,
   templateSubjectMax: TEMPLATE_SUBJECT_MAX, templateBodyMax: TEMPLATE_BODY_MAX, mailingMax: MAILING_MAX, feedPage: OFFICE_FEED_PAGE,
-  commentMax: OFFICE_COMMENT_MAX };
+  commentMax: OFFICE_COMMENT_MAX,
+  attachMax: OFFICE_ATTACH_MAX, commentFilesMax: TASK_COMMENT_FILES_MAX, fileMax: FILE_MAX, part: FILE_PART, kinds: Object.keys(FORUM_FILE_TYPES), altMax: FORUM_ALT_MAX };
 
 export default async (req) => {
   if (!sameSite(req)) return json(403, { error: 'The office only answers stimpunks.world.' }, QUIET);
@@ -181,12 +189,18 @@ export default async (req) => {
     }
     if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
     if (b.action === 'comment') {
-      const r = await commentOffice(who, String(b.id || ''), b.body);
+      const r = await commentOffice(who, String(b.id || ''), b.body, undefined, undefined, undefined, b.files);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);
     }
     if (b.action === 'comment-edit') {
-      const r = await editOfficeComment(who, String(b.id || ''), String(b.c || ''), b.body);
+      const r = await editOfficeComment(who, String(b.id || ''), String(b.c || ''), b.body, undefined, undefined, undefined, Array.isArray(b.files) ? b.files : undefined);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);
+    }
+    if (b.action === 'attach' || b.action === 'detach' || b.action === 'describe') {
+      const r = b.action === 'attach' ? await attachOffice(who, String(b.id || ''), b.files)
+        : b.action === 'detach' ? await detachOffice(who, String(b.id || ''), String(b.f || ''))
+        : await describeOfficeFile(who, String(b.id || ''), String(b.f || ''), b.alt);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { record: r.record }, QUIET);
     }
     if (b.action === 'comment-remove') {
       const r = await removeOfficeComment(who, String(b.id || ''), String(b.c || ''));

@@ -36,7 +36,7 @@
 import { staffReady, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
-  FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FORUM_FILE_MAX, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
+  FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
 
 // Never for search engines, and never cached anywhere: the forums are for
 // claimed usernames, and a cached answer is a copy.
@@ -47,7 +47,7 @@ const CLAIM = 'The forums are for claimed usernames. Claim yours under Account o
 const quick = REACTIONS.map(([emoji, name]) => ({ emoji, name }));
 // What a post may carry, so the page keeps no copy of these either.
 const takes = { most: FORUM_ATTACH_MAX, docMost: FORUM_DOC_ATTACH_MAX, body: FORUM_BODY_MAX, docBody: FORUM_DOC_BODY_MAX,
-  fileMax: FORUM_FILE_MAX, kinds: Object.keys(FORUM_FILE_TYPES), choices: POLL_CHOICES_MAX, choice: POLL_CHOICE_MAX, q: POLL_Q_MAX };
+  fileMax: FILE_MAX, part: FILE_PART, kinds: Object.keys(FORUM_FILE_TYPES), choices: POLL_CHOICES_MAX, choice: POLL_CHOICE_MAX, q: POLL_Q_MAX };
 const num = (v) => (v != null && /^\d{1,15}$/.test(v) ? Number(v) : null);
 
 export default async (req, context) => {

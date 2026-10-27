@@ -14,7 +14,7 @@
    And every event with no time left to happen in, which a read never shows
    anyway, and the record of which starts were told, after a day.
    And every Tasks blob written before the staff key, sealed. */
-import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls, sweepBrassImages, sweepSuggestImages, sweepForum, sweepTaskFiles, sweepDms, sweepEvents, sealStaffLeftovers } from '../cb/lib.mjs';
+import { sweep, sweepRoomTalk, sweepChalk, sweepPebbles, sweepFence, fileFridge, finishAllAdoptions, sweepSlake, sweepBeacons, sweepImages, sweepSeen, sweepCalls, sweepBrassImages, sweepSuggestImages, sweepForum, sweepTaskFiles, sweepOfficeFiles, sweepDms, sweepEvents, sealStaffLeftovers } from '../cb/lib.mjs';
 
 export default async () => {
   await sweep();
@@ -33,6 +33,7 @@ export default async () => {
   await sweepCalls();   // and anybody 8x8 never said had left a call, once no token could still hold
   await sweepForum();   // and every forum topic past its category's keep, with everything in it
   await sweepTaskFiles(); // and every task upload no task took within a day, and any file its task let go of
+  await sweepOfficeFiles(); // and the office's the same, only with its key
   await sweepDms();     // and every direct message past its two weeks, its conversation once empty, and old reports
   await sweepEvents();  // and every event that has been and gone, and which starts were told, after a day
   await sealStaffLeftovers(); // and every Tasks blob written before the staff key, sealed now
