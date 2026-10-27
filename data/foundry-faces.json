@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-24",
+ "_checked": "2026-10-27",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -3534,6 +3534,29 @@
     }
    ]
   },
+  "rasa": {
+   "family": "Rasa",
+   "category": "Serif",
+   "designer": "Rosetta, Anna Giedryś, David Březina",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/rasa",
+   "copyright": "Copyright 2015 The Yrsa-Rasa Project Authors (https://github.com/rosettatype/yrsa-rasa/)",
+   "repository": "https://github.com/rosettatype/yrsa-rasa",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "rasa-400.woff2",
+     "sha": "10b71603d03d3f1b"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "rasa-400.woff2",
+     "sha": "10b71603d03d3f1b"
+    }
+   ]
+  },
   "readex-pro": {
    "family": "Readex Pro",
    "category": "Sans Serif",
@@ -3880,6 +3903,23 @@
      "style": "normal",
      "file": "shrikhand-400.woff2",
      "sha": "78a6223af12c516c"
+    }
+   ]
+  },
+  "sigmar-one": {
+   "family": "Sigmar One",
+   "category": "Display",
+   "designer": "Vernon Adams",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/sigmarone",
+   "copyright": "Copyright 2011 The Sigmar One Project Authors (contact@sansoxygen.com)",
+   "repository": "https://github.com/googlefonts/sigmarone",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "sigmar-one-400.woff2",
+     "sha": "b0f29844134a2052"
     }
    ]
   },

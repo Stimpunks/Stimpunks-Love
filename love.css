@@ -1380,6 +1380,19 @@
 @font-face { font-family: 'Zen Maru Gothic'; src: url('fonts/zen-maru-gothic-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Zen Maru Gothic'; src: url('fonts/zen-maru-gothic-700.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
+/* Volunteers. LETTERS SEWN ONTO A BANNER, AND A PAGE MADE FOR READING LONG.
+   Sigmar One, by Vernon Adams, is heavy capitals with round shoulders, like
+   letters cut out of felt and stitched on. It sets the room's name, its
+   headings and the name on its street door, and nothing at reading size. Rasa,
+   by Rosetta with Anna Giedryś and David Březina, carries every word that is
+   read: a warm text serif drawn for long reading. One variable file for Rasa,
+   declared at 400 and 700. Both are cut down to the Latin letters and saved as
+   WOFF2; neither reserves its name. Read off their own records; see
+   fonts/_sources.json. */
+@font-face { font-family: 'Sigmar One'; src: url('fonts/sigmar-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rasa'; src: url('fonts/rasa-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Rasa'; src: url('fonts/rasa-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
 
@@ -4227,6 +4240,23 @@
   --pts-glow: #E9B983;  --pts-night: #14152A;  --pts-flap: #5E6286;
   --pts-dog: #A68567;  --pts-cat: #C08758;
 
+  /* Volunteers (§130): a cloth on the loom, half woven, with the window
+     behind the warp. --vol-linen is the undyed cloth, the ground every word on
+     the page stands on; --vol-ink is every word, --vol-ink-2 the quiet lines,
+     and --vol-link every link and the focus ring, in madder. --vol-card is the
+     slips lying on the cloth. The rest carry no word: --vol-wall the room
+     behind the loom, --vol-wood the loom and the shuttle, --vol-knot every
+     outline, --vol-sky and --vol-day the window, --vol-thread the bare warp
+     against the light, --vol-warp the warp where it crosses the weft, and the
+     dyes, each named for what it is made from, the weft's bands. */
+  --vol-linen: #EEE6D3;  --vol-card: #F8F4EA;  --vol-ink: #261E33;
+  --vol-ink-2: #574A5E;  --vol-link: #7B2340;  --vol-wall: #D9CDB2;
+  --vol-wood: #7A5235;  --vol-knot: #3B2A21;  --vol-sky: #C9DCE6;
+  --vol-day: #FBF8F0;  --vol-thread: #A08F70;  --vol-warp: #E9DFC6;
+  --vol-madder: #B4443A;  --vol-weld: #D8B13C;  --vol-woad: #46699A;
+  --vol-walnut: #7B5539;  --vol-cochineal: #A33A6B;  --vol-lichen: #7F8E50;
+  --vol-logwood: #5C3F74;  --vol-onion: #CB7F38;  --vol-indigo: #2E3B6A;
+
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
      Their colours exactly as their artifact declared them, replaced whole on
@@ -5767,6 +5797,20 @@ div.facade--square { border: 0; background: none; }
 .door--pts .door__name  { font-family: 'Coiny', var(--sans); font-weight: 400; color: var(--pts-ink); font-size: 32px; line-height: 1.05; font-synthesis: none; }
 .door--pts .door__blurb { font-family: 'Zen Maru Gothic', var(--sans); color: var(--pts-ink); font-size: 15px; font-synthesis: none; }
 .door--pts .door__knock { font-family: 'Zen Maru Gothic', var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .04em; color: var(--pts-link); font-synthesis: none; }
+/* VOLUNTEERS' AWNING IS THE CLOTH ON THE LOOM: bands of weft, each a dye,
+   with the undyed warp crossing them. The door under it is the linen, with a
+   selvedge of warp down its edge. */
+.door--vol { background-color: var(--vol-linen); border-color: var(--vol-knot); box-shadow: inset 6px 0 0 var(--vol-warp), inset 8px 0 0 var(--vol-knot); }
+.door--vol .door__awning {
+  background-color: var(--vol-madder);
+  background-image:
+    repeating-linear-gradient(90deg, var(--vol-warp) 0 3px, transparent 3px 9px),
+    linear-gradient(to bottom, var(--vol-madder) 0 20%, var(--vol-woad) 20% 40%, var(--vol-weld) 40% 60%, var(--vol-cochineal) 60% 80%, var(--vol-lichen) 80% 100%);
+  border-bottom: 4px solid var(--vol-knot);
+}
+.door--vol .door__name  { font-family: 'Sigmar One', var(--sans); font-weight: 400; color: var(--vol-ink); font-size: 28px; line-height: 1.1; font-synthesis: none; }
+.door--vol .door__blurb { font-family: 'Rasa', var(--sans); color: var(--vol-ink); font-size: 17px; line-height: 1.35; font-synthesis: none; }
+.door--vol .door__knock { font-family: 'Rasa', var(--sans); font-weight: 700; font-size: 16px; letter-spacing: .03em; color: var(--vol-link); font-synthesis: none; }
 
 /* The signpost at the end of the shopfronts. NOT A DOOR AT ALL, and the grid
    above is why: a door on this street is a storefront you walk into, and the
@@ -17854,7 +17898,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §131
+   class on it is `bb-`, its sizes are in points and millimetres, and §132
    prints it and nothing else. */
 
 .room-broadside {
@@ -17915,7 +17959,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §131 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §132 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -27816,7 +27860,159 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
 @keyframes hollow-breathe { from { opacity: .55; } to { opacity: 1; } }
 @keyframes hollow-drift { from { transform: translateY(0); } to { transform: translateY(-10px); } }
 
-/* §130 ── Small screens───────────────────────────────────────────────────────
+/* §130 ── ROOM: Volunteers (a shopfront on the street) ──────────────────────
+   A cloth on the loom, half woven. Ryan's brief, 2026-10-27: a Volunteers
+   room, its channel under Community on the chat page, borrowing from
+   stimpunks.org's Volunteer page. tools/make-volunteers.py writes the loom,
+   every section, the help list, the playbooks and the credits.
+
+   THE CLOTH IS THE ARGUMENT. The warp is our values, one undyed thread the same
+   from one end of the cloth to the other; the weft is what each person brings,
+   a band of its own dye. A woven cloth holds because every thread grips the
+   ones it crosses, which is the friction our Volunteer page says we exist as,
+   doing the holding, and no single thread carries the cloth. Our page's own
+   picture of our interdependence is rainbow woven cloth.
+
+   THE LIGHT COMES THROUGH THE BARE WARP. The window is behind the loom, so
+   above the newest row the light lies between the threads and lands level on
+   the top of the cloth. That is only ever in the drawing: every word stands on
+   flat undyed linen, with nothing striped, woven or lit behind it, because a
+   stripe behind words strains some readers however soft (the Community
+   Center's rule).
+
+   THE COLLISIONS:
+     · THE DOPAMINE DRESS-UP DEN is the other room full of cloth and colour.
+       That is clothes hung on rails, PRINTED, in a sunlit lavender room with
+       rainbows on the wall. Here the colour is DYED and WOVEN in, bands and
+       never prints, on undyed linen, and there is no rainbow: the tool refuses
+       four bands in a rainbow's order.
+     · COMMUNITY CARE is everybody's colours tied together into one roof in the
+       rain, and our Volunteer page's own photograph is those umbrellas. Here
+       the colours are not held up by ties but held together by crossing.
+       There is no umbrella in this room.
+     · THE TRUCKIN' FOOD COURT's awnings are the street's stripes of light. The
+       light between the warp threads here is a stripe of light too, and it is
+       only in the drawing, above the cloth, and never behind a word.
+     · THE GUILD, THE DOOMSCROLL AND COVENSTEAD are the other pale grounds:
+       manila lit from nowhere, foxed newsprint, pink limewash in a window's
+       patch. This is cloth, cream and warm, with the window behind the work
+       rather than beside it.
+     · SHOW YOUR WORK is the other room about making with others, a garage lit
+       from the street through the door behind you. This is a loom facing the
+       window, and the light comes towards you through the threads.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED. The shuttle is lying
+   where somebody put it down, with the next thread on it. The friendly edit is
+   the shuttle flying across at MAX; the tool refuses a keyframe, an animation
+   or a transition here. */
+
+.volunteers {
+  background-color: var(--vol-linen); color: var(--vol-ink);
+  font-family: 'Rasa', var(--sans); font-synthesis: none;
+}
+.volunteers .wrap { width: min(980px, 100% - 44px); }
+.volunteers a { color: var(--vol-link); text-underline-offset: 3px; }
+.volunteers a:hover { color: var(--vol-ink); }
+.volunteers :focus-visible { outline-color: var(--vol-link); }
+.volunteers :where(p, li) { font-size: 20px; line-height: 1.6; }
+.volunteers .backlink { font-family: 'Rasa', var(--sans); font-weight: 700; font-size: 17px; color: var(--vol-link); }
+.vol-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.vol-trail { margin: 0; font-size: 17px; color: var(--vol-ink-2); }
+
+.vol-head { margin: 30px 0 0; }
+.vol-over { margin: 0; font-weight: 700; font-size: 16px; letter-spacing: .1em; text-transform: uppercase; color: var(--vol-ink-2); }
+.volunteers h1 {
+  margin: 8px 0 12px; font-family: 'Sigmar One', var(--sans); font-weight: 400; font-style: normal;
+  font-size: clamp(38px, 11vw, 112px); line-height: 1; color: var(--vol-ink);
+}
+.vol-sub { margin: 0; font-size: 24px; line-height: 1.4; max-width: 40ch; }
+
+.vol-cloth { margin: 28px 0 0; }
+.vol-loom { display: block; width: 100%; height: auto; border-radius: 6px; border: 2px solid var(--vol-knot); }
+.vol-cloth__words { margin: 12px 0 0; font-size: 17px; line-height: 1.55; color: var(--vol-ink-2); max-width: 64ch; }
+
+.vol-lede { margin: 32px 0 0; max-width: 66ch; }
+.vol-lede > p { margin: 0 0 16px; }
+
+.vol-part { margin: 56px 0 0; }
+.vol-part > p, .vol-part > .vol-quote, .vol-part > .vol-rules, .vol-part > .vol-credits, .vol-part > .vol-next { max-width: 70ch; }
+.vol-part > p { margin: 0 0 16px; }
+/* EVERY HEADING HAS A BAND OF WEFT UNDER IT, crossed by the warp: a strip on a
+   pseudo-element, under the words and never behind them. Each section's band
+   is its own dye. */
+.volunteers h2 {
+  position: relative; margin: 0 0 26px; padding-bottom: 18px; font-family: 'Sigmar One', var(--sans); font-weight: 400;
+  font-size: clamp(25px, 4.6vw, 40px); line-height: 1.15; color: var(--vol-ink);
+}
+.volunteers h2::after {
+  content: ""; position: absolute; left: 0; bottom: 0; width: min(100%, 360px); height: 10px;
+  background-color: var(--vol-band, var(--vol-madder));
+  background-image: repeating-linear-gradient(90deg, var(--vol-warp) 0 3px, transparent 3px 9px);
+  border-top: 1px solid var(--vol-knot); border-bottom: 1px solid var(--vol-knot);
+}
+.vol-part--warp { --vol-band: var(--vol-woad); }
+.vol-part--weft { --vol-band: var(--vol-cochineal); }
+.vol-part--ecology { --vol-band: var(--vol-lichen); }
+.vol-part--roles { --vol-band: var(--vol-logwood); }
+.vol-part--books { --vol-band: var(--vol-onion); }
+.vol-part--form { --vol-band: var(--vol-walnut); }
+.vol-part--rules { --vol-band: var(--vol-indigo); }
+.volunteers h3 { margin: 0 0 6px; font-family: 'Rasa', var(--sans); font-weight: 700; font-size: 23px; line-height: 1.25; color: var(--vol-ink); }
+
+.vol-quote { margin: 22px 0; padding: 2px 0 2px 20px; border-left: 5px solid var(--vol-woad); }
+.vol-quote p { margin: 0; font-size: 22px; line-height: 1.5; color: var(--vol-ink); }
+.vol-quote__who { margin: 8px 0 0; font-size: 17px; line-height: 1.5; color: var(--vol-ink-2); }
+.vol-lede .vol-quote { margin: 4px 0 18px; }
+
+/* THE WARP: the pages that have to fit, one thread each, side by side. */
+.vol-warp { list-style: none; margin: 18px 0 22px; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.vol-warp li { margin: 0; }
+.vol-warp a {
+  display: inline-block; padding: 8px 14px; background: var(--vol-card); border: 2px solid var(--vol-knot);
+  border-radius: 4px; box-shadow: inset 0 4px 0 var(--vol-warp); font-weight: 700; font-size: 19px;
+}
+
+/* THE WEFT: every thing on the help list is a slip with a strip of its own dye
+   down its left edge, a sample of the band it is in the cloth. */
+.vol-bands, .vol-books, .vol-rules { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 14px; }
+.vol-bands { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); margin-bottom: 22px; }
+.vol-band, .vol-book, .vol-rules li {
+  position: relative; margin: 0; padding: 14px 16px 16px 30px; background: var(--vol-card);
+  border: 2px solid var(--vol-knot); border-radius: 4px;
+}
+.vol-band::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 16px; border-right: 2px solid var(--vol-knot);
+  background-color: var(--vol-dye);
+  background-image: repeating-linear-gradient(0deg, var(--vol-warp) 0 3px, transparent 3px 9px);
+}
+.vol-band p, .vol-book p { margin: 0; font-size: 18px; }
+.vol-dye--madder { --vol-dye: var(--vol-madder); }
+.vol-dye--weld { --vol-dye: var(--vol-weld); }
+.vol-dye--woad { --vol-dye: var(--vol-woad); }
+.vol-dye--walnut { --vol-dye: var(--vol-walnut); }
+.vol-dye--cochineal { --vol-dye: var(--vol-cochineal); }
+.vol-dye--lichen { --vol-dye: var(--vol-lichen); }
+.vol-dye--logwood { --vol-dye: var(--vol-logwood); }
+.vol-dye--onion { --vol-dye: var(--vol-onion); }
+.vol-dye--indigo { --vol-dye: var(--vol-indigo); }
+.vol-books { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.vol-book { padding-left: 16px; box-shadow: inset 0 6px 0 var(--vol-warp); }
+.vol-rules li { padding-left: 16px; font-size: 19px; }
+.vol-rules strong { font-weight: 700; color: var(--vol-ink); }
+
+.vol-next { margin: 18px 0 0; padding-left: 22px; }
+.vol-next li { margin: 0 0 10px; }
+.vol-whose .vol-credits { margin: 16px 0 0; padding-left: 22px; }
+.vol-credits li { margin: 0 0 12px; font-size: 18px; color: var(--vol-ink-2); }
+.vol-credits code { font-size: 15px; }
+
+@media (max-width: 720px) {
+  .volunteers .wrap { width: calc(100% - 32px); }
+  .vol-bands, .vol-books { grid-template-columns: 1fr; }
+}
+
+
+/* §131 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -27920,7 +28116,7 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §130 says every
+   shipped with no rule here at all — which on a street whose §131 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -28044,7 +28240,7 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §131 ── Print ───────────────────────────────────────────────────────────────
+/* §132 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

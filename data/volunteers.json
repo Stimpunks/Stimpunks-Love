@@ -1,0 +1,217 @@
+{
+  "_what": "Volunteers (love.css §130), a shopfront on the street: a cloth on the loom, half woven, with the window behind the warp. Ryan's brief, 2026-10-27: a Volunteers room, its channel on the CB under Community on the chat page, borrowing from stimpunks.org's Volunteer page. tools/make-volunteers.py writes the loom, every section, the help list, the playbooks, the rules, the channel, next door and the credits out of this file.",
+  "_the_cloth": "The warp is our values and runs unbroken through every band; the weft is what each person brings, a band of its own colour. A woven cloth holds because every thread grips the ones it crosses: the friction our Volunteer page says we exist as is the thing that holds a weave together. The page's own picture of our interdependence is rainbow woven cloth. Every dye is a natural dye named for what it is made from, and no two bands that touch are the same dye.",
+  "_read": "Every quotation and every holds line was read on our own pages in the Knowledge System mirror on 2026-10-27, and is checked against it word for word on every build where the mirror is on the machine.",
+  "read": "2026-10-27",
+  "words": 35,
+  "pages": {
+    "volunteer": {
+      "title": "Volunteer",
+      "url": "https://stimpunks.org/volunteer/",
+      "mirror": "pages/volunteer.md",
+      "holds": [
+        "Allies, load-share our burden of existing as friction against structural ableism.",
+        "If you are in the Austin, Texas, USA area, we need help with care work, transportation, running our learning space, and putting on accessible events for our community",
+        "If you are anywhere in the world, distributed learning and collaboration is a big component of what we do.",
+        "Write alt text for images on our website.",
+        "Translate pages on our website.",
+        "Flow patrol our website and systems.",
+        "Find grants and write grant applications.",
+        "Mentor people in our community on your areas of expertise.",
+        "Before volunteering and joining our ecology of care, get to know us and our mission, creed, covenant, manifesto, and philosophy.",
+        "Do our values fit yours?",
+        "All Stimpunks agree to abide by our contributor covenant while in Stimpunks space.",
+        "We offer these four playbooks that we borrowed from Human Restoration Project as convenient shorthand.",
+        "Joymakers assist in design, artwork, music creation, and other creative endeavors.",
+        "Empaths assist in partnerships, event hosting, and social media campaigns.",
+        "Envoys assist in reaching out to schools, fundraising, and informing our work.",
+        "transcription/translation, copy-editing, data entry, and more.",
+        "Weavers", "Experimenters", "Frontline Responders", "Visionaries", "Builders",
+        "Caregivers", "Disruptors", "Healers", "Storytellers", "Guides",
+        "If all that feels like a values fit, here’s our volunteer form.",
+        "Alas, we can’t usually move at the speed of emergencies, and sometimes we take a week or two off for self-care."
+      ]
+    },
+    "friction": {
+      "title": "We exist as friction",
+      "url": "https://stimpunks.org/philosophy/we-exist-as-friction/",
+      "mirror": "pages/philosophy__we-exist-as-friction.md",
+      "holds": []
+    },
+    "contribute": {
+      "title": "Everyone can contribute",
+      "url": "https://stimpunks.org/philosophy/everyone-can-contribute/",
+      "mirror": "pages/philosophy__everyone-can-contribute.md",
+      "holds": []
+    }
+  },
+  "quotes": {
+    "friction": {
+      "text": "We exist as friction. The work that I do; it’s wildly painful.",
+      "who": "UX Cake",
+      "work": "Changing the Disability Design Narrative",
+      "url": "https://www.uxcake.co/single-post/Changing-Disability-Narrative",
+      "speaker": "Our page names the podcast and the episode and not who is speaking, and neither does this room.",
+      "read_on": "friction"
+    },
+    "loadshare": {
+      "text": "We exist as friction, and it’s exhausting. Allies, load-share our burden of existing as friction against structural ableism.",
+      "who": "Stimpunks",
+      "read_on": "volunteer"
+    },
+    "alongside": {
+      "text": "We could use some help from abled and neurotypical allies working with us and alongside us instead of for us.",
+      "who": "Stimpunks",
+      "read_on": "friction"
+    },
+    "values": {
+      "text": "We want a values fit, not a culture fit. We want cultural diversity instead of cultural conformity, such as a brogrammer atmosphere.",
+      "who": "GitLab",
+      "work": "GitLab Values",
+      "url": "https://about.gitlab.com/handbook/values/#culture-fit-is-a-bad-excuse",
+      "read_on": "volunteer"
+    },
+    "baseline": {
+      "text": "Civil, non-discriminatory, and professional behavior should be a baseline and shared value held by people of all ideologies, regardless of political affiliation (with the obvious exception of hate groups).",
+      "who": "Contributor Covenant",
+      "work": "Frequently Asked Questions about Contributor Covenant",
+      "url": "https://www.contributor-covenant.org/faq/",
+      "read_on": "volunteer"
+    },
+    "gifts": {
+      "text": "You can think of it as the gifts that people bring to life by relating to each other.",
+      "who": "the Autistic Collaboration Trust",
+      "work": "The Beauty of Collaboration at Human Scale: Timeless patterns of human limitations",
+      "url": "https://autcollab.org/books/",
+      "read_on": "volunteer"
+    },
+    "niche": {
+      "text": "Collaborative niche construction allows organisations and people to participate in the evolution of a living system and results in resilient social ecosystems.",
+      "who": "the Autistic Collaboration Trust",
+      "work": "The Beauty of Collaboration at Human Scale: Timeless patterns of human limitations",
+      "url": "https://autcollab.org/books/",
+      "read_on": "volunteer"
+    },
+    "ecologies": {
+      "text": "Our evolving web of relationships, mutual aid, and peer support initiatives is best understood in terms of emergent Ecologies of Care beyond the human.",
+      "who": "Autistic Collaboration",
+      "work": "Ecologies of Care",
+      "url": "https://autcollab.org/knowledge-repository/ecologies-of-care/",
+      "read_on": "volunteer"
+    },
+    "interdependence": {
+      "text": "It is time to celebrate our interdependence!",
+      "who": "NeuroClastic",
+      "work": "The Myth of Independence: How The Social Model of Disability Exposes Society’s Double Standards",
+      "year": "2019",
+      "url": "https://neuroclastic.com/2019/11/11/celebration-of-interdependence/",
+      "read_on": "volunteer"
+    },
+    "map": {
+      "text": "The Social Change Ecosystem Map is a framework that can help individuals, networks, and organizations align with social change values, individual roles, and the broader ecosystem.",
+      "who": "Building Movement Project",
+      "work": "The Social Change Ecosystem Map (2020)",
+      "url": "https://buildingmovement.org/wp-content/uploads/2020/10/Ecosystem-Guide-2020.pdf",
+      "read_on": "volunteer"
+    },
+    "weavers": {
+      "text": "I see the through-lines of connectivity between people, places, organizations, ideas, and movements.",
+      "who": "Building Movement Project",
+      "work": "The Social Change Ecosystem Map (2020)",
+      "url": "https://buildingmovement.org/wp-content/uploads/2020/10/Ecosystem-Guide-2020.pdf",
+      "read_on": "volunteer"
+    },
+    "everyone": {
+      "text": "Everyone can contribute.",
+      "who": "Stimpunks",
+      "read_on": "contribute"
+    }
+  },
+  "warp": [
+    { "name": "About us", "url": "https://stimpunks.org/about/" },
+    { "name": "Mission", "url": "https://stimpunks.org/mission/" },
+    { "name": "Creed", "url": "https://stimpunks.org/creed/" },
+    { "name": "Covenant", "url": "https://stimpunks.org/covenant/" },
+    { "name": "Manifesto", "url": "https://stimpunks.org/manifesto/" },
+    { "name": "Philosophy", "url": "https://stimpunks.org/philosophy/" }
+  ],
+  "help": [
+    { "dye": "madder", "name": "Reframing", "line": "Yourself and the people round you, out of deficit and into structure. It is the work under all the other work. [Start with our rules of thumb](https://stimpunks.org/2024/07/01/rules-of-thumb-for-human-systems/)." },
+    { "dye": "woad", "name": "Advocating for access", "line": "At [school](https://stimpunks.org/access/education/), at work and in your community, and [being a threat to inequity](https://stimpunks.org/2021/07/23/equity-literacy-learning-to-be-a-threat-to-inequity-in-our-spheres-of-influence/) wherever you have a say." },
+    { "dye": "weld", "name": "Spreading the word", "line": "Sharing our website, following us and subscribing to our newsletter, from [our contact page](https://stimpunks.org/contact/)." },
+    { "dye": "cochineal", "name": "Alt text", "line": "Writing [alt text](https://stimpunks.org/glossary/alt-text/) for the pictures on our website." },
+    { "dye": "lichen", "name": "Plain words and other languages", "line": "Making [plain language](https://www.plainlanguage.gov/about/definitions/) and [easy read](https://autisticadvocacy.org/resources/accessibility/easyread/) versions of our pages, and translating them." },
+    { "dye": "walnut", "name": "Pages, research and data", "line": "Gathering research, writing pages, and keeping the lists we hold up to date, like the organisations we are aligned with and what they offer." },
+    { "dye": "indigo", "name": "Flow patrol", "line": "[Flow patrolling](https://stimpunks.org/glossary/flow-patrol/) our website and our systems, and helping us [use technology to run this thing](https://stimpunks.org/tech/)." },
+    { "dye": "onion", "name": "Art and print", "line": "Making art for our website, designing for [vertical storytelling](https://stimpunks.org/encyclopedia/), and designing what we print." },
+    { "dye": "logwood", "name": "Fundraising", "line": "Raising money so our community can keep going, finding grants and writing the applications." },
+    { "dye": "weld", "name": "Workshops and courses", "line": "Making workshops, [courses](https://stimpunks.org/courses/) and programmes for [our learning space](https://stimpunks.org/space/)." },
+    { "dye": "madder", "name": "Mentoring", "line": "Mentoring people in our community in whatever you know well." },
+    { "dye": "lichen", "name": "Telling our stories", "line": "Helping us tell them in words, science and art, and helping us [find our people](https://stimpunks.org/philosophy/find-your-people/)." },
+    { "dye": "woad", "name": "In Austin, Texas", "line": "Care work, getting people places, running our learning space on site, and [putting on accessible events](https://stimpunks.org/fieldguide/events/), punk shows included." },
+    { "dye": "onion", "name": "Wherever you are", "line": "[Celebrating our interdependence](https://stimpunks.org/glossary/interdependence/), and elevating [care](https://stimpunks.org/glossary/care/) as infrastructure, in your everyday life." }
+  ],
+  "playbooks": [
+    { "name": "Joymakers", "line": "Design, art, music and the other things that get made." },
+    { "name": "Empaths", "line": "Partnerships, hosting events, and the campaigns on social media." },
+    { "name": "Envoys", "line": "Reaching out to schools, fundraising, and bringing what is out there back into our work." },
+    { "name": "Operators", "line": "Transcribing and translating, copy-editing, data entry, and the rest of the running." }
+  ],
+  "roles": ["Weavers", "Experimenters", "Frontline Responders", "Visionaries", "Builders", "Caregivers", "Disruptors", "Healers", "Storytellers", "Guides"],
+  "sections": {
+    "lede": [
+      { "p": "This room is a cloth on the loom, half woven. The warp runs up from it to the beam, all one undyed thread: that is what has to fit. Across it, band by band, is the weft, a colour for every person and every thing they brought. Above the newest row the warp is bare and the window shows between the threads, and the shuttle is lying on the cloth with the next thread on it." },
+      { "q": "friction" },
+      { "q": "loadshare" },
+      { "p": "A woven cloth holds because every thread grips the ones it crosses. No single thread carries the cloth, and none of them is holding it alone. Load-sharing is what weaving is." },
+      { "p": "Its channel on the CB is for volunteering with Stimpunks: asking what needs doing, offering what you can, and finding the people doing the same thing. Sign on and tune the radio to **This room** while you are in here, or open [Volunteers on the chat page](chat.html#volunteers), under Community. If you are not on the CB yet, [the Community Center](community-center.html#getting-started) says how to get an invite." }
+    ],
+    "warp": [
+      { "p": "The warp goes on the loom first and stays the same from one end of the cloth to the other. Before you volunteer, get to know who we are and what we hold to, and ask yourself whether it fits:" },
+      { "warp": true },
+      { "q": "values" },
+      { "p": "A values fit and not a culture fit. The weft can be any colour at all; it is the warp that has to be shared. And everybody on the CB, volunteering or not, keeps [our covenant](https://stimpunks.org/covenant/), which is a floor and not a ceiling:" },
+      { "q": "baseline" }
+    ],
+    "weft": [
+      { "p": "These are the things our Volunteer page says we need help with, each a band in the cloth. Pick up whichever thread you like, as much or as little of it as you have." },
+      { "help": true },
+      { "q": "alongside" }
+    ],
+    "ecology": [
+      { "p": "Nobody here is a cog in somebody else’s machine. What we are building is an ecology of care: people with different gifts, joined by trust, each doing the part that suits them and leaning on the others for the rest. Our Volunteer page leans on the Autistic Collaboration Trust for this, and so does this room." },
+      { "q": "gifts" },
+      { "q": "niche" },
+      { "q": "ecologies" },
+      { "q": "interdependence" }
+    ],
+    "roles": [
+      { "q": "map" },
+      { "p": "Our Volunteer page asks you to think about which of its roles you relate to, or would like to: Weavers, Experimenters, Frontline Responders, Visionaries, Builders, Caregivers, Disruptors, Healers, Storytellers and Guides. Each is defined in [the map itself](https://buildingmovement.org/wp-content/uploads/2020/10/Ecosystem-Guide-2020.pdf), in the words of the people who made it. This is the one that names what a loom is for:" },
+      { "q": "weavers" }
+    ],
+    "playbooks": [
+      { "p": "As a shorthand for the ways there are to help, our Volunteer page borrows four playbooks from [Human Restoration Project](https://www.humanrestorationproject.org). Most people are in more than one, and you do not have to choose." },
+      { "playbooks": true },
+      { "q": "everyone" }
+    ],
+    "form": [
+      { "p": "Volunteering starts with [the volunteer form on our Volunteer page](https://stimpunks.org/volunteer/#h-volunteer-form), on stimpunks.org. It asks how to reach you, your social media if you would like to share it, what you are interested in and how you could help, and it shows you what you wrote before you send it. Nothing in this room takes your details: the form is the way in, and the channel is for talking." },
+      { "p": "What you send comes to [our office](privacy.html#office) as a volunteer application, sealed where it is kept, and only our directors, board members and administrators can open it. They are a tiny team, they cannot move at the speed of emergencies, and sometimes they take a week or two off. If you have not heard from us in a week, ask again." }
+    ]
+  },
+  "not_here": [
+    { "name": "Nobody counts.", "line": "No hours logged, no tally of who did what, no volunteer of the month, nothing ranked. A cloth does not keep a list of which thread did the most." },
+    { "name": "Nobody owes time.", "line": "Joining the channel commits you to nothing. You can say no, put a thread down half way, step back for as long as you need and pick it up again, and nobody asks why." },
+    { "name": "Rest is not quitting.", "line": "We exist as friction and it is exhausting, and that is true of the people helping too. When you are running on empty, [Dead Tired Society](dead-tired-society.html) and [the Healing Checkpoint](healing-checkpoint.html) are on the street." },
+    { "name": "Nobody is a hero, and nobody is a cause.", "line": "We work with each other and alongside each other, not for anybody. Nobody here is selfless, and nobody we work with is anybody's good deed." },
+    { "name": "Nothing here takes your details.", "line": "The volunteer form is on stimpunks.org. This room has no form, no box and no sign-up sheet." }
+  ],
+  "elsewhere": [
+    { "page": "cavendish-operations.html", "name": "The Operations Room", "line": "at Cavendish Coworking, where the weekly Operations meeting gets the work of running Stimpunks done, open to anybody.", "holds": ["get involved in the doing"] },
+    { "page": "cavendish-editorial.html", "name": "The Editorial Room", "line": "next to it, where the weekly Editorial meeting writes, edits and designs what we publish, open to anybody.", "holds": ["writing, editing, and designing for publication"] },
+    { "page": "show-your-work.html", "name": "Show Your Work", "line": "up the street, for the work of folks in our community, out in the daylight before it is finished.", "holds": ["The work of folks in our community"] },
+    { "page": "community-care.html", "name": "Community Care", "line": "next door, the room for asking for mutual aid, peer support and any other help.", "holds": ["This is the room where you ask"] },
+    { "page": "dead-tired-society.html", "name": "Dead Tired Society", "line": "for when the helping has worn you out: peer support by and for people who are burnt out.", "holds": ["Peer support, by and for people who are burnt out"] }
+  ]
+}

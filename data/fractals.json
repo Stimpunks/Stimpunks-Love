@@ -2068,6 +2068,22 @@
         "--pts-sheen"
       ]
     },
+    "volunteers.html": {
+      "kind": "julia",
+      "c": [
+        -0.52,
+        0.57
+      ],
+      "orbit": 0.015,
+      "bands": 0.06,
+      "ground": "--vol-linen",
+      "inks": [
+        "--vol-madder",
+        "--vol-woad",
+        "--vol-weld",
+        "--vol-lichen"
+      ]
+    },
     "breaker-breaker.html": {
       "kind": "orbit",
       "trap": "point",

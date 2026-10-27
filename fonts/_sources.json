@@ -3237,5 +3237,33 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/zenmarugothic/ZenMaruGothic-Bold.ttf",
    "note": "Pets (\u00a7127), the bold: each door's name, each thing that is not here, and the knock on the street door. The family's own static Bold in google/fonts, cut down the same way."
   }
+ ],
+ "sigmar-one": [
+  {
+   "file": "sigmar-one-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 45644,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/sigmarone/SigmarOne-Regular.ttf",
+   "note": "Volunteers (\u00a7130), the room's name, its headings and the name on its street door, and nothing at reading size: heavy capitals like letters sewn onto a banner. The family's own static file in google/fonts, cut down here with fontTools to the Latin letters and saved as WOFF2. Its copyright line reserves no font name."
+  }
+ ],
+ "rasa": [
+  {
+   "file": "rasa-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 51484,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/rasa/Rasa%5Bwght%5D.ttf",
+   "note": "Volunteers (\u00a7130), every word that is read: a warm text serif drawn for long reading. The variable font from the family's own directory in google/fonts, weight axis kept, cut down here with fontTools to the Latin letters and saved as WOFF2; the Gujarati is left out because nothing here sets it. Declared at 400 and 700 against this one file. Its copyright line reserves no font name; Gentium Book Plus was the first choice and was put back, because SIL reserves its name and a cut-down copy would be a modified one."
+  },
+  {
+   "file": "rasa-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 51484,
+   "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/rasa/Rasa%5Bwght%5D.ttf",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
+  }
  ]
 }

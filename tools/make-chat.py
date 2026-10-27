@@ -9,7 +9,8 @@ room chat channels", with the channels in groups:
     day), Coping (the eye of the storm, for talking about coping, Ryan's,
     2026-10-24), Pets (for talking about your animals, Ryan's, the same day),
     Show Your Work (where our community shows what it is making, Ryan's,
-    2026-10-23), and every room at Cavendish Coworking. Dead Tired
+    2026-10-23), Volunteers (for volunteering with Stimpunks, Ryan's,
+    2026-10-27), and every room at Cavendish Coworking. Dead Tired
     Society was in Community from 2026-10-22 and came out of it on 2026-10-24,
     Ryan's call, so that it does not compete with Coping; it is still under its
     tags, Coping and Calm, like every other room.
@@ -100,8 +101,10 @@ LIB = ROOT / "netlify" / "cb" / "lib.mjs"
 CB = ROOT / "cb.js"
 HOUSE = "cavendish-coworking.html"
 # Community's rooms beside World and Cavendish's, in this order (Ryan, 2026-10-22;
-# Coping in and Dead Tired Society out, 2026-10-24; Pets in, the same day).
-COMMUNITY = ["community-center.html", "community-care.html", "coping.html", "pets.html", "show-your-work.html"]
+# Coping in and Dead Tired Society out, 2026-10-24; Pets in, the same day;
+# Volunteers in, 2026-10-27).
+COMMUNITY = ["community-center.html", "community-care.html", "coping.html", "pets.html", "show-your-work.html",
+             "volunteers.html"]
 
 problems = []
 

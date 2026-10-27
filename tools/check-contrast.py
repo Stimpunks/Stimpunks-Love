@@ -930,6 +930,10 @@ COP_CLOUD = "#FFFFFF"
 # on: every word on the room's dusk, or on a slip lying in it; nothing set on
 # the window, the wall or the rug.
 PTS_DUSK, PTS_CARD, PTS_INK, PTS_INK2, PTS_LINK = "#2A2C45", "#343655", "#EFE7D7", "#C3BFD5", "#F4CD8E"
+# Volunteers (love.css §130). A cloth on the loom, half woven: every word on the
+# undyed linen or on a slip lying on it; nothing set on the window, the loom or
+# a band of weft.
+VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E33", "#574A5E", "#7B2340"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3677,6 +3681,18 @@ PAIRS = [
     (PTS_INK,   PTS_CARD, False, "pets: everything on a slip: each flap's line, your own animals, what is not "
                                  "on the floor and who reads the channel"),
     (PTS_LINK,  PTS_CARD, False, "pets: each flap's name and every link on a slip, and the focus ring there"),
+    # ── Volunteers (§130) ───────────────────────────────────────────────────
+    # Every word on the undyed linen, or on a slip lying on it: the help list,
+    # the playbooks, the warp's threads and what is not on the loom.
+    (VOL_INK,   VOL_LINEN, False, "volunteers: the name, every heading, the lede, every paragraph and quotation, "
+                                  "the street door's name and blurb"),
+    (VOL_INK2,  VOL_LINEN, False, "volunteers: the trail, the line over the name, the caption under the loom, "
+                                  "whose each quotation is, and the credits"),
+    (VOL_LINK,  VOL_LINEN, False, "volunteers: every link, the backlink, the street door's knock, the focus ring, "
+                                  "and the job marker's bobbin, held to the body threshold a marker is"),
+    (VOL_INK,   VOL_CARD,  False, "volunteers: everything on a slip: each thing on the help list, each playbook, "
+                                  "the warp's threads and what is not on the loom"),
+    (VOL_LINK,  VOL_CARD,  False, "volunteers: every link on a slip, and the focus ring there"),
     # ── Breaker Breaker (§125) ──────────────────────────────────────────────
     # Every word on the dark, which is the cab, the road and the sky alike, or on
     # the screen's glass; no word on a lamp.
@@ -4901,6 +4917,41 @@ ORNAMENT = {
                "round it. It carries no word, and nobody in particular.",
     "#c08758": "pets: the cat curled up beside the dog in the drawing, 3.07 on the rug and 5.85 against the "
                "outline round it. It carries no word, and nobody in particular.",
+    "#d9cdb2": "volunteers: the room's wall behind the loom in the drawing and the window's bars, 1.27 against "
+               "the linen beside the picture and 1.12 against the window's sky, carried by the loom's wood round "
+               "it at 4.32. It carries no word.",
+    "#7a5235": "volunteers: the loom, its beams and the shuttle in the drawing, and the ends of the job marker's "
+               "bobbin, 5.47 on the linen and 4.32 on the wall. It carries no word.",
+    "#3b2a21": "volunteers: every outline, the knots between the bands, and the edge of every slip, the loom and "
+               "the street door, 10.98 on the linen. It carries no word.",
+    "#c9dce6": "volunteers: the sky at the top of the window behind the loom, 1.12 against the wall round it, "
+               "carried by the loom's wood. It carries no word.",
+    "#fbf8f0": "volunteers: the daylight low in the window, coming between the bare warp threads and lying "
+               "level across the top of the cloth, 1.33 against the sky above it. It is light landing, and "
+               "carries no word.",
+    "#a08f70": "volunteers: the bare warp threads against the window, 2.97 on the daylight and 2.23 on the sky, "
+               "and the thread on the shuttle's bobbin. It carries no word.",
+    "#e9dfc6": "volunteers: the undyed warp where it crosses each band of weft, and the warp stripe on every "
+               "heading's band, every dye's strip and the street door's awning, 1.54 against the weld, its "
+               "palest band, and 8.12 against the indigo. It carries no word.",
+    "#b4443a": "volunteers: the madder band of weft in the drawing, on a heading's band and a slip's strip, "
+               "4.41 on the linen. It carries no word.",
+    "#d8b13c": "volunteers: the weld band of weft, on a slip's strip and the street door's awning, 1.64 on "
+               "the linen, carried by --vol-knot round every strip at 6.68. It carries no word.",
+    "#46699a": "volunteers: the woad band of weft, a heading's band and the rule beside every quotation, 4.51 "
+               "on the linen, which is what marks a quotation as one. It carries no word.",
+    "#7b5539": "volunteers: the walnut band of weft, on a heading's band and a slip's strip, 5.28 on the "
+               "linen. It carries no word.",
+    "#a33a6b": "volunteers: the cochineal band of weft, on a heading's band and a slip's strip, 5.01 on the "
+               "linen. It carries no word.",
+    "#7f8e50": "volunteers: the lichen band of weft, on a heading's band and a slip's strip, 2.87 on the "
+               "linen, carried by --vol-knot round every strip at 3.83. It carries no word.",
+    "#5c3f74": "volunteers: the logwood band of weft, on a heading's band and a slip's strip, 6.99 on the "
+               "linen. It carries no word.",
+    "#cb7f38": "volunteers: the onion-skin band of weft, on a heading's band and a slip's strip, 2.55 on the "
+               "linen, carried by --vol-knot round every strip at 4.31. It carries no word.",
+    "#2e3b6a": "volunteers: the indigo band of weft, on a heading's band and a slip's strip, 8.66 on the "
+               "linen. It carries no word.",
     "#2e2c30": "breaker breaker: the shapes you can just make out in the dark, the mirror, the dash, the "
                "radio, its knobs and the microphone's cord in the drawing, and the screen's frame, 1.40 on the "
                "night, which is how a dash looks at night. It carries no word.",

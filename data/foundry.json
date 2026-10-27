@@ -1681,6 +1681,20 @@
       "sections": [
         127
       ]
+    },
+    "sigmar-one": {
+      "where": "Volunteers",
+      "page": "volunteers.html",
+      "sections": [
+        130
+      ]
+    },
+    "rasa": {
+      "where": "Volunteers",
+      "page": "volunteers.html",
+      "sections": [
+        130
+      ]
     }
   }
 }

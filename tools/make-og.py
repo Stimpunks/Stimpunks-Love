@@ -1102,6 +1102,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--pts h1 {{ font-size: 96px; margin-top: 4px !important; line-height: .95; }}
 .og--pts .pts-sub {{ font-size: 27px; margin-top: 8px !important; max-width: 1080px; }}
 
+/* volunteers — THE CLOTH ON THE LOOM. The page's own drawing, lifted rather
+   than redrawn, cropped to the bare warp against the window and the bands of
+   weft under it, and every word below it on the undyed linen, where the room
+   sets every word. */
+.og--vol {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--vol .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--vol .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--vol .og-words {{ padding: 16px 60px 0; }}
+.og--vol .og-words > * {{ margin: 0 !important; }}
+.og--vol .vol-over {{ font-size: 18px; }}
+.og--vol h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
+.og--vol .vol-sub {{ font-size: 27px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4285,6 +4298,39 @@ def card_pts(p):
     )
 
 
+def card_vol(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE LOOM ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="vol-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="vol-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: volunteers.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the bare warp against the window and the cloth under it,
+    # cropped by the drawing's own viewBox rather than by a margin.
+    loom = p["volloom"].replace('viewBox="0 0 1200 380"', 'viewBox="0 24 1200 356"', 1)
+    if loom == p["volloom"]:
+        raise SystemExit(
+            "REFUSING: volunteers.html's loom is no longer 1200 by 380, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--vol" data-fit="card">'
+        f'<div class="og-room">{loom}</div>'
+        f'<div class="og-words"><p class="vol-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="vol-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card the colour of undyed linen. Across the top, a loom against a window: the bare warp threads run "
+        f"up to the beam with the daylight between them, and under them the cloth is half woven, band after band "
+        f"of weft in red, blue, yellow, crimson, green, brown and purple, every band crossed by the same pale "
+        f"warp, with a wooden shuttle lying on the newest row. Below, small grey capitals reading "
+        f"{plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large, heavy dark capitals, and under it: "
+        f"{plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5776,6 +5822,7 @@ CARDS = {
     "community-care": card_care,
     "coping": card_cop,
     "pets": card_pts,
+    "volunteers": card_vol,
     "show-your-work": card_syw,
     "breaker": card_bkb,
     "fancy-dress": card_fancy,
@@ -5923,6 +5970,7 @@ def main():
         ("cmcroof",  "community-care.html", r'(<svg class="cmc-canopy".*?</svg>)'),
         ("copeye",   "coping.html",       r'(<svg class="cop-eye".*?</svg>)'),
         ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
+        ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
         ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
         ("bkbcab",   "breaker-breaker.html", r'(<svg class="bkb-cab".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),

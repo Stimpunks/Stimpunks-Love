@@ -4215,6 +4215,37 @@
    }
   },
   {
+   "id": "vol-bobbin",
+   "page": "volunteers.html",
+   "room": "Volunteers",
+   "title": "What holds the cloth",
+   "posted": "There is a shopfront on the street with a loom in the window and a cloth half woven on it, where people come to volunteer with Stimpunks. It says what holds a woven cloth together, and it is the same word our Volunteer page says we exist as. Go and find out.",
+   "rank": 1,
+   "takes": "about as long as it takes to throw a shuttle across and back",
+   "target": "a bobbin of madder-red thread that has rolled off the loom onto the floor",
+   "code": "BOBBIN",
+   "learned": "A woven cloth holds because every thread grips the ones it crosses, and no single thread carries it. Our Volunteer page says we exist as friction, and it is exhausting; it asks allies to load-share it, which is what weaving is.",
+   "hints": [
+    "On the street itself, in the row of shopfronts, between Show Your Work and Breaker Breaker: the one whose awning is bands of woven cloth.",
+    "It is near the top, under the loom, after the first two quotations.",
+    "Right at the foot of the room, on the floor, where a bobbin rolled off the loom."
+   ],
+   "ask": {
+    "question": "A woven cloth holds because every thread grips the ones it crosses. What is that grip, which our Volunteer page says we exist as?",
+    "accept": [
+     "friction",
+     "frictions"
+    ],
+    "answer": "Friction",
+    "why": "Our Volunteer page and our We exist as friction page both say we exist as friction, and that it is exhausting. In a weave the friction between threads is what holds the cloth together, and no single thread carries it.",
+    "hints": [
+     "It is in the first quotation on the page, and the second.",
+     "It is what stops two surfaces sliding past each other.",
+     "Friction."
+    ]
+   }
+  },
+  {
    "id": "bkb-mic",
    "page": "breaker-breaker.html",
    "room": "Breaker Breaker",

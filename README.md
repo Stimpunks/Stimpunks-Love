@@ -101,6 +101,7 @@ community-care.html   The room for asking: mutual aid and peer support under eve
 coping.html           The eye of the storm: seeds of cope, the science of cope, and cope is not an insult, with doors to the rooms that help
 pets.html             Down on the floor at dusk with the animals asleep: why co-regulating with a pet matters, and a pet flap to every pets room
 show-your-work.html   A garage with the door rolled up: our community's work, in progress, on a bench lit by the day
+volunteers.html       A cloth on the loom, half woven: volunteering with Stimpunks, the values that have to fit, what we need help with, and the way in
 laughingstock.html    A comedy club down a ramp. Disabled comics on their own terms; only their lines stand in the light
 lightbulb-picture-house.html  Neurodiversity films and every Campfire Learn Together film, racks of cards. House lights up; nothing is blue
 samefood-cafe.html    A café for samefoods and safe foods, seen from above the table. Nothing on a plate touches anything
@@ -230,6 +231,7 @@ data/community-care.json  The roof's umbrellas, the four things the channel is f
 data/coping.json      The eye, the seeds, the words to borrow, the science, the doors, and every quotation, each read on a page of ours
 data/pets.json        The floor, the sections, the pet flaps, your own animals, and every quotation, each read on a page of ours
 data/show-your-work.json  The bench, the three places to show work, and every quotation, each read on a page of ours
+data/volunteers.json  The loom's bands, the help list, the playbooks, the rules, and every quotation, each read on a page of ours
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The screens, the rack and the campfire rack. Every card says who made it, how long, and what is in it
 data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
@@ -298,6 +300,7 @@ python3 tools/make-community-care.py # Community Care's roof, its quotations and
 python3 tools/make-coping.py # Coping's eye, its sections, its doors and its credits; refuses grit, a sneer, anything clinical, a tally, toxic positivity, a door to a room that no longer says what the door says, and a quotation not on our page word for word
 python3 tools/make-pets.py   # Pets' floor, its sections, its pet flaps and its credits; refuses anything clinical, a best pet, a tally, a price, a pets room with no flap, a lit lamp, and a quotation not on our page word for word
 python3 tools/make-show-your-work.py # Show Your Work's garage, its quotations, its bench and its credits; refuses a piece nobody turned over, a ranking, a count, a pitch, a genius, and a quotation not on our page word for word
+python3 tools/make-volunteers.py # Volunteers' loom, its sections, its help list, its playbooks and its credits; refuses a tally of hours, the martyr, obligation, charity, a lyric, a form, a help line our Volunteer page no longer asks for, and a quotation not on our page word for word
 python3 tools/make-breaker-breaker.py # Breaker Breaker's convoy, what our CB took from the citizens band, its quotations, slang, rack and credits; refuses a lamp in any colour but the law's, a blinking lamp, slang that names people unkindly, a song's words, a ranking, and a sentence about our CB its guide no longer says
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
@@ -727,6 +730,17 @@ other people's words our glossary quotes, credited to who wrote them and checked
 It sweeps the room's own words for **anything clinical, a best pet, a tally, a price and advice**, with the
 negation window and skipping the quotations, refuses a lit lamp in the drawing, a form or anything editable, and a
 keyframe, an animation or a transition in §127: nothing on the floor moves at any setting.
+
+`make-volunteers.py` builds Volunteers out of `data/volunteers.json`, a shopfront on the street with a loom in the
+window and a cloth half woven on it. It **draws the loom**: a band of weft for every thing on our Volunteer page's help
+list, each in a natural dye, the undyed warp drawn crossing every band (so no band can be drawn without it), the bare
+warp running up to the beam with the window between its threads, and the shuttle on the newest row. It refuses two
+bands of one dye touching and four in a rainbow's order. **Every quotation and every holds line was read on one of our
+pages** and is checked against the mirror word for word, so when our Volunteer page stops asking for something the
+room says it asks for, the build stops. It holds the room's line that the form arrives in the office against
+`data/office.json`, sweeps the room's own words for **a tally of hours, the martyr, obligation and charity** with the
+negation window and skipping the quotations, refuses the song our page quotes, a form or anything editable, and a
+keyframe, an animation or a transition in §130: nothing on the loom moves at any setting.
 
 `make-show-your-work.py` builds Show Your Work out of `data/show-your-work.json`, a garage on the street with the
 door rolled up where the work of folks in our community is shown before it is finished. It **draws the garage**

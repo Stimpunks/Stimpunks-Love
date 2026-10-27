@@ -80,6 +80,7 @@ ORDER = ["index.html",
          "coping.html",
          "pets.html",
          "show-your-work.html",
+         "volunteers.html",
          "breaker-breaker.html",
          "your-room.html",
          # Street furniture rather than a door, and listed like everything else:

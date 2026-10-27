@@ -362,6 +362,12 @@ DRAW = {
     # --pts-ink-2, and the paw is --pts-night. The floor line is --pts-sheen and
     # carries nothing. It lies still, like everything on that floor.
     "pts-tag": """<path d="M3 29.5 H29" stroke="var(--pts-sheen)" stroke-width="1.6" stroke-linecap="round"/><circle cx="15" cy="15.6" r="3.2" fill="none" stroke="var(--pts-ink-2)" stroke-width="1.4"/><circle cx="15" cy="22.4" r="6.4" fill="var(--pts-link)" stroke="var(--pts-night)" stroke-width="1.3"/><ellipse cx="15" cy="23.9" rx="1.9" ry="1.6" fill="var(--pts-night)"/><circle cx="12.6" cy="21" r=".8" fill="var(--pts-night)"/><circle cx="14.2" cy="19.8" r=".8" fill="var(--pts-night)"/><circle cx="15.8" cy="19.8" r=".8" fill="var(--pts-night)"/><circle cx="17.4" cy="21" r=".8" fill="var(--pts-night)"/>""",
+    # Volunteers: a bobbin rolled off the loom onto the floor, its thread
+    # --vol-link, the madder, 7.83 on the linen it lies on and over the body
+    # threshold a marker is held to, between two ends of --vol-wood, 5.47, all
+    # outlined in --vol-knot. The floor line is --vol-ink-2 and carries nothing.
+    # A loose end of thread runs off it. It lies still, like the shuttle.
+    "vol-bobbin": """<path d="M3 29.5 H29" stroke="var(--vol-ink-2)" stroke-width="1.6" stroke-linecap="round"/><rect x="6" y="15" width="4" height="13" rx="1.5" fill="var(--vol-wood)" stroke="var(--vol-knot)" stroke-width="1.2"/><rect x="22" y="15" width="4" height="13" rx="1.5" fill="var(--vol-wood)" stroke="var(--vol-knot)" stroke-width="1.2"/><rect x="10" y="17" width="12" height="9" fill="var(--vol-link)" stroke="var(--vol-knot)" stroke-width="1.1"/><path d="M10.5 19.2 H21.5 M10.5 21.5 H21.5 M10.5 23.8 H21.5" stroke="var(--vol-knot)" stroke-width=".6" opacity=".55"/><path d="M22 25.5 C25 27.5 26 28 29 27.6" fill="none" stroke="var(--vol-link)" stroke-width="1.4" stroke-linecap="round"/>""",
     # Show Your Work: a blank card fallen off the wall onto the garage floor,
     # face up, with its strip of masking tape still on it. The card is
     # --syw-card, 14.63 on the shade and over the body threshold a marker is held

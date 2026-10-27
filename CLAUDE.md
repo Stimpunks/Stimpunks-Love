@@ -4129,7 +4129,7 @@ list of conversations is asked from `listen()` at most every `NEWS_EVERY` (`chat
 conversation is never in the address, because the address goes into the browser's history. The channel's pick lives only
 in the address's `#`; `save()` writes back `CHAT_OWN` (size, folded, where it sits,
 World or This room, popped) as they are stored, so the chat page never resizes or retunes the radio on another page. The
-groups: Community (World, the Community Center, Community Care, Coping, Pets, Show Your Work and Cavendish's rooms out of
+groups: Community (World, the Community Center, Community Care, Coping, Pets, Show Your Work, Volunteers and Cavendish's rooms out of
 `data/coworking.json`), Staff (MOD_ROOMS with their roles, and the categories `forumRooms` marks `locked`), and **every room
 but Staff's and World under each of its tags**, Community's too (Ryan's asks, 2026-10-24, replacing the one World group). `tools/make-chat.py` writes them onto
 the page and refuses a quiet room there, because the page is public. **ROOM TAGS ARE `data/room-tags.json`**: the tags in
@@ -5256,6 +5256,26 @@ pressure, therapy), the best pets for Autistic people, a count of who has pets, 
 sweeps our words for the first three with the negation window and refuses a keyframe, an animation or a transition in
 §127. Coiny sets the name and headings, Zen Maru Gothic everything read.
 
+**VOLUNTEERS (§130) IS A CLOTH ON THE LOOM, AND THE WARP RUNS THROUGH EVERY BAND.** Ryan's brief, 2026-10-27: a
+Volunteers room, its channel under Community on the chat page, borrowing from stimpunks.org's Volunteer page (at
+`/volunteer/`). `tools/make-volunteers.py` builds it out of `data/volunteers.json`. **The world is that page's own
+picture of our interdependence, rainbow woven cloth**: the warp is our values, one undyed thread through every band,
+the weft a band of natural dye for every thing on the page's help list, and a woven cloth holds because every thread
+grips the ones it crosses, which is the friction the page says we exist as. The drawing draws each band as the warp
+going over and under it, so a band cannot be drawn without the warp. **The light comes through the bare warp from the
+window behind, in the drawing only**: every word stands on flat undyed linen, the Community Center's rule about
+stripes behind words. The collisions are in §130; **the Dopamine Dress-Up Den is the one to watch** (printed cloth on
+rails under rainbows), and the tool refuses four bands in a rainbow's order. **Every quotation and every `holds` line
+is checked against the mirror**, so a help line our Volunteer page drops stops the build until the room changes too;
+the roles in social change are named and never defined here (the Building Movement Project's map defines them), and
+the playbooks are ours in words, credited to Human Restoration Project. **The room has no form**: the volunteer form on
+stimpunks.org is the way in, the room says it arrives in the office as a volunteer application, and the tool holds
+that against `data/office.json`'s intake. **The song our page quotes under Love and Care is refused by its own
+lines**, the Zibaldone's rule. **The friendly edits are a sign-up sheet on the page, a count of hours or a volunteer of
+the month, "selfless" and "heroes", and the shuttle flying across at MAX**; the tool sweeps our words for a tally, the
+martyr, obligation and charity with the negation window, and refuses a keyframe, an animation or a transition in §130.
+Sigmar One sets the name and headings, Rasa everything read.
+
 **PLURAL MURAL'S WALL TURNS OVER BY ITSELF AT MAX GLITTER AND NOWHERE ELSE, AND THE BRIEF ASKED FOR
 MORE.** §54 is an end wall on the street that repaints itself because the street is Danny's (Ryan's
 brief, 2026-09-25: murals that dissolve into the next every few minutes). A picture that changes
@@ -5490,18 +5510,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §131 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §132 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§131 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§132 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §131 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §132 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the
