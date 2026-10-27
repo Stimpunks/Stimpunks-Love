@@ -1440,6 +1440,9 @@
        the middle, under Events at the top of the channels. See evMake. */
     var evSec = this.evSec = part('cb-sec--events', 'Events', chat ? 0 : 2);
     this.evMake(evSec);
+    /* SEARCH, on the chat page, at the top of the middle (Ryan's ask,
+       2026-10-27, after Discord's). See searchMake. */
+    var searchSec = this.searchSec = chat ? part('cb-sec--search', 'Search', 1) : null;
     var chanSec = part('cb-sec--channel', 'Channel', 1);
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
     // Messages comes straight after the channel, before In this channel.
@@ -1457,6 +1460,7 @@
        2026-10-23): one person to another, for claimed usernames. See dmMake. */
     this.dmMake(dmSec);
     if (chat) this.chatMake(chansSec, chanSec, dmSec);
+    if (searchSec) this.searchMake(searchSec);
     if (noticeSec) this.noticesMake(noticeSec);
 
     /* WHERE YOU ARE, in words, at the top. Ryan, 2026-10-13: some people could
@@ -3332,6 +3336,8 @@
     var room = this.tunedRoom(), sent = this.state.pass;
     // A new channel starts at its latest WINDOW, with nothing assumed heard.
     if (room !== this.chanRoom) { this.chanRoom = room; this.pages = 1; this.chanV = null; this.rule = null; }
+    // A search result being jumped to asks for enough of its channel to reach it.
+    if (this.jumpTo && this.jumpTo.room === room && this.pages < this.jumpTo.pages) { this.pages = this.jumpTo.pages; this.chanV = null; }
     var qs = [];
     if (room) qs.push('room=' + room);
     if (this.pages > 1) qs.push('n=' + WINDOW * this.pages);
@@ -3499,6 +3505,7 @@
     // Earlier messages keep the reader where they were, above what they read.
     if (this.backfill) { this.backfill = false; log.scrollTop = log.scrollHeight - fromEnd; }
     else if (mine || (added && atEnd)) this.log.scrollTop = this.log.scrollHeight;
+    if (this.jumpTo) this.jumpLand();
   };
 
   /* A write (transmit, react, edit, take off) answers with everything on the
@@ -4650,7 +4657,7 @@
       // conversation, and otherwise nothing to go to.
       if (a.dataset.tag === chatRoom().tag && me.chatView !== 'events') {
         e.preventDefault();
-        if (me.chatView === 'dm') { me.chatViewChannel(); if (narrow) me.chanH.focus(); }
+        if (me.chatView === 'dm' || me.chatView === 'search') { me.chatViewChannel(); if (narrow) me.chanH.focus(); }
         return;
       }
       // Events, already open: back to the top of the list.
@@ -4858,6 +4865,7 @@
   Radio.prototype.chatViewDm = function () {
     if (!this.dmBox || this.chatView === 'dm') return;
     if (this.chatView === 'events') this.chatLeaveEvents(true);
+    else if (this.chatView === 'search') this.searchLeave();
     this.chatView = 'dm';
     this.chatChan.hidden = true;
     this.dmSec.hidden = false;
@@ -4866,6 +4874,7 @@
   Radio.prototype.chatViewChannel = function () {
     if (this.chatView === 'channel') return;
     if (this.chatView === 'events') this.chatLeaveEvents(false);
+    else if (this.chatView === 'search') this.searchLeave();
     else {
       if (this.dmWith) this.dmShowInbox();
       this.setDm(false);
@@ -4880,7 +4889,8 @@
      events, as it does for a conversation, and goes on listening. `id` opens
      the list on that event. */
   Radio.prototype.chatViewEvents = function (id) {
-    if (this.chatView === 'dm') {
+    if (this.chatView === 'search') this.searchLeave();
+    else if (this.chatView === 'dm') {
       if (this.dmWith) this.dmShowInbox();
       this.setDm(false);
       this.dmSec.hidden = true;
@@ -4902,6 +4912,402 @@
     if (toDm && evFromHash() !== null) {
       try { history.replaceState(history.state, '', location.pathname + location.search + (chatTag === WORLD_CALL ? '' : '#' + chatTag)); } catch (e) { /* it says what it says */ }
     }
+  };
+
+  /* SEARCH, AFTER DISCORD'S (Ryan's ask, 2026-10-27). At the top of the
+     middle of the chat page, a box for words and Discord's own filters, typed
+     as Discord types them (from:, mentions:, has:, in:, before:, after:,
+     during:, author-type:), and the same filters as fields under Filters, for
+     anybody who would rather not learn a syntax. The two are one search: the
+     names and channels of both are looked for, and both sets of days hold.
+     The results take the channel's place in the middle, newest or oldest
+     first, SEARCH_PAGE at a time, each with Jump to it, which opens its
+     channel at that message.
+       · EVERY CHANNEL YOU CAN HEAR, AND NO OTHER: the server's (searchChannels
+         in lib.mjs), never a room that keeps to itself, never one you may not
+         enter, and never your direct messages.
+       · THE WORDS ARE NEVER IN THE ADDRESS, which goes into the browser's
+         history, and nothing here or on the server keeps them: the box, its
+         filters and the results are this page's until it goes.
+       · NO COUNT, the radio's rule: the results say their order and that there
+         are more, never how many matched. */
+  var SEARCH_HAS = { link: 'link', links: 'link', picture: 'picture', pictures: 'picture', image: 'picture', images: 'picture',
+    sticker: 'sticker', stickers: 'sticker', card: 'card', cards: 'card', embed: 'card', embeds: 'card' };
+  var SEARCH_BY = { user: 'person', person: 'person', people: 'person', bot: 'bot', bots: 'bot' };
+  var SEARCH_TOKEN = /(^|\s)(from|mentions|has|in|before|after|during|author-type):(?:"([^"]*)"|(\S+))/gi;
+  var SEARCH_HINT = 'Words to find, and Discord’s filters if you like them: from:name, mentions:name, has:link, ' +
+    'has:picture, has:sticker, has:card, in:#room, before:2026-10-01, after:, during:, author-type:bot. Put a name with spaces in quotes.';
+  function searchFold(v) { return String(v == null ? '' : v).normalize('NFKC').toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"'); }
+  // The words as the server reads them: a "quoted phrase" is one, everything else a word.
+  function searchTerms(words) {
+    var out = [], re = /"([^"]+)"|(\S+)/g, m, w = searchFold(words);
+    while ((m = re.exec(w)) && out.length < 10) {
+      var t = (m[1] || m[2] || '').replace(/\s+/g, ' ').trim();
+      if (t && out.indexOf(t) < 0) out.push(t);
+    }
+    return out;
+  }
+  // A day, in the reader's own calendar: the time it starts, or null.
+  function searchDay(v) {
+    var now = new Date(), d = null, m;
+    v = String(v || '').trim().toLowerCase();
+    if (v === 'today') d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    else if (v === 'yesterday') d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+    else if ((m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v))) {
+      d = new Date(+m[1], +m[2] - 1, +m[3]);
+      if (d.getMonth() !== +m[2] - 1 || d.getDate() !== +m[3]) d = null;
+    }
+    return d ? d.getTime() : null;
+  }
+  function nextDay(t) { var d = new Date(t); return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1).getTime(); }
+
+  Radio.prototype.searchMake = function (sec) {
+    var me = this;
+    sec.querySelector(':scope > .cb-h').id = 'cb-search-h';
+    var form = el('form', 'cb-search-form');
+    form.setAttribute('role', 'search');
+    form.setAttribute('aria-labelledby', 'cb-search-h');
+    form.noValidate = true;
+    var lab = el('label', 'cb-lab', 'Search the channels you can hear');
+    lab.htmlFor = 'cb-search-words';
+    var row = el('div', 'cb-tools cb-search-row');
+    var box = this.searchBox = el('input', 'cb-say cb-search-words');
+    box.id = 'cb-search-words';
+    box.type = 'search';
+    box.autocomplete = 'off';
+    box.spellcheck = false;
+    box.maxLength = 400;
+    box.setAttribute('enterkeyhint', 'search');
+    box.setAttribute('aria-describedby', 'cb-search-hint');
+    var go = el('button', 'cb-btn', 'Search');
+    go.type = 'submit';
+    var fb = this.searchFiltersBtn = el('button', 'cb-btn', 'Filters');
+    fb.type = 'button';
+    fb.setAttribute('aria-expanded', 'false');
+    fb.setAttribute('aria-controls', 'cb-search-filters');
+    row.appendChild(box);
+    row.appendChild(go);
+    row.appendChild(fb);
+    var hint = el('p', 'cb-quiet cb-search-hint', SEARCH_HINT);
+    hint.id = 'cb-search-hint';
+    form.appendChild(lab);
+    form.appendChild(row);
+    form.appendChild(hint);
+
+    /* FILTERS, as fields: the same filters as the typed ones, in words. */
+    var fl = this.searchFilters = el('div', 'cb-search-filters');
+    fl.id = 'cb-search-filters';
+    fl.hidden = true;
+    function field(id, words, input) {
+      var f = el('div', 'cb-search-field');
+      var l = el('label', 'cb-lab', words);
+      l.htmlFor = id;
+      input.id = id;
+      f.appendChild(l);
+      f.appendChild(input);
+      fl.appendChild(f);
+      return input;
+    }
+    function text() { var i = el('input', 'cb-say'); i.type = 'text'; i.autocomplete = 'off'; i.spellcheck = false; i.maxLength = 60; return i; }
+    function day() { var i = el('input', 'cb-say'); i.type = 'date'; return i; }
+    function choose(list) {
+      var sel = el('select', 'cb-say');
+      list.forEach(function (o) { var op = el('option', null, o[1]); op.value = o[0]; sel.appendChild(op); });
+      return sel;
+    }
+    var f = this.searchField = {};
+    f.from = field('cb-search-from', 'From (a username)', text());
+    f.mentions = field('cb-search-mentions', 'Mentions (a username or a role)', text());
+    f.in = field('cb-search-in', 'In', choose([['', 'Every channel you can hear']]));
+    var hasSet = el('fieldset', 'cb-search-field cb-search-has');
+    hasSet.appendChild(el('legend', 'cb-lab', 'Has'));
+    f.has = {};
+    [['link', 'A link'], ['picture', 'A picture'], ['sticker', 'A sticker'], ['card', 'A link’s card']].forEach(function (h) {
+      var l = el('label', 'cb-search-check');
+      var c = el('input');
+      c.type = 'checkbox';
+      c.value = h[0];
+      l.appendChild(c);
+      l.appendChild(document.createTextNode(' ' + h[1]));
+      hasSet.appendChild(l);
+      f.has[h[0]] = c;
+    });
+    fl.appendChild(hasSet);
+    f.by = field('cb-search-by', 'Said by', choose([['any', 'Anybody'], ['person', 'People'], ['bot', 'The street’s bots']]));
+    f.since = field('cb-search-since', 'Sent on or after', day());
+    f.until = field('cb-search-until', 'Sent on or before', day());
+    f.on = field('cb-search-on', 'Sent on', day());
+    f.order = field('cb-search-order', 'Order', choose([['new', 'Newest first'], ['old', 'Oldest first']]));
+    var clear = el('button', 'cb-btn cb-search-clear', 'Clear the filters');
+    clear.type = 'button';
+    clear.addEventListener('click', function () {
+      ['from', 'mentions', 'since', 'until', 'on'].forEach(function (k) { f[k].value = ''; });
+      f.in.value = '';
+      f.by.value = 'any';
+      f.order.value = 'new';
+      Object.keys(f.has).forEach(function (k) { f.has[k].checked = false; });
+      me.searchSaid.textContent = 'The filters are clear.';
+    });
+    fl.appendChild(clear);
+    form.appendChild(fl);
+    fb.addEventListener('click', function () {
+      var open = fb.getAttribute('aria-expanded') !== 'true';
+      if (open) me.searchChannels();
+      fb.setAttribute('aria-expanded', open ? 'true' : 'false');
+      fl.hidden = !open;
+    });
+    this.searchSaid = el('p', 'cb-said cb-search-said');
+    this.searchSaid.setAttribute('role', 'status');
+    form.appendChild(this.searchSaid);
+    form.addEventListener('submit', function (e) { e.preventDefault(); me.searchStart(); });
+    sec.appendChild(form);
+
+    /* THE RESULTS, where the channel was, on the readout's own ground. */
+    var res = this.searchRes = el('div', 'cb-search-res');
+    res.hidden = true;
+    var top = el('div', 'cb-tools cb-search-top');
+    var back = this.searchBack = el('button', 'cb-btn', 'Back to the channel');
+    back.type = 'button';
+    back.addEventListener('click', function () { me.chatViewChannel(); me.chanH.focus(); });
+    this.searchHow = el('p', 'cb-quiet cb-search-how');
+    this.searchHow.tabIndex = -1;
+    top.appendChild(back);
+    res.appendChild(top);
+    res.appendChild(this.searchHow);
+    var lcd = el('div', 'cb-lcd cb-hits');
+    this.searchList = el('ol', 'cb-hit-list');
+    this.searchList.setAttribute('aria-labelledby', 'cb-search-h');
+    lcd.appendChild(this.searchList);
+    var more = this.searchMore = el('button', 'cb-btn cb-search-more', 'More results');
+    more.type = 'button';
+    more.hidden = true;
+    more.addEventListener('click', function () { me.searchRun(me.searchPage + 1); });
+    lcd.appendChild(more);
+    res.appendChild(lcd);
+    sec.appendChild(res);
+  };
+
+  /* The channels the In field offers, and in: names: every channel on the
+     list but a conversation, World first and the rest A to Z, once each. */
+  Radio.prototype.searchChannels = function () {
+    var seen = {}, list = [];
+    chatChannels(this.state).forEach(function (g) {
+      g.rooms.forEach(function (r) {
+        if (r.dm != null || r.ev || !r.tag || seen[r.tag]) return;
+        seen[r.tag] = true;
+        list.push({ tag: r.tag, name: r.tag === WORLD_CALL ? 'World' : r.name || r.tag });
+      });
+    });
+    var world = list.filter(function (r) { return r.tag === WORLD_CALL; });
+    list = world.concat(list.filter(function (r) { return r.tag !== WORLD_CALL; }).sort(chatByName));
+    var sel = this.searchField && this.searchField.in, was = sel ? sel.value : '';
+    if (sel) {
+      while (sel.options.length > 1) sel.remove(1);
+      list.forEach(function (r) { var op = el('option', null, r.tag === WORLD_CALL ? 'World' : '#' + r.name); op.value = r.tag; sel.appendChild(op); });
+      sel.value = list.some(function (r) { return r.tag === was; }) ? was : '';
+    }
+    return list;
+  };
+
+  /* The box and the fields read into one search, or a sentence saying what
+     in it could not be read. */
+  Radio.prototype.searchRead = function () {
+    var f = this.searchField, q = { from: [], mentions: [], has: [], in: [], after: null, before: null, by: 'any', order: f.order.value === 'old' ? 'old' : 'new' };
+    var bad = '', chans = null, me = this;
+    function add(list, v) { v = String(v || '').replace(/^@/, '').trim(); if (v && list.indexOf(v) < 0) list.push(v); }
+    function after(t) { if (t != null && (q.after == null || t > q.after)) q.after = t; }
+    function before(t) { if (t != null && (q.before == null || t < q.before)) q.before = t; }
+    function channel(v) {
+      chans = chans || me.searchChannels();
+      var key = searchFold(String(v).replace(/^#/, '').trim());
+      for (var i = 0; i < chans.length; i++) {
+        var c = chans[i];
+        if (c.tag === key || searchFold(c.name) === key || searchFold(chatNameKey(c)) === key) return c.tag;
+      }
+      return null;
+    }
+    var words = String(this.searchBox.value || '').replace(SEARCH_TOKEN, function (all, lead, key, quoted, plain) {
+      var v = quoted != null ? quoted : plain, k = key.toLowerCase(), t;
+      if (k === 'from') add(q.from, v);
+      else if (k === 'mentions') add(q.mentions, v);
+      else if (k === 'has') { if (SEARCH_HAS[v.toLowerCase()]) add(q.has, SEARCH_HAS[v.toLowerCase()]); else bad = bad || 'has:' + v + ' is not a filter here. Try has:link, has:picture, has:sticker or has:card.'; }
+      else if (k === 'in') { t = channel(v); if (t) add(q.in, t); else bad = bad || 'in:' + v + ' is not a channel you can hear. Use its #tag or its name in quotes.'; }
+      else if (k === 'author-type') { if (SEARCH_BY[v.toLowerCase()]) q.by = SEARCH_BY[v.toLowerCase()]; else bad = bad || 'author-type:' + v + ' is not a filter here. Try author-type:user or author-type:bot.'; }
+      else {
+        t = searchDay(v);
+        if (t == null) bad = bad || k + ':' + v + ' is not a day. Write it as 2026-10-01, today or yesterday.';
+        else if (k === 'before') before(t);
+        else if (k === 'after') after(nextDay(t));
+        else { after(t); before(nextDay(t)); }
+      }
+      return lead;
+    }).replace(/\s+/g, ' ').trim();
+    if (bad) return { bad: bad };
+    if (f.from.value.trim()) add(q.from, f.from.value);
+    if (f.mentions.value.trim()) add(q.mentions, f.mentions.value);
+    if (f.in.value) add(q.in, f.in.value);
+    Object.keys(f.has).forEach(function (k) { if (f.has[k].checked) add(q.has, k); });
+    if (f.by.value !== 'any') {
+      if (q.by !== 'any' && q.by !== f.by.value) return { bad: 'The box and Said by ask for different people. Choose one.' };
+      q.by = f.by.value;
+    }
+    if (f.since.value) after(searchDay(f.since.value));
+    if (f.until.value) { var u = searchDay(f.until.value); if (u != null) before(nextDay(u)); }
+    if (f.on.value) { var o = searchDay(f.on.value); if (o != null) { after(o); before(nextDay(o)); } }
+    if (q.after != null && q.before != null && q.after >= q.before) return { bad: 'Those days leave no day to search. Look at before:, after: and the days under Filters.' };
+    q.words = words;
+    var asked = searchTerms(words).length || q.from.length || q.mentions.length || q.has.length || q.in.length || q.after != null || q.before != null || q.by !== 'any';
+    return asked ? { q: q } : { bad: 'Type some words to find, or choose a filter.' };
+  };
+
+  Radio.prototype.searchStart = function () {
+    var r = this.searchRead();
+    if (r.bad) { this.searchSaid.textContent = r.bad; this.searchBox.focus(); return; }
+    this.searchQ = r.q;
+    this.searchRun(0);
+  };
+
+  Radio.prototype.searchRun = function (page) {
+    var me = this, q = Object.assign({}, this.searchQ, { page: page });
+    if (this.searchBusy || !this.searchQ) return;
+    this.searchBusy = true;
+    this.searchSaid.textContent = page ? 'Finding more…' : 'Searching…';
+    call('/cb/search', { body: q }, this.state.pass).then(function (r) {
+      if (r.status === 401) { me.searchSaid.textContent = ''; return me.lost(); }
+      if (r.status !== 200 || !r.body || !Array.isArray(r.body.results)) {
+        me.searchSaid.textContent = r.status === 429 ? 'That was a lot of searching at once. Wait a minute and search again.'
+          : (r.body && r.body.error) || 'The search did not come back. Nothing was kept; try again.';
+        return;
+      }
+      me.searchSaid.textContent = '';
+      me.searchPage = page;
+      me.searchDraw(r.body.results, !!r.body.more, page, searchTerms(q.words));
+    }, function () {
+      me.searchSaid.textContent = 'The street could not be reached, so nothing was searched.';
+    }).then(function () { me.searchBusy = false; });
+  };
+
+  Radio.prototype.searchDraw = function (results, more, page, terms) {
+    var me = this, list = this.searchList, first = null;
+    if (!page) {
+      list.textContent = '';
+      this.chatViewSearch();
+      var room = chatRoom();
+      this.searchBack.textContent = 'Back to ' + (room.tag === WORLD_CALL ? 'World' : '#' + room.name);
+      this.searchHow.textContent = results.length
+        ? (this.searchQ.order === 'old' ? 'Oldest first' : 'Newest first') + ', from World and every channel you can hear, as far back as each one keeps.'
+        : 'Nothing on World or the channels you can hear matches, as far back as each one keeps.';
+      this.searchHow.focus();
+    }
+    var names = {};
+    this.searchChannels().forEach(function (c) { names[c.tag] = c.tag === WORLD_CALL ? 'World' : '#' + c.name; });
+    results.forEach(function (x) {
+      var m = x.message, where = names[x.room] || '#' + x.room, bot = !!m.feed;
+      if (!m || typeof m.id !== 'string') return;
+      var li = el('li', 'cb-msg cb-hit');
+      var head = el('p', 'cb-head');
+      head.appendChild(el('span', 'cb-hit-where', where));
+      head.appendChild(el('b', 'cb-handle', m.handle));
+      if (m.base) head.appendChild(el('span', 'cb-tag', 'BASE'));
+      if (bot) head.appendChild(el('span', 'cb-tag', 'BOT'));
+      var when = el('time', 'cb-time', clock(m.t));
+      when.dateTime = new Date(m.t).toISOString();
+      when.title = new Date(m.t).toLocaleString();
+      head.appendChild(when);
+      li.appendChild(head);
+      var said = el('div', 'cb-text' + (bot ? ' cb-feed' : ''));
+      if (bot) li.appendChild(feedCard(said, m.feed));
+      else { li.appendChild(md(said, m.text)); me.markAt(said, m.at || [], m.roles || []); }
+      if (m.img) said.appendChild(el('p', 'cb-quiet', m.alt ? 'A picture: ' + m.alt : 'A picture, with no description.'));
+      if (m.sticker || m.avatar || m.chimera || m.patch || m.jacket) said.appendChild(el('p', 'cb-quiet', 'A sticker.'));
+      searchMark(said, terms);
+      var jump = el('button', 'cb-btn cb-hit-jump', 'Jump to it');
+      jump.type = 'button';
+      jump.setAttribute('aria-label', 'Jump to ' + m.handle + '’s message ' + sentAt(m.t) + ' in ' + where);
+      jump.addEventListener('click', function () { me.searchJump(x); });
+      li.appendChild(jump);
+      list.appendChild(li);
+      first = first || jump;
+    });
+    this.searchMore.hidden = !more;
+    if (page && first) first.focus();
+  };
+
+  // The words searched for, marked where they are in a result's words.
+  function searchMark(box, terms) {
+    if (!terms.length) return;
+    var walk = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), nodes = [], n;
+    while ((n = walk.nextNode())) nodes.push(n);
+    nodes.forEach(function (node) {
+      var text = node.nodeValue, low = text.toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"'), at = 0, frag = null;
+      if (low.length !== text.length) return;
+      for (;;) {
+        var best = -1, len = 0;
+        terms.forEach(function (t) { var i = low.indexOf(t, at); if (i >= 0 && (best < 0 || i < best || (i === best && t.length > len))) { best = i; len = t.length; } });
+        if (best < 0) break;
+        frag = frag || document.createDocumentFragment();
+        if (best > at) frag.appendChild(document.createTextNode(text.slice(at, best)));
+        frag.appendChild(el('mark', 'cb-hit-mark', text.slice(best, best + len)));
+        at = best + len;
+      }
+      if (!frag) return;
+      if (at < text.length) frag.appendChild(document.createTextNode(text.slice(at)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  /* The results in the middle: the channel, a conversation or Events steps
+     out of the way, and the channel goes on listening, not marked read. */
+  Radio.prototype.chatViewSearch = function () {
+    if (this.chatView === 'search') return;
+    if (this.chatView === 'events') this.chatLeaveEvents(true);
+    else if (this.chatView === 'dm') { if (this.dmWith) this.dmShowInbox(); this.setDm(false); this.dmSec.hidden = true; }
+    this.chatView = 'search';
+    this.chatChan.hidden = true;
+    this.searchRes.hidden = false;
+    this.searchSec.classList.add('cb-sec--searching');
+    this.chatShown();
+  };
+  Radio.prototype.searchLeave = function () {
+    this.searchRes.hidden = true;
+    this.searchSec.classList.remove('cb-sec--searching');
+    this.chatView = 'channel';
+  };
+
+  /* JUMP TO IT: the result's channel, asked for far enough back to reach the
+     message (`back`, how far from the newest it sat when found), and the
+     keyboard on it once it is drawn (jumpLand, from show). The results stay
+     where they were, a press of Search's box away. */
+  Radio.prototype.searchJump = function (x) {
+    var tag = x.room === WORLD_CALL ? WORLD_CALL : x.room;
+    this.jumpTo = { room: tag === WORLD_CALL ? null : tag, id: x.message.id, pages: Math.max(1, Math.ceil(((x.back || 0) + 1) / WINDOW)), tries: 0 };
+    if (tag === chatRoom().tag) {
+      this.chatViewChannel();
+      if (this.msgLi(x.message.id)) { this.jumpLand(); return; }
+      clearTimeout(this.timer);
+      this.listen();
+      return;
+    }
+    chatGo(tag);
+  };
+  Radio.prototype.jumpLand = function () {
+    var j = this.jumpTo;
+    if (!j || (this.chanRoom || null) !== j.room || this.chatView !== 'channel') return;
+    if (this.msgLi(j.id)) {
+      this.jumpTo = null;
+      this.reJump(this.log, j.id);
+      return;
+    }
+    // Messages sent since the search pushed it further back: once more, a page further.
+    if (!this.earlier.hidden && j.tries < 1) {
+      j.tries++;
+      j.pages = this.pages + 1;
+      var me = this;
+      setTimeout(function () { if (me.jumpTo === j) { clearTimeout(me.timer); me.listen(); } }, 0);
+      return;
+    }
+    this.jumpTo = null;
+    this.tell('That message has gone from the channel since you searched.');
   };
 
   /* YOUR CONVERSATIONS, for the list: asked from listen() and nowhere else,

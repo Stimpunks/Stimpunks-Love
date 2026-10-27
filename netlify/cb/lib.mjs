@@ -3706,6 +3706,114 @@ export async function channelActivity(who, s = store(), now = Date.now()) {
   return { recent, active };
 }
 
+/* SEARCH, AFTER DISCORD'S (Ryan's ask, 2026-10-27). The chat page searches
+   every channel the asker can hear, World and every room's, for words and
+   Discord's filters: from:, mentions:, has:, in:, before:, after:, during:
+   and author-type:. The rules are a listen's, because a result is only a
+   message the asker could already scroll back to:
+     · NEVER A ROOM THAT KEEPS TO ITSELF, whose tag is its address, even for
+       somebody who may enter it; a search lists results by room.
+     · NEVER A ROOM THE ASKER MAY NOT ENTER (roomAllows), and never a staff
+       room's channel while it is shut (staffShut), so nothing sealed is opened
+       for a search that could not be opened for a listen.
+     · WORKED OUT FROM THE CHANNELS WHEN ASKED AND KEPT NOWHERE: the words go in
+       a POST's body, never an address, and nothing records who searched for
+       what. tools/check-search.py refuses a console call, a store write or a
+       GET in it.
+     · NO COUNT. The page says newest or oldest first and shows SEARCH_PAGE at a
+       time, with more when there are more, never how many matched: the radio
+       never counts. `back` is how far from the newest a result sits on its
+       channel, only so a jump can ask for enough of the channel to reach it.
+   `q` is what the page sends: words, and the filters already read out of
+   them, each refused or trimmed here rather than trusted. Dates are times,
+   worked out on the page in the reader's own day. */
+export const SEARCH_PAGE = 25;      // results one answer holds
+export const SEARCH_WORDS = 200;    // characters of words one search may hold
+const SEARCH_TERMS = 10, SEARCH_NAMES = 10, SEARCH_IN = 60, SEARCH_PAGES = 40;
+export const SEARCH_HAS = ['link', 'picture', 'sticker', 'card'];
+const SEARCH_BY = ['any', 'person', 'bot'];
+const searchFold = (v) => String(v == null ? '' : v).normalize('NFKC').toLowerCase().replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+// The words as terms: a "quoted phrase" is one term, everything else a word.
+export function searchTerms(words) {
+  const w = searchFold(words).slice(0, SEARCH_WORDS), out = [];
+  for (const m of w.matchAll(/"([^"]+)"|(\S+)/g)) {
+    const t = (m[1] || m[2] || '').replace(/\s+/g, ' ').trim();
+    if (t && !out.includes(t)) out.push(t);
+    if (out.length >= SEARCH_TERMS) break;
+  }
+  return out;
+}
+export function cleanSearch(q) {
+  if (!q || typeof q !== 'object' || Array.isArray(q)) return null;
+  const list = (v, most, keep) => (Array.isArray(v) ? [...new Set(v.map(keep).filter(Boolean))].slice(0, most) : []);
+  const time = (v) => (typeof v === 'number' && Number.isFinite(v) && v > 0 ? v : null);
+  const out = {
+    terms: searchTerms(typeof q.words === 'string' ? q.words : ''),
+    from: list(q.from, SEARCH_NAMES, (h) => (typeof h === 'string' && h.length <= 60 ? foldHandle(h) : null)),
+    mentions: list(q.mentions, SEARCH_NAMES, (h) => (typeof h === 'string' && h.length <= 60 ? foldHandle(h) : null)),
+    has: list(q.has, SEARCH_HAS.length, (h) => (SEARCH_HAS.includes(h) ? h : null)),
+    in: list(q.in, SEARCH_IN, (t) => roomTag(t)),
+    after: time(q.after),
+    before: time(q.before),
+    by: SEARCH_BY.includes(q.by) ? q.by : 'any',
+    order: q.order === 'old' ? 'old' : 'new',
+    page: Number.isInteger(q.page) && q.page >= 0 && q.page < SEARCH_PAGES ? q.page : 0,
+  };
+  const asked = out.terms.length || out.from.length || out.mentions.length || out.has.length || out.in.length || out.after || out.before || out.by !== 'any';
+  return asked ? out : null;
+}
+// Everything a search's words are looked for in: the words, a picture's
+// description, and an arrival's site and title.
+function searchText(m) {
+  const parts = [m.text || '', m.alt || ''];
+  if (m.feed && typeof m.feed === 'object') parts.push(m.feed.site || '', m.feed.title || '');
+  return searchFold(parts.join('\n'));
+}
+const STICKERS = ['sticker', 'avatar', 'chimera', 'patch', 'jacket'];
+export function searchMatches(m, q) {
+  if (!m || typeof m.t !== 'number') return false;
+  if (q.after && m.t < q.after) return false;
+  if (q.before && m.t >= q.before) return false;
+  if (q.by === 'bot' && !m.feed) return false;
+  if (q.by === 'person' && m.feed) return false;
+  if (q.from.length && !q.from.includes(foldHandle(m.handle))) return false;
+  if (q.mentions.length) {
+    const at = (Array.isArray(m.at) ? m.at : []).map(foldHandle).concat(keptRoles(m.roles));
+    if (!q.mentions.some((h) => at.includes(h))) return false;
+  }
+  for (const h of q.has) {
+    const ok = h === 'picture' ? !!m.img
+      : h === 'sticker' ? STICKERS.some((k) => m[k])
+      : h === 'card' ? Array.isArray(m.links) && m.links.length > 0
+      : /https?:\/\/|stimpunks\.world\//i.test(m.text || '') || (Array.isArray(m.links) && m.links.length > 0) || !!m.feed;
+    if (!ok) return false;
+  }
+  if (q.terms.length) {
+    const text = searchText(m);
+    if (!q.terms.every((t) => text.includes(t))) return false;
+  }
+  return true;
+}
+export async function searchChannels(who, q, s = store(), now = Date.now()) {
+  if (!q) return { results: [], more: false };
+  const tags = [WORLD_CALL];
+  for (const b of (await s.list({ prefix: ROOM_TALK })).blobs || []) tags.push(b.key.slice(ROOM_TALK.length));
+  const found = [];
+  for (const tag of [...new Set(tags)]) {
+    const world = tag === WORLD_CALL;
+    if (!world && (!roomTag(tag) || quietRoom(tag) || !roomAllows(who, tag) || staffShut(tag))) continue;
+    if (q.in.length && !q.in.includes(tag)) continue;
+    const said = (world ? await readChannel(s, now) : await readRoomTalk(tag, s, now)).messages;
+    said.forEach((m, i) => { if (searchMatches(m, q)) found.push({ tag, m, back: said.length - 1 - i }); });
+  }
+  found.sort((a, b) => (q.order === 'old' ? a.m.t - b.m.t : b.m.t - a.m.t) || a.tag.localeCompare(b.tag));
+  const from = q.page * SEARCH_PAGE, page = found.slice(from, from + SEARCH_PAGE);
+  return {
+    results: page.map((r) => ({ room: r.tag, back: r.back, message: shape([r.m])[0] })),
+    more: found.length > from + SEARCH_PAGE && q.page + 1 < SEARCH_PAGES,
+  };
+}
+
 /* MY OWN ORDER FOR THE CHAT PAGE'S CHANNELS (Ryan's call, 2026-10-24: kept on
    the server, under the claimed username, so it follows somebody from one
    device to another; privacy.html#chat-order was written first). One blob per

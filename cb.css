@@ -1927,6 +1927,48 @@ ol.cb-md-list { list-style: decimal; }
 .cb-radio--chat .cb-sec--dm > .cb-tools, .cb-radio--chat .cb-dm > .cb-foot-close { display: none; }
 .cb-radio--chat .cb-col--b > .cb-sec.cb-sec--after { padding-top: 0; border-top: 0; }
 .cb-radio--chat .cb-col--b > .cb-sec > .cb-divider { display: none; }
+/* SEARCH (cb.js, searchMake; Ryan's ask, 2026-10-27, after Discord's): the
+   box and its filters at the top of the middle, in the case's own steel, and
+   the results in the channel's place on the readout's ground, drawn as its
+   messages are, so no pair is new. A word searched for is marked by weight
+   and an underline in the ink it is in, never by a colour of its own. */
+.cb-sec--search { display: grid; gap: 6px; }
+.cb-sec--search > .cb-h { margin-bottom: 0; }
+.cb-search-form { display: grid; gap: 6px; }
+.cb-search-form .cb-lab { margin: 0; }
+.cb-search-row { align-items: center; }
+.cb-search-words { flex: 1 1 14em; min-width: 0; }
+.cb-search-hint { margin: 0; font-size: 13px; }
+.cb-search-said:empty { display: none; }
+.cb-search-filters { display: grid; gap: 8px 12px; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); align-items: end; }
+.cb-search-filters[hidden], .cb-search-res[hidden] { display: none; }
+.cb-search-field { display: grid; gap: 2px; min-width: 0; }
+.cb-search-field > .cb-say { width: 100%; }
+.cb-search-has { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.cb-search-has > legend { padding: 0; }
+.cb-search-check { display: inline-flex; align-items: center; gap: 4px; font-size: 14px; min-height: 32px; }
+.cb-search-clear { justify-self: start; }
+.cb-search-res { display: grid; gap: 6px; }
+.cb-search-how { margin: 0; }
+.cb-search-how:focus { outline: none; }
+.cb-search-how:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.cb-hit-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); align-content: start; }
+.cb-hit { padding-bottom: 10px; border-bottom: 1px solid var(--cb-amber-2); }
+.cb-hit > .cb-head { grid-column: 1 / -1; grid-row: 1; }
+.cb-hit > .cb-text { grid-column: 1 / -1; grid-row: 2; }
+.cb-hit > .cb-hit-jump { grid-column: 1 / -1; grid-row: 3; justify-self: start; }
+.cb-hit-where { font-weight: 700; overflow-wrap: anywhere; }
+mark.cb-hit-mark { background: none; color: inherit; font-weight: 700; text-decoration: underline 2px; text-underline-offset: 2px; }
+.cb-search-more { display: block; margin: 10px auto 0; }
+.cb-search-more[hidden] { display: none; }
+@media (min-width: 1000px) {
+  .cb-radio--chat .cb-col--b > .cb-sec--search { flex: none; }
+  .cb-radio--chat .cb-col--b > .cb-sec--search.cb-sec--searching { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+  .cb-radio--chat .cb-sec--searching > * { flex: none; }
+  .cb-radio--chat .cb-sec--searching > .cb-search-res { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+  .cb-radio--chat .cb-search-res > * { flex: none; }
+  .cb-radio--chat .cb-search-res > .cb-hits { flex: 1 1 0; min-height: 10rem; overflow-y: auto; }
+}
 /* NARROW, the list folds under one button naming the channel picked, so the
    messages are not a hundred links down the page; WIDE, it is always out and
    the button is not there. */

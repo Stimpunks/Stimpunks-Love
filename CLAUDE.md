@@ -4151,6 +4151,19 @@ nobody else, deleted by Forget me and with the username; the page sends the whol
 moves it, and dragging does: `make-chat.py` holds all of it, and refuses arranging that is dragging alone. It never
 starts before the order has been fetched, so a failed fetch can never send an empty order back over a good one.
 
+**SEARCH ON THE CHAT PAGE FINDS ONLY WHAT YOU COULD ALREADY SCROLL BACK TO, AND KEEPS NOTHING.** Ryan's ask,
+2026-10-27, after Discord's: a Search part at the top of the chat page's middle (`searchMake` in `cb.js`), with
+Discord's typed filters (`from:`, `mentions:`, `has:`, `in:`, `before:`, `after:`, `during:`, `author-type:`) and the
+same filters as fields under Filters, read into one search (`searchRead`); the results take the channel's place
+(`chatViewSearch`, a fourth view beside channel, dm and events), and **Jump to it** opens the channel far enough back
+(`back`, `jumpTo`, `jumpLand` from `show()`). `searchChannels` in `lib.mjs` (`/cb/search`, a POST) reads World and
+every room's channel the asker can hear, **never a quiet room, even for somebody who may enter it** (a result names
+its room), never one `roomAllows` refuses and never a shut staff room, and never direct messages. The days are
+worked out in the reader's calendar and sent as times. `tools/check-search.py` holds it. **The friendly edits are
+"N results", recent searches kept "to run again", a search in the address "so it can be shared", and searching
+conversations "since they are on the server anyway"**: the first is the count the radio refuses, the next two keep a
+person's words where privacy.html#chat-search says they are not, and the last is Ryan's call (`DECISIONS.md`).
+
 **THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
 2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under
 Your radio, opens it as big as the radio is and at its size; − and + there resize the window

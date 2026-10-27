@@ -3686,6 +3686,71 @@ test('the chat page is sent two orders by activity, without a time or a count, a
   assert.ok((await channelActivity(board, s, now)).recent.includes('town-hall-board'), 'the board could not see its own room');
 });
 
+/* ── The chat page's search ─────────────────────────────────────────────── */
+import { cleanSearch, searchChannels, searchTerms, SEARCH_PAGE } from './lib.mjs';
+
+test('search finds words and filters on every channel the asker can hear, never a quiet room, a private one or a shut one, and never counts', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const now = Date.now();
+  const mob = { role: 'mobile', handle: 'Zed', roles: new Set() };
+  const board = { role: 'base', handle: 'Bea', roles: new Set(['moderator', 'board']) };
+  const say = (tag, list) => updateRoomTalk(tag, (l) => [...l, ...list], s);
+  await say('the-den', [
+    { id: 'd1', handle: 'Ada', text: 'The Green Shag carpet', t: now - 5000 },
+    { id: 'd2', handle: 'Bo', text: 'see https://example.com', t: now - 4000, at: ['ada'] },
+    { id: 'd3', handle: 'Ada', text: 'a picture', img: 'abc', alt: 'shag close up', t: now - 3000 },
+  ]);
+  await say('the-secret-cabin', [{ id: 'c1', handle: 'Ada', text: 'shag in the cabin', t: now - 100 }]);
+  await say('town-hall-board', [{ id: 'b1', handle: 'Bea', text: 'shag minutes', t: now - 200 }]);
+  await say('the-feed', [{ id: 'f1', handle: 'The Feed', text: '', feed: { site: 'Star Stuff', title: 'Shag pile', url: 'https://x', when: now }, t: now - 50 }]);
+  await updateChannel((l) => [...l, { id: 'w1', handle: 'Hal', text: '“Green shag” on World', t: now - 10 }], s);
+
+  assert.deepEqual(searchTerms('"green  shag" Carpet carpet'), ['green shag', 'carpet']);
+  assert.equal(cleanSearch({ words: '   ' }), null, 'an empty search was taken');
+  assert.equal(cleanSearch({ words: 'x', page: 9999 }).page, 0, 'a page past the end was taken');
+  const find = (who, q) => searchChannels(who, cleanSearch(q), s, now);
+
+  let r = await find(mob, { words: 'shag' });
+  assert.deepEqual(r.results.map((x) => x.message.id), ['w1', 'f1', 'd3', 'd1'], 'newest first, across channels, with no quiet, private room');
+  assert.equal(r.results[0].room, 'world');
+  assert.deepEqual(Object.keys(r).sort(), ['more', 'results'], 'an answer carried something more, a count say');
+  assert.ok(!('total' in r) && !('count' in r));
+  assert.equal(r.results.find((x) => x.message.id === 'd1').back, 2, 'how far from the newest was wrong');
+  r = await find(mob, { words: 'shag', order: 'old' });
+  assert.equal(r.results[0].message.id, 'd1');
+  assert.deepEqual((await find(mob, { words: '"green shag"' })).results.map((x) => x.message.id), ['w1', 'd1'], 'a phrase in curly quotes or another case was missed');
+  assert.deepEqual((await find(mob, { from: ['ADA'] })).results.map((x) => x.message.id), ['d3', 'd1']);
+  assert.deepEqual((await find(mob, { mentions: ['Ada'] })).results.map((x) => x.message.id), ['d2']);
+  assert.deepEqual((await find(mob, { has: ['picture'] })).results.map((x) => x.message.id), ['d3']);
+  assert.deepEqual((await find(mob, { has: ['link'], by: 'person' })).results.map((x) => x.message.id), ['d2']);
+  assert.deepEqual((await find(mob, { words: 'shag', by: 'bot' })).results.map((x) => x.message.id), ['f1']);
+  assert.deepEqual((await find(mob, { words: 'shag', in: ['the-den'] })).results.map((x) => x.message.id), ['d3', 'd1']);
+  assert.deepEqual((await find(mob, { words: 'shag', after: now - 3500, before: now - 40 })).results.map((x) => x.message.id), ['f1', 'd3']);
+  assert.equal((await find(mob, { words: 'minutes' })).results.length, 0, 'a private room was searched for somebody who may not enter it');
+
+  // The board hears its room, but only while the staff key is there to open it.
+  const was = process.env.CB_STAFF_KEY;
+  delete process.env.CB_STAFF_KEY;
+  try { assert.equal((await find(board, { words: 'minutes' })).results.length, 0, 'a shut staff room was searched'); }
+  finally { if (was !== undefined) process.env.CB_STAFF_KEY = was; }
+  process.env.CB_STAFF_KEY = Buffer.alloc(32, 9).toString('base64url');
+  try {
+    assert.deepEqual((await find(board, { words: 'minutes' })).results.map((x) => x.message.id), ['b1'], 'the board could not search its own room');
+    const admin = { role: 'base', handle: 'Ad', roles: new Set(['moderator', 'administrator']) };
+    assert.equal((await find(admin, { words: 'cabin' })).results.length, 0, 'a room that keeps to itself was searched, by somebody who may enter it');
+  }
+  finally { if (was === undefined) delete process.env.CB_STAFF_KEY; else process.env.CB_STAFF_KEY = was; }
+
+  // A page at a time, with more when there are more.
+  await say('the-mopery', Array.from({ length: SEARCH_PAGE + 3 }, (_, i) => ({ id: 'm' + i, handle: 'Cy', text: 'ink', t: now - 90000 - i })));
+  r = await find(mob, { words: 'ink' });
+  assert.equal(r.results.length, SEARCH_PAGE);
+  assert.equal(r.more, true);
+  r = await find(mob, { words: 'ink', page: 1 });
+  assert.equal(r.results.length, 3);
+  assert.equal(r.more, false);
+});
+
 /* ── The World room's index ──────────────────────────────────────────────── */
 import { worldIndex } from './lib.mjs';
 
