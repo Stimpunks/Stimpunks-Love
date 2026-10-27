@@ -412,3 +412,5 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-describe { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; }
 .tk-describe label { flex: 1 1 100%; }
 .tk-attached { font-size: 14px; color: var(--cb-amber-2); white-space: nowrap; }
+.tk-files__list { display: grid; gap: 10px; }
+.tk-comment__body .tk-files__list { margin-top: 4px; }

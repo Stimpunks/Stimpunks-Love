@@ -8890,7 +8890,7 @@ test('the Wiki’s bot answers only a request signed with its own key, recently'
 
 
 /* ── Tasks' pictures and files (2026-10-27) ── */
-import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, sweepTaskFiles, TASK_ATTACH_MAX } from './lib.mjs';
+import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, sweepTaskFiles, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX } from './lib.mjs';
 
 {
   const withStaffKey = async (fn) => {
@@ -8943,6 +8943,39 @@ import { putTaskUpload, attachTask, detachTask, describeTaskFile, taskFile, swee
     // Deleting the task deletes its files.
     await removeTask(TRYAN, t.id, s, T0 + 5, TMODS);
     assert.ok(!s.keys().some((k) => k.startsWith('task-file/')), 'a deleted task left its files');
+  }));
+
+  test('a comment carries pictures and files by the same rules, an edit keeps or lets them go, and they go with it', () => withStaffKey(async () => {
+    const s = sealingStore(memoryStore({ etagOnRead: true }));
+    const t = (await saveTask(TCHELSEA, { name: 'Lease' }, s, T0, TMODS)).task;
+    const doc = await putTaskUpload(TRYAN, { kind: 'file', name: 'Lease.pdf' }, PDF('lease'), s, T0);
+    const pic = await putTaskUpload(TRYAN, { kind: 'pic' }, JPEG(), s, T0);
+    assert.match((await commentTask(TRYAN, t.id, '', s, T0, TMODS)).error, /between one and/, 'an empty comment with nothing attached went up');
+    assert.match((await commentTask(TCHELSEA, t.id, 'mine', s, T0, TMODS, [{ id: doc.id }])).error, /not yours/);
+    // Pictures and files with no words are a comment.
+    const c = (await commentTask(TRYAN, t.id, '', s, T0 + 1, TMODS, [{ id: doc.id }, { id: pic.id, alt: 'Page one' }])).comment;
+    assert.ok(c, 'a comment of only pictures and files was refused');
+    assert.deepEqual(c.files.map((f) => f.name || f.alt), ['Lease.pdf', 'Page one']);
+    assert.deepEqual(Buffer.from((await taskFile(TCHELSEA, t.id, doc.id, s)).data), PDF('lease'), 'a comment\'s file could not be fetched');
+    assert.ok(!s.keys().some((k) => k.startsWith('task-up/')), 'an upload a comment took was left waiting');
+    // The sweep leaves a comment's own alone.
+    await sweepTaskFiles(s, T0 + DAYS(2));
+    assert.ok(await taskFile(TRYAN, t.id, pic.id, s), 'the sweep took a file a comment holds');
+    // An edit with no files sent keeps them; one that leaves a file out lets it go.
+    assert.equal((await editTaskComment(TRYAN, t.id, c.id, 'The lease', s, T0 + 2, TMODS)).comment.files.length, 2);
+    const ed = await editTaskComment(TRYAN, t.id, c.id, 'The lease', s, T0 + 3, TMODS, [{ id: pic.id, alt: 'Page one, signed' }]);
+    assert.deepEqual(ed.comment.files.map((f) => f.alt || f.name), ['Page one, signed']);
+    assert.equal(await taskFile(TRYAN, t.id, doc.id, s), null, 'a file an edit let go of is still served');
+    assert.ok(!s.keys().some((k) => k.endsWith(doc.id)), 'a file an edit let go of was kept');
+    assert.match((await editTaskComment(TCHELSEA, t.id, c.id, 'x', s, T0 + 4, TMODS, [])).error, /Only whoever wrote/);
+    const many = [];
+    for (let i = 0; i <= TASK_COMMENT_FILES_MAX; i++) many.push({ id: (await putTaskUpload(TRYAN, { kind: 'file', name: `n${i}.txt` }, Buffer.from('n' + i), s, T0)).id });
+    assert.match((await commentTask(TRYAN, t.id, 'Lots', s, T0 + 5, TMODS, many)).error, new RegExp(`A comment holds ${TASK_COMMENT_FILES_MAX}`));
+    // Deleting the comment deletes what it held; nothing of the activity names them.
+    assert.ok((await removeTaskComment(TRYAN, t.id, c.id, s)).gone);
+    assert.equal(await taskFile(TRYAN, t.id, pic.id, s), null);
+    assert.ok(!s.keys().some((k) => k.startsWith('task-file/')), 'a deleted comment left its files');
+    assert.ok(!JSON.stringify(await taskActivity(TRYAN, t.id, s)).includes('Lease.pdf'));
   }));
 
   test('a task holds TASK_ATTACH_MAX at most, and the sweep takes uploads no task took and files no task holds', () => withStaffKey(async () => {

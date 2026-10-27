@@ -11828,6 +11828,51 @@ export async function putTaskUpload(who, f, bytes, s = store(), now = Date.now()
   return { id, ...meta };
 }
 
+/* The pictures and files something on task `tid` asks for (`asked`, a list
+   of { id, alt }): the ones it already had (`had`), kept with any new
+   description, and this sender's own uploads, each copied under the task
+   before anything holds it, so nothing ever holds a file that is not there.
+   Answers { files, fresh } or { error }; `fresh` is what was copied, for
+   letGo when the write that would hold them fails, and for doneUp when it
+   succeeds. The task's own section and its comments both come here. */
+async function taskUploads(who, tid, asked, had, most, s, now) {
+  const list = Array.isArray(asked) ? asked : [];
+  if (list.length > most) return { error: `${most} pictures and files at most.` };
+  const mark = authorMark(who), files = [], fresh = [], seen = new Set();
+  for (const a of list) {
+    const up = imageId(a && a.id);
+    if (!up || seen.has(up)) return { error: 'One of those pictures or files is not ready. Take it off and add it again.' };
+    seen.add(up);
+    const alt = cleanForumAlt(a.alt);
+    if (alt === null) return { error: `A picture's description is ${FORUM_ALT_MAX} characters at most.` };
+    const old = had.find((x) => x.id === up);
+    if (old) {
+      const kept = { ...old };
+      delete kept.alt;
+      if (kept.kind === 'pic' && alt) kept.alt = alt;
+      files.push(kept);
+      continue;
+    }
+    const got = await s.getWithMetadata(TASK_UP + up, { type: 'arrayBuffer' });
+    const m = got && got.metadata;
+    if (!m || m.by !== mark || (m.kind !== 'pic' && m.kind !== 'file')) {
+      return { error: 'One of those pictures or files has gone, or is not yours. Take it off and add it again.' };
+    }
+    const file = { id: up, kind: m.kind, type: m.type, size: m.size, by: who.handle, t: now };
+    if (m.kind === 'file') file.name = m.name;
+    if (m.kind === 'pic' && alt) file.alt = alt;
+    files.push(file);
+    fresh.push({ file, data: got.data });
+  }
+  for (const x of fresh) {
+    const f = x.file;
+    await s.set(taskFileKey(tid, f.id), x.data, { metadata: { kind: f.kind, type: f.type, size: f.size, ...(f.name ? { name: f.name } : {}), t: now } });
+  }
+  return { files, fresh };
+}
+async function letGo(tid, fresh, s) { for (const x of fresh) await s.delete(taskFileKey(tid, x.file.id)); }
+async function doneUp(fresh, s) { for (const x of fresh) await s.delete(TASK_UP + x.file.id); }
+
 /* This sender's own uploads (`asked`, a list of { id, alt }) attached to task
    `id`. Answers { task } or { error }. */
 export async function attachTask(who, id, asked, s = store(), now = Date.now(), mods) {
@@ -11837,28 +11882,8 @@ export async function attachTask(who, id, asked, s = store(), now = Date.now(), 
   const list = Array.isArray(asked) ? asked : [];
   if (!tid) return { error: 'That task has been deleted.' };
   if (!list.length || list.length > TASK_ATTACH_MAX) return { error: `Attach between one and ${TASK_ATTACH_MAX} pictures and files.` };
-  const mark = authorMark(who), fresh = [], seen = new Set();
-  for (const a of list) {
-    const up = imageId(a && a.id);
-    if (!up || seen.has(up)) return { error: 'One of those pictures or files is not ready. Take it off and add it again.' };
-    seen.add(up);
-    const alt = cleanForumAlt(a.alt);
-    if (alt === null) return { error: `A picture's description is ${FORUM_ALT_MAX} characters at most.` };
-    const got = await s.getWithMetadata(TASK_UP + up, { type: 'arrayBuffer' });
-    const m = got && got.metadata;
-    if (!m || m.by !== mark || (m.kind !== 'pic' && m.kind !== 'file')) {
-      return { error: 'One of those pictures or files has gone, or is not yours. Take it off and add it again.' };
-    }
-    const file = { id: up, kind: m.kind, type: m.type, size: m.size, by: who.handle, t: now };
-    if (m.kind === 'file') file.name = m.name;
-    if (m.kind === 'pic' && alt) file.alt = alt;
-    fresh.push({ file, data: got.data });
-  }
-  // Under the task before the task is written, so no task ever holds a file that is not there.
-  for (const x of fresh) {
-    const f = x.file;
-    await s.set(taskFileKey(tid, f.id), x.data, { metadata: { kind: f.kind, type: f.type, size: f.size, ...(f.name ? { name: f.name } : {}), t: now } });
-  }
+  const up = await taskUploads(who, tid, list, [], TASK_ATTACH_MAX, s, now);
+  if (up.error) return up;
   let saved = null, why = null, before = null;
   await updateList(TASKS, 'tasks', (all) => {
     saved = null; why = null;
@@ -11866,16 +11891,13 @@ export async function attachTask(who, id, asked, s = store(), now = Date.now(), 
     if (k < 0) { why = 'That task has been deleted.'; return null; }
     before = all[k];
     const had = before.files || [];
-    const adding = fresh.map((x) => x.file).filter((f) => !had.some((h) => h.id === f.id));
+    const adding = up.files.filter((f) => !had.some((h) => h.id === f.id));
     if (had.length + adding.length > TASK_ATTACH_MAX) { why = `A task holds ${TASK_ATTACH_MAX} pictures and files at most.`; return null; }
     saved = { ...before, files: [...had, ...adding], edited: now, editedBy: who.handle };
     const copy = all.slice(); copy[k] = saved; return copy;
   }, s);
-  if (why) {
-    for (const x of fresh) await s.delete(taskFileKey(tid, x.file.id));
-    return { error: why };
-  }
-  for (const x of fresh) await s.delete(TASK_UP + x.file.id);
+  if (why) { await letGo(tid, up.fresh, s); return { error: why }; }
+  await doneUp(up.fresh, s);
   await noteTask('changed', who.handle, before, saved, s, now, mods).catch(() => null);
   return { task: shapeTask(saved, true) };
 }
@@ -11934,7 +11956,10 @@ export async function taskFile(who, tid, fid, s = store()) {
   if (!tasksAllow(who)) return null;
   const t = (await readTasks(s)).find((x) => x.id === taskId(tid));
   const id = imageId(fid);
-  const file = t && id && (t.files || []).find((x) => x.id === id);
+  if (!t || !id) return null;
+  let file = (t.files || []).find((x) => x.id === id);
+  // Or one a comment under it holds.
+  if (!file) file = (await readTaskComments(t.id, s)).flatMap((c) => c.files || []).find((x) => x.id === id);
   if (!file) return null;
   const got = await s.getWithMetadata(taskFileKey(t.id, id), { type: 'arrayBuffer' });
   return got && got.data ? { data: got.data, file: shapeTaskFile(file) } : null;
@@ -11950,8 +11975,16 @@ export async function sweepTaskFiles(s = store(), now = Date.now()) {
   }
   const files = (await s.list({ prefix: TASK_FILE })).blobs || [];
   if (!files.length) return;
-  const held = new Set();
-  for (const t of await readTasks(s)) for (const f of t.files || []) held.add(taskFileKey(t.id, f.id));
+  const held = new Set(), tasks = await readTasks(s);
+  for (const t of tasks) for (const f of t.files || []) held.add(taskFileKey(t.id, f.id));
+  // A task's comments are read only when it has a file its own list does not hold.
+  const asked = new Set();
+  for (const b of files) {
+    const tid = b.key.slice(TASK_FILE.length).split('/')[0];
+    if (held.has(b.key) || asked.has(tid) || !tasks.some((t) => t.id === tid)) continue;
+    asked.add(tid);
+    for (const c of await readTaskComments(tid, s)) for (const f of c.files || []) held.add(taskFileKey(tid, f.id));
+  }
   for (const b of files) {
     if (held.has(b.key)) continue;
     const m = await blobMeta(s, b.key);
@@ -12184,9 +12217,17 @@ const taskCommentsBlob = (id) => `task-comments/${id}`;
 export function commentId(v) { return typeof v === 'string' && /^m[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
 const newCommentId = () => 'm' + randomBytes(9).toString('base64url');
 
+export const TASK_COMMENT_FILES_MAX = 6;   // pictures and files on one comment, as on a forum post
+async function readTaskComments(tid, s) {
+  const d = await s.get(taskCommentsBlob(tid), { type: 'json' });
+  return d && Array.isArray(d.comments) ? d.comments : [];
+}
+
 function shapeComment(c, who) {
   const out = { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body, { refs: true }),
     mine: !!who && !!who.since && !!c.mark && c.mark === authorMark(who) };
+  // Its pictures and files, when it has any (taskUploads).
+  if (c.files && c.files.length) out.files = c.files.map(shapeTaskFile);
   // One brought from Notion says so, and never sends Notion's id for it.
   if (c.notion) out.from = 'notion';
   return out;
@@ -12200,22 +12241,37 @@ export async function taskComments(who, id, s = store()) {
   return (d && Array.isArray(d.comments) ? d.comments : []).map((c) => shapeComment(c, who));
 }
 
-export async function commentTask(who, id, text, s = store(), now = Date.now(), mods) {
+/* A comment may carry pictures and files (Ryan's ask, 2026-10-27), under the
+   task's own rules (taskUploads), TASK_COMMENT_FILES_MAX at most; one with
+   them needs no words. They are the comment's: an edit keeps, adds or lets
+   go of them, and they go when it is deleted, or with its task. */
+function commentWords(text, asked) {
+  const some = Array.isArray(asked) && asked.length > 0;
+  if (some && (text == null || String(text).trim() === '')) return '';
+  return cleanForumBody(text, TASK_COMMENT_MAX);
+}
+const WORDS_WHY = `A comment is between one and ${TASK_COMMENT_MAX} characters, or pictures and files with none.`;
+
+export async function commentTask(who, id, text, s = store(), now = Date.now(), mods, asked) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
   if (mods === undefined) mods = await loadMods();
   const tid = taskId(id);
-  const words = cleanForumBody(text, TASK_COMMENT_MAX);
-  if (!words) return { error: `A comment is between one and ${TASK_COMMENT_MAX} characters.` };
+  const words = commentWords(text, asked);
+  if (words == null) return { error: WORDS_WHY };
   const task = tid ? (await readTasks(s)).find((x) => x.id === tid) : null;
   if (!task) return { error: 'That task has been deleted.' };
+  const up = await taskUploads(who, tid, asked, [], TASK_COMMENT_FILES_MAX, s, now);
+  if (up.error) return { error: up.error.replace(/^\d+ pictures/, `A comment holds ${TASK_COMMENT_FILES_MAX} pictures`) };
   const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };
+  if (up.files.length) c.files = up.files;
   let full = false, earlier = [];
   await updateList(taskCommentsBlob(tid), 'comments', (list) => {
     full = list.length >= TASK_COMMENTS_KEEP;
     earlier = list.map((x) => x.by);
     return full ? null : [...list, c];
   }, s);
-  if (full) return { error: `This task has ${TASK_COMMENTS_KEEP} comments, as many as it keeps. Delete one, or carry on in a new task.` };
+  if (full) { await letGo(tid, up.fresh, s); return { error: `This task has ${TASK_COMMENTS_KEEP} comments, as many as it keeps. Delete one, or carry on in a new task.` }; }
+  await doneUp(up.fresh, s);
   // When it was last talked about, for the Feed. A task deleted meanwhile takes the comment with it.
   let gone = false;
   await updateList(TASKS, 'tasks', (list) => {
@@ -12224,30 +12280,44 @@ export async function commentTask(who, id, text, s = store(), now = Date.now(), 
     if (gone || (list[k].talk || 0) >= now) return null;
     const copy = list.slice(); copy[k] = { ...list[k], talk: now }; return copy;
   }, s);
-  if (gone) { await s.delete(taskCommentsBlob(tid)); await dropLinksFrom(`taskc:${tid}/`, false, s); return { error: 'That task has been deleted.' }; }
+  if (gone) { await s.delete(taskCommentsBlob(tid)); await dropTaskFiles(tid, s); await dropLinksFrom(`taskc:${tid}/`, false, s); return { error: 'That task has been deleted.' }; }
   await noteTask('commented', who.handle, task, task, s, now, mods, { comment: c, earlier }).catch(() => null);
   return { comment: shapeComment(c, who) };
 }
 
-export async function editTaskComment(who, id, cid, text, s = store(), now = Date.now(), mods) {
+/* `asked`, when sent, is every picture and file the comment is to hold, the
+   ones it had included; when not sent, it keeps the ones it has. */
+export async function editTaskComment(who, id, cid, text, s = store(), now = Date.now(), mods, asked) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
   if (mods === undefined) mods = await loadMods();
   const tid = taskId(id), k0 = commentId(cid);
   if (!tid || !k0) return { error: 'Edit which comment?' };
-  const words = cleanForumBody(text, TASK_COMMENT_MAX);
-  if (!words) return { error: `A comment is between one and ${TASK_COMMENT_MAX} characters.` };
-  let saved = null, was = null, why = null;
+  const before = (await readTaskComments(tid, s)).find((x) => x.id === k0);
+  if (!before) return { error: 'That comment has been deleted.' };
+  if (before.mark !== authorMark(who)) return { error: 'Only whoever wrote a comment can change it.' };
+  const keep = asked === undefined;
+  const words = commentWords(text, keep ? before.files : asked);
+  if (words == null) return { error: WORDS_WHY };
+  const up = keep ? { files: before.files || [], fresh: [] } : await taskUploads(who, tid, asked, before.files || [], TASK_COMMENT_FILES_MAX, s, now);
+  if (up.error) return { error: up.error.replace(/^\d+ pictures/, `A comment holds ${TASK_COMMENT_FILES_MAX} pictures`) };
+  let saved = null, was = null, why = null, dropped = [];
   await updateList(taskCommentsBlob(tid), 'comments', (list) => {
-    saved = null; was = null; why = null;
+    saved = null; was = null; why = null; dropped = [];
     const k = list.findIndex((x) => x.id === k0);
     if (k < 0) { why = 'That comment has been deleted.'; return null; }
     if (list[k].mark !== authorMark(who)) { why = 'Only whoever wrote a comment can change it.'; return null; }
-    if (list[k].body === words) { saved = list[k]; return null; }
+    // Only its writer edits a comment, so what it held when the edit was asked is what it holds now.
+    const had = list[k].files || [], files = keep ? had : up.files;
+    dropped = had.filter((h) => !files.some((f) => f.id === h.id));
+    if (list[k].body === words && JSON.stringify(had) === JSON.stringify(files)) { saved = list[k]; return null; }
     was = list[k].body;
     saved = { ...list[k], body: words, edited: now };
+    if (files.length) saved.files = files; else delete saved.files;
     const copy = list.slice(); copy[k] = saved; return copy;
   }, s);
-  if (why) return { error: why };
+  if (why) { await letGo(tid, up.fresh, s); return { error: why }; }
+  await doneUp(up.fresh, s);
+  for (const f of dropped) await s.delete(taskFileKey(tid, f.id));
   const task = was != null ? (await readTasks(s)).find((x) => x.id === tid) : null;
   if (task) await noteTask('commented', who.handle, task, task, s, now, mods, { comment: saved, was, edit: true }).catch(() => null);
   return { comment: shapeComment(saved, who) };
@@ -12267,6 +12337,8 @@ export async function removeTaskComment(who, id, cid, s = store()) {
     return list.filter((_, i) => i !== k);
   }, s);
   if (why) return { error: why };
+  // Its pictures and files go with it.
+  for (const f of (gone && gone.files) || []) await s.delete(taskFileKey(tid, f.id));
   // One brought from Notion and deleted here stays deleted when comments are brought again.
   if (gone && gone.notion) await updateList(TASKS_GONE, 'ids', (ids) => (ids.includes(gone.notion) ? null : [...ids, gone.notion]), s);
   return { gone: true };

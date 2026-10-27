@@ -6194,8 +6194,13 @@ a file only as an attachment; anybody on Tasks attaches or takes one off, as any
 the hourly `sweepTaskFiles` delete what nothing holds. **`taskChanges` says how many pictures and files went on or came
 off and never their names** (`{ field: 'files', put, off }`), because a name can say whose papers they are, and the
 activity and notifications are kept apart from the task. `make-tasks.py` (`check_files`) holds all of it. The friendly
-edits are **a file's name in the activity "so you know which"**, **a public link to a picture "to share it"**, and
-**comments with attachments** done by copying this code into `comments.js` rather than sharing it.
+edits are **a file's name in the activity "so you know which"** and **a public link to a picture "to share it"**.
+**A comment carries them too** (the same day, `TASK_COMMENT_FILES_MAX`), and **`attach.js` is the one file that draws
+and takes them**, the rack.js rule: the task's section calls `loveAttach.shown` and `loveAttach.tray`, and `comments.js`
+calls the same two only when the page passes `files`, so the office's comments stay words. On the server
+`taskUploads` is the one door for both, a comment's files live under the same `task-file/<task>/`, `taskFile` serves one
+a comment holds, an edit that sends `files` sends everything the comment is to hold, and deleting a comment deletes its
+files. The friendly edit is a second copy of the picture code in `comments.js` or `office.js`; offer `files` instead.
 
 **TASKS AND THE OFFICE EACH HAVE A FEED, AFTER NOTION'S, AND IT KEEPS NOTHING.** Ryan's ask, 2026-10-21: a
 reverse-chronological feed with previews you can act on. Tasks' is a fourth view (`#/feed`) beside the list, board and

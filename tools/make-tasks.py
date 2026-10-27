@@ -510,9 +510,9 @@ def check_page():
         problems.append(f"{PAGE.name}: missing.")
         return
     page = PAGE.read_text()
-    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "links.js", "comments.js", "preview.js", "tasks.js")]
+    at = [page.find(f'<script src="{s}" defer></script>') for s in ("markdown.js", "links.js", "attach.js", "comments.js", "preview.js", "tasks.js")]
     if min(at) < 0 or at != sorted(at):
-        problems.append(f"{PAGE.name}: it must load markdown.js, then links.js, then comments.js, then preview.js, then tasks.js.")
+        problems.append(f"{PAGE.name}: it must load markdown.js, then links.js, then attach.js, then comments.js, then preview.js, then tasks.js.")
     if 'href="privacy.html#tasks"' not in page:
         problems.append(f"{PAGE.name}: the page must link what tasks keep, privacy.html#tasks.")
     if 'id="tasks"' not in PRIVACY.read_text():
@@ -572,9 +572,26 @@ def check_files(lib):
             problems.append(f"netlify/functions/cb-tasks-file.mjs: {why}.")
     if "sweepTaskFiles()" not in (ROOT / "netlify" / "functions" / "cb-midnight.mjs").read_text():
         problems.append("cb-midnight.mjs: the hourly sweep no longer takes task uploads nobody attached.")
+    # attach.js draws them for the task and its comments: one file, never a copy in each.
+    att = ROOT / "attach.js"
+    a = code_of(att) if att.exists() else ""
+    if "window.loveRedraw(" not in a or "getContext" in a:
+        problems.append("attach.js: a picture must go through the radio's one redraw, window.loveRedraw, which takes off its camera data, and attach.js must draw on no canvas of its own.")
+    for bad in ("innerHTML", "outerHTML", "insertAdjacentHTML", "localStorage", "sessionStorage", "indexedDB", "fetch("):
+        # A bare fetch( is a request; o.fetch(f) is the page's own way, handed in.
+        if (re.search(r"(?<![.\w])fetch\(", a) if bad == "fetch(" else bad in a):
+            problems.append(f"attach.js: {bad}. It builds from nodes, keeps nothing in the browser, and talks to no server of its own: the page hands it its way of asking.")
     js = code_of(JS)
-    if "window.loveRedraw(" not in js or "getContext" in js:
-        problems.append(f"{JS.name}: a picture must go through the radio's one redraw, window.loveRedraw, which takes off its camera data, and tasks.js must draw on no canvas of its own.")
+    if "window.loveAttach.tray(" not in js or "getContext" in js or "loveRedraw(" in js:
+        problems.append(f"{JS.name}: a task's pictures and files are drawn and taken by attach.js, not by tasks.js, which draws on no canvas of its own.")
+    c = code_of(ROOT / "comments.js")
+    if "window.loveAttach.tray(" not in c or "window.loveAttach.shown(" not in c:
+        problems.append("comments.js: a comment's pictures and files must be attach.js's tray and lists, the task's own, never a copy.")
+    for name in ("commentTask", "editTaskComment"):
+        if "taskUploads(" not in fn(lib, name):
+            problems.append(f"{LIB.name}: {name} takes pictures and files some way other than taskUploads, the task's own checks.")
+    if "taskFileKey(tid, f.id)" not in fn(lib, "removeTaskComment"):
+        problems.append(f"{LIB.name}: removeTaskComment leaves a deleted comment's pictures and files behind.")
     if 'id="task-files"' not in PRIVACY.read_text():
         problems.append(f"{PRIVACY.name}: the tasks section does not say what a task keeps of its pictures and files (id=\"task-files\").")
 

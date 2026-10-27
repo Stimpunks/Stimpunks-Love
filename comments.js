@@ -8,7 +8,13 @@
    page hands it a prefix for its own classes (tk- or of-), its way of asking
    its own function, and its own words for what went wrong, so Tasks dress it
    in tasks.css and the office in office.css. Nothing is kept in the browser,
-   and every word is built from nodes with textContent, never as HTML. */
+   and every word is built from nodes with textContent, never as HTML.
+
+   PICTURES AND FILES on a comment (Ryan's ask, 2026-10-27), only where the
+   page offers them (o.files): attach.js's tray in the box and its lists under
+   the words, so a comment's pictures are drawn exactly as the task's own are.
+   o.files: { tray(id, had) (attach.js's tray options), show(c) (its shown options) }.
+   The office offers none, and its comments are words. */
 (function () {
   'use strict';
 
@@ -22,7 +28,7 @@
   /* The box to write a comment in: its words, how Markdown works there, a
      preview, and Comment or Save, with Cancel where there is something to go
      back to. Ctrl or Cmd and Enter sends it too.
-     o: { p (prefix), id, label, value, goText, max, hint, ask, why, send(text, done), cancel, said, people, roles, me, mark }
+     o: { p (prefix), id, label, value, goText, max, hint, ask, why, send(text, done, files), cancel, said, people, roles, me, mark, files, had }
      Typing [[ in it offers links (links.js), asked of the page's own function,
      and @ the page's people (o.people(), never o.me); o.mark draws mentions. */
   function box(o) {
@@ -44,7 +50,9 @@
       row.appendChild(no);
     }
     var answer = el('p', p + '-answer'); answer.setAttribute('role', 'status');
-    [lab, text, hint, preview, row, answer].forEach(function (x) { form.appendChild(x); });
+    // Pictures and files, where the page offers them: what the comment holds already waits in the tray, to keep or leave out.
+    var tray = o.files && window.loveAttach ? window.loveAttach.tray(o.files.tray(o.id, o.had || [])) : null;
+    [lab, text, hint, preview, tray && tray.node, row, answer].forEach(function (x) { if (x) form.appendChild(x); });
     // [[ links a task, a topic or a record of the office, asked of the page's own function, and
     // @ mentions somebody the page names, from its own list (links.js).
     if (window.loveLinks) {
@@ -75,14 +83,19 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (go.disabled) return;
-      if (!text.value.trim()) { answer.textContent = 'Write something first.'; text.focus(); return; }
+      if (tray && tray.busy()) { answer.textContent = 'Wait a moment: a picture or file is still going up.'; return; }
+      if (!text.value.trim() && !(tray && tray.count())) { answer.textContent = 'Write something first.'; text.focus(); return; }
       go.disabled = true;
       answer.textContent = '';
-      o.send(text.value, function (ok, words) {
+      o.send(text.value, function (ok, words, sent) {
         go.disabled = false;
         answer.textContent = words || '';
-        if (ok) { text.value = ''; unlook(); }
-      });
+        if (ok) {
+          text.value = ''; unlook();
+          // The pictures just sent are shown from what was redrawn here, with no second fetch.
+          if (tray) { if (sent && o.files.key) tray.sent(o.files.key); tray.clear(); }
+        }
+      }, tray ? tray.list() : undefined);
     });
     return { form: form, text: text };
   }
@@ -102,6 +115,8 @@
     var body = el('div', o.p + '-body ' + o.p + '-comment__body');
     window.loveMarkdown.blocks(c.blocks || [], body, { top: 4, prefix: o.p });
     if (o.mark) o.mark(body);
+    // Its pictures and files under its words, drawn by attach.js as the page's own are.
+    if (o.files && window.loveAttach && c.files && c.files.length) body.appendChild(window.loveAttach.shown(o.files.show(c)));
     return body;
   }
 
@@ -117,14 +132,16 @@
     talk.appendChild(h);
     var ol = el('ol', p + '-comments');
     talk.appendChild(ol);
-    var write = box({ p: p, id: p + '-say', label: 'Write a comment', goText: 'Comment', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, roles: o.roles, me: o.me, mark: o.mark,
-      send: function (text, done) {
-        o.ask({ action: 'comment', id: o.id, body: text }).then(function (r) {
+    var write = box({ p: p, id: p + '-say', label: 'Write a comment', goText: 'Comment', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, roles: o.roles, me: o.me, mark: o.mark, files: o.files,
+      send: function (text, done, files) {
+        var send = { action: 'comment', id: o.id, body: text };
+        if (files && files.length) send.files = files;
+        o.ask(send).then(function (r) {
           if (r.status !== 200) { done(false, o.why(r, 'That did not post. Nothing was changed.')); return; }
+          done(true, 'Posted.', true);
           list = (list || []).concat([r.body.comment]);
           if (o.kept) o.kept(list);
           fill();
-          done(true, 'Posted.');
           o.say('Comment posted.');
           if (o.posted) o.posted(r.body.comment);
         });
@@ -158,10 +175,15 @@
           // The words are changed where they stand, and Cancel puts them back.
           body.hidden = true; tools.hidden = true;
           var b = box({ p: p, id: p + '-edit-' + c.id, label: 'Your comment', value: c.body, goText: 'Save', max: o.max, hint: o.hint, ask: o.ask, why: o.why, said: o.say, people: o.people, roles: o.roles, me: o.me, mark: o.mark,
+            files: o.files, had: c.files,
             cancel: function () { b.form.remove(); body.hidden = false; tools.hidden = false; ed.focus(); },
-            send: function (text, done) {
-              o.ask({ action: 'comment-edit', id: o.id, c: c.id, body: text }).then(function (r) {
+            send: function (text, done, files) {
+              var send = { action: 'comment-edit', id: o.id, c: c.id, body: text };
+              // Everything it is to hold, the ones it had included, so leaving one out lets it go.
+              if (files) send.files = files;
+              o.ask(send).then(function (r) {
                 if (r.status !== 200) { done(false, o.why(r, 'That did not save. Nothing was changed.')); return; }
+                done(true, '', true);
                 list = list.map(function (x) { return x.id === c.id ? r.body.comment : x; });
                 if (o.kept) o.kept(list);
                 var again = item(r.body.comment);
