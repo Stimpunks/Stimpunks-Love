@@ -8713,3 +8713,69 @@ import { sign as nodeSign, createHash as hashOf, randomBytes as rb } from 'node:
     } finally { if (was !== undefined) process.env.CB_STAFF_KEY = was; }
   }));
 }
+
+/* ── The Wiki's bot ──────────────────────────────────────────────────────── */
+import { forumBot, forumBotSigned, botCat, FORUM_BOT_NAME } from './lib.mjs';
+
+test('the Wiki’s bot starts and edits pages in the Wiki only, as BOT, calling no role and nobody’s name', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const made = await forumBot({ action: 'start', cat: 'wiki', title: 'Two-step sign-in', body: 'Hello @moderator.' }, s, T0, NO_NET);
+  assert.ok(made.page, made.error);
+  const t = await readTopic(made.page.id, s);
+  assert.equal(t.handle, FORUM_BOT_NAME);
+  assert.ok(t.bot && !t.base, 'the bot’s topic was not marked bot, or was marked base');
+  assert.ok(t.posts[0].bot && !t.posts[0].base);
+  assert.equal(t.posts[0].roles, undefined, 'the bot called a role');
+  for (const cat of FORUM_CATEGORIES.filter((c) => !botCat(c, T0))) {
+    assert.ok((await forumBot({ action: 'start', cat: cat.slug, title: 'x', body: 'y' }, s, T0, NO_NET)).error, `the bot started a topic in ${cat.slug}`);
+  }
+  for (const slug of ['grantmaking', 'board', 'directors', 'executive-session', 'announcements']) {
+    const c = forumCat(slug, T0);
+    if (c) assert.ok(!botCat(c, T0), `the bot can write in ${slug}`);
+  }
+  for (const slug of ['field-guide', 'notes', 'templates']) {
+    const r = await forumBot({ action: 'start', cat: slug, title: 'A team doc', body: 'Words.' }, s, T0, NO_NET);
+    assert.ok(r.page, `the bot could not start a page in ${slug}: ${r.error}`);
+  }
+  const years = (await forumBot({ action: 'cats' }, s, T0, NO_NET)).cats.filter((c) => c.parent === 'meeting-minutes');
+  assert.ok(years.length, 'the bot was not offered a year of Meeting Minutes');
+  assert.ok((await forumBot({ action: 'start', cat: years[0].slug, title: 'Minutes', body: 'Words.' }, s, T0, NO_NET)).page);
+  // A page a moderator wrote: the bot edits it, and the page says so.
+  const ryans = (await startTopic(FMOD, { cat: 'wiki', title: 'Rooms', body: 'First words.' }, s, T0, NO_NET)).topic;
+  const ed = await forumBot({ action: 'edit', id: ryans.id, body: 'Better words.', title: 'Rooms, kept up' }, s, T0 + 5, NO_NET);
+  assert.ok(ed.page, ed.error);
+  const after = await readTopic(ryans.id, s);
+  assert.equal(after.posts[0].body, 'Better words.');
+  assert.equal(after.title, 'Rooms, kept up');
+  assert.equal(after.posts[0].editedBy, FORUM_BOT_NAME);
+  assert.ok(after.posts[0].editedBot && !after.posts[0].editedBase);
+  assert.equal(after.posts[0].handle, 'Ryan', 'the bot’s edit changed whose page it is');
+  // Never a reply, and never outside a wiki everybody reads.
+  await replyTopic(ADA, ryans.id, { body: 'Thanks.' }, s, T0 + 6, NO_NET);
+  const read = await forumBot({ action: 'read', id: ryans.id }, s, T0 + 7, NO_NET);
+  assert.equal(read.page.body, 'Better words.', 'read gave something other than the page');
+  const help = (await startTopic(FMOD, { cat: 'announcements', title: 'News', body: 'x' }, s, T0, NO_NET)).topic;
+  assert.ok((await forumBot({ action: 'edit', id: help.id, body: 'y' }, s, T0 + 8, NO_NET)).error, 'the bot edited outside a wiki');
+  assert.ok((await forumBot({ action: 'read', id: help.id }, s, T0 + 8, NO_NET)).error, 'the bot read outside a wiki');
+  assert.ok((await forumBot({ action: 'reply', id: ryans.id, body: 'z' }, s, T0 + 9, NO_NET)).error, 'the bot replied');
+  const list = await forumBot({ action: 'list', cat: 'wiki' }, s, T0 + 10, NO_NET);
+  assert.ok(list.topics.some((x) => x.id === ryans.id));
+  assert.ok((await forumBot({ action: 'list', cat: 'grantmaking' }, s, T0 + 10, NO_NET)).error, 'the bot listed Grantmaking');
+  assert.ok(botWord(FORUM_BOT_NAME) && botWord('claude'), 'somebody could claim the bot’s name');
+});
+
+test('the Wiki’s bot answers only a request signed with its own key, recently', () => {
+  const was = process.env.CB_FORUM_BOT_KEY;
+  process.env.CB_FORUM_BOT_KEY = 'k'.repeat(40);
+  try {
+    const raw = JSON.stringify({ action: 'list' });
+    const t = Math.floor(T0 / 1000);
+    const sig = (k, at) => `t=${at},v1=${createHmac('sha256', k).update(`${at}.${raw}`, 'utf8').digest('hex')}`;
+    assert.ok(forumBotSigned(sig('k'.repeat(40), t), raw, T0));
+    assert.ok(!forumBotSigned(sig('j'.repeat(40), t), raw, T0), 'another key was taken');
+    assert.ok(!forumBotSigned(sig('k'.repeat(40), t - 3600), raw, T0), 'an hour-old request was taken');
+    assert.ok(!forumBotSigned(sig('k'.repeat(40), t), raw + ' ', T0), 'a changed body was taken');
+    delete process.env.CB_FORUM_BOT_KEY;
+    assert.ok(!forumBotSigned(sig('k'.repeat(40), t), raw, T0), 'a request was taken with no key set');
+  } finally { if (was === undefined) delete process.env.CB_FORUM_BOT_KEY; else process.env.CB_FORUM_BOT_KEY = was; }
+});

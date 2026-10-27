@@ -456,10 +456,12 @@
   /* BASE, filled, beside a moderator's name. There is no CLAIMED any more:
      every username on the CB is claimed (2026-10-21), so it said nothing. */
   function tag(text) { return el('span', 'cb-tag', text); }
-  function marks(into, base) { if (base) into.appendChild(tag('BASE')); }
+  function marks(into, base, bot) { if (bot) into.appendChild(tag('BOT')); else if (base) into.appendChild(tag('BASE')); }
 
   /* A name opens that person's profile on the radio, as a handle on the channel does. */
-  function who(handle, base) {
+  function who(handle, base, bot) {
+    // The Wiki's bot is nobody's username, so its name opens no profile.
+    if (bot) return el('span', 'fm-who fm-who--bot', handle);
     var b = el('button', 'fm-who', handle);
     b.type = 'button';
     b.setAttribute('aria-label', handle + '’s profile');
@@ -794,9 +796,9 @@
     var out = [];
     function add(h) { if (h && out.every(function (x) { return fold(x) !== fold(h); })) out.push(h); }
     if (!t) return out;
-    add(t.handle);
+    if (!t.bot) add(t.handle);
     (t.posts || []).forEach(function (p) {
-      add(p.handle);
+      if (!p.bot) add(p.handle);
       (p.at || []).forEach(add);
       if (p.cb) p.cb.messages.forEach(function (m) { add(m.handle); });
     });
@@ -1129,8 +1131,8 @@
     // A wiki page is everybody's to keep up: it says who started it, and who
     // edited it last when that was somebody else.
     if (p.wiki) { head.appendChild(tag('WIKI PAGE', true)); head.appendChild(document.createTextNode(' started by ')); }
-    head.appendChild(who(p.handle, p.base));
-    marks(head, p.base);
+    head.appendChild(who(p.handle, p.base, p.bot));
+    marks(head, p.base, p.bot);
     var link = el('a', 'fm-post__when', when(p.t));
     link.href = '#/t/' + t.id + '/' + p.id;
     link.setAttribute('aria-label', 'Posted ' + when(p.t) + '. Link to this post.');
@@ -1145,7 +1147,8 @@
     }
     if (p.edited && p.editedBy && p.editedBy !== p.handle) {
       var eby = el('span', 'fm-post__edited', 'edited by ');
-      eby.appendChild(who(p.editedBy, p.editedBase));
+      eby.appendChild(who(p.editedBy, p.editedBase, p.editedBot));
+      marks(eby, false, p.editedBot);
       eby.appendChild(document.createTextNode(' ' + when(p.edited)));
       head.appendChild(eby);
     } else if (p.edited) head.appendChild(el('span', 'fm-post__edited', 'edited ' + when(p.edited)));

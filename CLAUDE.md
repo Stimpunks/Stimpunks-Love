@@ -6461,6 +6461,22 @@ records kept against a person, the third a count, the fourth a request on somebo
 **And `image/*` is written in two halves in forum.js**, because `make-forum.py` strips comments with a regex that reads a
 slash and a star as one; a refusal from that tool about code that is plainly there is that.
 
+**CLAUDE CAN KEEP THE WIKI AND TEAM DOCS UP TO DATE, THROUGH A KEY OF ITS OWN AND NEVER AS ANYBODY.** Ryan's choice,
+2026-10-26, over Claude forging a pass for his username (which would have got past his two-step sign-in) and over driving
+his browser: `/cb/forum/bot` (`cb-forum-bot.mjs`, `forumBot` in `lib.mjs`) takes a request signed with `CB_FORUM_BOT_KEY`
+(the office intake's HMAC shape), which `tools/forum-bot.mjs` reads out of 1Password (`op://Secrets/Stimpunks.World
+CB_FORUM_BOT_KEY Netlify/password`, account stimpunks.1password.com) and never prints. **Use it from a session**: `node
+tools/forum-bot.mjs cats`, `list <category>`, `read <id>` (the page's Markdown), `start <category> <title> <file.md>` and
+`edit <id> <file.md> [--title …]`; write the Markdown to a file in the scratchpad, never in the repository, and say in the
+session what changed. It acts only in `FORUM_BOT_TOPS` (the Wiki, and Team Docs and every category under it: Ryan's ask the
+same day, "I need help with Team Docs too", so the key reads staff documents, which `privacy.html#forum-bot` says), and only
+by starting a page or editing one (a topic's first post, whoever wrote it, as a wiki's editor may), under `FORUM_BOT_NAME`
+(Claude, which `botWord` keeps from being anybody's username) with `bot` on the topic and the post and never `base`, so
+`forum.js` says BOT and the name opens no profile. **It calls no role and tells nobody** (`mentionableRoles`, and nothing
+there calls `notifyForum`). `tools/make-forum.py` (`check_bot`) holds all of it. The friendly edits are **Grantmaking or the
+directors' categories added to `FORUM_BOT_TOPS`**, which is a key that reads applicants' names, **replies or take-downs
+"to tidy the Wiki"**, and **posting on a timer**; each is Ryan's call, `privacy.html#forum-bot` first.
+
 **A POLL IS THE ONE PLACE THE FORUMS COUNT, AND A SEALED BALLOT KEEPS NOBODY'S PICK.** Norah's ask, Ryan's calls,
 2026-10-22, reversing the forums' tally rule for polls alone (the Mission says the street counts people in two places
 now). A topic can open with a poll (`cleanPoll` in `startTopic`; `votePoll`, `closePoll`, `shapePoll` in `lib.mjs`),

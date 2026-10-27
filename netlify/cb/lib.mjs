@@ -4992,7 +4992,7 @@ export function feedRooms() {
 export function sourceSkips(title) { return SOURCE_SKIP.test(String(title || '')); }
 export function botWord(h) {
   const f = foldHandle(h);
-  return !!f && Object.values(FEED_NAMES).some((n) => foldHandle(n) === f);
+  return !!f && [...Object.values(FEED_NAMES), FORUM_BOT_NAME].some((n) => foldHandle(n) === f);
 }
 
 /* Reading a feed: RSS 2.0 for The Feed's wires and GitHub's Atom for The
@@ -5860,7 +5860,7 @@ async function updateAccount(handle, change, s) {
 // A role's word is not a username (ROLE_ANYBODY, under Notifications).
 const ROLE_WORD = 'That is the name of a role on the CB: @moderator, @director, @board and @administrator call everybody who holds one, so nobody can have it as a username. Pick another.';
 // Nor is a room's feed bot's name (botWord, under Room channels).
-const BOT_WORD = 'That is the name The Feed and The Source say new arrivals under on their channels, so nobody can have it as a username. Pick another.';
+const BOT_WORD = 'That is a name the street\u2019s own bots write under (The Feed\u2019s and The Source\u2019s arrivals, and the Wiki\u2019s bot), so nobody can have it as a username. Pick another.';
 
 /* Claim `handle` with `password`, and an email address for recovery if one
    is given. The first claim wins; a handle on the moderators' list cannot be
@@ -8634,6 +8634,8 @@ function summaryOf(t) {
   const sum = { id: t.id, v: t.v || 0, title: t.title, handle: t.handle, t: t.t, last: t.last, lastBy: t.lastBy };
   if (t.base) sum.base = true;
   if (t.lastBase) sum.lastBase = true;
+  if (t.bot) sum.bot = true;
+  if (t.lastBot) sum.lastBot = true;
   if (t.pinned) sum.pinned = true;
   if (t.closed) sum.closed = true;
   if (t.unpinned) sum.unpinned = t.unpinned;
@@ -8692,6 +8694,8 @@ export function forumNav(who, now = Date.now()) { return forumCatsFor(who, now).
 function shapeSummary(sum, cat) {
   const out = { id: sum.id, cat: cat.slug, title: sum.title, handle: sum.handle, base: !!sum.base, t: sum.t,
     last: sum.last, lastBy: sum.lastBy, lastBase: !!sum.lastBase, goes: topicGoes(sum, cat) };
+  if (sum.bot) out.bot = true;
+  if (sum.lastBot) out.lastBot = true;
   if (sum.pinned) out.pinned = true;
   if (sum.closed) out.closed = true;
   if (sum.tags && sum.tags.length) out.tags = sum.tags.slice();
@@ -8867,7 +8871,8 @@ function shapePost(p, who, mark, doc = false, editor = false) {
   if (typeof p.edited === 'number') out.edited = p.edited;
   // Whoever edited it last, when that is somebody: a document's words are
   // never shown as only its starter's.
-  if (p.editedBy) { out.editedBy = p.editedBy; if (p.editedBase) out.editedBase = true; }
+  if (p.editedBy) { out.editedBy = p.editedBy; if (p.editedBase) out.editedBase = true; if (p.editedBot) out.editedBot = true; }
+  if (p.bot) out.bot = true;
   if (p.reply) out.reply = p.reply;
   // Brought from Notion: the page it came from, so a reader can see it was written there, at its time.
   if (p.notion) out.notion = p.notion;
@@ -8893,7 +8898,7 @@ function topicAlone(t, mark) { return t.posts.every((p) => p.by === mark); }
 
 export function shapeTopic(t, cat, who, now = Date.now()) {
   const mark = authorMark(who), mod = who.role === 'base', editor = forumEditor(who, cat), wiki = !!cat.wiki;
-  const out = { id: t.id, cat: shapeForumCat(cat, who), title: t.title, handle: t.handle, base: !!t.base, t: t.t, last: t.last,
+  const out = { id: t.id, cat: shapeForumCat(cat, who), title: t.title, handle: t.handle, base: !!t.base, bot: !!t.bot, t: t.t, last: t.last,
     goes: topicGoes(summaryOf(t), cat), retitle: t.by === mark || editor, retag: t.by === mark || editor || mod, tags: (t.tags || []).slice(), mod,
     takeDown: mod || (t.by === mark && topicAlone(t, mark)),
     reply: !t.closed || mod, full: t.posts.length >= FORUM_POSTS_MAX,
@@ -9077,7 +9082,7 @@ export function shapeTranscript(cb, who) { return shapeCopied(cb, who); }
 
 function makePost(who, body, links, now, files = [], at = []) {
   const p = { id: newPostId(), handle: who.handle, by: authorMark(who), t: now, body };
-  if (who.role === 'base') p.base = true;
+  if (who.bot) p.bot = true; else if (who.role === 'base') p.base = true;
   if (links && links.length) p.links = links;
   if (files.length) p.files = files;
   if (at.length) p.at = at;
@@ -9126,7 +9131,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
   const post = makePost(who, body, await previewsOf(body, [], get), now, att.files, mentionedIn(body, f.at, null));
   if (cb) post.cb = cb;
   const topic = { id: newTopicId(), v: 1, cat: cat.slug, title, handle: who.handle, by: authorMark(who), t: now, last: now, lastBy: who.handle, posts: [post] };
-  if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
+  if (who.bot) { topic.bot = true; topic.lastBot = true; } else if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
   if (tags.length) topic.tags = tags;
   if (poll) topic.poll = { ...poll.poll, by: authorMark(who), handle: who.handle };
   // The files go under the topic before the topic does, so no post ever
@@ -9171,6 +9176,7 @@ function settle(t) {
   t.last = Math.max(lastPost.t, t.t);
   t.lastBy = lastPost.handle;
   if (lastPost.base) t.lastBase = true; else delete t.lastBase;
+  if (lastPost.bot) t.lastBot = true; else delete t.lastBot;
   return t;
 }
 
@@ -9197,7 +9203,7 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
     t.posts.push(made);
     // Never backwards: two replies in the same moment land in either order.
     if (now >= t.last) { t.last = now; t.lastBy = who.handle; }
-    if (t.lastBy === who.handle && now >= t.last) { if (who.role === 'base') t.lastBase = true; else delete t.lastBase; }
+    if (t.lastBy === who.handle && now >= t.last) { if (who.role === 'base') t.lastBase = true; else delete t.lastBase; delete t.lastBot; }
     return t;
   });
   if (r.error) { await dropFiles(id, att.fresh.map((x) => x.id), s); return r; }
@@ -9258,7 +9264,8 @@ export async function editPost(who, id, pid, f, s = store(), now = Date.now(), g
     }
     if (doc) {
       p.editedBy = who.handle;
-      if (who.role === 'base') p.editedBase = true; else delete p.editedBase;
+      if (who.role === 'base' && !who.bot) p.editedBase = true; else delete p.editedBase;
+      if (who.bot) p.editedBot = true; else delete p.editedBot;
     }
     made = p;
     return t;
@@ -9548,6 +9555,79 @@ export async function retagTopic(who, id, f, s = store(), now = Date.now()) {
    brings it, and refuses a page the category would let go of at once because
    it is older than the category keeps topics. An import is nobody's news: it
    tells nobody, and a post that says it came from Notion is shown that way. */
+/* THE WIKI'S BOT (Ryan's choice, 2026-10-26: "a posting key for a Claude
+   username", so Claude can keep the Wiki's pages up to date from a session).
+   It is a request signed with CB_FORUM_BOT_KEY (x-stimpunks-signature, the
+   intake's shape: an HMAC-SHA256 of "t.body", good for five minutes), sent by
+   tools/forum-bot.mjs, which reads the key out of 1Password and never prints
+   it. It is nobody's pass and signs nobody on. What it may do is narrow, and
+   tools/make-forum.py holds every part:
+     · only in the Wiki and in Team Docs and every category under it (botCat,
+       FORUM_BOT_TOPS; Ryan's ask, the same day: "I need help with Team Docs
+       too"), so never Grantmaking, the Directors', the Board's or Executive
+       Session. In Team Docs that means the key reads staff documents as well
+       as writing them, which privacy.html#forum-bot says;
+     · list that category's topics, read a topic's page (its first post), start
+       a topic there, and edit a page, and nothing else: no replies, no take
+       downs, no pictures or files, no polls, no moving, no pinning;
+     · always under FORUM_BOT_NAME, a name nobody can claim (botWord), marked
+       `bot` on the topic and the post and never `base`, so the page says BOT;
+     · it calls no role (mentionableRoles) and tells nobody: nothing here calls
+       notifyForum, so an @mention in its words rings no device. */
+export const FORUM_BOT_NAME = 'Claude';
+export const FORUM_BOT_MAX = 300000;
+function forumBotKey() {
+  const v = process.env.CB_FORUM_BOT_KEY;
+  return typeof v === 'string' && v.trim().length >= 32 ? v.trim() : null;
+}
+export function forumBotReady() { return !!forumBotKey() && staffReady(); }
+export function forumBotSigned(header, raw, now = Date.now()) { return hmacSigned(forumBotKey(), header, raw, now); }
+function forumBotWho() {
+  return { role: 'base', handle: FORUM_BOT_NAME, roles: new Set(['moderator']), account: true, since: 0, bot: true };
+}
+export const FORUM_BOT_TOPS = ['wiki', 'team-docs'];
+export function botCat(cat, now = Date.now()) {
+  if (!cat || !Array.isArray(cat.wiki) || !cat.wiki.length || cat.shelf || cat.strict) return false;
+  let top = cat;
+  for (let i = 0; top && top.parent && i < 8; i++) top = forumCat(top.parent, now);
+  return !!top && !top.parent && FORUM_BOT_TOPS.includes(top.slug);
+}
+export async function forumBot(b, s = store(), now = Date.now(), get = safeGet) {
+  const act = b && b.action;
+  const who = forumBotWho();
+  const page = (t) => ({ id: t.id, cat: t.cat, title: t.title, body: (t.posts[0] && t.posts[0].body) || '', tags: (t.tags || []).slice(),
+    by: t.handle, edited: (t.posts[0] && t.posts[0].edited) || null, editedBy: (t.posts[0] && t.posts[0].editedBy) || null });
+  if (act === 'cats') {
+    return { cats: forumCategories(now).filter((c) => botCat(c, now)).map((c) => ({ slug: c.slug, name: c.name, parent: c.parent || null })) };
+  }
+  if (act === 'list') {
+    const cat = forumCat(b.cat, now);
+    if (!botCat(cat, now)) return { error: 'The bot writes only in the Wiki and Team Docs.' };
+    const list = await readForumIndex(cat.slug, s);
+    return { topics: list.map((x) => ({ id: x.id, title: x.title, by: x.handle, last: x.last })) };
+  }
+  if (act === 'read' || act === 'edit') {
+    const t = typeof b.id === 'string' ? await readTopic(b.id, s) : null;
+    const cat = t && forumCat(t.cat, now);
+    if (!t || !botCat(cat, now) || !topicLive(summaryOf(t), cat, now)) return { error: 'There is no such page where the bot writes.' };
+    if (act === 'read') return { page: page(t) };
+    if (!t.posts[0]) return { error: 'That page has no first post to edit.' };
+    const f = { body: b.body, at: [] };
+    if (b.title != null) f.title = b.title;
+    const r = await editPost(who, t.id, t.posts[0].id, f, s, now, get);
+    if (r.error) return r;
+    return { page: page(r.topic) };
+  }
+  if (act === 'start') {
+    const cat = forumCat(b.cat, now);
+    if (!botCat(cat, now)) return { error: 'The bot writes only in the Wiki and Team Docs.' };
+    const r = await startTopic(who, { cat: cat.slug, title: b.title, body: b.body, tags: b.tags, at: [] }, s, now, get);
+    if (r.error) return r;
+    return { page: page(r.topic) };
+  }
+  return { error: 'The bot can list categories and pages, read, start and edit, and nothing else.' };
+}
+
 export async function importTopic(who, f, s = store(), now = Date.now()) {
   if (!forumReader(who)) return { error: CLAIM };
   if (who.role !== 'base') return { error: 'Only a moderator brings pages in from Notion.' };
@@ -10464,7 +10544,7 @@ export function mentions(text, handle) {
 export const ROLE_ANYBODY = ['moderator'];
 export function roleWord(h) { return ROLES.includes(foldHandle(h)); }
 export function mentionableRoles(who) {
-  if (!who) return [];
+  if (!who || who.bot) return [];
   if (who.role === 'base') return ROLES.slice().sort();
   return who.account ? ROLE_ANYBODY.slice() : [];
 }

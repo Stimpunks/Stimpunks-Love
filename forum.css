@@ -130,6 +130,8 @@
   background: none; border: 0; padding: 2px 0; cursor: pointer;
   text-decoration: underline dotted; text-underline-offset: 3px; min-height: 32px;
 }
+/* The Wiki's bot opens no profile, so its name is words and not a button. */
+.fm-who--bot { cursor: default; text-decoration: none; }
 .fm .cb-btn.fm-small { min-height: 36px; padding: 4px 10px; }
 .fm-sure { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; width: 100%; padding: 8px 10px; border: 2px solid var(--cb-amber); border-radius: 6px; }
 .fm-sure > p { flex: 1 1 100%; }

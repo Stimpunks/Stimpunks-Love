@@ -366,6 +366,16 @@
   </ul>
   <p>We keep a post because you wrote it for the people in the forums to read, for as long as its category says. Posting is your consent to that, and taking a post down takes it back.</p>
 
+  <h3 id="forum-bot">The Wiki&rsquo;s bot</h3>
+  <p>Since 2026-10-26 Claude, the AI that does most of the building here (<a href="design.html">how this site is made</a>), can keep the pages in the forums&rsquo; <strong>Wiki</strong> and <strong>Team Docs</strong> up to date, Ryan&rsquo;s call. It does that through a key of its own, kept in Netlify and in our password manager, and never through anybody&rsquo;s username or password.</p>
+  <ul>
+    <li><strong>What the key can do.</strong> In the Wiki and in Team Docs and every category under Team Docs, and nowhere else: list the pages, read a page, start a page and edit a page, whoever wrote it, the way a moderator can. It cannot reply, take anything down, add a picture, a file or a poll, or move or pin a topic, and it cannot read or write Grantmaking or the directors&rsquo; and board&rsquo;s categories.</li>
+    <li><strong>Team Docs is staff-only, so the key can read staff documents</strong> as well as write them. Whoever holds the key can read every page in Team Docs, Meeting Minutes included.</li>
+    <li><strong>It writes under its own name, Claude, marked BOT</strong>, so you can always tell its pages and edits from a person&rsquo;s. Nobody can have Claude as a username. A page it edits says it was edited by Claude.</li>
+    <li><strong>It tells nobody.</strong> Its pages send no notifications, and an @mention or a role in its words rings no device.</li>
+    <li><strong>A person reads it first.</strong> Ryan asks for a change in a conversation with Claude, and Claude writes it; nothing posts on a timer or by itself.</li>
+  </ul>
+
   <h2 id="tasks">Tasks</h2>
   <p><a href="tasks.html">Tasks</a> are the team&rsquo;s to-do list, moved here from EspoCRM (Ryan&rsquo;s call, 2026-10-20). They are the CB&rsquo;s too, and they are not public: <strong>only our directors, board members and administrators can read or change them</strong>, and only once they have claimed their username. Nobody else is sent a task, or told that there are any.</p>
   <p><strong>Since 2026-10-25 they are sealed at rest</strong>, Ryan&rsquo;s call: every task, its comments, its activity, everybody&rsquo;s Tasks notifications and saved filters, the recurring tasks and the templates are encrypted where they are kept at Netlify, with a key of their own that neither the office nor direct messages use, so somebody who got at the stored files alone could not read them. <strong>They are not end-to-end encrypted</strong>: our server opens them for whoever may read Tasks. Without that key Tasks are shut rather than written in the clear, and anything written before that day is sealed the next time it is written, or within the hour.</p>

@@ -327,7 +327,7 @@ def check_lib(lib):
                 problems.append(f"{LIB.name}: {name} sends `{word}`. Nothing about reading is kept, and nothing is counted.")
     m = re.search(r"function summaryOf\(t\) \{.*?\n\}", sec, re.S)
     keys = set(re.findall(r"\b(\w+):", m.group(0))) | set(re.findall(r"sum\.(\w+) =", m.group(0))) if m else set()
-    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "pinned", "closed", "unpinned", "tags", "notion", "poll"}:
+    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "bot", "lastBot", "pinned", "closed", "unpinned", "tags", "notion", "poll"}:
         problems.append(f"{LIB.name}: a topic's summary holds {sorted(keys)}; it holds what a list shows and nothing else.")
     if m and "poll" in keys and "if (t.poll) sum.poll = true;" not in m.group(0):
         problems.append(f"{LIB.name}: a topic's summary says only that the topic has a poll, never anything about its votes.")
@@ -680,6 +680,49 @@ def check_rooms(lib, cats):
                             f"{' and is strict' if town in strict else ''}; the category says {c.get('see')}{' and strict' if c.get('strict') else ''}.")
 
 
+def check_bot(lib):
+    """THE WIKI'S BOT (Ryan's choice, 2026-10-26): a signed key for Claude to
+    keep the Wiki's and Team Docs' pages up to date. It writes only there, only
+    by starting a page or editing one, under its own name marked bot and never
+    base, calls no role, tells nobody, and its tool never prints its key."""
+    part = re.search(r"/\* THE WIKI'S BOT .*?\nexport async function forumBot\(.*?\n\}\n", lib, re.S)
+    if not part:
+        problems.append(f"{LIB.name}: the Wiki's bot (THE WIKI'S BOT to forumBot) has gone, so this tool cannot hold it.")
+        return
+    code = code_of_text(part.group(0))
+    tops = re.search(r"FORUM_BOT_TOPS = \[([^\]]*)\]", code)
+    if not tops or sorted(re.findall(r"'([^']+)'", tops.group(1))) != ["team-docs", "wiki"]:
+        problems.append(f"{LIB.name}: FORUM_BOT_TOPS must be exactly the Wiki and Team Docs. Widening the bot to "
+                        "another category is Ryan's call, written on privacy.html#forum-bot first.")
+    if "cat.strict" not in code or "cat.shelf" not in code:
+        problems.append(f"{LIB.name}: botCat must refuse a strict category and a shelf.")
+    body = re.search(r"export async function forumBot\(.*?\n\}", code, re.S).group(0)
+    calls = set(re.findall(r"\b(\w+)\(", body)) - {"forumBot", "store", "now", "forumBotWho", "page", "forumCat", "botCat", "readForumIndex", "readTopic",
+        "topicLive", "summaryOf", "editPost", "startTopic", "forumCategories", "filter", "map", "slice", "if", "return", "some"}
+    if calls:
+        problems.append(f"{LIB.name}: forumBot calls {sorted(calls)}. It lists, reads, starts and edits a page, and nothing "
+                        "else: no reply, no take down, no notifyForum.")
+    if re.search(r"files\s*:|poll\s*:|from\s*:", body):
+        problems.append(f"{LIB.name}: forumBot passes files, a poll or a copy from the CB. It writes words only.")
+    who = re.search(r"function forumBotWho\(\) \{\s*return \{(.*?)\};", code, re.S)
+    if not who or "bot: true" not in who.group(1) or "FORUM_BOT_NAME" not in who.group(1):
+        problems.append(f"{LIB.name}: the bot must write as FORUM_BOT_NAME with bot: true.")
+    if not re.search(r"\[\.\.\.Object\.values\(FEED_NAMES\), FORUM_BOT_NAME\]", lib):
+        problems.append(f"{LIB.name}: botWord must keep FORUM_BOT_NAME from being anybody's username.")
+    if not re.search(r"if \(!who \|\| who\.bot\) return \[\];", lib):
+        problems.append(f"{LIB.name}: mentionableRoles must give the bot no role to call.")
+    if "if (who.bot) p.bot = true; else if (who.role === 'base') p.base = true;" not in lib:
+        problems.append(f"{LIB.name}: makePost must mark the bot's post bot, never base.")
+    fn = (ROOT / "netlify/functions/cb-forum-bot.mjs").read_text()
+    if "forumBotSigned(req.headers.get('x-stimpunks-signature'), raw)" not in fn or "notifyForum" in fn:
+        problems.append("cb-forum-bot.mjs: every request must be checked with forumBotSigned before it is read, and the bot tells nobody.")
+    tool = (ROOT / "tools/forum-bot.mjs").read_text()
+    if re.search(r"console\.(log|error)\([^)]*key\(\)", tool) or "process.argv" in tool and "--key" in tool:
+        problems.append("tools/forum-bot.mjs: the bot's key is read from 1Password and never printed or taken as an argument.")
+    if 'id="forum-bot"' not in (ROOT / "privacy.html").read_text():
+        problems.append("privacy.html: the Wiki's bot needs its section (#forum-bot) saying what its key can read and write.")
+
+
 def main():
     data = json.loads(DATA.read_text())
     lib = LIB.read_text()
@@ -700,6 +743,7 @@ def main():
     check_page()
     check_cb()
     check_sealed(lib)
+    check_bot(lib)
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1
