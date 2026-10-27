@@ -2758,6 +2758,17 @@
       return h;
     });
   }
+  /* EACH READER ARRANGES THEIR OWN DASHBOARD (requests to Ryan, 2026-10-27): the
+     order of its sections and of the boxes in Newest, and which are hidden, kept
+     for them on the server (officeLayout) and shown to nobody else. Arrange the
+     dashboard puts Move up, Move down and Show it on every section and box; a
+     hidden one is then drawn as its heading alone, so it can be shown again.
+     Buttons, never dragging alone, so a keyboard, a screen reader and a phone
+     can do all of it. Only the part under the links is drawn again on a change,
+     so the notice above it never arrives twice. */
+  var DASH_WORDS = { newest: 'Newest', people: 'Open tasks by person', stands: 'How it stands', charts: 'Charts', connected: 'Mail and money' };
+  var BOX_WORDS = { grants: 'Grant requests', cases: 'Cases', mail: 'Email', tasks: 'Tasks', forum: 'Forum posts', forms: 'Form entries' };
+  var arranging = false;
   function drawDashboard(d) {
     view.textContent = '';
     // The notice, when our moderators have one up (notice.js), at the top of the dashboard.
@@ -2767,161 +2778,287 @@
     var h = heading(2, 'Dashboard');
     view.appendChild(h);
     view.appendChild(el('p', 'cb-quiet', 'Worked out ' + when(d.asOf) + ' from the office’s own records. This week is the seven days to ' + dayWords(d.day) + '; the week before is the seven before that.'));
-    view.appendChild(viewLinks([['#/dashboard', 'Dashboard', true], ['#/reports', 'Reports']]));
-    var g = d.grants, k = d.cases, t = d.tasks, m = d.mailings;
-
-    /* FIRST, WHAT CAME IN LAST AND WHO HAS WHAT OPEN (Ryan's ask, 2026-10-21,
-       moved up from the foot): each list's heading is a link to its own page,
-       so the dashboard is a way into the rest of the office and Tasks. */
-    view.appendChild(el('h3', null, 'Newest'));
-    var newest = el('div', 'of-dash');
-    function list(title, href, items, draw) {
-      var f = el('section', 'of-fig');
-      var head = el('h4', 'of-fig__title');
-      if (href) { var go = el('a', null, title); go.href = href; head.appendChild(go); }
-      else head.textContent = title;
-      f.appendChild(head);
-      if (!items.length) { f.appendChild(quiet('None yet.')); return f; }
-      var ul = el('ul', 'of-theirs');
-      items.forEach(function (x) { var li = el('li'); draw(li, x); ul.appendChild(li); });
-      f.appendChild(ul);
-      return f;
-    }
-    // The latest of stimpunks.org's form entries, the highest entry number first, each with
-    // the form it came from and the record it made, and how many came from each form this week.
-    var fe = list('Form entries', null, d.recent.forms, function (li, x) {
-      var a = el('a', null, (x.form || 'A form') + ', entry ' + x.entry);
-      a.href = (x.record === 'grant' ? '#/g/' : '#/k/') + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + [x.contactName, x.submitted ? dayWords(x.submitted) : null,
-        x.record === 'grant' ? 'a grant request' : 'case #' + x.number].filter(Boolean).join(', ')));
+    var links = viewLinks([['#/dashboard', 'Dashboard', true], ['#/reports', 'Reports']]);
+    arranging = false;
+    var ar = el('button', 'cb-btn of-small', 'Arrange the dashboard'); ar.type = 'button';
+    ar.setAttribute('aria-pressed', 'false');
+    links.appendChild(ar);
+    view.appendChild(links);
+    var body = el('div', 'of-dashbody');
+    view.appendChild(body);
+    ar.addEventListener('click', function () {
+      arranging = !arranging;
+      ar.setAttribute('aria-pressed', String(arranging));
+      drawDashBody(d, body);
+      say(arranging ? 'Arranging. Every section and every box in Newest can be moved or hidden.' : 'Done arranging.');
     });
-    function byForm(pick) {
-      var some = d.forms.week.filter(function (w) { return w[pick]; });
-      return some.length ? some.map(function (w) { return w.form + ' ' + w[pick]; }).join(', ') : 'none';
-    }
-    fe.appendChild(quiet('This week, by form: ' + byForm('now') + '. The week before: ' + byForm('before') + '.'));
-    fe.appendChild(quiet('Entries from forms the office takes nothing from, and spam, never come here, so the numbers skip.'));
-    newest.appendChild(fe);
-    newest.appendChild(list('Grant requests', '#/grants', d.recent.grants, function (li, x) {
-      var a = el('a', null, x.name); a.href = '#/g/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.pipeline + ', ' + x.stage + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
-    }));
-    newest.appendChild(list('Cases', '#/cases', d.recent.cases, function (li, x) {
-      var a = el('a', null, '#' + x.number + ' ' + x.name); a.href = '#/k/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.status + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
-    }));
-    // The emails filed last, with the contacts they are filed on. There is no
-    // list of every email to open: each is on its contacts' pages.
-    newest.appendChild(list('Email', null, d.recent.mail, function (li, x) {
-      var a = el('a', null, x.subject || '(no subject)'); a.href = '#/m/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + (x.out ? 'to ' : 'from ') + (x.contacts.join(', ') || 'a contact since deleted') + ', ' + when(x.at)));
-    }));
-    newest.appendChild(list('Tasks', '/tasks.html#/?who=all', d.recent.tasks, function (li, x) {
-      var a = el('a', null, x.name); a.href = '/tasks.html#/t/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.status + (x.who ? ', ' + x.who : '') + (x.due ? ', due ' + dayWords(x.due) : '')));
-    }));
-    // The forum topics posted to last, of the ones you may read.
-    newest.appendChild(list('Forum posts', '/forum.html#/latest', d.recent.forum, function (li, x) {
-      var a = el('a', null, x.title); a.href = '/forum.html#/t/' + x.id; li.appendChild(a);
-      li.appendChild(document.createTextNode(' · ' + x.cat + ', latest from ' + x.lastBy + ', ' + when(x.last)));
-    }));
-    view.appendChild(newest);
-
-    // Tasks, by who they are assigned to.
-    view.appendChild(el('h3', null, 'Open tasks by person'));
-    var tf = el('section', 'of-fig of-fig--lone');
-    tf.appendChild(numbersTable(['Assigned to', 'Open', 'Overdue'], t.byPerson.map(function (x) { return [x.who, x.open, x.overdue]; }).concat(t.unassigned ? [['Nobody yet', t.unassigned, '']] : [])));
-    var tl = el('p'); var ta = el('a', null, 'Open everybody\u2019s tasks'); ta.href = '/tasks.html#/?who=all'; tl.appendChild(ta); tf.appendChild(tl);
-    view.appendChild(tf);
-
-    // Then how it stands: the sentences, the tiles and the charts.
-    view.appendChild(el('h3', null, 'How it stands'));
-
-    // What it comes to, in sentences built from the same numbers.
-    var said = el('ul', 'of-theirs of-said-list');
-    function line(text) { said.appendChild(el('li', null, text)); }
-    line(plural(g.week.now, 'grant request') + ' came in this week, ' + against(g.week.now, g.week.before) + '.');
-    line(plural(k.week.now, 'case') + ' came in this week, ' + against(k.week.now, k.week.before) + '.');
-    line('Open grant requests submitted this year: ' + g.active.byPipeline.map(function (x) {
-      return x.pipeline + ' has ' + x.count + ', ' + (x.count <= x.cap ? (x.cap - x.count) + ' under' : (x.count - x.cap) + ' over') + ' its cap of ' + x.cap;
-    }).join('; ') + '.');
-    line('This year ' + plural(g.decided.granted, 'grant request') + (g.decided.granted === 1 ? ' was' : ' were') + ' granted, ' + money(g.decided.grantedSum) + ' in all, and ' + g.decided.denied + ' denied.');
-    line(plural(t.open, 'task') + (t.open === 1 ? ' is' : ' are') + ' open: ' + t.overdue + ' overdue and ' + t.dueSoon + ' due in the next seven days.');
-    line(plural(d.cb.week.now, 'message') + ' went out on the CB this week, ' + against(d.cb.week.now, d.cb.week.before) + '.');
-    if (m.waiting || m.sentWeek) line(plural(m.sentWeek, 'mailing email') + ' went this week' + (m.waiting ? ', and ' + m.waiting + (m.waiting === 1 ? ' is' : ' are') + ' waiting for the team mailbox' : '') + '.');
-    view.appendChild(said);
-
-    var tiles = el('div', 'of-tiles');
-    tiles.appendChild(tile('Grant requests this week', String(g.week.now), against(g.week.now, g.week.before)));
-    tiles.appendChild(tile('Open grant requests', String(g.open), money(g.openSum) + ' between them'));
-    tiles.appendChild(tile('Open cases', String(k.open), plural(k.week.now, 'new one') + ' this week'));
-    tiles.appendChild(tile('Open tasks', String(t.open), t.overdue + ' overdue'));
-    view.appendChild(tiles);
-
-    var grid = el('div', 'of-dash');
-    // EspoCRM's first report: open grant requests submitted this year, against the cap.
-    grid.appendChild(capFigure('Active grant applications this year', g.active, d.year));
-    // Every open case, by status.
-    grid.appendChild(figure('Open cases by status', function (art, w) {
-      hbars(art, w, k.byStatus.map(function (x) { return { label: x.status, value: x.count }; }), 'of-c3');
-    }, numbersTable(['Status', 'Open cases'], k.byStatus.map(function (x) { return [x.status, x.count]; }).concat(k.byType.map(function (x) { return [x.type + ' (open)', x.count]; })).concat([['Every open case', k.open]]))));
-    // Open grant requests by stage, a chart for each pipeline in its own colour.
-    g.stages.forEach(function (p, i) {
-      grid.appendChild(figure('Open grant requests by stage: ' + p.pipeline, function (art, w) {
-        hbars(art, w, p.stages.map(function (x) { return { label: x.stage, value: x.count, more: money(x.sum) }; }), i ? 'of-c2' : 'of-c1');
-      }, numbersTable(['Stage', 'Open', 'Amount'], p.stages.map(function (x) { return [x.stage, x.count, money(x.sum)]; }))));
-    });
-    // This year's grant requests, by the month they were submitted.
-    grid.appendChild(figure('Grant requests this year by month', function (art, w) {
-      stacked(art, w, { series: g.pipelines, cls: ['of-c1', 'of-c2'], cols: g.months.map(function (x) { return { label: monthWords(x.month), counts: x.counts }; }) });
-    },
-      numbersTable(['Month'].concat(g.pipelines).concat(['Every pipeline']), g.months.map(function (x) {
-        return [monthWords(x.month)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
-      }))));
-    // The CB, how many messages a day on its channels, and never whose.
-    var cbSeries = ['World', 'The rooms', 'The staff rooms'];
-    var cbFig = figure('CB messages each day', function (art, w) {
-      stacked(art, w, { series: ['Messages'], cls: ['of-c5'], on: true, bare: true, cols: d.cb.days.map(function (x) {
-        return { label: dayShort(x.day), long: dayWords(x.day), counts: [x.counts.reduce(function (a, b) { return a + b; }, 0)],
-          more: cbSeries.map(function (n, i) { return n + ': ' + x.counts[i]; }) };
-      }) });
-    }, numbersTable(['Day'].concat(cbSeries).concat(['Every channel']), d.cb.days.slice().reverse().map(function (x) {
-      return [dayWords(x.day)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
-    })));
-    cbFig.classList.add('of-fig--wide');
-    cbFig.appendChild(el('p', 'cb-quiet', 'Messages sent on World and in the rooms, by the street’s clock. ' + (d.cb.since ? 'Counted since ' + dayWords(d.cb.since) + '.' : 'Counting starts with the next message.') + ' A count is all that is kept: no name, no room and no words. Direct messages are not counted.'));
-    grid.appendChild(cbFig);
-    // Each night, what was open: kept as it happened, so it starts on the first night.
-    var nights = d.nights;
-    var nf = el('figure', 'of-fig of-fig--wide');
-    nf.appendChild(el('figcaption', 'of-fig__title', 'Open each night'));
-    if (!nights.length) {
-      nf.appendChild(el('p', 'cb-quiet', 'The office keeps a count of what is open late each evening, and the first is still to come. A line needs two nights.'));
-    } else {
-      var small = el('div', 'of-figrow');
-      function nightChart(title, series, cls, rows, dash) {
-        var f = figure(title, function (art, w) {
-          lines(art, w, { series: series, cls: cls, dash: dash, days: nights.map(function (x) { return x.day; }), rows: rows });
-        }, numbersTable(['Night'].concat(series), nights.slice().reverse().map(function (x, i) { return [dayWords(x.day)].concat(rows[nights.length - 1 - i]); })));
-        f.classList.add('of-fig--small');
-        small.appendChild(f);
-      }
-      nightChart('Open grant requests', g.pipelines, ['of-c1', 'of-c2'], nights.map(function (x) { return x.grants; }));
-      nightChart('Open cases', ['Open cases'], ['of-c3'], nights.map(function (x) { return [x.cases]; }));
-      nightChart('Open tasks', ['Open', 'Overdue'], ['of-c4', 'of-c4'], nights.map(function (x) { return [x.tasks, x.overdue]; }), [false, true]);
-      nf.appendChild(small);
-      nf.appendChild(el('p', 'cb-quiet', 'Counted late each evening in Colorado, since ' + dayWords(d.firstNight) + (nights.length < 2 ? '. A line needs two nights.' : '; the last ' + nights.length + ' nights are shown.')));
-    }
-    grid.appendChild(nf);
-    // The team mailbox, as its script counted it: numbers only, once an hour.
-    grid.appendChild(mailboxFigure(d.mailbox));
-    // QuickBooks: read late each evening and on a press; nothing here writes to our books.
-    grid.appendChild(quickBooksFigure(d.quickbooks));
-    // Givebutter: read late each evening and on a press; nobody who gave is named.
-    grid.appendChild(givebutterFigure(d.givebutter, d.day));
-    view.appendChild(grid);
-
+    drawDashBody(d, body);
     return h;
+  }
+  function drawDashBody(d, body, keep) {
+    body.textContent = '';
+    var layout = d.layout || { sections: Object.keys(DASH_WORDS), hide: [], boxes: Object.keys(BOX_WORDS), hideBoxes: [] };
+    var g = d.grants, k = d.cases, t = d.tasks, m = d.mailings;
+    if (arranging) {
+      body.appendChild(quiet('Move a section or a box, or hide it. This is kept for you, on any device you sign on with, and nobody else is shown it.'));
+      var back = el('p', 'of-row');
+      var put = el('button', 'cb-btn of-small', 'Put it back as it was'); put.type = 'button'; put.setAttribute('data-arrange', 'reset');
+      put.addEventListener('click', function () { change(null, 'The dashboard is back as it was.'); });
+      back.appendChild(put);
+      body.appendChild(back);
+    } else if (layout.hide.length || layout.hideBoxes.length) {
+      body.appendChild(quiet('Some of the dashboard is hidden. Arrange the dashboard shows it again.'));
+    }
+
+    // Saves the arrangement and draws it again, keeping the keyboard on the control pressed.
+    function change(next, words, mark) {
+      var send = next ? { action: 'dash-layout', layout: next } : { action: 'dash-layout', reset: true };
+      d.layout = next || { sections: Object.keys(DASH_WORDS), hide: [], boxes: Object.keys(BOX_WORDS), hideBoxes: [] };
+      drawDashBody(d, body, mark || 'reset');
+      say(words);
+      call(null, send).then(function (r) {
+        if (r.status !== 200) { say(why(r, 'That was not kept. It is arranged this way until the page is opened again.')); return; }
+        if (r.body.layout) d.layout = r.body.layout;
+      });
+    }
+    function copy() { return { sections: layout.sections.slice(), hide: layout.hide.slice(), boxes: layout.boxes.slice(), hideBoxes: layout.hideBoxes.slice() }; }
+    // Move up, Move down and Show it, for a section (order 'sections', hidden 'hide') or a box.
+    function arrangeBar(name, key, order, hidden, up, down) {
+      var bar = el('div', 'of-arrange');
+      bar.setAttribute('role', 'group');
+      bar.setAttribute('aria-label', 'Arrange ' + name);
+      var list = layout[order], i = list.indexOf(key), shut = layout[hidden].indexOf(key) >= 0;
+      function move(by, word) {
+        var b = el('button', 'cb-btn of-small', word); b.type = 'button';
+        b.setAttribute('data-arrange', order + ':' + key + ':' + by);
+        b.disabled = i + by < 0 || i + by >= list.length;
+        b.addEventListener('click', function () {
+          var n = copy(), l = n[order];
+          l.splice(i, 1); l.splice(i + by, 0, key);
+          change(n, name + ' moved ' + (by < 0 ? up : down) + '. It is ' + ordinal(i + by + 1) + ' of ' + l.length + '.', order + ':' + key + ':' + by);
+        });
+        bar.appendChild(b);
+      }
+      move(-1, 'Move ' + up);
+      move(1, 'Move ' + down);
+      var lab = el('label', 'of-check');
+      var box = el('input'); box.type = 'checkbox'; box.checked = !shut;
+      box.setAttribute('data-arrange', order + ':' + key + ':show');
+      lab.appendChild(box); lab.appendChild(document.createTextNode('Show it'));
+      box.addEventListener('change', function () {
+        var n = copy();
+        n[hidden] = box.checked ? n[hidden].filter(function (x) { return x !== key; }) : n[hidden].concat([key]);
+        change(n, name + (box.checked ? ' is shown.' : ' is hidden.'), order + ':' + key + ':show');
+      });
+      bar.appendChild(lab);
+      return bar;
+    }
+    function ordinal(n) { return ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth'][n - 1] || ('number ' + n); }
+
+    var draw = {
+      /* FIRST, WHAT CAME IN LAST AND WHO HAS WHAT OPEN (Ryan's ask, 2026-10-21,
+         moved up from the foot): each list's heading is a link to its own page,
+         so the dashboard is a way into the rest of the office and Tasks. Since
+         2026-10-27 nothing closed is in it, and Form entries comes last. */
+      newest: function (sec) {
+        var newest = el('div', 'of-dash');
+        function list(key, href, items, empty, fill) {
+          var title = BOX_WORDS[key], shut = layout.hideBoxes.indexOf(key) >= 0;
+          var f = el('section', 'of-fig');
+          var head = el('h4', 'of-fig__title');
+          if (href && !shut) { var go = el('a', null, title); go.href = href; head.appendChild(go); }
+          else head.textContent = title;
+          f.appendChild(head);
+          if (arranging) f.appendChild(arrangeBar(title, key, 'boxes', 'hideBoxes', 'earlier', 'later'));
+          if (shut) { f.appendChild(quiet('Hidden.')); return f; }
+          if (!items.length) f.appendChild(quiet(empty));
+          else {
+            var ul = el('ul', 'of-theirs');
+            items.forEach(function (x) { var li = el('li'); fill(li, x); ul.appendChild(li); });
+            f.appendChild(ul);
+          }
+          return f;
+        }
+        var boxes = {
+          grants: function () {
+            return list('grants', '#/grants', d.recent.grants, 'No grant request is open.', function (li, x) {
+              var a = el('a', null, x.name); a.href = '#/g/' + x.id; li.appendChild(a);
+              li.appendChild(document.createTextNode(' · ' + x.pipeline + ', ' + x.stage + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
+            });
+          },
+          cases: function () {
+            return list('cases', '#/cases', d.recent.cases, 'No case is open.', function (li, x) {
+              var a = el('a', null, '#' + x.number + ' ' + x.name); a.href = '#/k/' + x.id; li.appendChild(a);
+              li.appendChild(document.createTextNode(' · ' + x.status + (x.submitted ? ', ' + dayWords(x.submitted) : '')));
+            });
+          },
+          // The emails filed last, with the contacts they are filed on. There is no
+          // list of every email to open: each is on its contacts' pages.
+          mail: function () {
+            return list('mail', null, d.recent.mail, 'None yet.', function (li, x) {
+              var a = el('a', null, x.subject || '(no subject)'); a.href = '#/m/' + x.id; li.appendChild(a);
+              li.appendChild(document.createTextNode(' · ' + (x.out ? 'to ' : 'from ') + (x.contacts.join(', ') || 'a contact since deleted') + ', ' + when(x.at)));
+            });
+          },
+          tasks: function () {
+            return list('tasks', '/tasks.html#/?who=all', d.recent.tasks, 'No task is open.', function (li, x) {
+              var a = el('a', null, x.name); a.href = '/tasks.html#/t/' + x.id; li.appendChild(a);
+              li.appendChild(document.createTextNode(' · ' + x.status + (x.who ? ', ' + x.who : '') + (x.due ? ', due ' + dayWords(x.due) : '')));
+            });
+          },
+          // The forum topics posted to last, of the ones you may read.
+          forum: function () {
+            return list('forum', '/forum.html#/latest', d.recent.forum, 'None yet.', function (li, x) {
+              var a = el('a', null, x.title); a.href = '/forum.html#/t/' + x.id; li.appendChild(a);
+              li.appendChild(document.createTextNode(' · ' + x.cat + ', latest from ' + x.lastBy + ', ' + when(x.last)));
+            });
+          },
+          // The latest of stimpunks.org's form entries whose request or case is still open, the
+          // highest entry number first, with the form and the record, and how many came from each
+          // form this week, closed or not.
+          forms: function () {
+            var fe = list('forms', null, d.recent.forms, 'No entry’s grant request or case is open.', function (li, x) {
+              var a = el('a', null, (x.form || 'A form') + ', entry ' + x.entry);
+              a.href = (x.record === 'grant' ? '#/g/' : '#/k/') + x.id; li.appendChild(a);
+              li.appendChild(document.createTextNode(' · ' + [x.contactName, x.submitted ? dayWords(x.submitted) : null,
+                x.record === 'grant' ? 'a grant request' : 'case #' + x.number].filter(Boolean).join(', ')));
+            });
+            if (layout.hideBoxes.indexOf('forms') >= 0) return fe;
+            function byForm(pick) {
+              var some = d.forms.week.filter(function (w) { return w[pick]; });
+              return some.length ? some.map(function (w) { return w.form + ' ' + w[pick]; }).join(', ') : 'none';
+            }
+            fe.appendChild(quiet('This week, by form: ' + byForm('now') + '. The week before: ' + byForm('before') + '.'));
+            fe.appendChild(quiet('An entry whose grant request or case is closed is not listed, but is in these numbers. Entries from forms the office takes nothing from, and spam, never come here, so the numbers skip.'));
+            return fe;
+          },
+        };
+        layout.boxes.forEach(function (key) {
+          if (!arranging && layout.hideBoxes.indexOf(key) >= 0) return;
+          newest.appendChild(boxes[key]());
+        });
+        sec.appendChild(newest);
+      },
+      // Tasks, by who they are assigned to.
+      people: function (sec) {
+        var tf = el('section', 'of-fig of-fig--lone');
+        tf.appendChild(numbersTable(['Assigned to', 'Open', 'Overdue'], t.byPerson.map(function (x) { return [x.who, x.open, x.overdue]; }).concat(t.unassigned ? [['Nobody yet', t.unassigned, '']] : [])));
+        var tl = el('p'); var ta = el('a', null, 'Open everybody’s tasks'); ta.href = '/tasks.html#/?who=all'; tl.appendChild(ta); tf.appendChild(tl);
+        sec.appendChild(tf);
+      },
+      // How it stands: the sentences and the tiles.
+      stands: function (sec) {
+        // What it comes to, in sentences built from the same numbers.
+        var said = el('ul', 'of-theirs of-said-list');
+        function line(text) { said.appendChild(el('li', null, text)); }
+        line(plural(g.week.now, 'grant request') + ' came in this week, ' + against(g.week.now, g.week.before) + '.');
+        line(plural(k.week.now, 'case') + ' came in this week, ' + against(k.week.now, k.week.before) + '.');
+        line('Open grant requests submitted this year: ' + g.active.byPipeline.map(function (x) {
+          return x.pipeline + ' has ' + x.count + ', ' + (x.count <= x.cap ? (x.cap - x.count) + ' under' : (x.count - x.cap) + ' over') + ' its cap of ' + x.cap;
+        }).join('; ') + '.');
+        line('This year ' + plural(g.decided.granted, 'grant request') + (g.decided.granted === 1 ? ' was' : ' were') + ' granted, ' + money(g.decided.grantedSum) + ' in all, and ' + g.decided.denied + ' denied.');
+        line(plural(t.open, 'task') + (t.open === 1 ? ' is' : ' are') + ' open: ' + t.overdue + ' overdue and ' + t.dueSoon + ' due in the next seven days.');
+        line(plural(d.cb.week.now, 'message') + ' went out on the CB this week, ' + against(d.cb.week.now, d.cb.week.before) + '.');
+        if (m.waiting || m.sentWeek) line(plural(m.sentWeek, 'mailing email') + ' went this week' + (m.waiting ? ', and ' + m.waiting + (m.waiting === 1 ? ' is' : ' are') + ' waiting for the team mailbox' : '') + '.');
+        sec.appendChild(said);
+
+        var tiles = el('div', 'of-tiles');
+        tiles.appendChild(tile('Grant requests this week', String(g.week.now), against(g.week.now, g.week.before)));
+        tiles.appendChild(tile('Open grant requests', String(g.open), money(g.openSum) + ' between them'));
+        tiles.appendChild(tile('Open cases', String(k.open), plural(k.week.now, 'new one') + ' this week'));
+        tiles.appendChild(tile('Open tasks', String(t.open), t.overdue + ' overdue'));
+        sec.appendChild(tiles);
+      },
+      // The charts, from the office's records and the CB's counts.
+      charts: function (sec) {
+        var grid = el('div', 'of-dash');
+        // EspoCRM's first report: open grant requests submitted this year, against the cap.
+        grid.appendChild(capFigure('Active grant applications this year', g.active, d.year));
+        // Every open case, by status.
+        grid.appendChild(figure('Open cases by status', function (art, w) {
+          hbars(art, w, k.byStatus.map(function (x) { return { label: x.status, value: x.count }; }), 'of-c3');
+        }, numbersTable(['Status', 'Open cases'], k.byStatus.map(function (x) { return [x.status, x.count]; }).concat(k.byType.map(function (x) { return [x.type + ' (open)', x.count]; })).concat([['Every open case', k.open]]))));
+        // Open grant requests by stage, a chart for each pipeline in its own colour.
+        g.stages.forEach(function (p, i) {
+          grid.appendChild(figure('Open grant requests by stage: ' + p.pipeline, function (art, w) {
+            hbars(art, w, p.stages.map(function (x) { return { label: x.stage, value: x.count, more: money(x.sum) }; }), i ? 'of-c2' : 'of-c1');
+          }, numbersTable(['Stage', 'Open', 'Amount'], p.stages.map(function (x) { return [x.stage, x.count, money(x.sum)]; }))));
+        });
+        // This year's grant requests, by the month they were submitted.
+        grid.appendChild(figure('Grant requests this year by month', function (art, w) {
+          stacked(art, w, { series: g.pipelines, cls: ['of-c1', 'of-c2'], cols: g.months.map(function (x) { return { label: monthWords(x.month), counts: x.counts }; }) });
+        },
+          numbersTable(['Month'].concat(g.pipelines).concat(['Every pipeline']), g.months.map(function (x) {
+            return [monthWords(x.month)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
+          }))));
+        // The CB, how many messages a day on its channels, and never whose.
+        var cbSeries = ['World', 'The rooms', 'The staff rooms'];
+        var cbFig = figure('CB messages each day', function (art, w) {
+          stacked(art, w, { series: ['Messages'], cls: ['of-c5'], on: true, bare: true, cols: d.cb.days.map(function (x) {
+            return { label: dayShort(x.day), long: dayWords(x.day), counts: [x.counts.reduce(function (a, b) { return a + b; }, 0)],
+              more: cbSeries.map(function (n, i) { return n + ': ' + x.counts[i]; }) };
+          }) });
+        }, numbersTable(['Day'].concat(cbSeries).concat(['Every channel']), d.cb.days.slice().reverse().map(function (x) {
+          return [dayWords(x.day)].concat(x.counts).concat([x.counts.reduce(function (a, b) { return a + b; }, 0)]);
+        })));
+        cbFig.classList.add('of-fig--wide');
+        cbFig.appendChild(el('p', 'cb-quiet', 'Messages sent on World and in the rooms, by the street’s clock. ' + (d.cb.since ? 'Counted since ' + dayWords(d.cb.since) + '.' : 'Counting starts with the next message.') + ' A count is all that is kept: no name, no room and no words. Direct messages are not counted.'));
+        grid.appendChild(cbFig);
+        // Each night, what was open: kept as it happened, so it starts on the first night.
+        var nights = d.nights;
+        var nf = el('figure', 'of-fig of-fig--wide');
+        nf.appendChild(el('figcaption', 'of-fig__title', 'Open each night'));
+        if (!nights.length) {
+          nf.appendChild(el('p', 'cb-quiet', 'The office keeps a count of what is open late each evening, and the first is still to come. A line needs two nights.'));
+        } else {
+          var small = el('div', 'of-figrow');
+          function nightChart(title, series, cls, rows, dash) {
+            var f = figure(title, function (art, w) {
+              lines(art, w, { series: series, cls: cls, dash: dash, days: nights.map(function (x) { return x.day; }), rows: rows });
+            }, numbersTable(['Night'].concat(series), nights.slice().reverse().map(function (x, i) { return [dayWords(x.day)].concat(rows[nights.length - 1 - i]); })));
+            f.classList.add('of-fig--small');
+            small.appendChild(f);
+          }
+          nightChart('Open grant requests', g.pipelines, ['of-c1', 'of-c2'], nights.map(function (x) { return x.grants; }));
+          nightChart('Open cases', ['Open cases'], ['of-c3'], nights.map(function (x) { return [x.cases]; }));
+          nightChart('Open tasks', ['Open', 'Overdue'], ['of-c4', 'of-c4'], nights.map(function (x) { return [x.tasks, x.overdue]; }), [false, true]);
+          nf.appendChild(small);
+          nf.appendChild(el('p', 'cb-quiet', 'Counted late each evening in Colorado, since ' + dayWords(d.firstNight) + (nights.length < 2 ? '. A line needs two nights.' : '; the last ' + nights.length + ' nights are shown.')));
+        }
+        grid.appendChild(nf);
+        sec.appendChild(grid);
+      },
+      // The team mailbox, QuickBooks and Givebutter, each as it was last read.
+      connected: function (sec) {
+        var grid = el('div', 'of-dash');
+        // The team mailbox, as its script counted it: numbers only, once an hour.
+        grid.appendChild(mailboxFigure(d.mailbox));
+        // QuickBooks: read late each evening and on a press; nothing here writes to our books.
+        grid.appendChild(quickBooksFigure(d.quickbooks));
+        // Givebutter: read late each evening and on a press; nobody who gave is named.
+        grid.appendChild(givebutterFigure(d.givebutter, d.day));
+        sec.appendChild(grid);
+      },
+    };
+    layout.sections.forEach(function (key) {
+      var shut = layout.hide.indexOf(key) >= 0;
+      if (!arranging && shut) return;
+      var sec = el('section', 'of-dsec');
+      sec.appendChild(el('h3', null, DASH_WORDS[key]));
+      if (arranging) sec.appendChild(arrangeBar(DASH_WORDS[key], key, 'sections', 'hide', 'up', 'down'));
+      if (shut) sec.appendChild(quiet('Hidden.'));
+      else draw[key](sec);
+      body.appendChild(sec);
+    });
+    // The keyboard stays on the control that was pressed, or its partner when that one is now at an end.
+    if (keep) {
+      var at = body.querySelector('[data-arrange="' + keep + '"]');
+      if (at && at.disabled) {
+        var flip = keep.replace(/:(-?1)$/, function (x, n) { return ':' + (n === '1' ? '-1' : '1'); });
+        at = body.querySelector('[data-arrange="' + flip + '"]');
+      }
+      if (at) at.focus();
+    }
   }
 
   /* EspoCRM's nine reports, by the names it gave them, worked out by the server

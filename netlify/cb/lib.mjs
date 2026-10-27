@@ -6087,6 +6087,7 @@ export async function deleteAccount(handle, s = store()) {
   await forgetProfileSets(petKey(handle), s);
   await forgetChatOrder(petKey(handle), s);
   await forgetTaskViews(petKey(handle), s);
+  await forgetOfficeLayout(petKey(handle), s);
   await forgetTaskInbox(petKey(handle), s);
   await forgetNotices(petKey(handle), s);
   await forgetProps(petKey(handle), s);
@@ -14549,23 +14550,68 @@ export async function officeDashboard(who, s = store(), now = Date.now()) {
   const forms = { week: intakes.map((v) => ({ form: v.form,
     now: entries.filter((e) => e.form === v.form && inWeek(came(e.x))).length,
     before: entries.filter((e) => e.form === v.form && inLast(came(e.x))).length })) };
-  const [quickbooks, givebutter, latest, recentKept, mailCounts] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now),
-    readSealed(MAIL_RECENT, s), readSealed(MAIL_COUNTS, s)]);
+  const [quickbooks, givebutter, latest, recentKept, mailCounts, layout] = await Promise.all([qbStatus(who, s), gbStatus(who, s), forumLatest(who, null, s, now),
+    readSealed(MAIL_RECENT, s), readSealed(MAIL_COUNTS, s), officeLayout(who, s)]);
+  // Newest leaves out what is closed (a request granted or denied, a case closed, a task
+  // completed or canceled), and so does Form entries, by its record (2026-10-27).
+  const stillOpen = ({ rec, x }) => (rec === 'grant' ? status(x) === 'Open' : caseOpen(x.status));
   const recentMail = recentKept || await seedRecentMail(s);
   // A topic's category by its path, as the forums name it: Team Docs › Notes.
   const catPath = (slug) => { const names = []; for (let c = forumCat(slug, now); c; c = c.parent ? forumCat(c.parent, now) : null) names.unshift(c.name); return names.join(' › '); };
-  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, forms, nights, firstNight, cb, quickbooks, givebutter,
+  return { asOf: now, day, year, weekFrom, grants: g, cases: k, tasks: t, mailings: m, forms, nights, firstNight, cb, quickbooks, givebutter, layout,
     mailbox: { ready: mailReady(), counted: mailCounts ? { read: mailCounts.read, counts: mailCounts.counts } : null },
     recent: {
-      forms: entries.slice(0, FORM_ENTRIES_SHOWN).map(({ rec, x, form }) => ({ entry: x.form, form, record: rec, id: x.id, name: x.name,
+      forms: entries.filter(stillOpen).slice(0, FORM_ENTRIES_SHOWN).map(({ rec, x, form }) => ({ entry: x.form, form, record: rec, id: x.id, name: x.name,
         number: rec === 'case' ? x.number : null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
       mail: ((recentMail && recentMail.mail) || []).slice(0, MAIL_RECENT_SHOWN).map((x) => ({ id: x.id, at: x.at, subject: x.subject, out: !!x.out,
         contacts: x.contacts.map(nameOf).filter(Boolean) })),
-      grants: cameFirst(grants, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
-      cases: cameFirst(cases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
-      tasks: newest(tasks, 5).map((x) => ({ id: x.id, name: x.name, who: x.who || null, due: x.due || null, status: x.status })),
+      grants: cameFirst(open, 5).map((x) => ({ id: x.id, name: x.name, pipeline: x.pipeline, stage: x.stage, amount: x.amount ?? null, submitted: x.submitted || null, contactName: nameOf(x.contact) })),
+      cases: cameFirst(openCases, 5).map((x) => ({ id: x.id, number: x.number, name: x.name, type: x.type, status: x.status, submitted: x.submitted || null })),
+      tasks: newest(live, 5).map((x) => ({ id: x.id, name: x.name, who: x.who || null, due: x.due || null, status: x.status })),
       forum: latest.topics.slice(0, 5).map((x) => ({ id: x.id, title: x.title, cat: catPath(x.cat), last: x.last, lastBy: x.lastBy })),
     } };
+}
+
+/* EACH READER'S DASHBOARD (requests to Ryan, 2026-10-27): the order of its
+   sections and of the boxes in Newest, and which of them are hidden, kept for
+   each reader under their pet key in office-dash/<pet key>, sealed like every
+   record, holding those four lists of keys and nothing about when. It follows a
+   claimed username from one device to another, and nobody else is shown it.
+   A key it does not know is dropped and one it lacks goes on the end, so a
+   section added later appears for everybody, after theirs. Put it back as it
+   was deletes it, and so do Forget me and deleting the username. */
+export const DASH_SECTIONS = ['newest', 'people', 'stands', 'charts', 'connected'];
+export const DASH_BOXES = ['grants', 'cases', 'mail', 'tasks', 'forum', 'forms'];
+const officeDashBlob = (k) => `office-dash/${k}`;
+function dashList(v, keys, whole) {
+  const seen = (Array.isArray(v) ? v : []).filter((x, i, a) => keys.includes(x) && a.indexOf(x) === i);
+  return whole ? seen.concat(keys.filter((x) => !seen.includes(x))) : seen;
+}
+export function cleanOfficeLayout(v) {
+  v = v && typeof v === 'object' ? v : {};
+  return { sections: dashList(v.sections, DASH_SECTIONS, true), hide: dashList(v.hide, DASH_SECTIONS),
+    boxes: dashList(v.boxes, DASH_BOXES, true), hideBoxes: dashList(v.hideBoxes, DASH_BOXES) };
+}
+export async function officeLayout(who, s = store()) {
+  if (!officeAllow(who)) return null;
+  return cleanOfficeLayout(await readSealed(officeDashBlob(petKey(who.handle)), s));
+}
+export async function keepOfficeLayout(who, v, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  if (!officeReady()) return { error: 'The office is shut.', status: 503 };
+  const layout = cleanOfficeLayout(v);
+  await updateSealed(officeDashBlob(petKey(who.handle)), () => layout, s);
+  return { layout };
+}
+export async function resetOfficeLayout(who, s = store()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  await s.delete(officeDashBlob(petKey(who.handle)));
+  return { layout: cleanOfficeLayout(null) };
+}
+/* Forget me, and deleting the username. */
+export async function forgetOfficeLayout(pk, s = store()) {
+  await s.delete(officeDashBlob(pk));
+  return true;
 }
 
 /* EACH NIGHT, WHAT WAS OPEN (Ryan, 2026-10-21: update the dashboard daily for

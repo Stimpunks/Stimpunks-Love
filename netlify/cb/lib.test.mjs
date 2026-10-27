@@ -4777,7 +4777,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   readGrants, officeGrants, officeGrant, saveGrant, removeGrant, importGrants, OFFICE_PIPELINES,
   readCases, officeCases, officeCase, saveCase, removeCase, importCases, intakeSigned, intakeReady, officeIntake, INTAKE_BY,
   mailSigned, mailReady, mailAddresses, officeMailIn, officeMailContact, MAIL_BY, officeEmail, removeEmail, officeMailCounts, MAIL_RECENT_KEEP, MAIL_RECENT_SHOWN, seedRecentMail, FORM_ENTRIES_SHOWN,
-  officeDashboard, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
+  officeDashboard, officeLayout, keepOfficeLayout, resetOfficeLayout, forgetOfficeLayout, cleanOfficeLayout, DASH_SECTIONS, DASH_BOXES, officeReports, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing, stopMailing, removeMailing,
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK, caseListing, listingLine, listingLook, listingAdd, membersList, LISTING_MAX, caseOrg, orgFields, orgHtml, orgsList, orgLook, orgAdd, bareImage,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
@@ -5770,7 +5770,10 @@ test('the dashboard works its figures out from the records: EspoCRM’s four rep
   assert.ok(!d.cases.byStatus.some((x) => /Invited In|Collaborating/.test(x.status)), 'a retired status is back');
   assert.deepEqual([d.tasks.open, d.tasks.overdue, d.tasks.dueSoon, d.tasks.week.now], [2, 1, 1, 3]);
   assert.deepEqual(d.tasks.byPerson, [{ who: 'Norah', open: 2, overdue: 1 }]);
-  assert.deepEqual(d.recent.grants.map((x) => x.contactName), Array(5).fill('Ada Lovelace'));
+  // Newest leaves out what is closed: D was granted and E denied (2026-10-27), and Old one is closed.
+  assert.deepEqual(d.recent.grants.map((x) => [x.name, x.contactName]), [['F', 'Ada Lovelace'], ['A', 'Ada Lovelace'], ['B', 'Ada Lovelace'], ['C', 'Ada Lovelace']]);
+  assert.deepEqual(d.recent.cases.map((x) => x.name), ['Connection Request: Ada']);
+  assert.deepEqual(d.recent.tasks.map((x) => x.name).sort(), ['Late', 'Soon']);
   // The forum topics posted to last, from the forums' own Latest, with the path to each one's category.
   assert.deepEqual(d.recent.forum, []);
   const kettle = (await startTopic(TCHELSEA, { cat: 'help-desk', title: 'Where is the kettle?', body: 'x' }, s, T0 + 1, NO_NET)).topic;
@@ -7464,12 +7467,48 @@ test('the dashboard\'s newest grant requests and cases are the latest submitted,
   // Brought over in a batch after the new ones: added later, submitted years before.
   await saveGrant(TRYAN, { name: 'This week', pipeline: 'Mutual Aid', stage: 'Received', submitted: '2026-10-15' }, s, T0);
   await saveGrant(TRYAN, { name: 'No day given', pipeline: 'Mutual Aid', stage: 'Received' }, s, T0 - 86400000 * 30);
-  await saveGrant(TRYAN, { name: 'From 2023', pipeline: 'Mutual Aid', stage: 'Granted', submitted: '2023-02-18', closed: '2023-02-20' }, s, T0 + 10);
+  await saveGrant(TRYAN, { name: 'From 2023', pipeline: 'Mutual Aid', stage: 'Holding', submitted: '2023-02-18' }, s, T0 + 10);
   await saveCase(TRYAN, { name: 'New case', submitted: '2026-10-17' }, s, T0);
   await saveCase(TRYAN, { name: 'Old case', submitted: '2023-01-02' }, s, T0 + 10);
   const d = await officeDashboard(TRYAN, s, T0 + 20);
   assert.deepEqual(d.recent.grants.map((x) => x.name), ['This week', 'No day given', 'From 2023'], 'the latest added came first, not the latest submitted');
   assert.deepEqual(d.recent.cases.map((x) => x.name), ['New case', 'Old case']);
+}));
+
+test('each reader arranges their own dashboard, sealed, and a key it does not know is dropped (2026-10-27)', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  // As it was: every section and every box, Form entries last, nothing hidden.
+  assert.deepEqual(cleanOfficeLayout(null), { sections: DASH_SECTIONS, hide: [], boxes: DASH_BOXES, hideBoxes: [] });
+  assert.equal(DASH_BOXES[DASH_BOXES.length - 1], 'forms');
+  assert.deepEqual((await officeDashboard(TRYAN, s, T0)).layout, cleanOfficeLayout(null));
+  assert.equal(await officeLayout(TSAM, s), null);
+  assert.ok((await keepOfficeLayout(TSAM, {}, s)).error);
+  // Unknown keys and repeats go; a key left out goes on the end, so a new section appears.
+  const r = await keepOfficeLayout(TRYAN, { sections: ['charts', 'nope', 'charts', 'newest'], hide: ['people', 'people', 'x'], boxes: ['forms', 'grants'], hideBoxes: ['mail'], t: T0, who: 'x' }, s);
+  assert.deepEqual(r.layout, { sections: ['charts', 'newest', 'people', 'stands', 'connected'], hide: ['people'], boxes: ['forms', 'grants', 'cases', 'mail', 'tasks', 'forum'], hideBoxes: ['mail'] });
+  assertSealed(await s.get(`office-dash/${petKey('Ryan')}`, { type: 'json' }), ['charts', 'forms']);
+  assert.deepEqual((await officeDashboard(TRYAN, s, T0)).layout, r.layout);
+  // Nobody else's.
+  assert.deepEqual(await officeLayout(TCHELSEA, s), cleanOfficeLayout(null));
+  // Put back as it was, and Forget me, delete it.
+  assert.deepEqual((await resetOfficeLayout(TRYAN, s)).layout, cleanOfficeLayout(null));
+  assert.equal(await s.get(`office-dash/${petKey('Ryan')}`), null);
+  await keepOfficeLayout(TRYAN, { hide: ['charts'] }, s);
+  await forgetOfficeLayout(petKey('Ryan'), s);
+  assert.equal(await s.get(`office-dash/${petKey('Ryan')}`), null);
+  await withOfficeKey(null, async () => assert.equal((await keepOfficeLayout(TRYAN, {}, s)).status, 503));
+}));
+
+test('the dashboard\'s form entries leave out an entry whose request or case is closed, and still count it (2026-10-27)', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  await officeIntake({ type: 'connection', entry: 301, name: 'Open one' }, s, T0);
+  await officeIntake({ type: 'connection', entry: 302, name: 'Closed one' }, s, T0 + 1);
+  const k = (await readCases(s)).find((x) => x.form === 302);
+  await saveCase(TRYAN, { id: k.id, status: 'Closed' }, s, T0 + 2);
+  const d = await officeDashboard(TRYAN, s, T0 + 3);
+  assert.deepEqual(d.recent.forms.map((x) => x.entry), [301]);
+  assert.deepEqual(d.recent.cases.map((x) => x.number), [(await readCases(s)).find((x) => x.form === 301).number]);
+  assert.equal(d.forms.week.find((w) => w.form === 'Connect').now, 2);
 }));
 
 /* ── Polls in the forums ── */

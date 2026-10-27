@@ -158,6 +158,12 @@ th[aria-sort] .of-sort { color: var(--cb-steel); text-decoration: underline; tex
    hairlines one step off the case, the tooltip only repeats what the bar's
    label and the table already say, and nothing moves. */
 .of { position: relative; }
+/* Each section of the dashboard under a heading bigger than a box's title, and,
+   while arranging, a dashed bar of its own controls under the heading. */
+.of-dashbody, .of-dsec { display: grid; gap: 12px; min-width: 0; }
+.of-dashbody { gap: 18px; }
+.of-dsec > h3 { font-size: 24px; line-height: 1.25; color: var(--cb-steel); margin-top: 6px; }
+.of-arrange { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 8px; border: 2px dashed var(--cb-amber); border-radius: 6px; }
 .of-dash { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); }
 .of-fig { margin: 0; display: grid; gap: 8px; align-content: start; padding: 12px 14px; border: 2px solid var(--cb-bar); border-radius: 8px; min-width: 0; }
 .of-fig__title { margin: 0; font-size: 16px; font-weight: 700; color: var(--cb-steel); }

@@ -18,7 +18,8 @@
                              whole, with its latest comments and how many it has: one page of the Feed,
                              whose order and filters the page works out
      dashboard               the office's figures, worked out now: EspoCRM's four reports, this week
-                             and last, tasks, mailings, and the newest grant requests, cases and tasks
+                             and last, tasks, mailings, the newest open grant requests, cases and tasks,
+                             and how this reader arranged it
      reports                 EspoCRM's nine reports, worked out now: by stage, month and year, awards,
                              grantees, and cases by status and year
      templates               every mailing template
@@ -87,6 +88,8 @@
      { action: 'gb-read' }                           Givebutter read now, as each night
      { action: 'qb-disconnect' }                     the office's permission revoked at Intuit, and
          what it last read deleted
+     { action: 'dash-layout', layout }               this reader's dashboard: the order of its sections and of
+         Newest's boxes, and which are hidden; { reset: true } puts it back as it was
      { action: 'comment', id, body }                 a comment on the contact, grant request, case, mailing or template
          `id` names, or on an email, whose id is `email-` and its Gmail id
      { action: 'comment-edit', id, c, body }         comment c changed, by whoever wrote it
@@ -96,7 +99,7 @@
                                                      the reader can open (findLinks), by POST so q is in no address
    Nothing anybody types, and nothing about a contact, is ever logged. See
    ../cb/lib.mjs, the office. */
-import { readPass, forumReader, mentionableRoles, rolesOf, officeAllow, officeReady, officeContacts, officeContact, saveContact, removeContact, importContacts,
+import { readPass, forumReader, mentionableRoles, rolesOf, officeAllow, officeReady, keepOfficeLayout, resetOfficeLayout, officeContacts, officeContact, saveContact, removeContact, importContacts,
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
@@ -310,6 +313,10 @@ export default async (req) => {
       const r = await officeGivebutter();
       if (r.error === 'not-set-up') return json(503, { error: 'Givebutter is not set up: our API key is not in Netlify’s settings.' }, QUIET);
       return r.error ? json(502, { error: 'Givebutter did not answer just now. What the office last read is still here.' }, QUIET) : answer(200, { read: r.read }, QUIET);
+    }
+    if (b.action === 'dash-layout') {
+      const r = b.reset === true ? await resetOfficeLayout(who) : await keepOfficeLayout(who, b.layout);
+      return r.error ? json(r.status || 400, { error: r.error }, QUIET) : answer(200, { layout: r.layout }, QUIET);
     }
     if (b.action === 'qb-disconnect') {
       const r = await qbDisconnect(who);

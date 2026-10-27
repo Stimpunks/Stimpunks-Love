@@ -6404,6 +6404,18 @@ cases carrying a WPForms entry number, the highest first, each named by `form` i
 form's title on stimpunks.org, which `make-office.py` requires of every type), worked out and kept nowhere. The friendly
 edit is calling a gap in the numbers a missed entry: spam and the forms the office takes nothing from skip numbers too.
 
+**EACH DIRECTOR ARRANGES THEIR OWN DASHBOARD, KEPT FOR THEM AND SHOWN TO NOBODY.** Requests to Ryan, 2026-10-27:
+`office-dash/<pet key>`, sealed through `updateSealed`, holds the order of `DASH_SECTIONS` and `DASH_BOXES` (Newest's
+boxes) and which are hidden, and nothing about when (`cleanOfficeLayout`: an unknown key dropped, a missing one on the
+end, so a new section shows up for everybody after theirs). `officeDashboard` sends it as `layout`; **Arrange the
+dashboard** in `office.js` puts Move up, Move down and Show it on every section and box and redraws only
+`.of-dashbody`, so the notice above never arrives twice; Put it back as it was deletes the blob, and so do Forget me and
+deleting the username (`forgetOfficeLayout`). **A new section is a key in `DASH_SECTIONS`, a word in `DASH_WORDS` and a
+drawer in `drawDashBody`**; a new Newest box the same in `DASH_BOXES`, `BOX_WORDS` and `boxes`. **Newest lists nothing
+closed** (open grant requests, open cases, live tasks, form entries whose record is open), while Form entries' week
+still counts every entry. The friendly edits are dragging alone, which locks out a keyboard and a phone, and one
+arrangement for the whole team, which overrules everybody but whoever set it.
+
 **QUICKBOOKS IS READ AND NEVER WRITTEN, AND ITS TOKENS NEVER LEAVE THE SERVER.** Ryan's choice, 2026-10-21: an Intuit app
 of ours (`CB_QB_CLIENT_ID`, `CB_QB_CLIENT_SECRET` in Netlify), connected from the dashboard by a director. `qbConnect` keeps a
 sealed state and hands back Intuit's address; Intuit sends them back to `/cb/office/quickbooks` (`cb-office-qb.mjs`), and
