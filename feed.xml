@@ -7,7 +7,14 @@
     <description>Every change to the rooms, the street that joins them and the campground past the treeline, newest first — including the things that are not built yet. Generated from changelog.html by tools/make-feed.py, so the page and the feed cannot disagree.</description>
     <language>en</language>
     <copyright>CC BY-SA 4.0</copyright>
-    <lastBuildDate>Mon, 26 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 27 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Stretching a task on the timeline, and a menu on every bar</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-27-timeline-drag-menu</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-timeline-drag-menu</guid>
+      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <description>A bar on Tasks’ timeline can be stretched and shrunk by dragging its ends, at Ryan’s ask: the grip at a bar’s left end changes when the task starts, the one at its right end when it is due, a day at a time, and the bar says the day it would land on as it goes. Esc while dragging puts it back. Every bar has a menu of its own, after Google Drive’s: right-click a bar, or press Shift + F10 or the ContextMenu key on it, or its ⋯ button, to open it, change it, copy a link to it, mark it completed, set its status, priority or who it is assigned to, or move its days a day or a week at a time. The ⋯ and the Days in the menu are how a keyboard, a screen reader and a phone make every change the grips make. Shift and a right-click still give the browser’s own menu.</description>
+    </item>
     <item>
       <title>A mural beside the dial on the front page</title>
       <link>https://stimpunks.world/changelog.html#2026-10-26-front-page-mural</link>

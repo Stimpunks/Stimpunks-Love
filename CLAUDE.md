@@ -6034,6 +6034,15 @@ never land on another box; `make-tasks.py` holds both guards. The friendly edit 
 bar per task from its start to its due day, under the list's filters, address and saved filters; a timeline saved on
 this week keeps no day in its address, so it is always this week. Every bar says its days in words, and a day is never
 narrower than a short word (the box scrolls sideways instead); the friendly edit is cutting names short to fit.
+**A bar stretches and shrinks by dragging its ends, and has a menu of its own** (Ryan's ask, 2026-10-27, after Google
+Drive's right-click menu): a grip on each end (`grip` in `tasks.js`, none on an end past the days shown) changes only that
+day, a day at a time, and `changeOnTimeline` saves that field as the board saves a move. The menu (`openMenu`, the ARIA
+menu pattern with submenus, `barMenu`, `daysMenu`) opens on a right-click, on Shift+F10 or the ContextMenu key, and from
+the bar's ⋯ button, which shows on hover or keyboard focus where a pointer can hover and always on a touch screen, with
+room kept above the name. **Its Days are the grips' changes for a keyboard, a screen reader and a phone**, and
+`make-tasks.py` (`check_timeline`) refuses the ⋯, either key, a day step or the menu pattern gone, and the ⋯ hidden. The
+friendly edits are dropping the ⋯ "because right-click works", a menu that only a right-click opens, and dragging the
+whole bar in place of the grips, which would take the bar's own press away from opening the task.
 **A task is somebody's when it is assigned to them or they are also on it** (Ryan, the same evening: "When we think about
 task ownership, we include Assigned to and Also on it"), so **Whose** (`whoOf`, `owns` in `tasks.js`) matches both, every
 view opens on Mine, and the timeline puts a task in every owner's row, ALSO ON IT where they are not the assignee. An

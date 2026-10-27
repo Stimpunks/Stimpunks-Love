@@ -421,6 +421,141 @@
   function daysBetween(a, b) { var p = a.split('-'), q = b.split('-'); return Math.round((Date.UTC(+q[0], +q[1] - 1, +q[2]) - Date.UTC(+p[0], +p[1] - 1, +p[2])) / 86400000); }
   function spanOf(t) { var s = t.start || t.due, e = t.due || t.start; if (!s) return null; return s <= e ? [s, e] : [e, s]; }
   function onDays(t, a, b) { var d = spanOf(t); return !!d && d[0] <= b && d[1] >= a; }
+  // A task's days in words: when it starts and when it is due, whichever it has.
+  function daysSaid(start, due) {
+    return start && due && start !== due ? 'starts ' + dayWords(start) + ', due ' + dayWords(due)
+      : due ? 'due ' + dayWords(due) : start ? 'starts ' + dayWords(start) : 'has no days';
+  }
+
+  /* A MENU OF ITS OWN, after Google Drive's (Ryan's ask, 2026-10-27), opened on
+     a timeline bar by a right-click or the keyboard's ContextMenu key, or by
+     the ⋯ button beside the bar, which is how a phone, a screen reader and
+     anybody who never right-clicks reach the same things. It is the ARIA menu
+     pattern: Up and Down move through it, Home and End to its ends, a letter
+     to the next item starting with it, Right or Enter opens a submenu and Left
+     closes it, Escape closes one level, and Tab or a press anywhere else closes
+     the lot. Closing gives the keyboard back to whatever opened it. Shift held
+     with a right-click still gives the browser's own menu.
+     An item is { label, run }, or { label, checked, run } for one of a choice,
+     or { label, sub: [...] } for a submenu; null is a rule between groups. */
+  var menuOpen = null;
+  function shutMenu(back) {
+    var m = menuOpen;
+    if (!m) return;
+    menuOpen = null;
+    m.stack.forEach(function (x) { x.remove(); });
+    document.removeEventListener('pointerdown', m.away, true);
+    window.removeEventListener('resize', m.gone);
+    window.removeEventListener('scroll', m.gone, true);
+    window.removeEventListener('blur', m.gone);
+    if (m.opener) m.opener.setAttribute('aria-expanded', 'false');
+    if (back && m.back && m.back.isConnected) m.back.focus();
+  }
+  function openMenu(items, at, o) {
+    shutMenu(false);
+    var m = menuOpen = { stack: [], back: o.back, opener: o.opener || null };
+    if (m.opener) m.opener.setAttribute('aria-expanded', 'true');
+    // A press on the opener is the opener's own: it closes the menu itself.
+    m.away = function (e) {
+      var path = e.composedPath();
+      if (m.opener && path.indexOf(m.opener) >= 0) return;
+      if (!m.stack.some(function (x) { return path.indexOf(x) >= 0; })) shutMenu(false);
+    };
+    m.gone = function (e) { if (e && e.type === 'scroll' && m.stack.some(function (x) { return x.contains(e.target); })) return; shutMenu(false); };
+    document.addEventListener('pointerdown', m.away, true);
+    window.addEventListener('resize', m.gone);
+    window.addEventListener('scroll', m.gone, true);
+    window.addEventListener('blur', m.gone);
+
+    function shutFrom(depth) {
+      while (m.stack.length > depth + 1) {
+        m.stack.pop().remove();
+        var parent = m.stack[m.stack.length - 1].querySelector('[aria-expanded="true"]');
+        if (parent) parent.setAttribute('aria-expanded', 'false');
+      }
+    }
+    function itemsOf(lv) { return Array.prototype.slice.call(lv.querySelectorAll('.tk-menu__item')); }
+    function place(lv, x, y, beside) {
+      var w = lv.offsetWidth, h = lv.offsetHeight, W = window.innerWidth, H = window.innerHeight;
+      // A submenu opens to the right of its item, or to its left where there is no room.
+      if (beside && x + w > W - 8) x = Math.max(8, beside.left - w);
+      lv.style.left = Math.max(8, Math.min(x, W - 8 - w)) + 'px';
+      lv.style.top = Math.max(8, Math.min(y, H - 8 - h)) + 'px';
+    }
+    function level(list, x, y, depth, from) {
+      var lv = el('div', 'tk-menu');
+      lv.setAttribute('role', 'menu');
+      lv.setAttribute('aria-label', from ? from._it.label : o.name);
+      list.forEach(function (it) {
+        if (!it) { var rule = el('div', 'tk-menu__rule'); rule.setAttribute('role', 'separator'); lv.appendChild(rule); return; }
+        var b = el('button', 'tk-menu__item');
+        b.type = 'button';
+        b.tabIndex = -1;
+        b._it = it;
+        b.setAttribute('role', it.checked != null ? 'menuitemradio' : 'menuitem');
+        if (it.checked != null) b.setAttribute('aria-checked', String(!!it.checked));
+        var tick = el('span', 'tk-menu__tick', it.checked ? '✓' : '');
+        tick.setAttribute('aria-hidden', 'true');
+        b.appendChild(tick);
+        b.appendChild(el('span', 'tk-menu__label', it.label));
+        if (it.sub) {
+          b.setAttribute('aria-haspopup', 'menu');
+          b.setAttribute('aria-expanded', 'false');
+          var more = el('span', 'tk-menu__more', '▸');
+          more.setAttribute('aria-hidden', 'true');
+          b.appendChild(more);
+        }
+        b.addEventListener('click', function () { act(b, depth, true); });
+        b.addEventListener('pointerenter', function (e) {
+          if (e.pointerType !== 'mouse') return;
+          b.focus({ preventScroll: true });
+          if (it.sub) { if (b.getAttribute('aria-expanded') !== 'true') sub(b, depth, false); }
+          else shutFrom(depth);
+        });
+        lv.appendChild(b);
+      });
+      lv.addEventListener('keydown', function (e) { keys(e, lv, depth); });
+      lv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+      (o.into || box).appendChild(lv);
+      m.stack.push(lv);
+      place(lv, x, y, from ? from.getBoundingClientRect() : null);
+      return lv;
+    }
+    function sub(b, depth, first) {
+      shutFrom(depth);
+      var r = b.getBoundingClientRect();
+      b.setAttribute('aria-expanded', 'true');
+      var lv = level(b._it.sub, r.right - 2, r.top - 6, depth + 1, b);
+      if (first) itemsOf(lv)[0].focus({ preventScroll: true });
+    }
+    function act(b, depth, first) {
+      if (b._it.sub) { sub(b, depth, first); return; }
+      shutMenu(false);
+      b._it.run();
+    }
+    function keys(e, lv, depth) {
+      var all = itemsOf(lv), i = all.indexOf(root.activeElement), go = function (k) { all[(k + all.length) % all.length].focus({ preventScroll: true }); };
+      if (e.key === 'ArrowDown') { e.preventDefault(); go(i + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); go(i < 0 ? -1 : i - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); go(0); }
+      else if (e.key === 'End') { e.preventDefault(); go(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); if (i >= 0 && all[i]._it.sub) sub(all[i], depth, true); }
+      else if (e.key === 'ArrowLeft' || (e.key === 'Escape' && depth > 0)) {
+        e.preventDefault();
+        if (depth > 0) { var up = m.stack[depth - 1].querySelector('[aria-expanded="true"]'); shutFrom(depth - 1); if (up) up.focus({ preventScroll: true }); }
+      }
+      else if (e.key === 'Escape' || e.key === 'Tab') { e.preventDefault(); shutMenu(true); }
+      else if (e.key.length === 1 && /\S/.test(e.key) && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        var c = e.key.toLowerCase();
+        for (var n = 1; n <= all.length; n++) {
+          var x = all[(i + n) % all.length];
+          if (x._it.label.toLowerCase().charAt(0) === c) { x.focus({ preventScroll: true }); break; }
+        }
+      }
+    }
+    var top = level(items, at.x, at.y, 0, null);
+    itemsOf(top)[0].focus({ preventScroll: true });
+  }
 
   function tasksView(mode) {
     view.textContent = '';
@@ -448,6 +583,29 @@
     var out = el('div', mode === 'board' ? 'tk-boardbox' : mode === 'timeline' ? 'tk-tlbox' : mode === 'feed' ? 'tk-feedbox' : 'tk-tablebox');
     // It scrolls sideways on a narrow screen, so a keyboard can reach it. The feed never does, so it is no stop of its own.
     if (mode !== 'feed') out.tabIndex = 0;
+    // A right-click on a bar, or the ContextMenu key on it, opens its menu; Shift and a right-click, the browser's own.
+    if (mode === 'timeline') out.addEventListener('contextmenu', function (e) {
+      if (e.shiftKey && e.button === 2) return;
+      var li = e.target.closest ? e.target.closest('.tk-tl__item') : null;
+      var t = li && tasks.filter(function (x) { return x.id === li.dataset.tl; })[0];
+      if (!t) return;
+      e.preventDefault();
+      peek.hide();
+      var bar = li.querySelector('.tk-tl__bar'), r = bar.getBoundingClientRect();
+      var atPointer = e.button === 2 || e.ctrlKey;
+      openMenu(barMenu(t, li.dataset.row), atPointer ? { x: e.clientX, y: e.clientY } : { x: r.left, y: r.bottom + 4 }, { name: '“' + t.name + '”', back: bar });
+    });
+    // And Shift+F10 or the ContextMenu key on a bar, which not every browser turns into a right-click (a Mac's never does).
+    if (mode === 'timeline') out.addEventListener('keydown', function (e) {
+      if (!(e.key === 'ContextMenu' || (e.key === 'F10' && e.shiftKey))) return;
+      var bar = e.target.closest ? e.target.closest('.tk-tl__bar') : null, li = bar && bar.closest('.tk-tl__item');
+      var t = li && tasks.filter(function (x) { return x.id === li.dataset.tl; })[0];
+      if (!t) return;
+      e.preventDefault();
+      peek.hide();
+      var r = bar.getBoundingClientRect();
+      openMenu(barMenu(t, li.dataset.row), { x: r.left, y: r.bottom + 4 }, { name: '“' + t.name + '”', back: bar });
+    });
     out.setAttribute('role', 'region');
     out.setAttribute('aria-label', mode === 'board' ? 'The board' : mode === 'timeline' ? 'The timeline' : mode === 'feed' ? 'The feed' : 'The tasks');
     view.appendChild(saved);
@@ -488,7 +646,7 @@
       drawFilters();
       drawOut(focusSort);
     }
-    function drawOut(focus) { peek.hide(); if (mode === 'board') drawBoard(focus); else if (mode === 'timeline') drawTimeline(); else if (mode === 'feed') drawFeed(); else drawTable(focus); }
+    function drawOut(focus) { peek.hide(); shutMenu(false); if (mode === 'board') drawBoard(focus); else if (mode === 'timeline') drawTimeline(); else if (mode === 'feed') drawFeed(); else drawTable(focus); }
 
     /* SAVED FILTERS, each yours, kept under your username: what it shows, and
        how many tasks it shows now. */
@@ -1080,13 +1238,173 @@
             + ', ' + t.status + (t.priority === 'High' || t.priority === 'Urgent' ? ', ' + t.priority : '')
             + (also ? ', assigned to ' + (t.who || 'nobody') : alsoOn(t).length ? ', with ' + alsoOn(t).join(', ') : '')
             + (t.tags.length ? ', tagged ' + t.tags.join(', ') : '')));
-          li.appendChild(bar);
+          li.dataset.tl = t.id;
+          li.dataset.row = fold(row[0]);
+          // The bar, the grips at its ends, which stand on its edges (an end past these days has none), and its ⋯ in its corner.
+          var hold = el('span', 'tk-tl__hold');
+          hold.appendChild(bar);
+          if (!before) hold.appendChild(grip('start', t, li, pl, lanes, a, span));
+          if (!after) hold.appendChild(grip('due', t, li, pl, lanes, a, span));
+          var mb = el('button', 'tk-tl__menu', '⋯');
+          mb.type = 'button';
+          mb.setAttribute('aria-haspopup', 'menu');
+          mb.setAttribute('aria-expanded', 'false');
+          mb.setAttribute('aria-label', 'Change “' + t.name + '”');
+          mb.addEventListener('click', function () {
+            if (menuOpen && menuOpen.opener === mb) { shutMenu(true); return; }
+            var r = mb.getBoundingClientRect();
+            openMenu(barMenu(t, li.dataset.row), { x: r.left, y: r.bottom + 4 }, { name: '“' + t.name + '”', back: mb, opener: mb });
+          });
+          hold.appendChild(mb);
+          li.appendChild(hold);
           lanes.appendChild(li);
         });
         sec.appendChild(lanes);
         tl.appendChild(sec);
       });
       out.appendChild(tl);
+    }
+
+    /* STRETCHING AND SHRINKING A BAR (Ryan's ask, 2026-10-27): a grip at each
+       end of a bar, dragged a day at a time, changes when it starts or when it
+       is due, and the bar shows the day it would land on as it goes. A task
+       with only one of its days moves that day either way; one with both
+       cannot be dragged to be due before it starts. Escape, or the pointer
+       lost, puts it back. The grips are for a pointer, and the same changes
+       a day at a time are under Days in the bar's menu, which is how a
+       keyboard, a screen reader and a phone make them: dragging alone would
+       leave them out, as it would on the board. */
+    function grip(which, t, li, pl, lanes, a, span) {
+      var g = el('span', 'tk-tl__grip tk-tl__grip--' + which);
+      g.setAttribute('aria-hidden', 'true');
+      g.title = which === 'start' ? 'Drag to change when it starts' : 'Drag to change when it is due';
+      g.addEventListener('pointerdown', function (e) {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        peek.hide();
+        shutMenu(false);
+        var dayW = lanes.getBoundingClientRect().width / span;
+        var s = daysBetween(a, pl.d[0]), u = daysBetween(a, pl.d[1]), ns = s, nu = u, x0 = e.clientX, was = li.style.gridColumn;
+        var tip = el('span', 'tk-tl__tip');
+        tip.setAttribute('aria-hidden', 'true');
+        li.appendChild(tip);
+        li.classList.add('tk-tl__item--stretching');
+        try { g.setPointerCapture(e.pointerId); } catch (err) { /* an old browser */ }
+        function show() {
+          li.style.gridColumn = (Math.max(0, ns) + 1) + ' / ' + (Math.min(span - 1, nu) + 2);
+          tip.textContent = which === 'start' ? 'Starts ' + dayWords(plus(a, ns)) : 'Due ' + dayWords(plus(a, nu));
+        }
+        function moveTo(ev) {
+          var n = Math.round((ev.clientX - x0) / dayW);
+          // One day of the two moves the bar whole; both keep the start on or before the due day.
+          if (which === 'start') { ns = Math.max(0, Math.min(s + n, t.due ? u : span - 1)); if (!t.due) nu = ns; }
+          else { nu = Math.min(span - 1, Math.max(u + n, t.start ? s : 0)); if (!t.start) ns = nu; }
+          show();
+        }
+        function key(ev) { if (ev.key === 'Escape') { ev.preventDefault(); end(false); } }
+        function end(keep) {
+          g.removeEventListener('pointermove', moveTo);
+          g.removeEventListener('pointerup', up);
+          g.removeEventListener('pointercancel', lost);
+          document.removeEventListener('keydown', key, true);
+          tip.remove();
+          li.classList.remove('tk-tl__item--stretching');
+          if (!keep || (ns === s && nu === u)) { li.style.gridColumn = was; return; }
+          // Only the day whose grip moved: a start-only task keeps no due day, and a due-only one gains a start.
+          var fields = {};
+          fields[which] = plus(a, which === 'start' ? ns : nu);
+          changeOnTimeline(t, fields, li.dataset.row);
+        }
+        function up() { end(true); }
+        function lost() { end(false); }
+        g.addEventListener('pointermove', moveTo);
+        g.addEventListener('pointerup', up);
+        g.addEventListener('pointercancel', lost);
+        document.addEventListener('keydown', key, true);
+        show();
+      });
+      return g;
+    }
+
+    /* A change made on the timeline, by a grip or the menu: saved as the board
+       saves a move, that field and nothing else, then the timeline drawn again
+       with the keyboard back on the same bar, and said in words. */
+    function changeOnTimeline(t, fields, rowKey) {
+      say('Saving “' + t.name + '”…');
+      call(null, Object.assign({ action: 'save', id: t.id }, fields)).then(function (r) {
+        if (r.status !== 200) { say(why(r, 'That did not save. Nothing was changed.')); drawTimeline(); return; }
+        var next = r.body.task; delete next.body; delete next.blocks;
+        tasks = tasks.map(function (x) { return x.id === t.id ? Object.assign({}, x, next) : x; });
+        drawSaved();
+        drawFilters();
+        drawTimeline();
+        var back = barOf(t.id, rowKey);
+        if (back) back.focus();
+        var what = 'start' in fields || 'due' in fields ? '“' + next.name + '” now ' + daysSaid(next.start, next.due) + '.'
+          : 'status' in fields ? '“' + next.name + '” is now ' + next.status + '.'
+          : 'priority' in fields ? '“' + next.name + '” is now ' + next.priority + ' priority.'
+          : 'who' in fields ? '“' + next.name + '” is now assigned to ' + (next.who || 'nobody') + '.' : 'Saved “' + next.name + '”.';
+        say(what + (back ? '' : ' It is not on these days as they are filtered, so it has gone from view.'));
+      });
+    }
+    // A task's bar, in the row it was in if it is still there, or else its first.
+    function barOf(id, rowKey) {
+      var all = Array.prototype.filter.call(out.querySelectorAll('.tk-tl__item'), function (x) { return x.dataset.tl === id; });
+      var mine = all.filter(function (x) { return x.dataset.row === rowKey; })[0] || all[0];
+      return mine ? mine.querySelector('.tk-tl__bar') : null;
+    }
+
+    /* What the bar's menu holds: going to the task, the things most often
+       changed, and its days a day or a week at a time. A choice already made
+       closes the menu and changes nothing. */
+    function barMenu(t, rowKey) {
+      var stay = function () { var b = barOf(t.id, rowKey); if (b) b.focus(); };
+      var change = function (fields) { return function () { changeOnTimeline(t, fields, rowKey); }; };
+      var choose = function (list, now, key) {
+        return list.map(function (v) {
+          var value = v[0], same = fold(value || '') === fold(now || ''), send = {};
+          send[key] = value;
+          return { label: v[1], checked: same, run: same ? stay : change(send) };
+        });
+      };
+      var link = location.origin + location.pathname + '#/t/' + t.id;
+      var items = [
+        { label: 'Open', run: function () { location.hash = '#/t/' + t.id; } },
+        { label: 'Open in a new tab', run: function () { window.open(link, '_blank', 'noopener'); stay(); } },
+        { label: 'Edit', run: function () { location.hash = '#/edit/' + t.id; } },
+        { label: 'Copy a link', run: function () {
+          stay();
+          (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(function () { say('Copied a link to “' + t.name + '”.'); },
+            function () { say('That did not copy. Open it, and copy the address in the browser’s bar.'); });
+        } },
+        null,
+      ];
+      if (t.status !== 'Completed') items.push({ label: 'Mark it completed', run: change({ status: 'Completed' }) });
+      items.push({ label: 'Status', sub: choose(settings.statuses.map(function (v) { return [v, v]; }), t.status, 'status') });
+      items.push({ label: 'Priority', sub: choose(settings.priorities.map(function (v) { return [v, v]; }), t.priority, 'priority') });
+      // Somebody who has left the people a task can go to keeps the tasks they had, so their name stays a choice on those.
+      var ps = people.slice();
+      if (t.who && ps.every(function (p) { return fold(p) !== fold(t.who); })) ps.push(t.who);
+      items.push({ label: 'Assigned to', sub: choose(ps.map(function (p) { return [p, p]; }).concat([[null, 'Nobody']]), t.who, 'who') });
+      items.push(null);
+      items.push({ label: 'Days', sub: daysMenu(t, change) });
+      return items;
+    }
+    /* Its days a step at a time: either end by a day, or the whole of it by a
+       day or a week. A step that would make it due before it starts is not offered. */
+    function daysMenu(t, change) {
+      var s = t.start, u = t.due, out = [];
+      var shift = function (n) { var x = {}; if (s) x.start = plus(s, n); if (u) x.due = plus(u, n); return x; };
+      out.push({ label: 'Start a day earlier', run: change({ start: plus(s || u, -1) }) });
+      if (s && (!u || s < u)) out.push({ label: 'Start a day later', run: change({ start: plus(s, 1) }) });
+      if (u && (!s || s < u)) out.push({ label: 'Due a day earlier', run: change({ due: plus(u, -1) }) });
+      out.push({ label: 'Due a day later', run: change({ due: plus(u || s, 1) }) });
+      out.push(null);
+      out.push({ label: 'Move it a day earlier', run: change(shift(-1)) });
+      out.push({ label: 'Move it a day later', run: change(shift(1)) });
+      out.push({ label: 'Move it a week earlier', run: change(shift(-7)) });
+      out.push({ label: 'Move it a week later', run: change(shift(7)) });
+      return out;
     }
 
     /* THE FEED, after Notion's Feed view (Ryan's ask, 2026-10-21): every task
@@ -2297,6 +2615,7 @@
 
   function route() {
     step.arrive();
+    shutMenu(false);
     dressNow();
     var hash = location.hash || '';
     if (hash && hash.indexOf('#/') !== 0) hash = '';

@@ -204,6 +204,49 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-tl__bar.tk-high { border-width: 3px; font-weight: 700; }
 .tk-tl__bar.tk-done .tk-tl__name { text-decoration: line-through; }
 .tk .tk-tl__bar .tk-late { margin-left: 0; flex: none; }
+/* A bar's grips and its menu button (Ryan's ask, 2026-10-27). A grip is a
+   strip on the bar's own edge, drawn as a short amber line only where a
+   pointer can hover; while one is dragged, the day it would land on is said
+   above the bar. The ⋯ stands in the bar's corner, inside the due grip: where
+   a pointer can hover it shows on hover or when the keyboard reaches the bar,
+   so a one-day bar keeps its width for its name, and on a touch screen it is
+   always there, with room kept above the name, never beside it, so it covers
+   no word and a one-day bar's name still has the day's whole width. */
+.tk-tl__hold { position: relative; display: flex; height: 100%; }
+.tk-tl__hold > .tk-tl__bar { flex: 1 1 auto; }
+.tk-tl__grip { position: absolute; top: 0; bottom: 0; width: 10px; cursor: ew-resize; touch-action: none; z-index: 1; }
+.tk-tl__grip--start { left: 0; }
+.tk-tl__grip--due { right: 0; }
+.tk-tl__grip::after { content: ""; position: absolute; top: 25%; bottom: 25%; left: 3px; width: 4px; border-radius: 2px; background: var(--cb-amber); box-shadow: 0 0 0 1px var(--cb-case); opacity: 0; }
+@media (hover: hover) { .tk-tl__hold:hover > .tk-tl__grip::after { opacity: 1; } }
+.tk-tl__item--stretching .tk-tl__grip::after { opacity: 1; }
+.tk-tl__item--stretching .tk-tl__bar { border-color: var(--cb-amber); }
+.tk-tl__tip { position: absolute; z-index: 3; bottom: calc(100% + 4px); left: 2px; padding: 2px 8px; white-space: nowrap; font-size: 13px; font-weight: 700;
+  color: var(--cb-steel); background: var(--cb-case); border: 2px solid var(--cb-amber); border-radius: 6px; pointer-events: none; }
+.tk-tl__menu { position: absolute; z-index: 2; top: 3px; right: 11px; width: 24px; height: 24px; padding: 0; font: 700 16px/1 'Atkinson Hyperlegible', system-ui, sans-serif;
+  color: var(--cb-steel); background: var(--cb-case); border: 2px solid var(--cb-steel-2); border-radius: 6px; cursor: pointer; }
+.tk-tl__menu:hover, .tk-tl__menu[aria-expanded="true"] { border-color: var(--cb-amber); }
+@media (hover: hover) {
+  .tk-tl__menu { opacity: 0; }
+  .tk-tl__hold:hover > .tk-tl__menu, .tk-tl__hold:focus-within > .tk-tl__menu, .tk-tl__menu[aria-expanded="true"] { opacity: 1; }
+}
+@media (hover: none) { .tk-tl__hold > .tk-tl__bar { padding-top: 31px; } }
+
+/* THE BAR'S MENU: laid over the page on the case, with the preview's amber
+   edge; the item under the pointer or the keyboard is outlined, never filled,
+   so its words keep the case's pair. */
+.tk-menu { position: fixed; z-index: 20; display: grid; align-content: start; min-width: 13rem; max-width: min(20rem, calc(100vw - 16px));
+  max-height: calc(100vh - 16px); overflow-y: auto; padding: 4px; background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-amber); border-radius: 8px; }
+.tk-menu__item { display: grid; grid-template-columns: 1.1em 1fr auto; gap: 6px; align-items: center; min-height: 36px; padding: 4px 10px 4px 6px;
+  font: 400 15px/1.3 'Atkinson Hyperlegible', system-ui, sans-serif; text-align: left; color: var(--cb-steel); background: var(--cb-case);
+  border: 2px solid transparent; border-radius: 4px; cursor: pointer; }
+/* The pointer moves the focus as it goes, so only the focused item is outlined, never a second one under a resting mouse. */
+.tk-menu__item:focus, .tk-menu__item[aria-expanded="true"] { border-color: var(--cb-amber); }
+.tk-menu__item:focus { outline: none; }
+.tk-menu__item:focus-visible { outline: 3px solid var(--cb-amber); outline-offset: -1px; }
+.tk-menu__tick, .tk-menu__more { font-weight: 700; color: var(--cb-steel-2); }
+.tk-menu__rule { height: 2px; margin: 4px 6px; background: var(--cb-bar); }
 .tk-along { margin-top: -4px; }
 .tk-along [aria-pressed="true"] { border-color: var(--cb-amber); }
 

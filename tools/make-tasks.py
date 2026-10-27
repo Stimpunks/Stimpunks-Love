@@ -41,6 +41,14 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
     the page saw.
   · A SAVED FILTER KEPT WITH MORE THAN ITS ID, NAME AND ADDRESS, or left
     behind when its person uses Forget me or deletes the username.
+  · A TIMELINE CHANGE ONLY A MOUSE CAN MAKE (Ryan's ask, 2026-10-27). A bar's
+    grips stretch and shrink it by dragging, and its menu opens on a
+    right-click; so every bar must also have its ⋯ button opening the same
+    menu, Shift+F10 and the ContextMenu key must open it, its Days must hold
+    the grips' changes a day at a time, it must be the ARIA menu pattern, and
+    tasks.css must never hide the button. The friendly edit is dropping the ⋯
+    "because right-click works", which leaves out a keyboard, a screen reader
+    and a phone, as dragging alone would on the board.
   · privacy.html without its tasks section, and the page without its link to it.
   · ANYTHING OF TASKS WRITTEN IN THE CLEAR (Ryan's call, 2026-10-25): every
     Tasks blob is sealed by name at the store (STAFF_SEALED, sealingStore,
@@ -385,6 +393,32 @@ def check_js():
             problems.append(f"{JS.name}: it calls {url}. Tasks talk to /cb/tasks and nothing else.")
 
 
+def check_timeline():
+    """The timeline's grips and right-click menu have a way in for everybody."""
+    js = code_of(JS)
+    css = CSS.read_text() if CSS.exists() else ""
+    need = {
+        "tk-tl__grip": "the grips that stretch and shrink a bar",
+        "'tk-tl__menu'": "the ⋯ button on every bar, which opens its menu without a right-click",
+        "'aria-haspopup', 'menu'": "the ⋯ button saying it opens a menu",
+        "'contextmenu'": "the right-click opening the bar's menu",
+        "e.key === 'ContextMenu'": "the ContextMenu key opening the bar's menu",
+        "e.key === 'F10' && e.shiftKey": "Shift+F10 opening the bar's menu",
+        "'menuitem'": "the ARIA menu pattern's items",
+        "'menuitemradio'": "the ARIA menu pattern's choices",
+        "label: 'Days', sub: daysMenu": "Days in the bar's menu",
+    }
+    for text, what in need.items():
+        if text not in js:
+            problems.append(f"{JS.name}: no {what} ({text!r}). The timeline's changes must be reachable without a mouse.")
+    for label in ("Start a day earlier", "Start a day later", "Due a day earlier", "Due a day later"):
+        if f"'{label}'" not in js:
+            problems.append(f"{JS.name}: Days has no '{label}'. A grip's change must be in the menu too, a day at a time.")
+    for m in re.finditer(r"([^{}]*tk-tl__menu[^{}]*)\{([^}]*)\}", css):
+        if re.search(r"display\s*:\s*none|visibility\s*:\s*hidden", m.group(2)):
+            problems.append(f"{CSS.name}: it hides the timeline's ⋯ button ({m.group(1).strip()}). Fade it, never take it away.")
+
+
 def check_comments_js():
     """comments.js draws the comments for Tasks and the office: from nodes, never
     HTML; through markdown.js; asking only through the page's own function; and
@@ -545,6 +579,7 @@ def main():
     check_colours(data)
     check_recur()
     check_js()
+    check_timeline()
     check_comments_js()
     check_preview_js()
     check_css()
