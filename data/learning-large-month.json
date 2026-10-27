@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-26T12:02Z",
+ "set": "2026-10-27T11:24Z",
  "log": [
   {
    "id": "rPGJhrunbxo",
@@ -451,6 +451,16 @@
    "channel": "Matt Wolfe"
   },
   {
+   "id": "gC18kqOcCEI",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "ANOTHER Flying Car? (Not Tesla / Not AI)",
+   "published": "2026-10-26T20:19:13Z",
+   "state": "screen",
+   "runs": 63,
+   "channel": "Matt Wolfe"
+  },
+  {
    "id": "2IAYFgAqX6g",
    "source": "nate-b-jones",
    "form": "long",
@@ -611,16 +621,6 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "Vbo2zV9fC_g",
-   "source": "nate-b-jones",
-   "form": "short",
-   "title": "A $20 million broker fee vs. one ChatGPT prompt #AI #ChatGPT #Revolut #business #tech",
-   "published": "2026-09-27T03:00:27Z",
-   "state": "screen",
-   "runs": 99,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
-  },
-  {
    "id": "j8Wi8ovhoGY",
    "source": "nate-b-jones",
    "form": "short",
@@ -761,16 +761,6 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "dyEpDobnkmA",
-   "source": "less-bitter",
-   "form": "long",
-   "title": "Opus 5.5 is disturbing",
-   "published": "2026-09-26T17:11:25Z",
-   "state": "screen",
-   "runs": 963,
-   "channel": "Less Bitter"
-  },
-  {
    "id": "2zLuYU_Ub_0",
    "source": "less-bitter",
    "form": "long",
@@ -799,16 +789,6 @@
    "state": "screen",
    "runs": 795,
    "channel": "Less Bitter"
-  },
-  {
-   "id": "IBcBKgYUghU",
-   "source": "theo",
-   "form": "long",
-   "title": "So much for \"Pacing\" the Frontier",
-   "published": "2026-09-27T07:46:18Z",
-   "state": "screen",
-   "runs": 1649,
-   "channel": "Theo - t3․gg"
   },
   {
    "id": "8WbW_n95wc4",
@@ -968,6 +948,16 @@
    "published": "2026-10-26T07:16:35Z",
    "state": "screen",
    "runs": 1837,
+   "channel": "Theo - t3․gg"
+  },
+  {
+   "id": "FHGfSjDGUIw",
+   "source": "theo",
+   "form": "long",
+   "title": "pstack creator spends $132,000,000/year on ai????",
+   "published": "2026-10-27T04:02:18Z",
+   "state": "screen",
+   "runs": 2167,
    "channel": "Theo - t3․gg"
   },
   {
@@ -1151,14 +1141,14 @@
    "channel": "Paul J Lipsky"
   },
   {
-   "id": "douQXfdYGmA",
-   "source": "austin-marchese",
+   "id": "9WTqqWBPCsk",
+   "source": "paul-j-lipsky",
    "form": "long",
-   "title": "I Tested Grok Bot vs Claude on 12 Daily Use Cases",
-   "published": "2026-09-26T17:00:07Z",
+   "title": "The New Way To Use Claude For Regular People",
+   "published": "2026-10-26T13:00:14Z",
    "state": "screen",
-   "runs": 1371,
-   "channel": "Austin Marchese"
+   "runs": 936,
+   "channel": "Paul J Lipsky"
   },
   {
    "id": "QsU0f-547rQ",
@@ -1304,7 +1294,7 @@
    "id": "UFa8pXW9A3k",
    "source": "riley-brown",
    "form": "long",
-   "title": "Claude's New Updates Are Insane… But Grok Bot Is EVEN Bigger",
+   "title": "All of Claude and Grok Bot's New Updates (Insane)",
    "published": "2026-10-10T20:03:25Z",
    "state": "screen",
    "runs": 1250,
@@ -1348,6 +1338,16 @@
    "published": "2026-10-23T20:50:23Z",
    "state": "screen",
    "runs": 1464,
+   "channel": "Riley Brown"
+  },
+  {
+   "id": "3hJ049UPv4Y",
+   "source": "riley-brown",
+   "form": "long",
+   "title": "The Most Terrifying Week in AI History...",
+   "published": "2026-10-26T21:00:54Z",
+   "state": "screen",
+   "runs": 1776,
    "channel": "Riley Brown"
   },
   {
@@ -2159,6 +2159,26 @@
    "state": "screen",
    "runs": 1873,
    "channel": "Greg Isenberg"
+  },
+  {
+   "id": "HKNpCwG3nlc",
+   "source": "greg-isenberg",
+   "form": "long",
+   "title": "The $1,000/hour 1-person AI business",
+   "published": "2026-10-26T18:35:28Z",
+   "state": "screen",
+   "runs": 2660,
+   "channel": "Greg Isenberg"
+  },
+  {
+   "id": "35sh2FkQn-k",
+   "source": "greg-isenberg",
+   "form": "short",
+   "title": "Watch how I use @openai Dots AI agents in chatgpt to make my life & business better #chatgpt_partner",
+   "published": "2026-10-26T21:00:52Z",
+   "state": "screen",
+   "runs": 83,
+   "channel": "Greg Isenberg"
   }
  ],
  "covered": {
@@ -2166,13 +2186,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2180,13 +2200,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2194,13 +2214,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2208,13 +2228,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2222,13 +2242,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2236,13 +2256,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2250,13 +2270,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2264,13 +2284,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2278,13 +2298,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2292,13 +2312,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2306,13 +2326,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   },
@@ -2320,13 +2340,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-26T12:02:29Z"
+     "2026-10-27T11:24:15Z"
     ]
    ]
   }
