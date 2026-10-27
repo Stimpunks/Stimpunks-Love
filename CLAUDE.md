@@ -4677,8 +4677,11 @@ writes an older pass over a newer one for the same username (`passVersion`), `li
 `lost()` take a newer stored pass (`newerStored`, `adoptPass`), `lost()` keeps the radio's own settings under
 `love-cb-kept` (`keepSettings`: never the pass) and every sign-on gives them back only to the same username
 (`withKept`, in `cb.js` and copied in `guest.js`), and once a page the radio switches this device's notifications
-on again with the pass it holds now when that pass has changed (`pushFollow`, `pushFor` in `love-cb`). Signing off
-on purpose still forgets everything. **Anything new written into `love-cb` at sign-on goes through `withKept`.**
+on again with the pass it holds now when that pass has changed (`pushFollow`, `pushFor` in `love-cb`). **Signing off
+asks which** (Ryan's call, the same day): **Sign off** keeps the settings the same way (`signOff(true)`), and **Sign off
+and forget my settings here** deletes them with everything else (`signOff(false)`, which deleting the username and the
+claim panel use too). The friendly edit is one Sign off that always keeps them: the username beside them says who was
+last on a shared computer. **Anything new written into `love-cb` at sign-on goes through `withKept`.**
 
 **THE MODERATORS' DESK LISTS EVERYBODY, AND CAN KICK, TIME OUT AND BAN.** Ryan's ask and calls,
 2026-10-22, after moderators asked for it for safeguarding: what we could tell at a glance if we were

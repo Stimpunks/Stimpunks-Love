@@ -269,8 +269,11 @@
      the pass stopped working (lost), the radio's settings (theme, size, Be seen
      here, Who's online, what you follow) are kept under love-cb-kept, with the
      username and nothing that signs on, and given back when the SAME username
-     signs on again, here or in the guest bar. Signing off on purpose forgets
-     them too, and a different username never gets them. */
+     signs on again, here or in the guest bar. SIGNING OFF ASKS WHICH (Ryan's
+     call, the same day): Sign off keeps them the same way, and Sign off and
+     forget my settings here deletes them with everything else, for a shared
+     computer, where the username kept beside them would say who was last on.
+     A different username never gets them. */
   var KEPT = 'love-cb-kept';
   var IDENTITY = ['pass', 'base', 'roles', 'claimed', 'swap', 'popped'];
   function keepSettings(state) {
@@ -1968,8 +1971,12 @@
     youTools.appendChild(toYou);
     var off = el('button', 'cb-btn cb-off', 'Sign off');
     off.type = 'button';
-    off.addEventListener('click', function () { signOff(); });
+    off.addEventListener('click', function () { signOff(true); });
     youTools.appendChild(off);
+    var offAll = el('button', 'cb-btn cb-off', 'Sign off and forget my settings here');
+    offAll.type = 'button';
+    offAll.addEventListener('click', function () { signOff(false); });
+    youTools.appendChild(offAll);
     /* A staff username without two-step sign-in is told so here, from the
        listen's `twostep`: before 2 November that it will be needed, after it
        that they are on as a member until it is on. Account sets it up. */
@@ -1977,6 +1984,7 @@
     this.twostepNote.hidden = true;
     youSec.appendChild(this.twostepNote);
     youSec.appendChild(youTools);
+    youSec.appendChild(el('p', 'cb-quiet', 'Sign off keeps the radio\u2019s settings in this browser, with your username, for when you sign on again. On a computer other people use, sign off and forget your settings here.'));
     yourSec.appendChild(tools);
     var scp = this.schemePanel = el('div', 'cb-scheme-panel');
     scp.id = 'cb-scheme-panel';
@@ -10414,7 +10422,7 @@
         yes.disabled = true;
         call('/cb/account', { body: { action: 'delete', password: pw.input.value } }, me.state.pass).then(function (r) {
           yes.disabled = false;
-          if (r.status === 200 && r.body.deleted) { signOff(); return; }
+          if (r.status === 200 && r.body.deleted) { signOff(false); return; }
           me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was deleted.');
         }, function () { yes.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was deleted.'); });
       });
@@ -12721,13 +12729,15 @@
     return !!(s && s.base) && (key || need.some(function (r) { return roles.indexOf(r) >= 0; }));
   }
 
-  function signOff() {
+  function signOff(keep) {
     // Notifications on this device stop with the sign-off: told to the street
     // with the pass, which is about to go, then taken off the device.
     var was = load();
     if (was && was.pass) dropThisDevice(was.pass);
+    // Kept only when asked (Sign off), never with a pass from a shared password.
+    if (keep === true && was && /^cb2\./.test(was.pass || '')) keepSettings(was);
+    else forgetKept();
     forget();
-    forgetKept();
     if (radio) { clearTimeout(radio.timer); radio.hush(); radio.host.remove(); radio = null; }
     if (claiming) { claiming.remove(); claiming = null; }
     if (stub) unStub();
@@ -12803,7 +12813,7 @@
       if (r.status === 401) { said.textContent = gone; go.disabled = true; return; }
       if (r.status === 200 && r.body.emailOn) { email.wrap.hidden = false; about.hidden = false; }
     }, function () { /* the claim press says what went wrong */ });
-    off.addEventListener('click', signOff);
+    off.addEventListener('click', function () { signOff(false); });
     go.addEventListener('click', function () {
       if (pw.input.value !== again.input.value) { said.textContent = 'The two passwords are not the same.'; pw.input.focus(); return; }
       go.disabled = true;
@@ -13080,7 +13090,7 @@
       });
     });
     var off = document.getElementById('cb-signoff');
-    if (off) off.addEventListener('click', signOff);
+    if (off) off.addEventListener('click', function () { signOff(false); });
     wireRecover();
     counter();
   }
