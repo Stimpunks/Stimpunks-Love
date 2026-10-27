@@ -250,6 +250,54 @@
     try { var v = JSON.parse(localStorage.getItem(KEY) || 'null'); return v && v.pass ? v : null; }
     catch (e) { return null; }
   }
+  /* A PASS'S VERSION, AND WHO IT IS (2026-10-26). Two-step sign-in, a new
+     password or a role moves the account's version, and only the tab that made
+     the change is handed the new pass; every other tab in the browser still
+     holds the old one. So no tab writes an older pass over a newer one for the
+     same username (save), a tab refused for an old pass takes the newer one
+     another tab saved rather than signing everybody off (lost, listen), and a
+     storage event from another tab brings the newer pass straight over. */
+  function passVersion(pass) { var m = /^cb2\.(?:acct|base)\.[A-Za-z0-9_-]+\.(\d{1,9})\./.exec(String(pass || '')); return m ? Number(m[1]) : 0; }
+  function passMark(pass) { var m = /^cb2\.(acct|base)\.[A-Za-z0-9_-]+\.(\d{1,9})\./.exec(String(pass || '')); return m ? m[1] + '.' + m[2] : ''; }
+  function sameName(a, b) { return !!a && !!b && String(a).toLowerCase() === String(b).toLowerCase(); }
+  /* The stored pass, if it is newer than `pass` for the same username. */
+  function newerStored(handle, pass) {
+    var st = load();
+    return st && st.pass !== pass && sameName(st.handle, handle) && passVersion(st.pass) >= passVersion(pass) ? st : null;
+  }
+  /* YOUR SETTINGS OUTLAST A FORCED SIGN-OFF (2026-10-26). Signed off because
+     the pass stopped working (lost), the radio's settings (theme, size, Be seen
+     here, Who's online, what you follow) are kept under love-cb-kept, with the
+     username and nothing that signs on, and given back when the SAME username
+     signs on again, here or in the guest bar. Signing off on purpose forgets
+     them too, and a different username never gets them. */
+  var KEPT = 'love-cb-kept';
+  var IDENTITY = ['pass', 'base', 'roles', 'claimed', 'swap', 'popped'];
+  function keepSettings(state) {
+    try {
+      var k = {};
+      Object.keys(state || {}).forEach(function (x) { if (IDENTITY.indexOf(x) < 0) k[x] = state[x]; });
+      if (k.handle) localStorage.setItem(KEPT, JSON.stringify(k));
+    } catch (e) { /* a private window keeps nothing */ }
+  }
+  function forgetKept() { try { localStorage.removeItem(KEPT); } catch (e) { /* nothing kept */ } }
+  /* A fresh sign-on's record, with the settings kept for this username. */
+  function withKept(fresh) {
+    var k = null;
+    try { k = JSON.parse(localStorage.getItem(KEPT) || 'null'); } catch (e) { k = null; }
+    forgetKept();
+    if (!k || !sameName(k.handle, fresh.handle)) return fresh;
+    var out = Object.assign({}, fresh, k);
+    IDENTITY.forEach(function (x) { if (x in fresh) out[x] = fresh[x]; else delete out[x]; });
+    out.handle = fresh.handle;
+    return out;
+  }
+  // Another tab saved a newer pass for this username: this radio takes it now.
+  window.addEventListener('storage', function (e) {
+    if (e.key !== KEY || !radio) return;
+    var st = load();
+    if (st && sameName(st.handle, radio.state.handle) && passVersion(st.pass) > passVersion(radio.state.pass)) radio.adoptPass(st);
+  });
   function save(v) {
     try {
       // The chat page and Your page leave the radio on every other page as they found it.
@@ -257,6 +305,11 @@
         var was = load() || {};
         v = Object.assign({}, v);
         CHAT_OWN.forEach(function (k) { if (k in was) v[k] = was[k]; else delete v[k]; });
+      }
+      // Never an older pass over a newer one for the same username.
+      var stored = v && v.pass ? newerStored(v.handle, v.pass) : null;
+      if (stored && passVersion(stored.pass) > passVersion(v.pass)) {
+        v = Object.assign({}, v, { pass: stored.pass, base: stored.base, roles: stored.roles });
       }
       localStorage.setItem(KEY, JSON.stringify(v));
     } catch (e) { /* private window */ }
@@ -2949,6 +3002,32 @@
     }, function () { said.textContent = 'The street could not be reached just now.'; });
   };
 
+  /* NOTIFICATIONS FOLLOW A NEW PASS (2026-10-26). The street keeps each
+     device with the pass it was switched on with, and tells it nothing once
+     that pass is gone: so a new password, two-step sign-in or a new role
+     quietly stopped this device's notifications. Once per page, after the
+     first listen, a device switched on as this username whose pass has
+     changed since is switched on again with the pass it holds now, asking for
+     exactly what it asked for before. pushFor in love-cb is which pass that
+     was, by kind and version only. */
+  Radio.prototype.pushedWith = function () { this.state.pushFor = passMark(this.state.pass); save(this.state); };
+  Radio.prototype.pushFollow = function () {
+    if (this.pushChecked) return;
+    this.pushChecked = true;
+    var me = this, mark = passMark(me.state.pass);
+    if (!mark || me.state.pushFor === mark || !pushable() || !window.Notification || Notification.permission !== 'granted') return;
+    ourReg().then(function (reg) { return reg ? reg.pushManager.getSubscription() : null; }).then(function (sub) {
+      if (!sub) return null;
+      return call('/cb/push', { body: { read: sub.endpoint } }, me.state.pass).then(function (r) {
+        var want = r.status === 200 && r.body ? r.body.want : null;
+        if (!want) return null;
+        return call('/cb/push', { body: { device: subOf(sub), want: want } }, me.state.pass).then(function (r2) {
+          if (r2.status === 200 && r2.body && r2.body.want) me.pushedWith();
+        });
+      });
+    }).catch(function () { /* tried again on the next page */ });
+  };
+
   Radio.prototype.notifyDraw = function (sub, want, told, focusKey) {
     var me = this, box = this.notifyBody;
     var on = !!(sub && want);
@@ -2968,7 +3047,7 @@
       if (!on) { me.notifyWant = next; me.notifyDraw(null, null, '', key); return; }
       call('/cb/push', { body: { device: subOf(sub), want: next } }, me.state.pass).then(function (r) {
         if (r.status === 401) return me.lost();
-        if (r.status === 200 && r.body.want) { me.notifyDraw(sub, r.body.want, 'Changed.', key); return; }
+        if (r.status === 200 && r.body.want) { me.pushedWith(); me.notifyDraw(sub, r.body.want, 'Changed.', key); return; }
         said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing changed.';
       }, function () { said.textContent = 'The street could not be reached just now. Nothing changed.'; });
     }
@@ -3122,7 +3201,7 @@
           return call('/cb/push', { body: { device: subOf(sub), want: me.notifyWant } }, me.state.pass).then(function (r) {
             btn.disabled = false;
             if (r.status === 401) return me.lost();
-            if (r.status === 200 && r.body.want) { me.notifyDraw(sub, r.body.want, 'On. Send me a test shows how one looks here.'); return null; }
+            if (r.status === 200 && r.body.want) { me.pushedWith(); me.notifyDraw(sub, r.body.want, 'On. Send me a test shows how one looks here.'); return null; }
             said.textContent = (r.body && r.body.error) || 'That did not work just now. Nothing was switched on.';
             return sub.unsubscribe();
           });
@@ -3201,8 +3280,17 @@
     if (on) this.listen();
   };
 
+  Radio.prototype.adoptPass = function (st) {
+    this.state.pass = st.pass;
+    this.state.base = !!st.base;
+    this.state.roles = st.roles || [];
+    this.state.claimed = true;
+  };
   Radio.prototype.listen = function () {
     var me = this;
+    // A newer pass another tab saved for this username, taken before asking.
+    var newer = newerStored(this.state.handle, this.state.pass);
+    if (newer && passVersion(newer.pass) > passVersion(this.state.pass)) this.adoptPass(newer);
     if (this.whereNow()) return;
     this.loadRooms();
     // The chat page hears nothing until it knows which channels there are.
@@ -3258,6 +3346,7 @@
         me.callShown();
         me.keepRoles(r.body.roles);
         me.twostepShown(r.body.twostep);
+        me.pushFollow();
         // The roles this pass may call with an @ (mentionableRoles), for the @ list only: never kept.
         me.mayRoles = Array.isArray(r.body.mention) ? r.body.mention.filter(function (x) { return ROLE_SAYS[x]; }) : [];
       }
@@ -10027,6 +10116,8 @@
     this.state.pass = pass;
     this.state.claimed = !!claimed;
     save(this.state);
+    // This device's notifications, if on, follow the new pass on the next listen.
+    this.pushChecked = false;
   };
 
   /* TWO-STEP SIGN-IN (Ryan's ask and calls, 2026-10-26): an authenticator app
@@ -12494,6 +12585,10 @@
   /* The password changed, so the pass no longer opens the channel. Said once,
      on the radio, and then the radio goes. */
   Radio.prototype.lost = function () {
+    // Another tab already has a newer pass for this username: take it, and go on.
+    var newer = newerStored(this.state.handle, this.state.pass);
+    if (newer) { this.adoptPass(newer); clearTimeout(this.timer); this.listen(); return; }
+    keepSettings(this.state);
     forget();
     clearTimeout(this.timer);
     this.hush();
@@ -12605,6 +12700,7 @@
     this.state.base = !!sw.base;
     this.state.roles = Array.isArray(sw.roles) ? sw.roles.slice() : [];
     save(this.state);
+    this.pushChecked = false;
     this.tell(sw.base ? 'You are a moderator now. Reload the page to see everything that opens.' : 'You are no longer a moderator. Reload the page to see the CB as it is for you now.');
   };
   Radio.prototype.keepRoles = function (roles) {
@@ -12631,6 +12727,7 @@
     var was = load();
     if (was && was.pass) dropThisDevice(was.pass);
     forget();
+    forgetKept();
     if (radio) { clearTimeout(radio.timer); radio.hush(); radio.host.remove(); radio = null; }
     if (claiming) { claiming.remove(); claiming = null; }
     if (stub) unStub();
@@ -12935,7 +13032,7 @@
       var took = function (b) {
         form.elements.password.value = '';
         said.textContent = '';
-        save({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true });
+        save(withKept({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true }));
         counter();
         tuneIn();
         var hello = document.getElementById('cb-on-said');
@@ -13012,7 +13109,7 @@
           var p2 = document.createElement('p'); p2.className = 'ctr-code'; p2.textContent = r.body.recovery;
           form.replaceWith(p1); p1.after(p2);
           var signedIn = function (b) {
-            save({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true });
+            save(withKept({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true }));
             counter();
             tuneIn();
           };

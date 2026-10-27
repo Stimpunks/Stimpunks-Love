@@ -265,9 +265,20 @@
       });
     }
     // Signed on: the pass kept, and the radio in place of this bar.
+    // The radio's settings kept after a forced sign-off (love-cb-kept, cb.js),
+    // given back when the same username signs on again, and never to another.
+    function withKept(fresh) {
+      var k = null;
+      try { k = JSON.parse(localStorage.getItem('love-cb-kept') || 'null'); localStorage.removeItem('love-cb-kept'); } catch (x) { k = null; }
+      if (!k || !k.handle || String(k.handle).toLowerCase() !== String(fresh.handle).toLowerCase()) return fresh;
+      var out = Object.assign({}, fresh, k);
+      ['pass', 'base', 'roles', 'claimed', 'swap', 'popped'].forEach(function (x) { if (x in fresh) out[x] = fresh[x]; else delete out[x]; });
+      out.handle = fresh.handle;
+      return out;
+    }
     function took(b) {
       try {
-        localStorage.setItem('love-cb', JSON.stringify({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true }));
+        localStorage.setItem('love-cb', JSON.stringify(withKept({ handle: b.handle, pass: b.pass, base: !!b.base, roles: b.roles || [], claimed: true, folded: false, aloud: true })));
       } catch (x) { said.textContent = 'This browser will not keep the pass, so the radio cannot stay on. A private window does that.'; return; }
       keep(false);
       host.remove();

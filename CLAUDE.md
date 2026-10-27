@@ -4668,6 +4668,18 @@ so the secret never goes anywhere to be drawn. `make-accounts.py` holds the reco
 are an app secret kept in the clear "so it can be shown again", SMS codes, staff let through without a step "for a
 few more days", and a QR code from a web service.
 
+**A NEW PASS REACHES EVERY TAB, YOUR SETTINGS OUTLAST A FORCED SIGN-OFF, AND NOTIFICATIONS FOLLOW THE PASS.**
+2026-10-26, found by Ryan straight after turning two-step on: a version move (two-step, a password, a reset, a role)
+hands only the tab that made it the new pass, and any other tab still listening with the old one was refused and
+`lost()` deleted `love-cb` for the whole browser, theme, Be seen here and all; signing on then wrote a fresh record;
+and the device's notification record still named the old pass, so the street told it nothing. Now `save()` never
+writes an older pass over a newer one for the same username (`passVersion`), `listen()`, a `storage` event and
+`lost()` take a newer stored pass (`newerStored`, `adoptPass`), `lost()` keeps the radio's own settings under
+`love-cb-kept` (`keepSettings`: never the pass) and every sign-on gives them back only to the same username
+(`withKept`, in `cb.js` and copied in `guest.js`), and once a page the radio switches this device's notifications
+on again with the pass it holds now when that pass has changed (`pushFollow`, `pushFor` in `love-cb`). Signing off
+on purpose still forgets everything. **Anything new written into `love-cb` at sign-on goes through `withKept`.**
+
 **THE MODERATORS' DESK LISTS EVERYBODY, AND CAN KICK, TIME OUT AND BAN.** Ryan's ask and calls,
 2026-10-22, after moderators asked for it for safeguarding: what we could tell at a glance if we were
 all in one room, the way Discord lists a server's members. **It reverses "there is no list of

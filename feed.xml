@@ -65,10 +65,17 @@
       <description>At Helen Edgar’s ask, a Crystal Wheel in Myths &amp; Legends, behind her yurt: photographs of popular crystals round a circle, each one pressed to its card, with what the stone really is, the belief or story attached to it and whether that is old tradition or modern crystal lore, and its birthstone month where it has one. The yurt says so beside the Alchemist’s Arch. The photographs are other people’s, from Wikimedia Commons, each credited on its card with its licence, as those licences ask, and listed in the liner notes. tools/make-yurt-myths.py now refuses a crystal photograph without its photographer, its Commons page or a licence this site can use, and one still carrying camera data. The wheel says once, with its source, that the meanings are not medicine. Changed: faery-myths-room.html, faery-yurt.html, love.css (§128 and §14), data/yurt-myths.json, tools/make-yurt-myths.py, liner-notes.html, and the photographs in crystals/.</description>
     </item>
     <item>
+      <title>Changing your password no longer signs off your other tabs or forgets your settings</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-26-signed-off</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-26-signed-off</guid>
+      <pubDate>Mon, 26 Oct 2026 11:52:00 GMT</pubDate>
+      <description>Turning on two-step sign-in, changing your password or being given a role could sign you off in every tab and reset the radio: its theme, Be seen here, Who’s online and the rest, and your notifications on that device could quietly stop. Ryan found it straight after setting up two-step. A tab still holding your old pass now takes the new one from the tab that made the change, instead of signing everybody off. If the CB does sign you off because your pass stopped working, the radio’s settings are kept in this browser and come back when the same username signs on again (what your browser keeps lists it). And a device whose notifications are on is switched on again with your new pass by itself, asking for what it asked for before. Changed: cb.js, guest.js and privacy.html.</description>
+    </item>
+    <item>
       <title>Two-step sign-in</title>
       <link>https://stimpunks.world/changelog.html#2026-10-26-two-step</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-26-two-step</guid>
-      <pubDate>Mon, 26 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Mon, 26 Oct 2026 11:51:00 GMT</pubDate>
       <description>Anybody with a username can now turn on two-step sign-in, under Account on the radio: after your password, signing on asks for a six-digit code from an authenticator app on your phone, or a passkey (your fingerprint, your face or your device’s screen lock), with ten backup codes for when you cannot use either. Somebody who learns your password still cannot sign on as you. Ryan’s call, so that the very personal things people share here are better protected. From 2 November it is required for our moderators and staff. Until then the radio reminds them. After it, a staff username without it is on the CB as an ordinary member, with nothing else shut, until it is set up. The QR code you scan is drawn in your own browser, so your key never goes anywhere to be turned into a picture. Adding or taking off a step signs your other devices off. If you lose every step, a moderator can reset your username. The privacy page says what is kept, and the CB guide how to set it up. Changed: netlify/cb/lib.mjs, the sign-on, account and recovery functions, a new twostep.js, cb.js, guest.js, cb.css, _headers, and the checkers that hold it.</description>
     </item>
     <item>
