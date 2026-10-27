@@ -4159,10 +4159,13 @@ same filters as fields under Filters, read into one search (`searchRead`); the r
 (`back`, `jumpTo`, `jumpLand` from `show()`). `searchChannels` in `lib.mjs` (`/cb/search`, a POST) reads World and
 every room's channel the asker can hear, **never a quiet room, even for somebody who may enter it** (a result names
 its room), never one `roomAllows` refuses and never a shut staff room, and never direct messages. The days are
-worked out in the reader's calendar and sent as times. `tools/check-search.py` holds it. **The friendly edits are
-"N results", recent searches kept "to run again", a search in the address "so it can be shared", and searching
-conversations "since they are on the server anyway"**: the first is the count the radio refuses, the next two keep a
-person's words where privacy.html#chat-search says they are not, and the last is Ryan's call (`DECISIONS.md`).
+worked out in the reader's calendar and sent as times. **It says how many matched in all** (`total`; Ryan's call the
+same day, reversing the radio's "never counts" for this one line, as Discord says it), and nothing else is counted.
+`tools/check-search.py` holds it. **The friendly edits are a count per channel or per person in the results ("12 in
+#the-den"), recent searches kept "to run again", a search in the address "so it can be shared", and searching
+conversations "since they are on the server anyway"**: the first ranks rooms and people by how much they say, the next
+two keep a person's words where privacy.html#chat-search says they are not, and the last is Ryan's call
+(`DECISIONS.md`).
 
 **THE RADIO CAN GO INTO A WINDOW OF ITS OWN, `cb-window.html`, AND ONLY ONE RADIO LISTENS.** Ryan's ask,
 2026-10-19: "a popout for the CB like the video player, keeping currently selected size". Pop out, under

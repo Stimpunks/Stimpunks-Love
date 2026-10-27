@@ -3689,7 +3689,7 @@ test('the chat page is sent two orders by activity, without a time or a count, a
 /* ── The chat page's search ─────────────────────────────────────────────── */
 import { cleanSearch, searchChannels, searchTerms, SEARCH_PAGE } from './lib.mjs';
 
-test('search finds words and filters on every channel the asker can hear, never a quiet room, a private one or a shut one, and never counts', async () => {
+test('search finds words and filters on every channel the asker can hear, never a quiet room, a private one or a shut one, and says how many matched and nothing more', async () => {
   const s = memoryStore({ etagOnRead: true });
   const now = Date.now();
   const mob = { role: 'mobile', handle: 'Zed', roles: new Set() };
@@ -3713,8 +3713,8 @@ test('search finds words and filters on every channel the asker can hear, never 
   let r = await find(mob, { words: 'shag' });
   assert.deepEqual(r.results.map((x) => x.message.id), ['w1', 'f1', 'd3', 'd1'], 'newest first, across channels, with no quiet, private room');
   assert.equal(r.results[0].room, 'world');
-  assert.deepEqual(Object.keys(r).sort(), ['more', 'results'], 'an answer carried something more, a count say');
-  assert.ok(!('total' in r) && !('count' in r));
+  assert.deepEqual(Object.keys(r).sort(), ['more', 'results', 'total'], 'an answer carried something more than how many matched');
+  assert.equal(r.total, 4, 'how many matched was wrong');
   assert.equal(r.results.find((x) => x.message.id === 'd1').back, 2, 'how far from the newest was wrong');
   r = await find(mob, { words: 'shag', order: 'old' });
   assert.equal(r.results[0].message.id, 'd1');
@@ -3746,6 +3746,7 @@ test('search finds words and filters on every channel the asker can hear, never 
   r = await find(mob, { words: 'ink' });
   assert.equal(r.results.length, SEARCH_PAGE);
   assert.equal(r.more, true);
+  assert.equal(r.total, SEARCH_PAGE + 3, 'how many matched was only this page');
   r = await find(mob, { words: 'ink', page: 1 });
   assert.equal(r.results.length, 3);
   assert.equal(r.more, false);

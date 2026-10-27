@@ -15,13 +15,16 @@ promise, on the privacy page (#chat-search) and in the CB guide (#chat-search):
   · NOTHING KEPT, AND THE WORDS NEVER IN AN ADDRESS. /cb/search is a POST, so
     the words are in its body; nothing in the search writes to the store or
     logs; the page keeps them in no storage, no history and no address.
-  · NO COUNT. The answer is a page of results and whether there are more,
-    never how many, and the page says its order, never a number of matches.
+  · HOW MANY MATCHED, AND NOTHING ELSE COUNTED (Ryan's call, 2026-10-27,
+    reversing the radio's "never counts" for this one line, as Discord says
+    it): `total`, over every channel searched, beside a page of results.
+    Never a count per channel or per person, which would rank rooms and
+    people by how much they say.
 
-The friendly edits are "N results" at the top of the list, keeping recent
-searches "so people can run them again", a search in the address "so it can be
-shared", and searching every channel on the street "because they are all on
-the server anyway". Each is refused here.
+The friendly edits are a count per channel or per person in the results
+("12 in #the-den"), keeping recent searches "so people can run them again", a
+search in the address "so it can be shared", and searching every channel on the
+street "because they are all on the server anyway". Each is refused here.
 """
 import re
 import sys
@@ -68,9 +71,11 @@ def main():
         if re.search(pat, whole):
             refuse(f"the search in lib.mjs {why}: nothing is kept for a search and nothing records who searched for what.")
 
-    # No count.
-    if re.search(r"\b(?:total|count|matched|hits)\s*:", fn):
-        refuse("searchChannels answers with a count: it sends a page and whether there are more, never how many.")
+    # How many matched, and nothing else counted.
+    if "total: found.length," not in fn:
+        refuse("searchChannels no longer says how many matched (total), Ryan's call of 2026-10-27.")
+    if re.search(r"\b(?:count|counts|perRoom|byRoom|byHandle|perPerson|tally)\b", fn) or len(re.findall(r"\btotal\s*:", fn)) != 1:
+        refuse("searchChannels counts something besides how many matched: never a count per channel or per person.")
     if "results:" not in fn or "more:" not in fn:
         refuse("searchChannels no longer answers with results and more.")
 
@@ -94,8 +99,10 @@ def main():
                      (r"\bchatGo\(\s*(?:q|words|this\.searchQ)", "puts it in the address")]:
         if re.search(pat, page):
             refuse(f"cb.js's search {why}: the words are this page's until it goes, and never in its address.")
-    if re.search(r"(?:results|list|hits)\.length\s*\+\s*'|'\s*\+\s*(?:results|list|hits)\.length|\b(?:N|\d+) results?\b", page):
-        refuse("cb.js's search says how many matched: the radio never counts.")
+    if "total.toLocaleString() + (total === 1 ? ' result' : ' results')" not in page:
+        refuse("cb.js's search no longer says how many matched.")
+    if re.search(r"\b(?:perRoom|byRoom|byHandle|perPerson|tally)\b", page):
+        refuse("cb.js's search counts something besides how many matched: never a count per channel or per person.")
 
     # The words the page and the server agree on, and the promises written down.
     for page_name, anchor in (("privacy.html", 'id="chat-search"'), ("cb-guide.html", 'id="chat-search"')):
@@ -107,7 +114,7 @@ def main():
         for p in problems:
             print("  ·", p)
         sys.exit(1)
-    print("search: only the channels you can hear, nothing kept, never in an address, and never a count.")
+    print("search: only the channels you can hear, nothing kept, never in an address, and how many matched and nothing more.")
 
 
 if __name__ == "__main__":

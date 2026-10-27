@@ -4929,8 +4929,10 @@
        · THE WORDS ARE NEVER IN THE ADDRESS, which goes into the browser's
          history, and nothing here or on the server keeps them: the box, its
          filters and the results are this page's until it goes.
-       · NO COUNT, the radio's rule: the results say their order and that there
-         are more, never how many matched. */
+       · HOW MANY MATCHED, as Discord says it (Ryan's call, 2026-10-27,
+         reversing the radio's "never counts" for this one line): the total
+         over every channel searched, and never a count per channel, per
+         person or of anything else. */
   var SEARCH_HAS = { link: 'link', links: 'link', picture: 'picture', pictures: 'picture', image: 'picture', images: 'picture',
     sticker: 'sticker', stickers: 'sticker', card: 'card', cards: 'card', embed: 'card', embeds: 'card' };
   var SEARCH_BY = { user: 'person', person: 'person', people: 'person', bot: 'bot', bots: 'bot' };
@@ -4985,8 +4987,27 @@
     fb.type = 'button';
     fb.setAttribute('aria-expanded', 'false');
     fb.setAttribute('aria-controls', 'cb-search-filters');
+    /* CLEAR THE SEARCH (Ryan, 2026-10-27: he could see how to clear the
+       filters and not how to get the chat back, and after Jump to it the way
+       back went with the results): beside Search for as long as a search is
+       held, its results showing or not, it empties the box, lets the results
+       go and puts the channel back. Emptying the box any other way, its own
+       clear button or Escape, does the same. BACK TO THE RESULTS is there
+       while a search is held and something else is in the middle, after a
+       jump above all. See searchShown. */
+    var cs = this.searchClearBtn = el('button', 'cb-btn', 'Clear the search');
+    cs.type = 'button';
+    cs.hidden = true;
+    cs.addEventListener('click', function () { me.searchClear(); });
+    var br = this.searchBackRes = el('button', 'cb-btn', 'Back to the results');
+    br.type = 'button';
+    br.hidden = true;
+    br.addEventListener('click', function () { me.chatViewSearch(); me.searchHow.focus(); });
+    box.addEventListener('input', function () { if (!box.value && me.searchQ) me.searchClear(true); });
     row.appendChild(box);
     row.appendChild(go);
+    row.appendChild(br);
+    row.appendChild(cs);
     row.appendChild(fb);
     var hint = el('p', 'cb-quiet cb-search-hint', SEARCH_HINT);
     hint.id = 'cb-search-hint';
@@ -5181,28 +5202,34 @@
       }
       me.searchSaid.textContent = '';
       me.searchPage = page;
-      me.searchDraw(r.body.results, !!r.body.more, page, searchTerms(q.words));
+      var total = typeof r.body.total === 'number' && r.body.total >= 0 ? Math.floor(r.body.total) : r.body.results.length;
+      me.searchDraw(r.body.results, !!r.body.more, page, searchTerms(q.words), total);
     }, function () {
       me.searchSaid.textContent = 'The street could not be reached, so nothing was searched.';
     }).then(function () { me.searchBusy = false; });
   };
 
-  Radio.prototype.searchDraw = function (results, more, page, terms) {
+  Radio.prototype.searchDraw = function (results, more, page, terms, total) {
     var me = this, list = this.searchList, first = null;
     if (!page) {
       list.textContent = '';
       this.chatViewSearch();
       var room = chatRoom();
       this.searchBack.textContent = 'Back to ' + (room.tag === WORLD_CALL ? 'World' : '#' + room.name);
-      this.searchHow.textContent = results.length
-        ? (this.searchQ.order === 'old' ? 'Oldest first' : 'Newest first') + ', from World and every channel you can hear, as far back as each one keeps.'
-        : 'Nothing on World or the channels you can hear matches, as far back as each one keeps.';
+      // Where it looked: the channels In named, or every one you can hear.
+      var named = {};
+      this.searchChannels().forEach(function (c) { named[c.tag] = c.tag === WORLD_CALL ? 'World' : '#' + c.name; });
+      var where = this.searchQ.in.length ? names(this.searchQ.in.map(function (t) { return named[t] || '#' + t; })) : 'World and every channel you can hear';
+      this.searchHow.textContent = total
+        ? total.toLocaleString() + (total === 1 ? ' result' : ' results') + ', ' + (this.searchQ.order === 'old' ? 'oldest first' : 'newest first') +
+          ', from ' + where + ', as far back as ' + (this.searchQ.in.length === 1 ? 'it keeps.' : 'each one keeps.')
+        : 'No results on ' + where + ', as far back as ' + (this.searchQ.in.length === 1 ? 'it keeps.' : 'each one keeps.');
       this.searchHow.focus();
     }
-    var names = {};
-    this.searchChannels().forEach(function (c) { names[c.tag] = c.tag === WORLD_CALL ? 'World' : '#' + c.name; });
+    var chanName = {};
+    this.searchChannels().forEach(function (c) { chanName[c.tag] = c.tag === WORLD_CALL ? 'World' : '#' + c.name; });
     results.forEach(function (x) {
-      var m = x.message, where = names[x.room] || '#' + x.room, bot = !!m.feed;
+      var m = x.message, where = chanName[x.room] || '#' + x.room, bot = !!m.feed;
       if (!m || typeof m.id !== 'string') return;
       var li = el('li', 'cb-msg cb-hit');
       var head = el('p', 'cb-head');
@@ -5266,12 +5293,33 @@
     this.chatChan.hidden = true;
     this.searchRes.hidden = false;
     this.searchSec.classList.add('cb-sec--searching');
+    this.searchShown(false);
     this.chatShown();
   };
   Radio.prototype.searchLeave = function () {
     this.searchRes.hidden = true;
     this.searchSec.classList.remove('cb-sec--searching');
     this.chatView = 'channel';
+    this.searchShown(true);
+  };
+  // Clear the search while one is held; Back to the results while it is held and away.
+  Radio.prototype.searchShown = function (away) {
+    this.searchClearBtn.hidden = !this.searchQ;
+    this.searchBackRes.hidden = !this.searchQ || !away;
+  };
+
+  /* The box emptied and the channel back in the middle, with the keyboard on
+     its name; or, from the box itself, left in the box. The filters stay as
+     they were, for the next search. */
+  Radio.prototype.searchClear = function (fromBox) {
+    this.searchBox.value = '';
+    this.searchSaid.textContent = '';
+    this.searchList.textContent = '';
+    this.searchMore.hidden = true;
+    this.searchQ = null;
+    if (this.chatView === 'search') this.chatViewChannel();
+    this.searchShown(true);
+    if (fromBox) this.searchBox.focus(); else this.chanH.focus();
   };
 
   /* JUMP TO IT: the result's channel, asked for far enough back to reach the

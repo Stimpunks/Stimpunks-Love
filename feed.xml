@@ -9,17 +9,24 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Tue, 27 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Search on the chat page says how many matched</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-27-chat-search-count</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-chat-search-count</guid>
+      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <description>The chat page’s search now says how many messages matched, above the results, as Discord’s does, at Ryan’s ask the same day. It is one number for the whole search, over every channel you can hear. This reverses the radio’s rule of never showing a count, for this one line only: the search never says how many matched on any one channel or from any one person, and nothing else on the radio is counted (the privacy page, the CB guide). When you searched only some channels, the line names them. Clear the search is beside Search for as long as a search is held, because Ryan could see how to clear the filters and not how to get the chat back, and after Jump to it the way back went with the results. It empties the box, lets the results go and puts the channel back, and so does emptying the box yourself, with its clear button or Esc. After a jump, Back to the results beside it brings the results back.</description>
+    </item>
+    <item>
       <title>Search on the chat page, with Discord’s filters</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-chat-search</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-chat-search</guid>
-      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:59:00 GMT</pubDate>
       <description>The chat page can search every channel you can hear, at Ryan’s ask, after Discord’s search: World and every room’s channel, as far back as each one keeps. Type words, a &quot;phrase in quotes&quot;, or Discord’s own filters as Discord types them: from:, mentions:, has:link, has:picture, has:sticker, has:card, in:#the-den, before:, after: and during: a day, and author-type:bot. Filters has the same filters as fields, for anybody who would rather not learn a syntax, with the days in your own calendar and newest or oldest first. The results take the channel’s place in the middle, 25 at a time, each with its channel, who, when and its words with what you searched for underlined, and Jump to it, which opens its channel at that message, fetching earlier messages if it has to, and puts the keyboard on it. Like the rest of the radio, it never says how many matched. It only finds what you could already scroll back to: never a room that keeps to itself, never a room you cannot go into, and never your direct messages. Your words go to us in the body of the request and are kept by nobody, and they are never in the page’s address, so they are not in your browser’s history (the privacy page, the CB guide).</description>
     </item>
     <item>
       <title>Stretching a task on the timeline, and a menu on every bar</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-timeline-drag-menu</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-timeline-drag-menu</guid>
-      <pubDate>Tue, 27 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:58:00 GMT</pubDate>
       <description>A bar on Tasks’ timeline can be stretched and shrunk by dragging its ends, at Ryan’s ask: the grip at a bar’s left end changes when the task starts, the one at its right end when it is due, a day at a time, and the bar says the day it would land on as it goes. Esc while dragging puts it back. Every bar has a menu of its own, after Google Drive’s: right-click a bar, or press Shift + F10 or the ContextMenu key on it, or its ⋯ button, to open it, change it, copy a link to it, mark it completed, set its status, priority or who it is assigned to, or move its days a day or a week at a time. The ⋯ and the Days in the menu are how a keyboard, a screen reader and a phone make every change the grips make. Shift and a right-click still give the browser’s own menu.</description>
     </item>
     <item>

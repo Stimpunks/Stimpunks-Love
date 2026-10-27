@@ -3720,9 +3720,12 @@ export async function channelActivity(who, s = store(), now = Date.now()) {
        a POST's body, never an address, and nothing records who searched for
        what. tools/check-search.py refuses a console call, a store write or a
        GET in it.
-     · NO COUNT. The page says newest or oldest first and shows SEARCH_PAGE at a
-       time, with more when there are more, never how many matched: the radio
-       never counts. `back` is how far from the newest a result sits on its
+     · HOW MANY MATCHED, AND NOTHING ELSE COUNTED (Ryan's call, 2026-10-27, the
+       same day, reversing the radio's "never counts" for this one answer, as
+       Discord says it): `total`, the messages that match on the channels the
+       asker can hear, beside SEARCH_PAGE of them at a time. Never how many on
+       any one channel, from any one person, or anything about the rooms or
+       the people. `back` is how far from the newest a result sits on its
        channel, only so a jump can ask for enough of the channel to reach it.
    `q` is what the page sends: words, and the filters already read out of
    them, each refused or trimmed here rather than trusted. Dates are times,
@@ -3810,6 +3813,7 @@ export async function searchChannels(who, q, s = store(), now = Date.now()) {
   const from = q.page * SEARCH_PAGE, page = found.slice(from, from + SEARCH_PAGE);
   return {
     results: page.map((r) => ({ room: r.tag, back: r.back, message: shape([r.m])[0] })),
+    total: found.length,
     more: found.length > from + SEARCH_PAGE && q.page + 1 < SEARCH_PAGES,
   };
 }
