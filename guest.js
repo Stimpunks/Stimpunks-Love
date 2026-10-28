@@ -397,7 +397,15 @@
         none.hidden = false; list.hidden = true; mark(-1);
         return;
       }
-      var found = findRooms(find.value), here = herePath();
+      // A # looks for a channel, which is the chat page's, for people signed on;
+      // a / looks for a room's page, which is what a bare name finds here too.
+      if (/^\s*#/.test(find.value)) {
+        offer = [];
+        none.textContent = 'Every room has a channel too, and the channels are on the radio, for people signed on. Sign on first, or leave off the # to find the room.';
+        none.hidden = false; list.hidden = true; mark(-1);
+        return;
+      }
+      var found = findRooms(find.value.replace(/^\s*\//, '')), here = herePath();
       offer = found.map(function (f) { return f.room; });
       for (var i = 0; i < offer.length; i++) {
         var li = el('li', 'cb-opt');

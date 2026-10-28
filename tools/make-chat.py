@@ -184,6 +184,19 @@ for t, roles in mods.items():
         continue
     staff.append({"tag": t, "roles": roles, "strict": t in strict})
 staff.sort(key=lambda x: order[x["tag"]])
+# THE TELEPORTER'S #CHANNELS read which rooms are staff's off cb-rooms.json, where
+# make-sitemap.py writes it from each page's <body>, because off this page the
+# radio has no other list (Ryan's ask, 2026-10-28). The two must be one list, or
+# the teleporter offers a channel this page would not, or the other way round.
+said = {r["tag"]: r["staff"] for r in rooms if "staff" in r}
+held = {x["tag"]: {"roles": sorted(x["roles"]), "strict": x["strict"]} for x in staff}
+for t in sorted(set(said) | set(held)):
+    a = said.get(t)
+    a = a and {"roles": sorted(a.get("roles", [])), "strict": a.get("strict") is True}
+    if a != held.get(t):
+        refuse(f"cb-rooms.json says #{t}'s channel is for {a or 'everybody'}, and MOD_ROOMS and STRICT_ROOMS "
+               f"say {held.get(t) or 'everybody'}. Make the page's data-cb, data-cb-role and data-cb-strict "
+               "agree with the server, then run tools/make-sitemap.py.")
 for t in community + [x["tag"] for x in staff]:
     if t in quiet:
         refuse(f"{t} keeps to itself (QUIET_ROOMS), and this page is public: it cannot be listed here.")
