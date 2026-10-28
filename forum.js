@@ -320,6 +320,17 @@
   }
   // What [[ offers, asked of /cb/forum by POST, so nothing typed is in an address (links.js).
   function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
+  /* What ! offers the people who can read Tasks (links.js): the team's
+     snippets, asked once while the page is open. Nobody else is offered any. */
+  var snipAsk = null;
+  function snippetsNow() {
+    if (!(me && me.tasks)) return Promise.resolve(null);
+    if (!snipAsk) snipAsk = call(null, { action: 'snippets' }).then(function (r) {
+      if (r.status === 200) return r.body.snippets || [];
+      snipAsk = null; return [];
+    });
+    return snipAsk;
+  }
   // Where each topic read whole is linked from, kept while it is redrawn after a reply or an edit.
   var linkedFrom = {};
   function why(r, otherwise) {
@@ -1265,9 +1276,12 @@
     form.appendChild(pick);
     // [[ links a forum topic, and for staff a task or a record of the office (links.js).
     window.loveLinks.attach(text, { ask: findLinks, said: say, after: function () { saveDraft(); } });
+    // ! puts in one of the team's snippets, for a reader who can read Tasks, where they are kept (links.js).
+    var snippy = !!(me && me.tasks);
+    if (snippy) window.loveLinks.snippets(text, { list: snippetsNow, said: say, after: function () { saveDraft(); } });
     // Buttons for Bold, Italic, Link and the rest, over the box (format.js).
     window.loveFormat.toolbar(text, { p: 'fm', said: say });
-    var hint = el('p', 'cb-quiet fm-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A link on a line of its own becomes a preview, which our server makes by reading that page once. Paste a screenshot into the box, or drop a picture on it, to have it stand right there in the words. Type @ and a name to mention somebody: if they asked to be told, they are. Type [[ and part of a title to link another topic: everybody who can read it sees its title.');
+    var hint = el('p', 'cb-quiet fm-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A link on a line of its own becomes a preview, which our server makes by reading that page once. Paste a screenshot into the box, or drop a picture on it, to have it stand right there in the words. Type @ and a name to mention somebody: if they asked to be told, they are. Type [[ and part of a title to link another topic: everybody who can read it sees its title.' + (snippy ? ' Type ! and part of a name to put in one of the team’s snippets, which are kept in Tasks.' : ''));
     hint.id = tid + '-hint';
     form.appendChild(hint);
 

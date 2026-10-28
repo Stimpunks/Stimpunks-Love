@@ -622,9 +622,10 @@
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.notesMax; text.value = c ? c.notes : '';
     field('of-notes', 'Notes', text);
     window.loveLinks.attach(text, { ask: findLinks, said: say });
+    window.loveLinks.snippets(text, { list: snippetsNow, said: say });
     window.loveFormat.toolbar(text, { p: 'of', said: say, checklist: true });
     text.setAttribute('aria-describedby', 'of-notes-hint');
-    var hint = el('p', 'cb-quiet of-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    var hint = el('p', 'cb-quiet of-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office, and ! and part of a name to put in one of the team’s snippets, which are kept in Tasks.');
     hint.id = 'of-notes-hint';
     form.appendChild(hint);
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
@@ -1192,8 +1193,9 @@
     var formNo = el('input', 'cb-say of-input'); formNo.type = 'number'; formNo.min = '1'; formNo.step = '1'; formNo.value = g && g.form ? String(g.form) : '';
     field('of-gform', 'Form entry', formNo, 'Its number on stimpunks.org, if it came in through a form.');
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.grantBodyMax; text.value = g ? g.body : '';
-    field('of-gbody', 'Description', text, 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    field('of-gbody', 'Description', text, 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office, and ! and part of a name to put in one of the team’s snippets, which are kept in Tasks.');
     window.loveLinks.attach(text, { ask: findLinks, said: say });
+    window.loveLinks.snippets(text, { list: snippetsNow, said: say });
     window.loveFormat.toolbar(text, { p: 'of', said: say });
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
     form.appendChild(preview);
@@ -2102,8 +2104,9 @@
     var formNo = el('input', 'cb-say of-input'); formNo.type = 'number'; formNo.min = '1'; formNo.step = '1'; formNo.value = k && k.form ? String(k.form) : '';
     field('of-kform', 'Form entry', formNo, 'Its number on stimpunks.org, if it came in through a form.');
     var text = el('textarea', 'cb-say of-text'); text.rows = 8; text.maxLength = settings.caseBodyMax; text.value = k ? k.body : '';
-    field('of-kbody', 'Description', text, 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office.');
+    field('of-kbody', 'Description', text, 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links and tables. Type [[ and part of a name to link a task, a forum topic or a record of the office, and ! and part of a name to put in one of the team’s snippets, which are kept in Tasks.');
     window.loveLinks.attach(text, { ask: findLinks, said: say });
+    window.loveLinks.snippets(text, { list: snippetsNow, said: say });
     window.loveFormat.toolbar(text, { p: 'of', said: say });
     var preview = el('div', 'of-body of-preview'); preview.hidden = true;
     form.appendChild(preview);
@@ -2221,12 +2224,12 @@
 
   // The comments of the record on the page, kept while it is redrawn by Move to.
   var talked = { id: null, list: null };
-  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks, and @board, @director, @administrator or @moderator tells everybody who holds that role. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks, and @board, @director, @administrator or @moderator tells everybody who holds that role. Type [[ to link a task, a topic or a record of the office, and ! to put in one of the team’s snippets. Ctrl or Cmd and Enter sends it.';
   function commentsFor(id, landOn) {
     return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
-      people: people, roles: roles, me: me ? me.handle : '', mark: marked,
+      people: people, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow,
       kept: function (list) { talked = { id: id, list: list }; }, files: commentFiles(id) };
   }
 
@@ -2280,6 +2283,16 @@
   function marked(into) { window.loveLinks.mentions(into, people(), { p: 'of', me: me ? me.handle : '', said: say, roles: roles(), mine: (me && me.roles) || [] }); return into; }
   // What [[ offers, asked of /cb/office by POST (links.js).
   function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
+  /* What ! offers (links.js): the team's snippets, which are made and changed
+     in Tasks, asked once while the page is open. */
+  var snipAsk = null;
+  function snippetsNow() {
+    if (!snipAsk) snipAsk = call(null, { action: 'snippets' }).then(function (r) {
+      if (r.status === 200) return r.body.snippets || [];
+      snipAsk = null; return [];
+    });
+    return snipAsk;
+  }
   // Where the record on the page is linked from, kept while it is redrawn.
   var linked = { id: null, list: [] };
   function addComments(id, comments, landOn) {
@@ -3817,7 +3830,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'of', said: say, people: people, roles: roles, me: me ? me.handle : '', mark: marked, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'of', said: say, people: people, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow, id: 'of-say-' + x.id, label: 'Comment on “' + (x.name || 'No name') + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; card(li, it, whole); },
           send: function (text, done) {

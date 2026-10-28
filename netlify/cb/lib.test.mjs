@@ -4784,6 +4784,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
   taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, readTaskTpls, TASK_TEMPLATE_SEED,
+  taskSnippets, saveTaskSnippet, removeTaskSnippet, TASK_SNIPPETS_KEEP,
   memberMap, readMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap, officeMemberMap, MAP_NEAR_KM } from './lib.mjs';
 
 const TMODS = readMods('{"Ryan":["administrator","director"],"Chelsea":["director"],"Norah":["director"],"Sam":[]}');
@@ -5430,6 +5431,29 @@ test('templates: Tasks starts with the seeded ones, a save makes the blob the li
   // A task made from one by hand keeps which.
   const t = await saveTask(TCHELSEA, { name: 'Welcome Jo', tpl: made.template.id }, s, T0 + 2, TMODS);
   assert.equal(t.task.tpl, made.template.id);
+});
+
+test('snippets: the team’s words for !, read and changed only by task readers, never two of one name', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  assert.deepEqual(await taskSnippets(TCHELSEA, s), []);
+  assert.equal(await taskSnippets(TSAM, s), null, 'somebody who cannot read Tasks was sent snippets');
+  assert.ok((await saveTaskSnippet(TSAM, { name: 'Nope', body: 'x' }, s, T0)).error);
+  assert.match((await saveTaskSnippet(TCHELSEA, { name: '  ', body: 'x' }, s, T0)).error, /name/);
+  assert.match((await saveTaskSnippet(TCHELSEA, { name: 'Empty', body: '   ' }, s, T0)).error, /words/);
+  const made = await saveTaskSnippet(TCHELSEA, { name: 'Directors’  sign-off', body: '- [ ] Chelsea\n- [ ] Norah\n- [ ] Ryan' }, s, T0);
+  assert.deepEqual([made.snippet.name, made.snippet.by, made.snippet.body], ['Directors’ sign-off', 'Chelsea', '- [ ] Chelsea\n- [ ] Norah\n- [ ] Ryan']);
+  assert.match((await saveTaskSnippet(TRYAN, { name: 'DIRECTORS’ SIGN-OFF', body: 'again' }, s, T0 + 1)).error, /already/);
+  const other = await saveTaskSnippet(TRYAN, { name: 'All good', body: 'Looks good to me.' }, s, T0 + 1);
+  assert.deepEqual((await taskSnippets(TRYAN, s)).map((x) => x.name), ['All good', 'Directors’ sign-off']);
+  // Renaming one onto another's name is refused too; only the fields sent change.
+  assert.match((await saveTaskSnippet(TRYAN, { id: other.snippet.id, name: 'directors’ sign-off' }, s, T0 + 2)).error, /already/);
+  const changed = await saveTaskSnippet(TRYAN, { id: made.snippet.id, body: '- [ ] Everybody' }, s, T0 + 2);
+  assert.deepEqual([changed.snippet.name, changed.snippet.body, changed.snippet.editedBy, changed.snippet.edited], ['Directors’ sign-off', '- [ ] Everybody', 'Ryan', T0 + 2]);
+  assert.deepEqual(await removeTaskSnippet(TCHELSEA, made.snippet.id, s), { gone: true });
+  assert.match((await removeTaskSnippet(TCHELSEA, made.snippet.id, s)).error, /already/);
+  assert.ok((await removeTaskSnippet(TSAM, other.snippet.id, s)).error);
+  assert.match((await saveTaskSnippet(TCHELSEA, { id: made.snippet.id, body: 'x' }, s, T0 + 3)).error, /deleted/);
+  assert.ok(TASK_SNIPPETS_KEEP >= 20);
 });
 
 test('the Join form makes a Join Request case and an onboarding task from its template, linking both, once', () => withOfficeKey(OFFICE_TEST_KEY, async () => {

@@ -520,7 +520,7 @@ def check_page():
 
 
 def check_sealed(lib):
-    names = ["/^tasks$/", "/^task-recurs$/", "/^task-templates$/", "comments", "activity", "inbox", "views"]
+    names = ["/^tasks$/", "/^task-recurs$/", "/^task-templates$/", "/^task-snippets$/", "comments", "activity", "inbox", "views"]
     m = re.search(r"const STAFF_SEALED = \[(.*?)\];\n", lib, re.S)
     if not m or not all(n in m.group(1) for n in names):
         problems.append("lib.mjs: STAFF_SEALED no longer names every Tasks store, so one is written in the clear.")
@@ -542,6 +542,41 @@ def check_sealed(lib):
     sec = priv[i:priv.find("<h2", i + 10)] if i >= 0 else ""
     if "sealed at rest" not in sec or "not end-to-end" not in sec:
         problems.append(f"{PRIVACY.name}: the tasks section does not say Tasks are sealed at rest and not end-to-end.")
+
+
+def check_snippets(lib):
+    """Snippets (2026-10-27): the team's words for !, read and changed only by
+    the people who can read Tasks, in Tasks, the office and the forums, and
+    offered nowhere else. A snippet's words are only words."""
+    for name in ("taskSnippets", "saveTaskSnippet", "removeTaskSnippet"):
+        f = fn(lib, name)
+        if "if (!tasksAllow(who))" not in f:
+            problems.append(f"lib.mjs: {name} no longer asks tasksAllow first, so somebody who cannot read Tasks reaches the team's snippets.")
+        if re.search(r"notify|noteTask|tellTaskPeople", f):
+            problems.append(f"lib.mjs: {name} tells somebody something; a snippet's words are only words, and saving one tells nobody.")
+    forum = code_of(ROOT / "netlify" / "functions" / "cb-forum.mjs")
+    if "if (b.action === 'snippets') return answer(200, { snippets: tasksAllow(who) ?" not in forum:
+        problems.append("cb-forum.mjs: the forums send snippets without asking whether the reader can read Tasks.")
+    office = code_of(ROOT / "netlify" / "functions" / "cb-office.mjs")
+    if "snippets: staffReady() ?" not in office:
+        problems.append("cb-office.mjs: the office reads the snippets without asking for the staff key they are sealed with.")
+    for f in ("cb-tasks", "cb-office", "cb-forum"):
+        src = code_of(ROOT / "netlify" / "functions" / f"{f}.mjs")
+        if f != "cb-tasks" and re.search(r"saveTaskSnippet|removeTaskSnippet", src):
+            problems.append(f"netlify/functions/{f}.mjs: it changes snippets, which are changed in Tasks and only read elsewhere.")
+    links = code_of(ROOT / "links.js")
+    if "function snippets(text, o)" not in links or "snippets: snippets" not in links:
+        problems.append("links.js: the ! menu is gone, or no longer handed to the pages.")
+    for page in ("tasks.js", "office.js", "comments.js", "forum.js"):
+        if "loveLinks.snippets(" not in code_of(ROOT / page):
+            problems.append(f"{page}: its boxes no longer offer the team's snippets with !.")
+    if "var snippy = !!(me && me.tasks);" not in code_of(ROOT / "forum.js") or "if (!(me && me.tasks)) return Promise.resolve(null);" not in code_of(ROOT / "forum.js"):
+        problems.append("forum.js: ! is offered to somebody who cannot read Tasks.")
+    priv = PRIVACY.read_text()
+    i = priv.find('id="tasks"')
+    sec = priv[i:priv.find("<h2", i + 10)] if i >= 0 else ""
+    if "snippet" not in sec:
+        problems.append(f"{PRIVACY.name}: the tasks section does not say what a snippet keeps.")
 
 
 def check_files(lib):
@@ -654,6 +689,7 @@ def main():
     check_rooms(lib, data)
     check_sealed(lib)
     check_files(lib)
+    check_snippets(lib)
     if problems:
         print("REFUSING:\n  " + "\n  ".join(problems))
         return 1

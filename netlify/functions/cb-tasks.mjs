@@ -49,12 +49,15 @@
      { action: 'template-save', id?, name?, body?, who?, with?, tags?, priority?, startAfter?, dueAfter? }
                                                      a template, new or changed; only the fields sent change
      { action: 'template-remove', id }               a template deleted; the tasks made from it stay
+     { action: 'snippets' }                          every snippet, by name, words and all, for ! in a box
+     { action: 'snippet-save', id?, name?, body? }   a snippet, new or changed; only the fields sent change
+     { action: 'snippet-remove', id }                a snippet deleted; the words it was put into stay
    A task saved with tpl, a template's id, keeps which template it was made from.
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   attachTask, detachTask, describeTaskFile, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
   taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
-  removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, parseBrass, nameRefs, findLinks, backlinksTo,
+  removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, taskSnippets, saveTaskSnippet, removeTaskSnippet, TASK_SNIPPET_NAME_MAX, TASK_SNIPPET_MAX, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_FILL_INS, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS, TASK_STATUS_COLOURS } from '../cb/lib.mjs';
 
@@ -63,7 +66,7 @@ const QUIET = { 'x-robots-tag': 'noindex' };
 const settings = { statuses: TASK_STATUSES, done: TASK_DONE, priorities: TASK_PRIORITIES, priority: TASK_DEFAULT_PRIORITY,
   tags: TASK_TAGS, nameMax: TASK_NAME_MAX, bodyMax: TASK_BODY_MAX, boardHides: TASK_BOARD_HIDES, viewNameMax: TASK_VIEW_NAME_MAX,
   repeats: Object.keys(TASK_REPEATS), afterMax: TASK_AFTER_MAX, colours: TASK_COLOURS, tagColours: TASK_TAG_COLOURS, statusColours: TASK_STATUS_COLOURS, feedPage: FEED_PAGE,
-  commentMax: TASK_COMMENT_MAX, fillIns: TASK_FILL_INS,
+  commentMax: TASK_COMMENT_MAX, fillIns: TASK_FILL_INS, snippetNameMax: TASK_SNIPPET_NAME_MAX, snippetMax: TASK_SNIPPET_MAX,
   attachMax: TASK_ATTACH_MAX, commentFilesMax: TASK_COMMENT_FILES_MAX, fileMax: FILE_MAX, part: FILE_PART, kinds: Object.keys(FORUM_FILE_TYPES), altMax: FORUM_ALT_MAX };
 
 /* A task a recurring task made says which, while that recurring task is there, and so does one made
@@ -132,6 +135,16 @@ export default async (req) => {
       return answer(200, { blocks: b.comment === true ? parseBrass(text, { refs: true }) : parseBrass(text, { boxes: true, refs: true }) }, QUIET);
     }
     if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
+    // A snippet's words go into a box as they are: words, with no link in them to name.
+    if (b.action === 'snippets') return answer(200, { snippets: await taskSnippets(who) }, QUIET);
+    if (b.action === 'snippet-save') {
+      const r = await saveTaskSnippet(who, b);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { snippet: r.snippet }, QUIET);
+    }
+    if (b.action === 'snippet-remove') {
+      const r = await removeTaskSnippet(who, String(b.id || ''));
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, r, QUIET);
+    }
     if (b.action === 'save') {
       const r = await saveTask(who, b);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { task: await withFrom(who, r.task) }, QUIET);

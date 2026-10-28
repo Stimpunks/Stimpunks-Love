@@ -67,6 +67,7 @@
   var navFeed = el('a', 'cb-btn tk-navlink', 'Feed'); navFeed.href = '#/feed';
   var navRecur = el('a', 'cb-btn tk-navlink', 'Recurring'); navRecur.href = '#/recurring';
   var navTpl = el('a', 'cb-btn tk-navlink', 'Templates'); navTpl.href = '#/templates';
+  var navSnip = el('a', 'cb-btn tk-navlink', 'Snippets'); navSnip.href = '#/snippets';
   var navNew = el('a', 'cb-btn tk-navlink', 'New task'); navNew.href = '#/new';
   // Notifications, with how many are unread beside it (numbers are fine in tasks).
   var navInbox = el('a', 'cb-btn tk-navlink', 'Notifications'); navInbox.href = '#/inbox';
@@ -79,7 +80,7 @@
   var navOffice = el('a', 'cb-btn tk-navlink tk-navlink--other', 'Office'); navOffice.href = '/office.html#/dashboard';
   // And the forums, where the team's documents and the rest of the conversation are.
   var navForums = el('a', 'cb-btn tk-navlink', 'Forums'); navForums.href = '/forum.html#/';
-  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navTpl); nav.appendChild(navNew); nav.appendChild(navInbox); nav.appendChild(navOffice); nav.appendChild(navForums);
+  nav.appendChild(navList); nav.appendChild(navBoard); nav.appendChild(navTime); nav.appendChild(navFeed); nav.appendChild(navRecur); nav.appendChild(navTpl); nav.appendChild(navSnip); nav.appendChild(navNew); nav.appendChild(navInbox); nav.appendChild(navOffice); nav.appendChild(navForums);
   function setUnread(n) {
     inboxCount.textContent = n ? ' ' + n : '';
     inboxCount.hidden = !n;
@@ -120,6 +121,11 @@
       if (p[1] === 'new') return 'the new recurring task';
       if (p[1] === 'edit') return 'changing the recurring task';
       return title ? '“' + title + '”' : 'the recurring task';
+    }
+    if (p[0] === 'snippets') {
+      if (!p[1]) return 'the snippets';
+      if (p[1] === 'new') return 'the new snippet';
+      return 'changing the snippet';
     }
     if (p[0] === 'templates') {
       if (!p[1]) return 'the templates';
@@ -1559,7 +1565,7 @@
       var writing = li.dataset.writing === '1';
       if (writing) {
         // A comment written on the card: what is typed is kept on the card while it is redrawn.
-        var box = window.loveComments.box({ p: 'tk', said: say, people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
+        var box = window.loveComments.box({ p: 'tk', said: say, people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow, id: 'tk-say-' + t.id, label: 'Comment on “' + t.name + '”', value: li.draft || '', goText: 'Comment',
           max: settings.commentMax, hint: COMMENT_HINT, ask: function (send) { return call(null, send); }, why: why,
           cancel: function () { li.dataset.writing = ''; li.draft = ''; li.dataset.keep = 'comment'; feedCard(li, t, got); },
           send: function (text, done) {
@@ -1806,7 +1812,7 @@
   /* What comments.js needs for this task's comments: tasks.js's own words,
      classes and way of asking /cb/tasks. */
   var talkNow = null;
-  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, and @board, @director, @administrator or @moderator tells everybody on Tasks who holds that role. Type [[ to link a task, a topic or a record of the office. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, and @board, @director, @administrator or @moderator tells everybody on Tasks who holds that role. Type [[ to link a task, a topic or a record of the office, and ! to put in one of the team’s snippets. Ctrl or Cmd and Enter sends it.';
   /* An @mention of somebody tasks can be assigned to, drawn as their name,
      which opens their profile (links.js): the people a description or a
      comment tells. */
@@ -1817,11 +1823,21 @@
   function roles() { return (me && me.mention) || []; }
   // What [[ offers, asked of /cb/tasks by POST (links.js).
   function findLinks(q) { return call(null, { action: 'links', q: q }).then(function (r) { return r.status === 200 ? r.body.found : []; }); }
+  /* What ! offers (links.js): the team's snippets, asked once while the page
+     is open and again after one is made, changed or deleted here. */
+  var snipAsk = null;
+  function snippetsNow() {
+    if (!snipAsk) snipAsk = call(null, { action: 'snippets' }).then(function (r) {
+      if (r.status === 200) return r.body.snippets || [];
+      snipAsk = null; return [];
+    });
+    return snipAsk;
+  }
   function commentsFor(id, landOn, posted) {
     return { p: 'tk', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,
       ask: function (send) { return call(null, send); }, why: why, say: say, sure: sure,
-      people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked,
+      people: function () { return people; }, roles: roles, me: me ? me.handle : '', mark: marked, snippets: snippetsNow,
       kept: function (list) { talked = { id: id, list: list }; }, posted: posted, files: commentFiles(id) };
   }
   /* A comment's pictures and files (attach.js, through comments.js): the
@@ -2081,14 +2097,17 @@
       form.appendChild(fs);
       return function () { return Array.prototype.filter.call(fs.querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; }); };
     }
-    function describe(value, goText, cancelTo) {
-      var text = el('textarea', 'cb-say tk-text'); text.rows = 9; text.maxLength = settings.bodyMax; text.value = value;
-      field('tk-body', 'Description', text);
+    // o, for a snippet's words: { label, max, hint }.
+    function describe(value, goText, cancelTo, o) {
+      o = o || {};
+      var text = el('textarea', 'cb-say tk-text'); text.rows = 9; text.maxLength = o.max || settings.bodyMax; text.value = value;
+      field('tk-body', o.label || 'Description', text);
       text.setAttribute('aria-describedby', 'tk-body-hint');
       window.loveLinks.attach(text, { ask: findLinks, said: say });
       window.loveLinks.people(text, { people: function () { return people; }, roles: roles, me: me ? me.handle : '', said: say });
+      window.loveLinks.snippets(text, { list: snippetsNow, said: say });
       window.loveFormat.toolbar(text, { p: 'tk', said: say, checklist: true });
-      var hint = el('p', 'cb-quiet tk-hint', 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, or a role (@board, @director, @administrator, @moderator) to tell everybody on Tasks who holds it, and [[ and part of a name to link a task, a forum topic or a record of the office.');
+      var hint = el('p', 'cb-quiet tk-hint', o.hint || 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes, `code`, links, and tables: a row to a line, a | between cells, and a line of dashes and bars under the first row. A list item starting [ ] or [x] is a checkbox, ticked on the task itself. Type @ and a name to mention a director, who is told, or a role (@board, @director, @administrator, @moderator) to tell everybody on Tasks who holds it, and [[ and part of a name to link a task, a forum topic or a record of the office. Type ! and part of a snippet’s name to put in words the team keeps under Snippets, like a checklist with a line for every director.');
       hint.id = 'tk-body-hint';
       form.appendChild(hint);
       var preview = el('div', 'tk-body tk-preview'); preview.hidden = true;
@@ -2103,7 +2122,7 @@
       form.appendChild(answer);
       look.addEventListener('click', function () {
         if (!preview.hidden) { preview.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; return; }
-        if (!text.value.trim()) { answer.textContent = 'There is no description to preview yet.'; return; }
+        if (!text.value.trim()) { answer.textContent = 'There is nothing to preview yet.'; return; }
         call(null, { action: 'preview', body: text.value }).then(function (r) {
           if (r.status !== 200) { answer.textContent = why(r, 'The preview could not be made just now.'); return; }
           preview.textContent = '';
@@ -2652,6 +2671,128 @@
     return h;
   }
 
+  /* ── Snippets ──────────────────────────────────────────────────────────── */
+
+  /* Words the team writes once and puts into any box by typing ! and part of
+     a name (Ryan's ask, 2026-10-27): a checklist with a line for every
+     director, so everybody can tick off a task, is the first. They are the
+     team's, so anybody on Tasks makes, changes or deletes one, and each is
+     shown here as the words ! puts in, Markdown and all. lib.mjs keeps them. */
+  function snipList() {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    snipAsk = null;
+    return call(null, { action: 'snippets' }).then(function (r) {
+      if (r.status !== 200) return refused(r);
+      var list = r.body.snippets || [];
+      snipAsk = Promise.resolve(list);
+      return drawSnips(list);
+    });
+  }
+
+  function drawSnips(list) {
+    view.textContent = '';
+    var h = heading(2, 'Snippets');
+    view.appendChild(h);
+    view.appendChild(el('p', 'tk-shown', list.length + (list.length === 1 ? ' snippet' : ' snippets')));
+    view.appendChild(el('p', null, 'A snippet is words you put into a box by typing ! and part of its name: in a task’s description or a comment, in the office’s notes, descriptions and comments, and in the forums. Put a checklist with a line for every director in one, and anybody can add it to a task for everybody to tick. A snippet is the team’s: anybody on Tasks can change or delete it, and changing it changes nothing it was already put into.'));
+    var row = el('p', 'tk-row');
+    var make = el('a', 'cb-btn tk-small', 'New snippet'); make.href = '#/snippets/new';
+    row.appendChild(make);
+    view.appendChild(row);
+    if (!list.length) { view.appendChild(quiet('There are no snippets yet.')); return h; }
+    var ul = el('ul', 'tk-snips');
+    list.forEach(function (x) {
+      var li = el('li', 'tk-snip');
+      li.appendChild(heading(3, x.name));
+      var by = x.by ? 'Made by ' + x.by + ', ' + when(x.t) : 'Made ' + when(x.t);
+      if (x.edited) by += '. Changed' + (x.editedBy ? ' by ' + x.editedBy : '') + ', ' + when(x.edited);
+      li.appendChild(el('p', 'cb-quiet tk-snip__by', by + '.'));
+      var words = el('pre', 'tk-snip__words');
+      words.setAttribute('aria-label', 'What ! puts in');
+      words.textContent = x.body;
+      li.appendChild(words);
+      var tools = el('div', 'tk-row');
+      var edit = el('a', 'cb-btn tk-small', 'Edit'); edit.href = '#/snippets/edit/' + x.id;
+      edit.setAttribute('aria-label', 'Edit “' + x.name + '”');
+      tools.appendChild(edit);
+      var del = el('button', 'cb-btn tk-small', 'Delete'); del.type = 'button';
+      del.setAttribute('aria-label', 'Delete “' + x.name + '”');
+      del.addEventListener('click', function () {
+        sure(tools, 'This deletes the snippet “' + x.name + '” for everybody. The words it was already put into stay. It cannot be put back.', 'Delete it', function (done) {
+          call(null, { action: 'snippet-remove', id: x.id }).then(function (a) {
+            done();
+            if (a.status !== 200) { say(why(a, 'That did not delete. Nothing was changed.')); return; }
+            snipAsk = null;
+            say('Deleted.');
+            snipList().then(function (h2) { if (h2) h2.focus(); });
+          });
+        }, del);
+      });
+      tools.appendChild(del);
+      li.appendChild(tools);
+      ul.appendChild(li);
+    });
+    view.appendChild(ul);
+    return h;
+  }
+
+  function snipFormView(id) {
+    view.textContent = '';
+    view.appendChild(quiet('Looking…'));
+    return Promise.all([settings ? null : call('view=list'), call(null, { action: 'snippets' })]).then(function (rs) {
+      if (rs[0] && rs[0].status !== 200) return refused(rs[0]);
+      if (rs[1].status !== 200) return refused(rs[1]);
+      if (rs[0]) took(rs[0].body);
+      var list = rs[1].body.snippets || [];
+      snipAsk = Promise.resolve(list);
+      var x = id ? list.filter(function (y) { return y.id === id; })[0] : null;
+      if (id && !x) { view.textContent = ''; var h0 = heading(2, 'That snippet has been deleted'); view.appendChild(h0); step.up('#/snippets', '← All snippets'); return h0; }
+      return drawSnipForm(x);
+    });
+  }
+
+  function drawSnipForm(x) {
+    view.textContent = '';
+    step.up('#/snippets', '← All snippets');
+    var h = heading(2, x ? 'Changing “' + x.name + '”' : 'A new snippet');
+    view.appendChild(h);
+    var form = el('form', 'tk-form');
+    form.noValidate = true;
+    var kit = formKit(form);
+    var name = el('input', 'cb-say tk-input'); name.maxLength = settings.snippetNameMax || 60; name.value = x ? x.name : '';
+    kit.field('tk-name', 'Name', name);
+    name.setAttribute('aria-describedby', 'tk-name-hint');
+    var nameHint = el('p', 'cb-quiet tk-hint', 'What you type after ! to find it: “Directors’ sign-off” is found by !dir or !sign.');
+    nameHint.id = 'tk-name-hint';
+    form.appendChild(nameHint);
+    var desc = kit.describe(x ? x.body : '', x ? 'Save' : 'Make the snippet', '#/snippets', {
+      label: 'Its words', max: settings.snippetMax || 5000,
+      hint: 'These go into the box exactly as they are written here. Use the buttons above, or Markdown if you know it. A list item starting [ ] is a checkbox: in a task’s description it is ticked on the task itself. An @ before a username in a snippet tells that person when the words are posted, not when the snippet is saved.' });
+    var text = desc.text, go = desc.go, answer = desc.answer;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var send = { action: 'snippet-save' };
+      if (x) {
+        send.id = x.id;
+        if (name.value !== x.name) send.name = name.value;
+        if (text.value !== x.body) send.body = text.value;
+        if (Object.keys(send).length === 2) { step.go('#/snippets'); return; }
+      } else { send.name = name.value; send.body = text.value; }
+      go.disabled = true;
+      answer.textContent = 'Saving…';
+      call(null, send).then(function (a) {
+        go.disabled = false;
+        if (a.status !== 200) { answer.textContent = why(a, 'That did not save. Nothing was changed.'); return; }
+        snipAsk = null;
+        step.go('#/snippets');
+        say(x ? 'Saved.' : 'Made. Type ! and part of its name in a box to put it in.');
+      });
+    });
+    view.appendChild(form);
+    return h;
+  }
+
   /* ── Refusals ──────────────────────────────────────────────────────────── */
 
   function refused(r) {
@@ -2697,9 +2838,12 @@
     else if (parts[0] === 'templates' && parts[1] === 'edit' && parts[2]) done = tplFormView(parts[2]);
     else if (parts[0] === 'templates' && parts[1]) done = tplView(parts[1]);
     else if (parts[0] === 'templates') done = tplList();
+    else if (parts[0] === 'snippets' && parts[1] === 'new') done = snipFormView(null);
+    else if (parts[0] === 'snippets' && parts[1] === 'edit' && parts[2]) done = snipFormView(parts[2]);
+    else if (parts[0] === 'snippets') done = snipList();
     else if (parts[0] === 'inbox') done = inboxView();
     else done = tasksView('list');
-    [navList, navBoard, navTime, navFeed, navRecur, navTpl, navNew, navInbox].forEach(function (a) { a.removeAttribute('aria-current'); });
+    [navList, navBoard, navTime, navFeed, navRecur, navTpl, navSnip, navNew, navInbox].forEach(function (a) { a.removeAttribute('aria-current'); });
     if (parts[0] === 'new') navNew.setAttribute('aria-current', 'page');
     else if (parts[0] === 'inbox') navInbox.setAttribute('aria-current', 'page');
     else if (parts[0] === 'board') navBoard.setAttribute('aria-current', 'page');
@@ -2707,6 +2851,7 @@
     else if (parts[0] === 'feed') navFeed.setAttribute('aria-current', 'page');
     else if (parts[0] === 'recurring' && !parts[1]) navRecur.setAttribute('aria-current', 'page');
     else if (parts[0] === 'templates' && !parts[1]) navTpl.setAttribute('aria-current', 'page');
+    else if (parts[0] === 'snippets' && !parts[1]) navSnip.setAttribute('aria-current', 'page');
     else if (!parts.length) navList.setAttribute('aria-current', 'page');
     // The keyboard goes to the new view's heading, or back where it was.
     step.land(done);

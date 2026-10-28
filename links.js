@@ -1,7 +1,8 @@
-/* links.js: the [[ menu (Ryan's ask, 2026-10-21, after Notion's links), and the
+/* links.js: the [[ menu (Ryan's ask, 2026-10-21, after Notion's links), the
    @ list and the drawing of a mention for the pages that had neither (the
    same day: Tasks and the office; the forums' mentions moved here with them,
-   and the radio keeps its own, in its own file). In any
+   and the radio keeps its own, in its own file), and the ! list of the team's
+   snippets (2026-10-27). In any
    box that takes words, typing [[ and a few letters of a name offers the
    tasks, forum topics, grant requests, cases and contacts the writer can
    open, and picking one puts [[kind:id]] in the words: a link, never a name,
@@ -108,16 +109,22 @@
         }, function () { if (mine === asked) shut(); });
       }, cfg.wait);
     }
+    /* A pick goes in as typing would, so Undo takes it back (format.js's way);
+       where the browser will not, the words are set and the box told. */
     function choose(k) {
       var t = token(), x = offer[k];
       if (!t || !x) { shut(); return; }
-      var put = cfg.put(x), v = text.value;
-      text.value = v.slice(0, t.start) + put + v.slice(t.end);
-      var c = t.start + put.length;
-      text.setSelectionRange(c, c);
+      var put = cfg.put(x, text.value.slice(0, t.start)), v = text.value, ok = false;
       shut();
       text.focus();
-      text.dispatchEvent(new Event('input', { bubbles: true }));
+      text.setSelectionRange(t.start, t.end);
+      try { ok = document.execCommand('insertText', false, put); } catch (e) { ok = false; }
+      if (!ok || text.value === v) {
+        text.value = v.slice(0, t.start) + put + v.slice(t.end);
+        text.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      var c = t.start + put.length;
+      text.setSelectionRange(c, c);
       if (o.said) o.said(cfg.told(x));
       if (o.after) o.after();
     }
@@ -192,6 +199,49 @@
       },
       put: function (h) { return '@' + (h.role || h) + ' '; },
       told: function (h) { return h.role ? 'Mentioned @' + h.role + '.' : 'Mentioned ' + h + '.'; },
+    }, o);
+  }
+
+  /* ! and a few letters: the team's snippets (Ryan's ask, 2026-10-27, after
+     Simple Markdown Snippets, which uses ! too), words written once in Tasks
+     and put into the box whole: a checklist with a line for every director,
+     say. The ! opens it only at the start of a line or after a space, so an
+     exclamation mark at the end of a word never does, and a bare ! with
+     nothing after it only at the start of a line, so "Great !" stays words;
+     ![ is a picture and never a snippet, because [ is not a letter. Words of
+     several lines start on a line of their own and end with one.
+     o: { list() (a promise of [{ id, name, body }]), said(text)?, after()? } */
+  function snippets(text, o) {
+    return menu(text, {
+      label: 'Snippets', wait: 0,
+      token: function (before, c) {
+        var m = before.match(/(^|\s)!([\p{L}\p{N}][\p{L}\p{N}'’-]{0,39})?$/u);
+        if (!m) return null;
+        var q = m[2] || '';
+        if (!q && m[1] !== '' && m[1] !== '\n') return null;
+        return { start: c - q.length - 1, end: c, q: fold(q) };
+      },
+      find: function (q) {
+        return Promise.resolve(o.list()).then(function (all) {
+          return (all || []).filter(function (x) {
+            var f = fold(x.name);
+            return !q || f.indexOf(q) === 0 || f.split(/[\s'’-]+/).some(function (w) { return w.indexOf(q) === 0; });
+          }).slice(0, 12);
+        });
+      },
+      empty: function (q) { return q ? 'No snippet is called that.' : 'There are no snippets yet. Make them under Snippets in Tasks.'; },
+      row: function (li, x) {
+        li.appendChild(el('span', 'cb-opt__name', x.name));
+        var first = String(x.body || '').split('\n').filter(function (l) { return l.trim(); })[0] || '';
+        var cs = Array.from(first);
+        if (first) li.appendChild(el('span', 'cb-opt__tag', cs.length > 60 ? cs.slice(0, 59).join('') + '…' : first));
+      },
+      put: function (x, before) {
+        var body = String(x.body || '');
+        if (body.indexOf('\n') < 0) return body + ' ';
+        return (before && !/\n$/.test(before) ? '\n' : '') + body + '\n';
+      },
+      told: function (x) { return 'Put in the snippet “' + x.name + '”.'; },
     }, o);
   }
 
@@ -283,5 +333,5 @@
     return sec;
   }
 
-  window.loveLinks = { attach: attach, people: people, mentions: mentions, backlinks: backlinks, KIND: KIND };
+  window.loveLinks = { attach: attach, people: people, snippets: snippets, mentions: mentions, backlinks: backlinks, KIND: KIND };
 })();

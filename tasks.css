@@ -414,3 +414,10 @@ th[aria-sort] .tk-sort { color: var(--cb-steel); text-decoration: underline; tex
 .tk-attached { font-size: 14px; color: var(--cb-amber-2); white-space: nowrap; }
 .tk-files__list { display: grid; gap: 10px; }
 .tk-comment__body .tk-files__list { margin-top: 4px; }
+
+/* SNIPPETS: each one's words as ! puts them in, Markdown and all, in a box
+   of the radio's own lines. */
+.tk-snips { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.tk-snip { display: grid; gap: 8px; padding-top: 10px; border-top: 2px solid var(--cb-bar); }
+.tk-snip > * { margin: 0; }
+.tk-snip__words { margin: 0; padding: 8px 10px; white-space: pre-wrap; overflow-wrap: anywhere; font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; font-size: 14px; border: 1px solid var(--cb-steel-2); border-radius: 4px; }

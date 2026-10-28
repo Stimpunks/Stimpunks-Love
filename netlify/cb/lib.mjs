@@ -201,7 +201,7 @@ export function store() {
    alone, which loadMods already does for roles it cannot read. A new staff store is a name added here,
    and its blobs must be JSON, because a sealed blob is. Losing the key loses
    what it sealed, so Ryan keeps a copy of it. */
-const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-(?:comments|activity|inbox|views)\//,
+const STAFF_SEALED = [/^tasks$/, /^task-recurs$/, /^task-templates$/, /^task-snippets$/, /^task-(?:comments|activity|inbox|views)\//,
   /^forum\/[ct]\//, /^mod-calls$/, /^push-devices$/, /^roles$/];
 /* Names whose blobs are bytes, not JSON: a forum post's files and the uploads
    waiting for a post (2026-10-25), and a task's (2026-10-27). Sealed whole, SST1 and the nonce and tag
@@ -345,7 +345,7 @@ export async function sealStaffLeftovers(s = store()) {
   if (!staffReady()) return false;
   const mark = await s.raw.get(SEAL_MARK, { type: 'json' });
   if (mark && mark.pass === SEAL_PASS) return false;
-  const keys = ['tasks', 'task-recurs', 'task-templates'];
+  const keys = ['tasks', 'task-recurs', 'task-templates', 'task-snippets'];
   keys.push('mod-calls', 'push-devices', 'roles');
   for (const prefix of ['task-comments/', 'task-activity/', 'task-inbox/', 'task-views/', 'forum/t/', 'forum/c/', ROOM_TALK]) {
     for (const b of (await s.list({ prefix })).blobs || []) keys.push(b.key);
@@ -13005,6 +13005,87 @@ export async function removeTaskTemplate(who, id, s = store()) {
     return gone ? list.filter((x) => x.id !== taskTplId(id)) : null;
   }, s);
   if (!gone) return { error: 'That template has already been deleted.' };
+  return { gone: true };
+}
+
+/* SNIPPETS (Ryan's ask, 2026-10-27, after Simple Markdown Snippets): words
+   the team writes once and puts into any box by typing ! and part of a name,
+   the first being a checklist with a line for every director to tick. They
+   are the team's, in one blob, task-snippets, sealed with the rest of Tasks,
+   each its id, name and words, who made and changed it and when; anybody who
+   can read Tasks can read, make, change or delete one, as with templates.
+   They are offered in Tasks, the office and, to the same people, the forums
+   (links.js), and a snippet's words are only words: nothing is filled in,
+   nobody is told when one changes, and putting one into a box tells nobody
+   anything the words would not have told them typed. */
+export const TASK_SNIPPETS_KEEP = 100;
+export const TASK_SNIPPET_NAME_MAX = 60;
+export const TASK_SNIPPET_MAX = 5000;
+const TASK_SNIPPETS = 'task-snippets';
+export function taskSnippetId(v) { return typeof v === 'string' && /^s[A-Za-z0-9_-]{12}$/.test(v) ? v : null; }
+const newTaskSnippetId = () => 's' + randomBytes(9).toString('base64url');
+
+async function readTaskSnippets(s = store()) {
+  const d = await s.get(TASK_SNIPPETS, { type: 'json' });
+  return d && Array.isArray(d.snippets) ? d.snippets : [];
+}
+function shapeTaskSnippet(x) {
+  return { id: x.id, name: x.name, body: x.body, t: x.t || null, by: x.by || null, edited: x.edited || null, editedBy: x.editedBy || null };
+}
+/* Every snippet, by name, words and all: they are short, and a box offers them as it is typed in. */
+export async function taskSnippets(who, s = store()) {
+  if (!tasksAllow(who)) return null;
+  return (await readTaskSnippets(s)).map(shapeTaskSnippet).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/* A snippet made, or changed: only the fields sent change. Its name is one
+   line; two snippets are never called the same, or ! could not tell them apart. */
+export async function saveTaskSnippet(who, f, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  f = f || {};
+  let saved = null, why = null;
+  await updateDoc(TASK_SNIPPETS, (cur) => {
+    why = null; saved = null;
+    const list = cur && Array.isArray(cur.snippets) ? cur.snippets.slice() : [];
+    const k = f.id != null ? list.findIndex((x) => x.id === taskSnippetId(f.id)) : -1;
+    if (f.id != null && k < 0) { why = 'That snippet has been deleted.'; return null; }
+    const had = k >= 0 ? list[k] : null;
+    if (!had && list.length >= TASK_SNIPPETS_KEEP) { why = `There can be up to ${TASK_SNIPPETS_KEEP} snippets. Delete one first.`; return null; }
+    const next = had ? { ...had } : { id: newTaskSnippetId(), name: null, body: '', t: now, by: who.handle };
+    if (f.name !== undefined) {
+      const n = typeof f.name === 'string' ? tidy(f.name).replace(/\s+/g, ' ').trim() : '';
+      if (!n || [...n].length > TASK_SNIPPET_NAME_MAX) { why = `A snippet’s name is between one and ${TASK_SNIPPET_NAME_MAX} characters.`; return null; }
+      next.name = n;
+    }
+    if (f.body !== undefined) {
+      const b = cleanForumBody(f.body, TASK_SNIPPET_MAX);
+      if (!b) { why = `A snippet’s words are between one and ${TASK_SNIPPET_MAX} characters.`; return null; }
+      next.body = b;
+    }
+    if (!next.name) { why = 'Give the snippet a name.'; return null; }
+    if (!next.body) { why = 'Give the snippet some words.'; return null; }
+    const same = (a) => a.normalize('NFKC').toLowerCase();
+    if (list.some((x, i) => i !== k && same(x.name) === same(next.name))) { why = `There is a snippet called “${next.name}” already.`; return null; }
+    if (had) { next.edited = now; next.editedBy = who.handle; }
+    saved = next;
+    const copy = list.slice();
+    if (had) copy[k] = next; else copy.push(next);
+    return { snippets: copy };
+  }, s);
+  if (why) return { error: why };
+  return { snippet: shapeTaskSnippet(saved) };
+}
+
+/* Deleting a snippet takes nothing out of the words it was put into. */
+export async function removeTaskSnippet(who, id, s = store()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  let gone = false;
+  await updateDoc(TASK_SNIPPETS, (cur) => {
+    const list = cur && Array.isArray(cur.snippets) ? cur.snippets : [];
+    gone = list.some((x) => x.id === taskSnippetId(id));
+    return gone ? { snippets: list.filter((x) => x.id !== taskSnippetId(id)) } : null;
+  }, s);
+  if (!gone) return { error: 'That snippet has already been deleted.' };
   return { gone: true };
 }
 

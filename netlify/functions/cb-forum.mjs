@@ -31,9 +31,11 @@
      { action: 'preview', body, pics? }              how the words will set; pics: the composer's pictures, placed where the words say
      { action: 'links', q }                          what [[ offers for q: the topics, and for staff the tasks and
                                                      the office's records, the reader can open (findLinks), by POST
+     { action: 'snippets' }                          Tasks' snippets, for ! in a box, to a reader who can read Tasks;
+                                                     nobody else is sent any
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { staffReady, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { staffReady, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, taskSnippets, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -98,6 +100,7 @@ export default async (req, context) => {
       return answer(200, { blocks: placePictures(parseBrass(text, { refs: true }), pics) }, QUIET);
     }
     if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
+    if (b.action === 'snippets') return answer(200, { snippets: tasksAllow(who) ? (await taskSnippets(who)) || [] : [] }, QUIET);
     let r;
     const t = String(b.t || ''), p = String(b.p || '');
     if (b.action === 'start') r = await startTopic(who, b);
