@@ -78,7 +78,7 @@
    "channel_id": "UCPjNBjflYl0-HQtUvOx0Ibw"
   }
  ],
- "set": "2026-10-27T11:24Z",
+ "set": "2026-10-28T11:23Z",
  "log": [
   {
    "id": "rPGJhrunbxo",
@@ -461,14 +461,14 @@
    "channel": "Matt Wolfe"
   },
   {
-   "id": "2IAYFgAqX6g",
-   "source": "nate-b-jones",
-   "form": "long",
-   "title": "The AI Bottleneck: Why Your Team Isn't Shipping. Here's the Fix.",
-   "published": "2026-09-27T16:00:11Z",
+   "id": "EUjd_UBApoA",
+   "source": "matt-wolfe",
+   "form": "short",
+   "title": "Crazy Spy Tech You Can Use For Free!",
+   "published": "2026-10-27T16:43:52Z",
    "state": "screen",
-   "runs": 1977,
-   "channel": "AI News & Strategy Daily | Nate B Jones"
+   "runs": 67,
+   "channel": "Matt Wolfe"
   },
   {
    "id": "gbbPBr3OraQ",
@@ -621,13 +621,13 @@
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
-   "id": "j8Wi8ovhoGY",
+   "id": "NIRFVjttNvA",
    "source": "nate-b-jones",
-   "form": "short",
-   "title": "Everybody's talking about Jev. Here's what it is #jev #ai",
-   "published": "2026-09-28T03:00:33Z",
+   "form": "long",
+   "title": "Are Your AI Agents Doing Real Work Or Productivity Theater? Here Are 4 Principles I Use.",
+   "published": "2026-10-27T14:00:31Z",
    "state": "screen",
-   "runs": 121,
+   "runs": 1130,
    "channel": "AI News & Strategy Daily | Nate B Jones"
   },
   {
@@ -788,6 +788,16 @@
    "published": "2026-10-20T02:39:41Z",
    "state": "screen",
    "runs": 795,
+   "channel": "Less Bitter"
+  },
+  {
+   "id": "2obqnM6KXps",
+   "source": "less-bitter",
+   "form": "long",
+   "title": "AI found a new result. Nobody can explain it.",
+   "published": "2026-10-27T20:20:27Z",
+   "state": "screen",
+   "runs": 329,
    "channel": "Less Bitter"
   },
   {
@@ -954,7 +964,7 @@
    "id": "FHGfSjDGUIw",
    "source": "theo",
    "form": "long",
-   "title": "pstack creator spends $132,000,000/year on ai????",
+   "title": "the hard truth about token spend",
    "published": "2026-10-27T04:02:18Z",
    "state": "screen",
    "runs": 2167,
@@ -989,16 +999,6 @@
    "state": "screen",
    "runs": 43,
    "channel": "Theo - t3․gg"
-  },
-  {
-   "id": "lC_-9TD3TfA",
-   "source": "paul-j-lipsky",
-   "form": "long",
-   "title": "Meta Muse Is Incredible - 5 Features You Need To Try",
-   "published": "2026-09-27T13:00:22Z",
-   "state": "screen",
-   "runs": 1069,
-   "channel": "Paul J Lipsky"
   },
   {
    "id": "AW3Uku__BBE",
@@ -1214,21 +1214,11 @@
    "id": "BZluE67z1MA",
    "source": "austin-marchese",
    "form": "long",
-   "title": "Use Claude Models & Effort Level Better Than 97% of People",
+   "title": "Master Claude Models & Effort Level in 19 Minutes",
    "published": "2026-10-23T13:45:37Z",
    "state": "screen",
    "runs": 1178,
    "channel": "Austin Marchese"
-  },
-  {
-   "id": "959RFRspIIc",
-   "source": "riley-brown",
-   "form": "long",
-   "title": "Opus 5.5 Is JUST the Beginning. Everything Is About to Change.",
-   "published": "2026-09-27T23:15:08Z",
-   "state": "screen",
-   "runs": 1347,
-   "channel": "Riley Brown"
   },
   {
    "id": "A8ptWsvM3cw",
@@ -1389,16 +1379,6 @@
    "state": "screen",
    "runs": 104,
    "channel": "Riley Brown"
-  },
-  {
-   "id": "Ktnwygcnd8U",
-   "source": "nate-herk",
-   "form": "long",
-   "title": "No, Seriously. Claude Code is Starting To Get Dangerous",
-   "published": "2026-09-27T20:38:25Z",
-   "state": "screen",
-   "runs": 822,
-   "channel": "Nate Herk | AI Automation"
   },
   {
    "id": "eg_1NXDcoPk",
@@ -1568,6 +1548,16 @@
    "published": "2026-10-22T14:18:13Z",
    "state": "screen",
    "runs": 900,
+   "channel": "Nate Herk | AI Automation"
+  },
+  {
+   "id": "BQJRLZ2q_Ns",
+   "source": "nate-herk",
+   "form": "long",
+   "title": "Sell These 4 Claude Systems for $3700+ Right Now (as a beginner)",
+   "published": "2026-10-27T15:12:50Z",
+   "state": "screen",
+   "runs": 660,
    "channel": "Nate Herk | AI Automation"
   },
   {
@@ -2186,13 +2176,13 @@
    "long": [
     [
      "2026-03-24T16:30:17Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-07-15T15:05:22Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2200,13 +2190,13 @@
    "long": [
     [
      "2026-08-28T15:00:37Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2214,13 +2204,13 @@
    "long": [
     [
      "2026-08-13T01:53:16Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-26T13:22:25Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2228,13 +2218,13 @@
    "long": [
     [
      "2026-09-10T14:00:12Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T03:00:11Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2242,13 +2232,13 @@
    "long": [
     [
      "2026-08-24T13:00:39Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-09-03T23:55:25Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2256,13 +2246,13 @@
    "long": [
     [
      "2026-09-09T16:00:20Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-06T15:03:46Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2270,13 +2260,13 @@
    "long": [
     [
      "2026-09-07T13:00:19Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2023-01-19T16:00:17Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2284,13 +2274,13 @@
    "long": [
     [
      "2026-07-29T13:45:37Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-01-21T16:15:13Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2298,13 +2288,13 @@
    "long": [
     [
      "2026-08-26T20:02:16Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-01-05T04:52:36Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2312,13 +2302,13 @@
    "long": [
     [
      "2026-09-19T12:57:24Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-07-11T17:00:36Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2326,13 +2316,13 @@
    "long": [
     [
      "2026-09-09T16:50:27Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-08-20T20:30:11Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   },
@@ -2340,13 +2330,13 @@
    "long": [
     [
      "2026-08-21T20:10:35Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ],
    "short": [
     [
      "2026-01-02T18:35:48Z",
-     "2026-10-27T11:24:15Z"
+     "2026-10-28T11:23:00Z"
     ]
    ]
   }
