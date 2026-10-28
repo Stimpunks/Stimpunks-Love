@@ -185,38 +185,85 @@
   </section>
 
   <section>
-    <h2 id="glow-wild">Glow Wild Hollow</h2>
-    <p class="section-intro">Down through a great glowing mushroom is a hollow at night where every light belongs to something alive: foxfire in an old log, glow-worms in the grass, a sea that sparkles where you touch it, and a jellyfish that lights up.</p>
-    <!-- The way down to Glow Wild Hollow, Helen's ask, 2026-10-27: "another
-         portal through a mushroom". A toadstool with glowing gills and a door
-         in its stem, the hollow's night showing through it. Drawn in §129's
-         colours; nothing on it is a word. -->
-    <a class="yurt-shroom" href="glow-wild-hollow.html" aria-label="Down through the glowing mushroom to Glow Wild Hollow">
-      <svg viewBox="0 0 300 300" aria-hidden="true" focusable="false">
-        <defs>
-          <radialGradient id="ys-glow"><stop offset="0" stop-color="var(--gwh-fox)" stop-opacity=".32"/><stop offset="1" stop-color="var(--gwh-fox)" stop-opacity="0"/></radialGradient>
-          <radialGradient id="ys-spot"><stop offset="0" stop-color="var(--gwh-fox)" stop-opacity=".7"/><stop offset="1" stop-color="var(--gwh-fox)" stop-opacity="0"/></radialGradient>
-        </defs>
-        <circle class="yurt-shroom__glow" cx="150" cy="130" r="140" fill="url(#ys-glow)"/>
-        <path d="M0 282 Q150 266 300 282 V300 H0 Z" fill="var(--gwh-hill)"/>
-        <path d="M112 300 C116 246 118 206 124 174 H176 C182 206 184 246 188 300 Z" fill="var(--gwh-deep)" stroke="var(--gwh-fox)" stroke-width="2" stroke-linejoin="round"/>
-        <path d="M132 300 V240 Q150 214 168 240 V300 Z" fill="var(--gwh-night)" stroke="var(--gwh-fox)" stroke-width="1.4" stroke-opacity=".7"/>
-        <path d="M136 286 Q143 282 150 286 T164 286" fill="none" stroke="var(--gwh-sea)" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="1.5 4"/>
-        <circle cx="143" cy="258" r="1.8" fill="var(--gwh-worm)"/><circle cx="158" cy="250" r="1.4" fill="var(--gwh-fox)"/>
-        <path d="M24 172 C70 160 230 160 276 172 C230 186 70 186 24 172 Z" fill="var(--gwh-fox)" fill-opacity=".3"/>
-        <g stroke="var(--gwh-fox)" stroke-width="1" opacity=".55">
-          <path d="M44 172 L126 176"/><path d="M72 170 L132 176"/><path d="M100 168 L140 176"/><path d="M128 166 L146 176"/><path d="M172 166 L154 176"/><path d="M200 168 L160 176"/><path d="M228 170 L168 176"/><path d="M256 172 L174 176"/>
-        </g>
-        <path d="M24 172 C26 92 86 40 150 40 C214 40 274 92 276 172 C230 160 70 160 24 172 Z" fill="var(--gwh-hill)" stroke="var(--gwh-fox)" stroke-width="2.4" stroke-linejoin="round"/>
-        <g class="yurt-shroom__glow">
-          <circle cx="104" cy="88" r="16" fill="url(#ys-spot)"/><circle cx="178" cy="72" r="18" fill="url(#ys-spot)"/><circle cx="226" cy="118" r="14" fill="url(#ys-spot)"/><circle cx="70" cy="132" r="12" fill="url(#ys-spot)"/><circle cx="146" cy="124" r="12" fill="url(#ys-spot)"/>
-        </g>
-        <g fill="var(--gwh-fox)"><circle cx="104" cy="88" r="6"/><circle cx="178" cy="72" r="7"/><circle cx="226" cy="118" r="5"/><circle cx="70" cy="132" r="4.5"/><circle cx="146" cy="124" r="4.5"/><circle cx="252" cy="152" r="3"/><circle cx="48" cy="156" r="3"/></g>
-        <g stroke="var(--gwh-wave)" stroke-width="1.6" stroke-linecap="round" fill="none"><path d="M40 284 Q42 270 38 260"/><path d="M58 280 Q62 266 56 254"/><path d="M244 280 Q240 266 246 254"/><path d="M262 284 Q266 272 260 262"/></g>
-        <g fill="var(--gwh-worm)"><circle cx="38" cy="260" r="2"/><circle cx="246" cy="254" r="2"/></g>
-      </svg>
-    </a>
-    <a class="yurt-door" href="glow-wild-hollow.html"><span class="yurt-door__words"><span class="yurt-door__go">Down through the mushroom &rarr;</span><span class="yurt-door__say">Foxfire, glow-worms, sea sparkle and a jellyfish that lights up: living light, in a hollow with no moon and no lamp.</span></span></a>
+    <h2 id="bookshelf">The Bookshelf</h2>
+    <p class="section-intro">The books that live behind my desk outgrew this page, so they have a room of their own now, through the door below: every one I keep, on shelves of its own, with a fire, a sofa and two chairs.</p>
+    <!-- The Reading Room's records, as a book on this shelf, Helen's ask,
+         2026-10-18: the same binding as the Music Room's books under the
+         gramophone, listing what plays on the gramophone through the door.
+         Written by tools/make-yurt-yarn.py from data/yurt-yarn.json; edit
+         those, not this. -->
+    <!-- yurt-yarn:readbook:begin -->
+    <div class="yurt-notebook yurt-songbook" data-notebook>
+      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>
+        <span class="yurt-notebook__title">Library Music</span>
+        <span class="yurt-notebook__open">Open the book</span>
+      </button>
+      <div class="yurt-notebook__cover" data-notebook-book>
+        <ul class="yurt-notebook__pages" tabindex="0" aria-label="Library Music: every song on it, in its own order; each line goes to that record in the Reading Room" data-notebook-pages>
+        <li class="yurt-notebook__page" data-notebook-say="Page 1: from Franz Gordon, The French Library, to Dunja Musarova, Ephemeralist.">
+          <p class="yurt-songbook__head">Library Music</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-Nj0dbnkk_D4"><span class="yurt-songbook__who">Franz Gordon</span> <span class="yurt-songbook__title">The French Library</span></a> <span class="yurt-songbook__time">3:00</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-rBA9Gqpk_Po"><span class="yurt-songbook__who">Toshifumi Hinata</span> <span class="yurt-songbook__title">Reflections</span></a> <span class="yurt-songbook__time">2:35</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-k2B_-LKov7I"><span class="yurt-songbook__who">Johannes Bornlöf</span> <span class="yurt-songbook__title">Nocturnal Waltz</span></a> <span class="yurt-songbook__time">2:09</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-tALjlw38jas"><span class="yurt-songbook__who">Lama House</span> <span class="yurt-songbook__title">By the Border</span></a> <span class="yurt-songbook__time">2:39</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-Jr6Nq9r758c"><span class="yurt-songbook__who">your movie soundtrack</span> <span class="yurt-songbook__title">Where Is My Mind</span></a> <span class="yurt-songbook__what">a piano version</span> <span class="yurt-songbook__time">2:36</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-qH666vIR9_8"><span class="yurt-songbook__who">Franz Gordon</span> <span class="yurt-songbook__title">Airy Fairy Heart</span></a> <span class="yurt-songbook__time">3:30</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-gBKh6GTVfvA"><span class="yurt-songbook__who">Dunja Musarova</span> <span class="yurt-songbook__title">Ephemeralist</span></a> <span class="yurt-songbook__time">2:28</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 1</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 2: from Ludovico Einaudi, Nuvole Bianche, to Yann Tiersen, Comptine d’un autre été : l’après-midi.">
+          <p class="yurt-songbook__head">Library Music</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-sR2W2scFS4Y"><span class="yurt-songbook__who">Ludovico Einaudi</span> <span class="yurt-songbook__title">Nuvole Bianche</span></a> <span class="yurt-songbook__what">the visualiser</span> <span class="yurt-songbook__time">6:02</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-VfCxaNbJ0q4"><span class="yurt-songbook__who">Lucas King</span> <span class="yurt-songbook__title">Ghost Lullaby</span></a> <span class="yurt-songbook__what">piano</span> <span class="yurt-songbook__time">3:44</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-9E6b3swbnWg"><span class="yurt-songbook__who">Chopin</span> <span class="yurt-songbook__title">Nocturne Op. 9 No. 2</span></a> <span class="yurt-songbook__time">4:29</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-p29JUpsOSTE"><span class="yurt-songbook__who">Chopin</span> <span class="yurt-songbook__title">Nocturne in E flat major, Op. 9 No. 2</span></a> <span class="yurt-songbook__time">4:56</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-MI6dnWbo5Dk"><span class="yurt-songbook__who">Yonder Dale</span> <span class="yurt-songbook__title">Eternal Slumber</span></a> <span class="yurt-songbook__time">2:36</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-EJwwWPrwwo4"><span class="yurt-songbook__who">Ludovico Einaudi &amp; Daniel Hope</span> <span class="yurt-songbook__title">Experience</span></a> <span class="yurt-songbook__time">5:13</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-NvryolGa19A"><span class="yurt-songbook__who">Yann Tiersen</span> <span class="yurt-songbook__title">Comptine d’un autre été : l’après-midi</span></a> <span class="yurt-songbook__time">2:26</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 2</span>
+        </li>
+        <li class="yurt-notebook__page" data-notebook-say="Page 3: from Ludovico Einaudi, Burning, to Ludovico Einaudi, Luminous.">
+          <p class="yurt-songbook__head">Library Music</p>
+          <ul class="yurt-songbook__list">
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-eoUDchU0NUQ"><span class="yurt-songbook__who">Ludovico Einaudi</span> <span class="yurt-songbook__title">Burning</span></a> <span class="yurt-songbook__time">5:00</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-toOShA7omUk"><span class="yurt-songbook__who">Michael Nyman</span> <span class="yurt-songbook__title">The Heart Asks Pleasure First / The Promise</span></a> <span class="yurt-songbook__what">the edit</span> <span class="yurt-songbook__time">3:12</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-HRrQckINCJ0"><span class="yurt-songbook__who">Michael Nyman</span> <span class="yurt-songbook__title">The Promise</span></a> <span class="yurt-songbook__time">4:16</span></li>
+            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-MgS-Lq_pUGk"><span class="yurt-songbook__who">Ludovico Einaudi</span> <span class="yurt-songbook__title">Luminous</span></a> <span class="yurt-songbook__what">the visualiser</span> <span class="yurt-songbook__time">4:44</span></li>
+          </ul>
+          <span class="yurt-notebook__no" aria-hidden="true">No. 3</span>
+        </li>
+        </ul>
+        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>
+      </div>
+      <div class="yurt-notebook__controls" data-notebook-controls hidden>
+        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>
+        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>
+        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>
+      </div>
+      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>
+    </div>
+    <p class="yurt-songbook__from">What is on the gramophone through there: every record on <a href="https://www.youtube.com/playlist?list=PLLBxNBh2rMKw">Library Music</a>, my own playlist on YouTube, read off it on 2026-10-25 in its own order. Press a line and it takes you to that record on the shelf in the <a href="faery-reading-room.html#gramophone">Reading Room</a>, which is where it plays, whole or one record at a time.</p>
+    <!-- yurt-yarn:readbook:end -->
+    <div class="yurt-portal yurt-portal--reading">
+      <div class="yurt-portal__door">
+      <input type="checkbox" id="portal-reading" class="yurt-portal__check">
+      <label for="portal-reading" class="yurt-portal__frame">
+        <span class="sr">Open the doors to the Reading Room</span>
+        <span class="yurt-portal__sash">
+          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><linearGradient id="yp-reading-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151233"/><stop offset=".6" stop-color="#241A3C"/><stop offset="1" stop-color="#2E2140"/></linearGradient></defs><rect width="300" height="340" fill="url(#yp-reading-sky)"/><circle cx="274.1" cy="265.8" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="176.9" cy="121.0" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="42.0" cy="57.0" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="68.5" cy="129.6" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="29.0" cy="200.0" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="153.7" cy="206.6" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="64.0" cy="13.7" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="185.3" cy="271.9" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="286.8" cy="81.6" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="241.8" cy="53.0" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="201.3" cy="49.1" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="200.6" cy="147.5" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="28.0" cy="121.6" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="278.5" cy="81.4" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="35.8" cy="252.4" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="265.2" cy="129.5" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="47.7" cy="175.0" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="73.5" cy="154.6" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="280.1" cy="50.2" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="188.2" cy="112.6" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="204.7" cy="272.8" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="222.7" cy="99.5" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="60.4" cy="24.9" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="224.4" cy="130.7" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="30.8" cy="157.5" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="77.9" cy="120.4" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="226.5" cy="185.2" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="265.4" cy="193.8" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="206.4" cy="233.0" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="128.1" cy="86.5" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="245.3" cy="33.9" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="285.8" cy="205.1" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="52.3" cy="186.3" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="72.6" cy="158.8" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="292.6" cy="79.1" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="10.9" cy="268.0" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="235.7" cy="12.3" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="282.8" cy="119.9" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="178.4" cy="277.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="157.6" cy="86.2" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="260.0" cy="242.3" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="230.9" cy="189.8" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="89.2" cy="92.2" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="83.9" cy="260.7" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="16.5" cy="248.8" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="161.3" cy="194.7" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="264.8" cy="276.7" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="36.2" cy="131.7" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="169.3" cy="126.0" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="232.6" cy="34.7" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="16.5" cy="226.8" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="109.8" cy="44.5" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="219.6" cy="113.2" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="291.9" cy="176.4" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="16.0" cy="37.2" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="43.7" cy="192.5" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="265.8" cy="85.4" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="180.0" cy="167.2" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="43.2" cy="29.5" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="286.4" cy="277.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="159.7" cy="241.1" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="159.2" cy="64.6" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="137.3" cy="186.1" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="115.0" cy="217.6" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="119.4" cy="203.9" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="65.5" cy="116.3" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="96.2" cy="122.0" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="111.0" cy="267.6" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="134.1" cy="51.8" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="286.5" cy="152.0" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="241.6" cy="54.1" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="197.0" cy="122.7" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="249.3" cy="112.0" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="20.7" cy="13.4" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="288.6" cy="208.4" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="45.9" cy="275.6" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="162.4" cy="37.5" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="142.2" cy="44.2" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="185.2" cy="211.1" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="159.2" cy="58.5" r="1.0" fill="#F2E6D4" opacity="0.85"/><path d="M236 52 A30 30 0 1 0 236 112 A23 23 0 1 1 236 52 Z" fill="#FDF3D8"/><g stroke="#E9C874" stroke-width=".9" opacity=".75" fill="none"><path d="M54 150 L98 128 L140 146 L176 120 L214 160 M140 146 L132 196 L176 214"/></g><g fill="#FDF3D8"><circle cx="54" cy="150" r="2.4"/><circle cx="98" cy="128" r="2"/><circle cx="140" cy="146" r="2.6"/><circle cx="176" cy="120" r="2"/><circle cx="214" cy="160" r="2.2"/><circle cx="132" cy="196" r="2"/><circle cx="176" cy="214" r="2.4"/></g><g class="yurt-portal__sparks"><g transform="translate(104 53) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(39 138) scale(1)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(172 220) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(30 115) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(83 141) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(235 47) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(184 148) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(170 107) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(32 209) scale(1)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g></g></svg>
+        </span>
+        <span class="yurt-portal__shutter yurt-portal__shutter--l" aria-hidden="true" data-low-cover></span>
+        <span class="yurt-portal__shutter yurt-portal__shutter--r" aria-hidden="true" data-low-cover></span>
+      </label>
+      <a class="yurt-portal__step" href="faery-reading-room.html">Step through to the Reading Room &rarr;</a>
+      </div>
+      <span class="yurt-portal__hint" aria-hidden="true"><span class="is-shut">tap to open the doors</span><span class="is-open">tap the doors to close them</span></span>
+      <a class="yurt-door yurt-door--portal" href="faery-reading-room.html"><span class="yurt-door__words"><span class="yurt-door__go">Through to the Reading Room &rarr;</span><span class="yurt-door__say">Every book I keep, a fire that has caught, and a chair that is yours while you are in it.</span></span></a>
+    </div>
   </section>
 
   <section>
@@ -604,89 +651,6 @@
   <div class="sprig sprig--flip" aria-hidden="true"><svg viewBox="0 0 220 24" fill="none" aria-hidden="true"><path d="M0 12C30 2 40 22 70 12S110 2 140 12 190 22 220 12" stroke="#6D8A56" stroke-width="2" stroke-linecap="round"/><circle cx="35" cy="8" r="3.5" fill="#4A5F2A"/><circle cx="110" cy="16" r="3.5" fill="#6D8A56"/><circle cx="185" cy="8" r="3.5" fill="#4A5F2A"/></svg></div>
 
   <section>
-    <h2 id="bookshelf">The Bookshelf</h2>
-    <p class="section-intro">The books that live behind my desk outgrew this page, so they have a room of their own now, through the door below: every one I keep, on shelves of its own, with a fire, a sofa and two chairs.</p>
-    <!-- The Reading Room's records, as a book on this shelf, Helen's ask,
-         2026-10-18: the same binding as the Music Room's books under the
-         gramophone, listing what plays on the gramophone through the door.
-         Written by tools/make-yurt-yarn.py from data/yurt-yarn.json; edit
-         those, not this. -->
-    <!-- yurt-yarn:readbook:begin -->
-    <div class="yurt-notebook yurt-songbook" data-notebook>
-      <button type="button" class="yurt-notebook__shut" data-notebook-open hidden>
-        <span class="yurt-notebook__title">Library Music</span>
-        <span class="yurt-notebook__open">Open the book</span>
-      </button>
-      <div class="yurt-notebook__cover" data-notebook-book>
-        <ul class="yurt-notebook__pages" tabindex="0" aria-label="Library Music: every song on it, in its own order; each line goes to that record in the Reading Room" data-notebook-pages>
-        <li class="yurt-notebook__page" data-notebook-say="Page 1: from Franz Gordon, The French Library, to Dunja Musarova, Ephemeralist.">
-          <p class="yurt-songbook__head">Library Music</p>
-          <ul class="yurt-songbook__list">
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-Nj0dbnkk_D4"><span class="yurt-songbook__who">Franz Gordon</span> <span class="yurt-songbook__title">The French Library</span></a> <span class="yurt-songbook__time">3:00</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-rBA9Gqpk_Po"><span class="yurt-songbook__who">Toshifumi Hinata</span> <span class="yurt-songbook__title">Reflections</span></a> <span class="yurt-songbook__time">2:35</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-k2B_-LKov7I"><span class="yurt-songbook__who">Johannes Bornlöf</span> <span class="yurt-songbook__title">Nocturnal Waltz</span></a> <span class="yurt-songbook__time">2:09</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-tALjlw38jas"><span class="yurt-songbook__who">Lama House</span> <span class="yurt-songbook__title">By the Border</span></a> <span class="yurt-songbook__time">2:39</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-Jr6Nq9r758c"><span class="yurt-songbook__who">your movie soundtrack</span> <span class="yurt-songbook__title">Where Is My Mind</span></a> <span class="yurt-songbook__what">a piano version</span> <span class="yurt-songbook__time">2:36</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-qH666vIR9_8"><span class="yurt-songbook__who">Franz Gordon</span> <span class="yurt-songbook__title">Airy Fairy Heart</span></a> <span class="yurt-songbook__time">3:30</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-gBKh6GTVfvA"><span class="yurt-songbook__who">Dunja Musarova</span> <span class="yurt-songbook__title">Ephemeralist</span></a> <span class="yurt-songbook__time">2:28</span></li>
-          </ul>
-          <span class="yurt-notebook__no" aria-hidden="true">No. 1</span>
-        </li>
-        <li class="yurt-notebook__page" data-notebook-say="Page 2: from Ludovico Einaudi, Nuvole Bianche, to Yann Tiersen, Comptine d’un autre été : l’après-midi.">
-          <p class="yurt-songbook__head">Library Music</p>
-          <ul class="yurt-songbook__list">
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-sR2W2scFS4Y"><span class="yurt-songbook__who">Ludovico Einaudi</span> <span class="yurt-songbook__title">Nuvole Bianche</span></a> <span class="yurt-songbook__what">the visualiser</span> <span class="yurt-songbook__time">6:02</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-VfCxaNbJ0q4"><span class="yurt-songbook__who">Lucas King</span> <span class="yurt-songbook__title">Ghost Lullaby</span></a> <span class="yurt-songbook__what">piano</span> <span class="yurt-songbook__time">3:44</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-9E6b3swbnWg"><span class="yurt-songbook__who">Chopin</span> <span class="yurt-songbook__title">Nocturne Op. 9 No. 2</span></a> <span class="yurt-songbook__time">4:29</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-p29JUpsOSTE"><span class="yurt-songbook__who">Chopin</span> <span class="yurt-songbook__title">Nocturne in E flat major, Op. 9 No. 2</span></a> <span class="yurt-songbook__time">4:56</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-MI6dnWbo5Dk"><span class="yurt-songbook__who">Yonder Dale</span> <span class="yurt-songbook__title">Eternal Slumber</span></a> <span class="yurt-songbook__time">2:36</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-EJwwWPrwwo4"><span class="yurt-songbook__who">Ludovico Einaudi &amp; Daniel Hope</span> <span class="yurt-songbook__title">Experience</span></a> <span class="yurt-songbook__time">5:13</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-NvryolGa19A"><span class="yurt-songbook__who">Yann Tiersen</span> <span class="yurt-songbook__title">Comptine d’un autre été : l’après-midi</span></a> <span class="yurt-songbook__time">2:26</span></li>
-          </ul>
-          <span class="yurt-notebook__no" aria-hidden="true">No. 2</span>
-        </li>
-        <li class="yurt-notebook__page" data-notebook-say="Page 3: from Ludovico Einaudi, Burning, to Ludovico Einaudi, Luminous.">
-          <p class="yurt-songbook__head">Library Music</p>
-          <ul class="yurt-songbook__list">
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-eoUDchU0NUQ"><span class="yurt-songbook__who">Ludovico Einaudi</span> <span class="yurt-songbook__title">Burning</span></a> <span class="yurt-songbook__time">5:00</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-toOShA7omUk"><span class="yurt-songbook__who">Michael Nyman</span> <span class="yurt-songbook__title">The Heart Asks Pleasure First / The Promise</span></a> <span class="yurt-songbook__what">the edit</span> <span class="yurt-songbook__time">3:12</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-HRrQckINCJ0"><span class="yurt-songbook__who">Michael Nyman</span> <span class="yurt-songbook__title">The Promise</span></a> <span class="yurt-songbook__time">4:16</span></li>
-            <li class="yurt-songbook__song"><a class="yurt-songbook__link" href="faery-reading-room.html#rdr-lp-MgS-Lq_pUGk"><span class="yurt-songbook__who">Ludovico Einaudi</span> <span class="yurt-songbook__title">Luminous</span></a> <span class="yurt-songbook__what">the visualiser</span> <span class="yurt-songbook__time">4:44</span></li>
-          </ul>
-          <span class="yurt-notebook__no" aria-hidden="true">No. 3</span>
-        </li>
-        </ul>
-        <span class="yurt-notebook__sweep" aria-hidden="true" data-notebook-sweep></span>
-      </div>
-      <div class="yurt-notebook__controls" data-notebook-controls hidden>
-        <button type="button" class="yurt-notebook__btn" data-notebook-prev>&larr; Turn back</button>
-        <button type="button" class="yurt-notebook__btn" data-notebook-close>Close the book</button>
-        <button type="button" class="yurt-notebook__btn" data-notebook-next>Turn the page &rarr;</button>
-      </div>
-      <p class="sr" role="status" aria-live="polite" data-notebook-says></p>
-    </div>
-    <p class="yurt-songbook__from">What is on the gramophone through there: every record on <a href="https://www.youtube.com/playlist?list=PLLBxNBh2rMKw">Library Music</a>, my own playlist on YouTube, read off it on 2026-10-25 in its own order. Press a line and it takes you to that record on the shelf in the <a href="faery-reading-room.html#gramophone">Reading Room</a>, which is where it plays, whole or one record at a time.</p>
-    <!-- yurt-yarn:readbook:end -->
-    <div class="yurt-portal yurt-portal--reading">
-      <div class="yurt-portal__door">
-      <input type="checkbox" id="portal-reading" class="yurt-portal__check">
-      <label for="portal-reading" class="yurt-portal__frame">
-        <span class="sr">Open the doors to the Reading Room</span>
-        <span class="yurt-portal__sash">
-          <svg class="yurt-portal__space" viewBox="0 0 300 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><linearGradient id="yp-reading-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151233"/><stop offset=".6" stop-color="#241A3C"/><stop offset="1" stop-color="#2E2140"/></linearGradient></defs><rect width="300" height="340" fill="url(#yp-reading-sky)"/><circle cx="274.1" cy="265.8" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="176.9" cy="121.0" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="42.0" cy="57.0" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="68.5" cy="129.6" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="29.0" cy="200.0" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="153.7" cy="206.6" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="64.0" cy="13.7" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="185.3" cy="271.9" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="286.8" cy="81.6" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="241.8" cy="53.0" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="201.3" cy="49.1" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="200.6" cy="147.5" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="28.0" cy="121.6" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="278.5" cy="81.4" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="35.8" cy="252.4" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="265.2" cy="129.5" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="47.7" cy="175.0" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="73.5" cy="154.6" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="280.1" cy="50.2" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="188.2" cy="112.6" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="204.7" cy="272.8" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="222.7" cy="99.5" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="60.4" cy="24.9" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="224.4" cy="130.7" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="30.8" cy="157.5" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="77.9" cy="120.4" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="226.5" cy="185.2" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="265.4" cy="193.8" r="1.2" fill="#F2E6D4" opacity="0.55"/><circle cx="206.4" cy="233.0" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="128.1" cy="86.5" r="1.6" fill="#F2E6D4" opacity="0.55"/><circle cx="245.3" cy="33.9" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="285.8" cy="205.1" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="52.3" cy="186.3" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="72.6" cy="158.8" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="292.6" cy="79.1" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="10.9" cy="268.0" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="235.7" cy="12.3" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="282.8" cy="119.9" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="178.4" cy="277.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="157.6" cy="86.2" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="260.0" cy="242.3" r="1.2" fill="#F2E6D4" opacity="1"/><circle cx="230.9" cy="189.8" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="89.2" cy="92.2" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="83.9" cy="260.7" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="16.5" cy="248.8" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="161.3" cy="194.7" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="264.8" cy="276.7" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="36.2" cy="131.7" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="169.3" cy="126.0" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="232.6" cy="34.7" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="16.5" cy="226.8" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="109.8" cy="44.5" r="0.6" fill="#F2E6D4" opacity="0.7"/><circle cx="219.6" cy="113.2" r="1.0" fill="#F2E6D4" opacity="0.85"/><circle cx="291.9" cy="176.4" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="16.0" cy="37.2" r="0.8" fill="#F2E6D4" opacity="0.55"/><circle cx="43.7" cy="192.5" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="265.8" cy="85.4" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="180.0" cy="167.2" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="43.2" cy="29.5" r="0.8" fill="#F2E6D4" opacity="0.7"/><circle cx="286.4" cy="277.8" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="159.7" cy="241.1" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="159.2" cy="64.6" r="1.6" fill="#F2E6D4" opacity="0.85"/><circle cx="137.3" cy="186.1" r="0.8" fill="#F2E6D4" opacity="0.85"/><circle cx="115.0" cy="217.6" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="119.4" cy="203.9" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="65.5" cy="116.3" r="0.6" fill="#F2E6D4" opacity="0.55"/><circle cx="96.2" cy="122.0" r="0.8" fill="#F2E6D4" opacity="1"/><circle cx="111.0" cy="267.6" r="0.6" fill="#F2E6D4" opacity="0.85"/><circle cx="134.1" cy="51.8" r="1.0" fill="#F2E6D4" opacity="1"/><circle cx="286.5" cy="152.0" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="241.6" cy="54.1" r="1.2" fill="#F2E6D4" opacity="0.7"/><circle cx="197.0" cy="122.7" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="249.3" cy="112.0" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="20.7" cy="13.4" r="1.2" fill="#F2E6D4" opacity="0.85"/><circle cx="288.6" cy="208.4" r="1.0" fill="#F2E6D4" opacity="0.7"/><circle cx="45.9" cy="275.6" r="1.6" fill="#F2E6D4" opacity="1"/><circle cx="162.4" cy="37.5" r="0.6" fill="#F2E6D4" opacity="1"/><circle cx="142.2" cy="44.2" r="1.0" fill="#F2E6D4" opacity="0.55"/><circle cx="185.2" cy="211.1" r="1.6" fill="#F2E6D4" opacity="0.7"/><circle cx="159.2" cy="58.5" r="1.0" fill="#F2E6D4" opacity="0.85"/><path d="M236 52 A30 30 0 1 0 236 112 A23 23 0 1 1 236 52 Z" fill="#FDF3D8"/><g stroke="#E9C874" stroke-width=".9" opacity=".75" fill="none"><path d="M54 150 L98 128 L140 146 L176 120 L214 160 M140 146 L132 196 L176 214"/></g><g fill="#FDF3D8"><circle cx="54" cy="150" r="2.4"/><circle cx="98" cy="128" r="2"/><circle cx="140" cy="146" r="2.6"/><circle cx="176" cy="120" r="2"/><circle cx="214" cy="160" r="2.2"/><circle cx="132" cy="196" r="2"/><circle cx="176" cy="214" r="2.4"/></g><g class="yurt-portal__sparks"><g transform="translate(104 53) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(39 138) scale(1)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(172 220) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(30 115) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(83 141) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(235 47) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(184 148) scale(0.6)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(170 107) scale(0.8)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g><g transform="translate(32 209) scale(1)"><path class="yurt-portal__spark" d="M0 -9 L1.5 -1.5 L9 0 L1.5 1.5 L0 9 L-1.5 1.5 L-9 0 L-1.5 -1.5 Z" fill="#FDF3D8"/></g></g></svg>
-        </span>
-        <span class="yurt-portal__shutter yurt-portal__shutter--l" aria-hidden="true" data-low-cover></span>
-        <span class="yurt-portal__shutter yurt-portal__shutter--r" aria-hidden="true" data-low-cover></span>
-      </label>
-      <a class="yurt-portal__step" href="faery-reading-room.html">Step through to the Reading Room &rarr;</a>
-      </div>
-      <span class="yurt-portal__hint" aria-hidden="true"><span class="is-shut">tap to open the doors</span><span class="is-open">tap the doors to close them</span></span>
-      <a class="yurt-door yurt-door--portal" href="faery-reading-room.html"><span class="yurt-door__words"><span class="yurt-door__go">Through to the Reading Room &rarr;</span><span class="yurt-door__say">Every book I keep, a fire that has caught, and a chair that is yours while you are in it.</span></span></a>
-    </div>
-  </section>
-
-
-  <section>
     <h2 id="cinema">The Cinema</h2>
     <p class="section-intro">The films I keep have a room of their own, through the door below: a little picture palace with velvet curtains and a silver screen, and every film on an old-fashioned reel on the wall, ready to go up when you press it.</p>
     <!-- The doors to the Music Room, the Reading Room and the Cinema are
@@ -972,6 +936,7 @@
       <a class="yurt-door yurt-door--portal" href="faery-cinema-room.html"><span class="yurt-door__words"><span class="yurt-door__go">Through to the Cinema &rarr;</span><span class="yurt-door__say">Velvet curtains, a silver screen, and every film I keep on a reel of its own. Nothing plays until you press it.</span></span></a>
     </div>
   </section>
+
 
   <section>
     <h2 id="art-gallery">The Art Gallery</h2>
@@ -1361,6 +1326,41 @@
       </div>
       <div class="sill" aria-hidden="true"><div class="sill__book"></div><div class="sill__pen"></div></div>
     </div>
+  </section>
+
+  <section>
+    <h2 id="glow-wild">Glow Wild Hollow</h2>
+    <p class="section-intro">Down through a great glowing mushroom is a hollow at night where every light belongs to something alive: foxfire in an old log, glow-worms in the grass, a sea that sparkles where you touch it, and a jellyfish that lights up.</p>
+    <!-- The way down to Glow Wild Hollow, Helen's ask, 2026-10-27: "another
+         portal through a mushroom". A toadstool with glowing gills and a door
+         in its stem, the hollow's night showing through it. Drawn in §129's
+         colours; nothing on it is a word. -->
+    <a class="yurt-shroom" href="glow-wild-hollow.html" aria-label="Down through the glowing mushroom to Glow Wild Hollow">
+      <svg viewBox="0 0 300 300" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="ys-glow"><stop offset="0" stop-color="var(--gwh-fox)" stop-opacity=".32"/><stop offset="1" stop-color="var(--gwh-fox)" stop-opacity="0"/></radialGradient>
+          <radialGradient id="ys-spot"><stop offset="0" stop-color="var(--gwh-fox)" stop-opacity=".7"/><stop offset="1" stop-color="var(--gwh-fox)" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle class="yurt-shroom__glow" cx="150" cy="130" r="140" fill="url(#ys-glow)"/>
+        <path d="M0 282 Q150 266 300 282 V300 H0 Z" fill="var(--gwh-hill)"/>
+        <path d="M112 300 C116 246 118 206 124 174 H176 C182 206 184 246 188 300 Z" fill="var(--gwh-deep)" stroke="var(--gwh-fox)" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M132 300 V240 Q150 214 168 240 V300 Z" fill="var(--gwh-night)" stroke="var(--gwh-fox)" stroke-width="1.4" stroke-opacity=".7"/>
+        <path d="M136 286 Q143 282 150 286 T164 286" fill="none" stroke="var(--gwh-sea)" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="1.5 4"/>
+        <circle cx="143" cy="258" r="1.8" fill="var(--gwh-worm)"/><circle cx="158" cy="250" r="1.4" fill="var(--gwh-fox)"/>
+        <path d="M24 172 C70 160 230 160 276 172 C230 186 70 186 24 172 Z" fill="var(--gwh-fox)" fill-opacity=".3"/>
+        <g stroke="var(--gwh-fox)" stroke-width="1" opacity=".55">
+          <path d="M44 172 L126 176"/><path d="M72 170 L132 176"/><path d="M100 168 L140 176"/><path d="M128 166 L146 176"/><path d="M172 166 L154 176"/><path d="M200 168 L160 176"/><path d="M228 170 L168 176"/><path d="M256 172 L174 176"/>
+        </g>
+        <path d="M24 172 C26 92 86 40 150 40 C214 40 274 92 276 172 C230 160 70 160 24 172 Z" fill="var(--gwh-hill)" stroke="var(--gwh-fox)" stroke-width="2.4" stroke-linejoin="round"/>
+        <g class="yurt-shroom__glow">
+          <circle cx="104" cy="88" r="16" fill="url(#ys-spot)"/><circle cx="178" cy="72" r="18" fill="url(#ys-spot)"/><circle cx="226" cy="118" r="14" fill="url(#ys-spot)"/><circle cx="70" cy="132" r="12" fill="url(#ys-spot)"/><circle cx="146" cy="124" r="12" fill="url(#ys-spot)"/>
+        </g>
+        <g fill="var(--gwh-fox)"><circle cx="104" cy="88" r="6"/><circle cx="178" cy="72" r="7"/><circle cx="226" cy="118" r="5"/><circle cx="70" cy="132" r="4.5"/><circle cx="146" cy="124" r="4.5"/><circle cx="252" cy="152" r="3"/><circle cx="48" cy="156" r="3"/></g>
+        <g stroke="var(--gwh-wave)" stroke-width="1.6" stroke-linecap="round" fill="none"><path d="M40 284 Q42 270 38 260"/><path d="M58 280 Q62 266 56 254"/><path d="M244 280 Q240 266 246 254"/><path d="M262 284 Q266 272 260 262"/></g>
+        <g fill="var(--gwh-worm)"><circle cx="38" cy="260" r="2"/><circle cx="246" cy="254" r="2"/></g>
+      </svg>
+    </a>
+    <a class="yurt-door" href="glow-wild-hollow.html"><span class="yurt-door__words"><span class="yurt-door__go">Down through the mushroom &rarr;</span><span class="yurt-door__say">Foxfire, glow-worms, sea sparkle and a jellyfish that lights up: living light, in a hollow with no moon and no lamp.</span></span></a>
   </section>
 
   <section>

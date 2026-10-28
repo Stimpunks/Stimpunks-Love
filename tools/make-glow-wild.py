@@ -223,6 +223,8 @@ for rx in (LATIN, NOT_HERE):
         refuse(f"glow-wild-hollow.html says {m.group(0)!r}. No Latin names, and nothing about eating, picking or curing.")
 if '<script src="glow-wild.js" defer></script>' not in page:
     refuse("glow-wild-hollow.html does not load glow-wild.js, so the sea and the jellyfish stay dark.")
+if 'class="dial"' not in page or page.count('class="dial__btn"') != 3:
+    refuse("glow-wild-hollow.html has no glitter dial. Every room has one; the hollow shipped without it once.")
 for s in ("love-embed.js", "rack.js"):
     if f'<script src="{s}" defer></script>' not in page:
         refuse(f"glow-wild-hollow.html does not load {s}, so every film's button would press and do nothing.")
