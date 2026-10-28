@@ -202,7 +202,7 @@ def main():
     if "this.dmStickBtn.hidden = !pics;" not in radio or "if (this.dmLive) acts.appendChild(this.reactBtn(" not in radio:
         refuse("the radio offers Sticker or React in a conversation nobody has accepted.")
     sw = SW.read_text()
-    if "d.kind === 'dm'" not in sw or "'/#cb=messages'" not in sw:
+    if "d.kind === 'dm'" not in sw or "'/chat.html#cb=messages'" not in sw:
         refuse("cb-sw.js no longer shows a message's notification, or opens Messages from it.")
 
     # Sealed at rest (2026-10-25).

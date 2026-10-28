@@ -8886,6 +8886,7 @@
       if (/^\/office\.html#\/(?:(?:c|g|k|mailings|templates)\/[cgknt][A-Za-z0-9_-]{12}|m\/[0-9a-f]{8,32})(?:\/c\/m[A-Za-z0-9_-]{12})?$/.test(p)) return p;
       if (/^\/forum\.html#\/c\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
       if (/^\/chat\.html#events(?:\/e[A-Za-z0-9_-]{12})?$/.test(p)) return p;
+      if (/^\/chat\.html#[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p)) return p;
       if (/^\/sandbox\.html#suggestion-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(p)) return p;
       return /^\/forum\.html#\/t\/t[A-Za-z0-9_-]{12}(?:\/p[A-Za-z0-9_-]{11})?$/.test(p) ? p : '/';
     }
@@ -8999,7 +9000,7 @@
           body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.'
             : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.'
             : d.what === 'sticker' ? 'A sticker. Open Messages on the CB to see it.' : 'Open Messages on the CB to read it.',
-          url: '/#cb=messages', tag: 'cb-dm-' + sender });
+          url: '/chat.html#cb=messages', tag: 'cb-dm-' + sender });
       }
       if (d.kind === 'task') return Promise.resolve(taskSays(d));
       if (d.kind === 'event') return rooms().then(function (list) { return eventSays(d, list); });
@@ -9019,6 +9020,12 @@
             body: 'Open the CB to join it.', url: url, tag: 'cb-call-' + (tag || 'world') };
         }
         if (d.kind !== 'message') return null;
+        /* A message opens its channel on the chat page (Ryan's ask, 2026-10-28),
+           World's as #world, the chat page's own link to it, so a chat window
+           open on another channel is not taken for it. A room the street's list
+           does not name (one that keeps to itself) is no channel there, so its
+           message still opens its own page. */
+        if (place || !tag || tag === 'world') url = '/chat.html#' + (place ? tag : 'world');
         var who = String(d.handle || 'Somebody').slice(0, 40);
         var title = d.why === 'mention'
           ? who + ' mentioned ' + called(d) + ' ' + (place || tag ? 'in ' + where : 'on World')
@@ -9844,7 +9851,7 @@
     if (this.host.style.visibility === 'hidden') this.whenShown = go; else go();
   };
 
-  /* A notification of a message opens the street at #cb=messages (cb-sw.js),
+  /* A notification of a message opens the chat page at #cb=messages (cb-sw.js),
      and this opens the list with the keyboard on it. The address loses the
      fragment, so a reload does not open it again; the radio is switched on
      and made Normal for this page only, toProps' rule. */
