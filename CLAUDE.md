@@ -896,7 +896,11 @@ anything in the radio that would leave it opens in a new tab and says so** (`cal
 own window the page it came from), and the guest bar's teleporter does the same for a guest; **every other way off the
 page asks the browser's Leave site? first** (`guarding` in `call.js`, listened for only between a call opening in a page
 and its leaving, never in the call's own window, because a page that listens for leaving is kept out of the
-back-forward cache). A link that stays on the page is not leaving. `tools/check-call-links.py` holds it, and refuses a
+back-forward cache). A link that stays on the page is not leaving. **In Chrome's installed app that new tab is captured into the app** (Chrome 151 on captures a
+`window.open` to an address the app covers), and with no `launch_handler` it went into the call's own window: a member
+found that on 2026-10-28, and Safari's app was fine. So `site.webmanifest` says `"launch_handler": {"client_mode":
+"navigate-new"}`, which `make-icons.py` and `check-call-links.py` hold; the friendly edit is `focus-existing` "so the app
+stays one window". `tools/check-call-links.py` holds the rest, and refuses a
 `location.href` in `cb.js` outside `goPage` and a `beforeunload` anywhere but `call.js`. **The friendly edit is a new tab
 for every link "to be safe"**, which piles up tabs, each with its own radio, for everybody never in a call, and leaves
 the room's own links and Back still hanging up.

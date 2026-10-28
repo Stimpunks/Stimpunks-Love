@@ -47,6 +47,16 @@ Docks and Home Screens):
     notifications; from iOS 26 every site added to the Home Screen opens as a
     web app, and they work. The friendly edit is "standalone" so older iPhones
     get notifications; it takes the Dock's back button away.
+  · "launch_handler" is {"client_mode": "navigate-new"} (2026-10-28, after a
+    member found that following a street link from the radio during a call
+    hung the call up in Chrome's installed app and not in Safari's). Chrome
+    captures a window.open(url, '_blank') from inside an installed app into
+    the app, and with no launch_handler it navigated the app's own window, the
+    one the call was in. navigate-new gives the link a window of its own, as
+    the radio means it to (cb.js, callUp), and does the same for a street link
+    followed from outside the app, so that never lands on top of a call either.
+    The friendly edits are "focus-existing" or "navigate-existing" so the app
+    stays one window; each takes a call down.
 """
 import json
 import os
@@ -77,7 +87,7 @@ BADGE = ("badge-96.png", 96)
 # The heart's box in favicon.svg is 7..57 across and 11..55 down; this square
 # is centred on it with a little air, so the badge is the heart and no ground.
 BADGE_VIEW = "4 5 56 56"
-MANIFEST_HOLDS = {"id": "/", "display": "minimal-ui"}
+MANIFEST_HOLDS = {"id": "/", "display": "minimal-ui", "launch_handler": {"client_mode": "navigate-new"}}
 MANIFEST_ICONS = [
     {"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
     {"src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
@@ -185,7 +195,8 @@ def main():
     if wrong:
         raise SystemExit(f"REFUSING: site.webmanifest has {wrong}, and this tool holds "
                          f"{MANIFEST_HOLDS}. The docstring says why for each; the id never "
-                         "changes, and display is Ryan's call.")
+                         "changes, display is Ryan's call, and launch_handler keeps a call up in an "
+                         "installed app.")
     sw = (ROOT / "cb-sw.js").read_text()
     if f"badge: '/{BADGE[0]}'" not in sw:
         raise SystemExit(f"REFUSING: cb-sw.js does not show /{BADGE[0]} as a notification's badge, "
