@@ -953,7 +953,7 @@ in the same tab, so test the two sides in two tabs there, or in a real browser.
 **THE RADIO IS IN PARTS, EACH UNDER A REAL HEADING** (Ryan, 2026-10-13, after people could not tell where
 they were), **and since 2026-10-23 the channel comes straight after where you are** (Ryan's order, after Who's
 around, Unreads and Events had pushed it too far down): Where you are (the room's name in the largest words on
-the radio, `hereShown`, and nothing else), Channel, Messages, In this channel (On the channel as, Be seen here,
+the radio, `hereShown`, and nothing else), Channel, Happening now, Messages, In this channel (On the channel as, Be seen here,
 Bring my familiar, the room's call and what is on now, under the heading the chat page uses), Who's around,
 Unreads, Events, Watching together (only there while something in it is, `filmShown`), You (Profile, Account,
 their trays and Sign off, Ryan's asks of 2026-10-19 after losing where an open Profile began) and Your radio.
@@ -970,6 +970,14 @@ kept anywhere.
 in `cb.js`, `forum.js`, `quest.js`, the booths, the shelters, the Community Center's claiming steps, the
 moderators' room, the privacy page, the guide and `data/quests.json`. A new line about claiming says
 Account.
+**HAPPENING NOW IS THIS ROOM'S AND ONLY THIS ROOM'S** (Ryan's proposal, 2026-10-27, once Watching together had gone to
+the foot of the radio): under the channel (heading the right-hand column on the chat page), shown only while something
+is: the room's call (`callPlace` moves `callSub` there from In this channel while you are in the call or, seen here,
+somebody is, because that is all the radio is told; one subsection moved, never copied), what is on now from the
+schedule (`nowSub`), and this room's hosts (`filmNowShown`, out of `drawBeacons`' own list and keys), each with **Go to
+Watching together**, which puts the keyboard on their Catch up and presses nothing. The friendly edits are other rooms'
+calls and films there (Who's online, the World room and Hosting now already say them), a Join that plays the film, and
+asking Who's online every listen to know a call is going without being seen.
 **A long tray ends in its own Close** (`footClose`: Profile, Account, Themes, Notifications, the stickers and Your
 messages), which closes it and puts the view and the keyboard back on the button that opened it; a tray
 drawn afresh on each opening (stickers, the Notifications body) draws its foot again too. `part()` in

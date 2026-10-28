@@ -521,6 +521,9 @@
 .cb-sub { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); justify-items: start; }
 .cb-sub > .cb-h3 { margin-top: 2px; }
 .cb-sub:not(:has(> :not(.cb-h3):not([hidden]))) { display: none; }
+/* HAPPENING NOW (2026-10-27) is shown only while something under it is: a
+   part with a heading and nothing under it looks broken. */
+.cb-sec--now:not(:has(> .cb-sub > :not(.cb-h3):not([hidden]))) { display: none; }
 .cb-sec > .cb-btn { justify-self: start; }
 /* WHERE YOU ARE: the room's name, the largest words on the radio, in the
    case's own steel. A page that is not a room says so, smaller. */
@@ -706,7 +709,7 @@ ol.cb-md-list { list-style: decimal; }
 .cb-beacons { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
 .cb-beacon { overflow-wrap: anywhere; }
 .cb-beacon .cb-tag { margin: 0 0 0 6px; }
-.cb-catch { margin-left: 8px; }
+.cb-catch, .cb-now-go { margin-left: 8px; }
 /* Follow is a switch that moves your film, so ON has to be unmistakable, not
    one amber border for another: filled, the teleporter's selected room's pair,
    which check-contrast.py already measures. */
@@ -773,8 +776,8 @@ ol.cb-md-list { list-style: decimal; }
 .pf-chat { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; color: var(--cb-steel); }
 .pf-chat .cb-chat { margin-left: 0; }
 .cb-dm-chat .cb-chat { margin: 0 2px; }
-.cb-catch { justify-self: start; min-height: 44px; }
-.cb-take, .cb-catch {
+.cb-catch, .cb-now-go { justify-self: start; min-height: 44px; }
+.cb-take, .cb-catch, .cb-now-go {
   color: var(--cb-amber); background: var(--cb-lcd); border-color: var(--cb-amber-2);
 }
 .cb-quiet { color: var(--cb-amber-2); font-size: 14px; }
@@ -2121,7 +2124,8 @@ button.cb-ev-link {
 .cb-radio--you .cb-move, .cb-radio--you .cb-sizer, .cb-radio--you .cb-fold, .cb-radio--you .cb-side { display: none; }
 .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--where, .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--channel,
 .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--here, .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--around,
-.cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--events, .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--film { display: none; }
+.cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--events, .cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--film,
+.cb-radio--you.cb-radio--full .cb-set--parts .cb-sec--now { display: none; }
 .cb-radio--you .cb-sec--you > .cb-h { font-size: min(calc(19px * var(--cb-display-scale, 1)), 24px); }
 .cb-notices { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .cb-notice { margin: 0; padding: 0 0 10px; border-bottom: 1px solid var(--cb-bar); }

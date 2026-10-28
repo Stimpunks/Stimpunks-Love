@@ -1448,7 +1448,7 @@
     /* IN THIS CHANNEL, as the chat page has it (the same day): On the channel
        as, Be seen here, Bring my familiar, the room's call and what is on now
        here, under Messages. */
-    var hereSec = part('cb-sec--here', 'In this channel', 2);
+    var hereSec = this.hereSec = part('cb-sec--here', 'In this channel', 2);
     var aroundSec = part('cb-sec--around', 'Who\u2019s around', 2);
     /* UNREADS (Ryan's proposal, 2026-10-20): World, the rooms you follow and
        your conversations, each listed while something has been said there
@@ -1482,6 +1482,14 @@
        2026-10-27, after Discord's). See searchMake. */
     var searchSec = this.searchSec = chat ? part('cb-sec--search', 'Search', 1) : null;
     var chanSec = part('cb-sec--channel', 'Channel', 1);
+    /* HAPPENING NOW (Ryan's proposal, 2026-10-27, once Watching together had
+       gone to the foot of the radio): straight under the channel, what is
+       going on in this room, and only this room: its call while somebody is
+       in it, an event on now, and anybody hosting a film here. It is shown
+       only while one of them is (cb.css), and it is not a live region. On
+       the chat page it heads the right-hand column, over In this channel. */
+    var nowSec = this.nowSec = part('cb-sec--now', 'Happening now', chat ? 2 : 1);
+    if (chat) cols[2].insertBefore(nowSec, hereSec);
     var dmSec = this.dmSec = part('cb-sec--dm', 'Messages', 2);
     // Messages comes straight after the channel, before In this channel.
     if (you) cols[3].appendChild(dmSec);
@@ -1719,7 +1727,7 @@
     hereSec.appendChild(callSub);
     /* BRING MY FAMILIAR (Ryan, 2026-10-19): only for a claimed username with
        a familiar following it, off until pressed; see familiarShown(). */
-    var famSub = el('div', 'cb-sub cb-fam-sub');
+    var famSub = this.famSub = el('div', 'cb-sub cb-fam-sub');
     famSub.appendChild(el('h3', 'cb-h3', 'Your familiar'));
     var famBtn = this.famBtn = el('button', 'cb-btn cb-seen', 'Bring my familiar: off');
     famBtn.type = 'button';
@@ -1730,10 +1738,24 @@
     famSub.appendChild(famBtn);
     famSub.appendChild(this.famNow);
     hereSec.appendChild(famSub);
-    var nowSub = el('div', 'cb-sub cb-now-sub');
-    nowSub.appendChild(el('h3', 'cb-h3', 'On now'));
+    /* HAPPENING NOW's smaller parts. The room's call (callSub, above) stands
+       here while somebody is in it, and under In this channel otherwise: see
+       callPlace. What is on now from the schedule stands here always, and is
+       not shown while nothing is. */
+    var nowSub = this.nowSub = el('div', 'cb-sub cb-now-sub');
+    nowSub.appendChild(el('h3', 'cb-h3', 'Events'));
     nowSub.appendChild(this.evNowLine);
-    hereSec.appendChild(nowSub);
+    nowSec.appendChild(nowSub);
+    /* Anybody hosting a film in this room, each with a button that puts the
+       view and the keyboard on their row under Watching together, where
+       Catch up and Follow are. It presses nothing there. See filmNowShown. */
+    var filmNow = el('div', 'cb-sub cb-film-now');
+    filmNow.appendChild(el('h3', 'cb-h3', 'Watching together here'));
+    var filmNowList = this.filmNowList = el('ul', 'cb-beacons');
+    filmNowList.setAttribute('aria-label', 'Watching together here');
+    filmNowList.hidden = true;
+    filmNow.appendChild(filmNowList);
+    nowSec.appendChild(filmNow);
 
     var lcd = this.lcd = el('div', 'cb-lcd');
     // Which channel this is, at every size, because small shows only the readout.
@@ -12525,6 +12547,11 @@
   };
 
   Radio.prototype.presenceShown = function () {
+    this.presenceDraw();
+    this.callPlace();
+  };
+
+  Radio.prototype.presenceDraw = function () {
     var tag = presentRoom();
     this.present.hidden = !tag;
     this.panelShown(tag, tag && this.seenFrom === tag ? this.seenAnswer : null);
@@ -12534,6 +12561,7 @@
     // Who is in the call is told only to a radio seen here; it is outside the
     // Seen here subsection, so it is put away here rather than with it.
     this.inCallNow.hidden = true;
+    this.callFull = false;
     if (!tag) return;
     var on = !!this.state.seen, a = this.seenFrom === tag ? this.seenAnswer : null;
     this.seenBtn.setAttribute('aria-pressed', String(on));
@@ -12558,11 +12586,28 @@
       var inc = a.call || [];
       this.inCallNow.hidden = false;
       if (inc.length) {
+        this.callFull = true;
         this.inCallNow.textContent = '';
         this.inCallNow.appendChild(document.createTextNode('In this room\u2019s call: '));
         var c = el('span'); whoList(c, inc, 'name'); this.inCallNow.appendChild(c);
       } else this.inCallNow.textContent = 'Nobody is in this room\u2019s call.';
     }
+  };
+
+  /* THE ROOM'S CALL STANDS UNDER HAPPENING NOW WHILE IT IS GOING: while you
+     are in it, or while somebody is and you are seen here, which is the only
+     way the radio is told who is in it (presenceDraw). Otherwise it stands
+     under In this channel, where Join this room's call always is. One
+     subsection moved, never a copy of it, so who is in the call is said in
+     one place. The keyboard goes with it if it was on it. */
+  Radio.prototype.callPlace = function () {
+    var sub = this.callSub;
+    var going = this.callBtn.getAttribute('aria-pressed') === 'true' || !!this.callFull;
+    var to = going ? this.nowSec : this.hereSec, before = going ? this.nowSub : this.famSub;
+    if (sub.parentNode === to) return;
+    var root = sub.getRootNode(), had = root.activeElement && sub.contains(root.activeElement) ? root.activeElement : null;
+    to.insertBefore(sub, before);
+    if (had) had.focus();
   };
 
   /* FAMILIARS IN THE ROOM (Ryan, 2026-10-19: let other people see what
@@ -13086,9 +13131,7 @@
     }
     for (i = 0; i < list.length; i++) {
       var b = list[i], li = ul.children[i];
-      li.querySelector('.cb-beacon-at').textContent = b.live
-        ? 'live' + (b.playing ? '' : ', paused')
-        : place(this.placeOf(b)) + (b.playing ? ', playing' : ', paused');
+      li.querySelector('.cb-beacon-at').textContent = this.beaconAt(b);
       var fo = li.querySelector('.cb-follow');
       if (fo) fo.setAttribute('aria-pressed', String(!!(this.following && this.following.room === b.room)));
       var a = li.querySelector('a.cb-room');
@@ -13096,6 +13139,65 @@
     }
     this.hostsBox.hidden = list.length === 0;
     this.filmShown();
+    this.filmNowShown(list, keys);
+  };
+
+  Radio.prototype.beaconAt = function (b) {
+    return b.live
+      ? 'live' + (b.playing ? '' : ', paused')
+      : place(this.placeOf(b)) + (b.playing ? ', playing' : ', paused');
+  };
+
+  /* WATCHING TOGETHER HERE, under Happening now: this room's hosts out of the
+     list drawBeacons has just drawn, in its order and by its keys, so the row
+     a button goes to is always there. Rows are kept and only their place is
+     written, drawBeacons' rule, so the keyboard is not thrown off every listen. */
+  Radio.prototype.filmNowShown = function (list, keys) {
+    var ul = this.filmNowList, me = this, here = [], hk = [], i;
+    for (i = 0; i < list.length; i++) if (keys[i].split('|')[1] !== 'there') { here.push(list[i]); hk.push(keys[i]); }
+    var kids = ul.children, same = kids.length === hk.length;
+    for (i = 0; same && i < kids.length; i++) same = kids[i].dataset.key === hk[i];
+    if (!same) {
+      ul.textContent = '';
+      here.forEach(function (b, j) { ul.appendChild(me.filmNowRow(b, hk[j])); });
+    }
+    for (i = 0; i < here.length; i++) ul.children[i].querySelector('.cb-beacon-at').textContent = this.beaconAt(here[i]);
+    ul.hidden = !here.length;
+  };
+
+  Radio.prototype.filmNowRow = function (b, key) {
+    var li = el('li', 'cb-beacon'), mine = key.split('|')[1] === 'mine', me = this;
+    li.dataset.key = key;
+    if (mine) li.appendChild(document.createTextNode('You are hosting '));
+    else {
+      li.appendChild(el('b', 'cb-handle', b.handle));
+      if (b.base) li.appendChild(el('span', 'cb-tag', 'BASE'));
+      li.appendChild(document.createTextNode(' is hosting '));
+    }
+    li.appendChild(document.createTextNode('\u201c' + b.film + '\u201d here: '));
+    li.appendChild(el('span', 'cb-beacon-at'));
+    li.appendChild(document.createTextNode('.'));
+    var go = el('button', 'cb-btn cb-now-go', 'Go to Watching together');
+    go.type = 'button';
+    go.setAttribute('aria-label', mine
+      ? 'Go to Watching together, where you are hosting ' + b.film
+      : 'Go to Watching together, to catch up with or follow ' + b.handle);
+    go.addEventListener('click', function () { me.toFilm(key, mine); });
+    li.appendChild(go);
+    return li;
+  };
+
+  /* Down to Watching together: the view and the keyboard on that host's
+     Catch up, or on Host this film when the host is you. Nothing is pressed. */
+  Radio.prototype.toFilm = function (key, mine) {
+    var row = null, kids = this.beaconList.children;
+    for (var i = 0; i < kids.length; i++) if (kids[i].dataset.key === key) row = kids[i];
+    var to = mine ? this.hostBtn : row && row.querySelector('button');
+    if (!to || to.hidden) to = this.filmSec.querySelector('.cb-h');
+    if (!to) return;
+    if (to.classList.contains('cb-h')) to.tabIndex = -1;
+    to.scrollIntoView({ block: 'center' });
+    to.focus({ preventScroll: true });
   };
 
   Radio.prototype.beaconRow = function (b, key) {
