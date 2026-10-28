@@ -43,12 +43,16 @@ suggestion in or a moderator takes it down; a few shared games that keep a count
 sentences with no names in them; and the pets somebody adopted, filed under a
 hash of their handle. An hourly scheduled function sweeps whatever has expired.
 
-Signing on takes a handle and a password we share with the community and
-rotate; it hands back a pass, an HMAC keyed by the current password, which the
-browser keeps in `localStorage` and sends as an `Authorization` header.
-Changing the password invalidates every pass at once. A handle can also be
-**claimed** with a password of its own, and then the shared password is refused
-for it. Moderators sign on as the base station with a second password, or with
+Signing on takes a username and its own password (and, if it has one, a
+second step); it hands back a pass, an HMAC keyed by a random key in Netlify's
+environment (`CB_PASS_KEY`) over the username, the account's version and when
+the pass runs out, which the browser keeps in `localStorage` and sends as an
+`Authorization` header. A pass runs out thirty days after it was made, and an
+open radio is handed a fresh one once a day. A new password, **Sign off
+everywhere else** or a moderator's kick moves the version and stops every pass
+for that username at once; changing the key stops every pass there is. (Until
+2026-10-28 passes never ran out and were keyed by the passwords the community
+and the moderators shared.) Moderators sign on as the base station with
 a claimed username of their own, and their roles come from a list in Netlify's
 environment that is read on every request. A room's voice and video call is
 8x8's Jitsi as a Service, reached only with a token the CB signs.
@@ -96,8 +100,8 @@ What that shape rules out, and what it does not:
   signed-on handle and one room, or a guest token, never a moderator's, for one
   of the rooms whose calls are public.
 - **No secrets in the repository.** Everything the CB needs lives in Netlify's
-  environment, never in this repo: the two passwords (`CB_PASSWORD`,
-  `CB_MOD_PASSWORD`), the list of who holds which role (`CB_MODS`), the JaaS
+  environment, never in this repo: the two shared passwords (`CB_PASSWORD`,
+  `CB_MOD_PASSWORD`), the key passes are signed with (`CB_PASS_KEY`), the list of who holds which role (`CB_MODS`), the JaaS
   signing key (`CB_JAAS_KID`, `CB_JAAS_KEY`) and the secrets that check 8x8's
   webhooks (`CB_JAAS_EVENTS_SECRET`, `CB_JAAS_HOOK_SECRET`). Getting a call token
   without a pass, for a room it was not asked for, or with moderator rights

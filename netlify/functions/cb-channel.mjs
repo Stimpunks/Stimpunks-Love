@@ -6,7 +6,9 @@
    except a room that keeps to itself (QUIET_ROOMS in lib.mjs), whose host is
    heard only by a radio tuned to that room. A radio whose person was given a
    role or had one taken away at the desk is handed the pass they hold now
-   (swap: readPass), which it keeps in place of the old one.
+   (swap: readPass), which it keeps in place of the old one, and a radio whose
+   pass is more than a day old is handed the same pass made now (renew), so a
+   pass in use does not run out.
 
    IT SENDS THE LATEST WINDOW AND SAYS WHEN NOTHING HAS CHANGED (2026-10-25,
    when a channel's keep became the desk's to set, up to a thousand): ?n= asks
@@ -33,7 +35,9 @@ export default async (req) => {
   const asked = q.get('room');
   const room = asked === null ? null : roomTag(asked);
   if (asked !== null && !room) return json(400, { error: 'That is not a room on the street.' });
-  const swap = who.swap ? { swap: who.swap } : {};
+  // The pass the radio should hold now: a new one for a new role (swap), or
+  // the same one made today, because a pass runs out (renew, lib.mjs).
+  const swap = who.swap ? { swap: who.swap } : who.renew ? { renew: who.renew } : {};
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.', roles: rolesOf(who), ...swap });
   // A staff room's channel is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
   if (staffShut(room)) return json(503, { error: 'This room\'s channel is shut just now. Nothing was read or sent.' });

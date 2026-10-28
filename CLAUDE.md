@@ -4023,9 +4023,9 @@ messages, as many and for as long as the desk sets (a hundred for two weeks unle
 was built**, and every sentence there is enforced in `lib.mjs`: no IP address stored (Netlify's own
 `rateLimit` in each function's config counts addresses and never hands them over, so do not "improve"
 it by keeping a list), **nothing a person types is ever logged** — no `console.log` of a handle,
-message, password or pass, not even while debugging — and a pass is an HMAC keyed by the current
-password, so **rotating is changing `CB_PASSWORD` and redeploying** and there is no list of passes
-anywhere. `connect-src` is `'self'` and must not go further: a realtime service elsewhere would be a
+message, password or pass, not even while debugging — and a pass is an HMAC keyed by `CB_PASS_KEY`,
+so **signing everybody off is changing `CB_PASS_KEY` and redeploying** and there is no list of passes
+anywhere (below). `connect-src` is `'self'` and must not go further: a realtime service elsewhere would be a
 third party every signed-on visitor talked to on every page. Both passwords live in Netlify's
 environment, never in the repo.
 
@@ -4728,15 +4728,15 @@ once; the moderators reset or delete one by name from a desk in the Moderators' 
 `/cb/account/admin`), and **there was no list of everybody**, for moderators or anybody, until the
 moderators' directory (2026-10-22, below). A claimed
 username signs on with its own password and **the community password is refused for it**, the
-`CB_MODS` mechanism; its pass is `cb2.acct.<handle>.<v>.<sig>`, signed with the community password (so
-rotating it still signs everybody off) and **refused once the account's version moves**, which is how
-a password change, a reset or a deletion signs every device off. So **every pass is checked against the
+`CB_MODS` mechanism; its pass is `cb2.acct.<handle>.<v>.<exp>.<sig>` and **refused once the account's
+version moves**, which is how a password change, a reset, a deletion or Sign off everywhere signs every
+device off. So **every pass is checked against the
 store**, and `readPass` and `signOn` are async: every CB function awaits them now, and a new one must.
 An account is the username, a salted scrypt hash of the password and of the recovery code, when it was
 claimed, a version and a lock (five wrong passwords, fifteen minutes), filed under `acctKey`, a plain
 hash of the folded name. Deleting it deletes its pets. **A moderator can move onto a password of their own** (Ryan, the
 same evening, starting with himself): signed on with the MOD password, Account claims the handle, the
-MOD password is then refused for it, and its pass is `cb2.base`, signed with the MOD password. **The
+MOD password is then refused for it, and its pass is `cb2.base`. **The
 account holds no role**: roles are still read off `CB_MODS` on every request, so taking somebody off
 the list leaves an ordinary claimed username, and an unreadable list gives nobody the base.
 `accountAnswer()` is the one place that decides which pass a claimed username gets. **The desk will
@@ -4754,6 +4754,26 @@ server still keeps `claimed` on a message, because Take off and Edit read it: `c
 read the pass once when they load**, so a room left open while somebody claims says *this username has
 been signed off* on its next press, and a reload fixes it.
 
+**A PASS RUNS OUT, AND IS SIGNED WITH A KEY NOBODY TYPES.** Ryan's call, 2026-10-28, after Claude found that
+cb2 passes were HMACs keyed by `CB_PASSWORD` and `CB_MOD_PASSWORD` over a handle and a small version number:
+anybody who knew the starter password could make a pass for any member, and any moderator for any other
+moderator, two-step sign-in and all, since the step is checked at sign-on and never on a pass. Now a pass
+carries `exp` (seconds) inside what is signed, and is signed with `CB_PASS_KEY` (`passKey` in `lib.mjs`), a
+random key in Netlify and 1Password that no person needs to know; without it no pass is read or made and
+signing on says it is switched off. **`PASS_LIFE` is thirty days and `PASS_RENEW` a day**: `readPass` hands a
+pass older than that its renewal (`renew`), `/cb/channel` hands it to an open radio, and `takeRenew` in
+`cb.js` keeps it without a word, so a pass runs out only after thirty days with no radio listening. The pass
+it replaces works until its own end; **Sign off everywhere else** under Account (`signOffEverywhere`, the
+`everywhere` action on `/cb/account`) asks for the password and moves the version, which stops them all. The
+radio orders passes by version and then by end (`passVersion`), and its push mark carries the end
+(`passMark`), so a renewed pass reaches every tab and switches the device's notifications on again with
+itself; a device record without `exp` has no pass. The second step's ticket is made from `CB_PASS_KEY` too.
+**A cb1 pass from a shared password is still signed with that password** and good only for claiming, so
+anybody who knows `CB_PASSWORD` can still claim an unclaimed name without an invite; `DECISIONS.md` has it
+open. The friendly edits are **renewing on every request "so the radio can stay folded"**, which breaks folded
+sending nothing, **a list of passes "so you can see your devices"**, which is a record of every device
+somebody uses, and **falling back to `CB_PASSWORD` when the key is missing**, which is the hole again.
+
 **TWO-STEP SIGN-IN: ANYBODY MAY, STAFF MUST FROM 2 NOVEMBER 2026, AND A STAFF USERNAME WITHOUT IT IS A MEMBER, NOT
 SHUT OUT.** Ryan's ask and calls, 2026-10-26: an authenticator app (TOTP, RFC 6238) or a passkey (WebAuthn) after
 the password, with ten backup codes; `TWOFA_FROM` in `lib.mjs`, a week's grace. `readPass`, `signOn` and
@@ -4762,7 +4782,7 @@ swap), and the radio says so in You (`twostepShown`); before it, `twostep: 'soon
 account: the app's secret sealed with the staff key under its own name (`totpName`), the last step used (each code
 once), each passkey's id, public key (a JWK), algorithm, counter and the name its owner gave it, and the backup codes
 as salted hashes; nothing about when. **Signing on is stateless**: a right password on an account with a step
-answers `second`, a ticket good for five minutes signed with a key made from the community password, checked by
+answers `second`, a ticket good for five minutes signed with a key made from `CB_PASS_KEY` (the community password until 2026-10-28), checked by
 `secondCheck`, where a wrong step counts as a wrong password. A recovery code or an emailed code changes the
 password and still asks the step; **a moderator's reset code takes the step off**, the way back for somebody who has
 lost every step. Adding or taking off a step moves the version. `twostep.js` is the browser's half, loaded only when

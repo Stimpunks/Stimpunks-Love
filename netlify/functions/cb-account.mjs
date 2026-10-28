@@ -12,6 +12,9 @@
                                          kept only as a hash
      { action: 'password', old, password }  change it; every other device is
                                          signed off
+     { action: 'everywhere', password }  sign off every other device, its
+                                         notifications with it; this one is
+                                         answered a new pass
      { action: 'email', password, email }   set, change or take off (empty)
                                          the address for recovery
      { action: 'delete', password }      delete the account and its pets
@@ -24,7 +27,7 @@
      { action: 'second-off', password, what }  'app', a passkey's id, or 'all'
      { action: 'second-codes', password }      new backup codes, the old ones gone
    Nothing a person types is ever logged, passwords and addresses above all. */
-import { readPass, readAccount, claimAccount, changePassword, checkPassword, deleteAccount, accountAnswer,
+import { readPass, readAccount, claimAccount, changePassword, signOffEverywhere, checkPassword, deleteAccount, accountAnswer,
   shapeSecond, totpStart, totpConfirm, passkeyStart, passkeyAdd, secondRemove, secondCodes, webauthnSite,
   shapeAccount, accountEmail, setAccountEmail, emailOn, readMods, json, body, sameSite } from '../cb/lib.mjs';
 
@@ -57,6 +60,11 @@ export default async (req) => {
       const r = await changePassword(who.handle, b.old, b.password);
       if (r.error) return json(r.locked ? 423 : 400, { error: r.error });
       return json(200, accountAnswer(who.handle, r.v));
+    }
+    if (b.action === 'everywhere') {
+      const r = await signOffEverywhere(who.handle, b.password);
+      if (r.error) return json(r.locked ? 423 : 400, { error: r.error });
+      return json(200, accountAnswer(who.handle, r.v, undefined, r.acct));
     }
     // Two-step sign-in: each change answers this device a new pass, because it
     // moved the account's version and signed every other device off.

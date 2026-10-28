@@ -5622,6 +5622,7 @@ function parseMods(raw) {
    joining page, with the moderators' password (joinAccount). */
 export const STARTER_GONE = 'The starter password has been retired. You join the CB with an invite now: a link or a code from a moderator, or from the Stimpunks Community page when you join our community.';
 export async function signOn(handle, password, mods, s = store(), now = Date.now()) {
+  if (!passKey()) return { error: 'Signing on is switched off just now. Tell Ryan or Helen.' };
   if (mods === undefined) mods = await loadMods();
   const mod = secretFor('base');
   if (mod && same(password, mod)) {
@@ -5677,9 +5678,23 @@ export function issuePass(role, handle) {
    good while its handle is on the list, with the roles it has now; a community
    pass is refused once its handle belongs to a moderator, and once it has been
    claimed. A claimed username's pass (cb2) carries the account's version, and
-   is refused the moment the version moves: a password change, a reset or a
-   deletion signs every device off at once. Both kinds are signed with the
-   community password, so changing it still signs everybody off.
+   is refused the moment the version moves: a password change, a reset, a
+   deletion or Sign off everywhere signs every device off at once.
+
+   A CLAIMED USERNAME'S PASS RUNS OUT, AND IS SIGNED WITH A KEY NOBODY TYPES
+   (Ryan, 2026-10-28). Until then cb2 passes never ran out and were signed with
+   the community and moderators' passwords, so anybody who knew the starter
+   password could make a pass for any member, and any moderator one for any
+   other moderator, two-step sign-in and all, because the version is a small
+   number. Now a pass carries when it ends (`exp`, in seconds, PASS_LIFE after
+   it was made) inside what is signed, and is signed with CB_PASS_KEY, a random
+   key in Netlify that no person needs to know (passKey). A pass in use is
+   renewed: once it is more than PASS_RENEW old, readPass says what it would be
+   if made now (`renew`), and /cb/channel hands that to an open radio, so a
+   pass runs out only after PASS_LIFE with no radio listening. The pass it
+   replaces still works until its own end, because nothing is kept to stop it;
+   Sign off everywhere is what stops every pass at once. Changing CB_PASS_KEY
+   signs everybody off. Without it no pass is read or made.
 
    A PASS FROM A SHARED PASSWORD (cb1) IS GOOD FOR ONE THING NOW: claiming the
    username it is on (Ryan, 2026-10-21, "They must claim a username to retain
@@ -5688,18 +5703,19 @@ export function issuePass(role, handle) {
 export async function readPass(req, mods, s = store(), { unclaimed = false, now = Date.now() } = {}) {
   if (mods === undefined) mods = await loadMods();
   const h = req.headers.get('authorization') || '';
-  const a = /^Bearer cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.([A-Za-z0-9_-]+)$/.exec(h);
+  const a = /^Bearer cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.(\d{10,11})\.([A-Za-z0-9_-]+)$/.exec(h);
   if (a) {
     const kind = a[1];
-    const secret = secretFor(kind === 'base' ? 'base' : 'mobile');
-    if (!secret) return null;
     let handle;
     try { handle = Buffer.from(a[2], 'base64url').toString('utf8'); } catch (e) { return null; }
     if (cleanHandle(handle) !== handle) return null;
-    const v = Number(a[3]);
-    const want = createHmac('sha256', secret).update(`cb2|${kind}|${handle}|${v}`).digest();
-    const got = Buffer.from(a[4], 'base64url');
+    const v = Number(a[3]), exp = Number(a[4]);
+    const want = passSignature(kind, handle, v, exp);
+    if (!want) return null;
+    const got = Buffer.from(a[5], 'base64url');
     if (got.length !== want.length || !timingSafeEqual(got, want)) return null;
+    // Run out, or ending further off than any pass is made for.
+    if (exp * 1000 <= now || exp * 1000 > now + PASS_LIFE + 60e3) return null;
     const on = mods && mods.get(foldHandle(handle));
     const acct = await readAccount(handle, s);
     if (!acct || acct.v !== v) return null;
@@ -5713,8 +5729,10 @@ export async function readPass(req, mods, s = store(), { unclaimed = false, now 
     // STAFF NEED A SECOND STEP FROM TWOFA_FROM (two-step sign-in, below): without
     // one, a staff pass is read as an ordinary member's, with nothing to swap to
     // until it is set up, and `twostep` says so to the radio.
-    if (on && staffNeedsSecond(acct, now)) return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since, twostep: 'needed' };
-    if (kind === 'base' && on) return { role: 'base', handle: on.handle, roles: on.roles, account: true, since: acct.since, fixed: !!on.fixed, ...(hasSecond(acct) ? {} : { twostep: 'soon' }) };
+    // A pass more than PASS_RENEW old: the same pass, made now (renew, above).
+    const renew = exp * 1000 - now < PASS_LIFE - PASS_RENEW ? { renew: issueAccountPass(handle, v, kind === 'base' ? 'base' : 'mobile', now) } : {};
+    if (on && staffNeedsSecond(acct, now)) return { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since, twostep: 'needed', ...renew };
+    if (kind === 'base' && on) return { role: 'base', handle: on.handle, roles: on.roles, account: true, since: acct.since, fixed: !!on.fixed, ...(hasSecond(acct) ? {} : { twostep: 'soon' }), ...renew };
     // A pass of the other kind from the one the list says, because somebody was
     // given a role or had one taken away at the desk (2026-10-21): an ordinary
     // username's, never more, and the pass it should hold now, which the radio
@@ -5722,6 +5740,7 @@ export async function readPass(req, mods, s = store(), { unclaimed = false, now 
     // what signing on again with their own password would give them.
     const member = { role: 'mobile', handle: acct.handle, roles: new Set(), account: true, since: acct.since };
     if ((kind === 'base' || on) && mods && !mods.partial) member.swap = accountAnswer(acct.handle, v, mods, acct, now);
+    else Object.assign(member, renew);
     return member;
   }
   const m = /^Bearer (cb1)\.(mobile|base)\.([A-Za-z0-9_-]+)\.([A-Za-z0-9_-]+)$/.exec(h);
@@ -5755,13 +5774,28 @@ export async function readPass(req, mods, s = store(), { unclaimed = false, now 
    reloaded, with the starter password retired. */
 export function sharedPass(req) { return /^Bearer cb1\./.test((req && req.headers && req.headers.get('authorization')) || ''); }
 
-/* A claimed username's pass. A moderator's is cb2.base, signed with the
-   moderators' password so that changing it still signs every moderator off;
-   everybody else's is cb2.acct, signed with the community password. */
-export function issueAccountPass(handle, v, role = 'mobile') {
-  const kind = role === 'base' ? 'base' : 'acct';
-  const sig = createHmac('sha256', secretFor(role === 'base' ? 'base' : 'mobile')).update(`cb2|${kind}|${handle}|${v}`).digest();
-  return `cb2.${kind}.${b64(handle)}.${v}.${b64(sig)}`;
+/* A claimed username's pass: cb2.base for a moderator, cb2.acct for everybody
+   else, its handle, the account's version and when it ends, signed with
+   CB_PASS_KEY (readPass, above). The kind is inside what is signed, so one
+   cannot be turned into the other. */
+export const PASS_LIFE = 30 * 86400e3;
+export const PASS_RENEW = 86400e3;
+function passKey() {
+  const k = process.env.CB_PASS_KEY;
+  return k && k.length >= 32 ? k : null;
+}
+export function passesOn() { return !!passKey(); }
+function passSignature(kind, handle, v, exp) {
+  const k = passKey();
+  return k ? createHmac('sha256', k).update(`cb2|${kind}|${handle}|${v}|${exp}`).digest() : null;
+}
+function passWith(kind, handle, v, exp) {
+  const sig = passSignature(kind, handle, v, exp);
+  if (!sig) throw new Error('CB_PASS_KEY is not set');
+  return `cb2.${kind}.${b64(handle)}.${v}.${exp}.${b64(sig)}`;
+}
+export function issueAccountPass(handle, v, role = 'mobile', now = Date.now()) {
+  return passWith(role === 'base' ? 'base' : 'acct', handle, v, Math.floor((now + PASS_LIFE) / 1000));
 }
 
 /* The pass and what the radio is told, for a claimed username that has just
@@ -5771,9 +5805,9 @@ export function accountAnswer(handle, v, mods = readMods(), acct = null, now = D
   const on = mods && mods.get(foldHandle(handle));
   // A staff username with no second step after TWOFA_FROM answers as a member,
   // and says what would bring its roles back (two-step sign-in, below).
-  if (on && acct && staffNeedsSecond(acct, now)) return { pass: issueAccountPass(handle, v), handle, base: false, roles: [], claimed: true, twostep: 'needed' };
-  if (on) return { pass: issueAccountPass(on.handle, v, 'base'), handle: on.handle, base: true, roles: [...on.roles].sort(), claimed: true };
-  return { pass: issueAccountPass(handle, v), handle, base: false, roles: [], claimed: true };
+  if (on && acct && staffNeedsSecond(acct, now)) return { pass: issueAccountPass(handle, v, 'mobile', now), handle, base: false, roles: [], claimed: true, twostep: 'needed' };
+  if (on) return { pass: issueAccountPass(on.handle, v, 'base', now), handle: on.handle, base: true, roles: [...on.roles].sort(), claimed: true };
+  return { pass: issueAccountPass(handle, v, 'mobile', now), handle, base: false, roles: [], claimed: true };
 }
 
 /* Whether a handle is a moderator's. The desk will not reset or delete one,
@@ -6056,6 +6090,19 @@ export async function changePassword(handle, old, password, s = store(), now = D
   return next ? { v: next.v } : { error: 'That username has not been claimed.' };
 }
 
+/* SIGN OFF EVERYWHERE (Ryan, 2026-10-28): the account's version moves, as a
+   new password moves it, so every pass made before stops at once, on every
+   device, its notifications with it; /cb/account answers this device a new
+   pass. It asks for the password, so a pass somebody took cannot be used to
+   sign its owner off and keep itself; the owner then signs on again and
+   presses it, and that pass is gone too. */
+export async function signOffEverywhere(handle, password, s = store(), now = Date.now()) {
+  const ok = await checkPassword(handle, password, s, now);
+  if (ok.error) return ok;
+  const next = await updateAccount(handle, (a) => ({ ...a, v: a.v + 1 }), s);
+  return next ? { v: next.v, acct: next } : { error: 'That username has not been claimed.' };
+}
+
 /* Set a new password with the recovery code, or with a moderator's reset code
    while it lasts. Either way a new recovery code is made and shown once, and
    the version moves. A wrong code counts as a wrong password. */
@@ -6230,7 +6277,9 @@ function totpSecretOf(acct) {
 
 /* A signed, short-lived token: what it carries, and when it ends. */
 function ticketKey() {
-  const s = secretFor('mobile');
+  // CB_PASS_KEY, since 2026-10-28: made from the community password, a ticket
+  // could be made by anybody who knew it, with no password typed.
+  const s = passKey();
   return s ? createHash('sha256').update(`stimpunks-2fa|${s}`).digest() : null;
 }
 function makeTicket(kind, data, now) {
@@ -10934,8 +10983,8 @@ export function followsRoom(w, room) {
 
 /* A pass's parts, which are kept, and its hash; never the pass. */
 function passParts(pass) {
-  let m = /^cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.[A-Za-z0-9_-]+$/.exec(String(pass || ''));
-  if (m) return { gen: 2, kind: m[1], handle: unb64(m[2]).toString('utf8'), v: Number(m[3]) };
+  let m = /^cb2\.(acct|base)\.([A-Za-z0-9_-]+)\.(\d{1,9})\.(\d{10,11})\.[A-Za-z0-9_-]+$/.exec(String(pass || ''));
+  if (m) return { gen: 2, kind: m[1], handle: unb64(m[2]).toString('utf8'), v: Number(m[3]), exp: Number(m[4]) };
   m = /^cb1\.(mobile|base)\.([A-Za-z0-9_-]+)\.[A-Za-z0-9_-]+$/.exec(String(pass || ''));
   if (m) return { gen: 1, kind: m[1], handle: unb64(m[2]).toString('utf8') };
   return null;
@@ -10944,7 +10993,8 @@ const passHash = (pass) => createHash('sha256').update(`stimpunks-push-pass\0${p
 function passAgain(p) {
   if (!p || typeof p !== 'object' || typeof p.handle !== 'string') return null;
   try {
-    if (p.gen === 2) return issueAccountPass(p.handle, p.v, p.kind === 'base' ? 'base' : 'mobile');
+    // A device kept from before passes ran out (no exp) has no pass now.
+    if (p.gen === 2) return Number.isInteger(p.exp) && (p.kind === 'acct' || p.kind === 'base') ? passWith(p.kind, p.handle, p.v, p.exp) : null;
     if (p.gen === 1 && (p.kind === 'mobile' || p.kind === 'base')) return issuePass(p.kind, p.handle);
   } catch (e) { /* no password set: nobody's pass is good */ }
   return null;

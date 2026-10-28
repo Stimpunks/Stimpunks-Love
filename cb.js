@@ -257,8 +257,13 @@
      same username (save), a tab refused for an old pass takes the newer one
      another tab saved rather than signing everybody off (lost, listen), and a
      storage event from another tab brings the newer pass straight over. */
-  function passVersion(pass) { var m = /^cb2\.(?:acct|base)\.[A-Za-z0-9_-]+\.(\d{1,9})\./.exec(String(pass || '')); return m ? Number(m[1]) : 0; }
-  function passMark(pass) { var m = /^cb2\.(acct|base)\.[A-Za-z0-9_-]+\.(\d{1,9})\./.exec(String(pass || '')); return m ? m[1] + '.' + m[2] : ''; }
+  /* A PASS RUNS OUT (2026-10-28), so its end is part of its version: of two
+     passes on one version, the one that ends later is the newer, which is how
+     a pass renewed in one tab reaches every other. The mark says which pass
+     notifications were switched on with, end included, so a renewed pass
+     switches them on again with itself before the old one runs out. */
+  function passVersion(pass) { var m = /^cb2\.(?:acct|base)\.[A-Za-z0-9_-]+\.(\d{1,9})\.(?:(\d{10,11})\.)?/.exec(String(pass || '')); return m ? Number(m[1]) + (m[2] ? Number(m[2]) / 1e11 : 0) : 0; }
+  function passMark(pass) { var m = /^cb2\.(acct|base)\.[A-Za-z0-9_-]+\.(\d{1,9})\.(?:(\d{10,11})\.)?/.exec(String(pass || '')); return m ? m[1] + '.' + m[2] + (m[3] ? '.' + m[3] : '') : ''; }
   function sameName(a, b) { return !!a && !!b && String(a).toLowerCase() === String(b).toLowerCase(); }
   /* The stored pass, if it is newer than `pass` for the same username. */
   function newerStored(handle, pass) {
@@ -3084,7 +3089,7 @@
      first listen, a device switched on as this username whose pass has
      changed since is switched on again with the pass it holds now, asking for
      exactly what it asked for before. pushFor in love-cb is which pass that
-     was, by kind and version only. */
+     was, by kind, version and end. */
   Radio.prototype.pushedWith = function () { this.state.pushFor = passMark(this.state.pass); save(this.state); };
   Radio.prototype.pushFollow = function () {
     if (this.pushChecked) return;
@@ -3412,6 +3417,7 @@
       // refusal of the pass the radio holds now signs it off.
       if (r.status === 401) { if (sent === me.state.pass) me.lost(); return; }
       if (r.body && r.body.swap && sent === me.state.pass) me.takeSwap(r.body.swap);
+      if (r.body && r.body.renew && sent === me.state.pass) me.takeRenew(r.body.renew);
       // Retuned while this was on its way: it is the other channel's answer.
       if (r.status === 200 && (r.body.room || null) !== me.tunedRoom()) return;
       if (r.status === 200) {
@@ -10983,9 +10989,15 @@
       : 'Your username is ' + a.handle + ', claimed on ' + since + '. Only your own password signs on as it.'));
     var change = el('button', 'cb-btn', 'Change my password');
     change.type = 'button';
+    /* SIGN OFF EVERYWHERE (2026-10-28): every other device signed on as you,
+       for a phone lost, a computer left signed on, or a pass you think
+       somebody else has. It asks for the password, so a pass somebody took
+       cannot sign you off and keep itself. */
+    var everywhere = el('button', 'cb-btn', 'Sign off everywhere else');
+    everywhere.type = 'button';
     var del = el('button', 'cb-btn', 'Delete my account');
     del.type = 'button';
-    var row = el('p', 'cb-acct__row'); row.appendChild(change); row.appendChild(del);
+    var row = el('p', 'cb-acct__row'); row.appendChild(change); row.appendChild(everywhere); row.appendChild(del);
     box.appendChild(row);
     var form = el('div', 'cb-acct__form'); form.hidden = true;
     box.appendChild(form);
@@ -11060,6 +11072,24 @@
           if (r.status === 200 && r.body.pass) { me.takePass(r.body.pass, true); form.hidden = true; me.acctSay('Changed. Every other device signed on as you has been signed off.'); change.focus(); return; }
           me.acctSay((r.body && r.body.error) || 'That did not work just now. Nothing was changed.');
         }, function () { go.disabled = false; me.acctSay('The desk could not be reached just now. Nothing was changed.'); });
+      });
+    });
+    everywhere.addEventListener('click', function () {
+      form.textContent = ''; form.hidden = false;
+      form.appendChild(el('p', null, 'This signs off every other device signed on as ' + a.handle + ', in every browser and installed app, and stops their notifications. This one stays signed on. Anybody who had your pass has nothing that works afterwards; if you think somebody knows your password, change it instead, which does the same and more.'));
+      var pw = field('Your password, to be sure it is you', 'cb-acct-everywhere', 'password');
+      pw.input.autocomplete = 'current-password';
+      form.appendChild(pw.wrap);
+      var go = el('button', 'cb-btn', 'Sign them all off'); go.type = 'button';
+      form.appendChild(go);
+      pw.input.focus();
+      go.addEventListener('click', function () {
+        go.disabled = true;
+        call('/cb/account', { body: { action: 'everywhere', password: pw.input.value } }, me.state.pass).then(function (r) {
+          go.disabled = false;
+          if (r.status === 200 && r.body.pass) { me.takePass(r.body.pass, true); form.hidden = true; me.acctSay('Done. Every other device signed on as you has been signed off. This one is still signed on.'); everywhere.focus(); return; }
+          me.acctSay((r.body && r.body.error) || 'That did not work just now. Nobody was signed off.');
+        }, function () { go.disabled = false; me.acctSay('The desk could not be reached just now. Nobody was signed off.'); });
       });
     });
     del.addEventListener('click', function () {
@@ -13501,6 +13531,15 @@
     save(this.state);
     this.pushChecked = false;
     this.tell(sw.base ? 'You are a moderator now. Reload the page to see everything that opens.' : 'You are no longer a moderator. Reload the page to see the CB as it is for you now.');
+  };
+  /* The same pass made today, because a pass runs out (renew, lib.mjs): kept
+     in its place without a word, and the pass notifications were switched on
+     with follows it (pushFollow, from this same listen). */
+  Radio.prototype.takeRenew = function (pass) {
+    if (typeof pass !== 'string' || !/^cb2\.(acct|base)\./.test(pass) || passVersion(pass) <= passVersion(this.state.pass)) return;
+    this.state.pass = pass;
+    save(this.state);
+    this.pushChecked = false;
   };
   Radio.prototype.keepRoles = function (roles) {
     if (!Array.isArray(roles)) return;

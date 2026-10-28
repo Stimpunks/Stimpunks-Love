@@ -17,6 +17,8 @@
    write that was told it worked and is not there is not. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+// The key every claimed username's pass is signed with (passKey in lib.mjs).
+process.env.CB_PASS_KEY = 'a-test-key-that-signs-passes-and-nothing-else';
 import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS, CAT_PLACES, CAT_MOODS,
   rescueAnimal, readShelter, animalAt, adoptAnimal, finishAdoptions, readPets, forgetPets, readAdopted, adoptedMonths,
   petKey, unnameAnimal, SHELTER_KEEP, KINDS, DOG_COATS, DOG_MARKS,
@@ -29,7 +31,7 @@ import { rescueCat, readCats, catAt, catGap, cleanCatName, CAT_COATS, CAT_MARKS,
   updateRoomTalk, readRoomTalk, readTuned, updateTuned, sweepRoomTalk, roomTag,
   callToken, callSrc, callsReady, tidyPem, JAAS_APP, CALL_HOURS,
   PUBLIC_CALLS, publicCall, callSettings, WORLD_CALL, MOD_ROOMS, STRICT_ROOMS, roomAllows, shapeBeacons, QUIET_ROOMS, quietRoom,
-  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf, STARTER_GONE, checkHandle, checkInvite, joinAccount,
+  ROLES, foldHandle, readMods, signOn, issuePass, readPass, rolesOf, STARTER_GONE, PASS_LIFE, PASS_RENEW, signOffEverywhere, passesOn, checkHandle, checkInvite, joinAccount,
   makeInvite, listInvites, deleteInvite, readInvites, INVITE_USES, INVITE_DAYS, INVITE_KEEP, makeInviteCode,
   emailOn, cleanAddress, accountEmail, setAccountEmail, mailResetCode, ACCT_MAIL_FOR, ACCT_MAIL_GAP, ACCT_MAIL_SUBJECT,
   renamePet, shapeAnimal, parseBrass, brassHtml, brassHref, brassFeed, readBrass, shapeBrass, addBrass, editBrass, removeBrass, putBrassImage, getBrassImage, sweepBrassImages,
@@ -1957,6 +1959,66 @@ test('a moderator moves onto their own password: it gives the base with the list
   // Deleting it puts the handle back on the shared password, to be claimed again.
   await deleteAccount('Juniper', S);
   assert.equal((await signOn('Juniper', 'moderators-pw', mods, S)).claim, true);
+}));
+
+// PASSES RUN OUT, AND ARE SIGNED WITH A KEY NOBODY TYPES (2026-10-28).
+test('a pass runs out, is renewed while in use, and cannot be made from a shared password', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  const mods = readMods('{"Juniper":["board"]}');
+  await claimAccount('Ada', 'ada has a long phrase', S, 1, mods);
+  const t0 = Date.UTC(2026, 9, 28, 12);
+  const pass = issueAccountPass('Ada', 1, 'mobile', t0);
+  assert.match(pass, /^cb2\.acct\.[A-Za-z0-9_-]+\.1\.\d{10}\.[A-Za-z0-9_-]+$/);
+  const at = (p, now) => readPass(reqWith(p), mods, S, { now });
+  // Fresh: good, and nothing to renew.
+  const fresh = await at(pass, t0 + 60e3);
+  assert.equal(fresh.handle, 'Ada'); assert.equal(fresh.renew, undefined, 'a pass a minute old was renewed');
+  // More than a day old: good, and renewed, ending later.
+  const old = await at(pass, t0 + PASS_RENEW + 60e3);
+  assert.equal(old.handle, 'Ada'); assert.match(old.renew, /^cb2\.acct\./);
+  assert.ok(Number(old.renew.split('.')[4]) > Number(pass.split('.')[4]), 'the renewed pass does not end later');
+  assert.equal((await at(old.renew, t0 + PASS_LIFE + 60e3)).handle, 'Ada', 'the renewed pass ran out with the old one');
+  // Past its end: no pass.
+  assert.equal(await at(pass, t0 + PASS_LIFE + 1000), null, 'a pass worked after it ran out');
+  // An end further off than any pass is made for is a pass nobody made.
+  const far = issueAccountPass('Ada', 1, 'mobile', t0 + 5 * PASS_LIFE);
+  assert.equal(await at(far, t0), null, 'a pass ending months off was read');
+  // The shape from before 2026-10-28, signed with the community password: refused.
+  const oldShape = `cb2.acct.${Buffer.from('Ada').toString('base64url')}.1.${createHmac('sha256', 'community-pw').update('cb2|acct|Ada|1').digest('base64url')}`;
+  assert.equal(await at(oldShape, t0), null, 'a pass in the old shape was read');
+  // The new shape signed with the community or moderators' password: refused.
+  const exp = Math.floor((t0 + PASS_LIFE) / 1000);
+  for (const pw of ['community-pw', 'moderators-pw']) {
+    const forged = `cb2.acct.${Buffer.from('Ada').toString('base64url')}.1.${exp}.${createHmac('sha256', pw).update(`cb2|acct|Ada|1|${exp}`).digest('base64url')}`;
+    assert.equal(await at(forged, t0), null, `a pass signed with ${pw} was read`);
+  }
+  // A moderator's pass is renewed as a moderator's.
+  await claimAccount('Juniper', 'juniper has a phrase', S, 1, mods, true);
+  const base = await readPass(reqWith(issueAccountPass('Juniper', 1, 'base', t0)), mods, S, { now: t0 + 2 * PASS_RENEW });
+  assert.equal(base.role, 'base'); assert.match(base.renew, /^cb2\.base\./);
+  // Without the key, no pass is read or made, and nobody signs on.
+  const key = process.env.CB_PASS_KEY;
+  delete process.env.CB_PASS_KEY;
+  try {
+    assert.equal(passesOn(), false);
+    assert.equal(await at(pass, t0 + 60e3), null, 'a pass was read with no key');
+    assert.throws(() => issueAccountPass('Ada', 1));
+    assert.ok((await signOn('Ada', 'ada has a long phrase', mods, S)).error, 'somebody signed on with no key');
+  } finally { process.env.CB_PASS_KEY = key; }
+}));
+
+test('sign off everywhere: the password, then every pass made before stops', () => withPasswords(async () => {
+  const S = memoryStore({ etagOnRead: true });
+  await claimAccount('Ada', 'ada has a long phrase', S, 1, null);
+  const phone = issueAccountPass('Ada', 1), laptop = issueAccountPass('Ada', 1);
+  assert.ok((await signOffEverywhere('Ada', 'not the phrase', S)).error, 'signed everybody off without the password');
+  assert.equal((await readPass(reqWith(phone), null, S)).handle, 'Ada', 'a wrong password signed a device off');
+  const r = await signOffEverywhere('Ada', 'ada has a long phrase', S);
+  assert.equal(r.v, 2);
+  assert.equal(await readPass(reqWith(phone), null, S), null);
+  assert.equal(await readPass(reqWith(laptop), null, S), null);
+  assert.equal((await readPass(reqWith(accountAnswer('Ada', r.v, null).pass), null, S)).handle, 'Ada', 'the device that asked was signed off too');
+  assert.ok((await signOffEverywhere('Nobody', 'whatever it is', S)).error);
 }));
 
 test('the desk leaves a moderator\'s username alone, and the answer after a claim says base', () => withPasswords(async () => {
@@ -3913,12 +3975,15 @@ test('a message tells the devices that asked, as their pass now allows, and nobo
   await notifyMessage(msg('Ada', 'in the den @bex'), 'the-den', s, readMods(''), send);
   assert.deepEqual(sent.map((x) => [x.to, x.payload.why]).sort(), [[bexDev.endpoint, 'mention'], [cyDev.endpoint, 'channel']].sort());
 
-  // A changed community password signs everybody off, notifications included.
+  // A changed pass key signs everybody off, notifications included.
   sent.length = 0;
-  process.env.CB_PASSWORD = 'a-new-community-password';
-  await notifyMessage(msg('Dee', 'hello @bex'), null, s, readMods(''), send);
-  assert.equal(sent.length, 0, 'a device was told after its password changed');
-  assert.deepEqual(Object.keys(await readDevices(s)), [], 'devices whose pass has gone are still kept');
+  const key = process.env.CB_PASS_KEY;
+  process.env.CB_PASS_KEY = 'a-new-pass-key-that-signs-every-pass-now';
+  try {
+    await notifyMessage(msg('Dee', 'hello @bex'), null, s, readMods(''), send);
+    assert.equal(sent.length, 0, 'a device was told after the pass key changed');
+    assert.deepEqual(Object.keys(await readDevices(s)), [], 'devices whose pass has gone are still kept');
+  } finally { process.env.CB_PASS_KEY = key; }
 }));
 
 test('what a device was told is kept for its person once, with no words, and the words are read again from the channel', () => withPasswords(async () => {
