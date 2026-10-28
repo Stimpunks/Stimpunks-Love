@@ -1,6 +1,6 @@
 /* =============================================================================
    The notice: one line from our moderators along the top of the street's
-   front page, the Community Center, the forums and the office's dashboard.
+   front page, the Community Center, Home, the forums and the office's dashboard.
    Ryan's ask, 2026-10-23: put up, changed and taken down from the desk in the
    Moderators' room, with some sparkle and a fanfare at MAX GLITTER.
 

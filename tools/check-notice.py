@@ -2,7 +2,7 @@
 """Hold the notice to what it, the desk and privacy.html say.
 
 Ryan's ask, 2026-10-23: a public notice along the top of the street's front
-page, the Community Center, the forums and the office's dashboard, put up from
+page, the Community Center, Home, the forums and the office's dashboard, put up from
 the desk in the Moderators' room, with sparkle and a fanfare at MAX GLITTER.
 lib.test.mjs tests what the server does. This checks what a friendly edit could
 break without a test noticing:
@@ -41,7 +41,7 @@ DESK = ROOT / "desk.js"
 ROOM = ROOT / "town-hall-moderators.html"
 PRIVACY = ROOT / "privacy.html"
 # The pages with a slot of their own, and the apps that draw one inside theirs.
-SLOTS = ("index.html", "community-center.html")
+SLOTS = ("index.html", "community-center.html", "home.html")
 APPS = {"forum.html": "forum.js", "office.html": "office.js"}
 # Custom properties notice.js sets on its own stars and notes, which are not colours.
 OWN_VARS = {"--tw", "--td", "--fx", "--fy", "--fd"}
@@ -204,6 +204,8 @@ def check_pages():
         problems.append(f"{PRIVACY.name}: it has no section on the notice (id=\"notice\").")
     elif not all(w in sec.group(0) for w in ("front page", "Community Center", "forums", "dashboard")):
         problems.append(f"{PRIVACY.name}: the notice's section must name every page it is on.")
+    elif any(f'href="{name}"' not in sec.group(0) for name in SLOTS + tuple(APPS)):
+        problems.append(f"{PRIVACY.name}: the notice's section must link every page with a slot or an app that draws it.")
 
 
 def main():

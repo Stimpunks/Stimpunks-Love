@@ -10,7 +10,7 @@
    An invite counts its uses and never says who used it. And the same day,
    roles: an administrator gives and takes them here (/cb/roles). And on
    2026-10-23, the notice along the top of the street's front
-   page, the Community Center, the forums and the office's dashboard (/cb/notice).
+   page, the Community Center, Home, the forums and the office's dashboard (/cb/notice).
 
    IT OPENS ONLY FOR A BASE PASS, and the server refuses anybody else whatever
    this page shows: this file is the page keeping quiet, never the lock. It
@@ -428,7 +428,7 @@
   }());
 
   /* THE NOTICE (Ryan's ask, 2026-10-23): one line along the top of the street's
-     front page, the Community Center, the forums and the office's dashboard.
+     front page, the Community Center, Home, the forums and the office's dashboard.
      What is up now is asked for when the desk opens, because the same words are
      on those pages for anybody; the desk is also told which moderator put it up
      or took it down last, and when. Put it up shows how it will look first and
@@ -511,7 +511,7 @@
     words.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); preview(); } });
     set.addEventListener('click', function () {
       preview(function (text) {
-        ask('This goes up at once on the street’s front page, the Community Center, the forums and the office’s dashboard, for everybody, in place of what is up now.', 'Put it up now', function () {
+        ask('This goes up at once on the street’s front page, the Community Center, Home, the forums and the office’s dashboard, for everybody, in place of what is up now.', 'Put it up now', function () {
           nSay('Putting it up…');
           noticeCall({ action: 'set', text: text }).then(function (r) {
             if (r.status !== 200) { nSay(why(r, 'That did not work. Nothing was changed.')); return; }
@@ -525,7 +525,7 @@
     });
     clear.addEventListener('click', function () {
       shown.textContent = '';
-      ask('This takes the notice off the street’s front page, the Community Center, the forums and the office’s dashboard at once.', 'Take it down', function () {
+      ask('This takes the notice off the street’s front page, the Community Center, Home, the forums and the office’s dashboard at once.', 'Take it down', function () {
         nSay('Taking it down…');
         noticeCall({ action: 'clear' }).then(function (r) {
           if (r.status !== 200) { nSay(why(r, 'That did not work. Nothing was changed.')); return; }

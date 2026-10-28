@@ -1685,7 +1685,9 @@ only what `privacy.html#home` lists, with an empty body where it POSTs, once on 
 says how many of anything**; `tools/check-home.py` holds all of it, the house on the bar (`homeIcon` in `cb.js`, a house
 with the radio's aerial; the Mover in `call.js` leaves a link alone) and the guest bar keeping CB. The house is 26px:
 the old CB measured 13 to 30px across the themes, so a wider icon wraps a full bar. **It is not a "home twenty"**: that
-phrase is not on the List of CB slang Breaker Breaker reads, and a house there is a stack of bricks. The friendly edits
+phrase is not on the List of CB slang Breaker Breaker reads, and a house there is a stack of bricks. **The moderators' notice is on Home
+too** (Ryan's ask, the same evening), a slot like the front page's, named in `privacy.html#notice`, whose section must now
+link every page with a slot (`check-notice.py`). The friendly edits
 are **counts on the dashboard** ("3 new topics"), **polling it "so it is live"**, **each place drawn in its room's
 colours**, and **a favourites list of its own**, which is a second record of the rooms you follow.
 
@@ -4523,7 +4525,7 @@ in the street's orange, and its own world is a verdigris wall of brass plates (Â
 chalkboard is the community's and forgets in a week; this is the moderators' and keeps.
 
 **THE NOTICE IS ONE LINE FROM OUR MODERATORS, AND IT IS THE CB'S TOO.** Ryan's ask, 2026-10-23: a
-public notice along the top of the street's front page, the Community Center, the forums and the
+public notice along the top of the street's front page, the Community Center, Home, the forums and the
 office's dashboard, put up, changed and taken down at the desk in the Moderators' room (`/cb/notice`,
 the notice part of `lib.mjs`, `notice.js`, `notice.css`), with sparkle and a fanfare at MAX GLITTER.
 **One blob, one notice**: its words, and who put it up or took it down last and when, which only the
