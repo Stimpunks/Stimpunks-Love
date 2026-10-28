@@ -1695,6 +1695,20 @@
       "sections": [
         130
       ]
+    },
+    "mystery-quest": {
+      "where": "The Haunted House",
+      "page": "haunted-house.html",
+      "sections": [
+        132
+      ]
+    },
+    "domine": {
+      "where": "The Haunted House",
+      "page": "haunted-house.html",
+      "sections": [
+        132
+      ]
     }
   }
 }

@@ -2261,6 +2261,43 @@
    "learned": "A free vending machine does the one thing it was never built for. Taking from it puts nobody in anybody's debt."
   },
   {
+   "id": "hh-key",
+   "page": "haunted-house.html",
+   "room": "The Haunted House",
+   "title": "Where the first ones were",
+   "posted": "Out past the last streetlight, somebody built a haunted house out of plywood in an empty warehouse, and left the work lights on behind it. It tells the history of haunted houses, and the first Halloween ones were in an ordinary part of an ordinary family home. Go and find out which.",
+   "rank": 3,
+   "takes": "ten minutes, and nothing jumps out",
+   "target": "an old iron key dropped on the warehouse floor",
+   "code": "SKELETONKEY",
+   "learned": "The Halloween haunted house began in the Great Depression, when families decorated their basements and children went from house to house through the scenes, partly to keep young people's pranks from turning into vandalism.",
+   "hints": [
+    "It is off The Outskirts, past the last streetlight. Look for turning 09.",
+    "The answer is in the section called Where haunted houses came from.",
+    "Right at the foot of the house, under Whose this is, on the floor."
+   ],
+   "ask": {
+    "question": "The first Halloween haunted houses, in the Great Depression, were in one part of family homes, decorated scene by scene for children to go from house to house through. Which part?",
+    "accept": [
+     "basement",
+     "basements",
+     "the basement",
+     "the basements",
+     "cellar",
+     "cellars",
+     "the cellar",
+     "the cellars"
+    ],
+    "answer": "The basement",
+    "why": "The basement, or the cellar. Chris Heller's history for Smithsonian Magazine says families decorated their basements and held house-to-house parties, and a 1937 pamphlet has fur and raw liver on the walls and a black cardboard cat outlined in luminous paint at the end. Lisa Morton says the cities were looking for ways to buy young pranksters off.",
+    "hints": [
+     "It is in the paragraph that starts in bold.",
+     "It is under the house, and this house has one too.",
+     "Downstairs, under the floor: the basement."
+    ]
+   }
+  },
+  {
    "id": "bigsteep-carboy",
    "page": "big-steep-fermentables.html",
    "room": "Big Steep Fermentables",

@@ -1115,6 +1115,19 @@ body {{ display: flex; flex-direction: column; min-height: 0; position: relative
 .og--vol h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
 .og--vol .vol-sub {{ font-size: 27px; margin-top: 8px !important; max-width: 1080px; }}
 
+/* the haunted house — THE SET IN THE WAREHOUSE. The page's own drawing, lifted
+   rather than redrawn, cropped to the house's front with the light in its
+   seams, and every word below it on the painted dark, where the room sets every
+   word. No light is added for the card. */
+.og--hh {{ width: 100%; padding: 0 0 26px; gap: 0; justify-content: flex-start; }}
+.og--hh .og-room {{ margin: 0 !important; line-height: 0; }}
+.og--hh .og-room svg {{ display: block; width: 1200px; height: auto; max-width: none; border: 0; border-radius: 0; }}
+.og--hh .og-words {{ padding: 14px 60px 0; }}
+.og--hh .og-words > * {{ margin: 0 !important; }}
+.og--hh .hh-over {{ font-size: 18px; }}
+.og--hh h1 {{ font-size: 84px; margin-top: 6px !important; line-height: 1; }}
+.og--hh .hh-sub {{ font-size: 26px; margin-top: 8px !important; max-width: 1080px; }}
+
 /* breaker breaker — THE CONVOY AT NIGHT. The page's own drawing, lifted rather
    than redrawn, cropped to the lamps, and every word below it on the dark, where
    the room sets every word. No lamp is added for the card. */
@@ -4358,6 +4371,39 @@ def card_vol(p):
     )
 
 
+def card_hh(p):
+    # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE SET ARE LIFTED
+    # FROM THE PAGE, so the card cannot say what the room does not.
+    over = re.search(r'<p class="hh-over">(.*?)</p>', p["src"], re.S)
+    sub = re.search(r'<p class="hh-sub">(.*?)</p>', p["src"], re.S)
+    if not over or not sub:
+        raise SystemExit(
+            "REFUSING: haunted-house.html has lost the line over its name or the one\n"
+            "under it, and the card is built out of both. Redesign the card on purpose.")
+    plain = lambda h: html.unescape(re.sub(r"<[^>]+>", "", h)).strip()
+    # The card shows the house's front and the light in its seams, cropped by
+    # the drawing's own viewBox rather than by a margin.
+    house = p["hhset"].replace('viewBox="0 0 1200 420"', 'viewBox="0 30 1200 384"', 1)
+    if house == p["hhset"]:
+        raise SystemExit(
+            "REFUSING: haunted-house.html's set is no longer 1200 by 420, and the card crops it\n"
+            "by its viewBox. Crop it again on purpose.")
+    return (
+        "",
+        f'<div class="og og--hh" data-fit="card">'
+        f'<div class="og-room">{house}</div>'
+        f'<div class="og-words"><p class="hh-over">{over.group(1).strip()}</p>{p["h1"]}'
+        f'<p class="hh-sub">{sub.group(1).strip()}</p></div>'
+        f'</div>',
+        f"A card in the dark. Across the top, the front of a house built of painted plywood inside a dark "
+        f"warehouse, with timber props at both ends: thin lines of pale light come through the seams between "
+        f"the sheets, round and under the door, between the boards over two windows and a round attic window, "
+        f"and through a cellar grating, and nothing else is lit. A pumpkin nobody lit sits on the steps. Below, "
+        f"small grey capitals reading {plain(over.group(1))}, then \u201c{p['h1text']}\u201d in large pale "
+        f"hand-painted letters, and under it: {plain(sub.group(1))}",
+    )
+
+
 def card_bkb(p):
     # THE LINES OVER AND UNDER THE NAME AND THE DRAWING OF THE CONVOY ARE LIFTED
     # FROM THE PAGE, so the card cannot say what the room does not.
@@ -5850,6 +5896,7 @@ CARDS = {
     "coping": card_cop,
     "pets": card_pts,
     "volunteers": card_vol,
+    "haunted": card_hh,
     "show-your-work": card_syw,
     "breaker": card_bkb,
     "fancy-dress": card_fancy,
@@ -6000,6 +6047,7 @@ def main():
         ("copeye",   "coping.html",       r'(<svg class="cop-eye".*?</svg>)'),
         ("ptsfloor", "pets.html",         r'(<svg class="pts-floor".*?</svg>)'),
         ("volloom",  "volunteers.html",   r'(<svg class="vol-loom".*?</svg>)'),
+        ("hhset",    "haunted-house.html", r'(<svg class="hh-set".*?</svg>)'),
         ("sywgarage", "show-your-work.html", r'(<svg class="syw-garage".*?</svg>)'),
         ("bkbcab",   "breaker-breaker.html", r'(<svg class="bkb-cab".*?</svg>)'),
         ("veils",    "fantasy-fancy-dress.html", r'(<svg class="ffd-veils".*?</svg>)'),

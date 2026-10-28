@@ -934,6 +934,10 @@ PTS_DUSK, PTS_CARD, PTS_INK, PTS_INK2, PTS_LINK = "#2A2C45", "#343655", "#EFE7D7
 # undyed linen or on a slip lying on it; nothing set on the window, the loom or
 # a band of weft.
 VOL_LINEN, VOL_CARD, VOL_INK, VOL_INK2, VOL_LINK = "#EEE6D3", "#F8F4EA", "#261E33", "#574A5E", "#7B2340"
+# The Haunted House (love.css §132). A set of plywood flats in a dark warehouse:
+# every word on the painted dark or on a painted board lying on it; nothing set
+# in the light, which is only ever a seam.
+HH_GROUND, HH_SLIP, HH_INK, HH_INK2, HH_LINK = "#17131C", "#241D2B", "#EEE7D8", "#BDB3C6", "#F2C063"
 FFD_GROUND, FFD_PANEL, FFD_INK, FFD_INK2, FFD_LINK = "#17132B", "#241D3F", "#FBF2F8", "#D9CDEB", "#FFC6E0"
 FFD_GOLD, FFD_ROSE, FFD_EDGE = "#F2CF72", "#F29CC4", "#9384D2"
 # The Bough House (§117): Jess's tree house at pitch 05, dark words on the
@@ -3689,6 +3693,22 @@ PAIRS = [
     (PTS_INK,   PTS_CARD, False, "pets: everything on a slip: each flap's line, your own animals, what is not "
                                  "on the floor and who reads the channel"),
     (PTS_LINK,  PTS_CARD, False, "pets: each flap's name and every link on a slip, and the focus ring there"),
+    # ── The Haunted House (§132) ────────────────────────────────────────────
+    # Every word on the painted dark, or on a painted board lying on it: a room
+    # of the house, a thing in the list, a rule. Nothing set in the seam light.
+    (HH_INK,    HH_GROUND, False, "haunted house: the name, every heading, the lede, every paragraph and "
+                                  "quotation, and the words on the switch and on every place to look"),
+    (HH_INK2,   HH_GROUND, False, "haunted house: the trail, the line over the name, the caption under the set, "
+                                  "whose each quotation is, and the credits"),
+    (HH_LINK,   HH_GROUND, False, "haunted house: every link, the backlink, the switch that is pressed, a place "
+                                  "you have looked, the focus ring, and the job marker's key, held to the body "
+                                  "threshold a marker is"),
+    (HH_INK,    HH_SLIP,   False, "haunted house: everything on a board: each room of the house, each thing in "
+                                  "the list, the switch's label and every rule"),
+    (HH_INK2,   HH_SLIP,   False, "haunted house: each room's line, each thing's kind and where it hides, and "
+                                  "the switch's note"),
+    (HH_LINK,   HH_SLIP,   False, "haunted house: every thing's name and every link on a board, and the focus "
+                                  "ring there"),
     # ── Volunteers (§130) ───────────────────────────────────────────────────
     # Every word on the undyed linen, or on a slip lying on it: the help list,
     # the playbooks, the warp's threads and what is not on the loom.
@@ -4979,6 +4999,31 @@ ORNAMENT = {
                "linen, carried by --vol-knot round every strip at 4.31. It carries no word.",
     "#2e3b6a": "volunteers: the indigo band of weft, on a heading's band and a slip's strip, 8.66 on the "
                "linen. It carries no word.",
+    "#ffedb8": "haunted house: the work lights coming through the seams of the set, round and under its "
+               "door, between the boards over its windows and under every heading and every place to look, "
+               "15.75 on the ground. It is only ever a hairline, and no word is set in it.",
+    "#0d0b10": "haunted house: the dark warehouse round the set and behind the boarded windows in the drawing, "
+               "1.07 against the ground, which is how a warehouse looks with the lights off. It carries no word.",
+    "#22202a": "haunted house: the warehouse's steel columns and beam in the drawing, 1.22 on the warehouse's "
+               "dark. It carries no word.",
+    "#1d1c21": "haunted house: the warehouse's concrete floor in the drawing, 1.16 on its dark. It carries no "
+               "word.",
+    "#2c2434": "haunted house: the painted flats of the house's front in the drawing, 1.31 on the warehouse's "
+               "dark, carried by the seams of light round them at 12.82 and the painted trim. It carries no word.",
+    "#7d7288": "haunted house: the painted trim on the set, and the edge of every board, switch and place to "
+               "look, 4.04 on the ground and 3.60 on a board, over the 3 a control's edge needs. It carries no "
+               "word.",
+    "#3a2c3e": "haunted house: the door in the drawing, 1.14 against the painted flats, carried by the light "
+               "all round its edges. It carries no word.",
+    "#5a4733": "haunted house: the boards nailed over the windows in the drawing, 1.69 on the painted flats "
+               "and 2.22 on the dark behind them, carried by the light between them. It carries no word.",
+    "#3b3740": "haunted house: the gaffer tape over the seams in the drawing, where the light stops, 1.28 on "
+               "the flats. It carries no word.",
+    "#6b5235": "haunted house: the timber jacks holding up the set in the drawing, 2.69 on the warehouse's "
+               "dark. It carries no word.",
+    "#3d3542": "haunted house: the painted porch steps in the drawing, 1.67 on the dark. It carries no word.",
+    "#b8612a": "haunted house: the pumpkin nobody lit on the porch steps in the drawing, 4.46 on the dark. It "
+               "carries no word.",
     "#2e2c30": "breaker breaker: the shapes you can just make out in the dark, the mirror, the dash, the "
                "radio, its knobs and the microphone's cord in the drawing, and the screen's frame, 1.40 on the "
                "night, which is how a dash looks at night. It carries no word.",

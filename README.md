@@ -160,6 +160,8 @@ rebellion-rave-room.html  Turning 08. An old hangar; the one strobe on the stree
 rave.js               The hangar's rig and big screen; nothing runs until pressed, Escape stops all
 cooldown-room.html    Behind the rave's ante-chamber. Couches, water, a free vending machine
 cooldown.js           The vending machine; drops a snack, keeps nothing
+haunted-house.html    Turning 09. A haunted house built of plywood in an empty warehouse; hunt for its things or scroll them, and Halloween's lore
+haunted-house.js      The lights and the hunt; clones each thing from the list, keeps nothing, counts nothing
 the-mud-room.html     A boot room on the street, and the Slake out its back door: a MUD with nobody to fight
 mud.js                Plays the Slake out of its own guidebook; keeps, sends and sounds nothing
 arlesglad-caverns.html  Under the street, by lift or stair. A cavern lit only by its handrail
@@ -232,6 +234,7 @@ data/coping.json      The eye, the seeds, the words to borrow, the science, the 
 data/pets.json        The floor, the sections, the pet flaps, your own animals, and every quotation, each read on a page of ours
 data/show-your-work.json  The bench, the three places to show work, and every quotation, each read on a page of ours
 data/volunteers.json  The loom's bands, the help list, the playbooks, the rules, and every quotation, each read on a page of ours
+data/haunted-house.json  The house's rooms, every thing hidden in them and where, the lore, and every quotation with where it was read
 data/laughingstock.json  The stage, the bill and the lines in the light. Every set names its comics and its runtime
 data/picture-house.json  The screens, the rack and the campfire rack. Every card says who made it, how long, and what is in it
 data/samefood.json    The table in the window, the menu, the book on the counter, and the regulars' trays as they gave them
@@ -301,6 +304,7 @@ python3 tools/make-coping.py # Coping's eye, its sections, its doors and its cre
 python3 tools/make-pets.py   # Pets' floor, its sections, its pet flaps and its credits; refuses anything clinical, a best pet, a tally, a price, a pets room with no flap, a lit lamp, and a quotation not on our page word for word
 python3 tools/make-show-your-work.py # Show Your Work's garage, its quotations, its bench and its credits; refuses a piece nobody turned over, a ranking, a count, a pitch, a genius, and a quotation not on our page word for word
 python3 tools/make-volunteers.py # Volunteers' loom, its sections, its help list, its playbooks and its credits; refuses a tally of hours, the martyr, obligation, charity, a lyric, a form, a help line our Volunteer page no longer asks for, and a quotation not on our page word for word
+python3 tools/make-haunted-house.py # The Haunted House's set, its hunt, its list, its lore and its credits; refuses the asylum, the freak show's words for a person, a jump scare, a scare you cannot leave, a count, an empty place, a picture that is not public domain, and a script that keeps, sends, sounds or counts
 python3 tools/make-breaker-breaker.py # Breaker Breaker's convoy, what our CB took from the citizens band, its quotations, slang, rack and credits; refuses a lamp in any colour but the law's, a blinking lamp, slang that names people unkindly, a song's words, a ranking, and a sentence about our CB its guide no longer says
 python3 tools/make-laughingstock.py # Laughingstock's stage, its bill and the lines in the light, and the credits
 python3 tools/make-picture-house.py # The Lightbulb Picture House's screens and rack, and the credits; refuses a blue
@@ -741,6 +745,18 @@ room says it asks for, the build stops. It holds the room's line that the form a
 `data/office.json`, sweeps the room's own words for **a tally of hours, the martyr, obligation and charity** with the
 negation window and skipping the quotations, refuses the song our page quotes, a form or anything editable, and a
 keyframe, an animation or a transition in §130: nothing on the loom moves at any setting.
+
+`make-haunted-house.py` builds The Haunted House out of `data/haunted-house.json`, turning 09 off The Outskirts: an
+empty warehouse with a house built inside it out of plywood flats. It **draws the set**, the house's front in the dark
+warehouse with the work lights behind it, and draws that light only on a seam, a gap or a crack. It writes **the list**,
+the one copy of every thing, and **the hunt**, every room of the house with every place to look as a button that names
+where it looks; `haunted-house.js` clones a thing out of the list into the place you looked, starts with the lights up,
+and keeps, sends, sounds and counts nothing, which the tool reads it for. It refuses a place with nothing in it, two
+places with the same words, a quiet room as a thing, a picture that is not public domain, and a thing from our
+community with no day its maker said yes. It sweeps the room's own words for **the asylum, the freak show's words for a
+person, a jump scare or a scare you cannot leave, and a count**, with the negation window and skipping the quotations,
+checks the quotations from our own pages against the mirror word for word, and refuses a keyframe, an animation or a
+transition in §132.
 
 `make-show-your-work.py` builds Show Your Work out of `data/show-your-work.json`, a garage on the street with the
 door rolled up where the work of folks in our community is shown before it is finished. It **draws the garage**

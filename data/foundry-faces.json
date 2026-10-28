@@ -1,7 +1,7 @@
 {
  "_what": "One record per typeface in fonts/, read off that family's own METADATA.pb in github.com/google/fonts by tools/pull-foundry.py. Nothing in this file was typed. The designer line is verbatim from the record, including where a record credits a studio rather than a person.",
  "_licence": "The licence is which directory of that repository the family lives in, cross-checked against the licence field inside its own record. Both have to agree or the pull refuses.",
- "_checked": "2026-10-27",
+ "_checked": "2026-10-28",
  "faces": {
   "abril-fatface": {
    "family": "Abril Fatface",
@@ -1297,6 +1297,29 @@
      "style": "normal",
      "file": "dm-serif-display-400.woff2",
      "sha": "f273cf2c9ce9bc7d"
+    }
+   ]
+  },
+  "domine": {
+   "family": "Domine",
+   "category": "Serif",
+   "designer": "Impallari Type",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/domine",
+   "copyright": "Copyright 2020 The Domine Project Authors (https://github.com/googlefonts/domine)",
+   "repository": "https://github.com/googlefonts/Domine",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "domine-400.woff2",
+     "sha": "8f2d6e617f47c946"
+    },
+    {
+     "weight": "700",
+     "style": "normal",
+     "file": "domine-400.woff2",
+     "sha": "8f2d6e617f47c946"
     }
    ]
   },
@@ -2872,6 +2895,23 @@
      "style": "normal",
      "file": "mulish-400.woff2",
      "sha": "14cc0eabadfeb1af"
+    }
+   ]
+  },
+  "mystery-quest": {
+   "family": "Mystery Quest",
+   "category": "Display",
+   "designer": "Sideshow",
+   "licence": "SIL Open Font License 1.1",
+   "licence_url": "https://github.com/google/fonts/tree/main/ofl/mysteryquest",
+   "copyright": "Copyright (c) 2012 by Font Diner, Inc DBA Sideshow (diner@fontdiner.com) with Reserved Font Name \"Mystery Quest\"",
+   "repository": "https://github.com/googlefonts/googlefontdirectory-hg",
+   "variants": [
+    {
+     "weight": "400",
+     "style": "normal",
+     "file": "mystery-quest-400.woff2",
+     "sha": "64891378992352af"
     }
    ]
   },

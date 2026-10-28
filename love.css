@@ -1392,6 +1392,9 @@
 @font-face { font-family: 'Sigmar One'; src: url('fonts/sigmar-one-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Rasa'; src: url('fonts/rasa-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Rasa'; src: url('fonts/rasa-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Mystery Quest'; src: url('fonts/mystery-quest-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Domine'; src: url('fonts/domine-400.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Domine'; src: url('fonts/domine-400.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* §2 ── Ground rules ─────────────────────────────────────────────────────────
    Deliberately thin. Anything that belongs to a room belongs in that room. */
@@ -4269,6 +4272,25 @@
   --vol-madder: #B4443A;  --vol-weld: #D8B13C;  --vol-woad: #46699A;
   --vol-walnut: #7B5539;  --vol-cochineal: #A33A6B;  --vol-lichen: #7F8E50;
   --vol-logwood: #5C3F74;  --vol-onion: #CB7F38;  --vol-indigo: #2E3B6A;
+
+  /* The Haunted House (§132): a house built of plywood flats in an empty
+     warehouse at the end of the road, the work lights left on behind the set.
+     --hh-ground is the painted dark every word on the page stands on, and
+     --hh-slip the painted boards lying on it; --hh-ink is every word,
+     --hh-ink-2 the quiet lines, --hh-link every link and the focus ring. The
+     rest carry no word: --hh-seam is the work lights coming through the seams,
+     drawn only on a seam, a gap or a crack and never behind a word; --hh-dark
+     the warehouse, --hh-steel its columns, --hh-floor its concrete, --hh-wall
+     the painted flats, --hh-paint the painted trim, --hh-door the door,
+     --hh-board the boards over the windows, --hh-tape the gaffer tape,
+     --hh-timber the jacks holding the set up, --hh-step the porch steps, and
+     --hh-pumpkin the pumpkin nobody lit. */
+  --hh-ground: #17131C;  --hh-slip: #241D2B;  --hh-ink: #EEE7D8;
+  --hh-ink-2: #BDB3C6;  --hh-link: #F2C063;  --hh-seam: #FFEDB8;
+  --hh-dark: #0D0B10;  --hh-steel: #22202A;  --hh-floor: #1D1C21;
+  --hh-wall: #2C2434;  --hh-paint: #7D7288;  --hh-door: #3A2C3E;
+  --hh-board: #5A4733;  --hh-tape: #3B3740;  --hh-timber: #6B5235;
+  --hh-step: #3D3542;  --hh-pumpkin: #B8612A;
 
   /* import:sandbox:root:begin */
   /* The Sandbox, somebody's own room -- brought in by tools/import-room.py.
@@ -17936,7 +17958,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
    method: the screen is a preview of the artefact and not the artefact. Its
    borders carry the registration bar because a border survives the print
    dialog's "background graphics" setting and a background does not. Every
-   class on it is `bb-`, its sizes are in points and millimetres, and §133
+   class on it is `bb-`, its sizes are in points and millimetres, and §134
    prints it and nothing else. */
 
 .room-broadside {
@@ -17997,7 +18019,7 @@ html:not([data-intensity="max"]) .pm-hold { display: none; }
 
 /* ── The sheet ──────────────────────────────────────────────────────────────
    194mm is the column the largest page that fits both A4 and US Letter leaves
-   at whysheet.press's 9 / 7 / 7 mm margins; §133 prints it on that page. The
+   at whysheet.press's 9 / 7 / 7 mm margins; §134 prints it on that page. The
    minimum height is two millimetres short of the page box on purpose: the
    Stimpunks method found a third page appearing out of 0.4mm of rounding. */
 .bb-sheet {
@@ -28247,7 +28269,166 @@ html[data-intensity="max"] .hollow-jelly__body { animation: hollow-drift 8s ease
 html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animation: ppd-breathe 6s ease-in-out infinite alternate; }
 @keyframes ppd-breathe { from { opacity: .6; } to { opacity: 1; } }
 
-/* §132 ── Small screens───────────────────────────────────────────────────────
+/* §132 ── TURNING: The Haunted House (turning 09 off The Outskirts) ─────────
+   An empty warehouse at the end of the road with a haunted house built inside
+   it out of plywood flats. Somebody in our community asked for it in the
+   Sandbox's suggestion box (2026-10-27): a place to share haunted things we
+   made and love, a way to hunt for them and a way to scroll through them all.
+   Ryan's brief, 2026-10-28: the history and lore of Halloween and haunted
+   houses, the eldritch, the weird, the different and the marginal, and the
+   volunteer houses he remembers in empty warehouses on the edge of town.
+   tools/make-haunted-house.py writes the set, the hunt, the list, every
+   section and the credits; haunted-house.js is the lights and the hunt.
+
+   THE LIGHT IS THE WORK LIGHTS BEHIND THE SET, AND IT LIGHTS NOTHING. The road
+   already has a screen in front of you (the Lagoon), a moon overhead (Sithen),
+   floods from the ground up (Looming Rocks), light worn on heads (Dance,
+   Punks), a lit room from outside (the Small Hours), skyglow (the Repeater),
+   everybody's headlights (Nothing For Sale) and light in the air (the Rave).
+   This is light FROM THE OTHER SIDE OF A WALL: only ever a hairline, in the
+   seams where two flats do not quite meet, round the door and under it,
+   between the boards over a window. The veil is thin because the set is
+   plywood, and the other side is the people who built it. It is drawn only in
+   the set and on the edges of things (a heading's foot, the foot of every
+   place to look), never behind a word, and every word is pale on the painted
+   dark.
+
+   THE COLLISIONS:
+     · BLACK LEATHER LAGOON is the one to watch: also on this road, also night,
+       also horror, and our Halloween playlist is its. There the light is ONE
+       BRIGHT SCREEN IN FRONT OF YOU over black water. Here there is no source
+       you can see at all, only seams. If a lit window or a glowing shape ever
+       appears in this section, it has become the Lagoon with a roof.
+     · DEAD TIRED SOCIETY is light through a gap too: one hard wedge from a
+       corridor through a door left ajar, lying on the floor, nobody in it. Here
+       it is a hundred hairlines in the walls, upright, and it never reaches the
+       floor as a patch.
+     · RESCUE SMALL ANIMALS is the day coming up between floorboards and landing
+       in strips the animals stand in. This is not daylight and it lands on
+       nothing.
+     · THE FEED is light through a mask, crisp, in rows: the letters ARE the
+       light. Here the light makes no letter; it is a leak, where the set does
+       not meet.
+     · THE MOPERY is the other Poe room, candles along the shelves and stone the
+       light never reaches. There is no flame in this house: the fireplace is
+       painted on, and the pumpkin on the step is not lit.
+     · SITHEN is the Otherworld from outside a ring you do not enter. This house
+       you go into, room by room.
+
+   NOTHING MOVES, AT ANY SETTING, MAX GLITTER INCLUDED, AND NOTHING FLICKERS.
+   The work lights are on, steadily. The friendly edits are a flickering bulb,
+   a lightning flash and a ghost drifting across at MAX: the first two are Club
+   Chronic's strobe in a cobweb, the third a jump scare. The tool refuses a
+   keyframe, an animation or a transition here. */
+
+.haunted {
+  background-color: var(--hh-ground); color: var(--hh-ink);
+  font-family: 'Domine', var(--sans); font-synthesis: none;
+}
+.haunted .wrap { width: min(980px, 100% - 44px); }
+.haunted a { color: var(--hh-link); text-underline-offset: 3px; }
+.haunted a:hover { color: var(--hh-ink); }
+.haunted :focus-visible { outline-color: var(--hh-link); }
+.haunted :where(p, li) { font-size: 19px; line-height: 1.65; }
+.haunted .backlink { font-family: 'Domine', var(--sans); font-weight: 700; font-size: 17px; color: var(--hh-link); }
+.hh-topline { display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; justify-content: space-between; }
+.hh-trail { margin: 0; font-size: 16px; color: var(--hh-ink-2); }
+
+.hh-head { margin: 30px 0 0; }
+.hh-over { margin: 0; font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; color: var(--hh-ink-2); }
+.haunted h1 {
+  margin: 10px 0 12px; font-family: 'Mystery Quest', var(--sans); font-weight: 400; font-style: normal;
+  font-size: clamp(42px, 11vw, 108px); line-height: 1; color: var(--hh-ink);
+}
+.hh-sub { margin: 0; font-size: 23px; line-height: 1.45; max-width: 42ch; }
+
+.hh-front { margin: 28px 0 0; }
+.hh-set { display: block; width: 100%; height: auto; border-radius: 4px; border: 2px solid var(--hh-paint); }
+.hh-front__words { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: var(--hh-ink-2); max-width: 66ch; }
+
+.hh-lede { margin: 32px 0 0; max-width: 66ch; }
+.hh-lede > p { margin: 0 0 16px; }
+
+/* EVERY HEADING HAS THE LIGHT UNDER IT, like the gap under a door: a hairline
+   on a pseudo-element, under the words and never behind them. */
+.haunted h2 {
+  position: relative; margin: 0 0 24px; padding-bottom: 14px; font-family: 'Mystery Quest', var(--sans);
+  font-weight: 400; font-size: clamp(28px, 5vw, 44px); line-height: 1.15; color: var(--hh-ink);
+}
+.haunted h2::after {
+  content: ""; position: absolute; left: 0; bottom: 0; width: min(100%, 320px); height: 2px;
+  background: var(--hh-seam); box-shadow: 0 0 6px var(--hh-seam);
+}
+.haunted h3 { margin: 0 0 6px; font-family: 'Domine', var(--sans); font-weight: 700; font-size: 21px; line-height: 1.3; color: var(--hh-ink); }
+
+.hh-part, .hh-hunt, .hh-list { margin: 56px 0 0; }
+.hh-part > p, .hh-part > .hh-quote, .hh-part > .hh-rules, .hh-part > .hh-credits, .hh-part > .hh-next,
+.hh-hunt > p, .hh-list > p { max-width: 68ch; }
+.hh-part > p, .hh-hunt > p, .hh-list > p { margin: 0 0 16px; }
+
+.hh-quote { margin: 22px 0; padding: 2px 0 2px 20px; border-left: 4px solid var(--hh-paint); }
+.hh-quote p { margin: 0; font-size: 21px; line-height: 1.55; color: var(--hh-ink); }
+.hh-quote__who { margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: var(--hh-ink-2); }
+.hh-lede .hh-quote { margin: 4px 0 18px; }
+
+/* THE LIGHTS: two buttons, the pressed one outlined in the link's colour. No
+   word is ever set on the light itself. */
+.hh-lights { margin: 34px 0 0; padding: 16px 18px 18px; background: var(--hh-slip); border: 2px solid var(--hh-paint); border-radius: 4px; max-width: 760px; }
+.hh-lights__label { margin: 0 0 10px; font-family: 'Mystery Quest', var(--sans); font-size: 24px; line-height: 1.2; }
+.hh-lights__row { display: flex; flex-wrap: wrap; gap: 10px; }
+.hh-lights__btn {
+  flex: 1 1 240px; min-height: 48px; padding: 10px 14px; font: 700 18px/1.3 'Domine', var(--sans);
+  color: var(--hh-ink); background: var(--hh-ground); border: 2px solid var(--hh-paint); border-radius: 4px; cursor: pointer;
+}
+.hh-lights__btn[aria-pressed="true"] { color: var(--hh-link); border-color: var(--hh-link); border-width: 3px; }
+.hh-lights__btn:hover { border-color: var(--hh-link); }
+.hh-lights__note { margin: 12px 0 0; font-size: 17px; color: var(--hh-ink-2); }
+
+/* THE HUNT: a room of the house to a board, and every place to look a button
+   with the light showing under its foot, as under a shut door. */
+.hh-rooms { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 18px; }
+.hh-room { margin: 0; padding: 16px 18px 14px; background: var(--hh-slip); border: 2px solid var(--hh-paint); border-radius: 4px; }
+.haunted .hh-room__name { font-family: 'Mystery Quest', var(--sans); font-weight: 400; font-size: 26px; }
+.hh-room__line { margin: 0 0 12px; font-size: 17px; color: var(--hh-ink-2); }
+.hh-places { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.hh-place { margin: 0; }
+.hh-look {
+  display: block; width: 100%; min-height: 46px; padding: 10px 14px; text-align: left;
+  font: 700 18px/1.35 'Domine', var(--sans); color: var(--hh-ink); background: var(--hh-ground);
+  border: 2px solid var(--hh-paint); border-radius: 3px; box-shadow: inset 0 -3px 0 var(--hh-seam); cursor: pointer;
+}
+.hh-look:hover { border-color: var(--hh-link); }
+.hh-look[aria-expanded="true"] { color: var(--hh-link); border-color: var(--hh-link); }
+.hh-found { margin: 8px 0 4px 14px; padding: 12px 14px; border-left: 3px solid var(--hh-link); }
+.hh-out { margin: 12px 0 0; font-size: 16px; color: var(--hh-ink-2); }
+
+/* THE LIST, with the lights up: every thing on a painted board. */
+.hh-things { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.hh-thing { margin: 0; padding: 14px 16px 14px; background: var(--hh-slip); border: 2px solid var(--hh-paint); border-radius: 4px; display: flex; flex-direction: column; }
+.hh-thing__body { flex: 1 1 auto; }
+.hh-thing__name { font-size: 21px; }
+.hh-thing__kind { margin: 0 0 8px; font-size: 15px; letter-spacing: .02em; color: var(--hh-ink-2); }
+.hh-thing__line { margin: 0; font-size: 17px; }
+.hh-thing__pic { display: block; width: 100%; max-width: 280px; height: auto; margin: 4px 0 10px; border: 2px solid var(--hh-paint); }
+.hh-thing__rights { color: var(--hh-ink-2); }
+.hh-thing__where { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--hh-paint); font-size: 15px; color: var(--hh-ink-2); }
+.hh-found .hh-thing__name { font-size: 20px; }
+
+.hh-rules { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 12px; }
+.hh-rules li { margin: 0; padding: 12px 16px; background: var(--hh-slip); border: 2px solid var(--hh-paint); border-radius: 4px; font-size: 18px; }
+.hh-rules strong { color: var(--hh-ink); }
+.hh-next { margin: 18px 0 0; padding-left: 22px; }
+.hh-next li { margin: 0 0 10px; }
+.hh-whose .hh-credits { margin: 16px 0 0; padding-left: 22px; }
+.hh-credits li { margin: 0 0 12px; font-size: 17px; color: var(--hh-ink-2); }
+.hh-credits code { font-size: 15px; }
+
+@media (max-width: 720px) {
+  .haunted .wrap { width: calc(100% - 32px); }
+  .hh-things { grid-template-columns: 1fr; }
+}
+
+/* §133 ── Small screens───────────────────────────────────────────────────────
    The street stacks; nothing is dropped. Every room reads at 360px. */
 
 @media (max-width: 720px) {
@@ -28351,7 +28532,7 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
 }
 
 /* The Adventurer's Guild. A FORM STOPS BEING A FORM AT 375px, and this room
-   shipped with no rule here at all — which on a street whose §132 says every
+   shipped with no rule here at all — which on a street whose §133 says every
    room reads at 360px is a room that was never looked at on a phone. The class
    column is 82px of an available 339, so the posting was being squeezed into
    173px: three-line titles and a body reading as a ribbon, with the stamp
@@ -28475,7 +28656,7 @@ html[data-intensity="max"] .ppd-lamp[data-lamp="on"] .ppd-scene__glow { animatio
   .fo-knob input[type="range"] { width: calc(100% - 58px); }
 }
 
-/* §133 ── Print ───────────────────────────────────────────────────────────────
+/* §134 ── Print ───────────────────────────────────────────────────────────────
    The zine room's own rule, applied site-wide: if it needs colour to make
    sense, it does not go in the zine. Ink on paper, decoration dropped. */
 

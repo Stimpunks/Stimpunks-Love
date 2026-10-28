@@ -2098,6 +2098,22 @@
         "--vol-lichen"
       ]
     },
+    "haunted-house.html": {
+      "kind": "julia",
+      "c": [
+        -0.12,
+        -0.77
+      ],
+      "orbit": 0.012,
+      "bands": 0.05,
+      "ground": "--hh-ground",
+      "inks": [
+        "--hh-seam",
+        "--hh-link",
+        "--hh-paint",
+        "--hh-pumpkin"
+      ]
+    },
     "breaker-breaker.html": {
       "kind": "orbit",
       "trap": "point",

@@ -3265,5 +3265,34 @@
    "src": "https://raw.githubusercontent.com/google/fonts/main/ofl/rasa/Rasa%5Bwght%5D.ttf",
    "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
   }
+ ],
+
+ "mystery-quest": [
+  {
+   "file": "mystery-quest-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 21580,
+   "src": "https://fonts.gstatic.com/s/mysteryquest/v21/-nF6OG414u0E6k0wynSGlujRLwYvDt1T39A.woff2",
+   "note": "The Haunted House (§132), the house's name and its headings, and nothing at reading size: letters like a hand-painted sign on a plywood flat. Sideshow's display face, served as Google Fonts serves it, Latin only. Its licence reserves the name Mystery Quest, so it was not cut down here."
+  }
+ ],
+ "domine": [
+  {
+   "file": "domine-400.woff2",
+   "weight": "400",
+   "style": "normal",
+   "bytes": 28276,
+   "src": "https://fonts.gstatic.com/s/domine/v25/L0x8DFMnlVwD4h3hu_qnZypEiw.woff2",
+   "note": "The Haunted House (§132), every word that is read: a sturdy text serif drawn for reading on screens, by Impallari Type. The variable font as Google Fonts serves it, Latin only, weight axis kept, declared at 400 and 700 against this one file. Its licence reserves the name Domine, so it was not cut down here."
+  },
+  {
+   "file": "domine-400.woff2",
+   "weight": "700",
+   "style": "normal",
+   "bytes": 28276,
+   "src": "https://fonts.gstatic.com/s/domine/v25/L0x8DFMnlVwD4h3hu_qnZypEiw.woff2",
+   "note": "Byte-identical to the 400 above, declared again against its weight axis; see that note."
+  }
  ]
 }

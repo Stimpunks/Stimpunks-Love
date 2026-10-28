@@ -3066,6 +3066,26 @@ now-showing line, the way back restores the plate without playing, the frame fro
 the rack a `<details>` that ships open. A room whose screen is a set you tune already holds the
 rule that tuning is not playing; the pattern meets that rule, it does not overrule it.
 
+**THE HAUNTED HOUSE (§132) IS TURNING 09, AND ITS LIGHT COMES FROM THE OTHER SIDE OF A WALL.** Somebody in our
+community asked in the Sandbox's suggestion box (2026-10-27) for a place to share haunted things we made and love, with
+a scavenger-hunt view and an easy scroll-through view; Ryan's brief, 2026-10-28, added the history and lore of Halloween
+and haunted houses, the eldritch and the weird, and the volunteer houses he remembers in empty warehouses on the edge of
+town. `haunted-house.html` is that warehouse, with a house built inside it of plywood flats and the work lights left on
+behind the set, so **the only light is what comes through the seams**: the road's ninth light, which lights nothing and
+is drawn only on a seam, a gap or a crack, never behind a word. **Black Leather Lagoon is the one to watch**; the
+collisions are in §132. **Two ways through one list** (`haunted-house.js`): the list with the lights up is the only copy
+of each thing and the hunt clones from it into the place you looked; the lights start up, which is the list and what a
+page with no script shows, and the hunt ships hidden, one press away; every place to look is a button that names where
+it looks, the Den's door rule. `tools/make-haunted-house.py` refuses **the asylum** (the oldest cheap scare, and its
+people are ours), **the freak show's words for a person**, **a jump scare and a scare you cannot leave** (every room
+ends with its way out, never called a chicken exit, after the New Jersey fire Heller tells of), **a count** of what you
+found or what is left, a place with nothing in it, a quiet room as a thing, a picture that is not public domain, and a
+script that keeps, sends, sounds, waits on a clock, writes markup from a string or reads `.length`. **The friendly edits
+are "4 of 12 found", a flickering bulb or lightning at MAX, a ghost drifting across, a scream on a press, and a haunted
+asylum room "because every haunted house has one".** A thing from our community goes in with `whose`, `given` and
+`said_yes` and comes out deleted when asked, Show Your Work's rule; somebody else's work only as a link. A tenth turning
+needs a tenth light.
+
 **FOUR MORE TURNINGS, AND EACH ONE TOOK A LIGHT THE ROAD DID NOT HAVE.** 2026-09-23, Ryan's call. The
 road already had the Lagoon's screen in front of you, Sithen's moon overhead and Looming Rocks' floods
 from the ground up. **Dance, Punks** (§43) is lit by what people WEAR — a glow at head height per
@@ -5567,18 +5587,18 @@ print media queries resolve against the page box. The page is whysheet.press's, 
 9 / 7 / 7, the largest that fits A4 and Letter. `make-broadside.py` refuses a sheet that is not two
 sides, a claim line over a dozen words, more than one quotation a side, an ink under AA on white,
 a shared pair, a sheet with no moment, **a link whose words are not its address** (a link on paper is
-an underline that goes nowhere, so §133 also stops the street's print rule writing it out twice), and
+an underline that goes nowhere, so §134 also stops the street's print rule writing it out twice), and
 **an order to the reader**, narrowly second person: a sheet says what we hold and never what you
 must do. It writes the type credit out of `data/foundry-faces.json` and the licence out of the sheet's
 record, so neither can be left off the paper.
 
-**§133 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
+**§134 LETS A COLOUR SURVIVE THE PRINT RESET IN EXACTLY ONE PLACE, AND check-print.py IS WHY THAT IS
 SAFE.** The universal rule forces every word black because this street's grounds are dark and drop
 out; a sheet's ground is already white paper, so its inks are restored at higher specificity with
 `!important`, on the sheet and nowhere else. `check-print.py` renders any `room-broadside` page to a
 real PDF and refuses anything but **two pages per sheet** in `data/broadside.json` and any ink not on
 the sheet's own record. **Its first run found Chrome painting the page margins in its dark canvas,
-`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §133 sets
+`#121212`**, because the page says `color-scheme: dark` and the reset only reaches elements; §134 sets
 the scheme light on paper for that page. Other dark rooms probably print the same margin, and nobody
 has looked. ****It then printed two blank pages in Ryan's own browser while printing clean here**, because
 he was signed on to the CB: the radio's host is a block at the foot of `<body>`, it sat on the

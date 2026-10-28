@@ -362,6 +362,11 @@
    "room": "The Cooldown Room"
   },
   {
+   "id": "hh-key",
+   "title": "Where the first ones were",
+   "room": "The Haunted House"
+  },
+  {
    "id": "bigsteep-carboy",
    "title": "The cellar at the top of the lift",
    "room": "Big Steep Fermentables"

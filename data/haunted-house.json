@@ -1,0 +1,273 @@
+{
+  "_what": "The Haunted House, turning 09 off The Outskirts: an empty warehouse at the end of the road with a haunted house built inside it out of plywood flats, and the work lights left on behind the set, so the only light in the house is what comes through the seams. Built by tools/make-haunted-house.py into haunted-house.html between hh:<part> markers. Somebody in our community asked for it in the Sandbox's suggestion box on 2026-10-27; Ryan's brief, 2026-10-28.",
+  "_who": "The house, its drawing, its rooms and every sentence not in a quotation are ours, written for this room by Claude to Ryan's brief. Every quotation names who said it and where, and was read on the day in `read`.",
+  "_things": "A THING IS SOMETHING SPOOKY SOMEBODY MADE, hidden in one place in the house and laid out in the list with the lights up. The house opened with things from our own street and our own pages, and one public domain engraving, because nobody has brought anything yet and we do not fill the house from memory of what people like. A thing from somebody in our community goes in with `whose` as they want to be named, `given` (the day they said yes) and `said_yes` (who said it), and comes out the moment they ask, deleted rather than hidden: Show Your Work's bench rule. Something somebody else made goes in as a link with their name on it, never as a copy of their picture; a picture is only ever public domain (`rights`, a page that says so) or the maker's own, under data/polaroids.json if it is a photograph.",
+  "_places": "EVERY THING HAS ONE PLACE AND EVERY PLACE ONE THING. `room` is a room of the house, `look` is the words on the button that looks there. A place is a button with a name in words, so the hunt is the same hunt with a mouse, a keyboard or a screen reader: the Den's door rule. A place with nothing in it is refused, because looking somewhere and finding nothing is a let-down this house does not hand out.",
+  "_sources": "Where every quotation was read. `mirror` sources are pages of ours, checked word for word against the Knowledge System mirror when it is on the machine. `web` sources are somebody else's pages, read on the day in `read`; Smithsonian Magazine answers a script with 403, so its article was read in the Internet Archive's copy, and the room says so. `brief` is Ryan's brief for this room.",
+  "read": "28 October 2026",
+  "words": 50,
+  "sources": {
+    "smithsonian": {
+      "kind": "web",
+      "title": "A Brief History of the Haunted House",
+      "url": "https://www.smithsonianmag.com/history/history-haunted-house-180957008/",
+      "who": "Chris Heller",
+      "where": "Smithsonian Magazine",
+      "year": "2015",
+      "read_via": "the Internet Archive's copy, because the magazine answers a script with a refusal"
+    },
+    "thinning": {
+      "kind": "web",
+      "title": "Halloween and the Thinning Veil: When the Worlds Feel Closer",
+      "url": "https://exquisiteenergies.com/2026/09/14/halloween-and-the-thinning-veil-when-the-worlds-feel-closer/",
+      "who": "Hannah Daisy",
+      "where": "Exquisiteenergies",
+      "year": "2026"
+    },
+    "weird": {
+      "kind": "mirror",
+      "title": "Weird",
+      "url": "https://stimpunks.org/glossary/weird/",
+      "mirror": "glossary/weird.md"
+    },
+    "chimera": {
+      "kind": "mirror",
+      "title": "Infodumplings: Every Chimera Is Whole",
+      "url": "https://stimpunks.org/2026/10/22/infodumplings-every-chimera-is-whole/",
+      "mirror": "posts/infodumplings-every-chimera-is-whole.md"
+    },
+    "creeps": {
+      "kind": "mirror",
+      "title": "Gather ‘Round Creeps: Happy Halloween from the Black Leather Lagoon",
+      "url": "https://stimpunks.org/2024/10/31/gather-round-creeps-happy-halloween-from-the-black-leather-lagoon/",
+      "mirror": "posts/gather-round-creeps-happy-halloween-from-the-black-leather-lagoon.md"
+    },
+    "brief": {
+      "kind": "brief",
+      "title": "his brief for this room",
+      "who": "Ryan Boren",
+      "year": "2026"
+    }
+  },
+  "quotes": {
+    "heller-scare": {
+      "text": "This is what a haunted house is supposed to do. They exist to scare people.",
+      "who": "Chris Heller",
+      "source": "smithsonian"
+    },
+    "heller-halloween": {
+      "text": "The tradition could not exist without Halloween; Halloween would not be the same without it.",
+      "who": "Chris Heller",
+      "source": "smithsonian"
+    },
+    "morton": {
+      "text": "Cities looked for ways to buy these kids off, essentially.",
+      "who": "Lisa Morton",
+      "speaker": "quoted by Chris Heller",
+      "source": "smithsonian"
+    },
+    "kirchner": {
+      "text": "It was based on the premise that people would volunteer, but when you have people opening big haunted houses with lots of advertising, that's hard.",
+      "who": "Larry Kirchner",
+      "speaker": "quoted by Chris Heller",
+      "source": "smithsonian"
+    },
+    "daisy-veil": {
+      "text": "According to traditional beliefs surrounding Samhain, this was a liminal time when the boundary between the world of the living and the spirit world was thought to become thinner, allowing greater contact with the Otherworld and with those who had passed away.",
+      "who": "Hannah Daisy",
+      "source": "thinning"
+    },
+    "daisy-pause": {
+      "text": "Whether you understand this literally, symbolically or simply as an invitation to pause and reflect, there is something profoundly beautiful about the idea.",
+      "who": "Hannah Daisy",
+      "source": "thinning"
+    },
+    "daisy-rest": {
+      "text": "The darker half of the year can become a time of introspection, rest and spiritual renewal.",
+      "who": "Hannah Daisy",
+      "source": "thinning"
+    },
+    "ryan-craft": {
+      "text": "I recall being impressed by the DIY spirit of some of them. Folks put a lot of work into making a compelling experience. They poured craft into the effort.",
+      "who": "Ryan Boren",
+      "source": "brief"
+    },
+    "ryan-themes": {
+      "text": "For me, haunted houses bring together themes of the horror of existence, the inevitability of death, remembrance of ancestors, DIY, making, creativity, thresholds, liminality, and seasonal rest.",
+      "who": "Ryan Boren",
+      "source": "brief"
+    },
+    "chimera-freak": {
+      "text": "It is a throwaway line, and it is exactly how the freak show worked: a human body, described as part animal.",
+      "who": "Stimpunks",
+      "source": "chimera"
+    },
+    "oolong-weird": {
+      "text": "A lot of neurodivergent kids learn early on that they’re ‘weird’. The lucky ones learn to embrace it before they’re forced to internalise the implied shame.",
+      "who": "Ferrous, aka Oolong",
+      "work": "a post on Twitter",
+      "url": "https://twitter.com/MxOolong/status/1499306544449662977",
+      "source": "weird"
+    },
+    "oolong-misia": {
+      "text": "Weirdmisia — hatred of the weird — is the enemy of diversity.",
+      "who": "Ferrous, aka Oolong",
+      "work": "Weird Pride Day",
+      "url": "https://oolong.medium.com/weird-pride-day-232465b67dd9",
+      "source": "weird"
+    },
+    "creeps": {
+      "text": "Death, divergence, and whimsy.",
+      "who": "Stimpunks",
+      "source": "creeps"
+    }
+  },
+  "sections": {
+    "lede": [
+      {"p": "Past the last streetlight, at the end of the road, there is a warehouse nobody was using. Inside it, somebody built a house: plywood flats screwed to timber, gaffer tape over the joins, every wall painted by people who had never painted a wall to look old before and did it anyway. **The work lights are on behind the set.** Inside the house you never see them. You see only where their light comes through: the seams where two flats do not quite meet, the gap under a door, the cracks between the boards over a window."},
+      {"p": "Things are hidden in the house: spooky things from our own street and our own pages, and, as people bring them, haunted things our community has made and things we love. **There are two ways through it.** With the lights up, everything is laid out in one list you can scroll. With the lights down, it is a hunt: go from room to room and look in places, and what is hidden there turns up where you looked. Nothing jumps out, nothing makes a sound, and the house counts nothing you find."},
+      {"q": "ryan-themes"},
+      {"p": "Its channel on the CB is for haunted things: share a picture or a link of something spooky you made or love, and say what it is. Sign on and tune the radio to **This room** while you are in here, or open [the house’s channel](chat.html#haunted-house) on the chat page."}
+    ],
+    "veil": [
+      {"p": "Halloween is All Hallows’ Eve, the night before All Saints’ Day on the first of November. It sits on top of something much older: Samhain, at the end of the harvest, when the light half of the year turned into the dark half."},
+      {"q": "daisy-veil"},
+      {"p": "The old word for a threshold, the strip of floor in a doorway between one room and the next, is the Latin **limen**, and it is where liminal comes from. The folklorist Arnold van Gennep used the idea in 1909 for the middle of a rite of passage: the part where you have left one state and not yet arrived in the next. A doorway, dusk, the turn of the year."},
+      {"p": "This house is built out of that idea. Every wall is a flat, and every seam is a threshold with the light on the other side of it. **The other side is right there.** It is the work lights, and the people who built the house, sitting on upturned crates behind the parlour wall."},
+      {"q": "daisy-pause"}
+    ],
+    "history": [
+      {"q": "heller-scare"},
+      {"p": "Chris Heller’s short history of the haunted house, for Smithsonian Magazine, starts in London. In 1802 Marie Tussaud showed the wax heads of the French Revolution’s guillotined, made from the death masks she had cast of them, and called her permanent show the Chamber of Horrors. Around the turn of the century the Grand Guignol theatre in Paris staged dismemberment on its stage. In 1915 a fairground at Liphook, in England, opened one of the first ghost houses."},
+      {"p": "The Halloween haunted house is American, and it arrived in the Great Depression at about the same time as trick-or-treat, as a way to stop young people’s pranks from turning into vandalism. Lisa Morton, who wrote *Trick or Treat: A History of Halloween*, put it plainly:"},
+      {"q": "morton"},
+      {"p": "**The first ones were basements.** Families decorated their cellars and children went from house to house, from one scene to the next. A 1937 party pamphlet has fur and strips of raw liver on the walls, wet sponges hung from the ceiling, a crawl through a long dark tunnel, and at the end a black cardboard cat outlined in luminous paint."},
+      {"q": "heller-halloween"},
+      {"p": "Disneyland’s Haunted Mansion opened in 1969, its ghosts made with Pepper’s ghost, an old stage illusion of reflected light, and Morton calls it the start of the haunted attraction industry. Within a few years the Jaycees, the United States Junior Chamber, were raising money with haunted houses across the country, built by volunteers."},
+      {"p": "Then the professional houses came, with film tie-ins and advertising. A fire at a haunted house in New Jersey killed eight teenagers who could not get out. The rules got stricter, and many of the volunteer houses could not keep up. Larry Kirchner, of the Haunted House Association, told Heller:"},
+      {"q": "kirchner"},
+      {"p": "That fire is why **every room in this house has its way out written in it**, and why the way out is never called anything but the way out."}
+    ],
+    "made": [
+      {"p": "Ryan remembers them on the outskirts of town, in warehouses that were usually empty, built by the people who turned up to build them."},
+      {"q": "ryan-craft"},
+      {"p": "This one is a set and does not hide it. You can see the screws in the flats, the timber jacks propping up the sides, the tape on the seams and the light coming through them. **That is the frightening part and the good part at once**: a few people with no budget made you feel something in the dark, and you can see exactly how. It is the same thing [Show Your Work](show-your-work.html) says about showing the work while it is still being made."}
+    ],
+    "weird": [
+      {"p": "**Eldritch** is an old Scots word for unearthly: in Robert Burns’s *Tam o’ Shanter*, in 1791, the witches give an eldritch skreech. Where its first half comes from is not settled. One guess is elf, and another is an old English root meaning foreign, strange, other. [H. P. Lovecraft](https://en.wikipedia.org/wiki/H._P._Lovecraft) brought the word back into fashion, and much of the horror he made with it was his fear of people unlike himself."},
+      {"p": "That is the oldest trick in horror, and the cheapest: make the frightening thing somebody who is different. Disabled bodies, minds that work differently, queer people and strangers have all been made into the monster, and the freak show charged admission for it. Our own write-up for an evening of chimeras heard it happen in a video about monsters:"},
+      {"q": "chimera-freak"},
+      {"p": "**Weird is the word we kept.** [Our Weird page](https://stimpunks.org/glossary/weird/) is a long argument for weird pride, and it quotes Ferrous, aka Oolong:"},
+      {"q": "oolong-weird"},
+      {"q": "oolong-misia"},
+      {"p": "So this house is eldritch, and nobody in it is the monster. On Halloween everybody wears the strange, and here the different are the ones who built the place. Our Halloween playlist, two years ago, said it in four words:"},
+      {"q": "creeps"}
+    ],
+    "rest": [
+      {"p": "Samhain closed the harvest and opened the dark half of the year, when the fields rest."},
+      {"q": "daisy-rest"},
+      {"p": "Remembering belongs here too. Ryan’s brief names remembrance of ancestors, and the people we have lost are part of why a thin veil is a lovely idea rather than a frightening one. Other peoples keep their own days for their dead, in their own ways; this house does not borrow them."},
+      {"p": "On this street rest is owed, not earned, which is [the Healing Checkpoint](healing-checkpoint.html)’s whole argument. The house stays up all year, so there is no hurry. Come back in the spring if the dark half is for sleeping."}
+    ]
+  },
+  "rooms": [
+    {"id": "porch", "name": "The porch", "line": "Three painted steps, a pumpkin nobody lit, and the door with light all round its edges."},
+    {"id": "hall", "name": "The hall", "line": "A long dark hall with the stairs going up out of it and a coat cupboard under them."},
+    {"id": "parlour", "name": "The parlour", "line": "A painted fireplace that has never been lit, a card table, and an armchair with a book face down on it."},
+    {"id": "stairs", "name": "The stairs", "line": "They turn halfway, at a landing, and the light comes up between the treads."},
+    {"id": "attic", "name": "The attic", "line": "Under the eaves, with the round window boarded in a cross and everything under dust sheets."},
+    {"id": "cellar", "name": "The cellar", "line": "Where the first Halloween haunted houses were. A gramophone, and a draught from somewhere."},
+    {"id": "backstage", "name": "Behind the set", "line": "Through the gap between two flats, where the light comes from: the work lights, the crates, and the people who built the house."}
+  ],
+  "things": [
+    {
+      "id": "weird", "room": "porch", "look": "Lift the doormat",
+      "name": "Weird", "kind": "page", "whose": "Stimpunks",
+      "url": "https://stimpunks.org/glossary/weird/",
+      "line": "Our glossary entry for weird pride, left under the mat for whoever comes to the door: the refusal to be ashamed of the things people find weird."
+    },
+    {
+      "id": "lagoon", "room": "hall", "look": "Open the coat cupboard under the stairs",
+      "name": "Black Leather Lagoon", "kind": "room", "whose": "Stimpunks",
+      "url": "black-leather-lagoon.html",
+      "line": "Turning 01 on this same road: a drive-in screen standing in black water, an appreciation of The Cramps, and the room where it is always Halloween."
+    },
+    {
+      "id": "chimeras", "room": "hall", "look": "Look in the hall mirror",
+      "name": "Infodumplings: Every Chimera Is Whole", "kind": "page", "whose": "Stimpunks",
+      "url": "https://stimpunks.org/2026/10/22/infodumplings-every-chimera-is-whole/",
+      "line": "Our write-up for an evening of making chimeras together, which listens for the word monster in a video about them and says what it does."
+    },
+    {
+      "id": "oracle", "room": "parlour", "look": "Turn over the cards on the table",
+      "name": "The Oracle Deck", "kind": "room", "whose": "Stimpunks",
+      "url": "oracle-deck.html",
+      "line": "A deck in a dark room where every card asks a question and none of them tells your fortune."
+    },
+    {
+      "id": "dore", "room": "parlour", "look": "Look behind the painting over the fireplace",
+      "name": "The raven comes in through the curtain", "kind": "picture",
+      "whose": "Gustave Doré",
+      "line": "The first of Doré’s twenty-six engravings for The Raven, from the 1884 edition: a figure collapsed at the foot of a curtain and the bird flying in over him, under the word NEVERMORE.",
+      "image": {"src": "raven/dore-001.jpg", "width": 556, "height": 800, "alt": "A heavy curtain drawn back, with a long banner across the top of it lettered NEVERMORE. The raven flies in through the gap; a figure lies collapsed in the folds of the drapery at the foot of the picture."},
+      "rights": {"words": "public domain everywhere: Doré died in 1883 and the edition was published in 1884", "url": "https://www.gutenberg.org/ebooks/17192"}
+    },
+    {
+      "id": "mopery", "room": "parlour", "look": "Pick up the book face down on the armchair",
+      "name": "The Mopery", "kind": "room", "whose": "Stimpunks",
+      "url": "the-mopery.html",
+      "line": "Where that engraving came from: a dark academia library with candles along every top shelf, and The Raven with all of Doré’s plates set where their own captions say they belong."
+    },
+    {
+      "id": "doomscroll", "room": "stairs", "look": "Look on the landing where the stairs turn",
+      "name": "The Doomscroll", "kind": "room", "whose": "Stimpunks",
+      "url": "the-doomscroll.html",
+      "line": "Public domain poems of doom and gloom, laid out as a feed of bad news on an actual scroll, every poem whole."
+    },
+    {
+      "id": "chimera-obscura", "room": "attic", "look": "Open the trunk under the eaves",
+      "name": "Chimera Obscura", "kind": "room", "whose": "Stimpunks",
+      "url": "chimera-obscura.html",
+      "line": "A camera obscura where you make a creature out of two animals and nobody calls it anything less than whole."
+    },
+    {
+      "id": "repeater", "room": "attic", "look": "Pull the dust sheet off the old wireless",
+      "name": "The Repeater", "kind": "room", "whose": "Stimpunks",
+      "url": "repeater.html",
+      "line": "Turning 06: a radio mast on the ridge against the skyglow, and a line you can leave open that hisses, goes nowhere and sends nothing."
+    },
+    {
+      "id": "creeps", "room": "cellar", "look": "Wind up the gramophone",
+      "name": "Gather ‘Round Creeps", "kind": "page", "whose": "Stimpunks",
+      "url": "https://stimpunks.org/2024/10/31/gather-round-creeps-happy-halloween-from-the-black-leather-lagoon/",
+      "line": "Our punky Halloween playlist, from 2024, full of weird pride. The gramophone only points at it; nothing plays in this house."
+    },
+    {
+      "id": "sithen", "room": "cellar", "look": "Follow the draught to the bricked-up arch",
+      "name": "Sithen", "kind": "room", "whose": "Stimpunks",
+      "url": "sithen.html",
+      "line": "Turning 02: a fairy fort under a full moon, with the rules of the Otherworld nobody will say out loud, and a door that room does not open."
+    },
+    {
+      "id": "show-your-work", "room": "backstage", "look": "Step through the gap between two flats",
+      "name": "Show Your Work", "kind": "room", "whose": "Stimpunks",
+      "url": "show-your-work.html",
+      "line": "A garage with the door rolled up, where our community shows what it is making before it is finished. Behind every set is a workshop."
+    }
+  ],
+  "not_here": [
+    {"name": "Nothing jumps out.", "line": "No sound, nothing moves at any setting, and nothing appears unless you looked for it. A haunted house is allowed to frighten people; this one does it slowly and you can always see the light."},
+    {"name": "A way out of every room.", "line": "Every room in the hunt ends with the way out: back to the road, or the lights up. It is never called a chicken exit, and leaving early is a real way through the house."},
+    {"name": "Nobody is the monster.", "line": "No madness, no asylum, no disabled body and no difference is the scare in here, however old the trick is."},
+    {"name": "Nothing counted.", "line": "No score, no tally of what you found, and the house never says how many things are left to find."},
+    {"name": "Nothing kept.", "line": "The house remembers nothing about you. What you found is put back when you leave, and the next visit starts with everything hidden again."}
+  ],
+  "elsewhere": [
+    {"page": "the-outskirts.html", "name": "The Outskirts", "line": "the road this is a turning off, where nobody was sent and everything keeps its own hours.", "holds": ["Nobody was sent out here."]},
+    {"page": "black-leather-lagoon.html", "name": "Black Leather Lagoon", "line": "turning 01, where it is always Halloween and our Halloween playlist lives.", "holds": ["always Halloween"]},
+    {"page": "sithen.html", "name": "Sithen", "line": "turning 02, for the Otherworld seen from outside the ring.", "holds": ["fairy fort"]},
+    {"page": "show-your-work.html", "name": "Show Your Work", "line": "for what our community is making, shown before it is finished.", "holds": ["Show your work"]},
+    {"page": "sandbox.html", "name": "The Sandbox", "line": "where somebody asked for this house, in the suggestion box.", "holds": ["suggestion"]}
+  ],
+  "suggestion": "https://stimpunks.world/sandbox.html#suggestion-44668378-c1fe-4094-98c4-426cf81d4ec2"
+}

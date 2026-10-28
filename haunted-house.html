@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Haunted House &mdash; Stimpunks.World</title>
+<meta name="description" content="Turning 09 off The Outskirts: an empty warehouse at the end of the road with a haunted house built inside it out of plywood flats, and the only light the work lights coming through the seams. Haunted things our community made and loves, hidden in its rooms for a hunt or laid out in one list with the lights up, and the history and lore of Halloween and haunted houses: the thin veil, the basement parties, the volunteers who built them, the eldritch and the weird. Nothing jumps out, and nobody is the monster.">
+<link rel="canonical" href="https://stimpunks.world/haunted-house.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#17131C">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stimpunks.World">
+<meta property="og:title" content="The Haunted House &mdash; Stimpunks.World">
+<meta property="og:description" content="A haunted house built of plywood in an empty warehouse, lit only through its seams: haunted things to hunt for or scroll through, and the lore of Halloween. Nothing jumps out, and nobody is the monster.">
+<meta property="og:url" content="https://stimpunks.world/haunted-house.html">
+<meta property="og:image" content="https://stimpunks.world/og/haunted-house.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A card in the dark. Across the top, the front of a house built of painted plywood inside a dark warehouse, with timber props at both ends: thin lines of pale light come through the seams between the sheets, round and under the door, between the boards over two windows and a round attic window, and through a cellar grating, and nothing else is lit. A pumpkin nobody lit sits on the steps. Below, small grey capitals reading Turning 09, an empty warehouse at the end of the road, then “The Haunted House” in large pale hand-painted letters, and under it: Built of plywood by the people who turned up, and lit only where the light gets through the seams.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="alternate" href="/feed.xml" type="application/rss+xml" title="Stimpunks.World &mdash; what changed on the street">
+<link rel="preload" href="fonts/mystery-quest-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/domine-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="love.css">
+<!-- The dial's default, applied BEFORE first paint. Deferred to love.js it would
+     flash the loud version at somebody whose device asked for the quiet one. A
+     stored choice wins over the media query, including a choice to turn it UP. -->
+<script>var d=document.documentElement,v=matchMedia('(prefers-reduced-motion: reduce)').matches?'gentle':'regular';try{var s=localStorage.getItem('love-intensity');if(s==='gentle'||s==='regular'||s==='max'){v=s;}var l=localStorage.getItem('love-low');if(l==='warm'||l==='cool'||l==='green'||l==='red'){d.setAttribute('data-low',l);v='gentle';}}catch(e){}d.setAttribute('data-intensity',v);</script>
+
+<!-- structured-data:begin -->
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://stimpunks.world/#website","name":"Stimpunks.World","url":"https://stimpunks.world/","description":"Queer without fear. Interdependent and here. Divergent and proud. Living out loud. One street, no two rooms alike, a garden through the gate in the wall, a campground past the treeline, and a dial that lets you decide how loud it gets. A Stimpunks Foundation site.","inLanguage":"en","publisher":{"@id":"https://stimpunks.org/#org"},"license":"https://creativecommons.org/licenses/by-sa/4.0/"},{"@type":"Organization","@id":"https://stimpunks.org/#org","name":"Stimpunks Foundation","url":"https://stimpunks.org/"},{"@type":"WebPage","@id":"https://stimpunks.world/haunted-house.html#webpage","url":"https://stimpunks.world/haunted-house.html","name":"The Haunted House — Stimpunks.World","description":"Turning 09 off The Outskirts: an empty warehouse at the end of the road with a haunted house built inside it out of plywood flats, and the only light the work lights coming through the seams. Haunted things our community made and loves, hidden in its rooms for a hunt or laid out in one list with the lights up, and the history and lore of Halloween and haunted houses: the thin veil, the basement parties, the volunteers who built them, the eldritch and the weird. Nothing jumps out, and nobody is the monster.","inLanguage":"en","isPartOf":{"@id":"https://stimpunks.world/#website"},"publisher":{"@id":"https://stimpunks.org/#org"}}]}</script>
+<!-- structured-data:end -->
+</head>
+<body class="haunted" id="top">
+<a class="skip" href="#main">Skip into the house</a>
+
+<main id="main" class="wrap" style="padding-bottom:54px;">
+
+  <div class="hh-topline">
+    <a class="backlink" href="the-outskirts.html">&larr; back to the road</a>
+    <p class="hh-trail">past the last streetlight &middot; turning 09 &middot; the warehouse at the end &middot; the work lights left on behind the set</p>
+  </div>
+
+  <header class="hh-head">
+    <p class="hh-over">Turning 09, an empty warehouse at the end of the road</p>
+    <h1>The Haunted House</h1>
+    <p class="hh-sub">Built of plywood by the people who turned up, and lit only where the light gets through the seams.</p>
+  </header>
+
+  <!-- THE SET, written by tools/make-haunted-house.py from data/haunted-house.json:
+       the front of the house standing in the dark warehouse, six painted flats
+       and a gable, timber jacks holding it up at both ends, and the light of
+       the work lights behind it coming through the seams, round the door and
+       between the boards over the windows, and nowhere else. aria-hidden, so the
+       caption says the same thing in words. Lifted whole by make-og.py for the
+       share card. Do not hand-edit between the markers. -->
+  <figure class="hh-front">
+<!-- hh:set:begin -->
+  <svg class="hh-set" viewBox="0 0 1200 420" aria-hidden="true" focusable="false"><rect x="0" y="0" width="1200" height="420" fill="var(--hh-dark)"/><path d="M70 0 V372 M1130 0 V372" stroke="var(--hh-steel)" stroke-width="22"/><path d="M0 34 H1200" stroke="var(--hh-steel)" stroke-width="10"/><rect x="0" y="372" width="1200" height="48" fill="var(--hh-floor)"/><path d="M300 196 L226 372 M300 366 H226 M270 366 L300 268" stroke="var(--hh-timber)" stroke-width="7" stroke-linecap="square" fill="none"/><rect x="226" y="362" width="14" height="10" fill="var(--hh-timber)"/><path d="M900 196 L974 372 M900 366 H974 M930 366 L900 268" stroke="var(--hh-timber)" stroke-width="7" stroke-linecap="square" fill="none"/><rect x="960" y="362" width="14" height="10" fill="var(--hh-timber)"/><path d="M300 372 V176 L600 58 L900 176 V372 Z" fill="var(--hh-wall)"/><path d="M286 182 L600 46 L914 182" fill="none" stroke="var(--hh-paint)" stroke-width="9" stroke-linejoin="round"/><path d="M352 204 l40 0 M352 204 l0 40 M352 204 l30 28 M352 204 l38 16 M352 204 l16 36 M368 204 q-2 14 -16 16 M384 204 q-6 24 -32 28 M372 222 q8 -4 12 -18" fill="none" stroke="var(--hh-paint)" stroke-width="1.4"/><path d="M400 140.7 V370" fill="none" stroke="var(--hh-seam)" stroke-width="8.8" stroke-opacity=".10" stroke-linecap="round"/><path d="M400 140.7 V370" fill="none" stroke="var(--hh-seam)" stroke-width="2.2" stroke-linecap="round"/><path d="M500 101.3 V370" fill="none" stroke="var(--hh-seam)" stroke-width="8.8" stroke-opacity=".10" stroke-linecap="round"/><path d="M500 101.3 V370" fill="none" stroke="var(--hh-seam)" stroke-width="2.2" stroke-linecap="round"/><path d="M600 62 V370" fill="none" stroke="var(--hh-seam)" stroke-width="8.8" stroke-opacity=".10" stroke-linecap="round"/><path d="M600 62 V370" fill="none" stroke="var(--hh-seam)" stroke-width="2.2" stroke-linecap="round"/><path d="M700 101.3 V370" fill="none" stroke="var(--hh-seam)" stroke-width="8.8" stroke-opacity=".10" stroke-linecap="round"/><path d="M700 101.3 V370" fill="none" stroke="var(--hh-seam)" stroke-width="2.2" stroke-linecap="round"/><path d="M800 140.7 V370" fill="none" stroke="var(--hh-seam)" stroke-width="8.8" stroke-opacity=".10" stroke-linecap="round"/><path d="M800 140.7 V370" fill="none" stroke="var(--hh-seam)" stroke-width="2.2" stroke-linecap="round"/><rect x="391" y="236" width="18" height="26" rx="1.5" fill="var(--hh-tape)"/><rect x="491" y="318" width="18" height="30" rx="1.5" fill="var(--hh-tape)"/><rect x="691" y="196" width="18" height="22" rx="1.5" fill="var(--hh-tape)"/><rect x="791" y="330" width="18" height="26" rx="1.5" fill="var(--hh-tape)"/><rect x="556" y="262" width="88" height="110" fill="var(--hh-door)"/><path d="M566 274 H634 V312 H566 Z M566 324 H634 V358 H566 Z" fill="none" stroke="var(--hh-paint)" stroke-width="1.6"/><circle cx="630" cy="320" r="3.4" fill="var(--hh-paint)"/><rect x="352" y="204" width="104" height="96" fill="var(--hh-dark)"/><rect x="344" y="208" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(2 404.0 218)"/><rect x="344" y="232" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(-2 404.0 242)"/><rect x="344" y="256" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(2 404.0 266)"/><rect x="344" y="280" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(-2 404.0 290)"/><rect x="342" y="194" width="124" height="116" fill="none" stroke="var(--hh-paint)" stroke-width="6"/><rect x="744" y="204" width="104" height="96" fill="var(--hh-dark)"/><rect x="736" y="208" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(2 796.0 218)"/><rect x="736" y="232" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(-2 796.0 242)"/><rect x="736" y="256" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(2 796.0 266)"/><rect x="736" y="280" width="120" height="20" rx="1" fill="var(--hh-board)" transform="rotate(-2 796.0 290)"/><rect x="734" y="194" width="124" height="116" fill="none" stroke="var(--hh-paint)" stroke-width="6"/><circle cx="600" cy="122" r="26" fill="var(--hh-dark)"/><path d="M572 122 H628 M600 94 V150" stroke="var(--hh-board)" stroke-width="8"/><circle cx="600" cy="122" r="30" fill="none" stroke="var(--hh-paint)" stroke-width="6"/><rect x="324" y="342" width="72" height="22" fill="var(--hh-dark)"/><rect x="320" y="338" width="80" height="30" fill="none" stroke="var(--hh-paint)" stroke-width="4"/><path d="M530 372 H670 V384 H530 Z M518 384 H682 V396 H518 Z M506 396 H694 V408 H506 Z" fill="var(--hh-step)" stroke="var(--hh-floor)" stroke-width="1.4"/><ellipse cx="664" cy="360" rx="17" ry="13" fill="var(--hh-pumpkin)"/><path d="M664 347 q2 -6 6 -7" stroke="var(--hh-timber)" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M656 354 l4 4 l-6 1 Z M672 354 l-4 4 l6 1 Z M654 364 q10 7 20 0 l-3 2 l-3 -2 l-4 3 l-4 -3 l-3 2 Z" fill="var(--hh-dark)"/><path d="M304 175 L600 56 L896 175" fill="none" stroke="var(--hh-seam)" stroke-width="6.4" stroke-opacity=".10" stroke-linecap="round"/><path d="M304 175 L600 56 L896 175" fill="none" stroke="var(--hh-seam)" stroke-width="1.6" stroke-linecap="round"/><path d="M555 371 V261 H645 V371" fill="none" stroke="var(--hh-seam)" stroke-width="6.4" stroke-opacity=".10" stroke-linecap="round"/><path d="M555 371 V261 H645 V371" fill="none" stroke="var(--hh-seam)" stroke-width="1.6" stroke-linecap="round"/><path d="M558 371 H642" fill="none" stroke="var(--hh-seam)" stroke-width="12" stroke-opacity=".10" stroke-linecap="round"/><path d="M558 371 H642" fill="none" stroke="var(--hh-seam)" stroke-width="3" stroke-linecap="round"/><path d="M356 206 H452" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M356 206 H452" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M356 230 H452" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M356 230 H452" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M356 254 H452" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M356 254 H452" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M356 278 H452" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M356 278 H452" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M748 206 H844" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M748 206 H844" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M748 230 H844" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M748 230 H844" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M748 254 H844" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M748 254 H844" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M748 278 H844" fill="none" stroke="var(--hh-seam)" stroke-width="5.6" stroke-opacity=".10" stroke-linecap="round"/><path d="M748 278 H844" fill="none" stroke="var(--hh-seam)" stroke-width="1.4" stroke-linecap="round"/><path d="M580 117 H620 M580 127 H620 M595 102 V142 M605 102 V142" fill="none" stroke="var(--hh-seam)" stroke-width="4.8" stroke-opacity=".10" stroke-linecap="round"/><path d="M580 117 H620 M580 127 H620 M595 102 V142 M605 102 V142" fill="none" stroke="var(--hh-seam)" stroke-width="1.2" stroke-linecap="round"/><path d="M334 346 V360 M348 346 V360 M362 346 V360 M376 346 V360 M388 346 V360" fill="none" stroke="var(--hh-seam)" stroke-width="4.8" stroke-opacity=".10" stroke-linecap="round"/><path d="M334 346 V360 M348 346 V360 M362 346 V360 M376 346 V360 M388 346 V360" fill="none" stroke="var(--hh-seam)" stroke-width="1.2" stroke-linecap="round"/></svg>
+  <!-- hh:set:end -->
+    <figcaption class="hh-front__words">The front of a house, standing inside a dark warehouse: a gable and walls made of painted plywood sheets, with timber props holding it up at both ends. Light comes through the thin seams where the sheets meet, round the edges of the door and under it, between the boards nailed over two windows and a round attic window, and through a cellar grating low in the wall. Nothing else is lit. Three painted steps lead up to the door, and on them is a pumpkin with a carved face that nobody has lit.</figcaption>
+  </figure>
+
+  <section class="hh-lede">
+<!-- hh:lede:begin -->
+    <p>Past the last streetlight, at the end of the road, there is a warehouse nobody was using. Inside it, somebody built a house: plywood flats screwed to timber, gaffer tape over the joins, every wall painted by people who had never painted a wall to look old before and did it anyway. <b>The work lights are on behind the set.</b> Inside the house you never see them. You see only where their light comes through: the seams where two flats do not quite meet, the gap under a door, the cracks between the boards over a window.</p>
+    <p>Things are hidden in the house: spooky things from our own street and our own pages, and, as people bring them, haunted things our community has made and things we love. <b>There are two ways through it.</b> With the lights up, everything is laid out in one list you can scroll. With the lights down, it is a hunt: go from room to room and look in places, and what is hidden there turns up where you looked. Nothing jumps out, nothing makes a sound, and the house counts nothing you find.</p>
+    <blockquote class="hh-quote">
+      <p>For me, haunted houses bring together themes of the horror of existence, the inevitability of death, remembrance of ancestors, DIY, making, creativity, thresholds, liminality, and seasonal rest.</p>
+      <footer class="hh-quote__who">Ryan Boren, his brief for this room, 2026</footer>
+    </blockquote>
+    <p>Its channel on the CB is for haunted things: share a picture or a link of something spooky you made or love, and say what it is. Sign on and tune the radio to <b>This room</b> while you are in here, or open <a href="chat.html#haunted-house">the house’s channel</a> on the chat page.</p>
+    <!-- hh:lede:end -->
+  </section>
+
+  <!-- THE LIGHTS: two ways through the same things. Ships hidden, so a page
+       with no script shows the list and no dead switch; haunted-house.js
+       unhides it, starts with the lights up, and keeps nothing. -->
+  <div class="hh-lights" id="lights" hidden>
+    <p class="hh-lights__label" id="hh-lights-label">The lights</p>
+    <div class="hh-lights__row" role="group" aria-labelledby="hh-lights-label">
+      <button type="button" class="hh-lights__btn" data-hh-lights="up" aria-pressed="true">Lights up: everything in one list</button>
+      <button type="button" class="hh-lights__btn" data-hh-lights="down" aria-pressed="false">Lights down: hunt for them</button>
+    </div>
+    <p class="hh-lights__note" aria-live="polite"></p>
+  </div>
+
+  <section class="hh-hunt" aria-labelledby="hh-hunt-h" hidden>
+    <h2 id="hh-hunt-h">Lights down: look for what is hidden</h2>
+    <p>Each room of the house is below, and every place to look in it is a button that says where it looks. Press one and whatever is hidden there turns up right under it; press it again to put it back. Every room ends with the way out.</p>
+<!-- hh:hunt:begin -->
+    <ol class="hh-rooms">
+      <li class="hh-room" id="room-porch">
+        <h3 class="hh-room__name">The porch</h3>
+        <p class="hh-room__line">Three painted steps, a pumpkin nobody lit, and the door with light all round its edges.</p>
+        <ul class="hh-places">
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-weird" data-hh-look="weird">Lift the doormat</button>
+            <div class="hh-found" id="look-weird" hidden></div>
+          </li>
+        </ul>
+        <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
+      </li>
+      <li class="hh-room" id="room-hall">
+        <h3 class="hh-room__name">The hall</h3>
+        <p class="hh-room__line">A long dark hall with the stairs going up out of it and a coat cupboard under them.</p>
+        <ul class="hh-places">
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-lagoon" data-hh-look="lagoon">Open the coat cupboard under the stairs</button>
+            <div class="hh-found" id="look-lagoon" hidden></div>
+          </li>
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-chimeras" data-hh-look="chimeras">Look in the hall mirror</button>
+            <div class="hh-found" id="look-chimeras" hidden></div>
+          </li>
+        </ul>
+        <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
+      </li>
+      <li class="hh-room" id="room-parlour">
+        <h3 class="hh-room__name">The parlour</h3>
+        <p class="hh-room__line">A painted fireplace that has never been lit, a card table, and an armchair with a book face down on it.</p>
+        <ul class="hh-places">
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-oracle" data-hh-look="oracle">Turn over the cards on the table</button>
+            <div class="hh-found" id="look-oracle" hidden></div>
+          </li>
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-dore" data-hh-look="dore">Look behind the painting over the fireplace</button>
+            <div class="hh-found" id="look-dore" hidden></div>
+          </li>
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-mopery" data-hh-look="mopery">Pick up the book face down on the armchair</button>
+            <div class="hh-found" id="look-mopery" hidden></div>
+          </li>
+        </ul>
+        <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
+      </li>
+      <li class="hh-room" id="room-stairs">
+        <h3 class="hh-room__name">The stairs</h3>
+        <p class="hh-room__line">They turn halfway, at a landing, and the light comes up between the treads.</p>
+        <ul class="hh-places">
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-doomscroll" data-hh-look="doomscroll">Look on the landing where the stairs turn</button>
+            <div class="hh-found" id="look-doomscroll" hidden></div>
+          </li>
+        </ul>
+        <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
+      </li>
+      <li class="hh-room" id="room-attic">
+        <h3 class="hh-room__name">The attic</h3>
+        <p class="hh-room__line">Under the eaves, with the round window boarded in a cross and everything under dust sheets.</p>
+        <ul class="hh-places">
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-chimera-obscura" data-hh-look="chimera-obscura">Open the trunk under the eaves</button>
+            <div class="hh-found" id="look-chimera-obscura" hidden></div>
+          </li>
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-repeater" data-hh-look="repeater">Pull the dust sheet off the old wireless</button>
+            <div class="hh-found" id="look-repeater" hidden></div>
+          </li>
+        </ul>
+        <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
+      </li>
+      <li class="hh-room" id="room-cellar">
+        <h3 class="hh-room__name">The cellar</h3>
+        <p class="hh-room__line">Where the first Halloween haunted houses were. A gramophone, and a draught from somewhere.</p>
+        <ul class="hh-places">
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-creeps" data-hh-look="creeps">Wind up the gramophone</button>
+            <div class="hh-found" id="look-creeps" hidden></div>
+          </li>
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-sithen" data-hh-look="sithen">Follow the draught to the bricked-up arch</button>
+            <div class="hh-found" id="look-sithen" hidden></div>
+          </li>
+        </ul>
+        <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
+      </li>
+      <li class="hh-room" id="room-backstage">
+        <h3 class="hh-room__name">Behind the set</h3>
+        <p class="hh-room__line">Through the gap between two flats, where the light comes from: the work lights, the crates, and the people who built the house.</p>
+        <ul class="hh-places">
+          <li class="hh-place">
+            <button type="button" class="hh-look" aria-expanded="false" aria-controls="look-show-your-work" data-hh-look="show-your-work">Step through the gap between two flats</button>
+            <div class="hh-found" id="look-show-your-work" hidden></div>
+          </li>
+        </ul>
+        <p class="hh-out">The way out: <a href="the-outskirts.html">back to the road</a>, or <a href="#lights-up">put the lights up</a>.</p>
+      </li>
+    </ol>
+    <!-- hh:hunt:end -->
+  </section>
+
+  <section class="hh-list" aria-labelledby="hh-list-h">
+    <h2 id="hh-list-h">Lights up: everything in the house</h2>
+    <p>Every thing hidden in the house, in the order you would find it walking through, with where it hides.</p>
+<!-- hh:list:begin -->
+    <ol class="hh-things">
+      <li class="hh-thing" id="thing-weird">
+        <div class="hh-thing__body" data-hh-thing="weird">
+          <h3 class="hh-thing__name"><a href="https://stimpunks.org/glossary/weird/">Weird</a></h3>
+          <p class="hh-thing__kind">A page of ours &middot; Stimpunks</p>
+          <p class="hh-thing__line">Our glossary entry for weird pride, left under the mat for whoever comes to the door: the refusal to be ashamed of the things people find weird.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The porch: lift the doormat</p>
+      </li>
+      <li class="hh-thing" id="thing-lagoon">
+        <div class="hh-thing__body" data-hh-thing="lagoon">
+          <h3 class="hh-thing__name"><a href="black-leather-lagoon.html">Black Leather Lagoon</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">Turning 01 on this same road: a drive-in screen standing in black water, an appreciation of The Cramps, and the room where it is always Halloween.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The hall: open the coat cupboard under the stairs</p>
+      </li>
+      <li class="hh-thing" id="thing-chimeras">
+        <div class="hh-thing__body" data-hh-thing="chimeras">
+          <h3 class="hh-thing__name"><a href="https://stimpunks.org/2026/10/22/infodumplings-every-chimera-is-whole/">Infodumplings: Every Chimera Is Whole</a></h3>
+          <p class="hh-thing__kind">A page of ours &middot; Stimpunks</p>
+          <p class="hh-thing__line">Our write-up for an evening of making chimeras together, which listens for the word monster in a video about them and says what it does.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The hall: look in the hall mirror</p>
+      </li>
+      <li class="hh-thing" id="thing-oracle">
+        <div class="hh-thing__body" data-hh-thing="oracle">
+          <h3 class="hh-thing__name"><a href="oracle-deck.html">The Oracle Deck</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">A deck in a dark room where every card asks a question and none of them tells your fortune.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The parlour: turn over the cards on the table</p>
+      </li>
+      <li class="hh-thing" id="thing-dore">
+        <div class="hh-thing__body" data-hh-thing="dore">
+          <h3 class="hh-thing__name">The raven comes in through the curtain</h3>
+          <p class="hh-thing__kind">A picture &middot; Gustave Doré</p>
+          <img class="hh-thing__pic" src="raven/dore-001.jpg" width="556" height="800" alt="A heavy curtain drawn back, with a long banner across the top of it lettered NEVERMORE. The raven flies in through the gap; a figure lies collapsed in the folds of the drapery at the foot of the picture." loading="lazy" decoding="async">
+          <p class="hh-thing__line">The first of Doré’s twenty-six engravings for The Raven, from the 1884 edition: a figure collapsed at the foot of a curtain and the bird flying in over him, under the word NEVERMORE. <span class="hh-thing__rights">It is public domain everywhere: Doré died in 1883 and the edition was published in 1884; <a href="https://www.gutenberg.org/ebooks/17192">the scan&rsquo;s own page</a>.</span></p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The parlour: look behind the painting over the fireplace</p>
+      </li>
+      <li class="hh-thing" id="thing-mopery">
+        <div class="hh-thing__body" data-hh-thing="mopery">
+          <h3 class="hh-thing__name"><a href="the-mopery.html">The Mopery</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">Where that engraving came from: a dark academia library with candles along every top shelf, and The Raven with all of Doré’s plates set where their own captions say they belong.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The parlour: pick up the book face down on the armchair</p>
+      </li>
+      <li class="hh-thing" id="thing-doomscroll">
+        <div class="hh-thing__body" data-hh-thing="doomscroll">
+          <h3 class="hh-thing__name"><a href="the-doomscroll.html">The Doomscroll</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">Public domain poems of doom and gloom, laid out as a feed of bad news on an actual scroll, every poem whole.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The stairs: look on the landing where the stairs turn</p>
+      </li>
+      <li class="hh-thing" id="thing-chimera-obscura">
+        <div class="hh-thing__body" data-hh-thing="chimera-obscura">
+          <h3 class="hh-thing__name"><a href="chimera-obscura.html">Chimera Obscura</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">A camera obscura where you make a creature out of two animals and nobody calls it anything less than whole.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The attic: open the trunk under the eaves</p>
+      </li>
+      <li class="hh-thing" id="thing-repeater">
+        <div class="hh-thing__body" data-hh-thing="repeater">
+          <h3 class="hh-thing__name"><a href="repeater.html">The Repeater</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">Turning 06: a radio mast on the ridge against the skyglow, and a line you can leave open that hisses, goes nowhere and sends nothing.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The attic: pull the dust sheet off the old wireless</p>
+      </li>
+      <li class="hh-thing" id="thing-creeps">
+        <div class="hh-thing__body" data-hh-thing="creeps">
+          <h3 class="hh-thing__name"><a href="https://stimpunks.org/2024/10/31/gather-round-creeps-happy-halloween-from-the-black-leather-lagoon/">Gather ‘Round Creeps</a></h3>
+          <p class="hh-thing__kind">A page of ours &middot; Stimpunks</p>
+          <p class="hh-thing__line">Our punky Halloween playlist, from 2024, full of weird pride. The gramophone only points at it; nothing plays in this house.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The cellar: wind up the gramophone</p>
+      </li>
+      <li class="hh-thing" id="thing-sithen">
+        <div class="hh-thing__body" data-hh-thing="sithen">
+          <h3 class="hh-thing__name"><a href="sithen.html">Sithen</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">Turning 02: a fairy fort under a full moon, with the rules of the Otherworld nobody will say out loud, and a door that room does not open.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: The cellar: follow the draught to the bricked-up arch</p>
+      </li>
+      <li class="hh-thing" id="thing-show-your-work">
+        <div class="hh-thing__body" data-hh-thing="show-your-work">
+          <h3 class="hh-thing__name"><a href="show-your-work.html">Show Your Work</a></h3>
+          <p class="hh-thing__kind">A room on this street &middot; Stimpunks</p>
+          <p class="hh-thing__line">A garage with the door rolled up, where our community shows what it is making before it is finished. Behind every set is a workshop.</p>
+        </div>
+        <p class="hh-thing__where">Where it hides: Behind the set: step through the gap between two flats</p>
+      </li>
+    </ol>
+    <!-- hh:list:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-veil-h">
+    <h2 id="hh-veil-h">Samhain, and the thin places</h2>
+<!-- hh:veil:begin -->
+    <p>Halloween is All Hallows’ Eve, the night before All Saints’ Day on the first of November. It sits on top of something much older: Samhain, at the end of the harvest, when the light half of the year turned into the dark half.</p>
+    <blockquote class="hh-quote">
+      <p>According to traditional beliefs surrounding Samhain, this was a liminal time when the boundary between the world of the living and the spirit world was thought to become thinner, allowing greater contact with the Otherworld and with those who had passed away.</p>
+      <footer class="hh-quote__who">Hannah Daisy, <a href="https://exquisiteenergies.com/2026/09/14/halloween-and-the-thinning-veil-when-the-worlds-feel-closer/">Halloween and the Thinning Veil: When the Worlds Feel Closer</a>, Exquisiteenergies, 2026</footer>
+    </blockquote>
+    <p>The old word for a threshold, the strip of floor in a doorway between one room and the next, is the Latin <b>limen</b>, and it is where liminal comes from. The folklorist Arnold van Gennep used the idea in 1909 for the middle of a rite of passage: the part where you have left one state and not yet arrived in the next. A doorway, dusk, the turn of the year.</p>
+    <p>This house is built out of that idea. Every wall is a flat, and every seam is a threshold with the light on the other side of it. <b>The other side is right there.</b> It is the work lights, and the people who built the house, sitting on upturned crates behind the parlour wall.</p>
+    <blockquote class="hh-quote">
+      <p>Whether you understand this literally, symbolically or simply as an invitation to pause and reflect, there is something profoundly beautiful about the idea.</p>
+      <footer class="hh-quote__who">Hannah Daisy, <a href="https://exquisiteenergies.com/2026/09/14/halloween-and-the-thinning-veil-when-the-worlds-feel-closer/">Halloween and the Thinning Veil: When the Worlds Feel Closer</a>, Exquisiteenergies, 2026</footer>
+    </blockquote>
+    <!-- hh:veil:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-history-h">
+    <h2 id="hh-history-h">Where haunted houses came from</h2>
+<!-- hh:history:begin -->
+    <blockquote class="hh-quote">
+      <p>This is what a haunted house is supposed to do. They exist to scare people.</p>
+      <footer class="hh-quote__who">Chris Heller, <a href="https://www.smithsonianmag.com/history/history-haunted-house-180957008/">A Brief History of the Haunted House</a>, Smithsonian Magazine, 2015</footer>
+    </blockquote>
+    <p>Chris Heller’s short history of the haunted house, for Smithsonian Magazine, starts in London. In 1802 Marie Tussaud showed the wax heads of the French Revolution’s guillotined, made from the death masks she had cast of them, and called her permanent show the Chamber of Horrors. Around the turn of the century the Grand Guignol theatre in Paris staged dismemberment on its stage. In 1915 a fairground at Liphook, in England, opened one of the first ghost houses.</p>
+    <p>The Halloween haunted house is American, and it arrived in the Great Depression at about the same time as trick-or-treat, as a way to stop young people’s pranks from turning into vandalism. Lisa Morton, who wrote <i>Trick or Treat: A History of Halloween</i>, put it plainly:</p>
+    <blockquote class="hh-quote">
+      <p>Cities looked for ways to buy these kids off, essentially.</p>
+      <footer class="hh-quote__who">Lisa Morton, quoted by Chris Heller, <a href="https://www.smithsonianmag.com/history/history-haunted-house-180957008/">A Brief History of the Haunted House</a>, Smithsonian Magazine, 2015</footer>
+    </blockquote>
+    <p><b>The first ones were basements.</b> Families decorated their cellars and children went from house to house, from one scene to the next. A 1937 party pamphlet has fur and strips of raw liver on the walls, wet sponges hung from the ceiling, a crawl through a long dark tunnel, and at the end a black cardboard cat outlined in luminous paint.</p>
+    <blockquote class="hh-quote">
+      <p>The tradition could not exist without Halloween; Halloween would not be the same without it.</p>
+      <footer class="hh-quote__who">Chris Heller, <a href="https://www.smithsonianmag.com/history/history-haunted-house-180957008/">A Brief History of the Haunted House</a>, Smithsonian Magazine, 2015</footer>
+    </blockquote>
+    <p>Disneyland’s Haunted Mansion opened in 1969, its ghosts made with Pepper’s ghost, an old stage illusion of reflected light, and Morton calls it the start of the haunted attraction industry. Within a few years the Jaycees, the United States Junior Chamber, were raising money with haunted houses across the country, built by volunteers.</p>
+    <p>Then the professional houses came, with film tie-ins and advertising. A fire at a haunted house in New Jersey killed eight teenagers who could not get out. The rules got stricter, and many of the volunteer houses could not keep up. Larry Kirchner, of the Haunted House Association, told Heller:</p>
+    <blockquote class="hh-quote">
+      <p>It was based on the premise that people would volunteer, but when you have people opening big haunted houses with lots of advertising, that's hard.</p>
+      <footer class="hh-quote__who">Larry Kirchner, quoted by Chris Heller, <a href="https://www.smithsonianmag.com/history/history-haunted-house-180957008/">A Brief History of the Haunted House</a>, Smithsonian Magazine, 2015</footer>
+    </blockquote>
+    <p>That fire is why <b>every room in this house has its way out written in it</b>, and why the way out is never called anything but the way out.</p>
+    <!-- hh:history:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-made-h">
+    <h2 id="hh-made-h">Built by hand, in empty warehouses</h2>
+<!-- hh:made:begin -->
+    <p>Ryan remembers them on the outskirts of town, in warehouses that were usually empty, built by the people who turned up to build them.</p>
+    <blockquote class="hh-quote">
+      <p>I recall being impressed by the DIY spirit of some of them. Folks put a lot of work into making a compelling experience. They poured craft into the effort.</p>
+      <footer class="hh-quote__who">Ryan Boren, his brief for this room, 2026</footer>
+    </blockquote>
+    <p>This one is a set and does not hide it. You can see the screws in the flats, the timber jacks propping up the sides, the tape on the seams and the light coming through them. <b>That is the frightening part and the good part at once</b>: a few people with no budget made you feel something in the dark, and you can see exactly how. It is the same thing <a href="show-your-work.html">Show Your Work</a> says about showing the work while it is still being made.</p>
+    <!-- hh:made:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-weird-h">
+    <h2 id="hh-weird-h">Eldritch, weird, and who gets made the monster</h2>
+<!-- hh:weird:begin -->
+    <p><b>Eldritch</b> is an old Scots word for unearthly: in Robert Burns’s <i>Tam o’ Shanter</i>, in 1791, the witches give an eldritch skreech. Where its first half comes from is not settled. One guess is elf, and another is an old English root meaning foreign, strange, other. <a href="https://en.wikipedia.org/wiki/H._P._Lovecraft">H. P. Lovecraft</a> brought the word back into fashion, and much of the horror he made with it was his fear of people unlike himself.</p>
+    <p>That is the oldest trick in horror, and the cheapest: make the frightening thing somebody who is different. Disabled bodies, minds that work differently, queer people and strangers have all been made into the monster, and the freak show charged admission for it. Our own write-up for an evening of chimeras heard it happen in a video about monsters:</p>
+    <blockquote class="hh-quote">
+      <p>It is a throwaway line, and it is exactly how the freak show worked: a human body, described as part animal.</p>
+      <footer class="hh-quote__who">Stimpunks, <a href="https://stimpunks.org/2026/10/22/infodumplings-every-chimera-is-whole/">Infodumplings: Every Chimera Is Whole</a></footer>
+    </blockquote>
+    <p><b>Weird is the word we kept.</b> <a href="https://stimpunks.org/glossary/weird/">Our Weird page</a> is a long argument for weird pride, and it quotes Ferrous, aka Oolong:</p>
+    <blockquote class="hh-quote">
+      <p>A lot of neurodivergent kids learn early on that they’re ‘weird’. The lucky ones learn to embrace it before they’re forced to internalise the implied shame.</p>
+      <footer class="hh-quote__who">Ferrous, aka Oolong, <a href="https://twitter.com/MxOolong/status/1499306544449662977">a post on Twitter</a>, read on our <a href="https://stimpunks.org/glossary/weird/">Weird</a> page</footer>
+    </blockquote>
+    <blockquote class="hh-quote">
+      <p>Weirdmisia — hatred of the weird — is the enemy of diversity.</p>
+      <footer class="hh-quote__who">Ferrous, aka Oolong, <a href="https://oolong.medium.com/weird-pride-day-232465b67dd9">Weird Pride Day</a>, read on our <a href="https://stimpunks.org/glossary/weird/">Weird</a> page</footer>
+    </blockquote>
+    <p>So this house is eldritch, and nobody in it is the monster. On Halloween everybody wears the strange, and here the different are the ones who built the place. Our Halloween playlist, two years ago, said it in four words:</p>
+    <blockquote class="hh-quote">
+      <p>Death, divergence, and whimsy.</p>
+      <footer class="hh-quote__who">Stimpunks, <a href="https://stimpunks.org/2024/10/31/gather-round-creeps-happy-halloween-from-the-black-leather-lagoon/">Gather ‘Round Creeps: Happy Halloween from the Black Leather Lagoon</a></footer>
+    </blockquote>
+    <!-- hh:weird:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-rest-h">
+    <h2 id="hh-rest-h">The darker half of the year</h2>
+<!-- hh:rest:begin -->
+    <p>Samhain closed the harvest and opened the dark half of the year, when the fields rest.</p>
+    <blockquote class="hh-quote">
+      <p>The darker half of the year can become a time of introspection, rest and spiritual renewal.</p>
+      <footer class="hh-quote__who">Hannah Daisy, <a href="https://exquisiteenergies.com/2026/09/14/halloween-and-the-thinning-veil-when-the-worlds-feel-closer/">Halloween and the Thinning Veil: When the Worlds Feel Closer</a>, Exquisiteenergies, 2026</footer>
+    </blockquote>
+    <p>Remembering belongs here too. Ryan’s brief names remembrance of ancestors, and the people we have lost are part of why a thin veil is a lovely idea rather than a frightening one. Other peoples keep their own days for their dead, in their own ways; this house does not borrow them.</p>
+    <p>On this street rest is owed, not earned, which is <a href="healing-checkpoint.html">the Healing Checkpoint</a>’s whole argument. The house stays up all year, so there is no hurry. Come back in the spring if the dark half is for sleeping.</p>
+    <!-- hh:rest:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-bring-h">
+    <h2 id="hh-bring-h">Bring something to the house</h2>
+<!-- hh:bring:begin -->
+    <p>Somebody in our community asked for this house in <a href="https://stimpunks.world/sandbox.html#suggestion-44668378-c1fe-4094-98c4-426cf81d4ec2">the Sandbox&rsquo;s suggestion box</a>: a place to share haunted things we have made and things we love, pictures and links, with one way to look for them like a scavenger hunt and one way to scroll through them all.</p>
+    <p><strong>Bring a picture or a link to the house&rsquo;s channel on the CB.</strong> The channel takes pictures and links, like every channel, and keeps them two weeks unless our administrators set it otherwise. Sign on, tune the radio to <b>This room</b> in here, or open <a href="chat.html#haunted-house">the house&rsquo;s channel</a> on the chat page, and say what it is and whose.</p>
+    <p><strong>To put something in the house for good</strong>, hidden in one of its rooms and in the list with the lights up, say so on the channel or in <a href="sandbox.html">the suggestion box</a>. It goes in with the name of whoever made it, the way they want to be named, and the day they said yes, and it comes out the moment they ask, deleted rather than hidden. Something you love that somebody else made goes in as a link with their name on it, never as a copy of their picture.</p>
+    <!-- hh:bring:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-rules-h">
+    <h2 id="hh-rules-h">What is not in this house</h2>
+<!-- hh:rules:begin -->
+    <ul class="hh-rules">
+      <li><strong>Nothing jumps out.</strong> No sound, nothing moves at any setting, and nothing appears unless you looked for it. A haunted house is allowed to frighten people; this one does it slowly and you can always see the light.</li>
+      <li><strong>A way out of every room.</strong> Every room in the hunt ends with the way out: back to the road, or the lights up. It is never called a chicken exit, and leaving early is a real way through the house.</li>
+      <li><strong>Nobody is the monster.</strong> No madness, no asylum, no disabled body and no difference is the scare in here, however old the trick is.</li>
+      <li><strong>Nothing counted.</strong> No score, no tally of what you found, and the house never says how many things are left to find.</li>
+      <li><strong>Nothing kept.</strong> The house remembers nothing about you. What you found is put back when you leave, and the next visit starts with everything hidden again.</li>
+    </ul>
+    <!-- hh:rules:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-channel-h">
+    <h2 id="hh-channel-h">Who reads the channel, and for how long</h2>
+<!-- hh:channel:begin -->
+    <ul class="hh-rules">
+      <li><strong>Everybody signed on to the CB can read this room&rsquo;s channel</strong>, so share only what you would show a room with all of them in it. It keeps <a href="community-center.html#cb-norms">the house norms</a>, like every channel, and a picture is part of its message and goes when the message does.</li>
+      <li><strong>Unless our administrators set this channel otherwise, every message on it goes two weeks after it was sent</strong>, and the radio says what it keeps, first under <b>In this channel</b>.</li>
+      <li><strong>Say what is in it</strong> when what you share has blood, a jump or a flash in it, so somebody can choose before they press.</li>
+    </ul>
+    <!-- hh:channel:end -->
+  </section>
+
+  <section class="hh-part" aria-labelledby="hh-next-h">
+    <h2 id="hh-next-h">Next door</h2>
+<!-- hh:elsewhere:begin -->
+    <ul class="hh-next">
+      <li><a href="the-outskirts.html">The Outskirts</a>, the road this is a turning off, where nobody was sent and everything keeps its own hours.</li>
+      <li><a href="black-leather-lagoon.html">Black Leather Lagoon</a>, turning 01, where it is always Halloween and our Halloween playlist lives.</li>
+      <li><a href="sithen.html">Sithen</a>, turning 02, for the Otherworld seen from outside the ring.</li>
+      <li><a href="show-your-work.html">Show Your Work</a>, for what our community is making, shown before it is finished.</li>
+      <li><a href="sandbox.html">The Sandbox</a>, where somebody asked for this house, in the suggestion box.</li>
+    </ul>
+    <!-- hh:elsewhere:end -->
+  </section>
+
+  <section class="hh-part hh-whose" aria-labelledby="hh-credits-h">
+    <h2 id="hh-credits-h">Whose this is</h2>
+<!-- hh:credits:begin -->
+    <ul class="hh-credits">
+      <li><strong>The house is ours</strong>: the set, its rooms, where everything hides, and every sentence not in a quotation, drawn and written as code by Claude, an AI model made by Anthropic, to Ryan&rsquo;s brief and to <a href="https://stimpunks.world/sandbox.html#suggestion-44668378-c1fe-4094-98c4-426cf81d4ec2">the suggestion</a> that asked for it. Nothing on this page calls an AI while you read it.</li>
+      <li><strong>Every quotation belongs to whoever said it</strong> and is credited where it stands: Chris Heller, Lisa Morton, Larry Kirchner, Hannah Daisy, Ryan Boren and Ferrous, aka Oolong, and Stimpunks. Chris Heller&rsquo;s <a href="https://www.smithsonianmag.com/history/history-haunted-house-180957008/">A Brief History of the Haunted House</a> was read on 28 October 2026, in the Internet Archive's copy, because the magazine answers a script with a refusal. Hannah Daisy&rsquo;s <a href="https://exquisiteenergies.com/2026/09/14/halloween-and-the-thinning-veil-when-the-worlds-feel-closer/">Halloween and the Thinning Veil: When the Worlds Feel Closer</a> was read on 28 October 2026. Every quotation is 50 words or fewer, and <code>tools/make-haunted-house.py</code> checks the ones from our own pages against them word for word whenever our copy of stimpunks.org is on the machine.</li>
+      <li><strong>Every thing in the house is credited to whoever made it.</strong> The engraving is Gustave Dor&eacute;&rsquo;s, public domain, as it hangs in <a href="the-mopery.html">the Mopery</a>; the rooms are this street&rsquo;s and the pages are stimpunks.org&rsquo;s.</li>
+      <li><strong>Where eldritch comes from</strong> is read in Wiktionary&rsquo;s entry for it, which says nobody is sure; the history of the haunted house is Chris Heller&rsquo;s, as written above, and no date or name in it was added from memory.</li>
+      <li>The type is Mystery Quest, by Sideshow, for the house&rsquo;s name and its headings, under the SIL Open Font License, and Domine, by Impallari Type, for everything you read, under the SIL Open Font License, both read off their own records. More in <a href="liner-notes.html#haunted-house">the liner notes</a>.</li>
+    </ul>
+    <!-- hh:credits:end -->
+  </section>
+
+  <!-- The job board's marker for this room. Written by
+       tools/make-guild.py out of data/quests.json; the same file writes the
+       entry on adventurers-guild.html, so the code cannot differ between
+       the two places it has to be identical in. Do not hand-edit. -->
+  <!-- quest:hh-key:begin -->
+  <details class="quest" data-quest="hh-key" data-code="SKELETONKEY" data-accept="basement|basements|cellar|cellars|thebasement|thebasements|thecellar|thecellars">
+    <summary class="quest__mark">
+      <svg class="quest__draw" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 29.5 H29" stroke="var(--hh-paint)" stroke-width="1.6" stroke-linecap="round"/><circle cx="9.5" cy="19.5" r="4.6" fill="none" stroke="var(--hh-link)" stroke-width="2.2"/><circle cx="9.5" cy="19.5" r="1.4" fill="var(--hh-link)"/><path d="M14 19.5 H27.5" stroke="var(--hh-link)" stroke-width="2.2" stroke-linecap="round"/><path d="M23 19.5 V24 H25 V22 M27 19.5 V23.5" fill="none" stroke="var(--hh-link)" stroke-width="2" stroke-linecap="square"/></svg>
+      <span class="quest__label">Job marker &mdash; an old iron key dropped on the warehouse floor</span>
+    </summary>
+    <div class="quest__panel">
+      <p class="quest__what"><b>You have found a job marker.</b> The Adventurer&rsquo;s Guild is a shopfront on the street, and it posts jobs that send you round these rooms. Take the code below to its board and that job is done. Nothing here is scored, nothing expires, and one is a perfectly good number of jobs to do.</p>
+      <p class="quest__job"><b>The job:</b> Where the first ones were</p>
+      <p class="quest__ask"><b>Before the code:</b> The first Halloween haunted houses, in the Great Depression, were in one part of family homes, decorated scene by scene for children to go from house to house through. Which part?</p>
+      <div class="quest__try" hidden>
+        <label class="quest__lab" for="hh-key-answer">Your answer, one word</label>
+        <span class="quest__row">
+          <input class="quest__in" id="hh-key-answer" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text">
+          <button type="button" class="quest__check">Check</button>
+        </span>
+        <p class="quest__said" role="status"></p>
+      </div>
+      <details class="quest__hint"><summary>Hint 1</summary><p>It is in the paragraph that starts in bold.</p></details>
+      <details class="quest__hint"><summary>Hint 2</summary><p>It is under the house, and this house has one too.</p></details>
+      <details class="quest__hint"><summary>Last hint</summary><p>Downstairs, under the floor: the basement.</p></details>
+      <details class="quest__out">
+        <summary>Give me the answer</summary>
+        <p>The answer is <b>The basement</b>. The basement, or the cellar. Chris Heller&#x27;s history for Smithsonian Magazine says families decorated their basements and held house-to-house parties, and a 1937 pamphlet has fur and raw liver on the walls and a black cardboard cat outlined in luminous paint at the end. Lisa Morton says the cities were looking for ways to buy young pranksters off.</p>
+        <p class="quest__free">Taking the answer is a real way through this, not a lesser one. Nothing is watching and nothing is written down.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SKELETONKEY</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SKELETONKEY">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </details>
+      <div class="quest__won" hidden>
+        <p class="quest__yes">That is the one.</p>
+        <p>The basement, or the cellar. Chris Heller&#x27;s history for Smithsonian Magazine says families decorated their basements and held house-to-house parties, and a 1937 pamphlet has fur and raw liver on the walls and a black cardboard cat outlined in luminous paint at the end. Lisa Morton says the cities were looking for ways to buy young pranksters off.</p>
+        <p class="quest__code">Quest code: <b class="quest__word">SKELETONKEY</b></p>
+        <p class="quest__go"><a href="adventurers-guild.html?code=SKELETONKEY">Hand it in at the Adventurer&rsquo;s Guild &rarr;</a></p>
+      </div>
+    </div>
+  </details>
+<!-- quest:hh-key:end -->
+
+  <div style="max-width:400px;margin-top:34px;">
+    <div class="dial">
+      <p class="dial__label" id="dial-label">HOW LOUD DO YOU WANT IT?</p>
+      <div class="dial__row" role="group" aria-labelledby="dial-label">
+        <button type="button" class="dial__btn" data-level="gentle"  aria-pressed="false">Gentle</button>
+        <button type="button" class="dial__btn" data-level="regular" aria-pressed="false">Regular</button>
+        <button type="button" class="dial__btn" data-level="max"     aria-pressed="false">MAX GLITTER</button>
+      </div>
+      <p class="dial__note" aria-live="polite"></p>
+      <p class="dial__fine">Starts wherever your device says. Nothing moves, flashes, or plays until you say so &mdash; and in this house nothing moves at any setting, MAX GLITTER included, because the work lights are on, steadily, behind the set.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- signoff:begin -->
+<footer class="signoff">
+  <p class="signoff__line"><a href="#top">Back to top<span aria-hidden="true"> &uarr;</span></a> &middot; <a href="map.html#at-haunted-house">Where am I?</a> &middot; <a href="about.html">About</a> &middot; <a href="liner-notes.html">Liner notes</a> &middot; <a href="mission.html">Mission</a> &middot; <a href="design.html">How it’s made</a> &middot; <a href="your-room.html">Your Room</a> &middot; <a href="changelog.html">Changelog</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="feed.xml">Feed</a> &middot; A <a href="https://stimpunks.org/">Stimpunks Foundation</a> street.</p>
+  <p class="signoff__fx" hidden><button type="button" class="signoff__fx-btn" data-fx="{&quot;kind&quot;:&quot;julia&quot;,&quot;c&quot;:[-0.12,-0.77],&quot;orbit&quot;:0.012,&quot;bands&quot;:0.05,&quot;ground&quot;:&quot;--hh-ground&quot;,&quot;inks&quot;:[&quot;--hh-seam&quot;,&quot;--hh-link&quot;,&quot;--hh-paint&quot;,&quot;--hh-pumpkin&quot;]}" aria-describedby="signoff-fx-about">Switch on the fractal window</button> <span id="signoff-fx-about">A slow fractal in this room’s own colours, drawn in your browser in a window of its own. It is not synced to any music, it never flashes at any speed, and it runs until you switch it off or leave the room.</span></p>
+</footer>
+<!-- signoff:end -->
+
+<script src="love.js" defer></script>
+<script src="quest.js" defer></script>
+<script src="haunted-house.js" defer></script>
+</body>
+</html>

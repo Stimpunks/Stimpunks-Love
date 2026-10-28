@@ -765,6 +765,12 @@
    "about": "Next to the ante-chamber at the Rebellion Rave Room: a small, soft room to come down in, with couches everywhere, cold water, and a vending machine of snacks made by locals where everything is free."
   },
   {
+   "tag": "haunted-house",
+   "name": "The Haunted House",
+   "path": "/haunted-house.html",
+   "about": "Turning 09 off The Outskirts: an empty warehouse at the end of the road with a haunted house built inside it out of plywood flats, and the only light the work lights coming through the seams. Haunted things our community made and loves, hidden in its rooms for a hunt or laid out in one list with the lights up, and the history and lore of Halloween and haunted houses: the thin veil, the basement parties, the volunteers who built them, the eldritch and the weird. Nothing jumps out, and nobody is the monster."
+  },
+  {
    "tag": "arlesglad-caverns",
    "name": "Arlesglad Caverns",
    "path": "/arlesglad-caverns.html",
