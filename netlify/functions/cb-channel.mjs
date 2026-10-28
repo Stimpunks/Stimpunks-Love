@@ -14,9 +14,16 @@
    on the radio asks for; `older` says there is more before what was sent; and
    `v` is a hash of what would be sent, so a radio that sends back the `v` it
    has is told `same` and sent no messages. `rule` is how many messages this
-   channel keeps and for how long, which the radio says under the channel. */
+   channel keeps and for how long, which the radio says under the channel.
+
+   `going` is every room whose call has somebody in it (callsOn, the list
+   Who's online shows to anybody signed on: the room and never who), so the
+   radio's Happening now can say a call is going in its room without being
+   seen there (Ryan, 2026-10-27). It names no room the asker may not enter and
+   never a room that keeps to itself, and it says nothing about where the
+   asker is. null until 8x8 is telling us who is in calls. */
 import { createHash } from 'node:crypto';
-import { staffShut, readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, WINDOW, json } from '../cb/lib.mjs';
+import { staffShut, readPass, sharedPass, readTuned, readBeacons, roomTag, roomAllows, rolesOf, mentionableRoles, shape, shapeRule, shapeBeacons, callsReady, callsOn, WINDOW, json } from '../cb/lib.mjs';
 
 export default async (req) => {
   const who = await readPass(req);
@@ -30,13 +37,14 @@ export default async (req) => {
   if (!roomAllows(who, room)) return json(403, { error: 'This room\'s channel is for the moderators it is for.', roles: rolesOf(who), ...swap });
   // A staff room's channel is sealed with CB_STAFF_KEY (lib.mjs): without it, shut.
   if (staffShut(room)) return json(503, { error: 'This room\'s channel is shut just now. Nothing was read or sent.' });
-  const [ch, beacons] = await Promise.all([readTuned(room), readBeacons()]);
+  const heard = !!process.env.CB_JAAS_EVENTS_SECRET;
+  const [ch, beacons, going] = await Promise.all([readTuned(room), readBeacons(), heard ? callsOn(who) : null]);
   const n = Math.max(WINDOW, Math.min(ch.rule.keep, Math.ceil((Number(q.get('n')) || WINDOW) / WINDOW) * WINDOW));
   const messages = shape(ch.messages.slice(-n));
   const rule = shapeRule(ch.rule), older = ch.messages.length > n;
   const v = createHash('sha256').update(JSON.stringify([messages, rule, older])).digest('base64url').slice(0, 22);
   const said = q.get('v') === v ? { same: true } : { messages };
-  return json(200, { room: room || null, ...said, v, older, rule, beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), roles: rolesOf(who), mention: mentionableRoles(who), ...(who.twostep ? { twostep: who.twostep } : {}), ...swap });
+  return json(200, { room: room || null, ...said, v, older, rule, beacons: shapeBeacons(beacons, who, room), now: Date.now(), calls: callsReady(), going, roles: rolesOf(who), mention: mentionableRoles(who), ...(who.twostep ? { twostep: who.twostep } : {}), ...swap });
 };
 
 export const config = {

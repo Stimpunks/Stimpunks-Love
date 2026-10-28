@@ -972,12 +972,13 @@ moderators' room, the privacy page, the guide and `data/quests.json`. A new line
 Account.
 **HAPPENING NOW IS THIS ROOM'S AND ONLY THIS ROOM'S** (Ryan's proposal, 2026-10-27, once Watching together had gone to
 the foot of the radio): under the channel (heading the right-hand column on the chat page), shown only while something
-is: the room's call (`callPlace` moves `callSub` there from In this channel while you are in the call or, seen here,
-somebody is, because that is all the radio is told; one subsection moved, never copied), what is on now from the
+is: the room's call (`callPlace` moves `callSub` there from In this channel while anybody is in it; one subsection
+moved, never copied; that somebody is comes on every listen as `/cb/channel`'s `going`, which is `callsOn`, Who's
+online's list of rooms with calls, and who is in it only to a radio seen here, as before), what is on now from the
 schedule (`nowSub`), and this room's hosts (`filmNowShown`, out of `drawBeacons`' own list and keys), each with **Go to
 Watching together**, which puts the keyboard on their Catch up and presses nothing. The friendly edits are other rooms'
 calls and films there (Who's online, the World room and Hosting now already say them), a Join that plays the film, and
-asking Who's online every listen to know a call is going without being seen.
+names in the call line for a radio not seen here.
 **A long tray ends in its own Close** (`footClose`: Profile, Account, Themes, Notifications, the stickers and Your
 messages), which closes it and puts the view and the keyboard back on the button that opened it; a tray
 drawn afresh on each opening (stickers, the Notifications body) draws its foot again too. `part()` in
