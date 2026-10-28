@@ -54,12 +54,22 @@
       ],
       "photos": [
         {
-          "file": "glow-wild/glowing-mushroom.jpg",
-          "shows": "A small mushroom glowing bright green on a mossy twig at night.",
-          "photo_by": "Barisandi",
+          "file": "glow-wild/ghost-mushroom.jpg",
+          "shows": "A ghost mushroom glowing pale green in the dark, in Olney State Forest, New South Wales, Australia. It is many photographs taken at different focus, stacked into one so all of it is sharp.",
+          "photo_by": "Poidabro",
           "licence": "CC BY-SA 4.0",
           "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Glowing_Mushroom.jpg"
+          "commons": "https://commons.wikimedia.org/wiki/File:Ghost_Mushroom_focus_stack.jpg",
+          "real": "Its Commons page carries the camera's record: a Fujifilm GFX100S, a 50-second exposure, 26 April 2022."
+        },
+        {
+          "file": "glow-wild/glowing-mushrooms.jpg",
+          "shows": "Small mushrooms glowing green on dark ground at night, in the Western Ghats in India.",
+          "photo_by": "Yathumon M A",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Filoboletus_manipularis_20260620_190044_9001_D500_Yathumon_M_A.jpg",
+          "real": "Its Commons page carries the camera's record: a Nikon D500, a 185-second exposure, 18 June 2026."
         }
       ]
     },
@@ -99,12 +109,22 @@
       ],
       "photos": [
         {
-          "file": "glow-wild/foxfire.jpg",
-          "shows": "Rotting tree bark at night, glowing green in patches where fungi grow through it.",
-          "photo_by": "Bruce McAdam",
-          "licence": "CC BY-SA 2.0",
-          "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Foxfire_bioluminescent_fungi_cc_bruce_mcadams.jpg"
+          "file": "glow-wild/bracket-fungi.jpg",
+          "shows": "Small fan-shaped fungi glowing bright green on a piece of wood in the dark.",
+          "photo_by": "Ylem",
+          "licence": "Public domain",
+          "licence_url": null,
+          "commons": "https://commons.wikimedia.org/wiki/File:PanellusStipticusJuly5_2010.jpg",
+          "real": "Its Commons page carries the camera's record: a Canon EOS 5D Mark II, a 1,375-second exposure, 5 July 2010."
+        },
+        {
+          "file": "glow-wild/glowing-stems.jpg",
+          "shows": "A cluster of small brown mushrooms whose stems glow green, in the Atlantic Forest in Brazil.",
+          "photo_by": "RafaelMenegucci",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Cogumelos_bioluminescentes.jpg",
+          "real": "Its Commons page carries the camera's record: a Canon EOS 7D Mark II, a 30-second exposure, 27 January 2020."
         }
       ]
     },
@@ -140,11 +160,30 @@
       "photos": [
         {
           "file": "glow-wild/glow-worm.jpg",
-          "shows": "A female glow-worm holding on to a grass stem at night, the end of her body lit bright yellow-green. Photographed in Rutland, in England.",
+          "shows": "A female glow-worm holding on to a grass stem at night, the end of her body lit bright yellow-green. Photographed at Ketton Quarries in Rutland, in England.",
           "photo_by": "Emphyrio1983",
           "licence": "CC BY-SA 4.0",
           "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Glow-worm_(Lampyris_noctiluca).jpg"
+          "commons": "https://commons.wikimedia.org/wiki/File:Glow-worm_(Lampyris_noctiluca).jpg",
+          "real": "Its Commons page carries the camera's record: an Olympus E-M1 Mark II, a one-second exposure, 15 July 2025."
+        },
+        {
+          "file": "glow-wild/glow-worm-trails.jpg",
+          "shows": "Half a minute of glow-worms flying low over a forest floor at night, each one drawn by the long exposure as a thin line of yellow-green light.",
+          "photo_by": "Simon Speich",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Light_trails_of_fireflies.jpg",
+          "real": "Its Commons page carries the camera's record: a Nikon D850, a 30-second exposure, 1 July 2019."
+        },
+        {
+          "file": "glow-wild/glow-worms-forest.jpg",
+          "shows": "A dark green wood at night with the light trails of flying glow-worms crossing it, in a long exposure.",
+          "photo_by": "Martin Myotis",
+          "licence": "CC0",
+          "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "commons": "https://commons.wikimedia.org/wiki/File:Hellgr%C3%BCnes_Licht_im_dunkelgr%C3%BCnen_Wald_-_Flickr_-_Myotis_Myotis.jpg",
+          "real": "Its Commons page carries the camera's record: a Nikon D7200, an 87-second exposure, 23 June 2024."
         }
       ]
     },
@@ -169,12 +208,40 @@
       ],
       "photos": [
         {
-          "file": "glow-wild/sea-sparkle.jpg",
+          "file": "glow-wild/sea-sparkle-norderney.jpg",
+          "shows": "Sea sparkle lighting up blue along the wet sand and the edges of the waves on Norderney, an island off Germany's North Sea coast, as the last light goes.",
+          "photo_by": "Stephan Sprinz",
+          "licence": "CC BY 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Meeresleuchten_auf_Norderney_01.jpg",
+          "real": "Its Commons page carries the camera's record: a Nikon D7500, a six-second exposure, 30 April 2024."
+        },
+        {
+          "file": "glow-wild/sea-sparkle-kamakura.jpg",
+          "shows": "Waves glowing blue with sea sparkle on Yuigahama Beach in Kamakura, Japan, at night.",
+          "photo_by": "Doricono",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Sea_sparkle_at_Kamakura_Yuigahama_Beach,_Japan_on_March_2017.jpg",
+          "real": "Its Commons page carries the camera's record: a Nikon D5600, 5 May 2017."
+        },
+        {
+          "file": "glow-wild/sea-sparkle-waves.jpg",
           "shows": "A beach at night under clouds, with the edge of every wave glowing bright blue.",
           "photo_by": "Sander van der Wel",
           "licence": "CC BY-SA 2.0",
           "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Sea_sparkles_(11538049406).jpg"
+          "commons": "https://commons.wikimedia.org/wiki/File:Sea_sparkles_(11538049406).jpg",
+          "real": "Its Commons page carries the camera's record: a Canon EOS 5D Mark III, a two-second exposure, 26 July 2013."
+        },
+        {
+          "file": "glow-wild/blue-tears.jpg",
+          "shows": "Blue light glowing in the water along the rocky shore of the Matsu Islands, where it is called blue tears.",
+          "photo_by": "e_ella",
+          "licence": "CC BY-SA 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Blue_Tears_in_the_Matsu_Islands.jpg",
+          "real": "Taken on 5 May 2014 and shared on Flickr then, years before pictures could be made by AI."
         }
       ]
     },
@@ -205,11 +272,21 @@
       "photos": [
         {
           "file": "glow-wild/crystal-jelly.jpg",
-          "shows": "A crystal jelly, almost clear, drifting in deep blue water with its fine tentacles trailing.",
-          "photo_by": "Julia Sumangil",
-          "licence": "CC BY-SA 4.0",
-          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Crystal_jelly.jpg"
+          "shows": "A crystal jelly at the Monterey Bay Aquarium, almost clear in bright blue water, with its ring of fine canals and its long thin tentacles showing.",
+          "photo_by": "Jim G",
+          "licence": "CC BY 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:DSC26476,_Crystal_Jelly_(%22Aequorea_Victoria%22),_Monterey_Bay_Aquarium,_Monterey,_California,_USA_(5084797073).jpg",
+          "real": "Its Commons page carries the camera's record: a Sony DSC-W170, 19 January 2009."
+        },
+        {
+          "file": "glow-wild/deep-comb-jelly.jpg",
+          "shows": "A comb jelly from the deep sea, clear and lit pale blue against black.",
+          "photo_by": "Marsh Youngbluth",
+          "licence": "Public domain",
+          "licence_url": null,
+          "commons": "https://commons.wikimedia.org/wiki/File:Bathocyroe_fosteri.jpg",
+          "real": "A marine scientist's photograph, shared on Commons in 2006, long before pictures could be made by AI."
         },
         {
           "file": "glow-wild/comb-jelly.jpg",
@@ -217,7 +294,8 @@
           "photo_by": "Bruno C. Vellutini",
           "licence": "CC BY-SA 3.0",
           "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Comb_jelly_2.jpg"
+          "commons": "https://commons.wikimedia.org/wiki/File:Comb_jelly_2.jpg",
+          "real": "A marine biologist's photograph, taken on 23 February 2013, years before pictures could be made by AI."
         }
       ]
     },
@@ -243,11 +321,21 @@
       "photos": [
         {
           "file": "glow-wild/fluorescent-mushroom.jpg",
-          "shows": "A mushroom seen from below under ultraviolet light, its gills and stem glowing blue.",
+          "shows": "A mushroom seen from below under ultraviolet light, its gills and stem glowing blue, in Medellín, Colombia.",
           "photo_by": "Alan Rockefeller",
           "licence": "CC BY 4.0",
           "licence_url": "https://creativecommons.org/licenses/by/4.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Fluorescent_Entoloma_in_Colombia.jpg"
+          "commons": "https://commons.wikimedia.org/wiki/File:Fluorescent_Entoloma_in_Colombia.jpg",
+          "real": "A mycologist's photograph, kept with the record of where and when he found it on iNaturalist."
+        },
+        {
+          "file": "glow-wild/mushroom-ultraviolet.jpg",
+          "shows": "A small brown mushroom under ultraviolet light, its stem glowing turquoise and the underside of its cap violet.",
+          "photo_by": "Fossan",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Pluteus_bajo_luz_ultravioleta.jpg",
+          "real": "Its Commons page carries the camera's record: a Canon EOS 77D, a two-and-a-half-second exposure, 22 June 2025."
         }
       ]
     }
@@ -264,7 +352,7 @@
       "why": "the foxfire part says Brew and Stew, out on the campgrounds, is lit by a glow growing in its own logs"
     }
   ],
-  "_photos": "Every photograph is a real one, of the thing itself glowing where it could be caught glowing, shared on Wikimedia Commons under a licence this site can use, read off its own file page on 2026-10-28 (the Commons API was down that day). Each was resized and saved again without camera data; nothing else was done to it.",
+  "_photos": "Every photograph is a real one, of the thing itself glowing where it could be caught glowing, and never a drawing or a picture made by AI: each says in `real` how that is known, from the camera's own record on its Commons page or from who took it and when. Each is on Wikimedia Commons under a licence this site can use, read off its own file page on 2026-10-28 (the Commons API was down that day), and was resized and saved again without camera data; nothing else was done to it. Helen's asks, 2026-10-28: real pictures like the crystals, all through the page, very clear, and no AI.",
   "films": {
     "_what": "Helen's ask, 2026-10-28: films to match, from National Geographic or the like, of the forest and under the sea. Every one is on the channel of whoever made it, was checked on its own watch page (playable, allowed on other sites, its length and date), and was pressed in a frame on the live site, from the UK, and played, on 2026-10-28. The titles are theirs; the lines under them are ours.",
     "checked": "2026-10-28",
@@ -362,5 +450,25 @@
         "about": "Why the sea glows in the dark, from PBS Terra."
       }
     ]
-  }
+  },
+  "gallery": [
+    {
+      "file": "glow-wild/fireflies-lupines.jpg",
+      "shows": "Fireflies over a field of lupines at night in Maine, in a long exposure, each light a small dot or streak.",
+      "photo_by": "Mike Lewinski",
+      "licence": "CC BY 2.0",
+      "licence_url": "https://creativecommons.org/licenses/by/2.0",
+      "commons": "https://commons.wikimedia.org/wiki/File:Lupines_and_Fireflies_No._4_(14505155544).jpg",
+      "real": "Its Commons page carries the camera's record: a Sony NEX-5R, a 26-second exposure, 24 June 2014."
+    },
+    {
+      "file": "glow-wild/deep-sea-coral.jpg",
+      "shows": "Deep-sea coral and feather stars glowing blue in the dark, on a NOAA expedition in the North Atlantic.",
+      "photo_by": "NOAA's Bioluminescence 2009 Expedition",
+      "licence": "Public domain",
+      "licence_url": null,
+      "commons": "https://commons.wikimedia.org/wiki/File:Expl2335_-_Flickr_-_NOAA_Photo_Library.jpg",
+      "real": "Taken on a NOAA research expedition in 2009 and kept in NOAA's photo library."
+    }
+  ]
 }

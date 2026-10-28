@@ -1584,7 +1584,12 @@ again. The tool refuses a fact with no source, a Latin name, and eating, picking
 are a field guide to finding glowing fungi, a faster sparkle "so it feels alive", and a moon "so it is not so dark". **Its photographs are the Crystal Wheel's
 rules** (Helen's ask, 2026-10-28): real ones off Wikimedia Commons in `glow-wild/`, credited under each, no camera data, no
 NC or ND, refused by the tool otherwise; **its films** (`films` in the data, two shelves, natures.py's picks dressed in
-§129) were each pressed in a frame on the live site before going up, and `check-jukebox.py` asks after them.
+§129) were each pressed in a frame on the live site before going up, and `check-jukebox.py` asks after them. **No AI
+pictures, ever** (Helen: "no ai pics just real"): every photograph's `real` says how it is known to be one, and the tool
+refuses one without. **The sea and the jellyfish are canvases over their drawings** (Helen, the same day: "far more
+sensory activated and stimmy"): a light may come up in `RISE` (100 ms floor) but always goes over `FADE` (1500 ms
+floor), which is what keeps it under the flash line; sound and buzz start off, sound is arithmetic under `MAX_GAIN`.
+The friendly edit is a quicker fade "so it feels snappier", which is the flash.
 
 **PROFILE CARDS ARE THE FIFTH THING KEPT UNDER A PERSON, AND WHATEVER IS FILLED IN IS SHOWN.** Ryan, 2026-10-17,
 after requests for profiles more like Discord's. Pressing a handle on the channel or a name on Who's online opens a

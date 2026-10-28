@@ -20,8 +20,13 @@ of Kew's is copied. This tool refuses:
     a glowing mushroom is the most tempting thing on a page to tell somebody
     to go and find; nothing here is a field guide, Mycelium Munchies' rule.
   - a sentence about another room that its page no longer says (`holds`).
-  - glow-wild.js keeping or sending anything, or its lights coming up or going
-    faster than the floors below, which is what keeps it under the flash line.
+  - glow-wild.js keeping or sending anything, or its lights going faster than
+    the floors below, which is what keeps it under the flash line: a light may
+    come up quickly when you touch the water, but it always goes down over
+    FADE, so nothing can come and go three times in a second (Helen's ask of
+    2026-10-28, "far more sensory activated and stimmy", lowered RISE; FADE
+    did not move). Its sound and buzz start off, are under MAX_GAIN, and are
+    never a recording.
   - a §129 animation outside MAX GLITTER, or one quicker than four seconds.
 
 THE PHOTOGRAPHS ARE REAL ONES, AND THE CRYSTAL WHEEL'S RULES HOLD THEM. Helen's
@@ -29,7 +34,12 @@ ask, 2026-10-28: real pictures, like the crystals in Myths & Legends. Each is of
 the thing itself, glowing, on Wikimedia Commons under a licence this site can
 use, credited on the page with its photographer, its licence and its file
 page, and saved without camera data. The tool refuses one missing any of that,
-an NC or ND licence, and words for it in anything but plain English.
+an NC or ND licence, and words for it in anything but plain English. AND IT IS
+A PHOTOGRAPH, NEVER A DRAWING OR A PICTURE MADE BY AI (Helen: "no ai pics just
+real"): every one says in `real` how that is known, the camera's own record on
+its Commons page, or who took it and when, and the tool refuses one that does
+not. The friendly edit is a prettier picture of glowing mushrooms off a stock
+site, which is very often generated.
 
 THE FILMS ARE OTHER PEOPLE'S, ON THEIR OWN CHANNELS. Helen's ask the same day:
 films of the forest and under the sea from National Geographic or the like.
@@ -58,7 +68,7 @@ LATIN = re.compile(r"\b(Armillaria|Noctiluca|Lampyris|Aequorea|Mycena|Panellus|O
                    r"Mnemiopsis|Beroe|Pleurobrachia)\b")
 NOT_HERE = re.compile(r"\b(edible|forag\w*|cures?|cured|healing|remed\w*|medicin\w*|therap\w*|"
                       r"good for you|you (?:can|could|may) eat)\b", re.I)
-FLOORS = {"RISE": 400, "FADE": 1500}
+FLOORS = {"RISE": 100, "FADE": 1500}
 FREE = {"Public domain", "CC0", "CC BY 2.0", "CC BY 3.0", "CC BY 4.0",
         "CC BY-SA 2.0", "CC BY-SA 2.5", "CC BY-SA 3.0", "CC BY-SA 4.0"}
 SCREEN, SCREEN_NAME = "hollow-screen", "the hollow's screen"
@@ -81,7 +91,7 @@ def jpeg_exif(path):
     return False
 
 
-def photo(ph, w):
+def photo(ph, w, big=False):
     f = ROOT / ph.get("file", "")
     if not f.is_file():
         refuse(f"{w}: no photograph at {ph.get('file')}.")
@@ -98,7 +108,7 @@ def photo(ph, w):
         refuse(f"{w}: no link to its licence, which crediting it needs.")
     if not str(ph.get("commons", "")).startswith("https://commons.wikimedia.org/wiki/File:"):
         refuse(f"{w}: no Commons file page, where its licence lives.")
-    for k in ("photo_by", "shows"):
+    for k in ("photo_by", "shows", "real"):
         if not ph.get(k):
             refuse(f"{w}: no {k}.")
     for rx in (LATIN, NOT_HERE):
@@ -106,7 +116,8 @@ def photo(ph, w):
         if m:
             refuse(f"{w}: its words say {m.group(0)!r}. No Latin names, and nothing about eating, picking or curing.")
     lic = f'<a href="{esc(lu)}">{esc(ph["licence"])}</a>' if lu else esc(ph.get("licence", ""))
-    return (f'<figure class="hollow-photo"><img class="hollow-photo__img" src="{esc(ph["file"])}" '
+    cls = "hollow-photo hollow-photo--big" if big else "hollow-photo"
+    return (f'<figure class="{cls}"><img class="hollow-photo__img" src="{esc(ph["file"])}" '
             f'{imgsize.attrs(f)} alt="{html.escape(ph.get("shows", ""))}" loading="lazy" decoding="async">'
             f'<figcaption class="hollow-photo__credit">Photograph by {esc(ph.get("photo_by", ""))}, {lic}, '
             f'<a href="{esc(ph.get("commons", ""))}">via Wikimedia Commons</a>; resized.</figcaption></figure>')
@@ -149,11 +160,23 @@ for part in d.get("parts", []):
         items.append(f'<li>{esc(says)} <span class="hollow-src">(<a href="{esc(src)}">{esc(name)}</a>)</span></li>')
     if not items:
         refuse(f"{pid}: a part with no facts.")
-    shots = [photo(ph, f"{pid} photo {i + 1}") for i, ph in enumerate(part.get("photos", []))]
+    shots = [photo(ph, f"{pid} photo {i + 1}", big=(i == 0)) for i, ph in enumerate(part.get("photos", []))]
     if not shots:
         refuse(f"{pid}: no photograph. Every part shows the real thing glowing.")
-    pics = ('\n    <div class="hollow-photos">' + "".join(shots) + '</div>') if shots else ""
+    pics = ('\n    ' + shots[0]) if shots else ""
+    if len(shots) > 1:
+        pics += '\n    <div class="hollow-photos">' + "".join(shots[1:]) + '</div>'
     blocks[pid] = pics + '\n    <ul class="hollow-facts">\n      ' + "\n      ".join(items) + '\n    </ul>\n    '
+
+gallery = [photo(ph, f"gallery photo {i + 1}") for i, ph in enumerate(d.get("gallery", []))]
+blocks["gallery"] = '\n    <div class="hollow-photos hollow-photos--gallery">' + "".join(gallery) + '</div>\n    '
+seen_files = [ph.get("file") for part in d.get("parts", []) for ph in part.get("photos", [])] + \
+             [ph.get("file") for ph in d.get("gallery", [])]
+if len(seen_files) != len(set(seen_files)):
+    refuse("a photograph is on the page twice.")
+for f in sorted((ROOT / "glow-wild").glob("*")):
+    if f"glow-wild/{f.name}" not in seen_files:
+        refuse(f"glow-wild/{f.name} is in the folder and on no part of the page; take it out, or give it a record.")
 
 films = d.get("films", {})
 fp = Problems()
@@ -213,10 +236,21 @@ if re.search(r"localStorage|sessionStorage|indexedDB|fetch\(|XMLHttpRequest|send
 for name, floor in FLOORS.items():
     m = re.search(rf"var {name} = (\d+);", code)
     if not m or int(m.group(1)) < floor:
-        refuse(f"glow-wild.js: {name} must be at least {floor} ms. A light that comes or goes faster is a flash.")
+        refuse(f"glow-wild.js: {name} must be at least {floor} ms. A light may come up quickly, but one "
+               "that goes faster than FADE could come and go three times in a second, which is a flash.")
 m = re.search(r"var MAX_SPARKS = (\d+);", code)
-if not m or int(m.group(1)) > 80:
-    refuse("glow-wild.js: MAX_SPARKS must be set, and no more than 80.")
+if not m or int(m.group(1)) > 400:
+    refuse("glow-wild.js: MAX_SPARKS must be set, and no more than 400 small lights in a tank.")
+m = re.search(r"var MAX_GAIN = ([\d.]+);", code)
+if not m or float(m.group(1)) > 0.2:
+    refuse("glow-wild.js: MAX_GAIN must be set, and no more than 0.2, the Repeater's ceiling.")
+for what in ("audio", "buzz"):
+    if not re.search(rf"var {what} = \{{ on: false", code):
+        refuse(f"glow-wild.js: {what} must start off. Sound and buzz come on only with their own switches.")
+if re.search(r"new (?:Audio|window\.Audio)\b|\.mp3|\.ogg|\.wav|\.m4a", code):
+    refuse("glow-wild.js plays a recording. The hollow's sounds are arithmetic, made in the browser.")
+if re.search(r"getUserMedia|DeviceMotion|DeviceOrientation", code):
+    refuse("glow-wild.js asks for a microphone, a camera or the phone's movement. It asks for nothing.")
 if "still()" not in code:
     refuse("glow-wild.js no longer asks still(). At Gentle nothing comes and goes.")
 
