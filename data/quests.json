@@ -846,17 +846,17 @@
    "page": "glow-wild-hollow.html",
    "room": "Glow Wild Hollow",
    "title": "A light in the grass",
-   "posted": "Somebody has seen a glow-worm shining at the top of a grass stem in Glow Wild Hollow, down through the glowing mushroom in the Faery Yurt. Find it and read what it says.",
+   "posted": "Somebody has seen a glow-worm shining at the top of a grass stem in Glow Wild Hollow, down and into the rhizome under the Faery Yurt. Find it and read what it says.",
    "rank": 3,
    "takes": "two minutes, and a dark hollow if you want one",
    "target": "a glow-worm shining at the top of a grass stem",
    "code": "GLOWWORM",
    "hints": [
     "It is not on the street. Go out past the treeline to the campgrounds, and into the yurt at pitch 01.",
-    "In the yurt, under the Glimmer Window near the foot of the page, a great mushroom with glowing gills and a door in its stem. Go down through it.",
+    "In the yurt, under the Glimmer Window near the foot of the page, a great mushroom with glowing gills and a door in its stem. Go down and into the rhizome.",
     "At the very bottom of the hollow, under where the light was read."
    ],
-   "learned": "Glow Wild Hollow is Helen Edgar's, down through a glowing mushroom in her yurt: a hollow at night with no moon and no lamp, where every light belongs to something alive, from foxfire in an old log to a sea that sparkles where you touch it. Glow-worms are beetles, and it is the females that glow."
+   "learned": "Glow Wild Hollow is Helen Edgar's, down and into the rhizome under her yurt: a hollow at night with no moon and no lamp, where every light belongs to something alive, from foxfire in an old log to a sea that sparkles where you touch it. Glow-worms are beetles, and it is the females that glow."
   },
   {
    "id": "pod-straw",

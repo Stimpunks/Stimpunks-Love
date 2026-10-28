@@ -2876,7 +2876,7 @@ def card_hollow(p):
         "",
         f'<div class="hollow og og--hollow" data-fit="card">'
         f'<div class="og-head">{p["hscene"]}<div class="og-words">'
-        f'<p class="hollow-eyebrow">behind the faery yurt &middot; down through the glowing mushroom</p>'
+        f'<p class="hollow-eyebrow">behind the faery yurt &middot; down and into the rhizome</p>'
         f'{p["h1"]}'
         f'<p class="og-lede">{p["desc"]}</p>'
         f'</div></div>'
@@ -2887,7 +2887,7 @@ def card_hollow(p):
         f"glow-worms shining yellow-green on grass stems on the other, the waves "
         f"breaking in a line of blue sparkle, and a small jellyfish glowing green under "
         f"the water. Beside it, small pale capitals reading behind the faery yurt, down "
-        f"through the glowing mushroom, then \u201c{p['h1text']}\u201d in large pale "
+        f"and into the rhizome, then \u201c{p['h1text']}\u201d in large pale "
         f"italic serif. Under that: {p['desc_plain']}",
     )
 
