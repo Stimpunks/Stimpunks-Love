@@ -1011,4 +1011,120 @@
       else send(n, label, now, false, add);
     });
   }());
+
+  /* THE FORUMS' KEEPS (Ryan's ask, 2026-10-28, after the channels'): an
+     administrator sets how long a category of the forums keeps a topic after
+     its last post. Every post remembers its category's keep when it was
+     written and a topic goes at the shortest of them, so a longer keep reaches
+     only what is posted after it; a shorter one deletes at once, so it asks
+     once more. A wiki, Coping and a subcategory are not the desk's, and say
+     why. Fetched when an administrator presses for it, never on arrival. */
+  (function () {
+    var box = document.getElementById('md-fkeep');
+    var fOff = document.getElementById('md-fkeep-off');
+    var list = document.getElementById('md-fkeep-list');
+    var fSaid = document.getElementById('md-fkeep-said');
+    var load = document.getElementById('md-fkeep-load');
+    if (!box || !list || !load) return;
+    if ((me.roles || []).indexOf('administrator') < 0) return;
+    box.hidden = false;
+    if (fOff) fOff.hidden = true;
+    var WORDS = { '1 week': 'a week', '3 months': 'three months', '6 months': 'six months', 'never': 'for good' };
+    var keeps = ['1 week', '3 months', '6 months', 'never'], rules = {}, cats = [];
+    function fSay(t) { fSaid.textContent = t; }
+    function keepCall(send) {
+      return fetch('/cb/forum-rules', {
+        method: 'POST', credentials: 'omit', cache: 'no-store',
+        headers: { 'accept': 'application/json', 'content-type': 'application/json', 'authorization': 'Bearer ' + me.pass },
+        body: JSON.stringify(send),
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (b) { return { status: r.status, body: b }; });
+      });
+    }
+    function day(t) {
+      try { return new Date(t).toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return ''; }
+    }
+    function says(k) { return k === 'never' ? 'Keeps its topics for good.' : 'Keeps a topic ' + WORDS[k] + ' after its last post.'; }
+    var rank = function (k) { return keeps.indexOf(k); };
+    // What a change does, said before it is made.
+    function warn(was, now) {
+      if (rank(now) < rank(was)) return 'Every topic whose last post is more than ' + WORDS[now] + ' ago is deleted now, with everything in it, unless it is pinned.';
+      if (rank(now) > rank(was)) return 'Only topics started from now on are kept ' + (now === 'never' ? 'for good' : WORDS[now] + ' after their last post') + '; a topic already there keeps the time it was started under.';
+      return '';
+    }
+    function send(c, keep, clear, back) {
+      fSay(clear ? 'Putting ' + c.name + ' back…' : 'Saving…');
+      keepCall(clear ? { action: 'clear', slug: c.slug } : { action: 'set', slug: c.slug, keep: keep }).then(function (x) {
+        if (x.status !== 200) { fSay(why(x, 'That did not work. Nothing was changed.')); return; }
+        draw(x.body);
+        fSay(clear ? c.name + ' keeps what it opened with again. ' + says(c.keep) : 'Saved. ' + c.name + ': ' + says(keep));
+        if (back) back.focus();
+      }, function () { fSay('The desk could not be reached. Nothing was changed.'); });
+    }
+    function sure(into, sentence, yesText, act, back) {
+      var ask = el('div');
+      ask.appendChild(el('p', sentence));
+      var yes = button(yesText), no = button('Not now');
+      ask.appendChild(yes); ask.appendChild(no);
+      into.appendChild(ask);
+      no.focus();
+      no.addEventListener('click', function () { ask.remove(); if (back) back.focus(); });
+      yes.addEventListener('click', function () { ask.remove(); act(); });
+    }
+    function row(ul, c) {
+      var set = rules[c.slug], now = set ? set.keep : c.keep;
+      var li = el('li', null, 'md-role' + (c.fixed ? ' md-role--fixed' : ''));
+      li.appendChild(el('p', c.name + (c.group ? ' (' + c.group + ')' : ''), 'md-role__name'));
+      if (c.fixed) {
+        li.appendChild(el('p', says(c.keep) + ' ' + c.fixed, 'md-role__about'));
+        ul.appendChild(li);
+        return;
+      }
+      li.appendChild(el('p', set ? says(now) + (set.by ? ' Set by ' + set.by + (set.t ? ' on ' + day(set.t) : '') + '.' : '') + ' It opened with: ' + WORDS[c.keep] + '.' : 'Not set here: ' + says(now), 'md-role__about'));
+      var line = el('p', null, 'md-roles__checks');
+      var lab = el('label', 'For how long', 'md-desk__lab'), pick = el('select', null, 'md-desk__in');
+      pick.id = 'md-fkeep-' + c.slug; lab.htmlFor = pick.id;
+      keeps.forEach(function (k) { var o = el('option', k === 'never' ? 'For good' : WORDS[k].charAt(0).toUpperCase() + WORDS[k].slice(1) + ' after the last post'); o.value = k; o.selected = k === now; pick.appendChild(o); });
+      var sp = el('span'); sp.appendChild(lab); sp.appendChild(pick); line.appendChild(sp);
+      li.appendChild(line);
+      var tools = el('p');
+      var save = button('Save ' + c.name);
+      tools.appendChild(save);
+      if (set) {
+        var back = button('Put ' + c.name + ' back');
+        tools.appendChild(back);
+        back.addEventListener('click', function () {
+          var sentence = warn(now, c.keep);
+          if (sentence) sure(li, sentence, 'Put it back', function () { send(c, null, true, load); }, back);
+          else send(c, null, true, load);
+        });
+      }
+      li.appendChild(tools);
+      save.addEventListener('click', function () {
+        var to = pick.value, sentence = warn(now, to);
+        if (to === now) { fSay('Nothing to change.'); return; }
+        if (sentence) sure(li, sentence, 'Save it', function () { send(c, to, false, save); }, save);
+        else send(c, to, false, save);
+      });
+      ul.appendChild(li);
+    }
+    function draw(b) {
+      rules = b.rules || {};
+      if (Array.isArray(b.keeps)) keeps = b.keeps;
+      if (Array.isArray(b.cats)) cats = b.cats;
+      list.textContent = '';
+      var ul = el('ul', null, 'md-roles');
+      cats.forEach(function (c) { row(ul, c); });
+      list.appendChild(ul);
+      load.textContent = 'Show them again';
+    }
+    load.addEventListener('click', function () {
+      fSay('Looking…');
+      keepCall({ action: 'list' }).then(function (x) {
+        if (x.status !== 200) { fSay(why(x, 'The categories could not be fetched just now.')); return; }
+        fSay('');
+        draw(x.body);
+      }, function () { fSay('The desk could not be reached just now.'); });
+    });
+  }());
 }());

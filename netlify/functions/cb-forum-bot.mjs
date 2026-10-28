@@ -8,6 +8,7 @@
      { action: 'read', id }                        a page: its title and words
      { action: 'start', cat, title, body, tags? }  a new page
      { action: 'edit', id, body, title? }          a page's words, and its title
+     { action: 'tags', id, tags }                  a page's tags, all of them
      { test: true }                                whether the bot is open
    Only in the Wiki and in Team Docs, always under its own name
    marked BOT, and telling nobody. See ../cb/lib.mjs, the Wiki's bot. */

@@ -2,7 +2,9 @@
    pass's roles do not reach is never in any answer. GET, with ?view=:
      home                    every category the reader may see, with its latest topics
      latest   &before=       every topic in them, the latest post first
-     cat      &c= &before= &tag=   one category's topics, pinned ones first; tag: only those carrying it
+     cat      &c= &before= &tag= &sort= &group= &from=   one category's topics, pinned ones first; tag: only
+                             those carrying it; sort: one of FORUM_SORTS; group=tag: every topic at once;
+                             from: how many came before, for a page sorted any way but the latest post
      topic    &t=            one topic, every post in it
      search   &q=            topics whose title or posts hold every word
      mentions                topics where somebody else has @mentioned you, worked out now
@@ -36,7 +38,7 @@
                                                      nobody else is sent any
    A post that @mentions somebody tells their devices, if they asked
    (notifyForum). Nothing a person types is logged. See ../cb/lib.mjs, the forums. */
-import { staffReady, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, taskSnippets, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
+import { staffReady, loadForumRules, readPass, forumReader, mentionableRoles, noteModCall, rolesOf, tasksAllow, officeAllow, taskSnippets, nameRefs, findLinks, backlinksTo, forumPeople, forumNav, forumHome, forumLatest, forumCategory, forumTopic, searchForum, forumMentions,
   cbTranscript, shapeTranscript, startTopic, replyTopic, editPost, removePost, removeTopic, uncopyMessage,
   reactPost, votePoll, closePoll, addPoll, moderateTopic, retagTopic, importTopic, notifyForum, parseBrass, cleanForumBody, json, body, sameSite, FORUM_BODY_MAX, REACTIONS,
   FORUM_ATTACH_MAX, FORUM_DOC_ATTACH_MAX, FORUM_DOC_BODY_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, POLL_CHOICES_MAX, POLL_CHOICE_MAX, POLL_Q_MAX, forumTemplates, placePictures, imageId } from '../cb/lib.mjs';
@@ -65,6 +67,8 @@ export default async (req, context) => {
   const me = { handle: who.handle, mod: who.role === 'base', tasks: tasksAllow(who), office: officeAllow(who), mention: mentionableRoles(who), roles: rolesOf(who) };
   // Every answer's links to tasks, topics and the office named for this reader, last.
   const answer = async (code, b, h) => json(code, await nameRefs(b, who), h);
+  // The desk's keeps, so every category's says what it keeps now.
+  await loadForumRules();
   const cats = forumNav(who);
   const url = new URL(req.url);
   try {
@@ -74,7 +78,8 @@ export default async (req, context) => {
       if (view === 'latest') return answer(200, { me, cats, ...(await forumLatest(who, num(url.searchParams.get('before')))) }, QUIET);
       if (view === 'people') return answer(200, { people: await forumPeople(who) }, QUIET);
       if (view === 'cat') {
-        const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')), undefined, undefined, url.searchParams.get('tag'));
+        const how = { sort: url.searchParams.get('sort'), group: url.searchParams.get('group'), from: num(url.searchParams.get('from')) };
+        const r = await forumCategory(who, url.searchParams.get('c'), num(url.searchParams.get('before')), undefined, undefined, url.searchParams.get('tag'), how);
         return r ? answer(200, { me, cats, ...r }, QUIET) : json(404, { me, cats, error: 'There is no such category.' }, QUIET);
       }
       if (view === 'topic') {

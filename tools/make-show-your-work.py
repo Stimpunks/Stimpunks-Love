@@ -744,8 +744,10 @@ places_html = [
     f'        <h3>Longer: <a href="{forum_href}">{esc(cat["name"])}</a> in the forums</h3>',
     f'        <p>{linked(places["forum"])}</p>',
     f'        <p class="syw-place__terms">The category says it is for {esc(cat["about"][0].lower() + cat["about"][1:])} '
-    f'A topic there goes {esc(cat["keep"])} after its last post, so a piece people keep talking about keeps '
-    f'going. Anybody signed on to the CB can read the forums and write in them.</p>',
+    + ('A topic there is kept for good, unless our administrators set the category otherwise. ' if cat["keep"] == "never" else
+       f'Unless our administrators set the category otherwise, a topic there goes {esc(cat["keep"])} after its last post, '
+       'so a piece people keep talking about keeps going. ')
+    + 'Anybody signed on to the CB can read the forums and write in them.</p>',
     '      </li>',
     '      <li class="syw-place">',
     '        <h3>For as long as you like: <a href="#on-the-bench">the bench</a></h3>',

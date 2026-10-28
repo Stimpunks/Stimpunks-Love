@@ -1934,19 +1934,21 @@
   }
 
   // In a category, its own pinned topics were on the first page already.
-  /* Older topics, a page at a time. Coming back to a list reads again the
+  /* More topics, a page at a time. Coming back to a list reads again the
      pages that were open (`again`), before steps.js puts the place back. */
-  function more(into, q, before, slug, again) {
-    var b = el('button', 'cb-btn', 'Older topics'); b.type = 'button';
+  /* `after` is the next page's part of the address: &before= the last one's
+     time, or &from= how many came before it on a page sorted any other way. */
+  function more(into, q, after, slug, again) {
+    var b = el('button', 'cb-btn', 'More topics'); b.type = 'button';
     function load() {
       b.disabled = true;
-      return call(q + '&before=' + before).then(function (r) {
+      return call(q + after).then(function (r) {
         b.remove();
-        if (r.status !== 200) { say(why(r, 'Older topics could not be read just now.')); return null; }
+        if (r.status !== 200) { say(why(r, 'More topics could not be read just now.')); return null; }
         var ul = into.querySelector('.fm-rows') || into.appendChild(el('ul', 'fm-rows'));
         var first = null;
         r.body.topics.filter(function (x) { return !(slug && x.pinned && x.cat === slug); }).forEach(function (x) { var li = topicRow(x); first = first || li; ul.appendChild(li); });
-        return { first: first, on: r.body.more && r.body.topics.length ? r.body.topics[r.body.topics.length - 1].last : null };
+        return { first: first, on: nextPage(r.body) };
       });
     }
     b.addEventListener('click', function () {
@@ -1962,6 +1964,11 @@
     return load().then(function (got) { if (got && got.on) return more(into, q, got.on, slug, again - 1); });
   }
 
+  function nextPage(b) {
+    if (!b.more || !b.topics.length) return null;
+    return b.from != null ? '&from=' + b.from : '&before=' + b.topics[b.topics.length - 1].last;
+  }
+
   function latest() {
     blank(null, 'Looking…');
     return call('view=latest').then(function (r) {
@@ -1973,14 +1980,64 @@
       view.appendChild(h);
       view.appendChild(quiet('Every topic you can read, the one posted in most lately first.'));
       view.appendChild(topicList(r.body.topics, 'Nobody has started a topic yet.'));
-      var older = r.body.more && r.body.topics.length ? more(view, 'view=latest', r.body.topics[r.body.topics.length - 1].last, null, step.kept('older')) : null;
+      var older = nextPage(r.body) ? more(view, 'view=latest', nextPage(r.body), null, step.kept('older')) : null;
       return Promise.resolve(older).then(function () { return h; });
     });
   }
 
-  function category(slug, tagged) {
+  /* SORTED AND GROUPED (Ryan's ask, 2026-10-28): a category's topics the
+     latest post first unless the address says otherwise, and grouped under
+     each of their tags when it says group=tag, a topic under every tag it
+     carries and No tags last. Every choice is a link, kept in the address,
+     and the others it leaves as they were. Nothing says how many. */
+  var SORTS = [['last', 'Latest post'], ['new', 'Newest topic'], ['old', 'Oldest topic'], ['az', 'Title, A to Z'], ['za', 'Title, Z to A']];
+  var GROUPS = [['', 'Nothing'], ['tag', 'Tag']];
+  function catHref(slug, o) {
+    var q = [];
+    if (o.tag) q.push('tag=' + encodeURIComponent(o.tag));
+    if (o.sort && o.sort !== 'last') q.push('sort=' + o.sort);
+    if (o.group) q.push('group=' + o.group);
+    return '#/c/' + slug + (q.length ? '?' + q.join('&') : '');
+  }
+  function choices(label, list, now, href) {
+    var nav = el('nav', 'fm-tagfilter');
+    nav.setAttribute('aria-label', label);
+    nav.appendChild(el('p', 'cb-lab', label));
+    var ul = el('ul', 'fm-tags');
+    list.forEach(function (x) {
+      var li = el('li');
+      var a = el('a', 'fm-tagchip', x[1]);
+      a.href = href(x[0]);
+      if (now === x[0]) a.setAttribute('aria-current', 'page');
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    nav.appendChild(ul);
+    return nav;
+  }
+  /* The topics under each of their tags, A to Z, and No tags last. */
+  function byTags(into, list, level) {
+    var tags = [];
+    list.forEach(function (x) { (x.tags || []).forEach(function (t) { if (tags.indexOf(t) < 0) tags.push(t); }); });
+    tags.sort();
+    tags.forEach(function (t) {
+      into.appendChild(el('h' + level, 'cb-h fm-group', 'Tagged ' + t));
+      into.appendChild(topicList(list.filter(function (x) { return (x.tags || []).indexOf(t) >= 0; }), ''));
+    });
+    var none = list.filter(function (x) { return !x.tags || !x.tags.length; });
+    if (none.length) {
+      into.appendChild(el('h' + level, 'cb-h fm-group', 'No tags'));
+      into.appendChild(topicList(none, ''));
+    }
+  }
+
+  function category(slug, q) {
     blank(null, 'Looking…');
-    var tagQ = tagged ? '&tag=' + encodeURIComponent(tagged) : '';
+    q = q || {};
+    var tagged = q.tag || null;
+    var sort = SORTS.some(function (x) { return x[0] === q.sort; }) ? q.sort : 'last';
+    var group = q.group === 'tag' ? 'tag' : '';
+    var tagQ = (tagged ? '&tag=' + encodeURIComponent(tagged) : '') + (sort !== 'last' ? '&sort=' + sort : '') + (group ? '&group=' + group : '');
     return call('view=cat&c=' + encodeURIComponent(slug) + tagQ).then(function (r) {
       if (r.status !== 200) {
         if (r.status === 404) { took(r); drawSide(null); var h0 = heading(2, 'No such category'); blank(h0, why(r, 'There is no such category.')); return h0; }
@@ -2031,7 +2088,7 @@
         [''].concat(r.body.tags).forEach(function (x) {
           var li = el('li');
           var a = el('a', 'fm-tagchip', x || 'Every topic');
-          a.href = '#/c/' + c.slug + (x ? '?tag=' + encodeURIComponent(x) : '');
+          a.href = catHref(c.slug, { tag: x, sort: sort, group: group });
           if ((r.body.tag || '') === x) a.setAttribute('aria-current', 'page');
           li.appendChild(a);
           tu.appendChild(li);
@@ -2039,13 +2096,20 @@
         tf.appendChild(tu);
         view.appendChild(tf);
       }
+      var topics = r.body.topics;
+      if (topics.length > 1 || sort !== 'last' || group) {
+        view.appendChild(choices('Sort by', SORTS, sort, function (k) { return catHref(c.slug, { tag: r.body.tag || tagged, sort: k, group: group }); }));
+        if (r.body.tags && r.body.tags.length) view.appendChild(choices('Group by', GROUPS, group, function (k) { return catHref(c.slug, { tag: r.body.tag || tagged, sort: sort, group: k }); }));
+      }
       if (r.body.tag) view.appendChild(el('p', 'fm-lede', 'Only the topics tagged ' + r.body.tag + '.'));
       else if (tagged) view.appendChild(el('p', 'fm-lede', 'No topic here is tagged ' + tagged + '.'));
-      view.appendChild(topicList(r.body.topics, r.body.tag ? 'No topic here carries that tag.' : 'Nothing here yet.'));
+      if (r.body.group === 'tag' && topics.length) byTags(view, topics, r.body.subs ? 4 : 3);
+      else view.appendChild(topicList(topics, r.body.tag ? 'No topic here carries that tag.' : 'Nothing here yet.'));
       var older = null;
-      if (r.body.more) {
-        var rest = r.body.topics.filter(function (x) { return !(x.pinned && x.cat === c.slug); });
-        if (rest.length) older = more(view, 'view=cat&c=' + encodeURIComponent(c.slug) + tagQ, rest[rest.length - 1].last, c.slug, step.kept('older'));
+      var after = nextPage(r.body);
+      if (after) {
+        var rest = topics.filter(function (x) { return !(x.pinned && x.cat === c.slug); });
+        if (rest.length) older = more(view, 'view=cat&c=' + encodeURIComponent(c.slug) + tagQ, after, c.slug, step.kept('older'));
       }
       return Promise.resolve(older).then(function () { return h; });
     });
@@ -2379,7 +2443,7 @@
     if (!cbState()) done = Promise.resolve(guest());
     else if (!parts.length) done = home();
     else if (parts[0] === 'latest') done = latest();
-    else if (parts[0] === 'c' && parts[1]) done = category(parts[1], q.tag || null);
+    else if (parts[0] === 'c' && parts[1]) done = category(parts[1], q);
     else if (parts[0] === 't' && parts[1]) done = topic(parts[1], parts[2] || null, parts[3] || null);
     else if (parts[0] === 'new') done = newTopic(q);
     else if (parts[0] === 'search' && q.q) done = search(q.q);

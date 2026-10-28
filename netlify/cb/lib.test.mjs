@@ -3285,7 +3285,7 @@ test('a topic goes at its keep after its last post, a pin keeps it, and the swee
   assert.equal(goesAt(Date.UTC(2026, 0, 31), '1 week'), Date.UTC(2026, 1, 7));
   assert.equal(goesAt(Date.UTC(2026, 9, 18), '3 months'), Date.UTC(2027, 0, 18));
   assert.equal(goesAt(T0, 'never'), null);
-  const t = (await startTopic(ADA, { cat: 'watering-hole', title: 'Week', body: 'Hi.' }, s, T0, NO_NET)).topic;
+  const t = (await startTopic(ADA, { cat: 'coping', title: 'Week', body: 'Hi.' }, s, T0, NO_NET)).topic;
   assert.ok(await forumTopic(BO, t.id, s, T0 + DAYS(6)));
   assert.equal(await forumTopic(BO, t.id, s, T0 + DAYS(8)), null, 'a week-long topic outlived its week');
   assert.match((await replyTopic(BO, t.id, { body: 'late' }, s, T0 + DAYS(8), NO_NET)).error, /gone/);
@@ -3300,7 +3300,7 @@ test('a topic goes at its keep after its last post, a pin keeps it, and the swee
   assert.ok(await readTopic(t.id, s), 'the sweep took a topic before its date');
   await sweepForum(s, T0 + DAYS(300));
   assert.equal(await readTopic(t.id, s), null, 'the sweep left a topic past its date');
-  assert.deepEqual(await readForumIndex('watering-hole', s), [], 'the sweep left its summary on the list');
+  assert.deepEqual(await readForumIndex('coping', s), [], 'the sweep left its summary on the list');
   assert.deepEqual(s.keys().filter((k) => k.startsWith('forum/t/')), []);
 });
 
@@ -9171,4 +9171,77 @@ import { putOfficeUpload, attachOffice, detachOffice, describeOfficeFile, office
     assert.ok(!s.keys().some((x) => x.startsWith('office-up/')));
     assert.ok(OFFICE_ATTACH_MAX >= 1);
   }));
+}
+
+
+/* ── How long each category of the forums keeps a topic, set at the desk (2026-10-28) ── */
+import { setForumRule, forumRulesList, loadForumRules, keepOf, topicKeep, FORUM_KEEPS, FORUM_SORTS } from './lib.mjs';
+
+{
+  const FA = fw('Al', 500, ['administrator']);
+  const sumOf = async (id, s) => { const t = await readTopic(id, s); return { posts: t.posts }; };
+
+  test('only an administrator sets a category\'s keep, from the list, never a wiki, Coping or a subcategory', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    assert.match((await setForumRule(FMOD, 'pets', 'never', s)).error, /administrators/);
+    assert.match((await forumRulesList(FMOD, s)).error, /administrators/);
+    assert.match((await setForumRule(FA, 'pets', 'a fortnight', s)).error, /from the list/);
+    assert.match((await setForumRule(FA, 'nope', 'never', s)).error, /not a category/);
+    assert.match((await setForumRule(FA, 'wiki', '1 week', s)).error, /wiki/);
+    assert.match((await setForumRule(FA, 'field-guide', '1 week', s)).error, /subcategory/);
+    assert.match((await setForumRule(FA, 'coping', 'never', s)).error, /Coping/);
+    const r = await setForumRule(FA, 'pets', '6 months', s, 1234);
+    assert.deepEqual(r.rules.pets, { keep: '6 months', by: 'Al', t: 1234 }, 'an entry keeps more than its keep, who and when');
+    assert.deepEqual(r.keeps, FORUM_KEEPS);
+    assert.ok(r.cats.find((c) => c.slug === 'wiki').fixed, 'the list does not say why a wiki is not the desk\'s');
+    await loadForumRules(s);
+    assert.equal(keepOf(forumCat('pets')), '6 months');
+    assert.ok(!('pets' in (await setForumRule(FA, 'pets', null, s, 1, true)).rules), 'put back, it is still set');
+    await loadForumRules(s);
+    assert.equal(keepOf(forumCat('pets')), FORUM_CATEGORIES.find((c) => c.slug === 'pets').keep);
+  });
+
+  test('a post takes its category\'s keep: a longer keep reaches only what is posted after it, a shorter one everything', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    const t = (await startTopic(ADA, { cat: 'pets', title: 'Before', body: 'Hi.' }, s, T0, NO_NET)).topic;
+    assert.equal((await readTopic(t.id, s)).posts[0].keep, '3 months', 'a post was not stamped with its category\'s keep');
+    await setForumRule(FA, 'pets', 'never', s, T0 + 1);
+    assert.equal(await forumTopic(BO, t.id, s, T0 + DAYS(200)), null, 'a longer keep reached a post made before it');
+    const u = (await startTopic(ADA, { cat: 'pets', title: 'After', body: 'Hi.' }, s, T0 + 2, NO_NET)).topic;
+    assert.ok(await forumTopic(BO, u.id, s, T0 + DAYS(400)), 'a topic started under never went');
+    assert.equal((await forumTopic(BO, u.id, s, T0 + 3)).goes, null);
+    // A reply under never does not lift a topic started under three months.
+    await replyTopic(BO, t.id, { body: 'still here' }, s, T0 + DAYS(10), NO_NET);
+    assert.equal(topicKeep({ held: '3 months', stamped: true }, forumCat('pets')), '3 months');
+    assert.equal(await forumTopic(BO, t.id, s, T0 + DAYS(10) + DAYS(100)), null, 'a reply lifted the older post\'s keep');
+    // A shorter keep reaches everything, and the sweep runs at once.
+    await setForumRule(FA, 'pets', '1 week', s, T0 + DAYS(20));
+    assert.equal(await readTopic(u.id, s), null, 'a shorter keep did not reach a topic kept for good');
+  });
+
+  test('a post from before the stamps keeps the data file\'s keep, or the shorter one it was posted under', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    await loadForumRules(s);
+    const hole = forumCat('watering-hole');
+    assert.equal(hole.was, '1 week', 'the watering hole lost the week its older topics were posted under');
+    assert.equal(topicKeep({}, hole), '1 week', 'an unstamped topic in the watering hole outlived its week');
+    assert.equal(topicKeep({ held: '3 months', stamped: true }, hole), '3 months');
+    assert.equal(topicKeep({}, forumCat('artificial-intelligence')), 'never', 'Artificial Intelligence\'s topic was not kept for good');
+    assert.equal(topicKeep({}, forumCat('announcements')), 'never');
+  });
+
+  test('a category\'s topics come sorted as asked, and grouped by tag come all at once', async () => {
+    const s = memoryStore({ etagOnRead: true });
+    const mk = (title, at, tags) => startTopic(ADA, { cat: 'nature', title, body: 'x', tags }, s, at, NO_NET);
+    await mk('beech', T0, ['trees']); await mk('Alder', T0 + 1, ['trees', 'wet']); await mk('cattail', T0 + 2, []);
+    const names = async (how) => (await forumCategory(BO, 'nature', null, s, T0 + 3, null, how)).topics.map((x) => x.title);
+    assert.deepEqual(await names({}), ['cattail', 'Alder', 'beech']);
+    assert.deepEqual(await names({ sort: 'az' }), ['Alder', 'beech', 'cattail']);
+    assert.deepEqual(await names({ sort: 'za' }), ['cattail', 'beech', 'Alder']);
+    assert.deepEqual(await names({ sort: 'old' }), ['beech', 'Alder', 'cattail']);
+    assert.deepEqual(await names({ sort: 'nonsense' }), ['cattail', 'Alder', 'beech']);
+    const g = await forumCategory(BO, 'nature', null, s, T0 + 3, null, { group: 'tag', sort: 'az' });
+    assert.equal(g.group, 'tag'); assert.equal(g.more, false);
+    assert.deepEqual(FORUM_SORTS, ['last', 'new', 'old', 'az', 'za']);
+  });
 }

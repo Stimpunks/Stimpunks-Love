@@ -6033,7 +6033,7 @@ section of `netlify/cb/lib.mjs` and `/cb/forum`: one blob per topic, one index p
 repairs), every write conditional, and a version on each topic so an older summary never overwrites a newer one.
 **Categories are `data/forum.json`**, written between `forum:categories` markers in `lib.mjs` by `tools/make-forum.py`
 (never hand-edit them): each has a keep (`1 week`, `3 months`, `6 months`, `never`, counted from the last post, Ryan's
-call, worked out on every read so changing it changes every topic in it), `see` and `start` as CB_MODS roles, and
+call, worked out on every read, and held to the stamps below), `see` and `start` as CB_MODS roles, and
 `strict` for the Executive Session rule. **A category somebody cannot see is never sent to them**, and `forumReader`
 refuses everything but a claimed username first. **Every post carries `by`, a hash of the folded name and when it was
 claimed (`since`, which `readPass` now returns), and it never leaves the server**: it is how a name deleted and claimed
@@ -6046,6 +6046,30 @@ anything; each sender takes theirs back out under `canTakeOff`; never out of a q
 only into a category no wider than it. Ryan's call: anybody's messages, under the house norm of asking first. **The
 friendly edits are a reply count, a view count, unread numbers, a fetched preview image, and the radio sending the
 messages' words itself**; each is refused by `make-forum.py` or by the privacy page. `DECISIONS.md` has what is still open.
+
+**HOW LONG A CATEGORY KEEPS A TOPIC IS SET AT THE DESK, AND EVERY POST IS STAMPED WITH IT.** Ryan's ask, 2026-10-28,
+"like what we added for chat": an administrator sets any category that stands on its own to a week, three months, six
+months or for good (`forum-rules`, `setForumRule`, `/cb/forum-rules`, the forums' keeps part of `desk.js`), each entry its
+keep, who and when; a subcategory keeps its top category's, and **a wiki and Coping are not the desk's** (`forumFixed`).
+Every post carries `keep`, its category's keep when it was made (`startTopic`, `replyTopic`, `importTopic`), and a topic
+goes at the shortest of its category's keep now and every stamp in it (`topicKeep`, from the summary's `held` and
+`stamped`): a longer keep reaches only what is posted after it, a shorter one everything at once, and the sweep runs as
+soon as one is set. **A post from before the stamps is held to `data/forum.json`'s keep, or the category's `was`**, the
+shorter keep its older topics were posted under (the watering hole's week, lengthened to three months that day without
+everybody's say-so). So **lengthening a keep in the data file now reaches only unstamped posts**, and lengthening past
+anybody's stamped posts needs their say-so and code, the channels' `AGREED` rule. The same day, with Ryan's word that
+everybody who had posted there agreed, Announcements, Events, Show your work, Props & Gratitude and every Interests
+category went to never, as did the empty Work opportunities and Discourse. `readTopic` and `readForumIndex` load the
+desk's keeps (`loadForumRules`) before anything works out a date. The friendly edits are **a desk keep that reaches
+back** "so the history is there", **letting the desk set a wiki or Coping**, and **dropping `was`** once its week is up
+"since it says nothing", which would hand any pre-stamp post the longer keep. The rooms that state a category's keep
+say "unless our administrators set it otherwise", as the channels' do.
+
+**A CATEGORY'S TOPICS SORT AND GROUP BY TAG, IN THE ADDRESS** (Ryan's ask, 2026-10-28): `FORUM_SORTS` (latest post,
+newest topic, oldest topic, title A to Z and Z to A), pinned first in the same order, a later page asked by `before` for
+the latest post and by `from` otherwise; `group=tag` sends every topic at once and `forum.js` puts each under every tag it
+carries, No tags last, never saying how many. The bot can now set a page's tags too (`tags` in `forumBot`,
+`node tools/forum-bot.mjs tags <id> a,b`), which `check_bot` allows and nothing more.
 
 **A CATEGORY'S LIST IS A CACHE AND THE TOPIC IS THE RECORD, SO A BUSY LIST NEVER FAILS A CHANGE THAT LANDED.**
 2026-10-25: a vote, a reply or any change goes into its topic first and then into its category's list

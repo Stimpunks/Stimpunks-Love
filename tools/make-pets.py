@@ -769,7 +769,7 @@ keep = esc(cats["pets"]["keep"])
 yours = [f'      <li><strong>{esc(y["name"])}</strong> {linked(y["line"])}</li>' for y in d["yours"]]
 yours.append('      <li><strong>The forums.</strong> <a href="forum.html#/c/pets">Pets</a> in the forums is for '
              f"pictures, stories, worries and questions about your animals, and keeps a topic {keep} after its "
-             "last post.</li>")
+             "last post, unless our administrators set it otherwise.</li>")
 swap(ROOM, "pts:yours", '    <ul class="pts-yours">\n' + "\n".join(yours) + "\n    </ul>", "    ")
 
 rules = [f'      <li><strong>{esc(r["name"])}</strong> {linked(r["line"])}</li>' for r in d["not_here"]]
@@ -787,7 +787,7 @@ channel = [
     '<a href="community-center.html#cb-norms">the house norms</a>, like every channel.</li>',
     f"      <li><strong>Unless our administrators set this channel otherwise, every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, "
     "and the radio says what it keeps, first under <b>In this channel</b>. For something that needs longer, "
-    f'<a href="forum.html#/c/pets">Pets</a> in the forums keeps a topic {keep} after its last post.</li>',
+    f'<a href="forum.html#/c/pets">Pets</a> in the forums keeps a topic {keep} after its last post, unless our administrators set it otherwise.</li>',
     "      <li><strong>Pictures of your animals are welcome</strong>, and a picture goes when its message does. "
     "It is redrawn in your own browser before it leaves, which takes off where it was taken, as "
     '<a href="privacy.html#cb">the privacy page</a> says.</li>',

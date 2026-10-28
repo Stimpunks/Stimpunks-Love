@@ -4,7 +4,8 @@
    read out of 1Password with `op read` when it runs and never printed, written
    down or put in an argument anybody else could see. The server end is
    netlify/functions/cb-forum-bot.mjs, which can only list, read, start and
-   edit pages in the Wiki and in Team Docs, under the name Claude, marked BOT.
+   edit pages in the Wiki and in Team Docs, and change their tags, under the
+   name Claude, marked BOT.
 
      node tools/forum-bot.mjs test
      node tools/forum-bot.mjs cats                     where it may write
@@ -12,6 +13,7 @@
      node tools/forum-bot.mjs read <topic id>          the page's Markdown, to stdout
      node tools/forum-bot.mjs start <category> <title> <file.md> [--tags a,b]
      node tools/forum-bot.mjs edit <topic id> <file.md> [--title "A new title"]
+     node tools/forum-bot.mjs tags <topic id> a,b      every tag the page carries; "" for none
 
    STIMPUNKS_BASE (https://stimpunks.world), FORUM_BOT_KEY_REF and
    STIMPUNKS_OP_ACCOUNT override where it goes and where the key is read from. */
@@ -68,7 +70,7 @@ if (cmd === 'test') {
   for (const c of r.cats) console.log(`${c.slug}  ${c.name}${c.parent ? `  (in ${c.parent})` : ''}`);
 } else if (cmd === 'list') {
   const r = await send({ action: 'list', cat: args[0] || 'wiki' });
-  for (const x of r.topics) console.log(`${x.id}  ${x.title}  (started by ${x.by})`);
+  for (const x of r.topics) console.log(`${x.id}  ${x.title}  (started by ${x.by})${x.tags && x.tags.length ? `  [${x.tags.join(', ')}]` : ''}`);
 } else if (cmd === 'read') {
   const r = await send({ action: 'read', id: args[0] });
   process.stdout.write(`# ${r.page.title}\n\n${r.page.body}\n`);
@@ -86,7 +88,12 @@ if (cmd === 'test') {
   if (title !== undefined) body.title = title;
   const r = await send(body);
   console.log(`Edited: ${r.page.title}\n${link(r.page.id)}`);
+} else if (cmd === 'tags') {
+  const [id, list] = args;
+  if (!id || list === undefined) { console.error('tags <topic id> a,b   ("" takes every tag off)'); process.exit(64); }
+  const r = await send({ action: 'tags', id, tags: list.split(',').map((x) => x.trim()).filter(Boolean) });
+  console.log(`Tagged: ${r.page.title}  [${r.page.tags.join(', ') || 'no tags'}]\n${link(r.page.id)}`);
 } else {
-  console.error('test | cats | list [category] | read <id> | start <category> <title> <file.md> [--tags a,b] | edit <id> <file.md> [--title ...]');
+  console.error('test | cats | list [category] | read <id> | start <category> <title> <file.md> [--tags a,b] | edit <id> <file.md> [--title ...] | tags <id> a,b');
   process.exit(64);
 }

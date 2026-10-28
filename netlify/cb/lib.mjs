@@ -8421,25 +8421,25 @@ export const FORUM_FILE_TYPES = {
 /* forum:categories:begin -- written by tools/make-forum.py from data/forum.json. Do not hand-edit. */
 export const FORUM_DEFAULT_KEEP = "3 months";
 export const FORUM_CATEGORIES = [
-  {"slug": "announcements", "name": "Announcements", "about": "News from the people who run Stimpunks. Only moderators start a topic here; anybody can reply.", "group": "Information", "keep": "6 months", "see": null, "start": ["moderator"]},
+  {"slug": "announcements", "name": "Announcements", "about": "News from the people who run Stimpunks. Only moderators start a topic here; anybody can reply.", "group": "Information", "keep": "never", "see": null, "start": ["moderator"]},
   {"slug": "introductions", "name": "Introductions", "about": "Say hello, if you like, and say as much or as little as you want to. Reading along is a fine way to belong too.", "group": "Information", "keep": "6 months", "see": null, "start": null},
   {"slug": "help-desk", "name": "Help desk", "about": "When something on the street, the CB or the forums does not work, or you cannot find your way.", "group": "Information", "keep": "3 months", "see": null, "start": null},
   {"slug": "wiki", "name": "Wiki", "about": "How to do things on the street, the CB and the forums, one thing to a page. Every page is a living document that our moderators keep up to date, whoever started it. Something wrong or missing? Reply on the page, or ask in the Help desk.", "group": "Information", "keep": "never", "see": null, "start": ["moderator"], "wiki": ["moderator"]},
-  {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time. Topics here go a week after their last post.", "group": "Community", "keep": "1 week", "see": null, "start": null},
+  {"slug": "watering-hole", "name": "The watering hole", "about": "Chat about anything, share penguin pebbles, pass the time.", "group": "Community", "keep": "3 months", "see": null, "start": null, "was": "1 week"},
   {"slug": "coping", "name": "Coping", "about": "For the hard days, and for getting through them together. Say what is going on and be met where you are; nobody has to fix anything, and nobody has to answer. What is said here stays here.", "group": "Community", "keep": "1 week", "see": null, "start": null},
-  {"slug": "events", "name": "Events", "about": "What is coming up, and what happened: our calls, campfires, watch-togethers and anything else worth turning up for.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "events", "name": "Events", "about": "What is coming up, and what happened: our calls, campfires, watch-togethers and anything else worth turning up for.", "group": "Community", "keep": "never", "see": null, "start": null},
   {"slug": "mutual-aid", "name": "Mutual aid", "about": "To give help and to get it. Nobody owes anybody here.", "group": "Community", "keep": "3 months", "see": null, "start": null},
-  {"slug": "show-your-work", "name": "Show your work", "about": "What you are making, writing, learning or fixing, finished or not.", "group": "Community", "keep": "3 months", "see": null, "start": null},
-  {"slug": "work-opportunities", "name": "Work opportunities", "about": "Jobs, gigs, calls for contributors and paid chances to do the work.", "group": "Community", "keep": "3 months", "see": null, "start": null},
-  {"slug": "discourse", "name": "Discourse", "about": "The news, ideas and arguments of the day, and what they mean for us. Disagree well: nobody has to win, and nobody has to take part.", "group": "Community", "keep": "3 months", "see": null, "start": null},
+  {"slug": "show-your-work", "name": "Show your work", "about": "What you are making, writing, learning or fixing, finished or not.", "group": "Community", "keep": "never", "see": null, "start": null},
+  {"slug": "work-opportunities", "name": "Work opportunities", "about": "Jobs, gigs, calls for contributors and paid chances to do the work.", "group": "Community", "keep": "never", "see": null, "start": null},
+  {"slug": "discourse", "name": "Discourse", "about": "The news, ideas and arguments of the day, and what they mean for us. Disagree well: nobody has to win, and nobody has to take part.", "group": "Community", "keep": "never", "see": null, "start": null},
   {"slug": "pets", "name": "Pets", "about": "Your animals: pictures, stories, worries and questions. Animals adopted from the street's shelters are welcome here too.", "group": "Community", "keep": "3 months", "see": null, "start": null},
-  {"slug": "props-and-gratitude", "name": "Props & Gratitude", "about": "Thank somebody out loud for something they did, big or small. Nobody is ranked, and nobody has to be thanked to belong.", "group": "Community", "keep": "3 months", "see": null, "start": null},
-  {"slug": "infodumps", "name": "Infodumps", "about": "Tell us everything about the thing you love. Long is welcome.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
-  {"slug": "reading-watching-listening", "name": "Reading, watching, listening, playing", "about": "Books, films, shows, music, podcasts and games: what you are into and what you would pass along.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
-  {"slug": "education", "name": "Education", "about": "Learning, schooling, unschooling and the places in between, and what they do to the people in them.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
-  {"slug": "science-and-making", "name": "Science and making", "about": "Experiments, tinkering, crafts, code and anything built with your hands or your head.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
-  {"slug": "nature", "name": "Nature", "about": "Plants, animals, weather, places outdoors, and the ground you are standing on.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
-  {"slug": "artificial-intelligence", "name": "Artificial Intelligence", "about": "Learning, making and knowledge gardening with generative AI, and the arguments about it.", "group": "Interests", "keep": "3 months", "see": null, "start": null},
+  {"slug": "props-and-gratitude", "name": "Props & Gratitude", "about": "Thank somebody out loud for something they did, big or small. Nobody is ranked, and nobody has to be thanked to belong.", "group": "Community", "keep": "never", "see": null, "start": null},
+  {"slug": "infodumps", "name": "Infodumps", "about": "Tell us everything about the thing you love. Long is welcome.", "group": "Interests", "keep": "never", "see": null, "start": null},
+  {"slug": "reading-watching-listening", "name": "Reading, watching, listening, playing", "about": "Books, films, shows, music, podcasts and games: what you are into and what you would pass along.", "group": "Interests", "keep": "never", "see": null, "start": null},
+  {"slug": "education", "name": "Education", "about": "Learning, schooling, unschooling and the places in between, and what they do to the people in them.", "group": "Interests", "keep": "never", "see": null, "start": null},
+  {"slug": "science-and-making", "name": "Science and making", "about": "Experiments, tinkering, crafts, code and anything built with your hands or your head.", "group": "Interests", "keep": "never", "see": null, "start": null},
+  {"slug": "nature", "name": "Nature", "about": "Plants, animals, weather, places outdoors, and the ground you are standing on.", "group": "Interests", "keep": "never", "see": null, "start": null},
+  {"slug": "artificial-intelligence", "name": "Artificial Intelligence", "about": "Learning, making and knowledge gardening with generative AI, and the arguments about it.", "group": "Interests", "keep": "never", "see": null, "start": null},
   {"slug": "operations", "name": "Operations", "about": "The work of running Stimpunks, out in the open, with room for anybody who wants to watch and learn.", "group": "Teams", "keep": "3 months", "see": null, "start": null},
   {"slug": "editorial", "name": "Editorial", "about": "What we publish and how: drafts, edits, ideas for pages and the glossary.", "group": "Teams", "keep": "3 months", "see": null, "start": null},
   {"slug": "moderators", "name": "Moderators", "about": "For our moderators: anything about keeping the street and the CB a good place to be.", "group": "Staff", "keep": "6 months", "see": ["moderator"], "start": null},
@@ -8527,7 +8527,137 @@ export function forumEditor(who, cat) {
   return cat.wiki.some((r) => who.roles.has(r));
 }
 
-export function keepOf(cat) { return (cat && FORUM_KEEPS.includes(cat.keep) && cat.keep) || FORUM_DEFAULT_KEEP; }
+/* ── How long each category keeps a topic, set at the desk ──────────────
+   PROVISIONED AT THE DESK IN THE MODERATORS' ROOM (Ryan's ask, 2026-10-28,
+   "like what we added for chat"): an administrator sets how long a category
+   keeps a topic after its last post, from FORUM_KEEPS, for any category that
+   stands on its own; a subcategory, and every year of one, keeps what its top
+   category keeps. One blob, `forum-rules`: each category set, its keep, who
+   changed it last and when, and nothing more. A category the desk has not
+   set keeps what data/forum.json says. A wiki keeps its pages for good and
+   Coping keeps a week (Ryan's calls), so the desk sets neither.
+
+   EVERY POST IS STAMPED WITH ITS CATEGORY'S KEEP WHEN IT IS MADE (`keep`, by
+   makePost and importTopic), so a longer keep never holds anybody's words
+   longer than the category promised when they were posted: a topic is kept
+   for the shortest of its category's keep now and every stamp in it, counted
+   from its last post (topicKeep). A post from before the stamps is held to
+   data/forum.json's keep for its category, or its `was` where it names one
+   (the watering hole's week, which it kept until 2026-10-28). A shorter keep
+   reaches every topic at once, and the sweep runs as soon as it is set. */
+const FORUM_RULES = 'forum-rules';
+const forumRulesSeen = new WeakMap();   // per store: { at, cats }
+let forumKeepsNow = {};                  // top category's slug: its keep, as last loaded
+const FORUM_FIXED = { coping: 'Coping keeps a topic a week after its last post, Ryan’s call.' };
+
+/* The category a category stands in, at the top. */
+function topCat(cat) {
+  let c = cat;
+  for (let i = 0; c && c.parent && i < 8; i++) c = FORUM_CATEGORIES.find((x) => x.slug === c.parent) || null;
+  return c && !c.parent ? c : null;
+}
+/* Why the desk does not set a category, or null when it does. */
+function forumFixed(cat) {
+  if (!cat || cat.parent) return 'A subcategory keeps what the category it stands in keeps.';
+  if (cat.wiki) return `${cat.name} is a wiki, which keeps its pages for good.`;
+  return FORUM_FIXED[cat.slug] || null;
+}
+const keepRank = (k) => FORUM_KEEPS.indexOf(k);
+const shorterKeep = (a, b) => (keepRank(a) <= keepRank(b) ? a : b);
+function cleanForumRule(r) {
+  if (!r || typeof r !== 'object' || !FORUM_KEEPS.includes(r.keep)) return null;
+  const out = { keep: r.keep };
+  if (typeof r.by === 'string') out.by = r.by;
+  if (typeof r.t === 'number') out.t = r.t;
+  return out;
+}
+function forumRulesDoc(d) {
+  const cats = {};
+  const src = d && typeof d === 'object' && d.cats && typeof d.cats === 'object' ? d.cats : {};
+  for (const [k, v] of Object.entries(src)) {
+    const c = FORUM_CATEGORIES.find((x) => x.slug === k);
+    const r = cleanForumRule(v);
+    if (r && c && !forumFixed(c)) cats[k] = r;
+  }
+  return { cats };
+}
+/* The desk's keeps as this instance last read them, at most RULES_FRESH old.
+   Every read of a topic or a list loads them first (readTopic,
+   readForumIndex), so nothing works out a date without them. */
+export async function loadForumRules(s = store(), now = Date.now()) {
+  const seen = forumRulesSeen.get(s);
+  if (seen && now - seen.at < RULES_FRESH) { forumKeepsNow = seen.cats; return seen.cats; }
+  let cats = {};
+  try { cats = Object.fromEntries(Object.entries(forumRulesDoc(await s.get(FORUM_RULES, { type: 'json' })).cats).map(([k, v]) => [k, v.keep])); }
+  catch (e) { cats = seen ? seen.cats : {}; }
+  forumRulesSeen.set(s, { at: now, cats });
+  forumKeepsNow = cats;
+  return cats;
+}
+/* What data/forum.json says, and what a post from before the stamps keeps. */
+function dataKeepOf(cat) { return (cat && FORUM_KEEPS.includes(cat.keep) && cat.keep) || FORUM_DEFAULT_KEEP; }
+function baseKeepOf(cat) { return cat && FORUM_KEEPS.includes(cat.was) ? shorterKeep(cat.was, dataKeepOf(cat)) : dataKeepOf(cat); }
+/* What a category keeps a topic for now: the desk's, or the data file's. */
+export function keepOf(cat) {
+  const top = topCat(cat);
+  const set = top && !forumFixed(top) && forumKeepsNow[top.slug];
+  return FORUM_KEEPS.includes(set) ? set : dataKeepOf(cat);
+}
+/* What one topic is kept for: the shortest of its category's keep now, every
+   stamp in it, and, while any post in it is from before the stamps, what that
+   post was made under. */
+export function topicKeep(sum, cat) {
+  let k = keepOf(cat);
+  if (FORUM_KEEPS.includes(sum.held)) k = shorterKeep(k, sum.held);
+  if (!sum.stamped) k = shorterKeep(k, baseKeepOf(cat));
+  return k;
+}
+
+function forumRulesAnswer(cats) {
+  return {
+    rules: cats, keeps: FORUM_KEEPS,
+    cats: FORUM_CATEGORIES.filter((c) => !c.parent).map((c) => {
+      const out = { slug: c.slug, name: c.name, group: c.group, keep: dataKeepOf(c) };
+      const fixed = forumFixed(c);
+      if (fixed) out.fixed = fixed;
+      return out;
+    }),
+  };
+}
+export async function forumRulesList(who, s = store()) {
+  if (!rulesEditor(who)) return { error: 'The forums’ keeps are set by administrators.' };
+  const cats = forumRulesDoc(await s.get(FORUM_RULES, { type: 'json' })).cats;
+  forumRulesSeen.delete(s);
+  return forumRulesAnswer(cats);
+}
+/* Set one category's keep, or with `clear` put it back to data/forum.json's.
+   A keep shorter than before reaches every topic now, so the sweep runs. */
+export async function setForumRule(who, slug, keep, s = store(), now = Date.now(), clear = false) {
+  if (!rulesEditor(who)) return { error: 'The forums’ keeps are set by administrators.' };
+  const cat = typeof slug === 'string' ? FORUM_CATEGORIES.find((c) => c.slug === slug) : null;
+  if (!cat) return { error: 'That is not a category the desk can set.' };
+  const fixed = forumFixed(cat);
+  if (fixed) return { error: fixed };
+  if (!clear && !FORUM_KEEPS.includes(keep)) return { error: `Choose how long from the list: ${FORUM_KEEPS.join(', ')}.` };
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const cur = await versioned(s, FORUM_RULES);
+    const cats = forumRulesDoc(cur.exists ? cur.data : null).cats;
+    const was = (cats[slug] && cats[slug].keep) || dataKeepOf(cat);
+    if (clear) delete cats[slug];
+    else cats[slug] = { keep, by: who.handle, t: now };
+    const opts = cur.exists ? { onlyIfMatch: cur.etag } : { onlyIfNew: true };
+    const res = await s.setJSON(FORUM_RULES, { cats }, opts);
+    if (res.modified) {
+      forumRulesSeen.delete(s);
+      await loadForumRules(s, now);
+      const to = clear ? dataKeepOf(cat) : keep;
+      if (keepRank(to) < keepRank(was)) await sweepForum(s, now);
+      return forumRulesAnswer(cats);
+    }
+    await new Promise((x) => setTimeout(x, 20 + Math.random() * 60 * (attempt + 1)));
+  }
+  throw new Error('busy');
+}
 
 /* When a topic goes, from the time its clock last started. */
 export function goesAt(from, keep) {
@@ -8539,7 +8669,7 @@ export function goesAt(from, keep) {
   return d.getTime();
 }
 function clockOf(sum) { return Math.max(sum.last || 0, sum.unpinned || 0); }
-export function topicGoes(sum, cat) { return sum.pinned ? null : goesAt(clockOf(sum), keepOf(cat)); }
+export function topicGoes(sum, cat) { return sum.pinned ? null : goesAt(clockOf(sum), topicKeep(sum, cat)); }
 export function topicLive(sum, cat, now = Date.now()) { const g = topicGoes(sum, cat); return g === null || g > now; }
 
 export function cleanForumTitle(v) { const t = tidy(v); return t && [...t].length <= FORUM_TITLE_MAX ? t : null; }
@@ -8944,11 +9074,11 @@ const catKey = (slug) => FORUM_CAT + slug;
 
 export async function readTopic(id, s = store()) {
   if (!topicId(id)) return null;
-  const d = await s.get(topicKey(id), { type: 'json' });
+  const [d] = await Promise.all([s.get(topicKey(id), { type: 'json' }), loadForumRules(s)]);
   return d && d.id === id && Array.isArray(d.posts) ? d : null;
 }
 export async function readForumIndex(slug, s = store()) {
-  const d = await s.get(catKey(slug), { type: 'json' });
+  const [d] = await Promise.all([s.get(catKey(slug), { type: 'json' }), loadForumRules(s)]);
   return d && Array.isArray(d.topics) ? d.topics : [];
 }
 function updateForumIndex(slug, change, s) { return updateList(catKey(slug), 'topics', change, s); }
@@ -8988,6 +9118,10 @@ function summaryOf(t) {
   if (t.notion) sum.notion = t.notion;
   // That it opens with a poll, so a list can say so; nothing about the votes.
   if (t.poll) sum.poll = true;
+  // The shortest keep its posts were made under, and whether every post says (topicKeep).
+  const stamps = t.posts.map((p) => p.keep).filter((k) => FORUM_KEEPS.includes(k));
+  if (stamps.length) sum.held = stamps.reduce(shorterKeep);
+  if (t.posts.length && stamps.length === t.posts.length) sum.stamped = true;
   return sum;
 }
 
@@ -9091,20 +9225,48 @@ export async function forumLatest(who, before = null, s = store(), now = Date.no
 /* One category's topics, and those of every category under it: pinned ones
    first, then the latest post first; and the categories directly under it.
    `tag`: only the topics that carry it; `tags` says which tags its topics
-   carry, whichever is picked, so the page can offer the others. */
-export async function forumCategory(who, slug, before = null, s = store(), now = Date.now(), tag = null) {
+   carry, whichever is picked, so the page can offer the others.
+
+   SORTED AND GROUPED (Ryan's ask, 2026-10-28): `how.sort` is one of
+   FORUM_SORTS, the latest post first unless it says otherwise; a page after
+   the first is asked for by `before` when sorted by the latest post, as it
+   always was, and by `from`, how many came before it, when sorted any other
+   way. `how.group` 'tag' sends every topic at once, because the page puts a
+   topic under each of its tags and a group cut off at a page's end would say
+   something untrue about the tag. Pinned topics are still first, in the same
+   order as the rest. Nothing says how many topics carry a tag. */
+export const FORUM_SORTS = ['last', 'new', 'old', 'az', 'za'];
+const byTitle = (a, b) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base', numeric: true }) || byLast(a, b);
+const FORUM_ORDER = {
+  last: byLast,
+  new: (a, b) => b.t - a.t || byLast(a, b),
+  old: (a, b) => a.t - b.t || byLast(a, b),
+  az: byTitle,
+  za: (a, b) => byTitle(b, a),
+};
+export async function forumCategory(who, slug, before = null, s = store(), now = Date.now(), tag = null, how = {}) {
   const cat = forumCat(slug, now);
   if (!forumAllows(who, cat)) return null;
+  const sort = FORUM_SORTS.includes(how && how.sort) ? how.sort : 'last';
+  const grouped = !!how && how.group === 'tag';
+  const from = sort !== 'last' && !grouped && Number.isInteger(how && how.from) && how.from > 0 ? how.from : 0;
+  const order = FORUM_ORDER[sort];
   const all = await treeTopics(who, cat, s, now);
   const picked = tag == null || tag === '' ? null : cleanForumTag(tag);
   const live = tag == null || tag === '' ? all : all.filter((x) => picked && (x.tags || []).includes(picked));
   // Its own pinned topics first, on the first page only; one pinned in a
   // category under it is in that category's place at the top, not this one's.
   const own = (x) => x.pinned && x.cat === cat.slug;
-  const pinned = before == null ? live.filter(own).sort(byLast) : [];
-  let rest = live.filter((x) => !own(x)).sort(byLast);
-  if (typeof before === 'number') rest = rest.filter((x) => x.last < before);
-  const out = { cat: shapeForumCat(cat, who), topics: pinned.concat(rest.slice(0, FORUM_LATEST)), more: rest.length > FORUM_LATEST, tags: tagsOf(all) };
+  const first = (sort === 'last' ? before == null : !from);
+  const pinned = first ? live.filter(own).sort(order) : [];
+  let rest = live.filter((x) => !own(x)).sort(order);
+  if (sort === 'last' && !grouped && typeof before === 'number') rest = rest.filter((x) => x.last < before);
+  if (from) rest = rest.slice(from);
+  const page = grouped ? rest : rest.slice(0, FORUM_LATEST);
+  const more = !grouped && rest.length > FORUM_LATEST;
+  const out = { cat: shapeForumCat(cat, who), topics: pinned.concat(page), more, tags: tagsOf(all), sort };
+  if (grouped) out.group = 'tag';
+  if (more && sort !== 'last') out.from = from + FORUM_LATEST;
   if (picked) out.tag = picked;
   const subs = subsOf(who, cat, now);
   if (subs.length) out.subs = subs;
@@ -9475,6 +9637,7 @@ export async function startTopic(who, f, s = store(), now = Date.now(), get = sa
     return { error: `${cat.name} is full. A moderator has to take some topics down before another fits.` };
   }
   const post = makePost(who, body, await previewsOf(body, [], get), now, att.files, mentionedIn(body, f.at, null));
+  post.keep = keepOf(cat);
   if (cb) post.cb = cb;
   const topic = { id: newTopicId(), v: 1, cat: cat.slug, title, handle: who.handle, by: authorMark(who), t: now, last: now, lastBy: who.handle, posts: [post] };
   if (who.bot) { topic.bot = true; topic.lastBot = true; } else if (who.role === 'base') { topic.base = true; topic.lastBase = true; }
@@ -9541,10 +9704,11 @@ export async function replyTopic(who, id, f, s = store(), now = Date.now(), get 
   const to = postId(f.reply);
   await keepUploads(FP, id, att.fresh, s, now);
   let made = null;
-  const r = await changeTopic(who, id, now, s, (t) => {
+  const r = await changeTopic(who, id, now, s, (t, cat) => {
     if (t.closed && who.role !== 'base') return { why: 'This topic is closed, so nobody can reply to it.' };
     if (t.posts.length >= FORUM_POSTS_MAX) return { why: 'This topic is full. Start a new one, and link back to this one if it helps.' };
     made = makePost(who, body, links, now, att.files, mentionedIn(body, f.at, t));
+    made.keep = keepOf(cat);
     if (to && t.posts.some((p) => p.id === to)) made.reply = to;
     t.posts.push(made);
     // Never backwards: two replies in the same moment land in either order.
@@ -9951,7 +10115,7 @@ export async function forumBot(b, s = store(), now = Date.now(), get = safeGet) 
     const cat = forumCat(b.cat, now);
     if (!botCat(cat, now)) return { error: 'The bot writes only in the Wiki and Team Docs.' };
     const list = await readForumIndex(cat.slug, s);
-    return { topics: list.map((x) => ({ id: x.id, title: x.title, by: x.handle, last: x.last })) };
+    return { topics: list.map((x) => ({ id: x.id, title: x.title, by: x.handle, last: x.last, tags: (x.tags || []).slice() })) };
   }
   if (act === 'read' || act === 'edit') {
     const t = typeof b.id === 'string' ? await readTopic(b.id, s) : null;
@@ -9965,6 +10129,14 @@ export async function forumBot(b, s = store(), now = Date.now(), get = safeGet) 
     if (r.error) return r;
     return { page: page(r.topic) };
   }
+  if (act === 'tags') {
+    const t = typeof b.id === 'string' ? await readTopic(b.id, s) : null;
+    const cat = t && forumCat(t.cat, now);
+    if (!t || !botCat(cat, now) || !topicLive(summaryOf(t), cat, now)) return { error: 'There is no such page where the bot writes.' };
+    const r = await retagTopic(who, t.id, { tags: b.tags }, s, now);
+    if (r.error) return r;
+    return { page: page(r.topic || t) };
+  }
   if (act === 'start') {
     const cat = forumCat(b.cat, now);
     if (!botCat(cat, now)) return { error: 'The bot writes only in the Wiki and Team Docs.' };
@@ -9972,7 +10144,7 @@ export async function forumBot(b, s = store(), now = Date.now(), get = safeGet) 
     if (r.error) return r;
     return { page: page(r.topic) };
   }
-  return { error: 'The bot can list categories and pages, read, start and edit, and nothing else.' };
+  return { error: 'The bot can list categories and pages, read, start and edit them, and change their tags, and nothing else.' };
 }
 
 export async function importTopic(who, f, s = store(), now = Date.now()) {
@@ -10026,7 +10198,7 @@ export async function importTopic(who, f, s = store(), now = Date.now()) {
   if ((await readForumIndex(cat.slug, s)).length >= FORUM_TOPICS_MAX) {
     return { error: `${cat.name} is full. A moderator has to take some topics down before another fits.` };
   }
-  const post = mine({ id: newPostId(), handle, t: at, body, notion });
+  const post = mine({ id: newPostId(), handle, t: at, body, notion, keep: keepOf(cat) });
   const topic = mine({ id: newTopicId(), v: 1, cat: cat.slug, title, handle, t: at, last: at, lastBy: handle, posts: [post], notion });
   if (tags.length) topic.tags = tags;
   let clash = false;

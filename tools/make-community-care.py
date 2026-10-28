@@ -544,7 +544,7 @@ channel = [
     f"      <li><strong>Unless our administrators set this channel otherwise, every message on it goes {LIFE_WORDS.get(int(life.group(1)), life.group(1) + ' days')} after it was sent</strong>, "
     "and the radio says what it keeps, first under <b>In this channel</b>. For an ask that needs longer, "
     f'<a href="forum.html#/c/mutual-aid">Mutual aid</a> in the forums keeps a topic {esc(cats["mutual-aid"]["keep"])} '
-    f'after its last post, and <a href="forum.html#/c/coping">Coping</a> keeps one {esc(cats["coping"]["keep"])}.</li>',
+    f'after its last post unless our administrators set it otherwise, and <a href="forum.html#/c/coping">Coping</a> keeps one {esc(cats["coping"]["keep"])}.</li>',
     "      <li><strong>A direct message is between two people</strong>, and it is not end-to-end encrypted. "
     "One that breaks the house norms can be reported, which is the one way it reaches a moderator.</li>",
 ]

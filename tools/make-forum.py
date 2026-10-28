@@ -211,13 +211,13 @@ def categories(data, roles):
             # A subcategory is its parent's in everything but its name, its
             # words and what it holds, so nobody is ever sent a subcategory of
             # a category they cannot read.
-            mine = set(c) & {"group", "keep", "see", "start", "strict", "wiki"}
+            mine = set(c) & {"group", "keep", "was", "see", "start", "strict", "wiki"}
             if mine:
                 problems.append(f"{where}: a subcategory takes its parent's {', '.join(sorted(mine))}, and may not set its own.")
             depth = up["_depth"] + 1
             if depth > 2 or (depth == 2 and c.get("years")):
                 problems.append(f"{where}: three levels at most, a category, its subcategories and theirs, and a year counts as one.")
-            c = {**{k: up[k] for k in ("group", "keep", "see", "start", "strict", "wiki") if k in up}, **c}
+            c = {**{k: up[k] for k in ("group", "keep", "was", "see", "start", "strict", "wiki") if k in up}, **c}
         else:
             depth = 0
         if c.get("topics") not in (None, False):
@@ -233,6 +233,12 @@ def categories(data, roles):
                 problems.append(f"{where}: it has no {k}.")
         if c.get("keep") not in KEEPS:
             problems.append(f"{where}: keep is {c.get('keep')!r}, not one of {KEEPS}.")
+        # was: the keep its topics were posted under before keep was lengthened
+        # without everybody's say-so, which holds every post from before the
+        # stamps (2026-10-28). Shorter than keep, or it would say nothing.
+        if c.get("was") is not None and (c.get("was") not in KEEPS or c.get("keep") not in KEEPS
+                                          or KEEPS.index(c["was"]) >= KEEPS.index(c["keep"])):
+            problems.append(f"{where}: was is the shorter keep its older topics were posted under, one of {KEEPS}, shorter than keep.")
         if slug == "coping" and c.get("keep") != "1 week":
             problems.append(f"{where}: Coping's topics go a week after the last post, Ryan's call; Discord keeping that channel for ever is what the forums are not doing.")
         for k in ("see", "start", "wiki"):
@@ -247,11 +253,13 @@ def categories(data, roles):
             problems.append(f"{where}: strict keeps an administrator out of a category that names roles; this one names none.")
         if c.get("wiki") and c.get("keep") != "never":
             problems.append(f"{where}: a wiki keeps its pages for good. An edit does not move a topic's clock, so a page nobody replied to would go.")
-        extra = set(c) - {"slug", "name", "about", "group", "keep", "see", "start", "strict", "wiki", "parent", "topics", "years", "templates", "as"}
+        extra = set(c) - {"slug", "name", "about", "group", "keep", "was", "see", "start", "strict", "wiki", "parent", "topics", "years", "templates", "as"}
         if extra:
             problems.append(f"{where}: {', '.join(sorted(extra))} is nothing the forums read.")
         cat = {"slug": slug, "name": c.get("name"), "about": c.get("about"), "group": c.get("group"),
                "keep": c.get("keep"), "see": c.get("see"), "start": c.get("start")}
+        if c.get("was"):
+            cat["was"] = c.get("was")
         if c.get("strict"):
             cat["strict"] = True
         if c.get("wiki"):
@@ -327,7 +335,7 @@ def check_lib(lib):
                 problems.append(f"{LIB.name}: {name} sends `{word}`. Nothing about reading is kept, and nothing is counted.")
     m = re.search(r"function summaryOf\(t\) \{.*?\n\}", sec, re.S)
     keys = set(re.findall(r"\b(\w+):", m.group(0))) | set(re.findall(r"sum\.(\w+) =", m.group(0))) if m else set()
-    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "bot", "lastBot", "pinned", "closed", "unpinned", "tags", "notion", "poll"}:
+    if keys - {"id", "v", "title", "handle", "t", "last", "lastBy", "base", "lastBase", "bot", "lastBot", "pinned", "closed", "unpinned", "tags", "notion", "poll", "held", "stamped"}:
         problems.append(f"{LIB.name}: a topic's summary holds {sorted(keys)}; it holds what a list shows and nothing else.")
     if m and "poll" in keys and "if (t.poll) sum.poll = true;" not in m.group(0):
         problems.append(f"{LIB.name}: a topic's summary says only that the topic has a poll, never anything about its votes.")
@@ -696,7 +704,7 @@ def check_rooms(lib, cats):
 def check_bot(lib):
     """THE WIKI'S BOT (Ryan's choice, 2026-10-26): a signed key for Claude to
     keep the Wiki's and Team Docs' pages up to date. It writes only there, only
-    by starting a page or editing one, under its own name marked bot and never
+    by starting a page, editing one or changing its tags (2026-10-28), under its own name marked bot and never
     base, calls no role, tells nobody, and its tool never prints its key."""
     part = re.search(r"/\* THE WIKI'S BOT .*?\nexport async function forumBot\(.*?\n\}\n", lib, re.S)
     if not part:
@@ -711,10 +719,10 @@ def check_bot(lib):
         problems.append(f"{LIB.name}: botCat must refuse a strict category and a shelf.")
     body = re.search(r"export async function forumBot\(.*?\n\}", code, re.S).group(0)
     calls = set(re.findall(r"\b(\w+)\(", body)) - {"forumBot", "store", "now", "forumBotWho", "page", "forumCat", "botCat", "readForumIndex", "readTopic",
-        "topicLive", "summaryOf", "editPost", "startTopic", "forumCategories", "filter", "map", "slice", "if", "return", "some"}
+        "topicLive", "summaryOf", "editPost", "startTopic", "retagTopic", "forumCategories", "filter", "map", "slice", "if", "return", "some"}
     if calls:
-        problems.append(f"{LIB.name}: forumBot calls {sorted(calls)}. It lists, reads, starts and edits a page, and nothing "
-                        "else: no reply, no take down, no notifyForum.")
+        problems.append(f"{LIB.name}: forumBot calls {sorted(calls)}. It lists, reads, starts and edits a page and changes its "
+                        "tags, and nothing else: no reply, no take down, no notifyForum.")
     if re.search(r"files\s*:|poll\s*:|from\s*:", body):
         problems.append(f"{LIB.name}: forumBot passes files, a poll or a copy from the CB. It writes words only.")
     who = re.search(r"function forumBotWho\(\) \{\s*return \{(.*?)\};", code, re.S)
