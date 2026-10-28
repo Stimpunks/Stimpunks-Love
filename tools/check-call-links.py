@@ -19,10 +19,18 @@ Ryan's choice, from two ways of fixing it, was both of these:
     listens for it, because a page that does is kept out of the browser's
     back-forward cache.
 
-WHAT IT REFUSES: any of those wires cut, a location.href in cb.js that does not
+  · AN INSTALLED APP GIVES THAT NEW TAB A WINDOW OF ITS OWN (2026-10-28).
+    Chrome captures a window.open from inside its installed app into the app,
+    and with no launch_handler in the manifest it navigated the app's own
+    window, call and all; Safari's app opened a new window. So the manifest
+    says "client_mode": "navigate-new".
+
+WHAT IT REFUSES: any of those wires cut, a manifest whose launch_handler does
+not open a new window, a location.href in cb.js that does not
 ask callUp first, a new tab opened while no call is up, the radio not saying
 where a link went, and a beforeunload anywhere but call.js.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -103,6 +111,14 @@ def main():
     if "if (call && u && (u.pathname !== location.pathname || u.search !== location.search))" not in g \
             or "window.loveCall.isOpen()" not in g or "window.open(u.href, '_blank')" not in g or "tpSaid.textContent" not in g:
         refuse("The guest bar's teleporter takes away a page a call is up in, or no longer says where it went.")
+
+    try:
+        lh = json.loads((ROOT / "site.webmanifest").read_text()).get("launch_handler") or {}
+    except ValueError:
+        lh = {}
+    if lh.get("client_mode") != "navigate-new":
+        refuse("site.webmanifest's launch_handler is not navigate-new, so Chrome's installed app takes the new tab the radio "
+               "opens for a call into the call's own window, and the call goes.")
 
     for doc, anchor in (("cb-guide.html", 'id="call-links"'),):
         if anchor not in (ROOT / doc).read_text():
