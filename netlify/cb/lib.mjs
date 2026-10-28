@@ -12129,24 +12129,37 @@ export async function saveTask(who, f, s = store(), now = Date.now(), mods) {
    now, so two people ticking different boxes at once both keep theirs; if the
    box has moved or its words changed since the page drew it, nothing changes
    and the answer says to look again. A tick is a change, so it says who. */
+/* The one way a box is ticked, in a task's description and in a comment
+   (Ryan's ask, 2026-10-28): box `n` of `body`, whose words the page saw were
+   `text`, set to `on`. Answers { body } with only that line changed, { same }
+   when it is already so, or { why } when the box has moved or its words have
+   changed since the page drew it, or the reader and the lines disagree. */
+function tickLine(body, n, text, on) {
+  const b = taskBoxes(body || '');
+  const box = b.agree ? b.found[n] : null;
+  if (!box || box.raw !== text.trim()) return { why: 'That checkbox has changed since it was drawn. Look again.' };
+  const line = b.lines[box.k];
+  if ((line[box.at + 1] !== ' ') === on) return { same: true };
+  const lines = b.lines.slice();
+  lines[box.k] = line.slice(0, box.at) + (on ? '[x]' : '[ ]') + line.slice(box.at + 3);
+  return { body: lines.join('\n') };
+}
+const tickAsked = (n, text, on) => Number.isInteger(n) && n >= 0 && typeof text === 'string' && typeof on === 'boolean';
+
 export async function tickTask(who, id, n, text, on, s = store(), now = Date.now(), mods) {
   if (!tasksAllow(who)) return { error: NO_TASKS };
   if (mods === undefined) mods = await loadMods();
-  if (!Number.isInteger(n) || n < 0 || typeof text !== 'string' || typeof on !== 'boolean') return { error: 'Tick which box?' };
+  if (!tickAsked(n, text, on)) return { error: 'Tick which box?' };
   let saved = null, why = null, before = null;
   await updateList(TASKS, 'tasks', (list) => {
     saved = null; why = null;
     const k = list.findIndex((x) => x.id === taskId(id));
     if (k < 0) { why = 'That task has been deleted.'; return null; }
     before = list[k];
-    const b = taskBoxes(list[k].body || '');
-    const box = b.agree ? b.found[n] : null;
-    if (!box || box.raw !== text.trim()) { why = 'That checkbox has changed since the task was drawn. Look again.'; return null; }
-    const line = b.lines[box.k];
-    if ((line[box.at + 1] !== ' ') === on) { saved = list[k]; return null; }
-    const lines = b.lines.slice();
-    lines[box.k] = line.slice(0, box.at) + (on ? '[x]' : '[ ]') + line.slice(box.at + 3);
-    saved = { ...list[k], body: lines.join('\n'), edited: now, editedBy: who.handle };
+    const t = tickLine(list[k].body, n, text, on);
+    if (t.why) { why = t.why; return null; }
+    if (t.same) { saved = list[k]; return null; }
+    saved = { ...list[k], body: t.body, edited: now, editedBy: who.handle };
     const copy = list.slice(); copy[k] = saved; return copy;
   }, s);
   if (why) return { error: why };
@@ -12573,8 +12586,10 @@ async function readTaskComments(tid, s) {
 }
 
 function shapeComment(c, who) {
-  const out = { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body, { refs: true }),
-    mine: !!who && !!who.since && !!c.mark && c.mark === authorMark(who) };
+  const mine = !!who && !!who.since && !!c.mark && c.mark === authorMark(who);
+  // Its checkboxes are drawn for everybody and ticked by its writer alone, as only they edit it (ticks).
+  const out = { id: c.id, by: c.by, t: c.t, edited: c.edited || null, body: c.body, blocks: parseBrass(c.body, { boxes: true, refs: true }), mine };
+  if (mine) { const b = taskBoxes(c.body); if (b.agree && b.found.length) out.ticks = true; }
   // Its pictures and files, when it has any (taskUploads).
   if (c.files && c.files.length) out.files = c.files.map(shapeHeldFile);
   // One brought from Notion says so, and never sends Notion's id for it.
@@ -12671,6 +12686,31 @@ export async function editTaskComment(who, id, cid, text, s = store(), now = Dat
   await dropHeld(TP, tid, dropped.map((f) => f.id), s);
   const task = was != null ? (await readTasks(s)).find((x) => x.id === tid) : null;
   if (task) await noteTask('commented', who.handle, task, task, s, now, mods, { comment: saved, was, edit: true }).catch(() => null);
+  return { comment: shapeComment(saved, who) };
+}
+
+/* A checkbox in a comment ticked or unticked in place (Ryan's call, 2026-10-28):
+   by whoever wrote the comment and nobody else, because a tick changes its
+   words and only its writer changes those. Only that box's line changes, as in
+   a description (tickLine), and the comment says it was edited. It tells
+   nobody: a tick cannot @mention anybody new, and it is not in the activity. */
+export async function tickTaskComment(who, id, cid, n, text, on, s = store(), now = Date.now()) {
+  if (!tasksAllow(who)) return { error: NO_TASKS };
+  const tid = taskId(id), k0 = commentId(cid);
+  if (!tid || !k0 || !tickAsked(n, text, on)) return { error: 'Tick which box?' };
+  let saved = null, why = null;
+  await updateList(taskCommentsBlob(tid), 'comments', (list) => {
+    saved = null; why = null;
+    const k = list.findIndex((x) => x.id === k0);
+    if (k < 0) { why = 'That comment has been deleted.'; return null; }
+    if (list[k].mark !== authorMark(who)) { why = 'Only whoever wrote a comment can tick its boxes.'; return null; }
+    const t = tickLine(list[k].body, n, text, on);
+    if (t.why) { why = t.why; return null; }
+    if (t.same) { saved = list[k]; return null; }
+    saved = { ...list[k], body: t.body, edited: now };
+    const copy = list.slice(); copy[k] = saved; return copy;
+  }, s);
+  if (why) return { error: why };
   return { comment: shapeComment(saved, who) };
 }
 
@@ -15151,6 +15191,29 @@ export async function editOfficeComment(who, id, cid, text, s = store(), now = D
   await doneUploads(OP, up.fresh, s);
   await dropHeld(OP, r.id, dropped.map((f) => f.id), s);
   if (was != null) await noteOfficeComment(r.what, r.id, who.handle, saved, { was, edit: true }, s, now, mods).catch(() => null);
+  return { comment: shapeComment(saved, who) };
+}
+
+/* A checkbox in an office comment, by its writer alone, as on a task's (tickTaskComment). */
+export async function tickOfficeComment(who, id, cid, n, text, on, s = store(), now = Date.now()) {
+  if (!officeAllow(who)) return { error: NO_OFFICE };
+  const r = commentable(id), k0 = commentId(cid);
+  if (!r || !k0 || !tickAsked(n, text, on)) return { error: 'Tick which box?' };
+  let saved = null, why = null;
+  await updateSealed(officeCommentsKey(r.id), (held) => {
+    saved = null; why = null;
+    const list = held && Array.isArray(held.comments) ? held.comments : [];
+    const k = list.findIndex((x) => x.id === k0);
+    if (k < 0) { why = 'That comment has been deleted.'; return null; }
+    if (list[k].mark !== authorMark(who)) { why = 'Only whoever wrote a comment can tick its boxes.'; return null; }
+    const t = tickLine(list[k].body, n, text, on);
+    if (t.why) { why = t.why; return null; }
+    if (t.same) { saved = list[k]; return null; }
+    saved = { ...list[k], body: t.body, edited: now };
+    const copy = list.slice(); copy[k] = saved;
+    return { comments: copy };
+  }, s);
+  if (why) return { error: why };
   return { comment: shapeComment(saved, who) };
 }
 

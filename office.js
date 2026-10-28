@@ -2224,7 +2224,7 @@
 
   // The comments of the record on the page, kept while it is redrawn by Move to.
   var talked = { id: null, list: null };
-  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, in their Notifications in Tasks, and @board, @director, @administrator or @moderator tells everybody who holds that role. Type [[ to link a task, a topic or a record of the office, and ! to put in one of the team’s snippets. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. A list item starting [ ] is a checkbox, which you can tick on your own comment. An @ before a director’s username tells them, in their Notifications in Tasks, and @board, @director, @administrator or @moderator tells everybody who holds that role. Type [[ to link a task, a topic or a record of the office, and ! to put in one of the team’s snippets. Ctrl or Cmd and Enter sends it.';
   function commentsFor(id, landOn) {
     return { p: 'of', id: id, heading: heading, comments: talked.id === id ? talked.list : null, landOn: landOn,
       admin: !!(me && me.admin), max: settings.commentMax, hint: COMMENT_HINT, when: when,

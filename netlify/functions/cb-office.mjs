@@ -100,6 +100,8 @@
      { action: 'detach', id, f }                     picture or file f taken off it, and deleted
      { action: 'describe', id, f, alt }              picture f's description written, changed or taken off
      { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
+     { action: 'comment-tick', id, c, n, text, on }  box n in comment c, whose words were text, ticked (on) or not,
+                                                     by whoever wrote it
      { action: 'preview', body, comment? }           how notes or a description, or with comment: true a comment, will set
      { action: 'links', q }                          what [[ offers for q: tasks, topics and the office's records
                                                      the reader can open (findLinks), by POST so q is in no address
@@ -110,7 +112,7 @@ import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, officeAll
   officeGrants, officeGrant, saveGrant, removeGrant, importGrants, officeCases, officeCase, saveCase, removeCase, importCases, officeFeed, OFFICE_FEED_PAGE,
   officeMemberMap, mapFind, mapPut, mapTake, mapTakeOne, importMap,
   officeEmail, removeEmail, officeTemplates, saveTemplate, removeTemplate, previewMailing, sendMailing, officeMailings, officeMailing,
-  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
+  stopMailing, removeMailing, officeTemplate, officeComments, commentOffice, editOfficeComment, removeOfficeComment, tickOfficeComment, OFFICE_COMMENT_MAX, officeDashboard, officeReports, qbConnect, qbDisconnect, officeQuickBooks, officeGivebutter, gbJoin, listingLook, listingAdd, orgLook, orgAdd, writeInvite, FILL_INS, TEMPLATE_NAME_MAX, TEMPLATE_SUBJECT_MAX, TEMPLATE_BODY_MAX, MAILING_MAX,
   parseBrass, cleanForumBody, json, body, sameSite, nameRefs, findLinks, backlinksTo, taskPeople, taskSnippets,
   attachOffice, detachOffice, describeOfficeFile, OFFICE_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
   CONTACT_NAME_MAX, CONTACT_NOTES_MAX, GRANT_NAME_MAX, GRANT_BODY_MAX, GRANT_AMOUNT_MAX, OFFICE_PIPELINES, OFFICE_STATUSES,
@@ -182,11 +184,11 @@ export default async (req) => {
     }
     const b = (await body(req)) || {};
     if (b.action === 'preview') {
-      // A comment sets as a comment does: shorter, and its [ ] are words rather than boxes.
+      // A comment sets as a comment does: shorter, with its [ ] drawn as boxes, as a description's are.
       const most = b.comment === true ? OFFICE_COMMENT_MAX : GRANT_BODY_MAX;
       const text = cleanForumBody(b.body, most);
       if (!text) return json(400, { error: `Between one and ${most} characters.` }, QUIET);
-      return answer(200, { blocks: b.comment === true ? parseBrass(text, { refs: true }) : parseBrass(text, { boxes: true, refs: true }) }, QUIET);
+      return answer(200, { blocks: parseBrass(text, { boxes: true, refs: true }) }, QUIET);
     }
     if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
     // They are sealed with Tasks' own key, so without it the office offers none rather than shutting.
@@ -204,6 +206,10 @@ export default async (req) => {
         : b.action === 'detach' ? await detachOffice(who, String(b.id || ''), String(b.f || ''))
         : await describeOfficeFile(who, String(b.id || ''), String(b.f || ''), b.alt);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { record: r.record }, QUIET);
+    }
+    if (b.action === 'comment-tick') {
+      const r = await tickOfficeComment(who, String(b.id || ''), String(b.c || ''), b.n, b.text, b.on);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);
     }
     if (b.action === 'comment-remove') {
       const r = await removeOfficeComment(who, String(b.id || ''), String(b.c || ''));

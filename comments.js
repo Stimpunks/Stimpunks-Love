@@ -14,7 +14,11 @@
    page offers them (o.files): attach.js's tray in the box and its lists under
    the words, so a comment's pictures are drawn exactly as the task's own are.
    o.files: { tray(id, had) (attach.js's tray options), show(c) (its shown options) }.
-   The office offers none, and its comments are words. */
+
+   CHECKBOXES in a comment (Ryan's call, 2026-10-28): a list item starting [ ]
+   is a box, drawn for everybody and ticked in place by whoever wrote the
+   comment and nobody else, the server saying which (c.ticks), as it says who
+   may edit (c.mine). A tick asks the page's own function for comment-tick. */
 (function () {
   'use strict';
 
@@ -64,7 +68,7 @@
       if (o.snippets) window.loveLinks.snippets(text, { list: o.snippets, said: o.said });
     }
     // Buttons for Bold, Italic, Link and the rest, over the box (format.js).
-    if (window.loveFormat) window.loveFormat.toolbar(text, { p: p, said: o.said });
+    if (window.loveFormat) window.loveFormat.toolbar(text, { p: p, said: o.said, checklist: true });
     function unlook() { preview.hidden = true; look.setAttribute('aria-pressed', 'false'); look.textContent = 'Preview'; }
     look.addEventListener('click', function () {
       if (!preview.hidden) { unlook(); return; }
@@ -113,9 +117,11 @@
     else by.appendChild(el('span', o.p + '-when', words));
     return by;
   }
-  function words(o, c) {
+  /* Its words. box, when given, makes its checkboxes tickable (markdown.js's
+     box option); without it they are drawn ticked or not, and cannot be changed. */
+  function words(o, c, box) {
     var body = el('div', o.p + '-body ' + o.p + '-comment__body');
-    window.loveMarkdown.blocks(c.blocks || [], body, { top: 4, prefix: o.p });
+    window.loveMarkdown.blocks(c.blocks || [], body, { top: 4, prefix: o.p, box: box || null });
     if (o.mark) o.mark(body);
     // Its pictures and files under its words, drawn by attach.js as the page's own are.
     if (o.files && window.loveAttach && c.files && c.files.length) body.appendChild(window.loveAttach.shown(o.files.show(c)));
@@ -167,7 +173,25 @@
       li.tabIndex = -1;
       li.setAttribute('data-c', c.id);
       li.appendChild(byline(o, c));
-      var body = words(o, c);
+      // Its checkboxes tick in place for whoever wrote it (c.ticks), as a description's do:
+      // a tick changes its words, and only its writer changes those. Everybody else sees them drawn.
+      var body = words(o, c, c.ticks ? function (bx, box) {
+        box.setAttribute('data-box', String(bx.n));
+        box.addEventListener('change', function () {
+          var on = box.checked, label = box.getAttribute('aria-label');
+          box.disabled = true;
+          o.ask({ action: 'comment-tick', id: o.id, c: c.id, n: bx.n, text: bx.raw, on: on }).then(function (r) {
+            if (r.status !== 200) { box.checked = !on; box.disabled = false; box.focus(); o.say(o.why(r, 'That did not save. Nothing was changed.')); return; }
+            list = list.map(function (x) { return x.id === c.id ? r.body.comment : x; });
+            if (o.kept) o.kept(list);
+            var again = item(r.body.comment);
+            li.replaceWith(again);
+            var back = again.querySelector('input[data-box="' + bx.n + '"]');
+            (back || again).focus();
+            o.say((on ? 'Ticked' : 'Unticked') + ' “' + label + '”.');
+          });
+        });
+      } : null);
       li.appendChild(body);
       var tools = el('div', p + '-row ' + p + '-comment__tools');
       if (c.mine) {

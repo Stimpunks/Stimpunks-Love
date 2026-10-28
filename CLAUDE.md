@@ -6349,7 +6349,13 @@ the comment's id and never its words**, told to everybody on the task, its maker
 'commented'`, last in `TASK_WHY`) and anybody it @mentions; an edit is in nobody's activity and tells only somebody it
 newly @mentions, the forums' rule. A task keeps `talk`, when it was last commented on, which the Feed orders by and which
 is not `edited`. A comment's address is `#/t/<task>/c/<comment>` (`taskHref`), which opens the task on it, from
-Notifications and from a push. `make-tasks.py` holds all of it. The friendly edits are **a comment's words in its
+Notifications and from a push. `make-tasks.py` holds all of it. **A comment's checkboxes are drawn for everybody and ticked
+by its writer alone** (Ryan's call, 2026-10-28, after Norah's checklist in a comment showed its brackets as words):
+`shapeComment` parses with `boxes` and sends `ticks` only on the reader's own comment with boxes, and `tickTaskComment` and
+`tickOfficeComment` ask for the writer's mark and go through `tickLine`, the one way a box is ticked, which `tickTask`
+uses too; a tick sets `edited` and tells nobody. The friendly edit is letting anybody on the task tick a comment's
+boxes "like a description's", which is changing somebody else's words; a checklist for everybody goes in the description.
+The friendly edits are **a comment's words in its
 notification or its push** "so you can read it without opening Tasks", which copies the words where deleting the comment
 cannot reach them, **an edit history**, and **letting any director edit anybody's comment**.
 **The office's contacts, grant requests, cases and mailings take comments too** (Ryan, the same day: "pretty much

@@ -1812,7 +1812,7 @@
   /* What comments.js needs for this task's comments: tasks.js's own words,
      classes and way of asking /cb/tasks. */
   var talkNow = null;
-  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. An @ before a director’s username tells them, and @board, @director, @administrator or @moderator tells everybody on Tasks who holds that role. Type [[ to link a task, a topic or a record of the office, and ! to put in one of the team’s snippets. Ctrl or Cmd and Enter sends it.';
+  var COMMENT_HINT = 'Use the buttons above, or Markdown if you know it: **bold**, *italic*, lists, > quotes and links. A list item starting [ ] is a checkbox, which you can tick on your own comment. An @ before a director’s username tells them, and @board, @director, @administrator or @moderator tells everybody on Tasks who holds that role. Type [[ to link a task, a topic or a record of the office, and ! to put in one of the team’s snippets. Ctrl or Cmd and Enter sends it.';
   /* An @mention of somebody tasks can be assigned to, drawn as their name,
      which opens their profile (links.js): the people a description or a
      comment tells. */

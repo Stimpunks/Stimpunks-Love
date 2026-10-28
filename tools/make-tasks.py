@@ -36,9 +36,13 @@ noticing (netlify/cb/lib.test.mjs tests what the code does):
     a fill-in tasks do not know, a link fill-in in a name, or a person named in
     the data; and a task the office's intake makes from a template under
     somebody's name, without which template, or from anywhere but the intake.
-  · A TICK THAT CAN LAND ON ANOTHER BOX: tickTask changes a box only where the
-    reader and a scan of the lines agree, and only when its words are the ones
-    the page saw.
+  · A TICK THAT CAN LAND ON ANOTHER BOX: a box is ticked only through
+    tickLine, which changes one only where the reader and a scan of the lines
+    agree, and only when its words are the ones the page saw.
+  · A COMMENT'S BOX TICKED BY ANYBODY BUT ITS WRITER (Ryan's call, 2026-10-28):
+    a tick changes a comment's words, and only its writer changes those, so
+    tickTaskComment and tickOfficeComment ask for the writer's mark, and
+    shapeComment offers ticks only on the reader's own comment.
   · A SAVED FILTER KEPT WITH MORE THAN ITS ID, NAME AND ADDRESS, or left
     behind when its person uses Forget me or deletes the username.
   · A TIMELINE CHANGE ONLY A MOUSE CAN MAKE (Ryan's ask, 2026-10-27). A bar's
@@ -225,7 +229,7 @@ def check_lib(lib):
         problems.append(f"{LIB.name}: the tasks section writes to the console. Nothing anybody types is ever logged.")
     for name in ("tasksList", "taskOne", "saveTask", "removeTask", "taskViews", "saveTaskView", "removeTaskView",
                  "taskRecurs", "taskRecur", "saveRecur", "removeRecur", "tickTask", "taskInbox", "readTaskInbox", "taskActivity", "taskFeed",
-                 "taskComments", "commentTask", "editTaskComment", "removeTaskComment", "importTaskComment",
+                 "taskComments", "commentTask", "editTaskComment", "removeTaskComment", "tickTaskComment", "importTaskComment",
                  "taskTemplates", "taskTemplate", "saveTaskTemplate", "removeTaskTemplate"):
         body = fn(sec, name)
         first = re.search(r"\{\n\s*(.*)", body)
@@ -257,9 +261,17 @@ def check_lib(lib):
     mk = fn(sec, "makeRecurring")
     if "there.has(" not in mk or "today(" not in mk:
         problems.append(f"{LIB.name}: makeRecurring must skip a task already made for that day, and count days on the street's clock.")
-    tk = fn(sec, "tickTask")
-    if "b.agree ? b.found[n] : null" not in tk or "box.raw !== text.trim()" not in tk:
-        problems.append(f"{LIB.name}: tickTask must tick only a box the reader and the lines agree on, and only when its words are the ones the page saw.")
+    tl = (re.search(r"\nfunction tickLine\(.*?\n\}", sec, re.S) or [""])[0]
+    if "b.agree ? b.found[n] : null" not in tl or "box.raw !== text.trim()" not in tl:
+        problems.append(f"{LIB.name}: tickLine must tick only a box the reader and the lines agree on, and only when its words are the ones the page saw.")
+    for name in ("tickTask", "tickTaskComment", "tickOfficeComment"):
+        if "tickLine(list[k].body, n, text, on)" not in fn(sec, name):
+            problems.append(f"{LIB.name}: {name} must tick through tickLine, the one way a box is ticked.")
+    for name in ("tickTaskComment", "tickOfficeComment"):
+        if "if (list[k].mark !== authorMark(who)) { why = 'Only whoever wrote a comment can tick its boxes.'; return null; }" not in fn(sec, name):
+            problems.append(f"{LIB.name}: only whoever wrote a comment ticks its boxes ({name}).")
+        if re.search(r"noteTask\(|noteOfficeComment\(|tellTaskPeople\(|notifyTask\(", fn(sec, name)):
+            problems.append(f"{LIB.name}: a tick in a comment tells nobody ({name}).")
     sr = fn(sec, "saveRecur")
     if "on: !espo" not in sr:
         problems.append(f"{LIB.name}: a recurring task brought from EspoCRM must arrive switched off, so it makes nothing beside EspoCRM's.")
@@ -299,6 +311,8 @@ def check_lib(lib):
     if "const c = { id: newCommentId(), by: who.handle, mark: authorMark(who), t: now, body: words };" not in ct:
         problems.append(f"{LIB.name}: a comment is kept as its id, its writer, the writer's mark, when, and its words, and nothing else.")
     sc = (re.search(r"function shapeComment\(.*?\n\}", sec, re.S) or [""])[0]
+    if "if (mine) {" not in sc or "out.ticks = true" not in sc or "boxes: true" not in sc:
+        problems.append(f"{LIB.name}: shapeComment draws a comment's boxes for everybody and offers to tick them only on the reader's own comment.")
     if "mark:" in sc or "c.mark ===" not in sc:
         problems.append(f"{LIB.name}: shapeComment sends a comment's mark, or no longer works out whose it is from it. The mark never leaves the server.")
     if "list[k].mark !== authorMark(who)) { why" not in fn(sec, "editTaskComment"):

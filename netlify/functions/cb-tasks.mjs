@@ -32,6 +32,8 @@
      { action: 'comment-edit', id, c, body, files? } comment c changed, by whoever wrote it; files, when sent,
                                                      is everything it is to hold, the ones it had included
      { action: 'comment-remove', id, c }             comment c deleted, by whoever wrote it or an administrator
+     { action: 'comment-tick', id, c, n, text, on }  box n in comment c, whose words were text, ticked (on) or not,
+                                                     by whoever wrote it
      { action: 'comment-import', id, notion, by, t, body }
          a comment brought from a task's page in Notion: notion is its id there (32 hex), by
          the username of whoever wrote it, t when, in milliseconds; bringing it again changes it
@@ -57,7 +59,7 @@
    Nothing a person types is logged. See ../cb/lib.mjs, tasks. */
 import { staffReady, readPass, forumReader, mentionableRoles, rolesOf, tasksAllow, taskPeople, tasksList, taskOne, saveTask, tickTask, removeTask, taskViews, saveTaskView,
   attachTask, detachTask, describeTaskFile, TASK_ATTACH_MAX, TASK_COMMENT_FILES_MAX, FILE_MAX, FILE_PART, FORUM_FILE_TYPES, FORUM_ALT_MAX,
-  taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, importTaskComment, TASK_COMMENT_MAX,
+  taskInbox, readTaskInbox, taskActivity, taskFeed, FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, tickTaskComment, importTaskComment, TASK_COMMENT_MAX,
   removeTaskView, taskRecurs, taskRecur, saveRecur, removeRecur, makeRecurring, taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, taskSnippets, saveTaskSnippet, removeTaskSnippet, TASK_SNIPPET_NAME_MAX, TASK_SNIPPET_MAX, SNIPPET_FILL_INS, parseBrass, nameRefs, findLinks, backlinksTo,
   cleanForumBody, json, body, sameSite, TASK_STATUSES, TASK_DONE, TASK_PRIORITIES, TASK_DEFAULT_PRIORITY,
   TASK_TAGS, TASK_NAME_MAX, TASK_BODY_MAX, TASK_BOARD_HIDES, TASK_FILL_INS, TASK_VIEW_NAME_MAX, TASK_REPEATS, TASK_AFTER_MAX, TASK_COLOURS, TASK_TAG_COLOURS, TASK_STATUS_COLOURS } from '../cb/lib.mjs';
@@ -129,11 +131,11 @@ export default async (req) => {
     }
     const b = (await body(req)) || {};
     if (b.action === 'preview') {
-      // A comment sets as a comment does: shorter, and its [ ] are words rather than boxes.
+      // A comment sets as a comment does: shorter, with its [ ] drawn as boxes, as a description's are.
       const most = b.comment === true ? TASK_COMMENT_MAX : TASK_BODY_MAX;
       const text = cleanForumBody(b.body, most);
       if (!text) return json(400, { error: `Between one and ${most} characters.` }, QUIET);
-      return answer(200, { blocks: b.comment === true ? parseBrass(text, { refs: true }) : parseBrass(text, { boxes: true, refs: true }) }, QUIET);
+      return answer(200, { blocks: parseBrass(text, { boxes: true, refs: true }) }, QUIET);
     }
     if (b.action === 'links') return answer(200, { found: await findLinks(who, typeof b.q === 'string' ? b.q : '') }, QUIET);
     // A snippet's words go into a box as they are: words, with no link in them to name.
@@ -176,6 +178,10 @@ export default async (req) => {
     }
     if (b.action === 'comment-edit') {
       const r = await editTaskComment(who, String(b.id || ''), String(b.c || ''), b.body, undefined, undefined, undefined, Array.isArray(b.files) ? b.files : undefined);
+      return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);
+    }
+    if (b.action === 'comment-tick') {
+      const r = await tickTaskComment(who, String(b.id || ''), String(b.c || ''), b.n, b.text, b.on);
       return r.error ? json(400, { error: r.error }, QUIET) : answer(200, { comment: r.comment }, QUIET);
     }
     if (b.action === 'comment-remove') {

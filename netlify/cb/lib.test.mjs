@@ -4781,7 +4781,7 @@ import { tasksAllow, taskPeople, tasksList, taskOne, saveTask, removeTask, readT
   mailOutbox, mailSentFor, unknownFillIns, countMessage, readDayCounts, DAY_COUNTS_DAYS, officeNightly, OFFICE_NIGHTS_KEEP,
   qbConnect, qbCallback, qbStatus, qbDisconnect, officeQuickBooks, QB_SCOPE, officeGivebutter, gbStatus, gbJoin, caseLists, writeInvite, OFFICE_INVITE, INVITE_LINK, caseListing, listingLine, listingLook, listingAdd, membersList, LISTING_MAX, caseOrg, orgFields, orgHtml, orgsList, orgLook, orgAdd, bareImage,
   taskInbox, readTaskInbox, taskActivity, forgetTaskInbox, taskChanges, TASK_INBOX_DAYS, notifyTask,
-  taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment,
+  taskFeed, FEED_PAGE, officeFeed, OFFICE_FEED_PAGE, taskComments, commentTask, editTaskComment, removeTaskComment, tickTaskComment, tickOfficeComment,
   TASK_COMMENT_MAX, TASK_COMMENTS_KEEP, officeComments, commentOffice, editOfficeComment, removeOfficeComment, officeTemplate, importTaskComment,
   taskTemplates, taskTemplate, saveTaskTemplate, removeTaskTemplate, readTaskTpls, TASK_TEMPLATE_SEED,
   taskSnippets, saveTaskSnippet, removeTaskSnippet, TASK_SNIPPETS_KEEP, fillSnippet,
@@ -6996,6 +6996,48 @@ test('a comment on a task: its writer edits it, its writer or an administrator d
   await removeTask(TRYAN, t.id, s, T0 + 30, TMODS);
   assert.equal(await s.get(`task-comments/${t.id}`, { type: 'json' }), null, 'a deleted task\'s comments were left behind');
 });
+
+/* A comment's checkboxes are drawn for everybody and ticked by its writer
+   alone, one line at a time, as a description's are (Ryan's call, 2026-10-28,
+   after Norah's checklist in a comment showed its brackets as words). Broken on
+   purpose when it was written: with the mark check taken out of the tick, Ryan
+   ticked Chelsea's box; with ticks sent on every comment, Ryan was offered it. */
+test('a comment\u2019s checkboxes are drawn for everybody and ticked in place by its writer alone', async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const t = (await saveTask(TRYAN, { name: 'Sign the minutes' }, s, T0, TMODS)).task;
+  const body = 'Sign-off:\n\n- [ ] Chelsea\n- [ ] Norah\n\n```\n- [ ] in code\n```';
+  const c = (await commentTask(TCHELSEA, t.id, body, s, T0 + 1, TMODS)).comment;
+  assert.equal(c.ticks, true, 'the writer was not offered the boxes to tick');
+  assert.deepEqual(c.blocks.find((b) => b.box).box.map((b) => b && [b.n, b.on, b.raw]), [[0, false, 'Chelsea'], [1, false, 'Norah']]);
+  const theirs = (await taskComments(TRYAN, t.id, s))[0];
+  assert.ok(theirs.blocks.some((b) => b.box), 'somebody else was not shown the boxes');
+  assert.equal(theirs.ticks, undefined, 'somebody else was offered a comment\u2019s boxes to tick');
+  assert.match((await tickTaskComment(TRYAN, t.id, c.id, 0, 'Chelsea', true, s, T0 + 2)).error, /Only whoever wrote/);
+  assert.match((await tickTaskComment(fw('Chelsea', 999, ['director']), t.id, c.id, 0, 'Chelsea', true, s, T0 + 2)).error, /Only whoever wrote/, 'a name claimed again ticked its old owner\u2019s box');
+  assert.ok((await tickTaskComment(TSAM, t.id, c.id, 0, 'Chelsea', true, s, T0 + 2)).error);
+  let r = await tickTaskComment(TCHELSEA, t.id, c.id, 1, 'Norah', true, s, T0 + 3);
+  assert.ok(r.comment, r.error);
+  assert.equal(r.comment.body, body.replace('- [ ] Norah', '- [x] Norah'), 'a tick changed more than its own box');
+  assert.equal(r.comment.edited, T0 + 3);
+  assert.equal(r.comment.t, T0 + 1, 'a tick changed when the comment was written');
+  // Ticking what is already ticked changes nothing; the wrong words or a box not there change nothing.
+  assert.equal((await tickTaskComment(TCHELSEA, t.id, c.id, 1, 'Norah', true, s, T0 + 4)).comment.edited, T0 + 3);
+  for (const [n, text] of [[0, 'Norah'], [2, 'in code'], [-1, 'x'], [0.5, 'Chelsea']]) assert.ok((await tickTaskComment(TCHELSEA, t.id, c.id, n, text, true, s, T0 + 5)).error);
+  assert.equal((await taskComments(TRYAN, t.id, s))[0].body, r.comment.body);
+});
+
+test('an office comment\u2019s checkboxes are ticked by its writer alone, and stay sealed', () => withOfficeKey(OFFICE_TEST_KEY, async () => {
+  const s = memoryStore({ etagOnRead: true });
+  const g = (await saveGrant(TRYAN, { name: 'Mutual Aid Grant Request 2: Bo', amount: 300 }, s, T0)).grant;
+  const c = (await commentOffice(TCHELSEA, g.id, '- [ ] Called them\n- [ ] Sent the agreement', s, T0 + 1, TMODS)).comment;
+  assert.equal(c.ticks, true);
+  assert.equal((await officeComments(TRYAN, g.id, s))[0].ticks, undefined, 'somebody else was offered a comment\u2019s boxes to tick');
+  assert.match((await tickOfficeComment(TRYAN, g.id, c.id, 0, 'Called them', true, s, T0 + 2)).error, /Only whoever wrote/);
+  const r = await tickOfficeComment(TCHELSEA, g.id, c.id, 0, 'Called them', true, s, T0 + 3);
+  assert.equal(r.comment.body, '- [x] Called them\n- [ ] Sent the agreement');
+  const raw = JSON.stringify(await s.get(`office-comments/${g.id}`, { type: 'json' }));
+  assert.ok(!raw.includes('Called them'), 'a ticked office comment was kept unsealed');
+}));
 
 /* Comments brought from Notion keep Notion's id, their writer and their time,
    sit among a task's comments by that time, are mended by bringing them again
