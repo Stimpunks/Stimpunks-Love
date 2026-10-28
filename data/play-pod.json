@@ -158,17 +158,6 @@
     {
       "id": "messy-play",
       "intro": "Ideas for families, for getting your hands into things. Messy play is for the feel of it: there is no right way to do it, and nothing to get finished.",
-      "photos": [
-        {
-          "file": "play-pod/play-dough-creatures.jpg",
-          "shows": "Little creatures made of brightly coloured play dough, with googly eyes: a spotted toadstool, a blue spiky dinosaur, a red spotted frog, a yellow star and a caterpillar.",
-          "photo_by": "Nevit Dilmen",
-          "licence": "CC BY-SA 3.0",
-          "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Play_dough_04799.jpg",
-          "real": "Its Commons page carries the camera's record: a Sony DSC-W1, 8 September 2005."
-        }
-      ],
       "ideas": [
         {
           "says": "Oobleck: cornflour and water, solid when you squeeze it and runny when you let go.",
@@ -205,19 +194,38 @@
       ]
     },
     {
-      "id": "mark-making",
-      "intro": "Making marks with anything that will make one, big or small, indoors or out, in paint, mud, water, foam or chalk.",
-      "photos": [
+      "id": "edible-messy-play",
+      "intro": "Messy play and mark making in food, for anybody who puts things in their mouth, and for anybody who likes to taste as they go. Edible means safe to eat for the person playing, which is different for everybody.",
+      "ideas": [
         {
-          "file": "play-pod/chalk-sea.jpg",
-          "shows": "An undersea scene drawn in coloured chalk along a pavement beside a lawn and a white gate: blue water, fish, coral and a seahorse.",
-          "photo_by": "Penny Richards",
-          "licence": "CC BY-SA 4.0",
-          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:UnderseaChalkArt2020.jpg",
-          "real": "Its Commons page carries the camera's record: an iPhone SE, 25 March 2020."
+          "says": "Mark making in chocolate sauce spread thin on a tray, with fingers, spoons or a brush.",
+          "from": "Play of the Wild"
+        },
+        {
+          "says": "Mark making in ketchup on a tray: red, smooth and a smell of its own.",
+          "from": "Play of the Wild"
+        },
+        {
+          "says": "Gloop made of cornflour and oil, soft and silky, for drawing lines through and watching them close up again.",
+          "from": "Play of the Wild"
+        },
+        {
+          "says": "Instant oat cereal mixed thick, for drawing in, squashing and squeezing.",
+          "from": "Play of the Wild"
+        },
+        {
+          "says": "Cornflour with tapioca pearls in it, slippery with bumps to find.",
+          "from": "Play of the Wild"
         }
       ],
+      "care": [
+        "Edible means safe for whoever is playing: check allergies and intolerances first, and ask about anybody who cannot swallow safely, who may need food in a texture that is safe for them.",
+        "Keep the food play to its own tray and its own time, so nothing that is not food ends up beside it."
+      ]
+    },
+    {
+      "id": "mark-making",
+      "intro": "Making marks with anything that will make one, big or small, indoors or out, in paint, mud, water, foam or chalk.",
       "ideas": [
         {
           "says": "Outdoors and big: mud, water painting, giant brushes, sticks, chalk, spray bottles, sponges, leaves for brushes, puddles, ice, toy cars and balls rolled through paint, and mud handprints and footprints.",

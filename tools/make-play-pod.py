@@ -21,8 +21,11 @@ tool refuses:
   - water beads anywhere but the care line saying why they are left out: they
     grow inside a body if swallowed, and a page of ideas for families is the
     most likely place for somebody to paste them back in.
-  - "edible" or "taste safe" on an idea, which invites eating what is on the
-    tray; the care line says food play is food that is safe for whoever plays.
+  - an edible-messy-play part without its care line saying edible means safe
+    for whoever is playing, allergies and swallowing included. Until
+    2026-10-28 the tool refused the word "edible" anywhere; Helen's call that
+    day reversed it and gave edible messy play a part of its own, and the care
+    line is what the refusal was protecting.
 
 THE PHOTOGRAPHS ARE REAL ONES, AND NONE IS OF A CHILD. Helen's are hers, in
 data/polaroids.json, each listing this page; the rest are on Wikimedia Commons
@@ -62,7 +65,6 @@ CHILD = re.compile(r"\b(child\w*|kids?|toddlers?|bab(?:y|ies)|boys?|girls?|infan
 OUTCOME = re.compile(r"\b(develop\w*|skills?|school[- ]ready|readiness|fine motor|gross motor|"
                      r"cures?|cured|heal\w*|remed\w*|therap\w*|treat(?:s|ment))\b", re.I)
 BEADS = re.compile(r"\b(water ?beads?|orbeez|gel beads?)\b", re.I)
-EAT = re.compile(r"\b(edible|taste[- ]safe)\b", re.I)
 SCREEN, SCREEN_NAME = "ppd-screen", "the pod's screen"
 
 problems = []
@@ -147,9 +149,7 @@ def commons(ph, w):
 
 def ours(text, w):
     for rx, why in ((OUTCOME, "Play is for its own sake here, and nothing in the pod treats anybody."),
-                    (BEADS, "Water beads are left out on purpose, and only the care line says so."),
-                    (EAT, "Nothing on a tray is called edible; the care line says food play is food that is "
-                          "safe for whoever plays.")):
+                    (BEADS, "Water beads are left out on purpose, and only the care line says so.")):
         m = rx.search(text)
         if m:
             refuse(f"{w}: says {m.group(0)!r}. {why}")
@@ -187,6 +187,9 @@ for part in d.get("parts", []):
     care = part.get("care", [])
     if pid == "messy-play" and not any(BEADS.search(c) for c in care):
         refuse("messy-play: its care line no longer says why water beads are left out.")
+    if pid == "edible-messy-play" and not any(re.search(r"\ballerg", c) and re.search(r"\bswallow", c) for c in care):
+        refuse("edible-messy-play: its care line must say edible means safe for whoever plays, allergies and "
+               "swallowing included.")
     out = ""
     if shots:
         out += '\n    <div class="ppd-photos">' + "".join(shots) + '</div>'

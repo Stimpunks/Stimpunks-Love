@@ -1605,8 +1605,10 @@ name and not by link**, at her ask; only the people she works with are linked. T
 child** (messy play's own pictures are nearly all of children, which is why), one with no record of how it is known to be
 real (her "no AI pictures" rule), a Commons photo with camera data or an NC/ND licence, and her own photos without
 `play-pod.html` in their polaroid record's `elsewhere`; **water beads** anywhere but the care line saying why they are
-left out (they grow inside a body if swallowed); "edible" or "taste safe" on an idea; and play sold by an outcome or a
-cure (development, skills, therapy), The Pile's and the hollow's rules. **The lamp is the room**: everything there
+left out (they grow inside a body if swallowed); an Edible messy play part without its care line saying edible means
+safe for whoever plays, allergies and swallowing included (Helen's call, 2026-10-28, reversing the tool's refusal of the
+word "edible" and giving edible play a part of its own); and play sold by an outcome or a cure (development, skills,
+therapy), The Pile's and the hollow's rules. **The lamp is the room**: everything there
 fluoresces, which is what holds it off Glow Go Gee Gaws, whose toys store light; `play-pod.js` switches the drawing between
 the lamp and daylight on a press and keeps and sends nothing. The friendly edits are a photo of children at a tuff tray
 "because that is what messy play looks like", a water-bead sensory bin, and a picture off Pinterest with a credit under it,
