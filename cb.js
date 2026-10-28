@@ -1359,7 +1359,7 @@
     var tpp = this.tpPanel = el('div', 'cb-tp-panel');
     tpp.id = 'cb-tp-panel';
     tpp.hidden = true;
-    var tlab = el('label', 'cb-lab', 'Teleport to a room, or to @somebody');
+    var tlab = this.tpLab = el('label', 'cb-lab', 'Teleport to a room, a #channel, or @somebody');
     tlab.htmlFor = 'cb-tp-find';
     var find = this.tpFind = el('input', 'cb-say cb-tp-find');
     find.id = 'cb-tp-find';
@@ -11550,6 +11550,8 @@
     this.tpBtn.setAttribute('aria-expanded', String(open));
     if (open) {
       this.tpFind.value = '';
+      // What a bare name finds is said first: a channel on the chat page, a room's page anywhere else.
+      this.tpLab.textContent = inChat() ? 'Teleport to a channel, a /room, or @somebody' : 'Teleport to a room, a #channel, or @somebody';
       this.loadRooms();
       this.tpRender();
       this.tpFind.focus();
@@ -11564,8 +11566,9 @@
   Radio.prototype.tpRender = function (failed) {
     var list = this.tpList, none = this.tpNone;
     list.textContent = '';
-    list.setAttribute('aria-label', 'Rooms on the street');
     if (personTyped(this.tpFind.value) !== null) { this.tpPeople(); return; }
+    var typed = tpTyped(this.tpFind.value), chan = this.tpChan = typed.kind === 'channel', s = this.state;
+    list.setAttribute('aria-label', chan ? 'Channels on the CB' : 'Rooms on the street');
     if (!rooms || failed || !rooms.length) {
       this.tpOffer = [];
       none.textContent = rooms && !failed ? 'No rooms to go to.' : (failed ? 'The list of rooms cannot be reached just now.' : 'Finding the rooms\u2026');
@@ -11574,21 +11577,23 @@
       markIn(list, this.tpFind, -1);
       return;
     }
-    var found = findRooms(this.tpFind.value);
+    var found = findRooms(typed.q).filter(function (f) { return !chan || isChannel(f.room, s); });
     var offer = this.tpOffer = found.map(function (f) { return f.room; });
     for (var i = 0; i < offer.length; i++) {
       var li = el('li', 'cb-opt');
-      li.id = 'cb-tp-' + offer[i].tag;
+      li.id = 'cb-tp-' + (chan ? 'c-' : '') + offer[i].tag;
       li.setAttribute('role', 'option');
       var nm = el('span', 'cb-opt__name', offer[i].name);
       if (found[i].why) nm.appendChild(el('span', 'cb-opt__why', found[i].why));
       li.appendChild(nm);
-      li.appendChild(el('span', 'cb-opt__tag', isHere(offer[i]) ? 'you are here' : '/' + offer[i].tag));
+      // On the chat page you are in a channel and on no room's page but the chat's own.
+      var here = chan ? inChat() && isHere(offer[i]) : inChat() ? offer[i].tag === CHAT_PAGE : isHere(offer[i]);
+      li.appendChild(el('span', 'cb-opt__tag', here ? 'you are here' : (chan ? '#' : '/') + offer[i].tag));
       li.addEventListener('mousedown', function (e) { e.preventDefault(); });
       (function (room, me) { li.addEventListener('click', function () { me.go(room); }); })(offer[i], this);
       list.appendChild(li);
     }
-    none.textContent = 'No room by that name, or about that.';
+    none.textContent = chan ? 'No channel by that name, or about that.' : 'No room by that name, or about that.';
     none.hidden = offer.length > 0;
     list.hidden = offer.length === 0;
     this.tpActive = offer.length ? 0 : -1;
@@ -11820,10 +11825,36 @@
     var m = /^\s*@(.*)$/.exec(String(v));
     return m ? m[1] : null;
   }
+
+  /* #CHANNELS IN THE TELEPORTER (a request from our community; Ryan's call,
+     2026-10-28). Every room has a channel too, so listing both for every room
+     would double the list. A # in front of what you type looks for channels and
+     opens the one picked on the chat page; a / looks for rooms' pages; which a
+     bare name finds is where you are: channels on the chat page, where going
+     somewhere means a channel, and pages everywhere else. That is #the-den and
+     /the-den in a message, and the label says it. The search is findRooms', so
+     a channel is found by what its room is called and about. The channels are
+     the chat page's: never the chat page itself, never a room that keeps to
+     itself, a staff room's only for a pass that can hear it (staff in
+     cb-rooms.json, which make-chat.py holds to MOD_ROOMS), and on the chat page
+     exactly the channels it lists. Nothing new is asked of the server. The
+     friendly edit is a row for each room's page and another for its channel. */
+  function tpTyped(v) {
+    var m = /^\s*([#\/])(.*)$/.exec(String(v));
+    if (m) return { kind: m[1] === '#' ? 'channel' : 'page', q: m[2] };
+    return { kind: inChat() ? 'channel' : 'page', q: String(v) };
+  }
+  function isChannel(r, s) {
+    if (!r || r.tag === CHAT_PAGE || r.quiet) return false;
+    if (inChat() && radio && radio.chatLinks && radio.chatLinks.length) return radio.chatHas(r.tag);
+    if (r.staff) return Array.isArray(r.staff.roles) && mayStaff(s, { roles: r.staff.roles, strict: r.staff.strict === true });
+    return true;
+  }
   function nameFold(s) { return tpFold(s).replace(/\s+/g, ' ').trim(); }
 
   Radio.prototype.tpPeople = function () {
     var list = this.tpList, none = this.tpNone, me = this;
+    this.tpChan = false;
     var typed = nameFold(personTyped(this.tpFind.value) || '');
     list.setAttribute('aria-label', 'People seen in rooms');
     if (!this.peopleAt || Date.now() - this.peopleAt > EVERY) this.onlineTick(true);
@@ -11865,8 +11896,16 @@
   // page restored from the back-forward cache does not come back with it open.
   Radio.prototype.go = function (room) {
     if (!room) return;
+    var chan = this.tpChan;
     this.setTeleport(false);
+    if (chan) { this.goChannel(room); return; }
     this.tabTold(goStreet(room.path), null);
+  };
+
+  // A channel is on the chat page: picked in place there, opened there from anywhere else.
+  Radio.prototype.goChannel = function (room) {
+    if (inChat()) { chatGo(room.tag); if (this.say && !this.say.disabled) this.say.focus(); return; }
+    this.tabTold(goStreet('/' + CHAT_PAGE + '.html#' + room.tag), null);
   };
 
   Radio.prototype.close = function () {

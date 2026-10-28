@@ -211,6 +211,7 @@ for name in ORDER:
         "url": field(s, r'<link rel="canonical" href="([^"]+)"'),
         "title": field(s, r"<title>(.*?)</title>"),
         "desc": field(s, r'<meta name="description" content="([^"]+)"'),
+        "body": field(s, r"(<body\b[^>]*>)"),
     })
 
 missing = [p["file"] for p in pages if not (p["url"] and p["title"] and p["desc"])]
@@ -426,9 +427,19 @@ for p in pages:
     # "fire" should find The Campfire). Read off the page, never typed, for the
     # reason the sitemap is: a keyword list kept by hand is wrong the first time
     # a room changes what it is for.
-    rooms.append({"tag": slug, "name": name,
-                  "path": "/" if p["file"] == "index.html" else "/" + p["file"],
-                  "about": html.unescape(p["desc"])})
+    room = {"tag": slug, "name": name,
+            "path": "/" if p["file"] == "index.html" else "/" + p["file"],
+            "about": html.unescape(p["desc"])}
+    # A ROOM WHOSE CHANNEL IS STAFF'S says which roles hear it, read off its own
+    # <body> (data-cb="mods", data-cb-role, data-cb-strict), so the teleporter's
+    # #channels can leave out a channel the radio could not tune to (Ryan's ask,
+    # 2026-10-28). The page says the same thing publicly already; the server's
+    # MOD_ROOMS is still the lock, and make-town-hall.py and make-tasks.py hold
+    # the pages to it.
+    if re.search(r'\bdata-cb="mods"', p["body"]):
+        roles = (re.search(r'\bdata-cb-role="([^"]*)"', p["body"]) or [None, "moderator"])[1].split()
+        room["staff"] = {"roles": roles, "strict": bool(re.search(r"\bdata-cb-strict\b", p["body"]))}
+    rooms.append(room)
 if len({r["tag"] for r in rooms}) != len(rooms):
     raise SystemExit("REFUSING: two pages give the CB the same #tag.")
 (ROOT / "cb-rooms.json").write_text(json.dumps(

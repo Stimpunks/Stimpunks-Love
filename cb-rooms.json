@@ -239,25 +239,50 @@
    "tag": "town-hall-directors",
    "name": "Directors",
    "path": "/town-hall-directors.html",
-   "about": "Through a door off the Town Hall: the room where Stimpunks' directors meet, lit only through the frosted pane in its door, with their name on the glass backwards from inside. Anybody can walk in; its radio and call are for the base."
+   "about": "Through a door off the Town Hall: the room where Stimpunks' directors meet, lit only through the frosted pane in its door, with their name on the glass backwards from inside. Anybody can walk in; its radio and call are for the base.",
+   "staff": {
+    "roles": [
+     "director"
+    ],
+    "strict": false
+   }
   },
   {
    "tag": "town-hall-board",
    "name": "Board",
    "path": "/town-hall-board.html",
-   "about": "Through a door off the Town Hall: the room where Stimpunks' board meets, at one long table with the same small lamp at every seat. Anybody can walk in and read who is on the board; its radio and call are for the base."
+   "about": "Through a door off the Town Hall: the room where Stimpunks' board meets, at one long table with the same small lamp at every seat. Anybody can walk in and read who is on the board; its radio and call are for the base.",
+   "staff": {
+    "roles": [
+     "board",
+     "director"
+    ],
+    "strict": false
+   }
   },
   {
    "tag": "town-hall-moderators",
    "name": "Moderators",
    "path": "/town-hall-moderators.html",
-   "about": "Through a door off the Town Hall: the room where Stimpunks' moderators meet, above the street at night, lit only by the shopfronts' own colours thrown up through its window onto the ceiling. Anybody can walk in; its radio and call are for the base."
+   "about": "Through a door off the Town Hall: the room where Stimpunks' moderators meet, above the street at night, lit only by the shopfronts' own colours thrown up through its window onto the ceiling. Anybody can walk in; its radio and call are for the base.",
+   "staff": {
+    "roles": [
+     "moderator"
+    ],
+    "strict": false
+   }
   },
   {
    "tag": "town-hall-executive-session",
    "name": "Executive Session",
    "path": "/town-hall-executive-session.html",
-   "about": "Through a door off the Town Hall: the board without staff, in a dark room lit only by the EXIT sign over its shut door. Anybody can walk in and read what an executive session is; its radio and call are for the board role alone."
+   "about": "Through a door off the Town Hall: the board without staff, in a dark room lit only by the EXIT sign over its shut door. Anybody can walk in and read what an executive session is; its radio and call are for the board role alone.",
+   "staff": {
+    "roles": [
+     "board"
+    ],
+    "strict": true
+   }
   },
   {
    "tag": "dopamine-dress-up-den",
@@ -863,13 +888,27 @@
    "tag": "tasks",
    "name": "Tasks",
    "path": "/tasks.html",
-   "about": "Tasks, the team’s to-do list on the CB, moved here from EspoCRM, for our directors, board members and administrators: every task with its status, priority, start and due dates, who it is assigned to, tags and a Markdown description, in a list you can filter and sort, with how many match. Not public."
+   "about": "Tasks, the team’s to-do list on the CB, moved here from EspoCRM, for our directors, board members and administrators: every task with its status, priority, start and due dates, who it is assigned to, tags and a Markdown description, in a list you can filter and sort, with how many match. Not public.",
+   "staff": {
+    "roles": [
+     "director",
+     "board"
+    ],
+    "strict": false
+   }
   },
   {
    "tag": "office",
    "name": "The Office",
    "path": "/office.html",
-   "about": "The office, moved here from EspoCRM, for our directors, board members and administrators: the people and organisations we are in touch with, our Mutual Aid and Creator Grants requests in their pipelines, and the connection requests and volunteer applications that come in, each with a list, a board and how many, all sealed at rest. Not public."
+   "about": "The office, moved here from EspoCRM, for our directors, board members and administrators: the people and organisations we are in touch with, our Mutual Aid and Creator Grants requests in their pipelines, and the connection requests and volunteer applications that come in, each with a list, a board and how many, all sealed at rest. Not public.",
+   "staff": {
+    "roles": [
+     "director",
+     "board"
+    ],
+    "strict": false
+   }
   },
   {
    "tag": "changelog",
