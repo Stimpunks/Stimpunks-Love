@@ -1255,7 +1255,20 @@
     opener.appendChild(radioIcon());
     bar.appendChild(opener);
     var name = el('p', 'cb-name');
-    name.appendChild(el('span', 'cb-brand', 'CB'));
+    /* HOME, WHERE "CB" WAS (Ryan, 2026-10-27). The bar's name became a link to
+       home.html, the community dashboard: a house with a CB aerial on its
+       roof, so it still reads as the radio. It is a link, so
+       it opens in a new tab with a key held, and while a call is up it opens
+       in one anyway (callUp, below). The Mover leaves a link alone. The guest
+       bar, the claim bar and the stub in a window of its own keep CB: none of
+       them has a dashboard behind it. */
+    var home = this.homeLink = el('a', 'cb-home');
+    home.href = '/home.html';
+    home.setAttribute('aria-label', 'Home');
+    home.title = 'Home: what is on the street and what is new';
+    if (location.pathname === '/home.html' || location.pathname === '/home') home.setAttribute('aria-current', 'page');
+    home.appendChild(homeIcon());
+    name.appendChild(home);
     /* THE TELEPORTER, where "CH 19" used to sit. Ryan, 2026-09-26: the channel
        number was decoration, and the radio now knows every room on the street.
        Pressing it opens a box under the bar: type to narrow the list, arrows to
@@ -7932,6 +7945,29 @@
   /* THE BAR'S ICONS: a grip of six dots for Move, and minus and plus for the
      size. Drawn by call.js, which every radio loads before it builds, because
      a call's window has the same three and a guest in a call has no cb.js. */
+  /* Home on the bar: a house with the radio's own aerial on its roof, in
+     currentColor so it takes the bar's steel. aria-hidden; the link says Home. */
+  function homeIcon() {
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 32 32');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('class', 'cb-home__art');
+    function add(tag, at) {
+      var e = document.createElementNS(SVGNS, tag);
+      for (var k in at) e.setAttribute(k, at[k]);
+      svg.appendChild(e);
+    }
+    var line = { fill: 'none', stroke: 'currentColor', 'stroke-width': '2.2', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+    function stroke(at) { var o = {}; for (var k in line) o[k] = line[k]; for (k in at) o[k] = at[k]; return o; }
+    add('path', stroke({ d: 'M3.5 16.5L16 6l12.5 10.5' }));
+    add('path', stroke({ d: 'M7.5 14v14h17V14' }));
+    add('path', stroke({ d: 'M13.5 28v-7.5h5V28' }));
+    add('path', stroke({ d: 'M21.5 9.7L25.5 1.9', 'stroke-width': '1.8' }));
+    add('circle', { cx: '25.5', cy: '1.9', r: '1.6', fill: 'currentColor' });
+    return svg;
+  }
+
   function barIcon(kind) { return window.loveCall.barIcon(kind); }
 
   /* A MESSAGE'S TWO ICONS, drawn in currentColor so each takes its button's
@@ -9255,14 +9291,38 @@
     save(this.state);
     this.followShown();
     this.newsShown();
+    followed();
     this.tell(on ? 'Following ' + here.name + ': Unreads lists it whenever something new is said here. Kept in this browser only.' : 'Not following ' + here.name + ' any more.');
   };
+
+  /* Follow a room by its tag from somewhere that is not that room: Home's
+     list of the rooms you follow. Only a room the radio can name, never one
+     that keeps to itself, and nothing while every room is followed. */
+  Radio.prototype.followTag = function (tag, on) {
+    if (!forumPass(this.state.pass) || this.state.followAll || typeof tag !== 'string') return false;
+    // cb-rooms.json never lists a room that keeps to itself, so a tag it names is one Unreads can follow.
+    // Folded, the radio has not fetched it yet, and Home's list came from the same file.
+    if (on && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(tag)) return false;
+    if (on && rooms && !byTag[tag]) return false;
+    var list = (this.state.follow || []).filter(function (t) { return t !== tag; });
+    if (on) list.push(tag);
+    this.state.follow = list.slice(-FOLLOW_MAX);
+    save(this.state);
+    this.followShown();
+    this.newsShown();
+    followed();
+    return true;
+  };
+
+  // Home redraws its list of the rooms you follow when the radio changes it.
+  function followed() { try { document.dispatchEvent(new CustomEvent('love-follow')); } catch (e) { /* an old browser */ } }
 
   Radio.prototype.setFollowAll = function (on) {
     if (on) this.state.followAll = true; else delete this.state.followAll;
     save(this.state);
     this.followShown();
     this.newsShown();
+    followed();
     var mine = (this.state.follow || []).length;
     this.tellNews(on ? 'Following every room: Unreads lists any room you can go into whenever something new is said there, rooms added later too. Kept in this browser only.'
       : 'Not following every room any more.' + (mine ? ' Unreads is back to the rooms you followed one by one.' : ''));
@@ -13248,6 +13308,11 @@
     /* The community directory opens your own card's editor the way Profile
        does, so the switch that lists you is a press away from the list. */
     window.loveRadioEditCard = function (from) { if (radio) radio.pfEdit(from); };
+    /* Home (home.html) follows a room from its list, and opens Your props,
+       the way the radio's own switches do: the radio keeps love-cb, so the
+       page never writes it. */
+    window.loveRadioFollow = function (tag, on) { return radio ? radio.followTag(tag, on) : false; };
+    window.loveRadioProps = function () { if (radio) { radio.toProps(); return true; } return false; };
     /* A spot in the address is read once the radio exists. On most pages
        call.js has to load first, and arrive() used to run from start() while
        the radio was still null, so a spot's room link did nothing there. */
@@ -13432,6 +13497,8 @@
     radio = null;
     window.loveRadioPeek = null;
     window.loveRadioEditCard = null;
+    window.loveRadioFollow = null;
+    window.loveRadioProps = null;
     window.loveRadioMessage = null;
     showStub(s, said);
   }

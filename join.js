@@ -255,9 +255,14 @@
       var h3 = el('h2', 'jn-h', 'You are on');
       h3.tabIndex = -1;
       view.appendChild(h3);
-      view.appendChild(el('p', null, 'The radio is in the bottom right corner of the screen, and it rides along on every page of the street until you sign off.'));
+      view.appendChild(el('p', null, 'The radio is in the bottom right corner of the screen, and it rides along on every page of the street until you sign off. The house at its top left takes you Home from any page.'));
+      /* Home first (2026-10-27): the community dashboard, where a new member
+         lands, with what is new, what is coming up and where everything is. */
+      var homeGo = link('/home.html', 'Go Home: what is on the street');
+      homeGo.className = 'cb-btn jn-home';
+      view.appendChild(homeGo);
       var next = el('p');
-      next.appendChild(document.createTextNode('Some things to do now: '));
+      next.appendChild(document.createTextNode('Or, some things to do now: '));
       next.appendChild(link('/forum.html#/c/introductions', 'post an introduction'));
       next.appendChild(document.createTextNode(', '));
       next.appendChild(link('/community-center.html#what-next', 'go on a quest or two'));

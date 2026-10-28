@@ -153,6 +153,7 @@
     "privacy.html": ["paperwork"],
     "cb-guide.html": ["paperwork"],
     "join.html": ["paperwork"],
+    "home.html": ["paperwork", "news"],
     "directory.html": ["paperwork"],
     "profile.html": ["paperwork"],
     "you.html": ["paperwork"],

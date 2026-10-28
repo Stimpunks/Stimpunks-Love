@@ -410,6 +410,12 @@
 /* The name on the bar takes the theme's face but never grows past 1.1 of its
    size, because the bar is full: in Dig Dug Amp's chunky face at its heading
    scale, Fold away wrapped onto a second line. */
+/* Home, where the bar said CB (2026-10-27): a house with the radio's aerial,
+   in the bar's own steel, a 44px-tall target no wider than the name was in most themes (13 to 30px, measured). */
+.cb-home { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 26px; min-height: 44px; color: var(--cb-steel); border-radius: 6px; }
+.cb-home:hover { color: var(--cb-amber); }
+.cb-home[aria-current="page"] { color: var(--cb-amber); }
+.cb-home__art { width: 23px; height: 23px; }
 .cb-brand { font-family: var(--cb-display, 'Bungee'), system-ui, sans-serif; font-size: calc(15px * min(var(--cb-display-scale, 1), 1.1)); letter-spacing: var(--cb-display-track, .08em); text-transform: var(--cb-display-case, none); }
 /* The teleporter sits where the channel number did, dressed as the same piece
    of readout, and is a real 44px button. */

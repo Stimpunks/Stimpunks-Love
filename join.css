@@ -43,3 +43,6 @@
   .jn-view { padding: 14px 12px; }
   .jn-in { font-size: 16px; }
 }
+
+/* Home, after joining: a link dressed as the radio's button, standing on its own line. */
+.jn-home { display: inline-flex; align-items: center; justify-self: start; text-decoration: none; color: var(--cb-steel); }

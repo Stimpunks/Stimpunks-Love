@@ -101,6 +101,8 @@
     var start = null;
     bar.addEventListener('pointerdown', function (e) {
       var b = e.target.closest('button');
+      // A link on the bar (the radio's Home) is pressed, never dragged by.
+      if (e.target.closest('a[href]')) return;
       if (e.button !== 0 || (b && b !== moveBtn && !b.hasAttribute('data-drag'))) return;
       if (me.still && me.still()) return;
       var p = me.place();

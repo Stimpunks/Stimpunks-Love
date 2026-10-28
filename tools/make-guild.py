@@ -131,6 +131,10 @@ CREDITS = ROOT / "liner-notes.html"
 #                    the CB, and is every room's channel rather than a room. A
 #                    job through it would be an errand only somebody with an
 #                    invite could run, which is forum.html's reason.
+#   home.html        is Home, the community dashboard, for anybody signed on to
+#                    the CB, and points at other places rather than being one.
+#                    A job through it would be an errand only somebody with an
+#                    invite could run, which is forum.html's reason.
 #   directory.html   is the community directory, for anybody signed on to the
 #                    CB, and lists only people who chose to be in it. A job
 #                    through it would be an errand only somebody with an
@@ -154,7 +158,7 @@ CREDITS = ROOT / "liner-notes.html"
 #                    marker in it would be a job in a room nobody can walk to.
 from windows import WINDOWS
 EXEMPT = {"changelog.html", "adventurers-guild.html", "404.html", "privacy.html", "design.html",
-          "mission.html", "architecture.html", "cb-guide.html", "about.html", "chat.html", "directory.html", "profile.html", "you.html", "forum.html", "tasks.html", "office.html", "join.html"} | WINDOWS
+          "mission.html", "architecture.html", "cb-guide.html", "about.html", "chat.html", "home.html", "directory.html", "profile.html", "you.html", "forum.html", "tasks.html", "office.html", "join.html"} | WINDOWS
 
 # A ROOM YOU HAVE TO KNOW THE ADDRESS OF CARRIES NO MARKER, AND IS REFUSED ONE.
 # Ryan's call, 2026-10-07 (tools/unlisted.py). The board prints every job beside

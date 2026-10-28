@@ -818,6 +818,12 @@
    "about": "The joining page for the CB, the street’s radio: an invite from a moderator becomes a username of your own, with a password of your own and, if you like, an email address for the day you forget it. Then you are on, on every page of the street."
   },
   {
+   "tag": "home",
+   "name": "Home",
+   "path": "/home.html",
+   "about": "Home on the CB: what is new to you, the latest from the Brass Tacks Board, the forums and the changelog, the events coming up, the rooms you follow, who is around, and the places members use most, each a press away. For people signed on to the CB; nothing in it is kept."
+  },
+  {
    "tag": "chat",
    "name": "Chat",
    "path": "/chat.html",

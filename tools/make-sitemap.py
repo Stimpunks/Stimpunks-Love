@@ -161,6 +161,11 @@ ORDER = ["index.html",
          # The joining page, where an invite becomes a username of your own
          # (2026-10-21). The CB's, in its clothes, so it stands beside the guide.
          "join.html",
+         # Home, the community dashboard (2026-10-27): what is new to you, the
+         # latest on the street and the places members use most, where the
+         # radio's house and the joining page send you. The CB's, in the
+         # reader's own CB theme, so it stands with the joining page and the chat.
+         "home.html",
          # The chat, every room's channel on one page (2026-10-22). The radio
          # itself, docked into a page in the reader's own CB theme rather than a
          # world of its own, so it stands with the guide and the forums.
@@ -383,6 +388,7 @@ lines += [
     "- How the site runs, its code and its hosting: https://stimpunks.world/architecture.html",
     "- The CB, the street's radio, part by part: https://stimpunks.world/cb-guide.html",
     "- Joining the CB with an invite, which claims a username of your own: https://stimpunks.world/join.html",
+    "- Home, the community dashboard: what is new to you, the latest on the street, events coming up and the places members use most, for anybody signed on to the CB (nothing in it is public): https://stimpunks.world/home.html",
     "- The chat, every room's channel on the CB on one page, for anybody signed on to the CB (nothing in it is public): https://stimpunks.world/chat.html",
     "- The community directory, everybody on the CB who has chosen to be listed, for anybody signed on to the CB (nothing in it is public): https://stimpunks.world/directory.html",
     "- Your page, the radio's Profile and Account with your past notifications beside them, for whoever is signed on to the CB in that browser and nobody else (nothing in it is public): https://stimpunks.world/you.html",

@@ -1,0 +1,101 @@
+/* =============================================================================
+   Home, the community dashboard, inside its own shadow root beside cb.css
+   (home.js).
+
+   THE CB'S CLOTHES AND NONE OF ITS OWN, as the directory's and the forums':
+   every colour here is one of the radio's seven, var(--cb-*), which cb.css
+   lays over with the theme the reader's radio wears, so Home brings no pair
+   check-contrast.py has not already measured. Words on the case in
+   --cb-steel, quiet lines in --cb-amber-2, links and the focus ring in
+   --cb-amber. The drawings take the same seven: a line is steel, a lit part
+   amber, a plate the bar, a readout the lcd. tools/check-home.py refuses a
+   literal colour in this file. Every sentence stays in Atkinson Hyperlegible.
+
+   NOTHING HERE MOVES. No transition, no animation, no transform.
+   ============================================================================= */
+:host { display: block; }
+.hm, .hm *, .hm *::before, .hm *::after { box-sizing: border-box; }
+.hm {
+  background: var(--cb-case); color: var(--cb-steel);
+  border: 2px solid var(--cb-steel-2); border-radius: 10px;
+  font: 16px/1.55 'Atkinson Hyperlegible', system-ui, sans-serif;
+  text-align: left; overflow-wrap: anywhere;
+}
+.hm :focus-visible { outline: 3px solid var(--cb-amber); outline-offset: 2px; }
+.hm a { color: var(--cb-amber); }
+.hm p { margin: 0; }
+.hm ul { margin: 0; }
+
+.hm-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px 8px 0 0; cursor: default; user-select: auto; touch-action: auto; }
+.hm-name { flex: 1 1 auto; font-weight: 700; color: var(--cb-steel); }
+.hm-again { flex: none; }
+
+.hm-view { display: grid; gap: 22px; padding: 18px; }
+.hm-said:empty { display: none; }
+
+.hm-sec { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.hm-h {
+  margin: 0; padding-bottom: 6px; border-bottom: 2px solid var(--cb-steel-2);
+  font-family: var(--cb-display, 'Atkinson Hyperlegible'), system-ui, sans-serif;
+  font-size: calc(20px * min(var(--cb-display-scale, 1), 1.2)); letter-spacing: var(--cb-display-track, .02em);
+  text-transform: var(--cb-display-case, none); line-height: 1.25; color: var(--cb-steel);
+}
+.hm-h3 { margin: 0; font-size: 17px; line-height: 1.3; color: var(--cb-steel); }
+.hm-intro { color: var(--cb-amber-2); font-size: 15px; max-width: 46em; }
+.hm-body { display: grid; gap: 10px; }
+.hm-line { font-size: 15px; }
+.hm-more { font-size: 15px; }
+
+.hm-grid { display: grid; gap: 22px 28px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.hm-cols { display: grid; gap: 18px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.hm-col { display: grid; gap: 8px; align-content: start; padding: 12px 14px; background: var(--cb-bar); border-radius: 8px; }
+.hm-col a { color: var(--cb-amber); }
+.hm-col .cb-quiet { color: var(--cb-steel-2); }
+
+.hm-list { list-style: none; padding: 0; display: grid; gap: 8px; }
+.hm-entry { display: grid; gap: 1px; }
+.hm-entry__title { font-weight: 700; }
+.hm-entry__line { color: var(--cb-amber-2); font-size: 14px; }
+.hm-col .hm-entry__line { color: var(--cb-steel-2); }
+.hm-new { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+.hm-new .cb-new { color: var(--cb-amber); }
+.hm-press {
+  min-height: 32px; padding: 2px 0; font: inherit; font-weight: 700; text-align: left;
+  color: var(--cb-amber); background: none; border: 0; text-decoration: underline; cursor: pointer;
+}
+.hm-small { min-height: 36px; font-size: 13px; padding: 4px 10px; }
+
+.hm-follow { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; }
+.hm-follow__do { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 14px; }
+.hm-add { display: grid; gap: 2px; max-width: 30em; }
+.hm-add__row { display: flex; flex-wrap: wrap; gap: 8px; }
+.hm-pick { flex: 1 1 14em; }
+
+.hm-places {
+  list-style: none; padding: 0; display: grid; gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+}
+.hm-place {
+  position: relative; display: grid; gap: 6px; align-content: start;
+  padding: 12px 14px 14px; background: var(--cb-bar);
+  border: 2px solid var(--cb-steel-2); border-radius: 8px;
+}
+.hm-place:hover { border-color: var(--cb-amber); }
+/* The whole card presses as its link, and the link is still the one stop in the tab order. */
+.hm-place__link::after { content: ''; position: absolute; inset: 0; border-radius: 6px; }
+.hm-place__about { font-size: 14px; color: var(--cb-steel-2); }
+.hm-wander { font-size: 17px; font-weight: 700; }
+
+.hm-art { display: block; width: 100%; max-width: 168px; height: auto; aspect-ratio: 120 / 72; }
+.hm-art .hm-ln, .hm-art .hm-hl, .hm-art .hm-thick { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.hm-art .hm-ln { stroke: var(--cb-steel); }
+.hm-art .hm-hl { stroke: var(--cb-amber); }
+.hm-art .hm-thick { stroke: var(--cb-steel); stroke-width: 6; }
+.hm-art .hm-plate { fill: var(--cb-case); }
+.hm-art .hm-lcd { fill: var(--cb-lcd); }
+.hm-art .hm-dot { fill: var(--cb-amber); stroke: none; }
+
+@media (max-width: 759px) {
+  .hm-view { padding: 14px 12px; }
+  .hm-pick { font-size: 16px; }
+}

@@ -1673,6 +1673,22 @@ profile as the one page; the page is in the sitemap as paperwork and no profile 
 public "so sharing is easy", and a list of public profiles**; the tab drawers in `profile-page.js` are thin copies of
 `cb.js`'s, so a change to how a tab draws there is a change here too.
 
+**HOME IS THE CB'S DASHBOARD, AND THE RADIO'S BAR SAYS HOME WHERE IT SAID CB.** Ryan's brief and calls, 2026-10-27:
+`home.html` (paperwork beside the joining page, in the reader's own CB theme, `home.js` and `home.css`, a shadow root as
+the directory's) is where the house on the radio's bar and the joining page send a member: the latest from the Brass
+Tacks Board, the forums and the changelog; New to you (World, the rooms followed and conversations, `/cb/unread`'s
+marks, a dot each); events coming up; **Rooms you follow**, which are the favourites (Ryan's call over a new list): the
+radio's `follow` in `love-cb`, changed only through `window.loveRadioFollow` (`followTag` in `cb.js`, which fires
+`love-follow`); Who's around; Places on the CB, each drawn in the theme's seven inks and never in its room's colours
+(Ryan's call, the Map's rule); jobs, ways to ask and give, a random room and the first steps. **It keeps nothing, asks
+only what `privacy.html#home` lists, with an empty body where it POSTs, once on opening and on Look again, and never
+says how many of anything**; `tools/check-home.py` holds all of it, the house on the bar (`homeIcon` in `cb.js`, a house
+with the radio's aerial; the Mover in `call.js` leaves a link alone) and the guest bar keeping CB. The house is 26px:
+the old CB measured 13 to 30px across the themes, so a wider icon wraps a full bar. **It is not a "home twenty"**: that
+phrase is not on the List of CB slang Breaker Breaker reads, and a house there is a stack of bricks. The friendly edits
+are **counts on the dashboard** ("3 new topics"), **polling it "so it is live"**, **each place drawn in its room's
+colours**, and **a favourites list of its own**, which is a second record of the rooms you follow.
+
 **THE COMMUNITY DIRECTORY IS OPT-IN, AND IT NEVER COUNTS ANYBODY.** Ryan's ask, 2026-10-23: `directory.html` (paperwork
 beside the chat page and the forums, in the reader's own CB theme, `directory.js` and `directory.css`) lists everybody who
 ticked **Show my profile in the community directory** on their card (`listed`, off until ticked, saved with Save my card),
