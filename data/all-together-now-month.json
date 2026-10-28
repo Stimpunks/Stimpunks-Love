@@ -9,19 +9,19 @@
    "channel_id": "UCFNcY_a-jIigMo1DAjKqEfQ"
   }
  ],
- "set": "2026-10-27T11:31Z",
+ "set": "2026-10-28T11:30Z",
  "covered": {
   "farming-while-beige": {
    "long": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-27T11:31:53Z"
+     "2026-10-28T11:30:22Z"
     ]
    ],
    "short": [
     [
      "2026-09-12T00:26:42Z",
-     "2026-10-27T11:31:53Z"
+     "2026-10-28T11:30:22Z"
     ]
    ]
   }
@@ -128,13 +128,13 @@
    "channel": "Farming While Beige"
   },
   {
-   "id": "ziqh6u2JTjw",
+   "id": "2OOmSgbDYa8",
    "source": "farming-while-beige",
-   "form": "short",
-   "title": "How I got kicked out of my own bachelor party.",
-   "published": "2026-09-27T20:28:28Z",
+   "form": "long",
+   "title": "Let’s Deregulate Meat Even More :-)",
+   "published": "2026-10-27T21:36:59Z",
    "state": "screen",
-   "runs": 170,
+   "runs": 264,
    "channel": "Farming While Beige"
   },
   {
@@ -535,6 +535,36 @@
    "published": "2026-10-26T22:59:13Z",
    "state": "screen",
    "runs": 153,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "letTik4qtyw",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Dealing with failure…",
+   "published": "2026-10-27T12:51:02Z",
+   "state": "screen",
+   "runs": 107,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "L8sT7EMWyf8",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Part two of getting thrown of my own bachelor party, and people ending up in the hospital",
+   "published": "2026-10-27T17:20:38Z",
+   "state": "screen",
+   "runs": 178,
+   "channel": "Farming While Beige"
+  },
+  {
+   "id": "pcdRoA95y1Y",
+   "source": "farming-while-beige",
+   "form": "short",
+   "title": "Breaking: podcasters and politicians trying to make our food even less safe. Full vid in caption.",
+   "published": "2026-10-28T02:45:43Z",
+   "state": "screen",
+   "runs": 39,
    "channel": "Farming While Beige"
   }
  ]
