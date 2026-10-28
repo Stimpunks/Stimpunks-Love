@@ -1,5 +1,5 @@
 {
-  "_what": "Glow Wild Hollow, behind Helen Edgar's Faery Yurt, down through a glowing mushroom: her ask of 2026-10-27, after Kew's 'How nature glows wild', with a jellyfish that lights up. Every sentence below is ours, and every fact names the page it was read on. tools/make-glow-wild.py writes each part's facts into glow-wild-hollow.html between glow-wild:<id> markers, and refuses a fact with no source, a Latin name, and anything about eating, picking or curing.",
+  "_what": "Glow Wild Hollow, behind Helen Edgar's Faery Yurt, down through a glowing mushroom: her ask of 2026-10-27, after Kew's 'How nature glows wild', with a jellyfish that lights up. Every sentence below is ours, and every fact names the page it was read on. tools/make-glow-wild.py writes each part's facts into glow-wild-hollow.html between glow-wild:<id> markers, and refuses a fact with no source, a Latin name, and anything about eating, picking or curing. Helen's ask of 2026-10-28 split it into three spaces she named, Air, Earth and Water, with a whirlpool down from each to the next, and a bonfire at the end under Fire.",
   "_checked": "2026-10-27",
   "kew": {
     "title": "How nature glows wild",
@@ -20,6 +20,14 @@
     {
       "url": "https://en.wikipedia.org/wiki/Ctenophora",
       "name": "comb jellies"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Firefly",
+      "name": "fireflies"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Moth",
+      "name": "moths"
     }
   ],
   "parts": [
@@ -70,6 +78,110 @@
           "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
           "commons": "https://commons.wikimedia.org/wiki/File:Filoboletus_manipularis_20260620_190044_9001_D500_Yathumon_M_A.jpg",
           "real": "Its Commons page carries the camera's record: a Nikon D500, a 185-second exposure, 18 June 2026."
+        }
+      ]
+    },
+    {
+      "id": "fireflies",
+      "facts": [
+        {
+          "says": "Fireflies are beetles, not flies. There are more than two thousand kinds, and they are also called lightning bugs.",
+          "source": "https://en.wikipedia.org/wiki/Firefly",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Most of them glow at dusk, to find a mate: some flash, and some glow steadily.",
+          "source": "https://en.wikipedia.org/wiki/Firefly",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Every firefly glows when it is young, as a larva, which tells anything hunting it that it tastes bad.",
+          "source": "https://en.wikipedia.org/wiki/Firefly",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Their light is cold light, yellow, green or pale red.",
+          "source": "https://en.wikipedia.org/wiki/Firefly",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "The glow-worm down in the earth of the hollow is a firefly too.",
+          "source": "https://en.wikipedia.org/wiki/Firefly",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "In Japan, parks are set aside for watching fireflies.",
+          "source": "https://en.wikipedia.org/wiki/Firefly",
+          "source_name": "Wikipedia"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/fireflies-forest.jpg",
+          "shows": "Fireflies glowing as small yellow-green lights among the trees and ferns of a forest at dusk, on Mount Paggaio in Greece.",
+          "photo_by": "Zsolyomi",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:The_fairytale_forest_-_Eastern_fireflies_(Luciola_mingrelica)_dance_in_the_night_in_the_forests_of_Mount_Paggaio,_Greece.jpg",
+          "real": "Its Commons page carries the camera's record: a Nikon D780, 28 June 2026."
+        },
+        {
+          "file": "glow-wild/fireflies-lupines.jpg",
+          "shows": "Fireflies over a field of lupines at night in Maine, in a long exposure, each light a small dot or streak.",
+          "photo_by": "Mike Lewinski",
+          "licence": "CC BY 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Lupines_and_Fireflies_No._4_(14505155544).jpg",
+          "real": "Its Commons page carries the camera's record: a Sony NEX-5R, a 26-second exposure, 24 June 2014."
+        },
+        {
+          "file": "glow-wild/fireflies-garden.jpg",
+          "shows": "Fireflies drawing thin yellow-green trails through a dark garden of ferns and leaves, in a long exposure.",
+          "photo_by": "Bernd Thaller",
+          "licence": "CC BY 2.0",
+          "licence_url": "https://creativecommons.org/licenses/by/2.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Fireflies_(35082682316).jpg",
+          "real": "Its Commons page carries the camera's record: a Nikon D800, 5 June 2017."
+        },
+        {
+          "file": "glow-wild/firefly-leaf.jpg",
+          "shows": "A single firefly glowing green on a leaf in the dark, in Japan.",
+          "photo_by": "Kyu3a",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Firefly_glowing_on_a_leaf.jpg",
+          "real": "Its Commons page carries the camera's record: an iPhone 16, 12 June 2025."
+        }
+      ]
+    },
+    {
+      "id": "moths",
+      "facts": [
+        {
+          "says": "Moths make no light of their own, and most of them fly at night.",
+          "source": "https://en.wikipedia.org/wiki/Moth",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "Moths often circle a light, and nobody is sure why. One idea is that they steer by the moon, and a light close by turns them round it in a spiral.",
+          "source": "https://en.wikipedia.org/wiki/Moth",
+          "source_name": "Wikipedia"
+        },
+        {
+          "says": "At night, moths carry pollen from flower to flower, including flowers that bees leave alone.",
+          "source": "https://en.wikipedia.org/wiki/Moth",
+          "source_name": "Wikipedia"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/moth-leaf.jpg",
+          "shows": "A pale yellow moth with its wings spread, resting on the underside of a leaf at night, in Japan.",
+          "photo_by": "Kyu3a",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Light_yellow_moth_on_the_underside_of_a_leaf_at_night.jpg",
+          "real": "Its Commons page carries the camera's record: an iPhone 16, 30 May 2026."
         }
       ]
     },
@@ -188,6 +300,46 @@
       ]
     },
     {
+      "id": "fluorescence",
+      "facts": [
+        {
+          "says": "Fluorescence is a different thing. It is not a chemical reaction: a living thing takes in light and gives it back in a different colour.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Human eyes cannot see most natural fluorescence without ultraviolet light, though many animals can.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        },
+        {
+          "says": "Mushrooms, mosses, lichens and some small animals fluoresce.",
+          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
+          "source_name": "Kew"
+        }
+      ],
+      "photos": [
+        {
+          "file": "glow-wild/fluorescent-mushroom.jpg",
+          "shows": "A mushroom seen from below under ultraviolet light, its gills and stem glowing blue, in Medellín, Colombia.",
+          "photo_by": "Alan Rockefeller",
+          "licence": "CC BY 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Fluorescent_Entoloma_in_Colombia.jpg",
+          "real": "A mycologist's photograph, kept with the record of where and when he found it on iNaturalist."
+        },
+        {
+          "file": "glow-wild/mushroom-ultraviolet.jpg",
+          "shows": "A small brown mushroom under ultraviolet light, its stem glowing turquoise and the underside of its cap violet.",
+          "photo_by": "Fossan",
+          "licence": "CC BY-SA 4.0",
+          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "commons": "https://commons.wikimedia.org/wiki/File:Pluteus_bajo_luz_ultravioleta.jpg",
+          "real": "Its Commons page carries the camera's record: a Canon EOS 77D, a two-and-a-half-second exposure, 22 June 2025."
+        }
+      ]
+    },
+    {
       "id": "sea-sparkle",
       "facts": [
         {
@@ -242,6 +394,15 @@
           "licence_url": "https://creativecommons.org/licenses/by-sa/2.0",
           "commons": "https://commons.wikimedia.org/wiki/File:Blue_Tears_in_the_Matsu_Islands.jpg",
           "real": "Taken on 5 May 2014 and shared on Flickr then, years before pictures could be made by AI."
+        },
+        {
+          "file": "glow-wild/deep-sea-coral.jpg",
+          "shows": "Deep-sea coral and feather stars glowing blue in the dark, on a NOAA expedition in the North Atlantic.",
+          "photo_by": "NOAA's Bioluminescence 2009 Expedition",
+          "licence": "Public domain",
+          "licence_url": null,
+          "commons": "https://commons.wikimedia.org/wiki/File:Expl2335_-_Flickr_-_NOAA_Photo_Library.jpg",
+          "real": "Taken on a NOAA research expedition in 2009 and kept in NOAA's photo library."
         }
       ]
     },
@@ -296,46 +457,6 @@
           "licence_url": "https://creativecommons.org/licenses/by-sa/3.0",
           "commons": "https://commons.wikimedia.org/wiki/File:Comb_jelly_2.jpg",
           "real": "A marine biologist's photograph, taken on 23 February 2013, years before pictures could be made by AI."
-        }
-      ]
-    },
-    {
-      "id": "fluorescence",
-      "facts": [
-        {
-          "says": "Fluorescence is a different thing. It is not a chemical reaction: a living thing takes in light and gives it back in a different colour.",
-          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
-          "source_name": "Kew"
-        },
-        {
-          "says": "Human eyes cannot see most natural fluorescence without ultraviolet light, though many animals can.",
-          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
-          "source_name": "Kew"
-        },
-        {
-          "says": "Mushrooms, mosses, lichens and some small animals fluoresce.",
-          "source": "https://growwild.kew.org/blog/how-nature-glows-wild",
-          "source_name": "Kew"
-        }
-      ],
-      "photos": [
-        {
-          "file": "glow-wild/fluorescent-mushroom.jpg",
-          "shows": "A mushroom seen from below under ultraviolet light, its gills and stem glowing blue, in Medellín, Colombia.",
-          "photo_by": "Alan Rockefeller",
-          "licence": "CC BY 4.0",
-          "licence_url": "https://creativecommons.org/licenses/by/4.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Fluorescent_Entoloma_in_Colombia.jpg",
-          "real": "A mycologist's photograph, kept with the record of where and when he found it on iNaturalist."
-        },
-        {
-          "file": "glow-wild/mushroom-ultraviolet.jpg",
-          "shows": "A small brown mushroom under ultraviolet light, its stem glowing turquoise and the underside of its cap violet.",
-          "photo_by": "Fossan",
-          "licence": "CC BY-SA 4.0",
-          "licence_url": "https://creativecommons.org/licenses/by-sa/4.0",
-          "commons": "https://commons.wikimedia.org/wiki/File:Pluteus_bajo_luz_ultravioleta.jpg",
-          "real": "Its Commons page carries the camera's record: a Canon EOS 77D, a two-and-a-half-second exposure, 22 June 2025."
         }
       ]
     }
@@ -450,25 +571,5 @@
         "about": "Why the sea glows in the dark, from PBS Terra."
       }
     ]
-  },
-  "gallery": [
-    {
-      "file": "glow-wild/fireflies-lupines.jpg",
-      "shows": "Fireflies over a field of lupines at night in Maine, in a long exposure, each light a small dot or streak.",
-      "photo_by": "Mike Lewinski",
-      "licence": "CC BY 2.0",
-      "licence_url": "https://creativecommons.org/licenses/by/2.0",
-      "commons": "https://commons.wikimedia.org/wiki/File:Lupines_and_Fireflies_No._4_(14505155544).jpg",
-      "real": "Its Commons page carries the camera's record: a Sony NEX-5R, a 26-second exposure, 24 June 2014."
-    },
-    {
-      "file": "glow-wild/deep-sea-coral.jpg",
-      "shows": "Deep-sea coral and feather stars glowing blue in the dark, on a NOAA expedition in the North Atlantic.",
-      "photo_by": "NOAA's Bioluminescence 2009 Expedition",
-      "licence": "Public domain",
-      "licence_url": null,
-      "commons": "https://commons.wikimedia.org/wiki/File:Expl2335_-_Flickr_-_NOAA_Photo_Library.jpg",
-      "real": "Taken on a NOAA research expedition in 2009 and kept in NOAA's photo library."
-    }
-  ]
+  }
 }

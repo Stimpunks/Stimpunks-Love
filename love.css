@@ -1829,6 +1829,9 @@
      living lights and carry none, nor do the hills and the water drawn dark. */
   --gwh-night: #060E16; --gwh-deep: #0C1A26; --gwh-ink: #E2F2EE; --gwh-ink-2: #A9C8C3;
   --gwh-sea: #5CD6FF; --gwh-fox: #7CF2A8; --gwh-worm: #D8F25E; --gwh-hill: #14241E; --gwh-wave: #123049;
+  /* The bonfire at the end of the hollow, under Fire, Helen's ask of 2026-10-28:
+     the one light down there that is not alive. Drawing only; no word stands in it. */
+  --gwh-flame: #FF8A2E; --gwh-flame-2: #FFD27A; --gwh-ember: #C2401E; --gwh-fire-log: #3B2A20;
   /* The Play Pod (§131), Helen's, through a door in the yurt under the Glimmer
      Window: a tuff tray under a UV lamp. The night, the tray's panels and the
      two inks carry every word, and the yellow carries the links. The lamp's
@@ -27826,6 +27829,11 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
    facts are written by tools/make-glow-wild.py from data/glow-wild.json; the
    sea and the jellyfish are glow-wild.js; this section dresses them (hollow-).
 
+   SINCE 2026-10-28 IT IS AIR, EARTH AND WATER, AND FIRE AT THE END: Helen's
+   names, with a whirlpool down from each space to the next, and a bonfire on
+   the shore under Fire, her call, which made it the one light down here that
+   is not alive. Everything above the Fire heading keeps the rule below.
+
    EVERY LIGHT IN THE HOLLOW BELONGS TO SOMETHING ALIVE. There is no moon, no
    star, no lamp and no flame, and most of the page is dark: the lights are
    points and lines where something living is, foxfire green, glow-worm
@@ -27888,6 +27896,21 @@ html[data-intensity="max"] .myth-glint { animation: myth-glint 3.4s ease-in-out 
    anybody with no script. The canvas carries no word. */
 .hollow-tank { position: relative; }
 .hollow-sea .hollow-tank { width: 100%; height: clamp(220px, 28vw, 250px); }
+.hollow-tank--air { width: 100%; height: clamp(220px, 30vw, 280px); }
+.hollow-tank--fire { width: 100%; height: clamp(170px, 42vw, 300px); background: var(--gwh-night); border-radius: 6px; }
+.hollow-tank--air .hollow-air__sky, .hollow-tank--fire .hollow-fire__shore { display: block; width: 100%; height: 100%; border-radius: 6px; }
+/* AIR, EARTH, WATER AND FIRE, Helen's names for the hollow's spaces,
+   2026-10-28, with a whirlpool down from each to the next, the second through
+   the rhizome. A space's name is the largest words in it; each part under it
+   is a smaller italic heading. The whirlpool is the canvas, and the way down
+   is a plain link under it, which works with no script. */
+.room-hollow .hollow-realm > h2 { font-size: clamp(38px, 6vw, 54px); margin: 0 0 4px; }
+.hollow-part { padding: 16px 0 6px; }
+.room-hollow .hollow-part > h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 28px; color: var(--gwh-ink); margin: 0 0 6px; text-wrap: balance; }
+.hollow-whirl { margin: 26px 0 0; }
+.hollow-tank--whirl { width: 100%; height: clamp(170px, 24vw, 230px); }
+.hollow-whirl__way { margin: 10px 0 0; text-align: center; }
+.room-hollow .hollow-whirl__go { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; font-style: italic; font-size: 24px; }
 .hollow-sea .hollow-tank .hollow-sea__water { height: 100%; }
 .hollow-tank--jelly { width: min(100%, 520px); margin-inline: auto; }
 .hollow-tank__light { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 6px; }

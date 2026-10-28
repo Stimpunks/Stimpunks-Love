@@ -916,6 +916,444 @@
     J.wake();
   }
 
+  // ── the air ────────────────────────────────────────────────────────────────
+  // FIREFLIES IN THE AIR, AND MOTHS DRAWN TO THEIR GLOW, Helen's ask of
+  // 2026-10-28: "things in the air, glowing stars and fire fly, moths". Only
+  // the fireflies glow: the hollow's rule is that every light belongs to
+  // something alive, so there are no stars, and moths make no light of their
+  // own (Helen chose them drawn to the glow). A finger or a pointer through
+  // the air wakes the fireflies near it; Wake the fireflies wakes them all for
+  // SHOW, and Keep them flying keeps them going. Each firefly's light comes up
+  // over its own GLOW_UP and goes down over FADE and more, and no firefly lights
+  // again sooner than FLY_PERIOD, so nothing flashes. The moths circle the
+  // brightest firefly near them and are lit only by it.
+  var GLOW_UP = 700;      // ms a firefly's light takes to come up
+  var FLY_PERIOD = 3500;  // ms at least between one firefly's lights
+  var air = document.querySelector('[data-gwh-air]');
+  if (air && air.querySelector('[data-gwh-tank]')) {
+    var A = new Tank(air);
+    tanks.push(A);
+    var asaid = air.querySelector('[data-gwh-air-said]');
+    var wakeBtn = air.querySelector('[data-gwh-wake]');
+    var airLoopBtn = air.querySelector('[data-gwh-air-loop]');
+    var airLooping = false;
+    var AC = {};
+    var acolours = function () { AC = { worm: ink('--gwh-worm'), fox: ink('--gwh-fox'), white: ink('--gwh-ink'), moth: ink('--gwh-ink-2') }; };
+    acolours();
+    var flies = [], moths = [], flight = null, nextStir = 0;
+    var seedFlies = function () {
+      flies = []; moths = [];
+      for (var i = 0; i < 26; i++) {
+        var hx = (0.04 + 0.92 * ((i * 37) % 26) / 26) * A.w, hy = A.h * (0.62 + 0.3 * ((i * 11) % 7) / 7);
+        flies.push({ hx: hx, hy: hy, x: hx, y: hy, vx: 0, vy: 0, awake: -1e9, lit: -1e9, period: FLY_PERIOD + ((i * 53) % 9) * 400,
+          col: i % 3 ? 'worm' : 'fox' });
+      }
+      for (var m = 0; m < 4; m++) {
+        var mx = (m % 2 ? 0.88 : 0.12) * A.w, my = A.h * (0.25 + 0.2 * m);
+        moths.push({ hx: mx, hy: my, x: mx, y: my, ang: m * 1.7, r: 40, flap: m * 0.9 });
+      }
+    };
+    A.onfit = seedFlies;
+    seedFlies();
+
+    var wakeNear = function (x, y, rad, now) {
+      flies.forEach(function (f) {
+        var d = Math.hypot(f.x - x, f.y - y);
+        if (d < rad) {
+          if (f.awake < now) f.vy -= 0.4 + Math.random() * 0.4;
+          f.awake = Math.max(f.awake, now + 9000);
+        }
+      });
+    };
+    var flyGlow = function (f, now) {
+      var age = now - f.lit;
+      if (age < 0) return 0;
+      if (age < GLOW_UP) return eased(age / GLOW_UP);
+      return brightness(age - GLOW_UP + RISE, 300);
+    };
+
+    A.frame = function (now, settle) {
+      var c = A.ctx, calmNow = still(), s = Math.max(0.6, Math.min(1.3, A.w / 600));
+      c.clearRect(0, 0, A.w, A.h);
+      if (flight && !calmNow) {
+        if (!airLooping && now > flight.until) {
+          flight = null;
+          say(asaid, 'The fireflies settle back into the grass, and their lights go out one by one.');
+        } else if (flight && now > nextStir) {
+          nextStir = now + 2200;
+          wakeNear(A.w * Math.random(), A.h * (0.4 + 0.5 * Math.random()), A.w, now);
+        }
+      }
+      if (max() && !calmNow && !flight && Math.random() < 0.004) {
+        var f0 = flies[(Math.random() * flies.length) | 0];
+        f0.awake = Math.max(f0.awake, now + 6000);
+      }
+      c.globalCompositeOperation = 'lighter';
+      var lights = [];
+      flies.forEach(function (f, i) {
+        var b;
+        if (calmNow) {
+          f.x = f.hx; f.y = f.hy - A.h * 0.12;
+          b = 0.75;
+        } else {
+          var awake = now < f.awake;
+          if (awake && now - f.lit > f.period) f.lit = now + Math.random() * 400;
+          if (awake) {
+            f.vx += (Math.random() - 0.5) * 0.06 + (f.hx - f.x) * 0.00003;
+            f.vy += (Math.random() - 0.5) * 0.05 + (A.h * (0.3 + (i % 5) * 0.09) - f.y) * 0.00012;
+          } else {
+            f.vx += (f.hx - f.x) * 0.0004; f.vy += (f.hy - f.y) * 0.0004;
+          }
+          f.vx *= 0.97; f.vy *= 0.97;
+          f.x += f.vx; f.y += f.vy;
+          if (f.y < A.h * 0.1) f.vy += 0.04;
+          if (f.x < 0) f.vx += 0.05; if (f.x > A.w) f.vx -= 0.05;
+          b = flyGlow(f, now);
+        }
+        // Every firefly is drawn, a dark speck when its light is out.
+        c.fillStyle = rgba(AC.moth, 0.18);
+        c.beginPath(); c.arc(f.x, f.y, 1.2 * s, 0, 6.2832); c.fill();
+        if (b > 0.01) {
+          var col = AC[f.col];
+          var g = c.createRadialGradient(f.x, f.y, 0, f.x, f.y, 16 * s);
+          g.addColorStop(0, rgba(col, b * 0.55)); g.addColorStop(1, rgba(col, 0));
+          c.fillStyle = g; c.beginPath(); c.arc(f.x, f.y, 16 * s, 0, 6.2832); c.fill();
+          c.fillStyle = rgba(col, b);
+          c.beginPath(); c.arc(f.x, f.y, 2.4 * s, 0, 6.2832); c.fill();
+          lights.push({ x: f.x, y: f.y, b: b });
+        }
+      });
+      c.globalCompositeOperation = 'source-over';
+      // The moths: each circles the brightest firefly near it, in a spiral,
+      // and is lit only by it.
+      moths.forEach(function (m, k) {
+        var best = null, bs = 0;
+        lights.forEach(function (l) {
+          var d = Math.hypot(l.x - m.x, l.y - m.y), v = l.b / (1 + d / 120);
+          if (v > bs) { bs = v; best = l; }
+        });
+        var lit = calmNow ? 0.35 : Math.min(1, bs * 1.6);
+        if (!calmNow) {
+          m.flap += 0.16;
+          var tx, ty;
+          if (best && bs > 0.05) {
+            m.ang += 0.035; m.r += ((18 + 10 * Math.sin(now * 0.0006 + k)) * s - m.r) * 0.02;
+            tx = best.x + Math.cos(m.ang) * m.r; ty = best.y + Math.sin(m.ang) * m.r * 0.7;
+          } else { tx = m.hx; ty = m.hy; m.r += (40 * s - m.r) * 0.02; }
+          m.x += (tx - m.x) * 0.03; m.y += (ty - m.y) * 0.03;
+        }
+        var wing = calmNow ? 1 : 0.55 + 0.45 * Math.abs(Math.sin(m.flap));
+        c.save();
+        c.translate(m.x, m.y);
+        c.fillStyle = rgba(AC.moth, 0.25 + lit * 0.65);
+        c.beginPath(); c.ellipse(-4 * s * wing, -1 * s, 4.5 * s * wing, 3 * s, -0.4, 0, 6.2832); c.fill();
+        c.beginPath(); c.ellipse(4 * s * wing, -1 * s, 4.5 * s * wing, 3 * s, 0.4, 0, 6.2832); c.fill();
+        c.fillStyle = rgba(AC.moth, 0.2 + lit * 0.55);
+        c.beginPath(); c.ellipse(-2.6 * s * wing, 2.2 * s, 2.8 * s * wing, 2 * s, -0.6, 0, 6.2832); c.fill();
+        c.beginPath(); c.ellipse(2.6 * s * wing, 2.2 * s, 2.8 * s * wing, 2 * s, 0.6, 0, 6.2832); c.fill();
+        c.fillStyle = rgba(AC.white, 0.25 + lit * 0.5);
+        c.beginPath(); c.ellipse(0, 0.5 * s, 1 * s, 3.4 * s, 0, 0, 6.2832); c.fill();
+        c.restore();
+      });
+      if (calmNow) return false;
+      return !!flight || lights.length > 0 || flies.some(function (f) { return now < f.awake || Math.abs(f.vx) + Math.abs(f.vy) > 0.02 || Math.abs(f.x - f.hx) + Math.abs(f.y - f.hy) > 1; }) || max();
+    };
+
+    A.cv.style.touchAction = 'pan-y';
+    A.cv.addEventListener('pointermove', function (e) {
+      if (still()) return;
+      var p = A.at(e);
+      wakeNear(p.x, p.y, 70 * Math.max(0.7, A.w / 600), performance.now());
+      A.wake();
+    });
+    A.cv.addEventListener('pointerdown', function (e) {
+      if (still()) { say(asaid, 'At Gentle the fireflies glow and stay still in the grass.'); return; }
+      var p = A.at(e), now = performance.now();
+      wakeNear(p.x, p.y, 130 * Math.max(0.7, A.w / 600), now);
+      tink(0.15, 0.6); feel([12]);
+      A.wake();
+    });
+    var startFlight = function () {
+      var now = performance.now();
+      flight = { born: now, until: now + SHOW };
+      nextStir = now;
+      wakeNear(A.w / 2, A.h / 2, A.w * 2, now);
+      bell(); feel([20, 40, 20]);
+      A.wake();
+    };
+    if (wakeBtn) {
+      wakeBtn.hidden = false;
+      wakeBtn.addEventListener('click', function () {
+        if (still()) { say(asaid, 'At Gentle the fireflies glow and stay still in the grass.'); return; }
+        startFlight();
+        say(asaid, airLooping ? 'The fireflies rise out of the grass and glow, slowly, one and then another, and the moths come to their light, until you switch Keep them flying off.'
+          : 'The fireflies rise out of the grass for twenty seconds and glow, slowly, one and then another, and the moths come to their light.');
+      });
+    }
+    if (airLoopBtn) {
+      airLoopBtn.hidden = false;
+      airLoopBtn.addEventListener('click', function () {
+        airLooping = !airLooping;
+        airLoopBtn.setAttribute('aria-pressed', airLooping ? 'true' : 'false');
+        airLoopBtn.textContent = airLooping ? 'Keep them flying: on' : 'Keep them flying: off';
+        if (still()) { say(asaid, airLooping ? 'Keep them flying is on. At Gentle the fireflies stay still.' : 'Keep them flying is off.'); return; }
+        if (airLooping) {
+          if (!flight) startFlight();
+          say(asaid, 'Keep them flying is on: the fireflies go on glowing in the air until you switch it off.');
+        } else {
+          if (flight) flight.until = performance.now();
+          say(asaid, 'Keep them flying is off: the fireflies settle, and their lights go out one by one.');
+        }
+      });
+    }
+    window.addEventListener('love-intensity', function () { A.wake(); });
+    A.wake();
+  }
+
+  // ── the whirlpools down ────────────────────────────────────────────────────
+  // THE WAY DOWN IS A WHIRLPOOL OF LIGHT, Helen's ask of 2026-10-28: "down
+  // through spiral in same style and tone as the water stirring imagery, all
+  // floaty and pretty like a whirl pool", from the air into the wood, and then
+  // "down and down and down in another watery spiral through a rhizome to under
+  // the sea". Each is a link to the part below it, so with no script it is a
+  // link. The whirl is drawn still; it turns by itself only at MAX GLITTER, and
+  // a press spins it and lets you down into the next part. At Gentle the press
+  // takes you straight there. Every light in it keeps its brightness as it
+  // turns, so nothing comes and goes.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-gwh-whirl]'), function (box) {
+    var W = new Tank(box);
+    tanks.push(W);
+    var kind = box.getAttribute('data-gwh-whirl');
+    var go = box.querySelector('[data-gwh-whirl-go]');
+    var WC = {};
+    var wcolours = function () { WC = { worm: ink('--gwh-worm'), fox: ink('--gwh-fox'), sea: ink('--gwh-sea'), white: ink('--gwh-ink') }; };
+    wcolours();
+    var turn = 0, last = 0, spinUntil = 0, threads = [];
+    // The rhizome's threads, from a fixed seed, so it is the same rhizome every
+    // time: lines that branch and wander down through the watery whirl.
+    var seeded = function (n) { var x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); };
+    var grow = function () {
+      threads = [];
+      if (kind !== 'rhizome') return;
+      var k = 0;
+      var branch = function (x, y, ang, len, depth) {
+        var pts = [[x, y]];
+        for (var i = 0; i < 9; i++) {
+          ang += (seeded(++k) - 0.5) * 0.7;
+          x += Math.cos(ang) * len; y += Math.sin(ang) * len;
+          pts.push([x, y]);
+          if (depth < 3 && seeded(++k) < 0.28) branch(x, y, ang + (seeded(++k) < 0.5 ? -0.8 : 0.8), len * 0.75, depth + 1);
+        }
+        threads.push({ pts: pts, depth: depth });
+      };
+      for (var r = 0; r < 5; r++) branch(W.w * (0.1 + 0.2 * r), -4, Math.PI / 2 + (seeded(++k) - 0.5) * 0.6, W.h / 11, 0);
+    };
+    W.onfit = grow;
+    grow();
+    var cols = kind === 'rhizome' ? ['fox', 'sea', 'sea', 'white'] : ['worm', 'fox', 'fox', 'white'];
+
+    W.frame = function (now, settle) {
+      var c = W.ctx, calmNow = still();
+      var dt = last ? Math.min(50, now - last) : 0;
+      last = settle ? 0 : now;
+      var spinning = !calmNow && now < spinUntil;
+      var speed = spinning ? 0.0022 : (!calmNow && max() ? 0.00012 : 0);
+      turn += speed * dt;
+      c.clearRect(0, 0, W.w, W.h);
+      var cx = W.w / 2, cy = W.h / 2, R = Math.min(W.w * 0.48, W.h * 1.25);
+      // Rhizome threads first, under the whirl.
+      threads.forEach(function (t) {
+        c.strokeStyle = rgba(WC.fox, 0.32 - t.depth * 0.06);
+        c.lineWidth = Math.max(0.6, 1.6 - t.depth * 0.35);
+        c.beginPath(); c.moveTo(t.pts[0][0], t.pts[0][1]);
+        for (var i = 1; i < t.pts.length; i++) c.lineTo(t.pts[i][0], t.pts[i][1]);
+        c.stroke();
+      });
+      c.globalCompositeOperation = 'lighter';
+      // The whirl: three arms of light winding in to the middle, flattened
+      // because you look down into it. Each light keeps its brightness.
+      for (var arm = 0; arm < 3; arm++) {
+        for (var i = 0; i < 90; i++) {
+          var u = ((i / 90) + (spinning ? turn * 0.35 : 0)) % 1;
+          var rad = R * Math.pow(1 - u, 1.4) + 3;
+          var ang = arm * 2.094 + u * 9.5 + turn;
+          var x = cx + Math.cos(ang) * rad, y = cy + Math.sin(ang) * rad * 0.34;
+          var col = WC[cols[(i + arm) % cols.length]], b = 0.25 + 0.6 * u;
+          c.fillStyle = rgba(col, b * 0.18);
+          c.beginPath(); c.arc(x, y, 7, 0, 6.2832); c.fill();
+          c.fillStyle = rgba(col, b * 0.8);
+          c.beginPath(); c.arc(x, y, 1.6, 0, 6.2832); c.fill();
+        }
+      }
+      var core = c.createRadialGradient(cx, cy, 0, cx, cy, R * 0.25);
+      core.addColorStop(0, rgba(kind === 'rhizome' ? WC.sea : WC.fox, 0.35));
+      core.addColorStop(1, rgba(kind === 'rhizome' ? WC.sea : WC.fox, 0));
+      c.fillStyle = core; c.beginPath(); c.ellipse(cx, cy, R * 0.25, R * 0.12, 0, 0, 6.2832); c.fill();
+      c.globalCompositeOperation = 'source-over';
+      return spinning || (!calmNow && max());
+    };
+    if (go) {
+      go.addEventListener('click', function (e) {
+        var to = document.getElementById((go.getAttribute('href') || '').slice(1));
+        if (!to || still()) return;
+        e.preventDefault();
+        spinUntil = performance.now() + 2400;
+        swish(2.6); feel([20, 60, 20]);
+        W.wake();
+        setTimeout(function () {
+          to.scrollIntoView();
+          if (!to.hasAttribute('tabindex')) to.setAttribute('tabindex', '-1');
+          to.focus({ preventScroll: true });
+        }, 2400);
+      });
+    }
+    window.addEventListener('love-intensity', function () { W.wake(); });
+    W.wake();
+  });
+
+  // ── the bonfire ────────────────────────────────────────────────────────────
+  // FIRE AT THE END OF THE HOLLOW, Helen's ask of 2026-10-28: "a burning
+  // bonfire at end of page for FIRE heading", and her call to change the rule
+  // that every light down here is alive. It is the one light that is not.
+  // Light the bonfire and it catches over a few seconds, burns for SHOW, and
+  // burns down to embers over ENDING; Keep it burning keeps it going. Its
+  // flames sway no quicker than SWAY and dim by FLICKER at most, the cabin's
+  // candles' rule, and its sparks rise and fade slowly, so nothing flashes. At
+  // MAX GLITTER it burns low by itself; at Gentle, once lit, it burns still.
+  var FLICKER = 0.1;      // the most a flame dims, a tenth of itself
+  var SWAY = 650;         // ms at least for a flame's half-sway
+  var fire = document.querySelector('[data-gwh-fire]');
+  if (fire && fire.querySelector('[data-gwh-tank]')) {
+    var F = new Tank(fire);
+    tanks.push(F);
+    var fsaid = fire.querySelector('[data-gwh-fire-said]');
+    var lightBtn = fire.querySelector('[data-gwh-light]');
+    var fireLoopBtn = fire.querySelector('[data-gwh-fire-loop]');
+    var fireLooping = false;
+    var FC = {};
+    var fcolours = function () { FC = { flame: ink('--gwh-flame'), flame2: ink('--gwh-flame-2'), ember: ink('--gwh-ember'), white: ink('--gwh-ink') }; };
+    fcolours();
+    var burn = null, litStill = false, sparks = [], nextCrackle = 0;
+    // Each tongue of flame: where it stands on the logs, how tall, and its own
+    // slow sway, no two alike.
+    var TONGUES = [[-0.07, 0.75, 1], [0.06, 0.85, 1.3], [0, 1, 0.8], [-0.12, 0.5, 1.6], [0.12, 0.55, 1.15], [-0.03, 0.65, 1.45], [0.04, 0.6, 0.95]];
+    // How much fire there is now, 0 to 1: up over three seconds, down over ENDING.
+    var heat = function (now) {
+      if (still()) return litStill ? 1 : 0;
+      var low = max() ? 0.35 : 0;
+      if (!burn) return low;
+      var up = eased((now - burn.born) / 3000);
+      var down = fireLooping ? 1 : eased((burn.until - now) / ENDING);
+      return Math.max(low, up * down);
+    };
+    var crackle = function () {
+      if (!audio.on) return;
+      var c = audio.ctx, t = c.currentTime, n = Math.round(c.sampleRate * 0.03);
+      var buf = c.createBuffer(1, n, c.sampleRate), d = buf.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 3);
+      var src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+      src.buffer = buf; f.type = 'highpass'; f.frequency.value = 1800;
+      g.gain.value = 0.35 + Math.random() * 0.3;
+      src.connect(f); f.connect(g); g.connect(audio.into);
+      src.start(t);
+    };
+
+    F.frame = function (now, settle) {
+      var c = F.ctx, calmNow = still(), h = heat(now);
+      c.clearRect(0, 0, F.w, F.h);
+      if (burn && !calmNow && !fireLooping && now > burn.until) {
+        burn = null;
+        say(fsaid, 'The bonfire burns down to embers, and goes out.');
+      }
+      // The drawing is laid out in a 600 by 260 box, shown whole at its foot.
+      var k = Math.min(F.w / 600, F.h / 260), ox = (F.w - 600 * k) / 2, oy = F.h - 260 * k;
+      var bx = ox + 300 * k, by = oy + 214 * k, size = 120 * k;
+      if (h > 0.005) {
+        c.globalCompositeOperation = 'lighter';
+        // The glow on the shore and the logs, steady.
+        var g = c.createRadialGradient(bx, by, 4, bx, by, size * 1.8);
+        g.addColorStop(0, rgba(FC.flame, 0.35 * h)); g.addColorStop(1, rgba(FC.flame, 0));
+        c.fillStyle = g; c.beginPath(); c.ellipse(bx, by, size * 1.8, size * 0.9, 0, 0, 6.2832); c.fill();
+        TONGUES.forEach(function (t, i) {
+          var phase = i * 1.7;
+          var sway = calmNow ? 0 : Math.sin(now * Math.PI / (SWAY + i * 140) + phase);
+          var dim = calmNow ? 1 : 1 - FLICKER * (0.5 + 0.5 * Math.sin(now * 2 * Math.PI / (1000 + i * 230) + phase * 2));
+          var tall = size * t[1] * h * (0.85 + 0.15 * (calmNow ? 1 : Math.sin(now * Math.PI / (SWAY * 1.6 + i * 90) + phase)));
+          var x0 = bx + t[0] * size * 1.6, wid = size * 0.16 * (0.7 + h * 0.3);
+          var tipX = x0 + sway * size * 0.08 * t[2], tipY = by - tall;
+          var cols = [[FC.ember, 0.55], [FC.flame, 0.7], [FC.flame2, 0.6]];
+          cols.forEach(function (cc, j) {
+            var sc = 1 - j * 0.28;
+            c.fillStyle = rgba(cc[0], cc[1] * dim * Math.min(1, h * 1.4));
+            c.beginPath();
+            c.moveTo(x0 - wid * sc, by);
+            c.quadraticCurveTo(x0 - wid * sc * 1.1, by - tall * 0.45 * sc, tipX, by - tall * sc);
+            c.quadraticCurveTo(x0 + wid * sc * 1.1, by - tall * 0.45 * sc, x0 + wid * sc, by);
+            c.closePath(); c.fill();
+          });
+        });
+        c.globalCompositeOperation = 'source-over';
+      }
+      // Sparks rise slowly from the top and fade.
+      if (!calmNow && h > 0.2 && Math.random() < 0.18 * h) {
+        sparks.push({ x: bx + (Math.random() - 0.5) * size * 0.5, y: by - size * 0.6 * h, vx: (Math.random() - 0.5) * 0.4, vy: -0.6 - Math.random() * 0.6, born: now });
+      }
+      if (sparks.length > 80) sparks.splice(0, sparks.length - 80);
+      c.globalCompositeOperation = 'lighter';
+      sparks = sparks.filter(function (p) {
+        var age = now - p.born, b = brightness(age, 200);
+        if (b <= 0 && age > RISE) return false;
+        p.x += p.vx + Math.sin(age * 0.003 + p.born) * 0.15; p.y += p.vy; p.vy *= 0.995;
+        c.fillStyle = rgba(FC.flame2, b * 0.9);
+        c.beginPath(); c.arc(p.x, p.y, 1.4 * Math.max(0.7, k), 0, 6.2832); c.fill();
+        return true;
+      });
+      c.globalCompositeOperation = 'source-over';
+      if (!calmNow && h > 0.1 && now > nextCrackle) { crackle(); nextCrackle = now + 150 + Math.random() * 600; }
+      if (calmNow) return false;
+      return !!burn || sparks.length > 0 || max();
+    };
+
+    var startBurn = function () {
+      var now = performance.now();
+      burn = { born: now, until: now + SHOW };
+      swish(3); feel([30, 60, 30]);
+      F.wake();
+    };
+    if (lightBtn) {
+      lightBtn.hidden = false;
+      lightBtn.addEventListener('click', function () {
+        if (still()) {
+          litStill = !litStill; F.wake();
+          say(fsaid, litStill ? 'The bonfire is lit, and at Gentle it burns still.' : 'The bonfire goes out.');
+          return;
+        }
+        startBurn();
+        say(fsaid, fireLooping ? 'The bonfire catches and burns, its flames swaying and sparks rising slowly, until you switch Keep it burning off.'
+          : 'The bonfire catches and burns for twenty seconds, its flames swaying and sparks rising slowly, then burns down.');
+      });
+    }
+    if (fireLoopBtn) {
+      fireLoopBtn.hidden = false;
+      fireLoopBtn.addEventListener('click', function () {
+        fireLooping = !fireLooping;
+        fireLoopBtn.setAttribute('aria-pressed', fireLooping ? 'true' : 'false');
+        fireLoopBtn.textContent = fireLooping ? 'Keep it burning: on' : 'Keep it burning: off';
+        if (still()) { say(fsaid, fireLooping ? 'Keep it burning is on. At Gentle the fire burns still.' : 'Keep it burning is off.'); return; }
+        if (fireLooping) {
+          if (!burn) startBurn();
+          say(fsaid, 'Keep it burning is on: the bonfire goes on burning until you switch it off.');
+        } else {
+          if (burn) burn.until = performance.now() + ENDING;
+          say(fsaid, 'Keep it burning is off: the bonfire burns down to embers.');
+        }
+        F.wake();
+      });
+    }
+    window.addEventListener('love-intensity', function () { F.wake(); });
+    F.wake();
+  }
+
   // The dial and a low-stimulation mode change what every tank may do.
   if (window.MutationObserver) {
     new MutationObserver(function () { tanks.forEach(function (t) { t.wake(); }); })

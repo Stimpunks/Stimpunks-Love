@@ -32,6 +32,14 @@ of Kew's is copied. This tool refuses:
     over 20 secs with option to loop it").
   - a §129 animation outside MAX GLITTER, or one quicker than four seconds.
 
+AIR, EARTH, WATER AND FIRE, Helen's names, 2026-10-28. The hollow is three
+spaces, a whirlpool down from each to the next (the second through the
+rhizome), and a bonfire at the end under Fire: her call, which changed the
+rule that every light down here is alive. Every light in Air, Earth and Water
+still is; the bonfire is the one that is not. Fireflies light no sooner than
+FLY_PERIOD apart, and the bonfire's flames dim by FLICKER at most and sway no
+quicker than SWAY, the cabin's candles' rule, so nothing flashes.
+
 THE PHOTOGRAPHS ARE REAL ONES, AND THE CRYSTAL WHEEL'S RULES HOLD THEM. Helen's
 ask, 2026-10-28: real pictures, like the crystals in Myths & Legends. Each is of
 the thing itself, glowing, on Wikimedia Commons under a licence this site can
@@ -146,7 +154,7 @@ page = PAGE.read_text(encoding="utf-8")
 blocks = {}
 for part in d.get("parts", []):
     pid = part.get("id", "")
-    if f'<h2 id="{pid}">' not in page:
+    if f'<h3 id="{pid}">' not in page and f'<h2 id="{pid}">' not in page:
         refuse(f"{pid}: glow-wild-hollow.html has no heading with that id for its facts to sit under.")
     items = []
     for i, f in enumerate(part.get("facts", [])):
@@ -171,10 +179,7 @@ for part in d.get("parts", []):
         pics += '\n    <div class="hollow-photos">' + "".join(shots[1:]) + '</div>'
     blocks[pid] = pics + '\n    <ul class="hollow-facts">\n      ' + "\n      ".join(items) + '\n    </ul>\n    '
 
-gallery = [photo(ph, f"gallery photo {i + 1}") for i, ph in enumerate(d.get("gallery", []))]
-blocks["gallery"] = '\n    <div class="hollow-photos hollow-photos--gallery">' + "".join(gallery) + '</div>\n    '
-seen_files = [ph.get("file") for part in d.get("parts", []) for ph in part.get("photos", [])] + \
-             [ph.get("file") for ph in d.get("gallery", [])]
+seen_files = [ph.get("file") for part in d.get("parts", []) for ph in part.get("photos", [])]
 if len(seen_files) != len(set(seen_files)):
     refuse("a photograph is on the page twice.")
 for f in sorted((ROOT / "glow-wild").glob("*")):
@@ -210,7 +215,7 @@ blocks["credit"] = (
     f'{esc(kew["site"])}, {esc(kew["on"])}, and the rest in Wikipedia&rsquo;s articles on {wiki}, '
     f'on {date.fromisoformat(d["_checked"]).strftime("%-d %B %Y")}. Every sentence here is ours, written for this room, and every fact '
     f'says where it was read. The drawings are ours too, and every light in them belongs to '
-    f'something alive. The photographs are their photographers&rsquo;, each credited under it, and the '
+    f'something alive but the bonfire. The photographs are their photographers&rsquo;, each credited under it, and the '
     f'films are their makers&rsquo;, on their own channels.</p>\n    ')
 
 for h in d.get("holds", []):
@@ -228,6 +233,15 @@ if '<script src="glow-wild.js" defer></script>' not in page:
     refuse("glow-wild-hollow.html does not load glow-wild.js, so the sea and the jellyfish stay dark.")
 if 'class="dial"' not in page or page.count('class="dial__btn"') != 3:
     refuse("glow-wild-hollow.html has no glitter dial. Every room has one; the hollow shipped without it once.")
+for space in ("air", "earth", "water", "fire"):
+    if f'<h2 id="{space}">' not in page:
+        refuse(f"glow-wild-hollow.html has no {space!r} space. The hollow is Air, Earth and Water, and Fire at the end, "
+               "Helen's names for them, 2026-10-28.")
+for to in re.findall(r'data-gwh-whirl-go href="#([^"]+)"', page):
+    if f'id="{to}"' not in page:
+        refuse(f"glow-wild-hollow.html: a whirlpool goes down to #{to}, which is on no heading.")
+if page.count("data-gwh-whirl=") < 2:
+    refuse("glow-wild-hollow.html: the way down from Air to Earth and from Earth through the rhizome to Water is a whirlpool each.")
 for s in ("love-embed.js", "rack.js"):
     if f'<script src="{s}" defer></script>' not in page:
         refuse(f"glow-wild-hollow.html does not load {s}, so every film's button would press and do nothing.")
@@ -266,6 +280,21 @@ if not m or int(m.group(1)) < FLOORS["FADE"]:
 for what in ("seaLooping", "jLooping"):
     if not re.search(rf"var {what} = false;", code):
         refuse(f"glow-wild.js: {what} must start off. Keep it stirring and Keep it glowing come on only when pressed.")
+m = re.search(r"var FLY_PERIOD = (\d+);", code)
+if not m or int(m.group(1)) < 3000:
+    refuse("glow-wild.js: FLY_PERIOD must be at least 3000 ms. No firefly lights again sooner, so the air never flashes.")
+m = re.search(r"var GLOW_UP = (\d+);", code)
+if not m or int(m.group(1)) < FLOORS["RISE"]:
+    refuse(f"glow-wild.js: GLOW_UP must be at least {FLOORS['RISE']} ms.")
+m = re.search(r"var FLICKER = ([\d.]+);", code)
+if not m or float(m.group(1)) > 0.1:
+    refuse("glow-wild.js: FLICKER must be set, and the bonfire dims by a tenth of itself at most, the cabin's candles' rule.")
+m = re.search(r"var SWAY = (\d+);", code)
+if not m or int(m.group(1)) < 400:
+    refuse("glow-wild.js: SWAY must be set, and no flame sways quicker than once in four tenths of a second.")
+for what in ("airLooping", "fireLooping"):
+    if not re.search(rf"var {what} = false;", code):
+        refuse(f"glow-wild.js: {what} must start off. Keep them flying and Keep it burning come on only when pressed.")
 if "still()" not in code:
     refuse("glow-wild.js no longer asks still(). At Gentle nothing comes and goes.")
 

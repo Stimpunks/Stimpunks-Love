@@ -1580,8 +1580,8 @@ anything about a body (`BODY`), because an outcome is a story and never an effec
 2026-10-27, after Kew's "How nature glows wild" (Chloe Agar, Grow Wild, credited by name and never copied): another portal
 out of the yurt, through a mushroom, and a jellyfish that lights up; she named it and chose a sea that glows where you touch
 it. `glow-wild-hollow.html` hangs off the yurt (the mushroom is under the Glimmer Window, Helen's order of 2026-10-28), its facts are written by
-`tools/make-glow-wild.py` from `data/glow-wild.json`, and `glow-wild.js` is the sea and the jellyfish. **No moon, no star, no
-lamp and no flame**: the lights are points where something living is, and no word stands in one. Brew and Stew (lit by the
+`tools/make-glow-wild.py` from `data/glow-wild.json`, and `glow-wild.js` is the sea and the jellyfish. **Air, Earth and Water have no moon, no star, no
+lamp and no flame** (Helen's spaces, 2026-10-28; the bonfire under Fire at the end is the one light that is not alive, her call): the lights are points where something living is, and no word stands in one. Brew and Stew (lit by the
 foxfire in its own logs), the Healing Checkpoint (a wash from under water), Glow Go Gee Gaws (made toys that charge and
 fade) and Sithen and the campgrounds (the other nights) are the collisions, in §129. **Nothing flashes**: a light you make
 comes up over `RISE` and goes over `FADE`, which the tool holds to floors, and at Gentle it stays lit, still, until pressed
