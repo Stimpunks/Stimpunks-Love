@@ -26,7 +26,10 @@ of Kew's is copied. This tool refuses:
     FADE, so nothing can come and go three times in a second (Helen's ask of
     2026-10-28, "far more sensory activated and stimmy", lowered RISE; FADE
     did not move). Its sound and buzz start off, are under MAX_GAIN, and are
-    never a recording.
+    never a recording. A swim or a stir lasts SHOW, about twenty seconds, and
+    ends over ENDING, never quicker than FADE; Keep it glowing and Keep it
+    stirring start off (Helen's ask, the same day: "slower and more movement
+    over 20 secs with option to loop it").
   - a §129 animation outside MAX GLITTER, or one quicker than four seconds.
 
 THE PHOTOGRAPHS ARE REAL ONES, AND THE CRYSTAL WHEEL'S RULES HOLD THEM. Helen's
@@ -253,6 +256,16 @@ if re.search(r"new (?:Audio|window\.Audio)\b|\.mp3|\.ogg|\.wav|\.m4a", code):
     refuse("glow-wild.js plays a recording. The hollow's sounds are arithmetic, made in the browser.")
 if re.search(r"getUserMedia|DeviceMotion|DeviceOrientation", code):
     refuse("glow-wild.js asks for a microphone, a camera or the phone's movement. It asks for nothing.")
+m = re.search(r"var SHOW = (\d+);", code)
+if not m or int(m.group(1)) < 15000:
+    refuse("glow-wild.js: SHOW must be set, and the jellyfish's swim and a stir last about twenty seconds, "
+           "Helen's ask of 2026-10-28.")
+m = re.search(r"var ENDING = (\d+);", code)
+if not m or int(m.group(1)) < FLOORS["FADE"]:
+    refuse(f"glow-wild.js: ENDING must be at least {FLOORS['FADE']} ms. A swim or a stir ends by fading, never by going out.")
+for what in ("seaLooping", "jLooping"):
+    if not re.search(rf"var {what} = false;", code):
+        refuse(f"glow-wild.js: {what} must start off. Keep it stirring and Keep it glowing come on only when pressed.")
 if "still()" not in code:
     refuse("glow-wild.js no longer asks still(). At Gentle nothing comes and goes.")
 

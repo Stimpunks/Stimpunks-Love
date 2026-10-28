@@ -1590,7 +1590,7 @@ pictures, ever** (Helen: "no ai pics just real"): every photograph's `real` says
 refuses one without. **The sea and the jellyfish are canvases over their drawings** (Helen, the same day: "far more
 sensory activated and stimmy"): a light may come up in `RISE` (100 ms floor) but always goes over `FADE` (1500 ms
 floor), which is what keeps it under the flash line; sound and buzz start off, sound is arithmetic under `MAX_GAIN`.
-The friendly edit is a quicker fade "so it feels snappier", which is the flash.
+**The sea is a ripple grid and the jellyfish swims for `SHOW`** (Helen, the same day: "slower and more movement over 20 secs with option to loop it"): the sea's glow builds where the water moves and goes down over `FADE`, a swim or a stir ends over `ENDING`, and Keep it stirring and Keep it glowing start off; the tool holds all three. The friendly edit is a quicker fade "so it feels snappier", which is the flash.
 
 **THE PLAY POD (§131) IS HELEN'S, THROUGH A ROUND DOOR IN THE YURT, AND WHAT GLOWS THERE GLOWS ONLY WHILE THE LAMP IS ON.**
 Her ask, 2026-10-28: a sensory play room for glow play, messy play, mark making, PMLD sensory mark making and tuff trays,
