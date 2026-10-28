@@ -7667,6 +7667,24 @@ html[data-intensity="gentle"] .nook .egg__mark { opacity: 1; }
 .yurt-gallery__note { margin: 6px 0 0; font-size: 16px; font-style: italic; color: var(--tallow-3); }
 .yurt-gallery--nook { margin: 30px 0 0; }
 .yurt-nook-corner { max-width: 320px; margin: 22px auto 0; }
+/* THE STIM TIN, Helen's ask and her name for it, 2026-10-28: real photographs
+   of stim toys, each in the portrait's own wooden frame like her pictures,
+   with what the toy feels like under it, and a film. In her colours only;
+   nothing moves at any setting. tools/make-yurt-stim.py writes it. */
+.yurt-stim { margin: 30px 0 0; }
+.yurt-stim h3 { font-size: 23px; font-style: italic; margin: 0 0 6px; }
+.yurt-stim__toys { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.yurt-stim__toy { display: flex; flex-direction: column; gap: 6px; background: var(--canvas); border: 1px solid rgba(233,200,116,.18); border-radius: 6px; padding: 10px 10px 14px; }
+.yurt-stim__photo { margin: 0; padding: 6px; border-radius: 4px; background-image: linear-gradient(160deg, #4A372B, #2A1E17); }
+.yurt-stim__img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; background: var(--hearth); border-radius: 2px; }
+.room-yurt .yurt-stim__credit { margin: 6px 2px 0; font-size: 13.5px; line-height: 1.45; color: var(--tallow-2); }
+.room-yurt .yurt-stim__name { margin: 2px 4px 0; font-size: 19px; font-style: italic; color: var(--tallow); }
+.room-yurt .yurt-stim__feel { margin: 0 4px; font-size: 16px; color: var(--tallow); }
+.yurt-stim__film { margin: 18px 0 0; max-width: 640px; }
+.room-yurt .yurt-stim__filmby { margin: 0 0 8px; color: var(--tallow-2); }
+.room-yurt .yurt-stim button.facade { background: var(--canvas); color: var(--tallow); border: 1px solid rgba(233,200,116,.4); border-radius: 6px; }
+.room-yurt .yurt-stim button.facade:hover { border-color: var(--candle); }
+.room-yurt .yurt-stim .facade__play { color: var(--candle); }
 .yurt-gallery--nook h3 { font-size: 23px; font-style: italic; margin: 0 0 6px; }
 
 /* NATURE NOTES AS AN OLD FIELD BOOK, Helen's asks, 2026-10-14. Shut, it is a

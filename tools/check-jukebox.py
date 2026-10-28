@@ -325,6 +325,7 @@ LISTS = [
     # maker's own channel.
     ("glow wild hollow", "data/glow-wild.json", "glow-wild-hollow.html"),
     ("play pod", "data/play-pod.json", "play-pod.html"),
+    ("the stim tin", "data/yurt-stim.json", "faery-yurt.html"),
     ("the cabin", "data/secret-cabin.json", "lydtyss.html"),
     # Community Care's one talk, Vivian Ly's at Autscape 2020, on Autscape's own
     # channel: the source of the four things the room's channel is for.

@@ -682,7 +682,11 @@ for page_path, prefix, sec in SURFACES:
 # ── Nothing on the yurt's page plays the yarn, and every line in the book has
 # a record behind it (Helen, 2026-10-18: "it will only play in the music room").
 room = ROOM.read_text()
-if "videoseries?list=" in room or "data-rack-card" in room or 'data-embed-id="' in room:
+# A film that is not music may stand in the yurt (the Stim Tin's, Helen's ask of
+# 2026-10-28); what may not is any song or list of the yarn, or a rack of records.
+yarn_ids = {t["id"] for t in tracks} | {pl["list"] for pl in pls}
+on_page = set(re.findall(r'data-embed-id="([^"]+)"', room))
+if "videoseries?list=" in room or "data-rack-card" in room or on_page & yarn_ids:
     problems.append(f"{ROOM.name}: the yarn or a record is on the yurt's page. Since 2026-10-18 the music "
                     "plays in the Music Room and nowhere else; the yurt has the songbook.")
 room_of = {pl["list"]: pl["room"] for pl in pls}
