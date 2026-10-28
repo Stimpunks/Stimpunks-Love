@@ -6198,7 +6198,11 @@ edits are **a file's name in the activity "so you know which"** and **a public l
 **A comment carries them too** (the same day, `TASK_COMMENT_FILES_MAX`), and **`attach.js` is the one file that draws
 and takes them**, the rack.js rule: a record's own part is `loveAttach.section` (Tasks' and the office's), and
 `comments.js` uses its tray and lists only when the page passes `files`. The friendly edit is a second copy of the
-picture code in a page's own script; pass `files`, or call the section.
+picture code in a page's own script; pass `files`, or call the section. **A record's own part attaches as soon as what was put up has
+all arrived, with no second press** (Ryan, the same day, after a 6.2 MB file went up, said it was ready and was never
+attached because Attach it was not pressed); a picture is described afterwards with Describe it, and a failed attach
+leaves the tray with Try again. The friendly edit is putting the Attach it button back "so people can describe first";
+`make-tasks.py` refuses it.
 **THE FORUMS, TASKS AND THE OFFICE TAKE PICTURES AND FILES BY ONE LAYER, UNIFORMLY** (Ryan's ask, the same day:
 "uniformly across the Office"). In `lib.mjs`, `FILE_PLACES` names each place's `<place>-up/` and `<place>-file/`, and
 `putUploadTo`, `startUploadParts`, `putUploadPart`, `finishUploadParts`, `checkUploads`, `keepUploads`,

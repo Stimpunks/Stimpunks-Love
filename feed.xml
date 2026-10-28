@@ -9,87 +9,94 @@
     <copyright>CC BY-SA 4.0</copyright>
     <lastBuildDate>Tue, 27 Oct 2026 12:00:00 GMT</lastBuildDate>
     <item>
+      <title>Pictures and files attach as soon as they are ready</title>
+      <link>https://stimpunks.world/changelog.html#2026-10-27-attach-when-ready</link>
+      <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-attach-when-ready</guid>
+      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <description>On a task, a contact, a grant request or a case, there is no Attach it button any more: what you add is attached by itself once it has all arrived. A file used to go up, say it was ready, and wait for a second press, and one was missed. Describe a picture afterwards with Describe it. If attaching fails, Try again appears. Comments are unchanged: what you add goes with the comment.</description>
+    </item>
+    <item>
       <title>Pictures and files up to 20 MB in the forums and across the office</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-files-everywhere</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-files-everywhere</guid>
-      <pubDate>Tue, 27 Oct 2026 12:00:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:59:00 GMT</pubDate>
       <description>The office takes pictures and files, as Tasks does: a Pictures and files part on every contact, grant request and case, and on any comment in the office, mailings, templates and emails included. Lists say how many a record has after its name. The forums take files up to 20 MB, from 5 MB, sent in parts of 4 MB as Tasks’ are. One way for all three. The forums, Tasks and the office now share every step: the checks, the parts, the tray you add things in, and Save. The office’s are sealed with the office’s own key. A file’s name is now sealed with it everywhere; until today the forums’ and Tasks’ file names were kept in the clear beside their sealed files, and the hourly sweep seals those it finds. What the office keeps of them.</description>
     </item>
     <item>
       <title>Tasks take files up to 20 MB</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-task-big-files</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-task-big-files</guid>
-      <pubDate>Tue, 27 Oct 2026 11:59:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:58:00 GMT</pubDate>
       <description>A file on a task or a comment in Tasks can be up to 20 MB, from 5 MB. Our host refuses anything over about 6 MB in one go, so a file over 4 MB is sent, kept and fetched in parts of 4 MB, and you see which part is going. Every part is sealed, and the whole file is checked once it has all arrived, by the same rules as before. The forums still take 5 MB.</description>
     </item>
     <item>
       <title>Comments on a task take pictures and files too</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-task-comment-files</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-task-comment-files</guid>
-      <pubDate>Tue, 27 Oct 2026 11:58:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:57:00 GMT</pubDate>
       <description>A comment in Tasks can carry up to six pictures and files, with or without words, under the same rules as the task’s own. Edit a comment to add one or leave one out; deleting a comment deletes what it held. They show under its words on the task’s page and in the Feed.</description>
     </item>
     <item>
       <title>Tasks take pictures and files</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-task-files</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-task-files</guid>
-      <pubDate>Tue, 27 Oct 2026 11:57:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:56:00 GMT</pubDate>
       <description>Every task in Tasks has a Pictures and files section, after EspoCRM’s attachments: add pictures and files with a button or by dropping them on it, say what is in a picture if you like, save a file, and take any of them off. A task holds 30 at most, and the list says how many a task has after its name. They follow the forums’ rules. A picture is redrawn in your browser before it goes, which takes off what a camera wrote into it, and a file is a PDF, text, Markdown, CSV, RTF, Word, Excel, PowerPoint, OpenDocument or EPUB file up to 5 MB, checked by its first bytes, never with macros in it. They are sealed at rest with the rest of Tasks, have no public address, and are sent only to people who can read Tasks. A task’s activity says how many went on or came off, never their names. What a task keeps of them.</description>
     </item>
     <item>
       <title>The team mailbox, QuickBooks and Givebutter are each a section of the office’s dashboard</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-office-dashboard-three</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-office-dashboard-three</guid>
-      <pubDate>Tue, 27 Oct 2026 11:56:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:55:00 GMT</pubDate>
       <description>On the office’s dashboard, Mail and money is now three sections: Team mailbox, QuickBooks and Givebutter, so each can be moved or hidden on its own. A dashboard already arranged keeps the three where Mail and money was, and hidden if it was hidden.</description>
     </item>
     <item>
       <title>The office’s dashboard can be arranged</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-office-dashboard-arranged</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-office-dashboard-arranged</guid>
-      <pubDate>Tue, 27 Oct 2026 11:55:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:54:00 GMT</pubDate>
       <description>Each of our directors can arrange the office’s dashboard for themself, after requests from the team. Arrange the dashboard puts Move up, Move down and Show it on every section, and the same on every box in Newest; a hidden one is drawn as its heading alone while arranging, so it can be shown again, and Put it back as it was undoes all of it. Buttons, so a keyboard, a screen reader and a phone can do every part of it. How you arrange it is kept for you on our server, sealed like the office’s records, so it follows you from one device to another: the order of the sections and the boxes and which are hidden, and nothing about when. Nobody else is shown it, and Forget me and deleting your username delete it. The privacy page says so. Newest no longer lists what is closed: a grant request granted or denied, a case closed, a task completed or canceled, and a form entry whose grant request or case is closed. Form entries still counts every entry by form for the week. Form entries is the last box, and the charts and the mailbox, QuickBooks and Givebutter are now two sections of their own, so each can be moved or hidden. The section headings are bigger.</description>
     </item>
     <item>
       <title>Volunteers: a cloth on the loom</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-volunteers</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-volunteers</guid>
-      <pubDate>Tue, 27 Oct 2026 11:54:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:53:00 GMT</pubDate>
       <description>Volunteers is a shopfront on the street, between Show Your Work and Breaker Breaker: a loom in the window with a cloth half woven on it. The warp is our values, one undyed thread through every band; the weft is whatever each person brings, a band of its own natural dye; and a woven cloth holds because every thread grips the ones it crosses, which is the friction our Volunteer page says we exist as. Nothing on the loom moves, at any setting. It borrows from our own Volunteer page: the values that have to fit, the things we need help with, our ecology of care, roles in social change and the playbooks, with the lines that page quotes, each credited to whoever wrote it and checked against our page word for word. The way in is still the volunteer form on stimpunks.org; the room has no form of its own. Its channel on the CB is under Community on the chat page, for volunteering with Stimpunks: asking what needs doing, offering what you can, and finding the people doing the same. Nobody counts anybody’s hours, nobody owes anybody time, and rest is not quitting.</description>
     </item>
     <item>
       <title>Glow Wild Hollow, down through a glowing mushroom</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-glow-wild-hollow</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-glow-wild-hollow</guid>
-      <pubDate>Tue, 27 Oct 2026 11:53:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:52:00 GMT</pubDate>
       <description>At Helen Edgar’s ask, a new room behind the Faery Yurt: Glow Wild Hollow, reached through a great mushroom with glowing gills and a door in its stem, just after the Alchemist’s Arch. It is a hollow at night with no moon and no lamp, where every light belongs to something alive: how living things make cold light, foxfire or fairy fire in an old log, glow-worms in the grass, sea sparkle, a crystal jelly that lights up, and fluorescence, which is light given back rather than made. The sea lights where you touch it, the way sea sparkle lights up when the water moves, and Stir the water does the same for anybody without a pointer. The jellyfish lights up green when you press it, as a crystal jelly does. Nothing flashes: each light comes up and goes over seconds, and at Gentle the light stays on, still, until you press again. It keeps nothing and sends nothing. Read first in Chloe Agar’s How nature glows wild, for Grow Wild at Kew, and in Wikipedia’s articles on foxfire, the crystal jelly and comb jellies. Every sentence is ours and every fact names where it was read, held by the new tools/make-glow-wild.py. Small screens and Print are now §130 and §131 in love.css. Changed: glow-wild-hollow.html, glow-wild.js, faery-yurt.html, love.css (§14, §129), data/glow-wild.json, and the street’s lists of rooms.</description>
     </item>
     <item>
       <title>Chat status badges can be read in every low-stimulation mode</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-chat-status-low</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-chat-status-low</guid>
-      <pubDate>Tue, 27 Oct 2026 11:52:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:51:00 GMT</pubDate>
       <description>In Warm Light, Cool Dark, Plant Green and Red Light, a chat status badge’s words had vanished: the modes’ colours gave each badge’s ground and its words the same colour, so come say hi, people i know and not right now were blank pills, on Who’s online, beside a name in a room, on profiles and under Your chat status. Kristina found it and sent it in through the Sandbox’s suggestion box, with screenshots. In a mode a badge is now the mode’s words on its plate, with an edge in the mode’s line, so it is told apart by its shape and its words, as it always was too. Outside a mode nothing changed. The tool that writes the modes’ colours now refuses to give any colour and its words the same one.</description>
     </item>
     <item>
       <title>Search on the chat page says how many matched</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-chat-search-count</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-chat-search-count</guid>
-      <pubDate>Tue, 27 Oct 2026 11:51:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:50:00 GMT</pubDate>
       <description>The chat page’s search now says how many messages matched, above the results, as Discord’s does, at Ryan’s ask the same day. It is one number for the whole search, over every channel you can hear. This reverses the radio’s rule of never showing a count, for this one line only: the search never says how many matched on any one channel or from any one person, and nothing else on the radio is counted (the privacy page, the CB guide). When you searched only some channels, the line names them. Clear the search is beside Search for as long as a search is held, because Ryan could see how to clear the filters and not how to get the chat back, and after Jump to it the way back went with the results. It empties the box, lets the results go and puts the channel back, and so does emptying the box yourself, with its clear button or Esc. After a jump, Back to the results beside it brings the results back.</description>
     </item>
     <item>
       <title>Search on the chat page, with Discord’s filters</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-chat-search</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-chat-search</guid>
-      <pubDate>Tue, 27 Oct 2026 11:50:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:49:00 GMT</pubDate>
       <description>The chat page can search every channel you can hear, at Ryan’s ask, after Discord’s search: World and every room’s channel, as far back as each one keeps. Type words, a &quot;phrase in quotes&quot;, or Discord’s own filters as Discord types them: from:, mentions:, has:link, has:picture, has:sticker, has:card, in:#the-den, before:, after: and during: a day, and author-type:bot. Filters has the same filters as fields, for anybody who would rather not learn a syntax, with the days in your own calendar and newest or oldest first. The results take the channel’s place in the middle, 25 at a time, each with its channel, who, when and its words with what you searched for underlined, and Jump to it, which opens its channel at that message, fetching earlier messages if it has to, and puts the keyboard on it. Like the rest of the radio, it never says how many matched. It only finds what you could already scroll back to: never a room that keeps to itself, never a room you cannot go into, and never your direct messages. Your words go to us in the body of the request and are kept by nobody, and they are never in the page’s address, so they are not in your browser’s history (the privacy page, the CB guide).</description>
     </item>
     <item>
       <title>Stretching a task on the timeline, and a menu on every bar</title>
       <link>https://stimpunks.world/changelog.html#2026-10-27-timeline-drag-menu</link>
       <guid isPermaLink="false">https://stimpunks.love/changelog.html#2026-10-27-timeline-drag-menu</guid>
-      <pubDate>Tue, 27 Oct 2026 11:49:00 GMT</pubDate>
+      <pubDate>Tue, 27 Oct 2026 11:48:00 GMT</pubDate>
       <description>A bar on Tasks’ timeline can be stretched and shrunk by dragging its ends, at Ryan’s ask: the grip at a bar’s left end changes when the task starts, the one at its right end when it is due, a day at a time, and the bar says the day it would land on as it goes. Esc while dragging puts it back. Every bar has a menu of its own, after Google Drive’s: right-click a bar, or press Shift + F10 or the ContextMenu key on it, or its ⋯ button, to open it, change it, copy a link to it, mark it completed, set its status, priority or who it is assigned to, or move its days a day or a week at a time. The ⋯ and the Days in the menu are how a keyboard, a screen reader and a phone make every change the grips make. Shift and a right-click still give the browser’s own menu.</description>
     </item>
     <item>

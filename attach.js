@@ -183,7 +183,10 @@
       items.forEach(function (f, i) {
         var li = el('li', p + '-att__item');
         var src = f.local || (f.key && fetched[f.key]);
-        if (f.kind === 'pic') {
+        if (f.kind === 'pic' && o.alt === false) {
+          if (src) { var im0 = el('img', p + '-att__thumb'); im0.src = src; im0.alt = ''; li.appendChild(im0); }
+          li.appendChild(el('p', null, 'A picture, ready.'));
+        } else if (f.kind === 'pic') {
           if (src) { var im = el('img', p + '-att__thumb'); im.src = src; im.alt = ''; li.appendChild(im); }
           var id = o.id + '-alt-' + f.id;
           var lab = el('label', null, 'What is in it (if you like)'); lab.htmlFor = id;
@@ -222,7 +225,7 @@
             items.push({ id: b.id, kind: b.kind, name: b.name, size: b.size, alt: '', local: isPic ? URL.createObjectURL(blob) : null });
             draw();
             changed();
-            answer.textContent = isPic ? 'The picture is ready. Say what is in it, if you like.' : file.name + ' is ready.';
+            answer.textContent = isPic ? (o.alt === false ? 'The picture is ready.' : 'The picture is ready. Say what is in it, if you like.') : file.name + ' is ready.';
           });
         });
       }).catch(function (e) {
@@ -262,6 +265,7 @@
       node: wrap,
       row: row,
       count: function () { return items.length; },
+      pictures: function () { return items.filter(function (f) { return f.kind === 'pic'; }).length; },
       fresh: function () { return items.filter(function (f) { return !f.had; }).length; },
       busy: function () { return pending > 0; },
       list: function () { return items.map(function (f) { return { id: f.id, alt: f.alt }; }); },
@@ -292,25 +296,31 @@
         off.addEventListener('click', function () { takeOff(o, f, row, off); });
         row.appendChild(off);
       } }));
-    // Nothing is attached until Attach them: the tray holds what is put up until then.
-    var go = el('button', 'cb-btn ' + p + '-small', 'Attach them'); go.type = 'button'; go.hidden = true;
-    var tr = null;
-    function sync() { go.hidden = !tr.count(); go.disabled = tr.busy(); go.textContent = tr.count() === 1 ? 'Attach it' : 'Attach them'; }
-    tr = tray({ p: p, id: p + '-rec-' + o.id, kinds: o.kinds, fileMax: o.fileMax, part: o.part, altMax: o.altMax, most: o.most, have: files.length,
-      key: o.key, upload: o.upload, drop: sec, changed: function () { if (tr) sync(); } });
-    tr.row.appendChild(go);
-    go.addEventListener('click', function () {
-      if (!tr.count() || tr.busy()) return;
-      go.disabled = true;
+    /* ATTACHED AS SOON AS IT IS READY, with no second press (Ryan, 2026-10-27,
+       after a 6.2 MB file went up, said it was ready, and was never attached
+       because nobody pressed Attach it). Once everything put up at one go has
+       arrived, it is attached together; a picture is described afterwards with
+       Describe it, so the tray here has no description box. If attaching
+       fails, what is in the tray stays there with Try again. */
+    var tr = null, sending = false;
+    var again = el('button', 'cb-btn ' + p + '-small', 'Try again'); again.type = 'button'; again.hidden = true;
+    function attach() {
+      if (sending || !tr || !tr.count() || tr.busy()) return;
+      sending = true;
+      again.hidden = true;
       tr.say('Attaching…');
       o.ask({ action: 'attach', id: o.id, files: tr.list() }).then(function (r) {
-        go.disabled = false;
-        if (r.status !== 200) { tr.say(o.why(r, 'Nothing was attached. Try again in a moment.')); return; }
-        var n = tr.count();
+        sending = false;
+        if (r.status !== 200) { tr.say(o.why(r, 'Nothing was attached. Try again in a moment.')); again.hidden = false; return; }
+        var n = tr.count(), pics = tr.pictures();
         tr.sent(o.key);
-        o.after(r, n === 1 ? 'Attached.' : n + ' attached.');
+        o.after(r, (n === 1 ? 'Attached.' : n + ' attached.') + (pics ? ' Describe ' + (pics === 1 ? 'the picture' : 'each picture') + ' with Describe it, if you like.' : ''));
       });
-    });
+    }
+    tr = tray({ p: p, id: p + '-rec-' + o.id, kinds: o.kinds, fileMax: o.fileMax, part: o.part, altMax: o.altMax, most: o.most, have: files.length,
+      key: o.key, upload: o.upload, drop: sec, alt: false, changed: function () { setTimeout(attach, 0); } });
+    again.addEventListener('click', attach);
+    tr.row.appendChild(again);
     sec.appendChild(tr.node);
     return sec;
   }

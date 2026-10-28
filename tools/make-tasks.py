@@ -599,6 +599,10 @@ def check_files(lib):
     held = re.search(r"\nasync function readHeld\(.*?\n\}", lib, re.S)
     if "readHeld(TP" not in fn(lib, "taskFile") or not held or "partKey(key, n)" not in held.group(0):
         problems.append(f"{LIB.name}: taskFile must send a file in parts a part at a time (readHeld), never whole, which could be bigger than an answer may be.")
+    # Attached as soon as it is ready (2026-10-27): a second press was missed and a file never attached.
+    sec = re.search(r"\n  function section\(o\) \{.*?\n  \}", a, re.S)
+    if not sec or "setTimeout(attach" not in sec.group(0) or re.search(r"'Attach (?:it|them)'", sec.group(0)):
+        problems.append("attach.js: a record's pictures and files must attach as soon as they are ready, with no Attach it button to miss.")
     if "function send(o)" not in a or "o.part" not in a:
         problems.append("attach.js: a file bigger than a part must go up a part at a time (send).")
     if "dropHeld(TP" not in fn(lib, "removeTaskComment"):
