@@ -163,7 +163,7 @@ function noticeWords(rooms) {
         body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.'
           : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.'
           : d.what === 'sticker' ? 'A sticker. Open Messages on the CB to see it.' : 'Open Messages on the CB to read it.',
-        url: '/chat.html#cb=messages', tag: 'cb-dm-' + sender });
+        url: '/chat.html#cb=messages', tag: 'cb-dm-' + sender, dm: d.handle ? sender : '' });
     }
     if (d.kind === 'task') return Promise.resolve(taskSays(d));
     if (d.kind === 'event') return rooms().then(function (list) { return eventSays(d, list); });
@@ -215,19 +215,38 @@ self.addEventListener('push', function (e) {
   e.waitUntil(say(d).then(function (n) {
     if (!n) return null;
     return self.registration.showNotification(n.title, {
-      body: n.body, tag: n.tag, renotify: true, icon: '/icon-192.png', badge: '/badge-96.png', data: { url: n.url },
+      body: n.body, tag: n.tag, renotify: true, icon: '/icon-192.png', badge: '/badge-96.png', data: { url: n.url, dm: n.dm || '' },
     });
   }));
 });
 
+/* A DIRECT MESSAGE OPENS ITS CONVERSATION (Ryan's ask, 2026-10-28), and the
+   conversation is never in the address, because the address goes into the
+   browser's history. So the worker opens the chat page at #cb=messages, or
+   puts a chat page already open in front, and then hands that page the
+   sender's handle in a message; love.js keeps it for the radio (loveDmFrom),
+   which opens the conversation. Nothing is stored anywhere on the way. */
+function dmHandle(h) {
+  return typeof h === 'string' && h.length && h.length <= 40 && !/[\u0000-\u001f\u007f]/.test(h) ? h : '';
+}
 self.addEventListener('notificationclick', function (e) {
   e.notification.close();
-  var url = safePath(e.notification.data && e.notification.data.url);
+  var data = e.notification.data || {};
+  var url = safePath(data.url), dm = url === '/chat.html#cb=messages' ? dmHandle(data.dm) : '';
+  function hand(w) {
+    if (dm && w && 'postMessage' in w) w.postMessage({ type: 'cb-dm', handle: dm });
+    return w;
+  }
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (wins) {
     for (var i = 0; i < wins.length; i++) {
       var w = wins[i];
-      try { var u = new URL(w.url); if (u.pathname + (url.indexOf('#') >= 0 ? u.hash : '') === url && 'focus' in w) return w.focus(); } catch (err) { /* another site's window */ }
+      try {
+        var u = new URL(w.url);
+        // A direct message is at home on any chat page open on this site.
+        var same = dm ? u.pathname === '/chat.html' : u.pathname + (url.indexOf('#') >= 0 ? u.hash : '') === url;
+        if (same && 'focus' in w) return w.focus().then(hand);
+      } catch (err) { /* another site's window */ }
     }
-    return self.clients.openWindow ? self.clients.openWindow(url) : null;
+    return self.clients.openWindow ? self.clients.openWindow(url).then(hand) : null;
   }));
 });

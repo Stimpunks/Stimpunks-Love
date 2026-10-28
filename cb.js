@@ -9000,7 +9000,7 @@
           body: typeof d.text === 'string' && d.text ? d.text : d.asked ? 'It waits under Messages on the CB for you to answer it, accept it or reject it.'
             : d.what === 'picture' ? 'A picture. Open Messages on the CB to see it.'
             : d.what === 'sticker' ? 'A sticker. Open Messages on the CB to see it.' : 'Open Messages on the CB to read it.',
-          url: '/chat.html#cb=messages', tag: 'cb-dm-' + sender });
+          url: '/chat.html#cb=messages', tag: 'cb-dm-' + sender, dm: d.handle ? sender : '' });
       }
       if (d.kind === 'task') return Promise.resolve(taskSays(d));
       if (d.kind === 'event') return rooms().then(function (list) { return eventSays(d, list); });
@@ -14186,9 +14186,20 @@
       (got.shrank ? ' The radio went small so you can see it; + makes it larger again.' : '');
   }
 
+  /* The sender of the direct message whose notification was pressed, which
+     love.js took from the service worker and keeps in the page's memory until
+     now (cb-sw.js says why it is not in the address): their conversation,
+     open. Taken once, so it never opens again by itself. */
+  function dmFromNotice() {
+    var h = window.loveDmFrom;
+    if (!radio || !radio.dmBox || typeof h !== 'string' || !h) return;
+    window.loveDmFrom = null;
+    radio.dmTo(h);
+  }
+
   function arrive() {
     if (location.hash === '#cb=props') { if (radio) radio.toProps(); return; }
-    if (location.hash === '#cb=messages') { if (radio) radio.toMessages(); return; }
+    if (location.hash === '#cb=messages') { if (radio) { radio.toMessages(); dmFromNotice(); } return; }
     var m = location.hash.match(/^#spot=(\d{1,6}|live)(?:&film=([^&]*))?$/);
     if (m && !radio && stub) {
       var s2 = m[1] === 'live' ? null : +m[1], f2 = '';
@@ -14238,6 +14249,7 @@
     window.addEventListener('hashchange', arrive);
     // On the chat page the hash is the channel.
     if (inChat()) window.addEventListener('hashchange', function () { chatTake(false); });
+    if (inChat()) window.addEventListener('love-dm-from', dmFromNotice);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();

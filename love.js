@@ -1337,6 +1337,23 @@
   // so every rule above still decides whether this page gets one.
   window.loveRadio = cb;
 
+  /* A DIRECT MESSAGE'S NOTIFICATION names its sender to the chat page in a
+     message from the CB's service worker (cb-sw.js), never in the address,
+     which goes into the browser's history. This file is the one that listens,
+     because it runs before the page has finished loading and the radio comes
+     later: the handle waits here, in the page's memory only, until the radio
+     takes it (loveDmFrom in cb.js), and a radio already up is told by the
+     love-dm-from event. Only on the chat page, and only from this site's own
+     worker, which is the only thing that can post to navigator.serviceWorker. */
+  if (document.body && document.body.hasAttribute('data-cb-chat') && 'serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('message', function (e) {
+      var d = e.data, h = d && d.type === 'cb-dm' ? d.handle : '';
+      if (typeof h !== 'string' || !h || h.length > 40 || /[\u0000-\u001f\u007f]/.test(h)) return;
+      window.loveDmFrom = h;
+      try { window.dispatchEvent(new Event('love-dm-from')); } catch (err) { /* the radio takes it when it comes */ }
+    });
+  }
+
   /* ── The fractal window ────────────────────────────────────────────────
      The switch is in every page's sign-off, written by tools/fractals.py with
      the room's recipe on it, and ships hidden so a page with no script shows
